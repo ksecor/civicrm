@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-02-27 13:35+0100\n"
+"POT-Creation-Date: 2008-03-05 16:00+0100\n"
 "PO-Revision-Date: 2007-02-20 18:00+0300\n"
 "Last-Translator: ds <solomnikov@cbtc.ru>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -2296,13 +2296,38 @@ msgid "Print Participant List"
 msgstr "Печать списка контактов"
 
 #: CRM/Event/Import/Form/MapField.php
+msgid ""
+"Missing required contact matching fields. (Should be First AND Last Name or "
+"Primary Email or First Name, Last Name AND Primary Email.) (OR Participant "
+"ID if update mode.)"
+msgstr ""
+
+#: CRM/Event/Import/Form/MapField.php
 #, fuzzy
 msgid "Duplicate Import Participant Mapping Name"
 msgstr "Повтояющееся название Разметки для Имопрта данных "
 
+#: CRM/Event/Import/Form/MapField.php
+#, fuzzy
+msgid "Select saved mapping"
+msgstr "Пожалуйста выберите состояние."
+
+#: CRM/Event/Import/Form/UploadFile.php
+msgid "On Duplicate Entries"
+msgstr ""
+
+#: CRM/Event/Import/Parser/Participant.php
+msgid "Select either EventID OR Event Title"
+msgstr ""
+
 #: CRM/Event/Import/Parser/Participant.php
 msgid "Invalid value for Event ID"
 msgstr ""
+
+#: CRM/Event/Import/Parser.php
+#, fuzzy
+msgid "View Participant URL"
+msgstr "Поиск Контактов CiviCRM"
 
 #: CRM/Event/Info.php
 msgid "CiviCRM Event Engine"
@@ -3513,6 +3538,11 @@ msgid ""
 "Primary Email or First Name, Last Name AND Primary Email.) (OR Membership ID "
 "if update mode.)"
 msgstr ""
+
+#: CRM/Member/Import/Form/MapField.php
+#, fuzzy
+msgid "Duplicate Import Membership Mapping Name"
+msgstr "Повтояющееся название Разметки для Имопрта данных "
 
 #: CRM/Member/Import/Parser.php
 #, fuzzy
@@ -6096,6 +6126,10 @@ msgstr ""
 msgid "There are no events created yet. You can <a href='%1'>add one</a>."
 msgstr "Нет отправленных писем. <a href=\"%1\">Хотите отправить?</a>."
 
+#: templates/CRM/Event/Page/ParticipantListing.tpl
+msgid "There are currently no participants registered for this event."
+msgstr ""
+
 #: templates/CRM/Mailing/Form/Component.tpl
 #: templates/CRM/Mailing/Page/Component.tpl
 #, fuzzy
@@ -7197,14 +7231,6 @@ msgstr ""
 #~ msgstr "Пожалуйста выберите запланированную дату."
 
 #, fuzzy
-#~ msgid "Select saved mapping"
-#~ msgstr "Пожалуйста выберите состояние."
-
-#, fuzzy
-#~ msgid "View Participant URL"
-#~ msgstr "Поиск Контактов CiviCRM"
-
-#, fuzzy
 #~ msgid "You do not have access to this page"
 #~ msgstr "У вас нет прав редактировать этот контакт"
 
@@ -7240,10 +7266,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "Start Date - From"
 #~ msgstr "Дата начала"
-
-#, fuzzy
-#~ msgid "Duplicate Import Membership Mapping Name"
-#~ msgstr "Повтояющееся название Разметки для Имопрта данных "
 
 #, fuzzy
 #~ msgid "Edit Membership Type"

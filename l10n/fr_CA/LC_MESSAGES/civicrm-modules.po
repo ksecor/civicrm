@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-02-27 13:35+0100\n"
+"POT-Creation-Date: 2008-03-05 16:00+0100\n"
 "PO-Revision-Date: 2008-02-25 18:23-0800\n"
 "Last-Translator: Mathieu Lutfy <mlutfy@koumbit.org>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -2293,13 +2293,38 @@ msgid "Print Participant List"
 msgstr "Imprimer la liste de contacts"
 
 #: CRM/Event/Import/Form/MapField.php
+msgid ""
+"Missing required contact matching fields. (Should be First AND Last Name or "
+"Primary Email or First Name, Last Name AND Primary Email.) (OR Participant "
+"ID if update mode.)"
+msgstr ""
+
+#: CRM/Event/Import/Form/MapField.php
 #, fuzzy
 msgid "Duplicate Import Participant Mapping Name"
 msgstr "Le nom du mappage d'importation existe déjà"
 
+#: CRM/Event/Import/Form/MapField.php
+#, fuzzy
+msgid "Select saved mapping"
+msgstr "Supprimer l'étiquette"
+
+#: CRM/Event/Import/Form/UploadFile.php
+msgid "On Duplicate Entries"
+msgstr ""
+
+#: CRM/Event/Import/Parser/Participant.php
+msgid "Select either EventID OR Event Title"
+msgstr ""
+
 #: CRM/Event/Import/Parser/Participant.php
 msgid "Invalid value for Event ID"
 msgstr ""
+
+#: CRM/Event/Import/Parser.php
+#, fuzzy
+msgid "View Participant URL"
+msgstr "Consulter l'adhésion"
 
 #: CRM/Event/Info.php
 msgid "CiviCRM Event Engine"
@@ -3486,6 +3511,11 @@ msgid ""
 "Primary Email or First Name, Last Name AND Primary Email.) (OR Membership ID "
 "if update mode.)"
 msgstr ""
+
+#: CRM/Member/Import/Form/MapField.php
+#, fuzzy
+msgid "Duplicate Import Membership Mapping Name"
+msgstr "Le nom du mappage d'importation existe déjà"
 
 #: CRM/Member/Import/Parser.php
 #, fuzzy
@@ -6259,6 +6289,10 @@ msgstr ""
 "Il n'existe aucune note pour ce contact. Vous pouvez <a href=\"%1\">en "
 "ajouter une</a>."
 
+#: templates/CRM/Event/Page/ParticipantListing.tpl
+msgid "There are currently no participants registered for this event."
+msgstr ""
+
 #: templates/CRM/Mailing/Form/Component.tpl
 #: templates/CRM/Mailing/Page/Component.tpl
 msgid "New Mailing Component"
@@ -7350,14 +7384,6 @@ msgstr ""
 #~ msgstr "Veuillez entrer un montant valide."
 
 #, fuzzy
-#~ msgid "Select saved mapping"
-#~ msgstr "Supprimer l'étiquette"
-
-#, fuzzy
-#~ msgid "View Participant URL"
-#~ msgstr "Consulter l'adhésion"
-
-#, fuzzy
 #~ msgid "You do not have access to this page"
 #~ msgstr "Vous n'avez pas la permission nécessaire pour modifier ce contact."
 
@@ -7386,10 +7412,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "Start Date - From"
 #~ msgstr "Date de début"
-
-#, fuzzy
-#~ msgid "Duplicate Import Membership Mapping Name"
-#~ msgstr "Le nom du mappage d'importation existe déjà"
 
 #, fuzzy
 #~ msgid "Edit Membership Type"

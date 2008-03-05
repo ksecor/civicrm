@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-02-27 13:35+0100\n"
+"POT-Creation-Date: 2008-03-05 16:00+0100\n"
 "PO-Revision-Date: 2008-03-03 05:26-0800\n"
 "Last-Translator: Han Velthuis <han.velthuis@tiscali.nl>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -2215,13 +2215,38 @@ msgid "Print Participant List"
 msgstr "Druk contactenlijst af"
 
 #: CRM/Event/Import/Form/MapField.php
+msgid ""
+"Missing required contact matching fields. (Should be First AND Last Name or "
+"Primary Email or First Name, Last Name AND Primary Email.) (OR Participant "
+"ID if update mode.)"
+msgstr ""
+
+#: CRM/Event/Import/Form/MapField.php
 #, fuzzy
 msgid "Duplicate Import Participant Mapping Name"
 msgstr "Dupliceer import mapping naam"
 
+#: CRM/Event/Import/Form/MapField.php
+#, fuzzy
+msgid "Select saved mapping"
+msgstr "geselecteerde optie"
+
+#: CRM/Event/Import/Form/UploadFile.php
+msgid "On Duplicate Entries"
+msgstr ""
+
+#: CRM/Event/Import/Parser/Participant.php
+msgid "Select either EventID OR Event Title"
+msgstr ""
+
 #: CRM/Event/Import/Parser/Participant.php
 msgid "Invalid value for Event ID"
 msgstr "Ongeldig ID voor mailing"
+
+#: CRM/Event/Import/Parser.php
+#, fuzzy
+msgid "View Participant URL"
+msgstr "Toon Deelnemer"
 
 #: CRM/Event/Info.php
 msgid "CiviCRM Event Engine"
@@ -2559,8 +2584,7 @@ msgstr "Selecteer ontvangers"
 #: CRM/Mailing/Form/Group.php
 msgid "Cannot have same groups in Include Group(s) and Exclude Group(s)."
 msgstr ""
-"Een groep kan niet tegelijk EN toegevoegd EN uitgesloten zijn van de "
-"mailing."
+"Een groep kan niet tegelijk EN toegevoegd EN uitgesloten zijn van de mailing."
 
 #: CRM/Mailing/Form/Group.php
 msgid "Cannot have same mail in Include mailing(s) and Exclude mailing(s)."
@@ -3374,6 +3398,11 @@ msgid ""
 "if update mode.)"
 msgstr ""
 
+#: CRM/Member/Import/Form/MapField.php
+#, fuzzy
+msgid "Duplicate Import Membership Mapping Name"
+msgstr "Dupliceer import mapping naam"
+
 #: CRM/Member/Import/Parser.php
 #, fuzzy
 msgid "View Membership URL"
@@ -3746,8 +3775,8 @@ msgid ""
 "Premiums</a> to create or enable additional premium choices for your site."
 msgstr ""
 "Kies een relatiegeschenk om dit aan te bieden op deze Bijdrage Pagina. Met "
-"<a href=\"%1\">Beheer relatiegeschenken</a> kunt urealatiegeschenken aanmaken "
-"en inschakelen."
+"<a href=\"%1\">Beheer relatiegeschenken</a> kunt urealatiegeschenken "
+"aanmaken en inschakelen."
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl
 msgid ""
@@ -3971,8 +4000,8 @@ msgid ""
 msgstr ""
 "Voer hier de introductietekst in. Deze wordt onder de titel onderdeel "
 "relatiegeschenken  getoond. Er mogen HTML tags aan gebruikt worden. Eveneens "
-"is het mogelijk om afbeeldingen in te voegen (mits deze op de server "
-"staan), ze moeten dan via een volledige URL link ingevoegd zijn."
+"is het mogelijk om afbeeldingen in te voegen (mits deze op de server staan), "
+"ze moeten dan via een volledige URL link ingevoegd zijn."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
 msgid ""
@@ -4315,8 +4344,7 @@ msgid ""
 "deduction you can claim. Consult your tax advisor for more information."
 msgstr ""
 "De waarde van dit relatiegeschenk is %1. Dit kan het bedrag beinvloeden van "
-"de te claimen belastingaftrek. Vraag uw belastingadviseur om meer "
-"informatie."
+"de te claimen belastingaftrek. Vraag uw belastingadviseur om meer informatie."
 
 #: templates/CRM/Contribute/Form/Contribution/PreviewHeader.tpl
 msgid "Test-drive Your Contribution Page"
@@ -4460,8 +4488,8 @@ msgid ""
 "You can modify or cancel future contributions at any time by <a href='%"
 "1'>logging in to your account</a>."
 msgstr ""
-"U kunt altijd toekomstige bijdragen wijzigen of stopzetten door  <a "
-"href=\"%1\">in te loggen</a>."
+"U kunt altijd toekomstige bijdragen wijzigen of stopzetten door  <a href=\"%1"
+"\">in te loggen</a>."
 
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 msgid ""
@@ -5336,7 +5364,8 @@ msgstr "Aftrekbaar voor belastingen ?"
 msgid ""
 "There are no Contribution Types entered. You can <a href='%1'>add one</a>."
 msgstr ""
-"Er zijn nog geen contributietypes. U kunt er <a href=\"%1\">een toevoegen</a>."
+"Er zijn nog geen contributietypes. U kunt er <a href=\"%1\">een toevoegen</"
+"a>."
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 #, fuzzy
@@ -5380,8 +5409,8 @@ msgid ""
 msgstr ""
 "Deze tabel toont een overzicht van de <strong>Totale Bijdragen</strong>, en "
 "bevat shortcuts om bijdrage details over een bepaalde periode te zien. Voor "
-"specifieke zoekacties, klikt u op <a href=\"%1\">Zoek bijdragen</a>. Daar kan "
-"op naam, bedrag en andere criteria gezocht worden."
+"specifieke zoekacties, klikt u op <a href=\"%1\">Zoek bijdragen</a>. Daar "
+"kan op naam, bedrag en andere criteria gezocht worden."
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "Current Month-To-Date"
@@ -5487,8 +5516,8 @@ msgid ""
 "There are no active premiums for your site. You can <a href='%1'>create and/"
 "or enable premiums here</a>."
 msgstr ""
-"Er zijn geen actieve relatiegeschenken voor uw site. U kunt er <a "
-"href=\"%1\">een maken of inschakelen</a>."
+"Er zijn geen actieve relatiegeschenken voor uw site. U kunt er <a href=\"%1"
+"\">een maken of inschakelen</a>."
 
 #: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
 msgid ""
@@ -5653,8 +5682,8 @@ msgstr ""
 "Als online registratie voor dit evenement is toegestaan, vink dan "
 "onderstaand veld aan en vul vervolgens de velden in. Online registratie kan "
 "voor gratis en betaalde evenementen. Bij betaalde evenementen moet er een <a "
-"href=\"%1\" target=\"_blank\" title=\"Opens documentation in a new "
-"window\">Betaalmethode</a> voor de website zijn ingesteld."
+"href=\"%1\" target=\"_blank\" title=\"Opens documentation in a new window"
+"\">Betaalmethode</a> voor de website zijn ingesteld."
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 msgid "Enable or disable online registration for this event."
@@ -5709,8 +5738,7 @@ msgid ""
 "Page title for screen where user reviews and confirms their registration "
 "information."
 msgstr ""
-"Paginatitel van scherm waar de gebruiker de registratie bekijkt en "
-"bevestigd."
+"Paginatitel van scherm waar de gebruiker de registratie bekijkt en bevestigd."
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 msgid "Optional instructions / message for Confirmation screen."
@@ -5907,8 +5935,8 @@ msgid ""
 "Your registration will not be completed until you click the "
 "<strong>Continue</strong> button. Please click the button one time only."
 msgstr ""
-"Uw registratie is pas  definitief als u klikt op de knop <strong>Ga "
-"verder</strong>. Klik  a.u.b. slechts een keer op de knop."
+"Uw registratie is pas  definitief als u klikt op de knop <strong>Ga verder</"
+"strong>. Klik  a.u.b. slechts een keer op de knop."
 
 #: templates/CRM/Event/Form/Registration/EventInfoBlock.tpl
 #: templates/CRM/Event/Page/EventInfo.tpl
@@ -5942,9 +5970,9 @@ msgstr ""
 "Deze pagina staat in <strong> test-mode</strong>. Transacties zullen worden "
 "verstuurd naar de testserver van uw bank. <strong> Er worden geen "
 "daadwerkelijke financiele transacties gedaan, er vindt er wel opslag van "
-"data van contributanten, contactinformatie en transacties "
-"plaats.</strong>Kijk in de documentatie van uw bank voor informatie  omtrent "
-"gegevens voor testdata (zoals creditcard nummer, valideringscode, etc)."
+"data van contributanten, contactinformatie en transacties plaats.</"
+"strong>Kijk in de documentatie van uw bank voor informatie  omtrent gegevens "
+"voor testdata (zoals creditcard nummer, valideringscode, etc)."
 
 #: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
 msgid "Event Information and Location"
@@ -6062,7 +6090,8 @@ msgstr ""
 msgid ""
 "Are you sure you want to set status to Cancelled for the selected "
 "participants?"
-msgstr "Wilt U de status van de geselecteerde deelnemers op geannuleerd zetten?"
+msgstr ""
+"Wilt U de status van de geselecteerde deelnemers op geannuleerd zetten?"
 
 #: templates/CRM/Event/Form/Task/Delete.tpl
 msgid ""
@@ -6260,9 +6289,9 @@ msgid ""
 msgstr ""
 "Test het hele registratie proces, inclusief specifieke velden, "
 "bevestigingen, bedankpagina en ontvangstbewijzen. Transacties worden naar de "
-"test-machine van uw bank gestuurd. <strong> Er worden geen echte "
-"transacties verricht maar de ingevulde gegevens  over het contact en de "
-"bijdrage worden in de database opgenomen.</strong>"
+"test-machine van uw bank gestuurd. <strong> Er worden geen echte transacties "
+"verricht maar de ingevulde gegevens  over het contact en de bijdrage worden "
+"in de database opgenomen.</strong>"
 
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
 msgid "Live Registration"
@@ -6307,7 +6336,13 @@ msgstr ""
 #: templates/CRM/Event/Page/ManageEvent.tpl
 #, fuzzy
 msgid "There are no events created yet. You can <a href='%1'>add one</a>."
-msgstr "Er zijn nog geen evenementen, u kunt er <a href\"%1\">een toevoegen</a>."
+msgstr ""
+"Er zijn nog geen evenementen, u kunt er <a href\"%1\">een toevoegen</a>."
+
+#: templates/CRM/Event/Page/ParticipantListing.tpl
+#, fuzzy
+msgid "There are currently no participants registered for this event."
+msgstr "u heeft geen toegangsrechten voor deze pagina"
 
 #: templates/CRM/Mailing/Form/Component.tpl
 #: templates/CRM/Mailing/Page/Component.tpl
@@ -6357,8 +6392,8 @@ msgid ""
 msgstr ""
 "Deze instellingen bepalen het volgen en beantwoorden van acties van "
 "ontvangers. Het aantal ontvangers van deze mailing wordt getoond in het "
-"vakje rechts. Als dit aantal anders is dan verwacht, klik  "
-"<strong>Vorige</strong> om uw selecties te controleren."
+"vakje rechts. Als dit aantal anders is dan verwacht, klik  <strong>Vorige</"
+"strong> om uw selecties te controleren."
 
 #: templates/CRM/Mailing/Form/Settings.tpl
 msgid ""
@@ -6556,8 +6591,8 @@ msgstr "Of <a href=\"%1\">bekijk alle Verzonden Mailings</a>."
 msgid ""
 "There are no Sent Mailings. You can <a href='%1'>create and send one</a>."
 msgstr ""
-"Er zijn nog geen Mailings. U kunt er een <a href='%1'>aanmaken en "
-"versturen</a>."
+"Er zijn nog geen Mailings. U kunt er een <a href='%1'>aanmaken en versturen</"
+"a>."
 
 #: templates/CRM/Mailing/Page/Component.tpl
 msgid "Body HTML"
@@ -7188,8 +7223,8 @@ msgid ""
 "You can <a href='%1'>Download Mismatched Memberships</a>. You may then "
 "correct them, and import the new file with the corrected data."
 msgstr ""
-"U kunt een lijst van niet-overeenkomstige lidmaatschappen <a "
-"hfre=\"%1\">downloaden</a>. Corrigeer deze, en importeer opnieuw."
+"U kunt een lijst van niet-overeenkomstige lidmaatschappen <a hfre=\"%1"
+"\">downloaden</a>. Corrigeer deze, en importeer opnieuw."
 
 #: templates/CRM/Member/Import/Form/Summary.tpl
 msgid ""

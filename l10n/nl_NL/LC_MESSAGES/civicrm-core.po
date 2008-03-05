@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-02-27 13:35+0100\n"
+"POT-Creation-Date: 2008-03-05 15:59+0100\n"
 "PO-Revision-Date: 2008-03-03 03:51-0800\n"
 "Last-Translator: Han Velthuis <han.velthuis@tiscali.nl>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -169,10 +169,9 @@ msgstr "De geselecteerde ACL is verwijderd."
 #: CRM/Core/DAO/OptionGroup.php CRM/Core/DAO/OptionValue.php
 #: CRM/Core/DAO/PaymentProcessor.php CRM/Core/DAO/PaymentProcessorType.php
 #: CRM/Core/DAO/PreferencesDate.php CRM/Core/DAO/Tag.php
-#: CRM/Grant/Import/Form/MapField.php CRM/Import/Form/MapField.php
-#: CRM/Import/Form/Preview.php CRM/Project/DAO/Project.php
-#: CRM/Project/DAO/Task.php templates/CRM/ACL/Page/ACL.tpl
-#: templates/CRM/Admin/Page/LocationType.tpl
+#: CRM/Import/Form/MapField.php CRM/Import/Form/Preview.php
+#: CRM/Project/DAO/Project.php CRM/Project/DAO/Task.php
+#: templates/CRM/ACL/Page/ACL.tpl templates/CRM/Admin/Page/LocationType.tpl
 #: templates/CRM/Admin/Page/Mapping.tpl
 #: templates/CRM/Admin/Page/OptionGroup.tpl
 #: templates/CRM/Admin/Page/Options.tpl
@@ -296,7 +295,6 @@ msgstr "Specifieke groep"
 
 #: CRM/Activity/BAO/Activity.php CRM/Activity/Import/Form/MapField.php
 #: CRM/Activity/Import/Parser.php CRM/Contact/BAO/Contact.php
-#: CRM/Grant/Import/Form/MapField.php CRM/Grant/Import/Parser.php
 #: CRM/Import/Form/MapField.php CRM/Import/Parser.php
 msgid "- do not import -"
 msgstr "- importeer niet -"
@@ -374,8 +372,8 @@ msgstr "Details"
 #: CRM/Contact/Form/Task/AddToOrganization.php CRM/Contact/Form/Test.php
 #: CRM/Core/BAO/CustomField.php CRM/Core/BAO/PriceField.php
 #: CRM/Core/BAO/UFGroup.php CRM/Core/Form.php CRM/Core/Payment/Form.php
-#: CRM/Core/SelectValues.php CRM/Grant/Import/Form/MapField.php
-#: CRM/Import/Form/MapField.php CRM/UF/Form/Group.php CRM/UF/Form/Preview.php
+#: CRM/Core/SelectValues.php CRM/Import/Form/MapField.php
+#: CRM/UF/Form/Group.php CRM/UF/Form/Preview.php
 msgid "- select -"
 msgstr "- selecteer -"
 
@@ -401,9 +399,7 @@ msgstr "Zoek"
 #: CRM/Custom/Form/DeleteField.php CRM/Custom/Form/DeleteFile.php
 #: CRM/Custom/Form/DeleteGroup.php CRM/Custom/Form/Field.php
 #: CRM/Custom/Form/Group.php CRM/Custom/Form/Option.php CRM/Friend/Form.php
-#: CRM/Grant/Form/Grant.php CRM/Grant/Form/Task.php
-#: CRM/Grant/Import/Form/MapField.php CRM/Grant/Import/Form/Preview.php
-#: CRM/Grant/Import/Form/UploadFile.php CRM/Group/Form/Edit.php
+#: CRM/Grant/Form/Grant.php CRM/Grant/Form/Task.php CRM/Group/Form/Edit.php
 #: CRM/Import/Form/MapField.php CRM/Import/Form/Preview.php
 #: CRM/Import/Form/UploadFile.php CRM/Note/Form/Note.php
 #: CRM/Price/Form/DeleteField.php CRM/Price/Form/DeleteSet.php
@@ -454,9 +450,9 @@ msgstr "Contant"
 #: CRM/Contact/Form/Task/Result.php CRM/Custom/Form/Field.php
 #: CRM/Custom/Form/Group.php CRM/Custom/Form/Option.php
 #: CRM/Grant/Form/Grant.php CRM/Grant/Form/Task/Print.php
-#: CRM/Grant/Form/Task/Result.php CRM/Grant/Import/Form/Summary.php
-#: CRM/Import/Form/Summary.php CRM/Price/Form/Field.php CRM/UF/Form/Field.php
-#: CRM/UF/Form/Group.php templates/CRM/Contact/Form/Relationship.tpl
+#: CRM/Grant/Form/Task/Result.php CRM/Import/Form/Summary.php
+#: CRM/Price/Form/Field.php CRM/UF/Form/Field.php CRM/UF/Form/Group.php
+#: templates/CRM/Contact/Form/Relationship.tpl
 #: templates/CRM/Contact/Page/View/Note.tpl
 #: templates/CRM/Contact/Page/View/Print.tpl
 msgid "Done"
@@ -477,17 +473,17 @@ msgid "Save"
 msgstr "Bewaar"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Core/BAO/Mapping.php
-#: CRM/Grant/Import/Form/MapField.php CRM/Import/Form/MapField.php
+#: CRM/Import/Form/MapField.php
 msgid "Mapping Option"
 msgstr "Mapping optie"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Core/BAO/Mapping.php
-#: CRM/Grant/Import/Form/MapField.php CRM/Import/Form/MapField.php
+#: CRM/Import/Form/MapField.php
 msgid "Load Mapping"
 msgstr "Laad mapping"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Core/BAO/Mapping.php
-#: CRM/Grant/Import/Form/MapField.php CRM/Import/Form/MapField.php
+#: CRM/Import/Form/MapField.php
 msgid "Save this field mapping"
 msgstr "Bewaar deze veld mapping"
 
@@ -508,9 +504,8 @@ msgstr "Bewaar deze veld mapping"
 #: CRM/Core/DAO/Mapping.php CRM/Core/DAO/PreferencesDate.php
 #: CRM/Core/DAO/PriceField.php CRM/Core/DAO/PriceSet.php CRM/Core/DAO/Tag.php
 #: CRM/Core/DAO/Timezone.php CRM/Grant/Form/Search.php
-#: CRM/Grant/Import/Form/MapField.php CRM/Grant/Selector/Search.php
-#: CRM/Import/Form/MapField.php CRM/Profile/Selector/Listings.php
-#: templates/CRM/Admin/Page/LocationType.tpl
+#: CRM/Grant/Selector/Search.php CRM/Import/Form/MapField.php
+#: CRM/Profile/Selector/Listings.php templates/CRM/Admin/Page/LocationType.tpl
 #: templates/CRM/Admin/Page/Mapping.tpl
 #: templates/CRM/Admin/Page/OptionGroup.tpl
 #: templates/CRM/Admin/Page/PaymentProcessor.tpl
@@ -530,22 +525,21 @@ msgid "Name"
 msgstr "Naam"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Core/BAO/Mapping.php
-#: CRM/Grant/Import/Form/MapField.php CRM/Import/Form/MapField.php
+#: CRM/Import/Form/MapField.php
 msgid "Update this field mapping"
 msgstr "Werk deze veld mapping bij"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Core/BAO/Mapping.php
-#: CRM/Grant/Import/Form/MapField.php CRM/Import/Form/MapField.php
+#: CRM/Import/Form/MapField.php
 msgid "Save as a new field mapping"
 msgstr "Bewaar als een nieuwe veld mapping"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Core/BAO/Mapping.php
-#: CRM/Grant/Import/Form/MapField.php CRM/Import/Form/MapField.php
+#: CRM/Import/Form/MapField.php
 msgid "Mapper for Field %1"
 msgstr "Mapper voor veld %1"
 
-#: CRM/Activity/Import/Form/MapField.php CRM/Grant/Import/Form/MapField.php
-#: CRM/Import/Form/MapField.php
+#: CRM/Activity/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid ""
 "The data columns in this import file appear to be different from the saved "
 "mapping. Please verify that you have selected the correct saved mapping "
@@ -556,8 +550,7 @@ msgstr ""
 "gaat."
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Activity/Import/Form/Preview.php
-#: CRM/Contact/Form/Task/Export/Map.php CRM/Grant/Import/Form/MapField.php
-#: CRM/Grant/Import/Form/Preview.php CRM/Import/Form/MapField.php
+#: CRM/Contact/Form/Task/Export/Map.php CRM/Import/Form/MapField.php
 #: CRM/Import/Form/Preview.php
 msgid "<< Previous"
 msgstr "<< Vorige"
@@ -565,40 +558,17 @@ msgstr "<< Vorige"
 #: CRM/Activity/Import/Form/MapField.php
 #: CRM/Activity/Import/Form/UploadFile.php
 #: CRM/Contact/Form/Task/Export/Select.php
-#: CRM/Contact/Form/Task/PickProfile.php CRM/Grant/Import/Form/MapField.php
-#: CRM/Grant/Import/Form/UploadFile.php CRM/Import/Form/MapField.php
+#: CRM/Contact/Form/Task/PickProfile.php CRM/Import/Form/MapField.php
 #: CRM/Import/Form/UploadFile.php
 msgid "Continue >>"
 msgstr "Ga Verder >>"
-
-#: CRM/Activity/Import/Form/MapField.php CRM/Grant/Import/Form/MapField.php
-msgid "Contact ID"
-msgstr "Contact ID"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Activity/Selector/Activity.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Activity Date"
 msgstr "Datum activiteit"
 
-#: CRM/Activity/Import/Form/MapField.php CRM/Grant/Import/Form/MapField.php
-msgid ""
-"Missing required contact matching fields. (Should be First AND Last Name or "
-"Primary Email or First Name, Last Name AND Primary Email.)"
-msgstr ""
-"Er ontbreekt een verplicht referentie veld. (Dit moet zijn de voor- EN "
-"achternaam of primair e-mailadres of voor-, achternaam EN primair e-"
-"mailadres.)"
-
-#: CRM/Activity/Import/Form/MapField.php CRM/Grant/Import/Form/MapField.php
-msgid "Missing required contact matching field: Contact ID."
-msgstr "Er mist een verplicht referentie veld: Contact ID"
-
-#: CRM/Activity/Import/Form/MapField.php CRM/Grant/Import/Form/MapField.php
-msgid "Missing required field: %1"
-msgstr "Er mist een verplicht veld: %1"
-
-#: CRM/Activity/Import/Form/MapField.php CRM/Grant/Import/Form/MapField.php
-#: CRM/Import/Form/MapField.php
+#: CRM/Activity/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Name is required to save Import Mapping"
 msgstr "Om import mapping te bewaren is de naam vereist"
 
@@ -606,74 +576,61 @@ msgstr "Om import mapping te bewaren is de naam vereist"
 msgid "Duplicate Import Mapping Name"
 msgstr "Kopiëer de import mapping naam"
 
-#: CRM/Activity/Import/Form/MapField.php CRM/Grant/Import/Form/MapField.php
-#: CRM/Import/Form/MapField.php
+#: CRM/Activity/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Match Fields"
 msgstr "Breng velden in overeenstemming"
 
-#: CRM/Activity/Import/Form/Preview.php CRM/Grant/Import/Form/Preview.php
-#: CRM/Import/Form/Preview.php
+#: CRM/Activity/Import/Form/Preview.php CRM/Import/Form/Preview.php
 msgid "Import Now >>"
 msgstr "Importeer nu >>"
 
 #: CRM/Activity/Import/Form/Preview.php CRM/Custom/Page/Group.php
-#: CRM/Grant/Import/Form/Preview.php CRM/Import/Form/Preview.php
-#: CRM/Price/Page/Set.php CRM/UF/Page/Field.php CRM/UF/Page/Group.php
+#: CRM/Import/Form/Preview.php CRM/Price/Page/Set.php CRM/UF/Page/Field.php
+#: CRM/UF/Page/Group.php
 msgid "Preview"
 msgstr "Voorvertoning"
 
-#: CRM/Activity/Import/Form/Summary.php CRM/Grant/Import/Form/Summary.php
-#: CRM/Import/Form/Summary.php
+#: CRM/Activity/Import/Form/Summary.php CRM/Import/Form/Summary.php
 msgid "These records have been updated with the imported data."
 msgstr "Deze gegevens zijn aangepast met de geïmporteerde data."
 
-#: CRM/Activity/Import/Form/Summary.php CRM/Grant/Import/Form/Summary.php
-#: CRM/Import/Form/Summary.php
+#: CRM/Activity/Import/Form/Summary.php CRM/Import/Form/Summary.php
 msgid "These records have been filled in with the imported data."
 msgstr "Deze gegevens zijn aangevuld met de geïmporteerde data."
 
-#: CRM/Activity/Import/Form/Summary.php CRM/Grant/Import/Form/Summary.php
-#: CRM/Import/Form/Summary.php
+#: CRM/Activity/Import/Form/Summary.php CRM/Import/Form/Summary.php
 msgid "These records have not been imported."
 msgstr "Deze gegevens zijn niet geïmporteerd."
 
-#: CRM/Activity/Import/Form/Summary.php CRM/Grant/Import/Form/Summary.php
-#: CRM/Import/Form/Summary.php
+#: CRM/Activity/Import/Form/Summary.php CRM/Import/Form/Summary.php
 msgid "Summary"
 msgstr "Overzicht"
 
-#: CRM/Activity/Import/Form/UploadFile.php
-#: CRM/Grant/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
+#: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Import Data File"
 msgstr "Importeer gegevensbestand"
 
-#: CRM/Activity/Import/Form/UploadFile.php
-#: CRM/Grant/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
+#: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "A valid file must be uploaded."
 msgstr "U moet een geldig bestand uploaden."
 
-#: CRM/Activity/Import/Form/UploadFile.php
-#: CRM/Grant/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
+#: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "File size should be less than %1 MBytes (%2 bytes)"
 msgstr "Bestandsgrootte moet kleiner zijn dan %1 MB (%2 bytes)"
 
-#: CRM/Activity/Import/Form/UploadFile.php
-#: CRM/Grant/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
+#: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Input file must be in CSV format"
 msgstr "Invoerbestand moet in CSV formaat zijn"
 
-#: CRM/Activity/Import/Form/UploadFile.php
-#: CRM/Grant/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
+#: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "First row contains column headers"
 msgstr "Eerste rij bevat veldnamen (kolomkoppen)"
 
-#: CRM/Activity/Import/Form/UploadFile.php
-#: CRM/Grant/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
+#: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Skip"
 msgstr "Overslaan"
 
-#: CRM/Activity/Import/Form/UploadFile.php
-#: CRM/Grant/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
+#: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Update"
 msgstr "Bijwerken"
 
@@ -681,24 +638,20 @@ msgstr "Bijwerken"
 msgid "Fill"
 msgstr "Toevoegen"
 
-#: CRM/Activity/Import/Form/UploadFile.php
-#: CRM/Grant/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
+#: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Upload Data"
 msgstr "Upload gegevens"
 
-#: CRM/Activity/Import/Parser/Activity.php
-#: CRM/Grant/Import/Parser/Participant.php CRM/Import/Parser/Contact.php
+#: CRM/Activity/Import/Parser/Activity.php CRM/Import/Parser/Contact.php
 msgid "Missing required fields"
 msgstr "Vereiste velden ontbreken"
 
-#: CRM/Activity/Import/Parser.php CRM/Grant/Import/Parser.php
-#: CRM/Import/Parser.php
+#: CRM/Activity/Import/Parser.php CRM/Import/Parser.php
 #, fuzzy
 msgid "Line Number"
 msgstr "Telefoonnummer"
 
-#: CRM/Activity/Import/Parser.php CRM/Grant/Import/Parser.php
-#: CRM/Import/Parser.php
+#: CRM/Activity/Import/Parser.php CRM/Import/Parser.php
 msgid "Reason"
 msgstr "Reden"
 
@@ -1055,8 +1008,8 @@ msgstr "Notities"
 #: CRM/Contact/BAO/Contact.php CRM/Contact/DAO/Contact.php
 #: CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Relationship.php
 #: CRM/Contact/Selector.php CRM/Core/DAO/CustomGroup.php
-#: CRM/Dedupe/DAO/RuleGroup.php CRM/Grant/Import/Form/UploadFile.php
-#: CRM/Grant/Selector/Search.php CRM/Import/Form/UploadFile.php
+#: CRM/Dedupe/DAO/RuleGroup.php CRM/Grant/Selector/Search.php
+#: CRM/Import/Form/UploadFile.php
 msgid "Individual"
 msgstr "Persoon"
 
@@ -1064,8 +1017,8 @@ msgstr "Persoon"
 #: CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Relationship.php
 #: CRM/Contact/Form/Task/AddToHousehold.php CRM/Contact/Selector.php
 #: CRM/Core/DAO/CustomGroup.php CRM/Dedupe/DAO/RuleGroup.php
-#: CRM/Grant/Import/Form/UploadFile.php CRM/Grant/Selector/Search.php
-#: CRM/Import/Form/UploadFile.php templates/CRM/Contact/Form/Edit.tpl
+#: CRM/Grant/Selector/Search.php CRM/Import/Form/UploadFile.php
+#: templates/CRM/Contact/Form/Edit.tpl
 msgid "Household"
 msgstr "Huishouden"
 
@@ -1073,8 +1026,8 @@ msgstr "Huishouden"
 #: CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Relationship.php
 #: CRM/Contact/Form/Task/AddToOrganization.php CRM/Contact/Selector.php
 #: CRM/Core/DAO/CustomGroup.php CRM/Dedupe/DAO/RuleGroup.php
-#: CRM/Grant/Import/Form/UploadFile.php CRM/Grant/Selector/Search.php
-#: CRM/Import/Form/UploadFile.php templates/CRM/Contact/Form/Edit.tpl
+#: CRM/Grant/Selector/Search.php CRM/Import/Form/UploadFile.php
+#: templates/CRM/Contact/Form/Edit.tpl
 msgid "Organization"
 msgstr "Organisatie"
 
@@ -1138,8 +1091,8 @@ msgstr "Geslacht"
 #: CRM/Contact/Form/Search/Custom/PostalMailing.php
 #: CRM/Contact/Form/Search/Custom/Sample.php CRM/Contact/Selector.php
 #: CRM/Core/DAO/MappingField.php CRM/Dedupe/DAO/RuleGroup.php
-#: CRM/Grant/Import/Form/UploadFile.php CRM/Grant/Selector/Search.php
-#: CRM/Import/Form/UploadFile.php templates/CRM/Admin/Page/DedupeFind.tpl
+#: CRM/Grant/Selector/Search.php CRM/Import/Form/UploadFile.php
+#: templates/CRM/Admin/Page/DedupeFind.tpl
 #: templates/CRM/Admin/Page/DedupeRules.tpl
 msgid "Contact Type"
 msgstr "Contact type"
@@ -2254,10 +2207,6 @@ msgstr "Ratio"
 msgid "Delete Grants"
 msgstr "Verwijder Groep"
 
-#: CRM/Grant/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
-msgid "No Duplicate Checking"
-msgstr "Geen controle"
-
 #: CRM/Group/Form/Edit.php CRM/Group/Page/Group.php
 msgid "Delete Group"
 msgstr "Verwijder Groep"
@@ -2284,11 +2233,38 @@ msgstr "Entiteitentabel eigenaar"
 msgid "Server Url"
 msgstr ""
 
+#: CRM/Upgrade/TwoZero/Form/Step1.php CRM/Upgrade/TwoZero/Form/Step2.php
+#: CRM/Upgrade/TwoZero/Form/Step3.php CRM/Upgrade/TwoZero/Form/Step4.php
+#: CRM/Upgrade/TwoZero/Form/Step5.php CRM/Upgrade/TwoZero/Form/Step6.php
+msgid "Post-condition failed for upgrade step %1."
+msgstr ""
+
+#: CRM/Upgrade/TwoZero/Form/Step2.php CRM/Upgrade/TwoZero/Form/Step3.php
+#: CRM/Upgrade/TwoZero/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step5.php
+#: CRM/Upgrade/TwoZero/Form/Step6.php CRM/Upgrade/TwoZero/Form/Step7.php
+msgid "Pre-condition failed for upgrade step %1."
+msgstr ""
+
 #: CRM/Upgrade/TwoZero/Form/Step2.php CRM/Upgrade/TwoZero/Form/Step3.php
 #: CRM/Upgrade/TwoZero/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step5.php
 #, fuzzy
 msgid "Upgrade & Continue"
 msgstr "Doorgaan"
+
+#: CRM/Upgrade/TwoZero/Form/Step3.php CRM/Upgrade/TwoZero/Form/Step4.php
+#: CRM/Upgrade/TwoZero/Form/Step5.php CRM/Upgrade/TwoZero/Form/Step6.php
+msgid "Database consistency check failed for step %1."
+msgstr ""
+
+#: CRM/Upgrade/TwoZero/Form/Step3.php CRM/Upgrade/TwoZero/Form/Step4.php
+#: CRM/Upgrade/TwoZero/Form/Step6.php
+msgid "FK constraint names not in the required format."
+msgstr ""
+
+#: CRM/Upgrade/TwoZero/Form/Step3.php CRM/Upgrade/TwoZero/Form/Step4.php
+#: CRM/Upgrade/TwoZero/Form/Step6.php
+msgid "Please rebuild your 1.9 database to ensure schema integrity."
+msgstr ""
 
 #: CRM/ACL/BAO/ACL.php
 msgid "Contact Group"
@@ -2574,6 +2550,27 @@ msgstr "Geselecteerde locatietype is verwijderd."
 #, fuzzy
 msgid "Activity '%1' has been saved."
 msgstr "\"%1\" is bewaard"
+
+#: CRM/Activity/Import/Form/MapField.php
+msgid "Contact ID"
+msgstr "Contact ID"
+
+#: CRM/Activity/Import/Form/MapField.php
+msgid ""
+"Missing required contact matching fields. (Should be First AND Last Name or "
+"Primary Email or First Name, Last Name AND Primary Email.)"
+msgstr ""
+"Er ontbreekt een verplicht referentie veld. (Dit moet zijn de voor- EN "
+"achternaam of primair e-mailadres of voor-, achternaam EN primair e-"
+"mailadres.)"
+
+#: CRM/Activity/Import/Form/MapField.php
+msgid "Missing required contact matching field: Contact ID."
+msgstr "Er mist een verplicht referentie veld: Contact ID"
+
+#: CRM/Activity/Import/Form/MapField.php
+msgid "Missing required field: %1"
+msgstr "Er mist een verplicht veld: %1"
 
 #: CRM/Activity/Import/Form/UploadFile.php
 msgid "On duplicate entries"
@@ -3762,8 +3759,7 @@ msgid ""
 "Domain Email Address must use a valid email address format (e.g. "
 "'info@example.org')."
 msgstr ""
-"Domein E-mailadres moet een geldig e-mailadres zijn (bijv. "
-"ïnfo@example.org)."
+"Domein E-mailadres moet een geldig e-mailadres zijn (bijv. ïnfo@example.org)."
 
 #: CRM/Contact/Form/Domain.php
 #, fuzzy
@@ -3983,12 +3979,12 @@ msgid_plural ""
 "button below."
 msgstr[0] ""
 "Er werd één overeenkomstig huishouden gevonden: %1. Je kan het in detail "
-"bekijken met de \"selecteer bestaand huishouden\" optie of klik \"'bewaar met "
-"geselecteerde huishouden\" knop onderaan."
+"bekijken met de \"selecteer bestaand huishouden\" optie of klik \"'bewaar "
+"met geselecteerde huishouden\" knop onderaan."
 msgstr[1] ""
 "%count overeenkomstige huishoudens gevonden: %1. Je kan het in detail "
-"bekijken met de \"selecteer bestaand huishouden\" optie of klik \"'bewaar met "
-"geselecteerde huishouden\" knop onderaan."
+"bekijken met de \"selecteer bestaand huishouden\" optie of klik \"'bewaar "
+"met geselecteerde huishouden\" knop onderaan."
 
 #: CRM/Contact/Form/Individual.php
 msgid "Shared Household-ID not found."
@@ -4833,6 +4829,12 @@ msgid "Add Contacts to Event"
 msgstr "Voeg contacten toe aan een evenement"
 
 #: CRM/Core/BAO/CMSUser.php
+msgid ""
+"Cannot connect to UF db via %1. Please check the CIVICRM_UF_DSN value in "
+"your civicrm.settings.php file"
+msgstr ""
+
+#: CRM/Core/BAO/CMSUser.php
 msgid "Synchronize Users to Contacts completed."
 msgstr "Synchroniseren gebruikers naar contacten uitgevoerd."
 
@@ -5195,6 +5197,10 @@ msgstr "CiviMail"
 #, fuzzy
 msgid "Logout"
 msgstr "Uitloggen"
+
+#: CRM/Core/Config.php
+msgid "You need to define %1 in %2"
+msgstr ""
 
 #: CRM/Core/Config.php
 #, fuzzy
@@ -7327,30 +7333,6 @@ msgstr "Aantal geselecteerde contacten: %1"
 msgid "Print Grant List"
 msgstr "Druk contactenlijst af"
 
-#: CRM/Grant/Import/Form/MapField.php
-#, fuzzy
-msgid "Duplicate Import Membership Mapping Name"
-msgstr "Kopiëer de import mapping naam"
-
-#: CRM/Grant/Import/Form/MapField.php
-#, fuzzy
-msgid "Select saved mapping"
-msgstr "Verwijder Mapping"
-
-#: CRM/Grant/Import/Form/UploadFile.php
-#, fuzzy
-msgid "On Duplicate Entries"
-msgstr "Bij dubbele invoeringen"
-
-#: CRM/Grant/Import/Parser/Participant.php
-msgid "Select either EventID OR Event Title"
-msgstr ""
-
-#: CRM/Grant/Import/Parser.php
-#, fuzzy
-msgid "View Participant URL"
-msgstr "Nieuwe deelnemer"
-
 #: CRM/Grant/Invoke.php
 #, fuzzy
 msgid "Manage Grant"
@@ -7507,6 +7489,10 @@ msgstr "Deze records zijn vervangen door de geimporteerde gegevens"
 #: CRM/Import/Form/UploadFile.php
 msgid "Lookup mapping info during import?"
 msgstr "Mapping informatie zoeken tijdens het importeren?"
+
+#: CRM/Import/Form/UploadFile.php
+msgid "No Duplicate Checking"
+msgstr "Geen controle"
 
 #: CRM/Import/Form/UploadFile.php
 msgid "For Duplicate Contacts"
@@ -8282,12 +8268,6 @@ msgid "Step Two will upgrade the contact records in your database."
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step3.php
-msgid ""
-"Database consistency check failed for step 3. FK constraint names not in the "
-"required format."
-msgstr ""
-
-#: CRM/Upgrade/TwoZero/Form/Step3.php
 msgid "CiviCRM 2.0 Upgrade: Step Three (Location Data Upgrade)"
 msgstr ""
 
@@ -8296,25 +8276,15 @@ msgid "This step will upgrade the location data in your database."
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step4.php
-msgid ""
-"Database consistency check failed for step 4. FK constraint names not in the "
-"required format."
-msgstr ""
-
-#: CRM/Upgrade/TwoZero/Form/Step4.php
 msgid "CiviCRM 2.0 Upgrade: Step Four (Activity Upgrade)"
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step5.php
-msgid ""
-"Database consistency check failed for Step 5. Value missing in "
-"civicrm_custom_field for the column 'name'."
+msgid "Value missing in %1 for the column '%2'."
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step5.php
-msgid ""
-"Database consistency check failed for Step 5. A custom field can not have "
-"'id' as the 'name'."
+msgid "A custom field can not have '%1' as the '%2'."
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step5.php
@@ -8323,12 +8293,6 @@ msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step5.php
 msgid "This step will upgrade the custom section of your database."
-msgstr ""
-
-#: CRM/Upgrade/TwoZero/Form/Step6.php
-msgid ""
-"Database consistency check failed for step 6. FK constraint names not in the "
-"required format."
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step6.php
@@ -10342,8 +10306,8 @@ msgstr ""
 "<strong><a href='%3'>Zoek contact duplicaten</a></strong> proces - dit "
 "doorzoekt uw bestaande contacten en herkent 'verdachte' dubbele contacten. "
 "Klik <strong>Bewerk Regel</strong> om de regels te bekijken of te wijzigen "
-"voor elk contacttype (<a href='%1' target='_blank' title='%2'>lees "
-"meer...</a>)."
+"voor elk contacttype (<a href='%1' target='_blank' title='%2'>lees meer...</"
+"a>)."
 
 #: templates/CRM/Admin/Page/DedupeRules.tpl
 msgid ""
@@ -11580,8 +11544,8 @@ msgid ""
 "Use the <a href='%1'>Add Members...</a> screen if you want to add new "
 "members to this group."
 msgstr ""
-"Gebruik <a href=\"%1\"> Voeg leden toe</a> als u leden wilt toevoegen aan deze "
-"groep."
+"Gebruik <a href=\"%1\"> Voeg leden toe</a> als u leden wilt toevoegen aan "
+"deze groep."
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 #, fuzzy
@@ -11786,8 +11750,7 @@ msgid ""
 "Click 'Load Saved Field Mapping' to retrieve an export setup that you have "
 "previously saved."
 msgstr ""
-"Klik 'laad opgeslagen veldoverzicht' om een opgeslagen export setup te "
-"laden."
+"Klik 'laad opgeslagen veldoverzicht' om een opgeslagen export setup te laden."
 
 #: templates/CRM/Contact/Form/Task/Export/Map.tpl
 msgid ""
@@ -12420,8 +12383,8 @@ msgstr "Er zijn geen veranderingen bijgehouden voor dit contact."
 #, fuzzy
 msgid "Click <a href='%1'>New Membership</a> to record a new membership."
 msgstr ""
-"Klik op <a href=\"%1\">Nieuw lidmaatschap</a> om een nieuw lidmaatschap aan te "
-"maken."
+"Klik op <a href=\"%1\">Nieuw lidmaatschap</a> om een nieuw lidmaatschap aan "
+"te maken."
 
 #: templates/CRM/Contact/Page/View/Membership.tpl
 msgid "Active Memberships"
@@ -12470,8 +12433,8 @@ msgstr "Wilt U de notitie \"%1\" verwijderen?"
 #, fuzzy
 msgid "There are no Notes for this contact. You can <a href='%1'>add one</a>."
 msgstr ""
-"Er zijn geen notities bij dit contact. U kunt er een  <a "
-"href=\"%1\">aanmaken</a>."
+"Er zijn geen notities bij dit contact. U kunt er een  <a href=\"%1"
+"\">aanmaken</a>."
 
 #: templates/CRM/Contact/Page/View/Participant.tpl
 msgid "This page lists all event registrations for %1 since inception."
@@ -12485,8 +12448,8 @@ msgid ""
 "Click <a href='%1'>New Event Registration</a> to register this contact for "
 "an event."
 msgstr ""
-"Klik op <a href=\"%1'\">Nieuwe evenement aanmelding</a> om dit contact aan te "
-"melden voor een evenement."
+"Klik op <a href=\"%1'\">Nieuwe evenement aanmelding</a> om dit contact aan "
+"te melden voor een evenement."
 
 #: templates/CRM/Contact/Page/View/Participant.tpl
 msgid "New Event Registration"
@@ -12525,8 +12488,8 @@ msgid ""
 "There are no Relationships entered for this contact. You can <a href='%"
 "1'>add one</a>."
 msgstr ""
-"Er zijn geen relaties van dit contact. U kunt er een <a "
-"href=\"%1\">aanmaken</a>."
+"Er zijn geen relaties van dit contact. U kunt er een <a href=\"%1"
+"\">aanmaken</a>."
 
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 #, fuzzy
@@ -15108,6 +15071,22 @@ msgstr "Bericht is onderschept door een contentfilter."
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Fout in SMTP transactie"
+
+#, fuzzy
+#~ msgid "Duplicate Import Membership Mapping Name"
+#~ msgstr "Kopiëer de import mapping naam"
+
+#, fuzzy
+#~ msgid "Select saved mapping"
+#~ msgstr "Verwijder Mapping"
+
+#, fuzzy
+#~ msgid "On Duplicate Entries"
+#~ msgstr "Bij dubbele invoeringen"
+
+#, fuzzy
+#~ msgid "View Participant URL"
+#~ msgstr "Nieuwe deelnemer"
 
 #~ msgid "\"%1\" has been saved."
 #~ msgstr "\"%1\" is bewaard."

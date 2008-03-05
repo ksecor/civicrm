@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-02-27 13:35+0100\n"
+"POT-Creation-Date: 2008-03-05 15:59+0100\n"
 "PO-Revision-Date: 2008-03-03 07:42-0800\n"
 "Last-Translator: Eugenia Franzoni <eugenia@catnic.it>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -168,10 +168,9 @@ msgstr "La ACL selezionata è stata eliminata."
 #: CRM/Core/DAO/OptionGroup.php CRM/Core/DAO/OptionValue.php
 #: CRM/Core/DAO/PaymentProcessor.php CRM/Core/DAO/PaymentProcessorType.php
 #: CRM/Core/DAO/PreferencesDate.php CRM/Core/DAO/Tag.php
-#: CRM/Grant/Import/Form/MapField.php CRM/Import/Form/MapField.php
-#: CRM/Import/Form/Preview.php CRM/Project/DAO/Project.php
-#: CRM/Project/DAO/Task.php templates/CRM/ACL/Page/ACL.tpl
-#: templates/CRM/Admin/Page/LocationType.tpl
+#: CRM/Import/Form/MapField.php CRM/Import/Form/Preview.php
+#: CRM/Project/DAO/Project.php CRM/Project/DAO/Task.php
+#: templates/CRM/ACL/Page/ACL.tpl templates/CRM/Admin/Page/LocationType.tpl
 #: templates/CRM/Admin/Page/Mapping.tpl
 #: templates/CRM/Admin/Page/OptionGroup.tpl
 #: templates/CRM/Admin/Page/Options.tpl
@@ -294,7 +293,6 @@ msgstr "Gruppi Personalizzati"
 
 #: CRM/Activity/BAO/Activity.php CRM/Activity/Import/Form/MapField.php
 #: CRM/Activity/Import/Parser.php CRM/Contact/BAO/Contact.php
-#: CRM/Grant/Import/Form/MapField.php CRM/Grant/Import/Parser.php
 #: CRM/Import/Form/MapField.php CRM/Import/Parser.php
 msgid "- do not import -"
 msgstr "- non importare -"
@@ -371,8 +369,8 @@ msgstr "Dettagli"
 #: CRM/Contact/Form/Task/AddToOrganization.php CRM/Contact/Form/Test.php
 #: CRM/Core/BAO/CustomField.php CRM/Core/BAO/PriceField.php
 #: CRM/Core/BAO/UFGroup.php CRM/Core/Form.php CRM/Core/Payment/Form.php
-#: CRM/Core/SelectValues.php CRM/Grant/Import/Form/MapField.php
-#: CRM/Import/Form/MapField.php CRM/UF/Form/Group.php CRM/UF/Form/Preview.php
+#: CRM/Core/SelectValues.php CRM/Import/Form/MapField.php
+#: CRM/UF/Form/Group.php CRM/UF/Form/Preview.php
 msgid "- select -"
 msgstr "- seleziona -"
 
@@ -397,9 +395,7 @@ msgstr "Scollega"
 #: CRM/Custom/Form/DeleteField.php CRM/Custom/Form/DeleteFile.php
 #: CRM/Custom/Form/DeleteGroup.php CRM/Custom/Form/Field.php
 #: CRM/Custom/Form/Group.php CRM/Custom/Form/Option.php CRM/Friend/Form.php
-#: CRM/Grant/Form/Grant.php CRM/Grant/Form/Task.php
-#: CRM/Grant/Import/Form/MapField.php CRM/Grant/Import/Form/Preview.php
-#: CRM/Grant/Import/Form/UploadFile.php CRM/Group/Form/Edit.php
+#: CRM/Grant/Form/Grant.php CRM/Grant/Form/Task.php CRM/Group/Form/Edit.php
 #: CRM/Import/Form/MapField.php CRM/Import/Form/Preview.php
 #: CRM/Import/Form/UploadFile.php CRM/Note/Form/Note.php
 #: CRM/Price/Form/DeleteField.php CRM/Price/Form/DeleteSet.php
@@ -449,9 +445,9 @@ msgstr "Contanti"
 #: CRM/Contact/Form/Task/Result.php CRM/Custom/Form/Field.php
 #: CRM/Custom/Form/Group.php CRM/Custom/Form/Option.php
 #: CRM/Grant/Form/Grant.php CRM/Grant/Form/Task/Print.php
-#: CRM/Grant/Form/Task/Result.php CRM/Grant/Import/Form/Summary.php
-#: CRM/Import/Form/Summary.php CRM/Price/Form/Field.php CRM/UF/Form/Field.php
-#: CRM/UF/Form/Group.php templates/CRM/Contact/Form/Relationship.tpl
+#: CRM/Grant/Form/Task/Result.php CRM/Import/Form/Summary.php
+#: CRM/Price/Form/Field.php CRM/UF/Form/Field.php CRM/UF/Form/Group.php
+#: templates/CRM/Contact/Form/Relationship.tpl
 #: templates/CRM/Contact/Page/View/Note.tpl
 #: templates/CRM/Contact/Page/View/Print.tpl
 msgid "Done"
@@ -472,17 +468,17 @@ msgid "Save"
 msgstr "Salva"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Core/BAO/Mapping.php
-#: CRM/Grant/Import/Form/MapField.php CRM/Import/Form/MapField.php
+#: CRM/Import/Form/MapField.php
 msgid "Mapping Option"
 msgstr "Opzione di Mappatura"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Core/BAO/Mapping.php
-#: CRM/Grant/Import/Form/MapField.php CRM/Import/Form/MapField.php
+#: CRM/Import/Form/MapField.php
 msgid "Load Mapping"
 msgstr "Carica Mappatura"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Core/BAO/Mapping.php
-#: CRM/Grant/Import/Form/MapField.php CRM/Import/Form/MapField.php
+#: CRM/Import/Form/MapField.php
 msgid "Save this field mapping"
 msgstr "Salva questa mappatura dei campi"
 
@@ -503,9 +499,8 @@ msgstr "Salva questa mappatura dei campi"
 #: CRM/Core/DAO/Mapping.php CRM/Core/DAO/PreferencesDate.php
 #: CRM/Core/DAO/PriceField.php CRM/Core/DAO/PriceSet.php CRM/Core/DAO/Tag.php
 #: CRM/Core/DAO/Timezone.php CRM/Grant/Form/Search.php
-#: CRM/Grant/Import/Form/MapField.php CRM/Grant/Selector/Search.php
-#: CRM/Import/Form/MapField.php CRM/Profile/Selector/Listings.php
-#: templates/CRM/Admin/Page/LocationType.tpl
+#: CRM/Grant/Selector/Search.php CRM/Import/Form/MapField.php
+#: CRM/Profile/Selector/Listings.php templates/CRM/Admin/Page/LocationType.tpl
 #: templates/CRM/Admin/Page/Mapping.tpl
 #: templates/CRM/Admin/Page/OptionGroup.tpl
 #: templates/CRM/Admin/Page/PaymentProcessor.tpl
@@ -525,22 +520,21 @@ msgid "Name"
 msgstr "Nome"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Core/BAO/Mapping.php
-#: CRM/Grant/Import/Form/MapField.php CRM/Import/Form/MapField.php
+#: CRM/Import/Form/MapField.php
 msgid "Update this field mapping"
 msgstr "Aggiorna questa mappatura dei campi"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Core/BAO/Mapping.php
-#: CRM/Grant/Import/Form/MapField.php CRM/Import/Form/MapField.php
+#: CRM/Import/Form/MapField.php
 msgid "Save as a new field mapping"
 msgstr "Salva come nuova mappatura dei campi"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Core/BAO/Mapping.php
-#: CRM/Grant/Import/Form/MapField.php CRM/Import/Form/MapField.php
+#: CRM/Import/Form/MapField.php
 msgid "Mapper for Field %1"
 msgstr "Mappatura per Campo %1"
 
-#: CRM/Activity/Import/Form/MapField.php CRM/Grant/Import/Form/MapField.php
-#: CRM/Import/Form/MapField.php
+#: CRM/Activity/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid ""
 "The data columns in this import file appear to be different from the saved "
 "mapping. Please verify that you have selected the correct saved mapping "
@@ -551,8 +545,7 @@ msgstr ""
 "di proseguire."
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Activity/Import/Form/Preview.php
-#: CRM/Contact/Form/Task/Export/Map.php CRM/Grant/Import/Form/MapField.php
-#: CRM/Grant/Import/Form/Preview.php CRM/Import/Form/MapField.php
+#: CRM/Contact/Form/Task/Export/Map.php CRM/Import/Form/MapField.php
 #: CRM/Import/Form/Preview.php
 msgid "<< Previous"
 msgstr "<< Precedente"
@@ -560,39 +553,17 @@ msgstr "<< Precedente"
 #: CRM/Activity/Import/Form/MapField.php
 #: CRM/Activity/Import/Form/UploadFile.php
 #: CRM/Contact/Form/Task/Export/Select.php
-#: CRM/Contact/Form/Task/PickProfile.php CRM/Grant/Import/Form/MapField.php
-#: CRM/Grant/Import/Form/UploadFile.php CRM/Import/Form/MapField.php
+#: CRM/Contact/Form/Task/PickProfile.php CRM/Import/Form/MapField.php
 #: CRM/Import/Form/UploadFile.php
 msgid "Continue >>"
 msgstr "Continua >>"
-
-#: CRM/Activity/Import/Form/MapField.php CRM/Grant/Import/Form/MapField.php
-msgid "Contact ID"
-msgstr "ID Contatto"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Activity/Selector/Activity.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Activity Date"
 msgstr "Data Attività"
 
-#: CRM/Activity/Import/Form/MapField.php CRM/Grant/Import/Form/MapField.php
-msgid ""
-"Missing required contact matching fields. (Should be First AND Last Name or "
-"Primary Email or First Name, Last Name AND Primary Email.)"
-msgstr ""
-"Campi contatto richiesti mancanti (Dovrebbero essere Nome e Cognome o email "
-"primaria o nome, cognome e email primaria)"
-
-#: CRM/Activity/Import/Form/MapField.php CRM/Grant/Import/Form/MapField.php
-msgid "Missing required contact matching field: Contact ID."
-msgstr "Campo contatto corrispondente richiesto mancante: ID Contatto."
-
-#: CRM/Activity/Import/Form/MapField.php CRM/Grant/Import/Form/MapField.php
-msgid "Missing required field: %1"
-msgstr "Campo richiesto mancante: %1"
-
-#: CRM/Activity/Import/Form/MapField.php CRM/Grant/Import/Form/MapField.php
-#: CRM/Import/Form/MapField.php
+#: CRM/Activity/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Name is required to save Import Mapping"
 msgstr "Il Nome è obbligatorio per salvare la Mappatura Importazione"
 
@@ -600,75 +571,62 @@ msgstr "Il Nome è obbligatorio per salvare la Mappatura Importazione"
 msgid "Duplicate Import Mapping Name"
 msgstr "Nome Mappatura di Importazione duplicato"
 
-#: CRM/Activity/Import/Form/MapField.php CRM/Grant/Import/Form/MapField.php
-#: CRM/Import/Form/MapField.php
+#: CRM/Activity/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Match Fields"
 msgstr "Campi Compatibili"
 
-#: CRM/Activity/Import/Form/Preview.php CRM/Grant/Import/Form/Preview.php
-#: CRM/Import/Form/Preview.php
+#: CRM/Activity/Import/Form/Preview.php CRM/Import/Form/Preview.php
 msgid "Import Now >>"
 msgstr "Importa adesso >>"
 
 #: CRM/Activity/Import/Form/Preview.php CRM/Custom/Page/Group.php
-#: CRM/Grant/Import/Form/Preview.php CRM/Import/Form/Preview.php
-#: CRM/Price/Page/Set.php CRM/UF/Page/Field.php CRM/UF/Page/Group.php
+#: CRM/Import/Form/Preview.php CRM/Price/Page/Set.php CRM/UF/Page/Field.php
+#: CRM/UF/Page/Group.php
 msgid "Preview"
 msgstr "Anteprima"
 
-#: CRM/Activity/Import/Form/Summary.php CRM/Grant/Import/Form/Summary.php
-#: CRM/Import/Form/Summary.php
+#: CRM/Activity/Import/Form/Summary.php CRM/Import/Form/Summary.php
 msgid "These records have been updated with the imported data."
 msgstr "Questi record sono stati aggiornati con i dati importati."
 
-#: CRM/Activity/Import/Form/Summary.php CRM/Grant/Import/Form/Summary.php
-#: CRM/Import/Form/Summary.php
+#: CRM/Activity/Import/Form/Summary.php CRM/Import/Form/Summary.php
 msgid "These records have been filled in with the imported data."
 msgstr "Questi record sono stati creati con i dati importati."
 
-#: CRM/Activity/Import/Form/Summary.php CRM/Grant/Import/Form/Summary.php
-#: CRM/Import/Form/Summary.php
+#: CRM/Activity/Import/Form/Summary.php CRM/Import/Form/Summary.php
 msgid "These records have not been imported."
 msgstr "Questi record non sono stati importati."
 
-#: CRM/Activity/Import/Form/Summary.php CRM/Grant/Import/Form/Summary.php
-#: CRM/Import/Form/Summary.php
+#: CRM/Activity/Import/Form/Summary.php CRM/Import/Form/Summary.php
 msgid "Summary"
 msgstr "Riassunto"
 
-#: CRM/Activity/Import/Form/UploadFile.php
-#: CRM/Grant/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
+#: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Import Data File"
 msgstr "Importa File Dati"
 
-#: CRM/Activity/Import/Form/UploadFile.php
-#: CRM/Grant/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
+#: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "A valid file must be uploaded."
 msgstr "Deve essere trasmesso un file valido."
 
-#: CRM/Activity/Import/Form/UploadFile.php
-#: CRM/Grant/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
+#: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "File size should be less than %1 MBytes (%2 bytes)"
 msgstr ""
 "La dimensione del file dovrebbe essere inferiore a %1 Mbytes (%2 bytes)"
 
-#: CRM/Activity/Import/Form/UploadFile.php
-#: CRM/Grant/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
+#: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Input file must be in CSV format"
 msgstr "Il file di input deve essere in formato CSV"
 
-#: CRM/Activity/Import/Form/UploadFile.php
-#: CRM/Grant/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
+#: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "First row contains column headers"
 msgstr "La prima riga contiene i titoli delle colonne"
 
-#: CRM/Activity/Import/Form/UploadFile.php
-#: CRM/Grant/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
+#: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Skip"
 msgstr "Salta"
 
-#: CRM/Activity/Import/Form/UploadFile.php
-#: CRM/Grant/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
+#: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Update"
 msgstr "Aggiorna"
 
@@ -676,23 +634,19 @@ msgstr "Aggiorna"
 msgid "Fill"
 msgstr "Compila"
 
-#: CRM/Activity/Import/Form/UploadFile.php
-#: CRM/Grant/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
+#: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Upload Data"
 msgstr "Trasferisci Dati"
 
-#: CRM/Activity/Import/Parser/Activity.php
-#: CRM/Grant/Import/Parser/Participant.php CRM/Import/Parser/Contact.php
+#: CRM/Activity/Import/Parser/Activity.php CRM/Import/Parser/Contact.php
 msgid "Missing required fields"
 msgstr "Campi obbligatori non compilati correttamente"
 
-#: CRM/Activity/Import/Parser.php CRM/Grant/Import/Parser.php
-#: CRM/Import/Parser.php
+#: CRM/Activity/Import/Parser.php CRM/Import/Parser.php
 msgid "Line Number"
 msgstr "Numero di linea"
 
-#: CRM/Activity/Import/Parser.php CRM/Grant/Import/Parser.php
-#: CRM/Import/Parser.php
+#: CRM/Activity/Import/Parser.php CRM/Import/Parser.php
 msgid "Reason"
 msgstr "Motivo"
 
@@ -1045,8 +999,8 @@ msgstr "Note"
 #: CRM/Contact/BAO/Contact.php CRM/Contact/DAO/Contact.php
 #: CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Relationship.php
 #: CRM/Contact/Selector.php CRM/Core/DAO/CustomGroup.php
-#: CRM/Dedupe/DAO/RuleGroup.php CRM/Grant/Import/Form/UploadFile.php
-#: CRM/Grant/Selector/Search.php CRM/Import/Form/UploadFile.php
+#: CRM/Dedupe/DAO/RuleGroup.php CRM/Grant/Selector/Search.php
+#: CRM/Import/Form/UploadFile.php
 msgid "Individual"
 msgstr "Individuo"
 
@@ -1054,8 +1008,8 @@ msgstr "Individuo"
 #: CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Relationship.php
 #: CRM/Contact/Form/Task/AddToHousehold.php CRM/Contact/Selector.php
 #: CRM/Core/DAO/CustomGroup.php CRM/Dedupe/DAO/RuleGroup.php
-#: CRM/Grant/Import/Form/UploadFile.php CRM/Grant/Selector/Search.php
-#: CRM/Import/Form/UploadFile.php templates/CRM/Contact/Form/Edit.tpl
+#: CRM/Grant/Selector/Search.php CRM/Import/Form/UploadFile.php
+#: templates/CRM/Contact/Form/Edit.tpl
 msgid "Household"
 msgstr "Famiglia"
 
@@ -1063,8 +1017,8 @@ msgstr "Famiglia"
 #: CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Relationship.php
 #: CRM/Contact/Form/Task/AddToOrganization.php CRM/Contact/Selector.php
 #: CRM/Core/DAO/CustomGroup.php CRM/Dedupe/DAO/RuleGroup.php
-#: CRM/Grant/Import/Form/UploadFile.php CRM/Grant/Selector/Search.php
-#: CRM/Import/Form/UploadFile.php templates/CRM/Contact/Form/Edit.tpl
+#: CRM/Grant/Selector/Search.php CRM/Import/Form/UploadFile.php
+#: templates/CRM/Contact/Form/Edit.tpl
 msgid "Organization"
 msgstr "Organizzazione"
 
@@ -1128,8 +1082,8 @@ msgstr "Sesso"
 #: CRM/Contact/Form/Search/Custom/PostalMailing.php
 #: CRM/Contact/Form/Search/Custom/Sample.php CRM/Contact/Selector.php
 #: CRM/Core/DAO/MappingField.php CRM/Dedupe/DAO/RuleGroup.php
-#: CRM/Grant/Import/Form/UploadFile.php CRM/Grant/Selector/Search.php
-#: CRM/Import/Form/UploadFile.php templates/CRM/Admin/Page/DedupeFind.tpl
+#: CRM/Grant/Selector/Search.php CRM/Import/Form/UploadFile.php
+#: templates/CRM/Admin/Page/DedupeFind.tpl
 #: templates/CRM/Admin/Page/DedupeRules.tpl
 msgid "Contact Type"
 msgstr "Tipologia Contatto"
@@ -2234,10 +2188,6 @@ msgstr "Opzioni Valore"
 msgid "Delete Grants"
 msgstr "Elimina Gruppo"
 
-#: CRM/Grant/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
-msgid "No Duplicate Checking"
-msgstr "Nessun Controllo Duplicati"
-
 #: CRM/Group/Form/Edit.php CRM/Group/Page/Group.php
 msgid "Delete Group"
 msgstr "Elimina Gruppo"
@@ -2264,10 +2214,41 @@ msgstr "Tabella Entità Proprietario"
 msgid "Server Url"
 msgstr "URL server"
 
+#: CRM/Upgrade/TwoZero/Form/Step1.php CRM/Upgrade/TwoZero/Form/Step2.php
+#: CRM/Upgrade/TwoZero/Form/Step3.php CRM/Upgrade/TwoZero/Form/Step4.php
+#: CRM/Upgrade/TwoZero/Form/Step5.php CRM/Upgrade/TwoZero/Form/Step6.php
+msgid "Post-condition failed for upgrade step %1."
+msgstr ""
+
+#: CRM/Upgrade/TwoZero/Form/Step2.php CRM/Upgrade/TwoZero/Form/Step3.php
+#: CRM/Upgrade/TwoZero/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step5.php
+#: CRM/Upgrade/TwoZero/Form/Step6.php CRM/Upgrade/TwoZero/Form/Step7.php
+msgid "Pre-condition failed for upgrade step %1."
+msgstr ""
+
 #: CRM/Upgrade/TwoZero/Form/Step2.php CRM/Upgrade/TwoZero/Form/Step3.php
 #: CRM/Upgrade/TwoZero/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step5.php
 msgid "Upgrade & Continue"
 msgstr "Aggiorna e Continua"
+
+#: CRM/Upgrade/TwoZero/Form/Step3.php CRM/Upgrade/TwoZero/Form/Step4.php
+#: CRM/Upgrade/TwoZero/Form/Step5.php CRM/Upgrade/TwoZero/Form/Step6.php
+#, fuzzy
+msgid "Database consistency check failed for step %1."
+msgstr "Controllo consistenza database fallito."
+
+#: CRM/Upgrade/TwoZero/Form/Step3.php CRM/Upgrade/TwoZero/Form/Step4.php
+#: CRM/Upgrade/TwoZero/Form/Step6.php
+#, fuzzy
+msgid "FK constraint names not in the required format."
+msgstr ""
+"Controllo di consistenza del database fallito per il passo 3. I nomi dei "
+"vincoli FK non sono nel formato richiesto."
+
+#: CRM/Upgrade/TwoZero/Form/Step3.php CRM/Upgrade/TwoZero/Form/Step4.php
+#: CRM/Upgrade/TwoZero/Form/Step6.php
+msgid "Please rebuild your 1.9 database to ensure schema integrity."
+msgstr ""
 
 #: CRM/ACL/BAO/ACL.php
 msgid "Contact Group"
@@ -2531,6 +2512,26 @@ msgstr "Il tipo di Attività selezionato è stato cancellato."
 #: CRM/Activity/Form/Activity.php
 msgid "Activity '%1' has been saved."
 msgstr "L'attività \"%1\" è stata salvata."
+
+#: CRM/Activity/Import/Form/MapField.php
+msgid "Contact ID"
+msgstr "ID Contatto"
+
+#: CRM/Activity/Import/Form/MapField.php
+msgid ""
+"Missing required contact matching fields. (Should be First AND Last Name or "
+"Primary Email or First Name, Last Name AND Primary Email.)"
+msgstr ""
+"Campi contatto richiesti mancanti (Dovrebbero essere Nome e Cognome o email "
+"primaria o nome, cognome e email primaria)"
+
+#: CRM/Activity/Import/Form/MapField.php
+msgid "Missing required contact matching field: Contact ID."
+msgstr "Campo contatto corrispondente richiesto mancante: ID Contatto."
+
+#: CRM/Activity/Import/Form/MapField.php
+msgid "Missing required field: %1"
+msgstr "Campo richiesto mancante: %1"
 
 #: CRM/Activity/Import/Form/UploadFile.php
 msgid "On duplicate entries"
@@ -4724,6 +4725,12 @@ msgid "Add Contacts to Event"
 msgstr "Aggiungi Contatti ad Evento"
 
 #: CRM/Core/BAO/CMSUser.php
+msgid ""
+"Cannot connect to UF db via %1. Please check the CIVICRM_UF_DSN value in "
+"your civicrm.settings.php file"
+msgstr ""
+
+#: CRM/Core/BAO/CMSUser.php
 msgid "Synchronize Users to Contacts completed."
 msgstr "Sincronizzazione Utenti-Contatti completata."
 
@@ -5089,6 +5096,10 @@ msgstr "Gestione mail"
 #: CRM/Core/Block.php
 msgid "Logout"
 msgstr "Logout"
+
+#: CRM/Core/Config.php
+msgid "You need to define %1 in %2"
+msgstr ""
 
 #: CRM/Core/Config.php
 msgid ""
@@ -6065,7 +6076,8 @@ msgstr "Prefissi Individuo (Sig., Sig.ra, ...)"
 
 #: CRM/Core/Menu.php
 msgid "Options for individual contact prefixes (e.g. Ms., Mr., Dr. etc.)."
-msgstr "Opzioni per i prefissi dei contatti individuo (Sig., Sig,ra, Dr., etc)."
+msgstr ""
+"Opzioni per i prefissi dei contatti individuo (Sig., Sig,ra, Dr., etc)."
 
 #: CRM/Core/Menu.php
 msgid "Individual Suffixes (Jr, Sr...)"
@@ -6768,8 +6780,8 @@ msgid ""
 "spaces and underline ( _ ) characters. The length of the variable string "
 "should be less than 31 characters"
 msgstr ""
-"Prego inserire un valore valido per questo campo. Potete usare a-z, A-Z, "
-"1-9, spazi e trattini di sottolineatura (_).La lunghezza della stringa "
+"Prego inserire un valore valido per questo campo. Potete usare a-z, A-Z, 1-"
+"9, spazi e trattini di sottolineatura (_).La lunghezza della stringa "
 "variabile deve essere meno di 31 caratteri"
 
 #: CRM/Custom/Form/Option.php templates/CRM/Admin/Page/OptionValue.tpl
@@ -7195,27 +7207,6 @@ msgstr "Totale Contatti selezionati: %1"
 msgid "Print Grant List"
 msgstr "Stampa elenco contatti"
 
-#: CRM/Grant/Import/Form/MapField.php
-#, fuzzy
-msgid "Duplicate Import Membership Mapping Name"
-msgstr "Nome Mappatura di Importazione duplicato"
-
-#: CRM/Grant/Import/Form/MapField.php
-msgid "Select saved mapping"
-msgstr "Seleziona mappatura salvata"
-
-#: CRM/Grant/Import/Form/UploadFile.php
-msgid "On Duplicate Entries"
-msgstr "Per le voci duplicate"
-
-#: CRM/Grant/Import/Parser/Participant.php
-msgid "Select either EventID OR Event Title"
-msgstr "Seleziona l'EventID o il titolo dell'evento"
-
-#: CRM/Grant/Import/Parser.php
-msgid "View Participant URL"
-msgstr "Visualizza URL partecipante"
-
 #: CRM/Grant/Invoke.php
 #, fuzzy
 msgid "Manage Grant"
@@ -7368,6 +7359,10 @@ msgid "Lookup mapping info during import?"
 msgstr "Cerca le informazioni sulla mappatura durante l'importazione?"
 
 #: CRM/Import/Form/UploadFile.php
+msgid "No Duplicate Checking"
+msgstr "Nessun Controllo Duplicati"
+
+#: CRM/Import/Form/UploadFile.php
 msgid "For Duplicate Contacts"
 msgstr "Per i Contatti Duplicati"
 
@@ -7436,8 +7431,8 @@ msgid ""
 "The Price Set '%1' has not been deleted! You must delete all price fields in "
 "this set prior to deleting the set."
 msgstr ""
-"L'insieme di prezzi \"%1\" non è stato eliminato! Si devono cancellare tutti i "
-"campi prezzo dell'insieme prima di eliminare l'insieme."
+"L'insieme di prezzi \"%1\" non è stato eliminato! Si devono cancellare tutti "
+"i campi prezzo dell'insieme prima di eliminare l'insieme."
 
 #: CRM/Price/Form/Field.php
 msgid "Input Field Type"
@@ -7877,8 +7872,7 @@ msgstr "Titolo elenchi"
 msgid ""
 "Please enter a valid title for this field when displayed in user listings."
 msgstr ""
-"Inserire un titolo valido per questo campo visualizzato negli elenchi "
-"utenti."
+"Inserire un titolo valido per questo campo visualizzato negli elenchi utenti."
 
 #: CRM/UF/Form/Field.php templates/CRM/UF/Page/Field.tpl
 msgid "Searchable?"
@@ -8092,7 +8086,8 @@ msgstr "Aggiornamento a CiviCRM 2.0: Passo 1 (pulizia database)"
 msgid ""
 "This process will upgrade your v1.9 CiviCRM database to the v2.0 database "
 "format."
-msgstr "Questo processo aggiornerà il database di CiviCRM v1.9 al formato v2.0."
+msgstr ""
+"Questo processo aggiornerà il database di CiviCRM v1.9 al formato v2.0."
 
 #: CRM/Upgrade/TwoZero/Form/Step1.php
 msgid ""
@@ -8100,8 +8095,7 @@ msgid ""
 "and codebase files before starting the upgrade process."
 msgstr ""
 "Assicuratevi di avere un backup completo e aggiornato del database di "
-"CiviCRM e dei file del codice prima di iniziare il processo di "
-"aggiornamento."
+"CiviCRM e dei file del codice prima di iniziare il processo di aggiornamento."
 
 #: CRM/Upgrade/TwoZero/Form/Step1.php
 msgid ""
@@ -8137,14 +8131,6 @@ msgid "Step Two will upgrade the contact records in your database."
 msgstr "Il Passo 2 aggiornerà i record dei contatti nel database."
 
 #: CRM/Upgrade/TwoZero/Form/Step3.php
-msgid ""
-"Database consistency check failed for step 3. FK constraint names not in the "
-"required format."
-msgstr ""
-"Controllo di consistenza del database fallito per il passo 3. I nomi dei "
-"vincoli FK non sono nel formato richiesto."
-
-#: CRM/Upgrade/TwoZero/Form/Step3.php
 msgid "CiviCRM 2.0 Upgrade: Step Three (Location Data Upgrade)"
 msgstr ""
 "Aggiornamento a CiviCRM 2.0: Passo 3 (Aggiornamento dei dati dei recapiti)"
@@ -8154,32 +8140,16 @@ msgid "This step will upgrade the location data in your database."
 msgstr "Questo passo aggiornerà i dati dei recapiti nel database."
 
 #: CRM/Upgrade/TwoZero/Form/Step4.php
-msgid ""
-"Database consistency check failed for step 4. FK constraint names not in the "
-"required format."
-msgstr ""
-"Controllo di consistenza del database fallito per il passo 4. I nomi dei "
-"vincoli FK non sono nel formato richiesto."
-
-#: CRM/Upgrade/TwoZero/Form/Step4.php
 msgid "CiviCRM 2.0 Upgrade: Step Four (Activity Upgrade)"
 msgstr "Aggiornamento a CiviCRM 2.0: Passo 4 (Aggiornamento delle attività)"
 
 #: CRM/Upgrade/TwoZero/Form/Step5.php
-msgid ""
-"Database consistency check failed for Step 5. Value missing in "
-"civicrm_custom_field for the column 'name'."
+msgid "Value missing in %1 for the column '%2'."
 msgstr ""
-"Controllo di consistenza del database fallito per il passo 5. Valori "
-"mancanti in civicrm_custom_field per la colonna 'name'."
 
 #: CRM/Upgrade/TwoZero/Form/Step5.php
-msgid ""
-"Database consistency check failed for Step 5. A custom field can not have "
-"'id' as the 'name'."
+msgid "A custom field can not have '%1' as the '%2'."
 msgstr ""
-"Controllo di consistenza del database fallito per il passo 5. Un campo "
-"personalizzato non ha 'id' come 'nome'."
 
 #: CRM/Upgrade/TwoZero/Form/Step5.php
 msgid "CiviCRM 2.0 Upgrade: Step Five (Custom Data Upgrade)"
@@ -8189,14 +8159,6 @@ msgstr ""
 #: CRM/Upgrade/TwoZero/Form/Step5.php
 msgid "This step will upgrade the custom section of your database."
 msgstr "Questo passo aggiornerà la sezione personalizzata del vostro database."
-
-#: CRM/Upgrade/TwoZero/Form/Step6.php
-msgid ""
-"Database consistency check failed for step 6. FK constraint names not in the "
-"required format."
-msgstr ""
-"Controllo di consistenza del database fallito per il passo 6. I nomi dei "
-"vincoli FK non sono nel formato richiesto."
 
 #: CRM/Upgrade/TwoZero/Form/Step6.php
 msgid "CiviCRM 2.0 Upgrade: Step Six (Upgrade Miscellaneous Data)"
@@ -8674,8 +8636,8 @@ msgstr "Nuova assegnazione di ruolo"
 #: templates/CRM/ACL/Page/EntityRole.tpl
 msgid "There are no Role Assignments. You can <a href='%1'>add one</a> now."
 msgstr ""
-"Non ci sono assegnazioni di ruolo. Se ne può <a href=\"%1\">aggiungere una</a> "
-"ora."
+"Non ci sono assegnazioni di ruolo. Se ne può <a href=\"%1\">aggiungere una</"
+"a> ora."
 
 #: templates/CRM/Activity/Form/ActivityLinks.tpl
 #: templates/CRM/Contact/Form/Task/Email.tpl
@@ -8827,10 +8789,10 @@ msgid ""
 "them in the original import file, cancel this import and begin again at step "
 "1."
 msgstr ""
-"CiviCRM ha rilevato dei dati non validi o degli errori di formattazione in "
-"%1 record. Se continuate, questi record saranno saltati, OPPURE potete "
-"scaricare un file con solo questi record problematici usando <a "
-"href='%2'>Scarica errori</a>, correggerli nel file originale, annullare "
+"CiviCRM ha rilevato dei dati non validi o degli errori di formattazione in %"
+"1 record. Se continuate, questi record saranno saltati, OPPURE potete "
+"scaricare un file con solo questi record problematici usando <a href='%"
+"2'>Scarica errori</a>, correggerli nel file originale, annullare "
 "l'importazione e cominciare di nuovo dal passo 1."
 
 #: templates/CRM/Activity/Import/Form/Preview.tpl
@@ -8844,9 +8806,9 @@ msgid ""
 msgstr ""
 "CiviCRM ha rilevato dei dati con conflitti di id in %1 record. Se "
 "continuate, questi record saranno saltati, OPPURE potete scaricare un file "
-"con solo questi record problematici usando <a href='%2'>Scarica "
-"conflitti</a>, correggerli nel file originale, annullare l'importazione e "
-"cominciare di nuovo dal passo 1."
+"con solo questi record problematici usando <a href='%2'>Scarica conflitti</"
+"a>, correggerli nel file originale, annullare l'importazione e cominciare di "
+"nuovo dal passo 1."
 
 #: templates/CRM/Activity/Import/Form/Preview.tpl
 #: templates/CRM/Grant/Import/Form/Preview.tpl
@@ -8956,9 +8918,8 @@ msgid ""
 "You can <a href='%1'>Download Mismatched Activity records</a>. You may then "
 "correct them, and import the new file with the corrected data."
 msgstr ""
-"Si possono <a href='%1'>Scaricare i record di attività non "
-"corrispondenti</a>. Si possono poi correggere e reimportare il file con i "
-"dati corretti."
+"Si possono <a href='%1'>Scaricare i record di attività non corrispondenti</"
+"a>. Si possono poi correggere e reimportare il file con i dati corretti."
 
 #: templates/CRM/Activity/Import/Form/Summary.tpl
 #: templates/CRM/Grant/Import/Form/Summary.tpl
@@ -9160,8 +9121,7 @@ msgstr "Non ci sono duplicati che corrispondono a questa regola."
 #: templates/CRM/Activity/Selector/Activity.tpl
 msgid "You can go to the Activities tab to create or attach activity records."
 msgstr ""
-"Potete usare la scheda Attività per creare o assegnare record delle "
-"attività."
+"Potete usare la scheda Attività per creare o assegnare record delle attività."
 
 #: templates/CRM/Activity/Selector/Activity.tpl
 msgid "There are no Activities to display."
@@ -9348,8 +9308,8 @@ msgid ""
 "Tokens may be included (<a href='%1' target='_blank' title='%2'>token "
 "documentation</a>)."
 msgstr ""
-"Si possono includere  dei segnaposto (si veda la <a href=\"%1\" "
-"target=\"_blank\" title=\"%2\">documentazione sui segnaposto</a>)."
+"Si possono includere  dei segnaposto (si veda la <a href=\"%1\" target="
+"\"_blank\" title=\"%2\">documentazione sui segnaposto</a>)."
 
 #: templates/CRM/Admin/Form/MessageTemplates.tpl
 msgid "Text formatted message."
@@ -9748,10 +9708,10 @@ msgid ""
 "strong>. (Standard contact address editing forms automatically display "
 "corresponding state / province options for the selected country.)"
 msgstr ""
-"Quali stati/province rendere disponibili nel campo di selezione "
-"Stato/provincia <strong>per i campi personalizzati e i profili</strong> (i "
-"moduli standard visualizzano automaticamente gli stati e le province "
-"disponibili per la nazione selezionata)."
+"Quali stati/province rendere disponibili nel campo di selezione Stato/"
+"provincia <strong>per i campi personalizzati e i profili</strong> (i moduli "
+"standard visualizzano automaticamente gli stati e le province disponibili "
+"per la nazione selezionata)."
 
 #: templates/CRM/Admin/Form/Setting/Mail.tpl
 msgid ""
@@ -9764,8 +9724,8 @@ msgstr ""
 "di posta per la componente opzionale CiviMail, che gestisce i mailing. Non "
 "sono usate per l'invio di email a singoli contatti. Per ulteriori "
 "informazioni si faccia riferimento alla <a href='%1' target='_blank' "
-"title='Guida di CiviMail (si apre in una nuova finestra)'>guida di "
-"CiviMail</a>"
+"title='Guida di CiviMail (si apre in una nuova finestra)'>guida di CiviMail</"
+"a>"
 
 #: templates/CRM/Admin/Form/Setting/Mail.tpl
 msgid "CiviMail Configuration"
@@ -9831,8 +9791,8 @@ msgid ""
 "CiviCRM Administration page.."
 msgstr ""
 "Volete che CiviCRM controlli automaticamente le nuove versioni del software? "
-"Se abilitato, le comunicazioni delle nuove versioni verranno riportate "
-"nella pagina principale dell'amministrazione di CiviCRM."
+"Se abilitato, le comunicazioni delle nuove versioni verranno riportate nella "
+"pagina principale dell'amministrazione di CiviCRM."
 
 #: templates/CRM/Admin/Form/Setting/Miscellaneous.tpl
 msgid ""
@@ -9851,8 +9811,8 @@ msgid ""
 msgstr ""
 "Nome del file di un font true-type adatto (*.ttf) per visualizzare "
 "l'immagine CAPTCHA. <strong>IMPORTANTE: Se avete abilitato il CAPTCHA per "
-"uno dei moduli di input sono necessari il font e il percorso per il "
-"CAPTCHA.</strong>"
+"uno dei moduli di input sono necessari il font e il percorso per il CAPTCHA."
+"</strong>"
 
 #: templates/CRM/Admin/Form/Setting/Miscellaneous.tpl
 msgid ""
@@ -10024,13 +9984,14 @@ msgid ""
 "related to the Drupal Role."
 msgstr ""
 "Le ACL permettono di controllare gli accessi ai dati di CiviCRM. Una ACL "
-"consiste di una <strong>Operazione</strong> (es. \"visualizza\" o \"modifica\"), "
-"un <strong>insieme di dati</strong> su cui si possa fare l'operazione (es. "
-"un gruppo di contatti, un profilo o un insieme di campi personalizzati), e "
-"un <strong>ruolo</strong> che ha il permesso di eseguire questa operazione. "
-"Per avere maggiori informazioni si faccia riferimento alla <a href=\"%1\" "
-"target=\"_blank\" title=\"%2\">Documentazione sul controllo degli accessi</a>. "
-"Da notare che le ACL di CiviCRM non sono legate ai ruoli di Drupal."
+"consiste di una <strong>Operazione</strong> (es. \"visualizza\" o \"modifica"
+"\"), un <strong>insieme di dati</strong> su cui si possa fare l'operazione "
+"(es. un gruppo di contatti, un profilo o un insieme di campi "
+"personalizzati), e un <strong>ruolo</strong> che ha il permesso di eseguire "
+"questa operazione. Per avere maggiori informazioni si faccia riferimento "
+"alla <a href=\"%1\" target=\"_blank\" title=\"%2\">Documentazione sul "
+"controllo degli accessi</a>. Da notare che le ACL di CiviCRM non sono legate "
+"ai ruoli di Drupal."
 
 #: templates/CRM/Admin/Page/Access.tpl
 msgid ""
@@ -10138,8 +10099,8 @@ msgid ""
 "A newer version of CiviCRM is available: %1 (this site is currently running %"
 "2)."
 msgstr ""
-"E' disponibile una nuova versione di CiviCRM: %1 (questo sito sta usando la "
-"%2)."
+"E' disponibile una nuova versione di CiviCRM: %1 (questo sito sta usando la %"
+"2)."
 
 #: templates/CRM/Admin/Page/Admin.tpl
 msgid ""
@@ -10158,8 +10119,8 @@ msgid ""
 "Administer your CiviCRM site using the links on this page. Click %1 for "
 "descriptions of the options in each section."
 msgstr ""
-"Amministrate il sito di CiviCRM usando i link su questa pagina. Cliccate su "
-"%1 per avere la descrizione delle opzioni in ciascuna sezione."
+"Amministrate il sito di CiviCRM usando i link su questa pagina. Cliccate su %"
+"1 per avere la descrizione delle opzioni in ciascuna sezione."
 
 #: templates/CRM/Admin/Page/DedupeFind.tpl
 msgid ""
@@ -10233,9 +10194,9 @@ msgid ""
 "That feature searches your existing contact records, and identifies "
 "'suspected' duplicates. It uses <a href='%1'>Duplicate Contact Rules</a>."
 msgstr ""
-"NOTA: Queste regole non vengono usate per <strong>Trova contatti "
-"duplicati</strong>, che  cerca i contatti esistenti e identifica i sospetti "
-"duplicati, usando le  <a href='%1'>Regole per i contatti duplicati</a>."
+"NOTA: Queste regole non vengono usate per <strong>Trova contatti duplicati</"
+"strong>, che  cerca i contatti esistenti e identifica i sospetti duplicati, "
+"usando le  <a href='%1'>Regole per i contatti duplicati</a>."
 
 #: templates/CRM/Admin/Page/DupeMatch.tpl
 msgid "Contact Matching Rule"
@@ -10330,8 +10291,8 @@ msgstr "Riservata?"
 #: templates/CRM/Admin/Page/OptionGroup.tpl
 msgid "There are no Option Group entered. You can <a href='%1'>add one</a>."
 msgstr ""
-"Non sono stati inseriti gruppi di opzioni; <a href=\"%1\">da qui</a> se ne può "
-"inserire uno."
+"Non sono stati inseriti gruppi di opzioni; <a href=\"%1\">da qui</a> se ne "
+"può inserire uno."
 
 #: templates/CRM/Admin/Page/Options.tpl
 msgid ""
@@ -10468,8 +10429,8 @@ msgid ""
 msgstr ""
 "Qui sotto si possono aggiungere o modificare le ACL; si possono creare ruoli "
 "di ACL aggiuntivi e dare i permessi ai ruoli <a href=\"%1\">qui</a>, e <a "
-"href=\"%2\">qui</a> si possono assegnare ruoli ai contatti di CiviCRM che sono "
-"utenti del vostro sito."
+"href=\"%2\">qui</a> si possono assegnare ruoli ai contatti di CiviCRM che "
+"sono utenti del vostro sito."
 
 #: templates/CRM/Admin/Page/Options.tpl
 msgid ""
@@ -10506,8 +10467,8 @@ msgstr "Riservato"
 #: templates/CRM/Admin/Page/Options.tpl
 msgid "There are no option values entered. You can <a href='%1'>add one</a>."
 msgstr ""
-"Non sono stati inseriti valori per le opzioni; <a href=\"%1\">da qui</a> se ne "
-"può inserire uno."
+"Non sono stati inseriti valori per le opzioni; <a href=\"%1\">da qui</a> se "
+"ne può inserire uno."
 
 #: templates/CRM/Admin/Page/OptionValue.tpl
 msgid ""
@@ -10523,8 +10484,8 @@ msgid ""
 "There are no option choices entered for this option group. You can <a href='%"
 "1'>add one</a>."
 msgstr ""
-"Non esistono scelte inserite per questo gruppo di opzioni. Se ne può <a "
-"href=\"%1\">aggiungere una</a>."
+"Non esistono scelte inserite per questo gruppo di opzioni. Se ne può <a href="
+"\"%1\">aggiungere una</a>."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.tpl
 msgid ""
@@ -10597,8 +10558,8 @@ msgid ""
 msgstr ""
 "Si possono definire quanti tipi aggiuntivi di relazione si vuole. Una volta "
 "creatone uno, si possono anche definire dei campi personalizzati per "
-"estendere le informazioni sulle relazioni di quel tipo da <a "
-"href='%1'>Impostazioni CiviCRM &raquo; Dati personalizzati</a>."
+"estendere le informazioni sulle relazioni di quel tipo da <a href='%"
+"1'>Impostazioni CiviCRM &raquo; Dati personalizzati</a>."
 
 #: templates/CRM/Admin/Page/RelationshipType.tpl
 msgid "Relationship A to B"
@@ -10764,8 +10725,8 @@ msgid ""
 msgstr ""
 "I tag possono essere assegnati a qualsiasi record di contatto, e sono un "
 "modo utile per ricercare contatti. Si possono creare quanti tag si vuole per "
-"organizzare e segmentare i record (<a href=\"%1\" target=\"_blank\" "
-"title=\"%2\">leggi tutto...</a>)."
+"organizzare e segmentare i record (<a href=\"%1\" target=\"_blank\" title=\"%"
+"2\">leggi tutto...</a>)."
 
 #: templates/CRM/Admin/Page/Tag.tpl
 msgid "There are no Tags present. You can <a href='%1'>add one</a>."
@@ -10905,10 +10866,10 @@ msgid ""
 "source</a>. <a href='%4'>View issues and report bugs</a>. <a href='%"
 "5'>Online documentation</a>."
 msgstr ""
-"Powered by CiviCRM %1. CiviCRM è disponibile liberamente sotto la <a "
-"href='%2'>GNU Affero General Public License (GNU AGPL)</a>. <a "
-"href='%3'>Scarica sorgente</a>. <a href='%4'>Visualizza i problemi noti e "
-"inviane</a>. <a href='%5'>Documentazione online</a>."
+"Powered by CiviCRM %1. CiviCRM è disponibile liberamente sotto la <a href='%"
+"2'>GNU Affero General Public License (GNU AGPL)</a>. <a href='%3'>Scarica "
+"sorgente</a>. <a href='%4'>Visualizza i problemi noti e inviane</a>. <a "
+"href='%5'>Documentazione online</a>."
 
 #: templates/CRM/common/pager.tpl
 msgid "Rows per page:"
@@ -10938,8 +10899,8 @@ msgid ""
 "Provider (<a href='%1' target='_blank' title='%2'>read more...</a>)."
 msgstr ""
 "La latitudine e la longitudine possono essere inserite automaticamente "
-"abilitando un provider di mappe (<a href='%1' target='_blank' "
-"title='%2'>leggi tutto...</a>)."
+"abilitando un provider di mappe (<a href='%1' target='_blank' title='%"
+"2'>leggi tutto...</a>)."
 
 #: templates/CRM/Contact/Form/Address/postal_code.tpl
 msgid ""
@@ -11116,8 +11077,7 @@ msgstr ""
 "Cliccate su <strong>Unisci</strong> per spostare i dati dal Contatto "
 "Duplicato a sinistra al Contatto Principale. Oltre ai dati del contatto "
 "(indirizzo, telefono, email, ...) si può scegliere di spostare tutti o "
-"alcuni dei record di attività correlati (gruppi, contributi, iscrizioni "
-"etc)."
+"alcuni dei record di attività correlati (gruppi, contributi, iscrizioni etc)."
 
 #: templates/CRM/Contact/Form/Merge.tpl
 msgid "Mark All"
@@ -11458,8 +11418,7 @@ msgid ""
 "'Volunteer' + any other words (e.g. Volunteer for Open House)."
 msgstr ""
 "Per una ricerca parziale utilizzare il carattere “%”. Ad esempio “Istituto%” "
-"fornirà l'elenco di tutte le organizzazioni che cominciano per la "
-"“Istituto”."
+"fornirà l'elenco di tutte le organizzazioni che cominciano per la “Istituto”."
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid ""
@@ -11856,8 +11815,8 @@ msgid ""
 "There are no contributions recorded for this contact. You can <a href='%"
 "1'>enter one now</a>."
 msgstr ""
-"Non ci sono contributi registrati per questo contatto. <a "
-"href=\"%2\">Aggiungine uno ora</a>."
+"Non ci sono contributi registrati per questo contatto. <a href=\"%2"
+"\">Aggiungine uno ora</a>."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "There are no contributions recorded for this contact."
@@ -12322,8 +12281,8 @@ msgid ""
 "There are no event registrations recorded for this contact. You can <a "
 "href='%1'>enter one now</a>."
 msgstr ""
-"Non ci sono iscrizioni ad eventi per questo contatto. Ne potete <a "
-"href=\"%2\">aggiungere una ora</a>."
+"Non ci sono iscrizioni ad eventi per questo contatto. Ne potete <a href=\"%2"
+"\">aggiungere una ora</a>."
 
 #: templates/CRM/Contact/Page/View/Participant.tpl
 msgid "There are no event registrations recorded for this contact."
@@ -12348,8 +12307,8 @@ msgid ""
 "There are no Relationships entered for this contact. You can <a href='%"
 "1'>add one</a>."
 msgstr ""
-"Non esistono relazioni per questo contatto. Se ne può <a "
-"href=\"%1\">aggiungere una ora</a>."
+"Non esistono relazioni per questo contatto. Se ne può <a href=\"%1"
+"\">aggiungere una ora</a>."
 
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 msgid "Inactive Relationships"
@@ -12645,9 +12604,9 @@ msgid ""
 msgstr ""
 "Questo campo è incluso nei moduli di ricerca Avanzato e dei componenti? "
 "NOTA: questa caratteristica è al momento disponibile per i campi "
-"personalizzati usati per <strong>Contatti</strong>, "
-"<strong>Contributi</strong>, <strong>Iscrizioni</strong> e "
-"<strong>Partecipanti agli eventi</strong>."
+"personalizzati usati per <strong>Contatti</strong>, <strong>Contributi</"
+"strong>, <strong>Iscrizioni</strong> e <strong>Partecipanti agli eventi</"
+"strong>."
 
 #: templates/CRM/Custom/Form/Field.tpl templates/CRM/Price/Form/Field.tpl
 msgid "View / Edit Multiple Choice Options"
@@ -12712,8 +12671,8 @@ msgstr ""
 "Selezionate 'Scheda' per aggiungere una scheda di navigazione separata per "
 "la visualizzazione e la modifica di questi valori (in genere utile per i "
 "dati a cui si accede meno e/o per quelli più lunghi).<strong>NOTA: questa "
-"impostazione si applica solo ai gruppi personalizzati usati per i "
-"Contatti.</strong>"
+"impostazione si applica solo ai gruppi personalizzati usati per i Contatti.</"
+"strong>"
 
 #: templates/CRM/Custom/Form/Group.tpl
 msgid ""
@@ -12844,8 +12803,8 @@ msgstr "Nuovo Campo Personalizzato"
 msgid ""
 "There are no custom fields for custom group '%1', <a href='%2'>add one</a>."
 msgstr ""
-"Non esistono campi personalizzati per il gruppo '%1', se ne può <a "
-"href=\"%2\">aggiungere uno ora</a>."
+"Non esistono campi personalizzati per il gruppo '%1', se ne può <a href=\"%2"
+"\">aggiungere uno ora</a>."
 
 #: templates/CRM/Custom/Page/Group.tpl
 msgid ""
@@ -12879,8 +12838,8 @@ msgid ""
 "No custom data groups have been created yet. You can <a href='%1'>add one</"
 "a>."
 msgstr ""
-"Non sono presenti gruppi di dati personalizzati. Ne potete <a "
-"href=\"%1\">aggiungere uno</a>."
+"Non sono presenti gruppi di dati personalizzati. Ne potete <a href=\"%1"
+"\">aggiungere uno</a>."
 
 #: templates/CRM/Custom/Page/Option.tpl
 msgid ""
@@ -13632,8 +13591,8 @@ msgstr "Nuovo Campo Prezzo"
 #: templates/CRM/Price/Page/Field.tpl
 msgid "There are no fields for price set '%1', <a href='%2'>add one</a>."
 msgstr ""
-"Non ci sono campi per l'insieme di prezzi \"%1\", <a href=\"%2\">aggiungine uno "
-"ora</a>."
+"Non ci sono campi per l'insieme di prezzi \"%1\", <a href=\"%2\">aggiungine "
+"uno ora</a>."
 
 #: templates/CRM/Price/Page/Option.tpl
 msgid ""
@@ -13651,8 +13610,8 @@ msgstr ""
 msgid ""
 "There are no options for the price field '%1', <a href='%2'>add one</a>."
 msgstr ""
-"Non ci sono opzioni per il campo di prezzo \"%1\",  <a href=\"%2\">aggiungine "
-"una ora</a>."
+"Non ci sono opzioni per il campo di prezzo \"%1\",  <a href=\"%2"
+"\">aggiungine una ora</a>."
 
 #: templates/CRM/Price/Page/Set.tpl
 msgid ""
@@ -14051,8 +14010,8 @@ msgid ""
 "No CiviCRM Profiles have been created yet. You can <a href='%1'>add one now</"
 "a>."
 msgstr ""
-"Non è stato creato nessun profilo di CiviCRM. Potete <a "
-"href='%1'>aggiungerne uno ora</a>."
+"Non è stato creato nessun profilo di CiviCRM. Potete <a href='%"
+"1'>aggiungerne uno ora</a>."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Home"
@@ -14667,6 +14626,50 @@ msgstr "Messaggio intercettato da un filtro di contenuto"
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Errore nella transazione SMTP"
+
+#, fuzzy
+#~ msgid "Duplicate Import Membership Mapping Name"
+#~ msgstr "Nome Mappatura di Importazione duplicato"
+
+#~ msgid "Select saved mapping"
+#~ msgstr "Seleziona mappatura salvata"
+
+#~ msgid "On Duplicate Entries"
+#~ msgstr "Per le voci duplicate"
+
+#~ msgid "Select either EventID OR Event Title"
+#~ msgstr "Seleziona l'EventID o il titolo dell'evento"
+
+#~ msgid "View Participant URL"
+#~ msgstr "Visualizza URL partecipante"
+
+#~ msgid ""
+#~ "Database consistency check failed for step 4. FK constraint names not in "
+#~ "the required format."
+#~ msgstr ""
+#~ "Controllo di consistenza del database fallito per il passo 4. I nomi dei "
+#~ "vincoli FK non sono nel formato richiesto."
+
+#~ msgid ""
+#~ "Database consistency check failed for Step 5. Value missing in "
+#~ "civicrm_custom_field for the column 'name'."
+#~ msgstr ""
+#~ "Controllo di consistenza del database fallito per il passo 5. Valori "
+#~ "mancanti in civicrm_custom_field per la colonna 'name'."
+
+#~ msgid ""
+#~ "Database consistency check failed for Step 5. A custom field can not have "
+#~ "'id' as the 'name'."
+#~ msgstr ""
+#~ "Controllo di consistenza del database fallito per il passo 5. Un campo "
+#~ "personalizzato non ha 'id' come 'nome'."
+
+#~ msgid ""
+#~ "Database consistency check failed for step 6. FK constraint names not in "
+#~ "the required format."
+#~ msgstr ""
+#~ "Controllo di consistenza del database fallito per il passo 6. I nomi dei "
+#~ "vincoli FK non sono nel formato richiesto."
 
 #~ msgid "State %2 \"%1\""
 #~ msgstr "Stato %2 \"%1\""

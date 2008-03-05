@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-02-27 13:35+0100\n"
+"POT-Creation-Date: 2008-03-05 16:00+0100\n"
 "PO-Revision-Date: 2008-03-03 07:36-0800\n"
 "Last-Translator: Eugenia Franzoni <eugenia@catnic.it>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -2261,13 +2261,38 @@ msgid "Print Participant List"
 msgstr ""
 
 #: CRM/Event/Import/Form/MapField.php
+msgid ""
+"Missing required contact matching fields. (Should be First AND Last Name or "
+"Primary Email or First Name, Last Name AND Primary Email.) (OR Participant "
+"ID if update mode.)"
+msgstr ""
+
+#: CRM/Event/Import/Form/MapField.php
 #, fuzzy
 msgid "Duplicate Import Participant Mapping Name"
 msgstr "Importa Contributi"
 
+#: CRM/Event/Import/Form/MapField.php
+#, fuzzy
+msgid "Select saved mapping"
+msgstr "Elimina Mappatura"
+
+#: CRM/Event/Import/Form/UploadFile.php
+msgid "On Duplicate Entries"
+msgstr ""
+
+#: CRM/Event/Import/Parser/Participant.php
+msgid "Select either EventID OR Event Title"
+msgstr ""
+
 #: CRM/Event/Import/Parser/Participant.php
 msgid "Invalid value for Event ID"
 msgstr ""
+
+#: CRM/Event/Import/Parser.php
+#, fuzzy
+msgid "View Participant URL"
+msgstr "Aggiungi Membri: %1"
 
 #: CRM/Event/Info.php
 #, fuzzy
@@ -3481,6 +3506,10 @@ msgid ""
 "Primary Email or First Name, Last Name AND Primary Email.) (OR Membership ID "
 "if update mode.)"
 msgstr ""
+
+#: CRM/Member/Import/Form/MapField.php
+msgid "Duplicate Import Membership Mapping Name"
+msgstr "Nome di mappatura di importazione iscrizioni duplicato"
 
 #: CRM/Member/Import/Parser.php
 msgid "View Membership URL"
@@ -4966,8 +4995,7 @@ msgid ""
 msgstr ""
 "I file da importare devono essere in formato CSV (comma-separated values, "
 "esportabile dai fogli di calcolo) e devono contenere i dati necessari per "
-"corrispondere ai contributi di un contatto esistente nel database di "
-"CiviCRM."
+"corrispondere ai contributi di un contatto esistente nel database di CiviCRM."
 
 #: templates/CRM/Contribute/Import/Form/UploadFile.tpl
 #: templates/CRM/Member/Import/Form/UploadFile.tpl
@@ -5239,9 +5267,9 @@ msgid ""
 msgstr ""
 "Questa tabella fornisce un riassunto dei <strong>contributi totali</strong>, "
 "ed include collegamenti diretti ai dettagli per i criteri di ricerca più "
-"utilizzati. Per eseguire le tue ricerche personalizzate clicca <a "
-"href=\"%1\">Trova Contributi</a>. Puoi cercare per Nome Contribuente, "
-"Intervallo di ammontare e molti altri criteri."
+"utilizzati. Per eseguire le tue ricerche personalizzate clicca <a href=\"%1"
+"\">Trova Contributi</a>. Puoi cercare per Nome Contribuente, Intervallo di "
+"ammontare e molti altri criteri."
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "Current Month-To-Date"
@@ -5438,9 +5466,9 @@ msgid ""
 "<a href='%1'>here</a>."
 msgstr ""
 "Seleziona un Insieme di prezzi preconfigurato per offrire più opzioni "
-"singole per i partecipanti all'evento. Altrimenti seleziona "
-"&quot;-nessuno-&quot; ed inserisci uno o pià livelli di costo nella tabella "
-"qui sotto. Crea o modifica gli Insiemi di prezzi <a href=\"%1\">qui</a>."
+"singole per i partecipanti all'evento. Altrimenti seleziona &quot;-nessuno-"
+"&quot; ed inserisci uno o pià livelli di costo nella tabella qui sotto. Crea "
+"o modifica gli Insiemi di prezzi <a href=\"%1\">qui</a>."
 
 #: templates/CRM/Event/Form/ManageEvent/Fee.tpl
 msgid "Fee Levels"
@@ -5915,9 +5943,8 @@ msgid ""
 msgstr ""
 "CiviEvent permette di creare pagine personalizzate per la creazione di "
 "eventi e per l'iscrizione online da parte degli utenti. Gli amministratori "
-"hanno la possibilità di creare <a href=\"%1\"><strong>nuovi "
-"eventi</strong></a> e <a href=\"%2\"><strong>gestire quelli già "
-"inseriti</strong></a>."
+"hanno la possibilità di creare <a href=\"%1\"><strong>nuovi eventi</strong></"
+"a> e <a href=\"%2\"><strong>gestire quelli già inseriti</strong></a>."
 
 #: templates/CRM/Event/Page/DashBoard.tpl
 msgid ""
@@ -5928,11 +5955,11 @@ msgid ""
 "2'><strong>import batches of participants</strong></a> from other sources."
 msgstr ""
 "Potete anche immettere e tracciare gli Eventi off-line. Per inserire "
-"manualmente dei contatti in un evento, usate <a href=\"%1\">Trova Contatti</a> "
-"per localizzare i contatti. Poi cliccate <strong>Visualizza</strong> per "
-"andare alla pagina del riassunto e cliccate sul link <strong>Nuovo "
-"evento</strong>. Potete anche <a href=\"%3\"> importare un gruppo di "
-"partecipanti</a> da altre fonti. "
+"manualmente dei contatti in un evento, usate <a href=\"%1\">Trova Contatti</"
+"a> per localizzare i contatti. Poi cliccate <strong>Visualizza</strong> per "
+"andare alla pagina del riassunto e cliccate sul link <strong>Nuovo evento</"
+"strong>. Potete anche <a href=\"%3\"> importare un gruppo di partecipanti</"
+"a> da altre fonti. "
 
 #: templates/CRM/Event/Page/DashBoard.tpl
 msgid ""
@@ -5943,14 +5970,13 @@ msgid ""
 "your own customized searches - click <a href='%1'>Find Participants</a>. You "
 "can search by Participant Name, Event, Date Range and Status."
 msgstr ""
-"Questa tabella fornisce un riassunto degli ultimi dieci "
-"<strong>Eventi</strong> registrati. Cliccando sul <strong>Nome "
-"dell'evento</strong> è possibile avere un'anteprima di come sarà "
-"visualizzato dai visitatori del sito. Cliccate sul <strong>conteggio dei "
-"partecipanti</strong> per visualizzare l'elenco dei partecipanti. Per "
-"eseguire le vostre ricerche personalizzate cliccate si <a href=\"%1\">Trova "
-"Partecipanti</a>. Potete cercare per Nome Partecipante, Evento, intervallo "
-"di date e stato."
+"Questa tabella fornisce un riassunto degli ultimi dieci <strong>Eventi</"
+"strong> registrati. Cliccando sul <strong>Nome dell'evento</strong> è "
+"possibile avere un'anteprima di come sarà visualizzato dai visitatori del "
+"sito. Cliccate sul <strong>conteggio dei partecipanti</strong> per "
+"visualizzare l'elenco dei partecipanti. Per eseguire le vostre ricerche "
+"personalizzate cliccate si <a href=\"%1\">Trova Partecipanti</a>. Potete "
+"cercare per Nome Partecipante, Evento, intervallo di date e stato."
 
 #: templates/CRM/Event/Page/DashBoard.tpl
 msgid "(max %1)"
@@ -6085,6 +6111,11 @@ msgid "There are no events created yet. You can <a href='%1'>add one</a>."
 msgstr ""
 "Non ci sono campi profilo CiviCRM per \"%1\", you can <a href=\"%2"
 "\">aggiungine uno ora</a>."
+
+#: templates/CRM/Event/Page/ParticipantListing.tpl
+#, fuzzy
+msgid "There are currently no participants registered for this event."
+msgstr "Non hai i permessi sufficienti per visualizzare questa pagina."
 
 #: templates/CRM/Mailing/Form/Component.tpl
 #: templates/CRM/Mailing/Page/Component.tpl
@@ -7278,14 +7309,6 @@ msgstr ""
 #~ msgstr "Prego inserire una somma valida"
 
 #, fuzzy
-#~ msgid "Select saved mapping"
-#~ msgstr "Elimina Mappatura"
-
-#, fuzzy
-#~ msgid "View Participant URL"
-#~ msgstr "Aggiungi Membri: %1"
-
-#, fuzzy
 #~ msgid "You do not have access to this page"
 #~ msgstr ""
 #~ "Non hai i permessi sufficienti per visualizzare questa Applicazione."
@@ -7312,9 +7335,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "Start Date - From"
 #~ msgstr "Data inizio"
-
-#~ msgid "Duplicate Import Membership Mapping Name"
-#~ msgstr "Nome di mappatura di importazione iscrizioni duplicato"
 
 #~ msgid "Edit Membership Type"
 #~ msgstr "Modifica Tipo Iscrizione"

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-02-27 13:35+0100\n"
+"POT-Creation-Date: 2008-03-05 16:00+0100\n"
 "PO-Revision-Date: 2007-06-10 20:32-0300\n"
 "Last-Translator: Creso Moraes <creso@enfoque.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -2202,13 +2202,36 @@ msgid "Print Participant List"
 msgstr "Imprimir Lista de Participantes"
 
 #: CRM/Event/Import/Form/MapField.php
+msgid ""
+"Missing required contact matching fields. (Should be First AND Last Name or "
+"Primary Email or First Name, Last Name AND Primary Email.) (OR Participant "
+"ID if update mode.)"
+msgstr ""
+
+#: CRM/Event/Import/Form/MapField.php
 #, fuzzy
 msgid "Duplicate Import Participant Mapping Name"
 msgstr "Nome Duplicado de Mapeamento de Importação"
 
+#: CRM/Event/Import/Form/MapField.php
+msgid "Select saved mapping"
+msgstr "Selecionar Mapeamento salvo"
+
+#: CRM/Event/Import/Form/UploadFile.php
+msgid "On Duplicate Entries"
+msgstr ""
+
+#: CRM/Event/Import/Parser/Participant.php
+msgid "Select either EventID OR Event Title"
+msgstr ""
+
 #: CRM/Event/Import/Parser/Participant.php
 msgid "Invalid value for Event ID"
 msgstr ""
+
+#: CRM/Event/Import/Parser.php
+msgid "View Participant URL"
+msgstr "Visualizar URL de Participante"
 
 #: CRM/Event/Info.php
 msgid "CiviCRM Event Engine"
@@ -3360,6 +3383,10 @@ msgid ""
 "Primary Email or First Name, Last Name AND Primary Email.) (OR Membership ID "
 "if update mode.)"
 msgstr ""
+
+#: CRM/Member/Import/Form/MapField.php
+msgid "Duplicate Import Membership Mapping Name"
+msgstr "Nome Duplicado de Mapeamento de Importação de Afiliação"
 
 #: CRM/Member/Import/Parser.php
 msgid "View Membership URL"
@@ -6379,6 +6406,10 @@ msgstr ""
 msgid "There are no events created yet. You can <a href='%1'>add one</a>."
 msgstr "Nenhum evento criado ainda. Você pode <a href=\"%1\">adicionar um</a>."
 
+#: templates/CRM/Event/Page/ParticipantListing.tpl
+msgid "There are currently no participants registered for this event."
+msgstr ""
+
 #: templates/CRM/Mailing/Form/Component.tpl
 #: templates/CRM/Mailing/Page/Component.tpl
 msgid "New Mailing Component"
@@ -7690,12 +7721,6 @@ msgstr ""
 #~ msgid "Please select a payment processor"
 #~ msgstr "Selecione uma data final válida para o evento."
 
-#~ msgid "Select saved mapping"
-#~ msgstr "Selecionar Mapeamento salvo"
-
-#~ msgid "View Participant URL"
-#~ msgstr "Visualizar URL de Participante"
-
 #~ msgid "You do not have access to this page"
 #~ msgstr "Você não tem permissão para acessar essa página"
 
@@ -7732,9 +7757,6 @@ msgstr ""
 
 #~ msgid "Display Minimum Membership Fee"
 #~ msgstr "Exibir Taxa Mínima de Afiliação"
-
-#~ msgid "Duplicate Import Membership Mapping Name"
-#~ msgstr "Nome Duplicado de Mapeamento de Importação de Afiliação"
 
 #~ msgid "Edit Membership Type"
 #~ msgstr "Editar Tipo de Afiliação"

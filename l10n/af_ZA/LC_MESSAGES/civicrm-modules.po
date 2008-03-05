@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-02-27 13:35+0100\n"
+"POT-Creation-Date: 2008-03-05 16:00+0100\n"
 "PO-Revision-Date: 2007-08-14 06:18+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -2092,11 +2092,34 @@ msgid "Print Participant List"
 msgstr ""
 
 #: CRM/Event/Import/Form/MapField.php
+msgid ""
+"Missing required contact matching fields. (Should be First AND Last Name or "
+"Primary Email or First Name, Last Name AND Primary Email.) (OR Participant "
+"ID if update mode.)"
+msgstr ""
+
+#: CRM/Event/Import/Form/MapField.php
 msgid "Duplicate Import Participant Mapping Name"
+msgstr ""
+
+#: CRM/Event/Import/Form/MapField.php
+msgid "Select saved mapping"
+msgstr ""
+
+#: CRM/Event/Import/Form/UploadFile.php
+msgid "On Duplicate Entries"
+msgstr ""
+
+#: CRM/Event/Import/Parser/Participant.php
+msgid "Select either EventID OR Event Title"
 msgstr ""
 
 #: CRM/Event/Import/Parser/Participant.php
 msgid "Invalid value for Event ID"
+msgstr ""
+
+#: CRM/Event/Import/Parser.php
+msgid "View Participant URL"
 msgstr ""
 
 #: CRM/Event/Info.php
@@ -3177,6 +3200,10 @@ msgid ""
 "Missing required contact matching fields. (Should be First AND Last Name or "
 "Primary Email or First Name, Last Name AND Primary Email.) (OR Membership ID "
 "if update mode.)"
+msgstr ""
+
+#: CRM/Member/Import/Form/MapField.php
+msgid "Duplicate Import Membership Mapping Name"
 msgstr ""
 
 #: CRM/Member/Import/Parser.php
@@ -5597,6 +5624,10 @@ msgstr ""
 
 #: templates/CRM/Event/Page/ManageEvent.tpl
 msgid "There are no events created yet. You can <a href='%1'>add one</a>."
+msgstr ""
+
+#: templates/CRM/Event/Page/ParticipantListing.tpl
+msgid "There are currently no participants registered for this event."
 msgstr ""
 
 #: templates/CRM/Mailing/Form/Component.tpl

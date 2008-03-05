@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-02-27 13:35+0100\n"
+"POT-Creation-Date: 2008-03-05 16:00+0100\n"
 "PO-Revision-Date: 2008-03-04 02:33-0800\n"
 "Last-Translator: Gerhard Aigner <gerhard.aigner@arcsmed.at>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -2201,14 +2201,39 @@ msgstr "Stapelweise Aktualisierung von Veranstaltungsteilnahmen"
 msgid "Print Participant List"
 msgstr "Teilnehmerliste ausdrucken"
 
+#: CRM/Event/Import/Form/MapField.php
+msgid ""
+"Missing required contact matching fields. (Should be First AND Last Name or "
+"Primary Email or First Name, Last Name AND Primary Email.) (OR Participant "
+"ID if update mode.)"
+msgstr ""
+
 # In EN und DE Unverständlich...
 #: CRM/Event/Import/Form/MapField.php
 msgid "Duplicate Import Participant Mapping Name"
 msgstr "Dubliziere Import-Teilnahme-Mapping"
 
+#: CRM/Event/Import/Form/MapField.php
+#, fuzzy
+msgid "Select saved mapping"
+msgstr "Treffen löschen"
+
+#: CRM/Event/Import/Form/UploadFile.php
+msgid "On Duplicate Entries"
+msgstr ""
+
+#: CRM/Event/Import/Parser/Participant.php
+msgid "Select either EventID OR Event Title"
+msgstr ""
+
 #: CRM/Event/Import/Parser/Participant.php
 msgid "Invalid value for Event ID"
 msgstr "Ungültiger Wert als Veranstaltungs-ID"
+
+#: CRM/Event/Import/Parser.php
+#, fuzzy
+msgid "View Participant URL"
+msgstr "Kontakt-URL ansehen"
 
 #: CRM/Event/Info.php
 msgid "CiviCRM Event Engine"
@@ -3409,6 +3434,10 @@ msgid ""
 "Primary Email or First Name, Last Name AND Primary Email.) (OR Membership ID "
 "if update mode.)"
 msgstr ""
+
+#: CRM/Member/Import/Form/MapField.php
+msgid "Duplicate Import Membership Mapping Name"
+msgstr "Dupliziere Import-Mitglieds-Mapping-Namen"
 
 #: CRM/Member/Import/Parser.php
 #, fuzzy
@@ -5961,9 +5990,9 @@ msgid ""
 "events</strong></a>."
 msgstr ""
 "CiviEvent ermöglicht es benutzerdefinierte Seiten zur Erstellung von und "
-"Anmeldung an Veranstaltungen zu erstellen. Administratoren können <a "
-"href=\"%1\"><strong>neue Veranstaltungen erstellen</strong></a> und <a "
-"href=\"%2\"><strong>existierende Veranstaltungen verwalten</strong></a>."
+"Anmeldung an Veranstaltungen zu erstellen. Administratoren können <a href=\"%"
+"1\"><strong>neue Veranstaltungen erstellen</strong></a> und <a href=\"%2"
+"\"><strong>existierende Veranstaltungen verwalten</strong></a>."
 
 #: templates/CRM/Event/Page/DashBoard.tpl
 msgid ""
@@ -6148,6 +6177,12 @@ msgid "There are no events created yet. You can <a href='%1'>add one</a>."
 msgstr ""
 "Dieser Kontakt befindet sich in keiner Gruppe. Sie können Ihn einer <a href="
 "\"%1\">hinzufügen</a>."
+
+#: templates/CRM/Event/Page/ParticipantListing.tpl
+#, fuzzy
+msgid "There are currently no participants registered for this event."
+msgstr ""
+"Sie haben nicht die Berechtigung um sich für diese Veranstaltung anzumelden"
 
 #: templates/CRM/Mailing/Form/Component.tpl
 #: templates/CRM/Mailing/Page/Component.tpl
@@ -7273,14 +7308,6 @@ msgstr ""
 #~ msgstr "Bitte geben Sie einen gültigen Betrag ein."
 
 #, fuzzy
-#~ msgid "Select saved mapping"
-#~ msgstr "Treffen löschen"
-
-#, fuzzy
-#~ msgid "View Participant URL"
-#~ msgstr "Kontakt-URL ansehen"
-
-#, fuzzy
 #~ msgid "You do not have access to this page"
 #~ msgstr ""
 #~ "Sie haben nicht die notwendigen Berechtigungen, um diesen Kontakt zu "
@@ -7321,9 +7348,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "Start Date - From"
 #~ msgstr "Startdatum"
-
-#~ msgid "Duplicate Import Membership Mapping Name"
-#~ msgstr "Dupliziere Import-Mitglieds-Mapping-Namen"
 
 #, fuzzy
 #~ msgid "Edit Membership Type"
