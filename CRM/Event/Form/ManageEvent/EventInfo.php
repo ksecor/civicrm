@@ -155,10 +155,9 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         $this->addElement('checkbox', 'is_public', ts('Public Event?') );
         $this->addElement('checkbox', 'is_map', ts('Include Map Link?') );
          
-        $this->add('date', 'start_date',
-                   ts('Start Date'),
-                   CRM_Core_SelectValues::date('datetime'),
-                   true);  
+        $this->add( 'date', 'start_date',
+                    ts('Start Date'),
+                    CRM_Core_SelectValues::date('datetime') );
         $this->addRule('start_date', ts('Please select a valid start date.'), 'qfDate');
 
         $this->add('date', 'end_date',
