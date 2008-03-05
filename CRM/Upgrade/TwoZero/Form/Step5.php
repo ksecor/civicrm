@@ -188,9 +188,9 @@ ON DUPLICATE KEY UPDATE {$field->column_name} = cf.id";
                     $res->free();
                     
                     $query  = "
-UPDATE civicrm_entity_file ef
-LEFT JOIN {$group->table_name} ct ON (ct.{$field->column_name}=ef.file_id AND ct.entity_id=ef.entity_id)
-SET ef.entity_table = '{$group->table_name}', ef.entity_id = ct.id";
+UPDATE civicrm_entity_file ef, {$group->table_name} ct
+SET    ef.entity_table = '{$group->table_name}', ef.entity_id = ct.id
+WHERE  ct.{$field->column_name}=ef.file_id AND ct.entity_id=ef.entity_id";
                     $res    = $this->runQuery( $query );
                     $res->free();
                 }
