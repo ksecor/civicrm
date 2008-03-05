@@ -157,8 +157,12 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
                         $emptyText = ts('-day of week-');
                         break;
                     case 'd':
-                    case 'j':
                         $options = $this->_createOptionList(1, 31);
+                        $emptyText = ts('-day-');
+                        break;
+                    case 'j':
+                        // the no-zero-padding option (CRM-2793)
+                        $options = $this->_createOptionList(1, 31, 1, false);
                         $emptyText = ts('-day-');
                         break;
                     case 'M':
@@ -276,13 +280,14 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
     * @param    int     The start number
     * @param    int     The end number
     * @param    int     Increment by this value
+    * @param    bool    Whether to pad the result with leading zero (CRM-2793)
     * @access   private
     * @return   array   An array of numeric options.
     */
-    function _createOptionList($start, $end, $step = 1)
+    function _createOptionList($start, $end, $step = 1, $pad = true)
     {
         for ($i = $start, $options = array(); $start > $end? $i >= $end: $i <= $end; $i += $step) {
-            $options[$i] = sprintf('%02d', $i);
+            $options[$i] = $pad ? sprintf('%02d', $i) : sprintf('%d', $i);
         }
         return $options;
     }
