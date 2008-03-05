@@ -198,7 +198,8 @@ tr.light .form-item, tr.dark .form-item {
 .form-item input.error, .form-item textarea.error {
   border: 2px solid red;
 }
-.form-item .description {
+/* Override .9em field help size from civicrm.css - CiviCRM 2.0 */
+#crm-container div.description, #crm-container span.description, #crm-container dd.description {
   font-size: 1em;
 }
 .form-item label {
