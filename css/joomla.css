@@ -18,6 +18,11 @@ hr {
 img {
   border: 0;
 }
+/* Added in CiviCRM 2.0 to alleviate tiny font issues.
+#crm-container table tr {
+  font-size: 1em;
+}
+
 th {
   text-align: left;
   padding-right: 1em;
@@ -194,7 +199,7 @@ tr.light .form-item, tr.dark .form-item {
   border: 2px solid red;
 }
 .form-item .description {
-  font-size: 0.85em;
+  font-size: 0.9em;
 }
 .form-item label {
   font-weight: bold;
