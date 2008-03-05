@@ -703,6 +703,12 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             }           
         }
 
+        if ( isset( $params['event_id'] ) ) {
+            $eventTitle = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event',
+                                                       $params['event_id'],
+                                                       'title' );
+        }
+
         if ( $params['record_contribution'] && $this->_single ) {
             if( $ids['participant'] ) {
                 $ids['contribution'] = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_ParticipantPayment', 
@@ -711,11 +717,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                                                                     'participant_id' );
             }
             unset($params['note']);
-
-            $eventTitle = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event',
-                                                       $params['event_id'],
-                                                       'title' );
-            
+           
             //building contribution params 
             
             $config =& CRM_Core_Config::singleton();
@@ -783,8 +785,8 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 $this->assign( 'total_amount', $contributionParams['total_amount'] );
             }
             $this->assign( 'status', $status[$params['status_id']] );
-
-            $this->assign( 'register_date', CRM_Utils_Date::customFormat($params['register_date']) );
+            
+            $this->assign( 'register_date', $params['register_date'] );
             $this->assign( 'receive_date', $contributionParams['receive_date'] );            
             $this->assign( 'subject', ts('Event Confirmation') );
             $this->assign( 'customValues', $customValues );
