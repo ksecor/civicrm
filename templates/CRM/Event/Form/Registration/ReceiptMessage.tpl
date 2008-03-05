@@ -46,7 +46,7 @@
 {/if}
 
 
-{assign var="icalFeed" value=$config->userFrameworkBaseURL|cat:"civicrm/event/ical?reset=1&id="|cat:$event.id}
+{capture assign="icalFeed"}{crmURL p="civicrm/event/ical" q="reset=1&id=$event.id" fe=1}{/capture}
 {ts}Download iCalendar File:{/ts} {$icalFeed} 
 
 ===========================================================
