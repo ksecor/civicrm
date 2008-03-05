@@ -191,8 +191,8 @@ class CRM_Core_Error extends PEAR_ErrorStack {
             $content .= CRM_Core_Error::debug( 'Error Details:', $error, false );
             echo CRM_Utils_System::theme( 'page', $content, true );
         } else {
-            $content  = $template->fetch( 'CRM/common/fatal.tpl' );
-            echo $content;
+            echo "Sorry. A non-recoverable error has occurred. The error trace below might help to resolve the issue<p>";
+            CRM_Core_Error::debug( null, $error );
         }
         exit(1);
     }
