@@ -6581,7 +6581,7 @@ msgstr ""
 
 #: CRM/Core/SelectValues.php
 msgid "default - Dear [prefix] [first] [last]"
-msgstr ""
+msgstr "domyślny – Droga/Drogi [prefiks] [imię] [nazwisko]"
 
 #: CRM/Core/SelectValues.php
 msgid "Dear [first]"

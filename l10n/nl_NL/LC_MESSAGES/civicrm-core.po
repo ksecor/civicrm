@@ -6437,9 +6437,8 @@ msgstr ""
 "CIVICRM_IMAGE_UPLOADDIR."
 
 #: CRM/Core/SelectValues.php
-#, fuzzy
 msgid "default - Dear [prefix] [first] [last]"
-msgstr "standaard - Beste [voor] [achter]"
+msgstr "standaard - Beste [titel] [voor] [achter]"
 
 #: CRM/Core/SelectValues.php
 msgid "Dear [first]"
