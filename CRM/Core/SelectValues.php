@@ -429,6 +429,8 @@ class CRM_Core_SelectValues
                 }
 
                 $newDate['format'] = CRM_Utils_Date::posixToPhp( $format, $filter );
+                // CRM-2793 - QuickForm cannot handle j (day of the month without leading zeros)?
+                $newDate['format'] = strtr($newDate['format'], array('j' => 'd'));
             }
         } elseif ($type == 'activityDate') {
             $minOffset = $dao->start;
