@@ -157,6 +157,7 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
                         $emptyText = ts('-day of week-');
                         break;
                     case 'd':
+                    case 'j':
                         $options = $this->_createOptionList(1, 31);
                         $emptyText = ts('-day-');
                         break;
