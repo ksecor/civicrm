@@ -167,13 +167,33 @@ WHERE co.entity_table='civicrm_custom_field' AND co.entity_id={$field->id}";
             
             while ($field->fetch()) {
                 $col    = "cv." . CRM_Core_BAO_CustomValue::typeToField($field->data_type);
-                $query  = "
+                
+                if ($field->data_type != 'File') {
+                    $query  = "
 INSERT INTO {$group->table_name} (domain_id,entity_id,{$field->column_name})
 SELECT $domainID, cv.entity_id, $col FROM civicrm_custom_value cv 
 WHERE cv.custom_field_id={$field->id}
 ON DUPLICATE KEY UPDATE {$field->column_name}={$col}";
-                $res    = $this->runQuery( $query );
-                $res->free();
+                    $res    = $this->runQuery( $query );
+                    $res->free();
+                } else {
+                    $query  = "
+INSERT INTO {$group->table_name} (domain_id,entity_id,{$field->column_name})
+SELECT $domainID, cv.entity_id, cf.id 
+FROM civicrm_custom_value cv
+LEFT JOIN  civicrm_file cf ON (cf.uri = $col)
+WHERE cv.custom_field_id={$field->id}
+ON DUPLICATE KEY UPDATE {$field->column_name} = cf.id";
+                    $res    = $this->runQuery( $query );
+                    $res->free();
+                    
+                    $query  = "
+UPDATE civicrm_entity_file ef
+LEFT JOIN {$group->table_name} ct ON (ct.{$field->column_name}=ef.file_id AND ct.entity_id=ef.entity_id)
+SET ef.entity_table = '{$group->table_name}', ef.entity_id = ct.id";
+                    $res    = $this->runQuery( $query );
+                    $res->free();
+                }
             }
             $field->free();
         }

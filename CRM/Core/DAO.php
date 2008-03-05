@@ -488,7 +488,7 @@ LIKE %1
             $show[$tableName] = $dao->Create_Table;
         }
         
-        return stristr($show[$tableName], "FK_{$tableName}_{$columnName}") ? true : false;
+        return preg_match('/CONSTRAINT [`\']?' . "FK_{$tableName}_{$columnName}" . '/i', $show[$tableName]) ? true : false;
     }
 
     /**
