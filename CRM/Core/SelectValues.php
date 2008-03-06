@@ -588,6 +588,44 @@ class CRM_Core_SelectValues
         }
         return $map;
     }
+
+    /**
+     * different type of Mailing Tokens
+     *
+     * @static
+     * return array
+     */
+    static function &mailingTokens( ) 
+    {
+        static $tokens = null;
+
+        if (! $tokens ) {
+            $tokens = array( '{action.unsubscribe}',
+                             '{action.unsubscribeUrl}',
+                             '{action.resubscribe}',
+                             '{action.resubscribeUrl}',
+                             '{action.optOut}',
+                             '{action.optOutUrl}',
+                             '{action.forward}',
+                             '{action.reply}',
+                             '{action.subscribeUrl}',
+                             '{action.subscribeUrl.gid}',
+                             '{action.subscribe.gid}',
+                             '{welcome.group}',
+                             '{subscribe.group}',
+                             '{unsubscribe.group}',
+                             '{resubscribe.group}',
+                             '{domain.name}',
+                             '{domain.address}',
+                             '{domain.phone}',
+                             '{domain.email}',
+                             '{mailing.name}',
+                             '{mailing.group}'
+                             
+                          );
+        }
+        return $tokens;
+    }
 }
 
 

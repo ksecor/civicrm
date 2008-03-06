@@ -135,7 +135,25 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $options = array( ts('Upload Content'),  ts('Compose On-screen') );
 
         $this->addRadio( 'upload_type', ts('I want to'), $options, $attributes, "&nbsp;&nbsp;");
+              
+         $this->add('select', 'tokens1',  ts( 'Insert Tokens' ), 
+                   CRM_Core_SelectValues::mailingTokens( ), false, 
+                   array(
+                         'size'     => "5",
+                         'multiple' => true,
+                         'onchange' => "return tokenReplText(this);"
+                         )
+                   );
 
+        $this->add('select', 'tokens2',  ts( 'Insert Tokens' ), 
+                   CRM_Core_SelectValues::mailingTokens( ), false,
+                   array(
+                         'size'     => "5",
+                         'multiple' => true,
+                         'onchange' => "return tokenReplHtml(this);"
+                         )
+                   );
+       
         require_once 'CRM/Core/BAO/MessageTemplates.php';
         $this->_templates = CRM_Core_BAO_MessageTemplates::getMessageTemplates();
 

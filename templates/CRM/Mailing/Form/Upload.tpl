@@ -15,9 +15,11 @@
   </fieldset>
 
   <fieldset id="compose_id"><legend>{ts}Compose On-screen{/ts}</legend>
-    <table class="dojoEditor form-layout-compressed"> 
+    <table class="form-layout-compressed"> 
+    <tr><td class="label" width="100px">{$form.tokens1.label}</td><td>{$form.tokens1.html}</td><td></td></tr>
 	{if $templates}<tr><td class="label" width="105px">{$form.template.label}</td><td>{$form.template.html}</td></tr>{/if}
   	<tr><td colspan="2"><span class="font-size11pt bold">{$form.text_message.label}</span><br />{$form.text_message.html}</td></tr>
+      <tr><td span class="label" width="100px">{$form.tokens2.label}</td><td>{$form.tokens2.html}</td></tr>
         <tr><td colspan="2">
             <span class="font-size11pt bold">{$form.html_message.label}</span> &nbsp;
             <span class="description">({ts}Click your mouse in the upper left corner of the box below to begin editing your HTML message.{/ts})</span>
@@ -179,5 +181,17 @@
          document.Upload.hmsg.value = dijit.byId("html_message").getValue();
      } 
 
+     function tokenReplText ( ){
+         var token = document.getElementById("tokens1").options[document.getElementById("tokens1").selectedIndex].text;
+         document.getElementById("text_message").value =  document.getElementById("text_message").value + token;
+     }   
+
+    function tokenReplHtml( ){
+         var token2 = document.getElementById("tokens2").options[document.getElementById("tokens2").selectedIndex].text;
+         var message = dijit.byId("html_message").getValue() + token2;
+         dijit.byId('html_message').setValue( message );
+        
+     }   
+        
 </script>
 {/literal}
