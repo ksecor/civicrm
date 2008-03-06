@@ -104,25 +104,25 @@ function processContacts( &$config, $start = null, $end = null ) {
 
     $domainID = $config->domainID( );
     $query = "
-SELECT   c.id,
-         a.id as address_id,
-         a.street_address,
-         a.city,
-         a.postal_code,
-         s.name as state,
-         o.name as country
-  FROM   civicrm_contact  c,
-         civicrm_address  a,
-         civicrm_state_province s,
-         civicrm_country o
- WHERE   c.domain_id    = $domainID
-   AND   c.id           = a.contact_id
-   AND   a.geo_code_1 is null
-   AND   a.country_id is not null
-   AND   a.state_province_id is not null
-   AND   a.state_province_id = s.id
-   AND   a.country_id = o.id
-   $contactClause
+SELECT     c.id,
+           a.id as address_id,
+           a.street_address,
+           a.city,
+           a.postal_code,
+           s.name as state,
+           o.name as country
+FROM       civicrm_contact  c,
+INNER JOIN civicrm_address        a ON a.contact_id = c.id
+INNER JOIN civicrm_country        o ON a.country_id = o.id
+LEFT  JOIN civicrm_state_province s ON a.state_province_id = s.id
+WHERE      c.domain_id    = $domainID
+  AND      c.id           = a.contact_id
+  AND      a.geo_code_1 is null
+  AND      a.country_id is not null
+  AND      a.state_province_id is not null
+  AND      a.state_province_id = s.id
+  AND      a.country_id = o.id
+  $contactClause
 ORDER BY a.id
 ";
     
