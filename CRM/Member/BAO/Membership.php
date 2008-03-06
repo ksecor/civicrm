@@ -778,7 +778,8 @@ AND       civicrm_membership.is_test = %2
             $params['amount'] = $minimumFee;
             $contributionTypeId = $membershipDetails['contribution_type_id']; 
         }
-        
+
+        require_once 'CRM/Contribute/BAO/Contribution.php';
         $result = CRM_Contribute_BAO_Contribution::processConfirm( $form, $membershipParams, 
                                                                    $premiumParams, $contactID,
                                                                    $contributionTypeId, 
