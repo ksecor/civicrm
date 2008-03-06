@@ -360,7 +360,7 @@ function &_civicrm_location_get( $contact, $location_types ) {
     $params                    = array();
     $params['contact_id']      = $contact['contact_id'];
     $params['entity_id']       = $contact['contact_id'];
-        
+    require_once 'CRM/Core/BAO/Location.php';    
     $locationBAO               =& new CRM_Core_BAO_Location();
     
     $values                    = array();
