@@ -1,0 +1,65 @@
+#!/bin/bash
+
+. `dirname $0`/build-tarballs.conf
+
+repo="$1"
+rev="$2"
+
+# if this is not a tarball tagging commit, exit
+[ "`$svnlook -r $rev dirs-changed $repo`" = $tarball_branch ] || exit 0
+
+# if this is not a tag add commit (e.g., it's a tag delete one), exit
+[ "`$svnlook -r $rev changed $repo | cut -d' ' -f1`" = A ] || exit 0
+
+version="`$svnlook -r $rev changed $repo | cut -d/ -f3`"
+
+workdir="$workdir"
+mkdir $workdir/$version
+cd $workdir/$version
+mkdir -p php4 tarballs tmp
+$svn export "$address""$tarball_branch""$version" export
+
+# create the distmaker.conf file
+echo "
+DM_SOURCEDIR=$workdir/$version/export
+DM_GENFILESDIR=$workdir/$version/php4
+DM_TMPDIR=$workdir/$version/tmp
+DM_TARGETDIR=$workdir/$version/tarballs
+DM_PHP=$php
+DM_RSYNC=$rsync
+DM_VERSION=$version
+DM_ZIP=$zip
+" > $workdir/$version/export/distmaker/distmaker.conf
+
+# create a minimal civicrm.settings.php file
+mkdir -p $workdir/$version/export/default
+echo "<?php define('CIVICRM_DOMAIN_ID', 1); define( 'CIVICRM_GETTEXT_RESOURCEDIR', '$workdir/$version/export/l10n/' ); ?>" > $workdir/$version/export/default/civicrm.settings.php
+
+# create a minimal settings_location.php file
+echo "<?php define('CIVICRM_CONFDIR', '$workdir/$version/export') ?>" > $workdir/$version/export/settings_location.php
+
+# run the exported distmaker
+cd $workdir/$version/export/distmaker
+./distmaker.sh all > $workdir/$version/build.log
+
+# publish to sf.net
+cd $workdir/$version/tarballs
+mv *.tar.gz *.zip $workdir
+if [ "`echo -n $version | tr -d 0-9.`" = '' ]; then
+  cd `dirname $0`/release-stable
+else
+  cd `dirname $0`/release-latest
+fi
+./release.php $version >> $workdir/$version/build.log
+cd $workdir
+mv *.tar.gz *.zip $build_dest
+
+# cleanup
+cd $workdir/$version
+rm -r export php4 tmp tarballs tmp
+
+# publish to latest.civicrm.org
+if [ "`echo -n $version | tr -d 0-9.`" = '' ]; then
+  echo $version > $latest/stable.txt
+fi
+echo $version > $latest/latest.txt
