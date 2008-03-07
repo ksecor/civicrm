@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-03-05 15:59+0100\n"
-"PO-Revision-Date: 2008-02-27 04:03-0800\n"
-"Last-Translator: Lukasz Zawadzki <lucas.zaw@gmail.com>\n"
+"PO-Revision-Date: 2008-03-07 15:45+0100\n"
+"Last-Translator: Piotr Szotkowski <shot@civicrm.org>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -642,7 +642,7 @@ msgstr "Brak wymaganych pól"
 
 #: CRM/Activity/Import/Parser.php CRM/Import/Parser.php
 msgid "Line Number"
-msgstr "Linia numer"
+msgstr "Numer linii"
 
 #: CRM/Activity/Import/Parser.php CRM/Import/Parser.php
 msgid "Reason"
@@ -785,7 +785,7 @@ msgstr ""
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
 msgid "Button URL"
-msgstr "Przycisk URL"
+msgstr "URL przycisku"
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
 #: CRM/Core/Menu.php
@@ -888,7 +888,7 @@ msgstr "Serwer poczty wychodzącej"
 
 #: CRM/Admin/Form/Setting/UF.php CRM/Admin/Form/Setting/Url.php
 msgid "Settings - Resource URLs"
-msgstr "Ustawienia - zasoby URL"
+msgstr "Ustawienia - adresy URL zasobów"
 
 #: CRM/Admin/Page/Admin.php CRM/Core/Menu.php
 msgid "Customize"
@@ -967,13 +967,13 @@ msgstr "lub"
 #: templates/CRM/Contact/Page/View/Case.tpl
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Case Type"
-msgstr "Typ stanu"
+msgstr "Typ przypadku"
 
 #: CRM/Case/BAO/Query.php CRM/Case/Form/Case.php
 #: templates/CRM/Contact/Page/View/Case.tpl
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Case Status"
-msgstr "Status stanu"
+msgstr "Stan przypadku"
 
 #: CRM/Case/DAO/Case.php CRM/Case/Form/Case.php
 #: CRM/Contact/DAO/Relationship.php CRM/Contact/Form/Relationship.php
@@ -1220,7 +1220,6 @@ msgstr "Tablice warunku wyszukiwania"
 
 #: CRM/Contact/DAO/Group.php CRM/Group/Form/Edit.php
 #: templates/CRM/Group/Page/Group.tpl xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Group Type"
 msgstr "Typ grupy"
 
@@ -1482,7 +1481,7 @@ msgstr "Członkowstwo"
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Grant.php
 #: CRM/Contact/Page/View/Tabbed.php CRM/Core/SelectValues.php
 msgid "Grants"
-msgstr "Stypendia"
+msgstr "Granty"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Tabbed.php
 msgid "Cases"
@@ -1754,7 +1753,6 @@ msgstr "Plik"
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/DAO/CustomField.php
 #: CRM/Core/SelectValues.php CRM/Custom/Form/Field.php
-#, fuzzy
 msgid "Link"
 msgstr "Link"
 
@@ -1779,14 +1777,12 @@ msgid "We could not find your logged in user ID"
 msgstr "Nie udało się znaleźć Twojego zalogowanego user ID"
 
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
-#, fuzzy
 msgid "Membership Type"
-msgstr "Typy członków"
+msgstr "Typy członkostw"
 
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
-#, fuzzy
 msgid "Membership Status"
-msgstr "Status członków"
+msgstr "Status członkostwa"
 
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
 msgid "Paid By"
@@ -1807,10 +1803,9 @@ msgstr "CiviCRM"
 
 #: CRM/Core/Block.php CRM/Core/Invoke.php
 msgid "New Activity"
-msgstr "Nowe działanie"
+msgstr "Nowe zdarzenie"
 
 #: CRM/Core/Block.php CRM/Core/Menu.php
-#, fuzzy
 msgid "Log out"
 msgstr "Wyloguj"
 
@@ -1914,7 +1909,7 @@ msgstr "Rodzaj telefonu"
 
 #: CRM/Core/DAO/Mapping.php CRM/Core/Invoke.php
 msgid "Import Activity"
-msgstr "Importuj działania"
+msgstr "Importuj zdarzenia"
 
 #: CRM/Core/DAO/Mapping.php CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Search Builder"
@@ -2007,7 +2002,6 @@ msgid "CiviCRM Profile Field"
 msgstr "Pole profilu CiviCRM"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
-#, fuzzy
 msgid "Message Templates"
 msgstr "Szablony wiadomości"
 
@@ -2016,9 +2010,8 @@ msgid "Find Duplicate Contacts"
 msgstr "Znajdź powtarzające się kontakty"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
-#, fuzzy
 msgid "Duplicate Contact Rules"
-msgstr "Powtarzające się reguły kontaktów"
+msgstr "Reguły powtarzania się kontaktów"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Contact Matching"
@@ -2036,7 +2029,7 @@ msgstr "Edytuj pole"
 
 #: CRM/Core/Invoke.php CRM/Price/Page/Set.php templates/CRM/Price/Form/Set.tpl
 msgid "Price Set"
-msgstr "Ustaw cenę"
+msgstr "Zestaw cen"
 
 #: CRM/Core/Menu.php CRM/Group/Form/Edit.php
 msgid "Manage Groups"
@@ -2185,15 +2178,15 @@ msgstr "Dziękujemy za rozpowszechnienie słowa"
 #: CRM/Grant/BAO/Query.php CRM/Grant/Form/Grant.php
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Grant Type"
-msgstr "Typ stypendium"
+msgstr "Typ grantu"
 
 #: CRM/Grant/BAO/Query.php CRM/Grant/Form/Grant.php
 msgid "Grant Status"
-msgstr "Status stypendium"
+msgstr "Stan grantu"
 
 #: CRM/Grant/BAO/Query.php CRM/Grant/Form/Grant.php
 msgid "Grant report received?"
-msgstr "Przyjęto raport stypendium?"
+msgstr "Przyjęto raport grantu?"
 
 #: CRM/Grant/DAO/Grant.php CRM/Grant/Selector/Search.php
 #: templates/CRM/Grant/Form/Task/Print.tpl
@@ -2212,7 +2205,7 @@ msgstr "Wartość opcji"
 
 #: CRM/Grant/Form/Task/Delete.php CRM/Grant/Task.php
 msgid "Delete Grants"
-msgstr "Usuń stypendia"
+msgstr "Usuń granty"
 
 #: CRM/Group/Form/Edit.php CRM/Group/Page/Group.php
 msgid "Delete Group"
@@ -2240,7 +2233,7 @@ msgstr "Tablica bytu rodzicielskiego"
 #: CRM/Standalone/OpenID/DAO/Associations.php
 #: CRM/Standalone/OpenID/DAO/Nonce.php
 msgid "Server Url"
-msgstr "Serwer URL"
+msgstr "Adres URL serwera"
 
 #: CRM/Upgrade/TwoZero/Form/Step1.php CRM/Upgrade/TwoZero/Form/Step2.php
 #: CRM/Upgrade/TwoZero/Form/Step3.php CRM/Upgrade/TwoZero/Form/Step4.php
@@ -2328,29 +2321,27 @@ msgstr "edytuj grupy"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "administer CiviCRM"
-msgstr "administruj CiviCRM"
+msgstr "zarządzaj CiviCRM-em"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "access uploaded files"
-msgstr "udostępnij wgrane pliki"
+msgstr "dostęp do wgranych plików"
 
 #: CRM/ACL/Form/ACLBasic.php
-#, fuzzy
 msgid "profile listings and forms"
-msgstr "listing profilu i formy"
+msgstr "spisy i formularze profili"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "access all custom data"
-msgstr "udostępnij wszystkie dopasowane dane"
+msgstr "dostęp do danych dodatkowych"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "access CiviCRM"
-msgstr "dostęp CiviCRM"
+msgstr "dostęp do CiviCRM-a"
 
 #: CRM/ACL/Form/ACLBasic.php
-#, fuzzy
 msgid "access Contact Dashboard"
-msgstr "udostępnij tablicę kontaktów"
+msgstr "dostęp do kokpitu kontaktu"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "ACL Type"
@@ -2430,7 +2421,7 @@ msgstr "Przypisz użytkowników do ról"
 
 #: CRM/Activity/BAO/Activity.php
 msgid "- Activity Fields -"
-msgstr "- Aktywne pola -"
+msgstr "- Pola zdarzeń -"
 
 #: CRM/Activity/BAO/Query.php
 msgid "Case Activity %2 %1"
@@ -2482,7 +2473,7 @@ msgstr "Numer telefonu"
 
 #: CRM/Activity/DAO/Activity.php
 msgid "Activity Status Label"
-msgstr "Status zdarzenia"
+msgstr "Etykieta stanu zdarzenia"
 
 #: CRM/Activity/DAO/Activity.php
 #, fuzzy
@@ -2508,7 +2499,7 @@ msgstr "Z kontaktem"
 
 #: CRM/Activity/Form/Activity.php
 msgid "Source Contact non-existant!"
-msgstr "Źródło konatktu nie istnieje!"
+msgstr "Kontat źródłowy nie istnieje!"
 
 #: CRM/Activity/Form/Activity.php
 msgid "Target Contact non-existant!"
@@ -2520,16 +2511,15 @@ msgstr "Przypisany kontakt nie istnieje!"
 
 #: CRM/Activity/Form/Activity.php
 msgid "Invalid Case"
-msgstr "Nieprawidłowe zdarzenie"
+msgstr "Nieprawidłowy przypadek"
 
 #: CRM/Activity/Form/Activity.php
 msgid "Selected Activity is deleted sucessfully."
 msgstr "Wybrane zdarzenie zostało pomyślnie usunięte."
 
 #: CRM/Activity/Form/Activity.php
-#, fuzzy
 msgid "Selected Activity has been sucessfully detached from a case."
-msgstr "Wybrane zdarzenie zostało zostało pomyślnie oddzielone od pozostałych."
+msgstr "Wybrane zdarzenie zostało zostało pomyślnie oddzielone od przypadku."
 
 #: CRM/Activity/Form/Activity.php
 #, fuzzy
@@ -2561,9 +2551,8 @@ msgid "On duplicate entries"
 msgstr "W powtórzonych wpisach"
 
 #: CRM/Activity/Import/Parser/Activity.php
-#, fuzzy
 msgid "Please select either Activity Type ID OR Activity Type Label."
-msgstr "Proszę wybrać ID zdarzenia bądź typ etykiety"
+msgstr "Wybierz identyfikator zdarzenia lub etykietę typu zdarzenia"
 
 #: CRM/Activity/Import/Parser.php
 msgid "View Activity History URL"
@@ -2583,7 +2572,7 @@ msgstr "Oddziel zdarzenie"
 
 #: CRM/Activity/Selector/Activity.php
 msgid "Activities %%StatusMessage%%"
-msgstr "Zdarzenia %%menadżer statusu%%"
+msgstr "Zdarzenia %%StatusMessage%%"
 
 #: CRM/Activity/Selector/Activity.php
 #: templates/CRM/Activity/Form/ActivityLinks.tpl
@@ -2603,7 +2592,7 @@ msgstr "SMS"
 
 #: CRM/Activity/Selector/Activity.php
 msgid "CiviCRM Activity"
-msgstr "Zdarzenia CiviCRM"
+msgstr "Zdarzenie CiviCRM"
 
 #: CRM/Activity/Selector/Activity.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
@@ -2625,9 +2614,8 @@ msgid "Length"
 msgstr "Długość"
 
 #: CRM/Admin/Form/DedupeRules.php
-#, fuzzy
 msgid "Weight Threshold to Consider Contacts 'Matching':"
-msgstr "Wysokość progu dla rozpatrywanych kontaktów 'Dopasowana':"
+msgstr "Próg sumy wag, powyżej którego kontakty będą uzwanane za „podobne”:"
 
 #: CRM/Admin/Form/DupeMatch.php
 msgid "Match On:"
@@ -5185,9 +5173,8 @@ msgid "Please enter a valid %1"
 msgstr "Wprowadź poprawnie %1"
 
 #: CRM/Core/BAO/UFGroup.php
-#, fuzzy
 msgid "Copy of"
-msgstr "Kopiuj z "
+msgstr "Kopia"
 
 #: CRM/Core/BAO/UFGroup.php
 msgid ""
@@ -8364,7 +8351,7 @@ msgstr ""
 #: CRM/Upgrade/TwoZero/Form/Step1.php
 msgid "Database check failed - the current database is not v1.9."
 msgstr ""
-"Sprawdzanie pazy danych nie powiodło się - aktualna baza nie jest w wersji "
+"Sprawdzanie bazy danych nie powiodło się - aktualna baza nie jest w wersji "
 "1.9."
 
 #: CRM/Upgrade/TwoZero/Form/Step1.php
