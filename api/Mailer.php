@@ -42,8 +42,6 @@
 
 require_once 'api/utils.php';
 
-require_once 'api/Contact.php';
-
 require_once 'CRM/Contact/BAO/Group.php';
 
 require_once 'CRM/Mailing/BAO/BouncePattern.php';
