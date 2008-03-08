@@ -111,7 +111,7 @@ SELECT     c.id,
            a.postal_code,
            s.name as state,
            o.name as country
-FROM       civicrm_contact  c,
+FROM       civicrm_contact  c
 INNER JOIN civicrm_address        a ON a.contact_id = c.id
 INNER JOIN civicrm_country        o ON a.country_id = o.id
 LEFT  JOIN civicrm_state_province s ON a.state_province_id = s.id
