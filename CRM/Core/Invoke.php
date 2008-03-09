@@ -669,11 +669,6 @@ class CRM_Core_Invoke
             $view =& new CRM_Admin_Page_CMSUser(ts('Sync Drupal Users'));
             break;   
 
-        case 'backup':
-            require_once 'CRM/Admin/Page/DomainDump.php';
-            $view =& new CRM_Admin_Page_DomainDump(ts('Backup Database'));
-            break;   
-            
         case 'dedupefind':
             require_once 'CRM/Admin/Page/DedupeFind.php';
             $view =& new CRM_Admin_Page_DedupeFind(ts('Find Duplicate Contacts'));
