@@ -414,12 +414,14 @@ INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
             return;
         }
 
+        $isEdit = true;
         if ( $invokeHooks ) {
             require_once 'CRM/Utils/Hook.php';
             if ( CRM_Utils_Array::value( 'contact_id', $params ) ) {
                 CRM_Utils_Hook::pre( 'edit', $params['contact_type'], $params['contact_id'], $params );
             } else {
                 CRM_Utils_Hook::pre( 'create', $params['contact_type'], null, $params ); 
+                $isEdit = false;
             }
         }
 
@@ -493,7 +495,7 @@ INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
         $contact->contact_type_display = CRM_Contact_DAO_Contact::tsEnum('contact_type', $contact->contact_type);
 
         if ( $invokeHooks ) {
-            if ( CRM_Utils_Array::value( 'contact_id', $params ) ) {
+            if ( $isEdit ) {
                 CRM_Utils_Hook::post( 'edit', $params['contact_type'], $contact->id, $contact );
             } else {
                 CRM_Utils_Hook::post( 'create', $params['contact_type'], $contact->id, $contact );
