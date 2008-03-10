@@ -20,6 +20,7 @@
 {/if}
   <dt>{$form.template.label}</dt><dd>{$form.template.html}</dd>
   <dt>{$form.subject.label}</dt><dd>{$form.subject.html}</dd>
+  <dt>{$form.tokens.label}</dt><dd>{$form.tokens.html}</dd>
   <dt>{$form.message.label}</dt><dd>{$form.message.html}</dd>
 {if $single eq false}
     <dt></dt><dd>{include file="CRM/Contact/Form/Task.tpl"}</dd>
@@ -92,26 +93,32 @@
 
      function verify( select )
      {
-	if ( document.getElementsByName("saveTemplate")[0].checked  == false) {
-	    document.getElementById("saveDetails").style.display = "none";
-	}
+    	if ( document.getElementsByName("saveTemplate")[0].checked  == false) {
+	        document.getElementById("saveDetails").style.display = "none";
+	    }
 
-	document.getElementById("editMessageDetails").style.display = "block";
-	document.getElementById("saveTemplateName").disabled = false;
+	    document.getElementById("editMessageDetails").style.display = "block";
+	    document.getElementById("saveTemplateName").disabled = false;
      }
    
      function showSaveDetails(chkbox) 
      {
-	if (chkbox.checked) {
-	    document.getElementById("saveDetails").style.display = "block";
-	    document.getElementById("saveTemplateName").disabled = false;
-	} else {
-	    document.getElementById("saveDetails").style.display = "none";
-	    document.getElementById("saveTemplateName").disabled = true;
-	}
+	    if (chkbox.checked) {
+	        document.getElementById("saveDetails").style.display = "block";
+	        document.getElementById("saveTemplateName").disabled = false;
+	    } else {
+	        document.getElementById("saveDetails").style.display = "none";
+	        document.getElementById("saveTemplateName").disabled = true;
+	    }
      }
 
     document.getElementById("saveDetails").style.display = "none";
     document.getElementById("editMessageDetails").style.display = "none";
+    
+    function tokenReplText ( ){
+         var token = document.getElementById("tokens").options[document.getElementById("tokens").selectedIndex].text;
+         document.getElementById("message").value =  document.getElementById("message").value + token;
+     }   
+
 </script>
 {/literal}

@@ -609,12 +609,6 @@ class CRM_Core_SelectValues
                              '{action.forward}',
                              '{action.reply}',
                              '{action.subscribeUrl}',
-                             '{action.subscribeUrl.gid}',
-                             '{action.subscribe.gid}',
-                             '{welcome.group}',
-                             '{subscribe.group}',
-                             '{unsubscribe.group}',
-                             '{resubscribe.group}',
                              '{domain.name}',
                              '{domain.address}',
                              '{domain.phone}',
@@ -623,6 +617,26 @@ class CRM_Core_SelectValues
                              '{mailing.group}'
                              
                           );
+        }
+        return $tokens;
+    }
+    
+    /**
+     * different type of Contact Tokens
+     *
+     * @static
+     * return array
+     */
+    static function &contactTokens( ) 
+    {
+        static $tokens = null;
+        if (! $tokens ) {
+            $values= array_merge( array_keys(CRM_Contact_BAO_Contact::importableFields( ) ),
+                                  array( 'display_name', 'checksum', 'contact_id' ) );
+            unset($values[0]); 
+            foreach($values as $key => $val) {
+                $tokens[$key] = "{contact.$val}";
+            }
         }
         return $tokens;
     }

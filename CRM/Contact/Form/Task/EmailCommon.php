@@ -181,6 +181,16 @@ class CRM_Contact_Form_Task_EmailCommon
         //insert message Text by selecting "Select Template option"
 
         $form->addElement('select', 'fromEmailAddress', 'From', $form->_fromEmails );
+        
+        $form->add('select', 'tokens',  ts( 'Insert Tokens' ), 
+                   CRM_Core_SelectValues::contactTokens( ), false, 
+                   array(
+                         'size'     => "5",
+                         'multiple' => true,
+                         'onchange' => "return tokenReplText(this);"
+                         )
+                   );
+
 
         $form->add( 'textarea', 
                     'message', 
