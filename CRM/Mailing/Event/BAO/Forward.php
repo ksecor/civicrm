@@ -100,7 +100,6 @@ class CRM_Mailing_Event_BAO_Forward extends CRM_Mailing_Event_DAO_Forward {
         $count = civicrm_contact_search_count($contact_params);
 
         if ($count == 0) {
-            require_once 'api/v2/Contact.php';
             require_once 'CRM/Core/BAO/LocationType.php';
             /* If the contact does not exist, create one. */
             $formatted = array('contact_type' => 'Individual');
@@ -108,7 +107,6 @@ class CRM_Mailing_Event_BAO_Forward extends CRM_Mailing_Event_DAO_Forward {
             $value = array('email' => $forward_email,
                            'location_type_id' => $locationType->id );
             _civicrm_add_formatted_param($value, $formatted);
-            require_once 'api/Contact.php';
             require_once 'CRM/Import/Parser.php';
             $formatted['onDuplicate'] = CRM_Import_Parser::DUPLICATE_SKIP;
             $formatted['fixAddress'] = true;
