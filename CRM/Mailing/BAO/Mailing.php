@@ -1054,7 +1054,7 @@ AND civicrm_contact.is_opt_out =0";
         $mgtable = CRM_Mailing_DAO_Group::getTableName();
         $group = CRM_Contact_BAO_Group::getTableName();
 
-        $mg->query("SELECT      $group.name as name FROM $mgtable 
+        $mg->query("SELECT      $group.title as name FROM $mgtable 
                     INNER JOIN  $group ON $mgtable.entity_id = $group.id
                     WHERE       $mgtable.mailing_id = {$this->id}
                         AND     $mgtable.entity_table = '$group'
