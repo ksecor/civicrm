@@ -290,7 +290,7 @@ class CRM_Contribute_BAO_Query
         case 'contribution_test':
             $query->_where[$grouping][] = " civicrm_contribution.is_test $op '$value'";
             if ( $value ) {
-                $query->_qill[$grouping][]  = "Test Contributions Only";
+                $query->_qill[$grouping][]  = "Find Test Contributions";
             }
             $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
             
@@ -299,7 +299,7 @@ class CRM_Contribute_BAO_Query
             if ( $value ) {
                 $query->_where[$grouping][] = "civicrm_contribution.contribution_recur_id IS NOT NULL";
                 if ( $value ) {
-                    $query->_qill[$grouping][]  = "Recurring Contributions Only";
+                    $query->_qill[$grouping][]  = "Displaying Recurring Contributions";
                 }
                 $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
             }
@@ -538,12 +538,12 @@ class CRM_Contribute_BAO_Query
 
         //add fields for honor search
         $form->addElement( 'text', 'contribution_in_honor_of', ts( "In Honor Of" ) );
-        $form->addElement( 'checkbox', 'contribution_test' , ts( 'Find Test Contributions Only?' ) );
+        $form->addElement( 'checkbox', 'contribution_test' , ts( 'Find Test Contributions?' ) );
 
         //add field for transaction ID search
         $form->addElement( 'text', 'contribution_transaction_id', ts( "Transaction ID" ) );
 
-        $form->addElement( 'checkbox', 'contribution_recurring' , ts( 'Recurring Contributions Only' ) );
+        $form->addElement( 'checkbox', 'contribution_recurring' , ts( 'Find Recurring Contributions?' ) );
 
         // add all the custom  searchable fields
         require_once 'CRM/Core/BAO/CustomGroup.php';
