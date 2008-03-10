@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
 "POT-Creation-Date: 2007-11-19 18:04+0100\n"
-"PO-Revision-Date: 2008-02-06 14:39-0800\n"
-"Last-Translator: jens bemme <jens.bemme@gmx.net>\n"
+"PO-Revision-Date: 2008-03-07 07:54-0800\n"
+"Last-Translator: Bertrand <einfahrt@parkdeck.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -288,13 +288,13 @@ msgstr "Status"
 #: CRM/Activity/DAO/Phonecall.php CRM/Contact/Selector/Activity.php
 #: CRM/Core/SelectValues.php
 msgid "Scheduled"
-msgstr "Wartend"
+msgstr "Geplant"
 
 #: CRM/Activity/DAO/Activity.php CRM/Activity/DAO/Meeting.php
 #: CRM/Activity/DAO/Phonecall.php CRM/Core/SelectValues.php
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Completed"
-msgstr "Vervollständigt"
+msgstr "Vollständig"
 
 #: CRM/Activity/DAO/Phonecall.php CRM/Activity/Form/Phonecall.php
 msgid "Phone Number"
@@ -317,7 +317,7 @@ msgstr "Datum und Uhrzeit"
 #: CRM/Contact/Form/Individual.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Contact/Form/Task/Record.php CRM/Core/BAO/UFGroup.php
 msgid "Select a valid date."
-msgstr "Wählen Sie ein gültiges Datum aus."
+msgstr "Wählen Sie ein gültiges Datum."
 
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
 #: CRM/Contact/Form/Task/Record.php templates/CRM/Activity/Form/Phonecall.tpl
@@ -326,7 +326,7 @@ msgstr "Dauer"
 
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
 msgid "Selected Meeting is deleted sucessfully."
-msgstr "Ausgewähltes Treffen wurde erfolgreich gelöscht."
+msgstr "Der gewählte Termin wurde erfolgreich gelöscht."
 
 #: CRM/Activity/Form/OtherActivity.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Contact/Form/Task/Record.php CRM/Contact/Selector/Activity.php
@@ -488,7 +488,7 @@ msgstr "Option Gruppierungs Name"
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Admin/Page/PaymentProcessor.php
 msgid "Settings - Payment Processor"
-msgstr "Zahlungsbearbeiter"
+msgstr "Einstellungen - Payment Processor"
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
 msgid "Site URL"
@@ -510,17 +510,17 @@ msgstr "Button URL"
 #: CRM/Core/Menu.php
 #, fuzzy
 msgid "Payment Processor Type"
-msgstr "Zahlungsbearbeitungstyp"
+msgstr "Zahlungsart"
 
 #: CRM/Admin/Form/PaymentProcessorType.php CRM/Core/DAO/PaymentProcessor.php
 #: CRM/Core/DAO/PaymentProcessorType.php
 msgid "Billing Mode"
-msgstr "Zahlungsmodi"
+msgstr "Abrechnungsart"
 
 #: CRM/Admin/Form/PaymentProcessorType.php CRM/Core/DAO/PaymentProcessor.php
 #: xml/templates/civicrm_add_domain.tpl
 msgid "User Name"
-msgstr "Username"
+msgstr "Benutzername"
 
 #: CRM/Admin/Form/PaymentProcessorType.php CRM/Core/BAO/CMSUser.php
 #: CRM/Core/DAO/PaymentProcessor.php xml/templates/civicrm_add_domain.tpl
@@ -555,7 +555,7 @@ msgstr "Kontaktübersicht"
 #: CRM/Admin/Page/PaymentProcessor.php CRM/Admin/Page/Setting.php
 #: CRM/Core/Menu.php
 msgid "Global Settings"
-msgstr "Globale Einstellungen"
+msgstr "allgemeine Einstellungen"
 
 #: CRM/Admin/Form/RelationshipType.php CRM/Contact/DAO/RelationshipType.php
 #: templates/CRM/Admin/Page/RelationshipType.tpl
