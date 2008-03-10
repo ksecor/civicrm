@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
 "POT-Creation-Date: 2007-10-25 15:07+0200\n"
-"PO-Revision-Date: 2008-03-02 15:17-0800\n"
+"PO-Revision-Date: 2008-03-09 07:55-0700\n"
 "Last-Translator: Han Velthuis <han.velthuis@tiscali.nl>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -401,7 +401,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "API Login (LIVE account):"
-msgstr "API Login (LIVE account):"
+msgstr "API Login (Prod. account):"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
@@ -412,11 +412,11 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Transaction Key (LIVE account):"
-msgstr ""
+msgstr "Transaction Key (Prod. account):"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "MD5-Hash (LIVE account):"
-msgstr ""
+msgstr "MD5-Hash (Prod. account):"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
@@ -431,13 +431,15 @@ msgstr ""
 msgid ""
 "The URL for Authorize.net's LIVE Payment server. Use the default value "
 "unless otherwise advised by the processor."
-msgstr ""
+msgstr "URL van Authorize.net's prodictie betaalserver. "
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
 "The URL for recurring payments. Use the default value unless otherwise "
 "advised by the processor."
 msgstr ""
+"De URL voor periodieke betalingen. Als de methode geen waarde aangeeft "
+"gebruik dan de defaultwaarde."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "API Login (TEST account):"
@@ -459,7 +461,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "LIVE Account API Username:"
-msgstr "LIVE Account API Username:"
+msgstr "Prod. Account API Username:"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
@@ -474,7 +476,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "LIVE Account API Password:"
-msgstr ""
+msgstr "Prod. Account API Password:"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
@@ -489,7 +491,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "LIVE Account API Signature:"
-msgstr ""
+msgstr "Prod. Account API Signature:"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
@@ -507,6 +509,8 @@ msgid ""
 "The URL for PayPal's LIVE Payment server. Use the default value unless "
 "otherwise advised by PayPal."
 msgstr ""
+"URL PayPal's productie server. Gebruik als PayPal niet anders aangeeft, de "
+"defaultwaarde."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
@@ -570,23 +574,21 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "LIVE Merchant Account Email Address:"
-msgstr "LIVE Email-adres klantaccount:"
+msgstr "Prod. Email-adres klantaccount:"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
 "Enter the Merchant Account Email Address linked to your LIVE PayPal Merchant "
 "Account."
-msgstr ""
-"Voer het email-adres in van het gebruikersaccount van uw LIVE PayPal "
-"Merchant Account."
+msgstr "Voer het email-adres in van uw productie PayPal Merchant Account."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
 "The URL for PayPal's LIVE Payment server. Use the default value unless "
 "otherwise indicated by PayPal."
 msgstr ""
-"De URL van de PayPal's LIVE server. Gebruik als PayPal geen waarde opgeeft "
-"de defaultwaarde."
+"De URL van de PayPal's productie server. Gebruik als PayPal geen waarde "
+"opgeeft de defaultwaarde."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
@@ -641,37 +643,36 @@ msgid ""
 "The URL for PayJunction's Payment server. This is the same for TEST and LIVE "
 "transactions. Use the default value unless otherwise advised by PayPal."
 msgstr ""
-"De URL van de PayJunction's Payment server. Deze is gelijk voor TEST en LIVE "
-"transacties. Gebruik de defaultwaarde als PayPal geen andere waarde "
-"bepaald."
+"De URL van de PayJunction's server.  Deze is gelijk voor TEST en productie. "
+"Gebruik de defaultwaarde als PayPal geen andere waarde bepaald."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "The Recurring Payments URL is not currently used."
-msgstr ""
+msgstr "De URL voor periodieke betalingen wordt nu niet gebruikt."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "User Name (LIVE account):"
-msgstr ""
+msgstr "User Name (Prod. account):"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Enter the User Name associated with your LIVE merchant account."
-msgstr "Vul de User Name behorend bij uw LIVE merchant account in."
+msgstr "Vul de User Name behorend bij uw productie merchant account in."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Password (LIVE account):"
-msgstr ""
+msgstr "Password (Prod. account):"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Enter the Password associated with your LIVE merchant account."
-msgstr "Vul het Password behorend bij uw LIVE merchant account in."
+msgstr "Vul het Password behorend bij uw productie merchant account in."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "LIVE Account Merchant ID:"
-msgstr "LIVE Account Merchant ID:"
+msgstr "Prod. Account Merchant ID:"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Enter the Merchant ID from your Live account."
-msgstr "Voer het Merchant ID van uw LIVE account in."
+msgstr "Voer het Merchant ID van uw productie account in."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "How do I Find my Merchant-ID?"
@@ -691,11 +692,11 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "LIVE Account Merchant Key:"
-msgstr "LIVE Account Merchant Key:"
+msgstr "Prod. Account Merchant Key:"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Enter the Merchant Key from your Live account."
-msgstr "Voer de Merchant Key van uw LIVE account in."
+msgstr "Voer de Merchant Key van uw productie account in."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "How do I Find my Merchant Key?"
@@ -729,7 +730,7 @@ msgstr ""
 msgid ""
 "The URL for Google Checkout's LIVE Payment server. Use the default value "
 "unless otherwise indicated by Google."
-msgstr "De URL van de Google Checkout's LIVE server. "
+msgstr "De URL van de Google Checkout's productie server. "
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Google Checkout Button:"
@@ -787,13 +788,15 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "The base URL for the <strong>LIVE - Image</strong> is: %1"
-msgstr ""
+msgstr "Base URL van het <strong>Prod. - Plaatje</strong> is: %1"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
 "Example of a large Google Checkout button on a white background (For LIVE "
 "Account):"
 msgstr ""
+"Voorbeeld van grote  Google Checkout knop op witte achtergrond (Productie "
+"Account):"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
@@ -807,15 +810,15 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Enter the API Token from your live merchant account."
-msgstr "Vul de API Token van uw live merchant account in."
+msgstr "Vul de API Token van uw productie merchant account in."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Store ID (LIVE account)"
-msgstr ""
+msgstr "Store ID (productie account)"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Enter your live merchant account Store ID."
-msgstr "Vul uw live merchant account Store ID in."
+msgstr "Vul uw productie merchant account Store ID in."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
@@ -989,6 +992,8 @@ msgid ""
 "where... State IS California AND City IS Los Angeles AND Birth Date is later "
 "than (>) Jan 1, 1985</em>"
 msgstr ""
+"U kunt ook criteria toevoegen:<em>Ook contacten waar... Land = Nederland AND "
+"Plaats = Arnhem AND Geboortedatum na (.) Jan 1, 1985</em>"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.hlp
 msgid ""
@@ -1000,7 +1005,7 @@ msgid ""
 "want to collect information specific to this contribution (e.g. target one "
 "or several projects or funds to support with this contribution)."
 msgstr ""
-"Als U aanvullende informatie van contribuanten wil,  dient U een of twee "
+"Als U aanvullende informatie van contributanten wil,  dient U een of twee "
 "CiviCRM Profielen in te stellen. Dit is een verzameling van velden. U kunt  "
 "bijvoorbeeld de naam of het adres willen weten, ook als deze zijn niet "
 "vereist voor de betaalmethode, of de reden van aanmelding voor een "
@@ -1063,6 +1068,8 @@ msgid ""
 "Most applications will allow you to export records in CSV format. Consult "
 "the documentation for your application if you're not sure how to do this."
 msgstr ""
+"Het invoerbestand moet in het kommagescheiden formaat (CSV) zijn. De meeste "
+"applicaties bieden hiervoor een exportfunctie aan."
 
 #: templates/CRM/Contribute/Import/Form/UploadFile.hlp
 msgid "Contact Records for Contributors"
@@ -1119,6 +1126,8 @@ msgid ""
 "your local hard drive (or an accessible drive on your network) - and you are "
 "now ready for step 1 (Upload Data)."
 msgstr ""
+"Bewaar het CSV bestand met uw bijdragen en contactgegevens op uw PC en start "
+"met stap 1 (Upload gegevens)."
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.hlp
 msgid ""
@@ -1247,6 +1256,8 @@ msgid ""
 "your local hard drive (or an accessible drive on your network) - and you are "
 "now ready for step 1 (Upload Data)."
 msgstr ""
+"Bewaar het CSV bestand met uw deelnemersgegevens en contactgegevens op uw PC "
+"en start met stap 1 (Upload gegevens)."
 
 #: templates/CRM/Event/Page/ManageEvent.hlp
 msgid "ICalendar Downloads and Feeds"
@@ -1384,6 +1395,10 @@ msgid ""
 "how to do this. Save this file to your local hard drive (or an accessible "
 "drive on your network) - and you are now ready for step 1 (Upload Data)."
 msgstr ""
+"Invoerbestanden moeten in het <strong>kommagescheiden waarden formaat "
+"(CSV)</strong> zijn. De meeste applicaties hebben een exportfunctie in CSV-"
+"formaat. Bewaar het CSV bestand op uw PC en start met stap 1 (Upload "
+"gegevens)."
 
 #: templates/CRM/Import/Form/UploadFile.hlp
 msgid ""
@@ -1408,6 +1423,8 @@ msgid ""
 "If a contact in the import file appears to be a duplicate of an existing "
 "CiviCRM contact..."
 msgstr ""
+"Als een contact in het invoerbestand een duplicaat is van een bestaand "
+"CiviCRM contact..."
 
 #: templates/CRM/Import/Form/UploadFile.hlp
 msgid ""
@@ -1424,18 +1441,25 @@ msgid ""
 "Fields in the database which are NOT included in the import row are left as-"
 "is."
 msgstr ""
+"<strong>Bijwerken:</strong> Werk database bij met de beschikbare "
+"imvoergegevens. Velden in de database die niet in de invoer voorkomen "
+"blijven ongewijzigd."
 
 #: templates/CRM/Import/Form/UploadFile.hlp
 msgid ""
 "<strong>Fill:</strong> Fills in additional contact data only. Database "
 "fields which currently have values are left as-is."
 msgstr ""
+"<strong>Toevoegen:</strong> Voeg alleen nieuwe contactgegevens toe. Velden "
+"die al een waarde hebben, worden niet gewijzigd."
 
 #: templates/CRM/Import/Form/UploadFile.hlp
 msgid ""
 "<strong>No Duplicate Checking:</strong> Inserts all valid records without "
 "comparing them to existing contact records for possible duplicates."
 msgstr ""
+"<strong>Geen controle:</strong> Voeg alle geldige records toe zonder te "
+"controleren of er daardoor een duplicaat van het contact ontstaat."
 
 #: templates/CRM/Mailing/Form/Group.hlp
 msgid ""
@@ -1626,7 +1650,7 @@ msgstr ""
 "velden kunnen opgenomen worden in de berichttekst OF in een herbruikbare "
 "<strong>voettekst</strong>. Lees de online documentatie voor de details <a "
 "href='%1' target='_blank' title='Help on messages. Opens a new window.'>Hoe "
-"verplichte links en contactinormatie te gebruiken, voorbeeld "
+"verplichte links en contactinformatie te gebruiken, voorbeeld "
 "berichten...</a>."
 
 #: templates/CRM/Mailing/Form/Upload.hlp
@@ -1653,7 +1677,7 @@ msgid ""
 "strong> button."
 msgstr ""
 "Als U de inhoud opbouwt op dit scherm kunt U met een eenvoudige editor "
-"simplele HTML-berichten maken. Als U ingewikkelde HTML-berichten wilt maken, "
+"simpele HTML-berichten maken. Als U ingewikkelde HTML-berichten wilt maken, "
 "kunt U beter een eigen HTML-editor gebruiken en de aangemaakte bestanden "
 "uploaden met de strong>Bladeren...</strong> knop."
 
@@ -1705,6 +1729,8 @@ msgid ""
 "your local hard drive (or an accessible drive on your network) - and you are "
 "now ready for step 1 (Upload Data)."
 msgstr ""
+"Bewaar het CSV bestand met uw lidmaatschapgegevens en contactgegevens op uw "
+"PC en start met stap 1 (Upload gegevens)."
 
 #: templates/CRM/Member/Page/MembershipType.hlp
 msgid ""
@@ -1712,18 +1738,21 @@ msgid ""
 "Types where memberships are automatically granted to related contacts. "
 "Examples are listed below:"
 msgstr ""
+"Met <strong>Type relatie</strong> kunnen lidmaatschaptypes gemaakt worden "
+"waarvan de leden automatisch gekoppeld worden met verwante contacten. "
+"Hieronder worden voorbeelden genoemd:"
 
 #: templates/CRM/Member/Page/MembershipType.hlp
 msgid "Direct member is:"
-msgstr ""
+msgstr "Direct lid is:"
 
 #: templates/CRM/Member/Page/MembershipType.hlp
 msgid "Membership is automatically granted to:"
-msgstr ""
+msgstr "Lidmaatschap is verwant met:"
 
 #: templates/CRM/Member/Page/MembershipType.hlp
 msgid "a household"
-msgstr ""
+msgstr "een huishouden"
 
 #: templates/CRM/Member/Page/MembershipType.hlp
 msgid "'Household Members' of that household"
@@ -1842,7 +1871,7 @@ msgstr ""
 
 #: templates/CRM/UF/Page/Group.hlp
 msgid "EXAMPLE:"
-msgstr ""
+msgstr "Voorbeeld:"
 
 #: templates/CRM/UF/Page/Group.hlp
 msgid ""
