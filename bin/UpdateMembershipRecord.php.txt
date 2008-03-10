@@ -2,9 +2,9 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 2.1                                                |
+ | CiviCRM version 2.0                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2008                                |
+ | Copyright CiviCRM LLC (c) 2004-2007                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -37,13 +37,19 @@
 require_once '../civicrm.config.php';
 require_once 'CRM/Core/Config.php';
 
-require_once 'api/crm.php';
+require_once 'api/Membership.php';
 require_once 'CRM/Member/BAO/Membership.php';
 require_once 'CRM/Contact/DAO/Contact.php';
 require_once "CRM/Core/BAO/MessageTemplates.php";
 require_once "CRM/Member/BAO/MembershipType.php";
 require_once 'CRM/Member/BAO/MembershipLog.php';
 require_once "CRM/Utils/Date.php";
+require_once 'api/utils.php';
+
+require_once 'api/v2/Contact.php';
+require_once 'api/Relationship.php';
+require_once 'api/Membership.php';
+require_once 'api/Event.php';
 
 class CRM_UpdateMembershipRecord 
 {
@@ -112,14 +118,19 @@ WHERE  civicrm_membership.contact_id = civicrm_contact.id
                                                          'status_id' => $newStatus['id']) );
                 }
             }
+            //convert date from string format to timestamp format
+            $reminder_date = CRM_Utils_DATE::unixTime( $dao->reminder_date );
+            $today_date    = CRM_Utils_DATE::unixTime( $today );
             
             //send reminder for membership renewal
             if ( $dao->reminder_date &&
-                 ( $dao->reminder_date <= $today ) ) {
+                 ( $reminder_date <= $today_date ) ) {
                 $memType =& new CRM_Member_BAO_MembershipType( );
+                
                 $memType->id = $dao->membership_type_id;
                 if ( $memType->find( true ) &&
                      $memType->renewal_msg_id ) {
+                    require_once 'CRM/Contact/BAO/Contact.php';
                     $toEmail  = CRM_Contact_BAO_Contact::getPrimaryEmail( $dao->contact_id );
 
                     if ( $toEmail ) {
@@ -171,4 +182,4 @@ echo "\n Updating ";
 $obj->updateMembershipStatus( $domainId );
 echo "\n\n Membership records updated. (Done) \n";
 
-
+?>
