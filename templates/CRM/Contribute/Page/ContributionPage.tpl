@@ -12,7 +12,7 @@
 
         {if NOT ($action eq 1 or $action eq 2) }
             <div class="action-link">
-            <a href="{$newPageURL}" id="newContributionPage">&raquo;  {ts}New Contribution Page{/ts}</a>
+            <a accesskey="N" href="{$newPageURL}" id="newContributionPage">&raquo;  {ts}New Contribution Page{/ts}</a>
             </div>
         {/if}
         
@@ -60,7 +60,7 @@
     {else}
     <div class="messages status">
         <img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /> &nbsp;
-        {ts 1=$newPageURL}No contribution pages have been created yet. Click <a href='%1'>here</a> to create a new contribution page using the step-by-step wizard.{/ts}
+        {ts 1=$newPageURL}No contribution pages have been created yet. Click <a accesskey="N" href='%1'>here</a> to create a new contribution page using the step-by-step wizard.{/ts}
     </div>
     {/if}
 {/if}

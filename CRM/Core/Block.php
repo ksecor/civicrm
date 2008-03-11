@@ -229,12 +229,15 @@ class CRM_Core_Block {
             if (CRM_Core_Permission::check('add contacts')) {
                 $shortCuts = array( array( 'path'  => 'civicrm/contact/add',
                                            'query' => 'ct=Individual&reset=1',
+                                           'key'   => 'I',
                                            'title' => ts('New Individual') ),
                                     array( 'path'  => 'civicrm/contact/add',
                                            'query' => 'ct=Organization&reset=1',
+                                           'key'   => 'O',
                                            'title' => ts('New Organization') ),
                                     array( 'path'  => 'civicrm/contact/add',
                                            'query' => 'ct=Household&reset=1',
+                                           'key'   => 'H',
                                            'title' => ts('New Household') ),
                                     );
                 if ( CRM_Core_Permission::access( 'Quest' ) ) {
@@ -248,6 +251,7 @@ class CRM_Core_Block {
             if ( CRM_Core_Permission::check('edit groups')) {
                 $shortCuts = array_merge($shortCuts, array( array( 'path'  => 'civicrm/group/add',
                                                                    'query' => 'reset=1',
+                                                                   'key'   => 'G',
                                                                    'title' => ts('New Group') ) ));
             }
 
@@ -260,6 +264,7 @@ class CRM_Core_Block {
             // add new activity creation link
             $shortCuts = array_merge($shortCuts, array( array( 'path'  => 'civicrm/activity',
                                                                'query' => 'action=add&reset=1&context=standalone',
+                                                               'key'   => 'A',
                                                                'title' => ts('New Activity') ) ));
 
             if ( empty( $shortCuts ) ) {
@@ -277,6 +282,7 @@ class CRM_Core_Block {
                 $value['url'] = CRM_Utils_System::url( $short['path'], $short['query'] );
             }
             $value['title'] = $short['title'];
+            $value['key'] = $short['key'];
             $values[] = $value;
         }
         self::setProperty( self::SHORTCUTS, 'templateValues', array( 'shortCuts' => $values ) );

@@ -6,7 +6,7 @@
 {/if}
 
 <div class="action-link">
-    <a href="{crmURL p='civicrm/mailing/send' q='reset=1'}">&raquo; {ts}New Mailing{/ts}</a>
+    <a accesskey="N" href="{crmURL p='civicrm/mailing/send' q='reset=1'}">&raquo; {ts}New Mailing{/ts}</a>
 </div>
 
 {include file="CRM/Mailing/Form/Search.tpl"}
