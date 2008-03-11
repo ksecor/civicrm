@@ -447,7 +447,7 @@ function crm_update_contact_membership($params)
     }
     
     $membershipBAO->save();
-    
+    require_once 'CRM/Core/Action.php';
     // Check and add membership for related contacts
     $relatedContacts =
         CRM_Member_BAO_Membership::checkMembershipRelationship( 
