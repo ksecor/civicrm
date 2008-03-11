@@ -93,7 +93,9 @@ function civicrm_og_sync_nodeapi( &$node, $op, $a3 = null, $a4 = null ) {
 
 function civicrm_og_sync_og( $op, $nid, $uid, $args = array( ) ) {
     // check if civicrm is present
-    if ( ! function_exists( 'civicrm_initialize' ) ) {
+    if ( ! function_exists( 'civicrm_initialize' ) ||
+         empty( $nid ) ||
+         empty( $uid ) ) {
         return;
     }
 
