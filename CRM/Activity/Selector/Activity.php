@@ -252,7 +252,7 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
      */
     function getTotalCount($action)
     {
-        return CRM_Activity_BAO_Activity::getNumOpenActivity($this->_contactId, $this->_admin);
+        return CRM_Activity_BAO_Activity::getNumOpenActivity($this->_contactId, $this->_admin, $this->_context );
     }
 
 
@@ -271,8 +271,9 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
     {
         $params['contact_id'] = $this->_contactId;
 
-        $rows =& CRM_Activity_BAO_Activity::getOpenActivities($params, $offset, $rowCount, $sort, 'Activity', $this->_admin, $case);
-
+        $rows =& CRM_Activity_BAO_Activity::getOpenActivities($params, $offset, $rowCount, $sort,
+                                                              'Activity', $this->_admin, $case, $this->_context );
+        
         if ( empty( $rows ) ) {
             return $rows;
         }

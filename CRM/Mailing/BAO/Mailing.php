@@ -1625,7 +1625,7 @@ SELECT DISTINCT( m.id ) as id
 
 
     /**
-     * compose the url to show details of activityHistory for CiviMail
+     * Function to show detail Mailing report 
      *
      * @param int $id
      *
@@ -1636,7 +1636,6 @@ SELECT DISTINCT( m.id ) as id
     static function showEmailDetails( $id )
     {
         return CRM_Utils_System::url('civicrm/mailing/report', "mid=$id");
-        
     }
 
      /**

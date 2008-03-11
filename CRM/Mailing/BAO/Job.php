@@ -334,7 +334,7 @@ ORDER BY j.scheduled_date,
                 CRM_Mailing_Event_BAO_Delivered::create($params);
             }
             
-            // add activity histroy record for every mail that is send
+            // add activity record for every mail that is send
             $activityTypeID = CRM_Core_OptionGroup::getValue( 'activity_type',
                                                               'Email',
                                                               'name' );
@@ -345,6 +345,7 @@ ORDER BY j.scheduled_date,
                               'source_record_id'     => $this->mailing_id,
                               'activity_date_time'   => $job_date,
                               'subject'              => $mailing->subject
+                              'status_id'            => 2
                               );
             
             require_once 'api/v2/Activity.php';
