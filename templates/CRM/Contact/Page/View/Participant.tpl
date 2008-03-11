@@ -8,7 +8,7 @@
 
     <div id="help">
         <p>{ts 1=$displayName}This page lists all event registrations for %1 since inception.{/ts} 
-        {if $permission EQ 'edit'}{ts 1=$newEventURL}Click <a href='%1'>New Event Registration</a> to register this contact for an event.{/ts}{/if}
+        {if $permission EQ 'edit'}{ts 1=$newEventURL}Click <a accesskey="N" href='%1'>New Event Registration</a> to register this contact for an event.{/ts}{/if}
         </p>
     </div>
 

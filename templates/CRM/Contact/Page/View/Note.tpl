@@ -70,7 +70,7 @@
 
        {if $permission EQ 'edit' AND ($action eq 16 or $action eq 4 or $action eq 8)}
        <div class="action-link">
-    	 <a href="{crmURL p='civicrm/contact/view/note' q="cid=`$contactId`&action=add"}">&raquo; {ts}New Note{/ts}</a>
+    	 <a accesskey="N" href="{crmURL p='civicrm/contact/view/note' q="cid=`$contactId`&action=add"}">&raquo; {ts}New Note{/ts}</a>
        </div>
        {/if}
     </div>
@@ -81,7 +81,7 @@
     <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
         {capture assign=crmURL}{crmURL p='civicrm/contact/view/note' q='action=add'}{/capture}
-        <dd>{ts 1=$crmURL}There are no Notes for this contact. You can <a href='%1'>add one</a>.{/ts}</dd>
+        <dd>{ts 1=$crmURL}There are no Notes for this contact. You can <a accesskey="N" href='%1'>add one</a>.{/ts}</dd>
     </dl>
    </div>
 {/if}

@@ -14,7 +14,7 @@
            <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
            <dd>
                 {if $permission EQ 'edit'}
-                    {ts 1=$newURL}There are no memberships recorded for this contact. You can <a href='%1'>enter one now</a>.{/ts}
+                    {ts 1=$newURL}There are no memberships recorded for this contact. You can <a accesskey="N" href='%1'>enter one now</a>.{/ts}
                 {else}
                     {ts}There are no memberships recorded for this contact.{/ts}
                 {/if}
@@ -29,7 +29,7 @@
         </div>
 
         <div class="action-link solid-border-bottom">
-            <a href="{$newURL}">&raquo; {ts}New Membership{/ts}</a>
+            <a accesskey="N" href="{$newURL}">&raquo; {ts}New Membership{/ts}</a>
         </div>
     {/if}
 

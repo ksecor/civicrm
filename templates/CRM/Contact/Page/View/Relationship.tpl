@@ -56,7 +56,7 @@
            {capture assign=crmURL}{crmURL p='civicrm/contact/view/rel' q="action=add"}{/capture}
            <dd>
                 {if $permission EQ 'edit'}
-                    {ts 1=$crmURL}There are no Relationships entered for this contact. You can <a href='%1'>add one</a>.{/ts}
+                    {ts 1=$crmURL}There are no Relationships entered for this contact. You can <a accesskey="N" href='%1'>add one</a>.{/ts}
                 {else}
                     {ts}There are no Relationships entered for this contact.{/ts}
                 {/if}
@@ -69,7 +69,7 @@
   <div>
     {if $action NEQ 1 AND $action NEQ 2 AND $permission EQ 'edit'}
             <div class="action-link">
-                <a href="{crmURL p='civicrm/contact/view/rel' q="cid=`$contactId`&action=add&reset=1"}">&raquo; {ts}New Relationship{/ts}</a>
+                <a accesskey="N" href="{crmURL p='civicrm/contact/view/rel' q="cid=`$contactId`&action=add&reset=1"}">&raquo; {ts}New Relationship{/ts}</a>
             </div>
         {/if}
   </div>

@@ -18,7 +18,7 @@
 
 {if $action eq 16 and $permission EQ 'edit'}
     <div class="action-link">
-        <a href="{$newContribURL}">&raquo; {ts}Record Offline Contribution{/ts}</a>
+        <a accesskey="N" href="{$newContribURL}">&raquo; {ts}Record Offline Contribution{/ts}</a>
         {if $newCredit}
             &nbsp; &nbsp; <a href="{$newCreditURL}">&raquo; {ts}Submit Credit Card Contribution{/ts}</a>
         {/if}
