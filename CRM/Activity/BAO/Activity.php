@@ -356,8 +356,13 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                                         $sort = null, $type='Activity', $admin = false, $caseId = null ) 
     {
         $dao =& new CRM_Core_DAO();
-
-        $params = array( 1 => array( $params['contact_id'], 'Integer' ) );
+        if ( $admin ) {
+            $params = array( );
+            $clause = 1 ;
+        } else {
+            $clause = " ( source_contact_id = %1 or target_contact_id = %1 or assignee_contact_id = %1 or civicrm_case.contact_id = %1 ) ";
+            $params = array( 1 => array( $params['contact_id'], 'Integer' ) );
+        }
 
         // Exclude Contribution-related activity records if user doesn't have 'access CiviContribute' permission
         if ( ! CRM_Core_Permission::check('access CiviContribute') ) {
@@ -402,9 +407,9 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                             civicrm_case_activity.activity_id = civicrm_activity.id
                   left join civicrm_case on
                             civicrm_case_activity.case_id = civicrm_case.id
-                  where ( source_contact_id = %1 or target_contact_id = %1 or assignee_contact_id = %1 or civicrm_case.contact_id = %1 )
+                  where {$clause}
                         and civicrm_option_group.name = 'activity_type' 
-                        and is_test = 0 " . $contributionFilter . $case ;
+                        and is_test = 0  {$contributionFilter} {$case} ";
 
         $order = '';
 
