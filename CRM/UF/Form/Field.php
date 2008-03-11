@@ -551,8 +551,8 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         if ( $is_view && $is_required ) {
             $errors['is_view'] = 'A View Only field cannot be required';
         }
-        if ( $in_selector && ($visibility != 'Public User Pages and Listings' )) {
-            $errors['visibility'] = 'Visibility should be "Public User Pages and Listings" if "In Selector ?" is checked.';
+        if ( $in_selector && ($visibility != 'Public User Pages' ) && ($visibility != 'Public User Pages and Listings' )) {
+            $errors['visibility'] = 'Visibility must be "Public User Pages" OR "Public User Pages and Listings" if "In Selector" is checked.';
         }
         if ( $is_searchable && ($visibility != 'Public User Pages and Listings' )) {
             $errors['visibility'] = 'Visibility must be set to Public User Pages and Listings if you want this field to be Searchable.';
