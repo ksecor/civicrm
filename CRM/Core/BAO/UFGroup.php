@@ -1417,7 +1417,8 @@ WHERE  id = $cfID
         } else if ( $fieldName === 'home_URL' ) {
             $form->addElement('text', $name, $title,
                               array_merge( CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'home_URL'),
-                                           array('onfocus' => "if (!this.value) this.value='http://'; else return false")
+                                           array('onfocus' => "if (!this.value) this.value='http://'; else return false",
+                                                 'onblur' => "if ( this.value == 'http://') this.value=''; else return false")
                                            ));
             
             $form->addRule($name, ts('Enter a valid Website.'), 'url');

@@ -71,7 +71,8 @@ class CRM_Contact_Form_Organization extends CRM_Core_Form
         // home_URL
         $form->addElement('text', 'home_URL', ts('Website'),
                           array_merge( CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'home_URL'),
-                                       array('onfocus' => "if (!this.value) this.value='http://'; else return false")
+                                       array('onfocus' => "if (!this.value) this.value='http://'; else return false",
+                                             'onblur' => "if ( this.value == 'http://') this.value=''; else return false")
                                        ));
         $form->addRule('home_URL', ts('Enter a valid Website.'), 'url');
         
