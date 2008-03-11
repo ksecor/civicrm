@@ -135,11 +135,23 @@ ORDER BY a.id
     while ( $dao->fetch( ) ) {
         $totalAddresses++;
         $params = array( 'street_address'    => $dao->street_address,
+                         'postal_code'       => $dao->postal_code,
                          'city'              => $dao->city,
                          'state_province'    => $dao->state,
-                         'postal_code'       => $dao->postal_code,
                          'country'           => $dao->country );
-        eval( $config->geocodeMethod . '::format( $params, true );' );
+
+        // loop through the address removing more information
+        // so we can get some geocode for a partial address
+        // i.e. city -> state -> country
+
+        $maxTries = 5;
+        do {
+            eval( $config->geocodeMethod . '::format( $params, true );' );
+            array_shift( $params );
+            $maxTries--;
+        } while ( ( $params['geo_code_1'] == 0 ) &&
+                  ( $maxTries > 1 ) );
+            
         if ( isset( $params['geo_code_1'] ) ) {
             $address = new CRM_Core_DAO_Address( );
             $address->id = $dao->address_id;
