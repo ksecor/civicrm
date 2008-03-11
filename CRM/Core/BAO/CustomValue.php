@@ -366,6 +366,24 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO
         $customValue->save();
     }
 
+    public static function fixFieldValueOfTypeMemo( &$formValues )
+    {
+        foreach( array_keys( $formValues ) as $key ){
+            if ( substr($key,0,7) != 'custom_' ){
+                continue;
+            }else if( empty($formValues[$key]) ){
+                continue;
+            }
+            
+            $htmlType = CRM_Core_DAO::getFieldValue( 'CRM_Core_BAO_CustomField', 
+                                                     substr($key,7), 'html_type');
+            if ( ( $htmlType == 'TextArea' ) && 
+                 ! ( ( substr( $formValues[$key],0,1) == '%' ) ||
+                     ( substr( $formValues[$key],-1,1) == '%' ) ) ){
+                $formValues[$key] = '%' .  $formValues[$key] . '%';
+            }
+        }
+    }
 }
 
 

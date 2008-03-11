@@ -198,7 +198,6 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
     {
         $session =& CRM_Core_Session::singleton();
         $session->set('isAdvanced', '1');
-
         // get user submitted values
         // get it from controller only if form has been submitted, else preProcess has set this
         if ( ! empty( $_POST ) ) {
@@ -240,13 +239,17 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
                 $this->_formValues['sortByCharacter'] = $this->_sortByCharacter;
             }
         }
-
+      
+        require_once 'CRM/Core/BAO/CustomValue.php';
+        CRM_Core_BAO_CustomValue::fixFieldValueOfTypeMemo( $this->_formValues );
+        
         require_once 'CRM/Contact/BAO/Query.php';
         $this->_params =& CRM_Contact_BAO_Query::convertFormValues( $this->_formValues );
+        //         eval( 'CRM_Contact_Form_Search_Criteria::' . $type . '( $this );' );
         $this->_returnProperties =& $this->returnProperties( );
         parent::postProcess( );
     }
-
-}
+    
+ }
 
 

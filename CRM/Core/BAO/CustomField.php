@@ -312,11 +312,16 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
         }
         
         $field =& new CRM_Core_DAO_CustomField();
+        
         $field->id = $fieldId;
         if (! $field->find(true)) {
             CRM_Core_Error::fatal( );
+
         }
-        
+        // Fixed for Issue CRM-2183
+        if ( $field->html_type == 'TextArea' && $search ){
+            $field->html_type = 'Text';
+        }
         if (!isset($label)) {
             $label = $field->label;
         }

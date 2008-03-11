@@ -334,7 +334,10 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form
         foreach ( array( 'contribution_amount_low', 'contribution_amount_high' ) as $f ) {
             $this->_formValues[$f] = CRM_Utils_Rule::cleanMoney( $this->_formValues[$f] );
         }
-
+       
+        require_once 'CRM/Core/BAO/CustomValue.php';
+        CRM_Core_BAO_CustomValue::fixFieldValueOfTypeMemo( $this->_formValues );
+        
         require_once 'CRM/Contact/BAO/Query.php';
         $this->_queryParams =& CRM_Contact_BAO_Query::convertFormValues( $this->_formValues ); 
 

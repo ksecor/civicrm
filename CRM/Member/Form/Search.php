@@ -308,6 +308,9 @@ class CRM_Member_Form_Search extends CRM_Core_Form
             $this->_formValues["member_test"] = 0;
         }
         
+        require_once 'CRM/Core/BAO/CustomValue.php';
+        CRM_Core_BAO_CustomValue::fixFieldValueOfTypeMemo( $this->_formValues );
+
         require_once 'CRM/Contact/BAO/Query.php';
         $this->_queryParams =& CRM_Contact_BAO_Query::convertFormValues( $this->_formValues ); 
 
