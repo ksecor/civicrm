@@ -135,6 +135,11 @@ class CRM_Core_Error extends PEAR_ErrorStack {
      */
     public static function handle( $pearError )
     {
+        // do a hard rollback of any pending transactions
+        // if we've come here, its because of some unexpected PEAR errors
+        require_once 'CRM/Core/Transaction.php';
+        CRM_Core_Transaction::rollback( );
+
         // setup smarty with config, session and template location.
         $template =& CRM_Core_Smarty::singleton( );
         $config   =& CRM_Core_Config::singleton( );
