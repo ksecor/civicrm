@@ -329,7 +329,8 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
      * @access public
      *
      */
-    function addButtons( $params ) {
+    function addButtons( $params ) 
+    {
         $prevnext = array( );
         $spacing = array( );
         foreach ( $params as $button ) {
@@ -353,6 +354,9 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
                 } else {
                     $buttonName = $this->getButtonName( $button['type'] );
                 }
+                if ( $button['type'] === 'next' && $button['name'] === 'Save' ) {
+                    $attrs = array_merge( $attrs , ( array ( 'accesskey' => 'S' ) ) );
+                }                
                 $prevnext[] =& $this->createElement( 'submit', $buttonName, $button['name'], $attrs );
             }
             if ( CRM_Utils_Array::value( 'isDefault', $button ) ) {
