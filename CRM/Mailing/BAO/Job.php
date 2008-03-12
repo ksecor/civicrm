@@ -397,7 +397,7 @@ ORDER BY j.scheduled_date,
                 'Canceled'  =>  ts('Canceled'),
             );
         }
-        return CRM_Utils_Array::value($status, $translation, ts('Unknown'));
+        return CRM_Utils_Array::value($status, $translation, ts('Not scheduled'));
     }
 }
 
