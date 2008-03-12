@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
 "POT-Creation-Date: 2007-11-19 18:04+0100\n"
-"PO-Revision-Date: 2008-03-10 04:48-0700\n"
+"PO-Revision-Date: 2008-03-10 06:53-0700\n"
 "Last-Translator: Han Velthuis <han.velthuis@tiscali.nl>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -327,7 +327,7 @@ msgstr "Periode"
 
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
 msgid "Selected Meeting is deleted sucessfully."
-msgstr "De geselecteerde bijeenkomst is succesvol verwijderd."
+msgstr "De geselecteerde bijeenkomst is verwijderd."
 
 #: CRM/Activity/Form/OtherActivity.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Contact/Form/Task/Record.php CRM/Contact/Selector/Activity.php
@@ -1370,7 +1370,7 @@ msgstr "Kan de file niet verplaatsen naar de upload directory"
 #: CRM/Core/BAO/Mapping.php CRM/History/Import/Form/MapField.php
 #: CRM/Import/Form/MapField.php
 msgid "Mapping Option"
-msgstr "Mapping optie"
+msgstr "Veldoverzichten"
 
 #: CRM/Core/BAO/Mapping.php CRM/History/Import/Form/MapField.php
 #: CRM/Import/Form/MapField.php
@@ -2073,7 +2073,7 @@ msgstr "OF nieuwe telefoon"
 
 #: CRM/Activity/Form/Phonecall.php
 msgid "Selected Phone Call is deleted sucessfully."
-msgstr "Geselecteerde Telefoonoproep is succesvol verwijderd."
+msgstr "Geselecteerde Telefoonoproep is verwijderd."
 
 #: CRM/Admin/Form/DedupeRules.php templates/CRM/Admin/Form/DedupeRules.tpl
 msgid "Field"
@@ -2959,7 +2959,7 @@ msgstr "Taak Status: %1"
 
 #: CRM/Contact/BAO/Relationship.php
 msgid "Selected Relationship has been Deleted Successfuly."
-msgstr "Geselecteerde Relatie is succesvol verwijderd."
+msgstr "Geselecteerde Relatie is verwijderd."
 
 #: CRM/Contact/BAO/RelationshipType.php
 msgid "Invalid relationship type"
@@ -3696,7 +3696,7 @@ msgstr ""
 
 #: CRM/Contact/Form/Task/Delete.php
 msgid "Selected contact was deleted sucessfully."
-msgstr "Geselecteerd contact succesvol verwijderd"
+msgstr "Geselecteerd contact verwijderd."
 
 #: CRM/Contact/Form/Task/Delete.php
 msgid "Selected contact cannot be deleted."
@@ -4297,7 +4297,7 @@ msgstr "Neem contact op met CiviCRM support voor ondersteuning."
 
 #: CRM/Core/BAO/Mapping.php
 msgid "Selected Mapping has been Deleted Successfuly."
-msgstr "De geselecteerde Mapping is succesvol verwijderd."
+msgstr "De geselecteerde mapping is verwijderd."
 
 #: CRM/Core/BAO/Mapping.php templates/CRM/Contact/Form/Search/table.tpl
 msgid "Also include contacts where"
@@ -4325,7 +4325,7 @@ msgstr "Geselecteerd berichten sjabloon is verwijderd."
 
 #: CRM/Core/BAO/Note.php
 msgid "Selected Note has been Deleted Successfuly."
-msgstr "Geselecteerde notitie is succesvol verwijderd."
+msgstr "Geselecteerde notitie is verwijderd."
 
 #: CRM/Core/BAO/PaymentProcessor.php
 msgid "Invalid value passed to getPayment function"
@@ -4337,7 +4337,7 @@ msgstr "Kan geen betaalmethode gegevens ontvangen"
 
 #: CRM/Core/BAO/Tag.php
 msgid "Selected Tag has been Deleted Successfuly."
-msgstr "De geselecteerde markering is succesvol verwijderd."
+msgstr "De geselecteerde markering is verwijderd."
 
 #: CRM/Core/BAO/Tag.php
 msgid "The tag \"%1\" has been saved."
@@ -7610,8 +7610,7 @@ msgid ""
 "WARNING: Are you sure you want to delete mapping '<b>%1</b>'? This action "
 "can not be undone."
 msgstr ""
-"PAS OP: Wilt U '<b>%1</b>' Mapping verwijderen? Deze actie kan niet worden "
-"hersteld."
+"Wilt U mapping '<b>%1</b>' verwijderen? Deze actie kan niet worden hersteld."
 
 #: templates/CRM/Admin/Form/MessageTemplates.tpl
 msgid "New Message Template"
@@ -8413,8 +8412,8 @@ msgid ""
 "Click <strong>Use Rule</strong> next to the type of contact for which you "
 "want to look for duplicates."
 msgstr ""
-"Klik op <strong>Gebruik regel</strong> naast het contactype waarvoor U naar "
-"duplicaten wilt zoeken."
+"Klik op <strong>Gebruik regel</strong> naast het contact type waarvoor U "
+"naar duplicaten wilt zoeken."
 
 #: templates/CRM/Admin/Page/DedupeRules.tpl
 msgid ""
@@ -11411,7 +11410,7 @@ msgstr "Geimporteerde records"
 #: templates/CRM/History/Import/Form/Summary.tpl
 #: templates/CRM/Import/Form/Summary.tpl
 msgid "Rows imported successfully."
-msgstr "Succesvol geimporteerde rijen."
+msgstr "Geimporteerde rijen."
 
 #: templates/CRM/History/Import/Form/UploadFile.tpl
 msgid ""
@@ -11600,10 +11599,10 @@ msgid_plural ""
 "CiviCRM has detected %count records which are duplicates of existing CiviCRM "
 "contact records."
 msgstr[0] ""
-"Er is een record gesignaleerd, dat overeen komt met een reeds bestaand "
+"Er is een record gesignaleerd, dat overeenkomt met een reeds bestaand "
 "CiviCRM contact record."
 msgstr[1] ""
-"Er zijn %count records gesignaleerd, dat overeen komen met reeds bestaande "
+"Er zijn %count records gesignaleerd, die overeenkomen met reeds bestaande "
 "CiviCRM contact records."
 
 #: templates/CRM/Import/Form/Summary.tpl
@@ -11612,17 +11611,16 @@ msgid ""
 "records to determine if they are actually duplicates, and correct the email "
 "address for those that are not."
 msgstr ""
-"U kunt een lijst met dubbele <a href=\"%1\">downloaden</a>. Bekijk deze "
-"lijst,om te kijken waar de eventuele dubbele records voorkomen, en corrigeer "
-"de emailadressen zonodig."
+"U kunt een lijst met duplicaten <a href=\"%1\">downloaden</a>. Bekijk deze "
+"lijst en corrigeer, indien nodig, de e-mailadressen."
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid "Rows with mismatched contact IDs... (NOT updated)."
-msgstr "Aantal rijen met nietovereenkomstig contact IDs (niet bijgewerkt)."
+msgstr "Aantal rijen met niet-overeenkomstig contact IDs (niet bijgewerkt)."
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid "Download Mismatched Contacts"
-msgstr "Download Nietovereenkomstige Contacten"
+msgstr "Download niet-overeenkomstige Contacten"
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid "Rows with conflicting email addresses (NOT imported)."
