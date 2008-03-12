@@ -5,7 +5,7 @@
 
 <div id="mainTabContainer" dojoType="dijit.layout.TabContainer" class ="tundra" style="width: 100%; height: 600px; overflow-y: auto;" >
 
-<div id="summary" dojoType="dojox.layout.ContentPane" title="Summary" class ="tundra" style="overflow: auto; width: 100%; height: 100%;">
+<div id="summary" dojoType="dojox.layout.ContentPane" title="{ts}Summary{/ts}" class ="tundra" style="overflow: auto; width: 100%; height: 100%;">
 
 {* View Contact Summary *}
 <div id="contact-name" class="section-hidden section-hidden-border">
