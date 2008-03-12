@@ -344,7 +344,7 @@ ORDER BY j.scheduled_date,
                               'activity_type_id'     => $activityTypeID,
                               'source_record_id'     => $this->mailing_id,
                               'activity_date_time'   => $job_date,
-                              'subject'              => $mailing->subject
+                              'subject'              => $mailing->subject,
                               'status_id'            => 2
                               );
             
