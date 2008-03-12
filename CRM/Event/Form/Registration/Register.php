@@ -293,7 +293,6 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
     {
         //To check if the user is already registered for the event(CRM-2426)
         self::checkRegistration($fields, $self);
-             
         if ( $self->_values['event']['is_monetary'] ) {
             $payment =& CRM_Core_Payment::singleton( $self->_mode, 'Event', $self->_paymentProcessor );
             $error   =  $payment->checkConfig( $self->_mode );
@@ -314,12 +313,28 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             //is an already member
             $session =& CRM_Core_Session::singleton( );
             $userID  = $session->get( 'userID' );
-            if( !$userID && CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue',$fields['amount'], 'value', 'id' ) == 0 ) {
-                $errors['amount'] =  ts("The Zero amount facility is only for the valid members" );
+            if( $fields['priceSetId'] ) { 
+                foreach( $fields as $key => $val  )  {
+                    if ( substr( $key, 0, 6 ) == 'price_' ){
+                        $fieldId = substr( $key, 6 );
+                        $zeroAmount = $val;
+                        if( $zeroAmount && !$userID && 
+                            CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $zeroAmount, 'value', 'id' ) == 0 ) {
+                            $errors['price_'.$fieldId] =  ts( "The Zero amount facility is only for the valid members" );
+                        }
+                    }   
+                }
+            } else {
+                $zeroAmount = $fields['amount'];
+                if( $zeroAmount && !$userID && 
+                    CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue',$zeroAmount, 'value', 'id' ) == 0 ) {
+                    $errors['amount'] =  ts( "The Zero amount facility is only for the valid members" );
+                }
             }
-
-            // also return if paylater mode
-            if ( CRM_Utils_Array::value( 'is_pay_later', $fields ) || (CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue',$fields['amount'], 'value', 'id' ) == 0) ) {
+            
+            // also return if paylater mode or zero fees for valid members
+            if ( $zeroAmount  && ( CRM_Utils_Array::value( 'is_pay_later', $fields ) || 
+                                   ( CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $zeroAmount, 'value', 'id' ) == 0) ) ) {
                 return empty( $errors ) ? true : $errors;
             }
 
