@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-03-12 09:43+0100\n"
-"PO-Revision-Date: 2008-03-03 07:42-0800\n"
+"PO-Revision-Date: 2008-03-12 03:39-0700\n"
 "Last-Translator: Eugenia Franzoni <eugenia@catnic.it>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -818,7 +818,7 @@ msgstr "Formato Nome Individuo"
 #: CRM/Admin/Form/PreferencesDate.php CRM/Core/DAO/PreferencesDate.php
 #: templates/CRM/Admin/Page/PreferencesDate.tpl
 msgid "Minute Increment"
-msgstr ""
+msgstr "Incremento minuto"
 
 #: CRM/Admin/Form/PreferencesDate.php CRM/Core/DAO/PreferencesDate.php
 #: templates/CRM/Admin/Page/PreferencesDate.tpl
@@ -1456,9 +1456,8 @@ msgstr "Iscrizioni"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Grant.php
 #: CRM/Contact/Page/View/Tabbed.php CRM/Core/SelectValues.php
-#, fuzzy
 msgid "Grants"
-msgstr "Permetti"
+msgstr "Finanziamenti"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Tabbed.php
 #, fuzzy
@@ -2147,18 +2146,16 @@ msgstr "Grazie per aver diffuso la notizia"
 
 #: CRM/Grant/BAO/Query.php CRM/Grant/Form/Grant.php
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Grant Type"
-msgstr "Tipo di dati"
+msgstr "Tipo di finanziamento"
 
 #: CRM/Grant/BAO/Query.php CRM/Grant/Form/Grant.php
-#, fuzzy
 msgid "Grant Status"
-msgstr "Stato Gruppo"
+msgstr "Stato Finanziamento"
 
 #: CRM/Grant/BAO/Query.php CRM/Grant/Form/Grant.php
 msgid "Grant report received?"
-msgstr ""
+msgstr "Ricevuto report finanziamento?"
 
 #: CRM/Grant/DAO/Grant.php CRM/Grant/Selector/Search.php
 #: templates/CRM/Grant/Form/Task/Print.tpl
@@ -2175,9 +2172,8 @@ msgid "Rationale"
 msgstr "Opzioni Valore"
 
 #: CRM/Grant/Form/Task/Delete.php CRM/Grant/Task.php
-#, fuzzy
 msgid "Delete Grants"
-msgstr "Elimina Gruppo"
+msgstr "Elimina Finanziamenti"
 
 #: CRM/Group/Form/Edit.php CRM/Group/Page/Group.php
 msgid "Delete Group"
@@ -2209,13 +2205,13 @@ msgstr "URL server"
 #: CRM/Upgrade/TwoZero/Form/Step3.php CRM/Upgrade/TwoZero/Form/Step4.php
 #: CRM/Upgrade/TwoZero/Form/Step5.php CRM/Upgrade/TwoZero/Form/Step6.php
 msgid "Post-condition failed for upgrade step %1."
-msgstr ""
+msgstr "Post-condizione fallita per l'upgrade al passo %1."
 
 #: CRM/Upgrade/TwoZero/Form/Step2.php CRM/Upgrade/TwoZero/Form/Step3.php
 #: CRM/Upgrade/TwoZero/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step5.php
 #: CRM/Upgrade/TwoZero/Form/Step6.php CRM/Upgrade/TwoZero/Form/Step7.php
 msgid "Pre-condition failed for upgrade step %1."
-msgstr ""
+msgstr "Pre-condizione fallita per l'upgrade al passo %1."
 
 #: CRM/Upgrade/TwoZero/Form/Step2.php CRM/Upgrade/TwoZero/Form/Step3.php
 #: CRM/Upgrade/TwoZero/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step5.php
@@ -2224,22 +2220,20 @@ msgstr "Aggiorna e Continua"
 
 #: CRM/Upgrade/TwoZero/Form/Step3.php CRM/Upgrade/TwoZero/Form/Step4.php
 #: CRM/Upgrade/TwoZero/Form/Step5.php CRM/Upgrade/TwoZero/Form/Step6.php
-#, fuzzy
 msgid "Database consistency check failed for step %1."
-msgstr "Controllo consistenza database fallito."
+msgstr "Controllo consistenza database fallito al passo %1."
 
 #: CRM/Upgrade/TwoZero/Form/Step3.php CRM/Upgrade/TwoZero/Form/Step4.php
 #: CRM/Upgrade/TwoZero/Form/Step6.php
-#, fuzzy
 msgid "FK constraint names not in the required format."
-msgstr ""
-"Controllo di consistenza del database fallito per il passo 3. I nomi dei "
-"vincoli FK non sono nel formato richiesto."
+msgstr "I nomi dei vincoli FK non sono nel formato richiesto."
 
 #: CRM/Upgrade/TwoZero/Form/Step3.php CRM/Upgrade/TwoZero/Form/Step4.php
 #: CRM/Upgrade/TwoZero/Form/Step6.php
 msgid "Please rebuild your 1.9 database to ensure schema integrity."
 msgstr ""
+"Si prega di ricostruire il database 1.9 per assicurarsi l'integrità dello "
+"schema."
 
 #: CRM/ACL/BAO/ACL.php
 msgid "Contact Group"
@@ -2842,12 +2836,13 @@ msgstr ""
 #: templates/CRM/Admin/Page/PreferencesDate.tpl
 #, fuzzy
 msgid "Start Offset"
-msgstr "Data inizio"
+msgstr "Offset inizio"
 
 #: CRM/Admin/Form/PreferencesDate.php
 #: templates/CRM/Admin/Page/PreferencesDate.tpl
+#, fuzzy
 msgid "End Offset"
-msgstr ""
+msgstr "Offset fine"
 
 #: CRM/Admin/Form/PreferencesDate.php
 msgid "Preferences Date Options can only be updated"
@@ -4724,6 +4719,8 @@ msgid ""
 "Cannot connect to UF db via %1. Please check the CIVICRM_UF_DSN value in "
 "your civicrm.settings.php file"
 msgstr ""
+"Impossibile connettersi al db UF via %1. Controllare il valore di "
+"CIVICRM_UF_DSN nel file civicrm.settings.php"
 
 #: CRM/Core/BAO/CMSUser.php
 msgid "Synchronize Users to Contacts completed."
@@ -6686,9 +6683,8 @@ msgstr ""
 "corrisponde ai tipo di dati assegnato a questo campo."
 
 #: CRM/Custom/Form/Field.php
-#, fuzzy
 msgid "Field's Name should not start with digit"
-msgstr "Il nome dell'insieme non deve iniziare con una cifra"
+msgstr "Il nome del campo non deve iniziare con una cifra"
 
 #: CRM/Custom/Form/Field.php
 msgid "Your custom field '%1' has been saved"
@@ -7051,14 +7047,12 @@ msgid "You need to enter at least one friend's information."
 msgstr "Devi inserire almeno le informazioni su un amico."
 
 #: CRM/Grant/BAO/Query.php
-#, fuzzy
 msgid "Grant Type %2 %1"
-msgstr "Tipo di attività %2 '%1'"
+msgstr "Tipo di finanziamento %2 %1"
 
 #: CRM/Grant/BAO/Query.php
-#, fuzzy
 msgid "Grant Status %2 %1"
-msgstr "Stato del compito: %1"
+msgstr "Stato del finanziamento %2 %1"
 
 #: CRM/Grant/BAO/Query.php
 msgid "App. Recieved Date - From"
@@ -7073,9 +7067,8 @@ msgid "Report Due Date - From"
 msgstr "Data prevista report - Da"
 
 #: CRM/Grant/BAO/Query.php
-#, fuzzy
 msgid "Grant Decision Date - From"
-msgstr "Data di morte"
+msgstr "Data di decisione del finanziamento - da"
 
 #: CRM/Grant/BAO/Query.php
 msgid "Minimum Amount"
@@ -7106,13 +7099,12 @@ msgid "Money Transfer Date"
 msgstr "Data trasferimento denaro"
 
 #: CRM/Grant/DAO/Grant.php
-#, fuzzy
 msgid "Grant Due Date"
-msgstr "Seleziona Data"
+msgstr "Data prevista finanziamento"
 
 #: CRM/Grant/DAO/Grant.php
 msgid "Grant Report Received"
-msgstr ""
+msgstr "Report finanziamento ricevuto"
 
 #: CRM/Grant/DAO/Grant.php
 msgid "Amount Total"
@@ -7123,18 +7115,16 @@ msgid "Application Received date"
 msgstr "Data ricezione domanda"
 
 #: CRM/Grant/Form/Grant.php
-#, fuzzy
 msgid "Grant decision date"
-msgstr "Data di morte"
+msgstr "Data di decisione finanziamento"
 
 #: CRM/Grant/Form/Grant.php
 msgid "Money transfer date"
 msgstr "Data trasferimento denaro"
 
 #: CRM/Grant/Form/Grant.php
-#, fuzzy
 msgid "Grant report due date"
-msgstr "Seleziona Data"
+msgstr "Data prevista report finanziamento"
 
 #: CRM/Grant/Form/Grant.php
 msgid "Amount total"
@@ -7149,68 +7139,56 @@ msgid "Amount requested"
 msgstr "Importo richiesto"
 
 #: CRM/Grant/Form/Task/Delete.php
-#, fuzzy
 msgid "Deleted Grant(s): %1"
-msgstr "Contatto/i cancellati: %1"
+msgstr "Finanziamenti cancellati: %1"
 
 #: CRM/Grant/Form/Task/Delete.php
-#, fuzzy
 msgid "Total Selected Grant(s): %1"
-msgstr "Totale Contatti selezionati: %1"
+msgstr "Totale finanziamenti selezionati: %1"
 
 #: CRM/Grant/Form/Task/Print.php
-#, fuzzy
 msgid "Print Grant List"
-msgstr "Stampa elenco contatti"
+msgstr "Stampa elenco finanziamenti"
 
 #: CRM/Grant/Invoke.php
-#, fuzzy
 msgid "Manage Grant"
-msgstr "Gestione Gruppi"
+msgstr "Gestione Finanziamenti"
 
 #: CRM/Grant/Invoke.php
 msgid "You do not have access to this page."
 msgstr "Non si hanno i permessi sufficienti per visualizzare questa pagina."
 
 #: CRM/Grant/Invoke.php
-#, fuzzy
 msgid "Import Grants"
-msgstr "Importa Partecipanti"
+msgstr "Importa Finanziamenti"
 
 #: CRM/Grant/Invoke.php
-#, fuzzy
 msgid "CiviGrant DashBoard"
-msgstr "Dettagli Contatto"
+msgstr "Dettagli Finanziamenti"
 
 #: CRM/Grant/Menu.php templates/CRM/Grant/Form/Search.tpl
-#, fuzzy
 msgid "Find Grants"
-msgstr "Gruppi"
+msgstr "Trova finanziamenti"
 
 #: CRM/Grant/Page/DashBoard.php
-#, fuzzy
 msgid "grants"
-msgstr "Permetti"
+msgstr "finanziamenti"
 
 #: CRM/Grant/Selector/Search.php templates/CRM/Grant/Form/GrantView.tpl
-#, fuzzy
 msgid "View Grant"
-msgstr "Permetti"
+msgstr "Visualizza finanziamento"
 
 #: CRM/Grant/Selector/Search.php templates/CRM/Grant/Form/Grant.tpl
-#, fuzzy
 msgid "Edit Grant"
-msgstr "Modifica Gruppo"
+msgstr "Modifica Finanziamento"
 
 #: CRM/Grant/Selector/Search.php
-#, fuzzy
 msgid "Are you sure you want to delete this grant?"
-msgstr "Siete sicuri di voler cancellare questa nota?"
+msgstr "Siete sicuri di voler cancellare questo finanziamento?"
 
 #: CRM/Grant/Selector/Search.php
-#, fuzzy
 msgid "Delete Grant"
-msgstr "Elimina Gruppo"
+msgstr "Elimina finanziamento"
 
 #: CRM/Grant/Selector/Search.php
 msgid "(orig. currency)"
@@ -7221,9 +7199,8 @@ msgid "Application received date"
 msgstr "Data ricezione domanda"
 
 #: CRM/Grant/Selector/Search.php
-#, fuzzy
 msgid "CiviCRM Grant Search"
-msgstr "Ricerca di CiviCRM"
+msgstr "Ricerca di finanziamenti in CiviCRM"
 
 #: CRM/Group/Form/Edit.php
 msgid "Confirm Group Delete"
@@ -7818,7 +7795,7 @@ msgstr "Elimina campo profilo"
 
 #: CRM/UF/Form/Field.php templates/CRM/UF/Page/Field.tpl
 msgid "In Selector?"
-msgstr ""
+msgstr "Selettore In?"
 
 #: CRM/UF/Form/Field.php
 msgid "Listings Title"
@@ -8101,11 +8078,11 @@ msgstr "Aggiornamento a CiviCRM 2.0: Passo 4 (Aggiornamento delle attività)"
 
 #: CRM/Upgrade/TwoZero/Form/Step5.php
 msgid "Value missing in %1 for the column '%2'."
-msgstr ""
+msgstr "Valore mancante per %1 nella colonna '%2'."
 
 #: CRM/Upgrade/TwoZero/Form/Step5.php
 msgid "A custom field can not have '%1' as the '%2'."
-msgstr ""
+msgstr "Un campo personalizzato non può avere '%1' come '%2'."
 
 #: CRM/Upgrade/TwoZero/Form/Step5.php
 msgid "CiviCRM 2.0 Upgrade: Step Five (Custom Data Upgrade)"
@@ -12059,30 +12036,30 @@ msgstr "(nome visualizzato non disponibile)"
 #: templates/CRM/Contact/Page/View/Grant.tpl
 msgid "This page lists all grant registrations for %1 since inception."
 msgstr ""
+"Questa pagina elenca tutte le richieste di finanziamenti per %1 dall'inizio."
 
 #: templates/CRM/Contact/Page/View/Grant.tpl
 msgid "Click <a href='%1'>New Grant</a> to register this contact for a Grant."
 msgstr ""
+"Clicca su <a href='%1'>Nuovo finanziamento</a> per registrare il contatto "
+"per un finanziamento."
 
 #: templates/CRM/Contact/Page/View/Grant.tpl
 #: templates/CRM/Grant/Form/Grant.tpl
-#, fuzzy
 msgid "New Grant"
-msgstr "Permetti"
+msgstr "Nuovo finanziamento"
 
 #: templates/CRM/Contact/Page/View/Grant.tpl
-#, fuzzy
 msgid ""
 "There are no grant recorded for this contact. You can <a href='%1'>enter one "
 "now</a>."
 msgstr ""
-"Non ci sono campi profilo CiviCRM per \"%1\", you can <a href=\"%2"
-"\">aggiungine uno ora</a>."
+"Non ci sono finanziamenti registrati per questo contatto; se ne può <a "
+"href='%1'>aggiungere uno ora</a>."
 
 #: templates/CRM/Contact/Page/View/Grant.tpl
-#, fuzzy
 msgid "There are no grant recorded for this contact."
-msgstr "Non sono registrate iscrizioni per il tuo utente."
+msgstr "Non sono registrati finanziamenti per questo contatto."
 
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
 msgid "This contact does not currently belong to any groups."
@@ -12877,6 +12854,11 @@ msgid ""
 "with a personalized message. CiviCRM will record these solicitation "
 "activities, and will add the friends to your database."
 msgstr ""
+"Dillo ad un amico dà ai contribuenti un modo semplice per diffondere la "
+"notizia di questa campagna di raccolta fondi. La pagina di ringraziamento "
+"per il contributo includerà un link ad un modulo in cui si possano inserire "
+"gli indirizzi email degli amici ed un messaggio personalizzato. CiviCRM "
+"memorizzerà queste richieste ed aggiungerà gli amici al database. "
 
 #: templates/CRM/Friend/Form/Friend.tpl
 msgid ""
@@ -12886,12 +12868,19 @@ msgid ""
 "personalized message. CiviCRM will record these solicitation activities, and "
 "will add the friends to your database."
 msgstr ""
+"Dillo ad un amico dà ai contribuenti un modo semplice per diffondere la "
+"notizia di questa campagna di raccolta fondi. La pagina di ringraziamento "
+"per il contributo includerà un link ad un modulo in cui si possano inserire "
+"gli indirizzi email degli amici ed un messaggio personalizzato. CiviCRM "
+"memorizzerà queste richieste ed aggiungerà gli amici al database."
 
 #: templates/CRM/Friend/Form/Friend.tpl
 msgid ""
 "This message is displayed to the %1 at the top of the Tell a Friend form. "
 "You may include HTML tags to add formatting or links."
 msgstr ""
+"Questo messaggio viene visualizzato al %1 in cima al modulo di Dillo ad un "
+"amico. Si possono includere tag HTML per aggiungere formattazione o link."
 
 #: templates/CRM/Friend/Form/Friend.tpl
 msgid ""

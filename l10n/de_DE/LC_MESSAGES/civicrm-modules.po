@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-03-12 12:22+0100\n"
-"PO-Revision-Date: 2008-03-04 02:33-0800\n"
+"PO-Revision-Date: 2008-03-12 04:53-0700\n"
 "Last-Translator: Gerhard Aigner <gerhard.aigner@arcsmed.at>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -5222,7 +5222,6 @@ msgstr ""
 "\"><strong>existierende Veranstaltungen verwalten</strong></a>."
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
-#, fuzzy
 msgid ""
 "You can also input and track offline contributions. To enter contributions "
 "manually for individual contacts, use <a href='%1'>Find Contacts</a> to "
@@ -5243,7 +5242,6 @@ msgid "Contributions Summary"
 msgstr "Kontaktzusammenfassung"
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
-#, fuzzy
 msgid ""
 "This table provides a summary of <strong>Contribution Totals</strong>, and "
 "includes shortcuts to view the contribution details for these commonly used "

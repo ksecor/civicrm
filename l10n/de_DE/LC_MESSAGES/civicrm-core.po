@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-03-12 09:43+0100\n"
-"PO-Revision-Date: 2008-03-11 06:50-0700\n"
+"PO-Revision-Date: 2008-03-12 04:52-0700\n"
 "Last-Translator: Gerhard Aigner <gerhard.aigner@arcsmed.at>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -3352,7 +3352,6 @@ msgid "Are you sure you want to disable this payment processor?"
 msgstr "Sind Sie sicher, dass Sie diese Option deaktivieren möchten?"
 
 #: CRM/Admin/Page/PaymentProcessor.php
-#, fuzzy
 msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "transaction pages."
@@ -3581,9 +3580,8 @@ msgid "Postal code less than '%1'"
 msgstr "Postleitzahl kleiner als \"%1\""
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Changed by"
-msgstr "Erstellt von"
+msgstr "Verändert von"
 
 #: CRM/Contact/BAO/Relationship.php
 msgid "Selected Relationship has been Deleted Successfuly."
@@ -6298,7 +6296,7 @@ msgstr "Zugriffsrechte (ACLs) verwalten"
 
 #: CRM/Core/Menu.php
 msgid "Contact Summary"
-msgstr "Kontaktzusammenfassung"
+msgstr "Kontaktübersicht"
 
 #: CRM/Core/Menu.php
 msgid "Create New Group"
@@ -12237,14 +12235,12 @@ msgid "Change Log:"
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Log.tpl
-#, fuzzy
 msgid "Changed By"
-msgstr "Erstellt von"
+msgstr "Verändert von"
 
 #: templates/CRM/Contact/Page/View/Log.tpl
-#, fuzzy
 msgid "Change Date"
-msgstr "Kündigungstag"
+msgstr "Geändert am"
 
 #: templates/CRM/Contact/Page/View/Log.tpl
 #, fuzzy
@@ -12305,7 +12301,6 @@ msgid "Are you sure you want to delete the note '%1'?"
 msgstr "Sind Sie sicher, dass Sie die Notiz \"%1\" löschen möchten?"
 
 #: templates/CRM/Contact/Page/View/Note.tpl
-#, fuzzy
 msgid "There are no Notes for this contact. You can <a href='%1'>add one</a>."
 msgstr ""
 "Es liegen keine Notizen für diesen Kontakt vor. Sie können <a href=\"%1"
@@ -12407,32 +12402,28 @@ msgid "User_Unique_Id:"
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
-#, fuzzy
 msgid "Method:"
 msgstr "Methode"
 
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
-#, fuzzy
 msgid "Email Format Preference:"
-msgstr "Bevorzugtes Kommunikationsmedium"
+msgstr "Emailformat Präferenz:"
 
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Age"
-msgstr ""
+msgstr "Alter"
 
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
-#, fuzzy
 msgid "%count year"
 msgid_plural "%count years"
-msgstr[0] "Freiwilliger"
-msgstr[1] "Freiwilliger"
+msgstr[0] "%count Jahr"
+msgstr[1] "%count Jahre"
 
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
-#, fuzzy
 msgid "%count month"
 msgid_plural "%count months"
-msgstr[0] "%count Kontakt gefunden"
-msgstr[1] "%count Kontakte gefunden"
+msgstr[0] "%count Monat"
+msgstr[1] "%count Monate"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/Contribution.tpl
 msgid "Total Amount"
