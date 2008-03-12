@@ -127,7 +127,7 @@ class CRM_Core_BAO_CustomValueTable
                     break;
 
                 }
-                $set[] = "{$field['column_name']} = %{$count}";
+                $set[] = "`{$field['column_name']}` = %{$count}";
                 $params[$count] = array( $value, $type );
                 $count++;
             }
