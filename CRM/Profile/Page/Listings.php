@@ -132,7 +132,7 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
             $resetArray[] = 'kabissa_region_id';
             $resetArray[] = 'kabissa_scope_id';
         }
-
+        
         foreach ( $this->_fields as $name => $field ) {
             if ( (substr($name, 0, 6) == 'custom') && $field['is_search_range']) {
                 $from = CRM_Utils_Request::retrieve( $name.'_from', 'String',
@@ -148,6 +148,16 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
                 } else if ( $to ) {
                     $value['to'] = $to;
                 }
+            } else if ( ( substr($name, 0, 7) == 'custom_' ) &&
+                        ( CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', 
+                                                       substr($name, 7), 'html_type' ) == 'TextArea' ) ) {
+                $value = trim( CRM_Utils_Request::retrieve( $name, 'String',
+                                                            $this, false, null, 'REQUEST' ) );
+                if ( ! ( ( substr( $value, 0, 1 )  == '%' ) &&
+                         ( substr( $value, -1, 1 ) == '%' ) ) ) {
+                    $value = '%' . $value . '%';
+                }
+                
             } else {
                 $value = CRM_Utils_Request::retrieve( $name, 'String',
                                                       $this, false, null, 'REQUEST' );
@@ -162,6 +172,7 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
             }
 
             $customField = CRM_Utils_Array::value( $name, $this->_customFields );
+            
             if ( ! empty( $_POST ) && ! CRM_Utils_Array::value( $name, $_POST ) ) {
                 if ( $customField ) {
                     // reset checkbox because a form does not send null checkbox values
@@ -175,11 +186,12 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
                     $this->set( $name, $value );  
                 }
             }
-
+            
             if ( isset( $value ) && $value != null ) {
                 $this->_fields[$name]['value'] = $value;
                 $this->_params[$name] = $value;
-            } 
+                
+            }
         }
    }
 
@@ -251,7 +263,7 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
         }
 
         $this->assign( 'search', $this->_search );
-
+        
         return parent::run( );
     }
 
