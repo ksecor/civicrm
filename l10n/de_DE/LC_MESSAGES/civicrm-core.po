@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-03-05 15:59+0100\n"
-"PO-Revision-Date: 2008-03-10 04:47-0700\n"
+"PO-Revision-Date: 2008-03-11 06:50-0700\n"
 "Last-Translator: Gerhard Aigner <gerhard.aigner@arcsmed.at>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -3567,7 +3567,6 @@ msgid "Name like"
 msgstr "Name wie - \"%1\""
 
 #: CRM/Contact/BAO/Query.php
-#, fuzzy
 msgid "Restricted to Contacts starting with: '%1'"
 msgstr "Eingeschränkt auf Kontakte die mit \"%1\" anfangen"
 
@@ -12182,9 +12181,8 @@ msgid "This contact does not currently belong to any groups."
 msgstr "Dieser Kontakt gehört derzeit keiner Gruppe an."
 
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
-#, fuzzy
 msgid "Current Groups"
-msgstr "Aktuelle Gruppenmitgliedschaft."
+msgstr "Aktuelle Gruppenmitgliedschaften."
 
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
 msgid "Are you sure you want to remove %1 from %2?"
@@ -12212,12 +12210,10 @@ msgid "Pending (by %1)"
 msgstr "Wartet (von %1)"
 
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
-#, fuzzy
 msgid "Past Groups"
-msgstr "Gruppen"
+msgstr "Frühere Gruppen"
 
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
-#, fuzzy
 msgid "%1 is no longer part of these group(s)."
 msgstr "%1 ist nicht länger Mitglied in dieser Gruppe."
 
@@ -12237,9 +12233,8 @@ msgstr "Sind Sie sicher, dass Sie %1 wieder %2 hinzufügen möchten?"
 
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
-#, fuzzy
 msgid "Rejoin Group"
-msgstr "[ Gruppen wieder zusammenfügen ]"
+msgstr "Erneute Gruppenanmeldung"
 
 #: templates/CRM/Contact/Page/View/Group.tpl
 msgid "Group Listings"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-03-05 15:59+0100\n"
-"PO-Revision-Date: 2008-03-07 15:45+0100\n"
+"PO-Revision-Date: 2008-03-12 09:41+0100\n"
 "Last-Translator: Piotr Szotkowski <shot@civicrm.org>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -215,7 +215,7 @@ msgstr "Wszystkie profile"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
 msgid "All Events"
-msgstr ""
+msgstr "Wszystkie wydarzenia"
 
 #: CRM/ACL/Form/ACL.php CRM/Contact/Page/View/CustomData.php CRM/Core/Menu.php
 msgid "Custom Data"
@@ -378,7 +378,7 @@ msgstr "- wybierz -"
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 #: templates/CRM/Activity/Form/Activity.tpl
 msgid "Detach"
-msgstr ""
+msgstr "Odłącz"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Import/Form/MapField.php
 #: CRM/Activity/Import/Form/Preview.php
@@ -431,7 +431,7 @@ msgstr "Stan"
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 #: templates/CRM/Activity/Form/ActivityView.tpl
 msgid "Added By"
-msgstr ""
+msgstr "Dodane przez"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 #: CRM/Core/Menu.php templates/CRM/Case/Form/CaseActivity.tpl
@@ -735,7 +735,7 @@ msgstr "Etykieta"
 #: CRM/Price/Form/Field.php CRM/Price/Form/Option.php CRM/UF/Form/Field.php
 #: CRM/UF/Form/Group.php
 msgid "is a numeric field"
-msgstr ""
+msgstr "jest polem numerycznym"
 
 #: CRM/Admin/Form/OptionValue.php CRM/Admin/Form/PaymentProcessorType.php
 #: CRM/Contact/DAO/Group.php CRM/Core/DAO/CustomGroup.php
@@ -3992,14 +3992,12 @@ msgid "shared options"
 msgstr "Wyłącz powiązanie"
 
 #: CRM/Contact/Form/Individual.php
-#, fuzzy
 msgid "Use Household Address"
-msgstr "Nowe mieszkanie"
+msgstr "Użyj adresu mieszkania"
 
 #: CRM/Contact/Form/Individual.php
-#, fuzzy
 msgid "Select Household"
-msgstr "Nowe mieszkanie"
+msgstr "Wybierz mieszkanie"
 
 #: CRM/Contact/Form/Individual.php
 msgid ""
