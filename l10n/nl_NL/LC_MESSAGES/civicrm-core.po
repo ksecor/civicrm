@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-03-05 15:59+0100\n"
+"POT-Creation-Date: 2008-03-12 09:43+0100\n"
 "PO-Revision-Date: 2008-03-10 06:53-0700\n"
 "Last-Translator: Han Velthuis <han.velthuis@tiscali.nl>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -386,9 +386,9 @@ msgstr "Zoek"
 #: CRM/Activity/Form/Activity.php CRM/Activity/Import/Form/MapField.php
 #: CRM/Activity/Import/Form/Preview.php
 #: CRM/Activity/Import/Form/UploadFile.php CRM/Admin/Form/CMSUser.php
-#: CRM/Admin/Form/DedupeRules.php CRM/Admin/Form/DomainDump.php
-#: CRM/Admin/Form.php CRM/Admin/Form/Preferences.php
-#: CRM/Admin/Form/Setting.php CRM/Admin/Form/Tag.php CRM/Case/Form/Case.php
+#: CRM/Admin/Form/DedupeRules.php CRM/Admin/Form.php
+#: CRM/Admin/Form/Preferences.php CRM/Admin/Form/Setting.php
+#: CRM/Admin/Form/Tag.php CRM/Case/Form/Case.php
 #: CRM/Contact/Form/CustomData.php CRM/Contact/Form/DeleteLocation.php
 #: CRM/Contact/Form/Domain.php CRM/Contact/Form/Edit.php
 #: CRM/Contact/Form/Merge.php CRM/Contact/Form/Relationship.php
@@ -695,10 +695,6 @@ msgstr "Datum"
 msgid "Actions"
 msgstr "Acties"
 
-#: CRM/Admin/Form/CMSUser.php CRM/Admin/Form/DomainDump.php
-msgid "OK"
-msgstr "OK"
-
 #: CRM/Admin/Form/DedupeRules.php CRM/Admin/Form/Options.php
 #: CRM/Admin/Form/OptionValue.php CRM/Core/DAO/CustomField.php
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/DAO/OptionValue.php
@@ -911,11 +907,6 @@ msgstr "Opties overzicht"
 #: CRM/Admin/Page/DedupeRules.php CRM/Admin/Page/DupeMatch.php
 msgid "Edit Rule"
 msgstr "Bewerk Regel"
-
-#: CRM/Admin/Page/DomainDump.php CRM/Core/Invoke.php
-#: templates/CRM/Admin/Form/DomainDump.tpl
-msgid "Backup Database"
-msgstr "Backup database"
 
 #: CRM/Admin/Page/OptionGroup.php CRM/Group/Page/Group.php
 msgid "Edit Group"
@@ -2628,6 +2619,10 @@ msgstr "CiviCRM logfile"
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "With"
 msgstr "Met"
+
+#: CRM/Admin/Form/CMSUser.php
+msgid "OK"
+msgstr "OK"
 
 #: CRM/Admin/Form/DedupeRules.php templates/CRM/Admin/Form/DedupeRules.tpl
 msgid "Field"
@@ -4975,22 +4970,6 @@ msgstr "groter dan of gelijk aan \"%1\""
 msgid "less than or equal to '%1'"
 msgstr "kleiner dan of gelijk aan \"%1\""
 
-#: CRM/Core/BAO/DomainDump.php
-msgid ""
-"We could not find the backup sql script. Check %1 exists and is readable by "
-"the webserver."
-msgstr ""
-"Het sql backup script is niet gevonden. Controleer of %1 bestaat en kan "
-"worden gelezen door de webserver."
-
-#: CRM/Core/BAO/DomainDump.php
-msgid ""
-"We could not find the mysqldump program. Check the configuration variable "
-"CIVICRM_MYSQL_PATH in your CiviCRM config file."
-msgstr ""
-"Het mysql dump programma is niet gevonden. Controleer de variabele "
-"CIVICRM_MYSQL_PATH in het CiviCRM config bestand."
-
 #: CRM/Core/BAO/Location.php
 msgid "Please contact CiviCRM support for help"
 msgstr "Neem contact op met CiviCRM support voor ondersteuning."
@@ -5197,10 +5176,6 @@ msgstr "CiviMail"
 #, fuzzy
 msgid "Logout"
 msgstr "Uitloggen"
-
-#: CRM/Core/Config.php
-msgid "You need to define %1 in %2"
-msgstr ""
 
 #: CRM/Core/Config.php
 #, fuzzy
@@ -6048,21 +6023,6 @@ msgstr ""
 msgid "Do you want to continue?"
 msgstr "Wilt u doorgaan?"
 
-#: CRM/Core/Menu.php templates/CRM/Admin/Form/DomainDump.tpl
-msgid "Backup Your Data:"
-msgstr "Backup maken van uw gegevens:"
-
-#: CRM/Core/Menu.php templates/CRM/Admin/Form/DomainDump.tpl
-msgid ""
-"CiviCRM will create an SQL dump file with all of your existing data, and "
-"allow you to download it to your local computer. This process may take a "
-"long time and generate a very large file if you have a large number of "
-"records."
-msgstr ""
-"CivicCRM maakt een SQL dumpfile aan van de bestaande gegevens. Deze kunt u "
-"naar uw computer downloaden. Het proces kan enige tijd in beslag nemen en "
-"maakt een groot gegevensbestand aan als u een groot aantal contacten heeft."
-
 #: CRM/Core/Menu.php
 msgid ""
 "Configure custom fields to collect and store custom data which is not "
@@ -6083,14 +6043,6 @@ msgstr ""
 #: CRM/Core/Menu.php
 msgid "CiviCRM Profile Fields"
 msgstr "CiviCRM profielvelden"
-
-#: CRM/Core/Menu.php
-msgid "Backup Data"
-msgstr "Backup gegevens"
-
-#: CRM/Core/Menu.php
-msgid "Create a backup file containing your CiviCRM data."
-msgstr "Maak een backup bestand met uw CiviCRM gegevens."
 
 #: CRM/Core/Menu.php
 msgid ""
@@ -6844,6 +6796,11 @@ msgid ""
 "The data type of the multiple choice option set you've selected does not "
 "match the data type assigned to this field."
 msgstr ""
+
+#: CRM/Custom/Form/Field.php
+#, fuzzy
+msgid "Field's Name should not start with digit"
+msgstr "De naam van een set mag niet beginnen met een cijfer"
 
 #: CRM/Custom/Form/Field.php
 #, fuzzy
@@ -9357,6 +9314,25 @@ msgid ""
 msgstr ""
 "Gebruik maximaal 5 velden om te zoeken naar verdachte dubbele contacten."
 
+#: templates/CRM/Admin/Form/DomainDump.tpl
+msgid "Backup Database"
+msgstr "Backup database"
+
+#: templates/CRM/Admin/Form/DomainDump.tpl
+msgid "Backup Your Data:"
+msgstr "Backup maken van uw gegevens:"
+
+#: templates/CRM/Admin/Form/DomainDump.tpl
+msgid ""
+"CiviCRM will create an SQL dump file with all of your existing data, and "
+"allow you to download it to your local computer. This process may take a "
+"long time and generate a very large file if you have a large number of "
+"records."
+msgstr ""
+"CivicCRM maakt een SQL dumpfile aan van de bestaande gegevens. Deze kunt u "
+"naar uw computer downloaden. Het proces kan enige tijd in beslag nemen en "
+"maakt een groot gegevensbestand aan als u een groot aantal contacten heeft."
+
 #: templates/CRM/Admin/Form/DupeMatch.tpl
 msgid "Advanced Duplicate Matching Rule"
 msgstr "Uitgebreide vergelijkingsregels"
@@ -9812,8 +9788,9 @@ msgid ""
 "the one you need is not listed."
 msgstr ""
 "Ingestelde taal. Ingestelde \"vertalingen\" hebben de instelling "
-"'taalcode_landcode'.  Zie de <a href=\"%1\" target=\"_blank\">CiviCRM download "
-"bladzijde</a> voor meer talen als de taal die U zoekt er niet bij staat."
+"'taalcode_landcode'.  Zie de <a href=\"%1\" target=\"_blank\">CiviCRM "
+"download bladzijde</a> voor meer talen als de taal die U zoekt er niet bij "
+"staat."
 
 #: templates/CRM/Admin/Form/Setting/Localization.tpl
 msgid ""
@@ -9933,8 +9910,7 @@ msgid ""
 "Choose the provider that has the best coverage for the majority of your "
 "contact addresses."
 msgstr ""
-"Kies de provider die het best past bij de meerderheid van uw "
-"contactadressen."
+"Kies de provider die het best past bij de meerderheid van uw contactadressen."
 
 #: templates/CRM/Admin/Form/Setting/Mapping.tpl
 msgid "Enter your Google API Key OR your Yahoo Application ID."
@@ -10375,8 +10351,8 @@ msgid ""
 "There are no Location Types entered for this Contact. You can <a href='%"
 "1'>add one</a>."
 msgstr ""
-"Er zijn geen lokatietypes ingevoerd voor dit contact. U kunt er <a "
-"href=\"%1\">een toevoegen</a>."
+"Er zijn geen lokatietypes ingevoerd voor dit contact. U kunt er <a href=\"%1"
+"\">een toevoegen</a>."
 
 #: templates/CRM/Admin/Page/Mapping.tpl
 msgid ""
@@ -10385,9 +10361,9 @@ msgid ""
 "Export task. This screen allows you to rename or delete existing mappings."
 msgstr ""
 "Opgeslagen mappings (veldoverzichten) maken het op eenvoudige wijze mogelijk "
-"om meerdere keren dezelfde im- of export taak uit te voeren. Mappings "
-"worden gecreëerd en aangepast tijdens het im- of exporteren. In dit venster "
-"kunt u bestaande mappings hernoemen of verwijderen."
+"om meerdere keren dezelfde im- of export taak uit te voeren. Mappings worden "
+"gecreëerd en aangepast tijdens het im- of exporteren. In dit venster kunt u "
+"bestaande mappings hernoemen of verwijderen."
 
 #: templates/CRM/Admin/Page/Mapping.tpl
 msgid ""
@@ -10631,8 +10607,8 @@ msgid ""
 "There are no option choices entered for this option group. You can <a href='%"
 "1'>add one</a>."
 msgstr ""
-"Er zijn geen optie keuzes voor deze groep ingevoerd. <a "
-"href=\"%1\">Toevoegen</a>."
+"Er zijn geen optie keuzes voor deze groep ingevoerd. <a href=\"%1"
+"\">Toevoegen</a>."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.tpl
 msgid ""
@@ -10724,7 +10700,8 @@ msgstr "Alle contacten"
 msgid ""
 "There are no relationship types present. You can <a href='%1'>add one</a>."
 msgstr ""
-"Er zijn geen relatietypen aanwezig. U kunt er <a href=\"%1\">een aanmaken</a>."
+"Er zijn geen relatietypen aanwezig. U kunt er <a href=\"%1\">een aanmaken</"
+"a>."
 
 #: templates/CRM/Admin/Page/Setting.tpl
 #, fuzzy
@@ -11972,8 +11949,8 @@ msgid ""
 "There are no contributions recorded for this contact. You can <a href='%"
 "1'>enter one now</a>."
 msgstr ""
-"Er zijn geen bijdragen opgeslagen van dit contact. U kunt er <a "
-"href=\"%1\">een invoeren</a>."
+"Er zijn geen bijdragen opgeslagen van dit contact. U kunt er <a href=\"%1"
+"\">een invoeren</a>."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "There are no contributions recorded for this contact."
@@ -12976,8 +12953,8 @@ msgstr "Nieuw specifiek veld"
 msgid ""
 "There are no custom fields for custom group '%1', <a href='%2'>add one</a>."
 msgstr ""
-"Er zijn geen specifieke velden voor groep \"%1\" aangemaakt. U kunt er een <a "
-"href=\"%2\">aanmaken</a>."
+"Er zijn geen specifieke velden voor groep \"%1\" aangemaakt. U kunt er een "
+"<a href=\"%2\">aanmaken</a>."
 
 #: templates/CRM/Custom/Page/Group.tpl
 #, fuzzy
@@ -13972,7 +13949,8 @@ msgstr "Nieuwe Prijs-set velden"
 #, fuzzy
 msgid "No price sets have been created yet. You can <a href='%1'>add one</a>."
 msgstr ""
-"Er zijn geen Prijs-sets aangemaakt. U kunt er <a href=\"%1\">een aanmaken</a>."
+"Er zijn geen Prijs-sets aangemaakt. U kunt er <a href=\"%1\">een aanmaken</"
+"a>."
 
 #: templates/CRM/Profile/Form/Dynamic.tpl templates/CRM/UF/Form/Preview.tpl
 msgid "Please enter the phrase as displayed in the image"
@@ -14426,8 +14404,8 @@ msgid ""
 "No CiviCRM Profiles have been created yet. You can <a href='%1'>add one now</"
 "a>."
 msgstr ""
-"Er zijn (nog) geen CiviCRM profielen aangemaakt. U kunt er <a href=\"%1\">een "
-"aanmaken</a>"
+"Er zijn (nog) geen CiviCRM profielen aangemaakt. U kunt er <a href=\"%1"
+"\">een aanmaken</a>"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Home"
@@ -15064,6 +15042,26 @@ msgstr "Bericht is onderschept door een contentfilter."
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Fout in SMTP transactie"
+
+#~ msgid ""
+#~ "We could not find the backup sql script. Check %1 exists and is readable "
+#~ "by the webserver."
+#~ msgstr ""
+#~ "Het sql backup script is niet gevonden. Controleer of %1 bestaat en kan "
+#~ "worden gelezen door de webserver."
+
+#~ msgid ""
+#~ "We could not find the mysqldump program. Check the configuration variable "
+#~ "CIVICRM_MYSQL_PATH in your CiviCRM config file."
+#~ msgstr ""
+#~ "Het mysql dump programma is niet gevonden. Controleer de variabele "
+#~ "CIVICRM_MYSQL_PATH in het CiviCRM config bestand."
+
+#~ msgid "Backup Data"
+#~ msgstr "Backup gegevens"
+
+#~ msgid "Create a backup file containing your CiviCRM data."
+#~ msgstr "Maak een backup bestand met uw CiviCRM gegevens."
 
 #, fuzzy
 #~ msgid "Duplicate Import Membership Mapping Name"

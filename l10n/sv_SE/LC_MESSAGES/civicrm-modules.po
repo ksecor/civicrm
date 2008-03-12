@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-03-05 16:00+0100\n"
+"POT-Creation-Date: 2008-03-12 09:43+0100\n"
 "PO-Revision-Date: 2007-11-06 11:22-0800\n"
 "Last-Translator: Stefan Gagner <stefan@mei-ya.se>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -661,12 +661,12 @@ msgstr ""
 
 #: CRM/Contribute/BAO/Query.php
 #, fuzzy
-msgid "Find Test Contributions Only?"
+msgid "Find Test Contributions?"
 msgstr "Radera medverkande"
 
 #: CRM/Contribute/BAO/Query.php
 #, fuzzy
-msgid "Recurring Contributions Only"
+msgid "Find Recurring Contributions?"
 msgstr "Medverkan"
 
 #: CRM/Contribute/DAO/ContributionPage.php
@@ -1771,7 +1771,7 @@ msgstr "Typ av kontakt"
 
 #: CRM/Event/BAO/Query.php
 #, fuzzy
-msgid "Test Participants Only"
+msgid "Find Test Participants"
 msgstr "Radera medverkande"
 
 #: CRM/Event/BAO/Query.php
@@ -1795,7 +1795,7 @@ msgstr "Skickat den"
 
 #: CRM/Event/BAO/Query.php
 #, fuzzy
-msgid "Find Test Participants Only?"
+msgid "Find Test Participants?"
 msgstr "Radera medverkande"
 
 #: CRM/Event/DAO/EventPage.php
@@ -3019,7 +3019,7 @@ msgstr ""
 
 #: CRM/Member/BAO/Query.php
 #, fuzzy
-msgid "Find Test Memberships Only?"
+msgid "Find Test Memberships?"
 msgstr "Radera medverkande"
 
 #: CRM/Member/DAO/MembershipBlock.php
@@ -6785,6 +6785,10 @@ msgstr ""
 msgid ""
 "There are no membership types entered. You can <a href='%1'>add one</a>."
 msgstr ""
+
+#, fuzzy
+#~ msgid "Test Participants Only"
+#~ msgstr "Radera medverkande"
 
 #, fuzzy
 #~ msgid "Title "

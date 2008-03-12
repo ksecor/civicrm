@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-03-05 15:59+0100\n"
+"POT-Creation-Date: 2008-03-12 09:43+0100\n"
 "PO-Revision-Date: 2008-03-03 07:42-0800\n"
 "Last-Translator: Eugenia Franzoni <eugenia@catnic.it>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -382,9 +382,9 @@ msgstr "Scollega"
 #: CRM/Activity/Form/Activity.php CRM/Activity/Import/Form/MapField.php
 #: CRM/Activity/Import/Form/Preview.php
 #: CRM/Activity/Import/Form/UploadFile.php CRM/Admin/Form/CMSUser.php
-#: CRM/Admin/Form/DedupeRules.php CRM/Admin/Form/DomainDump.php
-#: CRM/Admin/Form.php CRM/Admin/Form/Preferences.php
-#: CRM/Admin/Form/Setting.php CRM/Admin/Form/Tag.php CRM/Case/Form/Case.php
+#: CRM/Admin/Form/DedupeRules.php CRM/Admin/Form.php
+#: CRM/Admin/Form/Preferences.php CRM/Admin/Form/Setting.php
+#: CRM/Admin/Form/Tag.php CRM/Case/Form/Case.php
 #: CRM/Contact/Form/CustomData.php CRM/Contact/Form/DeleteLocation.php
 #: CRM/Contact/Form/Domain.php CRM/Contact/Form/Edit.php
 #: CRM/Contact/Form/Merge.php CRM/Contact/Form/Relationship.php
@@ -690,10 +690,6 @@ msgstr "Data"
 msgid "Actions"
 msgstr "Azioni"
 
-#: CRM/Admin/Form/CMSUser.php CRM/Admin/Form/DomainDump.php
-msgid "OK"
-msgstr "OK"
-
 #: CRM/Admin/Form/DedupeRules.php CRM/Admin/Form/Options.php
 #: CRM/Admin/Form/OptionValue.php CRM/Core/DAO/CustomField.php
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/DAO/OptionValue.php
@@ -902,11 +898,6 @@ msgstr "Elenchi opzioni"
 #: CRM/Admin/Page/DedupeRules.php CRM/Admin/Page/DupeMatch.php
 msgid "Edit Rule"
 msgstr "Modifica regola"
-
-#: CRM/Admin/Page/DomainDump.php CRM/Core/Invoke.php
-#: templates/CRM/Admin/Form/DomainDump.tpl
-msgid "Backup Database"
-msgstr "Backup del Database"
 
 #: CRM/Admin/Page/OptionGroup.php CRM/Group/Page/Group.php
 msgid "Edit Group"
@@ -2585,6 +2576,10 @@ msgstr "Attività CiviCRM"
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "With"
 msgstr "Con"
+
+#: CRM/Admin/Form/CMSUser.php
+msgid "OK"
+msgstr "OK"
 
 #: CRM/Admin/Form/DedupeRules.php templates/CRM/Admin/Form/DedupeRules.tpl
 msgid "Field"
@@ -4869,22 +4864,6 @@ msgstr "maggiore o uguale a \"%1\""
 msgid "less than or equal to '%1'"
 msgstr "minore o uguale a \"%1\""
 
-#: CRM/Core/BAO/DomainDump.php
-msgid ""
-"We could not find the backup sql script. Check %1 exists and is readable by "
-"the webserver."
-msgstr ""
-"Impossibile trovare lo script sql di backup. Controlla che %1 esista e sia "
-"leggibile da parte del server Web."
-
-#: CRM/Core/BAO/DomainDump.php
-msgid ""
-"We could not find the mysqldump program. Check the configuration variable "
-"CIVICRM_MYSQL_PATH in your CiviCRM config file."
-msgstr ""
-"Impossibile trovare il programma mysqldump. Controlla la variabile di "
-"configurazione CIVCRM_MYSQL_PATH nel file di configurazione di CiviCRM."
-
 #: CRM/Core/BAO/Location.php
 msgid "Please contact CiviCRM support for help"
 msgstr "Contattare il supporto di CiviCRM per avere aiuto"
@@ -5096,10 +5075,6 @@ msgstr "Gestione mail"
 #: CRM/Core/Block.php
 msgid "Logout"
 msgstr "Logout"
-
-#: CRM/Core/Config.php
-msgid "You need to define %1 in %2"
-msgstr ""
 
 #: CRM/Core/Config.php
 msgid ""
@@ -5932,22 +5907,6 @@ msgstr ""
 msgid "Do you want to continue?"
 msgstr "Vuoi continuare?"
 
-#: CRM/Core/Menu.php templates/CRM/Admin/Form/DomainDump.tpl
-msgid "Backup Your Data:"
-msgstr "Fai backup dei dati:"
-
-#: CRM/Core/Menu.php templates/CRM/Admin/Form/DomainDump.tpl
-msgid ""
-"CiviCRM will create an SQL dump file with all of your existing data, and "
-"allow you to download it to your local computer. This process may take a "
-"long time and generate a very large file if you have a large number of "
-"records."
-msgstr ""
-"CiviCRM creerà un file di dump SQL con tutti i dati esistenti e vi "
-"permetterà di scaricarlo suo vostro computer. Per questa elaborazione può "
-"essere necessario del tempo e forse si creerà un file molto grande, se avete "
-"molti record."
-
 #: CRM/Core/Menu.php
 msgid ""
 "Configure custom fields to collect and store custom data which is not "
@@ -5967,14 +5926,6 @@ msgstr ""
 #: CRM/Core/Menu.php
 msgid "CiviCRM Profile Fields"
 msgstr "Campi del Profilo di CiviCRM"
-
-#: CRM/Core/Menu.php
-msgid "Backup Data"
-msgstr "Fa il backup dei dati"
-
-#: CRM/Core/Menu.php
-msgid "Create a backup file containing your CiviCRM data."
-msgstr "Crea un file di backup con i dati di CiviCRM."
 
 #: CRM/Core/Menu.php
 msgid ""
@@ -6733,6 +6684,11 @@ msgid ""
 msgstr ""
 "Il tipo di dati del gruppo di opzioni a scelta multipla selezionato non "
 "corrisponde ai tipo di dati assegnato a questo campo."
+
+#: CRM/Custom/Form/Field.php
+#, fuzzy
+msgid "Field's Name should not start with digit"
+msgstr "Il nome dell'insieme non deve iniziare con una cifra"
 
 #: CRM/Custom/Form/Field.php
 msgid "Your custom field '%1' has been saved"
@@ -9201,6 +9157,26 @@ msgid ""
 msgstr ""
 "Configura fino a cinque campi da valutare quando si ricercano record di "
 "contatti duplicati \"sospetti\"."
+
+#: templates/CRM/Admin/Form/DomainDump.tpl
+msgid "Backup Database"
+msgstr "Backup del Database"
+
+#: templates/CRM/Admin/Form/DomainDump.tpl
+msgid "Backup Your Data:"
+msgstr "Fai backup dei dati:"
+
+#: templates/CRM/Admin/Form/DomainDump.tpl
+msgid ""
+"CiviCRM will create an SQL dump file with all of your existing data, and "
+"allow you to download it to your local computer. This process may take a "
+"long time and generate a very large file if you have a large number of "
+"records."
+msgstr ""
+"CiviCRM creerà un file di dump SQL con tutti i dati esistenti e vi "
+"permetterà di scaricarlo suo vostro computer. Per questa elaborazione può "
+"essere necessario del tempo e forse si creerà un file molto grande, se avete "
+"molti record."
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
 msgid "Advanced Duplicate Matching Rule"
@@ -14626,6 +14602,26 @@ msgstr "Messaggio intercettato da un filtro di contenuto"
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Errore nella transazione SMTP"
+
+#~ msgid ""
+#~ "We could not find the backup sql script. Check %1 exists and is readable "
+#~ "by the webserver."
+#~ msgstr ""
+#~ "Impossibile trovare lo script sql di backup. Controlla che %1 esista e "
+#~ "sia leggibile da parte del server Web."
+
+#~ msgid ""
+#~ "We could not find the mysqldump program. Check the configuration variable "
+#~ "CIVICRM_MYSQL_PATH in your CiviCRM config file."
+#~ msgstr ""
+#~ "Impossibile trovare il programma mysqldump. Controlla la variabile di "
+#~ "configurazione CIVCRM_MYSQL_PATH nel file di configurazione di CiviCRM."
+
+#~ msgid "Backup Data"
+#~ msgstr "Fa il backup dei dati"
+
+#~ msgid "Create a backup file containing your CiviCRM data."
+#~ msgstr "Crea un file di backup con i dati di CiviCRM."
 
 #, fuzzy
 #~ msgid "Duplicate Import Membership Mapping Name"

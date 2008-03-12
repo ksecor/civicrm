@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-03-05 16:00+0100\n"
+"POT-Creation-Date: 2008-03-12 09:43+0100\n"
 "PO-Revision-Date: 2008-02-27 05:15-0800\n"
 "Last-Translator: Lukasz Zawadzki <lucas.zaw@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -654,12 +654,12 @@ msgstr "Honorowy"
 
 #: CRM/Contribute/BAO/Query.php
 #, fuzzy
-msgid "Find Test Contributions Only?"
+msgid "Find Test Contributions?"
 msgstr "Szukanie dotacji"
 
 #: CRM/Contribute/BAO/Query.php
 #, fuzzy
-msgid "Recurring Contributions Only"
+msgid "Find Recurring Contributions?"
 msgstr "Ostatnie dotacje"
 
 #: CRM/Contribute/DAO/ContributionPage.php
@@ -1814,7 +1814,7 @@ msgstr "Rodzaj składnika"
 
 #: CRM/Event/BAO/Query.php
 #, fuzzy
-msgid "Test Participants Only"
+msgid "Find Test Participants"
 msgstr "Szukanie dotacji"
 
 #: CRM/Event/BAO/Query.php
@@ -1839,7 +1839,7 @@ msgstr "Data zakończenia"
 
 #: CRM/Event/BAO/Query.php
 #, fuzzy
-msgid "Find Test Participants Only?"
+msgid "Find Test Participants?"
 msgstr "Szukanie dotacji"
 
 #: CRM/Event/DAO/EventPage.php
@@ -3108,7 +3108,7 @@ msgstr "Data zakończenia"
 
 #: CRM/Member/BAO/Query.php
 #, fuzzy
-msgid "Find Test Memberships Only?"
+msgid "Find Test Memberships?"
 msgstr "Szukanie dotacji"
 
 #: CRM/Member/DAO/MembershipBlock.php
@@ -7518,6 +7518,10 @@ msgid ""
 msgstr ""
 "Nie zostały wprowadzone żadne dodatkowe rodzaje dotacji. <a href=\"%1"
 "\">Możesz je dodać</a>."
+
+#, fuzzy
+#~ msgid "Test Participants Only"
+#~ msgstr "Szukanie dotacji"
 
 #, fuzzy
 #~ msgid "Title "

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-03-05 16:00+0100\n"
+"POT-Creation-Date: 2008-03-12 09:43+0100\n"
 "PO-Revision-Date: 2008-03-09 13:54-0700\n"
 "Last-Translator: Han Velthuis <han.velthuis@tiscali.nl>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -659,11 +659,13 @@ msgid "In Honor Of"
 msgstr "Ten Ere Van"
 
 #: CRM/Contribute/BAO/Query.php
-msgid "Find Test Contributions Only?"
+#, fuzzy
+msgid "Find Test Contributions?"
 msgstr "Zoek alleen testbijdragen?"
 
 #: CRM/Contribute/BAO/Query.php
-msgid "Recurring Contributions Only"
+#, fuzzy
+msgid "Find Recurring Contributions?"
 msgstr "Alleen terugkerende bijdragen"
 
 #: CRM/Contribute/DAO/ContributionPage.php
@@ -1784,8 +1786,9 @@ msgid "Event Type - %1"
 msgstr "Evenement Type - %1"
 
 #: CRM/Event/BAO/Query.php
-msgid "Test Participants Only"
-msgstr "Alleen testdeelnemers"
+#, fuzzy
+msgid "Find Test Participants"
+msgstr "Alleen testdeelnemers zoeken?"
 
 #: CRM/Event/BAO/Query.php
 msgid "Participant Status %1"
@@ -1804,7 +1807,8 @@ msgid "Event Date - From"
 msgstr "Evenement Datum - Van"
 
 #: CRM/Event/BAO/Query.php
-msgid "Find Test Participants Only?"
+#, fuzzy
+msgid "Find Test Participants?"
 msgstr "Alleen testdeelnemers zoeken?"
 
 #: CRM/Event/DAO/EventPage.php
@@ -2214,7 +2218,6 @@ msgid ""
 msgstr ""
 
 #: CRM/Event/Import/Form/MapField.php
-#, fuzzy
 msgid "Duplicate Import Participant Mapping Name"
 msgstr ""
 
@@ -2990,7 +2993,8 @@ msgid "End Date - From"
 msgstr "Einddatum - Van"
 
 #: CRM/Member/BAO/Query.php
-msgid "Find Test Memberships Only?"
+#, fuzzy
+msgid "Find Test Memberships?"
 msgstr "Alleen test lidmaatschappen zoeken?"
 
 #: CRM/Member/DAO/MembershipBlock.php
@@ -3274,8 +3278,7 @@ msgid ""
 "A membership status with this name already exists. Please select another "
 "name."
 msgstr ""
-"Een lidmaatschapstatus met deze naam bestaat al. Kies a.u.b. een andere "
-"naam."
+"Een lidmaatschapstatus met deze naam bestaat al. Kies a.u.b. een andere naam."
 
 #: CRM/Member/Form/MembershipStatus.php
 msgid "Start Event Adjustment"
@@ -3591,8 +3594,8 @@ msgid ""
 "Your contribution will not be completed until you click the <strong>Make "
 "Contribution</strong> button. Please click the button one time only."
 msgstr ""
-"Uw bijdrage is niet definitief tot u de knop <strong>Stort uw "
-"bijdrage</strong> klikt. Druk deze knop slechts een keer in."
+"Uw bijdrage is niet definitief tot u de knop <strong>Stort uw bijdrage</"
+"strong> klikt. Druk deze knop slechts een keer in."
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 #: templates/CRM/Event/Form/Registration/Confirm.tpl
@@ -5448,7 +5451,8 @@ msgid ""
 "There are no custom Payment Instruments entered. You can <a href='%1'>add "
 "one</a>."
 msgstr ""
-"Er is geen specifieke betaalwijze. U kunt er een <a href=\"%1\">toevoegen</a>."
+"Er is geen specifieke betaalwijze. U kunt er een <a href=\"%1\">toevoegen</"
+"a>."
 
 #: templates/CRM/Contribute/Page/Premium.tpl
 msgid ""
@@ -6704,8 +6708,8 @@ msgid ""
 "href='%1' target='_blank' title='%2'>read more...</a>)."
 msgstr ""
 "Schakel hier het aanmelden / verlengen voor een lidmaatschap in. Als dit "
-"niet de bedoeling is vink dan <strong>Geactiveerd</strong> niet aan (<a "
-"href=\"%1\" target=\"_blank\" title=\"%2\">lees meer...</a>)."
+"niet de bedoeling is vink dan <strong>Geactiveerd</strong> niet aan (<a href="
+"\"%1\" target=\"_blank\" title=\"%2\">lees meer...</a>)."
 
 #: templates/CRM/Member/Form/MembershipBlock.tpl
 msgid "Configure Membership Section"
@@ -7097,8 +7101,7 @@ msgstr ""
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid "Send Reminder these many days prior to membership expiration."
 msgstr ""
-"Zet de herinnering op dit aantal dagen voor het aflopen van het "
-"lidmaatschap."
+"Zet de herinnering op dit aantal dagen voor het aflopen van het lidmaatschap."
 
 #: templates/CRM/Member/Form/MembershipView.tpl
 msgid "By Relationship"
@@ -7424,7 +7427,8 @@ msgstr ""
 "een onbeperkt aantal typen definiëren. Elk type omvat een \"naam\" (gouden "
 "lid, erelid), een beschrijving, een minimumbedrag (dit kan €0,00 zijn), een "
 "duur (periode). Elk lidmaatschapstype is gekoppeld aan de entiteit "
-"(organisatie) (<a href=\"%1\" target=\"_blank\" title=\"%2\">lees meer...</a>)."
+"(organisatie) (<a href=\"%1\" target=\"_blank\" title=\"%2\">lees meer...</"
+"a>)."
 
 #: templates/CRM/Member/Page/MembershipType.tpl
 #, fuzzy
@@ -7433,6 +7437,9 @@ msgid ""
 msgstr ""
 "Er is geen lidmaatschapstype aangemaakt. U kunt er een <a href=\"%1"
 "\">toevoegen</a>."
+
+#~ msgid "Test Participants Only"
+#~ msgstr "Alleen testdeelnemers"
 
 #~ msgid "Thermometer Title"
 #~ msgstr "Voortgangsmeter"

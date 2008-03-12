@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-03-05 16:00+0100\n"
+"POT-Creation-Date: 2008-03-12 09:43+0100\n"
 "PO-Revision-Date: 2007-05-14 06:49-0700\n"
 "Last-Translator: John Krumbæk <krumbaek@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -646,12 +646,14 @@ msgid "In Honor Of"
 msgstr ""
 
 #: CRM/Contribute/BAO/Query.php
-msgid "Find Test Contributions Only?"
-msgstr ""
+#, fuzzy
+msgid "Find Test Contributions?"
+msgstr "Slet Bidrag"
 
 #: CRM/Contribute/BAO/Query.php
-msgid "Recurring Contributions Only"
-msgstr ""
+#, fuzzy
+msgid "Find Recurring Contributions?"
+msgstr "Give Bidrag"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Intro Text"
@@ -1716,7 +1718,7 @@ msgstr "Event Titel"
 
 #: CRM/Event/BAO/Query.php
 #, fuzzy
-msgid "Test Participants Only"
+msgid "Find Test Participants"
 msgstr "Eksport Deltagere"
 
 #: CRM/Event/BAO/Query.php
@@ -1737,8 +1739,9 @@ msgid "Event Date - From"
 msgstr ""
 
 #: CRM/Event/BAO/Query.php
-msgid "Find Test Participants Only?"
-msgstr ""
+#, fuzzy
+msgid "Find Test Participants?"
+msgstr "Eksport Deltagere"
 
 #: CRM/Event/DAO/EventPage.php
 msgid "Confirmation Title"
@@ -2884,7 +2887,7 @@ msgid "End Date - From"
 msgstr ""
 
 #: CRM/Member/BAO/Query.php
-msgid "Find Test Memberships Only?"
+msgid "Find Test Memberships?"
 msgstr ""
 
 #: CRM/Member/DAO/MembershipBlock.php

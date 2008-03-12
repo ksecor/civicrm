@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-03-05 16:00+0100\n"
+"POT-Creation-Date: 2008-03-12 09:43+0100\n"
 "PO-Revision-Date: 2007-12-12 17:43-0800\n"
 "Last-Translator: Gab <adq@yamba.ca>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -662,11 +662,13 @@ msgid "In Honor Of"
 msgstr "En l'honneur de"
 
 #: CRM/Contribute/BAO/Query.php
-msgid "Find Test Contributions Only?"
+#, fuzzy
+msgid "Find Test Contributions?"
 msgstr "Chercher les contributions test seulement ?"
 
 #: CRM/Contribute/BAO/Query.php
-msgid "Recurring Contributions Only"
+#, fuzzy
+msgid "Find Recurring Contributions?"
 msgstr "Contributions récurrentes seulement"
 
 #: CRM/Contribute/DAO/ContributionPage.php
@@ -1785,7 +1787,7 @@ msgstr "Type d'événement - %1"
 
 #: CRM/Event/BAO/Query.php
 #, fuzzy
-msgid "Test Participants Only"
+msgid "Find Test Participants"
 msgstr "Chercher contacts"
 
 #: CRM/Event/BAO/Query.php
@@ -1806,7 +1808,7 @@ msgstr "Date de l'événement - du"
 
 #: CRM/Event/BAO/Query.php
 #, fuzzy
-msgid "Find Test Participants Only?"
+msgid "Find Test Participants?"
 msgstr "Chercher contacts"
 
 #: CRM/Event/DAO/EventPage.php
@@ -3016,7 +3018,7 @@ msgstr "Date de fin"
 
 #: CRM/Member/BAO/Query.php
 #, fuzzy
-msgid "Find Test Memberships Only?"
+msgid "Find Test Memberships?"
 msgstr "Chercher contacts"
 
 #: CRM/Member/DAO/MembershipBlock.php
@@ -6842,6 +6844,10 @@ msgstr ""
 msgid ""
 "There are no membership types entered. You can <a href='%1'>add one</a>."
 msgstr ""
+
+#, fuzzy
+#~ msgid "Test Participants Only"
+#~ msgstr "Chercher contacts"
 
 #~ msgid "Title "
 #~ msgstr "Titre "
