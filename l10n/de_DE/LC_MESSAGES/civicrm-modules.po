@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-03-12 09:43+0100\n"
+"POT-Creation-Date: 2008-03-12 12:22+0100\n"
 "PO-Revision-Date: 2008-03-04 02:33-0800\n"
 "Last-Translator: Gerhard Aigner <gerhard.aigner@arcsmed.at>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -428,11 +428,6 @@ msgstr "Unterbrochen"
 msgid "Canceled"
 msgstr "Abgebrochen"
 
-#: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/BounceType.php
-#: CRM/Mailing/Event/BAO/Bounce.php
-msgid "Unknown"
-msgstr "Unbekannt"
-
 #: CRM/Mailing/BAO/Mailing.php CRM/Mailing/DAO/Component.php
 msgid "Reply"
 msgstr "Antworten"
@@ -440,6 +435,10 @@ msgstr "Antworten"
 #: CRM/Mailing/BAO/Mailing.php CRM/Mailing/Selector/Event.php
 msgid "Opt-Out"
 msgstr "Opt-Out"
+
+#: CRM/Mailing/DAO/BounceType.php CRM/Mailing/Event/BAO/Bounce.php
+msgid "Unknown"
+msgstr "Unbekannt"
 
 #: CRM/Mailing/DAO/Component.php CRM/Mailing/Form/Component.php
 msgid "Component Type"
@@ -2395,6 +2394,10 @@ msgstr "Testmailing:"
 #, fuzzy
 msgid "The mailing has been canceled."
 msgstr "The Mailingkomponente \"%1\" wurde gespeichert."
+
+#: CRM/Mailing/BAO/Job.php
+msgid "Not scheduled"
+msgstr ""
 
 #: CRM/Mailing/BAO/Mailing.php
 #, fuzzy

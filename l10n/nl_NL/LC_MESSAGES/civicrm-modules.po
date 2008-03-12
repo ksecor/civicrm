@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-03-12 09:43+0100\n"
+"POT-Creation-Date: 2008-03-12 12:22+0100\n"
 "PO-Revision-Date: 2008-03-09 13:54-0700\n"
 "Last-Translator: Han Velthuis <han.velthuis@tiscali.nl>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -434,11 +434,6 @@ msgstr "gepauzeerd"
 msgid "Canceled"
 msgstr "Geannuleerd"
 
-#: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/BounceType.php
-#: CRM/Mailing/Event/BAO/Bounce.php
-msgid "Unknown"
-msgstr "onbekend"
-
 #: CRM/Mailing/BAO/Mailing.php CRM/Mailing/DAO/Component.php
 msgid "Reply"
 msgstr "antwoord"
@@ -446,6 +441,10 @@ msgstr "antwoord"
 #: CRM/Mailing/BAO/Mailing.php CRM/Mailing/Selector/Event.php
 msgid "Opt-Out"
 msgstr "Opt-Out"
+
+#: CRM/Mailing/DAO/BounceType.php CRM/Mailing/Event/BAO/Bounce.php
+msgid "Unknown"
+msgstr "onbekend"
 
 #: CRM/Mailing/DAO/Component.php CRM/Mailing/Form/Component.php
 msgid "Component Type"
@@ -2398,6 +2397,10 @@ msgstr "Test mailing:"
 #: CRM/Mailing/BAO/Job.php
 msgid "The mailing has been canceled."
 msgstr "Mail is geannuleerd."
+
+#: CRM/Mailing/BAO/Job.php
+msgid "Not scheduled"
+msgstr ""
 
 #: CRM/Mailing/BAO/Mailing.php
 msgid "You do not have permission to access this mailing report"

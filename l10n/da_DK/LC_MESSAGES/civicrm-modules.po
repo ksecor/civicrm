@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-03-12 09:43+0100\n"
+"POT-Creation-Date: 2008-03-12 12:22+0100\n"
 "PO-Revision-Date: 2007-05-14 06:49-0700\n"
 "Last-Translator: John Krumbæk <krumbaek@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -430,11 +430,6 @@ msgstr "Pause"
 msgid "Canceled"
 msgstr "Anulleret"
 
-#: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/BounceType.php
-#: CRM/Mailing/Event/BAO/Bounce.php
-msgid "Unknown"
-msgstr "Ukendt"
-
 #: CRM/Mailing/BAO/Mailing.php CRM/Mailing/DAO/Component.php
 msgid "Reply"
 msgstr "Svar"
@@ -442,6 +437,10 @@ msgstr "Svar"
 #: CRM/Mailing/BAO/Mailing.php CRM/Mailing/Selector/Event.php
 msgid "Opt-Out"
 msgstr "Vælge-ud"
+
+#: CRM/Mailing/DAO/BounceType.php CRM/Mailing/Event/BAO/Bounce.php
+msgid "Unknown"
+msgstr "Ukendt"
 
 #: CRM/Mailing/DAO/Component.php CRM/Mailing/Form/Component.php
 msgid "Component Type"
@@ -2299,6 +2298,10 @@ msgstr ""
 
 #: CRM/Mailing/BAO/Job.php
 msgid "The mailing has been canceled."
+msgstr ""
+
+#: CRM/Mailing/BAO/Job.php
+msgid "Not scheduled"
 msgstr ""
 
 #: CRM/Mailing/BAO/Mailing.php
