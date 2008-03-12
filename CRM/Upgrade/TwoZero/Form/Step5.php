@@ -78,7 +78,7 @@ class CRM_Upgrade_TwoZero_Form_Step5 extends CRM_Upgrade_Form {
         // data migration / upgrade
         $domainID = CRM_Core_Config::domainID( );
         $query    = "UPDATE civicrm_custom_group cg1 
-SET cg1.table_name = CONCAT( 'custom_value_', $domainID, '_', cg1.name )";
+SET cg1.table_name = CONCAT( 'civicrm_value_', $domainID, '_', cg1.name )";
         $res      = $this->runQuery( $query );
         $res->free();
 
