@@ -19,7 +19,7 @@ img {
   border: 0;
 }
 /* Added in CiviCRM 2.0 to alleviate tiny font issues. */
-#crm-container table tr {
+#crm-container table tr td {
   font-size: 1em;
 }
 
