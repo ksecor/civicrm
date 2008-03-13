@@ -237,14 +237,12 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
 
             
         case 'Individual' :
-            if ( ( $this->_firstNameIndex < 0 && $this->_lastNameIndex < 0 ) ||
-                 $this->_emailIndex < 0 ) {
+            if ( ( $this->_firstNameIndex < 0 && $this->_lastNameIndex < 0 ) ) {
                 $errorRequired = true;
             } else {
                 $errorRequired = 
-                    ( ! CRM_Utils_Array::value( $this->_firstNameIndex, $values ) &&
-                      ! CRM_Utils_Array::value( $this->_lastNameIndex, $values ) ) ||
-                    ( ! CRM_Utils_Array::value( $this->_emailIndex, $values ) );
+                    ! CRM_Utils_Array::value( $this->_firstNameIndex, $values ) &&
+                    ! CRM_Utils_Array::value( $this->_lastNameIndex, $values );
             }
             break;
 
@@ -1106,9 +1104,11 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         
         //get the prefix id etc if exists
         CRM_Contact_BAO_Contact::resolveDefaults($formatted, true);
-    
+
         require_once 'api/v2/Contact.php';
-        $error = civicrm_contact_check_params( $formatted, $dupeCheck, true, $requiredCheck );
+        // setting required check to false, CRM-2839
+        // plus we do our own required check in import
+        $error = civicrm_contact_check_params( $formatted, $dupeCheck, true, false );
         
         if ( ( is_null( $error )                                                ) && 
              ( civicrm_error( _civicrm_validate_formatted_contact($formatted) ) ) ) {
