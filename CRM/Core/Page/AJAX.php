@@ -160,7 +160,11 @@ ORDER BY sort_name ";
         }
         
         $start = CRM_Utils_Type::escape( $_GET['start'], 'Integer' );
-        $end   = CRM_Utils_Type::escape( $_GET['count'], 'Integer' );
+        $end = 10;
+
+        if ( isset( $_GET['count'] ) ) {
+            $end   = CRM_Utils_Type::escape( $_GET['count'], 'Integer' );
+        }
 
         $query .= " LIMIT {$start},{$end}";
         
