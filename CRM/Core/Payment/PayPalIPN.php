@@ -190,9 +190,10 @@ class CRM_Core_Payment_PayPalIPN extends CRM_Core_Payment_BaseIPN {
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
 
-        if ( ! $this->createContact( $input, $ids, $objects ) ) {
-            return false;
-        }
+        // fix for CRM-2842
+        //  if ( ! $this->createContact( $input, $ids, $objects ) ) {
+        //       return false;
+        //  }
 
         $participant =& $objects['participant'];
         $membership  =& $objects['membership' ];
