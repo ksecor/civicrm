@@ -160,11 +160,11 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         
         $index = 0 ;
         foreach ( $this->_mapperKeys as $key ) {
-            if ( $key == 'email' ) {
+            if ( substr( $key, 0, 5 ) == 'email' ) {
                 $this->_emailIndex = $index;
                 $this->_allEmails  = array( );
             }
-            if ( $key == 'phone' ) {
+            if ( substr( $key, 0, 5 ) == 'phone' ) {
                 $this->_phoneIndex = $index;
             }
             if ( $key == 'first_name' ) {
@@ -234,14 +234,20 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
 
         $errorRequired = false;
         switch ($this->_contactType) { 
+
+            
         case 'Individual' :
-            if ( $this->_firstNameIndex < 0 || $this->_lastNameIndex < 0) {
+            if ( ( $this->_firstNameIndex < 0 && $this->_lastNameIndex < 0 ) ||
+                 $this->_emailIndex < 0 ) {
                 $errorRequired = true;
             } else {
-                $errorRequired = ! CRM_Utils_Array::value($this->_firstNameIndex, $values) &&
-                    ! CRM_Utils_Array::value($this->_lastNameIndex, $values);
+                $errorRequired = 
+                    ( ! CRM_Utils_Array::value( $this->_firstNameIndex, $values ) &&
+                      ! CRM_Utils_Array::value( $this->_lastNameIndex, $values ) ) ||
+                    ( ! CRM_Utils_Array::value( $this->_emailIndex, $values ) );
             }
             break;
+
         case 'Household' :
             if ( $this->_householdNameIndex < 0 ) {
                 $errorRequired = true;
@@ -249,6 +255,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                 $errorRequired = ! CRM_Utils_Array::value($this->_householdNameIndex, $values);
             }
             break;
+
         case 'Organization' :
             if ( $this->_organizationNameIndex < 0 ) {
                 $errorRequired = true;
@@ -256,6 +263,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                 $errorRequired = ! CRM_Utils_Array::value($this->_organizationNameIndex, $values);
             }
             break;
+
         }
 
         if ( $this->_emailIndex >= 0 ) {

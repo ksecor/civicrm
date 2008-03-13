@@ -796,7 +796,7 @@ ORDER BY a.object_id
                     }
                 }
             }
-        }x
+        }
         
         return $ids;
     }
