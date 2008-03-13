@@ -290,6 +290,37 @@ SELECT     civicrm_email.id as email_id
         require_once 'CRM/Core/BAO/Domain.php';
         return CRM_Core_BAO_Domain::getDomainById($dao->domain_id);
     }
+
+    /**
+     * Get the group details to which given email belongs
+     * 
+     * @param string $email     email of the contact
+     * @return array $groups    array of group ids
+     * @access public
+     */
+    function getContactGroups($email) {
+        $query = "
+                 SELECT DISTINCT group_a.group_id, group_a.status, civicrm_group.title 
+                 FROM civicrm_group_contact group_a
+                 LEFT JOIN civicrm_group ON civicrm_group.id = group_a.group_id
+                 LEFT JOIN civicrm_contact ON ( group_a.contact_id = civicrm_contact.id )
+                 LEFT JOIN civicrm_email ON civicrm_contact.id = civicrm_email.contact_id
+                 WHERE LOWER( civicrm_email.email ) = %1";
+        
+        $params = array( 1 => array( $email, 'String' ) );
+        $dao =& CRM_Core_DAO::executeQuery( $query, $params );
+        $groups = array();
+        while ( $dao->fetch( ) ) {
+            $groups[$dao->group_id] = array(
+                                            'id'      => $dao->group_id,
+                                            'title'   => $dao->title,
+                                            'status'  => $dao->status
+                                            );
+        }
+        
+        $dao->free( );
+        return $groups;
+    }
 }
 
 

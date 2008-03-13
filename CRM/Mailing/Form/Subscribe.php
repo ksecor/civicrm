@@ -121,14 +121,28 @@ ORDER BY title";
     }
     
     static function formRule( &$fields ) {
+     
+        $groups = CRM_Mailing_Event_BAO_Subscribe::getContactGroups($fields['email']);
+        
         foreach ( $fields as $name => $dontCare ) {
-            if ( substr( $name, 0, CRM_Core_Form::CB_PREFIX_LEN ) == CRM_Core_Form::CB_PREFIX ) {
-                return true;
+            $gid = substr( $name, -1 );
+            if ( in_array($gid,array_keys($groups) ) ) {
+                $errors[$name] = ts('You are already subscribed in '.$groups[$gid]['title'].', your subscription is '.$groups[$gid]['status'].'.');
+            }
+        }
+        
+        if ( $errors ) {
+            return $errors;
+        } else {
+            foreach ( $fields as $name => $dontCare ) {
+                if ( substr( $name, 0, CRM_Core_Form::CB_PREFIX_LEN ) == CRM_Core_Form::CB_PREFIX ) {
+                    return true;
+                }
             }
         }
         return array( '_qf_default' => 'Please select one or more mailing lists.' );
     }
-
+    
     /**
      *
      * @access public
