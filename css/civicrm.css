@@ -302,7 +302,10 @@ border-top-style: none;
   padding: 0.8em 0.8em 0em 0em;
   text-align: right;
 }
-
+#crm-container #access {
+  padding: 0.8em 0.8em 0em 0em;
+  text-align: right;
+}
 #crm-container div.status ul {
   margin: 0;
 }

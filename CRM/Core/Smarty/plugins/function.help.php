@@ -57,11 +57,14 @@ function smarty_function_help( $params, &$smarty ) {
     } else {
         return;
     }
-
-    $id   = urlencode( $params['id'] );
+    
     $file = str_replace( '.tpl', '.hlp', $file );
-    $smarty->assign( 'id', $params['id'] );
     $id   = urlencode( $params['id'] );
+    if ( $id =='accesskeys') {
+        $file ='CRM/common/accesskeys.hlp';
+    }
+        
+    $smarty->assign( 'id', $params['id'] );
     $help = $smarty->fetch( $file );
     return <<< EOT
 
