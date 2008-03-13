@@ -9,6 +9,7 @@
 <script type="text/javascript"> 
 function getValue(buttonName)
 {
+   
     var element  = document.getElementById('id_search_block');
     var element1 = dijit.byId( 'id_sort_name' );
     var value    = element1.getValue();
@@ -35,8 +36,9 @@ function getValue(buttonName)
         {/if}
         <input type="text" name="sort_name" id="id_sort_name" value="" dojoType="civicrm.FilteringSelect" store="searchStore" mode="remote" searchAttr="name"  pageSize="10" />
         <br />
+         <input type="submit" name="_qf_Edit_next_view" value="{ts}View Contact{/ts}" class="form-submit" onclick="getValue(this)"/>
         <input type="submit" name="_qf_Basic_refresh" value="{ts}Search{/ts}" class="form-submit" onclick="getValue(this)"/>
-        <input type="submit" name="_qf_Edit_next_view" value="{ts}View Contact{/ts}" class="form-submit" onclick="getValue(this)"/>
+       
         <br />
         <a href="{$advancedSearchURL}" title="{ts}Go to Advanced Search{/ts}">&raquo; {ts}Advanced Search{/ts}</a>
     </div>
