@@ -153,7 +153,8 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
                                                        substr($name, 7), 'html_type' ) == 'TextArea' ) ) {
                 $value = trim( CRM_Utils_Request::retrieve( $name, 'String',
                                                             $this, false, null, 'REQUEST' ) );
-                if ( ! ( ( substr( $value, 0, 1 )  == '%' ) &&
+                if ( ! empty($value) &&
+                     ! ( ( substr( $value, 0, 1 )  == '%' ) &&
                          ( substr( $value, -1, 1 ) == '%' ) ) ) {
                     $value = '%' . $value . '%';
                 }
