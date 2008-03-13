@@ -192,7 +192,11 @@ class CRM_Core_Config_Defaults
                   while running upgrade, to avoid any serious non-recoverable error 
                   which might hinder the upgrade process. */
 
-        $args = explode( '/', $_GET[$config->userFrameworkURLVar] );
+        $args = array( );
+        if ( isset( $_GET[$config->userFrameworkURLVar] ) ) {
+            $args = explode( '/', $_GET[$config->userFrameworkURLVar] );
+        }
+        
         if ( CRM_Utils_Array::value( 1, $args ) != 'upgrade' ) {
             // populate defaults for components
             foreach( $defaults['enableComponents'] as $key => $name ) {
@@ -201,8 +205,6 @@ class CRM_Core_Config_Defaults
                 $co->setDefaults( $defaults );
             }
         }
-        
     }
-    
 }
 

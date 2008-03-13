@@ -551,10 +551,9 @@ class CRM_GCD {
         $this->strictIndividual = array_slice($this->individual, 0, $this->numStrictIndividual);
         
         // get the household to individual mapping array
-        require_once 'CRM/Utils/Array.php';
         $this->householdIndividual = array_diff($this->individual, $this->strictIndividual);
         $this->householdIndividual = array_chunk($this->householdIndividual, self::NUM_INDIVIDUAL_PER_HOUSEHOLD);
-        $this->householdIndividual = CRM_Utils_Array::combine($this->household, $this->householdIndividual);
+        $this->householdIndividual = array_combine($this->household, $this->householdIndividual);
     }
 
 
@@ -985,7 +984,6 @@ class CRM_GCD {
      *******************************************************/
     public function addGroup()
     {
-
         // add the 3 groups first
         $numGroup = count($this->group);
         require_once 'CRM/Contact/BAO/Group.php';

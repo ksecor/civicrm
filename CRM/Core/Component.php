@@ -58,7 +58,11 @@ class CRM_Core_Component
             /* FIXME: hack to bypass getComponents, if running upgrade to avoid
                any serious non-recoverable error which might hinder the
                upgrade process. */
-            $args = explode( '/', $_GET[$config->userFrameworkURLVar] );
+            $args = array( );
+            if ( isset( $_GET[$config->userFrameworkURLVar] ) ) {
+                $args = explode( '/', $_GET[$config->userFrameworkURLVar] );
+            }
+
             if ( CRM_Utils_Array::value( 1, $args ) != 'upgrade' ) {
                 $c = self::getComponents();
             }
@@ -75,7 +79,7 @@ class CRM_Core_Component
     static function get( $name, $attribute = null) 
     {
         $comp = CRM_Utils_Array::value( $name, self::_info() );
-        if( $attribute ) {
+        if ( $attribute ) {
             return CRM_Utils_Array::value( $attribute, $comp->info );
         }
         return $comp;
