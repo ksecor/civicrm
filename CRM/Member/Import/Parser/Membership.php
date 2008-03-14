@@ -167,12 +167,13 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser
         }
         
         $params =& $this->getActiveFieldParams( );
-        
+       
         require_once 'CRM/Import/Parser/Contact.php';
         $errorMessage = null;
 
+        
         //To check whether start date or join date is provided
-        if( !$params['start_date'] && !$params['join_date']) {
+        if( !$params['membership_start_date'] && !$params['join_date']) {
             $errorMessage = "Membership Start Date is required to create a memberships.";
             CRM_Import_Parser_Contact::addToErrorMsg('Start Date', $errorMessage);
         }
