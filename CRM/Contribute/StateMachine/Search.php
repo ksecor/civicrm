@@ -101,7 +101,8 @@ class CRM_Contribute_StateMachine_Search extends CRM_Core_StateMachine
             break;
 
         case CRM_Contribute_Task::EXPORT_CONTRIBUTIONS:
-            $task   = 'CRM_Contribute_Form_Task_Export';
+            $task   = array('CRM_Export_Form_Select',
+                            'CRM_Export_Form_Map');
             break;
 
         case CRM_Contribute_Task::EMAIL_CONTACTS:

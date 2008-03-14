@@ -344,7 +344,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
             }
             
             $form->addElement('checkbox','saveMapping',$saveDetailsName, null, array('onclick' =>"showSaveDetails(this)"));
-            $form->addFormRule( array( 'CRM_Contact_Form_Task_Export_Map', 'formRule' ) );
+            $form->addFormRule( array( 'CRM_Export_Form_Map', 'formRule' ) );
         } else  if ($mappingType == 'Search Builder') { 
             $form->addElement('submit', 'addBlock', ts('Also include contacts where'), 
                               array( 'class' => 'submit-link')
@@ -374,12 +374,10 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
             $compArray['Student'] = 'Student';
         }
 
-        if ( $mappingType == 'Search Builder' ) {
-            if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
-                require_once 'CRM/Contribute/BAO/Contribution.php';
-                $fields['Contribution'] =& CRM_Contribute_BAO_Contribution::exportableFields();
-                $compArray['Contribution'] = 'Contribution';
-            }
+        if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
+            require_once 'CRM/Contribute/BAO/Contribution.php';
+            $fields['Contribution'] =& CRM_Contribute_BAO_Contribution::exportableFields();
+            $compArray['Contribution'] = 'Contribution';
         }
 
         foreach ($fields as $key => $value) {

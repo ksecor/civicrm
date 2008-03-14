@@ -110,6 +110,7 @@ class CRM_Contribute_Form_Task extends CRM_Core_Form
                 implode( ',', $ids ) . ' ) ';
         }
         $this->_contributionIds = $ids;
+        $this->set( 'componentIds', $this->_contributionIds );
     }
 
     /**
