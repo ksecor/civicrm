@@ -557,7 +557,11 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             $amount_level[] = $values['label'];
         }
         
-        $params['amount_level'] = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $amount_level ) . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR; 
+        require_once 'CRM/Core/BAO/CustomOption.php';
+        $params['amount_level'] =
+            CRM_Core_BAO_CustomOption::VALUE_SEPERATOR .
+            implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $amount_level ) .
+            CRM_Core_BAO_CustomOption::VALUE_SEPERATOR; 
         $params['amount']       = $totalPrice;
     }
     
