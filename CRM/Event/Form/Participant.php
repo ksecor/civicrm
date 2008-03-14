@@ -258,18 +258,23 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         
         //setting default register date
         if ($this->_action == CRM_Core_Action::ADD) {
-            $registerDate = getDate();
+            $default_dates = array( 'register_date', 'receive_date');
+            foreach ( $default_dates as $set_date ) {
+                $today_date = getDate();
+                $defaults[$this->_id][$set_date]['M'] = $today_date['mon'];
+                $defaults[$this->_id][$set_date]['d'] = $today_date['mday'];
+                $defaults[$this->_id][$set_date]['Y'] = $today_date['year'];
+            }
+
             $defaults[$this->_id]['register_date']['A'] = 'AM';
-            $defaults[$this->_id]['register_date']['M'] = $registerDate['mon'];
-            $defaults[$this->_id]['register_date']['d'] = $registerDate['mday'];
-            $defaults[$this->_id]['register_date']['Y'] = $registerDate['year'];
-            if( $registerDate['hours'] > 12 ) {
-                $registerDate['hours'] -= 12;
+            if( $today_date['hours'] > 12 ) {
+                $today_date['hours'] -= 12;
                 $defaults[$this->_id]['register_date']['A'] = 'PM';
             }
             
-            $defaults[$this->_id]['register_date']['h'] = $registerDate['hours'];
-            $defaults[$this->_id]['register_date']['i'] = (integer)($registerDate['minutes']/15) *15;
+            $defaults[$this->_id]['register_date']['h'] = $today_date['hours'];
+            $defaults[$this->_id]['register_date']['i'] = (integer)($today_date['minutes']/15) *15;
+
             if ( CRM_Utils_Array::value( 'event_id' , $defaults[$this->_id] ) ) {
                 $contributionTypeId =  CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event',
                                                                     $defaults[$this->_id]['event_id'], 
@@ -282,15 +287,16 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         } else {
             $defaults[$this->_id]['register_date'] = CRM_Utils_Date::unformat($defaults[$this->_id]['register_date']);
             $defaults[$this->_id]['register_date']['i']  = (integer)($defaults[$this->_id]['register_date']['i']/15)*15;
+           
             $defaults[$this->_id]['record_contribution'] = 0;
             $recordContribution = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_ParticipantPayment', 
                                                                $defaults[$this->_id]['id'], 
                                                                'contribution_id', 
                                                                'participant_id' );
-            
+          
             //contribution record exists for this participation
             if ( $recordContribution ) {
-                foreach( array('contribution_type_id', 'payment_instrument_id','contribution_status_id' ) 
+                foreach( array('contribution_type_id', 'payment_instrument_id','contribution_status_id', 'receive_date' ) 
                          as $field ) {
                     $defaults[$this->_id][$field] =  CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_Contribution', 
                                                                                   $recordContribution, $field );
@@ -298,16 +304,17 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             }
             $defaults[$this->_id]['send_receipt'] = 0;
         }
-        
+      
         if( isset( $defaults[$this->_id]['event_id'] ) ) {
             $defaults[$this->_id]['receipt_text'] = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', 
                                                                                  $defaults[$this->_id]['event_id'], 
                                                                                  'receipt_text' );
         }
+        
         if( isset($this->_groupTree) ) {
             CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults[$this->_id], $viewMode, $inactiveNeeded );
         }
-        
+          
         //require_once "CRM/Core/BAO/CustomOption.php";
         require_once 'CRM/Core/BAO/PriceSet.php';
         if ( $priceSetId = CRM_Core_BAO_PriceSet::getFor( 'civicrm_event_page', $this->_eId ) ) {
@@ -505,6 +512,9 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                        ts( 'Contribution Type' ), 
                        array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ) );
             
+            $this->add('date', 'receive_date', ts('Received'), CRM_Core_SelectValues::date('activityDate'), false );         
+            $this->addRule('receive_date', ts('Select a valid date.'), 'qfDate');
+            
             $this->add('select', 'payment_instrument_id', 
                        ts( 'Paid By' ), 
                        array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::paymentInstrument( )
@@ -609,6 +619,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         }
         // get the submitted form values.  
         $params = $this->controller->exportValues( $this->_name );
+       
         if ( $this->_event['is_monetary'] ) {
             if ( empty( $params['priceSetId'] ) ) {
                 $params['amount_level'] = $this->_values['custom']['label'][array_search( $params['amount'], 
@@ -629,7 +640,8 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         
         unset($params['amount']);
         $params['register_date'] = CRM_Utils_Date::format($params['register_date']);
-        $params['contact_id']    = $this->_contactID;
+        $params['receive_date' ] = CRM_Utils_Date::format($params['receive_date' ]);
+        $params['contact_id'   ] = $this->_contactID;
         if ( $this->_id ) {
             $ids['participant']  = $params['id'] = $this->_id;
         }
@@ -723,7 +735,9 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $contributionParams['contact_id'           ] = $params['contact_id'];
             $contributionParams['source'               ] = "{$eventTitle}: Offline registration (by {$userName})";
             $contributionParams['non_deductible_amount'] = 'null';
-            $contributionParams['receive_date'         ] = date( 'Y-m-d H:i:s' );
+          
+            $contributionParams['receive_date'         ] = $params['receive_date'];
+           
             $contributionParams['receipt_date'         ] = $params['send_receipt'] ? 
                 $contributionParams['receive_date'] : 'null';
             $recordContribution = array( 'contribution_type_id', 

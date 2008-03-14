@@ -91,13 +91,18 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         $defaults = array( );
         $defaults =& parent::setDefaultValues( );
         
-        //setting default join date
+        //setting default join date and receive date
         if ($this->_action == CRM_Core_Action::ADD) {
-            $joinDate = getDate();
-            $defaults['join_date']['M'] = $joinDate['mon'];
-            $defaults['join_date']['d'] = $joinDate['mday'];
-            $defaults['join_date']['Y'] = $joinDate['year'];
+            $default_dates = array( 'join_date', 'receive_date');
+            foreach ( $default_dates as $set_date ) {
+                $today_date = getDate();
+                $defaults[$set_date]['M'] = $today_date['mon'];
+                $defaults[$set_date]['d'] = $today_date['mday'];
+                $defaults[$set_date]['Y'] = $today_date['year'];
+            }
+          
         }
+       
         if( isset($this->_groupTree) ) {
             CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, false, false );
         }
@@ -243,7 +248,9 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
 
         $this->add('text', 'total_amount', ts('Amount'));
         $this->addRule('total_amount', ts('Please enter a valid amount.'), 'money');
-        
+       
+        $this->add('date', 'receive_date', ts('Received'), CRM_Core_SelectValues::date('activityDate'), false );         
+        $this->addRule('receive_date', ts('Select a valid date.'), 'qfDate');
         $this->add('select', 'payment_instrument_id', 
                    ts( 'Paid By' ), 
                    array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::paymentInstrument( )
@@ -343,7 +350,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         
         // get the submitted form values.  
         $formValues = $this->controller->exportValues( $this->_name );
-
+      
         $params = array( );
         $ids    = array( );
 
@@ -365,13 +372,15 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         $startDate = CRM_Utils_Date::mysqlToIso(CRM_Utils_Date::format( $formValues['start_date'] ));
         $endDate   = CRM_Utils_Date::mysqlToIso(CRM_Utils_Date::format( $formValues['end_date'] ));
         
+       
         $calcDates = CRM_Member_BAO_MembershipType::getDatesForMembershipType($params['membership_type_id'],
                                                                               $joinDate, $startDate, $endDate);
         
         $dates = array( 'join_date',
                         'start_date',
                         'end_date',
-                        'reminder_date'
+                        'reminder_date',
+                        'receive_date'
                         );
         $currentTime = getDate();        
         foreach ( $dates as $d ) {
@@ -386,10 +395,10 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         if ( $this->_id ) {
             $ids['membership'] = $params['id'] = $this->_id;
         }
-
+        
         $session = CRM_Core_Session::singleton();
         $ids['userId'] = $session->get('userID');
-        
+     
         //format custom data
         // get mime type of the uploaded file
         if ( !empty($_FILES) ) {
@@ -439,9 +448,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             foreach ( $recordContribution as $f ) {
                 $params[$f] = CRM_Utils_Array::value( $f, $formValues );
             }
-            
-            $params['receive_date'] = date( 'Y-m-d H:i:s' );
-            
+           
             // Retrieve the name and email of the current user - this will be the FROM for the receipt email
             require_once 'CRM/Contact/BAO/Contact.php';
             list( $userName, $userEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $ids['userId'] );
