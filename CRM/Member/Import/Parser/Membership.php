@@ -176,9 +176,9 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser
         if( !$params['membership_start_date'] && !$params['join_date']) {
             $errorMessage = "Membership Start Date is required to create a memberships.";
             CRM_Import_Parser_Contact::addToErrorMsg('Start Date', $errorMessage);
-        }
+        } 
         //end                                 
-                                   
+       
         //for date-Formats
         $session =& CRM_Core_Session::singleton();
         $dateType = $session->get("dateTypes");
@@ -268,6 +268,11 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser
         
         $params =& $this->getActiveFieldParams( );
         
+        //assign join date equal to start date if join date is not provided
+        if( !$params['join_date'] && $params['membership_start_date']) {
+            $params['join_date'] = $params['membership_start_date'];
+        }
+               
         $session =& CRM_Core_Session::singleton();
         $dateType = $session->get("dateTypes");
         $formatted = array();
