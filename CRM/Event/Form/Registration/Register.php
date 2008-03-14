@@ -313,29 +313,70 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             //is an already member
             $session =& CRM_Core_Session::singleton( );
             $userID  = $session->get( 'userID' );
-            if( $fields['priceSetId'] ) { 
+            if ( $fields['priceSetId'] ) { 
+                $zeroAmount = array( );
                 foreach( $fields as $key => $val  )  {
                     if ( substr( $key, 0, 6 ) == 'price_' ){
-                        $fieldId = substr( $key, 6 );
-                        $zeroAmount = $val;
-                        if( $zeroAmount && !$userID && 
-                            CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $zeroAmount, 'value', 'id' ) == 0 ) {
-                            $errors['price_'.$fieldId] =  ts( "The Zero amount facility is only for the valid members" );
+                        if ( is_array( $val) ) {
+                            foreach( $val as $keys => $vals  )  {
+                                $zeroAmount[] = $keys;
+                            }
+                        } else {
+                            $zeroAmount[] = $val;
                         }
-                    }   
+                    }
+                } 
+                foreach( $zeroAmount as $keyes => $values  )  {
+                    if( $values && !$userID && 
+                        CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $values, 'value', 'id' ) == 0 ) {
+                        $errors['amount'] =  ts( "The Zero amount facility is only for the valid members" );
+                    }
                 }
             } else {
                 $zeroAmount = $fields['amount'];
-                if( $zeroAmount && !$userID && 
-                    CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue',$zeroAmount, 'value', 'id' ) == 0 ) {
+                if ( $zeroAmount && !$userID && 
+                     CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue',$zeroAmount, 'value', 'id' ) == 0 ) {
                     $errors['amount'] =  ts( "The Zero amount facility is only for the valid members" );
                 }
             }
-            
             // also return if paylater mode or zero fees for valid members
-            if ( $zeroAmount  && ( CRM_Utils_Array::value( 'is_pay_later', $fields ) || 
-                                   ( CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $zeroAmount, 'value', 'id' ) == 0) ) ) {
-                return empty( $errors ) ? true : $errors;
+            if ( CRM_Utils_Array::value( 'is_pay_later', $fields ) ) {
+                if ( $fields['priceSetId'] ) { 
+                    foreach( $fields as $key => $val  )  {
+                        if ( substr( $key, 0, 6 ) == 'price_' && $val != 0) {
+                            return empty( $errors ) ? true : $errors;
+                        }
+                    }
+                } else {
+                    return empty( $errors ) ? true : $errors;
+                }
+            } else if ( $fields['priceSetId'] ) { 
+                $check = array( );
+                foreach( $fields as $key => $val  )  {
+                    if ( substr( $key, 0, 6 ) == 'price_' && $val != 0) {
+                        if ( is_array( $val) ) {
+                            foreach( $val as $keys => $vals  )  {
+                                $check[] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $keys, 'value');
+                            }
+                        } else {
+                            $check[] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $val, 'value');
+                        }
+                    }
+                }
+                $level = count ( $check );
+                $j = null;
+                for ($i = 0; $i < $level; $i++ ) {
+                    if ( $check[$i] == 0 ) {
+                        $j++;
+                    }   
+                }
+                if ( $j == $level && isset( $j ) ) {
+                    return empty( $errors ) ? true : $errors;
+                } 
+            } else if ( $zeroAmount ) {
+                if ( CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $zeroAmount, 'value', 'id' ) == 0 ) {
+                    return empty( $errors ) ? true : $errors;
+                }
             }
 
             foreach ( $self->_fields as $name => $fld ) {
