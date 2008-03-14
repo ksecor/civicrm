@@ -511,18 +511,24 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
-
+        
         $honorCId = $recurringContributionID = null;
         if ( $online ) {
             if ( $form->get( 'honor_block_is_active' ) ) {
                 $honorCId = $form->createHonorContact( );
             }
-
+            
             $recurringContributionID = $form->processRecurringContribution( $params, $contactID );
+        } else if ( ! $online && isset($params['honor_contact_id'] ) ) {
+            $honorCId = $params['honor_contact_id'];
         }
-
+        
         $config =& CRM_Core_Config::singleton( );
-        $nonDeductibleAmount = $params['amount'];
+        if ( ! $online && isset($params['non_deductible_amount'] ) ) {
+            $nonDeductibleAmount = $params['non_deductible_amount'];
+        } else {
+            $nonDeductibleAmount = $params['amount'];
+        }
         if ( $online && $contributionType->is_deductible && $deductibleMode ) {
             $selectProduct = CRM_Utils_Array::value( 'selectProduct', $premiumParams );
             if ( $selectProduct &&
@@ -564,12 +570,17 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                                $params['description'],
                                );
 
+        
+        if ( ! $online && isset($params['thankyou_date'] ) ) {
+            $contribParams['thankyou_date'] = $params['thankyou_date'];
+        }
+        
         if ( ! $online || $form->_values['is_monetary'] ) {
             if ( ! $params['is_pay_later'] ) {
                 $contribParams['payment_instrument_id'] = 1;
             }
         }
-
+        
         if ( ! $pending && $result ) {
             $contribParams += array(
                                     'fee_amount'   => CRM_Utils_Array::value( 'fee_amount', $result ),
@@ -578,7 +589,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                                     'receipt_date' => $receiptDate,
                                     );
         }
-            
+        
         if ( isset($honorCId)  ) {
             $contribParams["honor_contact_id"] = $honorCId;
             $contribParams["honor_type_id"]    = $params['honor_type_id'];
@@ -605,7 +616,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $contribParams['id'] = $contribID;
             }
         }
-             
+        
         $contribution =& CRM_Contribute_BAO_Contribution::add( $contribParams, $ids );
 
         if ( $online ) {

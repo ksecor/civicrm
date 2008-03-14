@@ -64,6 +64,9 @@
         </table>
     </fieldset>
 
+<div id="adiitionalInfo">
+    {include file="CRM/Contribute/Form/AdditionalInfo.tpl"}
+</div>
 <div id="crm-submit-buttons">
     {$form.buttons.html}
 </div>

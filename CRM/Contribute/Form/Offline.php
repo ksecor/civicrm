@@ -36,6 +36,7 @@
 require_once 'CRM/Core/Form.php';
 require_once 'CRM/Contribute/PseudoConstant.php';
 require_once 'CRM/Core/BAO/CustomGroup.php';
+require_once 'CRM/Contribute/Form/AdditionalInfo.php';
 
 class CRM_Contribute_Form_Offline extends CRM_Core_Form {
 
@@ -49,6 +50,15 @@ class CRM_Contribute_Form_Offline extends CRM_Core_Form {
     public $_fields;
 
     public $_paymentProcessor;
+    
+    /**
+     * Stores all producuct option
+     *
+     * @var boolean
+     * @public 
+     */ 
+    public $_options ;
+    
 
     function preProcess( ) {
         CRM_Utils_System::setTitle(ts('Submit Credit Card Contribution'));
@@ -127,13 +137,14 @@ class CRM_Contribute_Form_Offline extends CRM_Core_Form {
                 $this->_defaults["billing_" . $name] = $this->_defaults[$name];
             }
         }
-
+        
         return $this->_defaults;
     }
 
     function buildQuickForm( ) {
         CRM_Core_Payment_Form::buildCreditCard( $this, true );
         
+        $this->_formType = CRM_Utils_Array::value( 'formType', $_GET );
         $this->add( 'select', 'payment_processor_id',
                     ts( 'Payment Processor' ),
                     $this->_processors, true );
@@ -155,7 +166,32 @@ class CRM_Contribute_Form_Offline extends CRM_Core_Form {
         $this->add( 'text', 'contribution_source', ts('Contribution Source'), CRM_Utils_Array::value('source',$attributes));
 
         $this->addElement('checkbox', 'is_email_receipt', ts('Send Receipt?'), null );
-
+       
+        //CRM - 2673
+        require_once 'CRM/Contribute/Form/AdditionalInfo.php';
+        $paneNames =  array ( 'Additional Details'  => 'buildAdditionalDetail',
+                              'Honoree Information' => 'buildHonoree', 
+                              'Premium Information' => 'buildPremium'
+                              );
+        foreach ( $paneNames as $name => $type ) {
+            
+            $allPanes[$name] = array( 'url' => CRM_Utils_System::url( 'civicrm/contribute/offline',
+                                                                      "snippet=1&formType={$type}" ),
+                                      'open' => 'false',
+                                      'id'   => $type, 
+                                      );
+            
+            // see if we need to include this paneName in the current form
+            if ( $this->_formType == $type ||
+                 CRM_Utils_Array::value( "hidden_{$type}", $_POST ) ) {
+                $allPanes[$name]['open'] = 'true';
+                eval( 'CRM_Contribute_Form_AdditionalInfo::' . $type . '( $this );' );
+            }
+        }
+        
+        $this->assign( 'allPanes', $allPanes );
+        $this->assign( 'dojoIncludes', "dojo.require('civicrm.TitlePane');dojo.require('dojo.parser');" );
+        
         $this->addButtons(array( 
                                 array ( 'type'      => 'next',
                                         'name'      => ts('Submit Contribution'), 
@@ -166,15 +202,48 @@ class CRM_Contribute_Form_Offline extends CRM_Core_Form {
                                         'name'      => ts('Cancel') ), 
                                 ) 
                           );
+        $this->addFormRule( array( 'CRM_Contribute_Form_Offline', 'formRule' ), $this );
     }
-
+    
+    
+    function getTemplateFileName() {
+        if ( ! $this->_formType ) {
+            return parent::getTemplateFileName( );
+        } else {
+            $name = substr( ucfirst( $this->_formType ), 5 );
+            return "CRM/Contribute/Form/AdditionalInfo/{$name}.tpl";
+        }
+    }
+    
+    /**  
+     * global form rule  
+     *  
+     * @param array $fields  the input form values  
+     * @param array $files   the uploaded files if any  
+     * @param array $options additional user data  
+     *  
+     * @return true if no errors, else array of errors  
+     * @access public  
+     * @static  
+     */  
+    function formRule( &$fields, &$files, $self ) 
+    {  
+        return CRM_Contribute_Form_AdditionalInfo::formRule( &$fields, &$files, $self );
+    }
+    
+    /** 
+     * Function to process the form 
+     * 
+     * @access public 
+     * @return None 
+     */ 
     function postProcess( ) {
         $config  =& CRM_Core_Config::singleton( );
         $session =& CRM_Core_Session::singleton( );
-    
+        
         // get the submitted form values. 
         $this->_params = $this->controller->exportValues( $this->_name ); 
-
+        
         require_once 'CRM/Core/BAO/PaymentProcessor.php';
         $this->_paymentProcessor = CRM_Core_BAO_PaymentProcessor::getPayment( $this->_params['payment_processor_id'],
                                                                               $this->_mode );
@@ -234,7 +303,15 @@ class CRM_Contribute_Form_Offline extends CRM_Core_Form {
         $this->_params['amount_level'  ] = 0;
         $this->_params['currencyID'    ] = $config->defaultCurrency;
         $this->_params['payment_action'] = 'Sale';
-        $this->_params['invoiceID']      = md5( uniqid( rand( ), true ) );
+        
+        //Add common data to formatted params
+        CRM_Contribute_Form_AdditionalInfo::postProcessCommon( $params, $this->_params );
+        
+        if ( empty( $this->_params['invoice_id'] ) ) {
+            $this->_params['invoiceID'] = md5( uniqid( rand( ), true ) );
+        } else {
+            $this->_params['invoiceID'] = $this->_params['invoice_id'];
+        }
         
         // at this point we've created a contact and stored its address etc
         // all the payment processors expect the name and address to be in the 
@@ -298,7 +375,7 @@ class CRM_Contribute_Form_Offline extends CRM_Core_Form {
         } else {
             $this->_params['source'] = $this->_params['contribution_source'];
         }
-
+        
         require_once 'CRM/Contribute/Form/Contribution/Confirm.php';
         $contribution =& CRM_Contribute_Form_Contribution_Confirm::processContribution( $this, $this->_params, $result, $this->_contactID, 
                                                                                         $contributionType,  false, false, false );
@@ -309,7 +386,7 @@ class CRM_Contribute_Form_Offline extends CRM_Core_Form {
             // Retrieve Contribution Type Name from contribution_type_id
             $this->_params['contributionType_name'] = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionType',
                                                                                 $this->_params['contribution_type_id'] );          
-
+            
             // Retrieve payment instrument name (from hard-coded payment_instrument_id = 1, credit card)
             $paymentInstrumentGroup = array();
             $paymentInstrumentGroup['name'] = 'payment_instrument';
@@ -347,9 +424,17 @@ class CRM_Contribute_Form_Offline extends CRM_Core_Form {
                                   $subject,
                                   $message);
         }
-
+        
+        //process the note
+        if ( $contribution->id && isset($params['note']) ) {
+            CRM_Contribute_Form_AdditionalInfo::processNote( $params, $contactID, $contribution->id, null );
+        }
+        //process premium
+        if ( $contribution->id && isset($params['product_name'][0]) ) {
+            CRM_Contribute_Form_AdditionalInfo::processPremium( $params, $contribution->id, null, $this->_options );
+        }
         CRM_Core_Session::setStatus( 'The contribution has been processed and a receipt has been emailed to the contributor.' );
-
+        
     }
     
 }

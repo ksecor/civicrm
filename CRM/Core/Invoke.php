@@ -303,10 +303,17 @@ class CRM_Core_Invoke
                 if ( ! CRM_Core_Permission::check('access CiviContribute') ) {
                     CRM_Core_Error::fatal( 'You do not have access to this page' );
                 }
-                require_once 'CRM/Contact/Page/View/Contribution.php'; 
-                $view =& new CRM_Contact_Page_View_Contribution( );
-                break;
-
+                //CRM-2673. Added to enable dojo on Contribution.php form. 
+                if ( CRM_Utils_Array::value( '4', $args ) == 'additionalinfo' ) {
+                    $wrapper =& new CRM_Utils_Wrapper( ); 
+                    require_once 'CRM/Contribute/Form/AdditionalInfo.php';
+                    return $wrapper->run( 'CRM_Contribute_Form_AdditionalInfo',ts('Adiitinal Information'), null );
+                } else {
+                    require_once 'CRM/Contact/Page/View/Contribution.php'; 
+                    $view =& new CRM_Contact_Page_View_Contribution( );
+                    break;
+                }
+                
             case 'grant':
                 if ( ! CRM_Core_Permission::check('access CiviGrant') ) {
                     CRM_Core_Error::fatal( 'You do not have access to this page' );

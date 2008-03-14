@@ -64,51 +64,6 @@
         </tr>
       </table>
       {include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
-
- <div id="id-additional-show" class="section-hidden section-hidden-border" style="clear: both;">
-        <a href="#" onclick="hide('id-additional-show'); show('id-additional'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Additional Details{/ts}</label><br />
- </div>
- <div id="id-additional" class="section-shown">
-    <fieldset>
-      <legend><a href="#" onclick="hide('id-additional'); show('id-additional-show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Additional Details{/ts}</legend>
-      <table class="form-layout-compressed">
-        <tr><td class="label" style="vertical-align:top;">{$form.note.label}</td><td>{$form.note.html}</td></tr>
-        <tr><td class="label">{$form.non_deductible_amount.label}</td><td>{$form.non_deductible_amount.html|crmMoney}</td></tr>
-        <tr><td class="label">&nbsp;</td><td class="description">{ts}Non-deductible portion of this contribution.{/ts}</td></tr>
-        <tr><td class="label">{$form.fee_amount.label}</td><td>{$form.fee_amount.html|crmMoney}</td></tr>
-        <tr><td class="label">&nbsp;</td><td class="description">{ts}Processing fee for this transaction (if applicable).{/ts}</td></tr>
-        <tr><td class="label">{$form.net_amount.label}</td><td>{$form.net_amount.html|crmMoney}</td></tr>
-        <tr><td class="label">&nbsp;</td><td class="description">{ts}Net value of the contribution (Total Amount minus Fee).{/ts}</td></tr>
-        <tr><td class="label">{$form.invoice_id.label}</td><td>{$form.invoice_id.html}</td></tr>
-        <tr><td class="label">&nbsp;</td><td class="description">{ts}Unique internal reference ID for this contribution.{/ts}</td></tr>
-        <tr><td class="label">{$form.trxn_id.label}</td><td>{$form.trxn_id.html}</td></tr>
-        <tr><td class="label">&nbsp;</td><td class="description">{ts}Unique payment ID for this transaction. The Payment Processor's transaction ID will be automatically stored here on online contributions.{/ts}<br />{ts}For offline contributions, you can enter an account+check number, bank transfer identifier, etc.{/ts}</td></tr>
-        <tr><td class="label">{$form.thankyou_date.label}</td><td>{$form.thankyou_date.html}
-            {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_3}
-            {include file="CRM/common/calendar/body.tpl" dateVar=thankyou_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_contribution_3}
-        </td></tr>
-        <tr><td class="label">&nbsp;</td><td class="description">{ts}Date that a thank-you message was sent to the contributor.{/ts}</td></tr>
-    </table>
-  </fieldset>
- </div>     
-
-       
- <div id="id-honoree-show" class="section-hidden section-hidden-border" style="clear: both;">
-        <a href="#" onclick="hide('id-honoree-show'); show('id-honoree'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Honoree Information{/ts}</label><br />
- </div>
- <div id="id-honoree" class="section-shown">
-    <fieldset>
-      <legend><a href="#" onclick="hide('id-honoree'); show('id-honoree-show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Honoree Information{/ts}</legend>
-      <table class="form-layout-compressed">
-        <tr id="showHonorOfDetailsType"><td class="label">{$form.honor_type_id.label}</td><td>{$form.honor_type_id.html}</td></tr>  
-        <tr id="showHonorOfDetailsPrefix"><td class="label">{$form.honor_prefix_id.label}</td><td>{$form.honor_prefix_id.html}</td></tr>
-        <tr id="showHonorOfDetailsFname"><td class="label">{$form.honor_first_name.label}</td><td>{$form.honor_first_name.html}</td>
-        <tr id="showHonorOfDetailsLname"><td class="label">{$form.honor_last_name.label}</td><td>{$form.honor_last_name.html}</td>
-        <tr id="showHonorOfDetailsEmail"><td class="label">{$form.honor_email.label}</td><td>{$form.honor_email.html}</td>
-      </table>
-   </fieldset>
- </div>     
-
     {literal}
     <script type="text/javascript">
     function reload(refresh) {
@@ -138,72 +93,11 @@
 
     </script>
     {/literal}
- {if $premiums }
- <div id="id-premium-show" class="section-hidden section-hidden-border" style="clear: both;">
-        <a href="#" onclick="hide('id-premium-show'); show('id-premium'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Premium Information{/ts}</label><br />
- </div>
- <div id="id-premium" class="section-shown">
-     
-      <fieldset>
-        <legend><a href="#" onclick="hide('id-premium'); show('id-premium-show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Premium Information{/ts}</legend>
-           <dl>
-           <dt class="label">{$form.product_name.label}</dt><dd>{$form.product_name.html}</dd>
-           </dl>
 
-           <div id="premium_contri">
-            <dl>
-            <dt class="label">{$form.min_amount.label}</dt><dd>{$form.min_amount.html|crmReplace:class:texttolabel}</dd>
-            </dl>
-            <div class="spacer"></div>
-           </div>
-
-           <dl>
-           <dt class="label">{$form.fulfilled_date.label}</dt><dd>{$form.fulfilled_date.html}
-           {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_5}
-           {include file="CRM/common/calendar/body.tpl" dateVar=fulfilled_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_contribution_5}      
-           </dd>
-           </dl>
-
-      </fieldset>
-      
+<div id="adiitionalInfo">
+    {include file="CRM/Contribute/Form/AdditionalInfo.tpl"}
 </div>
-{/if} 
-      {literal}
-        <script type="text/javascript">
-            var min_amount = document.getElementById("min_amount");
-            min_amount.readOnly = 1;
-    	    function showMinContrib( ) {
-               var product = document.getElementsByName("product_name[0]")[0];
-               var product_id = product.options[product.selectedIndex].value;
-               var min_amount = document.getElementById("min_amount");
- 	 
-	       
-               var amount = new Array();
-               amount[0] = '';  
-	
-               if( product_id > 0 ) {  
-		  show('premium_contri');	      	
-               } else {
-	          hide('premium_contri');	      
-             }
-      {/literal}
-     
-      var index = 1;
-      {foreach from= $mincontribution item=amt key=id}
-            {literal}amount[index]{/literal} = "{$amt}"
-            {literal}index = index + 1{/literal}
-      {/foreach}
-      {literal}
-          if(amount[product_id]) {  
-              min_amount.value = '$'+amount[product_id];
-          } else {
-              min_amount.value = "";
-          }           
-     }  
-     </script> 
-     {/literal}
-
-     {/if} 
+{/if}
     <dl>    
        <dt></dt><dd class="html-adjust">{$form.buttons.html}</dd>   
     </dl> 
@@ -227,15 +121,4 @@
     field_type          ="select"
     invert              = 0
 }
-
-{if $action eq 1 or $action eq 2 }
-    <script type="text/javascript">
-       showMinContrib( );
-    </script>            
-{/if}
-
-{if $action ne 2 or $showOption eq true}
-{$initHideBoxes}
-{/if}
-{include file="CRM/common/showHide.tpl"}
 
