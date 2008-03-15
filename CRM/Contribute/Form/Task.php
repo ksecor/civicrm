@@ -105,12 +105,11 @@ class CRM_Contribute_Form_Task extends CRM_Core_Form
             $this->assign( 'totalSelectedContributions', $this->get( 'rowCount' ) );
         }
         if ( ! empty( $ids ) ) {
-            $this->_contributionClause =
+            $this->_componentClause =
                 ' civicrm_contribution.id IN ( ' .
                 implode( ',', $ids ) . ' ) ';
         }
         $this->_contributionIds = $ids;
-        $this->set( 'componentIds', $this->_contributionIds );
     }
 
     /**

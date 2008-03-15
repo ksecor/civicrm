@@ -95,7 +95,8 @@ class CRM_Export_Form_Select extends CRM_Core_Form
             
             if ( in_array( $componentName[1], $components ) ) {
                 eval( '$this->_exportMode = self::' . strtoupper( $componentName[1] ) . '_EXPORT;');
-                
+                require_once "CRM/{$componentName[1]}/Form/Task.php";
+                eval('CRM_' . $componentName[1] . '_Form_Task::preprocess();');
                 $this->set( 'exportMode', $this->_exportMode );
                 $values = $this->controller->exportValues( 'Search' ); 
             } else {
@@ -182,16 +183,17 @@ class CRM_Export_Form_Select extends CRM_Core_Form
         }
 
         if ( $exportOption == self::EXPORT_ALL ) {
-            crm_core_error::debug('$this->_exportMode', $this->_exportMode);
-            crm_core_error::debug('componentIds', $this->get( 'componentIds' ) );
-            
-            exit();
-            $export->exportContacts( $this->_selectAll,
-                                     $this->_contactIds,
-                                     $this->get( 'queryParams' ),
-                                     $this->get( CRM_Utils_Sort::SORT_ORDER ),
-                                     null,
-                                     $this->get( 'returnProperties' ) );
+            if ( $this->_exportMode == self::CONTACT_EXPORT ) {
+                $export->exportContacts( $this->_selectAll,
+                                         $this->_contactIds,
+                                         $this->get( 'queryParams' ),
+                                         $this->get( CRM_Utils_Sort::SORT_ORDER ),
+                                         null,
+                                         $this->get( 'returnProperties' ) );
+            } else {
+                require_once "CRM/Export/BAO/Export.php";
+                CRM_Export_BAO_Export::exportComponent( $this->_exportMode, $this->get( 'queryParams' ), $this->_componentClause );
+            }
         }
     }
 
