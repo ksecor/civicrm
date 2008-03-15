@@ -65,8 +65,11 @@ class CRM_Contact_Form_OpenID
                                                                                                    'openid'));
             $form->addRule( "location[$locationId][openid][$i][openid]", ts('OpenID is not a valid URL.'), 'url' );
             
-            $location[$locationId]['openid'][$i]['allowed_to_login'] = $form->addElement('advcheckbox',
-                                                                             "location[$locationId][openid][$i][allowed_to_login]",null, ts('Allowed to Login'));
+            if ( $config->userFramework == 'Standalone' ) { 
+                $location[$locationId]['openid'][$i]['allowed_to_login'] = $form->addElement('advcheckbox',
+                                                                                             "location[$locationId][openid][$i][allowed_to_login]",
+                                                                                             null, ts('Allowed to Login'));
+            }
         }
     }
 }
