@@ -104,7 +104,7 @@ WHERE  civicrm_membership.contact_id = civicrm_contact.id
             /* Update the membership records of deceased contacts as Expired */
             if ( ( CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $dao->contact_id, 'is_deceased' ) == 1 ) ) {
                 crm_update_contact_membership( array( 'id'        => $dao->membership_id,
-                                                      'status_id' => CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipStatus', 'Expired', 'id', 'name' ) ) );
+                                                      'status_id' => CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipStatus', 'Deceased', 'id', 'name' ) ) );
                 continue;
             }
 
