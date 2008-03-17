@@ -515,7 +515,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             $element =& $qf->add('text',
                                  $elementName,
                                  $label,
-                                 CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField',$elementName),
+                                 array('onfocus' => "if (!this.value) this.value='http://'; else return false",
+                                       'onblur'  => "if ( this.value == 'http://') this.value=''; else return false"),
                                  (( $useRequired ||( $useRequired && $field->is_required) ) && !$search));
             $qf->addRule( $elementName, ts('Enter a valid Website.'),'wikiURL');
                     
