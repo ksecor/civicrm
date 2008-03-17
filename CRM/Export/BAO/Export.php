@@ -99,6 +99,16 @@ class CRM_Export_BAO_Export
                     $returnProperties[$key] = 1;
                 }
             }
+        
+            $queryMode = CRM_Contact_BAO_Query::MODE_CONTACTS;
+            if ( $exportMode == CRM_Export_Form_Select::CONTRIBUTE_EXPORT ) {
+                $queryMode = CRM_Contact_BAO_Query::MODE_CONTRIBUTE;
+            }
+
+            if ( $queryMode != CRM_Contact_BAO_Query::MODE_CONTACTS ) {
+                $componentReturnProperties =& CRM_Contact_BAO_Query::defaultReturnProperties( $queryMode );
+                $returnProperties          = array_merge( $returnProperties, $componentReturnProperties );
+            }
         }
         
         if ($primary) {
@@ -111,27 +121,17 @@ class CRM_Export_BAO_Export
             $returnProperties = array_merge( $returnProperties, $moreReturnProperties );
         }
 
-        $queryMode = CRM_Contact_BAO_Query::MODE_CONTACTS;
-        if ( $exportMode == CRM_Export_Form_Select::CONTRIBUTE_EXPORT ) {
-            $queryMode = CRM_Contact_BAO_Query::MODE_CONTRIBUTE;
-        }
-
-        if ( $queryMode && !$fields ) {
-            $componentReturnProperties =& CRM_Contact_BAO_Query::defaultReturnProperties( $queryMode );
-            $returnProperties          = array_merge( $returnProperties, $componentReturnProperties );
-        }
-
         // create the selector, controller and run - store results in session
         $session =& CRM_Core_Session::singleton( );
 
-        if ( $selectAll ) {
-            if ($primary) {
-                $query =& new CRM_Contact_BAO_Query( $params, $returnProperties, $fields );
+        if ( ! $componentClause || $querytMode == CRM_Contact_BAO_Query::MODE_CONTACTS ) {
+            if ( $selectAll ) {
+                if ($primary) {
+                    $query =& new CRM_Contact_BAO_Query( $params, $returnProperties, $fields );
+                } else {
+                    $query =& new CRM_Contact_BAO_Query( $params, $returnProperties );
+                }
             } else {
-                $query =& new CRM_Contact_BAO_Query( $params, $returnProperties );
-            }
-        } else {
-            if ( ! $componentClause ) {
                 $idParams = array( );
                 foreach ($ids as $id) { 
                     $idParams[] = array( CRM_Core_Form::CB_PREFIX . $id, '=', 1, 0, 0 );
@@ -142,9 +142,10 @@ class CRM_Export_BAO_Export
                 } else {
                     $query =& new CRM_Contact_BAO_Query( $idParams, $returnProperties, null, true );         
                 }
-            } else {
-                $query =& new CRM_Contact_BAO_Query( 0, $returnProperties, null, false, false, $queryMode ); 
             }
+            
+        } else {
+            $query =& new CRM_Contact_BAO_Query( 0, $returnProperties, null, false, false, $queryMode ); 
         }
 
         list( $select, $from, $where ) = $query->query( );
