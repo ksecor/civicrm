@@ -144,8 +144,14 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             // Contribution::getValues() over-writes the membership record's source field value - so we need to restore it.
             $defaults['source'] = $defaults['membership_source'];
         }
-        
+               
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
+            require_once "CRM/Contact/Page/View/Membership.php";
+            $params = array('id'        => $this->_id,
+                            'contactID' => $this->_contactID,
+                            'action'    => $this->_action );
+            CRM_Contact_Page_View_Membership::associatedContribution( $params );
+            
             // in this mode by default uncheck this checkbox
             unset($defaults['record_contribution']);
             $defaults['send_receipt'] = 0; 
@@ -154,8 +160,8 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         }
         if ( $defaults['membership_type_id'][1] ) {
             $defaults['receipt_text_signup'] =  CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', 
-                                                                      $defaults['membership_type_id'][1],
-                                                                      'receipt_text_signup' );
+                                                                             $defaults['membership_type_id'][1],
+                                                                             'receipt_text_signup' );
         }
         
         $this->assign( "member_is_test", CRM_Utils_Array::value('member_is_test',$defaults) );

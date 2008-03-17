@@ -88,8 +88,10 @@
             </div>
         {/if}
     </fieldset>
-    {include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1} 
-     
+    {include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
+	{if $action eq 2 and $rows.0.contribution_id}	 
+     		{include file="CRM/Contribute/Form/Selector.tpl" context="Search"}
+	{/if}
    {/if}
 
    <dl>

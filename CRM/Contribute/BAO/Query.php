@@ -410,6 +410,10 @@ class CRM_Contribute_BAO_Query
             $from .= " $side JOIN civicrm_note civicrm_note_contribution ON ( civicrm_note_contribution.entity_table = 'civicrm_contribution' AND
                                                         civicrm_contribution.id = civicrm_note_contribution.entity_id )";
             break;
+        case 'civicrm_membership':
+            $from  = " $side  JOIN civicrm_membership_payment ON civicrm_membership_payment.contribution_id = civicrm_contribution.id";
+            $from .= " $side  JOIN civicrm_membership ON civicrm_membership_payment.membership_id = civicrm_membership.id ";
+            break;
         }
         return $from;
     }
@@ -451,6 +455,7 @@ class CRM_Contribute_BAO_Query
                                 'contribution_recur_id'   => 1, 
                                 'amount_level'            => 1,
                                 'contribution_note'       => 1,
+                                'membership_id'           => 1,
                                 );
 
             // also get all the custom contribution properties

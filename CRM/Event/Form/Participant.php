@@ -155,14 +155,11 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $this->_contactID = null;
         }
 
-        // current contribution id
+        // participant id
         if ( $this->_id ) { 
-            require_once 'CRM/Event/BAO/ParticipantPayment.php';
-            $particpant =& new CRM_Event_BAO_ParticipantPayment( );
-            $particpant->participant_id = $this->_id;
-            if ( $particpant->find( true ) ) {
-                $this->_online = true;
-            }
+            require_once "CRM/Contact/Page/View/Participant.php";
+            $params = array('id' => $this->_id );
+            CRM_Contact_Page_View_Participant::associatedContribution( $params );
         }
         
         $this->assign( 'single', $this->_single );

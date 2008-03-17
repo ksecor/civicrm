@@ -16,7 +16,9 @@
         {include file="CRM/Contact/Page/View/InlineCustomData.tpl" mainEditForm=1}
         <dt></dt><dd>{$form.buttons.html}</dd>
     </dl>
-
+	{if $rows.0.contribution_id}
+	    {include file="CRM/Contribute/Form/Selector.tpl" context="Search"}	
+	{/if}
 </fieldset>  
 </div>  
  

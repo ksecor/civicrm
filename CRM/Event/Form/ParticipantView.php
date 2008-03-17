@@ -57,8 +57,8 @@ class CRM_Event_Form_ParticipantView extends CRM_Core_Form
         
         CRM_Event_BAO_Participant::getValues( $params, 
                                               $values, 
-                                              $ids );      
-
+                                              $ids );
+        
         CRM_Event_BAO_Participant::resolveDefaults( $values[$this->get( 'id' )] );
         
         if ( $values[$this->get( 'id' )]['event_level'] ) {
@@ -80,7 +80,10 @@ class CRM_Event_Form_ParticipantView extends CRM_Core_Form
                                                          $values[$this->get( 'id' )]['role_id'] );
         CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $groupTree );
 
-        $this->assign( $values[$this->get( 'id' )] ); 
+        $this->assign( $values[$this->get( 'id' )] );
+        require_once "CRM/Contact/Page/View/Participant.php";
+        $params = array('id' => $params['id'] );
+        CRM_Contact_Page_View_Participant::associatedContribution( $params );
     }
 
     /**

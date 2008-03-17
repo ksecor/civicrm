@@ -37,7 +37,13 @@ require_once 'CRM/Contact/Page/View.php';
 
 class CRM_Contact_Page_View_Participant extends CRM_Contact_Page_View 
 {
-    
+    /**
+     * The action links that we need to display for the edit and view screen
+     *
+     * @var array
+     * @static
+     */
+    static $_links = null;
     /**
      * This function is called when action is browse
      * 
@@ -170,6 +176,86 @@ class CRM_Contact_Page_View_Participant extends CRM_Contact_Page_View
         $session =& CRM_Core_Session::singleton( ); 
         $session->pushUserContext( $url );
     }
+
+    /** 
+     * This function is used for the to show the associated
+     * contribution for the participant 
+     * @form array $form (ref.) an assoc array of name/value pairs
+     * return null 
+     * @access public 
+     */
+    function associatedContribution( &$form )
+    {
+        require_once 'CRM/Event/BAO/ParticipantPayment.php';
+        $particpant =& new CRM_Event_BAO_ParticipantPayment( );
+        $particpant->participant_id = $form['id'];
+        $ids = array( );
+        $defaults = array( );
+        $permission = CRM_Core_Permission::VIEW;
+        if ( CRM_Core_Permission::check( 'edit contributions' ) ) {
+            $permission = CRM_Core_Permission::EDIT;
+        }
+        $mask = CRM_Core_Action::mask( $permission );
+        
+        if ( $particpant->find( true ) ) {
+            $this->_online = true;
+            require_once 'CRM/Contribute/BAO/Contribution.php';
+            require_once 'CRM/Contribute/PseudoConstant.php';
+            require_once 'CRM/Event/Form/Participant.php';
+            $params = array( 'id' => $particpant->contribution_id );
+            CRM_Contribute_BAO_Contribution::getValues( $params, $defaults, $ids );
+            $conType   = CRM_Contribute_PseudoConstant::contributionType( );
+            $conStatus = CRM_Contribute_PseudoConstant::contributionStatus( );
+            $defaults['contributionType']   = $conType[$defaults['contribution_type_id']];
+            $this->_contributionType = $defaults['contribution_type_id'];
+            $defaults['contributionStatus'] = $conStatus[$defaults['contribution_status_id']];
+            $defaults['action']             = CRM_Core_Action::formLink( self::links('all' ), $mask, 
+                                                                         array('id' => $defaults['id'], 
+                                                                               'cid'=> $defaults['contact_id'] ));
+            $this->assign('contribution',$defaults);
+        }
+    }
+
+    /**
+     * Get action links
+     *
+     * @return array (reference) of action links
+     * @access public
+     */
+    function &links( $status = 'all' )
+    { 
+        if ( ! CRM_Utils_Array::value( 'view', self::$_links ) ) { 
+            self::$_links['view'] = array(
+                                          CRM_Core_Action::VIEW    => array(
+                                                                            'name'  => ts('View'),
+                                                                            'url'   => 'civicrm/contact/view/contribution',
+                                                                            'qs'    => 'reset=1&id=%%id%%&cid=%%cid%%&action=view&context=contribution&selectedChild=participant',
+                                                                            'title' => ts('View Contribution')
+                                                                            ),
+                                          );
+        }
+        
+        if ( ! CRM_Utils_Array::value( 'all', self::$_links ) ) {
+            $extraLinks = array(
+                                CRM_Core_Action::UPDATE => array(
+                                                                 'name'  => ts('Edit'),
+                                                                 'url'   => 'civicrm/contact/view/contribution',
+                                                                 'qs'    => 'reset=1&action=update&cid=%%cid%%&id=%%id%%&context=contribution&subType='.$this->_contributionType,
+                                                                 'title' => ts('Edit Contribution')
+                                                                 ),
+                                CRM_Core_Action::DELETE => array(
+                                                                 'name'  => ts('Delete'),
+                                                                 'url'   => 'civicrm/contact/view/contribution',
+                                                                 'qs'    => 'reset=1&action=delete&cid=%%cid%%&id=%%id%%&context=contribution',
+                                                                 'title' => ts('Delete Membership')
+                                                                 ),
+                                );
+            self::$_links['all'] = self::$_links['view'] + $extraLinks;
+        }
+        return self::$_links[$status];
+    }
+
+
 }
 
 

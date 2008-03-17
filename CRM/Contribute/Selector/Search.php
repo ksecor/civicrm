@@ -85,8 +85,8 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
                                  'product_name',
                                  'is_test',
                                  'contribution_recur_id',
-                                 'receipt_date'
-                                 
+                                 'receipt_date',
+                                 'membership_id'
                                  );
 
     /** 

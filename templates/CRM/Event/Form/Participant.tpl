@@ -167,7 +167,10 @@
         
         <td>{$form.buttons.html}</td> 
     	</tr> 
-     </table
+     </table>
+	{if $action eq 2 and $contribution.contribution_id}
+	    {include file="CRM/Event/Form/AssociatedPayment.tpl"}
+	{/if}
 </fieldset> 
 
 {if $paid} {* Record contribution field only present if this is a paid event. *}

@@ -309,9 +309,25 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
         }
         return self::$_membershipTypesLinks;
     }
+    /** 
+     * This function is used for the to show the associated
+     * contribution for the membership 
+     * @form array $form (ref.) an assoc array of name/value pairs
+     * return null 
+     * @access public 
+     */ 
+    function associatedContribution( &$form )
+    {
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Contribute_Form_Search', ts('Contributions'), $form['action'] );
+        $controller->setEmbedded( true );
+        $controller->reset( );
+        $controller->set( 'cid'  , $form['contactID'] );
+        $controller->set( 'id' , $form['id'] );
+        $controller->set( 'context', 'contribution' );
+        $controller->process( );
+        $controller->run( );
+    }
 
-
-    
     /**
      * Get BAO Name
      *
