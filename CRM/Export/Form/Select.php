@@ -126,7 +126,8 @@ class CRM_Export_Form_Select extends CRM_Core_Form
         
         $this->set( 'contactIds', $this->_contactIds );
         $this->set( 'selectAll' , $this->_selectAll  );
-
+        $this->set( 'exportMode' , $this->_exportMode );
+        $this->set( 'componentClause', $this->_componentClause );
     }
 
 

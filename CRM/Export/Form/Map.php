@@ -217,14 +217,18 @@ class CRM_Export_Form_Map extends CRM_Core_Form
                 CRM_Core_BAO_Mapping::saveMappingFields($params, $saveMapping->id);
             }
         }
+
         //get the csv file
-        require_once 'CRM/Contact/BAO/Export.php';
-        CRM_Contact_BAO_Export::exportContacts( $this->get( 'selectAll' ),
-                                                $this->get( 'contactIds' ),
-                                                $this->get( 'queryParams' ),
-                                                $this->get( CRM_Utils_Sort::SORT_ORDER ),
-                                                $mapperKeys,
-                                                $this->get( 'returnProperties' ) );
+        require_once "CRM/Export/BAO/Export.php";
+        CRM_Export_BAO_Export::exportComponents( $this->get( 'selectAll' ),
+                                                 $this->get( 'contactIds' ),
+                                                 $this->get( 'queryParams' ),
+                                                 $this->get( CRM_Utils_Sort::SORT_ORDER ),
+                                                 $mapperKeys,
+                                                 $this->get( 'returnProperties' ),
+                                                 $this->get('exportMode'),
+                                                 $this->get('componentClause')
+                                                 );
     }
     
     /**

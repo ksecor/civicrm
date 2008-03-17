@@ -64,7 +64,7 @@ class CRM_Export_BAO_Export
         $primary          = false;
         $returnProperties = array( );
         $origFields       = $fields;
-        
+
         if ( $fields ) {
             //construct return properties 
             $locationTypes =& CRM_Core_PseudoConstant::locationType();
@@ -116,7 +116,7 @@ class CRM_Export_BAO_Export
             $queryMode = CRM_Contact_BAO_Query::MODE_CONTRIBUTE;
         }
 
-        if ( $queryMode ) {
+        if ( $queryMode && !$fields ) {
             $componentReturnProperties =& CRM_Contact_BAO_Query::defaultReturnProperties( $queryMode );
             $returnProperties          = array_merge( $returnProperties, $componentReturnProperties );
         }
@@ -128,25 +128,25 @@ class CRM_Export_BAO_Export
             if ($primary) {
                 $query =& new CRM_Contact_BAO_Query( $params, $returnProperties, $fields );
             } else {
-                $query =& new CRM_Contact_BAO_Query( $params, $returnProperties, null, false, false,
-                                                     $queryMode);
+                $query =& new CRM_Contact_BAO_Query( $params, $returnProperties );
             }
         } else {
-            $idParams = array( );
-            foreach ($ids as $id) { 
-                $idParams[] = array( CRM_Core_Form::CB_PREFIX . $id, '=', 1, 0, 0 );
-            }
-            if ($primary) {
-                if ( ! $componentClause ) {
-                    $query =& new CRM_Contact_BAO_Query( $idParams, $returnProperties, $fields );
+            if ( ! $componentClause ) {
+                $idParams = array( );
+                foreach ($ids as $id) { 
+                    $idParams[] = array( CRM_Core_Form::CB_PREFIX . $id, '=', 1, 0, 0 );
+                }
+                
+                if ($primary) {
+                    $query =& new CRM_Contact_BAO_Query( $idParams, $returnProperties, $fields, true );
                 } else {
-                    $query =& new CRM_Contact_BAO_Query( 0, $returnProperties, null, false, false, $queryMode ); 
+                    $query =& new CRM_Contact_BAO_Query( $idParams, $returnProperties, null, true );         
                 }
             } else {
-                $query =& new CRM_Contact_BAO_Query( $idParams, $returnProperties, null, true );         
+                $query =& new CRM_Contact_BAO_Query( 0, $returnProperties, null, false, false, $queryMode ); 
             }
         }
-        
+
         list( $select, $from, $where ) = $query->query( );
         // make sure the groups stuff is included only if specifically specified
         // by the fields param (CRM-1969), else we limit the contacts outputted to only
