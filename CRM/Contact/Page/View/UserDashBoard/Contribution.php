@@ -96,7 +96,7 @@ class CRM_Contact_Page_View_UserDashBoard_Contribution extends CRM_Contact_Page_
 
             $paymentProcessor = CRM_Contribute_BAO_ContributionRecur::getPaymentProcessor( $recur->id,
                                                                                            $recur->is_test ? 'test' : 'live' );
-            $values['cancelSubscriptionUrl'] = CRM_Contribute_Form_ContributionBase::cancelSubscriptionURL( $paymentProcessor );
+            $values['cancelSubscriptionUrl'] = CRM_Contribute_Form_ContributionBase::cancelSubscriptionURL( $paymentProcessor , 'live' );
             $recurRow[] = $values;
         }
         $this->assign('recurRows',$recurRow);

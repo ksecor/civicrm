@@ -312,14 +312,13 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         $this->_amount   = $this->get( 'amount' );
     }
 
-    static function cancelSubscriptionURL( &$paymentProcessor, &$mode ) 
+    static function cancelSubscriptionURL( &$paymentProcessor, $mode = null ) 
     {
         $cancelSubscriptionURL = null;
         if ( $paymentProcessor['payment_processor_type'] == 'PayPal_Standard' ) {
             $cancelSubscriptionURL = "{$paymentProcessor['url_site']}cgi-bin/webscr?cmd=_subscr-find&alias=" .
                 urlencode( $paymentProcessor['user_name'] );
-        }
-        if ( $paymentProcessor['payment_processor_type'] == 'AuthNet_AIM' ) {
+        } else if ( $paymentProcessor['payment_processor_type'] == 'AuthNet_AIM' ) {
             if ( $mode == 'test' ) {
                 $cancelSubscriptionURL = "https://test.authorize.net";
             } else {

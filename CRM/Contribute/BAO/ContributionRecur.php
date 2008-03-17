@@ -125,7 +125,7 @@ SELECT p.payment_processor_id
   FROM civicrm_contribution c,
        civicrm_contribution_recur r,
        civicrm_contribution_page  p
- WHERE c.contribution_recur_id = r.id
+ WHERE c.contribution_recur_id = " . CRM_Utils_Type::escape($id, 'Int') ."
    AND c.contribution_page_id  = p.id
    AND p.payment_processor_id is not null
  LIMIT 1";
