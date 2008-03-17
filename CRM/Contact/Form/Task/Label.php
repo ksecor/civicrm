@@ -178,7 +178,9 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
         if ( $fv['do_not_mail'] ) {
             $params[] = array( 'do_not_mail', '=', 0, 0, 1 );
         }
-        
+        // fix for CRM-2613
+        $params[] = array( 'is_deceased', '=', 0, 0, 1 );
+
         $custom = array( );
         foreach ( $returnProperties as $name => $dontCare ) {
             $cfID = CRM_Core_BAO_CustomField::getKeyID( $name );

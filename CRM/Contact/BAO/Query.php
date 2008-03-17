@@ -1259,6 +1259,9 @@ class CRM_Contact_BAO_Query
                 $date = CRM_Utils_Date::customFormat( $date );
                 $this->_qill[$grouping][]  = "$field[title] $op \"$date\"";
             }
+        } else if ( $name === 'is_deceased' ) {
+            $this->_where[$grouping][] = "contact_a.{$name} $op $value";
+            $this->_qill[$grouping][]  = "$field[title] $op \"$value\"";
         } else if ( $name === 'contact_id' ) {
             if ( is_int( $value ) ) {
                 $this->_where[$grouping][] = $field['where'] . " $op $value";
