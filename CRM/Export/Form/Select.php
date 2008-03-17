@@ -183,17 +183,16 @@ class CRM_Export_Form_Select extends CRM_Core_Form
         }
 
         if ( $exportOption == self::EXPORT_ALL ) {
-            if ( $this->_exportMode == self::CONTACT_EXPORT ) {
-                $export->exportContacts( $this->_selectAll,
-                                         $this->_contactIds,
-                                         $this->get( 'queryParams' ),
-                                         $this->get( CRM_Utils_Sort::SORT_ORDER ),
-                                         null,
-                                         $this->get( 'returnProperties' ) );
-            } else {
-                require_once "CRM/Export/BAO/Export.php";
-                CRM_Export_BAO_Export::exportComponent( $this->_exportMode, $this->get( 'queryParams' ), $this->_componentClause );
-            }
+            require_once "CRM/Export/BAO/Export.php";
+            CRM_Export_BAO_Export::exportComponents( $this->_selectAll,
+                                                     $this->_contactIds,
+                                                     $this->get( 'queryParams' ),
+                                                     $this->get( CRM_Utils_Sort::SORT_ORDER ),
+                                                     null,
+                                                     $this->get( 'returnProperties' ),
+                                                     $this->_exportMode,
+                                                     $this->_componentClause
+                                                     );
         }
     }
 

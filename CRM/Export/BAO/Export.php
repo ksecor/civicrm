@@ -35,107 +35,283 @@
 
 
 /**
- * This class contains the funtions for Componet export
+ * This class contains the funtions for Component export
  *
  */
 class CRM_Export_BAO_Export
 {
     /**
-     * Function for component export
+     * Function to get the list the export fields
      *
-     * @param array $params (reference ) an assoc array of name/value pairs
-     * @param array $ids    the array that holds all the db ids
+     * @param int    $selectAll user preference while export
+     * @param array  $ids  contact ids
+     * @param array  $params associated array of fields
+     * @param string $order order by clause
+     * @param array  $associated array of fields
+     * @param array  $moreReturnProperties additional return fields
+     * @param int    $exportMode export mode
+     * @param string $componentClause component clause
      *
-     * @access public
      * @static
+     * @access public
      */
-    static function exportComponent ( $exportMode, $queryParams, $componentClause ) 
+    static function exportComponents( $selectAll, $ids, $params, $order = null, 
+                                      $fields = null, $moreReturnProperties = null, 
+                                      $exportMode = CRM_Export_Form_Select::CONTACT_EXPORT,
+                                      $componentClause = null ) 
     {
-        // create the selector, controller and run - store results in session
-        $returnProperties =& CRM_Contact_BAO_Query::defaultReturnProperties( CRM_Contact_BAO_Query::MODE_CONTRIBUTE );
-
-        // also add addresss fields
-        $addressProperties    = array( 
-                                      'street_address'         => 1, 
-                                      'supplemental_address_1' => 1, 
-                                      'supplemental_address_2' => 1, 
-                                      'city'                   => 1, 
-                                      'postal_code'            => 1, 
-                                      'postal_code_suffix'     => 1, 
-                                      'state_province'         => 1, 
-                                      'country'                => 1,
-                                      'geo_code_1'             => 1,
-                                      'geo_code_2'             => 1,
-                                      'email'                  => 1, 
-                                      'phone'                  => 1, 
-                                      'im'                     => 1, 
-                                      );
-        $returnProperties = array_merge( $returnProperties, $addressProperties );
-
-        $query            =& new CRM_Contact_BAO_Query( $queryParams, $returnProperties, null, false, false, 
-                                                        CRM_Contact_BAO_Query::MODE_CONTRIBUTE );
-        $properties = array( 'contact_id', 'contribution_id' );
-        $header     = array( ts( 'Contact ID' ), ts( 'Contribution ID' ) );
-        foreach ( $returnProperties as $name => $dontCare ) {
-            // skip contribution_status_id (since we get the text as contrib_status)
-            // fix for CRM-2186 (plus exporting an ID does not make a lot of sense
-            if ( $name == 'contribution_status_id' ) {
-                continue;
-            }
-            $properties[] = $name;
-            if ( CRM_Utils_Array::value( $name, $query->_fields ) &&
-                 CRM_Utils_Array::value( 'title', $query->_fields[$name] ) ) {
-                $header[] = $query->_fields[$name]['title'];
-            } else {
-                $header[] = $name;
-            }
-        }
-
-        // header fixed for colomns are not expotable
-        $headerArray = array('image_URL'     => 'Image URL',
-                             'contact_type'  => 'Contact Type',
-                             'sort_name'     => 'Sort Name',
-                             'display_name'  => 'Display Name',
-                             );
+        $headerRows       = array();
+        $primary          = false;
+        $returnProperties = array( );
+        $origFields       = $fields;
         
-        foreach( $header as $key => $value) {
-            if( array_key_exists( $value, $headerArray )) {
-                $header[$key] = $headerArray[$value]; 
-            }
-        }
-        $result = $query->searchQuery( 0, 0, null,
-                                       false, false,
-                                       false, false,
-                                       false,
-                                       $componentClause );
-
-        $rows = array( ); 
-        while ( $result->fetch( ) ) {
-            $row   = array( );
-            $valid = false;
-
-            foreach ( $properties as $property ) {
-                if ($property == "is_test") {
-                    $row[] = $result->$property ? "Yes" : "No";
+        if ( $fields ) {
+            //construct return properties 
+            $locationTypes =& CRM_Core_PseudoConstant::locationType();
+            
+            foreach ( $fields as $key => $value) {
+                $fieldName   = CRM_Utils_Array::value( 1, $value );
+                
+                if ( ! $fieldName ) {
+                    continue;
+                }
+                
+                $contactType = CRM_Utils_Array::value( 0, $value );
+                $locTypeId   = CRM_Utils_Array::value( 2, $value );
+                $phoneTypeId = CRM_Utils_Array::value( 3, $value );
+                
+                if ( is_numeric($locTypeId) ) {
+                    if ($phoneTypeId) {
+                        $returnProperties['location'][$locationTypes[$locTypeId]]['phone-' .$phoneTypeId] = 1;
+                    } else {
+                        $returnProperties['location'][$locationTypes[$locTypeId]][$fieldName] = 1;
+                    }
                 } else {
-                    $row[] = $result->$property;
-                }
-                if ( ! CRM_Utils_System::isNull( $result->$property ) ) {
-                    $valid = true;
+                    $returnProperties[$fieldName] = 1;
                 }
             }
-            if ( $valid ) {
-                $rows[] = $row;
+        } else {
+            $primary = true;
+            $fields = CRM_Contact_BAO_Contact::exportableFields( 'All', true, true );
+            foreach ($fields as $key => $var) { 
+                if ( $key &&
+                     ( substr($key,0, 6) !=  'custom' ) ) { //for CRM=952
+                    $returnProperties[$key] = 1;
+                }
+            }
+        }
+        
+        if ($primary) {
+            $returnProperties['location_type'] = 1;
+            $returnProperties['im_provider'  ] = 1;
+            $returnProperties['phone_type'   ] = 1;
+        }
+
+        if ( $moreReturnProperties ) {
+            $returnProperties = array_merge( $returnProperties, $moreReturnProperties );
+        }
+
+        $queryMode = CRM_Contact_BAO_Query::MODE_CONTACTS;
+        if ( $exportMode == CRM_Export_Form_Select::CONTRIBUTE_EXPORT ) {
+            $queryMode = CRM_Contact_BAO_Query::MODE_CONTRIBUTE;
+        }
+
+        if ( $queryMode ) {
+            $componentReturnProperties =& CRM_Contact_BAO_Query::defaultReturnProperties( $queryMode );
+            $returnProperties          = array_merge( $returnProperties, $componentReturnProperties );
+        }
+
+        // create the selector, controller and run - store results in session
+        $session =& CRM_Core_Session::singleton( );
+
+        if ( $selectAll ) {
+            if ($primary) {
+                $query =& new CRM_Contact_BAO_Query( $params, $returnProperties, $fields );
+            } else {
+                $query =& new CRM_Contact_BAO_Query( $params, $returnProperties, null, false, false,
+                                                     $queryMode);
+            }
+        } else {
+            $idParams = array( );
+            foreach ($ids as $id) { 
+                $idParams[] = array( CRM_Core_Form::CB_PREFIX . $id, '=', 1, 0, 0 );
+            }
+            if ($primary) {
+                if ( ! $componentClause ) {
+                    $query =& new CRM_Contact_BAO_Query( $idParams, $returnProperties, $fields );
+                } else {
+                    $query =& new CRM_Contact_BAO_Query( 0, $returnProperties, null, false, false, $queryMode ); 
+                }
+            } else {
+                $query =& new CRM_Contact_BAO_Query( $idParams, $returnProperties, null, true );         
+            }
+        }
+        
+        list( $select, $from, $where ) = $query->query( );
+        // make sure the groups stuff is included only if specifically specified
+        // by the fields param (CRM-1969), else we limit the contacts outputted to only
+        // ones that are part of a group
+        if ( $origFields &&
+             CRM_Utils_Array::value( 'groups', $returnProperties ) ) {
+            $groupClause = " ( civicrm_group_contact.status = 'Added' OR civicrm_group_contact.status is NULL ) ";
+            if ( empty( $where ) ) {
+                $where = "WHERE $groupClause";
+            } else {
+                $where .= " AND $groupClause";
+            }
+        }
+        
+        if ( $componentClause ) {
+            if ( empty( $where ) ) {
+                $where = "WHERE $componentClause";
+            } else {
+                $where .= " AND $componentClause";
+            }
+        }
+        
+        $queryString = "$select $from $where";
+
+        if ( CRM_Utils_Array::value( 'tags'  , $returnProperties ) || 
+             CRM_Utils_Array::value( 'groups', $returnProperties ) ||
+             CRM_Utils_Array::value( 'notes' , $returnProperties ) ) { 
+            $queryString .= " GROUP BY contact_a.id";
+        }
+        
+        if ( $order ) {
+            list( $field, $dir ) = explode( ' ', $order, 2 );
+            $field = trim( $field );
+            if ( CRM_Utils_Array::value( $field, $returnProperties ) ) {
+                $queryString .= " ORDER BY $order";
             }
         }
 
-        require_once 'CRM/Core/Report/Excel.php'; 
-        CRM_Core_Report_Excel::writeCSVFile( 'Component_Export', $header, $rows ); 
-        //CRM_Core_Report_Excel::writeCSVFile( self::getExportFileName( ), $header, $rows ); 
-        exit( );
+        //hack for student data
+        require_once 'CRM/Core/OptionGroup.php';
+        $multipleSelectFields = array( 'preferred_communication_method' => 1 );
 
+        if ( CRM_Core_Permission::access( 'Quest' ) ) { 
+            require_once 'CRM/Quest/BAO/Student.php';
+            $studentFields = array();
+            $studentFields = CRM_Quest_BAO_Student::$multipleSelectFields;
+            $multipleSelectFields = array_merge( $multipleSelectFields, $studentFields );
+        }
 
+        //crm_core_error::Debug('$queryString', $queryString); exit();
+        $dao =& CRM_Core_DAO::executeQuery( $queryString, CRM_Core_DAO::$_nullArray );
+        $header = false;
+
+        $contactDetails = array( );
+        while ($dao->fetch()) {
+            $row = array( );
+            $validRow = false;
+            foreach ($dao as $key => $varValue) {
+                $flag = false;
+                foreach ($returnProperties as $propKey => $props) {
+                    if (is_array($props)) {
+                        foreach($props as $propKey1=>$prop) {
+                            foreach($prop as $propkey2=>$prop1) {
+                                $locationfield = str_replace( ' ', '_', $propKey1."-".$propkey2 );
+                                if( $locationfield == $key) {
+                                    $flag = true;
+                                }
+                            }
+                        }
+                    }
+                } 
+
+                if (array_key_exists($key, $returnProperties)) {
+                    $flag = true;
+                }
+                if ($key == 'contact_id' && array_key_exists( 'id' , $returnProperties)) {
+                    $flag = true;
+                }
+
+                if ($flag) {
+                    if ( isset( $varValue ) && $varValue != '' ) {
+                        if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($key) ) {
+                            $row[$key] = CRM_Core_BAO_CustomField::getDisplayValue( $varValue, $cfID, $query->_options );
+                        } else if ( array_key_exists($key ,$multipleSelectFields ) ){
+                            $paramsNew = array($key => $varValue );
+                            if ( $key == 'test_tutoring') {
+                                $name = array( $key => array('newName' => $key ,'groupName' => 'test' ));
+                            } else if (substr( $key, 0, 4) == 'cmr_') { //for  readers group
+                                $name = array( $key => array('newName' => $key, 'groupName' => substr($key, 0, -3) ));
+                            } else {
+                                $name = array( $key => array('newName' => $key ,'groupName' => $key ));
+                            }
+                            CRM_Core_OptionGroup::lookupValues( $paramsNew, $name, false );
+                            $row[$key] = $paramsNew[$key];
+                            
+                        } else {
+                            $row[$key] = $varValue;
+                        }
+                        $validRow  = true;
+                    } else {
+                        $row[$key] = '';
+                    }
+                   
+                    if ( ! $header ) {
+                        if (isset($query->_fields[$key]['title'])) {
+                            $headerRows[] = $query->_fields[$key]['title'];
+                        } else if ($key == 'phone_type'){
+                            $headerRows[] = 'Phone Type';
+                        } else if ($key == 'contact_id'){
+                            $headerRows[] = $query->_fields['id']['title'];
+                        } else {
+                            $keyArray = explode('-', $key);
+                            
+                            $hdr      = $keyArray[0];
+
+                            if ( CRM_Utils_Array::value( 1, $keyArray ) ) {
+                                $hdr .= "-" . $query->_fields[$keyArray[1]]['title'];
+                            }
+
+                            if ( CRM_Utils_Array::value( 2, $keyArray ) ) {
+                                $hdr .= " " . $keyArray[2];
+                            }
+                            $headerRows[] = $hdr;
+                        
+                        }
+                    }
+                }
+            }
+            if ( $validRow ) {
+                $contactDetails[] = $row;
+            }
+            $header = true;
+        }
+
+        require_once 'CRM/Core/Report/Excel.php';
+        CRM_Core_Report_Excel::writeCSVFile( self::getExportFileName( 'csv', $exportMode ), $headerRows, $contactDetails );
+                
+        exit();
     }
+
+    /**
+     * name of the export file based on mode
+     *
+     * @param string $output type of output
+     * @param int    $mode export mode
+     * @return string name of the file
+     */
+    function getExportFileName( $output = 'csv', $mode = CRM_Export_Form_Select::CONTACT_EXPORT ) 
+    {
+        switch ( $mode ) {
+        case CRM_Export_Form_Select::CONTACT_EXPORT : 
+            return ts('CiviCRM Contact Search');
+            
+        case CRM_Export_Form_Select::CONTRIBUTE_EXPORT : 
+            return ts('CiviCRM Contribution Search');
+            
+        case CRM_Export_Form_Select::MEMBER_EXPORT : 
+            return ts('CiviCRM Contribution Search');
+            
+        case CRM_Export_Form_Select::EVENT_EXPORT : 
+            return ts('CiviCRM Contribution Search');
+        }
+    }
+
+
 }
 
 
