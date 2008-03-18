@@ -129,7 +129,8 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
        
 
         require_once 'CRM/Core/OptionGroup.php';
-        require_once 'CRM/Grant/BAO/Grant.php';        
+        require_once 'CRM/Grant/BAO/Grant.php';
+        $attributes = CRM_Core_DAO::getAttribute('CRM_Grant_DAO_Grant');
         $grantType = CRM_Core_OptionGroup::values( 'grant_type' );
         $this->add('select', 'grant_type_id',  ts( 'Grant Type' ),
                    array( '' => ts( '-select-' ) ) + $grantType , true);
@@ -160,7 +161,7 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
         $this->addRule('grant_due_date', ts('Select a valid date.'), 'qfDate');
 
         $this->addElement('checkbox','grant_report_received', ts('Grant report received?'),null );
-        $this->add('textarea', 'rationale', ts('Rationale'));
+        $this->add('textarea', 'rationale', ts('Rationale'), $attributes['rationale']);
         $this->add( 'text', 'amount_total', ts('Amount total'), null, true );
         $this->addRule('amount_total', ts('Please enter a valid amount.'), 'money'); 
         
@@ -170,7 +171,8 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
         $this->add( 'text', 'amount_requested', ts('Amount requested') );
         $this->addRule('amount_requested', ts('Please enter a valid amount.'), 'money'); 
 
-        $this->add( 'textarea', 'note', ts('Notes'));
+        $noteAttrib = CRM_Core_DAO::getAttribute('CRM_Core_DAO_Note');
+        $this->add( 'textarea', 'note', ts('Notes'), $noteAttrib['note'] );
         
         //build custom data
         CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );

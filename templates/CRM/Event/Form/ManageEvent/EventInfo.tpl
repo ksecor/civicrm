@@ -27,7 +27,7 @@
          <tr><td class="label">{$form.event_full_text.label}</td><td>{$form.event_full_text.html}<br />
             <span class="description">{ts}Text displayed on the Event Information page when the maximum number of registrations is reached. If online registration is enabled, this message will also be displayed if users attempt to register.{/ts}</span></td></tr>
          <tr><td>&nbsp;</td><td>{$form.is_map.html} {$form.is_map.label}<br />
-            <span class="description">{ts 1=$mapURL}Include a link to map the event location? (A map provider must be configured under <a href='%1'>Global Settings &raquo; Mapping</a>{/ts}</span></td></tr>
+            <span class="description">{ts 1=$mapURL}Include a link to map the event location? (A map provider must be configured under <a href='%1'>Global Settings &raquo; Mapping</a>){/ts}</span></td></tr>
          <tr><td>&nbsp;</td><td>{$form.is_public.html} {$form.is_public.label}<br />
             <span class="description">{ts}Include this event in iCalendar feeds?{/ts}</span></td></tr>
          <tr><td>&nbsp</td><td>{$form.is_active.html} {$form.is_active.label}</td></tr> 
