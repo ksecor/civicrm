@@ -305,10 +305,10 @@ class CRM_Export_BAO_Export
             return ts('CiviCRM Contribution Search');
             
         case CRM_Export_Form_Select::MEMBER_EXPORT : 
-            return ts('CiviCRM Contribution Search');
+            return ts('CiviCRM Member Search');
             
         case CRM_Export_Form_Select::EVENT_EXPORT : 
-            return ts('CiviCRM Contribution Search');
+            return ts('CiviCRM Participant Search');
         }
     }
 

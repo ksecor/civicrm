@@ -77,7 +77,8 @@ class CRM_Export_Form_Select extends CRM_Core_Form
     {
         $this->_contactIds = array( ); 
         $this->_selectAll  = false;
-        
+        $this->_exportMode = self::CONTACT_EXPORT;
+
         // get the submitted values of the search form 
         // we'll need to get fv from either search or adv search in the future 
         if ( $this->_action == CRM_Core_Action::ADVANCED ) { 
@@ -103,12 +104,16 @@ class CRM_Export_Form_Select extends CRM_Core_Form
                 $values = $this->controller->exportValues( 'Basic' ); 
             }
         } 
-         
-        $this->_task = $values['task']; 
+        
         require_once 'CRM/Contact/Task.php';
-        $crmContactTaskTasks = CRM_Contact_Task::taskTitles(); 
-        $this->assign( 'taskName', $crmContactTaskTasks[$this->_task] ); 
- 
+        if ( $this->_exportMode == self::CONTACT_EXPORT ) {
+            $this->_task = $values['task']; 
+            $crmContactTaskTasks = CRM_Contact_Task::taskTitles(); 
+            $this->assign( 'taskName', $crmContactTaskTasks[$this->_task] ); 
+        } else {
+            $this->assign( 'taskName', "Export $componentName[1]" ); 
+        }
+        
         // all contacts or action = save a search 
         if (($values['radio_ts'] == 'ts_all') || ($this->_task == CRM_Contact_Task::SAVE_SEARCH)) { 
             $this->_selectAll = true;
