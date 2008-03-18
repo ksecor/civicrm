@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Core</base>
+  <class>Menu</class>
+  <name>civicrm_menu</name>
+  <comment>Table to store menu items for all civicrm components.</comment>
+  <add>1.1</add>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <add>2.1</add>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>domain_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+       <add>2.1</add>
+  </field>
+  <foreignKey>
+       <name>domain_id</name>
+       <table>civicrm_domain</table>
+       <key>id</key>
+       <add>2.1</add>
+  </foreignKey>
+  <field>
+       <name>path</name>
+       <type>varchar</type>
+       <length>255</length>
+       <comment>Path Name</comment>
+       <add>2.1</add>
+  </field>
+  <index>
+    <name>UI_path</name>
+    <fieldName>path</fieldName>
+    <unique>true</unique>
+    <add>2.1</add>
+  </index>
+  <field>
+    <name>path_arguments</name>
+    <type>text</type>
+    <comment>Arguments to pass to the url</comment>
+    <add>2.1</add>
+  </field>
+  <field>
+       <name>title</name>
+       <type>varchar</type>
+       <length>255</length>
+       <comment>Menu Title</comment>
+       <add>2.1</add>
+  </field>
+  <field>
+    <name>access_callback</name>
+    <type>varchar</type>
+    <length>255</length>
+    <comment>Function to call to check access permissions</comment>
+    <add>2.1</add>
+  </field>
+  <field>
+    <name>access_arguments</name>
+    <type>text</type>
+    <comment>Arguments to pass to access callback</comment>
+    <add>2.1</add>
+  </field>
+  <field>
+    <name>page_callback</name>
+    <type>varchar</type>
+    <length>255</length>
+    <comment>function to call for this url</comment>
+    <add>2.1</add>
+  </field>
+  <field>
+    <name>page_arguments</name>
+    <type>text</type>
+    <comment>Arguments to pass to page callback</comment>
+    <add>2.1</add>
+  </field>
+
+  <field>
+       <name>component_name</name>
+       <type>varchar</type>
+       <length>255</length>
+       <comment>Component that this menu item belongs to</comment>
+       <add>2.1</add>
+  </field>
+  <field>
+       <name>is_active</name>
+       <type>boolean</type>
+       <comment>Is this menu item active?</comment>
+       <add>2.1</add>
+  </field>
+  <field>
+       <name>is_public</name>
+       <type>boolean</type>
+       <comment>Is this menu accessible to the public?</comment>
+       <add>2.1</add>
+  </field>
+  <field>
+       <name>is_exposed</name>
+       <type>boolean</type>
+       <comment>Is this menu exposed to the navigation system?</comment>
+       <add>2.1</add>
+  </field>
+  <field>
+      <name>weight</name>
+      <type>int</type>
+      <required>true</required>
+      <default>1</default>
+      <comment>Ordering of the menu items in various blocks.</comment>
+      <add>2.1</add>
+  </field>
+  <field>
+      <name>type</name>
+      <type>int</type>
+      <required>true</required>
+      <default>1</default>
+      <comment>Drupal menu type.</comment>
+      <add>2.1</add>
+  </field>
+  <field>
+      <name>crm_type</name>
+      <type>int</type>
+      <required>true</required>
+      <default>1</default>
+      <comment>CiviCRM menu type.</comment>
+      <add>2.1</add>
+  </field>
+</table>
