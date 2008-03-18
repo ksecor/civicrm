@@ -114,6 +114,7 @@ function civicrm_event_create( &$params )
 function civicrm_event_get( &$params ) 
 {
     _civicrm_initialize();
+    
     if ( ! is_array( $params ) || empty( $params ) ) {
         return civicrm_create_error('Params is not an array');
     }
@@ -124,11 +125,11 @@ function civicrm_event_get( &$params )
          ! $event['returnFirst'] ) {
         return civicrm_create_error( ts( '%1 event matching input params', array( 1 => count( $event ) ) ) );
     }
-
+    
     if ( civicrm_error( $event ) ) {
         return $event;
     }
-
+    
     $event = array_values( $event );
     return $event[0];
 }
@@ -144,7 +145,6 @@ function civicrm_event_get( &$params )
 
 function civicrm_event_search( &$params ) 
 {
-    
     foreach ( $params as $n => $v ) {
         if ( substr( $n, 0, 7 ) == 'return.' ) {
             $returnProperties[ substr( $n, 7 ) ] = 1;
@@ -163,13 +163,14 @@ function civicrm_event_search( &$params )
         CRM_Core_DAO::storeValues( $eventDAO, $event[$eventDAO->id] );
     }
     
-    require_once 'CRM/Core/BAO/CustomGroup.php';
-    $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Event', $eventDAO->id, false, 1 );
-    CRM_Core_BAO_CustomGroup::setDefaults( $groupTree, $defaults, false, false ); 
-    if ( is_array( $defaults ) ) {
-        foreach ( $defaults as $key => $val ) {
-            $event[$eventDAO->id][$key] = $val;
-        }
+    foreach( $event as $eid => $values) {
+        require_once 'CRM/Core/BAO/CustomGroup.php';
+        $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Event', $eid, 0, null );
+        
+        $defaults = array( );
+        CRM_Core_BAO_CustomGroup::setDefaults( $groupTree, $defaults, false, false ); 
+        
+        $event[$eid] = array_merge( $values, $defaults);
     }
     
     $eventDAO->free( );
