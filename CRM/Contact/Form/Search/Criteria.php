@@ -220,7 +220,35 @@ class CRM_Contact_Form_Search_Criteria {
         $form->addElement('select', 'relation_type_id', ts('Relationship Type'),  array('' => ts('- select -')) + $allRelationshipType);
         $form->addElement('text', 'relation_target_name', ts('Target Contact'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
     }
+    
+    static function demographics( &$form ) {
+        $form->add( 'hidden', 'hidden_demographics', 1 );
+        // radio button for gender
+        $genderOptions = array( );
+        $gender =CRM_Core_PseudoConstant::gender();
+        foreach ($gender as $key => $var) {
+            $genderOptions[$key] = HTML_QuickForm::createElement('radio', null, ts('Gender'), $var, $key);
+        }
+        $form->addGroup($genderOptions, 'gender', ts('Gender'));
+         
 
+        // Date selects for birth date
+        $form->add('date', 'birth_date_low', ts('Birth Dates - From'), CRM_Core_SelectValues::date('birth'));
+        $form->addRule('birth_date_low', ts('Select a valid date.'), 'qfDate');
+
+        $form->add('date', 'birth_date_high', ts('To'), CRM_Core_SelectValues::date('birth'));
+        $form->addRule('birth_date_high', ts('Select a valid date.'), 'qfDate');
+
+
+        // Date selects for deceased date
+        $form->add('date', 'deceased_date_low', ts('Deceased Dates - From'), CRM_Core_SelectValues::date('birth'));
+        $form->addRule('deceased_date_low', ts('Select a valid date.'), 'qfDate');
+
+        $form->add('date', 'deceased_date_high', ts('To'), CRM_Core_SelectValues::date('birth'));
+        $form->addRule('deceased_date_high', ts('Select a valid date.'), 'qfDate');
+    
+    }
+    
     static function notes( &$form ) {
         $form->add( 'hidden', 'hidden_notes', 1 );
 

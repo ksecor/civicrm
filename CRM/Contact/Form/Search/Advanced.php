@@ -69,6 +69,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
                             ts('Custom Fields')         => 'custom'         ,
                             ts('Activities')            => 'activity'       ,
                             ts('Relationships')         => 'relationship'   ,
+                            ts('Demographics')          => 'demographics'   ,
                             ts('Notes')                 => 'notes'          ,
                             ts('Change Log')            => 'changeLog'      
                             );
@@ -121,15 +122,19 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         }
 
         $this->_searchOptions = CRM_Core_BAO_Preferences::valueOptions( 'advanced_search_options', true, null, true );
+
+       
         foreach ( $paneNames as $name => $type ) {
+        
             if ( ! $this->_searchOptions[$name] && $name != ts( 'User SQL' ) ) {
                 continue;
+                
             }
-
+    
             $allPanes[$name] = array( 'url' => CRM_Utils_System::url( 'civicrm/contact/search/advanced',
-                                                                        "snippet=1&formType=$type" ),
-                                        'open' => 'false',
-                                        'id'   => $type );
+                                                                      "snippet=1&formType=$type" ),
+                                      'open' => 'false',
+                                      'id'   => $type );
             
             // see if we need to include this paneName in the current form
             if ( $this->_formType == $type ||
@@ -141,6 +146,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         }
 
         $this->assign( 'allPanes', $allPanes );
+       
         $this->assign( 'dojoIncludes', "dojo.require('civicrm.TitlePane');dojo.require('dojo.parser');" );
 
         if ( ! $this->_formType ) {
@@ -155,6 +161,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
             return parent::getTemplateFileName( );
         } else {
             $name = ucfirst( $this->_formType );
+                      
             return "CRM/Contact/Form/Search/Criteria/{$name}.tpl";
         }
     }
@@ -207,7 +214,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
                     $this->_formValues[$f] = CRM_Utils_Rule::cleanMoney( $this->_formValues[$f] );
                 }
             }
-            
+          
             // set the group if group is submitted
             if ($this->_formValues['uf_group_id']) {
                 $this->set( 'id', $this->_formValues['uf_group_id'] ); 
@@ -245,6 +252,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         
         require_once 'CRM/Contact/BAO/Query.php';
         $this->_params =& CRM_Contact_BAO_Query::convertFormValues( $this->_formValues );
+        
         //         eval( 'CRM_Contact_Form_Search_Criteria::' . $type . '( $this );' );
         $this->_returnProperties =& $this->returnProperties( );
         parent::postProcess( );

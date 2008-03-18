@@ -301,7 +301,7 @@ class CRM_Contact_BAO_Query
 
         // CRM_Core_Error::backtrace( );
         // CRM_Core_Error::debug( 'params', $params );
-        // CRM_Core_Error::debug( 'f', $fields );
+         
         // CRM_Core_Error::debug( 'post', $_POST );
         // CRM_Core_Error::debug( 'r', $returnProperties );
         $this->_params =& $params;
@@ -325,16 +325,17 @@ class CRM_Contact_BAO_Query
         } else {
             require_once 'CRM/Contact/BAO/Contact.php';
             $this->_fields = CRM_Contact_BAO_Contact::exportableFields( 'All', false, true );
-
+         
             require_once 'CRM/Core/Component.php';
             $fields =& CRM_Core_Component::getQueryFields( );
             unset( $fields['note'] );
             $this->_fields = array_merge( $this->_fields, $fields );
+           
         }
 
         // basically do all the work once, and then reuse it
         $this->initialize( );
-        //CRM_Core_Error::debug( 'q', $this );
+       
     }
 
     /**
@@ -368,6 +369,7 @@ class CRM_Contact_BAO_Query
 
         $this->selectClause( );
         $this->_whereClause      = $this->whereClause( );
+       
         $this->_fromClause       = self::fromClause( $this->_tables     , null, null, $this->_primaryLocation, $this->_mode );
         $this->_simpleFromClause = self::fromClause( $this->_whereTables, null, null, $this->_primaryLocation, $this->_mode );
     }
@@ -942,6 +944,7 @@ class CRM_Contact_BAO_Query
     }
 
     function whereClauseSingle( &$values ) {
+      
         // do not process custom fields or prefixed contact ids or component params
         if ( CRM_Core_BAO_CustomField::getKeyID( $values[0] ) ||
              ( substr( $values[0], 0, CRM_Core_Form::CB_PREFIX_LEN ) == CRM_Core_Form::CB_PREFIX ) ||
@@ -953,8 +956,9 @@ class CRM_Contact_BAO_Query
              ( substr( $values[0], 0, 4  ) == 'tmf_' ) ||
              ( substr( $values[0], 0, 6  ) == 'grant_' )) {
             return;
+            
         }
-    
+       
         switch ( $values[0] ) {
             
         case 'contact_type':
@@ -1014,7 +1018,12 @@ class CRM_Contact_BAO_Query
         case 'activity_type_id':
             $this->activity( $values );
             return;
-
+        case 'birth_date_low':
+        case 'birth_date_high': 
+        case 'deceased_date_low':
+        case 'deceased_date_high':   
+            $this->demographics( $values );
+            return;
         case 'modified_date_low':
         case 'modified_date_high':
             $this->modifiedDates( $values );
@@ -1149,8 +1158,9 @@ class CRM_Contact_BAO_Query
     }
 
     function restWhere( &$values ) {
+      
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
-
+        
         if ( ! CRM_Utils_Array::value( $grouping, $this->_where ) ) {
             $this->_where[$grouping] = array( );
         }
@@ -1159,22 +1169,23 @@ class CRM_Contact_BAO_Query
         $lType = '';
         $locType = array( );
         $locType = explode('-', $name);
-
+        
         //add phone type if exists
         if ( isset( $locType[2] ) && $locType[2] ) {
             $locType[2] = addslashes( $locType[2] );
         }
-        
         $field = CRM_Utils_Array::value( $name, $this->_fields );
+        
         if ( ! $field ) {
             $field = CRM_Utils_Array::value( $locType[0], $this->_fields );
+            
             if ( ! $field ) {
                 return;
             }
         }
-
+        
         $setTables = true;
-
+        
         // FIXME: the LOWER/strtolower pairs below most probably won't work
         // with non-US-ASCII characters, as even if MySQL does the proper
         // thing with LOWER-ing them (4.0 almost certainly won't, but then
@@ -2216,6 +2227,22 @@ class CRM_Contact_BAO_Query
             break;
         }
     }
+    
+    function demographics( &$values ) {
+        list( $name, $op, $value, $grouping, $wildcard ) = $values;
+       
+        if ( ($name == 'birth_date_low') ||($name == 'birth_date_high') ) {
+          
+            $this->dateQueryBuilder( $values,
+                                     'contact_a', 'birth_date', 'birth_date', 'Birth Date' );
+    
+        } else if( ($name == 'deceased_date_low') ||($name == 'deceased_date_high') ) {
+          
+            $this->dateQueryBuilder( $values,
+                                     'contact_a', 'deceased_date', 'deceased_date', 'Deceased Date' );
+        }
+       
+    }
 
     function privacy( &$values ) {
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
@@ -2454,6 +2481,7 @@ class CRM_Contact_BAO_Query
     static function getQuery( $params = null, $returnProperties = null, $count = false ) {
         $query =& new CRM_Contact_BAO_Query( $params, $returnProperties );
         list( $select, $from, $where ) = $query->query( );
+        
         return "$select $from $where";
     }
 

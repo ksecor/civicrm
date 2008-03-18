@@ -290,7 +290,8 @@ VALUES
   (@option_group_id_asOpt, 'Memberships'             ,   8, NULL, NULL, 0, NULL,  9, NULL, 0, 0, 1, NULL),
   (@option_group_id_asOpt, 'Events'                  ,   9, NULL, NULL, 0, NULL, 10, NULL, 0, 0, 1, NULL),
   (@option_group_id_asOpt, 'Cases'                   ,  10, NULL, NULL, 0, NULL, 11, NULL, 0, 0, 1, NULL),
-  
+  (@option_group_id_asOpt, 'Demographics'            ,  13, NULL, NULL, 0, NULL, 15, NULL, 0, 0, 1, NULL),
+
   {if 0} {* Temporary hack to eliminate Kabissa checkbox in site preferences. *}
     (@option_group_id_asOpt, 'Kabissa'                 ,  11, NULL, NULL, 0, NULL, 13, NULL, 0, 0, 1, NULL),
     (@option_group_id_asOpt, 'Grants'                  ,  12, NULL, NULL, 0, NULL, 14, NULL, 0, 0, 1, NULL),
