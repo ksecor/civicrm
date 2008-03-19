@@ -1732,6 +1732,9 @@ SELECT DISTINCT( m.id ) as id
                                '=', 1, 0, 1);
         }
         
+        // fix for CRM-2613
+        $params[] = array( 'is_deceased', '=', 0, 0, 1 );
+
         $custom = array( );
         foreach ( $returnProperties as $name => $dontCare ) {
             $cfID = CRM_Core_BAO_CustomField::getKeyID( $name );
