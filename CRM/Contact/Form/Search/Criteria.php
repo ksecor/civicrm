@@ -112,36 +112,42 @@ class CRM_Contact_Form_Search_Criteria {
     static function location( &$form ) {
         $form->addElement( 'hidden', 'hidden_location', 1 );
 
-        $attributes = CRM_Core_DAO::getAttribute('CRM_Core_DAO_Address');
-
-        $form->addElement('text', 'street_address', ts('Street Address'),
-                          $attributes['street_address'] );
-        $form->addElement('text', 'city', ts('City'),
-                          $attributes['city'] );
-
-        // select for state province
-        $stateProvince = array('' => ts('- any state/province -')) + CRM_Core_PseudoConstant::stateProvince( );
-        $form->addElement('select', 'state_province', ts('State/Province'), $stateProvince);
-
-        // select for country
-        $country = array('' => ts('- any country -')) + CRM_Core_PseudoConstant::country( );
-        $form->addElement('select', 'country', ts('Country'), $country);
-
-        $config =& CRM_Core_Config::singleton( );
-        if ( isset($config->includeCounty) ) {
-            // select for county
-            $county = array('' => ts('- any county -')) + CRM_Core_PseudoConstant::county( );
-            $form->addElement('select', 'county', ts('County'), $county);
-        }
-        // add text box for postal code
-        $form->addElement('text', 'postal_code', ts('Postal Code'),
-                          $attributes['postal_code'] );
+        require_once 'CRM/Core/BAO/Preferences.php';
+        $addressOptions = CRM_Core_BAO_Preferences::valueOptions( 'address_options', true, null, true );
         
-        $form->addElement('text', 'postal_code_low', ts('Range-From'),
-                          $attributes['postal_code'] );
+        $attributes = CRM_Core_DAO::getAttribute('CRM_Core_DAO_Address');
+ 
+        $elements = array( 
+                          'street_address'         => array( ts('Street Address')    ,  $attributes['street_address'], null ),
+                          'city'                   => array( ts('City')              ,  $attributes['city'] , null ),
+                          'postal_code'            => array( ts('Zip / Postal Code') ,  $attributes['postal_code'], null ),
+                          'county'              => array( ts('County')            ,  $attributes['county_id'], 'county' ),
+                          'state_province'      => array( ts('State / Province')  ,  $attributes['state_province_id'],'stateProvince' ),
+                          'country'             => array( ts('Country')           ,  $attributes['country_id'], 'country' ), 
+                           );
+ 
+        foreach ( $elements as $name => $v ) {
+            list( $title, $attributes, $select ) = $v;
+            
+            if ( ! $addressOptions[$title] ) {
+                continue;
+            }
+ 
+            if ( ! $attributes ) {
+                $attributes = $attributes[$name];
+            }
 
-        $form->addElement('text', 'postal_code_high', ts('To'),
-                          $attributes['postal_code'] );
+            if ( $select ) {
+                $selectElements = array( '' => ts('- select -') ) + CRM_Core_PseudoConstant::$select( );
+                $form->addElement('select', $name, $title, $selectElements );
+            } else {
+                $form->addElement('text', $name, $title, $attributes );
+            }
+
+            // select for state province
+            $stateProvince = array('' => ts('- any state/province -')) + CRM_Core_PseudoConstant::stateProvince( );
+            
+        }
 
         $worldRegions =  array('' => ts('- any region -')) + CRM_Core_PseudoConstant::worldRegion( );
         $form->addElement('select', 'world_region', ts('World Region'), $worldRegions);
