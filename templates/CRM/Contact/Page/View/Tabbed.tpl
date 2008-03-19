@@ -116,6 +116,7 @@
 </div>
 {/foreach}
 
+{if $showCommBlock}
 <div id="commPrefs_show" class="section-hidden section-hidden-border">
   <a href="#" onclick="hide('commPrefs_show'); show('commPrefs'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Communications Preferences{/ts}</label><br />
  </div>
@@ -143,9 +144,9 @@
   <div class="spacer"></div>
  </fieldset>
 </div>
+{/if}
 
-
-{if $contact_type eq 'Individual'}
+{if $contact_type eq 'Individual' AND $showDemographics}
 <div id="demographics_show" class="section-hidden section-hidden-border">
   <a href="#" onclick="hide('demographics_show'); show('demographics'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Demographics{/ts}</label><br />
  </div>

@@ -145,7 +145,19 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
         }
         
         $defaults['privacy_values'] = CRM_Core_SelectValues::privacy();
-     
+        
+        //Show blocks only if they are visible in edit form
+        require_once 'CRM/Core/BAO/Preferences.php';
+        $this->_editOptions  = CRM_Core_BAO_Preferences::valueOptions( 'contact_edit_options' );
+        $configItems = array( '_showCommBlock'     => 'Communication Preferences',
+                              '_showDemographics'  => 'Demographics',
+                              '_showTagsAndGroups' => 'Tags and Groups',
+                              '_showNotes'         => 'Notes' );
+
+        foreach ( $configItems as $c => $t ) {
+            $this->$c = $this->_editOptions[$t];
+            $this->assign( substr( $c, 1 ), $this->$c );
+        }
 	    $this->assign( $defaults );
         $this->setShowHide( $defaults );        
         
@@ -157,9 +169,9 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
         $allTabs  = array( );
         $weight = 10;
         
-        require_once 'CRM/Core/BAO/Preferences.php';
-        $this->_viewOptions = CRM_Core_BAO_Preferences::valueOptions( 'contact_view_options', true, null, true );
         
+        $this->_viewOptions = CRM_Core_BAO_Preferences::valueOptions( 'contact_view_options', true, null, true );
+    
         // get the contributions, new style of doing stuff
         // do the below only if the person has access to contributions
         $config =& CRM_Core_Config::singleton( );
@@ -282,14 +294,18 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
      * @access public
      */
     function setShowHide( &$defaults ) {
-        require_once 'CRM/Core/ShowHideBlocks.php';
-
-        $showHide =& new CRM_Core_ShowHideBlocks( array( 'commPrefs'      => 1 ),
-                                                  array( 'commPrefs_show' => 1 ) );
-
+        
         $config =& CRM_Core_Config::singleton( ); 
-
-        if ( $defaults['contact_type'] == 'Individual' ) {
+       
+        require_once 'CRM/Core/ShowHideBlocks.php';
+        $showHide =& new CRM_Core_ShowHideBlocks();
+        
+        if ( $this->_showCommBlock ) {
+            $showHide->addShow( 'commPrefs' );
+            $showHide->addHide( 'commPrefs_show' );
+        }
+        
+        if ( $this->_showDemographics && $defaults['contact_type'] == 'Individual' ) {
             // is there any demographics data?
             if ( CRM_Utils_Array::value( 'gender_id'  , $defaults ) ||
                  CRM_Utils_Array::value( 'is_deceased', $defaults ) ||
