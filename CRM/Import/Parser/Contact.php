@@ -591,7 +591,14 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                         
                         _civicrm_add_formatted_param($value, $formatting);
                     }
-                    
+
+                    //Relation on the basis of External Identifier.
+                    if ( !CRM_Utils_Array::value( 'id' , $params[$key] ) && isset ( $params[$key]['external_identifier'] ) ) {
+                        $params[$key]['id'] = CRM_Core_DAO::getFieldValue('CRM_Contact_DAO_Contact',
+                                                                          $params[$key]['external_identifier'],'id',
+                                                                          'external_identifier' );
+                    }                    
+
                     //fix for CRM-1315
                     if ( $params[$key]['id'] ) {
                         $contact           = array( 'contact_id' => $params[$key]['id'] );
