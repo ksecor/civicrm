@@ -539,6 +539,15 @@ ALTER TABLE `civicrm_membership_type`
     ADD `receipt_text_signup` varchar(255) NULL DEFAULT NULL COMMENT 'Receipt Text for membership signup' COLLATE utf8_unicode_ci AFTER renewal_reminder_day,
     ADD `receipt_text_renewal` varchar(255) NULL DEFAULT NULL COMMENT 'Receipt Text for membership renewal' COLLATE utf8_unicode_ci AFTER receipt_text_signup;
 
+-- /*******************************************************
+-- *
+-- * Modify civicrm_membership_status table
+-- *
+-- *******************************************************/
+
+INSERT INTO civicrm_membership_status ( `domain_id`, `name`, `start_event`, `start_event_adjust_unit`, `start_event_adjust_interval`, `end_event`, `end_event_adjust_unit`, `end_event_adjust_interval`, `is_current_member`, `is_admin`, `weight`, `is_default`, `is_active`) VALUES 	
+( @domain_id , 'Pending', 'join_date', NULL, NULL, 'join_date', NULL, NULL, 0, 0, 5, 0, 1),
+( @domain_id , 'Cancelled', 'join_date', NULL, NULL, 'join_date', NULL, NULL, 0, 0, 6, 0, 1);
 
 -- /*******************************************************
 -- *
