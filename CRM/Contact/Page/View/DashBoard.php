@@ -173,7 +173,9 @@ class CRM_Contact_Page_View_DashBoard extends CRM_Contact_Page_View
         $session =& CRM_Core_Session::singleton( );
         $id  = $session->get( 'userID' );
         
-        $admin = CRM_Core_Permission::check( 'administer CiviCRM' );
+        $admin = 
+            CRM_Core_Permission::check( 'view all activities' ) ||
+            CRM_Core_Permission::check( 'administer CiviCRM' );
 
         $this->browse( $id, $admin );
       
