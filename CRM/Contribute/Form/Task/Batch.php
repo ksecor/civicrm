@@ -120,16 +120,32 @@ class CRM_Contribute_Form_Task_Batch extends CRM_Contribute_Form_Task {
         
         $this->assign( 'profileTitle', $this->_title );
         $this->assign( 'contributionIds', $this->_contributionIds );
-       
         $fileFieldExists = false;
-        foreach ($this->_contributionIds as $contributionId) {
-            foreach ($this->_fields as $name => $field ) {
-                CRM_Core_BAO_UFGroup::buildProfile($this, $field, null, $contributionId );
+        
+        //fix for CRM-2752
+        require_once "CRM/Core/BAO/CustomField.php";
+        $customFields = CRM_Core_BAO_CustomField::getFields( 'Contribution' );
+        foreach ( $this->_contributionIds as $contributionId ) {
+            $typeId = CRM_Core_DAO::getFieldValue( "CRM_Contribute_DAO_Contribution", $contributionId, 'contribution_type_id' ); 
+            foreach ( $this->_fields as $name => $field ) {
+                if ( $customFieldID = CRM_Core_BAO_CustomField::getKeyID( $name ) ) {
+                    foreach ( $customFields as $id => $val ) {
+                        if ( ! ( $id == $customFieldID ) ) { 
+                            continue;
+                        }
+                        if ( ( $typeId == $val[7] ) || CRM_Utils_System::isNull( $val[7] ) ) {
+                            CRM_Core_BAO_UFGroup::buildProfile( $this, $field, null, $contributionId );
+                        }
+                    }
+                } else {
+                    // handle non custom fields
+                    CRM_Core_BAO_UFGroup::buildProfile( $this, $field, null, $contributionId );
+                }
             }
         }
-       
-        $this->assign( 'fields', $this->_fields     );
-
+        
+        $this->assign( 'fields', $this->_fields );
+        
         // don't set the status message when form is submitted.
         $buttonName = $this->controller->getButtonName('submit');
 

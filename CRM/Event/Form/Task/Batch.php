@@ -118,11 +118,27 @@ class CRM_Event_Form_Task_Batch extends CRM_Event_Form_Task
         
         $this->assign( 'profileTitle', $this->_title );
         $this->assign( 'participantIds', $this->_participantIds );
-        
         $fileFieldExists = false;
-        foreach ($this->_participantIds as $participantId) {
-            foreach ($this->_fields as $name => $field ) {
-                CRM_Core_BAO_UFGroup::buildProfile($this, $field, null, $participantId );
+        
+        //fix for CRM-2752
+        require_once "CRM/Core/BAO/CustomField.php";
+        $customFields = CRM_Core_BAO_CustomField::getFields( 'Participant' );
+        foreach ( $this->_participantIds as $participantId ) {
+            $roleId = CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_Participant", $participantId, 'role_id' ); 
+            foreach ( $this->_fields as $name => $field ) {
+                if ( $customFieldID = CRM_Core_BAO_CustomField::getKeyID( $name ) ) {
+                    foreach ( $customFields as $id => $val ) {
+                        if ( ! ( $id == $customFieldID ) ) { 
+                            continue;
+                        }
+                        if ( ( $roleId == $val[7] ) || CRM_Utils_System::isNull( $val[7] ) ) {
+                            CRM_Core_BAO_UFGroup::buildProfile( $this, $field, null, $participantId );
+                        }
+                    }
+                } else {
+                    // handle non custom fields
+                    CRM_Core_BAO_UFGroup::buildProfile( $this, $field, null, $participantId );
+                }
             }
         }
         

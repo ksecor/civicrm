@@ -192,7 +192,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                             $cgTable.title,
                             $cfTable.data_type, $cfTable.html_type,
                             $cfTable.options_per_line,
-                            $cgTable.extends, $cfTable.is_search_range
+                            $cgTable.extends, $cfTable.is_search_range,
+                            $cgTable.extends_entity_column_value
                      FROM $cfTable
                      INNER JOIN $cgTable
                      ON $cfTable.custom_group_id = $cgTable.id
