@@ -100,7 +100,8 @@ class CRM_Member_StateMachine_Search extends CRM_Core_StateMachine {
             break;
 
         case CRM_Member_Task::EXPORT_MEMBERS:
-            $task   = 'CRM_Member_Form_Task_Export';
+            $task   = array('CRM_Export_Form_Select',
+                            'CRM_Export_Form_Map');
             break;
 
         case CRM_Member_Task::EMAIL_CONTACTS:

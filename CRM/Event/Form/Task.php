@@ -88,7 +88,7 @@ class CRM_Event_Form_Task extends CRM_Core_Form
                 }
             }
             if ( ! empty( $ids ) ) {
-                $this->_eventClause =
+                $this->_componentClause =
                     ' civicrm_participant.id IN ( ' .
                     implode( ',', $ids ) . ' ) ';
             $this->assign( 'totalSelectedParticipants', count( $ids ) );             

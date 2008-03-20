@@ -107,7 +107,8 @@ class CRM_Event_StateMachine_Search extends CRM_Core_StateMachine
             break;
             
         case CRM_Event_Task::EXPORT_EVENTS:
-            $task   = 'CRM_Event_Form_Task_Export';
+            $task   = array('CRM_Export_Form_Select',
+                            'CRM_Export_Form_Map');
             break;
             
         case CRM_Event_Task::BATCH_EVENTS:

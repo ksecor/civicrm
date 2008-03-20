@@ -93,7 +93,7 @@ class CRM_Member_Form_Task extends CRM_Core_Form
                 }
             }
             if ( ! empty( $ids ) ) {
-                $this->_memberClause =
+                $this->_componentClause =
                     ' civicrm_membership.id IN ( ' .
                     implode( ',', $ids ) . ' ) ';
                 $this->assign( 'totalSelectedMembers', count( $ids ) );

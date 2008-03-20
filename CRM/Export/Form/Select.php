@@ -104,7 +104,7 @@ class CRM_Export_Form_Select extends CRM_Core_Form
                 $values = $this->controller->exportValues( 'Basic' ); 
             }
         } 
-        
+
         require_once 'CRM/Contact/Task.php';
         if ( $this->_exportMode == self::CONTACT_EXPORT ) {
             $this->_task = $values['task']; 
@@ -252,7 +252,7 @@ class CRM_Export_Form_Select extends CRM_Core_Form
         $mappingTypeId = CRM_Core_OptionGroup::getValue( 'mapping_type', $exportType, 'name' );
         $this->set( 'mappingTypeId', $mappingTypeId );
 
-        $mappings  = CRM_Core_BAO_Mapping::getMappings( $mappingId );
+        $mappings  = CRM_Core_BAO_Mapping::getMappings( $mappingTypeId );
         $this->add('select','mapping', ts('Mapping Option'), array('' => '-select-') + $mappings );
     }
 

@@ -380,6 +380,19 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
             $compArray['Contribution'] = 'Contribution';
         }
 
+        if ( CRM_Core_Permission::access( 'CiviEvent' ) ) {
+            require_once 'CRM/Event/BAO/Query.php';
+            $fields['Participant'] =& CRM_Event_BAO_Query::getParticipantFields( true );
+            $compArray['Participant'] = 'Participant';
+        }
+
+        if ( CRM_Core_Permission::access( 'CiviMember' ) ) {
+            require_once 'CRM/Member/BAO/Membership.php';
+            $fields['Membership'] =& CRM_Member_BAO_Membership::getMembershipFields();
+            $compArray['Membership'] = 'Membership';
+        }
+
+
         foreach ($fields as $key => $value) {
             foreach ($value as $key1 => $value1) {
                 $mapperFields[$key][$key1] = $value1['title'];
