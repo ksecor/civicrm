@@ -175,8 +175,7 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
 
         require_once 'CRM/Import/Parser/Contact.php';
         if (!(($index < 0) || ($this->_participantStatusIndex < 0) || ($this->_participantRoleIndex < 0))) {
-            $errorRequired = ! CRM_Utils_Array::value($index, $values) ||
-                ! CRM_Utils_Array::value($this->_participantStatusIndex, $values) ||
+            $errorRequired = ! CRM_Utils_Array::value($this->_participantStatusIndex, $values) ||
                 ! CRM_Utils_Array::value($this->_participantRoleIndex, $values);
             if ((!$params['event_id'] && !$params['event_title'])) {
                 CRM_Import_Parser_Contact::addToErrorMsg('Event', $missingField);
