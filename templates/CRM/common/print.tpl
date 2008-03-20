@@ -5,13 +5,13 @@
 <head>
   <title>{$pageTitle}</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <base href="{$config->resourceBase}" />
+  <base href="{$config->resourceBase}" /><!--[if IE]></base><![endif]-->
   <style type="text/css" media="screen, print">@import url({$config->resourceBase}css/civicrm.css);</style>
   <style type="text/css" media="print">@import url({$config->resourceBase}css/print.css);</style>
   <style type="text/css">@import url({$config->resourceBase}css/skins/aqua/theme.css);</style>
-  <script type="text/javascript" src="{$config->resourceBase}packages/dojo/dojo/dojo.js" djConfig="isDebug: true, parseOnLoad: true" ></script>
+  <script type="text/javascript" src="{$config->resourceBase}packages/dojo/dojo/dojo.js" djConfig="isDebug: false, parseOnLoad: true " ></script>
   <script type="text/javascript" src="{$config->resourceBase}packages/dojo/dojo/commonWidgets.js"></script>
-  <style type="text/css">@import url({$config->resourceBase}packages/dojo/dijit/themes/tundra/tundra.css);</style>
+  <style type="text/css" media="screen">@import url({$config->resourceBase}packages/dojo/dijit/themes/tundra/tundra.css);</style>
   <script type="text/javascript" src="{$config->resourceBase}js/Common.js"></script>
   <script type="text/javascript" src="{$config->resourceBase}js/calendar.js"></script>
   <script type="text/javascript" src="{$config->resourceBase}js/lang/calendar-lang.php?{$config->lcMessages}"></script>
@@ -23,9 +23,7 @@
 {if $config->debug}
 {include file="CRM/common/debug.tpl"}
 {/if}
-
 <div id="crm-container" lang="{$config->lcMessages|truncate:2:"":true}" xml:lang="{$config->lcMessages|truncate:2:"":true}">
-
 {* Check for Status message for the page (stored in session->getStatus). Status is cleared on retrieval. *}
 {if $session->getStatus(false)}
 <div class="messages status">
