@@ -314,7 +314,7 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
 SELECT     civicrm_event.id as id, civicrm_event.title as event_title, civicrm_event.is_public as is_public,
            civicrm_event.max_participants as max_participants, civicrm_event.start_date as start_date,
            civicrm_event.end_date as end_date, civicrm_event.is_map as is_map,
-           civicrm_option_value.label as event_type, count(civicrm_participant.id) as participants
+           civicrm_option_value.label as event_type
 FROM       civicrm_event
 LEFT JOIN  civicrm_participant  ON
  ( civicrm_event.id = civicrm_participant.event_id AND
@@ -328,14 +328,23 @@ GROUP BY   civicrm_event.id
 ORDER BY   civicrm_event.end_date DESC
 LIMIT      0, 10
 ";
-        
+        $eventParticipant = array( );
         $dao =& CRM_Core_DAO::executeQuery( $query, $params );
+        $params[3] = array( 1 , 'Integer');
+        $params[4] = array( 2 , 'Integer');
+        $eventParticipant['participants'] = self::participantCount( $params );
+       
+        $params[3] = array( 5 , 'Integer');
+        $params[4] = array( 0 , 'Integer');
+        $eventParticipant['pending']      = self::participantCount( $params );
         
         $properties = array( 'eventTitle'      => 'event_title',      'isPublic'     => 'is_public', 
                              'maxParticipants' => 'max_participants', 'startDate'    => 'start_date', 
                              'endDate'         => 'end_date',         'eventType'    => 'event_type', 
-                             'isMap'           => 'is_map',           'participants' => 'participants' );
-        
+                             'isMap'           => 'is_map',           'participants' => 'participants',
+                             'pending'         => 'pending'
+                             );
+                
         while ( $dao->fetch( ) ) {
             require_once 'CRM/Core/Config.php';
             $config = CRM_Core_Config::singleton();
@@ -345,13 +354,14 @@ LIMIT      0, 10
                 if (( $name == 'start_date' ) || 
                     ( $name == 'end_date' ) ) {
                     $eventSummary['events'][$dao->id][$property] = CRM_Utils_Date::customFormat($dao->$name, '%B %d%f %Y');
-                } else if ( $name == 'participants' ) {
-                    $eventSummary['events'][$dao->id][$property] = $dao->$name;
-                    if ( $dao->$name ) {
+                } else if ( $name == 'participants' || $name == 'pending' ) {
+                    $eventSummary['events'][$dao->id][$property] = $eventParticipant[$name][$dao->id];
+                    if ( $name == 'participants' && CRM_Utils_Array::value( $dao->id, $eventParticipant['participants'] ) ) { 
                         $set = CRM_Utils_System::url( 'civicrm/event/search',"reset=1&force=1&event=$dao->id" );
+                    } else if ( $name == 'pending' && CRM_Utils_Array::value( $dao->id, $eventParticipant['pending'] ) ) {
+                        $set = CRM_Utils_System::url( 'civicrm/event/search',"reset=1&force=1&event=$dao->id&status=5" );
                     }
-                    
-                    $eventSummary['events'][$dao->id]['participant_url'] = $set;
+                    $eventSummary['events'][$dao->id][$name.'_url'] = $set;
                 } else if ( $name == 'is_public' ) {
                     if ( $dao->$name ) {
                         $set = 'Yes';
@@ -389,11 +399,49 @@ LIMIT      0, 10
                     $eventSummary['events'][$dao->id][$property] = $dao->$name;
                 }
             }
-        }
-        
+        } 
         return $eventSummary;
     }
-   
+
+    /**
+     * Function to get participant count
+     * @param  array  $params the list of ids for which we want participant count
+     * @public
+     * @return array Array of participant count
+     */
+    function participantCount( $params ) 
+    {
+        $participant = array( );
+
+        $queryOne = "
+SELECT     
+   civicrm_event.id as id, 
+   count(civicrm_participant.id) as participant
+FROM       
+   civicrm_event
+   LEFT JOIN  civicrm_participant  ON
+   ( civicrm_event.id = civicrm_participant.event_id AND
+   civicrm_participant.is_test = 0                   AND
+   civicrm_participant.status_id IN ( %3, %4 ) )
+   LEFT JOIN  civicrm_option_value ON 
+   ( civicrm_event.event_type_id = civicrm_option_value.value )
+WHERE      
+   civicrm_event.is_active = 1     AND
+   civicrm_event.domain_id = %2    AND
+   civicrm_option_value.option_group_id = %1
+GROUP BY   
+   civicrm_event.id
+ORDER BY   
+   civicrm_event.end_date DESC
+LIMIT  0, 10
+";
+        $daoStatus =& CRM_Core_DAO::executeQuery( $queryOne, $params );
+        while ( $daoStatus->fetch( ) ) {
+            $participant[$daoStatus->id] = $daoStatus->participant;
+        }
+        return $participant;
+    }
+
     /**
      * function to get the information to map a event
      *

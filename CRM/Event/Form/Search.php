@@ -420,6 +420,13 @@ class CRM_Event_Form_Search extends CRM_Core_Form
         if ( $event ) {
             $this->_formValues['event_title'] = CRM_Event_PseudoConstant::event( $event );
             $this->assign( 'event_title_value', $this->_formValues['event_title'] );
+            $status = CRM_Utils_Request::retrieve( 'status', 'Positive',
+                                                   CRM_Core_DAO::$_nullObject );
+            if ( $status == 5 ) {
+                $this->_formValues['participant_status_id'] = array( '5' => 1  );
+            } else {
+                $this->_formValues['participant_status_id'] = array( '1' => 1, '2' => 1 );
+            }
         }
         
         $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
