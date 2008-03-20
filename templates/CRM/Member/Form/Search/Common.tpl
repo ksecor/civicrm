@@ -26,6 +26,21 @@
 </tr>
 <tr> 
     <td class="label"> 
+        <br />{$form.member_join_date_low.label} 
+    </td>
+    <td><br />
+        {$form.member_join_date_low.html} &nbsp;<br />
+        {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_member_5}
+        {include file="CRM/common/calendar/body.tpl" dateVar=member_join_date_low startDate=startYear endDate=endYear offset=5 trigger=trigger_search_member_5}
+    </td>
+    <td colspan="2"> <br />
+         {$form.member_join_date_high.label} {$form.member_join_date_high.html}<br />
+         &nbsp; &nbsp; {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_member_6}
+         {include file="CRM/common/calendar/body.tpl" dateVar=member_join_date_high startDate=startYear endDate=endYear offset=5 trigger=trigger_search_member_6}
+    </td> 
+</tr> 
+<tr> 
+    <td class="label"> 
         <br />{$form.member_start_date_low.label} 
     </td>
     <td><br />

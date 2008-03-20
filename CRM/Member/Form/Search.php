@@ -430,6 +430,13 @@ class CRM_Member_Form_Search extends CRM_Core_Form
             $this->_defaults['member_start_date_high'] = $date;
             
         }
+        $joinDate= CRM_Utils_Request::retrieve( 'join', 'Date',
+                                                CRM_Core_DAO::$_nullObject );
+        if ( $joinDate ) {
+            $date = CRM_Utils_Date::unformat( $joinDate, '' );
+            $this->_formValues['member_join_date_low'] = $date;
+            $this->_defaults  ['member_join_date_low'] = $date;
+        }
 
         $this->_limit = CRM_Utils_Request::retrieve( 'limit', 'Positive',
                                                      $this );

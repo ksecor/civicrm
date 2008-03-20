@@ -107,6 +107,12 @@ class CRM_Member_BAO_Query
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
         switch( $name ) {
 
+        case 'member_join_date_low':
+        case 'member_join_date_high':
+            $query->dateQueryBuilder( $values,
+                                      'civicrm_membership', 'member_join_date', 'join_date',
+                                      'Join Date', false );
+            return;
         case 'member_start_date_low':
         case 'member_start_date_high':
             $query->dateQueryBuilder( $values,
@@ -268,6 +274,12 @@ class CRM_Member_BAO_Query
         //$form->addRule('member_join_date', ts('Select a valid date.'), 'qfDate'); 
  
         // Date selects for date 
+        $form->add('date', 'member_join_date_low', ts('Join Date - From'), CRM_Core_SelectValues::date('relative')); 
+        $form->addRule('member_join_date_low', ts('Select a valid date.'), 'qfDate'); 
+ 
+        $form->add('date', 'member_join_date_high', ts('To'), CRM_Core_SelectValues::date('relative')); 
+        $form->addRule('member_join_date_high', ts('Select a valid date.'), 'qfDate');
+
         $form->add('date', 'member_start_date_low', ts('Start Date - From'), CRM_Core_SelectValues::date('relative')); 
         $form->addRule('member_start_date_low', ts('Select a valid date.'), 'qfDate'); 
  
