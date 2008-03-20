@@ -153,25 +153,25 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
     /**
      * function to get the list of mappings
      * 
-     * @params string  $mappingType  mapping type 
+     * @params string  $mappingTypeId  mapping type id 
      *
      * @return array $mapping array of mapping name 
      * @access public
      * @static
      */
-    static function getMappings($mappingType)
+    static function getMappings( $mappingTypeId )
     {
-        $mappingArray = array();
+        $mapping = array( );
         $mappingDAO =&  new CRM_Core_DAO_Mapping();
         $mappingDAO->domain_id = CRM_Core_Config::domainID( );
-        $mappingDAO->mapping_type = $mappingType;
+        $mappingDAO->mapping_type_id = $mappingTypeId;
         $mappingDAO->find();
         
         while ($mappingDAO->fetch()) {
-            $mappingArray[$mappingDAO->id] = $mappingDAO->name;
+            $mapping[$mappingDAO->id] = $mappingDAO->name;
         }
         
-        return $mappingArray;
+        return $mapping;
     }
 
     /**
@@ -294,7 +294,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
      * @access public
      * @static
      */
-    static function buildMappingForm(&$form, $mappingType = 'Export', $mappingId = null, $columnNo, $blockCount = 3 ) 
+    static function buildMappingForm(&$form, $mappingType = 'Export', $mappingId = null, $columnNo, $blockCount = 3, $exportMode = null ) 
     {
         if ($mappingType == 'Export') {
             $name = "Map";

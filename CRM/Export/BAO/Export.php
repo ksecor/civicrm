@@ -311,8 +311,6 @@ class CRM_Export_BAO_Export
             return ts('CiviCRM Participant Search');
         }
     }
-
-
 }
 
 

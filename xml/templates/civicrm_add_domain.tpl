@@ -142,7 +142,8 @@ VALUES
    (@domain_id, 'case_status'                   , '{ts escape="sql"}Case Status{/ts}'                        , 0, 1),
    (@domain_id, 'participant_listing'           , '{ts escape="sql"}Participant Listing{/ts}'                , 0, 1),
    (@domain_id, 'safe_file_extension'           , '{ts escape="sql"}Safe File Extension{/ts}'                , 0, 1),
-   (@domain_id, 'from_email_address'            , '{ts escape="sql"}From Email Address{/ts}'                 , 0, 1);
+   (@domain_id, 'from_email_address'            , '{ts escape="sql"}From Email Address{/ts}'                 , 0, 1),
+   (@domain_id, 'mapping_type'                  , '{ts escape="sql"}Mapping Type{/ts}'                       , 0, 1);
 
    
 SELECT @option_group_id_pcm            := max(id) from civicrm_option_group where name = 'preferred_communication_method';
@@ -174,6 +175,7 @@ SELECT @option_group_id_ct             := max(id) from civicrm_option_group wher
 SELECT @option_group_id_cas            := max(id) from civicrm_option_group where name = 'case_status';
 SELECT @option_group_id_pl             := max(id) from civicrm_option_group where name = 'participant_listing';
 SELECT @option_group_id_sfe            := max(id) from civicrm_option_group where name = 'safe_file_extension';
+SELECT @option_group_id_mt             := max(id) from civicrm_option_group where name = 'mapping_type';
 
 INSERT INTO 
    `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`) 
@@ -362,7 +364,19 @@ VALUES
   (@option_group_id_sfe, 'rtf'      , 11, NULL   ,  NULL, 0, 0, 11, NULL, 0, 0, 1, NULL),
   (@option_group_id_sfe, 'csv'      , 12, NULL   ,  NULL, 0, 0, 12, NULL, 0, 0, 1, NULL),
   (@option_group_id_sfe, 'ppt'      , 13, NULL   ,  NULL, 0, 0, 13, NULL, 0, 0, 1, NULL),
-  (@option_group_id_sfe, 'doc'      , 14, NULL   ,  NULL, 0, 0, 14, NULL, 0, 0, 1, NULL);
+  (@option_group_id_sfe, 'doc'      , 14, NULL   ,  NULL, 0, 0, 14, NULL, 0, 0, 1, NULL),
+
+  (@option_group_id_mt, '{ts escape="sql"}Search Builder{/ts}',      1, 'Search Builder',      NULL, 0, 0,    1, NULL, 0, 1, 1, NULL),
+  (@option_group_id_mt, '{ts escape="sql"}Import Contact{/ts}',     2, 'Import Contacts',     NULL, 0, 0,    2, NULL, 0, 1, 1, NULL),
+  (@option_group_id_mt, '{ts escape="sql"}Import Activity{/ts}',     3, 'Import Activity',     NULL, 0, 0,    3, NULL, 0, 1, 1, NULL),
+  (@option_group_id_mt, '{ts escape="sql"}Import Contribution{/ts}', 4, 'Import Contribution', NULL, 0, 0,    4, NULL, 0, 1, 1, NULL),
+  (@option_group_id_mt, '{ts escape="sql"}Import Membership{/ts}',   5, 'Import Membership',   NULL, 0, 0,    5, NULL, 0, 1, 1, NULL),
+  (@option_group_id_mt, '{ts escape="sql"}Import Participant{/ts}',  6, 'Import Participant',  NULL, 0, 0,    6, NULL, 0, 1, 1, NULL),
+  (@option_group_id_mt, '{ts escape="sql"}Export Contact{/ts}',     7, 'Export Contacts',     NULL, 0, 0,    7, NULL, 0, 1, 1, NULL),
+  (@option_group_id_mt, '{ts escape="sql"}Export Contribution{/ts}', 8, 'Export Contribution', NULL, 0, 0,    8, NULL, 0, 1, 1, NULL),
+  (@option_group_id_mt, '{ts escape="sql"}Export Membership{/ts}',   9, 'Export Membership',   NULL, 0, 0,    9, NULL, 0, 1, 1, NULL),
+  (@option_group_id_mt, '{ts escape="sql"}Export Participant{/ts}',  10, 'Export Participant', NULL, 0, 0,   10, NULL, 0, 1, 1, NULL);
+
 
 -- sample membership status entries
 INSERT INTO

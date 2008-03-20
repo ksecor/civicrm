@@ -9,16 +9,38 @@
 <p>{ts}Click <strong>Select fields for export</strong> and then <strong>Continue</strong> to choose a subset of fields for export. This option allows you to export multiple specific locations (Home, Work, etc.) as well as custom data. You can also save your selections as a 'field mapping' so you can use it again later.{/ts}</p>
 </div>
 
-<div id="export-type" class="form-item">
- <fieldset>
+<fieldset>
+  <div id="export-type" class="form-item">
     <dl>
         <dd>
          {ts count=$totalSelectedContacts plural='%count records selected for export.'}One record selected for export.{/ts}
         </dd> 
         <dd>{$form.exportOption.html}</dd>
     </dl>
- </fieldset>
-</div>
+  </div>
+  <div id="map">
+     <dl>
+        <dd>{$form.mapping.label} &nbsp; {$form.mapping.html}</dd>
+     </dl>
+  </div>
+</fieldset>
+
 <div id="crm-submit-buttons">
     {$form.buttons.html}
 </div>
+
+{literal}
+  <script type="text/javascript">
+     function showMappingOption( )
+     {
+	var element = document.getElementsByName("exportOption");
+
+	if ( element[1].checked ) { 
+	  show('map');
+        } else {
+	  hide('map');
+	}
+     } 
+   showMappingOption( );
+  </script>
+{/literal}

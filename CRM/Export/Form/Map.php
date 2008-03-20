@@ -82,13 +82,13 @@ class CRM_Export_Form_Map extends CRM_Core_Form
             $this->_exportColumnCount = $this->_exportColumnCount + 10;
         }
         
-        $this->_mappingId =  $this->get('savedMapping');
+        $this->_mappingId =  $this->get('mappingId');
     }
     
-    public function buildQuickForm( ) {
-
+    public function buildQuickForm( ) 
+    {
         require_once "CRM/Core/BAO/Mapping.php";
-        CRM_Core_BAO_Mapping::buildMappingForm($this, 'Export', $this->_mappingId, $this->_exportColumnCount, $blockCnt = 2);
+        CRM_Core_BAO_Mapping::buildMappingForm($this, 'Export', $this->_mappingId, $this->_exportColumnCount, $blockCnt = 2, $this->get('exportMode'));
 
         $this->addButtons( array(
                                  array ( 'type'      => 'back',
@@ -151,64 +151,45 @@ class CRM_Export_Form_Map extends CRM_Core_Form
         
         $currentPath = CRM_Utils_System::currentPath( );
 
-        //To Refresh the Page 
-        //updated for CRM-965
-
         //get the button name
         $buttonName = $this->controller->getButtonName('done');
         $buttonName1 = $this->controller->getButtonName('next');
         if ( $buttonName == '_qf_Map_done') {
             $this->set('exportColumnCount',null);
-            if (! $this->controller->exportValue( $this->_name, 'loadMapping' ) )  {
-                CRM_Utils_Array::value( 'savedMapping', $params );
-                $this->set('savedMapping', null);
-            }
             $this->controller->resetPage( $this->_name );
             return CRM_Utils_System::redirect( CRM_Utils_System::url($currentPath, 'force=1') );
         }
-
 
         if ( $this->controller->exportValue( $this->_name, 'addMore' ) )  {
             $this->set( 'exportColumnCount', $this->_exportColumnCount );
             return;
         }
 
-        //reload the mapfield if load mapping is pressed
-        if ( $this->controller->exportValue( $this->_name, 'loadMapping' ) )  {
-            CRM_Utils_Array::value( 'savedMapping', $params );
-            $this->set('savedMapping', $params['savedMapping']);
-            $this->controller->resetPage( $this->_name );
-            return;
-        }
-
         $mapperKeys = $params['mapper'][1];  
        
         $checkEmpty = 0;
-        foreach($mapperKeys as $value) {
+        foreach( $mapperKeys as $value ) {
             if ($value[0]) {
                 $checkEmpty++;
             }
         }
 
-        if (!$checkEmpty ) {
-            $this->set('savedMapping', null);
+        if ( !$checkEmpty ) {
+            $this->set('mappingId', null);
             require_once 'CRM/Utils/System.php';            
-            CRM_Utils_System::redirect( CRM_Utils_System::url( "civicrm/contact/search/{$redirectPage}", '_qf_Map_display=true' ) );
+            CRM_Utils_System::redirect( CRM_Utils_System::url( $currentPath, '_qf_Map_display=true' ) );
         }
 
-        //when Export button is clicked then save the details 
-        //changed for CRM-965
         if ( $buttonName1 == '_qf_Map_next' ) {
-            
             if ( CRM_Utils_Array::value('updateMapping', $params)) { 
                 //save mapping fields
-                CRM_Core_BAO_Mapping::saveMappingFields($params, $params['mappingId']);
+                CRM_Core_BAO_Mapping::saveMappingFields($params, $params['mappingId'] );
             }
             
-            if ( CRM_Utils_Array::value('saveMapping', $params)) { 
-                $mappingParams = array('name'         => $params['saveMappingName'],
-                                       'description'  => $params['saveMappingDesc'],
-                                       'mapping_type' => 'Export');
+            if ( CRM_Utils_Array::value('saveMapping', $params) ) { 
+                $mappingParams = array('name'            => $params['saveMappingName'],
+                                       'description'     => $params['saveMappingDesc'],
+                                       'mapping_type_id' => $this->get( 'mappingTypeId') );
                 
                 $temp = array();
                 $saveMapping = CRM_Core_BAO_Mapping::add($mappingParams, $temp) ;

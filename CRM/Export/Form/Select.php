@@ -148,13 +148,18 @@ class CRM_Export_Form_Select extends CRM_Core_Form
         $exportOptions[] = HTML_QuickForm::createElement('radio',
                                                          null, null,
                                                          ts('Export PRIMARY contact fields'),
-                                                         self::EXPORT_ALL);
+                                                         self::EXPORT_ALL,
+                                                         array( 'onClick' => 'showMappingOption( );' ));
         $exportOptions[] = HTML_QuickForm::createElement('radio',
                                                          null, null,
                                                          ts('Select fields for export'),
-                                                         self::EXPORT_SELECTED);
+                                                         self::EXPORT_SELECTED,
+                                                         array( 'onClick' => 'showMappingOption( );' ));
 
         $this->addGroup($exportOptions, 'exportOption', ts('Export Type'), '<br/>');
+
+        
+        $this->buildMapping( );
 
         $this->setDefaults(array('exportOption' => self::EXPORT_ALL ));
 
@@ -178,6 +183,13 @@ class CRM_Export_Form_Select extends CRM_Core_Form
     public function postProcess( ) {
         $exportOption = $this->controller->exportValue( $this->_name, 'exportOption' ); 
 
+        $mappingId = $this->controller->exportValue( $this->_name, 'mapping' ); 
+        if ( $mappingId ) {
+            $this->set('mappingId', $mappingId);
+        } else {
+            $this->set('mappingId', null);
+        }
+
         require_once 'CRM/Contact/BAO/Export.php';
         $export =& new CRM_Contact_BAO_Export( );
 
@@ -200,6 +212,9 @@ class CRM_Export_Form_Select extends CRM_Core_Form
                                                      $this->_componentClause
                                                      );
         }
+        
+        //reset map page
+        $this->controller->resetPage( 'Map' );
     }
 
     /**
@@ -210,6 +225,35 @@ class CRM_Export_Form_Select extends CRM_Core_Form
      */
     public function getTitle( ) {
         return ts('Export All or Selected Fields');
+    }
+
+    /**
+     * Function to build mapping form element
+     *
+     */
+    function buildMapping( ) 
+    {
+        switch ( $this->_exportMode ) {
+        case CRM_Export_Form_Select::CONTACT_EXPORT : 
+            $exportType = 'Export Contact';
+            break;
+        case CRM_Export_Form_Select::CONTRIBUTE_EXPORT : 
+            $exportType = 'Export Contribution';
+            break;
+        case CRM_Export_Form_Select::MEMBER_EXPORT : 
+            $exportType = 'Export Membership';
+            break;
+        case CRM_Export_Form_Select::EVENT_EXPORT : 
+            $exportType = 'Export Participant';
+            break;
+        }
+
+        require_once "CRM/Core/BAO/Mapping.php";
+        $mappingTypeId = CRM_Core_OptionGroup::getValue( 'mapping_type', $exportType, 'name' );
+        $this->set( 'mappingTypeId', $mappingTypeId );
+
+        $mappings  = CRM_Core_BAO_Mapping::getMappings( $mappingId );
+        $this->add('select','mapping', ts('Mapping Option'), array('' => '-select-') + $mappings );
     }
 
 }

@@ -1,35 +1,5 @@
 {* Export Wizard - Data Mapping table used by MapFields.tpl and Preview.tpl *}
  <div id="map-field">
-    {if $savedMapping}
-    <div>
-	<a href="#" onclick="mappingOption(); return false;" >&raquo; {if $loadedMapping}{ts}Select a Different Mapping{/ts}{else}{ts}Load Saved Field Mapping{/ts}{/if}</a>
-    </div>
-    <div id="savedMappingOption">
-	<span>{$form.savedMapping.label}</span>&nbsp;<span>{$form.savedMapping.html}</span>
-        <span>{$form.loadMapping.html}</span> 
-    </div>
-    
-    <script type="text/javascript">
-	hide('savedMappingOption');
-	document.getElementById("savedMapping").disabled = true;	
-	{literal}
-	function mappingOption() {
-		if (document.getElementById("savedMappingOption").style.display == "block") {
-		    hide('savedMappingOption');
-		    document.getElementById("savedMapping").disabled = true;
-		    return false;
-		} else {
-		    show('savedMappingOption');
-		    document.getElementById("savedMapping").disabled = false;
-		    return false;
-		}
-	}
-		
-	{/literal}
-    </script>
-    
-    {/if}
-
     {strip}
     <table>
         {if $loadedMapping}
@@ -59,7 +29,7 @@
 
     <div>
 	{if $loadedMapping}
-<span>{$form.updateMapping.html}{$form.updateMapping.label}&nbsp;&nbsp;&nbsp;</span>
+            <span>{$form.updateMapping.html}{$form.updateMapping.label}&nbsp;&nbsp;&nbsp;</span>
 	{/if}
 	<span>{$form.saveMapping.html}{$form.saveMapping.label}</span>
 	<div id="saveDetails" class="form-item">
