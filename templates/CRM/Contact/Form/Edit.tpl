@@ -44,18 +44,37 @@
     <tr>
         <td>&nbsp;</td>
         <td>{$form.job_title.label}</td>
-        <td>{$form.current_employer.label}</td>
         <td>{$form.home_URL.label}</td>
         <td>{$form.external_identifier.label}</td>        
     </tr>
     <tr>
         <td>&nbsp;</td>
-        <td> {$form.job_title.html}</td>
-        <td>{$form.current_employer.html}</td>
+        <td>{$form.job_title.html}</td>
         <td>{$form.home_URL.html|crmReplace:class:big}</td>
         <td>{$form.external_identifier.html}</td>        
-    </tr>
+    </tr><tr></tr>
     </table>
+<div id="employer_option" class="form-item">
+   {$form.employer_option.label}{$form.employer_option.html}
+</div>
+<div id="create_employer" class="form-item">
+    <span class="labels">
+        {$form.create_employer.label}
+    </span>
+    <span class="fields">
+        {$form.create_employer.html}
+    </span>
+</div>
+<div id="shared_employer" class="form-item">
+    <span class="labels">
+        {$form.shared_employer.label}
+    </span>
+<span class="fields">
+<div  class="tundra" dojoType= "dojox.data.QueryReadStore" jsId="organizationStore" url="{$employerDataURL}" doClientPaging="false" >
+            {$form.shared_employer.html}
+            </div>
+</span>
+</div>
 
     {$form._qf_Edit_refresh_dedupe.html}
     {if $isDuplicate}&nbsp;&nbsp;{$form._qf_Edit_next_duplicate.html}{/if}
@@ -203,6 +222,22 @@
       	    show('showDeceasedDate');
         } else {
            	hide('showDeceasedDate');
+        }
+    }
+
+    if (!document.getElementsByName("employer_option")[1].checked ) {
+        hide("shared_employer");
+    }
+    hide("create_employer");
+    function showHideEmployerOptions()
+    {
+        if (document.getElementsByName("employer_option")[0].checked) {
+            dijit.byId("shared_employer").domNode.style.display = "none";
+            show("create_employer");
+        } else {
+            hide("create_employer");
+            show("shared_employer");
+            dijit.byId("shared_employer").domNode.style.display = "block";
         }
     }
 </script>

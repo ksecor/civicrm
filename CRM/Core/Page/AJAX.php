@@ -123,7 +123,10 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
             }
             
         }
-       
+        $extraWhere = '';
+        if ( isset($_GET['org']) ) {
+            $extraWhere = "AND contact_type = 'Organization'";
+        }
 
         if ( $shared ) {
             
@@ -154,11 +157,12 @@ ORDER BY sort_name" ;
 SELECT sort_name, id
 FROM civicrm_contact
 WHERE sort_name LIKE '$name'
+{$extraWhere}
 AND domain_id = $domainID
 ORDER BY sort_name ";
             
         }
-        
+ 
         $start = CRM_Utils_Type::escape( $_GET['start'], 'Integer' );
         $end = 10;
 

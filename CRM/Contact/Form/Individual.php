@@ -187,8 +187,28 @@ showHideSharedOptions();
                                              'onblur'=> "if ( this.value == 'http://') this.value=''; else return false")
                                        ));
         $form->addRule('home_URL', ts('Enter a valid web location beginning with \'http://\' or \'https://\'. EXAMPLE: http://www.mysite.org/'), 'url');
+
+        $employerAttributes    = array( 'dojoType'     => 'dijit.form.ComboBox',
+                                        'mode'         => 'remote',
+                                        'store'        => 'organizationStore',
+                                        'style'        => 'width:300px; border: 1px solid #cfcfcf;',
+                                        'class'        => 'tundra',
+                                        'pageSize'     => 10
+                                        );
         
-        $form->addElement('text', 'current_employer', ts('Current Employer'), array( 'maxlength' => 128 ) );
+        $employerDataURL =  CRM_Utils_System::url( 'civicrm/ajax/search',
+                                           "d={$domainID}&org=1&s=",
+                                           true, null, false );
+
+        $this->assign('employerDataURL',$employerDataURL );
+
+        $employerOptionsExtra = array( 'onclick' => "showHideEmployerOptions();" );
+        $employerOption = array( '0' => ts('Create new Organization'), '1' => ts('Select existing Organization') );
+        $form->addRadio('employer_option', ts('Current Employer'),  $employerOption, $employerOptionsExtra);
+
+        $form->addElement('text', 'create_employer', ts('Create Organization'), array( 'maxlength' => 128 ) );
+
+        $form->addElement('text', 'shared_employer', ts('Existing Organization'),$employerAttributes );
 
         $form->addElement('text', 'contact_source', ts('Source'));
         $form->add('text', 'external_identifier', ts('External Id'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'external_identifier'), false);
@@ -215,7 +235,15 @@ showHideSharedOptions();
     static function formRule( &$fields, &$files, $options ) 
     {
         $errors = array( );
-
+        
+        if ($fields['employer_option'] == 1) {
+            $orgId =  CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                   $fields['shared_employer'], 'id', 'sort_name' );
+            if (!$orgId) {
+                $errors['shared_employer'] =  ts('Please select an organization from the list ');
+            }
+        }
+        
         $primaryID = CRM_Contact_Form_Edit::formRule( $fields, $errors );
         
         // check for state/country mapping

@@ -327,7 +327,8 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
             krsort($rel);
             foreach ($rel as $key => $value) {
                 if ($value['relation'] == 'Employee of') {
-                    $defaults['current_employer'] =  $value['name'];
+                    $defaults['shared_employer'] =  $value['name'];
+                    $defaults['employer_option'] =  1;
                     break;
                 }
             }
@@ -648,7 +649,7 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
                 $params['mail_to_household_id'] = false;
             }
         }
-        
+
         require_once 'CRM/Contact/BAO/Contact.php';
         $contact =& CRM_Contact_BAO_Contact::create($params, true, false );
 
@@ -693,12 +694,21 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
             $session->replaceUserContext(CRM_Utils_System::url('civicrm/contact/view', 'reset=1&cid=' . $contact->id));
         }
 
-        //add relationship for the contact
-        if ( isset( $params['current_employer'] ) && $params['current_employer'] ) {
-            CRM_Contact_BAO_Contact::makeCurrentEmployerRelationship($contact->id, 
-                                                                     $params['current_employer']);
+        if ( $this->_contactType == 'Individual' ) {
+            if ( isset( $params['employer_option'] ) && 
+                 $params['employer_option'] == 0 && 
+                 $params['create_employer'] ) {
+                CRM_Contact_BAO_Contact::makeCurrentEmployerRelationship($contact->id, 
+                                                                         $params['create_employer']);
+                
+            } elseif ( isset( $params['employer_option'] ) && 
+                       $params['employer_option'] == 1 &&
+                       $params['shared_employer'] ) {
+                CRM_Contact_BAO_Contact::makeCurrentEmployerRelationship($contact->id, 
+                                                                         $params['shared_employer']);
+            }
         }
-    
+
         // now invoke the post hook
         if ($this->_action & CRM_Core_Action::UPDATE) {
             CRM_Utils_Hook::post( 'edit', $params['contact_type'], $contact->id, $contact );
