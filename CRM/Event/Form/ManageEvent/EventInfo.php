@@ -148,9 +148,8 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
                    array('' => ts('Disabled')) + $participantListing ,
                    false );
         
-       $this->add('textarea','summary',ts('Event Summary'), array("rows"=>4,"cols"=>60));
-        
-        $this->add('textarea','description',ts('Complete Description'), array("rows"=>4,"cols"=>60));
+        $this->add('textarea','summary',ts('Event Summary'), $attributes['summary']);
+        $this->add('textarea','description',ts('Complete Description'), $attributes['event_description']);
         
         $this->addElement('checkbox', 'is_public', ts('Public Event?') );
         $this->addElement('checkbox', 'is_map', ts('Include Map Link?') );
@@ -168,7 +167,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
      
         $this->add('text','max_participants', ts('Max Number of Participants'));
         $this->addRule('max_participants', ts('is a positive field') , 'positiveInteger');
-        $this->add('textarea','event_full_text', ts('Message if Event is Full'), array("rows"=>2,"cols"=>60));
+        $this->add('textarea','event_full_text', ts('Message if Event is Full'), $attributes['event_full_text']);
         
         $this->addElement('checkbox', 'is_active', ts('Is this Event Active?') );
         
