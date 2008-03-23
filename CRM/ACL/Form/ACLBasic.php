@@ -59,10 +59,10 @@ class CRM_ACL_Form_ACLBasic extends CRM_Admin_Form
                       'access uploaded files'      => ts( 'access uploaded files' ),
                       'profile listings and forms' => ts( 'profile listings and forms' ),
                       'access all custom data'     => ts( 'access all custom data' ),
+                      'view all activities'        => ts( 'view all activities' ),
                       'access CiviCRM'             => ts( 'access CiviCRM' ),
                       'access Contact Dashboard'   => ts( 'access Contact Dashboard' ),
                      );
-           asort( $this->_basicPermissions );
 
            $config = CRM_Core_Config::singleton( );
            require_once 'CRM/Core/Component.php';
@@ -75,6 +75,7 @@ class CRM_ACL_Form_ACLBasic extends CRM_Admin_Form
                    }
                }
            }
+           asort( $this->_basicPermissions );
        }
        return $this->_basicPermissions;
     }
@@ -129,7 +130,7 @@ SELECT object_table
                             ts('ACL Type'),
                             $this->basicPermissions( ),
                             null, null, true, null,
-                            array( '<br />' ) );
+                            array( '</td><td>', '</td></tr><tr><td>' ) );
 
         require_once 'CRM/Core/OptionGroup.php';
 
