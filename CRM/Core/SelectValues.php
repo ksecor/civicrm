@@ -549,29 +549,6 @@ class CRM_Core_SelectValues
 
 
     /**
-     * Function to get the Payment Processor 
-     * 
-     * @return array $processor array of payment processor
-     * @static
-     */
-    static function &paymentProcessor()
-    {
-        static $processor = null;
-        if (!$processor) {
-            $processor = array(
-                               'PayPal'           => ts('PayPal - Website Payments Pro'),
-                               'PayPal_Express'   => ts('PayPal - Express'),
-                               'PayPal_Standard'  => ts('PayPal - Website Payments Standard'),
-                               'AuthNet_AIM'      => ts('Authorize.Net - AIM'),
-                               'Google_Checkout'  => ts('Google Checkout'),
-                               'Moneris'          => ts('Moneris'),
-                               'Dummy'            => ts('Test Payment Processor'),
-                               );
-        }
-        return $processor;
-    }
-
-    /**
      * Function to get the Map Provider 
      * 
      * @return array $map array of map providers
