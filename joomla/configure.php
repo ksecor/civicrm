@@ -28,7 +28,8 @@ function civicrm_setup( ) {
 
     define( 'TPL_PATH', CRM_PATH . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'CRM' . DIRECTORY_SEPARATOR . 'common' . DIRECTORY_SEPARATOR );
 
-    $pieces = parse_url( $jConfig->live_site );
+    $liveSite = substr_replace(JURI::root(), '', -1, 1);
+    $pieces = parse_url( $liveSite );
 
     define( 'FRONT_PATH', JPATH_SITE . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_civicrm' );
 
@@ -128,13 +129,14 @@ function civicrm_source( $fileName ) {
 function civicrm_config( $frontend = false ) {
     $jConfig = new JConfig( );
 
+    $liveSite = substr_replace(JURI::root(), '', -1, 1);
     $params = array(
                     'cms'        => 'Joomla',
                     'cmsVersion' => '1.0',
                     'usersTable' => $jConfig->dbprefix . 'users',
                     'crmRoot'    => CRM_PATH,
                     'templateCompileDir' => COMPILE_DIR,
-                    'baseURL'    => $jConfig->live_site . '/administrator/',
+                    'baseURL'    => $liveSite . '/administrator/',
                     'frontEnd'   => 0,
                     'dbUser'     => $jConfig->user,
                     'dbPass'     => $jConfig->password,
@@ -147,7 +149,7 @@ function civicrm_config( $frontend = false ) {
                     );
 
     if ( $frontend ) {
-        $params['baseURL']  = $jConfig->live_site . '/';
+        $params['baseURL']  = $liveSite . '/';
         $params['frontEnd'] = 1;
     }
 

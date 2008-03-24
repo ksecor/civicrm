@@ -31,9 +31,9 @@ function civicrm_init( ) {
 function civicrm_invoke( ) {
     civicrm_init( );
 
-    global $my;
+    $user = JFactory::getUser( );
     require_once 'CRM/Core/BAO/UFMatch.php';
-    CRM_Core_BAO_UFMatch::synchronize( $my, false, 'Joomla', 'Individual' );
+    CRM_Core_BAO_UFMatch::synchronize( $user, false, 'Joomla', 'Individual' );
 
     if ( isset( $_GET['task'] ) ) { 
         $args = explode( '/', trim( $_GET['task'] ) );

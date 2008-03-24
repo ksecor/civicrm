@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="component" version="2.1">
   <name>CiviCRM</name>
-  <creationDate>12/25/2007</creationDate>
+  <creationDate>04/01/2008</creationDate>
   <copyright>(C) CiviCRM LLC</copyright>
   <author>CiviCRM LLC</author>
   <authorEmail>info@civicrm.org</authorEmail>
   <authorUrl>civicrm.org</authorUrl>
-  <version>2.0</version>
+  <version>2.1</version>
   <description>CiviCRM</description>
   <files>
       <filename>civicrm.php</filename>
@@ -55,9 +55,7 @@
       <filename>install.civicrm.php</filename>
       <filename>uninstall.civicrm.php</filename>
       <filename>configure.php</filename>
-{foreach from=$files item=file}
-      <filename>civicrm/{$file}</filename>
-{/foreach}
+      <folder>civicrm/{$file}</folder>
     </files>
   </administration>
 </install>
