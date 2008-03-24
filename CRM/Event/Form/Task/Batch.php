@@ -185,50 +185,54 @@ class CRM_Event_Form_Task_Batch extends CRM_Event_Form_Task
     {
         $params     = $this->exportValues( );
         $dates = array( 'participant_register_date' );
-        foreach ( $params['field'] as $key => $value ) {
-            foreach ( $dates as $d ) {
-                if ( ! CRM_Utils_System::isNull( $value[$d] ) ) {
-                    $value[$d]['H'] = '00';
-                    $value[$d]['i'] = '00';
-                    $value[$d]['s'] = '00';
-                    $value[$d]      =  CRM_Utils_Date::format( $value[$d] );
-                }   
-            }
-
-            //check for custom data
-            $customData = array( );
-            foreach ( $value as $name => $data ) {                
-                if ( ($customFieldId = CRM_Core_BAO_CustomField::getKeyID($name)) && $data ) {                    
-                    CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData, 
-                                                                 $data, 'Participant',
-                                                                 null, $key );
-                    $value['custom'] = $customData;                    
+        if ( isset( $params['field'] ) ) {
+            foreach ( $params['field'] as $key => $value ) {
+                foreach ( $dates as $d ) {
+                    if ( ! CRM_Utils_System::isNull( $value[$d] ) ) {
+                        $value[$d]['H'] = '00';
+                        $value[$d]['i'] = '00';
+                        $value[$d]['s'] = '00';
+                        $value[$d]      =  CRM_Utils_Date::format( $value[$d] );
+                    }   
+                }
+                
+                //check for custom data
+                $customData = array( );
+                foreach ( $value as $name => $data ) {                
+                    if ( ($customFieldId = CRM_Core_BAO_CustomField::getKeyID($name)) && $data ) {                    
+                        CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData, 
+                                                                     $data, 'Participant',
+                                                                     null, $key );
+                        $value['custom'] = $customData;                    
+                    } 
+                }
+                
+                $ids['participant'] = $key;
+                if ( $value['participant_register_date'] ) {
+                    $value['register_date'] = $value['participant_register_date'];
                 } 
+                
+                if ( $value['participant_role_id'] ) {
+                    $value['role_id'] = $value['participant_role_id'];
+                } 
+                
+                if ( $value['participant_status_id'] ) {
+                    $value['status_id'] = $value['participant_status_id'];
+                } 
+                
+                if ( $value['participant_source'] ) {
+                    $value['source'] = $value['participant_source'];
+                }            
+                unset($value['participant_register_date']);
+                unset($value['participant_status_id']);
+                unset($value['participant_source']);
+                
+                CRM_Event_BAO_Participant::create( $value ,$ids );  
             }
-          
-            $ids['participant'] = $key;
-            if ( $value['participant_register_date'] ) {
-                $value['register_date'] = $value['participant_register_date'];
-            } 
-
-            if ( $value['participant_role_id'] ) {
-                $value['role_id'] = $value['participant_role_id'];
-            } 
-            
-            if ( $value['participant_status_id'] ) {
-                $value['status_id'] = $value['participant_status_id'];
-            } 
-
-            if ( $value['participant_source'] ) {
-                $value['source'] = $value['participant_source'];
-            }            
-            unset($value['participant_register_date']);
-            unset($value['participant_status_id']);
-            unset($value['participant_source']);
-            
-            CRM_Event_BAO_Participant::create( $value ,$ids );  
+            CRM_Core_Session::setStatus("Your updates have been saved.");  
+        } else {
+            CRM_Core_Session::setStatus("No updates have been saved.");
         }
-        CRM_Core_Session::setStatus("Your updates have been saved.");
     }//end of function
 }
 

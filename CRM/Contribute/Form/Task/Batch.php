@@ -191,51 +191,54 @@ class CRM_Contribute_Form_Task_Batch extends CRM_Contribute_Form_Task {
                         'thankyou_date',
                         'cancel_date'
                         );
-        foreach ( $params['field'] as $key => $value ) {
-            foreach ( $dates as $d ) {
-                if ( ! CRM_Utils_System::isNull( $value[$d] ) ) {
-                    $value[$d]['H'] = '00';
-                    $value[$d]['i'] = '00';
-                    $value[$d]['s'] = '00';
-                    $value[$d]      =  CRM_Utils_Date::format( $value[$d] );
-                } else {
-                    unset( $value[$d] );
-                }   
+        if ( isset( $params['field'] ) ) {
+            foreach ( $params['field'] as $key => $value ) {
+                foreach ( $dates as $d ) {
+                    if ( ! CRM_Utils_System::isNull( $value[$d] ) ) {
+                        $value[$d]['H'] = '00';
+                        $value[$d]['i'] = '00';
+                        $value[$d]['s'] = '00';
+                        $value[$d]      =  CRM_Utils_Date::format( $value[$d] );
+                    } else {
+                        unset( $value[$d] );
+                    }   
+                }
+                
+                //check for custom data
+                $customData = array( );
+                foreach ( $value as $name => $data ) {                
+                    if ( ($customFieldId = CRM_Core_BAO_CustomField::getKeyID($name)) && $data ) {                    
+                        CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData, 
+                                                                     $data, 'Contribution',
+                                                                     null, $key );
+                        $value['custom'] = $customData;                    
+                    } 
+                }
+                
+                $ids['contribution'] = $key;
+                if ($value['contribution_type']) {
+                    $value['contribution_type_id'] = $value['contribution_type'];
+                }
+                
+                if ($value['contribution_source']) {
+                    $value['source'] = $value['contribution_source'];
+                }
+                
+                unset($value['contribution_type']);
+                unset($value['contribution_source']);
+                $contribution = CRM_Contribute_BAO_Contribution::add( $value ,$ids ); 
+                
+                // add custom field values           
+                if ( CRM_Utils_Array::value( 'custom', $value ) &&
+                     is_array( $value['custom'] ) ) {
+                    require_once 'CRM/Core/BAO/CustomValueTable.php';
+                    CRM_Core_BAO_CustomValueTable::store( $value['custom'], 'civicrm_contribution', $contribution->id );
+                }            
             }
-            
-            //check for custom data
-            $customData = array( );
-            foreach ( $value as $name => $data ) {                
-                if ( ($customFieldId = CRM_Core_BAO_CustomField::getKeyID($name)) && $data ) {                    
-                    CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData, 
-                                                                 $data, 'Contribution',
-                                                                 null, $key );
-                    $value['custom'] = $customData;                    
-                } 
-            }
-          
-            $ids['contribution'] = $key;
-            if ($value['contribution_type']) {
-                $value['contribution_type_id'] = $value['contribution_type'];
-            }
-
-            if ($value['contribution_source']) {
-                $value['source'] = $value['contribution_source'];
-            }
-
-            unset($value['contribution_type']);
-            unset($value['contribution_source']);
-            $contribution = CRM_Contribute_BAO_Contribution::add( $value ,$ids ); 
-
-            // add custom field values           
-            if ( CRM_Utils_Array::value( 'custom', $value ) &&
-                 is_array( $value['custom'] ) ) {
-                require_once 'CRM/Core/BAO/CustomValueTable.php';
-                CRM_Core_BAO_CustomValueTable::store( $value['custom'], 'civicrm_contribution', $contribution->id );
-            }            
+            CRM_Core_Session::setStatus("Your updates have been saved."); 
+        } else {
+            CRM_Core_Session::setStatus("No updates have been saved.");
         }
-               
-        CRM_Core_Session::setStatus("Your updates have been saved.");
     }//end of function
 } 
 
