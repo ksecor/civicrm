@@ -74,6 +74,8 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form
         $values = array( 'mailing_id' => $this->get('mailing_id' ) );
         $textFile = $this->get('textFile');
         $htmlFile = $this->get('htmlFile');
+        $subject = $this->get('name');
+        $this->assign('subject', $subject);
 
         $this->addFormRule(array('CRM_Mailing_Form_Test', 'testMail'), $values);
         $preview = array();
