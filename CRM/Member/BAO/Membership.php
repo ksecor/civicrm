@@ -1259,11 +1259,8 @@ SELECT c.contribution_page_id as pageID
  WHERE mp.contribution_id = c.id
    AND mp.membership_id = " . CRM_Utils_Type::escape( $membershipID, 'Integer' ) ;
 
-        $dao =& new CRM_Core_DAO( );
-        $dao->query( $query );        
-
-        $contributionPageID =  $dao->fetch( ) ? $dao->pageID : null;
-        return $contributionPageID;
+        return CRM_Core_DAO::singleValueQuery( $query,
+                                               CRM_Core_DAO:$_nullArray );
     }
 
     /**

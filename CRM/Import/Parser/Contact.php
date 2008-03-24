@@ -760,6 +760,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         if ( $newContact && ! is_a( $newContact, 'CRM_Core_Error' ) ) {
             $this->_newContacts[] = $newContact->id;
         }
+        sleep(3);
         return CRM_Import_Parser::VALID;
     }
 

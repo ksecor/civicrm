@@ -196,18 +196,14 @@ function civicrm_block($op='list', $delta='0')
  * find a match, and execute civicrm_foo().
  *
  */
-function civicrm_menu($may_cache)
+function civicrm_menu( )
 {
     if ( ! civicrm_initialize( ) ) {
         return;
     }
 
     require_once 'CRM/Core/Menu.php';
-    if ( $may_cache ) {
-        return CRM_Core_Menu::permissionedItems( );
-    } else {
-        return CRM_Core_Menu::items( );
-    }
+    return CRM_Core_Menu::items( );
 }
 
 /**
@@ -535,7 +531,7 @@ function civicrm_form_data($edit, &$user, $category, $reset, $doNotProcess = fal
     return $output;
 }
 
-function civicrm_view_data($user ) 
+function civicrm_view_data( &$user ) 
 {
     $data = array( );
 
@@ -582,6 +578,7 @@ function civicrm_view_data($user )
             $data[''][] = $item;
         }
     }
+
     return $data;
 }
 

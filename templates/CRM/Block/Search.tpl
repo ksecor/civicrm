@@ -30,10 +30,6 @@ function getValue(buttonName)
     <div dojoType="dojox.data.QueryReadStore" jsId="searchStore" url="{$dataURL}" doClientPaging="false"></div>
     <div class="tundra">
         <input type="hidden" name="contact_type" value="" />
-        {* Add the required Drupal form security token, if defined by Block.php *}
-        {if $drupalFormToken}
-            <input type="hidden" name="edit[token]" value="{$drupalFormToken}" />
-        {/if}
         <input type="text" name="sort_name" id="id_sort_name" value="" dojoType="civicrm.FilteringSelect" store="searchStore" mode="remote" searchAttr="name"  pageSize="10" />
         <br />
          <input type="submit" name="_qf_Edit_next_view" value="{ts}View Contact{/ts}" class="form-submit" onclick="getValue(this)"/>

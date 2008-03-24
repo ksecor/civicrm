@@ -282,7 +282,7 @@ class CRM_Core_Block {
                 $value['url'] = CRM_Utils_System::url( $short['path'], $short['query'] );
             }
             $value['title'] = $short['title'];
-            $value['key'] = $short['key'];
+            $value['key'] = CRM_Utils_Array::value( 'key', $short );
             $values[] = $value;
         }
         self::setProperty( self::SHORTCUTS, 'templateValues', array( 'shortCuts' => $values ) );
