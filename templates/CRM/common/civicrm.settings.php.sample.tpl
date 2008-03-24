@@ -1,6 +1,6 @@
 <?php
 /**
- * CiviCRM Configuration File - v2.0
+ * CiviCRM Configuration File - v2.1
  */
 
 /**
@@ -8,16 +8,13 @@
  *
  * CiviCRM can be hosted in either Drupal or Joomla.
  * 
- * Settings for Drupal 5.1:
+ * Settings for Drupal 6.x:
  *      define( 'CIVICRM_UF'        , 'Drupal' );
- *      define( 'CIVICRM_UF_VERSION', '5.1' );
+ *      define( 'CIVICRM_UF_VERSION', '6.1' );
  *
- * For Drupal 4.7.x, same as above except
- *      define( 'CIVICRM_UF_VERSION', '4.7' );
- *
- * Settings for Joomla 1.0.x and 1.5.x:
+ * Settings for 1.5.x:
  *      define( 'CIVICRM_UF'        , 'Joomla' );
- *      define( 'CIVICRM_UF_VERSION', '1' );
+ *      define( 'CIVICRM_UF_VERSION', '1.5' );
  *
  * Settings for Standalone:
  *		define( 'CIVICRM_UF'	, 'Standalone');
@@ -27,7 +24,6 @@
  * to update the CiviCRM Resource URL field (in Administer CRM: Global
  * Settings: Resource URLS) to your CiviCRM root directory.
  */
-
 define( 'CIVICRM_UF'               , '%%cms%%'        );
 
 /**
@@ -37,7 +33,6 @@ define( 'CIVICRM_UF'               , '%%cms%%'        );
  * Datasource (DSN) format:
  *      define( 'CIVICRM_UF_DSN', 'mysql://cms_db_username:cms_db_password@db_server/cms_database?new_link=true');
  */
-
 define( 'CIVICRM_UF_DSN'           , 'mysql://%%CMSdbUser%%:%%CMSdbPass%%@%%CMSdbHost%%/%%CMSdbName%%?new_link=true' );
 
 /**
@@ -58,17 +53,8 @@ define( 'CIVICRM_UF_DSN'           , 'mysql://%%CMSdbUser%%:%%CMSdbPass%%@%%CMSd
  *      CiviCRM DB Name = civicrm, CiviCRM DB User = civicrm
  *      define( 'CIVICRM_DSN'         , 'mysql://civicrm:YOUR_PASSWORD@localhost/civicrm?new_link=true' );
  *
- * MySQL Path:
- * This stores the installed path of mysql. You will need to verify and modify this value if you are
- * planning on using CiviCRMs built-in Database Backup utility. If you have shell access, you may be
- * able to query the path by using one of the following commands:
- * $ whereis mysql
- * $ type mysql
- *
  */
- 
 define( 'CIVICRM_DSN'          , 'mysql://%%dbUser%%:%%dbPass%%@%%dbHost%%/%%dbName%%?new_link=true' );
-define( 'CIVICRM_MYSQL_PATH', '%%mysqlPath%%' );
 
 /**
  * File System Paths:
