@@ -231,8 +231,8 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
 
         // label
         $this->add('text', 'label', ts('Field Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'label'), true);
-        $this->addRule( 'label', ts('Name already exists in Database.'), 
-                        'objectExists', array( 'CRM_Core_DAO_CustomField', $this->_id, 'label' ) );
+//         $this->addRule( 'label', ts('Name already exists in Database.'), 
+//                         'objectExists', array( 'CRM_Core_DAO_CustomField', $this->_id, 'label' ) );
 
         $dt =& self::$_dataTypeValues;
         $it = array();
@@ -422,13 +422,33 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
     static function formRule( &$fields, &$files, &$self ) 
     {
         $default = CRM_Utils_Array::value( 'default_value', $fields );
+        
         $errors  = array( );
 
         // ensure that the label is not 'id'
         if ( strtolower($fields['label']) == 'id' ) {
             $errors['label'] = ts( "You can not use 'id' as a field label." );
         }
-
+        
+        $customField = new CRM_Core_DAO_CustomField( );
+        $customField->custom_group_id = $self->_gid;
+        $customField->label           = $fields['label'];
+        
+        $dupeLabel = false;
+        if ( $customField->find( true ) ) {
+            $dupeLabel = true;
+        }
+        
+        if ( isset( $self->_id ) ) {
+            $label = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField',
+                                                  $self->_id, 'label' );
+            $dupeLabel = ($label == $fields['label']) ? false : true;
+        }
+        
+        if ( $dupeLabel ) {
+            $errors['label'] = ts('Name already exists in Database.');
+        }
+        
         if ( $default ) {
             $dataType = self::$_dataTypeKeys[$fields['data_type'][0]];
             switch ( $dataType ) {
