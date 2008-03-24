@@ -127,13 +127,9 @@ class CRM_Event_Form_Task_Batch extends CRM_Event_Form_Task
             $roleId = CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_Participant", $participantId, 'role_id' ); 
             foreach ( $this->_fields as $name => $field ) {
                 if ( $customFieldID = CRM_Core_BAO_CustomField::getKeyID( $name ) ) {
-                    foreach ( $customFields as $id => $val ) {
-                        if ( ! ( $id == $customFieldID ) ) { 
-                            continue;
-                        }
-                        if ( ( $roleId == $val[7] ) || CRM_Utils_System::isNull( $val[7] ) ) {
-                            CRM_Core_BAO_UFGroup::buildProfile( $this, $field, null, $participantId );
-                        }
+                    $customValue = CRM_Utils_Array::value( $customFieldID, $customFields );
+                    if ( ( $roleId == $customValue[7] ) || CRM_Utils_System::isNull( $customValue[7] ) ) {
+                        CRM_Core_BAO_UFGroup::buildProfile( $this, $field, null, $participantId );
                     }
                 } else {
                     // handle non custom fields
@@ -200,6 +196,7 @@ class CRM_Event_Form_Task_Batch extends CRM_Event_Form_Task
             }
 
             //check for custom data
+            $customData = array( );
             foreach ( $value as $name => $data ) {                
                 if ( ($customFieldId = CRM_Core_BAO_CustomField::getKeyID($name)) && $data ) {                    
                     CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData, 

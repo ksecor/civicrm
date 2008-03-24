@@ -129,13 +129,9 @@ class CRM_Contribute_Form_Task_Batch extends CRM_Contribute_Form_Task {
             $typeId = CRM_Core_DAO::getFieldValue( "CRM_Contribute_DAO_Contribution", $contributionId, 'contribution_type_id' ); 
             foreach ( $this->_fields as $name => $field ) {
                 if ( $customFieldID = CRM_Core_BAO_CustomField::getKeyID( $name ) ) {
-                    foreach ( $customFields as $id => $val ) {
-                        if ( ! ( $id == $customFieldID ) ) { 
-                            continue;
-                        }
-                        if ( ( $typeId == $val[7] ) || CRM_Utils_System::isNull( $val[7] ) ) {
-                            CRM_Core_BAO_UFGroup::buildProfile( $this, $field, null, $contributionId );
-                        }
+                    $customValue = CRM_Utils_Array::value( $customFieldID, $customFields );
+                    if ( ( $typeId == $customValue[7] ) || CRM_Utils_System::isNull( $customValue[7] ) ) {
+                        CRM_Core_BAO_UFGroup::buildProfile( $this, $field, null, $contributionId );
                     }
                 } else {
                     // handle non custom fields
@@ -195,7 +191,6 @@ class CRM_Contribute_Form_Task_Batch extends CRM_Contribute_Form_Task {
                         'thankyou_date',
                         'cancel_date'
                         );
-        $customData = array( );
         foreach ( $params['field'] as $key => $value ) {
             foreach ( $dates as $d ) {
                 if ( ! CRM_Utils_System::isNull( $value[$d] ) ) {
@@ -209,6 +204,7 @@ class CRM_Contribute_Form_Task_Batch extends CRM_Contribute_Form_Task {
             }
             
             //check for custom data
+            $customData = array( );
             foreach ( $value as $name => $data ) {                
                 if ( ($customFieldId = CRM_Core_BAO_CustomField::getKeyID($name)) && $data ) {                    
                     CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData, 
