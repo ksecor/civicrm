@@ -44,30 +44,6 @@ class CRM_Admin_Page_Setting extends CRM_Core_Page {
         
         CRM_Utils_System::setTitle(ts("Global Settings"));
         
-        $allTabs  = array( );
-        
-        $tabs = array( 'component'    => ts( 'Components'           ),
-                       'system'       => ts( 'System Configuration' ),
-                       'path'         => ts( 'File System Paths'    ),
-                       'site'         => ts( 'Site URLs'            ),
-                       'smtp'         => ts( 'SMTP Server'          ),
-                       'mapping'      => ts( 'Mapping and Geocoding'),
-                       'payment'      => ts( 'Online Payment'       ),
-                       'localization' => ts( 'Localization'         ),
-                       'address'      => ts( 'Address Formatting'   ),
-                       'date'         => ts( 'Date'      ),
-                       'misc'         => ts( 'Miscellaneous'        ),
-                       'debug'        => ts( 'Debugging'            ),
-                       );
-        
-        foreach ( $tabs as $k => $v ) {
-            $allTabs[$v] = CRM_Utils_System::url( "civicrm/admin/setting/$k",
-                                                  "reset=1&snippet=1}" ); 
-        }
-        
-      
-        $this->assign( 'allTabs'     , $allTabs     );
-
         parent::run();
     }   
 }
