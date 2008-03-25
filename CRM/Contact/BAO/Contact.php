@@ -969,7 +969,29 @@ WHERE civicrm_contact.id IN $idString ";
         if ( $membershipTypeID ) {
             return false;
         }
-                                                         
+        
+        // FIXME: (CRM-2887) This block of code (note related) is written to
+        // avoid any v2.0 related schema change. This block of code
+        // should be removed in v2.1 and the objective should be
+        // achieved by putting schema constraint
+        require_once 'CRM/Core/DAO/Note.php';
+        $note =& new CRM_Core_DAO_Note();
+        $note->contact_id = $id;
+        if ( $note->find() ) {
+            $session =& CRM_Core_Session::singleton();
+            $uid     = $session->get('userID');
+            if ( $uid ) {
+                while ( $note->fetch() ) {
+                    $tempNote = new CRM_Core_DAO_Note();
+                    $tempNote->id = $note->id;
+                    $tempNote->find(true);
+                    $tempNote->contact_id    = $uid;
+                    $tempNote->modified_date = CRM_Utils_Date::isoToMysql($tempNote->modified_date); 
+                    $tempNote->save();
+                }
+            }
+        }
+
         require_once 'CRM/Utils/Hook.php';
 
         $contact =& new CRM_Contact_DAO_Contact();
