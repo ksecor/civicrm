@@ -161,7 +161,7 @@ function civicrm_custom_field_create( $params )
     }
     
     if (!($params['fieldParams']['label']) ) {                                     
-        return civicrm_create_error("Missing Required field :custom_group_id");
+        return civicrm_create_error("Missing Required field :label");
     } else {             
         require_once 'CRM/Utils/String.php';
         $params['fieldParams']['column_name'] = 
