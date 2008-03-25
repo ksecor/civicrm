@@ -3,7 +3,7 @@
     {if $event_title_value}
     <script type="text/javascript">
         dojo.addOnLoad( function( ) {ldelim}
-        dijit.byId( 'event_title' ).setValue( '{$event_title_value}', '{$event_title_value}' )
+        dijit.byId( 'event_title' ).setDisplayedValue( "{$event_title_value}")
         {rdelim} );
     </script>
     {/if}
@@ -16,7 +16,7 @@
     {if $event_type_value}
     <script type="text/javascript">
         dojo.addOnLoad( function( ) {ldelim}
-        dijit.byId( 'event_type' ).setValue( '{$event_type_value}', '{$event_type_value}' )
+        dijit.byId( 'event_type' ).setDisplayedValue( "{$event_type_value}")
         {rdelim} );
     </script>
     {/if}

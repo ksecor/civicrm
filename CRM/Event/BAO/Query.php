@@ -163,9 +163,9 @@ class CRM_Event_BAO_Query
 
         case 'event_title':
             
-            $value = strtolower(addslashes(trim($value)));
+            $query->_where[$grouping][] = "civicrm_event.id $op {$value}";
+            $value = CRM_Core_DAO::getFieldValue('CRM_Event_DAO_Event', $value, "title");
 
-            $query->_where[$grouping][] = "civicrm_event.title $op '{$value}'";
             $query->_qill[$grouping ][] = ts( 'Event %2 %1', array( 1 => $value, 2 => $op) );
             $query->_tables['civicrm_event'] = $query->_whereTables['civicrm_event'] = 1;
 
@@ -173,15 +173,12 @@ class CRM_Event_BAO_Query
 
         case 'event_type':
             
-            $value = ucwords(strtolower(addslashes(trim($value))));
-
             require_once 'CRM/Core/OptionGroup.php';
             require_once 'CRM/Utils/Array.php';
 
             $eventTypes  = CRM_Core_OptionGroup::values("event_type" );
-            $eventId = CRM_Utils_Array::key($value, $eventTypes);
-            $query->_where[$grouping][] = "civicrm_participant.event_id = civicrm_event.id and civicrm_event.event_type_id = '{$eventId}'";
-            $query->_qill[$grouping ][] = ts( 'Event Type - %1', array( 1 => $value ) );
+            $query->_where[$grouping][] = "civicrm_participant.event_id = civicrm_event.id and civicrm_event.event_type_id = '{$value}'";
+            $query->_qill[$grouping ][] = ts( 'Event Type - %1', array( 1 => $eventTypes[$value] ) );
             $query->_tables['civicrm_event'] = $query->_whereTables['civicrm_event'] = 1;
             return;
           
@@ -388,15 +385,15 @@ class CRM_Event_BAO_Query
         $form->assign( 'dataURLEvent',     $dataURLEvent );
         $form->assign( 'dataURLEventType', $dataURLEventType );
 
-        $form->assign( 'dojoIncludes', " dojo.require('dojo.data.ItemFileReadStore'); dojo.require('dijit.form.ComboBox');dojo.require('dojo.parser');" );
+        $form->assign( 'dojoIncludes', " dojo.require('dojox.data.QueryReadStore'); dojo.require('dijit.form.FilteringSelect');dojo.require('dojo.parser');" );
         
-        $dojoAttributesEvent = array( 'dojoType'       => 'dijit.form.ComboBox',
+        $dojoAttributesEvent = array( 'dojoType'       => 'dijit.form.FilteringSelect',
                                       'mode'           => 'remote',
                                       'store'          => 'eventStore',
                                       'class'          => 'tundra',
                                       );
                                       
-        $dojoAttributesEventType = array( 'dojoType'       => 'dijit.form.ComboBox',
+        $dojoAttributesEventType = array( 'dojoType'       => 'dijit.form.FilteringSelect',
                                           'mode'           => 'remote',
                                           'store'          => 'eventTypeStore',
                                           'class'          => 'tundra',
@@ -404,22 +401,24 @@ class CRM_Event_BAO_Query
         
         $title =& $form->add('text', 'event_title', ts('Event Name'), $dojoAttributesEvent );
         $type  =& $form->add('text', 'event_type',  ts('Event Type'), $dojoAttributesEventType );
-
         if ( $title->getValue( ) ) {
-            $form->assign( 'event_title_value',  $title->getValue( ) );
+            $eventTitle = CRM_Core_DAO::getFieldValue('CRM_Event_DAO_Event', $title->getValue( ), 'title');
+            $form->assign( 'event_title_value',   $eventTitle );
         } else {
             $fv  =& $form->getFormValues( );
-            $val = CRM_Utils_Array::value( 'event_title', $fv);
-            if ( $val ) {
+            if ( $fv["event_title"]){
+                $val = CRM_Core_DAO::getFieldValue('CRM_Event_DAO_Event', $fv["event_title"], 'title');
                 $form->assign( 'event_title_value',  $val );
             }
         }
-
+        
+        $eventTypes  = CRM_Core_OptionGroup::values("event_type" );
         if ( $type->getValue( ) ) {
-            $form->assign( 'event_type_value',  $type->getValue( ) );
+            $typ= $eventTypes[ $type->getValue( )];
+            $form->assign( 'event_type_value',  $typ );
         } else {
             $fv  =& $form->getFormValues( );
-            $val = CRM_Utils_Array::value( 'event_type', $fv);
+            $val = $eventTypes[$fv['event_type']];
             if ( $val ) {
                 $form->assign( 'event_type_value',  $val );
             }
