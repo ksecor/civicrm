@@ -333,39 +333,39 @@ ORDER BY title asc
         }
         
         $eventsByDates = $this->get( 'eventsByDates' );
-        if ($eventsByDates) {
-             require_once 'CRM/Utils/Date.php';
+        if ($this->_searchResult) {
+            if ( $eventsByDates) {
+                require_once 'CRM/Utils/Date.php';
+                
+                $from = $this->get( 'start_date' );
+                if ( ! CRM_Utils_System::isNull( $from ) ) {
+                    $from = CRM_Utils_date::format( $from );
+                    $from .= '000000';
+                    $clauses[] = 'start_date >= %3';
+                    $params[3] = array( $from, 'String' );
+                }
+                
+                $to = $this->get( 'end_date' );
+                if ( ! CRM_Utils_System::isNull( $to ) ) {
+                    $to = CRM_Utils_date::format( $to );
+                    $to .= '235959';
+                    $clauses[] = 'start_date <= %4';
+                    $params[4] = array( $to, 'String' );
+                }
+                
+            } else {
+                $curDate = date( 'YmdHis' );
+                $clauses[5] =  "(end_date >= {$curDate} OR end_date IS NULL)";
+            }
         
-            $from = $this->get( 'start_date' );
-            if ( ! CRM_Utils_System::isNull( $from ) ) {
-                $from = CRM_Utils_date::format( $from );
-                $from .= '000000';
-                $clauses[] = 'start_date >= %3';
-                $params[3] = array( $from, 'String' );
-            }
-            
-            $to = $this->get( 'end_date' );
-            if ( ! CRM_Utils_System::isNull( $to ) ) {
-                $to = CRM_Utils_date::format( $to );
-                $to .= '235959';
-                $clauses[] = 'start_date <= %4';
-                $params[4] = array( $to, 'String' );
-            }
-           
         } else {
             $curDate = date( 'YmdHis' );
-            $clauses[5] =  "end_date >= {$curDate} OR end_date IS NULL";
+            $clauses[] =  "(end_date >= {$curDate} OR end_date IS NULL)";
         }
-
         if ( $sortBy &&
              $this->_sortByCharacter ) {
             $clauses[] = 'title LIKE %6';
             $params[6] = array( $this->_sortByCharacter . '%', 'String' );
-        }
-        
-        if ( !$this->_searchResult ) {
-            $curDate = date( 'YmdHis' );
-            $clauses[] =  "end_date >= {$curDate} OR end_date IS NULL";
         }
         $clauses[] = 'domain_id = %7';
         $params[7] = array( CRM_Core_Config::domainID( ), 'Integer' );
