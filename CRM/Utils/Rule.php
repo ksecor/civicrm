@@ -40,11 +40,11 @@ require_once 'HTML/QuickForm/Rule/Email.php';
 class CRM_Utils_Rule 
 {
 
-    static function title( $str ) 
+    static function title( $str, $maxLength = 127 ) 
     {
     
         // check length etc
-        if ( empty( $str ) || strlen( $str ) < 3 || strlen( $str ) > 127 ) {
+        if ( empty( $str ) || strlen( $str ) < 3 || strlen( $str ) > $maxLength ) {
             return false;
         }
     
@@ -58,18 +58,7 @@ class CRM_Utils_Rule
 
     static function longTitle( $str ) 
     {
-        
-        // check length etc
-        if ( empty( $str ) || strlen( $str ) < 3 || strlen( $str ) > 255 ) {
-            return false;
-        }
-        
-        // Make sure it consists of valid characters, alpha numeric and underscores (and !)
-        if ( ! preg_match('/^[a-z][\w\s\'\&\,\$\#\-\.\"\!\?]+$/i', $str ) ) {
-            return false;
-        }
-        
-        return true;
+        return self::title( $str, 255 );
     }
     
     static function variable( $str ) 
