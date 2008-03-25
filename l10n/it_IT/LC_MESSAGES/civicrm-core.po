@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-03-12 09:43+0100\n"
-"PO-Revision-Date: 2008-03-12 03:39-0700\n"
+"PO-Revision-Date: 2008-03-18 07:18-0700\n"
 "Last-Translator: Eugenia Franzoni <eugenia@catnic.it>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -434,9 +434,8 @@ msgstr "Aggiunto da"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 #: CRM/Core/Menu.php templates/CRM/Case/Form/CaseActivity.tpl
-#, fuzzy
 msgid "Case"
-msgstr "Contanti"
+msgstr "Caso"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Form/ActivityView.php
 #: CRM/Activity/Import/Form/Summary.php CRM/Admin/Form/RelationshipType.php
@@ -949,16 +948,14 @@ msgstr "o"
 #: CRM/Case/BAO/Query.php CRM/Case/Form/Case.php
 #: templates/CRM/Contact/Page/View/Case.tpl
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Case Type"
-msgstr "Tipo di Carta"
+msgstr "Tipo di caso"
 
 #: CRM/Case/BAO/Query.php CRM/Case/Form/Case.php
 #: templates/CRM/Contact/Page/View/Case.tpl
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Case Status"
-msgstr "Stato Compito"
+msgstr "Stato del caso"
 
 #: CRM/Case/DAO/Case.php CRM/Case/Form/Case.php
 #: CRM/Contact/DAO/Relationship.php CRM/Contact/Form/Relationship.php
@@ -1460,9 +1457,8 @@ msgid "Grants"
 msgstr "Finanziamenti"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Tabbed.php
-#, fuzzy
 msgid "Cases"
-msgstr "Contanti"
+msgstr "Casi"
 
 #: CRM/Contact/Form/Search/Basic.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Contact/Form/Search/Custom/Basic.php
@@ -2167,9 +2163,8 @@ msgid "Amount Granted"
 msgstr "Importo fornito"
 
 #: CRM/Grant/DAO/Grant.php CRM/Grant/Form/Grant.php
-#, fuzzy
 msgid "Rationale"
-msgstr "Opzioni Valore"
+msgstr "Base logica"
 
 #: CRM/Grant/Form/Task/Delete.php CRM/Grant/Task.php
 msgid "Delete Grants"
@@ -2394,9 +2389,8 @@ msgid "- Activity Fields -"
 msgstr "- Campi Attività -"
 
 #: CRM/Activity/BAO/Query.php
-#, fuzzy
 msgid "Case Activity %2 %1"
-msgstr "Tipo di attività %2 '%1'"
+msgstr "Attività caso %2 %1"
 
 #: CRM/Activity/BAO/Query.php
 msgid "Communication Medium %2 %1"
@@ -2407,9 +2401,8 @@ msgid "Violation Type %2 %1"
 msgstr "Tipo di violazione %2 %1"
 
 #: CRM/Activity/BAO/Query.php
-#, fuzzy
 msgid "Case Activity Subject %2 %1"
-msgstr "Tipo di attività %2 '%1'"
+msgstr "Oggetto attività caso %2 %1"
 
 #: CRM/Activity/BAO/Query.php
 msgid "Activity Medium"
@@ -2481,18 +2474,16 @@ msgid "Assignee Contact non-existant!"
 msgstr "Contatto mandatario inesistente!"
 
 #: CRM/Activity/Form/Activity.php
-#, fuzzy
 msgid "Invalid Case"
-msgstr "Individui"
+msgstr "Caso non valido"
 
 #: CRM/Activity/Form/Activity.php
 msgid "Selected Activity is deleted sucessfully."
 msgstr "L'attività selezionata è stata eliminata con successo."
 
 #: CRM/Activity/Form/Activity.php
-#, fuzzy
 msgid "Selected Activity has been sucessfully detached from a case."
-msgstr "Il tipo di Attività selezionato è stato cancellato."
+msgstr "L'attività selezionata è stata scollegata da un caso."
 
 #: CRM/Activity/Form/Activity.php
 msgid "Activity '%1' has been saved."
@@ -2834,15 +2825,13 @@ msgstr ""
 
 #: CRM/Admin/Form/PreferencesDate.php
 #: templates/CRM/Admin/Page/PreferencesDate.tpl
-#, fuzzy
 msgid "Start Offset"
-msgstr "Offset inizio"
+msgstr "Inizio offset"
 
 #: CRM/Admin/Form/PreferencesDate.php
 #: templates/CRM/Admin/Page/PreferencesDate.tpl
-#, fuzzy
 msgid "End Offset"
-msgstr "Offset fine"
+msgstr "Fine offset"
 
 #: CRM/Admin/Form/PreferencesDate.php
 msgid "Preferences Date Options can only be updated"
@@ -3397,33 +3386,28 @@ msgid "Delete Tag"
 msgstr "Cancella tag"
 
 #: CRM/Case/BAO/Query.php
-#, fuzzy
 msgid "Case Subject %2 %1"
-msgstr "Oggetto Msg"
+msgstr "Oggetto caso %2 %1"
 
 #: CRM/Case/BAO/Query.php
-#, fuzzy
 msgid "Case Status %2 %1"
-msgstr "Stato del compito: %1"
+msgstr "Stato del caso %2 %1"
 
 #: CRM/Case/BAO/Query.php
-#, fuzzy
 msgid "Case Type %1"
-msgstr "Tipo di Carta"
+msgstr "Tipo di caso %1"
 
 #: CRM/Case/Form/Case.php
 msgid "End date should be later than Start date"
 msgstr "La data di fine deve seguire la data di inizio"
 
 #: CRM/Case/Form/Case.php
-#, fuzzy
 msgid "Selected Case has been deleted."
-msgstr "La ACL selezionata è stata eliminata."
+msgstr "Il caso selezionato è stato eliminato."
 
 #: CRM/Case/Form/Case.php
-#, fuzzy
 msgid "Case '%1' has been saved."
-msgstr "\"%1\" è stata salvata."
+msgstr "Il caso '%1' è stato salvato."
 
 #: CRM/Contact/BAO/Contact.php
 msgid "- Contact Fields -"
@@ -4514,14 +4498,12 @@ msgid "Activity Record"
 msgstr "Record attività"
 
 #: CRM/Contact/Page/View/Case.php
-#, fuzzy
 msgid "Are you sure you want to delete this case?"
-msgstr "Sei sicuro di voler cancellare questo tag?"
+msgstr "Sei sicuro di voler cancellare questo caso?"
 
 #: CRM/Contact/Page/View/Case.php templates/CRM/Case/Form/Case.tpl
-#, fuzzy
 msgid "Edit Case"
-msgstr "Modifica Tag"
+msgstr "Modifica Caso"
 
 #: CRM/Contact/Page/View/Case.php
 msgid "Add Activity"
@@ -8528,9 +8510,8 @@ msgstr ""
 "una."
 
 #: templates/CRM/ACL/Page/ACL.tpl
-#, fuzzy
 msgid "Which Data"
-msgstr "Data inizio"
+msgstr "Quali dati"
 
 #: templates/CRM/ACL/Page/EntityRole.tpl templates/CRM/Admin/Page/Options.tpl
 msgid ""
@@ -8584,13 +8565,15 @@ msgstr "Nuovo"
 
 #: templates/CRM/Activity/Form/Activity.tpl
 msgid "There are no Cases for this contact."
-msgstr ""
+msgstr "Non esistono casi per questo contatto."
 
 #: templates/CRM/Activity/Form/Activity.tpl
 msgid ""
 "If you want to associate this activity with a case, you will need to <a "
 "href='%1'>create one first</a>."
 msgstr ""
+"Se volete associare questa attività ad un caso, dovete prima <a "
+"href='%1'>crearne una</a>."
 
 #: templates/CRM/Activity/Form/Activity.tpl
 msgid ""
@@ -8605,6 +8588,8 @@ msgid ""
 "If you are managing case(s) for this contact, you can optionally associate "
 "this activity with an existing case."
 msgstr ""
+"Se state gestendo uno o più casi per questo contatto, potete associare "
+"questa attività ad un caso esistente."
 
 #: templates/CRM/Activity/Form/Activity.tpl
 #: templates/CRM/Contact/Form/Task/Record.tpl
@@ -8620,9 +8605,8 @@ msgid "Are you sure you want to delete '%1'?"
 msgstr "Siete sicuri di voler cancellare \"%1\"?"
 
 #: templates/CRM/Activity/Form/Activity.tpl
-#, fuzzy
 msgid "Are you sure you want to detach '%1' from this case?"
-msgstr "Sei sicuro di voler cancellare questo tag?"
+msgstr "Sei sicuro di voler scollegare '%1' da questo caso?"
 
 #: templates/CRM/Activity/Import/Form/MapField.tpl
 #: templates/CRM/Grant/Import/Form/MapField.tpl
@@ -8998,12 +8982,12 @@ msgid ""
 "records first, if necessary. Then you can match activities to contacts by "
 "Name and Email, or by Contact ID."
 msgstr ""
-"Il wizard di importazione attività permette di importare le attività da "
-"altre applicazioni in CiviCRM. I contatti devono già esistere nel database "
-"di CiviCRM prima dell'importazione. Usate Importa contatti per creare i "
-"record dei contatti, se necessario, prima di importare le attività, poi "
-"potete far corrispondere le attività ai contatti usando il Nome e l'Email, "
-"oppure l'ID del contatto."
+"L'autocomposizione di importazione attività permette di importare le "
+"attività da altre applicazioni in CiviCRM. I contatti devono già esistere "
+"nel database di CiviCRM prima dell'importazione. Usate Importa contatti per "
+"creare i record dei contatti, se necessario, prima di importare le attività, "
+"poi potete far corrispondere le attività ai contatti usando il Nome e "
+"l'Email, oppure l'ID del contatto."
 
 #: templates/CRM/Activity/Import/Form/UploadFile.tpl
 msgid ""
@@ -9047,9 +9031,8 @@ msgstr ""
 "(es. 'ID contatto', 'Tipo attività', ...)."
 
 #: templates/CRM/Activity/Selector/Activity.tpl
-#, fuzzy
 msgid "There are no Activities attached to this case record."
-msgstr "Non ci sono duplicati che corrispondono a questa regola."
+msgstr "Non ci sono attività collegate a questo caso."
 
 #: templates/CRM/Activity/Selector/Activity.tpl
 msgid "You can go to the Activities tab to create or attach activity records."
@@ -10710,43 +10693,42 @@ msgstr "Che riguarda"
 
 #: templates/CRM/Case/Form/Case.tpl templates/CRM/Contact/Page/View/Case.tpl
 msgid "New Case"
-msgstr ""
+msgstr "Nuovo caso"
 
 #: templates/CRM/Case/Form/Case.tpl
 msgid "Delete Case"
-msgstr ""
+msgstr "Elimina caso"
 
 #: templates/CRM/Case/Form/Case.tpl
-#, fuzzy
 msgid "Detach Activity From Case"
-msgstr "Registra Attività per Contatti"
+msgstr "Scollega attività da caso"
 
 #: templates/CRM/Case/Form/Case.tpl
 msgid "Are you sure you want to detach this case from Activity?"
-msgstr ""
+msgstr "Siete sicuri di voler scollegare questo caso dall'attività?"
 
 #: templates/CRM/Case/Form/Case.tpl
 msgid ""
 "Are you sure you want to delete this case? This action can not be undone."
 msgstr ""
+"Siete sicuri di voler cancellare questo caso? L'azione non può essere "
+"annullata."
 
 #: templates/CRM/Case/Form/Case.tpl
 msgid "Enter the case subject"
-msgstr ""
+msgstr "Inserisci l'oggetto del caso"
 
 #: templates/CRM/Case/Form/Case.tpl
 msgid "Select the status for this case"
-msgstr ""
+msgstr "Seleziona lo stato del caso"
 
 #: templates/CRM/Case/Form/Case.tpl
-#, fuzzy
 msgid "Select the appropriate type of the case"
-msgstr "Seleziona il tipo di dati su cui la ACL opera."
+msgstr "Seleziona il tipo di caso appropriato"
 
 #: templates/CRM/Case/Form/CaseView.tpl
-#, fuzzy
 msgid "View Case Record Details"
-msgstr "Visualizza Dettagli Contatto"
+msgstr "Visualizza Dettagli Record Caso"
 
 #: templates/CRM/common/calendar/desc.tpl
 msgid "Calendar"
@@ -11942,16 +11924,17 @@ msgstr "Nuova Nota"
 
 #: templates/CRM/Contact/Page/View/Case.tpl
 msgid "This page lists all case records for %1."
-msgstr ""
+msgstr "Questa pagina elenca tutti i record dei casi per %1."
 
 #: templates/CRM/Contact/Page/View/Case.tpl
-#, fuzzy
 msgid "Click <a href='%1'>New Case</a> to add a case record for this contact."
-msgstr "Non sono registrate iscrizioni per il tuo utente."
+msgstr ""
+"Clicca su <a href='%1'>Nuovo caso</a> per aggiungere un record di caso per "
+"questo contatto."
 
 #: templates/CRM/Contact/Page/View/Case.tpl
 msgid "There are no case records for this contact."
-msgstr ""
+msgstr "Non esistono record di caso per questo contatto."
 
 #: templates/CRM/Contact/Page/View/Case.tpl
 msgid "You can <a href='%1'>enter one now</a>."
@@ -12886,7 +12869,7 @@ msgstr ""
 msgid ""
 "Provides the %1 with suggested text for their personalized message to their "
 "friends."
-msgstr ""
+msgstr "Dà a %1 del testo suggerito per i messaggi personalizzati agli amici."
 
 #: templates/CRM/Friend/Form/Friend.tpl
 msgid ""
@@ -12894,66 +12877,67 @@ msgid ""
 "you ALSO want to include a link providing general information about your "
 "organization, enter that link here (e.g <em>http://www.example.org/</em>)"
 msgstr ""
+"Un link a questo %1 viene incluso automaticamente nelle mail inviate agli "
+"amici. Se volete ANCHE includere un link con delle informazioni generali "
+"sulla vostra organizzazione, inseritelo qui (es. "
+"<em>http://www.esempio.it/</a>)"
 
 #: templates/CRM/Friend/Form/Friend.tpl
 msgid ""
 "Your message thanking the %1 for helping to spread the word. You may include "
 "HTML tags to add formatting or links."
 msgstr ""
+"Il vostro messaggio di ringraziamento a %1 per l'aiuto nel diffondere la "
+"notizia. Potete inserire tag HTML per aggiungere della formattazione o dei "
+"link."
 
 #: templates/CRM/Friend/Form/SubjectTemplate.tpl
 msgid "%1 wants you to know about %2"
-msgstr ""
+msgstr "%1 vuole che tu sappia di %2"
 
 #: templates/CRM/Friend/Form.tpl
 msgid "Send to these Friend(s)"
-msgstr ""
+msgstr "Invia a questi amici"
 
 #: templates/CRM/Grant/Form/Grant.tpl
 msgid "Select the status for this grant"
-msgstr ""
+msgstr "Seleziona lo stato di questo finanziamento"
 
 #: templates/CRM/Grant/Form/Grant.tpl
-#, fuzzy
 msgid "Select the appropriate type of the Grant"
-msgstr "Seleziona il tipo di dati su cui la ACL opera."
+msgstr "Seleziona il tipo adatto di finanziamento"
 
 #: templates/CRM/Grant/Form/Grant.tpl
-#, fuzzy
 msgid "Amount requested for grant"
-msgstr "Importo"
+msgstr "Importo richiesto per il finanziamento"
 
 #: templates/CRM/Grant/Form/Grant.tpl
-#, fuzzy
 msgid "Actual amount granted"
-msgstr "Importo"
+msgstr "Importo reale finanziato"
 
 #: templates/CRM/Grant/Form/Grant.tpl
-#, fuzzy
 msgid "Total amount of the grant"
-msgstr "Importo"
+msgstr "Importo totale del finanziamento"
 
 #: templates/CRM/Grant/Form/Grant.tpl
 msgid "Date on which application for the Grant recieved"
-msgstr ""
+msgstr "Data di ricezione della richiesta di finanziamento"
 
 #: templates/CRM/Grant/Form/Grant.tpl
 msgid "Date on which the Grant decided"
-msgstr ""
+msgstr "Data di decisione del finanziamento"
 
 #: templates/CRM/Grant/Form/Grant.tpl
 msgid "Date on which the Grant money transferred"
-msgstr ""
+msgstr "Data di trasferimento dei fondi del finanziamento"
 
 #: templates/CRM/Grant/Form/GrantView.tpl
-#, fuzzy
 msgid "Application Recieved"
-msgstr "Ricevuto"
+msgstr "Richiesta ricevuta"
 
 #: templates/CRM/Grant/Form/Search/Common.tpl
-#, fuzzy
 msgid "Date is not set"
-msgstr "ERRORE: il titolo non è stato impostato"
+msgstr "Data non impostata"
 
 #: templates/CRM/Grant/Form/Search/EmptyResults.tpl
 msgid "No matching memberships found."
@@ -12970,46 +12954,45 @@ msgstr ""
 "ampio."
 
 #: templates/CRM/Grant/Form/Search/ResultTasks.tpl
-#, fuzzy
 msgid "Found %count Grant."
 msgid_plural "Found %count Grants."
-msgstr[0] "Importo"
-msgstr[1] "Importo"
+msgstr[0] "Trovato %count finanziamento."
+msgstr[1] "Trovati %count finanziamenti."
 
 #: templates/CRM/Grant/Form/Search.tpl
 msgid ""
 "Use this form to find Grant(s) by Contact name, Grant Status, Grant Type, "
 "Total Amount , etc ."
 msgstr ""
+"Usate questo modulo per trovare i finanziamenti in base al nome del "
+"contatto, lo stato del finanziamento, il suo tipo, l'importo totale etc."
 
 #: templates/CRM/Grant/Form/Search.tpl
 msgid "Complete OR partial name OR email."
-msgstr ""
+msgstr "Nome completo o parziale o email."
 
 #: templates/CRM/Grant/Form/Selector.tpl
-#, fuzzy
 msgid "List more Grants"
-msgstr "Visualizza altri grant"
+msgstr "Visualizza altri finanziamenti"
 
 #: templates/CRM/Grant/Form/Task/Delete.tpl
-#, fuzzy
 msgid ""
 "Are you sure you want to delete the selected Grants? This delete operation "
 "cannot be undone and will delete all transactions associated with these "
 "grants."
 msgstr ""
-"Vuoi davvero rimuovere questa mappatura? L'operazione non può più essere "
-"recuperata"
+"Vuoi davvero rimuovere i finanziamenti selezionati? L'operazione non può più "
+"essere annullata e cancellerà tutte le transazioni associate con i "
+"finanziamenti."
 
 #: templates/CRM/Grant/Form/Task/Print.tpl
-#, fuzzy
 msgid "Application Recieved Date"
-msgstr "Ricevuto"
+msgstr "Data di ricezione richiesta"
 
 #: templates/CRM/Grant/Import/Form/Preview.tpl
 #: templates/CRM/Grant/Import/Form/Summary.tpl
 msgid "Total rows (participant records) in uploaded file."
-msgstr ""
+msgstr "Righe totali (record dei partecipanti) nel file inviato."
 
 #: templates/CRM/Grant/Import/Form/Summary.tpl
 msgid ""
@@ -13019,13 +13002,19 @@ msgid_plural ""
 "CiviCRM has detected mismatched participant IDs. These records have not been "
 "Updated."
 msgstr[0] ""
+"CiviCRM ha rilevato un ID di partecipante non corretto. Il record non è "
+"stato aggiornato."
 msgstr[1] ""
+"CiviCRM ha rilevato degli ID di partecipante non corretti. I record non sono "
+"stati aggiornati."
 
 #: templates/CRM/Grant/Import/Form/Summary.tpl
 msgid ""
 "You can <a href='%1'>Download Mismatched Participantss</a>. You may then "
 "correct them, and import the new file with the corrected data."
 msgstr ""
+"Potete <a href='%1'>scaricare i partecipanti non corrispondenti</a>. Potete "
+"poi correggerli e importare il nuovo file con i dati corretti."
 
 #: templates/CRM/Grant/Import/Form/Summary.tpl
 msgid ""
@@ -13037,7 +13026,13 @@ msgid_plural ""
 "this data file or relative to existing participant records. These records "
 "have not been imported."
 msgstr[0] ""
+"CiviCRM ha rilevato un record con ID di transazione non corretto all'interno "
+"di questo file, o relativo ai record esistenti dei partecipanti. Questo "
+"record non è stato importato."
 msgstr[1] ""
+"CiviCRM ha rilevato %count record con ID di transazione non corretti "
+"all'interno di questo file, o relativi ai record esistenti dei partecipanti. "
+"Questi record non sono stati importati."
 
 #: templates/CRM/Grant/Import/Form/Summary.tpl
 msgid ""
@@ -13047,26 +13042,32 @@ msgid_plural ""
 "CiviCRM has detected %count records which are duplicates of existing CiviCRM "
 "participant records."
 msgstr[0] ""
+"CiviCRM ha rilevato un record duplicato di un record di partecipante già "
+"esistente."
 msgstr[1] ""
+"CiviCRM ha rilevato %count record duplicati di record di partecipante già "
+"esistenti."
 
 #: templates/CRM/Grant/Import/Form/Summary.tpl
 msgid "Rows with mismatched participant IDs... (NOT updated)."
-msgstr ""
+msgstr "Righe con ID di partecipanti non corretti (NON aggiornate)."
 
 #: templates/CRM/Grant/Import/Form/Summary.tpl
-#, fuzzy
 msgid "Download Mismatched participants"
-msgstr "Storico Cancellazioni"
+msgstr "Scarica partecipanti non corretti"
 
 #: templates/CRM/Grant/Import/Form/Summary.tpl
 msgid "Rows which are duplicates of existing CiviCRM participant records."
-msgstr ""
+msgstr "Righe duplicate di record di partecipanti già esistenti in CiviCRM."
 
 #: templates/CRM/Grant/Import/Form/UploadFile.tpl
 msgid ""
 "The Event Import Wizard allows you to easily upload event participation data "
 "such as event registrations from other applications into CiviCRM."
 msgstr ""
+"L'autocomposizione di Importa Eventi permette di caricare facilmente i dati "
+"sulle partecipazioni, come le registrazioni dei eventi, da altre "
+"applicazioni in CiviCRM."
 
 #: templates/CRM/Grant/Import/Form/UploadFile.tpl
 msgid ""
@@ -13083,18 +13084,24 @@ msgid ""
 "Check this box if the first row of your file consists of field names "
 "(Example: 'Contact ID', 'Participant Role')."
 msgstr ""
+"Spunta questa casella se la prima riga del file contiene i nomi dei campi "
+"(Esempio: 'ID contatto', 'Ruolo partecipante')."
 
 #: templates/CRM/Grant/Import/Form/UploadFile.tpl
 msgid ""
 "Select 'Individual' if you are importing event participation data for "
 "individual persons."
 msgstr ""
+"Seleziona 'Individuo' se stai importando i dati di partecipazione all'evento "
+"per persone singole."
 
 #: templates/CRM/Grant/Import/Form/UploadFile.tpl
 msgid ""
 "Select 'Organization' or 'Household' if you are importing event "
 "participation data for contacts of that type."
 msgstr ""
+"Seleziona 'Organizzazione' o 'Famiglia' se stai importando dei dati di "
+"partecipazione all'evento per contatti di quel tipo."
 
 #: templates/CRM/Grant/Page/DashBoard.tpl
 msgid ""
@@ -13105,11 +13112,18 @@ msgid ""
 "<strong>View</strong> to go to their summary page, select the "
 "<strong>Grants</strong> tab and click <strong>New Grant</strong>."
 msgstr ""
+"CiviGrant permette di inserire e tenere traccia dei finanziamenti alle "
+"Organizzazioni, Individui o Famiglie. Chi riceve il finanziamento deve "
+"essere prima inserito come contatto in CiviCRM. Usa <a href='%1'>Trova "
+"contatti</a> per vedere se esiste già un record corrispondente. Una volta "
+"trovato o creato il record del contatto, clicca su "
+"<strong>Visualizza</strong> per andare sulla pagina riassuntiva del "
+"contatto, seleziona <strong>Finanziamenti</strong> e clicca su <strong>Nuovo "
+"finanziamento</strong>. "
 
 #: templates/CRM/Grant/Page/DashBoard.tpl
-#, fuzzy
 msgid "Grants Summary"
-msgstr "Riassunto Contatto"
+msgstr "Riassunto finanziamenti"
 
 #: templates/CRM/Grant/Page/DashBoard.tpl
 msgid ""
@@ -13120,57 +13134,71 @@ msgid ""
 "can search by Contact Name, Amount, Grant type and a variety of other "
 "criteria."
 msgstr ""
+"Questa tabella fornisce un riassunto di <strong>Totali "
+"finanziamenti</strong> e comprende delle scorciatoie per visualizzare i "
+"dettagli dei finanziamenti  per questi periodi comuni. Cliccate sul Stato "
+"finanziamento per vedere un elenco di contatti per quello stato. Per "
+"eseguire delle ricerche personalizzate cliccate su <a href='%1'>Trova "
+"finanziamenti</a>. Potete cercare per Nome contatto, Importo, Tipo di "
+"finanziamento e una varietà di altri criteri."
 
 #: templates/CRM/Grant/Page/DashBoard.tpl xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Grant status"
-msgstr "Stato Gruppo"
+msgstr "Stato finanziamento"
 
 #: templates/CRM/Grant/Page/DashBoard.tpl
-#, fuzzy
 msgid "Number of grants"
-msgstr "Numero località"
+msgstr "Numero finanziamenti"
 
 #: templates/CRM/Grant/Page/DashBoard.tpl
 msgid "You have no Grants registered in your database."
-msgstr ""
+msgstr "Nel database non sono registrati finanziamenti"
 
 #: templates/CRM/Grant/Page/DashBoard.tpl
-#, fuzzy
 msgid "Recent Grants"
-msgstr "Resetta data"
+msgstr "Finanziamenti recenti"
 
 #: templates/CRM/Group/Form/Delete.tpl
 msgid "Are you sure you want to delete the group %1?"
-msgstr ""
+msgstr "Sei sicuro di voler eliminare il gruppo %1?"
 
 #: templates/CRM/Group/Form/Delete.tpl
 msgid "This group currently has one member in it."
 msgid_plural "This group currently has %count members in it."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Questo gruppo al momento ha solo un membro al suo interno."
+msgstr[1] "Questo gruppo al momento ha %count membri al suo interno."
 
 #: templates/CRM/Group/Form/Delete.tpl
 msgid ""
 "Deleting this group will NOT delete the member contact records. However, all "
 "contact subscription information and history for this group will be deleted."
 msgstr ""
+"Cancellare questo gruppo NON cancellerà i record dei contatti dei membri. "
+"Saranno però cancellate tutte le informazioni sulle iscrizioni e sulla "
+"storia del gruppo. "
 
 #: templates/CRM/Group/Form/Delete.tpl
 msgid "If this group is used in CiviCRM profiles, those fields will be reset."
 msgstr ""
+"Se questo gruppo viene usato nei profili di CiviCRM, questi campi saranno "
+"resettati."
 
 #: templates/CRM/Group/Form/Edit.tpl
 msgid ""
 "You can edit the Name and Description for this group here. Click <a href='%"
 "1'>Show Group Members</a> to view, add or remove contacts in this group."
 msgstr ""
+"Qui potete modificare il Nome e la Descrizione di questo gruppo. Cliccate su "
+"<a href='%1'>Mostra membri gruppo</a> per visualizzare, aggiungere o "
+"rimuovere contatti dal gruppo."
 
 #: templates/CRM/Group/Form/Edit.tpl
 msgid ""
 "Enter a unique name and a description for your new group here. Then click "
 "'Continue' to find contacts to add to your new group."
 msgstr ""
+"Inserite qui un nome univoco e una descrizione per il nuovo gruppo, poi "
+"cliccate su 'Continua' per trovare contatti da aggiungere al nuovo gruppo."
 
 #: templates/CRM/Group/Form/Edit.tpl
 msgid "Group Settings"
@@ -13184,6 +13212,11 @@ msgid ""
 "mailing list in the <a href='%2' target='_blank' title='%3'>CiviMail "
 "component</a>."
 msgstr ""
+"Spuntate 'Controllo accessi' se volete usare questo gruppo per assegnare i "
+"permessi di accesso ad un insieme di contatti (<a href='%1' target='_blank' "
+"title='%3'>leggi tutto</a>). Spuntate 'Mailing list' se state usando questo "
+"gruppo come mailing list nel componente <a href='%2' target='_blank' "
+"title='%3'>CiviMail</a>."
 
 #: templates/CRM/Group/Form/Edit.tpl
 msgid ""
@@ -13194,6 +13227,12 @@ msgid ""
 "membership search and sharing in the Profile screens, select 'Public User "
 "Pages and Listings'."
 msgstr ""
+"Seleziona 'Solo Utente e Utente Admin' se l'appartenenza a questo gruppo sia "
+"controllato solo da utenti di CiviCRM autorizzati. Se volete permettere ai "
+"contatti di entrare e uscire dal gruppo attraverso i moduli di Registrazione "
+"e Profilo account, selezionate 'Pagine utente pubbliche'. Se volete anche "
+"includere una ricerca tra i membri e la condivisione nelle schermate di "
+"Profilo, selezionate 'Pagine utente pubbliche ed elenchi'."
 
 #: templates/CRM/Group/Form/Edit.tpl
 msgid "Subgroups"
@@ -13274,22 +13313,31 @@ msgid ""
 "Conflicts</a>. Then correct them in the original import file, cancel this "
 "import and begin again at step 1."
 msgstr ""
+"CiviCRM ha rilevato %1 record con indirizzi email in conflitto all'interno "
+"del file di dati. Se continuate, questi record verranno saltati, O potete "
+"scaricare un file con solamente questi record problematici via <a "
+"href='%2'>Scarica conflitti</a>, correggerli nel file di importazione "
+"originale, annullare l'importazione e cominciare di nuovo dal passo 1."
 
 #: templates/CRM/Import/Form/Preview.tpl templates/CRM/Import/Form/Summary.tpl
 msgid "Total rows (contact records) in uploaded file."
-msgstr ""
+msgstr "Righe totali (record dei contatti) nel file uploadato."
 
 #: templates/CRM/Import/Form/Preview.tpl templates/CRM/Import/Form/Summary.tpl
 msgid ""
 "Rows with invalid data in one or more fields (for example, invalid email "
 "address formatting). These rows will be skipped (not imported)."
 msgstr ""
+"Le righe con i dati in uno o più campi (ad esempio, una formattazione errata "
+"degli indirizzi di posta). Queste righe verranno saltate e non importate."
 
 #: templates/CRM/Import/Form/Preview.tpl
 msgid ""
 "Rows with conflicting email addresses within this file. These rows will be "
 "skipped (not imported)."
 msgstr ""
+"Le righe con indirizzi di email in conflitto contenute nel file. Queste "
+"righe verranno saltate (non importate)."
 
 #: templates/CRM/Import/Form/Preview.tpl
 msgid "Create a new group from imported records"
@@ -13311,13 +13359,19 @@ msgid_plural ""
 "CiviCRM has detected mismatched contact IDs. These records have not been "
 "updated."
 msgstr[0] ""
+"CiviCRM ha rilevato un ID di contatto non corrispondente. Questo record non "
+"è stato aggiornato."
 msgstr[1] ""
+"CiviCRM ha rilevato degli ID di contatto non corrispondenti. Questi record "
+"non sono stati aggiornati."
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid ""
 "You can <a href='%1'>Download Mismatched Contacts</a>. You may then correct "
 "them, and import the new file with the corrected data."
 msgstr ""
+"Potete scaricare <a href='%1'>Scarica contatti non corrispondenti</a>, "
+"correggerli e importare il nuovo file con i dati corretti."
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid ""
@@ -13329,13 +13383,21 @@ msgid_plural ""
 "this data file or relative to existing contact records. These records have "
 "not been imported."
 msgstr[0] ""
+"CiviCRM ha rilevato un record con indirizzo di posta in conflitto "
+"all'interno del file di dati o relativo ai record di contatto esistenti. "
+"Questo record non è stato importato."
 msgstr[1] ""
+"CiviCRM ha rilevato %count record con indirizzi di posta in conflitto "
+"all'interno del file di dati o relativi ai record di contatto esistenti. "
+"Questi record non sono stati importati."
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid ""
 "CiviCRM does not allow multiple contact records to have the same primary "
 "email address."
 msgstr ""
+"CiviCRM non permette record di contatto multipli con lo stesso indirizzo di "
+"posta primario."
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid ""
@@ -13343,6 +13405,9 @@ msgid ""
 "records to determine if they are actually conflicts, and correct the email "
 "addresses for those that are not."
 msgstr ""
+"Potete <a href='%1'>Scaricare i conflitti</a> Potete poi rivedere i record "
+"per determinare se sono dei reali conflitti e correggere le email per quelli "
+"che non lo sono."
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid ""
@@ -13352,7 +13417,10 @@ msgid_plural ""
 "CiviCRM has detected %count records which are duplicates of existing CiviCRM "
 "contact records."
 msgstr[0] ""
+"CiviCRM ha rilevato un record duplicato di un contatto di CiviCRM esistente."
 msgstr[1] ""
+"CiviCRM ha rilevato %count record duplicati di contatti di CiviCRM "
+"esistenti."
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid ""
@@ -13360,44 +13428,47 @@ msgid ""
 "records to determine if they are actually duplicates, and correct the email "
 "address for those that are not."
 msgstr ""
+"Potete <a href='%1'>Scaricare i duplicati</a>, poi rivedere i record per "
+"determinare se sono realmente duplicati, o correggere le email per quelli "
+"che non lo sono."
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid "Rows with mismatched contact IDs... (NOT updated)."
-msgstr ""
+msgstr "Righe con ID di contatto duplicate (NON aggiornate)."
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid "Download Mismatched Contacts"
-msgstr ""
+msgstr "Scarica contatti non corrispondenti"
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid "Rows with conflicting email addresses (NOT imported)."
-msgstr ""
+msgstr "Righe con indirizzi di email in conflitto (NON importate)."
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid "Rows which are duplicates of existing CiviCRM contact records."
-msgstr ""
+msgstr "Righe duplicate di record di contatti esistenti in CiviCRM."
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid "Import to Groups"
-msgstr ""
+msgstr "Importa in gruppi"
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid "One contact added to this new group."
 msgid_plural "%count contacts added to this new group."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Un contatto aggiunto al nuovo gruppo."
+msgstr[1] "%count contatti aggiunti al nuovo gruppo."
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid "One contact added to this existing group."
 msgid_plural "%count contacts added to this existing group."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Un contatto aggiunto al gruppo esistente."
+msgstr[1] "%count contatti aggiunti al gruppo esistente."
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid "One contact NOT added (already in this group)."
 msgid_plural "%count contacts NOT added (already in this group)."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Un contatto NON aggiunto (già nel gruppo)."
+msgstr[1] "%count contatti NON aggiunti (già nel gruppo)."
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid "Tagged imported contacts"
@@ -13422,6 +13493,11 @@ msgid ""
 "MS Access&copy; or Excel&copy;, and you want to start using CiviCRM to store "
 "these contacts, you can 'import' them here."
 msgstr ""
+"L'autocomposizione di importazione permette di uploadare facilmente i record "
+"dei contatti da altre applicazioni in CiviCRM. Ad esempio, se la vostra "
+"organizzazione ha contatti in MS Access&copy; o Excel &copy; e volete "
+"iniziare ad usare CiviCRM per memorizzare i contatti, potete 'importarli' "
+"qui."
 
 #: templates/CRM/Import/Form/UploadFile.tpl
 msgid ""
@@ -13437,6 +13513,8 @@ msgid ""
 "Check this box if the first row of your file consists of field names "
 "(Example: 'First Name','Last Name','Email')"
 msgstr ""
+"Spuntate questa casella se la prima riga del file consiste in nomi di campi "
+"(Es. 'Nome','Cognome','Email')"
 
 #: templates/CRM/Import/Form/UploadFile.tpl
 msgid ""
@@ -13444,53 +13522,56 @@ msgid ""
 "geocoding script instead (<a href='%1' target='_blank' title='%2'>read "
 "more...</a>)."
 msgstr ""
+"Questa opzione non è consigliata per delle importazioni voluminose. Usate "
+"invece lo script da linea di comando geocoding (<a href='%1' target='_blank' "
+"title='%2'>leggi tutto...</a>)."
 
 #: templates/CRM/Import/Form/UploadFile.tpl
 msgid "Select the format that is used for date fields in your import data."
-msgstr ""
+msgstr "Selezionate il formato usato per i campi data nei dati importati."
 
 #: templates/CRM/Price/Form/DeleteField.tpl
-#, fuzzy
 msgid ""
 "WARNING: Deleting this price field will result in the loss of all '%1' data."
 msgstr ""
-"ATTENZIONE: Cancellare questo gruppo personalizzato provocherà la perdita di "
-"tutti i dati di %1."
+"ATTENZIONE: Cancellare questo campo di prezzo provocherà la perdita di tutti "
+"i dati di '%1'."
 
 #: templates/CRM/Price/Form/DeleteSet.tpl
-#, fuzzy
 msgid ""
 "WARNING: Deleting this price set will result in the loss of all %1 data."
 msgstr ""
-"ATTENZIONE: Cancellare questo gruppo personalizzato provocherà la perdita di "
+"ATTENZIONE: Cancellare questo insieme di prezzi provocherà la perdita di "
 "tutti i dati di %1."
 
 #: templates/CRM/Price/Form/Field.tpl
 msgid "Select the html type used to offer options for this field"
-msgstr ""
+msgstr "Selezionate il tipo HTML usato per offrire le opzioni per questo campo."
 
 #: templates/CRM/Price/Form/Field.tpl
 msgid "Unit price"
-msgstr ""
+msgstr "Prezzo unitario"
 
 #: templates/CRM/Price/Form/Field.tpl
 msgid "If the user should enter a quantity in addition to choosing an option."
 msgstr ""
+"Se l'utente deve inserire anche una quantità oltre a scegliere un'opzione."
 
 #: templates/CRM/Price/Form/Field.tpl
 msgid ""
 "Display amount next to each option? If no, then the amount should be in the "
 "option description."
 msgstr ""
+"Visualizza l'importo vicino a ciascuna opzione? Se no, l'importo dovrebbe "
+"essere presente nella descrizione dell'opzione."
 
 #: templates/CRM/Price/Form/Field.tpl
 msgid "Date this field becomes effective (optional)"
-msgstr ""
+msgstr "Data in cui il campo diventa attivo (opzionale)"
 
 #: templates/CRM/Price/Form/Field.tpl
-#, fuzzy
 msgid "Date this field expires (optional)"
-msgstr "Aggiorna questo campo di mappatura"
+msgstr "Data in cui il campo si disattiva (opzionale)"
 
 #: templates/CRM/Price/Form/OptionFields.tpl
 msgid ""
@@ -13502,43 +13583,57 @@ msgid ""
 "record. The label and value may be the same or different. Inactive options "
 "are hidden when the field is presented."
 msgstr ""
+"Inserire fino a dieci (10) opzioni a scelta multipla in questa tabella "
+"(cliccare su 'altra scelta' per ogni opzione in più). Se vi servono più di "
+"dieci opzioni, potete creare un numero illimitato di scelte aggiuntive "
+"usando il link Modifica opzioni a scelta multipla dopo aver salvato il "
+"campo. L'etichetta dell'opzione viene mostrata sul form, mentre il suo "
+"valore è memorizzato nel record del contatto. Etichetta e valore possono "
+"essere uguali o diverse. Le opzioni non attive sono nascoste quando il campo "
+"viene visualizzato."
 
 #: templates/CRM/Price/Form/Option.tpl
-#, fuzzy
 msgid "WARNING: Deleting this option will result in the loss of all data."
 msgstr ""
-"ATTENZIONE: Cancellare questo gruppo personalizzato provocherà la perdita di "
-"tutti i dati di %1."
+"ATTENZIONE: Cancellare questa opzione provocherà la perdita di tutti i dati."
 
 #: templates/CRM/Price/Form/Preview.tpl
 msgid "Preview of the price set as it will be displayed within an edit form."
 msgstr ""
+"L'anteprima dell'insieme di prezzi come verranno visualizzati nel modulo di "
+"modifica."
 
 #: templates/CRM/Price/Form/Set.tpl
 msgid ""
 "Use this form to setup the title and group-level help of each set of Price "
 "fields."
 msgstr ""
+"Usate questo modulo per impostare il titolo e l'aiuto a livello di gruppo "
+"per ciascun insieme di prezzi."
 
 #: templates/CRM/Price/Form/Set.tpl
 msgid "The name of this Price Set"
-msgstr ""
+msgstr "Il nome di questo insieme di prezzi"
 
 #: templates/CRM/Price/Form/Set.tpl
 msgid "Fields for this Set"
-msgstr ""
+msgstr "Campi dell'insieme"
 
 #: templates/CRM/Price/Page/Field.tpl
 msgid ""
 "Unable to delete the '%1' Price Field - it is currently in use by one or "
 "more active events."
 msgstr ""
+"Impossibile cancellare il campo di prezzi '%1' - è attualmente in uso da uno "
+"o più eventi attivi."
 
 #: templates/CRM/Price/Page/Field.tpl
 msgid ""
 "If you no longer want to use this Price Field, click the event title below, "
 "and modify the fees for that event."
 msgstr ""
+"Se non volete più usare questo Campo di prezzi, cliccate sul titolo "
+"dell'evento sotto e modificate gli importi per l'evento."
 
 #: templates/CRM/Price/Page/Field.tpl templates/CRM/Price/Page/Option.tpl
 #: templates/CRM/Price/Page/Set.tpl
@@ -13564,12 +13659,16 @@ msgid ""
 "Unable to delete the '%1' Price Field Option - it is currently in use by one "
 "or more active events."
 msgstr ""
+"Impossibile cancellare l'opzione del campo di prezzo '%1' - è attualmente in "
+"uso da uno o più eventi attivi."
 
 #: templates/CRM/Price/Page/Option.tpl
 msgid ""
 "If you no longer want to use this Price Option Field, click the event title "
 "below, and modify the fees for that event."
 msgstr ""
+"Se non volete più usare questo campo di opzione prezzo, cliccate sul titolo "
+"dell'evento sotto e modificatene gli importi."
 
 #: templates/CRM/Price/Page/Option.tpl
 msgid ""
@@ -13585,24 +13684,34 @@ msgid ""
 "Configure Price Sets for events which need more than a single set of fee "
 "levels."
 msgstr ""
+"Gli insiemi di prezzi permettono di impostare delle opzioni di registrazione "
+"per più eventi con importi associati (es. workshop pre-conferenza, pasti "
+"aggiuntivi etc). Configurate gli insiemi di prezzi per gli eventi per cui "
+"serve più di un insieme di importi."
 
 #: templates/CRM/Price/Page/Set.tpl
 msgid ""
 "Unable to delete the '%1' price set - it is currently in use by one or more "
 "active events."
 msgstr ""
+"Impossibile eliminare l'insieme di prezzi '%1' - è attualmente in uso da uno "
+"o più eventi attivi."
 
 #: templates/CRM/Price/Page/Set.tpl
 msgid ""
 "Unable to disable the '%1' price set - it is currently in use by one or more "
 "active events."
 msgstr ""
+"Impossibile disabilitare l'insieme di prezzi '%1' - è attualmente in uso da "
+"uno o più eventi attivi."
 
 #: templates/CRM/Price/Page/Set.tpl
 msgid ""
 "If you no longer want to use this price set, click the event title below, "
 "and modify the fees for that event."
 msgstr ""
+"Se non volete più usare questo insieme di prezzi, cliccate sul titolo "
+"dell'evento qui sotto e modificate gli importi per l'evento."
 
 #: templates/CRM/Price/Page/Set.tpl
 msgid "Set Title"
@@ -13640,10 +13749,12 @@ msgid ""
 "No fields in this Profile have been configured as searchable. Ask the site "
 "administrator to check the Profile setup."
 msgstr ""
+"Nel profilo non ci sono campi configurati per effettuarci delle ricerche. "
+"Chiedete all'amministratore di controllare le impostazioni del profilo."
 
 #: templates/CRM/Profile/Page/Listings.tpl
 msgid "Displaying contacts where:"
-msgstr ""
+msgstr "Visualizzo i contatti in cui:"
 
 #: templates/CRM/Profile/Page/Listings.tpl
 msgid "Map these contacts"
@@ -13655,10 +13766,13 @@ msgid ""
 "listings (selector) table. Ask the site administrator to check the Profile "
 "setup."
 msgstr ""
+"Nessun campo del profilo è configurato per essere visualizzato come colonne "
+"nella tabella degli elenchi (selettore). Chiedete all'amministratore di "
+"controllare le impostazioni del profilo."
 
 #: templates/CRM/Profile/Page/View.tpl
 msgid "Back to Listings"
-msgstr ""
+msgstr "Torna agli elenchi"
 
 #: templates/CRM/SMS/Form/Task/SMS.tpl
 msgid "Send an SMS"
@@ -13692,7 +13806,7 @@ msgstr "Modifica Tag"
 
 #: templates/CRM/UF/Form/Field.tpl
 msgid "Delete CiviCRM Profile Field"
-msgstr ""
+msgstr "Elimina campo di profilo di CiviCRM"
 
 #: templates/CRM/UF/Form/Field.tpl
 msgid ""
@@ -13700,26 +13814,34 @@ msgid ""
 "listings. If this field is used in any 'stand-alone' Profile forms, you will "
 "need to update those forms to remove this field."
 msgstr ""
+"ATTENZIONE: cancellare questo campo di profilo lo rimuoverà dai moduli e "
+"dagli elenchi dei profili. Se il campo è usato in qualche modulo di profilo "
+"'stand-alone', dovrete modificarli a mano per rimuoverne il campo."
 
 #: templates/CRM/UF/Form/Field.tpl
 msgid ""
 "Select the type of CiviCRM record and the field you want to include in this "
 "Profile."
 msgstr ""
+"Selezionate il tipo di record di CiviCRM e il campo che volete includere nel "
+"profilo."
 
 #: templates/CRM/UF/Form/Field.tpl
 msgid ""
 "The field label displayed on the form (over-ride the default field label "
 "here, if desired)."
 msgstr ""
+"L'etichetta del campo visualizzata sul modulo (sovrascrive l'etichetta di "
+"campo di default, se lo si vuole fare)."
 
 #: templates/CRM/UF/Form/Field.tpl
 msgid "Are users required to complete this field?"
-msgstr ""
+msgstr "Gli utenti devono completare questo campo?"
 
 #: templates/CRM/UF/Form/Field.tpl
 msgid "If checked, users can view but not edit this field."
 msgstr ""
+"Se spuntato, gli utenti possono visualizzare ma non modificare questo campo."
 
 #: templates/CRM/UF/Form/Field.tpl
 msgid ""
@@ -13730,16 +13852,26 @@ msgid ""
 "field value when viewing a contact in order to locate other contacts with "
 "the same value(s) (i.e. other contacts who live in Poland)."
 msgstr ""
+"Questo campo è nascosto dagli altri utenti ('Solo Utente e Utente Admin') o "
+"è visibile ad altri ('Pagine utente pubbliche')? Selezionate 'Pagine utente "
+"pubbliche ed elenchi' per rendere il campo ricercabile (nel modulo di "
+"Ricerca profili). Quando la visibilità è su 'Pagine utente pubbliche ed "
+"elenchi', gli utenti possono anche cliccare sul valore del campo quando "
+"visualizzano un contatto per localizzare altri contatti con lo stesso valore "
+"(ad esempio altri contatti che vivono in Polonia)."
 
 #: templates/CRM/UF/Form/Field.tpl
 msgid "Do you want to include this field in the Profile's Search form?"
-msgstr ""
+msgstr "Volete includere questo campo nel modulo di ricerca del profilo?"
 
 #: templates/CRM/UF/Form/Field.tpl
 msgid ""
 "Is this field included as a column in the search results table? This setting "
 "applies only to fields with 'Public User Pages and Listings' visibility."
 msgstr ""
+"Questo campo è incluso come colonna nella tabella dei risultati della "
+"ricerca? Questa impostazione si applica solo ai campi con visibilità 'Pagine "
+"utente pubbliche ed elenchi'."
 
 #: templates/CRM/UF/Form/Field.tpl
 msgid ""
@@ -13747,6 +13879,9 @@ msgid ""
 "Enter a positive or negative integer - lower numbers are displayed ahead of "
 "higher numbers."
 msgstr ""
+"Il peso controlla l'ordine in cui i campi vengono visualizzati all'interno "
+"di un profilo. Inserire un numero intero positivo o negativo - i numeri più "
+"bassi verranno visualizzati prima di quelli più alti."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid "Delete CiviCRM Profile"
@@ -13759,30 +13894,43 @@ msgstr "Disabilita Profilo di CiviCRM"
 #: templates/CRM/UF/Form/Group.tpl
 msgid "Profiles can be explicitly linked to a module page."
 msgstr ""
+"I profili possono essere collegati esplicitamente ad una pagina di un "
+"modulo."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
 "Check <strong>User Registration</strong> if you want this Profile to be "
 "included in the New Account registration form."
 msgstr ""
+"Spuntate <strong>Registrazione utente</strong> se volete che questo profilo "
+"venga incluso nel modulo di registrazione di un Nuovo account."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
 "Check <strong>View/Edit User Account</strong> to include it in the view and "
 "edit screens for existing user accounts."
 msgstr ""
+"Spuntate <strong>Visualizza/Modifica account utente</strong> per includerlo "
+"nelle schermate di visualizzazione e modifica per gli account utente "
+"esistenti."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
 "Check <strong>Profile</strong> if you want it to use it for customized "
 "listings and view screens for the civicrm/profile path."
 msgstr ""
+"Spuntate <strong>Profilo</strong> se volete usarlo per gli elenchi "
+"personalizzati e le schermate di visualizzazione per il percorso "
+"civicrm/profile."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
 "Check <strong>Search Results</strong> to use this profile to display an "
 "alternate set of results columns for CiviCRM Basic and Advanced Search."
 msgstr ""
+"Spuntate <strong>Risultati ricerca</strong> per usare questo profilo per "
+"visualizzare un insieme alternativo di colonne di risultato per le ricerche "
+"di base e avanzate di CiviCRM."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
@@ -13790,14 +13938,17 @@ msgid ""
 "more than one. Enter a positive or negative integer - lower numbers are "
 "displayed ahead of higher numbers."
 msgstr ""
+"Il peso controlla l'ordine in cui i campi vengono mostrati in un gruppo. "
+"Inserite un intero positivo o negativo - i numeri più bassi sono mostrati "
+"prima di quelli più alti."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid "Explanatory text displayed at the beginning of the form."
-msgstr ""
+msgstr "Testo esplicativo da mostrare all'inizio del modulo."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid "Explanatory text displayed at the end of the form."
-msgstr ""
+msgstr "Testo esplicativo da mostrare alla fine del modulo."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid "Advanced Settings"
@@ -13808,12 +13959,17 @@ msgid ""
 "Select a group if you are using this profile for search and listings, AND "
 "you want to limit the listings to members of a specific group."
 msgstr ""
+"Selezionate un gruppo se state usando questo profilo per la ricerca e gli "
+"elenchi, E volete limitare gli elenchi a membri di un gruppo specifico."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
 "Select a group if you are using this profile for adding new contacts, AND "
 "you want the new contacts to be automatically assigned to a group."
 msgstr ""
+"Selezionate un gruppo se state usando questo profilo per aggiungere nuovi "
+"contatti, E volete che i nuovi contatti siano automaticamente inseriti in un "
+"gruppo."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
@@ -13823,6 +13979,11 @@ msgid ""
 "separated by a comma (e.g. jane@example.org, paula@example.org). The first "
 "email address listed will be used as the FROM address in the notifications."
 msgstr ""
+"Se volete che i membri della vostra organizzazione ricevano una email di "
+"notifica quando questo modulo di profilo viene usato per inserire o "
+"aggiornare le informazioni sui contatti, inserite qui uno o più indirizzi "
+"email; se ne inserite più di uno separateli con una virgola. Il primo "
+"indirizzo in elenco sarà usato come mittente delle notifiche."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
@@ -13830,6 +13991,10 @@ msgid ""
 "page is initially loaded (form fields are hidden until the user expands the "
 "form by clicking on the 'plus' icon)."
 msgstr ""
+"Spuntate questa casella se volete che sia mostrato solo il titolo del "
+"profilo quando la pagina viene caricata inizialmente (i campi del modulo "
+"sono nascosti fino a che l'utente non li espande cliccando sull'icona del "
+"più)."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
@@ -13839,6 +14004,11 @@ msgid ""
 "form will be redisplayed with a generic status message - 'Your contact "
 "information has been saved.'"
 msgstr ""
+"Se state usando questo profilo come modulo di iscrizione o di modifica e "
+"volete redirigere l'utente su un URL statico una volta inviato il modulo, "
+"inserite qui l'URL completo. Se il campo resta vuoto, verrà mostrato ancora "
+"il modulo predefinito del profilo, con un messaggio di stato generico: 'Le "
+"informazioni sul vostro contatto sono state salvate'."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
@@ -13847,6 +14017,10 @@ msgid ""
 "the complete URL here. If this field is left blank, the built-in Profile "
 "form will be redisplayed."
 msgstr ""
+"Se state usando questo profilo come modulo di iscrizione o di modifica e "
+"volete redirigere l'utente su un URL statico se cliccano sul pulsante "
+"Annulla, inserite l'URL completo qui. Se il campo resta vuoto, viene "
+"visualizzata di nuovo la pagina del modulo del profilo."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
@@ -13854,6 +14028,10 @@ msgid ""
 "to read an image with letters and numbers and enter the value in a field. "
 "This helps prevent abuse by automated scripts."
 msgstr ""
+"Quando il CAPTCHA viene incluso in un modulo di aggiunta o modifica del "
+"profilo, gli utenti devono leggere delle lettere e numeri da un'immagine e "
+"inserirli in un campo. Questo permette di evitare l'abuso del sistema con "
+"mezzi automatici."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
@@ -13861,12 +14039,17 @@ msgid ""
 "dynamic page generation. Submitting a stand-alone form with CAPTCHA included "
 "will always result in a CAPTCHA validation error."
 msgstr ""
+"Non abilitare questa caratteristica per i moduli di profilo stand-alone. "
+"CAPTCHA richiede la generazione automatica delle pagine, e usarlo per i "
+"moduli standalone genera sempre un errore di validazione del CAPTCHA."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
 "CAPTCHA is also not available when a profile is used inside the User "
 "Registration and My Account screens."
 msgstr ""
+"CAPTCHA non è disponibile neanche quando si usa un profilo all'interno delle "
+"schermate di Registrazione utente e Il mio account"
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
@@ -13874,6 +14057,9 @@ msgid ""
 "found. Note that if there are multiple matches, the first match found is "
 "updated."
 msgstr ""
+"Se abilitato, il record del contatto viene aggiornato se si trova un record "
+"esistente che corrisponde. Da notare che, se ci sono corrispondenze "
+"multiple, viene aggiornata la prima corrispondenza."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
@@ -13890,6 +14076,9 @@ msgid ""
 "Check this box if you want to include a link in the listings to Edit profile "
 "fields. Only users with permission to edit the contact will see this link."
 msgstr ""
+"Spuntate questa casella se volete includere un link a Modifica campi profilo "
+"negli elenchi; lo vedranno solo gli utenti che hanno il permesso di "
+"modificare il contatto."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
@@ -13898,10 +14087,14 @@ msgid ""
 "link will only be included for contacts who have a user account on your "
 "website."
 msgstr ""
+"Spuntate questa casella se volete includere un link alle informazioni "
+"sull'account utente %1 del contatto (es. la loro pagina 'Il mio account'). "
+"Questo link sarà visibile solo ai contatti che hanno un account utente sul "
+"sito."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid "View or Edit Fields for this Profile"
-msgstr ""
+msgstr "Visualizza o modifica i campi di questo profilo"
 
 #: templates/CRM/UF/Form/NotifySubject.tpl
 msgid "Submitted by"
@@ -13949,6 +14142,9 @@ msgid ""
 "Profile fields. You can copy this HTML code and paste it into any block or "
 "page on ANY website where you want to collect contact information."
 msgstr ""
+"Il codice HTML qui sotto mostrerà un modulo con i campi di profilo di "
+"CiviCRM attivi. Potete copiarlo e incollarlo in qualsiasi blocco o pagina su "
+"QUALSIASI sito Web in cui volete raccogliere informazioni sui contatti."
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid "Back to Profile Listings"
@@ -13961,14 +14157,18 @@ msgid ""
 "features. They provide a powerful set of tools for you to collect "
 "information from constituents and selectively share contact information."
 msgstr ""
+"I Profili di CiviCRM permettono di aggregare gruppi di campi e includerli "
+"nel sito come moduli di input, pagine di visualizzazione dei contatti e "
+"caratteristiche di ricerca ed elenchi. Forniscono un insieme potente di "
+"strumenti per raccogliere informazioni e condividerle selettivamente."
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid "Profile Title"
-msgstr ""
+msgstr "Titolo profilo"
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid "Get HTML for All Active Profiles"
-msgstr ""
+msgstr "Ricava HTML per tutti i profili attivi"
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid ""
@@ -14393,7 +14593,7 @@ msgstr "Partecipato"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "No-show"
-msgstr ""
+msgstr "No-show"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Attendee"
@@ -14504,9 +14704,8 @@ msgid "Current"
 msgstr "Corrente"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Grace"
-msgstr "Permetti"
+msgstr "Grazia"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Expired"
@@ -14550,7 +14749,7 @@ msgstr "PayJunction"
 
 #: xml/templates/civicrm_data.tpl
 msgid "AOL Terms of Service complaint"
-msgstr ""
+msgstr "Reclamo sui Termini di Servizio di AOL"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Recipient is on vacation"

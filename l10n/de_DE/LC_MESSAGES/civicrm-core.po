@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-03-12 09:43+0100\n"
-"PO-Revision-Date: 2008-03-12 04:52-0700\n"
+"PO-Revision-Date: 2008-03-19 07:56-0700\n"
 "Last-Translator: Gerhard Aigner <gerhard.aigner@arcsmed.at>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -4834,7 +4834,7 @@ msgstr "Neue dynamische Gruppe"
 
 #: CRM/Contact/Task.php
 msgid "Print Contacts"
-msgstr "Kontakt ausdrucken"
+msgstr "Kontakte ausdrucken"
 
 #: CRM/Contact/Task.php templates/CRM/Admin/Form/Preferences/Address.tpl
 msgid "Mailing Labels"
@@ -4846,7 +4846,7 @@ msgstr "Gruppenaktualisierung anhand eines Profils"
 
 #: CRM/Contact/Task.php
 msgid "Map Contacts"
-msgstr "Kontakt auf der Karte zeigen"
+msgstr "Kontakt auf Karte"
 
 #: CRM/Contact/Task.php
 msgid "Add Contacts to Event"

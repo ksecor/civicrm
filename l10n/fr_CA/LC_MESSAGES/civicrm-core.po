@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-03-12 09:43+0100\n"
-"PO-Revision-Date: 2008-03-04 17:57-0800\n"
+"PO-Revision-Date: 2008-03-20 12:13-0700\n"
 "Last-Translator: Mathieu Lutfy <mlutfy@koumbit.org>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -4414,11 +4414,11 @@ msgstr ""
 
 #: CRM/Contact/Form/Task/Delete.php
 msgid "Selected contact was deleted sucessfully."
-msgstr ""
+msgstr "Le contact sélectionné a été supprimé."
 
 #: CRM/Contact/Form/Task/Delete.php
 msgid "Selected contact cannot be deleted."
-msgstr ""
+msgstr "Le contact sélectionné ne peut être supprimé."
 
 #: CRM/Contact/Form/Task/Delete.php
 msgid ""
@@ -11792,40 +11792,38 @@ msgid "Contributions received from %1 since inception."
 msgstr "Aucune contribution n'est enregistrée pour ce contact."
 
 #: templates/CRM/Contact/Page/View/Contribution.tpl
-#, fuzzy
 msgid ""
 "Click <a href='%1'>Record Offline Contribution</a> to record a new offline "
 "contribution received from this contact."
 msgstr ""
-"Vous pouvez <a href=\"%1\">ajouter de nouveaux membres à ce groupe</a>."
+"Vous pouvez <a href=\"%1\">enregistrer une contribution hors-ligne</a> pour "
+"enregistrer une contribution reçue par ce contact ailleurs que par ce site "
+"Internet."
 
 #: templates/CRM/Contact/Page/View/Contribution.tpl
-#, fuzzy
 msgid ""
 "Click <a href='%1'>Submit Credit Card Contribution</a> to process a new "
 "contribution on behalf of the contributor using their credit or debit card."
 msgstr ""
-"Vous pouvez <a href=\"%1\">ajouter de nouveaux membres à ce groupe</a>."
+"Cliquer sur <a href='%1'>Soumettre une contribution par carte de crédit</a> "
+"pour traiter une nouvelle contribution au nom de la personne en utilisant "
+"leur carte de crédit."
 
 #: templates/CRM/Contact/Page/View/Contribution.tpl
-#, fuzzy
 msgid "Record Offline Contribution"
-msgstr "Contributions récentes"
+msgstr "Enregistrer une contribution hors-ligne"
 
 #: templates/CRM/Contact/Page/View/Contribution.tpl
-#, fuzzy
 msgid "Submit Credit Card Contribution"
-msgstr "Modifier la contribution"
+msgstr "Soumettre une contribution par carte de crédit"
 
 #: templates/CRM/Contact/Page/View/Contribution.tpl
-#, fuzzy
 msgid "No contributions have been recorded from this contact."
-msgstr "Aucune contribution n'est enregistrée pour ce contact."
+msgstr "Aucune contribution n'a été enregistrée pour ce contact."
 
 #: templates/CRM/Contact/Page/View/Contribution.tpl
-#, fuzzy
 msgid "Contributions made in honor of %1."
-msgstr "Contributions (3 de %1)"
+msgstr "Contributions faites en l'honneur de %1"
 
 #: templates/CRM/Contact/Page/View/DashBoard.tpl
 msgid "Quick Search"
@@ -11833,7 +11831,7 @@ msgstr "Recherche rapide"
 
 #: templates/CRM/Contact/Page/View/DashBoard.tpl
 msgid "Menu"
-msgstr ""
+msgstr "Menu"
 
 #: templates/CRM/Contact/Page/View/DashBoard.tpl
 msgid "Shortcuts"
@@ -11976,17 +11974,15 @@ msgstr "Ajouter ce contact à un ou plusieurs groupes..."
 
 #: templates/CRM/Contact/Page/View/Log.tpl
 msgid "Change Log:"
-msgstr ""
+msgstr "Journal des modifications"
 
 #: templates/CRM/Contact/Page/View/Log.tpl
-#, fuzzy
 msgid "Changed By"
-msgstr "Créé par"
+msgstr "Modifié par"
 
 #: templates/CRM/Contact/Page/View/Log.tpl
-#, fuzzy
 msgid "Change Date"
-msgstr "Date de l'annulation"
+msgstr "Date du changement"
 
 #: templates/CRM/Contact/Page/View/Log.tpl
 #, fuzzy
@@ -12011,7 +12007,7 @@ msgstr "Adhésions inactives"
 
 #: templates/CRM/Contact/Page/View/Membership.tpl
 msgid "Membership Types"
-msgstr ""
+msgstr "Types d'adhésions"
 
 #: templates/CRM/Contact/Page/View/Membership.tpl
 msgid ""
@@ -12096,17 +12092,16 @@ msgid "State/Prov"
 msgstr "État/Prov."
 
 #: templates/CRM/Contact/Page/View/Relationship.tpl
-#, fuzzy
 msgid ""
 "There are no Relationships entered for this contact. You can <a href='%"
 "1'>add one</a>."
 msgstr ""
-"Il n'existe aucune relation pour ce contact. Vous pouvez <a href=\"%1\"> en "
+"Il n'y a pas de relations pour ce contact. Vous pouvez <a href=\"%1\">en "
 "ajouter une</a>."
 
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 msgid "Inactive Relationships"
-msgstr ""
+msgstr "Relations inactives"
 
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 msgid "These relationships are Disabled OR have a past End Date."
@@ -12147,9 +12142,8 @@ msgid "Method:"
 msgstr "Méthode"
 
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
-#, fuzzy
 msgid "Email Format Preference:"
-msgstr "Préférences du format de correspondance par courriel:"
+msgstr "Format de courriel préféré:"
 
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Age"
@@ -12210,9 +12204,8 @@ msgid "Amount"
 msgstr "Montant"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/Contribution.tpl
-#, fuzzy
 msgid "Recurring Contribution(s)"
-msgstr "Contributions récentes"
+msgstr "Contributions récurrentes"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/Contribution.tpl
 #, fuzzy
@@ -12229,24 +12222,20 @@ msgid "You are not currently subscribed to any Groups."
 msgstr "Vous n'êtes pas présentement abonné(e) à un groupe."
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
-#, fuzzy
 msgid "Are you sure you want to unsubscribe from %1?"
-msgstr "Voulez-vous vraiment retirer %1 de %2?"
+msgstr "Voulez-vous vraiment vous désabonner de %1?"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 msgid "Unsubscribe"
 msgstr "Se désabonner"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
-#, fuzzy
 msgid "Pending Subscriptions"
-msgstr "Description"
+msgstr "Abonnements en attente"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
-#, fuzzy
 msgid "Your subscription to these group(s) is pending confirmation."
-msgstr ""
-"L'adhésion de ce contact à ce(s) groupe(s) est en attente de confirmation."
+msgstr "Votre adhésion à ce(s) groupe(s) est en attente de confirmation."
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 #, fuzzy
@@ -12254,9 +12243,8 @@ msgid "Are you sure you want to remove from %1?"
 msgstr "Voulez-vous vraiment retirer %1 de %2?"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
-#, fuzzy
 msgid "Confirm"
-msgstr "Configurer"
+msgstr "Confirmer"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 #, fuzzy
@@ -12291,9 +12279,8 @@ msgid "Click on the event name for more information."
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/Participant.tpl
-#, fuzzy
 msgid "Event Date(s)"
-msgstr "Choisir la date"
+msgstr "Dates des événements"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/Participant.tpl
 msgid "You are not registered for any current or upcoming Events."
@@ -12352,12 +12339,11 @@ msgstr ""
 #: templates/CRM/Price/Form/DeleteField.tpl
 #: templates/CRM/Price/Form/DeleteSet.tpl templates/CRM/Price/Form/Option.tpl
 msgid "This action cannot be undone."
-msgstr ""
+msgstr "Cette action ne peut être renversée."
 
 #: templates/CRM/Custom/Form/DeleteFile.tpl
-#, fuzzy
 msgid "WARNING: Are you sure you want to delete the attached file?"
-msgstr "Voulez-vous vraiment supprimer la note \"%1\"?"
+msgstr "AVERTISSEMENT: Voulez-vous vraiment supprimer le fichier \"%1\"?"
 
 #: templates/CRM/Custom/Form/DeleteGroup.tpl
 msgid ""

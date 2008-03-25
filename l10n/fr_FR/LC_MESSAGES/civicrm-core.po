@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-03-12 09:43+0100\n"
-"PO-Revision-Date: 2008-02-08 05:57-0800\n"
-"Last-Translator: Open Keywords <olivier.vit@laposte.net>\n"
+"PO-Revision-Date: 2008-03-16 15:53-0700\n"
+"Last-Translator: Stephane Chaumeil <stephane.chaumeil@free.fr>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -433,9 +433,8 @@ msgstr "État"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 #: templates/CRM/Activity/Form/ActivityView.tpl
-#, fuzzy
 msgid "Added By"
-msgstr "Ajouté"
+msgstr "Ajouté par"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 #: CRM/Core/Menu.php templates/CRM/Case/Form/CaseActivity.tpl
@@ -624,7 +623,7 @@ msgstr "Le fichier à insérer doit être dans le format CSV"
 
 #: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "First row contains column headers"
-msgstr ""
+msgstr "Les premières lignes contiennent les intitulés de colonnes?"
 
 #: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Skip"
@@ -647,17 +646,17 @@ msgid "Missing required fields"
 msgstr "Champs requis manquant"
 
 #: CRM/Activity/Import/Parser.php CRM/Import/Parser.php
-#, fuzzy
 msgid "Line Number"
-msgstr "Numéro de téléphone"
+msgstr "Numéro de ligne"
 
 #: CRM/Activity/Import/Parser.php CRM/Import/Parser.php
 msgid "Reason"
 msgstr "Raison"
 
 #: CRM/Activity/Selector/Activity.php CRM/Core/Invoke.php
+#, fuzzy
 msgid "View Activity"
-msgstr ""
+msgstr "Voir la profession"
 
 #: CRM/Activity/Selector/Activity.php CRM/Contact/BAO/Query.php
 #: CRM/Contact/DAO/SubscriptionHistory.php CRM/Contact/Form/Email.php
@@ -1070,7 +1069,7 @@ msgstr "Région"
 #: CRM/Contact/BAO/Query.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Core/DAO/Worldregion.php
 msgid "World Region"
-msgstr ""
+msgstr "Continent"
 
 #: CRM/Contact/BAO/Query.php CRM/Contact/Form/Individual.php
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
@@ -1275,7 +1274,7 @@ msgstr "Département"
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/Edit.php
 #: CRM/Core/BAO/Address.php templates/CRM/Contact/Form/Address/country.tpl
 msgid "- type first letter(s) -"
-msgstr ""
+msgstr " - Saisir la(es) première(s) lettre(s) -"
 
 #: CRM/Contact/Form/DeleteLocation.php CRM/Core/Invoke.php
 msgid "Delete Location"
@@ -1397,7 +1396,7 @@ msgstr "Oui"
 
 #: CRM/Contact/Form/OpenID.php CRM/Standalone/Form/Register.php
 msgid "OpenID"
-msgstr ""
+msgstr "OpenID"
 
 #: CRM/Contact/Form/Organization.php CRM/Core/BAO/CustomField.php
 #: CRM/Core/BAO/UFGroup.php
@@ -14241,11 +14240,11 @@ msgstr ""
 
 #: xml/templates/civicrm_data.tpl
 msgid "Recipient is on vacation"
-msgstr ""
+msgstr "Le destinataire est en vacances."
 
 #: xml/templates/civicrm_data.tpl
 msgid "Unable to resolve recipient domain"
-msgstr ""
+msgstr "Incapable de joindre le domaine du destinataire."
 
 #: xml/templates/civicrm_data.tpl
 msgid "Unable to deliver to destintation mail server"

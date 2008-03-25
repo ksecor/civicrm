@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2007-05-07 11:19+0200\n"
-"PO-Revision-Date: 2008-02-05 12:13-0800\n"
-"Last-Translator: Johan Helin <johan.helin@gmail.com>\n"
+"PO-Revision-Date: 2008-03-20 04:01-0700\n"
+"Last-Translator: Markus Larsson <markus.lar@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -35,17 +35,19 @@ msgstr "administrera CiviCRM"
 msgid "access uploaded files"
 msgstr "gå till uppladdade filer"
 
+#, fuzzy
 msgid "profile listings and forms"
-msgstr ""
+msgstr "användarlista och formulär"
 
+#, fuzzy
 msgid "access all custom data"
-msgstr ""
+msgstr "kom åt blandad data"
 
 msgid "access CiviCRM"
 msgstr "gå till CiviCRM"
 
 msgid "access Contact Dashboard"
-msgstr ""
+msgstr "ta fram Contact Dashboard"
 
 #: drupal/civicrm.module
 msgid ""
@@ -83,8 +85,9 @@ msgid "You can:"
 msgstr "Du kan:"
 
 #: drupal/civicrm.module
+#, fuzzy
 msgid "read the <a href=\"!1\">CiviCRM Administrator Guide</a>."
-msgstr ""
+msgstr "läs <a href=\"!1\">CiviCRM Administratör Guide</a>"
 
 #: drupal/civicrm.module
 msgid ""

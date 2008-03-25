@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-03-12 09:43+0100\n"
-"PO-Revision-Date: 2008-03-01 13:23-0800\n"
-"Last-Translator: Johan Helin <johan.helin@gmail.com>\n"
+"PO-Revision-Date: 2008-03-20 04:22-0700\n"
+"Last-Translator: Markus Larsson <markus.lar@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -13513,27 +13513,29 @@ msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Event Registration"
-msgstr ""
+msgstr "Anmälan till händelse"
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Online or offline event registration."
-msgstr ""
+msgstr "Online eller offline registrering till händelse"
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Online or offline contribution."
-msgstr ""
+msgstr "Online eller offline medverkar"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Membership Signup"
-msgstr ""
+msgstr "Medlemskapsansansökan"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Online or offline membership signup."
-msgstr ""
+msgstr "Online eller offline Medlemskapsansökan"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Membership Renewal"
-msgstr ""
+msgstr "Förnyande av medlemsskap"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Online or offline membership renewal."
@@ -13558,37 +13560,38 @@ msgstr "Ospecificerat"
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "Mrs"
-msgstr "Pengar"
+msgstr "Fru"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "Ms"
-msgstr "Maskera"
+msgstr "Fröken"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Mr"
-msgstr ""
+msgstr "Herr"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Dr"
-msgstr ""
+msgstr "Doktor"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Jr"
-msgstr ""
+msgstr "Junior"
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Sr"
-msgstr ""
+msgstr "Herr"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "Administrator"
-msgstr "Administrera CiviCRM"
+msgstr "Administratör"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Authenticated"
-msgstr ""
+msgstr "Verifierad"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Credit Card"
@@ -13597,7 +13600,7 @@ msgstr "Kreditkort"
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "Debit Card"
-msgstr "Kreditkort"
+msgstr "Bankkort"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Cash"
@@ -13620,18 +13623,17 @@ msgid "Cancelled"
 msgstr "Avbruten"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Failed"
-msgstr "Fil"
+msgstr "Misslyckades"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "In Progress"
-msgstr ""
+msgstr "Under arbete"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "Registered"
-msgstr "Borttaget"
+msgstr "Registrerad"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
@@ -13644,11 +13646,11 @@ msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Attendee"
-msgstr ""
+msgstr "Deltagare"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Host"
-msgstr ""
+msgstr "Arrangör"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Speaker"
@@ -13656,7 +13658,7 @@ msgstr "Talare"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Conference"
-msgstr "Möte"
+msgstr "Konferans"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Exhibition"
@@ -13667,25 +13669,29 @@ msgstr "Utställning"
 msgid "Fundraiser"
 msgstr "Välgörenhetsgala"
 
+# eller föreställning?
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Performance"
-msgstr ""
+msgstr "Prestation"
 
+# studio?
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Workshop"
-msgstr ""
+msgstr "Verkstad"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Granted"
-msgstr ""
+msgstr "Beviljad"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Rejected"
-msgstr ""
+msgstr "Avslås"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Emergency"
-msgstr ""
+msgstr "Nödfall"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Family Support"
@@ -13693,19 +13699,20 @@ msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "General Protection"
-msgstr ""
+msgstr "Allmänt skydd"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Impunity"
 msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "In Honor of"
-msgstr ""
+msgstr "I heder för"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "In Memory of"
-msgstr ""
+msgstr "Till minnet av"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Scheduled"
@@ -13728,25 +13735,28 @@ msgid "Economic, Social & Cultural"
 msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Gender Issues"
-msgstr ""
+msgstr "Könsfrågor"
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Ongoing"
-msgstr ""
+msgstr "Pågående"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Resolved"
-msgstr ""
+msgstr "Besluten"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Name Only"
-msgstr ""
+msgstr "Endast namn"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Name and Email"
-msgstr ""
+msgstr "Namn och e-postadress"
 
+# eller nuvarande
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "Current"
@@ -13758,7 +13768,7 @@ msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Expired"
-msgstr ""
+msgstr "Utgått"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
@@ -13774,8 +13784,9 @@ msgid "Merchant ID"
 msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Key"
-msgstr ""
+msgstr "Nyckel"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Store ID"
@@ -13803,43 +13814,47 @@ msgstr ""
 
 #: xml/templates/civicrm_data.tpl
 msgid "Recipient is on vacation"
-msgstr ""
+msgstr "Mottagaren är på semester"
 
 #: xml/templates/civicrm_data.tpl
+#, fuzzy
 msgid "Unable to resolve recipient domain"
-msgstr ""
+msgstr "Oförmögen att finna mottagarens domän"
 
 #: xml/templates/civicrm_data.tpl
+#, fuzzy
 msgid "Unable to deliver to destintation mail server"
-msgstr ""
+msgstr "Oförmögen att leverera till mottagarens e-postserver"
 
 #: xml/templates/civicrm_data.tpl
 msgid "User account is no longer active"
-msgstr ""
+msgstr "Användarkontot är inte längre aktivt"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Email address is not valid"
-msgstr ""
+msgstr "E-postadressen är inte giltig"
 
 #: xml/templates/civicrm_data.tpl
+#, fuzzy
 msgid "Mail routing error"
-msgstr ""
+msgstr "Fel på e-postsändning"
 
 #: xml/templates/civicrm_data.tpl
 msgid "User inbox is full"
-msgstr ""
+msgstr "Användarens inkorg är full"
 
 #: xml/templates/civicrm_data.tpl
+#, fuzzy
 msgid "Unable to reach destination mail server"
-msgstr ""
+msgstr "Oförmögen att nå målets e-postserver"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Message caught by a content filter"
-msgstr ""
+msgstr "Meddelandet stoppat av ett innehållsfilter"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
-msgstr ""
+msgstr "Fel i SMTP överföring"
 
 #~ msgid "State %2 \"%1\""
 #~ msgstr "Region %2 \"%1\""
