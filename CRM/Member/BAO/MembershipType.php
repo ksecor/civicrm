@@ -451,7 +451,10 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
         if ( $statusDetails['is_current_member'] == 1 ) {
             $startDate    = $membershipDetails[$membershipId]->start_date;
             $date         = explode('-', $membershipDetails[$membershipId]->end_date);
-            $logStartDate = date('Y-m-d', mktime( $hour, $minute, $second, $date[1], $date[2]+1, $date[0] ) );
+            $logStartDate = date('Y-m-d', mktime( 0, 0, 0,
+                                                  $date[1],
+                                                  $date[2] + 1,
+                                                  $date[0] ) );
             $date         = explode('-', $logStartDate );
             
             $year  = $date[0];
@@ -472,7 +475,10 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
             if ( $membershipTypeDetails['duration_unit'] =='lifetime') {
                 $endDate = null;
             } else {
-                $endDate = date('Y-m-d',mktime($hour, $minute, $second, $month, $day-1, $year));
+                $endDate = date('Y-m-d',mktime(0, 0, 0,
+                                               $month,
+                                               $day - 1,
+                                               $year));
             }
             $today = date( 'Y-m-d' );
         } else {
@@ -501,15 +507,15 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
                 if ( ( $rolloverMonth - $fixedStartMonth ) < 0 ) { 
                     $rolloverDate = date( 'Ymd', 
                                          mktime( 0, 0, 0, 
-                                               $rolloverMonth,
-                                               $rolloverDay, 
-                                               date('Y')+1 ) );
+                                                 $rolloverMonth,
+                                                 $rolloverDay, 
+                                                 date('Y') + 1 ) );
                 } else {
                     $rolloverDate = date( 'Ymd', 
                                          mktime( 0, 0, 0, 
-                                               $rolloverMonth,
-                                               $rolloverDay, 
-                                               date("Y") ) );
+                                                 $rolloverMonth,
+                                                 $rolloverDay, 
+                                                 date("Y") ) );
                 }
                 
                 if ( CRM_Utils_Date::isoToMysql( $today ) > $rolloverDate ) {
@@ -569,7 +575,10 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
             $month = $date[1];
             $day   = $date[2];
             $day = $day - $membershipTypeDetails["renewal_reminder_day"];
-            $reminderDate = date('Y-m-d',mktime($hour, $minute, $second, $month, $day-1, $year));
+            $reminderDate = date('Y-m-d',mktime(0, 0, 0,
+                                                $month,
+                                                $day - 1,
+                                                $year));
         }
         
         $membershipDates['reminder_date']   = CRM_Utils_Date::customFormat($reminderDate,'%Y%m%d');
