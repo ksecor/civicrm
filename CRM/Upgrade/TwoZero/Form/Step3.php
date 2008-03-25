@@ -38,7 +38,7 @@ require_once 'CRM/Upgrade/Form.php';
 class CRM_Upgrade_TwoZero_Form_Step3 extends CRM_Upgrade_Form {
 
     function verifyPreDBState( &$errorMessage ) {
-        $errorMessage = 'pre-condition failed for upgrade step 3';
+        $errorMessage = ts('Pre-condition failed for upgrade step %1.', array(1 => '3'));
 
         // ensure that version field exists in db
         if ( ! CRM_Core_DAO::checkFieldExists( 'civicrm_domain', 'version' ) ) {
@@ -56,7 +56,7 @@ class CRM_Upgrade_TwoZero_Form_Step3 extends CRM_Upgrade_Form {
             ! CRM_Core_DAO::checkFKConstraintInFormat('civicrm_address', 'state_province_id') ||
             ! CRM_Core_DAO::checkFKConstraintInFormat('civicrm_address', 'country_id') ||
             ! CRM_Core_DAO::checkFKConstraintInFormat('civicrm_event',   'payment_processor_id') ) {
-            $errorMessage = ts('Database consistency check failed for step 3. FK constraint names not in the required format.');
+            $errorMessage = ts('Database consistency check failed for step %1.', array(1 => '3')) . ' ' . ts('FK constraint names not in the required format.') . ' ' . ts('Please rebuild your 1.9 database to ensure schema integrity.');
             return false;
         }
 
@@ -73,7 +73,7 @@ class CRM_Upgrade_TwoZero_Form_Step3 extends CRM_Upgrade_Form {
     }
 
     function verifyPostDBState( &$errorMessage ) {
-        $errorMessage = 'post-condition failed for upgrade step 3';
+        $errorMessage = ts('Post-condition failed for upgrade step %1.', array(1 => '3'));
 
         if ( ! CRM_Core_DAO::checkTableExists( 'civicrm_loc_block' ) ) {
             return false;

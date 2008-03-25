@@ -420,8 +420,8 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form
         $status = CRM_Utils_Request::retrieve( 'status', 'String',
                                                CRM_Core_DAO::$_nullObject );
         if ( $status ) {
-            $this->_formValues['contribution_status'] = array( $status => 1);
-            $this->_defaults['contribution_status']   = array( $status => 1);
+            $this->_formValues['contribution_status_id'] = array( $status => 1);
+            $this->_defaults['contribution_status_id']   = array( $status => 1);
         }
 
         $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );

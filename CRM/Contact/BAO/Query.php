@@ -1106,13 +1106,15 @@ class CRM_Contact_BAO_Query
                     $activity = true;
                 }
             }
-            
+
             require_once 'CRM/Core/Component.php';
             CRM_Core_Component::alterQuery( $this, 'where' );
+
             if ( $case ) {
                 require_once 'CRM/Case/BAO/Query.php';
                 CRM_Case_BAO_Query::where( $this );
             }
+
             if ( $activity ) {
                 require_once 'CRM/Activity/BAO/Query.php';
                 CRM_Activity_BAO_Query::where( $this );
@@ -1514,6 +1516,7 @@ class CRM_Contact_BAO_Query
         }
 
         $tables = $newTables;
+        $domainID = CRM_Core_Config::domainID( );
         
         foreach ( $tables as $name => $value ) {
             if ( ! $value ) {
@@ -1555,7 +1558,7 @@ class CRM_Contact_BAO_Query
                 continue;
 
             case 'im_provider':
-                $from .= " $side JOIN civicrm_option_group option_group_imProvider ON (option_group_imProvider.name = 'instant_messenger_service')";
+                $from .= " $side JOIN civicrm_option_group option_group_imProvider ON (option_group_imProvider.name = 'instant_messenger_service' AND option_group_imProvider.domain_id = $domainID )";
                 $from .= " $side JOIN civicrm_im_provider im_provider ON (civicrm_im.provider_id = im_provider.id AND option_group_imProvider.id = im_provider.option_group_id)";
                 continue;
                 
@@ -1617,17 +1620,17 @@ class CRM_Contact_BAO_Query
                 continue;
                 
             case 'individual_prefix':
-                $from .= " $side JOIN civicrm_option_group option_group_prefix ON (option_group_prefix.name = 'individual_prefix')";
+                $from .= " $side JOIN civicrm_option_group option_group_prefix ON (option_group_prefix.name = 'individual_prefix' AND option_group_prefix.domain_id = $domainID )";
                 $from .= " $side JOIN civicrm_option_value individual_prefix ON (contact_a.prefix_id = individual_prefix.value AND option_group_prefix.id = individual_prefix.option_group_id ) ";
                 continue;
                 
             case 'individual_suffix':
-                $from .= " $side JOIN civicrm_option_group option_group_suffix ON (option_group_suffix.name = 'individual_suffix')";
+                $from .= " $side JOIN civicrm_option_group option_group_suffix ON (option_group_suffix.name = 'individual_suffix' AND option_group_suffix.domain_id = $domainID )";
                 $from .= " $side JOIN civicrm_option_value individual_suffix ON (contact_a.suffix_id = individual_suffix.value AND option_group_suffix.id = individual_suffix.option_group_id ) ";
                 continue;
                 
             case 'gender':
-                $from .= " $side JOIN civicrm_option_group option_group_gender ON (option_group_gender.name = 'gender')";
+                $from .= " $side JOIN civicrm_option_group option_group_gender ON (option_group_gender.name = 'gender' AND option_group_gender.domain_id = $domainID )";
                 $from .= " $side JOIN civicrm_option_value gender ON (contact_a.gender_id = gender.value AND option_group_gender.id = gender.option_group_id) ";
                 continue;
                 
@@ -2578,9 +2581,9 @@ class CRM_Contact_BAO_Query
         list( $select, $from, $where ) = $this->query( $count, $sortByChar, $groupContacts );
         
         if ( empty( $where ) ) {
-            $where = 'WHERE ' . $permission;
+            $where = "WHERE $permission";
         } else {
-            $where = $where . ' AND ' . $permission;
+            $where = "$where AND $permission";
         }
 
         if ( $additionalWhereClause ) {

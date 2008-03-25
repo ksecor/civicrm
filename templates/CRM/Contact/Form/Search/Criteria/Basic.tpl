@@ -29,7 +29,7 @@
             <td><label>{ts}Contact Type(s){/ts}</label><br />
                 {$form.contact_type.html}
             </td>
-            <td><label>{ts}Organization(s){/ts}</label> / <span class="notorg"><label>{ts}Group(s){/ts}</label></span><br />
+            <td><label>{ts}Group(s){/ts}</label><br />
                 <div class="listing-box">
                     {foreach from=$form.group item="group_val"}
                     <div class="{cycle values="odd-row,even-row"}">

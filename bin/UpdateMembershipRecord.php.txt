@@ -37,7 +37,6 @@
 require_once '../civicrm.config.php';
 require_once 'CRM/Core/Config.php';
 
-require_once 'api/Membership.php';
 require_once 'CRM/Member/BAO/Membership.php';
 require_once 'CRM/Contact/DAO/Contact.php';
 require_once "CRM/Core/BAO/MessageTemplates.php";
@@ -46,13 +45,13 @@ require_once 'CRM/Member/BAO/MembershipLog.php';
 require_once "CRM/Utils/Date.php";
 require_once 'api/utils.php';
 
+require_once "api/Membership.php";
 require_once 'api/v2/Contact.php';
 require_once 'api/Relationship.php';
-require_once 'api/Membership.php';
 require_once 'api/Event.php';
 
-class CRM_UpdateMembershipRecord 
-{
+class CRM_UpdateMembershipRecord {
+    
     function __construct() 
     {
         $config =& CRM_Core_Config::singleton();
@@ -122,9 +121,13 @@ WHERE  civicrm_membership.contact_id = civicrm_contact.id
             $reminder_date = CRM_Utils_DATE::unixTime( $dao->reminder_date );
             $today_date    = CRM_Utils_DATE::unixTime( $today );
             
+            //convert date from string format to timestamp format
+            $reminder_date = CRM_Utils_DATE::unixTime( $dao->reminder_date );
+            $today_date    = CRM_Utils_DATE::unixTime( $today );
+
             //send reminder for membership renewal
             if ( $dao->reminder_date &&
-                 ( $reminder_date <= $today_date ) ) {
+               ( $reminder_date <= $today_date ) ) {
                 $memType =& new CRM_Member_BAO_MembershipType( );
                 
                 $memType->id = $dao->membership_type_id;
@@ -132,7 +135,7 @@ WHERE  civicrm_membership.contact_id = civicrm_contact.id
                      $memType->renewal_msg_id ) {
                     require_once 'CRM/Contact/BAO/Contact.php';
                     $toEmail  = CRM_Contact_BAO_Contact::getPrimaryEmail( $dao->contact_id );
-
+                  
                     if ( $toEmail ) {
                         // Set the FROM email address for reminder emails here.
                         // This must be a valid account for your SMTP service.

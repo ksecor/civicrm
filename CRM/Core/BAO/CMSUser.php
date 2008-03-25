@@ -55,10 +55,16 @@ class CRM_Core_BAO_CMSUser
     {
         //start of schronization code
         $config =& CRM_Core_Config::singleton( );
-        
+
+        CRM_Core_Error::ignoreException( );
         $db_uf = DB::connect($config->userFrameworkDSN);
-        if ( DB::isError( $db_uf ) ) { 
-            die( "Cannot connect to UF db via $dsn, " . $db_uf->getMessage( ) ); 
+        CRM_Core_Error::setCallback();
+        if ( ! $db_uf ||
+             DB::isError( $db_uf ) ) { 
+            $session =& CRM_Core_Session::singleton( );
+            $session->pushUserContext( CRM_Utils_System::url('civicrm/admin', 'reset=1' ) );
+            CRM_Core_Error::statusBounce( ts( "Cannot connect to UF db via %1. Please check the CIVICRM_UF_DSN value in your civicrm.settings.php file",
+                                              array( 1 => $db_uf->getMessage( ) ) ) );
         } 
  
         if ( $config->userFramework == 'Drupal' ) { 
@@ -466,9 +472,9 @@ SELECT count(*)
         $email = trim($params[$mail]); 
         $date  = date('y-m-d h:i:s');
        
-        //In Joomla, Administrator User is fixed to 18.
-        $userType   = 'Administrator';
-        $userTypeId = '24';
+        //In Joomla, Registered User is fixed to 18, at some point we should make this dynamic
+        $userType   = 'Registered';
+        $userTypeId = '18';
 
         //Get MySQL Table Prefix eg.'jos_'
         list( $prefix, $table ) = split( '_', $config->userFrameworkUsersTableName );        
@@ -499,10 +505,10 @@ SELECT count(*)
         $acl_query = $db_cms->query( $acl_sql );
 
         //Fetch aro_id of newly added acl
-        $aro_id_sql   = "SELECT id FROM {$table} where value = '$id'";
+        $aro_id_sql   = "SELECT aro_id FROM {$table} where value = '$id'";
         $aro_id_query = $db_cms->query( $aro_id_sql );
         $aro_id_row   = $aro_id_query->fetchRow( DB_FETCHMODE_ASSOC ) ;
-        $aro_id       = $aro_id_row['id'];
+        $aro_id       = $aro_id_row['aro_id'];
 
         //3.Insert into 'jos_core_acl_groups_aro_map' table
         $table       = "{$prefix}_core_acl_groups_aro_map";

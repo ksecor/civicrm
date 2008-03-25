@@ -334,14 +334,17 @@ class CRM_Utils_Rule
         setlocale( LC_ALL, $config->lcMessages );
         $localeInfo = localeconv( );
 
-        $mon_thousands_sep = $localeInfo['mon_thousands_sep'];
-        if ( ! $mon_thousands_sep ) {
+        if ( array_key_exists( 'mon_thousands_sep', $localeInfo ) ) {
+            $mon_thousands_sep = $localeInfo['mon_thousands_sep'];
+        } else {
             $mon_thousands_sep = ',';
         }
+
         $value = str_replace( $mon_thousands_sep, '', $value );
 
-        $mon_decimal_point = $localeInfo['mon_decimal_point'];
-        if ( ! $mon_decimal_point ) {
+        if ( array_key_exists( 'mon_decimal_point', $localeInfo ) ) {
+            $mon_decimal_point = $localeInfo['mon_decimal_point'];
+        } else {
             $mon_decimal_point = '.';
         }
         $value = str_replace( $mon_decimal_point, '.', $value );

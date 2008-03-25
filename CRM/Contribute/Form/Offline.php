@@ -195,7 +195,7 @@ class CRM_Contribute_Form_Offline extends CRM_Core_Form {
         $this->addButtons(array( 
                                 array ( 'type'      => 'next',
                                         'name'      => ts('Submit Contribution'), 
-                                        'js'        => array( 'onclick' => "return submitOnce(this,'Confirm','" . ts('Processing') ."');" ),
+                                        'js'        => array( 'onclick' => "return submitOnce(this,'" . $this->_name . "','" . ts('Processing') ."');" ),
                                         'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
                                         'isDefault' => true   ), 
                                 array ( 'type'      => 'cancel', 

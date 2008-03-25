@@ -710,6 +710,17 @@ AND    option_group_id = %2";
             }
             $_showHide->addToTemplate();
         }
+        
+        //checks the given custom field name doesnot start with digit
+        $title = $fields['label']; 
+        
+        if ( ! empty( $title ) ) {
+            $asciiValue = ord($title{0});//gives the ascii value
+            if($asciiValue>=48 && $asciiValue<=57) {
+                $errors['label'] = ts("Field's Name should not start with digit");
+            } 
+        }
+        
         return empty($errors) ? true : $errors;
     }
     

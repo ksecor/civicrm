@@ -789,7 +789,11 @@ ORDER BY a.object_id
                 if ( $type == CRM_ACL_API::VIEW ||
                      ( $type == CRM_ACL_API::EDIT &&
                        $dao->operation == 'Edit' || $dao->operation == 'All' ) ) {
-                    return array_keys( $allGroups );
+                    if ( ! empty( $allGroups ) ) {
+                        return array_keys( $allGroups );
+                    } else {
+                        return array( );
+                    }
                 }
             }
         }

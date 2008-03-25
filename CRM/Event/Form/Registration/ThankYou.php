@@ -117,7 +117,7 @@ class CRM_Event_Form_Registration_ThankYou extends CRM_Event_Form_Registration
                 $url = CRM_Utils_System::url("civicrm/friend", 
                                              "eid={$this->_id}&reset=1&action=preview&page=event" );
             } else {
-                $url = CRM_Utils_System::url("civicrm/tell_a_friend", 
+                $url = CRM_Utils_System::url("civicrm/friend", 
                                              "eid={$this->_id}&reset=1&page=event" );   
             }                    
             $this->assign( 'friendURL', $url );

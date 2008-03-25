@@ -448,7 +448,7 @@ class CRM_Core_SelectValues
             $minOffset = $dao->start;
             $maxOffset = $dao->end;
             $format = explode( ' ', trim( $dao->format ) );
-            $newDate['format'] = CRM_Utils_Date::posixToPhp( $config->dateformatQfDate,
+            $newDate['format'] = CRM_Utils_Date::posixToPhp( $config->dateformatQfDatetime,
                                                              $format );
             $newDate['optionIncrement']['i'] = $dao->minute_increment;
         } elseif ($type == 'activityDatetime') {

@@ -84,7 +84,13 @@ class CRM_Core_Permission_Standalone {
      * @access public
      */
     static function check( $str ) {
-        return true;
+        static $isAdmin = null;
+        if ( $isAdmin === null ) {
+            $session =& CRM_Core_Session::singleton( );
+            $isAdmin = $session->get( 'ufID' ) == 1 ? true : false;
+        }
+        require_once 'CRM/ACL/API.php';
+        return ( $isAdmin) ? true : CRM_ACL_API::check( $str, $contactID );
     }
 
 }

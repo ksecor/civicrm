@@ -1969,6 +1969,10 @@ WHERE  id = $cfID
         if ( $contactId ) {
             // get the primary location type id and email
             list($name, $primaryEmail, $primaryLocationType) = CRM_Contact_BAO_Contact::getEmailDetails( $contactId );
+        } else {
+            require_once 'CRM/Core/BAO/LocationType.php';
+            $defaultLocationType =& CRM_Core_BAO_LocationType::getDefault();
+            $primaryLocationType = $defaultLocationType->id;
         }
 
         $data = array( );
@@ -1982,7 +1986,7 @@ WHERE  id = $cfID
                     $locTypeId = $primaryLocationType; 
                 }
 
-                if (is_numeric($locTypeId)) {
+                if ( is_numeric($locTypeId) ) {
                     if (!in_array($locTypeId, $locationType)) {
                         $locationType[$count] = $locTypeId;
                         $count++;
@@ -1993,7 +1997,7 @@ WHERE  id = $cfID
                     $data['location'][$loc]['location_type_id'] = $locTypeId;
                 
                     // if we are getting in a new primary email, dont overwrite the new one
-                    if ($locTypeId == $primaryLocationType) {
+                    if ( $locTypeId == $primaryLocationType ) {
                         if ( CRM_Utils_Array::value( 'email-' . $primaryLocationType, $fields ) ) {
                             $data['location'][$loc]['email'][$loc]['email'] = $fields['email-' . $primaryLocationType];
                         } else {

@@ -80,6 +80,12 @@ class CRM_Contact_Page_View_DashBoard extends CRM_Contact_Page_View
         // if they have access CiviCRM permission
         $this->_permission = CRM_Core_Permission::VIEW;
         
+        // make the permission edit if the user has edit permission on the contact
+        require_once 'CRM/Contact/BAO/Contact.php';
+        if ( CRM_Contact_BAO_Contact::permissionedContact( $uid, CRM_Core_Permission::EDIT ) ) {
+            $this->_permission = CRM_Core_Permission::EDIT;
+        }
+
         // also add the cid params to the Menu array
         CRM_Core_Menu::addParam( 'cid', $uid );
         
@@ -167,7 +173,9 @@ class CRM_Contact_Page_View_DashBoard extends CRM_Contact_Page_View
         $session =& CRM_Core_Session::singleton( );
         $id  = $session->get( 'userID' );
         
-        $admin = CRM_Core_Permission::check( 'administer CiviCRM' );
+        $admin = 
+            CRM_Core_Permission::check( 'view all activities' ) ||
+            CRM_Core_Permission::check( 'administer CiviCRM' );
 
         $this->browse( $id, $admin );
       

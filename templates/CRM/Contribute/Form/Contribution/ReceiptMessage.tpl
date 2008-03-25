@@ -50,7 +50,6 @@
 {if $honor_block_is_active }
 ===========================================================
 {$honor_type}
-
 ===========================================================
 {$honor_prefix} {$honor_first_name} {$honor_last_name}
 {if $honor_email}

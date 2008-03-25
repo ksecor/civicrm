@@ -405,11 +405,11 @@ VALUES
   ( @domain_id, 'activityDatetime',  20, 10, 15, null,        'Date and time for activity: scheduled. participant: registered.'                                                                  ),
   ( @domain_id, 'birth'           , 100,  0,  0, null,        'Birth and deceased dates.'                                                                                                        ),
   ( @domain_id, 'creditCard'      ,   0, 10,  0, 'M Y',       'Month and year only for credit card expiration.'                                                                                  ),
-  ( @domain_id, 'custom'          ,  20, 20, 15, 'Y M d H i', 'Uses date range passed in by form field. Can pass in a posix date part parameter. Start and end offsets defined here are ignored.'),
+  ( @domain_id, 'custom'          ,  20, 20, 15, 'Y M d h i A', 'Uses date range passed in by form field. Can pass in a posix date part parameter. Start and end offsets defined here are ignored.'),
   ( @domain_id, 'datetime'        ,  10,  3, 15, null,        'General date and time.'                                                                                                           ),
   ( @domain_id, 'duration'        ,   0,  0, 15, 'H i',       'Durations in hours and minutes.'                                                                                                  ),
   ( @domain_id, 'fixed'           ,   0,  5,  0, null,        'Not used ?'                                                                                                                       ),
-  ( @domain_id, 'mailing'         ,   0,  1, 15, 'Y M d H i', 'Date and time. Used for scheduling mailings.'                                                                                      ),
+  ( @domain_id, 'mailing'         ,   0,  1, 15, 'Y M d h i A', 'Date and time. Used for scheduling mailings.'                                                                                      ),
   ( @domain_id, 'manual'          ,  20, 20,  0, null,        'Date only. For non-general cases. Uses date range passed in by form field. Start and end offsets defined here are ignored.'       ),
   ( @domain_id, 'relative'        ,  20, 20,  0, null,        'Used in search forms.'                                                                                                            );
 

@@ -61,6 +61,13 @@ class CRM_Core_Invoke
             return;
         }
 
+        // check for php version and ensure its greater than 5.
+        // do a fatal exit if
+        if ( (int ) substr( PHP_VERSION, 0, 1 ) < 5 ) {
+            echo "CiviCRM requires PHP Version 5.2 or greater<p>";
+            exit( );
+        }
+
         $config =& CRM_Core_Config::singleton( );
 
         // also initialize the i18n framework
@@ -676,11 +683,6 @@ class CRM_Core_Invoke
             $view =& new CRM_Admin_Page_CMSUser(ts('Sync Drupal Users'));
             break;   
 
-        case 'backup':
-            require_once 'CRM/Admin/Page/DomainDump.php';
-            $view =& new CRM_Admin_Page_DomainDump(ts('Backup Database'));
-            break;   
-            
         case 'dedupefind':
             require_once 'CRM/Admin/Page/DedupeFind.php';
             $view =& new CRM_Admin_Page_DedupeFind(ts('Find Duplicate Contacts'));

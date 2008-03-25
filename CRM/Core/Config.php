@@ -277,10 +277,6 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
             $this->userFrameworkDSN = CIVICRM_UF_DSN;
         }
 
-        if ( defined( 'CIVICRM_SMTP_PASSWORD' ) ) {
-            $this->smtpPassword = CIVICRM_SMTP_PASSWORD;
-        }
-
         // this is dynamically figured out in the civicrm.settings.php file
         if ( defined( 'CIVICRM_CLEANURL' ) ) {        
             $this->cleanURL = CIVICRM_CLEANURL;

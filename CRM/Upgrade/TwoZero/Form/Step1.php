@@ -66,6 +66,13 @@ class CRM_Upgrade_TwoZero_Form_Step1 extends CRM_Upgrade_Form {
             return false;
         }
 
+        // show error if any of the tables, use 'MyISAM' storage engine. 
+        $engines = CRM_Core_DAO::getStorageEngines( );
+        if ( array_key_exists('MyISAM', $engines) ) {
+            $errorMessage = ts('Your database is configured to use the MyISAM database engine. CiviCRM  requires InnoDB. You will need to convert any MyISAM tables in your database to InnoDB before proceeding.');
+            return false;
+        }
+
         return true;
     }
 
@@ -79,7 +86,7 @@ class CRM_Upgrade_TwoZero_Form_Step1 extends CRM_Upgrade_Form {
     }
     
     function verifyPostDBState( &$errorMessage ) {
-        $errorMessage = 'post-condition failed for upgrade step 1';
+        $errorMessage = ts('Post-condition failed for upgrade step %1.', array(1 => '1'));
         
         if (! CRM_Core_DAO::checkFieldExists( 'civicrm_domain', 'version' )) {
             return false;

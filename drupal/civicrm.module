@@ -137,6 +137,7 @@ function civicrm_perm()
                    'access uploaded files',
                    'profile listings and forms',
                    'access all custom data',
+		   'view all activities',
                    'access CiviCRM', 'access Contact Dashboard' );
                    
     // permissions for components which are conditionally enabled via config file setting
@@ -541,13 +542,18 @@ function civicrm_view_data( &$user )
         // make sure user has permission to view the record
         require_once 'CRM/Contact/BAO/Contact.php';
         $contactURL = null;
-        if ( CRM_Contact_BAO_Contact::permissionedContact( $userID ) ) {
+        if ( CRM_Core_Permission::check( 'access CiviCRM' ) &&
+             CRM_Contact_BAO_Contact::permissionedContact( $userID ) ) {
             $url = CRM_Utils_System::url( 'civicrm/contact/view', "reset=1&cid=$userID" );
             $contactURL = '<a href="' .$url. '">&raquo; ' .t("View Contact Record") . '</a>';
-            if ( CRM_Core_Permission::check( 'access Contact Dashboard' ) ) {
-                $url = CRM_Utils_System::url( 'civicrm/user', "reset=1&id=$userID" );
-                $contactURL .= '<br/><a href="' .$url. '">&raquo; ' .t("View Contact Dashboard") . '</a>';
+        }
+
+        if ( CRM_Core_Permission::check( 'access Contact Dashboard' ) ) {
+            $url = CRM_Utils_System::url( 'civicrm/user', "reset=1&id=$userID" );
+            if ( ! empty( $contactURL ) ) {
+                $contactURL .= '<br/>';
             }
+            $contactURL .= '<a href="' .$url. '">&raquo; ' .t("View Contact Dashboard") . '</a>';
         }
 
         require_once 'CRM/Profile/Page/Dynamic.php';
@@ -572,7 +578,7 @@ function civicrm_view_data( &$user )
             }
         }
         
-        if ( CRM_Core_Permission::check( 'access CiviCRM' ) ) {
+        if ( $contactURL ) {
             $item = array( 'title' => '',
                            'value' => $contactURL );
             $data[''][] = $item;

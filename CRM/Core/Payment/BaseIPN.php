@@ -87,7 +87,6 @@ class CRM_Core_Payment_BaseIPN {
         foreach ( $lookup as $name ) {
             $params[$name] = $input[$name];
         }
-
         if ( ! empty( $params ) ) {
             // update contact record
             require_once "CRM/Contact/BAO/Contact.php";
@@ -349,7 +348,9 @@ class CRM_Core_Payment_BaseIPN {
             $participant->status_id = 1;
             $participant->save( );
         }
-
+        if ( $input['net_amount'] == 0 && $input['fee_amount'] != 0 ) {
+            $input['net_amount'] = $input['amount'] - $input['fee_amount'];
+        }
         $contribution->contribution_status_id  = 1;
         $contribution->is_test      = $input['is_test'];
         $contribution->fee_amount   = $input['fee_amount'];
@@ -385,9 +386,51 @@ class CRM_Core_Payment_BaseIPN {
 
         CRM_Core_Error::debug_log_message( "Contribution record updated successfully" );
         $transaction->commit( );
+      
+        $template =& CRM_Core_Smarty::singleton( );
+        //assign honor infomation to receiptmessage
+        if ( $honarID = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_Contribution', $contribution->id, 'honor_contact_id' ) ) {
+            $honorDefault = array( );
+            $honorIds     = array( );
+            $honorIds['contribution'] =  $contribution->id;
+            $honorIds['domain']       =  $contribution->domain_id;
+            
+            $idParams = array( 'id' => $honarID, 'contact_id' => $honarID );
+            
+            require_once "CRM/Contact/BAO/Contact.php";
+            CRM_Contact_BAO_Contact::retrieve( $idParams, $honorDefault, $honorIds );
+            
+            require_once "CRM/Core/PseudoConstant.php";
+            $honorType = CRM_Core_PseudoConstant::honor( );
+            $prefix    = CRM_Core_PseudoConstant::individualPrefix();
+            
+            $template->assign( 'honor_block_is_active', 1 );
+            $template->assign( 'honor_prefix',     $prefix[$honorDefault["prefix_id"]] );
+            $template->assign( 'honor_first_name', CRM_Utils_Array::value( "first_name", $honorDefault ) );
+            $template->assign( 'honor_last_name',  CRM_Utils_Array::value( "last_name", $honorDefault ) );
+            $template->assign( 'honor_email',      CRM_Utils_Array::value( "email", $honorDefault["location"][1]["email"][1] ) );
+            $template->assign( 'honor_type',       $honorType[$contribution->honor_type_id] );
+        }
+
+        require_once 'CRM/Contribute/DAO/ContributionProduct.php';
+        $dao = & new CRM_Contribute_DAO_ContributionProduct();
+        $dao->contribution_id =  $contribution->id;
+
+        if ( $dao->find(true) ) {
+            $premiumId = $dao->product_id;
+            $template->assign('option',       $dao->product_option );
+           
+            require_once 'CRM/Contribute/DAO/Product.php';
+            $productDAO =& new CRM_Contribute_DAO_Product();
+            $productDAO->id = $premiumId;
+            $productDAO->find(true);
+            $template->assign('selectPremium', true );
+            $template->assign('product_name',  $productDAO->name );
+            $template->assign('price',         $productDAO->price );
+            $template->assign('sku',           $productDAO->sku );
+        }
 
         // add the new contribution values
-        $template =& CRM_Core_Smarty::singleton( );
         if ( $input['component'] == 'contribute' ) {
             $template->assign( 'title', $values['title']);
             $template->assign( 'amount' , $input['amount'] );

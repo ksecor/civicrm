@@ -69,9 +69,8 @@ class CRM_Utils_Geocode_Google {
         CRM_Utils_System::checkPHPVersion( 5, true );
 
         require_once 'CRM/Utils/Array.php';
-        // we need a valid state and country, else we ignore
-        if ( ! CRM_Utils_Array::value( 'state_province' , $values  ) &&
-             ! CRM_Utils_Array::value( 'country'        , $values  ) ) {
+        // we need a valid country, else we ignore
+        if ( ! CRM_Utils_Array::value( 'country'        , $values  ) ) {
             return false;
         }
         

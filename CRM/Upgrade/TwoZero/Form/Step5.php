@@ -38,7 +38,7 @@ require_once 'CRM/Upgrade/Form.php';
 class CRM_Upgrade_TwoZero_Form_Step5 extends CRM_Upgrade_Form {
 
     function verifyPreDBState( &$errorMessage ) {
-        $errorMessage = 'pre-condition failed for upgrade step 5';
+        $errorMessage = ts('Pre-condition failed for upgrade step %1.', array(1 => '5'));
         
         if ( ! CRM_Core_DAO::checkTableExists( 'civicrm_activity_assignment' ) ||
              ! CRM_Core_DAO::checkTableExists( 'civicrm_activity_target' )   ) {
@@ -53,7 +53,7 @@ class CRM_Upgrade_TwoZero_Form_Step5 extends CRM_Upgrade_Form {
         $query    = "SELECT id FROM civicrm_custom_field WHERE name IS NULL";
         $res      = $this->runQuery( $query );
         if ($res->fetch()) {
-            $errorMessage = ts("Database consistency check failed for Step 5. Value missing in civicrm_custom_field for the column 'name'.");
+            $errorMessage = ts('Database consistency check failed for step %1.', array(1 => '5')) . ' ' . ts("Value missing in %1 for the column '%2'.", array(1 => 'civicrm_custom_field', 2 => 'name'));
             return false;
         }
         $res->free();
@@ -61,7 +61,7 @@ class CRM_Upgrade_TwoZero_Form_Step5 extends CRM_Upgrade_Form {
         $query    = "SELECT id FROM civicrm_custom_field WHERE LOWER(name) = 'id'";
         $res      = $this->runQuery( $query );
         if ($res->fetch()) {
-            $errorMessage = ts("Database consistency check failed for Step 5. A custom field can not have 'id' as the 'name'.");
+            $errorMessage = ts('Database consistency check failed for step %1.', array(1 => '5')) . ' ' . ts("A custom field can not have '%1' as the '%2'.", array(1 => 'id', 2 => 'name'));
             return false;
         }
         $res->free();
@@ -78,7 +78,7 @@ class CRM_Upgrade_TwoZero_Form_Step5 extends CRM_Upgrade_Form {
         // data migration / upgrade
         $domainID = CRM_Core_Config::domainID( );
         $query    = "UPDATE civicrm_custom_group cg1 
-SET cg1.table_name = CONCAT( 'custom_value_', $domainID, '_', cg1.name )";
+SET cg1.table_name = CONCAT( 'civicrm_value_', $domainID, '_', cg1.name )";
         $res      = $this->runQuery( $query );
         $res->free();
 
@@ -167,13 +167,33 @@ WHERE co.entity_table='civicrm_custom_field' AND co.entity_id={$field->id}";
             
             while ($field->fetch()) {
                 $col    = "cv." . CRM_Core_BAO_CustomValue::typeToField($field->data_type);
-                $query  = "
+                
+                if ($field->data_type != 'File') {
+                    $query  = "
 INSERT INTO {$group->table_name} (domain_id,entity_id,{$field->column_name})
 SELECT $domainID, cv.entity_id, $col FROM civicrm_custom_value cv 
 WHERE cv.custom_field_id={$field->id}
 ON DUPLICATE KEY UPDATE {$field->column_name}={$col}";
-                $res    = $this->runQuery( $query );
-                $res->free();
+                    $res    = $this->runQuery( $query );
+                    $res->free();
+                } else {
+                    $query  = "
+INSERT INTO {$group->table_name} (domain_id,entity_id,{$field->column_name})
+SELECT $domainID, cv.entity_id, cf.id 
+FROM civicrm_custom_value cv
+LEFT JOIN  civicrm_file cf ON (cf.uri = $col)
+WHERE cv.custom_field_id={$field->id}
+ON DUPLICATE KEY UPDATE {$field->column_name} = cf.id";
+                    $res    = $this->runQuery( $query );
+                    $res->free();
+                    
+                    $query  = "
+UPDATE civicrm_entity_file ef, {$group->table_name} ct
+SET    ef.entity_table = '{$group->table_name}', ef.entity_id = ct.id
+WHERE  ct.{$field->column_name}=ef.file_id AND ct.entity_id=ef.entity_id";
+                    $res    = $this->runQuery( $query );
+                    $res->free();
+                }
             }
             $field->free();
         }
@@ -214,7 +234,7 @@ WHERE co.entity_table='$entityTable'";
     }
 
     function verifyPostDBState( &$errorMessage ) {
-        $errorMessage = 'post-condition failed for upgrade step 5';
+        $errorMessage = ts('Post-condition failed for upgrade step %1.', array(1 => '5'));
         
         if ( ! CRM_Core_DAO::checkFieldExists( 'civicrm_custom_field', 'column_name' ) ||
              ! CRM_Core_DAO::checkFieldExists( 'civicrm_custom_field', 'option_group_id' ) ||

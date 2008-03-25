@@ -511,7 +511,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             require_once 'CRM/Event/Form/Registration/Confirm.php';
             CRM_Event_Form_Registration_Confirm::fixLocationFields( $this->_params, $fields );
             $contactID =& CRM_Event_Form_Registration_Confirm::updateContactFields( $contactID, $this->_params, $fields );
-
+            $session->set( 'userID', $contactID );
             $this->confirmPostProcess( $contactID );
             $this->set( 'params', $this->_params );
         }
@@ -621,7 +621,11 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             $amount_level[] = $values['label'];
         }
         
-        $params['amount_level'] = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $amount_level ) . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR; 
+        require_once 'CRM/Core/BAO/CustomOption.php';
+        $params['amount_level'] =
+            CRM_Core_BAO_CustomOption::VALUE_SEPERATOR .
+            implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $amount_level ) .
+            CRM_Core_BAO_CustomOption::VALUE_SEPERATOR; 
         $params['amount']       = $totalPrice;
     }
     

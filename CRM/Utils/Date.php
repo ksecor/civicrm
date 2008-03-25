@@ -402,10 +402,10 @@ class CRM_Utils_Date
                 $month  = (int) substr($dateString,  4, 2);
                 $day    = (int) substr($dateString,  6, 2);
                 
-                $hour24 = (int) substr($dateString, 9, 2);
-                $minute = (int) substr($dateString, 12, 2);
+                $hour24 = (int) substr($dateString, 8, 2);
+                $minute = (int) substr($dateString, 10, 2);
             }
-            
+
             if     ($day % 10 == 1 and $day != 11) $suffix = 'st';
             elseif ($day % 10 == 2 and $day != 12) $suffix = 'nd';
             elseif ($day % 10 == 3 and $day != 13) $suffix = 'rd';
@@ -441,8 +441,7 @@ class CRM_Utils_Date
                           '%A' => $type,
                           '%Y' => $year
                           );
-            //CRM_Core_Error::debug('f',$format);
-            //CRM_Core_Error::debug('d',$date);
+
             return strtr($format, $date);
 
         } else {

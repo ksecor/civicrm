@@ -94,7 +94,7 @@ LEFT JOIN civicrm_state_province state_province ON state_province.id = address.s
 ";
     }
 
-    function where( ) {
+    function where( $includeContactIDs = false ) {
         $params = array( );
         $where  = "contact_a.contact_type   = 'Household'";
 

@@ -135,6 +135,11 @@ class CRM_Core_Error extends PEAR_ErrorStack {
      */
     public static function handle( $pearError )
     {
+        // do a hard rollback of any pending transactions
+        // if we've come here, its because of some unexpected PEAR errors
+        require_once 'CRM/Core/Transaction.php';
+        CRM_Core_Transaction::rollback( );
+
         // setup smarty with config, session and template location.
         $template =& CRM_Core_Smarty::singleton( );
         $config   =& CRM_Core_Config::singleton( );
@@ -191,8 +196,8 @@ class CRM_Core_Error extends PEAR_ErrorStack {
             $content .= CRM_Core_Error::debug( 'Error Details:', $error, false );
             echo CRM_Utils_System::theme( 'page', $content, true );
         } else {
-            $content  = $template->fetch( 'CRM/common/fatal.tpl' );
-            echo $content;
+            echo "Sorry. A non-recoverable error has occurred. The error trace below might help to resolve the issue<p>";
+            CRM_Core_Error::debug( null, $error );
         }
         exit(1);
     }

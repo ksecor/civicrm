@@ -20,7 +20,7 @@
        <td>{$row.contribution_type}</td>
        <td>{$row.receive_date|truncate:10:''|crmDate}</td>
        <td>{$row.receipt_date|truncate:10:''|crmDate}</td>
-       <td>{$row.contrib_status}</td>
+       <td>{$row.contribution_status_id}</td>
        </tr>
       {/foreach}
   </table>

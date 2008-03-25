@@ -335,7 +335,9 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             return true;
         }
         $errors = array();
-        
+
+        $params['html_message'] = $params['hmsg'];
+
         require_once 'CRM/Core/BAO/Domain.php';
 
         $domain =& CRM_Core_BAO_Domain::getCurrentDomain();
@@ -382,7 +384,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
 
         $skipTextFile = $session->get('skipTextFile');
         $skipHtmlFile = $session->get('skipHtmlFile');
-
+        
         if( !$params['upload_type'] ) { 
             if ( ( ! isset( $files['textFile'] ) || ! file_exists( $files['textFile']['tmp_name'] ) ) &&
                  ( ! isset( $files['htmlFile'] ) || ! file_exists( $files['htmlFile']['tmp_name'] ) ) ) {

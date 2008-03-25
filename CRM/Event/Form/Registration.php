@@ -579,6 +579,7 @@ WHERE  v.option_group_id = g.id
         }
         
         $ids = array();
+        require_once 'CRM/Event/BAO/Participant.php';
         $participant = CRM_Event_BAO_Participant::create($participantParams, $ids);
         
         $transaction->commit( );

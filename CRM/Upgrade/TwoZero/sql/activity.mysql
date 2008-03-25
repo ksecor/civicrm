@@ -151,7 +151,7 @@ INSERT INTO `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`,
 (@og_id_ct, 'Economic, Social & Cultural', '2', 'Economic, Social & Cultural', NULL, 0, NULL, 2, NULL, 0, 0, 1),
 (@og_id_ct, 'Gender Issues', '3', 'Gender Issues', NULL, 0, NULL, 3, NULL, 0, 0, 1),
 (@og_id_custom, 'CRM_Contact_Form_Search_Custom_Sample', '1', 'CRM/Contact/Form/Search/Custom/Sample.php', NULL, 0, NULL, 1, NULL, 0, 0, 1),
-(@og_id_custom, 'CRM_Contact_Form_Search_Custom_Contribution', '2', 'CRM/Contact/Form/Search/Custom/Contribution.php', NULL, 0, NULL, 2, NULL, 0, 0, 1),
+(@og_id_custom, 'CRM_Contact_Form_Search_Custom_ContributionAggregate', '2', 'CRM/Contact/Form/Search/Custom/ContributionAggregate.php', NULL, 0, NULL, 2, NULL, 0, 0, 1),
 (@og_id_custom, 'CRM_Contact_Form_Search_Custom_Basic', '3', 'CRM/Contact/Form/Search/Custom/Basic.php', NULL, 0, NULL, 3, NULL, 0, 0, 1),
 (@og_id_custom, 'CRM_Contact_Form_Search_Custom_Group', '4', 'CRM/Contact/Form/Search/Custom/Group.php', NULL, 0, NULL, 4, NULL, 0, 0, 1),
 (@og_id_custom, 'CRM_Contact_Form_Search_Custom_PostalMailing', '5', 'CRM/Contact/Form/Search/Custom/PostalMailing.php', NULL, 0, NULL, 5, NULL, 0, 0, 1),
@@ -160,8 +160,8 @@ INSERT INTO `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`,
 (@og_id_ps, 'Pending', (SELECT @max_val_aso := @max_val_ps+1), 'Pending', NULL, 0, NULL, (SELECT @max_wt_aso := @max_wt_ps+1), NULL, 0, 1, 1),
 (@og_id_cvo, 'Cases', (SELECT @max_val_aso := @max_val_cvo+1), NULL, NULL, 0, NULL, (SELECT @max_wt_cvo := @max_wt_cvo+1), NULL, 0, 0, 1),
 (@og_id_aso, 'Cases', (SELECT @max_val_aso := @max_val_aso+1), NULL, NULL, 0, NULL, (SELECT @max_wt_aso := @max_wt_aso+1), NULL, 0, 0, 1),
-(@og_id_aso, 'Kabissa', (SELECT @max_val_aso := @max_val_aso+1), NULL, NULL, 0, NULL, (SELECT @max_wt_aso := @max_wt_aso+1), NULL, 0, 0, 1),
 (@og_id_aso, 'Grants', (SELECT @max_val_aso := @max_val_aso+1), NULL, NULL, 0, NULL, (SELECT @max_wt_aso := @max_wt_aso+1), NULL, 0, 0, 1),
+(@og_id_aso, 'Activities', (SELECT @max_val_aso := @max_val_aso+1), NULL, NULL, 0, NULL, (SELECT @max_wt_aso := @max_wt_aso+1), NULL, 0, 0, 1),
 (@og_id_gs, 'Pending', 1, 'Pending', NULL, 0, 1, 1, NULL, 0, 0, 1),
 (@og_id_gs, 'Granted', 2, 'Granted', NULL, 0, NULL, 2, NULL, 0, 0, 1),
 (@og_id_gs, 'Rejected', 3, 'Rejected', NULL, 0, NULL, 3, NULL, 0, 0, 1),
@@ -172,6 +172,13 @@ INSERT INTO `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`,
 (@og_id_ht, 'In Honor of', 1, 'In Honor of', NULL, 0, 1, 1, NULL, 0, 0, 1),
 (@og_id_ht, 'In Memory of', 2, 'In Memory of', NULL, 0, NULL, 2, NULL, 0, 0, 1);
 
+-- /************************
+-- * 
+-- * drop unwanted option values
+-- *
+-- *************************
+DELETE FROM `civicrm_option_value` WHERE `civicrm_option_value`.`label` ='Scheduled Activities' ;
+DELETE FROM `civicrm_option_value` WHERE `civicrm_option_value`.`label` ='Activity History' ;
 
 
 -- /**********************************************************

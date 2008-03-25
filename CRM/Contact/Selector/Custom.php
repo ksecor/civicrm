@@ -300,6 +300,7 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
                 $row['action']   = CRM_Core_Action::formLink( $links,
                                                               $mask ,
                                                               array( 'id' => $dao->contact_id ) );
+                $row['contact_id'] = $dao->contact_id;
 
                 if ( $alterRow ) {
                     $this->_search->alterRow( $row );

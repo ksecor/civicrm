@@ -96,6 +96,9 @@ class CRM_Member_BAO_Query
     {
         foreach ( array_keys( $query->_params ) as $id ) {
             if ( substr( $query->_params[$id][0], 0, 7 ) == 'member_' ) {
+                if ( $query->_mode == CRM_Contact_BAO_QUERY::MODE_CONTACTS ) {
+                    $query->_useDistinct = true;
+                }
                 self::whereClauseSingle( $query->_params[$id], $query );
             }
         }
@@ -171,7 +174,7 @@ class CRM_Member_BAO_Query
         case 'member_test':
             $query->_where[$grouping][] = " civicrm_membership.is_test $op $value";
             if ( $value ) {
-                $query->_qill[$grouping][]  = "Test Memberships Only";
+                $query->_qill[$grouping][]  = "Find Test Memberships";
             }
 
             $query->_tables['civicrm_membership'] = $query->_whereTables['civicrm_membership'] = 1;
@@ -292,7 +295,7 @@ class CRM_Member_BAO_Query
         $form->add('date', 'member_end_date_high', ts('To'), CRM_Core_SelectValues::date('relative')); 
         $form->addRule('member_end_date_high', ts('Select a valid date.'), 'qfDate'); 
 
-        $form->addElement( 'checkbox', 'member_test' , ts( 'Find Test Memberships Only?' ) );
+        $form->addElement( 'checkbox', 'member_test' , ts( 'Find Test Memberships?' ) );
         // add all the custom  searchable fields
         require_once 'CRM/Core/BAO/CustomGroup.php';
         $extends      = array( 'Membership' );

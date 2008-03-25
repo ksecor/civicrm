@@ -37,7 +37,7 @@ require_once 'CRM/Upgrade/Form.php';
 
 class CRM_Upgrade_TwoZero_Form_Step2 extends CRM_Upgrade_Form {
     function verifyPreDBState( &$errorMessage ) {
-        $errorMessage = 'pre-condition failed for upgrade step 2';
+        $errorMessage = ts('Pre-condition failed for upgrade step %1.', array(1 => '2'));
 
         if (! CRM_Core_DAO::checkFieldExists( 'civicrm_domain', 'version' )) {
             return false;
@@ -56,7 +56,7 @@ class CRM_Upgrade_TwoZero_Form_Step2 extends CRM_Upgrade_Form {
     }
     
     function verifyPostDBState( &$errorMessage ) {
-        $errorMessage = 'post-condition failed for upgrade step 2';
+        $errorMessage = ts('Post-condition failed for upgrade step %1.', array(1 => '2'));
 
         if (! CRM_Core_DAO::checkFieldExists( 'civicrm_contact', 'first_name' ) ||
             ! CRM_Core_DAO::checkFieldExists( 'civicrm_contact', 'organization_name' ) ||

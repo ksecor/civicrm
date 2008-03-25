@@ -44,7 +44,7 @@ class CRM_Bridge_OG_Drupal {
         // first create or update the CiviCRM group
         $groupParams               = $params;
         $groupParams['source']     = CRM_Bridge_OG_Utils::ogSyncName( $params['og_id'] );
-        $groupParams['group_type'] = CRM_Core_DAO::VALUE_SEPARATOR . '2' . CRM_Core_DAO::VALUE_SEPARATOR;
+        $groupParams['group_type'] = array('2');
         self::updateCiviGroup( $groupParams, $op, $groupType );
 
         if ( CRM_Bridge_OG_Utils::aclEnabled( ) ) {
@@ -52,7 +52,7 @@ class CRM_Bridge_OG_Drupal {
             $aclParams               = $params;
             $aclParams['name']       = $aclParams['title'] = "{$aclParams['name']}: Administrator";
             $aclParams['source']     = CRM_Bridge_OG_Utils::ogSyncACLName( $params['og_id'] );
-            $aclParams['group_type'] = CRM_Core_DAO::VALUE_SEPARATOR . '1' . CRM_Core_DAO::VALUE_SEPARATOR;
+            $aclParams['group_type'] = array('1');
             self::updateCiviGroup    ( $aclParams, $op );
             
             $aclParams['acl_group_id']     = $aclParams['group_id'];
@@ -64,7 +64,7 @@ class CRM_Bridge_OG_Drupal {
         $transaction->commit( );
     }
 
-    static function updateCiviGroup( &$params, $op ) {
+    static function updateCiviGroup( &$params, $op, $groupType = null ) {
         $abort        = ( $op == 'delete' ) ? true : false;
         $params['id'] = CRM_Bridge_OG_Utils::groupID( $params['source'], $params['title'], $abort );
 
@@ -74,7 +74,7 @@ class CRM_Bridge_OG_Drupal {
                 $params['group_type'] = $groupType;
             }
             
-            $group = civicrm_group_create( $params );
+            $group = civicrm_group_add( $params );
             if ( ! civicrm_error( $group ) ) {
                 $params['group_id'] = $group['result'];
             }

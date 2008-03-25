@@ -353,7 +353,9 @@ LIMIT      0, 10
                 $set = null;
                 if (( $name == 'start_date' ) || 
                     ( $name == 'end_date' ) ) {
-                    $eventSummary['events'][$dao->id][$property] = CRM_Utils_Date::customFormat($dao->$name, '%B %d%f %Y');
+                    $eventSummary['events'][$dao->id][$property] = CRM_Utils_Date::customFormat($dao->$name,
+                                                                                                null,
+                                                                                                array( 'd' ) );
                 } else if ( $name == 'participants' || $name == 'pending' ) {
                     $eventSummary['events'][$dao->id][$property] = $eventParticipant[$name][$dao->id];
                     if ( $name == 'participants' && CRM_Utils_Array::value( $dao->id, $eventParticipant['participants'] ) ) { 

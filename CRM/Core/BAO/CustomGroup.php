@@ -1050,7 +1050,12 @@ $where
      * @access public
      * @static
      */
-    static function buildQuickForm( &$form, &$groupTree, $showName = 'showBlocks', $hideName = 'hideBlocks', $inactiveNeeded = false ) {
+    static function buildQuickForm( &$form,
+                                    &$groupTree,
+                                    $showName = 'showBlocks',
+                                    $hideName = 'hideBlocks',
+                                    $inactiveNeeded = false,
+                                    $alwaysShow = false ) {
         require_once 'CRM/Core/BAO/CustomField.php';
         require_once 'CRM/Core/BAO/CustomOption.php';
 
@@ -1110,7 +1115,7 @@ $where
                 CRM_Core_BAO_CustomField::addQuickFormElement($form, $elementName, $fieldId, $inactiveNeeded, $required); 
             } 
  
-            if ( $group['collapse_display'] ) { 
+            if ( $group['collapse_display'] && ! $alwaysShow ) { 
                 $sBlocks[] = "'". $group['name'] . "_show'" ; 
                 $hBlocks[] = "'". $group['name'] ."'"; 
             } else { 

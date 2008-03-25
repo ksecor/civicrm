@@ -98,9 +98,13 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 
                 // also merge all the other values from the profile fields
                 $values = $this->controller->exportValues( 'Register' );
-                $skipFields = array( 'amount', 'first_name', 'middle_name', 'last_name',
-                                     'street_address', 'city', 'state_province_id', 'postal_code',
-                                     'country_id' );
+                $skipFields = array( 'amount',
+                                     "street_address-{$this->_bltID}",
+                                     "city-{$this->_bltID}",
+                                     "state_province_id-{$this->_bltID}",
+                                     "postal_code-{$this->_bltID}",
+                                     "country_id-{$this->_bltID}" );
+
                 foreach ( $values as $name => $value ) {
                     // skip amount field
                     if ( ! in_array( $name, $skipFields ) ) {
@@ -204,7 +208,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                                             'name'      => $contribButton,
                                             'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
                                             'isDefault' => true,
-                                            'js'        => array( 'onclick' => "return submitOnce(this,'Confirm','" . ts('Processing') ."');" ) ),
+                                            'js'        => array( 'onclick' => "return submitOnce(this,'" . $this->_name . "','" . ts('Processing') ."');" ) ),
                                     array ( 'type'      => 'back',
                                             'name'      => ts('<< Go Back')),
                                     )

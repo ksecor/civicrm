@@ -347,30 +347,41 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      * @param type    $type            type of activity we're interested in
      * @param boolean $admin           if contact is admin
      * @param int     $caseId          case id
+     * @param string  $context         context , page on which selector is build
+     *
      * @return array (reference)      $values the relevant data object values of open activitie
      *
      * @access public
      * @static
      */
-    static function &getOpenActivities( &$params, $offset = null, $rowCount = null, 
-                                        $sort = null, $type='Activity', $admin = false, $caseId = null ) 
+    static function &getOpenActivities( &$data, $offset = null, $rowCount = null, $sort = null,
+                                        $type ='Activity', $admin = false, $caseId = null, $context = null ) 
     {
         $dao =& new CRM_Core_DAO();
 
-        $params = array( 1 => array( $params['contact_id'], 'Integer' ) );
+        $params = array( );
+        $clause = 1 ;
+
+        if ( !$admin ) {
+            $clause = " ( source_contact_id = %1 or target_contact_id = %1 or assignee_contact_id = %1 or civicrm_case.contact_id = %1 ) ";
+            $params = array( 1 => array( $data['contact_id'], 'Integer' ) );
+        }
+        
+        $statusClause = 1 ;
+        if ( $context == 'home' ) {
+            $statusClause = " civicrm_activity.status_id = 1 "; 
+        }
 
         // Exclude Contribution-related activity records if user doesn't have 'access CiviContribute' permission
+        $contributionFilter = 1;
         if ( ! CRM_Core_Permission::check('access CiviContribute') ) {
-            $contributionFilter = " and civicrm_activity.activity_type_id != 6 ";
-        } else {
-            $contributionFilter = " and 1 ";
+            $contributionFilter = " civicrm_activity.activity_type_id != 6 ";
         }
 
         // Filter on case ID if looking at activities for a specific case
+        $case = 1;
         if ( $caseId ) {
-            $case = " and civicrm_case_activity.case_id = $caseId ";
-        } else {
-            $case = " and 1 ";
+            $case = " civicrm_case_activity.case_id = $caseId ";
         }
         
         $query = "select DISTINCT(civicrm_activity.id), civicrm_activity.*,
@@ -402,9 +413,9 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                             civicrm_case_activity.activity_id = civicrm_activity.id
                   left join civicrm_case on
                             civicrm_case_activity.case_id = civicrm_case.id
-                  where ( source_contact_id = %1 or target_contact_id = %1 or assignee_contact_id = %1 or civicrm_case.contact_id = %1 )
+                  where {$clause}
                         and civicrm_option_group.name = 'activity_type' 
-                        and is_test = 0 " . $contributionFilter . $case ;
+                        and is_test = 0  and {$contributionFilter} and {$case} and {$statusClause}";
 
         $order = '';
 
@@ -457,20 +468,33 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      * Get total number of open activities
      *
      * @param  int $id id of the contact
+     * @param string  $context         context , page on which selector is build
+     *
      * @return int $numRow - total number of open activities    
      *
      * @static
      * @access public
      */
-    static function getNumOpenActivity( $id, $admin = false ) 
+    static function getNumOpenActivity( $id, $admin = false, $context = null ) 
     {
-        $params = array( 1 => array( $id, 'Integer' ) );
+        $params = array( );
+        $clause = 1 ;
+
+        if ( !$admin ) {
+            $clause = " ( source_contact_id = %1 or target_contact_id = %1 or assignee_contact_id = %1 ) ";
+            $params = array( 1 => array( $id, 'Integer' ) );
+        }
+        
+        $statusClause = 1 ;
+        if ( $context == 'home' ) {
+            $statusClause = " civicrm_activity.status_id = 1 "; 
+        }
+
 
         // Exclude Contribution-related activity records if user doesn't have 'access CiviContribute' permission
+        $contributionFilter = 1;
         if ( ! CRM_Core_Permission::check('access CiviContribute') ) {
-            $contributionFilter = " and civicrm_activity.activity_type_id != 6 ";
-        } else {
-            $contributionFilter = " and 1 ";
+            $contributionFilter = " civicrm_activity.activity_type_id != 6 ";
         }
         
         $query = "select count(civicrm_activity.id) from civicrm_activity
@@ -478,8 +502,8 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                             civicrm_activity.id = civicrm_activity_target.activity_id
                   left join civicrm_activity_assignment on 
                             civicrm_activity.id = civicrm_activity_assignment.activity_id
-                  where (source_contact_id = %1 or target_contact_id = %1 or assignee_contact_id = %1)
-                  and is_test = 0 " . $contributionFilter;
+                  where {$clause}
+                  and is_test = 0 and {$contributionFilter} and {$statusClause}";
 
         return CRM_Core_DAO::singleValueQuery( $query, $params );
     }

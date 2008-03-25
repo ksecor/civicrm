@@ -507,18 +507,6 @@ class CRM_Profile_Form extends CRM_Core_Form
     {
         $params = $this->controller->exportValues( $this->_name );
 
-        //create CMS user (if CMS user option is selected in profile)
-        if ( CRM_Utils_Array::value( 'cms_create_account', $params ) &&
-             $this->_mode == self::MODE_CREATE ) {
-            require_once "CRM/Core/BAO/CMSUser.php";
-            if ( ! CRM_Core_BAO_CMSUser::create( $params, $this->_mail ) ) {
-                CRM_Core_Session::setStatus( ts('Your profile is not saved and Account is not created.') );
-                return CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/profile/create',
-                                                                         'reset=1&gid=' . $this->_gid) );
-            }
-        }
-
-        //for custom data of type file
         if ( !empty($_FILES) ) {
             foreach ( $_FILES as $key => $value) {
                 $files = array( );
@@ -537,6 +525,9 @@ class CRM_Profile_Form extends CRM_Core_Form
             CRM_Core_BAO_Address::setOverwrite( false );
         }
 
+        require_once 'CRM/Core/Transaction.php';
+        $transaction = new CRM_Core_Transaction( );
+
         $this->_id = CRM_Contact_BAO_Contact::createProfileContact($params, $this->_fields,
                                                                    $this->_id, $this->_addToGroupID,
                                                                    $this->_gid, $this->_ctype,
@@ -548,7 +539,22 @@ class CRM_Profile_Form extends CRM_Core_Form
             if ( ! is_null( $values['email'] ) ) {
                 CRM_Core_BAO_UFGroup::commonSendMail($this->_id, $values);
             }
-        } 
+        }
+
+        //create CMS user (if CMS user option is selected in profile)
+        if ( CRM_Utils_Array::value( 'cms_create_account', $params ) &&
+             $this->_mode == self::MODE_CREATE ) {
+            $params['contactID'] = $this->_id;
+            require_once "CRM/Core/BAO/CMSUser.php";
+            if ( ! CRM_Core_BAO_CMSUser::create( $params, $this->_mail ) ) {
+                CRM_Core_Session::setStatus( ts('Your profile is not saved and Account is not created.') );
+                $transaction->rollback( );
+                return CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/profile/create',
+                                                                         'reset=1&gid=' . $this->_gid) );
+            }
+        }
+
+        $transaction->commit( );
     }
 }
 

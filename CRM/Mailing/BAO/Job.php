@@ -334,7 +334,7 @@ ORDER BY j.scheduled_date,
                 CRM_Mailing_Event_BAO_Delivered::create($params);
             }
             
-            // add activity histroy record for every mail that is send
+            // add activity record for every mail that is send
             $activityTypeID = CRM_Core_OptionGroup::getValue( 'activity_type',
                                                               'Email',
                                                               'name' );
@@ -344,7 +344,8 @@ ORDER BY j.scheduled_date,
                               'activity_type_id'     => $activityTypeID,
                               'source_record_id'     => $this->mailing_id,
                               'activity_date_time'   => $job_date,
-                              'subject'              => $mailing->subject
+                              'subject'              => $mailing->subject,
+                              'status_id'            => 2
                               );
             
             require_once 'api/v2/Activity.php';
@@ -396,7 +397,7 @@ ORDER BY j.scheduled_date,
                 'Canceled'  =>  ts('Canceled'),
             );
         }
-        return CRM_Utils_Array::value($status, $translation, ts('Unknown'));
+        return CRM_Utils_Array::value($status, $translation, ts('Not scheduled'));
     }
 }
 

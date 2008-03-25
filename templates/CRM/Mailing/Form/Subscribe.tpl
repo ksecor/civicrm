@@ -11,25 +11,27 @@
     </div>
 {/if}
 
-<dl>
-    <dt>{$form.email.label}</dt><dd>{$form.email.html}</dd>
-</dl>
+<table class="form-layout-compressed">
+    <tr><td style="width: 10%;">{$form.email.label}</td><td>{$form.email.html}</td></tr>
+    <tr><td colspan="2">
+        <div class="spacer"></div>
 
-{if ! $single} {* Show all public mailing list groups. Page was loaded w/o a specific group param (gid=N not in query string). *}
-    <table summary="{ts}Group Listings.{/ts}" class="report">
-    {counter start=0 skip=1 print=false}
-    {foreach from=$rows item=row}
-    <tr id='rowid{$row.id}' class="{cycle values="odd-row,even-row"}">
-        {assign var=cbName value=$row.checkbox}
-        <td style="border-right: 1px none gray;">{$form.$cbName.html} &nbsp; <strong>{$row.title}</strong></td>
-        <td style="border-left: 1px none gray;">{$row.description}</td>
+        {if ! $single} {* Show all public mailing list groups. Page was loaded w/o a specific group param (gid=N not in query string). *}
+            <table summary="{ts}Group Listings.{/ts}" class="selector" style="width: auto;">
+            {counter start=0 skip=1 print=false}
+            {foreach from=$rows item=row}
+            <tr id='rowid{$row.id}' class="{cycle values="odd-row,even-row"}">
+                {assign var=cbName value=$row.checkbox}
+                <td>{$form.$cbName.html}</td>
+                <td><strong>{$row.title}</strong></td>
+                <td>&nbsp;&nbsp;{$row.description}&nbsp;</td>
+            </tr>
+            {/foreach}  
+            </table>
+        {/if}
+        </td>
     </tr>
-    {/foreach}  
-    </table>
-{/if}
-
-<dl>
-    <dt></dt><dd>{$form.buttons.html}</dd>
-</dl>
+    <tr><td>&nbsp;</td><td>{$form.buttons.html}</td></tr>
+</table>
 </fieldset>
 </div>

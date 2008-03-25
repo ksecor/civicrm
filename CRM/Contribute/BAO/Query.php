@@ -132,6 +132,9 @@ class CRM_Contribute_BAO_Query
     {
         foreach ( array_keys( $query->_params ) as $id ) {
             if ( substr( $query->_params[$id][0], 0, 13 ) == 'contribution_' ) {
+                if ( $query->_mode == CRM_Contact_BAO_QUERY::MODE_CONTACTS ) {
+                    $query->_useDistinct = true;
+                }
                 self::whereClauseSingle( $query->_params[$id], $query );
             }
         }
@@ -282,7 +285,7 @@ class CRM_Contribute_BAO_Query
         case 'contribution_test':
             $query->_where[$grouping][] = " civicrm_contribution.is_test $op '$value'";
             if ( $value ) {
-                $query->_qill[$grouping][]  = "Test Contributions Only";
+                $query->_qill[$grouping][]  = "Find Test Contributions";
             }
             $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
             
@@ -291,7 +294,7 @@ class CRM_Contribute_BAO_Query
             if ( $value ) {
                 $query->_where[$grouping][] = "civicrm_contribution.contribution_recur_id IS NOT NULL";
                 if ( $value ) {
-                    $query->_qill[$grouping][]  = "Recurring Contributions Only";
+                    $query->_qill[$grouping][]  = "Displaying Recurring Contributions";
                 }
                 $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
             }
@@ -390,7 +393,8 @@ class CRM_Contribute_BAO_Query
             break;
             
         case 'contribution_payment_instrument':
-            $from = " $side JOIN civicrm_option_group option_group_payment_instrument ON ( option_group_payment_instrument.name = 'payment_instrument')";
+            $domainID = CRM_Core_Config::domainID( );
+            $from = " $side JOIN civicrm_option_group option_group_payment_instrument ON ( option_group_payment_instrument.name = 'payment_instrument' AND option_group_payment_instrument.domain_id = $domainID )";
             $from .= " $side JOIN civicrm_option_value payment_instrument ON (civicrm_contribution.payment_instrument_id = payment_instrument.value
                                AND option_group_payment_instrument.id = payment_instrument.option_group_id ) ";
             break;
@@ -401,7 +405,8 @@ class CRM_Contribute_BAO_Query
             break;
 
         case 'contribution_status':
-            $from = " $side JOIN civicrm_option_group option_group_contribution_status ON (option_group_contribution_status.name = 'contribution_status')";
+            $domainID = CRM_Core_Config::domainID( );
+            $from = " $side JOIN civicrm_option_group option_group_contribution_status ON (option_group_contribution_status.name = 'contribution_status' AND option_group_contribution_status.domain_id = $domainID )";
             $from .= " $side JOIN civicrm_option_value contribution_status ON (civicrm_contribution.contribution_status_id = contribution_status.value 
                                AND option_group_contribution_status.id = contribution_status.option_group_id ) ";
             break;
@@ -533,12 +538,12 @@ class CRM_Contribute_BAO_Query
 
         //add fields for honor search
         $form->addElement( 'text', 'contribution_in_honor_of', ts( "In Honor Of" ) );
-        $form->addElement( 'checkbox', 'contribution_test' , ts( 'Find Test Contributions Only?' ) );
+        $form->addElement( 'checkbox', 'contribution_test' , ts( 'Find Test Contributions?' ) );
 
         //add field for transaction ID search
         $form->addElement( 'text', 'contribution_transaction_id', ts( "Transaction ID" ) );
 
-        $form->addElement( 'checkbox', 'contribution_recurring' , ts( 'Recurring Contributions Only' ) );
+        $form->addElement( 'checkbox', 'contribution_recurring' , ts( 'Find Recurring Contributions?' ) );
 
         // add all the custom  searchable fields
         require_once 'CRM/Core/BAO/CustomGroup.php';

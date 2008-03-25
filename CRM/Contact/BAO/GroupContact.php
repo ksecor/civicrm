@@ -183,6 +183,10 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
             }
         }
 
+        // also reset the acl cache
+        require_once 'CRM/ACL/BAO/Cache.php';
+        CRM_ACL_BAO_Cache::resetCache( );
+        
         CRM_Utils_Hook::post( 'create', 'GroupContact', $groupId, $contactIds );
 
         return array( count($contactIds), $numContactsAdded, $numContactsNotAdded );
@@ -247,6 +251,10 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
                 $numContactsNotRemoved++;
             }
         }
+        
+        // also reset the acl cache
+        require_once 'CRM/ACL/BAO/Cache.php';
+        CRM_ACL_BAO_Cache::resetCache( );
         
         CRM_Utils_Hook::post( $op, 'GroupContact', $groupId, $contactIds );
         

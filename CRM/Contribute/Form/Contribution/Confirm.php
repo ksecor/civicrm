@@ -88,7 +88,6 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 // also merge all the other values from the profile fields
                 $values = $this->controller->exportValues( 'Main' );
                 $skipFields = array( 'amount', 'amount_other',
-                                     'first_name', 'middle_name', 'last_name',
                                      "street_address-{$this->_bltID}",
                                      "city-{$this->_bltID}",
                                      "state_province_id-{$this->_bltID}",
@@ -224,7 +223,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                                             'name'      => $contribButton,
                                             'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
                                             'isDefault' => true,
-                                            'js'        => array( 'onclick' => "return submitOnce(this,'Confirm','" . ts('Processing') ."');" )
+                                            'js'        => array( 'onclick' => "return submitOnce(this,'" . $this->_name . "','" . ts('Processing') ."');" )
                                             ),
                                     array ( 'type'      => 'back',
                                             'name'      => ts('<< Go Back')

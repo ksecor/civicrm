@@ -38,7 +38,7 @@ require_once 'CRM/Upgrade/Form.php';
 class CRM_Upgrade_TwoZero_Form_Step7 extends CRM_Upgrade_Form {
 
     function verifyPreDBState( &$errorMessage ) {
-        $errorMessage = 'pre-condition failed for upgrade step 7';
+        $errorMessage = ts('Pre-condition failed for upgrade step %1.', array(1 => '7'));
         
         if ( ! CRM_Core_DAO::checkTableExists( 'civicrm_case' ) ||
              ! CRM_Core_DAO::checkTableExists( 'civicrm_case_activity' ) ||

@@ -84,33 +84,36 @@ function civicrm_check_permission( $args ) {
 
     $config = CRM_Core_Config::singleton( );
     
+    $arg2 = CRM_Utils_Array::value( 2, $args );
+    $arg3 = CRM_Utils_Array::value( 3, $args );
+
     // a transaction page is valid
     if ( in_array( 'CiviContribute', $config->enableComponents ) &&
-         CRM_Utils_Array::value( 1, $args ) == 'contribute' &&
-         CRM_Utils_Array::value( 2, $args ) == 'transact' ) {
+         $arg1 == 'contribute' &&
+         $arg2 == 'transact' ) {
         return true;
     }
 
     // an event registration page is valid
     if ( in_array( 'CiviEvent', $config->enableComponents ) ) {
-        if ( CRM_Utils_Array::value( 1, $args ) == 'event' &&
-             ( ( CRM_Utils_Array::value( 2, $args ) == 'register' ) || 
-               ( CRM_Utils_Array::value( 2, $args ) == 'info' ) ) ) {
+        if ( $arg1 == 'event' &&
+             in_array( $arg2, array( 'register', 'info', 'participant', 'ical' ) ) ) {
             return true;
         }
+
         // also allow events to be mapped
-        if ( CRM_Utils_Array::value( 1, $args ) == 'contact' &&
-             CRM_Utils_Array::value( 2, $args ) == 'map'     &&
-             CRM_Utils_Array::value( 3, $args ) == 'event'   ) {
+        if ( $arg1 == 'contact' &&
+             $arg2 == 'map'     &&
+             $arg3 == 'event'   ) {
             return true;
         }
     }
     
     // allow mailing urls to be processed
-    if ( in_array( 'CiviMail', $config->enableComponents ) ) {
-        if ( CRM_Utils_Array::value( 1, $args ) == 'mailing' &&
-             ( ( in_array( CRM_Utils_Array::value( 2, $args ),
-                           array( 'forward', 'unsubscribe', 'resubscribe', 'optout' ) ) ) ) ) {
+    if ( $arg1 == 'mailing' &&
+         in_array( 'CiviMail', $config->enableComponents ) ) {
+        if ( in_array( $arg2,
+                       array( 'forward', 'unsubscribe', 'resubscribe', 'optout' ) ) ) {
             return true;
         }
     }

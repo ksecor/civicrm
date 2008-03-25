@@ -18,6 +18,11 @@ hr {
 img {
   border: 0;
 }
+/* Added in CiviCRM 2.0 to alleviate tiny font issues. */
+#crm-container #content tr, #crm-container #content tr td {
+  font-size: 1em;
+}
+
 th {
   text-align: left;
   padding-right: 1em;
@@ -193,8 +198,9 @@ tr.light .form-item, tr.dark .form-item {
 .form-item input.error, .form-item textarea.error {
   border: 2px solid red;
 }
-.form-item .description {
-  font-size: 0.85em;
+/* Override .9em field help size from civicrm.css - CiviCRM 2.0 */
+#crm-container div.description, #crm-container span.description, #crm-container dd.description {
+  font-size: 1em;
 }
 .form-item label {
   font-weight: bold;
@@ -360,7 +366,7 @@ table {
   padding: 10px;
 }
 #help {
-  font-size: 0.9em;
+  font-size: 1em;
   margin-bottom: 1em;
 }
 .breadcrumb {

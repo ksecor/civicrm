@@ -238,7 +238,7 @@ class CRM_Core_BAO_SchemaHandler
             break;
 
         case 'delete':
-            $sql  .= " DROP COLUMN {$params['name']}";
+            $sql  .= " DROP COLUMN `{$params['name']}`";
             if ( CRM_Utils_Array::value( 'primary', $params ) ) {
                 $sql .= ", DROP PRIMARY KEY";
             }

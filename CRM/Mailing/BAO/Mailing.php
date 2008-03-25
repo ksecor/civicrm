@@ -288,6 +288,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing
                     SELECT DISTINCT     $email.id as email_id,
                                         contact_a.id as contact_id 
                     $from
+                    LEFT JOIN           $email
+                            ON          $email.contact_id = contact_a.id
                     LEFT JOIN           X_$job_id
                             ON          contact_a.id = X_$job_id.contact_id
                     WHERE           
@@ -1635,7 +1637,7 @@ SELECT DISTINCT( m.id ) as id
 
 
     /**
-     * compose the url to show details of activityHistory for CiviMail
+     * Function to show detail Mailing report 
      *
      * @param int $id
      *
@@ -1646,7 +1648,6 @@ SELECT DISTINCT( m.id ) as id
     static function showEmailDetails( $id )
     {
         return CRM_Utils_System::url('civicrm/mailing/report', "mid=$id");
-        
     }
 
      /**

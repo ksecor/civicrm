@@ -13,12 +13,18 @@
   </div>
 {else}
   <dl>
-    <dt>{$form.object_table.label}</dt><dd>{$form.object_table.html}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}Select the core ACL.{/ts}</dd>
-  </dl>
-  <dl>
     <dt>{$form.entity_id.label}</dt><dd>{$form.entity_id.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Select a Role to assign (grant) this permission to. Select the special role 'Everyone' if you want to grant this permission to ALL users. 'Anyone' includes anonymous (i.e. not logged in) users.{/ts}</dd>
+  </dl>
+  <dl>
+    <dt>{$form.object_table.label}</dt>
+<dd>
+<table>
+<tr><td>
+{$form.object_table.html}
+</td></tr>
+</table>
+</dd>
   </dl>
 {/if}
   <dl> 

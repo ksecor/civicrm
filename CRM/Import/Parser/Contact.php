@@ -160,11 +160,11 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         
         $index = 0 ;
         foreach ( $this->_mapperKeys as $key ) {
-            if ( $key == 'email' ) {
+            if ( substr( $key, 0, 5 ) == 'email' ) {
                 $this->_emailIndex = $index;
                 $this->_allEmails  = array( );
             }
-            if ( $key == 'phone' ) {
+            if ( substr( $key, 0, 5 ) == 'phone' ) {
                 $this->_phoneIndex = $index;
             }
             if ( $key == 'first_name' ) {
@@ -234,14 +234,18 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
 
         $errorRequired = false;
         switch ($this->_contactType) { 
+
+            
         case 'Individual' :
-            if ( $this->_firstNameIndex < 0 || $this->_lastNameIndex < 0) {
+            if ( ( $this->_firstNameIndex < 0 && $this->_lastNameIndex < 0 ) ) {
                 $errorRequired = true;
             } else {
-                $errorRequired = ! CRM_Utils_Array::value($this->_firstNameIndex, $values) &&
-                    ! CRM_Utils_Array::value($this->_lastNameIndex, $values);
+                $errorRequired = 
+                    ! CRM_Utils_Array::value( $this->_firstNameIndex, $values ) &&
+                    ! CRM_Utils_Array::value( $this->_lastNameIndex, $values );
             }
             break;
+
         case 'Household' :
             if ( $this->_householdNameIndex < 0 ) {
                 $errorRequired = true;
@@ -249,6 +253,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                 $errorRequired = ! CRM_Utils_Array::value($this->_householdNameIndex, $values);
             }
             break;
+
         case 'Organization' :
             if ( $this->_organizationNameIndex < 0 ) {
                 $errorRequired = true;
@@ -256,6 +261,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                 $errorRequired = ! CRM_Utils_Array::value($this->_organizationNameIndex, $values);
             }
             break;
+
         }
 
         if ( $this->_emailIndex >= 0 ) {
@@ -585,7 +591,14 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                         
                         _civicrm_add_formatted_param($value, $formatting);
                     }
-                    
+
+                    //Relation on the basis of External Identifier.
+                    if ( !CRM_Utils_Array::value( 'id' , $params[$key] ) && isset ( $params[$key]['external_identifier'] ) ) {
+                        $params[$key]['id'] = CRM_Core_DAO::getFieldValue('CRM_Contact_DAO_Contact',
+                                                                          $params[$key]['external_identifier'],'id',
+                                                                          'external_identifier' );
+                    }                    
+
                     //fix for CRM-1315
                     if ( $params[$key]['id'] ) {
                         $contact           = array( 'contact_id' => $params[$key]['id'] );
@@ -1099,9 +1112,11 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         
         //get the prefix id etc if exists
         CRM_Contact_BAO_Contact::resolveDefaults($formatted, true);
-    
+
         require_once 'api/v2/Contact.php';
-        $error = civicrm_contact_check_params( $formatted, $dupeCheck, true, $requiredCheck );
+        // setting required check to false, CRM-2839
+        // plus we do our own required check in import
+        $error = civicrm_contact_check_params( $formatted, $dupeCheck, true, false );
         
         if ( ( is_null( $error )                                                ) && 
              ( civicrm_error( _civicrm_validate_formatted_contact($formatted) ) ) ) {

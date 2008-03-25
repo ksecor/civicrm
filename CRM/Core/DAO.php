@@ -463,6 +463,39 @@ LIKE %1
     }
     
     /**
+     * Returns the storage engine used by given table-name(optional). 
+     * Otherwise scans all the tables and return an array of all the
+     * distinct storage engines being used. 
+     *
+     * @param string $tableName
+     * 
+     * @return array
+     * @static
+     */
+    function getStorageEngines( $tableName = null ) {
+        $engines = array();
+        $query   = "SHOW TABLE STATUS";
+
+        $params = CRM_Core_DAO::$_nullArray;
+        
+        if ( isset($tableName) ) {
+            $query .= " LIKE %1";
+            $params = array( 1 => array( $tableName, 'String' ) );
+        }
+       
+        $dao = CRM_Core_DAO::executeQuery( $query, $params );
+        
+        while ( $dao->fetch( ) ) {
+            if (! isset($engines[$dao->Engine])) {
+                $engines[$dao->Engine] = 1;
+            }
+        }
+        $dao->free( );
+        
+        return $engines;
+    }
+    
+    /**
      * Checks if the FK constraint name is in the format 'FK_tableName_columnName' 
      * for a specified column of a table. 
      *
@@ -487,7 +520,7 @@ LIKE %1
             $show[$tableName] = $dao->Create_Table;
         }
         
-        return stristr($show[$tableName], "FK_{$tableName}_{$columnName}") ? true : false;
+        return preg_match('/CONSTRAINT [`\']?' . "FK_{$tableName}_{$columnName}" . '/i', $show[$tableName]) ? true : false;
     }
 
     /**
