@@ -83,7 +83,9 @@ function civicrm_custom_group_create($params)
     if (! trim($params['title'] ) ) {
         return civicrm_create_error( "Title is not set" );
     } else {
-        $params['table_name'] = "civicrm_value_{$params['domain_id']}_{$params['title']}" ;
+        $params['table_name'] = 
+            "civicrm_value_{$params['domain_id']}_" .
+            strtolower( CRM_Utils_String::munge( $params['title'] ) ) ;
     }
     if (is_a($error, 'CRM_Core_Error')) {
         return civicrm_create_error( $error->_errors[0]['message'] );
