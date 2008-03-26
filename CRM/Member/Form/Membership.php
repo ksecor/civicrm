@@ -563,6 +563,9 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                 $statusMsg .= ' '.ts('A confirmation for membership updation and receipt has been sent to %1.', array(1 => $this->_contributorEmail));
             }
         } elseif ( ( $this->_action & CRM_Core_Action::ADD ) ) {
+            require_once 'CRM/Core/DAO.php';
+            $memType = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType',
+                                                    $params['membership_type_id'] );
             $statusMsg = ts('%1 membership for %2 has been added.', array(1 => $memType, 2 => $this->_contributorDisplayName));
             if ( $endDate ) {
                 $endDate=CRM_Utils_Date::customFormat($endDate);
