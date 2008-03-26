@@ -76,10 +76,9 @@ class CRM_Core_BAO_Block
                 eval ('$block = & new CRM_Core_BAO_' . $blockName .'( );');
                 $block->id = $blockId;
                 $getBlocks = self::retrieveBlock( $block, $blockName );
-                $blocks[1][$count] =  $getBlocks[1][1];
+                $blocks[$block->location_type_id][$count] =  $getBlocks[$block->location_type_id][1];
                 $count++;
             }
-           
         }
         return $blocks;
     }
@@ -125,7 +124,7 @@ class CRM_Core_BAO_Block
             
             $blocks[$block->location_type_id][$count] = $values;
         }
-      
+
         return $blocks ;
     }
     
