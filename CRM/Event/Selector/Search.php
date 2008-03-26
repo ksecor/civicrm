@@ -158,6 +158,9 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                          $limit = null,
                          $context = 'search' ) 
     {
+
+        // CRM_Core_Error::debug( 'q', $queryParams );
+
         // submitted form values
         $this->_queryParams =& $queryParams;
 

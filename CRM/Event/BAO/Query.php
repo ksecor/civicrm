@@ -162,17 +162,13 @@ class CRM_Event_BAO_Query
             return;
 
         case 'event_title':
-            
-            $query->_where[$grouping][] = "civicrm_event.id $op {$value}";
-            $value = CRM_Core_DAO::getFieldValue('CRM_Event_DAO_Event', $value, "title");
-
+            $value = strtolower(addslashes(trim($value)));
+            $query->_where[$grouping][] = "civicrm_event.title $op '{$value}'";
             $query->_qill[$grouping ][] = ts( 'Event %2 %1', array( 1 => $value, 2 => $op) );
             $query->_tables['civicrm_event'] = $query->_whereTables['civicrm_event'] = 1;
-
             return;
 
         case 'event_type':
-            
             require_once 'CRM/Core/OptionGroup.php';
             require_once 'CRM/Utils/Array.php';
 
@@ -285,6 +281,8 @@ class CRM_Event_BAO_Query
         case 'event_id':
             $query->_where[$grouping][] = "civicrm_event.id $op $value";
             $query->_tables['civicrm_event'] = $query->_whereTables['civicrm_event'] = 1;
+            $title = CRM_Core_DAO::getFieldValue('CRM_Event_DAO_Event', $value, "title");
+            $query->_qill[$grouping ][] = ts( 'Event %2 %1', array( 1 => $title, 2 => $op) );
             return;
 
         case 'participant_contact_id':
