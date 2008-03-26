@@ -397,7 +397,7 @@ class CRM_Event_BAO_Query
                                           'class'          => 'tundra',
                                           );
         
-        $title =& $form->add('text', 'event_title', ts('Event Name'), $dojoAttributesEvent );
+        $title =& $form->add('text', 'event_id', ts('Event Name'), $dojoAttributesEvent );
         $type  =& $form->add('text', 'event_type',  ts('Event Type'), $dojoAttributesEventType );
         if ( $title->getValue( ) ) {
             $eventTitle = CRM_Core_DAO::getFieldValue('CRM_Event_DAO_Event', $title->getValue( ), 'title');

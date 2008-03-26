@@ -1,15 +1,15 @@
 <tr>
- <td class="right">{$form.event_title.label}</td> 
+ <td class="right">{$form.event_id.label}</td> 
     {if $event_title_value}
     <script type="text/javascript">
         dojo.addOnLoad( function( ) {ldelim}
-        dijit.byId( 'event_title' ).setDisplayedValue( "{$event_title_value}")
+        dijit.byId( 'event_id' ).setDisplayedValue( "{$event_title_value}")
         {rdelim} );
     </script>
     {/if}
     <td>
        <div dojoType="dojox.data.QueryReadStore" jsId="eventStore" url="{$dataURLEvent}" class="tundra">
-        {$form.event_title.html}
+        {$form.event_id.html}
         </div>
     </td>
     <td>{$form.event_type.label}</td>
