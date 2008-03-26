@@ -2,6 +2,7 @@
 {include file="CRM/common/WizardHeader.tpl"}
 {capture assign=mapURL}{crmURL p='civicrm/admin/setting/mapping' q="reset=1"}{/capture}
 
+{assign var=eventID value=$id}
 <div class="form-item"> 
 <fieldset><legend>{ts}Event Information{/ts}</legend>
     <table class="form-layout-compressed">
@@ -32,14 +33,14 @@
             <span class="description">{ts}Include this event in iCalendar feeds?{/ts}</span></td></tr>
          <tr><td>&nbsp</td><td>{$form.is_active.html} {$form.is_active.label}</td></tr> 
 
-        {if $id}
+        {if $eventID}
          <tr><td>&nbsp;</td>
             <td class="description">
             {if $config->userFramework EQ 'Drupal'}
                 {ts}When this Event is active, create links to the Event Information page by copying and pasting the following URL:{/ts}<br />
-                <strong>{crmURL p='civicrm/event/info' q="reset=1&id=`$id`"}</strong>
+                <strong>{crmURL p='civicrm/event/info' q="reset=1&id=`$eventID`"}</strong>
             {elseif $config->userFramework EQ 'Joomla'}
-                {ts 1=$id}When this Event is active, create front-end links to the Event Information page using the Menu Manager. Select <strong>Event Info Page</strong> and enter <strong>%1</strong> for the Event ID.{/ts}
+                {ts 1=$eventID}When this Event is active, create front-end links to the Event Information page using the Menu Manager. Select <strong>Event Info Page</strong> and enter <strong>%1</strong> for the Event ID.{/ts}
             {/if}
             </td>
          </tr>
