@@ -91,6 +91,14 @@ class CRM_Contribute_Page_DashBoard extends CRM_Core_Page
             }
             $this->assign( $aName, $$aName );
         }
+        
+        // Check for admin permission to see if we should include the Manage Contribution Pages action link
+        $isAdmin = 0;
+        require_once 'CRM/Core/Permission.php';
+        if ( CRM_Core_Permission::check( 'administer CiviCRM' ) ) {
+            $isAdmin = 1;
+        }
+        $this->assign( 'isAdmin', $isAdmin );
     }
 
     /** 
