@@ -213,7 +213,7 @@ class CRM_Core_SelectValues
         static $customDataType = null;
         if (!$customDataType) {
             $customDataType = array(
-                ''        => ts('-select-'),
+                ''        => ts('- select -'),
                 'String'  => ts('Text'),
                 'Int'     => ts('Integer'),
                 'Float'   => ts('Decimal Number'),
@@ -237,7 +237,7 @@ class CRM_Core_SelectValues
         static $customHtmlType = null;
         if (!$customHtmlType) {
             $customHtmlType = array(
-                ''                        => ts('-select-'),
+                ''                        => ts('- select -'),
                 'Text'                    => ts('Single-line input field (text or numeric)'),
                 'TextArea'                => ts('Multi-line text box (textarea)'),
                 'Select'                  => ts('Drop-down (select list)'),
@@ -378,7 +378,7 @@ class CRM_Core_SelectValues
             $_date = array(
                 'format'           => CRM_Utils_Date::posixToPhp( $config->dateformatQfDate ),
                 'addEmptyOption'   => true,
-                'emptyOptionText'  => ts('-select-'),
+                'emptyOptionText'  => ts('- select -'),
                 'emptyOptionValue' => ''
             );
         }

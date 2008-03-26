@@ -19,7 +19,7 @@
 <br/><br/>
 {if $rows}
 <table>
-<tr><th>Contact ID</th><th>Sort Name</th></tr>
+<tr><th>{ts}Contact ID{/ts}</th><th>{ts}Sort Name{/ts}</th></tr>
 {foreach from=$rows key=id item=name}
 <tr><td>{$id}</td><td>{$name}</td></tr>
 {/foreach}

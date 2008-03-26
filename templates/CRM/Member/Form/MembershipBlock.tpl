@@ -31,7 +31,7 @@
         {assign var="count" value="1"}
            {strip}
             <table class="report">
-            <tr class="columnheader" style="vertical-align:top;"><th style="border-right: 1px solid #4E82CF;">Include these membership types:</th><th>Default:<br />
+            <tr class="columnheader" style="vertical-align:top;"><th style="border-right: 1px solid #4E82CF;">{ts}Include these membership types{/ts}:</th><th>{ts}Default{/ts}:<br />
             (&nbsp;<a href="#" title="unselect" onclick="unselectRadio('membership_type_default', 'MembershipBlock'); return false;" >unselect</a>&nbsp;)</th></tr>
             {assign var="index" value="1"}
                {foreach name=outer key=key item=item from=$form.membership_type}

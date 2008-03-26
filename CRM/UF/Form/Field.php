@@ -337,7 +337,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         
         $this->_location_types = array ('Primary') + $this->_location_types;
 
-        $sel1 = array('' => '-select-') + CRM_Core_SelectValues::contactType();// + array('Student' => 'Students');
+        $sel1 = array('' => '- select -') + CRM_Core_SelectValues::contactType();// + array('Student' => 'Students');
         
         if ( CRM_Core_Permission::access( 'Quest' ) ) {
             $sel1['Student'] = 'Students';

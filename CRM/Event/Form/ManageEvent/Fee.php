@@ -153,7 +153,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
                     array('' => ts( '- select -' )) + $paymentProcessor );
 
         $this->add('select', 'contribution_type_id',ts( 'Contribution Type' ),
-                   array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ) );
+                   array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::contributionType( ) );
         
         // add pay later options
         $this->addElement('checkbox', 'is_pay_later', ts( 'Enable Pay Later option?' ), null, array( 'onclick' => "return showHideByValue('is_pay_later','','payLaterOptions','block','radio',false);" ));

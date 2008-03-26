@@ -445,7 +445,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         }
         
         $this->add('select', 'event_id',  ts( 'Event' ),  
-                   array( '' => ts( '-select-' ) ) + $events,
+                   array( '' => ts( '- select -' ) ) + $events,
                    true,
                    array('onchange' => "if (this.value) reload(true); else return false") );
         
@@ -455,12 +455,12 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         $this->addRule('register_date', ts('Select a valid date.'), 'qfDate');
          
         $this->add( 'select', 'role_id' , ts( 'Participant Role' ),
-                    array( '' => ts( '-select-' ) ) + CRM_Event_PseudoConstant::participantRole( ),
+                    array( '' => ts( '- select -' ) ) + CRM_Event_PseudoConstant::participantRole( ),
                     true,
                     array('onchange' => "if (this.value) reload(true); else return false") );
         
         $this->add( 'select', 'status_id' , ts( 'Participant Status' ),
-                    array( '' => ts( '-select-' ) ) + CRM_Event_PseudoConstant::participantStatus( ),
+                    array( '' => ts( '- select -' ) ) + CRM_Event_PseudoConstant::participantStatus( ),
                     true );
         
         $this->add( 'text', 'source', ts('Event Source') );
@@ -503,11 +503,11 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             require_once 'CRM/Contribute/PseudoConstant.php';
             $this->add('select', 'contribution_type_id', 
                        ts( 'Contribution Type' ), 
-                       array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ) );
+                       array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::contributionType( ) );
             
             $this->add('select', 'payment_instrument_id', 
                        ts( 'Paid By' ), 
-                       array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::paymentInstrument( )
+                       array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::paymentInstrument( )
                        );
             
             $this->add('select', 'contribution_status_id',

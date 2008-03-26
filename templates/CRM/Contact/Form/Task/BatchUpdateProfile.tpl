@@ -6,7 +6,7 @@
     <legend>{$profileTitle}</legend>
          <table>
             <tr class="columnheader">
-             <th>Name</th>
+             <th>{ts}Name{/ts}</th>
              {foreach from=$fields item=field key=name}
                 {if strpos( $field.name, '_date' ) !== false}
                   <th><img  src="{$config->resourceBase}i/copy.png" alt="{ts 1=$field.title}Click to copy %1 from row one to all rows.{/ts}" onclick="copyValuesDate('{$field.name}')" class="action-icon" title="{ts}Click here to copy the value in row one to ALL rows.{/ts}" />{$field.title}</th>

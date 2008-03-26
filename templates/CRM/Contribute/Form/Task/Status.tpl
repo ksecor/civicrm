@@ -10,12 +10,12 @@
     </dl>
 <table>
 <tr class="columnheader">
-    <th>Name</th>
-    <th class="right">Amount&nbsp;&nbsp;</th>
-    <th>Source</th>
-    <th>Fee Amount</th>
-    <th>Transaction ID</th>
-    <th>Transaction Date</th>
+    <th>{ts}Name{/ts}</th>
+    <th class="right">{ts}Amount{/ts}&nbsp;&nbsp;</th>
+    <th>{ts}Source{/ts}</th>
+    <th>{ts}Fee Amount{/ts}</th>
+    <th>{ts}Transaction ID{/ts}</th>
+    <th>{ts}Transaction Date{/ts}</th>
 </tr>
 
 {foreach from=$rows item=row}

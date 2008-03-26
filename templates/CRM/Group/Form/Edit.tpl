@@ -31,7 +31,7 @@
 <fieldset><legend>{ts}Subgroups{/ts}</legend>
     {if $child_groups|@count > 0}
     <dl>
-        <dt>Remove?</dt><dd>Subgroup</dd>
+        <dt>{ts}Remove?{/ts}</dt><dd>{ts}Subgroup{/ts}</dd>
         {foreach from=$child_groups item=cgroup key=group_id}
             {assign var="element_name" value="remove_child_group_"|cat:$group_id}
             <dt>{$form.$element_name.html}</dt><dd>{$form.$element_name.label}</dd>

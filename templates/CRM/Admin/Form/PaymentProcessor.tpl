@@ -20,7 +20,7 @@
     <dt>&nbsp;</dt><dd>{$form.is_default.html} {$form.is_default.label}</dd>
 
 <fieldset>
-<legend>Processor Details for Live Payments</legend>
+<legend>{ts}Processor Details for Live Payments{/ts}</legend>
     <dt>{$form.user_name.label}</dt><dd>{$form.user_name.html} {help id=$ppType|cat:'-live-user-name'}</dd>
 {if $form.password}
     <dt>{$form.password.label}</dt><dd>{$form.password.html} {help id=$ppType|cat:'-live-password'}</dd>

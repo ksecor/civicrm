@@ -276,7 +276,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
             $this->add( 'select',
                         'option_group_id',
                         ts( 'Multiple Choice Option Sets' ),
-                        array( '' => ts( '-select-' ) ) + $optionGroups );
+                        array( '' => ts( '- select -' ) ) + $optionGroups );
         }
 
         // form fields of Custom Option rows

@@ -26,7 +26,7 @@ You have {$grantSummary.total_grants} grant(s) registered in your database.
 </tr>
 {/foreach}
 <tr class="columnfooter">
-    <td>TOTAL:</td>
+    <td>{ts}TOTAL{/ts}:</td>
     <td>{$grantSummary.total_grants}</td>
 </tr>
 </table>

@@ -162,7 +162,7 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
         require_once 'CRM/Contribute/PseudoConstant.php';
         $this->add('select', 'contribution_type_id', 
                    ts( 'Contribution Type' ), 
-                   array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( )
+                   array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::contributionType( )
                    );
         
         $this->add('text', 'total_amount', ts('Amount'));
@@ -170,7 +170,7 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
 
         $this->add('select', 'payment_instrument_id', 
                    ts( 'Paid By' ), 
-                   array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::paymentInstrument( )
+                   array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::paymentInstrument( )
                    );
         
         $this->add('select', 'contribution_status_id',

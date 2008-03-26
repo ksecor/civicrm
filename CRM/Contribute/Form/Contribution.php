@@ -362,7 +362,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                
         $element =& $this->add('select', 'contribution_type_id', 
                                ts( 'Contribution Type' ), 
-                               array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ),
+                               array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::contributionType( ),
                                true, array('onChange' => "if (this.value) reload(true); else return false"));
         if ( $this->_online ) {
             $element->freeze( );
@@ -376,7 +376,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                                 'onChange' => "return showHideByValue('contribution_status_id','3','cancelInfo','table-row','select',false);"));
         $element =& $this->add('select', 'payment_instrument_id', 
                                ts( 'Paid By' ), 
-                               array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::paymentInstrument( )
+                               array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::paymentInstrument( )
                                );
         if ( $this->_online ) {
             $element->freeze( );
@@ -870,7 +870,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         $dao->is_active = 1;
         $dao->find();
         $min_amount = array();
-        $sel1[0] = '-select product-';
+        $sel1[0] = '- select product -';
         while ( $dao->fetch() ) {
             $sel1[$dao->id] = $dao->name." ( ".$dao->sku." )";
             $min_amount[$dao->id] = $dao->min_contribution;
