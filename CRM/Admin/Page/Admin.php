@@ -41,6 +41,13 @@ require_once 'CRM/Core/Page.php';
 class CRM_Admin_Page_Admin extends CRM_Core_Page
 {
     function run ( ) {
+
+        // ensure that all CiviCRM tables are InnoDB, else abort
+        if ( CRM_Core_DAO::isDBMyISAM( ) ) {
+            $errorMessage = ts('Your database is configured to use the MyISAM database engine. CiviCRM  requires InnoDB. You will need to convert any MyISAM tables in your database to InnoDB before proceeding.');            
+            CRM_Core_Error::fatal( $errorMessage );
+        }
+
         require_once 'CRM/Core/Menu.php';
         $items =& CRM_Core_Menu::items( );
         $groups = array( ts('Customize'), ts('Configure'), ts('Manage'), ts('Option Lists') );
@@ -94,9 +101,6 @@ class CRM_Admin_Page_Admin extends CRM_Core_Page
             ksort( $adminPanel[$group] );
         }
 
-       if ( isset($this->_contactType) && $this->_contactType == 'Individual' ) {
-       }
-        
         require_once 'CRM/Utils/VersionCheck.php';
         $versionCheck =& CRM_Utils_VersionCheck::singleton();
         $this->assign('newVersion',   $versionCheck->newerVersion());

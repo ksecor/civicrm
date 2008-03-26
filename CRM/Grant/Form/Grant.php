@@ -96,10 +96,7 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
             CRM_Grant_BAO_Grant::retrieve( $params, $defaults);
         } else {
             $now = date("Y-m-d");
-            $defaults['decision_date']             = $now;
             $defaults['application_received_date'] = $now;
-            $defaults['grant_due_date']            = $now;
-            $defaults['money_transfer_date']       = $now;
         }
         if ($this->_action & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
             $inactiveNeeded = true;
@@ -140,35 +137,35 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
                    array( '' => ts( '-select-' ) ) + $grantStatus , true);
 
 
-        $this->add( 'date', 'application_received_date', ts('Application Received date'),
+        $this->add( 'date', 'application_received_date', ts('Application Received'),
                     CRM_Core_SelectValues::date( 'manual',20,10 ),
                     false);
         $this->addRule('application_received_date', ts('Select a valid date.'), 'qfDate'); 
 
-        $this->add( 'date', 'decision_date', ts('Grant decision date'),
+        $this->add( 'date', 'decision_date', ts('Grant Decision'),
                     CRM_Core_SelectValues::date( 'manual',20,10 ),
                     false);
         $this->addRule('decision_date', ts('Select a valid date.'), 'qfDate');
                     
-        $this->add( 'date', 'money_transfer_date', ts('Money transfer date'),
+        $this->add( 'date', 'money_transfer_date', ts('Money Transferred'),
                     CRM_Core_SelectValues::date( 'manual',20,10 ),
                     false);
         $this->addRule('money_transfer_date', ts('Select a valid date.'), 'qfDate');  
 
-        $this->add( 'date', 'grant_due_date', ts('Grant report due date'),
+        $this->add( 'date', 'grant_due_date', ts('Grant Report Due'),
                     CRM_Core_SelectValues::date('manual',20,10 ),
                     false);
         $this->addRule('grant_due_date', ts('Select a valid date.'), 'qfDate');
 
-        $this->addElement('checkbox','grant_report_received', ts('Grant report received?'),null );
+        $this->addElement('checkbox','grant_report_received', ts('Grant Report Received?'),null );
         $this->add('textarea', 'rationale', ts('Rationale'), $attributes['rationale']);
-        $this->add( 'text', 'amount_total', ts('Amount total'), null, true );
+        $this->add( 'text', 'amount_total', ts('Amount Requested'), null, true );
         $this->addRule('amount_total', ts('Please enter a valid amount.'), 'money'); 
         
-        $this->add( 'text', 'amount_granted', ts('Amount granted') );         
+        $this->add( 'text', 'amount_granted', ts('Amount Granted') );         
         $this->addRule('amount_granted', ts('Please enter a valid amount.'), 'money'); 
 
-        $this->add( 'text', 'amount_requested', ts('Amount requested') );
+        $this->add( 'text', 'amount_requested', ts('Amount Requested<br />(original currency)') );
         $this->addRule('amount_requested', ts('Please enter a valid amount.'), 'money'); 
 
         $noteAttrib = CRM_Core_DAO::getAttribute('CRM_Core_DAO_Note');

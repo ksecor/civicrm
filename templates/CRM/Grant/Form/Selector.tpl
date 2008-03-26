@@ -36,10 +36,11 @@
   {/if}
     <td>{$row.grant_status}</td>
     <td>{$row.grant_type}</td>
-    <td>{$row.grant_amount_requested|crmMoney}</td>
     <td>{$row.grant_amount_total|crmMoney}</td>
+    <td>{$row.grant_amount_requested|crmMoney}</td>
     <td>{$row.grant_amount_granted|crmMoney}</td>
     <td>{$row.grant_application_received_date|truncate:10:''|crmDate}</td>
+    <td>{$row.grant_money_transfer_date|truncate:10:''|crmDate}</td>
     <td>{$row.action}</td>
    </tr>
   {/foreach}

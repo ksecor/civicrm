@@ -197,7 +197,7 @@ ORDER BY sort_name ";
         $name     = str_replace( '*', '%', $name );
 
         $query = "
-SELECT title
+SELECT title, id
   FROM civicrm_event
  WHERE domain_id = $domainID
    AND title LIKE '$name%'
@@ -206,11 +206,10 @@ ORDER BY title
 
         $nullArray = array( );
         $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
-
         $elements = array( );
         while ( $dao->fetch( ) ) {
             $elements[] = array( 'name' => $dao->title,
-                                 'title'=> $dao->title );
+                                 'title'=> $dao->id );
         }
         
         require_once "CRM/Utils/JSON.php";
@@ -229,7 +228,7 @@ ORDER BY title
 
 
         $query ="
-SELECT v.label 
+SELECT v.label ,v.value
 FROM   civicrm_option_value v,
        civicrm_option_group g
 WHERE  v.option_group_id = g.id 
@@ -244,11 +243,11 @@ ORDER by v.weight";
         $elements = array( );
         while ( $dao->fetch( ) ) {
             $elements[] = array( 'name'  => $dao->label, 
-                                 'label' => $dao->label );
+                                 'value' => $dao->value );
         }
 
         require_once "CRM/Utils/JSON.php";
-        echo CRM_Utils_JSON::encode( $elements, 'label');
+        echo CRM_Utils_JSON::encode( $elements,'value' );
     }
 
     /**

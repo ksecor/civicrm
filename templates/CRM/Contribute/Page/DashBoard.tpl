@@ -3,7 +3,10 @@
     {capture assign=findContactURL}{crmURL p="civicrm/contact/search/basic" q="reset=1"}{/capture}
     {capture assign=importURL}{crmURL p="civicrm/contribute/import" q="reset=1"}{/capture}
     {capture assign=configPagesURL}{crmURL p="civicrm/admin/contribute" q="reset=1"}{/capture}
-    <p>{ts 1=$configPagesURL}CiviContribute allows you to create customized page(s) for collecting online contributions. Administrators can create or modify your Online Contribution Pages from <a href='%1'>here</a>.{/ts}</p>
+    {if $isAdmin}
+        <div class="action-link float-right" style="margin-right: 5em;"><a href="{$configPagesURL}">&raquo; Create and Manage Contribution Pages</a></div>
+    {/if}
+    <div class="float-left">{ts}CiviContribute allows you to create customized page(s) for collecting online contributions.{/ts}</div>
     <p>{ts 1=$findContactURL 2=$importURL}You can also input and track offline contributions. To enter contributions manually for individual contacts, use <a href='%1'>Find Contacts</a> to locate the contact. Then click <strong>View</strong> to go to their summary page and click on the <strong>New Contribution</strong> link. You can also <a href='%2'>import batches of offline contributions</a> from other sources.{/ts}</p>
 </div>
 

@@ -472,29 +472,45 @@ LIKE %1
      * @return array
      * @static
      */
-    function getStorageEngines( $tableName = null ) {
+    function getStorageEngines( $tableName = null, $maxTablesToCheck = 0 ) {
         $engines = array();
-        $query   = "SHOW TABLE STATUS";
+        $query   = "SHOW TABLE STATUS LIKE %1";
 
         $params = CRM_Core_DAO::$_nullArray;
         
         if ( isset($tableName) ) {
-            $query .= " LIKE %1";
             $params = array( 1 => array( $tableName, 'String' ) );
+        } else {
+            $params = array( 1 => array( 'civicrm_%', 'String' ) );
         }
        
         $dao = CRM_Core_DAO::executeQuery( $query, $params );
-        
+
+        $count = 0;
         while ( $dao->fetch( ) ) {
             if (! isset($engines[$dao->Engine])) {
                 $engines[$dao->Engine] = 1;
+            }
+            $count++;
+            if ( $maxTablesToCheck &&
+                 $count >= $maxTablesToCheck ) {
+                break;
             }
         }
         $dao->free( );
         
         return $engines;
     }
-    
+
+    static function isDBMyISAM( $maxTablesToCheck = 0 ) {
+        // show error if any of the tables, use 'MyISAM' storage engine. 
+        $engines = self::getStorageEngines( null, $maxTablesToCheck );
+        if ( array_key_exists('MyISAM', $engines) ) {
+            return true;
+        }
+        return false;
+    }
+
     /**
      * Checks if the FK constraint name is in the format 'FK_tableName_columnName' 
      * for a specified column of a table. 
