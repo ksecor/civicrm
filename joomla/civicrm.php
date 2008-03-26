@@ -7,7 +7,12 @@ if( ! defined( '_VALID_MOS' ) && ! defined( '_JEXEC' ) ) {
 	die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
 }
 
-// PUT ALL YOUR BUSINESS LOGIC CODE HERE
+// check for php version and ensure its greater than 5.
+// do a fatal exit if
+if ( (int ) substr( PHP_VERSION, 0, 1 ) < 5 ) {
+    echo "CiviCRM requires PHP Version 5.2 or greater. You are running PHP Version " . PHP_VERSION . "<p>";
+    exit( );
+}
 
 include_once 'civicrm.settings.php';
 

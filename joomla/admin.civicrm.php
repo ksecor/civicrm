@@ -4,6 +4,13 @@ if( ! defined( '_VALID_MOS' ) && ! defined( '_JEXEC' ) ) {
 	die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
 }
 
+// check for php version and ensure its greater than 5.
+// do a fatal exit if
+if ( (int ) substr( PHP_VERSION, 0, 1 ) < 5 ) {
+    echo "CiviCRM requires PHP Version 5.2 or greater. You are running PHP Version " . PHP_VERSION . "<p>";
+    exit( );
+}
+
 // this has been moved here from install.civicrm.php
 // because the 1.5 installer does not run a script at end of install
 if ( ! file_exists( dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'civicrm.settings.php' ) ) {

@@ -61,13 +61,6 @@ class CRM_Core_Invoke
             return;
         }
 
-        // check for php version and ensure its greater than 5.
-        // do a fatal exit if
-        if ( (int ) substr( PHP_VERSION, 0, 1 ) < 5 ) {
-            echo "CiviCRM requires PHP Version 5.2 or greater<p>";
-            exit( );
-        }
-
         $config =& CRM_Core_Config::singleton( );
 
         // also initialize the i18n framework
