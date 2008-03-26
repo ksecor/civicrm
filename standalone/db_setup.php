@@ -105,7 +105,7 @@ if ( mysql_num_rows( $result ) > 0 ) {
 $query = "CREATE DATABASE $dbName";
 mysql_query( $query, $dbLink );
 
-if ( strpos( $dbConnectHost, 'localhost' ) == 0 ) {
+if ( strpos( $dbConnectHost, 'localhost' ) === 0 ) {
     $grantHost = 'localhost';
 } else {
     $grantHost = '%';
