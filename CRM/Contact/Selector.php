@@ -487,7 +487,11 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                             $names[] = "{$locationTypeName}-{$fieldName}";
                         }
                     } else {
-                        $names[] = $field['name'];
+                        if ( $field['name'] == 'id' ) {
+                            $names[] = 'contact_id';
+                        }else {
+                            $names[] = $field['name'];
+                        }           
                     }
                 }
             }

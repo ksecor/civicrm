@@ -497,9 +497,7 @@ class CRM_Contact_BAO_Query
                                 if ( $fieldName != 'id' ) {
                                     $this->_select [$name]          = "contact_a.{$fieldName}  as `$name`";
                                 }
-                            } else {
-                                $this->_select [$name]              = "{$field['where']} as `$name`";
-                            }
+                            } 
                             $this->_element[$name]             = 1;
                         }   
                     }
