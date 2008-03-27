@@ -313,7 +313,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         // set email for primary location.
         $fields["email-Primary"] = 1;
         $params["email-Primary"] = $params["email-{$this->_bltID}"];
-
+        
         // get the add to groups
         $addToGroups = array( );
         
@@ -345,7 +345,20 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $params["location_name-{$this->_bltID}"] = trim( $params["location_name-{$this->_bltID}"] );
         $fields["location_name-{$this->_bltID}"] = 1;
         $fields["email-{$this->_bltID}"] = 1;
- 
+        
+        //unset the billing parameters if it is pay later mode
+        //to avoid creation of billing location
+        if ( $params['is_pay_later'] ) {
+            $billingFields = array( 'email-5','billing_first_name', 'billing_middle_name', 'billing_last_name',
+                                    'street_address-5','city-5','state_province-5', 'state_province_id-5',
+                                    'postal_code-5','country-5','country_id-5'
+                                    );
+
+            foreach( $billingFields as $value ) {
+                unset( $params[$value] );
+            }
+        }
+        
         if ( ! isset( $contactID ) ) {
             require_once "CRM/Core/BAO/UFGroup.php";
             //formatted submiited fields before sending to dupe contact matching
