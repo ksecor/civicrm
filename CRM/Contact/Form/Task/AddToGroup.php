@@ -85,9 +85,24 @@ class CRM_Contact_Form_Task_AddToGroup extends CRM_Contact_Form_Task {
      * @return void
      */
     function buildQuickForm( ) {
+       
+        //create radio buttons to select existing group or add a new group
+        $options  = array( ts('Add Contact To Existing Group'), ts('Create New Group') );
+        $this->addRadio( 'group_option', ts( 'Group Options' ), $options, array('onclick' =>"return showElements();"));
+        
+        $this->add('text', 'title'       , ts('Group Name:') . ' ' ,
+                   CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Group', 'title' ) );
+        $this->addRule( 'title', ts('Name already exists in Database.'),
+                        'objectExists', array( 'CRM_Contact_DAO_Group', $this->_id, 'title' ) );
+        
+        $this->add('text', 'description', ts('Description:') . ' ', 
+                   CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Group', 'description' ) );
+
         // add select for groups
         $group = array( '' => ts('- select group -')) + CRM_Core_PseudoConstant::group( );
-        $groupElement = $this->add('select', 'group_id', ts('Select Group'), $group, true);
+        
+        $groupElement = $this->add('select', 'group_id', ts('Select Group'), $group);
+        
         $this->_title  = $group[$this->_id];
 
         if ( $this->_context === 'amtg' ) {
@@ -121,9 +136,43 @@ class CRM_Contact_Form_Task_AddToGroup extends CRM_Contact_Form_Task {
         if ( $this->_context === 'amtg' ) {
             $defaults['group_id'] = $this->_id;
         }
+        
+        $defaults['group_option'] = 0;
         return $defaults;
     }
 
+    /**
+     * Add local and global form rules
+     *
+     * @access protected
+     * @return void
+     */
+    function addRules( ) 
+    {
+        $this->addFormRule( array( 'CRM_Contact_Form_task_AddToGroup', 'formRule') );
+    }
+    
+    /**
+     * global validation rules for the form
+     *
+     * @param array $fields posted values of the form
+     *
+     * @return array list of errors to be posted back to the form
+     * @static
+     * @access public
+     */
+    static function formRule( &$params ) 
+    {
+        $errors = array( );
+       
+        if ( $params['group_option'] && !$params['title'] ) {
+            $errors['title'] = "Group Name is a required field";
+        } else if ( !$params['group_option'] && !$params['group_id']) {
+            $errors['group_id'] = "Select Group is a required field.";
+        }
+        
+        return empty($errors) ? true : $errors;
+    }
     /**
      * process the form after the input has been submitted and validated
      *
@@ -131,12 +180,33 @@ class CRM_Contact_Form_Task_AddToGroup extends CRM_Contact_Form_Task {
      * @return None
      */
     public function postProcess() {
-        $groupId = $this->controller->exportValue( 'AddToGroup', 'group_id'  );
-        $group   =& CRM_Core_PseudoConstant::group( );
-
+                
+        $groupOption = $this->controller->exportValue( 'AddToGroup', 'group_option'  );
+        if ( $groupOption ) {
+            $groupParams = array();
+            $groupParams['title'      ] = $this->controller->exportValue( 'AddToGroup', 'title' );
+            $groupParams['description'] = $this->controller->exportValue( 'AddToGroup', 'description' );
+            $groupParams['visibility' ] = "User and User Admin Only";
+            $groupParams['domain_id'  ] = CRM_Core_Config::domainID( );
+            $groupParams['group_type' ] = '';
+            $groupParams['is_active'  ] = 1;
+           
+            require_once 'CRM/Contact/BAO/Group.php';
+            $createdGroup   =& CRM_Contact_BAO_Group::create( $groupParams );
+            $groupId        = $createdGroup->id;
+            $groupName      = $groupParams['title'];
+             
+        } else {
+            $groupId   = $this->controller->exportValue( 'AddToGroup', 'group_id'  );
+            $group   =& CRM_Core_PseudoConstant::group( );
+            $groupName = $group[$groupId];
+            
+        }
+        
         list( $total, $added, $notAdded ) = CRM_Contact_BAO_GroupContact::addContactsToGroup( $this->_contactIds, $groupId );
+        
         $status = array(
-                        ts('Added Contact(s) to %1', array(1 => $group[$groupId])),
+                        ts('Added Contact(s) to %1', array(1 => $groupName)),
                         ts('Total Selected Contact(s): %1', array(1 => $total))
                         );
         if ( $added ) {
