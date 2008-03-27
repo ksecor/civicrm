@@ -188,24 +188,30 @@ ORDER BY sort_name ";
         $name     = strtolower( CRM_Utils_Type::escape( $_GET['name'], 'String'  ) );
         $name     = str_replace( '*', '%', $name );
 
+        $whereClause = " title LIKE '$name%' ";
+        
+        if ( isset( $_GET['id'] ) && $_GET['id'] ) {
+            $eventId     = CRM_Utils_Type::escape( $_GET['id'], 'Integer'  );
+            $whereClause = " id = {$eventId} ";
+        }
+
         $query = "
 SELECT title, id
-  FROM civicrm_event
- WHERE domain_id = $domainID
-   AND title LIKE '$name%'
+FROM civicrm_event
+WHERE domain_id = $domainID
+   AND {$whereClause}
 ORDER BY title
 ";
-
         $nullArray = array( );
         $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
         $elements = array( );
         while ( $dao->fetch( ) ) {
             $elements[] = array( 'name' => $dao->title,
-                                 'title'=> $dao->id );
+                                 'value'=> $dao->id );
         }
         
         require_once "CRM/Utils/JSON.php";
-        echo CRM_Utils_JSON::encode( $elements, 'title');
+        echo CRM_Utils_JSON::encode( $elements, 'value');
     }
 
     /**
@@ -218,6 +224,12 @@ ORDER BY title
         $name     = strtolower( CRM_Utils_Type::escape( $_GET['name'], 'String'  ) );
         $name     = str_replace( '*', '%', $name );
 
+        $whereClause = " v.label  LIKE '$name%'  ";
+        
+        if ( isset( $_GET['id'] ) && $_GET['id'] ) {
+            $eventTypeId     = CRM_Utils_Type::escape( $_GET['id'], 'Integer'  );
+            $whereClause = " v.value = {$eventTypeId} ";
+        }
 
         $query ="
 SELECT v.label ,v.value
@@ -226,7 +238,7 @@ FROM   civicrm_option_value v,
 WHERE  v.option_group_id = g.id 
 AND g.name = 'event_type'
 AND v.is_active = 1
-AND v.label  LIKE '$name%' 
+AND {$whereClause}
 ORDER by v.weight";
 
         $nullArray = array( );
