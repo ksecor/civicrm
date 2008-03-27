@@ -58,10 +58,14 @@ class CRM_Upgrade_TwoZero_Form_Step5 extends CRM_Upgrade_Form {
         }
         $res->free();
 
-        $query    = "SELECT id FROM civicrm_custom_field WHERE LOWER(name) = 'id'";
+        // check if any of the custom fields has reserved keyword as
+        // custom field name.
+        $reservedKeyWords = 
+            implode( "', '", array( 'id', 'database', 'column', 'table', 'field', 'group' ) );
+        $query    = "SELECT id FROM civicrm_custom_field WHERE LOWER(name) IN ('$reservedKeyWords')";
         $res      = $this->runQuery( $query );
         if ($res->fetch()) {
-            $errorMessage = ts('Database consistency check failed for step %1.', array(1 => '5')) . ' ' . ts("A custom field can not have '%1' as the '%2'.", array(1 => 'id', 2 => 'name'));
+            $errorMessage = ts('Database consistency check failed for step %1.', array(1 => '5')) . ' ' . ts("A custom field can not have '%1' as the '%2'.", array(1 => $reservedKeyWords, 2 => 'name'));
             return false;
         }
         $res->free();
