@@ -66,14 +66,9 @@
     </span>
 </div>
 <div id="shared_employer" class="form-item">
-    <span class="labels">
-        {$form.shared_employer.label}
-    </span>
-<span class="fields">
 <div  class="tundra" dojoType= "dojox.data.QueryReadStore" jsId="organizationStore" url="{$employerDataURL}" doClientPaging="false" >
             {$form.shared_employer.html}
             </div>
-</span>
 </div>
 
     {$form._qf_Edit_refresh_dedupe.html}
@@ -227,6 +222,12 @@
 
     if (!document.getElementsByName("employer_option")[1].checked ) {
         hide("shared_employer");
+    }else { 
+        dojo.addOnLoad( function( ) 
+            {
+                var sharedEmployer   = {/literal}"{$sharedEmployer}"{literal};
+                dijit.byId( 'shared_employer' ).setDisplayedValue(sharedEmployer ) 
+            }); 
     }
     hide("create_employer");
     function showHideEmployerOptions()
@@ -234,6 +235,7 @@
         if (document.getElementsByName("employer_option")[0].checked) {
             dijit.byId("shared_employer").domNode.style.display = "none";
             show("create_employer");
+            hide("shared_employer");   
         } else {
             hide("create_employer");
             show("shared_employer");

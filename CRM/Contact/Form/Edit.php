@@ -325,15 +325,27 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
             $rel = CRM_Contact_BAO_Relationship::getRelationship($this->_contactId);
             krsort($rel);
+            
             foreach ($rel as $key => $value) {
                 if ($value['relation'] == 'Employee of') {
-                    $defaults['shared_employer'] =  $value['name'];
-                    $defaults['employer_option'] =  1;
+                    $query = 
+                        "SELECT CONCAT_WS(':::',organization_name,LEFT(street_address,25),city) 'sort_name',                          civicrm_contact.id id
+                         FROM civicrm_contact
+                         LEFT JOIN civicrm_address ON ( civicrm_contact.id = civicrm_address.contact_id
+                                                        AND civicrm_address.is_primary=1
+                                                      )
+                         WHERE civicrm_contact.id = {$value['cid']}";
+                    $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+                    $dao->fetch();
+                    
+                    $defaults['employer_option'] = 1;
+                    $defaults['shared_employer'] = $dao->id;
+                    $this->assign( 'sharedEmployer', $dao->sort_name );
                     break;
                 }
             }
         }
-
+        
         //set defaults for country-state dojo widget
         if ( ! empty ( $defaults['location'] ) ) {
             $countries      =& CRM_Core_PseudoConstant::country( );
@@ -551,8 +563,8 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
                                  array ( 'type'       => 'cancel',
                                          'name'      => ts('Cancel') ) ) );
     }
-
-       
+    
+    
     /**
      * Form submission of new/edit contact is processed.
      *
@@ -569,9 +581,9 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
         
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
-
+        
 	    $params['contact_type'] = $this->_contactType;
-
+        
         if ( $this->_contactId ) {
             $params['contact_id'] = $this->_contactId;
         }
@@ -704,8 +716,9 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
             } elseif ( isset( $params['employer_option'] ) && 
                        $params['employer_option'] == 1 &&
                        $params['shared_employer'] ) {
+                $orgId = array( 'id' => $params['shared_employer'] );
                 CRM_Contact_BAO_Contact::makeCurrentEmployerRelationship($contact->id, 
-                                                                         $params['shared_employer']);
+                                                                         $orgId);
             }
         }
 

@@ -108,9 +108,20 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
         $name      = strtolower( CRM_Utils_Type::escape( $_GET['name'], 'String'  ) ); 
         $name      = str_replace( '*', '%', $name );
         
+        list($contactName,$street,$city) = explode(':::',$name);
+        
+        if ($street) {
+            $addStreet = "AND civicrm_address.street_address LIKE '$street%'";
+        }
+        if ($city) {
+            $addCity = "AND civicrm_address.city LIKE '$city%'";
+        }
+        
         $shared = null;
         if ( isset($_GET['sh']) ) {
             $shared = CRM_Utils_Type::escape( $_GET['sh'], 'Integer');
+            $fieldName = 'household_name';
+            $contactType = "'Household'";
         }
         
         $relType = null;
@@ -123,22 +134,26 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
             }
             
         }
-        $extraWhere = '';
+        
+        $organization = null;
         if ( isset($_GET['org']) ) {
-            $extraWhere = "AND contact_type = 'Organization'";
+            $organization = CRM_Utils_Type::escape( $_GET['org'], 'Integer');
+            $fieldName = "organization_name";
+            $contactType = "'Organization'";
         }
 
-        if ( $shared ) {
-            
+        if ( $shared || $organization) {
+
             $query = "
-SELECT CONCAT_WS( ':::', household_name, LEFT( street_address, 25 ) , city ) 'sort_name', 
-civicrm_contact.id 'id'
+SELECT CONCAT_WS(':::',TRIM({$fieldName}),LEFT(street_address,25),city) 'sort_name', 
+civicrm_contact.id id
 FROM civicrm_contact
 LEFT JOIN civicrm_address ON ( civicrm_contact.id = civicrm_address.contact_id
                                 AND civicrm_address.is_primary=1
-                                 )
-WHERE civicrm_contact.contact_type='Household' AND household_name LIKE '$name%'
-ORDER BY household_name ";
+                             )
+WHERE civicrm_contact.contact_type={$contactType} AND {$fieldName} LIKE '$contactName%'
+{$addStreet} {$addCity}
+ORDER BY {$fieldName} ";
 
         } else if($relType) {
             
@@ -157,10 +172,8 @@ ORDER BY sort_name" ;
 SELECT sort_name, id
 FROM civicrm_contact
 WHERE sort_name LIKE '$name'
-{$extraWhere}
 AND domain_id = $domainID
-ORDER BY sort_name ";
-            
+ORDER BY sort_name ";            
         }
  
         $start = CRM_Utils_Type::escape( $_GET['start'], 'Integer' );
@@ -169,12 +182,12 @@ ORDER BY sort_name ";
         if ( isset( $_GET['count'] ) ) {
             $end   = CRM_Utils_Type::escape( $_GET['count'], 'Integer' );
         }
-
+        
         $query .= " LIMIT {$start},{$end}";
         
         $nullArray = array( );
         $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
-
+        
         $elements = array( );
 
         while ( $dao->fetch( ) ) {

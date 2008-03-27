@@ -2146,7 +2146,11 @@ AND       civicrm_openid.is_primary = 1";
     {
         require_once "CRM/Contact/DAO/Contact.php";
         $org =& new CRM_Contact_DAO_Contact( );
-        $org->organization_name = $organizationName;
+        if ( is_array($organizationName) ) {
+            $org->id = $organizationName['id'];
+        } else {
+            $org->organization_name = $organizationName;
+        }
         $org->find();
         while ( $org->fetch( ) ) {
             $dupeIds[] = $org->id;

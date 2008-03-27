@@ -160,7 +160,7 @@ showHideSharedOptions();
         
         // shared address element block
         $form->addElement('checkbox', 'use_household_address', null, ts('Use Household Address'), $useHouseholdExtra);
-        $this->assign( 'dojoIncludes', " dojo.require('dojo.data.ItemFileReadStore'); dojo.require('dijit.form.ComboBox');dojo.require('dojo.parser');" );
+        $this->assign( 'dojoIncludes', " dojo.require('dojo.data.ItemFileReadStore'); dojo.require('dijit.form.ComboBox');dojo.require('dijit.form.FilteringSelect');dojo.require('dojo.parser');" );
         
         $domainID      =  CRM_Core_Config::domainID( );   
         $attributes    = array( 'dojoType'     => 'dijit.form.ComboBox',
@@ -188,12 +188,13 @@ showHideSharedOptions();
                                        ));
         $form->addRule('home_URL', ts('Enter a valid web location beginning with \'http://\' or \'https://\'. EXAMPLE: http://www.mysite.org/'), 'url');
 
-        $employerAttributes    = array( 'dojoType'     => 'dijit.form.ComboBox',
+        $employerAttributes    = array( 'dojoType'     => 'dijit.form.FilteringSelect',
                                         'mode'         => 'remote',
                                         'store'        => 'organizationStore',
                                         'style'        => 'width:300px; border: 1px solid #cfcfcf;',
                                         'class'        => 'tundra',
-                                        'pageSize'     => 10
+                                        'pageSize'     => 10,
+                                        'id'           => 'shared_employer'
                                         );
         
         $employerDataURL =  CRM_Utils_System::url( 'civicrm/ajax/search',
@@ -236,12 +237,8 @@ showHideSharedOptions();
     {
         $errors = array( );
         
-        if ($fields['employer_option'] == 1) {
-            $orgId =  CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
-                                                   $fields['shared_employer'], 'id', 'sort_name' );
-            if (!$orgId) {
-                $errors['shared_employer'] =  ts('Please select an organization from the list ');
-            }
+        if ($fields['employer_option'] == 1 && !$fields['shared_employer'] ) {
+            $errors['shared_employer'] =  ts('Please select an organization from the list ');
         }
         
         $primaryID = CRM_Contact_Form_Edit::formRule( $fields, $errors );
