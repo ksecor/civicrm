@@ -29,7 +29,7 @@ $baseURL = 'http://' . $_SERVER['HTTP_HOST'] . "$baseURL/";
 
 $mysqlPath = dirname( exec( 'which mysql' ) );
 $mysqlSocket = exec( "$mysqlPath/mysql_config --socket" );
-
+?>
         <label for="crm_root">CiviCRM root:</label> <input id="crm_root" type="text" name="crm_root" size="50" value="<?php print $crmRoot ?>"/><br/><br/>
         <label for="files_dir">Persistent files directory:</label> <input id="files_dir" type="text" name="files_dir" size="50" value="<?php print $filesDir ?>"/><br/><span style="font-size: small">(compiled templates, uploaded files, etc.--many people like to put these outside their CiviCRM installation directory)</span><br/><br/>
         <label for="base_url">Base URL of CiviCRM:</label> <input id="base_url" type="text" name="base_url" value="<?php print $baseURL ?>" size="50"/><br/><br/>
