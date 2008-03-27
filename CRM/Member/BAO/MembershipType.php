@@ -452,9 +452,9 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
             $startDate    = $membershipDetails[$membershipId]->start_date;
             $date         = explode('-', $membershipDetails[$membershipId]->end_date);
             $logStartDate = date('Y-m-d', mktime( 0, 0, 0,
-                                                  (long ) $date[1],
-                                                  (long ) $date[2] + 1,
-                                                  (long ) $date[0] ) );
+                                                  (double) $date[1],
+                                                  (double) ($date[2] + 1),
+                                                  (double) $date[0] ) );
             $date         = explode('-', $logStartDate );
             
             $year  = $date[0];
@@ -498,8 +498,8 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
 
                 $yearValue = date( 'Y' );
                 $startDate = $logStartDate = date( 'Y-m-d', mktime( 0, 0, 0,
-                                                                    (long ) $date[1],
-                                                                    (long ) $date[2],
+                                                                    (double) $date[1],
+                                                                    (double) $date[2],
                                                                     $yearValue ) );
                 // before moving to the step 2, check if TODAY is in
                 // rollover window.
@@ -511,14 +511,14 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
                 if ( ( $rolloverMonth - $fixedStartMonth ) < 0 ) { 
                     $rolloverDate = date( 'Ymd', 
                                           mktime( 0, 0, 0, 
-                                                  (long ) $rolloverMonth,
-                                                  (long ) $rolloverDay, 
+                                                  (double) $rolloverMonth,
+                                                  (double) $rolloverDay, 
                                                   $yearValue + 1 ) );
                 } else {
                     $rolloverDate = date( 'Ymd', 
                                           mktime( 0, 0, 0, 
-                                                  (long ) $rolloverMonth,
-                                                  (long ) $rolloverDay, 
+                                                  (double) $rolloverMonth,
+                                                  (double) $rolloverDay, 
                                                   $yearValue ) );
                 }
                 
@@ -530,9 +530,9 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
             // 2.
             $date         = explode('-', $startDate);
             
-            $year  = (long ) $date[0];
-            $month = (long ) $date[1];
-            $day   = (long ) $date[2];
+            $year  = (double) $date[0];
+            $month = (double) $date[1];
+            $day   = (double) $date[2];
             
             switch ( $membershipTypeDetails['duration_unit'] ) {
             case 'year' :
