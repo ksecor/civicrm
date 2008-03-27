@@ -1376,8 +1376,19 @@ WHERE  civicrm_contact.id = %1 ";
 
         $dao =& CRM_Core_DAO::executeQuery( $query, $params );
 
+        $locationType = null;
         if ( $dao->fetch() ) {
-            return $dao->locationType;
+            $locationType = $dao->locationType;
+        }
+        
+        if ( $locationType ) {
+            return $locationType;
+        } else {
+            // if there is no primart contact location, then return default
+            // location type of the system
+            require_once 'CRM/Core/BAO/LocationType.php';
+            $defaultLocationType =& CRM_Core_BAO_LocationType::getDefault();
+            return $defaultLocationType->id;
         }
     }
 
