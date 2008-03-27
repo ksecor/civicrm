@@ -75,10 +75,13 @@ class CRM_Event_BAO_Query
                 $query->_element['event_level']  = 1;
             }
         
-            //add event title
-            if ( CRM_Utils_Array::value( 'event_id', $query->_returnProperties ) ) {
+            //add event title also if event id is select
+            if ( CRM_Utils_Array::value( 'event_id'   , $query->_returnProperties ) ||
+                 CRM_Utils_Array::value( 'event_title', $query->_returnProperties ) ) {
                 $query->_select['event_id'] = "civicrm_event.id as event_id";
+                $query->_select['event_title'] = "civicrm_event.title as event_title";
                 $query->_element['event_id'] = 1;
+                $query->_element['event_title'] = 1;
                 $query->_tables['civicrm_event'] = 1;
                 $query->_whereTables['civicrm_event'] = 1;
             }

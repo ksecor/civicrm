@@ -74,7 +74,7 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                                  'sort_name',
                                  'event_id',
                                  'participant_status_id',
-                                 'event_id',
+                                 'event_title',
                                  'event_level',
                                  'participant_id',
                                  'event_start_date',
