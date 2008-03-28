@@ -239,6 +239,8 @@ showHideSharedOptions();
         
         if ($fields['employer_option'] == 1 && !$fields['shared_employer'] ) {
             $errors['shared_employer'] =  ts('Please select an organization from the list ');
+        } elseif ($fields['employer_option'] == 0 && !$fields['create_employer'] ) {
+            $errors['create_employer'] =  ts('Please provide an organization name.');
         }
         
         $primaryID = CRM_Contact_Form_Edit::formRule( $fields, $errors );

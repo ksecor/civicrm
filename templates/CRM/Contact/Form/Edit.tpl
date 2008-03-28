@@ -229,7 +229,9 @@
                 dijit.byId( 'shared_employer' ).setDisplayedValue(sharedEmployer ) 
             }); 
     }
-    hide("create_employer");
+    if (!document.getElementsByName("employer_option")[0].checked ) {
+        hide("create_employer");
+    }
     function showHideEmployerOptions()
     {
         if (document.getElementsByName("employer_option")[0].checked) {
