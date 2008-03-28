@@ -53,7 +53,6 @@
   <field>
        <name>contact_id</name>
        <type>int unsigned</type>
-       <required>true</required>
        <comment>FK to Contact ID creator</comment>
        <add>1.1</add>
   </field>
