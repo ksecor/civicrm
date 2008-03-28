@@ -2,7 +2,7 @@
 
   /*
    +--------------------------------------------------------------------+
-   | CiviCRM version 2.0                                                |
+   | CiviCRM version 2.1                                                |
    +--------------------------------------------------------------------+
    | Copyright CiviCRM LLC (c) 2004-2008                                |
    +--------------------------------------------------------------------+
@@ -46,10 +46,13 @@ implements CRM_Contact_Form_Search_Interface {
         /**
          * Define the columns for search result rows
          */
-        $this->_columns = array( ts('Name'      )   => 'sort_name',
-        						 ts('Scheduled By'      )   => 'source_contact',
-        						 ts('Status') => 'activity_status',
-                                 ts('Activity Subject') => 'activity_subject',
+        $this->_columns = array( ts(''      )   => 'activity_id',
+       							 ts(''      )   => 'activity_type_id',
+								 ts('Name'      )   => 'sort_name',   
+								 ts('Status') => 'activity_status',
+								 ts('Activity Type'      )   => 'activity_type',
+                                 ts('Activity Subject') => 'activity_subject',								
+								 ts('Scheduled By'      )   => 'source_contact',
                                  ts('Scheduled Date') => 'activity_date' );
     }
 
@@ -81,7 +84,7 @@ implements CRM_Contact_Form_Search_Interface {
             
         // textbox for Activity Status
         $activityStatus =
-            array( ''   => ' - select activity - ' ) + 
+            array( ''   => ' - select status - ' ) + 
             CRM_Core_PseudoConstant::activityStatus( );
             
         $form->add  ('select', 'activity_status_id', ts('Activity Status'),
@@ -112,7 +115,7 @@ implements CRM_Contact_Form_Search_Interface {
      * Define the smarty template used to layout the search form and results listings.
      */
     function templateFile( ) {
-        return 'CRM/Contact/Form/Search/Custom/Sample.tpl';
+        return 'CRM/Contact/Form/Search/Custom/ActivitySearch.tpl';
     }
        
     /**
@@ -127,6 +130,7 @@ contact.id as contact_id,
 contact.sort_name as sort_name,
 contact.contact_type as contact_type,
 activity.id as activity_id,
+activity.activity_type_id as activity_type_id,
 contact_b.sort_name as source_contact,
 ov1.label as activity_type,
 activity.subject as activity_subject,
@@ -155,7 +159,7 @@ FROM   $from
                 $sql .= " ORDER BY " . trim( $sort->orderBy() );
             }
         } else {
-            $sql .= "ORDER BY contact.sort_name, activity_date_time DESC, activity_type, activity_status";
+            $sql .= "ORDER BY contact.sort_name, activity_date_time DESC, activity_type, activity_status, activity_subject";
         }
 
         return $sql;
@@ -264,5 +268,3 @@ JOIN civicrm_contact contact_b ON activity.source_contact_id = contact_b.id
     }
        
 }
-
-
