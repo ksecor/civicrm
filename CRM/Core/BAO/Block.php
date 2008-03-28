@@ -263,7 +263,7 @@ class CRM_Core_BAO_Block
                 }
                 
                 if ( !empty( $blockIds[ $locationCount ] ) ) {
-                    $val['id'] = $blockIds[ $locationCount ][ $k ];
+                    $val['id'] = array_shift( $blockIds[ $locationCount ] );
                 }
 
                 $dataExits = self::dataExists( self::$requiredBlockFields[$blockName], $val );
@@ -295,6 +295,7 @@ class CRM_Core_BAO_Block
             
             $locationCount++;
         }
+
         return $blocks;
     }
 
