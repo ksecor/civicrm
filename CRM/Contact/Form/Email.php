@@ -50,9 +50,16 @@ class CRM_Contact_Form_Email
      * @access public
      * @static
      */
-    static function buildEmailBlock(&$form, &$location, $locationId, $count) {
+    static function buildEmailBlock(&$form, &$location, $locationId, $count) 
+    {
         require_once 'CRM/Core/ShowHideBlocks.php';
-       
+
+        $showBulkMailing = true;
+        //suppress Bulk Mailings (CRM-2881)
+        if ( is_object( $form ) && ($form instanceof CRM_Event_Form_ManageEvent_Location ) ) {
+            $showBulkMailing = false;
+        }
+   
         for ($i = 1; $i <= $count; $i++) {
             $label = ($i == 1) ? ts('Email (preferred)') : ts('Email');
 
@@ -67,9 +74,10 @@ class CRM_Contact_Form_Email
             
             $location[$locationId]['email'][$i]['on_hold'] = $form->addElement('advcheckbox',
                                                                              "location[$locationId][email][$i][on_hold]",null, ts('On Hold'));
-            $location[$locationId]['email'][$i]['is_bulkmail'] = $form->addElement('advcheckbox',
-                                                                               "location[$locationId][email][$i][is_bulkmail]",ts('Use for Bulk Mailings'), ts('Use for Bulk Mailings'), array('onchange' => "email_is_bulkmail_onclick('" . $form->getName() . "', $i, $count, $locationId);" ));
-
+            if ( $showBulkMailing ) {
+                $location[$locationId]['email'][$i]['is_bulkmail'] = $form->addElement('advcheckbox',
+                                                                                       "location[$locationId][email][$i][is_bulkmail]",ts('Use for Bulk Mailings'), ts('Use for Bulk Mailings'), array('onchange' => "email_is_bulkmail_onclick('" . $form->getName() . "', $i, $count, $locationId);" ));
+            }
         }
     }
 }
