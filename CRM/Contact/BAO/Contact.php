@@ -1639,6 +1639,24 @@ WHERE  civicrm_contact.id = %1 ";
                 }
             }
         }
+
+        //make sure primary location is at first position in location array
+        if ( count( $data['location'] ) > 1 ) {
+            // if first location is primary skip manipulation
+            if ( !isset($data['location'][1]['is_primary']) ) {
+                //find the key for primary location
+                foreach ( $data['location'] as $primaryLocationKey => $value ) {
+                    if ( isset( $value['is_primary'] ) ) {
+                        break;
+                    }
+                }
+                
+                // swap first location with primary location
+                $tempLocation        = $data['location'][1];
+                $data['location'][1] = $data['location'][$primaryLocationKey];
+                $data['location'][$primaryLocationKey] = $tempLocation;
+            }
+        }
         
         //get the custom fields for the contact
         $customFields = CRM_Core_BAO_CustomField::getFields( $data['contact_type'] );

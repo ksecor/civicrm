@@ -257,15 +257,15 @@ class CRM_Core_BAO_Block
             $contactFields['contact_id'      ] = $contactId;
             $contactFields['location_type_id'] = $value['location_type_id'];
             
-            foreach ( $value as $val ) {
+            foreach ( $value as $k => $val ) {
                 if ( !is_array( $val ) ) {
                     continue;
                 }
                 
                 if ( !empty( $blockIds[ $locationCount ] ) ) {
-                    $val['id'] = array_shift( $blockIds[ $locationCount ] );
+                    $val['id'] = $blockIds[ $locationCount ][ $k ];
                 }
-                
+
                 $dataExits = self::dataExists( self::$requiredBlockFields[$blockName], $val );
                 
                 if ( isset( $val['id'] ) && !$dataExits ) {
