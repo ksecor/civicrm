@@ -386,6 +386,13 @@
       <comment>OPTIONAL FK to civicrm_contact_household record. If NOT NULL, direct mail communications to household rather than individual location.</comment>
       <add>1.1</add>
   </field>
+  <foreignKey>
+       <name>mail_to_household_id</name>
+       <table>civicrm_contact</table>
+       <key>id</key>
+       <add>2.1</add>
+       <onDelete>SET NULL</onDelete>
+  </foreignKey>
   <field>
        <name>household_name</name>
        <type>varchar</type>
