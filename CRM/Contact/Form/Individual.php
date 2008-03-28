@@ -239,7 +239,9 @@ showHideSharedOptions();
         
         if ($fields['employer_option'] == 1 && !$fields['shared_employer'] ) {
             $errors['shared_employer'] =  ts('Please select an organization from the list ');
-        } elseif ($fields['employer_option'] == 0 && !$fields['create_employer'] ) {
+        } elseif ( isset($fields['employer_option']) && 
+                   $fields['employer_option'] == 0   &&
+                   !$fields['create_employer'] ) {
             $errors['create_employer'] =  ts('Please provide an organization name.');
         }
         
