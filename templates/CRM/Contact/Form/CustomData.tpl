@@ -40,7 +40,6 @@
                     {/if}
                 {/if}
             {/foreach}
-        <td></td>
         </tr>
         </table>
         {/strip}
