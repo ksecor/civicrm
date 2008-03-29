@@ -41,35 +41,9 @@ function run( ) {
     
     $config =& CRM_Core_Config::singleton(); 
 
-    require_once 'Console/Getopt.php';
-    $shortOptions = "n:p:";
-    $longOptions  = array( 'name=', 'pass=' );
-
-    $getopt  = new Console_Getopt( );
-    $args = $getopt->readPHPArgv( );
-    array_shift( $args );
-    list( $valid, $dontCare ) = $getopt->getopt2( $args, $shortOptions, $longOptions );
-
-    $vars = array(
-                  'name'  => 'n',
-                  'pass'  => 'p' );
-
-    foreach ( $vars as $var => $short ) {
-        $$var = null;
-        foreach ( $valid as $v ) {
-            if ( $v[0] == $short || $v[0] == "--$var" ) {
-                $$var = $v[1];
-                break;
-            }
-        }
-        if ( ! $$var ) {
-            $$var = CRM_Utils_Array::value( $var, $_REQUEST );
-        }
-    }
-
     // this does not return on failure
-    // require_once 'CRM/Utils/System.php';
-    CRM_Utils_System::authenticateScript( true, $name, $pass );
+    require_once 'CRM/Utils/System.php';
+    CRM_Utils_System::authenticateScript( true );
     
     require_once 'CRM/Upgrade/TwoZero/Form/Step3.php';
 
