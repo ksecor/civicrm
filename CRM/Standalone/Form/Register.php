@@ -85,7 +85,9 @@ class CRM_Standalone_Form_Register extends CRM_Core_Form {
 
         $fields = CRM_Core_BAO_UFGroup::getFields( $this->_profileID,
                                                    false,
-                                                   CRM_Core_Action::ADD );
+                                                   CRM_Core_Action::ADD,
+                                                   null, null, false,
+                                                   null, true );
         $this->assign( 'custom', $fields );
         
         require_once 'CRM/Profile/Form.php';
