@@ -521,6 +521,11 @@ class HTML_QuickForm_select extends HTML_QuickForm_element {
         $value = array();
         if (is_array($this->_values)) {
             foreach ($this->_values as $key => $val) {
+                //fix for issue CRM-2867
+                if ( !$val ) {
+                    break;
+                }
+                            
                 foreach ($this->_options as $oKey => $oVal ) {
                     if (0 == strcmp($val, $this->_options[$oKey]['attr']['value'])) {
                         $value[$key] = $oVal['text'];
