@@ -127,6 +127,7 @@ function civicrm_custom_group_delete($params)
         return civicrm_create_error( 'Invalid or no value for Custom group ID' );
     }
     // convert params array into Object
+    require_once 'CRM/Core/DAO/CustomGroup.php';
     $values =& new CRM_Core_DAO_CustomGroup( );
     $values->id = $params['id'];
     $values->find(true);
