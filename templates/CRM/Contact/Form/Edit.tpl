@@ -239,6 +239,7 @@
             show("create_employer");
             hide("shared_employer");   
         } else {
+            document.getElementsByName("create_employer")[0].value = "";
             hide("create_employer");
             show("shared_employer");
             dijit.byId("shared_employer").domNode.style.display = "block";
