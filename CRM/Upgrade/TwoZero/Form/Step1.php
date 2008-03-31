@@ -89,7 +89,7 @@ class CRM_Upgrade_TwoZero_Form_Step1 extends CRM_Upgrade_Form {
         $query    = "SELECT id FROM civicrm_custom_field WHERE name IS NULL";
         $res      = $this->runQuery( $query );
         if ($res->fetch()) {
-            $errorMessage = ts('Database consistency check failed for step %1.', array(1 => '1')) . ' ' . ts("Value missing in %1 for the column '%2'.", array(1 => 'civicrm_custom_field', 2 => 'name'));
+            $errorMessage = ts('Database consistency check failed for step %1.', array(1 => '1')) . ' ' . ts("Value missing in %1 for the column '%2'. Please add a unique value for the 'name' column for each database record.", array(1 => 'civicrm_custom_field', 2 => 'name'));
             return false;
         }
         $res->free();
@@ -101,7 +101,7 @@ class CRM_Upgrade_TwoZero_Form_Step1 extends CRM_Upgrade_Form {
         $query    = "SELECT id FROM civicrm_custom_field WHERE LOWER(name) IN ('$reservedKeyWords')";
         $res      = $this->runQuery( $query );
         if ($res->fetch()) {
-            $errorMessage = ts('Database consistency check failed for step %1.', array(1 => '1')) . ' ' . ts("A custom field can not have any of '%1' as the '%2'.", array(1 => $reservedKeyWords, 2 => 'custom field name'));
+            $errorMessage = ts('Database consistency check failed for step %1.', array(1 => '1')) . ' ' . ts("A custom field can not have any of '%1' as the '%2'. Please rename the name value for these records to something that does not conflict with mysql reserved keywords.", array(1 => $reservedKeyWords, 2 => 'custom field name'));
             return false;
         }
         $res->free();
