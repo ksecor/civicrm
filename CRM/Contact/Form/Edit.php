@@ -658,7 +658,7 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
                     CRM_Contact_Form_Individual::copyHouseholdAddress( $params );
                 }
             } else {
-                $params['mail_to_household_id'] = false;
+                $params['mail_to_household_id'] = null;
             }
         }
 
