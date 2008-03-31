@@ -112,7 +112,7 @@ class CRM_Utils_File {
 
         CRM_Utils_File::createDir( dirname( $path ) );
         if ( mkdir( $path, 0777 ) == false ) {
-            echo "Error: Could not create directory: $path. <p>";
+            echo "Error: Could not create directory: $path.<p>If you have moved your database from a development install to a production install and the direcotory paths are different, please set the column config_backend in the civicrm_domain table to NULL. You will need to reinitialize your settings in the production install.<p>";
             exit( );
         }
 
