@@ -208,7 +208,9 @@ showHideSharedOptions();
         $form->addRadio('employer_option', ts('Current Employer'),  $employerOption, $employerOptionsExtra);
 
         $form->addElement('text', 'create_employer', ts('Create Organization'), array( 'maxlength' => 128 ) );
-
+        
+        $form->addRule('create_employer', ts('This organization name already exists in database.'), 
+                       'objectExists', array( 'CRM_Contact_DAO_Contact', $form->_contactId, 'organization_name' ) );
         $form->addElement('text', 'shared_employer', ts('Existing Organization'),$employerAttributes );
 
         $form->addElement('text', 'contact_source', ts('Source'));
