@@ -442,50 +442,30 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                                      'amount_level'           => 1,
                                      'contribution_status_id' => 1
                                      );
-            
-            // fields to unset, like those already present on the form,
-            // for e.g billing email. And primary email is calculated
-            // from billing email. So safe to hide primary and billing
-            // email present in profile to avoid any confusion.
-            $fieldsToUnset  = array( 'email-Primary', 'email-5' );
 
-            $primaryLocTypeId = 
-                CRM_Core_DAO::getFieldValue('CRM_Core_DAO_LocationType', 1, 'is_default');
-            if ($primaryLocTypeId) {
-                $fieldsToUnset[] = 'email-' . $primaryLocTypeId;
-            }
-
+            $fields = null;
             if ( $contactID ) {
                 require_once "CRM/Core/BAO/UFGroup.php";
                 if ( CRM_Core_BAO_UFGroup::filterUFGroups($id, $contactID)  ) {
                     $fields = CRM_Core_BAO_UFGroup::getFields( $id, false,CRM_Core_Action::ADD );
-                    foreach($fieldsToUnset as $fld) {
-                        if (isset($fields[$fld])) {
-                            unset($fields[$fld]);
-                        }
-                    }
-                    if (array_intersect_key($fields, $fieldsToIgnore)) {
-                        $fields = array_diff_key( $fields, $fieldsToIgnore );
-                        CRM_Core_Session::setStatus("Some of the profile fields cannot be configured for this page.");
-                    }
-                    $this->assign( $name, $fields );
-                    
-                    foreach($fields as $key => $field) {
-                        CRM_Core_BAO_UFGroup::buildProfile($this, $field,CRM_Profile_Form::MODE_CREATE);
-                        $this->_fields[$key] = $field;
-                    }
                 }
             } else {
                 $fields = CRM_Core_BAO_UFGroup::getFields( $id, false,CRM_Core_Action::ADD ); 
-                foreach($fieldsToUnset as $fld) {
-                    if (isset($fields[$fld])) {
-                        unset($fields[$fld]);
+            }
+
+            if ( $fields ) {
+                // unset any email-* fields since we already collect it, CRM-2888
+                foreach ( array_keys( $fields ) as $fieldName ) {
+                    if ( substr( $fieldName, 0, 6 ) == 'email-' ) {
+                        unset( $fields[$fieldName] );
                     }
                 }
+                
                 if (array_intersect_key($fields, $fieldsToIgnore)) {
                     $fields = array_diff_key( $fields, $fieldsToIgnore );
                     CRM_Core_Session::setStatus("Some of the profile fields cannot be configured for this page.");
                 }
+                
                 $this->assign( $name, $fields );
                 
                 foreach($fields as $key => $field) {

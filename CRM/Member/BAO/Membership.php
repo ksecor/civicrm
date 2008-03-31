@@ -802,6 +802,7 @@ AND       civicrm_membership.is_test = %2
             $tempParams['amount'] = $minimumFee;
             $invoiceID = md5(uniqid(rand(), true));
             $tempParams['invoiceID'] = $invoiceID;
+
             if ($form->_values['is_monetary']) {
                 require_once 'CRM/Core/Payment.php';
                 $payment =& CRM_Core_Payment::singleton( $form->_mode, 'Contribute', $form->_paymentProcessor );
@@ -820,6 +821,11 @@ AND       civicrm_membership.is_test = %2
                 
                 $form->assign('membership_trx_id' , $result['trxn_id']);
                 $form->assign('membership_amount'  , $minimumFee);
+
+                // we dont need to create the user twice, so lets disable cms_create_account
+                // irrespective of the value, CRM-2888
+                $tempParams['cms_create_account'] = 0;
+
                 $contribution[2] =
                     CRM_Contribute_Form_Contribution_Confirm::processContribution( $form,
                                                                                    $tempParams,
