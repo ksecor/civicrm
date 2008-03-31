@@ -158,6 +158,9 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                          $limit = null,
                          $context = 'search' ) 
     {
+
+        // CRM_Core_Error::debug( 'q', $queryParams );
+
         // submitted form values
         $this->_queryParams =& $queryParams;
 
@@ -331,7 +334,7 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                  $contact_type .= 'org.gif" alt="' . ts('Organization') . '" height="16" width="18" />';
                  break;
              }
-             
+
              $row['contact_type' ] = $contact_type;
              $row['paid'] = CRM_Event_BAO_Event::isMonetary ( $row['event_id'] );
              

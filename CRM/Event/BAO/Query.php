@@ -75,9 +75,12 @@ class CRM_Event_BAO_Query
                 $query->_element['event_level']  = 1;
             }
         
-            //add event title
-            if ( CRM_Utils_Array::value( 'event_title', $query->_returnProperties ) ) {
+            //add event title also if event id is select
+            if ( CRM_Utils_Array::value( 'event_id'   , $query->_returnProperties ) ||
+                 CRM_Utils_Array::value( 'event_title', $query->_returnProperties ) ) {
+                $query->_select['event_id'] = "civicrm_event.id as event_id";
                 $query->_select['event_title'] = "civicrm_event.title as event_title";
+                $query->_element['event_id'] = 1;
                 $query->_element['event_title'] = 1;
                 $query->_tables['civicrm_event'] = 1;
                 $query->_whereTables['civicrm_event'] = 1;
@@ -131,14 +134,26 @@ class CRM_Event_BAO_Query
 
     static function where( &$query ) 
     {
+        $isTest   = false;
+        $grouping = null;
         foreach ( array_keys( $query->_params ) as $id ) {
             if ( substr( $query->_params[$id][0], 0, 6) == 'event_' ||
                  substr( $query->_params[$id][0], 0, 12) == 'participant_') {
                 if ( $query->_mode == CRM_Contact_BAO_QUERY::MODE_CONTACTS ) {
                     $query->_useDistinct = true;
                 }
+                if ( $query->_params[$id][0] == 'participant_test' ) {
+                    $isTest = true;
+                }
+                $grouping = $query->_params[$id][3];
                 self::whereClauseSingle( $query->_params[$id], $query );
             }
+        }
+
+        if ( $grouping !== null &&
+             ! $isTest ) {
+            $values = array( 'participant_test', '=', 0, $grouping, 0 );
+            self::whereClauseSingle( $values, $query );
         }
     }
     
@@ -161,18 +176,14 @@ class CRM_Event_BAO_Query
                                        'civicrm_event', 'event_end_date', 'end_date', 'End Date' );
             return;
 
-        case 'event_title':
-            
+        case 'event_id':
             $query->_where[$grouping][] = "civicrm_event.id $op {$value}";
-            $value = CRM_Core_DAO::getFieldValue('CRM_Event_DAO_Event', $value, "title");
-
-            $query->_qill[$grouping ][] = ts( 'Event %2 %1', array( 1 => $value, 2 => $op) );
+            $eventTitle = CRM_Core_DAO::getFieldValue('CRM_Event_DAO_Event', $value, 'title');
+            $query->_qill[$grouping ][] = ts( 'Event' ) . " $op {$eventTitle}";
             $query->_tables['civicrm_event'] = $query->_whereTables['civicrm_event'] = 1;
-
             return;
 
         case 'event_type':
-            
             require_once 'CRM/Core/OptionGroup.php';
             require_once 'CRM/Utils/Array.php';
 
@@ -285,6 +296,8 @@ class CRM_Event_BAO_Query
         case 'event_id':
             $query->_where[$grouping][] = "civicrm_event.id $op $value";
             $query->_tables['civicrm_event'] = $query->_whereTables['civicrm_event'] = 1;
+            $title = CRM_Core_DAO::getFieldValue('CRM_Event_DAO_Event', $value, "title");
+            $query->_qill[$grouping ][] = ts( 'Event' ) . " $op $value";
             return;
 
         case 'participant_contact_id':
@@ -345,7 +358,7 @@ class CRM_Event_BAO_Query
                                 'contact_type'              => 1, 
                                 'sort_name'                 => 1, 
                                 'display_name'              => 1,
-                                'event_title'               => 1,
+                                'event_id'               => 1,
                                 'event_start_date'          => 1,
                                 'event_end_date'            => 1,
                                 'participant_id'            => 1,
@@ -399,28 +412,23 @@ class CRM_Event_BAO_Query
                                           'class'          => 'tundra',
                                           );
         
-        $title =& $form->add('text', 'event_title', ts('Event Name'), $dojoAttributesEvent );
-        $type  =& $form->add('text', 'event_type',  ts('Event Type'), $dojoAttributesEventType );
-        if ( $title->getValue( ) ) {
-            $eventTitle = CRM_Core_DAO::getFieldValue('CRM_Event_DAO_Event', $title->getValue( ), 'title');
-            $form->assign( 'event_title_value',   $eventTitle );
+        $eventId   =& $form->add('text', 'event_id', ts('Event Name'), $dojoAttributesEvent );
+        $eventType =& $form->add('text', 'event_type',  ts('Event Type'), $dojoAttributesEventType );
+        if ( $eventId->getValue( ) ) {
+            $form->assign( 'event_id_value', $eventId->getValue( ) );
         } else {
             $fv  =& $form->getFormValues( );
-            if ( $fv["event_title"]){
-                $val = CRM_Core_DAO::getFieldValue('CRM_Event_DAO_Event', $fv["event_title"], 'title');
-                $form->assign( 'event_title_value',  $val );
+            if ( $fv['event_id'] ) {
+                $form->assign( 'event_id_value',  $fv['event_id'] );
             }
         }
-        
-        $eventTypes  = CRM_Core_OptionGroup::values("event_type" );
-        if ( $type->getValue( ) ) {
-            $typ= $eventTypes[ $type->getValue( )];
-            $form->assign( 'event_type_value',  $typ );
+
+        if ( $eventType->getValue( ) ) {
+            $form->assign( 'event_type_value',  $eventType->getValue( ) );
         } else {
             $fv  =& $form->getFormValues( );
-            $val = $eventTypes[$fv['event_type']];
-            if ( $val ) {
-                $form->assign( 'event_type_value',  $val );
+            if ( $fv['event_type'] ) {
+                $form->assign( 'event_type_value',  $fv['event_type'] );
             }
         }
 

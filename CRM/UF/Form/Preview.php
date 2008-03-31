@@ -229,26 +229,26 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
                 $this->add('date', $field['name'], $field['title'], CRM_Core_SelectValues::date('manual', 3, 1), $required );  
             } else if ($field['name'] == 'payment_instrument' ) {
                 $this->add('select', 'payment_instrument', ts( 'Paid By' ),
-                           array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::paymentInstrument( ), $required );
+                           array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::paymentInstrument( ), $required );
             } else if ($field['name'] == 'membership_type_id' ) { 
                 require_once 'CRM/Member/PseudoConstant.php';
                 $this->add('select', 'membership_type_id', ts( 'Membership Type' ),
-                           array(''=>ts( '-select-' )) + CRM_Member_PseudoConstant::membershipType( ), $required );
+                           array(''=>ts( '- select -' )) + CRM_Member_PseudoConstant::membershipType( ), $required );
             } else if ($field['name'] == 'status_id' ) { 
                 require_once 'CRM/Member/PseudoConstant.php';
                 $this->add('select', 'status_id', ts( 'Membership Status' ),
-                           array(''=>ts( '-select-' )) + CRM_Member_PseudoConstant::membershipStatus( ), $required );
+                           array(''=>ts( '- select -' )) + CRM_Member_PseudoConstant::membershipStatus( ), $required );
             } else if ($field['name'] == 'contribution_type' ) {
                 $this->add('select', 'contribution_type', ts( 'Contribution Type' ), 
-                           array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ), $required);
+                           array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::contributionType( ), $required);
             } else if ($field['name'] == 'gpa_id' ) {
                 require_once 'CRM/Core/OptionGroup.php';
                 $this->add('select', 'gpa_id', $field['title'],
-                           array(''=>ts( '-select-' )) + CRM_Core_OptionGroup::values('gpa'), $required);
+                           array(''=>ts( '- select -' )) + CRM_Core_OptionGroup::values('gpa'), $required);
             } else if ($field['name'] == 'ethnicity_id_1' ) {
                 require_once 'CRM/Core/OptionGroup.php';
                 $this->add('select', 'ethnicity_id_1', $field['title'],
-                           array(''=>ts( '-select-' )) + CRM_Core_OptionGroup::values('ethnicity'), $required);
+                           array(''=>ts( '- select -' )) + CRM_Core_OptionGroup::values('ethnicity'), $required);
             } else if ($field['name'] == 'cmr_comment' ) {
                 require_once 'CRM/Core/OptionGroup.php';
                 $this->add('textarea', $name, $field['title'], array('cols' => '30', 'rows' => '2'), $required);
@@ -264,7 +264,7 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
                 }
                 
                 $this->add('select', $field['name'], $field['title'],
-                           array(''=>ts( '-select-' )) + CRM_Core_OptionGroup::values($readerGroup), $required);
+                           array(''=>ts( '- select -' )) + CRM_Core_OptionGroup::values($readerGroup), $required);
             } else if ($field['name'] == 'scholarship_type_id' ) {
                 $this->add('select', $field['name'], $field['title'], array( "" => "-- Select -- " )+ array_flip( CRM_Core_OptionGroup::values( 'scholarship_type', true ) ) );
             } else if ($field['name'] == 'applicant_status_id' ) {

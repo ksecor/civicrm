@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-02-27 13:35+0100\n"
-"PO-Revision-Date: 2008-03-03 03:51-0800\n"
+"PO-Revision-Date: 2008-03-28 08:26-0700\n"
 "Last-Translator: Han Velthuis <han.velthuis@tiscali.nl>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -215,9 +215,8 @@ msgid "All Profiles"
 msgstr "Alle profielen"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
-#, fuzzy
 msgid "All Events"
-msgstr "Evenementen"
+msgstr "Alle evenementen"
 
 #: CRM/ACL/Form/ACL.php CRM/Contact/Page/View/CustomData.php CRM/Core/Menu.php
 msgid "Custom Data"
@@ -325,9 +324,8 @@ msgid "Subject"
 msgstr "Onderwerp"
 
 #: CRM/Activity/BAO/Query.php CRM/Case/BAO/Query.php
-#, fuzzy
 msgid "Start Date - From"
-msgstr "Startdatum"
+msgstr "Startdatum - Vanaf"
 
 #: CRM/Activity/BAO/Query.php CRM/Activity/Form/Activity.php
 #: CRM/Case/BAO/Query.php CRM/Case/Form/Case.php
@@ -381,9 +379,8 @@ msgstr "- selecteer -"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 #: templates/CRM/Activity/Form/Activity.tpl
-#, fuzzy
 msgid "Detach"
-msgstr "Zoek"
+msgstr ""
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Import/Form/MapField.php
 #: CRM/Activity/Import/Form/Preview.php
@@ -437,15 +434,13 @@ msgstr "Status"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 #: templates/CRM/Activity/Form/ActivityView.tpl
-#, fuzzy
 msgid "Added By"
-msgstr "Toegevoegd"
+msgstr "Toegevoegd door"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 #: CRM/Core/Menu.php templates/CRM/Case/Form/CaseActivity.tpl
-#, fuzzy
 msgid "Case"
-msgstr "Contant"
+msgstr ""
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Form/ActivityView.php
 #: CRM/Activity/Import/Form/Summary.php CRM/Admin/Form/RelationshipType.php
@@ -569,7 +564,7 @@ msgstr "<< Vorige"
 #: CRM/Grant/Import/Form/UploadFile.php CRM/Import/Form/MapField.php
 #: CRM/Import/Form/UploadFile.php
 msgid "Continue >>"
-msgstr "Ga Verder >>"
+msgstr "Ga verder >>"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Grant/Import/Form/MapField.php
 msgid "Contact ID"
@@ -693,9 +688,8 @@ msgstr "Vereiste velden ontbreken"
 
 #: CRM/Activity/Import/Parser.php CRM/Grant/Import/Parser.php
 #: CRM/Import/Parser.php
-#, fuzzy
 msgid "Line Number"
-msgstr "Telefoonnummer"
+msgstr "Regelnummer"
 
 #: CRM/Activity/Import/Parser.php CRM/Grant/Import/Parser.php
 #: CRM/Import/Parser.php
@@ -788,7 +782,6 @@ msgstr "Etiket"
 #: CRM/Custom/Form/Group.php CRM/Custom/Form/Option.php
 #: CRM/Price/Form/Field.php CRM/Price/Form/Option.php CRM/UF/Form/Field.php
 #: CRM/UF/Form/Group.php
-#, fuzzy
 msgid "is a numeric field"
 msgstr "is een numeriek veld"
 
@@ -828,9 +821,8 @@ msgid "Enter a valid URL"
 msgstr "Voer een geldige URL in"
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
-#, fuzzy
 msgid "API URL"
-msgstr "API Login"
+msgstr "API URL"
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
 msgid "Recurring Payments URL"
@@ -880,9 +872,8 @@ msgstr ""
 
 #: CRM/Admin/Form/PreferencesDate.php CRM/Core/DAO/PreferencesDate.php
 #: templates/CRM/Admin/Page/PreferencesDate.tpl
-#, fuzzy
 msgid "Format"
-msgstr "Formeel"
+msgstr "Formaat"
 
 #: CRM/Admin/Form/PreferencesDate.php CRM/Custom/Form/Field.php
 msgid "Value should be a positive number"
@@ -1014,16 +1005,14 @@ msgstr "of"
 #: CRM/Case/BAO/Query.php CRM/Case/Form/Case.php
 #: templates/CRM/Contact/Page/View/Case.tpl
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Case Type"
-msgstr "Card type"
+msgstr ""
 
 #: CRM/Case/BAO/Query.php CRM/Case/Form/Case.php
 #: templates/CRM/Contact/Page/View/Case.tpl
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Case Status"
-msgstr "Status taak"
+msgstr ""
 
 #: CRM/Case/DAO/Case.php CRM/Case/Form/Case.php
 #: CRM/Contact/DAO/Relationship.php CRM/Contact/Form/Relationship.php
@@ -1125,7 +1114,7 @@ msgstr "Streek"
 #: CRM/Contact/BAO/Query.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Core/DAO/Worldregion.php
 msgid "World Region"
-msgstr ""
+msgstr "Werelddeel"
 
 #: CRM/Contact/BAO/Query.php CRM/Contact/Form/Individual.php
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
@@ -1328,7 +1317,6 @@ msgstr "Provincie"
 
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/Edit.php
 #: CRM/Core/BAO/Address.php templates/CRM/Contact/Form/Address/country.tpl
-#, fuzzy
 msgid "- type first letter(s) -"
 msgstr "- type de eerste letter(s) -"
 
@@ -1404,18 +1392,16 @@ msgid "Website"
 msgstr "Website"
 
 #: CRM/Contact/Form/Merge.php CRM/Grant/Invoke.php
-#, fuzzy
 msgid "You do not have access to this page"
-msgstr "Je hebt niet de nodige toegangsrechten niet om dit contact te zien"
+msgstr "U heeft geen toegang tot deze pagina"
 
 #: CRM/Contact/Form/Merge.php CRM/Contact/Form/Task/Delete.php
-#, fuzzy
 msgid ""
 "The contact record which is linked to the currently logged in user account - "
 "'%1' - can not be deleted."
 msgstr ""
-"Het contact record is gekoppeld aan het huidig ingelogde gebruikersaccount -"
-"\"%1\" -en kan niet worden verwijderd."
+"Het contact is gekoppeld aan een ingelogde gebruiker -\"%1\" - en kan niet "
+"worden verwijderd."
 
 #: CRM/Contact/Form/Merge.php CRM/Core/BAO/CustomField.php
 #: CRM/Core/BAO/CustomOption.php CRM/Core/BAO/CustomQuery.php
@@ -1525,14 +1511,12 @@ msgstr "Lidmaatschappen"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Grant.php
 #: CRM/Contact/Page/View/Tabbed.php CRM/Core/SelectValues.php
-#, fuzzy
 msgid "Grants"
-msgstr "Toestaan"
+msgstr ""
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Tabbed.php
-#, fuzzy
 msgid "Cases"
-msgstr "Contant"
+msgstr ""
 
 #: CRM/Contact/Form/Search/Basic.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Contact/Form/Search/Custom/Basic.php
@@ -1603,21 +1587,18 @@ msgstr "Contact Id"
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 #: CRM/Contact/Form/Search/Custom/ContributionAggregate.php
-#, fuzzy
 msgid "Donation Count"
-msgstr "Locatie telling"
+msgstr "Donatie telling"
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 #: CRM/Contact/Form/Search/Custom/ContributionAggregate.php
-#, fuzzy
 msgid "Donation Amount"
-msgstr "Locatie telling"
+msgstr "Donatie bedrag"
 
 #: CRM/Contact/Form/Search/Custom.php CRM/Core/Invoke.php
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Custom Search"
-msgstr "Zoektocht"
+msgstr "Aangepaste Zoek"
 
 #: CRM/Contact/Form/Search.php CRM/Grant/Form/Search.php
 msgid "- more actions -"
@@ -1849,18 +1830,16 @@ msgid "CiviCRM"
 msgstr "CiviCRM"
 
 #: CRM/Core/Block.php CRM/Core/Invoke.php
-#, fuzzy
 msgid "New Activity"
-msgstr "Toon Activiteit"
+msgstr "Nieuwe activiteit"
 
 #: CRM/Core/Block.php CRM/Core/Menu.php
 msgid "Log out"
 msgstr "Uitloggen"
 
 #: CRM/Core/Block.php CRM/Grant/Info.php CRM/Grant/Menu.php
-#, fuzzy
 msgid "CiviGrant"
-msgstr "Toestaan"
+msgstr ""
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
 msgid "Html Type"
@@ -1957,9 +1936,8 @@ msgid "Phone Type"
 msgstr "Telefoontype"
 
 #: CRM/Core/DAO/Mapping.php CRM/Core/Invoke.php
-#, fuzzy
 msgid "Import Activity"
-msgstr "Importeer logfile"
+msgstr "Importeer activiteit"
 
 #: CRM/Core/DAO/Mapping.php CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Search Builder"
@@ -2131,9 +2109,8 @@ msgstr "Veld label"
 #: templates/CRM/Admin/Page/Options.tpl templates/CRM/Custom/Page/Field.tpl
 #: templates/CRM/Custom/Page/Group.tpl templates/CRM/Price/Page/Field.tpl
 #: templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Group.tpl
-#, fuzzy
 msgid "Order"
-msgstr "Overtijd"
+msgstr ""
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php
 #: CRM/Price/Form/Field.php CRM/Price/Form/Option.php
@@ -2148,9 +2125,8 @@ msgid "Required?"
 msgstr "Vereist?"
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
-#, fuzzy
 msgid "must be a numeric value"
-msgstr "moet een numerieke waarde zijn"
+msgstr "moet numeriek zijn"
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php CRM/UF/Form/Field.php
 msgid "Field Help"
@@ -2212,9 +2188,8 @@ msgid "Settings"
 msgstr "Instellingen"
 
 #: CRM/Friend/BAO/Friend.php CRM/Friend/DAO/Friend.php
-#, fuzzy
 msgid "Suggested Message"
-msgstr "Bericht bij aanmelding"
+msgstr "Voorstel Bericht"
 
 #: CRM/Friend/Form/Contribute.php CRM/Friend/Form/Event.php
 msgid "Thanks for Spreading the Word"
@@ -2222,9 +2197,8 @@ msgstr ""
 
 #: CRM/Grant/BAO/Query.php CRM/Grant/Form/Grant.php
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Grant Type"
-msgstr "Gegevenstype"
+msgstr ""
 
 #: CRM/Grant/BAO/Query.php CRM/Grant/Form/Grant.php
 #, fuzzy
@@ -4120,7 +4094,7 @@ msgstr "Relatie is bijgewerkt"
 
 #: CRM/Contact/Form/Relationship.php
 msgid "Please select at least one contact."
-msgstr "Selecteer minimaal één contact."
+msgstr "Selecteer minimaal een contact."
 
 #: CRM/Contact/Form/Relationship.php
 msgid "The relationship end date cannot be prior to the start date."
@@ -4178,16 +4152,15 @@ msgstr "- elk land -"
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "- any county -"
-msgstr "- alle landen -"
+msgstr "- elk land -"
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "Range-From"
 msgstr "Bereik - van"
 
 #: CRM/Contact/Form/Search/Criteria.php
-#, fuzzy
 msgid "- any region -"
-msgstr "- alle groepen -"
+msgstr "- elke regio -"
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "Location Types"
@@ -4300,14 +4273,12 @@ msgid "Individual's Home State"
 msgstr "Opmaak persoonsnaam"
 
 #: CRM/Contact/Form/Search/Custom/Group.php
-#, fuzzy
 msgid "Include Group(s)"
-msgstr "Uw groep(en)"
+msgstr "Toegevoegde groep(en)"
 
 #: CRM/Contact/Form/Search/Custom/Group.php
-#, fuzzy
 msgid "Exclude Group(s)"
-msgstr "Uw groep(en)"
+msgstr "Overslaan groep(en)"
 
 #: CRM/Contact/Form/Search.php
 msgid "Please select at least Group Status value."
@@ -4335,7 +4306,7 @@ msgstr "Voeg contacten aan een groep toe"
 
 #: CRM/Contact/Form/Task/AddToGroup.php
 msgid "Add to Group"
-msgstr "Voeg aan een groep toe"
+msgstr "Voeg aan de groep toe"
 
 #: CRM/Contact/Form/Task/AddToGroup.php
 msgid "Added Contact(s) to %1"
@@ -4343,7 +4314,7 @@ msgstr "Contact(en) toegevoegd aan %1"
 
 #: CRM/Contact/Form/Task/AddToGroup.php
 msgid "Total Contact(s) added to group: %1"
-msgstr "Totaal aantal contacten toegevoegd aan: %1"
+msgstr "Totaal aantal contacten toegevoegd aan groep: %1"
 
 #: CRM/Contact/Form/Task/AddToGroup.php
 msgid "Total Contact(s) already in group: %1"
@@ -7235,9 +7206,8 @@ msgid "Grant Decision Date - From"
 msgstr "Besluit datum"
 
 #: CRM/Grant/BAO/Query.php
-#, fuzzy
 msgid "Minimum Amount"
-msgstr "Bedrag"
+msgstr "Minimum bedrag"
 
 #: CRM/Grant/BAO/Query.php
 #, fuzzy
@@ -7245,9 +7215,8 @@ msgid "Please enter a valid money value (e.g. 9.99)."
 msgstr "Voer een geldig bedrag in"
 
 #: CRM/Grant/BAO/Query.php
-#, fuzzy
 msgid "Maximum Amount"
-msgstr "Totaal bedrag"
+msgstr "Maximum bedrag"
 
 #: CRM/Grant/BAO/Query.php
 #, fuzzy
@@ -7353,9 +7322,8 @@ msgid "View Participant URL"
 msgstr "Nieuwe deelnemer"
 
 #: CRM/Grant/Invoke.php
-#, fuzzy
 msgid "Manage Grant"
-msgstr "Groepsbeheer"
+msgstr ""
 
 #: CRM/Grant/Invoke.php
 #, fuzzy
@@ -8902,10 +8870,10 @@ msgid ""
 "check 'Save this field mapping' at the bottom of the page before continuing. "
 "The saved mapping can then be easily reused the next time data is imported."
 msgstr ""
-"Indien u aanvullende gegevensvelden denkt te importeren uit het zelfde "
-"bestand, vink dan 'Opslaan veldoverzicht' onderaan, vorodat u verder gaat. "
-"Dit opgeslagen veldoverzicht kan dan makkelijk weer gebruikt worden bij een "
-"volgende importeerslag."
+"Indien u aanvullende gegevensvelden denkt te importeren uit hetzelfde "
+"bestand, vink dan 'Opslaan veldoverzicht' onderaan, voordat u verder gaat. "
+"Dit veldoverzicht kan dan weer gebruikt worden bij een volgende "
+"importeerslag."
 
 #: templates/CRM/Activity/Import/Form/MapTable.tpl
 #: templates/CRM/Grant/Import/Form/MapTable.tpl
@@ -9318,18 +9286,16 @@ msgid "You can go to the Activities tab to create or attach activity records."
 msgstr ""
 
 #: templates/CRM/Activity/Selector/Activity.tpl
-#, fuzzy
 msgid "There are no Activities to display."
-msgstr "Er zijn geen openstaande activiteiten voor dit contact."
+msgstr "Er zijn geen te tonen activiteiten."
 
 #: templates/CRM/Activity/Selector/Activity.tpl
 msgid "There are no Activites to display."
 msgstr ""
 
 #: templates/CRM/Activity/Selector/Activity.tpl
-#, fuzzy
 msgid "You can use the links above to schedule or record an activity."
-msgstr "Een geplande e-mail activiteit kan niet worden bewaard. "
+msgstr "U kunt met de bovenstaande links een activiteit toevoegen."
 
 #: templates/CRM/Admin/Form/ActivityType.tpl
 msgid "New Activity Type"
@@ -10991,9 +10957,8 @@ msgid "Calendar"
 msgstr "Kalender"
 
 #: templates/CRM/common/calendar/desc.tpl
-#, fuzzy
 msgid "Click to select date from calendar."
-msgstr "Klik om datum en tijd uit de kalender te selecteren."
+msgstr "Klik om datum uit kalender te kiezen."
 
 #: templates/CRM/common/calendar/desc.tpl
 msgid "Click to select date/time from calendar."
@@ -11053,15 +11018,14 @@ msgid "View Change Log"
 msgstr "Toon logfile"
 
 #: templates/CRM/common/footer.tpl
-#, fuzzy
 msgid ""
 "Powered by CiviCRM %1. CiviCRM is openly available under the <a href='%"
 "2'>GNU Affero General Public License (GNU AGPL)</a>. <a href='%3'>Download "
 "source</a>. <a href='%4'>View issues and report bugs</a>. <a href='%"
 "5'>Online documentation</a>."
 msgstr ""
-"Gemaakt door CiviCRM %1. CiviCRM is beschikbaar met de <a href=\"%2\">Affero "
-"General Public License (AGPL)</a>. <a href=\"%3\">Download source</a>. <a "
+"Gemaakt met CiviCRM %1. CiviCRM is beschikbaar onder de <a href='%2'>Affero "
+"General Public License (AGPL)</a>. <a href='%3'>Download source</a>. <a "
 "href=\"%4\">Bekijk onderwerpen, fouten melden</a>. <a href=\"%5\">Online "
 "documentatie</a>."
 
@@ -11088,14 +11052,13 @@ msgstr ""
 "veld de bijbehorende provincie kunnen worden geselecteerd. "
 
 #: templates/CRM/Contact/Form/Address/geo_code.tpl
-#, fuzzy
 msgid ""
 "Latitude and longitude may be automatically populated by enabling a Mapping "
 "Provider (<a href='%1' target='_blank' title='%2'>read more...</a>)."
 msgstr ""
-"Lengte- en breedtegraden kunnen automatisch worden aangemaakt door een "
-"Mapping provider  (<a href=\"%1\" target=\"_blank\" title=\"%2\">lees meer..."
-"</a>)."
+"Lengte- en breedtegraden kunnen automatisch worden toegevoegd door een "
+"Mapping provider  (<a href=\"%1\" target=\"_blank\" title=\"%2\">lees "
+"meer...</a>)."
 
 #: templates/CRM/Contact/Form/Address/postal_code.tpl
 msgid ""
@@ -11307,7 +11270,7 @@ msgstr "Aangezet"
 
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid "Disabled"
-msgstr "UItgezet"
+msgstr "Uitgezet"
 
 #: templates/CRM/Contact/Form/Relationship.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
@@ -11435,7 +11398,6 @@ msgid "(for %1)"
 msgstr "(voor %1)"
 
 #: templates/CRM/Contact/Form/Search/BasicCriteria.tpl
-#, fuzzy
 msgid ""
 "To search by first AND last name, enter 'lastname, firstname'. Example: "
 "'Doe, Jane'. For partial name search, use '%partialname' ('%' equals 'begins "
@@ -11443,21 +11405,19 @@ msgid ""
 "1'>Advanced Search</a>."
 msgstr ""
 "Om op voornaam EN achternaam te zoeken dient u 'achternaam, voornaam' in te "
-"voeren. (Vb.: 'Smit, Jan'). Zoekt u op een gedeelte van een naam, gebruik "
-"dan het wildcard '%' teken om een willekeurige lettercombinatie aan te "
-"geven. Zoeken op e-mail adressen doet u via <a href=\"%1\">Geavanceerd "
-"zoeken</a>."
+"voeren. (Vb.: 'Smit, Jan'). Zoekt u op een gedeelte van een naam gebruik dan "
+"het % teken om een willekeurige lettercombinatie aan te geven. Zoeken op "
+"e-mail adressen doet u via <a href='%1'>Geavanceerd zoeken</a>."
 
 #: templates/CRM/Contact/Form/Search/Builder.tpl
-#, fuzzy
 msgid ""
 "IMPORTANT: Search Builder requires you to use specific formats for your "
 "search values. Review the <a href='%1' target='_blank' title='%2'>Search "
 "Builder documentation</a> before building your first search."
 msgstr ""
-"BELANGRIJK: 'Zoeken opbouwen' vereist een specifieke opmaak voor zoek "
-"waardes.  Lees de <a href=\"%1\" target=\"_blank\" title=\"%2\">Search "
-"Builder documentation</a> voordat u uw eerste zoek opbouw opdracht gebruikt."
+"BELANGRIJK: Het zoeken  vereist een specifieke opmaak van de zoekwaardes.  "
+"Lees de <a href=\"%1\" target=\"_blank\" title=\"%2\">Search Builder "
+"documentation</a> voordat u uw eerste zoekopdracht doet."
 
 #: templates/CRM/Contact/Form/Search/Criteria/Basic.tpl
 msgid "Complete OR partial Contact Name."
@@ -11472,9 +11432,8 @@ msgid "Does the contact have a %1 Account?"
 msgstr "Heeft het contact een %1 account?"
 
 #: templates/CRM/Contact/Form/Search/Criteria/Basic.tpl
-#, fuzzy
 msgid "Organization(s)"
-msgstr "Organisaties"
+msgstr "Organisatie(s)"
 
 #: templates/CRM/Contact/Form/Search/Criteria/Basic.tpl
 msgid "<strong>EXCLUDE</strong> contacts who have these privacy option(s)."
@@ -11529,7 +11488,7 @@ msgstr "probeer een andere spelling of gebruik minder karakters"
 #: templates/CRM/Contact/Form/Search/EmptyResults.tpl
 #: templates/CRM/Grant/Form/Search/EmptyResults.tpl
 msgid "make sure you have enough privileges in the access control system"
-msgstr "overtuig u dat u de goede rechten heeft voor het toegangssysteem"
+msgstr "overtuig u dat u de goede toegangsrechten heeft"
 
 #: templates/CRM/Contact/Form/Search/Custom/Sample.tpl
 #: templates/CRM/Contact/Form/Search/Custom.tpl
@@ -11555,13 +11514,12 @@ msgstr ""
 "groep' of 'elke markering'."
 
 #: templates/CRM/Contact/Form/Search/EmptyResults.tpl
-#, fuzzy
 msgid ""
 "add a <a href='%1'>New Individual</a>, <a href='%2'>Organization</a> or <a "
 "href='%3'>Household</a>"
 msgstr ""
-"Voeg een <a href\"%1\">nieuwe persoon</a>, een <a href=\"%2\"> organisatie</"
-"a>, of een <a href=\"%3\"> huishouden </a>toe"
+"voeg een <a href='%1'>nieuwe persoon</a>, <a href='%2'> organisatie</a> of "
+"<a href='%3'> huishouden</a> toe"
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid ""
@@ -11576,12 +11534,11 @@ msgstr ""
 "uit deze groep."
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
-#, fuzzy
 msgid ""
 "Use the <a href='%1'>Add Members...</a> screen if you want to add new "
 "members to this group."
 msgstr ""
-"Gebruik <a href=\"%1\"> Voeg leden toe</a> als u leden wilt toevoegen aan deze "
+"Gebruik <a href='%1'> Voeg leden toe</a> als u leden wilt toevoegen aan deze "
 "groep."
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
@@ -11607,19 +11564,18 @@ msgid ""
 "want to add and click 'Add Contacts...'."
 msgstr ""
 "Gebruik het zoekformulier om contacten te zoeken, die toegevoegd moeten "
-"worden aan %1. Markeer de contacten die u wilt toevoegen, en klik 'Voeg "
-"contacten toe'."
+"worden aan <strong>%1</strong>. Markeer de contacten die u wilt toevoegen, "
+"en klik 'Voeg contacten toe'."
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
-#, fuzzy
 msgid ""
 "Use <strong>%</strong> wildcard(s) for partial matches. EXAMPLE: Enter "
 "'Volunteer%' as your Activity Type to match any activity whose type is "
 "'Volunteer' + any other words (e.g. Volunteer for Open House)."
 msgstr ""
-"Gebruik <strong>%</strong> wildcard(s) voor gedeeltelijke overeenkomsten. "
-"Voorbeeld: Gebruik \"Vrijwilliger%\" als  activiteiten type om alle "
-"activiteiten types te vinden die beginnen met \"Vrijwilliger\"."
+"Gebruik <strong>%</strong> voor gedeeltelijke overeenkomsten. Voorbeeld: Vul "
+"\"Vrij%\" als  activiteittype in om alle activiteittypes te vinden die "
+"beginnen met \"Vrij\"."
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid ""
@@ -12032,13 +11988,11 @@ msgstr "Nieuwe bijdrage"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Membership.tpl
-#, fuzzy
 msgid ""
 "There are no memberships recorded for this contact. You can <a href='%"
 "1'>enter one now</a>."
 msgstr ""
-"Er zijn geen lidmaatschapgegevens opgeslagen voor dit contact. U kunt <a "
-"href=\"%1\">nu een iaanmaken</a>."
+"Er zijn geen lidmaatschappen van dit contact. U kunt er een <a href='%1'>aanmaken</a>."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Membership.tpl
@@ -12111,7 +12065,7 @@ msgstr "Geen relaties. Je kan <a href=\"%1\">een nieuwe relatie aanmaken</a>."
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 msgid "There are no Relationships entered for this contact."
-msgstr "Er zijn geen relaties opgegeven voor dit contact."
+msgstr "Er zijn geen relaties van dit contact."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Relationships (3 of %1)"
@@ -12172,7 +12126,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "There are no Notes for this contact."
-msgstr "Er zijn geen notities over dit contact"
+msgstr "Er zijn geen notities van dit contact."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Notes (3 of %1)"
@@ -12217,13 +12171,12 @@ msgid "Contributions received from %1 since inception."
 msgstr "Onvangen bijdragen van %1 vanaf de aanvangsdatum."
 
 #: templates/CRM/Contact/Page/View/Contribution.tpl
-#, fuzzy
 msgid ""
 "Click <a href='%1'>Record Offline Contribution</a> to record a new offline "
 "contribution received from this contact."
 msgstr ""
-"Klik op <a href=\"%1'\">Offline bijdrage vastleggen</a> om een nieuwe "
-"offline bijdrage vast te leggen die u van dit contact heeft ontvangen."
+"Klik op <a href='%1'>Offline bijdrage vastleggen</a> om een nieuwe offline "
+"bijdrage van dit contact vast te leggen."
 
 #: templates/CRM/Contact/Page/View/Contribution.tpl
 #, fuzzy
@@ -12245,7 +12198,7 @@ msgstr "Credit Card bijdrage vastleggen"
 
 #: templates/CRM/Contact/Page/View/Contribution.tpl
 msgid "No contributions have been recorded from this contact."
-msgstr "Er zijn geen bijdragen vastgelegd voor dit contact."
+msgstr "Er zijn geen bijdragen vastgelegd van dit contact."
 
 #: templates/CRM/Contact/Page/View/Contribution.tpl
 msgid "Contributions made in honor of %1."
@@ -12291,17 +12244,14 @@ msgid "(display name not available)"
 msgstr "(schermnaam niet beschikbaar)"
 
 #: templates/CRM/Contact/Page/View/Grant.tpl
-#, fuzzy
 msgid "This page lists all grant registrations for %1 since inception."
-msgstr ""
-"Deze bladzijde toont alle evenement registraties van %1 sinds aanvangsdatum."
+msgstr "Deze pagina toont alle grant registraties van %1 sinds aanvangsdatum."
 
 #: templates/CRM/Contact/Page/View/Grant.tpl
-#, fuzzy
 msgid "Click <a href='%1'>New Grant</a> to register this contact for a Grant."
 msgstr ""
-"Klik op <a href=\"%1'\">Nieuwe evenement aanmelding</a> om dit contact aan "
-"te melden voor een nieuw evenement."
+"Klik op <a href='%1'>Nieuwe grant</a> om dit contact aan te melden voor een "
+"grant."
 
 #: templates/CRM/Contact/Page/View/Grant.tpl
 #: templates/CRM/Grant/Form/Grant.tpl
@@ -12310,18 +12260,15 @@ msgid "New Grant"
 msgstr "Toestaan"
 
 #: templates/CRM/Contact/Page/View/Grant.tpl
-#, fuzzy
 msgid ""
 "There are no grant recorded for this contact. You can <a href='%1'>enter one "
 "now</a>."
 msgstr ""
-"Er zijn geen bijdragen opgeslagen voor dit contact. U kunt <a href=\"%1\">nu "
-"één invoeren</a>."
+"Er is geen grant van dit contact. U kunt er een <a href=' %1'>invoeren</a>."
 
 #: templates/CRM/Contact/Page/View/Grant.tpl
-#, fuzzy
 msgid "There are no grant recorded for this contact."
-msgstr "Er zijn geen bijdragen opgeslagen voor dit contact."
+msgstr "Er is geen grant van dit contact."
 
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
 msgid "This contact does not currently belong to any groups."
@@ -12415,7 +12362,7 @@ msgstr "Wijzigingsdatum"
 
 #: templates/CRM/Contact/Page/View/Log.tpl
 msgid "No modifications have been logged for this contact."
-msgstr "Er zijn geen veranderingen bijgehouden voor dit contact."
+msgstr "Er zijn geen veranderingen geregistreerd van dit contact."
 
 #: templates/CRM/Contact/Page/View/Membership.tpl
 #, fuzzy
@@ -12468,17 +12415,15 @@ msgid "Are you sure you want to delete the note '%1'?"
 msgstr "Wilt U de notitie \"%1\" verwijderen?"
 
 #: templates/CRM/Contact/Page/View/Note.tpl
-#, fuzzy
 msgid "There are no Notes for this contact. You can <a href='%1'>add one</a>."
 msgstr ""
-"Er zijn geen notities bij dit contact. U kunt er een  <a "
-"href=\"%1\">aanmaken</a>."
+"Er zijn geen notities van dit contact. U kunt er een  <a "
+"href='%1'>aanmaken</a>."
 
 #: templates/CRM/Contact/Page/View/Participant.tpl
 msgid "This page lists all event registrations for %1 since inception."
 msgstr ""
-"Deze bladzijde toont alle evenement registraties van %1 sinds de "
-"aanvangsdatum."
+"Deze pagina toont alle evenement registraties van %1 sinds de aanvangsdatum."
 
 #: templates/CRM/Contact/Page/View/Participant.tpl
 #, fuzzy
@@ -12494,13 +12439,12 @@ msgid "New Event Registration"
 msgstr "Nieuwe evenement aanmelding"
 
 #: templates/CRM/Contact/Page/View/Participant.tpl
-#, fuzzy
 msgid ""
 "There are no event registrations recorded for this contact. You can <a "
 "href='%1'>enter one now</a>."
 msgstr ""
-"Er zijn geen evenement aanmeldingen geregistreerd voor dit contact. U kunt "
-"er <a href=\"%1\">nu een invoeren</a>."
+"Er zijn geen evenement aanmeldingen geregistreerd van dit contact. U kunt er "
+"een <a href=' %1' >aanmaken</a>."
 
 #: templates/CRM/Contact/Page/View/Participant.tpl
 msgid "There are no event registrations recorded for this contact."
@@ -12521,13 +12465,12 @@ msgid "State/Prov"
 msgstr "Staat/Provincie"
 
 #: templates/CRM/Contact/Page/View/Relationship.tpl
-#, fuzzy
 msgid ""
 "There are no Relationships entered for this contact. You can <a href='%"
 "1'>add one</a>."
 msgstr ""
 "Er zijn geen relaties van dit contact. U kunt er een <a "
-"href=\"%1\">aanmaken</a>."
+"href='%1'>aanmaken</a>."
 
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 #, fuzzy
@@ -12941,7 +12884,7 @@ msgstr ""
 #: templates/CRM/Custom/Form/Optionfields.tpl
 #: templates/CRM/Price/Form/OptionFields.tpl
 msgid "another choice"
-msgstr "volgende keuze"
+msgstr "andere keuze"
 
 #: templates/CRM/Custom/Form/Optionfields.tpl
 #: templates/CRM/Price/Form/OptionFields.tpl
@@ -13563,12 +13506,11 @@ msgstr "Of <a href='%1'>bekijk alle beschikbare groepen</a>."
 
 #: templates/CRM/Group/Page/Group.tpl
 msgid "No Groups have been created for this site."
-msgstr "Er zijn geen groepen gecreëerd voor deze website."
+msgstr "Er zijn geen groepen voor deze website."
 
 #: templates/CRM/Group/Page/Group.tpl
-#, fuzzy
 msgid "You can <a href='%1'>add one</a> now."
-msgstr "U kunt <a href=\"%1\">hier</a> één aanmaken."
+msgstr "U kunt er een <a href='%1'>aanmaken</a>."
 
 #: templates/CRM/Import/Form/Preview.tpl
 #, fuzzy
@@ -14075,13 +14017,12 @@ msgid "Standalone Registration Form"
 msgstr "Standalone formulier"
 
 #: templates/CRM/Tag/Form/Tag.tpl
-#, fuzzy
 msgid ""
 "Current tags for <strong>%1</strong> are highlighted. You can add or remove "
 "tags from <a href='%2'>Edit Tags</a>."
 msgstr ""
 "De huidige markeringen voor <strong>%1</strong> zijn versterkt weergegeven. "
-"U kunt <a href=\"%2\">markeringen aanmaken en wijzigen </a>."
+"U kunt <a href='%2'>markeringen aanmaken en wijzigen</a>."
 
 #: templates/CRM/Tag/Form/Tag.tpl
 msgid "Current tags are highlighted."

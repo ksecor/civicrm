@@ -1,22 +1,22 @@
 <tr>
- <td class="right">{$form.event_title.label}</td> 
-    {if $event_title_value}
+ <td class="right">{$form.event_id.label}</td> 
+    {if $event_id_value}
     <script type="text/javascript">
         dojo.addOnLoad( function( ) {ldelim}
-        dijit.byId( 'event_title' ).setDisplayedValue( "{$event_title_value}")
+        dijit.byId( 'event_id' ).setValue( "{$event_id_value}")
         {rdelim} );
     </script>
     {/if}
     <td>
        <div dojoType="dojox.data.QueryReadStore" jsId="eventStore" url="{$dataURLEvent}" class="tundra">
-        {$form.event_title.html}
+        {$form.event_id.html}
         </div>
     </td>
     <td>{$form.event_type.label}</td>
     {if $event_type_value}
     <script type="text/javascript">
         dojo.addOnLoad( function( ) {ldelim}
-        dijit.byId( 'event_type' ).setDisplayedValue( "{$event_type_value}")
+        dijit.byId( 'event_type' ).setValue( "{$event_type_value}")
         {rdelim} );
     </script>
     {/if}

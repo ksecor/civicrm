@@ -130,7 +130,7 @@ class CRM_ACL_Form_ACL extends CRM_Admin_Form
         $this->add('text', 'name', ts('Description'), CRM_Core_DAO::getAttribute( 'CRM_ACL_DAO_ACL', 'name' ), true );
         
         require_once 'CRM/ACL/BAO/ACL.php';
-        $operations   = array( '' => ts( '-select-' ) ) + CRM_ACL_BAO_ACL::operation( );
+        $operations   = array( '' => ts( '- select -' ) ) + CRM_ACL_BAO_ACL::operation( );
         $this->add( 'select',
                     'operation',
                     ts( 'Operation' ),
@@ -156,25 +156,25 @@ class CRM_ACL_Form_ACL extends CRM_Admin_Form
         require_once 'CRM/Core/OptionGroup.php';
 
         $label = ts( 'Role' );
-        $role = array( '-1' => ts('-select role-'),
+        $role = array( '-1' => ts('- select role -'),
                        '0'  => ts( 'Everyone' ) ) +
             CRM_Core_OptionGroup::values( 'acl_role' );
         $this->add( 'select', 'entity_id', $label, $role, true );
 
-        $group       = array( '-1' => ts( '-select-' ),
+        $group       = array( '-1' => ts( '- select -' ),
                               '0'  => ts( 'All Groups' ) )        +
             CRM_Core_PseudoConstant::group( )      ;
 
-        $customGroup = array( '-1' => ts( '-select-' ),
+        $customGroup = array( '-1' => ts( '- select -' ),
                               '0'  => ts( 'All Custom Groups' ) ) +
             CRM_Core_PseudoConstant::customGroup( );
 
-        $ufGroup     = array( '-1' => ts( '-select-' ),
+        $ufGroup     = array( '-1' => ts( '- select -' ),
                               '0'  => ts( 'All Profiles' ) )      +
             CRM_Core_PseudoConstant::ufGroup( )    ;
 
         require_once 'CRM/Event/PseudoConstant.php';
-        $event       = array( '-1' => ts( '-select-' ),
+        $event       = array( '-1' => ts( '- select -' ),
                               '0'  => ts( 'All Events' ) )        +
             CRM_Event_PseudoConstant::event( );
 

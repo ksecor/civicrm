@@ -76,10 +76,9 @@ class CRM_Core_BAO_Block
                 eval ('$block = & new CRM_Core_BAO_' . $blockName .'( );');
                 $block->id = $blockId;
                 $getBlocks = self::retrieveBlock( $block, $blockName );
-                $blocks[1][$count] =  $getBlocks[1][1];
+                $blocks[$block->location_type_id][$count] =  $getBlocks[$block->location_type_id][1];
                 $count++;
             }
-           
         }
         return $blocks;
     }
@@ -125,7 +124,7 @@ class CRM_Core_BAO_Block
             
             $blocks[$block->location_type_id][$count] = $values;
         }
-      
+
         return $blocks ;
     }
     
@@ -258,7 +257,7 @@ class CRM_Core_BAO_Block
             $contactFields['contact_id'      ] = $contactId;
             $contactFields['location_type_id'] = $value['location_type_id'];
             
-            foreach ( $value as $val ) {
+            foreach ( $value as $k => $val ) {
                 if ( !is_array( $val ) ) {
                     continue;
                 }
@@ -266,7 +265,7 @@ class CRM_Core_BAO_Block
                 if ( !empty( $blockIds[ $locationCount ] ) ) {
                     $val['id'] = array_shift( $blockIds[ $locationCount ] );
                 }
-                
+
                 $dataExits = self::dataExists( self::$requiredBlockFields[$blockName], $val );
                 
                 if ( isset( $val['id'] ) && !$dataExits ) {
@@ -296,6 +295,7 @@ class CRM_Core_BAO_Block
             
             $locationCount++;
         }
+
         return $blocks;
     }
 

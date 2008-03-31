@@ -130,11 +130,11 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
         $attributes = CRM_Core_DAO::getAttribute('CRM_Grant_DAO_Grant');
         $grantType = CRM_Core_OptionGroup::values( 'grant_type' );
         $this->add('select', 'grant_type_id',  ts( 'Grant Type' ),
-                   array( '' => ts( '-select-' ) ) + $grantType , true);
+                   array( '' => ts( '- select -' ) ) + $grantType , true);
 
         $grantStatus = CRM_Core_OptionGroup::values( 'grant_status' );
         $this->add('select', 'status_id',  ts( 'Grant Status' ),
-                   array( '' => ts( '-select-' ) ) + $grantStatus , true);
+                   array( '' => ts( '- select -' ) ) + $grantStatus , true);
 
 
         $this->add( 'date', 'application_received_date', ts('Application Received'),

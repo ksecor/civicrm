@@ -125,6 +125,8 @@ class CRM_Event_Form_Registration_ThankYou extends CRM_Event_Form_Registration
                              
         $this->freeze();
         
+        // can we blow away the session now to prevent hackery
+        $this->controller->reset( );
     }
     
     /**

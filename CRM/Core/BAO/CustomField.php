@@ -764,7 +764,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
         switch ($customField->html_type) {
             
         case 'CheckBox':
-            $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldId, $inactiveNeeded);
+            $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldId, false);
 
             $defaults[$elementName] = array();
 
@@ -780,7 +780,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             
             //added a case for Multi-Select option                    
         case 'Multi-Select':
-            $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], $inactiveNeeded);
+            $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], false);
             $defaults[$elementName] = array();
             $checkedValue = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, substr($value,1,-1));
             foreach($customOption as $val) {

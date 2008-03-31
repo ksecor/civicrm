@@ -192,7 +192,7 @@ class CRM_Case_BAO_Query
         
         $caseStatus = CRM_Core_OptionGroup::values('case_status'); 
         $form->add('select', 'case_status_id',  ts( 'Case Status' ),  
-                   array( '' => ts( '-select-' ) ) + $caseStatus );
+                   array( '' => ts( '- select -' ) ) + $caseStatus );
         
         $form->addElement( 'text', 'case_subject', ts( 'Subject' ) );
     

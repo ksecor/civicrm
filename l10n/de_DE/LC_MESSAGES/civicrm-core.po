@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-02-27 13:35+0100\n"
-"PO-Revision-Date: 2008-03-03 02:57-0800\n"
+"PO-Revision-Date: 2008-03-26 07:13-0700\n"
 "Last-Translator: Gerhard Aigner <gerhard.aigner@arcsmed.at>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -2662,7 +2662,6 @@ msgid "Match On:"
 msgstr "Duplikat gefunden bei:"
 
 #: CRM/Admin/Form/DupeMatch.php
-#, fuzzy
 msgid ""
 "The Contact Matching rule has not been saved, because the rule is invalid. "
 "Rules should contain only valid field names, 'AND', 'OR' or parentheses."
@@ -4646,7 +4645,6 @@ msgid "Save Smart Group"
 msgstr "Dynamische Gruppe speichern"
 
 #: CRM/Contact/Form/Task/SaveSearch.php
-#, fuzzy
 msgid "Your smart group has been saved as '%1'."
 msgstr "Ihre dynamische Gruppe wurde als \"%1\" gespeichert."
 
@@ -5040,7 +5038,6 @@ msgid "Selected Mapping has been Deleted Successfuly."
 msgstr "Die ausgewählte Beziehung wurde erfolgreich gelöscht."
 
 #: CRM/Core/BAO/Mapping.php templates/CRM/Contact/Form/Search/table.tpl
-#, fuzzy
 msgid "Also include contacts where"
 msgstr "Auch Kontakte einbeziehen wo"
 
@@ -7202,7 +7199,6 @@ msgid "Tell A Friend (%1)"
 msgstr ""
 
 #: CRM/Friend/Form/Contribute.php
-#, fuzzy
 msgid ""
 "Help us spread the word and leverage the power of your contribution by "
 "telling your friends. Use the space below to personalize your email message "
@@ -7544,9 +7540,8 @@ msgid "Find"
 msgstr "Suche"
 
 #: CRM/Group/Form/Search.php
-#, fuzzy
 msgid "- any visibility -"
-msgstr "Sichtbarkeit"
+msgstr "-Jede Sichtbarkeit-"
 
 #: CRM/Group/Page/Group.php
 msgid "Are you sure you want to disable this Group?"
@@ -7570,14 +7565,12 @@ msgid "Smart Group"
 msgstr "Dynamische Gruppe"
 
 #: CRM/Group/Page/Group.php
-#, fuzzy
 msgid "Search Groups"
-msgstr "Dynamische Gruppe"
+msgstr "Gruppensuche"
 
 #: CRM/Group/Page/Group.php
-#, fuzzy
 msgid "Group %%StatusMessage%%"
-msgstr "Kontakt %%StatusMessage%%"
+msgstr "Gruppen %%StatusMessage%%"
 
 #: CRM/Import/Form/Preview.php
 msgid "Name for new group"
@@ -8974,10 +8967,6 @@ msgstr "Sind Sie sicher, dass Sie \"%1\" löschen möchten?"
 #, fuzzy
 msgid "Are you sure you want to detach '%1' from this case?"
 msgstr "Sind Sie sicher, dass sie das Etikett löschen möchten?"
-
-#: templates/CRM/Activity/Form/ActivityView.tpl
-msgid "Added By "
-msgstr "Hinzugefügt von "
 
 #: templates/CRM/Activity/Import/Form/MapField.tpl
 #: templates/CRM/Grant/Import/Form/MapField.tpl
@@ -11159,9 +11148,8 @@ msgid "End Date:"
 msgstr "Enddatum:"
 
 #: templates/CRM/Contact/Form/Relationship.tpl
-#, fuzzy
 msgid "Note:"
-msgstr "Notizen:"
+msgstr "Notiz:"
 
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid "Status:"
@@ -11223,33 +11211,28 @@ msgstr ""
 #: templates/CRM/Contact/Form/Relationship.tpl
 #: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
 #: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
-#, fuzzy
 msgid "No matching results for"
-msgstr "Keine Treffer gefunden für:"
+msgstr "Keine Treffer gefunden für"
 
 #: templates/CRM/Contact/Form/Relationship.tpl
 #: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
 #: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
-#, fuzzy
 msgid "Name like: %1"
 msgstr "Name wie - \"%1\""
 
 #: templates/CRM/Contact/Form/Relationship.tpl
 #: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
 #: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
-#, fuzzy
 msgid "Contact type"
-msgstr "Kontaktart"
+msgstr "Kontakttyp"
 
 #: templates/CRM/Contact/Form/Relationship.tpl
 #: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
 #: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
-#, fuzzy
 msgid "Check your spelling, or try fewer letters for the target contact name."
 msgstr ""
-"Keine Treffer für<ul><li>Name wie: %1</li><li>Kontaktart: %2</li></ul><br> "
-"Bitte überprüfen Sie die Schreibweise, oder versuchen Sie es mit weniger "
-"Buchstaben für den Namen des Zielkontaktes."
+"Überprüfen Sie die Schreibweise oder versuchen Sie weniger Buchstaben des "
+"Kontaktnamen."
 
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid "If this relationship has start and/or end dates, specify them here."
@@ -11264,7 +11247,6 @@ msgstr "Sind Sie sicher, dass sie die Beziehung \"%1\" löschen möchten?"
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 #: templates/CRM/Contact/Form/Search/BasicCriteria.tpl
 #: templates/CRM/Contact/Form/Search/Basic.tpl
-#, fuzzy
 msgid "Find Members within this Group"
 msgstr "Mitglieder dieser Gruppe finden."
 
@@ -11275,9 +11257,8 @@ msgid "Find Contacts to Add to this Group"
 msgstr "Kontakte zum hinzufügen dieser Gruppe finden."
 
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
-#, fuzzy
 msgid "%1 Smart Group Criteria"
-msgstr "Suchkriterien"
+msgstr "%1 Dynamische Gruppen Suchkriterien"
 
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 #: templates/CRM/Contact/Form/Search/BasicCriteria.tpl
@@ -11288,9 +11269,8 @@ msgid "Search Criteria"
 msgstr "Suchkriterien"
 
 #: templates/CRM/Contact/Form/Search/Advanced.tpl
-#, fuzzy
 msgid "Edit %1 Smart Group Criteria"
-msgstr "Suchkriterien bearbeiten"
+msgstr "Dynamische Gruppen Kriterien von %1 bearbeiten."
 
 #: templates/CRM/Contact/Form/Search/Advanced.tpl
 #: templates/CRM/Contact/Form/Search/Basic.tpl
@@ -11301,7 +11281,7 @@ msgstr "Suchkriterien bearbeiten"
 
 #: templates/CRM/Contact/Form/Search/BasicCriteria.tpl
 msgid "(for %1)"
-msgstr ""
+msgstr "(für %1)"
 
 #: templates/CRM/Contact/Form/Search/BasicCriteria.tpl
 msgid ""
@@ -11322,6 +11302,9 @@ msgid ""
 "search values. Review the <a href='%1' target='_blank' title='%2'>Search "
 "Builder documentation</a> before building your first search."
 msgstr ""
+"WICHTIG: Der Such-Generator benötigt speziell formatierte Dateneingaben als "
+"Suchparameter. Lesen Sie die <a href='%1' target='_blank' title='%2'>Such-"
+"Generator Dokumentation</a> bevor Sie die erste Abfrage erstellen."
 
 #: templates/CRM/Contact/Form/Search/Criteria/Basic.tpl
 msgid "Complete OR partial Contact Name."
@@ -11337,7 +11320,6 @@ msgid "Does the contact have a %1 Account?"
 msgstr "Hat dieser Kontakt ein %1 Konto?"
 
 #: templates/CRM/Contact/Form/Search/Criteria/Basic.tpl
-#, fuzzy
 msgid "Organization(s)"
 msgstr "Organisationen"
 
@@ -11370,9 +11352,8 @@ msgstr "Keine Treffer gefunden für:"
 
 #: templates/CRM/Contact/Form/Search/Custom/EmptyResults.tpl
 #: templates/CRM/Contact/Form/Search/EmptyResults.tpl
-#, fuzzy
 msgid "No matches found."
-msgstr "Keine Treffer gefunden"
+msgstr "Keine Treffer gefunden."
 
 #: templates/CRM/Contact/Form/Search/Custom/EmptyResults.tpl
 #: templates/CRM/Contact/Form/Search/EmptyResults.tpl
@@ -11403,12 +11384,10 @@ msgstr ""
 #: templates/CRM/Contact/Form/Search/Custom/Sample.tpl
 #: templates/CRM/Contact/Form/Search/Custom.tpl
 #: templates/CRM/Contact/Form/Selector.tpl
-#, fuzzy
 msgid "Search results listings."
 msgstr "Suchergebnisse"
 
 #: templates/CRM/Contact/Form/Search/EmptyResults.tpl
-#, fuzzy
 msgid ""
 "%1 has no members which match your search criteria. You can <a href='%2'>add "
 "members here.</a>"
@@ -11425,7 +11404,6 @@ msgstr ""
 "'alle gruppen' oder 'alle marken'"
 
 #: templates/CRM/Contact/Form/Search/EmptyResults.tpl
-#, fuzzy
 msgid ""
 "add a <a href='%1'>New Individual</a>, <a href='%2'>Organization</a> or <a "
 "href='%3'>Household</a>"
@@ -11442,33 +11420,34 @@ msgid ""
 "who have been 'Removed' from this group."
 msgstr ""
 "<p>Die Mitglieder der <strong>%1</strong> Gruppe sind unten aufgeführt. "
-"Benutzen Sie das 'Mitglieder finden...' Kriterium um spezifische Mitglieder "
-"zu finden. Benutzen Sie die 'Gruppenstatus...'-Checkboxen um Mitglieder zu "
-"finden die im 'Warten' Status oder Mitglieder die 'Entfernt' wurden zu "
-"finden.</p> \n"
-"<p>Benutzen Sie <a href=\"%2\">Mitglieder hinzufügen...</a> um neue "
-"Mitglieder zu dieser Gruppe hinzuzufügen.</p>"
+"Benutzen Sie das 'Mitglieder dieser Gruppe finden...' um spezifische "
+"Mitglieder zu finden. Benutzen Sie die 'Gruppenstatus...'-Checkboxen um "
+"Mitglieder zu finden die den 'Warten' Status besitzen und/oder die aus der "
+"Gruppe 'Entfernt' wurden."
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid ""
 "Use the <a href='%1'>Add Members...</a> screen if you want to add new "
 "members to this group."
 msgstr ""
+"Verwenden Sie <a href='%1'>Mitglieder hinzufügen...</a> um neue Mitglieder "
+"dieser Gruppe hinzuzufügen."
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid ""
 "Click <a href='%1'>Edit Smart Group Search Criteria...</a> to change the "
 "search query used for this 'smart' group."
 msgstr ""
+"Klicken Sie auf <a href='%1'> Dynamische Gruppen Kriterien bearbeiten... </"
+"a> um die Abfragekriterien dieser dynamischen Gruppe zu verändern."
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid "Add Members to %1"
 msgstr "Mitglied zu %1 hinzufügen"
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
-#, fuzzy
 msgid "Edit Smart Group Search Criteria for %1"
-msgstr "Suchkriterien bearbeiten"
+msgstr "Suchkriterien für die dynamische Gruppe %1 bearbeiten"
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid ""
@@ -11511,12 +11490,15 @@ msgid ""
 "your changes, select <strong>Update Smart Group</strong> from the '- more "
 "actions -' drop-down menu, and then click Go."
 msgstr ""
+"Wenn Sie die Suchkriterien für diese dynamische Gruppe geändert haben und "
+"diese Änderungen speichern wollen müssen Sie <strong>Dynamische Gruppe "
+"aktualisieren</strong>  aus dem '- weitere Aktionen -' drop-down menu wählen "
+"und \"Start\" klicken."
 
 #: templates/CRM/Contact/Form/Search/ResultTasks.tpl
 #: templates/CRM/Grant/Form/Search/ResultTasks.tpl
-#, fuzzy
 msgid "smart group"
-msgstr "Eigene Datengruppe"
+msgstr "Dynamische Datengruppe"
 
 #: templates/CRM/Contact/Form/Search/ResultTasks.tpl
 msgid "Found %count group member"
@@ -11544,7 +11526,7 @@ msgstr[1] "alle %count Datensätze"
 
 #: templates/CRM/Contact/Form/Search/table.tpl
 msgid "Include contacts where"
-msgstr ""
+msgstr "Auch Kontakte einbeziehen wo"
 
 #: templates/CRM/Contact/Form/Task/AddToGroup.tpl
 msgid "Add Contacts to a Group"
@@ -11733,7 +11715,6 @@ msgstr ""
 "machen Sie folgendes:"
 
 #: templates/CRM/Contact/Page/SavedSearch.tpl
-#, fuzzy
 msgid ""
 "Use <a href='%1'>Find</a> or <a href='%2'>Advanced Search</a> form to enter "
 "search criteria"
@@ -11748,13 +11729,12 @@ msgstr ""
 "nötig ist."
 
 #: templates/CRM/Contact/Page/SavedSearch.tpl
-#, fuzzy
 msgid ""
 "Select 'New Saved Search' from the '- more actions -' drop-down menu and "
 "click 'Go'"
 msgstr ""
-"Wählen Sie 'Suche speichern' vom '-mehr aktionen-' Drop-Down-Menu und "
-"clicken Sie auf 'Los'."
+"Wählen Sie 'Neue gespeicherte Suche' vom '-mehr Aktionen-' Drop-Down-Menu "
+"und clicken Sie auf 'Start'."
 
 #: templates/CRM/Contact/Page/SavedSearch.tpl
 msgid "Enter a name and description for your Saved Search"
@@ -12366,8 +12346,8 @@ msgid ""
 "Click <a href='%1'>New Event Registration</a> to register this contact for "
 "an event."
 msgstr ""
-"Auf <a href=\"%1\">Neue Veranstaltungsteilnahme</a> klicken um diesen Kontakt "
-"an einer Veranstaltung anzumelden."
+"Auf <a href=\"%1\">Neue Veranstaltungsteilnahme</a> klicken um diesen "
+"Kontakt an einer Veranstaltung anzumelden."
 
 #: templates/CRM/Contact/Page/View/Participant.tpl
 msgid "New Event Registration"
@@ -13037,10 +13017,11 @@ msgid ""
 "will add the friends to your database."
 msgstr ""
 "\"Tell a Friend\" ermöglicht es auf einfache Art und Weise Teilnehmern die "
-"Veranstaltung zu verbreiten. Die \"Dankeschön\"-Seite der Anmeldung wird einen "
-"Link auf ein Formular enthalten, in welches die Email-Adressen der Freunde "
-"mit einer personalisierten Nachricht eintragen werden können. CiviCRM "
-"speichert diese Anfragen und wird die Freunde zur Datenbank hinzufügen."
+"Veranstaltung zu verbreiten. Die \"Dankeschön\"-Seite der Anmeldung wird "
+"einen Link auf ein Formular enthalten, in welches die Email-Adressen der "
+"Freunde mit einer personalisierten Nachricht eintragen werden können. "
+"CiviCRM speichert diese Anfragen und wird die Freunde zur Datenbank "
+"hinzufügen."
 
 #: templates/CRM/Friend/Form/Friend.tpl
 #, fuzzy
@@ -13363,10 +13344,15 @@ msgid ""
 "Deleting this group will NOT delete the member contact records. However, all "
 "contact subscription information and history for this group will be deleted."
 msgstr ""
+"Das Löschen dieser Gruppe wird NICHT die Kontakte in dieser Gruppe löschen. "
+"Jedoch werden alle Teilnahmeinformationen der Kontakte an der Gruppe "
+"gelöscht."
 
 #: templates/CRM/Group/Form/Delete.tpl
 msgid "If this group is used in CiviCRM profiles, those fields will be reset."
 msgstr ""
+"Wenn diese Gruppe in einem CiviCRM Profil verwendet wurde, werden die Felder "
+"des Profils zurückgesetzt."
 
 #: templates/CRM/Group/Form/Edit.tpl
 #, fuzzy
@@ -13388,9 +13374,8 @@ msgstr ""
 "Gruppe hinzufügen möchten."
 
 #: templates/CRM/Group/Form/Edit.tpl
-#, fuzzy
 msgid "Group Settings"
-msgstr "Gruppenauflistung"
+msgstr "Gruppeneinstellung"
 
 #: templates/CRM/Group/Form/Edit.tpl
 msgid ""
@@ -14998,6 +14983,9 @@ msgstr "Nachricht wurde durch einen Inhaltsfilter blockiert"
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Fehler beim SMTP Versand"
+
+#~ msgid "Added By "
+#~ msgstr "Hinzugefügt von "
 
 #~ msgid "State %2 \"%1\""
 #~ msgstr "Bundesland %2 wie - \"%1\""

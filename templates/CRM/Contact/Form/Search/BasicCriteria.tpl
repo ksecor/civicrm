@@ -1,7 +1,7 @@
 {* Search criteria form elements *}
 {capture assign=advSearchURL}{crmURL p='civicrm/contact/search/advanced' q="reset=1"}{/capture}
 <fieldset>
-    <legend>{if $context EQ 'smog'}<span id="searchForm_hide"><a href="#" onclick="hide('searchForm','searchForm_hide'); show('searchForm_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}" /></a></span>{/if}
+    <legend><span id="searchForm_hide"><a href="#" onclick="hide('searchForm','searchForm_hide'); show('searchForm_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}" /></a></span>
         {if $context EQ 'smog'}{ts}Find Members within this Group{/ts}
         {elseif $context EQ 'amtg'}{ts}Find Contacts to Add to this Group{/ts}
         {else}{ts}Search Criteria{/ts}{/if}

@@ -6,14 +6,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-02-27 13:35+0100\n"
-"PO-Revision-Date: 2007-05-08 01:20-0700\n"
-"Last-Translator: ycs <yuccmember@gmail.com>\n"
+"PO-Revision-Date: 2008-03-25 13:59-0700\n"
+"Last-Translator: Benjamin Yau <benymh@yahoo.com.hk>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Pootle 0.10\n"
+"X-Generator: Pootle 1.0.2\n"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/BAO/EntityRole.php
 #: CRM/Contact/Form/Task/Map.php CRM/Core/DAO/CustomGroup.php
@@ -38,7 +38,7 @@ msgstr "群組"
 #: CRM/ACL/BAO/ACL.php CRM/Core/Block.php CRM/Core/DAO/Mapping.php
 #: CRM/Core/Menu.php
 msgid "Import"
-msgstr ""
+msgstr "匯入"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/DAO/ACL.php CRM/Activity/Selector/Activity.php
 #: CRM/Admin/Page/RelationshipType.php CRM/Contact/Page/View/Contribution.php
@@ -50,7 +50,7 @@ msgstr ""
 #: templates/CRM/Activity/Form/ActivityView.tpl
 #: templates/CRM/Contact/Page/View/Group.tpl
 msgid "View"
-msgstr ""
+msgstr "檢視"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/DAO/ACL.php CRM/ACL/Page/ACLBasic.php
 #: CRM/ACL/Page/ACL.php CRM/ACL/Page/EntityRole.php
@@ -69,22 +69,23 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Edit"
-msgstr ""
+msgstr "編輯"
 
 #: CRM/ACL/DAO/ACL.php CRM/ACL/DAO/EntityRole.php CRM/Core/DAO/DupeMatch.php
 #: CRM/Core/DAO/EntityFile.php CRM/Core/DAO/LineItem.php CRM/Core/DAO/Log.php
 #: CRM/Core/DAO/Note.php CRM/Core/DAO/PriceSetEntity.php
 #: CRM/Core/DAO/UFJoin.php CRM/Friend/DAO/Friend.php
+#, fuzzy
 msgid "Entity Table"
-msgstr ""
+msgstr "物件表格"
 
 #: CRM/ACL/DAO/ACL.php CRM/ACL/Form/ACL.php templates/CRM/ACL/Page/ACL.tpl
 msgid "Operation"
-msgstr ""
+msgstr "操作"
 
 #: CRM/ACL/DAO/ACL.php CRM/UF/Page/Group.php
 msgid "Create"
-msgstr ""
+msgstr "建立"
 
 #: CRM/ACL/DAO/ACL.php CRM/ACL/Page/ACLBasic.php CRM/ACL/Page/ACL.php
 #: CRM/ACL/Page/EntityRole.php CRM/Activity/Form/Activity.php
@@ -109,29 +110,29 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Delete"
-msgstr ""
+msgstr "刪除"
 
 #: CRM/ACL/DAO/ACL.php CRM/Core/DAO/CustomGroup.php
 #: CRM/Grant/Selector/Search.php
 msgid "Grant"
-msgstr ""
+msgstr "授予"
 
 #: CRM/ACL/DAO/Cache.php CRM/Core/DAO/Log.php CRM/Core/DAO/Note.php
 msgid "Modified Date"
-msgstr ""
+msgstr "修改日期"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php
 #: templates/CRM/ACL/Page/ACLBasic.tpl templates/CRM/ACL/Page/ACL.tpl
 msgid "Role"
-msgstr ""
+msgstr "角色"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php
 msgid "-select role-"
-msgstr ""
+msgstr "- 選擇角色 -"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
 msgid "Everyone"
-msgstr ""
+msgstr "任何人"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php CRM/ACL/Form/EntityRole.php
 #: CRM/Admin/Form/LocationType.php CRM/Admin/Form/MessageTemplates.php
@@ -147,11 +148,11 @@ msgstr ""
 #: templates/CRM/Admin/Page/PaymentProcessor.tpl
 #: templates/CRM/Admin/Page/PaymentProcessorType.tpl
 msgid "Enabled?"
-msgstr ""
+msgstr "啟用？"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php
 msgid "Selected ACL has been deleted."
-msgstr ""
+msgstr "已選取的存取權限已被刪除。"
 
 #: CRM/ACL/Form/ACL.php CRM/Activity/Form/Activity.php
 #: CRM/Activity/Import/Form/MapField.php CRM/Activity/Selector/Activity.php
@@ -183,7 +184,7 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Group/Page/Group.tpl
 msgid "Description"
-msgstr ""
+msgstr "描述"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Form/EntityRole.php CRM/ACL/Page/ACL.php
 #: CRM/Activity/BAO/Query.php CRM/Case/BAO/Query.php
@@ -192,38 +193,38 @@ msgstr ""
 #: CRM/Custom/Form/Field.php CRM/Grant/BAO/Query.php CRM/Grant/Form/Grant.php
 #: CRM/UF/Form/Preview.php
 msgid "-select-"
-msgstr ""
+msgstr "- 選擇 -"
 
 #: CRM/ACL/Form/ACL.php CRM/Contact/Form/Search/Advanced.php
 #: CRM/Contact/Page/View/Participant.php CRM/Contact/Page/View/Tabbed.php
 #: CRM/Contact/Page/View/UserDashBoard/Participant.php
 #: CRM/Core/SelectValues.php CRM/Dedupe/Merger.php
 msgid "Events"
-msgstr ""
+msgstr "事件"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
 msgid "All Groups"
-msgstr ""
+msgstr "所有群組"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
 msgid "All Custom Groups"
-msgstr ""
+msgstr "所有自定群組"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
 msgid "All Profiles"
-msgstr ""
+msgstr "所有個人資料"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
 msgid "All Events"
-msgstr ""
+msgstr "所有事件"
 
 #: CRM/ACL/Form/ACL.php CRM/Contact/Page/View/CustomData.php CRM/Core/Menu.php
 msgid "Custom Data"
-msgstr ""
+msgstr "自定資料"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php CRM/Core/SelectValues.php
 msgid "Profile"
-msgstr ""
+msgstr "個人資料"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
 #: CRM/Activity/Selector/Activity.php CRM/Core/DAO/CustomGroup.php
@@ -231,38 +232,38 @@ msgstr ""
 #: templates/CRM/Price/Page/Field.tpl templates/CRM/Price/Page/Option.tpl
 #: templates/CRM/Price/Page/Set.tpl
 msgid "Event"
-msgstr ""
+msgstr "事件"
 
 #: CRM/ACL/Form/EntityRole.php CRM/Activity/Form/Activity.php
 #: CRM/Activity/Selector/Activity.php templates/CRM/ACL/Page/EntityRole.tpl
 msgid "Assigned To"
-msgstr ""
+msgstr "分派予"
 
 #: CRM/ACL/Form/EntityRole.php CRM/Contact/Form/GroupContact.php
 #: CRM/Contact/Form/Search/Custom/PostalMailing.php
 #: CRM/Contact/Form/Task/AddToGroup.php
 #: CRM/Contact/Form/Task/RemoveFromGroup.php
 msgid "- select group -"
-msgstr ""
+msgstr "- 選擇群組 -"
 
 #: CRM/ACL/Page/ACLBasic.php CRM/ACL/Page/ACL.php
 msgid "Are you sure you want to disable this ACL?"
-msgstr ""
+msgstr "你確定要停用這個權限嗎？"
 
 #: CRM/ACL/Page/ACLBasic.php CRM/ACL/Page/ACL.php
 #: templates/CRM/ACL/Form/ACLBasic.tpl templates/CRM/ACL/Form/ACL.tpl
 msgid "Edit ACL"
-msgstr ""
+msgstr "編輯權限"
 
 #: CRM/ACL/Page/ACLBasic.php CRM/ACL/Page/ACL.php
 #: templates/CRM/ACL/Form/ACLBasic.tpl templates/CRM/ACL/Form/ACL.tpl
 msgid "Delete ACL"
-msgstr ""
+msgstr "刪除權限"
 
 #: CRM/ACL/Page/ACLBasic.php CRM/ACL/Page/ACL.php CRM/ACL/Page/EntityRole.php
 #: CRM/Admin/Page/Options.php CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Access Control"
-msgstr ""
+msgstr "權限控制"
 
 #: CRM/ACL/Page/ACL.php CRM/ACL/Page/EntityRole.php
 #: CRM/Admin/Page/LocationType.php CRM/Admin/Page/MessageTemplates.php
@@ -274,7 +275,7 @@ msgstr ""
 #: CRM/Group/Page/Group.php CRM/Price/Page/Field.php CRM/Price/Page/Option.php
 #: CRM/Price/Page/Set.php CRM/UF/Page/Field.php CRM/UF/Page/Group.php
 msgid "Disable"
-msgstr ""
+msgstr "停用"
 
 #: CRM/ACL/Page/ACL.php CRM/ACL/Page/EntityRole.php
 #: CRM/Admin/Page/LocationType.php CRM/Admin/Page/MessageTemplates.php
@@ -286,18 +287,18 @@ msgstr ""
 #: CRM/Group/Page/Group.php CRM/Price/Page/Field.php CRM/Price/Page/Option.php
 #: CRM/Price/Page/Set.php CRM/UF/Page/Field.php CRM/UF/Page/Group.php
 msgid "Enable"
-msgstr ""
+msgstr "啟用"
 
 #: CRM/ACL/Page/ACL.php CRM/Custom/Page/Group.php
 msgid "Custom Group"
-msgstr ""
+msgstr "自定群組"
 
 #: CRM/Activity/BAO/Activity.php CRM/Activity/Import/Form/MapField.php
 #: CRM/Activity/Import/Parser.php CRM/Contact/BAO/Contact.php
 #: CRM/Grant/Import/Form/MapField.php CRM/Grant/Import/Parser.php
 #: CRM/Import/Form/MapField.php CRM/Import/Parser.php
 msgid "- do not import -"
-msgstr ""
+msgstr "- 不要匯入 -"
 
 #: CRM/Activity/BAO/Query.php CRM/Activity/Form/Activity.php
 #: CRM/Activity/Selector/Activity.php CRM/Contact/BAO/Query.php
@@ -306,7 +307,7 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Activity Type"
-msgstr ""
+msgstr "活動類型"
 
 #: CRM/Activity/BAO/Query.php CRM/Activity/DAO/Activity.php
 #: CRM/Activity/Form/Activity.php CRM/Activity/Import/Form/MapField.php
@@ -320,11 +321,11 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Email.tpl
 #: templates/CRM/Contact/Page/View/Note.tpl
 msgid "Subject"
-msgstr ""
+msgstr "主題"
 
 #: CRM/Activity/BAO/Query.php CRM/Case/BAO/Query.php
 msgid "Start Date - From"
-msgstr ""
+msgstr "開始日期 - 由"
 
 #: CRM/Activity/BAO/Query.php CRM/Activity/Form/Activity.php
 #: CRM/Case/BAO/Query.php CRM/Case/Form/Case.php
@@ -334,7 +335,7 @@ msgstr ""
 #: CRM/Contact/Form/Task/Record.php CRM/Core/BAO/UFGroup.php
 #: CRM/Grant/BAO/Query.php CRM/Grant/Form/Grant.php
 msgid "Select a valid date."
-msgstr ""
+msgstr "選擇一個有效的日期。"
 
 #: CRM/Activity/BAO/Query.php CRM/Case/BAO/Query.php
 #: CRM/Contact/Form/Search/Criteria.php CRM/Contact/Form/Task/EmailCommon.php
@@ -343,18 +344,18 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Email.tpl
 #: templates/CRM/Contact/Page/View/SMS.tpl
 msgid "To"
-msgstr ""
+msgstr "至"
 
 #: CRM/Activity/DAO/Activity.php CRM/Activity/Form/Activity.php
 #: CRM/Contact/Form/Task/Record.php
 #: templates/CRM/Contact/Page/View/Membership.tpl
 msgid "Duration"
-msgstr ""
+msgstr "持續期間"
 
 #: CRM/Activity/DAO/Activity.php CRM/Activity/Form/Activity.php
 #: CRM/Contact/Form/Task/Record.php CRM/Core/DAO/CustomGroup.php
 msgid "Location"
-msgstr ""
+msgstr "地點"
 
 #: CRM/Activity/DAO/Activity.php CRM/Activity/Form/Activity.php
 #: CRM/Case/DAO/Case.php CRM/Contact/Form/Task/EmailCommon.php
@@ -362,7 +363,7 @@ msgstr ""
 #: templates/CRM/Activity/Form/ActivityView.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Details"
-msgstr ""
+msgstr "詳情"
 
 #: CRM/Activity/Form/ActivityLinks.php CRM/Activity/Import/Form/MapField.php
 #: CRM/Admin/Form/Setting/Localization.php CRM/Contact/Form/Address.php
@@ -374,12 +375,12 @@ msgstr ""
 #: CRM/Core/SelectValues.php CRM/Grant/Import/Form/MapField.php
 #: CRM/Import/Form/MapField.php CRM/UF/Form/Group.php CRM/UF/Form/Preview.php
 msgid "- select -"
-msgstr ""
+msgstr "- 選擇 -"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 #: templates/CRM/Activity/Form/Activity.tpl
 msgid "Detach"
-msgstr ""
+msgstr "分離"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Import/Form/MapField.php
 #: CRM/Activity/Import/Form/Preview.php
@@ -408,12 +409,12 @@ msgstr ""
 #: CRM/Standalone/Form/Register.php CRM/Tag/Form/Tag.php CRM/UF/Form/Field.php
 #: CRM/UF/Form/Group.php
 msgid "Cancel"
-msgstr ""
+msgstr "取消"
 
 #: CRM/Activity/Form/Activity.php CRM/Contact/Form/Task/Record.php
 #: templates/CRM/Activity/Form/ActivityView.tpl
 msgid "Date and Time"
-msgstr ""
+msgstr "日期及時間"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 #: CRM/Contact/DAO/GroupContact.php CRM/Contact/DAO/SubscriptionHistory.php
@@ -429,17 +430,17 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/UserDashBoard/Participant.tpl
 #: templates/CRM/Grant/Form/Task/Print.tpl
 msgid "Status"
-msgstr ""
+msgstr "狀態"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 #: templates/CRM/Activity/Form/ActivityView.tpl
 msgid "Added By"
-msgstr ""
+msgstr "新增自"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 #: CRM/Core/Menu.php templates/CRM/Case/Form/CaseActivity.tpl
 msgid "Case"
-msgstr ""
+msgstr "事例"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Form/ActivityView.php
 #: CRM/Activity/Import/Form/Summary.php CRM/Admin/Form/RelationshipType.php
@@ -454,7 +455,7 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Note.tpl
 #: templates/CRM/Contact/Page/View/Print.tpl
 msgid "Done"
-msgstr ""
+msgstr "完成"
 
 #: CRM/Activity/Form/Activity.php CRM/Admin/Form/DedupeRules.php
 #: CRM/Admin/Form.php CRM/Admin/Form/Preferences.php
@@ -468,22 +469,22 @@ msgstr ""
 #: CRM/Profile/Form/Edit.php CRM/Standalone/Form/Register.php
 #: CRM/UF/Form/Field.php CRM/UF/Form/Group.php templates/CRM/Block/Add.tpl
 msgid "Save"
-msgstr ""
+msgstr "儲存"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Core/BAO/Mapping.php
 #: CRM/Grant/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Mapping Option"
-msgstr ""
+msgstr "配對設定"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Core/BAO/Mapping.php
 #: CRM/Grant/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Load Mapping"
-msgstr ""
+msgstr "載入配對"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Core/BAO/Mapping.php
 #: CRM/Grant/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Save this field mapping"
-msgstr ""
+msgstr "儲存這個欄位配對"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Admin/Form/LocationType.php
 #: CRM/Admin/Form/Mapping.php CRM/Admin/Form/OptionGroup.php
@@ -521,22 +522,22 @@ msgstr ""
 #: templates/CRM/Grant/Form/Task/Print.tpl templates/CRM/Grant/Form/Task.tpl
 #: templates/CRM/Group/Page/Group.tpl
 msgid "Name"
-msgstr ""
+msgstr "名稱"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Core/BAO/Mapping.php
 #: CRM/Grant/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Update this field mapping"
-msgstr ""
+msgstr "更新這個欄位配對"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Core/BAO/Mapping.php
 #: CRM/Grant/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Save as a new field mapping"
-msgstr ""
+msgstr "儲存為新的欄位配對"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Core/BAO/Mapping.php
 #: CRM/Grant/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Mapper for Field %1"
-msgstr ""
+msgstr "欄位 %1 的配對"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Grant/Import/Form/MapField.php
 #: CRM/Import/Form/MapField.php
@@ -544,14 +545,14 @@ msgid ""
 "The data columns in this import file appear to be different from the saved "
 "mapping. Please verify that you have selected the correct saved mapping "
 "before continuing."
-msgstr ""
+msgstr "這個匯入檔案的資料欄看來有別於儲存了的配對。繼續前請確認你已選取正確的已儲存配對。"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Activity/Import/Form/Preview.php
 #: CRM/Contact/Form/Task/Export/Map.php CRM/Grant/Import/Form/MapField.php
 #: CRM/Grant/Import/Form/Preview.php CRM/Import/Form/MapField.php
 #: CRM/Import/Form/Preview.php
 msgid "<< Previous"
-msgstr ""
+msgstr "<< 返回"
 
 #: CRM/Activity/Import/Form/MapField.php
 #: CRM/Activity/Import/Form/UploadFile.php
@@ -560,7 +561,7 @@ msgstr ""
 #: CRM/Grant/Import/Form/UploadFile.php CRM/Import/Form/MapField.php
 #: CRM/Import/Form/UploadFile.php
 msgid "Continue >>"
-msgstr ""
+msgstr "繼續 >>"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Grant/Import/Form/MapField.php
 msgid "Contact ID"
@@ -569,7 +570,7 @@ msgstr ""
 #: CRM/Activity/Import/Form/MapField.php CRM/Activity/Selector/Activity.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Activity Date"
-msgstr ""
+msgstr "活動日期"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Grant/Import/Form/MapField.php
 msgid ""
@@ -588,27 +589,27 @@ msgstr ""
 #: CRM/Activity/Import/Form/MapField.php CRM/Grant/Import/Form/MapField.php
 #: CRM/Import/Form/MapField.php
 msgid "Name is required to save Import Mapping"
-msgstr ""
+msgstr "需要名稱以儲存匯入配對"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Duplicate Import Mapping Name"
-msgstr ""
+msgstr "重覆的匯入配對名稱"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Grant/Import/Form/MapField.php
 #: CRM/Import/Form/MapField.php
 msgid "Match Fields"
-msgstr ""
+msgstr "配對欄位"
 
 #: CRM/Activity/Import/Form/Preview.php CRM/Grant/Import/Form/Preview.php
 #: CRM/Import/Form/Preview.php
 msgid "Import Now >>"
-msgstr ""
+msgstr "現在匯入 >>"
 
 #: CRM/Activity/Import/Form/Preview.php CRM/Custom/Page/Group.php
 #: CRM/Grant/Import/Form/Preview.php CRM/Import/Form/Preview.php
 #: CRM/Price/Page/Set.php CRM/UF/Page/Field.php CRM/UF/Page/Group.php
 msgid "Preview"
-msgstr ""
+msgstr "預覽"
 
 #: CRM/Activity/Import/Form/Summary.php CRM/Grant/Import/Form/Summary.php
 #: CRM/Import/Form/Summary.php

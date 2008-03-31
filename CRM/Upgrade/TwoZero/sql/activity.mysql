@@ -4,8 +4,8 @@
 -- *
 -- *********************************************************************/
 
-SELECT @domain_id := MAX(id) FROM `civicrm_domain`;
-
+// the variable domain_id is set in the PHP code and prefixed to this file
+// before we send the combined file to mysql, CRM-2930
 
 -- /*******************************************************
 -- *
@@ -24,8 +24,6 @@ ALTER TABLE `civicrm_activity`
     ADD `priority_id` int(10) unsigned NULL DEFAULT NULL AFTER status_id,
     ADD `is_test` tinyint(4) NULL DEFAULT '0' AFTER parent_id,
     ALTER `activity_type_id` SET DEFAULT 1,
-    DROP `target_entity_table`,
-    DROP `target_entity_id`,
     MODIFY subject varchar(255) NULL DEFAULT NULL,
     DROP `scheduled_date_time`,
     DROP `duration_hours`,
@@ -53,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `civicrm_activity_assignment` (
     `activity_id` int(10) unsigned NOT NULL COMMENT 'Foreign key to the activity for this assignment.',
     `assignee_contact_id` int(10) unsigned NOT NULL COMMENT 'Foreign key to the contact for this assignment.',
     PRIMARY KEY (id),
-    INDEX `UI_activity_assignee_contact_id` (`assignee_contact_id`, `activity_id`),
+    UNIQUE `UI_activity_assignee_contact_id` (`assignee_contact_id`, `activity_id`),
     CONSTRAINT `FK_civicrm_activity_assignment_activity_id` FOREIGN KEY (`activity_id`) REFERENCES `civicrm_activity` (`id`) ON DELETE CASCADE,
     CONSTRAINT `FK_civicrm_activity_assignment_assignee_contact_id` FOREIGN KEY (`assignee_contact_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -70,7 +68,7 @@ CREATE TABLE IF NOT EXISTS `civicrm_activity_target` (
     `activity_id` int(10) unsigned NOT NULL COMMENT 'Foreign key to the activity for this target.',
     `target_contact_id` int(10) unsigned NOT NULL COMMENT 'Foreign key to the contact for this target.',
     PRIMARY KEY (id),
-    INDEX `UI_activity_target_contact_id` (`target_contact_id`, `activity_id`),
+    UNIQUE `UI_activity_target_contact_id` (`target_contact_id`, `activity_id`),
     CONSTRAINT `FK_civicrm_activity_target_activity_id` FOREIGN KEY (`activity_id`) REFERENCES `civicrm_activity` (`id`) ON DELETE CASCADE,
     CONSTRAINT `FK_civicrm_activity_target_target_contact_id` FOREIGN KEY (`target_contact_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -224,6 +222,19 @@ LEFT JOIN civicrm_option_value ov ON (ov.option_group_id = @og_id_as AND ov.labe
 SET    ca.status_id = ov.value;
 
 
+-- for records in activity table, also add a copy to target and assignment
+
+INSERT INTO civicrm_activity_target (activity_id, target_contact_id)
+SELECT ca.id, ca.target_entity_id
+FROM   civicrm_activity ca
+WHERE  ca.target_entity_table = 'civicrm_contact'
+ON DUPLICATE KEY UPDATE activity_id=ca.id;
+
+INSERT INTO civicrm_activity_assignment (activity_id, assignee_contact_id)
+SELECT ca.id, ca.source_contact_id
+FROM   civicrm_activity ca
+ON DUPLICATE KEY UPDATE activity_id=ca.id;
+
 
 -- update for type meeting
 
@@ -235,13 +246,14 @@ WHERE target_entity_table = 'civicrm_contact';
 INSERT INTO civicrm_activity_target (activity_id, target_contact_id)
 SELECT ca.id, cm.target_entity_id
 FROM civicrm_meeting cm, civicrm_activity ca
-WHERE (cm.id = ca.old_meeting_id);
+WHERE (cm.id = ca.old_meeting_id)
+ON DUPLICATE KEY UPDATE activity_id=ca.id;
 
 INSERT INTO civicrm_activity_assignment (activity_id, assignee_contact_id)
 SELECT ca.id, cm.source_contact_id
 FROM civicrm_meeting cm, civicrm_activity ca
-WHERE (cm.id = ca.old_meeting_id);
-
+WHERE (cm.id = ca.old_meeting_id)
+ON DUPLICATE KEY UPDATE activity_id=ca.id;
 
 
 -- update for type phonecall
@@ -254,13 +266,14 @@ WHERE target_entity_table = 'civicrm_contact';
 INSERT INTO civicrm_activity_target (activity_id, target_contact_id)
 SELECT ca.id, cp.target_entity_id
 FROM civicrm_phonecall cp, civicrm_activity ca
-WHERE (cp.id = ca.old_phonecall_id);
+WHERE (cp.id = ca.old_phonecall_id)
+ON DUPLICATE KEY UPDATE activity_id=ca.id;
 
 INSERT INTO civicrm_activity_assignment (activity_id, assignee_contact_id)
 SELECT ca.id, cp.source_contact_id
 FROM civicrm_phonecall cp, civicrm_activity ca
-WHERE (cp.id = ca.old_phonecall_id);
-
+WHERE (cp.id = ca.old_phonecall_id)
+ON DUPLICATE KEY UPDATE activity_id=ca.id;
 
 
 -- update for type history
@@ -274,8 +287,8 @@ SELECT ah.entity_id, ah.activity_id, @ov_id_contribute, ah.activity_summary,
        ah.activity_date, NULL, NULL, NULL, NULL, NULL, 
        ah.activity_summary, @ov_id_completed, NULL, NULL, ah.is_test 
 FROM civicrm_activity_history ah
-WHERE ah.module IN ('CiviContribute')
-GROUP BY ah.module, ah.entity_id; 
+WHERE ah.module IN ('CiviContribute');
+
 
 SELECT @ov_id_membership := value FROM civicrm_option_value WHERE option_group_id = @og_id_at AND label='Membership Signup';
 
@@ -284,8 +297,7 @@ SELECT ah.entity_id, ah.activity_id, @ov_id_membership, ah.activity_summary,
        ah.activity_date, NULL, NULL, NULL, NULL, NULL, 
        ah.activity_summary, @ov_id_completed, NULL, NULL, ah.is_test 
 FROM civicrm_activity_history ah
-WHERE ah.module IN ('CiviMember') AND ah.activity_type='Membership - New'
-GROUP BY ah.module, ah.entity_id; 
+WHERE ah.module IN ('CiviMember') AND ah.activity_type='Membership - New';
 
 
 SELECT @ov_id_event := value FROM civicrm_option_value WHERE option_group_id = @og_id_at AND label='Event Registration';
@@ -295,8 +307,7 @@ SELECT ah.entity_id, ah.activity_id, @ov_id_event, ah.activity_summary,
        ah.activity_date, NULL, NULL, NULL, NULL, NULL, 
        ah.activity_summary, @ov_id_completed, NULL, NULL, ah.is_test 
 FROM civicrm_activity_history ah
-WHERE ah.module IN ('CiviEvent')
-GROUP BY ah.module, ah.entity_id; 
+WHERE ah.module IN ('CiviEvent');
 
 
 SELECT @ov_id_mail := value FROM civicrm_option_value WHERE option_group_id = @og_id_at AND label='Email';
@@ -306,14 +317,14 @@ SELECT ah.entity_id, ah.activity_id, @ov_id_mail, ah.activity_summary,
        ah.activity_date, NULL, NULL, NULL, NULL, NULL, 
        ah.activity_summary, @ov_id_completed, NULL, NULL, ah.is_test 
 FROM civicrm_activity_history ah
-WHERE ah.module IN ('CiviMail')
-GROUP BY ah.module, ah.entity_id; 
+WHERE ah.module IN ('CiviMail');
 
 
 INSERT INTO civicrm_activity_target (activity_id, target_contact_id)
 SELECT ca.id, ca.source_contact_id
 FROM civicrm_activity ca
-WHERE ca.activity_type_id IN (@ov_id_contribute, @ov_id_membership, @ov_id_event, @ov_id_mail);
+WHERE ca.activity_type_id IN (@ov_id_contribute, @ov_id_membership, @ov_id_event, @ov_id_mail)
+ON DUPLICATE KEY UPDATE activity_id=ca.id;
 
 
 INSERT INTO civicrm_activity (`source_contact_id`, `activity_type_id`, `subject`, `activity_date_time`, `details`, `status_id`, `is_test`)
@@ -325,6 +336,8 @@ FROM civicrm_email_history eh;
 -- cleanup
 
 ALTER TABLE civicrm_activity 
+    DROP target_entity_table,
+    DROP target_entity_id,
     DROP old_meeting_id, 
     DROP old_phonecall_id, 
     DROP status;

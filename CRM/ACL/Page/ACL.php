@@ -168,21 +168,21 @@ ORDER BY entity_id
         $roles  = CRM_Core_OptionGroup::values( 'acl_role' );
 
         $group       =
-            array( '-1' => ts( '-select-' ),
+            array( '-1' => ts( '- select -' ),
                    '0'  => ts( 'All Groups' ) ) +
             CRM_Core_PseudoConstant::group( )      ;
         $customGroup =
-            array( '-1' => ts( '-select-' ),
+            array( '-1' => ts( '- select -' ),
                    '0'  => ts( 'All Custom Groups' ) ) +
             CRM_Core_PseudoConstant::customGroup( );
         $ufGroup     =
-            array( '-1' => ts( '-select-' ),
+            array( '-1' => ts( '- select -' ),
                    '0'  => ts( 'All Profiles' ) )      +
             CRM_Core_PseudoConstant::ufGroup( )    ;
 
         require_once 'CRM/Event/PseudoConstant.php';
         $event       =
-            array( '-1' => ts( '-select-' ),
+            array( '-1' => ts( '- select -' ),
                    '0'  => ts( 'All Events' ) ) +
             CRM_Event_PseudoConstant::event( );
 

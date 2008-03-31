@@ -6,7 +6,7 @@
   </div>
 {/if}
 
-  <div id="{$cd_edit.name}">
+  <div id="{$cd_edit.name}" class="form-item">
   <fieldset><legend>
 {if $showHideLinks}
 <a href="#" onclick="hide('{$cd_edit.name}'); show('{$cd_edit.name}_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}" /></a>
@@ -38,16 +38,12 @@
                         {/if}
                 {/if}
                 {/foreach}
-            <td>
-            </td>    
             </tr>
-            <tr>
-                <td> 
-                {if $element.html_type eq 'Radio'}
-                  &nbsp; <a href="#" title="unselect" onclick="unselectRadio('{$element_name}', '{$form.formName}'); return false;">{ts}unselect{/ts}</a>
-                {/if}
-                </td>
-            </tr>
+            {if $element.html_type eq 'Radio'}
+                <tr style="line-height: .75em; margin-top: 1px;">
+                    <td> &nbsp; <a href="#" title="unselect" onclick="unselectRadio('{$element_name}', '{$form.formName}'); return false;">{ts}unselect{/ts}</a></td>
+                </tr>
+            {/if}
             </table>
             {/strip}
             </dd>

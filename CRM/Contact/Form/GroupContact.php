@@ -125,9 +125,9 @@ class CRM_Contact_Form_GroupContact extends CRM_Core_Form
             $session =& CRM_Core_Session::singleton();
             // user dashboard
             if ( strstr( $session->readUserContext( ) ,'user') ) {
-                $msg = 'Join a Group';            
+                $msg = ts('Join a Group');            
             } else {
-                $msg = 'Add to a group';
+                $msg = ts('Add to a group');
             }
             
             $this->add('select'  , 'group_id', $msg, $groupList,true);

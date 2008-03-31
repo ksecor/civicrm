@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2007-05-07 11:19+0200\n"
-"PO-Revision-Date: 2008-03-01 07:08-0800\n"
+"PO-Revision-Date: 2008-03-26 08:15-0700\n"
 "Last-Translator: Han Velthuis <han.velthuis@tiscali.nl>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -137,7 +137,7 @@ msgstr "Voer een complexe zoekactie uit, gebaseerd op markering, groepsleden, lo
 
 #: drupal/civicrm.module
 msgid "create or manage groups at <a href=\"!1\">Manage Groups</a>."
-msgstr "Maak of wijzig groepen bij <a href=\"%1\">manage groups</a>.\t"
+msgstr "maak of wijzig groepen bij <a href=\"!1\">Groepsbeheer</a>"
 
 #: drupal/civicrm.module
 msgid ""

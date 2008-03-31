@@ -81,13 +81,13 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
         $blocks    = array( );
 
         require_once "CRM/Core/BAO/Block.php";
-        foreach ( $params['address'] as $value ) {
+        foreach ( $params['address'] as $key => $value ) {
             if ( !is_array( $value ) ) {
                 continue;
             }
 
             if ( ! empty( $addresses ) ) {
-                $value['id'] = array_shift( $addresses );
+                $value['id'] = $addresses[$key];
             }
             
             $addressExists = self::dataExists( $value );
@@ -114,7 +114,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
             $value['contact_id'] = $contactId;
             
             $blocks[] = self::add( $value, $fixAddress );
-        }
+        }       
 
         return $blocks;
     }

@@ -11,7 +11,7 @@
     {/if}
 {else}
     {assign var="showBlock" value="'searchForm'"}
-    {assign var="hideBlock" value="'searchForm_show'"}
+    {assign var="hideBlock" value="'searchForm_show','searchForm_hide'"}
 {/if}
 
 {* This section handles form elements for search criteria *}

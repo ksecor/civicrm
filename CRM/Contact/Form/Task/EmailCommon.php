@@ -171,7 +171,7 @@ class CRM_Contact_Form_Task_EmailCommon
         //if no template Present then drop down select box and update template should not be displayed
         if ( ! empty( $form->_templates ) ) {
             $form->add('select', 'template', ts('Select Template'),
-                       array( '' => ts( '-select-' ) ) + $form->_templates, false,
+                       array( '' => ts( '- select -' ) ) + $form->_templates, false,
                        array('onChange' => "selectValue( this.value );") );
             
             $form->add('checkbox','updateTemplate',ts('Update Template'), null);

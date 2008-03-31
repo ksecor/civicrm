@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-02-27 13:35+0100\n"
-"PO-Revision-Date: 2008-03-03 01:31-0800\n"
+"PO-Revision-Date: 2008-03-26 00:06-0700\n"
 "Last-Translator: Gerhard Aigner <gerhard.aigner@arcsmed.at>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -3435,9 +3435,8 @@ msgid ""
 msgstr ""
 
 #: CRM/Member/Menu.php templates/CRM/Member/Form/Search.tpl
-#, fuzzy
 msgid "Find Members"
-msgstr "Gruppenmitglieder"
+msgstr "Mitglieder finden"
 
 #: CRM/Member/Page/MembershipStatus.php
 #, fuzzy
@@ -5854,7 +5853,6 @@ msgid "Complete OR partial Event name."
 msgstr "Teil des oder ganzen Namen der Veranstaltung."
 
 #: templates/CRM/Event/Form/Search/ResultTasks.tpl
-#, fuzzy
 msgid "Found %count participant."
 msgid_plural "Found %count participants."
 msgstr[0] "%count Kontakt gefunden"
@@ -5870,17 +5868,15 @@ msgstr ""
 
 #: templates/CRM/Event/Form/Selector.tpl
 msgid "(no fee)"
-msgstr ""
+msgstr "(keine Gebühr)"
 
 #: templates/CRM/Event/Form/Selector.tpl
-#, fuzzy
 msgid "View all events for this contact"
-msgstr "Primärer Standort für diesen Kontakt"
+msgstr "Alle Veranstaltungen des Kontakts betrachten"
 
 #: templates/CRM/Event/Form/Selector.tpl
-#, fuzzy
 msgid "List more Event Participants"
-msgstr "Absätze auflisten"
+msgstr "Mehr Veranstaltungsteilnehmer auflisten"
 
 #: templates/CRM/Event/Form/Task/Batch.tpl
 msgid ""
@@ -5889,30 +5885,35 @@ msgid ""
 "to the same value for ALL rows, enter that value for the first participation "
 "and then click the <strong>Copy icon</strong> (next to the column title)."
 msgstr ""
+"Aktualisieren der Feldwerte für jede Teilnahme nach Bedarf. Klicken Sie "
+"auf<strong>Veranstaltungsteilnahmen aktualisieren</strong> um die Änderungen "
+"zu speichern. Um einen Feldwert für alle Reihen gleichzeitig zu setzen, "
+"kann der Wert für die erste Teilnahme eingegeben werden und mit dem <strong"
+">Kopier-Icon</strong>(neben dem Spaltentitel) vervielfältigt werden."
 
 #: templates/CRM/Event/Form/Task/Cancel.tpl
-#, fuzzy
 msgid ""
 "Are you sure you want to set status to Cancelled for the selected "
 "participants?"
-msgstr "Sind Sie sicher, dass sie das Etikett löschen möchten?"
+msgstr ""
+"Sind Sie sicher, dass Sie den Status für die ausgwählten Teilnehmer auf "
+"\"Abgebrochen\" setzen wollen?"
 
 #: templates/CRM/Event/Form/Task/Delete.tpl
-#, fuzzy
 msgid ""
 "Are you sure you want to delete the selected participations? This delete "
 "operation cannot be undone and will delete all transactions and activity "
 "history associated with these participations."
 msgstr ""
-"Sind Sie sicher, dass Sie die ausgewählten Kontakte löschen möchten? Ein "
-"Löschvorgang kann nicht Rückgängig gemacht werden."
+"Sind Sie sicher, dass Sie die ausgewählten Teilnahmen löschen wollen? Diese "
+"Löschoperation kann nicht rückgängig gemacht werden und wird alle "
+"Transaktionen und die Aktivitiätshistorie der Teilnahmen löschen."
 
 #: templates/CRM/Event/Form/Task/Export.tpl
-#, fuzzy
 msgid "One participant record selected for export."
 msgid_plural "%count participant records selected for export."
-msgstr[0] "Es wurden keine Datensätze zum Drucken ausgewählt."
-msgstr[1] "Es wurden keine Datensätze zum Drucken ausgewählt."
+msgstr[0] "Ein Teilnehmerdatensatz für den Export ausgwählt."
+msgstr[1] "%count Teilnehmerdatensätze für den Export ausgewählt"
 
 #: templates/CRM/Event/Form/Task/Export.tpl
 msgid ""
@@ -5921,29 +5922,31 @@ msgid ""
 "participant contact information (name, address, email, phone...) as "
 "available."
 msgstr ""
+"Klicken Sie auf <strong>Teilnehmerexport</strong> um die Teilnehmer als CSV-"
+"Datei herunterzuladen. Jede Reihe wird ebenso die "
+"Teilnehmerkontaktinformation (Name, Adresse, Email, Telefon...) enthalten "
+"(sofern verfügbar)."
 
 #: templates/CRM/Event/Form/Task/PickProfile.tpl
 msgid "Batch Update Event via Profile"
-msgstr ""
+msgstr "Batchbasierte Aktualisierung der Veranstaltung mittels Profil"
 
 #: templates/CRM/Event/Form/Task/Print.tpl
-#, fuzzy
 msgid "Event Date"
-msgstr "Absendedatum"
+msgstr "Veranstaltungsdatum"
 
 #: templates/CRM/Event/Form/Task/Print.tpl
-#, fuzzy
 msgid "Participation Status"
-msgstr "Status?"
+msgstr "Teilnahmestatus"
 
 #: templates/CRM/Event/Import/Form/Summary.tpl
-#, fuzzy
 msgid ""
 "You can <a href=\"%1\">Download Mismatched Participantss</a>. You may then "
 "correct them, and import the new file with the corrected data."
 msgstr ""
-"Sie können <a href=\"%1\">Fehler herrunterladen</a>. Sie können diese dann "
-"korrigieren, und die neue Datei mit den korrigierten Daten importieren."
+"Sie können <a href=\"%1\">nicht übereinstimmende Teilnehmer herunterladen</a>. "
+"Nachdem Sie diese korrigiert haben, können die bereinigten Daten importiert "
+"werden."
 
 #: templates/CRM/Event/Import/Form/UploadFile.tpl
 #, fuzzy
@@ -5999,18 +6002,16 @@ msgstr ""
 "nach Teilnehmer-Name, Veranstaltung, Zeitraum und Status gesucht werden."
 
 #: templates/CRM/Event/Page/DashBoard.tpl
-#, fuzzy
 msgid "(max %1)"
-msgstr "Email"
+msgstr "(maximal %1)"
 
 #: templates/CRM/Event/Page/DashBoard.tpl
 msgid "Browse more events"
-msgstr ""
+msgstr "Weitere Veranstaltungen betrachten"
 
 #: templates/CRM/Event/Page/DashBoard.tpl
-#, fuzzy
 msgid "Recent Registrations"
-msgstr "Registrieren"
+msgstr "Kürzlich getätigte Registrierungen"
 
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
 msgid ""
@@ -6138,17 +6139,18 @@ msgstr ""
 #: templates/CRM/Event/Page/ManageEvent.tpl
 msgid "No available Events match your search criteria. Suggestions:"
 msgstr ""
+"Keine Veranstaltungen zu den angegeben Suchkriterien gefunden. Vorschläge:"
 
 #: templates/CRM/Event/Page/ManageEvent.tpl
 msgid "Or you can <a href='%1'>browse all available Current Events</a>."
 msgstr ""
+"Oder Sie können <a href='%1'>alle aktuellen Veranstaltungen betrachten</a>."
 
 #: templates/CRM/Event/Page/ManageEvent.tpl
-#, fuzzy
 msgid "There are no events created yet. You can <a href='%1'>add one</a>."
 msgstr ""
-"Dieser Kontakt befindet sich in keiner Gruppe. Sie können Ihn einer <a href="
-"\"%1\">hinzufügen</a>."
+"Es sind noch keine Veranstaltungen erstellt worden. Sie können <a "
+"href='%1'>eine hinzufügen</a>."
 
 #: templates/CRM/Mailing/Form/Component.tpl
 #: templates/CRM/Mailing/Page/Component.tpl
@@ -7086,7 +7088,6 @@ msgid "Membership Summary"
 msgstr "Übersicht der Mitgliedschaften"
 
 #: templates/CRM/Member/Page/DashBoard.tpl
-#, fuzzy
 msgid ""
 "This table provides a summary of <strong>Membership Signup and Renewal "
 "Activity</strong>, and includes shortcuts to view the details for these "

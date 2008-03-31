@@ -317,7 +317,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
             
             if ( !empty($mappingArray) ) {
                 $form->assign('savedMapping',$mappingArray);
-                $form->add('select','savedMapping', ts('Mapping Option'), array('' => '-select-')+$mappingArray);
+                $form->add('select','savedMapping', ts('Mapping Option'), array('' => '- select -')+$mappingArray);
                 $form->addElement( 'submit', 'loadMapping', ts('Load Mapping'), array( 'class' => 'form-submit' ) ); 
             }
             
@@ -421,7 +421,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         
         $locationTypes = array (' ' => ts('Primary')) + $locationTypes;
 
-        $sel1 = array('' => '-select record type-') + CRM_Core_SelectValues::contactType() + $compArray;
+        $sel1 = array('' => ts('- select record type -')) + CRM_Core_SelectValues::contactType() + $compArray;
         
         foreach($sel1 as $key=>$sel ) {
             if($key) {

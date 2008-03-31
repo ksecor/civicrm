@@ -67,9 +67,12 @@ class CRM_Upgrade_Form extends CRM_Core_Form {
     
     function source( $fileName ) {
         require_once 'CRM/Utils/File.php';
-        
+
+        $domainIDStmt = "SELECT @domain_id = " . CRM_Core_Config::domainID( ) . ";\n";
+
         CRM_Utils_File::sourceSQLFile( $this->_config->dsn,
-                                       $fileName );
+                                       $fileName,
+                                       $domainIDStmt );
     }
     
     function preProcess( ) {

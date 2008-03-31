@@ -155,7 +155,7 @@ class CRM_Contribute_Form_Offline extends CRM_Core_Form {
         // also add contribution type and amount fields
         $element =& $this->add('select', 'contribution_type_id', 
                                ts( 'Contribution Type' ), 
-                               array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ),
+                               array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::contributionType( ),
                                true);
 
         $attributes = CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Contribution' );

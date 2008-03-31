@@ -94,13 +94,25 @@ class CRM_Member_BAO_Query
 
     static function where( &$query ) 
     {
+        $isTest   = false;
+        $grouping = null;
         foreach ( array_keys( $query->_params ) as $id ) {
             if ( substr( $query->_params[$id][0], 0, 7 ) == 'member_' ) {
                 if ( $query->_mode == CRM_Contact_BAO_QUERY::MODE_CONTACTS ) {
                     $query->_useDistinct = true;
                 }
+                if ( $query->_params[$id][0] == 'member_test' ) {
+                    $isTest = true;
+                }
+                $grouping = $query->_params[$id][3];
                 self::whereClauseSingle( $query->_params[$id], $query );
             }
+        }
+
+        if ( $grouping !== null &&
+             ! $isTest ) {
+            $values = array( 'member_test', '=', 0, $grouping, 0 );
+            self::whereClauseSingle( $values, $query );
         }
     }
     

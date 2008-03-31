@@ -206,27 +206,49 @@ ORDER BY sort_name ";
     {
         require_once 'CRM/Utils/Type.php';
         $domainID = CRM_Utils_Type::escape( $_GET['d'], 'Integer' );
-        $name     = strtolower( CRM_Utils_Type::escape( $_GET['name'], 'String'  ) );
-        $name     = str_replace( '*', '%', $name );
+        
+        $getRecords = false;
+        if ( isset( $_GET['name'] ) && $_GET['name'] ) {
+            $name     = strtolower( CRM_Utils_Type::escape( $_GET['name'], 'String'  ) );
+            $name     = str_replace( '*', '%', $name );
+            $whereClause = " LOWER(title) LIKE '$name%' ";
+            $getRecords = true;
+        }
+        
+        if ( isset( $_GET['id'] ) && is_numeric($_GET['id']) ) {
+            $eventId     = CRM_Utils_Type::escape( $_GET['id'], 'Integer'  );
+            $whereClause = " id = {$eventId} ";
+            $getRecords = true;
+        }
 
-        $query = "
+        if ( $getRecords ) {
+            $query = "
 SELECT title, id
-  FROM civicrm_event
- WHERE domain_id = $domainID
-   AND title LIKE '$name%'
+FROM civicrm_event
+WHERE domain_id = $domainID
+   AND {$whereClause}
 ORDER BY title
 ";
-
-        $nullArray = array( );
-        $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
-        $elements = array( );
-        while ( $dao->fetch( ) ) {
-            $elements[] = array( 'name' => $dao->title,
-                                 'title'=> $dao->id );
+            $nullArray = array( );
+            $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
+            $elements = array( );
+            while ( $dao->fetch( ) ) {
+                $elements[] = array( 'name' => $dao->title,
+                                     'value'=> $dao->id );
+            }
+        }
+        
+        if ( empty( $elements) ) { 
+            $name = $_GET['name'];
+            if ( !$name && isset( $_GET['id'] ) ) {
+                $name = $_GET['id'];
+            } 
+            $elements[] = array( 'name' => trim( $name, '*'),
+                                 'value'=> trim( $name, '*') );
         }
         
         require_once "CRM/Utils/JSON.php";
-        echo CRM_Utils_JSON::encode( $elements, 'title');
+        echo CRM_Utils_JSON::encode( $elements, 'value');
     }
 
     /**
@@ -236,29 +258,52 @@ ORDER BY title
     {
         require_once 'CRM/Utils/Type.php';
         $domainID = CRM_Utils_Type::escape( $_GET['d'], 'Integer' );
-        $name     = strtolower( CRM_Utils_Type::escape( $_GET['name'], 'String'  ) );
-        $name     = str_replace( '*', '%', $name );
 
+        $getRecords = false;
+        if ( isset( $_GET['name'] ) && $_GET['name'] ) {
+            $name = strtolower( CRM_Utils_Type::escape( $_GET['name'], 'String'  ) );
+            $name = str_replace( '*', '%', $name );
+            $whereClause = " LOWER(v.label)  LIKE '$name%'  ";
+            $getRecords = true;
+        }
+        
+        if ( isset( $_GET['id'] ) && is_numeric( $_GET['id'] ) ) {
+            $eventTypeId     = CRM_Utils_Type::escape( $_GET['id'], 'Integer'  );
+            $whereClause = " v.value = {$eventTypeId} ";
+            $getRecords = true;
+        }
 
-        $query ="
+        if ( $getRecords ) {
+            
+            $query ="
 SELECT v.label ,v.value
 FROM   civicrm_option_value v,
        civicrm_option_group g
 WHERE  v.option_group_id = g.id 
 AND g.name = 'event_type'
 AND v.is_active = 1
-AND v.label  LIKE '$name%' 
+AND {$whereClause}
 ORDER by v.weight";
 
-        $nullArray = array( );
-        $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
-       
-        $elements = array( );
-        while ( $dao->fetch( ) ) {
-            $elements[] = array( 'name'  => $dao->label, 
-                                 'value' => $dao->value );
+            $nullArray = array( );
+            $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
+            
+            $elements = array( );
+            while ( $dao->fetch( ) ) {
+                $elements[] = array( 'name'  => $dao->label, 
+                                     'value' => $dao->value );
+            }
         }
-
+        
+        if ( empty( $elements) ) { 
+            $name = $_GET['name'];
+            if ( !$name && isset( $_GET['id'] ) ) {
+                $name = $_GET['id'];
+            } 
+            $elements[] = array( 'name' => trim( $name, '*'),
+                                 'value'=> trim( $name, '*') );
+        }
+        
         require_once "CRM/Utils/JSON.php";
         echo CRM_Utils_JSON::encode( $elements,'value' );
     }
@@ -453,7 +498,6 @@ ORDER BY name";
     {
         require_once 'CRM/Utils/Type.php';
         $contactID = CRM_Utils_Type::escape( $_GET['c'], 'Integer' );
-        //$name      = CRM_Utils_Type::escape( $_GET['s'], 'String'  );
 
         $query = "
 SELECT subject

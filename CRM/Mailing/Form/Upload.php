@@ -160,7 +160,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         if ( !empty( $this->_templates ) ) {
             $this->assign('templates', true);
             $this->add('select', 'template', ts('Select Template'),
-                       array( '' => ts( '-select-' ) ) + $this->_templates, false,
+                       array( '' => ts( '- select -' ) ) + $this->_templates, false,
                        array('onChange' => "selectValue( this.value );") );
             $this->add('checkbox','updateTemplate',ts('Update Template'), null);
         } 

@@ -182,15 +182,15 @@ class CRM_Activity_BAO_Query
         require_once 'CRM/Core/OptionGroup.php';
         $caseActivityType = CRM_Core_OptionGroup::values('case_activity_type');
         $form->add('select', 'activity_activitytag1_id',  ts( 'Activity Type' ),  
-                   array( '' => ts( '-select-' ) ) + $caseActivityType );
+                   array( '' => ts( '- select -' ) ) + $caseActivityType );
         
         $comunicationMedium = CRM_Core_OptionGroup::values('communication_medium'); 
         $form->add('select', 'activity_activitytag2_id',  ts( 'Activity Medium' ),  
-                   array( '' => ts( '-select-' ) ) + $comunicationMedium );
+                   array( '' => ts( '- select -' ) ) + $comunicationMedium );
         
         $caseViolation = CRM_Core_OptionGroup::values('f1_case_violation');
         $form->addElement('select', 'activity_activitytag3_id',  ts( 'Violation Type'  ),  
-                          array( '' => ts( '-select-' ) ) + $caseViolation);
+                          array( '' => ts( '- select -' ) ) + $caseViolation);
 
         $form->addElement( 'text', 'activity_subject', ts( 'Subject' ) );
         $form->addElement( 'text', 'activity_details', ts( 'Content' ) );

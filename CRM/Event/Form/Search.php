@@ -167,7 +167,7 @@ class CRM_Event_Form_Search extends CRM_Core_Form
           
         // get user submitted values  
         // get it from controller only if form has been submitted, else preProcess has set this  
-        if ( ! empty( $_POST ) ) { 
+        if ( ! empty( $_POST ) && !$this->controller->isModal( ) ) { 
             $this->_formValues = $this->controller->exportValues( $this->_name );  
         } else {
             $this->_formValues = $this->get( 'formValues' ); 
@@ -395,6 +395,47 @@ class CRM_Event_Form_Search extends CRM_Core_Form
         
     }
     
+    /**
+     * This function is used to add the rules (mainly global rules) for form.
+     * All local rules are added near the element
+     *
+     * @return None
+     * @access public
+     * @see valid_date
+     */
+    function addRules( )
+    {
+        $this->addFormRule( array( 'CRM_Event_Form_Search', 'formRule' ) );
+    }
+
+    /**
+     * global validation rules for the form
+     *
+     * @param array $fields posted values of the form
+     * @param array $errors list of errors to be posted back to the form
+     *
+     * @return void
+     * @static
+     * @access public
+     */
+    static function formRule( &$fields )
+    {
+        $errors = array( );
+
+        if ( $fields['event_id'] && !is_numeric( $fields['event_id'] ) ) {
+            $errors['event_id'] = ts('Please select valid event.');
+        }
+        
+        if ( $fields['event_type'] && !is_numeric( $fields['event_type'] ) ) {
+            $errors['event_type'] = ts('Please select valid event type.');
+        }
+
+        if ( !empty($errors) ) {
+            return $errors;
+        } 
+        
+        return true;
+    }
 
     /**
      * Set the default form values
@@ -418,8 +459,8 @@ class CRM_Event_Form_Search extends CRM_Core_Form
         $event = CRM_Utils_Request::retrieve( 'event', 'Positive',
                                               CRM_Core_DAO::$_nullObject );
         if ( $event ) {
-            $this->_formValues['event_title'] = CRM_Event_PseudoConstant::event( $event );
-            $this->assign( 'event_title_value', $this->_formValues['event_title'] );
+            $this->_formValues['event_id'] = $event;
+            $this->assign( 'event_id_value', $event );
             $status = CRM_Utils_Request::retrieve( 'status', 'Positive',
                                                    CRM_Core_DAO::$_nullObject );
             if ( $status == 5 ) {

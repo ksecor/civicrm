@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-02-27 13:05+0100\n"
-"PO-Revision-Date: 2008-03-02 15:17-0800\n"
+"PO-Revision-Date: 2008-03-28 08:42-0700\n"
 "Last-Translator: Han Velthuis <han.velthuis@tiscali.nl>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -137,7 +137,6 @@ msgstr ""
 "organisatie te vergroten."
 
 #: templates/CRM/Admin/Form/Setting/Component.hlp
-#, fuzzy
 msgid ""
 "<strong>CiviContribute</strong> - An online fundraising and donor management "
 "component which enables you to track and manage contributions to your "
@@ -148,11 +147,10 @@ msgstr ""
 "<strong>CiviContribute</strong> - Een online fundraising en donor management "
 "systeem waarmee u geldelijke bijdragen kunt volgen en beheren. U kunt "
 "hiermee ook op eenvoudige wijze persoonlijke web pagina's maken voor online "
-"donaties. Zie de <a href=\"%1\" target=\"_blank\">CiviContribute Guide</a> "
-"voor meer informatie."
+"donaties. Zie de <a href='%1' target='_blank'>CiviContribute Guide</a> voor "
+"meer informatie."
 
 #: templates/CRM/Admin/Form/Setting/Component.hlp
-#, fuzzy
 msgid ""
 "<strong>CiviMail</strong> - A robust mass-mailing component which allows you "
 "to engage your constituents with personalized email blasts and newsletters. "
@@ -160,11 +158,10 @@ msgid ""
 msgstr ""
 "<strong>CiviMail</strong> - Een robuust massa-mailing systeem waarmee u de "
 "de betrokkenheid van uw relaties kunt vergroten met behulp van persoonlijke "
-"e-mails en nieuwsbrieven. Zie de <a href=\"%1\" target=\"_blank\">CiviMail "
+"e-mails en nieuwsbrieven. Zie de <a href='%1' target='_blank'>CiviMail "
 "Guide</a> voor meer informatie."
 
 #: templates/CRM/Admin/Form/Setting/Component.hlp
-#, fuzzy
 msgid ""
 "<strong>CiviMember</strong> - A flexible membership management component "
 "which includes convenient online signup and renewal. Refer to the <a href='%"
@@ -172,8 +169,8 @@ msgid ""
 msgstr ""
 "<strong>CiviMember</strong> -  Een flexibel lidmaatschap beheerssysteem "
 "voorzien van unieke online inschrijf- en "
-"lidmaatschapverlengingsmogelijkheden. Zie de <a href=\"%1\" target=\"_blank"
-"\">CiviMember Guide</a> voor meer informatie."
+"lidmaatschapverlengingsmogelijkheden. Zie de <a href='%1'  "
+"target='_blank'>CiviMember Guide</a> voor meer informatie."
 
 #: templates/CRM/Admin/Form/Setting/Date.hlp
 msgid ""
@@ -315,13 +312,10 @@ msgstr ""
 "gegenereerd en op de volgende bladzijde getoond."
 
 #: templates/CRM/Admin/Form/Setting/Url.hlp
-#, fuzzy
 msgid ""
 "This setting forces a redirect of all online contribution / member / event "
 "and CiviCRM administrator page requests to SSL secured URLs (https)."
-msgstr ""
-"Deze instelling forceert een redirect voor alle online bijdrage pagina's "
-"naar veilige SSL-URL's (https). "
+msgstr "Deze instelling forceert het gebruik, waar nodig, van SSL (https URL). "
 
 #: templates/CRM/Admin/Form/Setting/Url.hlp
 msgid ""
@@ -342,7 +336,6 @@ msgstr ""
 "certificaten."
 
 #: templates/CRM/Admin/Form/Setting/Url.hlp
-#, fuzzy
 msgid ""
 "Once you have your certificate installed, test that is working by navigating "
 "to one of your online contribution pages and changing the URL prefix from "
@@ -352,12 +345,12 @@ msgid ""
 "all online contribution / member / event / admin pages to the corresponding "
 "SSL secured URLs."
 msgstr ""
-"Na het installeren van uw certificaat test u de juiste werking door naar één "
-"van uw online betalingspagina's te surfen en de URL prefix te veranderen van "
-"'http://' naar 'https://'. Als uw browser de pagina herlaad en het juiste en "
-"geldige veiligheidscertificaat toont kunt u deze instelling op <strong>Ja</"
-"strong> zetten. CiviCRM zal daarna alle online betalingspagina's redirecten "
-"naar de overeenkomstige SSL beveiligde URL's."
+"Na het installeren van uw certificaat test u de juiste werking door naar een "
+"van uw online bijdrage pagina's te surfen en de URL prefix te veranderen "
+"van 'http://' naar 'https://'. Als uw browser de pagina herlaad en het "
+"juiste en geldige veiligheidscertificaat toont kunt u deze instelling op "
+"<strong>Ja</strong> zetten. CiviCRM zal daarna alle nodige pagina's "
+"versturen met gebruik van SSL."
 
 #: templates/CRM/Admin/Page/DedupeRules.hlp
 msgid ""
@@ -514,13 +507,12 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
-#, fuzzy
 msgid ""
 "The URL for displaying PayPal's 'Pay with PayPal' payment button image. Use "
 "the default value unless otherwise advised by PayPal."
 msgstr ""
-"De URL van de PayPal's LIVE server. Gebruik als PayPal geen waarde opgeeft "
-"de defaultwaarde."
+"De URL van de PayPal knop. Gebruik als PayPal geen waarde opgeeft de "
+"defaultwaarde."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "TEST Account API Username:"
@@ -754,7 +746,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Parameters"
-msgstr ""
+msgstr "Parameters"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Values"
@@ -803,6 +795,8 @@ msgid ""
 "Example of a large Google Checkout button on a white background (For LIVE "
 "Account):"
 msgstr ""
+"Voorbeeld van grote Google Checkout knop op witte achtergrond (Productie "
+"Account):"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
@@ -875,20 +869,18 @@ msgstr ""
 "instelt. U kunt elke waarde invullen voor gebruikersnaam en Site URL."
 
 #: templates/CRM/Contact/Form/Domain.hlp
-#, fuzzy
 msgid ""
 "The FROM Name and Email Address are used when automated emails are sent from "
 "this domain (e.g. subscribe and unsubscribe confirmations...). This Name and "
 "Email Address are also used as the default 'sender' values when you create a "
 "new CiviMail Mailing."
 msgstr ""
-"De VAN Naam en e-mailadress die gebruikt worden bij het automatisch "
+"De VAN Naam en het e-mailadres die gebruikt worden bij het automatisch "
 "versturen van e-mails in dit domein (bijv. aanmelden en "
-"afmeldbevestigingen). Deze gegevens worden ook gebruikt bij een nieuwe "
-"CiviMail Mailing."
+"afmeldbevestigingen). Deze gegevens worden default ook gebruikt bij een "
+"nieuwe CiviMail Mailing."
 
 #: templates/CRM/Contact/Form/Domain.hlp
-#, fuzzy
 msgid ""
 "The Email Domain is the internet domain (e.g., <code>example.org</code>) to "
 "be used in the address of 'action' mailings (e.g. the reply-to address when "
@@ -914,7 +906,6 @@ msgid "Read more"
 msgstr ""
 
 #: templates/CRM/Contact/Form/Domain.hlp
-#, fuzzy
 msgid ""
 "Use the Return Path field if you need to populate the <code>Return-Path</"
 "code> mail header element with a fixed value (e.g., <code>myuser@example."
@@ -925,7 +916,7 @@ msgid ""
 "is left blank, the <code>From</code> email address will be used as the "
 "<code>Return-Path</code>."
 msgstr ""
-"Gebruik het Retour Pad om het <code>Return-Path</code> mail header element "
+"Gebruik het Return Path om het <code>Return-Path</code> mail header element "
 "te vullen met een constante waarde  (bijv. <code>myuser@example.org</code>). "
 "Geef een volledig e-mailadres op met een geldig SMTP account in uw domein. "
 "Het adres wordt niet getoond aan email clients. Raadpleeg uw SMTP provider "
@@ -977,15 +968,14 @@ msgstr ""
 "alleen de contacten gezocht en getoond die aan beide criteria voldoen)."
 
 #: templates/CRM/Contact/Form/Search/Builder.hlp
-#, fuzzy
 msgid ""
 "IMPORTANT: Search Builder requires you to use specific formats for your "
 "search values. Review the <a href='%1' target='_blank' title='%2'>Search "
 "Builder documentation</a> before building your first search..."
 msgstr ""
 "BELANGRIJK: Zoeken opbouwen gebruikt een specifieke opmaak voor de "
-"zoekwaarden. Zie de <a href=\"%1\" target=\"_blank\" title=\"%2\">Search "
-"Builder documentation</a> voordat u uw eerste zoekopdracht gebruikt."
+"zoekwaarden. Zie de <a href='%1' target='_blank' title='%2'>Search Builder "
+"documentation</a> voordat u uw eerste zoekopdracht gebruikt."
 
 #: templates/CRM/Contact/Form/Search/Builder.hlp
 msgid ""
@@ -1045,6 +1035,9 @@ msgid ""
 "and then return to <strong>Manage Contribution Page</strong> and select your "
 "new profile."
 msgstr ""
+"Als er nog geen geen profiel is voor deze pagina, kunt U eerst de "
+"vervolgstappen afmaken zonder profiel en daarna de onderstaande stappen "
+"uitvoeren en dan pas het profiel registreren bij deze pagina."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.hlp
 msgid ""
@@ -1052,20 +1045,22 @@ msgid ""
 "<strong>Contributions</strong> depending on what type of information you're "
 "collecting."
 msgstr ""
+"Maak een specifieke groep velden aan die 'Gebruikt voor' "
+"<strong>Contacten</strong> of <strong>Bijdragen</strong>."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.hlp
 #: templates/CRM/Event/Form/ManageEvent/Registration.hlp
 msgid "Add your field(s) this custom field group."
-msgstr ""
+msgstr "Voeg de velden toe aan de specifieke groep."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.hlp
 msgid "Create a profile (e.g. 'Contribution Information')."
-msgstr ""
+msgstr "Maak een profiel (bijv. 'Bijdrage Informatie')."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.hlp
 #: templates/CRM/Event/Form/ManageEvent/Registration.hlp
 msgid "Add your custom field(s) to this profile as profile fields."
-msgstr ""
+msgstr "Voeg uw specieke velden toe aan dit profiel als profielvelden."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.hlp
 msgid ""
@@ -1073,6 +1068,9 @@ msgid ""
 "Contribution Page &raquo; Configure &raquo; Custom Elements</strong>) and "
 "select your profile."
 msgstr ""
+"Ga terug naar dit scherm (<strong>Administer CiviCRM &raquo; Beheer Bijdrage "
+"pagina &raquo; Configure &raquo; Custom Elements</strong>) en kies uw "
+"profiel."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.hlp
 #: templates/CRM/Event/Form/ManageEvent/Registration.hlp
@@ -1219,7 +1217,7 @@ msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionPage.hlp
 msgid "Read more..."
-msgstr ""
+msgstr "Lees meer..."
 
 #: templates/CRM/Event/Form/ManageEvent/EventInfo.hlp
 msgid ""
@@ -1227,12 +1225,17 @@ msgid ""
 "Participant Role field. Then include that Profile when you configure the "
 "Online Registration page for this event."
 msgstr ""
+"U kunt aan de deelnemers toestaan om een rol te kiezen door een profiel te "
+"maken met het veld rol deelnemer. Gebruik dit profiel vervolgens in de "
+"online registratiepagina."
 
 #: templates/CRM/Event/Form/ManageEvent/EventInfo.hlp
 msgid ""
 "You will need to set Drupal Access Control permissions to include 'view "
 "event participants' for any Roles you want to access this listing."
 msgstr ""
+"U dient in Drupal de toegangsrechten (Access Control) voor de rollen die de "
+"lijst mogen zien uit te breiden."
 
 #: templates/CRM/Event/Form/ManageEvent/EventInfo.hlp
 msgid ""
@@ -1240,6 +1243,9 @@ msgid ""
 "to the Event Description below and / or as a menu item or links elsewhere on "
 "your site:"
 msgstr ""
+"Maak een link naar de lijst aan door de volgende URL te kopieren en deze toe "
+"te voegen aan de beschrijving van het onderstaande evenement en/of als een "
+"menu item of als een link op een eigen pagina:"
 
 #: templates/CRM/Event/Form/ManageEvent/EventInfo.hlp
 msgid ""
@@ -1256,6 +1262,10 @@ msgid ""
 "collect additional information specific to a person's <strong>participation</"
 "strong> in an Event. Examples include meal and/or volunteer preferences."
 msgstr ""
+"Als U bij de registratie van het evenement aanvullende informatie wilt kunt "
+"U een (of meer) CiviCRM Profielen gebruiken. Dit is een verzameling van "
+"velden. U wilt bijvoorbeeld weten wat de voorkeur is van een vrijwilliger "
+"voor uit te voeren taken."
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.hlp
 msgid ""
@@ -1285,7 +1295,7 @@ msgstr ""
 #: templates/CRM/Event/Import/Form/UploadFile.hlp
 #: templates/CRM/Grant/Import/Form/UploadFile.hlp
 msgid "Required Participant Data"
-msgstr ""
+msgstr "Verplichte deelnemersgegevens"
 
 #: templates/CRM/Event/Import/Form/UploadFile.hlp
 #: templates/CRM/Grant/Import/Form/UploadFile.hlp
@@ -1495,6 +1505,9 @@ msgid ""
 "List' type. Groups of contacts which are used for <strong>access control</"
 "strong> must be assigned that type."
 msgstr ""
+"Groepen die als mailinglijst worden gebruikt dienen ook van dat type te "
+"zijn. Groepen met contacten die worden gebruikt voor "
+"<strong>toegangscontrole</strong> moeten van dat type zijn."
 
 #: templates/CRM/Group/Page/Group.hlp
 msgid ""
@@ -1530,6 +1543,12 @@ msgid ""
 "Import option found in each component's menu (e.g. CiviContribute &raquo; "
 "Import Contributions)."
 msgstr ""
+"Na het omporteren van contacten, wt u mogelijk ook <strong>bijdragen, "
+"lidmaatschappen en/of evenementdeelnames</strong> importeren van deze "
+"contacten. Controleer dan eerst of de bijbehorende CiviCRM component "
+"ingeschakeld is op  Beheer CiviCRM &raquo; Algemene Instellingen &raquo; "
+"Functies aanzetten. Schakel CiviContribute, CiviMember en/of CiviEvent in. "
+"Ga dan naar de importoptie in het menu van het component."
 
 #: templates/CRM/Import/Form/UploadFile.hlp
 msgid ""
@@ -1560,9 +1579,8 @@ msgid ""
 "<strong>Skip:</strong> Reports and then Skips duplicate import file rows - "
 "leaving the matching record in the database as-is (default)."
 msgstr ""
-"<strong>Overslaan:</strong> Verslagen en sla dan de dubbel geimporteerde "
-"rijen over - het overeenkomende record in de database wordt niet gewijzigd "
-"(default)."
+"<strong>Overslaan:</strong> Melden en het duplicaat overslaan - het "
+"overeenkomende record in de database wordt niet gewijzigd (default)."
 
 #: templates/CRM/Import/Form/UploadFile.hlp
 msgid ""
@@ -1591,7 +1609,7 @@ msgid ""
 "general-interest newsletter - you might use the following naming convention:"
 msgstr ""
 "Geef de mailing een unieke naam. Bedenk een naam die de mailings "
-"overzichtellijk houdt zodat u een mailing terug kan vinden om de resultaten "
+"overzichtelijk houdt zodat u een mailing terug kan vinden om de resultaten "
 "in te zien en onderling te vergelijken. Voorbeeld: als U elke maand een "
 "algemene nieuwsbrief verstuurd - kies dan iets als:"
 
@@ -1643,7 +1661,7 @@ msgid ""
 "recipients."
 msgstr ""
 "Nadat U op <strong>volgende</strong> klikt wordt het aantal geselecteerde "
-"ontvangers getoond. Controleer of dit overeenkomt met het aantal wat u in "
+"ontvangers getoond. Controleer of dit overeenkomt met het aantal dat u in "
 "gedachten had. "
 
 #: templates/CRM/Mailing/Form/Group.hlp
@@ -1707,25 +1725,29 @@ msgstr ""
 
 #: templates/CRM/Mailing/Form/Test.hlp
 msgid "Verify the content and formattting."
-msgstr ""
+msgstr "Controleer de inhoud en de opmaak."
 
 #: templates/CRM/Mailing/Form/Test.hlp
 msgid ""
 "If you are using mail-merge tokens, check that they have been replaced with "
 "expected values."
 msgstr ""
+"Als U variabele velden in de mail gebruikt, controleer dan of deze vervangen "
+"zijn door de bedoelde waarden."
 
 #: templates/CRM/Mailing/Form/Test.hlp
 msgid ""
 "Click on each included link to make sure they go to the expected web pages."
 msgstr ""
+"Klik op elke link om te controleren of de verwijzing naar een andere "
+"webpagina klopt."
 
 #: templates/CRM/Mailing/Form/Test.hlp
 msgid ""
 "If you need to make changes, you can click <strong>Previous</strong> from "
 "the next screen, and again from this screen to return to step 3. After "
 "making your changes, you can send another test and repeat as needed."
-msgstr ""
+msgstr "Klik op <strong><< Vorige </strong> indien U iets wilt wijzigen."
 
 #: templates/CRM/Mailing/Form/Upload.hlp
 msgid "Message Formats"
@@ -1738,7 +1760,7 @@ msgid ""
 "<strong>TEXT</strong> version only."
 msgstr ""
 "U kunt kiezen voor het sturen van zowel een <strong>HTML</strong> en een  "
-"platte<strong>TEKST</strong> versie van de mailing, OF voor alleen een "
+"platte <strong>TEKST</strong> versie van de mailing, OF voor alleen een "
 "<strong>TEKST</strong> versie."
 
 #: templates/CRM/Mailing/Form/Upload.hlp
@@ -1801,7 +1823,7 @@ msgstr ""
 "Als U de inhoud opbouwt op dit scherm kunt U met een eenvoudige editor "
 "simplele HTML-berichten maken. Als U ingewikkelde HTML-berichten wilt maken, "
 "kunt U beter een eigen HTML-editor gebruiken en de aangemaakte bestanden "
-"uploaden met de strong>Bladeren...</strong> knop."
+"uploaden met de keuze <strong>Upload inhoud</strong>."
 
 #: templates/CRM/Member/Form/MembershipBlock.hlp
 msgid ""
@@ -1957,10 +1979,14 @@ msgid ""
 "months, memberships will start on the 1st of the current month and run for "
 "the number of specified months."
 msgstr ""
+"Kies 'Vandaag' als het lidmaatschap ingaat op de aanmelddatum. Kies 'Vast' "
+"indien het lidmaatschap ingaat op een op te geven dag. Bij een looptijd in "
+"jaren kunt u de exacte dag en maand registreren. Bij een looptijd in maanden "
+"begint het lidmaatschap op de eerste dag van de huidige maand."
 
 #: templates/CRM/Member/Page/MembershipType.hlp
 msgid "EXAMPLES"
-msgstr ""
+msgstr "VOORBEELDEN"
 
 #: templates/CRM/Member/Page/MembershipType.hlp
 msgid ""
@@ -1969,6 +1995,9 @@ msgid ""
 "15th, 2008. Their membership start date is set to January 1, 2008 - and the "
 "end date is December 31, 2008."
 msgstr ""
+"<strong>Vast lidmaatschap - 1 jaar looptijd:</strong> startdatum is gezet op "
+"1 Januari. Iemand wordt lid op 15 februari 2008. De startdatum van het "
+"lidmaatschap wordt 1 januari 2008 - en de einddatum 31 december 2008."
 
 #: templates/CRM/Member/Page/MembershipType.hlp
 msgid ""
@@ -1976,6 +2005,9 @@ msgid ""
 "February 15th, 2008. Their membership start date is set to February 1, 2008 "
 "- and the end date is April 30, 2008."
 msgstr ""
+"<strong>Vast lidmaatschap - 3 maanden  looptijd</strong> Iemand meldt zich "
+"aan op 15 februari 2008. Het lidmaatschap gaat in op 1 februari  2008 - en "
+"de einddatum is 30 april 2008."
 
 #: templates/CRM/Member/Page/MembershipType.hlp
 msgid ""
@@ -1983,6 +2015,9 @@ msgid ""
 "up on February 15th, 2008. Their membership start date is February 15th, "
 "2008 - and the end date is February 14th, 2009."
 msgstr ""
+"<strong>Vandaag lidmaatschap - 1 jaar looptijd :</strong> Iemand meldt zich "
+"aan op 15 februari 2008. Het lidmaatschap gaat in op 15 februari 2008 - en "
+"de einddatum is 14 februari 2009."
 
 #: templates/CRM/UF/Page/Group.hlp
 msgid ""
@@ -2004,7 +2039,6 @@ msgstr ""
 "tonen en wijzigen van <strong>bestaande gebruikersaccounts</strong>."
 
 #: templates/CRM/UF/Page/Group.hlp
-#, fuzzy
 msgid ""
 "<strong>CiviContribute</strong> - When you want to collect information from "
 "Contributors via online contribution pages, you can create a profile and "
@@ -2012,7 +2046,7 @@ msgid ""
 "1'>Configure Online Contribution Pages</a>)."
 msgstr ""
 "<strong>CiviContribute</strong> - Als U informatie wilt verkrijgen met  "
-"online contribution pagina's, kunt U een profiel maken en dat linken aan uw "
+"online bijdrage pagina's, kunt U een profiel maken en dat linken aan uw "
 "pagina als een \"custom page element\" (<a href=\"%1\">Configure Online "
 "Contribution Pages</a>)."
 
@@ -2039,15 +2073,14 @@ msgstr ""
 "profiel met ID = 3 is:"
 
 #: templates/CRM/UF/Page/Group.hlp
-#, fuzzy
 msgid ""
 "<strong>Contact Signup Forms</strong> - Create link(s) to 'new contact' "
 "input form(s) for your Profiles using the following path: <em>%1/%2</em>. "
 "(This example links to an input form for Profile ID 3.)"
 msgstr ""
-"<strong>Contact Edit Forms</strong> - Sta <strong>ingelogde gebruikers</"
-"strong> toe om hun eigen contactinformatie te wijzigen met een profiel <em>%"
-"1/%2</em>. (Het voorbeeld geeft een wijzigscherm voor profiel ID 3.)"
+"<strong>Contact Aanmeldschermen</strong> - Maak links naar aanmeldschermen "
+"voor contacten met profielen met het pad: <em>%1/%2</em>. (Dit voorbeeld "
+"linkt naar een invoerscherm voor Profile ID 3.)"
 
 #: templates/CRM/UF/Page/Group.hlp
 msgid ""
@@ -2089,7 +2122,7 @@ msgstr ""
 
 #: templates/CRM/UF/Page/Group.hlp
 msgid "http://www.example.com/thank_you.html"
-msgstr ""
+msgstr "http://www.example.com/thank_you.html"
 
 #: templates/CRM/UF/Page/Group.hlp
 msgid ""

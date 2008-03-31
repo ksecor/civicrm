@@ -420,22 +420,28 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             require_once 'CRM/Profile/Form.php';
             $session =& CRM_Core_Session::singleton( );
             $contactID = $session->get( 'userID' );
+
+            $fields = null;
             if ( $contactID ) {
                 if ( CRM_Core_BAO_UFGroup::filterUFGroups($id, $contactID)  ) {
                     $fields = CRM_Core_BAO_UFGroup::getFields( $id, false,CRM_Core_Action::ADD ); 
-                    $this->assign( $name, $fields );
-                    foreach($fields as $key => $field) {
-                        CRM_Core_BAO_UFGroup::buildProfile($this, $field,CRM_Profile_Form::MODE_CREATE);
-                        $this->_fields[$key] = $field;
-                    }
+
                 }
             } else {
                 $fields = CRM_Core_BAO_UFGroup::getFields( $id, false,CRM_Core_Action::ADD ); 
-                $this->assign( $name, $fields );
-                foreach($fields as $key => $field) {
-                    CRM_Core_BAO_UFGroup::buildProfile($this, $field,CRM_Profile_Form::MODE_CREATE);
-                    $this->_fields[$key] = $field;
+            }
+
+            // unset any email-* fields since we already collect it, CRM-2888
+            foreach ( array_keys( $fields ) as $fieldName ) {
+                if ( substr( $fieldName, 0, 6 ) == 'email-' ) {
+                    unset( $fields[$fieldName] );
                 }
+            }
+            
+            $this->assign( $name, $fields );
+            foreach($fields as $key => $field) {
+                CRM_Core_BAO_UFGroup::buildProfile($this, $field,CRM_Profile_Form::MODE_CREATE);
+                $this->_fields[$key] = $field;
             }
         }
     }

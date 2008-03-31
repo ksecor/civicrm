@@ -1369,11 +1369,11 @@ WHERE  id = $cfID
         }  else if ($field['name'] == 'membership_type_id' ) { 
             require_once 'CRM/Member/PseudoConstant.php';
             $form->add('select', 'membership_type_id', ts( 'Membership Type' ),
-                       array(''=>ts( '-select-' )) + CRM_Member_PseudoConstant::membershipType( ), $required );            
+                       array(''=>ts( '- select -' )) + CRM_Member_PseudoConstant::membershipType( ), $required );            
         } else if ($field['name'] == 'status_id' ) { 
             require_once 'CRM/Member/PseudoConstant.php';
             $form->add('select', 'status_id', ts( 'Membership Status' ),
-                       array(''=>ts( '-select-' )) + CRM_Member_PseudoConstant::membershipStatus( ), $required );
+                       array(''=>ts( '- select -' )) + CRM_Member_PseudoConstant::membershipStatus( ), $required );
         } else if ( $fieldName === 'gender' ) {  
             $genderOptions = array( );   
             $gender = CRM_Core_PseudoConstant::gender();   
@@ -1424,33 +1424,33 @@ WHERE  id = $cfID
             $form->addRule($name, ts('Enter a valid Website.'), 'url');
         } else if (substr($fieldName, 0, 6) === 'custom') {
             $customFieldID = CRM_Core_BAO_CustomField::getKeyID($fieldName);
-            CRM_Core_BAO_CustomField::addQuickFormElement($form, $name, $customFieldID, $inactiveNeeded, $required, $search, $title);
+            CRM_Core_BAO_CustomField::addQuickFormElement($form, $name, $customFieldID, false, $required, $search, $title);
         } else if ( in_array($fieldName, array('receive_date', 'receipt_date', 'thankyou_date', 'cancel_date' )) ) {  
             $form->add('date', $name, $title, CRM_Core_SelectValues::date('manual', 3, 1), $required );  
             $form->addRule($name, ts('Select a valid date.'), 'qfDate');
         } else if ($fieldName == 'payment_instrument' ) {
             require_once "CRM/Contribute/PseudoConstant.php";
             $form->add('select', $name, ts( 'Paid By' ),
-                       array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::paymentInstrument( ), $required );
+                       array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::paymentInstrument( ), $required );
         } else if ($fieldName == 'contribution_type' ) {
             require_once "CRM/Contribute/PseudoConstant.php";
             $form->add('select', $name, ts( 'Contribution Type' ),
-                       array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ), $required);
+                       array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::contributionType( ), $required);
         } else if ($fieldName == 'contribution_status_id' ) {
             require_once "CRM/Contribute/PseudoConstant.php";
             $form->add('select', $name, ts( 'Contribution Status' ),
-                       array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionStatus( ), $required);
+                       array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::contributionStatus( ), $required);
         } else if ($fieldName == 'participant_register_date' ) {
             require_once "CRM/Event/PseudoConstant.php";
             $form->add('date', $name, $title, CRM_Core_SelectValues::date('birth'), $required );  
         } else if ($fieldName == 'participant_status_id' ) {
             require_once "CRM/Event/PseudoConstant.php";
             $form->add('select', $name, ts( 'Participant Status' ),
-                       array(''=>ts( '-select-' )) + CRM_Event_PseudoConstant::participantStatus( ), $required);
+                       array(''=>ts( '- select -' )) + CRM_Event_PseudoConstant::participantStatus( ), $required);
         } else if ($fieldName == 'participant_role_id' ) {
             require_once "CRM/Event/PseudoConstant.php";
             $form->add('select', $name, ts( 'Participant Role' ),
-                       array(''=>ts( '-select-' )) + CRM_Event_PseudoConstant::participantRole( ), $required);
+                       array(''=>ts( '- select -' )) + CRM_Event_PseudoConstant::participantRole( ), $required);
         } else if ($fieldName == 'scholarship_type_id' ) {
             $form->add('select', $name, $title, array( "" => "-- Select -- " )+ array_flip( CRM_Core_OptionGroup::values( 'scholarship_type', true ) ) );
         } else if ($fieldName == 'applicant_status_id' ) {  

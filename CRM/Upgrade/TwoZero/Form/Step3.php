@@ -68,7 +68,10 @@ class CRM_Upgrade_TwoZero_Form_Step3 extends CRM_Upgrade_Form {
         $sqlFile    = implode( DIRECTORY_SEPARATOR,
                                array( $currentDir, '../sql', 'location.mysql' ) );
         $this->source( $sqlFile );
-        
+
+        // now clean up the is_primary issues
+        self::cleanupIsPrimary( );
+
         $this->setVersion( '1.92' );
     }
 
@@ -100,6 +103,92 @@ class CRM_Upgrade_TwoZero_Form_Step3 extends CRM_Upgrade_Form {
         return ts( 'Upgrade & Continue' );
     }
 
+    function cleanupIsPrimary( ) {
+        $tables = array( 'civicrm_address',
+                         'civicrm_email',
+                         'civicrm_phone',
+                         'civicrm_im' );
+
+        $message = '';
+        foreach ( $tables as $table ) {
+            $query = "
+SELECT   contact_id, count(id) as cnt
+FROM     $table
+WHERE    is_primary = 1
+AND      ( contact_id IS NOT NULL
+OR         contact_id != 0 )
+GROUP BY contact_id having cnt > 1
+";
+            $dao =& CRM_Core_DAO::executeQuery( $query,
+                                                CRM_Core_DAO::$_nullArray );
+            $contactIDs = array( );
+            while ( $dao->fetch( ) ) {
+                $contactIDs[] = $dao->contact_id;
+            }
+            if ( empty( $contactIDs ) ) {
+                continue;
+            }
+
+            // for each group of 200 contact ids
+            // find the ids of the records other than the min
+            $batchSize       = 0;
+            $currentContacts = array( );
+            foreach ( $contactIDs as $contactID ) {
+                $currentContacts[] = $contactID;
+                $batchSize++;
+                if ( $batchSize == 200 ) {
+                    $message .= self::processBatch( $table, $currentContacts );
+
+                    // reset batch size and currentContacts
+                    $batchSize       = 0;
+                    $currentContacts = array( );
+                }
+            }
+            $message .= self::processBatch( $table, $currentContacts );
+        }
+
+        return $message;
+    }
+
+    static function processBatch( $table, &$contacts ) {
+        if ( empty( $contacts ) ) {
+            return '';
+        }
+
+        $message = null;
+        $contactIDs = implode( ', ', $contacts );
+
+        $query = "
+SELECT id, contact_id
+FROM   $table
+WHERE  contact_id IN  ( $contactIDs )
+ORDER BY contact_id
+";
+        $dao =& CRM_Core_DAO::executeQuery( $query,
+                                            CRM_Core_DAO::$_nullArray );
+        $idArray = array( );
+        $seen    = array( );
+        while ( $dao->fetch( ) ) {
+            if ( array_key_exists( $dao->contact_id, $seen ) ) {
+                $idArray[] = $dao->id;
+            } else {
+                $seen[$dao->contact_id] = 1;
+            }
+        }
+
+        if ( ! empty( $idArray ) ) {
+            $ids = implode( ', ', $idArray );
+            $query = "
+UPDATE $table
+SET    is_primary = 0
+WHERE  id IN ( $ids );
+";
+            CRM_Core_DAO::executeQuery( $query,
+                                        CRM_Core_DAO::$_nullArray );
+            $message = "Updating " . count( $idArray ) . " records in $table<p>\n";
+        }
+        return $message;
+    }
 }
 
 

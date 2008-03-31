@@ -214,6 +214,13 @@ function civicrm_menu( )
  */
 function civicrm_initialize( )
 {
+    // Check for php version and ensure its greater than 5.
+    // do a fatal exit if
+    if ( (int ) substr( PHP_VERSION, 0, 1 ) < 5 ) {
+        echo "CiviCRM requires PHP Version 5.2 or greater. You are running PHP Version " . PHP_VERSION . "<p>";
+        exit( );
+    }
+
     static $initialized    = false;
     static $failure        = false;
 
@@ -473,12 +480,14 @@ function civicrm_register_data($edit, &$user, $category, $reset, $doNotProcess =
 
     if ( $userID ) {
         $html = CRM_Core_BAO_UFGroup::getEditHTML( $userID, '',
-                                                   CRM_Core_Action::UPDATE, true,
+                                                   2,
+                                                   true,
                                                    $reset, null,
                                                    $doNotProcess, $ctype );
     } else {
         $html = CRM_Core_BAO_UFGroup::getEditHTML( $userID, '',
-                                                   CRM_Core_Action::ADD, true,
+                                                   1,
+                                                   true,
                                                    $reset, null,
                                                    $doNotProcess, $ctype );
     }

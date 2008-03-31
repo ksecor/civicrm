@@ -181,7 +181,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             return;
         }
 
-        $selOrgMemType[0][0] = $selMemTypeOrg[0] = ts('-- select --');
+        $selOrgMemType[0][0] = $selMemTypeOrg[0] = ts('- select -');
 
         $dao =& new CRM_Member_DAO_MembershipType();
         $dao->find();
@@ -193,7 +193,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                                                      $dao->member_of_contact_id, 
                                                      'display_name', 
                                                      'id' );
-                    $selOrgMemType[$dao->member_of_contact_id][0] = ts('-- select --');
+                    $selOrgMemType[$dao->member_of_contact_id][0] = ts('- select -');
                 }                
                 if ( !CRM_Utils_Array::value($dao->id,$selOrgMemType[$dao->member_of_contact_id]) ) {
                     $selOrgMemType[$dao->member_of_contact_id][$dao->id] = $dao->name;
@@ -236,7 +236,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         $this->add('text', 'source', ts('Source'), 
                    CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_Membership', 'source' ) );
         $this->add('select', 'status_id', ts( 'Status' ), 
-                   array(''=>ts( '-select-' )) + CRM_Member_PseudoConstant::membershipStatus( ) );
+                   array(''=>ts( '- select -' )) + CRM_Member_PseudoConstant::membershipStatus( ) );
 
         $this->addElement('checkbox', 
                           'is_override', 
@@ -250,7 +250,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         require_once 'CRM/Contribute/PseudoConstant.php';
         $this->add('select', 'contribution_type_id', 
                    ts( 'Contribution Type' ), 
-                   array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ) );
+                   array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::contributionType( ) );
 
         $this->add('text', 'total_amount', ts('Amount'));
         $this->addRule('total_amount', ts('Please enter a valid amount.'), 'money');
@@ -259,7 +259,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         $this->addRule('receive_date', ts('Select a valid date.'), 'qfDate');
         $this->add('select', 'payment_instrument_id', 
                    ts( 'Paid By' ), 
-                   array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::paymentInstrument( )
+                   array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::paymentInstrument( )
                    );
         
         $this->add('select', 'contribution_status_id',
@@ -576,6 +576,9 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                 $statusMsg .= ' '.ts('A confirmation for membership updation and receipt has been sent to %1.', array(1 => $this->_contributorEmail));
             }
         } elseif ( ( $this->_action & CRM_Core_Action::ADD ) ) {
+            require_once 'CRM/Core/DAO.php';
+            $memType = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType',
+                                                    $params['membership_type_id'] );
             $statusMsg = ts('%1 membership for %2 has been added.', array(1 => $memType, 2 => $this->_contributorDisplayName));
             if ( $endDate ) {
                 $endDate=CRM_Utils_Date::customFormat($endDate);

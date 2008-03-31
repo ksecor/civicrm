@@ -251,11 +251,11 @@ class CRM_Grant_BAO_Query
         require_once 'CRM/Core/OptionGroup.php'; 
         $grantType = CRM_Core_OptionGroup::values( 'grant_type' );
         $form->add('select', 'grant_type_id',  ts( 'Grant Type' ),
-                   array( '' => ts( '-select-' ) ) + $grantType );
+                   array( '' => ts( '- select -' ) ) + $grantType );
 
         $grantStatus = CRM_Core_OptionGroup::values( 'grant_status' );
         $form->add('select', 'grant_status_id',  ts( 'Grant Status' ),
-                   array( '' => ts( '-select-' ) ) + $grantStatus );
+                   array( '' => ts( '- select -' ) ) + $grantStatus );
         
         $form->addElement('date', 'grant_application_received_date_low', ts('App. Received Date - From'), 
                           CRM_Core_SelectValues::date('relative')); 

@@ -73,10 +73,44 @@ class CRM_Upgrade_TwoZero_Form_Step1 extends CRM_Upgrade_Form {
             return false;
         }
 
+        // check FK constraint names are in valid format.
+        if (! CRM_Core_DAO::checkFKConstraintInFormat('civicrm_address', 'county_id') ||
+            ! CRM_Core_DAO::checkFKConstraintInFormat('civicrm_address', 'state_province_id') ||
+            ! CRM_Core_DAO::checkFKConstraintInFormat('civicrm_address', 'country_id') ||
+            ! CRM_Core_DAO::checkFKConstraintInFormat('civicrm_event',   'payment_processor_id') ||
+            ! CRM_Core_DAO::checkFKConstraintInFormat('civicrm_activity', 'source_contact_id') ||
+            ! CRM_Core_DAO::checkFKConstraintInFormat('civicrm_activity', 'parent_id')
+            ) {
+            $errorMessage = ts('Database consistency check failed for step %1.', array(1 => '1')) . ' ' . ts('FK constraint names not in the required format.') . ' ' . ts('Please rebuild your 1.9 database to ensure schema integrity.');
+            return false;
+        }
+
+        // check if name is set for all the custom fields.
+        $query    = "SELECT id FROM civicrm_custom_field WHERE name IS NULL";
+        $res      = $this->runQuery( $query );
+        if ($res->fetch()) {
+            $errorMessage = ts('Database consistency check failed for step %1.', array(1 => '1')) . ' ' . ts("Value missing in %1 for the column '%2'. Please add a unique value for the 'name' column for each database record.", array(1 => 'civicrm_custom_field', 2 => 'name'));
+            return false;
+        }
+        $res->free();
+        
+        // check if any of the custom fields has reserved keyword as
+        // custom field name.
+        $reservedKeyWords = 
+            implode( "', '", array( 'id', 'database', 'column', 'table', 'field', 'group' ) );
+        $query    = "SELECT id FROM civicrm_custom_field WHERE LOWER(name) IN ('$reservedKeyWords')";
+        $res      = $this->runQuery( $query );
+        if ($res->fetch()) {
+            $errorMessage = ts('Database consistency check failed for step %1.', array(1 => '1')) . ' ' . ts("A custom field can not have any of '%1' as the '%2'. Please rename the name value for these records to something that does not conflict with mysql reserved keywords.", array(1 => $reservedKeyWords, 2 => 'custom field name'));
+            return false;
+        }
+        $res->free();
+
         return true;
     }
 
     function upgrade( ) {
+        // cleanup db
         $currentDir = dirname( __FILE__ );
         $sqlFile    = implode( DIRECTORY_SEPARATOR,
                                array( $currentDir, '../sql', 'cleanup.mysql' ) );
@@ -106,8 +140,5 @@ class CRM_Upgrade_TwoZero_Form_Step1 extends CRM_Upgrade_Form {
     function getButtonTitle( ) {
         return ts( 'Begin Upgrade' );
     }
-
 }
-
-
 
