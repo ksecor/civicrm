@@ -327,7 +327,7 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
             krsort($rel);
             
             foreach ($rel as $key => $value) {
-                if ($value['relation'] == 'Employee of') {
+                if ($value['relation'] == 'Employee of' && $value['is_active'] == 1 ) {
                     $query = 
                         "SELECT CONCAT_WS(':::',organization_name,LEFT(street_address,25),city) 'sort_name',                          civicrm_contact.id id
                          FROM civicrm_contact
