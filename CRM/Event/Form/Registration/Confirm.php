@@ -256,6 +256,17 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         
         $fields = array( );
         $this->fixLocationFields( $params, $fields );
+        //unset the billing parameters if it is pay later mode
+        //to avoid creation of billing location
+        if ( $params['is_pay_later'] ) {
+            $billingFields = array( 'email-5','billing_first_name', 'billing_middle_name', 'billing_last_name',
+                                    'street_address-5','city-5','state_province_id-5','postal_code-5','country_id-5'
+                                    );
+            foreach( $billingFields as $value ) {
+                unset( $params[$value] );
+            }
+        }
+
         $contactID =& $this->updateContactFields( $contactID, $params, $fields );
 
         // lets store the contactID in the session
