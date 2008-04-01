@@ -137,6 +137,15 @@ foreach ($locales as $locale) {
     fputs( $fd, $data );
     fclose( $fd );
 
+    // write the standalone base-data sql script
+    $data .= $smarty->fetch('civicrm_uf.tpl');
+    $filename = 'civicrm_standalone';
+    if ($locale != 'en_US') $filename .= ".$locale";
+    $filename .= '.mysql';
+    $fd = fopen( $sqlCodePath . $filename, "w" );
+    fputs( $fd, $data );
+    fclose( $fd );
+
     $data = '';
     $data .= $smarty->fetch('civicrm_add_domain.tpl');
 

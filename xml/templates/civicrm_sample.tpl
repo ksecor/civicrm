@@ -15,18 +15,8 @@ VALUES
     (@option_cpage_id,   'Supporter','5.00',2,1,0),
     (@option_cpage_id,   'Booster','10.00',3,1,1),
     (@option_cpage_id,   'Sustainer','50.00',4,1,0);
-
-INSERT INTO civicrm_uf_group
-    (domain_id, is_active, form_type, title, help_pre)
-VALUES
-    (%%CIVICRM_DOMAIN_ID%%, 1, 'CiviCRM Profile', 'Name and Address', '');
-
-INSERT INTO civicrm_uf_join
-   (is_active,module,entity_table,entity_id,weight,uf_group_id)
-VALUES
-   (1,'User Registration','',NULL,1,1),
-   (1,'User Account','',NULL,1,1),
-   (1,'Profile','',NULL,1,1);
+    
+{include file="civicrm_uf.tpl"}
 
 INSERT INTO civicrm_contribution_page
   (domain_id,title,intro_text,contribution_type_id,is_monetary,is_allow_other_amount,default_amount_id,min_amount,max_amount,goal_amount,thankyou_title,thankyou_text,thankyou_footer,receipt_from_name,receipt_from_email,cc_receipt,bcc_receipt,receipt_text,is_active,footer_text,amount_block_is_active,honor_block_is_active,honor_block_title,honor_block_text)
@@ -50,18 +40,6 @@ INSERT INTO civicrm_membership_block
     (entity_table, entity_id, membership_types, membership_type_default, display_min_fee, is_separate_payment, new_title, new_text, renewal_title, renewal_text, is_required, is_active)
 VALUES
     ('civicrm_contribution_page', 2, '1,2', 1, 1, NULL, 'Membership Levels and Fees', 'Please select the appropriate membership level below. You will have a chance to review your selection and the corresponding dues on the next page prior to your credit card being charged.', 'Renew or Upgrade Your Membership', 'Information on your current membership level and expiration date is shown below. You may renew or upgrade at any time - but don''t let your membership lapse!', 1, 1);
-
-
-INSERT INTO civicrm_uf_field
-    (`id`, `uf_group_id`, `field_name`, `is_active`, `is_view`, `is_required`, `weight`, `help_post`, `visibility`, `in_selector`, `is_searchable`, `location_type_id`, `phone_type`, `label`, `field_type`)
-VALUES
-    (1, 1, 'first_name', 1, 0, 1, 1, '', 'Public User Pages and Listings', 0, 1, NULL, NULL, 'First Name', 'Individual'),
-    (2, 1, 'last_name', 1, 0, 1, 2, 'First and last name will be shared with other visitors to the site.', 'Public User Pages and Listings', 0, 1, NULL, NULL, 'Last Name', 'Individual'),
-    (3, 1, 'street_address', 1, 0, 0, 3, '', 'User and User Admin Only', 0, 0, 1, NULL, 'Street Address (Home)', 'Individual'),
-    (4, 1, 'city', 1, 0, 0, 4, '', 'User and User Admin Only', 0, 0, 1, NULL, 'City (Home)', 'Individual'),
-    (5, 1, 'postal_code', 1, 0, 0, 5, '', 'User and User Admin Only', 0, 0, 1, NULL, 'Postal Code (Home)', 'Individual'),
-    (6, 1, 'state_province', 1, 0, 0, 6, 'Your state/province and country of residence will be shared with others so folks can find others in their community.', 'Public User Pages and Listings', 1, 1, 1, NULL, 'State (Home)', 'Individual'),
-    (7, 1, 'country', 1, 0, 0, 7, '', 'Public User Pages and Listings', 0, 1, 1, NULL, 'Country (Home)', 'Individual');
         
 INSERT INTO civicrm_premiums 
     VALUES (%%CIVICRM_DOMAIN_ID%%, 'civicrm_contribution_page', 1, 1, 'Thank-you Gifts', 'We appreciate your support and invite you to choose from the exciting collection of thank-you gifts below. Minimum contribution amounts for each selection are included in the descriptions. (NOTE: These gifts are shown as examples only. No gifts will be sent to donors.)', 'premiums@example.org', NULL, 1);
