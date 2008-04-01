@@ -4,8 +4,8 @@
 -- *
 -- *********************************************************************/
 
-// the variable domain_id is set in the PHP code and prefixed to this file
-// before we send the combined file to mysql, CRM-2930
+-- the variable domain_id is set in the PHP code and prefixed to this file
+-- before we send the combined file to mysql, CRM-2930
 
 -- /*******************************************************
 -- *

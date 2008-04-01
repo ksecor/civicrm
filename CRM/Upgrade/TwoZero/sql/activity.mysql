@@ -4,8 +4,8 @@
 -- *
 -- *********************************************************************/
 
-// the variable domain_id is set in the PHP code and prefixed to this file
-// before we send the combined file to mysql, CRM-2930
+-- the variable domain_id is set in the PHP code and prefixed to this file
+-- before we send the combined file to mysql, CRM-2930
 
 -- /*******************************************************
 -- *
@@ -187,7 +187,6 @@ DELETE FROM `civicrm_option_value` WHERE `civicrm_option_value`.`label` ='Activi
 
 -- setup
 
-SELECT @domain_id := MAX(id) FROM `civicrm_domain`;
 
 INSERT INTO civicrm_option_group (domain_id, name, label, is_reserved, is_active)
 VALUES (@domain_id, 'activity_status', 'Activity Status', 0, 1);
@@ -297,7 +296,7 @@ SELECT ah.entity_id, ah.activity_id, @ov_id_membership, ah.activity_summary,
        ah.activity_date, NULL, NULL, NULL, NULL, NULL, 
        ah.activity_summary, @ov_id_completed, NULL, NULL, ah.is_test 
 FROM civicrm_activity_history ah
-WHERE ah.module IN ('CiviMember') AND ah.activity_type='Membership - New';
+WHERE ah.module IN ('CiviMember') AND ah.activity_type IN ('Membership - New', 'Membership - Current', 'Membership - Expired', 'Membership');
 
 
 SELECT @ov_id_event := value FROM civicrm_option_value WHERE option_group_id = @og_id_at AND label='Event Registration';
@@ -321,6 +320,13 @@ WHERE ah.module IN ('CiviMail');
 
 
 INSERT INTO civicrm_activity_target (activity_id, target_contact_id)
+SELECT ca.id, ca.source_contact_id
+FROM civicrm_activity ca
+WHERE ca.activity_type_id IN (@ov_id_contribute, @ov_id_membership, @ov_id_event, @ov_id_mail)
+ON DUPLICATE KEY UPDATE activity_id=ca.id;
+
+
+INSERT INTO civicrm_activity_assignment (activity_id, assignee_contact_id)
 SELECT ca.id, ca.source_contact_id
 FROM civicrm_activity ca
 WHERE ca.activity_type_id IN (@ov_id_contribute, @ov_id_membership, @ov_id_event, @ov_id_mail)
