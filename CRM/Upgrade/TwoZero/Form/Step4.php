@@ -99,9 +99,7 @@ WHERE domain_id = $domainID AND name = 'activity_type'";
         $og = $this->runQuery( $ogIdQry );
         $og->fetch();
 
-        $query      = "
-SELECT * FROM civicrm_activity_history ah 
-WHERE ah.module NOT IN ('CiviContribute', 'CiviEvent', 'CiviMail')";
+        $query      = "SELECT * FROM civicrm_activity_history";
         $ah = $this->runQuery( $query );
             
         while ($ah->fetch()) {
