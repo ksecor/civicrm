@@ -67,8 +67,8 @@ class CRM_Contact_Form_Address
                           'county_id'              => array( ts('County')            ,  $attributes['county_id'], 'county' ),
                           'state_province_id'      => array( ts('State / Province')  ,  $attributes['state_province_id'],null ),
                           'country_id'             => array( ts('Country')           ,  $attributes['country_id'], null ), 
-                          'geo_code_1'             => array( ts('Latitude') ,  array( 'size' => 4, 'maxlength' => 8 ), null ),
-                          'geo_code_2'             => array( ts('Longitude'),  array( 'size' => 4, 'maxlength' => 8 ), null )
+                          'geo_code_1'             => array( ts('Latitude') ,  array( 'size' => 9, 'maxlength' => 10 ), null ),
+                          'geo_code_2'             => array( ts('Longitude'),  array( 'size' => 9, 'maxlength' => 10 ), null )
                           ); 
         
         foreach ( $elements as $name => $v ) {
