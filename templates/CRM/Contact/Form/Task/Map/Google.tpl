@@ -44,7 +44,7 @@
         bounds.extend(point);
 {/if}
       {/foreach}
-      map.setZoom(map.getBoundsZoomLevel(bounds));
+      map.setZoom(10);
       map.setCenter(bounds.getCenter());
       {literal}
 

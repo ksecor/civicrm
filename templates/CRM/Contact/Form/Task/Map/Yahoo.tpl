@@ -74,8 +74,7 @@
 	if (count>1)
 	   map.drawZoomAndCenter(myPoint,13);
 	else
- 	   map.drawZoomAndCenter(myPoint,5);
-    
+ 	   map.drawZoomAndCenter(myPoint,10);
   {literal}
 </script> 
 {/literal}
