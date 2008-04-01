@@ -319,6 +319,15 @@ FROM civicrm_activity_history ah
 WHERE ah.module IN ('CiviMail');
 
 
+-- email history
+
+INSERT INTO civicrm_activity (`source_contact_id`, `activity_type_id`, `subject`, `activity_date_time`, `details`, `status_id`, `is_test`)
+SELECT eh.contact_id, @ov_id_email, eh.subject, eh.sent_date, eh.message, @ov_id_completed, 0
+FROM civicrm_email_history eh;
+
+
+-- add records to target & assignment, for migrated records 
+
 INSERT INTO civicrm_activity_target (activity_id, target_contact_id)
 SELECT ca.id, ca.source_contact_id
 FROM civicrm_activity ca
@@ -333,10 +342,13 @@ WHERE ca.activity_type_id IN (@ov_id_contribute, @ov_id_membership, @ov_id_event
 ON DUPLICATE KEY UPDATE activity_id=ca.id;
 
 
-INSERT INTO civicrm_activity (`source_contact_id`, `activity_type_id`, `subject`, `activity_date_time`, `details`, `status_id`, `is_test`)
-SELECT eh.contact_id, @ov_id_email, eh.subject, eh.sent_date, eh.message, @ov_id_completed, 0
-FROM civicrm_email_history eh;
+-- delete records from activity history, which have been migrated to activity table.
 
+DELETE FROM civicrm_activity_history WHERE module IN ('CiviContribute', 'CiviEvent', 'CiviMail');
+
+DELETE FROM civicrm_activity_history WHERE module IN ('CiviMember') AND activity_type IN ('Membership - New', 'Membership - Current', 'Membership - Expired', 'Membership');
+
+DELETE FROM civicrm_activity_history WHERE module IN ('CiviCRM') AND activity_type IN ('Meeting', 'Phone Call', 'Email', 'SMS', 'Event');
 
 
 -- cleanup
