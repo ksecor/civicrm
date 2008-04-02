@@ -243,7 +243,9 @@ class CRM_Core_BAO_SchemaHandler
                 $sql .= ", DROP PRIMARY KEY";
             }
             if ( CRM_Utils_Array::value( 'searchable', $params ) ) {
-                $sql .= ", DROP INDEX INDEX_{$params['name']}";
+                if ( $params['type'] != 'text' ) {
+                    $sql .= ", DROP INDEX INDEX_{$params['name']}";
+                }
             }
             if ( CRM_Utils_Array::value( 'fk_table_name', $params ) ) {
                 $sql .= ", DROP FOREIGN KEY FK_{$params['table_name']}_{$params['name']}";
