@@ -46,7 +46,7 @@ class CRM_Upgrade_TwoZero_Form_Step4 extends CRM_Upgrade_Form {
 
     function verifyPreDBState( &$errorMessage ) {
         $errorMessage = ts('Pre-condition failed for upgrade step %1.', array(1 => '4'));
-
+        
         if ( ! CRM_Core_DAO::checkTableExists( 'civicrm_loc_block' ) ) {
             return false;
         }
@@ -103,16 +103,14 @@ WHERE domain_id = $domainID AND name = 'activity_type'";
         $ah = $this->runQuery( $query );
             
         while ($ah->fetch()) {
-            $activityTypeIdQry = "
-SELECT value FROM civicrm_option_value 
-WHERE option_group_id={$og->id} AND label like '{$ah->activity_type}'";
+            $activityTypeId = $this->getActivityTypeId($og->id, $ah->activity_type);
 
-            $at = $this->runQuery( $activityTypeIdQry );
-            if ($at->fetch()) {
+            if ($activityTypeId) {
                 // if activity type found, insert into activity table.
+                $summary   = mysql_escape_string($ah->activity_summary);
                 $insertQry = "
 INSERT INTO civicrm_activity (source_contact_id, source_record_id, activity_type_id, subject, activity_date_time, due_date_time, duration, location, phone_id, phone_number, details, status_id, priority_id, parent_id, is_test) 
-VALUES           ({$ah->entity_id},{$ah->activity_id},{$at->value},'{$ah->activity_summary}','{$ah->activity_date}', NULL, NULL, NULL, NULL, NULL, '{$ah->activity_summary}', {$as->value}, NULL, NULL, {$ah->is_test})";
+VALUES           ({$ah->entity_id},{$ah->activity_id},{$activityTypeId},'{$summary}','{$ah->activity_date}', NULL, NULL, NULL, NULL, NULL, '{$summary}', {$as->value}, NULL, NULL, {$ah->is_test})";
                 $this->runQuery( $insertQry );
                 $activity = $this->runQuery("SELECT LAST_INSERT_ID() as id");
                 $activity->fetch();
@@ -136,7 +134,6 @@ ON DUPLICATE KEY UPDATE activity_id={$activity->id};";
 
                 $activity->free();
             }
-            $at->free();
         }
         $ah->free();
         $og->free();
@@ -186,5 +183,27 @@ ON DUPLICATE KEY UPDATE activity_id={$activity->id};";
         return ts( 'Upgrade & Continue' );
     }
 
+    function getActivityTypeId( $ogId, $activityType ) {
+        static $activityTypeList = array('present' => array(), 'absent' => array());
+
+        if ( array_key_exists($activityType, $activityTypeList['present']) ) {
+            return $activityTypeList['present'][$activityType];
+        } elseif ( array_key_exists($activityType, $activityTypeList['absent']) ) {
+            return null;
+        } else {
+            $activityTypeIdQry = "
+SELECT value FROM civicrm_option_value 
+WHERE option_group_id={$ogId} AND label like '{$activityType}'";
+            $at = $this->runQuery( $activityTypeIdQry );
+            if ( $at->fetch() ) {
+                $activityTypeList['present'][$activityType] = $at->value;
+                $at->free();
+                return $activityTypeList['present'][$activityType];
+            } else {
+                $activityTypeList['absent'][$activityType]  = 1;
+                return null;
+            }
+        }
+    }
 }
 ?>
