@@ -111,6 +111,7 @@ class CRM_Core_BAO_SchemaHandler
     }
 
     static function buildFieldSQL( &$params, $separator, $prefix ) {
+        $sql = '';
         $sql .= $separator;
         $sql .= str_repeat( ' ', 8 );
         $sql .= $prefix;
@@ -175,6 +176,7 @@ class CRM_Core_BAO_SchemaHandler
     }
 
     static function buildIndexSQL( &$params, $separator, $prefix ) {
+        $sql = '';
         $sql .= $separator;
         $sql .= str_repeat( ' ', 8 );
         if ( $params['unique'] ) {
