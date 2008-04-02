@@ -88,6 +88,27 @@ class CRM_Core_Invoke
         $template->assign( 'activeComponent', 'CiviCRM' );
         $template->assign( 'formTpl'        , 'default' );
 
+        // get the menu items
+        $items = CRM_Core_Menu::items( );
+
+        while ( ! empty( $args ) ) {
+            $argString = implode( '/', $args );
+            if ( array_key_exists( $argString, $items ) &&
+                 array_key_exists( 'crmCallback', $items[$argString] ) ) {
+                require_once( str_replace( '_',
+                                           DIRECTORY_SEPARATOR,
+                                           $items[$argString]['crmCallback'] ) . '.php' );
+                eval( '$page = new ' .
+                      $items[$argString]['crmCallback'] .
+                      ' ( );' );
+                return $page->run( );
+            } else {
+                array_pop( $args );
+            }
+        }
+
+        CRM_Core_Error::fatal( 'hey, how did we land up here?' );
+
         switch ( $args[1] ) {
 
         case 'ajax':
