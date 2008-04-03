@@ -325,7 +325,8 @@ class CRM_Event_Form_Search extends CRM_Core_Form
         
         $this->_formValues = $this->controller->exportValues($this->_name);
         $this->fixFormValues( );
-
+        
+       
         if ( isset( $this->_ssID ) && empty( $_POST ) ) {
             // if we are editing / running a saved search and the form has not been posted
             $this->_formValues = CRM_Contact_BAO_SavedSearch::getFormValues( $this->_ssID );
@@ -443,7 +444,8 @@ class CRM_Event_Form_Search extends CRM_Core_Form
      * @access protected
      * @return array the default array reference
      */
-    function &setDefaultValues() {
+    function &setDefaultValues() 
+    {
         $defaults = array();
         $defaults = $this->_formValues;
         return $defaults;
@@ -455,23 +457,35 @@ class CRM_Event_Form_Search extends CRM_Core_Form
         // if this search has been forced
         // then see if there are any get values, and if so over-ride the post values
         // note that this means that GET over-rides POST :)
-        
         $event = CRM_Utils_Request::retrieve( 'event', 'Positive',
                                               CRM_Core_DAO::$_nullObject );
         if ( $event ) {
             $this->_formValues['event_id'] = $event;
             $this->assign( 'event_id_value', $event );
-            $status = CRM_Utils_Request::retrieve( 'status', 'Positive',
-                                                   CRM_Core_DAO::$_nullObject );
-            if ( $status == 5 ) {
-                $this->_formValues['participant_status_id'] = array( '5' => 1  );
-            } else {
-                $this->_formValues['participant_status_id'] = array( '1' => 1, '2' => 1 );
-            }
         }
         
+        $status = CRM_Utils_Request::retrieve( 'status', 'Positive',
+                                               CRM_Core_DAO::$_nullObject );
+        
+        if ( isset($status) ) {
+            if ( $status > 0 ) {
+                $this->_formValues['participant_status_id'] = array( $status => 1 );
+            } else {
+                require_once 'CRM/Event/PseudoConstant.php';
+                $statusTypes = CRM_Event_PseudoConstant::participantStatus( null, false );
+                
+                $status = array( );
+                foreach ( $statusTypes as $key => $value) {
+                    $status[$key] = 1;
+                }
+                $this->_formValues['participant_status_id'] = $status;
+            }       
+        } 
+        $type = CRM_Utils_Request::retrieve( 'type', 'Positive',
+                                             CRM_Core_DAO::$_nullObject );
+        $this->_formValues['event_type'] = $type;
         $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
-
+        
         if ( $cid ) {
             $cid = CRM_Utils_Type::escape( $cid, 'Integer' );
             if ( $cid > 0 ) {
@@ -483,7 +497,8 @@ class CRM_Event_Form_Search extends CRM_Core_Form
         }
     }
 
-    function getFormValues( ) {
+    function getFormValues( ) 
+    {
         return null;
     }
 
