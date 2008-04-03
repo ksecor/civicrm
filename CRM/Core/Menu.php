@@ -1054,6 +1054,21 @@ class CRM_Core_Menu
         return $items;
     }
 
+    static function storeInDB( &$params ) 
+    {
+        require_once "CRM/Core/DAO/Menu.php";
+
+        foreach ( $params as $path => $menuItems ) {
+            $menu  =& new CRM_Core_DAO_Menu( );
+            $menu->domain_id = CRM_Core_Config::domainID( );
+            $menu->path      = $path;
+            $menu->copyValues( $menuItems );
+            $menu->access_arguments = serialize(CRM_Utils_Array::value( 'access_arguments', $menuItems ));
+            $menu->save( );
+        }
+
+        return $params;
+    }
 }
 
 

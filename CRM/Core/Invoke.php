@@ -95,13 +95,19 @@ class CRM_Core_Invoke
             $argString = implode( '/', $args );
             if ( array_key_exists( $argString, $items ) &&
                  array_key_exists( 'crmCallback', $items[$argString] ) ) {
-                require_once( str_replace( '_',
-                                           DIRECTORY_SEPARATOR,
-                                           $items[$argString]['crmCallback'] ) . '.php' );
-                eval( '$page = new ' .
-                      $items[$argString]['crmCallback'] .
-                      ' ( );' );
-                return $page->run( );
+                if (strstr($items[$argString]['crmCallback'], '_Form_')) {
+                    $wrapper =& new CRM_Utils_Wrapper( );
+                    return $wrapper->run( $items[$argString]['crmCallback'], 
+                                          $items[$argString]['title'], null );
+                } else {
+                    require_once( str_replace( '_',
+                                               DIRECTORY_SEPARATOR,
+                                               $items[$argString]['crmCallback'] ) . '.php' );
+                    eval( '$page = new ' .
+                          $items[$argString]['crmCallback'] .
+                          ' ( );' );
+                    return $page->run( );
+                }
             } else {
                 array_pop( $args );
             }
