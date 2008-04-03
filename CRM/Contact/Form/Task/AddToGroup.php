@@ -88,15 +88,18 @@ class CRM_Contact_Form_Task_AddToGroup extends CRM_Contact_Form_Task {
        
         //create radio buttons to select existing group or add a new group
         $options  = array( ts('Add Contact To Existing Group'), ts('Create New Group') );
-        $this->addRadio( 'group_option', ts( 'Group Options' ), $options, array('onclick' =>"return showElements();"));
+
+        if ( !$this->_id ) {
+            $this->addRadio( 'group_option', ts( 'Group Options' ), $options, array('onclick' =>"return showElements();"));
         
-        $this->add('text', 'title'       , ts('Group Name:') . ' ' ,
-                   CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Group', 'title' ) );
-        $this->addRule( 'title', ts('Name already exists in Database.'),
-                        'objectExists', array( 'CRM_Contact_DAO_Group', $this->_id, 'title' ) );
-        
-        $this->add('text', 'description', ts('Description:') . ' ', 
-                   CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Group', 'description' ) );
+            $this->add('text', 'title'       , ts('Group Name:') . ' ' ,
+                       CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Group', 'title' ) );
+            $this->addRule( 'title', ts('Name already exists in Database.'),
+                            'objectExists', array( 'CRM_Contact_DAO_Group', $this->_id, 'title' ) );
+            
+            $this->add('text', 'description', ts('Description:') . ' ', 
+                       CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Group', 'description' ) );
+        }
 
         // add select for groups
         $group = array( '' => ts('- select group -')) + CRM_Core_PseudoConstant::group( );
@@ -104,7 +107,7 @@ class CRM_Contact_Form_Task_AddToGroup extends CRM_Contact_Form_Task {
         $groupElement = $this->add('select', 'group_id', ts('Select Group'), $group);
         
         $this->_title  = $group[$this->_id];
-
+      
         if ( $this->_context === 'amtg' ) {
             $groupElement->freeze( );
 
