@@ -496,9 +496,11 @@ class CRM_Contact_BAO_Query
                             } else if ( $tName == 'contact' ) {
                                 if ( $fieldName != 'id' ) {
                                     $this->_select [$name]          = "contact_a.{$fieldName}  as `$name`";
-                                }
-                            } 
-                            $this->_element[$name]             = 1;
+                                } 
+                            } else {
+                                $this->_select [$name]              = "{$field['where']} as `$name`";
+                            }
+                            $this->_element[$name]       = 1;
                         }   
                     }
                 } else if ($name === 'tags') {
