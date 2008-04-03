@@ -330,6 +330,12 @@ class CRM_Contribute_BAO_Query
             
             return;
 
+        case 'contribution_membership_id':
+            $query->_where[$grouping][] = " civicrm_membership.id $op $value";
+            $query->_tables['contribution_membership'] = $query->_whereTables['contribution_membership'] = 1;
+            
+            return;
+
         default :
             //all other elements are handle in this case
             $fldName = substr($name, 13 );
@@ -427,7 +433,8 @@ class CRM_Contribute_BAO_Query
             $from .= " $side JOIN civicrm_note civicrm_note_contribution ON ( civicrm_note_contribution.entity_table = 'civicrm_contribution' AND
                                                         civicrm_contribution.id = civicrm_note_contribution.entity_id )";
             break;
-        case 'civicrm_membership':
+
+        case 'contribution_membership':
             $from  = " $side  JOIN civicrm_membership_payment ON civicrm_membership_payment.contribution_id = civicrm_contribution.id";
             $from .= " $side  JOIN civicrm_membership ON civicrm_membership_payment.membership_id = civicrm_membership.id ";
             break;
@@ -471,8 +478,7 @@ class CRM_Contribute_BAO_Query
                                 'contribution_status_id'  => 1,
                                 'contribution_recur_id'   => 1, 
                                 'amount_level'            => 1,
-                                'contribution_note'       => 1,
-                                'membership_id'           => 1,
+                                'contribution_note'       => 1
                                 );
 
             // also get all the custom contribution properties

@@ -146,12 +146,6 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         }
                
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
-            require_once "CRM/Contact/Page/View/Membership.php";
-            $params = array('id'        => $this->_id,
-                            'contactID' => $this->_contactID,
-                            'action'    => $this->_action );
-            CRM_Contact_Page_View_Membership::associatedContribution( $params );
-            
             // in this mode by default uncheck this checkbox
             unset($defaults['record_contribution']);
             $defaults['send_receipt'] = 0; 

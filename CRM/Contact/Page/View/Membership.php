@@ -133,6 +133,9 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
      */ 
     function view( ) 
     {
+        // build associated contributions
+        $this->associatedContribution( );
+
         $controller =& new CRM_Core_Controller_Simple( 'CRM_Member_Form_MembershipView', 'View Membership',  
                                                        $this->_action ); 
         $controller->setEmbedded( true );  
@@ -150,6 +153,9 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
      */ 
     function edit( ) 
     {
+        // build associated contributions
+        $this->associatedContribution( );
+
         if ( $this->_action & CRM_Core_Action::RENEW ) { 
             $path  = 'CRM_Member_Form_MembershipRenewal';
             $title = ts('Renew Membership');
@@ -309,6 +315,7 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
         }
         return self::$_membershipTypesLinks;
     }
+
     /** 
      * This function is used for the to show the associated
      * contribution for the membership 
@@ -316,16 +323,22 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
      * return null 
      * @access public 
      */ 
-    function associatedContribution( &$form )
+    function associatedContribution( )
     {
-        $controller =& new CRM_Core_Controller_Simple( 'CRM_Contribute_Form_Search', ts('Contributions'), $form['action'] );
-        $controller->setEmbedded( true );
-        $controller->reset( );
-        $controller->set( 'cid'  , $form['contactID'] );
-        $controller->set( 'id' , $form['id'] );
-        $controller->set( 'context', 'contribution' );
-        $controller->process( );
-        $controller->run( );
+        if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
+            $this->assign( 'accessContribution', true );
+            $controller =& new CRM_Core_Controller_Simple( 'CRM_Contribute_Form_Search', ts('Contributions') );  
+            $controller->setEmbedded( true );                           
+            $controller->reset( );  
+            $controller->set( 'force', 1 );
+            $controller->set( 'cid'  , $this->_contactId );
+            $controller->set( 'memberId'  , $this->_id );
+            $controller->set( 'context', 'contribution' ); 
+            $controller->process( );  
+            $controller->run( );
+        } else {
+            $this->assign( 'accessContribution', false );
+        }
     }
 
     /**

@@ -171,9 +171,7 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form
                                                        $this );
         $this->_context = CRM_Utils_Request::retrieve( 'context', 'String',
                                                        $this );
-        //Membership ID
-        $memberShipId = CRM_Utils_Request::retrieve( 'id', 'Positive', $this, false, null );
-        
+
         $this->assign( "{$this->_prefix}limit"  , $this->_limit );
         $this->assign( "{$this->_prefix}context", $this->_context );
 
@@ -185,11 +183,14 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form
         } else {
             $this->_formValues = $this->get( 'formValues' ); 
         } 
-       
-        if ( $this->_force || $memberShipId ) {
-            if ( $this->_context == "membership" ) {
-                $this->_formValues['membership_id'] = $memberShipId;
-            }
+
+        //membership ID
+        $memberShipId = CRM_Utils_Request::retrieve( 'memberId', 'Positive', $this );
+        if ( isset( $memberShipId ) ) {
+            $this->_formValues['contribution_membership_id'] = $memberShipId;
+        }
+
+        if ( $this->_force ) {
             $this->postProcess( );
             $this->set( 'force', 0 );
         }
