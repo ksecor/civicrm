@@ -163,7 +163,8 @@ class CRM_Contact_Form_Task_EmailCommon
         
         $form->assign('totalSelectedContacts',count($form->_contactIds));
         
-        $from = $fromDisplayName . "<$fromEmail>";
+        require_once 'CRM/Utils/Mail.php';
+        $from = CRM_Utils_Mail::encodeAddressHeader($fromDisplayName, $fromEmail);
         
         require_once 'CRM/Core/BAO/MessageTemplates.php';
         $form->_templates = CRM_Core_BAO_MessageTemplates::getMessageTemplates();

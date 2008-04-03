@@ -49,10 +49,15 @@ class CRM_Admin_Form_Setting_Smtp extends CRM_Admin_Form_Setting
      * @access public
      */
     public function buildQuickForm( ) {
-        CRM_Utils_System::setTitle(ts('Settings - SMTP Configuration'));
-          
-        $this->add('text','smtpServer', ts('SMTP Server'), null, true);
-        $this->add('text','smtpPort', ts('SMTP Port'), null, true);  
+        $outBondOption = array( '0' => ts('SMTP'), '1' => ts('Sendmail') );
+        $this->addRadio('outbond_option', ts('Select Mailer'),  $outBondOption );
+
+
+        CRM_Utils_System::setTitle(ts('Settings - Outbond Mail Configuration'));
+        $this->add('text','sendmail_path', ts('Sendmail Path'));
+        $this->add('text','sendmail_args', ts('Sendmail Argument'));
+        $this->add('text','smtpServer', ts('SMTP Server'));
+        $this->add('text','smtpPort', ts('SMTP Port'));  
         $this->addYesNo( 'smtpAuth', ts( 'Authentication?' ));
         $this->addElement('text','smtpUsername', ts('SMTP Username')); 
         $this->addElement('password','smtpPassword', ts('SMTP Password')); 
@@ -86,33 +91,44 @@ class CRM_Admin_Form_Setting_Smtp extends CRM_Admin_Form_Setting
             }
             
             $from = '"' . $fromDisplayName . '"' . "<$fromEmail>";
-            
-            $subject = "Test for SMTP settings";
-            $message = "SMTP settings are correct.";
       
+            if ($formValues['outbond_option'] == 0) {
+                $subject = "Test for SMTP settings";
+                $message = "SMTP settings are correct.";
+                
+                $params['host'] = $formValues['smtpServer'];
+                $params['port'] = $formValues['smtpPort'];
+                
+                if ( $formValues['smtpAuth'] ) {
+                    $params['username'] = $formValues['smtpUsername'];
+                    $params['password'] = $formValues['smtpPassword'];
+                    $params['auth']     = true;
+                } else {
+                    $params['auth']     = false;
+                }
+                $mailerName = 'smtp';
+            } elseif ($formValues['outbond_option'] == 1) {
+                $subject = "Test for Sendmail settings";
+                $message = "Sendmail settings are correct.";
+                $params['sendmail_path'] = $formValues['sendmail_path'];
+                $params['sendmail_args'] = $formValues['sendmail_args'];
+                $mailerName = 'sendmail';
+            }
+
             $headers = array(   
                              'From'                      => $from,
                              'To'                        => $from,
                              'Subject'                   => CRM_Utils_Mail::encodeSubjectHeader($subject),  
                              );
-            $params['host'] = $formValues['smtpServer'];
-            $params['port'] = $formValues['smtpPort'];
             
-            if ( $formValues['smtpAuth'] ) {
-                $params['username'] = $formValues['smtpUsername'];
-                $params['password'] = $formValues['smtpPassword'];
-                $params['auth']     = true;
-            } else {
-                $params['auth']     = false;
-            }
+            $mailer =& Mail::factory( $mailerName, $params );
             
-            $mailer =& Mail::factory( 'smtp', $params );
             CRM_Core_Error::ignoreException( );
             $result = $mailer->send( $fromEmail, $headers, $message );
             if ( !is_a( $result, 'PEAR_Error' ) ) {
-                CRM_Core_Session::setStatus( ts('Your SMTP server settings are correct. A test email has been sent to your email address.') ); 
+                CRM_Core_Session::setStatus( ts('Your '.$mailerName.' settings are correct. A test email has been sent to your email address.') ); 
             } else {
-                CRM_Core_Session::setStatus( ts('Your SMTP server settings are incorrect. No test mail has been sent.') );
+                CRM_Core_Session::setStatus( ts('Your '.$mailerName.' settings are incorrect. No test mail has been sent.') );
             }
             
         } 
@@ -130,6 +146,23 @@ class CRM_Admin_Form_Setting_Smtp extends CRM_Admin_Form_Setting
      */
     static function formRule( &$fields ) 
     {
+        if ($fields['outbond_option'] == 0) {
+            if ( !$fields['smtpServer'] ) {
+                $errors['smtpServer'] = 'SMTP Server name is a required field.';
+            } 
+            if ( !$fields['smtpPort'] ) {
+                $errors['smtpPort'] = 'SMTP Port is a required field.';
+            }
+        }
+        if ($fields['outbond_option'] == 1) {
+            if ( !$fields['sendmail_path'] ) {
+                $errors['sendmail_path'] = 'Sendmail Path is a required field.';
+            } 
+            if ( !$fields['sendmail_args'] ) {
+                $errors['sendmail_args'] = 'Sendmail Argument is a required field.';
+            }
+        }
+
         if ( $fields['smtpAuth'] ) {
             if (!$fields['smtpUsername']){
                 $errors['smtpUsername'] = 'If your SMTP server require authentication please provide user name.';

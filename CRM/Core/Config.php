@@ -423,7 +423,7 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
                  CIVICRM_MAILER_SPOOL ) {
                 require_once 'CRM/Mailing/BAO/Spool.php';
                 self::$_mail = & new CRM_Mailing_BAO_Spool();
-            } else {
+            } elseif (self::$_singleton->outbond_option == 0) {
                 if ( self::$_singleton->smtpServer == '' ||
                      ! self::$_singleton->smtpServer ) {
                     CRM_Core_Error::fatal( ts( 'There is no valid smtp server setting. Click <a href=\'%1\'>Administer CiviCRM >> Global Settings</a> to set the SMTP Server.', array( 1 => CRM_Utils_System::url('civicrm/admin/setting', 'reset=1')))); 
@@ -441,6 +441,15 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
                 }
                 
                 self::$_mail =& Mail::factory( 'smtp', $params );
+            } elseif (self::$_singleton->outbond_option == 1) {
+                if ( self::$_singleton->sendmail_path == '' ||
+                     ! self::$_singleton->sendmail_path ) {
+                    CRM_Core_Error::fatal( ts( 'There is no valid sendmail path setting. Click <a href=\'%1\'>Administer CiviCRM >> Global Settings</a> to set the Sendmail Server.', array( 1 => CRM_Utils_System::url('civicrm/admin/setting', 'reset=1')))); 
+                }
+                $params['sendmail_path'] = self::$_singleton->sendmail_path;
+                $params['sendmail_args'] = self::$_singleton->sendmail_args;
+                
+                self::$_mail =& Mail::factory( 'sendmail', $params );
             }
         }
         return self::$_mail;
