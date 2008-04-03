@@ -59,8 +59,11 @@
      }  
      </script> 
      {/literal}
-{if $action eq 1 or $action eq 2 }
+{if $action eq 1 or $action eq 2 or $action eq null }
     <script type="text/javascript">
        showMinContrib( );
     </script>            
+{/if}
+{if $action ne 2 or $showOption eq true}
+    {$initHideBoxes}
 {/if}

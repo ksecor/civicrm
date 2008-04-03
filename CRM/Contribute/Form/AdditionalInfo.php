@@ -75,8 +75,11 @@ class CRM_Contribute_Form_AdditionalInfo extends CRM_Contribute_Form_Contributio
         $form->assign('mincontribution',$min_amount);
         $sel =& $this->addElement('hierselect', "product_name", ts('Premium'),'onclick="showMinContrib();"');
         $js = "<script type='text/javascript'>\n";
-        $formName = 'document.forms.' . $form->_name;
-        
+        if ( $form->_name == 'AdditionalInfo' ) {
+            $formName = 'document.forms.' . 'Contribution';
+        } else {
+            $formName = 'document.forms.' . $form->_name;   
+        }
         for ( $k = 1; $k < 2; $k++ ) {
             if ( ! isset ($defaults['product_name'][$k] )|| (! $defaults['product_name'][$k] ) )  {
                 $js .= "{$formName}['product_name[$k]'].style.display = 'none';\n"; 
