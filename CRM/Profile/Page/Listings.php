@@ -109,11 +109,6 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
 
         $this->_gid = CRM_Utils_Request::retrieve('gid', 'Positive',
                                                   $this, true, 0, 'GET' );
-
-        $this->_map = CRM_Utils_Request::retrieve( 'map', 'Boolean',
-                                                   $this, false, 0, 'GET' );
-        // map only one specific profile
-        $this->_map = $this->_gid ? $this->_map : 0;
         
         require_once 'CRM/Core/BAO/UFGroup.php';
         $this->_fields =
@@ -203,7 +198,6 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
      */ 
     function run( ) {
         $this->preProcess( );
-
         
         $this->assign( 'recentlyViewed', false );
         if ( $this->_gid ) {
@@ -217,37 +211,35 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
         // do not do any work if we are in reset mode
         if ( ! CRM_Utils_Array::value( 'reset', $_GET ) || CRM_Utils_Array::value( 'force', $_GET ) ) {
             $this->assign( 'isReset', false );
-            if ( $this->_map ) {
-                $this->map( );
-                return;
-            } else {
-                $map      = 0;
-                $linkToUF = 0;
-                if ( $this->_gid ) {
-                    $map      = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $this->_gid, 'is_map'     );
-                    $linkToUF = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $this->_gid, 'is_uf_link' );
-                }
-                if ( $map ) {
-                    $this->assign( 'mapURL',
-                                   CRM_Utils_System::url( 'civicrm/profile',
-                                                          '_qf_Search_display=true&map=1' ) );
-                }
-                
-                $editLink = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $this->_gid, 'is_edit_link' );
-                if ( ! CRM_Core_Permission::check( 'access CiviCRM' ) ) {
-                    $editLink = false;
-                }
 
-                $selector =& new CRM_Profile_Selector_Listings( $this->_params, $this->_customFields, $this->_gid,
-                                                                $map, $editLink, $linkToUF );
-
-                $controller =& new CRM_Core_Selector_Controller($selector ,
-                                                                $this->get( CRM_Utils_Pager::PAGE_ID ),
-                                                                $this->get( CRM_Utils_Sort::SORT_ID  ),
-                                                                CRM_Core_Action::VIEW, $this, CRM_Core_Selector_Controller::TEMPLATE );
-                $controller->setEmbedded( true );
-                $controller->run( );
+            $map      = 0;
+            $linkToUF = 0;
+            if ( $this->_gid ) {
+                $map      = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $this->_gid, 'is_map'     );
+                $linkToUF = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $this->_gid, 'is_uf_link' );
             }
+            
+            if ( $map ) {
+                $this->assign( 'mapURL',
+                               CRM_Utils_System::url( 'civicrm/profile/map',
+                                                      "map=1&gid={$this->_gid}&reset=1" ) );
+            }
+            
+            $editLink = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $this->_gid, 'is_edit_link' );
+            if ( ! CRM_Core_Permission::check( 'access CiviCRM' ) ) {
+                $editLink = false;
+            }
+            
+            $selector =& new CRM_Profile_Selector_Listings( $this->_params, $this->_customFields, $this->_gid,
+                                                            $map, $editLink, $linkToUF );
+            
+            $controller =& new CRM_Core_Selector_Controller($selector ,
+                                                            $this->get( CRM_Utils_Pager::PAGE_ID ),
+                                                            $this->get( CRM_Utils_Sort::SORT_ID  ),
+                                                            CRM_Core_Action::VIEW, $this, CRM_Core_Selector_Controller::TEMPLATE );
+            $controller->setEmbedded( true );
+            $controller->run( );
+
         } else {
             $this->assign( 'isReset', true );
         }
@@ -268,9 +260,18 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
         return parent::run( );
     }
 
-    function map( ) {
+    /**
+     * Function to get the list of contacts for a profile
+     * 
+     * @param $form object 
+     *
+     * @access public
+     */
+    function getProfileContact(  &$form ) 
+    {
         $details = array( );
-        $ufGroupParam   = array('id' => $this->_gid );
+        $ufGroupParam   = array('id' => $form->_gid );
+        require_once "CRM/Core/BAO/UFGroup.php";
         CRM_Core_BAO_UFGroup::retrieve($ufGroupParam, $details);
 
         // make sure this group can be mapped
@@ -279,18 +280,17 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
         }
 
         $groupId = CRM_Utils_Array::value('limit_listings_group_id', $details);
-        $groupId = CRM_Utils_Array::value('limit_listings_group_id', $details);
         
         // add group id to params if a uf group belong to a any group
         if ($groupId) {
-            if ( CRM_Utils_Array::value('group', $this->_params ) ) {
-                $this->_params['group'][$groupId] = 1;
+            if ( CRM_Utils_Array::value('group', $form->_params ) ) {
+                $form->_params['group'][$groupId] = 1;
             } else {
-                $this->_params['group'] = array($groupId => 1);
+                $form->_params['group'] = array($groupId => 1);
             }
         }
         
-        $this->_fields = CRM_Core_BAO_UFGroup::getListingFields( CRM_Core_Action::VIEW,
+        $form->_fields = CRM_Core_BAO_UFGroup::getListingFields( CRM_Core_Action::VIEW,
                                                                  CRM_Core_BAO_UFGroup::PUBLIC_VISIBILITY |
                                                                  CRM_Core_BAO_UFGroup::LISTINGS_VISIBILITY,
                                                                  false, $this->_gid );
@@ -299,22 +299,16 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
         $returnProperties['contact_type'] = 1;
         $returnProperties['sort_name'   ] = 1;
 
-        $queryParams =& CRM_Contact_BAO_Query::convertFormValues( $this->_params, 1 );
-        $this->_query   =& new CRM_Contact_BAO_Query( $queryParams, $returnProperties, $this->_fields );
+        $queryParams =& CRM_Contact_BAO_Query::convertFormValues( $form->_params, 1 );
+        $form->_query   =& new CRM_Contact_BAO_Query( $queryParams, $returnProperties, $form->_fields );
         
-        $ids = $this->_query->searchQuery( 0, 0, null, 
+        $ids = $form->_query->searchQuery( 0, 0, null, 
                                            false, false, false, 
                                            true, false );                            
+
         $contactIds = explode( ',', $ids );
 
-        require_once 'CRM/Contact/Form/Task/Map.php';
-        CRM_Contact_Form_Task_Map::createMapXML( $contactIds, null, $this, false );
-
-        $template =& CRM_Core_Smarty::singleton( );
-        $template->assign( 'profileGID', $this->_gid );
-        $content = $template->fetch( 'CRM/Contact/Form/Task/Map.tpl' );
-        echo CRM_Utils_System::theme( 'page', $content, true, false );
-        return;
+        return $contactIds;
     }
 
     function getTemplateFileName() {

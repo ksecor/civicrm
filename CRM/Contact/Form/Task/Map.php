@@ -78,8 +78,13 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task
             $ids = $eid;
             $type = 'Event';
         } else {
-            parent::preProcess( );
-            $ids = $this->_contactIds;
+            if ( $profileGID ) {
+                require_once "CRM/Profile/Page/Listings.php";
+                $ids = CRM_Profile_Page_Listings::getProfileContact( $this );
+            } else {
+                parent::preProcess( );
+                $ids = $this->_contactIds;
+            }
         }
         self::createMapXML( $ids, $lid, $this, true ,$type);
         $this->assign( 'single', $this->_single );
