@@ -99,46 +99,55 @@ WHERE domain_id = $domainID AND name = 'activity_type'";
         $og = $this->runQuery( $ogIdQry );
         $og->fetch();
 
-        $query      = "SELECT * FROM civicrm_activity_history";
-        $ah = $this->runQuery( $query );
-            
-        while ($ah->fetch()) {
-            $activityTypeId = $this->getActivityTypeId($og->id, $ah->activity_type);
+        $query        = "SELECT DISTINCT activity_type FROM civicrm_activity_history";
+        $activityType = $this->runQuery( $query );
 
-            if ($activityTypeId) {
-                // if activity type found, insert into activity table.
-                $summary   = mysql_escape_string($ah->activity_summary);
-                $insertQry = "
-INSERT INTO civicrm_activity (source_contact_id, source_record_id, activity_type_id, subject, activity_date_time, due_date_time, duration, location, phone_id, phone_number, details, status_id, priority_id, parent_id, is_test) 
-VALUES           ({$ah->entity_id},{$ah->activity_id},{$activityTypeId},'{$summary}','{$ah->activity_date}', NULL, NULL, NULL, NULL, NULL, '{$summary}', {$as->value}, NULL, NULL, {$ah->is_test})";
-                $this->runQuery( $insertQry );
-                $activity = $this->runQuery("SELECT LAST_INSERT_ID() as id");
-                $activity->fetch();
+        while ( $activityType->fetch() ) {
+            $activityTypeIdQry = "
+SELECT value FROM civicrm_option_value 
+WHERE  option_group_id={$og->id} AND label like '{$activityType->activity_type}'";
+            $ov = $this->runQuery( $activityTypeIdQry );
 
-                // migration to target and assignment table
+            if ( $ov->fetch() ) {
+                // migration to activity table
                 $insertQry = "
-INSERT INTO civicrm_activity_target (activity_id, target_contact_id)
-VALUES ({$activity->id}, {$ah->entity_id})
-ON DUPLICATE KEY UPDATE activity_id={$activity->id};";
-                $this->runQuery( $insertQry );
-
-                $insertQry = "
-INSERT INTO civicrm_activity_assignment (activity_id, assignee_contact_id)
-VALUES ({$activity->id}, {$ah->entity_id})
-ON DUPLICATE KEY UPDATE activity_id={$activity->id};";
+INSERT INTO civicrm_activity (source_contact_id, source_record_id, activity_type_id, subject, 
+            activity_date_time, due_date_time, duration, location, phone_id, phone_number, 
+            details, status_id, priority_id, parent_id, is_test) 
+SELECT ah.entity_id, ah.activity_id, {$ov->value}, ah.activity_summary, 
+       ah.activity_date, NULL, NULL, NULL, NULL, NULL, 
+       ah.activity_summary, {$as->value}, NULL, NULL, ah.is_test 
+FROM   civicrm_activity_history ah
+WHERE  ah.activity_type='{$activityType->activity_type}'";
                 $this->runQuery( $insertQry );
 
-                // delete migrated activity history record.
-                $deleteQry = "DELETE FROM civicrm_activity_history WHERE id={$ah->id}";
+                $deleteQry = "
+DELETE FROM civicrm_activity_history 
+WHERE  activity_type='{$activityType->activity_type}'";
                 $this->runQuery( $deleteQry );
-
-                $activity->free();
             }
         }
-        $ah->free();
-        $og->free();
-        $as->free();
 
+        // migration to target and assignment table
+        $insertQry = "
+INSERT INTO civicrm_activity_target (activity_id, target_contact_id)
+SELECT ca.id, ca.source_contact_id 
+FROM   civicrm_activity ca
+LEFT JOIN civicrm_activity_target cat ON (ca.id = cat.activity_id)
+WHERE cat.activity_id IS NULL
+ON DUPLICATE KEY UPDATE activity_id=ca.id";
+        $this->runQuery( $insertQry );
+
+        $insertQry = "
+INSERT INTO civicrm_activity_assignment (activity_id, assignee_contact_id)
+SELECT ca.id, ca.source_contact_id 
+FROM   civicrm_activity ca
+LEFT JOIN civicrm_activity_assignment cas ON (ca.id = cas.activity_id)
+WHERE cas.activity_id IS NULL
+ON DUPLICATE KEY UPDATE activity_id=ca.id";
+        $this->runQuery( $insertQry );
+
+        // drop activity history table if empty
         $query = "SELECT id FROM civicrm_activity_history LIMIT 1";
         $res   = $this->runQuery( $query );
         if ($res->fetch()) {
@@ -181,29 +190,6 @@ ON DUPLICATE KEY UPDATE activity_id={$activity->id};";
 
     function getButtonTitle( ) {
         return ts( 'Upgrade & Continue' );
-    }
-
-    function getActivityTypeId( $ogId, $activityType ) {
-        static $activityTypeList = array('present' => array(), 'absent' => array());
-
-        if ( array_key_exists($activityType, $activityTypeList['present']) ) {
-            return $activityTypeList['present'][$activityType];
-        } elseif ( array_key_exists($activityType, $activityTypeList['absent']) ) {
-            return null;
-        } else {
-            $activityTypeIdQry = "
-SELECT value FROM civicrm_option_value 
-WHERE option_group_id={$ogId} AND label like '{$activityType}'";
-            $at = $this->runQuery( $activityTypeIdQry );
-            if ( $at->fetch() ) {
-                $activityTypeList['present'][$activityType] = $at->value;
-                $at->free();
-                return $activityTypeList['present'][$activityType];
-            } else {
-                $activityTypeList['absent'][$activityType]  = 1;
-                return null;
-            }
-        }
     }
 }
 ?>
