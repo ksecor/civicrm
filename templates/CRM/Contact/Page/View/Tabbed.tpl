@@ -101,10 +101,20 @@
      </br>
     {/if}
   {/foreach}
+{foreach from=$loc.openid item=openid}
+     {if $openid.openid}
+        {ts}OpenID:{/ts} <a href="{$openid.openid}">{$openid.openid|mb_truncate:40}</a>
+        {*if $email.is_primary eq 1}</strong>{/if*}
+     {/if}
+     {if $config->userFramework eq "Standalone" }
+	{if $openid.allowed_to_login eq 1}		
+	{ts}(Allowed to login){/ts}
+	{/if}
+     {/if} 	
+     <br />
+{/foreach}
    </div>
-
    <div class="col2">
-
     {*if $config->mapAPIKey AND $loc.is_primary AND $loc.address.geo_code_1 AND $loc.address.geo_code_2*}
     {if $config->mapAPIKey AND $loc.address.geo_code_1 AND $loc.address.geo_code_2}
         <a href="{crmURL p='civicrm/contact/map' q="reset=1&cid=$contactId&lid=`$loc.location_type_id`"}" title="{ts}Map Primary Address{/ts}">{ts}Map this Address{/ts}</a><br />
