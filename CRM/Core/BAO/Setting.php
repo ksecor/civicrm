@@ -172,17 +172,6 @@ class CRM_Core_BAO_Setting
                     unset( $defaults[$skip] );
                 }
             }
-
-            // set lcMessages dynamically based on GET and session values
-            // if session unset, initialise it to admin-specified value
-            require_once 'CRM/Utils/Request.php';
-            $session =& CRM_Core_Session::singleton();
-            if ($lcMessages = CRM_Utils_Request::retrieve('lcMessages', 'String', $this)) {
-                $session->set('lcMessages', $lcMessages);
-            } elseif (!$session->get('lcMessages')) {
-                $session->set('lcMessages', $defaults['lcMessages']);
-            }
-            $defaults['lcMessages'] = $session->get('lcMessages');
         }
     }
 }
