@@ -24,8 +24,8 @@
 </tr>
 
 <tr>
-    <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/smtp' q='reset=1'}" id="idSMTP">&raquo; {ts}Outbound Email (SMTP){/ts}</a></td>
-    <td>{ts}SMTP server, port and authentication settings for outbound email.{/ts}</td>
+    <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/smtp' q='reset=1'}" id="idSMTP">&raquo; {ts}Outbound Email (SMTP/Sendmail){/ts}</a></td>
+    <td>{ts}Settings for outbound email, SMTP server, port, authentication or sendmail path, sendmail Argument.{/ts}</td>
 </tr>
 
 <tr>
