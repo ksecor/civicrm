@@ -203,7 +203,7 @@ class CRM_Core_Permission {
 
 function civicrm_hack_access( &$args, $op = 'and' ) {
     if ( ! is_array( $args ) ) {
-        CRM_Core_Error::backtrace( $args );
+        return $args;
     }
     foreach ( $args as $str ) {
         $res = CRM_Core_Permission::check( $str );

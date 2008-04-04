@@ -180,6 +180,7 @@ class CRM_Core_Menu
                                          'access callback'  => 'civicrm_hack_access',
                                          'access arguments' => array( array( 'access CiviCRM' ) ),
                                          'page callback'    => 'civicrm_invoke',
+                                         'crmCallback'=> 'CRM_Contact_Page_View_DashBoard',
                                          'type'             => self::NORMAL_ITEM,
                                          'crmType'          => self::CALLBACK,
                                          'weight'           => 0,
