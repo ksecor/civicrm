@@ -80,7 +80,7 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task
         } else {
             if ( $profileGID ) {
                 require_once "CRM/Profile/Page/Listings.php";
-                $ids = CRM_Profile_Page_Listings::getProfileContact( $this );
+                $ids = CRM_Profile_Page_Listings::getProfileContact( $profileGID );
             } else {
                 parent::preProcess( );
                 $ids = $this->_contactIds;

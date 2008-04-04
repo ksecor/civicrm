@@ -189,6 +189,10 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
                 
             }
         }
+
+        // set the params in session
+        $session =& CRM_Core_Session::singleton();
+        $session->set('profileParams', $this->_params);
    }
 
     /** 
@@ -267,10 +271,13 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
      *
      * @access public
      */
-    function getProfileContact(  &$form ) 
+    function getProfileContact( $gid ) 
     {
+        $session =& CRM_Core_Session::singleton();
+        $params = $session->get('profileParams');
+        
         $details = array( );
-        $ufGroupParam   = array('id' => $form->_gid );
+        $ufGroupParam   = array('id' => $gid );
         require_once "CRM/Core/BAO/UFGroup.php";
         CRM_Core_BAO_UFGroup::retrieve($ufGroupParam, $details);
 
@@ -283,31 +290,31 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
         
         // add group id to params if a uf group belong to a any group
         if ($groupId) {
-            if ( CRM_Utils_Array::value('group', $form->_params ) ) {
-                $form->_params['group'][$groupId] = 1;
+            if ( CRM_Utils_Array::value('group', $params ) ) {
+                $params['group'][$groupId] = 1;
             } else {
-                $form->_params['group'] = array($groupId => 1);
+                $params['group'] = array($groupId => 1);
             }
         }
         
-        $form->_fields = CRM_Core_BAO_UFGroup::getListingFields( CRM_Core_Action::VIEW,
-                                                                 CRM_Core_BAO_UFGroup::PUBLIC_VISIBILITY |
-                                                                 CRM_Core_BAO_UFGroup::LISTINGS_VISIBILITY,
-                                                                 false, $this->_gid );
+        $fields = CRM_Core_BAO_UFGroup::getListingFields( CRM_Core_Action::VIEW,
+                                                          CRM_Core_BAO_UFGroup::PUBLIC_VISIBILITY |
+                                                          CRM_Core_BAO_UFGroup::LISTINGS_VISIBILITY,
+                                                          false, $gid );
 
-        $returnProperties =& CRM_Contact_BAO_Contact::makeHierReturnProperties( $this->_fields );
+        $returnProperties =& CRM_Contact_BAO_Contact::makeHierReturnProperties( $fields );
         $returnProperties['contact_type'] = 1;
         $returnProperties['sort_name'   ] = 1;
 
-        $queryParams =& CRM_Contact_BAO_Query::convertFormValues( $form->_params, 1 );
-        $form->_query   =& new CRM_Contact_BAO_Query( $queryParams, $returnProperties, $form->_fields );
+        $queryParams =& CRM_Contact_BAO_Query::convertFormValues( $params, 1 );
+        $query   =& new CRM_Contact_BAO_Query( $queryParams, $returnProperties, $fields );
         
-        $ids = $form->_query->searchQuery( 0, 0, null, 
-                                           false, false, false, 
-                                           true, false );                            
+        $ids = $query->searchQuery( 0, 0, null, 
+                                    false, false, false, 
+                                    true, false );                            
 
         $contactIds = explode( ',', $ids );
-
+        
         return $contactIds;
     }
 
