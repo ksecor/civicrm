@@ -694,8 +694,10 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 $participant->is_test = 0;
             }
             $participant->find();
+            require_once 'CRM/Event/PseudoConstant.php';
+            $statusTypes = CRM_Event_PseudoConstant::participantStatus( null, false );
             while($participant->fetch()) {
-                if ( $participant->status_id != 4 ) {
+                if ( array_key_exists ( $participant->status_id, $statusTypes ) ) {
                     $status = "Oops. It looks like you are already registered for this event. If you want to change your registration, or you feel that you've gotten this message in error, please contact the site administrator."; 
                     $session->setStatus( $status );
                     $url = CRM_Utils_System::url( 'civicrm/event/info',
