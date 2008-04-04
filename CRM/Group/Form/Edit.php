@@ -178,6 +178,11 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
                     unset($groupTypes['Access Control']);
                 }
             }
+            
+            if ( !CRM_Core_Permission::access( 'CiviMail' ) ) {
+                unset($groupTypes['Mailing List']);
+            }
+
             $this->addCheckBox( 'group_type',
                                 ts( 'Group Type' ),
                                 $groupTypes,
