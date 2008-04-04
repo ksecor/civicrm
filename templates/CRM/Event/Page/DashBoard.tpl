@@ -34,7 +34,7 @@
     <td>{$values.eventType}</td>
     <td>{$values.isPublic}</td>
     <td class="right">
-       {ts}Registered/Attended:{/ts} {if $values.participants_url and $values.participants}<a href="{$values.participants_url}">{$values.participants} (show)</a>{else}{$values.participants}{/if} <br/>
+       {$eventSummary.statusDisplay} {if $values.participants_url and $values.participants}<a href="{$values.participants_url}">{$values.participants} (show)</a>{else}{$values.participants}{/if} <br/>
        {ts}Pending:{/ts}{if $values.pending_url and $values.pending}<a href="{$values.pending_url}">{$values.pending} (show)</a>{else}{$values.pending}{/if}
         {if $values.maxParticipants}<br />{ts 1=$values.maxParticipants}(max %1){/ts}{/if}
     </td>

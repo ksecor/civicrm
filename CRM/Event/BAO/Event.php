@@ -385,7 +385,10 @@ LIMIT      0, 10
                     $eventSummary['events'][$dao->id][$property] = $dao->$name;
                 }
             }
-        } 
+        }
+        require_once 'CRM/Event/PseudoConstant.php';
+        $statusTypes  = CRM_Event_PseudoConstant::participantStatus( null, false );
+        $eventSummary['statusDisplay'] = implode( '/', array_values( $statusTypes ) );
         return $eventSummary;
     }
 
