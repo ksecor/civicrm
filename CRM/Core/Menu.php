@@ -109,6 +109,7 @@ class CRM_Core_Menu
 
             // This is the minimum information you can provide for a menu item.
             self::$_items = self::permissionedItems( );
+            //self::$_items = array();
             $config =& CRM_Core_Config::singleton( );
 
             $args     = explode( '/', CRM_Utils_Array::value( $config->userFrameworkURLVar,
@@ -180,9 +181,9 @@ class CRM_Core_Menu
                                          'access callback'  => 'civicrm_hack_access',
                                          'access arguments' => array( array( 'access CiviCRM' ) ),
                                          'page callback'    => 'civicrm_invoke',
-                                         'crmCallback'=> 'CRM_Contact_Page_View_DashBoard',
+                                         'crm_callback'     => 'CRM_Contact_Page_View_DashBoard',
                                          'type'             => self::NORMAL_ITEM,
-                                         'crmType'          => self::CALLBACK,
+                                         'crm_type'         => self::CALLBACK,
                                          'weight'           => 0,
                                          ),
 
@@ -190,8 +191,8 @@ class CRM_Core_Menu
                                                    'title'  => ts('CiviCRM Home'),
                                                    'query'  => 'reset=1',
                                                    'type'   => self::CALLBACK,
-                                                   'crmType'=> self::NORMAL_ITEM,
-                                                   'crmCallback'=> 'CRM_Contact_Page_View_DashBoard',
+                                                   'crm_type'=> self::NORMAL_ITEM,
+                                                   'crm_callback'=> 'CRM_Contact_Page_View_DashBoard',
                                                    'access arguments' => array( array( 'access CiviCRM' ) ),
                                                    'weight' => 0,
                                                    ),
@@ -199,8 +200,8 @@ class CRM_Core_Menu
                       'civicrm/ajax' => array(
                                               'title'  => null,
                                               'type'   => self::CALLBACK,
-                                              'crmType'=> self::CALLBACK,
-                                              'crmCallback' => 'CRM_Core_Page_AJAX',
+                                              'crm_type'=> self::CALLBACK,
+                                              'crm_callback' => 'CRM_Core_Page_AJAX',
                                               'access arguments' => array( array( 'access CiviCRM' ) ),
                                               'weight' => 0,
                                               ),
@@ -209,8 +210,8 @@ class CRM_Core_Menu
                                                               'title'   => ts('Find Contacts'),
                                                               'query'   => 'reset=1',
                                                               'type'    => self::CALLBACK,
-                                                              'crmType' => self::DEFAULT_LOCAL_TASK | self::NORMAL_ITEM,
-                                                              'crmCallback' => array( 'CRM_Core_Invoke', 'search' ),
+                                                              'crm_type' => self::DEFAULT_LOCAL_TASK | self::NORMAL_ITEM,
+                                                              'crm_callback' => array( 'CRM_Core_Invoke', 'search' ),
                                                               'access arguments'  => array( array( 'access CiviCRM' ) ),
                                                               'weight'  => 1
                                                               ),
@@ -219,8 +220,8 @@ class CRM_Core_Menu
                                                            'title'   => ts('Map Event Location'),
                                                            'query'   => 'reset=1',
                                                            'type'    => self::CALLBACK,
-                                                           'crmType' => self::CALLBACK,
-                                                           'crmCallback' => 'CRM_Contact_Form_Task_Map_Event',
+                                                           'crm_type' => self::CALLBACK,
+                                                           'crm_callback' => 'CRM_Contact_Form_Task_Map_Event',
                                                            'access callback'  => true,
                                                            'weight'  => 1
                                                            ),
@@ -229,8 +230,8 @@ class CRM_Core_Menu
                                                'title'  => ts('Manage Groups'),
                                                'query'  => 'reset=1',
                                                'type'   => self::CALLBACK,
-                                               'crmType'=> self::NORMAL_ITEM,
-                                               'crmCallback' => 'CRM_Group_Page_Group',
+                                               'crm_type'=> self::NORMAL_ITEM,
+                                               'crm_callback' => 'CRM_Group_Page_Group',
                                                'access arguments' => array( array( 'access CiviCRM' ) ),
                                                'weight' => 30,
                                                ),
@@ -240,8 +241,8 @@ class CRM_Core_Menu
                                                 'query'  => 'reset=1',
                                                 'access arguments' => array( array( 'import contacts', 'access CiviCRM' ) ),
                                                 'type'   =>  CRM_Core_Menu::CALLBACK,
-                                                'crmType'=>  CRM_Core_Menu::NORMAL_ITEM,
-                                                'crmCallback' => array( 'CRM_Core_Invoke', 'import' ),
+                                                'crm_type'=>  CRM_Core_Menu::NORMAL_ITEM,
+                                                'crm_callback' => array( 'CRM_Core_Invoke', 'import' ),
                                                 'weight' =>  400,
                                                 ),
 
@@ -250,8 +251,8 @@ class CRM_Core_Menu
                                                'query'   => 'reset=1',
                                                'access arguments'  => array( array( 'administer CiviCRM', 'access CiviCRM' ) ),
                                                'type'    => self::CALLBACK,
-                                               'crmType' => self::NORMAL_ITEM,
-                                               'crmCallback' => 'CRM_Admin_Page_Admin',
+                                               'crm_type' => self::NORMAL_ITEM,
+                                               'crm_callback' => 'CRM_Admin_Page_Admin',
                                                'weight'  => 9000,
                                                ),
 
@@ -259,8 +260,8 @@ class CRM_Core_Menu
                                               'title'   => ts( 'Browse Uploaded files' ), 
                                               'access arguments'  => array( array( 'access uploaded files' ) ),
                                               'type'    => self::CALLBACK,  
-                                              'crmType' => self::CALLBACK,  
-                                              'crmCallback' => 'CRM_Core_Page_File',
+                                              'crm_type' => self::CALLBACK,  
+                                              'crm_callback' => 'CRM_Core_Page_File',
                                               'weight'  => 0,  
                                                ),
 
@@ -268,8 +269,8 @@ class CRM_Core_Menu
                                                  'title'   => ts( 'Contact Information' ),
                                                  'access callback'  => true,
                                                  'type'    => self::CALLBACK, 
-                                                 'crmType' => self::CALLBACK,
-                                                 'crmCallback' => 'CRM_Profile_Page_Listings',
+                                                 'crm_type' => self::CALLBACK,
+                                                 'crm_callback' => 'CRM_Profile_Page_Listings',
                                                  'weight'  => 0, 
                                                  ),
 
@@ -277,8 +278,8 @@ class CRM_Core_Menu
                                               'title'   => ts( 'Contact Dashboard' ),
                                               'access arguments'  => array( array( 'access Contact Dashboard' ) ),
                                               'type'    => self::CALLBACK, 
-                                              'crmType' => self::CALLBACK, 
-                                              'crmCallback' => 'CRM_Contact_Page_View_UserDashBoard',
+                                              'crm_type' => self::CALLBACK, 
+                                              'crm_callback' => 'CRM_Contact_Page_View_UserDashBoard',
                                               'weight'  => 0, 
                                               ),
 
@@ -286,8 +287,8 @@ class CRM_Core_Menu
                                                 'title'   => ts( 'Tell a Friend' ),
                                                 'access arguments'  => array( array( 'make online contributions', 'register for events' ), 'or' ),
                                                 'type'    => self::CALLBACK, 
-                                                'crmType' => self::CALLBACK, 
-                                                'crmCallback' => 'CRM_Friend_Form',
+                                                'crm_type' => self::CALLBACK, 
+                                                'crm_callback' => 'CRM_Friend_Form',
                                                 'crmForm'     => CRM_Core_MENU::IS_FORM,
                                                 'weight'  => 0, 
                                                 ),
@@ -296,8 +297,8 @@ class CRM_Core_Menu
                                                 'title'   => ts('Log out'),
                                                 'query'   => 'reset=1',
                                                 'type'    => self::CALLBACK,
-                                                'crmType' => self::DEFAULT_LOCAL_TASK | self::NORMAL_ITEM,
-                                                'crmCallback' => array( 'CRM_Core_Invoke', 'logout' ),
+                                                'crm_type' => self::DEFAULT_LOCAL_TASK | self::NORMAL_ITEM,
+                                                'crm_callback' => array( 'CRM_Core_Invoke', 'logout' ),
                                                 'access arguments'  => array( array( 'access CiviCRM' ) ),
                                                 'weight'  => 9999,
                                                 )
@@ -439,20 +440,20 @@ class CRM_Core_Menu
         foreach ( self::$_items as $path => $item ) {
             $i++;
             // this item is a root_local_task and potentially more
-            if ( ( CRM_Utils_Array::value( 'crmType', $item ) & self::ROOT_LOCAL_TASK ) &&
-                 ( CRM_Utils_Array::value( 'crmType', $item ) >= self::ROOT_LOCAL_TASK ) ) {
+            if ( ( CRM_Utils_Array::value( 'crm_type', $item ) & self::ROOT_LOCAL_TASK ) &&
+                 ( CRM_Utils_Array::value( 'crm_type', $item ) >= self::ROOT_LOCAL_TASK ) ) {
                 self::$_rootLocalTasks[$path] = array(
                                                       'root'     => $path,
                                                       'children' => array( )
                                                       );
-            } else if ( ( CRM_Utils_Array::value( 'crmType', $item ) &  self::LOCAL_TASK ) &&
-                        ( CRM_Utils_Array::value( 'crmType', $item ) >= self::LOCAL_TASK ) ) {
+            } else if ( ( CRM_Utils_Array::value( 'crm_type', $item ) &  self::LOCAL_TASK ) &&
+                        ( CRM_Utils_Array::value( 'crm_type', $item ) >= self::LOCAL_TASK ) ) {
                 // find parent of the local task
                 foreach ( self::$_rootLocalTasks as $path => $dontCare ) {
                     if ( strpos( $item['path'], $path ) !== false &&
                          CRM_Utils_Array::value( 'access callback', $item, true ) ) {
                         $isDefault =
-                            ( CRM_Utils_Array::value( 'crmType', $item ) == self::DEFAULT_LOCAL_TASK ) ? true : false;
+                            ( CRM_Utils_Array::value( 'crm_type', $item ) == self::DEFAULT_LOCAL_TASK ) ? true : false;
                         self::$_rootLocalTasks[$path]['children'][] = array( 'path'      => $path,
                                                                              'isDefault' => $isDefault );
                     }
@@ -576,8 +577,8 @@ class CRM_Core_Menu
                              'desc'    => ts('Configure custom fields to collect and store custom data which is not included in the standard CiviCRM forms.'), 
                              'query'   => 'reset=1',
                              'type'    => self::CALLBACK,
-                             'crmType' => self::LOCAL_TASK,
-                             'crmCallback'=> 'CRM_Custom_Page_Group',
+                             'crm_type' => self::LOCAL_TASK,
+                             'crm_callback'=> 'CRM_Custom_Page_Group',
                              'adminGroup' => ts('Customize'),
                              'icon'    => 'admin/small/custm_data.png',
                              'weight'  => 10
@@ -588,8 +589,8 @@ class CRM_Core_Menu
                              'title'  => ts('Custom Data Fields'),
                              'query'  => 'reset=1',
                              'type'   => self::CALLBACK,
-                             'crmType'=> self::CALLBACK,
-                             'crmCallback'=> 'CRM_Custom_Page_Field',
+                             'crm_type'=> self::CALLBACK,
+                             'crm_callback'=> 'CRM_Custom_Page_Field',
                              'weight' => 11
                              ),
                        
@@ -598,8 +599,8 @@ class CRM_Core_Menu
                              'desc'    => ts('Profiles allow you to aggregate groups of fields and include them in your site as input forms, contact display pages, and search and listings features.'), 
                              'query'   => 'reset=1',
                              'type'    => self::CALLBACK,
-                             'crmType' => self::LOCAL_TASK,
-                             'crmCallback' => 'CRM_UF_Page_Group',
+                             'crm_type' => self::LOCAL_TASK,
+                             'crm_callback' => 'CRM_UF_Page_Group',
                              'adminGroup' => ts('Customize'),
                              'icon'    => 'admin/small/Profile.png',
                              'weight'  => 20
@@ -610,8 +611,8 @@ class CRM_Core_Menu
                              'title'  => ts('CiviCRM Profile Fields'),
                              'query'  => 'reset=1',
                              'type'   => self::CALLBACK,
-                             'crmType'=> self::CALLBACK,
-                             'crmCallback' => 'CRM_UF_Page_Field',
+                             'crm_type'=> self::CALLBACK,
+                             'crm_callback' => 'CRM_UF_Page_Field',
                              'weight' => 21
                              ),
                        
@@ -620,8 +621,8 @@ class CRM_Core_Menu
                            'desc'    => ts('Use configured duplicate matching rules to identify suspected duplicate contact records in your database.'),
                            'query'      => 'reset=1',
                            'type'       => self::CALLBACK,
-                           'crmType'    => self::LOCAL_TASK,
-                           'crmCallback' => 'CRM_Admin_Page_DedupeFind',
+                           'crm_type'    => self::LOCAL_TASK,
+                           'crm_callback' => 'CRM_Admin_Page_DedupeFind',
                            'adminGroup' => ts('Manage'),
                            'icon'       => 'admin/small/duplicate_matching.png',
                            'weight'     => 130
@@ -631,7 +632,7 @@ class CRM_Core_Menu
                              'title'   => ts('Synchronize Users to Contacts'),
                              'desc'    => ts('Automatically create a CiviCRM contact record for each CMS user record.'),
                              'type'    => self::CALLBACK,
-                             'crmCallback' => 'CRM_Admin_Page_CMSUser',
+                             'crm_callback' => 'CRM_Admin_Page_CMSUser',
                              'extra' => 'onclick = "if (confirm(\'' . $drupalSyncExtra . '\')) this.href+=\'&amp;confirmed=1\'; else return false;"',
                              'adminGroup' => ts('Manage'),
                              'icon'    => 'admin/small/Synch_user.png',
@@ -644,8 +645,8 @@ class CRM_Core_Menu
                              'desc'    => ts('Configure Global Settings for your site, including: Enabled Components, Site Preferences for screens and forms, Directory Paths and Resource URLs, Address formats, Localization, Payment Processor, Outbound Email, Mapping, and Debugging.'), 
                              'query'  => 'reset=1',
                              'type'    => self::CALLBACK,
-                             'crmType' => self::LOCAL_TASK,
-                             'crmCallback' => array( 'CRM_Core_Invoke', 'setting' ),
+                             'crm_type' => self::LOCAL_TASK,
+                             'crm_callback' => array( 'CRM_Core_Invoke', 'setting' ),
                              'adminGroup' => ts('Configure'),
                              'icon'    => 'admin/small/36.png',
                              'weight'  => 200
@@ -657,8 +658,8 @@ class CRM_Core_Menu
                            'desc'    => ts('Rules used to identify potentially duplicate contact records, and to match imported data to existing contact records.'), 
                            'query'  => 'reset=1',
                            'type'    => self::CALLBACK,
-                           'crmType' => self::LOCAL_TASK,
-                           'crmCallback' => 'CRM_Admin_Page_DupeMatch',
+                           'crm_type' => self::LOCAL_TASK,
+                           'crm_callback' => 'CRM_Admin_Page_DupeMatch',
                            'adminGroup' => ts('Configure'),
                            'icon'    => 'admin/small/duplicate_matching.png',
                            'weight'  => 240
@@ -670,8 +671,8 @@ class CRM_Core_Menu
                            'desc'    => ts('Rules used to identify potentially duplicate contact records, and to match imported data to existing contact records.'), 
                            'query'  => 'reset=1',
                            'type'    => self::CALLBACK,
-                           'crmType' => self::LOCAL_TASK,
-                           'crmCallback' => 'CRM_Admin_Page_DedupeRules',
+                           'crm_type' => self::LOCAL_TASK,
+                           'crm_callback' => 'CRM_Admin_Page_DedupeRules',
                            'adminGroup' => ts('Configure'),
                            'icon'    => 'admin/small/duplicate_matching.png',
                            'weight'  => 245
@@ -683,8 +684,8 @@ class CRM_Core_Menu
                              'desc'    => ts('Import and Export mappings allow you to easily run the same job multiple times. This option allows you to rename or delete existing mappings.'), 
                              'query'      => 'reset=1',
                              'type'       => self::CALLBACK,
-                             'crmType'    => self::LOCAL_TASK,
-                             'crmCallback' => 'CRM_Admin_Page_Mapping',
+                             'crm_type'    => self::LOCAL_TASK,
+                             'crm_callback' => 'CRM_Admin_Page_Mapping',
                              'adminGroup' => ts('Configure'),
                              'icon'       => 'admin/small/import_export_map.png',
                              'weight'     => 250
@@ -695,8 +696,8 @@ class CRM_Core_Menu
                              'desc'    => ts('Message templates allow you to save and re-use messages with layouts which you can use when sending email to one or more contacts.'), 
                              'query'      => 'reset=1',
                              'type'       => self::CALLBACK,
-                             'crmType'    => self::LOCAL_TASK,
-                             'crmCallback' => 'CRM_Admin_Page_MessageTemplates',
+                             'crm_type'    => self::LOCAL_TASK,
+                             'crm_callback' => 'CRM_Admin_Page_MessageTemplates',
                              'adminGroup' => ts('Configure'),
                              'icon'       => 'admin/small/template.png',
                              'weight'     => 260
@@ -707,8 +708,8 @@ class CRM_Core_Menu
                              'desc'    => ts('Configure primary contact name, email, return-path and address information. This information is used by CiviMail to identify the sending organization.'), 
                              'query'  => 'reset=1&action=update',
                              'type'    => CRM_Core_Menu::CALLBACK,
-                             'crmType' => CRM_Core_Menu::LOCAL_TASK,  
-                             'crmCallback' => 'CRM_Contact_Form_Domain',
+                             'crm_type' => CRM_Core_Menu::LOCAL_TASK,  
+                             'crm_callback' => 'CRM_Contact_Form_Domain',
                              'adminGroup' => ts('Configure'),
                              'icon'    => 'admin/small/domain.png',
                              'weight'  => 270
@@ -720,8 +721,8 @@ class CRM_Core_Menu
                              'desc'    => ts('Configure CiviCRM option values.'), 
                              'query'   => 'reset=1',
                              'type'    => self::CALLBACK,
-                             'crmType' => self::LOCAL_TASK,
-                             'crmCallback' => 'CRM_Admin_Page_Options',
+                             'crm_type' => self::LOCAL_TASK,
+                             'crm_callback' => 'CRM_Admin_Page_Options',
                              'adminGroup' => ts('Option Lists'),
                              'icon'    => 'admin/small/05.png',
                              'weight'  => 310
@@ -733,8 +734,8 @@ class CRM_Core_Menu
                              'desc'    => ts('Options for categorizing contact addresses and phone numbers (e.g. Home, Work, Billing, etc.).'), 
                              'query'  => 'reset=1',
                              'type'    => self::CALLBACK,
-                             'crmCallback' => 'CRM_Admin_Page_LocationType',
-                             'crmType' => self::LOCAL_TASK,
+                             'crm_callback' => 'CRM_Admin_Page_LocationType',
+                             'crm_type' => self::LOCAL_TASK,
                              'adminGroup' => ts('Option Lists'),
                              'icon'    => 'admin/small/13.png',
                              'weight'  => 360
@@ -746,8 +747,8 @@ class CRM_Core_Menu
                              'desc'    => ts('Contacts can be linked to each other through Relationships (e.g. Spouse, Employer, etc.). Define the types of relationships you want to record here.'), 
                              'query'  => 'reset=1',
                              'type'    => self::CALLBACK,
-                             'crmType' => self::LOCAL_TASK,
-                             'crmCallback' => 'CRM_Admin_Page_RelationshipType',
+                             'crm_type' => self::LOCAL_TASK,
+                             'crm_callback' => 'CRM_Admin_Page_RelationshipType',
                              'adminGroup' => ts('Option Lists'),
                              'icon'    => 'admin/small/rela_type.png',
                              'weight'  => 375
@@ -759,8 +760,8 @@ class CRM_Core_Menu
                              'desc'    => ts('Tags are useful for segmenting the contacts in your database into categories (e.g. Staff Member, Donor, Volunteer, etc.). Create and edit available tags here.'), 
                              'query'  => 'reset=1',
                              'type'    => self::CALLBACK,
-                             'crmType' => self::LOCAL_TASK,
-                             'crmCallback' => 'CRM_Admin_Page_Tag',
+                             'crm_type' => self::LOCAL_TASK,
+                             'crm_callback' => 'CRM_Admin_Page_Tag',
                              'adminGroup' => ts('Option Lists'),
                              'icon'    => 'admin/small/11.png',
                              'weight'  => 380
@@ -772,8 +773,8 @@ class CRM_Core_Menu
                              'desc'    => ts('Payment Processor setup for CiviCRM transactions'),
                              'query'  => 'reset=1',
                              'type'    => self::CALLBACK,
-                             'crmType' => self::CALLBACK,
-                             'crmCallback' => 'CRM_Admin_Page_PaymentProcessor',
+                             'crm_type' => self::CALLBACK,
+                             'crm_callback' => 'CRM_Admin_Page_PaymentProcessor',
                              'adminGroup' => null,
                              'weight'  => 390
                              ),
@@ -784,8 +785,8 @@ class CRM_Core_Menu
                              'desc'    => ts('Payment Processor type information'),
                              'query'  => 'reset=1',
                              'type'    => self::CALLBACK,
-                             'crmType' => self::CALLBACK,
-                             'crmCallback' => 'CRM_Admin_Page_PaymentProcessorType',
+                             'crm_type' => self::CALLBACK,
+                             'crm_callback' => 'CRM_Admin_Page_PaymentProcessorType',
                              'adminGroup' => null,
                              'weight'  => 390
                              ),
@@ -799,8 +800,8 @@ class CRM_Core_Menu
                              'desc'    => ts('Grant or deny access to actions (view, edit...), features and components.'), 
                              'query'   => 'reset=1',
                              'type'    => self::CALLBACK,
-                             'crmType' => self::LOCAL_TASK,
-                             'crmCallback' => 'CRM_Admin_Page_Access',
+                             'crm_type' => self::LOCAL_TASK,
+                             'crm_callback' => 'CRM_Admin_Page_Access',
                              'adminGroup' => ts('Manage'),
                              'icon'    => 'admin/small/03.png',
                              'weight'  => 110
@@ -817,21 +818,21 @@ class CRM_Core_Menu
                        'civicrm/quickreg' => array( 
                                                    'title'   => ts( 'Quick Registration' ), 
                                                    'type'    => self::CALLBACK,  
-                                                   'crmType' => self::CALLBACK,  
+                                                   'crm_type' => self::CALLBACK,  
                                                    'weight'  => 0,  
                                                     ),
 
                        'civicrm/export/contact' => array(
                                                          'title'  => ts('Export Contacts'),
                                                          'type'   => self::CALLBACK,
-                                                         'crmType' => self::CALLBACK,
+                                                         'crm_type' => self::CALLBACK,
                                                          'weight'  => 0,
                                                          ),
 
                        'civicrm/acl' => array(
                                               'title'   => ts( 'Manage ACLs' ),
                                               'type'    => self::CALLBACK, 
-                                              'crmType' => self::CALLBACK, 
+                                              'crm_type' => self::CALLBACK, 
                                               'weight'  => 0,
                                               ),
                        );
@@ -846,8 +847,8 @@ class CRM_Core_Menu
                              'title'   => ts('Contacts'),
                              'query'   => 'reset=1',
                              'type'    => self::CALLBACK,
-                             'crmType' => self::ROOT_LOCAL_TASK,
-                             'crmCallback' => array( 'CRM_Core_Invoke', 'search' ),
+                             'crm_type' => self::ROOT_LOCAL_TASK,
+                             'crm_callback' => array( 'CRM_Core_Invoke', 'search' ),
                              'weight'  => 10,
                              ),
 
@@ -858,8 +859,8 @@ class CRM_Core_Menu
                              'title'   => ts('Find Contacts'),
                              'query'   => 'reset=1',
                              'type'    => self::CALLBACK,
-                             'crmType' => self::DEFAULT_LOCAL_TASK | self::NORMAL_ITEM,
-                             'crmCallback' => array( 'CRM_Core_Invoke', 'search' ),
+                             'crm_type' => self::DEFAULT_LOCAL_TASK | self::NORMAL_ITEM,
+                             'crm_callback' => array( 'CRM_Core_Invoke', 'search' ),
                              'access callback'  => 'civicrm_hack_access',
                              'access arguments'  => CRM_Core_Permission::check( 'access CiviCRM' ),
                              'weight'  => 1
@@ -870,8 +871,8 @@ class CRM_Core_Menu
                              'query'   => 'reset=1',
                              'title'   => ts('Advanced Search'),
                              'type'    => self::CALLBACK,
-                             'crmType' => self::LOCAL_TASK,
-                             'crmCallback' => array( 'CRM_Core_Invoke', 'search' ),
+                             'crm_type' => self::LOCAL_TASK,
+                             'crm_callback' => array( 'CRM_Core_Invoke', 'search' ),
                              'weight'  => 2
                              ),
 
@@ -880,8 +881,8 @@ class CRM_Core_Menu
                              'title'   => ts('Search Builder'),
                              'query'  => 'reset=1',
                              'type'    => self::CALLBACK,
-                             'crmType' => self::LOCAL_TASK,
-                             'crmCallback' => array( 'CRM_Core_Invoke', 'search' ),
+                             'crm_type' => self::LOCAL_TASK,
+                             'crm_callback' => array( 'CRM_Core_Invoke', 'search' ),
                              'weight'  => 3
                              ),
 
@@ -891,8 +892,8 @@ class CRM_Core_Menu
                              'title'  => ts('New Contact'),
                              'query'  => 'reset=1',
                              'type'   => self::CALLBACK,
-                             'crmType'=> self::CALLBACK,
-                             'crmCallback' => 'CRM_Contact_Form_Edit',
+                             'crm_type'=> self::CALLBACK,
+                             'crm_callback' => 'CRM_Contact_Form_Edit',
                              'weight' => 1
                              ),
                 
@@ -901,8 +902,8 @@ class CRM_Core_Menu
                              'query'   => 'reset=1&cid=%%cid%%',
                              'title'   => ts('Contact Summary'),
                              'type'    => self::CALLBACK,
-                             'crmType' => self::CALLBACK,
-                             'crmCallback' => 'CRM_Contact_Page_View_Basic',
+                             'crm_type' => self::CALLBACK,
+                             'crm_callback' => 'CRM_Contact_Page_View_Basic',
                              'weight'  => 0
                              ),
 
@@ -911,8 +912,8 @@ class CRM_Core_Menu
                              'query'   => 'show=1&reset=1&cid=%%cid%%',
                              'title'   => ts('Activities'),
                              'type'    => self::CALLBACK, 
-                             'crmType' => self::CALLBACK,
-                             'crmCallback' => 'CRM_Contact_Page_View_Activity',
+                             'crm_type' => self::CALLBACK,
+                             'crm_callback' => 'CRM_Contact_Page_View_Activity',
                              'weight'  => 3
                              ),
 
@@ -921,8 +922,8 @@ class CRM_Core_Menu
                              'query'   => 'reset=1&cid=%%cid%%',
                              'title'   => ts('Relationships'),
                              'type'    => self::CALLBACK,
-                             'crmType' => self::CALLBACK,
-                             'crmCallback' => 'CRM_Contact_Page_View_Relationship',
+                             'crm_type' => self::CALLBACK,
+                             'crm_callback' => 'CRM_Contact_Page_View_Relationship',
                              'weight'  => 4
                              ),
         
@@ -931,8 +932,8 @@ class CRM_Core_Menu
                              'query'   => 'reset=1&cid=%%cid%%',
                              'title'   => ts('Groups'),
                              'type'    => self::CALLBACK,
-                             'crmType' => self::CALLBACK,
-                             'crmCallback' => 'CRM_Contact_Page_View_GroupContact',
+                             'crm_type' => self::CALLBACK,
+                             'crm_callback' => 'CRM_Contact_Page_View_GroupContact',
                              'weight'  => 5
                              ),
                       
@@ -941,8 +942,8 @@ class CRM_Core_Menu
                              'query'   => 'reset=1&cid=%%cid%%',
                              'title'   => ts('Notes'),
                              'type'    => self::CALLBACK,
-                             'crmType' => self::CALLBACK,
-                             'crmCallback' => 'CRM_Contact_Page_View_Note',
+                             'crm_type' => self::CALLBACK,
+                             'crm_callback' => 'CRM_Contact_Page_View_Note',
                              'weight'  => 6
                              ),
 
@@ -951,8 +952,8 @@ class CRM_Core_Menu
                              'query'   => 'reset=1&cid=%%cid%%',
                              'title'   => ts('Tags'),
                              'type'    => self::CALLBACK,
-                             'crmType' => self::CALLBACK,
-                             'crmCallback' => 'CRM_Contact_Page_View_Tag',
+                             'crm_type' => self::CALLBACK,
+                             'crm_callback' => 'CRM_Contact_Page_View_Tag',
                              'weight'  => 7
                              ),
                        
@@ -961,16 +962,16 @@ class CRM_Core_Menu
                              'query'   => 'reset=1&cid=%%cid%%',
                              'title'   => ts('Case'),
                              'type'    => self::CALLBACK,
-                             'crmType' => self::CALLBACK,
-                             'crmCallback' => 'CRM_Contact_Page_View_Case',
+                             'crm_type' => self::CALLBACK,
+                             'crm_callback' => 'CRM_Contact_Page_View_Case',
                              'weight'  => 8
                              ),
                        
                        'civicrm/contact/view/cd' =>
                        array(
                              'type'    => self::CALLBACK,
-                             'crmType' => self::CALLBACK,
-                             'crmCallback' => 'CRM_Contact_Page_View_CustomData',
+                             'crm_type' => self::CALLBACK,
+                             'crm_callback' => 'CRM_Contact_Page_View_CustomData',
                              'weight'  => 0,
                              ),
                        );                     
@@ -984,24 +985,24 @@ class CRM_Core_Menu
                        array(
                              'title'  => ts('View Groups'),
                              'type'   => self::CALLBACK,
-                             'crmType'=> self::CALLBACK,
-                             'crmCallback' => 'CRM_Group_Page_Group',
+                             'crm_type'=> self::CALLBACK,
+                             'crm_callback' => 'CRM_Group_Page_Group',
                              ),
 
                        'civicrm/group/search' =>
                        array(
                              'title'  => ts('Group Members'),
                              'type'   => self::CALLBACK,
-                             'crmType'=> self::CALLBACK,
-                             'crmCallback' => array( 'CRM_Core_Invoke', 'search' ),
+                             'crm_type'=> self::CALLBACK,
+                             'crm_callback' => array( 'CRM_Core_Invoke', 'search' ),
                              ),
         
                        'civicrm/group/add' =>
                        array(
                              'title'   => ts('Create New Group'),
                              'type'    => self::CALLBACK,
-                             'crmType' => self::CALLBACK,
-                             'crmCallback' => 'CRM_Group_Controller',
+                             'crm_type' => self::CALLBACK,
+                             'crm_callback' => 'CRM_Group_Controller',
                              'weight'  => 0,
                              ),
                        );
@@ -1019,8 +1020,8 @@ class CRM_Core_Menu
                              'access arguments'  => CRM_Core_Permission::check( 'import contacts' ) &&
                              CRM_Core_Permission::check( 'access CiviCRM' ), 
                              'type'    => CRM_Core_Menu::CALLBACK,  
-                             'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
-                             'crmCallback' => 'CRM_Import_Controller',
+                             'crm_type' => CRM_Core_Menu::NORMAL_ITEM,  
+                             'crm_callback' => 'CRM_Import_Controller',
                              'weight'  => 410,
                              ),
                        
@@ -1032,8 +1033,8 @@ class CRM_Core_Menu
                              'access arguments'  => CRM_Core_Permission::check( 'import contacts' ) &&
                              CRM_Core_Permission::check( 'access CiviCRM' ), 
                              'type'    => CRM_Core_Menu::CALLBACK,  
-                             'crmType' => CRM_Core_Menu::NORMAL_ITEM,
-                             'crmCallback' => 'CRM_Activity_Import_Controller',
+                             'crm_type' => CRM_Core_Menu::NORMAL_ITEM,
+                             'crm_callback' => 'CRM_Activity_Import_Controller',
                              'weight'  => 420,  
                              ),
                        );                     
@@ -1047,8 +1048,8 @@ class CRM_Core_Menu
                        array(
                              'title'   => ts( 'CiviCRM Profile' ),
                              'type'    => self::CALLBACK, 
-                             'crmType' => self::CALLBACK, 
-                             'crmCallback' => array( 'CRM_Core_Invoke', 'profile' ),
+                             'crm_type' => self::CALLBACK, 
+                             'crm_callback' => array( 'CRM_Core_Invoke', 'profile' ),
                              'weight'  => 0,
                              ),
                        );
@@ -1063,11 +1064,50 @@ class CRM_Core_Menu
             $menu  =& new CRM_Core_DAO_Menu( );
             $menu->domain_id = CRM_Core_Config::domainID( );
             $menu->path      = $path;
-            $menu->copyValues( $menuItems );
-            $menu->access_arguments = serialize(CRM_Utils_Array::value( 'access_arguments', $menuItems ));
-            $menu->save( );
-        }
 
+            if (! $menu->find(true) ) {
+                $menu->copyValues( $menuItems );
+                if (CRM_Utils_Array::value( 'access arguments', $menuItems )) {
+                    $menu->access_arguments = serialize($menuItems['access arguments']);
+                }
+                if (is_array($menuItems['crm_callback'])) {
+                    $menu->crm_callback = implode(',', $menuItems['crm_callback']);
+                }
+                $menu->access_callback = CRM_Utils_Array::value( 'access callback', $menuItems );
+                $menu->page_callback   = CRM_Utils_Array::value( 'page callback',   $menuItems );
+                $menu->save( );
+            }
+        }
+    }
+
+    static function getMenuItemsFromDB( $path = null ) 
+    {
+        if (! isset($path) ) {
+            $path = $_GET['q'];
+        }
+        $params = array( $path => array( ) );
+        
+        require_once "CRM/Core/DAO/Menu.php";
+        $menu  =& new CRM_Core_DAO_Menu( );
+        $menu->path = $path;
+
+        if ( $menu->find(true) ) {
+            CRM_Core_DAO::storeValues( $menu, $params[$path] );
+            $params[$path]['access arguments'] = unserialize($menu->access_arguments);
+            $params[$path]['access callback']  = $menu->access_callback;
+            $params[$path]['page callback']    = $menu->page_callback;
+            
+            if (strstr($menu->crm_callback, ',')) {
+                $params[$path]['crm_callback'] = explode(',',$menu->crm_callback);
+            }
+
+            // unset variables, not in the required format format
+            unset($params[$path]['path'], $params[$path]['access_arguments'], 
+                  $params[$path]['access_callback'], $params[$path]['page_callback']);
+        } else {
+            CRM_Core_Error::fatal("Could not find the path - '$path', in DB");
+        }
+        
         return $params;
     }
 }

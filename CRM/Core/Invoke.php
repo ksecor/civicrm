@@ -89,26 +89,27 @@ class CRM_Core_Invoke
         $template->assign( 'formTpl'        , 'default' );
 
         // get the menu items
-        $items = CRM_Core_Menu::items( );
+        //$items = CRM_Core_Menu::items( );
+        $items = CRM_Core_Menu::getMenuItemsFromDB();
 
         while ( ! empty( $args ) ) {
             $argString = implode( '/', $args );
             if ( array_key_exists( $argString, $items ) &&
-                 array_key_exists( 'crmCallback', $items[$argString] ) ) {
-                if ( is_array( $items[$argString]['crmCallback'] ) ) {
-                    call_user_func( $items[$argString]['crmCallback'],
+                 array_key_exists( 'crm_callback', $items[$argString] ) ) {
+                if ( is_array( $items[$argString]['crm_callback'] ) ) {
+                    call_user_func( $items[$argString]['crm_callback'],
                                     $args );
-                } else if (strstr($items[$argString]['crmCallback'], '_Form_')) {
+                } else if (strstr($items[$argString]['crm_callback'], '_Form')) {
                     $wrapper =& new CRM_Utils_Wrapper( );
-                    return $wrapper->run( $items[$argString]['crmCallback'], 
+                    return $wrapper->run( $items[$argString]['crm_callback'], 
                                           $items[$argString]['title'], null );
                 } else {
                     // page and controller have the same style
                     require_once( str_replace( '_',
                                                DIRECTORY_SEPARATOR,
-                                               $items[$argString]['crmCallback'] ) . '.php' );
+                                               $items[$argString]['crm_callback'] ) . '.php' );
                     eval( '$page = new ' .
-                          $items[$argString]['crmCallback'] .
+                          $items[$argString]['crm_callback'] .
                           ' ( );' );
                     return $page->run( );
                 }
