@@ -33,7 +33,7 @@ function module_list( ) {
 if ( TEST == __FILE__ ) {
 
     require_once 'CRM/Core/Config.php';
-    $test =& new OneTest( );
+    $test = new OneTest( );
 
     $config =& CRM_Core_Config::singleton();
  
