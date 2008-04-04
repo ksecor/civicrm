@@ -171,8 +171,8 @@
         <td>{$form.buttons.html}</td> 
     	</tr> 
      </table>
-	{if $action eq 2 and $contribution.contribution_id}
-	    {include file="CRM/Event/Form/AssociatedPayment.tpl"}
+	{if $accessContribution and $action eq 2 and $rows.0.contribution_id}
+	    {include file="CRM/Contribute/Form/Selector.tpl" context="Search"}
 	{/if}
 </fieldset> 
 

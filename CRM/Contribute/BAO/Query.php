@@ -336,6 +336,11 @@ class CRM_Contribute_BAO_Query
             
             return;
 
+        case 'contribution_participant_id':
+            $query->_where[$grouping][] = " civicrm_participant.id $op $value";
+            $query->_tables['contribution_participant'] = $query->_whereTables['contribution_participant'] = 1;
+            
+            return;
         default :
             //all other elements are handle in this case
             $fldName = substr($name, 13 );
@@ -438,6 +443,12 @@ class CRM_Contribute_BAO_Query
             $from  = " $side  JOIN civicrm_membership_payment ON civicrm_membership_payment.contribution_id = civicrm_contribution.id";
             $from .= " $side  JOIN civicrm_membership ON civicrm_membership_payment.membership_id = civicrm_membership.id ";
             break;
+
+        case 'contribution_participant':
+            $from  = " $side  JOIN civicrm_participant_payment ON civicrm_participant_payment.contribution_id = civicrm_contribution.id";
+            $from .= " $side  JOIN civicrm_participant ON civicrm_participant_payment.participant_id = civicrm_participant.id ";
+            break;
+
         }
         return $from;
     }

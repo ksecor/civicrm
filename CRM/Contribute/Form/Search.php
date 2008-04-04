@@ -189,6 +189,10 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form
         if ( isset( $memberShipId ) ) {
             $this->_formValues['contribution_membership_id'] = $memberShipId;
         }
+        $participantId = CRM_Utils_Request::retrieve( 'participantId', 'Positive', $this );
+        if ( isset( $participantId ) ) {
+            $this->_formValues['contribution_participant_id'] = $participantId;
+        }
 
         if ( $this->_force ) {
             $this->postProcess( );
