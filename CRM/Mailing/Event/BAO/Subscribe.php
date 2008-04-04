@@ -321,6 +321,36 @@ SELECT     civicrm_email.id as email_id
         $dao->free( );
         return $groups;
     }
+
+    /**
+     * Function to send subscribe mail
+     * @params  array  $groups the list of group ids for subscribe
+     * @params  array  $params the list of email
+     * @public
+     * @return void
+     */
+    function commonSubscribe( &$groups, &$params ) 
+    {
+        $domainID = CRM_Core_Config::domainID( );
+        $success = true;
+        foreach ( $groups as $groupID ) {
+            $se = self::subscribe( $domainID,
+                                   $groupID,
+                                   $params['email'] );
+            if ( $se !== null ) {
+                /* Ask the contact for confirmation */
+                $se->send_confirm_request($params['email']);
+            } else {
+                $success = false;
+            }
+        }
+        
+        if ( $success ) {
+            CRM_Utils_System::setUFMessage( ts( "Your subscription request has been submitted. Check your inbox shortly for the confirmation email(s)." ) );
+        } else {
+            CRM_Utils_System::setUFMessage( ts( "We had a problem processing your subscription request. Please contact the site administrator" ) );
+        }
+    }//end of function
 }
 
 

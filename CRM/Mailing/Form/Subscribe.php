@@ -162,29 +162,8 @@ ORDER BY title";
                 }
             }
         }
-
         require_once 'CRM/Mailing/Event/BAO/Subscribe.php';
-        $domainID = CRM_Core_Config::domainID( );
-        $success = true;
-        foreach ( $groups as $groupID ) {
-            $se = CRM_Mailing_Event_BAO_Subscribe::subscribe( $domainID,
-                                                              $groupID,
-                                                              $params['email'] );
-            if ( $se !== null ) {
-                /* Ask the contact for confirmation */
-                $se->send_confirm_request($params['email']);
-            } else {
-                $success = false;
-            }
-        }
-
-        if ( $success ) {
-            CRM_Utils_System::setUFMessage( ts( "Your subscription request has been submitted. Check your inbox shortly for the confirmation email(s)." ) );
-        } else {
-            CRM_Utils_System::setUFMessage( ts( "We had a problem processing your subscription request. Please contact the site administrator" ) );
-        }
-
-    }//end of function
-
+        CRM_Mailing_Event_BAO_Subscribe::commonSubscribe( $groups, $params );
+    }
 }
 

@@ -158,6 +158,20 @@ class CRM_Profile_Form extends CRM_Core_Form
                                                                null, null,
                                                                false, null,
                                                                $this->_skipPermission );
+            //if civimail is enable and email field is absent show status
+            if ( CRM_Core_Permission::access( 'CiviMail' ) && $this->_fields['group'] ) {
+                $emailField = false;
+                foreach ( $this->_fields as $name => $values ) {
+                    if ( substr( $name, 0, 6 ) == 'email-' ) {
+                        $emailField = true;
+                    }
+                }
+                if ( ! $emailField ) {
+                    $session =& CRM_Core_Session::singleton( );
+                    $status = ts( "Email field should be included in profile if you want to use Group(s) when CiviMail is enabled." ); 
+                    $session->setStatus( $status );
+                }
+            }
         }
         if (! is_array($this->_fields)) {
             $session =& CRM_Core_Session::singleton( );
@@ -528,11 +542,43 @@ class CRM_Profile_Form extends CRM_Core_Form
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
 
+        //used to send subcribe mail to the group which user want.
+        //if the civimail component is enable.
+        $mailingType = array( );
+        if ( CRM_Core_Permission::access( 'CiviMail' )  && CRM_Utils_Array::value( 'group', $params ) ) {
+            $result = null;
+            foreach ( $params as $name => $values ) {
+                if ( substr( $name, 0, 6 ) == 'email-' ) {
+                    $result['email'] = $values ;
+                }
+            }
+            if ( CRM_Utils_Array::value( 'email' , $result ) ) {
+                require_once 'CRM/Contact/DAO/Group.php';
+                foreach ( $params['group'] as $key => $val ) {
+                    $groupTypes = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group',
+                                                               $key, 'group_type', 'id' );
+                    
+                    $groupType = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, 
+                                          substr( $groupTypes, 1, -1 ) );
+                    //filter group of mailing type and unset it from params
+                    if ( CRM_Utils_Array::key( '2', $groupType ) ) {
+                        $mailingType[] = $key ; 
+                        unset( $params['group'][$key] );
+                    }
+                }
+            }
+        }
+
         $this->_id = CRM_Contact_BAO_Contact::createProfileContact($params, $this->_fields,
                                                                    $this->_id, $this->_addToGroupID,
                                                                    $this->_gid, $this->_ctype,
                                                                    true );
-        
+        //mailing type group
+        if ( ! empty ( $mailingType ) ) {
+            require_once 'CRM/Mailing/Event/BAO/Subscribe.php';
+            CRM_Mailing_Event_BAO_Subscribe::commonSubscribe( $mailingType, $result );
+        }
+
         require_once 'CRM/Core/BAO/UFGroup.php'; 
         if ( ! ( $this->_mode == self::MODE_REGISTER ) ) {
             $values = CRM_Core_BAO_UFGroup::checkFieldsEmptyValues($this->_gid,$this->_id,null);
