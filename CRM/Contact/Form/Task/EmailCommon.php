@@ -40,7 +40,7 @@ require_once "CRM/Core/BAO/Email.php";
  * one or a group of contact ids. This class is reused by all the search
  * components in CiviCRM (since they all have send email as a task)
  */
-class CRM_Contact_Form_Task_EmailCommon 
+class CRM_Contact_Form_Task_EmailCommon
 {
     /**
      * build all the data structures needed to build the form
@@ -165,52 +165,10 @@ class CRM_Contact_Form_Task_EmailCommon
         
         require_once 'CRM/Utils/Mail.php';
         $from = CRM_Utils_Mail::encodeAddressHeader($fromDisplayName, $fromEmail);
+       
+        require_once "CRM/Mailing/BAO/Mailing.php";
+        CRM_Mailing_BAO_Mailing::commonCompose( &$form );
         
-        require_once 'CRM/Core/BAO/MessageTemplates.php';
-        $form->_templates = CRM_Core_BAO_MessageTemplates::getMessageTemplates();
-        
-        //if no template Present then drop down select box and update template should not be displayed
-        if ( ! empty( $form->_templates ) ) {
-            $form->add('select', 'template', ts('Select Template'),
-                       array( '' => ts( '- select -' ) ) + $form->_templates, false,
-                       array('onChange' => "selectValue( this.value );") );
-            
-            $form->add('checkbox','updateTemplate',ts('Update Template'), null);
-        }
-        $form->_fromEmails = array('0' => $from) +CRM_Core_PseudoConstant::fromEmailAddress();
-
-        //insert message Text by selecting "Select Template option"
-
-        $form->addElement('select', 'fromEmailAddress', 'From', $form->_fromEmails );
-        
-        $form->add('select', 'tokens',  ts( 'Insert Tokens' ), 
-                   CRM_Core_SelectValues::contactTokens( ), false, 
-                   array(
-                         'size'     => "5",
-                         'multiple' => true,
-                         'onchange' => "return tokenReplText(this);"
-                         )
-                   );
-
-
-        $form->add( 'textarea', 
-                    'message', 
-                    ts('Message'),
-                    array('cols' => '56', 'rows' => '7','onkeyup' => "return verify(this)"));
-        $form->add('checkbox',
-                   'saveTemplate',
-                   ts('Save as New Template'),
-                   null,
-                   false,
-                   array('onclick' => "showSaveDetails(this)"));
-
-        if ( ! $form->get('saveTemplate') ) {
-            $form->add('text','saveTemplateName',ts('Template Title'));
-        } 
-
-        $attributes = CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'subject' );
-        $form->add( 'text', 'subject', ts('Subject'), $attributes, true );
-
         if ( $form->_single ) {
             // also fix the user context stack
             $url = CRM_Utils_System::url('civicrm/contact/view',
@@ -296,15 +254,17 @@ class CRM_Contact_Form_Task_EmailCommon
         }
          
         $subject = $form->controller->exportValue( 'Email', 'subject' );
-        $message = $form->controller->exportValue( 'Email', 'message' );
-
+        $text_message = $form->controller->exportValue( 'Email', 'text_message' );
+        $html_message = $form->controller->exportValue( 'Email', 'hmsg' );
+              
         //added code for CRM-1393
         $messageParams = $form->exportValues( );
-
+      
         // process message template
         require_once 'CRM/Core/BAO/MessageTemplates.php';
         if ( $messageParams['saveTemplate'] || $messageParams['updateTemplate']) {
-            $messageTemplate = array( 'msg_text'    => $messageParams['message'],
+            $messageTemplate = array( 'msg_text'    => $messageParams['text_message'],
+                                      'msg_html'    => $messageParams['hmsg'],
                                       'msg_subject' => $messageParams['subject'],
                                       'is_active'   => true );
             
@@ -343,11 +303,11 @@ class CRM_Contact_Form_Task_EmailCommon
         require_once 'CRM/Core/BAO/Domain.php';
         $domain = CRM_Core_BAO_Domain::getDomainByID( $domainId );
         require_once 'CRM/Utils/Token.php';
-        $text = CRM_Utils_Token::replaceDomainTokens( $message, $domain, false  );
-        
+        $text = CRM_Utils_Token::replaceDomainTokens( $text_message, $domain, false  );
+        $html = CRM_Utils_Token::replaceDomainTokens( $html_message, $domain, false  );
         // send the mail
         require_once 'CRM/Activity/BAO/Activity.php';
-        list( $total, $sent, $notSent ) = CRM_Activity_BAO_Activity::sendEmail( $form->_contactIds, $subject, $text, $emailAddress, null, $from );
+        list( $total, $sent, $notSent ) = CRM_Activity_BAO_Activity::sendEmail( $form->_contactIds, $subject, $text, $html, $emailAddress, null, $from );
         
         if ( $sent ) {
             $status[] = ts('Email sent to Contact(s): %1', array(1 => count($sent)));

@@ -1784,7 +1784,82 @@ SELECT DISTINCT( m.id ) as id
         }
         return $details;
     }
+
+    /**
+     * Function to build the  compose mail form
+     * @param   $form 
+     * @return None
+     * @access public
+     */
     
+    public function commonCompose ( &$form )
+    {
+        
+        $cID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $form, false );
+        
+        if( $cID ) {
+            $tokens = CRM_Core_SelectValues::contactTokens( );
+        } else {
+            $tokens = CRM_Core_SelectValues::mailingTokens( );
+        }
+
+        $form->add( 'select', 'token1',  ts( 'Insert Tokens' ), 
+                    $tokens , false, 
+                    array(
+                          'size'     => "5",
+                          'multiple' => true,
+                          'onchange' => "return tokenReplText(this);"
+                          )
+                    );
+        
+        $form->add( 'select', 'token2',  ts( 'Insert Tokens' ), 
+                    $tokens , false,
+                    array(
+                          'size'     => "5",
+                          'multiple' => true,
+                          'onchange' => "return tokenReplHtml(this);"
+                          )
+                    );
+        
+        require_once 'CRM/Core/BAO/MessageTemplates.php';
+        $form->_templates = CRM_Core_BAO_MessageTemplates::getMessageTemplates();
+        $form->add('text', 'subject', ts('Mailing Subject'), 'size=30 maxlength=60', true);
+        if ( !empty( $form->_templates ) ) {
+            $form->assign('templates', true);
+            $form->add('select', 'template', ts('Select Template'),
+                       array( '' => ts( '- select -' ) ) + $form->_templates, false,
+                       array('onChange' => "selectValue( this.value );") );
+            $form->add('checkbox','updateTemplate',ts('Update Template'), null);
+        } 
+        
+        $form->add('checkbox','saveTemplate',ts('Save As New Template'), null,false,
+                          array( 'onclick' => "showSaveDetails(this);" ));
+        if ( ! $form->get('saveTemplate') ) {
+            $form->add('text','saveTemplateName',ts('Template Title'));
+        } 
+        
+        //insert message Text by selecting "Select Template option"
+        $form->add( 'textarea', 
+                    'text_message', 
+                    ts('Text Message'),
+                    array('cols' => '80', 'rows' => '8','onkeyup' => "return verify(this)"));
+
+        $form->assign( 'dojoIncludes',
+                       "dojo.require('dijit.Editor'); dojo.require('dojo.parser'); dojo.require('dijit._editor.plugins.FontChoice');
+                        dojo.require('dijit._editor.plugins.TextColor'); dojo.require('dijit._editor.plugins.LinkDialog');");
+                
+        $dojoAttributes = array( 'dojoType'             => 'dijit.Editor',
+                                 'height'               => '250 px',
+                                 'id'                   => 'html_message',
+                                 'extraPlugins'         => '["createLink","foreColor","hiliteColor","formatBlock"]',
+                                 'onkeyup'              => "return verify(this)"
+                                 );
+
+        $form->add( 'textarea', 'html_message', ts('HTML Message'), $dojoAttributes );
+        //special hidden field to fix problem with dojo editor
+        $form->add('hidden', 'hmsg', null);
+
+    }
 }
 
 

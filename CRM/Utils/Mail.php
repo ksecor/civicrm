@@ -120,7 +120,8 @@ class CRM_Utils_Mail {
                           $toDisplayName,
                           $toEmail,
                           $subject,
-                          $message,
+                          $text_message,
+                          $html_message,
                           $cc = null,
                           $bcc = null,
                           $replyTo = null  ) {
@@ -152,6 +153,20 @@ class CRM_Utils_Mail {
         if ( $bcc ) {
             $to[] = $bcc;
         }
+        $msg = & new Mail_Mime("\n");
+        $msg->setTxtBody( $text_message  );
+        $msg->setHTMLBody( $html_message  );
+        $mailMimeParams = array(
+                                'text_encoding' => '8bit',
+                                'html_encoding' => '8bit',
+                                'head_charset'  => 'utf-8',
+                                'text_charset'  => 'utf-8',
+                                'html_charset'  => 'utf-8',
+                                );
+        $msg->get($mailMimeParams);
+        $msg->headers($headers);
+        $message   =& $msg->get();
+        $headers =& $msg->headers();
 
         $mailer =& CRM_Core_Config::getMailer( );  
         CRM_Core_Error::ignoreException( );
