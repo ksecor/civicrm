@@ -36,6 +36,8 @@
 function run( ) {
     session_start( );                               
 
+    echo "Starting process<p>";
+
     require_once '../civicrm.config.php'; 
     require_once 'CRM/Core/Config.php'; 
     
@@ -49,13 +51,10 @@ function run( ) {
 
     $message = CRM_Upgrade_TwoZero_Form_Step3::cleanupIsPrimary( );
     echo $message;
+
+    echo "Done<p>";
 }
 
-
-echo "Starting process<p>";
-
 run( );
-
-echo "Done<p>";
 
 ?>
