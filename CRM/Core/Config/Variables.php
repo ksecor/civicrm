@@ -347,6 +347,13 @@ class CRM_Core_Config_Variables extends CRM_Core_Config_Defaults
     public $legacyEncoding = 'Windows-1252';
 
     /**
+     * field separator for import/export csv file
+     *
+     * @var string
+     */
+    public $fieldSeparator = ',';
+
+    /**
      * max location blocks in address
      *
      * @var integer

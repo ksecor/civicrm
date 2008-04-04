@@ -48,12 +48,14 @@ class CRM_Admin_Form_Setting_Localization extends  CRM_Admin_Form_Setting
      * @access public
      */
     public function buildQuickForm( ) {
-
+      
         $config =& CRM_Core_Config::singleton();
+       
         $i18n   =& CRM_Core_I18n::singleton();
         CRM_Utils_System::setTitle(ts('Settings - Localization'));
 
         $locales = array();
+       
         if (is_dir($config->gettextResourceDir)) {
             $dir = opendir($config->gettextResourceDir);
             while ($filename = readdir($dir)) {
@@ -98,12 +100,14 @@ class CRM_Admin_Form_Setting_Localization extends  CRM_Admin_Form_Setting
 
         // we do this only to initialize currencySymbols, kinda hackish but works!
         $config->defaultCurrencySymbol( );
+        
         $symbol = $config->currencySymbols;
         foreach($symbol as $key=>$value) {
             $currencySymbols[$key] = "$key ($value)";
         } 
         $this->addElement('select','defaultCurrency', ts('Default Currency'), $currencySymbols);
         $this->addElement('text','legacyEncoding', ts('Legacy Encoding'));  
+        $this->addElement('text','fieldSeparator', ts('Import / Export Field Separator'), array('size' => 2)); 
        
         parent::buildQuickForm();
     }

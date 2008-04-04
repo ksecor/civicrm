@@ -525,7 +525,8 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
         $fileName         = $this->controller->exportValue( 'UploadFile', 'uploadFile' );
         $skipColumnHeader = $this->controller->exportValue( 'UploadFile', 'skipColumnHeader' );
 
-        $seperator = ',';
+        $config =& CRM_Core_Config::singleton( );
+        $seperator = $config->fieldSeparator;
 
         $mapperKeys = array( );
         $mapper     = array( );
