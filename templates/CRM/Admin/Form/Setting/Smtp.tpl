@@ -36,3 +36,21 @@
             <dt></dt><dd>{$form.buttons.html}&nbsp;&nbsp;&nbsp;&nbsp;{$form.sendTestEmail.html}</dd>
         </dl>
 </div>
+
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="outbond_option"
+    trigger_value       = 1
+    target_element_id   ="SMTP" 
+    target_element_type ="block"
+    field_type          ="radio"
+    invert              = 0
+}
+
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="outbond_option"
+    trigger_value       = 1
+    target_element_id   ="Sendmail" 
+    target_element_type ="block"
+    field_type          ="radio"
+    invert              = 1
+}

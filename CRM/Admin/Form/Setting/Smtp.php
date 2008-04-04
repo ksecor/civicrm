@@ -49,9 +49,11 @@ class CRM_Admin_Form_Setting_Smtp extends CRM_Admin_Form_Setting
      * @access public
      */
     public function buildQuickForm( ) {
-        $outBondOption = array( '0' => ts('SMTP'), '1' => ts('Sendmail') );
-        $this->addRadio('outbond_option', ts('Select Mailer'),  $outBondOption );
 
+        $outBondOption = array( '0' => ts('SMTP'), '1' => ts('Sendmail') );
+        $outBondOptionExtra = array('onclick' =>"showHideByValue('outbond_option', 1, 'SMTP', 'block', 'radio',0);showHideByValue('outbond_option', 1, 'Sendmail', 'block', 'radio',1 );");
+        
+        $this->addRadio('outbond_option', ts('Select Mailer'),  $outBondOption, $outBondOptionExtra );
 
         CRM_Utils_System::setTitle(ts('Settings - Outbond Mail Configuration'));
         $this->add('text','sendmail_path', ts('Sendmail Path'));

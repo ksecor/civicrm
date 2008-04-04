@@ -243,12 +243,15 @@ class CRM_Core_Config_Variables extends CRM_Core_Config_Defaults
     /**
      * Default smtp server and port
      */
+    public $outbond_option     = 0;
     public $smtpServer         = 'localhost';
     public $smtpPort           = 25;
     public $smtpAuth           = false;
     public $smtpUsername       = null;
     public $smtpPassword       = null;
-
+    public $sendmail_path      = '/usr/sbin/sendmail';
+    public $sendmail_args      = '-i';
+    
     /**
      * Default user framework
      */
