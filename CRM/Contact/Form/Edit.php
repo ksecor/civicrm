@@ -657,24 +657,21 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
                 } elseif ( $params['shared_option'] ) {
                     CRM_Contact_Form_Individual::copyHouseholdAddress( $params );
                 }
+
+                // add/edit/delete the relation of individual with household, if use-household-address option is checked/unchecked.
+                CRM_Contact_Form_Individual::handleSharedRelation( $contact->id, $params );
             } else {
-                $params['mail_to_household_id'] = null;
+                $params['mail_to_household_id'] = 'null';
             }
         }
 
         require_once 'CRM/Contact/BAO/Contact.php';
         $contact =& CRM_Contact_BAO_Contact::create($params, true, false );
-
-        // add/edit/delete the relation of individual with household, if use-household-address option is checked/unchecked.
-        if ( $this->_contactType == 'Individual' ) {
-            CRM_Contact_Form_Individual::handleSharedRelation( $contact->id, $params );
-        }
         
         if ( $this->_contactType == 'Household' && ( $this->_action & CRM_Core_Action::UPDATE ) ) {
             //TO DO: commented because of schema changes
             CRM_Contact_Form_Household::synchronizeIndividualAddresses( $contact->id );
         }
-
 
         if ( $this->_showTagsAndGroups ) {
             //add contact to group
