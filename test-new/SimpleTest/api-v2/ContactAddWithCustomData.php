@@ -20,7 +20,7 @@ class TestOfContactAddWithCustomDataAPIV2 extends CiviUnitTestCase
                                                                   '4' => 1,
                                                                   ),
                         'custom_1'      => 'Env',
-                        'custom_3'      => 'Please god .. populate this'
+                        'custom_3'      => 'Information for custom field of type alphanumeric - text'
                         );
         $contact =& civicrm_contact_add($params);
         $this->assertNotNull( $contact['contact_id'] );
