@@ -155,6 +155,14 @@ class CRM_Admin_Form_Setting_Smtp extends CRM_Admin_Form_Setting
             if ( !$fields['smtpPort'] ) {
                 $errors['smtpPort'] = 'SMTP Port is a required field.';
             }
+            if ( $fields['smtpAuth'] ) {
+                if (!$fields['smtpUsername']){
+                    $errors['smtpUsername'] = 'If your SMTP server require authentication please provide user name.';
+                }
+                if (!$fields['smtpPassword']) {
+                    $errors['smtpPassword'] = 'If your SMTP server require authentication please provide password.';
+                }
+            }
         }
         if ($fields['outbond_option'] == 1) {
             if ( !$fields['sendmail_path'] ) {
@@ -165,14 +173,6 @@ class CRM_Admin_Form_Setting_Smtp extends CRM_Admin_Form_Setting
             }
         }
 
-        if ( $fields['smtpAuth'] ) {
-            if (!$fields['smtpUsername']){
-                $errors['smtpUsername'] = 'If your SMTP server require authentication please provide user name.';
-            }
-            if (!$fields['smtpPassword']) {
-                $errors['smtpPassword'] = 'If your SMTP server require authentication please provide password.';
-            }
-        }
         return empty($errors) ? true : $errors;
     }
 }
