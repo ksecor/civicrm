@@ -143,8 +143,6 @@ class CRM_Event_Form_Search extends CRM_Core_Form
      */ 
     function preProcess( ) 
     { 
-        CRM_Utils_System::setTitle( ts('Find Participants') );
-
         /** 
          * set the button names 
          */ 
@@ -166,7 +164,11 @@ class CRM_Event_Form_Search extends CRM_Core_Form
         $this->_ssID    = CRM_Utils_Request::retrieve( 'ssID', 'Positive',  $this );
         
         $this->assign( "{$this->_prefix}limit", $this->_limit );
-          
+
+        if ( $this->_context != 'dashboard' ) {
+            CRM_Utils_System::setTitle( ts('Find Participants') );
+        }
+        
         // get user submitted values  
         // get it from controller only if form has been submitted, else preProcess has set this  
         if ( ! empty( $_POST ) && !$this->controller->isModal( ) ) { 

@@ -144,8 +144,6 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form
      */ 
     function preProcess( ) 
     {
-        CRM_Utils_System::setTitle( ts('Find Contributions') );
-
         /** 
          * set the button names 
          */ 
@@ -173,6 +171,10 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form
                                                        $this );
         $this->_context = CRM_Utils_Request::retrieve( 'context', 'String',
                                                        $this );
+
+        if ( $this->_context != 'dashboard' ) {
+            CRM_Utils_System::setTitle( ts('Find Contributions') );
+        }
 
         $this->assign( "{$this->_prefix}limit"  , $this->_limit );
         $this->assign( "{$this->_prefix}context", $this->_context );

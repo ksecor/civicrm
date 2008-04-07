@@ -141,8 +141,6 @@ class CRM_Member_Form_Search extends CRM_Core_Form
      */ 
     function preProcess( ) 
     { 
-        CRM_Utils_System::setTitle( ts('Find Members') );
-
         /** 
          * set the button names 
          */ 
@@ -168,6 +166,10 @@ class CRM_Member_Form_Search extends CRM_Core_Form
                                                        $this );
 
         $this->assign( "{$this->_prefix}limit", $this->_limit );
+        
+        if ( $this->_context != 'dashboard' ) {
+            CRM_Utils_System::setTitle( ts('Find Members') );
+        }
             
         // get user submitted values  
         // get it from controller only if form has been submitted, else preProcess has set this  
