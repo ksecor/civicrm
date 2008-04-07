@@ -1,20 +1,11 @@
 {* CiviContribute DashBoard (launch page) *}
-<div id="help" class="solid-border-bottom">
-    {capture assign=findContactURL}{crmURL p="civicrm/contact/search/basic" q="reset=1"}{/capture}
-    {capture assign=importURL}{crmURL p="civicrm/contribute/import" q="reset=1"}{/capture}
+{if $isAdmin}
+    {capture assign=newPageURL}{crmURL p="civicrm/admin/contribute" q="action=add&reset=1"}{/capture}
     {capture assign=configPagesURL}{crmURL p="civicrm/admin/contribute" q="reset=1"}{/capture}
-    {if $isAdmin}
-        <div class="action-link float-right" style="margin-right: 5em;"><a href="{$configPagesURL}">&raquo; Create and Manage Contribution Pages</a></div>
-    {/if}
-    <div class="float-left">{ts}CiviContribute allows you to create customized page(s) for collecting online contributions.{/ts}</div>
-    <p>{ts 1=$findContactURL 2=$importURL}You can also input and track offline contributions. To enter contributions manually for individual contacts, use <a href='%1'>Find Contacts</a> to locate the contact. Then click <strong>View</strong> to go to their summary page and click on the <strong>New Contribution</strong> link. You can also <a href='%2'>import batches of offline contributions</a> from other sources.{/ts}</p>
-</div>
+    <div class="action-link float-right"><a href="{$newPageURL}">&raquo; New Contribution Page</a><br /><a href="{$configPagesURL}">&raquo; Manage Contribution Pages</a></div>
+{/if}
 
-<h3>{ts}Contributions Summary{/ts}</h3>
-<div class="description">
-    {capture assign=findContribsURL}{crmURL p="civicrm/contribute/search/basic" q="reset=1"}{/capture}
-    <p>{ts 1=$findContribsURL}This table provides a summary of <strong>Contribution Totals</strong>, and includes shortcuts to view the contribution details for these commonly used search periods. To run your own customized searches - click <a href='%1'>Find Contributions</a>. You can search by Contributor Name, Amount Range, and a variety of other criteria.{/ts}</p>
-</div>
+<h3>{ts}Contributions Summary{/ts} {help id="id-contribute-intro"}</h3>
 <table class="report">
 <tr class="columnheader-dark">
     <th scope="col">{ts}Period{/ts}</th>

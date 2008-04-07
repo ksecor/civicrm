@@ -39,8 +39,6 @@
     <div id="help">
         {if $action EQ 512}
             {ts}Use <strong>%</strong> wildcard(s) for partial matches. EXAMPLE: Enter 'Volunteer%' as your Activity Type to match any activity whose type is 'Volunteer' + any other words (e.g. Volunteer for Open House).{/ts} {help id='advanced-intro'}
-        {else}
-            {ts}Use the Search Criteria form to find contacts by name, type of contact, group membership, tags, etc. You can then view or edit contact details, print a contact list, or you can use the More Actions drop down list to assign tags, add to Groups, create Smart Groups, export contact data to a spreadsheet, etc.{/ts}
         {/if}
         {if $ssID}
             <p>{ts}If you've changed search criteria for this 'smart group' and want to save your changes, select <strong>Update Smart Group</strong> from the '- more actions -' drop-down menu, and then click Go.{/ts}</p>

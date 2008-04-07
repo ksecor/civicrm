@@ -143,6 +143,8 @@ class CRM_Event_Form_Search extends CRM_Core_Form
      */ 
     function preProcess( ) 
     { 
+        CRM_Utils_System::setTitle( ts('Find Participants') );
+
         /** 
          * set the button names 
          */ 

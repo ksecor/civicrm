@@ -54,6 +54,7 @@ class CRM_Member_Page_DashBoard extends CRM_Core_Page
     {
         require_once "CRM/Member/BAO/MembershipType.php";
         require_once "CRM/Member/BAO/Membership.php";
+        CRM_Utils_System::setTitle( ts('CiviMember') );
         $membershipSummary = array();
         $preMonth = CRM_Utils_Date::customFormat(date( "Y-m-d", mktime(0, 0, 0, date("m")-1,01,date("Y"))) , '%Y%m%d');
         $preMonthEnd = CRM_Utils_Date::customFormat(date( "Y-m-t", mktime(0, 0, 0, date("m")-1,01,date("Y"))) , '%Y%m%d');

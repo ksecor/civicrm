@@ -141,6 +141,8 @@ class CRM_Member_Form_Search extends CRM_Core_Form
      */ 
     function preProcess( ) 
     { 
+        CRM_Utils_System::setTitle( ts('Find Members') );
+
         /** 
          * set the button names 
          */ 

@@ -49,6 +49,7 @@ class CRM_Event_Page_DashBoard extends CRM_Core_Page
      */ 
     function preProcess( ) 
     {
+        CRM_Utils_System::setTitle( ts('CiviEvent') );
         $admin = CRM_Core_Permission::check( 'administer CiviCRM' );
 
         require_once 'CRM/Event/BAO/Event.php';
