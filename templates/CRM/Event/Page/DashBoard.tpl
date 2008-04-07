@@ -1,5 +1,5 @@
 {* CiviEvent DashBoard (launch page) *}
-{if $isAdmin}
+{if $eventAdmin}
     {capture assign=newEventURL}{crmURL p="civicrm/admin/event" q="action=add&reset=1"}{/capture}
     {capture assign=configPagesURL}{crmURL p="civicrm/admin/event" q="reset=1"}{/capture}
     <div class="action-link float-right"><a href="{$newEventURL}">&raquo; New Event</a><br /><a href="{$configPagesURL}">&raquo; Manage Events</a></div>
