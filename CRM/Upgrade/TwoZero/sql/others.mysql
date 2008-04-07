@@ -645,6 +645,17 @@ ALTER TABLE `civicrm_option_value`
     ADD CONSTRAINT `FK_civicrm_option_value_component_id` FOREIGN KEY (`component_id`) REFERENCES `civicrm_component` (`id`),
     ADD CONSTRAINT `FK_civicrm_option_value_option_group_id` FOREIGN KEY (`option_group_id`) REFERENCES `civicrm_option_group` (`id`) ON DELETE CASCADE;
 
+UPDATE `civicrm_option_value` ov SET component_id = 1 
+WHERE label = 'Event Registration';
+
+UPDATE `civicrm_option_value` ov SET component_id = 2 
+WHERE label = 'Contribution';
+
+UPDATE `civicrm_option_value` ov SET component_id = 3 
+WHERE label = 'Membership Signup';
+
+UPDATE `civicrm_option_value` ov SET component_id = 3 
+WHERE label = 'Membership Renewal';
 
 ALTER TABLE `civicrm_log`
     DROP FOREIGN KEY `FK_civicrm_log_modified_id`;

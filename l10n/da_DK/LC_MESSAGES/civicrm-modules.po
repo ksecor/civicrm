@@ -6,14 +6,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-02-27 13:35+0100\n"
-"PO-Revision-Date: 2007-05-14 06:49-0700\n"
-"Last-Translator: John Krumbæk <krumbaek@gmail.com>\n"
+"PO-Revision-Date: 2008-04-02 10:04-0700\n"
+"Last-Translator: Martin Larsen <draven@draven.dk>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 0.10\n"
+"X-Generator: Pootle 1.0.2\n"
 
 #: CRM/Contribute/BAO/ContributionPage.php CRM/Event/BAO/Event.php
 msgid "Copy of "
@@ -59,16 +59,16 @@ msgstr "Mål Beløb"
 #: CRM/Contribute/DAO/ContributionPage.php
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "Receipt From Name"
-msgstr "Modtager Fra Navn"
+msgstr "Kvittering Fra Navn"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "Receipt From Email"
-msgstr "Modtager Fra Email"
+msgstr "Kvittering Fra Email"
 
 #: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/Event.php
 msgid "Receipt Text"
-msgstr ""
+msgstr "Kvittering tekst"
 
 #: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/EventPage.php
 #: CRM/Event/Form/ManageEvent/Registration.php
@@ -107,7 +107,7 @@ msgstr "Annullere Dato"
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/Form/Contribution.php
 #: CRM/Contribute/Form/Task/Status.php
 msgid "Receipt Date"
-msgstr ""
+msgstr "Kvitterings dato"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 #: CRM/Contribute/Form/ManagePremiums.php
@@ -161,7 +161,7 @@ msgstr ""
 #: CRM/Contribute/DAO/Widget.php
 #: CRM/Contribute/Form/ContributionPage/Widget.php
 msgid "About"
-msgstr ""
+msgstr "Omkring"
 
 #: CRM/Contribute/Form/ContributionBase.php CRM/Event/Form/Registration.php
 #: CRM/Event/Page/EventInfo.php
@@ -176,27 +176,27 @@ msgstr "<< Gå Tilbage"
 #: CRM/Contribute/Form/Contribution/Main.php
 #: CRM/Event/Form/Registration/Register.php
 msgid "Please enter a valid Credit Card Number"
-msgstr "Venligst angive et gyldig Kredit Kort Nummer"
+msgstr "Angiv venligst et gyldig kredit kort nummer"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 #: CRM/Event/Form/Registration/Register.php
 msgid "Please enter a valid Credit Card Verification Number"
-msgstr "Venligst angive et gyldig Kredit Kort Bekræftelse Nummer"
+msgstr "Angiv venligst et gyldig kredit kort bekræftelse nummer"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Event/Form/ManageEvent/Fee.php
 msgid "Please enter a valid money value for this field (e.g. 99.99)."
-msgstr "Venligst angiv et gyldigt værdig beløb i dette felt (eks. 99.99). "
+msgstr "Angiv venligst et gyldigt værdi beløb i dette felt (eks. 99.99). "
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Event/Form/ManageEvent/Fee.php
 msgid "I will send payment by check"
-msgstr ""
+msgstr "Jeg sender betaling via check"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 #: CRM/Event/Form/ManageEvent/Registration.php
 msgid "Include Profile"
-msgstr ""
+msgstr "Inkluder profil"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 #: CRM/Event/Form/ManageEvent/Registration.php
@@ -211,13 +211,13 @@ msgstr "(bunden af siden)"
 #: CRM/Contribute/Form/ContributionPage.php
 #: CRM/Contribute/Page/ContributionPageEdit.php
 msgid "Configure Contribution Page"
-msgstr ""
+msgstr "Konfigurer bidragelses siden"
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 #: CRM/Event/DAO/EventPage.php
 msgid "Introductory Message"
-msgstr "Indledende Besked"
+msgstr "Introduktions besked"
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 #: CRM/Event/DAO/EventPage.php
@@ -228,22 +228,22 @@ msgstr "Bund Besked"
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 #: CRM/Event/Form/ManageEvent/Registration.php
 msgid "Please select a valid start date."
-msgstr ""
+msgstr "Angiv venligst en gyldig start dato"
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 msgid "End Date / Time"
-msgstr ""
+msgstr "Slut dato / tid"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 #: CRM/Member/Form/Membership.php
 msgid "Receipt Message"
-msgstr ""
+msgstr "Kvitterings besked"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Event/Form/Participant.php
 #: CRM/Member/Form/Membership.php CRM/Member/Form/MembershipRenewal.php
 msgid "You do not have permission to access this page"
-msgstr "Du har ikke adgang til at komme ind på denne side"
+msgstr "Du har ikke adgang til denne side"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
@@ -260,21 +260,23 @@ msgstr "Mange Tak sendt"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Offline.php
 msgid "Send Receipt?"
-msgstr ""
+msgstr "Send kvittering?"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Task/Status.php
 msgid ""
 "This Transaction ID already exists in the database. Include the account "
 "number for checks."
 msgstr ""
+"Denne transaktions ID findes allerede i databasen. Inkluder konto nummeret "
+"for checks."
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Offline.php
-#, fuzzy
 msgid "Contribution Receipt"
-msgstr "Bidrags kilde"
+msgstr "Bidrags kvittering"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
+#, fuzzy
 msgid "Premium"
 msgstr "Belønning"
 
@@ -291,6 +293,7 @@ msgid "Contribution Types"
 msgstr "Bidrags Typer"
 
 #: CRM/Contribute/Invoke.php CRM/Contribute/Menu.php
+#, fuzzy
 msgid "Manage Premiums"
 msgstr "Håntere Belønninger"
 
@@ -299,9 +302,8 @@ msgid "DashBoard"
 msgstr "Skrivebord"
 
 #: CRM/Contribute/Menu.php CRM/Contribute/Page/ContributionPage.php
-#, fuzzy
 msgid "Manage Contribution Pages"
-msgstr "Bidrag Siden"
+msgstr "Administrer bidrags sider"
 
 #: CRM/Contribute/Page/ContributionPage.php CRM/Event/Page/ManageEvent.php
 #: templates/CRM/Contribute/Form/Contribution/PreviewHeader.tpl
@@ -320,24 +322,27 @@ msgstr "Følg op på"
 
 #: CRM/Contribute/Page/ManagePremiums.php CRM/Contribute/Page/Premium.php
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
+#, fuzzy
 msgid "Edit Premium"
-msgstr "Redigere Belønning"
+msgstr "Edit Premium"
 
 #: CRM/Contribute/Page/ManagePremiums.php CRM/Contribute/Page/Premium.php
+#, fuzzy
 msgid "Preview Premium"
 msgstr "Se Belønning"
 
 #: CRM/Contribute/Page/ManagePremiums.php CRM/Contribute/Page/Premium.php
+#, fuzzy
 msgid "Disable Premium"
 msgstr "Deaktiver Belønning"
 
 #: CRM/Event/BAO/Query.php CRM/Event/DAO/Participant.php
 msgid "Participant Source"
-msgstr ""
+msgstr "Deltager kilde"
 
 #: CRM/Event/DAO/EventPage.php CRM/Event/Form/Task/Export.php
 msgid "Event ID"
-msgstr "Event ID"
+msgstr "Begivenheds ID"
 
 #: CRM/Event/DAO/EventPage.php CRM/Event/Form/ManageEvent/Registration.php
 msgid "Confirm From Name"
@@ -349,27 +354,25 @@ msgstr "Bekræft Fra Email"
 
 #: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/EventInfo.php
 msgid "Event Title"
-msgstr "Event Titel"
+msgstr "Begivenheds Titel"
 
 #: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/EventInfo.php
 #: templates/CRM/Event/Page/DashBoard.tpl
 msgid "Event Summary"
-msgstr "Event Resumé"
+msgstr "Begivenheds Resumé"
 
 #: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/Registration.php
-#, fuzzy
 msgid "Registration Start Date"
-msgstr "Udløbsdato"
+msgstr "Registrerings start dato"
 
 #: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/Registration.php
-#, fuzzy
 msgid "Registration End Date"
-msgstr "Udløbsdato"
+msgstr "Registrerings slut dato"
 
 #: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/Fee.php
 #: templates/CRM/Event/Form/ManageEvent/Fee.tpl
 msgid "Fee Label"
-msgstr ""
+msgstr "Gebyr etiket"
 
 #: CRM/Event/DAO/ParticipantPayment.php CRM/Event/DAO/Participant.php
 #: CRM/Event/Form/Task/Export.php
@@ -378,22 +381,21 @@ msgstr "Deltager ID"
 
 #: CRM/Event/Form/ManageEvent/Delete.php CRM/Event/Page/ManageEvent.php
 msgid "Delete Event"
-msgstr "Slet Event"
+msgstr "Slet begivenhed"
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 #: CRM/Event/Form/ManageEvent/Registration.php
-#, fuzzy
 msgid "Please select a valid end date."
-msgstr "Venligst angive et gyldig Kredit Kort Nummer"
+msgstr "Angiv venligst en gyldig slut dato"
 
 #: CRM/Event/Form/ManageEvent/Fee.php CRM/Event/Form/Participant.php
 #: CRM/Event/Form/Registration/Register.php
 msgid "Event Fee(s)"
-msgstr "Event Gebyr(er)"
+msgstr "Begivenheds Gebyr(er)"
 
 #: CRM/Event/Form/ManageEvent.php CRM/Event/Page/ManageEvent.php
 msgid "Configure Event"
-msgstr ""
+msgstr "Konfigurer begivenhed"
 
 #: CRM/Event/Form/ManageEvent/Registration.php CRM/Event/Invoke.php
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
@@ -404,15 +406,15 @@ msgstr "Online Registrering"
 #: CRM/Event/Form/Participant.php CRM/Member/Form/Membership.php
 #: CRM/Member/Form/MembershipRenewal.php
 msgid "Payment Status"
-msgstr ""
+msgstr "Betalings status"
 
 #: CRM/Event/Form/Task/Export.php CRM/Event/Task.php
 msgid "Export Participants"
-msgstr "Eksport Deltagere"
+msgstr "Eksporter deltagere"
 
 #: CRM/Event/Menu.php CRM/Event/Page/ManageEvent.php
 msgid "Manage Events"
-msgstr "Styre Events"
+msgstr "Administer begivenheder"
 
 #: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
 msgid "Running"
@@ -420,7 +422,7 @@ msgstr "Igangværende"
 
 #: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
 msgid "Complete"
-msgstr "Komplet"
+msgstr "Færdig"
 
 #: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
 msgid "Paused"
@@ -459,12 +461,12 @@ msgstr "Body Tekst"
 #: CRM/Mailing/DAO/Component.php CRM/Mailing/Form/Subscribe.php
 #: CRM/Mailing/Invoke.php CRM/Mailing/Menu.php
 msgid "Subscribe"
-msgstr ""
+msgstr "Abonner"
 
 #: CRM/Mailing/DAO/Component.php CRM/Mailing/Menu.php
 #: templates/CRM/Mailing/Page/Resubscribe.tpl
 msgid "Resubscribe"
-msgstr ""
+msgstr "Genabonner"
 
 #: CRM/Mailing/Event/BAO/Confirm.php CRM/Mailing/Event/BAO/Reply.php
 #: CRM/Mailing/Event/BAO/Resubscribe.php CRM/Mailing/Event/BAO/Unsubscribe.php
@@ -483,40 +485,40 @@ msgstr ""
 #: CRM/Mailing/Event/DAO/TrackableURLOpen.php
 #: CRM/Mailing/Event/DAO/Unsubscribe.php
 msgid "Time Stamp"
-msgstr ""
+msgstr "Tidsstempel"
 
 #: CRM/Mailing/Form/Group.php CRM/Mailing/Form/Settings.php
 #: CRM/Mailing/Form/Test.php CRM/Mailing/Form/Upload.php
 msgid "Next >>"
-msgstr ""
+msgstr "Næste >>"
 
 #: CRM/Mailing/Invoke.php CRM/Mailing/Selector/Browse.php
 msgid "Report"
-msgstr ""
+msgstr "Rapport"
 
 #: CRM/Mailing/Page/Browse.php CRM/Mailing/Selector/Browse.php
 #: templates/CRM/Mailing/Page/Browse.tpl
 msgid "Cancel Mailing"
-msgstr ""
+msgstr "Annuller mailudsendelse"
 
 #: CRM/Mailing/Page/Browse.php CRM/Mailing/Selector/Browse.php
 #: templates/CRM/Mailing/Page/Browse.tpl
 msgid "Delete Mailing"
-msgstr ""
+msgstr "Slet mailudsendelse"
 
 #: CRM/Mailing/Page/Common.php CRM/Mailing/Page/Confirm.php
 msgid "Missing input parameters"
-msgstr ""
+msgstr "Manglende input parametre"
 
 #: CRM/Member/DAO/Membership.php CRM/Member/Selector/Search.php
 #: templates/CRM/Member/Form/Task/Print.tpl
 msgid "Member Since"
-msgstr ""
+msgstr "Medlem siden"
 
 #: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
 #: templates/CRM/Member/Page/MembershipStatus.tpl
 msgid "Start Event"
-msgstr ""
+msgstr "Start begivenhed"
 
 #: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
 msgid "Start Event Adjust Interval"
@@ -525,7 +527,7 @@ msgstr ""
 #: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
 #: templates/CRM/Member/Page/MembershipStatus.tpl
 msgid "End Event"
-msgstr ""
+msgstr "Slut begivenhed"
 
 #: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
 msgid "End Event Adjust Interval"
@@ -533,7 +535,7 @@ msgstr ""
 
 #: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
 msgid "Current Membership?"
-msgstr ""
+msgstr "Nuværende medlemskab?"
 
 #: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
 msgid "Fixed Period Rollover Day"
@@ -541,37 +543,37 @@ msgstr ""
 
 #: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
 msgid "Renewal Reminder Day"
-msgstr ""
+msgstr "Fornyelse påmindelses dag"
 
 #: CRM/Member/Form/Membership.php CRM/Member/Form/MembershipRenewal.php
 msgid "Send Confirmation and Receipt?"
-msgstr ""
+msgstr "Send bekræftelse og kvittering?"
 
 #: CRM/Member/Form/Membership.php CRM/Member/Form/MembershipRenewal.php
 msgid "The new membership End Date is %1."
-msgstr ""
+msgstr "Den nye medlemskabs slut dato er %1."
 
 #: CRM/Member/Form/Search.php CRM/Member/Page/DashBoard.php
 #: CRM/Member/Selector/Search.php templates/CRM/Member/Form/MembershipView.tpl
 #: templates/CRM/Member/Page/MembershipStatus.tpl
 msgid "Member"
-msgstr ""
+msgstr "Medlem"
 
 #: CRM/Member/Form/Task/Delete.php CRM/Member/Task.php
 msgid "Delete Members"
-msgstr ""
+msgstr "Slet medlemmer"
 
 #: CRM/Member/Form/Task/Export.php CRM/Member/Task.php
 msgid "Export Members"
-msgstr ""
+msgstr "Eksporter medlemmer"
 
 #: CRM/Member/Invoke.php CRM/Member/Menu.php
 msgid "Import Members"
-msgstr ""
+msgstr "Importer medlemmer"
 
 #: CRM/Contribute/BAO/Contribution.php
 msgid "- Contribution Fields -"
-msgstr ""
+msgstr "- Bidragelses felter-"
 
 #: CRM/Contribute/BAO/ContributionType.php
 msgid ""
@@ -6050,7 +6052,7 @@ msgstr ""
 
 #: templates/CRM/Member/Form/MembershipRenewal.tpl
 msgid "Status of this membership."
-msgstr ""
+msgstr "Status af dette medlemskab."
 
 #: templates/CRM/Member/Form/MembershipRenewal.tpl
 msgid "Renewal Payment and Receipt"
@@ -6073,7 +6075,7 @@ msgstr ""
 #: templates/CRM/Member/Form/MembershipStatus.tpl
 #: templates/CRM/Member/Page/MembershipStatus.tpl
 msgid "New Membership Status"
-msgstr ""
+msgstr "Ny medlemskabs status"
 
 #: templates/CRM/Member/Form/MembershipStatus.tpl
 msgid ""
@@ -6188,12 +6190,12 @@ msgstr ""
 
 #: templates/CRM/Member/Form/Membership.tpl
 msgid "Membership Payment and Receipt"
-msgstr ""
+msgstr "Medlemskabs betaling og kvittering"
 
 #: templates/CRM/Member/Form/MembershipType.tpl
 #: templates/CRM/Member/Page/MembershipType.tpl
 msgid "New Membership Type"
-msgstr ""
+msgstr "Ny medlemskabs type"
 
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid ""
@@ -6254,7 +6256,7 @@ msgstr ""
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid ""
 "Duration of this membership (e.g. 30 days, 2 months, 5 years, 1 lifetime)"
-msgstr ""
+msgstr "Varighed af dette medlemskab (eks. 30 dage, 2 måneder, 5 år, 1 livstid)"
 
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid ""
@@ -6279,7 +6281,7 @@ msgstr ""
 
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid "None"
-msgstr ""
+msgstr "Ingen"
 
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid ""
@@ -6329,23 +6331,23 @@ msgstr ""
 
 #: templates/CRM/Member/Form/MembershipView.tpl
 msgid "Join date"
-msgstr ""
+msgstr "Tilmeldingsdato"
 
 #: templates/CRM/Member/Form/MembershipView.tpl
 msgid "Start date"
-msgstr ""
+msgstr "Start dato"
 
 #: templates/CRM/Member/Form/MembershipView.tpl
 msgid "End date"
-msgstr ""
+msgstr "Slut dato"
 
 #: templates/CRM/Member/Form/MembershipView.tpl
 msgid "Reminder date"
-msgstr ""
+msgstr "Påmindelses dato"
 
 #: templates/CRM/Member/Form/Search/Common.tpl
 msgid "Membership Type(s)"
-msgstr ""
+msgstr "Medlemskabs type(r)"
 
 #: templates/CRM/Member/Form/Search/EmptyResults.tpl
 msgid "if you are searching by member name, check your spelling"
@@ -6370,11 +6372,11 @@ msgstr ""
 
 #: templates/CRM/Member/Form/Selector.tpl
 msgid "View all memberships for this contact"
-msgstr ""
+msgstr "Se alle medlemskaber for denne kontakt"
 
 #: templates/CRM/Member/Form/Selector.tpl
 msgid "List more Memberships"
-msgstr ""
+msgstr "Vis flere medlemskaber"
 
 #: templates/CRM/Member/Form/Task/Delete.tpl
 msgid ""

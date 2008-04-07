@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2007-05-07 11:19+0200\n"
-"PO-Revision-Date: 2008-03-26 08:15-0700\n"
+"PO-Revision-Date: 2008-04-01 03:46-0700\n"
 "Last-Translator: Han Velthuis <han.velthuis@tiscali.nl>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -121,13 +121,15 @@ msgid ""
 "permissions at <a href=\"!2\">Administer CiviCRM &raquo; Access Control</a>."
 msgstr ""
 "lees <a href=\"!1\">CiviCRM toegangsrechten</a> en wijzig de toegangsrechten "
-"bij <a href=\"!2\">administer &raquo; Access Control</a>."
+"bij <a href=\"!2\">Beheer CiviCRM &raquo; Toegangscontrole</a>."
 
 #: drupal/civicrm.module
 msgid ""
 "find contacts by name, email address, group membership and or tagging at <a "
 "href=\"!1\">Find Contacts</a>."
-msgstr "Vind contacten op naam, emailadres, groep lidnummer en/of markering bij <ahref=\"%1\">find contacts</a>."
+msgstr ""
+"Vind contacten op naam, e-mailadres, groep lidnummer en/of markering bij <a "
+"href=\"%1\">Zoek contacten</a>."
 
 #: drupal/civicrm.module
 msgid ""
@@ -148,7 +150,9 @@ msgstr "Importeer contacten uit andere bronnen bij  <a href=\"%1\">import contac
 msgid ""
 "create or administer tags (e.g. organizer, foundation, environment...) at <a "
 "href=\"!1\">CiviCRM &raquo; Administer &raquo; Tags</a>."
-msgstr "Maak of beheer een markering (b.v. organisator, stichting, omgeving) bij <ahref=\"%1\">civicrm &gt;&gt; admin &gt;&gt; tags</a>."
+msgstr ""
+"Maak of beheer een markering (b.v. organisator, stichting, omgeving) bij <a "
+"href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; tags</a>."
 
 #: drupal/civicrm.module
 msgid ""
@@ -171,7 +175,9 @@ msgid ""
 "create or administer activity types (e.g. house meeting, intake "
 "interview...) at <a href=\"!1\">CiviCRM &raquo; Administer &raquo; Activity "
 "Types</a>."
-msgstr "Maak of wijzig een Activiteit Type (bv. huiselijke bijeenkomst, intakeinterview, etc) at <a href=\"%1\">civicrm &gt;&gt; admin &gt;&gt; activitytypes</a>."
+msgstr ""
+"Maak of wijzig een Activiteit Type (bv. huiselijke bijeenkomst, intake etc) "
+"met <a href='%1'>CiviCRM &gt;&gt; Admin &gt;&gt; Activiteittypes</a>."
 
 #: drupal/civicrm.module
 msgid ""

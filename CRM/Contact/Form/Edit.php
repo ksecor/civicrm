@@ -236,18 +236,25 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                 
                 $locationTypeKeys = array_filter(array_keys( CRM_Core_PseudoConstant::locationType() ), 'is_int' );
                 sort( $locationTypeKeys );
+                                             
+                // get the default location type
+                require_once 'CRM/Core/BAO/LocationType.php';
+                $locationType    = CRM_Core_BAO_LocationType::getDefault();
                 
+                // unset primary location type
+                $primaryLocationTypeIdKey = CRM_Utils_Array::key( $locationType->id, $locationTypeKeys );
+                unset( $locationTypeKeys[ $primaryLocationTypeIdKey ] );
+                
+                // reset the array sequence
+                $locationTypeKeys = array_values( $locationTypeKeys );
+                                
                 // also set the location types for each location block
                 for ( $i = 0; $i < $this->_maxLocationBlocks; $i++ ) {
                     $defaults['location'][$i+1] = array( );
                     if ( $i == 0 ) {
-                        require_once 'CRM/Core/BAO/LocationType.php';
-                        $defaultLocation =& new CRM_Core_BAO_LocationType();
-                        $locationType = $defaultLocation->getDefault();
                         $defaults['location'][$i+1]['location_type_id'] = $locationType->id;
-                       
                     } else {
-                        $defaults['location'][$i+1]['location_type_id'] = $locationTypeKeys[$i];
+                        $defaults['location'][$i+1]['location_type_id'] = $locationTypeKeys[$i-1];
                     }
                     $defaults['location'][$i+1]['address'] = array( );
                     if ( $config->defaultContactCountry ) {
@@ -261,13 +268,14 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             // get values from contact table
             $params['id'] = $params['contact_id'] = $this->_contactId;
             $contact = CRM_Contact_BAO_Contact::retrieve( $params, $defaults );
-                   
+            
             $locationExists = array( );
             
             foreach( $contact->location as $index => $loc) {
                 $locationExists[] = $loc['location_type_id'];
                 //to get the billing location
-                $defaults['location'][$index]['is_billing'] = CRM_Utils_Array::value( 'is_billing' , $defaults['location'][$index]['address'] );
+                $defaults['location'][$index]['is_billing'] = CRM_Utils_Array::value( 'is_billing' ,
+                                                                                      $defaults['location'][$index]['address'] );
             }
             $this->assign( 'locationExists' , $locationExists );
             

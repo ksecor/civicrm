@@ -37,8 +37,6 @@ require_once 'CRM/Upgrade/Form.php';
 
 class CRM_Upgrade_TwoZero_Form_Step1 extends CRM_Upgrade_Form {
 
-    protected $_warningMsg = null;
-
     function verifyPreDBState( &$errorMessage ) {
         $errorMessage = ts('Database check failed - the current database is not v1.9.');
 
@@ -96,37 +94,6 @@ class CRM_Upgrade_TwoZero_Form_Step1 extends CRM_Upgrade_Form {
             return false;
         }
         $res->free();
-        
-        // check if any of the custom fields has reserved keyword as
-        // custom field name.
-        $reservedKeyWords = 
-            implode( "', '", array( 'id', 'database', 'column', 'table', 'field', 'group' ) );
-        $query    = "SELECT id FROM civicrm_custom_field WHERE LOWER(name) IN ('$reservedKeyWords')";
-        $res      = $this->runQuery( $query );
-        if ($res->fetch()) {
-            $errorMessage = ts('Database consistency check failed for step %1.', array(1 => '1')) . ' ' . ts("A custom field can not have any of '%1' as the '%2'. Please rename the name value for these records to something that does not conflict with mysql reserved keywords.", array(1 => $reservedKeyWords, 2 => 'custom field name'));
-            return false;
-        }
-        $res->free();
-
-        // check if any extra activity_history.modules/activity-types found.
-        $query    = "SELECT DISTINCT module FROM civicrm_activity_history";
-        $res      = $this->runQuery( $query );
-        $modList  = array();
-        while ($res->fetch()) {
-            $modList[] = $res->module;
-        }
-        $res->free();
-        if (count($modList) > 5) {
-            $this->_warningMsg = ts("Activity-History records found with no mapping available for activity types with that of in 2.0");
-        } else {
-            foreach ($modList as $mod) {
-                if (!in_array($mod, array('CiviContribute', 'CiviEvent', 'CiviMember', 'CiviMail', 'CiviCRM'))) {
-                    $this->_warningMsg = ts("Activity-History records found with no mapping available for activity types with that of in 2.0");
-                    break;
-                }
-            }
-        }
 
         return true;
     }
@@ -158,9 +125,6 @@ class CRM_Upgrade_TwoZero_Form_Step1 extends CRM_Upgrade_Form {
     function getTemplateMessage( ) {
         $msg = '<p><strong>' . ts('This process will upgrade your v1.9 CiviCRM database to the v2.0 database format.') . '</strong></p><div class="messsages status"><ul><li><strong>' . ts('Make sure you have a current and complete backup of your CiviCRM database and codebase files before starting the upgrade process.') . '</strong></li><li>' . ts('The upgrade process consists of 6 steps, and may take a while depending on the size of your database.') . '</li><li>' . ts('You must complete all six steps to have a valid 2.0 database.') . '</li></ul></div><p>' . ts('Step One will start with cleaning your database. Click <strong>Begin Upgrade</strong> to begin the process.') . '</p>';
         
-        if ($this->_warningMsg) {
-            $msg .= '<p><strong>Warning:</strong> ' . $this->_warningMsg . '</p>';
-        }
         return $msg;
     }
             
