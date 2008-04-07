@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-03-12 12:22+0100\n"
-"PO-Revision-Date: 2008-03-26 00:06-0700\n"
+"PO-Revision-Date: 2008-04-02 00:36-0700\n"
 "Last-Translator: Gerhard Aigner <gerhard.aigner@arcsmed.at>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -657,7 +657,6 @@ msgid "In Honor Of"
 msgstr "Zu Ehren von"
 
 #: CRM/Contribute/BAO/Query.php
-#, fuzzy
 msgid "Find Test Contributions?"
 msgstr "Testzuwendungen finden?"
 
@@ -1855,7 +1854,6 @@ msgid "Event Type - %1"
 msgstr "Veranstaltungstyp - %1"
 
 #: CRM/Event/BAO/Query.php
-#, fuzzy
 msgid "Find Test Participants"
 msgstr "Nur nach Test-Teilnehmer suchen?"
 
@@ -1876,7 +1874,6 @@ msgid "Event Date - From"
 msgstr "Veranstaltungsdatum - von"
 
 #: CRM/Event/BAO/Query.php
-#, fuzzy
 msgid "Find Test Participants?"
 msgstr "Nur nach Test-Teilnehmer suchen?"
 

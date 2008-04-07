@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-02-27 13:05+0100\n"
-"PO-Revision-Date: 2008-03-28 08:42-0700\n"
+"PO-Revision-Date: 2008-04-02 02:33-0700\n"
 "Last-Translator: Han Velthuis <han.velthuis@tiscali.nl>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -19,16 +19,16 @@ msgid ""
 "The following tokens are available to format Mailing Labels. Address fields "
 "are taken from the contact's <strong>primary</strong> location."
 msgstr ""
-"De volgende tokens zijn beschikbaar voor de opmaak van mailing labels. Adres "
-"velden komen uit de <strong>primaire</strong> contact locatie."
+"De volgende tokens zijn beschikbaar voor de opmaak van verzendetiketten. "
+"Adres velden komen uit de <strong>primaire</strong> contact locatie."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid ""
 "Used for mailing labels only. Replaced by the configurable Individual Name "
 "format for individuals and the display name for Organizations and Households."
 msgstr ""
-"Alleen voor gebruik in mailing labels. Vervangen door de hieronder vermelde "
-"en te wijzigen <strong>Opmaak persoonsnaam</strong> en de naam voor "
+"Alleen voor gebruik in verzendetiketten. Vervangen door de hieronder "
+"vermelde en te wijzigen <strong>Opmaak persoonsnaam</strong> en de naam voor "
 "huishoudens en organisaties."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
@@ -54,7 +54,7 @@ msgid ""
 "and county names must be added to the civicrm_county table in your database."
 msgstr ""
 "Naam streek, regio, graafschap (county). Als u een streek wilt invoegen in "
-"uw mailing labels dient u, hieronder op dit scherm, het adres veld "
+"uw verzendetiketten dient u, hieronder op dit scherm, het adres veld "
 "<strong>Streek</strong> aan te zetten. Tevens dienen de streeknamen te zijn "
 "aangemaakt in de civicrm_county tabel van uw database."
 
@@ -105,7 +105,7 @@ msgid ""
 "contact names when they are included in <strong>mailing labels</strong>."
 msgstr ""
 "De volgende tokens zijn beschikbaar om de opmaak van de persoonsnaam te "
-"beheren als deze in <strong>mailing labels</strong> worden gebruikt"
+"beheren als deze in <strong>verzendetiketten</strong> worden gebruikt."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Assigned name prefix, if any (e.g. 'Ms.', 'Dr.', 'Hon.' etc.)."
@@ -568,7 +568,7 @@ msgstr ""
 msgid ""
 "The URL for PayPal's TEST Payment server. Use the default value unless "
 "otherwise advised by PayPal."
-msgstr ""
+msgstr "De URL van de testserver van PayPal. "
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "LIVE Merchant Account Email Address:"
@@ -728,7 +728,7 @@ msgstr ""
 msgid ""
 "The URL for Google Checkout's LIVE Payment server. Use the default value "
 "unless otherwise indicated by Google."
-msgstr "De URL van de Google Checkout's productie server. "
+msgstr "De URL van de Google Checkout's productie server."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Google Checkout Button:"
@@ -901,11 +901,11 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Domain.hlp
 msgid "Opens documentation in a new window."
-msgstr ""
+msgstr "Toont documentatie op een nieuw scherm."
 
 #: templates/CRM/Contact/Form/Domain.hlp
 msgid "Read more"
-msgstr ""
+msgstr "Lees meer"
 
 #: templates/CRM/Contact/Form/Domain.hlp
 msgid ""
@@ -935,6 +935,11 @@ msgid ""
 "mailings set to an alternate email address - check the 'Use for Bulk "
 "Mailings' box next to that email address."
 msgstr ""
+"Als u met CiviMail gebruikt om mailings naar contacten te sturen, kunt u met "
+"dit veld aangeven welk e-mailadres wordt gebruikt. Standaard wordt voor elk "
+"contact diens voorkeur e-mailadres gebruikt (bij meerder locaties, dat van "
+"de primaire locatie). Echter als het contact mailings van CiviMail op een "
+"ander e-mailadres wil ontvangen, vink dan dit veld aan."
 
 #: templates/CRM/Contact/Form/Merge.hlp
 msgid ""
@@ -1083,6 +1088,9 @@ msgid ""
 "title='%3' target='_blank'>custom fields</a> and <a href='%2' title='%3' "
 "target='_blank'>profiles</a>."
 msgstr ""
+"Lees de online documentatie voor meer details over het maken van <a "
+"href='%1' title='%3' target='_blank'>specifieke velden</a> en <a href='%2' "
+"title='%3' target='_blank'>profielen</a>."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Widget.hlp
 msgid ""
@@ -1122,7 +1130,7 @@ msgstr ""
 #: templates/CRM/Grant/Import/Form/UploadFile.hlp
 #: templates/CRM/Member/Import/Form/UploadFile.hlp
 msgid "Import File Format"
-msgstr ""
+msgstr "Importeer bestandsformaat"
 
 #: templates/CRM/Contribute/Import/Form/UploadFile.hlp
 #: templates/CRM/Event/Import/Form/UploadFile.hlp
@@ -1196,13 +1204,15 @@ msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionPage.hlp
 msgid "For existing pages"
-msgstr ""
+msgstr "Voor bestaande pagina's"
 
 #: templates/CRM/Contribute/Page/ContributionPage.hlp
 msgid ""
 "Click <strong>Configure</strong> to view and modify settings, amounts, and "
 "text for existing pages."
 msgstr ""
+"Klik <strong>Configureer</strong> om bestaande pagina's te bekijken en te "
+"wijzigen (instellingen, bedragen en tekst)."
 
 #: templates/CRM/Contribute/Page/ContributionPage.hlp
 msgid ""
@@ -1210,18 +1220,22 @@ msgid ""
 "strong>. This allows you to go through the full contribution process using a "
 "dummy credit card on a test server."
 msgstr ""
+"Klik <strong>Test</strong> om de pagina te testen. U kunt het hele bijdrage "
+"proces uitvoeren met een dummy credit card op een testserver."
 
 #: templates/CRM/Contribute/Page/ContributionPage.hlp
 msgid ""
 "If your page is enabled, click <strong>Live Page</strong> to view to the "
 "page in <strong>live mode</strong>."
 msgstr ""
+"Als de pagina ingeschakeld is, klik dan op <strong>Productie</strong> om de "
+"pagina, zoals die in productie is, te zien."
 
 #: templates/CRM/Contribute/Page/ContributionPage.hlp
 msgid ""
 "Click <a href='%1'>New Contribution Page</a> to create and configure a new "
 "online contribution page using the step-by-step wizard."
-msgstr ""
+msgstr "U kunt een <a href='%1'>Bijdrage Pagina aanmaken</a>."
 
 #: templates/CRM/Contribute/Page/ContributionPage.hlp
 msgid "Read more..."
@@ -1242,8 +1256,8 @@ msgid ""
 "You will need to set Drupal Access Control permissions to include 'view "
 "event participants' for any Roles you want to access this listing."
 msgstr ""
-"U dient in Drupal de toegangsrechten (Access Control) voor de rollen die de "
-"lijst mogen zien uit te breiden."
+"U dient in Drupal de toegang tot inhoud voor de rollen die de lijst mogen "
+"zien uit te breiden."
 
 #: templates/CRM/Event/Form/ManageEvent/EventInfo.hlp
 msgid ""
@@ -1291,7 +1305,7 @@ msgstr ""
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.hlp
 msgid "Create a profile (e.g. 'Participant Information')."
-msgstr ""
+msgstr "Maak een profiel (bijv: 'Deelnemersinformatie')."
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.hlp
 msgid ""
@@ -1299,6 +1313,9 @@ msgid ""
 "&raquo; Configure &raquo; Online Registration</strong>) and select your "
 "profile."
 msgstr ""
+"Ga terug naar dit scherm (<strong>Beheer CiviCRM &raquo; Beheer Evenementen "
+"&raquo; Configureer  &raquo; Online Registratie</strong>) en kies uw "
+"profiel."
 
 #: templates/CRM/Event/Import/Form/UploadFile.hlp
 #: templates/CRM/Grant/Import/Form/UploadFile.hlp
@@ -1529,7 +1546,7 @@ msgid ""
 "that letter."
 msgstr ""
 "Gebruik <strong>Zoek Groepen</strong> om te zoeken op  groepsnaam, type en "
-"zichtbaarheid. Als U 'Mailing List' en 'Access Control' aanvinkt worden "
+"zichtbaarheid. Als U 'Mailing List' en 'Toegangscontrole' aanvinkt worden "
 "alleen groepen die aan beide voorwaarden voldoen, getoond. U kunt ook op een "
 "letter in de <strong>A-to-Z regel</strong> klikken om alle groepen te "
 "selecteren die beginnen met die letter."
@@ -1770,7 +1787,7 @@ msgid ""
 "If you need to make changes, you can click <strong>Previous</strong> from "
 "the next screen, and again from this screen to return to step 3. After "
 "making your changes, you can send another test and repeat as needed."
-msgstr "Klik op <strong><< Vorige </strong> indien U iets wilt wijzigen."
+msgstr "Klik op <strong>Vorige</strong> indien U iets wilt wijzigen."
 
 #: templates/CRM/Mailing/Form/Upload.hlp
 msgid "Message Formats"
