@@ -176,7 +176,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         
         $ss =& new CRM_Core_DAO();
         $ss->query(
-                "SELECT             $group.saved_search_id as saved_search_id
+                "SELECT             $group.saved_search_id as saved_search_id,
+                                    $group.id as id
                 FROM                $group
                 INNER JOIN          $mg
                         ON          $mg.entity_id = $group.id
@@ -190,8 +191,11 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             /* run the saved search query and dump result contacts into the temp
              * table */
             $tables = array($contact => 1);
-            $sql =
-                CRM_Contact_BAO_SavedSearch::contactIDsSQL( $ss->saved_search_id );
+            $sql = CRM_Contact_BAO_SavedSearch::contactIDsSQL( $ss->saved_search_id );
+            $sql = $sql. " AND contact_a.id NOT IN ( 
+                              SELECT contact_id FROM $g2contact 
+                              WHERE $g2contact.group_id = {$ss->id} AND $g2contact.status = 'Removed')"; 
+            
             $mailingGroup->query( "INSERT IGNORE INTO X_$job_id (contact_id) $sql" );
         }
 
@@ -262,7 +266,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     ORDER BY $email.is_bulkmail");
 
         /* Construct the saved-search queries */
-        $ss->query("SELECT          $group.saved_search_id as saved_search_id
+        $ss->query("SELECT          $group.saved_search_id as saved_search_id,
+                                    $group.id as id
                     FROM            $group
                     INNER JOIN      $mg
                             ON      $mg.entity_id = $group.id
@@ -294,6 +299,9 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         AND             ($email.is_bulkmail = 1 OR $email.is_primary = 1)
                         AND             $email.on_hold = 0
                                         $where
+                        AND             contact_a.id NOT IN ( 
+                                          SELECT contact_id FROM $g2contact 
+                                          WHERE $g2contact.group_id = {$ss->id} AND $g2contact.status = 'Removed') 
                         AND             X_$job_id.contact_id IS null
                     ORDER BY $email.is_bulkmail";
             $mailingGroup->query($ssq);
