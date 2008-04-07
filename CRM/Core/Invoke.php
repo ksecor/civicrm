@@ -90,26 +90,26 @@ class CRM_Core_Invoke
 
         // get the menu items
         //$items = CRM_Core_Menu::items( );
-        $items = CRM_Core_Menu::getMenuItemsFromDB();
+        $items = CRM_Core_Menu::getItemsFromDB();
 
         while ( ! empty( $args ) ) {
             $argString = implode( '/', $args );
             if ( array_key_exists( $argString, $items ) &&
-                 array_key_exists( 'crm_callback', $items[$argString] ) ) {
-                if ( is_array( $items[$argString]['crm_callback'] ) ) {
-                    call_user_func( $items[$argString]['crm_callback'],
+                 array_key_exists( 'page_callback', $items[$argString] ) ) {
+                if ( is_array( $items[$argString]['page_callback'] ) ) {
+                    call_user_func( $items[$argString]['page_callback'],
                                     $args );
-                } else if (strstr($items[$argString]['crm_callback'], '_Form')) {
+                } else if (strstr($items[$argString]['page_callback'], '_Form')) {
                     $wrapper =& new CRM_Utils_Wrapper( );
-                    return $wrapper->run( $items[$argString]['crm_callback'], 
+                    return $wrapper->run( $items[$argString]['page_callback'], 
                                           $items[$argString]['title'], null );
                 } else {
                     // page and controller have the same style
                     require_once( str_replace( '_',
                                                DIRECTORY_SEPARATOR,
-                                               $items[$argString]['crm_callback'] ) . '.php' );
+                                               $items[$argString]['page_callback'] ) . '.php' );
                     eval( '$page = new ' .
-                          $items[$argString]['crm_callback'] .
+                          $items[$argString]['page_callback'] .
                           ' ( );' );
                     return $page->run( );
                 }
