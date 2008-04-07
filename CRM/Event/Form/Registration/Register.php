@@ -150,11 +150,19 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             self::buildAmount( $this );
 
             if ( $this->_values['event_page']['is_pay_later'] ) {
-                $this->addElement( 'checkbox',
-                                   'is_pay_later',
-                                   $this->_values['event_page']['pay_later_text'] );
-            }
+                $attributes = null;
+                $this->assign( 'hidePaymentInformation', false );
+                if ( !in_array( $this->_paymentProcessor['payment_processor_type'], 
+                                array( 'PayPal_Standard', 'Google_Checkout', 'PayPal_Express' ) ) ) {
+                    $attributes = array('onclick' => "return showHideByValue('is_pay_later','','payment_information',
+                                                     'table-row','radio',true);");
             
+                    $this->assign( 'hidePaymentInformation', true );
+                }
+                                             
+                $this->addElement( 'checkbox', 'is_pay_later', 
+                                   $this->_values['event_page']['pay_later_text'], null, $attributes );
+            }            
             require_once 'CRM/Core/Payment/Form.php';
             CRM_Core_Payment_Form::buildCreditCard( $this );
         }

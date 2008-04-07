@@ -83,6 +83,7 @@
 
 {if $paidEvent}   
 {if $form.credit_card_number}
+<div id="payment_information">
  <fieldset><legend>{ts}Credit or Debit Card Information{/ts}</legend>
     {if $paymentProcessor.billing_mode & 2}
       <table class="form-layout-compressed">
@@ -120,6 +121,7 @@
        </table> 
     {/if}
  </fieldset>
+</div>
 {/if}        
 {/if}        
 
@@ -145,3 +147,15 @@
         </div>
     {/if}
 </div>
+
+{* Hide Credit Card Block and Billing information if registration is pay later. *}
+{if $form.is_pay_later and $hidePaymentInformation} 
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="is_pay_later"
+    trigger_value       =""
+    target_element_id   ="payment_information" 
+    target_element_type ="table-row"
+    field_type          ="radio"
+    invert              = 1
+}
+{/if}

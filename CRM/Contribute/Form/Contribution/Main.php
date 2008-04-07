@@ -339,10 +339,22 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
      *
      * @access public
      */
-    function buildPayLater( ) {
-        $this->addElement( 'checkbox',
-                           'is_pay_later',
-                           $this->_values['pay_later_text'] );
+    function buildPayLater( ) 
+    {
+
+        $attributes = null;
+        $this->assign( 'hidePaymentInformation', false );
+            
+        if ( !in_array( $this->_paymentProcessor['payment_processor_type'], 
+                        array( 'PayPal_Standard', 'Google_Checkout', 'PayPal_Express' ) ) ) {
+            $attributes = array('onclick' => "return showHideByValue('is_pay_later','','payment_information',
+                                                     'table-row','radio',true);");
+            
+            $this->assign( 'hidePaymentInformation', true );
+        }
+        
+        $this->addElement( 'checkbox', 'is_pay_later', 
+                           $this->_values['pay_later_text'], null, $attributes );
     }
 
     /** 
