@@ -308,14 +308,17 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
      */
     static function eventFull( $eventId )
     {
-        // fix for CRM-2326, participant has to be either registered or attended status
+        require_once 'CRM/Event/PseudoConstant.php';
+        $statusTypes  = CRM_Event_PseudoConstant::participantStatus( null, false );
+        $status = implode( ',', array_keys( $statusTypes ) );
+        // fix for CRM-2877, participant has to have is_filter true
         // for event to be full
         $query = "SELECT   count(civicrm_participant.id) as total_participants,
                            civicrm_event.max_participants as max_participants,
                            civicrm_event.event_full_text as event_full_text  
                   FROM     civicrm_participant, civicrm_event 
                   WHERE    civicrm_participant.event_id = civicrm_event.id
-                     AND   civicrm_participant.status_id IN ( 1, 2 ) 
+                     AND   civicrm_participant.status_id IN ( {$status} )
                      AND   civicrm_participant.is_test = 0 
                      AND   civicrm_participant.event_id = {$eventId} 
                   GROUP BY civicrm_participant.event_id";
