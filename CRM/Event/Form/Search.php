@@ -467,7 +467,7 @@ class CRM_Event_Form_Search extends CRM_Core_Form
         $status = CRM_Utils_Request::retrieve( 'status', 'Positive',
                                                CRM_Core_DAO::$_nullObject );
         
-        if ( $status ) {
+        if ( isset ( $status ) ) {
             if ( $status > 0 ) {
                 $this->_formValues['participant_status_id'] = array( $status => 1 );
             } else {
