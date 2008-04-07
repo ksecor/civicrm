@@ -53,8 +53,8 @@
            <dt></dt><dd>{$form.buttons.html}</dd>
         </dl>
     </dl>
-	{if $contribution.contribution_id}
-           {include file="CRM/Event/Form/AssociatedPayment.tpl"}
+	{if $accessContribution and $rows.0.contribution_id}
+           {include file="CRM/Contribute/Form/Selector.tpl" context="Search"} 
         {/if}
 </fieldset>  
 </div>

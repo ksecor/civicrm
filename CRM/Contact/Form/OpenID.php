@@ -65,6 +65,7 @@ class CRM_Contact_Form_OpenID
                                                                                                    'openid'));
             $form->addRule( "location[$locationId][openid][$i][openid]", ts('OpenID is not a valid URL.'), 'url' );
             
+            $config=& CRM_Core_Config::singleton( );
             if ( $config->userFramework == 'Standalone' ) { 
                 $location[$locationId]['openid'][$i]['allowed_to_login'] = $form->addElement('advcheckbox',
                                                                                              "location[$locationId][openid][$i][allowed_to_login]",

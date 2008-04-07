@@ -236,18 +236,25 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                 
                 $locationTypeKeys = array_filter(array_keys( CRM_Core_PseudoConstant::locationType() ), 'is_int' );
                 sort( $locationTypeKeys );
+                                             
+                // get the default location type
+                require_once 'CRM/Core/BAO/LocationType.php';
+                $locationType    = CRM_Core_BAO_LocationType::getDefault();
                 
+                // unset primary location type
+                $primaryLocationTypeIdKey = CRM_Utils_Array::key( $locationType->id, $locationTypeKeys );
+                unset( $locationTypeKeys[ $primaryLocationTypeIdKey ] );
+                
+                // reset the array sequence
+                $locationTypeKeys = array_values( $locationTypeKeys );
+                                
                 // also set the location types for each location block
                 for ( $i = 0; $i < $this->_maxLocationBlocks; $i++ ) {
                     $defaults['location'][$i+1] = array( );
                     if ( $i == 0 ) {
-                        require_once 'CRM/Core/BAO/LocationType.php';
-                        $defaultLocation =& new CRM_Core_BAO_LocationType();
-                        $locationType = $defaultLocation->getDefault();
                         $defaults['location'][$i+1]['location_type_id'] = $locationType->id;
-                       
                     } else {
-                        $defaults['location'][$i+1]['location_type_id'] = $locationTypeKeys[$i];
+                        $defaults['location'][$i+1]['location_type_id'] = $locationTypeKeys[$i-1];
                     }
                     $defaults['location'][$i+1]['address'] = array( );
                     if ( $config->defaultContactCountry ) {
@@ -261,13 +268,14 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             // get values from contact table
             $params['id'] = $params['contact_id'] = $this->_contactId;
             $contact = CRM_Contact_BAO_Contact::retrieve( $params, $defaults );
-                   
+            
             $locationExists = array( );
             
             foreach( $contact->location as $index => $loc) {
                 $locationExists[] = $loc['location_type_id'];
                 //to get the billing location
-                $defaults['location'][$index]['is_billing'] = CRM_Utils_Array::value( 'is_billing' , $defaults['location'][$index]['address'] );
+                $defaults['location'][$index]['is_billing'] = CRM_Utils_Array::value( 'is_billing' ,
+                                                                                      $defaults['location'][$index]['address'] );
             }
             $this->assign( 'locationExists' , $locationExists );
             
@@ -657,24 +665,21 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
                 } elseif ( $params['shared_option'] ) {
                     CRM_Contact_Form_Individual::copyHouseholdAddress( $params );
                 }
+
+                // add/edit/delete the relation of individual with household, if use-household-address option is checked/unchecked.
+                CRM_Contact_Form_Individual::handleSharedRelation( $contact->id, $params );
             } else {
-                $params['mail_to_household_id'] = null;
+                $params['mail_to_household_id'] = 'null';
             }
         }
 
         require_once 'CRM/Contact/BAO/Contact.php';
         $contact =& CRM_Contact_BAO_Contact::create($params, true, false );
-
-        // add/edit/delete the relation of individual with household, if use-household-address option is checked/unchecked.
-        if ( $this->_contactType == 'Individual' ) {
-            CRM_Contact_Form_Individual::handleSharedRelation( $contact->id, $params );
-        }
         
         if ( $this->_contactType == 'Household' && ( $this->_action & CRM_Core_Action::UPDATE ) ) {
             //TO DO: commented because of schema changes
             CRM_Contact_Form_Household::synchronizeIndividualAddresses( $contact->id );
         }
-
 
         if ( $this->_showTagsAndGroups ) {
             //add contact to group

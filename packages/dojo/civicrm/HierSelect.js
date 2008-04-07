@@ -1,4 +1,5 @@
-// Original Author: Deepak Srivastava, CiviCRM Team
+// Author: Deepak Srivastava, CiviCRM Team
+// Blog: http://civicrm.org/node/320 
 // site: http://civicrm.org
 
 dojo.provide("civicrm.HierSelect");
@@ -23,6 +24,7 @@ dojo.declare(
 	default1: "",
 	default2: "",
 	default3: "",
+	hsTheme: "tundra",
 	storeOption1: {},
 	storeOption2: {},
 	storeOption3: {},
@@ -30,7 +32,7 @@ dojo.declare(
 	innerLabel23: "",
 	firstInList: false,
 
-        templateString: "<span class='tundra'></span>",
+        templateString: "<span class=${hsTheme}></span>",
 
 	postMixInProperties: function() {
 		if (this.name == "" || this.url1 == "" || this.url2 == "") {

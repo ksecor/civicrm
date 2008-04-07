@@ -653,7 +653,6 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         }
         return self::$_importableFields;
     }
-
     /**
      * function to get all exportable fields
      *
@@ -670,59 +669,75 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
     }
 
     /**
-     * Function to get membership summary
+     * Function to get membership joins/renewals for a specified membership
+     * type.  Specifically, retrieves a count of memberships whose start_date
+     * is within a specified date range.  Dates match the regexp
+     * "yyyy(mm(dd)?)?".  Omitted portions of a date match the earliest start
+     * date or latest end date, i.e., 200803 is March 1st as a start date and
+     * March 31st as an end date.
      * 
-     * @param int    $membershipTypeId   membership type id
-     * @param string $membershipTypeName membership type name
+     * @param int    $membershipTypeId  membership type id
+     * @param int    $startDate         date on which to start counting
+     * @param int    $endDate           date on which to end counting
+     * @param bool   $isTest             if true, membership is for a test site
      *
-     * @return returns memberhsip summary
+     * @return returns the number of members of type $membershipTypeId whose
+     *         start_date is between $startDate and $endDate
      */
-    function getMembershipSummary( $membershipTypeId ,$membershipTypeName = null, $isTest = 0 ) 
+    function getMembershipStarts( $membershipTypeId, $startDate, $endDate, $isTest = 0 ) 
     {
-        $membershipSummary = array();
-        $queryString =  "SELECT  count( id ) as total_count
-FROM   civicrm_membership
-WHERE is_test = %1
-AND ";
-        $params  = array( 1 => array( $isTest, 'Boolean' ) ); 
-        
-        //calculate member count for current month 
-        $currentMonth    = date("Y-m-01");
-        $currentMonthEnd = date("Y-m-t");
-        $whereCond =  "membership_type_id = $membershipTypeId AND start_date >= '".$currentMonth ."' AND start_date <= ' ".$currentMonthEnd."'" ;
-        
-        $query = "$queryString $whereCond";
-        $membershipSummary['month'] = array( "count" => CRM_Core_DAO::singleValueQuery( $query, $params ),
-                                             "name"  => $membershipTypeName );
-
-        //calculate member count for current year 
-        $currentYear    = date("Y-01-01");
-        $currentYearEnd = date("Y-12-31");
-        $whereCond =  "membership_type_id = $membershipTypeId AND start_date >= '".$currentYear ."' AND start_date <= '".$currentYearEnd."'";
-        
-        $query = "$queryString $whereCond";
-        $membershipSummary['year'] = array ( "count" => CRM_Core_DAO::singleValueQuery( $query, $params ),
-                                             "name"  => $membershipTypeName );
-
-        // calculate total count for current membership
-        $query = "
-SELECT    count(civicrm_membership.id ) as total_count
-FROM      civicrm_membership
-LEFT JOIN civicrm_membership_status ON ( civicrm_membership.status_id = civicrm_membership_status.id )
-WHERE     civicrm_membership.membership_type_id = %1
-AND       civicrm_membership_status.is_current_member = 1
-AND       civicrm_membership.is_test = %2
-";
-        $params  = array( 1 => array( $membershipTypeId, 'Integer' ),
-                          2 => array( $isTest, 'Boolean' ) );
-
-        $membershipSummary['current'] = array( "count" => CRM_Core_DAO::singleValueQuery( $query, $params ),
-                                               "name"  => $membershipTypeName );
-
-        return $membershipSummary;
+        $query = "SELECT count(id) as member_count
+  FROM   civicrm_membership
+ WHERE  membership_type_id = %1 AND start_date >= '$startDate' AND start_date <= '$endDate' AND is_test = %2";
+        $params = array(1 => array($membershipTypeId, 'Integer'),
+                        2 => array($isTest, 'Boolean') );
+        $memberCount = CRM_Core_DAO::singleValueQuery( $query, $params );
+        return (int)$memberCount;
     }
-    
-    /** 
+ 
+    /**
+     * Function to get a count of membership for a specified membership type,
+     * optionally for a specified date.  The date must have the form yyyymmdd.
+     *
+     * If $date is omitted, this function counts as a member anyone whose
+     * membership status_id indicates they're a current member.
+     * If $date is given, this function counts as a member anyone who:
+     *  -- Has a start_date before $date and end_date after $date, or
+     *  -- Has a start_date before $date and is currently a member, as indicated
+     *     by the the membership's status_id.
+     * The second condition takes care of records that have no end_date.  These
+     * are assumed to be lifetime memberships.
+     *
+     * @param int    $membershipTypeId   membership type id
+     * @param string $date               the date for which to retrieve the count
+     * @param bool   $isTest             if true, membership is for a test site
+     *
+     * @return returns the number of members of type $membershipTypeId as of
+     *         $date.
+     */
+    function getMembershipCount( $membershipTypeId, $date = null, $isTest = 0 )
+    {
+        if ( !is_null($date) && ! preg_match('/^\d{8}$/', $date) ) {
+            CRM_Core_Error::fatal(ts('Invalid date "%1" (must have form yyyymmdd).', array(1 => $date)));
+        }
+        
+        $params = array(1 => array($membershipTypeId, 'Integer'),
+                        2 => array($isTest, 'Boolean') );
+        $query = "SELECT  count(civicrm_membership.id ) as member_count
+ FROM   civicrm_membership left join civicrm_membership_status on ( civicrm_membership.status_id = civicrm_membership_status.id  )
+ WHERE  civicrm_membership.membership_type_id = %1 AND civicrm_membership.is_test = %2";
+        if ( ! $date ) {
+            $query .= " AND civicrm_membership_status.is_current_member = 1";
+        }
+        else {
+            $date = substr($date, 0, 4) . '-' . substr($date, 4, 2) . '-' . substr($date, 6, 2);
+            $query .= " AND civicrm_membership.start_date <= '$date' AND (civicrm_membership.end_date >= '$date' OR civicrm_membership_status.is_current_member = 1)";
+        }
+        $memberCount = CRM_Core_DAO::singleValueQuery( $query, $params );
+        return (int)$memberCount;
+    }  
+ 
+       /** 
      * Function check the status of the membership before adding membership for a contact
      *
      * @param int $contactId contact id

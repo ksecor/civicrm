@@ -95,7 +95,7 @@ class CRM_Member_Form_MembershipView extends CRM_Core_Form
         $params = array('id'        => $values['membership_id'],
                         'contactID' => $values['contact_id'],
                         'action'    => $this->_action );
-        CRM_Contact_Page_View_Membership::associatedContribution( $params );
+        
     }
 
     /**

@@ -141,7 +141,9 @@ class CRM_Import_Form_UploadFile extends CRM_Core_Form {
         $session =& CRM_Core_Session::singleton();
         $session->set("dateTypes",$dateFormats);
 
-        $seperator = ',';
+        $config =& CRM_Core_Config::singleton( );
+        $seperator = $config->fieldSeparator;
+
         $mapper = array( );
 
         $parser =& new CRM_Import_Parser_Contact( $mapper );

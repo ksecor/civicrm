@@ -107,16 +107,16 @@ SELECT @og_id_gt := id FROM civicrm_option_group WHERE domain_id = @domain_id AN
 SELECT @og_id_gs := id FROM civicrm_option_group WHERE domain_id = @domain_id AND name = 'grant_status';
 SELECT @og_id_ht := id FROM civicrm_option_group WHERE domain_id = @domain_id AND name = 'honor_type';
 
-SELECT @max_val := MAX(op.value) FROM civicrm_option_value op WHERE op.option_group_id  = @og_id_at;
+SELECT @max_val := MAX(ROUND(op.value)) FROM civicrm_option_value op WHERE op.option_group_id  = @og_id_at;
 SELECT @max_wt  := MAX(op.weight) FROM civicrm_option_value op WHERE op.option_group_id = @og_id_at;
 
-SELECT @max_val_aso := MAX(op.value) FROM civicrm_option_value op WHERE op.option_group_id  = @og_id_aso;
+SELECT @max_val_aso := MAX(ROUND(op.value)) FROM civicrm_option_value op WHERE op.option_group_id  = @og_id_aso;
 SELECT @max_wt_aso  := MAX(op.weight) FROM civicrm_option_value op WHERE op.option_group_id = @og_id_aso;
 
-SELECT @max_val_ps := MAX(op.value) FROM civicrm_option_value op WHERE op.option_group_id  = @og_id_ps;
+SELECT @max_val_ps := MAX(ROUND(op.value)) FROM civicrm_option_value op WHERE op.option_group_id  = @og_id_ps;
 SELECT @max_wt_ps  := MAX(op.weight) FROM civicrm_option_value op WHERE op.option_group_id = @og_id_ps;
 
-SELECT @max_val_cvo := MAX(op.value) FROM civicrm_option_value op WHERE op.option_group_id  = @og_id_cvo;
+SELECT @max_val_cvo := MAX(ROUND(op.value)) FROM civicrm_option_value op WHERE op.option_group_id  = @og_id_cvo;
 SELECT @max_wt_cvo  := MAX(op.weight) FROM civicrm_option_value op WHERE op.option_group_id = @og_id_cvo;
 
 INSERT INTO `civicrm_option_value` ( `option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES 
@@ -209,7 +209,7 @@ SELECT @ov_id_email   := value FROM civicrm_option_value WHERE option_group_id =
 ALTER TABLE civicrm_activity ADD COLUMN old_meeting_id   int(10);
 ALTER TABLE civicrm_activity ADD COLUMN old_phonecall_id int(10);
 
-SELECT @max_val := MAX(op.value) FROM civicrm_option_value op WHERE op.option_group_id  = @og_id_at;
+SELECT @max_val := MAX(ROUND(op.value)) FROM civicrm_option_value op WHERE op.option_group_id  = @og_id_at;
 SELECT @max_wt  := MAX(op.weight) FROM civicrm_option_value op WHERE op.option_group_id = @og_id_at;
 
 
@@ -319,6 +319,15 @@ FROM civicrm_activity_history ah
 WHERE ah.module IN ('CiviMail');
 
 
+-- email history
+
+INSERT INTO civicrm_activity (`source_contact_id`, `activity_type_id`, `subject`, `activity_date_time`, `details`, `status_id`, `is_test`)
+SELECT eh.contact_id, @ov_id_email, eh.subject, eh.sent_date, eh.message, @ov_id_completed, 0
+FROM civicrm_email_history eh;
+
+
+-- add records to target & assignment, for migrated records 
+
 INSERT INTO civicrm_activity_target (activity_id, target_contact_id)
 SELECT ca.id, ca.source_contact_id
 FROM civicrm_activity ca
@@ -333,10 +342,13 @@ WHERE ca.activity_type_id IN (@ov_id_contribute, @ov_id_membership, @ov_id_event
 ON DUPLICATE KEY UPDATE activity_id=ca.id;
 
 
-INSERT INTO civicrm_activity (`source_contact_id`, `activity_type_id`, `subject`, `activity_date_time`, `details`, `status_id`, `is_test`)
-SELECT eh.contact_id, @ov_id_email, eh.subject, eh.sent_date, eh.message, @ov_id_completed, 0
-FROM civicrm_email_history eh;
+-- delete records from activity history, which have been migrated to activity table.
 
+DELETE FROM civicrm_activity_history WHERE module IN ('CiviContribute', 'CiviEvent', 'CiviMail');
+
+DELETE FROM civicrm_activity_history WHERE module IN ('CiviMember') AND activity_type IN ('Membership - New', 'Membership - Current', 'Membership - Expired', 'Membership');
+
+DELETE FROM civicrm_activity_history WHERE module IN ('CiviCRM') AND activity_type IN ('Meeting', 'Phone Call', 'Email', 'SMS', 'Event');
 
 
 -- cleanup

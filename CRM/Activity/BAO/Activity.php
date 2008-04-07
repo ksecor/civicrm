@@ -521,8 +521,8 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      * @access public
      * @static
      */
-    static function sendEmail( &$contactIds, &$subject, &$message, $emailAddress, $userID = null, $from = null ) 
-    {
+    static function sendEmail( &$contactIds, &$subject, &$text, &$html, $emailAddress, $userID = null, $from = null ) 
+    {        
         if ( $userID == null ) {
             $session =& CRM_Core_Session::singleton( );
             $userID  =  $session->get( 'userID' );
@@ -537,7 +537,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         
         $matches = array();
         preg_match_all( '/(?<!\{|\\\\)\{(\w+\.\w+)\}(?!\})/',
-                        $message,
+                        $text,
                         $matches,
                         PREG_PATTERN_ORDER);
         
@@ -567,6 +567,24 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                         $subjectToken['contact'] = array( );
                     }
                     $subjectToken['contact'][] = $name;
+                }
+            }
+        }
+        
+        $matches = array();
+        preg_match_all( '/(?<!\{|\\\\)\{(\w+\.\w+)\}(?!\})/',
+                        $html,
+                        $matches,
+                        PREG_PATTERN_ORDER);
+        
+        if ( $matches[1] ) {
+            foreach ( $matches[1] as $token ) {
+                list($type,$name) = split( '\.', $token, 2 );
+                if ( $name ) {
+                    if ( ! isset( $messageToken['contact'] ) ) {
+                        $messageToken['contact'] = array( );
+                    }
+                    $messageToken['contact'][] = $name;
                 }
             }
         }
@@ -619,10 +637,10 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                 $contact = array_merge( $contact, $details[0]["{$contactId}"] );
             }
             
-            $tokenMessage = CRM_Utils_Token::replaceContactTokens( $message, $contact, false, $messageToken);
+            $tokenText = CRM_Utils_Token::replaceContactTokens( $text, $contact, false, $messageToken);
             $tokenSubject = CRM_Utils_Token::replaceContactTokens( $subject, $contact, false, $subjectToken);
-            
-            if ( self::sendMessage( $from, $userID, $contactId, $tokenSubject, $tokenMessage, $emailAddress, $email->id ) ) {
+            $tokenHtml = CRM_Utils_Token::replaceContactTokens( $html, $contact, false, $messageToken);
+            if ( self::sendMessage( $from, $userID, $contactId, $tokenSubject, $tokenText, $tokenHtml, $emailAddress, $email->id ) ) {
                 $sent[] =  $contactId;
             } else {
                 $notSent[] = $contactId;
@@ -646,7 +664,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      * @access public
      * @static
      */
-    static function sendMessage( $from, $fromID, $toID, &$subject, &$message, $emailAddress, $activityID ) 
+    static function sendMessage( $from, $fromID, $toID, &$subject, &$text_message, &$html_message, $emailAddress, $activityID ) 
     {
         list( $toDisplayName, $toEmail, $toDoNotEmail ) = CRM_Contact_BAO_Contact::getContactDetails( $toID );
         if ( $emailAddress ) {
@@ -665,7 +683,8 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         if ( ! CRM_Utils_Mail::send( $from,
                                      $toDisplayName, $toEmail,
                                      $subject,
-                                     $message ) ) {
+                                     $text_message,
+                                     $html_message) ) {
             return false;
         }
 
@@ -679,7 +698,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                           'activity_type_id'     => $activityTypeID,
                           'activity_date_time'   => date('YmdHis'),
                           'subject'              => $subject,
-                          'details'              => $message,
+                          'details'              => $text_message,
                           'status_id'            => 2
                           );
         

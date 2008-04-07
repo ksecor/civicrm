@@ -149,8 +149,9 @@ class CRM_Member_Import_Form_Preview extends CRM_Core_Form {
         $conflictRowCount   = $this->get('conflictRowCount');
         $onDuplicate        = $this->get('onDuplicate');
 
-        $seperator = ',';
-
+        $config =& CRM_Core_Config::singleton( );
+        $seperator = $config->fieldSeparator;
+      
         $mapper = $this->controller->exportValue( 'MapField', 'mapper' );
         $mapperKeys = array();
         $mapperLocType      = array();
@@ -202,8 +203,6 @@ class CRM_Member_Import_Form_Preview extends CRM_Core_Form {
         $errorStack =& CRM_Core_Error::singleton();
         $errors     = $errorStack->getErrors();
         $errorMessage = array();
-        
-        $config =& CRM_Core_Config::singleton( );
         
         if( is_array( $errors ) ) {
             foreach($errors as $key => $value) {

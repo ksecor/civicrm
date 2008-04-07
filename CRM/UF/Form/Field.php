@@ -546,24 +546,24 @@ class CRM_UF_Form_Field extends CRM_Core_Form
        
         $errors = array( );
         if ( $is_view && $is_registration ) {
-            $errors['is_registration'] = 'View Only cannot be selected if this field is to be included on the registration form';
+            $errors['is_registration'] = ts( 'View Only cannot be selected if this field is to be included on the registration form' );
         }
         if ( $is_view && $is_required ) {
-            $errors['is_view'] = 'A View Only field cannot be required';
+            $errors['is_view'] = ts( 'A View Only field cannot be required' );
         }
         if ( $in_selector && ($visibility != 'Public User Pages' ) && ($visibility != 'Public User Pages and Listings' )) {
-            $errors['visibility'] = 'Visibility must be "Public User Pages" OR "Public User Pages and Listings" if "In Selector" is checked.';
+            $errors['visibility'] = ts( 'Visibility must be "Public User Pages" OR "Public User Pages and Listings" if "In Selector" is checked.' );
         }
         if ( $is_searchable && ($visibility != 'Public User Pages and Listings' )) {
-            $errors['visibility'] = 'Visibility must be set to Public User Pages and Listings if you want this field to be Searchable.';
+            $errors['visibility'] = ts( 'Visibility must be set to Public User Pages and Listings if you want this field to be Searchable.' );
         }
         $fieldName = $fields['field_name'][0];
         if (!$fieldName) {
-            $errors['field_name'] = 'Please select a field name';
+            $errors['field_name'] = ts( 'Please select a field name' );
         }
         
         if ( $in_selector && $fieldName == 'Contribution' ) {
-            $errors['in_selector'] = "'In Selector' can NOT be checked for Contribution fields.";
+            $errors['in_selector'] = ts( "'In Selector' can NOT be checked for Contribution fields." );
         }
         
         if (! empty($fields['field_id'])) {
@@ -575,13 +575,35 @@ class CRM_UF_Form_Field extends CRM_Core_Form
                 $customField->find(true);
                 
                 if ( !$customField->is_active && $is_active) {
-                    $errors['field_name'] = 'Cannot set this field "Active" since the selected custom field is disabled.';
+                    $errors['field_name'] = ts( 'Cannot set this field "Active" since the selected custom field is disabled.');
                 }
             }
          }
+
+        //check for civimail component is enable  
+        //adding group field, email field should be present in the group 
+        //fixed for  issue CRM-2861
+        if ( CRM_Core_Permission::access( 'CiviMail' ) ) { 
+            if ( $fields['field_name'][1] == 'group' ) {
+                require_once 'CRM/Core/BAO/UFField.php';
+                $dao =& new CRM_Core_BAO_UFField();
+                $dao->uf_group_id = $fields['group_id'];
+                $dao->find( );
+                $emailField = false ;
+                while ( $dao->fetch( ) ) {
+                    //check email field is present in the group
+                    if ( $dao->field_name == 'email' ) {
+                        $emailField = true;
+                    }
+                } 
+                if ( ! $emailField ) {
+                    $errors['field_name'] = ts( 'You need to add an email field before you add a Group(s) when CiviMail is enabled.' );
+                }
+            }
+        }
         return empty($errors) ? true : $errors;
     }
-
+    
 }
 
 

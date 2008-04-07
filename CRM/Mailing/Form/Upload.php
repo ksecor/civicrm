@@ -128,66 +128,15 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $domainID = CRM_Core_Config::domainID( );
         $this->add('text', 'from_name', ts('FROM Name'));
         $this->add('text', 'from_email', ts('FROM'), NULL, true);
-
-        $this->add('text', 'subject', ts('Mailing Subject'), 'size=30 maxlength=60', true);
         
         $attributes = array( 'onclick' => "showHideUpload();" );    
         $options = array( ts('Upload Content'),  ts('Compose On-screen') );
 
         $this->addRadio( 'upload_type', ts('I want to'), $options, $attributes, "&nbsp;&nbsp;");
+
+        require_once 'CRM/Mailing/BAO/Mailing.php';
+        CRM_Mailing_BAO_Mailing::commonCompose( $this );
               
-         $this->add('select', 'tokens1',  ts( 'Insert Tokens' ), 
-                   CRM_Core_SelectValues::mailingTokens( ), false, 
-                   array(
-                         'size'     => "5",
-                         'multiple' => true,
-                         'onchange' => "return tokenReplText(this);"
-                         )
-                   );
-
-        $this->add('select', 'tokens2',  ts( 'Insert Tokens' ), 
-                   CRM_Core_SelectValues::mailingTokens( ), false,
-                   array(
-                         'size'     => "5",
-                         'multiple' => true,
-                         'onchange' => "return tokenReplHtml(this);"
-                         )
-                   );
-       
-        require_once 'CRM/Core/BAO/MessageTemplates.php';
-        $this->_templates = CRM_Core_BAO_MessageTemplates::getMessageTemplates();
-
-        if ( !empty( $this->_templates ) ) {
-            $this->assign('templates', true);
-            $this->add('select', 'template', ts('Select Template'),
-                       array( '' => ts( '- select -' ) ) + $this->_templates, false,
-                       array('onChange' => "selectValue( this.value );") );
-            $this->add('checkbox','updateTemplate',ts('Update Template'), null);
-        } 
-        
-        $this->add('text', 'saveTemplateName', ts('Template Title') );
-        $this->addElement('checkbox','saveTemplate',ts('Save As New Template'), null,
-                          array( 'onclick' => "showSaveDetails(this);" ));
-        
-        //insert message Text by selecting "Select Template option"
-        $this->add( 'textarea', 
-                    'text_message', 
-                    ts('Text Message'),
-                    array('cols' => '80', 'rows' => '8','onkeyup' => "return verify(this)"));
-
-        $this->assign( 'dojoIncludes',
-                       "dojo.require('dijit.Editor'); dojo.require('dojo.parser'); dojo.require('dijit._editor.plugins.FontChoice');
-                        dojo.require('dijit._editor.plugins.TextColor'); dojo.require('dijit._editor.plugins.LinkDialog');");
-                
-        $dojoAttributes = array( 'dojoType'             => 'dijit.Editor',
-                                 'height'               => '250 px',
-                                 'id'                   => 'html_message',
-                                 'extraPlugins'         => '["createLink","foreColor","hiliteColor","formatBlock"]',
-                                 'onkeyup'              => "return verify(this)"
-                                 );
-
-        $this->add( 'textarea', 'html_message', ts('HTML Message'), $dojoAttributes );
-       
         $this->addElement( 'file', 'textFile', ts('Upload TEXT Message'), 'size=30 maxlength=60' );
         $this->setMaxFileSize( 1024 * 1024 );
         $this->addRule( 'textFile', ts('File size should be less than 1 MByte'), 'maxfilesize', 1024 * 1024 );
@@ -205,9 +154,6 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $this->add( 'select', 'footer_id', ts( 'Mailing Footer' ), 
                     array('' => ts('- none -')) + CRM_Mailing_PseudoConstant::component( 'Footer' ) );
         
-        //special hidden field to fix problem with dojo editor
-        $this->add('hidden', 'hmsg', null);
-
         $values = array('mailing_id'    => $this->get('mailing_id'));
 
         $this->addFormRule(array('CRM_Mailing_Form_Upload', 'dataRule'), $values );
@@ -222,8 +168,6 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                                          'name'      => ts('Cancel') ),
                                  )
                            );
-        
-        
     }
     
     public function postProcess() 

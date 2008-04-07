@@ -912,20 +912,16 @@ commented since it is overwiting simple td
  dojo editor specific classes
 */
 
-#crm-container dl.dojoEditor dd.dojoEditor {
-  float: left;
-  width: 80%;
-  /*clear: right;*/
+#crm-container  #dojoEditor {
+   padding:0px;
+   margin: 0em;
+   float: left;
+   border: 1px solid;
+   vertical-align:top;
 }
 
-#crm-container table.dojoEditor {
+/*#crm-container table.dojoEditor {
   margin: 0em;
-  width: 100%;	
   border-collapse: collapse;
   border: 0px none;
-}
-
-#crm-container td.dojoEditor {
-  padding:0px;
-  vertical-align:top;
-}
+}*/

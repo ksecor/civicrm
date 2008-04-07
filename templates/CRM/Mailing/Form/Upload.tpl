@@ -15,35 +15,9 @@
   </fieldset>
 
   <fieldset id="compose_id"><legend>{ts}Compose On-screen{/ts}</legend>
-    <table class="form-layout-compressed"> 
-    <tr><td class="label" width="100px">{$form.tokens1.label}</td><td>{$form.tokens1.html}</td><td></td></tr>
-	{if $templates}<tr><td class="label" width="105px">{$form.template.label}</td><td>{$form.template.html}</td></tr>{/if}
-  	<tr><td colspan="2"><span class="font-size11pt bold">{$form.text_message.label}</span><br />{$form.text_message.html}</td></tr>
-      <tr><td span class="label" width="100px">{$form.tokens2.label}</td><td>{$form.tokens2.html}</td></tr>
-        <tr><td colspan="2">
-            <span class="font-size11pt bold">{$form.html_message.label}</span> &nbsp;
-            <span class="description">({ts}Click your mouse in the upper left corner of the box below to begin editing your HTML message.{/ts})</span>
-            <br />
-            <div style="border: 1px solid black;" class ="tundra">
-	        {$form.html_message.html}
-           </div>
-        </td>
-    </tr>
-    </table>
-    
-    <table class="form-layout" id="editMessageDetails">
-      <tr id="updateDetails">
-         <td>&nbsp;</td><td>{$form.updateTemplate.html}&nbsp;{$form.updateTemplate.label}</td>
-      </tr>
-      <tr>
-         <td>&nbsp;</td>
-         <td>{$form.saveTemplate.html}&nbsp;{$form.saveTemplate.label}
-            <div id="saveDetails" class="form-item">
-                <span class="marker" title="This field is required.">*</span> {$form.saveTemplateName.label} &nbsp; {$form.saveTemplateName.html}
-            </div>
-         </td>
-      <//tr>
-     </table>
+	<div>
+	{include file="CRM/Contact/Form/Task/EmailCommon.tpl" upload=1}
+	</div>
   </fieldset>
 
   <fieldset id="upload_id"><legend>{ts}Upload Content{/ts}</legend>
@@ -90,108 +64,8 @@
         } else {
             show('compose_id');
 	    hide('upload_id');
-            verify( );	
+            verify( );
         }
     }
- 
-   
-    function selectValue( val )
-    {
-        //rebuild save template block
-        document.getElementById("updateDetails").style.display = 'none';
-        
-        if ( !val ) {
-	    return;
-        }
-
-	var dataUrl = {/literal}"{crmURL p='civicrm/ajax/template' q='tid='}"{literal} + val;
-        
-        var result = dojo.xhrGet({
-        url: dataUrl,
-        handleAs: "text",
-        timeout: 5000, //Time in milliseconds
-        handle: function(response, ioArgs){
-                if(response instanceof Error){
-                        if(response.dojoType == "cancel"){
-                                //The request was canceled by some other JavaScript code.
-                                console.debug("Request canceled.");
-                        }else if(response.dojoType == "timeout"){
-                                //The request took over 5 seconds to complete.
-                                console.debug("Request timed out.");
-                        }else{
-                                //Some other error happened.
-                                console.error(response);
-                        }
-                } else {
-	           res = response.split('^A');
-
-		   //set text message
-		   document.getElementById("text_message").value = res[0];
-
-		   //set html message
-		   dijit.byId('html_message').setValue( res[1] );
-               }
-         }
-      });
-    }
-         
- 
-     function verify( )
-     {
-	if ( document.getElementsByName("saveTemplate")[0].checked  == false) {
-	    document.getElementById("saveDetails").style.display = "none";
-	}
-
-        document.getElementById("editMessageDetails").style.display = "block";
-
-	var templateExists = true;
-	if ( document.getElementById('template') == null ) {
-	    templateExists = false;
-	}
-
-	if ( templateExists && document.getElementById('template').value ) {
-	    document.getElementById("updateDetails").style.display = '';
-	} else {
-  	    document.getElementById("updateDetails").style.display = 'none';
-	}
-
-	document.getElementById("saveTemplateName").disabled = false;
-     }
-
-     function showSaveDetails(chkbox) 
-     {
-	    if (chkbox.checked) {
-	        document.getElementById("saveDetails").style.display = "block";
-	        document.getElementById("saveTemplateName").disabled = false;
-	    } else {
-	        document.getElementById("saveDetails").style.display = "none";
-	        document.getElementById("saveTemplateName").disabled = true;
-	    }   
-     }
-
-     dojo.connect( dijit.byId('html_message'), 'onload', 'setHTMLMessage')
-     dojo.connect( dijit.byId('html_message'), 'onsubmit', 'getHTMLMessage')
-     
-     function setHTMLMessage ( ) {
-        var message_html  = {/literal}'{$message_html}'{literal};
-        dijit.byId('html_message').setValue( message_html );
-     } 
-
-     function getHTMLMessage ( ) {
-         document.Upload.hmsg.value = dijit.byId("html_message").getValue();
-     } 
-
-     function tokenReplText ( ){
-         var token = document.getElementById("tokens1").options[document.getElementById("tokens1").selectedIndex].text;
-         document.getElementById("text_message").value =  document.getElementById("text_message").value + token;
-     }   
-
-    function tokenReplHtml( ){
-         var token2 = document.getElementById("tokens2").options[document.getElementById("tokens2").selectedIndex].text;
-         var message = dijit.byId("html_message").getValue() + token2;
-         dijit.byId('html_message').setValue( message );
-        
-     }   
-        
 </script>
 {/literal}

@@ -210,7 +210,9 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         $newTagDesc         = $this->controller->exportValue( $this->_name, 'newTagDesc');
         $tag                = $this->controller->exportValue( $this->_name, 'tag');
         $allTags            = $this->get('tag');
-        $seperator = ',';
+        
+        $config =& CRM_Core_Config::singleton( );
+        $seperator = $config->fieldSeparator;
         
         $mapper = $this->controller->exportValue( 'MapField', 'mapper' );
         
@@ -414,8 +416,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         
         $errorMessage = array();
         
-        $config =& CRM_Core_Config::singleton( );
-        
+       
         if( is_array( $errors ) ) {
             foreach($errors as $key => $value) {
                 $errorMessage[] = $value['message'];
