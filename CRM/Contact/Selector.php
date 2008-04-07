@@ -487,11 +487,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                             $names[] = "{$locationTypeName}-{$fieldName}";
                         }
                     } else {
-                        if ( $field['name'] == 'id' ) {
-                            $names[] = 'contact_id';
-                        }else {
-                            $names[] = $field['name'];
-                        }           
+                        $names[] = $field['name'];
                     }
                 }
             }
@@ -618,6 +614,9 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                 $row['contact_type'] = $contact_type;
                 $row['contact_id'  ] = $result->contact_id;
                 $row['sort_name'   ] = $result->sort_name;
+                if ( array_key_exists('id', $row) ) {
+                    $row['id'  ] = $result->contact_id;
+                }
             }
             // Dedupe contacts        
             if ( ! $empty ) {
