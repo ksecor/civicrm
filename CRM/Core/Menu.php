@@ -1070,9 +1070,7 @@ class CRM_Core_Menu
                 if (CRM_Utils_Array::value( 'access arguments', $menuItems )) {
                     $menu->access_arguments = serialize($menuItems['access arguments']);
                 }
-                if (is_array($menuItems['crm_callback'])) {
-                    $menu->crm_callback = implode(',', $menuItems['crm_callback']);
-                }
+                $menu->crm_callback = serialize( $menuItems['crm_callback'] );
                 $menu->access_callback = CRM_Utils_Array::value( 'access callback', $menuItems );
                 $menu->page_callback   = CRM_Utils_Array::value( 'page callback',   $menuItems );
                 $menu->save( );
@@ -1097,13 +1095,13 @@ class CRM_Core_Menu
             $params[$path]['access callback']  = $menu->access_callback;
             $params[$path]['page callback']    = $menu->page_callback;
             
-            if (strstr($menu->crm_callback, ',')) {
-                $params[$path]['crm_callback'] = explode(',',$menu->crm_callback);
-            }
+            $params[$path]['crm_callback'] = unserialize( $menu->crm_callback );
 
             // unset variables, not in the required format format
-            unset($params[$path]['path'], $params[$path]['access_arguments'], 
-                  $params[$path]['access_callback'], $params[$path]['page_callback']);
+            unset( $params[$path]['path'],
+                   $params[$path]['access_arguments'], 
+                   $params[$path]['access_callback'],
+                   $params[$path]['page_callback'] );
         } else {
             CRM_Core_Error::fatal("Could not find the path - '$path', in DB");
         }
