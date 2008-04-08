@@ -699,6 +699,17 @@ function _civicrm_participant_formatted_param( &$params, &$values, $create=false
             $id = CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_Event", $value, 'id', 'title' );
             $values['event_id'] = $id;
             break;
+        case 'event_id':
+            if (!CRM_Utils_Rule::integer($value)) {
+                return civicrm_create_error("Event ID is not valid: $value");
+            }
+            $dao =& new CRM_Core_DAO();
+            $qParams = array();
+            $svq = $dao->singleValueQuery("SELECT id FROM civicrm_event WHERE domain_id = $domainID AND id = $value",$qParams);
+            if (!$svq) {
+                return civicrm_create_error("Invalid Event ID: There is no event record with event_id = $value.");
+            } 
+            break;
         case 'participant_status_id':
             $id = CRM_Core_OptionGroup::getValue('participant_status', $value);
             $values[$key] = $id;
