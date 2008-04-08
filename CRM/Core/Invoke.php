@@ -61,6 +61,12 @@ class CRM_Core_Invoke
             return;
         }
 
+        if ( $args[1] == 'menu' && 
+             $args[2] == 'rebuild' ) {
+            CRM_Core_Menu::store( );
+            return ts( 'Menu has been rebuilt' );
+        }
+
         $config =& CRM_Core_Config::singleton( );
 
         // also initialize the i18n framework

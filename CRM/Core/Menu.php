@@ -109,46 +109,29 @@ class CRM_Core_Menu
 
             // This is the minimum information you can provide for a menu item.
             self::$_items = self::permissionedItems( );
-            //self::$_items = array();
             $config =& CRM_Core_Config::singleton( );
-
-            $args     = explode( '/', CRM_Utils_Array::value( $config->userFrameworkURLVar,
-                                                              $_GET ) );
-            $firstArg = CRM_Utils_Array::value( 1, $args );
 
             self::initialize( );
 
-            switch ( $firstArg ) {
-            case 'admin':
-                $items =& self::adminItems( );
-                break;
-                
-            case 'contact':
-                // unset the search item
-                unset( self::$_items[3] );
-                $items =& self::contactItems( );
-                break;
+            self::$_items = array_merge( self::$_items,
+                                         self::adminItems( ) );
 
-            case 'group':
-                $items =& self::groupItems( );
-                break;
+            self::$_items = array_merge( self::$_items,
+                                         self::contactItems( ) );
 
-            case 'import':
-                $items =& self::importItems( );
-                break;
+            self::$_items = array_merge( self::$_items,
+                                         self::groupItems( ) );
+            
+            self::$_items = array_merge( self::$_items,
+                                         self::importItems( ) );
 
-            case 'profile':
-                $items =& self::profileItems( );
-                break;
+            self::$_items = array_merge( self::$_items,
+                                         self::profileItems( ) );
 
-            default:
-                $items =& self::miscItems( );
-                break;
-            }
+            self::$_items = array_merge( self::$_items,
+                                         self::miscItems( ) );
 
-            self::$_items = array_merge( self::$_items, $items );
-
-            if ( $firstArg && false ) { // FIXME when we fix menu structure
+            if ( false ) { // FIXME when we fix menu structure
                 require_once 'CRM/Core/Component.php';
                 $items =& CRM_Core_Component::menu( false, $args[1] );
                 self::$_items = array_merge( self::$_items, $items );
@@ -205,16 +188,6 @@ class CRM_Core_Menu
                                               'access_arguments' => array( array( 'access CiviCRM' ) ),
                                               'weight' => 0,
                                               ),
-
-                      'civicrm/contact/search/basic' => array(
-                                                              'title'   => ts('Find Contacts'),
-                                                              'query'   => 'reset=1',
-                                                              'type'    => self::CALLBACK,
-                                                              'crm_type' => self::DEFAULT_LOCAL_TASK | self::NORMAL_ITEM,
-                                                              'page_callback' => array( 'CRM_Core_Invoke', 'search' ),
-                                                              'access_arguments'  => array( array( 'access CiviCRM' ) ),
-                                                              'weight'  => 1
-                                                              ),
 
                       'civicrm/contact/map/event' => array(
                                                            'title'   => ts('Map Event Location'),
@@ -1056,27 +1029,79 @@ class CRM_Core_Menu
         return $items;
     }
 
-    static function storeInDB( &$params ) 
-    {
-        require_once "CRM/Core/DAO/Menu.php";
+    static function store( ) {
+        $menu =& self::items( );
+        
+        self::createNavigationList( $menu );
 
-        foreach ( $params as $path => $menuItems ) {
+        require_once "CRM/Core/DAO/Menu.php";
+        foreach ( $menu as $path => $menuItems ) {
             $menu  =& new CRM_Core_DAO_Menu( );
             $menu->domain_id = CRM_Core_Config::domainID( );
             $menu->path      = $path;
 
-            if (! $menu->find(true) ) {
-                $menu->copyValues( $menuItems );
-                if (CRM_Utils_Array::value( 'access_arguments', $menuItems )) {
-                    $menu->access_arguments = serialize($menuItems['access_arguments']);
+            $menu->find( true );
+            
+            $menu->copyValues( $menuItems );
+            $menu->access_arguments = serialize( CRM_Utils_Array::value( 'access_arguments',
+                                                                         $menuItems ) );
+            $menu->page_callback    = serialize( CRM_Utils_Array::value( 'page_callback',
+                                                                         $menuItems ) );
+            $menu->breadcrumb       = serialize( self::buildBreadcrumb($path, $params) );
+
+            $menu->save( );
+        }
+    }
+
+    static function createNavigationList( &$params ) {
+
+        $components = array( ts( 'CiviContribute' ) => 1,
+                             ts( 'CiviEvent'      ) => 1,
+                             ts( 'CiviMember'     ) => 1,
+                             ts( 'CiviMail'       ) => 1,
+                             ts( 'Import'         ) => 1,
+                             ts( 'CiviGrant'      ) => 1,
+                             ts( 'Logout'         ) => 1);
+
+        $values = array( );
+        foreach ( $params as $path => $item ) {
+            if ( ! CRM_Utils_Array::value( 'crm_type', $item ) ) {
+                continue;
+            }
+
+            if ( ( $item['crm_type'] &  CRM_Core_Menu::NORMAL_ITEM ) &&
+                 ( $item['crm_type'] >= CRM_Core_Menu::NORMAL_ITEM ) &&
+                 isset( $item['access'] ) && $item['access'] ) {
+                $value = array( );
+                $value['url'  ]  = CRM_Utils_System::url( $path, CRM_Utils_Array::value( 'query', $item ) );
+                $value['title']  = $item['title'];
+                $value['path']   = $path;
+                if ( array_key_exists( $item['title'], $components ) ) {
+                    $value['class']  = 'collapsed';
+                } else {
+                    $value['class']  = 'leaf';
                 }
-                if (CRM_Utils_Array::value( 'page_callback', $menuItems )) {
-                    $menu->page_callback    = serialize( $menuItems['page_callback'] );
+                $value['parent'] = null;
+                $value['start']  = $value['end'] = null;
+                $value['active'] = '';
+
+                // check if there is a parent
+                foreach ( $values as $weight => $v ) {
+                    if ( strpos( $path, $v['path'] ) !== false) {
+                        $value['parent'] = $weight;
+
+                        // only reset if still a leaf
+                        if ( $values[$weight]['class'] == 'leaf' ) {
+                            $values[$weight]['class'] = 'collapsed';
+                        }
+                    }
                 }
-                $menu->breadcrumb = serialize( self::buildBreadcrumb($path, $params) );
-                $menu->save( );
+                
+                $values[$item['weight'] . '.' . $item['title']] = $value;
             }
         }
+
+        $params['navigation'] = array( 'breadcrumb' => serialize( $values ) );
     }
 
     /**
