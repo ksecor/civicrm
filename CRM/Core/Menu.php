@@ -83,6 +83,11 @@ class CRM_Core_Menu
      */
     static $_params = null;
 
+    static $_serializedElements = array( 'access_arguments',
+                                         'access_callback' ,
+                                         'page_arguments'  ,
+                                         'page_callback' );
+
     /**
      * This is a super super gross hack, please fix sometime soon
      *
@@ -161,8 +166,8 @@ class CRM_Core_Menu
                                          'title'            => ts('CiviCRM'),
                                          'access_callback'  => 'civicrm_hack_access',
                                          'access_arguments' => array( array( 'access CiviCRM' ) ),
-                                         //'page_callback'    => 'civicrm_invoke',
-                                         'page_callback'     => 'CRM_Contact_Page_View_DashBoard',
+                                         'page_callback'    => 'CRM_Contact_Page_View_DashBoard',
+                                         'page_arguments'   => 'null',
                                          'type'             => self::NORMAL_ITEM,
                                          'crm_type'         => self::CALLBACK,
                                          'weight'           => 0,
@@ -1027,26 +1032,88 @@ class CRM_Core_Menu
         return $items;
     }
 
-    static function store( ) {
-        $menu =& self::items( );
+    static function fillAccessPage( &$menu, $path ) {
+        $accessPresent = CRM_Utils_Array::value( 'access_callback',
+                                                 $menu[$path] );
+        $pagePresent   = CRM_Utils_Array::value( 'page_callback',
+                                                 $menu[$path] );
+
+        $args = explode( '/', $path );
+        while ( ( ! $accessPresent || ! $pagePresent ) &&
+                ! empty( $args ) ) {
+
+            array_pop( $args );
+            $parentPath = implode( '/', $args );
+
+            if ( ! $accessPresent ) {
+                if ( CRM_Utils_Array::value( 'access_callback',
+                                             $menu[$parentPath] ) ) {
+                    $accessPresent = true;
+                    $menu[$path]['access_callback' ] = $menu[$parentPath]['access_callback' ];
+                    $menu[$path]['access_arguments'] = $menu[$parentPath]['access_arguments'];
+                }
+            }
+
+            if ( ! $pagePresent ) {
+                if ( CRM_Utils_Array::value( 'page_callback',
+                                             $menu[$parentPath] ) ) {
+                    $pagePresent = true;
+                    $menu[$path]['page_callback' ] = $menu[$parentPath]['page_callback' ];
+                    $menu[$path]['page_arguments'] = $menu[$parentPath]['page_arguments'];
+                }
+            }
+
+        }
+
+        if ( $accessPresent && $pagePresent ) {
+            return;
+        }
+
+        if ( ! $accessPresent ) {
+            CRM_Core_Error::fatal( ts( 'Could not access arguments in path tree' ) );
+        }
+        if ( ! $pagePresent ) {
+            CRM_Core_Error::fatal( ts( 'Could not page arguments in path tree' ) );
+        }
+    }
+
+    /**
+     * We use this function to
+     * 
+     * 1. Compute the breadcrumb
+     * 2. Compute local tasks value if any
+     * 3. Propagate access argument, access callback, page callback to the menu item
+     * 4. Build the global navigation block
+     * 
+     */
+    static function build( &$menu ) {
+        foreach ( $menu as $path => $menuItems ) {
+            self::buildBreadcrumb( $menu, $path );
+            self::fillAccessPage ( $menu, $path );
+
+        }
         
         self::navigation( $menu );
+    }
+
+    static function store( ) {
+        $menu =& self::items( );
+
+        self::build( $menu );
 
         require_once "CRM/Core/DAO/Menu.php";
-        foreach ( $menu as $path => $menuItems ) {
+
+        foreach ( $menu as $path => $item ) {
             $menu  =& new CRM_Core_DAO_Menu( );
             $menu->domain_id = CRM_Core_Config::domainID( );
             $menu->path      = $path;
 
             $menu->find( true );
             
-            $menu->copyValues( $menuItems );
-            $menu->access_arguments = serialize( CRM_Utils_Array::value( 'access_arguments',
-                                                                         $menuItems ) );
-            $menu->page_callback    = serialize( CRM_Utils_Array::value( 'page_callback',
-                                                                         $menuItems ) );
-            if ( $path !== 'navigation' ) {
-                $menu->breadcrumb       = serialize( self::buildBreadcrumb($path, $params) );
+            $menu->copyValues( $item );
+
+            foreach ( self::$_serializedElements as $element ) {
+                $menu->$element = serialize( $item[$element] );
             }
 
             $menu->save( );
@@ -1103,7 +1170,7 @@ class CRM_Core_Menu
             }
         }
 
-        $params['navigation'] = array( 'breadcrumb' => serialize( $values ) );
+        $params['navigation'] = array( 'breadcrumb' => $values );
     }
 
     /**
@@ -1116,12 +1183,8 @@ class CRM_Core_Menu
      * @static
      * @access public
      */
-    static function buildBreadcrumb( $path, $params = null ) 
-    {
+    static function buildBreadcrumb( &$menu, $path ) {
         static $cache = array( );
-        if (! is_array($params) ) {
-            $params = array();
-        }
 
         $crumbs       = array( );
         $pathElements = explode('/', $path);
@@ -1131,11 +1194,11 @@ class CRM_Core_Menu
         while ( $newPath = array_shift($pathElements) ) {
             $currentPath = $currentPath ? ($currentPath . '/' . $newPath) : $newPath;
             // check if current-path exists in params.
-            if ( array_key_exists($currentPath, $params) && isset($params[$currentPath]['title']) ) {
-                $crumbs[] = array('title' => $params[$currentPath]['title'], 
+            if ( array_key_exists($currentPath, $menu) && isset($menu[$currentPath]['title']) ) {
+                $crumbs[] = array('title' => $menu[$currentPath]['title'], 
                                   'url'   => CRM_Utils_System::url( $currentPath ));
                 // store in cache
-                $cache[$currentPath]['title'] = $params[$currentPath]['title'];
+                $cache[$currentPath]['title'] = $menu[$currentPath]['title'];
             } elseif ( array_key_exists($currentPath, $cache) ) {
                 // pick-up from cache
                 $crumbs[] = array('title' => $cache[$currentPath]['title'], 
@@ -1166,9 +1229,10 @@ class CRM_Core_Menu
 
         if ( $menu->find(true) ) {
             CRM_Core_DAO::storeValues( $menu, $params[$path] );
-            $params[$path]['access_arguments'] = unserialize( $menu->access_arguments );
-            $params[$path]['page_callback']    = unserialize( $menu->page_callback    );
-            $params[$path]['breadcrumb']       = unserialize( $menu->breadcrumb       );
+
+            foreach ( self::$_serializedElements as $element ) {
+                $params[$path][$element] = unserialize( $menu->$element );
+            }
         }
         
         return $params;
