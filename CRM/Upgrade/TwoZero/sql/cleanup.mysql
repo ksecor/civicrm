@@ -198,3 +198,11 @@ DELETE sh.*
 FROM civicrm_subscription_history sh
 LEFT JOIN civicrm_contact cc ON cc.id = sh.contact_id
 WHERE cc.id IS NULL;
+
+
+-- clean civicrm_event_page
+
+DELETE cep.*  
+FROM civicrm_event_page cep 
+LEFT JOIN civicrm_event ce ON cep.event_id = ce.id 
+WHERE ce.id IS NULL  
