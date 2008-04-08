@@ -204,6 +204,8 @@ class CRM_Core_Block {
                                                               'reset=1' ),
                 'dataURL'           => CRM_Utils_System::url( 'civicrm/ajax/search',
                                                               "d={$domainID}" ),
+                'viewContactURL'    => CRM_Utils_System::url( 'civicrm/contact/view',
+                                                              'reset=1' ) ,
             );
 
             self::setProperty( self::SEARCH, 'templateValues', $urlArray );

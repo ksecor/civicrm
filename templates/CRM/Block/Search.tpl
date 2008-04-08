@@ -15,7 +15,7 @@ function getValue(buttonName)
     var value    = element1.getValue();
 
     if ( value && (buttonName.name == '_qf_Edit_next_view') ) {
-        element.action = "{/literal}{$config->userFrameworkBaseURL}{literal}civicrm/contact/view?reset=1&cid=" +  element1;
+        element.action = "{/literal}{$viewContactURL}{literal}&cid=" +  element1;
     } else {
         var element2             = dojo.byId( 'id_sort_name' );
         element1.valueNode.value = element2.value;
@@ -27,6 +27,7 @@ function getValue(buttonName)
 {/literal}
 {/if}
     <form action="{$postURL}" name="search_block" id="id_search_block" method="post">
+    
     <div dojoType="dojox.data.QueryReadStore" jsId="searchStore" url="{$dataURL}" doClientPaging="false"></div>
     <div class="tundra">
         <input type="hidden" name="contact_type" value="" />
