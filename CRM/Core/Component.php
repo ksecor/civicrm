@@ -138,17 +138,17 @@ class CRM_Core_Component
         return false;
     }
 
-    static function &menu( $permissioned = false, $task = null ) 
+    static function &menu( ) 
     {
         $info =& self::_info( );
         $items = array( );
         foreach( $info as $name => $comp ) {
-            $mnu =& $comp->getMenuObject( );
-            if( $permissioned ) {
-                $ret = $mnu->permissioned( );
-            } else {
-                $ret = $mnu->main( $task );
-            }
+            $mnu   =& $comp->getMenuObject( );
+
+            $ret   = $mnu->permissioned( );
+            $items = array_merge( $items, $ret );
+
+            $ret   = $mnu->main( $task );
             $items = array_merge( $items, $ret );
         }
         return $items;

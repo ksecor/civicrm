@@ -98,6 +98,7 @@ class CRM_Core_Invoke
             // get the menu items
             $path = implode( '/', $args );
             $item = CRM_Core_Menu::get( $path );
+            $item = $item[$path];
 
             if ( $item &&
                  array_key_exists( 'page_callback', $item ) ) {

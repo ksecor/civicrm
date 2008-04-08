@@ -131,11 +131,9 @@ class CRM_Core_Menu
             self::$_items = array_merge( self::$_items,
                                          self::miscItems( ) );
 
-            if ( false ) { // FIXME when we fix menu structure
-                require_once 'CRM/Core/Component.php';
-                $items =& CRM_Core_Component::menu( false, $args[1] );
-                self::$_items = array_merge( self::$_items, $items );
-            }
+            // merge component menu items
+            self::$_items = array_merge( self::$_items,
+                                         CRM_Core_Component::menu( ) );
             
             self::initialize( );
         }
@@ -1168,9 +1166,9 @@ class CRM_Core_Menu
 
         if ( $menu->find(true) ) {
             CRM_Core_DAO::storeValues( $menu, $params[$path] );
-            $params['access_arguments'] = unserialize( $menu->access_arguments );
-            $params['page_callback']    = unserialize( $menu->page_callback    );
-            $params['breadcrumb']       = unserialize( $menu->breadcrumb       );
+            $params[$path]['access_arguments'] = unserialize( $menu->access_arguments );
+            $params[$path]['page_callback']    = unserialize( $menu->page_callback    );
+            $params[$path]['breadcrumb']       = unserialize( $menu->breadcrumb       );
         }
         
         return $params;
