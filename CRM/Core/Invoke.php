@@ -94,113 +94,36 @@ class CRM_Core_Invoke
         $template->assign( 'activeComponent', 'CiviCRM' );
         $template->assign( 'formTpl'        , 'default' );
 
-        // get the menu items
-        //$items = CRM_Core_Menu::items( );
-        $items = CRM_Core_Menu::getItemsFromDB();
-
         while ( ! empty( $args ) ) {
-            $argString = implode( '/', $args );
-            if ( array_key_exists( $argString, $items ) &&
-                 array_key_exists( 'page_callback', $items[$argString] ) ) {
-                if ( is_array( $items[$argString]['page_callback'] ) ) {
-                    call_user_func( $items[$argString]['page_callback'],
+            // get the menu items
+            $path = implode( '/', $args );
+            $item = CRM_Core_Menu::get( $path );
+
+            if ( $item &&
+                 array_key_exists( 'page_callback', $item ) ) {
+                if ( is_array( $item['page_callback'] ) ) {
+                    call_user_func( $item['page_callback'],
                                     $args );
-                } else if (strstr($items[$argString]['page_callback'], '_Form')) {
+                } else if (strstr($item['page_callback'], '_Form')) {
                     $wrapper =& new CRM_Utils_Wrapper( );
-                    return $wrapper->run( $items[$argString]['page_callback'], 
-                                          $items[$argString]['title'], null );
+                    return $wrapper->run( $item['page_callback'], 
+                                          $item['title'], null );
                 } else {
                     // page and controller have the same style
                     require_once( str_replace( '_',
                                                DIRECTORY_SEPARATOR,
-                                               $items[$argString]['page_callback'] ) . '.php' );
+                                               $item['page_callback'] ) . '.php' );
                     eval( '$page = new ' .
-                          $items[$argString]['page_callback'] .
+                          $item['page_callback'] .
                           ' ( );' );
-                    return $page->run( );
+                    return $page->run( $args );
                 }
-            } else {
-                array_pop( $args );
             }
+            array_pop( $args );
         }
 
         CRM_Core_Error::fatal( 'hey, how did we land up here?' );
-
-        switch ( $args[1] ) {
-
-        case 'ajax':
-            self::ajax( $args );
-            break;
-
-        case 'contact'  : 
-            self::contact ( $args );
-            break;
-
-        case 'admin'    : 
-            self::admin   ( $args );
-            break;
-
-        case 'dashboard':
-            self::dashboard($args);
-            break;
-            
-        case 'logout':
-            self::logout($args);
-            break;
-
-        case 'group'    : 
-            self::group   ( $args );
-            break;
-        
-        case 'import'   : 
-            self::import  ( $args );
-            break;
-       
-        case 'export'   : 
-            self::export  ( $args );
-            break;
-
-        case 'activity' : 
-            self::activity( $args );
-            break;
-
-        case 'profile'  : 
-            self::profile ( $args );
-            break;
-
-        case 'file':
-            self::file( $args );
-            break;
-
-        case 'acl':
-            self::acl( $args );
-            break;
-
-        case 'user':
-            self::user($args);
-            break;
-
-        case 'friend':
-            self::friend( $args );
-            break;
-
-        case 'upgrade':
-            self::upgrade( $args );
-            break;
-
-        case 'standalone':
-            self::standalone( $args );
-            break;
-
-        default         :
-            if ( CRM_Core_Component::invoke( $args, 'main' ) ) {
-                break;
-            }
-            CRM_Utils_System::redirect( );
-            break;
-
-        }
-
+        CRM_Utils_System::redirect( );
         return;
     }
 
