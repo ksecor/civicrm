@@ -163,9 +163,15 @@ class CRM_Event_Form_Offline extends CRM_Core_Form
             }
         }
         $this->_defaults['event_id'] = $this->_eId;
+        if ( $this->_eId ) {
+            $this->_defaults['amount'] = CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_EventPage", 
+                                                                      $this->_eId, 
+                                                                      'default_fee_id', 
+                                                                      'event_id' );
+        }
+        
         return $this->_defaults;
-
-
+        
     }
     
     /** 
