@@ -613,34 +613,34 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         if ( $this->_values['is_monetary'] && (float ) $params['amount'] > 0.0 ) {
             
             $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Contribute', $this->_paymentProcessor ); 
-
+            
             // default mode is direct
             $this->set( 'contributeMode', 'direct' ); 
-
+            
             if ( $this->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_BUTTON ) {
-                    //get the button name  
-                    $buttonName = $this->controller->getButtonName( );  
-                    if ($buttonName == $this->_expressButtonName || 
-                        $buttonName == $this->_expressButtonName . '_x' || 
-                        $buttonName == $this->_expressButtonName . '_y' ) { 
-                        $this->set( 'contributeMode', 'express' ); 
-                        
-                        $donateURL = CRM_Utils_System::url( 'civicrm/contribute', '_qf_Contribute_display=1' ); 
-                        $params['cancelURL' ] = CRM_Utils_System::url( 'civicrm/contribute/transact', '_qf_Main_display=1', true, null, false ); 
-                        $params['returnURL' ] = CRM_Utils_System::url( 'civicrm/contribute/transact', '_qf_Confirm_display=1&rfp=1', true, null, false ); 
-                        $params['invoiceID' ] = $invoiceID;
-                        
-                        $token = $payment->setExpressCheckout( $params ); 
-                        if ( is_a( $token, 'CRM_Core_Error' ) ) { 
-                            CRM_Core_Error::displaySessionError( $token ); 
-                            CRM_Utils_System::redirect( $params['cancelURL' ] );
-                        } 
-                        
-                        $this->set( 'token', $token ); 
-                        
-                        $paymentURL = $this->_paymentProcessor['url_site'] . "/cgi-bin/webscr?cmd=_express-checkout&token=$token"; 
-                        CRM_Utils_System::redirect( $paymentURL ); 
-                    }
+                //get the button name  
+                $buttonName = $this->controller->getButtonName( );  
+                if ( in_array( $buttonName, 
+                               array( $this->_expressButtonName, $this->_expressButtonName. '_x', $this->_expressButtonName. '_y' ) ) && 
+                     ! isset( $params['is_pay_later'] )) { 
+                    $this->set( 'contributeMode', 'express' ); 
+                    
+                    $donateURL = CRM_Utils_System::url( 'civicrm/contribute', '_qf_Contribute_display=1' ); 
+                    $params['cancelURL' ] = CRM_Utils_System::url( 'civicrm/contribute/transact', '_qf_Main_display=1', true, null, false ); 
+                    $params['returnURL' ] = CRM_Utils_System::url( 'civicrm/contribute/transact', '_qf_Confirm_display=1&rfp=1', true, null, false ); 
+                    $params['invoiceID' ] = $invoiceID;
+                    
+                    $token = $payment->setExpressCheckout( $params ); 
+                    if ( is_a( $token, 'CRM_Core_Error' ) ) { 
+                        CRM_Core_Error::displaySessionError( $token ); 
+                        CRM_Utils_System::redirect( $params['cancelURL' ] );
+                    } 
+                    
+                    $this->set( 'token', $token ); 
+                    
+                    $paymentURL = $this->_paymentProcessor['url_site'] . "/cgi-bin/webscr?cmd=_express-checkout&token=$token"; 
+                    CRM_Utils_System::redirect( $paymentURL ); 
+                }
             } else if ( $this->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_NOTIFY ) {
                 $this->set( 'contributeMode', 'notify' );
             }

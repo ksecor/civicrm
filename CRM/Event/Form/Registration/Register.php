@@ -481,9 +481,9 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             if ( $this->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_BUTTON ) {
                 //get the button name  
                 $buttonName = $this->controller->getButtonName( );  
-                if ($buttonName == $this->_expressButtonName || 
-                    $buttonName == $this->_expressButtonName . '_x' || 
-                    $buttonName == $this->_expressButtonName . '_y' ) { 
+                if ( in_array( $buttonName, 
+                               array( $this->_expressButtonName, $this->_expressButtonName. '_x', $this->_expressButtonName. '_y' ) ) && 
+                     ! isset( $params['is_pay_later'] ) ) { 
                     $this->set( 'contributeMode', 'express' ); 
                     
                     $params['cancelURL' ] = CRM_Utils_System::url( 'civicrm/event/register', '_qf_Register_display=1', true, null, false ); 
