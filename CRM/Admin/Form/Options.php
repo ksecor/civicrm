@@ -123,16 +123,21 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
         }
 
         $this->add('text', 'description', ts('Description'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'description' ) );
-        if ( $this->_gName == 'participant_status' ) { 
-            $this->add('checkbox', 'filter', ts('Counted?'));
-        }
+       
         $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'weight'), true);
         $this->addRule('weight', ts('is a numeric field') , 'numeric');
         
         $this->add('checkbox', 'is_active', ts('Enabled?'));
-    }
-
        
+        if ($this->_gName == 'participant_status') {
+            $element = $this->add('checkbox', 'filter', ts('Counted?'));
+            if ( CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $this->_id, 'is_reserved' ) == 1 ) {
+                $this->freeze();
+                $element->unfreeze();
+            } 
+        }
+    }
+           
     /**
      * Function to process the form
      *
