@@ -48,7 +48,11 @@ require_once 'api/v2/utils.php';
  */
 function &civicrm_contact_add( &$params ) {
     _civicrm_initialize( );
-    //    CRM_Core_Error::debug('p', 'satan');
+    
+    if ( empty( $params[ 'contact_type' ] ) ) {
+        return civicrm_create_error( 'Contact Type not specified' );
+    }
+        
     $contactID = CRM_Utils_Array::value( 'contact_id', $params );
     
     if ( ! $contactID ) {
@@ -106,7 +110,7 @@ function &civicrm_contact_add( &$params ) {
     $params = array_merge( $params, $values );
         
     $contact =& _civicrm_contact_add( $params, $contactID );
-    
+        
     if ( is_a( $contact, 'CRM_Core_Error' ) ) {
         return civicrm_create_error( $contact->_errors[0]['message'] );
     } else {
@@ -114,6 +118,7 @@ function &civicrm_contact_add( &$params ) {
         $values['contact_id'] = $contact->id;
         $values['is_error']   = 0;
     }
+    
     return $values;
 }
 
