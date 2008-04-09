@@ -105,6 +105,8 @@ class CRM_Export_BAO_Export
                 $queryMode = CRM_Contact_BAO_Query::MODE_CONTRIBUTE;
             } else if ( $exportMode == CRM_Export_Form_Select::EVENT_EXPORT ) {
                 $queryMode = CRM_Contact_BAO_Query::MODE_EVENT;
+            } else if ( $exportMode == CRM_Export_Form_Select::MEMBER_EXPORT ) {
+                $queryMode = CRM_Contact_BAO_Query::MODE_MEMBER;
             }
 
             if ( $queryMode != CRM_Contact_BAO_Query::MODE_CONTACTS ) {
