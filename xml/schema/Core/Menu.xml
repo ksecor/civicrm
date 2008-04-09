@@ -88,12 +88,6 @@
     <add>2.1</add>
   </field>
   <field>
-    <name>local_task</name>
-    <type>text</type>
-    <comment>Local Task.</comment>
-    <add>2.1</add>
-  </field>
-  <field>
        <name>component_id</name>
        <type>int unsigned</type>
        <comment>Component that this menu item belongs to</comment>
@@ -140,7 +134,7 @@
       <add>2.1</add>
   </field>
   <field>
-      <name>crm_type</name>
+      <name>page_type</name>
       <type>int</type>
       <required>true</required>
       <default>1</default>

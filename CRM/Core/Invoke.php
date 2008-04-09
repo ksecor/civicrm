@@ -97,11 +97,16 @@ class CRM_Core_Invoke
         while ( ! empty( $args ) ) {
             // get the menu items
             $path = implode( '/', $args );
-            $item = CRM_Core_Menu::get( $path );
-            $item = $item[$path];
+            $item =& CRM_Core_Menu::get( $path );
 
-            if ( $item &&
-                 array_key_exists( 'page_callback', $item ) ) {
+            if ( $item ) {
+                if ( ! array_key_exists( 'page_callback', $item ) ) {
+                    CRM_Core_Error::debug( 'Bad item', $item );
+                    CRM_Core_Error::fatal( ts( 'Bad menu record in database' ) );
+                }
+
+                CRM_Utils_System::setTitle( $item['title'] );
+                
                 if ( is_array( $item['page_callback'] ) ) {
                     call_user_func( $item['page_callback'],
                                     $args );

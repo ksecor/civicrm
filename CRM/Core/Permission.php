@@ -199,19 +199,19 @@ class CRM_Core_Permission {
         return true;
     }
 
-}
-
-function civicrm_hack_access( &$args, $op = 'and' ) {
-    if ( ! is_array( $args ) ) {
-        return $args;
-    }
-    foreach ( $args as $str ) {
-        $res = CRM_Core_Permission::check( $str );
-        if ( $op == 'or' && $res ) {
-            return true;
-        } else if ( $op == 'and' && ! $res ) {
-            return false;
+    static function checkMenu( &$args, $op = 'and' ) {
+        if ( ! is_array( $args ) ) {
+            return $args;
         }
+        foreach ( $args as $str ) {
+            $res = CRM_Core_Permission::check( $str );
+            if ( $op == 'or' && $res ) {
+                return true;
+            } else if ( $op == 'and' && ! $res ) {
+                return false;
+            }
+        }
+        return ( $op == 'or' ) ? false : true;
     }
-    return ( $op == 'or' ) ? false : true;
+    
 }

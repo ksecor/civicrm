@@ -46,8 +46,7 @@ class CRM_Contribute_Menu {
                              'query'   => 'reset=1',
                              'title'   => ts( 'CiviContribute' ), 
                              'access_arguments'  => CRM_Core_Permission::check( 'access CiviContribute'), 
-                             'type'    => CRM_Core_Menu::CALLBACK,  
-                             'crm_type' => CRM_Core_Menu::NORMAL_ITEM,
+                             'page_type' => CRM_Core_Menu::MENU_ITEM,
                              'weight'  => 500,  
                              ),
 
@@ -56,8 +55,6 @@ class CRM_Contribute_Menu {
                              'query'   => 'reset=1',
                              'title'   => ts( 'CiviContribute' ), 
                              'access_arguments'  => CRM_Core_Permission::check( 'make online contributions'), 
-                             'type'    => CRM_Core_Menu::CALLBACK,  
-                             'crm_type' => CRM_Core_Menu::CALLBACK,
                              'weight'  => 0, 
                              ),
                        );
@@ -71,8 +68,6 @@ class CRM_Contribute_Menu {
                              'title'   => ts('Manage Contribution Pages'),
                              'desc'    => ts('CiviContribute allows you to create and maintain any number of Online Contribution Pages. You can create different pages for different programs or campaigns - and customize text, amounts, types of information collected from contributors, etc.'), 
                              'query'   => 'reset=1',
-                             'type'    => CRM_Core_Menu::CALLBACK,
-                             'crm_type' => CRM_Core_Menu::LOCAL_TASK,
                              'adminGroup' => 'CiviContribute',
                              'icon'    => 'admin/small/online_contribution_pages.png',
                              'weight'  => 360
@@ -83,8 +78,6 @@ class CRM_Contribute_Menu {
                              'title'   => ts('Manage Premiums'),
                              'desc'    => ts('CiviContribute allows you to configure any number of Premiums which can be offered to contributors as incentives / thank-you gifts. Define the premiums you want to offer here.'), 
                              'query'   => 'reset=1',
-                             'type'    => CRM_Core_Menu::CALLBACK,
-                             'crm_type' => CRM_Core_Menu::LOCAL_TASK,
                              'adminGroup' => 'CiviContribute',
                              'icon'    => 'admin/small/Premiums.png',
                              'weight'  => 365
@@ -95,8 +88,6 @@ class CRM_Contribute_Menu {
                              'title'   => ts('Contribution Types'),
                              'desc'    => ts('Contribution types are used to categorize contributions for reporting and accounting purposes. These are also referred to as Funds.'), 
                              'query'   => 'reset=1',
-                             'type'    => CRM_Core_Menu::CALLBACK,
-                             'crm_type' => CRM_Core_Menu::LOCAL_TASK,
                              'adminGroup' => 'CiviContribute',
                              'icon'    => 'admin/small/contribution_types.png',
                              'weight'  => 370
@@ -107,8 +98,6 @@ class CRM_Contribute_Menu {
                              'title'   => ts('Payment Instruments'),
                              'desc'    => ts('You may choose to record the payment instrument used for each contribution. Common payment methods are installed by default (e.g. Check, Cash, Credit Card...). If your site requires additional payment methods, add them here.'), 
                              'query'   => 'group=payment_instrument&reset=1',
-                             'type'    => CRM_Core_Menu::CALLBACK,
-                             'crm_type' => CRM_Core_Menu::LOCAL_TASK,
                              'adminGroup' => 'CiviContribute',
                              'icon'    => 'admin/small/payment_instruments.png',
                              'weight'  => 380
@@ -119,8 +108,6 @@ class CRM_Contribute_Menu {
                              'title'   => ts('Accepted Credit Cards'),
                              'desc'    => ts('Credit card options that will be offered to contributors using your Online Contribution pages.'), 
                              'query'   => 'group=accept_creditcard&reset=1',
-                             'type'    => CRM_Core_Menu::CALLBACK,
-                             'crm_type' => CRM_Core_Menu::LOCAL_TASK,
                              'adminGroup' => 'CiviContribute',
                              'icon'    => 'admin/small/accepted_creditcards.png',
                              'weight'  => 395
@@ -130,8 +117,6 @@ class CRM_Contribute_Menu {
                        array( 
                              'query'   => 'reset=1&force=1&cid=%%cid%%', 
                              'title'   => ts('Contributions'), 
-                             'type'    => CRM_Core_Menu::CALLBACK, 
-                             'crm_type' => CRM_Core_Menu::LOCAL_TASK, 
                              'weight'  => 1
                              ),
 
@@ -140,8 +125,7 @@ class CRM_Contribute_Menu {
                              'query'   => 'reset=1',
                              'title'   => ts( 'Find Contributions' ), 
                              'access_arguments'  => CRM_Core_Permission::check( 'access CiviContribute' ),
-                             'type'    => CRM_Core_Menu::CALLBACK,  
-                             'crm_type' => CRM_Core_Menu::NORMAL_ITEM,  
+                             'page_type' => CRM_Core_Menu::MENU_ITEM,  
                              'weight'  => 510,  
                              ),
 
@@ -151,8 +135,7 @@ class CRM_Contribute_Menu {
                              'title'   => ts( 'Import Contributions' ), 
                              'access_arguments'  => CRM_Core_Permission::check( 'administer CiviCRM' ) &&
                              CRM_Core_Permission::check( 'access CiviContribute' ),
-                             'type'    => CRM_Core_Menu::CALLBACK,  
-                             'crm_type' => CRM_Core_Menu::NORMAL_ITEM,  
+                             'page_type' => CRM_Core_Menu::MENU_ITEM,  
                                  'weight'  => 520,  
                              ),
 
@@ -162,8 +145,7 @@ class CRM_Contribute_Menu {
                              'title'   => ts( 'Manage Contribution Pages' ), 
                              'access_arguments'  => CRM_Core_Permission::check( 'administer CiviCRM' ) &&
                              CRM_Core_Permission::check( 'access CiviContribute' ),
-                             'type'    => CRM_Core_Menu::CALLBACK,  
-                             'crm_type' => CRM_Core_Menu::NORMAL_ITEM,  
+                             'page_type' => CRM_Core_Menu::MENU_ITEM,  
                              'weight'  => 530,  
                              ),
                        );

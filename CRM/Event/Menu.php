@@ -45,8 +45,7 @@ class CRM_Event_Menu {
                              'query'   => 'reset=1',
                              'title'   => ts('CiviEvent'), 
                              'access_arguments'  => CRM_Core_Permission::check( 'access CiviEvent'), 
-                             'type'    => CRM_Core_Menu::CALLBACK,  
-                             'crm_type' => CRM_Core_Menu::NORMAL_ITEM,
+                             'page_type' => CRM_Core_Menu::MENU_ITEM,
                              'weight'  => 800,
                              ),
                        
@@ -55,8 +54,6 @@ class CRM_Event_Menu {
                              'path'    => 'civicrm/event/info', 
                              'query'   => 'reset=1',
                              'access_arguments'  => 1,
-                             'type'    => CRM_Core_Menu::CALLBACK,  
-                             'crm_type' => CRM_Core_Menu::CALLBACK,
                              'weight'  => 0, 
                              ),
                        
@@ -65,8 +62,6 @@ class CRM_Event_Menu {
                              'query'   => 'reset=1',
                              'title'   => ts( 'Event Registration' ), 
                              'access_arguments'  => 1,
-                             'type'    => CRM_Core_Menu::CALLBACK,  
-                             'crm_type' => CRM_Core_Menu::CALLBACK,
                              'weight'  => 0, 
                              ),
 
@@ -75,8 +70,6 @@ class CRM_Event_Menu {
                              'query'   => 'reset=1',
                              'title'   => ts( 'Event Listings' ), 
                              'access_arguments'  => CRM_Core_Permission::check( 'register for events'), 
-                             'type'    => CRM_Core_Menu::CALLBACK,  
-                             'crm_type' => CRM_Core_Menu::CALLBACK,
                              'weight'  => 0, 
                              ),
 
@@ -86,8 +79,6 @@ class CRM_Event_Menu {
                              'query'   => 'reset=1',
                              'title'   => ts( 'Event Participants List' ), 
                              'access_arguments'  => CRM_Core_Permission::check( 'view event participants' ),
-                             'type'    => CRM_Core_Menu::CALLBACK,  
-                             'crm_type' => CRM_Core_Menu::CALLBACK,
                               'weight'  => 0, 
                              ),
                        );
@@ -103,8 +94,6 @@ class CRM_Event_Menu {
                              'query'  => 'reset=1',
                              'access_arguments'  => CRM_Core_Permission::check('administer CiviCRM') &&
                              CRM_Core_Permission::check( 'access CiviEvent' ),
-                             'type'    => CRM_Core_Menu::CALLBACK,
-                             'crm_type' => CRM_Core_Menu::LOCAL_TASK,
                              'adminGroup' => 'CiviEvent',
                              'icon'    => 'admin/small/event_manage.png',
                              'weight'  => 370
@@ -117,8 +106,6 @@ class CRM_Event_Menu {
                              'query'  => 'group=event_type&reset=1',
                              'access_arguments'  => CRM_Core_Permission::check('administer CiviCRM') &&
                              CRM_Core_Permission::check( 'access CiviEvent' ),
-                             'type'    => CRM_Core_Menu::CALLBACK,
-                             'crm_type' => CRM_Core_Menu::LOCAL_TASK,
                              'adminGroup' => 'CiviEvent',
                              'icon'    => 'admin/small/event_type.png',
                              'weight'  => 375
@@ -131,8 +118,6 @@ class CRM_Event_Menu {
                              'query'  => 'group=participant_status&reset=1',
                              'access_arguments'  => CRM_Core_Permission::check('administer CiviCRM') &&
                              CRM_Core_Permission::check( 'access CiviEvent' ),
-                             'type'    => CRM_Core_Menu::CALLBACK,
-                             'crm_type' => CRM_Core_Menu::LOCAL_TASK,
                              'adminGroup' => 'CiviEvent',
                              'icon'    => 'admin/small/parti_status.png',
                              'weight'  => 380
@@ -145,8 +130,6 @@ class CRM_Event_Menu {
                              'query'  => 'group=participant_role&reset=1',
                              'access_arguments'  => CRM_Core_Permission::check('administer CiviCRM') &&
                              CRM_Core_Permission::check( 'access CiviEvent' ),
-                             'type'    => CRM_Core_Menu::CALLBACK,
-                             'crm_type' => CRM_Core_Menu::LOCAL_TASK,
                              'adminGroup' => 'CiviEvent',
                              'icon'    => 'admin/small/parti_role.png',
                              'weight'  => 385
@@ -159,8 +142,6 @@ class CRM_Event_Menu {
                              'query'   => 'reset=1',
                              'access_arguments'  => CRM_Core_Permission::check('administer CiviCRM') &&
                              CRM_Core_Permission::check( 'access CiviEvent' ),
-                             'type'    => CRM_Core_Menu::CALLBACK,
-                             'crm_type' => CRM_Core_Menu::LOCAL_TASK,
                              'adminGroup' => 'CiviEvent',
                              'icon'    => 'admin/small/price_sets.png',
                              'weight'  => 386
@@ -171,8 +152,7 @@ class CRM_Event_Menu {
                              'query'   => 'reset=1',
                              'title'   => ts( 'Find Participants' ),
                              'access_arguments'  => CRM_Core_Permission::check( 'access CiviEvent' ), 
-                             'type'    => CRM_Core_Menu::CALLBACK,  
-                             'crm_type' => CRM_Core_Menu::NORMAL_ITEM,  
+                             'page_type' => CRM_Core_Menu::MENU_ITEM,  
                              'weight'  => 810,  
                              ),
                        
@@ -182,8 +162,7 @@ class CRM_Event_Menu {
                              'title'   => ts( 'Manage Events' ),
                              'access_arguments'  => CRM_Core_Permission::check( 'administer CiviCRM' ) &&
                              CRM_Core_Permission::check( 'access CiviEvent' ),
-                             'type'    => CRM_Core_Menu::CALLBACK,  
-                             'crm_type' => CRM_Core_Menu::NORMAL_ITEM,  
+                             'page_type' => CRM_Core_Menu::MENU_ITEM,  
                              'weight'  => 820,  
                              ),
                        
@@ -193,8 +172,7 @@ class CRM_Event_Menu {
                              'title'   => ts( 'New Event' ),
                              'access_arguments'  => CRM_Core_Permission::check( 'administer CiviCRM' ) &&
                              CRM_Core_Permission::check( 'access CiviEvent' ),
-                             'type'    => CRM_Core_Menu::CALLBACK,  
-                             'crm_type' => CRM_Core_Menu::NORMAL_ITEM,  
+                             'page_type' => CRM_Core_Menu::MENU_ITEM,  
                              'weight'  => 830,  
                              ),
                        
@@ -204,8 +182,7 @@ class CRM_Event_Menu {
                              'title'   => ts( 'Import Participants' ),
                              'access_arguments'  => CRM_Core_Permission::check('administer CiviCRM') &&
                              CRM_Core_Permission::check( 'access CiviEvent' ),
-                             'type'    => CRM_Core_Menu::CALLBACK,  
-                             'crm_type' => CRM_Core_Menu::NORMAL_ITEM,  
+                             'page_type' => CRM_Core_Menu::MENU_ITEM,  
                              'weight'  => 840,  
                              ),
                        

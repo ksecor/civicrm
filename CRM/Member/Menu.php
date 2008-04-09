@@ -46,8 +46,7 @@ class CRM_Member_Menu {
                              'query'   => 'reset=1',
                              'title'   => ts('CiviMember'), 
                              'access_arguments'  => CRM_Core_Permission::check( 'access CiviMember'), 
-                             'type'    => CRM_Core_Menu::CALLBACK,  
-                             'crm_type' => CRM_Core_Menu::NORMAL_ITEM,
+                             'page_type' => CRM_Core_Menu::MENU_ITEM,
                              'weight'  => 700,  
                              ),
                        );
@@ -61,8 +60,6 @@ class CRM_Member_Menu {
                              'title'   => ts('Membership Types'),
                              'desc'    => ts('Define the types of memberships you want to offer. For each type, you can specify a \'name\' (Gold Member, Honor Society Member...), a description, duration, and a minimum fee.'), 
                              'query'  => 'reset=1',
-                             'type'    => CRM_Core_Menu::CALLBACK,
-                             'crm_type' => CRM_Core_Menu::LOCAL_TASK,
                              'adminGroup' => 'CiviMember',
                              'icon'    => 'admin/small/membership_type.png',
                              'weight'  => 370
@@ -73,8 +70,6 @@ class CRM_Member_Menu {
                              'title'   => ts('Membership Status Rules'),
                              'desc'    => ts('Status \'rules\' define the current status for a membership based on that membership\'s start and end dates. You can adjust the default status options and rules as needed to meet your needs.'), 
                              'query'  => 'reset=1',
-                             'type'    => CRM_Core_Menu::CALLBACK,
-                             'crm_type' => CRM_Core_Menu::LOCAL_TASK,
                              'adminGroup' => 'CiviMember',
                              'icon'    => 'admin/small/membership_status.png',
                              'weight'  => 380
@@ -84,8 +79,6 @@ class CRM_Member_Menu {
                        array( 
                              'query'   => 'reset=1&force=1&cid=%%cid%%', 
                              'title'   => ts('Memberships'), 
-                             'type'    => CRM_Core_Menu::CALLBACK, 
-                             'crm_type' => CRM_Core_Menu::LOCAL_TASK, 
                              'weight'  => 2
                              ),
                        
@@ -94,8 +87,7 @@ class CRM_Member_Menu {
                              'query'   => 'reset=1',
                              'title'   => ts( 'Find Members' ),
                              'access_arguments'  => CRM_Core_Permission::check( 'access CiviMember' ),
-                             'type'    => CRM_Core_Menu::CALLBACK,  
-                             'crm_type' => CRM_Core_Menu::NORMAL_ITEM,  
+                             'page_type' => CRM_Core_Menu::MENU_ITEM,  
                              'weight'  => 710,  
                              ),
                        
@@ -104,8 +96,7 @@ class CRM_Member_Menu {
                              'query'   => 'reset=1',
                              'title'   => ts( 'Import Members' ), 
                              'access_arguments'  => CRM_Core_Permission::check( 'access CiviMember' ),
-                             'type'    => CRM_Core_Menu::CALLBACK,  
-                             'crm_type' => CRM_Core_Menu::NORMAL_ITEM,  
+                             'page_type' => CRM_Core_Menu::MENU_ITEM,  
                              'weight'  => 720,  
                              ),
                        );

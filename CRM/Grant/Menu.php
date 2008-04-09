@@ -45,8 +45,7 @@ class CRM_Grant_Menu {
                              'query'   => 'reset=1',
                              'title'   => ts('CiviGrant'), 
                              'access_arguments'  => CRM_Core_Permission::check( 'access CiviGrant'), 
-                             'type'    => CRM_Core_Menu::CALLBACK,  
-                             'crm_type' => CRM_Core_Menu::NORMAL_ITEM,
+                             'page_type' => CRM_Core_Menu::MENU_ITEM,
                              'weight'  => 1000,
                              ),
                        
@@ -54,8 +53,6 @@ class CRM_Grant_Menu {
                        array( 
                              'query'   => 'reset=1',
                              'access_arguments'  => CRM_Core_Permission::check( 'access CiviGrant'), 
-                             'type'    => CRM_Core_Menu::CALLBACK,  
-                             'crm_type' => CRM_Core_Menu::CALLBACK,
                              'weight'  => 0, 
                              ),
                        );
@@ -70,8 +67,7 @@ class CRM_Grant_Menu {
                              'query'   => 'reset=1',
                              'title'   => ts( 'Find Grants' ),
                              'access_arguments'  => CRM_Core_Permission::check( 'access CiviGrant' ), 
-                             'type'    => CRM_Core_Menu::CALLBACK,  
-                             'crm_type' => CRM_Core_Menu::NORMAL_ITEM,  
+                             'page_type' => CRM_Core_Menu::MENU_ITEM,  
                              'weight'  => 1010,  
                              ),
                        
@@ -80,8 +76,7 @@ class CRM_Grant_Menu {
                              'query'   => 'action=add&reset=1',
                              'title'   => ts( 'New Grant' ),
                              'access_arguments'  => CRM_Core_Permission::check( 'access CiviGrant' ),
-                             'type'    => CRM_Core_Menu::CALLBACK,  
-                             'crm_type' => CRM_Core_Menu::NORMAL_ITEM,  
+                             'page_type' => CRM_Core_Menu::MENU_ITEM,  
                              'weight'  => 1030,  
                              ),
                        
@@ -90,8 +85,7 @@ class CRM_Grant_Menu {
                              'query'   => 'reset=1',
                              'title'   => ts( 'Import Grants' ),
                              'access_arguments'  => CRM_Core_Permission::check('access CiviGrant'),
-                             'type'    => CRM_Core_Menu::CALLBACK,  
-                             'crm_type' => CRM_Core_Menu::NORMAL_ITEM,  
+                             'page_type' => CRM_Core_Menu::MENU_ITEM,  
                              'weight'  => 1040,  
                              ),
                        );

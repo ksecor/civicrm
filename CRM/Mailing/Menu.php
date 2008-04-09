@@ -42,8 +42,7 @@ class CRM_Mailing_Menu {
                              'query'   => 'reset=1',
                              'title'   => ts('CiviMail'),
                              'access_arguments'  => CRM_Core_Permission::check( 'access CiviMail' ),
-                             'type'    => CRM_Core_Menu::CALLBACK,
-                             'crm_type' => CRM_Core_Menu::NORMAL_ITEM,  
+                             'page_type' => CRM_Core_Menu::MENU_ITEM,  
                              'weight'  => 600,
                              ),
                        );
@@ -58,8 +57,6 @@ class CRM_Mailing_Menu {
                              'desc'    => ts('Configure spool period, throttling and other mailer settings.'), 
                              'query'  => 'reset=1',
                              'access_arguments'  => CRM_Core_Permission::check( 'access CiviMail' ),
-                             'type'    => CRM_Core_Menu::CALLBACK,
-                             'crm_type' => CRM_Core_Menu::LOCAL_TASK,
                              'adminGroup' => 'CiviMail',
                              'icon'    => 'admin/small/07.png',
                              'weight'  => 400
@@ -71,8 +68,6 @@ class CRM_Mailing_Menu {
                              'desc'    => ts('Configure the header and footer used for mailings. Customize the content of automated Subscribe, Unsubscribe, Resubscribe and Opt-out messages.'), 
                              'query'   => 'reset=1',
                              'access_arguments'  => CRM_Core_Permission::check( 'access CiviMail' ),
-                             'type'    => CRM_Core_Menu::CALLBACK,
-                             'crm_type' => CRM_Core_Menu::LOCAL_TASK,  
                              'adminGroup' => 'CiviMail',
                              'icon'    => 'admin/small/Profile.png',
                              'weight'  => 410,
@@ -83,8 +78,7 @@ class CRM_Mailing_Menu {
                              'query'   => 'reset=1',
                              'title'   => ts('Send Mailing'),
                              'access_arguments'  => CRM_Core_Permission::check( 'access CiviMail' ),
-                             'type'    => CRM_Core_Menu::CALLBACK,
-                             'crm_type' => CRM_Core_Menu::NORMAL_ITEM,  
+                             'page_type' => CRM_Core_Menu::MENU_ITEM,  
                              'weight'  => 610,
                              ),
                        
@@ -93,8 +87,7 @@ class CRM_Mailing_Menu {
                              'query'   => 'reset=1',
                              'title'   => ts( 'Browse Sent Mailings' ),
                              'access_arguments'  => CRM_Core_Permission::check( 'access CiviMail' ),
-                             'type'    => CRM_Core_Menu::CALLBACK, 
-                             'crm_type' => CRM_Core_Menu::NORMAL_ITEM,  
+                             'page_type' => CRM_Core_Menu::MENU_ITEM,  
                              'weight'  => 620, 
                              ),
                        
@@ -103,8 +96,7 @@ class CRM_Mailing_Menu {
                              'query'   => 'reset=1',
                              'title'   => ts('Headers, Footers, and Automated Messages'),
                              'access_arguments'  => CRM_Core_Permission::check( 'administer CiviCRM' ),
-                             'type'    => CRM_Core_Menu::CALLBACK,
-                             'crm_type' => CRM_Core_Menu::NORMAL_ITEM,  
+                             'page_type' => CRM_Core_Menu::MENU_ITEM,  
                              'weight'  => 630,
                              ),
 
@@ -113,8 +105,6 @@ class CRM_Mailing_Menu {
                              'query'   => 'reset=1',
                              'title'   => ts('Unsubscribe'),
                              'access_arguments'  => CRM_Core_Permission::check( 'access CiviMail subscribe/unsubscribe pages' ),
-                             'type'    => CRM_Core_Menu::CALLBACK,
-                             'crm_type' => CRM_Core_Menu::CALLBACK,
                              'weight'  => 640,
                              ),
                        
@@ -123,8 +113,6 @@ class CRM_Mailing_Menu {
                              'query'   => 'reset=1',
                              'title'   => ts('Resubscribe'),
                              'access_arguments'  => CRM_Core_Permission::check( 'access CiviMail subscribe/unsubscribe pages' ),
-                             'type'    => CRM_Core_Menu::CALLBACK,
-                             'crm_type' => CRM_Core_Menu::CALLBACK,
                              'weight'  => 645,
                              ),
 
@@ -133,8 +121,6 @@ class CRM_Mailing_Menu {
                              'query'   => 'reset=1',
                              'title'   => ts('Optout'),
                              'access_arguments'  => CRM_Core_Permission::check( 'access CiviMail subscribe/unsubscribe pages' ),
-                             'type'    => CRM_Core_Menu::CALLBACK,
-                             'crm_type' => CRM_Core_Menu::CALLBACK,
                              'weight'  => 650,
                              ),
 
@@ -143,8 +129,6 @@ class CRM_Mailing_Menu {
                              'query'   => 'reset=1',
                              'title'   => ts('Confirm'),
                              'access_arguments'  => CRM_Core_Permission::check( 'access CiviMail subscribe/unsubscribe pages' ),
-                             'type'    => CRM_Core_Menu::CALLBACK,
-                             'crm_type' => CRM_Core_Menu::CALLBACK,
                              'weight'  => 660,
                              ),
 
@@ -153,8 +137,6 @@ class CRM_Mailing_Menu {
                              'query'   => 'reset=1',
                              'title'   => ts('Subscribe'),
                              'access_arguments'  => CRM_Core_Permission::check( 'access CiviMail subscribe/unsubscribe pages' ),
-                             'type'    => CRM_Core_Menu::CALLBACK,
-                             'crm_type' => CRM_Core_Menu::CALLBACK,
                              'weight'  => 660,
                              ),
                        );
