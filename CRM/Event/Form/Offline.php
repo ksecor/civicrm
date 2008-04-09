@@ -186,21 +186,23 @@ class CRM_Event_Form_Offline extends CRM_Core_Form
         $this->add( 'text', "email-{$this->_bltID}",
                     ts( 'Email Address' ), array( 'size' => 30, 'maxlength' => 60 ), true );
         require_once "CRM/Event/BAO/Event.php";
-        if ( CRM_Utils_Request::retrieve( 'past', 'Boolean', $this ) ) {
-            $events = CRM_Event_BAO_Event::getEvents( true );
-            $this->assign("past", true);
-        } else {
-            $events = CRM_Event_BAO_Event::getEvents( );
-        }
-        
 
         $urlParams = "reset=1&cid={$this->_contactID}";
         $url = CRM_Utils_System::url( 'civicrm/event/offline',
                                       $urlParams, true, null, false );
-        $this->assign("refreshURL",$url);
-        $url .= "&past=true";
         
-        $this->assign("pastURL", $url);
+        $this->assign("pastURL", $url."&past=true" );
+        
+        if ( CRM_Utils_Request::retrieve( 'past', 'Boolean', $this ) ) {
+            $events = CRM_Event_BAO_Event::getEvents( true );
+            $this->assign("past", true);
+            $url .= "&past=true";
+            $this->assign("refreshURL",$url);
+        } else {
+            $events = CRM_Event_BAO_Event::getEvents( );
+            $this->assign("refreshURL",$url);
+        }
+        
         $this->add('select', 'event_id',  ts( 'Event' ),  
                    array( '' => ts( '- select -' ) ) + $events,
                    true,
