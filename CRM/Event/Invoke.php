@@ -105,6 +105,11 @@ class CRM_Event_Invoke
             require_once 'CRM/Event/Page/EventInfo.php';
             $page =& new CRM_Event_Page_EventInfo( );
             return $page->run( );
+        } else if ($secondArg == 'offline') {
+            CRM_Utils_System::redirectToSSL( );
+            require_once 'CRM/Utils/Wrapper.php';
+            $wrapper =& new CRM_Utils_Wrapper( );
+            return $wrapper->run( 'CRM_Event_Form_Offline', ts('Event Registeration Form'), null);
         }
         
         if ( ! CRM_Core_Permission::check('access CiviEvent') ) {
