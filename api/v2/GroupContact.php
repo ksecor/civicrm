@@ -36,7 +36,14 @@
 
 require_once 'api/v2/utils.php';
 
-function civicrm_group_contact_get( &$params ) {
+/**
+ * 
+ *
+ *
+ *
+ */
+function civicrm_group_contact_get( &$params ) 
+{
     if ( ! array_key_exists( 'contact_id', $params ) ) {
         return civicrm_create_error( ts( 'contact_id is a required field' ) );
     }
@@ -47,15 +54,58 @@ function civicrm_group_contact_get( &$params ) {
     return $values;
 }
 
-function civicrm_group_contact_add( &$params ) {
+/**
+ * get list of contacts of particular group
+ * 
+ * This API will return you list of contacts of particular group
+ * 'group_id' is required field
+ *
+ * @param  array   $params  array of values for group
+ * 
+ * @return array   either success message cotaining array of contact
+ *                 values or error message is returned back in an
+ *                 array
+ * @access public
+ */
+function civicrm_contacts_group_get( &$params )
+{
+    if ( ! CRM_Utils_Array::value( 'group_id', $params ) ) {
+        return civicrm_create_error( ts('group_id is required field' ) );
+    }
+    
+    $returnProperties = array( );
+    foreach( $params as $k => $v ) {
+        if ( substr( $k, 0, 7 ) == 'return.' ) {
+            $returnProperties[ substr( $k, 7 ) ] = $v;
+        }
+    }
+    
+    $status = CRM_Utils_Array::value( 'status',    $params, 'Added' );
+    $sort   = CRM_Utils_Array::value( 'sort',      $params, null    );
+    $offset = CRM_Utils_Array::value( 'offset',    $params, null    );
+    $count  = CRM_Utils_Array::value( 'row_count', $params, null    );
+    
+    $group  = new CRM_Contact_BAO_Group( );
+    $group->id = $params['group_id'];
+    $group->find( true );
+    
+    $contacts = array();
+    $contacts = CRM_Contact_BAO_GroupContact::getGroupContacts($group, $returnProperties, $status, $sort, $offset, $row_count);
+    return civicrm_create_success( $contacts );
+}
+
+function civicrm_group_contact_add( &$params ) 
+{
     return civicrm_group_contact_common( $params, 'add' );
 }
 
-function civicrm_group_contact_remove( &$params ) {
+function civicrm_group_contact_remove( &$params ) 
+{
     return civicrm_group_contact_common( $params, 'remove' );
 }
 
-function civicrm_group_contact_common( &$params, $op = 'add' ) {
+function civicrm_group_contact_common( &$params, $op = 'add' ) 
+{
     $contactIDs = array( );
     $groupIDs = array( );
     foreach ( $params as $n => $v ) {
