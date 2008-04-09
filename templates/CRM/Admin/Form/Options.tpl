@@ -16,6 +16,7 @@
         <dt>&nbsp;</dt><dd class="description">{ts}The option Label is displayed to users.{/ts}</dd>
         <dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>
         <dt>{$form.weight.label}</dt><dd>{$form.weight.html}</dd>
+        <dt>{$form.filter.label}</dt><dd>{$form.filter.html}</dd> 
         <dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>        
     </dl>
     {/if}

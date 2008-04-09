@@ -52,6 +52,7 @@
             <th>{ts}Description{/ts}</th>
             <th>{ts}Order{/ts}</th>
             <th>{ts}Reserved{/ts}</th>
+	    {if $gName eq 'participant_status'}<th>{ts}Counted?{/ts}</th>{/if}
             <th>{ts}Enabled?{/ts}</th>
             <th></th>
             </tr>
@@ -62,6 +63,7 @@
 	        <td>{$row.description}</td>	
 	        <td class="nowrap">{$row.weight}</td>
 	        <td>{if $row.is_reserved eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
+	        {if $gName eq 'participant_status'}<td>{if $row.filter eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>{/if}
 	        <td>{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
 	        <td>{$row.action}</td>
         </tr>
