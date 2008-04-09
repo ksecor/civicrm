@@ -405,10 +405,13 @@ LIMIT      0, 10
     {
         if ( !$status ) {
             require_once 'CRM/Event/PseudoConstant.php';
-            $statusTypes  = CRM_Event_PseudoConstant::participantStatus( null, false );
+            $statusTypes  = CRM_Event_PseudoConstant::participantStatus( null, false ); 
             $status = implode( ',', array_keys( $statusTypes ) );
+            if ( !$status ) {
+                $status = 0;
+            }
         } 
-
+        
         $query = "
 SELECT civicrm_event.id AS id, count( civicrm_participant.id ) AS participant
 FROM civicrm_event, civicrm_participant 
