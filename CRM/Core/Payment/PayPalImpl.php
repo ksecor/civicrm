@@ -361,7 +361,7 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
 
         //setting the curl parameters.
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $this->_paymentProcessor['url_api'] . 'nvp' );
+        curl_setopt($ch, CURLOPT_URL, $this->_paymentProcessor['url_site'] . 'nvp' );
         curl_setopt($ch, CURLOPT_VERBOSE, 1);
 
         //turning off the server and peer verification(TrustManager Concept).
