@@ -544,17 +544,17 @@ function _civicrm_validate_formatted_contact(&$params)
     return civicrm_create_success( true );
 }
 
-function _civicrm_custom_format_params( &$params, &$values, $extends )
+function _civicrm_custom_format_params( &$params, &$values, $extends, $entityId = null )
 {
     $values['custom'] = array();
     require_once 'CRM/Core/BAO/CustomField.php' ;    
     $customFields = CRM_Core_BAO_CustomField::getFields( $extends );
-    //CRM_Core_Error::debug( '$customFields', $customFields );
-    
+        
     require_once 'CRM/Core/BAO/CustomField.php';
     foreach ($params as $key => $value) {
         if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
-            CRM_Core_BAO_CustomField::formatCustomField( $customFieldID, $values['custom'], $value, $extends );
+            CRM_Core_BAO_CustomField::formatCustomField( $customFieldID, $values['custom'], 
+                                                         $value, $extends, null, $entityId );
         }
     }
 }

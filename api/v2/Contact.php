@@ -99,12 +99,14 @@ function &civicrm_contact_add( &$params ) {
         $params['gender_id'] = array_search( $params['gender_id'] , CRM_Core_PseudoConstant::gender() );
     }
     
-    $values = array( );
-    _civicrm_custom_format_params( $params, $values, $params['contact_type'] );
+    $values   = array( );
+    $entityId = CRM_Utils_Array::value( 'contact_id', $params, null );
+    _civicrm_custom_format_params( $params, $values, $params['contact_type'], $entityId );
     
     $params = array_merge( $params, $values );
         
     $contact =& _civicrm_contact_add( $params, $contactID );
+    
     if ( is_a( $contact, 'CRM_Core_Error' ) ) {
         return civicrm_create_error( $contact->_errors[0]['message'] );
     } else {
