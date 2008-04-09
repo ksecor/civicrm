@@ -623,7 +623,6 @@ class CRM_Core_Menu
                              'query'   => 'reset=1',
                              'page_type' => self::MENU_ITEM,
                              'page_callback' => array( 'CRM_Core_Invoke', 'search' ),
-                             'access_callback'  => array( 'CRM_Core_Permission', 'checkMenu' ),
                              'access_arguments'  => CRM_Core_Permission::check( 'access CiviCRM' ),
                              'weight'  => 1
                              ),
@@ -750,7 +749,6 @@ class CRM_Core_Menu
                        array( 
                              'query'   => 'reset=1',
                              'title'   => ts( 'Contacts' ), 
-                             'access_callback'  => array( 'CRM_Core_Permission', 'checkMenu' ),
                              'access_arguments'  => CRM_Core_Permission::check( 'import contacts' ) &&
                              CRM_Core_Permission::check( 'access CiviCRM' ), 
                              'page_type' => CRM_Core_Menu::MENU_ITEM,  
@@ -762,7 +760,6 @@ class CRM_Core_Menu
                        array( 
                              'query'   => 'reset=1',
                              'title'   => ts( 'Activity' ), 
-                             'access_callback'  => array( 'CRM_Core_Permission', 'checkMenu' ),
                              'access_arguments'  => CRM_Core_Permission::check( 'import contacts' ) &&
                              CRM_Core_Permission::check( 'access CiviCRM' ), 
                              'page_type' => CRM_Core_Menu::MENU_ITEM,
@@ -786,49 +783,55 @@ class CRM_Core_Menu
         return $items;
     }
 
+    static function isArrayTrue( &$values ) {
+        foreach ( $values as $name => $value ) {
+            if ( ! $value ) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     static function fillAccessPage( &$menu, $path ) {
-        $accessPresent = CRM_Utils_Array::value( 'access_callback',
-                                                 $menu[$path] );
-        $pagePresent   = CRM_Utils_Array::value( 'page_callback',
-                                                 $menu[$path] );
+        $fieldsToPropagate = array( 'access_callback',
+                                    'access_arguments',
+                                    'page_callback',
+                                    'page_arguments' );
+        $fieldsPresent = array( );
+        foreach ( $fieldsToPropagate as $field ) {
+            $fieldsPresent[$field] = CRM_Utils_Array::value( $field, $menu[$path] ) ?
+                true : false;
+        }
 
         $args = explode( '/', $path );
-        while ( ( ! $accessPresent || ! $pagePresent ) &&
+        while ( ! self::isArrayTrue( $fieldsPresent ) &&
                 ! empty( $args ) ) {
 
             array_pop( $args );
             $parentPath = implode( '/', $args );
 
-            if ( ! $accessPresent ) {
-                if ( CRM_Utils_Array::value( 'access_callback',
-                                             $menu[$parentPath] ) ) {
-                    $accessPresent = true;
-                    $menu[$path]['access_callback' ] = $menu[$parentPath]['access_callback' ];
-                    $menu[$path]['access_arguments'] = $menu[$parentPath]['access_arguments'];
+            foreach ( $fieldsToPropagate as $field ) {
+                if ( ! $fieldsPresent[$field] ) {
+                    if ( CRM_Utils_Array::value( $field, $menu[$parentPath] ) ) {
+                        $fieldsPresent[$field] = true;
+                        $menu[$path][$field] = $menu[$parentPath][$field];
+                    }
                 }
             }
-
-            if ( ! $pagePresent ) {
-                if ( CRM_Utils_Array::value( 'page_callback',
-                                             $menu[$parentPath] ) ) {
-                    $pagePresent = true;
-                    $menu[$path]['page_callback' ] = $menu[$parentPath]['page_callback' ];
-                    $menu[$path]['page_arguments'] = $menu[$parentPath]['page_arguments'];
-                }
-            }
-
         }
 
-        if ( $accessPresent && $pagePresent ) {
+        if ( self::isArrayTrue( $fieldsPresent ) ) {
             return;
         }
 
-        if ( ! $accessPresent ) {
-            CRM_Core_Error::fatal( ts( 'Could not access arguments in path tree' ) );
+        $messages = array( );
+        foreach ( $fieldsToPropagate as $field ) {
+            if ( ! $fieldsPresent[$field] ) {
+                $messages[] = ts( 'Could not find %1 in path tree',
+                                 array( 1 => $field ) );
+            }
         }
-        if ( ! $pagePresent ) {
-            CRM_Core_Error::fatal( ts( 'Could not page arguments in path tree' ) );
-        }
+        CRM_Core_Error::fatal( implode( ', ', $messages ) );
     }
 
     /**
