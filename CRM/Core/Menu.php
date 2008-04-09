@@ -140,7 +140,6 @@ class CRM_Core_Menu
                                          'access_arguments' => array( array( 'access CiviCRM' ) ),
                                          'page_callback'    => 'CRM_Contact_Page_View_DashBoard',
                                          'page_arguments'   => 'null',
-                                         'page_type'         => self::MENU_ITEM,
                                          'weight'           => 0,
                                          ),
 
@@ -150,7 +149,7 @@ class CRM_Core_Menu
                                                    'page_type'=> self::MENU_ITEM,
                                                    'page_callback'=> 'CRM_Contact_Page_View_DashBoard',
                                                    'access_arguments' => array( array( 'access CiviCRM' ) ),
-                                                   'weight' => 10,
+                                                   'weight' => 0,
                                                    ),
 
                       'civicrm/ajax' => array(
@@ -995,6 +994,7 @@ class CRM_Core_Menu
         }
         
         ksort($values, SORT_NUMERIC );
+        // CRM_Core_Error::debug( 'v', $values );
         return $values;
     }
 
