@@ -792,7 +792,7 @@ class CRM_Core_Menu
         return true;
     }
 
-    static function fillAccessPage( &$menu, $path ) {
+    static function fillMenuValues( &$menu, $path ) {
         $fieldsToPropagate = array( 'access_callback',
                                     'access_arguments',
                                     'page_callback',
@@ -846,7 +846,7 @@ class CRM_Core_Menu
     static function build( &$menu ) {
         foreach ( $menu as $path => $menuItems ) {
             self::buildBreadcrumb( $menu, $path );
-            self::fillAccessPage ( $menu, $path );
+            self::fillMenuValues ( $menu, $path );
 
             // add add page_type if not present
             if ( ! isset( $path['page_type'] ) ) {
