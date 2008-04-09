@@ -37,10 +37,14 @@
 require_once 'api/v2/utils.php';
 
 /**
+ * This API will give list of the groups for particular contact 
+ * Particualr status can be sent in params array
+ * If no status mentioned in params, by default 'added' will be used
+ * to fetch the records
  * 
+ * @params  array $params  name value pair of contact information
  *
- *
- *
+ * @return  array  list of groups, given contact subsribed to
  */
 function civicrm_group_contact_get( &$params ) 
 {
@@ -52,46 +56,6 @@ function civicrm_group_contact_get( &$params )
     require_once 'CRM/Contact/BAO/GroupContact.php';
     $values =& CRM_Contact_BAO_GroupContact::getContactGroup( $params['contact_id'], $status, null, false, true );
     return $values;
-}
-
-/**
- * get list of contacts of particular group
- * 
- * This API will return you list of contacts of particular group
- * 'group_id' is required field
- *
- * @param  array   $params  array of values for group
- * 
- * @return array   either success message cotaining array of contact
- *                 values or error message is returned back in an
- *                 array
- * @access public
- */
-function civicrm_contacts_group_get( &$params )
-{
-    if ( ! CRM_Utils_Array::value( 'group_id', $params ) ) {
-        return civicrm_create_error( ts('group_id is required field' ) );
-    }
-    
-    $returnProperties = array( );
-    foreach( $params as $k => $v ) {
-        if ( substr( $k, 0, 7 ) == 'return.' ) {
-            $returnProperties[ substr( $k, 7 ) ] = $v;
-        }
-    }
-    
-    $status = CRM_Utils_Array::value( 'status',    $params, 'Added' );
-    $sort   = CRM_Utils_Array::value( 'sort',      $params, null    );
-    $offset = CRM_Utils_Array::value( 'offset',    $params, null    );
-    $count  = CRM_Utils_Array::value( 'row_count', $params, null    );
-    
-    $group  = new CRM_Contact_BAO_Group( );
-    $group->id = $params['group_id'];
-    $group->find( true );
-    
-    $contacts = array();
-    $contacts = CRM_Contact_BAO_GroupContact::getGroupContacts($group, $returnProperties, $status, $sort, $offset, $row_count);
-    return civicrm_create_success( $contacts );
 }
 
 function civicrm_group_contact_add( &$params ) 
