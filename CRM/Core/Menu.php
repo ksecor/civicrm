@@ -150,7 +150,7 @@ class CRM_Core_Menu
                                                    'page_type'=> self::MENU_ITEM,
                                                    'page_callback'=> 'CRM_Contact_Page_View_DashBoard',
                                                    'access_arguments' => array( array( 'access CiviCRM' ) ),
-                                                   'weight' => 0,
+                                                   'weight' => 10,
                                                    ),
 
                       'civicrm/ajax' => array(
@@ -853,7 +853,7 @@ class CRM_Core_Menu
 
         }
         
-        self::navigation( $menu );
+        self::buildNavigation( $menu );
     }
 
     static function store( ) {
@@ -880,7 +880,7 @@ class CRM_Core_Menu
         }
     }
 
-    static function navigation( &$params ) {
+    static function buildNavigation( &$params ) {
 
         $components = array( ts( 'CiviContribute' ) => 1,
                              ts( 'CiviEvent'      ) => 1,
@@ -930,6 +930,72 @@ class CRM_Core_Menu
         }
         
         $params['navigation'] = array( 'breadcrumb' => $values );
+    }
+
+    static function &getNavigation( ) {
+        $nav =& self::get( 'navigation' );
+        
+        if ( ! $nav ||
+             ! isset( $nav['breadcrumb'] ) ) {
+            return null;
+        }
+
+        $values =& $nav['breadcrumb'];
+
+        $config =& CRM_Core_Config::singleton( );
+        foreach ( $values as $index => $item ) {
+            // check permission and disable
+
+            if ( strpos( CRM_Utils_Array::value( $config->userFrameworkURLVar, $_REQUEST ),
+                         $item['path'] ) === 0 ) {
+                $values[$index]['active'] = 'class="active"';
+            } else {
+                $values[$index]['active'] = '';
+            }
+
+            if ( $values[$index]['parent'] ) {
+                $parent = $values[$index]['parent'];
+
+                // only reset if still a leaf
+                if ( $values[$parent]['class'] == 'leaf' ) {
+                    $values[$parent]['class'] = 'collapsed';
+                }
+
+                // if a child or the parent is active, expand the menu
+                if ( $values[$index ]['active'] ||
+                     $values[$parent]['active'] ) {
+                    $values[$parent]['class'] = 'expanded';
+                }
+                    
+                // make the parent inactive if the child is active
+                if ( $values[$index ]['active'] &&
+                     $values[$parent]['active'] ) { 
+                    $values[$parent]['active'] = '';
+                }
+            }
+        }
+
+        // remove all collapsed menu items from the array
+        $activeChildren = array( );
+        foreach ( $values as $weight => $v ) {
+            if ( $v['parent'] ) {
+                if ( $values[$v['parent']]['class'] == 'collapsed' ) {
+                    unset( $values[$weight] );
+                } else {
+                    $activeChildren[] = $weight;
+                }
+            }
+        }
+        
+        // add the start / end tags
+        $len = count($activeChildren) - 1;
+        if ( $len >= 0 ) {
+            $values[$activeChildren[0   ]]['start'] = true;
+            $values[$activeChildren[$len]]['end'  ] = true;
+        }
+        
+        ksort($values, SORT_NUMERIC );
+        return $values;
     }
 
     /**

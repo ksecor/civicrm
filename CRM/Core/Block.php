@@ -416,9 +416,8 @@ class CRM_Core_Block {
         $config =& CRM_Core_Config::singleton( );
 
         $path = 'navigation';
-        $item = CRM_Core_Menu::get( $path );
-        if ( $item ) {
-            $values = $item['breadcrumb'];
+        $values =& CRM_Core_Menu::getNavigation( );
+        if ( $values ) {
             self::setProperty( self::MENU, 'templateValues', array( 'menu' => $values ) );
         }
     }
