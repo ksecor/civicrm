@@ -484,7 +484,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
      */  
     static function formRule( &$fields, &$files, $self ) 
     {  
-        return CRM_Contribute_Form_AdditionalInfo::formRule( &$fields, &$files, $self );
+        return CRM_Contribute_Form_AdditionalInfo::formRule( $fields, $files, $self );
     }
     
     /** 
