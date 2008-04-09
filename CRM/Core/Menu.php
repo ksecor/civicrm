@@ -276,40 +276,6 @@ class CRM_Core_Menu
     }
 
     /**
-     * Get the breadcrumb for a give menu task
-     *
-     * @param string $path the current path for which we need the bread crumb
-     *
-     * @return string       the breadcrumb for this path
-     *
-     * @static
-     * @access public
-     */
-    public static function &breadcrumb( $args ) 
-    {
-        // we dont care about the current menu item
-        array_pop( $args );
-
-        $menus =& self::items( );
-
-        $crumbs      = array( );
-        $currentPath = null;
-        foreach ( $args as $arg ) {
-            $currentPath = $currentPath ? "{$currentPath}/{$arg}" : $arg;
-
-            foreach ( $menus as $path => $menu ) {
-                if ( $path == $currentPath ) {
-                    $crumbs[] = array('title' => $menu['title'], 
-                                      'url'   => CRM_Utils_System::url( $path ) );
-                }
-            }
-        }
-
-        return $crumbs;
-        // CRM_Core_Error::debug( 'bc', $crumbs );
-    }
-
-    /**
      * Get children for a particular menu path sorted by ascending weight
      *
      * @param  string        $path  parent menu path
@@ -623,7 +589,7 @@ class CRM_Core_Menu
                              'query'   => 'reset=1',
                              'page_type' => self::MENU_ITEM,
                              'page_callback' => array( 'CRM_Core_Invoke', 'search' ),
-                             'access_arguments'  => CRM_Core_Permission::check( 'access CiviCRM' ),
+                             'access_arguments'  => array( array( 'access CiviCRM' )),
                              'weight'  => 1
                              ),
                        
@@ -749,8 +715,7 @@ class CRM_Core_Menu
                        array( 
                              'query'   => 'reset=1',
                              'title'   => ts( 'Contacts' ), 
-                             'access_arguments'  => CRM_Core_Permission::check( 'import contacts' ) &&
-                             CRM_Core_Permission::check( 'access CiviCRM' ), 
+                             'access_arguments'  => array( array('import contacts', 'access CiviCRM') ), 
                              'page_type' => CRM_Core_Menu::MENU_ITEM,  
                              'page_callback' => 'CRM_Import_Controller',
                              'weight'  => 410,
@@ -760,8 +725,7 @@ class CRM_Core_Menu
                        array( 
                              'query'   => 'reset=1',
                              'title'   => ts( 'Activity' ), 
-                             'access_arguments'  => CRM_Core_Permission::check( 'import contacts' ) &&
-                             CRM_Core_Permission::check( 'access CiviCRM' ), 
+                             'access_arguments'  =>  array( array('import contacts', 'access CiviCRM') ), 
                              'page_type' => CRM_Core_Menu::MENU_ITEM,
                              'page_callback' => 'CRM_Activity_Import_Controller',
                              'weight'  => 420,  
@@ -845,8 +809,9 @@ class CRM_Core_Menu
      */
     static function build( &$menu ) {
         foreach ( $menu as $path => $menuItems ) {
-            self::buildBreadcrumb( $menu, $path );
-            self::fillMenuValues ( $menu, $path );
+            self::buildBreadcrumb ( $menu, $path );
+            self::fillMenuValues  ( $menu, $path );
+            self::fillComponentIds( $menu, $path );
 
             // add add page_type if not present
             if ( ! isset( $path['page_type'] ) ) {
@@ -860,7 +825,7 @@ class CRM_Core_Menu
 
     static function store( ) {
         $menu =& self::items( );
-
+        
         self::build( $menu );
 
         require_once "CRM/Core/DAO/Menu.php";
@@ -1020,31 +985,67 @@ class CRM_Core_Menu
         array_pop( $pathElements );
 
         while ( $newPath = array_shift($pathElements) ) {
+
             $currentPath = $currentPath ? ($currentPath . '/' . $newPath) : $newPath;
+
             // check if current-path exists in params.
             if ( array_key_exists($currentPath, $menu) && isset($menu[$currentPath]['title']) ) {
-                $crumbs[] = array('title' => $menu[$currentPath]['title'], 
-                                  'url'   => CRM_Utils_System::url( $currentPath ));
+                $crumbs[] = '<a href="'. CRM_Utils_System::url( $currentPath ) . '">'. 
+                    $menu[$currentPath]['title'] . '</a>';
                 // store in cache
                 $cache[$currentPath]['title'] = $menu[$currentPath]['title'];
-            } elseif ( array_key_exists($currentPath, $cache) ) {
+
+            } else if ( array_key_exists($currentPath, $cache) ) {
                 // pick-up from cache
-                $crumbs[] = array('title' => $cache[$currentPath]['title'], 
-                                  'url'   => CRM_Utils_System::url( $currentPath ));
+                $crumbs[] = '<a href="'. CRM_Utils_System::url( $currentPath ) . '">'. 
+                    $cache[$currentPath]['title'] . '</a>';
+                
             } else {
                 // if current-path not found in params AND cache, look into DB
                 $currentPathParams = self::get($currentPath);
                 if ( $currentPathParams  && 
                      isset($currentPathParams['title'] ) ) {
-                    $crumbs[] = array('title' => $currentPathParams['title'], 
-                                      'url'   => CRM_Utils_System::url( $currentPath ));
+                    $crumbs[] = '<a href="'. CRM_Utils_System::url( $currentPath ) . '">'. 
+                        $currentPathParams['title'] . '</a>';
                     // store in cache
                     $cache[$currentPath]['title'] = $currentPathParams['title'];
                 }
             }
         }
-        
+
+        $menu[$path]['breadcrumb'] = $crumbs;
+
         return $crumbs;
+    }
+
+    static function fillComponentIds( &$menu, $path ) {
+        static $cache = array( );
+
+        if (array_key_exists('component_id', $menu[$path])) {
+            return;
+        }
+        
+        $args = explode('/', $path);
+
+        if ( count($args) > 1 ) {
+            $compPath  = $args[0] . '/' . $args[1];
+        } else {
+            $compPath  = $args[0];
+        }    
+        
+        $componentId = null;
+
+        if ( array_key_exists($compPath, $cache) ) {
+            $menu[$path]['component_id'] = $cache[$compPath];
+        } else {
+            if ( $menu[$compPath]['component'] ) {
+                $componentId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Component', 
+                                                            $menu[$compPath]['component'], 
+                                                            'id', 'name' );
+            }
+            $menu[$path]['component_id']      = $componentId ? $componentId : "null";
+            $cache[$compPath] = $menu[$path]['component_id'];
+        }
     }
 
     static function get( $path )

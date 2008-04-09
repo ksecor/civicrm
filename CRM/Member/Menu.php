@@ -45,9 +45,10 @@ class CRM_Member_Menu {
                        array( 
                              'query'   => 'reset=1',
                              'title'   => ts('CiviMember'), 
-                             'access_arguments'  => CRM_Core_Permission::check( 'access CiviMember'), 
-                             'page_type' => CRM_Core_Menu::MENU_ITEM,
-                             'weight'  => 700,  
+                             'access_arguments'  => array( array( 'access CiviMember' ) ), 
+                             'page_type'  => CRM_Core_Menu::MENU_ITEM,
+                             'weight'     => 700,  
+                             'component'  => 'CiviMember',  
                              ),
                        );
         return $items;
@@ -86,7 +87,7 @@ class CRM_Member_Menu {
                        array( 
                              'query'   => 'reset=1',
                              'title'   => ts( 'Find Members' ),
-                             'access_arguments'  => CRM_Core_Permission::check( 'access CiviMember' ),
+                             'access_arguments'  => array( array( 'access CiviMember' ) ),
                              'page_type' => CRM_Core_Menu::MENU_ITEM,  
                              'weight'  => 710,  
                              ),
@@ -95,7 +96,7 @@ class CRM_Member_Menu {
                        array(
                              'query'   => 'reset=1',
                              'title'   => ts( 'Import Members' ), 
-                             'access_arguments'  => CRM_Core_Permission::check( 'access CiviMember' ),
+                             'access_arguments'  => array( array( 'access CiviMember' ) ),
                              'page_type' => CRM_Core_Menu::MENU_ITEM,  
                              'weight'  => 720,  
                              ),

@@ -44,9 +44,10 @@ class CRM_Event_Menu {
                        array( 
                              'query'   => 'reset=1',
                              'title'   => ts('CiviEvent'), 
-                             'access_arguments'  => CRM_Core_Permission::check( 'access CiviEvent'), 
+                             'access_arguments'  => array( array( 'access CiviEvent') ), 
                              'page_type' => CRM_Core_Menu::MENU_ITEM,
-                             'weight'  => 800,
+                             'weight'    => 800,
+                             'component' => 'CiviEvent',
                              ),
                        
                        'civicrm/event/info' =>
@@ -69,7 +70,7 @@ class CRM_Event_Menu {
                        array( 
                              'query'   => 'reset=1',
                              'title'   => ts( 'Event Listings' ), 
-                             'access_arguments'  => CRM_Core_Permission::check( 'register for events'), 
+                             'access_arguments'  => array( array( 'register for events') ), 
                              'weight'  => 0, 
                              ),
 
@@ -78,7 +79,7 @@ class CRM_Event_Menu {
                              'path'    => 'civicrm/event/participant', 
                              'query'   => 'reset=1',
                              'title'   => ts( 'Event Participants List' ), 
-                             'access_arguments'  => CRM_Core_Permission::check( 'view event participants' ),
+                             'access_arguments'  => array( array( 'view event participants' ) ),
                               'weight'  => 0, 
                              ),
                        );
@@ -92,8 +93,7 @@ class CRM_Event_Menu {
                              'title'   => ts('Manage Events'),
                              'desc'    => ts('Create and edit event configuration including times, locations, online registration forms, and fees. Links for iCal and RSS syndication.'), 
                              'query'  => 'reset=1',
-                             'access_arguments'  => CRM_Core_Permission::check('administer CiviCRM') &&
-                             CRM_Core_Permission::check( 'access CiviEvent' ),
+                             'access_arguments'  => array( array('administer CiviCRM', 'access CiviEvent' ) ),
                              'adminGroup' => 'CiviEvent',
                              'icon'    => 'admin/small/event_manage.png',
                              'weight'  => 370
@@ -104,8 +104,7 @@ class CRM_Event_Menu {
                              'title'   => ts('Event Types'),
                              'desc'    => ts('Use Event Types to categorize your events. Event feeds can be filtered by Event Type and participant searches can use Event Type as a criteria.'), 
                              'query'  => 'group=event_type&reset=1',
-                             'access_arguments'  => CRM_Core_Permission::check('administer CiviCRM') &&
-                             CRM_Core_Permission::check( 'access CiviEvent' ),
+                             'access_arguments'  => array( array('administer CiviCRM', 'access CiviEvent' )),
                              'adminGroup' => 'CiviEvent',
                              'icon'    => 'admin/small/event_type.png',
                              'weight'  => 375
@@ -116,8 +115,7 @@ class CRM_Event_Menu {
                              'title'   => ts('Participant Status'),
                              'desc'    => ts('Define statuses for event participants here (e.g. Registered, Attended, Cancelled...). You can then assign statuses and search for participants by status.'), 
                              'query'  => 'group=participant_status&reset=1',
-                             'access_arguments'  => CRM_Core_Permission::check('administer CiviCRM') &&
-                             CRM_Core_Permission::check( 'access CiviEvent' ),
+                             'access_arguments'  => array( array('administer CiviCRM', 'access CiviEvent') ),
                              'adminGroup' => 'CiviEvent',
                              'icon'    => 'admin/small/parti_status.png',
                              'weight'  => 380
@@ -128,8 +126,7 @@ class CRM_Event_Menu {
                              'title'   => ts('Participant Role'),
                              'desc'    => ts('Define participant roles for events here (e.g. Attendee, Host, Speaker...). You can then assign roles and search for participants by role.'), 
                              'query'  => 'group=participant_role&reset=1',
-                             'access_arguments'  => CRM_Core_Permission::check('administer CiviCRM') &&
-                             CRM_Core_Permission::check( 'access CiviEvent' ),
+                             'access_arguments'  => array( array('administer CiviCRM', 'access CiviEvent') ),
                              'adminGroup' => 'CiviEvent',
                              'icon'    => 'admin/small/parti_role.png',
                              'weight'  => 385
@@ -140,8 +137,7 @@ class CRM_Event_Menu {
                              'title'   => ts('Price Sets'),
                              'desc'    => ts('Price sets allow you to offer multiple options with associated fees (e.g. pre-conference workshops, additional meals, etc.). Configure Price Sets for events which need more than a single set of fee levels.'), 
                              'query'   => 'reset=1',
-                             'access_arguments'  => CRM_Core_Permission::check('administer CiviCRM') &&
-                             CRM_Core_Permission::check( 'access CiviEvent' ),
+                             'access_arguments'  => array( array('administer CiviCRM', 'access CiviEvent') ),
                              'adminGroup' => 'CiviEvent',
                              'icon'    => 'admin/small/price_sets.png',
                              'weight'  => 386
@@ -151,7 +147,7 @@ class CRM_Event_Menu {
                        array( 
                              'query'   => 'reset=1',
                              'title'   => ts( 'Find Participants' ),
-                             'access_arguments'  => CRM_Core_Permission::check( 'access CiviEvent' ), 
+                             'access_arguments'  => array( array( 'access CiviEvent' ) ), 
                              'page_type' => CRM_Core_Menu::MENU_ITEM,  
                              'weight'  => 810,  
                              ),
@@ -160,8 +156,7 @@ class CRM_Event_Menu {
                        array(
                              'query'   => 'reset=1',
                              'title'   => ts( 'Manage Events' ),
-                             'access_arguments'  => CRM_Core_Permission::check( 'administer CiviCRM' ) &&
-                             CRM_Core_Permission::check( 'access CiviEvent' ),
+                             'access_arguments'  => array( array( 'administer CiviCRM', 'access CiviEvent') ),
                              'page_type' => CRM_Core_Menu::MENU_ITEM,  
                              'weight'  => 820,  
                              ),
@@ -170,8 +165,7 @@ class CRM_Event_Menu {
                        array(
                              'query'   => 'action=add&reset=1',
                              'title'   => ts( 'New Event' ),
-                             'access_arguments'  => CRM_Core_Permission::check( 'administer CiviCRM' ) &&
-                             CRM_Core_Permission::check( 'access CiviEvent' ),
+                             'access_arguments'  => array( array( 'administer CiviCRM', 'access CiviEvent') ),
                              'page_type' => CRM_Core_Menu::MENU_ITEM,  
                              'weight'  => 830,  
                              ),
@@ -180,8 +174,7 @@ class CRM_Event_Menu {
                        array(
                              'query'   => 'reset=1',
                              'title'   => ts( 'Import Participants' ),
-                             'access_arguments'  => CRM_Core_Permission::check('administer CiviCRM') &&
-                             CRM_Core_Permission::check( 'access CiviEvent' ),
+                             'access_arguments'  => array( array('administer CiviCRM', 'access CiviEvent') ),
                              'page_type' => CRM_Core_Menu::MENU_ITEM,  
                              'weight'  => 840,  
                              ),

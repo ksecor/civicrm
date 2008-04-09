@@ -61,10 +61,12 @@ class CRM_Utils_System_Drupal {
      * @access public
      * @static
      */
-    static function appendBreadCrumb( $title, $url ) {
-        $breadCrumb   = drupal_get_breadcrumb( );
-        $bc = "<a href=\"$url\">$title</a>";
-        $breadCrumb[] = $bc;
+    static function appendBreadCrumb( $breadCrumbs ) {
+        $breadCrumb = drupal_get_breadcrumb( );
+
+        foreach ( $breadCrumbs as $crumbs ) {
+            $breadCrumb[] = $crumbs;
+        }
         drupal_set_breadcrumb( $breadCrumb );
     }
 

@@ -45,16 +45,17 @@ class CRM_Contribute_Menu {
                        array( 
                              'query'   => 'reset=1',
                              'title'   => ts( 'CiviContribute' ), 
-                             'access_arguments'  => CRM_Core_Permission::check( 'access CiviContribute'), 
+                             'access_arguments'  => array( array( 'access CiviContribute') ), 
                              'page_type' => CRM_Core_Menu::MENU_ITEM,
                              'weight'  => 500,  
+                             'component'  => 'CiviContribute',  
                              ),
 
                        'civicrm/contribute/transact' => 
                        array( 
                              'query'   => 'reset=1',
                              'title'   => ts( 'CiviContribute' ), 
-                             'access_arguments'  => CRM_Core_Permission::check( 'make online contributions'), 
+                             'access_arguments'  => array( array( 'make online contributions') ), 
                              'weight'  => 0, 
                              ),
                        );
@@ -124,7 +125,7 @@ class CRM_Contribute_Menu {
                        array( 
                              'query'   => 'reset=1',
                              'title'   => ts( 'Find Contributions' ), 
-                             'access_arguments'  => CRM_Core_Permission::check( 'access CiviContribute' ),
+                             'access_arguments'  => array( array( 'access CiviContribute' ) ),
                              'page_type' => CRM_Core_Menu::MENU_ITEM,  
                              'weight'  => 510,  
                              ),
@@ -133,8 +134,7 @@ class CRM_Contribute_Menu {
                        array( 
                              'query'   => 'reset=1',
                              'title'   => ts( 'Import Contributions' ), 
-                             'access_arguments'  => CRM_Core_Permission::check( 'administer CiviCRM' ) &&
-                             CRM_Core_Permission::check( 'access CiviContribute' ),
+                             'access_arguments'  => array( array( 'administer CiviCRM', 'access CiviContribute' ) ),
                              'page_type' => CRM_Core_Menu::MENU_ITEM,  
                                  'weight'  => 520,  
                              ),
@@ -143,8 +143,7 @@ class CRM_Contribute_Menu {
                        array( 
                              'query'   => 'reset=1',
                              'title'   => ts( 'Manage Contribution Pages' ), 
-                             'access_arguments'  => CRM_Core_Permission::check( 'administer CiviCRM' ) &&
-                             CRM_Core_Permission::check( 'access CiviContribute' ),
+                             'access_arguments'  => array( array( 'administer CiviCRM', 'access CiviContribute' ) ),
                              'page_type' => CRM_Core_Menu::MENU_ITEM,  
                              'weight'  => 530,  
                              ),

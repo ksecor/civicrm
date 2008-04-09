@@ -106,6 +106,7 @@ class CRM_Core_Invoke
                 }
 
                 CRM_Utils_System::setTitle( $item['title'] );
+                CRM_Utils_System::appendBreadCrumb( $item['breadcrumb'] );
                 
                 if ( is_array( $item['page_callback'] ) ) {
                     call_user_func( $item['page_callback'],
