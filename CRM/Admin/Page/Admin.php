@@ -82,7 +82,7 @@ class CRM_Admin_Page_Admin extends CRM_Core_Page
            $adminPanel[$group]['show'] = $v['show'];
            $adminPanel[$group]['hide'] = $v['hide'];
            $i = 0;
-            foreach ( $items as $item ) {
+            foreach ( $items as $path => $item ) {
                 if ( CRM_Utils_Array::value( 'adminGroup', $item ) == $group ) {
                     $i++;
                     $value = array( 'title' => $item['title'],
@@ -91,7 +91,7 @@ class CRM_Admin_Page_Admin extends CRM_Core_Page
                                                                            ','=>'_', '/'=>'_' 
                                                                            )
                                                      ),
-                                    'url'   => CRM_Utils_System::url( $item['path'],
+                                    'url'   => CRM_Utils_System::url( $path,
                                                                       CRM_Utils_Array::value( 'query', $item ) ),
                                     'icon'  => $item['icon'],
                                     'extra' => CRM_Utils_Array::value( 'extra', $item ) );

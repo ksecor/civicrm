@@ -990,23 +990,23 @@ class CRM_Core_Menu
 
             // check if current-path exists in params.
             if ( array_key_exists($currentPath, $menu) && isset($menu[$currentPath]['title']) ) {
-                $crumbs[] = '<a href="'. CRM_Utils_System::url( $currentPath ) . '">'. 
-                    $menu[$currentPath]['title'] . '</a>';
+                $crumbs[] = array('title' => $menu[$currentPath]['title'], 
+                                  'url'   => CRM_Utils_System::url( $currentPath ));
                 // store in cache
                 $cache[$currentPath]['title'] = $menu[$currentPath]['title'];
 
             } else if ( array_key_exists($currentPath, $cache) ) {
                 // pick-up from cache
-                $crumbs[] = '<a href="'. CRM_Utils_System::url( $currentPath ) . '">'. 
-                    $cache[$currentPath]['title'] . '</a>';
-                
+                $crumbs[] = array('title' => $cache[$currentPath]['title'], 
+                                  'url'   => CRM_Utils_System::url( $currentPath ));
+
             } else {
                 // if current-path not found in params AND cache, look into DB
                 $currentPathParams = self::get($currentPath);
                 if ( $currentPathParams  && 
                      isset($currentPathParams['title'] ) ) {
-                    $crumbs[] = '<a href="'. CRM_Utils_System::url( $currentPath ) . '">'. 
-                        $currentPathParams['title'] . '</a>';
+                    $crumbs[] = array('title' => $currentPathParams['title'], 
+                                      'url'   => CRM_Utils_System::url( $currentPath ));
                     // store in cache
                     $cache[$currentPath]['title'] = $currentPathParams['title'];
                 }

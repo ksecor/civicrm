@@ -35,8 +35,7 @@
         {if $key != 0}
            &raquo;
         {/if}
-        {*<a href="{$crumb.url}">{$crumb.title}</a>*}
-        {$crumb}
+        <a href="{$crumb.url}">{$crumb.title}</a>
       {/foreach}
     </div>
     {/if}

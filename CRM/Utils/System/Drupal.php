@@ -65,7 +65,7 @@ class CRM_Utils_System_Drupal {
         $breadCrumb = drupal_get_breadcrumb( );
 
         foreach ( $breadCrumbs as $crumbs ) {
-            $breadCrumb[] = $crumbs;
+            $breadCrumb[] = "<a href=\"{$crumbs['url']}\">{$crumbs['title']}</a>";
         }
         drupal_set_breadcrumb( $breadCrumb );
     }
