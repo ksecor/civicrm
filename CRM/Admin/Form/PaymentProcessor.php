@@ -103,10 +103,6 @@ class CRM_Admin_Form_PaymentProcessor extends CRM_Admin_Form
                                       'label' => ts( 'Site URL' ),
                                       'rule'  => 'url',
                                       'msg'   => ts( 'Enter a valid URL' ) ),
-                               array( 'name'  => 'url_api',
-                                      'label' => ts( 'API URL' ),
-                                      'rule'  => 'url',
-                                      'msg'   => ts( 'Enter a valid URL' ) ),
                                );
 
         if ( $this->_ppDAO->is_recur ) {
@@ -122,6 +118,14 @@ class CRM_Admin_Form_PaymentProcessor extends CRM_Admin_Form
                                       'rule'  => 'url',
                                       'msg'   => ts( 'Enter a valid URL' ) );
         }
+
+        if ( ! empty( $this->_ppDAO->url_api_default ) ) {
+            $this->_fields[] = array( 'name'  => 'url_api',
+                                      'label' => ts( 'API URL' ),
+                                      'rule'  => 'url',
+                                      'msg'   => ts( 'Enter a valid URL' ) );
+        }
+
     }
 
     /**
