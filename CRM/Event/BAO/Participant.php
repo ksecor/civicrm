@@ -311,6 +311,9 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
         require_once 'CRM/Event/PseudoConstant.php';
         $statusTypes  = CRM_Event_PseudoConstant::participantStatus( null, false );
         $status = implode( ',', array_keys( $statusTypes ) );
+        if ( !$status ) {
+            $status = 0;
+        }
         // fix for CRM-2877, participant has to have is_filter true
         // for event to be full
         $query = "SELECT   count(civicrm_participant.id) as total_participants,
