@@ -1053,6 +1053,10 @@ class CRM_Contact_BAO_Query
             // since this case is handled with the above
             return;
 
+        case 'relation_status':
+            // since this case is handled with the above
+            return;
+            
         case 'task_status_id':
             $this->task( $values );
             return;
@@ -2340,11 +2344,14 @@ class CRM_Contact_BAO_Query
      * @access public
      */
     function relationship( &$values ) {
+        
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
-
+       
         // also get values array for relation_target_name
         // for relatinship search we always do wildcard
         $targetName = $this->getWhereValues( 'relation_target_name', $grouping );
+        $relStatus  = $this->getWhereValues( 'relation_status', $grouping );
+        
         if ( ! $targetName ) {
             $name = null;
         } else {
@@ -2372,6 +2379,14 @@ class CRM_Contact_BAO_Query
                self::$_relType = 'reciprocal';
            }
            $this->_where[$grouping][] = "(  LOWER( contact_b.sort_name ) LIKE '%{$name}%' AND contact_b.id != contact_a.id )";
+        }
+
+        //check for active, inactive and all relation status
+        $today = date( 'Ymd' );
+        if ( $relStatus[2] == 0 ) {
+            $this->_where[$grouping][] = "civicrm_relationship.is_active = 1 AND ( end_date is NULL OR end_date >= {$today} )";
+        } else if ( $relStatus[2] == 1 ) {
+            $this->_where[$grouping][] = "civicrm_relationship.is_active = 0 OR end_date < {$today}";
         }
         $this->_where[$grouping][] = 'civicrm_relationship.relationship_type_id = '.$rel[0];
         $this->_tables['civicrm_relationship'] = $this->_whereTables['civicrm_relationship'] = 1; 
