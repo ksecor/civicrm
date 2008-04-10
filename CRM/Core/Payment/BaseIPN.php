@@ -325,9 +325,7 @@ class CRM_Core_Payment_BaseIPN {
             $locationParams = array( 'entity_id' => $objects['event']->id, 'entity_table' => 'civicrm_event' );
             require_once 'CRM/Core/BAO/Location.php';
             require_once 'CRM/Event/Form/ManageEvent/Location.php';
-            CRM_Core_BAO_Location::getValues($locationParams, $values, 
-                                             CRM_Core_DAO::$_nullArray, 
-                                             CRM_Event_Form_ManageEvent_Location::LOCATION_BLOCKS );
+            CRM_Core_BAO_Location::getValues($locationParams, $values );
 
             require_once 'CRM/Core/BAO/UFJoin.php';
             $ufJoinParams = array( 'entity_table' => 'civicrm_event',

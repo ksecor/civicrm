@@ -127,7 +127,7 @@ class CRM_Core_BAO_Domain extends CRM_Core_DAO_Domain {
             $values = array();
             $ids = array();
             
-            CRM_Core_BAO_Location::getValues($params, $values, $ids, 1);
+            CRM_Core_BAO_Location::getValues($params, $values, true);
             if ( ! CRM_Utils_Array::value( 'location', $values ) ||
                  ! CRM_Utils_Array::value( '1', $values['location'] ) ) {
                 $this->_location = null;
