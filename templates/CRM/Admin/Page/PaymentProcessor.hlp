@@ -52,7 +52,10 @@
 <br />{ts}CiviCRM requires that you use the <strong>Signature-based API Credentials</strong> for PayPal Pro and Express. Enter your <strong>API Signature</strong> as displayed in your LIVE account's <strong>Profile - View API Signature</strong> screen.{/ts}</p>
 {/htxt}
 {htxt id='PayPal-live-url-site'}
-{ts}The URL for PayPal's LIVE Payment server. Use the default value unless otherwise advised by PayPal.{/ts}
+{ts}The URL for PayPal's LIVE Payment server. Use the default value (unless otherwise advised by PayPal):{/ts}<br /> https://www.paypal.com/
+{/htxt}
+{htxt id='PayPal-live-url-api'}
+{ts}The URL for PayPal's LIVE API gateway server. Use the default value (unless otherwise advised by PayPal):{/ts}<br />https://api-3t.paypal.com/
 {/htxt}
 {htxt id='PayPal-live-url-button'}
 {ts}The URL for displaying PayPal's 'Pay with PayPal' payment button image. Use the default value unless otherwise advised by PayPal.{/ts}
@@ -70,7 +73,10 @@
 <br />{ts}CiviCRM requires that you use the <strong>Signature-based API Credentials</strong> for PayPal Pro and Express. Enter your <strong>API Signature</strong> as displayed in your TEST (sandbox) account's <strong>Profile - View API Signature</strong> screen.{/ts}</p>
 {/htxt}
 {htxt id='PayPal-test-url-site'}
-{ts}The URL for PayPal's TEST Payment server. Use the default value unless otherwise advised by PayPal.{/ts}
+{ts}The URL for PayPal's TEST Payment server. Use the default value (unless otherwise advised by PayPal):{/ts}<br />https://www.sandbox.paypal.com/
+{/htxt}
+{htxt id='PayPal-test-url-api'}
+{ts}The URL for PayPal's TEST API gateway server. Use the default value (unless otherwise advised by PayPal):{/ts}<br />https://api-3t.sandbox.paypal.com/
 {/htxt}
 {htxt id='PayPal-test-url-button'}
 {ts}The URL for displaying PayPal's 'Pay with PayPal' payment button image. Use the default value unless otherwise advised by PayPal.{/ts}
@@ -89,7 +95,13 @@
 <br />{ts}CiviCRM requires that you use the <strong>Signature-based API Credentials</strong> for PayPal Pro and Express. Enter your <strong>API Signature</strong> as displayed in your LIVE account's <strong>Profile - View API Signature</strong> screen.{/ts}</p>
 {/htxt}
 {htxt id='PayPal_Express-live-url-site'}
-{ts}The URL for PayPal's LIVE Payment server. Use the default value unless otherwise advised by PayPal.{/ts}
+{ts}The URL for PayPal's LIVE Payment server. Use the default value (unless otherwise advised by PayPal):{/ts}<br /> https://www.paypal.com/
+{/htxt}
+{htxt id='PayPal_Express-live-url-api'}
+{ts}The URL for PayPal's LIVE API gateway server. Use the default value (unless otherwise advised by PayPal):{/ts}<br />https://api-3t.paypal.com/
+{/htxt}
+{htxt id='PayPal_Express-live-url-button'}
+{ts}The URL for displaying PayPal's 'Pay with PayPal' payment button image. Use the default value unless otherwise advised by PayPal.{/ts}
 {/htxt}
 {htxt id='PayPal_Express-test-user-name'}
 <strong>{ts}TEST Account API Username:{/ts}</strong>
@@ -104,7 +116,13 @@
 <br />{ts}CiviCRM requires that you use the <strong>Signature-based API Credentials</strong> for PayPal Pro and Express. Enter your <strong>API Signature</strong> as displayed in your TEST (sandbox) account's <strong>Profile - View API Signature</strong> screen.{/ts}</p>
 {/htxt}
 {htxt id='PayPal_Express-test-url-site'}
-{ts}The URL for PayPal's TEST Payment server. Use the default value unless otherwise advised by PayPal.{/ts}
+{ts}The URL for PayPal's TEST Payment server. Use the default value (unless otherwise advised by PayPal):{/ts}<br />https://www.sandbox.paypal.com/
+{/htxt}
+{htxt id='PayPal_Express-test-url-api'}
+{ts}The URL for PayPal's TEST API gateway server. Use the default value (unless otherwise advised by PayPal):{/ts}<br />https://api-3t.sandbox.paypal.com/
+{/htxt}
+{htxt id='PayPal_Express-test-url-button'}
+{ts}The URL for displaying PayPal's 'Pay with PayPal' payment button image. Use the default value unless otherwise advised by PayPal.{/ts}
 {/htxt}
 
 {htxt id='PayPal_Standard-live-user-name'}

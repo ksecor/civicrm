@@ -33,7 +33,7 @@
 {/if}
     <dt>{$form.url_site.label}</dt><dd>{$form.url_site.html|crmReplace:class:huge} {help id=$ppType|cat:'-live-url-site'}</dd>
 {if $form.url_api}
-    <dt>{$form.url_api.label}</dt><dd>{$form.url_api.html|crmReplace:class:huge}</dd>
+    <dt>{$form.url_api.label}</dt><dd>{$form.url_api.html|crmReplace:class:huge} {help id=$ppType|cat:'-live-url-api'}</dd>
 {/if}
 {if $is_recur}
     <dt>{$form.url_recur.label}</dt><dd>{$form.url_recur.html|crmReplace:class:huge} {help id=$ppType|cat:'-live-url-recur'}</dd>
@@ -57,7 +57,7 @@
 {/if}
     <dt>{$form.test_url_site.label}</dt><dd>{$form.test_url_site.html|crmReplace:class:huge} {help id=$ppType|cat:'-test-url-site'}</dd>
 {if $form.test_url_api}
-    <dt>{$form.test_url_api.label}</dt><dd>{$form.test_url_api.html|crmReplace:class:huge}</dd>
+    <dt>{$form.test_url_api.label}</dt><dd>{$form.test_url_api.html|crmReplace:class:huge} {help id=$ppType|cat:'-test-url-api'}</dd>
 {/if}
 {if $is_recur}
     <dt>{$form.test_url_recur.label}</dt><dd>{$form.test_url_recur.html|crmReplace:class:huge} {help id=$ppType|cat:'-test-url-recur'}</dd>
