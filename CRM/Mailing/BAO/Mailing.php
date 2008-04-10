@@ -1794,15 +1794,12 @@ SELECT DISTINCT( m.id ) as id
     
     public function commonCompose ( &$form )
     {
-        
-        $cID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $form, false );
-        
-        if( $cID ) {
-            $tokens = CRM_Core_SelectValues::contactTokens( );
-        } else {
+        if( ( CRM_Utils_System::getClassName($form) ) == 'CRM_Mailing_Form_Upload' )  {
             $tokens = CRM_Core_SelectValues::mailingTokens( );
+        } else {
+            $tokens = CRM_Core_SelectValues::contactTokens( );
         }
-
+        
         $form->add( 'select', 'token1',  ts( 'Insert Tokens' ), 
                     $tokens , false, 
                     array(
