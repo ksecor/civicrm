@@ -231,6 +231,7 @@ class CRM_Event_Form_Offline extends CRM_Core_Form
             CRM_Event_Form_Registration_Register::buildAmount( $this, false );
         } else {
             $this->add( 'text', 'amount', ts('Event Fee(s)') );
+            $this->addRule('amount', ts('Please enter a valid amount.'), 'money');
         }
 
         $this->addElement('checkbox', 'is_email_receipt', ts('Send Receipt?'), null );
@@ -245,24 +246,7 @@ class CRM_Event_Form_Offline extends CRM_Core_Form
                                         'name'      => ts('Cancel') ), 
                                 ) 
                           );
-
-        $this->addFormRule( array( 'CRM_Event_Form_Offline', 'formRule' ), $this );
-    }
-    
-    /**  
-     * global form rule  
-     *  
-     * @param array $fields  the input form values  
-     * @param array $files   the uploaded files if any  
-     * @param array $options additional user data  
-     *  
-     * @return true if no errors, else array of errors  
-     * @access public  
-     * @static  
-     */  
-    function formRule( &$fields, &$files, $self ) 
-    {  
-
+        
     }
     
     /** 
