@@ -7,15 +7,14 @@
 </script>
 {literal}
 <script type="text/javascript"> 
-function getValue(buttonName)
+function getValue(buttonName, url)
 {
-   
     var element  = document.getElementById('id_search_block');
     var element1 = dijit.byId( 'id_sort_name' );
     var value    = element1.getValue();
 
     if ( value && (buttonName.name == '_qf_Edit_next_view') ) {
-        element.action = "{/literal}{$viewContactURL}{literal}&cid=" +  element1;
+        element.action = url + '&cid=' + element1;
     } else {
         var element2             = dojo.byId( 'id_sort_name' );
         element1.valueNode.value = element2.value;
@@ -27,14 +26,14 @@ function getValue(buttonName)
 {/literal}
 {/if}
     <form action="{$postURL}" name="search_block" id="id_search_block" method="post">
-    
+
     <div dojoType="dojox.data.QueryReadStore" jsId="searchStore" url="{$dataURL}" doClientPaging="false"></div>
     <div class="tundra">
         <input type="hidden" name="contact_type" value="" />
         <input type="text" name="sort_name" id="id_sort_name" value="" dojoType="civicrm.FilteringSelect" store="searchStore" mode="remote" searchAttr="name"  pageSize="10" />
         <br />
-         <input type="submit" name="_qf_Edit_next_view" value="{ts}View Contact{/ts}" class="form-submit" onclick="getValue(this)"/>
-        <input type="submit" name="_qf_Basic_refresh" value="{ts}Search{/ts}" class="form-submit" onclick="getValue(this)"/>
+         <input type="submit" name="_qf_Edit_next_view" value="{ts}View Contact{/ts}" class="form-submit" onclick="getValue(this, '{$viewContactURL}')"/>
+        <input type="submit" name="_qf_Basic_refresh" value="{ts}Search{/ts}" class="form-submit" onclick="getValue(this, null)"/>
        
         <br />
         <a href="{$advancedSearchURL}" title="{ts}Go to Advanced Search{/ts}">&raquo; {ts}Advanced Search{/ts}</a>
