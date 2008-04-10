@@ -1592,6 +1592,9 @@ WHERE  id = $cfID
                             foreach ( $v as $item ) {
                                 if ($item) {
                                     $defaults[$fldName][$item] = 1;
+                                    // seems like we need this for QF style checkboxes in profile where its multiindexed
+                                    // CRM-2969
+                                    $defaults["{$fldName}[{$item}]"] = 1;
                                 }
                             }
                             break;
