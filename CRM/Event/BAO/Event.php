@@ -368,8 +368,8 @@ LIMIT      0, 10
                         $values = array();
                         $ids    = array();
                         
-                        $params['event_id'] = $dao->id;
-                        
+                        $params = array( 'entity_id' => $dao->id ,'entity_table' => 'civicrm_event');
+
                         require_once 'CRM/Core/BAO/Location.php';
                         CRM_Core_BAO_Location::getValues($params, $values, $ids, 1 );
                         
