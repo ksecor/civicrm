@@ -25,11 +25,6 @@
    {/if}
 
     {if $rows}
-        {if $action eq 16 and $permission EQ 'edit'}
-            <div class="action-link">
-            <a href="{$newEventURL}">&raquo; {ts}New Event Registration{/ts}</a>
-            </div>
-        {/if}
         {include file="CRM/Event/Form/Selector.tpl"}
     {else}
        <div class="messages status">
