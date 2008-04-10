@@ -64,8 +64,10 @@ class CRM_Utils_System_Drupal {
     static function appendBreadCrumb( $breadCrumbs ) {
         $breadCrumb = drupal_get_breadcrumb( );
 
-        foreach ( $breadCrumbs as $crumbs ) {
-            $breadCrumb[] = "<a href=\"{$crumbs['url']}\">{$crumbs['title']}</a>";
+        if ( is_array( $breadCrumbs ) ) {
+            foreach ( $breadCrumbs as $crumbs ) {
+                $breadCrumb[] = "<a href=\"{$crumbs['url']}\">{$crumbs['title']}</a>";
+            }
         }
         drupal_set_breadcrumb( $breadCrumb );
     }

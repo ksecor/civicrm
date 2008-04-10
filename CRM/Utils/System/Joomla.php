@@ -78,8 +78,10 @@ class CRM_Utils_System_Joomla {
         $template =& CRM_Core_Smarty::singleton( );
         $bc = $template->get_template_vars( 'breadcrumb' );
 
-        foreach ( $breadCrumbs as $crumbs ) {
-            $bc[] = $crumbs;
+        if ( is_array( $breadCrumbs ) ) {
+            foreach ( $breadCrumbs as $crumbs ) {
+                $bc[] = $crumbs;
+            }
         }
         $template->assign_by_ref( 'breadcrumb', $bc );
         return;

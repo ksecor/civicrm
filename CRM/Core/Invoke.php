@@ -109,8 +109,14 @@ class CRM_Core_Invoke
                 CRM_Utils_System::appendBreadCrumb( $item['breadcrumb'] );
                 
                 if ( is_array( $item['page_callback'] ) ) {
+                    // Added since url is not refreshed. Should be
+                    // removed when all the methods have been removed from
+                    // this invoke file. 
+                    $newArgs = explode( '/', $_GET['q'] );
+
                     call_user_func( $item['page_callback'],
-                                    $args );
+                                    $newArgs );
+                    return;
                 } else if (strstr($item['page_callback'], '_Form')) {
                     $wrapper =& new CRM_Utils_Wrapper( );
                     return $wrapper->run( $item['page_callback'], 
