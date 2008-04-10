@@ -1,0 +1,10 @@
+-- /************************************************************************
+-- *
+-- * MySQL Script for civicrm database/tables - upgradation from 2.0 -> 2.1
+-- *
+-- *************************************************************************/
+
+-- Please add script for all the schema / fixed-data related modifications to 
+-- this sql script as you resolve 2.1 issues. Include the issue number which 
+-- is the source of the change, as part of the comment.
+
