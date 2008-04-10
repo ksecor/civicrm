@@ -4,13 +4,25 @@
 {elseif $action eq 4}
     {include file="CRM/Event/Form/ParticipantView.tpl"}
 {else}
-    {if $permission EQ 'edit'}{capture assign=newEventURL}{crmURL p="civicrm/contact/view/participant" q="reset=1&action=add&cid=`$contactId`&context=participant"}{/capture}{/if}
+    {if $permission EQ 'edit'}{capture assign=newEventURL}{crmURL p="civicrm/contact/view/participant" q="reset=1&action=add&cid=`$contactId`&context=participant"}{/capture}
+       {if $newCredit}
+          {capture assign=newCreditURL}{crmURL p="civicrm/event/offline" q="reset=1&cid=`$contactId`"}{/capture}
+       {/if}
+    {/if}
 
     <div id="help">
         <p>{ts 1=$displayName}This page lists all event registrations for %1 since inception.{/ts} 
         {if $permission EQ 'edit'}{ts 1=$newEventURL}Click <a accesskey="N" href='%1'>New Event Registration</a> to register this contact for an event.{/ts}{/if}
         </p>
     </div>
+    {if $action eq 16 and $permission EQ 'edit'}
+       <div class="action-link">
+           <a accesskey="N" href="{$newEventURL}">&raquo; {ts}New Event Registration{/ts}</a>
+           {if $newCredit}
+               &nbsp; &nbsp; <a href="{$newCreditURL}">&raquo; {ts}Submit Credit Card Registration{/ts}</a>
+           {/if}
+       </div>
+   {/if}
 
     {if $rows}
         {if $action eq 16 and $permission EQ 'edit'}
