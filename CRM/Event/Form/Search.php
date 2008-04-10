@@ -162,10 +162,9 @@ class CRM_Event_Form_Search extends CRM_Core_Form
         $this->_limit   = CRM_Utils_Request::retrieve( 'limit', 'Positive', $this );
         $this->_context = CRM_Utils_Request::retrieve( 'context', 'String', $this );
         $this->_ssID    = CRM_Utils_Request::retrieve( 'ssID', 'Positive',  $this );
-        
-        $this->assign( "{$this->_prefix}limit", $this->_limit );
 
-        if ( $this->_context != 'dashboard' ) {
+        $this->assign( "{$this->_prefix}limit", $this->_limit );
+        if ( $this->_context == 'search' ) {
             CRM_Utils_System::setTitle( ts('Find Participants') );
         }
         

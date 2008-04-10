@@ -172,7 +172,7 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form
         $this->_context = CRM_Utils_Request::retrieve( 'context', 'String',
                                                        $this );
 
-        if ( $this->_context != 'dashboard' ) {
+        if ( $this->_context == 'search' ) {
             CRM_Utils_System::setTitle( ts('Find Contributions') );
         }
 

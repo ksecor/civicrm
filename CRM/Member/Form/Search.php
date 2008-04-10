@@ -167,7 +167,7 @@ class CRM_Member_Form_Search extends CRM_Core_Form
 
         $this->assign( "{$this->_prefix}limit", $this->_limit );
         
-        if ( $this->_context != 'dashboard' ) {
+        if ( $this->_context == 'search' ) {
             CRM_Utils_System::setTitle( ts('Find Members') );
         }
             
