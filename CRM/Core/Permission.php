@@ -224,7 +224,7 @@ class CRM_Core_Permission {
         if ( isset( $item['component_id'] ) &&
              $item['component_id'] ) {
             // FIX ME: check if component is enabled
-            return false;
+            return true;
         }
 
         // the following is imitating drupal 6 code in includes/menu.inc
