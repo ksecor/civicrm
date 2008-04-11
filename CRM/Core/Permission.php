@@ -223,8 +223,11 @@ class CRM_Core_Permission {
         // if component_id is present, ensure it is enabled
         if ( isset( $item['component_id'] ) &&
              $item['component_id'] ) {
-            // FIX ME: check if component is enabled
-            return true;
+            $config =& CRM_Core_Config::singleton( );
+            if ( ! in_array( $item['component_id'],
+                             $config->enableComponentIDs ) ) {
+                return false;
+            }
         }
 
         // the following is imitating drupal 6 code in includes/menu.inc
