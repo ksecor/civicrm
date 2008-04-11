@@ -134,7 +134,7 @@ class CRM_Core_Invoke
                     eval( '$page = new ' .
                           $item['page_callback'] .
                           ' ( );' );
-                    return $page->run( $args );
+                    return $page->run( $args, CRM_Utils_Array::value('page_arguments', $item, null) );
                 }
             }
             array_pop( $args );
@@ -747,14 +747,10 @@ class CRM_Core_Invoke
         return CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/admin', 'reset=1', false) );
     }
 
-    /**
-     * This function contains the action for import arguments
-     *
-     * @params $args array this array contains the arguments of the url 
-     *
-     * @static
-     * @access public
-     */
+
+    /**********************************/
+    /****** NO LONGER USED ************/
+    /**********************************/
     static function import( $args ) 
     {
         if ( $args[1] != 'import' ) {
@@ -1025,91 +1021,6 @@ class CRM_Core_Invoke
         exit();
     }
     
-    /** 
-     * This function contains the actions for setting arguments
-     * 
-     *  $args array this array contains the arguments of the url 
-     * 
-     * @static 
-     * @access public 
-     */ 
-
-    static function setting ( $args ) 
-    {
-        if ( $args[2] !== 'setting' ) {
-            return; 
-        }
-        
-        $session =& CRM_Core_Session::singleton();
-        $session->pushUserContext( CRM_Utils_System::url('civicrm/admin/setting', 'reset=1' ) );
-
-        $wrapper =& new CRM_Utils_Wrapper( );
-        
-        $thirdArg  = CRM_Utils_Array::value( 3, $args, '' );
-        $fourthArg = CRM_Utils_Array::value( 4, $args, '' );
-        switch ( $thirdArg ) {
-        case 'component' : 
-            $output = $wrapper->run( 'CRM_Admin_Form_Setting_Component', ts('Components'), null); 
-            break;
-        case 'preferences':
-            switch ( $fourthArg ) {
-            case 'display':
-                $output = $wrapper->run( 'CRM_Admin_Form_Preferences_Display', ts('System Preferences'), null); 
-                break;
-            case 'address':
-                $output = $wrapper->run( 'CRM_Admin_Form_Preferences_Address', ts('Address Preferences'), null); 
-                break;
-            case 'date':
-                require_once 'CRM/Admin/Page/PreferencesDate.php';
-                $view   =& new CRM_Admin_Page_PreferencesDate(ts('View Date Prefences'));
-                $output =  $view->run( );
-                break;
-            }
-            break;
-        case 'path' : 
-            $output = $wrapper->run( 'CRM_Admin_Form_Setting_Path', ts('File System Paths'), null); 
-            break;
-        case 'url' : 
-            $output = $wrapper->run( 'CRM_Admin_Form_Setting_Url', ts('Site URLs'), null); 
-            break;
-        case 'smtp' : 
-            $output = $wrapper->run( 'CRM_Admin_Form_Setting_Smtp', ts('Smtp Server'), null); 
-            break;
-        case 'uf':
-            $wrapper =& new CRM_Utils_Wrapper( );
-            return $wrapper->run( 'CRM_Admin_Form_Setting_UF', ts('User Framework Settings'), null); 
-        case 'mapping' : 
-            $output = $wrapper->run( 'CRM_Admin_Form_Setting_Mapping', ts('Mapping and Geocoding'), null); 
-            break;
-        case 'localization' : 
-            $output = $wrapper->run( 'CRM_Admin_Form_Setting_Localization', ts('Localization'), null); 
-            break;
-        case 'date' : 
-            $output = $wrapper->run( 'CRM_Admin_Form_Setting_Date', ts('Date Formatting'), null); 
-            break;
-        case 'misc' : 
-            $output = $wrapper->run( 'CRM_Admin_Form_Setting_Miscellaneous', ts('Miscellaneous'), null); 
-            break;
-        case 'debug' : 
-            $output = $wrapper->run( 'CRM_Admin_Form_Setting_Debugging', ts('Debugging'), null); 
-            break;
-        case 'updateConfigBackend':
-            $output = $wrapper->run( 'CRM_Admin_Form_Setting_UpdateConfigBackend',
-                                     ts('Update Config Backend'),
-                                     null ); 
-            break;
-            
-        default : 
-            require_once 'CRM/Admin/Page/Setting.php';
-            $view =& new CRM_Admin_Page_Setting();
-            $output = $view->run();
-            break;
-        }
-        $config =& CRM_Core_Config::singleton();
-        $config->cleanup(1);
-        return $output;
-    }
-
     /**
      * This function for User dashboard
      *

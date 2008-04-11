@@ -181,7 +181,7 @@ class CRM_Core_Menu
                                                 'query'  => 'reset=1',
                                                 'access_arguments' => array( array( 'import contacts', 'access CiviCRM' ) ),
                                                 'page_type'=>  CRM_Core_Menu::MENU_ITEM,
-                                                'page_callback' => array( 'CRM_Core_Invoke', 'import' ),
+                                                'page_callback' => 'CRM_Import_Controller',
                                                 'weight' =>  400,
                                                 ),
 
@@ -412,12 +412,110 @@ class CRM_Core_Menu
                              'title'   => ts('Global Settings'),
                              'desc'    => ts('Configure Global Settings for your site, including: Enabled Components, Site Preferences for screens and forms, Directory Paths and Resource URLs, Address formats, Localization, Payment Processor, Outbound Email, Mapping, and Debugging.'), 
                              'query'  => 'reset=1',
-                             'page_callback' => array( 'CRM_Core_Invoke', 'setting' ),
+                             'page_callback' => 'CRM_Admin_Page_Setting',
                              'adminGroup' => ts('Configure'),
                              'icon'    => 'admin/small/36.png',
                              'weight'  => 200
                              ),
-                       
+
+                       'civicrm/admin/setting/component' =>
+                       array(
+                             'title'   => ts('Components'),
+                             'query'   => 'reset=1',
+                             'page_callback' => 'CRM_Admin_Form_Setting_Component',
+                             ),
+
+                       'civicrm/admin/setting/preferences/display' =>
+                       array(
+                             'title'   => ts('System Preferences'),
+                             'query'   => 'reset=1',
+                             'page_callback' => 'CRM_Admin_Form_Preferences_Display',
+                             ),
+
+                       'civicrm/admin/setting/preferences/address' =>
+                       array(
+                             'title'   => ts('Address Preferences'),
+                             'query'   => 'reset=1',
+                             'page_callback' => 'CRM_Admin_Form_Preferences_Address',
+                             ),
+
+                       'civicrm/admin/setting/preferences/date' =>
+                       array(
+                             'title'   => ts('View Date Prefences'),
+                             'query'   => 'reset=1',
+                             'page_callback' => 'CRM_Admin_Page_PreferencesDate',
+                             ),
+
+                       'civicrm/admin/setting/path' =>
+                       array(
+                             'title'   => ts('File System Paths'),
+                             'query'   => 'reset=1',
+                             'page_callback' => 'CRM_Admin_Form_Setting_Path',
+                             ),
+
+                       'civicrm/admin/setting/url' =>
+                       array(
+                             'title'   => ts('Site URLs'),
+                             'query'   => 'reset=1',
+                             'page_callback' => 'CRM_Admin_Form_Setting_Url',
+                             ),
+
+                       'civicrm/admin/setting/smtp' =>
+                       array(
+                             'title'   => ts('Smtp Server'),
+                             'query'   => 'reset=1',
+                             'page_callback' => 'CRM_Admin_Form_Setting_Smtp',
+                             ),
+
+                       'civicrm/admin/setting/uf' =>
+                       array(
+                             'title'   => ts('User Framework Settings'),
+                             'query'   => 'reset=1',
+                             'page_callback' => 'CRM_Admin_Form_Setting_UF',
+                             ),
+
+                       'civicrm/admin/setting/mapping' =>
+                       array(
+                             'title'   => ts('Mapping and Geocoding'),
+                             'query'   => 'reset=1',
+                             'page_callback' => 'CRM_Admin_Form_Setting_Mapping',
+                             ),
+
+                       'civicrm/admin/setting/localization' =>
+                       array(
+                             'title'   => ts('Localization'),
+                             'query'   => 'reset=1',
+                             'page_callback' => 'CRM_Admin_Form_Setting_Localization',
+                             ),
+
+                       'civicrm/admin/setting/date' =>
+                       array(
+                             'title'   => ts('Date Formatting'),
+                             'query'   => 'reset=1',
+                             'page_callback' => 'CRM_Admin_Form_Setting_Date',
+                             ),
+
+                       'civicrm/admin/setting/misc' =>
+                       array(
+                             'title'   => ts('Miscellaneous'),
+                             'query'   => 'reset=1',
+                             'page_callback' => 'CRM_Admin_Form_Setting_Miscellaneous',
+                             ),
+
+                       'civicrm/admin/setting/debug' =>
+                       array(
+                             'title'   => ts('Debugging'),
+                             'query'   => 'reset=1',
+                             'page_callback' => 'CRM_Admin_Form_Setting_Debugging',
+                             ),
+
+                       'civicrm/admin/setting/updateConfigBackend' =>
+                       array(
+                             'title'   => ts('Update Config Backend'),
+                             'query'   => 'reset=1',
+                             'page_callback' => 'CRM_Admin_Form_Setting_UpdateConfigBackend',
+                             ),
+
                        'civicrm/admin/dupematch' => 
                        array(
                            'title'   => ts('Contact Matching'),
