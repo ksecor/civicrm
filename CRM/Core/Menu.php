@@ -210,7 +210,7 @@ class CRM_Core_Menu
 
                       'civicrm/user' => array(
                                               'title'   => ts( 'Contact Dashboard' ),
-                                              'access_arguments'  => array( array( 'access Contact Dashboard' ) ),
+                                              'saccess_arguments'  => array( array( 'access Contact Dashboard' ) ),
                                               'page_callback' => 'CRM_Contact_Page_View_UserDashBoard',
                                               'weight'  => 0, 
                                               ),
@@ -868,8 +868,9 @@ class CRM_Core_Menu
                 $value['url'  ]  = CRM_Utils_System::url( $path, CRM_Utils_Array::value( 'query', $item ) );
                 $value['title']  = $item['title'];
                 $value['path']   = $path;
-                $value['access_callback' ] = $item[' access_callback'];
-                $value['access_arguments'] = $item[' access_arguments'];
+                $value['access_callback' ] = $item['access_callback' ];
+                $value['access_arguments'] = $item['access_arguments'];
+                $value['component_id'    ] = $item['component_id'    ];
                 
                 if ( array_key_exists( $item['title'], $components ) ) {
                     $value['class']  = 'collapsed';
@@ -895,7 +896,7 @@ class CRM_Core_Menu
                 $values[$item['weight'] . '.' . $item['title']] = $value;
             }
         }
-        
+
         $params['navigation'] = array( 'breadcrumb' => $values );
     }
 
@@ -911,8 +912,6 @@ class CRM_Core_Menu
 
         $config =& CRM_Core_Config::singleton( );
         foreach ( $values as $index => $item ) {
-            // check permission and disable
-
             if ( strpos( CRM_Utils_Array::value( $config->userFrameworkURLVar, $_REQUEST ),
                          $item['path'] ) === 0 ) {
                 $values[$index]['active'] = 'class="active"';
@@ -943,24 +942,32 @@ class CRM_Core_Menu
         }
 
         // remove all collapsed menu items from the array
-        $activeChildren = array( );
         foreach ( $values as $weight => $v ) {
-            if ( $v['parent'] ) {
-                if ( $values[$v['parent']]['class'] == 'collapsed' ) {
-                    unset( $values[$weight] );
-                } else {
-                    $activeChildren[] = $weight;
-                }
+            if ( $v['parent'] &&
+                 $values[$v['parent']]['class'] == 'collapsed' ) {
+                unset( $values[$weight] );
             }
         }
-        
+
+        // check permissions for the rest
+        $activeChildren = array( );
+        foreach ( $values as $weight => $v ) {
+            if ( CRM_Core_Permission::checkMenuItem( $v ) ) {
+                if ( $v['parent'] ) {
+                    $activeChildren[] = $weight;
+                }
+            } else {
+                unset( $values[$weight] );
+            }
+        }
+
         // add the start / end tags
         $len = count($activeChildren) - 1;
         if ( $len >= 0 ) {
             $values[$activeChildren[0   ]]['start'] = true;
             $values[$activeChildren[$len]]['end'  ] = true;
         }
-        
+
         ksort($values, SORT_NUMERIC );
         // CRM_Core_Error::debug( 'v', $values );
         return $values;
@@ -1043,13 +1050,20 @@ class CRM_Core_Menu
                                                             $menu[$compPath]['component'], 
                                                             'id', 'name' );
             }
-            $menu[$path]['component_id']      = $componentId ? $componentId : "null";
+            $menu[$path]['component_id'] = $componentId ? $componentId : null;
             $cache[$compPath] = $menu[$path]['component_id'];
         }
     }
 
     static function get( $path )
     {
+        // return null if menu rebuild
+        $config =& CRM_Core_Config::singleton( );
+        if ( strpos( CRM_Utils_Array::value( $config->userFrameworkURLVar, $_REQUEST ),
+                     'civicrm/menu/rebuild' ) !== false ) {
+            return null;
+        }
+
         $params = array( );
         
         require_once "CRM/Core/DAO/Menu.php";

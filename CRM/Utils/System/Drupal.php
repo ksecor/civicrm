@@ -241,6 +241,10 @@ class CRM_Utils_System_Drupal {
         drupal_set_message( $message );
     }
 
+    static function permissionDenied( ) {
+        return drupal_access_denied( );
+    }
+
 }
 
 

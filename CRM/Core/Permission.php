@@ -213,5 +213,37 @@ class CRM_Core_Permission {
         }
         return ( $op == 'or' ) ? false : true;
     }
+
+    static function checkMenuItem( &$item ) {
+        if ( ! array_key_exists( 'access_callback', $item ) ) {
+            CRM_Core_Error::backtrace( );
+            CRM_Core_Error::fatal( );
+        }
+
+        // if component_id is present, ensure it is enabled
+        if ( isset( $item['component_id'] ) &&
+             $item['component_id'] ) {
+            // FIX ME: check if component is enabled
+            return false;
+        }
+
+        // the following is imitating drupal 6 code in includes/menu.inc
+        if ( empty( $item['access_callback'] ) ||
+             is_numeric( $item['access_callback'] ) ) {
+            return (boolean ) $item['access_callback'];
+        }
+
+        // check if callback is for checkMenu, if so optimize it
+        if ( is_array( $item['access_callback'] ) &&
+             $item['access_callback'][0] == 'CRM_Core_Permission' &&
+             $item['access_callback'][1] == 'checkMenu' ) {
+            $op = CRM_Utils_Array::value( 1, $item['access_arguments'], 'and' );
+            return self::checkMenu( $item['access_arguments'][0],
+                                    $op );
+        } else {
+            return call_user_func_array( $item['access_callback'],
+                                         $item['access_arguments'] );
+        }
+    }
     
 }
