@@ -224,8 +224,11 @@ class CRM_Core_Permission {
         if ( isset( $item['component_id'] ) &&
              $item['component_id'] ) {
             $config =& CRM_Core_Config::singleton( );
-            if ( ! in_array( $item['component_id'],
-                             $config->enableComponentIDs ) ) {
+            if ( is_array( $config->enableComponentIDs ) &&
+                 in_array( $item['component_id'],
+                           $config->enableComponentIDs ) ) {
+                // continue with process
+            } else {
                 return false;
             }
         }
