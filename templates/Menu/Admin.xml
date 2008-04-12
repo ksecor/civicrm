@@ -1,0 +1,235 @@
+<menu>
+  <item>
+     <path>civicrm/admin/custom/group</path>
+     <title>Custom Data</title>
+     <misc_data>array( 'desc' => ts('Configure custom fields to collect and store custom data which is not included in the standard CiviCRM forms.'), 'adminGroup' => ts('Customize'), 'icon' => 'admin/small/custm_data.png')</misc_data>
+     <path_arguments>reset=1</path_arguments>
+     <page_callback>CRM_Custom_Page_Group</page_callback>
+     <weight>10</weight>
+  </item>
+  <item>
+     <path>civicrm/admin/custom/group/field</path>
+     <title>Custom Data Fields</title>
+     <path_arguments>reset=1</path_arguments>
+     <page_callback>CRM_Custom_Page_Field</page_callback>
+     <weight>11</weight>
+  </item>
+  <item>
+     <path>civicrm/admin/uf/group</path>
+     <title>CiviCRM Profile</title>
+     <misc_data>array( 'desc' => ts('Profiles allow you to aggregate groups of fields and include them in your site as input forms, contact display pages, and search and listings features.'), 'adminGroup' => ts('Customize'), 'icon' => 'admin/small/Profile.png')</misc_data>
+     <path_arguments>reset=1</path_arguments>
+     <page_callback>CRM_UF_Page_Group</page_callback>
+     <weight>20</weight>
+  </item>
+  <item>
+     <path>civicrm/admin/uf/group/field</path>
+     <title>CiviCRM Profile Fields</title>
+     <path_arguments>reset=1</path_arguments>
+     <page_callback>CRM_UF_Page_Field</page_callback>
+     <weight>21</weight>
+  </item>
+  <item>
+     <path>civicrm/admin/dedupefind</path>
+     <title>Find Duplicate Contacts</title>
+     <misc_data>array( 'desc' => ts('Use configured duplicate matching rules to identify suspected duplicate contact records in your database.'), 'adminGroup' => ts('Manage'), 'icon' => 'admin/small/duplicate_matching.png')</misc_data>
+     <path_arguments>reset=1</path_arguments>
+     <page_callback>CRM_Admin_Page_DedupeFind</page_callback>
+     <weight>130</weight>
+  </item>
+  <item>
+     <path>civicrm/admin/synchUser</path>
+     <title>Synchronize Users to Contacts</title>
+     <misc_data>array( 'desc' => ts('Automatically create a CiviCRM contact record for each CMS user record.'), 'extra' => 'onclick = "if (confirm('Synchronize Users to Contacts: CiviCRM will check each user record for a contact record. A new contact record will be created for each user where one does not already exist.\n\nDo you want to continue?')) this.href+='&amp;confirmed=1'; else return false;"', 'adminGroup' => ts('Manage'), 'icon' => 'admin/small/Synch_user.png')</misc_data>
+     <page_callback>CRM_Admin_Page_CMSUser</page_callback>
+     <weight>140</weight>
+  </item>
+  <item>
+     <path>civicrm/admin/setting</path>
+     <title>Global Settings</title>
+     <misc_data>array( 'desc' => ts('Configure Global Settings for your site, including: Enabled Components, Site Preferences for screens and forms, Directory Paths and Resource URLs, Address formats, Localization, Payment Processor, Outbound Email, Mapping, and Debugging.'), 'adminGroup' => ts('Configure'), 'icon' => 'admin/small/36.png')</misc_data>
+     <path_arguments>reset=1</path_arguments>
+     <page_callback>CRM_Admin_Page_Setting</page_callback>
+     <weight>200</weight>
+  </item>
+  <item>
+     <path>civicrm/admin/setting/component</path>
+     <title>Components</title>
+     <path_arguments>reset=1</path_arguments>
+     <page_callback>CRM_Admin_Form_Setting_Component</page_callback>
+  </item>
+  <item>
+     <path>civicrm/admin/setting/preferences/display</path>
+     <title>System Preferences</title>
+     <path_arguments>reset=1</path_arguments>
+     <page_callback>CRM_Admin_Form_Preferences_Display</page_callback>
+  </item>
+  <item>
+     <path>civicrm/admin/setting/preferences/address</path>
+     <title>Address Preferences</title>
+     <path_arguments>reset=1</path_arguments>
+     <page_callback>CRM_Admin_Form_Preferences_Address</page_callback>
+  </item>
+  <item>
+     <path>civicrm/admin/setting/preferences/date</path>
+     <title>View Date Prefences</title>
+     <path_arguments>reset=1</path_arguments>
+     <page_callback>CRM_Admin_Page_PreferencesDate</page_callback>
+  </item>
+  <item>
+     <path>civicrm/admin/setting/path</path>
+     <title>File System Paths</title>
+     <path_arguments>reset=1</path_arguments>
+     <page_callback>CRM_Admin_Form_Setting_Path</page_callback>
+  </item>
+  <item>
+     <path>civicrm/admin/setting/url</path>
+     <title>Site URLs</title>
+     <path_arguments>reset=1</path_arguments>
+     <page_callback>CRM_Admin_Form_Setting_Url</page_callback>
+  </item>
+  <item>
+     <path>civicrm/admin/setting/smtp</path>
+     <title>Smtp Server</title>
+     <path_arguments>reset=1</path_arguments>
+     <page_callback>CRM_Admin_Form_Setting_Smtp</page_callback>
+  </item>
+  <item>
+     <path>civicrm/admin/setting/uf</path>
+     <title>User Framework Settings</title>
+     <path_arguments>reset=1</path_arguments>
+     <page_callback>CRM_Admin_Form_Setting_UF</page_callback>
+  </item>
+  <item>
+     <path>civicrm/admin/setting/mapping</path>
+     <title>Mapping and Geocoding</title>
+     <path_arguments>reset=1</path_arguments>
+     <page_callback>CRM_Admin_Form_Setting_Mapping</page_callback>
+  </item>
+  <item>
+     <path>civicrm/admin/setting/localization</path>
+     <title>Localization</title>
+     <path_arguments>reset=1</path_arguments>
+     <page_callback>CRM_Admin_Form_Setting_Localization</page_callback>
+  </item>
+  <item>
+     <path>civicrm/admin/setting/date</path>
+     <title>Date Formatting</title>
+     <path_arguments>reset=1</path_arguments>
+     <page_callback>CRM_Admin_Form_Setting_Date</page_callback>
+  </item>
+  <item>
+     <path>civicrm/admin/setting/misc</path>
+     <title>Miscellaneous</title>
+     <path_arguments>reset=1</path_arguments>
+     <page_callback>CRM_Admin_Form_Setting_Miscellaneous</page_callback>
+  </item>
+  <item>
+     <path>civicrm/admin/setting/debug</path>
+     <title>Debugging</title>
+     <path_arguments>reset=1</path_arguments>
+     <page_callback>CRM_Admin_Form_Setting_Debugging</page_callback>
+  </item>
+  <item>
+     <path>civicrm/admin/setting/updateConfigBackend</path>
+     <title>Update Config Backend</title>
+     <path_arguments>reset=1</path_arguments>
+     <page_callback>CRM_Admin_Form_Setting_UpdateConfigBackend</page_callback>
+  </item>
+  <item>
+     <path>civicrm/admin/dupematch</path>
+     <title>Contact Matching</title>
+     <misc_data>array( 'desc' => ts('Rules used to identify potentially duplicate contact records, and to match imported data to existing contact records.'), 'adminGroup' => ts('Configure'), 'icon' => 'admin/small/duplicate_matching.png')</misc_data>
+     <path_arguments>reset=1</path_arguments>
+     <page_callback>CRM_Admin_Page_DupeMatch</page_callback>
+     <weight>240</weight>
+  </item>
+  <item>
+     <path>civicrm/admin/deduperules</path>
+     <title>Duplicate Contact Rules</title>
+     <misc_data>array( 'desc' => ts('Rules used to identify potentially duplicate contact records, and to match imported data to existing contact records.'), 'adminGroup' => ts('Configure'), 'icon' => 'admin/small/duplicate_matching.png')</misc_data>
+     <path_arguments>reset=1</path_arguments>
+     <page_callback>CRM_Admin_Page_DedupeRules</page_callback>
+     <weight>245</weight>
+  </item>
+  <item>
+     <path>civicrm/admin/mapping</path>
+     <title>Import/Export Mappings</title>
+     <misc_data>array( 'desc' => ts('Import and Export mappings allow you to easily run the same job multiple times. This option allows you to rename or delete existing mappings.'), 'adminGroup' => ts('Configure'), 'icon' => 'admin/small/import_export_map.png')</misc_data>
+     <path_arguments>reset=1</path_arguments>
+     <page_callback>CRM_Admin_Page_Mapping</page_callback>
+     <weight>250</weight>
+  </item>
+  <item>
+     <path>civicrm/admin/messageTemplates</path>
+     <title>Message Templates</title>
+     <misc_data>array( 'desc' => ts('Message templates allow you to save and re-use messages with layouts which you can use when sending email to one or more contacts.'), 'adminGroup' => ts('Configure'), 'icon' => 'admin/small/template.png')</misc_data>
+     <path_arguments>reset=1</path_arguments>
+     <page_callback>CRM_Admin_Page_MessageTemplates</page_callback>
+     <weight>260</weight>
+  </item>
+  <item>
+     <path>civicrm/contact/domain</path>
+     <title>Domain Information</title>
+     <misc_data>array( 'desc' => ts('Configure primary contact name, email, return-path and address information. This information is used by CiviMail to identify the sending organization.'), 'adminGroup' => ts('Configure'), 'icon' => 'admin/small/domain.png')</misc_data>
+     <path_arguments>reset=1&action=update</path_arguments>
+     <page_callback>CRM_Contact_Form_Domain</page_callback>
+     <weight>270</weight>
+  </item>
+  <item>
+     <path>civicrm/admin/options</path>
+     <title>CiviCRM Option Value Pairs</title>
+     <misc_data>array( 'desc' => ts('Configure CiviCRM option values.'), 'adminGroup' => ts('Option Lists'), 'icon' => 'admin/small/05.png')</misc_data>
+     <path_arguments>reset=1</path_arguments>
+     <page_callback>CRM_Admin_Page_Options</page_callback>
+     <weight>310</weight>
+  </item>
+  <item>
+     <path>civicrm/admin/locationType</path>
+     <title>Location Types (Home, Work...)</title>
+     <misc_data>array( 'desc' => ts('Options for categorizing contact addresses and phone numbers (e.g. Home, Work, Billing, etc.).'), 'adminGroup' => ts('Option Lists'), 'icon' => 'admin/small/13.png')</misc_data>
+     <path_arguments>reset=1</path_arguments>
+     <page_callback>CRM_Admin_Page_LocationType</page_callback>
+     <weight>360</weight>
+  </item>
+  <item>
+     <path>civicrm/admin/reltype</path>
+     <title>Relationship Types</title>
+     <misc_data>array( 'desc' => ts('Contacts can be linked to each other through Relationships (e.g. Spouse, Employer, etc.). Define the types of relationships you want to record here.'), 'adminGroup' => ts('Option Lists'), 'icon' => 'admin/small/rela_type.png')</misc_data>
+     <path_arguments>reset=1</path_arguments>
+     <page_callback>CRM_Admin_Page_RelationshipType</page_callback>
+     <weight>375</weight>
+  </item>
+  <item>
+     <path>civicrm/admin/tag</path>
+     <title>Tags (Categories)</title>
+     <misc_data>array( 'desc' => ts('Tags are useful for segmenting the contacts in your database into categories (e.g. Staff Member, Donor, Volunteer, etc.). Create and edit available tags here.'), 'adminGroup' => ts('Option Lists'), 'icon' => 'admin/small/11.png')</misc_data>
+     <path_arguments>reset=1</path_arguments>
+     <page_callback>CRM_Admin_Page_Tag</page_callback>
+     <weight>380</weight>
+  </item>
+  <item>
+     <path>civicrm/admin/paymentProcessor</path>
+     <title>Payment Processor</title>
+     <misc_data>array( 'desc' => ts('Payment Processor setup for CiviCRM transactions'), 'adminGroup' => ts(''))</misc_data>
+     <path_arguments>reset=1</path_arguments>
+     <page_callback>CRM_Admin_Page_PaymentProcessor</page_callback>
+     <weight>390</weight>
+  </item>
+  <item>
+     <path>civicrm/admin/paymentProcessorType</path>
+     <title>Payment Processor Type</title>
+     <misc_data>array( 'desc' => ts('Payment Processor type information'), 'adminGroup' => ts(''))</misc_data>
+     <path_arguments>reset=1</path_arguments>
+     <page_callback>CRM_Admin_Page_PaymentProcessorType</page_callback>
+     <weight>390</weight>
+  </item>
+  <item>
+     <path>civicrm/admin/access</path>
+     <title>Access Control</title>
+     <misc_data>array( 'desc' => ts('Grant or deny access to actions (view, edit...), features and components.'), 'adminGroup' => ts('Manage'), 'icon' => 'admin/small/03.png')</misc_data>
+     <path_arguments>reset=1</path_arguments>
+     <page_callback>CRM_Admin_Page_Access</page_callback>
+     <weight>110</weight>
+  </item>
+</menu>
