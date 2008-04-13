@@ -919,6 +919,8 @@ class CRM_Core_Menu
         }
         
         self::buildNavigation( $menu );
+
+        self::buildAdminLinks( $menu );
     }
 
     static function store( ) {
@@ -945,7 +947,7 @@ class CRM_Core_Menu
         }
     }
 
-    static function buildNavigation( &$params ) {
+    static function buildNavigation( &$menu ) {
 
         $components = array( ts( 'CiviContribute' ) => 1,
                              ts( 'CiviEvent'      ) => 1,
@@ -956,7 +958,7 @@ class CRM_Core_Menu
                              ts( 'Logout'         ) => 1);
 
         $values = array( );
-        foreach ( $params as $path => $item ) {
+        foreach ( $menu as $path => $item ) {
             if ( ! CRM_Utils_Array::value( 'page_type', $item ) ) {
                 continue;
             }
@@ -995,7 +997,41 @@ class CRM_Core_Menu
             }
         }
 
-        $params['navigation'] = array( 'breadcrumb' => $values );
+        $menu['navigation'] = array( 'breadcrumb' => $values );
+    }
+
+    static function buildAdminLinks( &$menu ) {
+        $values = array( );
+
+        foreach ( $menu as $path => $item ) {
+            if ( ! CRM_Utils_Array::value( 'adminGroup', $item ) ) {
+                continue;
+            }
+
+            $value = array( 'title' => $item['title'],
+                            'desc'  => $item['desc'],
+                            'id'    => strtr($item['title'], array('('=>'_', ')'=>'', ' '=>'',
+                                                                   ','=>'_', '/'=>'_' 
+                                                                   )
+                                             ),
+                            'url'   => CRM_Utils_System::url( $path,
+                                                              CRM_Utils_Array::value( 'query', $item ) ),
+                            'icon'  => $item['icon'],
+                            'extra' => CRM_Utils_Array::value( 'extra', $item ) );
+            if ( ! array_key_exists( $item['adminGroup'], $values ) ) {
+                $values[$item['adminGroup']] = array( );
+            }
+            $values[$item['adminGroup']][$item['weight'] . '.' . $item['title']] = $value;
+            $values[$item['adminGroup']]['component_id'] = $item['component_id'];
+        }
+        
+        foreach( $values as $group => $dontCare ) {
+            $values[$group]['perColumn'] = round( ( count( $values[$group] ) - 2 ) / 2 );
+            ksort( $values[$group] );
+        }
+
+        // CRM_Core_Error::debug( 'v', $values );
+        $menu['admin'] = array( 'breadcrumb' => $values );
     }
 
     static function &getNavigation( ) {
@@ -1068,6 +1104,18 @@ class CRM_Core_Menu
 
         ksort($values, SORT_NUMERIC );
         // CRM_Core_Error::debug( 'v', $values );
+        return $values;
+    }
+
+    static function &getAdminLinks( ) {
+        $links =& self::get( 'admin' );
+        
+        if ( ! $links ||
+             ! isset( $links['breadcrumb'] ) ) {
+            return null;
+        }
+
+        $values =& $links['breadcrumb'];
         return $values;
     }
 
