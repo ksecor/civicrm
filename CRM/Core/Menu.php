@@ -1020,13 +1020,14 @@ class CRM_Core_Menu
                             'extra' => CRM_Utils_Array::value( 'extra', $item ) );
             if ( ! array_key_exists( $item['adminGroup'], $values ) ) {
                 $values[$item['adminGroup']] = array( );
+                $values[$item['adminGroup']]['fields'] = array( );
             }
-            $values[$item['adminGroup']][$item['weight'] . '.' . $item['title']] = $value;
+            $values[$item['adminGroup']]['fields'][$item['weight'] . '.' . $item['title']] = $value;
             $values[$item['adminGroup']]['component_id'] = $item['component_id'];
         }
         
         foreach( $values as $group => $dontCare ) {
-            $values[$group]['perColumn'] = round( ( count( $values[$group] ) - 2 ) / 2 );
+            $values[$group]['perColumn'] = round( count( $values[$group]['fields'] ) / 2 );
             ksort( $values[$group] );
         }
 
