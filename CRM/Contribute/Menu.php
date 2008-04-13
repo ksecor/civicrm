@@ -94,7 +94,7 @@ class CRM_Contribute_Menu {
                              'weight'  => 370
                              ),
                        
-                       'civicrm/admin/options' => 
+                       'civicrm/admin/options/paymentInstrument' => 
                        array(
                              'title'   => ts('Payment Instruments'),
                              'desc'    => ts('You may choose to record the payment instrument used for each contribution. Common payment methods are installed by default (e.g. Check, Cash, Credit Card...). If your site requires additional payment methods, add them here.'), 
@@ -104,7 +104,7 @@ class CRM_Contribute_Menu {
                              'weight'  => 380
                              ),
 
-                       'civicrm/admin/options' => 
+                       'civicrm/admin/options/creditCard' => 
                        array(
                              'title'   => ts('Accepted Credit Cards'),
                              'desc'    => ts('Credit card options that will be offered to contributors using your Online Contribution pages.'), 

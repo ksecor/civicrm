@@ -190,7 +190,7 @@ class CRM_Core_Menu
                                                'query'   => 'reset=1',
                                                'access_arguments'  => array( array( 'administer CiviCRM', 'access CiviCRM' ) ),
                                                'page_type' => self::MENU_ITEM,
-                                               'page_callback' => 'CRM_Admin_Page_Admin',
+                                               'page_callback' => 'CRM_Admin_Page_AdMin',
                                                'weight'  => 9000,
                                                ),
 
@@ -569,17 +569,83 @@ class CRM_Core_Menu
                              'weight'  => 270
                              ),
 
-                       'civicrm/admin/options' =>
+                       'civicrm/admin/options/activityType' =>
                        array(
-                             'title'   => ts('CiviCRM Option Value Pairs'),
-                             'desc'    => ts('Configure CiviCRM option values.'), 
-                             'query'   => 'reset=1',
+                             'title'   => ts('Activity Types'),
+                             'desc'    => ts('CiviCRM has several built-in activity types (meetings, phone calls, emails sent). Track other types of interactions by creating custom activity types here.'), 
+                             'query'   => 'group=activity_type&reset=1',
                              'page_callback' => 'CRM_Admin_Page_Options',
                              'adminGroup' => ts('Option Lists'),
                              'icon'    => 'admin/small/05.png',
                              'weight'  => 310
                              ),
                        
+                       'civicrm/admin/options/genderOptions' =>
+                       array(
+                             'title'   => ts('Gender Options'),
+                             'desc'    => ts('Options for assigning gender to individual contacts (e.g. Male, Female, Transgender).'), 
+                             'query'  => 'group=gender&reset=1',
+                             'page_callback' => 'CRM_Admin_Page_Options',
+                             'adminGroup' => ts('Option Lists'),
+                             'icon'    => 'admin/small/01.png',
+                             'weight'  => 320
+                             ),
+
+                       'civicrm/admin/options/individualPrefix' =>
+                       array(
+                             'title'   => ts('Individual Prefixes (Ms, Mr...)'),
+                             'desc'    => ts('Options for individual contact prefixes (e.g. Ms., Mr., Dr. etc.).'), 
+                             'query'  => 'group=individual_prefix&reset=1',
+                             'page_callback' => 'CRM_Admin_Page_Options',
+                             'adminGroup' => ts('Option Lists'),
+                             'icon'    => 'admin/small/title.png',
+                             'weight'  => 330
+                             ),
+
+                       'civicrm/admin/options/individualSuffix' =>
+                       array(
+                             'title'   => ts('Individual Suffixes (Jr, Sr...)'),
+                             'desc'    => ts('Options for individual contact suffixes (e.g. Jr., Sr. etc.).'), 
+                             'query'  => 'group=individual_suffix&reset=1',
+                             'page_callback' => 'CRM_Admin_Page_Options',
+                             'adminGroup' => ts('Option Lists'),
+                             'icon'    => 'admin/small/10.png',
+                             'weight'  => 340
+                             ),
+
+                       'civicrm/admin/options/instantMessengerService' =>
+                       array(
+                             'title'   => ts('Instant Messenger Services'),
+                             'desc'    => ts('List of IM services which can be used when recording screen-names for contacts.'), 
+                             'query'  => 'group=instant_messenger_service&reset=1',
+                             'page_callback' => 'CRM_Admin_Page_Options',
+                             'adminGroup' => ts('Option Lists'),
+                             'icon'    => 'admin/small/07.png',
+                             'weight'  => 350
+                             ),
+
+                       'civicrm/admin/options/mobileProvider' =>
+                       array(
+                             'title'   => ts('Mobile Phone Providers'),
+                             'desc'    => ts('List of mobile phone providers which can be assigned when recording contact phone numbers.'), 
+                             'query'  => 'group=mobile_provider&reset=1',
+                             'page_callback' => 'CRM_Admin_Page_Options',
+                             'adminGroup' => ts('Option Lists'),
+                             'icon'    => 'admin/small/08.png',
+                             'weight'  => 365
+                             ),
+
+                       'civicrm/admin/options/preferredCommunicationMethod' =>
+                       array(
+                             'title'   => ts('Preferred Communication Methods'),
+                             'desc'    => ts('One or more preferred methods of communication can be assigned to each contact. Customize the available options here.'), 
+                             'query'  => 'group=preferred_communication_method&reset=1',
+                             'page_callback' => 'CRM_Admin_Page_Options',
+                             'adminGroup' => ts('Option Lists'),
+                             'icon'    => 'admin/small/communication.png',
+                             'weight'  => 370
+                             ),
+
                        'civicrm/admin/locationType' =>
                        array(
                              'title'   => ts('Location Types (Home, Work...)'),
@@ -924,6 +990,11 @@ class CRM_Core_Menu
     }
 
     static function store( ) {
+        // first clean up the db
+        $query = 'TRUNCATE civicrm_menu';
+        CRM_Core_DAO::executeQuery( $query,
+                                    CRM_Core_DAO::$_nullArray );
+
         $menu =& self::items( );
         
         self::build( $menu );
