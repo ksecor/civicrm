@@ -138,6 +138,17 @@ class CRM_Core_Component
         return false;
     }
 
+    static function xmlMenu( ) {
+        $info =& self::_info( );
+
+        $files = array( );
+        foreach( $info as $name => $comp ) {
+            $files = array_merge( $files,
+                                  $comp->menuFiles( ) );
+        }
+        return $files;
+    }
+
     static function &menu( ) 
     {
         $info =& self::_info( );

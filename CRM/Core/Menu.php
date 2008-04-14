@@ -68,15 +68,51 @@ class CRM_Core_Menu
                                          'page_callback'   ,
                                          'breadcrumb'      );
 
-    /**
-     * This is a super super gross hack, please fix sometime soon
-     *
-     * using constants from DRUPAL/includes/menu.inc, so that we can reuse 
-     * the same code in both drupal and joomla
-     */
     const
         MENU_ITEM  = 1;
+
+    static function &xmlItems( ) {
+        if ( ! self::$_items ) {
+            $files = array( 'Menu/Admin.xml',
+                            'Menu/Contact.xml',
+                            'Menu/Group.xml',
+                            'Menu/Import.xml',
+                            'Menu/Profile.xml',
+                            'Menu/Misc.xml'
+                            );
+
+            $files = array_merge( $files,
+                                  CRM_Core_Component::xmlMenu( ) );
+
+            self::$_items = array( );
+            foreach ( $files as $file ) {
+                self::read( $file, self::$_items );
+            }
+        }
+    }
     
+    static function read( $name, &$menu ) {
+
+        $config =& CRM_Core_Config::singleton( );
+        $fileName =
+            $config->templateDir .
+            $name;
+
+        $xml = simplexml_load_file( $fileName );
+        foreach ( $xml->item as $item ) {
+            if ( ! (string ) $item->path ) {
+                CRM_Core_Error::debug( 'i', $item );
+                CRM_Core_Error::fatal( );
+            }
+            $path = (string ) $item->path;
+            $menu[$path] = array( );
+            unset( $item->path );
+            foreach ( $item as $key => $value ) {
+                $menu[$path][(string ) $key] = (string ) $value;
+            }
+        }
+    }
+
     /**
      * This function defines information for various menu items
      *
@@ -85,6 +121,8 @@ class CRM_Core_Menu
      */
     static function &items( ) 
     {
+        // return self::xmlItems( );
+
         if ( ! self::$_items ) {
             require_once 'CRM/Core/Permission.php';
 

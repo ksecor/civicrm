@@ -171,6 +171,19 @@ abstract class CRM_Core_Component_Info
     }
 
     /**
+     * Provides the xml menu files
+     * 
+     * @return array array of menu files
+     * @access public
+     *
+     */
+    public function menuFiles( )
+    {
+        return $this->info['files'] ? $this->info['files'] : array( );
+    }
+
+
+    /**
      * Helper for instantiating component's elements.
      * 
      * @return mixed component's element as class instance

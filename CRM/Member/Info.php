@@ -49,6 +49,7 @@ class CRM_Member_Info extends CRM_Core_Component_Info
                       'url'            => 'member',
                       'perm'           => array( 'access CiviMember',
                                                  'edit memberships'),
+                      'menu'           => array( 'Menu/Member.xml' ),
                       'search'         => 1 );
     }
     
