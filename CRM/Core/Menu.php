@@ -569,7 +569,13 @@ class CRM_Core_Menu
                              'weight'  => 270
                              ),
 
-                       'civicrm/admin/options/activityType' =>
+                       'civicrm/admin/weight' =>
+                       array(
+                             'title' => ts( 'This should never be seen' ),
+                             'page_callback' => array( 'CRM_Utils_Weight', 'fixOrder' ),
+                             ),
+
+                       'civicrm/admin/options/activity_type' =>
                        array(
                              'title'   => ts('Activity Types'),
                              'desc'    => ts('CiviCRM has several built-in activity types (meetings, phone calls, emails sent). Track other types of interactions by creating custom activity types here.'), 
@@ -580,7 +586,7 @@ class CRM_Core_Menu
                              'weight'  => 310
                              ),
                        
-                       'civicrm/admin/options/genderOptions' =>
+                       'civicrm/admin/options/gender' =>
                        array(
                              'title'   => ts('Gender Options'),
                              'desc'    => ts('Options for assigning gender to individual contacts (e.g. Male, Female, Transgender).'), 
@@ -591,7 +597,7 @@ class CRM_Core_Menu
                              'weight'  => 320
                              ),
 
-                       'civicrm/admin/options/individualPrefix' =>
+                       'civicrm/admin/options/individual_prefix' =>
                        array(
                              'title'   => ts('Individual Prefixes (Ms, Mr...)'),
                              'desc'    => ts('Options for individual contact prefixes (e.g. Ms., Mr., Dr. etc.).'), 
@@ -602,7 +608,7 @@ class CRM_Core_Menu
                              'weight'  => 330
                              ),
 
-                       'civicrm/admin/options/individualSuffix' =>
+                       'civicrm/admin/options/individual_suffix' =>
                        array(
                              'title'   => ts('Individual Suffixes (Jr, Sr...)'),
                              'desc'    => ts('Options for individual contact suffixes (e.g. Jr., Sr. etc.).'), 
@@ -613,7 +619,7 @@ class CRM_Core_Menu
                              'weight'  => 340
                              ),
 
-                       'civicrm/admin/options/instantMessengerService' =>
+                       'civicrm/admin/options/instant_messenger_service' =>
                        array(
                              'title'   => ts('Instant Messenger Services'),
                              'desc'    => ts('List of IM services which can be used when recording screen-names for contacts.'), 
@@ -624,7 +630,7 @@ class CRM_Core_Menu
                              'weight'  => 350
                              ),
 
-                       'civicrm/admin/options/mobileProvider' =>
+                       'civicrm/admin/options/mobile_provider' =>
                        array(
                              'title'   => ts('Mobile Phone Providers'),
                              'desc'    => ts('List of mobile phone providers which can be assigned when recording contact phone numbers.'), 
@@ -635,7 +641,7 @@ class CRM_Core_Menu
                              'weight'  => 365
                              ),
 
-                       'civicrm/admin/options/preferredCommunicationMethod' =>
+                       'civicrm/admin/options/preferred_communication_method' =>
                        array(
                              'title'   => ts('Preferred Communication Methods'),
                              'desc'    => ts('One or more preferred methods of communication can be assigned to each contact. Customize the available options here.'), 

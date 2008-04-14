@@ -99,7 +99,7 @@ class CRM_Event_Menu {
                              'weight'  => 370
                              ),
                        
-                       'civicrm/admin/options/eventTypes' =>
+                       'civicrm/admin/options/event_type' =>
                        array(
                              'title'   => ts('Event Types'),
                              'desc'    => ts('Use Event Types to categorize your events. Event feeds can be filtered by Event Type and participant searches can use Event Type as a criteria.'), 
@@ -110,7 +110,7 @@ class CRM_Event_Menu {
                              'weight'  => 375
                              ),
                        
-                       'civicrm/admin/options/participantStatus' => 
+                       'civicrm/admin/options/participant_status' => 
                        array(
                              'title'   => ts('Participant Status'),
                              'desc'    => ts('Define statuses for event participants here (e.g. Registered, Attended, Cancelled...). You can then assign statuses and search for participants by status.'), 
@@ -121,7 +121,7 @@ class CRM_Event_Menu {
                              'weight'  => 380
                              ),
                        
-                       'civicrm/admin/options/participantRole' => 
+                       'civicrm/admin/options/participant_role' => 
                        array(
                              'title'   => ts('Participant Role'),
                              'desc'    => ts('Define participant roles for events here (e.g. Attendee, Host, Speaker...). You can then assign roles and search for participants by role.'), 

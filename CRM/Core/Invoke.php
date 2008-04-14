@@ -118,7 +118,7 @@ class CRM_Core_Invoke
                     // removed when all the methods have been removed from
                     // this invoke file. 
                     $newArgs = explode( '/', $_GET['q'] );
-
+                    require_once 'CRM/Utils/Weight.php';
                     call_user_func( $item['page_callback'],
                                     $newArgs );
                     return;
