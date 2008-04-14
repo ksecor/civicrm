@@ -42,7 +42,7 @@ class CRM_Grant_Menu {
         $items = array(
                        'civicrm/grant' => 
                        array( 
-                             'query'   => 'reset=1',
+                             'query'   => array('reset' => 1),
                              'title'   => ts('CiviGrant'), 
                              'access_arguments'  => array( array( 'access CiviGrant') ), 
                              'page_type' => CRM_Core_Menu::MENU_ITEM,
@@ -52,7 +52,7 @@ class CRM_Grant_Menu {
                        
                        'civicrm/grant/info' => 
                        array( 
-                             'query'   => 'reset=1',
+                             'query'   => array('reset' => 1),
                              'access_arguments'  => array( array( 'access CiviGrant' ) ), 
                              'weight'  => 0, 
                              ),
@@ -65,7 +65,7 @@ class CRM_Grant_Menu {
                        
                        'civicrm/grant/search' => 
                        array( 
-                             'query'   => 'reset=1',
+                             'query'   => array('reset' => 1),
                              'title'   => ts( 'Find Grants' ),
                              'access_arguments'  => array( array( 'access CiviGrant' ) ), 
                              'page_type' => CRM_Core_Menu::MENU_ITEM,  
@@ -74,7 +74,7 @@ class CRM_Grant_Menu {
                        
                        'civicrm/grant/add' => 
                        array(
-                             'query'   => 'action=add&reset=1',
+                             'query'   => array('reset' => 1, 'action' => 'add'),
                              'title'   => ts( 'New Grant' ),
                              'access_arguments'  => array( array( 'access CiviGrant' ) ),
                              'page_type' => CRM_Core_Menu::MENU_ITEM,  
@@ -83,7 +83,7 @@ class CRM_Grant_Menu {
                        
                        'civicrm/grant/import' => 
                        array(
-                             'query'   => 'reset=1',
+                             'query'   => array('reset' => 1),
                              'title'   => ts( 'Import Grants' ),
                              'access_arguments'  => array( array('access CiviGrant') ),
                              'page_type' => CRM_Core_Menu::MENU_ITEM,  

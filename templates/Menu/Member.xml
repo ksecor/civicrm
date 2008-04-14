@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<menu>
+  <item>
+     <path>civicrm/member</path>
+     <path_arguments>array( 'reset' => 1)</path_arguments>
+     <title>CiviMember</title>
+     <access_arguments>array( array('access CiviMember'))</access_arguments>
+     <page_type>1</page_type>
+     <weight>700</weight>
+     <component>CiviMember</component>
+  </item>
+  <item>
+     <path>civicrm/admin/member/membershipType</path>
+     <title>Membership Types</title>
+     <desc>Define the types of memberships you want to offer. For each type, you can specify a 'name' (Gold Member, Honor Society Member...), a description, duration, and a minimum fee.</desc>
+     <path_arguments>array( 'reset' => 1)</path_arguments>
+     <adminGroup>CiviMember</adminGroup>
+     <icon>admin/small/membership_type.png</icon>
+     <weight>370</weight>
+  </item>
+  <item>
+     <path>civicrm/admin/member/membershipStatus</path>
+     <title>Membership Status Rules</title>
+     <desc>Status 'rules' define the current status for a membership based on that membership's start and end dates. You can adjust the default status options and rules as needed to meet your needs.</desc>
+     <path_arguments>array( 'reset' => 1)</path_arguments>
+     <adminGroup>CiviMember</adminGroup>
+     <icon>admin/small/membership_status.png</icon>
+     <weight>380</weight>
+  </item>
+  <item>
+     <path>civicrm/contact/view/membership</path>
+     <path_arguments>array( 'reset' => 1, 'force' => 1, 'cid' => '%%cid%%')</path_arguments>
+     <title>Memberships</title>
+     <weight>2</weight>
+  </item>
+  <item>
+     <path>civicrm/member/search</path>
+     <path_arguments>array( 'reset' => 1)</path_arguments>
+     <title>Find Members</title>
+     <access_arguments>array( array('access CiviMember'))</access_arguments>
+     <page_type>1</page_type>
+     <weight>710</weight>
+  </item>
+  <item>
+     <path>civicrm/member/import</path>
+     <path_arguments>array( 'reset' => 1)</path_arguments>
+     <title>Import Members</title>
+     <access_arguments>array( array('access CiviMember'))</access_arguments>
+     <page_type>1</page_type>
+     <weight>720</weight>
+  </item>
+</menu>

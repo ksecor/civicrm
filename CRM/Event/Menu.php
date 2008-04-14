@@ -42,7 +42,7 @@ class CRM_Event_Menu {
         $items = array(
                        'civicrm/event' => 
                        array( 
-                             'query'   => 'reset=1',
+                             'query'   => array('reset' => 1),
                              'title'   => ts('CiviEvent'), 
                              'access_arguments'  => array( array( 'access CiviEvent') ), 
                              'page_type' => CRM_Core_Menu::MENU_ITEM,
@@ -53,14 +53,14 @@ class CRM_Event_Menu {
                        'civicrm/event/info' =>
                        array( 
                              'path'    => 'civicrm/event/info', 
-                             'query'   => 'reset=1',
+                             'query'   => array('reset' => 1),
                              'access_arguments'  => 1,
                              'weight'  => 0, 
                              ),
                        
                        'civicrm/event/register' =>
                        array( 
-                             'query'   => 'reset=1',
+                             'query'   => array('reset' => 1),
                              'title'   => ts( 'Event Registration' ), 
                              'access_arguments'  => 1,
                              'weight'  => 0, 
@@ -68,7 +68,7 @@ class CRM_Event_Menu {
 
                        'civicrm/event/ical' =>
                        array( 
-                             'query'   => 'reset=1',
+                             'query'   => array('reset' => 1),
                              'title'   => ts( 'Event Listings' ), 
                              'access_arguments'  => array( array( 'register for events') ), 
                              'weight'  => 0, 
@@ -77,7 +77,7 @@ class CRM_Event_Menu {
                        'civicrm/event/participant' =>
                        array( 
                              'path'    => 'civicrm/event/participant', 
-                             'query'   => 'reset=1',
+                             'query'   => array('reset' => 1),
                              'title'   => ts( 'Event Participants List' ), 
                              'access_arguments'  => array( array( 'view event participants' ) ),
                               'weight'  => 0, 
@@ -92,7 +92,7 @@ class CRM_Event_Menu {
                        array(
                              'title'   => ts('Manage Events'),
                              'desc'    => ts('Create and edit event configuration including times, locations, online registration forms, and fees. Links for iCal and RSS syndication.'), 
-                             'query'  => 'reset=1',
+                             'query'  => array('reset' => 1),
                              'access_arguments'  => array( array('administer CiviCRM', 'access CiviEvent' ) ),
                              'adminGroup' => 'CiviEvent',
                              'icon'    => 'admin/small/event_manage.png',
@@ -103,7 +103,7 @@ class CRM_Event_Menu {
                        array(
                              'title'   => ts('Event Types'),
                              'desc'    => ts('Use Event Types to categorize your events. Event feeds can be filtered by Event Type and participant searches can use Event Type as a criteria.'), 
-                             'query'  => 'group=event_type&reset=1',
+                             'query'  => array('reset' => 1, 'group' => 'event_type'),
                              'access_arguments'  => array( array('administer CiviCRM', 'access CiviEvent' )),
                              'adminGroup' => 'CiviEvent',
                              'icon'    => 'admin/small/event_type.png',
@@ -114,7 +114,7 @@ class CRM_Event_Menu {
                        array(
                              'title'   => ts('Participant Status'),
                              'desc'    => ts('Define statuses for event participants here (e.g. Registered, Attended, Cancelled...). You can then assign statuses and search for participants by status.'), 
-                             'query'  => 'group=participant_status&reset=1',
+                             'query'  => array('reset' => 1, 'group' => 'participant_status'),
                              'access_arguments'  => array( array('administer CiviCRM', 'access CiviEvent') ),
                              'adminGroup' => 'CiviEvent',
                              'icon'    => 'admin/small/parti_status.png',
@@ -125,7 +125,7 @@ class CRM_Event_Menu {
                        array(
                              'title'   => ts('Participant Role'),
                              'desc'    => ts('Define participant roles for events here (e.g. Attendee, Host, Speaker...). You can then assign roles and search for participants by role.'), 
-                             'query'  => 'group=participant_role&reset=1',
+                             'query'  => array('reset' => 1, 'group' => 'participant_role'),
                              'access_arguments'  => array( array('administer CiviCRM', 'access CiviEvent') ),
                              'adminGroup' => 'CiviEvent',
                              'icon'    => 'admin/small/parti_role.png',
@@ -136,7 +136,7 @@ class CRM_Event_Menu {
                        array(
                              'title'   => ts('Price Sets'),
                              'desc'    => ts('Price sets allow you to offer multiple options with associated fees (e.g. pre-conference workshops, additional meals, etc.). Configure Price Sets for events which need more than a single set of fee levels.'), 
-                             'query'   => 'reset=1',
+                             'query'   => array('reset' => 1),
                              'access_arguments'  => array( array('administer CiviCRM', 'access CiviEvent') ),
                              'adminGroup' => 'CiviEvent',
                              'icon'    => 'admin/small/price_sets.png',
@@ -145,7 +145,7 @@ class CRM_Event_Menu {
                        
                        'civicrm/event/search' => 
                        array( 
-                             'query'   => 'reset=1',
+                             'query'   => array('reset' => 1),
                              'title'   => ts( 'Find Participants' ),
                              'access_arguments'  => array( array( 'access CiviEvent' ) ), 
                              'page_type' => CRM_Core_Menu::MENU_ITEM,  
@@ -154,7 +154,7 @@ class CRM_Event_Menu {
                        
                        'civicrm/event/manage' => 
                        array(
-                             'query'   => 'reset=1',
+                             'query'   => array('reset' => 1),
                              'title'   => ts( 'Manage Events' ),
                              'access_arguments'  => array( array( 'administer CiviCRM', 'access CiviEvent') ),
                              'page_type' => CRM_Core_Menu::MENU_ITEM,  
@@ -163,7 +163,7 @@ class CRM_Event_Menu {
                        
                        'civicrm/event/add' => 
                        array(
-                             'query'   => 'action=add&reset=1',
+                             'query'   => array('reset' => 1, 'action' => 'add'),
                              'title'   => ts( 'New Event' ),
                              'access_arguments'  => array( array( 'administer CiviCRM', 'access CiviEvent') ),
                              'page_type' => CRM_Core_Menu::MENU_ITEM,  
@@ -172,7 +172,7 @@ class CRM_Event_Menu {
                        
                        'civicrm/event/import' => 
                        array(
-                             'query'   => 'reset=1',
+                             'query'   => array('reset' => 1),
                              'title'   => ts( 'Import Participants' ),
                              'access_arguments'  => array( array('administer CiviCRM', 'access CiviEvent') ),
                              'page_type' => CRM_Core_Menu::MENU_ITEM,  
