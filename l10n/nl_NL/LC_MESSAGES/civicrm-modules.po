@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-03-12 12:22+0100\n"
-"PO-Revision-Date: 2008-04-01 12:19-0700\n"
+"PO-Revision-Date: 2008-04-08 12:02-0700\n"
 "Last-Translator: Han Velthuis <han.velthuis@tiscali.nl>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -49,7 +49,7 @@ msgstr "Tekst later betalen"
 
 #: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/EventPage.php
 msgid "Pay Later Receipt"
-msgstr ""
+msgstr "Ontvangstbewijs later betalen"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #: CRM/Contribute/Form/ContributionPage/Settings.php
@@ -171,7 +171,7 @@ msgstr "De gevraagde pagina is nu niet beschikbaar."
 #: CRM/Contribute/Form/Contribution/Confirm.php
 #: CRM/Event/Form/Registration/Confirm.php
 msgid "<< Go Back"
-msgstr "<< terug"
+msgstr "<< Terug"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 #: CRM/Event/Form/Registration/Register.php
@@ -658,7 +658,7 @@ msgstr "Introductietekst"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Thank-you Text"
-msgstr "Tekst Dank bericht "
+msgstr "Tekst Dank bericht"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Thank-you Footer"
@@ -690,11 +690,11 @@ msgstr "Bijdrage pagina einddatum"
 
 #: CRM/Contribute/DAO/Contribution.php
 msgid "Contribution ID (match to contribution)"
-msgstr ""
+msgstr "Contribution ID (koppeling met bijdrage)"
 
 #: CRM/Contribute/DAO/Contribution.php
 msgid "Solicitor ID"
-msgstr ""
+msgstr "Solicitor ID"
 
 #: CRM/Contribute/DAO/Contribution.php
 msgid "Receive Date"
@@ -822,11 +822,11 @@ msgstr "Kosten"
 
 #: CRM/Contribute/DAO/Widget.php
 msgid "Url Logo"
-msgstr ""
+msgstr "Url Logo"
 
 #: CRM/Contribute/DAO/Widget.php
 msgid "Url Homepage"
-msgstr ""
+msgstr "Url Homepage"
 
 #: CRM/Contribute/DAO/Widget.php
 msgid "Color Title"
@@ -897,6 +897,8 @@ msgid ""
 "This page includes a Profile with Membership fields - but the Membership "
 "Block is NOT enabled. Please notify the site administrator."
 msgstr ""
+"Waarschuw de beheerder van deze site. Op deze pagina is een profiel waarvan "
+"een lidmaatschapsblok is uitgeschakeld."
 
 #: CRM/Contribute/Form/ContributionBase.php
 msgid "Payment processor is not set for this page"
@@ -939,7 +941,7 @@ msgstr "Ander bedrag"
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 msgid "Additional Contribution"
-msgstr ""
+msgstr "Extra bijdrage"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "Please enter a valid amount (numbers and decimal point only)."
@@ -1138,6 +1140,8 @@ msgid ""
 "You must enable the Membership Block for this Contribution Page if you want "
 "to include a Profile with Membership fields."
 msgstr ""
+"U moet het lidmaatschapsblok bij het profiel inschakelen voor deze bijdrage "
+"pagina."
 
 #: CRM/Contribute/Form/ContributionPage/Delete.php
 msgid "Delete Contribution Page"
@@ -2196,7 +2200,7 @@ msgstr "Evenement deelnemerslijst"
 msgid ""
 "Create and edit event configuration including times, locations, online "
 "registration forms, and fees. Links for iCal and RSS syndication."
-msgstr ""
+msgstr "Aanmaken en wijzigen van evenementen. Koppelingen met kalender en RSS."
 
 #: CRM/Event/Menu.php
 msgid "Event Types"
@@ -2685,6 +2689,8 @@ msgstr "Mail Instellingen"
 #: CRM/Mailing/Menu.php
 msgid "Configure spool period, throttling and other mailer settings."
 msgstr ""
+"Instellen van o.a. de tijd tussen twee verzendingen van mail in en het "
+"aantal mails per zending."
 
 #: CRM/Mailing/Menu.php
 msgid "Headers, Footers, and Automated Messages"
@@ -2695,6 +2701,7 @@ msgid ""
 "Configure the header and footer used for mailings. Customize the content of "
 "automated Subscribe, Unsubscribe, Resubscribe and Opt-out messages."
 msgstr ""
+"Instellen kopregels, voetteksten en berichten voor aanmelden, afmelden etc."
 
 #: CRM/Mailing/Menu.php templates/CRM/Mailing/Page/Optout.tpl
 msgid "Optout"
@@ -6066,7 +6073,7 @@ msgstr ""
 msgid ""
 "Make it easy for participants to spread the word about this event to friends "
 "and colleagues."
-msgstr ""
+msgstr "Maak het deelnemers gemakkelijk om dit evenement aan te bevelen."
 
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
 msgid "Public Participant Listing"
@@ -6075,7 +6082,7 @@ msgstr "Openbare Deelnemerslijst"
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
 msgid ""
 "Participant Listing is not enabled for this event. You can enable it from"
-msgstr ""
+msgstr "De openbare deelnemerslijst is uitgeschakeld. Inschakelen:"
 
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
 msgid "View Event Info"
@@ -6676,6 +6683,9 @@ msgid ""
 "EXAMPLE: <strong>Current</strong> status might begin at 'join date' PLUS 3 "
 "months (to distinguish Current from New members)."
 msgstr ""
+"Eventuele aanpassing periode t.o.v. start evenement. Voorbeeld:  "
+"<strong>Current</strong> status kan beginnen op aanmeldingsdatum + 3 maanden "
+"(om het verschil te zien tussen de statussen Current en New)."
 
 #: templates/CRM/Member/Form/MembershipStatus.tpl
 msgid ""
@@ -6690,6 +6700,8 @@ msgid ""
 "Optional adjustment period added or subtracted from the End Event. EXAMPLE: "
 "<strong>Grace</strong> status might end at 'end date' PLUS 1 month."
 msgstr ""
+"Eventuele aanpassing periode t.o.v. eind evenement. Voorbeeld:  "
+"<strong>Grace</strong> status kan eindigen op eind evenement + 1 maand."
 
 #: templates/CRM/Member/Form/MembershipStatus.tpl
 msgid ""
@@ -6709,6 +6721,11 @@ msgid ""
 "can be useful for special case statuses like 'Non-expiring', 'Barred' or "
 "'Expelled', etc."
 msgstr ""
+"Vink dit veld aan als alleen de beheerder deze status mag toekennen, dat mag "
+"dus niet automatisch door CiviMember gedaan worden. Het wordt toegekend "
+"door het aanvinken van de <strong>Status Override</strong> bij het toevoegen "
+"/ wijzigen van een lidmaatschap. Deze optie kan gebruikt worden voor "
+"bijzondere statussen: 'vervalt niet' of 'geschorst'. "
 
 #: templates/CRM/Member/Form/MembershipStatus.tpl
 msgid ""
@@ -6717,16 +6734,22 @@ msgid ""
 "'New' and 'Current' statuses have overlapping ranges. Memberships that meet "
 "both status range criteria are assigned the status with the lower weight."
 msgstr ""
+"Gewicht geeft de volgorde aan voor het automatisch toekennen van de status "
+"van een lidmaatschap. Het bepaald ook de volgorde bij tonen. Voorbeeld: de "
+"standaard status 'New' en 'Current' hebben een overlappende periode. De "
+"laagste status, waar aan beide perioden worden voldaan, geldt."
 
 #: templates/CRM/Member/Form/MembershipStatus.tpl
 msgid ""
 "The default status is assigned when there are no matching status rules for a "
 "membership."
 msgstr ""
+"De standaard status wordt toegekend als er geen geldende statusregel is voor "
+"een lidmaatschap."
 
 #: templates/CRM/Member/Form/MembershipStatus.tpl
 msgid "Is this status enabled."
-msgstr ""
+msgstr "Is deze status ingeschakeld."
 
 #: templates/CRM/Member/Form/Membership.tpl
 msgid ""
