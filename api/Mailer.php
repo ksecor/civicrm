@@ -178,7 +178,7 @@ function crm_mailer_event_confirm($contact_id, $subscribe_id, $hash) {
  * @param string $replyto       Reply-to of the incoming message
  * @return boolean              True on success
  */
-function crm_mailer_event_reply($job_id, $queue_id, $hash, $body, $replyto) {
+function crm_mailer_event_reply($job_id, $queue_id, $hash, $bodyTxt, $bodyHTML, $replyto) {
     $mailing =& CRM_Mailing_Event_BAO_Reply::reply($job_id, $queue_id, 
                                                     $hash, $replyto);
 
@@ -186,7 +186,7 @@ function crm_mailer_event_reply($job_id, $queue_id, $hash, $body, $replyto) {
         return false;
     }
 
-    CRM_Mailing_Event_BAO_Reply::send($queue_id, $mailing, $body, $replyto);
+    CRM_Mailing_Event_BAO_Reply::send($queue_id, $mailing, $bodyTxt, $bodyHTML, $replyto);
 
     return true;
 }

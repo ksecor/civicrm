@@ -17664,16 +17664,46 @@ sub process($$) {
                 do_log(1, "CiviCRM: failed bounce event: $verpInfo");
             }
         } elsif ($dest eq 'reply') {
+	    my @body;
+	    if ($msginfo->mime_entity->parts > 0) # Is this a multipart
+	    {
+		for (my $i=0;$i<$msginfo->mime_entity->parts;$i++)
+		{
+		    my $subEntity = $msginfo->mime_entity->parts($i);
+		    if (($subEntity->mime_type eq 'text/html')
+			||
+			($subEntity->mime_type eq 'text/plain'))
+		    {
+			my @msgArray;
+			my $t =0;
+			if (my $io = $subEntity->open("r"))
+			{
+			    while (defined($_=$io->getline))
+			    {
+				$msgArray[$t] = $_;
+				$t++;
+			    }
+			    $io->close;
+			}
+			$body[$i] = join('', @msgArray );
+		    }
+		}
+	    }
+	    else
+	    {
+		$body[0] = substr(join('', @{$msginfo->mime_entity->body}), 0, 4096);
+	    }
+	    print "text/plain",$body[0];
+	    print "text/html",$body[1];
             # reply
-            my $body = substr(join('', @{$msginfo->mime_entity->body}), 0, 4096);
             my $replyto = 
                 (MIME::WordDecoder::unmime($msginfo->mime_entity->head->get('Reply-to')) or '');
-           
+	    
             while (1) {
                 $result = 
                     $soapClient->mailer_event_reply($soapKey,  
-                                                        $jobId, $qId, $hash,
-                                                        $body, $replyto);
+						    $jobId, $qId, $hash,
+						    $body[0],$body[1], $replyto);
                 
                 last unless $result->fault;
                 
@@ -17684,7 +17714,7 @@ sub process($$) {
                 } 
                 soapError($result->faultstring);
             }
-
+	    
             if ($result->result == 1) {
                 do_log(2, "CiviCRM: succesful reply event: $verpInfo");
             } else {
