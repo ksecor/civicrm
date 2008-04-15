@@ -3,7 +3,6 @@
 <menu>
   <item>
      <path>civicrm/contribute</path>
-     <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>CiviContribute</title>
      <access_arguments>access CiviContribute</access_arguments>
      <page_type>1</page_type>
@@ -12,7 +11,6 @@
   </item>
   <item>
      <path>civicrm/contribute/transact</path>
-     <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>CiviContribute</title>
      <access_arguments>make online contributions</access_arguments>
      <weight>0</weight>
@@ -21,7 +19,6 @@
      <path>civicrm/admin/contribute</path>
      <title>Manage Contribution Pages</title>
      <desc>CiviContribute allows you to create and maintain any number of Online Contribution Pages. You can create different pages for different programs or campaigns - and customize text, amounts, types of information collected from contributors, etc.</desc>
-     <path_arguments>array( 'reset' => 1)</path_arguments>
      <adminGroup>CiviContribute</adminGroup>
      <icon>admin/small/online_contribution_pages.png</icon>
      <weight>360</weight>
@@ -30,7 +27,6 @@
      <path>civicrm/admin/contribute/managePremiums</path>
      <title>Manage Premiums</title>
      <desc>CiviContribute allows you to configure any number of Premiums which can be offered to contributors as incentives / thank-you gifts. Define the premiums you want to offer here.</desc>
-     <path_arguments>array( 'reset' => 1)</path_arguments>
      <adminGroup>CiviContribute</adminGroup>
      <icon>admin/small/Premiums.png</icon>
      <weight>365</weight>
@@ -39,7 +35,6 @@
      <path>civicrm/admin/contribute/contributionType</path>
      <title>Contribution Types</title>
      <desc>Contribution types are used to categorize contributions for reporting and accounting purposes. These are also referred to as Funds.</desc>
-     <path_arguments>array( 'reset' => 1)</path_arguments>
      <adminGroup>CiviContribute</adminGroup>
      <icon>admin/small/contribution_types.png</icon>
      <weight>370</weight>
@@ -48,7 +43,7 @@
      <path>civicrm/admin/options/payment_instrument</path>
      <title>Payment Instruments</title>
      <desc>You may choose to record the payment instrument used for each contribution. Common payment methods are installed by default (e.g. Check, Cash, Credit Card...). If your site requires additional payment methods, add them here.</desc>
-     <path_arguments>array( 'reset' => 1, 'group' => 'payment_instrument')</path_arguments>
+     <path_arguments>group=payment_instrument</path_arguments>
      <adminGroup>CiviContribute</adminGroup>
      <icon>admin/small/payment_instruments.png</icon>
      <weight>380</weight>
@@ -57,20 +52,19 @@
      <path>civicrm/admin/options/accept_creditcard</path>
      <title>Accepted Credit Cards</title>
      <desc>Credit card options that will be offered to contributors using your Online Contribution pages.</desc>
-     <path_arguments>array( 'reset' => 1, 'group' => 'accept_creditcard')</path_arguments>
+     <path_arguments>group=accept_creditcard</path_arguments>
      <adminGroup>CiviContribute</adminGroup>
      <icon>admin/small/accepted_creditcards.png</icon>
      <weight>395</weight>
   </item>
   <item>
      <path>civicrm/contact/view/contribution</path>
-     <path_arguments>array( 'reset' => 1, 'force' => 1, 'cid' => %%cid%%)</path_arguments>
+     <path_arguments>force=1,cid=%%cid%%</path_arguments>
      <title>Contributions</title>
      <weight>1</weight>
   </item>
   <item>
      <path>civicrm/contribute/search</path>
-     <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>Find Contributions</title>
      <access_arguments>access CiviContribute</access_arguments>
      <page_type>1</page_type>
@@ -78,7 +72,6 @@
   </item>
   <item>
      <path>civicrm/contribute/import</path>
-     <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>Import Contributions</title>
      <access_arguments>administer CiviCRM,access CiviContribute</access_arguments>
      <page_type>1</page_type>
@@ -86,7 +79,6 @@
   </item>
   <item>
      <path>civicrm/contribute/manage</path>
-     <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>Manage Contribution Pages</title>
      <access_arguments>administer CiviCRM,access CiviContribute</access_arguments>
      <page_type>1</page_type>

@@ -3,7 +3,6 @@
 <menu>
   <item>
      <path>civicrm/import/contact</path>
-     <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>Contacts</title>
      <access_arguments>import contacts,access CiviCRM</access_arguments>
      <page_type>1</page_type>
@@ -12,7 +11,6 @@
   </item>
   <item>
      <path>civicrm/import/activity</path>
-     <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>Activity</title>
      <access_arguments>import contacts,access CiviCRM</access_arguments>
      <page_type>1</page_type>
