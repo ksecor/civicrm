@@ -689,9 +689,11 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
      */
     function getMembershipStarts( $membershipTypeId, $startDate, $endDate, $isTest = 0 ) 
     {
-        $query = "SELECT count(id) as member_count
-  FROM   civicrm_membership
- WHERE  membership_type_id = %1 AND start_date >= '$startDate' AND start_date <= '$endDate' AND is_test = %2";
+        $query = "SELECT count(civicrm_membership.id) as member_count
+  FROM   civicrm_membership left join civicrm_membership_status on ( civicrm_membership.status_id = civicrm_membership_status.id )
+WHERE  membership_type_id = %1 AND start_date >= '$startDate' AND start_date <= '$endDate' 
+AND civicrm_membership_status.is_current_member = 1
+AND is_test = %2";
         $params = array(1 => array($membershipTypeId, 'Integer'),
                         2 => array($isTest, 'Boolean') );
         $memberCount = CRM_Core_DAO::singleValueQuery( $query, $params );
@@ -719,22 +721,24 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
      *         $date.
      */
     function getMembershipCount( $membershipTypeId, $date = null, $isTest = 0 )
-    {
-        if ( !is_null($date) && ! preg_match('/^\d{8}$/', $date) ) {
-            CRM_Core_Error::fatal(ts('Invalid date "%1" (must have form yyyymmdd).', array(1 => $date)));
+        {
+            if ( !is_null($date) && ! preg_match('/^\d{8}$/', $date) ) {
+                CRM_Core_Error::fatal(ts('Invalid date "%1" (must have form yyyymmdd).', array(1 => $date)));
         }
-        
+            
         $params = array(1 => array($membershipTypeId, 'Integer'),
                         2 => array($isTest, 'Boolean') );
         $query = "SELECT  count(civicrm_membership.id ) as member_count
- FROM   civicrm_membership left join civicrm_membership_status on ( civicrm_membership.status_id = civicrm_membership_status.id  )
- WHERE  civicrm_membership.membership_type_id = %1 AND civicrm_membership.is_test = %2";
+FROM   civicrm_membership left join civicrm_membership_status on ( civicrm_membership.status_id = civicrm_membership_status.id  )
+WHERE  civicrm_membership.membership_type_id = %1 
+AND civicrm_membership.is_test = %2";
         if ( ! $date ) {
             $query .= " AND civicrm_membership_status.is_current_member = 1";
         }
         else {
             $date = substr($date, 0, 4) . '-' . substr($date, 4, 2) . '-' . substr($date, 6, 2);
-            $query .= " AND civicrm_membership.start_date <= '$date' AND (civicrm_membership.end_date >= '$date' OR civicrm_membership_status.is_current_member = 1)";
+            //            CRM_Core_Error::debug( '$date', $date );
+            $query .= " AND civicrm_membership.start_date <= '$date' AND civicrm_membership_status.is_current_member = 1";
         }
         $memberCount = CRM_Core_DAO::singleValueQuery( $query, $params );
         return (int)$memberCount;

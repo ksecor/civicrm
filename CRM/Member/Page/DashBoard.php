@@ -61,29 +61,29 @@ class CRM_Member_Page_DashBoard extends CRM_Core_Page
         $preMonthYear =  mktime(0, 0, 0, substr($preMonth, 4, 2), 1, substr($preMonth, 0, 4));
         
         $today = getdate();
+        $date    = CRM_Utils_Date::getToday();
         $isCurrentMonth = 0;
-        if ( ($ym = CRM_Utils_Array::value('date', $_GET)) ) { 
-            if ( preg_match('/^\d{6}$/', $ym) == 0 || ! checkdate(substr($ym, 4, 2), 1, substr($ym, 0, 4)) ) {
+        if ( ($ym = CRM_Utils_Array::value('date', $_GET)) ) {
+            if ( preg_match('/^\d{6}$/', $ym) == 0 || ! checkdate(substr($ym, 4, 2), 1, substr($ym, 0, 4)) || substr($ym, 0, 1) == 0) {
                 CRM_Core_Error::fatal( ts('Invalid date query "%1" in URL (valid syntax is yyyymm).', array(1 => $ym)) );
             }
             $isPreviousMonth = 0;
             $isCurrentMonth = substr($ym, 0, 4) == $today['year'] && substr($ym, 4, 2) == $today['mon'];
             $ymd = date('Ymd', mktime(0, 0, -1, substr($ym, 4, 2)+1, 1, substr($ym, 0, 4)));
             $monthStartTs = mktime(0, 0, 0, substr($ym, 4, 2), 1, substr($ym, 0, 4));
+            $current = CRM_Utils_Date::customFormat( $date, '%Y%m%d' );
         }
         else {
             $ym  = sprintf("%04d%02d",     $today['year'], $today['mon']);
             $ymd = sprintf("%04d%02d%02d", $today['year'], $today['mon'], $today['mday']);
             $monthStartTs = mktime(0, 0, 0, $today['mon'], 1, $today['year']);
+            $current = null;          
             $isCurrentMonth = 1;
             $isPreviousMonth = 1;
         }
         $monthStart = $ym . '01';
         $yearStart = substr($ym, 0, 4) . '0101';
         
-        $date    = CRM_Utils_Date::getToday();
-        $current = CRM_Utils_Date::customFormat( $date, '%Y%m%d' );
-
         $membershipTypes = CRM_Member_BAO_MembershipType::getMembershipTypes(false);
         //$membership = new CRM_Member_BAO_Membership;//added
         foreach ( $membershipTypes as $key => $value ) {
@@ -118,13 +118,13 @@ class CRM_Member_Page_DashBoard extends CRM_Core_Page
             foreach ( $details as $key => $value ) {
                 switch ($key) {
                 case 'premonth':
-                    $membershipSummary[$typeID][$key]['url'] = CRM_Utils_System::url( 'civicrm/member/search',"reset=1&force=1&type=$typeID&start=$preMonth&end=$preMonthEnd" );
+                    $membershipSummary[$typeID][$key]['url'] = CRM_Utils_System::url( 'civicrm/member/search',"reset=1&force=1&status=$status&type=$typeID&start=$preMonth&end=$preMonthEnd" );
                     break;
                 case 'month':
-                    $membershipSummary[$typeID][$key]['url'] = CRM_Utils_System::url( 'civicrm/member/search',"reset=1&force=1&type=$typeID&start=$monthStart&end=$ymd" );
+                    $membershipSummary[$typeID][$key]['url'] = CRM_Utils_System::url( 'civicrm/member/search',"reset=1&force=1&status=$status&type=$typeID&start=$monthStart&end=$ymd" );
                     break;
                 case 'year':
-                    $membershipSummary[$typeID][$key]['url'] = CRM_Utils_System::url( 'civicrm/member/search',"reset=1&force=1&type=$typeID&start=$yearStart&end=$ymd" );
+                    $membershipSummary[$typeID][$key]['url'] = CRM_Utils_System::url( 'civicrm/member/search',"reset=1&force=1&status=$status&type=$typeID&start=$yearStart&end=$ymd" );
                     break;
                 case 'current':
                     $membershipSummary[$typeID][$key]['url'] = CRM_Utils_System::url( 'civicrm/member/search',"reset=1&force=1&status=$status&type=$typeID" );
@@ -141,7 +141,7 @@ class CRM_Member_Page_DashBoard extends CRM_Core_Page
                 }
             }
         }
-
+        
         $totalCount = array();
         $totalCountPreMonth = $totalCountMonth = $totalCountYear = $totalCountCurrent = $totalCountTotal = 0;
         foreach( $membershipSummary as $key => $value ) {
@@ -155,15 +155,15 @@ class CRM_Member_Page_DashBoard extends CRM_Core_Page
         
         $totalCount['premonth'] = array("count" => $totalCountPreMonth,
                                         "url"   => CRM_Utils_System::url( 'civicrm/member/search',
-                                                                          "reset=1&force=1&start=$preMonth&end=$preMonthEnd" ),
+                                                                          "reset=1&force=1&status=$status&start=$preMonth&end=$preMonthEnd" ),
                                         ); 
         $totalCount['month'] = array("count" => $totalCountMonth,
                                      "url"   => CRM_Utils_System::url( 'civicrm/member/search',
-                                                                       "reset=1&force=1&start=$monthStart&end=$ymd" ),
+                                                                       "reset=1&force=1&status=$status&start=$monthStart&end=$ymd" ),
                                      );
         $totalCount['year'] = array("count" => $totalCountYear,
                                     "url"   => CRM_Utils_System::url( 'civicrm/member/search',
-                                                                      "reset=1&force=1&start=$yearStart&end=$ymd" ),
+                                                                      "reset=1&force=1&status=$status&start=$yearStart&end=$ymd" ),
                                     );
         $totalCount['current'] = array("count" => $totalCountCurrent,
                                        "url"   => CRM_Utils_System::url( 'civicrm/member/search',
@@ -176,7 +176,7 @@ class CRM_Member_Page_DashBoard extends CRM_Core_Page
         if (! $isCurrentMonth ) {
             $totalCount['total'] = array( "count" => $totalCountTotal,
                                           "url"   => CRM_Utils_System::url( 'civicrm/member/search',
-                                                                            "reset=1&force=1&start=&end=$ymd" )
+                                                                            "reset=1&force=1&status=$status&start=&end=$ymd" )
                                           );
         }
         

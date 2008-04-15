@@ -27,7 +27,7 @@
 {if $preMonth} <td class="label"><a href="{$totalCount.premonth.url}" title="view details">{$totalCount.premonth.count}</a></td> {* member/search?reset=1&force=1&current=1&start=20060601000000&end=20060612174244 *}{/if}
     <td class="label"><a href="{$totalCount.month.url}" title="view details">{$totalCount.month.count}</a></td> {* member/search?reset=1&force=1&current=1&start=20060601000000&end=20060612174244 *}
     <td class="label"><a href="{$totalCount.year.url}" title="view details">{$totalCount.year.count}</a></td> {* member/search?reset=1&force=1&current=1&start=20060101000000&end=20060612174244 *}
-    <td class="label">{if $isCurrent}<a href="{$row.total.url}" title="view details">{$totalCount.total.count}</a> {else}<a href="{$totalCount.total.url}" title="view details">{$totalCount.total.count}</a>{/if}</td> {* member/search?reset=1&force=1&current=1 *}
+    <td class="label">{if $isCurrent}<a href="{$row.total.url}" title="view details">{$totalCount.current.count}</a> {else}<a href="{$totalCount.total.url}" title="view details">{$totalCount.total.count}</a>{/if}</td> {* member/search?reset=1&force=1&current=1 *}
 </tr>
 </table>
 
