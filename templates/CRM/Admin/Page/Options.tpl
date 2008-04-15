@@ -30,7 +30,7 @@
   {elseif $gName eq 'participant_role'}
     <p>{ts}Define participant roles for events here (e.g. Attendee, Host, Speaker...). You can then assign roles and search for participants by role.{/ts}</p>
   {elseif $gName eq 'participant_status'}
-    <p>{ts}Define statuses for event participants here (e.g. Registered, Attended, Cancelled...). You can then assign statuses and search for participants by status.{/ts}</p>
+    <p>{ts}Define statuses for event participants here (e.g. Registered, Attended, Cancelled...). You can then assign statuses and search for participants by status.{/ts} {ts}"Counted?" controls whether a person with that status is counted as participant for the purpose of controlling the Maximum Number of Participants.{/ts}</p>
   {else}
         <p>{ts}The existing option choices for {$GName} group are listed below. You can add, edit or delete them from this screen.{/ts}</p>
   {/if}
@@ -49,10 +49,10 @@
 	        <tr class="columnheader">
             <th>{ts}Label{/ts}</th>
             <th>{ts}Value{/ts}</th>
+            {if $gName eq 'participant_status'}<th>{ts}Counted?{/ts}</th>{/if}
             <th>{ts}Description{/ts}</th>
             <th>{ts}Order{/ts}</th>
             <th>{ts}Reserved{/ts}</th>
-	    {if $gName eq 'participant_status'}<th>{ts}Counted?{/ts}</th>{/if}
             <th>{ts}Enabled?{/ts}</th>
             <th></th>
             </tr>
@@ -60,10 +60,10 @@
         <tr class="{$row.class}{cycle values="odd-row even-row"}{if NOT $row.is_active} disabled{/if}">
 	        <td>{$row.label}</td>	
 	        <td>{$row.value}</td>	
+	        {if $gName eq 'participant_status'}<td>{if $row.filter eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>{/if}
 	        <td>{$row.description}</td>	
 	        <td class="nowrap">{$row.weight}</td>
 	        <td>{if $row.is_reserved eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
-	        {if $gName eq 'participant_status'}<td>{if $row.filter eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>{/if}
 	        <td>{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
 	        <td>{$row.action}</td>
         </tr>

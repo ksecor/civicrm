@@ -15,8 +15,10 @@
         <dt>{$form.label.label}</dt><dd>{$form.label.html}</dd>
         <dt>&nbsp;</dt><dd class="description">{ts}The option Label is displayed to users.{/ts}</dd>
         <dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>
+        {if $form.filter.html} {* Filter property is only exposed for some option groups. *}
+            <dt>{$form.filter.label}</dt><dd>{$form.filter.html}</dd>
+        {/if} 
         <dt>{$form.weight.label}</dt><dd>{$form.weight.html}</dd>
-        <dt>{$form.filter.label}</dt><dd>{$form.filter.html}</dd> 
         <dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>        
     </dl>
     {/if}

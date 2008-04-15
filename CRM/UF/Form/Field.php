@@ -554,8 +554,8 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         if ( $in_selector && ($visibility != 'Public User Pages' ) && ($visibility != 'Public User Pages and Listings' )) {
             $errors['visibility'] = ts( 'Visibility must be "Public User Pages" OR "Public User Pages and Listings" if "In Selector" is checked.' );
         }
-        if ( $is_searchable && ($visibility != 'Public User Pages and Listings' )) {
-            $errors['visibility'] = ts( 'Visibility must be set to Public User Pages and Listings if you want this field to be Searchable.' );
+        if ( $is_searchable && ($visibility != 'Public User Pages' ) && ($visibility != 'Public User Pages and Listings' )) {
+            $errors['visibility'] = ts( 'Visibility must be set to "Public User Pages" OR "Public User Pages and Listings" if you want this field to be "Searchable".' );
         }
         $fieldName = $fields['field_name'][0];
         if (!$fieldName) {
