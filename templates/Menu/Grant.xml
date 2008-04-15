@@ -4,6 +4,7 @@
   <item>
      <path>civicrm/grant</path>
      <title>CiviGrant</title>
+     <page_callback>CRM_Grant_Page_DashBoard</page_callback>
      <access_arguments>access CiviGrant</access_arguments>
      <page_type>1</page_type>
      <weight>1000</weight>
@@ -17,6 +18,7 @@
   <item>
      <path>civicrm/grant/search</path>
      <title>Find Grants</title>
+     <page_callback>CRM_Grant_Controller_Search</page_callback>
      <access_arguments>access CiviGrant</access_arguments>
      <page_type>1</page_type>
      <weight>1010</weight>
@@ -32,6 +34,7 @@
   <item>
      <path>civicrm/grant/import</path>
      <title>Import Grants</title>
+     <page_callback>CRM_Grant_Import_Controller</page_callback>
      <access_arguments>access CiviGrant</access_arguments>
      <page_type>1</page_type>
      <weight>1040</weight>
