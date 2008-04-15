@@ -180,6 +180,12 @@ class CRM_Utils_System {
 
     }
 
+    function permissionDenied( ) {
+        $config   =& CRM_Core_Config::singleton( );
+        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userFrameworkClass ) . '.php' );
+        return eval( "return {$config->userFrameworkClass}::permissionDenied( );" );
+    }
+
     /**
      * What menu path are we currently on. Called for the primary tpl
      *
@@ -304,10 +310,10 @@ class CRM_Utils_System {
      * @access public
      * @static
      */
-    static function appendBreadCrumb( $title, $url ) {
+    static function appendBreadCrumb( $breadCrumbs ) {
         $config   =& CRM_Core_Config::singleton( );
         require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userFrameworkClass ) . '.php' );
-        return eval( 'return ' . $config->userFrameworkClass . '::appendBreadCrumb( $title, $url );' );
+        return eval( 'return ' . $config->userFrameworkClass . '::appendBreadCrumb( $breadCrumbs );' );
     }
 
     /**

@@ -61,10 +61,14 @@ class CRM_Utils_System_Drupal {
      * @access public
      * @static
      */
-    static function appendBreadCrumb( $title, $url ) {
-        $breadCrumb   = drupal_get_breadcrumb( );
-        $bc = "<a href=\"$url\">$title</a>";
-        $breadCrumb[] = $bc;
+    static function appendBreadCrumb( $breadCrumbs ) {
+        $breadCrumb = drupal_get_breadcrumb( );
+
+        if ( is_array( $breadCrumbs ) ) {
+            foreach ( $breadCrumbs as $crumbs ) {
+                $breadCrumb[] = "<a href=\"{$crumbs['url']}\">{$crumbs['title']}</a>";
+            }
+        }
         drupal_set_breadcrumb( $breadCrumb );
     }
 
@@ -235,6 +239,10 @@ class CRM_Utils_System_Drupal {
      */   
     static function setMessage( $message ) {
         drupal_set_message( $message );
+    }
+
+    static function permissionDenied( ) {
+        return drupal_access_denied( );
     }
 
 }

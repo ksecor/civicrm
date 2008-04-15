@@ -49,8 +49,6 @@ class CRM_Admin_Page_Admin extends CRM_Core_Page
             CRM_Core_Session::setStatus( $errorMessage );
         }
 
-        require_once 'CRM/Core/Menu.php';
-        $items =& CRM_Core_Menu::items( );
         $groups = array( ts('Customize'), ts('Configure'), ts('Manage'), ts('Option Lists') );
 
         $config =& CRM_Core_Config::singleton( );
@@ -66,40 +64,21 @@ class CRM_Admin_Page_Admin extends CRM_Core_Page
             $groups[] = 'CiviEvent';
         }
 
-         if ( in_array("CiviMail", $config->enableComponents) ) {
+        if ( in_array("CiviMail", $config->enableComponents) ) {
             $groups[] = 'CiviMail';
         }
 
-       $adminPanel = array( );
-       require_once 'CRM/Core/ShowHideBlocks.php';
-       $this->_showHide =& new CRM_Core_ShowHideBlocks( );
-       foreach ( $groups as $group ) {
-           // Hide (compress) all panel groups by default. We'll remember last state of each when we save user prefs later.
-           $this->_showHide->addShow( "id_{$group}_show" );
-           $this->_showHide->addHide( "id_{$group}" );
-           $adminPanel[$group] = array( );
-           $v = CRM_Core_ShowHideBlocks::links($this, $group, '' , '', false);
-           $adminPanel[$group]['show'] = $v['show'];
-           $adminPanel[$group]['hide'] = $v['hide'];
-           $i = 0;
-            foreach ( $items as $item ) {
-                if ( CRM_Utils_Array::value( 'adminGroup', $item ) == $group ) {
-                    $i++;
-                    $value = array( 'title' => $item['title'],
-                                    'desc'  => $item['desc'],
-                                    'id'    => strtr($item['title'], array('('=>'_', ')'=>'', ' '=>'',
-                                                                           ','=>'_', '/'=>'_' 
-                                                                           )
-                                                     ),
-                                    'url'   => CRM_Utils_System::url( $item['path'],
-                                                                      CRM_Utils_Array::value( 'query', $item ) ),
-                                    'icon'  => $item['icon'],
-                                    'extra' => CRM_Utils_Array::value( 'extra', $item ) );
-                    $adminPanel[$group][$item['weight'] . '.' . $item['title']] = $value;
-                }
-            }
-            $adminPanel[$group]['perColumn'] = round($i / 2);
-            ksort( $adminPanel[$group] );
+        require_once 'CRM/Core/Menu.php';
+        $values =& CRM_Core_Menu::getAdminLinks( );
+        require_once 'CRM/Core/ShowHideBlocks.php';
+        $this->_showHide =& new CRM_Core_ShowHideBlocks( );
+        foreach ( $groups as $group ) {
+            $this->_showHide->addShow( "id_{$group}_show" );
+            $this->_showHide->addHide( "id_{$group}" );
+            $v = CRM_Core_ShowHideBlocks::links($this, $group, '' , '', false);
+            $adminPanel[$group] = $values[$group];
+            $adminPanel[$group]['show'] = $v['show'];
+            $adminPanel[$group]['hide'] = $v['hide'];
         }
 
         require_once 'CRM/Utils/VersionCheck.php';

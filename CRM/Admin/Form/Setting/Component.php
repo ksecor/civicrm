@@ -40,6 +40,8 @@ require_once 'CRM/Admin/Form/Setting.php';
  */
 class CRM_Admin_Form_Setting_Component extends  CRM_Admin_Form_Setting
 {
+    protected $_components;
+
     /**
      * Function to build the form
      *
@@ -70,14 +72,25 @@ class CRM_Admin_Form_Setting_Component extends  CRM_Admin_Form_Setting
     {
         $ret = array();
         require_once 'CRM/Core/Component.php';
-        $c = CRM_Core_Component::getComponents();
-        foreach( $c as $name => $object ) {
+        $this->_components = CRM_Core_Component::getComponents();
+        foreach( $this->_components as $name => $object ) {
             $ret[$name] = $object->info['translatedName'];
         }
 
         return $ret;
     }
 
+    public function postProcess( ) {
+        $params = $this->controller->exportValues($this->_name);
+
+
+        $params['enableComponentIDs'] = array( );
+        foreach ( $params['enableComponents'] as $name ) {
+            $params['enableComponentIDs'][] = $this->_components[$name]->componentID;
+        }
+
+        parent::commonProcess( $params );
+    }
 
 }
 

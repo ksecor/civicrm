@@ -37,134 +37,113 @@ class CRM_Mailing_Menu {
 
     static function permissioned( ) {
         $items = array(
+                       'civicrm/mailing' => 
                        array(
-                             'path'    => 'civicrm/mailing',
-                             'query'   => 'reset=1',
+                             'query'   => array('reset' => 1),
                              'title'   => ts('CiviMail'),
-                             'access'  => CRM_Core_Permission::check( 'access CiviMail' ),
-                             'type'    => CRM_Core_Menu::CALLBACK,
-                             'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
-                             'weight'  => 600,
+                             'access_arguments'  => array( array( 'access CiviMail' ) ),
+                             'page_type' => CRM_Core_Menu::MENU_ITEM,  
+                             'weight'    => 600,
+                             'component' => 'CiviMail',
                              ),
                        );
         return $items;
     }
 
-    static function &main( $task ) {
-        $items = array( );
-        switch ( $task ) {
-        case 'admin':
-            $items = array(
-                           array(
-                                 'path'    => 'civicrm/admin/mail',
-                                 'title'   => ts('Mailer Settings'),
-                                 'desc'    => ts('Configure spool period, throttling and other mailer settings.'), 
-                                 'query'  => 'reset=1',
-                                 'access'  => CRM_Core_Permission::check( 'access CiviMail' ),
-                                 'type'    => CRM_Core_Menu::CALLBACK,
-                                 'crmType' => CRM_Core_Menu::LOCAL_TASK,
-                                 'adminGroup' => 'CiviMail',
-                                 'icon'    => 'admin/small/07.png',
-                                 'weight'  => 400
-                                 ),
-                           array(
-                                 'path'    => 'civicrm/admin/component',
-                                 'title'   => ts('Headers, Footers, and Automated Messages'),
-                                 'desc'    => ts('Configure the header and footer used for mailings. Customize the content of automated Subscribe, Unsubscribe, Resubscribe and Opt-out messages.'), 
-                                 'query'   => 'reset=1',
-                                 'access'  => CRM_Core_Permission::check( 'access CiviMail' ),
-                                 'type'    => CRM_Core_Menu::CALLBACK,
-                                 'crmType' => CRM_Core_Menu::LOCAL_TASK,  
-                                 'adminGroup' => 'CiviMail',
-                                 'icon'    => 'admin/small/Profile.png',
-                                 'weight'  => 410,
-                                 ),
-                           );
-            break;
-                      
-        case 'mailing':
-            $items = array(
-                           
-                           array(
-                                 'path'    => 'civicrm/mailing/send',
-                                 'query'   => 'reset=1',
-                                 'title'   => ts('Send Mailing'),
-                                 'access'  => CRM_Core_Permission::check( 'access CiviMail' ),
-                                 'type'    => CRM_Core_Menu::CALLBACK,
-                                 'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
-                                 'weight'  => 610,
-                                 ),
-                           
-                           array(
-                                 'path'    => 'civicrm/mailing/browse',
-                                 'query'   => 'reset=1',
-                                 'title'   => ts( 'Browse Sent Mailings' ),
-                                 'access'  => CRM_Core_Permission::check( 'access CiviMail' ),
-                                 'type'    => CRM_Core_Menu::CALLBACK, 
-                                 'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
-                                 'weight'  => 620, 
-                                 ),
-                           array(
-                                 'path'    => 'civicrm/mailing/component',
-                                 'query'   => 'reset=1',
-                                 'title'   => ts('Headers, Footers, and Automated Messages'),
-                                 'access'  => CRM_Core_Permission::check( 'administer CiviCRM' ),
-                                 'type'    => CRM_Core_Menu::CALLBACK,
-                                 'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
-                                 'weight'  => 630,
-                                 ),
-                           array(
-                                 'path'    => 'civicrm/mailing/unsubscribe',
-                                 'query'   => 'reset=1',
-                                 'title'   => ts('Unsubscribe'),
-                                 'access'  => CRM_Core_Permission::check( 'access CiviMail subscribe/unsubscribe pages' ),
-                                 'type'    => CRM_Core_Menu::CALLBACK,
-                                 'crmType' => CRM_Core_Menu::CALLBACK,
-                                 'weight'  => 640,
-                                 ),
-                           array(
-                                 'path'    => 'civicrm/mailing/resubscribe',
-                                 'query'   => 'reset=1',
-                                 'title'   => ts('Resubscribe'),
-                                 'access'  => CRM_Core_Permission::check( 'access CiviMail subscribe/unsubscribe pages' ),
-                                 'type'    => CRM_Core_Menu::CALLBACK,
-                                 'crmType' => CRM_Core_Menu::CALLBACK,
-                                 'weight'  => 645,
-                                 ),
-                           array(
-                                 'path'    => 'civicrm/mailing/optout',
-                                 'query'   => 'reset=1',
-                                 'title'   => ts('Optout'),
-                                 'access'  => CRM_Core_Permission::check( 'access CiviMail subscribe/unsubscribe pages' ),
-                                 'type'    => CRM_Core_Menu::CALLBACK,
-                                 'crmType' => CRM_Core_Menu::CALLBACK,
-                                 'weight'  => 650,
-                                 ),
-                           array(
-                                 'path'    => 'civicrm/mailing/confirm',
-                                 'query'   => 'reset=1',
-                                 'title'   => ts('Confirm'),
-                                 'access'  => CRM_Core_Permission::check( 'access CiviMail subscribe/unsubscribe pages' ),
-                                 'type'    => CRM_Core_Menu::CALLBACK,
-                                 'crmType' => CRM_Core_Menu::CALLBACK,
-                                 'weight'  => 660,
-                                 ),
-                           array(
-                                 'path'    => 'civicrm/mailing/subscribe',
-                                 'query'   => 'reset=1',
-                                 'title'   => ts('Subscribe'),
-                                 'access'  => CRM_Core_Permission::check( 'access CiviMail subscribe/unsubscribe pages' ),
-                                 'type'    => CRM_Core_Menu::CALLBACK,
-                                 'crmType' => CRM_Core_Menu::CALLBACK,
-                                 'weight'  => 660,
-                                 ),
-                           );
-            
-            break;
-        }
+    static function &main( ) {
+        $items = array(
+                       'civicrm/admin/mail' => 
+                       array(
+                             'title'   => ts('Mailer Settings'),
+                             'desc'    => ts('Configure spool period, throttling and other mailer settings.'), 
+                             'query'  => array('reset' => 1),
+                             'access_arguments'  => array( array( 'access CiviMail' ) ),
+                             'adminGroup' => 'CiviMail',
+                             'icon'    => 'admin/small/07.png',
+                             'weight'  => 400
+                             ),
+
+                       'civicrm/admin/component' => 
+                       array(
+                             'title'   => ts('Headers, Footers, and Automated Messages'),
+                             'desc'    => ts('Configure the header and footer used for mailings. Customize the content of automated Subscribe, Unsubscribe, Resubscribe and Opt-out messages.'), 
+                             'query'   => array('reset' => 1),
+                             'access_arguments'  => array( array( 'access CiviMail' ) ),
+                             'adminGroup' => 'CiviMail',
+                             'icon'    => 'admin/small/Profile.png',
+                             'weight'  => 410,
+                             ),
+
+                       'civicrm/mailing/send' => 
+                       array(
+                             'query'   => array('reset' => 1),
+                             'title'   => ts('Send Mailing'),
+                             'access_arguments'  => array( array( 'access CiviMail' ) ),
+                             'page_type' => CRM_Core_Menu::MENU_ITEM,  
+                             'weight'  => 610,
+                             ),
+                       
+                       'civicrm/mailing/browse' => 
+                       array(
+                             'query'   => array('reset' => 1),
+                             'title'   => ts( 'Browse Sent Mailings' ),
+                             'access_arguments'  => array( array( 'access CiviMail' ) ),
+                             'page_type' => CRM_Core_Menu::MENU_ITEM,  
+                             'weight'  => 620, 
+                             ),
+                       
+                       'civicrm/mailing/component' => 
+                       array(
+                             'query'   => array('reset' => 1),
+                             'title'   => ts('Headers, Footers, and Automated Messages'),
+                             'access_arguments'  => array( array( 'administer CiviCRM' ) ),
+                             'page_type' => CRM_Core_Menu::MENU_ITEM,  
+                             'weight'  => 630,
+                             ),
+
+                       'civicrm/mailing/unsubscribe' => 
+                       array(
+                             'query'   => array('reset' => 1),
+                             'title'   => ts('Unsubscribe'),
+                             'access_arguments'  => array( array( 'access CiviMail subscribe/unsubscribe pages' ) ),
+                             'weight'  => 640,
+                             ),
+                       
+                       'civicrm/mailing/resubscribe' => 
+                       array(
+                             'query'   => array('reset' => 1),
+                             'title'   => ts('Resubscribe'),
+                             'access_arguments'  => array( array( 'access CiviMail subscribe/unsubscribe pages' ) ),
+                             'weight'  => 645,
+                             ),
+
+                       'civicrm/mailing/optout' => 
+                       array(
+                             'query'   => array('reset' => 1),
+                             'title'   => ts('Optout'),
+                             'access_arguments'  => array( array( 'access CiviMail subscribe/unsubscribe pages' ) ),
+                             'weight'  => 650,
+                             ),
+
+                       'civicrm/mailing/confirm' => 
+                       array(
+                             'query'   => array('reset' => 1),
+                             'title'   => ts('Confirm'),
+                             'access_arguments'  => array( array( 'access CiviMail subscribe/unsubscribe pages' ) ),
+                             'weight'  => 660,
+                             ),
+
+                       'civicrm/mailing/subscribe' => 
+                       array(
+                             'query'   => array('reset' => 1),
+                             'title'   => ts('Subscribe'),
+                             'access_arguments'  => array( array( 'access CiviMail subscribe/unsubscribe pages' ) ),
+                             'weight'  => 660,
+                             ),
+                       );
+
         return $items;
     }
-    
 }
 
 

@@ -79,10 +79,11 @@ abstract class CRM_Core_Component_Info
      * @access public
      * 
      */
-    public function __construct( $name, $namespace )
+    public function __construct( $name, $namespace, $componentID )
     {
         $this->name = $name;
         $this->namespace = $namespace;
+        $this->componentID = $componentID;
         $this->info = $this->getInfo();
     }                                                          
 
@@ -168,6 +169,19 @@ abstract class CRM_Core_Component_Info
     {
         return $this->info['search'] ? true : false;
     }
+
+    /**
+     * Provides the xml menu files
+     * 
+     * @return array array of menu files
+     * @access public
+     *
+     */
+    public function menuFiles( )
+    {
+        return $this->info['menu'] ? $this->info['menu'] : array( );
+    }
+
 
     /**
      * Helper for instantiating component's elements.

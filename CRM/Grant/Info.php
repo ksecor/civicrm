@@ -51,6 +51,7 @@ class CRM_Grant_Info extends CRM_Core_Component_Info
                       'url'            => 'grant',
                       'perm'           => array( 'access CiviGrant', 
                                                  'edit grants'),
+                      'menu'           => array( 'Menu/Grant.xml' ),
                       'search'         => 1 );
     }
     

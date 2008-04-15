@@ -199,19 +199,57 @@ class CRM_Core_Permission {
         return true;
     }
 
-}
-
-function civicrm_hack_access( &$args, $op = 'and' ) {
-    if ( ! is_array( $args ) ) {
-        CRM_Core_Error::backtrace( $args );
+    static function checkMenu( &$args, $op = 'and' ) {
+        if ( ! is_array( $args ) ) {
+            return $args;
+        }
+        foreach ( $args as $str ) {
+            $res = CRM_Core_Permission::check( $str );
+            if ( $op == 'or' && $res ) {
+                return true;
+            } else if ( $op == 'and' && ! $res ) {
+                return false;
+            }
+        }
+        return ( $op == 'or' ) ? false : true;
     }
-    foreach ( $args as $str ) {
-        $res = CRM_Core_Permission::check( $str );
-        if ( $op == 'or' && $res ) {
-            return true;
-        } else if ( $op == 'and' && ! $res ) {
-            return false;
+
+    static function checkMenuItem( &$item ) {
+        if ( ! array_key_exists( 'access_callback', $item ) ) {
+            CRM_Core_Error::backtrace( );
+            CRM_Core_Error::fatal( );
+        }
+
+        // if component_id is present, ensure it is enabled
+        if ( isset( $item['component_id'] ) &&
+             $item['component_id'] ) {
+            $config =& CRM_Core_Config::singleton( );
+            if ( is_array( $config->enableComponentIDs ) &&
+                 in_array( $item['component_id'],
+                           $config->enableComponentIDs ) ) {
+                // continue with process
+            } else {
+                return false;
+            }
+        }
+
+        // the following is imitating drupal 6 code in includes/menu.inc
+        if ( empty( $item['access_callback'] ) ||
+             is_numeric( $item['access_callback'] ) ) {
+            return (boolean ) $item['access_callback'];
+        }
+
+        // check if callback is for checkMenu, if so optimize it
+        if ( is_array( $item['access_callback'] ) &&
+             $item['access_callback'][0] == 'CRM_Core_Permission' &&
+             $item['access_callback'][1] == 'checkMenu' ) {
+            $op = CRM_Utils_Array::value( 1, $item['access_arguments'], 'and' );
+            return self::checkMenu( $item['access_arguments'][0],
+                                    $op );
+        } else {
+            return call_user_func_array( $item['access_callback'],
+                                         $item['access_arguments'] );
         }
     }
-    return ( $op == 'or' ) ? false : true;
+    
 }

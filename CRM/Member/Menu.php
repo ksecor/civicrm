@@ -41,91 +41,69 @@ class CRM_Member_Menu {
 
     static function permissioned( ) {
         $items = array(
-                         array( 
-                             'path'    => 'civicrm/member', 
-                             'query'   => 'reset=1',
+                       'civicrm/member' => 
+                       array( 
+                             'query'   => array('reset' => 1),
                              'title'   => ts('CiviMember'), 
-                             'access'  => CRM_Core_Permission::check( 'access CiviMember'), 
-                             'type'    => CRM_Core_Menu::CALLBACK,  
-                             'crmType' => CRM_Core_Menu::NORMAL_ITEM,
-                             'weight'  => 700,  
+                             'access_arguments'  => array( array( 'access CiviMember' ) ), 
+                             'page_type'  => CRM_Core_Menu::MENU_ITEM,
+                             'weight'     => 700,  
+                             'component'  => 'CiviMember',  
                              ),
-                         );
+                       );
         return $items;
     }
 
-    static function &main( $task ) {
-        $items = array( );
-        switch ( $task ) {
-        case 'admin':
-            $items = array(
-                           array(
-                                 'path'    => 'civicrm/admin/member/membershipType',
-                                 'title'   => ts('Membership Types'),
-                                 'desc'    => ts('Define the types of memberships you want to offer. For each type, you can specify a \'name\' (Gold Member, Honor Society Member...), a description, duration, and a minimum fee.'), 
-                                 'query'  => 'reset=1',
-                                 'type'    => CRM_Core_Menu::CALLBACK,
-                                 'crmType' => CRM_Core_Menu::LOCAL_TASK,
-                                 'adminGroup' => 'CiviMember',
-                                 'icon'    => 'admin/small/membership_type.png',
-                                 'weight'  => 370
-                                 ),
-                      
-                           array(
-                                 'path'    => 'civicrm/admin/member/membershipStatus',
-                                 'title'   => ts('Membership Status Rules'),
-                                 'desc'    => ts('Status \'rules\' define the current status for a membership based on that membership\'s start and end dates. You can adjust the default status options and rules as needed to meet your needs.'), 
-                                 'query'  => 'reset=1',
-                                 'type'    => CRM_Core_Menu::CALLBACK,
-                                 'crmType' => CRM_Core_Menu::LOCAL_TASK,
-                                 'adminGroup' => 'CiviMember',
-                                 'icon'    => 'admin/small/membership_status.png',
-                                 'weight'  => 380
-                                 ),
+    static function &main( ) {
+        $items = array(
+                       'civicrm/admin/member/membershipType' => 
+                       array(
+                             'title'   => ts('Membership Types'),
+                             'desc'    => ts('Define the types of memberships you want to offer. For each type, you can specify a \'name\' (Gold Member, Honor Society Member...), a description, duration, and a minimum fee.'), 
+                             'query'  => array('reset' => 1),
+                             'adminGroup' => 'CiviMember',
+                             'icon'    => 'admin/small/membership_type.png',
+                             'weight'  => 370
+                             ),
                        
-                           );
-            break;
-
-        case 'contact':
-            $items = array(
-                           array( 
-                                 'path'    => 'civicrm/contact/view/membership', 
-                                 'query'   => 'reset=1&force=1&cid=%%cid%%', 
-                                 'title'   => ts('Memberships'), 
-                                 'type'    => CRM_Core_Menu::CALLBACK, 
-                                 'crmType' => CRM_Core_Menu::LOCAL_TASK, 
-                                 'weight'  => 2
-                                 ),
-                           );
-            break;
-
-        case 'member':
-            $items = array(
-                           array( 
-                                 'path'    => 'civicrm/member/search',
-                                 'query'   => 'reset=1',
-                                 'title'   => ts( 'Find Members' ),
-                                 'access'  => CRM_Core_Permission::check( 'access CiviMember' ),
-                                 'type'    => CRM_Core_Menu::CALLBACK,  
-                                 'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
-                                 'weight'  => 710,  
-                                 ),
+                       'civicrm/admin/member/membershipStatus' => 
+                       array(
+                             'title'   => ts('Membership Status Rules'),
+                             'desc'    => ts('Status \'rules\' define the current status for a membership based on that membership\'s start and end dates. You can adjust the default status options and rules as needed to meet your needs.'), 
+                             'query'  => array('reset' => 1),
+                             'adminGroup' => 'CiviMember',
+                             'icon'    => 'admin/small/membership_status.png',
+                             'weight'  => 380
+                             ),
                        
-                           array(
-                                 'path'    => 'civicrm/member/import', 
-                                 'query'   => 'reset=1',
-                                 'title'   => ts( 'Import Members' ), 
-                                 'access'  => CRM_Core_Permission::check( 'access CiviMember' ),
-                                 'type'    => CRM_Core_Menu::CALLBACK,  
-                                 'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
-                                 'weight'  => 720,  
-                                 )
-                           );
-            break;
-        }
+                       'civicrm/contact/view/membership' => 
+                       array( 
+                             'query'   => array('reset' => 1, 'force' => 1, 'cid' =>'%%cid%%'),
+                             'title'   => ts('Memberships'), 
+                             'weight'  => 2
+                             ),
+                       
+                       'civicrm/member/search' => 
+                       array( 
+                             'query'   => array('reset' => 1),
+                             'title'   => ts( 'Find Members' ),
+                             'access_arguments'  => array( array( 'access CiviMember' ) ),
+                             'page_type' => CRM_Core_Menu::MENU_ITEM,  
+                             'weight'  => 710,  
+                             ),
+                       
+                       'civicrm/member/import' => 
+                       array(
+                             'query'   => array('reset' => 1),
+                             'title'   => ts( 'Import Members' ), 
+                             'access_arguments'  => array( array( 'access CiviMember' ) ),
+                             'page_type' => CRM_Core_Menu::MENU_ITEM,  
+                             'weight'  => 720,  
+                             ),
+                       );
+        
         return $items;
     }
-
 }
 
 

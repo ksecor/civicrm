@@ -51,6 +51,7 @@ class CRM_Event_Info extends CRM_Core_Component_Info
                                                  'edit event participants',
                                                  'register for events'    ,
                                                  'view event participants' ),
+                      'menu'           => array( 'Menu/Event.xml' ),
                       'search'         => 1 );
     }
     

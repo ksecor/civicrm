@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<menu>
+  <item>
+     <path>civicrm/contact/search</path>
+     <title>Contacts</title>
+     <page_callback>CRM_Core_Invoke::search</page_callback>
+     <weight>10</weight>
+  </item>
+  <item>
+     <path>civicrm/contact/search/basic</path>
+     <title>Find Contacts</title>
+     <page_type>1</page_type>
+     <access_arguments>access CiviCRM</access_arguments>
+     <weight>1</weight>
+  </item>
+  <item>
+     <path>civicrm/contact/search/advanced</path>
+     <title>Advanced Search</title>
+     <weight>2</weight>
+  </item>
+  <item>
+     <path>civicrm/contact/search/builder</path>
+     <title>Search Builder</title>
+     <weight>3</weight>
+  </item>
+  <item>
+     <path>civicrm/contact/add</path>
+     <title>New Contact</title>
+     <page_callback>CRM_Contact_Form_Edit</page_callback>
+     <weight>1</weight>
+  </item>
+  <item>
+     <path>civicrm/contact/view</path>
+     <path_arguments>cid=%%cid%%</path_arguments>
+     <title>Contact Summary</title>
+     <page_callback>CRM_Contact_Page_View_Tabbed</page_callback>
+  </item>
+  <item>
+     <path>civicrm/contact/view/basic</path>
+     <path_arguments>cid=%%cid%%</path_arguments>
+     <title>Contact Summary</title>
+     <page_callback>CRM_Contact_Page_View_Basic</page_callback>
+  </item>
+  <item>
+     <path>civicrm/contact/view/activity</path>
+     <path_arguments>show=1,cid=%%cid%%</path_arguments>
+     <title>Activities</title>
+     <page_callback>CRM_Contact_Page_View_Activity</page_callback>
+  </item>
+  <item>
+     <path>civicrm/contact/view/rel</path>
+     <path_arguments>cid=%%cid%%</path_arguments>
+     <title>Relationships</title>
+     <page_callback>CRM_Contact_Page_View_Relationship</page_callback>
+  </item>
+  <item>
+     <path>civicrm/contact/view/group</path>
+     <path_arguments>cid=%%cid%%</path_arguments>
+     <title>Groups</title>
+     <page_callback>CRM_Contact_Page_View_GroupContact</page_callback>
+  </item>
+  <item>
+     <path>civicrm/contact/view/note</path>
+     <path_arguments>cid=%%cid%%</path_arguments>
+     <title>Notes</title>
+     <page_callback>CRM_Contact_Page_View_Note</page_callback>
+  </item>
+  <item>
+     <path>civicrm/contact/view/tag</path>
+     <path_arguments>cid=%%cid%%</path_arguments>
+     <title>Tags</title>
+     <page_callback>CRM_Contact_Page_View_Tag</page_callback>
+  </item>
+  <item>
+     <path>civicrm/contact/view/case</path>
+     <path_arguments>cid=%%cid%%</path_arguments>
+     <title>Case</title>
+     <page_callback>CRM_Contact_Page_View_Case</page_callback>
+  </item>
+  <item>
+     <path>civicrm/contact/view/cd</path>
+     <page_callback>CRM_Contact_Page_View_CustomData</page_callback>
+  </item>
+  <item>
+     <path>civicrm/contact/view/participant</path>
+     <page_callback>CRM_Contact_Page_View_Participant</page_callback>
+  </item>
+  <item>
+     <path>civicrm/contact/view/grant</path>
+     <page_callback>CRM_Contact_Page_View_Grant</page_callback>
+  </item>
+  <item>
+     <path>civicrm/contact/view/log</path>
+     <page_callback>CRM_Contact_Page_View_Log</page_callback>
+  </item>
+</menu>

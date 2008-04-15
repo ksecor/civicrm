@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<menu>
+  <item>
+     <path>civicrm</path>
+     <title>CiviCRM</title>
+     <access_callback>CRM_Core_Permission::checkMenu</access_callback>
+     <access_arguments>access CiviCRM</access_arguments>
+     <page_callback>CRM_Contact_Page_View_DashBoard</page_callback>
+     <page_arguments>null</page_arguments>
+     <weight>0</weight>
+  </item>
+  <item>
+     <path>civicrm/dashboard</path>
+     <title>CiviCRM Home</title>
+     <page_type>1</page_type>
+     <page_callback>CRM_Contact_Page_View_DashBoard</page_callback>
+     <access_arguments>access CiviCRM</access_arguments>
+     <weight>0</weight>
+  </item>
+  <item>
+     <path>civicrm/ajax</path>
+     <title></title>
+     <page_callback>CRM_Core_Page_AJAX</page_callback>
+     <access_arguments>access CiviCRM</access_arguments>
+     <weight>0</weight>
+  </item>
+  <item>
+     <path>civicrm/contact/map/event</path>
+     <title>Map Event Location</title>
+     <page_callback>CRM_Contact_Form_Task_Map_Event</page_callback>
+     <access_callback>1</access_callback>
+     <weight>1</weight>
+  </item>
+  <item>
+     <path>civicrm/group</path>
+     <title>Manage Groups</title>
+     <page_type>1</page_type>
+     <page_callback>CRM_Group_Page_Group</page_callback>
+     <access_arguments>access CiviCRM</access_arguments>
+     <weight>30</weight>
+  </item>
+  <item>
+     <path>civicrm/import</path>
+     <title>Import</title>
+     <access_arguments>import contacts,access CiviCRM</access_arguments>
+     <page_type>1</page_type>
+     <page_callback>CRM_Import_Controller</page_callback>
+     <weight>400</weight>
+  </item>
+  <item>
+     <path>civicrm/admin</path>
+     <title>Administer CiviCRM</title>
+     <access_arguments>administer CiviCRM,access CiviCRM</access_arguments>
+     <page_type>1</page_type>
+     <page_callback>CRM_Admin_Page_Admin</page_callback>
+     <weight>9000</weight>
+  </item>
+  <item>
+     <path>civicrm/file</path>
+     <title>Browse Uploaded files</title>
+     <access_arguments>access uploaded files</access_arguments>
+     <page_callback>CRM_Core_Page_File</page_callback>
+     <weight>0</weight>
+  </item>
+  <item>
+     <path>civicrm/profile</path>
+     <title>Contact Information</title>
+     <access_callback>1</access_callback>
+     <page_callback>CRM_Profile_Page_Listings</page_callback>
+     <weight>0</weight>
+  </item>
+  <item>
+     <path>civicrm/user</path>
+     <title>Contact Dashboard</title>
+     <saccess_arguments>access Contact Dashboard</saccess_arguments>
+     <page_callback>CRM_Contact_Page_View_UserDashBoard</page_callback>
+     <weight>0</weight>
+  </item>
+  <item>
+     <path>civicrm/friend</path>
+     <title>Tell a Friend</title>
+     <access_arguments>make online contributions;register for events</access_arguments>
+     <page_callback>CRM_Friend_Form</page_callback>
+     <weight>0</weight>
+  </item>
+  <item>
+     <path>civicrm/logout</path>
+     <title>Log out</title>
+     <page_callback>CRM_Core_Invoke::logout</page_callback>
+     <access_arguments>access CiviCRM</access_arguments>
+     <weight>9999</weight>
+  </item>
+  <item>
+     <path>civicrm/event</path>
+     <title>CiviEvent</title>
+     <access_arguments>access CiviEvent</access_arguments>
+     <page_type>1</page_type>
+     <weight>800</weight>
+     <component>CiviEvent</component>
+  </item>
+  <item>
+     <path>civicrm/event/info</path>
+     <access_arguments>1</access_arguments>
+     <weight>0</weight>
+  </item>
+  <item>
+     <path>civicrm/event/register</path>
+     <title>Event Registration</title>
+     <access_arguments>1</access_arguments>
+     <weight>0</weight>
+  </item>
+  <item>
+     <path>civicrm/event/ical</path>
+     <title>Event Listings</title>
+     <access_arguments>register for events</access_arguments>
+     <weight>0</weight>
+  </item>
+  <item>
+     <path>civicrm/event/participant</path>
+     <title>Event Participants List</title>
+     <access_arguments>view event participants</access_arguments>
+     <weight>0</weight>
+  </item>
+  <item>
+     <path>civicrm/admin/event</path>
+     <title>Manage Events</title>
+     <desc>Create and edit event configuration including times, locations, online registration forms, and fees. Links for iCal and RSS syndication.</desc>
+     <access_arguments>administer CiviCRM,access CiviEvent</access_arguments>
+     <adminGroup>CiviEvent</adminGroup>
+     <icon>admin/small/event_manage.png</icon>
+     <weight>370</weight>
+  </item>
+  <item>
+     <path>civicrm/admin/options/event_type</path>
+     <title>Event Types</title>
+     <desc>Use Event Types to categorize your events. Event feeds can be filtered by Event Type and participant searches can use Event Type as a criteria.</desc>
+     <path_arguments>group=event_type</path_arguments>
+     <access_arguments>administer CiviCRM,access CiviEvent</access_arguments>
+     <adminGroup>CiviEvent</adminGroup>
+     <icon>admin/small/event_type.png</icon>
+     <weight>375</weight>
+  </item>
+  <item>
+     <path>civicrm/admin/options/participant_status</path>
+     <title>Participant Status</title>
+     <desc>Define statuses for event participants here (e.g. Registered, Attended, Cancelled...). You can then assign statuses and search for participants by status.</desc>
+     <path_arguments>group=participant_status</path_arguments>
+     <access_arguments>administer CiviCRM,access CiviEvent</access_arguments>
+     <adminGroup>CiviEvent</adminGroup>
+     <icon>admin/small/parti_status.png</icon>
+     <weight>380</weight>
+  </item>
+  <item>
+     <path>civicrm/admin/options/participant_role</path>
+     <title>Participant Role</title>
+     <desc>Define participant roles for events here (e.g. Attendee, Host, Speaker...). You can then assign roles and search for participants by role.</desc>
+     <path_arguments>group=participant_role</path_arguments>
+     <access_arguments>administer CiviCRM,access CiviEvent</access_arguments>
+     <adminGroup>CiviEvent</adminGroup>
+     <icon>admin/small/parti_role.png</icon>
+     <weight>385</weight>
+  </item>
+  <item>
+     <path>civicrm/admin/price</path>
+     <title>Price Sets</title>
+     <desc>Price sets allow you to offer multiple options with associated fees (e.g. pre-conference workshops, additional meals, etc.). Configure Price Sets for events which need more than a single set of fee levels.</desc>
+     <access_arguments>administer CiviCRM,access CiviEvent</access_arguments>
+     <adminGroup>CiviEvent</adminGroup>
+     <icon>admin/small/price_sets.png</icon>
+     <weight>386</weight>
+  </item>
+  <item>
+     <path>civicrm/event/search</path>
+     <title>Find Participants</title>
+     <access_arguments>access CiviEvent</access_arguments>
+     <page_type>1</page_type>
+     <weight>810</weight>
+  </item>
+  <item>
+     <path>civicrm/event/manage</path>
+     <title>Manage Events</title>
+     <access_arguments>administer CiviCRM,access CiviEvent</access_arguments>
+     <page_type>1</page_type>
+     <weight>820</weight>
+  </item>
+  <item>
+     <path>civicrm/event/add</path>
+     <path_arguments>action=add</path_arguments>
+     <title>New Event</title>
+     <access_arguments>administer CiviCRM,access CiviEvent</access_arguments>
+     <page_type>1</page_type>
+     <weight>830</weight>
+  </item>
+  <item>
+     <path>civicrm/event/import</path>
+     <title>Import Participants</title>
+     <access_arguments>administer CiviCRM,access CiviEvent</access_arguments>
+     <page_type>1</page_type>
+     <weight>840</weight>
+  </item>
+  <item>
+     <path>civicrm/contribute</path>
+     <title>CiviContribute</title>
+     <access_arguments>access CiviContribute</access_arguments>
+     <page_type>1</page_type>
+     <weight>500</weight>
+     <component>CiviContribute</component>
+  </item>
+  <item>
+     <path>civicrm/contribute/transact</path>
+     <title>CiviContribute</title>
+     <access_arguments>make online contributions</access_arguments>
+     <weight>0</weight>
+  </item>
+  <item>
+     <path>civicrm/admin/contribute</path>
+     <title>Manage Contribution Pages</title>
+     <desc>CiviContribute allows you to create and maintain any number of Online Contribution Pages. You can create different pages for different programs or campaigns - and customize text, amounts, types of information collected from contributors, etc.</desc>
+     <adminGroup>CiviContribute</adminGroup>
+     <icon>admin/small/online_contribution_pages.png</icon>
+     <weight>360</weight>
+  </item>
+  <item>
+     <path>civicrm/admin/contribute/managePremiums</path>
+     <title>Manage Premiums</title>
+     <desc>CiviContribute allows you to configure any number of Premiums which can be offered to contributors as incentives / thank-you gifts. Define the premiums you want to offer here.</desc>
+     <adminGroup>CiviContribute</adminGroup>
+     <icon>admin/small/Premiums.png</icon>
+     <weight>365</weight>
+  </item>
+  <item>
+     <path>civicrm/admin/contribute/contributionType</path>
+     <title>Contribution Types</title>
+     <desc>Contribution types are used to categorize contributions for reporting and accounting purposes. These are also referred to as Funds.</desc>
+     <adminGroup>CiviContribute</adminGroup>
+     <icon>admin/small/contribution_types.png</icon>
+     <weight>370</weight>
+  </item>
+  <item>
+     <path>civicrm/admin/options/payment_instrument</path>
+     <title>Payment Instruments</title>
+     <desc>You may choose to record the payment instrument used for each contribution. Common payment methods are installed by default (e.g. Check, Cash, Credit Card...). If your site requires additional payment methods, add them here.</desc>
+     <path_arguments>group=payment_instrument</path_arguments>
+     <adminGroup>CiviContribute</adminGroup>
+     <icon>admin/small/payment_instruments.png</icon>
+     <weight>380</weight>
+  </item>
+  <item>
+     <path>civicrm/admin/options/accept_creditcard</path>
+     <title>Accepted Credit Cards</title>
+     <desc>Credit card options that will be offered to contributors using your Online Contribution pages.</desc>
+     <path_arguments>group=accept_creditcard</path_arguments>
+     <adminGroup>CiviContribute</adminGroup>
+     <icon>admin/small/accepted_creditcards.png</icon>
+     <weight>395</weight>
+  </item>
+  <item>
+     <path>civicrm/contact/view/contribution</path>
+     <path_arguments>force=1,cid=%%cid%%</path_arguments>
+     <title>Contributions</title>
+     <weight>1</weight>
+  </item>
+  <item>
+     <path>civicrm/contribute/search</path>
+     <title>Find Contributions</title>
+     <access_arguments>access CiviContribute</access_arguments>
+     <page_type>1</page_type>
+     <weight>510</weight>
+  </item>
+  <item>
+     <path>civicrm/contribute/import</path>
+     <title>Import Contributions</title>
+     <access_arguments>administer CiviCRM,access CiviContribute</access_arguments>
+     <page_type>1</page_type>
+     <weight>520</weight>
+  </item>
+  <item>
+     <path>civicrm/contribute/manage</path>
+     <title>Manage Contribution Pages</title>
+     <access_arguments>administer CiviCRM,access CiviContribute</access_arguments>
+     <page_type>1</page_type>
+     <weight>530</weight>
+  </item>
+  <item>
+     <path>civicrm/member</path>
+     <title>CiviMember</title>
+     <access_arguments>access CiviMember</access_arguments>
+     <page_type>1</page_type>
+     <weight>700</weight>
+     <component>CiviMember</component>
+  </item>
+  <item>
+     <path>civicrm/admin/member/membershipType</path>
+     <title>Membership Types</title>
+     <desc>Define the types of memberships you want to offer. For each type, you can specify a 'name' (Gold Member, Honor Society Member...), a description, duration, and a minimum fee.</desc>
+     <adminGroup>CiviMember</adminGroup>
+     <icon>admin/small/membership_type.png</icon>
+     <weight>370</weight>
+  </item>
+  <item>
+     <path>civicrm/admin/member/membershipStatus</path>
+     <title>Membership Status Rules</title>
+     <desc>Status 'rules' define the current status for a membership based on that membership's start and end dates. You can adjust the default status options and rules as needed to meet your needs.</desc>
+     <adminGroup>CiviMember</adminGroup>
+     <icon>admin/small/membership_status.png</icon>
+     <weight>380</weight>
+  </item>
+  <item>
+     <path>civicrm/contact/view/membership</path>
+     <path_arguments>force=1,cid=%%cid%%</path_arguments>
+     <title>Memberships</title>
+     <weight>2</weight>
+  </item>
+  <item>
+     <path>civicrm/member/search</path>
+     <title>Find Members</title>
+     <access_arguments>access CiviMember</access_arguments>
+     <page_type>1</page_type>
+     <weight>710</weight>
+  </item>
+  <item>
+     <path>civicrm/member/import</path>
+     <title>Import Members</title>
+     <access_arguments>access CiviMember</access_arguments>
+     <page_type>1</page_type>
+     <weight>720</weight>
+  </item>
+  <item>
+     <path>civicrm/mailing</path>
+     <title>CiviMail</title>
+     <access_arguments>access CiviMail</access_arguments>
+     <page_type>1</page_type>
+     <weight>600</weight>
+     <component>CiviMail</component>
+  </item>
+  <item>
+     <path>civicrm/admin/mail</path>
+     <title>Mailer Settings</title>
+     <desc>Configure spool period, throttling and other mailer settings.</desc>
+     <access_arguments>access CiviMail</access_arguments>
+     <adminGroup>CiviMail</adminGroup>
+     <icon>admin/small/07.png</icon>
+     <weight>400</weight>
+  </item>
+  <item>
+     <path>civicrm/admin/component</path>
+     <title>Headers, Footers, and Automated Messages</title>
+     <desc>Configure the header and footer used for mailings. Customize the content of automated Subscribe, Unsubscribe, Resubscribe and Opt-out messages.</desc>
+     <access_arguments>access CiviMail</access_arguments>
+     <adminGroup>CiviMail</adminGroup>
+     <icon>admin/small/Profile.png</icon>
+     <weight>410</weight>
+  </item>
+  <item>
+     <path>civicrm/mailing/send</path>
+     <title>Send Mailing</title>
+     <access_arguments>access CiviMail</access_arguments>
+     <page_type>1</page_type>
+     <weight>610</weight>
+  </item>
+  <item>
+     <path>civicrm/mailing/browse</path>
+     <title>Browse Sent Mailings</title>
+     <access_arguments>access CiviMail</access_arguments>
+     <page_type>1</page_type>
+     <weight>620</weight>
+  </item>
+  <item>
+     <path>civicrm/mailing/component</path>
+     <title>Headers, Footers, and Automated Messages</title>
+     <access_arguments>administer CiviCRM</access_arguments>
+     <page_type>1</page_type>
+     <weight>630</weight>
+  </item>
+  <item>
+     <path>civicrm/mailing/unsubscribe</path>
+     <title>Unsubscribe</title>
+     <access_arguments>access CiviMail subscribe/unsubscribe pages</access_arguments>
+     <weight>640</weight>
+  </item>
+  <item>
+     <path>civicrm/mailing/resubscribe</path>
+     <title>Resubscribe</title>
+     <access_arguments>access CiviMail subscribe/unsubscribe pages</access_arguments>
+     <weight>645</weight>
+  </item>
+  <item>
+     <path>civicrm/mailing/optout</path>
+     <title>Optout</title>
+     <access_arguments>access CiviMail subscribe/unsubscribe pages</access_arguments>
+     <weight>650</weight>
+  </item>
+  <item>
+     <path>civicrm/mailing/confirm</path>
+     <title>Confirm</title>
+     <access_arguments>access CiviMail subscribe/unsubscribe pages</access_arguments>
+     <weight>660</weight>
+  </item>
+  <item>
+     <path>civicrm/mailing/subscribe</path>
+     <title>Subscribe</title>
+     <access_arguments>access CiviMail subscribe/unsubscribe pages</access_arguments>
+     <weight>660</weight>
+  </item>
+  <item>
+     <path>civicrm/grant</path>
+     <title>CiviGrant</title>
+     <access_arguments>access CiviGrant</access_arguments>
+     <page_type>1</page_type>
+     <weight>1000</weight>
+     <component>CiviGrant</component>
+  </item>
+  <item>
+     <path>civicrm/grant/info</path>
+     <access_arguments>access CiviGrant</access_arguments>
+     <weight>0</weight>
+  </item>
+  <item>
+     <path>civicrm/grant/search</path>
+     <title>Find Grants</title>
+     <access_arguments>access CiviGrant</access_arguments>
+     <page_type>1</page_type>
+     <weight>1010</weight>
+  </item>
+  <item>
+     <path>civicrm/grant/add</path>
+     <path_arguments>action=add</path_arguments>
+     <title>New Grant</title>
+     <access_arguments>access CiviGrant</access_arguments>
+     <page_type>1</page_type>
+     <weight>1030</weight>
+  </item>
+  <item>
+     <path>civicrm/grant/import</path>
+     <title>Import Grants</title>
+     <access_arguments>access CiviGrant</access_arguments>
+     <page_type>1</page_type>
+     <weight>1040</weight>
+  </item>
+</menu>

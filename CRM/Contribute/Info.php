@@ -50,6 +50,7 @@ class CRM_Contribute_Info extends CRM_Core_Component_Info
                        'perm'           => array( 'access CiviContribute',
                                                   'edit contributions',
                                                   'make online contributions' ),
+                       'menu'           => array( 'Menu/Contribute.xml' ),
                        'search'  => 1 );        
     }
 

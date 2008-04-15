@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<menu>
+  <item>
+     <path>civicrm/profile</path>
+     <title>CiviCRM Profile</title>
+     <page_callback>CRM_Core_Invoke::profile</page_callback>
+     <weight>0</weight>
+  </item>
+</menu>

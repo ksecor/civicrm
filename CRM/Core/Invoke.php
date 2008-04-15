@@ -61,6 +61,12 @@ class CRM_Core_Invoke
             return;
         }
 
+        if ( $args[1] == 'menu' && 
+             $args[2] == 'rebuild' ) {
+            CRM_Core_Menu::store( );
+            return ts( 'Menu has been rebuilt' );
+        }
+
         $config =& CRM_Core_Config::singleton( );
 
         // also initialize the i18n framework
@@ -88,81 +94,54 @@ class CRM_Core_Invoke
         $template->assign( 'activeComponent', 'CiviCRM' );
         $template->assign( 'formTpl'        , 'default' );
 
-        switch ( $args[1] ) {
+        while ( ! empty( $args ) ) {
+            // get the menu items
+            $path = implode( '/', $args );
+            $item =& CRM_Core_Menu::get( $path );
 
-        case 'ajax':
-            self::ajax( $args );
-            break;
+            if ( $item ) {
+                if ( ! array_key_exists( 'page_callback', $item ) ) {
+                    CRM_Core_Error::debug( 'Bad item', $item );
+                    CRM_Core_Error::fatal( ts( 'Bad menu record in database' ) );
+                }
 
-        case 'contact'  : 
-            self::contact ( $args );
-            break;
+                // check that we are permissioned to access this page
+                if ( ! CRM_Core_Permission::checkMenuItem( $item ) ) {
+                    CRM_Utils_System::permissionDenied( );
+                }
 
-        case 'admin'    : 
-            self::admin   ( $args );
-            break;
-
-        case 'dashboard':
-            self::dashboard($args);
-            break;
-            
-        case 'logout':
-            self::logout($args);
-            break;
-
-        case 'group'    : 
-            self::group   ( $args );
-            break;
-        
-        case 'import'   : 
-            self::import  ( $args );
-            break;
-       
-        case 'export'   : 
-            self::export  ( $args );
-            break;
-
-        case 'activity' : 
-            self::activity( $args );
-            break;
-
-        case 'profile'  : 
-            self::profile ( $args );
-            break;
-
-        case 'file':
-            self::file( $args );
-            break;
-
-        case 'acl':
-            self::acl( $args );
-            break;
-
-        case 'user':
-            self::user($args);
-            break;
-
-        case 'friend':
-            self::friend( $args );
-            break;
-
-        case 'upgrade':
-            self::upgrade( $args );
-            break;
-
-        case 'standalone':
-            self::standalone( $args );
-            break;
-
-        default         :
-            if ( CRM_Core_Component::invoke( $args, 'main' ) ) {
-                break;
+                CRM_Utils_System::setTitle( $item['title'] );
+                CRM_Utils_System::appendBreadCrumb( $item['breadcrumb'] );
+                
+                if ( is_array( $item['page_callback'] ) ) {
+                    // Added since url is not refreshed. Should be
+                    // removed when all the methods have been removed from
+                    // this invoke file. 
+                    $newArgs = explode( '/', $_GET['q'] );
+                    require_once 'CRM/Utils/Weight.php';
+                    call_user_func( $item['page_callback'],
+                                    $newArgs );
+                    return;
+                } else if (strstr($item['page_callback'], '_Form')) {
+                    $wrapper =& new CRM_Utils_Wrapper( );
+                    return $wrapper->run( $item['page_callback'], 
+                                          $item['title'], null );
+                } else {
+                    // page and controller have the same style
+                    require_once( str_replace( '_',
+                                               DIRECTORY_SEPARATOR,
+                                               $item['page_callback'] ) . '.php' );
+                    eval( '$page = new ' .
+                          $item['page_callback'] .
+                          ' ( );' );
+                    return $page->run( $args, CRM_Utils_Array::value('page_arguments', $item, null) );
+                }
             }
-            CRM_Utils_System::redirect( );
-            break;
-
+            array_pop( $args );
         }
 
+        CRM_Core_Error::fatal( 'hey, how did we land up here?' );
+        CRM_Utils_System::redirect( );
         return;
     }
 
@@ -768,14 +747,10 @@ class CRM_Core_Invoke
         return CRM_Utils_System::redirect( CRM_Utils_System::url('civicrm/admin', 'reset=1', false) );
     }
 
-    /**
-     * This function contains the action for import arguments
-     *
-     * @params $args array this array contains the arguments of the url 
-     *
-     * @static
-     * @access public
-     */
+
+    /**********************************/
+    /****** NO LONGER USED ************/
+    /**********************************/
     static function import( $args ) 
     {
         if ( $args[1] != 'import' ) {
@@ -1046,91 +1021,6 @@ class CRM_Core_Invoke
         exit();
     }
     
-    /** 
-     * This function contains the actions for setting arguments
-     * 
-     *  $args array this array contains the arguments of the url 
-     * 
-     * @static 
-     * @access public 
-     */ 
-
-    static function setting ( $args ) 
-    {
-        if ( $args[2] !== 'setting' ) {
-            return; 
-        }
-        
-        $session =& CRM_Core_Session::singleton();
-        $session->pushUserContext( CRM_Utils_System::url('civicrm/admin/setting', 'reset=1' ) );
-
-        $wrapper =& new CRM_Utils_Wrapper( );
-        
-        $thirdArg  = CRM_Utils_Array::value( 3, $args, '' );
-        $fourthArg = CRM_Utils_Array::value( 4, $args, '' );
-        switch ( $thirdArg ) {
-        case 'component' : 
-            $output = $wrapper->run( 'CRM_Admin_Form_Setting_Component', ts('Components'), null); 
-            break;
-        case 'preferences':
-            switch ( $fourthArg ) {
-            case 'display':
-                $output = $wrapper->run( 'CRM_Admin_Form_Preferences_Display', ts('System Preferences'), null); 
-                break;
-            case 'address':
-                $output = $wrapper->run( 'CRM_Admin_Form_Preferences_Address', ts('Address Preferences'), null); 
-                break;
-            case 'date':
-                require_once 'CRM/Admin/Page/PreferencesDate.php';
-                $view   =& new CRM_Admin_Page_PreferencesDate(ts('View Date Prefences'));
-                $output =  $view->run( );
-                break;
-            }
-            break;
-        case 'path' : 
-            $output = $wrapper->run( 'CRM_Admin_Form_Setting_Path', ts('File System Paths'), null); 
-            break;
-        case 'url' : 
-            $output = $wrapper->run( 'CRM_Admin_Form_Setting_Url', ts('Site URLs'), null); 
-            break;
-        case 'smtp' : 
-            $output = $wrapper->run( 'CRM_Admin_Form_Setting_Smtp', ts('Smtp Server'), null); 
-            break;
-        case 'uf':
-            $wrapper =& new CRM_Utils_Wrapper( );
-            return $wrapper->run( 'CRM_Admin_Form_Setting_UF', ts('User Framework Settings'), null); 
-        case 'mapping' : 
-            $output = $wrapper->run( 'CRM_Admin_Form_Setting_Mapping', ts('Mapping and Geocoding'), null); 
-            break;
-        case 'localization' : 
-            $output = $wrapper->run( 'CRM_Admin_Form_Setting_Localization', ts('Localization'), null); 
-            break;
-        case 'date' : 
-            $output = $wrapper->run( 'CRM_Admin_Form_Setting_Date', ts('Date Formatting'), null); 
-            break;
-        case 'misc' : 
-            $output = $wrapper->run( 'CRM_Admin_Form_Setting_Miscellaneous', ts('Miscellaneous'), null); 
-            break;
-        case 'debug' : 
-            $output = $wrapper->run( 'CRM_Admin_Form_Setting_Debugging', ts('Debugging'), null); 
-            break;
-        case 'updateConfigBackend':
-            $output = $wrapper->run( 'CRM_Admin_Form_Setting_UpdateConfigBackend',
-                                     ts('Update Config Backend'),
-                                     null ); 
-            break;
-            
-        default : 
-            require_once 'CRM/Admin/Page/Setting.php';
-            $view =& new CRM_Admin_Page_Setting();
-            $output = $view->run();
-            break;
-        }
-        $config =& CRM_Core_Config::singleton();
-        $config->cleanup(1);
-        return $output;
-    }
-
     /**
      * This function for User dashboard
      *

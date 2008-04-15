@@ -416,96 +416,12 @@ class CRM_Core_Block {
      */
     private function setTemplateMenuValues( ) {
         $config =& CRM_Core_Config::singleton( );
-        $items  =& CRM_Core_Menu::items( );
-        $values =  array( );
 
-        /**
-         * This is a hack for now, since we do not know the entire menu structure
-         * and hence dont know what items have children
-         */
-        $components = array( ts( 'CiviContribute' ) => 1,
-                             ts( 'CiviEvent'      ) => 1,
-                             ts( 'CiviMember'     ) => 1,
-                             ts( 'CiviMail'       ) => 1,
-                             ts( 'Import'         ) => 1,
-                             ts( 'CiviGrant'      ) => 1,
-                             ts( 'Logout'         ) => 1);
-                             
-        foreach ( $items as $item ) {
-            if ( ! CRM_Utils_Array::value( 'crmType', $item ) ) {
-                continue;
-            }
-
-            if ( ( $item['crmType'] &  CRM_Core_Menu::NORMAL_ITEM ) &&
-                 ( $item['crmType'] >= CRM_Core_Menu::NORMAL_ITEM ) &&
-                 isset( $item['access'] ) && $item['access'] ) {
-                $value = array( );
-                $value['url'  ]  = CRM_Utils_System::url( $item['path'], CRM_Utils_Array::value( 'query', $item ) );
-                $value['title']  = $item['title'];
-                $value['path']   = $item['path'];
-                if ( array_key_exists( $item['title'], $components ) ) {
-                    $value['class']  = 'collapsed';
-                } else {
-                    $value['class']  = 'leaf';
-                }
-                $value['parent'] = null;
-                $value['start']  = $value['end'] = null;
-
-                if ( strpos( CRM_Utils_Array::value( $config->userFrameworkURLVar, $_REQUEST ), $item['path'] ) === 0 ) {
-                    $value['active'] = 'class="active"';
-                } else {
-                    $value['active'] = '';
-                }
-
-                // check if there is a parent
-                foreach ( $values as $weight => $v ) {
-                    if ( strpos( $item['path'], $v['path'] ) !== false) {
-                        $value['parent'] = $weight;
-
-                        // only reset if still a leaf
-                        if ( $values[$weight]['class'] == 'leaf' ) {
-                            $values[$weight]['class'] = 'collapsed';
-                        }
-
-                        // if a child or the parent is active, expand the menu
-                        if ( $value['active'] || $values[$weight]['active'] ) {
-                            $values[$weight]['class'] = 'expanded';
-                        }
-
-                        // make the parent inactive if the child is active
-                        if ( $value['active'] && $values[$weight]['active'] ) { 
-                            $values[$weight]['active'] = '';
-                        }
-
-                    }
-                }
-                
-                $values[$item['weight'] . '.' . $item['title']] = $value;
-            }
+        $path = 'navigation';
+        $values =& CRM_Core_Menu::getNavigation( );
+        if ( $values ) {
+            self::setProperty( self::MENU, 'templateValues', array( 'menu' => $values ) );
         }
-
-        // remove all collapsed menu items from the array
-        $activeChildren = array( );
-        foreach ( $values as $weight => $v ) {
-            if ( $v['parent'] ) {
-                if ( $values[$v['parent']]['class'] == 'collapsed' ) {
-                    unset( $values[$weight] );
-                } else {
-                    $activeChildren[] = $weight;
-                }
-            }
-        }
-        
-        // add the start / end tags
-        $len = count($activeChildren) - 1;
-        if ( $len >= 0 ) {
-            $values[$activeChildren[0   ]]['start'] = true;
-            $values[$activeChildren[$len]]['end'  ] = true;
-        }
-        
-        ksort($values, SORT_NUMERIC );
-
-        self::setProperty( self::MENU, 'templateValues', array( 'menu' => $values ) );
     }
 
     /**

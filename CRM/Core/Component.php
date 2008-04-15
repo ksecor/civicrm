@@ -95,7 +95,7 @@ class CRM_Core_Component
         while ( $cr->fetch( ) ) {
             $infoClass = $cr->namespace . '_' . self::COMPONENT_INFO_CLASS;
             require_once( str_replace( '_', DIRECTORY_SEPARATOR, $infoClass ) . '.php' );
-            $infoObject = new $infoClass( $cr->name, $cr->namespace );
+            $infoObject = new $infoClass( $cr->name, $cr->namespace, $cr->id );
             if( $infoObject->info['name'] !== $cr->name ) {
                 CRM_Core_Error::fatal( "There is a discrepancy between name in component registry and in info file ({$cr->name})." );
             }
@@ -138,17 +138,28 @@ class CRM_Core_Component
         return false;
     }
 
-    static function &menu( $permissioned = false, $task = null ) 
+    static function xmlMenu( ) {
+        $info =& self::_info( );
+
+        $files = array( );
+        foreach( $info as $name => $comp ) {
+            $files = array_merge( $files,
+                                  $comp->menuFiles( ) );
+        }
+        return $files;
+    }
+
+    static function &menu( ) 
     {
         $info =& self::_info( );
         $items = array( );
         foreach( $info as $name => $comp ) {
-            $mnu =& $comp->getMenuObject( );
-            if( $permissioned ) {
-                $ret = $mnu->permissioned( );
-            } else {
-                $ret = $mnu->main( $task );
-            }
+            $mnu   =& $comp->getMenuObject( );
+
+            $ret   = $mnu->permissioned( );
+            $items = array_merge( $items, $ret );
+
+            $ret   = $mnu->main( $task );
             $items = array_merge( $items, $ret );
         }
         return $items;

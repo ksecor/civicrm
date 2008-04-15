@@ -40,68 +40,59 @@ class CRM_Grant_Menu {
 
     static function permissioned( ) {
         $items = array(
+                       'civicrm/grant' => 
                        array( 
-                             'path'    => 'civicrm/grant',
-                             'query'   => 'reset=1',
+                             'query'   => array('reset' => 1),
                              'title'   => ts('CiviGrant'), 
-                             'access'  => CRM_Core_Permission::check( 'access CiviGrant'), 
-                             'type'    => CRM_Core_Menu::CALLBACK,  
-                             'crmType' => CRM_Core_Menu::NORMAL_ITEM,
-                             'weight'  => 1000,
+                             'access_arguments'  => array( array( 'access CiviGrant') ), 
+                             'page_type' => CRM_Core_Menu::MENU_ITEM,
+                             'weight'    => 1000,
+                             'component' => 'CiviGrant',
                              ),
+                       
+                       'civicrm/grant/info' => 
                        array( 
-                              'path'    => 'civicrm/grant/info', 
-                              'query'   => 'reset=1',
-                              'access'  => CRM_Core_Permission::check( 'access CiviGrant'), 
-                              'type'    => CRM_Core_Menu::CALLBACK,  
-                              'crmType' => CRM_Core_Menu::CALLBACK,
-                              'weight'  => 0, 
-                              ),
+                             'query'   => array('reset' => 1),
+                             'access_arguments'  => array( array( 'access CiviGrant' ) ), 
+                             'weight'  => 0, 
+                             ),
                        );
         return $items;
     }
 
-    static function &main( $task ) {
-        $items = array( );
-        switch ( $task ) {
-        case 'grant':
-            $items = array(
-                           array( 
-                                 'path'    => 'civicrm/grant/search',
-                                 'query'   => 'reset=1',
-                                 'title'   => ts( 'Find Grants' ),
-                                 'access'  => CRM_Core_Permission::check( 'access CiviGrant' ), 
-                                 'type'    => CRM_Core_Menu::CALLBACK,  
-                                 'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
-                                 'weight'  => 1010,  
-                                 ),
+    static function &main( ) {
+        $items = array(
                        
-                           /*           array(
-                                 'path'    => 'civicrm/grant/add',
-                                 'query'   => 'action=add&reset=1',
-                                 'title'   => ts( 'New Grant' ),
-                                 'access'  => CRM_Core_Permission::check( 'access CiviGrant' ),
-                                 'type'    => CRM_Core_Menu::CALLBACK,  
-                                 'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
-                                 'weight'  => 1030,  
-                                 ),
+                       'civicrm/grant/search' => 
+                       array( 
+                             'query'   => array('reset' => 1),
+                             'title'   => ts( 'Find Grants' ),
+                             'access_arguments'  => array( array( 'access CiviGrant' ) ), 
+                             'page_type' => CRM_Core_Menu::MENU_ITEM,  
+                             'weight'  => 1010,  
+                             ),
+                       
+                       'civicrm/grant/add' => 
+                       array(
+                             'query'   => array('reset' => 1, 'action' => 'add'),
+                             'title'   => ts( 'New Grant' ),
+                             'access_arguments'  => array( array( 'access CiviGrant' ) ),
+                             'page_type' => CRM_Core_Menu::MENU_ITEM,  
+                             'weight'  => 1030,  
+                             ),
+                       
+                       'civicrm/grant/import' => 
+                       array(
+                             'query'   => array('reset' => 1),
+                             'title'   => ts( 'Import Grants' ),
+                             'access_arguments'  => array( array('access CiviGrant') ),
+                             'page_type' => CRM_Core_Menu::MENU_ITEM,  
+                             'weight'  => 1040,  
+                             ),
+                       );
 
-                           array(
-                                 'path'    => 'civicrm/grant/import', 
-                                 'query'   => 'reset=1',
-                                 'title'   => ts( 'Import Grants' ),
-                                 'access'  => CRM_Core_Permission::check('access CiviGrant'),
-                                 'type'    => CRM_Core_Menu::CALLBACK,  
-                                 'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
-                                 'weight'  => 1040,  
-                                 ),*/
-                           
-                           );
-            break;
-        }
         return $items;
     }
-
 }
 
 

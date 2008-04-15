@@ -26,13 +26,11 @@
 
             <table class="form-layout" width="100%">
             <tr>
-                <td width="50%" style="padding: 0px;">
-                {foreach from=$group item=panelItem  key=panelName name=groupLoop}
-                    {if $panelName != 'show' AND $panelName != 'hide' AND $panelName != 'perColumn'}
-                        &raquo;&nbsp;<a href="{$panelItem.url}"{if $panelItem.extra} {$panelItem.extra}{/if} id="idc_{$panelItem.id}">{$panelItem.title}</a><br />
-                        {if $smarty.foreach.groupLoop.iteration EQ $group.perColumn}
-                            </td><td width="50%" style="padding: 0px;">
-                        {/if}
+	       <td width="50%" style="padding: 0px;">
+                {foreach from=$group.fields item=panelItem  key=panelName name=groupLoop}
+                    &raquo;&nbsp;<a href="{$panelItem.url}"{if $panelItem.extra} {$panelItem.extra}{/if} id="idc_{$panelItem.id}">{$panelItem.title}</a><br />
+                    {if $smarty.foreach.groupLoop.iteration EQ $group.perColumn}
+                         </td><td width="50%" style="padding: 0px;">
                     {/if}
                 {/foreach}
                 </td>
@@ -47,8 +45,7 @@
     <fieldset><legend><strong>{$group.hide}{$groupName}</strong></legend>
         <table class="form-layout">
                 
-        {foreach from=$group item=panelItem  key=panelName name=groupLoop}
-          {if $panelName != 'show' AND $panelName != 'hide' AND $panelName != 'perColumn'}
+        {foreach from=$group.fields item=panelItem  key=panelName name=groupLoop}
             <tr>
                 <td style="vertical-align: top;">
                     <a href="{$panelItem.url}"{if $panelItem.extra} {$panelItem.extra}{/if} ><img src="{$config->resourceBase}i/
@@ -61,7 +58,6 @@
                     {$panelItem.desc}
                 </td>
             </tr>
-          {/if}
         {/foreach}
         
         </table>
