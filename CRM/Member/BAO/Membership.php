@@ -578,9 +578,12 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
      * @param int $contactID  contact id
      * @static
      */
-    static function getContactMembership( $contactID , $memType, $isTest ) 
+    static function getContactMembership( $contactID , $memType, $isTest, $membershipId = null ) 
     {
         $dao = &new CRM_Member_DAO_Membership( );
+        if ( $membershipId ) {
+            $dao->id = $membershipId;
+        }
         $dao->contact_id         = $contactID;
         $dao->membership_type_id = $memType;
         $dao->is_test            = $isTest;
@@ -935,7 +938,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         $format       = '%Y%m%d';
         
         if ( $currentMembership = 
-             CRM_Member_BAO_Membership::getContactMembership( $contactID, $membershipTypeID, $is_test ) ) {
+             CRM_Member_BAO_Membership::getContactMembership( $contactID, $membershipTypeID, $is_test, $form->_membershipId ) ) {
             
             $form->set("renewal_mode", true );
             

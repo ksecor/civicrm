@@ -88,6 +88,7 @@ function clearAmountOther() {
 
 {if $is_monetary}
 {if $form.credit_card_number}
+<div id="payment_information">
     <fieldset><legend>{ts}Credit or Debit Card Information{/ts}</legend>
     {if $paymentProcessor.billing_mode & 2}
         <table class="form-layout-compressed">
@@ -125,6 +126,7 @@ function clearAmountOther() {
         </table>
     {/if}
     </fieldset>
+</div>
 {/if}
 {/if}
 
@@ -153,7 +155,17 @@ function clearAmountOther() {
     </div>
 {/if}
 </div>
-
+{* Hide Credit Card Block and Billing information if contribution is pay later. *}
+{if $form.is_pay_later and $hidePaymentInformation} 
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="is_pay_later"
+    trigger_value       =""
+    target_element_id   ="payment_information" 
+    target_element_type ="table-row"
+    field_type          ="radio"
+    invert              = 1
+}
+{/if}
 
 {* Disable pay later option if not monetary *}
 {literal}

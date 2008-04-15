@@ -1,457 +1,248 @@
-if(!dojo._hasResource["dijit.Menu"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
-dojo._hasResource["dijit.Menu"] = true;
-dojo.provide("dijit.Menu");
+/*
+	Copyright (c) 2004-2008, The Dojo Foundation
+	All Rights Reserved.
 
+	Licensed under the Academic Free License version 2.1 or above OR the
+	modified BSD license. For more information on Dojo licensing, see:
+
+		http://dojotoolkit.org/book/dojo-book-0-9/introduction/licensing
+*/
+
+
+if(!dojo._hasResource["dijit.Menu"]){
+dojo._hasResource["dijit.Menu"]=true;
+dojo.provide("dijit.Menu");
 dojo.require("dijit._Widget");
 dojo.require("dijit._Container");
 dojo.require("dijit._Templated");
-
-dojo.declare(
-	"dijit.Menu",
-	[dijit._Widget, dijit._Templated, dijit._KeyNavContainer],
-{
-	constructor: function() {
-		this._bindings = [];
-	},
-
-	templateString:
-			'<table class="dijit dijitMenu dijitReset dijitMenuTable" waiRole="menu" dojoAttachEvent="onkeypress:_onKeyPress">' +
-				'<tbody class="dijitReset" dojoAttachPoint="containerNode"></tbody>'+
-			'</table>',
-
-	// targetNodeIds: String[]
-	//	Array of dom node ids of nodes to attach to.
-	//	Fill this with nodeIds upon widget creation and it becomes context menu for those nodes.
-	targetNodeIds: [],
-
-	// contextMenuForWindow: Boolean
-	//	if true, right clicking anywhere on the window will cause this context menu to open;
-	//	if false, must specify targetNodeIds
-	contextMenuForWindow: false,
-
-	// parentMenu: Widget
-	// pointer to menu that displayed me
-	parentMenu: null,
-
-	// popupDelay: Integer
-	//	number of milliseconds before hovering (without clicking) causes the popup to automatically open
-	popupDelay: 500,
-
-	// _contextMenuWithMouse: Boolean
-	//	used to record mouse and keyboard events to determine if a context
-	//	menu is being opened with the keyboard or the mouse
-	_contextMenuWithMouse: false,
-
-	postCreate: function(){
-		if(this.contextMenuForWindow){
-			this.bindDomNode(dojo.body());
-		}else{
-			dojo.forEach(this.targetNodeIds, this.bindDomNode, this);
-		}
-		this.connectKeyNavHandlers([dojo.keys.UP_ARROW], [dojo.keys.DOWN_ARROW]);
-	},
-
-	startup: function(){
-		dojo.forEach(this.getChildren(), function(child){ child.startup(); });
-		this.startupKeyNavChildren();
-	},
-
-	onExecute: function(){
-		// summary: attach point for notification about when a menu item has been executed
-	},
-
-	onCancel: function(/*Boolean*/ closeAll){
-		// summary: attach point for notification about when the user cancels the current menu
-	},
-
-	_moveToPopup: function(/*Event*/ evt){
-		if(this.focusedChild && this.focusedChild.popup && !this.focusedChild.disabled){
-			this.focusedChild._onClick(evt);
-		}
-	},
-
-	_onKeyPress: function(/*Event*/ evt){
-		// summary
-		//	Handle keyboard based menu navigation.
-		if(evt.ctrlKey || evt.altKey){ return; }
-
-		switch(evt.keyCode){
-			case dojo.keys.RIGHT_ARROW:
-				this._moveToPopup(evt);
-				dojo.stopEvent(evt);
-				break;
-			case dojo.keys.LEFT_ARROW:
-				if(this.parentMenu){
-					this.onCancel(false);
-				}else{
-					dojo.stopEvent(evt);
-				}
-				break;
-		}
-	},
-
-	onItemHover: function(/*MenuItem*/ item){
-		this.focusChild(item);
-
-		if(this.focusedChild.popup && !this.focusedChild.disabled && !this.hover_timer){
-			this.hover_timer = setTimeout(dojo.hitch(this, "_openPopup"), this.popupDelay);
-		}
-	},
-
-	_onChildBlur: function(item){
-		// Close all popups that are open and descendants of this menu
-		dijit.popup.close(item.popup);
-		item._blur();
-		this._stopPopupTimer();
-	},
-
-	onItemUnhover: function(/*MenuItem*/ item){
-	},
-
-	_stopPopupTimer: function(){
-		if(this.hover_timer){
-			clearTimeout(this.hover_timer);
-			this.hover_timer = null;
-		}
-	},
-
-	_getTopMenu: function(){
-		for(var top=this; top.parentMenu; top=top.parentMenu);
-		return top;
-	},
-
-	onItemClick: function(/*Widget*/ item){
-		// summary: user defined function to handle clicks on an item
-		// summary: internal function for clicks
-		if(item.disabled){ return false; }
-
-		if(item.popup){
-			if(!this.is_open){
-				this._openPopup();
-			}
-		}else{
-			// before calling user defined handler, close hierarchy of menus
-			// and restore focus to place it was when menu was opened
-			this.onExecute();
-
-			// user defined handler for click
-			item.onClick();
-		}
-	},
-
-	// thanks burstlib!
-	_iframeContentWindow: function(/* HTMLIFrameElement */iframe_el) {
-		//	summary
-		//	returns the window reference of the passed iframe
-		var win = dijit.getDocumentWindow(dijit.Menu._iframeContentDocument(iframe_el)) ||
-			// Moz. TODO: is this available when defaultView isn't?
-			dijit.Menu._iframeContentDocument(iframe_el)['__parent__'] ||
-			(iframe_el.name && document.frames[iframe_el.name]) || null;
-		return win;	//	Window
-	},
-
-	_iframeContentDocument: function(/* HTMLIFrameElement */iframe_el){
-		//	summary
-		//	returns a reference to the document object inside iframe_el
-		var doc = iframe_el.contentDocument // W3
-			|| (iframe_el.contentWindow && iframe_el.contentWindow.document) // IE
-			|| (iframe_el.name && document.frames[iframe_el.name] && document.frames[iframe_el.name].document)
-			|| null;
-		return doc;	//	HTMLDocument
-	},
-
-	bindDomNode: function(/*String|DomNode*/ node){
-		// summary: attach menu to given node
-		node = dojo.byId(node);
-
-		//TODO: this is to support context popups in Editor.  Maybe this shouldn't be in dijit.Menu
-		var win = dijit.getDocumentWindow(node.ownerDocument);
-		if(node.tagName.toLowerCase()=="iframe"){
-			win = this._iframeContentWindow(node);
-			node = dojo.withGlobal(win, dojo.body);
-		}
-
-		// to capture these events at the top level,
-		// attach to document, not body
-		var cn = (node == dojo.body() ? dojo.doc : node);
-
-		node[this.id] = this._bindings.push([
-			dojo.connect(cn, "oncontextmenu", this, "_openMyself"),
-			dojo.connect(cn, "onkeydown", this, "_contextKey"),
-			dojo.connect(cn, "onmousedown", this, "_contextMouse")
-		]);
-	},
-
-	unBindDomNode: function(/*String|DomNode*/ nodeName){
-		// summary: detach menu from given node
-		var node = dojo.byId(nodeName);
-		var bid = node[this.id]-1, b = this._bindings[bid];
-		dojo.forEach(b, dojo.disconnect);
-		delete this._bindings[bid];
-	},
-
-	_contextKey: function(e){
-		this._contextMenuWithMouse = false;
-		if (e.keyCode == dojo.keys.F10) {
-			dojo.stopEvent(e);
-			if (e.shiftKey && e.type=="keydown") {
-				// FF: copying the wrong property from e will cause the system
-				// context menu to appear in spite of stopEvent. Don't know
-				// exactly which properties cause this effect.
-				var _e = { target: e.target, pageX: e.pageX, pageY: e.pageY };
-				_e.preventDefault = _e.stopPropagation = function(){};
-				// IE: without the delay, focus work in "open" causes the system
-				// context menu to appear in spite of stopEvent.
-				window.setTimeout(dojo.hitch(this, function(){ this._openMyself(_e); }), 1);
-			}
-		}
-	},
-
-	_contextMouse: function(e){
-		this._contextMenuWithMouse = true;
-	},
-
-	_openMyself: function(/*Event*/ e){
-		// summary:
-		//		Internal function for opening myself when the user
-		//		does a right-click or something similar
-
-		dojo.stopEvent(e);
-
-		// Get coordinates.
-		// if we are opening the menu with the mouse or on safari open
-		// the menu at the mouse cursor
-		// (Safari does not have a keyboard command to open the context menu
-		// and we don't currently have a reliable way to determine
-		// _contextMenuWithMouse on Safari)
-		var x,y;
-		if(dojo.isSafari || this._contextMenuWithMouse){
-			x=e.pageX;
-			y=e.pageY;
-		}else{
-			// otherwise open near e.target
-			var coords = dojo.coords(e.target, true);
-			x = coords.x + 10;
-			y = coords.y + 10;
-		}
-
-		var self=this;
-		var savedFocus = dijit.getFocus(this);
-		function closeAndRestoreFocus(){
-			// user has clicked on a menu or popup
-			dijit.focus(savedFocus);
-			dijit.popup.close(self);
-		}
-		dijit.popup.open({
-			popup: this,
-			x: x,
-			y: y,
-			onExecute: closeAndRestoreFocus,
-			onCancel: closeAndRestoreFocus,
-			orient: this.isLeftToRight() ? 'L' : 'R'
-		});
-		this.focus();
-
-		this._onBlur = function(){
-			// Usually the parent closes the child widget but if this is a context
-			// menu then there is no parent
-			dijit.popup.close(this);
-			// don't try to restore focus; user has clicked another part of the screen
-			// and set focus there
-		}
-	},
-
-	onOpen: function(/*Event*/ e){
-		// summary
-		//		Open menu relative to the mouse
-		this.isShowingNow = true;
-	},
-
-	onClose: function(){
-		// summary: callback when this menu is closed
-		this._stopPopupTimer();
-		this.parentMenu = null;
-		this.isShowingNow = false;
-		this.currentPopup = null;
-		if(this.focusedChild){
-			this._onChildBlur(this.focusedChild);
-			this.focusedChild = null;
-		}
-	},
-
-	_openPopup: function(){
-		// summary: open the popup to the side of the current menu item
-		this._stopPopupTimer();
-		var from_item = this.focusedChild;
-		var popup = from_item.popup;
-
-		if(popup.isShowingNow){ return; }
-		popup.parentMenu = this;
-		var self = this;
-		dijit.popup.open({
-			parent: this,
-			popup: popup,
-			around: from_item.arrowCell,
-			orient: this.isLeftToRight() ? {'TR': 'TL', 'TL': 'TR'} : {'TL': 'TR', 'TR': 'TL'},
-			onCancel: function(){
-				// called when the child menu is canceled
-				dijit.popup.close(popup);
-				from_item.focus();	// put focus back on my node
-				self.currentPopup = null;
-			}
-		});
-
-		this.currentPopup = popup;
-
-		if(popup.focus){
-			popup.focus();
-		}
-	}
+dojo.declare("dijit.Menu",[dijit._Widget,dijit._Templated,dijit._KeyNavContainer],{constructor:function(){
+this._bindings=[];
+},templateString:"<table class=\"dijit dijitMenu dijitReset dijitMenuTable\" waiRole=\"menu\" dojoAttachEvent=\"onkeypress:_onKeyPress\">"+"<tbody class=\"dijitReset\" dojoAttachPoint=\"containerNode\"></tbody>"+"</table>",targetNodeIds:[],contextMenuForWindow:false,leftClickToOpen:false,parentMenu:null,popupDelay:500,_contextMenuWithMouse:false,postCreate:function(){
+if(this.contextMenuForWindow){
+this.bindDomNode(dojo.body());
+}else{
+dojo.forEach(this.targetNodeIds,this.bindDomNode,this);
 }
-);
-
-dojo.declare(
-	"dijit.MenuItem",
-	[dijit._Widget, dijit._Templated, dijit._Contained],
-{
-	// summary
-	//	A line item in a Menu2
-
-	// Make 3 columns
-	//   icon, label, and expand arrow (BiDi-dependent) indicating sub-menu
-	templateString:
-		 '<tr class="dijitReset dijitMenuItem"'
-		+'dojoAttachEvent="onmouseenter:_onHover,onmouseleave:_onUnhover,ondijitclick:_onClick">'
-		+'<td class="dijitReset"><div class="dijitMenuItemIcon ${iconClass}" dojoAttachPoint="iconNode" ></div></td>'
-		+'<td tabIndex="-1" class="dijitReset dijitMenuItemLabel" dojoAttachPoint="containerNode" waiRole="menuitem"></td>'
-		+'<td class="dijitReset" dojoAttachPoint="arrowCell">'
-			+'<div class="dijitMenuExpand" dojoAttachPoint="expand" style="display:none">'
-			+'<span class="dijitInline dijitArrowNode dijitMenuExpandInner">+</span>'
-			+'</div>'
-		+'</td>'
-		+'</tr>',
-
-	// label: String
-	//	menu text
-	label: '',
-
-	// iconClass: String
-	//	class to apply to div in button to make it display an icon
-	iconClass: "",
-
-	// disabled: Boolean
-	//  if true, the menu item is disabled
-	//  if false, the menu item is enabled
-	disabled: false,
-
-	postCreate: function(){
-		dojo.setSelectable(this.domNode, false);
-		this.setDisabled(this.disabled);
-		if(this.label){
-			this.containerNode.innerHTML=this.label;
-		}
-	},
-
-	_onHover: function(){
-		// summary: callback when mouse is moved onto menu item
-		this.getParent().onItemHover(this);
-	},
-
-	_onUnhover: function(){
-		// summary: callback when mouse is moved off of menu item
-		// if we are unhovering the currently selected item
-		// then unselect it
-		this.getParent().onItemUnhover(this);
-	},
-
-	_onClick: function(evt){
-		this.getParent().onItemClick(this);
-		dojo.stopEvent(evt);
-	},
-
-	onClick: function() {
-		// summary
-		//	User defined function to handle clicks
-	},
-
-	focus: function(){
-		dojo.addClass(this.domNode, 'dijitMenuItemHover');
-		try{
-			dijit.focus(this.containerNode);
-		}catch(e){
-			// this throws on IE (at least) in some scenarios
-		}
-	},
-
-	_blur: function(){
-		dojo.removeClass(this.domNode, 'dijitMenuItemHover');
-	},
-
-	setDisabled: function(/*Boolean*/ value){
-		// summary: enable or disable this menu item
-		this.disabled = value;
-		dojo[value ? "addClass" : "removeClass"](this.domNode, 'dijitMenuItemDisabled');
-		dijit.setWaiState(this.containerNode, 'disabled', value ? 'true' : 'false');
-	}
+this.connectKeyNavHandlers([dojo.keys.UP_ARROW],[dojo.keys.DOWN_ARROW]);
+},startup:function(){
+if(this._started){
+return;
+}
+dojo.forEach(this.getChildren(),function(_1){
+_1.startup();
 });
-
-dojo.declare(
-	"dijit.PopupMenuItem",
-	dijit.MenuItem,
-{
-	_fillContent: function(){
-		// my inner HTML contains both the menu item text and a popup widget, like
-		// <div dojoType="dijit.PopupMenuItem">
-		//		<span>pick me</span>
-		//		<popup> ... </popup>
-		// </div>
-		// the first part holds the menu item text and the second part is the popup
-		if(this.srcNodeRef){
-			var nodes = dojo.query("*", this.srcNodeRef);
-			dijit.PopupMenuItem.superclass._fillContent.call(this, nodes[0]);
-
-			// save pointer to srcNode so we can grab the drop down widget after it's instantiated
-			this.dropDownContainer = this.srcNodeRef;
-		}
-	},
-
-	startup: function(){
-		// we didn't copy the dropdown widget from the this.srcNodeRef, so it's in no-man's
-		// land now.  move it to document.body.
-		if(!this.popup){
-			var node = dojo.query("[widgetId]", this.dropDownContainer)[0];
-			this.popup = dijit.byNode(node);
-		}
-		dojo.body().appendChild(this.popup.domNode);
-
-		this.popup.domNode.style.display="none";
-		dojo.addClass(this.expand, "dijitMenuExpandEnabled");
-		dojo.style(this.expand, "display", "");
-		dijit.setWaiState(this.containerNode, "haspopup", "true");
-	}
-});
-
-dojo.declare(
-	"dijit.MenuSeparator",
-	[dijit._Widget, dijit._Templated, dijit._Contained],
-{
-	// summary
-	//	A line between two menu items
-
-	templateString: '<tr class="dijitMenuSeparator"><td colspan=3>'
-			+'<div class="dijitMenuSeparatorTop"></div>'
-			+'<div class="dijitMenuSeparatorBottom"></div>'
-			+'</td></tr>',
-
-	postCreate: function(){
-		dojo.setSelectable(this.domNode, false);
-	},
-	
-	isFocusable: function(){
-		// summary:
-		//		over ride to always return false
-		return false;
-	}
-});
-
+this.startupKeyNavChildren();
+this.inherited(arguments);
+},onExecute:function(){
+},onCancel:function(_2){
+},_moveToPopup:function(_3){
+if(this.focusedChild&&this.focusedChild.popup&&!this.focusedChild.disabled){
+this.focusedChild._onClick(_3);
+}
+},_onKeyPress:function(_4){
+if(_4.ctrlKey||_4.altKey){
+return;
+}
+switch(_4.keyCode){
+case dojo.keys.RIGHT_ARROW:
+this._moveToPopup(_4);
+dojo.stopEvent(_4);
+break;
+case dojo.keys.LEFT_ARROW:
+if(this.parentMenu){
+this.onCancel(false);
+}else{
+dojo.stopEvent(_4);
+}
+break;
+}
+},onItemHover:function(_5){
+this.focusChild(_5);
+if(this.focusedChild.popup&&!this.focusedChild.disabled&&!this.hover_timer){
+this.hover_timer=setTimeout(dojo.hitch(this,"_openPopup"),this.popupDelay);
+}
+},_onChildBlur:function(_6){
+dijit.popup.close(_6.popup);
+_6._blur();
+this._stopPopupTimer();
+},onItemUnhover:function(_7){
+},_stopPopupTimer:function(){
+if(this.hover_timer){
+clearTimeout(this.hover_timer);
+this.hover_timer=null;
+}
+},_getTopMenu:function(){
+for(var _8=this;_8.parentMenu;_8=_8.parentMenu){
+}
+return _8;
+},onItemClick:function(_9,_a){
+if(_9.disabled){
+return false;
+}
+if(_9.popup){
+if(!this.is_open){
+this._openPopup();
+}
+}else{
+this.onExecute();
+_9.onClick(_a);
+}
+},_iframeContentWindow:function(_b){
+var _c=dijit.getDocumentWindow(dijit.Menu._iframeContentDocument(_b))||dijit.Menu._iframeContentDocument(_b)["__parent__"]||(_b.name&&dojo.doc.frames[_b.name])||null;
+return _c;
+},_iframeContentDocument:function(_d){
+var _e=_d.contentDocument||(_d.contentWindow&&_d.contentWindow.document)||(_d.name&&dojo.doc.frames[_d.name]&&dojo.doc.frames[_d.name].document)||null;
+return _e;
+},bindDomNode:function(_f){
+_f=dojo.byId(_f);
+var win=dijit.getDocumentWindow(_f.ownerDocument);
+if(_f.tagName.toLowerCase()=="iframe"){
+win=this._iframeContentWindow(_f);
+_f=dojo.withGlobal(win,dojo.body);
+}
+var cn=(_f==dojo.body()?dojo.doc:_f);
+_f[this.id]=this._bindings.push([dojo.connect(cn,(this.leftClickToOpen)?"onclick":"oncontextmenu",this,"_openMyself"),dojo.connect(cn,"onkeydown",this,"_contextKey"),dojo.connect(cn,"onmousedown",this,"_contextMouse")]);
+},unBindDomNode:function(_12){
+var _13=dojo.byId(_12);
+if(_13){
+var bid=_13[this.id]-1,b=this._bindings[bid];
+dojo.forEach(b,dojo.disconnect);
+delete this._bindings[bid];
+}
+},_contextKey:function(e){
+this._contextMenuWithMouse=false;
+if(e.keyCode==dojo.keys.F10){
+dojo.stopEvent(e);
+if(e.shiftKey&&e.type=="keydown"){
+var _e={target:e.target,pageX:e.pageX,pageY:e.pageY};
+_e.preventDefault=_e.stopPropagation=function(){
+};
+window.setTimeout(dojo.hitch(this,function(){
+this._openMyself(_e);
+}),1);
+}
+}
+},_contextMouse:function(e){
+this._contextMenuWithMouse=true;
+},_openMyself:function(e){
+if(this.leftClickToOpen&&e.button>0){
+return;
+}
+dojo.stopEvent(e);
+var x,y;
+if(dojo.isSafari||this._contextMenuWithMouse){
+x=e.pageX;
+y=e.pageY;
+}else{
+var _1c=dojo.coords(e.target,true);
+x=_1c.x+10;
+y=_1c.y+10;
+}
+var _1d=this;
+var _1e=dijit.getFocus(this);
+function closeAndRestoreFocus(){
+dijit.focus(_1e);
+dijit.popup.close(_1d);
+};
+dijit.popup.open({popup:this,x:x,y:y,onExecute:closeAndRestoreFocus,onCancel:closeAndRestoreFocus,orient:this.isLeftToRight()?"L":"R"});
+this.focus();
+this._onBlur=function(){
+this.inherited("_onBlur",arguments);
+dijit.popup.close(this);
+};
+},onOpen:function(e){
+this.isShowingNow=true;
+},onClose:function(){
+this._stopPopupTimer();
+this.parentMenu=null;
+this.isShowingNow=false;
+this.currentPopup=null;
+if(this.focusedChild){
+this._onChildBlur(this.focusedChild);
+this.focusedChild=null;
+}
+},_openPopup:function(){
+this._stopPopupTimer();
+var _20=this.focusedChild;
+var _21=_20.popup;
+if(_21.isShowingNow){
+return;
+}
+_21.parentMenu=this;
+var _22=this;
+dijit.popup.open({parent:this,popup:_21,around:_20.arrowCell,orient:this.isLeftToRight()?{"TR":"TL","TL":"TR"}:{"TL":"TR","TR":"TL"},onCancel:function(){
+dijit.popup.close(_21);
+_20.focus();
+_22.currentPopup=null;
+}});
+this.currentPopup=_21;
+if(_21.focus){
+_21.focus();
+}
+},uninitialize:function(){
+dojo.forEach(this.targetNodeIds,this.unBindDomNode,this);
+this.inherited(arguments);
+}});
+dojo.declare("dijit.MenuItem",[dijit._Widget,dijit._Templated,dijit._Contained],{templateString:"<tr class=\"dijitReset dijitMenuItem\" "+"dojoAttachEvent=\"onmouseenter:_onHover,onmouseleave:_onUnhover,ondijitclick:_onClick\">"+"<td class=\"dijitReset\"><div class=\"dijitMenuItemIcon ${iconClass}\" dojoAttachPoint=\"iconNode\"></div></td>"+"<td tabIndex=\"-1\" class=\"dijitReset dijitMenuItemLabel\" dojoAttachPoint=\"containerNode,focusNode\" waiRole=\"menuitem\"></td>"+"<td class=\"dijitReset\" dojoAttachPoint=\"arrowCell\">"+"<div class=\"dijitMenuExpand\" dojoAttachPoint=\"expand\" style=\"display:none\">"+"<span class=\"dijitInline dijitArrowNode dijitMenuExpandInner\">+</span>"+"</div>"+"</td>"+"</tr>",label:"",iconClass:"",disabled:false,postCreate:function(){
+dojo.setSelectable(this.domNode,false);
+this.setDisabled(this.disabled);
+if(this.label){
+this.setLabel(this.label);
+}
+},_onHover:function(){
+this.getParent().onItemHover(this);
+},_onUnhover:function(){
+this.getParent().onItemUnhover(this);
+},_onClick:function(evt){
+this.getParent().onItemClick(this,evt);
+dojo.stopEvent(evt);
+},onClick:function(evt){
+},focus:function(){
+dojo.addClass(this.domNode,"dijitMenuItemHover");
+try{
+dijit.focus(this.containerNode);
+}
+catch(e){
+}
+},_blur:function(){
+dojo.removeClass(this.domNode,"dijitMenuItemHover");
+},setLabel:function(_25){
+this.containerNode.innerHTML=this.label=_25;
+},setDisabled:function(_26){
+this.disabled=_26;
+dojo[_26?"addClass":"removeClass"](this.domNode,"dijitMenuItemDisabled");
+dijit.setWaiState(this.containerNode,"disabled",_26?"true":"false");
+}});
+dojo.declare("dijit.PopupMenuItem",dijit.MenuItem,{_fillContent:function(){
+if(this.srcNodeRef){
+var _27=dojo.query("*",this.srcNodeRef);
+dijit.PopupMenuItem.superclass._fillContent.call(this,_27[0]);
+this.dropDownContainer=this.srcNodeRef;
+}
+},startup:function(){
+if(this._started){
+return;
+}
+this.inherited(arguments);
+if(!this.popup){
+var _28=dojo.query("[widgetId]",this.dropDownContainer)[0];
+this.popup=dijit.byNode(_28);
+}
+dojo.body().appendChild(this.popup.domNode);
+this.popup.domNode.style.display="none";
+dojo.addClass(this.expand,"dijitMenuExpandEnabled");
+dojo.style(this.expand,"display","");
+dijit.setWaiState(this.containerNode,"haspopup","true");
+},destroyDescendants:function(){
+if(this.popup){
+this.popup.destroyRecursive();
+delete this.popup;
+}
+this.inherited(arguments);
+}});
+dojo.declare("dijit.MenuSeparator",[dijit._Widget,dijit._Templated,dijit._Contained],{templateString:"<tr class=\"dijitMenuSeparator\"><td colspan=3>"+"<div class=\"dijitMenuSeparatorTop\"></div>"+"<div class=\"dijitMenuSeparatorBottom\"></div>"+"</td></tr>",postCreate:function(){
+dojo.setSelectable(this.domNode,false);
+},isFocusable:function(){
+return false;
+}});
 }

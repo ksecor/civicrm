@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-03-12 09:43+0100\n"
-"PO-Revision-Date: 2008-04-06 02:51-0700\n"
-"Last-Translator: Marc Vanockerhout <marc.vanockerhout@knokke-heist.be>\n"
+"PO-Revision-Date: 2008-04-08 11:36-0700\n"
+"Last-Translator: Han Velthuis <han.velthuis@tiscali.nl>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -602,7 +602,7 @@ msgstr "Overzicht"
 
 #: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Import Data File"
-msgstr "Importeer gegevensbestand"
+msgstr "Te importeren bestand"
 
 #: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "A valid file must be uploaded."
@@ -1106,7 +1106,7 @@ msgstr "Status taak"
 #: CRM/Contact/DAO/Contact.php CRM/Contact/Form/Household.php
 #: CRM/Contact/Form/Individual.php CRM/Contact/Form/Organization.php
 msgid "Nick Name"
-msgstr "Roepnaam"
+msgstr "Bijnaam"
 
 #: CRM/Contact/DAO/Contact.php CRM/Contact/Form/Organization.php
 msgid "Legal Name"
@@ -1115,7 +1115,7 @@ msgstr "Wettelijke naam"
 #: CRM/Contact/DAO/Contact.php CRM/Contact/Form/Individual.php
 #: templates/CRM/Friend/Form.tpl
 msgid "First Name"
-msgstr "Titulatuur + voorletters ( voornaam)"
+msgstr "Voornaam (Titulatuur + Voorletters)"
 
 #: CRM/Contact/DAO/Contact.php CRM/Contact/Form/Individual.php
 msgid "Middle Name"
@@ -1280,7 +1280,7 @@ msgstr "E-mail domein"
 
 #: CRM/Contact/Form/Edit.php CRM/Core/Invoke.php
 msgid "New %1"
-msgstr "Nieuw %1"
+msgstr "Nieuwe %1"
 
 #: CRM/Contact/Form/Edit.php CRM/Contact/Form/Search/Criteria.php
 msgid "Privacy"
@@ -1619,7 +1619,7 @@ msgstr "Hoofd"
 
 #: CRM/Contact/Form/Task/Record.php CRM/Contact/Task.php
 msgid "Record Activity for Contacts"
-msgstr "Activiteit  toevoegen aan contact"
+msgstr "Activiteit toevoegen aan contact"
 
 #: CRM/Contact/Form/Task/RemoveFromGroup.php CRM/Contact/Task.php
 msgid "Remove Contacts from Group"
@@ -1815,7 +1815,7 @@ msgstr "Javascript"
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
 msgid "Options Per Line"
-msgstr "Opties per lijn"
+msgstr "Opties per regel"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/SelectValues.php
 msgid "Memo"
@@ -1939,7 +1939,7 @@ msgstr "CiviCRM profiel"
 #: CRM/Core/Invoke.php CRM/Friend/Form/Contribute.php
 #: CRM/Friend/Form/Event.php templates/CRM/Friend/Form/Friend.tpl
 msgid "Tell A Friend"
-msgstr "Vertel het een vriend"
+msgstr "Mond tot mond reclame"
 
 #: CRM/Core/Invoke.php CRM/Core/Page/File.php
 msgid "Domain Information Page"
@@ -1979,11 +1979,11 @@ msgstr "Zoek contact duplicaten"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Duplicate Contact Rules"
-msgstr "Contact duplicaten vergelijkingsregels"
+msgstr "Contact duplicaatregels"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Contact Matching"
-msgstr "Contact overeenkomst"
+msgstr "Contact overeenkomstregel"
 
 #: CRM/Core/Invoke.php CRM/Price/Page/Set.php
 msgid "Price Sets"
@@ -2005,7 +2005,7 @@ msgstr "Groepsbeheer"
 #: CRM/Core/Menu.php CRM/Friend/BAO/Friend.php CRM/Friend/Form/Contribute.php
 #: CRM/Friend/Form/Event.php xml/templates/civicrm_add_domain.tpl
 msgid "Tell a Friend"
-msgstr "Vertel het een vriend"
+msgstr "Mond tot mond reclame"
 
 #: CRM/Core/Menu.php CRM/Core/SelectValues.php
 msgid "Contacts"
@@ -2135,7 +2135,7 @@ msgstr "Voorstel Bericht"
 
 #: CRM/Friend/Form/Contribute.php CRM/Friend/Form/Event.php
 msgid "Thanks for Spreading the Word"
-msgstr "Dank U "
+msgstr "Dank U"
 
 #: CRM/Grant/BAO/Query.php CRM/Grant/Form/Grant.php
 #: xml/templates/civicrm_add_domain.tpl
@@ -2197,13 +2197,13 @@ msgstr "Server Url"
 #: CRM/Upgrade/TwoZero/Form/Step3.php CRM/Upgrade/TwoZero/Form/Step4.php
 #: CRM/Upgrade/TwoZero/Form/Step5.php CRM/Upgrade/TwoZero/Form/Step6.php
 msgid "Post-condition failed for upgrade step %1."
-msgstr ""
+msgstr "Test na upgrade step %1 mislukt."
 
 #: CRM/Upgrade/TwoZero/Form/Step2.php CRM/Upgrade/TwoZero/Form/Step3.php
 #: CRM/Upgrade/TwoZero/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step5.php
 #: CRM/Upgrade/TwoZero/Form/Step6.php CRM/Upgrade/TwoZero/Form/Step7.php
 msgid "Pre-condition failed for upgrade step %1."
-msgstr ""
+msgstr "Test voor upgrade step %1 mislukt."
 
 #: CRM/Upgrade/TwoZero/Form/Step2.php CRM/Upgrade/TwoZero/Form/Step3.php
 #: CRM/Upgrade/TwoZero/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step5.php
@@ -2213,17 +2213,17 @@ msgstr "Aanpassen & Doorgaan"
 #: CRM/Upgrade/TwoZero/Form/Step3.php CRM/Upgrade/TwoZero/Form/Step4.php
 #: CRM/Upgrade/TwoZero/Form/Step5.php CRM/Upgrade/TwoZero/Form/Step6.php
 msgid "Database consistency check failed for step %1."
-msgstr ""
+msgstr "Database niet consistent in step %1."
 
 #: CRM/Upgrade/TwoZero/Form/Step3.php CRM/Upgrade/TwoZero/Form/Step4.php
 #: CRM/Upgrade/TwoZero/Form/Step6.php
 msgid "FK constraint names not in the required format."
-msgstr ""
+msgstr "Database fout (formaat FK constraint namen)."
 
 #: CRM/Upgrade/TwoZero/Form/Step3.php CRM/Upgrade/TwoZero/Form/Step4.php
 #: CRM/Upgrade/TwoZero/Form/Step6.php
 msgid "Please rebuild your 1.9 database to ensure schema integrity."
-msgstr ""
+msgstr "Gebruik uw database uit versie 1.9 om zeker te zijn van de integriteit."
 
 #: CRM/ACL/BAO/ACL.php
 msgid "Contact Group"
@@ -2287,11 +2287,11 @@ msgstr "toegang uploaded bestanden"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "profile listings and forms"
-msgstr ""
+msgstr "profiellijsten en schermen"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "access all custom data"
-msgstr ""
+msgstr "benaderen specifieke gegevens"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "access CiviCRM"
@@ -2549,7 +2549,7 @@ msgstr "SMS"
 
 #: CRM/Activity/Selector/Activity.php
 msgid "CiviCRM Activity"
-msgstr ""
+msgstr "CiviCRM Activiteit"
 
 #: CRM/Activity/Selector/Activity.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
@@ -2574,7 +2574,7 @@ msgstr "Lengte"
 
 #: CRM/Admin/Form/DedupeRules.php
 msgid "Weight Threshold to Consider Contacts 'Matching':"
-msgstr "Drempel gewicht vastleggen contact overeenkomst:"
+msgstr "Drempel gewicht contact is duplicaat:"
 
 #: CRM/Admin/Form/DupeMatch.php
 msgid "Match On:"
@@ -2590,7 +2590,7 @@ msgstr ""
 
 #: CRM/Admin/Form/DupeMatch.php
 msgid "The Contact Matching rule has been saved."
-msgstr "De vergelijkingsregel is bewaard."
+msgstr "De regel is bewaard."
 
 #: CRM/Admin/Form/LocationType.php
 msgid "Name can only consist of alpha-numeric characters"
@@ -3528,7 +3528,7 @@ msgstr "Afbeelding URL"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Preferred Mail Format"
-msgstr "Voorkeur e-mail format:"
+msgstr "Voorkeur e-mail formaat:"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Hash"
@@ -3757,7 +3757,7 @@ msgstr "Contact is toegevoegd aan de geselecteerde groep."
 
 #: CRM/Contact/Form/IM.php
 msgid "Instant Messenger (preferred)"
-msgstr "Instant Messenger (bij voorkeur)"
+msgstr "Instant Messenger (voorkeur)"
 
 #: CRM/Contact/Form/IM.php
 msgid "Instant Messenger"
@@ -6850,7 +6850,7 @@ msgstr "Regel Gewicht"
 
 #: CRM/Friend/BAO/Friend.php
 msgid "Tell A Friend enabled?"
-msgstr ""
+msgstr "Is mond tot mond reclame ingeschakeld?"
 
 #: CRM/Friend/BAO/Friend.php
 msgid "Introduction"
@@ -6862,11 +6862,11 @@ msgstr ""
 
 #: CRM/Friend/BAO/Friend.php
 msgid "Thank-you Title"
-msgstr ""
+msgstr "Dank U titel"
 
 #: CRM/Friend/BAO/Friend.php
 msgid "Thank-you Message"
-msgstr ""
+msgstr "Dank u tekst"
 
 #: CRM/Friend/DAO/Friend.php
 msgid "Intro"
@@ -6886,7 +6886,7 @@ msgstr "Dank-U tekst"
 
 #: CRM/Friend/Form/Contribute.php
 msgid "Tell A Friend (%1)"
-msgstr ""
+msgstr "Mond tot mond reclame (%1)"
 
 #: CRM/Friend/Form/Contribute.php
 msgid ""
@@ -6895,18 +6895,21 @@ msgid ""
 "- let your friends know why you support us. Then fill in the name(s) and "
 "email address(es) and click 'Send Your Message'."
 msgstr ""
+"Als u ons wilt aanbevelen bij uw vrienden voor dit soort bijdragen zijn we u "
+"zeer dankbaar. Hieronder kunt u een persoonlijke boodschap voor uw vriend "
+"invullen. U dient ook de naam en het e-mailadres in te vullen."
 
 #: CRM/Friend/Form/Contribute.php
 msgid ""
 "Thought you might be interested in learning about and helping this "
 "organization. I think they do important work."
-msgstr ""
+msgstr "Ik denk dat je dit interessant vindt om te lezen. Ik heb ze gesteund."
 
 #: CRM/Friend/Form/Contribute.php
 msgid ""
 "Thanks for telling your friends about us and supporting our efforts. "
 "Together we can make a difference."
-msgstr ""
+msgstr "Bedankt voor de ondersteuning van ons door deze mond tot mond reclame. "
 
 #: CRM/Friend/Form/Event.php
 msgid ""
@@ -6914,16 +6917,19 @@ msgid ""
 "your email message - let your friends know why you're attending. Then fill "
 "in the name(s) and email address(es) and click 'Send Your Message'."
 msgstr ""
+"Als u ons evenement wilt aanbevelen bij uw vrienden zijn we u zeer dankbaar. "
+"Hieronder kunt u een persoonlijke boodschap voor uw vriend invullen. U "
+"dient ook de naam en het e-mailadres in te vullen."
 
 #: CRM/Friend/Form/Event.php
 msgid ""
 "Thought you might be interested in checking out this event. I'm planning on "
 "attending."
-msgstr ""
+msgstr "Ik neem deel aan dit evenement. Misschien ook iets voor jou?"
 
 #: CRM/Friend/Form/Event.php
 msgid "Thanks for spreading the word about this event to your friends."
-msgstr ""
+msgstr "Bedankt voor het aanprijzen van ons evenement."
 
 #: CRM/Friend/Form.php
 msgid "Could not get the contact ID"
@@ -9001,7 +9007,7 @@ msgstr "samenvoegen"
 
 #: templates/CRM/Admin/Form/DedupeRules.tpl
 msgid "Matching Rules for %1 Contacts"
-msgstr "Overeenkomsten voor %1 contacten"
+msgstr "Duplicaten voor %1 contacten"
 
 #: templates/CRM/Admin/Form/DedupeRules.tpl
 msgid ""
@@ -9039,7 +9045,7 @@ msgstr "Verwijder vergelijkingsregel"
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
 msgid "Configure Duplicate Matching Rule"
-msgstr "Vergelijkingsregel configureren."
+msgstr "Regel configureren."
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
 msgid "Are you sure you want to delete this Duplicate Matching Rule?"
@@ -9926,8 +9932,8 @@ msgid ""
 msgstr ""
 "<strong>Zoek Contact duplicaten</strong> zoekt in de bestaande contacten "
 "naar 'verdachte' dubbele records - gebruik de <strong><a href='%3'>Contact "
-"Duplicaten vergelijkingsregels</a></strong> die ingesteld zijn voor uw "
-"website (<a href='%1' target='_blank' title='%2'>lees meer...</a>)"
+"Duplicaatregels</a></strong> die ingesteld zijn voor uw website (<a "
+"href='%1' target='_blank' title='%2'>lees meer...</a>)"
 
 #: templates/CRM/Admin/Page/DedupeFind.tpl
 msgid ""
@@ -9945,12 +9951,11 @@ msgid ""
 "Click <strong>Edit Rule</strong> to review or modify the rules for each type "
 "of contact (<a href='%1' target='_blank' title='%2'>read more...</a>)."
 msgstr ""
-"<strong>Contact Duplicaten Regels</strong> worden gebruikt door het "
-"<strong><a href='%3'>Zoek contact duplicaten</a></strong> proces - dit "
-"doorzoekt uw bestaande contacten en herkent 'verdachte' dubbele contacten. "
-"Klik <strong>Bewerk Regel</strong> om de regels te bekijken of te wijzigen "
-"voor elk contacttype (<a href='%1' target='_blank' title='%2'>lees meer...</"
-"a>)."
+"<strong>Contact Duplicaatregels</strong> worden gebruikt door het <strong><a "
+"href='%3'>Zoek Contact duplicaten</a></strong> proces - dit doorzoekt uw "
+"bestaande contacten en herkent 'verdachte' dubbele contacten. Klik "
+"<strong>Bewerk Regel</strong> om de regels te bekijken of te wijzigen voor "
+"elk contacttype (<a href='%1' target='_blank' title='%2'>lees meer...</a>)."
 
 #: templates/CRM/Admin/Page/DedupeRules.tpl
 msgid ""
@@ -9958,8 +9963,8 @@ msgid ""
 "CiviCRM contacts. This process uses <a href='%2'>Contact Matching Rules</a>."
 msgstr ""
 "Nb: deze regels dienen niet om %1 gebruikers te vergelijken en af te stemmen "
-"met CiviCRM contacten. Dit proces gebruikt <a href='%2'>Contact Duplicaat "
-"vergelijkingsregels</a>."
+"met CiviCRM contacten. Dat is de <a href='%2'>Contact "
+"overeenkomstregel</a>."
 
 #: templates/CRM/Admin/Page/DupeMatch.tpl
 msgid ""
@@ -9973,15 +9978,15 @@ msgid ""
 "contact fields used for matching (<a href='%3' target='_blank' title='%"
 "4'>read more...</a>)."
 msgstr ""
-"De <strong>Contact vergelijkingsregel</strong> bepaalt of een nieuw %2 "
+"De <strong>Contact overeenkomstregel</strong> bepaalt of een nieuw %2 "
 "gebruikersrecord overeenkomt met en gelinkt moet worden aan een bestaand "
 "CiviCRM contact. Het wordt ook gebruikt om u te waarschuwen als er een  "
 "overeenkomend Persoonlijk contactrecord is als u een nieuwe Persoonsrecord "
 "aanmaakt. Ook bij het <strong>importeren</strong>   van contacten wordt de "
 "regel gebruikt om te bepalen of een rij in de invoer een duplicaat is. De  "
-"default regel vergelijkt email adres EN voornaam EN  achternaam. Klik <a "
-"href='%1'>Wijzig Regel</a> om een set vergelijkingsregels te wijzigen (<a "
-"href='%3' target='_blank' title='%4'>lees meer...</a>)."
+"default regel vergelijkt e-mailadres EN voornaam EN  achternaam. Klik <a "
+"href='%1'>Bewerk Regel</a> om de overeenkomstregel te wijzigen (<a href='%3' "
+"target='_blank' title='%4'>lees meer...</a>)."
 
 #: templates/CRM/Admin/Page/DupeMatch.tpl
 msgid ""
@@ -9989,10 +9994,9 @@ msgid ""
 "That feature searches your existing contact records, and identifies "
 "'suspected' duplicates. It uses <a href='%1'>Duplicate Contact Rules</a>."
 msgstr ""
-"Nb: Deze regels worden niet gebruikt om <strong>Find Duplicate Contacts</"
-"strong>. Deze functie zoekt in de bestaande contactrecords naar 'verdachte' "
-"duplicaten. Het gebruikt <a href='%1'>Contact duplicaten "
-"vergelijkingsregels</a>."
+"Nb: Deze regels worden niet gebruikt om <strong>dubbele contacten te zoeken "
+"in bestaande contacten</strong>. Dat zijn <a href='%1'>Contact "
+"duplicaatregels</a>."
 
 #: templates/CRM/Admin/Page/DupeMatch.tpl
 msgid "Contact Matching Rule"
@@ -11005,7 +11009,7 @@ msgstr ""
 "Om op voornaam EN achternaam te zoeken dient u 'achternaam, voornaam' in te "
 "voeren. (Vb.: 'Smit, Jan'). Zoekt u op een gedeelte van een naam gebruik dan "
 "het % teken om een willekeurige lettercombinatie aan te geven. Zoeken op "
-"e-mail adressen doet u via <a href='%1'>Geavanceerd zoeken</a>."
+"e-mailadres doet u via <a href='%1'>Geavanceerd zoeken</a>."
 
 #: templates/CRM/Contact/Form/Search/Builder.tpl
 msgid ""
@@ -11480,7 +11484,7 @@ msgstr "(primaire locatie)"
 #: templates/CRM/Contact/Page/View/Print.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Preferred Email:"
-msgstr "Voorkeurs e-mail adres:"
+msgstr "Voorkeurs e-mailadres:"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Print.tpl
@@ -12243,7 +12247,7 @@ msgstr "Uw bijdrage(n)"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard.tpl
 msgid "Your Membership(s)"
-msgstr "Uw Lidmaatschap(pen)"
+msgstr "Uw lidmaatschap(pen)"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard.tpl
 msgid "Your Event(s)"
@@ -12639,6 +12643,11 @@ msgid ""
 "with a personalized message. CiviCRM will record these solicitation "
 "activities, and will add the friends to your database."
 msgstr ""
+"<strong>Mond tot mond reclame</strong> maakt het uw contributanten "
+"eenvoudiger om deze actie aan te bevelen bij kennissen en vrienden. De "
+"Dank-U pagina bevat een link zodat de contributant een e-mailadres van een "
+"kennis of vriend kan invullen, samen met een persoonlijke boodschap. CiviCRM "
+"voegt deze kennis / vriend toe in de database."
 
 #: templates/CRM/Friend/Form/Friend.tpl
 msgid ""
@@ -12648,12 +12657,19 @@ msgid ""
 "personalized message. CiviCRM will record these solicitation activities, and "
 "will add the friends to your database."
 msgstr ""
+"<strong>Mond tot mond</strong> reclame geeft geregistreerde deelnemers een "
+"eenvoudige manier om dit evenement aan te bevelen bij een kennis of vriend. "
+"De Dank-U pagina bevat een link zodat de deelnemer een e-mailadres en een "
+"persoonlijke boodschap kan invullen. CiviCRM voegt deze kennis / vriend toe "
+"in de database."
 
 #: templates/CRM/Friend/Form/Friend.tpl
 msgid ""
 "This message is displayed to the %1 at the top of the Tell a Friend form. "
 "You may include HTML tags to add formatting or links."
 msgstr ""
+"Deze boodschap wordt getoond aan %1 bovenaan het mond tot mond reclame "
+"scherm. (Er mag HTML gebruikt worden voor tekstopmaak of toevoegen link.)"
 
 #: templates/CRM/Friend/Form/Friend.tpl
 msgid ""
@@ -12666,7 +12682,7 @@ msgid ""
 "A link to this %1 is automatically included in the email sent to friends. If "
 "you ALSO want to include a link providing general information about your "
 "organization, enter that link here (e.g <em>http://www.example.org/</em>)"
-msgstr ""
+msgstr "Een link naar deze %1 komt in de e-mail naar uw vriend."
 
 #: templates/CRM/Friend/Form/Friend.tpl
 msgid ""

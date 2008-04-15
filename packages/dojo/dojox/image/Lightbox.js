@@ -1,312 +1,219 @@
-if(!dojo._hasResource["dojox.image.Lightbox"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
-dojo._hasResource["dojox.image.Lightbox"] = true;
+/*
+	Copyright (c) 2004-2008, The Dojo Foundation
+	All Rights Reserved.
+
+	Licensed under the Academic Free License version 2.1 or above OR the
+	modified BSD license. For more information on Dojo licensing, see:
+
+		http://dojotoolkit.org/book/dojo-book-0-9/introduction/licensing
+*/
+
+
+if(!dojo._hasResource["dojox.image.Lightbox"]){
+dojo._hasResource["dojox.image.Lightbox"]=true;
 dojo.provide("dojox.image.Lightbox");
 dojo.experimental("dojox.image.Lightbox");
-
-dojo.require("dijit.Dialog"); 
-dojo.require("dojox.fx");
-
-dojo.declare("dojox.image.Lightbox",
-	dijit._Widget,{
-	// summary:
-	//	a dojo-based Lightbox implementation. 
-	//
-	// description:
-	//	an Elegant, keyboard accessible, markup and store capable Lightbox widget to show images
-	//	in a modal dialog-esque format. Can show individual images as Modal dialog, or can group
-	//	images with multiple entry points, all using a single "master" Dialog for visualization
-	//
-	// examples:
-	//	
-	//	<a href="image1.jpg" dojoType="dojox.image.Lightbox">show lightbox</a>
-	//	<a href="image2.jpg" dojoType="dojox.image.Lightbox" group="one">show group lightbox</a>
-	//	<a href="image3.jpg" dojoType="dojox.image.Lightbox" group="one">show group lightbox</a>
-	//
-	//	FIXME: not implemented fully yet, though works with basic datastore access. need to manually call
-	//	widget._attachedDialog.addImage(item,"fromStore") for each item in a store result set.
-	//	<div dojoType="dojox.image.Lightbox" group="fromStore" store="storeName"></div>
-
-	// group: String
-	//	grouping images in a page with similar tags will provide a 'slideshow' like grouping of images
-	group: "",
-
-	// title: String 
-	//	A string of text to be shown in the Lightbox beneath the image (empty if using a store)
-	title: "",
-
-	// href; String
-	//	link to image to use for this Lightbox node (empty if using a store).
-	href: "",
-
-	// duration: Integer
-	//	generic time in MS to adjust the feel of widget. could possibly add various 
-	//	durations for the various actions (dialog fadein, sizeing, img fadein ...) 
-	duration: 500,
-
-	// _allowPassthru: Boolean
-	//	privately set this to disable/enable natural link of anchor tags
-	_allowPassthru: false,
-	_attachedDialog: null, // try to share a single underlay per page?
-
-	startup: function(){
-		this.inherited("startup", arguments);
-		// setup an attachment to the masterDialog (or create the masterDialog)
-		var tmp = dijit.byId('dojoxLightboxDialog');
-		if(tmp){
-			this._attachedDialog = tmp;
-		}else{
-			// this is the first instance to start, so we make the masterDialog
-			this._attachedDialog = new dojox.image._LightboxDialog({ id: "dojoxLightboxDialog" });
-			this._attachedDialog.startup();
-		}
-		if(!this.store){
-			// FIXME: full store support lacking, have to manually call this._attachedDialog.addImage(imgage,group) as it stands
-			this._addSelf();
-			this.connect(this.domNode, "onclick", "_handleClick");
-		}
-	},
-
-	_addSelf: function(){
-		this._attachedDialog.addImage({
-			href: this.href,
-			title: this.title
-		},this.group||null);
-	},
-
-	_handleClick: function(/* Event */e){
-		// summary: handle the click on the link 
-		if(!this._allowPassthru){ e.preventDefault(); }
-		else{ return; }
-		this.show();
-	},
-
-	show: function(){
-		this._attachedDialog.show(this);
-	},
-
-	disable: function(){
-		// summary, disables event clobbering and dialog, and follows natural link
-		this._allowPassthru = true;
-	},
-
-	enable: function(){
-		// summary: enables the dialog (prevents default link)
-		this._allowPassthru = false; 
-	}
-
+dojo.require("dijit.Dialog");
+dojo.require("dojox.fx._base");
+dojo.declare("dojox.image.Lightbox",dijit._Widget,{group:"",title:"",href:"",duration:500,_allowPassthru:false,_attachedDialog:null,startup:function(){
+this.inherited(arguments);
+var _1=dijit.byId("dojoxLightboxDialog");
+if(_1){
+this._attachedDialog=_1;
+}else{
+this._attachedDialog=new dojox.image._LightboxDialog({id:"dojoxLightboxDialog"});
+this._attachedDialog.startup();
+}
+if(!this.store){
+this._addSelf();
+this.connect(this.domNode,"onclick","_handleClick");
+}
+},_addSelf:function(){
+this._attachedDialog.addImage({href:this.href,title:this.title},this.group||null);
+},_handleClick:function(e){
+if(!this._allowPassthru){
+e.preventDefault();
+}else{
+return;
+}
+this.show();
+},show:function(){
+this._attachedDialog.show(this);
+},disable:function(){
+this._allowPassthru=true;
+},enable:function(){
+this._allowPassthru=false;
+}});
+dojo.declare("dojox.image._LightboxDialog",dijit.Dialog,{title:"",inGroup:null,imgUrl:"",errorMessage:"Image not found.",adjust:true,_groups:{XnoGroupX:[]},errorImg:dojo.moduleUrl("dojox.image","resources/images/warning.png"),_imageReady:false,_blankImg:dojo.moduleUrl("dojo","resources/blank.gif"),_clone:null,_wasStyled:null,_loadingAnim:null,_showImageAnim:null,_showNavAnim:null,_animConnects:[],templateString:"<div class=\"dojoxLightbox\" dojoAttachPoint=\"containerNode\">\n\t<div style=\"position:relative\">\n\t\t<div dojoAttachPoint=\"imageContainer\" class=\"dojoxLightboxContainer\">\n\t\t\t<img dojoAttachPoint=\"imgNode\" src=\"${imgUrl}\" class=\"dojoxLightboxImage\" alt=\"${title}\">\n\t\t\t<div class=\"dojoxLightboxFooter\" dojoAttachPoint=\"titleNode\">\n\t\t\t\t<div class=\"dijitInline LightboxClose\" dojoAttachPoint=\"closeNode\"></div>\n\t\t\t\t<div class=\"dijitInline LightboxNext\" dojoAttachPoint=\"nextNode\"></div>\t\n\t\t\t\t<div class=\"dijitInline LightboxPrev\" dojoAttachPoint=\"prevNode\"></div>\n\n\t\t\t\t<div class=\"dojoxLightboxText\"><span dojoAttachPoint=\"textNode\">${title}</span><span dojoAttachPoint=\"groupCount\" class=\"dojoxLightboxGroupText\"></span></div>\n\t\t\t</div>\n\t\t</div>\t\n\t\t\n\t</div>\n</div>\n",startup:function(){
+this.inherited(arguments);
+this._clone=dojo.clone(this.imgNode);
+this.connect(document.documentElement,"onkeypress","_handleKey");
+this.connect(window,"onresize","_position");
+this.connect(this.nextNode,"onclick","_nextImage");
+this.connect(this.prevNode,"onclick","_prevImage");
+this.connect(this.closeNode,"onclick","hide");
+this._makeAnims();
+this._vp=dijit.getViewport();
+},show:function(_3){
+var _t=this;
+if(!_t.open){
+_t.inherited(arguments);
+}
+if(this._wasStyled){
+dojo._destroyElement(_t.imgNode);
+_t.imgNode=dojo.clone(_t._clone);
+dojo.place(_t.imgNode,_t.imageContainer,"first");
+_t._makeAnims();
+_t._wasStyled=false;
+}
+dojo.style(_t.imgNode,"opacity","0");
+dojo.style(_t.titleNode,"opacity","0");
+_t._imageReady=false;
+_t.imgNode.src=_3.href;
+if((_3.group&&_3!=="XnoGroupX")||_t.inGroup){
+if(!_t.inGroup){
+_t.inGroup=_t._groups[(_3.group)];
+dojo.forEach(_t.inGroup,function(g,i){
+if(g.href==_3.href){
+_t._positionIndex=i;
+}
+},_t);
+}
+if(!_t._positionIndex){
+_t._positionIndex=0;
+_t.imgNode.src=_t.inGroup[_t._positionIndex].href;
+}
+_t.groupCount.innerHTML=" ("+(_t._positionIndex+1)+" of "+_t.inGroup.length+")";
+_t.prevNode.style.visibility="visible";
+_t.nextNode.style.visibility="visible";
+}else{
+_t.groupCount.innerHTML="";
+_t.prevNode.style.visibility="hidden";
+_t.nextNode.style.visibility="hidden";
+}
+_t.textNode.innerHTML=_3.title;
+if(!_t._imageReady||_t.imgNode.complete===true){
+_t._imgConnect=dojo.connect(_t.imgNode,"onload",_t,function(){
+_t._imageReady=true;
+_t.resizeTo({w:_t.imgNode.width,h:_t.imgNode.height,duration:_t.duration});
+dojo.disconnect(_t._imgConnect);
+if(_t._imgError){
+dojo.disconnect(_t._imgError);
+}
 });
-
-dojo.declare("dojox.image._LightboxDialog",
-	dijit.Dialog,{
-	//
-	// Description:
-	//	
-	//	a widget that intercepts anchor links (typically around images) 	
-	//	and displays a modal Dialog. this is the actual Popup, and should 
-	//	not be created directly. 
-	//
-	//	there will only be one of these on a page, so all dojox.image.Lightbox's will us it
-	//	(the first instance of a Lightbox to be show()'n will create me If i do not exist)
-	// 
-	//	note: the could be the ImagePane i was talking about?
-
-	// title: String
-	// 	the current title 
-	title: "",
-
-	// FIXME: implement titleTemplate
-
-	// inGroup: Array
-	//	Array of objects. this is populated by from the JSON object _groups, and
-	//	should not be populate manually. it is a placeholder for the currently 
-	//	showing group of images in this master dialog
-	inGroup: null,
-
-	// imgUrl: String
-	//	the src="" attrib of our imageNode (can be null at statup)
-	imgUrl: "",
-
-	// an array of objects, each object being a unique 'group'
-	_groups: { XnoGroupX: [] },
-	_imageReady: false,
-
-	templateString:"<div class=\"dojoxLightbox\" dojoAttachPoint=\"containerNode\">\n\t<div style=\"position:relative\">\n\t\t<div dojoAttachPoint=\"imageContainer\" class=\"dojoxLightboxContainer\">\n\t\t\t<img dojoAttachPoint=\"imgNode\" src=\"${imgUrl}\" class=\"dojoxLightboxImage\" alt=\"${title}\">\n\t\t\t<div class=\"dojoxLightboxFooter\" dojoAttachPoint=\"titleNode\">\n\t\t\t\t<div class=\"dijitInline LightboxClose\" dojoAttachPoint=\"closeNode\"></div>\n\t\t\t\t<div class=\"dijitInline LightboxNext\" dojoAttachPoint=\"nextNode\"></div>\t\n\t\t\t\t<div class=\"dijitInline LightboxPrev\" dojoAttachPoint=\"prevNode\"></div>\n\n\t\t\t\t<div class=\"dojoxLightboxText\"><span dojoAttachPoint=\"textNode\">${title}</span><span dojoAttachPoint=\"groupCount\" class=\"dojoxLightboxGroupText\"></span></div>\n\t\t\t</div>\n\t\t</div>\t\n\t\t\n\t</div>\n</div>\n",
-
-	startup: function(){
-		// summary: add some extra event handlers, and startup our superclass.
-		this.inherited("startup", arguments);
-
-		// FIXME: these are supposed to be available in dijit.Dialog already,
-		// but aren't making it over.
-		dojo.connect(document.documentElement,"onkeypress",this,"_handleKey");
-		this.connect(window,"onresize","_position"); 
-
-		this.connect(this.nextNode, "onclick", "_nextImage");
-		this.connect(this.prevNode, "onclick", "_prevImage");
-		this.connect(this.closeNode, "onclick", "hide");
-		
-	},
-
-	show: function(/* Object */groupData){
-		// summary: starts the chain of events to show an image in the dialog, including showing the dialog 
-		//	if it is not already visible
-
-		dojo.style(this.imgNode,"opacity","0"); 
-		dojo.style(this.titleNode,"opacity","0");
-
-		// we only need to call dijit.Dialog.show() if we're not already open.
-		if(!this.open){ this.inherited("show", arguments); }
-	
-		this._imageReady = false; 
-		
-		this.imgNode.src = groupData.href;
-		if((groupData.group && !(groupData == "XnoGroupX")) || this.inGroup){ 
-			if(!this.inGroup){ 
-				this.inGroup = this._groups[(groupData.group)];
-				var i = 0;
-				// determine where we were or are in the show 
-				dojo.forEach(this.inGroup,function(g){
-					if (g.href == groupData.href){
-						this._positionIndex = i;
-					}
-					i++; 
-				},this);
-			}
-			if(!this._positionIndex){ this._positionIndex=0; this.imgNode.src = this.inGroup[this._positionIndex].href; }
-			this.groupCount.innerHTML = " (" +(this._positionIndex+1) +" of "+this.inGroup.length+")";
-			this.prevNode.style.visibility = "visible";
-			this.nextNode.style.visibility = "visible";
-		}else{
-			this.groupCount.innerHTML = "";
-			this.prevNode.style.visibility = "hidden";
-			this.nextNode.style.visibility = "hidden";
-		}
-		this.textNode.innerHTML = groupData.title;
-	
-		if(!this._imageReady || this.imgNode.complete === true){ 
-			this._imgConnect = dojo.connect(this.imgNode,"onload", this, function(){
-				this._imageReady = true;
-				this.resizeTo({ w: this.imgNode.width, h:this.imgNode.height, duration:this.duration });
-				dojo.disconnect(this._imgConnect);
-			});
-			// onload doesn't fire in IE if you connect before you set the src. 
-			// hack to re-set the src after onload connection made:
-			if(dojo.isIE){ this.imgNode.src = this.imgNode.src; }
-		}else{
-			// do it quickly. kind of a hack, but image is ready now
-			this.resizeTo({ w: this.imgNode.width, h:this.imgNode.height, duration:1 });
-		}
-	},
-
-	_nextImage: function(){
-		// summary: load next image in group
-		if(this._positionIndex+1<this.inGroup.length){
-			this._positionIndex++;
-		}else{
-			this._positionIndex = 0;
-		}
-		this._loadImage();
-	},
-
-	_prevImage: function(){
-		// summary: load previous image in group
-		if(this._positionIndex==0){
-			this._positionIndex = this.inGroup.length-1;
-		}else{
-			this._positionIndex--;
-		}
-		this._loadImage();
-	},
-
-	_loadImage: function(){
-		// summary: do the prep work before we can show another image 
-		var _loading = dojo.fx.combine([
-			dojo.fadeOut({ node:this.imgNode, duration:(this.duration/2) }),
-			dojo.fadeOut({ node:this.titleNode, duration:(this.duration/2) })
-		]);
-		this.connect(_loading,"onEnd","_prepNodes");
-		_loading.play(10);
-	},
-
-	_prepNodes: function(){
-		// summary: a localized hook to accompany _loadImage
-		this._imageReady = false; 
-		this.show({
-			href: this.inGroup[this._positionIndex].href,
-			title: this.inGroup[this._positionIndex].title
-		});
-	},
-
-	resizeTo: function(/* Object */size){
-		// summary: resize our dialog container, and fire _showImage
-		var _sizeAnim = dojox.fx.sizeTo({ 
-			node: this.containerNode,
-			duration:size.duration||this.duration,
-			width: size.w, 
-			height:size.h+30
-		});
-		this.connect(_sizeAnim,"onEnd","_showImage");
-		_sizeAnim.play(this.duration);
-	},
-
-	_showImage: function(){
-		// summary: fade in the image, and fire showNav
-		dojo.fadeIn({ node: this.imgNode, duration:this.duration,
-			onEnd: dojo.hitch(this,"_showNav")
-		}).play(75);
-	},
-
-	_showNav: function(){
-		// summary: fade in the footer, and setup our connections.
-		dojo.fadeIn({ node: this.titleNode, duration:200 }).play(25);
-	},
-
-	hide: function(){
-		// summary: close the Lightbox
-		dojo.fadeOut({node:this.titleNode, duration:200 }).play(25); 
-		this.inherited("hide", arguments);
-		this.inGroup = null;
-		this._positionIndex = null;
-	},
-
-	addImage: function(/* object */child,/* String? */group){
-		// summary: add an image to this master dialog
-		// 
-		// child.href: String - link to image (required)
-		// child.title: String - title to display
-		//
-		// group: String - attach to group of similar tag
-		//	or null for individual image instance
-
-		var g = group;
-		if(!child.href){ return; }
-		if(g){ 	
-			if(this._groups[(g)]){
-				this._groups[(g)].push(child); 
-			}else{
-				this._groups[(g)] = [(child)];
-			}
-		}else{ this._groups["XnoGroupX"].push(child); }
-	},
-
-	_handleKey: function(/* Event */e){
-		// summary: handle keyboard navigation
-		if(!this.open){ return; }
-		var key = (e.charCode == dojo.keys.SPACE ? dojo.keys.SPACE : e.keyCode);
-		switch(key){
-			case dojo.keys.ESCAPE: this.hide(); break;
-
-			case dojo.keys.DOWN_ARROW:
-			case dojo.keys.RIGHT_ARROW:
-			case 78: // key "n"
-				this._nextImage(); break;
-
-			case dojo.keys.UP_ARROW:
-			case dojo.keys.LEFT_ARROW:
-			case 80: // key "p" 
-				this._prevImage(); break;
-		}
-	}
+_t._imgError=dojo.connect(_t.imgNode,"onerror",_t,function(){
+dojo.disconnect(_t._imgError);
+_t.imgNode.src=_t.errorImg;
+_t._imageReady=true;
+_t.textNode.innerHTML=_t.errorMessage;
 });
-
+if(dojo.isIE){
+_t.imgNode.src=_t.imgNode.src;
+}
+}else{
+_t.resizeTo({w:_t.imgNode.width,h:_t.imgNode.height,duration:1});
+}
+},_nextImage:function(){
+if(!this.inGroup){
+return;
+}
+if(this._positionIndex+1<this.inGroup.length){
+this._positionIndex++;
+}else{
+this._positionIndex=0;
+}
+this._loadImage();
+},_prevImage:function(){
+if(this.inGroup){
+if(this._positionIndex==0){
+this._positionIndex=this.inGroup.length-1;
+}else{
+this._positionIndex--;
+}
+this._loadImage();
+}
+},_loadImage:function(){
+this._loadingAnim.play(1);
+},_prepNodes:function(){
+this._imageReady=false;
+this.show({href:this.inGroup[this._positionIndex].href,title:this.inGroup[this._positionIndex].title});
+},resizeTo:function(_7){
+if(this.adjust&&(_7.h+80>this._vp.h||_7.w+50>this._vp.w)){
+_7=this._scaleToFit(_7);
+}
+var _8=dojox.fx.sizeTo({node:this.containerNode,duration:_7.duration||this.duration,width:_7.w,height:_7.h+30});
+this.connect(_8,"onEnd","_showImage");
+_8.play(15);
+},_showImage:function(){
+this._showImageAnim.play(1);
+},_showNav:function(){
+this._showNavAnim.play(1);
+},hide:function(){
+dojo.fadeOut({node:this.titleNode,duration:200,onEnd:dojo.hitch(this,function(){
+this.imgNode.src=this._blankImg;
+})}).play(5);
+this.inherited(arguments);
+this.inGroup=null;
+this._positionIndex=null;
+},addImage:function(_9,_a){
+var g=_a;
+if(!_9.href){
+return;
+}
+if(g){
+if(!this._groups[g]){
+this._groups[g]=[];
+}
+this._groups[g].push(_9);
+}else{
+this._groups["XnoGroupX"].push(_9);
+}
+},_handleKey:function(e){
+if(!this.open){
+return;
+}
+var dk=dojo.keys;
+var _e=(e.charCode==dk.SPACE?dk.SPACE:e.keyCode);
+switch(_e){
+case dk.ESCAPE:
+this.hide();
+break;
+case dk.DOWN_ARROW:
+case dk.RIGHT_ARROW:
+case 78:
+this._nextImage();
+break;
+case dk.UP_ARROW:
+case dk.LEFT_ARROW:
+case 80:
+this._prevImage();
+break;
+}
+},_scaleToFit:function(_f){
+var ns={};
+if(this._vp.h>this._vp.w){
+ns.w=this._vp.w-70;
+ns.h=ns.w*(_f.h/_f.w);
+}else{
+ns.h=this._vp.h-80;
+ns.w=ns.h*(_f.w/_f.h);
+}
+this._wasStyled=true;
+var s=this.imgNode.style;
+s.height=ns.h+"px";
+s.width=ns.w+"px";
+ns.duration=_f.duration;
+return ns;
+},_position:function(e){
+this.inherited(arguments);
+this._vp=dijit.getViewport();
+},_makeAnims:function(){
+dojo.forEach(this._animConnects,dojo.disconnect);
+this._animConnects=[];
+this._showImageAnim=dojo.fadeIn({node:this.imgNode,duration:this.duration});
+this._animConnects.push(dojo.connect(this._showImageAnim,"onEnd",this,"_showNav"));
+this._loadingAnim=dojo.fx.combine([dojo.fadeOut({node:this.imgNode,duration:175}),dojo.fadeOut({node:this.titleNode,duration:175})]);
+this._animConnects.push(dojo.connect(this._loadingAnim,"onEnd",this,"_prepNodes"));
+this._showNavAnim=dojo.fadeIn({node:this.titleNode,duration:225});
+}});
 }

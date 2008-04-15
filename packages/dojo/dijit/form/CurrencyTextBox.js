@@ -1,35 +1,24 @@
-if(!dojo._hasResource["dijit.form.CurrencyTextBox"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
-dojo._hasResource["dijit.form.CurrencyTextBox"] = true;
+/*
+	Copyright (c) 2004-2008, The Dojo Foundation
+	All Rights Reserved.
+
+	Licensed under the Academic Free License version 2.1 or above OR the
+	modified BSD license. For more information on Dojo licensing, see:
+
+		http://dojotoolkit.org/book/dojo-book-0-9/introduction/licensing
+*/
+
+
+if(!dojo._hasResource["dijit.form.CurrencyTextBox"]){
+dojo._hasResource["dijit.form.CurrencyTextBox"]=true;
 dojo.provide("dijit.form.CurrencyTextBox");
-
-//FIXME: dojo.experimental throws an unreadable exception?
-//dojo.experimental("dijit.form.CurrencyTextBox");
-
 dojo.require("dojo.currency");
 dojo.require("dijit.form.NumberTextBox");
-
-dojo.declare(
-	"dijit.form.CurrencyTextBox",
-	dijit.form.NumberTextBox,
-	{
-		// code: String
-		//		the ISO4217 currency code, a three letter sequence like "USD"
-		//		See http://en.wikipedia.org/wiki/ISO_4217
-		currency: "",
-
-		regExpGen: dojo.currency.regexp,
-		format: dojo.currency.format,
-		parse: dojo.currency.parse,
-
-		postMixInProperties: function(){
-			if(this.constraints === dijit.form.ValidationTextBox.prototype.constraints){
-				// declare a constraints property on 'this' so we don't overwrite the shared default object in 'prototype'
-				this.constraints = {};
-			}
-			this.constraints.currency = this.currency;
-			dijit.form.CurrencyTextBox.superclass.postMixInProperties.apply(this, arguments);
-		}
-	}
-);
-
+dojo.declare("dijit.form.CurrencyTextBox",dijit.form.NumberTextBox,{currency:"",regExpGen:dojo.currency.regexp,_formatter:dojo.currency.format,parse:dojo.currency.parse,postMixInProperties:function(){
+if(this.constraints===dijit.form.ValidationTextBox.prototype.constraints){
+this.constraints={};
+}
+this.constraints.currency=this.currency;
+dijit.form.CurrencyTextBox.superclass.postMixInProperties.apply(this,arguments);
+}});
 }

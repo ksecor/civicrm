@@ -228,7 +228,7 @@ class CRM_Contribute_Form_Offline extends CRM_Core_Form {
      */  
     function formRule( &$fields, &$files, $self ) 
     {  
-        return CRM_Contribute_Form_AdditionalInfo::formRule( &$fields, &$files, $self );
+        return CRM_Contribute_Form_AdditionalInfo::formRule( $fields, $files, $self );
     }
     
     /** 

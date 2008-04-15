@@ -215,7 +215,7 @@ class CRM_Contact_Page_View_Contribution extends CRM_Contact_Page_View
     {
         $context = CRM_Utils_Request::retrieve( 'context', 'String',
                                                 $this, false, 'search' );
-        
+               
         switch ( $context ) {
 
         case 'user':
@@ -251,6 +251,15 @@ class CRM_Contact_Page_View_Contribution extends CRM_Contact_Page_View
         case 'activity':
             $url = CRM_Utils_System::url( 'civicrm/contact/view',
                                           "reset=1&force=1&cid={$this->_contactId}&selectedChild=activity" );
+            break;
+            
+        case 'membership':
+            $url = CRM_Utils_System::url( 'civicrm/contact/view',
+                                          "reset=1&force=1&cid={$this->_contactId}&selectedChild=member" );
+            break; 
+        case 'participant':
+            $url = CRM_Utils_System::url( 'civicrm/contact/view',
+                                          "reset=1&force=1&cid={$this->_contactId}&selectedChild=participant" );
             break;
             
         default:

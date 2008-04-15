@@ -1,7 +1,7 @@
 -------------------------------------------------------------------------------
 dojox.lang
 -------------------------------------------------------------------------------
-Version 0.990
+Version 0.991
 Release date: 07/30/2007
 -------------------------------------------------------------------------------
 Project state:
@@ -12,7 +12,7 @@ Credits
 -------------------------------------------------------------------------------
 Project description
 
-Implementation of common functional operations, and provisions.
+Implementation of common functional operations, and provisions
 Later we can add other JS language-related helpers.
 -------------------------------------------------------------------------------
 Dependencies:

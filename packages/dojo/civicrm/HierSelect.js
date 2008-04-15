@@ -1,3 +1,5 @@
+if(!dojo._hasResource["civicrm.HierSelect"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
+dojo._hasResource["civicrm.HierSelect"] = true;
 // Author: Deepak Srivastava, CiviCRM Team
 // Blog: http://civicrm.org/node/320 
 // site: http://civicrm.org
@@ -193,3 +195,5 @@ dojo.declare(
 	}
     }
 );
+
+}

@@ -18,6 +18,14 @@
                 </div>
             </td>    
         </tr>
+        <tr>
+            <td class="label">
+             {$form.relation_status.label}
+            </td>
+            <td>
+             {$form.relation_status.html}
+            </td>
+        </tr>
       </table>         
     </fieldset>
     </div>

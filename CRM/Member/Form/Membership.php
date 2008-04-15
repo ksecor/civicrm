@@ -291,7 +291,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         if (!$params['membership_type_id'][1]) {
             $errors['membership_type_id'] = ts('Please select a membership type.');
         }
-
+        
         $joinDate = CRM_Utils_Date::format( $params['join_date'] );
         if ( $joinDate ) {
             // if start date is set ensure that start date is later than or same as join date
@@ -301,32 +301,41 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                     $errors['start_date'] = ts( 'Start date must be the same or later than join date.' );
                 }
             }
-
-            // if end date is set, ensure that start date is also set and that end date is later than start date
+            
+            // if end date is set, ensure that start date is also set
+            // and that end date is later than start date
+            // If selected membership type has duration unit as 'lifetime'
+            // and end date is set, then give error
             $endDate = CRM_Utils_Date::format( $params['end_date'] );
             if ( $endDate ) {
-                if ( ! $startDate ) {
-                    $errors['start_date'] = ts( 'Start date must be set if end date is set.' );
-                }
-                if ( $endDate < $startDate ) {
-                    $errors['end_date'] = ts('End date must be the same or later than start date.' );
+                require_once 'CRM/Member/BAO/MembershipType.php';
+                $membershipDetails = CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $params['membership_type_id'][1] );
+                if ( $membershipDetails['duration_unit'] == 'lifetime' ) {
+                    $errors['end_date'] = ts("The selected Membership Type has a 'life time' duration. You can not specify an End Date for 'life time' memberships. Please clear the End Date OR select a different Membership Type." );
+                } else {
+                    if ( ! $startDate ) {
+                        $errors['start_date'] = ts( 'Start date must be set if end date is set.' );
+                    }
+                    if ( $endDate < $startDate ) {
+                        $errors['end_date'] = ts('End date must be the same or later than start date.' );
+                    }
                 }
             }
         } else {
             $errors['join_date'] = ts('Please enter the join date.');
         }
-
+        
         if ( isset( $params['is_override'] ) &&
              $params['is_override']          &&
              ! $params['status_id'] ) {
             $errors['status_id'] = ts('Please enter the status.');
         }
-
+        
         if ( isset( $params['record_contribution'] ) && 
              ! isset( $params['contribution_type_id'] ) ) {
             $errors['contribution_type_id'] = ts('Please enter the contribution.');
         }
-
+        
         return empty($errors) ? true : $errors;
     }
        

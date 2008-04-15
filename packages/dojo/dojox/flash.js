@@ -1,6 +1,16 @@
-if(!dojo._hasResource["dojox.flash"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
-dojo._hasResource["dojox.flash"] = true;
-dojo.provide("dojox.flash");
-dojo.require("dojox.flash._common");
+/*
+	Copyright (c) 2004-2008, The Dojo Foundation
+	All Rights Reserved.
 
+	Licensed under the Academic Free License version 2.1 or above OR the
+	modified BSD license. For more information on Dojo licensing, see:
+
+		http://dojotoolkit.org/book/dojo-book-0-9/introduction/licensing
+*/
+
+
+if(!dojo._hasResource["dojox.flash"]){
+dojo._hasResource["dojox.flash"]=true;
+dojo.provide("dojox.flash");
+dojo.require("dojox.flash._base");
 }

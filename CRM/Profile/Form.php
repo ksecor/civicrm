@@ -148,7 +148,7 @@ class CRM_Profile_Form extends CRM_Core_Form
             $this->_fields  = CRM_Core_BAO_UFGroup::getRegistrationFields( $this->_action, $this->_mode, $this->_ctype );
         } else if ( $this->_mode == self::MODE_SEARCH ) {
             $this->_fields  = CRM_Core_BAO_UFGroup::getListingFields( $this->_action,
-                                                                      CRM_Core_BAO_UFGroup::LISTINGS_VISIBILITY,
+                                                                      CRM_Core_BAO_UFGroup::PUBLIC_VISIBILITY | CRM_Core_BAO_UFGroup::LISTINGS_VISIBILITY,
                                                                       false,
                                                                       $this->_gid,
                                                                       true, null,

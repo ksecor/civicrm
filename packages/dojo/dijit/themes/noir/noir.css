@@ -1,0 +1,210 @@
+@import url("../dijit.css");
+	
+.noir .dijitButton									{	background-image:url(images/buttonEnabled-left.png);		}
+.noir .dijitButton .dijitRight						{	background-image:url(images/buttonEnabled-right.png);	}
+.noir .dijitButton .dijitStretch					{	background-image:url(images/buttonEnabled-stretch.png);	}
+		
+.noir .dijitButtonHover 							{	background-image:url(images/buttonHover-left.png);		}
+.noir .dijitButtonHover .dijitRight					{	background-image:url(images/buttonHover-right.png);		}
+.noir .dijitButtonHover .dijitStretch				{	background-image:url(images/buttonHover-stretch.png);	}
+		
+.noir .dijitButtonActive							{	background-image:url(images/buttonActive-left.png);		}
+.noir .dijitButtonActive .dijitRight				{	background-image:url(images/buttonActive-right.png);		}
+.noir .dijitButtonActive .dijitStretch				{	background-image:url(images/buttonActive-stretch.png);	}
+		
+.noir .dijitButtonDisabled							{	background-image:url(images/buttonDisabled-left.png);	}
+.noir .dijitButtonDisabled .dijitRight				{	background-image:url(images/buttonDisabled-right.png);	}
+.noir .dijitButtonDisabled .dijitStretch			{	background-image:url(images/buttonDisabled-stretch.png);	}
+	
+.noir .dijitComboButton								{	background-image:url(images/comboButtonEnabled-left.png);	}
+.noir .dijitComboButton .dijitRight					{	background-image:url(images/comboButtonEnabled-right.png);	}
+.noir .dijitComboButton .dijitStretch				{	background-image:url(images/comboButtonEnabled-stretch.png);	}
+		
+.noir .dijitComboButtonHover 						{	background-image:url(images/comboButtonBtnHover-left.png);		}
+.noir .dijitComboButtonHover .dijitRight			{	background-image:url(images/comboButtonBtnHover-right.png);		}
+.noir .dijitComboButtonHover .dijitStretch			{	background-image:url(images/comboButtonBtnHover-stretch.png);	}
+		
+.noir .dijitComboButtonActive						{	background-image:url(images/comboButtonBtnActive-left.png);		}
+.noir .dijitComboButtonActive .dijitRight			{	background-image:url(images/comboButtonBtnActive-right.png);		}
+.noir .dijitComboButtonActive .dijitStretch			{	background-image:url(images/comboButtonBtnActive-stretch.png);	}
+.noir .dijitComboButtonDownArrowHover 				{	background-image:url(images/comboButtonArrowHover-left.png);		}
+.noir .dijitComboButtonDownArrowHover .dijitRight	{	background-image:url(images/comboButtonArrowHover-right.png);		}
+.noir .dijitComboButtonDownArrowHover .dijitStretch	{	background-image:url(images/comboButtonArrowHover-stretch.png);	}
+.noir .dijitComboButtonDownArrowActive				{	background-image:url(images/comboButtonArrowActive-left.png);		}
+.noir .dijitComboButtonDownArrowActive .dijitRight	{	background-image:url(images/comboButtonArrowActive-right.png);		}
+.noir .dijitComboButtonDownArrowActive .dijitStretch{	background-image:url(images/comboButtonArrowActive-stretch.png);	}
+.noir .dijitComboButtonDisabled						{	background-image:url(images/comboButtonDisabled-left.png) !important;	}
+.noir .dijitComboButtonDisabled .dijitRight			{	background-image:url(images/comboButtonDisabled-right.png) !important;	}
+.noir .dijitComboButtonDisabled .dijitStretch		{	background-image:url(images/comboButtonDisabled-stretch.png) !important;	}
+.noir .dijitDropDownButton							{	background-image:url(images/ddButtonEnabled-left.png);		}
+.noir .dijitDropDownButton .dijitRight				{	background-image:url(images/ddButtonEnabled-right.png);	}
+.noir .dijitDropDownButton .dijitStretch			{	background-image:url(images/ddButtonEnabled-stretch.png);	}
+.noir .dijitDropDownButtonHover 					{	background-image:url(images/ddButtonHover-left.png);		}
+.noir .dijitDropDownButtonHover .dijitRight			{	background-image:url(images/ddButtonHover-right.png);		}
+.noir .dijitDropDownButtonHover .dijitStretch		{	background-image:url(images/ddButtonHover-stretch.png);	}
+.noir .dijitDropDownButtonActive					{	background-image:url(images/ddButtonActive-left.png);		}
+.noir .dijitDropDownButtonActive .dijitRight		{	background-image:url(images/ddButtonActive-right.png);		}
+.noir .dijitDropDownButtonActive .dijitStretch		{	background-image:url(images/ddButtonActive-stretch.png);	}
+.noir .dijitDropDownButtonDisabled					{	background-image:url(images/ddButtonDisabled-left.png);	}
+.noir .dijitDropDownButtonDisabled .dijitRight		{	background-image:url(images/ddButtonDisabled-right.png);	}
+.noir .dijitDropDownButtonDisabled .dijitStretch	{	background-image:url(images/ddButtonDisabled-stretch.png);	}
+.noir .dijitComboBox							{	background-image:url(images/selectEnabled-left.png);		}
+.noir .dijitComboBox .dijitRight				{	background-image:url(images/selectEnabled-right.png);	}
+.noir .dijitComboBox .dijitStretch				{	background-image:url(images/selectEnabled-stretch.png);	}
+		
+.noir .dijitComboBoxHover						{	background-image:url(images/selectHover-left.png);		}
+.noir .dijitComboBoxHover .dijitRight			{	background-image:url(images/selectHover-right.png);		}
+.noir .dijitComboBoxHover .dijitStretch		{	background-image:url(images/selectHover-stretch.png);	}
+	
+.noir .dijitComboBoxActive						{	background-image:url(images/selectActive-left.png);		}
+.noir .dijitComboBoxActive .dijitRight			{	background-image:url(images/selectActive-right.png);	}
+.noir .dijitComboBoxActive .dijitStretch		{	background-image:url(images/selectActive-stretch.png);	}
+.noir .dijitComboBoxDisabled					{	background-image:url(images/selectDisabled-left.png);	}
+.noir .dijitComboBoxDisabled .dijitRight		{	background-image:url(images/selectDisabled-right.png);	}
+.noir .dijitComboBoxDisabled .dijitStretch		{	background-image:url(images/selectDisabled-stretch.png);	}
+.noir .dijitSpinner .dijitLeft							{	background-image:url(images/spinnerEnabled-left.png) }
+.noir .dijitSpinner .dijitUpArrowButton					{	background-image:url(images/spinnerEnabled-top.png);	}
+.noir .dijitSpinner .dijitDownArrowButton				{	background-image:url(images/spinnerEnabled-bottom.png);	}
+.noir .dijitSpinner .dijitStretch						{	background-image:url(images/spinnerEnabled-stretch.png);	}
+.noir .dijitSpinnerUpArrowHover .dijitUpArrowButton		{	background-image:url(images/spinnerHover-top.png);	}
+.noir .dijitSpinnerDownArrowHover .dijitDownArrowButton	{	background-image:url(images/spinnerHover-bottom.png);	}
+.noir .dijitSpinnerUpArrowActive .dijitUpArrowButton	{	background-image:url(images/spinnerActive-top.png);	}
+.noir .dijitSpinnerDownArrowActive .dijitDownArrowButton{	background-image:url(images/spinnerActive-bottom.png);	}
+.noir .dijitSpinnerDisabled .dijitLeft					{	background-image:url(images/spinnerDisabled-left.png);	}
+.noir .dijitSpinnerDisabled .dijitUpArrowButton			{	background-image:url(images/spinnerDisabled-top.png);	}
+.noir .dijitSpinnerDisabled .dijitDownArrowButton		{	background-image:url(images/spinnerDisabled-bottom.png);	}
+.noir .dijitSpinnerDisabled .dijitStretch				{	background-image:url(images/spinnerDisabled-stretch.png);	}
+.noir .dijit {
+	font-family:Tahoma;
+	font-size:14px;
+}
+.noir .dijitArrowButton {
+	background-repeat:no-repeat;
+}
+.noir .dijitButtonNode {
+	border:0px !important;
+}
+.noir .dijitButton,
+.noir .dijitComboButton,
+.noir .dijitDropDownButton,
+.noir .dijitComboBox {
+	height:30px;
+	padding:0px;
+	border-width:0px;
+	background-color:transparent;
+	background-repeat:no-repeat;
+	margin:5px;
+}
+.noir .dijitButton .dijitRight {
+	height:30px;	
+	margin-left:15px; 
+	padding-right:15px;
+}
+.dj_ie .noir .dijitButton .dijitRight {
+	padding-right:11px;
+}
+.noir .dijitButton .dijitButtonNode,
+.noir .dijitComboButton .dijitButtonNode, 
+.noir .dijitDropDownButton .dijitButtonNode {
+	
+	vertical-align:top;
+	height:30px;
+	font-family:inherit;
+	font-size:inherit;
+	background-color:transparent;
+	padding:0px !important;
+	line-height:25px;	
+	
+	color:#cccccc;
+}
+.noir .dijitButtonHover .dijitButtonNode,
+.noir .dijitComboButtonHover .dijitButtonNode, 
+.noir .dijitDropDownButtonHover .dijitButtonNode {
+	
+	color:#fa4242;
+}
+.noir .dijitButtonActive .dijitButtonNode,
+.noir .dijitComboButtonActive .dijitButtonNode,
+.noir .dijitDropDownButtonActive .dijitButtonNode {
+	
+	color:#31d397;
+}
+.noir .dijitButtonDisabled .dijitButtonNode,
+.noir .dijitComboButtonDisabled .dijitButtonNode,
+.noir .dijitDropDownButtonDisabled .dijitButtonNode {
+	
+	color:#3f3f3f;
+}
+.noir .dijitDropDownButton .dijitRight {
+	height:30px;	
+	margin-left:15px; 
+	padding-right:31px;
+}
+.noir .dijitComboButton TABLE {
+	margin-left:15px;
+}
+.noir .dijitComboButton .dijitRight,
+.noir .dijitComboButton .dijitArrowButton div {	
+	height:30px;	
+	width:35px;
+	
+	
+	font-size: 0px;
+}
+.noir .dijitComboBox TABLE {
+	margin-left:10px;
+}
+.noir .dijitComboBox .dijitStretch {	
+	height:30px;
+	#margin-top:0px;
+}
+.noir .dijitComboBox .dijitRight,
+.noir .dijitComboBox .dijitRightSpacer {	
+	height:30px;
+	width:32px;
+}
+.noir .dijitComboBox .dijitArrowButton {
+	padding:0px !important;
+	width:32px;
+}
+.noir .dijitComboBox .dijitButtonNode {
+	font-family:inherit;
+	font-size:inherit;
+	background-color:transparent;
+}
+.noir .dijitComboBox .dijitInputField,
+.noir .dijitSpinner .dijiInputField {
+	border:0px;
+	margin:0px;
+	
+	
+}
+.noir .dijitComboBox INPUT,
+.noir .dijitSpinner INPUT {
+	color:white;
+	background:black;
+}
+.noir .dijitComboBoxDisabled INPUT,
+.noir .dijitSpinnerDisabled INPUT{
+	color:#3f3f3f;
+}
+.noir .dijitSpinner TABLE {
+	padding-left:10px;
+}
+.noir .dijitSpinner .dijitStretch {	
+	height:30px;
+	#margin-top:0px;
+}
+.noir .dijitSpinner .dijitArrowButton{
+	height:15px;
+	width:34px;
+	padding:0px !important;
+}
+.noir .dojoDndAvatar			{font-size: 75%; color: black;}
+.noir .dojoDndAvatarHeader td	{padding-left: 20px; padding-right: 4px;}
+.noir .dojoDndAvatarHeader	{background: #ccc;}
+.noir .dojoDndAvatarItem		{background: #eee;}
+.noir.dojoDndMove .dojoDndAvatarHeader	{background-image: url(images/dndNoMove.png); background-repeat: no-repeat;}
+.noir.dojoDndCopy .dojoDndAvatarHeader	{background-image: url(images/dndNoCopy.png); background-repeat: no-repeat;}
+.noir.dojoDndMove .dojoDndAvatarCanDrop .dojoDndAvatarHeader	{background-image: url(images/dndMove.png); background-repeat: no-repeat;}
+.noir.dojoDndCopy .dojoDndAvatarCanDrop .dojoDndAvatarHeader	{background-image: url(images/dndCopy.png); background-repeat: no-repeat;}

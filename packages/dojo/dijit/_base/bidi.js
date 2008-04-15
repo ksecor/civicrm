@@ -1,13 +1,20 @@
-if(!dojo._hasResource["dijit._base.bidi"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
-dojo._hasResource["dijit._base.bidi"] = true;
+/*
+	Copyright (c) 2004-2008, The Dojo Foundation
+	All Rights Reserved.
+
+	Licensed under the Academic Free License version 2.1 or above OR the
+	modified BSD license. For more information on Dojo licensing, see:
+
+		http://dojotoolkit.org/book/dojo-book-0-9/introduction/licensing
+*/
+
+
+if(!dojo._hasResource["dijit._base.bidi"]){
+dojo._hasResource["dijit._base.bidi"]=true;
 dojo.provide("dijit._base.bidi");
-
-// summary: applies a class to the top of the document for right-to-left stylesheet rules
-
 dojo.addOnLoad(function(){
-	if(!dojo._isBodyLtr()){
-		dojo.addClass(dojo.body(), "dijitRtl");
-	}
+if(!dojo._isBodyLtr()){
+dojo.addClass(dojo.body(),"dijitRtl");
+}
 });
-
 }

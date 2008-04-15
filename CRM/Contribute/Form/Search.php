@@ -172,6 +172,10 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form
         $this->_context = CRM_Utils_Request::retrieve( 'context', 'String',
                                                        $this );
 
+        if ( $this->_context == 'search' ) {
+            CRM_Utils_System::setTitle( ts('Find Contributions') );
+        }
+
         $this->assign( "{$this->_prefix}limit"  , $this->_limit );
         $this->assign( "{$this->_prefix}context", $this->_context );
 

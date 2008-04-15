@@ -1,7 +1,16 @@
-if(!dojo._hasResource["dojox.cometd"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
-dojo._hasResource["dojox.cometd"] = true;
-// stub loader for the cometd module since no implementation code is allowed to live in top-level files
-dojo.provide("dojox.cometd");
-dojo.require("dojox._cometd.cometd");
+/*
+	Copyright (c) 2004-2008, The Dojo Foundation
+	All Rights Reserved.
 
+	Licensed under the Academic Free License version 2.1 or above OR the
+	modified BSD license. For more information on Dojo licensing, see:
+
+		http://dojotoolkit.org/book/dojo-book-0-9/introduction/licensing
+*/
+
+
+if(!dojo._hasResource["dojox.cometd"]){
+dojo._hasResource["dojox.cometd"]=true;
+dojo.provide("dojox.cometd");
+dojo.require("dojox.cometd._base");
 }

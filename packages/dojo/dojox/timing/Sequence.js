@@ -1,145 +1,96 @@
-if(!dojo._hasResource["dojox.timing.Sequence"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
-dojo._hasResource["dojox.timing.Sequence"] = true;
+/*
+	Copyright (c) 2004-2008, The Dojo Foundation
+	All Rights Reserved.
+
+	Licensed under the Academic Free License version 2.1 or above OR the
+	modified BSD license. For more information on Dojo licensing, see:
+
+		http://dojotoolkit.org/book/dojo-book-0-9/introduction/licensing
+*/
+
+
+if(!dojo._hasResource["dojox.timing.Sequence"]){
+dojo._hasResource["dojox.timing.Sequence"]=true;
 dojo.provide("dojox.timing.Sequence");
-dojo.experimental("dojox.timing.Sequence"); // in case it gets moved/renamed somewhere soon
-
-dojo.declare("dojox.timing.Sequence",null,{
-	// summary: 
-	//	This class provides functionality to really sequentialize 
-	//	function calls. You need to provide a list of functions and 
-	//	some parameters for each (like: pauseBefore) and they will
-	//	be run one after another. This can be very useful for slideshows
-	//	or alike things.
-	//
-	// description: 
-	//	This array will contain the sequence defines resolved, so that
-	// 	ie. repeat:10 will result in 10 elements in the sequence, so 
-	// 	the repeat handling is easier and we don't need to handle that
-	// 	many extra cases. Also the doneFunction, if given is added at the
-	// 	end of the resolved-sequences.
-
-	// _defsResolved: Array
-	// 	The resolved sequence, for easier handling.
-	_defsResolved: [],
-
-	// This is the time to wait before goOn() calls _go(), which 
-	// mostly results from a pauseAfter for a function that returned
-	// false and is later continued by the external goOn() call.
-	// The time to wait needs to be waited in goOn() where the
-	// sequence is continued.
-
-	// _goOnPause: Integer
-	//	The pause to wait before really going on.
-	_goOnPause: 0,
-
-	_running: false,
-	
-	go: function(/* Array */defs, /* function|Array? */doneFunction){
-		// summary:
-		//
-		// defs: Array
-		//	the sequence of actions
-		// doneFunction: Function|Array?
-		//	The function to call when done
-		this._running = true;
-		var self = this;	
-		dojo.forEach(defs, function(cur){
-			if(cur.repeat > 1){
-				var repeat = cur.repeat;
-				for(var j=0; j<repeat ;j++){
-					cur.repeat = 1;
-					self._defsResolved.push(cur);
-				}
-			}else{
-				self._defsResolved.push(cur);				
-			}
-		});
-		var last = defs[defs.length-1];
-		if (doneFunction) {
-			self._defsResolved.push({func: doneFunction});
-		}
-		// stop the sequence, this actually just sets this._running to false
-		self._defsResolved.push({func: [this.stop, this]});
-		this._curId = 0;
-		this._go();
-	},
-
-	_go: function(){
-		// summary: Execute one task of this._defsResolved.
-		//
-		// if _running was set to false stop the sequence, this is the
-		// case when i.e. stop() was called.
-		if(!this._running){
-			return;
-		}
-		var cur = this._defsResolved[this._curId];
-		this._curId += 1;
-		// create the function to call, the func property might be an array, which means
-		// [function, context, parameter1, parameter2, ...]
-		function resolveAndCallFunc(func) {
-			var ret = null;
-			if(dojo.isArray(func)){
-				// Two elements might only be given when the function+context
-				// is given, this is nice for using this, ie: [this.func, this]
-				if(func.length>2){
-					ret = func[0].apply(func[1], func.slice(2));
-				}else{
-					ret = func[0].apply(func[1]);
-				}
-			}else{
-				ret = func();
-			}
-			return ret;
-		}
-
-		if(this._curId >= this._defsResolved.length){
-			resolveAndCallFunc(cur.func); // call the last function, since it is the doneFunction we dont need to handle pause stuff
-			// don't go on and call this._go() again, we are done
-			return;
-		}
-		var self = this;
-		if(cur.pauseAfter){
-			if(resolveAndCallFunc(cur.func)!==false){
-				window.setTimeout(function() {self._go()}, cur.pauseAfter);
-			}else{
-				this._goOnPause = cur.pauseAfter;
-			}
-		}else if(cur.pauseBefore){
-			var x = function(){
-				if(resolveAndCallFunc(cur.func)!==false){
-					self._go()
-				}
-			};
-			window.setTimeout(x, cur.pauseBefore);
-		}else{
-			if(resolveAndCallFunc(cur.func)!==false){
-				this._go();
-			}
-		}
-	},
-
-	goOn: function(){
-		// summary: This method just provides a hook from the outside, so that
-		// an interrupted sequence can be continued.
-		if(this._goOnPause){
-			var self = this;
-			setTimeout(function(){ self._go() }, this._goOnPause);
-			this._goOnPause = 0; // reset it, so if the next one doesnt set it we dont use the old pause
-		}else{ this._go(); }
-	},
-	
-	stop: function(){
-		// summary:  Stop the currently running sequence.
-		// description: 
-		//	This can only interrupt the sequence not the last function that
-		//	had been started. If the last function was i.e. a slideshow
-		//	that is handled inside a function that you have given as
-		//	one sequence item it cant be stopped, since it is not controlled
-		//	by this object here. In this case it would be smarter to 
-		//	run the slideshow using a sequence object so you can also stop 
-		//	it using this method.
-		this._running = false;
-	}
-}); 
-
+dojo.experimental("dojox.timing.Sequence");
+dojo.declare("dojox.timing.Sequence",null,{_defsResolved:[],_goOnPause:0,_running:false,go:function(_1,_2){
+this._running=true;
+var _3=this;
+dojo.forEach(_1,function(_4){
+if(_4.repeat>1){
+var _5=_4.repeat;
+for(var j=0;j<_5;j++){
+_4.repeat=1;
+_3._defsResolved.push(_4);
+}
+}else{
+_3._defsResolved.push(_4);
+}
+});
+var _7=_1[_1.length-1];
+if(_2){
+_3._defsResolved.push({func:_2});
+}
+_3._defsResolved.push({func:[this.stop,this]});
+this._curId=0;
+this._go();
+},_go:function(){
+if(!this._running){
+return;
+}
+var _8=this._defsResolved[this._curId];
+this._curId+=1;
+function resolveAndCallFunc(_9){
+var _a=null;
+if(dojo.isArray(_9)){
+if(_9.length>2){
+_a=_9[0].apply(_9[1],_9.slice(2));
+}else{
+_a=_9[0].apply(_9[1]);
+}
+}else{
+_a=_9();
+}
+return _a;
+};
+if(this._curId>=this._defsResolved.length){
+resolveAndCallFunc(_8.func);
+return;
+}
+var _b=this;
+if(_8.pauseAfter){
+if(resolveAndCallFunc(_8.func)!==false){
+window.setTimeout(function(){
+_b._go();
+},_8.pauseAfter);
+}else{
+this._goOnPause=_8.pauseAfter;
+}
+}else{
+if(_8.pauseBefore){
+var x=function(){
+if(resolveAndCallFunc(_8.func)!==false){
+_b._go();
+}
+};
+window.setTimeout(x,_8.pauseBefore);
+}else{
+if(resolveAndCallFunc(_8.func)!==false){
+this._go();
+}
+}
+}
+},goOn:function(){
+if(this._goOnPause){
+var _d=this;
+setTimeout(function(){
+_d._go();
+},this._goOnPause);
+this._goOnPause=0;
+}else{
+this._go();
+}
+},stop:function(){
+this._running=false;
+}});
 }

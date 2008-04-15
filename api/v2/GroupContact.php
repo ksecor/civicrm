@@ -36,7 +36,18 @@
 
 require_once 'api/v2/utils.php';
 
-function civicrm_group_contact_get( &$params ) {
+/**
+ * This API will give list of the groups for particular contact 
+ * Particualr status can be sent in params array
+ * If no status mentioned in params, by default 'added' will be used
+ * to fetch the records
+ * 
+ * @params  array $params  name value pair of contact information
+ *
+ * @return  array  list of groups, given contact subsribed to
+ */
+function civicrm_group_contact_get( &$params ) 
+{
     if ( ! array_key_exists( 'contact_id', $params ) ) {
         return civicrm_create_error( ts( 'contact_id is a required field' ) );
     }
@@ -47,15 +58,18 @@ function civicrm_group_contact_get( &$params ) {
     return $values;
 }
 
-function civicrm_group_contact_add( &$params ) {
+function civicrm_group_contact_add( &$params ) 
+{
     return civicrm_group_contact_common( $params, 'add' );
 }
 
-function civicrm_group_contact_remove( &$params ) {
+function civicrm_group_contact_remove( &$params ) 
+{
     return civicrm_group_contact_common( $params, 'remove' );
 }
 
-function civicrm_group_contact_common( &$params, $op = 'add' ) {
+function civicrm_group_contact_common( &$params, $op = 'add' ) 
+{
     $contactIDs = array( );
     $groupIDs = array( );
     foreach ( $params as $n => $v ) {

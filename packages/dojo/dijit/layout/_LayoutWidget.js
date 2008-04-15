@@ -1,187 +1,105 @@
-if(!dojo._hasResource["dijit.layout._LayoutWidget"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
-dojo._hasResource["dijit.layout._LayoutWidget"] = true;
-dojo.provide("dijit.layout._LayoutWidget");
+/*
+	Copyright (c) 2004-2008, The Dojo Foundation
+	All Rights Reserved.
 
+	Licensed under the Academic Free License version 2.1 or above OR the
+	modified BSD license. For more information on Dojo licensing, see:
+
+		http://dojotoolkit.org/book/dojo-book-0-9/introduction/licensing
+*/
+
+
+if(!dojo._hasResource["dijit.layout._LayoutWidget"]){
+dojo._hasResource["dijit.layout._LayoutWidget"]=true;
+dojo.provide("dijit.layout._LayoutWidget");
 dojo.require("dijit._Widget");
 dojo.require("dijit._Container");
-
-dojo.declare("dijit.layout._LayoutWidget",
-	[dijit._Widget, dijit._Container, dijit._Contained],
-	{
-		// summary
-		//		Mixin for widgets that contain a list of children like SplitContainer.
-		//		Widgets which mixin this code must define layout() to lay out the children
-
-		isLayoutContainer: true,
-
-		postCreate: function(){
-			dojo.addClass(this.domNode, "dijitContainer");
-		},
-
-		startup: function(){
-			// summary:
-			//		Called after all the widgets have been instantiated and their
-			//		dom nodes have been inserted somewhere under document.body.
-			//
-			//		Widgets should override this method to do any initialization
-			//		dependent on other widgets existing, and then call
-			//		this superclass method to finish things off.
-			//
-			//		startup() in subclasses shouldn't do anything
-			//		size related because the size of the widget hasn't been set yet.
-
-			if(this._started){ return; }
-			this._started=true;
-
-			if(this.getChildren){
-				dojo.forEach(this.getChildren(), function(child){ child.startup(); });
-			}
-
-			// If I am a top level widget
-			if(!this.getParent || !this.getParent()){
-				// Do recursive sizing and layout of all my descendants
-				// (passing in no argument to resize means that it has to glean the size itself)
-				this.resize();
-
-				// since my parent isn't a layout container, and my style is width=height=100% (or something similar),
-				// then I need to watch when the window resizes, and size myself accordingly
-				// (passing in no argument to resize means that it has to glean the size itself)
-				this.connect(window, 'onresize', function(){this.resize();});
-			}
-		},
-
-		resize: function(args){
-			// summary:
-			//		Explicitly set this widget's size (in pixels),
-			//		and then call layout() to resize contents (and maybe adjust child widgets)
-			//	
-			// args: Object?
-			//		{w: int, h: int, l: int, t: int}
-
-			var node = this.domNode;
-
-			// set margin box size, unless it wasn't specified, in which case use current size
-			if(args){
-				dojo.marginBox(node, args);
-
-				// set offset of the node
-				if(args.t){ node.style.top = args.t + "px"; }
-				if(args.l){ node.style.left = args.l + "px"; }
-			}
-			// If either height or width wasn't specified by the user, then query node for it.
-			// But note that setting the margin box and then immediately querying dimensions may return
-			// inaccurate results, so try not to depend on it.
-			var mb = dojo.mixin(dojo.marginBox(node), args||{});
-
-			// Save the size of my content box.
-			this._contentBox = dijit.layout.marginBox2contentBox(node, mb);
-
-			// Callback for widget to adjust size of it's children
-			this.layout();
-		},
-
-		layout: function(){
-			//	summary
-			//		Widgets override this method to size & position their contents/children.
-			//		When this is called this._contentBox is guaranteed to be set (see resize()).
-			//
-			//		This is called after startup(), and also when the widget's size has been
-			//		changed.
-		}
-	}
-);
-
-dijit.layout.marginBox2contentBox = function(/*DomNode*/ node, /*Object*/ mb){
-	// summary:
-	//		Given the margin-box size of a node, return it's content box size.
-	//		Functions like dojo.contentBox() but is more reliable since it doesn't have
-	//		to wait for the browser to compute sizes.
-	var cs = dojo.getComputedStyle(node);
-	var me=dojo._getMarginExtents(node, cs);
-	var pb=dojo._getPadBorderExtents(node, cs);
-	return {
-		l: dojo._toPixelValue(node, cs.paddingLeft),
-		t: dojo._toPixelValue(node, cs.paddingTop),
-		w: mb.w - (me.w + pb.w),
-		h: mb.h - (me.h + pb.h)
-	};
+dojo.declare("dijit.layout._LayoutWidget",[dijit._Widget,dijit._Container,dijit._Contained],{isLayoutContainer:true,postCreate:function(){
+dojo.addClass(this.domNode,"dijitContainer");
+},startup:function(){
+if(this._started){
+return;
+}
+dojo.forEach(this.getChildren(),function(_1){
+_1.startup();
+});
+if(!this.getParent||!this.getParent()){
+this.resize();
+this.connect(window,"onresize",function(){
+this.resize();
+});
+}
+this.inherited(arguments);
+},resize:function(_2){
+var _3=this.domNode;
+if(_2){
+dojo.marginBox(_3,_2);
+if(_2.t){
+_3.style.top=_2.t+"px";
+}
+if(_2.l){
+_3.style.left=_2.l+"px";
+}
+}
+var mb=dojo.mixin(dojo.marginBox(_3),_2||{});
+this._contentBox=dijit.layout.marginBox2contentBox(_3,mb);
+this.layout();
+},layout:function(){
+}});
+dijit.layout.marginBox2contentBox=function(_5,mb){
+var cs=dojo.getComputedStyle(_5);
+var me=dojo._getMarginExtents(_5,cs);
+var pb=dojo._getPadBorderExtents(_5,cs);
+return {l:dojo._toPixelValue(_5,cs.paddingLeft),t:dojo._toPixelValue(_5,cs.paddingTop),w:mb.w-(me.w+pb.w),h:mb.h-(me.h+pb.h)};
 };
-
 (function(){
-	var capitalize = function(word){
-		return word.substring(0,1).toUpperCase() + word.substring(1);
-	};
-
-	var size = function(widget, dim){
-		// size the child
-		widget.resize ? widget.resize(dim) : dojo.marginBox(widget.domNode, dim);
-
-		// record child's size, but favor our own numbers when we have them.
-		// the browser lies sometimes
-		dojo.mixin(widget, dojo.marginBox(widget.domNode));
-		dojo.mixin(widget, dim);
-	};
-
-	dijit.layout.layoutChildren = function(/*DomNode*/ container, /*Object*/ dim, /*Object[]*/ children){
-		/**
-		 * summary
-		 *		Layout a bunch of child dom nodes within a parent dom node
-		 * container:
-		 *		parent node
-		 * dim:
-		 *		{l, t, w, h} object specifying dimensions of container into which to place children
-		 * children:
-		 *		an array like [ {domNode: foo, layoutAlign: "bottom" }, {domNode: bar, layoutAlign: "client"} ]
-		 */
-
-		// copy dim because we are going to modify it
-		dim = dojo.mixin({}, dim);
-
-		dojo.addClass(container, "dijitLayoutContainer");
-
-		// Move "client" elements to the end of the array for layout.  a11y dictates that the author
-		// needs to be able to put them in the document in tab-order, but this algorithm requires that
-		// client be last.
-		children = dojo.filter(children, function(item){ return item.layoutAlign != "client"; })
-			.concat(dojo.filter(children, function(item){ return item.layoutAlign == "client"; }));
-
-		// set positions/sizes
-		dojo.forEach(children, function(child){
-			var elm = child.domNode,
-				pos = child.layoutAlign;
-
-			// set elem to upper left corner of unused space; may move it later
-			var elmStyle = elm.style;
-			elmStyle.left = dim.l+"px";
-			elmStyle.top = dim.t+"px";
-			elmStyle.bottom = elmStyle.right = "auto";
-
-			dojo.addClass(elm, "dijitAlign" + capitalize(pos));
-
-			// set size && adjust record of remaining space.
-			// note that setting the width of a <div> may affect it's height.
-			if(pos=="top" || pos=="bottom"){
-				size(child, { w: dim.w });
-				dim.h -= child.h;
-				if(pos=="top"){
-					dim.t += child.h;
-				}else{
-					elmStyle.top = dim.t + dim.h + "px";
-				}
-			}else if(pos=="left" || pos=="right"){
-				size(child, { h: dim.h });
-				dim.w -= child.w;
-				if(pos=="left"){
-					dim.l += child.w;
-				}else{
-					elmStyle.left = dim.l + dim.w + "px";
-				}
-			}else if(pos=="client"){
-				size(child, dim);
-			}
-		});
-	};
-
+var _a=function(_b){
+return _b.substring(0,1).toUpperCase()+_b.substring(1);
+};
+var _c=function(_d,_e){
+_d.resize?_d.resize(_e):dojo.marginBox(_d.domNode,_e);
+dojo.mixin(_d,dojo.marginBox(_d.domNode));
+dojo.mixin(_d,_e);
+};
+dijit.layout.layoutChildren=function(_f,dim,_11){
+dim=dojo.mixin({},dim);
+dojo.addClass(_f,"dijitLayoutContainer");
+_11=dojo.filter(_11,function(_12){
+return _12.layoutAlign!="client";
+}).concat(dojo.filter(_11,function(_13){
+return _13.layoutAlign=="client";
+}));
+dojo.forEach(_11,function(_14){
+var elm=_14.domNode,pos=_14.layoutAlign;
+var _17=elm.style;
+_17.left=dim.l+"px";
+_17.top=dim.t+"px";
+_17.bottom=_17.right="auto";
+dojo.addClass(elm,"dijitAlign"+_a(pos));
+if(pos=="top"||pos=="bottom"){
+_c(_14,{w:dim.w});
+dim.h-=_14.h;
+if(pos=="top"){
+dim.t+=_14.h;
+}else{
+_17.top=dim.t+dim.h+"px";
+}
+}else{
+if(pos=="left"||pos=="right"){
+_c(_14,{h:dim.h});
+dim.w-=_14.w;
+if(pos=="left"){
+dim.l+=_14.w;
+}else{
+_17.left=dim.l+dim.w+"px";
+}
+}else{
+if(pos=="client"){
+_c(_14,dim);
+}
+}
+}
+});
+};
 })();
-
 }

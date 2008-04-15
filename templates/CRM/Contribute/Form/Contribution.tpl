@@ -94,7 +94,7 @@
     </script>
     {/literal}
 
-<div id="adiitionalInfo">
+<div id="additionalInfo">
     {include file="CRM/Contribute/Form/AdditionalInfo.tpl"}
 </div>
 {/if}

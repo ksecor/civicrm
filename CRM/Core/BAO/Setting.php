@@ -162,6 +162,9 @@ class CRM_Core_BAO_Setting
             //calculate hour var for Date Time 
             $defaults['datetimeformatHourVar'] =  strstr($defaults['dateformatQfDatetime'], '%I') ?'h' : (strstr($defaults['dateformatQfDatetime'], '%l') ? 'g' : null);
 
+            // set proper monetary formatting, falling back to en_US and C (CRM-2782)
+            setlocale(LC_MONETARY, $defaults['lcMonetary'].'.utf8', $defaults['lcMonetary'], 'en_US.utf8', 'en_US', 'C');
+
             $skipVars = array( 'dsn', 'templateCompileDir',
                                'userFrameworkDSN', 
                                'userFrameworkBaseURL', 'userFrameworkClass', 'userHookClass',

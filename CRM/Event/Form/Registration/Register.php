@@ -150,11 +150,19 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             self::buildAmount( $this );
 
             if ( $this->_values['event_page']['is_pay_later'] ) {
-                $this->addElement( 'checkbox',
-                                   'is_pay_later',
-                                   $this->_values['event_page']['pay_later_text'] );
-            }
+                $attributes = null;
+                $this->assign( 'hidePaymentInformation', false );
+                if ( !in_array( $this->_paymentProcessor['payment_processor_type'], 
+                                array( 'PayPal_Standard', 'Google_Checkout', 'PayPal_Express' ) ) ) {
+                    $attributes = array('onclick' => "return showHideByValue('is_pay_later','','payment_information',
+                                                     'table-row','radio',true);");
             
+                    $this->assign( 'hidePaymentInformation', true );
+                }
+                                             
+                $this->addElement( 'checkbox', 'is_pay_later', 
+                                   $this->_values['event_page']['pay_later_text'], null, $attributes );
+            }            
             require_once 'CRM/Core/Payment/Form.php';
             CRM_Core_Payment_Form::buildCreditCard( $this );
         }
@@ -289,7 +297,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
      * @access public 
      * @static 
      */ 
-    static function formRule(&$fields, &$files, $self) 
+    static function formRule(&$fields, &$files, &$self) 
     {
         //To check if the user is already registered for the event(CRM-2426)
         self::checkRegistration($fields, $self);
@@ -473,9 +481,9 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             if ( $this->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_BUTTON ) {
                 //get the button name  
                 $buttonName = $this->controller->getButtonName( );  
-                if ($buttonName == $this->_expressButtonName || 
-                    $buttonName == $this->_expressButtonName . '_x' || 
-                    $buttonName == $this->_expressButtonName . '_y' ) { 
+                if ( in_array( $buttonName, 
+                               array( $this->_expressButtonName, $this->_expressButtonName. '_x', $this->_expressButtonName. '_y' ) ) && 
+                     ! isset( $params['is_pay_later'] ) ) { 
                     $this->set( 'contributeMode', 'express' ); 
                     
                     $params['cancelURL' ] = CRM_Utils_System::url( 'civicrm/event/register', '_qf_Register_display=1', true, null, false ); 
@@ -671,17 +679,23 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
      * @return void  
      * @access public 
      */ 
-    function checkRegistration($fields, $self)
+    function checkRegistration($fields, &$self)
     {
         $session =& CRM_Core_Session::singleton( );
         $contactID = $session->get( 'userID' );
-        if (!$contactID) {
-            require_once 'CRM/Core/BAO/Email.php';
-            $email =&new CRM_Core_BAO_Email();
-            $email->email = $fields['email-5'];
-            $email->find(true);
-            $contactID = $email->contact_id;
+        if ( ! $contactID &&
+             ! empty( $fields ) &&
+             isset( $fields['email-5'] ) ) {
+            $emailString = trim( $fields['email-5'] );
+            if ( ! empty( $emailString ) ) {
+                require_once 'CRM/Core/BAO/Email.php';
+                $email =&new CRM_Core_BAO_Email();
+                $email->email = $emailString;
+                $email->find(true);
+                $contactID = $email->contact_id;
+            }
         }
+
         if ( $contactID ) {
             require_once 'CRM/Event/BAO/Participant.php';
             $participant =&new CRM_Event_BAO_Participant();

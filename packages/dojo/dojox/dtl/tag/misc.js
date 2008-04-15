@@ -1,76 +1,228 @@
-if(!dojo._hasResource["dojox.dtl.tag.misc"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
-dojo._hasResource["dojox.dtl.tag.misc"] = true;
+/*
+	Copyright (c) 2004-2008, The Dojo Foundation
+	All Rights Reserved.
+
+	Licensed under the Academic Free License version 2.1 or above OR the
+	modified BSD license. For more information on Dojo licensing, see:
+
+		http://dojotoolkit.org/book/dojo-book-0-9/introduction/licensing
+*/
+
+
+if(!dojo._hasResource["dojox.dtl.tag.misc"]){
+dojo._hasResource["dojox.dtl.tag.misc"]=true;
 dojo.provide("dojox.dtl.tag.misc");
-
 dojo.require("dojox.dtl._base");
-
-dojox.dtl.tag.misc.commentNode = new function(){
-	this.render = this.unrender = function(context, buffer){ return buffer; };
-	this.clone = function(){ return this; };
-	this.toString = function(){ return "dojox.dtl.tag.misc.CommentNode"; };
+(function(){
+var dd=dojox.dtl;
+var _2=dd.tag.misc;
+_2.DebugNode=dojo.extend(function(_3){
+this._TextNode=_3;
+},{render:function(_4,_5){
+var _6=_4.getKeys();
+var _7="";
+for(var i=0,_9;_9=_6[i];i++){
+console.debug("DEBUG",_9,":",_4[_9]);
+_7+=_9+": "+dojo.toJson(_4[_9])+"\n\n";
 }
-
-dojox.dtl.tag.misc.DebugNode = function(TextNode){
-	this._TextNode = TextNode;
-}
-dojo.extend(dojox.dtl.tag.misc.DebugNode, {
-	render: function(context, buffer){
-		var keys = context.getKeys();
-		var debug = "";
-		for(var i = 0, key; key = keys[i]; i++){
-			console.debug("DEBUG", key, ":", context[key]);
-			debug += key + ": " + dojo.toJson(context[key]) + "\n\n";
-		}
-		return new this._TextNode(debug).render(context, buffer, this);
-	},
-	unrender: function(context, buffer){
-		return buffer;
-	},
-	clone: function(buffer){
-		return new this.constructor(this._TextNode);
-	},
-	toString: function(){ return "dojox.dtl.tag.misc.DebugNode"; }
+return new this._TextNode(_7).render(_4,_5,this);
+},unrender:function(_a,_b){
+return _b;
+},clone:function(_c){
+return new this.constructor(this._TextNode);
+},toString:function(){
+return "ddtm.DebugNode";
+}});
+_2.FilterNode=dojo.extend(function(_d,_e){
+this._varnode=_d;
+this._nodelist=_e;
+},{render:function(_f,_10){
+var _11=this._nodelist.render(_f,new dojox.string.Builder());
+_f.update({"var":_11.toString()});
+var _12=this._varnode.render(_f,_10);
+_f.pop();
+return _10;
+},unrender:function(_13,_14){
+return _14;
+},clone:function(_15){
+return new this.constructor(this._expression,this._nodelist.clone(_15));
+}});
+_2.FirstOfNode=dojo.extend(function(_16,_17){
+this._vars=_16;
+this.vars=dojo.map(_16,function(_18){
+return new dojox.dtl._Filter(_18);
 });
-
-dojox.dtl.tag.misc.FilterNode = function(varnode, nodelist){
-	this._varnode = varnode;
-	this._nodelist = nodelist;
+this.contents=new _17("");
+},{render:function(_19,_1a){
+for(var i=0,_1c;_1c=this.vars[i];i++){
+var _1d=_1c.resolve(_19);
+if(typeof _1d!="undefined"){
+if(_1d===null){
+_1d="null";
 }
-dojo.extend(dojox.dtl.tag.misc.FilterNode, {
-	render: function(context, buffer){
-		// Doing this in HTML requires a different buffer with a fake root node
-		var output = this._nodelist.render(context, new dojox.string.Builder());
-		context.update({ "var": output.toString() });
-		var filtered = this._varnode.render(context, buffer);
-		context.pop();
-		return buffer;
-	},
-	unrender: function(context, buffer){
-		return buffer;
-	},
-	clone: function(buffer){
-		return new this.constructor(this._expression, this._nodelist.clone(buffer));
-	}
-});
-
-dojox.dtl.tag.misc.comment = function(parser, text){
-	// summary: Ignore everything between {% comment %} and {% endcomment %}
-	parser.skipPast("endcomment");
-	return dojox.dtl.tag.misc.commentNode;
+this.contents.set(_1d);
+return this.contents.render(_19,_1a);
 }
-
-dojox.dtl.tag.misc.debug = function(parser, text){
-	// summary: Output the current context, maybe add more stuff later.
-	return new dojox.dtl.tag.misc.DebugNode(parser.getTextNode());
 }
-
-dojox.dtl.tag.misc.filter = function(parser, text){
-	// summary: Filter the contents of the blog through variable filters.
-	var parts = text.split(" ", 2);
-	var varnode = new (parser.getVarNode())("var|" + parts[1]);
-	var nodelist = parser.parse(["endfilter"]);
-	parser.next();
-	return new dojox.dtl.tag.misc.FilterNode(varnode, nodelist);
+return this.contents.unrender(_19,_1a);
+},unrender:function(_1e,_1f){
+return this.contents.unrender(_1e,_1f);
+},clone:function(_20){
+return new this.constructor(this._vars,this.contents.constructor);
+}});
+_2.SpacelessNode=dojo.extend(function(_21,_22){
+this.nodelist=_21;
+this.TextNode=_22;
+},{render:function(_23,_24){
+if(_24.onAddNodeComplete){
+var _25=[dojo.connect(_24,"onAddNodeComplete",this,"_watch"),dojo.connect(_24,"onSetParent",this,"_watchParent")];
+_24=this.nodelist.render(_23,_24);
+dojo.disconnect(_25[0]);
+dojo.disconnect(_25[1]);
+}else{
+if(!this.contents){
+this.contents=new this.TextNode("");
 }
-
+var _26=this.nodelist.dummyRender(_23);
+this.contents.set(_26.replace(/>\s+</g,"><"));
+_24=this.contents.render(_23,_24);
+}
+return _24;
+},unrender:function(_27,_28){
+return this.nodelist.unrender(_27,_28);
+},clone:function(_29){
+return new this.constructor(this.nodelist.clone(_29));
+},_isEmpty:function(_2a){
+return (_2a.nodeType==3&&!_2a.data.match(/[^\s\n]/));
+},_watch:function(_2b){
+if(this._isEmpty(_2b)){
+var _2c=false;
+if(_2b.parentNode.firstChild==_2b){
+_2b.parentNode.removeChild(_2b);
+}
+}else{
+var _2d=_2b.parentNode.childNodes;
+if(_2b.nodeType==1&&_2d.length>2){
+for(var i=2,_2f;_2f=_2d[i];i++){
+if(_2d[i-2].nodeType==1&&this._isEmpty(_2d[i-1])){
+_2b.parentNode.removeChild(_2d[i-1]);
+return;
+}
+}
+}
+}
+},_watchParent:function(_30){
+var _31=_30.childNodes;
+if(_31.length){
+while(_30.childNodes.length){
+var _32=_30.childNodes[_30.childNodes.length-1];
+if(!this._isEmpty(_32)){
+return;
+}
+_30.removeChild(_32);
+}
+}
+}});
+_2.TemplateTagNode=dojo.extend(function(tag,_34){
+this.tag=tag;
+this.contents=new _34("");
+},{mapping:{openblock:"{%",closeblock:"%}",openvariable:"{{",closevariable:"}}",openbrace:"{",closebrace:"}",opencomment:"{#",closecomment:"#}"},render:function(_35,_36){
+this.contents.set(this.mapping[this.tag]);
+return this.contents.render(_35,_36);
+},unrender:function(_37,_38){
+return this.contents.unrender(_37,_38);
+},clone:function(_39){
+return new this.constructor(this.tag,this.contents.constructor);
+}});
+_2.WidthRatioNode=dojo.extend(function(_3a,max,_3c,_3d){
+this.current=new dd._Filter(_3a);
+this.max=new dd._Filter(max);
+this.width=_3c;
+this.contents=new _3d("");
+},{render:function(_3e,_3f){
+var _40=+this.current.resolve(_3e);
+var max=+this.max.resolve(_3e);
+if(typeof _40!="number"||typeof max!="number"||!max){
+this.contents.set("");
+}else{
+this.contents.set(""+Math.round((_40/max)*this.width));
+}
+return this.contents.render(_3e,_3f);
+},unrender:function(_42,_43){
+return this.contents.unrender(_42,_43);
+},clone:function(_44){
+return new this.constructor(this.current.getExpression(),this.max.getExpression(),this.width,this.contents.constructor);
+}});
+_2.WithNode=dojo.extend(function(_45,_46,_47){
+this.target=new dd._Filter(_45);
+this.alias=_46;
+this.nodelist=_47;
+},{render:function(_48,_49){
+var _4a=this.target.resolve(_48);
+_48.push();
+_48[this.alias]=_4a;
+_49=this.nodelist.render(_48,_49);
+_48.pop();
+return _49;
+},unrender:function(_4b,_4c){
+return _4c;
+},clone:function(_4d){
+return new this.constructor(this.target.getExpression(),this.alias,this.nodelist.clone(_4d));
+}});
+dojo.mixin(_2,{comment:function(_4e,_4f){
+_4e.skipPast("endcomment");
+return dd._noOpNode;
+},debug:function(_50,_51){
+return new _2.DebugNode(_50.getTextNodeConstructor());
+},filter:function(_52,_53){
+var _54=_53.split(" ",2);
+var _55=new (_52.getVarNodeConstructor())("var|"+_54[1]);
+var _56=_52.parse(["endfilter"]);
+_52.next();
+return new _2.FilterNode(_55,_56);
+},firstof:function(_57,_58){
+var _59=dojox.dtl.text.pySplit(_58).slice(1);
+if(!_59.length){
+throw new Error("'firstof' statement requires at least one argument");
+}
+return new _2.FirstOfNode(_59,_57.getTextNodeConstructor());
+},spaceless:function(_5a,_5b){
+var _5c=_5a.parse(["endspaceless"]);
+_5a.next();
+return new _2.SpacelessNode(_5c,_5a.getTextNodeConstructor());
+},templatetag:function(_5d,_5e){
+var _5f=dd.text.pySplit(_5e);
+if(_5f.length!=2){
+throw new Error("'templatetag' statement takes one argument");
+}
+var tag=_5f[1];
+var _61=_2.TemplateTagNode.prototype.mapping;
+if(!_61[tag]){
+var _62=[];
+for(var key in _61){
+_62.push(key);
+}
+throw new Error("Invalid templatetag argument: '"+tag+"'. Must be one of: "+_62.join(", "));
+}
+return new _2.TemplateTagNode(tag,_5d.getTextNodeConstructor());
+},widthratio:function(_64,_65){
+var _66=dd.text.pySplit(_65);
+if(_66.length!=4){
+throw new Error("widthratio takes three arguments");
+}
+var _67=+_66[3];
+if(typeof _67!="number"){
+throw new Error("widthratio final argument must be an integer");
+}
+return new _2.WidthRatioNode(_66[1],_66[2],_67,_64.getTextNodeConstructor());
+},with_:function(_68,_69){
+var _6a=dd.text.pySplit(_69);
+if(_6a.length!=4||_6a[2]!="as"){
+throw new Error("do_width expected format as 'with value as name'");
+}
+var _6b=_68.parse(["endwith"]);
+_68.next();
+return new _2.WithNode(_6a[1],_6a[3],_6b);
+}});
+})();
 }

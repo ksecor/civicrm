@@ -1,8 +1,4 @@
-{* Search form and results for Events *}
-<div id="help">
-    {ts}Use this form to find participant(s) by participant name, event name, event start and end dates.{/ts}
-</div>
-
+{* Search form and results for Event Participants *}
 {assign var="showBlock" value="'searchForm'"}
 {assign var="hideBlock" value="'searchForm_show'"}
 
@@ -14,7 +10,7 @@
 </div>
 
 <div id="searchForm">
-<fieldset><legend>{ts}Find Participants{/ts}</legend>
+<fieldset><legend>{ts}Search Criteria{/ts}</legend>
     {strip} 
         <table class="form-layout">
 		<tr>

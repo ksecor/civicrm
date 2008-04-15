@@ -1,8 +1,4 @@
 {* Search form and results for Contributions *}
-<div id="help">
-    {ts}Use this form to find contributions by contributor name, contribution date or amount ranges, type of contribution, payment method and / or status.{/ts}
-</div>
-
 {assign var="showBlock" value="'searchForm'"}
 {assign var="hideBlock" value="'searchForm_show'"}
 
@@ -15,7 +11,7 @@
 
 <div id="searchForm">
 
-<fieldset><legend>{ts}Find Contributions{/ts}</legend>
+<fieldset><legend>{ts}Search Criteria{/ts}</legend>
     {strip} 
         <table class="form-layout">
 		<tr>

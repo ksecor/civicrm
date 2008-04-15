@@ -169,9 +169,9 @@ class CRM_Utils_SoapServer
         return crm_mailer_event_confirm($contact, $subscribe, $hash);
     }
 
-    public function mailer_event_reply($key, $job, $queue, $hash, $body, $rt) {
+    public function mailer_event_reply($key, $job, $queue, $hash, $bodyTxt, $bodyHTML, $rt) {
         $this->verify($key);
-        return crm_mailer_event_reply($job, $queue, $hash, $body, $rt);
+        return crm_mailer_event_reply($job, $queue, $hash, $bodyTxt, $bodyHTML, $rt);
     }
 
     public function mailer_event_forward($key, $job, $queue, $hash, $email) {

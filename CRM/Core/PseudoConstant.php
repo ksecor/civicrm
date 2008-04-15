@@ -1075,7 +1075,7 @@ class CRM_Core_PseudoConstant
      */
     public static function &worldRegion( $id = false )
     {
-        if ( !self::$worldRegions || !$id ) {
+        if ( !self::$worldRegions ) {
             self::populate( self::$worldRegions, 'CRM_Core_DAO_Worldregion', true, 'name', null, null, 'id');
         }
 

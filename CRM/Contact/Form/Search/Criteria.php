@@ -225,6 +225,10 @@ class CRM_Contact_Form_Search_Criteria {
         $allRelationshipType = array_merge( $allRelationshipType, $relTypeHou);
         $form->addElement('select', 'relation_type_id', ts('Relationship Type'),  array('' => ts('- select -')) + $allRelationshipType);
         $form->addElement('text', 'relation_target_name', ts('Target Contact'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
+        $relStatusOption  = array( ts('Active '), ts('Inactive '), ts('All') );
+        $form->addRadio( 'relation_status', ts( 'Relationship Status' ), $relStatusOption);
+        $form->setDefaults(array('relation_status' => 0));
+        
     }
     
     static function demographics( &$form ) {

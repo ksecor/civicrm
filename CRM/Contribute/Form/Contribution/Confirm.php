@@ -350,6 +350,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
 
             foreach( $billingFields as $value ) {
                 unset( $params[$value] );
+                unset( $fields[$value] );
             }
         }
         

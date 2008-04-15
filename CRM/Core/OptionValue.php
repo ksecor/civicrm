@@ -36,8 +36,8 @@
 require_once 'CRM/Core/BAO/OptionValue.php';
 require_once 'CRM/Core/BAO/OptionGroup.php';
 
-class CRM_Core_OptionValue {
-
+class CRM_Core_OptionValue 
+{
     /**
      * static field for all the option value information that we can potentially export
      *
@@ -74,7 +74,6 @@ class CRM_Core_OptionValue {
      * @access public
      * @static
      */
-
     static function getRows( $groupParams, $links, $orderBy = 'weight' ) 
     {
         $optionValue = array();
@@ -93,26 +92,31 @@ class CRM_Core_OptionValue {
         
         $dao =& new CRM_Core_DAO_OptionValue();
         
-        if ($optionGroupID) {
+        if ( $optionGroupID ) {
             $dao->option_group_id = $optionGroupID;
             $dao->orderBy($orderBy);
             $dao->find();
         }
         
-        while ($dao->fetch()) {
+        while ( $dao->fetch() ) {
             $optionValue[$dao->id] = array();
-            CRM_Core_DAO::storeValues( $dao, $optionValue[$dao->id]);
+            CRM_Core_DAO::storeValues( $dao, $optionValue[$dao->id] );
             // form all action links
             $action = array_sum(array_keys($links));
+         
             if( $dao->is_default ) {
                 $optionValue[$dao->id]['default_value'] = '[x]';
             }
-
+            
             // update enable/disable links depending on if it is is_reserved or is_active
-            if ($dao->is_reserved) {
-                continue;
+            if ( $dao->is_reserved ) {
+                if ( $groupParams['name'] == 'participant_status' ) {
+                    $action = CRM_Core_Action::UPDATE;   
+                } else {
+                    continue;
+                }
             } else {
-                if ($dao->is_active) {
+                if ( $dao->is_active ) {
                     $action -= CRM_Core_Action::ENABLE;
                 } else {
                     $action -= CRM_Core_Action::DISABLE;

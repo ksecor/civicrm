@@ -103,7 +103,7 @@ class CRM_Mailing_Event_BAO_Reply extends CRM_Mailing_Event_DAO_Reply {
      * @access public
      * @static
      */
-    public static function send($queue_id, &$mailing, &$body, $replyto) {
+    public static function send($queue_id, &$mailing, &$bodyTxt, &$bodyHTML, $replyto) {
         $config =& CRM_Core_Config::singleton();
         $mailer =& $config->getMailer();
         $domain =& CRM_Mailing_Event_BAO_Queue::getDomain($queue_id);
@@ -138,8 +138,10 @@ class CRM_Mailing_Event_BAO_Reply extends CRM_Mailing_Event_DAO_Reply {
             'From'          => $from,
             'Reply-To'      => empty($replyto) ? $dao->email : $replyto,
             'Return-Path'   => "do-not-reply@{$domain->email_domain}",
-        );
-        $message->setTxtBody($body);
+            );
+        
+        $message->setTxtBody($bodyTxt);
+        $message->setHTMLBody($bodyHTML);
         $b = $message->get();
         $h = $message->headers($headers);
         PEAR::setErrorHandling( PEAR_ERROR_CALLBACK,

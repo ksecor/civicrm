@@ -1,44 +1,33 @@
-if(!dojo._hasResource["dijit._base.window"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
-dojo._hasResource["dijit._base.window"] = true;
+/*
+	Copyright (c) 2004-2008, The Dojo Foundation
+	All Rights Reserved.
+
+	Licensed under the Academic Free License version 2.1 or above OR the
+	modified BSD license. For more information on Dojo licensing, see:
+
+		http://dojotoolkit.org/book/dojo-book-0-9/introduction/licensing
+*/
+
+
+if(!dojo._hasResource["dijit._base.window"]){
+dojo._hasResource["dijit._base.window"]=true;
 dojo.provide("dijit._base.window");
-
-dijit.getDocumentWindow = function(doc){
-	//	summary
-	// 	Get window object associated with document doc
-
-	// With Safari, there is not way to retrieve the window from the document, so we must fix it.
-	if(dojo.isSafari && !doc._parentWindow){
-		/*
-			This is a Safari specific function that fix the reference to the parent
-			window from the document object.
-		*/
-		var fix=function(win){
-			win.document._parentWindow=win;
-			for(var i=0; i<win.frames.length; i++){
-				fix(win.frames[i]);
-			}
-		}
-		fix(window.top);
-	}
-
-	//In some IE versions (at least 6.0), document.parentWindow does not return a
-	//reference to the real window object (maybe a copy), so we must fix it as well
-	//We use IE specific execScript to attach the real window reference to
-	//document._parentWindow for later use
-	if(dojo.isIE && window !== document.parentWindow && !doc._parentWindow){
-		/*
-		In IE 6, only the variable "window" can be used to connect events (others
-		may be only copies).
-		*/
-		doc.parentWindow.execScript("document._parentWindow = window;", "Javascript");
-		//to prevent memory leak, unset it after use
-		//another possibility is to add an onUnload handler which seems overkill to me (liucougar)
-		var win = doc._parentWindow;
-		doc._parentWindow = null;
-		return win;	//	Window
-	}
-
-	return doc._parentWindow || doc.parentWindow || doc.defaultView;	//	Window
+dijit.getDocumentWindow=function(_1){
+if(dojo.isSafari&&!_1._parentWindow){
+var _2=function(_3){
+_3.document._parentWindow=_3;
+for(var i=0;i<_3.frames.length;i++){
+_2(_3.frames[i]);
 }
-
+};
+_2(window.top);
+}
+if(dojo.isIE&&window!==document.parentWindow&&!_1._parentWindow){
+_1.parentWindow.execScript("document._parentWindow = window;","Javascript");
+var _5=_1._parentWindow;
+_1._parentWindow=null;
+return _5;
+}
+return _1._parentWindow||_1.parentWindow||_1.defaultView;
+};
 }

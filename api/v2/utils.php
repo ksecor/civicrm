@@ -544,17 +544,17 @@ function _civicrm_validate_formatted_contact(&$params)
     return civicrm_create_success( true );
 }
 
-function _civicrm_custom_format_params( &$params, &$values, $extends )
+function _civicrm_custom_format_params( &$params, &$values, $extends, $entityId = null )
 {
     $values['custom'] = array();
     require_once 'CRM/Core/BAO/CustomField.php' ;    
     $customFields = CRM_Core_BAO_CustomField::getFields( $extends );
-    //CRM_Core_Error::debug( '$customFields', $customFields );
-    
+        
     require_once 'CRM/Core/BAO/CustomField.php';
     foreach ($params as $key => $value) {
         if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
-            CRM_Core_BAO_CustomField::formatCustomField( $customFieldID, $values['custom'], $value, $extends );
+            CRM_Core_BAO_CustomField::formatCustomField( $customFieldID, $values['custom'], 
+                                                         $value, $extends, null, $entityId );
         }
     }
 }
@@ -698,6 +698,17 @@ function _civicrm_participant_formatted_param( &$params, &$values, $create=false
         case 'event_title':
             $id = CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_Event", $value, 'id', 'title' );
             $values['event_id'] = $id;
+            break;
+        case 'event_id':
+            if (!CRM_Utils_Rule::integer($value)) {
+                return civicrm_create_error("Event ID is not valid: $value");
+            }
+            $dao =& new CRM_Core_DAO();
+            $qParams = array();
+            $svq = $dao->singleValueQuery("SELECT id FROM civicrm_event WHERE domain_id = $domainID AND id = $value",$qParams);
+            if (!$svq) {
+                return civicrm_create_error("Invalid Event ID: There is no event record with event_id = $value.");
+            } 
             break;
         case 'participant_status_id':
             $id = CRM_Core_OptionGroup::getValue('participant_status', $value);

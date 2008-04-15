@@ -1,73 +1,54 @@
 /*
- * SpiderMonkey host environment
- */
+	Copyright (c) 2004-2008, The Dojo Foundation
+	All Rights Reserved.
 
-if(djConfig["baseUrl"]){
-	dojo.baseUrl = djConfig["baseUrl"];
+	Licensed under the Academic Free License version 2.1 or above OR the
+	modified BSD license. For more information on Dojo licensing, see:
+
+		http://dojotoolkit.org/book/dojo-book-0-9/introduction/licensing
+*/
+
+
+if(dojo.config["baseUrl"]){
+dojo.baseUrl=dojo.config["baseUrl"];
 }else{
-	dojo.baseUrl = "./";
+dojo.baseUrl="./";
 }
-
-dojo._name = 'spidermonkey';
-dojo.isSpidermonkey = true;
-dojo.exit = function(exitcode){ 
-	quit(exitcode); 
+dojo._name="spidermonkey";
+dojo.isSpidermonkey=true;
+dojo.exit=function(_1){
+quit(_1);
+};
+if(typeof print=="function"){
+console.debug=print;
 }
-
-if(typeof print == "function"){
-	console.debug = print;
+if(typeof line2pc=="undefined"){
+throw new Error("attempt to use SpiderMonkey host environment when no 'line2pc' global");
 }
-
-if(typeof line2pc == 'undefined'){
-	throw new Error("attempt to use SpiderMonkey host environment when no 'line2pc' global");
+dojo._spidermonkeyCurrentFile=function(_2){
+var s="";
+try{
+throw Error("whatever");
 }
-
-dojo._spidermonkeyCurrentFile = function(depth){
-	//	
-	//	This is a hack that determines the current script file by parsing a
-	//	generated stack trace (relying on the non-standard "stack" member variable
-	//	of the SpiderMonkey Error object).
-	//	
-	//	If param depth is passed in, it'll return the script file which is that far down
-	//	the stack, but that does require that you know how deep your stack is when you are
-	//	calling.
-	//	
-    var s = '';
-    try{
-		throw Error("whatever");
-	}catch(e){
-		s = e.stack;
-	}
-    // lines are like: bu_getCurrentScriptURI_spidermonkey("ScriptLoader.js")@burst/Runtime.js:101
-    var matches = s.match(/[^@]*\.js/gi);
-    if(!matches){ 
-		throw Error("could not parse stack string: '" + s + "'");
-	}
-    var fname = (typeof depth != 'undefined' && depth) ? matches[depth + 1] : matches[matches.length - 1];
-    if(!fname){ 
-		throw Error("could not find file name in stack string '" + s + "'");
-	}
-    //print("SpiderMonkeyRuntime got fname '" + fname + "' from stack string '" + s + "'");
-    return fname;
+catch(e){
+s=e.stack;
 }
-
-// print(dojo._spidermonkeyCurrentFile(0)); 
-
-dojo._loadUri = function(uri){
-	// spidermonkey load() evaluates the contents into the global scope (which
-	// is what we want).
-	// TODO: sigh, load() does not return a useful value. 
-	// Perhaps it is returning the value of the last thing evaluated?
-	var ok = load(uri);
-	// console.debug("spidermonkey load(", uri, ") returned ", ok);
-	return 1;
+var _4=s.match(/[^@]*\.js/gi);
+if(!_4){
+throw Error("could not parse stack string: '"+s+"'");
 }
-
-//Register any module paths set up in djConfig. Need to do this
-//in the hostenvs since hostenv_browser can read djConfig from a
-//script tag's attribute.
-if(djConfig["modulePaths"]){
-	for(var param in djConfig["modulePaths"]){
-		dojo.registerModulePath(param, djConfig["modulePaths"][param]);
-	}
+var _5=(typeof _2!="undefined"&&_2)?_4[_2+1]:_4[_4.length-1];
+if(!_5){
+throw Error("could not find file name in stack string '"+s+"'");
+}
+return _5;
+};
+dojo._loadUri=function(_6){
+var ok=load(_6);
+return 1;
+};
+if(dojo.config["modulePaths"]){
+for(var param in dojo.config["modulePaths"]){
+dojo.registerModulePath(param,dojo.config["modulePaths"][param]);
+}
 }

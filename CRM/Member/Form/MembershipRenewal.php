@@ -239,7 +239,7 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
             $changeToday['year']  = $formValues['renewal_date']['Y'];
             $this->set( 'renewDate', $changeToday );
         }
-        
+        $this->_membershipId = $this->_id;
         $renewMembership = CRM_Member_BAO_Membership::renewMembership( $this->_contactID, 
                                                                        $this->_memType,
                                                                        0, $this, null );

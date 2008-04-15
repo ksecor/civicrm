@@ -171,7 +171,7 @@ ORDER BY sort_name" ;
             $query = "
 SELECT sort_name, id
 FROM civicrm_contact
-WHERE sort_name LIKE '$name'
+WHERE sort_name LIKE '%$name'
 AND domain_id = $domainID
 ORDER BY sort_name ";            
         }

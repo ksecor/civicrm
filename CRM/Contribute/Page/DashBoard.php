@@ -50,6 +50,8 @@ class CRM_Contribute_Page_DashBoard extends CRM_Core_Page
      */ 
     function preProcess( ) 
     {
+        CRM_Utils_System::setTitle( ts('CiviContribute') );
+
         $startToDate = array( );
         $yearToDate  = array( );
         $monthToDate = array( );

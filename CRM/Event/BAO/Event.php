@@ -362,10 +362,10 @@ LIMIT      0, 10
                         $values = array();
                         $ids    = array();
                         
-                        $params['event_id'] = $dao->id;
-                        
+                        $params = array( 'entity_id' => $dao->id ,'entity_table' => 'civicrm_event');
+
                         require_once 'CRM/Core/BAO/Location.php';
-                        CRM_Core_BAO_Location::getValues($params, $values, $ids, 1 );
+                        CRM_Core_BAO_Location::getValues($params, $values, true );
                         
                         if ( is_numeric( CRM_Utils_Array::value('geo_code_1',$values['location'][1]['address']) ) ||
                              ( $config->mapGeoCoding &&
@@ -405,10 +405,13 @@ LIMIT      0, 10
     {
         if ( !$status ) {
             require_once 'CRM/Event/PseudoConstant.php';
-            $statusTypes  = CRM_Event_PseudoConstant::participantStatus( null, false );
+            $statusTypes  = CRM_Event_PseudoConstant::participantStatus( null, false ); 
             $status = implode( ',', array_keys( $statusTypes ) );
+            if ( !$status ) {
+                $status = 0;
+            }
         } 
-
+        
         $query = "
 SELECT civicrm_event.id AS id, count( civicrm_participant.id ) AS participant
 FROM civicrm_event, civicrm_participant 

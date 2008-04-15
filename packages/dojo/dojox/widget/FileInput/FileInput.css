@@ -3,7 +3,6 @@
 	height:1.3em;
 	padding:2px;  
 }
-
 .dijitFileInputReal {
 	position:absolute;
 	z-index:2;
@@ -14,23 +13,17 @@
 	right:0;
 }
 .dijitFileInputReal:hover { cursor:pointer; } 
-
 .dijitFileInputButton,
 .dijitFileInputText {
 	border:1px solid #333;
 	padding:2px 12px 2px 12px; 
 	cursor:pointer;
-
 }
 .dijitFileInputButton {
-	opacity:0;
-	filter:alpha(opacity:0);
 	z-index:3;
 	visibility:hidden;
-	
 }
 .dijitFakeInput { position:absolute; top:0; left:0; z-index:1; }
-
 .dijitProgressOverlay {
 	display:none;
 	width:250px;
@@ -41,8 +34,6 @@
 	background:#cad2de url('../../../dijit/themes/tundra/images/dijitProgressBarAnim.gif') repeat-x top left;
 	padding:2px;	
 }
-
-/* tundra */
 .tundra .dijitProgressOverlay {
 	border:1px solid #84a3d1;
 	background-color:#cad2de;
@@ -57,16 +48,13 @@
 .tundra .dijitFileInputButton, 
 .tundra .dijitFileInputText {
 	border:1px solid #9b9b9b;
-	padding:2px 12px 2px 12px; /* .3em .4em .2em .4em; */
+	padding:2px 12px 2px 12px; 
 	background:#e9e9e9 url("../../../dijit/themes/tundra/images/buttonEnabled.png") repeat-x top;
 }
-
-/* Soria */
 .soria .dijitProgressOverlay {
 	border:1px solid #333;
 	background-color:#cad2de; 
 }
-
 .soria .dijitFakeInput input {
 	border:1px solid #333;
 	background:#fff url("../../../dijit/themes/soria/images/gradientInverseTopBg.png") repeat-x top left;
@@ -79,5 +67,4 @@
 	border:1px solid #333;
 	padding:2px 12px 2px 12px;
 	background:#b7cdee url('../../../dijit/themes/soria/images/gradientTopBg.png') repeat-x; 
-
 }
