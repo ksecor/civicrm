@@ -98,3 +98,11 @@ if ( document.getElementsByName('is_monetary')[0].checked ) {
     field_type          ="radio"
     invert              = 0
 }
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="price_set_id"
+    trigger_value       =""
+    target_element_id   ="map-field" 
+    target_element_type ="block"
+    field_type          ="select"
+    invert              = 0
+}

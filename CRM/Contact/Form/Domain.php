@@ -48,13 +48,6 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
     protected $_id;
 
     /**
-     * the variable, for storing the location array
-     *
-     * @var array
-     */
-    protected $_ids;
-
-    /**
      * how many locationBlocks should we display?
      *
      * @var int
@@ -96,8 +89,7 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
             unset($params['id']);
             $locParams = $params + array('entity_id' => $this->_id, 'entity_table' => 'civicrm_domain');
             require_once 'CRM/Core/BAO/Location.php';
-            CRM_Core_BAO_Location::getValues( $locParams, $defaults, $ids, self::LOCATION_BLOCKS);
-            $this->_ids = $ids;
+            CRM_Core_BAO_Location::getValues( $locParams, $defaults);
 
             //set defaults for country-state dojo widget
             if ( ! empty ( $defaults['location'] ) ) {
@@ -244,7 +236,7 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
         
         $location = array();
         $params['location'][1]['location_type_id'] = $defaultLocationType->id;
-        $location = CRM_Core_BAO_Location::create($params, $this->_ids, 'domain');
+        $location = CRM_Core_BAO_Location::create($params, true, 'domain');
         
         $params['loc_block_id'] = $location['id'];
         

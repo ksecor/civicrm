@@ -939,6 +939,8 @@ SELECT id
             return;
         }
 
+        $fileId = null;
+
         if ( $customFields[$customFieldId][2] == 'File' ) {
             if ( empty($value) ) {
                 return;
@@ -958,7 +960,7 @@ SELECT id
                 CRM_Core_Error::statusBounce( ts( 'Could not move custom file to custom upload directory' ) );
                 break;
             }
-            
+
             if ( $customValueId ) {
                 $query = "
 SELECT $columnName
@@ -977,11 +979,10 @@ SELECT $columnName
             $fileDAO->mime_type   = $mimeType; 
             $fileDAO->upload_date = date('Ymdhis'); 
             $fileDAO->save();
-            
             $fileId = $fileDAO->id;
             $value  =  $filename;
         }
-        
+       
         $customFormatted[$customFieldId] = array('id'              => $customValueId,
                                                  'value'           => $value,
                                                  'type'            => $customFields[$customFieldId][2],

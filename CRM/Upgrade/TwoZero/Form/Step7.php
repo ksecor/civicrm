@@ -65,9 +65,19 @@ class CRM_Upgrade_TwoZero_Form_Step7 extends CRM_Upgrade_Form {
             return false;
         }
 
+        $query = "SELECT id FROM civicrm_payment_processor WHERE payment_processor_type IN ('PayPal', 'PayPal_Express')";
+        $res   = $this->runQuery( $query );
+        if ( $res->fetch() ) {
+            CRM_Core_Session::setStatus( ts('%1: PayPal Payment Processor found. You will need to follow the instructions for %2', 
+                                            array( 1 => "<strong>WARNING</strong>", 
+                                                   2 => "<a href='http://wiki.civicrm.org/confluence/display/CRMDOC/Upgrade+Drupal+Sites+to+2.0#UpgradeDrupalSitesto2.0-12.UpdatePayPalProcessorSettings'>Updating PayPal Processor Settings.</a>"
+                                                   )) );
+            $res->free();
+        }
+        
         return $this->checkVersion( '2.0' );
     }
-
+    
     function buildQuickForm( ) {
     }
 

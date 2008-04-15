@@ -65,6 +65,9 @@ class CRM_Core_BAO_Block
         $blocks = array( );
         if ( ! isset( $params['entity_table'] ) ) {
             $block->contact_id = $params['contact_id'];
+            if ( ! $block->contact_id ) {
+                CRM_Core_Error::fatal( );
+            }
             $blocks = self::retrieveBlock( $block, $blockName );
         } else {
             $blockIds = self::getBlockIds( $blockName, null, $params );

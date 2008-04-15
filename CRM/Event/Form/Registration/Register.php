@@ -297,7 +297,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
      * @access public 
      * @static 
      */ 
-    static function formRule(&$fields, &$files, $self) 
+    static function formRule(&$fields, &$files, &$self) 
     {
         //To check if the user is already registered for the event(CRM-2426)
         self::checkRegistration($fields, $self);
@@ -679,17 +679,23 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
      * @return void  
      * @access public 
      */ 
-    function checkRegistration($fields, $self)
+    function checkRegistration($fields, &$self)
     {
         $session =& CRM_Core_Session::singleton( );
         $contactID = $session->get( 'userID' );
-        if (!$contactID) {
-            require_once 'CRM/Core/BAO/Email.php';
-            $email =&new CRM_Core_BAO_Email();
-            $email->email = $fields['email-5'];
-            $email->find(true);
-            $contactID = $email->contact_id;
+        if ( ! $contactID &&
+             ! empty( $fields ) &&
+             isset( $fields['email-5'] ) ) {
+            $emailString = trim( $fields['email-5'] );
+            if ( ! empty( $emailString ) ) {
+                require_once 'CRM/Core/BAO/Email.php';
+                $email =&new CRM_Core_BAO_Email();
+                $email->email = $emailString;
+                $email->find(true);
+                $contactID = $email->contact_id;
+            }
         }
+
         if ( $contactID ) {
             require_once 'CRM/Event/BAO/Participant.php';
             $participant =&new CRM_Event_BAO_Participant();

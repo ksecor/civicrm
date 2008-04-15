@@ -288,7 +288,6 @@ class CRM_Core_BAO_PriceSet extends CRM_Core_DAO_PriceSet {
         
         // delete price fields
         require_once 'CRM/Core/DAO/PriceField.php';
-        require_once 'CRM/Core/DAO/CustomOption.php';
         $priceField =& new CRM_Core_DAO_PriceField( );
         $priceField->price_set_id = $id;
         $priceField->find( );

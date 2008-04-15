@@ -106,7 +106,7 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
 
         $params = array( 'entity_id' => $id ,'entity_table' => 'civicrm_event');
         require_once 'CRM/Core/BAO/Location.php';
-        CRM_Core_BAO_Location::getValues($params, $values, $ids, 1, 1);
+        CRM_Core_BAO_Location::getValues( $params, $values, true );
         
         //retrieve custom field information
         require_once 'CRM/Core/BAO/CustomGroup.php';
