@@ -1150,14 +1150,16 @@ class CRM_Core_Menu
                 continue;
             }
 
+            $url = CRM_Utils_Array::value( 'path_arguments', $item ) 
+                ? str_replace(',', '&', $item['path_arguments']) . '&reset=1' : 'reset=1';
+            
             $value = array( 'title' => $item['title'],
                             'desc'  => $item['desc'],
                             'id'    => strtr($item['title'], array('('=>'_', ')'=>'', ' '=>'',
                                                                    ','=>'_', '/'=>'_' 
                                                                    )
                                              ),
-                            'url'   => CRM_Utils_System::url( $path,
-                                                              CRM_Utils_Array::value( 'query', $item ) ),
+                            'url'   => CRM_Utils_System::url( $path, $url ), 
                             'icon'  => $item['icon'],
                             'extra' => CRM_Utils_Array::value( 'extra', $item ) );
             if ( ! array_key_exists( $item['adminGroup'], $values ) ) {
