@@ -202,7 +202,7 @@
   <item>
      <path>civicrm/admin/weight</path>
      <title>This should never be seen</title>
-     <page_callback>array( CRM_Utils_Weight ,fixOrder)</page_callback>
+     <page_callback>CRM_Utils_Weight::fixOrder</page_callback>
   </item>
   <item>
      <path>civicrm/admin/options/activity_type</path>

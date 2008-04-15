@@ -4,8 +4,8 @@
   <item>
      <path>civicrm</path>
      <title>CiviCRM</title>
-     <access_callback>array('CRM_Core_Permission', 'checkMenu')</access_callback>
-     <access_arguments>array( array( 'access CiviCRM' ))</access_arguments>
+     <access_callback>CRM_Core_Permission::checkMenu</access_callback>
+     <access_arguments>access CiviCRM</access_arguments>
      <page_callback>CRM_Contact_Page_View_DashBoard</page_callback>
      <page_arguments>null</page_arguments>
      <weight>0</weight>
@@ -16,14 +16,14 @@
      <path_arguments>array( 'reset' => 1)</path_arguments>
      <page_type>1</page_type>
      <page_callback>CRM_Contact_Page_View_DashBoard</page_callback>
-     <access_arguments>array( array( 'access CiviCRM' ))</access_arguments>
+     <access_arguments>access CiviCRM</access_arguments>
      <weight>0</weight>
   </item>
   <item>
      <path>civicrm/ajax</path>
      <title></title>
      <page_callback>CRM_Core_Page_AJAX</page_callback>
-     <access_arguments>array( array( 'access CiviCRM' ))</access_arguments>
+     <access_arguments>access CiviCRM</access_arguments>
      <weight>0</weight>
   </item>
   <item>
@@ -40,14 +40,14 @@
      <path_arguments>array( 'reset' => 1)</path_arguments>
      <page_type>1</page_type>
      <page_callback>CRM_Group_Page_Group</page_callback>
-     <access_arguments>array( array( 'access CiviCRM' ))</access_arguments>
+     <access_arguments>access CiviCRM</access_arguments>
      <weight>30</weight>
   </item>
   <item>
      <path>civicrm/import</path>
      <title>Import</title>
      <path_arguments>array( 'reset' => 1)</path_arguments>
-     <access_arguments>array( array( 'import contacts', 'access CiviCRM' ))</access_arguments>
+     <access_arguments>import contacts,access CiviCRM</access_arguments>
      <page_type>1</page_type>
      <page_callback>CRM_Import_Controller</page_callback>
      <weight>400</weight>
@@ -56,7 +56,7 @@
      <path>civicrm/admin</path>
      <title>Administer CiviCRM</title>
      <path_arguments>array( 'reset' => 1)</path_arguments>
-     <access_arguments>array( array( 'administer CiviCRM', 'access CiviCRM' ))</access_arguments>
+     <access_arguments>administer CiviCRM,access CiviCRM</access_arguments>
      <page_type>1</page_type>
      <page_callback>CRM_Admin_Page_Admin</page_callback>
      <weight>9000</weight>
@@ -64,7 +64,7 @@
   <item>
      <path>civicrm/file</path>
      <title>Browse Uploaded files</title>
-     <access_arguments>array( array( 'access uploaded files' ))</access_arguments>
+     <access_arguments>access uploaded files</access_arguments>
      <page_callback>CRM_Core_Page_File</page_callback>
      <weight>0</weight>
   </item>
@@ -78,14 +78,14 @@
   <item>
      <path>civicrm/user</path>
      <title>Contact Dashboard</title>
-     <saccess_arguments>array( array( 'access Contact Dashboard' ))</saccess_arguments>
+     <saccess_arguments>access Contact Dashboard</saccess_arguments>
      <page_callback>CRM_Contact_Page_View_UserDashBoard</page_callback>
      <weight>0</weight>
   </item>
   <item>
      <path>civicrm/friend</path>
      <title>Tell a Friend</title>
-     <access_arguments>array( array( 'make online contributions', 'register for events' ) ,or)</access_arguments>
+     <access_arguments>make online contributions;register for events</access_arguments>
      <page_callback>CRM_Friend_Form</page_callback>
      <weight>0</weight>
   </item>
@@ -93,15 +93,15 @@
      <path>civicrm/logout</path>
      <title>Log out</title>
      <path_arguments>array( 'reset' => 1)</path_arguments>
-     <page_callback>array( 'CRM_Core_Invoke', 'logout')</page_callback>
-     <access_arguments>array( array( 'access CiviCRM' ))</access_arguments>
+     <page_callback>CRM_Core_Invoke::logout</page_callback>
+     <access_arguments>access CiviCRM</access_arguments>
      <weight>9999</weight>
   </item>
   <item>
      <path>civicrm/event</path>
      <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>CiviEvent</title>
-     <access_arguments>array( array( 'access CiviEvent' ))</access_arguments>
+     <access_arguments>access CiviEvent</access_arguments>
      <page_type>1</page_type>
      <weight>800</weight>
      <component>CiviEvent</component>
@@ -123,14 +123,14 @@
      <path>civicrm/event/ical</path>
      <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>Event Listings</title>
-     <access_arguments>array( array( 'register for events' ))</access_arguments>
+     <access_arguments>register for events</access_arguments>
      <weight>0</weight>
   </item>
   <item>
      <path>civicrm/event/participant</path>
      <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>Event Participants List</title>
-     <access_arguments>array( array( 'view event participants' ))</access_arguments>
+     <access_arguments>view event participants</access_arguments>
      <weight>0</weight>
   </item>
   <item>
@@ -138,7 +138,7 @@
      <title>Manage Events</title>
      <desc>Create and edit event configuration including times, locations, online registration forms, and fees. Links for iCal and RSS syndication.</desc>
      <path_arguments>array( 'reset' => 1)</path_arguments>
-     <access_arguments>array( array( 'administer CiviCRM', 'access CiviEvent' ))</access_arguments>
+     <access_arguments>administer CiviCRM,access CiviEvent</access_arguments>
      <adminGroup>CiviEvent</adminGroup>
      <icon>admin/small/event_manage.png</icon>
      <weight>370</weight>
@@ -148,7 +148,7 @@
      <title>Event Types</title>
      <desc>Use Event Types to categorize your events. Event feeds can be filtered by Event Type and participant searches can use Event Type as a criteria.</desc>
      <path_arguments>array( 'reset' => 1, 'group' => 'event_type')</path_arguments>
-     <access_arguments>array( array( 'administer CiviCRM', 'access CiviEvent' ))</access_arguments>
+     <access_arguments>administer CiviCRM,access CiviEvent</access_arguments>
      <adminGroup>CiviEvent</adminGroup>
      <icon>admin/small/event_type.png</icon>
      <weight>375</weight>
@@ -158,7 +158,7 @@
      <title>Participant Status</title>
      <desc>Define statuses for event participants here (e.g. Registered, Attended, Cancelled...). You can then assign statuses and search for participants by status.</desc>
      <path_arguments>array( 'reset' => 1, 'group' => 'participant_status')</path_arguments>
-     <access_arguments>array( array( 'administer CiviCRM', 'access CiviEvent' ))</access_arguments>
+     <access_arguments>administer CiviCRM,access CiviEvent</access_arguments>
      <adminGroup>CiviEvent</adminGroup>
      <icon>admin/small/parti_status.png</icon>
      <weight>380</weight>
@@ -168,7 +168,7 @@
      <title>Participant Role</title>
      <desc>Define participant roles for events here (e.g. Attendee, Host, Speaker...). You can then assign roles and search for participants by role.</desc>
      <path_arguments>array( 'reset' => 1, 'group' => 'participant_role')</path_arguments>
-     <access_arguments>array( array( 'administer CiviCRM', 'access CiviEvent' ))</access_arguments>
+     <access_arguments>administer CiviCRM,access CiviEvent</access_arguments>
      <adminGroup>CiviEvent</adminGroup>
      <icon>admin/small/parti_role.png</icon>
      <weight>385</weight>
@@ -178,7 +178,7 @@
      <title>Price Sets</title>
      <desc>Price sets allow you to offer multiple options with associated fees (e.g. pre-conference workshops, additional meals, etc.). Configure Price Sets for events which need more than a single set of fee levels.</desc>
      <path_arguments>array( 'reset' => 1)</path_arguments>
-     <access_arguments>array( array( 'administer CiviCRM', 'access CiviEvent' ))</access_arguments>
+     <access_arguments>administer CiviCRM,access CiviEvent</access_arguments>
      <adminGroup>CiviEvent</adminGroup>
      <icon>admin/small/price_sets.png</icon>
      <weight>386</weight>
@@ -187,7 +187,7 @@
      <path>civicrm/event/search</path>
      <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>Find Participants</title>
-     <access_arguments>array( array( 'access CiviEvent' ))</access_arguments>
+     <access_arguments>access CiviEvent</access_arguments>
      <page_type>1</page_type>
      <weight>810</weight>
   </item>
@@ -195,7 +195,7 @@
      <path>civicrm/event/manage</path>
      <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>Manage Events</title>
-     <access_arguments>array( array( 'administer CiviCRM', 'access CiviEvent' ))</access_arguments>
+     <access_arguments>administer CiviCRM,access CiviEvent</access_arguments>
      <page_type>1</page_type>
      <weight>820</weight>
   </item>
@@ -203,7 +203,7 @@
      <path>civicrm/event/add</path>
      <path_arguments>array( 'reset' => 1, 'action' => 'add')</path_arguments>
      <title>New Event</title>
-     <access_arguments>array( array( 'administer CiviCRM', 'access CiviEvent' ))</access_arguments>
+     <access_arguments>administer CiviCRM,access CiviEvent</access_arguments>
      <page_type>1</page_type>
      <weight>830</weight>
   </item>
@@ -211,7 +211,7 @@
      <path>civicrm/event/import</path>
      <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>Import Participants</title>
-     <access_arguments>array( array( 'administer CiviCRM', 'access CiviEvent' ))</access_arguments>
+     <access_arguments>administer CiviCRM,access CiviEvent</access_arguments>
      <page_type>1</page_type>
      <weight>840</weight>
   </item>
@@ -219,7 +219,7 @@
      <path>civicrm/contribute</path>
      <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>CiviContribute</title>
-     <access_arguments>array( array( 'access CiviContribute' ))</access_arguments>
+     <access_arguments>access CiviContribute</access_arguments>
      <page_type>1</page_type>
      <weight>500</weight>
      <component>CiviContribute</component>
@@ -228,7 +228,7 @@
      <path>civicrm/contribute/transact</path>
      <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>CiviContribute</title>
-     <access_arguments>array( array( 'make online contributions' ))</access_arguments>
+     <access_arguments>make online contributions</access_arguments>
      <weight>0</weight>
   </item>
   <item>
@@ -286,7 +286,7 @@
      <path>civicrm/contribute/search</path>
      <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>Find Contributions</title>
-     <access_arguments>array( array( 'access CiviContribute' ))</access_arguments>
+     <access_arguments>access CiviContribute</access_arguments>
      <page_type>1</page_type>
      <weight>510</weight>
   </item>
@@ -294,7 +294,7 @@
      <path>civicrm/contribute/import</path>
      <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>Import Contributions</title>
-     <access_arguments>array( array( 'administer CiviCRM', 'access CiviContribute' ))</access_arguments>
+     <access_arguments>administer CiviCRM,access CiviContribute</access_arguments>
      <page_type>1</page_type>
      <weight>520</weight>
   </item>
@@ -302,7 +302,7 @@
      <path>civicrm/contribute/manage</path>
      <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>Manage Contribution Pages</title>
-     <access_arguments>array( array( 'administer CiviCRM', 'access CiviContribute' ))</access_arguments>
+     <access_arguments>administer CiviCRM,access CiviContribute</access_arguments>
      <page_type>1</page_type>
      <weight>530</weight>
   </item>
@@ -310,7 +310,7 @@
      <path>civicrm/member</path>
      <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>CiviMember</title>
-     <access_arguments>array( array( 'access CiviMember' ))</access_arguments>
+     <access_arguments>access CiviMember</access_arguments>
      <page_type>1</page_type>
      <weight>700</weight>
      <component>CiviMember</component>
@@ -343,7 +343,7 @@
      <path>civicrm/member/search</path>
      <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>Find Members</title>
-     <access_arguments>array( array( 'access CiviMember' ))</access_arguments>
+     <access_arguments>access CiviMember</access_arguments>
      <page_type>1</page_type>
      <weight>710</weight>
   </item>
@@ -351,7 +351,7 @@
      <path>civicrm/member/import</path>
      <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>Import Members</title>
-     <access_arguments>array( array( 'access CiviMember' ))</access_arguments>
+     <access_arguments>access CiviMember</access_arguments>
      <page_type>1</page_type>
      <weight>720</weight>
   </item>
@@ -359,7 +359,7 @@
      <path>civicrm/mailing</path>
      <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>CiviMail</title>
-     <access_arguments>array( array( 'access CiviMail' ))</access_arguments>
+     <access_arguments>access CiviMail</access_arguments>
      <page_type>1</page_type>
      <weight>600</weight>
      <component>CiviMail</component>
@@ -369,7 +369,7 @@
      <title>Mailer Settings</title>
      <desc>Configure spool period, throttling and other mailer settings.</desc>
      <path_arguments>array( 'reset' => 1)</path_arguments>
-     <access_arguments>array( array( 'access CiviMail' ))</access_arguments>
+     <access_arguments>access CiviMail</access_arguments>
      <adminGroup>CiviMail</adminGroup>
      <icon>admin/small/07.png</icon>
      <weight>400</weight>
@@ -379,7 +379,7 @@
      <title>Headers, Footers, and Automated Messages</title>
      <desc>Configure the header and footer used for mailings. Customize the content of automated Subscribe, Unsubscribe, Resubscribe and Opt-out messages.</desc>
      <path_arguments>array( 'reset' => 1)</path_arguments>
-     <access_arguments>array( array( 'access CiviMail' ))</access_arguments>
+     <access_arguments>access CiviMail</access_arguments>
      <adminGroup>CiviMail</adminGroup>
      <icon>admin/small/Profile.png</icon>
      <weight>410</weight>
@@ -388,7 +388,7 @@
      <path>civicrm/mailing/send</path>
      <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>Send Mailing</title>
-     <access_arguments>array( array( 'access CiviMail' ))</access_arguments>
+     <access_arguments>access CiviMail</access_arguments>
      <page_type>1</page_type>
      <weight>610</weight>
   </item>
@@ -396,7 +396,7 @@
      <path>civicrm/mailing/browse</path>
      <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>Browse Sent Mailings</title>
-     <access_arguments>array( array( 'access CiviMail' ))</access_arguments>
+     <access_arguments>access CiviMail</access_arguments>
      <page_type>1</page_type>
      <weight>620</weight>
   </item>
@@ -404,7 +404,7 @@
      <path>civicrm/mailing/component</path>
      <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>Headers, Footers, and Automated Messages</title>
-     <access_arguments>array( array( 'administer CiviCRM' ))</access_arguments>
+     <access_arguments>administer CiviCRM</access_arguments>
      <page_type>1</page_type>
      <weight>630</weight>
   </item>
@@ -412,42 +412,42 @@
      <path>civicrm/mailing/unsubscribe</path>
      <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>Unsubscribe</title>
-     <access_arguments>array( array( 'access CiviMail subscribe/unsubscribe pages' ))</access_arguments>
+     <access_arguments>access CiviMail subscribe/unsubscribe pages</access_arguments>
      <weight>640</weight>
   </item>
   <item>
      <path>civicrm/mailing/resubscribe</path>
      <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>Resubscribe</title>
-     <access_arguments>array( array( 'access CiviMail subscribe/unsubscribe pages' ))</access_arguments>
+     <access_arguments>access CiviMail subscribe/unsubscribe pages</access_arguments>
      <weight>645</weight>
   </item>
   <item>
      <path>civicrm/mailing/optout</path>
      <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>Optout</title>
-     <access_arguments>array( array( 'access CiviMail subscribe/unsubscribe pages' ))</access_arguments>
+     <access_arguments>access CiviMail subscribe/unsubscribe pages</access_arguments>
      <weight>650</weight>
   </item>
   <item>
      <path>civicrm/mailing/confirm</path>
      <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>Confirm</title>
-     <access_arguments>array( array( 'access CiviMail subscribe/unsubscribe pages' ))</access_arguments>
+     <access_arguments>access CiviMail subscribe/unsubscribe pages</access_arguments>
      <weight>660</weight>
   </item>
   <item>
      <path>civicrm/mailing/subscribe</path>
      <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>Subscribe</title>
-     <access_arguments>array( array( 'access CiviMail subscribe/unsubscribe pages' ))</access_arguments>
+     <access_arguments>access CiviMail subscribe/unsubscribe pages</access_arguments>
      <weight>660</weight>
   </item>
   <item>
      <path>civicrm/grant</path>
      <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>CiviGrant</title>
-     <access_arguments>array( array( 'access CiviGrant' ))</access_arguments>
+     <access_arguments>access CiviGrant</access_arguments>
      <page_type>1</page_type>
      <weight>1000</weight>
      <component>CiviGrant</component>
@@ -455,14 +455,14 @@
   <item>
      <path>civicrm/grant/info</path>
      <path_arguments>array( 'reset' => 1)</path_arguments>
-     <access_arguments>array( array( 'access CiviGrant' ))</access_arguments>
+     <access_arguments>access CiviGrant</access_arguments>
      <weight>0</weight>
   </item>
   <item>
      <path>civicrm/grant/search</path>
      <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>Find Grants</title>
-     <access_arguments>array( array( 'access CiviGrant' ))</access_arguments>
+     <access_arguments>access CiviGrant</access_arguments>
      <page_type>1</page_type>
      <weight>1010</weight>
   </item>
@@ -470,7 +470,7 @@
      <path>civicrm/grant/add</path>
      <path_arguments>array( 'reset' => 1, 'action' => add)</path_arguments>
      <title>New Grant</title>
-     <access_arguments>array( array( 'access CiviGrant' ))</access_arguments>
+     <access_arguments>access CiviGrant</access_arguments>
      <page_type>1</page_type>
      <weight>1030</weight>
   </item>
@@ -478,7 +478,7 @@
      <path>civicrm/grant/import</path>
      <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>Import Grants</title>
-     <access_arguments>array( array( 'access CiviGrant' ))</access_arguments>
+     <access_arguments>access CiviGrant</access_arguments>
      <page_type>1</page_type>
      <weight>1040</weight>
   </item>

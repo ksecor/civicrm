@@ -5,7 +5,7 @@
      <path>civicrm/mailing</path>
      <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>CiviMail</title>
-     <access_arguments>array( array( 'access CiviMail' ))</access_arguments>
+     <access_arguments>access CiviMail</access_arguments>
      <page_type>1</page_type>
      <weight>600</weight>
      <component>CiviMail</component>
@@ -15,7 +15,7 @@
      <title>Mailer Settings</title>
      <desc>Configure spool period, throttling and other mailer settings.</desc>
      <path_arguments>array( 'reset' => 1)</path_arguments>
-     <access_arguments>array( array( 'access CiviMail' ))</access_arguments>
+     <access_arguments>access CiviMail</access_arguments>
      <adminGroup>CiviMail</adminGroup>
      <icon>admin/small/07.png</icon>
      <weight>400</weight>
@@ -25,7 +25,7 @@
      <title>Headers, Footers, and Automated Messages</title>
      <desc>Configure the header and footer used for mailings. Customize the content of automated Subscribe, Unsubscribe, Resubscribe and Opt-out messages.</desc>
      <path_arguments>array( 'reset' => 1)</path_arguments>
-     <access_arguments>array( array( 'access CiviMail' ))</access_arguments>
+     <access_arguments>access CiviMail</access_arguments>
      <adminGroup>CiviMail</adminGroup>
      <icon>admin/small/Profile.png</icon>
      <weight>410</weight>
@@ -34,7 +34,7 @@
      <path>civicrm/mailing/send</path>
      <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>Send Mailing</title>
-     <access_arguments>array( array( 'access CiviMail' ))</access_arguments>
+     <access_arguments>access CiviMail</access_arguments>
      <page_type>1</page_type>
      <weight>610</weight>
   </item>
@@ -42,7 +42,7 @@
      <path>civicrm/mailing/browse</path>
      <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>Browse Sent Mailings</title>
-     <access_arguments>array( array( 'access CiviMail' ))</access_arguments>
+     <access_arguments>access CiviMail</access_arguments>
      <page_type>1</page_type>
      <weight>620</weight>
   </item>
@@ -50,7 +50,7 @@
      <path>civicrm/mailing/component</path>
      <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>Headers, Footers, and Automated Messages</title>
-     <access_arguments>array( array( 'administer CiviCRM' ))</access_arguments>
+     <access_arguments>administer CiviCRM</access_arguments>
      <page_type>1</page_type>
      <weight>630</weight>
   </item>
@@ -58,35 +58,35 @@
      <path>civicrm/mailing/unsubscribe</path>
      <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>Unsubscribe</title>
-     <access_arguments>array( array( 'access CiviMail subscribe/unsubscribe pages' ))</access_arguments>
+     <access_arguments>access CiviMail subscribe/unsubscribe pages</access_arguments>
      <weight>640</weight>
   </item>
   <item>
      <path>civicrm/mailing/resubscribe</path>
      <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>Resubscribe</title>
-     <access_arguments>array( array( 'access CiviMail subscribe/unsubscribe pages' ))</access_arguments>
+     <access_arguments>access CiviMail subscribe/unsubscribe pages</access_arguments>
      <weight>645</weight>
   </item>
   <item>
      <path>civicrm/mailing/optout</path>
      <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>Optout</title>
-     <access_arguments>array( array( 'access CiviMail subscribe/unsubscribe pages' ))</access_arguments>
+     <access_arguments>access CiviMail subscribe/unsubscribe pages</access_arguments>
      <weight>650</weight>
   </item>
   <item>
      <path>civicrm/mailing/confirm</path>
      <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>Confirm</title>
-     <access_arguments>array( array( 'access CiviMail subscribe/unsubscribe pages' ))</access_arguments>
+     <access_arguments>access CiviMail subscribe/unsubscribe pages</access_arguments>
      <weight>660</weight>
   </item>
   <item>
      <path>civicrm/mailing/subscribe</path>
      <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>Subscribe</title>
-     <access_arguments>array( array( 'access CiviMail subscribe/unsubscribe pages' ))</access_arguments>
+     <access_arguments>access CiviMail subscribe/unsubscribe pages</access_arguments>
      <weight>660</weight>
   </item>
 </menu>

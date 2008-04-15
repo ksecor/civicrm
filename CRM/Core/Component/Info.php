@@ -179,7 +179,7 @@ abstract class CRM_Core_Component_Info
      */
     public function menuFiles( )
     {
-        return $this->info['files'] ? $this->info['files'] : array( );
+        return $this->info['menu'] ? $this->info['menu'] : array( );
     }
 
 

@@ -5,7 +5,7 @@
      <path>civicrm/grant</path>
      <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>CiviGrant</title>
-     <access_arguments>array( array( 'access CiviGrant' ))</access_arguments>
+     <access_arguments>access CiviGrant</access_arguments>
      <page_type>1</page_type>
      <weight>1000</weight>
      <component>CiviGrant</component>
@@ -13,14 +13,14 @@
   <item>
      <path>civicrm/grant/info</path>
      <path_arguments>array( 'reset' => 1)</path_arguments>
-     <access_arguments>array( array( 'access CiviGrant' ))</access_arguments>
+     <access_arguments>access CiviGrant</access_arguments>
      <weight>0</weight>
   </item>
   <item>
      <path>civicrm/grant/search</path>
      <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>Find Grants</title>
-     <access_arguments>array( array( 'access CiviGrant' ))</access_arguments>
+     <access_arguments>access CiviGrant</access_arguments>
      <page_type>1</page_type>
      <weight>1010</weight>
   </item>
@@ -28,7 +28,7 @@
      <path>civicrm/grant/add</path>
      <path_arguments>array( 'reset' => 1 'action' => 'add')</path_arguments>
      <title>New Grant</title>
-     <access_arguments>array( array( 'access CiviGrant' ))</access_arguments>
+     <access_arguments>access CiviGrant</access_arguments>
      <page_type>1</page_type>
      <weight>1030</weight>
   </item>
@@ -36,7 +36,7 @@
      <path>civicrm/grant/import</path>
      <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>Import Grants</title>
-     <access_arguments>array( array( 'access CiviGrant' ))</access_arguments>
+     <access_arguments>access CiviGrant</access_arguments>
      <page_type>1</page_type>
      <weight>1040</weight>
   </item>

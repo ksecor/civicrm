@@ -5,7 +5,7 @@
      <path>civicrm/import/contact</path>
      <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>Contacts</title>
-     <access_arguments>array(array('import contacts', 'access CiviCRM'))</access_arguments>
+     <access_arguments>import contacts,access CiviCRM</access_arguments>
      <page_type>1</page_type>
      <page_callback>CRM_Import_Controller</page_callback>
      <weight>410</weight>
@@ -14,7 +14,7 @@
      <path>civicrm/import/activity</path>
      <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>Activity</title>
-     <access_arguments>array(array('import contacts', 'access CiviCRM'))</access_arguments>
+     <access_arguments>import contacts,access CiviCRM</access_arguments>
      <page_type>1</page_type>
      <page_callback>CRM_Activity_Import_Controller</page_callback>
      <weight>420</weight>

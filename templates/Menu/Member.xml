@@ -5,7 +5,7 @@
      <path>civicrm/member</path>
      <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>CiviMember</title>
-     <access_arguments>array( array('access CiviMember'))</access_arguments>
+     <access_arguments>access CiviMember</access_arguments>
      <page_type>1</page_type>
      <weight>700</weight>
      <component>CiviMember</component>
@@ -38,7 +38,7 @@
      <path>civicrm/member/search</path>
      <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>Find Members</title>
-     <access_arguments>array( array('access CiviMember'))</access_arguments>
+     <access_arguments>access CiviMember</access_arguments>
      <page_type>1</page_type>
      <weight>710</weight>
   </item>
@@ -46,7 +46,7 @@
      <path>civicrm/member/import</path>
      <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>Import Members</title>
-     <access_arguments>array( array('access CiviMember'))</access_arguments>
+     <access_arguments>access CiviMember</access_arguments>
      <page_type>1</page_type>
      <weight>720</weight>
   </item>

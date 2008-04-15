@@ -5,7 +5,7 @@
      <path>civicrm/contribute</path>
      <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>CiviContribute</title>
-     <access_arguments>array( array('access CiviContribute'))</access_arguments>
+     <access_arguments>access CiviContribute</access_arguments>
      <page_type>1</page_type>
      <weight>500</weight>
      <component>CiviContribute</component>
@@ -14,7 +14,7 @@
      <path>civicrm/contribute/transact</path>
      <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>CiviContribute</title>
-     <access_arguments>array( array('make online contributions'))</access_arguments>
+     <access_arguments>make online contributions</access_arguments>
      <weight>0</weight>
   </item>
   <item>
@@ -72,7 +72,7 @@
      <path>civicrm/contribute/search</path>
      <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>Find Contributions</title>
-     <access_arguments>array( array('access CiviContribute'))</access_arguments>
+     <access_arguments>access CiviContribute</access_arguments>
      <page_type>1</page_type>
      <weight>510</weight>
   </item>
@@ -80,7 +80,7 @@
      <path>civicrm/contribute/import</path>
      <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>Import Contributions</title>
-     <access_arguments>array( array('administer CiviCRM','access CiviContribute'))</access_arguments>
+     <access_arguments>administer CiviCRM,access CiviContribute</access_arguments>
      <page_type>1</page_type>
      <weight>520</weight>
   </item>
@@ -88,7 +88,7 @@
      <path>civicrm/contribute/manage</path>
      <path_arguments>array( 'reset' => 1)</path_arguments>
      <title>Manage Contribution Pages</title>
-     <access_arguments>array( array('administer CiviCRM','access CiviContribute'))</access_arguments>
+     <access_arguments>administer CiviCRM,access CiviContribute</access_arguments>
      <page_type>1</page_type>
      <weight>530</weight>
   </item>

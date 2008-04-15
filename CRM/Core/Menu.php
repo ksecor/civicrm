@@ -111,7 +111,31 @@ class CRM_Core_Menu
             $menu[$path] = array( );
             unset( $item->path );
             foreach ( $item as $key => $value ) {
-                $menu[$path][(string ) $key] = (string ) $value;
+                $key   = (string ) $key;
+                $value = (string ) $value;
+                if ( strpos( $key, '_callback' ) &&
+                     strpos( $value, '::' ) ) {
+                    $value = explode( '::', $value );
+                } else if ( $key == 'access_arguments' ) {
+                    if ( strpos( $value, ',' ) ||
+                         strpos( $value, ';' ) ) {
+                        if ( strpos( $value, ',' ) ) {
+                            $elements = explode( ',', $value );
+                            $op = 'and';
+                        } else {
+                            $elements = explode( ';', $element );
+                            $op = 'or';
+                        }
+                        $items = array( );
+                        foreach ( $elements as $element ) {
+                            $items[] = $element;
+                        }
+                        $value = array( $items, $op );
+                    } else {
+                        $value = array( array( $value ), 'and' );
+                    }
+                }
+                $menu[$path][$key] = $value;
             }
         }
     }
@@ -124,7 +148,7 @@ class CRM_Core_Menu
      */
     static function &items( ) 
     {
-        //return self::xmlItems( );
+        return self::xmlItems( );
 
         if ( ! self::$_items ) {
             require_once 'CRM/Core/Permission.php';
