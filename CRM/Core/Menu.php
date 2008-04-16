@@ -459,7 +459,7 @@ class CRM_Core_Menu
                              'query'   => array('reset' => 1, 'group' => 'custom_search'),
                              'page_callback' => 'CRM_Admin_Page_Options',
                              'adminGroup' => ts('Customize'),
-                             'icon'    => 'admin/small/search.png',
+                             'icon'       => 'admin/small/template.png',
                              'weight'  => 30
                              ),
                        

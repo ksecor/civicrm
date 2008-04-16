@@ -38,7 +38,7 @@
      <path_arguments>group=custom_search</path_arguments>
      <page_callback>CRM_Admin_Page_Options</page_callback>
      <adminGroup>Customize</adminGroup>
-     <icon>admin/small/01.png</icon>
+     <icon>admin/small/template.png</icon>
      <weight>30</weight>
    </item>
    <item>
