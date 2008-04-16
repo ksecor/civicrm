@@ -452,6 +452,17 @@ class CRM_Core_Menu
                              'weight' => 21
                              ),
                        
+                       'civicrm/admin/options/custom_search' => 
+                       array(
+                             'title'   => ts('Register Custom Searches'),
+                             'desc'    => ts("Developers and accidental techies with a bit of PHP and SQL knowledge can create new search forms to handle specific search and reporting needs which aren't covered by the built-in Advanced Search and Search Builder features."), 
+                             'query'   => array('reset' => 1, 'group' => 'custom_search'),
+                             'page_callback' => 'CRM_Admin_Page_Options',
+                             'adminGroup' => ts('Customize'),
+                             'icon'    => 'admin/small/search.png',
+                             'weight'  => 30
+                             ),
+                       
                        'civicrm/admin/dedupefind' => array(
                            'title'      => ts('Find Duplicate Contacts'),
                            'desc'    => ts('Use configured duplicate matching rules to identify suspected duplicate contact records in your database.'),

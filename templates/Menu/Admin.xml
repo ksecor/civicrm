@@ -32,6 +32,16 @@
      <weight>21</weight>
   </item>
   <item>
+     <path>civicrm/admin/options/custom_search</path>
+     <title>Register Custom Searches</title>
+     <desc>Developers and accidental techies with a bit of PHP and SQL knowledge can create new search forms to handle specific search and reporting needs which aren't covered by the built-in Advanced Search and Search Builder features.</desc>
+     <path_arguments>group=custom_search</path_arguments>
+     <page_callback>CRM_Admin_Page_Options</page_callback>
+     <adminGroup>Customize</adminGroup>
+     <icon>admin/small/01.png</icon>
+     <weight>30</weight>
+   </item>
+   <item>
      <path>civicrm/admin/dedupefind</path>
      <title>Find Duplicate Contacts</title>
      <desc>Use configured duplicate matching rules to identify suspected duplicate contact records in your database.</desc>
