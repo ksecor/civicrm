@@ -166,6 +166,9 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
             $groupParams = array( 'name' => ($this->_gName) );
             if ( $this->_gName == 'custom_search' ) {
                 $params['label'] = str_replace( DIRECTORY_SEPARATOR , '_', $params['name'] );
+                if ( strstr( $params['label'], '.php' ) ) {
+                    $params['label'] = substr( $params['label'], 0, -4 );
+                }
             }
             require_once 'CRM/Core/OptionValue.php';
             $optionValue = CRM_Core_OptionValue::addOptionValue($params, $groupParams, $this->_action, $this->_id);
