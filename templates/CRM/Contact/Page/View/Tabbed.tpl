@@ -119,6 +119,9 @@
     {if $config->mapAPIKey AND $loc.address.geo_code_1 AND $loc.address.geo_code_2}
         <a href="{crmURL p='civicrm/contact/map' q="reset=1&cid=$contactId&lid=`$loc.location_type_id`"}" title="{ts}Map Primary Address{/ts}">{ts}Map this Address{/ts}</a><br />
     {/if}
+    {if $HouseholdName}
+    Household Address:<br />
+    {$HouseholdName}{/if}
     {$loc.address.display|nl2br}
   </div>
   <div class="spacer"></div>

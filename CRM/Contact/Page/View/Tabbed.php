@@ -106,7 +106,7 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
      * @access public
      */
     function view( ) 
-    {
+        {
         $params   = array( );
         $defaults = array( );
         $ids      = array( );
@@ -295,8 +295,16 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
      */
     function setShowHide( &$defaults ) {
         
-        $config =& CRM_Core_Config::singleton( ); 
-       
+        $config =& CRM_Core_Config::singleton( );
+        
+        if ( isset($defaults['mail_to_household_id']) ) {
+            $HouseholdName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', 
+                                                          $defaults['mail_to_household_id'], 
+                                                          'display_name', 
+                                                          'id' );
+            $this->assign( 'HouseholdName',$HouseholdName );
+        }
+        
         require_once 'CRM/Core/ShowHideBlocks.php';
         $showHide =& new CRM_Core_ShowHideBlocks();
         

@@ -120,8 +120,6 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
         $shared = null;
         if ( isset($_GET['sh']) ) {
             $shared = CRM_Utils_Type::escape( $_GET['sh'], 'Integer');
-            $fieldName = 'household_name';
-            $contactType = "'Household'";
         }
         
         $relType = null;
@@ -138,22 +136,25 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
         $organization = null;
         if ( isset($_GET['org']) ) {
             $organization = CRM_Utils_Type::escape( $_GET['org'], 'Integer');
-            $fieldName = "organization_name";
-            $contactType = "'Organization'";
         }
 
-        if ( $shared || $organization) {
+        if ( $organization ) {
 
             $query = "
-SELECT CONCAT_WS(':::',TRIM({$fieldName}),LEFT(street_address,25),city) 'sort_name', 
+SELECT CONCAT_WS(':::',TRIM(organization_name),LEFT(street_address,25),city) 'sort_name', 
 civicrm_contact.id id
 FROM civicrm_contact
 LEFT JOIN civicrm_address ON ( civicrm_contact.id = civicrm_address.contact_id
                                 AND civicrm_address.is_primary=1
                              )
-WHERE civicrm_contact.contact_type={$contactType} AND {$fieldName} LIKE '$contactName%'
+WHERE civicrm_contact.contact_type='Organization' AND organization_name LIKE '$contactName%'
 {$addStreet} {$addCity}
-ORDER BY {$fieldName} ";
+ORDER BY organization_name ";
+
+        } else if ( $shared ) {
+
+            $query = "
+SELECT CONCAT_WS(':::' , household_name , street_address , supplemental_address_1 , city , sp.abbreviation ,postal_code, cc.name , cw.name )'sort_name' , civicrm_contact.id 'id' , civicrm_contact.display_name 'disp' FROM civicrm_contact LEFT JOIN civicrm_address ON (civicrm_contact.id =civicrm_address.contact_id AND civicrm_address.is_primary =1 )LEFT JOIN civicrm_state_province sp ON (civicrm_address.state_province_id =sp.id )LEFT JOIN civicrm_country cc ON (civicrm_address.country_id =cc.id )LEFT JOIN civicrm_worldregion cw ON (cw.id =cc.region_id )WHERE civicrm_contact.contact_type ='Household' AND household_name LIKE '$name%' ORDER BY household_name ";
 
         } else if($relType) {
             
@@ -190,9 +191,17 @@ ORDER BY sort_name ";
         
         $elements = array( );
 
-        while ( $dao->fetch( ) ) {
-            $elements[] = array( 'name' => $dao->sort_name,
-                                 'id'   => $dao->id );
+        if ( $shared ) {
+            while ( $dao->fetch( ) ) {
+                $elements[] = array( 'name' => $dao->disp,
+                                     'id'   => $dao->sort_name,
+                                     );
+            }
+        } else {  
+            while ( $dao->fetch( ) ) {
+                $elements[] = array( 'name' => $dao->sort_name,
+                                     'id'   => $dao->id );
+            }
         }
         
         require_once "CRM/Utils/JSON.php";

@@ -302,6 +302,11 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
         $relationship->id = $id;
         
         $relationship->find(true);
+
+        //to delete relationship between household and individual
+        if ( $relationship->relationship_type_id == 7 ) {
+            self::deleteSharedAddress( $relationship->contact_id_a );
+        } 
         
         if ( CRM_Core_Permission::access( 'CiviMember' ) ) {
             // create $params array which isrequired to delete memberships
@@ -353,6 +358,12 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
             // calling relatedMemberships to delete/add the memberships of
             // related contacts.
             if ( $action & CRM_Core_Action::DISABLE ) {
+                
+                //to delete relationship between household and individual
+                if ( $relationship->relationship_type_id == 7 ) {
+                    self::deleteSharedAddress( $relationship->contact_id_a );
+                } 
+                
                 CRM_Contact_BAO_Relationship::relatedMemberships( $relationship->contact_id_a, $params, $ids,CRM_Core_Action::DELETE  );
             }
             if ( $action & CRM_Core_Action::ENABLE ) {
@@ -970,5 +981,19 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
             }
         }
     }
+
+    /**
+     * Function to delete 'Member of HouseHold' relationship for
+     * related contact ie. by setting 'mail_to_household' field to null of individual.
+     * 
+     * @param $id  Int     contact id of individual
+     * return- set 'mail_to_household' field to null
+     *
+     */ 
+
+    function deleteSharedAddress( $id )
+    {
+        return CRM_Core_DAO::setFieldValue('CRM_Contact_DAO_Contact', $id, 'mail_to_household_id','NULL' );
+    } 
 }
 

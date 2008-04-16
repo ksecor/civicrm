@@ -337,7 +337,7 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
             foreach ($rel as $key => $value) {
                 if ($value['relation'] == 'Employee of' && $value['is_active'] == 1 ) {
                     $query = 
-                        "SELECT CONCAT_WS(':::',organization_name,LEFT(street_address,25),city) 'sort_name',                          civicrm_contact.id id
+                        "SELECT CONCAT_WS(':::',organization_name,LEFT(street_address,25),city) 'sort_name', civicrm_contact.id id
                          FROM civicrm_contact
                          LEFT JOIN civicrm_address ON ( civicrm_contact.id = civicrm_address.contact_id
                                                         AND civicrm_address.is_primary=1
@@ -368,6 +368,13 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
                         
                         if ( !$countryValue && isset($value['address']['country_id']) ) {
                             $countryValue = $value['address']['country_id'];
+                            
+                            //retrive country by using country code for assigning country name to template
+                            $country = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Country', 
+                                                                    $countryValue, 
+                                                                    'name', 
+                                                                    'id' );
+                            $this->assign( "country" , $country );
                         }
                         
                         $this->assign( "country_{$key}_value"   ,  $countryValue );
@@ -378,6 +385,13 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
                         
                         if ( !$stateValue && isset($value['address']['state_province_id']) ) {
                             $stateValue = $value['address']['state_province_id'];
+                            
+                            //retrive country by using country code for assigning country name to template
+                            $state = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_StateProvince', 
+                                                                  $stateValue, 
+                                                                  'name', 
+                                                                  'id' );
+                            $this->assign( "state" , $state );
                         }
 
                         $this->assign( "state_province_{$key}_value", $stateValue );
@@ -665,14 +679,13 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
                 } elseif ( $params['shared_option'] ) {
                     CRM_Contact_Form_Individual::copyHouseholdAddress( $params );
                 }
-
                 // add/edit/delete the relation of individual with household, if use-household-address option is checked/unchecked.
-                CRM_Contact_Form_Individual::handleSharedRelation( $contact->id, $params );
+                CRM_Contact_Form_Individual::handleSharedRelation( $this->_contactId, $params );
             } else {
                 $params['mail_to_household_id'] = 'null';
             }
-        }
-
+        } 
+        
         require_once 'CRM/Contact/BAO/Contact.php';
         $contact =& CRM_Contact_BAO_Contact::create($params, true, false );
         
@@ -733,6 +746,7 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
         } else {
             CRM_Utils_Hook::post( 'create', $params['contact_type'], $contact->id, $contact );
         }
+        
     }
 
     /**
@@ -750,7 +764,7 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
         // grouped hence we'll use groups of HTML_QuickForm
 
         $privacy = array();
-
+       
         // checkboxes for DO NOT phone, email, mail
         // we take labels from SelectValues
         $t = CRM_Core_SelectValues::privacy();

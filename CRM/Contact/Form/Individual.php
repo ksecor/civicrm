@@ -127,10 +127,20 @@ class CRM_Contact_Form_Individual {
                                                                $form->_contactId, 
                                                                'mail_to_household_id', 
                                                                'id' );
-            if ( $mailToHouseholdID ) {
+            
+            if ( isset($mailToHouseholdID) ) {
+                $HouseholdName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', 
+                                                              $mailToHouseholdID , 
+                                                              'display_name', 
+                                                              'id' );
+                
+                if ( $HouseholdName ) {
+                    $this->assign( 'HouseholdName',$HouseholdName );
+                }
+                
                 $form->add('hidden', 'old_mail_to_household_id', $mailToHouseholdID);
                 $form->assign('old_mail_to_household_id', $mailToHouseholdID);
-
+                
                 $sharedOptionsExtra = array( 'onclick' => "showHideSharedOptions();
 resetByValue('shared_option',   '', $extraOnAddFlds, 'text', 'radio',   true );
 " );
@@ -144,11 +154,13 @@ resetByValue('shared_option',   '', $extraOnAddFlds, 'text', 'radio',   true );
 showHideByValue('use_household_address', 'true', 'confirm_shared_option', 'block', 'radio', false);
 resetByValue('use_household_address',        '', $extraOnAddFlds,          'text', 'radio', false);
 showHideSharedOptions();
+setDefaultAddress();
 " );
         } else {
             $useHouseholdExtra = array( 'onclick' => "
 showHideByValue('use_household_address', 'true', 'confirm_shared_option', 'block', 'radio', false);
 showHideSharedOptions();
+setDefaultAddress();
 " );
         }
         
@@ -163,12 +175,13 @@ showHideSharedOptions();
         $this->assign( 'dojoIncludes', " dojo.require('dojo.data.ItemFileReadStore'); dojo.require('dijit.form.ComboBox');dojo.require('dijit.form.FilteringSelect');dojo.require('dojo.parser');" );
         
         $domainID      =  CRM_Core_Config::domainID( );   
-        $attributes    = array( 'dojoType'     => 'dijit.form.ComboBox',
+        $attributes    = array( 'dojoType'     => 'civicrm.FilteringSelect',
                                 'mode'         => 'remote',
                                 'store'        => 'addressStore',
                                 'style'        => 'width:300px; border: 1px solid #cfcfcf;',
                                 'class'        => 'tundra',
-                                'pageSize'     => 10
+                                'pageSize'     => 10,
+                                'Onchange'     => 'showSharedHouseholdAddress()'
                                 );
 
         $dataURL =  CRM_Utils_System::url( 'civicrm/ajax/search',
@@ -177,10 +190,10 @@ showHideSharedOptions();
 
         $this->assign('dataURL',$dataURL );
         $attributes += CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Contact', 'sort_name' );
-
+     
         $form->add( 'text', 'shared_household', ts( 'Select Household' ), $attributes );
-        // shared address element-block Ends.
         
+        // shared address element-block Ends.
         $form->addElement('text', 'home_URL', ts('Website'),
                           array_merge( CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'home_URL'),
                                        array('onfocus' => "if (!this.value) this.value='http://'; else return false",
@@ -238,7 +251,7 @@ showHideSharedOptions();
     static function formRule( &$fields, &$files, $options ) 
     {
         $errors = array( );
-        
+             
         if ($fields['employer_option'] == 1 && !$fields['shared_employer'] ) {
             $errors['shared_employer'] =  ts('Please select an organization from the list ');
         } elseif ( isset($fields['employer_option']) && 
@@ -291,7 +304,7 @@ showHideSharedOptions();
         if ( CRM_Utils_Array::value('use_household_address',$fields) && !$fields['shared_household'] ) {
             if ( ! $fields['create_household'] ) {
                 if ( !array_key_exists( 'shared_option', $fields ) || $fields['shared_option'] ) {
-                    if ( !$fields['old_mail_to_household_id'] || $fields['shared_household'] ) {
+                    if ( !$fields['old_mail_to_household_id'] || !$fields['shared_household'] ) {
                         $errors["shared_household"] = 
                             ts("Please select a household from the 'Select Household' list");
                     }
@@ -341,7 +354,7 @@ showHideSharedOptions();
      * @static
      */
     static function copyHouseholdAddress( &$params ) 
-    {
+    { 
         if ( $params['shared_household'] ) {
             list($householdName) = 
                 explode( ":::", $params['shared_household'] );
@@ -367,7 +380,7 @@ showHideSharedOptions();
         $unsetFields = array( 'id', 'location_id', 'timezone', 'note' );
         foreach ( $unsetFields as $fld ) {
             unset( $params['location'][1]['address'][$fld] );
-        }
+        } 
     }
     
     /**
@@ -430,7 +443,7 @@ showHideSharedOptions();
             
             if ( $params['mail_to_household_id'] ) {
                 $ids = array('contact' => $params['mail_to_household_id'] );
-                
+                              
                 $relationshipParams = array();
                 $relationshipParams['relationship_type_id'] = $relID.'_b_a';
                 $relationshipParams['is_active']            = 1;
@@ -440,8 +453,8 @@ showHideSharedOptions();
                 $relationship->contact_id_a         = $contactID;
                 $relationship->relationship_type_id = $relID;
                 // if relationship already not present, add a new one
-                if ( !$relationship->find(true) ) {
-                    CRM_Contact_BAO_Relationship::add( $relationshipParams, $ids, $contactID );   
+                if ( !$relationship->find(true) ) { 
+                    CRM_Contact_BAO_Relationship::add( $relationshipParams, $ids, $contactID );
                 }
             }
         }
