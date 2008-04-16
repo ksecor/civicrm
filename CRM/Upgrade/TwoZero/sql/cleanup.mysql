@@ -81,6 +81,10 @@ DELETE cv.* FROM civicrm_custom_value cv
 LEFT JOIN civicrm_participant cp  ON cp.id=cv.entity_id
 WHERE (cp.id IS NULL AND cv.entity_table='civicrm_participant');
 
+DELETE cv.* FROM civicrm_custom_value cv
+LEFT JOIN civicrm_activity ca  ON cv.entity_id=ca.id
+WHERE (ca.id IS NULL AND cv.entity_table='civicrm_activity');
+
 -- clean civicrm_contribution
 
 DELETE pro.*
@@ -122,7 +126,9 @@ DELETE cp.* FROM civicrm_phonecall cp
 LEFT JOIN civicrm_contact cc ON cp.source_contact_id=cc.id 
 WHERE cc.id is NULL;
 
-
+DELETE cpc.* FROM civicrm_phonecall cpc
+LEFT JOIN civicrm_phone cp ON cpc.phone_id = cp.id 
+WHERE cp.id IS NULL;
 
 -- /******************************
 -- *
