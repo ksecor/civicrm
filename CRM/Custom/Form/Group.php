@@ -273,13 +273,14 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
     {
         // get the submitted form values.
         $params = $this->controller->exportValues('Group');
-        
+        $fieldLength =  CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'name');
+              
         // create custom group dao, populate fields and then save.           
         $group =& new CRM_Core_DAO_CustomGroup();
         $group->title            = $params['title'];
-        $group->name             = CRM_Utils_String::titleToVar($params['title']);
+        $group->name             = CRM_Utils_String::titleToVar($params['title'], $fieldLength['maxlength'] );
         $group->extends          = $params['extends'][0];
-        
+
         if ( ($params['extends'][0] == 'Relationship') && !empty($params['extends'][1])) {
             $group->extends_entity_column_value = str_replace( array('_a_b', '_b_a'), array('', ''), $params['extends'][1]);
         } elseif ( empty($params['extends'][1]) ) {

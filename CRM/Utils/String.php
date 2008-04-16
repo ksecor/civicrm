@@ -65,10 +65,10 @@ class CRM_Utils_String {
      * @return string (or null)
      * @static
      */
-    static function titleToVar( $title ) {
+    static function titleToVar( $title, $maxLength = 31 ) {
         $variable = self::munge( $title );
-
-        if ( CRM_Utils_Rule::variable( $variable ) ) {
+      
+        if ( CRM_Utils_Rule::title( $variable, $maxLength ) ) {
             return $variable;
         }
       
