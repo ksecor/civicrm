@@ -2,11 +2,6 @@
 
 <menu>
   <item>
-     <path>civicrm/group</path>
-     <title>View Groups</title>
-     <page_callback>CRM_Group_Page_Group</page_callback>
-  </item>
-  <item>
      <path>civicrm/group/search</path>
      <title>Group Members</title>
      <page_callback>CRM_Core_Invoke::search</page_callback>

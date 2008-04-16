@@ -64,7 +64,8 @@ class CRM_Core_Invoke
         if ( $args[1] == 'menu' && 
              $args[2] == 'rebuild' ) {
             CRM_Core_Menu::store( );
-            return ts( 'Menu has been rebuilt' );
+            CRM_Core_Session::setStatus( ts( 'Menu has been rebuilt' ) );
+            return CRM_Utils_System::redirect(CRM_Utils_System::url('civicrm', 'reset=1'));
         }
 
         $config =& CRM_Core_Config::singleton( );

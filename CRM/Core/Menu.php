@@ -1281,7 +1281,8 @@ class CRM_Core_Menu
     /**
      * Get the breadcrumb for a given path.
      *
-     * @param  array  $params An array of all the menu items - optional
+     * @param  array   $menu   An array of all the menu items.
+     * @param  string  $path   Path for which breadcrumb is to be build.
      *
      * @return array  The breadcrumb for this path
      *
@@ -1289,42 +1290,20 @@ class CRM_Core_Menu
      * @access public
      */
     static function buildBreadcrumb( &$menu, $path ) {
-        static $cache = array( );
-
         $crumbs       = array( );
+
         $pathElements = explode('/', $path);
-        
         array_pop( $pathElements );
-
+        
         while ( $newPath = array_shift($pathElements) ) {
-
             $currentPath = $currentPath ? ($currentPath . '/' . $newPath) : $newPath;
-
-            // check if current-path exists in params.
+            
+            // add to crumb, if current-path exists in params.
             if ( array_key_exists($currentPath, $menu) && isset($menu[$currentPath]['title']) ) {
                 $crumbs[] = array('title' => $menu[$currentPath]['title'], 
                                   'url'   => CRM_Utils_System::url( $currentPath ));
-                // store in cache
-                $cache[$currentPath]['title'] = $menu[$currentPath]['title'];
-
-            } else if ( array_key_exists($currentPath, $cache) ) {
-                // pick-up from cache
-                $crumbs[] = array('title' => $cache[$currentPath]['title'], 
-                                  'url'   => CRM_Utils_System::url( $currentPath ));
-
-            } else {
-                // if current-path not found in params AND cache, look into DB
-                $currentPathParams = self::get($currentPath);
-                if ( $currentPathParams  && 
-                     isset($currentPathParams['title'] ) ) {
-                    $crumbs[] = array('title' => $currentPathParams['title'], 
-                                      'url'   => CRM_Utils_System::url( $currentPath ));
-                    // store in cache
-                    $cache[$currentPath]['title'] = $currentPathParams['title'];
-                }
             }
         }
-
         $menu[$path]['breadcrumb'] = $crumbs;
 
         return $crumbs;
