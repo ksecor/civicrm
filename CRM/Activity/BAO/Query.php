@@ -83,6 +83,7 @@ class CRM_Activity_BAO_Query
     static function whereClauseSingle( &$values, &$query ) 
     {
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
+        // CRM_Core_Error::debug( '$name', $name );
         
         switch( $name ) {
             
@@ -130,14 +131,14 @@ class CRM_Activity_BAO_Query
             $query->_tables['civicrm_phonecall'] = $query->_whereTables['civicrm_phonecall'] = 1;
             return;
 
-        case 'activity_subject':
-            $value = strtolower(addslashes(trim($value)));
-            $query->_where[$grouping][] = "(civicrm_meeting.subject $op '{$value}' OR civicrm_activity.subject $op '{$value}' OR civicrm_phonecall.subject $op '{$value}')";
-            $query->_qill[$grouping ][] = ts( 'Case Activity Subject %2 %1', array( 1 => $value, 2 => $op) );
-            $query->_tables['civicrm_meeting']   = $query->_whereTables['civicrm_meeting'] = 1;
-            $query->_tables['civicrm_activity']  = $query->_whereTables['civicrm_activity'] = 1;
-            $query->_tables['civicrm_phonecall'] = $query->_whereTables['civicrm_phonecall'] = 1;
-            return;
+       //  case 'activity_subject':
+//             $value = strtolower(addslashes(trim($value)));
+//             $query->_where[$grouping][] = "(civicrm_meeting.subject $op '{$value}' OR civicrm_activity.subject $op '{$value}' OR civicrm_phonecall.subject $op '{$value}')";
+//             $query->_qill[$grouping ][] = ts( 'Case Activity Subject %2 %1', array( 1 => $value, 2 => $op) );
+//             $query->_tables['civicrm_meeting']   = $query->_whereTables['civicrm_meeting'] = 1;
+//             $query->_tables['civicrm_activity']  = $query->_whereTables['civicrm_activity'] = 1;
+//             $query->_tables['civicrm_phonecall'] = $query->_whereTables['civicrm_phonecall'] = 1;
+//             return;
 
         case 'activity_start_date_low':
         case 'activity_start_date_high':

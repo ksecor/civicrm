@@ -245,7 +245,14 @@ class CRM_Contact_BAO_Query
      * @static
      */
     static $_relType;
-
+    
+    /**
+     * the activity role
+     *
+     * @var array
+     * @static
+     */
+    static $_activityRole;
     /**
      * The tables which have a dependency on location and/or address
      *
@@ -1016,7 +1023,15 @@ class CRM_Contact_BAO_Query
         case 'activity_date_low':
         case 'activity_date_high':
         case 'activity_type_id':
+        case 'activity_role':
+          
+        case 'activity_status':
+        case 'activity_subject':
+        case 'test_activities':    
             $this->activity( $values );
+            return;
+        case 'activity_target_name':
+            // since this case is handled with the above
             return;
         case 'birth_date_low':
         case 'birth_date_high': 
@@ -1599,8 +1614,15 @@ class CRM_Contact_BAO_Query
                 continue;
 
             case 'civicrm_activity':
-                $from .= " $side JOIN civicrm_activity_target ON civicrm_activity_target.target_contact_id = contact_a.id ";
-                $from .= " $side JOIN civicrm_activity ON civicrm_activity.id = civicrm_activity_target.activity_id ";
+                if (  self::$_activityRole == 0 ) {
+                    $from .= " $side JOIN civicrm_activity_target ON civicrm_activity_target.target_contact_id = contact_a.id ";
+                    $from .= " $side JOIN civicrm_activity ON civicrm_activity.id = civicrm_activity_target.activity_id ";
+                } else if (  self::$_activityRole == 1 ) {
+                    $from .= " $side JOIN civicrm_activity ON civicrm_activity.source_contact_id = contact_a.id ";
+                } else {
+                    $from .= " $side JOIN civicrm_activity_assignment ON civicrm_activity_assignment.assignee_contact_id = contact_a.id ";
+                    $from .= " $side JOIN civicrm_activity ON civicrm_activity.id = civicrm_activity_assignment.activity_id ";
+                }
                 continue;
 
             case 'civicrm_entity_tag':
@@ -1928,7 +1950,7 @@ class CRM_Contact_BAO_Query
      */
     function notes( &$values ) {
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
-        
+       
         $this->_useDistinct = true;
 
         $this->_tables['civicrm_note'] = $this->_whereTables['civicrm_note'] =
@@ -2212,19 +2234,85 @@ class CRM_Contact_BAO_Query
     function activity( &$values ) 
     {
         $this->_useDistinct = true;
-
-        $types = CRM_Core_PseudoConstant::activityType( );
        
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
-
+       
         $this->_tables['civicrm_activity'] = $this->_whereTables['civicrm_activity'] = 1;
             
         switch ( $name ) {
         case 'activity_type_id':
+            $types  = CRM_Core_PseudoConstant::activityType( );
             $this->_where[$grouping][] = " civicrm_activity.activity_type_id = {$value}";
             $this->_qill[$grouping][]  = ts( 'Activity Type') . " $op '$types[$value]'";
             break;
+        case 'activity_role':
+            self::$_activityRole = $values[2];
+             
+            //for activity target name
+            $activityTargetName = $this->getWhereValues( 'activity_target_name', $grouping );
+            if ( !$activityTargetName[2] ) {
+                $name = null;
+            } else {
+                $name = trim( $activityTargetName[2] );
+                $name = strtolower( addslashes( $name ) );
+            }
+            $this->_where[$grouping][] = " LOWER( contact_a.sort_name ) LIKE '%{$name}%'";
+           
+            if ( $values[2] == 0) {
+                $this->_where[$grouping][] = " civicrm_activity_target.activity_id = civicrm_activity.id AND civicrm_activity_target.target_contact_id = contact_a.id";
+                $query->_tables['civicrm_activity_target']   = $query->_whereTables['civicrm_activity_target'] = 1;
+                $this->_qill[$grouping][]  = ts( 'Activity with').  " '$name'";
+                
+            } else if ( $values[2] == 1) {
+                $this->_where[$grouping][] = " civicrm_activity.source_contact_id = contact_a.id";
+                $this->_qill[$grouping][]  = ts( 'Activity created by').  " '$name'";
+                
+            }else {
+                $this->_where[$grouping][] = " civicrm_activity_assignment.activity_id = civicrm_activity.id AND civicrm_activity_assignment.assignee_contact_id = contact_a.id";
+                $query->_tables['civicrm_activity_assignment']   = $query->_whereTables['civicrm_activity_assignment'] = 1;
+                $this->_qill[$grouping][]  = ts( 'Activity assigned to').  " '$name'";
+            }
             
+            break;
+       
+        case 'activity_status':
+            $status = CRM_Core_PseudoConstant::activityStatus( );
+            $clause = array( );
+            if ( is_array( $value ) ) {
+                foreach ( $value as $k => $v) { 
+                    if ($k) { 
+                        $clause[] = "'" . CRM_Utils_Type::escape( $status[$k], 'String' ) . "'";
+                    }
+                }
+            } else {
+                $clause[] = "'" . CRM_Utils_Type::escape( $value, 'String' ) . "'";
+            }
+            $this->_where[$grouping][] = ' civicrm_activity.status_id IN (' .
+                implode( ',', array_keys( $value ) ) .
+                ')';
+            $this->_qill [$grouping][]  = ts('Activity Status') . ' - ' . implode( ' ' . ts('or') . ' ',  $clause);
+            break;   
+        case 'activity_subject':
+            $n = trim( $value );
+            $value = strtolower(addslashes($n));
+            if ( $wildcard ) {
+                if ( strpos( $value, '%' ) ) {
+                    // only add wild card if not there
+                    $value = "'$value'";
+                } else {
+                    $value = "'%$value%'";
+                }
+                $op    = 'LIKE';
+            } else {
+                $value = "'$value'";
+            }
+            $this->_where[$grouping][] = " LOWER(civicrm_activity.subject) $op $value";
+            $this->_qill[$grouping][]  = ts( 'Subject' ) . " $op - '$n'";
+            break;       
+        case 'test_activities':
+            $this->_where[$grouping][] = " civicrm_activity.is_test = {$value}";
+            $this->_qill[$grouping][]  = ts( 'Find Test Activities' );
+            break;    
         case 'activity_date':
         case 'activity_date_low':
         case 'activity_date_high':

@@ -183,6 +183,23 @@ class CRM_Contact_Form_Search_Criteria {
 
         $form->add('date', 'activity_date_high', ts('To'), CRM_Core_SelectValues::date('relative'));
         $form->addRule('activity_date_high', ts('Select a valid date.'), 'qfDate');
+        
+        $activityRoles  = array( ts('With'), ts('Created by'), ts('Assigned to') );
+        $form->addRadio( 'activity_role', ts( 'Activity Role' ), $activityRoles, null, '<br />');
+        $form->setDefaults(array('activity_role' => 0));
+        
+        $form->addElement('text', 'activity_target_name', ts('Target Contact'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
+       
+        $activityStatus = CRM_Core_PseudoConstant::activityStatus( );
+        foreach ($activityStatus as $activityStatusID => $activityStatusName) {
+            $activity_status[] = HTML_QuickForm::createElement('checkbox', $activityStatusID, null, $activityStatusName);
+        }
+        $form->addGroup($activity_status, 'activity_status', ts('Activity Status'));
+        $form->setDefaults(array('activity_status[1]' => 1, 'activity_status[2]' => 1));
+
+        $form->addElement('text', 'activity_subject', ts('Subject'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name'));
+
+        $form->addElement('checkbox', 'test_activities', ts('Find Test Activities?'));
     }
 
     static function changeLog( &$form ) {
