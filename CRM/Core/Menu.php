@@ -1106,8 +1106,11 @@ class CRM_Core_Menu
             }
 
             if ( $item['page_type'] ==  CRM_Core_Menu::MENU_ITEM ) {
+                $query = CRM_Utils_Array::value( 'path_arguments', $item ) 
+                    ? str_replace(',', '&', $item['path_arguments']) . '&reset=1' : 'reset=1';
+                
                 $value = array( );
-                $value['url'  ]  = CRM_Utils_System::url( $path, CRM_Utils_Array::value( 'query', $item ) );
+                $value['url'  ]  = CRM_Utils_System::url( $path, $query );
                 $value['title']  = $item['title'];
                 $value['path']   = $path;
                 $value['access_callback' ] = $item['access_callback' ];
@@ -1150,7 +1153,7 @@ class CRM_Core_Menu
                 continue;
             }
 
-            $url = CRM_Utils_Array::value( 'path_arguments', $item ) 
+            $query = CRM_Utils_Array::value( 'path_arguments', $item ) 
                 ? str_replace(',', '&', $item['path_arguments']) . '&reset=1' : 'reset=1';
             
             $value = array( 'title' => $item['title'],
@@ -1159,7 +1162,7 @@ class CRM_Core_Menu
                                                                    ','=>'_', '/'=>'_' 
                                                                    )
                                              ),
-                            'url'   => CRM_Utils_System::url( $path, $url ), 
+                            'url'   => CRM_Utils_System::url( $path, $query ), 
                             'icon'  => $item['icon'],
                             'extra' => CRM_Utils_Array::value( 'extra', $item ) );
             if ( ! array_key_exists( $item['adminGroup'], $values ) ) {

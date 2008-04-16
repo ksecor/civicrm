@@ -109,7 +109,7 @@ class CRM_Core_Invoke
                 if ( ! CRM_Core_Permission::checkMenuItem( $item ) ) {
                     CRM_Utils_System::permissionDenied( );
                 }
-
+                
                 CRM_Utils_System::setTitle( $item['title'] );
                 CRM_Utils_System::appendBreadCrumb( $item['breadcrumb'] );
                 
@@ -128,13 +128,14 @@ class CRM_Core_Invoke
                                           $item['title'], null );
                 } else {
                     // page and controller have the same style
+                    $newArgs = explode( '/', $_GET['q'] );
                     require_once( str_replace( '_',
                                                DIRECTORY_SEPARATOR,
                                                $item['page_callback'] ) . '.php' );
                     eval( '$page = new ' .
                           $item['page_callback'] .
                           ' ( );' );
-                    return $page->run( $args, CRM_Utils_Array::value('page_arguments', $item, null) );
+                    return $page->run( $newArgs, CRM_Utils_Array::value('page_arguments', $item, null) );
                 }
             }
             array_pop( $args );
