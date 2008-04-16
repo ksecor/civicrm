@@ -118,7 +118,9 @@ class CRM_Core_Invoke
                     // removed when all the methods have been removed from
                     // this invoke file. 
                     $newArgs = explode( '/', $_GET['q'] );
-                    require_once 'CRM/Utils/Weight.php';
+                    require_once( str_replace( '_',
+                                               DIRECTORY_SEPARATOR,
+                                               $item['page_callback'][0] ) . '.php' );
                     call_user_func( $item['page_callback'],
                                     $newArgs );
                     return;
@@ -132,7 +134,7 @@ class CRM_Core_Invoke
                     require_once( str_replace( '_',
                                                DIRECTORY_SEPARATOR,
                                                $item['page_callback'] ) . '.php' );
-                    eval( '$page = new ' .
+                    eval( '$page =& new ' .
                           $item['page_callback'] .
                           ' ( );' );
                     return $page->run( $newArgs, CRM_Utils_Array::value('page_arguments', $item, null) );

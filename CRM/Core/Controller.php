@@ -221,8 +221,7 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
         // to the appropriate place
         $this->wizardHeader( $pageName );
         $this->_pages[$pageName]->handle($action);
-
-        return $pageName;
+        return;
     }
 
     function validate( ) {
