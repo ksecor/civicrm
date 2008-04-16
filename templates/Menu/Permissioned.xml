@@ -64,13 +64,6 @@
      <weight>0</weight>
   </item>
   <item>
-     <path>civicrm/profile</path>
-     <title>Contact Information</title>
-     <access_callback>1</access_callback>
-     <page_callback>CRM_Profile_Page_Listings</page_callback>
-     <weight>0</weight>
-  </item>
-  <item>
      <path>civicrm/user</path>
      <title>Contact Dashboard</title>
      <saccess_arguments>access Contact Dashboard</saccess_arguments>

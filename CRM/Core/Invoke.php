@@ -105,9 +105,11 @@ class CRM_Core_Invoke
                     CRM_Core_Error::fatal( ts( 'Bad menu record in database' ) );
                 }
 
+
                 // check that we are permissioned to access this page
                 if ( ! CRM_Core_Permission::checkMenuItem( $item ) ) {
                     CRM_Utils_System::permissionDenied( );
+                    return;
                 }
                 
                 CRM_Utils_System::setTitle( $item['title'] );
