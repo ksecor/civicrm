@@ -81,21 +81,19 @@
       <type>decimal</type>
       <required>true</required>
       <dataPattern>/^\d+(\.\d{2})?$/</dataPattern>
-      <comment>Total amount, in default currency.</comment>
+      <comment>Requested grant amount, in default currency.</comment>
       <add>1.8</add>
   </field>
   <field>
       <name>amount_requested</name>
       <type>decimal</type>
-      <required>true</required>
       <dataPattern>/^\d+(\.\d{2})?$/</dataPattern>
-      <comment>Requested amount, in default currency.</comment>
+      <comment>Requested grant amount, in original currency (optional).</comment>
       <add>1.8</add>
   </field>
   <field>
       <name>amount_granted</name>
       <type>decimal</type>
-      <required>true</required>
       <dataPattern>/^\d+(\.\d{2})?$/</dataPattern>
       <comment>Granted amount, in default currency.</comment>
       <add>1.8</add>
