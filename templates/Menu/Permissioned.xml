@@ -26,6 +26,24 @@
      <weight>0</weight>
   </item>
   <item>
+     <path>civicrm/upgrade</path>
+     <title>Upgrade 2.0 => 2.1</title>
+     <page_callback>CRM_Upgrade_TwoOne_Controller</page_callback>
+     <access_arguments>access CiviCRM</access_arguments>
+  </item>
+  <item>
+     <path>civicrm/activity</path>
+     <title>New Activity</title>
+     <page_callback>CRM_Activity_Form_Activity</page_callback>
+     <access_arguments>access CiviCRM</access_arguments>
+  </item>
+  <item>
+     <path>civicrm/activity/view</path>
+     <title>View Activity</title>
+     <page_callback>CRM_Activity_Form_ActivityView</page_callback>
+     <access_arguments>access CiviCRM</access_arguments>
+  </item>
+  <item>
      <path>civicrm/contact/map/event</path>
      <title>Map Event Location</title>
      <page_callback>CRM_Contact_Form_Task_Map_Event</page_callback>
@@ -61,7 +79,6 @@
      <title>Browse Uploaded files</title>
      <access_arguments>access uploaded files</access_arguments>
      <page_callback>CRM_Core_Page_File</page_callback>
-     <weight>0</weight>
   </item>
   <item>
      <path>civicrm/user</path>
@@ -75,7 +92,6 @@
      <title>Tell a Friend</title>
      <access_arguments>make online contributions;register for events</access_arguments>
      <page_callback>CRM_Friend_Form</page_callback>
-     <weight>0</weight>
   </item>
   <item>
      <path>civicrm/logout</path>
@@ -155,15 +171,6 @@
      <weight>385</weight>
   </item>
   <item>
-     <path>civicrm/admin/price</path>
-     <title>Price Sets</title>
-     <desc>Price sets allow you to offer multiple options with associated fees (e.g. pre-conference workshops, additional meals, etc.). Configure Price Sets for events which need more than a single set of fee levels.</desc>
-     <access_arguments>administer CiviCRM,access CiviEvent</access_arguments>
-     <adminGroup>CiviEvent</adminGroup>
-     <icon>admin/small/price_sets.png</icon>
-     <weight>386</weight>
-  </item>
-  <item>
      <path>civicrm/event/search</path>
      <title>Find Participants</title>
      <access_arguments>access CiviEvent</access_arguments>
@@ -229,6 +236,21 @@
      <adminGroup>CiviContribute</adminGroup>
      <icon>admin/small/contribution_types.png</icon>
      <weight>370</weight>
+  </item>
+  <item>
+     <path>civicrm/admin/options</path>
+     <title>Option Groups</title>
+     <page_callback>CRM_Admin_Page_OptionGroup</page_callback>
+  </item>
+  <item>
+     <path>civicrm/admin/optionGroup</path>
+     <title>Option Groups</title>
+     <page_callback>CRM_Admin_Page_OptionGroup</page_callback>
+  </item>
+  <item>
+     <path>civicrm/admin/optionValue</path>
+     <title>Option Values</title>
+     <page_callback>CRM_Admin_Page_OptionValue</page_callback>
   </item>
   <item>
      <path>civicrm/admin/options/payment_instrument</path>
@@ -326,24 +348,6 @@
      <page_type>1</page_type>
      <weight>600</weight>
      <component>CiviMail</component>
-  </item>
-  <item>
-     <path>civicrm/admin/mail</path>
-     <title>Mailer Settings</title>
-     <desc>Configure spool period, throttling and other mailer settings.</desc>
-     <access_arguments>access CiviMail</access_arguments>
-     <adminGroup>CiviMail</adminGroup>
-     <icon>admin/small/07.png</icon>
-     <weight>400</weight>
-  </item>
-  <item>
-     <path>civicrm/admin/component</path>
-     <title>Headers, Footers, and Automated Messages</title>
-     <desc>Configure the header and footer used for mailings. Customize the content of automated Subscribe, Unsubscribe, Resubscribe and Opt-out messages.</desc>
-     <access_arguments>access CiviMail</access_arguments>
-     <adminGroup>CiviMail</adminGroup>
-     <icon>admin/small/Profile.png</icon>
-     <weight>410</weight>
   </item>
   <item>
      <path>civicrm/mailing/send</path>

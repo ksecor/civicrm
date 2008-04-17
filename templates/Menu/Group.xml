@@ -10,6 +10,5 @@
      <path>civicrm/group/add</path>
      <title>Create New Group</title>
      <page_callback>CRM_Group_Controller</page_callback>
-     <weight>0</weight>
   </item>
 </menu>

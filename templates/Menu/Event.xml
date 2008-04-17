@@ -92,12 +92,12 @@
   </item>
   <item>
      <path>civicrm/admin/price/field</path>
-     <title>Price Field</title>
+     <title>Price Fields</title>
      <page_callback>CRM_Price_Page_Field</page_callback>
   </item>
   <item>
      <path>civicrm/admin/price/field/option</path>
-     <title>Option Field</title>
+     <title>Price Field Options</title>
      <page_callback>CRM_Price_Page_Option</page_callback>
   </item>
   <item>

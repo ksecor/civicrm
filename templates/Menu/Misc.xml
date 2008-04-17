@@ -9,6 +9,24 @@
   <item>
      <path>civicrm/acl</path>
      <title>Manage ACLs</title>
-     <weight>0</weight>
+     <page_callback>CRM_ACL_Page_ACL</page_callback>
+     <access_arguments>administer CiviCRM,access CiviCRM</access_arguments>
+  </item>
+  <item>
+     <path>civicrm/acl/entityrole</path>
+     <title>ACL Roles</title>
+     <page_callback>CRM_ACL_Page_EntityRole</page_callback>
+     <access_arguments>administer CiviCRM,access CiviCRM</access_arguments>
+  </item>
+  <item>
+     <path>civicrm/acl/basic</path>
+     <title>ACL</title>
+     <page_callback>CRM_ACL_Page_ACLBasic</page_callback>
+     <access_arguments>administer CiviCRM,access CiviCRM</access_arguments>
+  </item>
+  <item>
+     <path>civicrm/standalone</path>
+     <title>Registration Page</title>
+     <page_callback>CRM_Standalone_Form_Register</page_callback>
   </item>
 </menu>
