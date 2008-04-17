@@ -438,7 +438,9 @@ INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
         $location = CRM_Core_BAO_Location::create( $params, $fixAddress );
         
         $contact->location = $location;
-	
+        //get userID from session
+        $session =& CRM_Core_Session::singleton( );
+        $userID  = $session->get( 'userID' );
         // add notes
         if ( CRM_Utils_Array::value( 'note', $params ) ) {
             if (is_array($params['note'])) {
@@ -446,6 +448,10 @@ INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
                     $contactId = $contact->id;
                     if ( isset( $note['contact_id'] ) ) {
                         $contactId = $note['contact_id'];
+                    }
+                    //if logged in user, overwrite contactId
+                    if ( $userID ) {
+                        $contactId = $userID;
                     }
                     
                     $noteParams = array(
@@ -460,6 +466,10 @@ INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
                 $contactId = $contact->id;
                 if ( isset( $note['contact_id'] ) ) {
                     $contactId = $note['contact_id'];
+                }
+                //if logged in user, overwrite contactId
+                if ( $userID ) {
+                    $contactId = $userID;
                 }
                 
                 $noteParams = array(
