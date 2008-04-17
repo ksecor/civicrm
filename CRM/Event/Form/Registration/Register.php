@@ -301,6 +301,25 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
     {
         //To check if the user is already registered for the event(CRM-2426)
         self::checkRegistration($fields, $self);
+        //check for atleast one pricefields should be selected
+        if ( $fields['priceSetId'] ) {
+            $priceField = new CRM_Core_DAO_PriceField( );
+            $priceField->price_set_id = $fields['priceSetId'];
+            $priceField->find( );
+            
+            $check = array( );
+            
+            while ( $priceField->fetch( ) ) {
+                if ( ! empty( $fields["price_{$priceField->id}"] ) ) {
+                    $check[] = $priceField->id; 
+                }
+            }
+            
+            if ( empty( $check ) ) {
+                $errors['_qf_default'] = ts( "Select atleast one option from Event Fee(s)" );
+            }
+        }
+
         if ( $self->_values['event']['is_monetary'] ) {
             $payment =& CRM_Core_Payment::singleton( $self->_mode, 'Event', $self->_paymentProcessor );
             $error   =  $payment->checkConfig( $self->_mode );
@@ -386,7 +405,12 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                     return empty( $errors ) ? true : $errors;
                 }
             }
-
+            //is pay later and priceset is used avoid credit card and
+            //billing address validation  
+            if ( CRM_Utils_Array::value( 'is_pay_later', $fields ) && $fields['priceSetId'] ) {
+                return empty( $errors ) ? true : $errors;
+            }
+            
             foreach ( $self->_fields as $name => $fld ) {
                 if ( $fld['is_required'] &&
                      CRM_Utils_System::isNull( CRM_Utils_Array::value( $name, $fields ) ) ) {
@@ -407,24 +431,6 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             if ( CRM_Utils_Array::value( 'cvv2', $fields ) &&
                  ! CRM_Utils_Rule::cvv( $fields['cvv2'], $fields['credit_card_type'] ) ) {
                 $errors['cvv2'] =  ts( "Please enter a valid Credit Card Verification Number" );
-            }
-        }
-        
-        if ( $fields['priceSetId'] ) {
-            $priceField = new CRM_Core_DAO_PriceField( );
-            $priceField->price_set_id = $fields['priceSetId'];
-            $priceField->find( );
-            
-            $check = array( );
-            
-            while ( $priceField->fetch( ) ) {
-                if ( ! empty( $fields["price_{$priceField->id}"] ) ) {
-                    $check[] = $priceField->id; 
-                }
-            }
-            
-            if ( empty( $check ) ) {
-                $errors['_qf_default'] = ts( "Select atleast one option from Event Fee(s)" );
             }
         }
         
