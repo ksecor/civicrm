@@ -60,7 +60,7 @@ function &civicrm_group_add( &$params )
     }
    
     if ( ( ! CRM_Utils_Array::value('id', $params ) ) &&
-         ( ! CRM_Utils_Array::value('name', $params ) ) ) {
+         ( ! CRM_Utils_Array::value('title', $params ) ) ) {
         return civicrm_create_error( 'Required parameter missing' );
     }
         

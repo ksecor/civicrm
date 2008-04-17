@@ -12,11 +12,6 @@ class TestOfGroupCreateAPIV2 extends CiviUnitTestCase
 {
     protected $_groupID;
     
-    function setUp( ) 
-    {
-        
-    }
-        
     function tearDown( ) 
     {
         if ( $this->_groupID ) {
@@ -87,7 +82,7 @@ class TestOfGroupCreateAPIV2 extends CiviUnitTestCase
                         );
         
         $result = civicrm_group_add( $params );
-        $this->assertEqual( $result['error_message'], 'Required parameter missing' );
+        $this->assertDBState( 'CRM_Contact_DAO_Group', $result['result'], $params );
         $this->_groupID = $result['result'];
     }
     
@@ -107,13 +102,11 @@ class TestOfGroupCreateAPIV2 extends CiviUnitTestCase
         $this->assertDBState( 'CRM_Contact_DAO_Group', $result['result'], $params );
     }
     
-    function testUpdateGroup( )
+    function testUpdateGroupWithoutNameTitle( )
     {
         $this->_groupID = $this->groupCreate();
         $params = array(
                         'domain_id'   => 1,
-                        'name'        => 'Test Group 1',
-                        'title'       => 'New Test titleGroup updated',
                         'description' => 'New Test description Group updated',
                         'is_active'   => 1,
                         'visibility'  => 'Public User Pages and Listings',

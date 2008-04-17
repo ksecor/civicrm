@@ -67,7 +67,8 @@ class CRM_Utils_String {
      */
     static function titleToVar( $title ) {
         $variable = self::munge( $title );
-
+        
+        require_once "CRM/Utils/Rule.php";
         if ( CRM_Utils_Rule::variable( $variable ) ) {
             return $variable;
         }
