@@ -164,6 +164,17 @@ $fd = fopen( $sqlCodePath . "civicrm_sample.mysql", "w" );
 fputs( $fd, $sample );
 fclose( $fd );
 
+
+// including civicrm_uf.tpl in civicrm_sample.tpl, was giving error
+// hence doing the same process for civicrm_uf.tpl as that of
+// civicrm_sample.tpl and appending the tha contents to
+// civicrm_sample.mysql
+$sample = file_get_contents( $smarty->template_dir . '/civicrm_uf.tpl' );
+$sample = str_replace( '%%CIVICRM_DOMAIN_ID%%', 1, $sample );
+$fd = fopen( $sqlCodePath . "civicrm_sample.mysql", "a" );
+fputs( $fd, $sample );
+fclose( $fd );
+
 $beautifier =& new PHP_Beautifier(); // create a instance
 $beautifier->addFilter('ArrayNested');
 $beautifier->addFilter('Pear'); // add one or more filters

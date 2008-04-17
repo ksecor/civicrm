@@ -16,8 +16,6 @@ VALUES
     (@option_cpage_id,   'Booster','10.00',3,1,1),
     (@option_cpage_id,   'Sustainer','50.00',4,1,0);
     
-{include file="civicrm_uf.tpl"}
-
 INSERT INTO civicrm_contribution_page
   (domain_id,title,intro_text,contribution_type_id,is_monetary,is_allow_other_amount,default_amount_id,min_amount,max_amount,goal_amount,thankyou_title,thankyou_text,thankyou_footer,receipt_from_name,receipt_from_email,cc_receipt,bcc_receipt,receipt_text,is_active,footer_text,amount_block_is_active,honor_block_is_active,honor_block_title,honor_block_text)
 VALUES
