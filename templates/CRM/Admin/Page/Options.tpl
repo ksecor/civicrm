@@ -47,7 +47,7 @@
         {strip}
         <table cellpadding="0" cellspacing="0" border="0">
 	        <tr class="columnheader">
-            <th>{if $gName eq 'custom_search'}{ts}Name{/ts} {else}{ts}Label{/ts} {/if}</th>
+            <th>{ts}Label{/ts}</th>
             <th>{ts}Value{/ts}</th>
             {if $gName eq 'participant_status'}<th>{ts}Counted?{/ts}</th>{/if}
             <th>{ts}Description{/ts}</th>
@@ -58,7 +58,7 @@
             </tr>
         {foreach from=$rows item=row}
         <tr class="{$row.class}{cycle values="odd-row even-row"}{if NOT $row.is_active} disabled{/if}">
-	        <td>{if $gName eq 'custom_search'}{$row.name} {else} {$row.label} {/if}</td>	
+	        <td>{$row.label}</td>	
 	        <td>{$row.value}</td>	
 	        {if $gName eq 'participant_status'}<td>{if $row.filter eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>{/if}
 	        <td>{$row.description}</td>	

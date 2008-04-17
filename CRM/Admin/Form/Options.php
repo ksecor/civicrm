@@ -115,17 +115,14 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
         }
         
         $this->applyFilter('__ALL__', 'trim');
-        if ( $this->_gName == 'custom_search' ) {
-            $this->add('text', 'name', ts('Name'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'name' ),true );
-            $this->addRule( 'name', ts('This Name already exists in the database for this option group. Please select a different Value.'), 'optionExists', array( 'CRM_Core_DAO_OptionValue', $this->_id, $this->_gid ) ); 
-        } else {
-            $this->add('text', 'label', ts('Label'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'label' ),true );
-            $this->addRule( 'label', ts('This Label already exists in the database for this option group. Please select a different Value.'), 'optionExists', array( 'CRM_Core_DAO_OptionValue', $this->_id, $this->_gid ) );
-            
-            if ( $this->_gName == 'from_email_address' ) {
-                $this->addRule( 'label', ts('Email is not valid.'), 'email' );
-            }
+        
+        $this->add('text', 'label', ts('Label'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'label' ),true );
+        $this->addRule( 'label', ts('This Label already exists in the database for this option group. Please select a different Value.'), 'optionExists', array( 'CRM_Core_DAO_OptionValue', $this->_id, $this->_gid, 'label' ) );
+        
+        if ( $this->_gName == 'from_email_address' ) {
+            $this->addRule( 'label', ts('Email is not valid.'), 'email' );
         }
+        
         $this->add('text', 'description', ts('Description'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'description' ) );
        
         $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'weight'), true);
@@ -164,12 +161,6 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
             $params = $ids = array( );
             $params = $this->exportValues();
             $groupParams = array( 'name' => ($this->_gName) );
-            if ( $this->_gName == 'custom_search' ) {
-                $params['label'] = str_replace( DIRECTORY_SEPARATOR , '_', $params['name'] );
-                if ( strstr( $params['label'], '.php' ) ) {
-                    $params['label'] = substr( $params['label'], 0, -4 );
-                }
-            }
             require_once 'CRM/Core/OptionValue.php';
             $optionValue = CRM_Core_OptionValue::addOptionValue($params, $groupParams, $this->_action, $this->_id);
             
