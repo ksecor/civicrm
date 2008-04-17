@@ -106,7 +106,6 @@
 {* -- Javascript for showing/hiding the shared household options -- *}
 {literal}
 <script type="text/javascript">
-
 {/literal}{if $contact_type EQ 'Individual' AND $action eq 2 AND !$form.errors}{literal}
     document.getElementsByName("shared_option")[1].checked = true; 
 {/literal}{/if}{literal}
@@ -171,6 +170,9 @@
 
 function setDefaultAddress()
 {
+  var country   = {/literal}"{$country}"{literal};
+  var state     = {/literal}"{$state}"{literal};
+
   if ( document.getElementsByName("use_household_address")[0].checked == false ) {
     var street    = {/literal}"{$form.location.1.address.street_address.value}"{literal};
     var suppl1    = {/literal}"{$form.location.1.address.supplemental_address_1.value}"{literal};
@@ -180,9 +182,7 @@ function setDefaultAddress()
     var postCodeSuffix   = {/literal}"{$form.location.1.address.postal_code_suffix.value}"{literal};
     var geoCode1  = {/literal}"{$form.location.1.address.geo_code_1.value}"{literal};
     var geoCode2  = {/literal}"{$form.location.1.address.geo_code_2.value}"{literal};
-    var country   = {/literal}"{$country}"{literal};
-    var state     = {/literal}"{$state}"{literal};
-    
+        
     document.getElementById('location_1_address_street_address').value = street;
     document.getElementById('location_1_address_supplemental_address_1').value = suppl1;
     document.getElementById('location_1_address_supplemental_address_2').value = suppl2;
@@ -204,8 +204,8 @@ function setDefaultAddress()
     document.getElementById('location_1_address_postal_code_suffix').value = '';
     document.getElementById('location_1_address_geo_code_1').value = '';
     document.getElementById('location_1_address_geo_code_2').value = '';
-    dijit.byId( 'location_1_address_country_id' ).setDisplayedValue();
-    dijit.byId( 'location_1_address_state_province_id' ).setDisplayedValue(); 
+    dijit.byId( 'location_1_address_country_id' ).setDisplayedValue( country );
+    dijit.byId( 'location_1_address_state_province_id' ).setDisplayedValue( '- type first letter(s) -' ); 
 
  }
 }
