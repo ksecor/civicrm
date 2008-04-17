@@ -290,9 +290,16 @@ class Net_SMTP
                 }
             }
         }
-
+        
         $this->_pipelined_commands = 0;
-
+        
+        /* Server response code 553 => Requested action not taken-Mailbox name invalid.
+         * Server response code 503 => Bad sequence of commands.
+         */ 
+        if ($this->_code == 553 || $this->_code == 503) {
+            return PEAR::raiseError('recipient is not recognized');
+        }
+        
         /* Compare the server's response code with the valid code/codes. */
         if (is_int($valid) && ($this->_code === $valid)) {
             return true;
