@@ -103,7 +103,7 @@ class CRM_Mailing_Event_BAO_Reply extends CRM_Mailing_Event_DAO_Reply {
      * @access public
      * @static
      */
-    public static function send($queue_id, &$mailing, &$bodyTxt, &$bodyHTML, $replyto) {
+    public static function send($queue_id, &$mailing, &$bodyTxt, $replyto, &$bodyHTML = null) {
         $config =& CRM_Core_Config::singleton();
         $mailer =& $config->getMailer();
         $domain =& CRM_Mailing_Event_BAO_Queue::getDomain($queue_id);
