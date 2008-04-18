@@ -72,6 +72,11 @@
      <weight>1</weight>
   </item>
   <item>
+     <path>civicrm/contact/view/contribution/additionalinfo</path>
+     <title>Additional Info</title>
+     <page_callback>CRM_Contribute_Form_AdditionalInfo</page_callback>
+  </item>
+  <item>
      <path>civicrm/contribute/search</path>
      <title>Find Contributions</title>
      <page_callback>CRM_Contribute_Controller_Search</page_callback>

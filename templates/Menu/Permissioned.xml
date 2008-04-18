@@ -271,12 +271,6 @@
      <weight>395</weight>
   </item>
   <item>
-     <path>civicrm/contact/view/contribution</path>
-     <path_arguments>force=1,cid=%%cid%%</path_arguments>
-     <title>Contributions</title>
-     <weight>1</weight>
-  </item>
-  <item>
      <path>civicrm/contribute/search</path>
      <title>Find Contributions</title>
      <access_arguments>access CiviContribute</access_arguments>
@@ -320,12 +314,6 @@
      <adminGroup>CiviMember</adminGroup>
      <icon>admin/small/membership_status.png</icon>
      <weight>380</weight>
-  </item>
-  <item>
-     <path>civicrm/contact/view/membership</path>
-     <path_arguments>force=1,cid=%%cid%%</path_arguments>
-     <title>Memberships</title>
-     <weight>2</weight>
   </item>
   <item>
      <path>civicrm/member/search</path>

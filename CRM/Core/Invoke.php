@@ -65,7 +65,7 @@ class CRM_Core_Invoke
              $args[2] == 'rebuild' ) {
             CRM_Core_Menu::store( );
             CRM_Core_Session::setStatus( ts( 'Menu has been rebuilt' ) );
-            return CRM_Utils_System::redirect(CRM_Utils_System::url('civicrm', 'reset=1'));
+            return CRM_Utils_System::redirect( );
         }
 
         $config =& CRM_Core_Config::singleton( );
@@ -189,29 +189,6 @@ class CRM_Core_Invoke
             return self::form( CRM_Core_Action::ADD, $contactType, $contactSubType );
         }
         
-        if ( $args[2] == 'domain' ) {
-            $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/domain', 'action=view' ) );
-            $wrapper =& new CRM_Utils_Wrapper( );
-            return $wrapper->run( 'CRM_Contact_Form_Domain', ts('Domain Information Page'), null);
-        }
-        
-        if ( $args[2] == 'email' ) {
-            // set the userContext stack
-            $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view', 'action=browse&selectedChild=activity' ) );
-
-            $wrapper =& new CRM_Utils_Wrapper( );
-            return $wrapper->run( 'CRM_Contact_Form_Task_Email', ts('Email a Contact'),  null );
-        }
-
-        if ( $args[2] == 'map' ) {
-            $wrapper =& new CRM_Utils_Wrapper( );
-            if ( CRM_Utils_Array::value( 3, $args ) == 'event' ) {
-                return $wrapper->run( 'CRM_Contact_Form_Task_Map_Event', ts('Map Event Location'),  null );
-            } else {
-                return $wrapper->run( 'CRM_Contact_Form_Task_Map', ts('Map Contact'),  null );
-            }
-        }
-
         if ($args[2] == 'view') {
             $contactId = CRM_Utils_Request::retrieve( 'cid' , 'Positive', $this );
             $path = CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $contactId );
@@ -229,113 +206,6 @@ class CRM_Core_Invoke
             }
             
             switch ( $thirdArg ) {
-            case 'contribution':
-                if ( ! CRM_Core_Permission::check('access CiviContribute') ) {
-                    CRM_Core_Error::fatal( 'You do not have access to this page' );
-                }
-                //CRM-2673. Added to enable dojo on Contribution.php form. 
-                if ( CRM_Utils_Array::value( '4', $args ) == 'additionalinfo' ) {
-                    $wrapper =& new CRM_Utils_Wrapper( ); 
-                    require_once 'CRM/Contribute/Form/AdditionalInfo.php';
-                    return $wrapper->run( 'CRM_Contribute_Form_AdditionalInfo',ts('Adiitinal Information'), null );
-                } else {
-                    require_once 'CRM/Contact/Page/View/Contribution.php'; 
-                    $view =& new CRM_Contact_Page_View_Contribution( );
-                    break;
-                }
-                
-            case 'grant':
-                if ( ! CRM_Core_Permission::check('access CiviGrant') ) {
-                    CRM_Core_Error::fatal( 'You do not have access to this page' );
-                }
-                require_once 'CRM/Contact/Page/View/Grant.php'; 
-                $view =& new CRM_Contact_Page_View_Grant( );
-                break;
-           
-            case 'membership':
-                if ( ! CRM_Core_Permission::check('access CiviMember') ) {
-                    CRM_Core_Error::fatal( 'You do not have access to this page' );
-                }
-                require_once 'CRM/Contact/Page/View/Membership.php'; 
-                $view =& new CRM_Contact_Page_View_Membership( );
-                break;
-
-            case 'participant':
-                if ( ! CRM_Core_Permission::check('access CiviEvent') ) {
-                    CRM_Core_Error::fatal( 'You do not have access to this page' );
-                }
-                require_once 'CRM/Contact/Page/View/Participant.php'; 
-                $view =& new CRM_Contact_Page_View_Participant( );
-                break;
-
-            case 'case':
-                require_once 'CRM/Contact/Page/View/Case.php';
-                $view =& new CRM_Contact_Page_View_Case( );
-                break;
-
-            case 'note':
-                require_once 'CRM/Contact/Page/View/Note.php';
-                $view =& new CRM_Contact_Page_View_Note( );
-                break;
-
-            case 'rel':
-                require_once 'CRM/Contact/Page/View/Relationship.php';
-                $view =& new CRM_Contact_Page_View_Relationship( );
-                break;
-
-            case 'group':
-                require_once 'CRM/Contact/Page/View/GroupContact.php';
-                $view =& new CRM_Contact_Page_View_GroupContact( );
-                break;
-
-            case 'tag':
-                require_once 'CRM/Contact/Page/View/Tag.php';
-                $view =& new CRM_Contact_Page_View_Tag( );
-                break;
-            
-            case 'basic':
-                require_once 'CRM/Contact/Page/View/Basic.php';
-                $view =& new CRM_Contact_Page_View_Basic( );
-                break;
-            
-            case 'log':
-                require_once 'CRM/Contact/Page/View/Log.php';
-                $view =& new CRM_Contact_Page_View_Log( );
-                break;
-
-            case 'sunlight':
-                require_once 'CRM/Contact/Page/View/Sunlight.php';
-                $view =& new CRM_Contact_Page_View_Sunlight( );
-                break;
-            
-            case 'cd':
-                require_once 'CRM/Contact/Page/View/CustomData.php';
-                $view =& new CRM_Contact_Page_View_CustomData( );
-                break;
-
-            case 'activity':
-                require_once 'CRM/Contact/Page/View/Activity.php';
-                $view =& new CRM_Contact_Page_View_Activity( );
-                break;                
-                
-            case 'vcard':
-                require_once 'CRM/Contact/Page/View/Vcard.php';
-                $view =& new CRM_Contact_Page_View_Vcard( );
-                break;
-
-            case 'print':
-                require_once 'CRM/Contact/Page/View/Print.php';
-                $view =& new CRM_Contact_Page_View_Print( );
-                break;
-
-            case 'delete':
-                $wrapper =& new CRM_Utils_Wrapper( ); 
-                if (CRM_Utils_Array::value('4',$args) == 'location') {
-                    return $wrapper->run( 'CRM_Contact_Form_DeleteLocation', ts( 'Delete Location' ), 
-                                          CRM_Core_Action::DELETE, true );
-                } else {
-                    return $wrapper->run( 'CRM_Contact_Form_Task_Delete', ts('Delete Contact'),  null ); 
-                }
 
             default:
                 $id = CRM_Utils_Request::retrieve( 'cid', 'Positive', CRM_Core_DAO::$_nullObject ); 
@@ -366,15 +236,6 @@ class CRM_Core_Invoke
                 $view->setPrint( CRM_Core_Smarty::PRINT_SNIPPET );
             }
             return $view->run( );
-        }
-        
-        if ( $args[2] == 'search' ) {
-            return self::search( $args );
-        }
-
-        if ( $args[2] == 'merge' ) {
-            $wrapper =& new CRM_Utils_Wrapper( );
-            return $wrapper->run( 'CRM_Contact_Form_Merge', ts('Merge Contact'),  null );
         }
         
         return CRM_Utils_System::redirect( );

@@ -28,7 +28,22 @@
      <path>civicrm/contact/add</path>
      <title>New Contact</title>
      <page_callback>CRM_Contact_Form_Edit</page_callback>
-     <weight>1</weight>
+     <access_arguments>access CiviCRM,add contacts</access_arguments>
+  </item>
+  <item>
+     <path>civicrm/contact/merge</path>
+     <title>Merge Contact</title>
+     <page_callback>CRM_Contact_Form_Merge</page_callback>
+  </item>
+  <item>
+     <path>civicrm/contact/email</path>
+     <title>Email a Contact</title>
+     <page_callback>CRM_Contact_Form_Task_Email</page_callback>
+  </item>
+  <item>
+     <path>civicrm/contact/map</path>
+     <title>Map Contact</title>
+     <page_callback>CRM_Contact_Form_Task_Map</page_callback>
   </item>
   <item>
      <path>civicrm/contact/view</path>
@@ -41,6 +56,16 @@
      <path_arguments>cid=%%cid%%</path_arguments>
      <title>Contact Summary</title>
      <page_callback>CRM_Contact_Page_View_Basic</page_callback>
+  </item>
+  <item>
+     <path>civicrm/contact/view/delete</path>
+     <title>Delete Contact</title>
+     <page_callback>CRM_Contact_Form_Task_Delete</page_callback>
+  </item>
+  <item>
+     <path>civicrm/contact/view/delete/location</path>
+     <title>Delete Location</title>
+     <page_callback>CRM_Contact_Form_DeleteLocation</page_callback>
   </item>
   <item>
      <path>civicrm/contact/view/activity</path>
@@ -59,6 +84,11 @@
      <path_arguments>cid=%%cid%%</path_arguments>
      <title>Groups</title>
      <page_callback>CRM_Contact_Page_View_GroupContact</page_callback>
+  </item>
+  <item>
+     <path>civicrm/contact/view/sunlight</path>
+     <title>Sunlight</title>
+     <page_callback>CRM_Contact_Page_View_Sunlight</page_callback>
   </item>
   <item>
      <path>civicrm/contact/view/note</path>
@@ -81,6 +111,14 @@
   <item>
      <path>civicrm/contact/view/cd</path>
      <page_callback>CRM_Contact_Page_View_CustomData</page_callback>
+  </item>
+  <item>
+     <path>civicrm/contact/view/vcard</path>
+     <page_callback>CRM_Contact_Page_View_Vcard</page_callback>
+  </item>
+  <item>
+     <path>civicrm/contact/view/print</path>
+     <page_callback>CRM_Contact_Page_View_Print</page_callback>
   </item>
   <item>
      <path>civicrm/contact/view/participant</path>
