@@ -129,8 +129,14 @@ class CRM_Core_Invoke
                     return;
                 } else if (strstr($item['page_callback'], '_Form')) {
                     $wrapper =& new CRM_Utils_Wrapper( );
-                    return $wrapper->run( $item['page_callback'], 
-                                          $item['title'], null );
+
+                    if ( CRM_Utils_Array::value('page_arguments', $item) ) {
+                        $pageArgs = CRM_Core_Menu::getArrayForPathArgs( $item['page_arguments'] );
+                    }
+                    
+                    return $wrapper->run( $item['page_callback'],
+                                          $item['title'], 
+                                          $pageArgs );
                 } else {
                     // page and controller have the same style
                     $newArgs = explode( '/', $_GET['q'] );
@@ -348,14 +354,6 @@ class CRM_Core_Invoke
         } 
 
         $secondArg = CRM_Utils_Array::value( 2, $args, '' ); 
-
-        if ($secondArg == 'view') {
-            $session =& CRM_Core_Session::singleton();
-            require_once 'CRM/Profile/Page/View.php';
-            $view =& new CRM_Profile_Page_View();
-            return $view->run();
-        }
-
 
         if ($secondArg == 'map' ) {
 

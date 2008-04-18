@@ -1364,6 +1364,36 @@ class CRM_Core_Menu
         
         return $params;
     }
+
+    static function getArrayForPathArgs( $pathArgs )
+    {
+        if (! is_string($pathArgs)) {
+            return;
+        }
+        $args = array();
+
+        $elements = explode( ',', $pathArgs );
+        foreach ( $elements as $keyVal ) {
+            list($key, $val) = explode( '=', $keyVal );
+            $arr[$key] = $val;
+        }
+
+        if (array_key_exists('urlToSession', $arr)) {
+            $urlToSession = array( );
+
+            $params = explode( ';', $arr['urlToSession'] );
+            $count  = 0;
+            foreach ( $params as $keyVal ) {
+                list($urlToSession[$count]['urlVar'], 
+                     $urlToSession[$count]['sessionVar'], 
+                     $urlToSession[$count]['type'], 
+                     $urlToSession[$count]['default'] ) = explode( ':', $keyVal );
+                $count++;
+            }
+            $arr['urlToSession'] = $urlToSession; 
+        }
+        return $arr;
+    }
 }
 
 

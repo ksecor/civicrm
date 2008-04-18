@@ -109,17 +109,6 @@
      <component>CiviEvent</component>
   </item>
   <item>
-     <path>civicrm/event/info</path>
-     <access_arguments>1</access_arguments>
-     <weight>0</weight>
-  </item>
-  <item>
-     <path>civicrm/event/register</path>
-     <title>Event Registration</title>
-     <access_arguments>1</access_arguments>
-     <weight>0</weight>
-  </item>
-  <item>
      <path>civicrm/event/ical</path>
      <title>Event Listings</title>
      <access_arguments>register for events</access_arguments>

@@ -8,4 +8,8 @@
      <page_callback>CRM_Core_Invoke::profile</page_callback>
      <weight>0</weight>
   </item>
+  <item>
+     <path>civicrm/profile/view</path>
+     <page_callback>CRM_Profile_Page_View</page_callback>
+  </item>
 </menu>

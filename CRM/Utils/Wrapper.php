@@ -67,16 +67,41 @@ class CRM_Utils_Wrapper
      * @return none.
      * @access public
      */
-    function run($formName, $formLabel, $mode, $addSequence = false, $ignoreKey = false ) {
-        $this->_controller =& new CRM_Core_Controller_Simple( $formName, $formLabel,
+    function run( $formName, $formLabel, $arguments = null ) {
+        if ( is_array($arguments) ) {
+            $mode        = CRM_Utils_Array::value( 'mode',        $arguments );
+            $imageUpload = CRM_Utils_Array::value( 'imageUpload', $arguments, false );
+            $addSequence = CRM_Utils_Array::value( 'addSequence', $arguments, false );
+            $ignoreKey   = CRM_Utils_Array::value( 'ignoreKey',   $arguments, false );
+        } else {
+            $mode        = null;
+            $addSequence = $ignoreKey = $imageUpload = false;
+        }
+
+        $this->_controller =& new CRM_Core_Controller_Simple( $formName, 
+                                                              $formLabel,
                                                               $mode,
-                                                              false,
+                                                              $imageUpload,
                                                               $addSequence,
                                                               $ignoreKey );
+
+        if ( array_key_exists('urlToSession', $arguments) ) {
+            foreach ( $arguments['urlToSession'] as $params ) {
+                $urlVar     = CRM_Utils_Array::value( 'urlVar',     $params );
+                $sessionVar = CRM_Utils_Array::value( 'sessionVar', $params );
+                $type       = CRM_Utils_Array::value( 'type',       $params );
+                $default    = CRM_Utils_Array::value( 'default',    $params );
+                
+                $value = null; 
+                $value = CRM_Utils_Request::retrieve( $urlVar, 
+                                                      $type,
+                                                      $this->_controller,
+                                                      $default );
+                $this->_controller->set( $sessionVar, $value );
+            }
+        }
+        
         $this->_controller->process();
         $this->_controller->run();
     }
-
 }
-
-
