@@ -117,36 +117,46 @@ class CRM_Core_Invoke
                 CRM_Utils_System::appendBreadCrumb( $item['breadcrumb'] );
                 
                 if ( is_array( $item['page_callback'] ) ) {
-                    // Added since url is not refreshed. Should be
-                    // removed when all the methods have been removed from
-                    // this invoke file. 
                     $newArgs = explode( '/', $_GET['q'] );
                     require_once( str_replace( '_',
                                                DIRECTORY_SEPARATOR,
                                                $item['page_callback'][0] ) . '.php' );
-                    call_user_func( $item['page_callback'],
-                                    $newArgs );
-                    return;
+                    return call_user_func( $item['page_callback'], 
+                                           $newArgs );
                 } else if (strstr($item['page_callback'], '_Form')) {
                     $wrapper =& new CRM_Utils_Wrapper( );
 
                     if ( CRM_Utils_Array::value('page_arguments', $item) ) {
                         $pageArgs = CRM_Core_Menu::getArrayForPathArgs( $item['page_arguments'] );
                     }
-                    
+
                     return $wrapper->run( $item['page_callback'],
                                           $item['title'], 
                                           $pageArgs );
                 } else {
                     // page and controller have the same style
+                    
                     $newArgs = explode( '/', $_GET['q'] );
+                    
+                    if ( CRM_Utils_Array::value('page_arguments', $item) ) {
+                        $pageArgs = CRM_Core_Menu::getArrayForPathArgs( $item['page_arguments'] );
+                        
+                        // FIXME: Following embedding, makes other
+                        // tabs non-working for path -> contact/view
+ 
+                        //if ( array_key_exists('setEmbedded', $pageArgs) ) {
+                        //$wrapperArgs = array( 'setEmbedded' => true );
+                        //$wrapper     =& new CRM_Utils_Wrapper( );
+                        //$wrapper->run( $pageArgs['setEmbedded'], null, $wrapperArgs );
+                        //}
+                    }
                     require_once( str_replace( '_',
                                                DIRECTORY_SEPARATOR,
                                                $item['page_callback'] ) . '.php' );
                     eval( '$page =& new ' .
                           $item['page_callback'] .
                           ' ( );' );
-                    return $page->run( $newArgs, CRM_Utils_Array::value('page_arguments', $item, null) );
+                    return $page->run( $newArgs, $pageArgs );
                 }
             }
             array_pop( $args );

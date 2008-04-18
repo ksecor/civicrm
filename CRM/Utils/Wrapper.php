@@ -74,6 +74,7 @@ class CRM_Utils_Wrapper
             $addSequence = CRM_Utils_Array::value( 'addSequence', $arguments, false );
             $ignoreKey   = CRM_Utils_Array::value( 'ignoreKey',   $arguments, false );
         } else {
+            $arguments   = array( );
             $mode        = null;
             $addSequence = $ignoreKey = $imageUpload = false;
         }
@@ -86,21 +87,27 @@ class CRM_Utils_Wrapper
                                                               $ignoreKey );
 
         if ( array_key_exists('urlToSession', $arguments) ) {
-            foreach ( $arguments['urlToSession'] as $params ) {
-                $urlVar     = CRM_Utils_Array::value( 'urlVar',     $params );
-                $sessionVar = CRM_Utils_Array::value( 'sessionVar', $params );
-                $type       = CRM_Utils_Array::value( 'type',       $params );
-                $default    = CRM_Utils_Array::value( 'default',    $params );
-                
-                $value = null; 
-                $value = CRM_Utils_Request::retrieve( $urlVar, 
-                                                      $type,
-                                                      $this->_controller,
-                                                      $default );
-                $this->_controller->set( $sessionVar, $value );
+            if ( is_array($arguments['urlToSession']) ) {
+                foreach ( $arguments['urlToSession'] as $params ) {
+                    $urlVar     = CRM_Utils_Array::value( 'urlVar',     $params );
+                    $sessionVar = CRM_Utils_Array::value( 'sessionVar', $params );
+                    $type       = CRM_Utils_Array::value( 'type',       $params );
+                    $default    = CRM_Utils_Array::value( 'default',    $params );
+                    
+                    $value = null; 
+                    $value = CRM_Utils_Request::retrieve( $urlVar, 
+                                                          $type,
+                                                          $this->_controller,
+                                                          $default );
+                    $this->_controller->set( $sessionVar, $value );
+                }
             }
         }
         
+        if ( array_key_exists('setEmbedded', $arguments) ) {
+            $this->_controller->setEmbedded( true );
+        }
+
         $this->_controller->process();
         $this->_controller->run();
     }
