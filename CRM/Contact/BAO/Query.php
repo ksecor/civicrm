@@ -2469,16 +2469,6 @@ class CRM_Contact_BAO_Query
            $this->_where[$grouping][] = "(  LOWER( contact_b.sort_name ) LIKE '%{$name}%' AND contact_b.id != contact_a.id )";
         }
 
-        //check for active, inactive and all relation status
-        $today = date( 'Ymd' );
-        if ( $relStatus[2] == 0 ) {
-            $this->_where[$grouping][] = "civicrm_relationship.is_active = 1 AND ( end_date is NULL OR end_date >= {$today} )";
-        } else if ( $relStatus[2] == 1 ) {
-            $this->_where[$grouping][] = "civicrm_relationship.is_active = 0 OR end_date < {$today}";
-        }
-        $this->_where[$grouping][] = 'civicrm_relationship.relationship_type_id = '.$rel[0];
-        $this->_tables['civicrm_relationship'] = $this->_whereTables['civicrm_relationship'] = 1; 
-
         require_once 'CRM/Contact/BAO/Relationship.php';
         $relTypeInd =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Individual');
         $relTypeOrg =  CRM_Contact_BAO_Relationship::getContactRelationshipType(null,'null',null,'Organization');
@@ -2487,6 +2477,19 @@ class CRM_Contact_BAO_Query
         $allRelationshipType = array_merge(  $relTypeInd , $relTypeOrg);
         $allRelationshipType = array_merge( $allRelationshipType, $relTypeHou);
         $this->_qill[$grouping][]  = "$allRelationshipType[$value]  $name";
+        
+        //check for active, inactive and all relation status
+        $today = date( 'Ymd' );
+        if ( $relStatus[2] == 0 ) {
+            $this->_where[$grouping][] = "civicrm_relationship.is_active = 1 AND ( end_date is NULL OR end_date >= {$today} )";
+            $this->_qill[$grouping][]  = ts( 'Relationship - Active');
+            
+        } else if ( $relStatus[2] == 1 ) {
+            $this->_where[$grouping][] = "civicrm_relationship.is_active = 0 OR end_date < {$today}";
+            $this->_qill[$grouping][]  = ts( 'Relationship - Inactive');
+        }
+        $this->_where[$grouping][] = 'civicrm_relationship.relationship_type_id = '.$rel[0];
+        $this->_tables['civicrm_relationship'] = $this->_whereTables['civicrm_relationship'] = 1; 
         $this->_useDistinct = true;
     }
 
