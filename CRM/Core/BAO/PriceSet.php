@@ -408,16 +408,24 @@ class CRM_Core_BAO_PriceSet extends CRM_Core_DAO_PriceSet {
      * @return array associative array of id => name
      */
     public static function getAssoc( $withInactive = false ) {
-        $dao =& new CRM_Core_DAO_PriceSet( );
-        if ( !$withInactive ) {
-            $dao->is_active = 1;
-        }
-        $dao->find();
+        $query = "
+    SELECT 
+       DISTINCT ( price_set_id ) as id, title 
+    FROM 
+       civicrm_price_field, 
+       civicrm_price_set 
+    WHERE 
+       civicrm_price_set.id = civicrm_price_field.price_set_id ";
 
+        if ( !$withInactive ) {
+           $query .= " AND civicrm_price_set.is_active = 1 ";
+        }
+
+        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         $priceSets = array();
         while ( $dao->fetch() ) {
             $priceSets[$dao->id] = $dao->title;
-        }
+        }       
         return $priceSets;
     }
 
