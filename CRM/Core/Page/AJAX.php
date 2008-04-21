@@ -81,6 +81,12 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
         case 'eventType':
             return $this->eventType( $config );
 
+        case 'customdatatype':
+            return $this->customDataType( $config );
+
+        case 'custominputtype':
+            return $this->customInputType( $config );
+
         case 'caseSubject':
              return $this->caseSubject( $config );
 
@@ -315,6 +321,107 @@ ORDER by v.weight";
         
         require_once "CRM/Utils/JSON.php";
         echo CRM_Utils_JSON::encode( $elements,'value' );
+    }
+
+    /**
+     * Function for building Custom Data Type
+     */
+    function customDataType( &$config ) 
+    {
+        static $dataType = null;
+
+        if (! $dataType) { 
+            require_once 'CRM/Core/BAO/CustomField.php';
+            $dataType = array_values(CRM_Core_BAO_CustomField::dataType());
+        }
+
+        $dataTypeName = trim(CRM_Utils_Type::escape($_GET['name'], 'String'));        
+        $dataTypeName = str_replace( '*', '', $dataTypeName );        
+        $pattern = '/^' . $dataTypeName .'/i';
+
+        $elements = array( );
+        if ( is_array($dataType) ) {
+            foreach ( $dataType as $key => $val ) {
+                if ( preg_match($pattern, $val) ) {
+                    $elements[]= array( 'name'  => $val, 
+                                        'value' => $key );
+                }
+            }
+        }
+
+        require_once "CRM/Utils/JSON.php";
+        echo CRM_Utils_JSON::encode( $elements, 'value' );
+    }
+
+    /**
+     * Function for building Custom Input Type
+     */
+    function customInputType( &$config ) 
+    {
+        require_once 'CRM/Utils/Type.php';
+        $inputTypeId    = CRM_Utils_Type::escape($_GET['node1'], 'String');
+
+        $name = array();
+
+        // simulating the dynamic building of array.
+        switch ( $inputTypeId ) {
+        case '0': 
+            $name['Text']         = 'Text';
+            $name['Select']       = 'Select';
+            $name['Radio']        = 'Radio';
+            $name['CheckBox']     = 'CheckBox';
+            $name['Multi-Select'] = 'Multi-Select';
+            break;
+        case '1': 
+        case '2': 
+        case '3': 
+            $name['Text']         = 'Text';
+            $name['Select']       = 'Select';
+            $name['Radio']        = 'Radio';
+            break;
+        case '4':
+            $name['TextArea']     = 'TextArea';
+            break;
+        case '5':
+            $name['Date']         = 'Select Date';
+            break;
+        case '6':
+            $name['Radio']        = 'Radio';
+            break;
+        case '7':
+            $name['StateProvince'] = 'Select State/Province';
+            break;
+        case '8':
+            $name['Country'] = 'Select Country';
+            break;
+        case '9':
+            $name['File'] = 'Select File';
+            break;
+        case '10':
+            $name['Link'] = 'Link';
+            break;
+        }
+
+        $inputTypeName = trim(CRM_Utils_Type::escape($_GET['name'], 'String'));        
+        $inputTypeName = str_replace( '*', '', $inputTypeName );        
+        $pattern = '/^' . $inputTypeName .'/i';
+
+        $elements = array( );
+        if ( is_array($name) ) {
+            foreach ( $name as $key => $val ) {
+                if ( preg_match($pattern, $val) ) {
+                    $elements[]= array( 'name'  => $val, 
+                                        'value' => $key );
+                }
+            }
+        }
+        if (empty($elements)) {
+            $elements[] = array( 'value' => '',
+                                 'name'  => '-- n/a --' );
+        }
+
+        require_once "CRM/Utils/JSON.php";
+        echo CRM_Utils_JSON::encode( $elements, 'value' );
     }
 
     /**

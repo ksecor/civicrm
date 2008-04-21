@@ -33,6 +33,12 @@ dojo.declare(
 	innerLabel12: "",
 	innerLabel23: "",
 	firstInList: false,
+	jsEvent1 : "onChange",
+	jsMethod1: "",
+	jsEvent2 : "onChange",
+	jsMethod2: "",
+	jsEvent3 : "onChange",
+	jsMethod3: "",
 
         templateString: "<span class=${hsTheme}></span>",
 
@@ -59,6 +65,9 @@ dojo.declare(
 		{store:this.storeOption1,name:this.name+"[0]",autocomplete:true},
 		dojo.byId("id_" + this.name + "_0"));
 
+		if (this.jsMethod1 != "") {
+			dojo.connect(selector1, this.jsEvent1, this.jsMethod1);
+		}
 		dojo.connect(selector1, 'onChange', this, 'onSelectionOne');
 
 		if (!eval('document.getElementById("id_" + this.name + "_1")')) {
@@ -81,6 +90,10 @@ dojo.declare(
 		var selector2 = new dijit.form.FilteringSelect(
 		{store:this.storeOption2,name:this.name+"[1]",autocomplete:true},
 		dojo.byId("id_" + this.name + "_1"));
+
+		if (this.jsMethod2 != "") {
+			dojo.connect(selector2, this.jsEvent2, this.jsMethod2);
+		}
 
 		if (this.url3 != "") {
 			if (!eval('document.getElementById("id_" + this.name + "_2")')) {
@@ -106,6 +119,10 @@ dojo.declare(
 			var selector3 = new dijit.form.FilteringSelect(
 			{store:storeOption3,name:this.name+"[2]",autocomplete:true},
 			dojo.byId("id_" + this.name + "_2"));
+
+			if (this.jsMethod3 != "") {
+				dojo.connect(selector3, this.jsEvent3, this.jsMethod3);
+			}
 
 			dojo.connect(selector2, 'onChange', this, 
 			function(e) {

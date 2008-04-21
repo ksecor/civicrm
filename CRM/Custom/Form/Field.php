@@ -176,7 +176,9 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
                 $defaults['data_type'] = array( '0' => array_search( $defaults['data_type'],
                                                                      self::$_dataTypeKeys ), 
                                                 '1' => $defaults['html_type'] );
-              }
+            }
+            $this->assign('data_type_0',$defaults['data_type']['0']);
+            $this->assign('data_type_1',$defaults['data_type']['1']);
             
             $date_parts = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,
                                    $defaults['date_parts'] );
@@ -212,7 +214,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
             $defaults['note_columns'] = 60;
             $defaults['note_rows']    = 4;
         }
-
+        
         return $defaults;
     }
 
@@ -229,26 +231,14 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
         // lets trim all the whitespace
         $this->applyFilter('__ALL__', 'trim');
 
+        $this->assign( 'dojoIncludes', "dojo.require('civicrm.HierSelect');" );
+
         // label
         $this->add('text', 'label', ts('Field Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'label'), true);
-//         $this->addRule( 'label', ts('Name already exists in Database.'), 
-//                         'objectExists', array( 'CRM_Core_DAO_CustomField', $this->_id, 'label' ) );
-
-        $dt =& self::$_dataTypeValues;
-        $it = array();
-        foreach ($dt as $key => $value) {
-            $it[$key] = self::$_dataToLabels[$key];
-        }
-        $sel =& $this->addElement('hierselect',
-                                  'data_type',
-                                  ts('Data and Input Field Type'), 
-                                  'onclick="custom_option_html_type(this.form)"; onBlur="custom_option_html_type(this.form)";', 
-                                  '&nbsp;&nbsp;&nbsp;' );
-        $sel->setOptions(array($dt, $it));
-
-        if ($this->_action == CRM_Core_Action::UPDATE) {
-            $this->freeze('data_type');
-        }
+        
+//         if ($this->_action == CRM_Core_Action::UPDATE) {
+//             $this->freeze('data_type');
+//         }
 
         $optionGroups = CRM_Core_BAO_CustomField::customOptionGroup( );
 
@@ -735,7 +725,8 @@ AND    option_group_id = %2";
     public function postProcess()
     {
         // store the submitted values in an array
-        $params = $this->controller->exportValues( $this->_name );
+        //$params = $this->controller->exportValues( $this->_name );
+        $params = $_POST;
 
         // set values for custom field properties and save
         $customField                =& new CRM_Core_DAO_CustomField();

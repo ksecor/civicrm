@@ -1,21 +1,13 @@
 {*Javascript function controls showing and hiding of form elements based on html type.*}
 {literal}
 <script type="text/Javascript">
-    function custom_option_html_type(form) { 
-        var html_type = document.getElementsByName("data_type[1]")[0];
-        var data_type = document.getElementsByName("data_type[0]")[0];
-        if ( html_type.selectedIndex ) {   
-            var html_type_name = html_type.options[html_type.selectedIndex].value;
-        } else {
-            var html_type_name = html_type.value;
-        }
-       
-        if ( data_type.selectedIndex ) {
-           var data_type_id = data_type.selectedIndex;
-        } else {
-           var data_type_id = data_type.value  
-        }
+    function custom_option_html_type(form) {
+        var html_type_name = document.getElementsByName("data_type[1]")[0].value;
+        var data_type_id   = document.getElementsByName("data_type[0]")[0].value;
 
+        if (!html_type_name && !data_type_id) {
+            return;
+        }
         if ( data_type_id < 4) {
             if (html_type_name != "Text") {
 	    	document.getElementById("showoption").style.display="block";		
@@ -114,6 +106,9 @@
          document.getElementById("optionsPerLineDef").style.display="none";
     }
 
+    document.getElementsByName("is_searchable")[0].checked   = false;
+    document.getElementsByName("is_search_range")[1].checked = true;
+    document.getElementById("searchByRange").style.display   = "none";
     }
 </script>
 {/literal}
@@ -122,7 +117,7 @@
     <div class="form-item">
         <dl>
         <dt>{$form.label.label}</dt><dd>{$form.label.html}</dd>
-        <dt class="extra-long-twenty">{$form.data_type.label}</dt><dd>{$form.data_type.html}</dd>
+        <dt class="extra-long-twenty">{$form.data_type.label}</dt><dd><span name="data_type" dojoType="civicrm.HierSelect" url1="{crmURL p='civicrm/ajax/customdatatype'}" url2="{crmURL p='civicrm/ajax/custominputtype'}" default1={$data_type_0} default2={$data_type_1} jsMethod1="custom_option_html_type" jsMethod2="custom_option_html_type" firstInList="true"></span></dd>
         {if $action neq 4 and $action neq 2}
             <dt>&nbsp;</dt><dd class="description">{ts}Select the type of data you want to collect and store for this contact. Then select from the available HTML input field types (choices are based on the type of data being collected).{/ts}</dd>
         {/if}
@@ -196,27 +191,14 @@
     </div> 
 </fieldset>
 
-     <script type="text/javascript">
-	
-   	var action = {$action};
-	{if $action eq 2} 
-           var editIndex    = {$form.data_type.value.0.0}; 
-	   var editHtmlType = "{$form.data_type.value.1.0}";
-	{/if}
-		
- 	   {literal}
-   
- 	      function showSearchRange(chkbox) {
-		     if (action == 2) {
-			    var data_type = editIndex; 
-			    var html_type_name = editHtmlType; 
-		     } else {
-	            var html_type = document.getElementsByName("data_type[1]")[0];
-		        var html_type_name = html_type.options[html_type.selectedIndex].value;
-		        var data_type = document.getElementsByName("data_type[0]")[0].selectedIndex;
-		  	 }
-        
-            if ( ((data_type == 1 || data_type == 2 || data_type == 3) && (html_type_name == "Text")) || data_type == 5) {
+{literal}
+<script type="text/javascript">
+
+      function showSearchRange(chkbox) {
+            var html_type = document.getElementsByName("data_type[1]")[0].value;
+	        var data_type = document.getElementsByName("data_type[0]")[0].value;
+
+            if ( ((data_type == 1 || data_type == 2 || data_type == 3) && (html_type == "Text")) || data_type == 5) {
         	   if (chkbox.checked) {
                  document.getElementsByName("is_search_range")[0].checked = true;
         	     document.getElementById("searchByRange").style.display = "block";
@@ -225,13 +207,10 @@
         		 document.getElementById("searchByRange").style.display = "none";
         	   }
 		    } 
-			
-          }
-	  {/literal}
+      }
 
-	custom_option_html_type(this.form);
-   
-      </script>
+</script>
+{/literal}
 
 {* Give link to view/edit choice options if in edit mode and html_type is one of the multiple choice types *}
 {if $action eq 2 AND ($form.data_type.value.1.0 eq 'CheckBox' OR ($form.data_type.value.1.0 eq 'Radio' AND $form.data_type.value.0.0 neq 6) OR $form.data_type.value.1.0 eq 'Select' OR $form.data_type.value.1.0 eq 'Multi-Select') }
