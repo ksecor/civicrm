@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-02-27 13:35+0100\n"
-"PO-Revision-Date: 2008-02-28 13:17-0800\n"
+"POT-Creation-Date: 2008-03-12 12:22+0100\n"
+"PO-Revision-Date: 2008-04-16 23:40-0700\n"
 "Last-Translator: Eugenia Franzoni <eugenia@catnic.it>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -17,7 +17,7 @@ msgstr ""
 
 #: CRM/Contribute/BAO/ContributionPage.php CRM/Event/BAO/Event.php
 msgid "Copy of "
-msgstr ""
+msgstr "Copia di _"
 
 #: CRM/Contribute/BAO/Premium.php CRM/Contribute/Form/Contribution/Main.php
 #: templates/CRM/Contribute/Form/Contribution/MembershipBlock.tpl
@@ -44,14 +44,12 @@ msgid "Transaction ID"
 msgstr "ID Transazione"
 
 #: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/EventPage.php
-#, fuzzy
 msgid "Pay Later Text"
-msgstr "Pié di pagina"
+msgstr "Testo paga successivamente"
 
 #: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/EventPage.php
-#, fuzzy
 msgid "Pay Later Receipt"
-msgstr "Invia Ricevuta?"
+msgstr "Ricevuta paga successivamente"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #: CRM/Contribute/Form/ContributionPage/Settings.php
@@ -157,15 +155,13 @@ msgstr "Intervallo Durata"
 
 #: CRM/Contribute/DAO/Widget.php
 #: CRM/Contribute/Form/ContributionPage/Widget.php
-#, fuzzy
 msgid "Button Title"
-msgstr "Titolo Evento"
+msgstr "Titolo Pulsante"
 
 #: CRM/Contribute/DAO/Widget.php
 #: CRM/Contribute/Form/ContributionPage/Widget.php
-#, fuzzy
 msgid "About"
-msgstr "Importi"
+msgstr "Relativo a"
 
 #: CRM/Contribute/Form/ContributionBase.php CRM/Event/Form/Registration.php
 #: CRM/Event/Page/EventInfo.php
@@ -195,13 +191,12 @@ msgstr "Prego inserisci un importo valido in questo campo (es. 99.99)"
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Event/Form/ManageEvent/Fee.php
 msgid "I will send payment by check"
-msgstr ""
+msgstr "Invierò un pagamento con assegno"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 #: CRM/Event/Form/ManageEvent/Registration.php
-#, fuzzy
 msgid "Include Profile"
-msgstr "Gruppo(i)"
+msgstr "Includi profilo"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 #: CRM/Event/Form/ManageEvent/Registration.php
@@ -216,7 +211,7 @@ msgstr "(fine pagina)"
 #: CRM/Contribute/Form/ContributionPage.php
 #: CRM/Contribute/Page/ContributionPageEdit.php
 msgid "Configure Contribution Page"
-msgstr ""
+msgstr "Configura pagina contributi"
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
 #: CRM/Contribute/Form/ContributionPage/Settings.php
@@ -237,14 +232,13 @@ msgstr "Prego selezionare una data di inizio valida."
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 #: CRM/Event/Form/ManageEvent/EventInfo.php
-#, fuzzy
 msgid "End Date / Time"
-msgstr "Data fine"
+msgstr "Data/ora fine"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 #: CRM/Member/Form/Membership.php
 msgid "Receipt Message"
-msgstr ""
+msgstr "Messaggio ricevuta"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Event/Form/Participant.php
 #: CRM/Member/Form/Membership.php CRM/Member/Form/MembershipRenewal.php
@@ -273,6 +267,7 @@ msgid ""
 "This Transaction ID already exists in the database. Include the account "
 "number for checks."
 msgstr ""
+"L'ID di transazione già esiste nel database. Includere il numero di conto."
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Offline.php
 msgid "Contribution Receipt"
@@ -384,9 +379,8 @@ msgstr "Elimina Evento"
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 #: CRM/Event/Form/ManageEvent/Registration.php
-#, fuzzy
 msgid "Please select a valid end date."
-msgstr "Prego inserire una somma valida"
+msgstr "Si prega di selezionare una data di fine valida."
 
 #: CRM/Event/Form/ManageEvent/Fee.php CRM/Event/Form/Participant.php
 #: CRM/Event/Form/Registration/Register.php
@@ -394,9 +388,8 @@ msgid "Event Fee(s)"
 msgstr "Quota Evento"
 
 #: CRM/Event/Form/ManageEvent.php CRM/Event/Page/ManageEvent.php
-#, fuzzy
 msgid "Configure Event"
-msgstr "Configura"
+msgstr "Configura evento"
 
 #: CRM/Event/Form/ManageEvent/Registration.php CRM/Event/Invoke.php
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
@@ -406,9 +399,8 @@ msgstr "Registrazione Online"
 
 #: CRM/Event/Form/Participant.php CRM/Member/Form/Membership.php
 #: CRM/Member/Form/MembershipRenewal.php
-#, fuzzy
 msgid "Payment Status"
-msgstr "Strumento di pagamento"
+msgstr "Stato del pagamento"
 
 #: CRM/Event/Form/Task/Export.php CRM/Event/Task.php
 msgid "Export Participants"
@@ -434,11 +426,6 @@ msgstr "In pausa"
 msgid "Canceled"
 msgstr "Annullato"
 
-#: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/BounceType.php
-#: CRM/Mailing/Event/BAO/Bounce.php
-msgid "Unknown"
-msgstr "Sconosciuto"
-
 #: CRM/Mailing/BAO/Mailing.php CRM/Mailing/DAO/Component.php
 msgid "Reply"
 msgstr "Rispondi"
@@ -446,6 +433,10 @@ msgstr "Rispondi"
 #: CRM/Mailing/BAO/Mailing.php CRM/Mailing/Selector/Event.php
 msgid "Opt-Out"
 msgstr "Opt-Out"
+
+#: CRM/Mailing/DAO/BounceType.php CRM/Mailing/Event/BAO/Bounce.php
+msgid "Unknown"
+msgstr "Sconosciuto"
 
 #: CRM/Mailing/DAO/Component.php CRM/Mailing/Form/Component.php
 msgid "Component Type"
@@ -472,13 +463,12 @@ msgstr "Sottoscrivi nuovamente"
 
 #: CRM/Mailing/Event/BAO/Confirm.php CRM/Mailing/Event/BAO/Reply.php
 #: CRM/Mailing/Event/BAO/Resubscribe.php CRM/Mailing/Event/BAO/Unsubscribe.php
-#, fuzzy
 msgid "'%1' <do-not-reply@%2>"
-msgstr "\"%1\"<non-rispondere@%2>"
+msgstr "'%1'<non-rispondere@%2>"
 
 #: CRM/Mailing/Event/DAO/Bounce.php CRM/Mailing/Selector/Event.php
 msgid "Bounce Reason"
-msgstr ""
+msgstr "Ragione del bounce"
 
 #: CRM/Mailing/Event/DAO/Bounce.php CRM/Mailing/Event/DAO/Confirm.php
 #: CRM/Mailing/Event/DAO/Delivered.php CRM/Mailing/Event/DAO/Forward.php
@@ -524,7 +514,7 @@ msgstr "Inizio Evento"
 
 #: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
 msgid "Start Event Adjust Interval"
-msgstr ""
+msgstr "Intervallo di aggiustamento dell'inizio evento"
 
 #: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
 #: templates/CRM/Member/Page/MembershipStatus.tpl
@@ -533,7 +523,7 @@ msgstr "Fine Evento"
 
 #: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
 msgid "End Event Adjust Interval"
-msgstr ""
+msgstr "Intervallo di aggiustamento della fine evento"
 
 #: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
 msgid "Current Membership?"
@@ -592,12 +582,11 @@ msgstr ""
 "tipo di contributo, se non lo volete usare."
 
 #: CRM/Contribute/BAO/ManagePremiums.php
-#, fuzzy
 msgid ""
 "This Premium is being linked to <a href='%1'>Online Contribution page</a>. "
 "Please remove it in order to delete this Premium."
 msgstr ""
-"L'Incentivo è collegato alla <a href=\"%1\">Pagina di contributo online</a>. "
+"L'Incentivo è collegato alla <a href='%1'>Pagina di contributo online</a>. "
 "Rimuoverla per cancellare l'incentivo."
 
 #: CRM/Contribute/BAO/Premium.php
@@ -660,12 +649,12 @@ msgstr ""
 
 #: CRM/Contribute/BAO/Query.php
 #, fuzzy
-msgid "Find Test Contributions Only?"
+msgid "Find Test Contributions?"
 msgstr "Contributo"
 
 #: CRM/Contribute/BAO/Query.php
 #, fuzzy
-msgid "Recurring Contributions Only"
+msgid "Find Recurring Contributions?"
 msgstr "Contributo"
 
 #: CRM/Contribute/DAO/ContributionPage.php
@@ -1185,9 +1174,8 @@ msgid "Delete Contribution Page"
 msgstr "Cancella Pagina Contributo"
 
 #: CRM/Contribute/Form/ContributionPage/Delete.php
-#, fuzzy
 msgid "The contribution page '%1' has been deleted."
-msgstr "La pagina contributo \"%1\" è stata cancellata."
+msgstr "La pagina contributo '%1' è stata cancellata."
 
 #: CRM/Contribute/Form/ContributionPage.php
 msgid "Configure Page - %1"
@@ -1805,7 +1793,7 @@ msgstr "Tipo di Componente"
 
 #: CRM/Event/BAO/Query.php
 #, fuzzy
-msgid "Test Participants Only"
+msgid "Find Test Participants"
 msgstr "Contributo"
 
 #: CRM/Event/BAO/Query.php
@@ -1829,7 +1817,7 @@ msgstr "Data fine"
 
 #: CRM/Event/BAO/Query.php
 #, fuzzy
-msgid "Find Test Participants Only?"
+msgid "Find Test Participants?"
 msgstr "Contributo"
 
 #: CRM/Event/DAO/EventPage.php
@@ -2264,13 +2252,38 @@ msgid "Print Participant List"
 msgstr ""
 
 #: CRM/Event/Import/Form/MapField.php
+msgid ""
+"Missing required contact matching fields. (Should be First AND Last Name or "
+"Primary Email or First Name, Last Name AND Primary Email.) (OR Participant "
+"ID if update mode.)"
+msgstr ""
+
+#: CRM/Event/Import/Form/MapField.php
 #, fuzzy
 msgid "Duplicate Import Participant Mapping Name"
 msgstr "Importa Contributi"
 
+#: CRM/Event/Import/Form/MapField.php
+#, fuzzy
+msgid "Select saved mapping"
+msgstr "Elimina Mappatura"
+
+#: CRM/Event/Import/Form/UploadFile.php
+msgid "On Duplicate Entries"
+msgstr ""
+
+#: CRM/Event/Import/Parser/Participant.php
+msgid "Select either EventID OR Event Title"
+msgstr ""
+
 #: CRM/Event/Import/Parser/Participant.php
 msgid "Invalid value for Event ID"
 msgstr ""
+
+#: CRM/Event/Import/Parser.php
+#, fuzzy
+msgid "View Participant URL"
+msgstr "Aggiungi Membri: %1"
 
 #: CRM/Event/Info.php
 #, fuzzy
@@ -2452,6 +2465,10 @@ msgstr ""
 #, fuzzy
 msgid "The mailing has been canceled."
 msgstr "La Riunione \"%1\" è stata salvata."
+
+#: CRM/Mailing/BAO/Job.php
+msgid "Not scheduled"
+msgstr ""
 
 #: CRM/Mailing/BAO/Mailing.php
 #, fuzzy
@@ -3085,7 +3102,8 @@ msgid "End Date - From"
 msgstr "Data fine"
 
 #: CRM/Member/BAO/Query.php
-msgid "Find Test Memberships Only?"
+#, fuzzy
+msgid "Find Test Memberships?"
 msgstr "Cerca solo iscrizioni di prova?"
 
 #: CRM/Member/DAO/MembershipBlock.php
@@ -3484,6 +3502,10 @@ msgid ""
 "Primary Email or First Name, Last Name AND Primary Email.) (OR Membership ID "
 "if update mode.)"
 msgstr ""
+
+#: CRM/Member/Import/Form/MapField.php
+msgid "Duplicate Import Membership Mapping Name"
+msgstr "Nome di mappatura di importazione iscrizioni duplicato"
 
 #: CRM/Member/Import/Parser.php
 msgid "View Membership URL"
@@ -4969,8 +4991,7 @@ msgid ""
 msgstr ""
 "I file da importare devono essere in formato CSV (comma-separated values, "
 "esportabile dai fogli di calcolo) e devono contenere i dati necessari per "
-"corrispondere ai contributi di un contatto esistente nel database di "
-"CiviCRM."
+"corrispondere ai contributi di un contatto esistente nel database di CiviCRM."
 
 #: templates/CRM/Contribute/Import/Form/UploadFile.tpl
 #: templates/CRM/Member/Import/Form/UploadFile.tpl
@@ -5242,9 +5263,9 @@ msgid ""
 msgstr ""
 "Questa tabella fornisce un riassunto dei <strong>contributi totali</strong>, "
 "ed include collegamenti diretti ai dettagli per i criteri di ricerca più "
-"utilizzati. Per eseguire le tue ricerche personalizzate clicca <a "
-"href=\"%1\">Trova Contributi</a>. Puoi cercare per Nome Contribuente, "
-"Intervallo di ammontare e molti altri criteri."
+"utilizzati. Per eseguire le tue ricerche personalizzate clicca <a href=\"%1"
+"\">Trova Contributi</a>. Puoi cercare per Nome Contribuente, Intervallo di "
+"ammontare e molti altri criteri."
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "Current Month-To-Date"
@@ -5441,9 +5462,9 @@ msgid ""
 "<a href='%1'>here</a>."
 msgstr ""
 "Seleziona un Insieme di prezzi preconfigurato per offrire più opzioni "
-"singole per i partecipanti all'evento. Altrimenti seleziona "
-"&quot;-nessuno-&quot; ed inserisci uno o pià livelli di costo nella tabella "
-"qui sotto. Crea o modifica gli Insiemi di prezzi <a href=\"%1\">qui</a>."
+"singole per i partecipanti all'evento. Altrimenti seleziona &quot;-nessuno-"
+"&quot; ed inserisci uno o pià livelli di costo nella tabella qui sotto. Crea "
+"o modifica gli Insiemi di prezzi <a href=\"%1\">qui</a>."
 
 #: templates/CRM/Event/Form/ManageEvent/Fee.tpl
 msgid "Fee Levels"
@@ -5918,9 +5939,8 @@ msgid ""
 msgstr ""
 "CiviEvent permette di creare pagine personalizzate per la creazione di "
 "eventi e per l'iscrizione online da parte degli utenti. Gli amministratori "
-"hanno la possibilità di creare <a href=\"%1\"><strong>nuovi "
-"eventi</strong></a> e <a href=\"%2\"><strong>gestire quelli già "
-"inseriti</strong></a>."
+"hanno la possibilità di creare <a href=\"%1\"><strong>nuovi eventi</strong></"
+"a> e <a href=\"%2\"><strong>gestire quelli già inseriti</strong></a>."
 
 #: templates/CRM/Event/Page/DashBoard.tpl
 msgid ""
@@ -5931,11 +5951,11 @@ msgid ""
 "2'><strong>import batches of participants</strong></a> from other sources."
 msgstr ""
 "Potete anche immettere e tracciare gli Eventi off-line. Per inserire "
-"manualmente dei contatti in un evento, usate <a href=\"%1\">Trova Contatti</a> "
-"per localizzare i contatti. Poi cliccate <strong>Visualizza</strong> per "
-"andare alla pagina del riassunto e cliccate sul link <strong>Nuovo "
-"evento</strong>. Potete anche <a href=\"%3\"> importare un gruppo di "
-"partecipanti</a> da altre fonti. "
+"manualmente dei contatti in un evento, usate <a href=\"%1\">Trova Contatti</"
+"a> per localizzare i contatti. Poi cliccate <strong>Visualizza</strong> per "
+"andare alla pagina del riassunto e cliccate sul link <strong>Nuovo evento</"
+"strong>. Potete anche <a href=\"%3\"> importare un gruppo di partecipanti</"
+"a> da altre fonti. "
 
 #: templates/CRM/Event/Page/DashBoard.tpl
 msgid ""
@@ -5946,14 +5966,13 @@ msgid ""
 "your own customized searches - click <a href='%1'>Find Participants</a>. You "
 "can search by Participant Name, Event, Date Range and Status."
 msgstr ""
-"Questa tabella fornisce un riassunto degli ultimi dieci "
-"<strong>Eventi</strong> registrati. Cliccando sul <strong>Nome "
-"dell'evento</strong> è possibile avere un'anteprima di come sarà "
-"visualizzato dai visitatori del sito. Cliccate sul <strong>conteggio dei "
-"partecipanti</strong> per visualizzare l'elenco dei partecipanti. Per "
-"eseguire le vostre ricerche personalizzate cliccate si <a href=\"%1\">Trova "
-"Partecipanti</a>. Potete cercare per Nome Partecipante, Evento, intervallo "
-"di date e stato."
+"Questa tabella fornisce un riassunto degli ultimi dieci <strong>Eventi</"
+"strong> registrati. Cliccando sul <strong>Nome dell'evento</strong> è "
+"possibile avere un'anteprima di come sarà visualizzato dai visitatori del "
+"sito. Cliccate sul <strong>conteggio dei partecipanti</strong> per "
+"visualizzare l'elenco dei partecipanti. Per eseguire le vostre ricerche "
+"personalizzate cliccate si <a href=\"%1\">Trova Partecipanti</a>. Potete "
+"cercare per Nome Partecipante, Evento, intervallo di date e stato."
 
 #: templates/CRM/Event/Page/DashBoard.tpl
 msgid "(max %1)"
@@ -6088,6 +6107,11 @@ msgid "There are no events created yet. You can <a href='%1'>add one</a>."
 msgstr ""
 "Non ci sono campi profilo CiviCRM per \"%1\", you can <a href=\"%2"
 "\">aggiungine uno ora</a>."
+
+#: templates/CRM/Event/Page/ParticipantListing.tpl
+#, fuzzy
+msgid "There are currently no participants registered for this event."
+msgstr "Non hai i permessi sufficienti per visualizzare questa pagina."
 
 #: templates/CRM/Mailing/Form/Component.tpl
 #: templates/CRM/Mailing/Page/Component.tpl
@@ -7183,6 +7207,10 @@ msgstr ""
 "Non ci sono tipologie di iscrizione inserite. Puoi aggiungerne una ora. "
 
 #, fuzzy
+#~ msgid "Test Participants Only"
+#~ msgstr "Contributo"
+
+#, fuzzy
 #~ msgid "Title "
 #~ msgstr "Titolo"
 
@@ -7281,14 +7309,6 @@ msgstr ""
 #~ msgstr "Prego inserire una somma valida"
 
 #, fuzzy
-#~ msgid "Select saved mapping"
-#~ msgstr "Elimina Mappatura"
-
-#, fuzzy
-#~ msgid "View Participant URL"
-#~ msgstr "Aggiungi Membri: %1"
-
-#, fuzzy
 #~ msgid "You do not have access to this page"
 #~ msgstr ""
 #~ "Non hai i permessi sufficienti per visualizzare questa Applicazione."
@@ -7315,9 +7335,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "Start Date - From"
 #~ msgstr "Data inizio"
-
-#~ msgid "Duplicate Import Membership Mapping Name"
-#~ msgstr "Nome di mappatura di importazione iscrizioni duplicato"
 
 #~ msgid "Edit Membership Type"
 #~ msgstr "Modifica Tipo Iscrizione"
