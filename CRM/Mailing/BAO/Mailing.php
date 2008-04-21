@@ -300,7 +300,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing
                     WHERE           
                                         contact_a.do_not_email = 0
                         AND             contact_a.is_opt_out = 0
-                        AND             contact.is_deceased = 0
+                        AND             contact_a.is_deceased = 0
                         AND             ($email.is_bulkmail = 1 OR $email.is_primary = 1)
                         AND             $email.on_hold = 0
                                         $where
