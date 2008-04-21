@@ -503,40 +503,41 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $buttonType = 'next';
         }
 
-        if ( $this->_single ) {        
-            $this->addElement('checkbox', 'record_contribution', ts('Record Payment?'), null, 
-                              array('onclick' =>"return showHideByValue('record_contribution','','payment_information','table-row','radio',false);"));
-            
-            require_once 'CRM/Contribute/PseudoConstant.php';
-            $this->add('select', 'contribution_type_id', 
-                       ts( 'Contribution Type' ), 
-                       array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::contributionType( ) );
-            
-            $this->add('date', 'receive_date', ts('Received'), CRM_Core_SelectValues::date('activityDate'), false );         
-            $this->addRule('receive_date', ts('Select a valid date.'), 'qfDate');
-            
-            $this->add('select', 'payment_instrument_id', 
-                       ts( 'Paid By' ), 
-                       array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::paymentInstrument( )
-                       );
-            
-            $this->add('select', 'contribution_status_id',
-                       ts('Payment Status'), 
-                       CRM_Contribute_PseudoConstant::contributionStatus( )
-                       );
-            
-            
-            $this->addElement('checkbox', 
-                              'send_receipt', 
-                              ts('Send Confirmation?'), null, 
-                              array('onclick' =>"return showHideByValue('send_receipt','','notice','block','radio',false);") );
-            $this->add('textarea', 'receipt_text', ts('Confirmation Message') );
-        }
-
+        $this->addElement('checkbox', 'record_contribution', ts('Record Payment?'), null, 
+                          array('onclick' =>"return showHideByValue('record_contribution','','payment_information','table-row','radio',false);"));
+        
+        require_once 'CRM/Contribute/PseudoConstant.php';
+        $this->add('select', 'contribution_type_id', 
+                   ts( 'Contribution Type' ), 
+                   array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::contributionType( ) );
+        
+        $this->add('date', 'receive_date', ts('Received'), CRM_Core_SelectValues::date('activityDate'), false );         
+        $this->addRule('receive_date', ts('Select a valid date.'), 'qfDate');
+        
+        $this->add('select', 'payment_instrument_id', 
+                   ts( 'Paid By' ), 
+                   array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::paymentInstrument( )
+                   );
+        
+        $this->add('select', 'contribution_status_id',
+                   ts('Payment Status'), 
+                   CRM_Contribute_PseudoConstant::contributionStatus( )
+                   );
+        
+        
+        $this->addElement('checkbox', 
+                          'send_receipt', 
+                          ts('Send Confirmation?'), null, 
+                          array('onclick' =>"return showHideByValue('send_receipt','','notice','block','radio',false);") );
+        $this->add('textarea', 'receipt_text', ts('Confirmation Message') );
+        
         // Retrieve the name and email of the contact - this will be the TO for receipt email
         if ( $this->_contactID ) {
             list( $this->_contributorDisplayName, $this->_contributorEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $this->_contactID );
             $this->assign( 'email', $this->_contributorEmail );
+        } else {
+            //show email block for batch update for event
+            $this->assign( 'batchEmail', true );
         }
 
         //build custom data
@@ -705,13 +706,15 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         $userID  = $session->get( 'userID' );
         list( $userName, $userEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $userID );
         require_once "CRM/Event/BAO/Participant.php";
+        $participants = array();
         if ( $this->_single ) {
-            $participant = CRM_Event_BAO_Participant::create( $params, $ids );   
+            $participants[] = CRM_Event_BAO_Participant::create( $params, $ids );
+           
         } else {
             $ids = array( );
             foreach ( $this->_contactIds as $contactID ) {
                 $params['contact_id'] = $contactID;
-                CRM_Event_BAO_Participant::create( $params, $ids );   
+                $participants[]       = CRM_Event_BAO_Participant::create( $params, $ids );   
             }           
         }
 
@@ -721,12 +724,13 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                                                        'title' );
         }
 
-        if ( $params['record_contribution'] && $this->_single ) {
+        if ( $params['record_contribution'] ) {
             if( $ids['participant'] ) {
                 $ids['contribution'] = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_ParticipantPayment', 
                                                                     $ids['participant'], 
                                                                     'contribution_id', 
                                                                     'participant_id' );
+               
             }
             unset($params['note']);
            
@@ -744,47 +748,48 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 $contributionParams['receive_date'] : 'null';
             $recordContribution = array( 'contribution_type_id', 
                                          'payment_instrument_id', 'contribution_status_id' );
-
+           
             foreach ( $recordContribution as $f ) {
                 $contributionParams[$f] = CRM_Utils_Array::value( $f, $params );
+                
             }   
+            
             require_once 'CRM/Contribute/BAO/Contribution.php';
-            $contribution =& CRM_Contribute_BAO_Contribution::create( $contributionParams, $ids );
-
+            $contributions = array( );
+            if ( $this->_single ) {
+                $contributions[] =& CRM_Contribute_BAO_Contribution::create( $contributionParams, $ids );
+               
+            } else {
+                $ids = array( );
+                foreach ( $this->_contactIds as $contactID ) {
+                    $contributionParams['contact_id'] = $contactID;
+                    $contributions[] =& CRM_Contribute_BAO_Contribution::create( $contributionParams, $ids );
+               }           
+            }
+            
+            if ( $this->_single ) {
+                $this->_contactIds[] = $this->_contactID;
+            }
             //insert payment record for this participation
             if( !$ids['contribution'] ) {
                 require_once 'CRM/Event/DAO/ParticipantPayment.php';
-                $ppDAO =& new CRM_Event_DAO_ParticipantPayment();    
-                $ppDAO->participant_id  = $participant->id;
-                $ppDAO->contribution_id = $contribution->id;
-                $ppDAO->save(); 
+                foreach ( $this->_contactIds as $num => $contactID ) {
+                    $ppDAO =& new CRM_Event_DAO_ParticipantPayment();   
+                    $ppDAO->participant_id  = $participants[$num]->id;
+                    $ppDAO->contribution_id = $contributions[$num]->id;
+                    $ppDAO->save();
+                }
             }
         }
-
-        if ( $params['send_receipt'] && $this->_single ) {
+       
+        if ( $params['send_receipt'] ) {
             require_once 'CRM/Core/DAO.php';
             CRM_Core_DAO::setFieldValue( 'CRM_Event_DAO_Event', 
                                          $params['event_id'],
                                          'receipt_text',
                                          $params['receipt_text'] );
-            // Retrieve the name and email of the contact - this will be the TO for receipt email
-            list( $this->_contributorDisplayName, $this->_contributorEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $this->_contactID );
-
-            // retrieve custom data
-            require_once "CRM/Core/BAO/UFGroup.php";
-            $customFields = $customValues = array( );
-            foreach ( $this->_groupTree as $groupID => $group ) {
-                if ( $groupID == 'info' ) {
-                    continue;
-                }
-                foreach ( $group['fields'] as $k => $field ) {
-                    $field['title'] = $field['label'];
-                    $customFields["custom_{$k}"] = $field;
-                }
-            }
-            
-            CRM_Core_BAO_UFGroup::getValues( $this->_contactID, $customFields, $customValues , false, 
-                                             array( array( 'participant_id', '=', $participant->id, 0, 0 ) ) );
+           
+           
             $receiptFrom = '"' . $userName . '" <' . $userEmail . '>';
             
             $this->assign( 'module', 'Event Registration' );
@@ -809,12 +814,45 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $subject = trim( $template->fetch( 'CRM/Contribute/Form/ReceiptSubjectOffline.tpl' ) );
             $message = $template->fetch( 'CRM/Contribute/Form/ReceiptMessageOffline.tpl' );
 
-            require_once 'CRM/Utils/Mail.php';
-            CRM_Utils_Mail::send( $receiptFrom,
-                                  $this->_contributorDisplayName,
-                                  $this->_contributorEmail,
-                                  $subject,
-                                  $message);
+            // retrieve custom data
+            require_once "CRM/Core/BAO/UFGroup.php";
+            $customFields = $customValues = array( );
+            foreach ( $this->_groupTree as $groupID => $group ) {
+                if ( $groupID == 'info' ) {
+                    continue;
+                }
+                foreach ( $group['fields'] as $k => $field ) {
+                    $field['title'] = $field['label'];
+                    $customFields["custom_{$k}"] = $field;
+                }
+            }
+           
+            foreach ( $this->_contactIds as $num => $contactID ) {
+                // Retrieve the name and email of the contact - this will be the TO for receipt email
+                list( $this->_contributorDisplayName, $this->_contributorEmail, $this->_toDoNotEmail ) = CRM_Contact_BAO_Contact::getContactDetails( $contactID );
+              
+                CRM_Core_BAO_UFGroup::getValues( $contactID, $customFields, $customValues , false, 
+                                                 array( array( 'participant_id', '=', $participants[$num]->id, 0, 0 ) ) );
+               
+                //Do not try to send emails if emailID is not present
+                //or doNotEmail option is checked for that contact 
+                if( empty($this->_contributorEmail) or $this->_toDoNotEmail ) {
+                    $notSent[] = $contactID;
+                   
+                } else {
+                    require_once 'CRM/Utils/Mail.php';
+                    if ( CRM_Utils_Mail::send( $receiptFrom,
+                                               $this->_contributorDisplayName,
+                                               $this->_contributorEmail,
+                                               $subject,
+                                               $message) ) {
+                        $sent[] = $contactID;
+                    } else {
+                        $notSent[] = $contactID;
+                    }
+                }
+            }
+            
         }
         
         if ( ( $this->_action & CRM_Core_Action::UPDATE ) ) {
@@ -829,7 +867,8 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                     $statusMsg .= ' ' .  ts('A confirmation email has been sent to %1.', array(1 => $this->_contributorEmail));
                 }
             } else {
-                $statusMsg = ts('Total Participant(s) added to event: %1', array(1 => count($this->_contactIds)));
+                $statusMsg = ts('Total Participant(s) added to event: %1.', array(1 => count($this->_contactIds)));
+                $statusMsg .= ' ' . ts('Email will NOT be sent to %1 contact - communication preferences specify DO NOT EMAIL OR valid Email is NOT present. ', array(1 => count($notSent)));
             }
         }
         require_once "CRM/Core/Session.php";

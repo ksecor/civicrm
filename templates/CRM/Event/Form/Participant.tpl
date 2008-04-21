@@ -133,7 +133,7 @@
     </tr> 
     {/if}
 
-    {if $email}
+    {if $email OR $batchEmail}
     <tr id="send_confirmation">
        <td class ='html-adjust' colspan=2>
 	   <fieldset><legend>{if $paid}{ts}Registration Confirmation and Receipt{/ts}{else}{ts}Registration Confirmation{/ts}{/if}</legend>  
@@ -141,7 +141,7 @@
 		 <dl> 
 	    	     <dt class="label">{if $paid}{ts}Send Confirmation and Receipt{/ts}{else}{ts}Send Confirmation{/ts}{/if}</dt>
             	     <dd class ='html-adjust' >{$form.send_receipt.html}<br>
-                     <span class="description">{ts}Automatically email a confirmation {if $paid} and receipt {/if} to {$email}?{/ts}</span></dd>
+                     <span class="description">{ts}Automatically email a confirmation {if $paid} and receipt {/if}{if $email} to {$email}?{/if}{/ts}</span></dd>
             	 </dl>
                  <div id='notice'>
                     <dl>
