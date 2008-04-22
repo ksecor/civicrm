@@ -65,6 +65,14 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
     protected $_id;
 
     /**
+     * The default custom data/input types, when editing the field
+     *
+     * @var array
+     * @access protected
+     */
+    protected $_defaultDataType;
+    
+    /**
      * Array for valid combinations of data_type & html_type
      *
      * @var array
@@ -151,7 +159,8 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
                 $defaults['data_type'] = array( '0' => array_search( $defaults['data_type'],
                                                                      self::$_dataTypeKeys ), 
                                                 '1' => $defaults['html_type'] );
-                
+                $this->_defaultDataType = $defaults['data_type'];
+
                 $this->assign('data_type_0',$defaults['data_type']['0']);
                 $this->assign('data_type_1',$defaults['data_type']['1']);
             }
@@ -417,9 +426,12 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
             $errors['label'] = ts('Name already exists in Database.');
         }
         
-        if (!isset($fields['data_type'][0]) || !$fields['data_type'][1]) {
+        // during action=update, since data_type field is disabled/frozen
+        // value is not submitted. 
+        if (is_array($fields['data_type']) && (!isset($fields['data_type'][0]) || !$fields['data_type'][1])) {
             $errors['_qf_default'] = ts('Please enter valid - Data and Input Field Type.');
         }
+
         if ( $default ) {
             $dataType = self::$_dataTypeKeys[$fields['data_type'][0]];
             switch ( $dataType ) {
@@ -711,6 +723,10 @@ AND    option_group_id = %2";
         // POST is required for data_type field.
         $params = $_POST;
 
+        if ($this->_action == CRM_Core_Action::UPDATE) {
+            $params['data_type'] = $this->_defaultDataType;
+        }
+
         // set values for custom field properties and save
         $customField                =& new CRM_Core_DAO_CustomField();
         $customField->label         = $params['label'];
@@ -734,35 +750,35 @@ AND    option_group_id = %2";
         if ( strlen(trim($params['default_value']))) {
             switch (self::$_dataTypeKeys[$params['data_type'][0]]) {
             case 'StateProvince':
-                $fieldStateProvince = $params['default_value'];
+                $fieldStateProvince = strtolower($params['default_value']);
                 $query = "
 SELECT id
   FROM civicrm_state_province 
- WHERE name = '$fieldStateProvince' 
+ WHERE LOWER(name) = '$fieldStateProvince' 
     OR abbreviation = '$fieldStateProvince'";
                 $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
-                if ( $dao->find( true ) ) {
+                if ( $dao->fetch() ) {
                     $customField->default_value = $dao->id;
                 }
                 break;
                 
             case 'Country':                
-                $fieldCountry = $params['default_value'];
+                $fieldCountry = strtolower($params['default_value']);
                 $query = "
 SELECT id
   FROM civicrm_country
- WHERE name = '$fieldCountry' 
+ WHERE LOWER(name) = '$fieldCountry' 
     OR iso_code = '$fieldCountry'";
                 $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
-                if ( $dao->find( true ) ) {
+                if ( $dao->fetch() ) {
                     $customField->default_value = $dao->id;
                 }
                 break;
 
             default:
                 $customField->default_value = $params['default_value'];              
-            }            
-        }    
+            }
+        }
 
         // special for checkbox options
         if ( ( $customField->html_type == 'CheckBox' ||
@@ -786,7 +802,7 @@ SELECT id
         } else {
             if ( isset($params['option_value'][$params['default_option']]) ) {
                 $customField->default_value = $params['option_value'][$params['default_option']];
-            } else {
+            } elseif (! isset($customField->default_value)) {
                 $customField->default_value = $params['default_value'];
             }
         }
