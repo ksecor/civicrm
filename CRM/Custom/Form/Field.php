@@ -70,7 +70,6 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
      * @var array
      * @static
      */
-    private static $_dataTypeValues = null;
     private static $_dataTypeKeys = null;
     
     private static $_dataToHTML = array(
@@ -88,9 +87,6 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
             array('Link' => 'Link')
     );
     
-    private static $_dataToLabels = null;
-    
-
     /**
      * Function to set variables up before form is built
      * 
@@ -104,33 +100,12 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
         require_once 'CRM/Core/BAO/CustomField.php';
         if (!(self::$_dataTypeKeys)) {
             self::$_dataTypeKeys   = array_keys  (CRM_Core_BAO_CustomField::dataType());
-            self::$_dataTypeValues = array_values(CRM_Core_BAO_CustomField::dataType());
         }
 
         $this->_gid = CRM_Utils_Request::retrieve('gid', 'Positive',
                                                   $this);
         $this->_id  = CRM_Utils_Request::retrieve('id' , 'Positive',
                                                   $this);
-        if (self::$_dataToLabels == null) {
-            self::$_dataToLabels = array(
-                array('Text' => ts('Text'), 'Select' => ts('Select'), 
-                        'Radio' => ts('Radio'), 'CheckBox' => ts('CheckBox'), 'Multi-Select' => ts('Multi-Select')),
-                array('Text' => ts('Text'), 'Select' => ts('Select'), 
-                        'Radio' => ts('Radio')),
-                array('Text' => ts('Text'), 'Select' => ts('Select'), 
-                        'Radio' => ts('Radio')),
-                array('Text' => ts('Text'), 'Select' => ts('Select'), 
-                        'Radio' => ts('Radio')),
-                array('TextArea' => ts('TextArea')),
-                array('Date' => ts('Select Date')),
-                array('Radio' => ts('Radio')),
-                array('StateProvince' => ts('Select State/Province')),
-                array('Country' => ts('Select Country')),
-                array('File' => ts('Select File')),
-                array('Link' => ts ('Link'))
-            );
-        }
-
     }
 
     /**
@@ -176,9 +151,10 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
                 $defaults['data_type'] = array( '0' => array_search( $defaults['data_type'],
                                                                      self::$_dataTypeKeys ), 
                                                 '1' => $defaults['html_type'] );
+                
+                $this->assign('data_type_0',$defaults['data_type']['0']);
+                $this->assign('data_type_1',$defaults['data_type']['1']);
             }
-            $this->assign('data_type_0',$defaults['data_type']['0']);
-            $this->assign('data_type_1',$defaults['data_type']['1']);
             
             $date_parts = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,
                                    $defaults['date_parts'] );
@@ -236,9 +212,11 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
         // label
         $this->add('text', 'label', ts('Field Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'label'), true);
         
-//         if ($this->_action == CRM_Core_Action::UPDATE) {
-//             $this->freeze('data_type');
-//         }
+        if ($this->_action == CRM_Core_Action::UPDATE) {
+            $this->assign('freezeAll', "true");
+        } else {
+            $this->assign('freezeAll', "false");
+        }
 
         $optionGroups = CRM_Core_BAO_CustomField::customOptionGroup( );
 
@@ -439,6 +417,9 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
             $errors['label'] = ts('Name already exists in Database.');
         }
         
+        if (!isset($fields['data_type'][0]) || !$fields['data_type'][1]) {
+            $errors['_qf_default'] = ts('Please enter valid - Data and Input Field Type.');
+        }
         if ( $default ) {
             $dataType = self::$_dataTypeKeys[$fields['data_type'][0]];
             switch ( $dataType ) {
@@ -710,7 +691,7 @@ AND    option_group_id = %2";
                 $errors['label'] = ts("Field's Name should not start with digit");
             } 
         }
-        
+
         return empty($errors) ? true : $errors;
     }
     
@@ -726,6 +707,8 @@ AND    option_group_id = %2";
     {
         // store the submitted values in an array
         //$params = $this->controller->exportValues( $this->_name );
+
+        // POST is required for data_type field.
         $params = $_POST;
 
         // set values for custom field properties and save
@@ -747,7 +730,6 @@ AND    option_group_id = %2";
             $customField->weight  = $params['weight'];
         }
 
-        //$customField->default_value = $params['default_value'];
         //store the primary key for State/Province or Country as default value.
         if ( strlen(trim($params['default_value']))) {
             switch (self::$_dataTypeKeys[$params['data_type'][0]]) {

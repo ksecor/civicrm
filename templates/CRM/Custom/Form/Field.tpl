@@ -43,72 +43,69 @@
             document.getElementById("hideDescDef").style.display="block";
         }
 	
-	var radioOption, checkBoxOption;
+	    var radioOption, checkBoxOption;
 
-	for (var i=1; i<=11; i++) {
-	  radioOption = 'radio'+i;
-	  checkBoxOption = 'checkbox'+i	
-	  if (  data_type_id < 4) {
+	    for (var i=1; i<=11; i++) {
+    	  radioOption = 'radio'+i;
+    	  checkBoxOption = 'checkbox'+i	
+    	  if (data_type_id < 4) {
                if (html_type_name != "Text") {
-		      if (html_type_name == "CheckBox" || html_type_name == "Multi-Select") {
-	             document.getElementById(checkBoxOption).style.display="block";
-		         document.getElementById(radioOption).style.display="none";
-		      } else {
-                 document.getElementById(radioOption).style.display="block";	
-		         document.getElementById(checkBoxOption).style.display="none";
-		      }
-	       }
-	    }
-	}
+    		      if (html_type_name == "CheckBox" || html_type_name == "Multi-Select") {
+    	             document.getElementById(checkBoxOption).style.display="block";
+    		         document.getElementById(radioOption).style.display="none";
+    		      } else {
+                     document.getElementById(radioOption).style.display="block";	
+    		         document.getElementById(checkBoxOption).style.display="none";
+    		      }
+    	       }
+          }
+	   }
 
-	if ( data_type_id < 4) {	
-		if (html_type_name == "CheckBox" || html_type_name == "Radio") {
-			document.getElementById("optionsPerLine").style.display="block";
-			document.getElementById("optionsPerLineDef").style.display="block";
-		} else {
-			document.getElementById("optionsPerLine").style.display="none";
-			document.getElementById("optionsPerLineDef").style.display="none";
-		}
-	}
+    	if ( data_type_id < 4) {	
+    		if (html_type_name == "CheckBox" || html_type_name == "Radio") {
+    			document.getElementById("optionsPerLine").style.display="block";
+    			document.getElementById("optionsPerLineDef").style.display="block";
+    		} else {
+    			document.getElementById("optionsPerLine").style.display="none";
+    			document.getElementById("optionsPerLineDef").style.display="none";
+    		}
+    	}
 	
-	if ( data_type_id == 5) {
-	     document.getElementById("startDateRange").style.display="block";
-	     document.getElementById("startDateRangeDef").style.display="block";
-	     document.getElementById("endDateRange").style.display="block";
-	     document.getElementById("endDateRangeDef").style.display="block";
-	     document.getElementById("incudedDatePart").style.display="block";
-	     document.getElementById("incudedDatePartDef").style.display="block";	
- 	} else {
-	     document.getElementById("startDateRange").style.display="none";
-	     document.getElementById("startDateRangeDef").style.display="none";
-	     document.getElementById("endDateRange").style.display="none";
-	     document.getElementById("endDateRangeDef").style.display="none";
-	     document.getElementById("incudedDatePart").style.display="none";
-	     document.getElementById("incudedDatePartDef").style.display="none";	 	
-			
-	}
+    	if ( data_type_id == 5) {
+    	     document.getElementById("startDateRange").style.display="block";
+    	     document.getElementById("startDateRangeDef").style.display="block";
+	         document.getElementById("endDateRange").style.display="block";
+    	     document.getElementById("endDateRangeDef").style.display="block";
+    	     document.getElementById("incudedDatePart").style.display="block";
+    	     document.getElementById("incudedDatePartDef").style.display="block";	
+ 	    } else {
+    	     document.getElementById("startDateRange").style.display="none";
+   	         document.getElementById("startDateRangeDef").style.display="none";
+    	     document.getElementById("endDateRange").style.display="none";
+    	     document.getElementById("endDateRangeDef").style.display="none";
+	         document.getElementById("incudedDatePart").style.display="none";
+    	     document.getElementById("incudedDatePartDef").style.display="none";	 	
+    	}
 
-	if ( data_type_id == 4 ) {
-	      document.getElementById("noteColumns").style.display="block";
-	      document.getElementById("noteColumnsDef").style.display="block";
-	      document.getElementById("noteRows").style.display="block";
-	      document.getElementById("noteRowsDef").style.display="block";
-
-	} else {
-	      document.getElementById("noteColumns").style.display="none";
-	      document.getElementById("noteColumnsDef").style.display="none";
-	      document.getElementById("noteRows").style.display="none";
-	      document.getElementById("noteRowsDef").style.display="none";
-	}
+    	if ( data_type_id == 4 ) {
+    	     document.getElementById("noteColumns").style.display="block";
+    	     document.getElementById("noteColumnsDef").style.display="block";
+    	     document.getElementById("noteRows").style.display="block";
+    	     document.getElementById("noteRowsDef").style.display="block";
+    
+	    } else {
+    	     document.getElementById("noteColumns").style.display="none";
+   	         document.getElementById("noteColumnsDef").style.display="none";
+	         document.getElementById("noteRows").style.display="none";
+	         document.getElementById("noteRowsDef").style.display="none";
+    	}
 			 
-    if ( data_type_id > 3) {
-         document.getElementById("optionsPerLine").style.display="none";
-         document.getElementById("optionsPerLineDef").style.display="none";
-    }
+        if ( data_type_id > 3) {
+             document.getElementById("optionsPerLine").style.display="none";
+             document.getElementById("optionsPerLineDef").style.display="none";
+        }
 
-    document.getElementsByName("is_searchable")[0].checked   = false;
-    document.getElementsByName("is_search_range")[1].checked = true;
-    document.getElementById("searchByRange").style.display   = "none";
+        clearSearchBoxes( );
     }
 </script>
 {/literal}
@@ -117,7 +114,7 @@
     <div class="form-item">
         <dl>
         <dt>{$form.label.label}</dt><dd>{$form.label.html}</dd>
-        <dt class="extra-long-twenty">{$form.data_type.label}</dt><dd><span name="data_type" dojoType="civicrm.HierSelect" url1="{crmURL p='civicrm/ajax/customdatatype'}" url2="{crmURL p='civicrm/ajax/custominputtype'}" default1={$data_type_0} default2={$data_type_1} jsMethod1="custom_option_html_type" jsMethod2="custom_option_html_type" firstInList="true"></span></dd>
+        <dt class="extra-long-twenty">{ts}Data and Input Field Type{/ts}</dt><dd><span name="data_type" dojoType="civicrm.HierSelect" url1="{crmURL p='civicrm/ajax/customdatatype'}" url2="{crmURL p='civicrm/ajax/custominputtype'}" default1={$data_type_0} default2={$data_type_1} jsMethod1="clearSearchBoxes" jsMethod2="custom_option_html_type" firstInList=true freezeAll={$freezeAll}></span></dd>
         {if $action neq 4 and $action neq 2}
             <dt>&nbsp;</dt><dd class="description">{ts}Select the type of data you want to collect and store for this contact. Then select from the available HTML input field types (choices are based on the type of data being collected).{/ts}</dd>
         {/if}
@@ -193,22 +190,25 @@
 
 {literal}
 <script type="text/javascript">
-
       function showSearchRange(chkbox) {
             var html_type = document.getElementsByName("data_type[1]")[0].value;
 	        var data_type = document.getElementsByName("data_type[0]")[0].value;
 
             if ( ((data_type == 1 || data_type == 2 || data_type == 3) && (html_type == "Text")) || data_type == 5) {
         	   if (chkbox.checked) {
-                 document.getElementsByName("is_search_range")[0].checked = true;
-        	     document.getElementById("searchByRange").style.display = "block";
+                  document.getElementsByName("is_search_range")[0].checked = true;
+        	      document.getElementById("searchByRange").style.display = "block";
         	   } else {
-                 document.getElementsByName("is_search_range")[1].checked = true;
-        		 document.getElementById("searchByRange").style.display = "none";
+                  clearSearchBoxes( );
         	   }
-		    } 
+            }
       }
 
+      function clearSearchBoxes() {
+            document.getElementsByName("is_searchable")[0].checked   = false; 
+            document.getElementsByName("is_search_range")[1].checked = true;
+      	    document.getElementById("searchByRange").style.display = "none";
+      }
 </script>
 {/literal}
 

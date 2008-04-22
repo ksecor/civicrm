@@ -39,6 +39,7 @@ dojo.declare(
 	jsMethod2: "",
 	jsEvent3 : "onChange",
 	jsMethod3: "",
+	freezeAll: false,
 
         templateString: "<span class=${hsTheme}></span>",
 
@@ -65,10 +66,10 @@ dojo.declare(
 		{store:this.storeOption1,name:this.name+"[0]",autocomplete:true},
 		dojo.byId("id_" + this.name + "_0"));
 
+		dojo.connect(selector1, 'onChange', this, 'onSelectionOne');
 		if (this.jsMethod1 != "") {
 			dojo.connect(selector1, this.jsEvent1, this.jsMethod1);
 		}
-		dojo.connect(selector1, 'onChange', this, 'onSelectionOne');
 
 		if (!eval('document.getElementById("id_" + this.name + "_1")')) {
 			newAnchor = document.createElement("span");
@@ -127,9 +128,14 @@ dojo.declare(
 			dojo.connect(selector2, 'onChange', this, 
 			function(e) {
 				storeOption3.url = storeOption3.url.split("?")[0] + "?node1=" + selector1.getValue() + "&node2=" + e;
-				if (selector3.disabled == true && /^\w+$/.test(e) && (typeof e != 'undefined')) {
-					selector3.setDisabled(false);
+				if (e && (e != "")) {
+				    if (selector3.disabled == true && !this.freezeAll) {
+					selector3.setAttribute('disabled',false);
+				    }
+				} else {
+				    selector3.setAttribute('disabled',true);
 				}
+
 				var d3 = this.default3;
 				var firstInList = this.firstInList;
 
@@ -169,8 +175,14 @@ dojo.declare(
 			      }
 			});
 		} else {
-			selector2.setDisabled( true );
-		        if(this.url3 != "") {selector3.setDisabled( true );}
+			selector2.setAttribute('disabled',true);
+		        if(this.url3 != "") {selector3.setAttribute('disabled',true);}
+		}
+
+		if (this.freezeAll) {
+			selector1.setAttribute('disabled',true);
+			selector2.setAttribute('disabled',true);
+			if(this.url3 != "") {selector3.setAttribute('disabled',true);}
 		}
 		//console.log("postCreate");
 	},
@@ -180,8 +192,12 @@ dojo.declare(
 		storeOption2.url = storeOption2.url.split("?")[0] + "?node1=" + e;
 		var selector2 = dijit.byId( "id_" + this.name + "_1" );
 		
-		if (selector2.disabled == true) {
-		      selector2.setDisabled(false);
+		if (e && (e != "")) {
+		    if (selector2.disabled == true && !this.freezeAll) {
+			selector2.setAttribute('disabled',false);
+		    }
+		} else {
+			selector2.setAttribute('disabled',true);
 		}
 		var d2 = this.default2;
 		var firstInList = this.firstInList;

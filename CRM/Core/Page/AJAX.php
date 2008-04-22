@@ -335,8 +335,8 @@ ORDER by v.weight";
             $dataType = array_values(CRM_Core_BAO_CustomField::dataType());
         }
 
-        $dataTypeName = trim(CRM_Utils_Type::escape($_GET['name'], 'String'));        
-        $dataTypeName = str_replace( '*', '', $dataTypeName );        
+        $dataTypeName = trim(CRM_Utils_Type::escape($_GET['name'], 'String'));      
+        $dataTypeName = str_replace(array('*', '/'), array('', '\/'), $dataTypeName);        
         $pattern = '/^' . $dataTypeName .'/i';
 
         $elements = array( );
@@ -363,7 +363,7 @@ ORDER by v.weight";
 
         $name = array();
 
-        // simulating the dynamic building of array.
+        // simulating - dynamic building of array.
         switch ( $inputTypeId ) {
         case '0': 
             $name['Text']         = 'Text';
@@ -392,13 +392,13 @@ ORDER by v.weight";
             $name['StateProvince'] = 'Select State/Province';
             break;
         case '8':
-            $name['Country'] = 'Select Country';
+            $name['Country']      = 'Select Country';
             break;
         case '9':
-            $name['File'] = 'Select File';
+            $name['File']         = 'Select File';
             break;
         case '10':
-            $name['Link'] = 'Link';
+            $name['Link']         = 'Link';
             break;
         }
 
@@ -417,7 +417,7 @@ ORDER by v.weight";
         }
         if (empty($elements)) {
             $elements[] = array( 'value' => '',
-                                 'name'  => '-- n/a --' );
+                                 'name'  => '- input field type n/a -' );
         }
 
         require_once "CRM/Utils/JSON.php";
