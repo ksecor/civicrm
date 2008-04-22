@@ -101,6 +101,14 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
         if ($this->_action & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
             $inactiveNeeded = true;
             $viewMode = true;
+           
+            $allGrantDates = array( 'application_received_date', 
+                                    'decision_date', 
+                                    'money_transfer_date', 
+                                    'grant_due_date' );
+            foreach ( $allGrantDates as $grantDate ) {
+                $this->assign( $grantDate, $defaults[$grantDate] );
+            }
         } else {
             $viewMode = false;
             $inactiveNeeded = false;
