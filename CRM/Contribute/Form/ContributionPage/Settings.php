@@ -88,6 +88,10 @@ class CRM_Contribute_Form_ContributionPage_Settings extends CRM_Contribute_Form_
         $this->add('textarea', 'intro_text', ts('Introductory Message'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'intro_text'), true);
         $this->add('textarea', 'footer_text', ts('Footer Message'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'footer_text'), false);
 
+        // is on behalf of an organization ?
+        $this->addElement('checkbox', 'is_for_organization', ts('Allow individuals to contribute and / or signup for membership on behalf of an organization?'), null, array('onclick' =>"return showHideByValue('is_for_organization',true,'for_org_text','block','radio',false);") );
+        $this->add('textarea', 'for_organization', ts('On behalf of label'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'for_organization') );
+
         // collect goal amount
         $this->add('text', 'goal_amount', ts('Goal Amount'), array( 'size' => 8, 'maxlength' => 12 ) ); 
         $this->addRule( 'goal_amount', ts( 'Please enter a valid money value (e.g. 99.99).' ), 'money' );

@@ -27,6 +27,12 @@
         <dt>{$form.payment_processor_id.label}</dt><dd>{$form.payment_processor_id.html}</dd>
         <dt>&nbsp;</dt><dd class="description">{ts 1="http://wiki.civicrm.org/confluence//x/ihk" 2=$docURLTitle}Select the payment processor to be used for contributions submitted from this contribution page (unless you are soliciting non-monetary / in-kind contributions only). (<a href='%1' target='_blank' title='%2'>read more...</a>){/ts}</dd>
     {/if}
+    <dt>&nbsp;</dt><dd>{$form.is_for_organization.html} {$form.is_for_organization.label}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}If you want to allow the contribution to be done by individuals on behalf of an organization.{/ts}</dd>
+    <span id="for_org_text">
+    <dt>{$form.for_organization.label}</dt><dd>{$form.for_organization.html}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}Text displayed next to the checkbox for the 'contribute/signup on behalf of an organization' option on the contribution form.{/ts}</dd>
+    </span>
     <dt>{$form.intro_text.label}</dt><dd>{$form.intro_text.html}</dd>
     <dt class="extra-long-twenty">&nbsp;</dt><dd class="description">{ts}Enter content for the introductory message. This will be displayed below the page title. You may include HTML formatting tags. You can also include images, as long as they are already uploaded to a server - reference them using complete URLs.{/ts}</dd>
     <dt>{$form.footer_text.label}</dt><dd>{$form.footer_text.html}</dd>
