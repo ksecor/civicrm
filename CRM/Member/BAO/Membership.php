@@ -781,19 +781,24 @@ AND       civicrm_membership.is_test = %2
             $params['amount'] = $minimumFee;
             $contributionTypeId = $membershipDetails['contribution_type_id']; 
         }
-
-        require_once 'CRM/Contribute/BAO/Contribution.php';
-        $result = CRM_Contribute_BAO_Contribution::processConfirm( $form, $membershipParams, 
-                                                                   $premiumParams, $contactID,
-                                                                   $contributionTypeId, 
-                                                                   'membership' );
-        
+        //amount must be greater than zero for 
+        //adding contribution record  to contribution table.
+        //this condition is arises when separate membership payment is
+        //enable and contribution amount is not selected. fix for CRM-3010
+        if ( $form->_amount > 0.0 ) {
+            require_once 'CRM/Contribute/BAO/Contribution.php';
+            $result = CRM_Contribute_BAO_Contribution::processConfirm( $form, $membershipParams, 
+                                                                       $premiumParams, $contactID,
+                                                                       $contributionTypeId, 
+                                                                       'membership' );
+        }        
         $errors = array();
         if ( is_a( $result[1], 'CRM_Core_Error' ) ) {
             $errors[1]       = CRM_Core_Error::getMessages( $result[1] );
         } else {
             $contribution[1] = $result[1];
         }
+        
         
         $memBlockDetails    = CRM_Member_BAO_Membership::getMemberShipBlock( $form->_id );
         if ( $memBlockDetails['is_separate_payment']  && ! $paymentDone ) {
@@ -819,6 +824,16 @@ AND       civicrm_membership.is_test = %2
             if ( is_a( $result, 'CRM_Core_Error' ) ) {
                 $errors[2] = CRM_Core_Error::getMessages( $result );
             } else {
+                //assign receive date when separate membership payment
+                //and contribution amount not selected.
+                if ( $form->_amount == 0 ) {
+                    $now = date( 'YmdHis' );
+                    $form->_params['receive_date'] = $now;
+                    $receiveDate = CRM_Utils_Date::mysqlToIso( $now );
+                    $form->set( 'params', $form->_params );
+                    $form->assign( 'receive_date', $receiveDate );
+                 }
+                
                 $form->set('membership_trx_id' , $result['trxn_id']);
                 $form->set('membership_amount'  , $minimumFee);
                 
