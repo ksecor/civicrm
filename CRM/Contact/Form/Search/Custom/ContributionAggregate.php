@@ -102,7 +102,7 @@ class CRM_Contact_Form_Search_Custom_ContributionAggregate
         
         // SELECT clause must include contact_id as an alias for civicrm_contact.id
         $select  = "
-distinct(contact.id) as contact_id,
+DISTINCT contact.id as contact_id,
 contact.sort_name as sort_name,
 sum(contrib.total_amount) AS donation_amount,
 count(contrib.id) AS donation_count
