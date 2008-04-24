@@ -68,7 +68,7 @@ class CRM_Contact_Controller_Search extends CRM_Core_Controller {
         $session =& CRM_Core_Session::singleton( );
         $uploadNames = $session->get( 'uploadNames' );
 
-        if (! empty ( $uploadNames ) && $config->uploadDir ) {
+        if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
             $uploadDir = $config->uploadDir;
         }
         // add all the actions
