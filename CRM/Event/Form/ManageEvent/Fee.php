@@ -269,6 +269,8 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         $params = $this->exportValues( );
         $params['event_id'] = $ids['event_id'] = $this->_id;
 
+        $params['is_pay_later'] = CRM_Utils_Array::value( 'is_pay_later', $params, 0 );
+
         if ( $this->_id ) {
             require_once 'CRM/Core/BAO/PriceSet.php';
 
