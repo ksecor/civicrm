@@ -574,21 +574,21 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                 $row['postal_code'] .= "-" . $result->postal_code_suffix;
             }
             
-            if ($output != CRM_Core_Selector_Controller::EXPORT ||
-                $context == 'smog') {
-                if (empty($result->status)) {
+            if ( $output != CRM_Core_Selector_Controller::EXPORT ||
+                 $context == 'smog' ) {
+                if ( empty( $result->status ) ) {
                     //check explicitly added contact to a Smart Group.
                     $groupID  = CRM_Utils_Array::key( '1', $this->_formValues['group'] );  
                     $gcParams = array('contact_id' => $row['contact_id' ],
                                       'group_id'   => $groupID,
                                       );
-                    $gcdefaults = array( );
-                    CRM_Core_DAO::commonRetrieve( 'CRM_Contact_DAO_GroupContact', $gcParams, $gcdefaults );
+                    $gcDefaults = array( );
+                    CRM_Core_DAO::commonRetrieve( 'CRM_Contact_DAO_GroupContact', $gcParams, $gcDefaults );
                     
-                    if ( empty( $gcdefaults ) ) {
+                    if ( empty( $gcDefaults ) ) {
                         $row['status'] = ts('Smart');
                     } else {
-                        $row['status'] = $gc[$gcdefaults['status']];
+                        $row['status'] = $gc[$gcDefaults['status']];
                     }
                 } else {
                     $row['status'] = $gc[$result->status];
