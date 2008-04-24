@@ -125,7 +125,9 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         }
 
         if ( !empty($relationshipType) ) {
-            $fields = array_merge($fields, array( 'related' => array('title' => '- related contact info -')) + $relationshipType);
+            $fields = array_merge( $fields,
+                                   array( 'related' => array( 'title' => '- related contact info -') ),
+                                   $relationshipType );
         }
 
         foreach ($fields as $name => $field) {
@@ -137,7 +139,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                              CRM_Utils_Array::value( 'hasLocationType', $field ) );
         }
 
-        $this->_newContacts = array();
+        $this->_newContacts = array( );
 
         $this->setActiveFields( $this->_mapperKeys );
         $this->setActiveFieldLocationTypes( $this->_mapperLocType );

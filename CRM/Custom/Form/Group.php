@@ -337,6 +337,10 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
             CRM_Core_BAO_CustomGroup::createTable( $group );
         }
 
+        // reset the cache
+        require_once 'CRM/Core/BAO/Cache.php';
+        CRM_Core_BAO_Cache::deleteGroup( 'contact fields' );
+
         $transaction->commit( );
 
         if ($this->_action & CRM_Core_Action::UPDATE) {

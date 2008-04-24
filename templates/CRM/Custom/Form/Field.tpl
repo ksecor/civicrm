@@ -60,7 +60,7 @@
     	       }
           }
 	   }
-
+v
     	if ( data_type_id < 4) {	
     		if (html_type_name == "CheckBox" || html_type_name == "Radio") {
     			document.getElementById("optionsPerLine").style.display="block";

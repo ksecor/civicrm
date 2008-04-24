@@ -219,7 +219,11 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
         $this->assign( 'dojoIncludes', "dojo.require('civicrm.HierSelect');" );
 
         // label
-        $this->add('text', 'label', ts('Field Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'label'), true);
+        $this->add( 'text',
+                    'label',
+                    ts('Field Label'),
+                    CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'label'),
+                    true );
         
         if ($this->_action == CRM_Core_Action::UPDATE) {
             $this->assign('freezeAll', "true");
@@ -718,10 +722,10 @@ AND    option_group_id = %2";
     public function postProcess()
     {
         // store the submitted values in an array
-        //$params = $this->controller->exportValues( $this->_name );
+        $params = $this->controller->exportValues( $this->_name );
 
-        // POST is required for data_type field.
-        $params = $_POST;
+        // POST is required for data_type field. this is an ugly hack but workable for now
+        $params['data_type'] = $_POST['data_type'];
 
         if ($this->_action == CRM_Core_Action::UPDATE) {
             $params['data_type'] = $this->_defaultDataType;
@@ -921,6 +925,10 @@ SELECT id
         
         // since we need to save option group id :)
         $customField->save();
+
+        // reset the cache
+        require_once 'CRM/Core/BAO/Cache.php';
+        CRM_Core_BAO_Cache::deleteGroup( 'contact fields' );
 
         CRM_Core_Session::setStatus(ts('Your custom field \'%1\' has been saved', array(1 => $customField->label)));
     }

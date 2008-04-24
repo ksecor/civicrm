@@ -68,6 +68,8 @@ class CRM_Core_Menu
                                          'page_callback'   ,
                                          'breadcrumb'      );
 
+    static $_menuCache = null;
+
     const
         MENU_ITEM  = 1;
 
@@ -1194,8 +1196,12 @@ class CRM_Core_Menu
     }
 
     static function &getNavigation( ) {
-        $nav =& self::get( 'navigation' );
-        
+        if ( ! array_key_exists( 'navigation', self::$_menuCache ) ) {
+            CRM_Core_Error::fatal( );
+        }
+
+        $nav =& self::$_menuCache['navigation'];
+
         if ( ! $nav ||
              ! isset( $nav['breadcrumb'] ) ) {
             return null;
@@ -1349,20 +1355,50 @@ class CRM_Core_Menu
         }
 
         $params = array( );
+
+        $args = explode( '/', $path );
+
+        $elements = array( );
+        while ( ! empty( $args ) ) {
+            $elements[] = "'" . implode( '/', $args ) . "'";
+            array_pop( $args );
+        }
+
+        $queryString = implode( ', ', $elements );
+        
+        $query = "
+( 
+  SELECT * 
+  FROM     civicrm_menu 
+  WHERE    path in ( $queryString )
+  ORDER BY length(path) DESC
+  LIMIT    1 
+) UNION ( 
+  SELECT *
+  FROM   civicrm_menu 
+  WHERE   path IN ( 'navigation' )
+)
+";
         
         require_once "CRM/Core/DAO/Menu.php";
         $menu  =& new CRM_Core_DAO_Menu( );
-        $menu->path = $path;
+        $menu->query( $query );
 
-        if ( $menu->find(true) ) {
-            CRM_Core_DAO::storeValues( $menu, $params );
+        self::$_menuCache = array( );
+        while ( $menu->fetch( ) ) {
+            self::$_menuCache[$menu->path] = array( );
+            CRM_Core_DAO::storeValues( $menu, self::$_menuCache[$menu->path] );
 
             foreach ( self::$_serializedElements as $element ) {
-                $params[$element] = unserialize( $menu->$element );
+                self::$_menuCache[$menu->path][$element] = unserialize( $menu->$element );
+                
+                if ( strpos( $path, $menu->path ) !== false ) {
+                    $menuPath =& self::$_menuCache[$menu->path];
+                }
             }
         }
         
-        return $params;
+        return $menuPath;
     }
 
     static function getArrayForPathArgs( $pathArgs )
