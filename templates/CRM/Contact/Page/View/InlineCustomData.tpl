@@ -21,7 +21,7 @@
 			        {if $cd_value.options_per_line != 0 }
 		                    {assign var="element_name" value="custom_"|cat:$field_id}			
 			            <dt>{$cd_value.label} </dt>
-                        <dd class="html-adjust" id = "{$element_name}" >
+                        <dd class="html-adjust">
                         {if $viewForm.$element_name}
                             {assign var="count" value="1"}
                             {assign var="no" value="1"}
@@ -60,13 +60,13 @@
                             {if $viewForm.$element_name.html}
                              {if $groupTree.$group_id.fields.$field_id.customValue.displayURL }
                               {* <dd class="html-adjust"><a href="{$groupTree.$group_id.fields.$field_id.customValue.fileURL}"><img src="{$groupTree.$group_id.fields.$field_id.customValue.displayURL}" height = "100" width="100"></a></dd> *}
-                               <dd class="html-adjust"  ><a href="javascript:popUp('{$groupTree.$group_id.fields.$field_id.customValue.displayURL}')" ><img src="{$groupTree.$group_id.fields.$field_id.customValue.displayURL}" height = "100" width="100"></a></dd>
+                               <dd class="html-adjust"><a href="javascript:popUp('{$groupTree.$group_id.fields.$field_id.customValue.displayURL}')" ><img src="{$groupTree.$group_id.fields.$field_id.customValue.displayURL}" height = "100" width="100"></a></dd>
                              {else}
                                <dd class="html-adjust"><a href="{$groupTree.$group_id.fields.$field_id.customValue.fileURL}">{$groupTree.$group_id.fields.$field_id.customValue.fileName}</a></dd>
                              {/if}
                             {/if}
                          {else}
-                            <dd class="html-adjust" id = "{$element_name}">{$viewForm.$element_name.html}&nbsp;</dd>
+                            <dd class="html-adjust" id="id-{$element_name}">{$viewForm.$element_name.html}&nbsp;</dd>
                          {/if}
                     {/if}
                     {/foreach}

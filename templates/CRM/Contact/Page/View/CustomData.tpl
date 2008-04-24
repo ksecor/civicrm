@@ -77,7 +77,7 @@
                             {/if}  
                             </dd> 
                          {else}
-                           <dd class="html-adjust">{$form.$element_name.html}&nbsp;</dd>
+                           <dd class="html-adjust" id ="id-{$element_name}">{$form.$element_name.html}&nbsp;</dd>
                          {/if}
                         {/if}
                     {/foreach}
