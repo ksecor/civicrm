@@ -114,7 +114,7 @@
     <div class="form-item">
         <dl>
         <dt>{$form.label.label}</dt><dd>{$form.label.html}</dd>
-        <dt class="extra-long-twenty">{ts}Data and Input Field Type{/ts}</dt><dd><span name="data_type" dojoType="civicrm.HierSelect" url1="{crmURL p='civicrm/ajax/customdatatype'}" url2="{crmURL p='civicrm/ajax/custominputtype'}" default1={$data_type_0} default2={$data_type_1} jsMethod1="clearSearchBoxes" jsMethod2="custom_option_html_type" firstInList=true freezeAll={$freezeAll}></span></dd>
+        <dt class="extra-long-twenty">{ts}Data and Input Field Type{/ts}</dt><dd><span name="data_type" dojoType="civicrm.HierSelect" url1="{crmURL p='civicrm/ajax/customdatatype'}" url2="{crmURL p='civicrm/ajax/custominputtype'}" default1={$data_type_0} default2={$data_type_1} jsMethod1="clearSearchBoxes" jsMethod2="custom_option_html_type" firstInList=true freezeAll={$freezeAll}></span><span class="tundra" id="id_html_type"><span id="id_data_type_1"><span></span></dd>
         {if $action neq 4 and $action neq 2}
             <dt>&nbsp;</dt><dd class="description">{ts}Select the type of data you want to collect and store for this contact. Then select from the available HTML input field types (choices are based on the type of data being collected).{/ts}</dd>
         {/if}
@@ -204,11 +204,18 @@
             }
       }
 
-      function clearSearchBoxes() {
+      function clearSearchBoxes(e) {
+            data_type = document.getElementsByName("data_type[0]")[0].value;
+            if (data_type) {
+                document.getElementById("id_html_type").style.display = "inline";
+            } else {
+                document.getElementById("id_html_type").style.display = "none";
+            }
             document.getElementsByName("is_searchable")[0].checked   = false; 
             document.getElementsByName("is_search_range")[1].checked = true;
       	    document.getElementById("searchByRange").style.display = "none";
       }
+      document.getElementById("id_html_type").style.display = "none";
 </script>
 {/literal}
 
