@@ -1976,7 +1976,8 @@ WHERE  civicrm_contact.id = %1 ";
      */
     static function &matchContactOnEmail( $mail, $ctype = null ) 
     {
-       $query = "
+        $mail = strtolower( $mail );
+        $query = "
 SELECT    civicrm_contact.id as contact_id,
           civicrm_contact.domain_id as domain_id,
           civicrm_contact.hash as hash,
