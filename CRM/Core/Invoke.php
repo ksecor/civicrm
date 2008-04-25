@@ -161,8 +161,9 @@ class CRM_Core_Invoke
             }
             array_pop( $args );
         }
-
-        CRM_Core_Error::fatal( 'hey, how did we land up here?' );
+        
+        $url = CRM_Utils_System::url( 'civicrm/menu/rebuild', 'reset=1');
+        CRM_Core_Error::fatal( 'Please rebuild your menu, <a href='.$url.'>Click here</a>' );
         CRM_Utils_System::redirect( );
         return;
     }
