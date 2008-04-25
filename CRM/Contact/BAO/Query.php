@@ -263,9 +263,6 @@ class CRM_Contact_BAO_Query
                                    'civicrm_country'        => 1,
                                    'civicrm_county'         => 1,
                                    'civicrm_address'        => 1,
-                                   'civicrm_phone'          => 1,
-                                   'civicrm_email'          => 1,
-                                   'civicrm_im'             => 1,
                                    'civicrm_location_type'  => 1,
                                    );
     
@@ -654,7 +651,7 @@ class CRM_Contact_BAO_Query
                 }
 
                 $elementType = '';
-                if ( strpos( $elementName, '-' ) ) {
+                if ( strpos( $elementName, '-' ) !== false ) {
                     // this is either phone, email or IM
                     list( $elementName, $elementType ) = explode( '-', $elementName );
 
@@ -1387,7 +1384,7 @@ class CRM_Contact_BAO_Query
 
         foreach ( $this->_element as $key => $dontCare ) {
             if ( isset( $dao->$key ) ) {
-                if ( strpos( $key, '-' ) ) {
+                if ( strpos( $key, '-' ) !== false ) {
                     $values = explode( '-', $key );
                     $lastElement = array_pop( $values );
                     $current =& $value;
@@ -1511,10 +1508,10 @@ class CRM_Contact_BAO_Query
 
         foreach ($tables as $key => $value) {
             $k = 99;
-            if ( strpos( $key, '-' ) ) {
+            if ( strpos( $key, '-' ) !== false ) {
                 $keyArray = explode('-', $key);
                 $k = CRM_Utils_Array::value( 'civicrm_' . $keyArray[1], $info, 99 );
-            } else if ( strpos( $key, '_' ) ) {
+            } else if ( strpos( $key, '_' ) !== false ) {
                 $keyArray = explode( '_', $key );
                 if ( is_numeric( array_pop( $keyArray ) ) ) {
                     $k = CRM_Utils_Array::value( implode( '_', $keyArray ), $info, 99 );
@@ -1960,7 +1957,7 @@ class CRM_Contact_BAO_Query
         $n = trim( $value );
         $value = strtolower(addslashes($n));
         if ( $wildcard ) {
-            if ( strpos( $value, '%' ) ) {
+            if ( strpos( $value, '%' ) !== false ) {
                 // only add wild card if not there
                 $value = "'$value'";
             } else {
@@ -2054,11 +2051,17 @@ class CRM_Contact_BAO_Query
 
         $value = strtolower(addslashes($n));
         if ( $wildcard ) {
-            $value = "'$value%'";
+            if ( strpos( $value, '%' ) !== false ) {
+                $value = "'$value'";
+                // only add wild card if not there
+            } else {
+                $value = "'$value%'";
+            }
             $op    = 'LIKE';
         } else {
             $value = "'$value'";
         }
+
         $sub = " ( civicrm_email.email $op $value )";
         $this->_tables['civicrm_email'] = $this->_whereTables['civicrm_email'] = 1; 
 
@@ -2296,7 +2299,7 @@ class CRM_Contact_BAO_Query
             $n = trim( $value );
             $value = strtolower(addslashes($n));
             if ( $wildcard ) {
-                if ( strpos( $value, '%' ) ) {
+                if ( strpos( $value, '%' ) !== false ) {
                     // only add wild card if not there
                     $value = "'$value'";
                 } else {
