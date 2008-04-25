@@ -179,7 +179,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             require_once 'CRM/Core/BAO/Cache.php'; 
             $fields =& CRM_Core_BAO_Cache::getItem( 'contact fields', "custom importableFields $cacheKey" );
 
-            if ( $fields !== null ) {
+            if ( $fields == null ) {
                 $cfTable = self::getTableName();
                 $cgTable = CRM_Core_DAO_CustomGroup::getTableName();
 
