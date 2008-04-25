@@ -64,7 +64,7 @@ class CRM_Core_Component
             }
 
             if ( CRM_Utils_Array::value( 1, $args ) != 'upgrade' ) {
-                $c = self::getComponents();
+                $c =& self::getComponents();
             }
 
             foreach( $c as $name => $comp ) {
@@ -85,24 +85,29 @@ class CRM_Core_Component
         return $comp;
     }
 
-    public function getComponents( )
+    public function &getComponents( )
     {
-        $ret = array( );
+        static $_cache = null;
 
-        require_once 'CRM/Core/DAO/Component.php';
-        $cr =& new CRM_Core_DAO_Component();
-        $cr->find( false );
-        while ( $cr->fetch( ) ) {
-            $infoClass = $cr->namespace . '_' . self::COMPONENT_INFO_CLASS;
-            require_once( str_replace( '_', DIRECTORY_SEPARATOR, $infoClass ) . '.php' );
-            $infoObject = new $infoClass( $cr->name, $cr->namespace, $cr->id );
-            if( $infoObject->info['name'] !== $cr->name ) {
-                CRM_Core_Error::fatal( "There is a discrepancy between name in component registry and in info file ({$cr->name})." );
+        if ( ! $_cache ) {
+            $_cache = array( );
+
+            require_once 'CRM/Core/DAO/Component.php';
+            $cr =& new CRM_Core_DAO_Component();
+            $cr->find( false );
+            while ( $cr->fetch( ) ) {
+                $infoClass = $cr->namespace . '_' . self::COMPONENT_INFO_CLASS;
+                require_once( str_replace( '_', DIRECTORY_SEPARATOR, $infoClass ) . '.php' );
+                $infoObject = new $infoClass( $cr->name, $cr->namespace, $cr->id );
+                if( $infoObject->info['name'] !== $cr->name ) {
+                    CRM_Core_Error::fatal( "There is a discrepancy between name in component registry and in info file ({$cr->name})." );
+                }
+                $_cache[$cr->name] = $infoObject;
+                unset( $infoObject );
             }
-            $ret[$cr->name] = $infoObject;
-            unset( $infoObject );
         }
-        return $ret;
+
+        return $_cache;
     }
 
     static function invoke( &$args, $type ) 
