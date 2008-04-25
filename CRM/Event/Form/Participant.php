@@ -868,7 +868,11 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 }
             } else {
                 $statusMsg = ts('Total Participant(s) added to event: %1.', array(1 => count($this->_contactIds)));
-                $statusMsg .= ' ' . ts('Email will NOT be sent to %1 contact - communication preferences specify DO NOT EMAIL OR valid Email is NOT present. ', array(1 => count($notSent)));
+                if( count($notSent) > 0 ) {
+                    $statusMsg .= ' ' . ts('Email has NOT been sent to %1 contact - communication preferences specify DO NOT EMAIL OR valid Email is NOT present. ', array(1 => count($notSent)));
+                } else {
+                    $statusMsg .= ' ' .  ts('A confirmation email has been sent to ALL participants');
+                }
             }
         }
         require_once "CRM/Core/Session.php";
