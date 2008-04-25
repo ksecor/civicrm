@@ -316,7 +316,8 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         $this->assign('paidEvent', $this->_values['event']['is_monetary']);
 
         // we do not want to display recently viewed items on Registration pages
-        $this->assign( 'displayRecent' , false );
+        $this->assign( 'displayRecent'  , false );
+        $this->assign( 'hidePrinterIcon', true  );
 
         // assign all event properties so wizard templates can display event info.
         $this->assign('event', $this->_values['event']);

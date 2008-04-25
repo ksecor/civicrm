@@ -10,6 +10,11 @@
      <weight>410</weight>
   </item>
   <item>
+     <path>civicrm/import/mapper</path>
+     <title>Contacts</title>
+     <page_callback>CRM_Import_Form_Mapper</page_callback>
+  </item>
+  <item>
      <path>civicrm/import/activity</path>
      <title>Activity</title>
      <access_arguments>import contacts,access CiviCRM</access_arguments>

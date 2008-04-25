@@ -99,6 +99,16 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
         case 'help':
             return $this->help( $config );
 
+        case 'mapper':
+            require_once 'CRM/Core/Page/AJAX/Mapper.php';
+            $method = array( 'CRM_Core_Page_AJAX_Mapper',
+                             $args[3] );
+
+            if ( is_callable( $method ) ) {
+                return eval( "return CRM_Core_Page_AJAX_Mapper::{$args[3]}( " . $config . " ); " );
+            }
+            exit( );
+
         default:
             return;
         }
