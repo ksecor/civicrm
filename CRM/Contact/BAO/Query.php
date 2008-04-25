@@ -1970,9 +1970,9 @@ class CRM_Contact_BAO_Query
         } else {
             $value = "'$value'";
         }
-        $sub = " ( LOWER(civicrm_email.email) $op $value )";
+        $sub = " ( civicrm_email.email $op $value )";
 
-        $this->_where[$grouping][] = " ( LOWER(civicrm_note.note) $op $value OR LOWER(civicrm_note.subject) $op $value ) ";
+        $this->_where[$grouping][] = " ( civicrm_note.note $op $value OR civicrm_note.subject $op $value ) ";
         $this->_qill[$grouping][]  = ts( 'Note' ) . " $op - '$n'";
     }
 
@@ -2059,7 +2059,7 @@ class CRM_Contact_BAO_Query
         } else {
             $value = "'$value'";
         }
-        $sub = " ( LOWER(civicrm_email.email) $op $value )";
+        $sub = " ( civicrm_email.email $op $value )";
         $this->_tables['civicrm_email'] = $this->_whereTables['civicrm_email'] = 1; 
 
         $this->_where[$grouping][] = $sub;

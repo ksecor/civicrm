@@ -189,6 +189,8 @@ WHERE contact_a.id = %1 AND $permission";
     
 
     static function updatePrimaryEmail( $contactID, $email ) {
+        $email = strtolower( $email );
+
         $query = "
     UPDATE civicrm_contact
 INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )

@@ -329,11 +329,13 @@ WHERE openid = %1";
      */
     static function updateContactEmail($contactId, $emailAddress) 
     {
+        $emailAddress = strtolower( $emailAddress );
+
         $ufmatch =& new CRM_Core_DAO_UFMatch( );
         $ufmatch->contact_id = $contactId;
         if ( $ufmatch->find( true ) ) {
             // Save the email in UF Match table
-            $ufmatch->email = $emailAddress;
+            $ufmatch->uf_name = $emailAddress;
             $ufmatch->save( );
             
             //check if the primary email for the contact exists 

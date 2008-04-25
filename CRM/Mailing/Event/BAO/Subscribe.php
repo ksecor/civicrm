@@ -68,12 +68,15 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
         if (substr($bao->visibility, 0, 6) != 'Public') {
             return null;
         }
+        
+        $email = strtolower( $email );
+
         /* First, find out if the contact already exists */  
         $query = "
    SELECT DISTINCT contact_a.id as contact_id 
      FROM civicrm_contact contact_a 
 LEFT JOIN civicrm_email      ON contact_a.id = civicrm_email.contact_id
-    WHERE LOWER(civicrm_email.email) = %1";
+    WHERE civicrm_email.email = %1";
 
         $params = array( 1 => array( $email, 'String' ) );
         $dao =& CRM_Core_DAO::executeQuery( $query, $params );
@@ -121,7 +124,7 @@ LEFT JOIN civicrm_email      ON contact_a.id = civicrm_email.contact_id
         $query = "
 SELECT     civicrm_email.id as email_id
   FROM     civicrm_email
-     WHERE LOWER(civicrm_email.email) = %1
+     WHERE civicrm_email.email = %1
        AND civicrm_email.contact_id = %2";
         $params = array( 1 => array( $email     , 'String'  ),
                          2 => array( $contact_id, 'Integer' ) );
@@ -299,13 +302,15 @@ SELECT     civicrm_email.id as email_id
      * @access public
      */
     function getContactGroups($email) {
+        $email = strtolower( $email );
+
         $query = "
                  SELECT DISTINCT group_a.group_id, group_a.status, civicrm_group.title 
                  FROM civicrm_group_contact group_a
                  LEFT JOIN civicrm_group ON civicrm_group.id = group_a.group_id
                  LEFT JOIN civicrm_contact ON ( group_a.contact_id = civicrm_contact.id )
                  LEFT JOIN civicrm_email ON civicrm_contact.id = civicrm_email.contact_id
-                 WHERE LOWER( civicrm_email.email ) = %1";
+                 WHERE civicrm_email.email = %1";
         
         $params = array( 1 => array( $email, 'String' ) );
         $dao =& CRM_Core_DAO::executeQuery( $query, $params );

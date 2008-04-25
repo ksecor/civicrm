@@ -8,3 +8,7 @@
 -- this sql script as you resolve 2.1 issues. Include the issue number which 
 -- is the source of the change, as part of the comment.
 
+
+-- lower case all email addresses
+UPDATE civicrm_email    SET email   = LOWER( email   );
+UPDATE civicrm_uf_match SET uf_name = LOWER( uf_name );

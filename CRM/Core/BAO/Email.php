@@ -54,7 +54,10 @@ class CRM_Core_BAO_Email extends CRM_Core_DAO_Email
     {
         $email =& new CRM_Core_DAO_Email( );
         $email->copyValues($params);
-        
+
+        // lower case email field to optimize queries
+        $email->email = strtolower( $email->email );
+
         if ( $email->is_bulkmail != 'null' && $params['contact_id']) {
             $sql = "
 UPDATE civicrm_email 

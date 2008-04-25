@@ -692,9 +692,10 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing
                   SELECT DISTINCT contact_a.id as contact_id 
                   FROM civicrm_contact contact_a 
                   LEFT JOIN civicrm_email      ON contact_a.id = civicrm_email.contact_id
-                      WHERE LOWER(civicrm_email.email) = %1";
+                      WHERE civicrm_email.email = %1";
             
-            $params = array( 1 => array( $testParams['test_email'], 'String' ) );
+            $params = array( 1 => array( strtolower( $testParams['test_email'] ),
+                                         'String' ) );
             $dao =& CRM_Core_DAO::executeQuery( $query, $params );
             $id = array( );
             // lets just use the first contact id we got
