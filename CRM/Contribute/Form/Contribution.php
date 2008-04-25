@@ -425,7 +425,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                 $dojoUrlParams = "&reset=1&action=add&snippet=1&cid={$this->_contactID}&formType={$type}";
             }
             
-            $allPanes[$name] = array( 'url'  => CRM_Utils_System::url( 'civicrm/contact/view/contribution/additionalinfo',
+            $allPanes[$name] = array( 'url'  => CRM_Utils_System::url( 'civicrm/contribute/additionalinfo',
                                                                        $dojoUrlParams ),
                                       'open' => 'false',
                                       'id'   => $type,
