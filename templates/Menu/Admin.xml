@@ -319,4 +319,34 @@
      <icon>admin/small/03.png</icon>
      <weight>110</weight>
   </item>
+  <item>
+     <path>civicrm/admin</path>
+     <title>Administer CiviCRM</title>
+     <access_arguments>administer CiviCRM,access CiviCRM</access_arguments>
+     <page_type>1</page_type>
+     <page_callback>CRM_Admin_Page_Admin</page_callback>
+     <weight>9000</weight>
+  </item>
+  <item>
+     <path>civicrm/logout</path>
+     <title>Log out</title>
+     <page_callback>CRM_Core_Invoke::logout</page_callback>
+     <access_arguments>access CiviCRM</access_arguments>
+     <weight>9999</weight>
+  </item>
+  <item>
+     <path>civicrm/admin/options</path>
+     <title>Option Groups</title>
+     <page_callback>CRM_Admin_Page_OptionGroup</page_callback>
+  </item>
+  <item>
+     <path>civicrm/admin/optionGroup</path>
+     <title>Option Groups</title>
+     <page_callback>CRM_Admin_Page_OptionGroup</page_callback>
+  </item>
+  <item>
+     <path>civicrm/admin/optionValue</path>
+     <title>Option Values</title>
+     <page_callback>CRM_Admin_Page_OptionValue</page_callback>
+  </item>
 </menu>

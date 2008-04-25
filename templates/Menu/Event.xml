@@ -132,4 +132,11 @@
      <page_type>1</page_type>
      <weight>840</weight>
   </item>
+  <item>
+     <path>civicrm/contact/map/event</path>
+     <title>Map Event Location</title>
+     <page_callback>CRM_Contact_Form_Task_Map_Event</page_callback>
+     <access_callback>1</access_callback>
+     <weight>1</weight>
+  </item>
 </menu>

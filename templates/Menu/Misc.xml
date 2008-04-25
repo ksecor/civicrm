@@ -2,6 +2,19 @@
 
 <menu>
   <item>
+     <path>civicrm/ajax</path>
+     <title></title>
+     <page_callback>CRM_Core_Page_AJAX</page_callback>
+     <access_arguments>access CiviCRM</access_arguments>
+     <weight>0</weight>
+  </item>
+  <item>
+     <path>civicrm/upgrade</path>
+     <title>Upgrade 2.0 => 2.1</title>
+     <page_callback>CRM_Upgrade_TwoOne_Controller</page_callback>
+     <access_arguments>access CiviCRM</access_arguments>
+  </item>
+  <item>
      <path>civicrm/export/contact</path>
      <title>Export Contacts</title>
      <weight>0</weight>
@@ -28,5 +41,17 @@
      <path>civicrm/standalone</path>
      <title>Registration Page</title>
      <page_callback>CRM_Standalone_Form_Register</page_callback>
+  </item>
+  <item>
+     <path>civicrm/file</path>
+     <title>Browse Uploaded files</title>
+     <access_arguments>access uploaded files</access_arguments>
+     <page_callback>CRM_Core_Page_File</page_callback>
+  </item>
+  <item>
+     <path>civicrm/friend</path>
+     <title>Tell a Friend</title>
+     <access_arguments>make online contributions;register for events</access_arguments>
+     <page_callback>CRM_Friend_Form</page_callback>
   </item>
 </menu>

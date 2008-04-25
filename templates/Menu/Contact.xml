@@ -2,6 +2,23 @@
 
 <menu>
   <item>
+     <path>civicrm</path>
+     <title>CiviCRM</title>
+     <access_callback>CRM_Core_Permission::checkMenu</access_callback>
+     <access_arguments>access CiviCRM</access_arguments>
+     <page_callback>CRM_Contact_Page_View_DashBoard</page_callback>
+     <page_arguments>null</page_arguments>
+     <weight>0</weight>
+  </item>
+  <item>
+     <path>civicrm/dashboard</path>
+     <title>CiviCRM Home</title>
+     <page_type>1</page_type>
+     <page_callback>CRM_Contact_Page_View_DashBoard</page_callback>
+     <access_arguments>access CiviCRM</access_arguments>
+     <weight>0</weight>
+  </item>
+  <item>
      <path>civicrm/contact/search</path>
      <title>Contacts</title>
      <page_callback>CRM_Core_Invoke::search</page_callback>
@@ -132,5 +149,12 @@
   <item>
      <path>civicrm/contact/view/log</path>
      <page_callback>CRM_Contact_Page_View_Log</page_callback>
+  </item>
+  <item>
+     <path>civicrm/user</path>
+     <title>Contact Dashboard</title>
+     <saccess_arguments>access Contact Dashboard</saccess_arguments>
+     <page_callback>CRM_Contact_Page_View_UserDashBoard</page_callback>
+     <weight>0</weight>
   </item>
 </menu>
