@@ -265,6 +265,7 @@ class CRM_Core_Payment_AuthorizeNet extends CRM_Core_Payment {
         $fields['x_invoice_num'] = substr( $this->_getParam( 'invoiceID' ), 0, 20 );
         $fields['x_amount'] = $this->_getParam( 'amount' );
         $fields['x_currency_code'] = $this->_getParam( 'currencyID' );
+        $fields['x_description'] = $this->_getParam( 'description' );
 
         if ( $this->_getParam( 'paymentType' ) == 'AIM' ) {
             $fields['x_relay_response'] = 'FALSE';
@@ -455,12 +456,7 @@ class CRM_Core_Payment_AuthorizeNet extends CRM_Core_Payment {
      * not set
      */
     function _getParam ( $field ) {
-        if ( isset( $this->_params[$field] ) ) {
-            return $this->_params[$field];
-        }
-        else {
-            return '';
-        }
+        return CRM_Utils_Array::value( $field, $this->_param, '' );
     }
 
     function &error ( $errorCode = null, $errorMessage = null ) {
