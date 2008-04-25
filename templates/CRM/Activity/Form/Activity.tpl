@@ -149,7 +149,7 @@
 	           {if $action eq 4} 
                        {include file="CRM/Contact/Page/View/InlineCustomData.tpl"}
                    {else}
-                       {include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
+                      <div id="customData"></div>
                    {/if} 
                 </td>
              </tr> 
@@ -175,3 +175,39 @@
          </table>   
       </fieldset> 
 
+{literal}
+<script type="text/javascript">
+hide('customData');
+function buildCustomData( type, subType )
+{
+	show('customData');
+
+	var dataUrl = {/literal}"{crmURL p='civicrm/custom/add' h=0 q='snippet=1&type='}"{literal} + type + '&subType=' + subType;
+
+        var result = dojo.xhrGet({
+        url: dataUrl,
+        handleAs: "text",
+        timeout: 5000, //Time in milliseconds
+        handle: function(response, ioArgs){
+                if(response instanceof Error){
+                        if(response.dojoType == "cancel"){
+                                //The request was canceled by some other JavaScript code.
+                                console.debug("Request canceled.");
+                        }else if(response.dojoType == "timeout"){
+                                //The request took over 5 seconds to complete.
+                                console.debug("Request timed out.");
+                        }else{
+                                //Some other error happened.
+                                console.error(response);
+                        }
+                }else{
+		   // on success
+                   dojo.byId('customData').innerHTML = response;
+                }
+        }
+     });
+
+
+}
+</script>
+{/literal}

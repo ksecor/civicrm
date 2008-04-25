@@ -81,6 +81,7 @@ class CRM_Core_Menu
                             'Menu/Group.xml',
                             'Menu/Import.xml',
                             'Menu/Profile.xml',
+                            'Menu/Custom.xml',
                             'Menu/Misc.xml'
                             );
 

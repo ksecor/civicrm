@@ -311,7 +311,7 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
             
             $this->add('select', 'activity_type_id', ts('Activity Type'),
                        array('' => ts('- select activity -')) + $activityType,
-                       true, array('onchange' => "if (this.value) window.location='{$url}'+ this.value; else return false"));
+                       true, array('onchange' => "buildCustomData('Activity', this.value);"));
         }
 
         $defaultTargetContactName   = CRM_Contact_BAO_Contact::sortName( $this->_targetContactId );
