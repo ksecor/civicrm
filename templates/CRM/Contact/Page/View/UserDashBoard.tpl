@@ -29,8 +29,14 @@
                  <div class="header-dark">
                   {ts}Your Event(s){/ts}  
                   </div>	      
-                  {include file="CRM/Contact/Page/View/UserDashBoard/Participant.tpl"}	
+                  {include file="CRM/Contact/Page/View/UserDashBoard/Participant.tpl"}
+        	{elseif $componentName eq 'My Contacts / Organizations'}
+                 <div class="header-dark">
+                  {ts}Your Contacts / Organizations(s){/ts}  
+                  </div>	     
+                  {include file="CRM/Contact/Page/View/Relationship.tpl"}
             {/if}
+    
       
         </td>
     </tr>

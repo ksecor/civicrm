@@ -100,16 +100,22 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
     {
         $tables     = array( );
         $temp       = array( );
-        require_once 'CRM/ACL/API.php';
-        $permission = CRM_ACL_API::whereClause( $type, $tables, $temp );
-
+       
+        //check permission based on relationship, CRM-2963
+        if ( self::relationshipBasedPermission( $id ) ) {
+            $permission = '( 1 )';
+        } else {
+            require_once 'CRM/ACL/API.php';
+            $permission = CRM_ACL_API::whereClause( $type, $tables, $temp );
+        }
         $from       = CRM_Contact_BAO_Query::fromClause( $tables );
+             
         $query = "
 SELECT count(DISTINCT contact_a.id) 
        $from
 WHERE contact_a.id = %1 AND $permission";
         $params = array( 1 => array( $id, 'Integer' ) );
-
+       
         return ( CRM_Core_DAO::singleValueQuery( $query, $params ) > 0 ) ? true : false;
     }
     
@@ -2398,6 +2404,34 @@ WHERE contact_id = {$contactId}
         }
 
         return $results;
+    }
+
+     /**
+     * Function to get the permission base on its relationship
+     * 
+     * @param int $selectedContactId contact id of selected contact
+     *
+     * @return booleab true if logged in user has permission to view
+     * selected contact record else false
+     * @static
+     */
+    static function relationshipBasedPermission ( $selectedContactId ) 
+    {
+        $session   =& CRM_Core_Session::singleton( );
+        $contactID =  $session->get( 'userID' );
+        if (  $contactID == $selectedContactId ) {
+            return true;
+        } else {
+            require_once "CRM/Contact/DAO/Relationship.php";
+            $relationship =& new CRM_Contact_DAO_Relationship( );
+            $relationship->contact_id_a      = $contactID;
+            $relationship->contact_id_b      = $selectedContactId;
+            $relationship->is_permission_a_b = 1;
+            if ($relationship->find( true )) {
+                return true;
+            } 
+            return false;
+        }
     }
     
 }

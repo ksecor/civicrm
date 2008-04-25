@@ -52,6 +52,14 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
 
     public $_edit = true;
 
+     /**
+     * The action links that we need to display for the browse screen
+     *
+     * @var array
+     * @static
+     */
+    static $_links = null;
+
     function __construct( ) {
         parent::__construct( );
 
@@ -118,7 +126,7 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
 
         require_once 'CRM/Core/BAO/Preferences.php';
         $this->_userOptions  = CRM_Core_BAO_Preferences::valueOptions( 'user_dashboard_options' );
-
+       
         if ( $this->_userOptions['Contributions'] &&
              in_array( 'CiviContribute', $config->enableComponents ) &&
              ( CRM_Core_Permission::access( 'CiviContribute' ) ||
@@ -152,6 +160,18 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
             $participant->run( );
         }        
 
+        if ( $this->_userOptions['My Contacts / Organizations'] ) {
+            $components['My Contacts / Organizations'] = 'My Contacts / Organizations';
+
+            $links =& self::links( );
+            $mask  = CRM_Core_Action::mask( $this->_permission );
+           
+            $currentRelationships = CRM_Contact_BAO_Relationship::getRelationship($this->_contactId,
+                                                                                  CRM_Contact_BAO_Relationship::CURRENT  ,
+                                                                                  0, 0, 0,
+                                                                                  $links, $mask );
+            $this->assign( 'currentRelationships',  $currentRelationships  );
+        }
         $this->assign ( 'components', $components );
 
         if ( $this->_userOptions['Groups'] ) {
@@ -179,6 +199,44 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
         $this->buildUserDashBoard( );
       
         return parent::run( );
+    }
+    
+     /**
+     * Get action links
+     *
+     * @return array (reference) of action links
+     * @static
+     */
+    static function &links()
+    {
+        if (!(self::$_links)) {
+            $deleteExtra = ts('Are you sure you want to delete this relationship?');
+            $disableExtra = ts('Are you sure you want to disable this relationship?');
+            $enableExtra = ts('Are you sure you want to re-enable this relationship?');
+
+            self::$_links = array(
+                                  CRM_Core_Action::VIEW    => array(
+                                                                    'name'  => ts('Dashboard'),
+                                                                    'url'   => 'civicrm/user',
+                                                                    'qs'    => 'reset=1&id=%%cbid%%',
+                                                                    'title' => ts('View Relationship')
+                                                                    ),
+                                  CRM_Core_Action::UPDATE  => array(
+                                                                    'name'  => ts('Edit'),
+                                                                    'url'   => 'civicrm/contact/view/rel',
+                                                                    'qs'    => 'action=update&reset=1&cid=%%cid%%&id=%%id%%&rtype=%%rtype%%',
+                                                                    'title' => ts('Edit Relationship')
+                                                                    ),
+                                  CRM_Core_Action::DISABLE => array(
+                                                                    'name'  => ts('Disable'),
+                                                                    'url'   => 'civicrm/contact/view/rel',
+                                                                    'qs'    => 'action=disable&reset=1&cid=%%cid%%&id=%%id%%&rtype=%%rtype%%&selectedChild=rel',
+                                                                    'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
+                                                                    'title' => ts('Disable Relationship')
+                                                                    ),
+                                  );
+        }
+        return self::$_links;
     }
 }
 

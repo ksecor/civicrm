@@ -1,5 +1,4 @@
 {* this template is used for adding/editing/viewing relationships  *}
-
 {if $action eq 4 } {* action = view *}
     <div class="form-item">
       <fieldset><legend>{ts}View Relationship{/ts}</legend>
@@ -23,6 +22,13 @@
 			<dt>{ts}Note:{/ts}</dt><dd>{$rec}</dd>	
 	   	    {/if}
             {/foreach}
+            {if $row.is_permission_a_b}
+                <dt>&nbsp;</dt><dd>Can view and update information for <b>'{$row.name}'</b></dd>
+            {/if}
+            {if $row.is_permission_b_a}
+                <dt>&nbsp;</dt><dd><b>'{$row.name}'</b> can view and update information for this contact</dd>
+            {/if}
+           
             <dt>{ts}Status:{/ts}</dt><dd>{if $row.is_active}{ts}Enabled{/ts} {else} {ts}Disabled{/ts}{/if}</dd>
             </dl>
 	 	    {include file="CRM/Contact/Page/View/InlineCustomData.tpl" mainEditForm=1}
@@ -47,7 +53,7 @@
             <dl>
             <dt>{$form.relationship_type_id.label}</dt><dd>{$form.relationship_type_id.html}
             {if $action EQ 2} {* action = update *}
-                <label>{$sort_name}</label></dd>
+                <label>{$sort_name_b}</label></dd>
                 </dl>
             {else} {* action = add *}
                 </dd>
@@ -129,6 +135,8 @@
                 <dt>{$form.description.label}</dt>
                 <dd>{$form.description.html}</dd>
                 <dt>{$form.note.label}</dt><dd>{$form.note.html}</dd>
+        <dt>&nbsp;</dt><dd>{$form.is_permission_a_b.html}&nbsp;<b>'{$sort_name_a}'</b> can view and update information for <b>{if $sort_name_b} '{$sort_name_b}'{else}selected contact(s){/if}</b></dd>
+        <dt>&nbsp;</dt><dd>{$form.is_permission_b_a.html}&nbsp;<b>{if $sort_name_b} '{$sort_name_b}'{else}selected contact(s){/if}</b> can view and update information for <b>'{$sort_name_a}'</b></dd>  
 		<dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
         </dl>
 	{include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}

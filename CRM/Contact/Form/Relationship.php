@@ -72,6 +72,18 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
      *
      */
     protected $_rtypeId;
+
+    /**
+     * Display name of contact a
+     *
+     */
+    protected $_display_name_a;
+
+     /**
+     * Display name of contact b
+     *
+     */
+    protected $_display_name_b;
     
     function preProcess( ) 
     {
@@ -85,7 +97,8 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         $this->_rtypeId        = CRM_Utils_Request::retrieve( 'relTypeId', 'String',
                                                               $this );
         
-       
+        $this->_display_name_a       = CRM_Contact_BAO_Contact::displayName( $this->_contactId );
+        $this->assign('sort_name_a', $this->_display_name_a);  
         if ( ! $this->_rtypeId ) {
             $params = $this->controller->exportValues( $this->_name );
             if ( isset($params['relationship_type_id']) ) {
@@ -122,6 +135,8 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                 $defaults['end_date'            ] = CRM_Utils_Date::unformat( $relationship->end_date   );
                 $defaults['description'         ] = $relationship->description ;
                 $defaults['is_active'           ] = $relationship->is_active;
+                $defaults['is_permission_a_b'   ] = $relationship->is_permission_a_b;
+                $defaults['is_permission_b_a'   ] = $relationship->is_permission_b_a;
                 $contact =& new CRM_Contact_DAO_Contact( );
                 if ($this->_rtype == 'a_b' && $relationship->contact_id_a == $this->_contactId ) {
                     $contact->id = $relationship->contact_id_b;
@@ -129,7 +144,8 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                     $contact->id = $relationship->contact_id_a;
                 }
                 if ($contact->find(true)) {
-                    $this->assign('sort_name', $contact->sort_name);                
+                    $this->_display_name_b = $contact->sort_name;
+                    $this->assign('sort_name_b', $this->_display_name_b);                
                 }
 
                 $relationshipID = $relationship->id;
@@ -240,6 +256,11 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         $this->addElement('date', 'start_date', ts('Start Date'), CRM_Core_SelectValues::date( 'relative' ) );
         $this->addElement('date', 'end_date'  , ts('End Date')  , CRM_Core_SelectValues::date( 'relative' ) );
         $this->addElement('advcheckbox', 'is_active', ts('Enabled?'), null, 'setChecked()');
+      
+        $this->addElement('checkbox', 'is_permission_a_b', ts( 'Permission for contact a to view and update information for contact b' ) , null);
+      
+        $this->addElement('checkbox', 'is_permission_b_a', ts( 'permission for contact b to view and update information for contact a' ) , null);
+       
         $this->add('text', 'description', ts('Description'), CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Relationship', 'description' ) );
         
         CRM_Contact_Form_Note::buildNoteBlock($this);

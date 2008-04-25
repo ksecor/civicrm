@@ -62,6 +62,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
      */
     static function create( &$params, &$ids ) 
     {  
+        
         $valid = $invalid = $duplicate = $saved = 0;
         require_once 'CRM/Utils/Array.php';
         $relationshipId = CRM_Utils_Array::value( 'relationship', $ids );
@@ -163,6 +164,8 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
         $relationship->contact_id_a         = $contact_a;
         $relationship->relationship_type_id = $type;
         $relationship->is_active            = $params['is_active'] ? 1 : 0;
+        $relationship->is_permission_a_b    = $params['is_permission_a_b'] ? 1 : 0;
+        $relationship->is_permission_b_a    = $params['is_permission_b_a'] ? 1 : 0;
         $relationship->description          = CRM_Utils_Array::value( 'description', $params );
         $relationship->start_date           = CRM_Utils_Date::format( CRM_Utils_Array::value( 'start_date', $params ) );
         if ( ! $relationship->start_date ) {
@@ -615,7 +618,9 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
                               civicrm_relationship.start_date as start_date,
                               civicrm_relationship.end_date as end_date,
                               civicrm_relationship.description as description,
-                              civicrm_relationship.is_active as is_active ';
+                              civicrm_relationship.is_active as is_active,
+                              civicrm_relationship.is_permission_a_b as is_permission_a_b,
+                              civicrm_relationship.is_permission_b_a as is_permission_b_a';
 
             if ( $direction == 'a_b' ) {
                 $select .= ', civicrm_relationship_type.name_a_b as name_a_b,
@@ -693,7 +698,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
     {
         list( $select1, $from1, $where1 ) = self::makeURLClause( $contactId, $status, $numRelationship, $count, $relationshipId, 'a_b' );
         list( $select2, $from2, $where2 ) = self::makeURLClause( $contactId, $status, $numRelationship, $count, $relationshipId, 'b_a' );
-
+       
         $order = $limit = '';
         if (! $count ) {
             $order = ' ORDER BY civicrm_relationship_type_id, sort_name ';
@@ -755,7 +760,9 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
                 $values[$rid]['end_date']   = $relationship->end_date;
                 $values[$rid]['description']= $relationship->description;
                 $values[$rid]['is_active']  = $relationship->is_active;
-                
+                $values[$rid]['is_permission_a_b']= $relationship->is_permission_a_b;
+                $values[$rid]['is_permission_b_a']= $relationship->is_permission_b_a;
+
                 if( $status ) {
                     $values[$rid]['status'] = $status;
                 }
@@ -769,9 +776,10 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
                 }
                 
                 if ( $links ) {
-                    $replace = array( 'id' => $rid, 
-                                      'rtype' => $values[$rid]['rtype'], 
-                                      'cid' => $contactId );
+                    $replace = array( 'id'    => $rid, 
+                                      'rtype' => $values[$rid]['rtype'],
+                                      'cid'   => $contactId, 
+                                      'cbid'  => $values[$rid]['cid'] );
 
                     if ( $status == self::INACTIVE ) {
                         // setting links for inactive relationships

@@ -85,4 +85,20 @@
        <comment>Optional verbose description for the relationship.</comment>
        <add>1.5</add>
   </field>
+  <field>
+       <name>is_permission_a_b</name>
+       <type>boolean</type>
+       <default>0</default>
+       <comment>is contact a has permission to view / edit contact and
+  related data for contact b ?</comment>
+       <add>2.1</add>
+  </field>
+  <field>
+       <name>is_permission_b_a</name>
+       <type>boolean</type>
+       <default>0</default>
+       <comment>is contact b has permission to view / edit contact and
+  related data for contact a ?</comment>
+       <add>2.1</add>
+  </field>
 </table>

@@ -299,10 +299,11 @@ VALUES
     (@option_group_id_asOpt, 'Grants'                  ,  12, NULL, NULL, 0, NULL, 14, NULL, 0, 0, 1, NULL),
   {/if}
 
-  (@option_group_id_udOpt, 'Groups'       , 1, NULL, NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL),
-  (@option_group_id_udOpt, 'Contributions', 2, NULL, NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL),
-  (@option_group_id_udOpt, 'Memberships'  , 3, NULL, NULL, 0, NULL, 3, NULL, 0, 0, 1, NULL),
-  (@option_group_id_udOpt, 'Events'       , 4, NULL, NULL, 0, NULL, 4, NULL, 0, 0, 1, NULL),
+  (@option_group_id_udOpt, 'Groups'                     , 1, NULL, NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL),
+  (@option_group_id_udOpt, 'Contributions'              , 2, NULL, NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL),
+  (@option_group_id_udOpt, 'Memberships'                , 3, NULL, NULL, 0, NULL, 3, NULL, 0, 0, 1, NULL),
+  (@option_group_id_udOpt, 'Events'                     , 4, NULL, NULL, 0, NULL, 4, NULL, 0, 0, 1, NULL),
+  (@option_group_id_udOpt, 'My Contacts / Organizations', 5, NULL, NULL, 0, NULL, 5, NULL, 0, 0, 1, NULL),
 
   (@option_group_id_adOpt, 'Street Address'    ,  1, NULL, NULL, 0, NULL,  1, NULL, 0, 0, 1, NULL),
   (@option_group_id_adOpt, 'Addt\'l Address 1' ,  2, NULL, NULL, 0, NULL,  2, NULL, 0, 0, 1, NULL),
@@ -395,7 +396,7 @@ VALUES
 INSERT INTO 
      civicrm_preferences(domain_id, contact_id, is_domain, location_count, contact_view_options, contact_edit_options, advanced_search_options, user_dashboard_options, address_options, address_format, mailing_format, individual_name_format, address_standardization_provider, address_standardization_userid, address_standardization_url )
 VALUES 
-     (@domain_id,NULL,1,1,'123456789','1234','123456789101112131415','1234','123456891011','{contact.street_address}\n{contact.supplemental_address_1}\n{contact.supplemental_address_2}\n{contact.city}{, }{contact.state_province}{ }{contact.postal_code}\n{contact.country}\n{contact.world_region}','{contact.street_address}\n{contact.supplemental_address_1}\n{contact.supplemental_address_2}\n{contact.city}{, }{contact.state_province}{ }{contact.postal_code}\n{contact.country}','{contact.individual_prefix}{ } {contact.first_name}{ }{contact.middle_name}{ }{contact.last_name}{ }{contact.individual_suffix}',NULL,NULL,NULL);
+     (@domain_id,NULL,1,1,'123456789','1234','123456789101112131415','12345','123456891011','{contact.street_address}\n{contact.supplemental_address_1}\n{contact.supplemental_address_2}\n{contact.city}{, }{contact.state_province}{ }{contact.postal_code}\n{contact.country}\n{contact.world_region}','{contact.street_address}\n{contact.supplemental_address_1}\n{contact.supplemental_address_2}\n{contact.city}{, }{contact.state_province}{ }{contact.postal_code}\n{contact.country}','{contact.individual_prefix}{ } {contact.first_name}{ }{contact.middle_name}{ }{contact.last_name}{ }{contact.individual_suffix}',NULL,NULL,NULL);
 {/literal}
 
 INSERT INTO `civicrm_preferences_date`
