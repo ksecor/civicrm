@@ -256,6 +256,15 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
         }
     }
 
+    function cancelSubscriptionURL( ) {
+        if ( $this->_paymentProcessor['payment_processor_type'] == 'PayPal_Standard' ) {
+            return "{$this->_paymentProcessor['url_site']}cgi-bin/webscr?cmd=_subscr-find&alias=" .
+                urlencode( $this->_paymentProcessor['user_name'] );
+        } else {
+            return null;
+        }
+    }
+
     function doTransferCheckout( &$params, $component = 'contribute' ) {
         $config =& CRM_Core_Config::singleton( );
 

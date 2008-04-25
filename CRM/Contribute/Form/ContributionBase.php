@@ -74,6 +74,8 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
      */
     public $_paymentProcessor;
 
+    protected $_paymentObject = null;
+
     /**
      * the default values for the form
      *
@@ -202,8 +204,9 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                                                                                       $this->_mode );
 
                 // ensure that processor has a valid config
-                $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Contribute', $this->_paymentProcessor );
-                $error = $payment->checkConfig( );
+                $this->_paymentObject =&
+                    CRM_Core_Payment::singleton( $this->_mode, 'Contribute', $this->_paymentProcessor );
+                $error = $this->_paymentObject->checkConfig( );
                 if ( ! empty( $error ) ) {
                     CRM_Core_Error::fatal( $error );
                 }
@@ -302,8 +305,10 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         $this->assign( 'bltID', $this->_bltID );
 
         //assign cancelSubscription URL to templates
-        $this->assign( 'cancelSubscriptionUrl',
-                       self::cancelSubscriptionURL( $this->_paymentProcessor, $this->_mode ) );
+        if ( $this->_paymentObject ) {
+            $this->assign( 'cancelSubscriptionUrl',
+                           $this->_paymentObject->cancelSubscriptionURL( $this->_mode ) );
+        }
         
         // assigning title to template in case someone wants to use it, also setting CMS page title
         $this->assign( 'title', $this->_values['title'] );
@@ -314,22 +319,6 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         $this->_amount   = $this->get( 'amount' );
     }
 
-    static function cancelSubscriptionURL( &$paymentProcessor, $mode = null ) 
-    {
-        $cancelSubscriptionURL = null;
-        if ( $paymentProcessor['payment_processor_type'] == 'PayPal_Standard' ) {
-            $cancelSubscriptionURL = "{$paymentProcessor['url_site']}cgi-bin/webscr?cmd=_subscr-find&alias=" .
-                urlencode( $paymentProcessor['user_name'] );
-        } else if ( $paymentProcessor['payment_processor_type'] == 'AuthNet_AIM' ) {
-            if ( $mode == 'test' ) {
-                $cancelSubscriptionURL = "https://test.authorize.net";
-            } else {
-                $cancelSubscriptionURL = "https://authorize.net";
-            }
-        }
-        return $cancelSubscriptionURL;
-    }
-    
     /** 
      * set the default values
      *                                                           

@@ -514,4 +514,9 @@ class CRM_Core_Payment_AuthorizeNet extends CRM_Core_Payment {
         }
     }
 
+    function cancelSubscriptionURL( ) {
+        return ( $this->_mode == 'test' ) ?
+            'https://test.authorize.net' : 'https://authorize.net';
+    }
+
 }         
