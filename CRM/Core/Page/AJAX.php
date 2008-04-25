@@ -105,7 +105,7 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
                              $args[3] );
 
             if ( is_callable( $method ) ) {
-                return eval( "return CRM_Core_Page_AJAX_Mapper::{$args[3]}( " . $config . " ); " );
+                return eval( "return CRM_Core_Page_AJAX_Mapper::{$args[3]}( " . ' $config ); ' );
             }
             exit( );
 

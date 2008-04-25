@@ -2316,7 +2316,7 @@ class DB_DataObject extends DB_DataObject_Overload
      */
     function _query($string)
     {
-        // CRM_Core_Error::backtrace( substr( $string, 0, 300 ) );
+        // CRM_Core_Error::backtrace( substr( $string, 0, 3000 ) );
         global $_DB_DATAOBJECT;
         $this->_connect();
         

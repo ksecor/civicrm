@@ -37,7 +37,7 @@
  */
 class CRM_Core_Page_AJAX_Mapper
 {
-    static function select( $config ) {
+    static function select( &$config ) {
         switch ($_GET['index']) {
         case '1':
         case '2':

@@ -175,20 +175,25 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                 self::$_importFields = array( );
             }
 
-            $cfTable = self::getTableName();
-            $cgTable = CRM_Core_DAO_CustomGroup::getTableName();
+            // check if we can retrieve from database cache
+            require_once 'CRM/Core/BAO/Cache.php'; 
+            $fields =& CRM_Core_BAO_Cache::getItem( 'contact fields', "custom importableFields $cacheKey" );
 
-            $extends = '';
-            if ( $contactType ) {
-                if ( in_array( $contactType, array( 'Individual', 'Household', 'Organization' ) ) ) {
-                    $value = "'" . CRM_Utils_Type::escape($contactType, 'String') . "', 'Contact' ";
-                } else {
-                    $value = "'" . CRM_Utils_Type::escape($contactType, 'String') . "'";
+            if ( $fields !== null ) {
+                $cfTable = self::getTableName();
+                $cgTable = CRM_Core_DAO_CustomGroup::getTableName();
+
+                $extends = '';
+                if ( $contactType ) {
+                    if ( in_array( $contactType, array( 'Individual', 'Household', 'Organization' ) ) ) {
+                        $value = "'" . CRM_Utils_Type::escape($contactType, 'String') . "', 'Contact' ";
+                    } else {
+                        $value = "'" . CRM_Utils_Type::escape($contactType, 'String') . "'";
+                    }
+                    $extends = "AND   $cgTable.extends IN ( $value ) ";
                 }
-                $extends = "AND   $cgTable.extends IN ( $value ) ";
-            }
 
-            $query ="SELECT $cfTable.id, $cfTable.label,
+                $query ="SELECT $cfTable.id, $cfTable.label,
                             $cgTable.title,
                             $cfTable.data_type, $cfTable.html_type,
                             $cfTable.options_per_line,
@@ -199,32 +204,36 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                      ON $cfTable.custom_group_id = $cgTable.id
                      WHERE ( 1 ) ";
 
-            if (! $showAll) {
-                $query .= " AND $cfTable.is_active = 1 AND $cgTable.is_active = 1 ";
-            }
+                if (! $showAll) {
+                    $query .= " AND $cfTable.is_active = 1 AND $cgTable.is_active = 1 ";
+                }
 
-            if ( $inline ) {
-                $query .= " AND $cgTable.style = 'Inline' ";
-            }
+                if ( $inline ) {
+                    $query .= " AND $cgTable.style = 'Inline' ";
+                }
             
-            // also get the permission stuff here
+                // also get the permission stuff here
                 require_once 'CRM/Core/Permission.php';
-            $permissionClause = CRM_Core_Permission::customGroupClause( CRM_Core_Permission::VIEW,
-                                                                        "{$cgTable}." );
+                $permissionClause = CRM_Core_Permission::customGroupClause( CRM_Core_Permission::VIEW,
+                                                                            "{$cgTable}." );
 
-            $query .= " $extends AND $permissionClause
+                $query .= " $extends AND $permissionClause
                         ORDER BY $cgTable.weight, $cgTable.title,
                                  $cfTable.weight, $cfTable.label";
          
-            $crmDAO =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
-            $result = $crmDAO->getDatabaseResult();
+                $crmDAO =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+                $result = $crmDAO->getDatabaseResult();
         
-            $fields = array( );
-            while (($row = $result->fetchRow()) != null) {
-                $id = array_shift($row);
-                $fields[$id] = $row;
-            }
+                $fields = array( );
+                while (($row = $result->fetchRow()) != null) {
+                    $id = array_shift($row);
+                    $fields[$id] = $row;
+                }
 
+                CRM_Core_BAO_Cache::setItem( $fields,
+                                             'contact fields',
+                                             "custom importableFields $cacheKey" );
+            }
             self::$_importFields[$cacheKey] = $fields;
         }
         

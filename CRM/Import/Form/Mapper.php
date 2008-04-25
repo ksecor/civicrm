@@ -58,4 +58,8 @@ class CRM_Import_Form_Mapper extends CRM_Core_Form
                            );
     }
 
+    function postProcess( ) {
+        CRM_Core_Error::debug( 'p', $_POST );
+        exit( );
+    }
 }
