@@ -49,9 +49,6 @@ class CRM_Core_Joomla {
     static function sidebarLeft( ) {
         $config =& CRM_Core_Config::singleton( );
 
-        // intialize the menu and set the default title
-        CRM_Core_Menu::createLocalTasks( CRM_Utils_Array::value($config->userFrameworkURLVar,$_GET) );
-
         if ( $config->userFrameworkFrontend ) {
             return;
         }
