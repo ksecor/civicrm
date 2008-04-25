@@ -1380,7 +1380,7 @@ class CRM_Core_Menu
 )
 ";
 
-        if ( substr( $path, 0, 7 ) == 'civicrm' ) {
+        if ( $path != 'navigation' ) {
             $query .= "
 UNION ( 
   SELECT *
