@@ -12,3 +12,16 @@
 -- lower case all email addresses
 UPDATE civicrm_email    SET email   = LOWER( email   );
 UPDATE civicrm_uf_match SET uf_name = LOWER( uf_name );
+
+-- Add new boolean columns in civicrm_relationship
+ALTER TABLE `civicrm_relationship`
+    ADD `is_permission_a_b` boolean DEFAULT 0 AFTER 'description';
+    ADD `is_permission_b_a` boolean DEFAULT 0 AFTER 'is_permission_a_b';
+
+--Insert new option value for option_group = 'user_dashboard_options'
+SELECT @ogi    := id from civicrm_option_group where name = 'user_dashboard_options';
+INSERT INTO `civicrm_option_value` (`option_group_id`, `label`, `value`, `weight`, `is_active`, `is_default`) VALUES
+( @ogi, 'My Contacts / Organizations', 5, 5, 1, NULL);
+
+-- Add 'My Contacts / Organizations' option in user dashboard options
+UPDATE civicrm_preferences    SET user_dashboard_options   = CONCAT(user_dashboard_options, '5');
