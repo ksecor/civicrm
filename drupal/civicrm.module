@@ -208,7 +208,7 @@ function civicrm_menu( )
                                     'title'            => ts('CiviCRM'),
                                     'access callback'  => true,
                                     'page callback'    => 'civicrm_invoke',
-                                    'type'             => 22,
+                                    'type'             => 4,
                                     'weight'           => 0,
                                     )
                  );

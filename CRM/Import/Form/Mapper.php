@@ -44,7 +44,9 @@ class CRM_Import_Form_Mapper extends CRM_Core_Form
     function buildQuickForm( ) {
         $this->assign( 'dojoIncludes', "dojo.require('civicrm.HierSelect');" );
 
-        $items = array( 1 => 'mapper' );
+        $items = array( 1 => 'mapper',
+                        2 => 'mapper',
+                        3 => 'mapper' );
         $this->assign( 'items', $items );
 
         $this->addButtons( array(
