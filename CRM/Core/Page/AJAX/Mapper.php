@@ -37,11 +37,16 @@
  */
 class CRM_Core_Page_AJAX_Mapper
 {
-    static function select( &$config ) {
-        $items = array( array( 'name' => 'first',
-                               'value' => 1 ),
-                        array( 'name' => 'two',
-                               'value' => 2 ) );
+    static function select( $config ) {
+        switch ($_GET['index']) {
+        case '1':
+        case '2':
+        default:
+            $items = array( array( 'name' => 'first',
+                                   'value' => 1 ),
+                            array( 'name' => 'two',
+                                   'value' => 2 ) );
+        }
 
         require_once "CRM/Utils/JSON.php";
         echo CRM_Utils_JSON::encode( $items, 'value' );
