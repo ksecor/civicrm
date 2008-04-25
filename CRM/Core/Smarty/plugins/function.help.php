@@ -65,9 +65,10 @@ function smarty_function_help( $params, &$smarty ) {
     $help = $smarty->fetch( $file );
     return <<< EOT
 
-<span id="{$id}_help" class="tundra" ><img id="{$id}_help" class="action-icon" src="{$smarty->_tpl_vars[ 'config']->resourceBase}i/Help.png"></span >
-<div dojoType="dijit.Tooltip" connectId="{$id}_help" class="tundra" >$help
-</div>
+<span dojoType="dijit.form.DropDownButton" class="tundra">
+    <div><img class="action-icon" src="{$smarty->_tpl_vars[ 'config']->resourceBase}i/Help.png" /></div>
+    <div dojoType="dijit.TooltipDialog" id="{$id}_help" class="tundra" >$help</div>
+</span>
 EOT;
 
 }
