@@ -328,13 +328,6 @@
      <weight>9000</weight>
   </item>
   <item>
-     <path>civicrm/logout</path>
-     <title>Log out</title>
-     <page_callback>CRM_Core_Invoke::logout</page_callback>
-     <access_arguments>access CiviCRM</access_arguments>
-     <weight>9999</weight>
-  </item>
-  <item>
      <path>civicrm/admin/options</path>
      <title>Option Groups</title>
      <page_callback>CRM_Admin_Page_OptionGroup</page_callback>

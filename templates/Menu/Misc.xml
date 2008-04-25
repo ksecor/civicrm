@@ -54,4 +54,11 @@
      <access_arguments>make online contributions;register for events</access_arguments>
      <page_callback>CRM_Friend_Form</page_callback>
   </item>
+  <item>
+     <path>civicrm/logout</path>
+     <title>Log out</title>
+     <page_callback>CRM_Core_Invoke::logout</page_callback>
+     <access_arguments>access CiviCRM</access_arguments>
+     <weight>9999</weight>
+  </item>
 </menu>
