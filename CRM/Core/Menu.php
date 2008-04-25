@@ -1196,10 +1196,13 @@ class CRM_Core_Menu
     }
 
     static function &getNavigation( ) {
+        if ( ! self::$_menuCache ) {
+            self::get( 'navigation' );
+        }
+
         if ( ! array_key_exists( 'navigation', self::$_menuCache ) ) {
             CRM_Core_Error::fatal( );
         }
-
         $nav =& self::$_menuCache['navigation'];
 
         if ( ! $nav ||
@@ -1373,12 +1376,18 @@ class CRM_Core_Menu
   WHERE    path in ( $queryString )
   ORDER BY length(path) DESC
   LIMIT    1 
-) UNION ( 
+)
+";
+
+        if ( substr( $path, 0, 7 ) == 'civicrm' ) {
+            $query .= "
+UNION ( 
   SELECT *
   FROM   civicrm_menu 
   WHERE   path IN ( 'navigation' )
 )
 ";
+        }
         
         require_once "CRM/Core/DAO/Menu.php";
         $menu  =& new CRM_Core_DAO_Menu( );
