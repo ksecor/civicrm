@@ -40,14 +40,26 @@ require_once 'CRM/Core/Form.php';
  */
 class CRM_Import_Form_Mapper extends CRM_Core_Form 
 {
-    
+    protected $_maxMapper = 4;
+
     function buildQuickForm( ) {
         $this->assign( 'dojoIncludes', "dojo.require('civicrm.HierSelect');" );
 
-        $items = array( 1 => 'mapper',
-                        2 => 'mapper',
-                        3 => 'mapper' );
-        $this->assign( 'items', $items );
+        $this->assign( 'maxMapper', $this->_maxMapper + 1 );
+
+        $hsExtra = array();
+        for ($i = 1; $i <= $this->_maxMapper; $i++) {
+            $attributes    = array( 'dojoType'     => 'civicrm.HierSelect',
+                                    'url1'         => CRM_Utils_System::url('civicrm/ajax/mapper/select', 'index=1'),
+                                    'url2'         => CRM_Utils_System::url('civicrm/ajax/mapper/select', 'index=2'),
+                                    'firstInList'  => "true",
+                                    'jsMethod1'    => "showHideNextSelector( this.name, e )",
+                                    'jsMethod2'    => "showHideNextSelector( this.name, e )",
+                                    );
+            $this->add( 'text', "mapper[$i]", ts( 'Select Mapper %1', array( 1 => $i ) ), $attributes );
+            $hsExtra[$i] = "<span class='tundra' id='id_map_mapper[$i]_1'><span id='id_mapper[$i]_1'></span></span>";
+        }
+        $this->assign('hsExtra', $hsExtra);
 
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
@@ -61,7 +73,10 @@ class CRM_Import_Form_Mapper extends CRM_Core_Form
     }
 
     function postProcess( ) {
-        CRM_Core_Error::debug( 'p', $_POST );
+        // store the submitted values in an array
+        // CRM_Core_Error::debug( 'p', $_POST );
+        $params = $this->controller->exportValues( $this->_name );
+        CRM_Core_Error::debug( 'params', $params );
         exit( );
     }
 }

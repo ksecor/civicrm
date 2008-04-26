@@ -3,18 +3,18 @@
 
 <div class="form-item">
    <dl>
-{foreach from=$items key=count item=value}
-<dt>{$count}:{$value}</dt><dd>
-<span name="{$value}[{$count}]" dojoType="civicrm.HierSelect" url1="{crmURL p='civicrm/ajax/mapper/select' q='index=1'}" url2="{crmURL p='civicrm/ajax/mapper/select' q='index=2'}" firstInList=true jsMethod1="showHideNextSelector(this.name,e)"></span><span class="tundra" id="id_map_{$value}[{$count}]_1"><span id="id_{$value}[{$count}]_1"></span></span></dd>
+     {section name=count start=1 loop=`$maxMapper`}
+     {assign var='i' value=$smarty.section.count.index}
+       <dt>{$form.mapper[$i].label}</dt><dd>{$form.mapper[$i].html}{$hsExtra[$i]}</dd>
 
-{literal}
-<script type="text/javascript">
-    var selId = "id_map_" + {/literal}"{$value}[{$count}]"{literal} + "_1";
-    document.getElementById(selId).style.display = "none";
-</script>
-{/literal}
+       {literal}
+        <script type="text/javascript">
+            var selId = "id_map_" + {/literal}"mapper[{$i}]"{literal} + "_1";
+            document.getElementById(selId).style.display = "none";
+        </script>
+       {/literal}
 
-{/foreach}
+     {/section}
    </dl>    
 </div>
     
