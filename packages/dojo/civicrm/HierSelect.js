@@ -68,7 +68,7 @@ dojo.declare(
 
 		dojo.connect(selector1, 'onChange', this, 'onSelectionOne');
 		if (this.jsMethod1 != "") {
-			dojo.connect(selector1, this.jsEvent1, this.jsMethod1);
+			dojo.connect(selector1, this.jsEvent1, this, function(e){eval(this.jsMethod1);});
 		}
 
 		if (!eval('document.getElementById("id_" + this.name + "_1")')) {
@@ -93,7 +93,7 @@ dojo.declare(
 		dojo.byId("id_" + this.name + "_1"));
 
 		if (this.jsMethod2 != "") {
-			dojo.connect(selector2, this.jsEvent2, this.jsMethod2);
+			dojo.connect(selector2, this.jsEvent2, this, function(e){eval(this.jsMethod2);});
 		}
 
 		if (this.url3 != "") {
@@ -122,7 +122,7 @@ dojo.declare(
 			dojo.byId("id_" + this.name + "_2"));
 
 			if (this.jsMethod3 != "") {
-				dojo.connect(selector3, this.jsEvent3, this.jsMethod3);
+				dojo.connect(selector3, this.jsEvent3, this, function(e){eval(this.jsMethod3);});
 			}
 
 			dojo.connect(selector2, 'onChange', this, 
