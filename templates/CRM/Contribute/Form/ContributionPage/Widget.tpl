@@ -85,15 +85,9 @@
 
     </div>
 
-    {if $action ne 4}
     <div id="crm-submit-buttons">
-        <dl><dt></dt><dd>{$form.buttons.html}</dd></dl>  
+        <dl><dt></dt><dd>{$form._qf_Widget_refresh.html}&nbsp;&nbsp;&nbsp;&nbsp;{$form.buttons.html}</dd></dl>  
     </div>
-    {else}
-    <div id="crm-done-button">
-         <dl><dt></dt><dd>{$form.buttons.html}<br></dd></dl>
-    </div>
-    {/if} {* $action ne view *}
     </fieldset>
 
 </div>      
