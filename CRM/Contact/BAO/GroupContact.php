@@ -455,7 +455,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
                                      $sort = null,
                                      $offset = null,
                                      $row_count= null,
-                                     $includeChildGroups = true)
+                                     $includeChildGroups = false )
     {
         $groupDAO =& new CRM_Contact_DAO_Group();
         $groupDAO->id = $group->id;
