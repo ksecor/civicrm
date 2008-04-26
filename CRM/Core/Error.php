@@ -286,15 +286,22 @@ class CRM_Core_Error extends PEAR_ErrorStack {
 
         if ( $variable == null ) {
             $variable = $name;
-            $name = 'Debug Output';
+            $name = null;
         }
 
         $out = print_r( $variable, true );
+        $prefix = null;
         if ($html) {
             $out = htmlspecialchars( $out );
-            $out = "<p>$name</p><p><pre>$out</pre></p><p></p>";
+            if ( $name ) {
+                $prefix = "<p>$name</p>";
+            }
+            $out = "{$prefix}<p><pre>$out</pre></p><p></p>";
         } else {
-            $out = "$name:\n$out\n";
+            if ( $name ) {
+                $prefix = "$name:\n";
+            }
+            $out = "{$prefix}$out\n";
         }
         if ( $log ) {
             echo $out;

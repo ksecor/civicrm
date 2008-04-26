@@ -170,7 +170,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
     public static function &getFields($contactType = 'Individual', $showAll = false, $inline = false ) 
     {
         $cacheKey = $inline ? "{$contactType}_1" : "{$contactType}_0";
-        if ( ! self::$_importFields || ! CRM_Utils_Array::value( $cacheKey, self::$_importFields ) ) { 
+        if ( ! self::$_importFields ||
+             CRM_Utils_Array::value( $cacheKey, self::$_importFields ) === null ) { 
             if ( ! self::$_importFields ) {
                 self::$_importFields = array( );
             }
@@ -179,7 +180,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             require_once 'CRM/Core/BAO/Cache.php'; 
             $fields =& CRM_Core_BAO_Cache::getItem( 'contact fields', "custom importableFields $cacheKey" );
 
-            if ( $fields == null ) {
+            if ( $fields === null ) {
                 $cfTable = self::getTableName();
                 $cgTable = CRM_Core_DAO_CustomGroup::getTableName();
 
