@@ -47,7 +47,6 @@ class CRM_Import_Form_Mapper extends CRM_Core_Form
 
         $this->assign( 'maxMapper', $this->_maxMapper + 1 );
 
-        $hsExtra = array();
         for ($i = 1; $i <= $this->_maxMapper; $i++) {
             $attributes    = array( 'dojoType'     => 'civicrm.HierSelect',
                                     'url1'         => CRM_Utils_System::url('civicrm/ajax/mapper/select', 'index=1'),
@@ -57,9 +56,7 @@ class CRM_Import_Form_Mapper extends CRM_Core_Form
                                     'jsMethod2'    => "showHideNextSelector( this.name, e )",
                                     );
             $this->add( 'text', "mapper[$i]", ts( 'Select Mapper %1', array( 1 => $i ) ), $attributes );
-            $hsExtra[$i] = "<span class='tundra' id='id_map_mapper[$i]_1'><span id='id_mapper[$i]_1'></span></span>";
         }
-        $this->assign('hsExtra', $hsExtra);
 
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
