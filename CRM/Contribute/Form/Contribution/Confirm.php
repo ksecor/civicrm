@@ -701,7 +701,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         }
         
         $now = date( 'YmdHis' );
-        $recurParams['start_date'] = $recurParams['create_date'] = $now;
+        $recurParams['start_date'] = $recurParams['create_date'] = $recurParams['modified_date'] = $now;
         $recurParams['invoice_id'] = $params['invoiceID'];
         $recurParams['contribution_status_id'] = 2;
 

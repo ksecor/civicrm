@@ -75,8 +75,7 @@ class CRM_Core_Menu
 
     static function &xmlItems( ) {
         if ( ! self::$_items ) {
-            $files = array( 'Menu/Permissioned.xml',
-                            'Menu/Admin.xml',
+            $files = array( 'Menu/Admin.xml',
                             'Menu/Contact.xml',
                             'Menu/Group.xml',
                             'Menu/Import.xml',

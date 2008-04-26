@@ -212,7 +212,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                 }
 
                 $this->set( 'paymentProcessor', $this->_paymentProcessor );
-            }                
+            }
             
             // this avoids getting E_NOTICE errors in php
             $setNullFields = array( 'amount_block_is_active',
@@ -246,8 +246,13 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
             if ( $this->_values['custom_post_id'] ) {
                 $postProfileType = CRM_Core_BAO_UFField::getProfileType( $this->_values['custom_post_id'] );
             }
+
+            // also set cancel subscription url
+            $this->_values['cancelSubscriptionUrl'] = $this->_paymentObject->cancelSubscriptionURL( );
             
-            if ( ( ( isset($postProfileType) && $postProfileType == 'Membership' ) || ( isset($preProfileType) && $preProfileType == 'Membership' ) ) && !$membershipEnable ) {
+            if ( ( ( isset($postProfileType) && $postProfileType == 'Membership' ) ||
+                   ( isset($preProfileType ) && $preProfileType == 'Membership' ) ) &&
+                 ! $membershipEnable ) {
                 CRM_Core_Error::fatal( ts('This page includes a Profile with Membership fields - but the Membership Block is NOT enabled. Please notify the site administrator.') );
             }
 
@@ -305,10 +310,8 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         $this->assign( 'bltID', $this->_bltID );
 
         //assign cancelSubscription URL to templates
-        if ( $this->_paymentObject ) {
-            $this->assign( 'cancelSubscriptionUrl',
-                           $this->_paymentObject->cancelSubscriptionURL( $this->_mode ) );
-        }
+        $this->assign( 'cancelSubscriptionUrl',
+                       CRM_Utils_Array::value( 'cancelSubscriptionUrl', $this->_values ) );
         
         // assigning title to template in case someone wants to use it, also setting CMS page title
         $this->assign( 'title', $this->_values['title'] );
