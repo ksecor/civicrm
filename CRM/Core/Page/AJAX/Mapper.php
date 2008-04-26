@@ -38,18 +38,28 @@
 class CRM_Core_Page_AJAX_Mapper
 {
     static function select( &$config ) {
-        switch ($_GET['index']) {
-        case '1':
-        case '2':
-        default:
-            $items = array( array( 'name' => 'first',
-                                   'value' => 1 ),
-                            array( 'name' => 'two',
-                                   'value' => 2 ) );
+
+        $items = array( 'first' => 1,
+                        'two'   => 2,
+                        'three' => 3,
+                        );
+        
+        $name = trim(CRM_Utils_Type::escape($_GET['name'], 'String'));      
+        $name = str_replace('*', '', $name);        
+        $pattern = '/^' . $name .'/i';
+        
+        $elements = array( );
+        if ( is_array($items) ) {
+            foreach ( $items as $key => $val ) {
+                if ( preg_match($pattern, $key) ) {
+                    $elements[]= array( 'name'  => $key, 
+                                        'value' => $val );
+                }
+            }
         }
 
         require_once "CRM/Utils/JSON.php";
-        echo CRM_Utils_JSON::encode( $items, 'value' );
+        echo CRM_Utils_JSON::encode( $elements, 'value' );
     }
 
 }
