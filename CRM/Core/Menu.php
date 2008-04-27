@@ -77,6 +77,7 @@ class CRM_Core_Menu
         if ( ! self::$_items ) {
             $files = array( 'Menu/Admin.xml',
                             'Menu/Contact.xml',
+                            'Menu/Activity.xml',
                             'Menu/Group.xml',
                             'Menu/Import.xml',
                             'Menu/Profile.xml',
