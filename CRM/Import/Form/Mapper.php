@@ -51,9 +51,16 @@ class CRM_Import_Form_Mapper extends CRM_Core_Form
             $attributes    = array( 'dojoType'     => 'civicrm.HierSelect',
                                     'url1'         => CRM_Utils_System::url('civicrm/ajax/mapper/select', 'index=1'),
                                     'url2'         => CRM_Utils_System::url('civicrm/ajax/mapper/select', 'index=2'),
+                                    'url3'         => CRM_Utils_System::url('civicrm/ajax/mapper/select', 'index=3'),
+                                    'url4'         => CRM_Utils_System::url('civicrm/ajax/mapper/select', 'index=4'),
+//                                     'default1'     => "3",
+//                                     'default2'     => "3",
+//                                     'default3'     => "3",
+//                                     'default4'     => "3",
                                     'firstInList'  => "true",
-                                    'jsMethod1'    => "showHideNextSelector( this.name, e )",
-                                    'jsMethod2'    => "showHideNextSelector( this.name, e )",
+                                    'jsMethod1'    => "showHideSelector2( this.name, e )",
+                                    'jsMethod2'    => "showHideSelector3( this.name, e )",
+                                    'jsMethod3'    => "showHideSelector4( this.name, e )",
                                     );
             $this->add( 'text', "mapper[$i]", ts( 'Select Mapper %1', array( 1 => $i ) ), $attributes );
         }

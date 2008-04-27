@@ -23,15 +23,16 @@ dojo.declare(
 	url1: "",
 	url2: "",
 	url3: "",
+	url4: "",
 	default1: "",
 	default2: "",
 	default3: "",
+	default4: "",
 	hsTheme: "tundra",
 	storeOption1: {},
 	storeOption2: {},
 	storeOption3: {},
-	innerLabel12: "",
-	innerLabel23: "",
+	storeOption4: {},
 	firstInList: false,
 	jsEvent1 : "onChange",
 	jsMethod1: "",
@@ -39,6 +40,8 @@ dojo.declare(
 	jsMethod2: "",
 	jsEvent3 : "onChange",
 	jsMethod3: "",
+	jsEvent4 : "onChange",
+	jsMethod4: "",
 	freezeAll: false,
 
         templateString: "<span class=${hsTheme}></span>",
@@ -68,22 +71,13 @@ dojo.declare(
 
 		dojo.connect(selector1, 'onChange', this, 'onSelectionOne');
 		if (this.jsMethod1 != "") {
-			dojo.connect(selector1, this.jsEvent1, this, function(e){eval(this.jsMethod1);});
+		    dojo.connect(selector1, this.jsEvent1, this, function(e){eval(this.jsMethod1);});
 		}
 
 		if (!eval('document.getElementById("id_" + this.name + "_1")')) {
-			newAnchor = document.createElement("span");
-			newAnchor.setAttribute("id", "id_" + this.name + "_label_12");
-			container.appendChild(newAnchor);
-			if (this.innerLabel12 == "") {
-				newAnchor.appendChild(document.createTextNode("\t"));
-			} else {
-				newAnchor.appendChild(document.createTextNode(this.innerLabel12));
-			}
-
-			newAnchor = document.createElement("span");
-			newAnchor.setAttribute("id", "id_" + this.name + "_1");
-			container.appendChild(newAnchor);
+		    newAnchor = document.createElement("span");
+		    newAnchor.setAttribute("id", "id_" + this.name + "_1");
+		    container.appendChild(newAnchor);
 		}
 		this.storeOption2 = new dojox.data.QueryReadStore(
 		{url:this.url2,doClientPaging:false});
@@ -93,98 +87,150 @@ dojo.declare(
 		dojo.byId("id_" + this.name + "_1"));
 
 		if (this.jsMethod2 != "") {
-			dojo.connect(selector2, this.jsEvent2, this, function(e){eval(this.jsMethod2);});
+		    dojo.connect(selector2, this.jsEvent2, this, function(e){eval(this.jsMethod2);});
 		}
 
 		if (this.url3 != "") {
-			if (!eval('document.getElementById("id_" + this.name + "_2")')) {
-				newAnchor = document.createElement("span");
-				newAnchor.setAttribute("id", "id_" + this.name + "_label_23");
-				container.appendChild(newAnchor);
-				if (this.innerLabel23 == "") {
-					newAnchor.appendChild(document.createTextNode("\t"));
-				} else {
-					newAnchor.appendChild(document.createTextNode(this.innerLabel23));
-				}
+		    if (!eval('document.getElementById("id_" + this.name + "_2")')) {
+			newAnchor = document.createElement("span");
+			newAnchor.setAttribute("id", "id_" + this.name + "_2");
+			container.appendChild(newAnchor);
+		    }
 
-				newAnchor = document.createElement("span");
-				newAnchor.setAttribute("id", "id_" + this.name + "_2");
-				container.appendChild(newAnchor);
+		    this.storeOption3 = new dojox.data.QueryReadStore(
+		    {url:this.url3,doClientPaging:false});
+
+		    var storeOption3 = this.storeOption3;
+
+		    var selector3 = new dijit.form.FilteringSelect(
+		    {store:storeOption3,name:this.name+"[2]",autocomplete:true},
+		    dojo.byId("id_" + this.name + "_2"));
+
+		    if (this.jsMethod3 != "") {
+			dojo.connect(selector3, this.jsEvent3, this, function(e){eval(this.jsMethod3);});
+		    }
+
+		    dojo.connect(selector2, 'onChange', this, 
+		    function(e) {
+			storeOption3.url = storeOption3.url.split("?")[0] + "?node1=" + selector1.getValue() + "&node2=" + e;
+			if (e && (e != "")) {
+			    if (selector3.disabled == true && !this.freezeAll) {
+				selector3.setAttribute('disabled',false);
+			    }
+			} else {
+			    selector3.setAttribute('disabled',true);
 			}
 
-			this.storeOption3 = new dojox.data.QueryReadStore(
-			{url:this.url3,doClientPaging:false});
+			var d3 = this.default3;
+			var firstInList = this.firstInList;
 
-			var storeOption3 = this.storeOption3;
-
-			var selector3 = new dijit.form.FilteringSelect(
-			{store:storeOption3,name:this.name+"[2]",autocomplete:true},
-			dojo.byId("id_" + this.name + "_2"));
-
-			if (this.jsMethod3 != "") {
-				dojo.connect(selector3, this.jsEvent3, this, function(e){eval(this.jsMethod3);});
-			}
-
-			dojo.connect(selector2, 'onChange', this, 
-			function(e) {
-				storeOption3.url = storeOption3.url.split("?")[0] + "?node1=" + selector1.getValue() + "&node2=" + e;
-				if (e && (e != "")) {
-				    if (selector3.disabled == true && !this.freezeAll) {
-					selector3.setAttribute('disabled',false);
-				    }
-				} else {
-				    selector3.setAttribute('disabled',true);
-				}
-
-				var d3 = this.default3;
-				var firstInList = this.firstInList;
-
-				if (d3 == "") {
-				   storeOption3.fetch(
-				   {
-				      query: {},
-				      onComplete: function(items, request) {
-					    if (firstInList == false) {
-					       selector3.setValue('');
+			if (d3 == "") {
+			    storeOption3.fetch({
+				   query: {},
+				   onComplete: function(items, request) {
+					if (firstInList == false) {
+					      selector3.setValue('');
 					    } else {
 					       selector3.setValue(storeOption3.getValues(items[0], 'value'));
 					    }
-				      }
-				   });
-				} else {
-				   storeOption3.fetch(
-				   {
-				      query: {default:true},
-				      onComplete: function(items, request) {
-					       selector3.setValue(d3);
-				      }
-				   });
-				   this.default3="";
+				   }
+			    });
+			} else {
+			    storeOption3.fetch({
+				   query: {default:true},
+				   onComplete: function(items, request) {
+					selector3.setValue(d3);
+				   }
+		            });
+			    this.default3="";
+			}
+			console.log("node1=",selector1.getValue()," node2=",e);
+		    });
+
+		    if (this.url4 != "") {
+			if (!eval('document.getElementById("id_" + this.name + "_3")')) {
+			     newAnchor = document.createElement("span");
+			     newAnchor.setAttribute("id", "id_" + this.name + "_3");
+			     container.appendChild(newAnchor);
+			}
+
+			this.storeOption4 = new dojox.data.QueryReadStore(
+			{url:this.url4,doClientPaging:false});
+
+			var storeOption4 = this.storeOption4;
+
+			var selector4 = new dijit.form.FilteringSelect(
+			{store:storeOption4,name:this.name+"[3]",autocomplete:true},
+			dojo.byId("id_" + this.name + "_3"));
+
+			if (this.jsMethod4 != "") {
+			    dojo.connect(selector4, this.jsEvent4, this, function(e){eval(this.jsMethod4);});
+			}
+
+			dojo.connect(selector3, 'onChange', this, 
+			function(e) {
+			    storeOption4.url = storeOption4.url.split("?")[0] + "?node1=" + selector1.getValue() + "&node2=" + selector2.getValue() + "&node3=" + e;
+			    if (e && (e != "")) {
+				if (selector4.disabled == true && !this.freezeAll) {
+				    selector4.setAttribute('disabled',false);
 				}
-				console.log("node1=",selector1.getValue()," node2=",e);
+			    } else {
+				selector4.setAttribute('disabled',true);
+			    }
+
+			    var d4 = this.default4;
+			    var firstInList = this.firstInList;
+
+			    if (d4 == "") {
+				storeOption4.fetch({
+				     query: {},
+				     onComplete: function(items, request) {
+					  if (firstInList == false) {
+					      selector4.setValue('');
+					  } else {
+					      selector4.setValue(storeOption4.getValues(items[0], 'value'));
+					  }
+				     }
+				});
+			    } else {
+				storeOption4.fetch({
+				     query: {default:true},
+				     onComplete: function(items, request) {
+					  selector4.setValue(d4);
+				     }
+				});
+				this.default4="";
+			    }
+			    console.log("node1=",selector1.getValue()," node2=",selector2.getValue()," node3=",e);
 			});
+		    }
 		}
 
 		var d1 = this.default1;
 		if (/^\w+$/.test(d1) && (typeof d1 != 'undefined')) {
-		        this.storeOption1.fetch(
-		        {
-			      query: {},
-			      onComplete: function(items, request) {
-				       selector1.setValue(d1);
-			      }
-			});
+		    this.storeOption1.fetch({
+			 query: {},
+			 onComplete: function(items, request) {
+			      selector1.setValue(d1);
+			 }
+		    });
 		} else {
-			selector2.setAttribute('disabled',true);
-		        if(this.url3 != "") {selector3.setAttribute('disabled',true);}
+		    selector2.setAttribute('disabled',true);
+		    if(this.url3 != "") {selector3.setAttribute('disabled',true);}
+		    if(this.url4 != "") {selector4.setAttribute('disabled',true);}
 		}
 
 		if (this.freezeAll) {
-			selector1.setAttribute('disabled',true);
-			selector2.setAttribute('disabled',true);
-			if(this.url3 != "") {selector3.setAttribute('disabled',true);}
+		    selector1.setAttribute('disabled',true);
+		    selector2.setAttribute('disabled',true);
+		    if(this.url3 != "") {selector3.setAttribute('disabled',true);}
+		    if(this.url4 != "") {selector4.setAttribute('disabled',true);}
 		}
-		//console.log("postCreate");
+		
+		// cleanup
+		delete selector1;delete selector2; delete d1;
+ 	        if(this.url3 != "") {delete selector3; delete storeOption3}
+		if(this.url4 != "") {delete selector4; delete storeOption4}
 	},
 
 	onSelectionOne : function(e) {
@@ -228,5 +274,4 @@ dojo.declare(
 	}
     }
 );
-
 }
