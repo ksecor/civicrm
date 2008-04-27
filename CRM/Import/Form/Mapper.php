@@ -78,7 +78,7 @@ class CRM_Import_Form_Mapper extends CRM_Core_Form
 
     function postProcess( ) {
         // store the submitted values in an array
-        // CRM_Core_Error::debug( 'p', $_POST );
+        CRM_Core_Error::debug( 'POST', $_POST );
         $params = $this->controller->exportValues( $this->_name );
         CRM_Core_Error::debug( 'params', $params );
         exit( );
