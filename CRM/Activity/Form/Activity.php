@@ -206,15 +206,13 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
         if ( $this->_action & ( CRM_Core_Action::DELETE | CRM_Core_Action::RENEW ) ) {
             $this->assign( 'delName', $defaults['subject'] );
         }
-       
+
         // Set defaults for custom values
         if ( isset($this->_groupTree) ) {
             if ($this->_action & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
+                CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, true, true );
                 $inactiveNeeded = true; $viewMode = true;
-            } else {
-                $viewMode = false; $inactiveNeeded = false;
             }
-            CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, $viewMode, $inactiveNeeded );
         }
 
         return $defaults;
@@ -296,6 +294,7 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
         //need to assign custom data type and subtype to the template
         $this->assign('customDataType', 'Activity');
         $this->assign('customDataSubType',  $this->_activityTypeId );
+        $this->assign('entityId',  $this->_activityId );
 
         if ( in_array( $this->_context, array('standalone', 'case') ) )  {
             if ( $this->_currentlyViewedContactId ) {

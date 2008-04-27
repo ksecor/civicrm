@@ -809,7 +809,7 @@ $where
         return true;
     }
 
-    static function setDefaults( &$groupTree, &$defaults, $viewMode, $inactiveNeeded ) 
+    static function setDefaults( &$groupTree, &$defaults, $viewMode = false, $inactiveNeeded = false ) 
     {
         foreach ( $groupTree as $id => $group ) {
             if ( $id === 'info' ) {

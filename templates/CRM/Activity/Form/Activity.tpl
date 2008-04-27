@@ -196,6 +196,11 @@ function buildCustomData( subType )
 	   dataUrl = dataUrl + '&subType=' + subType;	
 	}
 	
+	var entityId  = "{/literal}{$entityId}{literal}";
+
+	if ( entityId ) {
+	   dataUrl = dataUrl + '&entityId=' + entityId;	
+	}
 
         var result = dojo.xhrGet({
         url: dataUrl,
