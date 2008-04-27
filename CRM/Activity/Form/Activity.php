@@ -95,7 +95,7 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
         $this->assign('cdType', false);
         if ( $this->_cdType ) {
             $this->assign('cdType', true);
-            CRM_Custom_Form_CustomData::preProcess( $this );
+            return CRM_Custom_Form_CustomData::preProcess( $this );
         }
         
         $session =& CRM_Core_Session::singleton( );
@@ -158,9 +158,7 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
         $session->pushUserContext( $url );
 
         // when custom data is included in this page
-        if ( CRM_Utils_Array::value( "hidden_custom", $_POST ) ||
-             CRM_Utils_Array::value( "hidden_custom", $this->_formValues ) ) {
-
+        if ( CRM_Utils_Array::value( "hidden_custom", $_POST ) ) {
             eval( 'CRM_Custom_Form_Customdata::preProcess( $this );' );
             eval( 'CRM_Custom_Form_Customdata::buildQuickForm( $this );' );
             eval( 'CRM_Custom_Form_Customdata::setDefaultValues( $this );' );
@@ -411,7 +409,7 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
                                );
         } else {
             if ( isset( $this->_groupTree ) ) {
-                CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
+                //CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
             }
             // DRAFTING: This probably is a hack for custom field uploads 
             // DRAFTING: Try to eradicate it at later stage
