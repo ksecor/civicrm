@@ -1,5 +1,7 @@
 {* this template is used for adding/editing other (custom) activities. *}
-
+{if $cdType }
+  {include file="CRM/Custom/Form/CustomData.tpl"}
+{else}
 
 {* added onload javascript for source contact*}
 {if $source_contact_value and $admin }
@@ -188,7 +190,7 @@ function buildCustomData( subType )
 	
 	var type     = "{/literal}{$customDataType}{literal}";
 	
-	var dataUrl = {/literal}"{crmURL p='civicrm/custom/add' h=0 q='snippet=1&type='}"{literal} + type;
+	var dataUrl = {/literal}"{crmURL h=0 q='snippet=1&type='}"{literal} + type;
 	
 	if ( !subType ) {
 	   var subType  = "{/literal}{$customDataSubType}{literal}";
@@ -232,3 +234,4 @@ function buildCustomData( subType )
 </script>
 {/literal}
 {/if}
+{/if} {* end of snippet if*}

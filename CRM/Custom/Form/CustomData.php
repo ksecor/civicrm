@@ -33,35 +33,35 @@
  *
  */
 
-require_once 'CRM/Core/Form.php';
 require_once 'CRM/Core/BAO/CustomGroup.php';
 
 /**
  * this class builds custom data
  */
-class CRM_Custom_Form_CustomData extends CRM_Core_Form 
+class CRM_Custom_Form_CustomData 
 {
-    function preProcess( )
+    static function preProcess( &$form )
     {
         //Custom Group Inline Edit form
-        $this->_type     = CRM_Utils_Array::value( 'type', $_GET );
-        $this->_subType  = CRM_Utils_Array::value( 'subType', $_GET );
-        $this->_entityId = CRM_Utils_Array::value( 'entityId', $_GET );
+        $form->_type     = CRM_Utils_Array::value( 'type', $_GET );
+        $form->_subType  = CRM_Utils_Array::value( 'subType', $_GET );
+        $form->_entityId = CRM_Utils_Array::value( 'entityId', $_GET );
 
-        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree( $this->_type, $this->_entityId, 0, $this->_subType );
-        $this->setDefaultValues();
+        $form->_groupTree =& CRM_Core_BAO_CustomGroup::getTree( $form->_type, $form->_entityId, 0, $form->_subType );
+        //$this->setDefaultValues();
     }
 
-    function setDefaultValues( ) 
+    static function setDefaultValues( &$form ) 
     {
         $defaults = array( );
-        CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults);
+        CRM_Core_BAO_CustomGroup::setDefaults( $form->_groupTree, $defaults);
         return $defaults;
     }
     
-    function buildQuickForm( )
+    static function buildQuickForm( &$form )
     {
-        CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree );
+        $form->addElement( 'hidden', 'hidden_custom', 1 );
+        CRM_Core_BAO_CustomGroup::buildQuickForm( $form, $form->_groupTree );
     }
 
 

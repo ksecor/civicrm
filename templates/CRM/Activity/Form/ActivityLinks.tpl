@@ -1,6 +1,6 @@
 {* Links for scheduling/logging meetings and calls and Sending Email *}
-
-{if $contact_id}
+{if $cdType }
+{if $contact_id }
 {assign var = "contactId" value= $contact_id }
 {/if}
 <div class='spacer'></div>
@@ -28,3 +28,4 @@
 {/if}
 
 </div>
+{/if}

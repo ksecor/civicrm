@@ -36,6 +36,8 @@
 require_once "CRM/Core/Form.php";
 require_once "CRM/Core/BAO/CustomGroup.php";
 require_once "CRM/Activity/BAO/Activity.php";
+require_once "CRM/Custom/Form/CustomData.php";
+
 /**
  * This class generates form components for Activity
  * 
@@ -88,6 +90,14 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
      */
     function preProcess( ) 
     {        
+        $this->_cdType     = CRM_Utils_Array::value( 'type', $_GET );
+
+        $this->assign('cdType', false);
+        if ( $this->_cdType ) {
+            $this->assign('cdType', true);
+            CRM_Custom_Form_CustomData::preProcess( $this );
+        }
+        
         $session =& CRM_Core_Session::singleton( );
         $this->_currentUserId = $session->get( 'userID' );
 
@@ -146,6 +156,15 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
         }      
 
         $session->pushUserContext( $url );
+
+        // when custom data is included in this page
+        if ( CRM_Utils_Array::value( "hidden_custom", $_POST ) ||
+             CRM_Utils_Array::value( "hidden_custom", $this->_formValues ) ) {
+
+            eval( 'CRM_Custom_Form_Customdata::preProcess( $this );' );
+            eval( 'CRM_Custom_Form_Customdata::buildQuickForm( $this );' );
+            eval( 'CRM_Custom_Form_Customdata::setDefaultValues( $this );' );
+        }
     }
     
     /**
@@ -157,6 +176,10 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
      */
     function setDefaultValues( ) 
     {
+        if ( $this->_cdType ) {
+            return CRM_Custom_Form_CustomData::setDefaultValues( $this );
+        }
+        
         $defaults = array( );
         $params   = array( );
 
@@ -220,6 +243,10 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
 
     public function buildQuickForm( ) 
     {
+        if ( $this->_cdType ) {
+            return CRM_Custom_Form_CustomData::buildQuickForm( $this );
+        }
+
         //build other activity links
         require_once "CRM/Activity/Form/ActivityLinks.php";
         CRM_Activity_Form_ActivityLinks::buildQuickForm( );
