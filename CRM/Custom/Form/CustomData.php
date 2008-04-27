@@ -50,7 +50,7 @@ class CRM_Custom_Form_CustomData extends CRM_Core_Form
 
         require_once 'CRM/Core/BAO/CustomGroup.php';
         $groupTree =& CRM_Core_BAO_CustomGroup::getTree( $type, $entityId, 0, $subType );
-        CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $groupTree, 'showBlocks', 'hideBlocks' );
+        CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $groupTree );
     }
 
 

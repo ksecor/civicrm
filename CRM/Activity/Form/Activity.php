@@ -293,6 +293,10 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
             $this->assign( 'source_contact_value', $defaultSourceContactName );
         }
 
+        //need to assign custom data type and subtype to the template
+        $this->assign('customDataType', 'Activity');
+        $this->assign('customDataSubType',  $this->_activityTypeId );
+
         if ( in_array( $this->_context, array('standalone', 'case') ) )  {
             if ( $this->_currentlyViewedContactId ) {
                 $urlParams = "cid={$this->_currentlyViewedContactId}&";
@@ -308,10 +312,17 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
                                           $urlParams, true, null, false ); 
             
             $activityType = CRM_Core_PseudoConstant::activityType( false );
+
+            $this->add( 'select', 'activity_type_id', ts('Activity Type'),
+                        array('' => ts('- select activity -')) + $activityType,
+                        true, array('onchange' => "buildCustomData( this.value );"));
+
+            //need to assign custom data subtype to the template
+            $customDataSubType =  $this->getElementValue( "activity_type_id" );
             
-            $this->add('select', 'activity_type_id', ts('Activity Type'),
-                       array('' => ts('- select activity -')) + $activityType,
-                       true, array('onchange' => "buildCustomData('Activity', this.value);"));
+            if ( $customDataSubType[0] ) {
+                $this->assign('customDataSubType', $customDataSubType[0] );
+            }
         }
 
         $defaultTargetContactName   = CRM_Contact_BAO_Contact::sortName( $this->_targetContactId );

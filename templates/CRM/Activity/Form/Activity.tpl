@@ -178,11 +178,24 @@
 {literal}
 <script type="text/javascript">
 hide('customData');
-function buildCustomData( type, subType )
+buildCustomData( );
+
+function buildCustomData( subType )
 {
 	show('customData');
+	
+	var type     = "{/literal}{$customDataType}{literal}";
+	
+	var dataUrl = {/literal}"{crmURL p='civicrm/custom/add' h=0 q='snippet=1&type='}"{literal} + type;
+	
+	if ( !subType ) {
+	   var subType  = "{/literal}{$customDataSubType}{literal}";
+	}
 
-	var dataUrl = {/literal}"{crmURL p='civicrm/custom/add' h=0 q='snippet=1&type='}"{literal} + type + '&subType=' + subType;
+	if ( subType) {
+	   dataUrl = dataUrl + '&subType=' + subType;	
+	}
+	
 
         var result = dojo.xhrGet({
         url: dataUrl,
