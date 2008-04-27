@@ -175,6 +175,8 @@
          </table>   
       </fieldset> 
 
+
+{if $action eq 1 or $action eq 2}
 {literal}
 <script type="text/javascript">
 hide('customData');
@@ -229,3 +231,4 @@ function buildCustomData( subType )
 }
 </script>
 {/literal}
+{/if}
