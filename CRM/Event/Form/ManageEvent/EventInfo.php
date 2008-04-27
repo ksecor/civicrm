@@ -148,7 +148,8 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
                    array('' => ts('Disabled')) + $participantListing ,
                    false );
         
-        $this->add('textarea','summary',ts('Event Summary'), $attributes['summary']);
+        //$this->add('textarea','summary',ts('Event Summary'), $attributes['summary']);
+        $this->add('fckeditor','summary',ts('Event Summary'), $attributes['summary']);
         $this->add('textarea','description',ts('Complete Description'), $attributes['event_description']);
         
         $this->addElement('checkbox', 'is_public', ts('Public Event?') );
