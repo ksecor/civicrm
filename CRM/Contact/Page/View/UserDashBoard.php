@@ -223,8 +223,8 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
                                                                     ),
                                   CRM_Core_Action::UPDATE  => array(
                                                                     'name'  => ts('Edit'),
-                                                                    'url'   => 'civicrm/contact/view/rel',
-                                                                    'qs'    => 'action=update&reset=1&cid=%%cid%%&id=%%id%%&rtype=%%rtype%%',
+                                                                    'url'   => 'civicrm/contact/relatedcontact',
+                                                                    'qs'    => 'action=update&reset=1&cid=%%cbid%%',
                                                                     'title' => ts('Edit Relationship')
                                                                     ),
                                   CRM_Core_Action::DISABLE => array(

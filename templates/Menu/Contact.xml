@@ -49,6 +49,12 @@
      <access_arguments>access CiviCRM,add contacts</access_arguments>
   </item>
   <item>
+     <path>civicrm/contact/relatedcontact</path>
+     <title>Edit Related Contact</title>
+     <page_callback>CRM_Contact_Form_RelatedContact</page_callback>
+     <access_arguments>access CiviCRM</access_arguments>
+  </item>
+  <item>
      <path>civicrm/contact/merge</path>
      <title>Merge Contact</title>
      <page_callback>CRM_Contact_Form_Merge</page_callback>
