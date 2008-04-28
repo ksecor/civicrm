@@ -23,10 +23,17 @@
 	   	    {/if}
             {/foreach}
             {if $row.is_permission_a_b}
-                <dt>&nbsp;</dt><dd>Can view and update information for <b>'{$row.name}'</b></dd>
+                {if $row.rtype EQ 'a_b'}
+                     <dt>&nbsp;</dt><dd>Can view and update information for <b>'{$row.name}'</b></dd>
+                {else}
+                     <dt>&nbsp;</dt><dd><b>'{$row.name}'</b> can view and update information for this contact</dd>          {/if}
             {/if}
             {if $row.is_permission_b_a}
-                <dt>&nbsp;</dt><dd><b>'{$row.name}'</b> can view and update information for this contact</dd>
+                 {if $row.rtype EQ 'a_b'}   
+                     <dt>&nbsp;</dt><dd><b>'{$row.name}'</b> can view and update information for this contact</dd>
+                 {else}
+                     <dt>&nbsp;</dt><dd>Can view and update information for <b>'{$row.name}'</b></dd>
+                 {/if}   
             {/if}
            
             <dt>{ts}Status:{/ts}</dt><dd>{if $row.is_active}{ts}Enabled{/ts} {else} {ts}Disabled{/ts}{/if}</dd>
@@ -135,8 +142,9 @@
                 <dt>{$form.description.label}</dt>
                 <dd>{$form.description.html}</dd>
                 <dt>{$form.note.label}</dt><dd>{$form.note.html}</dd>
-        <dt>&nbsp;</dt><dd>{$form.is_permission_a_b.html}&nbsp;<b>'{$sort_name_a}'</b> can view and update information for <b>{if $sort_name_b} '{$sort_name_b}'{else}selected contact(s){/if}</b></dd>
-        <dt>&nbsp;</dt><dd>{$form.is_permission_b_a.html}&nbsp;<b>{if $sort_name_b} '{$sort_name_b}'{else}selected contact(s){/if}</b> can view and update information for <b>'{$sort_name_a}'</b></dd>  
+        {*revert permission is used to save correct permissions for relationship type b_a *}
+        <dt>&nbsp;</dt><dd>{if $revertPermission}{$form.is_permission_b_a.html}{else}{$form.is_permission_a_b.html}{/if}&nbsp;<b>'{$sort_name_a}'</b> can view and update information for <b>{if $sort_name_b} '{$sort_name_b}'{else}selected contact(s){/if}</b></dd>
+        <dt>&nbsp;</dt><dd>{if $revertPermission}{$form.is_permission_a_b.html}{else}{$form.is_permission_b_a.html}{/if}&nbsp;<b>{if $sort_name_b} '{$sort_name_b}'{else}selected contact(s){/if}</b> can view and update information for <b>'{$sort_name_a}'</b></dd>  
 		<dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
         </dl>
 	{include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}

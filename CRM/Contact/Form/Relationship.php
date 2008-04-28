@@ -237,6 +237,10 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                                                                                     $this->_rtype,
                                                                                     $this->_relationshipId ),
                           array('onChange' => "if (this.value) reload(true); else return false"));
+       
+        if ( $relTypeID[1] == 'b' ) {
+            $this->assign( "revertPermission", true );
+        }
 
         // add a dojo facility for searching contacts
         $this->assign( 'dojoIncludes', " dojo.require('dojox.data.QueryReadStore'); dojo.require('dijit.form.ComboBox');dojo.require('dojo.parser');" );

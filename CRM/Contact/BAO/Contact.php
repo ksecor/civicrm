@@ -2429,7 +2429,15 @@ WHERE contact_id = {$contactId}
             $relationship->is_permission_a_b = 1;
             if ($relationship->find( true )) {
                 return true;
-            } 
+            } else {
+                unset($relationship->is_permission_a_b);
+                $relationship->contact_id_b      = $contactID;
+                $relationship->contact_id_a      = $selectedContactId;
+                $relationship->is_permission_b_a = 1;
+                if ($relationship->find( true )) {
+                    return true;
+                }
+            }
             return false;
         }
     }
