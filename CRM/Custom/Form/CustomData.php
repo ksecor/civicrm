@@ -43,12 +43,11 @@ class CRM_Custom_Form_CustomData
     static function preProcess( &$form )
     {
         //Custom Group Inline Edit form
-        $form->_type     = CRM_Utils_Array::value( 'type', $_GET );
-        $form->_subType  = CRM_Utils_Array::value( 'subType', $_GET );
-        $form->_entityId = CRM_Utils_Array::value( 'entityId', $_GET );
+        $form->_type     = CRM_Utils_Request::retrieve( 'type', 'String', $form );
+        $form->_subType  = CRM_Utils_Request::retrieve( 'subType', 'String', $form );
+        $form->_entityId = CRM_Utils_Request::retrieve( 'entityId', 'Positive', $form );
 
         $form->_groupTree =& CRM_Core_BAO_CustomGroup::getTree( $form->_type, $form->_entityId, 0, $form->_subType );
-        //$this->setDefaultValues();
     }
 
     static function setDefaultValues( &$form ) 
