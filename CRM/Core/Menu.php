@@ -76,14 +76,18 @@ class CRM_Core_Menu
     static function &xmlItems( ) {
         if ( ! self::$_items ) {
             $files = array( 'Menu/Activity.xml',
-                            'Menu/Admin.xml',
                             'Menu/Contact.xml',
                             'Menu/Custom.xml',
-                            'Menu/Activity.xml',
-                            'Menu/Group.xml',
+                            'Menu/Grant.xml',
                             'Menu/Import.xml',
-                            'Menu/Misc.xml',
+                            'Menu/Member.xml',
                             'Menu/Profile.xml',
+                            'Menu/Admin.xml',
+                            'Menu/Contribute.xml',
+                            'Menu/Event.xml',
+                            'Menu/Group.xml',
+                            'Menu/Mailing.xml',
+                            'Menu/Misc.xml',
                             );
 
             $files = array_merge( $files,
