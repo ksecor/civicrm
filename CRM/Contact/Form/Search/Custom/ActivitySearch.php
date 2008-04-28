@@ -162,6 +162,9 @@ FROM   $from
             $sql .= "ORDER BY contact.sort_name, activity_date_time DESC, activity_type, activity_status, activity_subject";
         }
 
+        if ( $rowcount > 0 && $offset >= 0 ) {
+            $sql .= " LIMIT $offset, $rowcount ";
+        }
         return $sql;
     }
 

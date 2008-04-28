@@ -178,7 +178,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                 $this->buildRecur( );
             }
         }
-              
+
         if ( $this->_values['is_pay_later'] ) {
             $this->buildPayLater( );
         }
@@ -589,11 +589,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 
         if ( ! $params['amount'] && $params['selectMembership'] ) {
             $memFee = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', $params['selectMembership'], 'minimum_fee' );
-            if ( $memFee && ! $this->_separateMembershipPayment ) {
-                $params['amount'] = $memFee;
-            } else {
-                $params['amount'] = 0;
-            }
+            $params['amount'] = $memFee ? $memFee : 0;
         }
         
         if ( ! isset( $params['amount_other'] ) ) {

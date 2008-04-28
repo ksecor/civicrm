@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-02-27 13:05+0100\n"
-"PO-Revision-Date: 2008-02-28 12:21-0800\n"
+"PO-Revision-Date: 2008-04-24 06:34-0700\n"
 "Last-Translator: Eugenia Franzoni <eugenia@catnic.it>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -76,7 +76,6 @@ msgid "Country name (e.g. Canada)."
 msgstr "Nome del Paese (per es., Canada)."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
-#, fuzzy
 msgid "Add spaces or punctuation to layout by surrounding them with brackets."
 msgstr ""
 "Aggiungi spazi o punteggiatura al layout circondandoli con parentesi graffe."
@@ -95,6 +94,10 @@ msgid ""
 "<strong>Include Counties</strong> setting must be enabled on this screen, "
 "and county names must be added to the civicrm_county table in your database."
 msgstr ""
+"Nome del comune; se volete includerlo nella visualizzazione delle schermate, "
+"dovete inserire <strong>Includi comuni</strong> in questa schermata, e "
+"dovete aggiungere i nomi dei comuni alla tabella civicrm_county nel "
+"database."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid ""
@@ -141,6 +144,12 @@ msgid ""
 "pages to accept online donations. Refer to the <a href='%1' "
 "target='_blank'>CiviContribute Guide</a> for more info."
 msgstr ""
+"<strong>CiviContribute</strong> - Un componente per la gestione delle "
+"raccolte fondi e delle donazioni che permette di tracciare e gestire i "
+"contributi fatti alla vostra organizzazione. Permette inoltre di creare "
+"velocemente e facilmente pagine web personalizzate per accettare donazioni "
+"online. Fate riferimento alla <a href='%1' target='_blank'>Guida di "
+"CiviContribute</a> per ulteriori informazioni."
 
 #: templates/CRM/Admin/Form/Setting/Component.hlp
 msgid ""
@@ -148,6 +157,10 @@ msgid ""
 "to engage your constituents with personalized email blasts and newsletters. "
 "Refer to the <a href='%1' target='_blank'>CiviMail Guide</a> for more info."
 msgstr ""
+"<strong>CiviMail</strong> - Un componente robusto per l'invio di email in "
+"massa, che permette di inviare ai vostri affiliati email personalizzate e "
+"newsletter. Fate riferimento alla <a href='%1' target='_blank'>Guida di "
+"CiviMail</a> per ulteriori informazioni."
 
 #: templates/CRM/Admin/Form/Setting/Component.hlp
 msgid ""
@@ -155,6 +168,10 @@ msgid ""
 "which includes convenient online signup and renewal. Refer to the <a href='%"
 "1' target='_blank'>CiviMember Guide</a> for more info."
 msgstr ""
+"<strong>CiviMember</strong> - Un componente flessibile di gestione delle "
+"iscrizioni che comprende l'iscrizione e il rinnovo online. Fate riferimento "
+"alla <a href='%1' target='_blank'>Guida di CiviMember</a> per ulteriori "
+"informazioni."
 
 #: templates/CRM/Admin/Form/Setting/Date.hlp
 msgid ""
@@ -163,30 +180,40 @@ msgid ""
 "standard POSIX specifiers. Available specifiers and the values produced will "
 "vary based on your operating system and locale."
 msgstr ""
+"Usate questa schermata per configurare i formati per la visualizzazione e "
+"l'input della data. Vengono forniti dei default per i formati standard degli "
+"Stati Uniti. Le impostazioni usano le specifiche standard POSIX e i valori "
+"prodotti varieranno in base al sistema operativo e alla localizzazione. "
 
 #: templates/CRM/Admin/Form/Setting/Date.hlp
 msgid "Commonly Used Specifiers"
-msgstr ""
+msgstr "Specificatori comunemente usati"
 
 #: templates/CRM/Admin/Form/Setting/Debugging.hlp
 msgid ""
 "Set this value to <strong>Yes</strong> if you want to use one of CiviCRM's "
 "debugging tools."
 msgstr ""
+"Imposta questo valore a <strong>Sì</strong> se volete usare uno degli "
+"strumenti di debugging di CiviCRM."
 
 #: templates/CRM/Admin/Form/Setting/Debugging.hlp
 msgid "This feature should NOT be enabled for production sites."
 msgstr ""
+"Questa caratteristica NON dovrebbe essere abilitata per i siti di "
+"produzione."
 
 #: templates/CRM/Admin/Form/Setting/Debugging.hlp
 msgid ""
 "Debug output is triggered by adding specific name-value pairs to the CiviCRM "
 "query string:"
 msgstr ""
+"L'output di debug è attivato aggiungendo specifici coppie nome-valore alla "
+"stringa di query di CiviCRM:"
 
 #: templates/CRM/Admin/Form/Setting/Debugging.hlp
 msgid "Smarty Debug Window"
-msgstr ""
+msgstr "Finestra di debug smarty"
 
 #: templates/CRM/Admin/Form/Setting/Debugging.hlp
 msgid ""
@@ -203,15 +230,17 @@ msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/Debugging.hlp
 msgid "Session Reset"
-msgstr ""
+msgstr "Reset delle sessioni"
 
 #: templates/CRM/Admin/Form/Setting/Debugging.hlp
 msgid "Resets all values in your client session. To trigger, add <em>%1</em>"
 msgstr ""
+"Resetta tutti i valori nella sessione client. Per attivare, aggiungere "
+"<em>%1</em>."
 
 #: templates/CRM/Admin/Form/Setting/Debugging.hlp
 msgid "Directory Cleanup"
-msgstr ""
+msgstr "Pulizia della directory"
 
 #: templates/CRM/Admin/Form/Setting/Debugging.hlp
 msgid "Empties template cache and/or temporary upload file folders."
@@ -228,23 +257,29 @@ msgstr ""
 msgid ""
 "To remove temporary upload files (civicrm/upload folder), add <em>%1</em>"
 msgstr ""
+"Per rimuovere i file di upload temporanei (la cartella civicrm/upload), "
+"aggiungere <em>%1</em>"
 
 #: templates/CRM/Admin/Form/Setting/Debugging.hlp
 msgid "To cleanup both, add <em>%1</em>"
-msgstr ""
+msgstr "Per ripulire entrambi, aggiungere <em>%1</em>"
 
 #: templates/CRM/Admin/Form/Setting/Debugging.hlp
 msgid "Stack Trace"
-msgstr ""
+msgstr "Stack trace"
 
 #: templates/CRM/Admin/Form/Setting/Debugging.hlp
 msgid "To display a stack trace listing at the top of a page, add <em>%1</em>"
 msgstr ""
+"Per visualizzare un elenco di stack trace in cima alla pagina, aggiungere "
+"<em>%1</em> "
 
 #: templates/CRM/Admin/Form/Setting/Mapping.hlp
 msgid ""
 "<strong>For GOOGLE mapping</strong> - request an API key for your site at %1"
 msgstr ""
+"<strong>Per la mappatura su GOOGLE</strong> - richiedere una chiave dell'API "
+"per il vostro sito a %1 "
 
 #: templates/CRM/Admin/Form/Setting/Mapping.hlp
 msgid ""
@@ -252,16 +287,21 @@ msgid ""
 "followed by the path '/civicrm'. Your API Key will be generated and "
 "displayed on the next page."
 msgstr ""
+"Quando viene richiesto 'URL del proprio sito Web' - inserire l'URL di base "
+"del sito seguito dal percorso '/civicrm'. La chiave dell'API sarà generata e "
+"visualizzata sulla pagina successiva."
 
 #: templates/CRM/Admin/Form/Setting/Mapping.hlp
 msgid "EXAMPLE: if your Drupal site url is %1 you would enter"
-msgstr ""
+msgstr "ESEMPIO: se l'URL del sito Drupal è %1 si dovrebbe inserire"
 
 #: templates/CRM/Admin/Form/Setting/Mapping.hlp
 msgid ""
 "<strong>For YAHOO mapping</strong> - request an Application ID for your site "
 "at %1"
 msgstr ""
+"<strong>Per la mappatura YAHOO</strong> - richiedere un Application ID per "
+"il vostro sito a %1"
 
 #: templates/CRM/Admin/Form/Setting/Mapping.hlp
 msgid ""
@@ -269,12 +309,18 @@ msgid ""
 "followed by the path '%1'. Your API Key will be generated and displayed on "
 "the next page."
 msgstr ""
+"Quando si richiede 'URL del proprio sito Web' - inserire l'URL di base per "
+"il sito seguito dal percorso '%1'. La chiave API verrà generata e "
+"visualizzata sulla pagina successiva."
 
 #: templates/CRM/Admin/Form/Setting/Url.hlp
 msgid ""
 "This setting forces a redirect of all online contribution / member / event "
 "and CiviCRM administrator page requests to SSL secured URLs (https)."
 msgstr ""
+"Questa impostazione forza un redirect di tutti i contributi / membri / "
+"eventi online e le richieste di pagine di amministrazione di CiviCRM a URL "
+"sicuri SSL (https)."
 
 #: templates/CRM/Admin/Form/Setting/Url.hlp
 msgid ""
@@ -303,6 +349,13 @@ msgid ""
 "all online contribution / member / event / admin pages to the corresponding "
 "SSL secured URLs."
 msgstr ""
+"Una volta installato il certificato, si fa il test che questo funzioni "
+"navigando verso una delle pagine di contributo online e cambiando il "
+"prefisso dell'URL da 'http://' a 'https://'. Se il browser carica la pagina "
+"e indica un certificato di sicurezza valido, si possono cambiare le "
+"impostazioni a <strong>Sì</strong> e CiviCRM redirige automaticamente le "
+"richieste per tutte le pagine di contributi / membri / eventi / "
+"amministrazione ai corrispondenti URL sicuri SSL."
 
 #: templates/CRM/Admin/Page/DedupeRules.hlp
 msgid ""
@@ -310,12 +363,18 @@ msgid ""
 "duplicate contact records. For each field, set a numeric <strong>Weight</"
 "strong> which determines the relative importance of a match on that field."
 msgstr ""
+"Configurate fino a cinque campi da valutare quando si ricercano i record di "
+"contatti sospetti duplicati. Per ciascun campo impostate un "
+"<strong>Peso</strong> numerico che determina l'importanza relativa di una "
+"corrispondenza su quel campo."
 
 #: templates/CRM/Admin/Page/DedupeRules.hlp
 msgid ""
 "You can also set a <strong>Length</strong> value which determines how many "
 "characters in the field should be compared."
 msgstr ""
+"Si può anche impostare un valore di <strong>Lunghezza</strong>, che "
+"determina quanti caratteri nel campo devono essere paragonati."
 
 #: templates/CRM/Admin/Page/DedupeRules.hlp
 msgid ""
@@ -324,6 +383,11 @@ msgid ""
 "same. If Length is left blank, then the comparison is done on the entire "
 "field value (<a href='%1' target='_blank' title='%2'>read more...</a>)."
 msgstr ""
+"ESEMPIO: Se impostate una lunghezza di 8 su 'Indirizzo', allora 'Via "
+"Antonietti 15' corrisponde a 'Via Antonietti 8', perché i primi 8 caratteri "
+"sono gli stessi. Se Lunghezza viene lasciato vuoto, il paragone viene fatto "
+"sull'intero valore del campo (<a href='%1' target='_blank' title='%2'>leggi "
+"tutto</a>). "
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
@@ -342,7 +406,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "API Login (LIVE account):"
-msgstr ""
+msgstr "Login API (account LIVE):"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
@@ -350,14 +414,17 @@ msgid ""
 "Account and navigating to <strong>Settings &raquo; General Security "
 "Settings</strong>."
 msgstr ""
+"Generate il Login dell'API e la chiave di transazione loggandovi nel "
+"Merchant Account e navigando in <strong>Settings &raquo; General Security "
+"Settings</strong>."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Transaction Key (LIVE account):"
-msgstr ""
+msgstr "Chiave della transazione (account LIVE):"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "MD5-Hash (LIVE account):"
-msgstr ""
+msgstr "Hash MD5 (account LIVE):"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
@@ -367,36 +434,48 @@ msgid ""
 "value. This can be just about any string of characters or words. Then enter "
 "the exact same value here."
 msgstr ""
+"Si può impostare opzionalmente una chiave hash MD5 per verificare che le "
+"risposte vengano direttamente da Authorize.Net.  Fate login nel vostro "
+"account merchant e navigate a <strong>Account Settings</strong>. Selezionate "
+"MD5-Hash e inserite un nuovo valore di hash, che può essere qualsiasi "
+"stringa di caratteri o parole, poi inserite qui esattamente lo stesso "
+"valore."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
 "The URL for Authorize.net's LIVE Payment server. Use the default value "
 "unless otherwise advised by the processor."
 msgstr ""
+"L'URL per il server di pagamento LIVE di Authorize.net. Usate il valore di "
+"default a meno che venga suggerito altrimenti."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
 "The URL for recurring payments. Use the default value unless otherwise "
 "advised by the processor."
 msgstr ""
+"L'URL per pagamenti ricorrenti. Usate il valore di default a meno che non "
+"venga suggerito altrimenti."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "API Login (TEST account):"
-msgstr ""
+msgstr "Login API (account TEST):"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Transaction Key (TEST account):"
-msgstr ""
+msgstr "Chiavi di transazione (account TEST):"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "MD5-Hash (TEST account):"
-msgstr ""
+msgstr "Hash MD5 (account TEST):"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
 "The URL for Authorize.net's TEST Payment server. Use the default value "
 "unless otherwise advised by the processor."
 msgstr ""
+"L'URL per il server di pagamento TEST di Authorize.net. Usate il valore di "
+"default a meno che non venga suggerito altrimenti."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "LIVE Account API Username:"
@@ -409,10 +488,14 @@ msgid ""
 "as displayed in your LIVE account's <strong>Profile - View API Signature</"
 "strong> screen."
 msgstr ""
+"CiviCRM richiede che si usino le <strong>Credenziali API basate su "
+"firma</strong> per PayPal Pro e Express. Inserite lo <strong>Username "
+"dell'API</strong> come visualizzato nel profilo dell'account LIVE nella "
+"schermata <strong>Profile - View API Signature</strong>."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "LIVE Account API Password:"
-msgstr ""
+msgstr "Password account API LIVE:"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
@@ -421,10 +504,14 @@ msgid ""
 "as displayed in your LIVE account's <strong>Profile - View API Signature</"
 "strong> screen."
 msgstr ""
+"CiviCRM richiede di usare le <strong>Credenziali dell'API basate su "
+"firma</strong> per PayPal Pro e Express. Inserite la vostra <strong>Password "
+"API</strong> come visualizzata nel profilo dell'account LIVE nella "
+"schermata <strong>Profile - View API Signature</strong>."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "LIVE Account API Signature:"
-msgstr ""
+msgstr "Firma per l'API dell'account LIVE:"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
@@ -433,22 +520,31 @@ msgid ""
 "strong> as displayed in your LIVE account's <strong>Profile - View API "
 "Signature</strong> screen."
 msgstr ""
+"CiviCRM richiede di usare le <strong>Credenziali dell'API basate su "
+"firma</strong> per PayPal Pro e Express. Inserite la vostra <strong>Firma "
+"API</strong> come visualizzata nel profilo dell'account LIVE nella schermata "
+"<strong>Profile - View API Signature</strong>."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
 "The URL for PayPal's LIVE Payment server. Use the default value unless "
 "otherwise advised by PayPal."
 msgstr ""
+"L'URL del server di pagamento LIVE di PayPal. Usate il valore di default a "
+"meno che non venga suggerito altrimenti da PayPal."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
 "The URL for displaying PayPal's 'Pay with PayPal' payment button image. Use "
 "the default value unless otherwise advised by PayPal."
 msgstr ""
+"L'URL per visualizzare il pulsante dell'immagine di PayPal 'Paga con "
+"PayPal'. Usate il valore di default a meno che non vi venga suggerito da "
+"PayPal."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "TEST Account API Username:"
-msgstr ""
+msgstr "Nome utente dell'API dell'account TEST:"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
@@ -457,10 +553,14 @@ msgid ""
 "as displayed in your TEST (sandbox) account's <strong>Profile - View API "
 "Signature</strong> screen."
 msgstr ""
+"CiviCRM richiede di usare le <strong>Credenziali dell'API basate su "
+"firma</strong> per PayPal Pro e Express. Inserite il vostro <strong>Username "
+"API</strong> come visualizzata nel profilo dell'account LIVE nella "
+"schermata <strong>Profile - View API Signature</strong>."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "TEST Account API Password:"
-msgstr ""
+msgstr "Password dell'API dell'account TEST:"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
@@ -469,10 +569,14 @@ msgid ""
 "as displayed in your TEST (sandbox) account's <strong>Profile - View API "
 "Signature</strong> screen."
 msgstr ""
+"CiviCRM richiede di usare le <strong>Credenziali dell'API basate su "
+"firma</strong> per PayPal Pro e Express. Inserite la vostra <strong>Password "
+"API</strong> come visualizzata nel profilo dell'account LIVE nella "
+"schermata <strong>Profile - View API Signature</strong>."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "TEST Account API Signature:"
-msgstr ""
+msgstr "Firma dell'API dell'account TEST:"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
@@ -481,6 +585,10 @@ msgid ""
 "strong> as displayed in your TEST (sandbox) account's <strong>Profile - View "
 "API Signature</strong> screen."
 msgstr ""
+"CiviCRM richiede di usare le <strong>Credenziali dell'API basate su "
+"firma</strong> per PayPal Pro e Express. Inserite la vostra <strong>Firma "
+"API</strong> come visualizzata nel profilo dell'account LIVE nella schermata "
+"<strong>Profile - View API Signature</strong>."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
@@ -1096,6 +1204,9 @@ msgid ""
 "Click <a href='%1'>New Contribution Page</a> to create and configure a new "
 "online contribution page using the step-by-step wizard."
 msgstr ""
+"Cliccate su <a href='%1'>Nuova pagina di contributi</a> per creare e "
+"configurare una nuova pagina per i contributi online usando "
+"l'autocomposizione passo-passo. "
 
 #: templates/CRM/Contribute/Page/ContributionPage.hlp
 msgid "Read more..."

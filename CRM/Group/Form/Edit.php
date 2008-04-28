@@ -36,6 +36,7 @@
 require_once 'CRM/Core/Form.php';
 require_once 'CRM/Core/BAO/CustomGroup.php';
 require_once 'CRM/Contact/BAO/GroupNesting.php';
+
 /**
  * This class is to build the form for adding Group
  */
@@ -342,19 +343,23 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
             /*
              * Remove any child groups requested to be removed
              */
+            /***
             $childGroupIds = CRM_Contact_BAO_GroupNesting::getChildGroupIds( $group->id );
             foreach ( $childGroupIds as $childGroupId ) {
                 if ( isset( $params["remove_child_group_$childGroupId"] ) ) {
                     CRM_Contact_BAO_GroupNesting::removeChildGroup( $group->id, $childGroupId );
                 }
             }
+            **/
             
             /*
              * Add child group, if that was requested
              */
+            /***
             if ( ! empty( $params['add_child_group'] ) ) {
                 CRM_Contact_BAO_GroupNesting::addChildGroup( $group->id, $params['add_child_group']);
             }
+            **/
 
             CRM_Core_Session::setStatus( ts('The Group \'%1\' has been saved.', array(1 => $group->title)) );        
             

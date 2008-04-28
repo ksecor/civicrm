@@ -5,9 +5,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-02-27 13:35+0100\n"
-"PO-Revision-Date: 2008-04-03 05:27-0700\n"
-"Last-Translator: Orkut Murat Yılmaz <orkutmuratyilmaz@gmail.com>\n"
+"POT-Creation-Date: 2008-03-12 09:43+0100\n"
+"PO-Revision-Date: 2008-04-27 10:26-0700\n"
+"Last-Translator: Durukan Duru <md_duru@yahoo.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -130,7 +130,6 @@ msgid "-select role-"
 msgstr "-rol seç-"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
-#, fuzzy
 msgid "Everyone"
 msgstr "Herkes"
 
@@ -151,9 +150,8 @@ msgid "Enabled?"
 msgstr "Etkin mi?"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php
-#, fuzzy
 msgid "Selected ACL has been deleted."
-msgstr "Seçili %1 türü silindi."
+msgstr "Seçili ACL silindi"
 
 #: CRM/ACL/Form/ACL.php CRM/Activity/Form/Activity.php
 #: CRM/Activity/Import/Form/MapField.php CRM/Activity/Selector/Activity.php
@@ -170,10 +168,9 @@ msgstr "Seçili %1 türü silindi."
 #: CRM/Core/DAO/OptionGroup.php CRM/Core/DAO/OptionValue.php
 #: CRM/Core/DAO/PaymentProcessor.php CRM/Core/DAO/PaymentProcessorType.php
 #: CRM/Core/DAO/PreferencesDate.php CRM/Core/DAO/Tag.php
-#: CRM/Grant/Import/Form/MapField.php CRM/Import/Form/MapField.php
-#: CRM/Import/Form/Preview.php CRM/Project/DAO/Project.php
-#: CRM/Project/DAO/Task.php templates/CRM/ACL/Page/ACL.tpl
-#: templates/CRM/Admin/Page/LocationType.tpl
+#: CRM/Import/Form/MapField.php CRM/Import/Form/Preview.php
+#: CRM/Project/DAO/Project.php CRM/Project/DAO/Task.php
+#: templates/CRM/ACL/Page/ACL.tpl templates/CRM/Admin/Page/LocationType.tpl
 #: templates/CRM/Admin/Page/Mapping.tpl
 #: templates/CRM/Admin/Page/OptionGroup.tpl
 #: templates/CRM/Admin/Page/Options.tpl
@@ -200,27 +197,24 @@ msgstr "-seç-"
 #: CRM/Contact/Page/View/Participant.php CRM/Contact/Page/View/Tabbed.php
 #: CRM/Contact/Page/View/UserDashBoard/Participant.php
 #: CRM/Core/SelectValues.php CRM/Dedupe/Merger.php
-#, fuzzy
 msgid "Events"
 msgstr "Etkinlikler"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
 msgid "All Groups"
-msgstr "Öbekler"
+msgstr "Tüm Öbekler"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
-#, fuzzy
 msgid "All Custom Groups"
-msgstr "Custom Group"
+msgstr "Tüm Özgün Öbekler"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
-#, fuzzy
 msgid "All Profiles"
-msgstr "Tüm Roller"
+msgstr "Tüm Profiller"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
 msgid "All Events"
-msgstr ""
+msgstr "Tüm Etkinlikler"
 
 #: CRM/ACL/Form/ACL.php CRM/Contact/Page/View/CustomData.php CRM/Core/Menu.php
 msgid "Custom Data"
@@ -235,14 +229,13 @@ msgstr "Profil"
 #: templates/CRM/Contact/Page/View/UserDashBoard/Participant.tpl
 #: templates/CRM/Price/Page/Field.tpl templates/CRM/Price/Page/Option.tpl
 #: templates/CRM/Price/Page/Set.tpl
-#, fuzzy
 msgid "Event"
-msgstr "Etkinliği Bitir"
+msgstr "Etkinlik"
 
 #: CRM/ACL/Form/EntityRole.php CRM/Activity/Form/Activity.php
 #: CRM/Activity/Selector/Activity.php templates/CRM/ACL/Page/EntityRole.tpl
 msgid "Assigned To"
-msgstr "Atandı"
+msgstr "Atandı:"
 
 #: CRM/ACL/Form/EntityRole.php CRM/Contact/Form/GroupContact.php
 #: CRM/Contact/Form/Search/Custom/PostalMailing.php
@@ -292,18 +285,17 @@ msgstr "Geçersiz kıl"
 #: CRM/Group/Page/Group.php CRM/Price/Page/Field.php CRM/Price/Page/Option.php
 #: CRM/Price/Page/Set.php CRM/UF/Page/Field.php CRM/UF/Page/Group.php
 msgid "Enable"
-msgstr "Geçerli kıl (Etkinleştir)"
+msgstr "Etkinleştir"
 
 #: CRM/ACL/Page/ACL.php CRM/Custom/Page/Group.php
 msgid "Custom Group"
-msgstr "Custom Group"
+msgstr "Özel Öbek"
 
 #: CRM/Activity/BAO/Activity.php CRM/Activity/Import/Form/MapField.php
 #: CRM/Activity/Import/Parser.php CRM/Contact/BAO/Contact.php
-#: CRM/Grant/Import/Form/MapField.php CRM/Grant/Import/Parser.php
 #: CRM/Import/Form/MapField.php CRM/Import/Parser.php
 msgid "- do not import -"
-msgstr "-karşıdan alma-"
+msgstr "- içeri aktarma -"
 
 #: CRM/Activity/BAO/Query.php CRM/Activity/Form/Activity.php
 #: CRM/Activity/Selector/Activity.php CRM/Contact/BAO/Query.php
@@ -330,7 +322,7 @@ msgstr "Konu"
 
 #: CRM/Activity/BAO/Query.php CRM/Case/BAO/Query.php
 msgid "Start Date - From"
-msgstr ""
+msgstr "Başlangıç Tarihi - Kimden"
 
 #: CRM/Activity/BAO/Query.php CRM/Activity/Form/Activity.php
 #: CRM/Case/BAO/Query.php CRM/Case/Form/Case.php
@@ -349,7 +341,7 @@ msgstr "Geçerli bir tarih seçiniz."
 #: templates/CRM/Contact/Page/View/Email.tpl
 #: templates/CRM/Contact/Page/View/SMS.tpl
 msgid "To"
-msgstr "'e"
+msgstr "Kime"
 
 #: CRM/Activity/DAO/Activity.php CRM/Activity/Form/Activity.php
 #: CRM/Contact/Form/Task/Record.php
@@ -377,22 +369,22 @@ msgstr "Ayrıntılar"
 #: CRM/Contact/Form/Task/AddToOrganization.php CRM/Contact/Form/Test.php
 #: CRM/Core/BAO/CustomField.php CRM/Core/BAO/PriceField.php
 #: CRM/Core/BAO/UFGroup.php CRM/Core/Form.php CRM/Core/Payment/Form.php
-#: CRM/Core/SelectValues.php CRM/Grant/Import/Form/MapField.php
-#: CRM/Import/Form/MapField.php CRM/UF/Form/Group.php CRM/UF/Form/Preview.php
+#: CRM/Core/SelectValues.php CRM/Import/Form/MapField.php
+#: CRM/UF/Form/Group.php CRM/UF/Form/Preview.php
 msgid "- select -"
 msgstr "- seç -"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 #: templates/CRM/Activity/Form/Activity.tpl
 msgid "Detach"
-msgstr ""
+msgstr "Ayırma"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Import/Form/MapField.php
 #: CRM/Activity/Import/Form/Preview.php
 #: CRM/Activity/Import/Form/UploadFile.php CRM/Admin/Form/CMSUser.php
-#: CRM/Admin/Form/DedupeRules.php CRM/Admin/Form/DomainDump.php
-#: CRM/Admin/Form.php CRM/Admin/Form/Preferences.php
-#: CRM/Admin/Form/Setting.php CRM/Admin/Form/Tag.php CRM/Case/Form/Case.php
+#: CRM/Admin/Form/DedupeRules.php CRM/Admin/Form.php
+#: CRM/Admin/Form/Preferences.php CRM/Admin/Form/Setting.php
+#: CRM/Admin/Form/Tag.php CRM/Case/Form/Case.php
 #: CRM/Contact/Form/CustomData.php CRM/Contact/Form/DeleteLocation.php
 #: CRM/Contact/Form/Domain.php CRM/Contact/Form/Edit.php
 #: CRM/Contact/Form/Merge.php CRM/Contact/Form/Relationship.php
@@ -403,9 +395,7 @@ msgstr ""
 #: CRM/Custom/Form/DeleteField.php CRM/Custom/Form/DeleteFile.php
 #: CRM/Custom/Form/DeleteGroup.php CRM/Custom/Form/Field.php
 #: CRM/Custom/Form/Group.php CRM/Custom/Form/Option.php CRM/Friend/Form.php
-#: CRM/Grant/Form/Grant.php CRM/Grant/Form/Task.php
-#: CRM/Grant/Import/Form/MapField.php CRM/Grant/Import/Form/Preview.php
-#: CRM/Grant/Import/Form/UploadFile.php CRM/Group/Form/Edit.php
+#: CRM/Grant/Form/Grant.php CRM/Grant/Form/Task.php CRM/Group/Form/Edit.php
 #: CRM/Import/Form/MapField.php CRM/Import/Form/Preview.php
 #: CRM/Import/Form/UploadFile.php CRM/Note/Form/Note.php
 #: CRM/Price/Form/DeleteField.php CRM/Price/Form/DeleteSet.php
@@ -440,12 +430,12 @@ msgstr "Durum"
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 #: templates/CRM/Activity/Form/ActivityView.tpl
 msgid "Added By"
-msgstr ""
+msgstr "Ekleyen"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 #: CRM/Core/Menu.php templates/CRM/Case/Form/CaseActivity.tpl
 msgid "Case"
-msgstr ""
+msgstr "Vaka"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Form/ActivityView.php
 #: CRM/Activity/Import/Form/Summary.php CRM/Admin/Form/RelationshipType.php
@@ -454,9 +444,9 @@ msgstr ""
 #: CRM/Contact/Form/Task/Result.php CRM/Custom/Form/Field.php
 #: CRM/Custom/Form/Group.php CRM/Custom/Form/Option.php
 #: CRM/Grant/Form/Grant.php CRM/Grant/Form/Task/Print.php
-#: CRM/Grant/Form/Task/Result.php CRM/Grant/Import/Form/Summary.php
-#: CRM/Import/Form/Summary.php CRM/Price/Form/Field.php CRM/UF/Form/Field.php
-#: CRM/UF/Form/Group.php templates/CRM/Contact/Form/Relationship.tpl
+#: CRM/Grant/Form/Task/Result.php CRM/Import/Form/Summary.php
+#: CRM/Price/Form/Field.php CRM/UF/Form/Field.php CRM/UF/Form/Group.php
+#: templates/CRM/Contact/Form/Relationship.tpl
 #: templates/CRM/Contact/Page/View/Note.tpl
 #: templates/CRM/Contact/Page/View/Print.tpl
 msgid "Done"
@@ -477,19 +467,19 @@ msgid "Save"
 msgstr "Kaydet"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Core/BAO/Mapping.php
-#: CRM/Grant/Import/Form/MapField.php CRM/Import/Form/MapField.php
+#: CRM/Import/Form/MapField.php
 msgid "Mapping Option"
 msgstr "Eşleme Seçeneği"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Core/BAO/Mapping.php
-#: CRM/Grant/Import/Form/MapField.php CRM/Import/Form/MapField.php
+#: CRM/Import/Form/MapField.php
 msgid "Load Mapping"
 msgstr "Eşlemeyi Yükle"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Core/BAO/Mapping.php
-#: CRM/Grant/Import/Form/MapField.php CRM/Import/Form/MapField.php
+#: CRM/Import/Form/MapField.php
 msgid "Save this field mapping"
-msgstr "Alan eşleştirmesini kaydet."
+msgstr "Alan eşleştirmesini kaydet"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Admin/Form/LocationType.php
 #: CRM/Admin/Form/Mapping.php CRM/Admin/Form/OptionGroup.php
@@ -508,9 +498,8 @@ msgstr "Alan eşleştirmesini kaydet."
 #: CRM/Core/DAO/Mapping.php CRM/Core/DAO/PreferencesDate.php
 #: CRM/Core/DAO/PriceField.php CRM/Core/DAO/PriceSet.php CRM/Core/DAO/Tag.php
 #: CRM/Core/DAO/Timezone.php CRM/Grant/Form/Search.php
-#: CRM/Grant/Import/Form/MapField.php CRM/Grant/Selector/Search.php
-#: CRM/Import/Form/MapField.php CRM/Profile/Selector/Listings.php
-#: templates/CRM/Admin/Page/LocationType.tpl
+#: CRM/Grant/Selector/Search.php CRM/Import/Form/MapField.php
+#: CRM/Profile/Selector/Listings.php templates/CRM/Admin/Page/LocationType.tpl
 #: templates/CRM/Admin/Page/Mapping.tpl
 #: templates/CRM/Admin/Page/OptionGroup.tpl
 #: templates/CRM/Admin/Page/PaymentProcessor.tpl
@@ -530,22 +519,21 @@ msgid "Name"
 msgstr "Ad"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Core/BAO/Mapping.php
-#: CRM/Grant/Import/Form/MapField.php CRM/Import/Form/MapField.php
+#: CRM/Import/Form/MapField.php
 msgid "Update this field mapping"
 msgstr "Bu alan eşlemesini güncelle"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Core/BAO/Mapping.php
-#: CRM/Grant/Import/Form/MapField.php CRM/Import/Form/MapField.php
+#: CRM/Import/Form/MapField.php
 msgid "Save as a new field mapping"
 msgstr "Yeni alan eşleştirmesi olarak kaydet."
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Core/BAO/Mapping.php
-#: CRM/Grant/Import/Form/MapField.php CRM/Import/Form/MapField.php
-msgid "Mapper for Field %1"
-msgstr "%1 alanı için eşleştirici"
-
-#: CRM/Activity/Import/Form/MapField.php CRM/Grant/Import/Form/MapField.php
 #: CRM/Import/Form/MapField.php
+msgid "Mapper for Field %1"
+msgstr "%1 Alanı İçin Eşleştirici"
+
+#: CRM/Activity/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid ""
 "The data columns in this import file appear to be different from the saved "
 "mapping. Please verify that you have selected the correct saved mapping "
@@ -555,8 +543,7 @@ msgstr ""
 "Devam etmeden önce, lütfen doğru eşleşmeyi seçtiğinizden emin olunuz."
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Activity/Import/Form/Preview.php
-#: CRM/Contact/Form/Task/Export/Map.php CRM/Grant/Import/Form/MapField.php
-#: CRM/Grant/Import/Form/Preview.php CRM/Import/Form/MapField.php
+#: CRM/Contact/Form/Task/Export/Map.php CRM/Import/Form/MapField.php
 #: CRM/Import/Form/Preview.php
 msgid "<< Previous"
 msgstr "<< Önceki"
@@ -564,39 +551,17 @@ msgstr "<< Önceki"
 #: CRM/Activity/Import/Form/MapField.php
 #: CRM/Activity/Import/Form/UploadFile.php
 #: CRM/Contact/Form/Task/Export/Select.php
-#: CRM/Contact/Form/Task/PickProfile.php CRM/Grant/Import/Form/MapField.php
-#: CRM/Grant/Import/Form/UploadFile.php CRM/Import/Form/MapField.php
+#: CRM/Contact/Form/Task/PickProfile.php CRM/Import/Form/MapField.php
 #: CRM/Import/Form/UploadFile.php
 msgid "Continue >>"
-msgstr "Devam >>"
-
-#: CRM/Activity/Import/Form/MapField.php CRM/Grant/Import/Form/MapField.php
-msgid "Contact ID"
-msgstr "İrtibat No"
+msgstr "Sonraki >>"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Activity/Selector/Activity.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Activity Date"
 msgstr "Etkinlik Tarihi"
 
-#: CRM/Activity/Import/Form/MapField.php CRM/Grant/Import/Form/MapField.php
-msgid ""
-"Missing required contact matching fields. (Should be First AND Last Name or "
-"Primary Email or First Name, Last Name AND Primary Email.)"
-msgstr ""
-"Kişi Bilgilerinde eşleşmesi zorunlu alanlar eksik. (Ad VE Soyad ya da "
-"Birincil Eposta veya Ad, Soyad VE Birincil Eposta)"
-
-#: CRM/Activity/Import/Form/MapField.php CRM/Grant/Import/Form/MapField.php
-msgid "Missing required contact matching field: Contact ID."
-msgstr "Eksik eşleşmesi zorunlu alan: İrtibat No"
-
-#: CRM/Activity/Import/Form/MapField.php CRM/Grant/Import/Form/MapField.php
-msgid "Missing required field: %1"
-msgstr "Eksik zorunlu alan: %1"
-
-#: CRM/Activity/Import/Form/MapField.php CRM/Grant/Import/Form/MapField.php
-#: CRM/Import/Form/MapField.php
+#: CRM/Activity/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Name is required to save Import Mapping"
 msgstr "Import Eşleşmesinin kaydı için ad gerekli."
 
@@ -604,74 +569,61 @@ msgstr "Import Eşleşmesinin kaydı için ad gerekli."
 msgid "Duplicate Import Mapping Name"
 msgstr "İkilenen Import Eşleme Adı"
 
-#: CRM/Activity/Import/Form/MapField.php CRM/Grant/Import/Form/MapField.php
-#: CRM/Import/Form/MapField.php
+#: CRM/Activity/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Match Fields"
 msgstr "Eşleşen Alanlar"
 
-#: CRM/Activity/Import/Form/Preview.php CRM/Grant/Import/Form/Preview.php
-#: CRM/Import/Form/Preview.php
+#: CRM/Activity/Import/Form/Preview.php CRM/Import/Form/Preview.php
 msgid "Import Now >>"
-msgstr "Şimdi Al >>"
+msgstr "Şimdi İçe Aktar >>"
 
 #: CRM/Activity/Import/Form/Preview.php CRM/Custom/Page/Group.php
-#: CRM/Grant/Import/Form/Preview.php CRM/Import/Form/Preview.php
-#: CRM/Price/Page/Set.php CRM/UF/Page/Field.php CRM/UF/Page/Group.php
+#: CRM/Import/Form/Preview.php CRM/Price/Page/Set.php CRM/UF/Page/Field.php
+#: CRM/UF/Page/Group.php
 msgid "Preview"
 msgstr "Önizleme"
 
-#: CRM/Activity/Import/Form/Summary.php CRM/Grant/Import/Form/Summary.php
-#: CRM/Import/Form/Summary.php
+#: CRM/Activity/Import/Form/Summary.php CRM/Import/Form/Summary.php
 msgid "These records have been updated with the imported data."
 msgstr "Bu kayıtlar alınan veri ile güncellendi."
 
-#: CRM/Activity/Import/Form/Summary.php CRM/Grant/Import/Form/Summary.php
-#: CRM/Import/Form/Summary.php
+#: CRM/Activity/Import/Form/Summary.php CRM/Import/Form/Summary.php
 msgid "These records have been filled in with the imported data."
 msgstr "Bu kayıtlar alınan veri ile dolduruldular."
 
-#: CRM/Activity/Import/Form/Summary.php CRM/Grant/Import/Form/Summary.php
-#: CRM/Import/Form/Summary.php
+#: CRM/Activity/Import/Form/Summary.php CRM/Import/Form/Summary.php
 msgid "These records have not been imported."
 msgstr "Bu kayıtlar alınmadı."
 
-#: CRM/Activity/Import/Form/Summary.php CRM/Grant/Import/Form/Summary.php
-#: CRM/Import/Form/Summary.php
+#: CRM/Activity/Import/Form/Summary.php CRM/Import/Form/Summary.php
 msgid "Summary"
 msgstr "Özet"
 
-#: CRM/Activity/Import/Form/UploadFile.php
-#: CRM/Grant/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
+#: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Import Data File"
 msgstr "Veri Dosyasını Al"
 
-#: CRM/Activity/Import/Form/UploadFile.php
-#: CRM/Grant/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
+#: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "A valid file must be uploaded."
 msgstr "Geçerli bir dosya yüklenmeli."
 
-#: CRM/Activity/Import/Form/UploadFile.php
-#: CRM/Grant/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
+#: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "File size should be less than %1 MBytes (%2 bytes)"
 msgstr "Dosya boyutu %1 MB'den küçük olmalı (%2 byte)"
 
-#: CRM/Activity/Import/Form/UploadFile.php
-#: CRM/Grant/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
+#: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Input file must be in CSV format"
 msgstr "Girdi dosyası CSV biçiminde olmalı"
 
-#: CRM/Activity/Import/Form/UploadFile.php
-#: CRM/Grant/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
+#: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "First row contains column headers"
 msgstr "İlk satır sütun adlarını içeriyor"
 
-#: CRM/Activity/Import/Form/UploadFile.php
-#: CRM/Grant/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
+#: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Skip"
 msgstr "Atla"
 
-#: CRM/Activity/Import/Form/UploadFile.php
-#: CRM/Grant/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
+#: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Update"
 msgstr "Güncelle"
 
@@ -679,29 +631,25 @@ msgstr "Güncelle"
 msgid "Fill"
 msgstr "Doldur"
 
-#: CRM/Activity/Import/Form/UploadFile.php
-#: CRM/Grant/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
+#: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Upload Data"
-msgstr "Güncellenmiş Veri"
+msgstr "Veri Yükle"
 
-#: CRM/Activity/Import/Parser/Activity.php
-#: CRM/Grant/Import/Parser/Participant.php CRM/Import/Parser/Contact.php
+#: CRM/Activity/Import/Parser/Activity.php CRM/Import/Parser/Contact.php
 msgid "Missing required fields"
-msgstr "Kayıp zorunlu alan"
+msgstr "Eksik zorunlu alan"
 
-#: CRM/Activity/Import/Parser.php CRM/Grant/Import/Parser.php
-#: CRM/Import/Parser.php
+#: CRM/Activity/Import/Parser.php CRM/Import/Parser.php
 msgid "Line Number"
-msgstr ""
+msgstr "Satır Sayısı"
 
-#: CRM/Activity/Import/Parser.php CRM/Grant/Import/Parser.php
-#: CRM/Import/Parser.php
+#: CRM/Activity/Import/Parser.php CRM/Import/Parser.php
 msgid "Reason"
 msgstr "Neden"
 
 #: CRM/Activity/Selector/Activity.php CRM/Core/Invoke.php
 msgid "View Activity"
-msgstr "View Activity"
+msgstr "Etkinliği Göster"
 
 #: CRM/Activity/Selector/Activity.php CRM/Contact/BAO/Query.php
 #: CRM/Contact/DAO/SubscriptionHistory.php CRM/Contact/Form/Email.php
@@ -716,7 +664,7 @@ msgstr "View Activity"
 #: templates/CRM/Contact/Page/View/Sunlight.tpl
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Email"
-msgstr "Eposta"
+msgstr "E-posta"
 
 #: CRM/Activity/Selector/Activity.php CRM/Grant/Selector/Search.php
 #: CRM/Group/Form/Search.php templates/CRM/Case/Form/CaseActivity.tpl
@@ -738,10 +686,6 @@ msgstr "Tarih"
 #: CRM/Grant/Selector/Search.php CRM/Profile/Selector/Listings.php
 msgid "Actions"
 msgstr "Hareketler"
-
-#: CRM/Admin/Form/CMSUser.php CRM/Admin/Form/DomainDump.php
-msgid "OK"
-msgstr "Tamam"
 
 #: CRM/Admin/Form/DedupeRules.php CRM/Admin/Form/Options.php
 #: CRM/Admin/Form/OptionValue.php CRM/Core/DAO/CustomField.php
@@ -786,7 +730,7 @@ msgstr "Etiket"
 #: CRM/Price/Form/Field.php CRM/Price/Form/Option.php CRM/UF/Form/Field.php
 #: CRM/UF/Form/Group.php
 msgid "is a numeric field"
-msgstr ""
+msgstr "nümerik alan"
 
 #: CRM/Admin/Form/OptionValue.php CRM/Admin/Form/PaymentProcessorType.php
 #: CRM/Contact/DAO/Group.php CRM/Core/DAO/CustomGroup.php
@@ -816,77 +760,71 @@ msgid "Settings - Payment Processor"
 msgstr "Ayarlar - Ödeme İşlemcisi "
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
-#, fuzzy
 msgid "Site URL"
-msgstr "Site URL'leri"
+msgstr "Site Bağlantıları"
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Admin/Form/PaymentProcessorType.php
-#, fuzzy
 msgid "Enter a valid URL"
-msgstr "Please enter a valid name."
+msgstr "Geçerli bir bağlantı adresi giriniz"
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
 msgid "API URL"
-msgstr ""
+msgstr "API Bağlantısı"
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
 msgid "Recurring Payments URL"
-msgstr ""
+msgstr "Tekrarlayan Ödeme Bağlantısı"
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
 msgid "Button URL"
-msgstr ""
+msgstr "Buton Bağlantısı"
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
 #: CRM/Core/Menu.php
-#, fuzzy
 msgid "Payment Processor Type"
-msgstr "Ödeme İşlemcisi"
+msgstr "Ödeme İşlemcisi Türü"
 
 #: CRM/Admin/Form/PaymentProcessorType.php CRM/Core/DAO/PaymentProcessor.php
 #: CRM/Core/DAO/PaymentProcessorType.php
-#, fuzzy
 msgid "Billing Mode"
-msgstr "dönme"
+msgstr "Faturalama Modu"
 
 #: CRM/Admin/Form/PaymentProcessorType.php CRM/Core/DAO/PaymentProcessor.php
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "User Name"
-msgstr "Soyad"
+msgstr "Kullanıcı Adı"
 
 #: CRM/Admin/Form/PaymentProcessorType.php CRM/Core/BAO/CMSUser.php
 #: CRM/Core/DAO/PaymentProcessor.php xml/templates/civicrm_add_domain.tpl
 msgid "Password"
-msgstr ""
+msgstr "Şifre"
 
 #: CRM/Admin/Form/PaymentProcessorType.php CRM/Core/DAO/PaymentProcessor.php
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Signature"
-msgstr ""
+msgstr "İmza"
 
 #: CRM/Admin/Form/Preferences/Address.php CRM/Contact/Form/Search/Advanced.php
 msgid "Address Fields"
 msgstr "Adres Alanları"
 
 #: CRM/Admin/Form/Preferences/Address.php CRM/Core/DAO/Preferences.php
-#, fuzzy
 msgid "Individual Name Format"
-msgstr "Bireysel"
+msgstr "Bireysel İsim Biçimi"
 
 #: CRM/Admin/Form/PreferencesDate.php CRM/Core/DAO/PreferencesDate.php
 #: templates/CRM/Admin/Page/PreferencesDate.tpl
 msgid "Minute Increment"
-msgstr ""
+msgstr "Dakika Artırma"
 
 #: CRM/Admin/Form/PreferencesDate.php CRM/Core/DAO/PreferencesDate.php
 #: templates/CRM/Admin/Page/PreferencesDate.tpl
 msgid "Format"
-msgstr ""
+msgstr "Biçim"
 
 #: CRM/Admin/Form/PreferencesDate.php CRM/Custom/Form/Field.php
 msgid "Value should be a positive number"
-msgstr ""
+msgstr "Değer pozitif bir sayı olmalı"
 
 #: CRM/Admin/Form/Preferences/Display.php CRM/Core/Invoke.php
 #: CRM/Core/Menu.php templates/CRM/Block/Search.tpl
@@ -896,9 +834,8 @@ msgid "Advanced Search"
 msgstr "Ayrıntılı Arama"
 
 #: CRM/Admin/Form/Preferences/Display.php CRM/Core/Menu.php
-#, fuzzy
 msgid "Contact Dashboard"
-msgstr "Etiketleri"
+msgstr "İrtibat Kontrol Paneli"
 
 #: CRM/Admin/Form/Preferences.php CRM/Admin/Form/Setting.php
 #: CRM/Admin/Page/PaymentProcessor.php CRM/Admin/Page/PreferencesDate.php
@@ -941,7 +878,7 @@ msgstr "Ayarlar - Kaynak URL'ler"
 
 #: CRM/Admin/Page/Admin.php CRM/Core/Menu.php
 msgid "Customize"
-msgstr ""
+msgstr "Özelleştir"
 
 #: CRM/Admin/Page/Admin.php CRM/Core/Menu.php
 msgid "Configure"
@@ -959,11 +896,6 @@ msgstr "Seçenekler"
 #: CRM/Admin/Page/DedupeRules.php CRM/Admin/Page/DupeMatch.php
 msgid "Edit Rule"
 msgstr "Kuralı Düzenle"
-
-#: CRM/Admin/Page/DomainDump.php CRM/Core/Invoke.php
-#: templates/CRM/Admin/Form/DomainDump.tpl
-msgid "Backup Database"
-msgstr "Veritabanını Yedekle"
 
 #: CRM/Admin/Page/OptionGroup.php CRM/Group/Page/Group.php
 msgid "Edit Group"
@@ -992,11 +924,10 @@ msgstr "Site URL'leri"
 #: templates/CRM/Admin/Form/Setting/Mapping.tpl
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid "Mapping and Geocoding"
-msgstr "Haritala ve Koordinatlar"
+msgstr "Haritalama ve Koordinatlar"
 
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Page/Setting.tpl
-#, fuzzy
 msgid "Localization"
 msgstr "Yerelleştirme"
 
@@ -1017,13 +948,13 @@ msgstr "ya da"
 #: templates/CRM/Contact/Page/View/Case.tpl
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Case Type"
-msgstr ""
+msgstr "Vaka Türü"
 
 #: CRM/Case/BAO/Query.php CRM/Case/Form/Case.php
 #: templates/CRM/Contact/Page/View/Case.tpl
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Case Status"
-msgstr ""
+msgstr "Vaka Durumu"
 
 #: CRM/Case/DAO/Case.php CRM/Case/Form/Case.php
 #: CRM/Contact/DAO/Relationship.php CRM/Contact/Form/Relationship.php
@@ -1055,8 +986,8 @@ msgstr "Notlar"
 #: CRM/Contact/BAO/Contact.php CRM/Contact/DAO/Contact.php
 #: CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Relationship.php
 #: CRM/Contact/Selector.php CRM/Core/DAO/CustomGroup.php
-#: CRM/Dedupe/DAO/RuleGroup.php CRM/Grant/Import/Form/UploadFile.php
-#: CRM/Grant/Selector/Search.php CRM/Import/Form/UploadFile.php
+#: CRM/Dedupe/DAO/RuleGroup.php CRM/Grant/Selector/Search.php
+#: CRM/Import/Form/UploadFile.php
 msgid "Individual"
 msgstr "Bireysel"
 
@@ -1064,8 +995,8 @@ msgstr "Bireysel"
 #: CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Relationship.php
 #: CRM/Contact/Form/Task/AddToHousehold.php CRM/Contact/Selector.php
 #: CRM/Core/DAO/CustomGroup.php CRM/Dedupe/DAO/RuleGroup.php
-#: CRM/Grant/Import/Form/UploadFile.php CRM/Grant/Selector/Search.php
-#: CRM/Import/Form/UploadFile.php templates/CRM/Contact/Form/Edit.tpl
+#: CRM/Grant/Selector/Search.php CRM/Import/Form/UploadFile.php
+#: templates/CRM/Contact/Form/Edit.tpl
 msgid "Household"
 msgstr "Yerel"
 
@@ -1073,8 +1004,8 @@ msgstr "Yerel"
 #: CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Relationship.php
 #: CRM/Contact/Form/Task/AddToOrganization.php CRM/Contact/Selector.php
 #: CRM/Core/DAO/CustomGroup.php CRM/Dedupe/DAO/RuleGroup.php
-#: CRM/Grant/Import/Form/UploadFile.php CRM/Grant/Selector/Search.php
-#: CRM/Import/Form/UploadFile.php templates/CRM/Contact/Form/Edit.tpl
+#: CRM/Grant/Selector/Search.php CRM/Import/Form/UploadFile.php
+#: templates/CRM/Contact/Form/Edit.tpl
 msgid "Organization"
 msgstr "Kuruluş"
 
@@ -1138,15 +1069,15 @@ msgstr "Cinsiyet"
 #: CRM/Contact/Form/Search/Custom/PostalMailing.php
 #: CRM/Contact/Form/Search/Custom/Sample.php CRM/Contact/Selector.php
 #: CRM/Core/DAO/MappingField.php CRM/Dedupe/DAO/RuleGroup.php
-#: CRM/Grant/Import/Form/UploadFile.php CRM/Grant/Selector/Search.php
-#: CRM/Import/Form/UploadFile.php templates/CRM/Admin/Page/DedupeFind.tpl
+#: CRM/Grant/Selector/Search.php CRM/Import/Form/UploadFile.php
+#: templates/CRM/Admin/Page/DedupeFind.tpl
 #: templates/CRM/Admin/Page/DedupeRules.tpl
 msgid "Contact Type"
 msgstr "İrtibat Türü"
 
 #: CRM/Contact/BAO/Query.php CRM/Contact/Form/Search.php
 msgid "Group Status"
-msgstr "Group Status"
+msgstr "Öbek Durumu"
 
 #: CRM/Contact/BAO/Query.php CRM/Core/BAO/CustomField.php
 #: CRM/Core/DAO/Note.php templates/CRM/Contact/Page/View/Basic.tpl
@@ -1161,7 +1092,7 @@ msgstr "Konum Türü"
 #: CRM/Contact/BAO/Query.php CRM/Contact/DAO/Contact.php
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Preferred Communication Method"
-msgstr "Preferred Communication Method"
+msgstr "Tercih Edilen İletişim Yöntemi"
 
 #: CRM/Contact/BAO/Query.php CRM/Contact/Form/Search/Advanced.php
 #: CRM/Contact/Form/Search/Criteria.php
@@ -1216,7 +1147,7 @@ msgstr "HTML"
 
 #: CRM/Contact/DAO/Contact.php CRM/Core/SelectValues.php
 msgid "Both"
-msgstr "Hepsi"
+msgstr "İkisi de"
 
 #: CRM/Contact/DAO/Contact.php CRM/Core/Form.php
 #: xml/templates/civicrm_add_domain.tpl
@@ -1237,7 +1168,7 @@ msgstr "Kaldırıldı"
 #: CRM/Core/SelectValues.php templates/CRM/Contact/Page/View/GroupContact.tpl
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Pending"
-msgstr "Askıda"
+msgstr "Bekleyen"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/Form/Household.php
 #: CRM/Contact/Form/Individual.php CRM/Contact/Form/Organization.php
@@ -1269,9 +1200,8 @@ msgstr "\"Where\" Tabloları"
 
 #: CRM/Contact/DAO/Group.php CRM/Group/Form/Edit.php
 #: templates/CRM/Group/Page/Group.tpl xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Group Type"
-msgstr "Öbek Başlığı"
+msgstr "Öbek Türü"
 
 #: CRM/Contact/DAO/Group.php CRM/Core/DAO/UFField.php
 #: CRM/Core/SelectValues.php
@@ -1330,17 +1260,15 @@ msgstr "İl / Eyalet"
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/Edit.php
 #: CRM/Core/BAO/Address.php templates/CRM/Contact/Form/Address/country.tpl
 msgid "- type first letter(s) -"
-msgstr ""
+msgstr "- ilk harf(ler)i girin -"
 
 #: CRM/Contact/Form/DeleteLocation.php CRM/Core/Invoke.php
-#, fuzzy
 msgid "Delete Location"
-msgstr "Yer Seç"
+msgstr "Konum Sil"
 
 #: CRM/Contact/Form/Domain.php CRM/Core/Menu.php
-#, fuzzy
 msgid "Domain Information"
-msgstr "Add Contacts to Organization"
+msgstr "Alan (Bölge) Bilgisi"
 
 #: CRM/Contact/Form/Domain.php CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Administer CiviCRM"
@@ -1376,25 +1304,26 @@ msgstr "%1 zorunlu alandır."
 #: CRM/Contact/Form/Household.php CRM/Contact/Form/Individual.php
 #: CRM/Contact/Form/Organization.php
 msgid "External Id"
-msgstr "Dış No"
+msgstr "Dış Kimlik"
 
 #: CRM/Contact/Form/Household.php CRM/Contact/Form/Individual.php
 #: CRM/Contact/Form/Organization.php
-#, fuzzy
 msgid "External ID already exists in Database."
-msgstr "Bu Ad, Veritabanında kayıtlı."
+msgstr "Dış Kimlik, Veritabanında kayıtlı."
 
 #: CRM/Contact/Form/Household.php CRM/Contact/Form/Individual.php
 #: CRM/Contact/Form/Organization.php
-#, fuzzy
 msgid ""
 "One matching contact was found. You can edit it here: %1, or click Save "
 "Matching Contact button below."
 msgid_plural ""
 "%count matching contacts were found. You can edit them here: %1, or click "
 "Save Matching Contact button below."
-msgstr[0] "Aranan irtibat bulundı. Buradan güncelleyebilirsiniz: %1"
-msgstr[1] "% adet irtibat bulundu. Buradan güncelleyebilirsiniz: %1"
+msgstr[0] ""
+"SingularBir irtibat bulundı. Buradan güncelleyebilirsiniz: %1, ya da "
+"aşağıdaki Eşleşen İrtibatı Kaydet butonuna tıklayın.Plural%count irtibat "
+"bulundu. Buradan güncelleyebilirsiniz: %1, ya da aşağıdaki Eşleşen İrtibatı "
+"Kaydet butonuna tıklayın."
 
 #: CRM/Contact/Form/Individual.php CRM/Contact/Form/Organization.php
 #: templates/CRM/Contact/Page/View/Print.tpl
@@ -1404,13 +1333,15 @@ msgstr "Web sitesi"
 
 #: CRM/Contact/Form/Merge.php CRM/Grant/Invoke.php
 msgid "You do not have access to this page"
-msgstr ""
+msgstr "Bu sayfaya erişiminiz yok"
 
 #: CRM/Contact/Form/Merge.php CRM/Contact/Form/Task/Delete.php
 msgid ""
 "The contact record which is linked to the currently logged in user account - "
 "'%1' - can not be deleted."
 msgstr ""
+"Şu an çevrimiçi olan kullanıcı hesabına - '%1' - ait kullanıcı kaydı "
+"silinemiyor."
 
 #: CRM/Contact/Form/Merge.php CRM/Core/BAO/CustomField.php
 #: CRM/Core/BAO/CustomOption.php CRM/Core/BAO/CustomQuery.php
@@ -1448,12 +1379,12 @@ msgstr "Evet"
 
 #: CRM/Contact/Form/OpenID.php CRM/Standalone/Form/Register.php
 msgid "OpenID"
-msgstr ""
+msgstr "OpenID"
 
 #: CRM/Contact/Form/Organization.php CRM/Core/BAO/CustomField.php
 #: CRM/Core/BAO/UFGroup.php
 msgid "Enter a valid Website."
-msgstr "Geçerli bir Web sitesi giriniz"
+msgstr "Geçerli bir Web sitesi giriniz."
 
 #: CRM/Contact/Form/Phone.php CRM/Contact/Form/Search/Custom/Basic.php
 #: CRM/Contact/Selector.php CRM/Core/DAO/Phone.php CRM/Core/SelectValues.php
@@ -1510,7 +1441,7 @@ msgstr "Değişiklik Günlüğü (Kaydı)"
 #: CRM/Core/SelectValues.php CRM/Dedupe/Merger.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Contributions"
-msgstr "Bağışlar"
+msgstr "Katılımlar"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Basic.php
 #: CRM/Contact/Page/View/Tabbed.php CRM/Core/SelectValues.php
@@ -1521,11 +1452,11 @@ msgstr "Üyelikler"
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Grant.php
 #: CRM/Contact/Page/View/Tabbed.php CRM/Core/SelectValues.php
 msgid "Grants"
-msgstr ""
+msgstr "Bağışlar"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Tabbed.php
 msgid "Cases"
-msgstr ""
+msgstr "Vakalar"
 
 #: CRM/Contact/Form/Search/Basic.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Contact/Form/Search/Custom/Basic.php
@@ -1538,7 +1469,7 @@ msgstr " - herhangi bir öbek - "
 
 #: CRM/Contact/Form/Search/Basic.php CRM/Contact/Form/Search/Custom/Basic.php
 msgid "in"
-msgstr "in"
+msgstr "içinde"
 
 #: CRM/Contact/Form/Search/Basic.php CRM/Contact/Form/Search/Custom/Basic.php
 msgid "- any tag -"
@@ -1546,7 +1477,7 @@ msgstr " - her hangi bir etiket - "
 
 #: CRM/Contact/Form/Search/Basic.php CRM/Contact/Form/Search/Custom/Basic.php
 msgid "Tagged"
-msgstr "Tagged"
+msgstr "Etiketlenmiş"
 
 #: CRM/Contact/Form/Search/Basic.php CRM/Core/Menu.php
 msgid "Find Contacts"
@@ -1583,7 +1514,7 @@ msgstr "Adres"
 #: CRM/Contact/Form/Search/Custom/Basic.php CRM/Contact/Selector.php
 #: templates/CRM/Contact/Form/Task/Print.tpl
 msgid "Postal"
-msgstr "Postal"
+msgstr "Posta"
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 #: CRM/Contact/Form/Search/Custom/ContributionAggregate.php
@@ -1592,22 +1523,22 @@ msgstr "Postal"
 #: CRM/Contact/Form/Search/Custom/PostalMailing.php
 #: CRM/Contact/Form/Search/Custom/Sample.php CRM/Contact/Selector.php
 msgid "Contact Id"
-msgstr "Contact Id"
+msgstr "İrtibat Kimliği"
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 #: CRM/Contact/Form/Search/Custom/ContributionAggregate.php
 msgid "Donation Count"
-msgstr ""
+msgstr "Bağış Sayısı"
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 #: CRM/Contact/Form/Search/Custom/ContributionAggregate.php
 msgid "Donation Amount"
-msgstr ""
+msgstr "Bağış Miktarı"
 
 #: CRM/Contact/Form/Search/Custom.php CRM/Core/Invoke.php
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Custom Search"
-msgstr ""
+msgstr "Gelişmiş Arama"
 
 #: CRM/Contact/Form/Search.php CRM/Grant/Form/Search.php
 msgid "- more actions -"
@@ -1660,7 +1591,7 @@ msgstr "İlişki(ler), önceden kayıtlı oldukları için yaratılamadı: %1."
 
 #: CRM/Contact/Form/Task/AddToOrganization.php CRM/Contact/Task.php
 msgid "Add Contacts to Organization"
-msgstr "Add Contacts to Organization"
+msgstr "Organizasyona İrtibat Ekle"
 
 #: CRM/Contact/Form/Task/Delete.php CRM/Contact/Task.php
 msgid "Delete Contacts"
@@ -1689,21 +1620,20 @@ msgid "Record Activity for Contacts"
 msgstr "İrtibatların Kayıt Etkinliği"
 
 #: CRM/Contact/Form/Task/RemoveFromGroup.php CRM/Contact/Task.php
-#, fuzzy
 msgid "Remove Contacts from Group"
-msgstr "Remove Contacts from a Group"
+msgstr "Öbekten İrtibat Sil"
 
 #: CRM/Contact/Form/Task/SaveSearch.php CRM/Contact/Task.php
 msgid "Update Smart Group"
-msgstr "Smart Öbeğini Güncelle"
+msgstr "Akıllı Öbeği Güncelle"
 
 #: CRM/Contact/Page/SavedSearch.php CRM/Group/Page/Group.php
 msgid "Do you really want to remove this Smart Group?"
-msgstr "Bu Smart Öbeği silmek istediğinize emin misiniz?"
+msgstr "Bu Akıllı Öbeği silmek istediğinize emin misiniz?"
 
 #: CRM/Contact/Page/View/Activity.php CRM/Core/Invoke.php
 msgid "Email a Contact"
-msgstr "Bir İrtibata Eposta Gönder"
+msgstr "Bir İrtibata E-posta Gönder"
 
 #: CRM/Contact/Page/View/Basic.php CRM/Contact/Page/View/Tabbed.php
 msgid "Contact Page"
@@ -1712,7 +1642,7 @@ msgstr "İletişim Sayfası"
 #: CRM/Contact/Page/View/DashBoard.php CRM/Contact/Page/View.php
 #: CRM/Contact/Page/View/UserDashBoard.php
 msgid "We could not find a contact id."
-msgstr "bir İrtibat No bulamıyoruz."
+msgstr "bir irtibat no bulamıyoruz."
 
 #: CRM/Contact/Page/View/DashBoard.php CRM/Core/Menu.php
 msgid "CiviCRM Home"
@@ -1746,11 +1676,11 @@ msgstr "Etiketler"
 
 #: CRM/Contact/Selector/Custom.php CRM/Contact/Selector.php
 msgid "View Contact Details"
-msgstr "View Contact Details"
+msgstr "İrtibat Detaylarını Göster"
 
 #: CRM/Contact/Selector/Custom.php CRM/Contact/Selector.php
 msgid "Edit Contact Details"
-msgstr "Edit Contact Details"
+msgstr "İrtibat Detaylarını Düzenle"
 
 #: CRM/Contact/Selector/Custom.php CRM/Contact/Selector.php
 #: CRM/Profile/Selector/Listings.php
@@ -1765,7 +1695,7 @@ msgstr "İrtibatı Eşle"
 #: CRM/Contact/Selector/Custom.php CRM/Contact/Selector.php
 #: CRM/Profile/Selector/Listings.php
 msgid "Contact %%StatusMessage%%"
-msgstr "İrtibat %%Durumİletisi%%"
+msgstr "İrtibat %%StatusMessage%%"
 
 #: CRM/Contact/Task.php CRM/Core/Menu.php
 msgid "Export Contacts"
@@ -1773,7 +1703,7 @@ msgstr "İrtibatları Gönder (Aktar)"
 
 #: CRM/Core/BAO/CMSUser.php CRM/Profile/Form.php
 msgid "An account already exists with the same information."
-msgstr "An account already exists with the same information."
+msgstr "Bu bilgilerle açılmış bir hesap mevcut."
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/SelectValues.php
 msgid "Integer"
@@ -1791,9 +1721,8 @@ msgstr "Dosya"
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/DAO/CustomField.php
 #: CRM/Core/SelectValues.php CRM/Custom/Form/Field.php
-#, fuzzy
 msgid "Link"
-msgstr "in"
+msgstr "Bağlantı"
 
 #: CRM/Core/BAO/CustomField.php CRM/Friend/Form.php
 #: templates/CRM/Case/Form/CaseActivity.tpl
@@ -1801,7 +1730,7 @@ msgstr "in"
 #: templates/CRM/Contact/Page/View/Email.tpl
 #: templates/CRM/Contact/Page/View/SMS.tpl templates/CRM/SMS/Form/Task/SMS.tpl
 msgid "From"
-msgstr "Den"
+msgstr "Kimden"
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/BAO/PriceField.php
 msgid "%1 must be an integer (whole number)."
@@ -1813,21 +1742,19 @@ msgstr "Kişisel dosya, kişisel klasöre yüklenemiyor"
 
 #: CRM/Core/BAO/Note.php CRM/Note/Form/Note.php
 msgid "We could not find your logged in user ID"
-msgstr "We could not find your logged in user ID"
+msgstr "Çevrimiçi kullanıcı adınızı bulamadık"
 
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
-#, fuzzy
 msgid "Membership Type"
-msgstr "Üyelik"
+msgstr "Üyelik Türü"
 
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
-#, fuzzy
 msgid "Membership Status"
-msgstr "Üyelikler"
+msgstr "Üyelik Durumu"
 
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
 msgid "Paid By"
-msgstr "tarafından ödendi"
+msgstr "Ödeme Yapan"
 
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
 #: templates/CRM/Contact/Page/View/UserDashBoard/Contribution.tpl
@@ -1844,16 +1771,15 @@ msgstr "CiviCRM"
 
 #: CRM/Core/Block.php CRM/Core/Invoke.php
 msgid "New Activity"
-msgstr ""
+msgstr "Yeni Etkinlik"
 
 #: CRM/Core/Block.php CRM/Core/Menu.php
-#, fuzzy
 msgid "Log out"
-msgstr "Loop"
+msgstr "Çıkış"
 
 #: CRM/Core/Block.php CRM/Grant/Info.php CRM/Grant/Menu.php
 msgid "CiviGrant"
-msgstr ""
+msgstr "Bağış"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
 msgid "Html Type"
@@ -1867,17 +1793,17 @@ msgstr "Varsayılan Değer"
 #: CRM/Core/DAO/PriceField.php CRM/Core/DAO/PriceSet.php
 #: CRM/Core/DAO/UFGroup.php
 msgid "Help Pre"
-msgstr "Help Pre"
+msgstr "Yardım Başlangıcı"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomGroup.php
 #: CRM/Core/DAO/PriceField.php CRM/Core/DAO/PriceSet.php
 #: CRM/Core/DAO/UFField.php CRM/Core/DAO/UFGroup.php
 msgid "Help Post"
-msgstr "Help Post"
+msgstr "Yardım Sonu"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Mask"
-msgstr "Mask"
+msgstr "Maske"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
 #: CRM/Core/DAO/PriceSet.php
@@ -1895,7 +1821,7 @@ msgstr "Memo"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "TextArea"
-msgstr "MetinKutusu"
+msgstr "Metin Kutusu"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
@@ -1904,7 +1830,7 @@ msgstr "Seç"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Multi-Select"
-msgstr "Çoklu-Seçmeli"
+msgstr "Çoktan-Seçmeli"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
@@ -1914,7 +1840,7 @@ msgstr "Radyo"
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
 msgid "CheckBox"
-msgstr "OnayKutucuğu"
+msgstr "Onay Kutucuğu"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Select Date"
@@ -1930,7 +1856,7 @@ msgstr "Ülke Seç"
 
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/DAO/UFGroup.php
 msgid "Collapse Display"
-msgstr "Collapse Display"
+msgstr "Görüntüyü Kapat"
 
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/Menu.php
 msgid "Activity"
@@ -1951,7 +1877,7 @@ msgstr "Telefon türü"
 
 #: CRM/Core/DAO/Mapping.php CRM/Core/Invoke.php
 msgid "Import Activity"
-msgstr ""
+msgstr "Etkinliği İçe Aktar"
 
 #: CRM/Core/DAO/Mapping.php CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Search Builder"
@@ -1961,13 +1887,13 @@ msgstr "Arama Oluşturucu"
 #: CRM/Price/Form/Option.php templates/CRM/Custom/Page/Option.tpl
 #: templates/CRM/Price/Page/Option.tpl
 msgid "Option Label"
-msgstr "Option Label"
+msgstr "Seçenek İsmi"
 
 #: CRM/Core/DAO/OptionValue.php CRM/Custom/Form/Option.php
 #: CRM/Price/Form/Option.php templates/CRM/Custom/Page/Option.tpl
 #: templates/CRM/Price/Page/Option.tpl
 msgid "Option Value"
-msgstr "Option Value"
+msgstr "Seçenek Değeri"
 
 #: CRM/Core/DAO/PaymentProcessor.php CRM/Core/Menu.php
 msgid "Payment Processor"
@@ -1975,7 +1901,7 @@ msgstr "Ödeme İşlemcisi"
 
 #: CRM/Core/DAO/PaymentProcessor.php CRM/Core/DAO/PaymentProcessorType.php
 msgid "Suffix for PHP clas name implementation"
-msgstr ""
+msgstr "PHP sınıf ismi uyarlaması için son-ek"
 
 #: CRM/Core/DAO/Phone.php CRM/Core/SelectValues.php
 msgid "Mobile"
@@ -1988,19 +1914,17 @@ msgstr "Faks"
 
 #: CRM/Core/DAO/Phone.php CRM/Core/SelectValues.php
 msgid "Pager"
-msgstr "Pager"
+msgstr "Çağrı Cihazı"
 
 #: CRM/Core/DAO/PriceField.php CRM/Price/Form/Field.php
 #: templates/CRM/Price/Page/Field.tpl
-#, fuzzy
 msgid "Active On"
-msgstr "Etkin"
+msgstr "Etkin Olma Tarihi"
 
 #: CRM/Core/DAO/PriceField.php CRM/Price/Form/Field.php
 #: templates/CRM/Price/Page/Field.tpl
-#, fuzzy
 msgid "Expire On"
-msgstr "Export"
+msgstr "Bitiş Tarihi"
 
 #: CRM/Core/DAO/UFField.php CRM/UF/Form/Field.php
 msgid "Field Name"
@@ -2013,16 +1937,15 @@ msgstr "CiviCRM Profili"
 #: CRM/Core/Invoke.php CRM/Friend/Form/Contribute.php
 #: CRM/Friend/Form/Event.php templates/CRM/Friend/Form/Friend.tpl
 msgid "Tell A Friend"
-msgstr ""
+msgstr "Arkadaşına haber ver"
 
 #: CRM/Core/Invoke.php CRM/Core/Page/File.php
 msgid "Domain Information Page"
 msgstr "Alanadı Bilgi Sayfası"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
-#, fuzzy
 msgid "Map Event Location"
-msgstr "Yer Seç"
+msgstr "Etkinlik Yeri Seç"
 
 #: CRM/Core/Invoke.php CRM/Core/SelectValues.php
 msgid "Search Results"
@@ -2045,38 +1968,33 @@ msgid "CiviCRM Profile Field"
 msgstr "CiviCRM Profil Alanı"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
-#, fuzzy
 msgid "Message Templates"
-msgstr "Tarih Seç"
+msgstr "Mesaj Şablonları"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
-#, fuzzy
 msgid "Find Duplicate Contacts"
-msgstr "İkilenen İrtibatlar İçin"
+msgstr "İkilenen İrtibatları Bul"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
-#, fuzzy
 msgid "Duplicate Contact Rules"
-msgstr "İkilenen İrtibatlar İçin"
+msgstr "İkilenen İrtibat Kuralları"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
-#, fuzzy
 msgid "Contact Matching"
-msgstr "İrtibatın Görüşmeleri"
+msgstr "Eşleşen İrtibatlar"
 
 #: CRM/Core/Invoke.php CRM/Price/Page/Set.php
 msgid "Price Sets"
-msgstr ""
+msgstr "Ücret Kümeleri"
 
 #: CRM/Core/Invoke.php CRM/Price/Page/Field.php
 #: templates/CRM/Price/Form/Field.tpl
-#, fuzzy
 msgid "Price Field"
-msgstr "Edit Field"
+msgstr "Ücret Alanı"
 
 #: CRM/Core/Invoke.php CRM/Price/Page/Set.php templates/CRM/Price/Form/Set.tpl
 msgid "Price Set"
-msgstr ""
+msgstr "Ücret Kümesi"
 
 #: CRM/Core/Menu.php CRM/Group/Form/Edit.php
 msgid "Manage Groups"
@@ -2085,7 +2003,7 @@ msgstr "Öbekleri Yönet"
 #: CRM/Core/Menu.php CRM/Friend/BAO/Friend.php CRM/Friend/Form/Contribute.php
 #: CRM/Friend/Form/Event.php xml/templates/civicrm_add_domain.tpl
 msgid "Tell a Friend"
-msgstr ""
+msgstr "Arkadaşına haber ver"
 
 #: CRM/Core/Menu.php CRM/Core/SelectValues.php
 msgid "Contacts"
@@ -2103,26 +2021,26 @@ msgstr "Ekteki dosya silindi."
 msgid ""
 "User Name is not set in the Administer CiviCRM &raquo; Payment Processor."
 msgstr ""
+"CiviCRM Yönetimi &raquo; Ödeme İşlemcisi sayfasında kullanıcı adı girilmedi."
 
 #: CRM/Core/Payment/Google.php CRM/Core/Payment/IATS.php
 #: CRM/Core/Payment/Moneris.php CRM/Core/Payment/PayPalImpl.php
 msgid ""
 "Password is not set in the Administer CiviCRM &raquo; Payment Processor."
-msgstr ""
+msgstr "CiviCRM Yönetimi &raquo; Ödeme İşlemcisi sayfasında şifre girilmedi."
 
 #: CRM/Custom/Form/DeleteField.php CRM/Custom/Page/Field.php
 msgid "Delete Custom Field"
 msgstr "Özel Alanı Sil"
 
 #: CRM/Custom/Form/DeleteGroup.php CRM/Group/Form/Edit.php
-#, fuzzy
 msgid "The Group '%1' has been deleted."
-msgstr "\"%1\" öbeği silindi."
+msgstr "\"%1\" isimli öbek silindi."
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php CRM/UF/Form/Field.php
 #: templates/CRM/Custom/Page/Field.tpl templates/CRM/Price/Page/Field.tpl
 msgid "Field Label"
-msgstr "Alan Etiketi"
+msgstr "Alan İsmi"
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Group.php
 #: CRM/Price/Form/Field.php CRM/UF/Form/Field.php CRM/UF/Form/Group.php
@@ -2130,7 +2048,7 @@ msgstr "Alan Etiketi"
 #: templates/CRM/Custom/Page/Group.tpl templates/CRM/Price/Page/Field.tpl
 #: templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Group.tpl
 msgid "Order"
-msgstr ""
+msgstr "Sipariş"
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php
 #: CRM/Price/Form/Field.php CRM/Price/Form/Option.php
@@ -2146,15 +2064,15 @@ msgstr "Zorunlu mu?"
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
 msgid "must be a numeric value"
-msgstr ""
+msgstr "nümerik bir değer olmak zorunda"
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php CRM/UF/Form/Field.php
 msgid "Field Help"
-msgstr "Field Help"
+msgstr "Alan Yardımı"
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php
 msgid "Please enter a valid number value."
-msgstr "lütfen geçerli bir sayısal değer giriniz."
+msgstr "Lütfen geçerli bir sayısal değer giriniz."
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php
 msgid "Invalid default value for country."
@@ -2162,15 +2080,15 @@ msgstr "Ülke için geçersiz varsayılan değer."
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
 msgid "Duplicate Option label"
-msgstr "Duplicate Option label"
+msgstr "Seçenek ismi ikilemesi"
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
 msgid "Option label cannot be empty"
-msgstr "Option label cannot be empty"
+msgstr "Seçenek ismi boş olamaz"
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
 msgid "Option value cannot be empty"
-msgstr "Option value cannot be empty"
+msgstr "Seçenek değeri boş olamaz"
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
 msgid "Please enter a valid money value."
@@ -2178,12 +2096,12 @@ msgstr "Lüften geçerli bir para değeri giriniz."
 
 #: CRM/Custom/Form/Group.php CRM/Price/Form/Set.php
 msgid "Preview %1"
-msgstr "Preview %1"
+msgstr "%1 Önizleme"
 
 #: CRM/Custom/Form/Group.php CRM/UF/Form/Group.php
 #: templates/CRM/Custom/Page/Group.tpl templates/CRM/UF/Page/Group.tpl
 msgid "Used For"
-msgstr "Kullan"
+msgstr "Kullanma Sebebi"
 
 #: CRM/Custom/Form/Group.php CRM/Price/Form/Set.php CRM/UF/Form/Group.php
 msgid "Pre-form Help"
@@ -2209,47 +2127,41 @@ msgstr "Ayarlar"
 
 #: CRM/Friend/BAO/Friend.php CRM/Friend/DAO/Friend.php
 msgid "Suggested Message"
-msgstr ""
+msgstr "Tavsiye Mesaj"
 
 #: CRM/Friend/Form/Contribute.php CRM/Friend/Form/Event.php
 msgid "Thanks for Spreading the Word"
-msgstr ""
+msgstr "Kelimeyi Yaydığınız için Teşekkürler"
 
 #: CRM/Grant/BAO/Query.php CRM/Grant/Form/Grant.php
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Grant Type"
-msgstr ""
+msgstr "Bağış Türü"
 
 #: CRM/Grant/BAO/Query.php CRM/Grant/Form/Grant.php
 msgid "Grant Status"
-msgstr ""
+msgstr "Bağış Durumu"
 
 #: CRM/Grant/BAO/Query.php CRM/Grant/Form/Grant.php
 msgid "Grant report received?"
-msgstr ""
+msgstr "Bağış raporu alındı mı?"
 
 #: CRM/Grant/DAO/Grant.php CRM/Grant/Selector/Search.php
 #: templates/CRM/Grant/Form/Task/Print.tpl
 msgid "Amount Requested"
-msgstr ""
+msgstr "İstenen Miktar"
 
 #: CRM/Grant/DAO/Grant.php CRM/Grant/Selector/Search.php
-#, fuzzy
 msgid "Amount Granted"
-msgstr "Miktar"
+msgstr "Bağışlanan Miktar"
 
 #: CRM/Grant/DAO/Grant.php CRM/Grant/Form/Grant.php
-#, fuzzy
 msgid "Rationale"
-msgstr "Option Value"
+msgstr "Gerekçe"
 
 #: CRM/Grant/Form/Task/Delete.php CRM/Grant/Task.php
 msgid "Delete Grants"
-msgstr ""
-
-#: CRM/Grant/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
-msgid "No Duplicate Checking"
-msgstr "No Duplicate Checking"
+msgstr "Bağışları Sil"
 
 #: CRM/Group/Form/Edit.php CRM/Group/Page/Group.php
 msgid "Delete Group"
@@ -2260,28 +2172,53 @@ msgid "Continue"
 msgstr "Devam Et"
 
 #: CRM/Price/Form/DeleteSet.php CRM/Price/Page/Set.php
-#, fuzzy
 msgid "Delete Price Set"
-msgstr "Disable CiviCRM Profile Field"
+msgstr "Ücret Kümesini Sil"
 
 #: CRM/Price/Form/Field.php CRM/Price/Page/Field.php
 #: templates/CRM/Price/Page/Field.tpl
-#, fuzzy
 msgid "Price"
-msgstr "Profil"
+msgstr "Ücret"
 
 #: CRM/Project/DAO/Project.php CRM/Project/DAO/Task.php
 msgid "Owner Entity Table"
-msgstr "Varlık Tablosu"
+msgstr "Sahiplerin Varlık Tablosu"
 
 #: CRM/Standalone/OpenID/DAO/Associations.php
 #: CRM/Standalone/OpenID/DAO/Nonce.php
 msgid "Server Url"
-msgstr ""
+msgstr "Server Bağlantı Adresi"
+
+#: CRM/Upgrade/TwoZero/Form/Step1.php CRM/Upgrade/TwoZero/Form/Step2.php
+#: CRM/Upgrade/TwoZero/Form/Step3.php CRM/Upgrade/TwoZero/Form/Step4.php
+#: CRM/Upgrade/TwoZero/Form/Step5.php CRM/Upgrade/TwoZero/Form/Step6.php
+msgid "Post-condition failed for upgrade step %1."
+msgstr "%1 yükseltme adımı için son-koşul sağlanamadı."
+
+#: CRM/Upgrade/TwoZero/Form/Step2.php CRM/Upgrade/TwoZero/Form/Step3.php
+#: CRM/Upgrade/TwoZero/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step5.php
+#: CRM/Upgrade/TwoZero/Form/Step6.php CRM/Upgrade/TwoZero/Form/Step7.php
+msgid "Pre-condition failed for upgrade step %1."
+msgstr "%1 yükseltme adımı için ön-koşul sağlanamadı."
 
 #: CRM/Upgrade/TwoZero/Form/Step2.php CRM/Upgrade/TwoZero/Form/Step3.php
 #: CRM/Upgrade/TwoZero/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step5.php
 msgid "Upgrade & Continue"
+msgstr "Yükselt ve Devam Et"
+
+#: CRM/Upgrade/TwoZero/Form/Step3.php CRM/Upgrade/TwoZero/Form/Step4.php
+#: CRM/Upgrade/TwoZero/Form/Step5.php CRM/Upgrade/TwoZero/Form/Step6.php
+msgid "Database consistency check failed for step %1."
+msgstr "%1 adımı için veritabanı tutarlılık kontrolü yapılamadı."
+
+#: CRM/Upgrade/TwoZero/Form/Step3.php CRM/Upgrade/TwoZero/Form/Step4.php
+#: CRM/Upgrade/TwoZero/Form/Step6.php
+msgid "FK constraint names not in the required format."
+msgstr ""
+
+#: CRM/Upgrade/TwoZero/Form/Step3.php CRM/Upgrade/TwoZero/Form/Step4.php
+#: CRM/Upgrade/TwoZero/Form/Step6.php
+msgid "Please rebuild your 1.9 database to ensure schema integrity."
 msgstr ""
 
 #: CRM/ACL/BAO/ACL.php
@@ -2551,6 +2488,26 @@ msgstr ""
 msgid "Activity '%1' has been saved."
 msgstr "\"%1\" kaydedildi."
 
+#: CRM/Activity/Import/Form/MapField.php
+msgid "Contact ID"
+msgstr "İrtibat No"
+
+#: CRM/Activity/Import/Form/MapField.php
+msgid ""
+"Missing required contact matching fields. (Should be First AND Last Name or "
+"Primary Email or First Name, Last Name AND Primary Email.)"
+msgstr ""
+"Kişi Bilgilerinde eşleşmesi zorunlu alanlar eksik. (Ad VE Soyad ya da "
+"Birincil Eposta veya Ad, Soyad VE Birincil Eposta)"
+
+#: CRM/Activity/Import/Form/MapField.php
+msgid "Missing required contact matching field: Contact ID."
+msgstr "Eksik eşleşmesi zorunlu alan: İrtibat No"
+
+#: CRM/Activity/Import/Form/MapField.php
+msgid "Missing required field: %1"
+msgstr "Eksik zorunlu alan: %1"
+
 #: CRM/Activity/Import/Form/UploadFile.php
 msgid "On duplicate entries"
 msgstr "mükerrer girişlerde"
@@ -2603,6 +2560,10 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "With"
 msgstr "İle"
+
+#: CRM/Admin/Form/CMSUser.php
+msgid "OK"
+msgstr "Tamam"
 
 #: CRM/Admin/Form/DedupeRules.php templates/CRM/Admin/Form/DedupeRules.tpl
 #, fuzzy
@@ -4804,6 +4765,12 @@ msgid "Add Contacts to Event"
 msgstr "Add Contacts to %1"
 
 #: CRM/Core/BAO/CMSUser.php
+msgid ""
+"Cannot connect to UF db via %1. Please check the CIVICRM_UF_DSN value in "
+"your civicrm.settings.php file"
+msgstr ""
+
+#: CRM/Core/BAO/CMSUser.php
 msgid "Synchronize Users to Contacts completed."
 msgstr ""
 
@@ -4950,18 +4917,6 @@ msgstr "\"%1\"'e eşit ya da büyük "
 #, fuzzy
 msgid "less than or equal to '%1'"
 msgstr "\"%1\"'e eşit ya da küçük "
-
-#: CRM/Core/BAO/DomainDump.php
-msgid ""
-"We could not find the backup sql script. Check %1 exists and is readable by "
-"the webserver."
-msgstr ""
-
-#: CRM/Core/BAO/DomainDump.php
-msgid ""
-"We could not find the mysqldump program. Check the configuration variable "
-"CIVICRM_MYSQL_PATH in your CiviCRM config file."
-msgstr ""
 
 #: CRM/Core/BAO/Location.php
 msgid "Please contact CiviCRM support for help"
@@ -6048,18 +6003,6 @@ msgstr ""
 msgid "Do you want to continue?"
 msgstr ""
 
-#: CRM/Core/Menu.php templates/CRM/Admin/Form/DomainDump.tpl
-msgid "Backup Your Data:"
-msgstr "Verini Yedekle:"
-
-#: CRM/Core/Menu.php templates/CRM/Admin/Form/DomainDump.tpl
-msgid ""
-"CiviCRM will create an SQL dump file with all of your existing data, and "
-"allow you to download it to your local computer. This process may take a "
-"long time and generate a very large file if you have a large number of "
-"records."
-msgstr ""
-
 #: CRM/Core/Menu.php
 msgid ""
 "Configure custom fields to collect and store custom data which is not "
@@ -6075,14 +6018,6 @@ msgstr ""
 #: CRM/Core/Menu.php
 msgid "CiviCRM Profile Fields"
 msgstr "CiviCRM Profil Alanları"
-
-#: CRM/Core/Menu.php
-msgid "Backup Data"
-msgstr "Veriyi Yedekle"
-
-#: CRM/Core/Menu.php
-msgid "Create a backup file containing your CiviCRM data."
-msgstr ""
 
 #: CRM/Core/Menu.php
 msgid ""
@@ -6808,6 +6743,10 @@ msgid ""
 msgstr ""
 
 #: CRM/Custom/Form/Field.php
+msgid "Field's Name should not start with digit"
+msgstr ""
+
+#: CRM/Custom/Form/Field.php
 #, fuzzy
 msgid "Your custom field '%1' has been saved"
 msgstr "Your custom field \"%1\" has been saved"
@@ -7265,26 +7204,6 @@ msgstr ""
 msgid "Print Grant List"
 msgstr ""
 
-#: CRM/Grant/Import/Form/MapField.php
-msgid "Duplicate Import Membership Mapping Name"
-msgstr ""
-
-#: CRM/Grant/Import/Form/MapField.php
-msgid "Select saved mapping"
-msgstr ""
-
-#: CRM/Grant/Import/Form/UploadFile.php
-msgid "On Duplicate Entries"
-msgstr ""
-
-#: CRM/Grant/Import/Parser/Participant.php
-msgid "Select either EventID OR Event Title"
-msgstr ""
-
-#: CRM/Grant/Import/Parser.php
-msgid "View Participant URL"
-msgstr ""
-
 #: CRM/Grant/Invoke.php
 msgid "Manage Grant"
 msgstr ""
@@ -7433,6 +7352,10 @@ msgstr "These records have been replaced with the imported data."
 #: CRM/Import/Form/UploadFile.php
 msgid "Lookup mapping info during import?"
 msgstr ""
+
+#: CRM/Import/Form/UploadFile.php
+msgid "No Duplicate Checking"
+msgstr "No Duplicate Checking"
 
 #: CRM/Import/Form/UploadFile.php
 msgid "For Duplicate Contacts"
@@ -8265,12 +8188,6 @@ msgid "Step Two will upgrade the contact records in your database."
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step3.php
-msgid ""
-"Database consistency check failed for step 3. FK constraint names not in the "
-"required format."
-msgstr ""
-
-#: CRM/Upgrade/TwoZero/Form/Step3.php
 msgid "CiviCRM 2.0 Upgrade: Step Three (Location Data Upgrade)"
 msgstr ""
 
@@ -8279,25 +8196,15 @@ msgid "This step will upgrade the location data in your database."
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step4.php
-msgid ""
-"Database consistency check failed for step 4. FK constraint names not in the "
-"required format."
-msgstr ""
-
-#: CRM/Upgrade/TwoZero/Form/Step4.php
 msgid "CiviCRM 2.0 Upgrade: Step Four (Activity Upgrade)"
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step5.php
-msgid ""
-"Database consistency check failed for Step 5. Value missing in "
-"civicrm_custom_field for the column 'name'."
+msgid "Value missing in %1 for the column '%2'."
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step5.php
-msgid ""
-"Database consistency check failed for Step 5. A custom field can not have "
-"'id' as the 'name'."
+msgid "A custom field can not have '%1' as the '%2'."
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step5.php
@@ -8306,12 +8213,6 @@ msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step5.php
 msgid "This step will upgrade the custom section of your database."
-msgstr ""
-
-#: CRM/Upgrade/TwoZero/Form/Step6.php
-msgid ""
-"Database consistency check failed for step 6. FK constraint names not in the "
-"required format."
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step6.php
@@ -9296,6 +9197,22 @@ msgstr ""
 msgid ""
 "Configure up to five fields to evaluate when searching for 'suspected' "
 "duplicate contact records."
+msgstr ""
+
+#: templates/CRM/Admin/Form/DomainDump.tpl
+msgid "Backup Database"
+msgstr "Veritabanını Yedekle"
+
+#: templates/CRM/Admin/Form/DomainDump.tpl
+msgid "Backup Your Data:"
+msgstr "Verini Yedekle:"
+
+#: templates/CRM/Admin/Form/DomainDump.tpl
+msgid ""
+"CiviCRM will create an SQL dump file with all of your existing data, and "
+"allow you to download it to your local computer. This process may take a "
+"long time and generate a very large file if you have a large number of "
+"records."
 msgstr ""
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
@@ -14197,73 +14114,70 @@ msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Text Message (SMS)"
-msgstr ""
+msgstr "Kısa Mesaj (SMS)"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Text message (SMS) sent."
-msgstr ""
+msgstr "Kısa mesaj (SMS) gönderildi."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Event Registration"
-msgstr ""
+msgstr "Olay Kaydetme"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Online or offline event registration."
-msgstr ""
+msgstr "Çevrimiçi veya çevrimdışı olay kaydetme."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Online or offline contribution."
-msgstr ""
+msgstr "Çevrimiçi veya çevrimdışı katılım."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Membership Signup"
-msgstr ""
+msgstr "Üye Kaydı"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Online or offline membership signup."
-msgstr ""
+msgstr "Çevrimiçi veya çevrimdışı kullanıcı kaydı."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Membership Renewal"
-msgstr ""
+msgstr "Üyelik Yenileme"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Online or offline membership renewal."
-msgstr ""
+msgstr "Çevrimiçi veya çevrimdışı üyelik yenileme."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Send information about a contribution campaign or event to a friend."
-msgstr ""
+msgstr "Bir kampanya veya olay hakkında arkadaşına bilgi gönder."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Female"
-msgstr "Female"
+msgstr "Bayan"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Male"
-msgstr "Male"
+msgstr "Erkek"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Transgender"
-msgstr "Transgender"
+msgstr "Eşcinsel"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "Mrs"
-msgstr "Mrs."
+msgstr "Bayan"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Ms"
-msgstr "Ms."
+msgstr "Bayan"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Mr"
-msgstr "Mr."
+msgstr "Bay"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Dr"
 msgstr "Dr."
 
@@ -14273,43 +14187,37 @@ msgid "Jr"
 msgstr "Jr."
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Sr"
-msgstr "Sr."
+msgstr "Sayın"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Administrator"
-msgstr "Yalnız Yönetici mi?"
+msgstr "Yönetici"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Authenticated"
-msgstr "Doğrulama?"
+msgstr "Kimlik Doğrulama"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Credit Card"
-msgstr "Coord Type"
+msgstr "Kredi Kartı"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "Debit Card"
-msgstr "Website"
+msgstr "Ödeme Kartı"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Cash"
-msgstr "Hash"
+msgstr "Nakit"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Check"
-msgstr "CheckBox"
+msgstr "Çek"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "EFT"
-msgstr ""
+msgstr "EFT"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Completed"
@@ -14320,95 +14228,90 @@ msgid "Cancelled"
 msgstr "İptal Edildi"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Failed"
-msgstr "Dosya"
+msgstr "Başarısız"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "In Progress"
-msgstr ""
+msgstr "Sürmekte"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Registered"
-msgstr "Reserved?"
+msgstr "Kayıtlı"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Attended"
-msgstr "Başlama Tarihi"
+msgstr "Katıldı"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "No-show"
-msgstr ""
+msgstr "Gösterme"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Attendee"
-msgstr "Başlama Tarihi"
+msgstr "Katılan"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Host"
-msgstr "Host"
+msgstr "Ev Sahibi"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Speaker"
-msgstr "Ara"
+msgstr "Sunucu"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Conference"
-msgstr "Yapılandır"
+msgstr "Konferans"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Exhibition"
-msgstr ""
+msgstr "Sergi"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Fundraiser"
-msgstr ""
+msgstr "Bağış"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Performance"
-msgstr ""
+msgstr "Performans"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Workshop"
-msgstr "İş"
+msgstr "Atölye Çalışması"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Granted"
-msgstr ""
+msgstr "İzin Verildi"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Rejected"
-msgstr ""
+msgstr "Reddedildi"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Emergency"
-msgstr ""
+msgstr "Aciliyet"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Family Support"
-msgstr ""
+msgstr "Aile Desteği"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "General Protection"
-msgstr ""
+msgstr "Genel Koruma"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Impunity"
-msgstr ""
+msgstr "Muafiyet"
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "In Honor of"
-msgstr ""
+msgstr "Kimin Onuruna:"
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "In Memory of"
-msgstr ""
+msgstr "Kimin Anısına"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Scheduled"
@@ -14416,7 +14319,7 @@ msgstr "Planlandı"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Left Message"
-msgstr "Bırakılan İletiler"
+msgstr "Mesaj Bırak"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Unreachable"
@@ -14424,31 +14327,32 @@ msgstr "Ulaşılamaz"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Civil & Political"
-msgstr ""
+msgstr "Kamusal & Politik"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Economic, Social & Cultural"
-msgstr ""
+msgstr "Ekonomik, Sosyal ve Kültürel"
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Gender Issues"
-msgstr ""
+msgstr "Yaş ile İlgili Durumlar"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Ongoing"
-msgstr ""
+msgstr "Devam Etmekte"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Resolved"
-msgstr ""
+msgstr "Çözüldü"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Name Only"
-msgstr ""
+msgstr "Yalnız İsim"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Name and Email"
-msgstr ""
+msgstr "İsim ve E-Posta"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
@@ -14458,12 +14362,12 @@ msgstr "Para Birimi"
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "Grace"
-msgstr "Grad"
+msgstr "Erteleme"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "Expired"
-msgstr "Export"
+msgstr "Zaman Aşımı"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
@@ -14472,16 +14376,16 @@ msgstr "Ödeme İşlemcisi"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Merchant Account Email"
-msgstr ""
+msgstr "Kullanıcı E-Postası"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "Merchant ID"
-msgstr "Kullanıcı Adı - LIVE"
+msgstr "Kullanıcı Adı"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Key"
-msgstr ""
+msgstr "Anahtar"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Store ID"
@@ -14489,17 +14393,16 @@ msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "API Login"
-msgstr ""
+msgstr "API Girişi"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Payment Key"
-msgstr "Ödeme İşlemcisi"
+msgstr "Ödeme Anahtarı"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "MD5 Hash"
-msgstr "Hash"
+msgstr "MD5 Karşılığı"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "PayJunction"
@@ -14548,6 +14451,9 @@ msgstr "İleti bir içerik süzgeci tarafından engellendi."
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "SMTP işleminde Hata"
+
+#~ msgid "Backup Data"
+#~ msgstr "Veriyi Yedekle"
 
 #~ msgid "State %2 \"%1\""
 #~ msgstr "İl / Eyalet - \"%1\""

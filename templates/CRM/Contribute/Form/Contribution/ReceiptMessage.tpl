@@ -34,7 +34,7 @@
 {/if}
 
 {ts}Date{/ts}: {$receive_date|crmDate}
-{if $is_monetary}
+{if $is_monetary and $trxn_id}
 {ts}Transaction #{/ts}: {$trxn_id}
 {/if}
 {if $membership_trx_id}

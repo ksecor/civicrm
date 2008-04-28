@@ -48,16 +48,8 @@ class CRM_Contact_Form_Search_Criteria {
         $form->addGroup($contact_type, 'contact_type', ts('Contact Type(s)'), '<br />');
 
         // checkboxes for groups
-        $group = array();
-        foreach ($form->_groupIterator as $groupID => $group) {
-            $indentLevel = $form->_groupIterator->getCurrentNestingLevel( );
-            $indent = '';
-            while ( $indentLevel-- ) {
-                $indent .= '&nbsp;&nbsp;&nbsp;&nbsp;';
-            }
-            $groupLabel = "$group";
-            $groupLabel = $indent . $groupLabel;
-            $form->_groupElement =& $form->addElement('checkbox', "group[$groupID]", null, $groupLabel);
+        foreach ($form->_group as $groupID => $group) {
+            $form->_groupElement =& $form->addElement('checkbox', "group[$groupID]", null, $group);
         }
 
         // checkboxes for categories

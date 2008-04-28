@@ -147,7 +147,7 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
      * @return int count of members in the group with above status
      * @access public
      */
-    static function memberCount( $id, $status = 'Added', $countChildGroups = true ) {
+    static function memberCount( $id, $status = 'Added', $countChildGroups = false ) {
         require_once 'CRM/Contact/DAO/GroupContact.php';
 	    $groupContact =& new CRM_Contact_DAO_GroupContact( );
         $groupIds = array( $id );
@@ -193,7 +193,7 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
      * @access public
      * @static
      */
-    static function getMember ($lngGroupId, $includeChildGroups = true) {
+    static function getMember ($lngGroupId, $includeChildGroups = false) {
         require_once 'CRM/Contact/DAO/GroupContact.php';
         $groupContact =& new CRM_Contact_DAO_GroupContact( );
         

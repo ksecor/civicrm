@@ -63,9 +63,16 @@ class CRM_Contact_Controller_Search extends CRM_Core_Controller {
         // create and instantiate the pages
         $this->addPages( $this->_stateMachine, $action );
 
+        $config  =& CRM_Core_Config::singleton( );
+
+        $session =& CRM_Core_Session::singleton( );
+        $uploadNames = $session->get( 'uploadNames' );
+
+        if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
+            $uploadDir = $config->uploadDir;
+        }
         // add all the actions
-        $config =& CRM_Core_Config::singleton( );
-        $this->addActions( );
+        $this->addActions( $uploadDir, $uploadNames );
     }
 
     public function selectorName( ) {
