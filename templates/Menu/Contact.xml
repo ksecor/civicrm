@@ -165,4 +165,10 @@
      <is_public>true</is_public>
      <weight>0</weight>
   </item>
+  <item>
+     <path>civicrm/contact/create</path>
+     <title>New Contact Dialog</title>
+     <page_callback>CRM_Contact_Form_Create</page_callback>
+     <access_arguments>access CiviCRM,add contacts</access_arguments>
+  </item>
 </menu>
