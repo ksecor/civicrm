@@ -811,7 +811,7 @@ AND       civicrm_membership.is_test = %2
             $invoiceID = md5(uniqid(rand(), true));
             $tempParams['invoiceID'] = $invoiceID;
 
-            if ($form->_values['is_monetary']) {
+            if ($form->_values['is_monetary'] && !$form->_params['is_pay_later']) {
                 require_once 'CRM/Core/Payment.php';
                 $payment =& CRM_Core_Payment::singleton( $form->_mode, 'Contribute', $form->_paymentProcessor );
                 
@@ -844,13 +844,16 @@ AND       civicrm_membership.is_test = %2
                 // irrespective of the value, CRM-2888
                 $tempParams['cms_create_account'] = 0;
 
+                $pending  = $form->_params['is_pay_later'] ? true : false;
+
                 $contribution[2] =
                     CRM_Contribute_Form_Contribution_Confirm::processContribution( $form,
                                                                                    $tempParams,
                                                                                    $result,
                                                                                    $contactID,
                                                                                    $contributionType,
-                                                                                   false );
+                                                                                   false,
+                                                                                   $pending );
             }
         }
         

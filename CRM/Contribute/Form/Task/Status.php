@@ -194,10 +194,12 @@ AND    co.id IN ( $contribIDs )";
         $seen = $errors = array( );
         foreach ( $fields as $name => $value ) {
             if ( strpos( $name, 'trxn_id_' ) !== false ) {
-                if ( array_key_exists( $value, $seen ) ) {
-                    $errors[$name] = ts( 'Transaction ID\'s must be unique. Include the account number for checks.' );
+                if ( $fields[$name] ) {
+                    if ( array_key_exists( $value, $seen ) ) {
+                        $errors[$name] = ts( 'Transaction ID\'s must be unique. Include the account number for checks.' );
+                    }
+                    $seen[$value] = 1;
                 }
-                $seen[$value] = 1;
             }
         }
         return empty( $errors ) ? true : $errors;
