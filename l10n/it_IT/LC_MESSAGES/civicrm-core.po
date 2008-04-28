@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-03-12 09:43+0100\n"
-"PO-Revision-Date: 2008-03-18 07:18-0700\n"
+"PO-Revision-Date: 2008-04-24 06:31-0700\n"
 "Last-Translator: Eugenia Franzoni <eugenia@catnic.it>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -6329,7 +6329,6 @@ msgid "life time"
 msgstr "durata della vita"
 
 #: CRM/Core/SelectValues.php
-#, fuzzy
 msgid "rolling"
 msgstr "scorrevole"
 
@@ -7740,8 +7739,9 @@ msgid "Secret"
 msgstr "Segreto"
 
 #: CRM/Standalone/OpenID/DAO/Associations.php
+#, fuzzy
 msgid "Issued"
-msgstr ""
+msgstr "Inviato"
 
 #: CRM/Standalone/OpenID/DAO/Associations.php
 msgid "Lifetime"

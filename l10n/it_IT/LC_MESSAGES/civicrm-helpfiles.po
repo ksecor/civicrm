@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-02-27 13:05+0100\n"
-"PO-Revision-Date: 2008-03-18 09:37-0700\n"
+"PO-Revision-Date: 2008-04-24 06:34-0700\n"
 "Last-Translator: Eugenia Franzoni <eugenia@catnic.it>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -538,10 +538,13 @@ msgid ""
 "The URL for displaying PayPal's 'Pay with PayPal' payment button image. Use "
 "the default value unless otherwise advised by PayPal."
 msgstr ""
+"L'URL per visualizzare il pulsante dell'immagine di PayPal 'Paga con "
+"PayPal'. Usate il valore di default a meno che non vi venga suggerito da "
+"PayPal."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "TEST Account API Username:"
-msgstr ""
+msgstr "Nome utente dell'API dell'account TEST:"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
@@ -557,7 +560,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "TEST Account API Password:"
-msgstr ""
+msgstr "Password dell'API dell'account TEST:"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
@@ -573,7 +576,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "TEST Account API Signature:"
-msgstr ""
+msgstr "Firma dell'API dell'account TEST:"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
