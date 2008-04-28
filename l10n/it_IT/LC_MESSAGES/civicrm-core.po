@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-03-12 09:43+0100\n"
+"POT-Creation-Date: 2008-04-28 21:53+0200\n"
 "PO-Revision-Date: 2008-04-24 06:31-0700\n"
 "Last-Translator: Eugenia Franzoni <eugenia@catnic.it>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -126,7 +126,8 @@ msgid "Role"
 msgstr "Ruolo"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php
-msgid "-select role-"
+#, fuzzy
+msgid "- select role -"
 msgstr "- seleziona ruolo -"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
@@ -185,12 +186,20 @@ msgid "Description"
 msgstr "Descrizione"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Form/EntityRole.php CRM/ACL/Page/ACL.php
-#: CRM/Activity/BAO/Query.php CRM/Case/BAO/Query.php
-#: CRM/Contact/Form/Location.php CRM/Contact/Form/Task/EmailCommon.php
-#: CRM/Core/BAO/UFGroup.php CRM/Core/SelectValues.php
-#: CRM/Custom/Form/Field.php CRM/Grant/BAO/Query.php CRM/Grant/Form/Grant.php
+#: CRM/Activity/BAO/Query.php CRM/Activity/Form/ActivityLinks.php
+#: CRM/Activity/Import/Form/MapField.php
+#: CRM/Admin/Form/Setting/Localization.php CRM/Case/BAO/Query.php
+#: CRM/Contact/Form/Address.php CRM/Contact/Form/Location.php
+#: CRM/Contact/Form/Relationship.php CRM/Contact/Form/Search/Criteria.php
+#: CRM/Contact/Form/Task/AddToHousehold.php
+#: CRM/Contact/Form/Task/AddToOrganization.php
+#: CRM/Contact/Form/Task/EmailCommon.php CRM/Contact/Form/Test.php
+#: CRM/Core/BAO/CustomField.php CRM/Core/BAO/PriceField.php
+#: CRM/Core/BAO/UFGroup.php CRM/Core/Form.php CRM/Core/Payment/Form.php
+#: CRM/Core/SelectValues.php CRM/Custom/Form/Field.php CRM/Grant/BAO/Query.php
+#: CRM/Grant/Form/Grant.php CRM/Import/Form/MapField.php CRM/UF/Form/Group.php
 #: CRM/UF/Form/Preview.php
-msgid "-select-"
+msgid "- select -"
 msgstr "- seleziona -"
 
 #: CRM/ACL/Form/ACL.php CRM/Contact/Form/Search/Advanced.php
@@ -299,8 +308,9 @@ msgstr "- non importare -"
 
 #: CRM/Activity/BAO/Query.php CRM/Activity/Form/Activity.php
 #: CRM/Activity/Selector/Activity.php CRM/Contact/BAO/Query.php
-#: CRM/Contact/Form/Search/Criteria.php CRM/Contact/Form/Task/Record.php
-#: templates/CRM/Case/Form/CaseActivity.tpl
+#: CRM/Contact/Form/Search/Criteria.php
+#: CRM/Contact/Form/Search/Custom/ActivitySearch.php
+#: CRM/Contact/Form/Task/Record.php templates/CRM/Case/Form/CaseActivity.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Activity Type"
@@ -327,6 +337,7 @@ msgstr "Data inizio - Da"
 #: CRM/Activity/BAO/Query.php CRM/Activity/Form/Activity.php
 #: CRM/Case/BAO/Query.php CRM/Case/Form/Case.php
 #: CRM/Contact/Form/Individual.php CRM/Contact/Form/Search/Criteria.php
+#: CRM/Contact/Form/Search/Custom/ActivitySearch.php
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 #: CRM/Contact/Form/Search/Custom/ContributionAggregate.php
 #: CRM/Contact/Form/Task/Record.php CRM/Core/BAO/UFGroup.php
@@ -361,18 +372,6 @@ msgstr "Recapito"
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Details"
 msgstr "Dettagli"
-
-#: CRM/Activity/Form/ActivityLinks.php CRM/Activity/Import/Form/MapField.php
-#: CRM/Admin/Form/Setting/Localization.php CRM/Contact/Form/Address.php
-#: CRM/Contact/Form/Relationship.php CRM/Contact/Form/Search/Criteria.php
-#: CRM/Contact/Form/Task/AddToHousehold.php
-#: CRM/Contact/Form/Task/AddToOrganization.php CRM/Contact/Form/Test.php
-#: CRM/Core/BAO/CustomField.php CRM/Core/BAO/PriceField.php
-#: CRM/Core/BAO/UFGroup.php CRM/Core/Form.php CRM/Core/Payment/Form.php
-#: CRM/Core/SelectValues.php CRM/Import/Form/MapField.php
-#: CRM/UF/Form/Group.php CRM/UF/Form/Preview.php
-msgid "- select -"
-msgstr "- seleziona -"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 #: templates/CRM/Activity/Form/Activity.tpl
@@ -413,6 +412,7 @@ msgstr "Data e ora"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 #: CRM/Contact/DAO/GroupContact.php CRM/Contact/DAO/SubscriptionHistory.php
+#: CRM/Contact/Form/Search/Custom/ActivitySearch.php
 #: CRM/Contact/Form/Task/Record.php CRM/Grant/Selector/Search.php
 #: CRM/Project/DAO/Project.php CRM/Project/DAO/TaskStatus.php
 #: templates/CRM/Contact/Form/Selector.tpl
@@ -486,7 +486,9 @@ msgstr "Salva questa mappatura dei campi"
 #: CRM/Admin/Form/OptionValue.php CRM/Admin/Form/PaymentProcessor.php
 #: CRM/Admin/Form/PaymentProcessorType.php CRM/Admin/Form/PreferencesDate.php
 #: CRM/Admin/Form/Tag.php CRM/Contact/DAO/Group.php
-#: CRM/Contact/Form/Search/Basic.php CRM/Contact/Form/Search/Custom/Basic.php
+#: CRM/Contact/Form/Search/Basic.php
+#: CRM/Contact/Form/Search/Custom/ActivitySearch.php
+#: CRM/Contact/Form/Search/Custom/Basic.php
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 #: CRM/Contact/Form/Search/Custom/ContributionAggregate.php
 #: CRM/Contact/Form/Search/Custom/Group.php
@@ -508,6 +510,7 @@ msgstr "Salva questa mappatura dei campi"
 #: templates/CRM/Contact/Form/Relationship.tpl
 #: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
 #: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
+#: templates/CRM/Contact/Form/Task/BatchUpdateProfile.tpl
 #: templates/CRM/Contact/Form/Task/Print.tpl
 #: templates/CRM/Contact/Form/Task.tpl
 #: templates/CRM/Contact/Page/View/Membership.tpl
@@ -597,6 +600,7 @@ msgid "These records have not been imported."
 msgstr "Questi record non sono stati importati."
 
 #: CRM/Activity/Import/Form/Summary.php CRM/Import/Form/Summary.php
+#: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Summary"
 msgstr "Riassunto"
 
@@ -770,16 +774,16 @@ msgid "Enter a valid URL"
 msgstr "Prego inserire un URL valido"
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
-msgid "API URL"
-msgstr "URL dell'API"
-
-#: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
 msgid "Recurring Payments URL"
 msgstr "URL per i pagamenti ripetuti"
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
 msgid "Button URL"
 msgstr "URL pulsante"
+
+#: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
+msgid "API URL"
+msgstr "URL dell'API"
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
 #: CRM/Core/Menu.php
@@ -1245,7 +1249,8 @@ msgstr "Indirizzo"
 msgid "City"
 msgstr "Città"
 
-#: CRM/Contact/Form/Address.php CRM/Core/Form.php
+#: CRM/Contact/Form/Address.php CRM/Contact/Form/Search/Criteria.php
+#: CRM/Core/Form.php
 msgid "Zip / Postal Code"
 msgstr "CAP"
 
@@ -1253,8 +1258,8 @@ msgstr "CAP"
 msgid "Postal Code Suffix"
 msgstr "Suffisso Codice Postale"
 
-#: CRM/Contact/Form/Address.php CRM/Contact/Form/Test.php CRM/Core/Form.php
-#: CRM/Core/Payment/Form.php
+#: CRM/Contact/Form/Address.php CRM/Contact/Form/Search/Criteria.php
+#: CRM/Contact/Form/Test.php CRM/Core/Form.php CRM/Core/Payment/Form.php
 msgid "State / Province"
 msgstr "Stato / Provincia"
 
@@ -1408,6 +1413,7 @@ msgid "Relationship Type"
 msgstr "Tipologia di Relazione"
 
 #: CRM/Contact/Form/Relationship.php
+#: CRM/Contact/Form/Search/Custom/ActivitySearch.php
 #: CRM/Contact/Form/Search/Custom/ContributionAggregate.php
 #: CRM/Contact/Form/Search/Custom/EmployerListing.php
 #: CRM/Contact/Form/Search/Custom/Sample.php CRM/Contact/Form/Search.php
@@ -1461,6 +1467,7 @@ msgid "Cases"
 msgstr "Casi"
 
 #: CRM/Contact/Form/Search/Basic.php CRM/Contact/Form/Search/Criteria.php
+#: CRM/Contact/Form/Search/Custom/ActivitySearch.php
 #: CRM/Contact/Form/Search/Custom/Basic.php
 msgid "Find..."
 msgstr "Trova..."
@@ -1491,19 +1498,14 @@ msgstr "Trova Contatti"
 msgid "- any state/province -"
 msgstr "- qualsiasi stato/provincia -"
 
-#: CRM/Contact/Form/Search/Criteria.php
-#: CRM/Contact/Form/Search/Custom/Sample.php CRM/Core/BAO/CustomField.php
-msgid "State/Province"
-msgstr "Stato/Provincia"
-
-#: CRM/Contact/Form/Search/Criteria.php CRM/Core/DAO/Address.php
-#: CRM/Core/Payment/Form.php
-msgid "Postal Code"
-msgstr "Codice Postale"
-
 #: CRM/Contact/Form/Search/Criteria.php CRM/Core/BAO/CustomQuery.php
 msgid "and"
 msgstr "e"
+
+#: CRM/Contact/Form/Search/Custom/ActivitySearch.php
+#: CRM/Contact/Form/Search/Custom/ContributionAggregate.php
+msgid "...through"
+msgstr "...a"
 
 #: CRM/Contact/Form/Search/Custom/Basic.php
 #: CRM/Contact/Form/Search/Custom/PostalMailing.php CRM/Contact/Selector.php
@@ -1541,6 +1543,10 @@ msgstr "Ammontare donazioni:"
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Custom Search"
 msgstr "Ricerca avanzata"
+
+#: CRM/Contact/Form/Search/Custom/Sample.php CRM/Core/BAO/CustomField.php
+msgid "State/Province"
+msgstr "Stato/Provincia"
 
 #: CRM/Contact/Form/Search.php CRM/Grant/Form/Search.php
 msgid "- more actions -"
@@ -1784,6 +1790,10 @@ msgstr "Logout"
 #: CRM/Core/Block.php CRM/Grant/Info.php CRM/Grant/Menu.php
 msgid "CiviGrant"
 msgstr "CiviGrant"
+
+#: CRM/Core/DAO/Address.php CRM/Core/Payment/Form.php
+msgid "Postal Code"
+msgstr "Codice Postale"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
 msgid "Html Type"
@@ -2149,22 +2159,29 @@ msgstr "Tipo di finanziamento"
 msgid "Grant Status"
 msgstr "Stato Finanziamento"
 
-#: CRM/Grant/BAO/Query.php CRM/Grant/Form/Grant.php
-msgid "Grant report received?"
-msgstr "Ricevuto report finanziamento?"
-
-#: CRM/Grant/DAO/Grant.php CRM/Grant/Selector/Search.php
-#: templates/CRM/Grant/Form/Task/Print.tpl
+#: CRM/Grant/DAO/Grant.php CRM/Grant/Form/Grant.php
+#: CRM/Grant/Selector/Search.php templates/CRM/Grant/Form/Task/Print.tpl
 msgid "Amount Requested"
 msgstr "Importo richiesto"
 
-#: CRM/Grant/DAO/Grant.php CRM/Grant/Selector/Search.php
+#: CRM/Grant/DAO/Grant.php CRM/Grant/Form/Grant.php
+#: CRM/Grant/Selector/Search.php
 msgid "Amount Granted"
 msgstr "Importo fornito"
 
 #: CRM/Grant/DAO/Grant.php CRM/Grant/Form/Grant.php
 msgid "Rationale"
 msgstr "Base logica"
+
+#: CRM/Grant/Form/Grant.php CRM/Grant/Selector/Search.php
+#, fuzzy
+msgid "Application Received"
+msgstr "Richiesta ricevuta"
+
+#: CRM/Grant/Form/Grant.php CRM/Grant/Selector/Search.php
+#, fuzzy
+msgid "Money Transferred"
+msgstr "Data trasferimento denaro"
 
 #: CRM/Grant/Form/Task/Delete.php CRM/Grant/Task.php
 msgid "Delete Grants"
@@ -2196,6 +2213,30 @@ msgstr "Tabella Entità Proprietario"
 msgid "Server Url"
 msgstr "URL server"
 
+#: CRM/Upgrade/TwoZero/Form/Step1.php CRM/Upgrade/TwoZero/Form/Step3.php
+#: CRM/Upgrade/TwoZero/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step5.php
+#: CRM/Upgrade/TwoZero/Form/Step6.php
+msgid "Database consistency check failed for step %1."
+msgstr "Controllo consistenza database fallito al passo %1."
+
+#: CRM/Upgrade/TwoZero/Form/Step1.php CRM/Upgrade/TwoZero/Form/Step3.php
+#: CRM/Upgrade/TwoZero/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step6.php
+msgid "FK constraint names not in the required format."
+msgstr "I nomi dei vincoli FK non sono nel formato richiesto."
+
+#: CRM/Upgrade/TwoZero/Form/Step1.php CRM/Upgrade/TwoZero/Form/Step3.php
+#: CRM/Upgrade/TwoZero/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step6.php
+msgid "Please rebuild your 1.9 database to ensure schema integrity."
+msgstr ""
+"Si prega di ricostruire il database 1.9 per assicurarsi l'integrità dello "
+"schema."
+
+#: CRM/Upgrade/TwoZero/Form/Step1.php CRM/Upgrade/TwoZero/Form/Step5.php
+msgid ""
+"Value missing in %1 for the column '%2'. Please add a unique value for the "
+"'name' column for each database record."
+msgstr ""
+
 #: CRM/Upgrade/TwoZero/Form/Step1.php CRM/Upgrade/TwoZero/Form/Step2.php
 #: CRM/Upgrade/TwoZero/Form/Step3.php CRM/Upgrade/TwoZero/Form/Step4.php
 #: CRM/Upgrade/TwoZero/Form/Step5.php CRM/Upgrade/TwoZero/Form/Step6.php
@@ -2212,23 +2253,6 @@ msgstr "Pre-condizione fallita per l'upgrade al passo %1."
 #: CRM/Upgrade/TwoZero/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step5.php
 msgid "Upgrade & Continue"
 msgstr "Aggiorna e Continua"
-
-#: CRM/Upgrade/TwoZero/Form/Step3.php CRM/Upgrade/TwoZero/Form/Step4.php
-#: CRM/Upgrade/TwoZero/Form/Step5.php CRM/Upgrade/TwoZero/Form/Step6.php
-msgid "Database consistency check failed for step %1."
-msgstr "Controllo consistenza database fallito al passo %1."
-
-#: CRM/Upgrade/TwoZero/Form/Step3.php CRM/Upgrade/TwoZero/Form/Step4.php
-#: CRM/Upgrade/TwoZero/Form/Step6.php
-msgid "FK constraint names not in the required format."
-msgstr "I nomi dei vincoli FK non sono nel formato richiesto."
-
-#: CRM/Upgrade/TwoZero/Form/Step3.php CRM/Upgrade/TwoZero/Form/Step4.php
-#: CRM/Upgrade/TwoZero/Form/Step6.php
-msgid "Please rebuild your 1.9 database to ensure schema integrity."
-msgstr ""
-"Si prega di ricostruire il database 1.9 per assicurarsi l'integrità dello "
-"schema."
 
 #: CRM/ACL/BAO/ACL.php
 msgid "Contact Group"
@@ -2297,6 +2321,11 @@ msgstr "elenchi e form profilo"
 #: CRM/ACL/Form/ACLBasic.php
 msgid "access all custom data"
 msgstr "accedi a tutti i dati personalizzati"
+
+#: CRM/ACL/Form/ACLBasic.php
+#, fuzzy
+msgid "view all activities"
+msgstr "visualizza tutti i contatti"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "access CiviCRM"
@@ -2490,6 +2519,7 @@ msgid "Activity '%1' has been saved."
 msgstr "L'attività \"%1\" è stata salvata."
 
 #: CRM/Activity/Import/Form/MapField.php
+#: templates/CRM/Contact/Form/Search/Simple.tpl
 msgid "Contact ID"
 msgstr "ID Contatto"
 
@@ -3521,7 +3551,7 @@ msgstr "Identificatore legale"
 msgid "External Identifier"
 msgstr "Identificatore esterno"
 
-#: CRM/Contact/DAO/Contact.php
+#: CRM/Contact/DAO/Contact.php templates/CRM/Contact/Form/Search/Simple.tpl
 msgid "Sort Name"
 msgstr "Nome Ordinamento"
 
@@ -3756,6 +3786,16 @@ msgstr "nascondi email"
 #: CRM/Contact/Form/Email.php
 msgid "Use for Bulk Mailings"
 msgstr "Usa per le email in serie"
+
+#: CRM/Contact/Form/GroupContact.php
+#, fuzzy
+msgid "Join a Group"
+msgstr "Unisci di nuovo a gruppo"
+
+#: CRM/Contact/Form/GroupContact.php
+#, fuzzy
+msgid "Add to a group"
+msgstr "Aggiungi al Gruppo"
 
 #: CRM/Contact/Form/GroupContact.php
 msgid "Add"
@@ -4068,18 +4108,6 @@ msgid "- default view -"
 msgstr "- visualizzazione predefinita -"
 
 #: CRM/Contact/Form/Search/Criteria.php
-msgid "- any country -"
-msgstr "- qualsiasi Paese -"
-
-#: CRM/Contact/Form/Search/Criteria.php
-msgid "- any county -"
-msgstr "- qualsiasi Paese -"
-
-#: CRM/Contact/Form/Search/Criteria.php
-msgid "Range-From"
-msgstr "Intervallo-da"
-
-#: CRM/Contact/Form/Search/Criteria.php
 msgid "- any region -"
 msgstr "- qualsiasi regione -"
 
@@ -4106,6 +4134,31 @@ msgstr "Contatto Target"
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "Note Text"
 msgstr "Note"
+
+#: CRM/Contact/Form/Search/Custom/ActivitySearch.php
+#, fuzzy
+msgid "Activity Subject"
+msgstr "Oggetto attività caso %2 %1"
+
+#: CRM/Contact/Form/Search/Custom/ActivitySearch.php
+#, fuzzy
+msgid "Scheduled By"
+msgstr "In calendario"
+
+#: CRM/Contact/Form/Search/Custom/ActivitySearch.php
+#: templates/CRM/Contact/Page/View/Basic.tpl
+msgid "Scheduled Date"
+msgstr "Data in calendario"
+
+#: CRM/Contact/Form/Search/Custom/ActivitySearch.php
+#: xml/templates/civicrm_add_domain.tpl
+msgid "Activity Status"
+msgstr "Stato Attività"
+
+#: CRM/Contact/Form/Search/Custom/ActivitySearch.php
+#, fuzzy
+msgid "Activity Date From"
+msgstr "Data di attività - Da"
 
 #: CRM/Contact/Form/Search/Custom/Base.php
 msgid "Could not find '%1' string in SQL clause."
@@ -4150,10 +4203,6 @@ msgstr "...e $"
 #: CRM/Contact/Form/Search/Custom/ContributionAggregate.php
 msgid "Contribution Date From"
 msgstr "Data contributo da"
-
-#: CRM/Contact/Form/Search/Custom/ContributionAggregate.php
-msgid "...through"
-msgstr "...a"
 
 #: CRM/Contact/Form/Search/Custom/EmployerListing.php
 msgid "Individual Name"
@@ -4854,6 +4903,11 @@ msgstr "La Mappatura selezionata è stata eliminata con successo."
 #: CRM/Core/BAO/Mapping.php templates/CRM/Contact/Form/Search/table.tpl
 msgid "Also include contacts where"
 msgstr "Includere anche in contatti in cui"
+
+#: CRM/Core/BAO/Mapping.php
+#, fuzzy
+msgid "- select record type -"
+msgstr "- seleziona gruppo -"
 
 #: CRM/Core/BAO/Mapping.php
 msgid "Another search field"
@@ -6254,6 +6308,12 @@ msgstr "Componente non valido"
 msgid "Recurring contribution, but no database id"
 msgstr "Contributo ricorrente senza id nel database"
 
+#: CRM/Core/Payment/PayPalImpl.php
+msgid ""
+"Please set the API URL. Please refer to the <a href=\"%1\">documentation</a> "
+"for more details"
+msgstr ""
+
 #: CRM/Core/QuickForm/Action/Upload.php
 msgid ""
 "We could not move the uploaded file %1 to the upload directory %2. Please "
@@ -7036,7 +7096,8 @@ msgid "Grant Status %2 %1"
 msgstr "Stato del finanziamento %2 %1"
 
 #: CRM/Grant/BAO/Query.php
-msgid "App. Recieved Date - From"
+#, fuzzy
+msgid "App. Received Date - From"
 msgstr "Data di ricezione domanda - Da"
 
 #: CRM/Grant/BAO/Query.php
@@ -7050,6 +7111,10 @@ msgstr "Data prevista report - Da"
 #: CRM/Grant/BAO/Query.php
 msgid "Grant Decision Date - From"
 msgstr "Data di decisione del finanziamento - da"
+
+#: CRM/Grant/BAO/Query.php
+msgid "Grant report received?"
+msgstr "Ricevuto report finanziamento?"
 
 #: CRM/Grant/BAO/Query.php
 msgid "Minimum Amount"
@@ -7092,32 +7157,24 @@ msgid "Amount Total"
 msgstr "Importo totale"
 
 #: CRM/Grant/Form/Grant.php
-msgid "Application Received date"
-msgstr "Data ricezione domanda"
-
-#: CRM/Grant/Form/Grant.php
-msgid "Grant decision date"
+#, fuzzy
+msgid "Grant Decision"
 msgstr "Data di decisione finanziamento"
 
 #: CRM/Grant/Form/Grant.php
-msgid "Money transfer date"
-msgstr "Data trasferimento denaro"
+#, fuzzy
+msgid "Grant Report Due"
+msgstr "Report finanziamento ricevuto"
 
 #: CRM/Grant/Form/Grant.php
-msgid "Grant report due date"
-msgstr "Data prevista report finanziamento"
+#, fuzzy
+msgid "Grant Report Received?"
+msgstr "Report finanziamento ricevuto"
 
 #: CRM/Grant/Form/Grant.php
-msgid "Amount total"
-msgstr "Importo totale"
-
-#: CRM/Grant/Form/Grant.php
-msgid "Amount granted"
-msgstr "Importo finanziato"
-
-#: CRM/Grant/Form/Grant.php
-msgid "Amount requested"
-msgstr "Importo richiesto"
+#, fuzzy
+msgid "Amount Requested<br />(original currency)"
+msgstr "Importo richiesto per il finanziamento"
 
 #: CRM/Grant/Form/Task/Delete.php
 msgid "Deleted Grant(s): %1"
@@ -7174,10 +7231,6 @@ msgstr "Elimina finanziamento"
 #: CRM/Grant/Selector/Search.php
 msgid "(orig. currency)"
 msgstr "(valuta originale)"
-
-#: CRM/Grant/Selector/Search.php
-msgid "Application received date"
-msgstr "Data ricezione domanda"
 
 #: CRM/Grant/Selector/Search.php
 msgid "CiviCRM Grant Search"
@@ -7994,6 +8047,13 @@ msgid "Database consistency check failed."
 msgstr "Controllo consistenza database fallito."
 
 #: CRM/Upgrade/TwoZero/Form/Step1.php
+msgid ""
+"Your database is configured to use the MyISAM database engine. CiviCRM  "
+"requires InnoDB. You will need to convert any MyISAM tables in your database "
+"to InnoDB before proceeding."
+msgstr ""
+
+#: CRM/Upgrade/TwoZero/Form/Step1.php
 msgid "CiviCRM 2.0 Upgrade: Step One (Database Cleanup)"
 msgstr "Aggiornamento a CiviCRM 2.0: Passo 1 (pulizia database)"
 
@@ -8055,16 +8115,25 @@ msgid "This step will upgrade the location data in your database."
 msgstr "Questo passo aggiornerà i dati dei recapiti nel database."
 
 #: CRM/Upgrade/TwoZero/Form/Step4.php
+msgid ""
+"%1: This database includes Activity History records which were generated by "
+"3rd party modules. We are unable to migrate these records automatically to "
+"the 2.0 record structure. Un-migrated records have been retained in the "
+"civicrm_activity_history table, and can be reviewed using phpMyAdmin or a "
+"MySQL command line query. Consult this document if you are interested in "
+"migrating the records manually: %2"
+msgstr ""
+
+#: CRM/Upgrade/TwoZero/Form/Step4.php
 msgid "CiviCRM 2.0 Upgrade: Step Four (Activity Upgrade)"
 msgstr "Aggiornamento a CiviCRM 2.0: Passo 4 (Aggiornamento delle attività)"
 
 #: CRM/Upgrade/TwoZero/Form/Step5.php
-msgid "Value missing in %1 for the column '%2'."
-msgstr "Valore mancante per %1 nella colonna '%2'."
-
-#: CRM/Upgrade/TwoZero/Form/Step5.php
-msgid "A custom field can not have '%1' as the '%2'."
-msgstr "Un campo personalizzato non può avere '%1' come '%2'."
+msgid ""
+"A custom field can not have any of '%1' as the '%2'. Please rename the name "
+"value for these records to something that does not conflict with mysql "
+"reserved keywords."
+msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step5.php
 msgid "CiviCRM 2.0 Upgrade: Step Five (Custom Data Upgrade)"
@@ -8086,6 +8155,12 @@ msgstr "Questo passo aggiornerà i rimanenti dati nel database."
 #: CRM/Upgrade/TwoZero/Form/Step6.php
 msgid "Finish Upgrade"
 msgstr "Termina aggiornamento"
+
+#: CRM/Upgrade/TwoZero/Form/Step7.php
+msgid ""
+"%1: PayPal Payment Processor found. You will need to follow the instructions "
+"for %2"
+msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step7.php
 msgid "Database Upgrade to v2.0 Completed"
@@ -8349,10 +8424,6 @@ msgstr ""
 "ATTENZIONE: la cancellazione rimuoverà il permesso dal ruolo ACL indicato."
 
 #: templates/CRM/ACL/Form/ACLBasic.tpl
-msgid "Select the core ACL."
-msgstr "Seleziona ACL principale"
-
-#: templates/CRM/ACL/Form/ACLBasic.tpl
 msgid ""
 "Select a Role to assign (grant) this permission to. Select the special role "
 "'Everyone' if you want to grant this permission to ALL users. 'Anyone' "
@@ -8572,8 +8643,8 @@ msgid ""
 "If you want to associate this activity with a case, you will need to <a "
 "href='%1'>create one first</a>."
 msgstr ""
-"Se volete associare questa attività ad un caso, dovete prima <a "
-"href='%1'>crearne una</a>."
+"Se volete associare questa attività ad un caso, dovete prima <a href='%"
+"1'>crearne una</a>."
 
 #: templates/CRM/Activity/Form/Activity.tpl
 msgid ""
@@ -9316,6 +9387,10 @@ msgstr ""
 "ATTENZIONE: Cancellare questo Strumento di Pagamento può portare "
 "all'inattività di alcune pagine di transazione."
 
+#: templates/CRM/Admin/Form/PaymentProcessor.tpl
+msgid "Processor Details for Live Payments"
+msgstr ""
+
 #: templates/CRM/Admin/Form/PaymentProcessorType.tpl
 msgid "New Payment Procesor Type"
 msgstr "Nuovo tipo di elaboratore di pagamento"
@@ -9858,6 +9933,16 @@ msgstr ""
 msgid "CMS Settings"
 msgstr "Impostazioni CMS"
 
+#: templates/CRM/Admin/Form/Setting/UpdateConfigBackend.tpl
+#, fuzzy
+msgid "Old Base URL"
+msgstr "Nuovo URL di base"
+
+#: templates/CRM/Admin/Form/Setting/UpdateConfigBackend.tpl
+#, fuzzy
+msgid "Old Base Dir"
+msgstr "Nuova dir di base"
+
 #: templates/CRM/Admin/Form/Setting/Url.tpl
 msgid ""
 "These settings define the URLs used to access CiviCRM resources (CSS files, "
@@ -9872,9 +9957,10 @@ msgstr ""
 "installazione (civicrm.settings.php)."
 
 #: templates/CRM/Admin/Form/Setting/Url.tpl
+#, fuzzy
 msgid ""
-"Absolute or relative URL of the location where the civicrm module or "
-"component has been installed."
+"Absolute URL of the location where the civicrm module or component has been "
+"installed."
 msgstr ""
 "L'URL relativo o assoluto in cui è stato installato il modulo o il "
 "componente di civicrm."
@@ -9996,15 +10082,6 @@ msgstr ""
 "vostro sito."
 
 #: templates/CRM/Admin/Page/Access.tpl
-msgid "2. Manage Core ACLs"
-msgstr "2. Gestione ACL base"
-
-#: templates/CRM/Admin/Page/Access.tpl
-msgid "Core ACLs define the primitive ACLs that control access to your site."
-msgstr ""
-"Le ACL base definiscono le ACL primitive che controllano l'accesso al sito."
-
-#: templates/CRM/Admin/Page/Access.tpl
 msgid "2. Manage ACLs"
 msgstr "2. Gestione ACL"
 
@@ -10029,6 +10106,16 @@ msgid ""
 msgstr ""
 "Una volta definito i Ruoli delle ACL di CiviCRM ed assegnato le ACL a questi "
 "ruoli, usate questo link per assegnare gli utenti ai ruoli."
+
+#: templates/CRM/Admin/Page/Access.tpl
+#, fuzzy
+msgid "4. Manage Core ACLs"
+msgstr "2. Gestione ACL base"
+
+#: templates/CRM/Admin/Page/Access.tpl
+msgid "Core ACLs define the primitive ACLs that control access to your site."
+msgstr ""
+"Le ACL base definiscono le ACL primitive che controllano l'accesso al sito."
 
 #: templates/CRM/Admin/Page/Admin.tpl
 msgid ""
@@ -10886,6 +10973,7 @@ msgstr ""
 #: templates/CRM/Contact/Form/InlineCustomData.tpl
 #: templates/CRM/Contact/Form/Search/Advanced.tpl
 #: templates/CRM/Contact/Form/Search/Basic.tpl
+#: templates/CRM/Contact/Form/Search/Custom/ActivitySearch.tpl
 #: templates/CRM/Contact/Form/Search/Custom/Sample.tpl
 #: templates/CRM/Contact/Form/Search/Custom.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
@@ -10903,6 +10991,7 @@ msgstr "apri sezione"
 #: templates/CRM/Contact/Form/InlineCustomData.tpl
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 #: templates/CRM/Contact/Form/Search/BasicCriteria.tpl
+#: templates/CRM/Contact/Form/Search/Custom/ActivitySearch.tpl
 #: templates/CRM/Contact/Form/Search/Custom/Sample.tpl
 #: templates/CRM/Contact/Form/Search/Custom.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
@@ -11152,6 +11241,7 @@ msgstr "%1 criteri per gli smart group"
 
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 #: templates/CRM/Contact/Form/Search/BasicCriteria.tpl
+#: templates/CRM/Contact/Form/Search/Custom/ActivitySearch.tpl
 #: templates/CRM/Contact/Form/Search/Custom/Sample.tpl
 #: templates/CRM/Contact/Form/Search/Custom.tpl
 #: templates/CRM/Profile/Form/Search.tpl
@@ -11164,6 +11254,7 @@ msgstr "Modifica %1 criteri per gli smart group"
 
 #: templates/CRM/Contact/Form/Search/Advanced.tpl
 #: templates/CRM/Contact/Form/Search/Basic.tpl
+#: templates/CRM/Contact/Form/Search/Custom/ActivitySearch.tpl
 #: templates/CRM/Contact/Form/Search/Custom/Sample.tpl
 #: templates/CRM/Contact/Form/Search/Custom.tpl
 msgid "Edit Search Criteria"
@@ -11210,10 +11301,6 @@ msgid "Does the contact have a %1 Account?"
 msgstr "Il contatto ha un account %1?"
 
 #: templates/CRM/Contact/Form/Search/Criteria/Basic.tpl
-msgid "Organization(s)"
-msgstr "Organizzazione/i"
-
-#: templates/CRM/Contact/Form/Search/Criteria/Basic.tpl
 msgid "<strong>EXCLUDE</strong> contacts who have these privacy option(s)."
 msgstr ""
 "<strong>ESCLUDI</strong> i contatti che hanno queste opzioni di privacy."
@@ -11235,6 +11322,13 @@ msgstr ""
 #: templates/CRM/Contact/Form/Search/Criteria/Relationship.tpl
 msgid "Complete OR partial contact name."
 msgstr "Nome completo O parziale del contatto."
+
+#: templates/CRM/Contact/Form/Search/Custom/ActivitySearch.tpl
+#: templates/CRM/Contact/Form/Search/Custom/Sample.tpl
+#: templates/CRM/Contact/Form/Search/Custom.tpl
+#: templates/CRM/Contact/Form/Selector.tpl
+msgid "Search results listings."
+msgstr "Risultati Ricerca"
 
 #: templates/CRM/Contact/Form/Search/Custom/EmptyResults.tpl
 #: templates/CRM/Contact/Form/Search/EmptyResults.tpl
@@ -11271,12 +11365,6 @@ msgid "make sure you have enough privileges in the access control system"
 msgstr ""
 "assicuratevi di avere sufficienti permessi nel sistema di controllo degli "
 "accessi"
-
-#: templates/CRM/Contact/Form/Search/Custom/Sample.tpl
-#: templates/CRM/Contact/Form/Search/Custom.tpl
-#: templates/CRM/Contact/Form/Selector.tpl
-msgid "Search results listings."
-msgstr "Risultati Ricerca"
 
 #: templates/CRM/Contact/Form/Search/EmptyResults.tpl
 msgid ""
@@ -11811,10 +11899,6 @@ msgstr "Attività in calendario (3 di %1)"
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Open Activities"
 msgstr "Attività aperte"
-
-#: templates/CRM/Contact/Page/View/Basic.tpl
-msgid "Scheduled Date"
-msgstr "Data in calendario"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "View all Scheduled Activities..."
@@ -12379,8 +12463,9 @@ msgid "Your subscription to these group(s) is pending confirmation."
 msgstr "La tua iscrizione a questo/i gruppo/i è in attesa di conferma."
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
-msgid "Are you sure you want to remove from %1?"
-msgstr "Vuoi davvero rimuovere i contatti da %1?"
+#, fuzzy
+msgid "Are you sure you want to confirm subscription for %1?"
+msgstr "Vuoi davvero disiscriverti da  %1??"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 msgid "Confirm"
@@ -12879,8 +12964,8 @@ msgid ""
 msgstr ""
 "Un link a questo %1 viene incluso automaticamente nelle mail inviate agli "
 "amici. Se volete ANCHE includere un link con delle informazioni generali "
-"sulla vostra organizzazione, inseritelo qui (es. "
-"<em>http://www.esempio.it/</a>)"
+"sulla vostra organizzazione, inseritelo qui (es. <em>http://www.esempio.it/</"
+"a>)"
 
 #: templates/CRM/Friend/Form/Friend.tpl
 msgid ""
@@ -12900,40 +12985,42 @@ msgid "Send to these Friend(s)"
 msgstr "Invia a questi amici"
 
 #: templates/CRM/Grant/Form/Grant.tpl
-msgid "Select the status for this grant"
+#, fuzzy
+msgid "Select the status of this grant."
 msgstr "Seleziona lo stato di questo finanziamento"
 
 #: templates/CRM/Grant/Form/Grant.tpl
-msgid "Select the appropriate type of the Grant"
-msgstr "Seleziona il tipo adatto di finanziamento"
+#, fuzzy
+msgid "Select the appropriate grant type."
+msgstr "Seleziona il tipo di caso appropriato"
 
 #: templates/CRM/Grant/Form/Grant.tpl
-msgid "Amount requested for grant"
+#, fuzzy
+msgid "Amount requested for grant."
 msgstr "Importo richiesto per il finanziamento"
 
 #: templates/CRM/Grant/Form/Grant.tpl
-msgid "Actual amount granted"
+msgid "Amount requested for grant in original currency (if different)."
+msgstr ""
+
+#: templates/CRM/Grant/Form/Grant.tpl
+#, fuzzy
+msgid "Actual amount granted."
 msgstr "Importo reale finanziato"
 
 #: templates/CRM/Grant/Form/Grant.tpl
-msgid "Total amount of the grant"
-msgstr "Importo totale del finanziamento"
+msgid "When was the grant application received?"
+msgstr ""
 
 #: templates/CRM/Grant/Form/Grant.tpl
-msgid "Date on which application for the Grant recieved"
-msgstr "Data di ricezione della richiesta di finanziamento"
-
-#: templates/CRM/Grant/Form/Grant.tpl
-msgid "Date on which the Grant decided"
+#, fuzzy
+msgid "Date on which the grant decision was finalized."
 msgstr "Data di decisione del finanziamento"
 
 #: templates/CRM/Grant/Form/Grant.tpl
-msgid "Date on which the Grant money transferred"
+#, fuzzy
+msgid "Date on which the grant money was transferred."
 msgstr "Data di trasferimento dei fondi del finanziamento"
-
-#: templates/CRM/Grant/Form/GrantView.tpl
-msgid "Application Recieved"
-msgstr "Richiesta ricevuta"
 
 #: templates/CRM/Grant/Form/Search/Common.tpl
 msgid "Date is not set"
@@ -13116,10 +13203,10 @@ msgstr ""
 "Organizzazioni, Individui o Famiglie. Chi riceve il finanziamento deve "
 "essere prima inserito come contatto in CiviCRM. Usa <a href='%1'>Trova "
 "contatti</a> per vedere se esiste già un record corrispondente. Una volta "
-"trovato o creato il record del contatto, clicca su "
-"<strong>Visualizza</strong> per andare sulla pagina riassuntiva del "
-"contatto, seleziona <strong>Finanziamenti</strong> e clicca su <strong>Nuovo "
-"finanziamento</strong>. "
+"trovato o creato il record del contatto, clicca su <strong>Visualizza</"
+"strong> per andare sulla pagina riassuntiva del contatto, seleziona "
+"<strong>Finanziamenti</strong> e clicca su <strong>Nuovo finanziamento</"
+"strong>. "
 
 #: templates/CRM/Grant/Page/DashBoard.tpl
 msgid "Grants Summary"
@@ -13134,13 +13221,13 @@ msgid ""
 "can search by Contact Name, Amount, Grant type and a variety of other "
 "criteria."
 msgstr ""
-"Questa tabella fornisce un riassunto di <strong>Totali "
-"finanziamenti</strong> e comprende delle scorciatoie per visualizzare i "
-"dettagli dei finanziamenti  per questi periodi comuni. Cliccate sul Stato "
-"finanziamento per vedere un elenco di contatti per quello stato. Per "
-"eseguire delle ricerche personalizzate cliccate su <a href='%1'>Trova "
-"finanziamenti</a>. Potete cercare per Nome contatto, Importo, Tipo di "
-"finanziamento e una varietà di altri criteri."
+"Questa tabella fornisce un riassunto di <strong>Totali finanziamenti</"
+"strong> e comprende delle scorciatoie per visualizzare i dettagli dei "
+"finanziamenti  per questi periodi comuni. Cliccate sul Stato finanziamento "
+"per vedere un elenco di contatti per quello stato. Per eseguire delle "
+"ricerche personalizzate cliccate su <a href='%1'>Trova finanziamenti</a>. "
+"Potete cercare per Nome contatto, Importo, Tipo di finanziamento e una "
+"varietà di altri criteri."
 
 #: templates/CRM/Grant/Page/DashBoard.tpl xml/templates/civicrm_add_domain.tpl
 msgid "Grant status"
@@ -13149,6 +13236,10 @@ msgstr "Stato finanziamento"
 #: templates/CRM/Grant/Page/DashBoard.tpl
 msgid "Number of grants"
 msgstr "Numero finanziamenti"
+
+#: templates/CRM/Grant/Page/DashBoard.tpl
+msgid "TOTAL"
+msgstr ""
 
 #: templates/CRM/Grant/Page/DashBoard.tpl
 msgid "You have no Grants registered in your database."
@@ -13215,8 +13306,8 @@ msgstr ""
 "Spuntate 'Controllo accessi' se volete usare questo gruppo per assegnare i "
 "permessi di accesso ad un insieme di contatti (<a href='%1' target='_blank' "
 "title='%3'>leggi tutto</a>). Spuntate 'Mailing list' se state usando questo "
-"gruppo come mailing list nel componente <a href='%2' target='_blank' "
-"title='%3'>CiviMail</a>."
+"gruppo come mailing list nel componente <a href='%2' target='_blank' title='%"
+"3'>CiviMail</a>."
 
 #: templates/CRM/Group/Form/Edit.tpl
 msgid ""
@@ -13236,6 +13327,16 @@ msgstr ""
 
 #: templates/CRM/Group/Form/Edit.tpl
 msgid "Subgroups"
+msgstr "Sottogruppi"
+
+#: templates/CRM/Group/Form/Edit.tpl
+#, fuzzy
+msgid "Remove?"
+msgstr "Rimuovi"
+
+#: templates/CRM/Group/Form/Edit.tpl
+#, fuzzy
+msgid "Subgroup"
 msgstr "Sottogruppi"
 
 #: templates/CRM/Group/Form/Edit.tpl
@@ -13315,9 +13416,9 @@ msgid ""
 msgstr ""
 "CiviCRM ha rilevato %1 record con indirizzi email in conflitto all'interno "
 "del file di dati. Se continuate, questi record verranno saltati, O potete "
-"scaricare un file con solamente questi record problematici via <a "
-"href='%2'>Scarica conflitti</a>, correggerli nel file di importazione "
-"originale, annullare l'importazione e cominciare di nuovo dal passo 1."
+"scaricare un file con solamente questi record problematici via <a href='%"
+"2'>Scarica conflitti</a>, correggerli nel file di importazione originale, "
+"annullare l'importazione e cominciare di nuovo dal passo 1."
 
 #: templates/CRM/Import/Form/Preview.tpl templates/CRM/Import/Form/Summary.tpl
 msgid "Total rows (contact records) in uploaded file."
@@ -13419,8 +13520,7 @@ msgid_plural ""
 msgstr[0] ""
 "CiviCRM ha rilevato un record duplicato di un contatto di CiviCRM esistente."
 msgstr[1] ""
-"CiviCRM ha rilevato %count record duplicati di contatti di CiviCRM "
-"esistenti."
+"CiviCRM ha rilevato %count record duplicati di contatti di CiviCRM esistenti."
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid ""
@@ -13546,7 +13646,8 @@ msgstr ""
 
 #: templates/CRM/Price/Form/Field.tpl
 msgid "Select the html type used to offer options for this field"
-msgstr "Selezionate il tipo HTML usato per offrire le opzioni per questo campo."
+msgstr ""
+"Selezionate il tipo HTML usato per offrire le opzioni per questo campo."
 
 #: templates/CRM/Price/Form/Field.tpl
 msgid "Unit price"
@@ -13894,8 +13995,7 @@ msgstr "Disabilita Profilo di CiviCRM"
 #: templates/CRM/UF/Form/Group.tpl
 msgid "Profiles can be explicitly linked to a module page."
 msgstr ""
-"I profili possono essere collegati esplicitamente ad una pagina di un "
-"modulo."
+"I profili possono essere collegati esplicitamente ad una pagina di un modulo."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
@@ -13920,8 +14020,8 @@ msgid ""
 "listings and view screens for the civicrm/profile path."
 msgstr ""
 "Spuntate <strong>Profilo</strong> se volete usarlo per gli elenchi "
-"personalizzati e le schermate di visualizzazione per il percorso "
-"civicrm/profile."
+"personalizzati e le schermate di visualizzazione per il percorso civicrm/"
+"profile."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
@@ -14443,10 +14543,6 @@ msgid "Honor Type"
 msgstr "Tipo di onoreficenza"
 
 #: xml/templates/civicrm_add_domain.tpl
-msgid "Activity Status"
-msgstr "Stato Attività"
-
-#: xml/templates/civicrm_add_domain.tpl
 msgid "Participant Listing"
 msgstr "Elenco Partecipanti"
 
@@ -14790,6 +14886,63 @@ msgstr "Messaggio intercettato da un filtro di contenuto"
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Errore nella transazione SMTP"
+
+#~ msgid "-select-"
+#~ msgstr "- seleziona -"
+
+#~ msgid "- any country -"
+#~ msgstr "- qualsiasi Paese -"
+
+#~ msgid "- any county -"
+#~ msgstr "- qualsiasi Paese -"
+
+#~ msgid "Range-From"
+#~ msgstr "Intervallo-da"
+
+#~ msgid "Application Received date"
+#~ msgstr "Data ricezione domanda"
+
+#~ msgid "Money transfer date"
+#~ msgstr "Data trasferimento denaro"
+
+#~ msgid "Grant report due date"
+#~ msgstr "Data prevista report finanziamento"
+
+#~ msgid "Amount total"
+#~ msgstr "Importo totale"
+
+#~ msgid "Amount granted"
+#~ msgstr "Importo finanziato"
+
+#~ msgid "Amount requested"
+#~ msgstr "Importo richiesto"
+
+#~ msgid "Application received date"
+#~ msgstr "Data ricezione domanda"
+
+#~ msgid "Value missing in %1 for the column '%2'."
+#~ msgstr "Valore mancante per %1 nella colonna '%2'."
+
+#~ msgid "A custom field can not have '%1' as the '%2'."
+#~ msgstr "Un campo personalizzato non può avere '%1' come '%2'."
+
+#~ msgid "Select the core ACL."
+#~ msgstr "Seleziona ACL principale"
+
+#~ msgid "Organization(s)"
+#~ msgstr "Organizzazione/i"
+
+#~ msgid "Are you sure you want to remove from %1?"
+#~ msgstr "Vuoi davvero rimuovere i contatti da %1?"
+
+#~ msgid "Select the appropriate type of the Grant"
+#~ msgstr "Seleziona il tipo adatto di finanziamento"
+
+#~ msgid "Total amount of the grant"
+#~ msgstr "Importo totale del finanziamento"
+
+#~ msgid "Date on which application for the Grant recieved"
+#~ msgstr "Data di ricezione della richiesta di finanziamento"
 
 #~ msgid ""
 #~ "We could not find the backup sql script. Check %1 exists and is readable "

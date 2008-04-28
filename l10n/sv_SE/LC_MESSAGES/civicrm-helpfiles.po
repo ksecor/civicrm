@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-02-27 13:05+0100\n"
+"POT-Creation-Date: 2008-04-28 21:53+0200\n"
 "PO-Revision-Date: 2008-03-20 07:31-0700\n"
 "Last-Translator: Markus Larsson <markus.lar@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -155,8 +155,8 @@ msgid ""
 "Refer to the <a href='%1' target='_blank'>CiviMail Guide</a> for more info."
 msgstr ""
 "<strong>CiviMail</strong> - En robust komponent som låter dig informera alla "
-"dina användare med personlig e-post och nyhetsbrev. Vänd dig till <a "
-"href='%1' target='_blank'>CiviMail Guide</a> för mer information"
+"dina användare med personlig e-post och nyhetsbrev. Vänd dig till <a href='%"
+"1' target='_blank'>CiviMail Guide</a> för mer information"
 
 #: templates/CRM/Admin/Form/Setting/Component.hlp
 #, fuzzy
@@ -430,8 +430,14 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
-"The URL for PayPal's LIVE Payment server. Use the default value unless "
-"otherwise advised by PayPal."
+"The URL for PayPal's LIVE Payment server. Use the default value (unless "
+"otherwise advised by PayPal):"
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid ""
+"The URL for PayPal's LIVE API gateway server. Use the default value (unless "
+"otherwise advised by PayPal):"
 msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
@@ -478,8 +484,14 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
-"The URL for PayPal's TEST Payment server. Use the default value unless "
-"otherwise advised by PayPal."
+"The URL for PayPal's TEST Payment server. Use the default value (unless "
+"otherwise advised by PayPal):"
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid ""
+"The URL for PayPal's TEST API gateway server. Use the default value (unless "
+"otherwise advised by PayPal):"
 msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp

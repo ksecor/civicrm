@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-02-27 13:05+0100\n"
+"POT-Creation-Date: 2008-04-28 21:53+0200\n"
 "PO-Revision-Date: 2008-04-08 11:34-0700\n"
 "Last-Translator: Han Velthuis <han.velthuis@tiscali.nl>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -222,9 +222,9 @@ msgid ""
 "CiviCRM site URL."
 msgstr ""
 "Maakt een pop-up venster met daarin alle variabelen behorend bij het huidige "
-"scherm. Voeg <em>&smartyDebug=1</em> toe aan een willekeurige CiviCRM URL "
-"om het te activeren. Zorg dat er geen pop-up blockers voor uw CiviCRM site "
-"aan staan in uw browser."
+"scherm. Voeg <em>&smartyDebug=1</em> toe aan een willekeurige CiviCRM URL om "
+"het te activeren. Zorg dat er geen pop-up blockers voor uw CiviCRM site aan "
+"staan in uw browser."
 
 #: templates/CRM/Admin/Form/Setting/Debugging.hlp
 msgid "Session Reset"
@@ -315,7 +315,8 @@ msgstr ""
 msgid ""
 "This setting forces a redirect of all online contribution / member / event "
 "and CiviCRM administrator page requests to SSL secured URLs (https)."
-msgstr "Deze instelling forceert het gebruik, waar nodig, van SSL (https URL). "
+msgstr ""
+"Deze instelling forceert het gebruik, waar nodig, van SSL (https URL). "
 
 #: templates/CRM/Admin/Form/Setting/Url.hlp
 msgid ""
@@ -346,11 +347,11 @@ msgid ""
 "SSL secured URLs."
 msgstr ""
 "Na het installeren van uw certificaat test u de juiste werking door naar een "
-"van uw online bijdrage pagina's te surfen en de URL prefix te veranderen "
-"van 'http://' naar 'https://'. Als uw browser de pagina herlaad en het "
-"juiste en geldige veiligheidscertificaat toont kunt u deze instelling op "
-"<strong>Ja</strong> zetten. CiviCRM zal daarna alle nodige pagina's "
-"versturen met gebruik van SSL."
+"van uw online bijdrage pagina's te surfen en de URL prefix te veranderen van "
+"'http://' naar 'https://'. Als uw browser de pagina herlaad en het juiste en "
+"geldige veiligheidscertificaat toont kunt u deze instelling op <strong>Ja</"
+"strong> zetten. CiviCRM zal daarna alle nodige pagina's versturen met "
+"gebruik van SSL."
 
 #: templates/CRM/Admin/Page/DedupeRules.hlp
 msgid ""
@@ -503,9 +504,19 @@ msgstr ""
 "weergegeven in uw account  <strong>Profile - View API Signature</strong>."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#, fuzzy
 msgid ""
-"The URL for PayPal's LIVE Payment server. Use the default value unless "
-"otherwise advised by PayPal."
+"The URL for PayPal's LIVE Payment server. Use the default value (unless "
+"otherwise advised by PayPal):"
+msgstr ""
+"URL PayPal's productie server. Gebruik als PayPal niet anders aangeeft, de "
+"defaultwaarde."
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#, fuzzy
+msgid ""
+"The URL for PayPal's LIVE API gateway server. Use the default value (unless "
+"otherwise advised by PayPal):"
 msgstr ""
 "URL PayPal's productie server. Gebruik als PayPal niet anders aangeeft, de "
 "defaultwaarde."
@@ -565,9 +576,17 @@ msgstr ""
 "Signature</strong>."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#, fuzzy
 msgid ""
-"The URL for PayPal's TEST Payment server. Use the default value unless "
-"otherwise advised by PayPal."
+"The URL for PayPal's TEST Payment server. Use the default value (unless "
+"otherwise advised by PayPal):"
+msgstr "De URL van de testserver van PayPal. "
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#, fuzzy
+msgid ""
+"The URL for PayPal's TEST API gateway server. Use the default value (unless "
+"otherwise advised by PayPal):"
 msgstr "De URL van de testserver van PayPal. "
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
@@ -1054,8 +1073,8 @@ msgid ""
 "<strong>Contributions</strong> depending on what type of information you're "
 "collecting."
 msgstr ""
-"Maak een specifieke groep velden aan die 'Gebruikt voor' "
-"<strong>Contacten</strong> of <strong>Bijdragen</strong>."
+"Maak een specifieke groep velden aan die 'Gebruikt voor' <strong>Contacten</"
+"strong> of <strong>Bijdragen</strong>."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.hlp
 #: templates/CRM/Event/Form/ManageEvent/Registration.hlp
@@ -1088,9 +1107,9 @@ msgid ""
 "title='%3' target='_blank'>custom fields</a> and <a href='%2' title='%3' "
 "target='_blank'>profiles</a>."
 msgstr ""
-"Lees de online documentatie voor meer details over het maken van <a "
-"href='%1' title='%3' target='_blank'>specifieke velden</a> en <a href='%2' "
-"title='%3' target='_blank'>profielen</a>."
+"Lees de online documentatie voor meer details over het maken van <a href='%"
+"1' title='%3' target='_blank'>specifieke velden</a> en <a href='%2' title='%"
+"3' target='_blank'>profielen</a>."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Widget.hlp
 msgid ""
@@ -1314,8 +1333,7 @@ msgid ""
 "profile."
 msgstr ""
 "Ga terug naar dit scherm (<strong>Beheer CiviCRM &raquo; Beheer Evenementen "
-"&raquo; Configureer  &raquo; Online Registratie</strong>) en kies uw "
-"profiel."
+"&raquo; Configureer  &raquo; Online Registratie</strong>) en kies uw profiel."
 
 #: templates/CRM/Event/Import/Form/UploadFile.hlp
 #: templates/CRM/Grant/Import/Form/UploadFile.hlp
@@ -1559,10 +1577,9 @@ msgid ""
 "how to do this. Save this file to your local hard drive (or an accessible "
 "drive on your network) - and you are now ready for step 1 (Upload Data)."
 msgstr ""
-"Invoerbestanden moeten in het <strong>kommagescheiden waarden formaat "
-"(CSV)</strong> zijn. De meeste applicaties hebben een exportfunctie in CSV-"
-"formaat. Bewaar het CSV bestand op uw PC en start met stap 1 (Upload "
-"gegevens)."
+"Invoerbestanden moeten in het <strong>kommagescheiden waarden formaat (CSV)</"
+"strong> zijn. De meeste applicaties hebben een exportfunctie in CSV-formaat. "
+"Bewaar het CSV bestand op uw PC en start met stap 1 (Upload gegevens)."
 
 #: templates/CRM/Import/Form/UploadFile.hlp
 msgid ""
@@ -1749,9 +1766,9 @@ msgid ""
 msgstr ""
 "<strong>Probleemoplossing</strong> - Als blijkt dat de mailing niet "
 "verzonden wordt, neem dan contact op met de systeemadministator of de "
-"technische ondersteuning om te controleren of de automatische taak "
-"(&quot;cron job&quot;) loopt - en met welke frequentie. (<a href='%1' "
-"title='%2' target='_blank'>meer info...</a>)"
+"technische ondersteuning om te controleren of de automatische taak (&quot;"
+"cron job&quot;) loopt - en met welke frequentie. (<a href='%1' title='%2' "
+"target='_blank'>meer info...</a>)"
 
 #: templates/CRM/Mailing/Form/Test.hlp
 msgid ""
@@ -1828,14 +1845,14 @@ msgid ""
 "messages. Opens a new window.'>how to include required links and contact "
 "information as well as sample messages....</a>"
 msgstr ""
-"CiviMail berichten moeten een  <strong>afmeld</strong> link, een <strong"
-">opt-out</strong> link en een <strong>post adres</strong> van uw organisatie "
+"CiviMail berichten moeten een  <strong>afmeld</strong> link, een <strong>opt-"
+"out</strong> link en een <strong>post adres</strong> van uw organisatie "
 "bevatten.  Hierdoor zal uw email minder snel als SPAM gezien worden. De "
 "velden kunnen opgenomen worden in de berichttekst OF in een herbruikbare "
 "<strong>voettekst</strong>. Lees de online documentatie voor de details <a "
 "href='%1' target='_blank' title='Help on messages. Opens a new window.'>Hoe "
-"verplichte links en contactinformatie te gebruiken, voorbeeld "
-"berichten...</a>."
+"verplichte links en contactinformatie te gebruiken, voorbeeld berichten...</"
+"a>."
 
 #: templates/CRM/Mailing/Form/Upload.hlp
 msgid "Upload or Compose On-screen"
@@ -1847,9 +1864,8 @@ msgid ""
 "and then <strong>Upload</strong> the files. OR you can <strong>Compose</"
 "strong> content directly on the screen."
 msgstr ""
-"U kunt de inhoud aanmaken op uw PC met uw editor en dan "
-"<strong>Uploaden</strong>. Of U kunt de inhoud <strong>Opbouwen op "
-"scherm</strong>."
+"U kunt de inhoud aanmaken op uw PC met uw editor en dan <strong>Uploaden</"
+"strong>. Of U kunt de inhoud <strong>Opbouwen op scherm</strong>."
 
 #: templates/CRM/Mailing/Form/Upload.hlp
 msgid ""
@@ -1938,10 +1954,10 @@ msgid ""
 msgstr ""
 "Bij het importeren van lidmaatschappen dienen de personen, huishoudens en "
 "organisaties zelf al als contact bekend te zijn. Is dit niet zo, dan zijn er "
-"twee stappen nodig. Eerst worden de <strong>contacten "
-"geimporteerd</strong>. Voeg, indien mogelijk, een uniek 'External ID' toe "
-"bij elk nieuw contact, zodat u later een lidmaatschap kunt koppelen aan een "
-"contact. In stap 2 importeert u, op dit scherm,  de lidmaatschappen."
+"twee stappen nodig. Eerst worden de <strong>contacten geimporteerd</strong>. "
+"Voeg, indien mogelijk, een uniek 'External ID' toe bij elk nieuw contact, "
+"zodat u later een lidmaatschap kunt koppelen aan een contact. In stap 2 "
+"importeert u, op dit scherm,  de lidmaatschappen."
 
 #: templates/CRM/Member/Import/Form/UploadFile.hlp
 msgid "Matching Memberships to Contacts"

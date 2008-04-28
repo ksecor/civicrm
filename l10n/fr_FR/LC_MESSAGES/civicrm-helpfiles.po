@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-02-27 13:05+0100\n"
+"POT-Creation-Date: 2008-04-28 21:53+0200\n"
 "PO-Revision-Date: 2008-04-21 12:13-0700\n"
 "Last-Translator: Ebeer <webmaster@ebeer.fr>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -107,8 +107,8 @@ msgid ""
 "contact names when they are included in <strong>mailing labels</strong>."
 msgstr ""
 "Les items suivants sont utilisable pour contraoler le format des noms des "
-"contacts individuels lorsqu'ils sont utilisés dans les "
-"<strong>mailings</strong>."
+"contacts individuels lorsqu'ils sont utilisés dans les <strong>mailings</"
+"strong>."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Assigned name prefix, if any (e.g. 'Ms.', 'Dr.', 'Hon.' etc.)."
@@ -169,8 +169,8 @@ msgid ""
 "1' target='_blank'>CiviMember Guide</a> for more info."
 msgstr ""
 "<strong>CiviMember</strong>. Un composant d'administration qui permet de "
-"gérer facilement les adhésion et les désinscriptions en ligne. Plus d'infos "
-": <a href='%1' target='_blank'>CiviMember Guide</a>"
+"gérer facilement les adhésion et les désinscriptions en ligne. Plus "
+"d'infos : <a href='%1' target='_blank'>CiviMember Guide</a>"
 
 #: templates/CRM/Admin/Form/Setting/Date.hlp
 msgid ""
@@ -439,8 +439,14 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
-"The URL for PayPal's LIVE Payment server. Use the default value unless "
-"otherwise advised by PayPal."
+"The URL for PayPal's LIVE Payment server. Use the default value (unless "
+"otherwise advised by PayPal):"
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid ""
+"The URL for PayPal's LIVE API gateway server. Use the default value (unless "
+"otherwise advised by PayPal):"
 msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
@@ -487,8 +493,14 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
-"The URL for PayPal's TEST Payment server. Use the default value unless "
-"otherwise advised by PayPal."
+"The URL for PayPal's TEST Payment server. Use the default value (unless "
+"otherwise advised by PayPal):"
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid ""
+"The URL for PayPal's TEST API gateway server. Use the default value (unless "
+"otherwise advised by PayPal):"
 msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
