@@ -72,6 +72,31 @@ class CRM_Contact_Form_Search_Custom_Proximity
         $this->_earthRadiusSemiMinor = $this->_earthRadiusSemiMajor * ( 1.0 - $this->_earthFlattening );
         $this->_earthEccentricitySQ  = 2 * $this->_earthFlattening - pow ( $this->_earthFlattening, 2 );
 
+        if ( ! empty( $this->_formValues ) ) {
+            // add the country and state
+            if ( isset( $this->_formValues['country_id'] ) ) {
+                $this->_formValues['country'] = CRM_Core_PseudoConstant::country( $this->_formValues['country_id'] );
+            } 
+            
+            if ( isset( $this->_formValues['state_province_id'] ) ) {
+                $this->_formValues['state_province'] = CRM_Core_PseudoConstant::stateProvince( $this->_formValues['state_province_id'] );
+            }
+            
+            // use the address to get the latitude and longitude
+            require_once 'CRM/Utils/Geocode/Google.php';
+            CRM_Utils_Geocode_Google::format( $this->_formValues );
+
+            if ( ! isset( $this->_formValues['geo_code_1'] ) ||
+                 ! isset( $this->_formValues['geo_code_2'] ) ||
+                 ! isset( $this->_formValues['distance'] ) ) {
+                CRM_Core_Error::fatal( ts( 'Could not geocode input' ) );
+            }
+
+            $this->_latitude  = $this->_formValues['geo_code_1'];
+            $this->_longitude = $this->_formValues['geo_code_2'];
+            $this->_distance  = $this->_formValues['distance'] * 1000;
+        }
+
         $this->_earthDistanceSQL = $this->earthDistanceSQL( $this->_latitude, $this->_longitude );
 
         $this->_columns = array( ts('Name')           => 'sort_name'      ,
@@ -239,30 +264,30 @@ IFNULL( ACOS( $cosLat * COS( RADIANS( $latitude ) ) *
 
         $form->add( 'text',
                     'distance',
-                    ts( 'Distance' ),
-                    true );
+                    ts( 'Distance' ) );
 
         $form->add( 'text',
                     'street_address',
-                    ts( 'Street Address' ),
-                    true );
+                    ts( 'Street Address' ) );
 
         $form->add( 'text',
                     'city',
-                    ts( 'City' ),
-                    true );
+                    ts( 'City' ) );
 
         $form->add( 'text',
                     'postal_code',
-                    ts( 'Postal Code' ),
-                    true );
+                    ts( 'Postal Code' ) );
 
         $stateProvince = array('' => ts('- any state/province -')) + CRM_Core_PseudoConstant::stateProvince( );
         $form->addElement('select', 'state_province_id', ts('State/Province'), $stateProvince);        
         
         $country = array('' => ts('- any country -')) + CRM_Core_PseudoConstant::country( );
-        $form->addElement('select', 'country_id', ts('Country'), $country, true);        
+        $form->addElement('select', 'country_id', ts('Country'), $country);
         
+        $form->add( 'text',
+                    'distance',
+                    ts( 'Radius for Proximity Search (in km)' ) );
+
         /**
          * You can define a custom title for the search form
          */
@@ -272,11 +297,12 @@ IFNULL( ACOS( $cosLat * COS( RADIANS( $latitude ) ) *
          * if you are using the standard template, this array tells the template what elements
          * are part of the search criteria
          */
-        $form->assign( 'elements', array( 'street_name',
+        $form->assign( 'elements', array( 'street_address',
                                           'city',
                                           'postal_code',
                                           'state_province_id',
-                                          'country_id' ) );
+                                          'country_id',
+                                          'distance' ) );
     }
 
     function all( $offset = 0, $rowcount = 0, $sort = null,
