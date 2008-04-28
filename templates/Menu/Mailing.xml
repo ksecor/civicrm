@@ -59,6 +59,7 @@
      <title>Unsubscribe</title>
      <page_callback>CRM_Mailing_Page_Unsubscribe</page_callback>
      <access_arguments>access CiviMail subscribe/unsubscribe pages</access_arguments>
+     <is_public>true</is_public>
      <weight>640</weight>
   </item>
   <item>
@@ -66,6 +67,7 @@
      <title>Resubscribe</title>
      <page_callback>CRM_Mailing_Page_Resubscribe</page_callback>
      <access_arguments>access CiviMail subscribe/unsubscribe pages</access_arguments>
+     <is_public>true</is_public>
      <weight>645</weight>
   </item>
   <item>
@@ -73,6 +75,7 @@
      <title>Optout</title>
      <page_callback>CRM_Mailing_Page_Optout</page_callback>
      <access_arguments>access CiviMail subscribe/unsubscribe pages</access_arguments>
+     <is_public>true</is_public>
      <weight>650</weight>
   </item>
   <item>

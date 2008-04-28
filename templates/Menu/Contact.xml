@@ -16,6 +16,7 @@
      <page_type>1</page_type>
      <page_callback>CRM_Contact_Page_View_DashBoard</page_callback>
      <access_arguments>access CiviCRM</access_arguments>
+     <is_public>true</is_public>
      <weight>0</weight>
   </item>
   <item>
@@ -155,6 +156,7 @@
      <title>Contact Dashboard</title>
      <saccess_arguments>access Contact Dashboard</saccess_arguments>
      <page_callback>CRM_Contact_Page_View_UserDashBoard</page_callback>
+     <is_public>true</is_public>
      <weight>0</weight>
   </item>
 </menu>
