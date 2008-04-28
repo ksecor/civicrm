@@ -715,6 +715,11 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         }
         
     }
+    
+    
+    function addWysiwyg( $name, $label, $prefix = null, $required = null, $extra = null ) {
+        $this->addElement('textarea', $name, $label, array( 'class' => 'tinyMCEEditor') );
+    }    
 
     function addCountry( $id, $title ,$required = null, $extra = null ) {
         $this->addElement('select', $id, $title,
