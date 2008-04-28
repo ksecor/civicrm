@@ -150,7 +150,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         
         //$this->add('textarea','summary',ts('Event Summary'), $attributes['summary']);
         $this->add('fckeditor','summary',ts('Event Summary'), $attributes['summary']);
-        $this->add('textarea','description',ts('Complete Description'), $attributes['event_description']);
+	$this->add('dojoeditor','description',ts('Complete Description'), $attributes['event_description']);
         
         $this->addElement('checkbox', 'is_public', ts('Public Event?') );
         $this->addElement('checkbox', 'is_map', ts('Include Map Link?') );
@@ -168,7 +168,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
      
         $this->add('text','max_participants', ts('Max Number of Participants'));
         $this->addRule('max_participants', ts('is a positive field') , 'positiveInteger');
-        $this->add('textarea','event_full_text', ts('Message if Event is Full'), $attributes['event_full_text']);
+	$this->add('textarea','event_full_text', ts('Message if Event is Full'), $attributes['event_full_text']);
         
         $this->addElement('checkbox', 'is_active', ts('Is this Event Active?') );
         
@@ -220,7 +220,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
     {
         $params = $ids = array();
         $params = $this->controller->exportValues( $this->_name );
-        
+
         //format params
         $params['start_date']      = CRM_Utils_Date::format($params['start_date']);
         $params['end_date'  ]      = CRM_Utils_Date::format($params['end_date']);

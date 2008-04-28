@@ -72,7 +72,7 @@ class HTML_QuickForm_FCKeditor extends HTML_QuickForm_textarea
      * @access  public
      * @return  void
      */
-    function HTML_QuickForm_htmlarea($elementName=null, $elementLabel=null, $options=array(), $attributes=null)
+    function HTML_QuickForm_fckeditor($elementName=null, $elementLabel=null, $options=array(), $attributes=null)
     {
         HTML_QuickForm_element::HTML_QuickForm_element($elementName, $elementLabel, $attributes);
         $this->_persistantFreeze = true;
