@@ -69,6 +69,15 @@
         window.location= post; 
         }
     }
-
+  
+    dojo.connect( dijit.byId('description'), 'onload', 'setHTMLMessage')
+    dojo.connect( dijit.byId('description'), 'onsubmit', 'getHTMLMessage')
+    function getHTMLMessage ( ) {
+	document.{/literal}{$form.formName}{literal}.msg.value = dijit.byId("description").getValue();	
+     } 	
+  	function setHTMLMessage ( ) {
+        var d  = {/literal}'{$description}'{literal};
+        dijit.byId('description').setValue( d );
+     } 
 {/literal}
 </script>

@@ -90,7 +90,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
             $defaultDate['i'] = (int ) ( $defaultDate['i'] / 15 ) * 15;
             $defaults['start_date'] = $defaultDate;
         }
-
+	$this->assign('description', $defaults['description'] ); 
         if( isset($this->_groupTree) ) {
             CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, false, false );
         }
@@ -150,8 +150,10 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         
         //$this->add('textarea','summary',ts('Event Summary'), $attributes['summary']);
         $this->add('fckeditor','summary',ts('Event Summary'), $attributes['summary']);
+	$this->assign( 'dojoIncludes', "dojo.require('dijit.Editor'); dojo.require('dojo.parser'); dojo.require('dijit._editor.plugins.FontChoice');dojo.require('dijit._editor.plugins.TextColor'); dojo.require('dijit._editor.plugins.LinkDialog');");
+
 	$this->add('dojoeditor','description',ts('Complete Description'), $attributes['event_description']);
-        
+        $this->add('hidden', 'msg', null);
         $this->addElement('checkbox', 'is_public', ts('Public Event?') );
         $this->addElement('checkbox', 'is_map', ts('Include Map Link?') );
          
@@ -168,7 +170,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
      
         $this->add('text','max_participants', ts('Max Number of Participants'));
         $this->addRule('max_participants', ts('is a positive field') , 'positiveInteger');
-	$this->add('textarea','event_full_text', ts('Message if Event is Full'), $attributes['event_full_text']);
+	$this->add('tinymce','event_full_text', ts('Message if Event is Full'), $attributes['event_full_text']);
         
         $this->addElement('checkbox', 'is_active', ts('Is this Event Active?') );
         
@@ -228,7 +230,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         $params['is_active' ]      = CRM_Utils_Array::value('is_active', $params, false);
         $params['is_public' ]      = CRM_Utils_Array::value('is_public', $params, false);
         $params['default_role_id'] = CRM_Utils_Array::value('default_role_id', $params, false);
-        
+	$params['description']     = $params['msg'];
         $ids['event_id']      = $this->_id;
         
         // format custom data
