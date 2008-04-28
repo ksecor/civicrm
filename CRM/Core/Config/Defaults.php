@@ -67,11 +67,7 @@ class CRM_Core_Config_Defaults
             'l10n'        . DIRECTORY_SEPARATOR ;
 
         // This should be moved to database config.
-        if ( defined( 'CIVICRM_SUNLIGHT' ) ) {
-            $this->sunlight = true;
-        } else {
-            $this->sunlight = false;
-        }
+        $this->sunlight = defined( 'CIVICRM_SUNLIGHT' ) ? true : false;
 
         // 
         $size = trim( ini_get( 'upload_max_filesize' ) );

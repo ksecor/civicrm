@@ -35,7 +35,7 @@
 
 require_once 'CRM/Contact/Form/Search/Custom/Base.php';
 
-class CRM_Contact_Form_Search_Custom_Sample
+class CRM_Contact_Form_Search_Custom_Proximity
    extends    CRM_Contact_Form_Search_Custom_Base
    implements CRM_Contact_Form_Search_Interface {
 
@@ -59,14 +59,21 @@ class CRM_Contact_Form_Search_Custom_Sample
     protected $_earthRadiusSemiMajor;
     protected $_earthEccentricitySQ;
 
+    protected $_latitude  = 37.76;
+    protected $_longitude = -122.44;
+    protected $_distance  = 300000;
+    protected $_earthDistanceSQL = null;
+
     function __construct( &$formValues ) {
         parent::__construct( $formValues );
 
-        this->_earthFlattening       = 1.0 / 298.257223563;
+        $this->_earthFlattening       = 1.0 / 298.257223563;
         $this->_earthRadiusSemiMajor = 6378137.0;
         $this->_earthRadiusSemiMinor = $this->_earthRadiusSemiMajor * ( 1.0 - $this->_earthFlattening );
         $this->_earthEccentricitySQ  = 2 * $this->_earthFlattening - pow ( $this->_earthFlattening, 2 );
-        
+
+        $this->_earthDistanceSQL = $this->earthDistanceSQL( $this->_latitude, $this->_longitude );
+
         $this->_columns = array( ts('Name')           => 'sort_name'      ,
                                  ts('Street Address') => 'street_address' ,
                                  ts('City'          ) => 'city'           ,
@@ -98,7 +105,7 @@ class CRM_Contact_Form_Search_Custom_Sample
      * Convert longitude and latitude to earth-centered earth-fixed coordinates.
      * X axis is 0 long, 0 lat; Y axis is 90 deg E; Z axis is north pole.
      */
-    fuction earthXYZ( $longitude, $latitude, $height = 0 ) {
+    function earthXYZ( $longitude, $latitude, $height = 0 ) {
         $long = deg2rad( $longitude );
         $lat  = deg2rad( $latitude  );
 
@@ -146,8 +153,7 @@ class CRM_Contact_Form_Search_Custom_Sample
     /**
      * Estimate the min and max longitudes within $distance of a given location.
      */
-    function earthLngitudeRange( $longitude, $latitude, $distance ) {
-        
+    function earthLongitudeRange( $longitude, $latitude, $distance ) {
         $long   = deg2rad( $longitude );
         $lat    = deg2rad( $latitude  );
         $radius = $this->earthRadius( $latitude );
@@ -199,6 +205,7 @@ class CRM_Contact_Form_Search_Custom_Sample
             }
             $maxLat = $rightangle;
         }
+
         return array( rad2deg( $minLat ),
                       rad2deg( $maxLat ) );
     }
@@ -221,10 +228,10 @@ class CRM_Contact_Form_Search_Custom_Sample
         $sinLat  = sin( $lat  );
         
         return "
-( IFNULL ( ACOS( $cosLat * COS( RADIANS( latitude ) ) *
-                 ( $cosLong * COS( RADIANS( longitude ) ) +
-                   $sinLong * SIN( RADIANS( longitude ) ) ) +
-                 $sinLat  * SIN( RADIANS( latitude  ) ) ), 0.00000 ) * $radius )
+IFNULL( ACOS( $cosLat * COS( RADIANS( $latitude ) ) *
+              ( $cosLong * COS( RADIANS( $longitude ) ) +
+                $sinLong * SIN( RADIANS( $longitude ) ) ) +
+              $sinLat  * SIN( RADIANS( $latitude  ) ) ), 0.00000 ) * $radius
 ";
     }
 
@@ -274,6 +281,7 @@ class CRM_Contact_Form_Search_Custom_Sample
 
     function all( $offset = 0, $rowcount = 0, $sort = null,
                   $includeContactIDs = false ) {
+
         $selectClause = "
 contact_a.id           as contact_id    ,
 contact_a.sort_name    as sort_name     ,
@@ -281,7 +289,8 @@ address.street_address as street_address,
 address.city           as city          ,
 address.postal_code    as postal_code   ,
 state_province.name    as state_province,
-country.name           as country
+country.name           as country       ,
+{$this->_earthDistanceSQL} as distance
 ";
 
         return $this->sql( $selectClause,
@@ -296,14 +305,29 @@ FROM      civicrm_contact contact_a
 LEFT JOIN civicrm_address address ON ( address.contact_id       = contact_a.id AND
                                        address.is_primary       = 1 )
 LEFT JOIN civicrm_state_province state_province ON state_province.id = address.state_province_id
-LEFT JOIN civicrm_country                       ON country.id        = address.country_id
+LEFT JOIN civicrm_country country               ON country.id        = address.country_id
 ";
     }
 
     function where( $includeContactIDs = false ) {
         $params = array( );
+        $clause = array( );
 
-        
+        list( $minLongitude, $maxLongitude ) = $this->earthLongitudeRange( $this->_longitude,
+                                                                           $this->_latitude ,
+                                                                           $this->_distance );
+        list( $minLatitude , $maxLatitude  ) = $this->earthLatitudeRange ( $this->_longitude,
+                                                                           $this->_latitude ,
+                                                                           $this->_distance );
+
+        $where = "
+address.geo_code_1  >= $minLatitude  AND
+address.geo_code_1  <= $maxLatitude  AND
+address.geo_code_2 >= $minLongitude AND
+address.geo_code_2 <= $maxLongitude AND
+{$this->_earthDistanceSQL} <= $this->_distance
+";
+
         return $this->whereClause( $where, $params );
     }
 

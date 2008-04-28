@@ -147,12 +147,6 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
      */
     public $inCiviCRM  = false;
 
-    /**
-     * the debug level for DB_DataObject
-     * @var int
-     */
-    public $daoDebug		  = 0;
-
     ///
     /// END: RUNTIME SET CLASS PROPERTIES
     ///
@@ -289,7 +283,7 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
             $this->userFrameworkUsersTableName = 'jos_users';
         }
 
-        $this->_initDAO();
+        $this->_initDAO( );
 
         // also initialize the logger
         self::$_log =& Log::singleton( 'display' );
@@ -307,10 +301,7 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
      */
     private function _initDAO() 
     {
-        CRM_Core_DAO::init(
-                      $this->dsn, 
-                      $this->daoDebug
-                      );
+        CRM_Core_DAO::init( $this->dsn );
 
         $factoryClass = $this->DAOFactoryClass;
         require_once str_replace('_', DIRECTORY_SEPARATOR, $factoryClass) . '.php';

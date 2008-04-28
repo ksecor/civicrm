@@ -87,17 +87,16 @@ class CRM_Core_DAO extends DB_DataObject
      * initialize the DAO object
      *
      * @param string $dsn   the database connection string
-     * @param int    $debug the debug level for DB_DataObject
      *
      * @return void
      * @access private
      */
-    function init( $dsn, $debug = 0 ) 
+    function init( $dsn )
     {
         $options =& PEAR::getStaticProperty('DB_DataObject', 'options');
         $options['database'] = $dsn;
-        if ( $debug ) {
-            self::DebugLevel($debug);
+        if ( defined( 'CIVICRM_DAO_DEBUG' ) ) {
+            self::DebugLevel( CIVICRM_DAO_DEBUG );
         }
     }
 	
