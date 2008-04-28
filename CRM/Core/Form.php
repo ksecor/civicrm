@@ -715,10 +715,9 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         }
         
     }
-    
-    
-    function addWysiwyg( $name, $label, $prefix = null, $required = null, $extra = null ) {
-        $this->addElement('textarea', $name, $label, array( 'class' => 'tinyMCEEditor') );
+        
+    function addWysiwyg( $name, $label, $attributes ) {
+        $this->addElement( 'fckeditor', $name, $label, $attributes[$name] );
     }    
 
     function addCountry( $id, $title ,$required = null, $extra = null ) {
@@ -738,7 +737,7 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
             $this->addRule($name . '_id', ts('Please select %1', array(1 => $label)), 'required');
         }
 
-        $this->addElement( 'text', $name . '_other', $label, $attributes[$name . '_other'] );
+        
     }
 
     function buildAddressBlock( $locationId, $title, $phone,
