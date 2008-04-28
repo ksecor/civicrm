@@ -1,6 +1,7 @@
-
 {* This template is used for adding/editing/deleting offline Event Registrations *}
-
+{if $showFeeBlock }
+   {include file="CRM/Event/Form/EventFees.tpl"}
+{else}
 <fieldset><legend>{if $action eq 1}{ts}New Event Registration{/ts}{elseif $action eq 8}{ts}Delete Event Registration{/ts}{else}{ts}Edit Event Registration{/ts}{/if}</legend> 
     {if $action eq 1 AND $paid}
     <div id="help">
@@ -8,7 +9,7 @@
     </div>  
     {/if}
     
-    <table class="form-layout">
+    <table class="form-layout" >
     {if $action eq 8} {* If action is Delete *}
         <tr><td>
             <div class="messages status">
@@ -48,61 +49,9 @@
         <tr><td class="label">{$form.source.label}</td><td>{$form.source.html|crmReplace:class:huge}</td></tr>
 
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Source for this registration (if applicable).{/ts}</td></tr>
-
-        {if $priceSet}
-         <tr><td class="label">{$form.amount.label}</td>
-             <td><table class="form-layout-compressed">
-              {foreach from=$priceSet.fields item=element key=field_id}
-                 {if ($element.html_type eq 'CheckBox' || $element.html_type == 'Radio') && $element.options_per_line}
-                    {assign var="element_name" value=price_$field_id}
-                    {assign var="count" value="1"}
-                    <tr><td class="label"> {$form.$element_name.label}</td>
-                        <td class="view-value">
-                        <table class="form-layout-compressed">
-                        {foreach name=outer key=key item=item from=$form.$element_name}
-                            <tr>	
-                                {if is_numeric($key) }
-                                    <td class="labels font-light"><td>{$form.$element_name.$key.html}</td>
-                                    {if $count == $element.options_per_line}
-                                        {assign var="count" value="1"}
-                                        </tr>
-                                        <tr>			
-                                    {else}
-                                        {assign var="count" value=`$count+1`}
-                                    {/if}
-                                {/if}
-                            </tr>
-                        {/foreach}
-                        {if $element.help_post AND $action eq 1}
-                            <tr><td></td><td class="description">{$element.help_post}</td></tr>
-                        {/if}
-                        </table>
-                      </td>
-                    </tr>
-                  {else}	
-                    {assign var="name" value=`$element.name`}
-                    {assign var="element_name" value="price_"|cat:$field_id}
-                    <tr><td class="label"> {$form.$element_name.label}</td>
-                        <td class="view-value">{$form.$element_name.html}
-                            {if $element.help_post AND $action eq 1}
-                                <br /><span class="description">{$element.help_post}</span>
-                            {/if}
-                       </td>
-                    </tr>
-                  {/if}
-               {/foreach}
-              </table>
-            </td>
-       </tr>
-    {else} {* NOT Price Set *}
-        {if $paid}
-            <tr><td class="label">{$form.amount.label}<span class="marker"> *</span></td><td>{$form.amount.html}
-            {if $action EQ 1}
-                <br /><span class="description">{ts}Event Fee Level (if applicable).{/ts}</span>
-            {/if}
-                </td></tr>
-        {/if}
-    {/if}
+        {*if $paid*}
+	<tr><td colspan="2"><div id="feeBlock"></div></td></tr>
+        {*/if*}
 
     <tr><td class="label" style="vertical-align:top;">{$form.note.label}</td><td>{$form.note.html}</td></tr>
     {if $paid}
@@ -198,23 +147,71 @@
 }
 {/if}
 
-<script type="text/javascript" >
- {literal}
- function reload(refresh) {
-        var roleId = document.getElementById("role_id");
-        var eventId = document.getElementById("event_id");    
-        var url = {/literal}"{$refreshURL}"{literal}
-        var post = url;
+{if $action eq 1 or $action eq 2}
+{literal}
+<script type="text/javascript">
+function reload(refresh) {
+    var roleId = document.getElementById("role_id");
+    var url = {/literal}"{$refreshURL}"{literal}
+    var post = url;
 
-        if( eventId.value ) {
-            var post = post + "&eid=" + eventId.value;
+    if( roleId.value ) {
+        var post = post + "&rid=" + roleId.value;
+    }
+    if( refresh ) {
+        window.location= post; 
+    }
+} 
+
+
+buildFeeBlock( );
+
+function buildFeeBlock( eventId )
+{
+	var dataUrl = {/literal}"{crmURL h=0 q='snippet=1'}"{literal};
+	
+	if ( !eventId ) {
+	   var eventId  = document.getElementById('event_id').value;
+	}
+
+	if ( eventId) {
+	   dataUrl = dataUrl + '&eventId=' + eventId;	
+	} else {
+  	   dojo.byId('feeBlock').innerHTML = '';
+           return;
+	}
+/*	
+	var entityId  = "{/literal}{$entityId}{literal}";
+
+	if ( entityId ) {
+	   dataUrl = dataUrl + '&entityId=' + entityId;	
+	}
+*/
+        var result = dojo.xhrGet({
+        url: dataUrl,
+        handleAs: "text",
+        timeout: 5000, //Time in milliseconds
+        handle: function(response, ioArgs){
+                if(response instanceof Error){
+                        if(response.dojoType == "cancel"){
+                                //The request was canceled by some other JavaScript code.
+                                console.debug("Request canceled.");
+                        }else if(response.dojoType == "timeout"){
+                                //The request took over 5 seconds to complete.
+                                console.debug("Request timed out.");
+                        }else{
+                                //Some other error happened.
+                                console.error(response);
+                        }
+                }else{
+		   // on success
+                   dojo.byId('feeBlock').innerHTML = response;
+                }
         }
-        if( roleId.value ) {
-            var post = post + "&rid=" + roleId.value;
-        }
-        if( refresh ) {
-            window.location= post; 
-        }
-    } 
- {/literal}
+     });
+
+}
 </script>
+{/literal}
+{/if}
+{/if} {* end of eventshow condition*}

@@ -36,6 +36,7 @@
 
 require_once 'CRM/Contact/Form/Task.php';
 require_once 'CRM/Event/PseudoConstant.php';
+require_once 'CRM/Event/Form/EventFees.php';
 
 /**
  * This class generates form components for processing a participation 
@@ -123,6 +124,13 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
      */ 
     public function preProcess()  
     {
+        $this->_showFeeBlock = CRM_Utils_Array::value( 'eventId', $_GET );
+        $this->assign( 'showFeeBlock', false );
+        if ( $this->_showFeeBlock ) {
+            $this->assign( 'showFeeBlock', true );
+            return CRM_Event_Form_EventFees::preProcess( $this );
+        }
+
         // check for edit permission
         if ( ! CRM_Core_Permission::check( 'edit event participants' ) ) {
             CRM_Core_Error::fatal( ts( 'You do not have permission to access this page' ) );
@@ -207,6 +215,13 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
 
         require_once 'CRM/Core/BAO/CustomGroup.php';
         $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree( "Participant", $this->_id, 0, $this->_roleId );
+
+        // when custom data is included in this page
+        if ( CRM_Utils_Array::value( "hidden_feeblock", $_POST ) ) {
+            eval( 'CRM_Event_Form_EventFees::preProcess( $this );' );
+            eval( 'CRM_Event_Form_EventFees::buildQuickForm( $this );' );
+            eval( 'CRM_Event_Form_EventFees::setDefaultValues( $this );' );
+        }
     }
 
     
@@ -219,6 +234,10 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
      */
     public function setDefaultValues( ) 
     { 
+        if ( $this->_showFeeBlock ) {
+            return CRM_Event_Form_EventFees::setDefaultValues( $this );
+        }
+
         $defaults = array( );
         
         if ( $this->_action & CRM_Core_Action::DELETE ) {
@@ -315,77 +334,6 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults[$this->_id], $viewMode, $inactiveNeeded );
         }
           
-        //require_once "CRM/Core/BAO/CustomOption.php";
-        require_once 'CRM/Core/BAO/PriceSet.php';
-        if ( $priceSetId = CRM_Core_BAO_PriceSet::getFor( 'civicrm_event_page', $this->_eId ) ) {
-            $fields = array( );
-    
-            $eventLevel = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, 
-                                   substr( $defaults[$this->_id]['event_level'], 1, -1 ) );
-            foreach ( $eventLevel as $id => $name ) {
-                $optionValue         = new CRM_Core_BAO_OptionValue( );
-                $optionValue->label  = $name;
-                $optionValue->find( true );
-                
-                if ($optionValue->option_group_id ){
-                    $groupName       = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup', $optionValue->option_group_id, 'name' );
-                    $fieldName       = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_PriceField', substr( $groupName, -1, 1 ), 'label') ;
-                    $eventLevel[$id] = array( 'fieldName'   => $fieldName,
-                                              'optionLabel' => $name );
-                }
-            }
-            //for the texfield default value
-            foreach ( $eventLevel as $id => $values ) {
-                if( !is_array( $values ) ){
-                    $textLevel       = explode( ' - ', $values );
-                    $eventLevel[$id] = array( 'fieldName'   => $textLevel[0],
-                                              'optionLabel' => $textLevel[1] );
-                }       
-            }
-            
-            require_once 'CRM/Core/BAO/PriceField.php';
-            foreach ( $eventLevel as $values ) {
-                
-                $priceField        = new CRM_Core_BAO_PriceField( );
-                $priceField->label = $values['fieldName'];
-                
-                $priceField->find( true );
-                
-                // FIXME: we are not storing qty for text type (for
-                // offline mode). Hence can not set defaults for Text
-                // type price field
-                if ( $priceField->html_type == 'Text' ) {
-                    $defaults[$this->_id]["price_{$priceField->id}"] = $values['optionLabel'];
-                    continue;
-                }
-                
-                $optionId = CRM_Core_BAO_PriceField::getOptionId( $values['optionLabel'], $priceField->id );
-                
-                if ( $priceField->html_type == 'CheckBox' ) {
-                    $defaults[$this->_id]["price_{$priceField->id}"][$optionId] = 1;
-                    continue;
-                }
-                $defaults[$this->_id]["price_{$priceField->id}"] = $optionId;
-            }
-        } else {
-            if ( $defaults[$this->_id]['event_id'] && ($this->_action == CRM_Core_Action::UPDATE ) ) {
-                $optionGroupId = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_OptionGroup", 
-                                                              'civicrm_event_page.amount.' . 
-                                                              CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_EventPage", $defaults[$this->_id]['event_id'], 'id', 'event_id' ), 
-                                                              'id', 
-                                                              'name' );
-                $optionParams = array( 'option_group_id' => $optionGroupId,
-                                       'label'           => CRM_Utils_Array::value('event_level',$defaults[$this->_id]) );
-                
-                CRM_Core_BAO_CustomOption::retrieve( $optionParams, $params );
-                $defaults[$this->_id]['amount'] = $params['id'];
-            } elseif ( $defaults[$this->_id]['event_id'] && ($this->_action == CRM_Core_Action::ADD ) ) {
-                $defaults[$this->_id]['amount'] = CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_EventPage", 
-                                                                               $defaults[$this->_id]['event_id'], 
-                                                                               'default_fee_id', 
-                                                                               'event_id' );
-            }
-        }
         $this->assign( 'event_is_test', CRM_Utils_Array::value('event_is_test',$defaults[$this->_id]) );
         return $defaults[$this->_id];
     }
@@ -399,6 +347,10 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
 
     public function buildQuickForm( )  
     { 
+        if ( $this->_showFeeBlock ) {
+            return CRM_Event_Form_EventFees::buildQuickForm( $this );
+        }
+
         $this->applyFilter('__ALL__', 'trim');
 	
         if ( $this->_action & CRM_Core_Action::DELETE ) {
@@ -454,7 +406,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         $this->add('select', 'event_id',  ts( 'Event' ),  
                    array( '' => ts( '- select -' ) ) + $events,
                    true,
-                   array('onchange' => "if (this.value) reload(true); else return false") );
+                   array('onchange' => "buildFeeBlock( this.value );") );
         
         $this->add( 'date', 'register_date', ts('Registration Date and Time'),
                     CRM_Core_SelectValues::date('activityDatetime' ),
@@ -476,21 +428,6 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             CRM_Event_BAO_Event::retrieve( $params, $this->_event );
         }
         
-        if ( $this->_event['is_monetary'] ) {
-            require_once "CRM/Event/BAO/EventPage.php";
-            $params = array( 'event_id' => $this->_eId );
-            CRM_Event_BAO_EventPage::retrieve( $params, $eventPage );
-
-            //retrieve custom information
-            $this->_values = array( );
-            require_once "CRM/Event/Form/Registration/Register.php";
-            CRM_Event_Form_Registration::initPriceSet($this, $eventPage['id'] );
-            CRM_Event_Form_Registration_Register::buildAmount( $this, false );
-        } else {
-            $this->add( 'text', 'amount', ts('Event Fee(s)') );
-        }
-        $this->assign("paid", $this->_event['is_monetary'] );
-
         $noteAttributes = CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Note' );
         $this->add('textarea', 'note', ts('Notes'), $noteAttributes['note']);
         
