@@ -70,6 +70,10 @@ class CRM_Admin_Form_Preferences_Display extends CRM_Admin_Form_Preferences
      */
     public function buildQuickForm( ) 
     {
+
+        $this->addElement( 'select', 'wysiwyg_editor', ts('WYSIWYG Editor'), 
+        array( 1 => 'TinyMCE', 2 => 'FCKEditor', 3 => 'dojo'), null );
+
         parent::buildQuickForm( );
     }
 
