@@ -222,10 +222,11 @@ function buildCustomData( subType )
                                 //Some other error happened.
                                 console.error(response);
                         }
-                }else{
+                } else {
 		   // on success
                    dojo.byId('customData').innerHTML = response;
-                }
+		   executeInnerHTML( 'customData' );
+	       }
         }
      });
 
