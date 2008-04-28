@@ -1,7 +1,7 @@
 {*Javascript function controls showing and hiding of form elements based on html type.*}
 {literal}
 <script type="text/Javascript">
-    function custom_option_html_type(form) {
+    function custom_option_html_type( ) {
         var html_type_name = document.getElementsByName("data_type[1]")[0].value;
         var data_type_id   = document.getElementsByName("data_type[0]")[0].value;
 
@@ -60,7 +60,7 @@
     	       }
           }
 	   }
-v
+
     	if ( data_type_id < 4) {	
     		if (html_type_name == "CheckBox" || html_type_name == "Radio") {
     			document.getElementById("optionsPerLine").style.display="block";
@@ -114,7 +114,7 @@ v
     <div class="form-item">
         <dl>
         <dt>{$form.label.label}</dt><dd>{$form.label.html}</dd>
-        <dt class="extra-long-twenty">{ts}Data and Input Field Type{/ts}</dt><dd><span name="data_type" dojoType="civicrm.HierSelect" url1="{crmURL p='civicrm/ajax/customdatatype'}" url2="{crmURL p='civicrm/ajax/custominputtype'}" default1={$data_type_0} default2={$data_type_1} jsMethod1="clearSearchBoxes" jsMethod2="custom_option_html_type" firstInList=true freezeAll={$freezeAll}></span><span class="tundra" id="id_html_type"><span id="id_data_type_1"><span></span></dd>
+        <dt class="extra-long-twenty">{ts}Data and Input Field Type{/ts}</dt><dd><span name="data_type" dojoType="civicrm.HierSelect" url1="{crmURL p='civicrm/ajax/customdatatype'}" url2="{crmURL p='civicrm/ajax/custominputtype'}" default1={$data_type_0} default2={$data_type_1} jsMethod1="clearSearchBoxes()" jsMethod2="custom_option_html_type()" firstInList=true freezeAll={$freezeAll}></span><span class="tundra" id="id_html_type"><span id="id_data_type_1"><span></span></dd>
         {if $action neq 4 and $action neq 2}
             <dt>&nbsp;</dt><dd class="description">{ts}Select the type of data you want to collect and store for this contact. Then select from the available HTML input field types (choices are based on the type of data being collected).{/ts}</dd>
         {/if}
