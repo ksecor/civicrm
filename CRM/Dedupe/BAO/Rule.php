@@ -43,19 +43,18 @@ class CRM_Dedupe_BAO_Rule extends CRM_Dedupe_DAO_Rule
 {
 
     /**
-     * id of the contact to limit the SQL queries (whole-database queries otherwise).
+     * ids of the contacts to limit the SQL queries (whole-database queries otherwise)
      */
-    var $contactId = null;
+    var $contactIds = array();
     
     /**
      * Return the SQL query for the given criterion.
-     * FIXME: should we limit the queries to domain_id?
-     * FIXME: should we add the ability to do per-group searches?
      */
     function sql() {
 
         // we need to initialise WHERE here, as some table types extend it
-        $where = '';
+        // $where is an array of required conditions
+        $where = array();
 
         switch ($this->rule_table) {
         case 'civicrm_contact':
@@ -68,7 +67,8 @@ class CRM_Dedupe_BAO_Rule extends CRM_Dedupe_DAO_Rule
             break;
         case 'civicrm_note':
             $id = 'entity_id';
-            $where .= "t1.entity_table = 'civicrm_contact' AND t2.entity_table = 'civicrm_contact' AND ";
+            $where[] = "t1.entity_table = 'civicrm_contact'";
+            $where[] = "t2.entity_table = 'civicrm_contact'";
             break;
         }
 
@@ -82,11 +82,21 @@ class CRM_Dedupe_BAO_Rule extends CRM_Dedupe_DAO_Rule
             $from = "{$this->rule_table} t1 JOIN {$this->rule_table} t2 USING ({$this->rule_field})";
         }
 
-        // finish building WHERE, also limit the results to a single contact if requested
-        $where .= "t1.$id != t2.$id";
-        if ($this->contactId) $where .= " AND t1.$id = " . (int) $this->contactId;
+        // finish building WHERE, also limit the results if requested
+        $where[] = "t1.$id != t2.$id";
+        if ($this->contactIds) {
+            $cids = array();
+            foreach ($this->contactIds as $cid) {
+                $cids[] = CRM_Utils_Type::escape($cid, 'Integer');
+            }
+            if (count($cids) == 1) {
+                $where[] = "t1.$id = {$cids[0]}";
+            } else {
+                $where[] = "t1.$id IN (" . implode(',', $cids) . ")";
+            }
+        }
 
-        return "SELECT $select FROM $from WHERE $where";
+        return "SELECT $select FROM $from WHERE " . implode(' AND ', $where);
     }
 
 }
