@@ -180,13 +180,13 @@ function buildFeeBlock( eventId )
   	   dojo.byId('feeBlock').innerHTML = '';
            return;
 	}
-/*	
-	var entityId  = "{/literal}{$entityId}{literal}";
+	
+	var participantId  = "{/literal}{$participantId}{literal}";
 
-	if ( entityId ) {
-	   dataUrl = dataUrl + '&entityId=' + entityId;	
+	if ( participantId ) {
+	   dataUrl = dataUrl + '&participantId=' + participantId;	
 	}
-*/
+
         var result = dojo.xhrGet({
         url: dataUrl,
         handleAs: "text",
