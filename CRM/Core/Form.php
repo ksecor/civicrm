@@ -717,7 +717,20 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
     }
         
     function addWysiwyg( $name, $label, $attributes ) {
+        // TODO: 
+        // 1. Get configuration option for editor (tinymce, fckeditor, dojoeditor, pure textarea)
+        // 2. Based on the option, initialise proper editor
+
+        // if ( $editor == fckeditor ) {
         $this->addElement( 'fckeditor', $name, $label, $attributes[$name] );
+        // } elseif ($editor == tinymce ) {
+        //$this->addElement( 'tinymce', $name, $label, $attributes[$name] );
+        // } elseif ($editor == dojoeditor)
+        //$this->addElement( 'dojoeditor', $name, $label, $attributes[$name] );
+        // additional hidden element required here
+        // } else {
+        // pure textarea
+        // }
     }    
 
     function addCountry( $id, $title ,$required = null, $extra = null ) {
