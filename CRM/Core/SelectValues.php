@@ -121,7 +121,6 @@ class CRM_Core_SelectValues
         if (!$contactType) {
             $contactType = array(
                 ''             => ts('- all contacts -'),
-                'Contact'      => ts('Contacts'),
                 'Individual'   => ts('Individuals'),
                 'Household'    => ts('Households'),
                 'Organization' => ts('Organizations')
