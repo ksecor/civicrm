@@ -43,13 +43,19 @@ class CRM_Dedupe_BAO_RuleGroup extends CRM_Dedupe_DAO_RuleGroup
 {
 
     /**
-     * id of the contact to limit the SQL queries (whole-database queries otherwise).
+     * ids of the contacts to limit the SQL queries (whole-database queries otherwise)
      */
-    var $contactId = null;
+    var $contactIds = array();
+
+    /**
+     * Return the SQL query for dropping the temporary table.
+     */
+    function tableDropQuery() {
+        return 'DROP TEMPORARY TABLE IF EXISTS dedupe';
+    }
     
     /**
      * Return the SQL query for creating the temporary table.
-     * FIXME: should we add the ability to do per-group searches?
      */
     function tableQuery() {
         require_once 'CRM/Dedupe/BAO/Rule.php';
@@ -58,7 +64,7 @@ class CRM_Dedupe_BAO_RuleGroup extends CRM_Dedupe_DAO_RuleGroup
         $bao->find();
         $queries = array();
         while ($bao->fetch()) {
-            if ($this->contactId) $bao->contactId = $this->contactId;
+            $bao->contactIds = $this->contactIds;
             $queries[] = $bao->sql();
         }
         return 'CREATE TEMPORARY TABLE dedupe ENGINE MEMORY ' . implode(' UNION ', $queries);
