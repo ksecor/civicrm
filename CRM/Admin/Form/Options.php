@@ -132,10 +132,12 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
        
         if ($this->_gName == 'participant_status') {
             $element = $this->add('checkbox', 'filter', ts('Counted?'));
-            if ( CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $this->_id, 'is_reserved' ) == 1 ) {
-                $this->freeze();
-                $element->unfreeze();
-            } 
+            if ( $this->_id ) {
+                if ( CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $this->_id, 'is_reserved' ) == 1 ) {
+                    $this->freeze();
+                    $element->unfreeze();
+                } 
+            }
         }
     }
            
