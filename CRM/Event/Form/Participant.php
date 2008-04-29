@@ -37,6 +37,8 @@
 require_once 'CRM/Contact/Form/Task.php';
 require_once 'CRM/Event/PseudoConstant.php';
 require_once 'CRM/Event/Form/EventFees.php';
+require_once "CRM/Custom/Form/CustomData.php";
+require_once "CRM/Core/BAO/CustomGroup.php";
 
 /**
  * This class generates form components for processing a participation 
@@ -132,6 +134,14 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $this->assign( 'showFeeBlock', true );
             return CRM_Event_Form_EventFees::preProcess( $this );
         }
+        
+        //custom data related code
+        $this->_cdType     = CRM_Utils_Array::value( 'type', $_GET );
+        $this->assign('cdType', false);
+        if ( $this->_cdType ) {
+            $this->assign('cdType', true);
+            return CRM_Custom_Form_CustomData::preProcess( $this );
+        }
 
         // check for edit permission
         if ( ! CRM_Core_Permission::check( 'edit event participants' ) ) {
@@ -185,8 +195,6 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             return;
         }
 
-        $this->_roleId = CRM_Utils_Request::retrieve( 'rid', 'Positive', $this );
-
         if ( $this->_id ) {
             require_once 'CRM/Core/BAO/Note.php';
             $noteDAO               = & new CRM_Core_BAO_Note();
@@ -200,22 +208,22 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $this->assign('participantId',  $this->_id );
         }
 
-        if ( ! $this->_roleId ) {
-            if ( $this->_id ) {
-                $this->_roleId = CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_Participant", $this->_id, 'role_id' );
-            } else {
-                $this->_roleId = 'Role';
-            }
-        }
-
-        require_once 'CRM/Core/BAO/CustomGroup.php';
-        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree( "Participant", $this->_id, 0, $this->_roleId );
+        if ( $this->_id ) {
+            $this->_roleId = CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_Participant", $this->_id, 'role_id' );
+        } 
 
         // when fee amount is included in form
         if ( CRM_Utils_Array::value( 'hidden_feeblock', $_POST ) ) {
             eval( 'CRM_Event_Form_EventFees::preProcess( $this );' );
             eval( 'CRM_Event_Form_EventFees::buildQuickForm( $this );' );
             eval( 'CRM_Event_Form_EventFees::setDefaultValues( $this );' );
+        }
+
+        // when custom data is included in this page
+        if ( CRM_Utils_Array::value( "hidden_custom", $_POST ) ) {
+            eval( 'CRM_Custom_Form_Customdata::preProcess( $this );' );
+            eval( 'CRM_Custom_Form_Customdata::buildQuickForm( $this );' );
+            eval( 'CRM_Custom_Form_Customdata::setDefaultValues( $this );' );
         }
     }
 
@@ -233,13 +241,15 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             return CRM_Event_Form_EventFees::setDefaultValues( $this );
         }
 
+        if ( $this->_cdType ) {
+            return CRM_Custom_Form_CustomData::setDefaultValues( $this );
+        }
+
         $defaults = array( );
         
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             return $defaults;
         }
-       
-        $rId  = CRM_Utils_Request::retrieve( 'rid', 'Positive', CRM_Core_DAO::$_nullObject );
        
         if ( $this->_id ) {
             $ids    = array( );
@@ -250,10 +260,6 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $this->_contactID = $defaults[$this->_id]['contact_id'];
         }
 
-        if ( $rId ) {
-            $defaults[$this->_id]["role_id"] = $rId;
-        }
-        
         if ( $this->_noteId ) {
             $defaults[$this->_id]['note'] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Note', $this->_noteId, 'note' );
         }
@@ -315,13 +321,13 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $defaults[$this->_id]['send_receipt'] = 0;
         }
       
-        if( isset( $defaults[$this->_id]['event_id'] ) ) {
+        if ( isset( $defaults[$this->_id]['event_id'] ) ) {
             $defaults[$this->_id]['receipt_text'] = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', 
                                                                                  $defaults[$this->_id]['event_id'], 
                                                                                  'receipt_text' );
         }
         
-        if( isset($this->_groupTree) ) {
+        if ( isset($this->_groupTree) ) {
             CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults[$this->_id], $viewMode, $inactiveNeeded );
         }
           
@@ -340,6 +346,10 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
     { 
         if ( $this->_showFeeBlock ) {
             return CRM_Event_Form_EventFees::buildQuickForm( $this );
+        }
+
+        if ( $this->_cdType ) {
+            return CRM_Custom_Form_CustomData::buildQuickForm( $this );
         }
 
         $this->applyFilter('__ALL__', 'trim');
@@ -403,11 +413,16 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                     CRM_Core_SelectValues::date('activityDatetime' ),
                     true);   
         $this->addRule('register_date', ts('Select a valid date.'), 'qfDate');
-         
+
+        //need to assign custom data type and subtype to the template
+        $this->assign('customDataType', 'Participant');
+        $this->assign('customDataSubType',  $this->_roleId );
+        $this->assign('entityId',  $this->_id );
+
         $this->add( 'select', 'role_id' , ts( 'Participant Role' ),
                     array( '' => ts( '- select -' ) ) + CRM_Event_PseudoConstant::participantRole( ),
                     true,
-                    array('onchange' => "if (this.value) reload(true); else return false") );
+                    array('onchange' => "buildCustomData( this.value );") );
         
         $this->add( 'select', 'status_id' , ts( 'Participant Status' ),
                     array( '' => ts( '- select -' ) ) + CRM_Event_PseudoConstant::participantStatus( ),
@@ -447,7 +462,6 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                    CRM_Contribute_PseudoConstant::contributionStatus( )
                    );
         
-        
         $this->addElement('checkbox', 
                           'send_receipt', 
                           ts('Send Confirmation?'), null, 
@@ -464,7 +478,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         }
 
         //build custom data
-        CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
+        //CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
         
         $this->addButtons(array( 
                                 array ( 'type'      => $buttonType, 
