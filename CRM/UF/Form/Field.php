@@ -562,18 +562,23 @@ class CRM_UF_Form_Field extends CRM_Core_Form
             $name = $this->_selectFields[$ufField->field_name];
             
             //fix for CRM-3037.
+            $updateUFGroup = false;
             if ( $this->_gid ) {
                 CRM_Core_BAO_UFGroup::retrieve( $ufGroupParams, $ufGroupDefaults );
                 if ( ! is_null( $ufGroupDefaults['group_type'] ) ) {
                     $groupType = explode( ',', $ufGroupDefaults['group_type'] );
                     if ( ! in_array( $params['field_name'][0], $groupType ) ) {
                         $ufGroupDefaults['group_type'] .= ",".$params['field_name'][0]; 
+                        $updateUFGroup = true;
                     }
                 } else { 
                     $ufGroupDefaults['group_type'] = $params['field_name'][0];
+                    $updateUFGroup = true;
                 }
                 //update uf group
-                $ufGroup = CRM_Core_BAO_UFGroup::add( $ufGroupDefaults, $ufGroupIds );
+                if ( $updateUFGroup ) {
+                    $ufGroup = CRM_Core_BAO_UFGroup::add( $ufGroupDefaults, $ufGroupIds );
+                }
             }
             CRM_Core_Session::setStatus(ts('Your CiviCRM Profile Field \'%1\' has been saved.', array(1 => $name)));
         }
