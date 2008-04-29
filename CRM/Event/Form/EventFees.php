@@ -155,8 +155,9 @@ class CRM_Event_Form_EventFees
 
     static function buildQuickForm( &$form )  
     { 
-        $form->_isPaidEvent = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $form->_eventId, 'is_monetary' );
-
+        if ( $form->_eventId ) {
+            $form->_isPaidEvent = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $form->_eventId, 'is_monetary' );
+        }
         if ( $form->_isPaidEvent ) {
             $form->addElement( 'hidden', 'hidden_feeblock', 1 );
             require_once "CRM/Event/BAO/EventPage.php";
