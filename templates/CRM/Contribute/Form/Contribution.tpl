@@ -1,4 +1,7 @@
 {* this template is used for adding/editing/deleting contribution *} 
+{if $cdType }
+  {include file="CRM/Custom/Form/CustomData.tpl"}
+{else}
 <div class="form-item"> 
 <fieldset><legend>{if $action eq 1}{ts}New Contribution{/ts}{elseif $action eq 8}{ts}Delete Contribution{/ts}{else}{ts}Edit Contribution{/ts}{/if}</legend> 
    
@@ -63,17 +66,12 @@
            </td>
         </tr>
       </table>
-      {include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
+      <div id="customData"></div>
+    {*include custom data js file*}
+    {include file="CRM/common/customData.tpl"}
+
     {literal}
     <script type="text/javascript">
-    function reload(refresh) {
-        var contributionType = document.getElementById("contribution_type_id");
-        var url = {/literal}"{$refreshURL}"{literal};
-        var post = url + "&subType=" + contributionType.value;
-        if ( refresh ) {
-            window.location= post; 
-        }
-     }
 
      function verify( ) {
        var element = document.getElementsByName("is_email_receipt");
@@ -101,8 +99,10 @@
     <dl>    
        <dt></dt><dd class="html-adjust">{$form.buttons.html}</dd>   
     </dl> 
-</fieldset> 
+</fieldset>
 </div> 
+{/if} 
+
 
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="is_email_receipt"

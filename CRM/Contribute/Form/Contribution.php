@@ -37,6 +37,7 @@ require_once 'CRM/Core/Form.php';
 require_once 'CRM/Contribute/PseudoConstant.php';
 require_once 'CRM/Core/BAO/CustomGroup.php';
 require_once 'CRM/Contribute/Form/AdditionalInfo.php';
+require_once 'CRM/Custom/Form/CustomData.php';
 
 /**
  * This class generates form components for processing a ontribution 
@@ -104,13 +105,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
     protected $_honorID = null ;
 
     /**
-     * Store the tree of custom data and fields
-     *
-     * @var array
-     */
-    protected $_groupTree;
-    /**
-     * Store the tree of custom data and fields
+     * Store the contribution Type ID
      *
      * @var array
      */
@@ -124,6 +119,14 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
      */ 
     public function preProcess()  
     {  
+        $this->_cdType     = CRM_Utils_Array::value( 'type', $_GET );
+
+        $this->assign('cdType', false);
+        if ( $this->_cdType ) {
+            $this->assign('cdType', true);
+            return CRM_Custom_Form_CustomData::preProcess( $this );
+        }
+        
         require_once 'CRM/Contact/BAO/Contact.php';
         $session =& CRM_Core_Session::singleton( );
         $contactID = $session->get( 'userID' );
@@ -136,9 +139,6 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         // action
         $this->_action = CRM_Utils_Request::retrieve( 'action', 'String',
                                                       $this, false, 'add' );
-        $contributionType = CRM_Utils_Request::retrieve( 'subType', 'Positive', $this );
-        $this->_contributionType = ( $contributionType != null) ? $contributionType : "Contribution";
-        
         $this->assign( 'action'  , $this->_action   ); 
 
         $this->_id        = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
@@ -173,15 +173,27 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                 $this->_noteId = $daoNote->id;
             }
             
+            $this->_contributionType = CRM_Core_DAO::getFieldValue( "CRM_Contribute_DAO_Contribution", 
+                                                                    $this->_id, 
+                                                                    'contribution_type_id' );
         }
 
         $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
 
-        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Contribution', $this->_id, 0, $this->_contributionType);       
+        // when custom data is included in this page
+        if ( CRM_Utils_Array::value( "hidden_custom", $_POST ) ) {
+            eval( 'CRM_Custom_Form_Customdata::preProcess( $this );' );
+            eval( 'CRM_Custom_Form_Customdata::buildQuickForm( $this );' );
+            eval( 'CRM_Custom_Form_Customdata::setDefaultValues( $this );' );
+        }
     }
 
     function setDefaultValues( ) 
     {
+        if ( $this->_cdType ) {
+            return CRM_Custom_Form_CustomData::setDefaultValues( $this );
+        }
+       
         $defaults = array( );
         
         if ( $this->_action & CRM_Core_Action::DELETE ) {
@@ -235,9 +247,6 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             $defaults["honor_type"]      = $honorType[$defaults["honor_type_id"]];
         }
         
-        if( isset($this->_groupTree) ) {
-            CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, false, false );
-        }
         
         $this->assign('showOption',true);
         // for Premium section
@@ -274,7 +283,11 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
      * @access public 
      */ 
     public function buildQuickForm( )  
-    {  
+    {   
+        if ( $this->_cdType ) {
+            return CRM_Custom_Form_CustomData::buildQuickForm( $this );
+        }
+        
         $this->applyFilter('__ALL__', 'trim');
         
         if ( $this->_action & CRM_Core_Action::DELETE ) {
@@ -289,6 +302,11 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                               );
             return;
         }
+
+        //need to assign custom data type and subtype to the template
+        $this->assign('customDataType', 'Contribution');
+        $this->assign('customDataSubType',  $this->_contributionType );
+        $this->assign('entityId',  $this->_id );
         
         $urlParams = "reset=1&cid={$this->_contactID}&context=contribution";
         if ( $this->_id ) {
@@ -304,7 +322,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         $element =& $this->add('select', 'contribution_type_id', 
                                ts( 'Contribution Type' ), 
                                array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::contributionType( ),
-                               true, array('onChange' => "if (this.value) reload(true); else return false"));
+                               true, array('onChange' => "buildCustomData( this.value );"));
         if ( $this->_online ) {
             $element->freeze( );
         }
@@ -360,9 +378,6 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         } else {
             $buttonType = 'next';
         }
-        
-        //build custom data
-        CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
         
         $this->_formType = CRM_Utils_Array::value( 'formType', $_GET );
         
