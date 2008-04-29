@@ -48,6 +48,20 @@ class CRM_Dedupe_BAO_RuleGroup extends CRM_Dedupe_DAO_RuleGroup
     var $contactIds = array();
 
     /**
+     * supported tables
+     */
+    static $supportedTables = array('civicrm_address',
+                                    'civicrm_contact',
+                                    'civicrm_email',
+                                    'civicrm_im',
+                                    'civicrm_note',
+                                    'civicrm_phone');
+
+    static function &getSupportedTables() {
+        return self::$supportedTables;
+    }
+
+    /**
      * Return the SQL query for dropping the temporary table.
      */
     function tableDropQuery() {

@@ -77,7 +77,6 @@ class CRM_Admin_Form_DedupeRules extends CRM_Admin_Form
         }
 
         require_once 'CRM/Contact/BAO/Contact.php';
-        require_once 'CRM/Dedupe/Criterion.php';
         $importableFields = CRM_Contact_BAO_Contact::importableFields($this->_contactType);
         // FIXME: this is what you end up doing when abusing importableFields()
         $replacements = array(
@@ -88,7 +87,8 @@ class CRM_Admin_Form_DedupeRules extends CRM_Admin_Form
             'individual_prefix.label'     => 'civicrm_individual.prefix_id',
             'individual_suffix.label'     => 'civicrm_individual.suffix_id',
         );
-        $supportedTables =& CRM_Dedupe_Criterion::getSupportedTables( );
+        require_once 'CRM/Dedupe/BAO/RuleGroup.php';
+        $supportedTables =& CRM_Dedupe_BAO_RuleGroup::getSupportedTables();
         foreach ($importableFields as $iField) {
             if (isset($iField['where'])) {
                 $where = $iField['where'];

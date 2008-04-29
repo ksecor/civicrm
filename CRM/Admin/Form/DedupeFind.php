@@ -54,36 +54,17 @@ class CRM_Admin_Form_DedupeFind extends CRM_Admin_Form
      */
     function preProcess()
     {
-        // FIXME: move the civicrm_dedupe_rule* operations
-        // to CRM_Dedupe_BAO_RuleGroup::getCriteriaArray()
         $cid    = CRM_Utils_Request::retrieve('cid',  'Positive', $this, false, 0);
         $gid    = CRM_Utils_Request::retrieve('gid',  'Positive', $this, false, 0);
         $rgid   = CRM_Utils_Request::retrieve('rgid', 'Positive', $this, false, 0);
-        $rgDao =& new CRM_Dedupe_DAO_RuleGroup();
-        $rgDao->domain_id = CRM_Core_Config::DomainID();
-        $rgDao->id = $rgid;
-        $rgDao->find(true);
-
-        $ruleDao =& new CRM_Dedupe_DAO_Rule();
-        $ruleDao->dedupe_rule_group_id = $rgid;
-        $ruleDao->find();
-        $search = array();
-        while ($ruleDao->fetch()) {
-            $search[] = array(
-                'table'  => $ruleDao->rule_table,
-                'field'  => $ruleDao->rule_field,
-                'length' => $ruleDao->rule_length ? $ruleDao->rule_length : null,
-                'weight' => $ruleDao->rule_weight,
-            );
-        }
 
         if ($gid) {
             $foundDupes = $this->get("dedupe_dupes_$gid");
-            if (!$foundDupes) $foundDupes = CRM_Dedupe_Finder::findDupesInGroup($gid, $search, $rgDao->threshold, $rgDao->contact_type);
+            if (!$foundDupes) $foundDupes = CRM_Dedupe_Finder::dupesInGroup($rgid, $gid);
             $this->set("dedupe_dupes_$gid", $foundDupes);
         } else {
             $foundDupes = $this->get("dedupe_dupes");
-            if (!$foundDupes) $foundDupes = CRM_Dedupe_Finder::findDupes($search, $rgDao->threshold, $rgDao->contact_type);
+            if (!$foundDupes) $foundDupes = CRM_Dedupe_Finder::dupes($rgid);
             $this->set("dedupe_dupes", $foundDupes);
         }
         if (!$foundDupes) {
