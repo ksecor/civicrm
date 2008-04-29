@@ -216,8 +216,8 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         require_once 'CRM/Core/BAO/CustomGroup.php';
         $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree( "Participant", $this->_id, 0, $this->_roleId );
 
-        // when custom data is included in this page
-        if ( CRM_Utils_Array::value( "hidden_feeblock", $_POST ) ) {
+        // when fee amount is included in form
+        if ( CRM_Utils_Array::value( 'hidden_feeblock', $_POST ) ) {
             eval( 'CRM_Event_Form_EventFees::preProcess( $this );' );
             eval( 'CRM_Event_Form_EventFees::buildQuickForm( $this );' );
             eval( 'CRM_Event_Form_EventFees::setDefaultValues( $this );' );
@@ -661,6 +661,10 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                                                        'title' );
         }
 
+        if ( $this->_single ) {
+            $this->_contactIds[] = $this->_contactID;
+        }
+
         if ( $params['record_contribution'] ) {
             if( $ids['participant'] ) {
                 $ids['contribution'] = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_ParticipantPayment', 
@@ -703,10 +707,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                     $contributions[] =& CRM_Contribute_BAO_Contribution::create( $contributionParams, $ids );
                }           
             }
-            
-            if ( $this->_single ) {
-                $this->_contactIds[] = $this->_contactID;
-            }
+
             //insert payment record for this participation
             if( !$ids['contribution'] ) {
                 require_once 'CRM/Event/DAO/ParticipantPayment.php';
@@ -763,7 +764,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                     $customFields["custom_{$k}"] = $field;
                 }
             }
-           
+
             foreach ( $this->_contactIds as $num => $contactID ) {
                 // Retrieve the name and email of the contact - this will be the TO for receipt email
                 list( $this->_contributorDisplayName, $this->_contributorEmail, $this->_toDoNotEmail ) = CRM_Contact_BAO_Contact::getContactDetails( $contactID );
@@ -775,7 +776,6 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 //or doNotEmail option is checked for that contact 
                 if( empty($this->_contributorEmail) or $this->_toDoNotEmail ) {
                     $notSent[] = $contactID;
-                   
                 } else {
                     require_once 'CRM/Utils/Mail.php';
                     if ( CRM_Utils_Mail::send( $receiptFrom,

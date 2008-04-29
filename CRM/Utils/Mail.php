@@ -120,8 +120,8 @@ class CRM_Utils_Mail {
                           $toDisplayName,
                           $toEmail,
                           $subject,
-                          $text_message,
-                          $html_message,
+                          $text_message = null,
+                          $html_message = null,
                           $cc = null,
                           $bcc = null,
                           $replyTo = null  ) {
