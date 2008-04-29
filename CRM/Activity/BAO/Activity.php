@@ -684,6 +684,9 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                                      $toDisplayName, $toEmail,
                                      $subject,
                                      $text_message,
+                                     null,
+                                     null,
+                                     null,
                                      $html_message) ) {
             return false;
         }

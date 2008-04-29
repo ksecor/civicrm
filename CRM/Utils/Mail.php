@@ -121,10 +121,10 @@ class CRM_Utils_Mail {
                           $toEmail,
                           $subject,
                           $text_message = null,
-                          $html_message = null,
                           $cc = null,
                           $bcc = null,
-                          $replyTo = null  ) {
+                          $replyTo = null,
+                          $html_message = null ) {
         $returnPath = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Domain',
                                                    CRM_Core_Config::domainID( ),
                                                    'email_return_path' );
