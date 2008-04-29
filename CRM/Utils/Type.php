@@ -45,6 +45,7 @@ class CRM_Utils_Type
         T_BOOL      =    16,
         T_BOOLEAN   =    16,
         T_TEXT      =    32,
+        T_LONGTEXT  =    32,
         T_BLOB      =    64,
         T_TIMESTAMP =   256,
         T_FLOAT     =   512,
@@ -88,6 +89,7 @@ class CRM_Utils_Type
         case     8: $string = 'Time'     ; break;
         case    16: $string = 'Boolean'  ; break;    
         case    32: $string = 'Text'     ; break;
+        case    32: $string = 'Longtext' ; break;
         case    64: $string = 'Blob'     ; break;    
         case   256: $string = 'Timestamp'; break;
         case   512: $string = 'Float'    ; break;
