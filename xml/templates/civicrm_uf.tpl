@@ -1,7 +1,7 @@
 INSERT INTO civicrm_uf_group
-    (domain_id, is_active, form_type, title, help_pre)
+    (domain_id, is_active, group_type, title, help_pre)
 VALUES
-    (%%CIVICRM_DOMAIN_ID%%, 1, 'CiviCRM Profile', 'Name and Address', '');
+    (%%CIVICRM_DOMAIN_ID%%, 1, 'Individual', 'Name and Address', '');
 
 INSERT INTO civicrm_uf_join
    (is_active,module,entity_table,entity_id,weight,uf_group_id)

@@ -250,7 +250,15 @@ class CRM_UF_Form_Field extends CRM_Core_Form
             unset( $fields['Household'   ]['county']);
             unset( $fields['Organization']['county']);
         }
-
+        
+        //build the common contact fields array CRM-3037.
+        foreach ( $fields['Individual'] as $key => $value ) {
+            if ( CRM_Utils_Array::value( $key, $fields['Household'] ) && 
+                 CRM_Utils_Array::value( $key, $fields['Organization'] ) ) {
+                $fields['Contact'][$key] = $value;
+            }
+        }
+        
         if ( CRM_Core_Permission::access( 'Quest' ) ) {
             require_once 'CRM/Quest/BAO/Student.php';
             $fields['Student']      =& CRM_Quest_BAO_Student::exportableFields();
@@ -495,24 +503,55 @@ class CRM_UF_Form_Field extends CRM_Core_Form
      */
     public function postProcess()
     {
+        $ufGroupDefaults = array( );
+        $ufGroupParams   = array('id' => $this->_gid );
+        $ufGroupIds['ufgroup'] = $this->_gid; 
+        $ids = array( );
+        $ids['uf_group'] = $this->_gid;
+        
         if ($this->_action & CRM_Core_Action::DELETE) {
             $fieldValues = array('uf_group_id' => $this->_gid);
             $wt = CRM_Utils_Weight::delWeight('CRM_Core_DAO_UFField', $this->_id, $fieldValues);
+            $ufFieldDefaults = array( );
+            $ufFieldParams   = array( 'id'          => $this->_id,
+                                      'uf_group_id' => $this->_gid 
+                                      );
+            CRM_Core_BAO_UFField::retrieve( $ufFieldParams, $ufFieldDefaults );
+            $deleteFieldType = $ufFieldDefaults['field_type'];
             
-            CRM_Core_BAO_UFField::del($this->_id);
+            CRM_Core_BAO_UFField::del( $this->_id );
+            
+            //check for updating group_type.
+            $ufFields  = CRM_Core_BAO_UFGroup::getFields( $this->_gid, false, null, null, null, true );
+            $updateUFGroup = true;
+            
+            foreach( $ufFields as $name => $value ) {
+                if ( $value['field_type'] == $deleteFieldType ) {
+                    $updateUFGroup = false;
+                    break;
+                }
+            }
+            
+            if ( $updateUFGroup ) {
+                CRM_Core_BAO_UFGroup::retrieve( $ufGroupParams, $ufGroupDefaults );
+                $groupType = explode( ',', $ufGroupDefaults['group_type'] );
+                $fieldTypeKey = CRM_Utils_Array::key( $deleteFieldType, $groupType );
+                unset( $groupType[$fieldTypeKey] );
+                $ufGroupDefaults['group_type'] = implode( ',', $groupType );
+                //update uf group
+                $ufGroup = CRM_Core_BAO_UFGroup::add( $ufGroupDefaults, $ufGroupIds );
+            }
+            
             CRM_Core_Session::setStatus(ts('Selected Profile Field has been deleted.'));
             return;
         }
-     
+        
         // store the submitted values in an array
         $params = $this->controller->exportValues('Field');
-        $ids = array( );
-       
+        
         if ($this->_action & CRM_Core_Action::UPDATE ) {
             $ids['uf_field'] = $this->_id;
         }
-
-        $ids['uf_group'] = $this->_gid;
         
         //check for duplicate fields
         if (CRM_Core_BAO_UFField::duplicateField($params, $ids) ) {
@@ -521,10 +560,25 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         } else {
             $ufField = CRM_Core_BAO_UFField::add($params,$ids);
             $name = $this->_selectFields[$ufField->field_name];
+            
+            //fix for CRM-3037.
+            if ( $this->_gid ) {
+                CRM_Core_BAO_UFGroup::retrieve( $ufGroupParams, $ufGroupDefaults );
+                if ( ! is_null( $ufGroupDefaults['group_type'] ) ) {
+                    $groupType = explode( ',', $ufGroupDefaults['group_type'] );
+                    if ( ! in_array( $params['field_name'][0], $groupType ) ) {
+                        $ufGroupDefaults['group_type'] .= ",".$params['field_name'][0]; 
+                    }
+                } else { 
+                    $ufGroupDefaults['group_type'] = $params['field_name'][0];
+                }
+                //update uf group
+                $ufGroup = CRM_Core_BAO_UFGroup::add( $ufGroupDefaults, $ufGroupIds );
+            }
             CRM_Core_Session::setStatus(ts('Your CiviCRM Profile Field \'%1\' has been saved.', array(1 => $name)));
         }
     }
-
+    
     /**
      * global validation rules for the form
      *
@@ -601,6 +655,53 @@ class CRM_UF_Form_Field extends CRM_Core_Form
                 }
             }
         }
+        
+        //fix for CRM-3037
+        $fieldType = $fields['field_name'][0];
+        $groupType = explode( ',', 
+                              CRM_Core_DAO::getFieldValue('CRM_Core_DAO_UFGroup', $fields['group_id'], 'group_type' )
+                              );
+        
+        switch ( $fieldType ) {
+            
+        case 'Individual' :
+            if ( in_array( 'Household', $groupType ) || in_array( 'Organization', $groupType ) ) {
+                $errors['field_name'] = 
+                    ts( 'Cannot add or update profile field type Individual with combination of Household or Organization'); 
+            }
+            break;
+        case 'Household' :
+            if ( in_array( 'Individual', $groupType ) || in_array( 'Organization', $groupType ) ) {
+                $errors['field_name'] = 
+                    ts( 'Cannot add or update profile field type Household with combination of Individual or Organization'); 
+            }
+            break;
+        case 'Organization' :
+            if ( in_array( 'Household', $groupType ) || in_array( 'Individual', $groupType ) ) {
+                $errors['field_name'] = 
+                    ts( 'Cannot add or update profile field type Organization with combination of Household or Individual'); 
+            } 
+            break;
+        case 'Participant' :
+            if ( in_array( 'Membership', $groupType ) || in_array( 'Contribution', $groupType ) ) {
+                $errors['field_name'] = 
+                    ts( 'Cannot add or update profile field type Participant with combination of Membership or Contribution'); 
+            } 
+            break;
+        case 'Contribution' :
+            if ( in_array( 'Participant', $groupType ) || in_array( 'Membership', $groupType ) ) {
+                $errors['field_name'] = 
+                    ts( 'Cannot add or update profile field type Contribution with combination of Membership or Participant'); 
+            }  
+            break;
+        case 'Membership' :
+            if ( in_array( 'Participant', $groupType ) || in_array( 'Contribution', $groupType ) ) {
+                $errors['field_name'] = 
+                    ts( 'Cannot add or update profile field type Membership with combination of Participant or Contribution'); 
+            }  
+            break;
+        }
+        
         return empty($errors) ? true : $errors;
     }
     

@@ -368,7 +368,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                           'group_id'         => $group->id,
                           'add_to_group_id'  => $group->add_to_group_id,
                           'collapse_display' => $group->collapse_display,
-                          'add_captcha'      => $group->add_captcha
+                          'add_captcha'      => $group->add_captcha,
+                          'field_type'       => $field->field_type
                           );
 
                 //adding custom field property 
