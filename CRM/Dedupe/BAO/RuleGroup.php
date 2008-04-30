@@ -74,7 +74,7 @@ class CRM_Dedupe_BAO_RuleGroup extends CRM_Dedupe_DAO_RuleGroup
     function tableQuery() {
         require_once 'CRM/Dedupe/BAO/Rule.php';
         $bao =& new CRM_Dedupe_BAO_Rule();
-        $bao->dedupe_rule_group_id = $self->id;
+        $bao->dedupe_rule_group_id = $this->id;
         $bao->find();
         $queries = array();
         while ($bao->fetch()) {
