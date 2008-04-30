@@ -47,6 +47,7 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
     protected $_postURL   = null;
     protected $_cancelURL = null;
     protected $_errorURL  = null;
+    protected $_context;
 
     /**
      * pre processing work done here.
@@ -60,6 +61,9 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
     function preProcess()
     {
         $this->_mode = CRM_Profile_Form::MODE_CREATE;
+
+        //set the context for the profile
+        $this->_context = CRM_Utils_Request::retrieve( 'context', 'String', $this );
 
         if ( $this->get( 'edit' ) ) {
             // make sure we have right permission to edit this user
@@ -112,10 +116,8 @@ SELECT module
      */
     public function buildQuickForm()
     {
-        require_once 'CRM/UF/Form/Group.php';
-
         // add the hidden field to redirect the postProcess from
-
+        require_once 'CRM/UF/Form/Group.php';
         require_once 'CRM/Core/DAO/UFGroup.php';
         $ufGroup =& new CRM_Core_DAO_UFGroup( );
         
@@ -126,52 +128,54 @@ SELECT module
         CRM_Utils_System::setTitle( $ufGroup->title );
         $this->assign( 'recentlyViewed', false );
         
-        $this->_postURL   = CRM_Utils_Array::value( 'postURL', $_POST );
-        $this->_cancelURL = CRM_Utils_Array::value( 'cancelURL', $_POST );
-        
-        if ( ! $this->_postURL ) {
-            $this->_postURL = $ufGroup->post_URL;
-        }
-        
-        if ( ! $this->_postURL ) {
-            if ( $this->_context == 'Search' ) {
-                $this->_postURL = CRM_Utils_System::url( 'civicrm/contact/search' );
-            } elseif ( $this->_id && $this->_gid ) {
-                $this->_postURL = CRM_Utils_System::url('civicrm/profile/view',
-                                                        "reset=1&id={$this->_id}&gid={$this->_gid}" );
+        if ( $this->_context != 'dialog' ) {
+            $this->_postURL   = CRM_Utils_Array::value( 'postURL', $_POST );
+            $this->_cancelURL = CRM_Utils_Array::value( 'cancelURL', $_POST );
+            
+            if ( ! $this->_postURL ) {
+                $this->_postURL = $ufGroup->post_URL;
             }
-        }
-        
-        if ( ! $this->_cancelURL ) {
-            if (  $ufGroup->cancel_URL ) {
-                $this->_cancelURL = $ufGroup->cancel_URL;
-            } else {
-                $this->_cancelURL = CRM_Utils_System::url('civicrm/profile',
-                                                          "reset=1&gid={$this->_gid}" );
+            
+            if ( ! $this->_postURL ) {
+                if ( $this->_context == 'Search' ) {
+                    $this->_postURL = CRM_Utils_System::url( 'civicrm/contact/search' );
+                } elseif ( $this->_id && $this->_gid ) {
+                    $this->_postURL = CRM_Utils_System::url('civicrm/profile/view',
+                                                            "reset=1&id={$this->_id}&gid={$this->_gid}" );
+                }
             }
+            
+            if ( ! $this->_cancelURL ) {
+                if (  $ufGroup->cancel_URL ) {
+                    $this->_cancelURL = $ufGroup->cancel_URL;
+                } else {
+                    $this->_cancelURL = CRM_Utils_System::url('civicrm/profile',
+                                                              "reset=1&gid={$this->_gid}" );
+                }
+            }
+            
+            // we do this gross hack since qf also does entity replacement
+            $this->_postURL   = str_replace( '&amp;', '&', $this->_postURL   );
+            $this->_cancelURL = str_replace( '&amp;', '&', $this->_cancelURL );
+            
+            $this->addElement( 'hidden', 'postURL', $this->_postURL );
+            if ( $this->_cancelURL ) {
+                $this->addElement( 'hidden', 'cancelURL', $this->_cancelURL );
+            }
+            
+            // also retain error URL if set
+            $this->_errorURL = CRM_Utils_Array::value( 'errorURL', $_POST );
+            if ( $this->_errorURL ) {
+                // we do this gross hack since qf also does entity replacement 
+                $this->_errorURL = str_replace( '&amp;', '&', $this->_errorURL ); 
+                $this->addElement( 'hidden', 'errorURL', $this->_errorURL ); 
+            }
+            
+            // replace the session stack in case user cancels (and we dont go into postProcess)
+            $session =& CRM_Core_Session::singleton(); 
+            $session->replaceUserContext( $this->_postURL ); 
         }
 
-        // we do this gross hack since qf also does entity replacement
-        $this->_postURL   = str_replace( '&amp;', '&', $this->_postURL   );
-        $this->_cancelURL = str_replace( '&amp;', '&', $this->_cancelURL );
-        
-        $this->addElement( 'hidden', 'postURL', $this->_postURL );
-        if ( $this->_cancelURL ) {
-            $this->addElement( 'hidden', 'cancelURL', $this->_cancelURL );
-        }
-
-        // also retain error URL if set
-        $this->_errorURL = CRM_Utils_Array::value( 'errorURL', $_POST );
-        if ( $this->_errorURL ) {
-            // we do this gross hack since qf also does entity replacement 
-            $this->_errorURL = str_replace( '&amp;', '&', $this->_errorURL ); 
-            $this->addElement( 'hidden', 'errorURL', $this->_errorURL ); 
-        }
-        
-        // replace the session stack in case user cancels (and we dont go into postProcess)
-        $session =& CRM_Core_Session::singleton(); 
-        $session->replaceUserContext( $this->_postURL ); 
-        
         parent::buildQuickForm( );
         
         //get the value from session, this is set if there is any file
@@ -210,13 +214,16 @@ SELECT module
 
         CRM_Core_Session::setStatus(ts('Thank you. Your information has been saved.'));
 
+        $session =& CRM_Core_Session::singleton( );
         // only replace user context if we do not have a postURL
-        if ( ! $this->_postURL ) {
-            $session =& CRM_Core_Session::singleton( );
-            $session->replaceUserContext( CRM_Utils_System::url( 'civicrm/profile/view',
-                                                                 "reset=1&id={$this->_id}&gid={$this->_gid}" ) );
+        if ( ! $this->_postURL && $this->_context != 'dialog' ) {
+            $url = CRM_Utils_System::url( 'civicrm/profile/view',
+                                          "reset=1&id={$this->_id}&gid={$this->_gid}" );
+        } else {
+            $url = CRM_Utils_System::refererPath( );
         }
 
+        $session->replaceUserContext( $url );
     }
     
     /**

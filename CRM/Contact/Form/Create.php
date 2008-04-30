@@ -41,8 +41,7 @@ require_once 'CRM/Core/Form.php';
 class CRM_Contact_Form_Create extends CRM_Core_Form 
 {
     function buildQuickForm( ) {
-        $this->assign( 'dojoIncludes', "dojo.require('dojo.data.ItemFileReadStore');
-                                        dojo.require('dijit.form.ComboBox');
+        $this->assign( 'dojoIncludes', "dojo.require('dojox.data.QueryReadStore');
                                         dojo.require('dijit.form.Button');
                                         dojo.require('dijit.form.FilteringSelect');
                                         dojo.require('dijit.Dialog');
@@ -50,7 +49,6 @@ class CRM_Contact_Form_Create extends CRM_Core_Form
         
         $domainID             =  CRM_Core_Config::domainID( );   
         $orgAttributes        = array( 'dojoType'     => 'dijit.form.FilteringSelect',
-                                       'mode'         => 'remote',
                                        'store'        => 'organizationStore',
                                        'style'        => 'width:300px; border: 1px solid #cfcfcf;',
                                        'class'        => 'tundra',
@@ -59,7 +57,7 @@ class CRM_Contact_Form_Create extends CRM_Core_Form
                                        );
         
         $orgDataURL =  CRM_Utils_System::url( 'civicrm/ajax/search',
-                                                  "d={$domainID}&org=1&s=",
+                                                  "d={$domainID}&org=1",
                                                   true, null, false );
         
         $this->assign('orgDataURL',$orgDataURL );
@@ -67,10 +65,10 @@ class CRM_Contact_Form_Create extends CRM_Core_Form
         
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
-                                        'name'      => ts('Save'),
-                                        'isDefault' => true   ),
+                                         'name'      => ts('Save'),
+                                         'isDefault' => true   ),
                                  array ( 'type'      => 'cancel',
-                                        'name'      => ts('Cancel') ),
+                                         'name'      => ts('Cancel') ),
                                  )
                           );
     }
