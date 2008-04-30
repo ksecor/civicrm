@@ -222,7 +222,8 @@ class CRM_Core_SelectValues
                 'Date'    => ts('Date'),
                 'File'    => ts('File'),
                 'Boolean' => ts('Yes/No'),
-                'Link'    => ts('Link')
+                'Link'    => ts('Link'),
+                'RichTextEditor' => ts('Rich Text Editor')
             );
         }
         return $customDataType;

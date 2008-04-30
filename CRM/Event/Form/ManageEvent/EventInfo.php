@@ -170,7 +170,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
      
         $this->add('text','max_participants', ts('Max Number of Participants'));
         $this->addRule('max_participants', ts('is a positive field') , 'positiveInteger');
-	$this->add('tinymce','event_full_text', ts('Message if Event is Full'), $attributes['event_full_text']);
+        $this->add('tinymce','event_full_text', ts('Message if Event is Full'), $attributes['event_full_text']);
         
         $this->addElement('checkbox', 'is_active', ts('Is this Event Active?') );
         

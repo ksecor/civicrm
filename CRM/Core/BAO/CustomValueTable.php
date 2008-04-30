@@ -118,11 +118,15 @@ class CRM_Core_BAO_CustomValueTable
                     $value = $field['file_id'];
                     $type  = 'String';
                     break;
-
+                    
                 case 'Date':
                     $value = CRM_Utils_Date::isoToMysql($value);
                     break;
 
+                case 'RichTextEditor':
+                    $type  = 'String';
+                    break;
+                    
                 default:
                     break;
 
@@ -176,6 +180,7 @@ class CRM_Core_BAO_CustomValueTable
         case 'Money':
             return 'decimal(20,2)';
         case 'Memo':
+        case 'RichTextEditor':
             return 'text';
         case 'Date':
             return 'datetime';

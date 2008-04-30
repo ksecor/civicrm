@@ -416,6 +416,10 @@ ORDER by v.weight";
         case '10':
             $name['Link']         = 'Link';
             break;
+            
+        case '11':
+            $name['RichTextEditor']  = 'Rich Text Editor';
+            break;
         }
 
         $inputTypeName = trim(CRM_Utils_Type::escape($_GET['name'], 'String'));        
