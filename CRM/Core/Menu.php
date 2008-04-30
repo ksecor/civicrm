@@ -872,14 +872,6 @@ class CRM_Core_Menu
                              'weight' => 1
                              ),
                 
-                       'civicrm/contact/view/basic' =>
-                       array(
-                             'query'   => array('reset' => 1, 'cid' => '%%cid%%'),
-                             'title'   => ts('Contact Summary'),
-                             'page_callback' => 'CRM_Contact_Page_View_Basic',
-                             'weight'  => 0
-                             ),
-
                        'civicrm/contact/view/activity' =>
                        array(
                              'query'   => array('reset' => 1, 'show' => 1, 'cid' => '%%cid%%'),
