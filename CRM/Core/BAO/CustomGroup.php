@@ -680,8 +680,6 @@ $where
             $group['path']    = $path;
             $group['title']   = "$customGroupDAO->title";
             $group['query']   = "reset=1&gid={$customGroupDAO->id}&cid={$cidToken}";
-            $group['type']    = CRM_Core_Menu::CALLBACK;
-            $group['crmType'] = CRM_Core_Menu::LOCAL_TASK;
             $group['extra' ]  = array( 'gid' => $customGroupDAO->id );
             $groups[] = $group;
         }
