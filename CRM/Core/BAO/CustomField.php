@@ -81,8 +81,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                 'StateProvince' => ts('State/Province'),
                 'Country'       => ts('Country'),
                 'File'          => ts('File'),
-                'Link'          => ts('Link'),
-                'RichTextEditor'=> ts('Rich Text Editor')
+                'Link'          => ts('Link')
             );
         }
         return self::$_dataType;
@@ -492,6 +491,10 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             }
             $qf->addElement('select', $elementName, $label, $countryOption, array("size"=>"5","multiple"));
             break;
+        
+        case 'RichTextEditor':
+            $element =& $qf->addWysiwyg( $elementName, $label, CRM_Core_DAO::$_nullArray );
+
         }
         
         switch ( $field->data_type ) {
@@ -543,9 +546,6 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             $qf->addRule( $elementName, ts('Enter a valid Website.'),'wikiURL');
                     
             break;
-
-        case 'RichTextEditor':
-            $element =& $qf->addWysiwyg( $elementName, $label, CRM_Core_DAO::$_nullArray );
         }
     }
     

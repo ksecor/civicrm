@@ -397,6 +397,7 @@ ORDER by v.weight";
             break;
         case '4':
             $name['TextArea']     = 'TextArea';
+            $name['RichTextEditor']  = 'Rich Text Editor';
             break;
         case '5':
             $name['Date']         = 'Select Date';
@@ -416,10 +417,6 @@ ORDER by v.weight";
             break;
         case '10':
             $name['Link']         = 'Link';
-            break;
-            
-        case '11':
-            $name['RichTextEditor']  = 'Rich Text Editor';
             break;
         }
 

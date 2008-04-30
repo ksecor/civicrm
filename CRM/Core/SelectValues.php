@@ -222,8 +222,7 @@ class CRM_Core_SelectValues
                 'Date'    => ts('Date'),
                 'File'    => ts('File'),
                 'Boolean' => ts('Yes/No'),
-                'Link'    => ts('Link'),
-                'RichTextEditor' => ts('Rich Text Editor')
+                'Link'    => ts('Link')              
             );
         }
         return $customDataType;
@@ -247,7 +246,8 @@ class CRM_Core_SelectValues
                 'Select Date'             => ts('Date selector'),
                 'File'                    => ts('File'),
                 'Select State / Province' => ts('State / Province selector'),
-                'Select Country'          => ts('Country selector')
+                'Select Country'          => ts('Country selector'),
+                'RichTextEditor' => ts('Rich Text Editor')
                 );
         }
         return $customHtmlType;

@@ -41,7 +41,7 @@
   <field>
      <name>data_type</name>
      <type>enum</type>
-     <values>String, Int, Float, Money, Memo, Date, Boolean, StateProvince, Country, File, Link, RichTextEditor</values>
+     <values>String, Int, Float, Money, Memo, Date, Boolean, StateProvince, Country, File, Link</values>
      <required>true</required>
      <comment>Controls location of data storage in extended_data table.</comment>
      <add>1.1</add>
