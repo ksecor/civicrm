@@ -78,7 +78,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                 'Memo'          => ts('Note'),
                 'Date'          => ts('Date'),
                 'Boolean'       => ts('Yes or No'),
-               'StateProvince' => ts('State/Province'),
+                'StateProvince' => ts('State/Province'),
                 'Country'       => ts('Country'),
                 'File'          => ts('File'),
                 'Link'          => ts('Link'),
@@ -482,6 +482,16 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             }
             $qf->add('select', $elementName, $label, $countryOption, (($useRequired && $field->is_required) && !$search));
             break;
+
+        case 'Multi-Select Country':
+            //Add Country
+            if ($qf->getAction() & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
+                $countryOption = array('' => '') + CRM_Core_PseudoConstant::country();
+            } else {
+                $countryOption = array('' => ts('- select -')) + CRM_Core_PseudoConstant::country();
+            }
+            $qf->addElement('select', $elementName, $label, $countryOption, array("size"=>"5","multiple"));
+            break;
         }
         
         switch ( $field->data_type ) {
@@ -647,6 +657,14 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             break;
 
         case 'Select Country':
+            if ( empty( $value ) ) {
+                $display = '';
+            } else {
+                $display = CRM_Core_PseudoConstant::country($value);
+            }
+            break;
+
+        case 'Multi-Select Country':
             if ( empty( $value ) ) {
                 $display = '';
             } else {

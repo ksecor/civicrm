@@ -409,6 +409,7 @@ ORDER by v.weight";
             break;
         case '8':
             $name['Country']      = 'Select Country';
+            $name['Multi-Select'] = 'Multi-Select Country';
             break;
         case '9':
             $name['File']         = 'Select File';

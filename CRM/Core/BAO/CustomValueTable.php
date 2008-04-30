@@ -84,19 +84,25 @@ class CRM_Core_BAO_CustomValueTable
                     break;
 
                 case 'Country':
-                    if ( !is_numeric( $value ) ) {
-                        $countries = array( );
-                        $countries['country'] = $value;
-                        
-                        CRM_Contact_BAO_Contact::lookupValue( $countries, 'country', 
-                                                              CRM_Core_PseudoConstant::country(), true );
-                        if ( ! $countries['country_id'] ) {
-                            CRM_Contact_BAO_Contact::lookupValue( $countries, 'country',
-                                                                  CRM_Core_PseudoConstant::countryIsoCode(), true );
+                    
+                    if ( is_array( $value ) ) {
+                        $value = implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value );    
+                        $type  = 'String';
+                    } else {
+                        if ( !is_numeric( $value ) ) {
+                            $countries = array( );
+                            $countries['country'] = $value;
+                            
+                            CRM_Contact_BAO_Contact::lookupValue( $countries, 'country', 
+                                                                  CRM_Core_PseudoConstant::country(), true );
+                            if ( ! $countries['country_id'] ) {
+                                CRM_Contact_BAO_Contact::lookupValue( $countries, 'country',
+                                                                      CRM_Core_PseudoConstant::countryIsoCode(), true );
+                            }
+                            $value = $countries['country_id'];
                         }
-                        $value = $countries['country_id'];
+                        $type = 'Integer';
                     }
-                    $type = 'Integer';
                     break;
 
                 case 'File':
