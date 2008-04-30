@@ -41,6 +41,11 @@ require_once 'CRM/Core/Form.php';
 class CRM_Contact_Form_Create extends CRM_Core_Form 
 {
     function buildQuickForm( ) {
+        $this->_ncid = CRM_Utils_Request::retrieve( 'ncid', 'Positive', $this );
+        if ( $this->_ncid ) {
+            $this->assign( 'newContactId', $this->_ncid );
+        }
+        
         $this->assign( 'dojoIncludes', "dojo.require('dojox.data.QueryReadStore');
                                         dojo.require('dijit.form.Button');
                                         dojo.require('dijit.form.FilteringSelect');

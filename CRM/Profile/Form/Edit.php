@@ -194,8 +194,8 @@ SELECT module
         }
         
         $buttons[] = array( 'type'      => $buttonName,
-                          'name'      => ts('Save'),
-                          'isDefault' => true);
+                            'name'      => ts('Save'),
+                            'isDefault' => true);
         
         if ( $this->_context != 'dialog' ) {
             $buttons[] = array( 'type'      => 'cancel',
@@ -204,7 +204,6 @@ SELECT module
         }
 
         $this->addButtons(  $buttons );
-        
         
         $this->addFormRule( array( 'CRM_Profile_Form', 'formRule' ), $this );
     }
@@ -228,6 +227,7 @@ SELECT module
                                           "reset=1&id={$this->_id}&gid={$this->_gid}" );
         } else {
             $url = CRM_Utils_System::refererPath( );
+            $url .= "&ncid={$this->_id}";
         }
 
         $session->replaceUserContext( $url );
