@@ -150,7 +150,6 @@ ALTER TABLE `civicrm_domain`
 -- *******************************************************/
 
 ALTER TABLE `civicrm_group_contact` 
-    ADD `loc_block_id` int(10) unsigned NULL DEFAULT NULL COMMENT 'FK to Location Block ID. This is specifically not an FK to avoid circular constraints' AFTER location_id,
     DROP FOREIGN KEY `FK_civicrm_group_contact_contact_id`,
     DROP FOREIGN KEY `FK_civicrm_group_contact_group_id`;
 
