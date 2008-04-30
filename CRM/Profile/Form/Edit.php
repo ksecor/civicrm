@@ -64,6 +64,11 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
 
         //set the context for the profile
         $this->_context = CRM_Utils_Request::retrieve( 'context', 'String', $this );
+        
+        if ( $this->_context ) {
+            $this->assign( 'context', $this->_context );
+        }
+        
 
         if ( $this->get( 'edit' ) ) {
             // make sure we have right permission to edit this user
@@ -188,15 +193,17 @@ SELECT module
             $buttonName = 'next'; 
         }
         
-        $this->addButtons(array(
-                                array ('type'      => $buttonName,
-                                       'name'      => ts('Save'),
-                                       'isDefault' => true),
-                                array ('type'      => 'cancel',
-                                       'name'      => ts('Cancel'),
-                                       'isDefault' => true)
-                                )
-                          );
+        $buttons[] = array( 'type'      => $buttonName,
+                          'name'      => ts('Save'),
+                          'isDefault' => true);
+        
+        if ( $this->_context != 'dialog' ) {
+            $buttons[] = array( 'type'      => 'cancel',
+                                'name'      => ts('Cancel'),
+                                'isDefault' => true);
+        }
+
+        $this->addButtons(  $buttons );
         
         
         $this->addFormRule( array( 'CRM_Profile_Form', 'formRule' ), $this );
