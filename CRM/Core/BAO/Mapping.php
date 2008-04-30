@@ -475,9 +475,10 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         }
         
         $defaults = array();
-        $js = "<script type='text/javascript'>\n";
-        $formName = "document.{$name}";
-  
+
+        $noneArray = array( );
+        $nullArray = array( );
+
         //used to warn for mismatch column count or mismatch mapping 
         $warning = 0;
         for ( $x = 1; $x < $blockCount; $x++ ) {
@@ -502,13 +503,13 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                                                              );
 
                             if ( ! $mappingName[$x][$i] ) {
-                                $js .= "{$formName}['mapper[$x][$i][1]'].style.display = 'none';\n";
+                                $noneArray[] = array( $x, $i, 1 );
                             }
                             if ( ! $locationId ) {
-                                $js .= "{$formName}['mapper[$x][$i][2]'].style.display = 'none';\n";
+                                $noneArray[] = array( $x, $i, 2 );
                             }
                             if ( ! $phoneType ) {
-                                $js .= "{$formName}['mapper[$x][$i][3]'].style.display = 'none';\n";
+                                $noneArray[] = array( $x, $i, 3 );
                             }
                             $jsSet = true;
 
@@ -527,37 +528,33 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                 if ( ! $jsSet ) {
                     if ( empty( $formValues ) ) {
                         for ( $k = 1; $k < 4; $k++ ) {
-                            $js .= "{$formName}['mapper[$x][$i][$k]'].style.display = 'none';\n"; 
+                            $noneArray[] = array( $x, $i, $k );
                         }
                     } else {
                         if ( !empty($formValues['mapper'][$x]) ) {
                             foreach ( $formValues['mapper'][$x] as $value) {
                                 for ( $k = 1; $k < 4; $k++ ) {
 
-                                    if ( ! isset ($formValues['mapper'][$x][$i][$k] ) ||( ! $formValues['mapper'][$x][$i][$k] ) ) {
-                                        
-                                        $js .= "{$formName}['mapper[$x][$i][$k]'].style.display = 'none';\n"; 
+                                    if ( ! isset ($formValues['mapper'][$x][$i][$k] ) ||
+                                         ( ! $formValues['mapper'][$x][$i][$k] ) ) {
+                                        $noneArray[] = array( $x, $i, $k );
                                     } else {
-                                        $js .= "{$formName}['mapper[$x][$i][$k]'].style.display = '';\n"; 
+                                        $nullArray[] = array( $x, $i, $k );
                                     }
                                 }
                             }
                         } else {
                             for ( $k = 1; $k < 4; $k++ ) {
-                                $js .= "{$formName}['mapper[$x][$i][$k]'].style.display = 'none';\n"; 
+                                $noneArray[] = array( $x, $i, $k );
                             }
                         }
                     }
                 }
                 
-                //$js .= "{$formName}['mapper[1][0][1]'].style.display = 'none';\n"; 
                 $sel->setOptions(array($sel1,$sel2,$sel3, $sel4));
                 
                 if ($mappingType == 'Search Builder') {
-                    //CRM -2292
-//                     $operatorArray = array ('' => '-operator-', '=' => '=', '!=' => '!=', '>' => '>', '<' => '<', 
-//                                             '>=' => '>=', '<=' => '<=', 'IN' => 'IN',
-//                                             'NOT IN' => 'NOT IN', 'LIKE' => 'LIKE', 'NOT LIKE' => 'NOT LIKE');
+                    //CRM -2292, restricted array set
                     $operatorArray = array ('' => '-operator-', '=' => '=', '!=' => '!=', '>' => '>', '<' => '<', 
                                             '>=' => '>=', '<=' => '<=', 'IN' => 'IN',
                                             'LIKE' => 'LIKE');
@@ -577,7 +574,36 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
             
         } //end of block for
 
-        $js .= "</script>\n";
+        $js = "<script type='text/javascript'>\n";
+        $formName = "document.{$name}";
+        if ( ! empty( $nullArray ) ) {
+            $js .= "var nullArray = [";
+            $elements = array( );
+            foreach ( $nullArray as $element ) {
+                $elements[] = "[{$element[0]},{$element[1]},{$element[2]}]";
+            }
+            $js .= implode( ', ', $elements );
+            $js .= "]";
+            $js .= "
+for(var i=0;i<nullArray.length;i++) {
+  {$formName}['mapper['+nullArray[i][0]+']['+nullArray[i][1]'+]['+nullArray[i][2]+']'].style.display = '';
+}
+";
+        }
+        if ( ! empty( $noneArray ) ) {
+            $js .= "var noneArray = [";
+            foreach ( $noneArray as $element ) {
+                $elements[] = "[{$element[0]}, {$element[1]}, {$element[2]}]";
+            }
+            $js .= implode( ', ', $elements );
+            $js .= "]";
+            $js .= "
+for(var i=0;i<noneArray.length;i++) {
+  {$formName}['mapper['+noneArray[i][0]+']['+noneArray[i][1]+']['+noneArray[i][2]+']'].style.display = 'none';  
+}
+";
+        }
+        $js .= "</script>\n"; 
 
         $form->assign('initHideBoxes', $js);
         $form->assign('columnCount', $columnCount);
