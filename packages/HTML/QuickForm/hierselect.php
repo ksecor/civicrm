@@ -313,6 +313,7 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
      */
     function _setJSArray($grpName, $options, &$js, $optValue = '')
     {
+        static $jsNameCache = array( );
         if (is_array($options)) {
             $js = '';
             // For a hierselect containing 3 elements:
@@ -326,7 +327,17 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
             }
             
             // if $js !== '' add it to the JavaScript
-            $this->_js .= ($js !== '') ? $name." = {\n".$js."\n}\n" : '';
+
+            if ( $js !== '' ) {
+                // check if we have already this js in cache, if so reuse it
+                $cacheKey = md5( $js );
+                if ( array_key_exists( $cacheKey, $jsNameCache ) ) {
+                    $this->_js .= "$name = {$jsNameCache[$cacheKey]}\n";
+                } else {
+                    $this->_js .= $name." = {\n".$js."\n}\n";
+                    $jsNameCache[$cacheKey] = $name;
+                }
+            }
             $js = '';
         } else {
             // $js empty means that we are adding the first element to the JavaScript.
