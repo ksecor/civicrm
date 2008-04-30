@@ -256,6 +256,11 @@ class CRM_UF_Form_Field extends CRM_Core_Form
             if ( CRM_Utils_Array::value( $key, $fields['Household'] ) && 
                  CRM_Utils_Array::value( $key, $fields['Organization'] ) ) {
                 $fields['Contact'][$key] = $value;
+                //as we move common fields to contacts. There fore these fields
+                //are unset from resoective array's.
+                unset( $fields['Individual'][$key] );
+                unset( $fields['Household'][$key] );
+                unset( $fields['Organization'][$key] );
             }
         }
         
