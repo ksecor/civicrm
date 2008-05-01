@@ -1,0 +1,36 @@
+<?php
+
+
+
+class CiviAdminInterfaceTestCase extends DrupalTestCase {
+
+  var $webUser;
+  
+  function get_info() {
+    return array(
+      'name' => t('Admin interface functionality'),
+      'description' => t('Set configuration settings in CiviCRM.'),
+      'group' => t('CiviCRM Tests'),
+    );
+  }
+  
+  function setUp() {
+    parent::setUp();
+
+  }
+  
+  /**
+   * Test book funcitonality through node interfaces.
+   */
+  function testSomething() {
+    $this->drupalModuleEnable('civicrm');
+    $this->webUser = $this->drupalCreateUserRolePerm(
+                       array ( 0 => 'access CiviCRM',
+                               1 => 'administer CiviCRM', ) );
+    $this->drupalLoginUser($this->webUser);
+    $this->drupalGet(url('http://trunk/civicrm/admin/setting/preferences/display?reset=1', array("absolute" => FALSE)));
+    $this->clickLink('Administer CiviCRM', '0');
+    $this->clickLink('Global Settings', '0');
+    $this->clickLink('&raquo; Site Preferences', '0');
+  }  
+}
