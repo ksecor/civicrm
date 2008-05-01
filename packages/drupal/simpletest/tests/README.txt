@@ -1,0 +1,1 @@
+Tests against contributed modules should reside within those module packages in a subdir called tests. The files in this directory test core functionality, which does not have a /tests directory. We plan to add this once this testing framework matures a bit more.

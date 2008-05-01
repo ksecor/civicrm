@@ -1,0 +1,417 @@
+<?php
+// $Id: node.test,v 1.3 2008/03/16 23:30:55 boombatower Exp $
+
+class NodeRevisionsTest extends DrupalTestCase {
+  /**
+   * Implementation of get_info() for information
+   */
+  function get_info() {
+    return array(
+      'name' => t('Node revisions tests'), 
+      'description' => t('Creates a node of type page and then a user tries various revision actions such as viewing, reverting to, and deleting revisions.'),
+      'group' => 'Node Tests',
+    );
+  }
+
+  /**
+   * Setup function used by tests. Creates a node with three revisions.
+   *
+   * If $log is TRUE, then a log message will be recorded.
+   */
+  function prepareRevisions($log = FALSE) {
+  
+    $returnarray = array();
+    $numtimes = 3; // First, middle, last.
+    for ($i = 0; $i < $numtimes; $i++) {
+      $settings = array('revision' => 1);
+      if ($log && $i == 1) {
+        $logmessage = $this->randomName(32);
+        $settings['log'] = $logmessage;
+        $returnarray['log'] = $logmessage;
+      }
+      if ($i != 0) {
+        $settings['nid'] = $node->nid;
+      }
+      $node = $this->drupalCreateNode($settings);
+      if ($i == 1) {
+        $returnarray['text'] = $node->body;
+        $returnarray['vid'] = $node->vid;
+      }
+      // Avoid confusion on the revisions overview page which is sorted by r.timestamp.
+      sleep(1);
+    }
+    $returnarray['node'] = $node;
+    return $returnarray;
+  }
+
+  /**
+   * Simpletest test. Tests to make sure the correct revision text appears on "view revisions" page.
+   */
+  function testNodeRevisions() {
+    extract( $this->prepareRevisions() );
+
+    $test_user = $this->drupalCreateUserRolePerm(array('view revisions'));
+    $this->drupalLoginUser($test_user);
+    $this->drupalGet("node/$node->nid/revisions/$vid/view");
+    $this->assertText($text, 'Check to make sure correct revision text appears on "view revisions" page.');
+
+    $this->cleanup($node->nid);
+  }
+
+  /**
+   * Simpletest test. Tests to make sure the correct log message appears on "revisions overview" page.
+   */
+  function testLogMessage() {
+    extract( $this->prepareRevisions(TRUE) );
+
+    $test_user = $this->drupalCreateUserRolePerm(array('view revisions'));
+    $this->drupalLoginUser($test_user);
+    $this->drupalGet("node/$node->nid/revisions");
+    $this->assertText($log, 'Check to make sure log message is properly displayed.');
+
+    $this->cleanup($node->nid);
+  }
+
+  /**
+   * Simpletest test. Tests to make sure the that revisions revert properly.
+   */
+  function testRevisionRevert() {
+    extract( $this->prepareRevisions() );
+
+    $test_user = $this->drupalCreateUserRolePerm(array('revert revisions', 'edit any page content'));
+    $this->drupalLoginUser($test_user);
+    $this->drupalPost("node/$node->nid/revisions/$vid/revert", array(), 'Revert');
+    $newnode = node_load($node->nid);
+    $this->assertTrue(($text == $newnode->body), 'Check to make sure reversions occur properly');
+
+    $this->cleanup($node->nid);
+  }
+
+  /**
+   * Simpletest test. Tests to make sure the revision deletes properly.
+   */
+  function testRevisionDelete() {
+    extract( $this->prepareRevisions() );
+
+    $test_user = $this->drupalCreateUserRolePerm(array('delete revisions', 'delete any page content'));
+    $this->drupalLoginUser($test_user);
+    $this->drupalPost("node/$node->nid/revisions/$vid/delete", array(), 'Delete');
+    $this->assertTrue(db_result(db_query('SELECT COUNT(vid) FROM {node_revisions} WHERE nid = %d and VID = %d', $node->nid, $vid)) == 0, 'Check to make sure revisions delete properly');    $this->cleanup($node->nid);
+
+    $this->cleanup($node->nid);
+  }
+
+  /**
+   * Cleanup function used by tests. Deletes the associated node.
+   */
+  function cleanup($nid) {
+    node_delete($nid);
+  }
+}
+
+
+class NodeTeaserTest extends DrupalTestCase {
+  /**
+   * Implementation of get_info() for information
+   */
+  function get_info() {
+    return array(
+      'name' => t('Node teaser tests'), 
+      'description' => t('Calls node_teaser() with different strings and lengths.'),
+      'group' => 'Node Tests',
+    );
+  }
+  
+  function setUp() {
+  	parent::setUp();
+  }
+  
+  function tearDown() {
+  	parent::tearDown();
+  }
+
+  /**
+   * Simpletest test. Tests an edge case where if the first sentence is a 
+   * question and subsequent sentences are not.
+   * This failed in drupal 5.
+   * Test and patch for drupal 6 (committed) from
+   * http://drupal.org/node/180425
+   */
+  function testFirstSentenceQuestion() {
+    $body = 'A question? A sentence. Another sentence.';
+    $expectedTeaser = 'A question? A sentence.';
+    $this->callNodeTeaser($body, $expectedTeaser, NULL, 30);
+  }
+
+  /**
+   * Simpletest test. A real-life example of the above edge case.
+   */
+  function testFirstSentenceQuestion2() {
+    $body = 'Are you an UberBabe? (Or an appreciator of UberBabes?) I am most definitely an UberBabe, and I\'m proud of it. Now, before anyone screams "sexism" or "bias" or "cheap" or anything more profane, let me clarify. An UberBabe is not someone who\'s playfully pierced navel protrudes from a belly bearing top. Not necessarily anyway. An UberBabe is a woman who likes being totally feminine, but is also smart as hell, brave, a rule breaker, speaks her mind, finds her own way, goes up against "the system" in a way that allows the system to evolve, and so on. UberBabes, frankly, kick booty - and they just may save the world.';
+    $expectedTeaser = 'Are you an UberBabe? (Or an appreciator of UberBabes?) I am most definitely an UberBabe, and I\'m proud of it. Now, before anyone screams "sexism" or "bias" or "cheap" or anything more profane, let me clarify.';
+    $this->callNodeTeaser($body, $expectedTeaser, NULL, 300);
+  }
+
+  /**
+   * Simpletest test. Runs a test adapted from
+   * http://drupal.org/node/180425#comment-634230
+   */
+  function testLength() {
+    // This body string tests a number of edge cases.
+    $body = "<p>\nHi\n</p>\n<p>\nfolks\n<br />\n!\n</p>";
+
+    // The teasers we expect node_teaser() to return when $size is the index 
+    // of each array item.
+    // Using an input format with no line-break filter:
+    $teasers = array(
+        "<p>\nHi\n</p>\n<p>\nfolks\n<br />\n!\n</p>",
+        "<",
+        "<p",
+        "<p>",
+        "<p>\n",
+        "<p>\nH",
+        "<p>\nHi",
+        "<p>\nHi\n",
+        "<p>\nHi\n<",
+        "<p>\nHi\n</",
+        "<p>\nHi\n</p",
+        "<p>\nHi\n</p>",
+        "<p>\nHi\n</p>",
+        "<p>\nHi\n</p>",
+        "<p>\nHi\n</p>",
+        "<p>\nHi\n</p>",
+        "<p>\nHi\n</p>",
+        "<p>\nHi\n</p>",
+        "<p>\nHi\n</p>",
+        "<p>\nHi\n</p>",
+        "<p>\nHi\n</p>",
+        "<p>\nHi\n</p>",
+        "<p>\nHi\n</p>",
+        "<p>\nHi\n</p>",
+        "<p>\nHi\n</p>",
+        "<p>\nHi\n</p>",
+        "<p>\nHi\n</p>",
+        "<p>\nHi\n</p>",
+        "<p>\nHi\n</p>",
+        "<p>\nHi\n</p>",
+        "<p>\nHi\n</p>",
+        "<p>\nHi\n</p>",
+        "<p>\nHi\n</p>",
+        "<p>\nHi\n</p>",
+        "<p>\nHi\n</p>",
+        "<p>\nHi\n</p>\n<p>\nfolks\n<br />\n!\n</p>",
+        "<p>\nHi\n</p>\n<p>\nfolks\n<br />\n!\n</p>",
+        "<p>\nHi\n</p>\n<p>\nfolks\n<br />\n!\n</p>",
+      );
+    // And Using an input format WITH the line-break filter.
+    $teasers_lb = array(
+        "<p>\nHi\n</p>\n<p>\nfolks\n<br />\n!\n</p>",
+        "<",
+        "<p",
+        "<p>",
+        "<p>",
+        "<p>",
+        "<p>",
+        "<p>\nHi",
+        "<p>\nHi",
+        "<p>\nHi",
+        "<p>\nHi",
+        "<p>\nHi\n</p>",
+        "<p>\nHi\n</p>",
+        "<p>\nHi\n</p>",
+        "<p>\nHi\n</p>",
+        "<p>\nHi\n</p>",
+        "<p>\nHi\n</p>",
+        "<p>\nHi\n</p>",
+        "<p>\nHi\n</p>",
+        "<p>\nHi\n</p>",
+        "<p>\nHi\n</p>",
+        "<p>\nHi\n</p>",
+        "<p>\nHi\n</p>",
+        "<p>\nHi\n</p>",
+        "<p>\nHi\n</p>",
+        "<p>\nHi\n</p>",
+        "<p>\nHi\n</p>",
+        "<p>\nHi\n</p>",
+        "<p>\nHi\n</p>",
+        "<p>\nHi\n</p>",
+        "<p>\nHi\n</p>",
+        "<p>\nHi\n</p>",
+        "<p>\nHi\n</p>",
+        "<p>\nHi\n</p>",
+        "<p>\nHi\n</p>",
+        "<p>\nHi\n</p>\n<p>\nfolks\n<br />\n!\n</p>",
+        "<p>\nHi\n</p>\n<p>\nfolks\n<br />\n!\n</p>",
+        "<p>\nHi\n</p>\n<p>\nfolks\n<br />\n!\n</p>",
+      );
+
+    // Test node_teaser() for different sizes.
+    for ($i = 0; $i <= 37; $i++) {
+      $this->callNodeTeaser($body, $teasers[$i],    NULL, $i);
+      $this->callNodeTeaser($body, $teasers_lb[$i], 1,    $i);
+      $this->callNodeTeaser($body, $teasers_lb[$i], 2,    $i);
+    }
+  }
+
+  /**
+   * Calls node_teaser() and asserts that the expected teaser is returned.
+   */
+  function callNodeTeaser($body, $expectedTeaser, $format = NULL, $size = NULL) {
+    $teaser = node_teaser($body, $format, $size);
+    $this->assertIdentical($teaser, $expectedTeaser);
+  }
+}
+
+
+class StoryEditTest extends DrupalTestCase {
+  function get_info() {
+    return array(
+      'name'  => 'Story edit test',
+      'description'  => t('We want a working edit for storys, uh?'),
+      'group' => 'Node Tests');
+  }
+  function testStoryEdit() {
+  
+    /* Prepare settings */
+    $this->drupalVariableSet('node_options_story', array('status', 'promote'));
+    /* Prepare a user to do the stuff */
+    $web_user = $this->drupalCreateUserRolePerm(array('edit own story content', 'create story content'));
+    $this->drupalLoginUser($web_user);
+    $edit = array(
+	  'title' => '!SimpleTest! test title' . $this->randomName(20),
+	  'body' => '!SimpleTest! test body' . $this->randomName(200),
+	);
+	
+    //Create the page to edit
+    $this->drupalPost('node/add/story', $edit, 'Save');
+
+    $node = node_load(array('title' => $edit['title']));
+    $this->assertNotNull($node, 'Node found in database');
+	
+    $this->clickLink('Edit');
+	
+	$editurl = url("node/$node->nid/edit", array('absolute' => true));
+	$acturl = $this->_browser->getURL();
+	
+	$this->assertEqual($editurl, $acturl);
+	
+    $this->assertWantedText(t('Edit'), 'Edit text is here');
+    $this->assertWantedText(t($edit['title']), 'Hello, the random title');
+    $this->assertWantedText(t($edit['body']), 'test is over, the body\'s still there');
+		
+    $edit = array(
+	  'title' => '!SimpleTest! test title' . $this->randomName(20),
+	  'body' => '!SimpleTest! test body' . $this->randomName(200),
+	);
+
+	
+    //edit the content of the page
+    $this->drupalPost("node/$node->nid/edit", $edit, 'Save');
+
+    $this->assertWantedText(t($edit['title']), 'Hello, the random title');
+    $this->assertWantedText(t($edit['body']), 'test is over, the body\'s still there');
+  }
+
+}
+
+class StoryPreviewTest extends DrupalTestCase {
+  function get_info() {
+    return array(
+   'name'  => 'Story preview test',
+   'description'  => t('We want a working preview for storys, uh?'),
+   'group' => 'Node Tests');
+  }
+  
+  function testStoryPreview() {
+    /* Prepare settings */
+    $this->drupalVariableSet('node_options_story', array('status', 'promote'));
+    /* Prepare a user to do the stuff */
+    $web_user = $this->drupalCreateUserRolePerm(array('edit own story content', 'create story content'));
+    $this->drupalLoginUser($web_user);
+  
+    $edit = array(
+      'title'=>'!SimpleTest! title' . $this->randomName(20),
+      'body'=>'!SimpleTest! body' . $this->randomName(200),
+    );
+    $this->drupalPost('node/add/story', $edit, 'Preview');
+
+    $this->assertWantedText(t('Preview'), 'Preview text is here');
+    $this->assertWantedText(t($edit['title']), 'Hello, the random title');
+    $this->assertWantedText(t($edit['body']), 'test is over, the body\'s still there');
+  
+    $this->assertFieldByName('title', $edit['title'], 'The title is on it\'s place');
+  
+  }
+
+}
+
+class PageCreationTest extends  DrupalTestCase {
+  
+  /**
+   * Implementation of get_info() for information
+   */
+  function get_info() {
+    return array(
+      'name' => t('Page node creation'),
+      'description' => t('Create a page node and verify its consistency in the database.'),
+      'group' => 'Node Tests',
+    );
+  }
+  
+  function testPageCreation() {
+    /* Prepare settings */
+    $this->drupalVariableSet('node_options_page', array('status', 'promote'));
+   
+    /* Prepare a user to do the stuff */
+    $web_user = $this->drupalCreateUserRolePerm(array('edit own page content', 'create page content'));
+    $this->drupalLoginUser($web_user);
+    
+    $edit = array();
+    $edit['title']    = '!SimpleTest test node! ' . $this->randomName(10);
+    $edit['body']     = '!SimpleTest test body! ' . $this->randomName(32) . ' ' . $this->randomName(32);
+    $this->drupalPost('node/add/page', $edit, 'Save');
+    
+    $this->assertWantedRaw(t('!post %title has been created.', array ('!post' => 'Page', '%title' => $edit['title'])), 'Page created');
+    
+    $node = node_load(array('title' => $edit['title']));
+    $this->assertNotNull($node, t('Node !title found in database.', array ('!title' => $edit['title'])));
+    
+  }
+}
+
+class PageViewTest extends DrupalTestCase {
+  /**
+   * Implementation of get_info() for information
+   */
+  function get_info() {
+    return array(
+      'name' => t('Unauthorized node view'),
+      'description' => t('Creates a node of type page and then an unpermissioned user attempts to edit the node, '
+        . 'before tries with an anonymous user. Asserts failure.'
+        . '</ br>WARNING: This is based on default registered user permuissions (no administer nodes).')
+      , 'group' => 'Node Tests',
+  );
+  }
+  
+  function testPageView() {
+    /* Prepare a node to view */
+    global $user;
+    $node = $this->drupalCreateNode();
+    $this->assertNotNull(node_load($node->nid), 'Node created');
+
+    /* Tries to edit with anonymous user */
+    $html = $this->drupalGet("node/$node->nid/edit");
+    $this->assertResponse(403);
+    
+    /* Prepare a user to request the node view */
+    $test_user = $this->drupalCreateUserRolePerm(array('access content'));
+    $this->drupalLoginUser($test_user);
+    
+    $html = $this->drupalGet("node/$node->nid/edit");
+    $this->assertResponse(403);
+    
+    $test_user = $this->drupalCreateUserRolePerm(array('administer nodes'));
+    //TODO: Add edit page attempt with administer nodes user
+    node_delete($node->nid);
+  }
+}

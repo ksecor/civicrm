@@ -1,0 +1,150 @@
+<?php
+// $Id: translation.test,v 1.2 2008/03/16 23:30:55 boombatower Exp $
+
+class TranslationModuleTestCase extends DrupalTestCase {
+  var $book;
+  
+  function get_info() {
+    return array(
+      'name' => t('Translation functionality'),
+      'description' => t('Create a story with translation, modify the story outdating translation, and update translation.'),
+      'group' => t('Translation Tests'),
+    );
+  }
+  
+  function setUp() {
+    parent::setUp();
+    
+    // Enable modules.
+    $this->drupalModuleEnable('locale');
+    $this->drupalModuleEnable('translation');
+  }
+  
+  function test_content_translation() {
+    // Setup users.
+    $admin_user = $this->drupalCreateUserRolePerm(array('administer languages', 'administer content types'));
+    $translator = $this->drupalCreateUserRolePerm(array('create story content', 'edit own story content', 'translate content'));
+    
+    $this->drupalLoginUser($admin_user);
+    
+    // Add languages.
+    $this->add_language('en');
+    $this->add_language('es');
+    
+    // Set story content type to use multilingual support with translation.
+    $this->drupalPost('admin/content/types/story', array('language_content_type' => "2"), 'Save content type');
+    $this->assertWantedRaw(t('The content type %type has been updated.', array('%type' => 'Story')), 'Story content type has been updated.');
+
+    $this->drupalGet('logout');
+    $this->drupalLoginUser($translator);
+    
+    // Create story in English.
+    $node_title = 'Test Translation '. $this->randomName();
+    $node = $this->create_story($node_title, 'Node body.', 'en');
+    
+    // Submit translation in Spanish.
+    $node_trans_title = 'Test Traduccion '. $this->randomName();
+    $node_trans = $this->create_translation($node->nid, $node_trans_title, 'Nodo cuerpo.', 'es');
+    
+    // Update origninal and mark translation as outdated.
+    $edit = array();
+    $edit['body'] = 'Node body. Additional Text.';
+    $edit['translation[retranslate]'] = TRUE;
+    $this->drupalPost('node/'. $node->nid .'/edit', $edit, 'Save');
+    $this->assertWantedRaw(t('Story %title has been updated.', array('%title' => $node_title)), 'Original node updated.');
+    
+    // Check to make sure that interface shows translation as outdated
+    $this->drupalGet('node/'. $node->nid .'/translate');
+    $this->assertWantedRaw('<span class="marker">'. t('outdated') .'</span>', 'Translation marked as outdated.');
+    
+    // Update translation and mark as updated.
+    $edit = array();
+    $edit['body'] = 'Nodo cuerpo. Texto adicional.';
+    $edit['translation[status]'] = FALSE;
+    $this->drupalPost('node/'. $node_trans->nid .'/edit', $edit, 'Save');
+    $this->assertWantedRaw(t('Story %title has been updated.', array('%title' => $node_trans_title)), 'Translated node updated.');
+  }
+  
+  /**
+   * Install a the specified language if it has not been already. Otherwise make sure that
+   * the language is enabled.
+   * 
+   * @param string $language_code The langauge code the check.
+   */
+  function add_language($language_code) {
+    // Check to make sure that language has not already been installed.
+    $this->drupalGet('admin/settings/language');
+    
+    if (strpos($this->drupalGetContent(), 'enabled['. $language_code .']') === FALSE) {
+      // Doesn't have language installed so add it.
+      $edit = array();
+      $edit['langcode'] = $language_code;
+      $this->drupalPost('admin/settings/language/add', $edit, 'Add language');
+      
+      $languages = language_list('language', TRUE); // make sure not using cached version
+      $this->assertTrue(array_key_exists($language_code, $languages), 'Language was installed successfully.');
+      
+      if (array_key_exists($language_code, $languages)) {
+      	$this->assertWantedRaw(t('The language %language has been created and can now be used. More information is available on the <a href="@locale-help">help screen</a>.', array('%language' => $languages[$language_code]->name, '@locale-help' => url('admin/help/locale'))));
+      }
+    }
+    else {
+      // Ensure that it is enabled.
+      $this->assertTrue(true, 'Language ['. $language_code .'] already installed.');
+      $this->drupalPost(NULL, array('enabled['. $language_code .']' => TRUE), 'Save configuration');
+      
+      $this->assertWantedRaw(t('Configuration saved.'), 'Language successfully enabled.');
+    }
+  }
+  
+  /**
+   * Create a story in the specified language.
+   * 
+   * @param string $title Title of story in specified language.
+   * @param string $body Body of story in specified language.
+   * @param string $language Langauge code.
+   */
+  function create_story($title, $body, $language) {
+    $this->drupalVariableSet('node_options_page', array('status', 'promote'));
+    
+    $edit = array();
+    $edit['title'] = $title;
+    $edit['body'] = $body;
+    $edit['language'] = $language;
+    $this->drupalPost('node/add/story', $edit, 'Save');
+    
+    $this->assertWantedRaw(t('Story %title has been created.', array('%title' => $edit['title'])), 'Story created.');
+    
+    // Check to make sure the node was created.
+    $node = node_load(array('title' => $edit['title']));
+    $this->assertTrue($node, 'Node found in database.');
+    
+    return $node;
+  }
+  
+  /**
+   * Create a translation for the specified story in the specified language.
+   * 
+   * @param integer $nid Node id of story to create translation for.
+   * @param string $title Title of story in specified language.
+   * @param string $body Body of story in specified language.
+   * @param string $language Langauge code.
+   */
+  function create_translation($nid, $title, $body, $language) {
+    $this->drupalGet('node/add/story', array('query' => array('translation' => $nid, 'language' => $language)));
+    
+    $edit = array();
+    $edit['title'] = $title;
+    $edit['body'] = $body;
+    
+    $this->drupalPost(NULL, $edit, 'Save');
+    
+    $this->assertWantedRaw(t('Story %title has been created.', array('%title' => $edit['title'])), 'Translation created.');
+    
+    // Check to make sure that translation was successfull.
+    $node = node_load(array('title' => $edit['title']));
+    $this->assertTrue($node, 'Node found in database.');
+    
+    return $node;
+  }
+}

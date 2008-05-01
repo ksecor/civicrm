@@ -1,0 +1,234 @@
+<?php
+// $Id: system.test,v 1.3 2008/03/16 23:30:55 boombatower Exp $
+
+class EnableCoreModuleTest extends DrupalTestCase {
+  /**
+  * Implementation of get_info() for information
+  */
+  function get_info() {
+    return array('name' => t('Enable core modules'), 'description' => 'Enables all core modules by POST - looks for error messages, confirms table creation, etc.', 'group' => 'Modules');
+  }
+
+  function testEnableCoreModules () {
+    // Get a list of the modules to enable
+    $modules_to_enable = array (
+      'aggregator',
+      'blog',
+      'blogapi',
+      'book',
+      'color',
+      'comment',
+      'contact',
+      'dblog',
+      'forum',
+      'help',
+      'locale',
+      'menu',
+      'openid',
+      'path',
+      'php',
+      'ping',
+      'poll',
+      'profile',
+      'search',
+      'statistics',
+      'syslog',
+      'taxonomy',
+      'throttle',
+      'tracker',
+      'translation',
+      'trigger',
+      'update',
+      'upload',       	
+    );
+
+    // Get a list of the currently enabled modules
+    $enabled_modules = module_list(true, false);
+
+    $web_user = $this->drupalCreateUserRolePerm(array (
+      'access administration pages',
+      'administer site configuration',
+    ));
+    $this->drupalLoginUser($web_user);
+
+    $edit = array();
+    // We temporarily disable any modules we're testing so that we can re-enable them for testing
+    foreach ($modules_to_enable as $module) {
+      if (module_exists($module))
+        $this->drupalModuleDisable($module);
+
+      $edit['status['. $module .']'] = $module;
+    }
+
+    $this->drupalPost('admin/build/modules/list/confirm', $edit, 'Save configuration');
+    $this->assertWantedRaw(t('The configuration options have been saved.'), t('Ensure that the module status has been updated'));
+
+    // Now, we check the tables for each module
+    // We also refresh the module list and make sure the modules are enabled
+    module_list(true, false);
+    foreach ($modules_to_enable as $module) {
+      $cur_schema = drupal_get_schema_unprocessed($module);
+
+      $tables = is_array($cur_schema) ? array_keys($cur_schema) : array();
+      foreach ($tables as $table)
+        $this->assertTrue(db_table_exists($table), t('Make sure that the database table for the module exists'));
+
+      $this->assertTrue(module_exists($module), t('Check to see that the module is actually enabled'));
+    }
+
+    // Disable/uninstall all the modules that have been installed by this process
+    // We first need to refresh the module list
+    include_once './includes/install.inc';
+
+    foreach ($modules_to_enable as $module) {
+      // We uninstall the modules that weren't already enabled
+      if (!in_array($module, $enabled_modules)) {
+        module_disable(array($module));
+        drupal_uninstall_module($module);
+      }
+    }
+
+    drupal_clear_css_cache();
+    drupal_clear_js_cache();
+  }
+}
+
+class EnableModuleWithoutDependencyTest extends DrupalTestCase {
+  /**
+  * Implementation of get_info() for information
+  */
+  function get_info() {
+    return array('name' => t('Enable module without required dependencies'), 'description' => 'Attempts to enable the forum module without enabling dependencies.', 'group' => 'Modules');
+  }
+
+  function testEnableWithoutDependency () {
+    // Disable all modules for this test
+    $current_modules = module_list(true, false);
+    foreach ($current_modules as $module) {
+      // We don't disable core modules
+      if (!in_array($module, drupal_required_modules()))
+        $this->drupalModuleDisable($module);
+    }
+
+    // Attempt to enable forum module, which should fail because comment and taxonomy are not enabled
+    $web_user = $this->drupalCreateUserRolePerm(array (
+      'access administration pages',
+      'administer site configuration',
+    ));
+    $this->drupalLoginUser($web_user);
+
+    $edit = array (
+      'status[forum]' => 'forum',
+    );
+
+    $this->drupalPost('admin/build/modules/list/confirm', $edit, 'Save configuration');
+    $this->assertWantedRaw(t('Some required modules must be enabled'), t('Make sure the dependency error is shown'));
+
+    $this->assertFalse(module_exists('forum'), t('Check to make sure that the module has not somehow become enabled'));
+  }
+}
+
+class DisableUninstallCoreModuleTest extends DrupalTestCase {
+  /**
+  * Implementation of get_info() for information
+  */
+  function get_info() {
+    return array('name' => t('Disable/uninstall core modules'), 'description' => 'Disables and uninstalls core modules, ensures that that tables are properly deleted, no error messages are shown, etc.', 'group' => 'Modules');
+  }
+
+  function testDisableUninstallCoreModules () {
+    // Get a list of the modules to test
+    $modules_to_test = array (
+      'aggregator',
+      'blog',
+      'blogapi',
+      'book',
+      'color',
+      'comment',
+      'contact',
+      'dblog',
+      'forum',
+      'help',
+      'locale',
+      'menu',
+      'openid',
+      'path',
+      'php',
+      'ping',
+      'poll',
+      'profile',
+      'search',
+      'statistics',
+      'syslog',
+      'taxonomy',
+      'throttle',
+      'tracker',
+      'translation',
+      'trigger',
+      'update',
+      'upload',           
+    );
+
+    // Get a list of the currently enabled modules
+    $enabled_modules = module_list(true, false);
+
+    // We don't want to test any modules that are already enabled, since that would involve a loss of data
+    foreach ($enabled_modules as $module) {
+      if (in_array($module, $modules_to_test))
+        unset($modules_to_test[array_search($module, $modules_to_test)]);
+    }
+
+    // Enable all the modules that are not already enabled
+    include_once './includes/install.inc';
+    module_enable($modules_to_test);
+    drupal_install_modules($modules_to_test);
+
+    $web_user = $this->drupalCreateUserRolePerm(array (
+      'access administration pages',
+      'administer site configuration',
+    ));
+    $this->drupalLoginUser($web_user);
+
+    // Disable/uninstall the given modules: we keep every other module enabled
+    // We do this loop because for each level of dependency, we need one more request
+    while (count(array_diff(module_list(true, false), $enabled_modules)) > 0) {
+      $edit = array();
+      foreach ($modules_to_test as $module) {
+        $edit['status['. $module .']'] = 0;
+      }
+      foreach ($enabled_modules as $module) {
+        $edit['status['. $module .']'] = $module;
+      }
+
+      $this->drupalPost('admin/build/modules/list/confirm', $edit, 'Save configuration');
+      $this->assertWantedRaw(t('The configuration options have been saved.'), t('Ensure that the module status has been updated'));
+    }
+
+    // Now, lets make sure the modules are truly disabled and then try to uninstall them
+    module_list(true, false);
+    $edit = array();
+    foreach ($modules_to_test as $module) {
+      $this->assertFalse(module_exists($module), t('Make sure the module has been disabled'));
+
+      if (module_hook($module, 'uninstall'))
+        $edit['uninstall['. $module .']'] = $module;
+    }
+
+    $this->drupalPost('admin/build/modules/uninstall/confirm', $edit, 'Uninstall');
+    // We need to confirm this by clicking again
+    $this->_browser->clickSubmit(t('Uninstall'));
+    $this->assertWantedRaw(t('The selected modules have been uninstalled.'), 'Check to ensure that the modules have been removed');
+
+    // Now, we check the tables for each module
+    foreach ($modules_to_test as $module) {
+      $cur_schema = drupal_get_schema_unprocessed($module);
+
+      $tables = is_array($cur_schema) ? array_keys($cur_schema) : array();
+      foreach ($tables as $table)
+        $this->assertFalse(db_table_exists($table), t('Ensure that the database table has been properly removed'));
+    }
+
+    drupal_clear_css_cache();
+    drupal_clear_js_cache();
+  }
+}
