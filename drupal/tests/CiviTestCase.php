@@ -29,6 +29,12 @@ class CiviTestCase extends DrupalTestCase {
         return $html;
     }
 
+    function recordAssertNotNull(  $daoName, $id, $fieldName, $idName, $message  ) 
+    {
+        $value = CRM_Core_DAO::getFieldValue( $daoName, $id, $fieldName, $idName );
+        $this->assertNotNull(  $value, $message );
+    }
+
     function getUrlsByLabel($label, $fuzzy = false) {
         if ( ! $fuzzy ) {
             return $this->_browser->_page->getUrlsByLabel( $label );
@@ -65,5 +71,4 @@ class CiviTestCase extends DrupalTestCase {
         
         return $ret;
     }
-
 }
