@@ -28,7 +28,7 @@ class CiviAdminInterfaceTestCase extends DrupalTestCase {
                        array ( 0 => 'access CiviCRM',
                                1 => 'administer CiviCRM', ) );
     $this->drupalLoginUser($this->webUser);
-    $this->drupalGet(url('http://trunk/civicrm/admin/setting/preferences/display?reset=1', array("absolute" => FALSE)));
+    $this->drupalGet(url('/civicrm/admin/setting/preferences/display?reset=1', array("absolute" => TRUE)));
     $this->clickLink('Administer CiviCRM', '0');
     $this->clickLink('Global Settings', '0');
     $this->clickLink('&raquo; Site Preferences', '0');
