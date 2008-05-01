@@ -36,19 +36,16 @@ class CiviAdminInterfaceTestCase extends DrupalTestCase {
 
   function testAdminLinkGlobalSettings() {
     $this->clickLink('Global Settings', '0');
-    // check if resulting page contains string as below
     $this->assertText('Enable debugging features including display of template variables and backtracing.');
   }  
 
   function testAdminLinkFindDuplicateContacts() {
     $this->clickLink('Find Duplicate Contacts', '0');
-    // check if resulting page contains link with below id
     $this->assertClickable('Use Rule');
   }  
 
   function testAdminLinkActivityTypes() {
     $this->clickLink('Activity Types', '0');
-    // check if resulting page contains link with below id
     // this specific example is very simple, you would rather
     // use assertText instead, but we just wanted to
     // include assertPattern here, as one of assertions
@@ -58,7 +55,6 @@ class CiviAdminInterfaceTestCase extends DrupalTestCase {
 
   function testAdminLinkManageContributionPages() {
     $this->clickLink('Manage Contribution Pages', '0');
-    // check if resulting page contains link with below id
     $this->assertClickable('Search');
   }  
 
