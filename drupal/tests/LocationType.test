@@ -47,9 +47,9 @@ class LocationType extends CiviTestCase {
 
       $this->assertWantedRaw( 'Name is a required field.', 'New Location Type, validations.' );
 
-      $params = array( 'name' => 'My Home' ); 
+      $params = array( 'name' => 'My Home' );
       $this->drupalPost(NULL, $params, '_qf_LocationType_next');
-      $this->assertWantedRaw( 'Name can only consist of alpha-numeric characters', 'Another validtaion' );
+      $this->assertWantedRaw( 'Name can only consist of alpha-numeric characters', 'Another validation' );
 
       $params = array( 'name' => 'Office' ); 
       $this->drupalPost(NULL, $params, '_qf_LocationType_next');
