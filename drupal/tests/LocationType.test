@@ -66,6 +66,8 @@ class LocationType extends CiviTestCase {
 
       $this->assertWantedRaw( 'Selected Location type has been deleted.', 'Location Type deleted.' );
 
+      $this->DBAssertNull( 'CRM_Core_DAO_LocationType', 'Office' , 'id', 'name',
+                           'Database check, for location type.' );
   }
-  
+
 }

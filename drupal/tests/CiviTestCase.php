@@ -14,7 +14,7 @@ class CiviTestCase extends DrupalTestCase
     }
 
     function civiGet( $path, $params, $abort = false ) {
-        $url = CRM_Utils_System::url( $path, $params );
+        $url = CRM_Utils_System::url( $path, $params, true, null, false );
         $html = $this->_browser->get($url);
         
         if ($this->drupalCheckAuth(true)) {
