@@ -1,0 +1,80 @@
+<?php
+
+class ManageGroup extends DrupalTestCase {
+
+  var $webUser;
+  
+  function get_info() {
+    return array(
+      'name' => t('Manage interface functionality'),
+      'description' => t('Set configuration settings in CiviCRM.'),
+      'group' => t('CiviCRM Tests'),
+    );
+  }
+  
+  function setUp() {
+    parent::setUp();
+
+    $this->drupalModuleEnable('civicrm');
+    $this->webUser = $this->drupalCreateUserRolePerm(
+                       array ( 0 => 'access CiviCRM',
+                               1 => 'administer CiviCRM',
+			       2 => 'edit groups',
+			       3 => 'edit all contacts' ) );
+    $this->drupalLoginUser($this->webUser);
+
+  }
+  
+  /**
+   * Test Manage group, Members functionality
+   */
+  function testManageGroupMembersLink() {
+    $this->drupalGet(url('civicrm/dashboard', array("absolute" => TRUE)));
+    $this->clickLink('Manage Groups', '0');
+    $this->assertWantedRaw( 'Manage Groups', 'Manage Group url.' );
+
+    $this->clickLink('Members', '0');
+    $this->assertWantedRaw( 'Group Members:', 'Group Members.' );
+  }  
+
+  /**
+   * Test Manage group, settings functionality
+   */
+  function testManageGroupSettingsLink() {
+    $this->drupalGet(url('civicrm/dashboard', array("absolute" => TRUE)));
+    $this->clickLink('Manage Groups', '0');
+    $this->assertWantedRaw( 'Manage Groups', 'Manage Group url.' );
+    $this->clickLink('Settings', '0');
+    $this->assertWantedRaw( 'Group Settings:', 'Group Settings.' );
+  }  
+
+  /**
+   * Test Manage group, Disable/Enable functionality
+   */
+  function testManageGroupEnableDisableLink() {
+    $this->drupalGet(url('civicrm/dashboard', array("absolute" => TRUE)));
+    $this->clickLink('Manage Groups', '0');
+    $this->assertWantedRaw( 'Manage Groups', 'Manage Group url.' );
+
+    $this->clickLink('Disable', '0');
+    $this->assertWantedRaw( 'Manage Groups', 'Manage Group.' );
+
+    $this->clickLink('Enable', '0');
+    $this->assertWantedRaw( 'Manage Groups', 'Manage Group.' );     
+  }  
+
+  /**
+   * Test Manage group, Delete functionality
+   */
+  function testManageGroupDeleteLink() {
+    $this->drupalGet(url('civicrm/dashboard', array("absolute" => TRUE)));
+    $this->clickLink('Manage Groups', '0');
+    $this->assertWantedRaw( 'Manage Groups', 'Manage Group url.' );
+
+    $this->clickLink('Delete', '0');
+    $this->assertWantedRaw( 'Confirm Group Delete', 'Confirm Group Delete.' );
+        
+  }  
+
+
+}
