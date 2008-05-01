@@ -74,7 +74,6 @@
      <path_arguments>cid=%%cid%%</path_arguments>
      <title>Contact Summary</title>
      <page_callback>CRM_Contact_Page_View_Tabbed</page_callback>
-     <page_arguments>setEmbedded=CRM_Activity_Form_ActivityLinks</page_arguments>
   </item>
   <item>
      <path>civicrm/contact/view/delete</path>
