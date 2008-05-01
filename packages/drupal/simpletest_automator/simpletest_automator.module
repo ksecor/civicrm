@@ -1,0 +1,291 @@
+<?php
+
+define('SIMPLETEST_AUTOMATOR_ON', 0);
+define('SIMPLETEST_AUTOMATOR_FIRST_PAGE', 1);
+define('SIMPLETEST_AUTOMATOR_RUNNING', 2);
+
+
+function simpletest_automator_menu() {
+  $items['admin/build/simpletest/automator'] = array(
+    'title' => 'Automator',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('simpletest_automator_form'),
+    'access arguments' => array('administer unit tests'),
+  );
+  $items['simpletest_automator/stop'] = array(
+    'title' => 'Simpletest Automator Stop',
+    'page callback' => 'simpletest_automator_stop',
+    'access callback' => '_simpletest_automator_on',
+  );
+  $items['simpletest_automator/js'] = array(
+    'page callback' => 'simpletest_automator_js',
+    'access callback' => '_simpletest_automator_on',
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+
+function _simpletest_automator_on() {
+  return isset($_SESSION['simpletest_automator']['state']) && $_SESSION['simpletest_automator']['state'] == SIMPLETEST_AUTOMATOR_RUNNING;
+}
+
+function _simpletest_add_js() {
+  drupal_add_js(drupal_get_path('module', 'simpletest_automator') . '/simpletest_automator.js');
+  drupal_add_js(array('simpletestAutomator' => array('clickTrapperURL' => url('simpletest_automator/js'))), 'setting');
+}
+
+function simpletest_automator_init() {
+  global $conf;
+  if (_simpletest_automator_on()) {
+    _simpletest_add_js();
+    if (empty($_POST) && (!isset($_SESSION['simpletest_automator']['url']) || $_SESSION['simpletest_automator']['url'] != $_GET['q']) && $_GET['q'] != 'simpletest_automator/stop') {
+      simpletest_automator_file('$this->drupalGet(url(%s, array("absolute" => TRUE)))', $_GET['q']);
+    }
+    $conf['date_format_short'] = 'custom';
+    $conf['date_format_short_custom'] = '\-\-\s\i\m\p\l\e\t\e\s\t\ \d\e\l\i\m\i\t\e\r\-\-';
+    $conf['date_format_medium'] = 'custom';
+    $conf['date_format_medium_custom'] = '\-\-\s\i\m\p\l\e\t\e\s\t\ \d\e\l\i\m\i\t\e\r\-\-';
+    $conf['date_format_long'] = 'custom';
+    $conf['date_format_long_custom'] = '\-\-\s\i\m\p\l\e\t\e\s\t\ \d\e\l\i\m\i\t\e\r\-\-';
+  }
+  elseif (isset($_SESSION['simpletest_automator']['state'])) {
+    if ($_SESSION['simpletest_automator']['state'] == SIMPLETEST_AUTOMATOR_ON) {
+      // This is the admin/build/simpletest/automator where we start. We move
+      // to the next state and we add the JS because we want to record the
+      // link that navigates us away.
+      $_SESSION['simpletest_automator']['state'] = SIMPLETEST_AUTOMATOR_FIRST_PAGE;
+      _simpletest_add_js();
+    }
+    elseif ($_SESSION['simpletest_automator']['state'] == SIMPLETEST_AUTOMATOR_FIRST_PAGE) {
+      $_SESSION['simpletest_automator']['state'] = SIMPLETEST_AUTOMATOR_RUNNING;
+      _simpletest_add_js();
+    }
+  }
+}
+
+function simpletest_automator_exit($url = NULL) {
+  if (_simpletest_automator_on()) {
+    if (isset($url)) {
+      $parsed_url = parse_url($url);
+      $_SESSION['simpletest_automator']['url'] = substr($parsed_url['path'], strlen(base_path()));
+    }
+    // Close the file.
+    simpletest_automator_file();
+  }
+}
+
+/**
+ * Implementation of hook_form_alter
+ */
+function simpletest_automator_form_alter(&$form, $form_state, $form_id) {
+  if (_simpletest_automator_on() && $form_id != 'simpletest_automator_form') {
+    $form['#after_build'][] = 'simpletest_automator_after_build';
+  }
+}
+
+/**
+ * Our after_build handler records the posted data and the clicked button.
+ */
+function simpletest_automator_after_build($form, $form_state) {
+  if ($post = $form['#post']) {
+    unset($post['form_id'], $post['form_build_id'], $post['form_token']);
+    $post = _simpletest_automator_flatten_post($form, $post);
+    simpletest_automator_file('$edit = %s', $post);
+    simpletest_automator_file('$this->drupalPostRequest(%s, $edit, %s)', $_GET['q'], $form_state['clicked_button']['#value']);
+  }
+  return $form;
+}
+
+function _simpletest_automator_flatten_post($form, $post, $prefix = '', $postfix = '') {
+  $return = array();
+  foreach ($post as $k => $v) {
+    $new_index = $prefix . $k . $postfix;
+    if (is_array($v)) {
+      $return += _simpletest_automator_flatten_post($form, $v, $new_index .'[', ']');
+    }
+    else {
+      $return[$new_index] = $v;
+    }
+  }
+  return $return;
+}
+
+function simpletest_automator_js() {
+  if ($_POST['label'] != t('Simpletest Automator Stop')) {
+    simpletest_automator_file('$this->clickLink(%s, %s)', $_POST['label'], $_POST['index']);
+    $_SESSION['simpletest_automator']['url'] = substr($_POST['url'], strlen(base_path()));
+  }
+}
+
+function simpletest_automator_preprocess_page($vars) {
+  if (_simpletest_automator_on()) {
+    // Something that surely won't be in the pattern. preg allows any character to
+    // be the delimiter.
+    $pieces = preg_split('%
+    (
+    <(?=[^a-zA-Z!/])  # a lone <
+    |                 # or
+    <[^>]*.(>|$)      # a string that starts with a <, up until the > or the end of the string
+    |                 # or
+    >                 # just a >
+    |                 # or
+    --simpletest delimiter-- # a date
+    |' . $_SESSION['simpletest_automator']['username'] .
+    ')%x', $vars['content']);
+    foreach ($pieces as $piece) {
+      if (trim($piece)) {
+        simpletest_automator_file('$this->assertWantedRaw(%s, %s)', $piece, $piece);
+      }
+    }
+    simpletest_automator_file('$this->assertWantedRaw(%s, "Page title")', drupal_get_title());
+  }
+}
+
+function simpletest_automator_preprocess_block() {
+  static $done = FALSE;
+  if (!$done && _simpletest_automator_on()) {
+    $done = TRUE;
+    foreach (drupal_get_messages(NULL, FALSE) as $type => $messages) {
+      foreach ($messages as $message) {
+        simpletest_automator_file('$this->assertWantedRaw(%s, %s)', $message, $message);
+      }
+    }
+  }
+}
+
+function simpletest_automator_file($line = NULL) {
+  static $file;
+  if (isset($line)) {
+    if (!isset($file)) {
+      $file = fopen($_SESSION['simpletest_automator']['filename'], 'a');
+    }
+    $args = func_get_args();
+    foreach ($args as $key => $value) {
+      // arg 0 is the string, we do not escape that.
+      if ($key) {
+        $args[$key] = var_export($value, TRUE);
+      }
+    }
+    $line = call_user_func_array('sprintf', $args);
+    if ($line[0] == '$') {
+      $line = '    '. $line;
+    }
+    fputs($file, $line .";\n");
+  }
+  elseif (isset($file)) {
+    fclose($file);
+  }
+}
+
+function simpletest_automator_form($form_state) {
+  include_once drupal_get_path('module', 'user') . '/user.admin.inc';
+  $rid = DRUPAL_AUTHENTICATED_RID;
+  $form['permissions'] = drupal_retrieve_form('user_admin_perm', $form_state, $rid);
+  $form['permissions']['checkboxes'][$rid]['#default_value'] = array();
+  $form['permissions']['role_names'][$rid]['#value'] = 'Simpletest Automator';
+  $form['permissions']['#theme'] = 'user_admin_perm';
+  $form['permissions']['submit']['#value'] = t('Start testing with this user');
+  $form['simpletest'] = array(
+    '#weight' => -1,
+  );
+  $form['simpletest']['description'] = array(
+    '#title' => t('Description'),
+    '#type' => 'textarea',
+  );
+  $form['simpletest']['file'] = array(
+    '#title' => t('Machine readable name'),
+    '#type' => 'textfield',
+  );
+  $form['simpletest']['name'] = array(
+    '#title' => t('Human readable name'),
+    '#type' => 'textfield',
+  );
+  $form['simpletest']['group'] = array(
+    '#title' => t('Group'),
+    '#type' => 'textfield',
+  );
+  return $form;
+}
+
+function simpletest_automator_form_validate($form, $form_state) {
+  if (!preg_match('/^[a-z][a-z0-9_]*/i', $form_state['values']['file'])) {
+    form_set_error('file', t('Machine readable name should be a valid PHP identifier as well: begins with a letter, contains only letters, numbers and underscores.'));
+  }
+}
+
+function simpletest_automator_form_submit($form, $form_state) {
+  global $user;
+  $original_uid = $user->uid;
+  $form_values = $form_state['values'];
+  $file = $form_values['file'];
+  $permissions= array_keys(array_filter($form_values[DRUPAL_AUTHENTICATED_RID]));
+  $permstring = implode(', ', $permissions);
+  $role_name = 'sa_'. user_password();
+  db_query("INSERT INTO {role} (name) VALUES ('%s')", $role_name);
+  $role = db_fetch_object(db_query("SELECT * FROM {role} WHERE name = '%s'", $role_name));
+  $rid = $role->rid;
+  db_query("INSERT INTO {permission} (rid, perm) VALUES (%d, '%s')", $rid, $permstring);
+  $name = 'sa_'. user_password();
+  $ua = array(
+    'name' => $name,
+    'mail' => $name . '@example.com',
+    'roles'  => array($rid => $rid),
+    'pass' => user_password(),
+    'status' => 1,
+  );
+  $user = user_save('', $ua);
+  $edit = array();
+  user_authenticate_finalize($edit);
+  $sessio = $_SESSION;
+  $_SESSION = array(
+    'simpletest_automator' => array(
+      'session' => $_SESSION,
+      'cleanup' => array(
+        'uid' => $user->uid,
+        'rid' => $rid,
+      ),
+      'username' => $user->name,
+      'state' => SIMPLETEST_AUTOMATOR_ON,
+      'original_uid' => $original_uid,
+      'filename' => file_directory_path() ."/$file.test",
+    ),
+  );
+  simpletest_automator_file("<?php
+
+class $file extends DrupalTestCase {
+  /**
+   * Implementation of get_info() for information
+   */
+  function get_info() {
+    return array('name' => t(%s), 'desc' => %s, 'group' => %s);
+  }
+
+  function tearDown() {
+    parent::tearDown();
+  }
+
+  function test$file () {", $form_values['name'], $form_values['description'], $form_values['group']);
+  simpletest_automator_file('$web_user = $this->drupalCreateUserRolePerm(%s)', $permissions);
+  simpletest_automator_file('$this->drupalLoginUser($web_user)');
+}
+
+function simpletest_automator_stop() {
+  global $user;
+  simpletest_automator_file('  }
+}');
+  simpletest_automator_file();
+  $uid = $_SESSION['simpletest_automator']['cleanup']['uid'];
+  $rid = $_SESSION['simpletest_automator']['cleanup']['rid'];
+  db_query('DELETE FROM {users} WHERE uid = %d', $uid);
+  db_query('DELETE FROM {users_roles} WHERE uid = %d', $uid);
+  db_query('DELETE FROM {authmap} WHERE uid = %d', $uid);
+  module_invoke_all('user', 'delete', array(), $user);
+  db_query('DELETE FROM {permission} WHERE rid = %d', $rid);
+  db_query('DELETE FROM {role} WHERE rid = %d', $rid);
+  $user = user_load($_SESSION['simpletest_automator']['original_uid']);
+  $_SESSION = $_SESSION['simpletest_automator']['session'];
+  unset($_SESSION['simpletest_automator']);
+  $edit = array();
+  user_authenticate_finalize($edit);
+  drupal_goto();
+}
