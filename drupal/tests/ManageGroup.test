@@ -30,7 +30,7 @@ class ManageGroup extends CiviTestCase {
   /**
    * Test Manage group, Members functionality
    */
-  function tFOOManageGroupMembersLink() {
+  function testManageGroupMembersLink() {
     $this->civiGet('civicrm/dashboard', 'reset=1' );
     $this->clickLink('Manage Groups', '0');
     $this->assertWantedRaw( 'Manage Groups', 'Manage Group url.' );
@@ -54,7 +54,7 @@ class ManageGroup extends CiviTestCase {
   /**
    * Test Manage group, Disable/Enable functionality
    */
-  function tFOOManageGroupEnableDisableLink() {
+  function testManageGroupEnableDisableLink() {
     $this->civiGet('civicrm/dashboard', 'reset=1' );
     $this->clickLink('Manage Groups', '0');
     $this->assertWantedRaw( 'Manage Groups', 'Manage Group url.' );
@@ -69,14 +69,13 @@ class ManageGroup extends CiviTestCase {
   /**
    * Test Manage group, Delete functionality
    */
-  function tFOOManageGroupDeleteLink() {
+  function testManageGroupDeleteLink() {
     $this->drupalGet(url('civicrm/dashboard', array("absolute" => TRUE)));
     $this->clickLink('Manage Groups', '0');
     $this->assertWantedRaw( 'Manage Groups', 'Manage Group url.' );
 
     $this->clickLink('Delete', '0');
     $this->assertWantedRaw( 'Confirm Group Delete', 'Confirm Group Delete.' );
-        
   }  
 
 

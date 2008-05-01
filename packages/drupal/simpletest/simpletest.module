@@ -58,7 +58,12 @@ function simpletest_load() {
   }
   $loaded = true;
   if (!defined('SIMPLE_TEST')) {
-    define('SIMPLE_TEST', drupal_get_path('module', 'simpletest') .'/simpletest'); 
+      // define('SIMPLE_TEST', drupal_get_path('module', 'simpletest') .'/simpletest'); 
+      define('SIMPLE_TEST',
+             dirname( __FILE__ ) . 
+             DIRECTORY_SEPARATOR . '..' .
+             DIRECTORY_SEPARATOR . '..' .
+             DIRECTORY_SEPARATOR . 'SimpleTest' );
   }
   if (!is_dir(SIMPLE_TEST)) {
     return simpletest_trigger_error('not available');
