@@ -29,7 +29,7 @@
  * 
  * @package CRM 
  * @author Alan Dixon
- * @copyright CiviCRM LLC (c) 2004-2007 
+ * @copyright CiviCRM LLC (c) 2004-2008 
  * $Id$ 
  * 
  */ 
@@ -40,8 +40,8 @@ class CRM_Core_Payment_IATS extends CRM_Core_Payment {
     const
         CHARSET  = 'UFT-8'; # (not used, implicit in the API, might need to convert?)
     const
-        CURRENCIES = 'CAD';         
-//        CURRENCIES = 'CAD,USD';         
+//        CURRENCIES = 'CAD';         
+        CURRENCIES = 'CAD,USD';         
     /** 
      * Constructor 
      *
@@ -52,7 +52,6 @@ class CRM_Core_Payment_IATS extends CRM_Core_Payment {
     function __construct( $mode, &$paymentProcessor ) {
         $this->_paymentProcessor = $paymentProcessor;
 
-        require_once 'Services/IATS/iatslink.php'; // require IATS supplied api library
         $config =& CRM_Core_Config::singleton( ); // get merchant data from config
         $this->_profile['mode'] = $mode; // live or test
         $this->_profile['webserver'] = parse_url($this->_paymentProcessor['url_site'],PHP_URL_HOST);
@@ -77,10 +76,19 @@ class CRM_Core_Payment_IATS extends CRM_Core_Payment {
          return self::error('Invalid currency selection, must be one of '.self::CURRENCIES);
       }
       $canDollar = ($params['currencyID'] == 'CAD');  //define currency type
+      $isRecur = ($params['is_recur'] && $params['installments'] > 1);
       # AgentCode  = $this->_paymentProcessor['signature'];
       # Password = $this->_paymentProcessor['password' ];
       # beginning of modified sample code from IATS php api 
-      $iatslink1 = new iatslink;
+      # include IATS supplied api library
+      if ($isRecur) {
+        include 'Services/IATS/iats_reoccur.php'; 
+        $iatslink1 = new iatslinkReoccur;
+      }
+      else {
+        include 'Services/IATS/iatslink.php';
+        $iatslink1 = new iatslink;
+      }
       
       $iatslink1->setTestMode($this->_profile['mode'] == 'live');
       $iatslink1->setWebServer($this->_profile['webserver']);
@@ -89,40 +97,77 @@ class CRM_Core_Payment_IATS extends CRM_Core_Payment {
       $iatslink1->setInvoiceNumber($params['invoiceID']); // Put your invoice # here
       // $iatslink1->setCardType("VISA");
       // If CardType is not set, iatslink will find the cardType
-      $iatslink1->setCardType($params['credit_card_type']);
+      // .. so don't set card type, because IATS has different names!
+      // $iatslink1->setCardType($params['credit_card_type']);
       $iatslink1->setCardNumber($params['credit_card_number']);
-      $iatslink1->setCVV2($params['cvv2']);
       $expiry_string = sprintf('%02d/%02d',$params['month'],($params['year'] % 100));
       $iatslink1->setCardExpiry($expiry_string);
       $amount = sprintf('%01.2f',$params['amount']);
       $iatslink1->setDollarAmount($amount);    //sell
         //$iatslink1->setDollarAmount(-1.15); //refund
       
-      
-      if ($canDollar == true) { 
-        //Fields setting for Canadian credit card processing
-        $AgentCode  = $this->_paymentProcessor['signature'];
-        $Password = $this->_paymentProcessor['password' ];
+      $AgentCode  = $this->_paymentProcessor['signature'];
+      $Password = $this->_paymentProcessor['password' ];
+      $iatslink1->setAgentCode($AgentCode);
+      $iatslink1->setPassword($Password);
+      // send IATS my invoiceID to match things up later
+      $iatslink1->setInvoiceNumber($params['invoiceID']);
+ 
+      if ($canDollar && !$isRecur) {  
+        //Fields setting for one-time Canadian credit card processing
         $CardHolderName = $params['billing_first_name'].' '.$params['billing_last_name'];
-        $iatslink1->setAgentCode($AgentCode);
-        $iatslink1->setPassword($Password);
         $iatslink1->setCardholderName($CardHolderName);
       }   
       else {    
         //Fields setting for US credit card processing.
-        die('USD not implemented!');
-        $iatslink1->setAgentCode("UTES01");
-        $iatslink1->setPassword("UTES01");      
-        $iatslink1->setFirstName("TEST");
-        $iatslink1->setLastName("WRONG CARD");
-        $iatslink1->setStreetAddress("101ST 101AVE");
-        $iatslink1->setCity("VAN");
-        $iatslink1->setState("BC");
-        $iatslink1->setZipCode("V1V 1V1");
+        $iatslink1->setFirstName($parames['billing_first_name']);
+        $iatslink1->setLastName($params['billing_last_name']);
+        $iatslink1->setStreetAddress($params['street_address']);
+        $iatslink1->setCity($params['city']);
+        $iatslink1->setState($params['state_province']);
+        $iatslink1->setZipCode($params['postal_code']);
       }
-      // go! ... uses curl to post and retrieve values
+      // and now go! ... uses curl to post and retrieve values
       // after various data integrity tests 
-      $iatslink1->processCreditCard();
+      if (!$isRecur) {  // simple version
+        // cvv2 only seems to get set for this!
+        $iatslink1->setCVV2($params['cvv2']);
+        $iatslink1->processCreditCard();
+      }
+      else { // extra fields for recurring donations
+        // implicit - test?: 1 == $params['frequency_interval'];
+        $scheduleType = NULL;
+        $paymentsRecur = $params['installments'] - 1;
+        $startTime = time(); // to be converted to date format later
+        $date = getdate($startTime);
+        switch($params['frequency_unit']) {
+          case 'week': 
+            $scheduleType = 'WEEKLY'; 
+            $scheduleDate = $date['wday'] + 1;
+            $endTime = $startTime + ($paymentsRecur * 7 * 24 * 60 * 60);
+            break;
+          case 'month': 
+            $scheduleType = 'MONTHLY'; 
+            $scheduleDate = $date['mday'];
+            $date['mon'] += $paymentsRecur;
+            while ($date['mon'] > 12) {
+              $date['mon'] -= 12;
+              $date['year'] += 1;
+            }
+            $endTime = mktime($date['hours'],$date['minutes'],$date['seconds'],$date['mon'],$date['mday'],$date['year']);
+            break;
+          default: die('Invalid frequency unit!'); break;
+        }
+        $endDate = date('Y-m-d',$endTime);
+        $startDate = date('Y-m-d',$startTime);
+        $iatslink1->setReoccuringStatus("ON");
+        $iatslink1->setBeginDate($startDate);
+        $iatslink1->setEndDate($endDate);
+        $iatslink1->setScheduleType($scheduleType);
+        $iatslink1->setScheduleDate($scheduleDate); 
+        // this next line is the reoccc equiv of processCreditCard
+        $iatslink1->createReoccCustomer();
+      }
         
       if ($iatslink1->getStatus() == 1) {  
         // this just means we got some kind of answer, not necessarily approved
@@ -207,7 +252,7 @@ class CRM_Core_Payment_IATS extends CRM_Core_Payment {
      * @return string the error message if any 
      * @public 
      */ 
-    function checkConfig( $mode ) {
+    function checkConfig( ) {
         $error = array( );
         
         if ( empty( $this->_paymentProcessor['signature'] ) ) {
@@ -226,5 +271,4 @@ class CRM_Core_Payment_IATS extends CRM_Core_Payment {
     }
 
 }
-
 
