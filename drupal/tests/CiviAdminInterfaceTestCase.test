@@ -1,7 +1,5 @@
 <?php
 
-
-
 class CiviAdminInterfaceTestCase extends DrupalTestCase {
 
   var $webUser;
@@ -16,24 +14,48 @@ class CiviAdminInterfaceTestCase extends DrupalTestCase {
   
   function setUp() {
     parent::setUp();
-
-  }
-  
-  /**
-   * Test book funcitonality through node interfaces.
-   */
-  function testSomething() {
     $this->drupalModuleEnable('civicrm');
+
     $this->webUser = $this->drupalCreateUserRolePerm(
                        array ( 0 => 'access CiviCRM',
                                1 => 'administer CiviCRM', ) );
     $this->drupalLoginUser($this->webUser);
-    $this->drupalGet(url('/civicrm/', array("absolute" => TRUE)));
-    $this->clickLink('Administer CiviCRM', '0');
+
+    // FIXME: figure out how to pass reset=1 without breaking the test
+    $this->drupalGet(url('/civicrm/admin', array("absolute" => TRUE)));
+  }
+  
+  /**
+   * Test proper loading of top level administration pages in "Administer CiviCRM".
+   */
+  function testAdminLinkCustomData() {
     $this->clickLink('Custom Data', '0');
-    $this->clickLink('Global Settings', '0');
-    $this->clickLink('Find Duplicate Contacts', '0');
-    $this->clickLink('Activity Types', '0');
-    $this->clickLink('Manage Contribution Pages', '0');
+    // check if resulting page contains link with below id
+    $this->assertLinkById('newCustomDataGroup');
   }  
+
+  function testAdminLinkGlobalSettings() {
+    $this->clickLink('Global Settings', '0');
+    // check if resulting page contains string as below
+    $this->assertText('Enable debugging features including display of template variables and backtracing.');
+  }  
+
+  function testAdminLinkFindDuplicateContacts() {
+    $this->clickLink('Find Duplicate Contacts', '0');
+    // check if resulting page contains link with below id
+    $this->assertClickable('Use Rule');
+  }  
+
+  function testAdminLinkActivityTypes() {
+    $this->clickLink('Activity Types', '0');
+    // check if resulting page contains link with below id
+    $this->assertPattern('/New Activity Type/i');
+  }  
+
+  function testAdminLinkManageContributionPages() {
+    $this->clickLink('Manage Contribution Pages', '0');
+    // check if resulting page contains link with below id
+    $this->assertClickable('Search');
+  }  
+
 }
