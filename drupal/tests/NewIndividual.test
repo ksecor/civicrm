@@ -25,13 +25,14 @@ class NewIndividualTestCase extends CiviTestCase {
   }
   
   /**
-   * 
+   * Test to create individual with 
+   * valid parameters
    */
   function testCreateIndividual() {
       $this->civiGet('civicrm/dashboard', 'reset=1' );
       $this->clickLink('New Individual', '0');
-      $first_name  = 'JaneSSSSS';
-      $last_name   = 'DoeAAAA';
+      $first_name  = 'Jane';
+      $last_name   = 'Doe';
       // print_r($this->_browser->_page->_raw);exit();
       $params = array( 'first_name' => $first_name,     
                        'last_name'  => $last_name );
@@ -41,6 +42,10 @@ class NewIndividualTestCase extends CiviTestCase {
       $this->DBAssertNotNull( 'CRM_Contact_DAO_Contact', $last_name . ', ' .$first_name, 'id', 'sort_name',  'Checking database for the record.' );
   }  
 
+  /**
+   * Test to create individual with 
+   * empty parameters
+   */
   function testCreateIndividualWithEmptyParams() {
       $this->civiGet('civicrm/dashboard', 'reset=1' );
       $this->clickLink('New Individual', '0');
