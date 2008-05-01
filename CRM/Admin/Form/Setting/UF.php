@@ -48,7 +48,7 @@ class CRM_Admin_Form_Setting_UF extends CRM_Admin_Form_Setting
      * @access public
      */
     public function buildQuickForm( ) {
-        CRM_Utils_System::setTitle(ts('Settings - Resource URLs'));
+        CRM_Utils_System::setTitle(ts('Settings - CMS Integration'));
 
         $config =& CRM_Core_Config::singleton( );
         $uf     = $config->userFramework;

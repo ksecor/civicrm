@@ -1,13 +1,15 @@
 <?php
 
-class ManageGroup extends DrupalTestCase {
+require_once 'CiviTestCase.php';
+
+class ManageGroup extends CiviTestCase {
 
   var $webUser;
   
   function get_info() {
     return array(
-      'name' => t('Manage interface functionality'),
-      'description' => t('Set configuration settings in CiviCRM.'),
+      'name' => t('Group Settings'),
+      'description' => t('Test all inks in Group Setting.'),
       'group' => t('CiviCRM Tests'),
     );
   }
@@ -29,7 +31,7 @@ class ManageGroup extends DrupalTestCase {
    * Test Manage group, Members functionality
    */
   function testManageGroupMembersLink() {
-    $this->drupalGet(url('civicrm/dashboard', array("absolute" => TRUE)));
+    $this->civiGet('civicrm/dashboard', 'reset=1' );
     $this->clickLink('Manage Groups', '0');
     $this->assertWantedRaw( 'Manage Groups', 'Manage Group url.' );
 
@@ -41,7 +43,7 @@ class ManageGroup extends DrupalTestCase {
    * Test Manage group, settings functionality
    */
   function testManageGroupSettingsLink() {
-    $this->drupalGet(url('civicrm/dashboard', array("absolute" => TRUE)));
+    $this->civiGet('civicrm/dashboard', 'reset=1' );
     $this->clickLink('Manage Groups', '0');
     $this->assertWantedRaw( 'Manage Groups', 'Manage Group url.' );
     $this->clickLink('Settings', '0');
@@ -52,7 +54,7 @@ class ManageGroup extends DrupalTestCase {
    * Test Manage group, Disable/Enable functionality
    */
   function testManageGroupEnableDisableLink() {
-    $this->drupalGet(url('civicrm/dashboard', array("absolute" => TRUE)));
+    $this->civiGet('civicrm/dashboard', 'reset=1' );
     $this->clickLink('Manage Groups', '0');
     $this->assertWantedRaw( 'Manage Groups', 'Manage Group url.' );
 
