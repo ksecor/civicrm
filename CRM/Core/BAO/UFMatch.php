@@ -142,7 +142,8 @@ WHERE openid = %1";
 
         if ( $update ) {
             // the only information we care about is uniqId, so lets check that
-            if ( $uniqId != $ufmatch->user_unique_id ) {
+            if ( ! isset( $ufmatch->user_unique_id ) ||
+                 $uniqId != $ufmatch->user_unique_id ) {
                 // uniqId has changed, so we need to update that everywhere
                 $ufmatch->user_unique_id = $uniqId;
                 $ufmatch->save( );

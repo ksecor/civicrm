@@ -29,4 +29,41 @@ class CiviTestCase extends DrupalTestCase {
         return $html;
     }
 
+    function getUrlsByLabel($label, $fuzzy = false) {
+        if ( ! $fuzzy ) {
+            return $this->_browser->_page->getUrlsByLabel( $label );
+        }
+
+        $matches = array();
+        foreach ($this->_browser->_page->_links as $link) {
+            $text = $link->getText();
+            if ( $text == $label ||
+                 strpos( $text, $label ) !== false ) {
+                $matches[] = $this->_browser->_page->_getUrlFromLink($link);
+            }
+        }
+        return $matches;
+    }
+
+    function clickLink($label, $index = 0, $fuzzy = false) {
+        if ( ! $fuzzy ) {
+            return parent::clickLink( $label, $index );
+        } 
+
+        $url_before = str_replace('%', '%%', $this->getUrl());
+        $urls = $this->getUrlsByLabel($label, true);
+        if (count($urls) < $index + 1) {
+            $url_target = 'URL NOT FOUND!';
+        } else {
+            $url_target = str_replace('%', '%%', $urls[$index]->asString());
+        }
+
+        $this->_browser->_load( $urls[$index], new SimpleGetEncoding( ) );
+        $ret = $this->_failOnError( $this->_browser->getContent( ) );
+        
+        $this->assertTrue($ret, ' [browser] clicked link '. t($label) . " ($url_target) from $url_before");
+        
+        return $ret;
+    }
+
 }
