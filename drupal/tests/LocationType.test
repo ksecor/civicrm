@@ -1,0 +1,61 @@
+<?php
+
+require_once 'CiviTestCase.php';
+
+class LocationType extends CiviTestCase {
+
+  var $webUser;
+  
+  function get_info() {
+    return array(
+      'name' => t('Location Type Creation'),
+      'description' => t('Test location type creation with validation.'),
+      'group' => t('CiviCRM Tests'),
+    );
+  }
+  
+  function setUp() {
+    parent::setUp();
+
+    $this->drupalModuleEnable('civicrm');
+    $this->webUser = $this->drupalCreateUserRolePerm(
+                       array ( 0 => 'access CiviCRM',
+                               1 => 'administer CiviCRM',
+			       2 => 'edit groups',
+			       3 => 'edit all contacts' ) );
+    $this->drupalLoginUser($this->webUser);
+
+  }
+  
+  /**
+   * Test to create location type along with validation
+   */
+  function testCreateLocationType( ) 
+  {
+      $this->civiGet('civicrm/dashboard', 'reset=1' );
+      $this->clickLink('Administer CiviCRM', '0');
+      $this->assertWantedRaw( 'Administer CiviCRM', 'Administer CiviCRM page.' );
+      
+      $this->clickLink('Location Types (Home, Work...)', '0');
+      $this->assertWantedRaw( 'Billing Address location', 'Location Type page.' );
+
+      $this->clickLink('New Location Type', '0');
+      $this->assertWantedRaw( 'vCard Name', 'New Location Type page.' );
+
+      $params = array( );
+      $this->drupalPost(NULL, $params, '_qf_LocationType_next');
+
+      $this->assertWantedRaw( 'Name is a required field.', 'New Location Type, validations.' );
+
+      $params = array( 'name' => 'My Home' ); 
+      $this->drupalPost(NULL, $params, '_qf_LocationType_next');
+      $this->assertWantedRaw( 'Name can only consist of alpha-numeric characters', 'Another validtaion' );
+
+      $params = array( 'name' => 'Office' ); 
+      $this->drupalPost(NULL, $params, '_qf_LocationType_next');
+      $this->assertWantedRaw( 'Office', 'Successful creation of New Location Type.' );
+      $this->recordAssertNotNull( 'CRM_Core_DAO_LocationType', 'Office' , 'id', 'name',  'Database check, location type created successfully.' );
+
+  }
+  
+}
