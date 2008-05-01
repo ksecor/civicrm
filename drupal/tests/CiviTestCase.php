@@ -1,8 +1,10 @@
 <?php
 
-class CiviTestCase extends DrupalTestCase {
+class CiviTestCase extends DrupalTestCase 
+{
 
-    function __construct( ) {
+    function __construct( ) 
+    {
         parent::__construct( );
 
         civicrm_initialize( );
@@ -29,10 +31,18 @@ class CiviTestCase extends DrupalTestCase {
         return $html;
     }
 
-    function recordAssertNotNull(  $daoName, $id, $fieldName, $idName, $message  ) 
+    function DBAssertNotNull(  $daoName, $id, $fieldName, $idName, $message  ) 
     {
         $value = CRM_Core_DAO::getFieldValue( $daoName, $id, $fieldName, $idName );
         $this->assertNotNull(  $value, $message );
+        
+        return $value;
+    }
+
+    function DBAssertNull(  $daoName, $id, $fieldName, $idName, $message  ) 
+    {
+        $value = CRM_Core_DAO::getFieldValue( $daoName, $id, $fieldName, $idName );
+        $this->assertNull(  $value, $message );
     }
 
     function getUrlsByLabel($label, $fuzzy = false) {

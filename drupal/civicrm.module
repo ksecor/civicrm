@@ -137,7 +137,7 @@ function civicrm_perm()
                    'access uploaded files',
                    'profile listings and forms',
                    'access all custom data',
-		   'view all activities',
+                   'view all activities',
                    'access CiviCRM', 'access Contact Dashboard' );
                    
     // permissions for components which are conditionally enabled via config file setting
