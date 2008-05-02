@@ -99,11 +99,12 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
      * @param int $job_id       The job ID
      * @param int $queue_id     The Queue Event ID of the recipient
      * @param string $hash      The hash
+     * @param boolean $return   If true return the list of groups.
      * @return array|null $groups    Array of all groups from which the contact was removed, or null if the queue event could not be found.
      * @access public
      * @static
      */
-    public static function &unsub_from_mailing($job_id, $queue_id, $hash) {
+    public static function &unsub_from_mailing($job_id, $queue_id, $hash, $return = false) {
         /* First make sure there's a matching queue event */
         $q =& CRM_Mailing_Event_BAO_Queue::verify($job_id, $queue_id, $hash);
         if (! $q) {
@@ -184,7 +185,9 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         while ($do->fetch()) {
             $groups[$do->group_id] = $do->title;
         }
-        
+        if ($return) {
+            return $groups;
+        }
         $contacts = array($contact_id);
         foreach ($groups as $group_id => $group_name) {
             $notremoved = false;

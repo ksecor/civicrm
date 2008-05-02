@@ -7,14 +7,27 @@
 </div>
 {else}
 <div>
-<form action="{$confirmURL}" method="post">
-{ts 1=$display_name 2=$email}Are you sure you want to unsubscribe: %1 (%2){/ts}
-<br/>
-<center>
-<input type="submit" name="_qf_unsubscribe_next" value="{ts}Unsubscribe{/ts}" class="form-submit" />
-&nbsp;&nbsp;&nbsp;
-<input type="submit" name="_qf_unsubscribe_cancel" value="{ts}Cancel{/ts}" class="form-submit" />
-</center>
-</form>
+    <form action="{$confirmURL}" method="post">
+      {if $groupExist}
+        <div class="messages status">
+          {ts 1=$display_name 2=$email} %1 (%2){/ts}<br/>
+          {ts}Are you sure you want to be unsubscribed from mailing lists:{/ts}<br/>
+        </div>
+        {foreach from=$groups item="group"} 
+          <div class="{cycle values="odd-row,even-row"}" style="width:300px">
+             {$group}
+          </div>
+        {/foreach}
+        <center>
+          <input type="submit" name="_qf_unsubscribe_next" value="{ts}Unsubscribe{/ts}" class="form-submit" />&nbsp;&nbsp;&nbsp;
+           <input type="submit" name="_qf_unsubscribe_cancel" value="{ts}Cancel{/ts}" class="form-submit" />
+        </center>
+      {else}
+        <div class="messages status">
+          {ts 1=$display_name 2=$email} %1 (%2){/ts}<br/>
+          {ts}Sorry you are not on the mailing list. Probably you are already unsubscribed.{/ts}<br/>
+        </div>
+      {/if}
+    </form>
 </div>
 {/if}
