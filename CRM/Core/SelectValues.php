@@ -610,7 +610,7 @@ class CRM_Core_SelectValues
         static $tokens = null;
         if (! $tokens ) {
             $values= array_merge( array_keys(CRM_Contact_BAO_Contact::importableFields( ) ),
-                                  array( 'display_name', 'checksum', 'contact_id' ) );
+                                  array( 'display_name', 'checksum', 'contact_id', 'current_employer' ) );
             unset($values[0]); 
             foreach($values as $key => $val) {
                 $tokens[$key] = "{contact.$val}";

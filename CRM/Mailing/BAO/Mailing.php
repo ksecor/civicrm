@@ -1752,7 +1752,14 @@ SELECT DISTINCT( m.id ) as id
                 $custom[] = $cfID;
             }
         }
-
+        
+        //used to get the current employer field.
+        $currentEmployer = false;
+        if ( CRM_Utils_Array::value( 'current_employer', $returnProperties ) ) {
+            $currentEmployer = true;
+            unset( $returnProperties['current_employer'] );
+        }
+        
         //get the total number of contacts to fetch from database.
         $numberofContacts = count( $contactIds );
         
@@ -1782,6 +1789,19 @@ SELECT DISTINCT( m.id ) as id
                 
                 $contactDetails[$contactID]['preferred_communication_method'] = implode(', ',$result);
                 unset($result);
+            }
+            
+            //get the current employer name.
+            if ( $currentEmployer ) {
+                require_once 'CRM/Contact/BAO/Relationship.php';
+                $relationships = CRM_Contact_BAO_Relationship::getRelationship( $contactID );
+                krsort( $relationships );
+                foreach ( $relationships as $relationshipID => $value ) {
+                    if ( $value['relation'] == 'Employee of' && $value['is_active'] == 1 ) {
+                        $contactDetails[$contactID]['current_employer'] = $value['name'];
+                        break;
+                    }
+                }
             }
             
             foreach ( $custom as $cfID ) {
