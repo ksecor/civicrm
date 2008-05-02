@@ -305,9 +305,10 @@ class CRM_Export_BAO_Export
                     require_once 'CRM/Contact/BAO/Relationship.php';
                     $relationships = CRM_Contact_BAO_Relationship::getRelationship( $row['contact_id'] );
                     krsort( $relationships );
-                    foreach ( $relationships as $relation => $value ) {
+                    foreach ( $relationships as $relationshipID => $value ) {
                         if ( $value['relation'] == 'Employee of' && $value['is_active'] == 1 ) {
                             $row['current_employer'] = $value['name'];
+                            break;
                         }
                     }
                     //unset contact_id if Internal Contact ID is not map;

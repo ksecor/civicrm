@@ -115,7 +115,7 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
         $contact = CRM_Contact_BAO_Contact::retrieve( $params, $defaults, $ids, true );
 
         CRM_Contact_BAO_Contact::resolveDefaults( $defaults );
-
+        
         // unset locations if empty
         if ( ( count( $defaults['location'] ) == 1 ) &&
              ( count( $defaults['location'][1] ) == 1 ) ) {
@@ -158,7 +158,18 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
             $this->$c = $this->_editOptions[$t];
             $this->assign( substr( $c, 1 ), $this->$c );
         }
-	    $this->assign( $defaults );
+        
+        //get the current employer name
+        if ( $relationships = CRM_Utils_Array::value( 'data', $defaults['relationship'] ) ) {
+            krsort( $relationships );
+            foreach ( $relationships as $relationshipID => $value ) {
+                if ( $value['relation'] == 'Employee of' && $value['is_active'] == 1 ) {
+                    $defaults['current_employer'] = $value['name'];
+                    break;
+                }
+            }
+        }
+        $this->assign( $defaults );
         $this->setShowHide( $defaults );        
         
         // also assign the last modifed details
