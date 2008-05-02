@@ -48,7 +48,6 @@ class CRM_Import_Form_Summary extends CRM_Core_Form {
      * @access public
      */
     public function preProcess( ) {
-
         // set the error message path to display
         $errorFile = $this->assign('errorFile', $this->get('errorFile') );
         
@@ -99,6 +98,9 @@ class CRM_Import_Form_Summary extends CRM_Core_Form {
         foreach ( $properties as $property ) {
             $this->assign( $property, $this->get( $property ) );
         }
+
+        $session =& CRM_Core_Session::singleton( );
+        $session->pushUserContext( CRM_Utils_System::url('civicrm/import/contact', 'reset=1') );
     }
 
     /**

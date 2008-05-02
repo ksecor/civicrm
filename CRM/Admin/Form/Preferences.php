@@ -61,6 +61,9 @@ class CRM_Admin_Form_Preferences extends CRM_Core_Form
         if ( isset($action) ) {
             $this->assign( 'action', $action );
         }
+
+        $session =& CRM_Core_Session::singleton( );
+
         require_once 'CRM/Core/DAO/Preferences.php';
         $this->_config =& new CRM_Core_DAO_Preferences( );
 
@@ -74,7 +77,6 @@ class CRM_Admin_Form_Preferences extends CRM_Core_Form
             $this->_config->contact_id = null;
         } else {
             if ( ! $this->_contactID ) {
-                $session =& CRM_Core_Session::singleton( );
                 $this->_contactID = $session->get( 'userID' );
                 if ( ! $this->_contactID ) {
                     CRM_Utils_System::fatal( 'Could not retrieve contact id' );
@@ -86,6 +88,7 @@ class CRM_Admin_Form_Preferences extends CRM_Core_Form
         }
 
         $this->_config->find( true );
+        $session->pushUserContext( CRM_Utils_System::url('civicrm/admin/setting', 'reset=1') );
     }
 
     function cbsDefaultValues( &$defaults ) {
