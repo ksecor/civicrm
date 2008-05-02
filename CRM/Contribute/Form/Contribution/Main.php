@@ -183,6 +183,10 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             $this->buildPayLater( );
         }
 
+        if ( $this->_values['is_for_organization'] ) {
+            $this->buildOnBehalfOrganization( );
+        }
+
         require_once 'CRM/Contribute/BAO/Premium.php';
         CRM_Contribute_BAO_Premium::buildPremiumBlock( $this , $this->_id ,true );
 
@@ -332,6 +336,18 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         //email
         $this->addElement('text', 'honor_email', ts('Honoree Email Address'));
         $this->addRule( "honor_email", ts('Honoree Email is not valid.'), 'email' );
+    }
+
+    /**
+     * build elements to enable pay on behalf of an organization.
+     *
+     * @access public
+     */
+    function buildOnBehalfOrganization( ) 
+    {
+        require_once 'CRM/Contact/BAO/Relationship.php';
+        $this->addElement( 'checkbox', 'is_for_organization', $this->_values['for_organization'] );
+        CRM_Contact_BAO_Relationship::buildOnBehalfForm( $this, 'Organization', 'Organization Details' );
     }
 
     /**

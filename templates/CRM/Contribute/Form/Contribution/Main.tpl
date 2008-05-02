@@ -34,7 +34,7 @@ function clearAmountOther() {
     <p>
     {$intro_text}
     </p>
-    </div>
+   </div>
     {include file="CRM/Contribute/Form/Contribution/MembershipBlock.tpl" context="makeContribution"}     
  
     <table class="form-layout-compressed">
@@ -62,12 +62,20 @@ function clearAmountOther() {
     {/if}
     <tr>
 	{assign var=n value=email-$bltID}
-        <td class="label">{$form.$n.label}</td><td>{$form.$n.html}</td>
+        <td class="label">{$form.$n.label}</td><td>&nbsp;{$form.$n.html}</td>
     </tr>
+    {if $form.is_for_organization}
+        <tr><td>&nbsp;</td><td></td></tr>
+        <tr><td class="label">&nbsp;</td><td>{$form.is_for_organization.html}&nbsp;{$form.is_for_organization.label}</td></tr>
+    {/if}
     </table>
 
     {* User account registration option. Displays if enabled for one of the profiles on this page. *}
     {include file="CRM/common/CMSUser.tpl"}
+
+    {if $form.is_for_organization}
+        {include file=CRM/Contact/Form/OnBehalfOf.tpl}
+    {/if}
     
     {include file="CRM/Contribute/Form/Contribution/PremiumBlock.tpl" context="makeContribution"}
 
