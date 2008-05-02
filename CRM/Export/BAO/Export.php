@@ -64,7 +64,13 @@ class CRM_Export_BAO_Export
         $primary          = false;
         $returnProperties = array( );
         $origFields       = $fields;
-
+        
+        //used to check if user map current employer field to be exported.
+        $currentEmployer  = false;
+        //used to check if user wants only current employer field to be exported.
+        //in that case contact_id should be unset from csv row.
+        $unsetContactID   = false;
+        
         if ( $fields ) {
             //construct return properties 
             $locationTypes =& CRM_Core_PseudoConstant::locationType();
@@ -73,6 +79,10 @@ class CRM_Export_BAO_Export
                 $fieldName   = CRM_Utils_Array::value( 1, $value );
                 
                 if ( ! $fieldName ) {
+                    continue;
+                } else if ( $fieldName == 'current_employer' ) {
+                    //export current employer field.
+                    $currentEmployer = true;
                     continue;
                 }
                 
@@ -90,6 +100,12 @@ class CRM_Export_BAO_Export
                     $returnProperties[$fieldName] = 1;
                 }
             }
+            //check if user map current employer field,
+            //and did not map Internal Contact ID.
+            $returnContactID = CRM_Utils_Array::value( 'id' , $returnProperties );
+            if ( $currentEmployer && empty( $returnContactID ) ) {
+                $unsetContactID = true;
+            }
         } else {
             $primary = true;
             $fields = CRM_Contact_BAO_Contact::exportableFields( 'All', true, true );
@@ -99,7 +115,7 @@ class CRM_Export_BAO_Export
                     $returnProperties[$key] = 1;
                 }
             }
-        
+            
             $queryMode = CRM_Contact_BAO_Query::MODE_CONTACTS;
             if ( $exportMode == CRM_Export_Form_Select::CONTRIBUTE_EXPORT ) {
                 $queryMode = CRM_Contact_BAO_Query::MODE_CONTRIBUTE;
@@ -124,10 +140,10 @@ class CRM_Export_BAO_Export
         if ( $moreReturnProperties ) {
             $returnProperties = array_merge( $returnProperties, $moreReturnProperties );
         }
-
+        
         // create the selector, controller and run - store results in session
         $session =& CRM_Core_Session::singleton( );
-
+        
         if ( ! $componentClause || $querytMode == CRM_Contact_BAO_Query::MODE_CONTACTS ) {
             if ( $selectAll ) {
                 if ($primary) {
@@ -223,14 +239,17 @@ class CRM_Export_BAO_Export
                         }
                     }
                 } 
-
+                
                 if (array_key_exists($key, $returnProperties)) {
                     $flag = true;
                 }
-                if ($key == 'contact_id' && array_key_exists( 'id' , $returnProperties)) {
+                //for exporting both Current Employer and 
+                //Internal contact ID, 'contact_id' should be present in $row.
+                if ( ( $key == 'contact_id' && array_key_exists( 'id' , $returnProperties ) ) ||
+                     ( $key == 'contact_id' && $currentEmployer ) ) {
                     $flag = true;
                 }
-
+                
                 if ($flag) {
                     if ( isset( $varValue ) && $varValue != '' ) {
                         if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($key) ) {
@@ -281,14 +300,38 @@ class CRM_Export_BAO_Export
                 }
             }
             if ( $validRow ) {
+                //get the current employer name, CRM-2968.
+                if ( $currentEmployer || $primary ) {
+                    require_once 'CRM/Contact/BAO/Relationship.php';
+                    $relationships = CRM_Contact_BAO_Relationship::getRelationship( $row['contact_id'] );
+                    krsort( $relationships );
+                    foreach ( $relationships as $relation => $value ) {
+                        if ( $value['relation'] == 'Employee of' && $value['is_active'] == 1 ) {
+                            $row['current_employer'] = $value['name'];
+                        }
+                    }
+                    //unset contact_id if Internal Contact ID is not map;
+                    if ( $unsetContactID ) {
+                        unset( $row['contact_id'] );
+                    }
+                }
                 $contactDetails[] = $row;
             }
             $header = true;
         }
-
+        
+        if ( $currentEmployer || $primary ) {
+            $headerRows[] = 'Current Employer';
+        }
+        //unset contact id from header when Internal Contact ID is not map;
+        if ( $unsetContactID ) {
+            $unsetKey = CRM_Utils_Array::key('Internal Contact ID', $headerRows );
+            unset( $headerRows[$unsetKey] );
+        }
+        
         require_once 'CRM/Core/Report/Excel.php';
         CRM_Core_Report_Excel::writeCSVFile( self::getExportFileName( 'csv', $exportMode ), $headerRows, $contactDetails );
-                
+        
         exit();
     }
 

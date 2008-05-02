@@ -365,6 +365,11 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         $fields['Household'   ] =& CRM_Contact_BAO_Contact::exportableFields('Household', false, $required);
         $fields['Organization'] =& CRM_Contact_BAO_Contact::exportableFields('Organization', false, $required);
         
+        //get the current employer for mapping.
+        if ( $required ) {
+            $fields['Individual']['current_employer']['title'] = 'Current Employer';
+        }
+        
         // add component fields
         $compArray = array();
 
