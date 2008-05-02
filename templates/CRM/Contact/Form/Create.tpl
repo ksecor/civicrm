@@ -16,8 +16,9 @@
             <div  class="tundra" dojoType= "dojox.data.QueryReadStore" jsId="organizationStore" url="{$orgDataURL}" doClientPaging="false" >
             {$form.select_contact.html}
             </div>
-            <button dojoType="dijit.form.Button" onclick="dijit.byId('id-contactCreate').show()" class="tundra">Create new contact</button>
-            <div dojoType="dijit.Dialog" id="id-contactCreate" title="New Contact" class="tundra" href="{crmURL p='civicrm/profile/create' q="gid=2&reset=1&snippet=1&context=dialog"}">
+            <!--button dojoType="dijit.form.Button" onclick="dijit.byId('id-contactCreate').show()" class="tundra">Create new contact</button-->
+            <a href="javascript:dijit.byId('id-contactCreate').show()" class="button"><span>&raquo; Create new contact</span></a>
+            <div dojoType="dijit.Dialog" id="id-contactCreate" refreshOnShow=false class="tundra" href="{crmURL p='civicrm/profile/create' q="gid=2&reset=1&snippet=1&context=dialog"}">
             </div>
         </td>
       </tr> 
