@@ -27,6 +27,11 @@ class ClickURL extends CiviTestCase {
       // check if there is a civicrm error or warning message on the page
       // at a later stage, we should also check for CMS based errors
       $this->assertTrue($ret, ts(' [browser] GET %1"', array('%1' => $url)));
+
+      $this->assertNoText( 'Sorry. A non-recoverable error has occurred', '[browser] fatal error page?' );
+      $this->assertNoText( 'The requested page could not be found', '[browser] page not found?' );
+      $this->assertNoText( 'You are not authorized to access this page', '[browser] permission denied?' );
+
       return;
   }
 
