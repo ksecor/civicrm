@@ -1,0 +1,108 @@
+<?php
+
+require_once 'CiviTestCase.php';
+
+class ClickURL extends CiviTestCase {
+
+  var $webUser;
+  
+  function get_info() {
+    return array(
+      'name' => t('URL Tester'),
+      'description' => t('Randomly click CiviCRM URLs and test for error.'),
+      'group' => t('CiviCRM Tests'),
+    );
+  }
+  
+  function setUp() {
+    parent::setUp();
+
+    $this->drupalModuleEnable('civicrm');
+    $this->webUser = $this->drupalCreateUserRolePerm( $this->allPermissions( ) );
+    $this->drupalLoginUser($this->webUser);
+
+  }
+
+  function checkErrors( &$ret, &$url ) {
+      // check if there is a civicrm error or warning message on the page
+      // at a later stage, we should also check for CMS based errors
+      $this->assertTrue($ret, ts(' [browser] GET %1"', array('%1' => $url)));
+      return;
+  }
+
+  function select( &$page, &$test ) {
+      foreach ( $page as $url ) {
+          if ( ! in_array( $url, $test ) && 
+               rand( 0, 100) % 3 )  {
+              $test[] = $url;
+          }
+      }
+  }
+
+  /**
+   * click urls of a civicrm page and ensure we do not get a fatal error message
+   */
+  function testClickURL( )
+  {
+      $url = CRM_Utils_System::url( 'civicrm/dashboard', 'reset=1' );
+      $testURLs = array( $url );
+      $seen      = array( );
+      $current   = 0;
+
+      while ( true ) {
+          if ( count( $testURLs ) <= $current ) {
+              return;
+          }
+
+          $url = $testURLs[$current];
+          if ( array_key_exists( $url, $seen ) ) {
+              continue;
+          }
+
+          $pageURLs = array( );
+          $this->checkPage( $url, $pageURLs );
+          $this->select( $pageURLs, $testURLs );
+
+          $seen[$url] = 1;
+          if ( count( $seen ) > 50 ) {
+              return;
+          }
+          $current++;
+      }
+  }
+
+  function isCiviURL( $url ) {
+      static $config = null;
+      if ( ! $config ) {
+          $config =& CRM_Core_Config::singleton( );
+      }
+
+      if ( strpos( $url,
+                   $config->userFrameworkBaseURL . 'civicrm/' ) === false ) {
+          return false;
+      }
+
+      // ignore all urls with snippet, force, crmSID
+      if ( strpos( $url, 'snippet=' ) ||
+           strpos( $url, 'force='   ) ||
+           strpos( $url, 'crmSID='  ) ) {
+          return false;
+      }
+
+      return true;
+  }
+
+  function checkPage( $url, &$pageURLs ) {
+      $ret = $this->civiGetURL( $url );
+      $this->checkErrors( $ret, $url );
+
+      $urls = $this->_browser->_page->getUrls( );
+
+      foreach ( $urls as $url ) {
+          if ( $this->isCiviURL( $url ) ) {
+              $pageURLs[] = $url;
+          }
+      }
+  }
+
+}

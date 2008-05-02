@@ -25,20 +25,20 @@ class LocationType extends CiviTestCase {
 			       3 => 'edit all contacts' ) );
     $this->drupalLoginUser($this->webUser);
 
+    // now goto location page
+    $this->civiGet('civicrm/dashboard', 'reset=1' );
+    $this->clickLink('Administer CiviCRM', '0');
+    $this->assertWantedRaw( 'Administer CiviCRM', 'Administer CiviCRM page.' );
+    
+    $this->clickLink('Location Types (Home, Work...)', '0');
+    $this->assertWantedRaw( 'Billing Address location', 'Location Type page.' );
   }
-  
-  /**
-   * Test to create location type along with validation
-   */
-  function testCreateLocationType( ) 
-  {
-      $this->civiGet('civicrm/dashboard', 'reset=1' );
-      $this->clickLink('Administer CiviCRM', '0');
-      $this->assertWantedRaw( 'Administer CiviCRM', 'Administer CiviCRM page.' );
-      
-      $this->clickLink('Location Types (Home, Work...)', '0');
-      $this->assertWantedRaw( 'Billing Address location', 'Location Type page.' );
 
+  /**
+   * ensure that we get an error when we dont submit a name in form field
+   */
+  function testEmptyName( )
+  {
       $this->clickLink('New Location Type', '0', true);
       $this->assertWantedRaw( 'vCard Name', 'New Location Type page.' );
 
@@ -46,6 +46,15 @@ class LocationType extends CiviTestCase {
       $this->drupalPost(NULL, $params, '_qf_LocationType_next');
 
       $this->assertWantedRaw( 'Name is a required field.', 'New Location Type, validations.' );
+  }
+
+  /**
+   * Test to create location type along with validation
+   */
+  function testCreateLocationType( ) 
+  {
+      $this->clickLink('New Location Type', '0', true);
+      $this->assertWantedRaw( 'vCard Name', 'New Location Type page.' );
 
       $params = array( 'name' => 'My Home' );
       $this->drupalPost(NULL, $params, '_qf_LocationType_next');
