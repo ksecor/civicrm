@@ -1,0 +1,64 @@
+<?php
+
+require_once '../../CiviTest/CiviTestCase.php';
+
+class Email extends CiviTestCase {
+
+  function get_info() {
+    return array(
+      'name' => 'Email BAOs',
+      'description' => 'Test all Core_BAO_Email methods.',
+      'group' => 'CiviCRM Tests',
+    );
+  }
+  
+  function setUp() {
+    parent::setUp();
+  }
+
+  /**
+   * add() method (create and update modes)
+   */
+  function test_Add( )
+  {
+    $contactId = 5;
+    $params = array( );
+    $params = array( 'name'       => 'jane.doe@example.com',
+                     'is_primary' => 1,
+                     'contact_id' => $contactId );
+
+    require_once 'CRM/Core/BAO/Email.php';
+    CRM_Core_BAO_Email::add( $params );
+    
+    $emailId = $this->DBAssertNotNull( 'CRM_Core_DAO_Email', 'jane.doe@example.com' , 'id', 'name',
+                                       'Database check, for created email address.' );
+                                       
+    // Now call add() to modify an existing email address
+    $params = array( );
+    $params = array( 'id'           => $emailId,
+                     'is_bulkmail'  => 1,
+                     'on_hold'      => 1, );
+
+    CRM_Core_BAO_Email::add( $params );
+    
+  }
+
+  /**
+   * allEmails() method - get all emails for our contact, with primary email first
+   */
+  function test_allEmails( )
+  {
+    $contactId = 5;
+    $params = array( );
+    $params = array( 'name'       => 'jane.doe@example.com',
+                     'contact_id' => $contactId );
+
+    require_once 'CRM/Core/BAO/Email.php';
+    CRM_Core_BAO_Email::add( $params );
+    
+    $emailId = $this->DBAssertNotNull( 'CRM_Core_DAO_Email', 'jane.doe@example.com' , 'id', 'name',
+                                       'Database check, for created email address.' );
+  }
+
+
+}
