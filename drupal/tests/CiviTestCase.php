@@ -66,6 +66,45 @@ class CiviTestCase extends DrupalTestCase
         return $matches;
     }
 
+    function isCiviURL( $url, $ignoreVariations = true ) {
+        static $config = null;
+        if ( ! $config ) {
+            $config =& CRM_Core_Config::singleton( );
+        }
+        
+        if ( strpos( $url,
+                     $config->userFrameworkBaseURL . 'civicrm/' ) === false ) {
+            return false;
+        }
+        
+        // ignore all urls with snippet, force, crmSID
+        if ( $ignoreVariations &&
+             ( strpos( $url, 'snippet=' ) ||
+               strpos( $url, 'force='   ) ||
+               strpos( $url, 'crmSID='  ) ) ) {
+            return false;
+        }
+        
+        return true;
+    }
+
+    function getUrlsByCiviToken( $token, $path = null ) {
+        $matches = array();
+        foreach ($this->_browser->_page->_links as $link) {
+            $text = $link->getText();
+            $url  = $this->_browser->_page->_getUrlFromLink($link)->asString( );
+            if ( $this->isCiviURL( $url ) &&
+                 ( strpos( $url, $token ) !== false ) ) {
+                if ( ! $path ||
+                     strpos( $url, $path ) !== false ) {
+                    echo "$text, $url<p>";
+                    $matches[$text] = $url;
+                }
+            }
+        }
+        return $matches;
+    }
+
     function clickLink($label, $index = 0, $fuzzy = false) {
         if ( ! $fuzzy ) {
             return parent::clickLink( $label, $index );

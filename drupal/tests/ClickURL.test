@@ -47,9 +47,10 @@ class ClickURL extends CiviTestCase {
   /**
    * click urls of a civicrm page and ensure we do not get a fatal error message
    */
-  function testClickURL( )
+  function testClickURL( $linksToCheck = 5 )
   {
       $url = CRM_Utils_System::url( 'civicrm/dashboard', 'reset=1' );
+      $url = CRM_Utils_System::url( 'civicrm/admin/locationType', 'reset=1' );
       $testURLs = array( $url );
       $seen      = array( );
       $current   = 0;
@@ -69,32 +70,14 @@ class ClickURL extends CiviTestCase {
           $this->select( $pageURLs, $testURLs );
 
           $seen[$url] = 1;
-          if ( count( $seen ) > 50 ) {
-              return;
+          if ( count( $seen ) >= $linksToCheck ) {
+              break;
           }
           $current++;
       }
-  }
 
-  function isCiviURL( $url ) {
-      static $config = null;
-      if ( ! $config ) {
-          $config =& CRM_Core_Config::singleton( );
-      }
-
-      if ( strpos( $url,
-                   $config->userFrameworkBaseURL . 'civicrm/' ) === false ) {
-          return false;
-      }
-
-      // ignore all urls with snippet, force, crmSID
-      if ( strpos( $url, 'snippet=' ) ||
-           strpos( $url, 'force='   ) ||
-           strpos( $url, 'crmSID='  ) ) {
-          return false;
-      }
-
-      return true;
+      $this->assertTrue( count( $seen ) == $linksToCheck,
+                         ts( '[browser] returned all links' ) );
   }
 
   function checkPage( $url, &$pageURLs ) {
