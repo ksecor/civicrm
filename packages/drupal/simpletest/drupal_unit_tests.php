@@ -1,4 +1,9 @@
 <?php
+
+set_include_path( get_include_path() . PATH_SEPARATOR . 
+drupal_get_path('module', 'civicrm') . '/../tests/CiviTest/' );
+
+
 /**
  * Implementes getTestInstances to allow access to the test objects from outside
  */
@@ -39,8 +44,8 @@ class DrupalUnitTests extends DrupalTestSuite {
       $files = array();
       foreach (module_list() as $module) {
         $module_path = drupal_get_path('module', $module);
-        if (file_exists($module_path .'/tests/')) {
-          $dir = $module_path .'/tests';
+        if (file_exists($module_path .'/../tests/')) {
+          $dir = $module_path .'/../tests';
           $tests = file_scan_directory($dir, '\.test$');
           $files = array_merge($files, $tests);
         }   
