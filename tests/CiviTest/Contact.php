@@ -31,7 +31,7 @@ class Contact extends DrupalTestCase
                             'contact_source' => $contact_source
                             );
         }
-        return $this->create($params);
+        return self::create($params);
     }
 
     /*
@@ -46,7 +46,7 @@ class Contact extends DrupalTestCase
             $household_name = "John Doe's home";
             $params = array( 'household_name'     => $household_name );
         }
-        return $this->create($params);
+        return self::create($params);
     }
 
     /*
