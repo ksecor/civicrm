@@ -1,5 +1,4 @@
 <?php
-
 class Contact extends DrupalTestCase 
 {
     /*
@@ -20,6 +19,8 @@ class Contact extends DrupalTestCase
                         'email-Primary'  => $email,
                         'email'          => $email   
                         );
+
+        require_once 'CRM/Contact/BAO/Contact.php';
         $contactID = CRM_Contact_BAO_Contact::createProfileContact( $params, CRM_Core_DAO::$_nullArray );
         return $contactID;
     }

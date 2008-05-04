@@ -69,7 +69,7 @@ class CiviTestCase extends DrupalTestCase
         return $html;
     }
 
-    function DBAssertNotNull(  $daoName, $id, $fieldName, $idName, $message  ) 
+    function assertDBNotNull(  $daoName, $id, $fieldName, $idName, $message  ) 
     {
         $value = CRM_Core_DAO::getFieldValue( $daoName, $id, $fieldName, $idName );
         $this->assertNotNull(  $value, $message );
@@ -77,7 +77,7 @@ class CiviTestCase extends DrupalTestCase
         return $value;
     }
 
-    function DBAssertNull(  $daoName, $id, $fieldName, $idName, $message  ) 
+    function assertDBNull(  $daoName, $id, $fieldName, $idName, $message  ) 
     {
         $value = CRM_Core_DAO::getFieldValue( $daoName, $id, $fieldName, $idName );
         $this->assertNull(  $value, $message );

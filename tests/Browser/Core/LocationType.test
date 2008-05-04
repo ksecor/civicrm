@@ -35,36 +35,39 @@
 
 require_once 'CiviTestCase.php';
 
-class Browser_Core_LocationType extends CiviTestCase {
+class Browser_Core_LocationType extends CiviTestCase 
+{
 
   var $webUser;
   
-  function get_info() {
-    return array(
-      'name' => 'Location Type Creation',
-      'description' => 'Test location type creation with validation.',
-      'group' => 'CiviCRM Browser Tests',
-    );
+  function get_info() 
+  {
+      return array(
+                   'name' => 'Location Type Creation',
+                   'description' => 'Test location type creation with validation.',
+                   'group' => 'CiviCRM Browser Tests',
+                   );
   }
   
-  function setUp() {
-    parent::setUp();
-
-    $this->drupalModuleEnable('civicrm');
-    $this->webUser = $this->drupalCreateUserRolePerm(
-                       array ( 0 => 'access CiviCRM',
-                               1 => 'administer CiviCRM',
-			       2 => 'edit groups',
-			       3 => 'edit all contacts' ) );
-    $this->drupalLoginUser($this->webUser);
-
-    // now goto location page
-    $this->civiGet('civicrm/dashboard', 'reset=1' );
-    $this->clickLink('Administer CiviCRM', '0');
-    $this->assertWantedRaw( 'Administer CiviCRM', 'Administer CiviCRM page.' );
-    
-    $this->clickLink('Location Types (Home, Work...)', '0');
-    $this->assertWantedRaw( 'Billing Address location', 'Location Type page.' );
+  function setUp() 
+  {
+      parent::setUp();
+      
+      $this->drupalModuleEnable('civicrm');
+      $this->webUser = $this->drupalCreateUserRolePerm(
+                                                       array ( 0 => 'access CiviCRM',
+                                                               1 => 'administer CiviCRM',
+                                                               2 => 'edit groups',
+                                                               3 => 'edit all contacts' ) );
+      $this->drupalLoginUser($this->webUser);
+      
+      // now goto location page
+      $this->civiGet('civicrm/dashboard', 'reset=1' );
+      $this->clickLink('Administer CiviCRM', '0');
+      $this->assertWantedRaw( 'Administer CiviCRM', 'Administer CiviCRM page.' );
+      
+      $this->clickLink('Location Types (Home, Work...)', '0');
+      $this->assertWantedRaw( 'Billing Address location', 'Location Type page.' );
   }
 
   /**
@@ -74,7 +77,7 @@ class Browser_Core_LocationType extends CiviTestCase {
   {
       $this->clickLink('New Location Type', '0', true);
       $this->assertWantedRaw( 'vCard Name', 'New Location Type page.' );
-
+      
       $params = array( );
       $this->drupalPost(NULL, $params, '_qf_LocationType_next');
       $this->assertWantedRaw( 'Name is a required field.', 'New Location Type, validations.' );
@@ -96,7 +99,7 @@ class Browser_Core_LocationType extends CiviTestCase {
       $this->drupalPost(NULL, $params, '_qf_LocationType_next');
       $this->assertWantedRaw( 'Office', 'Successful creation of New Location Type.' );
 
-      $locationTypeId = $this->DBAssertNotNull( 'CRM_Core_DAO_LocationType', 'Office' , 'id', 'name',
+      $locationTypeId = $this->assertDBNotNull( 'CRM_Core_DAO_LocationType', 'Office' , 'id', 'name',
                                                 'Database check, for location type.' );
 
       // get all the urls associated with this item
@@ -113,7 +116,7 @@ class Browser_Core_LocationType extends CiviTestCase {
 
       $this->assertWantedRaw( 'Selected Location type has been deleted.', 'Location Type deleted.' );
 
-      $this->DBAssertNull( 'CRM_Core_DAO_LocationType', 'Office' , 'id', 'name',
+      $this->assertDBNull( 'CRM_Core_DAO_LocationType', 'Office' , 'id', 'name',
                            'Database check, for location type.' );
   }
 

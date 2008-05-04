@@ -1,6 +1,7 @@
 <?php
 
 require_once 'CiviTestCase.php';
+require_once 'Contact.php';
 
 class BAO_Core_Email extends CiviTestCase 
 {
@@ -8,9 +9,9 @@ class BAO_Core_Email extends CiviTestCase
     function get_info( ) 
     {
         return array(
-                     'name' => 'Email BAOs',
+                     'name'        => 'Email BAOs',
                      'description' => 'Test all Core_BAO_Email methods.',
-                     'group' => 'CiviCRM BAO Tests',
+                     'group'       => 'CiviCRM BAO Tests',
                      );
     }
     
@@ -24,7 +25,8 @@ class BAO_Core_Email extends CiviTestCase
      */
     function testAdd( )
     {
-        $contactId = 5;
+        $contactId = Contact::create( );
+
         $params = array( );
         $params = array( 'email'            => 'jane.doe@example.com',
                          'is_primary'       => 1,
@@ -34,7 +36,7 @@ class BAO_Core_Email extends CiviTestCase
         require_once 'CRM/Core/BAO/Email.php';
         CRM_Core_BAO_Email::add( $params );
         
-        $emailId = $this->DBAssertNotNull( 'CRM_Core_DAO_Email', 'jane.doe@example.com' , 'id', 'email',
+        $emailId = $this->assertDBNotNull( 'CRM_Core_DAO_Email', 'jane.doe@example.com' , 'id', 'email',
                                            'Database check for created email address.' );
 
         // Now call add() to modify an existing email address
@@ -47,10 +49,11 @@ class BAO_Core_Email extends CiviTestCase
         
         CRM_Core_BAO_Email::add( $params );
         
-        $isBulkMail = $this->DBAssertNotNull( 'CRM_Core_DAO_Email', $emailId, 'is_bulkmail', 'id',
+        $isBulkMail = $this->assertDBNotNull( 'CRM_Core_DAO_Email', $emailId, 'is_bulkmail', 'id',
                                               'Database check on updated email record.' );
         $this->assertEqual( $isBulkMail, 1, 'Verify bulkmail value is 1.');
- 
+
+        Contact::delete( $contactId );
     }
 
     /**
