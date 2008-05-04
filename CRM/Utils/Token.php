@@ -295,11 +295,11 @@ class CRM_Utils_Token
             } else if ( $token == 'address' ) {
                 /* Build the location values array */
                 $loc = array( );
-                $loc['display_name'] = CRM_Contact_BAO_Contact::retrieveValue( $org, 'display_name' );
-                $loc['street_address'] = CRM_Contact_BAO_Contact::retrieveValue( $org, 'street_address' );
-                $loc['city'] = CRM_Contact_BAO_Contact::retrieveValue( $org, 'city' );
-                $loc['state_province'] = CRM_Contact_BAO_Contact::retrieveValue( $org, 'state_province' );
-                $loc['postal_code'] = CRM_Contact_BAO_Contact::retrieveValue( $org, 'postal_code' );
+                $loc['display_name'] = CRM_Utils_Array::retrieveValueRecursive( $org, 'display_name' );
+                $loc['street_address'] = CRM_Utils_Array::retrieveValueRecursive( $org, 'street_address' );
+                $loc['city'] = CRM_Utils_Array::retrieveValueRecursive( $org, 'city' );
+                $loc['state_province'] = CRM_Utils_Array::retrieveValueRecursive( $org, 'state_province' );
+                $loc['postal_code'] = CRM_Utils_Array::retrieveValueRecursive( $org, 'postal_code' );
                 
                 /* Construct the address token */
                 $value = CRM_Utils_Address::format( $loc );
@@ -310,7 +310,7 @@ class CRM_Utils_Token
                 print_r( $org );
                 print "</pre>";
                 */
-                $value = CRM_Contact_BAO_Contact::retrieveValue( $org, $token );
+                $value = CRM_Utils_Array::retrieveValueRecursive( $org, $token );
                 /*
                 print "\$value: <pre>";
                 print_r( $value );
@@ -476,7 +476,7 @@ class CRM_Utils_Token
             $cs = CRM_Contact_BAO_Contact::generateChecksum( $contact['contact_id'] );
             $value = "cs={$cs}";
         } else {
-            $value = CRM_Contact_BAO_Contact::retrieveValue($contact, $token);
+            $value = CRM_Utils_Array::retrieveValueRecursive($contact, $token);
         }
 
         if (!$html) {

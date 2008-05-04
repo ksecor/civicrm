@@ -56,6 +56,33 @@ class CRM_Utils_Array {
     }
 
     /**
+     * Given a parameter array and a key to search for, 
+     * search recursively for that key's value.
+     *
+     * @param array $values     The parameter array
+     * @param string $key       The key to search for
+     * @return mixed            The value of the key, or null.
+     * @access public
+     * @static
+     */
+    static function retrieveValueRecursive(&$params, $key) 
+    {
+        if (! is_array($params)) {
+            return null;
+        } else if ($value = CRM_Utils_Array::value($key, $params)) {
+            return $value;
+        } else {
+            foreach ($params as $subParam) {
+                if ( is_array( $subParam ) &&
+                     $value = self::retrieveValueRecursive( $subParam, $key ) ) {
+                    return $value;
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
      * if the value exists in the list returns the associated key
      *
      * @access public
@@ -260,6 +287,8 @@ class CRM_Utils_Array {
         }
         return false;
     }
+    
+
 
 }
 

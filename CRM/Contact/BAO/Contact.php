@@ -748,32 +748,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         unset( $contact );
     }
 
-    /**
-     * Given a parameter array from CRM_Contact_BAO_Contact::retrieve() and a
-     * key to search for, search recursively for that key's value.
-     *
-     * @param array $values     The parameter array
-     * @param string $key       The key to search for
-     * @return mixed            The value of the key, or null.
-     * @access public
-     * @static
-     */
-    static function retrieveValue(&$params, $key) 
-    {
-        if (! is_array($params)) {
-            return null;
-        } else if ($value = CRM_Utils_Array::value($key, $params)) {
-            return $value;
-        } else {
-            foreach ($params as $subParam) {
-                if ( is_array( $subParam ) &&
-                     $value = self::retrieveValue( $subParam, $key ) ) {
-                    return $value;
-                }
-            }
-        }
-        return null;
-    }
+
 
     /**
      * function to get the display name of a contact
