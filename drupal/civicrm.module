@@ -557,9 +557,10 @@ function civicrm_view_data( &$user )
     if ( $userID ) {
         // make sure user has permission to view the record
         require_once 'CRM/Contact/BAO/Contact.php';
+        require_once 'CRM/Contact/BAO/Contact/Permission.php';
         $contactURL = null;
         if ( CRM_Core_Permission::check( 'access CiviCRM' ) &&
-             CRM_Contact_BAO_Contact::permissionedContact( $userID ) ) {
+             CRM_Contact_BAO_Contact_Permission::allow( $userID ) ) {
             $url = CRM_Utils_System::url( 'civicrm/contact/view', "reset=1&cid=$userID" );
             $contactURL = '<a href="' .$url. '">&raquo; ' .t("View Contact Record") . '</a>';
         }

@@ -477,8 +477,10 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                         foreach ($matchedIDs  as $contactId) {
                             if ($params['id'] == $contactId) {
                                 $paramsValues = array('contact_id'=>$contactId);
-                                $contactExists =& CRM_Contact_BAO_Contact::check_contact_exists($params['id']);
-                                if ($formatted['contact_type'] == $contactExists->contact_type) {
+                                $contactType = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                                              $params['id'],
+                                                                              'contact_type' );
+                                if ($formatted['contact_type'] == $contactType ) {
                                     $newContact = $this->createContact( $formatted, $contactFields, 
                                                                         $onDuplicate, $contactId, false );
                                     $updateflag = false; 
@@ -499,9 +501,11 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                 }
             } else {
                 $paramsValues = array('contact_id'=>$params['id']);
-                $contact =& CRM_Contact_BAO_Contact::check_contact_exists($params['id']);
-                if ( is_a( $contact, 'CRM_Contact_DAO_Contact' )) {
-                    if ($formatted['contact_type'] == $contact->contact_type) {
+                $contactType = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                            $params['id'],
+                                                            'contact_type' );
+                if ( $contactType ) {
+                    if ($formatted['contact_type'] == $contactType ) {
                         $newContact = $this->createContact( $formatted, $contactFields, 
                                                             $onDuplicate, $params['id'], false );
                         

@@ -81,8 +81,8 @@ class CRM_Contact_Page_View_DashBoard extends CRM_Contact_Page_View
         $this->_permission = CRM_Core_Permission::VIEW;
         
         // make the permission edit if the user has edit permission on the contact
-        require_once 'CRM/Contact/BAO/Contact.php';
-        if ( CRM_Contact_BAO_Contact::permissionedContact( $uid, CRM_Core_Permission::EDIT ) ) {
+        require_once 'CRM/Contact/BAO/Contact/Permission.php';
+        if ( CRM_Contact_BAO_Contact_Permission::allow( $uid, CRM_Core_Permission::EDIT ) ) {
             $this->_permission = CRM_Core_Permission::EDIT;
         }
 

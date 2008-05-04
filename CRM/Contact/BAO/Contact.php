@@ -87,39 +87,6 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
     }
     
     /**
-     * check if the logged in user has permissions for the operation type
-     *
-     * @param int    $id   contact id
-     * @param string $type the type of operation (view|edit)
-     *
-     * @return boolean true if the user has permission, false otherwise
-     * @access public
-     * @static
-     */
-    static function permissionedContact( $id, $type = CRM_Core_Permission::VIEW ) 
-    {
-        $tables     = array( );
-        $temp       = array( );
-       
-        //check permission based on relationship, CRM-2963
-        if ( self::relationshipBasedPermission( $id ) ) {
-            $permission = '( 1 )';
-        } else {
-            require_once 'CRM/ACL/API.php';
-            $permission = CRM_ACL_API::whereClause( $type, $tables, $temp );
-        }
-        $from       = CRM_Contact_BAO_Query::fromClause( $tables );
-             
-        $query = "
-SELECT count(DISTINCT contact_a.id) 
-       $from
-WHERE contact_a.id = %1 AND $permission";
-        $params = array( 1 => array( $id, 'Integer' ) );
-       
-        return ( CRM_Core_DAO::singleValueQuery( $query, $params ) > 0 ) ? true : false;
-    }
-    
-    /**
      * given an id return the relevant contact details
      *
      * @param int $id           contact id
@@ -911,7 +878,8 @@ WHERE civicrm_contact.id IN $idString ";
 
         // make sure we have edit permission for this contact
         // before we delete
-        if ( ! self::permissionedContact( $id, CRM_Core_Permission::EDIT ) ) {
+        require_once 'CRM/Contact/BAO/Contact/Permission.php';
+        if ( ! CRM_Contact_BAO_Contact_Permission::allow( $id, CRM_Core_Permission::EDIT ) ) {
             return false;
         }
 
@@ -1855,24 +1823,6 @@ WHERE  civicrm_contact.id = %1 ";
     }
 
     /**
-     * Function to check if the contact exits in the db
-     * 
-     * @params $contactId contact id
-     * @return $contact  CRM_Contact_DAO_Contact object if the contact id exists else null
-     * @static
-     */
-    static function check_contact_exists($contactId)
-    {
-       require_once "CRM/Contact/DAO/Contact.php";
-       $contact =& new CRM_Contact_DAO_Contact();
-       $contact->id = $contactId;
-       if ($contact->find( true )) {
-          return $contact;
-       } 
-       return null;
-    }
-    
-    /**
     * Function to find and get the contact details
     * 
     * @param string $uniqId  the unique id of the contact (OpenID)
@@ -2218,50 +2168,17 @@ AND       civicrm_openid.is_primary = 1";
 
         // find number of location blocks for this contact and adjust value accordinly
         // get location type from email
-        $emailQuery = "
-SELECT location_type_id
-FROM civicrm_email
-WHERE contact_id = {$contactId}
+        $query = "
+( SELECT location_type_id FROM civicrm_email   WHERE contact_id = {$contactId} )
+UNION
+( SELECT location_type_id FROM civicrm_phone   WHERE contact_id = {$contactId} )
+UNION
+( SELECT location_type_id FROM civicrm_im      WHERE contact_id = {$contactId} )
+UNION
+( SELECT location_type_id FROM civicrm_address WHERE contact_id = {$contactId} )
 ";
-        $dao = CRM_Core_DAO::executeQuery( $emailQuery, CRM_Core_DAO::$_nullArray );
-        while ( $dao->fetch() ) {
-            $contactLocations[ $dao->location_type_id ] = $dao->location_type_id;
-        }
-
-        // get location type from phone
-        $phoneQuery = "
-SELECT location_type_id
-FROM civicrm_phone
-WHERE contact_id = {$contactId}
-";
-        $dao = CRM_Core_DAO::executeQuery( $phoneQuery, CRM_Core_DAO::$_nullArray );
-        while ( $dao->fetch() ) {
-            $contactLocations[ $dao->location_type_id ] = $dao->location_type_id;
-        }
-
-        // get location type from im
-        $imQuery = "
-SELECT location_type_id
-FROM civicrm_im
-WHERE contact_id = {$contactId}
-";
-        $dao = CRM_Core_DAO::executeQuery( $imQuery, CRM_Core_DAO::$_nullArray );
-        while ( $dao->fetch() ) {
-            $contactLocations[ $dao->location_type_id ] = $dao->location_type_id;
-        }
-
-        // get location type from address
-        $addressQuery = "
-SELECT location_type_id
-FROM civicrm_address
-WHERE contact_id = {$contactId}
-";
-        $dao = CRM_Core_DAO::executeQuery( $addressQuery, CRM_Core_DAO::$_nullArray );
-        while ( $dao->fetch() ) {
-            $contactLocations[ $dao->location_type_id ] = $dao->location_type_id;
-        }
-
-        $locCount = count($contactLocations);
+        $dao      = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        $locCount = $dao->N;
         if ( $locCount &&  $locationCount < $locCount ) {
             $locationCount = $locCount;
         }
@@ -2269,59 +2186,6 @@ WHERE contact_id = {$contactId}
         return $locationCount;
     }
 
-    /**
-     * Function to check if the external identifier exits in the db
-     * 
-     * @params mix     $externalIdentifier external identifier
-     * @return booleab true if external id exist else false
-     * @static
-     */
-    static function checkExternalIdentifierExists( $externalIdentifier )
-    {
-        require_once "CRM/Contact/DAO/Contact.php";
-        $contact =& new CRM_Contact_DAO_Contact();
-        $contact->external_identifier = $externalIdentifier;
-        if ($contact->find( true )) {
-            return true;
-        } 
-        return false;
-    } 
-
-     /**
-     * Function to get the permission base on its relationship
-     * 
-     * @param int $selectedContactId contact id of selected contact
-     *
-     * @return booleab true if logged in user has permission to view
-     * selected contact record else false
-     * @static
-     */
-    static function relationshipBasedPermission ( $selectedContactId ) 
-    {
-        $session   =& CRM_Core_Session::singleton( );
-        $contactID =  $session->get( 'userID' );
-        if (  $contactID == $selectedContactId ) {
-            return true;
-        } else {
-            require_once "CRM/Contact/DAO/Relationship.php";
-            $relationship =& new CRM_Contact_DAO_Relationship( );
-            $relationship->contact_id_a      = $contactID;
-            $relationship->contact_id_b      = $selectedContactId;
-            $relationship->is_permission_a_b = 1;
-            if ($relationship->find( true )) {
-                return true;
-            } else {
-                unset($relationship->is_permission_a_b);
-                $relationship->contact_id_b      = $contactID;
-                $relationship->contact_id_a      = $selectedContactId;
-                $relationship->is_permission_b_a = 1;
-                if ($relationship->find( true )) {
-                    return true;
-                }
-            }
-            return false;
-        }
-    }
     
 }
 
