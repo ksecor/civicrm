@@ -1,9 +1,19 @@
 <?php
 
-require_once '../../CRM/Contribute/BAO/ContributionType.php';
+require_once 'CRM/Contribute/BAO/ContributionType.php';
+require_once 'SimpleTest/unit_tester.php';
 
 class CiviUnitTestCase extends UnitTestCase {
 
+
+    function __construct( ) {
+        parent::__construct( );
+        civicrm_initialize( );
+        
+        require_once 'CRM/Core/Config.php';
+        $config =& CRM_Core_Config::singleton( );
+    }
+                                            
     /** 
     * Generic function to compare expected values after an api call to retrieved
     * DB values.

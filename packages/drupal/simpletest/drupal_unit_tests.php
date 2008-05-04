@@ -1,7 +1,9 @@
 <?php
 
 set_include_path( get_include_path() . PATH_SEPARATOR . 
-drupal_get_path('module', 'civicrm') . '/../tests/CiviTest/' );
+drupal_get_path('module', 'civicrm') . '/../tests/CiviTest/' . PATH_SEPARATOR .
+drupal_get_path('module', 'civicrm') . '/..'
+);
 
 
 /**
@@ -12,7 +14,12 @@ class DrupalTestSuite extends TestSuite {
 
   function DrupalTestSuite($label) {
     $this->TestSuite($label);
-  }
+    civicrm_initialize( );
+ 
+    require_once 'CRM/Core/Config.php';
+    $config =& CRM_Core_Config::singleton( );
+ 
+ }
 
   /**
    * @return array of instantiated tests that this GroupTests holds
