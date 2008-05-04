@@ -1,6 +1,6 @@
 <?php
 
-require_once 'CiviTest/CiviTestCase.php';
+require_once 'CiviTestCase.php';
 
 class Email extends CiviTestCase 
 {
