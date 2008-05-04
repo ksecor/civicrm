@@ -26,28 +26,37 @@ class BAO_Core_Email extends CiviTestCase
     {
         $contactId = 5;
         $params = array( );
-        $params = array( 'name'       => 'jane.doe@example.com',
-                         'is_primary' => 1,
-                         'contact_id' => $contactId );
+        $params = array( 'email'            => 'jane.doe@example.com',
+                         'is_primary'       => 1,
+                         'location_type_id' => 1,
+                         'contact_id'       => $contactId );
         
         require_once 'CRM/Core/BAO/Email.php';
         CRM_Core_BAO_Email::add( $params );
         
-        $emailId = $this->DBAssertNotNull( 'CRM_Core_DAO_Email', 'jane.doe@example.com' , 'id', 'name',
-                                           'Database check, for created email address.' );
-        
+        $emailId = $this->DBAssertNotNull( 'CRM_Core_DAO_Email', 'jane.doe@example.com' , 'id', 'email',
+                                           'Database check for created email address.' );
+
         // Now call add() to modify an existing email address
+
         $params = array( );
         $params = array( 'id'           => $emailId,
+                         'contact_id'   => $contactId,
                          'is_bulkmail'  => 1,
                          'on_hold'      => 1, );
         
         CRM_Core_BAO_Email::add( $params );
+        
+        $isBulkMail = $this->DBAssertNotNull( 'CRM_Core_DAO_Email', $emailId, 'is_bulkmail', 'id',
+                                              'Database check on updated email record.' );
+        $this->assertEqual( $isBulkMail, 1, 'Verify bulkmail value is 1.');
+ 
     }
 
     /**
      * allEmails() method - get all emails for our contact, with primary email first
      */
+    /*
     function testAllEmails( )
     {
         $contactId = 5;
@@ -61,5 +70,6 @@ class BAO_Core_Email extends CiviTestCase
         $emailId = $this->DBAssertNotNull( 'CRM_Core_DAO_Email', 'jane.doe@example.com' , 'id', 'name',
                                            'Database check, for created email address.' );
     }
+     */
 
 }
