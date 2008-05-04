@@ -718,7 +718,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
             $params['contact_id'] = $params['id'];
         }
 
-        $contact = CRM_Contact_BAO_Contact::getValues( $params, $defaults );
+        $contact = self::getValues( $params, $defaults );
         unset($params['id']);
         
         //get the block information for this contact
@@ -1410,7 +1410,7 @@ WHERE  civicrm_contact.id = %1 ";
     static function getContactDetails( $id ) 
     {
         // check if the contact type
-        $contactType =  CRM_Contact_BAO_Contact::getContactType( $id );
+        $contactType =  self::getContactType( $id );
 
         // if individual
        if( $contactType == 'Individual') {
@@ -1494,7 +1494,7 @@ WHERE  civicrm_contact.id = %1 ";
         
         // get the contact details (hier)
         if ( $contactID ) {
-            list($details, $options) = CRM_Contact_BAO_Contact::getHierContactDetails( $contactID, $fields );
+            list($details, $options) = self::getHierContactDetails( $contactID, $fields );
             $contactDetails = $details[$contactID];
         }
 
@@ -1510,7 +1510,7 @@ WHERE  civicrm_contact.id = %1 ";
         if ( $contactID ) {
             //add contact id
             $data['contact_id'] = $contactID;
-            $primaryLocationType = CRM_Contact_BAO_Contact::getPrimaryLocationType($contactID);
+            $primaryLocationType = self::getPrimaryLocationType($contactID);
         } else {
             require_once "CRM/Core/BAO/LocationType.php";
             $defaultLocation =& CRM_Core_BAO_LocationType::getDefault();
@@ -1793,7 +1793,7 @@ WHERE  civicrm_contact.id = %1 ";
 
         require_once 'CRM/Contact/BAO/Contact.php';
         if ( $data['contact_type'] != 'Student' && $data['contact_type'] != 'TMF' ) {
-            $contact =& CRM_Contact_BAO_Contact::create( $data );
+            $contact =& self::create( $data );
         }
         
         // contact is null if the profile does not have any contact fields
@@ -2100,7 +2100,7 @@ AND       civicrm_openid.is_primary = 1";
 
         $uniqId = trim( $uniqId );
 
-        $dao =& CRM_Contact_BAO_Contact::matchContactOnUniqId( $uniqId );
+        $dao =& self::matchContactOnUniqId( $uniqId );
         if ( ! $dao ) {
             return false;
         }
