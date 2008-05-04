@@ -458,7 +458,7 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
         // make sure if associated contacts exist
         require_once 'CRM/Contact/BAO/Contact.php';
         if ( $fields['source_contact'] ) {
-            $source_contact_id   = CRM_Contact_BAO_Contact::getIdByDisplayName( $fields['source_contact'] );
+            $source_contact_id   = self::_getIdByDisplayName( $fields['source_contact'] );
             
             if ( !$source_contact_id ) {
                 $errors['source_contact'] = ts('Source Contact non-existant!');
@@ -466,7 +466,7 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
         }
 
         if ( CRM_Utils_Array::value('target_contact',$fields) ) {
-            $target_contact_id   = CRM_Contact_BAO_Contact::getIdByDisplayName( $fields['target_contact'] );
+            $target_contact_id   = self::_getIdByDisplayName( $fields['target_contact'] );
 
             if ( !$target_contact_id ) {
                 $errors['target_contact'] = ts('Target Contact non-existant!');
@@ -474,7 +474,7 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
         }
 
         if ( $fields['assignee_contact'] ) {
-            $assignee_contact_id = CRM_Contact_BAO_Contact::getIdByDisplayName( $fields['assignee_contact'] );
+            $assignee_contact_id = self::_getIdByDisplayName( $fields['assignee_contact'] );
             
             if ( !$assignee_contact_id ) {
                 $errors['assignee_contact'] = ts('Assignee Contact non-existant!');
@@ -571,17 +571,17 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
         if ( ! $params['source_contact'] ) {
             $params['source_contact_id'] = $this->_currentUserId;
         } else {
-            $params['source_contact_id'] = CRM_Contact_BAO_Contact::getIdByDisplayName($params['source_contact']);
+            $params['source_contact_id'] = self::_getIdByDisplayName($params['source_contact']);
         }
 
         if ( ! $params['target_contact'] ) {
             $params['target_contact_id'] = $this->_currentlyViewedContactId;
         } else {
-            $params['target_contact_id'] = CRM_Contact_BAO_Contact::getIdByDisplayName($params['target_contact']);
+            $params['target_contact_id'] = self::_getIdByDisplayName($params['target_contact']);
         }
         
         if ( $params['assignee_contact'] ) {
-            $params['assignee_contact_id'] = CRM_Contact_BAO_Contact::getIdByDisplayName( $params['assignee_contact'] );
+            $params['assignee_contact_id'] = self::_getIdByDisplayName( $params['assignee_contact'] );
         }
         
         if ( isset($this->_activityId) ) {
@@ -602,6 +602,20 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
         // set status message
         CRM_Core_Session::setStatus( ts('Activity \'%1\' has been saved.', array( 1 => $params['subject'] ) ) );
     }
+    
+
+    /**
+     * Shorthand for getting id by display name (makes code more readable)
+     *
+     * @access private
+     */
+    private function _getIdByDisplayName( $displayName ) {
+        return CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                            $displayName,
+                                            'id',
+                                            'sort_name' );
+    }
+    
 }
 
 

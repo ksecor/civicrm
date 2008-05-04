@@ -2326,14 +2326,6 @@ WHERE contact_id = {$contactId}
         return false;
     } 
 
-    static function getIdByDisplayName( $displayName )
-    {
-        return CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
-                                            $displayName,
-                                            'id',
-                                            'sort_name' );
-    }
-
      /**
      * Function to get the permission base on its relationship
      * 
