@@ -2,15 +2,15 @@
 
 require_once 'CiviTestCase.php';
 
-class ClickURL extends CiviTestCase {
+class Browser_RandomClickThrough extends CiviTestCase {
 
   var $webUser;
   
   function get_info() {
     return array(
-      'name' => t('URL Tester'),
-      'description' => t('Randomly click CiviCRM URLs and test for error.'),
-      'group' => t('CiviCRM Tests'),
+      'name' => 'Random Click Through Tester',
+      'description' => 'Randomly click CiviCRM URLs and test for error.',
+      'group' => 'CiviCRM Browser Tests',
     );
   }
   

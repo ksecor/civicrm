@@ -2,15 +2,15 @@
 
 require_once 'CiviTestCase.php';
 
-class LocationType extends CiviTestCase {
+class Browser_Core_LocationType extends CiviTestCase {
 
   var $webUser;
   
   function get_info() {
     return array(
-      'name' => t('Location Type Creation'),
-      'description' => t('Test location type creation with validation.'),
-      'group' => t('CiviCRM Tests'),
+      'name' => 'Location Type Creation',
+      'description' => 'Test location type creation with validation.',
+      'group' => 'CiviCRM Browser Tests',
     );
   }
   

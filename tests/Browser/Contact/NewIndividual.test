@@ -1,15 +1,16 @@
 <?php
+
 require_once 'CiviTestCase.php';
 
-class NewIndividualTestCase extends CiviTestCase {
+class Browser_Contact_NewIndividual extends CiviTestCase {
 
   var $webUser;
   
   function get_info() {
     return array(
-      'name' => t('Create Individual'),
-      'description' => t('Creates a simple Individual(First Name, Last Name only)'),
-      'group' => t('CiviCRM Tests'),
+      'name' => 'Create Individual',
+      'description' => 'Creates a simple Individual (First Name, Last Name only)',
+      'group' => 'CiviCRM Browser Tests',
     );
   }
   
@@ -34,7 +35,6 @@ class NewIndividualTestCase extends CiviTestCase {
       $this->clickLink('New Individual', '0');
       $first_name  = 'Jane';
       $last_name   = 'Doe';
-      // print_r($this->_browser->_page->_raw);exit();
       $params = array( 'first_name' => $first_name,     
                        'last_name'  => $last_name );
       $this->drupalPost( NULL, $params, '_qf_Edit_next');

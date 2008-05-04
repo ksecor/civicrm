@@ -2,15 +2,15 @@
 
 require_once 'CiviTestCase.php';
 
-class ManageGroup extends CiviTestCase {
+class Browser_Group_ManageGroup extends CiviTestCase {
 
   var $webUser;
   
   function get_info() {
     return array(
-      'name' => t('Group Settings'),
-      'description' => t('Test all inks in Group Setting.'),
-      'group' => t('CiviCRM Tests'),
+      'name' => 'Group Settings click-through',
+      'description' => 'Test all links in Group Settings.',
+      'group' => 'CiviCRM Browser Tests',
     );
   }
   

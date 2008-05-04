@@ -1,14 +1,16 @@
 <?php
 
-class CiviAdminInterfaceTestCase extends DrupalTestCase {
+require_once 'CiviTestCase.php';
+
+class Browser_Admin_AdminInterface extends CiviTestCase {
 
   var $webUser;
   
   function get_info() {
     return array(
-      'name' => t('Admin interface functionality'),
-      'description' => t('Set configuration settings in CiviCRM.'),
-      'group' => t('CiviCRM Tests'),
+      'name' => 'Admin interface click-through',
+      'description' => 'Check if administrative settings pages load properly.',
+      'group' => 'CiviCRM Browser Tests',
     );
   }
   
