@@ -60,10 +60,11 @@ class BAO_Contact_Contact extends CiviTestCase
     function testPermissionedContact() 
     {
         $contactId = Contact::createIndividual(); 
-        $userViewPermission = CRM_Contact_BAO_Contact::permissionedContact($contactId);
+        require_once 'CRM/Contact/BAO/Contact/Permission.php';
+        $userViewPermission = CRM_Contact_BAO_Contact_Permission::allow($contactId);
         $this->assertEqual( $userViewPermission, true, 'Check user for view contact permission.' );  
         
-        $userEditPermission = CRM_Contact_BAO_Contact::permissionedContact($contactId, CRM_Core_Permission::EDIT);
+        $userEditPermission = CRM_Contact_BAO_Contact_Permission::allow($contactId, CRM_Core_Permission::EDIT);
         $this->assertEqual( $userEditPermission, true, 'Check user for edit contact permission.' );  
       
         Contact::delete($contactId);

@@ -169,7 +169,6 @@ INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
      * pairs
      *
      * @param array  $params (reference ) an assoc array of name/value pairs
-     * @param array $ids    the array that holds all the db ids
      *
      * @return object CRM_Contact_BAO_Contact object
      * @access public
@@ -261,7 +260,6 @@ INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
      *
      * @param array $params input parameters to find object
      * @param array $values output values of the object
-     * @param array $ids    the array that holds all the db ids
      *
      * @return CRM_Contact_BAO_Contact|null the found object or null
      * @access public
@@ -333,7 +331,6 @@ INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
      * This function is invoked from within the web form layer and also from the api layer
      *
      * @param array   $params      (reference ) an assoc array of name/value pairs
-     * @param array   $ids         the array that holds all the db ids
      * @param boolean $fixAddress  if we need to fix address
      * @param boolean $invokeHooks if we need to invoke hooks
      *
