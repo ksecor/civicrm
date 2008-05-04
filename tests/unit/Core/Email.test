@@ -2,7 +2,7 @@
 
 require_once 'CiviTestCase.php';
 
-class Email extends CiviTestCase 
+class BAO_Core_Email extends CiviTestCase 
 {
     
     function get_info( ) 
@@ -10,7 +10,7 @@ class Email extends CiviTestCase
         return array(
                      'name' => 'Email BAOs',
                      'description' => 'Test all Core_BAO_Email methods.',
-                     'group' => 'CiviCRM Tests',
+                     'group' => 'CiviCRM BAO Tests',
                      );
     }
     
@@ -22,7 +22,7 @@ class Email extends CiviTestCase
     /**
      * add() method (create and update modes)
      */
-    function test_Add( )
+    function testAdd( )
     {
         $contactId = 5;
         $params = array( );
@@ -48,7 +48,7 @@ class Email extends CiviTestCase
     /**
      * allEmails() method - get all emails for our contact, with primary email first
      */
-    function test_allEmails( )
+    function testAllEmails( )
     {
         $contactId = 5;
         $params = array( );
