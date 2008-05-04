@@ -676,6 +676,8 @@ GROUP BY p.id
      */
     static function sortName( $id ) 
     {
+        $id = CRM_Utils_Type::escape( $id, 'Integer' );
+
         $query = "
 SELECT civicrm_contact.sort_name
 FROM   civicrm_contribution, civicrm_contact

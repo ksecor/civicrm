@@ -577,7 +577,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         if ( ! $clause || trim( $clause ) === trim( $emptyClause ) ) {
             return null;
         }
-        return CRM_Contact_BAO_Contact::matchContact( $clause, $tables, $id );
+        require_once 'CRM/Contact/BAO/Contact/Utils.php';
+        return CRM_Contact_BAO_Contact_Utils::match( $clause, $tables, $id );
     }
 
     /**
