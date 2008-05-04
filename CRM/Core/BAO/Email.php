@@ -175,25 +175,6 @@ ORDER BY e.is_primary DESC, email_id ASC ";
         
         return $emails;
     }
-    
-
-
-    /**
-     * Delete email address records from a location
-     *
-     * @param array $params associated array of values
-     * 
-     * @return void
-     * 
-     * @access public
-     * @static
-     */
-    public static function deleteLocation( $params ) 
-    {
-        $dao =& new CRM_Core_DAO_Email();
-        $dao->copyValues( $params );
-        $dao->delete();
-    }
 
     /**
      * Function to set / reset hold status for an email

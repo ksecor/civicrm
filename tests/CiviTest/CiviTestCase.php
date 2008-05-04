@@ -83,6 +83,27 @@ class CiviTestCase extends DrupalTestCase
         $this->assertNull(  $value, $message );
     }
 
+    function assertDBCompareValues( $daoName, $searchParams, $expectedValues )  
+    {
+        //get the values from db 
+        $dbValues = array( );
+        CRM_Core_DAO::commonRetrieve( $daoName, $searchParams, $dbValues );
+        
+        // compare db values with expected values
+        self::assertAttributesEqual( $expectedValues, $dbValues);
+    }
+    
+    function assertAttributesEqual( &$expectedValues, &$actualValues ) 
+    {
+        foreach( $expectedValues as $paramName => $paramValue ) {
+            if ( isset( $actualValues[$paramName] ) ) {
+                $this->assertEqual( $paramValue, $actualValues[$paramName] );
+            } else {
+                $this->fail( "Attribute $paramName not present in actual array." );
+            }
+        }        
+    }
+    
     function assertArrayKeyExists( $key, &$list ) {
         $result = isset( $list[$key] ) ? true : false;
         $this->assertTrue( $result, ts( "%1 element exists?",
@@ -173,17 +194,18 @@ class CiviTestCase extends DrupalTestCase
         return $ret;
     }
 
-    function allPermissions( ) {
+    function allPermissions( ) 
+    {
         return array(
-                      1 => 'add contacts'               ,
-                      2 => 'view all contacts'          ,
-                      3 => 'edit all contacts'          ,
-                      4 => 'import contacts'            ,
-                      5 => 'edit groups'                ,
-                      6 => 'administer CiviCRM'         ,
-                      7 => 'access uploaded files'      ,
-                      8 => 'profile listings and forms' ,
-                      9 => 'access all custom data'     ,
+                     1 => 'add contacts'               ,
+                     2 => 'view all contacts'          ,
+                     3 => 'edit all contacts'          ,
+                     4 => 'import contacts'            ,
+                     5 => 'edit groups'                ,
+                     6 => 'administer CiviCRM'         ,
+                     7 => 'access uploaded files'      ,
+                     8 => 'profile listings and forms' ,
+                     9 => 'access all custom data'     ,
                      10 => 'view all activities'        ,
                      11 => 'access CiviCRM'             ,
                      12 => 'access Contact Dashboard'   ,
