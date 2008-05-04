@@ -25,7 +25,7 @@ class BAO_Core_Email extends CiviTestCase
      */
     function testAdd( )
     {
-        $contactId = Contact::create( );
+        $contactId = Contact::createIndividual( );
 
         $params = array( );
         $params = array( 'email'            => 'jane.doe@example.com',

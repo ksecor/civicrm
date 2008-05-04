@@ -19,17 +19,18 @@ class Contact extends DrupalTestCase
      *
      * @return $contactID id of created Individual
      */
-    function createIndividual( ) {
-        $first_name = 'John';
-        $last_name  = 'Doe';
-        $contact_source = 'Testing purpose';
-        
-        $params = array(
-                        'first_name'     => $first_name,
-                        'last_name'      => $last_name,
-                        'contact_source' => $contact_source
-                        );
-
+    function createIndividual( $params = null ) {
+        //compose the params, when not passed
+        if ( !$params ) {
+            $first_name = 'John';
+            $last_name  = 'Doe';
+            $contact_source = 'Testing purpose';
+            $params = array(
+                            'first_name'     => $first_name,
+                            'last_name'      => $last_name,
+                            'contact_source' => $contact_source
+                            );
+        }
         return $this->create($params);
     }
 
@@ -39,10 +40,12 @@ class Contact extends DrupalTestCase
      *
      * @return $contactID id of created Household
      */
-    function createHousehold( ) {
-        $household_name = "John Doe's home";
-        $params = array( 'household_name'     => $household_name );
-        
+    function createHousehold( $params = null) {
+        //compose the params, when not passed
+        if ( !$params ) {
+            $household_name = "John Doe's home";
+            $params = array( 'household_name'     => $household_name );
+        }
         return $this->create($params);
     }
 
@@ -52,10 +55,12 @@ class Contact extends DrupalTestCase
      *
      * @return $contactID id of created Organisation
      */
-    function createOrganisation( ) {
-        $organization_name = "My Organization";
-        $params = array( 'organization_name' => $organization_name );
-        
+    function createOrganisation( $params = null ) {
+        //compose the params, when not passed
+        if ( !$params ) {
+            $organization_name = "My Organization";
+            $params = array( 'organization_name' => $organization_name );
+        }
         return $this->create($params);
     }
     
