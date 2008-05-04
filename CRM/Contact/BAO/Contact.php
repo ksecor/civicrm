@@ -2107,6 +2107,43 @@ AND       civicrm_openid.is_primary = 1";
         
     }
 
+    /**
+     * Function to get the count of  contact loctions
+     * 
+     * @param int $contactId contact id
+     *
+     * @return int $locationCount max locations for the contact
+     * @static
+     * @access public
+     */
+    static function getContactLocations( $contactId )
+    {
+        // find the system config related location blocks
+        require_once 'CRM/Core/BAO/Preferences.php';
+        $locationCount = CRM_Core_BAO_Preferences::value( 'location_count' );
+        
+        $contactLocations = array( );
+
+        // find number of location blocks for this contact and adjust value accordinly
+        // get location type from email
+        $query = "
+( SELECT location_type_id FROM civicrm_email   WHERE contact_id = {$contactId} )
+UNION
+( SELECT location_type_id FROM civicrm_phone   WHERE contact_id = {$contactId} )
+UNION
+( SELECT location_type_id FROM civicrm_im      WHERE contact_id = {$contactId} )
+UNION
+( SELECT location_type_id FROM civicrm_address WHERE contact_id = {$contactId} )
+";
+        $dao      = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        $locCount = $dao->N;
+        if ( $locCount &&  $locationCount < $locCount ) {
+            $locationCount = $locCount;
+        }
+
+        return $locationCount;
+    }
+
     
 }
 
