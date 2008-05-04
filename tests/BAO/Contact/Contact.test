@@ -25,30 +25,31 @@ class BAO_Contact_Contact extends CiviTestCase
      */
     function testAdd( )
     {
-        $first_name = 'yashodha';
-        $last_name  = 'chaku';
-        $params =  array( 'first_name' => $first_name,     
-                          'last_name'  => $last_name);
+        $firstName = 'Shane';
+        $lastName  = 'Whatson';
+        $params     =  array( 'first_name'   => $firstName,     
+                              'last_name'    => $lastName,
+                              'contact_type' => 'Individual'
+                              );
         
         require_once 'CRM/Contact/BAO/Contact.php';
-        CRM_Contact_BAO_Contact::add( $params );
+        $contact = CRM_Contact_BAO_Contact::add( $params );
         
-        $contactId = $this->assertDBNotNull( 'CRM_Contact_DAO_Contact',  $first_name, 'id', 'first_name',
-                                             'Database check for created contact.' );
-        $contactId = $this->assertDBNotNull( 'CRM_Contact_DAO_Contact',  $last_name, 'id', 'last_name',
-                                             'Database check for created contact.' );
+        $this->assertEqual( $firstName, $contact->first_name, 'Check for first name creation.' );
+        $this->assertEqual( $lastName, $contact->last_name, 'Check for last name creation.' );
         
-        // Now call add() to modify an existing email address
-        $params = array( );
-        $params = array( 'first_name' => 'rudhrakhshi', 
-                         'id'         => $contactId );
-        
-        CRM_Contact_BAO_Contact::add( $params );
-        
-        $firstName = $this->assertDBNotNull( 'CRM_Contact_DAO_Contact', $contactId, 'first_name', 'id',
-                                              'Database check on updated contact record.' );
-        $this->assertEqual( $firstName, 'rudhrakhshi', 'Verify firstName value is rudhrakhshi.');
+        $contactId = $contact->id;
 
+        //update and change first name and last name, using add( )
+        $firstName = 'Jane';
+        $params = array( 'first_name'   => $firstName, 
+                         'contact_type' => 'Individual',
+                         'contact_id'   => $contactId );
+        
+        $contact = CRM_Contact_BAO_Contact::add( $params );
+        $this->assertEqual( $firstName, $contact->first_name, 'Check for updated first name.' );
+
+        $contactId = $contact->id;
         Contact::delete( $contactId );
     }
     
