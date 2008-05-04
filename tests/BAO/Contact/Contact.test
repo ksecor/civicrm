@@ -1,0 +1,55 @@
+<?php
+
+require_once 'CiviTestCase.php';
+require_once 'Contact.php';
+
+class BAO_Contact_Contact extends CiviTestCase 
+{
+    
+    function get_info( ) 
+    {
+        return array(
+                     'name'        => 'Contact BAOs',
+                     'description' => 'Test all Contact_BAO_Contact methods.',
+                     'group'       => 'CiviCRM BAO Tests',
+                     );
+    }
+    
+    function setUp( ) 
+    {
+        parent::setUp();
+    }
+    
+    /**
+     * add() method (create and update modes)
+     */
+    function testAdd( )
+    {
+        $first_name = 'yashodha';
+        $last_name  = 'chaku';
+        $params =  array( 'first_name' => $first_name,     
+                          'last_name'  => $last_name);
+        
+        require_once 'CRM/Contact/BAO/Contact.php';
+        CRM_Contact_BAO_Contact::add( $params );
+        
+        $contactId = $this->assertDBNotNull( 'CRM_Contact_DAO_Contact',  $first_name, 'id', 'first_name',
+                                             'Database check for created contact.' );
+        $contactId = $this->assertDBNotNull( 'CRM_Contact_DAO_Contact',  $last_name, 'id', 'last_name',
+                                             'Database check for created contact.' );
+        
+        // Now call add() to modify an existing email address
+        $params = array( );
+        $params = array( 'first_name' => 'rudhrakhshi', 
+                         'id'         => $contactId );
+        
+        CRM_Contact_BAO_Contact::add( $params );
+        
+        $firstName = $this->assertDBNotNull( 'CRM_Contact_DAO_Contact', $contactId, 'first_name', 'id',
+                                              'Database check on updated contact record.' );
+        $this->assertEqual( $firstName, 'rudhrakhshi', 'Verify firstName value is rudhrakhshi.');
+
+        Contact::delete( $contactId );
+    }
+    
+}
