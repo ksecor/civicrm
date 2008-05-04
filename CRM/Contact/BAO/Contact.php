@@ -1608,7 +1608,7 @@ WHERE  civicrm_contact.id = %1 ";
         }
 
         //make sure primary location is at first position in location array
-        if ( count( $data['location'] ) > 1 ) {
+        if ( isset( $data['location'] ) && count( $data['location'] ) > 1 ) {
             // if first location is primary skip manipulation
             if ( !isset($data['location'][1]['is_primary']) ) {
                 //find the key for primary location
