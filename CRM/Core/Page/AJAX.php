@@ -99,6 +99,8 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
         case 'help':
             return $this->help( $config );
 
+        case 'contact':
+            return $this->contact( $config );
         case 'mapper':
             require_once 'CRM/Core/Page/AJAX/Mapper.php';
             $method = array( 'CRM_Core_Page_AJAX_Mapper',
@@ -687,6 +689,32 @@ ORDER BY subject";
                                                  'help_post' );
         echo $helpPost;
     }
+
+    /**
+     * Function to check how many contact exits in db for given criteria, if one then return contact id else null
+     */
+    function contact( &$config ) 
+    {
+        require_once 'CRM/Utils/Type.php';
+        $domainID  = CRM_Core_Config::domainId( );
+        $name      = strtolower( CRM_Utils_Type::escape( $_GET['name'], 'String'  ) ); 
+
+        $query = "
+SELECT count(id) as cnt, id
+FROM civicrm_contact
+WHERE sort_name LIKE '%$name%'
+AND domain_id = {$domainID}
+GROUP BY id ";            
+        
+        $nullArray = array( );
+        $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
+        $dao->fetch( );
+       
+        if ( $dao->cnt == 1) {
+            echo $dao->id;
+        }
+    }
+
 }
 
 
