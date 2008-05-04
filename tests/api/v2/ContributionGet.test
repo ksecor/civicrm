@@ -1,6 +1,7 @@
 <?php
 
 require_once 'api/v2/Contribute.php';
+require_once 'CiviUnitTestCase.php';
 
 class TestOfContributionGet_1APIV2 extends CiviUnitTestCase 
 {
