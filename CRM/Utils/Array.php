@@ -288,6 +288,46 @@ class CRM_Utils_Array {
         return false;
     }
     
+    /**
+     * This function is used to convert associative array names to values
+     * and vice-versa.
+     *
+     * This function is used by both the web form layer and the api. Note that
+     * the api needs the name => value conversion, also the view layer typically
+     * requires value => name conversion
+     */
+    static function lookupValue( &$defaults, $property, $lookup, $reverse ) 
+    {
+        $id = $property . '_id';
+
+        $src = $reverse ? $property : $id;
+        $dst = $reverse ? $id       : $property;
+        
+        if ( ! array_key_exists( strtolower($src), array_change_key_case( $defaults, CASE_LOWER )) ) {
+            return false;
+        }
+
+        $look = $reverse ? array_flip( $lookup ) : $lookup;
+        
+        //trim lookup array, ignore . ( fix for CRM-1514 ), eg for prefix/suffix make sure Dr. and Dr both are valid
+        $newLook = array( );
+        foreach( $look as $k => $v) {
+            $newLook[trim($k, ".")] = $v;
+        }
+
+        $look = $newLook;
+
+        if(is_array($look)) {
+            if ( ! array_key_exists( trim(strtolower( $defaults[strtolower($src)] ),'.'),  array_change_key_case( $look, CASE_LOWER )) ) {
+                return false;
+            }
+        }
+        
+        $tempLook = array_change_key_case( $look ,CASE_LOWER);
+
+        $defaults[$dst] = $tempLook[trim(strtolower( $defaults[strtolower($src)] ),'.')];
+        return true;
+    }
 
 
 }
