@@ -307,8 +307,13 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
         
         require_once "CRM/Contact/BAO/Contact.php";
 
-        $defaultSourceContactName = CRM_Contact_BAO_Contact::sortName( $this->_sourceContactId );
-        $sourceContactField = $this->add( 'text','source_contact', ts('Added By'), $attributes, $admin );
+        if ( $this->_sourceContactId ) {
+            $defaultSourceContactName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                                     $this->_sourceContactId,
+                                                                     'sort_name' );
+        }
+
+        $sourceContactField =& $this->add( 'text','source_contact', ts('Added By'), $attributes, $admin );
         if ( $sourceContactField->getValue( ) ) {
             $this->assign( 'source_contact_value',  $sourceContactField->getValue( ) );
         } else {
@@ -349,8 +354,13 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
             }
         }
 
-        $defaultTargetContactName   = CRM_Contact_BAO_Contact::sortName( $this->_targetContactId );
-        $targetContactField = $this->add( 'text','target_contact', ts('With Contact'), $attributes, isset($standalone) ? $standalone : "" );
+        if ( $this->_targetContactId ) {
+            $defaultTargetContactName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                                     $this->_targetContactId,
+                                                                     'sort_name' );
+        }
+
+        $targetContactField =& $this->add( 'text','target_contact', ts('With Contact'), $attributes, isset($standalone) ? $standalone : "" );
         if ( $targetContactField->getValue( ) ) {
             $this->assign( 'target_contact_value',  $targetContactField->getValue( ) );
         } else {
@@ -358,7 +368,11 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
             $this->assign( 'target_contact_value', $defaultTargetContactName );
         }
 
-        $defaultAssigneeContactName = CRM_Contact_BAO_Contact::sortName( $this->_assigneeContactId );
+        if ( $this->_assigneeContactId ) {
+            $defaultAssigneeContactName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                                       $this->_assContactId,
+                                                                       'sort_name' );
+
         $assigneeContactField = $this->add( 'text','assignee_contact', ts('Assigned To'), $attributes);
         if ( $assigneeContactField->getValue( ) ) {
             $this->assign( 'assignee_contact_value',  $assigneeContactField->getValue( ) );

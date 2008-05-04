@@ -1853,8 +1853,10 @@ WHERE  id = $cfID
         }
         
         $template =& CRM_Core_Smarty::singleton( );
-                   
-        $displayName = CRM_Contact_BAO_Contact::displayName( $contactID );
+
+        $displayName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                    $contactID,
+                                                    'display_name' );
                
         self::profileDisplay( $values['id'] , $values['values'],$template );
         $emailList = explode(',',$values['email']);

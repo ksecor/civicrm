@@ -97,7 +97,9 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             $assigneeContactId = $assignment->retrieveAssigneeIdByActivityId( $activity->id );
             if ( $assigneeContactId ) { 
                 $defaults['assignee_contact_id'] = $assigneeContactId;
-                $defaults['assignee_contact'] = CRM_Contact_BAO_Contact::sortName( $assigneeContactId );
+                $defaults['assignee_contact'] = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                                             $assigneeContactId,
+                                                                             'sort_name' );
             }
             
             require_once 'CRM/Activity/BAO/ActivityTarget.php';
@@ -105,10 +107,16 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             $targetContactId = $target->retrieveTargetIdByActivityId( $activity->id );
             if ( $targetContactId ) { 
                 $defaults['target_contact_id'] = $targetContactId; 
-                $defaults['target_contact'] = CRM_Contact_BAO_Contact::sortName( $targetContactId );
+                $defaults['target_contact'] = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                                           $targetContactId,
+                                                                           'sort_name' );
             }
 
-            $defaults['source_contact'] = CRM_Contact_BAO_Contact::sortName( $activity->source_contact_id );
+            if ( $activity->source_contact_id ) {
+                $defaults['source_contact'] = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                                           $activity->source_contact_id,
+                                                                           'sort_name' );
+            }
             
             //get case subject
             require_once "CRM/Case/BAO/Case.php";

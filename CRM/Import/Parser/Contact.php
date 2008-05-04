@@ -457,7 +457,10 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         //check if external identifier exists in database
         if ( isset( $params['external_identifier'] ) ) {
             require_once "CRM/Contact/BAO/Contact.php";
-            if ( CRM_Contact_BAO_Contact::checkExternalIdentifierExists( $params['external_identifier'] )  ) {
+            if ( CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                              $params['external_identifier'],
+                                              'id'
+                                              'external_identifier' ) ) {
                 array_unshift($values, ts('External Identifier already exists in database.'));
                 return CRM_Import_Parser::ERROR;
             }

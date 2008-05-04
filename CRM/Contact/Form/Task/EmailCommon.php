@@ -73,7 +73,9 @@ class CRM_Contact_Form_Task_EmailCommon
         $form->_emails = array( );
         $form->_onHold = array( );
         
-        $toName = CRM_Contact_BAO_Contact::displayName( $cid );
+        $toName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                               $cid,
+                                               'display_name' );
         foreach ( $emails as $emailId => $item ) {
             $email = $item['email'];
             if (!$email && ( count($emails) <= 1 ) ) {

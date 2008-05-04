@@ -109,7 +109,8 @@ class CRM_Contact_Page_View_CustomData extends CRM_Contact_Page_View {
         $controller->set('tableId'   , $this->_contactId );
         $controller->set('groupId'   , $this->_groupId);
         $controller->set('entityType', CRM_Contact_BAO_Contact::getContactType( $this->_contactId ) );
-        $controller->set('entitySubType', CRM_Contact_BAO_Contact::getContactSubType( $this->_contactId ) );
+        $subType = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'contact_sub_type' );
+        $controller->set('entitySubType', $subType );
         $controller->process();
         $controller->run();
 

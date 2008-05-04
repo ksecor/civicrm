@@ -161,7 +161,9 @@ class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
             $details[$contactId] = array( );
 
             //build sortname
-            $sortName[$contactId] = CRM_Contact_BAO_Contact::sortName($contactId);
+            $sortName[$contactId] = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                                 $contactId,
+                                                                 'sort_name' );
             
             CRM_Core_BAO_UFGroup::setProfileDefaults( $contactId, $this->_fields, $defaults, false );
         }

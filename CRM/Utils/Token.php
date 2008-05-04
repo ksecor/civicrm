@@ -290,7 +290,8 @@ class CRM_Utils_Token
                     }
                 }
             } else if ( $token == 'checksum' ) {
-                $cs = CRM_Contact_BAO_Contact::generateChecksum( $org['contact_id'] );
+                require_once 'CRM/Contact/BAO/Contact/Utils.php';
+                $cs = CRM_Contact_BAO_Contact_Utils::generateChecksum( $org['contact_id'] );
                 $value = "cs={$cs}";
             } else if ( $token == 'address' ) {
                 /* Build the location values array */
@@ -473,7 +474,8 @@ class CRM_Utils_Token
         if (!in_array($token,self::$_tokens['contact'])) {
             $value = "{contact.$token}";
         } else if ( $token == 'checksum' ) {
-            $cs = CRM_Contact_BAO_Contact::generateChecksum( $contact['contact_id'] );
+            require_once 'CRM/Contact/BAO/Contact/Utils.php';
+            $cs = CRM_Contact_BAO_Contact_Utils::generateChecksum( $contact['contact_id'] );
             $value = "cs={$cs}";
         } else {
             $value = CRM_Utils_Array::retrieveValueRecursive($contact, $token);

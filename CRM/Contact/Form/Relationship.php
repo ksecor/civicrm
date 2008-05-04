@@ -97,7 +97,9 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         $this->_rtypeId        = CRM_Utils_Request::retrieve( 'relTypeId', 'String',
                                                               $this );
         
-        $this->_display_name_a       = CRM_Contact_BAO_Contact::displayName( $this->_contactId );
+        $this->_display_name_a       = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                                    $this->_contactId,
+                                                                    'display_name' );
         $this->assign('sort_name_a', $this->_display_name_a);  
         if ( ! $this->_rtypeId ) {
             $params = $this->controller->exportValues( $this->_name );

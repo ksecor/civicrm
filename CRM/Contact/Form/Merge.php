@@ -70,7 +70,7 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         $session =& CRM_Core_Session::singleton( );
         if ( $session->get( 'userID' ) == $oid ) {
             require_once 'CRM/Contact/BAO/Contact.php';
-            $display_name = CRM_Contact_BAO_Contact::displayName( $oid );
+            $display_name = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $oid, 'display_name' );
             $message = ts( 'The contact record which is linked to the currently logged in user account - \'%1\' - can not be deleted.',
                            array( 1 => $display_name ) );
             CRM_Core_Error::statusBounce( $message );

@@ -74,10 +74,11 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
             $key = 'id';
             $mail = 'email';
             $uniqId = $user->identity_url;
-            $query = "SELECT uf_id 
-FROM civicrm_uf_match 
-   LEFT JOIN civicrm_openid ON ( civicrm_uf_match.contact_id = civicrm_openid.contact_id ) 
-WHERE openid = %1";
+            $query = "
+SELECT    uf_id 
+FROM      civicrm_uf_match 
+LEFT JOIN civicrm_openid ON ( civicrm_uf_match.contact_id = civicrm_openid.contact_id ) 
+WHERE     openid = %1";
             $p = array( 1 => array( $uniqId, 'String' ) );
             $dao = CRM_Core_DAO::executeQuery( $query, $p );
             $result = $dao->getDatabaseResult( );
@@ -147,12 +148,6 @@ WHERE openid = %1";
                 // uniqId has changed, so we need to update that everywhere
                 $ufmatch->user_unique_id = $uniqId;
                 $ufmatch->save( );
-                
-                /* I don't think we should do this here anymore, since
-                   we no longer use email address as the user identifier.
-                   -- Wes Morgan, FFPIR
-                */
-                //CRM_Contact_BAO_Contact::updatePrimaryEmail( $ufmatch->contact_id, $user->$mail );
             }
         }
     }
