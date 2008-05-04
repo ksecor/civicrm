@@ -1,10 +1,13 @@
 <?php
 
-set_include_path( get_include_path() . PATH_SEPARATOR . 
-drupal_get_path('module', 'civicrm') . '/../tests/CiviTest/' . PATH_SEPARATOR .
-drupal_get_path('module', 'civicrm') . '/..'
-);
+civicrm_initialize( );
+set_include_path( get_include_path() .
+                  PATH_SEPARATOR      . drupal_get_path('module', 'civicrm') . 
+                  DIRECTORY_SEPARATOR . '..' . 
+                  DIRECTORY_SEPARATOR . 'tests' . 
+                  DIRECTORY_SEPARATOR . 'CiviTest' );
 
+require_once 'CiviUnitTestCase.php';
 
 /**
  * Implementes getTestInstances to allow access to the test objects from outside
@@ -14,7 +17,6 @@ class DrupalTestSuite extends TestSuite {
 
   function DrupalTestSuite($label) {
     $this->TestSuite($label);
-    civicrm_initialize( );
  
     require_once 'CRM/Core/Config.php';
     $config =& CRM_Core_Config::singleton( );

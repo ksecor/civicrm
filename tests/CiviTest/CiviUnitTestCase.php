@@ -1,6 +1,5 @@
 <?php
 
-require_once 'CRM/Contribute/BAO/ContributionType.php';
 require_once 'SimpleTest/unit_tester.php';
 
 class CiviUnitTestCase extends UnitTestCase {

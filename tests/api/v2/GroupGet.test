@@ -39,7 +39,7 @@ class TestOfGroupGetAPIV2 extends CiviUnitTestCase
     {
         $params = array( );
         $params['id'] = $this->_groupID;
-        $group =&civicrm_groups_get( &$params );
+        $group =&civicrm_groups_get( $params );
     
         foreach( $group as $v){
             $this->assertEqual( $v['name'],'Test Group 1' );
@@ -57,7 +57,7 @@ class TestOfGroupGetAPIV2 extends CiviUnitTestCase
     {
         $params         = array( );
         $params['name'] = 'Test Group 1'; 
-        $group =&civicrm_groups_get( &$params );
+        $group =&civicrm_groups_get( $params );
  
         foreach( $group as $v){
             $this->assertEqual( $v['id'], $this->_groupID );
@@ -74,7 +74,7 @@ class TestOfGroupGetAPIV2 extends CiviUnitTestCase
     {
         $params          = array( );
         $params['title'] = 'New Test Group Created'; 
-        $group =&civicrm_groups_get( &$params );
+        $group =&civicrm_groups_get( $params );
        
         foreach( $group as $v){
             $this->assertEqual( $v['id'], $this->_groupID );
