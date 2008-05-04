@@ -83,6 +83,21 @@ class CiviTestCase extends DrupalTestCase
         $this->assertNull(  $value, $message );
     }
 
+    function assertArrayKeyExists( $key, &$list ) {
+        $result = isset( $list[$key] ) ? true : false;
+        $this->assertTrue( $result, ts( "%1 element exists?",
+                                        array( 1 => $key ) ) );
+    }
+
+    function assertArrayValueNotNull( $key, &$list ) {
+        $this->assertArrayKeyExists( $key, $list );
+
+        $value = isset( $list[$key] ) ? $list[$key] : null;
+        $this->assertTrue( $value,
+                           ts( "%1 element not null?",
+                               array( 1 => $key ) ) );
+    }
+
     function getUrlsByLabel($label, $fuzzy = false) {
         if ( ! $fuzzy ) {
             return $this->_browser->_page->getUrlsByLabel( $label );
@@ -121,7 +136,7 @@ class CiviTestCase extends DrupalTestCase
         return true;
     }
 
-    function getUrlsByCiviToken( $token, $path = null ) {
+    function getUrlsByToken( $token, $path = null ) {
         $matches = array();
         foreach ($this->_browser->_page->_links as $link) {
             $text = $link->getText();
@@ -130,7 +145,6 @@ class CiviTestCase extends DrupalTestCase
                  ( strpos( $url, $token ) !== false ) ) {
                 if ( ! $path ||
                      strpos( $url, $path ) !== false ) {
-                    echo "$text, $url<p>";
                     $matches[$text] = $url;
                 }
             }
@@ -175,4 +189,17 @@ class CiviTestCase extends DrupalTestCase
                      12 => 'access Contact Dashboard'   ,
                      );
     }
+
+    function errorPage( &$ret, &$url ) {
+        // check if there is a civicrm error or warning message on the page
+        // at a later stage, we should also check for CMS based errors
+        $this->assertTrue($ret, ts(' [browser] GET %1"', array('%1' => $url)));
+
+        $this->assertNoText( 'Sorry. A non-recoverable error has occurred', '[browser] fatal error page?' );
+        $this->assertNoText( 'The requested page could not be found', '[browser] page not found?' );
+        $this->assertNoText( 'You are not authorized to access this page', '[browser] permission denied?' );
+        
+        return;
+    }
+
 }
