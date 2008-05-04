@@ -605,16 +605,16 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
             }
         } 
 
-        self::lookupValue( $defaults, 'prefix', CRM_Core_PseudoConstant::individualPrefix(), $reverse );
-        self::lookupValue( $defaults, 'suffix', CRM_Core_PseudoConstant::individualSuffix(), $reverse );
-        self::lookupValue( $defaults, 'gender', CRM_Core_PseudoConstant::gender(), $reverse );
+        CRM_Utils_Array::lookupValue( $defaults, 'prefix', CRM_Core_PseudoConstant::individualPrefix(), $reverse );
+        CRM_Utils_Array::lookupValue( $defaults, 'suffix', CRM_Core_PseudoConstant::individualSuffix(), $reverse );
+        CRM_Utils_Array::lookupValue( $defaults, 'gender', CRM_Core_PseudoConstant::gender(), $reverse );
 
         if ( array_key_exists( 'location', $defaults ) ) {
             $locations =& $defaults['location'];
 
             foreach ($locations as $index => $location) {                
                 $location =& $locations[$index];
-                self::lookupValue( $location, 'location_type', CRM_Core_PseudoConstant::locationType(), $reverse );
+                CRM_Utils_Array::lookupValue( $location, 'location_type', CRM_Core_PseudoConstant::locationType(), $reverse );
 
                 // FIXME: lookupValue doesn't work for vcard_name
                 $vcardNames =& CRM_Core_PseudoConstant::locationVcardName();
@@ -623,74 +623,35 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
                 }
 
                 if (array_key_exists( 'address', $location ) ) {
-                    if ( ! self::lookupValue( $location['address'], 'state_province',
-                                              CRM_Core_PseudoConstant::stateProvince(), $reverse ) &&
+                    if ( ! CRM_Utils_Array::lookupValue( $location['address'], 'state_province',
+                                                         CRM_Core_PseudoConstant::stateProvince(), $reverse ) &&
                          $reverse ) {
-                        self::lookupValue( $location['address'], 'state_province', 
+                         CRM_Utils_Array::lookupValue( $location['address'], 'state_province', 
                                            CRM_Core_PseudoConstant::stateProvinceAbbreviation(), $reverse );
                     }
                     
-                    if ( ! self::lookupValue( $location['address'], 'country',
-                                              CRM_Core_PseudoConstant::country(), $reverse ) &&
+                    if ( ! CRM_Utils_Array::lookupValue( $location['address'], 'country',
+                                                         CRM_Core_PseudoConstant::country(), $reverse ) &&
                          $reverse ) {
-                        self::lookupValue( $location['address'], 'country', 
-                                           CRM_Core_PseudoConstant::countryIsoCode(), $reverse );
+                         CRM_Utils_Array::lookupValue( $location['address'], 'country', 
+                                                       CRM_Core_PseudoConstant::countryIsoCode(), $reverse );
                     }
-                    self::lookupValue( $location['address'], 'county'        , CRM_Core_PseudoConstant::county()         , $reverse );
+                    CRM_Utils_Array::lookupValue( $location['address'], 'county', 
+                                                  CRM_Core_PseudoConstant::county(), $reverse );
                 }
 
                 if (array_key_exists('im', $location)) {
                     $ims =& $location['im'];
                     foreach ($ims as $innerIndex => $im) {
                         $im =& $ims[$innerIndex];
-                        self::lookupValue( $im, 'provider', CRM_Core_PseudoConstant::IMProvider(), $reverse );
+                        CRM_Utils_Array::lookupValue( $im, 'provider', 
+                                                      CRM_Core_PseudoConstant::IMProvider(), $reverse );
                         unset($im);
                     }
                 }
                 unset($location);
             }
         }
-    }
-
-    /**
-     * This function is used to convert associative array names to values
-     * and vice-versa.
-     *
-     * This function is used by both the web form layer and the api. Note that
-     * the api needs the name => value conversion, also the view layer typically
-     * requires value => name conversion
-     */
-    static function lookupValue( &$defaults, $property, $lookup, $reverse ) 
-    {
-        $id = $property . '_id';
-
-        $src = $reverse ? $property : $id;
-        $dst = $reverse ? $id       : $property;
-        
-        if ( ! array_key_exists( strtolower($src), array_change_key_case( $defaults, CASE_LOWER )) ) {
-            return false;
-        }
-
-        $look = $reverse ? array_flip( $lookup ) : $lookup;
-        
-        //trim lookup array, ignore . ( fix for CRM-1514 ), eg for prefix/suffix make sure Dr. and Dr both are valid
-        $newLook = array( );
-        foreach( $look as $k => $v) {
-            $newLook[trim($k, ".")] = $v;
-        }
-
-        $look = $newLook;
-
-        if(is_array($look)) {
-            if ( ! array_key_exists( trim(strtolower( $defaults[strtolower($src)] ),'.'),  array_change_key_case( $look, CASE_LOWER )) ) {
-                return false;
-            }
-        }
-        
-        $tempLook = array_change_key_case( $look ,CASE_LOWER);
-
-        $defaults[$dst] = $tempLook[trim(strtolower( $defaults[strtolower($src)] ),'.')];
-        return true;
     }
 
     /**
