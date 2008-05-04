@@ -56,6 +56,42 @@ class BAO_Core_Email extends CiviTestCase
     }
 
     /**
+     * holdEmail() method (set and reset on_hold condition)
+     */
+    function testHoldEmail( )
+    {
+        $contactId = Contact::createIndividual( );
+        
+        $params = array( );
+        $params = array( 'email'            => 'jane.doe@example.com',
+                        'is_primary'       => 1,
+                        'location_type_id' => 1,
+                        'contact_id'       => $contactId );
+        
+        require_once 'CRM/Core/BAO/Email.php';
+        CRM_Core_BAO_Email::add( $params );
+        
+        $emailId = $this->assertDBNotNull( 'CRM_Core_DAO_Email', 'jane.doe@example.com' , 'id', 'email',
+                                          'Database check for created email address.' );
+        
+        // Now call add() with on_hold=true and check record state
+        
+        $params = array( );
+        $params = array( 'id'           => $emailId,
+                        'contact_id'   => $contactId,
+                        'on_hold'      => 1, );
+        
+        CRM_Core_BAO_Email::add( $params );
+        
+        $onHold = $this->assertDBCompareValue( 'CRM_Core_DAO_Email', $emailId, 'hold_date', 'id', date( 'YmdHis' ),
+                                              'Check if hold_date is set in the updated email record.' );
+        $onHold = $this->assertDBCompareValue( 'CRM_Core_DAO_Email', $emailId, 'on_hold', 'id', 1,
+                                             'Check if on_hold=1 in updated email record.' );
+        
+        Contact::delete( $contactId );
+    }
+
+    /**
      * allEmails() method - get all emails for our contact, with primary email first
      */
     function testAllEmails( )
@@ -71,7 +107,7 @@ class BAO_Core_Email extends CiviTestCase
         require_once 'CRM/Core/BAO/Email.php';
         $emails = CRM_Core_BAO_Email::allEmails( $contactId );
 
-        $this->assertEqual( count( $emails ) , 3, 'Checking no of returned emails.' );
+        $this->assertEqual( count( $emails ) , 3, 'Checking number of returned emails.' );
         
         $firstEmailValue = array_slice( $emails, 0, 1 );
         

@@ -69,20 +69,31 @@ class CiviTestCase extends DrupalTestCase
         return $html;
     }
 
-    function assertDBNotNull(  $daoName, $id, $fieldName, $idName, $message  ) 
+    // Request a record from the DB by seachColumn+searchValue. Success if a record is found. 
+    function assertDBNotNull(  $daoName, $searchValue, $returnColumn, $searchColumn, $message  ) 
     {
-        $value = CRM_Core_DAO::getFieldValue( $daoName, $id, $fieldName, $idName );
+        $value = CRM_Core_DAO::getFieldValue( $daoName, $searchValue, $returnColumn, $searchColumn );
         $this->assertNotNull(  $value, $message );
         
         return $value;
     }
 
-    function assertDBNull(  $daoName, $id, $fieldName, $idName, $message  ) 
+    // Request a record from the DB by seachColumn+searchValue. Success if NO record is found. 
+    function assertDBNull(  $daoName, $searchValue, $returnColumn, $searchColumn, $message  ) 
     {
-        $value = CRM_Core_DAO::getFieldValue( $daoName, $id, $fieldName, $idName );
+        $value = CRM_Core_DAO::getFieldValue( $daoName, $searchValue, $returnColumn, $searchColumn );
         $this->assertNull(  $value, $message );
     }
 
+    // Compare a single column value in a retrieved DB record to an expected value
+    function assertDBCompareValue(  $daoName, $searchValue, $returnColumn, $searchColumn,
+                                    $expectedValue, $message  ) 
+    {
+        $value = CRM_Core_DAO::getFieldValue( $daoName, $searchValue, $returnColumn, $searchColumn );
+        $this->assertEqual(  $value, $expectedValue, $message );
+    }
+
+    // Compare all values in a single retrieved DB record to an array of expected values
     function assertDBCompareValues( $daoName, $searchParams, $expectedValues )  
     {
         //get the values from db 
