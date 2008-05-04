@@ -634,21 +634,21 @@ WHERE  id = %1
         return trim( $version ) == trim( $dbVersion ) ? true : false;
     }
     
-
     /**
-     * Given a DAO name and its id, get the value of the field requested
+     * Given a DAO name, a column name and a column value, find the record and GET the value of another column in that record
      *
-     * @param string $daoName   the name of the DAO
-     * @param int    $id        the id of the relevant object 
-     * @param string $fieldName the name of the field whose value is needed
+     * @param string $daoName       Name of the DAO (Example: CRM_Contact_DAO_Contact to retrieve value from a contact)
+     * @param int    $searchValue   Value of the column you want to search by 
+     * @param string $returnColumn  Name of the column you want to GET the value of
+     * @param string $searchColumn  Name of the column you want to search by
      *
-     * @return string|null      the value of the field
+     * @return string|null          Value of $returnColumn in the retrieved record
      * @static
      * @access public
      */
-    static function getFieldValue( $daoName, $id, $fieldName = 'name', $idName = 'id' ) 
+    static function getFieldValue( $daoName, $searchValue, $returnColumn = 'name', $searchColumn = 'id' ) 
     {
-        if ( empty( $id ) ) {
+        if ( empty( $searchValue ) ) {
             // adding this year since developers forget to check for an id
             // and hence we get the first value in the db
             CRM_Core_Error::fatal( );
@@ -657,39 +657,40 @@ WHERE  id = %1
         
         require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
         eval( '$object   =& new ' . $daoName . '( );' );
-        $object->$idName =  $id;
+        $object->$searchColumn =  $searchValue;
         $object->selectAdd( );
-        $object->selectAdd( 'id, ' . $fieldName );
+        $object->selectAdd( 'id, ' . $returnColumn );
         $result = null;
         if ( $object->find( true ) ) {
-            $result = $object->$fieldName;
+            $result = $object->$returnColumn;
         }
         $object->free( );
         return $result;
      }
     
     /**
-     * Given a DAO name and its id, set the value of the field requested
+     * Given a DAO name, a column name and a column value, find the record and SET the value of another column in that record
      *
-     * @param string $daoName   the name of the DAO
-     * @param int    $id        the id of the relevant object
-     * @param string $fieldName the name of the field whose value is needed
-     * @param string $value     the value of the field
+     * @param string $daoName       Name of the DAO (Example: CRM_Contact_DAO_Contact to retrieve value from a contact)
+     * @param int    $searchValue   Value of the column you want to search by 
+     * @param string $setColumn     Name of the column you want to SET the value of
+     * @param string $setValue      SET the setColumn to this value
+     * @param string $searchColumn  Name of the column you want to search by
      *
      * @return boolean          true if we found and updated the object, else false
      * @static
      * @access public
      */
-    static function setFieldValue( $daoName, $id, $fieldName, $value, $idName = 'id' ) 
+    static function setFieldValue( $daoName, $searchValue, $setColumn, $setValue, $searchColumn = 'id' ) 
     {
         require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
         eval( '$object =& new ' . $daoName . '( );' );
         $object->selectAdd( );
-        $object->selectAdd( "$idName, $fieldName" );
-        $object->$idName = $id;
+        $object->selectAdd( "$searchColumn, $setColumn" );
+        $object->$searchColumn = $searchValue;
         $result = false;
         if ( $object->find( true ) ) {
-            $object->$fieldName = $value;
+            $object->$setColumn = $setValue;
             if ( $object->save( ) ) {
                 $result = true;
             }
@@ -697,7 +698,6 @@ WHERE  id = %1
         $object->free( );
         return $result;
     }
-
 
     /**
      * Get sort string

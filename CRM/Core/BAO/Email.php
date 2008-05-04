@@ -58,6 +58,8 @@ class CRM_Core_BAO_Email extends CRM_Core_DAO_Email
         // lower case email field to optimize queries
         $email->email = strtolower( $email->email );
 
+        // since we're setting bulkmail for 1 of this contact's emails, first reset all their emails to is_bulkmail false
+        // (only 1 email address can have is_bulkmail = true)
         if ( $email->is_bulkmail != 'null' && $params['contact_id']) {
             $sql = "
 UPDATE civicrm_email 
