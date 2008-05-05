@@ -48,7 +48,7 @@ class CRM_Contribute_Info extends CRM_Core_Component_Info
                        'title'          => ts('CiviCRM Contribution Engine'),
                        'url'            => 'contribute',
                        'menu'           => array( 'Menu/Contribute.xml' ),
-                       'search'  => 1 );        
+                       'search'         => 1 );
     }
 
     // docs inherited from interface
@@ -58,6 +58,16 @@ class CRM_Contribute_Info extends CRM_Core_Component_Info
                       'edit contributions',
                       'make online contributions' );
     }
+
+
+    // docs inherited from interface
+    public function getUserDashboardElement()
+    {
+        return array( 'name'    => ts( 'Contributions' ),
+                      'title'   => ts( 'Your Contribution(s)' ),
+                      'perm'    => array( 'make online contributions' ) );
+    }
+
 
     // docs inherited from interface    
     public function getActivityTypes()

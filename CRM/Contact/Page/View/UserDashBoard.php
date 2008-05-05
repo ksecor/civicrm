@@ -60,6 +60,15 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
      */
     static $_links = null;
 
+    /**
+     * cache the smarty template for efficiency reasons
+     *
+     * @var CRM_Core_Smarty
+     * @access protected
+     * @static
+     */
+    static protected $templatePath;
+
     function __construct( ) {
         parent::__construct( );
 
@@ -108,7 +117,7 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
         $this->set( 'contactImage', $contactImage );
 
         CRM_Utils_System::setTitle( ts( 'Dashboard - %1', array( 1 => $displayName ) ) );
-  
+        
         $this->assign('recentlyViewed', false);
     }
     
@@ -121,47 +130,32 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
     function buildUserDashBoard( )
     {
         //build component selectors
-        $components = array( );
+        $dashboardElements = array( );
         $config =& CRM_Core_Config::singleton( );
 
         require_once 'CRM/Core/BAO/Preferences.php';
         $this->_userOptions  = CRM_Core_BAO_Preferences::valueOptions( 'user_dashboard_options' );
-       
-        if ( $this->_userOptions['Contributions'] &&
-             in_array( 'CiviContribute', $config->enableComponents ) &&
-             ( CRM_Core_Permission::access( 'CiviContribute' ) ||
-               CRM_Core_Permission::check('make online contributions') )
-             ) {
-            $components['CiviContribute'] = 'CiviContribute';
-            require_once "CRM/Contact/Page/View/UserDashBoard/Contribution.php";
-            $contribution = new CRM_Contact_Page_View_UserDashBoard_Contribution( );
-            $contribution->run( );
-        }
-        
-        if ( $this->_userOptions['Memberships'] &&
-             in_array( 'CiviMember', $config->enableComponents ) &&
-             ( CRM_Core_Permission::access( 'CiviMember' ) ||
-               CRM_Core_Permission::check('make online contributions') )
-             ) {
-            $components['CiviMember'] = 'CiviMember';
-            require_once "CRM/Contact/Page/View/UserDashBoard/Membership.php";
-            $membership = new CRM_Contact_Page_View_UserDashBoard_Membership( );
-            $membership->run( );
-        }
 
-        if ( $this->_userOptions['Events'] &&
-             in_array( 'CiviEvent', $config->enableComponents ) &&
-             ( CRM_Core_Permission::access( 'CiviEvent' ) ||
-               CRM_Core_Permission::check('register for events') )
-             ) {
-            $components['CiviEvent'] = 'CiviEvent';
-            require_once "CRM/Contact/Page/View/UserDashBoard/Participant.php";
-            $participant = new CRM_Contact_Page_View_UserDashBoard_Participant( );
-            $participant->run( );
-        }        
+
+        $components = CRM_Core_Component::getEnabledComponents();
+
+        foreach( $components as $name => $component ) {
+
+            $elem = $component->getUserDashboardElement();
+            if( in_array( $elem['name'], array_keys($this->_userOptions) ) &&
+                ( CRM_Core_Permission::access( $component->name ) ||
+                  CRM_Core_Permission::check( $elem['perm'][0] ) ) ) {
+
+                $userDashboard = $component->getUserDashboardObject();
+                $dashboardElements[ $component->name ] = array();
+                $dashboardElements[ $component->name ][ 'templatePath' ] = $userDashboard->getTemplateFileName();
+                $dashboardElements[ $component->name ][ 'sectionTitle' ] = $elem['title'];
+                $userDashboard->run( );
+            }
+        }
 
         if ( $this->_userOptions['My Contacts / Organizations'] ) {
-            $components['My Contacts / Organizations'] = 'My Contacts / Organizations';
+            $dashboardElements['My Contacts / Organizations'] = 'My Contacts / Organizations';
 
             $links =& self::links( );
             $mask  = CRM_Core_Action::mask( $this->_permission );
@@ -172,7 +166,10 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
                                                                                   $links, $mask );
             $this->assign( 'currentRelationships',  $currentRelationships  );
         }
-        $this->assign ( 'components', $components );
+
+        $this->assign ( 'dashboardElements', $dashboardElements );
+
+
 
         if ( $this->_userOptions['Groups'] ) {
             $this->assign( 'showGroup', true );
@@ -183,6 +180,9 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
         } else {
             $this->assign( 'showGroup', false );
         }
+        
+        CRM_Core_Error::debug( 'de', $dashboardElements );        
+        
     }
         
     /**

@@ -25,56 +25,52 @@
  +--------------------------------------------------------------------+
 */
 
-require_once 'CRM/Core/Component/Info.php';
-
 /**
- * This class introduces component to the system and provides all the 
- * information about it. It needs to extend CRM_Core_Component_Info
- * abstract class.
  *
  * @package CRM
  * @copyright CiviCRM LLC (c) 2004-2007
  * $Id$
  *
  */
-class CRM_Member_Info extends CRM_Core_Component_Info
+
+require_once 'CRM/Contact/Page/View/UserDashBoard.php';
+
+/**
+ * This class is for building event(participation) block on user dashboard
+ */
+class CRM_Event_Page_UserDashboard extends CRM_Contact_Page_View_UserDashBoard 
 {
-
-    // docs inherited from interface
-    public function getInfo()
+    /**
+     * Function to list participations for the UF user
+     * 
+     * return null
+     * @access public
+     */
+    function listParticipations( ) 
     {
-        return array( 'name'           => 'CiviMember',
-                      'translatedName' => ts('CiviMember'),
-                      'title'          => 'CiviCRM Membership Engine',
-                      'url'            => 'member',
-                      'menu'           => array( 'Menu/Member.xml' ),
-                      'search'         => 1 );
-    }
-
-
-    // docs inherited from interface
-    public function getPermissions()
-    {
-        return array( 'access CiviMember',
-                      'edit memberships');
-    }
-
-    // docs inherited from interface
-    public function getUserDashboardElement()
-    {
-        return array( 'name'  => ts( 'Memberships' ),
-                      'title' => ts( 'Your Membership(s)' ),
-                      // this is CiviContribute specific permission, since
-                      // there is no permission that could be checked for
-                      // CiviMember
-                      'perm'  => array( 'make online contributions' ) );
-    }
-
-    // docs inherited from interface    
-    public function getActivityTypes()
-    {
-        return null;
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Event_Form_Search', ts('Events'), null );
+        $controller->setEmbedded( true );
+        $controller->reset( );
+        $controller->set( 'context', 'user' ); 
+        $controller->set( 'cid'  , $this->_contactId );
+        $controller->set( 'force'  , 1 );
+        $controller->process( );
+        $controller->run( );
     }
     
+    /**
+     * This function is the main function that is called when the page
+     * loads, it decides the which action has to be taken for the page.
+     * 
+     * return null
+     * @access public
+     */
+    function run( ) 
+    {
+        parent::preProcess( );
+        $this->listParticipations( ); 
+    }
+      
 }
+
 

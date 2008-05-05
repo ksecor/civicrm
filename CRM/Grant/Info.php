@@ -60,6 +60,13 @@ class CRM_Grant_Info extends CRM_Core_Component_Info
         return array( 'access CiviGrant', 
                       'edit grants');
     }
+
+    // docs inherited from interface
+    public function getUserDashboardElement()
+    {
+        // no dashboard element for this component
+        return null;
+    }
         
     // docs inherited from interface    
     public function getActivityTypes()

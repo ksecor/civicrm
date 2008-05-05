@@ -64,6 +64,12 @@ abstract class CRM_Core_Component_Info
     const COMPONENT_BAO_QUERY_CLASS = 'BAO_Query';
 
     /*
+     * Name of the class (minus component namespace path) 
+     * of the component user dashboard plugin.
+     */
+    const COMPONENT_USERDASHBOARD_CLASS = 'Page_UserDashboard';
+
+    /*
      * Stores component information.
      * @var array component settings as key/value pairs
      */
@@ -92,7 +98,7 @@ abstract class CRM_Core_Component_Info
      * Needs to be implemented in component's information
      * class.
      *
-     * @return array collection of component settings
+     * @return array collection of required component settings
      * @access public
      *
      */
@@ -103,12 +109,23 @@ abstract class CRM_Core_Component_Info
      * Needs to be implemented in component's information
      * class.     
      *
-     * @return array|null collection of activity types
+     * @return array|null collection of permissions, null if none
      * @access public
      *
      */
     abstract public function getPermissions();
 
+
+    /**
+     * Provides information about user dashboard element
+     * offered by this component.
+     *
+     * @return array|null collection of required dashboard settings, 
+     *                    null if no element offered
+     * @access public
+     *
+     */
+    abstract public function getUserDashboardElement();
 
     /**
      * Provides potential activity types that this 
@@ -121,6 +138,25 @@ abstract class CRM_Core_Component_Info
      *
      */
     abstract public function getActivityTypes();
+
+
+    /**
+     * Provides information whether given component is currently 
+     * marked as enabled in configuration.
+     *
+     * @return boolean true if component is enabled, false if not
+     * @access public
+     *
+     */
+    public function isEnabled( )
+    {
+        require_once 'CRM/Core/Config.php';
+        $config =& CRM_Core_Config::singleton( );
+        if( in_array( $this->info['name'], $config->enableComponents ) ) {
+            return TRUE;
+        }
+        return FALSE;
+    }
 
     /**
      * Provides component's configuration object.
@@ -171,6 +207,18 @@ abstract class CRM_Core_Component_Info
     }
 
     /**
+     * Provides component's user dashboard page object.
+     * 
+     * @return boolean true if component needs search integration
+     * @access public
+     *
+     */
+    public function getUserDashboardObject( )
+    {
+        return $this->_instantiate( self::COMPONENT_USERDASHBOARD_CLASS );
+    }
+
+    /**
      * Provides information whether given component uses system wide search.
      * 
      * @return boolean true if component needs search integration
@@ -193,6 +241,9 @@ abstract class CRM_Core_Component_Info
     {
         return $this->info['menu'] ? $this->info['menu'] : array( );
     }
+
+
+
 
 
     /**

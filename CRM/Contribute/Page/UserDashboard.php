@@ -35,7 +35,7 @@
 
 require_once 'CRM/Contact/Page/View/UserDashBoard.php';
 
-class CRM_Contact_Page_View_UserDashBoard_Contribution extends CRM_Contact_Page_View_UserDashBoard 
+class CRM_Contribute_Page_UserDashboard extends CRM_Contact_Page_View_UserDashBoard 
 {
    /**
     * This function is called when action is browse

@@ -60,6 +60,14 @@ class CRM_Event_Info extends CRM_Core_Component_Info
                       'register for events'    ,
                       'view event participants' );
     }
+
+    // docs inherited from interface
+    public function getUserDashboardElement()
+    {
+        return array( 'name'    => ts( 'Events' ),
+                      'title'   => ts( 'Your Event(s)' ),
+                      'perm'    => array( 'register for events' ) );
+    }
     
     // docs inherited from interface    
     public function getActivityTypes()

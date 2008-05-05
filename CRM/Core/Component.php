@@ -110,6 +110,11 @@ class CRM_Core_Component
         return $_cache;
     }
 
+    public function &getEnabledComponents( )
+    {
+        return self::_info();
+    }
+
     static function invoke( &$args, $type ) 
     {
         $info =& self::_info( );

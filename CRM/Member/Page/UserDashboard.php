@@ -38,7 +38,7 @@ require_once 'CRM/Contact/Page/View/UserDashBoard.php';
 /**
  * This class is for building membership block on user dashboard
  */
-class CRM_Contact_Page_View_UserDashBoard_Membership extends CRM_Contact_Page_View_UserDashBoard 
+class CRM_Member_Page_UserDashboard extends CRM_Contact_Page_View_UserDashBoard 
 {
     /**
      * Function to list memberships for the UF user

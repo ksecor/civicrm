@@ -245,6 +245,7 @@ class CRM_Core_Page {
      * @access public
      */
     function getTemplateFileName() {
+
         return (str_replace('_', DIRECTORY_SEPARATOR, $this->_name) . '.tpl');
     }
 
