@@ -286,6 +286,7 @@ class CRM_Contact_Form_Task_EmailCommon
                          );
         
         $statusOnHold = '';
+        require_once 'CRM/Contact/BAO/Contact/Location.php';
         foreach ($form->_contactIds as $item => $contactId) {
             $email     = CRM_Contact_BAO_Contact_Location::getEmailDetails($contactId);
             $allEmails = CRM_Core_BAO_Email::allEmails($contactId);
