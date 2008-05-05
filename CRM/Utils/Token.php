@@ -94,11 +94,6 @@ class CRM_Utils_Token
                                                   'action.optOut'    => ts("Creates a link for recipients to opt out of receiving emails from your organization."), 
                                                   'action.optOutUrl' => ts("Creates a link for recipients to opt out of receiving emails from your organization."), 
                                                   ),
-                                            'action.unsubscribe' =>
-                                            array(
-                                                  'action.unsubscribe' => ts("Creates a link for recipients to unsubscribe from the group(s) to which this mailing is being sent."),
-                                                  'action.unsubscribeUrl' => ts("Creates a link for recipients to unsubscribe from the group(s) to which this mailing is being sent."),
-                                                  ),
                                             );
         }
 
