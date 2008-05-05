@@ -353,6 +353,15 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 unset( $fields[$value] );
             }
         }
+
+        // if onbehalf-of-organization contribution, take out
+        // organization params in a separate variable. 
+        if ( $params['is_for_organization'] && $params['organization_name'] ) {
+            $behalfOrganization = array();
+            $behalfOrganization['organization_name'] = $params['organization_name'];
+            $behalfOrganization['location']          = $params['location'];
+            unset($params['organization_name'], $params['location']);
+        }
         
         if ( ! isset( $contactID ) ) {
             require_once "CRM/Core/BAO/UFGroup.php";
@@ -370,6 +379,20 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $ctype = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $contactID, 'contact_type');
             $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $contactID, $addToGroups,
                                                                          null, $ctype);
+        }
+
+        // if onbehalf-of-organization contribution, add organization
+        // and it's location.
+        if ( is_array($behalfOrganization) && $behalfOrganization['organization_name'] ) {
+            require_once 'CRM/Contact/BAO/Contact/Utils.php';
+            $orgID = CRM_Contact_BAO_Contact_Utils::makeCurrentEmployerRelationship($contactID,
+                                                                                    $behalfOrganization['organization_name']);
+            // if only one matching organization found.
+            if ( ! is_array($orgID) && $orgID ) {
+                $behalfOrganization['contact_id']   = $orgID;
+                $behalfOrganization['contact_type'] = 'Organization';
+                CRM_Core_BAO_Location::create( $behalfOrganization );
+            } 
         }
 
         // lets store the contactID in the session

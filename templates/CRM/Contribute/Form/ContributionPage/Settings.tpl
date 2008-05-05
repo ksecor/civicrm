@@ -28,7 +28,7 @@
         <dt>&nbsp;</dt><dd class="description">{ts 1="http://wiki.civicrm.org/confluence//x/ihk" 2=$docURLTitle}Select the payment processor to be used for contributions submitted from this contribution page (unless you are soliciting non-monetary / in-kind contributions only). (<a href='%1' target='_blank' title='%2'>read more...</a>){/ts}</dd>
     {/if}
     <dt>&nbsp;</dt><dd>{$form.is_for_organization.html} {$form.is_for_organization.label}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}If you want to allow the contribution to be done by individuals on behalf of an organization.{/ts}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}If you want to allow the contribution/signup to be done by individuals on behalf of an organization.{/ts}</dd>
     <span id="for_org_text">
     <dt>{$form.for_organization.label}</dt><dd>{$form.for_organization.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Text displayed next to the checkbox for the 'contribute/signup on behalf of an organization' option on the contribution form.{/ts}</dd>
@@ -76,6 +76,15 @@
     {/if}
     </fieldset>
 </div>
+
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="is_for_organization"
+    trigger_value       = 1
+    target_element_id   ="for_org_text" 
+    target_element_type ="block"
+    field_type          ="radio"
+    invert              = 0
+}
 
 <script type="text/javascript">
  showHonor();

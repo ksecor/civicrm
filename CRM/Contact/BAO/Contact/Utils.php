@@ -273,22 +273,25 @@ UNION
             $newOrg['organization_name'] = $organizationName ;
             
             require_once 'CRM/Core/BAO/Preferences.php';
-            $orgName = self::add( $newOrg );
+            $orgName = CRM_Contact_BAO_Contact::add( $newOrg );
 
             //create relationship
             $relationshipParams['contact_check'][$orgName->id] = 1;
            
-            $relationship= CRM_Contact_BAO_Relationship::create($relationshipParams, $cid);
+            $relationship = CRM_Contact_BAO_Relationship::create($relationshipParams, $cid);
+
+            return $orgName->id; 
+
         } else {
             //if more than one matching organizations found, we
             //add relationships to all those organizations
             foreach($dupeIds as $key => $value) {
                 $relationshipParams['contact_check'][$value] = 1;
-                $relationship= CRM_Contact_BAO_Relationship::create($relationshipParams,
-                                                                    $cid);
+                $relationship = CRM_Contact_BAO_Relationship::create($relationshipParams,
+                                                                     $cid);
             }
+            return $dupeIds;
         }
-        
     }
 
 }

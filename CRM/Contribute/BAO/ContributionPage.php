@@ -129,7 +129,7 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
         if ( $values['is_email_receipt'] ) {
             $template =& CRM_Core_Smarty::singleton( );
 
-            require_once 'CRM/Contact/BAO/Contact.php';
+            require_once 'CRM/Contact/BAO/Contact/Location.php';
             list( $displayName, $email ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $contactID );
             self::buildCustomDisplay( $values['custom_pre_id'] , 'customPre' , $contactID, $template, $params['custom_pre_id'] );
             self::buildCustomDisplay( $values['custom_post_id'], 'customPost', $contactID, $template, $params['custom_post_id'] );
