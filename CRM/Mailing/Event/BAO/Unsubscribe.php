@@ -172,7 +172,8 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
          * those except smart groups and those that the contact belongs to */
         $do->query("
             SELECT      $group.id as group_id,
-                        $group.title as title
+                        $group.title as title,
+                        $group.description as description
             FROM        $group
             LEFT JOIN   $gc
                 ON      $gc.group_id = $group.id
@@ -182,11 +183,16 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
                                 AND $gc.status = 'Added')
                         )");
                         
-        while ($do->fetch()) {
-            $groups[$do->group_id] = $do->title;
-        }
         if ($return) {
+            while ($do->fetch()) {
+                $groups[$do->group_id] = array( 'title'       => $do->title,
+                                                'description' => $do->description);
+            }
             return $groups;
+        } else {
+            while ($do->fetch()) {
+                $groups[$do->group_id] = $do->title;
+            }
         }
         $contacts = array($contact_id);
         foreach ($groups as $group_id => $group_name) {
