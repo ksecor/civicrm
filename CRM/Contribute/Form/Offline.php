@@ -79,7 +79,8 @@ class CRM_Contribute_Form_Offline extends CRM_Core_Form {
         $this->_paymentProcessor = array( 'billing_mode' => 1 );
 
         require_once 'CRM/Contact/BAO/Contact.php';
-        list( $this->userDisplayName, $this->userEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $this->_contactID );
+        list( $this->userDisplayName, 
+              $this->userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $this->_contactID );
         $this->assign( 'displayName', $this->userDisplayName );
 
         // also check for billing information
@@ -412,9 +413,10 @@ class CRM_Contribute_Form_Offline extends CRM_Core_Form {
             // Retrieve the name and email of the current user - this will be the FROM for the receipt email
             $session =& CRM_Core_Session::singleton( );
             $userID = $session->get( 'userID' );
-            list( $userName, $userEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $userID );
+            list( $userName, $userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $userID );
             $receiptFrom = '"' . $userName . '" <' . $userEmail . '>';
-            list( $contributorDisplayName, $contributorEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $contactID );
+            list( $contributorDisplayName, 
+                  $contributorEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $contactID );
             $subject = ts('Contribution Receipt');
          
             require_once 'CRM/Utils/Mail.php';

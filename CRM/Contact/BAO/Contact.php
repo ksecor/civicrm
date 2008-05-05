@@ -254,74 +254,7 @@ INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
         return $contact;
     }
 
-    /**
-     * Given the list of params in the params array, fetch the object
-     * and store the values in the values array
-     *
-     * @param array $params input parameters to find object
-     * @param array $values output values of the object
-     *
-     * @return CRM_Contact_BAO_Contact|null the found object or null
-     * @access public
-     * @static
-     */
-    static function &getValues( &$params, &$values ) 
-    {
-        $contact =& new CRM_Contact_BAO_Contact( );
 
-        $contact->copyValues( $params );
-
-        if ( $contact->find(true) ) {
-
-            CRM_Core_DAO::storeValues( $contact, $values );
-                        
-            $privacy = array( );
-            foreach ( self::$_commPrefs as $name ) {
-                if ( isset( $contact->$name ) ) {
-                    $privacy[$name] = $contact->$name;
-                }
-            }
-            
-            if ( !empty($privacy) ) {
-                $values['privacy'] = $privacy;
-            }
-            
-            // communication Prefferance
-            $preffComm = $comm = array();
-            $comm =explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$contact->preferred_communication_method);
-            foreach( $comm as $value ) {
-                $preffComm[$value] = 1; 
-            }
-            $temp  = array('preferred_communication_method' => $contact->preferred_communication_method );
-            
-            $names = array('preferred_communication_method' => array('newName'   => 'preferred_communication_method_display',
-                                                                     'groupName' => 'preferred_communication_method'));
-            
-            require_once 'CRM/Core/OptionGroup.php';
-            CRM_Core_OptionGroup::lookupValues( $temp, $names, false );                
-                            
-            $values['preferred_communication_method']          = $preffComm;
-            $values['preferred_communication_method_display']  = 
-                CRM_Utils_Array::value( 'preferred_communication_method_display', $temp );
-            
-            CRM_Contact_DAO_Contact::addDisplayEnums($values);
-            
-            // Calculating Year difference            
-            if ( $contact->birth_date ) {
-                $birthDate = CRM_Utils_Date::customFormat( $contact->birth_date,'%Y%m%d' );  
-                if ( $birthDate < date( 'Ymd' ) ) {
-                    $age =  CRM_Utils_Date::calculateAge( $birthDate );
-                    $values['age']['y'] = CRM_Utils_Array::value('years',$age);
-                    $values['age']['m'] = CRM_Utils_Array::value('months',$age);
-                 }
-            }
-
-            $contact->contact_id = $contact->id;
-            
-            return $contact;
-        }
-        return null;
-    }
     
     /**
      * Function to create contact
@@ -601,7 +534,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
             $params['contact_id'] = $params['id'];
         }
 
-        $contact = self::getValues( $params, $defaults );
+        $contact = self::_getValues( $params, $defaults );
         unset($params['id']);
         
         //get the block information for this contact
@@ -613,10 +546,6 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         $contact->notes        =& CRM_Core_BAO_Note::getValues( $params, $defaults );
         $contact->relationship =& CRM_Contact_BAO_Relationship::getValues( $params, $defaults );
         $contact->groupContact =& CRM_Contact_BAO_GroupContact::getValues( $params, $defaults );
-        
-        // don't know why we want to retrieve contact activities
-        // DRAFTING: this should be the proper way to get open activities
-        // $contact->activity     =& CRM_Activity_BAO_Activity::getValues( $params, $defaults, $ids );
         
         return $contact;
     }
@@ -647,84 +576,9 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         return CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'display_name' );
     }
 
-    /**
-     * function to get the display name, primary email, location type and location id of a contact
-     *
-     * @param  int    $id id of the contact
-     *
-     * @return array  of display_name, email, location type and location id if found, or (null,null,null, null)
-     * @static
-     * @access public
-     */
-    static function getEmailDetails( $id, $locationTypeID = null ) 
-    {
-        $locationClause = null;
-        if ( $locationTypeID ) {
-            $locationClause = " AND civicrm_email.location_type_id = $locationTypeID";
-        }
-
-        $sql = "
-SELECT    civicrm_contact.display_name,
-          civicrm_email.email,
-          civicrm_email.location_type_id,
-          civicrm_email.id
-FROM      civicrm_contact
-LEFT JOIN civicrm_email ON ( civicrm_contact.id = civicrm_email.contact_id )
-    WHERE civicrm_email.is_primary = 1
-      AND civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
-
-        $dao =& new CRM_Core_DAO( );
-        $dao->query( $sql );
-        $result = $dao->getDatabaseResult();
-        if ( $result ) {
-            $row    = $result->fetchRow();
-            if ( $row ) {
-                return array( $row[0], $row[1], $row[2], $row[3] );
-            }
-        }
-        return array( null, null, null, null );
-    }
-
-    /**
-     * function to get the sms number and display name of a contact
-     *
-     * @param  int    $id id of the contact
-     *
-     * @return array    tuple of display_name and sms if found, or (null,null)
-     * @static
-     * @access public
-     */
-    static function getPhoneDetails( $id, $type = null ) 
-    {
-        if ( ! $id ) {
-            return array( null, null );
-        }
-
-        $cond = null;
-        if ( $type ) {
-            $cond = " AND civicrm_phone.phone_type = '$type'";
-        }
 
 
-        $sql = "
-   SELECT civicrm_contact.display_name, civicrm_phone.phone
-     FROM civicrm_contact
-LEFT JOIN civicrm_phone ON ( civicrm_phone.contact_id = civicrm_contact.id )
-    WHERE civicrm_phone.is_primary = 1
-          $cond
-      AND civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
 
-        $dao =& new CRM_Core_DAO( );
-        $dao->query( $sql );
-        $result = $dao->getDatabaseResult();
-        if ( $result ) {
-            $row    = $result->fetchRow();
-            if ( $row ) {
-                return array( $row[0], $row[1] );
-            }
-        }
-        return array( null, null );
-    }
 
     /**
      * function to get the information to map a contact
@@ -2139,6 +1993,76 @@ UNION
         }
 
         return $locationCount;
+    }
+
+
+    /**
+     * Given the list of params in the params array, fetch the object
+     * and store the values in the values array
+     *
+     * @param array $params input parameters to find object
+     * @param array $values output values of the object
+     *
+     * @return CRM_Contact_BAO_Contact|null the found object or null
+     * @access public
+     * @static
+     */
+    private static function &_getValues( &$params, &$values ) 
+    {
+        $contact =& new CRM_Contact_BAO_Contact( );
+
+        $contact->copyValues( $params );
+
+        if ( $contact->find(true) ) {
+
+            CRM_Core_DAO::storeValues( $contact, $values );
+                        
+            $privacy = array( );
+            foreach ( self::$_commPrefs as $name ) {
+                if ( isset( $contact->$name ) ) {
+                    $privacy[$name] = $contact->$name;
+                }
+            }
+            
+            if ( !empty($privacy) ) {
+                $values['privacy'] = $privacy;
+            }
+            
+            // communication Prefferance
+            $preffComm = $comm = array();
+            $comm =explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$contact->preferred_communication_method);
+            foreach( $comm as $value ) {
+                $preffComm[$value] = 1; 
+            }
+            $temp  = array('preferred_communication_method' => $contact->preferred_communication_method );
+            
+            $names = array('preferred_communication_method' => array('newName'   => 'preferred_communication_method_display',
+                                                                     'groupName' => 'preferred_communication_method'));
+            
+            require_once 'CRM/Core/OptionGroup.php';
+            CRM_Core_OptionGroup::lookupValues( $temp, $names, false );                
+                            
+            $values['preferred_communication_method']          = $preffComm;
+            $values['preferred_communication_method_display']  = 
+                CRM_Utils_Array::value( 'preferred_communication_method_display', $temp );
+            
+            CRM_Contact_DAO_Contact::addDisplayEnums($values);
+            
+            // Calculating Year difference            
+            if ( $contact->birth_date ) {
+                $birthDate = CRM_Utils_Date::customFormat( $contact->birth_date,'%Y%m%d' );  
+                if ( $birthDate < date( 'Ymd' ) ) {
+                    $age =  CRM_Utils_Date::calculateAge( $birthDate );
+                    $values['age']['y'] = CRM_Utils_Array::value('years',$age);
+                    $values['age']['m'] = CRM_Utils_Array::value('months',$age);
+                 }
+            }
+
+            $contact->contact_id = $contact->id;
+            
+            return $contact;
+        }
+        return null;
     }
 
     

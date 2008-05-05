@@ -539,7 +539,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 // fix for CRM 701
                 require_once 'CRM/Contact/BAO/Contact.php';
                 
-                $userEmail = CRM_Contact_BAO_Contact::getEmailDetails( $userID );
+                $userEmail = CRM_Contact_BAO_Contact_Location::getEmailDetails( $userID );
                 
                 // if post not empty then only proceed
                 if ( ! empty ( $_POST ) ) {
@@ -1975,7 +1975,7 @@ WHERE  id = $cfID
     {
         if ( $contactId ) {
             // get the primary location type id and email
-            list($name, $primaryEmail, $primaryLocationType) = CRM_Contact_BAO_Contact::getEmailDetails( $contactId );
+            list($name, $primaryEmail, $primaryLocationType) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $contactId );
         } else {
             require_once 'CRM/Core/BAO/LocationType.php';
             $defaultLocationType =& CRM_Core_BAO_LocationType::getDefault();

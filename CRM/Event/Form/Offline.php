@@ -96,7 +96,8 @@ class CRM_Event_Form_Offline extends CRM_Core_Form
         $this->_paymentProcessor = array( 'billing_mode' => 1 );
 
         require_once 'CRM/Contact/BAO/Contact.php';
-        list( $this->userDisplayName, $this->userEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $this->_contactID );
+        list( $this->userDisplayName, 
+              $this->userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $this->_contactID );
         $this->assign( 'displayName', $this->userDisplayName );
 
         // also check for billing information

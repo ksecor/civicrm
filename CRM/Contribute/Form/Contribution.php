@@ -130,7 +130,8 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         require_once 'CRM/Contact/BAO/Contact.php';
         $session =& CRM_Core_Session::singleton( );
         $contactID = $session->get( 'userID' );
-        list( $this->userDisplayName, $this->userEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $contactID );
+        list( $this->userDisplayName, 
+              $this->userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $contactID );
         // check for edit permission
         if ( ! CRM_Core_Permission::check( 'edit contributions' ) ) {
             CRM_Core_Error::fatal( ts( 'You do not have permission to access this page' ) );
@@ -269,7 +270,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             $defaults['fulfilled_date'] = $dao->fulfilled_date;
         }
         
-        list( $displayName, $email ) = CRM_Contact_BAO_Contact::getEmailDetails( $this->_contactID );
+        list( $displayName, $email ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $this->_contactID );
         $this->assign( 'email', $email ); 
         
         return $defaults;
@@ -762,7 +763,8 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
 
             $this->assign_by_ref('formValues',$formValues);
             require_once 'CRM/Contact/BAO/Contact.php';
-            list( $contributorDisplayName, $contributorEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $this->_contactID );
+            list( $contributorDisplayName, 
+                  $contributorEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $this->_contactID );
             $template =& CRM_Core_Smarty::singleton( );
             $message = $template->fetch( 'CRM/Contribute/Form/Message.tpl' );
             

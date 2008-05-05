@@ -234,7 +234,7 @@ class CRM_Contact_Form_Task_EmailCommon
 
             // for adding the email-id to the primary address
             if ( $cid ) {
-                $location =& CRM_Contact_BAO_Contact::getEmailDetails($cid);
+                $location =& CRM_Contact_BAO_Contact_Location::getEmailDetails($cid);
                 if ( $location[3] ) {
                     $locationID = $location[3];
                     $email =& new CRM_Core_DAO_Email();
@@ -287,7 +287,7 @@ class CRM_Contact_Form_Task_EmailCommon
         
         $statusOnHold = '';
         foreach ($form->_contactIds as $item => $contactId) {
-            $email     = CRM_Contact_BAO_Contact::getEmailDetails($contactId);
+            $email     = CRM_Contact_BAO_Contact_Location::getEmailDetails($contactId);
             $allEmails = CRM_Core_BAO_Email::allEmails($contactId);
 
             if ( $allEmails[$email[1]]['is_primary'] && $allEmails[$email[1]]['on_hold'] ) {

@@ -184,7 +184,8 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
                           array('onclick' =>"return showHideByValue('send_receipt','','notice','table-row','radio',false);") );
         $this->add('textarea', 'receipt_text_renewal', ts('Renewal Message') );
         // Retrieve the name and email of the contact - this will be the TO for receipt email
-        list( $this->_contributorDisplayName, $this->_contributorEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $this->_contactID );
+        list( $this->_contributorDisplayName, 
+              $this->_contributorEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $this->_contactID );
         $this->assign( 'email', $this->_contributorEmail );
         
         $this->addFormRule(array('CRM_Member_Form_MembershipRenewal', 'formRule'));
@@ -250,7 +251,7 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
         // Retrieve the name and email of the current user - this will be the FROM for the receipt email
         $session =& CRM_Core_Session::singleton( );
         $userID  = $session->get( 'userID' );
-        list( $userName, $userEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $userID );
+        list( $userName, $userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $userID );
         
         if ( $formValues['record_contribution'] ) {
             //building contribution params 
@@ -291,7 +292,8 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
         if ( $formValues['record_contribution'] && $formValues['send_receipt'] ) {
             $receiptSend = true;
             // Retrieve the name and email of the contact - this will be the TO for receipt email
-            list( $this->_contributorDisplayName, $this->_contributorEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $this->_contactID );
+            list( $this->_contributorDisplayName, 
+                  $this->_contributorEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $this->_contactID );
             $receiptFrom = '"' . $userName . '" <' . $userEmail . '>';
             
             $paymentInstrument = CRM_Contribute_PseudoConstant::paymentInstrument();

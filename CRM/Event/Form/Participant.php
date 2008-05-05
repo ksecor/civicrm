@@ -470,7 +470,8 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         
         // Retrieve the name and email of the contact - this will be the TO for receipt email
         if ( $this->_contactID ) {
-            list( $this->_contributorDisplayName, $this->_contributorEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $this->_contactID );
+            list( $this->_contributorDisplayName, 
+                  $this->_contributorEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $this->_contactID );
             $this->assign( 'email', $this->_contributorEmail );
         } else {
             //show email block for batch update for event
@@ -641,7 +642,8 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         // Retrieve the name and email of the current user - this will be the FROM for the receipt email
         $session =& CRM_Core_Session::singleton( );
         $userID  = $session->get( 'userID' );
-        list( $userName, $userEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $userID );
+        list( $userName, 
+              $userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $userID );
         require_once "CRM/Event/BAO/Participant.php";
         $participants = array();
         if ( $this->_single ) {
