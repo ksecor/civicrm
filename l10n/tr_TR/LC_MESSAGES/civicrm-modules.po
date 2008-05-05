@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-04-28 21:53+0200\n"
-"PO-Revision-Date: 2008-04-02 09:02-0700\n"
+"PO-Revision-Date: 2008-05-01 20:12-0700\n"
 "Last-Translator: ioz <i0z@yahoo.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -7020,11 +7020,11 @@ msgstr "Türlere göre Üyeler"
 
 #: templates/CRM/Member/Page/DashBoard.tpl
 msgid "Current #"
-msgstr ""
+msgstr "Geçerli #"
 
 #: templates/CRM/Member/Page/DashBoard.tpl
 msgid "Totals (all types)"
-msgstr ""
+msgstr "Toplam (Tüm türler için)"
 
 #: templates/CRM/Member/Page/DashBoard.tpl
 msgid "Recent Memberships"

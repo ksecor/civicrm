@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-04-28 21:53+0200\n"
-"PO-Revision-Date: 2008-04-28 07:00-0700\n"
+"PO-Revision-Date: 2008-04-28 16:39+0100\n"
 "Last-Translator: Ebeer <webmaster@ebeer.fr>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -14631,6 +14631,6 @@ msgstr "Erreur lors de la transaction SMTP"
 #~ msgid "Include County?"
 #~ msgstr "Groupe(s)"
 
-#, fuzzy
+# manque matching
 #~ msgid "Add Members to Organization"
 #~ msgstr "Organisation"
