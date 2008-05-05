@@ -814,10 +814,13 @@ class Net_SMTP
         if (PEAR::isError($error = $this->_put('RCPT', $args))) {
             return $error;
         }
-        if (PEAR::isError($error = $this->_parseResponse(array(250, 251), $this->pipelining))) {
-            return $error;
+        $response = $this->_parseResponse(array(250, 251), $this->pipelining);
+        if (PEAR::isError($response)) {
+            return $response;
         }
-
+        if (!$response) {
+            return PEAR::raiseError('recipient is not recognized');
+        }
         return true;
     }
 
