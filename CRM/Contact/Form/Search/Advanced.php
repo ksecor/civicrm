@@ -121,7 +121,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
        
         foreach ( $paneNames as $name => $type ) {
         
-            if ( ! $this->_searchOptions[$name] && $name != ts( 'User SQL' ) ) {
+            if ( ! $this->_searchOptions[$name] ) {
                 continue;
                 
             }

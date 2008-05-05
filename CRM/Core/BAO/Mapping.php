@@ -386,8 +386,8 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         }
 
         if ( CRM_Core_Permission::access( 'CiviEvent' ) ) {
-            require_once 'CRM/Event/BAO/Query.php';
-            $fields['Participant'] =& CRM_Event_BAO_Query::getParticipantFields( true );
+            require_once 'CRM/Event/BAO/Participant.php';
+            $fields['Participant'] =& CRM_Event_BAO_Participant::importableFields('Individual', true, true );
             $compArray['Participant'] = 'Participant';
         }
 

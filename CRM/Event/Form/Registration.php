@@ -530,6 +530,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             CRM_Event_BAO_EventPage::sendMail( $contactID, $this->_values, $participant->id );
         }
     }
+
     /**
      * Process the participant 
      *

@@ -1346,15 +1346,9 @@ SELECT c.contribution_page_id as pageID
      */
     static function getMembershipFields( ) 
     {
-        $membershipFields =& CRM_Member_DAO_Membership::export( );
+        $fields = CRM_Member_DAO_Membership::export( );
         
-        foreach ($membershipFields as $key => $var) {
-            if ($key == 'membership_contact_id') {
-                continue;
-            }
-            $fields[$key] = $var;
-        }
-        
+        unset( $fields['membership_contact_id'] );
         $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport('Membership'));
         
         return $fields;
