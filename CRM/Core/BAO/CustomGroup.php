@@ -1148,12 +1148,14 @@ $where
                 if ( $field['data_type'] == 'String' ||
                      $field['data_type'] == 'Int' ||
                      $field['data_type'] == 'Float' ||
-                     $field['data_type'] == 'Money') {
+                     $field['data_type'] == 'Money' ||
+                     $field['html_type'] == 'Multi-Select Country') {
 
                     //added check for Multi-Select in the below if-statement
                     if ( $field['html_type'] == 'Radio'    ||
                          $field['html_type'] == 'CheckBox' ||
-                         $field['html_type'] == 'Multi-Select' ) {
+                         $field['html_type'] == 'Multi-Select'||
+                         $field['html_type'] == 'Multi-Select Country') {
                         $freezeString =  "";
                         $freezeStringChecked = "";
                         $customData = array();
@@ -1166,17 +1168,26 @@ $where
                                 $customData[] = $field['customValue']['data'];
                             }
                         }
+
+                        if ( isset( $field['customValue'] ) && $field['html_type'] == 'Multi-Select Country' ){
+                            $customData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $field['customValue']['data']);
+                            $query = "
+SELECT id as value, name as label  
+  FROM civicrm_country";
+                            $coDAO  = CRM_Core_DAO::executeQuery( $query,CRM_Core_DAO::$_nullArray  );  
+                        } else {
                         
-                        $query = "
+                            $query = "
 SELECT   v.label as label, v.value as value
   FROM   civicrm_option_value v,
          civicrm_option_group g
  WHERE   v.option_group_id = g.id
    AND   g.id = %1
 ORDER BY weight ASC, label ASC";
-                        $params = array( 1 => array( $field['option_group_id'], 'Integer' ) );
-                        $coDAO  = CRM_Core_DAO::executeQuery( $query, $params );
-
+                            $params = array( 1 => array( $field['option_group_id'], 'Integer' ) );
+                            $coDAO  = CRM_Core_DAO::executeQuery( $query, $params );
+                        }
+                        
                         $counter = 1;
                         while($coDAO->fetch()) {
                             //to show only values that are checked

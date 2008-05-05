@@ -951,7 +951,7 @@ SELECT id
                     }                    
                     $date = CRM_Utils_Date::format( $value );                    
                 }
-            } 
+            }
             if ( ! $date ) {
                 $date = '00000000000000';
             }
@@ -1072,11 +1072,13 @@ SELECT $columnName
                          'required'   => $field->is_required,
                          'searchable' => $field->is_searchable,
                         );
-
-        if ( $field->data_type == 'Country' ) {
+         
+        if ( $field->data_type == 'Country' && $field->html_type == 'Select Country' ) {
             $params['fk_table_name'] = 'civicrm_country';
             $params['fk_field_name'] = 'id';
             $params['fk_attributes'] = 'ON DELETE SET NULL';
+        } else if ( $field->data_type == 'Country' && $field->html_type == 'Multi-Select Country' ) {
+            $params['type'] ='varchar(255)';
         } else if ( $field->data_type == 'StateProvince' ) {
             $params['fk_table_name'] = 'civicrm_state_province';
             $params['fk_field_name'] = 'id';
@@ -1086,7 +1088,6 @@ SELECT $columnName
             $params['fk_field_name'] = 'id';
             $params['fk_attributes'] = 'ON DELETE SET NULL';
         }
-
         if ( $field->default_value ) {
             $params['default'] = "'{$field->default_value}'";
         }
@@ -1136,7 +1137,6 @@ AND    f.is_active = 1";
                 $customOptionGroup[$dao->id] = $dao->label;
             }
         }
-        
         return $customOptionGroup;
     }
 
