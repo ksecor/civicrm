@@ -144,6 +144,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                     $contact->id = $relationship->contact_id_b;
                 } else {
                     $contact->id = $relationship->contact_id_a;
+                    $this->assign( "revertPermission", true );
                 }
                 if ($contact->find(true)) {
                     $this->_display_name_b = $contact->sort_name;

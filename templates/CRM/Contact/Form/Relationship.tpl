@@ -154,8 +154,6 @@
             </div>
             </div></fieldset>
         {/if}
-  
-	
 {/if}
  
 <script type="text/javascript" >

@@ -103,9 +103,9 @@ class CRM_Contact_Form_RelatedContact extends CRM_Core_Form
             if ( ! $contact->find( true ) ) {
                 CRM_Core_Error::statusBounce( ts('contact does not exist: %1', array(1 => $this->_contactId)) );
             }
-            $this->_contactType = $contact->contact_type;
+            $this->_contactType    = $contact->contact_type;
             $this->_contactSubType = $contact->contact_sub_type;
-            
+           
             // check for permissions
             require_once 'CRM/Contact/BAO/Contact/Permission.php';
             if ( ! CRM_Contact_BAO_Contact_Permission::allow( $this->_contactId, CRM_Core_Permission::EDIT ) ) {
@@ -223,7 +223,7 @@ class CRM_Contact_Form_RelatedContact extends CRM_Core_Form
      */
     public function buildQuickForm( ) 
     {
-        CRM_Contact_BAO_Relationship::buildOnBehalfForm( $this );
+        CRM_Contact_BAO_Relationship::buildOnBehalfForm( $this, $this->_contactType );
 
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
