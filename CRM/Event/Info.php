@@ -66,7 +66,8 @@ class CRM_Event_Info extends CRM_Core_Component_Info
     {
         return array( 'name'    => ts( 'Events' ),
                       'title'   => ts( 'Your Event(s)' ),
-                      'perm'    => array( 'register for events' ) );
+                      'perm'    => array( 'register for events' ),
+                      'weight'  => 20 );
     }
     
     // docs inherited from interface    

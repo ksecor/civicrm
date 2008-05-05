@@ -276,6 +276,17 @@ class CRM_Utils_Sort {
     function getCurrentSortDirection( ) {
         return $this->_currentSortDirection;
     }
+
+    /**
+     * Universal callback function for sorting by weight
+     * 
+     * @return array of items sorted by weight
+     * @access public
+     */
+    static function cmpFunc( $a, $b ) {
+        return ( $a['weight'] <= $b['weight'] ) ? -1 : 1;
+    }
+
 }
 
 

@@ -65,7 +65,8 @@ class CRM_Contribute_Info extends CRM_Core_Component_Info
     {
         return array( 'name'    => ts( 'Contributions' ),
                       'title'   => ts( 'Your Contribution(s)' ),
-                      'perm'    => array( 'make online contributions' ) );
+                      'perm'    => array( 'make online contributions' ),
+                      'weight'  => 10 );
     }
 
 

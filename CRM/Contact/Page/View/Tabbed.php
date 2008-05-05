@@ -282,7 +282,8 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
         }
 
         // now sort the tabs based on weight
-        usort( $allTabs, array( 'CRM_Contact_Page_View_Tabbed', 'cmpFunc' ) );
+        require_once 'CRM/Utils/Sort.php';
+        usort( $allTabs, array( 'CRM_Utils_Sort', 'cmpFunc' ) );
 
         $this->assign( 'dojoIncludes', "dojo.require('dijit.layout.TabContainer');dojo.require('dojox.layout.ContentPane');dojo.require('dijit.layout.LinkPane'); dojo.require('dojo.parser');");
 
@@ -293,9 +294,7 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
         
     }
 
-    static function cmpFunc( $a, $b ) {
-        return ( $a['weight'] <= $b['weight'] ) ? -1 : 1;
-    }
+
 
     /**
      * Show hide blocks based on default values.

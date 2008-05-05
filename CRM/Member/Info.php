@@ -62,12 +62,13 @@ class CRM_Member_Info extends CRM_Core_Component_Info
     // docs inherited from interface
     public function getUserDashboardElement()
     {
-        return array( 'name'  => ts( 'Memberships' ),
-                      'title' => ts( 'Your Membership(s)' ),
+        return array( 'name'   => ts( 'Memberships' ),
+                      'title'  => ts( 'Your Membership(s)' ),
                       // this is CiviContribute specific permission, since
                       // there is no permission that could be checked for
                       // CiviMember
-                      'perm'  => array( 'make online contributions' ) );
+                      'perm'   => array( 'make online contributions' ),
+                      'weight' => 30 );
     }
 
     // docs inherited from interface    

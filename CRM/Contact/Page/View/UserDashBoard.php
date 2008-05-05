@@ -60,15 +60,6 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
      */
     static $_links = null;
 
-    /**
-     * cache the smarty template for efficiency reasons
-     *
-     * @var CRM_Core_Smarty
-     * @access protected
-     * @static
-     */
-    static protected $templatePath;
-
     function __construct( ) {
         parent::__construct( );
 
@@ -136,26 +127,27 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
         require_once 'CRM/Core/BAO/Preferences.php';
         $this->_userOptions  = CRM_Core_BAO_Preferences::valueOptions( 'user_dashboard_options' );
 
-
         $components = CRM_Core_Component::getEnabledComponents();
 
         foreach( $components as $name => $component ) {
-
             $elem = $component->getUserDashboardElement();
             if( in_array( $elem['name'], array_keys($this->_userOptions) ) &&
                 ( CRM_Core_Permission::access( $component->name ) ||
                   CRM_Core_Permission::check( $elem['perm'][0] ) ) ) {
 
                 $userDashboard = $component->getUserDashboardObject();
-                $dashboardElements[ $component->name ] = array();
-                $dashboardElements[ $component->name ][ 'templatePath' ] = $userDashboard->getTemplateFileName();
-                $dashboardElements[ $component->name ][ 'sectionTitle' ] = $elem['title'];
+                $dashboardElements[] = array( 'templatePath' => $userDashboard->getTemplateFileName(),
+                                               'sectionTitle' => $elem['title'],
+                                               'weight'       => $elem['weight'] );
                 $userDashboard->run( );
             }
         }
 
-        if ( $this->_userOptions['My Contacts / Organizations'] ) {
-            $dashboardElements['My Contacts / Organizations'] = 'My Contacts / Organizations';
+        $sectionName = 'My Contacts / Organizations';
+        if ( $this->_userOptions[ $sectionName ] ) {
+            $dashboardElements[] = array( 'templatePath' => 'CRM/Contact/Page/View/Relationship.tpl',
+                                          'sectionTitle' => $sectionName,
+                                          'weight'       => 40 );
 
             $links =& self::links( );
             $mask  = CRM_Core_Action::mask( $this->_permission );
@@ -167,6 +159,8 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
             $this->assign( 'currentRelationships',  $currentRelationships  );
         }
 
+        require_once 'CRM/Utils/Sort.php';
+        usort( $dashboardElements, array( 'CRM_Utils_Sort', 'cmpFunc' ) );
         $this->assign ( 'dashboardElements', $dashboardElements );
 
 
@@ -181,8 +175,6 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
             $this->assign( 'showGroup', false );
         }
         
-        CRM_Core_Error::debug( 'de', $dashboardElements );        
-        
     }
         
     /**
@@ -195,9 +187,7 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
     function run( )
     {
         $this->preProcess( );
-        
         $this->buildUserDashBoard( );
-      
         return parent::run( );
     }
     
