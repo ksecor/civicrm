@@ -1699,7 +1699,7 @@ UNION
             CRM_Contact_DAO_Contact::addDisplayEnums($values);
             
             // Calculating Year difference            
-x            if ( $contact->birth_date ) {
+            if ( $contact->birth_date ) {
                 $birthDate = CRM_Utils_Date::customFormat( $contact->birth_date,'%Y%m%d' );  
                 if ( $birthDate < date( 'Ymd' ) ) {
                     $age =  CRM_Utils_Date::calculateAge( $birthDate );
