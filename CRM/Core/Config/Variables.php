@@ -334,7 +334,7 @@ class CRM_Core_Config_Variables extends CRM_Core_Config_Defaults
      *
      * @var string
      */
-    public $fatalErrorTemplate = 'CRM/error.tpl';
+    public $fatalErrorTemplate = 'CRM/common/fatal.tpl';
 
     /**
      * fatal error handler

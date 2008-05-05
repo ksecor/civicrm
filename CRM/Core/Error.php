@@ -192,7 +192,7 @@ class CRM_Core_Error extends PEAR_ErrorStack {
         CRM_Core_Error::backtrace( 'backTrace', true );
 
         if ( $config->initialized ) {
-            $content  = $template->fetch( 'CRM/error.tpl' );
+            $content  = $template->fetch( 'CRM/common/fatal.tpl' );
             $content .= CRM_Core_Error::debug( 'Error Details:', $error, false );
             echo CRM_Utils_System::theme( 'page', $content, true );
         } else {
@@ -263,7 +263,6 @@ class CRM_Core_Error extends PEAR_ErrorStack {
 
         CRM_Core_Error::debug_var( 'Fatal Error Details', $vars );
         CRM_Core_Error::backtrace( 'backTrace', true );
-
         print $template->fetch( $config->fatalErrorTemplate );
         exit( CRM_Core_Error::FATAL_ERROR );
     }
