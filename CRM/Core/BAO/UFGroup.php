@@ -1967,6 +1967,7 @@ WHERE  id = $cfID
     {
         if ( $contactId ) {
             // get the primary location type id and email
+            require_once 'CRM/Contact/BAO/Contact/Location.php';
             list($name, $primaryEmail, $primaryLocationType) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $contactId );
         } else {
             require_once 'CRM/Core/BAO/LocationType.php';
