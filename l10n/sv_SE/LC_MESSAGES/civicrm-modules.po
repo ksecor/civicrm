@@ -5,9 +5,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-03-12 12:22+0100\n"
-"PO-Revision-Date: 2008-04-18 04:54-0700\n"
-"Last-Translator: Jonas Hagberg <hagberg.jonas@gmail.com>\n"
+"POT-Creation-Date: 2008-04-28 21:53+0200\n"
+"PO-Revision-Date: 2008-04-29 01:32-0700\n"
+"Last-Translator: Jonas Hagberg <deg@jonashagberg.se>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -40,6 +40,7 @@ msgstr "Sida för medverkanden"
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Task/Status.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 #: templates/CRM/Contribute/Form/Message.tpl
+#: templates/CRM/Contribute/Form/Task/Status.tpl
 msgid "Transaction ID"
 msgstr "Transaktions ID"
 
@@ -85,6 +86,7 @@ msgstr "Ej avdragsgillt belopp"
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/DAO/FinancialTrxn.php
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Task/Status.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
+#: templates/CRM/Contribute/Form/Task/Status.tpl
 msgid "Fee Amount"
 msgstr "Avgift belopp"
 
@@ -214,8 +216,9 @@ msgstr "(längst ned)"
 
 #: CRM/Contribute/Form/ContributionPage.php
 #: CRM/Contribute/Page/ContributionPageEdit.php
+#, fuzzy
 msgid "Configure Contribution Page"
-msgstr ""
+msgstr "Konfiguera bidragsida"
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
 #: CRM/Contribute/Form/ContributionPage/Settings.php
@@ -318,9 +321,11 @@ msgstr "Sida för medverkanden"
 msgid "Test-drive"
 msgstr "Sida för testkörning"
 
+# Svårt /Haggan
 #: CRM/Contribute/Page/ContributionPage.php CRM/Event/Page/ManageEvent.php
+#, fuzzy
 msgid "Live Page"
-msgstr ""
+msgstr "Verklig sida"
 
 #: CRM/Contribute/Page/ContributionPage.php CRM/Event/Page/ManageEvent.php
 #, fuzzy
@@ -507,19 +512,19 @@ msgstr "Nästa >>"
 
 #: CRM/Mailing/Invoke.php CRM/Mailing/Selector/Browse.php
 msgid "Report"
-msgstr ""
+msgstr "Rapportera"
 
 #: CRM/Mailing/Page/Browse.php CRM/Mailing/Selector/Browse.php
 #: templates/CRM/Mailing/Page/Browse.tpl
 #, fuzzy
 msgid "Cancel Mailing"
-msgstr "Skicka mejl"
+msgstr "Avbryt mail sändning"
 
 #: CRM/Mailing/Page/Browse.php CRM/Mailing/Selector/Browse.php
 #: templates/CRM/Mailing/Page/Browse.tpl
 #, fuzzy
 msgid "Delete Mailing"
-msgstr "Skicka mejl"
+msgstr "Ta bort mail sändning"
 
 #: CRM/Mailing/Page/Common.php CRM/Mailing/Page/Confirm.php
 msgid "Missing input parameters"
@@ -1235,12 +1240,6 @@ msgid "Title and Settings"
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
-msgid ""
-"Page title can not be longer than 255 characters and must consist of "
-"letters, numbers, spaces and simple punctuation characters."
-msgstr ""
-
-#: CRM/Contribute/Form/ContributionPage/Settings.php
 msgid "Is this Online Contribution Page Active?"
 msgstr ""
 
@@ -1767,10 +1766,6 @@ msgid "- Participant Fields -"
 msgstr "- Medverkandes Fält - "
 
 #: CRM/Event/BAO/Query.php
-msgid "Event %2 %1"
-msgstr ""
-
-#: CRM/Event/BAO/Query.php
 #, fuzzy
 msgid "Event Type - %1"
 msgstr "Typ av kontakt"
@@ -2180,6 +2175,16 @@ msgstr ""
 #: CRM/Event/Form/SearchEvent.php
 msgid "Select a valid Event TO date."
 msgstr ""
+
+#: CRM/Event/Form/Search.php
+#, fuzzy
+msgid "Please select valid event."
+msgstr "Välj ett giltigt slutdatum"
+
+#: CRM/Event/Form/Search.php
+#, fuzzy
+msgid "Please select valid event type."
+msgstr "Välj ett giltigt slutdatum"
 
 #: CRM/Event/Form/Task/Batch.php
 #, fuzzy
@@ -3190,10 +3195,6 @@ msgid "Please enable the contribution amount section to use this option."
 msgstr ""
 
 #: CRM/Member/Form/Membership.php
-msgid "-- select --"
-msgstr ""
-
-#: CRM/Member/Form/Membership.php
 #: templates/CRM/Member/Form/MembershipRenewal.tpl
 msgid "Membership Organization and Type"
 msgstr ""
@@ -4189,8 +4190,9 @@ msgstr ""
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/Message.tpl
 #: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
+#, fuzzy
 msgid "Please print this receipt for your records."
-msgstr ""
+msgstr "Vänligen skriv ut detta kvitto och spara det."
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
@@ -4207,8 +4209,9 @@ msgstr "Medlemsskap"
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 #: templates/CRM/Contribute/Form/Message.tpl
+#, fuzzy
 msgid "Contribution Information"
-msgstr ""
+msgstr "Bidragsinformation"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 msgid "%1 Membership"
@@ -4709,6 +4712,13 @@ msgstr ""
 msgid "Assign the selected status to all contributions listed below."
 msgstr ""
 
+#: templates/CRM/Contribute/Form/Task/Status.tpl
+#: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
+#: templates/CRM/Event/Form/Registration/ThankYou.tpl
+#, fuzzy
+msgid "Transaction Date"
+msgstr "Transaktions ID"
+
 #: templates/CRM/Contribute/Form/Task.tpl
 msgid "Number of selected contributions: %1"
 msgstr ""
@@ -5041,8 +5051,7 @@ msgstr ""
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid ""
 "CiviContribute allows you to create customized page(s) for collecting online "
-"contributions. Administrators can create or modify your Online Contribution "
-"Pages from <a href='%1'>here</a>."
+"contributions."
 msgstr ""
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
@@ -5153,6 +5162,13 @@ msgid ""
 "or enable premiums here</a>."
 msgstr ""
 
+#: templates/CRM/Event/Form/ManageEvent/Delete.tpl
+msgid ""
+"Warning: Deleting this event will also delete associated Event Registration "
+"Page and Event Fee configurations. This operation can not be undone. Do you "
+"want to continue?"
+msgstr ""
+
 #: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
 msgid ""
 "After selecting an Event Type, this page will display any custom event "
@@ -5189,7 +5205,7 @@ msgstr ""
 #: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
 msgid ""
 "Include a link to map the event location? (A map provider must be configured "
-"under <a href='%1'>Global Settings &raquo; Mapping</a>"
+"under <a href='%1'>Global Settings &raquo; Mapping</a>)"
 msgstr ""
 
 #: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
@@ -5553,12 +5569,6 @@ msgstr ""
 #: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
 msgid "Each"
 msgstr ""
-
-#: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
-#: templates/CRM/Event/Form/Registration/ThankYou.tpl
-#, fuzzy
-msgid "Transaction Date"
-msgstr "Transaktions ID"
 
 #: templates/CRM/Event/Form/Registration/ReceiptPreviewHeader.tpl
 msgid "Event Registration - Test-drive Confirmation / Receipt"
@@ -6237,6 +6247,11 @@ msgstr ""
 #: templates/CRM/Member/Form/MembershipBlock.tpl
 msgid "Membership section introductory text - displayed to renewing members."
 msgstr ""
+
+#: templates/CRM/Member/Form/MembershipBlock.tpl
+#, fuzzy
+msgid "Include these membership types"
+msgstr "Välj ett giltigt datum"
 
 #: templates/CRM/Member/Form/MembershipBlock.tpl
 msgid ""

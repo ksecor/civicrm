@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-03-12 12:22+0100\n"
+"POT-Creation-Date: 2008-04-28 21:53+0200\n"
 "PO-Revision-Date: 2008-04-02 00:36-0700\n"
 "Last-Translator: Gerhard Aigner <gerhard.aigner@arcsmed.at>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -40,6 +40,7 @@ msgstr "Spendenseite"
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Task/Status.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 #: templates/CRM/Contribute/Form/Message.tpl
+#: templates/CRM/Contribute/Form/Task/Status.tpl
 msgid "Transaction ID"
 msgstr "Transaktionsnummer"
 
@@ -83,6 +84,7 @@ msgstr "nicht abzugsfähiger Betrag"
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/DAO/FinancialTrxn.php
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Task/Status.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
+#: templates/CRM/Contribute/Form/Task/Status.tpl
 msgid "Fee Amount"
 msgstr "Gebühr"
 
@@ -901,8 +903,8 @@ msgid ""
 "This contribution has already been submitted. Click <a href='%1'>here</a> if "
 "you want to make another contribution."
 msgstr ""
-"Diese Zuwendung wurde bereits übermittelt. Klicken Sie<a href=\"%1\">hier</a> "
-"wenn Sie eine weitere Zuwendung tätigen möchten. "
+"Diese Zuwendung wurde bereits übermittelt. Klicken Sie<a href=\"%1\">hier</"
+"a> wenn Sie eine weitere Zuwendung tätigen möchten. "
 
 #: CRM/Contribute/Form/ContributionBase.php
 msgid ""
@@ -1164,8 +1166,8 @@ msgid ""
 "Please enter the text for the 'pay later' checkbox displayed on the "
 "contribution form."
 msgstr ""
-"Bitte fügen Sie den Text für die \"Später bezahlen\"-Checkbox ein, der auf der "
-"Zuwendungsseite angezeigt wird."
+"Bitte fügen Sie den Text für die \"Später bezahlen\"-Checkbox ein, der auf "
+"der Zuwendungsseite angezeigt wird."
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #, fuzzy
@@ -1255,15 +1257,6 @@ msgstr "Titel und Einstellungen (%1)"
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid "Title and Settings"
 msgstr "Titel und Einstellungen"
-
-#: CRM/Contribute/Form/ContributionPage/Settings.php
-#, fuzzy
-msgid ""
-"Page title can not be longer than 255 characters and must consist of "
-"letters, numbers, spaces and simple punctuation characters."
-msgstr ""
-"Der Seitentitel darf nicht mehr als 255 Buchstaben, Zahlen, Leerzeichen und "
-"Standard-Sonderzeichen muss aus."
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 msgid "Is this Online Contribution Page Active?"
@@ -1846,10 +1839,6 @@ msgid "- Participant Fields -"
 msgstr "- Teilnehmer Felder -"
 
 #: CRM/Event/BAO/Query.php
-msgid "Event %2 %1"
-msgstr "Veranstaltung %2 %1"
-
-#: CRM/Event/BAO/Query.php
 msgid "Event Type - %1"
 msgstr "Veranstaltungstyp - %1"
 
@@ -2227,6 +2216,16 @@ msgstr "Wählen Sie eine gültiges VON Datum aus."
 #: CRM/Event/Form/SearchEvent.php
 msgid "Select a valid Event TO date."
 msgstr "Wählen Sie ein gültiges BIS Datum aus."
+
+#: CRM/Event/Form/Search.php
+#, fuzzy
+msgid "Please select valid event."
+msgstr "Bitte gültiges End-Datum eingeben."
+
+#: CRM/Event/Form/Search.php
+#, fuzzy
+msgid "Please select valid event type."
+msgstr "Bitte gültiges End-Datum eingeben."
 
 #: CRM/Event/Form/Task/Batch.php
 msgid "Batch Update for Events"
@@ -3282,10 +3281,6 @@ msgstr ""
 
 #: CRM/Member/Form/MembershipBlock.php
 msgid "Please enable the contribution amount section to use this option."
-msgstr ""
-
-#: CRM/Member/Form/Membership.php
-msgid "-- select --"
 msgstr ""
 
 #: CRM/Member/Form/Membership.php
@@ -4885,6 +4880,13 @@ msgstr ""
 msgid "Assign the selected status to all contributions listed below."
 msgstr ""
 
+#: templates/CRM/Contribute/Form/Task/Status.tpl
+#: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
+#: templates/CRM/Event/Form/Registration/ThankYou.tpl
+#, fuzzy
+msgid "Transaction Date"
+msgstr "Transaktionsnummer"
+
 #: templates/CRM/Contribute/Form/Task.tpl
 msgid "Number of selected contributions: %1"
 msgstr "Zahl ausgewählter Zuwendungen: %1"
@@ -5272,8 +5274,7 @@ msgstr ""
 #, fuzzy
 msgid ""
 "CiviContribute allows you to create customized page(s) for collecting online "
-"contributions. Administrators can create or modify your Online Contribution "
-"Pages from <a href='%1'>here</a>."
+"contributions."
 msgstr ""
 "CiviEvent ermöglicht es benutzerdefinierte Seiten zur Erstellung und "
 "Anmeldung an Veranstaltungen zu erstellen. Administratoren können <a href=\"%"
@@ -5417,6 +5418,13 @@ msgstr ""
 "Der Kontakt hat keine Beziehungen. Sie können <a href=\"%1\">eine "
 "hinzufügen</a>."
 
+#: templates/CRM/Event/Form/ManageEvent/Delete.tpl
+msgid ""
+"Warning: Deleting this event will also delete associated Event Registration "
+"Page and Event Fee configurations. This operation can not be undone. Do you "
+"want to continue?"
+msgstr ""
+
 #: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
 msgid ""
 "After selecting an Event Type, this page will display any custom event "
@@ -5468,9 +5476,10 @@ msgstr ""
 "wollen."
 
 #: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
+#, fuzzy
 msgid ""
 "Include a link to map the event location? (A map provider must be configured "
-"under <a href='%1'>Global Settings &raquo; Mapping</a>"
+"under <a href='%1'>Global Settings &raquo; Mapping</a>)"
 msgstr ""
 "Soll ein Karten-Link zum Veranstaltungsort erstellt werden? (Ein Online-"
 "Karten Provider muss unter <a href=\"%1\">Globale Einstellungen &raquo; "
@@ -5889,12 +5898,6 @@ msgstr ""
 msgid "Each"
 msgstr ""
 
-#: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
-#: templates/CRM/Event/Form/Registration/ThankYou.tpl
-#, fuzzy
-msgid "Transaction Date"
-msgstr "Transaktionsnummer"
-
 #: templates/CRM/Event/Form/Registration/ReceiptPreviewHeader.tpl
 msgid "Event Registration - Test-drive Confirmation / Receipt"
 msgstr ""
@@ -5980,9 +5983,9 @@ msgid ""
 msgstr ""
 "Aktualisieren der Feldwerte für jede Teilnahme nach Bedarf. Klicken Sie "
 "auf<strong>Veranstaltungsteilnahmen aktualisieren</strong> um die Änderungen "
-"zu speichern. Um einen Feldwert für alle Reihen gleichzeitig zu setzen, "
-"kann der Wert für die erste Teilnahme eingegeben werden und mit dem <strong"
-">Kopier-Icon</strong>(neben dem Spaltentitel) vervielfältigt werden."
+"zu speichern. Um einen Feldwert für alle Reihen gleichzeitig zu setzen, kann "
+"der Wert für die erste Teilnahme eingegeben werden und mit dem "
+"<strong>Kopier-Icon</strong>(neben dem Spaltentitel) vervielfältigt werden."
 
 #: templates/CRM/Event/Form/Task/Cancel.tpl
 msgid ""
@@ -6037,9 +6040,9 @@ msgid ""
 "You can <a href=\"%1\">Download Mismatched Participantss</a>. You may then "
 "correct them, and import the new file with the corrected data."
 msgstr ""
-"Sie können <a href=\"%1\">nicht übereinstimmende Teilnehmer herunterladen</a>. "
-"Nachdem Sie diese korrigiert haben, können die bereinigten Daten importiert "
-"werden."
+"Sie können <a href=\"%1\">nicht übereinstimmende Teilnehmer herunterladen</"
+"a>. Nachdem Sie diese korrigiert haben, können die bereinigten Daten "
+"importiert werden."
 
 #: templates/CRM/Event/Import/Form/UploadFile.tpl
 #, fuzzy
@@ -6242,12 +6245,13 @@ msgstr ""
 #: templates/CRM/Event/Page/ManageEvent.tpl
 msgid "There are no events created yet. You can <a href='%1'>add one</a>."
 msgstr ""
-"Es sind noch keine Veranstaltungen erstellt worden. Sie können <a "
-"href='%1'>eine hinzufügen</a>."
+"Es sind noch keine Veranstaltungen erstellt worden. Sie können <a href='%"
+"1'>eine hinzufügen</a>."
 
 #: templates/CRM/Event/Page/ParticipantListing.tpl
 msgid "There are currently no participants registered for this event."
-msgstr "Zurzeit sind noch keine Teilnehmer für diese Veranstaltung registriert."
+msgstr ""
+"Zurzeit sind noch keine Teilnehmer für diese Veranstaltung registriert."
 
 #: templates/CRM/Mailing/Form/Component.tpl
 #: templates/CRM/Mailing/Page/Component.tpl
@@ -6646,6 +6650,11 @@ msgstr ""
 #: templates/CRM/Member/Form/MembershipBlock.tpl
 msgid "Membership section introductory text - displayed to renewing members."
 msgstr ""
+
+#: templates/CRM/Member/Form/MembershipBlock.tpl
+#, fuzzy
+msgid "Include these membership types"
+msgstr "Beziehungsart löschen"
 
 #: templates/CRM/Member/Form/MembershipBlock.tpl
 msgid ""
@@ -7262,6 +7271,17 @@ msgid ""
 msgstr ""
 "Es gibt keine eigenen Aktivitätsarten. Sie können <a href=\"%1\">eine "
 "hinzufügen</a>."
+
+#, fuzzy
+#~ msgid ""
+#~ "Page title can not be longer than 255 characters and must consist of "
+#~ "letters, numbers, spaces and simple punctuation characters."
+#~ msgstr ""
+#~ "Der Seitentitel darf nicht mehr als 255 Buchstaben, Zahlen, Leerzeichen "
+#~ "und Standard-Sonderzeichen muss aus."
+
+#~ msgid "Event %2 %1"
+#~ msgstr "Veranstaltung %2 %1"
 
 #~ msgid "Test Participants Only"
 #~ msgstr "Nur Test-Teilnehmer"

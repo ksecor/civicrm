@@ -97,7 +97,7 @@ class CRM_Core_Payment_IATS extends CRM_Core_Payment {
       $iatslink1->setInvoiceNumber($params['invoiceID']); // Put your invoice # here
       // $iatslink1->setCardType("VISA");
       // If CardType is not set, iatslink will find the cardType
-      // .. so don't set card type, because IATS has different names!
+      // CardType not set because IATS uses different names!
       // $iatslink1->setCardType($params['credit_card_type']);
       $iatslink1->setCardNumber($params['credit_card_number']);
       $expiry_string = sprintf('%02d/%02d',$params['month'],($params['year'] % 100));

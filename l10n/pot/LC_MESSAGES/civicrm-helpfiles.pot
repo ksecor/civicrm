@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-02-27 13:35+0100\n"
+"POT-Creation-Date: 2008-04-28 21:53+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -396,8 +396,14 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
-"The URL for PayPal's LIVE Payment server. Use the default value unless "
-"otherwise advised by PayPal."
+"The URL for PayPal's LIVE Payment server. Use the default value (unless "
+"otherwise advised by PayPal):"
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid ""
+"The URL for PayPal's LIVE API gateway server. Use the default value (unless "
+"otherwise advised by PayPal):"
 msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
@@ -444,8 +450,14 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
-"The URL for PayPal's TEST Payment server. Use the default value unless "
-"otherwise advised by PayPal."
+"The URL for PayPal's TEST Payment server. Use the default value (unless "
+"otherwise advised by PayPal):"
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid ""
+"The URL for PayPal's TEST API gateway server. Use the default value (unless "
+"otherwise advised by PayPal):"
 msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp

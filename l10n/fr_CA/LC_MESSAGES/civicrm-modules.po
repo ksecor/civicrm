@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-02-27 13:35+0100\n"
+"POT-Creation-Date: 2008-04-28 21:53+0200\n"
 "PO-Revision-Date: 2008-02-25 18:23-0800\n"
 "Last-Translator: Mathieu Lutfy <mlutfy@koumbit.org>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -41,6 +41,7 @@ msgstr "Page de donation"
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Task/Status.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 #: templates/CRM/Contribute/Form/Message.tpl
+#: templates/CRM/Contribute/Form/Task/Status.tpl
 msgid "Transaction ID"
 msgstr "référence de transaction"
 
@@ -85,6 +86,7 @@ msgstr "Montant non déductible"
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/DAO/FinancialTrxn.php
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Task/Status.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
+#: templates/CRM/Contribute/Form/Task/Status.tpl
 msgid "Fee Amount"
 msgstr "Frais"
 
@@ -441,11 +443,6 @@ msgstr "En pause"
 msgid "Canceled"
 msgstr "Annulé"
 
-#: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/BounceType.php
-#: CRM/Mailing/Event/BAO/Bounce.php
-msgid "Unknown"
-msgstr "Inconnu"
-
 #: CRM/Mailing/BAO/Mailing.php CRM/Mailing/DAO/Component.php
 msgid "Reply"
 msgstr ""
@@ -453,6 +450,10 @@ msgstr ""
 #: CRM/Mailing/BAO/Mailing.php CRM/Mailing/Selector/Event.php
 msgid "Opt-Out"
 msgstr ""
+
+#: CRM/Mailing/DAO/BounceType.php CRM/Mailing/Event/BAO/Bounce.php
+msgid "Unknown"
+msgstr "Inconnu"
 
 #: CRM/Mailing/DAO/Component.php CRM/Mailing/Form/Component.php
 msgid "Component Type"
@@ -672,12 +673,13 @@ msgid "In Honor Of"
 msgstr "Honorifique"
 
 #: CRM/Contribute/BAO/Query.php
-msgid "Find Test Contributions Only?"
+#, fuzzy
+msgid "Find Test Contributions?"
 msgstr "Rechercher les contributions test uniquement?"
 
 #: CRM/Contribute/BAO/Query.php
 #, fuzzy
-msgid "Recurring Contributions Only"
+msgid "Find Recurring Contributions?"
 msgstr "Contributions récentes"
 
 #: CRM/Contribute/DAO/ContributionPage.php
@@ -1269,12 +1271,6 @@ msgid "Title and Settings"
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
-msgid ""
-"Page title can not be longer than 255 characters and must consist of "
-"letters, numbers, spaces and simple punctuation characters."
-msgstr ""
-
-#: CRM/Contribute/Form/ContributionPage/Settings.php
 msgid "Is this Online Contribution Page Active?"
 msgstr ""
 
@@ -1831,17 +1827,13 @@ msgstr "- Champs de contact -"
 
 #: CRM/Event/BAO/Query.php
 #, fuzzy
-msgid "Event %2 %1"
-msgstr "Pays - \"%1\""
-
-#: CRM/Event/BAO/Query.php
-#, fuzzy
 msgid "Event Type - %1"
 msgstr "Types d'activités"
 
 #: CRM/Event/BAO/Query.php
-msgid "Test Participants Only"
-msgstr "Participants test seulement"
+#, fuzzy
+msgid "Find Test Participants"
+msgstr "Rechercher les participants test seulement?"
 
 #: CRM/Event/BAO/Query.php
 #, fuzzy
@@ -1864,7 +1856,8 @@ msgid "Event Date - From"
 msgstr "Date de fin"
 
 #: CRM/Event/BAO/Query.php
-msgid "Find Test Participants Only?"
+#, fuzzy
+msgid "Find Test Participants?"
 msgstr "Rechercher les participants test seulement?"
 
 #: CRM/Event/DAO/EventPage.php
@@ -2248,6 +2241,16 @@ msgstr ""
 msgid "Select a valid Event TO date."
 msgstr ""
 
+#: CRM/Event/Form/Search.php
+#, fuzzy
+msgid "Please select valid event."
+msgstr "Veuillez entrer une date de fin valide."
+
+#: CRM/Event/Form/Search.php
+#, fuzzy
+msgid "Please select valid event type."
+msgstr "Veuillez entrer une date de fin valide."
+
 #: CRM/Event/Form/Task/Batch.php
 #, fuzzy
 msgid "Batch Update for Events"
@@ -2293,13 +2296,38 @@ msgid "Print Participant List"
 msgstr "Imprimer la liste de contacts"
 
 #: CRM/Event/Import/Form/MapField.php
+msgid ""
+"Missing required contact matching fields. (Should be First AND Last Name or "
+"Primary Email or First Name, Last Name AND Primary Email.) (OR Participant "
+"ID if update mode.)"
+msgstr ""
+
+#: CRM/Event/Import/Form/MapField.php
 #, fuzzy
 msgid "Duplicate Import Participant Mapping Name"
 msgstr "Le nom du mappage d'importation existe déjà"
 
+#: CRM/Event/Import/Form/MapField.php
+#, fuzzy
+msgid "Select saved mapping"
+msgstr "Supprimer l'étiquette"
+
+#: CRM/Event/Import/Form/UploadFile.php
+msgid "On Duplicate Entries"
+msgstr ""
+
+#: CRM/Event/Import/Parser/Participant.php
+msgid "Select either EventID OR Event Title"
+msgstr ""
+
 #: CRM/Event/Import/Parser/Participant.php
 msgid "Invalid value for Event ID"
 msgstr ""
+
+#: CRM/Event/Import/Parser.php
+#, fuzzy
+msgid "View Participant URL"
+msgstr "Consulter l'adhésion"
 
 #: CRM/Event/Info.php
 msgid "CiviCRM Event Engine"
@@ -2472,6 +2500,10 @@ msgstr ""
 #, fuzzy
 msgid "The mailing has been canceled."
 msgstr "La règle de doublons a été enregistrée."
+
+#: CRM/Mailing/BAO/Job.php
+msgid "Not scheduled"
+msgstr ""
 
 #: CRM/Mailing/BAO/Mailing.php
 #, fuzzy
@@ -3091,7 +3123,7 @@ msgstr "Date de fin"
 
 #: CRM/Member/BAO/Query.php
 #, fuzzy
-msgid "Find Test Memberships Only?"
+msgid "Find Test Memberships?"
 msgstr "Chercher les contributions"
 
 #: CRM/Member/DAO/MembershipBlock.php
@@ -3262,10 +3294,6 @@ msgstr ""
 
 #: CRM/Member/Form/MembershipBlock.php
 msgid "Please enable the contribution amount section to use this option."
-msgstr ""
-
-#: CRM/Member/Form/Membership.php
-msgid "-- select --"
 msgstr ""
 
 #: CRM/Member/Form/Membership.php
@@ -3486,6 +3514,11 @@ msgid ""
 "Primary Email or First Name, Last Name AND Primary Email.) (OR Membership ID "
 "if update mode.)"
 msgstr ""
+
+#: CRM/Member/Import/Form/MapField.php
+#, fuzzy
+msgid "Duplicate Import Membership Mapping Name"
+msgstr "Le nom du mappage d'importation existe déjà"
 
 #: CRM/Member/Import/Parser.php
 #, fuzzy
@@ -4991,6 +5024,12 @@ msgstr ""
 msgid "Assign the selected status to all contributions listed below."
 msgstr ""
 
+#: templates/CRM/Contribute/Form/Task/Status.tpl
+#: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
+#: templates/CRM/Event/Form/Registration/ThankYou.tpl
+msgid "Transaction Date"
+msgstr "Date de la transaction"
+
 #: templates/CRM/Contribute/Form/Task.tpl
 msgid "Number of selected contributions: %1"
 msgstr "Nombre de contributions sélectionnées: %1"
@@ -5351,8 +5390,7 @@ msgstr ""
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid ""
 "CiviContribute allows you to create customized page(s) for collecting online "
-"contributions. Administrators can create or modify your Online Contribution "
-"Pages from <a href='%1'>here</a>."
+"contributions."
 msgstr ""
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
@@ -5477,6 +5515,13 @@ msgstr ""
 "Aucune contribution n'est enregistrée pour ce contact. Vous pouvez <a href="
 "\"%1\">en entrer une</a> maintenant."
 
+#: templates/CRM/Event/Form/ManageEvent/Delete.tpl
+msgid ""
+"Warning: Deleting this event will also delete associated Event Registration "
+"Page and Event Fee configurations. This operation can not be undone. Do you "
+"want to continue?"
+msgstr ""
+
 #: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
 msgid ""
 "After selecting an Event Type, this page will display any custom event "
@@ -5513,7 +5558,7 @@ msgstr ""
 #: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
 msgid ""
 "Include a link to map the event location? (A map provider must be configured "
-"under <a href='%1'>Global Settings &raquo; Mapping</a>"
+"under <a href='%1'>Global Settings &raquo; Mapping</a>)"
 msgstr ""
 
 #: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
@@ -5920,11 +5965,6 @@ msgstr ""
 msgid "Each"
 msgstr ""
 
-#: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
-#: templates/CRM/Event/Form/Registration/ThankYou.tpl
-msgid "Transaction Date"
-msgstr "Date de la transaction"
-
 #: templates/CRM/Event/Form/Registration/ReceiptPreviewHeader.tpl
 msgid "Event Registration - Test-drive Confirmation / Receipt"
 msgstr ""
@@ -6258,6 +6298,10 @@ msgid "There are no events created yet. You can <a href='%1'>add one</a>."
 msgstr ""
 "Il n'existe aucune note pour ce contact. Vous pouvez <a href=\"%1\">en "
 "ajouter une</a>."
+
+#: templates/CRM/Event/Page/ParticipantListing.tpl
+msgid "There are currently no participants registered for this event."
+msgstr ""
 
 #: templates/CRM/Mailing/Form/Component.tpl
 #: templates/CRM/Mailing/Page/Component.tpl
@@ -6667,6 +6711,11 @@ msgstr ""
 #: templates/CRM/Member/Form/MembershipBlock.tpl
 msgid "Membership section introductory text - displayed to renewing members."
 msgstr ""
+
+#: templates/CRM/Member/Form/MembershipBlock.tpl
+#, fuzzy
+msgid "Include these membership types"
+msgstr "Supprimer le type de relation"
 
 #: templates/CRM/Member/Form/MembershipBlock.tpl
 msgid ""
@@ -7270,6 +7319,13 @@ msgstr ""
 "ajouter un</a>."
 
 #, fuzzy
+#~ msgid "Event %2 %1"
+#~ msgstr "Pays - \"%1\""
+
+#~ msgid "Test Participants Only"
+#~ msgstr "Participants test seulement"
+
+#, fuzzy
 #~ msgid "Title "
 #~ msgstr "Titre"
 
@@ -7350,14 +7406,6 @@ msgstr ""
 #~ msgstr "Veuillez entrer un montant valide."
 
 #, fuzzy
-#~ msgid "Select saved mapping"
-#~ msgstr "Supprimer l'étiquette"
-
-#, fuzzy
-#~ msgid "View Participant URL"
-#~ msgstr "Consulter l'adhésion"
-
-#, fuzzy
 #~ msgid "You do not have access to this page"
 #~ msgstr "Vous n'avez pas la permission nécessaire pour modifier ce contact."
 
@@ -7386,10 +7434,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "Start Date - From"
 #~ msgstr "Date de début"
-
-#, fuzzy
-#~ msgid "Duplicate Import Membership Mapping Name"
-#~ msgstr "Le nom du mappage d'importation existe déjà"
 
 #, fuzzy
 #~ msgid "Edit Membership Type"
