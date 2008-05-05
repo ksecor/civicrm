@@ -37,8 +37,9 @@
 require_once 'CRM/Contact/Form/Task.php';
 require_once 'CRM/Event/PseudoConstant.php';
 require_once 'CRM/Event/Form/EventFees.php';
-require_once "CRM/Custom/Form/CustomData.php";
-require_once "CRM/Core/BAO/CustomGroup.php";
+require_once 'CRM/Custom/Form/CustomData.php';
+require_once 'CRM/Core/BAO/CustomGroup.php';
+require_once 'CRM/Contact/BAO/Contact/Location.php';
 
 /**
  * This class generates form components for processing a participation 
