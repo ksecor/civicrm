@@ -15,8 +15,9 @@ UPDATE civicrm_uf_match SET uf_name = LOWER( uf_name );
 
 -- Add new boolean columns in civicrm_relationship
 ALTER TABLE `civicrm_relationship`
-    ADD `is_permission_a_b` boolean DEFAULT 0 AFTER 'description';
-    ADD `is_permission_b_a` boolean DEFAULT 0 AFTER 'is_permission_a_b';
+    ADD `is_permission_a_b` boolean DEFAULT 0 AFTER `description`;
+ALTER TABLE `civicrm_relationship`
+    ADD `is_permission_b_a` boolean DEFAULT 0 AFTER `is_permission_a_b`;
 
 --Insert new option value for option_group = 'user_dashboard_options'
 SELECT @ogi    := id from civicrm_option_group where name = 'user_dashboard_options';
