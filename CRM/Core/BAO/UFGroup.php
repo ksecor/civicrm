@@ -536,9 +536,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 $template =& CRM_Core_Smarty::singleton( );
                 return trim( $template->fetch( 'CRM/Profile/Form/Dynamic.tpl' ) );
             } else {
-                // fix for CRM 701
-                require_once 'CRM/Contact/BAO/Contact.php';
-                
+                require_once 'CRM/Contact/BAO/Contact/Location.php';
                 $userEmail = CRM_Contact_BAO_Contact_Location::getEmailDetails( $userID );
                 
                 // if post not empty then only proceed

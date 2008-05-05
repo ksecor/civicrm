@@ -33,7 +33,9 @@
  *
  */
  
- 
+class CRM_Contact_BAO_Contact_Location
+{
+
     /**
      * function to get the display name, primary email, location type and location id of a contact
      *
@@ -187,3 +189,4 @@ WHERE civicrm_contact.id IN $idString ";
         }
         return $locations;
     }    
+}
