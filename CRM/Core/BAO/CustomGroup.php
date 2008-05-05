@@ -1169,7 +1169,7 @@ $where
                             }
                         }
 
-                        if ( isset( $field['customValue'] ) && $field['html_type'] == 'Multi-Select Country' ){
+                        if ( $field['html_type'] == 'Multi-Select Country' ){
                             $customData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $field['customValue']['data']);
                             $query = "
 SELECT id as value, name as label  
