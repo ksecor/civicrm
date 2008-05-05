@@ -87,81 +87,6 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
     }
     
     /**
-     * given an id return the relevant contact details
-     *
-     * @param int $id           contact id
-     *
-     * @return the contact object
-     * @static
-     * @access public
-     */
-    static function contactDetails( $id, &$options, $returnProperties = null) 
-    {
-        if ( ! $id ) {
-            return null;
-        }
-        $params[] = array( '0' => 'id' ,'2'=> CRM_Utils_Type::escape($id, 'Integer') );
-        $query =& new CRM_Contact_BAO_Query( $params, $returnProperties, null, false, false ); 
-        $options = $query->_options;
-
-        list( $select, $from, $where ) = $query->query( ); 
-        $sql = "$select $from $where"; 
-        $dao = CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
-        if ($dao->fetch()) {
-            if (isset($dao->country)) {
-                // the query returns the untranslated country name
-                $i18n =& CRM_Core_I18n::singleton();
-                $dao->country = $i18n->translate($dao->country);
-            }
-            return $dao;
-        } else {
-            return null;
-        }
-    }
-
-    static function updatePrimaryEmail( $contactID, $email ) {
-        $email = strtolower( $email );
-
-        $query = "
-    UPDATE civicrm_contact
-INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
-       SET civicrm_email.email      = %1
-     WHERE civicrm_contact.id       = %2 
-       AND civicrm_email.is_primary = 1";
-        
-        $p = array( 1 => array( $email    , 'String'  ),
-                    2 => array( $contactID, 'Integer' ) );
-        CRM_Core_DAO::executeQuery( $query, $p );
-    }
-
-    /**
-     * create and query the db for an contact search
-     *
-     * @param array    $params   the search input params
-     * @param int      $action   the type of action links
-     * @param int      $offset   the offset for the query
-     * @param int      $rowCount the number of rows to return
-     * @param boolean  $count    is this a count only query ?
-     * @param boolean  $includeContactIds should we include contact ids?
-     * @param boolean  $sortByChar if true returns the distinct array of first characters for search results
-     * @param boolean  $groupContacts if true, use a single mysql group_concat statement to get the contact ids
-     *
-     * @return CRM_Contact_DAO_Contact 
-     * @access public
-     */
-    function searchQuery(&$params, $offset, $rowCount, $sort, 
-                         $count = false, $includeContactIds = false, $sortByChar = false,
-                         $groupContacts = false, $returnQuery = false )
-    {
-        $query =& new CRM_Contact_BAO_Query( $params, null, null,
-                                             $includeContactIds );
-        return $query->searchQuery( $offset, $rowCount, $sort,
-                                    $count, $includeContactids,
-                                    $sortByChar, $groupContacts,
-                                    $returnQuery );
-    }
-    
-    /**
      * takes an associative array and creates a contact object
      *
      * the function extract all the params it needs to initialize the create a
@@ -400,7 +325,8 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         $dao =& new CRM_Core_DAO( );
         $dao->query( $sql );
         if ( $dao->fetch( ) ) {
-            $image = self::getImage( $dao->contact_type );
+            require_once 'CRM/Contact/BAO/Contact/Utils.php';
+            $image = CRM_Contact_BAO_Contact_Utils::getImage( $dao->contact_type );
 
             // use email if display_name is empty
             if ( empty( $dao->display_name ) ) {
@@ -409,33 +335,6 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
             return array( $dao->display_name, $image );
         }
         return null;
-    }
-
-    /**
-     * given a contact type, get the contact image
-     *
-     * @param string $contact_type
-     *
-     * @return string
-     * @access public
-     * @static
-     */
-    static function getImage( $contactType ) 
-    {
-        $config =& CRM_Core_Config::singleton( );
-        $image = '<img src="' . $config->resourceBase . 'i/contact_';
-        switch ( $contactType ) { 
-        case 'Individual' : 
-            $image .= 'ind.gif" alt="' . ts('Individual') . '" />'; 
-            break; 
-        case 'Household' : 
-            $image .= 'house.png" alt="' . ts('Household') . '" height="16" width="16" />'; 
-            break; 
-        case 'Organization' : 
-            $image .= 'org.gif" alt="' . ts('Organization') . '" height="16" width="18" />'; 
-            break; 
-        } 
-        return $image;
     }
 
     /**
@@ -550,18 +449,6 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         return $contact;
     }
 
-    static function freeHack( &$contact ) 
-    {
-        unset( $contact->location     );
-        unset( $contact->notes        );
-        unset( $contact->relationship );
-        unset( $contact->groupContact );
-        unset( $contact->activity     );
-        unset( $contact );
-    }
-
-
-
     /**
      * function to get the display name of a contact
      *
@@ -575,10 +462,6 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
     {
         return CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'display_name' );
     }
-
-
-
-
 
     /**
      * function to get the information to map a contact
@@ -743,23 +626,6 @@ WHERE civicrm_contact.id IN $idString ";
     public static function getContactType($id)
     {
         return CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'contact_type' );
-    }
-
-    /**
-     * Get contact sub type for a contact.
-     *
-     * @param int $id - id of the contact whose contact sub type is needed
-     *
-     * @return string contact_type if $id found else null ""
-     *
-     * @access public
-     *
-     * @static
-     *
-     */
-    public static function getContactSubType($id)
-    {
-        return CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'contact_sub_type' );
     }
 
     /**
@@ -1406,7 +1272,6 @@ WHERE  civicrm_contact.id = %1 ";
         $customFields = CRM_Core_BAO_CustomField::getFields( $data['contact_type'] );
 
         $studentFieldPresent = 0;
-        $TMFFieldPresent     = 0;
         // fix all the custom field checkboxes which are empty
         foreach ($fields as $name => $field ) {
             if ( CRM_Core_Permission::access( 'Quest' ) ) {
@@ -1417,15 +1282,6 @@ WHERE  civicrm_contact.id = %1 ";
                 }
             }
 
-            if ( CRM_Core_Permission::access( 'TMF' ) ) {
-                // check if student fields present
-                require_once 'CRM/TMF/BAO/Student.php';
-                if ( (!$TMFFieldPresent) && array_key_exists($name, CRM_TMF_BAO_Student::exportableFields()) ) {
-                   $TMFFieldPresent = 1;
-                   unset($data['contact_type']);
-                }
-            }
-           
             $cfID = CRM_Core_BAO_CustomField::getKeyID($name);
             // if there is a custom field of type checkbox,multi-select and it has not been set
             // then set it to null, thanx to html protocol
@@ -1530,7 +1386,7 @@ WHERE  civicrm_contact.id = %1 ";
         }
 
         require_once 'CRM/Contact/BAO/Contact.php';
-        if ( $data['contact_type'] != 'Student' && $data['contact_type'] != 'TMF' ) {
+        if ( $data['contact_type'] != 'Student' ) {
             $contact =& self::create( $data );
         }
         
@@ -1548,7 +1404,9 @@ WHERE  civicrm_contact.id = %1 ";
         if ( $data['contact_type'] == 'Individual' && 
             array_key_exists( 'organization_name', $params ) ) {
             if ( $params['organization_name'] )  {
-                self::makeCurrentEmployerRelationship($contactID, $params['organization_name']);
+                require_once 'CRM/Contact/BAO/Contact/Utils.php';
+                CRM_Contact_BAO_Contact_Utils::makeCurrentEmployerRelationship($contactID,
+                                                                               $params['organization_name']);
             }
         }
 
@@ -1610,19 +1468,6 @@ WHERE  civicrm_contact.id = %1 ";
             CRM_Quest_BAO_Student::createStudentSummary($params, $ssids);
         }
 
-        //to update student record
-        if ( CRM_Core_Permission::access( 'TMF' ) && $TMFFieldPresent ) {
-            $ids = array();
-            $dao = & new CRM_TMF_DAO_Student();
-            $dao->contact_id = $contactID;
-            if ($dao->find(true)) {
-                $ids['id'] = $dao->id;
-            }
-            
-            $params['contact_id'] = $contactID;
-            CRM_TMF_BAO_Student::create( $params, $ids);
-        }
-        
         if ( $editHook ) {
             CRM_Utils_Hook::post( 'edit'  , 'Profile', $contactID  , $params );
         } else {
@@ -1706,48 +1551,6 @@ LEFT JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
     }
 
     /**
-     * function to get the sort name of a contact
-     *
-     * @param  int    $id id of the contact
-     *
-     * @return null|string     sort name of the contact if found
-     * @static
-     * @access public
-     */
-    static function sortName( $id ) 
-    {
-        if ( $id ) {
-            return CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'sort_name' );
-        }
-    }
-
-    /**
-     * function check for mix contact ids(individual+household etc...)
-     *
-     * @param array $contactIds array of contact ids
-     *
-     * @return boolen true or false true if mix contact array else fale
-     *
-     * @access public
-     * @static
-     */
-    public static function checkContactType(&$contactIds)
-    {
-        foreach ($contactIds as $id) {
-            $contactType = self::getContactType($id);
-            if( ! isset($contacts[$contactType])) {
-                $contacts[$contactType] = 0;
-            }
-            $contacts[$contactType] += 1;
-        }
-        
-        if (count($contacts) > 1) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
      * Funtion to get primary email of the contact
      *
      * @param int $contactID contact id
@@ -1805,159 +1608,6 @@ AND       civicrm_openid.is_primary = 1";
         return $openId;
     }
     
-    /**
-     * Function to get the uf id of civicrm contact 
-     *
-     * @param string $hash  hash value
-     * @param string $email email address of the contact
-
-     * @return int uf id  uf id of civicrm contact
-     * @static
-     */
-    static function getUFIdByHash( $hash, $uniqId ) 
-    {
-        require_once 'CRM/Contact/BAO/Contact.php';
-
-        $uniqId = trim( $uniqId );
-
-        $dao =& self::matchContactOnUniqId( $uniqId );
-        if ( ! $dao ) {
-            return false;
-        }
-
-        if ( $dao->hash != $hash ) {
-            return false;
-        }
-
-        require_once 'CRM/Core/BAO/UFMatch.php';
-        return CRM_Core_BAO_UFMatch::getUFId( $dao->contact_id );
-    }
-
-    /**
-     * Generate a checksum for a contactID
-     *
-     * @param int    $contactID
-     * @param int    $ts         timestamp that checksum was generated
-     * @param int    $live       life of this checksum in hours
-     *
-     * @return array ( $cs, $ts, $live )
-     * @static
-     * @access public
-     */
-    static function generateChecksum( $contactID, $ts = null, $live = null ) 
-    {
-        $hash = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
-                                             $contactID, 'hash' );
-        if ( ! $hash ) {
-            $hash = md5( uniqid( rand( ), true ) );
-            CRM_Core_DAO::setFieldValue( 'CRM_Contact_DAO_Contact',
-                                         $contactID,
-                                         'hash', $hash );
-        }
-
-        if ( ! $ts ) {
-            $ts = time( );
-        }
-        
-        if ( ! $live ) {
-            $live = 24 * 7;
-        }
-
-        $cs = md5( "{$hash}_{$contactID}_{$ts}_{$live}" );
-        return "{$cs}_{$ts}_{$live}";
-        
-    }
-
-    /**
-     * Make sure the checksum is valid for the passed in contactID
-     *
-     * @param int    $contactID
-     * @param string $cs         checksum to match against
-     * @param int    $ts         timestamp that checksum was generated
-     * @param int    $live       life of this checksum in hours
-     *
-     * @return boolean           true if valid, else false
-     * @static
-     * @access public
-     */
-    static function validChecksum( $contactID, $inputCheck ) 
-    {
-        $input =  explode( '_', $inputCheck );
-        
-        $inputCS = CRM_Utils_Array::value( 0,$input);
-        $inputTS = CRM_Utils_Array::value( 1,$input);
-        $inputLF = CRM_Utils_Array::value( 2,$input); 
-
-        $check = self::generateChecksum( $contactID, $inputTS, $inputLF );
-
-        if ( $check != $inputCheck ) {
-            return false;
-        }
-
-        // checksum matches so now check timestamp
-        $now = time( );
-        return ( $inputTS + ( $inputLF * 60 * 60 ) >= $now ) ? true : false;
-    }
-
-
-    /**
-     * Build the Current employer relationship with the individual
-     *
-     * @param int    $contactID             contact id of the individual
-     * @param string $organizationName      current employer name
-     * 
-     * @access public
-     * @static
-     */
-    static function makeCurrentEmployerRelationship( $contactID, $organizationName ) 
-    {
-        require_once "CRM/Contact/DAO/Contact.php";
-        $org =& new CRM_Contact_DAO_Contact( );
-        if ( is_array($organizationName) ) {
-            $org->id = $organizationName['id'];
-        } else {
-            $org->organization_name = $organizationName;
-        }
-        $org->find();
-        while ( $org->fetch( ) ) {
-            $dupeIds[] = $org->id;
-        }
-
-        //get the relationship id
-        require_once "CRM/Contact/DAO/RelationshipType.php";
-        $relType =& new CRM_Contact_DAO_RelationshipType();
-        $relType->name_a_b = "Employee of";
-        $relType->find(true);
-        $relTypeId = $relType->id;
-                
-        $relationshipParams['relationship_type_id'] = $relTypeId.'_a_b';
-        $relationshipParams['is_active'           ] = 1;
-        $cid = array('contact' => $contactID );
-        
-        if ( empty($dupeIds) ) {
-            //create new organization
-            $newOrg['contact_type'     ] = 'Organization';
-            $newOrg['organization_name'] = $organizationName ;
-            
-            require_once 'CRM/Core/BAO/Preferences.php';
-            $orgName = self::add( $newOrg );
-
-            //create relationship
-            $relationshipParams['contact_check'][$orgName->id] = 1;
-           
-            $relationship= CRM_Contact_BAO_Relationship::create($relationshipParams, $cid);
-        } else {
-            //if more than one matching organizations found, we
-            //add relationships to all those organizations
-            foreach($dupeIds as $key => $value) {
-                $relationshipParams['contact_check'][$value] = 1;
-                $relationship= CRM_Contact_BAO_Relationship::create($relationshipParams,
-                                                                    $cid);
-            }
-        }
-        
-    }
-
     /**
      * Function to get the count of  contact loctions
      * 
@@ -2049,7 +1699,7 @@ UNION
             CRM_Contact_DAO_Contact::addDisplayEnums($values);
             
             // Calculating Year difference            
-            if ( $contact->birth_date ) {
+x            if ( $contact->birth_date ) {
                 $birthDate = CRM_Utils_Date::customFormat( $contact->birth_date,'%Y%m%d' );  
                 if ( $birthDate < date( 'Ymd' ) ) {
                     $age =  CRM_Utils_Date::calculateAge( $birthDate );

@@ -233,4 +233,62 @@ UNION
         return $locationCount;
     }
 
+    /**
+     * Build the Current employer relationship with the individual
+     *
+     * @param int    $contactID             contact id of the individual
+     * @param string $organizationName      current employer name
+     * 
+     * @access public
+     * @static
+     */
+    static function makeCurrentEmployerRelationship( $contactID, $organizationName ) 
+    {
+        require_once "CRM/Contact/DAO/Contact.php";
+        $org =& new CRM_Contact_DAO_Contact( );
+        if ( is_array($organizationName) ) {
+            $org->id = $organizationName['id'];
+        } else {
+            $org->organization_name = $organizationName;
+        }
+        $org->find();
+        while ( $org->fetch( ) ) {
+            $dupeIds[] = $org->id;
+        }
+
+        //get the relationship id
+        require_once "CRM/Contact/DAO/RelationshipType.php";
+        $relType =& new CRM_Contact_DAO_RelationshipType();
+        $relType->name_a_b = "Employee of";
+        $relType->find(true);
+        $relTypeId = $relType->id;
+                
+        $relationshipParams['relationship_type_id'] = $relTypeId.'_a_b';
+        $relationshipParams['is_active'           ] = 1;
+        $cid = array('contact' => $contactID );
+        
+        if ( empty($dupeIds) ) {
+            //create new organization
+            $newOrg['contact_type'     ] = 'Organization';
+            $newOrg['organization_name'] = $organizationName ;
+            
+            require_once 'CRM/Core/BAO/Preferences.php';
+            $orgName = self::add( $newOrg );
+
+            //create relationship
+            $relationshipParams['contact_check'][$orgName->id] = 1;
+           
+            $relationship= CRM_Contact_BAO_Relationship::create($relationshipParams, $cid);
+        } else {
+            //if more than one matching organizations found, we
+            //add relationships to all those organizations
+            foreach($dupeIds as $key => $value) {
+                $relationshipParams['contact_check'][$value] = 1;
+                $relationship= CRM_Contact_BAO_Relationship::create($relationshipParams,
+                                                                    $cid);
+            }
+        }
+        
+    }
+
 }

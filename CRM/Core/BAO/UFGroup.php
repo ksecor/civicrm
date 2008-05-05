@@ -1459,12 +1459,6 @@ WHERE  id = $cfID
             $form->add('select', $name, $title, array( "" => "-- Select -- " )+ array_flip( CRM_Core_OptionGroup::values( 'applicant_status', true ) ) );
         } else if ($fieldName == 'highschool_gpa_id' ) {
             $form->add('select', $name, $title, array( "" => "-- Select -- ") + CRM_Core_OptionGroup::values( 'highschool_gpa' ) );
-        } else if ($fieldName == 'interview_rank' ) {
-            require_once "CRM/TMF/BAO/Query.php";
-            $ranking = array( );
-            require_once "CRM/TMF/BAO/Query.php";
-            $ranking = CRM_TMF_BAO_Query::buildNumberSelect(20);
-            $form->add('select', $name, $title, array("" => "-- Select -- ")+ $ranking );
         } else {
             $processed = false;
             if ( CRM_Core_Permission::access( 'Quest', false ) ) {

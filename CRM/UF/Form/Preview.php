@@ -271,12 +271,7 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
                 $this->add('select', $field['name'], $field['title'], array( "" => "-- Select -- " )+ array_flip( CRM_Core_OptionGroup::values( 'applicant_status', true ) ) );
             } else if ($field['name'] == 'highschool_gpa_id' ) {
                 $this->add('select', $name, $field['title'], array( "" => "-- Select -- ") + CRM_Core_OptionGroup::values( 'highschool_gpa' ) );
-            } else if ($field['name'] == 'interview_rank' ) {
-                require_once "CRM/TMF/BAO/Query.php";
-                $ranking = array( );
-                $ranking = CRM_TMF_BAO_Query::buildNumberSelect(20);
-                $this->add('select', $name, $field['title'], array("" => "-- Select -- ")+ $ranking );
-            }else {
+            } else {
                 if (in_array($field['name'], $scoreAttribs) && (! $field['attributes'])) {
                     $field['attributes'] = array('maxlength' => 8, 'size' => 4);
                 }

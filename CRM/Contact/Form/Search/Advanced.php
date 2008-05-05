@@ -105,11 +105,6 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
             $paneNames[ts('Task') ] = 'task';                
         }
 
-        if ( CRM_Core_Permission::access( 'TMF' ) ) {
-            $paneNames[ts('TMF')] = 'TMF';
-            $paneNames[ts('Task') ] = 'task';                
-        }
-
         if ( CRM_Core_Permission::access( 'Kabissa' ) ) {
             $paneNames[ts('Kabissa')] = 'kabissa';
         }

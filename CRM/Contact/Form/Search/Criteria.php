@@ -210,7 +210,7 @@ class CRM_Contact_Form_Search_Criteria {
     static function task( &$form ) {
         $form->add( 'hidden', 'hidden_task', 1 );
 
-        if ( CRM_Core_Permission::access( 'Quest' ) || CRM_Core_Permission::access( 'TMF' )) {
+        if ( CRM_Core_Permission::access( 'Quest' ) ) {
             $form->assign( 'showTask', 1 );
 
             // add the task search stuff
@@ -331,12 +331,6 @@ class CRM_Contact_Form_Search_Criteria {
         $form->add( 'hidden', 'hidden_quest', 1 );
         require_once 'CRM/Quest/BAO/Query.php';
         CRM_Quest_BAO_Query::buildSearchForm( $form );
-    }
-
-    static function tmf( &$form ) {
-        $form->add( 'hidden', 'hidden_TMF', 1 );
-        require_once 'CRM/TMF/BAO/Query.php';
-        CRM_TMF_BAO_Query::buildSearchForm( $form );
     }
 
     static function kabissa( &$form ) {

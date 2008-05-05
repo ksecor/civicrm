@@ -51,7 +51,7 @@ class CRM_Contact_BAO_Contact_Permission {
         $temp       = array( );
        
         //check permission based on relationship, CRM-2963
-        if ( self::relationshipPermission( $id ) ) {
+        if ( self::relationship( $id ) ) {
             $permission = '( 1 )';
         } else {
             require_once 'CRM/ACL/API.php';
@@ -77,7 +77,7 @@ WHERE contact_a.id = %1 AND $permission";
       * selected contact record else false
       * @static
       */
-    static function relationshipPermission ( $selectedContactId ) 
+    static function relationship ( $selectedContactId ) 
     {
         $session   =& CRM_Core_Session::singleton( );
         $contactID =  $session->get( 'userID' );

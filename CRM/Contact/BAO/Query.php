@@ -53,7 +53,6 @@ class CRM_Contact_BAO_Query
         MODE_QUEST      =   4,
         MODE_MEMBER     =   8,
         MODE_EVENT      =  16,
-        MODE_TMF        =  32,
         MODE_KABISSA    =  64,
         MODE_GRANT      = 128,
         MODE_ALL        = 255;

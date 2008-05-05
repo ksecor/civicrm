@@ -729,15 +729,17 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
             if ( isset( $params['employer_option'] ) && 
                  $params['employer_option'] == 0 && 
                  $params['create_employer'] ) {
-                CRM_Contact_BAO_Contact::makeCurrentEmployerRelationship($contact->id, 
-                                                                         $params['create_employer']);
+                require_once 'CRM/Contact/BAO/Contact/Utils.php';
+                CRM_Contact_BAO_Contact_Utils::makeCurrentEmployerRelationship($contact->id, 
+                                                                               $params['create_employer']);
                 
             } elseif ( isset( $params['employer_option'] ) && 
                        $params['employer_option'] == 1 &&
                        $params['shared_employer'] ) {
                 $orgId = array( 'id' => $params['shared_employer'] );
-                CRM_Contact_BAO_Contact::makeCurrentEmployerRelationship($contact->id, 
-                                                                         $orgId);
+                require_once 'CRM/Contact/BAO/Contact/Utils.php';
+                CRM_Contact_BAO_Contact_Utils::makeCurrentEmployerRelationship($contact->id, 
+                                                                               $orgId);
             }
         }
 

@@ -507,13 +507,6 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
             $multipleSelectFields = CRM_Quest_BAO_Student::$multipleSelectFields;
         }
 
-        //add tmf fields
-        if ( CRM_Core_Permission::access( 'TMF' ) ) {
-            require_once 'CRM/Quest/BAO/Query.php';
-            $tmfFields = array( );
-            $tmfFields = CRM_TMF_BAO_Query::defaultReturnProperties( CRM_Contact_BAO_Query::MODE_TMF );
-        }
-
         require_once 'CRM/Core/OptionGroup.php';
         $links =& self::links( );
 
