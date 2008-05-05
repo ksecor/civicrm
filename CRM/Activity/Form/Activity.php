@@ -370,9 +370,10 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
 
         if ( $this->_assigneeContactId ) {
             $defaultAssigneeContactName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
-                                                                       $this->_assContactId,
+                                                                       $this->_assigneeContactId,
                                                                        'sort_name' );
-
+        }
+        
         $assigneeContactField = $this->add( 'text','assignee_contact', ts('Assigned To'), $attributes);
         if ( $assigneeContactField->getValue( ) ) {
             $this->assign( 'assignee_contact_value',  $assigneeContactField->getValue( ) );
@@ -446,7 +447,6 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
         }
 
         $this->addFormRule( array( 'CRM_Activity_Form_Activity', 'formRule' ), $this );
-
     }
 
     /**  
