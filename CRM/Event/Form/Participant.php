@@ -471,7 +471,6 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         
         // Retrieve the name and email of the contact - this will be the TO for receipt email
         if ( $this->_contactID ) {
-            require_once "CRM/Contact/BAO/Contact/Location.php";
             list( $this->_contributorDisplayName, 
                   $this->_contributorEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $this->_contactID );
             $this->assign( 'email', $this->_contributorEmail );
