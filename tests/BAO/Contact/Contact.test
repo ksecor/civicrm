@@ -54,6 +54,69 @@ class BAO_Contact_Contact extends CiviTestCase
     }
     
     /**
+     * create() method 
+     */
+    function testCreate( )
+    {
+        $firstName = 'Bill';
+        $lastName  = 'Adams';
+        $params    =  array( 'first_name'   => $firstName,     
+                              'last_name'    => $lastName,
+                              'contact_type' => 'Individual'
+                              );
+        
+        require_once 'CRM/Contact/BAO/Contact.php';
+        $contact = CRM_Contact_BAO_Contact::add( $params );
+        $this->assertEqual( $firstName, $contact->first_name, 'Check for first name creation.' );
+        $this->assertEqual( $lastName, $contact->last_name, 'Check for last name creation.' );
+        
+        $contactId = $contact->id;
+
+        //update and change first name and last name, using create()
+        $firstName = 'Joan';
+        $params = array( 'first_name'   => $firstName, 
+                         'contact_type' => 'Individual',
+                         'contact_id'   => $contactId );
+        
+        $contact = CRM_Contact_BAO_Contact::add( $params );
+        $this->assertEqual( $firstName, $contact->first_name, 'Check for updated first name.' );
+        $contactId = $contact->id;
+        Contact::delete( $contactId );
+        
+        $householdName = 'Adams house';
+        $params        = array( 'household_name' => $householdName,
+                                'contact_type'   => 'Household'
+                                );
+        $contact = CRM_Contact_BAO_Contact::add( $params );
+        $this->assertEqual( $householdName, $contact->sort_name, 'Check for created household.' );
+        $contactId = $contact->id;
+
+        //update and change name of household, using create
+        $householdName = 'Joans home';
+        $params = array( 'household_name' => $householdName,
+                         'contact_type' => 'Household',
+                         'contact_id'   => $contactId );
+        $contact = CRM_Contact_BAO_Contact::add( $params );
+        $this->assertEqual( $householdName, $contact->sort_name, 'Check for updated household.' );
+        Contact::delete( $contactId );
+
+        $organizationName = 'My Organization';
+        $params = array( 'organization_name' => $organizationName );
+        $contact = CRM_Contact_BAO_Contact::add( $params );
+        $this->assertEqual( $organizationName, $contact->sort_name, 'Check for created organization.' );
+        $contactId = $contact->id;
+
+        //update and change name of organization, using create
+        $organizationName = 'Your Changed Organization';
+        $params = array( 'organization_name' => $organizationName,
+                         'contact_type' => 'Organization',
+                         'contact_id'   => $contactId );
+        $contact = CRM_Contact_BAO_Contact::add( $params );
+        $this->assertEqual( $organizationName, $contact->sort_name, 'Check for updated organization.' );
+        Contact::delete( $contactId );
+    }
+
+    /**
      * test logged in user has permissions for 
      * various  operation types
      */
