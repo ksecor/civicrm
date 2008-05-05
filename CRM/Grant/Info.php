@@ -49,12 +49,18 @@ class CRM_Grant_Info extends CRM_Core_Component_Info
                       'title'          => 'CiviCRM Grant Management Engine',
                       'path'           => 'CRM_Grant_',
                       'url'            => 'grant',
-                      'perm'           => array( 'access CiviGrant', 
-                                                 'edit grants'),
                       'menu'           => array( 'Menu/Grant.xml' ),
                       'search'         => 1 );
     }
-    
+
+
+    // docs inherited from interface
+    public function getPermissions()
+    {
+        return array( 'access CiviGrant', 
+                      'edit grants');
+    }
+        
     // docs inherited from interface    
     public function getActivityTypes()
     {

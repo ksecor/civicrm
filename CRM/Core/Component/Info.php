@@ -99,6 +99,18 @@ abstract class CRM_Core_Component_Info
     abstract public function getInfo();
 
     /**
+     * Provides permissions that are used by component.
+     * Needs to be implemented in component's information
+     * class.     
+     *
+     * @return array|null collection of activity types
+     * @access public
+     *
+     */
+    abstract public function getPermissions();
+
+
+    /**
      * Provides potential activity types that this 
      * component might want to register in activity history.
      * Needs to be implemented in component's information

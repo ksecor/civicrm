@@ -67,7 +67,7 @@ class CRM_ACL_Form_ACLBasic extends CRM_Admin_Form
            $config = CRM_Core_Config::singleton( );
            require_once 'CRM/Core/Component.php';
            foreach ( $config->enableComponents as $comp ) {
-               $perm = CRM_Core_Component::get( $comp, 'perm' );
+               $perm = CRM_Core_Component::getPermissions( $comp, 'perm' );
                if ( $perm ) {
                    sort( $perm );
                    foreach ( $perm as $p ) {

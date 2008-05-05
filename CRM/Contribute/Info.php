@@ -47,11 +47,16 @@ class CRM_Contribute_Info extends CRM_Core_Component_Info
                        'translatedName' => ts('CiviContribute'),
                        'title'          => ts('CiviCRM Contribution Engine'),
                        'url'            => 'contribute',
-                       'perm'           => array( 'access CiviContribute',
-                                                  'edit contributions',
-                                                  'make online contributions' ),
                        'menu'           => array( 'Menu/Contribute.xml' ),
                        'search'  => 1 );        
+    }
+
+    // docs inherited from interface
+    public function getPermissions()
+    {
+        return array( 'access CiviContribute',
+                      'edit contributions',
+                      'make online contributions' );
     }
 
     // docs inherited from interface    

@@ -47,12 +47,18 @@ class CRM_Member_Info extends CRM_Core_Component_Info
                       'translatedName' => ts('CiviMember'),
                       'title'          => 'CiviCRM Membership Engine',
                       'url'            => 'member',
-                      'perm'           => array( 'access CiviMember',
-                                                 'edit memberships'),
                       'menu'           => array( 'Menu/Member.xml' ),
                       'search'         => 1 );
     }
-    
+
+
+    // docs inherited from interface
+    public function getPermissions()
+    {
+        return array( 'access CiviMember',
+                      'edit memberships');
+    }
+
     // docs inherited from interface    
     public function getActivityTypes()
     {
