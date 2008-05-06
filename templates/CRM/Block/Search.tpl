@@ -12,16 +12,16 @@ function getValue( )
 	var sortValue = dojo.byId( 'id_sort_name' );
 	//using xmlhttprequest check if there is only one contact and redirect to view page
 	var dataUrl = {/literal}"{crmURL p='civicrm/ajax/contact' h=0 q='name='}"{literal} + sortValue.value;
-
-	var result = dojo.xhrGet( { 
+        
+	dojo.xhrGet( { 
 		url: dataUrl, 
 		handleAs: "text",
-
+		sync: true,
 		timeout: 5000, // Time in milliseconds
 		    
 	         // The LOAD function will be called on a successful response.
 		load: function(response, ioArgs) {
-		    //document.getElementById( 'contact_id' ).value = response;
+		    document.getElementById( 'contact_id' ).value = response;
 		    return response; 
 		},
 
@@ -32,7 +32,7 @@ function getValue( )
 		}
 	    });
 
-	//contactId =  document.getElementById( 'contact_id' ).value;
+	contactId =  document.getElementById( 'contact_id' ).value;
     }
 
     if ( contactId ) {
@@ -47,13 +47,13 @@ function getValue( )
 </script>
 {/literal}
 {/if}
-    <form action="{$postURL}" name="search_block" id="id_search_block" method="post" onSubmit="getValue( );" >
+    <form action="{$postURL}" name="search_block" id="id_search_block" method="post" >
 
     <div dojoType="dojox.data.QueryReadStore" jsId="searchStore" url="{$dataURL}" doClientPaging="false"></div>
     <div class="tundra">
-        <input type="hidden" name="contact_id" />
+        <input type="hidden" name="contact_id" id="contact_id"/>
         <input type="text" name="sort_name" id="id_sort_name" value="" dojoType="civicrm.FilteringSelect" store="searchStore" mode="remote" searchAttr="name"  pageSize="10" />
-	<input type="submit" name="_qf_Basic_refresh" value="{ts}Go{/ts}" class="form-submit"/>
+	<input type="submit" name="_qf_Basic_refresh" value="{ts}Go{/ts}" class="form-submit"  onclick="getValue( );"/>
         <br />
         <a href="{$advancedSearchURL}" title="{ts}Go to Advanced Search{/ts}">&raquo; {ts}Advanced Search{/ts}</a>
     </div>

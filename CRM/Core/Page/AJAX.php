@@ -701,17 +701,16 @@ ORDER BY subject";
         $name      = strtolower( CRM_Utils_Type::escape( $_GET['name'], 'String'  ) ); 
 
         $query = "
-SELECT count(id) as cnt, id
+SELECT id
 FROM civicrm_contact
 WHERE sort_name LIKE '%$name%'
-AND domain_id = {$domainID}
-GROUP BY id ";            
+AND domain_id = {$domainID} ";            
         
         $nullArray = array( );
         $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
         $dao->fetch( );
-       
-        if ( $dao->cnt == 1) {
+        
+        if ( $dao->N == 1) {
             echo $dao->id;
         }
     }
