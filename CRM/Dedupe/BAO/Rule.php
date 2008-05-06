@@ -83,7 +83,7 @@ class CRM_Dedupe_BAO_Rule extends CRM_Dedupe_DAO_Rule
         }
 
         // finish building WHERE, also limit the results if requested
-        $where[] = "t1.$id != t2.$id";
+        $where[] = "t1.$id < t2.$id";
         if ($this->contactIds) {
             $cids = array();
             foreach ($this->contactIds as $cid) {
