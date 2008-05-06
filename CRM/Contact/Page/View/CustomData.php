@@ -46,7 +46,7 @@ class CRM_Contact_Page_View_CustomData extends CRM_Contact_Page_View {
      * @int
      * @access protected
      */
-    protected $_groupId;
+    public $_groupId;
 
     /**
      * class constructor
@@ -91,30 +91,35 @@ class CRM_Contact_Page_View_CustomData extends CRM_Contact_Page_View {
     {
         $this->preProcess( );
 
+        //set the userContext stack
+        $doneURL = 'civicrm/contact/view';
+        $session =& CRM_Core_Session::singleton();
+        $session->pushUserContext( CRM_Utils_System::url( $doneURL, 'action=browse&selectedChild=custom_' . $this->_groupId ), false );
+        
         // get permission detail view or edit
         $permUser = CRM_Core_Permission::getPermission();
         
         $editCustomData = ( CRM_Core_Permission::VIEW == $permUser ) ? 0 : 1;
-
         $this->assign('editCustomData', $editCustomData);
 
-        $controller =& new CRM_Core_Controller_Simple('CRM_Contact_Form_CustomData', ts('Custom Data'), $this->_action);
-        $controller->setEmbedded(true);
-
-        // set the userContext stack
-        $doneURL = 'civicrm/contact/view';
-        $session =& CRM_Core_Session::singleton();
-        $session->pushUserContext( CRM_Utils_System::url( $doneURL, 'action=browse&selectedChild=custom_' . $this->_groupId ), false );
-
-        $controller->set('tableId'   , $this->_contactId );
-        $controller->set('groupId'   , $this->_groupId);
-        $controller->set('entityType', CRM_Contact_BAO_Contact::getContactType( $this->_contactId ) );
-        $subType = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'contact_sub_type' );
-        $controller->set('entitySubType', $subType );
-        $controller->process();
-        $controller->run();
-
+        if ( $this->_action == CRM_Core_Action::BROWSE ) {
+            //Custom Groups Inline
+            $entityType = CRM_Contact_BAO_Contact::getContactType($this->_contactId);
+            $groupTree =& CRM_Core_BAO_CustomGroup::getTree($entityType, $this->_contactId, $this->_groupId);
+            CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $groupTree );
+        } else {
+            
+            $controller =& new CRM_Core_Controller_Simple('CRM_Contact_Form_CustomData', ts('Custom Data'), $this->_action);
+            $controller->setEmbedded(true);
+           
+            $controller->set('tableId'   , $this->_contactId );
+            $controller->set('groupId'   , $this->_groupId);
+            $controller->set('entityType', CRM_Contact_BAO_Contact::getContactType( $this->_contactId ) );
+            $controller->set('entitySubType', CRM_Contact_BAO_Contact::getContactSubType( $this->_contactId ) );
+            $controller->process();
+            $controller->run();
+        }
         return parent::run();
     }
 }
-
+?>
