@@ -370,14 +370,14 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
                         if ( !$countryValue && isset($value['address']['country_id']) ) {
                             $countryValue = $value['address']['country_id'];
                             
-                            //retrive country by using country code for assigning country name to template
-                            $country = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Country', 
-                                                                    $countryValue, 
-                                                                    'name', 
-                                                                    'id' );
-                            $this->assign( "country" , $country );
                         }
                         
+                        //retrive country by using country code for assigning country name to template
+                        $country = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Country', 
+                                                                $countryValue, 
+                                                                'name', 
+                                                                'id' );
+                        $this->assign( "country" , $country );
                         $this->assign( "country_{$key}_value"   ,  $countryValue );
                     }
                     
@@ -386,15 +386,15 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
                         
                         if ( !$stateValue && isset($value['address']['state_province_id']) ) {
                             $stateValue = $value['address']['state_province_id'];
-                            
-                            //retrive country by using country code for assigning country name to template
-                            $state = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_StateProvince', 
-                                                                  $stateValue, 
-                                                                  'name', 
-                                                                  'id' );
-                            $this->assign( "state" , $state );
+                                                        
                         }
-
+     
+                        //retrive country by using country code for assigning country name to template
+                        $state = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_StateProvince', 
+                                                              $stateValue, 
+                                                              'name', 
+                                                              'id' );
+                        $this->assign( "state" , $state );
                         $this->assign( "state_province_{$key}_value", $stateValue );
                     }
                     
@@ -405,7 +405,7 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
                 }
             }
         }
-
+        
         CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, $viewMode, $inactiveNeeded );
         return $defaults;
     }

@@ -122,7 +122,7 @@ class CRM_Contact_Form_Individual {
         $form->add('hidden', 'HhName', null);
         if ( $action & CRM_Core_Action::UPDATE ) {
 
-            $sharedOptionsExtra = array( 'onclick' => "showHideSharedOptions();" );        
+            $sharedOptionsExtra = array( 'onclick' => "showHideSharedOptions();setAddressFields();" );        
             
             $mailToHouseholdID  = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', 
                                                                $form->_contactId, 
@@ -143,11 +143,11 @@ class CRM_Contact_Form_Individual {
                 $form->assign('old_mail_to_household_id', $mailToHouseholdID);
                 
                 $sharedOptionsExtra = array( 'onclick' => "showHideSharedOptions();
-resetByValue('shared_option',   '', $extraOnAddFlds, 'text', 'radio',   true );
+resetByValue('shared_option',   '', $extraOnAddFlds, 'text', 'radio',   true );setAddressFields();
 " );
             }
         } elseif ( $action & CRM_Core_Action::ADD ) {
-            $sharedOptionsExtra = array( 'onclick' => "showHideSharedOptions();" );        
+            $sharedOptionsExtra = array( 'onclick' => "showHideSharedOptions();setAddressFields();" );        
         }
         
         if ( isset( $mailToHouseholdID ) ) {
