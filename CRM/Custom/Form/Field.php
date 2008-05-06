@@ -89,7 +89,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
             array('TextArea' => 'TextArea', 'RichTextEditor' => 'RichTextEditor'),
             array('Date'  => 'Select Date'),
             array('Radio' => 'Radio'),
-            array('StateProvince' => 'Select State/Province'),
+            array('StateProvince' => 'Select State/Province' , 'Multi-Select' => 'Multi-Select State/Province'),
             array('Country' => 'Select Country', 'Multi-Select' => 'Multi-Select Country'),
             array('File' => 'File'),
             array('Link' => 'Link')

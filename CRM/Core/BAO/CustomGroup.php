@@ -865,7 +865,7 @@ $where
                     }
                     break;
                     
-                //added a case for Multi-Select option                    
+                //added a case for Multi-Select option  
                 case 'Multi-Select':
                     if ($viewMode) {
                         $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], $inactiveNeeded);
@@ -906,7 +906,15 @@ $where
                     }
                    
                     break;
-                    
+                case 'Multi-Select Country':
+                case 'Multi-Select State/Province':
+                     if (isset($value)) {
+                         $checkedValue = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$value );
+                         foreach($checkedValue as $val) {
+                             $defaults[$elementName][$val]  =  $val;
+                         } 
+                     }
+                     break;
                 case 'Select Country':
                     if ( $value ) {
                         $defaults[$elementName] = $value;
@@ -1131,7 +1139,7 @@ $where
         $sBlocks = array();
         $hBlocks = array();
         $form = array();
-
+       
         foreach ($groupTree as $key => $group) {
             if ( $key === 'info' ) {
                 continue;
@@ -1144,18 +1152,20 @@ $where
                 $form[$elementName] = array( );
                 $form[$elementName]['name'] = $elementName;
                 $form[$elementName]['html'] = null;
-                
+           
                 if ( $field['data_type'] == 'String' ||
                      $field['data_type'] == 'Int' ||
                      $field['data_type'] == 'Float' ||
                      $field['data_type'] == 'Money' ||
-                     $field['html_type'] == 'Multi-Select Country') {
-
+                     $field['html_type'] == 'Multi-Select Country' ||
+                     $field['html_type'] == 'Multi-Select State/Province') {
+                   
                     //added check for Multi-Select in the below if-statement
                     if ( $field['html_type'] == 'Radio'    ||
                          $field['html_type'] == 'CheckBox' ||
                          $field['html_type'] == 'Multi-Select'||
-                         $field['html_type'] == 'Multi-Select Country') {
+                         $field['html_type'] == 'Multi-Select Country'||
+                         $field['html_type'] == 'Multi-Select State/Province') {
                         $freezeString =  "";
                         $freezeStringChecked = "";
                         $customData = array();
@@ -1175,6 +1185,13 @@ $where
 SELECT id as value, name as label  
   FROM civicrm_country";
                             $coDAO  = CRM_Core_DAO::executeQuery( $query,CRM_Core_DAO::$_nullArray  );  
+                        } else if ($field['html_type'] == 'Multi-Select State/Province') {
+                            $customData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $field['customValue']['data']);
+                            $query = "
+SELECT id as value, name as label  
+  FROM civicrm_state_province";
+                            $coDAO  = CRM_Core_DAO::executeQuery( $query,CRM_Core_DAO::$_nullArray  ); 
+
                         } else {
                         
                             $query = "

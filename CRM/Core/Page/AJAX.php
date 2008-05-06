@@ -415,6 +415,7 @@ ORDER by v.weight";
             break;
         case '7':
             $name['StateProvince'] = 'Select State/Province';
+            $name['Multi-Select']  = 'Multi-Select State/Province';
             break;
         case '8':
             $name['Country']      = 'Select Country';

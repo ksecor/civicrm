@@ -68,21 +68,26 @@ class CRM_Core_BAO_CustomValueTable
                 switch( $type ) {
 
                 case 'StateProvince':
-                    if ( ! is_numeric( $value ) ) {
-                        $states = array( );
-                        $states['state_province'] = $value;
-                
-                        CRM_Contact_BAO_Contact::lookupValue( $states, 'state_province', 
-                                                              CRM_Core_PseudoConstant::stateProvince(), true );
-                        if ( !$states['state_province_id'] ) {
-                            CRM_Contact_BAO_Contact::lookupValue( $states, 'state_province',
-                                                                  CRM_Core_PseudoConstant::stateProvinceAbbreviation(), true );
+                    if ( is_array( $value ) ) {
+                        $value = implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value );    
+                        $type  = 'String';
+                    } else {
+                        if ( ! is_numeric( $value ) ) {
+                            $states = array( );
+                            $states['state_province'] = $value;
+                            require_once 'CRM/Contact/BAO/Contact.php';
+                            CRM_Contact_BAO_Contact::lookupValue( $states, 'state_province', 
+                                                                  CRM_Core_PseudoConstant::stateProvince(), true );
+                            if ( !$states['state_province_id'] ) {
+                                CRM_Contact_BAO_Contact::lookupValue( $states, 'state_province',
+                                                                      CRM_Core_PseudoConstant::stateProvinceAbbreviation(), true );
+                            }
+                            $value = $states['state_province_id'];
                         }
-                        $value = $states['state_province_id'];
+                        $type = 'Integer';
                     }
-                    $type = 'Integer';
                     break;
-
+                    
                 case 'Country':
                     
                     if ( is_array( $value ) ) {
