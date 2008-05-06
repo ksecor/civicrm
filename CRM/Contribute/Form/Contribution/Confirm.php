@@ -381,18 +381,28 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                                                                          null, $ctype);
         }
 
-        // if onbehalf-of-organization contribution, add organization
+        // If onbehalf-of-organization contribution, add organization
         // and it's location.
         if ( is_array($behalfOrganization) && $behalfOrganization['organization_name'] ) {
             require_once 'CRM/Contact/BAO/Contact/Utils.php';
             $orgID = CRM_Contact_BAO_Contact_Utils::makeCurrentEmployerRelationship($contactID,
                                                                                     $behalfOrganization['organization_name']);
-            // if only one matching organization found.
-            if ( ! is_array($orgID) && $orgID ) {
+            
+            // Add/Update location if only new/one-existing organization.
+
+            if ( is_numeric( $orgID ) ) {
+                // if new organization.
                 $behalfOrganization['contact_id']   = $orgID;
+            } else if ( $session->get( 'userID' ) && is_array( $orgID ) && count( $orgID ) == 1 ) {
+                // if organization already exists, allow location
+                // update, only if authenticated user. 
+                $behalfOrganization['contact_id']   = $orgID[0];
+            }
+                
+            if ( isset($behalfOrganization['contact_id']) ) {
                 $behalfOrganization['contact_type'] = 'Organization';
                 CRM_Core_BAO_Location::create( $behalfOrganization );
-            } 
+            }
         }
 
         // lets store the contactID in the session

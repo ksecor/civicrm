@@ -245,7 +245,7 @@ class CRM_Contact_Form_RelatedContact extends CRM_Core_Form
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
         
-	    $params['contact_type'] = $this->_contactType;
+	    $params['contact_type']   = $this->_contactType;
         
         if ( $this->_contactId ) {
             $params['contact_id'] = $this->_contactId;
@@ -255,14 +255,12 @@ class CRM_Contact_Form_RelatedContact extends CRM_Core_Form
         $contact =& CRM_Contact_BAO_Contact::create($params, true, false );
         
         if ( $this->_contactType == 'Household' && ( $this->_action & CRM_Core_Action::UPDATE ) ) {
-            //TO DO: commented because of schema changes
             CRM_Contact_Form_Household::synchronizeIndividualAddresses( $contact->id );
         }
 
-        // here we replace the user context with the url to view this contact
-        $session =& CRM_Core_Session::singleton( );
-        CRM_Core_Session::setStatus(ts('Your %1 contact record has been saved.', array(1 => $contact->contact_type_display)));
-        
+        // set status message.
+        CRM_Core_Session::setStatus(ts('Your %1 contact record has been saved.', 
+                                       array(1 => $contact->contact_type_display)));
     }
  
 }
