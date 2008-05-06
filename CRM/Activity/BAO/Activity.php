@@ -362,8 +362,8 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      * @access public
      * @static
      */
-    static function &getOpenActivities( &$data, $offset = null, $rowCount = null, $sort = null,
-                                        $type ='Activity', $admin = false, $caseId = null, $context = null ) 
+    static function &getActivities( &$data, $offset = null, $rowCount = null, $sort = null,
+                                    $type ='Activity', $admin = false, $caseId = null, $context = null ) 
     {
         $dao =& new CRM_Core_DAO();
 
@@ -435,7 +435,11 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         }
 
         if ( empty( $order ) ) {
-            $order = " ORDER BY status_id asc, activity_date_time asc ";
+            if ( $context == 'activity' ) {
+                $order = " ORDER BY activity_date_time desc ";
+            } else {
+                $order = " ORDER BY status_id asc, activity_date_time asc ";
+            }
         }
 
         if ( $rowCount > 0 ) {
