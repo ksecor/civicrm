@@ -558,8 +558,15 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
     static function &getValues( &$params, &$values ) 
     {
         $v = array( );
-        $v['data'] =& 
-            CRM_Contact_BAO_Relationship::getRelationship($params['contact_id'], null , 3 );
+        
+        // get the specific number of relationship or all relationships.
+        if ( CRM_Utils_Array::value( 'numRelationship', $params ) ) {
+            $v['data'] =& 
+                CRM_Contact_BAO_Relationship::getRelationship($params['contact_id'], null , $params['numRelationship'] );
+        } else {
+            $v['data'] =& 
+                CRM_Contact_BAO_Relationship::getRelationship( $params['contact_id'] );
+        } 
         
         // get the total count of relationships
         $v['totalCount'] =
