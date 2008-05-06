@@ -276,16 +276,5 @@ SELECT module
         return $errors;
     }
 
-    function getTemplateFileName() {
-        if ( $this->_gid ) {
-            $templateFile = "CRM/Profile/Form/{$this->_gid}/Edit.tpl";
-            $template =& CRM_Core_Form::getTemplate( );
-            if ( $template->template_exists( $templateFile ) ) {
-                return $templateFile;
-            }
-        }
-        return parent::getTemplateFileName( );
-    }
-
 }
 

@@ -602,6 +602,16 @@ class CRM_Profile_Form extends CRM_Core_Form
 
         $transaction->commit( );
     }
+
+    function getTemplateFileName() {
+        if ( $this->_gid ) {
+            $templateFile = "CRM/Profile/Form/{$this->_gid}/{$this->_name}.tpl";
+            $template =& CRM_Core_Form::getTemplate( );
+            if ( $template->template_exists( $templateFile ) ) {
+                return $templateFile;
+            }
+        }
+        return parent::getTemplateFileName( );
+    }
+
 }
-
-
