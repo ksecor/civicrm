@@ -396,11 +396,20 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
             $fields['Membership'] =& CRM_Member_BAO_Membership::getMembershipFields();
             $compArray['Membership'] = 'Membership';
         }
-
-
+        
         foreach ($fields as $key => $value) {
             foreach ($value as $key1 => $value1) {
-                $mapperFields[$key][$key1] = $value1['title'];
+                //CRM-2676, replacing the conflict for same custom field name from different custom group.
+                if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID( $key1 ) ) {
+                    $customGroupId   = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', $customFieldId, 'custom_group_id' );
+                    $customGroupName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup', $customGroupId, 'title' );
+                    if ( strlen( $customGroupName ) > 13 ) {
+                        $customGroupName = substr( $customGroupName, 0, 10 ) . '...';
+                    }
+                    $mapperFields[$key][$key1] = $customGroupName . ': ' . $value1['title'];
+                } else {
+                    $mapperFields[$key][$key1] = $value1['title'];
+                }
                 if ( isset( $value1['hasLocationType'] ) ) {
                     $hasLocationTypes[$key][$key1]    = $value1['hasLocationType'];
                 }
@@ -409,7 +418,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         $mapperKeys      = array_keys( $mapperFields );
         
         $locationTypes  =& CRM_Core_PseudoConstant::locationType();
-               
+        
         $defaultLocationType =& CRM_Core_BAO_LocationType::getDefault();
             
         /* FIXME: dirty hack to make the default option show up first.  This

@@ -58,10 +58,22 @@ class CRM_Profile_Form_Search extends CRM_Profile_Form
     function preProcess() 
     { 
         $this->_mode = CRM_Profile_Form::MODE_SEARCH; 
+      
+        parent::preProcess( );
 
-        parent::preProcess( ); 
+        //CRM-2676, replacing the conflict for same custom field name from different custom group.
+        foreach ( $this->_fields as $key => $value ) {
+            if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID( $key ) ) {
+                $customGroupId   = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', $customFieldId, 'custom_group_id' );
+                $customGroupName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup', $customGroupId, 'title' );
+                if ( strlen( $customGroupName ) > 13 ) {
+                    $customGroupName = substr( $customGroupName, 0, 10 ) . '...';
+                }
+                $this->_fields[$key]['title'] = $customGroupName . ': ' . $value['title'];
+            }
+        }
     } 
-
+    
     /** 
      * Set the default form values 
      * 
@@ -70,7 +82,6 @@ class CRM_Profile_Form_Search extends CRM_Profile_Form
      */ 
     function &setDefaultValues() {
         $defaults = array(); 
-        
         // note we intentionally overwrite value since we use it as defaults
         // and its all pass by value
         // we need to figure out the type, so we can either set an array element
@@ -113,7 +124,7 @@ class CRM_Profile_Form_Search extends CRM_Profile_Form
                                 array ('type'      => 'refresh', 
                                        'name'      => ts('Search'), 
                                        'isDefault' => true ), 
-                                ) ); 
+                                ) );
 
         parent::buildQuickForm( );
      }
