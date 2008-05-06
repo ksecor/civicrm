@@ -15,6 +15,11 @@
      <access_arguments>access CiviCRM</access_arguments>
   </item>
   <item>
+     <path>civicrm/export</path>
+     <title>Download Errors</title>
+     <page_callback>CRM_Core_Invoke::export</page_callback>
+  </item>
+  <item>
      <path>civicrm/export/contact</path>
      <title>Export Contacts</title>
      <weight>0</weight>
