@@ -545,6 +545,23 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
     }
 
     /**
+     * Get contact sub type for a contact.
+     *
+     * @param int $id - id of the contact whose contact type is needed
+     *
+     * @return string contact_type if $id found else null ""
+     *
+     * @access public
+     *
+     * @static
+     *
+     */
+    public static function getContactSubType($id)
+    {
+        return CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'contact_sub_type' );
+    }
+
+    /**
      * combine all the importable fields from the lower levels object
      *
      * The ordering is important, since currently we do not have a weight
