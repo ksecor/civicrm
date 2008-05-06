@@ -127,7 +127,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             return CRM_Custom_Form_CustomData::preProcess( $this );
         }
         
-        require_once 'CRM/Contact/BAO/Contact.php';
+        require_once 'CRM/Contact/BAO/Contact/Location.php';
         $session =& CRM_Core_Session::singleton( );
         $contactID = $session->get( 'userID' );
         list( $this->userDisplayName, 

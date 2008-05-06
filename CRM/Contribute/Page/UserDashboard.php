@@ -89,6 +89,7 @@ class CRM_Contribute_Page_UserDashboard extends CRM_Contact_Page_View_UserDashBo
 
         $config =& CRM_Core_Config::singleton( );
 
+        require_once 'CRM/Core/Payment.php';
         require_once 'api/utils.php';
         $recurRow = array();
         while( $recur->fetch() ) {

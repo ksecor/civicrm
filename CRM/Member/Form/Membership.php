@@ -268,6 +268,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         $this->add('textarea', 'receipt_text_signup', ts('Receipt Message') );
         
         // Retrieve the name and email of the contact - this will be the TO for receipt email
+        require_once 'CRM/Contact/BAO/Contact/Location.php';
         list( $this->_contributorDisplayName, 
               $this->_contributorEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $this->_contactID );
         $this->assign( 'emailExists', $this->_contributorEmail );
@@ -460,7 +461,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             }
            
             // Retrieve the name and email of the current user - this will be the FROM for the receipt email
-            require_once 'CRM/Contact/BAO/Contact.php';
+            require_once 'CRM/Contact/BAO/Contact/Location.php';
             list( $userName, $userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $ids['userId'] );
             $params['contribution_source'] = "Offline membership signup (by {$userName})";
             

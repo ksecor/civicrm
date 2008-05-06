@@ -139,7 +139,7 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
         
         if ( $values['event_page']['is_email_confirm'] ) {
             $template =& CRM_Core_Smarty::singleton( );
-            require_once 'CRM/Contact/BAO/Contact.php';
+            require_once 'CRM/Contact/BAO/Contact/Location.php';
 
             // get the billing location type
             $locationTypes =& CRM_Core_PseudoConstant::locationType( );
