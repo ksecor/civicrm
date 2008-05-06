@@ -126,7 +126,9 @@ class CRM_Contact_Page_View_Relationship extends CRM_Contact_Page_View {
      */
     function run( ) {
         $this->preProcess( );
-
+        
+        $this->setContext( );
+      
         if ( $this->_action & CRM_Core_Action::VIEW ) {
             $this->view( );
         } else if ( $this->_action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::DELETE ) ) {
@@ -140,13 +142,30 @@ class CRM_Contact_Page_View_Relationship extends CRM_Contact_Page_View {
         } else if ( $this->_action & CRM_Core_Action::ENABLE ) {
             CRM_Contact_BAO_Relationship::disnableEnableRelationship( $this->_id, CRM_Core_Action::ENABLE );
             CRM_Contact_BAO_Relationship::setIsActive( $this->_id, 1 ) ;
-             $session =& CRM_Core_Session::singleton();
+            $session =& CRM_Core_Session::singleton();
             CRM_Utils_System::redirect( $session->popUserContext() );
         } 
 
         $this->browse( );
 
         return parent::run( );
+    }
+    
+    function setContext( ) 
+    {
+        $context = CRM_Utils_Request::retrieve( 'context', 'String',
+                                                $this, false, 'search' );
+               
+        if ( $context == 'dashboard' ) {
+            $cid = CRM_Utils_Request::retrieve( 'cid', 'Integer',
+                                                $this, false );
+            $url = CRM_Utils_System::url( 'civicrm/user',
+                                          "reset=1&id={$cid}" );
+        } else {
+            $url = CRM_Utils_System::url('civicrm/contact/view', 'action=browse&selectedChild=rel' );
+        }
+        $session =& CRM_Core_Session::singleton( ); 
+        $session->pushUserContext( $url );
     }
     
    /**

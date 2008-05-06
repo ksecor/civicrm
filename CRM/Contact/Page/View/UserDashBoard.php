@@ -148,14 +148,14 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
             $dashboardElements[] = array( 'templatePath' => 'CRM/Contact/Page/View/Relationship.tpl',
                                           'sectionTitle' => $sectionName,
                                           'weight'       => 40 );
-
+         
             $links =& self::links( );
             $mask  = CRM_Core_Action::mask( $this->_permission );
            
             $currentRelationships = CRM_Contact_BAO_Relationship::getRelationship($this->_contactId,
                                                                                   CRM_Contact_BAO_Relationship::CURRENT  ,
                                                                                   0, 0, 0,
-                                                                                  $links, $mask );
+                                                                                  $links, $mask, true );
             $this->assign( 'currentRelationships',  $currentRelationships  );
         }
 
@@ -174,7 +174,7 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
         } else {
             $this->assign( 'showGroup', false );
         }
-        
+
     }
         
     /**
@@ -220,7 +220,7 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
                                   CRM_Core_Action::DISABLE => array(
                                                                     'name'  => ts('Disable'),
                                                                     'url'   => 'civicrm/contact/view/rel',
-                                                                    'qs'    => 'action=disable&reset=1&cid=%%cid%%&id=%%id%%&rtype=%%rtype%%&selectedChild=rel',
+                                                                    'qs'    => 'action=disable&reset=1&cid=%%cid%%&id=%%id%%&rtype=%%rtype%%&selectedChild=rel%%&context=dashboard',
                                                                     'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
                                                                     'title' => ts('Disable Relationship')
                                                                     ),

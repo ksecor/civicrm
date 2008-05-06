@@ -540,10 +540,6 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
     static function setIsActive( $id, $is_active ) 
     {
          // set the userContext stack
-        $session =& CRM_Core_Session::singleton();
-
-        $url = CRM_Utils_System::url('civicrm/contact/view', 'action=browse&selectedChild=rel' );
-        $session->pushUserContext( $url );
         return CRM_Core_DAO::setFieldValue( 'CRM_Contact_DAO_Relationship', $id, 'is_active', $is_active );
     }
 
@@ -686,6 +682,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
      * $param int $relationshipId relationship id
      * $param array $links the list of links to display
      * $param int   $permissionMask  the permission mask to be applied for the actions
+     * $param boolean $permissionedContact to return only permissioned Contact
      *
      * return array $values relationship records
      * @static
@@ -694,7 +691,8 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
     static function getRelationship( $contactId,
                                      $status = 0, $numRelationship = 0,
                                      $count = 0, $relationshipId = 0,
-                                     $links = null, $permissionMask = null )
+                                     $links = null, $permissionMask = null,
+                                     $permissionedContact = false)
     {
         list( $select1, $from1, $where1 ) = self::makeURLClause( $contactId, $status, $numRelationship, $count, $relationshipId, 'a_b' );
         list( $select2, $from2, $where2 ) = self::makeURLClause( $contactId, $status, $numRelationship, $count, $relationshipId, 'b_a' );
@@ -744,12 +742,15 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
                     $mask = $mask & $permissionMask;
                 }
             }
-
+            require_once 'CRM/Contact/BAO/Contact/Permission.php';
             while ( $relationship->fetch() ) {
                 $rid = $relationship->civicrm_relationship_id;
-
+                $cid = $relationship->civicrm_contact_id;
+                if ( ( $permissionedContact ) && ( !CRM_Contact_BAO_Contact_Permission::allow ( $cid ) ) ) {
+                    continue;
+                }
                 $values[$rid]['id']         = $rid;
-                $values[$rid]['cid']        = $relationship->civicrm_contact_id;
+                $values[$rid]['cid']        = $cid;
                 $values[$rid]['relation']   = $relationship->relation;
                 $values[$rid]['name']       = $relationship->sort_name;
                 $values[$rid]['email']      = $relationship->email;
