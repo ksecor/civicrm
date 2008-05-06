@@ -144,7 +144,6 @@
 
  function showSharedHouseholdAddress()
  {
-     document.getElementById('Hhaddress').style.display='Block';
      var text = dijit.byId('shared_household').getValue();
      var ind = text.indexOf(':::');
      var Household_addr;
@@ -162,7 +161,10 @@
        }
           
      }
+if ( formatted_addr != "" ) {
+     document.getElementById('Hhaddress').style.display='Block';
      document.getElementById('household_address').innerHTML = Household_addr;	
+  }
  }
 
 
@@ -174,15 +176,18 @@ function setDefaultAddress()
   var state     = {/literal}"{$state}"{literal};
 
   if ( document.getElementsByName("use_household_address")[0].checked == false ) {
-    var street    = {/literal}"{$form.location.1.address.street_address.value}"{literal};
-    var suppl1    = {/literal}"{$form.location.1.address.supplemental_address_1.value}"{literal};
-    var suppl2    = {/literal}"{$form.location.1.address.supplemental_address_2.value}"{literal};
-    var city      = {/literal}"{$form.location.1.address.city.value}"{literal};
-    var postCode  = {/literal}"{$form.location.1.address.postal_code.value}"{literal};
-    var postCodeSuffix   = {/literal}"{$form.location.1.address.postal_code_suffix.value}"{literal};
-    var geoCode1  = {/literal}"{$form.location.1.address.geo_code_1.value}"{literal};
-    var geoCode2  = {/literal}"{$form.location.1.address.geo_code_2.value}"{literal};
-        
+ 
+
+       var street    = {/literal}"{$form.location.1.address.street_address.value}"{literal};
+       var suppl1    = {/literal}"{$form.location.1.address.supplemental_address_1.value}"{literal};
+       var suppl2    = {/literal}"{$form.location.1.address.supplemental_address_2.value}"{literal};
+       var city      = {/literal}"{$form.location.1.address.city.value}"{literal};
+       var postCode  = {/literal}"{$form.location.1.address.postal_code.value}"{literal};
+       var postCodeSuffix   = {/literal}"{$form.location.1.address.postal_code_suffix.value}"{literal};
+       var geoCode1  = {/literal}"{$form.location.1.address.geo_code_1.value}"{literal};
+       var geoCode2  = {/literal}"{$form.location.1.address.geo_code_2.value}"{literal};
+
+       
     document.getElementById('location_1_address_street_address').value = street;
     document.getElementById('location_1_address_supplemental_address_1').value = suppl1;
     document.getElementById('location_1_address_supplemental_address_2').value = suppl2;
@@ -215,8 +220,15 @@ dojo.connect( dijit.byId('shared_household'), 'onload', 'setHouse')
 function setHouse ( ) 
 {
  
-        var houseHoldName  = {/literal}"{$HouseholdName}" {literal};
-        dijit.byId('shared_household').setDisplayedValue( houseHoldName );
+      	 var houseHoldName  = {/literal}"{$HouseholdName}" {literal};
+       	 dijit.byId('shared_household').setDisplayedValue( houseHoldName );
+      
+}
+dojo.connect( dijit.byId('shared_household'), 'onsubmit', 'getHouse')
+function getHouse ( ) 
+{
+   document.Edit.HhName.value = dijit.byId('shared_household').getDisplayedValue( );
+
 } 
 {/literal}
 {/if}

@@ -118,7 +118,8 @@ class CRM_Contact_Form_Individual {
             $extraOnAddFlds = $extraOnAddFlds ? ($extraOnAddFlds . "|" . $addFld) : $addFld;
         }
         $extraOnAddFlds = "'" . $extraOnAddFlds . "'";
-        
+        //hidden element for checking valid entry in dojo
+        $form->add('hidden', 'HhName', null);
         if ( $action & CRM_Core_Action::UPDATE ) {
 
             $sharedOptionsExtra = array( 'onclick' => "showHideSharedOptions();" );        
@@ -299,9 +300,17 @@ setDefaultAddress();
                 CRM_Core_Session::setStatus( 'No matching contact found.' );
             }
         }
-
+     
+        //to get valid Id of entered houseHold
+        if ( $fields ['HhName'] ) {
+            $HouseholdId =  CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $fields ['HhName'] ,'id' ,'display_name' );
+            
+            if ( !$HouseholdId ){
+                $fields['shared_household'] = ''; 
+            }
+        }
         // if use_household_address option is checked, make sure 'valid household_name' is also present.
-        if ( CRM_Utils_Array::value('use_household_address',$fields) && !$fields['shared_household'] ) {
+        if ( CRM_Utils_Array::value('use_household_address',$fields) && (!$fields['shared_household']|| !$fields['shared_option']) ) {
             if ( ! $fields['create_household'] ) {
                 if ( !array_key_exists( 'shared_option', $fields ) || $fields['shared_option'] ) {
                     if ( !$fields['old_mail_to_household_id'] || !$fields['shared_household'] ) {
