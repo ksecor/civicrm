@@ -44,6 +44,11 @@ class CRM_Dedupe_Finder
     /**
      * Return a contact_id-keyed array of arrays of possible dupes 
      * (of the key contact_id) - limited to dupes of $cids if provided.
+     *
+     * @param int   $rgid  rule group id
+     * @param array $cids  contact ids to limit the search to
+     *
+     * @return array  id-keyed hash of dupes
      */
     function dupes($rgid, $cids = array()) {
         require_once 'CRM/Dedupe/BAO/RuleGroup.php';
@@ -66,20 +71,12 @@ class CRM_Dedupe_Finder
     }
 
     /**
-     * Return dupes of a given contact, using the default rule group.
-     */
-    function dupesByLevel($cid, $level, $ctype) {
-        $rgBao =& new CRM_Dedupe_BAO_RuleGroup();
-        $rgBao->domain_id = CRM_Core_Config::DomainID();
-        $rgBao->level = $level;
-        $rgBao->contact_type = $ctype;
-        $rgBao->is_default = 1;
-        $rgBao->find(true);
-        return self::dupes($rgBao->id, array($cid));
-    }
-
-    /**
      * Return a contact_id-keyed array of arrays of possible dupes in the given group.
+     *
+     * @param int $rgid  rule group id
+     * @param int $gid   contact group id (currently, works only with non-smart groups)
+     *
+     * @return array  id-keyed hash of dupes
      */
     function dupesInGroup($rgid, $gid) {
         $cids = array_keys(CRM_Contact_BAO_Group::getMember($gid));
@@ -87,7 +84,13 @@ class CRM_Dedupe_Finder
     }
 
     /**
-     * Return dupes of a given contact.
+     * Return dupes of a given contact, using the default rule group (of a provided level).
+     *
+     * @param int    $cid    contact id of the given contact
+     * @param string $level  dedupe rule group level ('Fuzzy' or 'Strict')
+     * @param string $ctype  contact type of the given contact
+     *
+     * @return array  id-keyed hash of dupes
      */
     function dupesOfContact($cid, $level = 'Strict', $ctype = null) {
         // if not provided, fetch the contact type from the database
@@ -98,6 +101,12 @@ class CRM_Dedupe_Finder
             $dao->find(true);
             $ctype = $dao->contact_type;
         }
-        return dupesByLevel($cid, $level, $ctype);
+        $rgBao =& new CRM_Dedupe_BAO_RuleGroup();
+        $rgBao->domain_id = CRM_Core_Config::DomainID();
+        $rgBao->level = $level;
+        $rgBao->contact_type = $ctype;
+        $rgBao->is_default = 1;
+        $rgBao->find(true);
+        return self::dupes($rgBao->id, array($cid));
     }
 }
