@@ -606,6 +606,7 @@ for(var i=0;i<nullArray.length;i++) {
         }
         if ( ! empty( $noneArray ) ) {
             $js .= "var noneArray = [";
+            $elements = array( );
             foreach ( $noneArray as $element ) {
                 $elements[] = "[{$element[0]}, {$element[1]}, {$element[2]}]";
             }
