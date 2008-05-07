@@ -66,6 +66,22 @@ class CRM_Contact_Page_View_Grant extends CRM_Contact_Page_View
          $controller->run( );
     }
 
+    /** 
+     * This function is called when action is view
+     *  
+     * return null 
+     * @access public 
+     */ 
+    function view( ) 
+    { 
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Grant_Form_GrantView', 'View Grant', $this->_action ); 
+        $controller->setEmbedded( true );  
+        $controller->set( 'id' , $this->_id );  
+        $controller->set( 'cid', $this->_contactId );  
+        
+        return $controller->run( ); 
+    }
+    
     /**
      * This function is called when action is update or new
      * 
@@ -73,39 +89,10 @@ class CRM_Contact_Page_View_Grant extends CRM_Contact_Page_View
      * @access public
      */
     function edit( ) 
-    {
-        $controller =& new CRM_Core_Controller_Simple( 'CRM_Grant_Form_Grant', 
-                                                       'Create grant', 
-                                                       $this->_action );
-        
-        $context = CRM_Utils_Request::retrieve( 'context', 'String',$this );
-        
-        
-        $this->_id = CRM_Utils_Request::retrieve('id', 'Integer', $this);
-        
-        // set the userContext stack
-        $session =& CRM_Core_Session::singleton();
-        if ( $context == 'search' ) {
-            $url = CRM_Utils_System::url('civicrm/grant/search','reset=1&force=1');
-        } else if ( $context == 'dashboard' ){
-            $url = CRM_Utils_System::url('civicrm/grant','reset=1');
-        } else if( $context == 'edit' ){
-            $url = CRM_utils_System::url('civicrm/contact/view/grant','reset=1&id='.$this->_id.'&cid='.$this->_contactId.'&action=view&context=grant&selectedChild=grant');            
-        } else {
-            $url = CRM_Utils_System::url('civicrm/contact/view', 'action=browse&selectedChild=grant&cid=' . $this->_contactId );
-        }
-        $session->pushUserContext( $url );
-        
-        if (CRM_Utils_Request::retrieve('confirmed', 'Boolean',
-                                        CRM_Core_DAO::$_nullObject )) {
-            require_once 'CRM/Grant/BAO/Grant.php';
-            CRM_Grant_BAO_Grant::del( $this->_id );
-            CRM_Utils_System::redirect($url);
-        }
-
+    { 
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Grant_Form_Grant', 'Create grant', $this->_action );
         $controller->reset( ); 
         $controller->setEmbedded( true ); 
-        
         $controller->set( 'id' , $this->_id ); 
         $controller->set( 'cid', $this->_contactId ); 
         
@@ -122,16 +109,60 @@ class CRM_Contact_Page_View_Grant extends CRM_Contact_Page_View
     function run( )
     {
         $this->preProcess( );
-        
-        if ( $this->_action &  CRM_Core_Action::BROWSE ){
+
+        $this->setContext( );
+        if ( $this->_action & CRM_Core_Action::VIEW ) { 
+            $this->view( ); 
+        } else if ( $this->_action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::DELETE ) ) {
+            $this->edit( );
+        } else {
             $this->browse( ); 
         }
-        
-        if ( $this->_action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::DELETE | CRM_Core_Action::VIEW  ) ) {
-            $this->edit( );
-        } 
         return parent::run( );
     }
+
+    function setContext( ) 
+    {
+        $context   = CRM_Utils_Request::retrieve( 'context', 'String', $this );
+        $this->_id = CRM_Utils_Request::retrieve('id', 'Integer', $this );
+        $session   =& CRM_Core_Session::singleton( ); 
+        
+        switch ( $context ) {
+            
+        case 'search':
+            $url = CRM_Utils_System::url('civicrm/grant/search','reset=1&force=1');
+            break;
+            
+        case 'dashboard':
+            $url = CRM_Utils_System::url('civicrm/grant','reset=1');
+            break;
+            
+        case 'edit':
+            $url = CRM_utils_System::url('civicrm/contact/view/grant','reset=1&id='.$this->_id.'&cid='.$this->_contactId.'&action=view&context=grant&selectedChild=grant');
+            break;
+
+        case 'grant':
+            $url = CRM_Utils_System::url('civicrm/contact/view', 'action=browse&selectedChild=grant&cid=' . $this->_contactId );
+            break;
+
+        default:
+            $cid = null;
+            if ( $this->_contactId ) {
+                $cid = '&cid=' . $this->_contactId;
+            }
+            $url = CRM_Utils_System::url( 'civicrm/grant/search', 'reset=1&force=1' . $cid );
+            break;
+        }
+        $session->pushUserContext( $url );
+
+        if (CRM_Utils_Request::retrieve('confirmed', 'Boolean',
+                                        CRM_Core_DAO::$_nullObject )) {
+            require_once 'CRM/Grant/BAO/Grant.php';
+            CRM_Grant_BAO_Grant::del( $this->_id );
+            CRM_Utils_System::redirect($url);
+        }
+    }
+    
 }
 
 

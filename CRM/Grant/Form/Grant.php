@@ -80,7 +80,6 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
             }
         }
         $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree( "Grant", $this->_id, 0 );
-        CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $this->_groupTree );
     }
     
     function setDefaultValues( ) 
@@ -98,23 +97,9 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
             $now = date("Y-m-d");
             $defaults['application_received_date'] = $now;
         }
-        if ($this->_action & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
-            $inactiveNeeded = true;
-            $viewMode = true;
-           
-            $allGrantDates = array( 'application_received_date', 
-                                    'decision_date', 
-                                    'money_transfer_date', 
-                                    'grant_due_date' );
-            foreach ( $allGrantDates as $grantDate ) {
-                $this->assign( $grantDate, $defaults[$grantDate] );
-            }
-        } else {
-            $viewMode = false;
-            $inactiveNeeded = false;
-        }
+        
         if( $this->_groupTree ) {
-            CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, $viewMode, $inactiveNeeded );
+            CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults );
         }
         return $defaults;
     }
@@ -127,11 +112,6 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
      */ 
     public function buildQuickForm( )  
     {         
-
-        if ( $this->_action & CRM_Core_Action::VIEW ) {
-            $this->freeze( );
-        }
-       
 
         require_once 'CRM/Core/OptionGroup.php';
         require_once 'CRM/Grant/BAO/Grant.php';
@@ -182,42 +162,23 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
         //build custom data
         CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
         
-        if ( $this->_action & CRM_Core_Action::VIEW ) {
-            $this->freeze( );
-            $editURL = CRM_Utils_System::url( 'civicrm/contact/view/grant' , 'reset=1&action=update&cid='.$this->_contactID.'&id='.$this->_id.'&context=edit' , true , null , false);
-            
-            $this->addButtons(array(  
-                                    array ( 'type'      => 'next',  
-                                            'name'      => ts('Done'),  
-                                            'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',  
-
-                                            'isDefault' => true   ),
-                                    array ( 'type'      => 'next', 
-                                            'name'      => ts('Edit'),
-                                            'js'        => array( 'onclick' => "location.href='{$editURL}'; return false;" ) ),
-                                    )
-                              );
-        
+        $session = & CRM_Core_Session::singleton( );
+        $uploadNames = $session->get( 'uploadNames' );
+        if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
+            $buttonType = 'upload';
         } else {
-
-            $session = & CRM_Core_Session::singleton( );
-            $uploadNames = $session->get( 'uploadNames' );
-            if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
-                $buttonType = 'upload';
-            } else {
-                $buttonType = 'next';
-            }
-
-            $this->addButtons(array( 
-                                    array ( 'type'      => $buttonType,
-                                            'name'      => ts('Save'), 
-                                            'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
-                                            'isDefault' => true   ), 
-                                    array ( 'type'      => 'cancel', 
-                                            'name'      => ts('Cancel') ), 
-                                    ) 
-                              );
+            $buttonType = 'next';
         }
+        
+        $this->addButtons(array( 
+                                array ( 'type'      => $buttonType,
+                                        'name'      => ts('Save'), 
+                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
+                                        'isDefault' => true   ), 
+                                array ( 'type'      => 'cancel', 
+                                        'name'      => ts('Cancel') ), 
+                                ) 
+                          );
     }
     
     /**  
@@ -245,7 +206,7 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
      */ 
     public function postProcess( )  
     { 
-        if ( ($this->_action & CRM_Core_Action::VIEW) || ( $this->_action & CRM_Core_Action::DELETE ) ) {
+        if ( $this->_action & CRM_Core_Action::DELETE ) {
             return;
         }
         
