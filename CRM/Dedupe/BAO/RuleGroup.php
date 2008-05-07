@@ -48,6 +48,11 @@ class CRM_Dedupe_BAO_RuleGroup extends CRM_Dedupe_DAO_RuleGroup
     var $contactIds = array();
 
     /**
+     * params to dedupe against (queries against the whole contact set otherwise)
+     */
+    var $params = array();
+
+    /**
      * supported tables
      */
     static $supportedTables = array('civicrm_address',
@@ -79,6 +84,7 @@ class CRM_Dedupe_BAO_RuleGroup extends CRM_Dedupe_DAO_RuleGroup
         $queries = array();
         while ($bao->fetch()) {
             $bao->contactIds = $this->contactIds;
+            $bao->params = $this->params;
             $queries[] = $bao->sql();
         }
         return 'CREATE TEMPORARY TABLE dedupe ENGINE MEMORY ' . implode(' UNION ', $queries);
