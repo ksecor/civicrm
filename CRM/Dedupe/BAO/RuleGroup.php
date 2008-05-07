@@ -67,6 +67,41 @@ class CRM_Dedupe_BAO_RuleGroup extends CRM_Dedupe_DAO_RuleGroup
     }
 
     /**
+     * Return a structure holding the supported tables, fields and their titles
+     *
+     * @param string $requestedType  the requested contact type
+     *
+     * @return array  a table-keyed array of field-keyed arrays holding supported fields' titles
+     */
+    function &supportedFields($requestedType) {
+        static $fields = null;
+        if (!$fields) {
+            // this is needed, as we're piggy-backing importableFields() below
+            $replacements = array(
+                'civicrm_country.name'        => 'civicrm_address.country_id',
+                'civicrm_county.name'         => 'civicrm_address.county_id',
+                'civicrm_state_province.name' => 'civicrm_address.state_province_id',
+                'gender.label'                => 'civicrm_contact.gender_id',
+                'individual_prefix.label'     => 'civicrm_contact.prefix_id',
+                'individual_suffix.label'     => 'civicrm_contact.suffix_id',
+            );
+            require_once 'CRM/Contact/BAO/Contact.php';
+            foreach(array('Individual', 'Organization', 'Household') as $ctype) {
+                foreach(CRM_Contact_BAO_Contact::importableFields($ctype) as $iField) {
+                    if (isset($iField['where'])) {
+                        $where = $iField['where'];
+                        if (isset($replacements[$where])) $where = $replacements[$where];
+                        list($table, $field) = explode('.', $where);
+                        $fields[$ctype][$table][$field] = $iField['title'];
+                    }
+                }
+                $fields[$ctype] = array_intersect_key($fields[$ctype], array_flip(self::$supportedTables));
+            }
+        }
+        return $fields[$requestedType];
+    }
+
+    /**
      * Return the SQL query for dropping the temporary table.
      */
     function tableDropQuery() {

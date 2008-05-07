@@ -35,7 +35,7 @@
 
 require_once 'CRM/Admin/Form.php';
 require_once 'CRM/Dedupe/DAO/Rule.php';
-require_once 'CRM/Dedupe/DAO/RuleGroup.php';
+require_once 'CRM/Dedupe/BAO/RuleGroup.php';
 
 /**
  * This class generates form components for DedupeRules
@@ -76,29 +76,10 @@ class CRM_Admin_Form_DedupeRules extends CRM_Admin_Form
             $count++;
         }
 
-        require_once 'CRM/Contact/BAO/Contact.php';
-        $importableFields = CRM_Contact_BAO_Contact::importableFields($this->_contactType);
-        // FIXME: this is what you end up doing when abusing importableFields()
-        $replacements = array(
-            'civicrm_country.name'        => 'civicrm_address.country_id',
-            'civicrm_county.name'         => 'civicrm_address.county_id',
-            'civicrm_state_province.name' => 'civicrm_address.state_province_id',
-            'gender.label'                => 'civicrm_individual.gender_id',
-            'individual_prefix.label'     => 'civicrm_individual.prefix_id',
-            'individual_suffix.label'     => 'civicrm_individual.suffix_id',
-        );
-        require_once 'CRM/Dedupe/BAO/RuleGroup.php';
-        $supportedTables =& CRM_Dedupe_BAO_RuleGroup::getSupportedTables();
-        foreach ($importableFields as $iField) {
-            if (isset($iField['where'])) {
-                $where = $iField['where'];
-                if (isset($replacements[$where])) {
-                    $where = $replacements[$where];
-                }
-                $table = array_shift(explode('.', $where));
-                if (in_array($table, $supportedTables)) {
-                    $this->_fields[$where] = $iField['title'];
-                }
+        $supported =& CRM_Dedupe_BAO_RuleGroup::supportedFields($this->_contactType);
+        foreach($supported as $table => $fields) {
+            foreach($fields as $field => $title) {
+                $this->_fields["$table.$field"] = $title;
             }
         }
     }
