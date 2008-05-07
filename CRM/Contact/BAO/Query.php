@@ -1986,8 +1986,13 @@ class CRM_Contact_BAO_Query
         $config =& CRM_Core_Config::singleton( );
 
         $sub  = array( ); 
-        // if we have a comma in the string, search for the entire string 
-        if ( strpos( $name, ',' ) !== false ) {
+        if ( substr( $name, 0 , 1 ) == '"' &&
+             substr( $name, -1, 1 ) == '"' ) {
+            $value = substr( $name, 1, -1 );
+            $value = strtolower(addslashes($value));
+            $sub[] = " ( LOWER(contact_a.sort_name) = '$value' ) ";
+        } else if ( strpos( $name, ',' ) !== false ) {
+            // if we have a comma in the string, search for the entire string 
             $value = strtolower(addslashes($name));
             if ( $wildcard ) {
                 $value = "'$value%'";
