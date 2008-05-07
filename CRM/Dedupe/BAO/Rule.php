@@ -82,6 +82,9 @@ class CRM_Dedupe_BAO_Rule extends CRM_Dedupe_DAO_Rule
                 $where[] = "t2.entity_table = 'civicrm_contact'";
             }
             break;
+        default:
+            CRM_Core_Error::fatal("Unsupported rule_table for civicrm_dedupe_rule.id of {$this->id}");
+            break;
         }
 
         // build SELECT based on the field names containing contact ids
