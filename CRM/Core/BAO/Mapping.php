@@ -571,7 +571,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                     //CRM -2292, restricted array set
                     $operatorArray = array ('' => '-operator-', '=' => '=', '!=' => '!=', '>' => '>', '<' => '<', 
                                             '>=' => '>=', '<=' => '<=', 'IN' => 'IN',
-                                            'LIKE' => 'LIKE');
+                                            'LIKE' => 'LIKE', 'IS NULL' => 'IS NULL', 'IS NOT NULL' => 'IS NOT NULL' );
                     
                     $form->add('select',"operator[$x][$i]",'', $operatorArray);
                     $form->add('text',"value[$x][$i]",'');
