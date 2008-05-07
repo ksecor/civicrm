@@ -142,8 +142,9 @@ function civicrm_perm()
                    
     // permissions for components which are conditionally enabled via config file setting
     require_once 'CRM/Core/Component.php';
-    foreach ( $config->enableComponents as $comp ) {
-        $perm = CRM_Core_Component::get( $comp, 'perm' );
+    $components = CRM_Core_Component::getEnabledComponents();
+    foreach ( $components as $comp ) {
+        $perm = $comp->getPermissions( );
         if ( $perm ) {
             $cPerm = array_merge( $cPerm, $perm );
         }
