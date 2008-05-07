@@ -508,6 +508,9 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
         // greeting type
         $this->addElement('select', 'greeting_type', ts('Greeting'), CRM_Core_SelectValues::greeting());
 
+        // custom greeting
+        $this->addElement('text', 'custom_greeting', ts('Custom Greeting'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'custom_greeting' ));
+
         //hack the address sequence so that state province always comes after country
         $addressSequence = $config->addressSequence();
         $key = array_search( 'country', $addressSequence);
