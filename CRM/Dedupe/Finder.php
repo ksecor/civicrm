@@ -66,10 +66,38 @@ class CRM_Dedupe_Finder
     }
 
     /**
+     * Return dupes of a given contact, using the default rule group.
+     */
+    function dupesByLevel($cid, $level, $ctype) {
+        $rgBao =& new CRM_Dedupe_BAO_RuleGroup();
+        $rgBao->domain_id = CRM_Core_Config::DomainID();
+        $rgBao->level = $level;
+        $rgBao->contact_type = $ctype;
+        $rgBao->is_default = 1;
+        $rgBao->find(true);
+        return self::dupes($rgBao->id, array($cid));
+    }
+
+    /**
      * Return a contact_id-keyed array of arrays of possible dupes in the given group.
      */
     function dupesInGroup($rgid, $gid) {
         $cids = array_keys(CRM_Contact_BAO_Group::getMember($gid));
         return self::dupes($rgid, $cids);
+    }
+
+    /**
+     * Return dupes of a given contact.
+     */
+    function dupesOfContact($cid, $level = 'Strict', $ctype = null) {
+        // if not provided, fetch the contact type from the database
+        if (!$ctype) {
+            $dao =& new CRM_Contact_DAO_Contact();
+            $dao->domain_id = CRM_Core_Config::DomainID();
+            $dao->id = $cid;
+            $dao->find(true);
+            $ctype = $dao->contact_type;
+        }
+        return dupesByLevel($cid, $level, $ctype);
     }
 }
