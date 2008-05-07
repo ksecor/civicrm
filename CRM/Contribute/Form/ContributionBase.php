@@ -142,9 +142,10 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         }
 
         // we do not want to display recently viewed items, so turn off
-        // also no printer friendly icon
         $this->assign       ( 'displayRecent' , false );
-        $this->assign       ( 'hidePrinterIcon', true );
+        // Contribution page values are cleared from session, so can't use normal Printer Friendly view.
+        // Use Browser Print instead.
+        $this->assign( 'browserPrint', true  );
         
         // action
         $this->_action = CRM_Utils_Request::retrieve( 'action', 'String',

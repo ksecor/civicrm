@@ -317,7 +317,9 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
 
         // we do not want to display recently viewed items on Registration pages
         $this->assign( 'displayRecent'  , false );
-        $this->assign( 'hidePrinterIcon', true  );
+        // Registration page values are cleared from session, so can't use normal Printer Friendly view.
+        // Use Browser Print instead.
+        $this->assign( 'browserPrint', true  );
 
         // assign all event properties so wizard templates can display event info.
         $this->assign('event', $this->_values['event']);
