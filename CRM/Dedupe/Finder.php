@@ -142,4 +142,36 @@ class CRM_Dedupe_Finder
         $rgBao->find(true);
         return self::dupes($rgBao->id, array($cid));
     }
+
+    /**
+     * A hackish function needed to massage CRM_Contact_Form_$ctype::formRule() 
+     * object into a valid $params array for dedupe
+     *
+     * @param array $fields  contact structure from formRule()
+     * @param string $ctype  contact type of the given contact
+     *
+     * @return array  valid $params array for dedupe
+     */
+    function formatParams($fields, $ctype) {
+        $flat = array();
+        CRM_Utils_Array::flatten($fields, $flat);
+
+        // if the key is dotted, keep just the last part of it
+        foreach($flat as $key => $value) {
+            if (substr_count($key, '.')) {
+                $last = array_pop(explode('.', $key));
+                // make sure the first occurence is kept, not the last
+                if (!isset($flat[$last])) $flat[$last] = $value;
+                unset($flat[$key]);
+            }
+        }
+
+        $params = array();
+        foreach(CRM_Dedupe_BAO_RuleGroup::supportedFields($ctype) as $table => $fields) {
+            foreach($fields as $field => $title) {
+                if ($flat[$field]) $params[$table][$field] = $flat[$field];
+            }
+        }
+        return $params;
+    }
 }
