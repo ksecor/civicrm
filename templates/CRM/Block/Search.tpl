@@ -36,8 +36,12 @@ function getValue( )
     }
 
     if ( contactId ) {
-	var url = {/literal}"{crmURL p='civicrm/contact/view' h=0 q='reset=1&cid='}"{literal} + contactId;
-        document.getElementById('id_search_block').action = url;
+        if ( isNaN ( contactId ) ) {
+	    dijit.byId( 'id_sort_name' ).valueNode.value = contactId;
+	} else {
+	    var url = {/literal}"{crmURL p='civicrm/contact/view' h=0 q='reset=1&cid='}"{literal} + contactId;
+	    document.getElementById('id_search_block').action = url;
+	}
     } else {
         dijit.byId( 'id_sort_name' ).valueNode.value = document.getElementById( 'id_sort_name' ).value;
     }
