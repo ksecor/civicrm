@@ -169,6 +169,11 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
             self::$_domainID = 1;
         }
         $session->set( 'domainID', self::$_domainID );
+
+        if ( isset( $config->customPHPPathDir ) && $config->customPHPPathDir ) {
+            $include_path = $config->customPHPPathDir . PATH_SEPARATOR . get_include_path( );
+            set_include_path( $include_path );
+        }
     }
 
     /**
