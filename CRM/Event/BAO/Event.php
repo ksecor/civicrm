@@ -315,7 +315,6 @@ LIMIT      0, 10
 
         $dao =& CRM_Core_DAO::executeQuery( $query, $params );
         $eventParticipant['participants'] = self::getParticipantCount( );
-        
         $eventParticipant['pending']      = self::getParticipantCount( true );
 
         $properties = array( 'eventTitle'      => 'event_title',      'isPublic'     => 'is_public', 
@@ -337,7 +336,7 @@ LIMIT      0, 10
                     $eventSummary['events'][$dao->id][$property] = 
                         CRM_Utils_Date::customFormat($dao->$name,null, array( 'd' ) );
                 } else if ( $name == 'participants' || $name == 'pending' ) {
-                    $eventSummary['events'][$dao->id][$property] = $eventParticipant[$name][$dao->id];
+                    $eventSummary['events'][$dao->id][$property] = $eventParticipant[$name][$dao->id] ? $eventParticipant[$name][$dao->id] : 0;
                     if ( $name == 'participants' && 
                          CRM_Utils_Array::value( $dao->id, $eventParticipant['participants'] ) ) { 
                         // pass the status true to get status with filter = 1
