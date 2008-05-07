@@ -316,9 +316,8 @@ LIMIT      0, 10
         $dao =& CRM_Core_DAO::executeQuery( $query, $params );
         $eventParticipant['participants'] = self::getParticipantCount( );
         
-        $status = 5;
-        $eventParticipant['pending']      = self::getParticipantCount( $status );
-        
+        $eventParticipant['pending']      = self::getParticipantCount( true );
+
         $properties = array( 'eventTitle'      => 'event_title',      'isPublic'     => 'is_public', 
                              'maxParticipants' => 'max_participants', 'startDate'    => 'start_date', 
                              'endDate'         => 'end_date',         'eventType'    => 'event_type', 
@@ -341,10 +340,10 @@ LIMIT      0, 10
                     $eventSummary['events'][$dao->id][$property] = $eventParticipant[$name][$dao->id];
                     if ( $name == 'participants' && 
                          CRM_Utils_Array::value( $dao->id, $eventParticipant['participants'] ) ) { 
-                        // pass the status 0 to get status with filter = 1
-                        $set = CRM_Utils_System::url( 'civicrm/event/search',"reset=1&force=1&event=$dao->id&status=0" );
+                        // pass the status true to get status with filter = 1
+                        $set = CRM_Utils_System::url( 'civicrm/event/search',"reset=1&force=1&event=$dao->id&status=true" );
                     } else if ( $name == 'pending' && CRM_Utils_Array::value( $dao->id, $eventParticipant['pending'] ) ) {
-                        $set = CRM_Utils_System::url( 'civicrm/event/search',"reset=1&force=1&event=$dao->id&status=5" );
+                        $set = CRM_Utils_System::url( 'civicrm/event/search',"reset=1&force=1&event=$dao->id&status=false" );
                     }
                     
                     $eventSummary['events'][$dao->id][$name.'_url'] = $set;
@@ -387,8 +386,12 @@ LIMIT      0, 10
             }
         }
         require_once 'CRM/Event/PseudoConstant.php';
-        $statusTypes  = CRM_Event_PseudoConstant::participantStatus( null, false );
+
+        $statusTypes         = CRM_Event_PseudoConstant::participantStatus( null, false );
+        $statusTypesPending  = CRM_Event_PseudoConstant::participantStatus( null, -1 );
+        
         $eventSummary['statusDisplay'] = implode( '/', array_values( $statusTypes ) );
+        $eventSummary['statusDisplayPending'] = implode( '/', array_values( $statusTypesPending ) );
         return $eventSummary;
     }
 
@@ -410,7 +413,15 @@ LIMIT      0, 10
             if ( !$status ) {
                 $status = 0;
             }
+        } else {
+            require_once 'CRM/Event/PseudoConstant.php';
+            $statusTypes  = CRM_Event_PseudoConstant::participantStatus( null, -1 ); 
+            $status = implode( ',', array_keys( $statusTypes ) );
+            if ( !$status ) {
+                $status = 0;
+            }
         } 
+
         
         $query = "
 SELECT civicrm_event.id AS id, count( civicrm_participant.id ) AS participant

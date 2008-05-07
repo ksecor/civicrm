@@ -467,22 +467,23 @@ class CRM_Event_Form_Search extends CRM_Core_Form
             $this->assign( 'event_id_value', $event );
         }
         
-        $status = CRM_Utils_Request::retrieve( 'status', 'Positive',
+        $status = CRM_Utils_Request::retrieve( 'status', 'String',
                                                CRM_Core_DAO::$_nullObject );
         
         if ( isset ( $status ) ) {
-            if ( $status > 0 ) {
-                $this->_formValues['participant_status_id'] = array( $status => 1 );
-            } else {
+            if ( $status === 'true' ) {
                 require_once 'CRM/Event/PseudoConstant.php';
                 $statusTypes = CRM_Event_PseudoConstant::participantStatus( null, false );
                 
-                $status = array( );
-                foreach ( $statusTypes as $key => $value) {
-                    $status[$key] = 1;
-                }
-                $this->_formValues['participant_status_id'] = $status;
-            }       
+            } elseif ( $status === 'false' ) {
+                require_once 'CRM/Event/PseudoConstant.php';
+                $statusTypes = CRM_Event_PseudoConstant::participantStatus( null, -1 );
+            }   
+            $status = array( );
+            foreach ( $statusTypes as $key => $value) {
+                $status[$key] = 1;
+            }
+            $this->_formValues['participant_status_id'] = $status;    
         }
         
         $type = CRM_Utils_Request::retrieve( 'type', 'Positive',
