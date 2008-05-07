@@ -53,20 +53,6 @@ class CRM_Dedupe_BAO_RuleGroup extends CRM_Dedupe_DAO_RuleGroup
     var $params = array();
 
     /**
-     * supported tables
-     */
-    static $supportedTables = array('civicrm_address',
-                                    'civicrm_contact',
-                                    'civicrm_email',
-                                    'civicrm_im',
-                                    'civicrm_note',
-                                    'civicrm_phone');
-
-    static function &getSupportedTables() {
-        return self::$supportedTables;
-    }
-
-    /**
      * Return a structure holding the supported tables, fields and their titles
      *
      * @param string $requestedType  the requested contact type
@@ -85,17 +71,22 @@ class CRM_Dedupe_BAO_RuleGroup extends CRM_Dedupe_DAO_RuleGroup
                 'individual_prefix.label'     => 'civicrm_contact.prefix_id',
                 'individual_suffix.label'     => 'civicrm_contact.suffix_id',
             );
+            // the table names we support in dedupe rules - a filter for importableFields()
+            $supportedTables = array('civicrm_address', 'civicrm_contact', 'civicrm_email',
+                'civicrm_im', 'civicrm_note', 'civicrm_openid', 'civicrm_phone');
+
             require_once 'CRM/Contact/BAO/Contact.php';
             foreach(array('Individual', 'Organization', 'Household') as $ctype) {
+                // take the table.field pairs and their titles from importableFields() if the table is supported
                 foreach(CRM_Contact_BAO_Contact::importableFields($ctype) as $iField) {
                     if (isset($iField['where'])) {
                         $where = $iField['where'];
                         if (isset($replacements[$where])) $where = $replacements[$where];
                         list($table, $field) = explode('.', $where);
+                        if (!in_array($table, $supportedTables)) continue;
                         $fields[$ctype][$table][$field] = $iField['title'];
                     }
                 }
-                $fields[$ctype] = array_intersect_key($fields[$ctype], array_flip(self::$supportedTables));
             }
         }
         return $fields[$requestedType];

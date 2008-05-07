@@ -70,6 +70,8 @@ class CRM_Dedupe_BAO_Rule extends CRM_Dedupe_DAO_Rule
             break;
         case 'civicrm_address':
         case 'civicrm_email':
+        case 'civicrm_im':
+        case 'civicrm_openid':
         case 'civicrm_phone':
             $id = 'contact_id';
             break;
