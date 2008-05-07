@@ -369,8 +369,7 @@ VALUES
   (@option_group_id_sfe, 'doc'      , 14, NULL   ,  NULL, 0, 0, 14, NULL, 0, 0, 1, NULL),
 
   (@option_group_id_we, 'TinyMCE'    , 1, NULL, NULL, 0, NULL, 1, NULL, 0, 1, 1, NULL),
-  (@option_group_id_we, 'FCKEditor'  , 2, NULL, NULL, 0, NULL, 2, NULL, 0, 1, 1, NULL),
-  (@option_group_id_we, 'dojoEditor' , 3, NULL, NULL, 0, NULL, 3, NULL, 0, 1, 1, NULL),
+  (@option_group_id_we, 'FCKEditor'  , 2, NULL, NULL, 0, NULL, 2, NULL, 0, 1, 1, NULL), 
 
   (@option_group_id_mt, '{ts escape="sql"}Search Builder{/ts}',      1, 'Search Builder',      NULL, 0, 0,    1, NULL, 0, 1, 1, NULL),
   (@option_group_id_mt, '{ts escape="sql"}Import Contact{/ts}',     2, 'Import Contacts',     NULL, 0, 0,    2, NULL, 0, 1, 1, NULL),

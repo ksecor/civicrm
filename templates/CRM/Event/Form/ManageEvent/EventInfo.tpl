@@ -59,9 +59,7 @@
     </dl> 
 </fieldset>     
 </div>
-{if $editor eq "dojoeditor"}
-	{include file="CRM/common/dojoeditor.tpl field=description}
-{/if}
+
 <script type="text/javascript">
 {literal}
     function reload(refresh) {

@@ -727,12 +727,7 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         if ( !$editor ){
             $editor = 'textarea';
         }
-        if ( $editor == 'dojoeditor' ){
-                $this->assign( 'dojoIncludes',
-                               "dojo.require('dijit.Editor'); dojo.require('dojo.parser'); dojo.require('dijit._editor.plugins.FontChoice'); dojo.require('dijit._editor.plugins.TextColor'); dojo.require('dijit._editor.plugins.LinkDialog');");
-                // additional hidden element required here               
-                $this->add('hidden', 'hvalue', null);
-        }
+      
         $this->addElement( $editor, $name, $label, $attributes[$name] );
         $this->assign('editor', $editor);
     }    

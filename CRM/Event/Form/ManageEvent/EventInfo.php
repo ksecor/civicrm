@@ -107,7 +107,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         $this->_first = true;
         $this->applyFilter('__ALL__', 'trim');
         $attributes = CRM_Core_DAO::getAttribute('CRM_Event_DAO_Event');
-                           
+     
         $urlParams = "reset=1&context=event";
         
         if ( $this->_action & ( CRM_Core_Action::UPDATE) ) {
@@ -227,11 +227,6 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         $params['default_role_id'] = CRM_Utils_Array::value('default_role_id', $params, false);
         $ids['event_id']           = $this->_id;
 
-        //In case of dojo editor hidden field value is required.
-        if ( $params['hvalue'] ){
-            $params['description'] = $params['hvalue'];
-        }
-        
         // format custom data
         // get mime type of the uploaded file
         if ( !empty($_FILES) ) {
