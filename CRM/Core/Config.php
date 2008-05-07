@@ -170,10 +170,6 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
         }
         $session->set( 'domainID', self::$_domainID );
 
-        if ( isset( $config->customPHPPathDir ) && $config->customPHPPathDir ) {
-            $include_path = $config->customPHPPathDir . PATH_SEPARATOR . get_include_path( );
-            set_include_path( $include_path );
-        }
     }
 
     /**
@@ -213,6 +209,12 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
                 self::$_singleton->_initialize( );
             }
             self::$_singleton->initialized = 1;
+
+            if ( isset( self::$_singleton->customPHPPathDir ) &&
+                 self::$_singleton->customPHPPathDir ) {
+                $include_path = self::$_singleton->customPHPPathDir . PATH_SEPARATOR . get_include_path( );
+                set_include_path( $include_path );
+            }
         }
 
         return self::$_singleton;
