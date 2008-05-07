@@ -125,7 +125,6 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
 
         require_once 'CRM/Core/OptionGroup.php';
         $event = CRM_Core_OptionGroup::values('event_type');
-
         
         $this->add('select',
                    'event_type_id',
@@ -148,11 +147,8 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
                    array('' => ts('Disabled')) + $participantListing ,
                    false );
         
-        //$this->add('textarea','summary',ts('Event Summary'), $attributes['summary']);
-        $this->add('fckeditor','summary',ts('Event Summary'), $attributes['summary']);
-	$this->assign( 'dojoIncludes', "dojo.require('dijit.Editor'); dojo.require('dojo.parser'); dojo.require('dijit._editor.plugins.FontChoice');dojo.require('dijit._editor.plugins.TextColor'); dojo.require('dijit._editor.plugins.LinkDialog');");
-
-	$this->add('dojoeditor','description',ts('Complete Description'), $attributes['event_description']);
+        $this->add('textarea','summary',ts('Event Summary'), $attributes['summary']);
+        $this->add('textarea','description',ts('Complete Description'), $attributes['event_description']);
         $this->add('hidden', 'msg', null);
         $this->addElement('checkbox', 'is_public', ts('Public Event?') );
         $this->addElement('checkbox', 'is_map', ts('Include Map Link?') );
@@ -170,7 +166,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
      
         $this->add('text','max_participants', ts('Max Number of Participants'));
         $this->addRule('max_participants', ts('is a positive field') , 'positiveInteger');
-        $this->add('tinymce','event_full_text', ts('Message if Event is Full'), $attributes['event_full_text']);
+        $this->add('textarea','event_full_text', ts('Message if Event is Full'), $attributes['event_full_text']);
         
         $this->addElement('checkbox', 'is_active', ts('Is this Event Active?') );
         
