@@ -53,13 +53,13 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form
     public function buildQuickForm() 
     {
         $session =& CRM_Core_Session::singleton();
-        $this->add('checkbox', 'test', ts('Send a Test Mailing?'));
-        $defaults['test'] = true;
         $this->add('text', 'test_email', ts('Send to This Address'));
         $defaults['test_email'] = $session->get('ufUniqID');
         $this->add('select', 'test_group', ts('Send to This Group'), array('' => ts('- none -')) + CRM_Core_PseudoConstant::group());
         $this->setDefaults($defaults);
 
+        $this->add('submit', 'sendtest', ts('Send a Test Mailing'));
+        
         $this->addButtons(
             array(
                 array(  'type'  => 'back',
@@ -68,7 +68,9 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form
                         'name'  => ts('Next >>'),
                         'isDefault' => true ),
                 array(  'type'  => 'cancel',
-                        'name'  => ts('Cancel') )
+                        'name'  => ts('Cancel') ),
+                array ( 'type'      => 'submit',
+                        'name'      => ts('Save & Continue Later') )
                 )
             );
         $values = array( 'mailing_id' => $this->get('mailing_id' ) );
@@ -99,12 +101,22 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form
      */
     public function &testMail($testParams, &$files, &$options) 
     {
+        $errors = array();
+        if ($testParams['sendtest'] && !($testParams['test_group'] || $testParams['test_email'] )) {
+            $errors['test_email'] = ts('Please provide email or select a group to send test mail.'); 
+            return $errors;
+        }
+        if ($testParams['_qf_Test_submit']) {
+            CRM_Core_Session::setStatus( ts("Your mailing has been saved. Click the 'Continue' action to resume working on it.") );
+            $url = CRM_Utils_System::url( 'civicrm/mailing/browse/unscheduled', 'scheduled=false&reset=1' );
+            CRM_Utils_System::redirect($url);
+        }
         if ( CRM_Utils_Array::value('_qf_Import_refresh', $_POST) ||
-             ! $testParams['_qf_Test_next'] ||
-             ! $testParams['test'] ) {
+             $testParams['_qf_Test_next'] ||
+             !$testParams['sendtest'] ) {
             return true;
         }
-
+        
         require_once 'CRM/Mailing/BAO/Job.php';
         $job =& new CRM_Mailing_BAO_Job();
         $job->mailing_id = $options['mailing_id'];
@@ -115,7 +127,13 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form
         $isComplete = false;
         while (!$isComplete) {
             $isComplete = CRM_Mailing_BAO_Job::runJobs($testParams);
-         }
+        }
+        if ($testParams['sendtest']) {
+            CRM_Core_Session::setStatus( ts("Your test message has been sent. Click 'Next' when you are ready to Schedule or Send your live mailing (you will still have a chance to confirm or cancel sending this mailing on the next page).") );
+            $url = CRM_Utils_System::url( 'civicrm/mailing/send', '_qf_Test_display=true&qfKey=' );
+            CRM_Utils_System::redirect($url);
+        }
+        
         return true;
     }
     

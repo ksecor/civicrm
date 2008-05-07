@@ -166,6 +166,8 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                                          'isDefault' => true   ),
                                  array ( 'type'      => 'cancel',
                                          'name'      => ts('Cancel') ),
+                                 array ( 'type'      => 'submit',
+                                         'name'      => ts('Save & Continue Later') )
                                  )
                            );
     }
@@ -177,6 +179,8 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                                      'header_id', 'footer_id', 'subject', 'from_name', 'from_email'
                                      );
         $fileType            = array( 'textFile', 'htmlFile' );
+       
+        $qf_Upload_submit = $this->controller->exportValue($this->_name, '_qf_Upload_submit');
         
         foreach ( $uploadParams as $key ) {
             $params[$key] = $this->controller->exportvalue($this->_name, $key);
@@ -262,6 +266,12 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         /* Build the mailing object */
         require_once 'CRM/Mailing/BAO/Mailing.php';
         CRM_Mailing_BAO_Mailing::create($params, $ids);
+     
+        if ($qf_Upload_submit) {
+            CRM_Core_Session::setStatus( ts("Your mailing has been saved. Click the 'Continue' action to resume working on it.") );
+            $url = CRM_Utils_System::url( 'civicrm/mailing/browse/unscheduled', 'scheduled=false&reset=1' );
+            CRM_Utils_System::redirect($url);
+        }
     }
     
     /**

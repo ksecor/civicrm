@@ -95,8 +95,8 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
      * 
      * @return void 
      */ 
-    function run( ) {
-        $this->preProcess(); 
+    function run($newArgs) {
+        $this->preProcess();
 
         $this->_sortByCharacter = CRM_Utils_Request::retrieve( 'sortByCharacter',
                                                                'String',
@@ -146,10 +146,7 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
                 $controller->run( );
             }
         }
-            
-
-        CRM_Utils_System::setTitle(ts('Browse Mailings (Scheduled and Sent)'));
-
+        
         $selector =& new CRM_Mailing_Selector_Browse( );
         $selector->setParent( $this );
         $controller =& new CRM_Core_Selector_Controller(
@@ -164,8 +161,22 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
 
         // hack to display results as per search
         $rows = $controller->getRows($controller);
-        $this->assign('rows', $rows);
-
+        foreach ($rows as $key => $val) {
+            if ($val['status'] == 'Not scheduled') {
+                $notScheduled[] = $val;
+            } else {
+                $scheduled[] = $val;
+            }
+        }
+        if ($newArgs[3] == 'unscheduled') {
+            $unscheduled = true;
+            CRM_Utils_System::setTitle(ts('Browse Mailings (Not Scheduled)'));
+            $this->assign('rows', $notScheduled);
+            $this->assign('unscheduled', $unscheduled);
+        } else {
+            CRM_Utils_System::setTitle(ts('Browse Mailings (Scheduled and Sent)'));
+            $this->assign('rows', $scheduled);
+        }
         return parent::run( );
     }
 

@@ -217,6 +217,12 @@ SELECT count(civicrm_mailing.id)
                     'extra' => 'onclick="if (confirm(\''. $cancelExtra .'\')) this.href+=\'&amp;confirmed=1\'; else return false;"',
                     'title' => ts('Cancel Mailing')
                     ),
+                CRM_Core_Action::PREVIEW => array(
+                    'name'  => ts('Continue'),
+                    'url'   => 'civicrm/mailing/send',
+                    'qs'    => 'mid=%%mid%%&reset=1',
+                    'title' => ts('Continue Mailing')                    
+                    ),
                 CRM_Core_Action::DELETE => array(
                     'name'  => ts('Delete'),
                     'url'   => 'civicrm/mailing/browse',
@@ -236,12 +242,17 @@ SELECT count(civicrm_mailing.id)
 
         if ($output != CRM_Core_Selector_Controller::EXPORT) {
             foreach ($rows as $key => $row) {
-                $actionMask = CRM_Core_Action::VIEW;
+                if (!($row['status'] == 'Not scheduled')) {
+                    $actionMask = CRM_Core_Action::VIEW;
+                    $actionMask |= CRM_Core_Action::UPDATE;
+                } else {
+                    $actionMask = CRM_Core_Action::PREVIEW;
+                }
                 if (in_array($row['status'], array('Scheduled', 'Running', 'Paused'))) {
                     $actionMask |= CRM_Core_Action::DISABLE;
                 }
                 $actionMask |= CRM_Core_Action::DELETE;
-                $actionMask |= CRM_Core_Action::UPDATE;
+               
                 $rows[$key]['action'] = 
                     CRM_Core_Action::formLink(  $actionLinks,
                                                 $actionMask,
@@ -257,7 +268,6 @@ SELECT count(civicrm_mailing.id)
 
         // also initialize the AtoZ pager
         $this->pagerAtoZ( );
-
         return $rows;
         
     }

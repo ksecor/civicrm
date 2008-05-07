@@ -39,8 +39,18 @@
      <weight>610</weight>
   </item>
   <item>
-     <path>civicrm/mailing/browse</path>
-     <title>Browse Sent Mailings</title>
+     <path>civicrm/mailing/browse/scheduled</path>
+     <title>Browse Scheduled/Sent Mailings</title>
+     <path_arguments>scheduled=true</path_arguments>
+     <page_callback>CRM_Mailing_Page_Browse</page_callback>
+     <access_arguments>access CiviMail</access_arguments>
+     <page_type>1</page_type>
+     <weight>620</weight>
+  </item>
+  <item>
+     <path>civicrm/mailing/browse/unscheduled</path>
+     <title>Browse Unscheduled Mailings</title>
+     <path_arguments>scheduled=false</path_arguments>
      <page_callback>CRM_Mailing_Page_Browse</page_callback>
      <access_arguments>access CiviMail</access_arguments>
      <page_type>1</page_type>

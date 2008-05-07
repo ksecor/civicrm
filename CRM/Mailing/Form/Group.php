@@ -177,6 +177,9 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
                                          'isDefault' => true   ),
                                  array ( 'type'      => 'cancel',
                                          'name'      => ts('Cancel') ),
+                                 array ( 'type'      => 'submit',
+                                         'name'      => ts('Save & Continue Later'),
+                                         ),
                                  )
                            );
         
@@ -187,6 +190,8 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
     public function postProcess() 
     {
         $params['name'] = $this->controller->exportValue($this->_name, 'name');
+        $qf_Group_submit = $this->controller->exportValue($this->_name, '_qf_Group_submit');
+        
         $this->set('name', $params['name']);
 
         $inGroups    = $this->controller->exportValue($this->_name, 'includeGroups');
@@ -281,6 +286,12 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
         $this->assign('count',$count );
         $this->set('groups', $groups);
         $this->set('mailings', $mailings);
+
+        if ($qf_Group_submit) {
+            CRM_Core_Session::setStatus( ts("Your mailing has been saved. Click the 'Continue' action to resume working on it.") );
+            $url = CRM_Utils_System::url( 'civicrm/mailing/browse/unscheduled', 'scheduled=false&reset=1' );
+            CRM_Utils_System::redirect($url);
+        }
     }
     
     /**
