@@ -15,11 +15,13 @@
               <table>
                 <tr class="columnheader">
                   <th>{ts}Contact Type{/ts}</th>
+                  <th>{ts}Level{/ts}</th>
                   <th></th>
                 </tr>
                 {foreach from=$rows item=row}
                   <tr class="{cycle values="odd-row,even-row"} {$row.class}">
                     <td>{$row.contact_type_display}</td>	
+                    <td>{$row.level}</td>	
                     <td>{$row.action}</td>
                   </tr>
                 {/foreach}
