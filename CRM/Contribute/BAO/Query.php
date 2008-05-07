@@ -230,7 +230,7 @@ class CRM_Contribute_BAO_Query
             foreach ( $pieces as $piece ) { 
                 $value = strtolower(addslashes(trim($piece)));
                 $value = "'%$value%'";
-                $sub[] = " ( LOWER(contact_b.sort_name) LIKE $value )";
+                $sub[] = " ( contact_b.sort_name LIKE $value )";
             }
             
             $query->_where[$grouping][] = ' ( ' . implode( '  OR ', $sub ) . ' ) '; 
@@ -281,14 +281,16 @@ class CRM_Contribute_BAO_Query
                 $value = "%$value%"; 
                 $op    = 'LIKE';
             }
-            $query->_where[$grouping][] = "LOWER( civicrm_contribution.source ) $op '$value'";
+            $wc = ( $op != 'LIKE' ) ? "LOWER(civicrm_contribution.source)" : "civicrm_contribution.source";
+            $query->_where[$grouping][] = "$wc $op '$value'";
             $query->_qill[$grouping][]  = "Contribution Source $op \"$value\"";
             $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
             
             return;
 
         case 'contribution_transaction_id':
-            $query->_where[$grouping][] = "LOWER( civicrm_contribution.trxn_id) $op '$value'";
+            $wc = ( $op != 'LIKE' ) ? "LOWER(civicrm_contribution.trxn_id)" : "civicrm_contribution.trxn_id";
+            $query->_where[$grouping][] = "$wc $op '$value'";
             $query->_qill[$grouping][]  = "Transaction ID $op \"$value\"";
             $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
             
@@ -302,6 +304,7 @@ class CRM_Contribute_BAO_Query
             $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
             
             return;
+
         case 'contribution_recurring':
             if ( $value ) {
                 $query->_where[$grouping][] = "civicrm_contribution.contribution_recur_id IS NOT NULL";
@@ -315,7 +318,6 @@ class CRM_Contribute_BAO_Query
         case 'contribution_id':
             $query->_where[$grouping][] = " civicrm_contribution.id $op $value";
             $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
-            
             return;
 
         case 'contribution_note':
@@ -324,7 +326,8 @@ class CRM_Contribute_BAO_Query
                 $value = "%$value%"; 
                 $op    = 'LIKE';
             }
-            $query->_where[$grouping][] = "LOWER( civicrm_note.note ) $op '$value'";
+            $wc = ( $op != 'LIKE' ) ? "LOWER(civicrm_note.note)" : "civicrm_note.note";
+            $query->_where[$grouping][] = "$wc $op '$value'";
             $query->_qill[$grouping][]  = "Contribution Note $op \"$value\"";
             $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = $query->_whereTables['contribution_note'] = 1;
             
@@ -367,10 +370,11 @@ class CRM_Contribute_BAO_Query
                         $value = "%$value%"; 
                         $op    = 'LIKE';
                     }
+                    $wc = ( $op != 'LIKE' ) ? "LOWER($whereTable[where])" : "$whereTable[where]";
                     if ( in_array($fldName, $noQuotes) ) {
-                        $query->_where[$grouping][] = "LOWER( $whereTable[where] ) $op $value";
+                        $query->_where[$grouping][] = "$wc $op $value";
                     } else {
-                        $query->_where[$grouping][] = "LOWER( $whereTable[where] ) $op '$value'";
+                        $query->_where[$grouping][] = "$wc $op '$value'";
                     }
                 }
             }
