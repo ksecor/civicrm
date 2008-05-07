@@ -332,27 +332,12 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
         }
 
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
-            $rel = CRM_Contact_BAO_Relationship::getRelationship($this->_contactId);
-            krsort($rel);
-            
-            foreach ($rel as $key => $value) {
-                if ($value['relation'] == 'Employee of' && $value['is_active'] == 1 ) {
-                    $query = 
-                        "SELECT CONCAT_WS(':::',organization_name,LEFT(street_address,25),city) 'sort_name', civicrm_contact.id id
-                         FROM civicrm_contact
-                         LEFT JOIN civicrm_address ON ( civicrm_contact.id = civicrm_address.contact_id
-                                                        AND civicrm_address.is_primary=1
-                                                      )
-                         WHERE civicrm_contact.id = {$value['cid']}";
-                    $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
-                    $dao->fetch();
-                    
-                    $defaults['employer_option'] = 1;
-                    $defaults['shared_employer'] = $dao->id;
-                    $this->assign( 'sharedEmployer', $dao->sort_name );
-                    break;
-                }
-            }
+            require_once 'CRM/Contact/BAO/Relationship.php';
+            $currentEmployer = CRM_Contact_BAO_Relationship::getCurrentEmployer( $this->_contactId, true );
+          
+            $defaults['employer_option'] = $currentEmployer['employer_option'];
+            $defaults['shared_employer'] = $currentEmployer['id'];
+            $this->assign( 'sharedEmployer', $currentEmployer['sort_name'] );
         }
         
         //set defaults for country-state dojo widget

@@ -601,7 +601,14 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
 
                 // allow components to add more actions
                 CRM_Core_Component::searchAction( $row, $result->contact_id );
-
+                
+                //fixes for CRM-2222
+                if ( CRM_Utils_Array::value( 'title', $this->_fields['organization_name'] ) == 'Current Employer' ) {
+                    require_once 'CRM/Contact/BAO/Relationship.php';
+                    $currentEmployer = CRM_Contact_BAO_Relationship::getCurrentEmployer( $result->contact_id );
+                    $row['organization_name'] = $currentEmployer['org_name'];
+                }
+                
                 $contact_type    = '<img src="' . $config->resourceBase . 'i/contact_';
                 switch ($result->contact_type) {
                 case 'Individual' :
