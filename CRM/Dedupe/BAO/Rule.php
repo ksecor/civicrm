@@ -90,9 +90,9 @@ class CRM_Dedupe_BAO_Rule extends CRM_Dedupe_DAO_Rule
                 $cids[] = CRM_Utils_Type::escape($cid, 'Integer');
             }
             if (count($cids) == 1) {
-                $where[] = "t1.$id = {$cids[0]}";
+                $where[] = "(t1.$id = {$cids[0]} OR t2.$id = {$cids[0]})";
             } else {
-                $where[] = "t1.$id IN (" . implode(',', $cids) . ")";
+                $where[] = "(t1.$id IN (" . implode(',', $cids) . ") OR t2.$id IN (" . implode(',', $cids) . "))";
             }
         }
 
