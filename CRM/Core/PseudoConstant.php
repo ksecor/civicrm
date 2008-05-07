@@ -250,6 +250,13 @@ class CRM_Core_PseudoConstant
      */
     private static $activityStatus;
 
+   /**
+     * wysiwyg Editor
+     * @var array
+     * @static
+     */
+    private static $wysiwygEditor;
+
     /**
      * populate the object from the database. generic populate
      * method
@@ -1131,8 +1138,23 @@ class CRM_Core_PseudoConstant
         return self::$activityStatus;
     }
 
-                                                
-
+  /**
+     * Get all WYSIWYG Editors.
+     *
+     * The static array wysiwygEditor is returned
+     *
+     * @access public
+     * @static
+     * @return array - array reference of all wysiwygEditors
+     */
+    public static function &wysiwygEditor( )
+    {
+        if ( ! self::$wysiwygEditor ) {
+            require_once 'CRM/Core/OptionGroup.php';
+            self::$wysiwygEditor = CRM_Core_OptionGroup::values('wysiwyg_editor');
+        }
+        return self::$wysiwygEditor;
+    }
 }
 
 

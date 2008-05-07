@@ -44,7 +44,6 @@ class CRM_Admin_Form_Preferences_Display extends CRM_Admin_Form_Preferences
     function preProcess( ) {
         parent::preProcess( );
         CRM_Utils_System::setTitle(ts('Settings - Site Preferences'));
-
         // add all the checkboxes
         $this->_cbs = array(
                             'contact_view_options'    => ts( 'Viewing Contacts'   ),
@@ -58,7 +57,9 @@ class CRM_Admin_Form_Preferences_Display extends CRM_Admin_Form_Preferences
         $defaults = array( );
 
         parent::cbsDefaultValues( $defaults );
-
+        if ( $this->_config->editor_id ) {
+            $defaults['wysiwyg_editor'] = $this->_config->editor_id ;
+        }
         return $defaults;
     }
 
@@ -70,10 +71,8 @@ class CRM_Admin_Form_Preferences_Display extends CRM_Admin_Form_Preferences
      */
     public function buildQuickForm( ) 
     {
-
         $this->addElement( 'select', 'wysiwyg_editor', ts('WYSIWYG Editor'), 
-        array( 1 => 'TinyMCE', 2 => 'FCKEditor', 3 => 'dojo'), null );
-
+                           array( '' => ts( '- select -' ) ) + CRM_Core_PseudoConstant::wysiwygEditor( ),null );
         parent::buildQuickForm( );
     }
 
@@ -91,7 +90,7 @@ class CRM_Admin_Form_Preferences_Display extends CRM_Admin_Form_Preferences
         }
 
         $this->_params = $this->controller->exportValues( $this->_name );
-
+        $this->_config->editor_id = $this->_params['wysiwyg_editor'];
         $this->_config->location_count = $this->_params['location_count'];
 
         parent::postProcess( );

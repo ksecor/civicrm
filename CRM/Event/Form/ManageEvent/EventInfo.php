@@ -107,7 +107,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         $this->_first = true;
         $this->applyFilter('__ALL__', 'trim');
         $attributes = CRM_Core_DAO::getAttribute('CRM_Event_DAO_Event');
-                   
+                           
         $urlParams = "reset=1&context=event";
         
         if ( $this->_action & ( CRM_Core_Action::UPDATE) ) {
@@ -148,8 +148,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
                    false );
         
         $this->add('textarea','summary',ts('Event Summary'), $attributes['summary']);
-        $this->add('textarea','description',ts('Complete Description'), $attributes['event_description']);
-        $this->add('hidden', 'msg', null);
+        $this->addWysiwyg( 'description', ts('Complete Description'),$attributes['event_description']);
         $this->addElement('checkbox', 'is_public', ts('Public Event?') );
         $this->addElement('checkbox', 'is_map', ts('Include Map Link?') );
          
@@ -226,8 +225,12 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         $params['is_active' ]      = CRM_Utils_Array::value('is_active', $params, false);
         $params['is_public' ]      = CRM_Utils_Array::value('is_public', $params, false);
         $params['default_role_id'] = CRM_Utils_Array::value('default_role_id', $params, false);
-	$params['description']     = $params['msg'];
-        $ids['event_id']      = $this->_id;
+        $ids['event_id']           = $this->_id;
+
+        //In case of dojo editor hidden field value is required.
+        if ( $params['hvalue'] ){
+            $params['description'] = $params['hvalue'];
+        }
         
         // format custom data
         // get mime type of the uploaded file
