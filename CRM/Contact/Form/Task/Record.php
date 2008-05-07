@@ -128,6 +128,7 @@ class CRM_Contact_Form_Task_Record extends CRM_Contact_Form_Task {
         
         $session =& CRM_Core_Session::singleton( ); 
         $this->_userID  =  $session->get( 'userID' ); 
+        require_once "CRM/Contact/BAO/Contact/Location.php";
         list( $this->_displayName, $email ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $this->_userID ); 
         if ( ! $this->_userID || ! $this->_displayName ) { 
             CRM_Core_Error::statusBounce( ts('Your user record does not have a valid user ID' )); 
