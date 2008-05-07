@@ -74,10 +74,7 @@ class CRM_Contact_Form_Individual {
         // nick_name
         $form->addElement('text', 'nick_name', ts('Nick Name'),
                           CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'nick_name') );
-
-        // greeting type
-        $form->addElement('select', 'greeting_type', ts('Greeting'), CRM_Core_SelectValues::greeting());
-        
+      
         // job title
         $form->addElement('text', 'job_title', ts('Job title'), $attributes['job_title']);
 

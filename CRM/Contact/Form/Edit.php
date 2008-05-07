@@ -520,6 +520,9 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
             self::buildCommunicationBlock($this);
         }
 
+        // greeting type
+        $this->addElement('select', 'greeting_type', ts('Greeting'), CRM_Core_SelectValues::greeting());
+
         //hack the address sequence so that state province always comes after country
         $addressSequence = $config->addressSequence();
         $key = array_search( 'country', $addressSequence);
