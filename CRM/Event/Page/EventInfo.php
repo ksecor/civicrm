@@ -54,11 +54,11 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
      */
     function run()
     {
-        $id      = CRM_Utils_Request::retrieve( 'id'    , 'Positive', $this, true );
+        $this->_id      = CRM_Utils_Request::retrieve( 'id'    , 'Positive', $this, true );
 
         // ensure that the user has permission to see this page
         if ( ! CRM_Core_Permission::event( CRM_Core_Permission::VIEW,
-                                           $id ) ) {
+                                           $this->_id ) ) {
             CRM_Core_Error::fatal( ts( 'You do not have permission to view this event' ) );
         }
 
@@ -67,11 +67,11 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
         $this->assign( 'context', $context );
 
         // set breadcrumb to append to 2nd layer pages
-        $breadCrumbPath = CRM_Utils_System::url( "civicrm/event/info", "id={$id}&reset=1" );
+        $breadCrumbPath = CRM_Utils_System::url( "civicrm/event/info", "id={$this->_id}&reset=1" );
         $additionalBreadCrumb = "<a href=\"$breadCrumbPath\">" . ts('Events') . '</a>';
        
         //retrieve event information
-        $params = array( 'id' => $id );
+        $params = array( 'id' => $this->_id );
         $ids = array();
 
         require_once 'CRM/Event/BAO/Event.php';
@@ -84,11 +84,11 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
 
         // get the eventPageID
         $eventPageId = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_EventPage',
-                                                    $id,
+                                                    $this->_id,
                                                     'id',
                                                     'event_id' );
        $isShowLocation = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event',
-                                                     $id,
+                                                     $this->_id,
                                                      'is_show_location',
                                                      'id' );
      
@@ -104,18 +104,18 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
             }
         }
 
-        $params = array( 'entity_id' => $id ,'entity_table' => 'civicrm_event');
+        $params = array( 'entity_id' => $this->_id ,'entity_table' => 'civicrm_event');
         require_once 'CRM/Core/BAO/Location.php';
         CRM_Core_BAO_Location::getValues( $params, $values, true );
         
         //retrieve custom field information
         require_once 'CRM/Core/BAO/CustomGroup.php';
-        $groupTree =& CRM_Core_BAO_CustomGroup::getTree("Event", $id, 0, $values['event']['event_type_id'] );
+        $groupTree =& CRM_Core_BAO_CustomGroup::getTree("Event", $this->_id, 0, $values['event']['event_type_id'] );
         CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $groupTree );
         $this->assign( 'action', CRM_Core_Action::VIEW);
         
         require_once 'CRM/Event/BAO/Participant.php';
-        $eventFullMessage = CRM_Event_BAO_Participant::eventFull( $id );
+        $eventFullMessage = CRM_Event_BAO_Participant::eventFull( $this->_id );
         if( $eventFullMessage ) {
             CRM_Core_Session::setStatus( $eventFullMessage );
         } else {
@@ -146,20 +146,20 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
                     // we always generate urls for the front end in joomla
                     if ( $action ==  CRM_Core_Action::PREVIEW ) {
                         $url    = CRM_Utils_System::url( 'civicrm/event/register',
-                                                         "id={$id}&reset=1&action=preview",
+                                                         "id={$this->_id}&reset=1&action=preview",
                                                          true, null, true,
                                                          true );
                         $mapURL = CRM_Utils_System::url( 'civicrm/contact/map/event',
-                                                         "eid={$id}&reset=1&action=preview",
+                                                         "eid={$this->_id}&reset=1&action=preview",
                                                          true, null, true,
                                                          true );
                     } else {
                         $url = CRM_Utils_System::url( 'civicrm/event/register',
-                                                      "id={$id}&reset=1",
+                                                      "id={$this->_id}&reset=1",
                                                       true, null, true,
                                                       true );
                         $mapURL = CRM_Utils_System::url( 'civicrm/contact/map/event',
-                                                         "eid={$id}&reset=1",
+                                                         "eid={$this->_id}&reset=1",
                                                          true, null, true,
                                                          true );
                     }
@@ -181,6 +181,20 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
         parent::run();
         
     }
+
+    function getTemplateFileName() 
+    {
+        if ( $this->_id ) {
+            $templateFile = "CRM/Event/Page/{$this->_id}/EventInfo.tpl";
+            $template     =& CRM_Core_Page::getTemplate( );
+
+            if ( $template->template_exists( $templateFile ) ) {
+                return $templateFile;
+            }
+        }
+        return parent::getTemplateFileName( );
+    }
+
 
 }
 
