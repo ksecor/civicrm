@@ -1,4 +1,7 @@
 {* this template is used for adding/editing/deleting memberships for a contact  *}
+{if $cdType }
+  {include file="CRM/Custom/Form/CustomData.tpl"}
+{else}
 <div class="form-item">
 <fieldset><legend>{if $action eq 1}{ts}New Membership{/ts}{elseif $action eq 2}{ts}Edit Membership{/ts}{else}{ts}Delete Membership{/ts}{/if}</legend> 
    {if $action eq 8}
@@ -88,9 +91,13 @@
             </div>
         {/if}
     </fieldset>
-    {include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
-	{if $action eq 2 and $rows.0.contribution_id}	 
+    <div id="customData"></div>
+    {*include custom data js file*}
+    {include file="CRM/common/customData.tpl"}
+	{if $action eq 2 and $rows.0.contribution_id}
+	<fieldset>	 
      		{include file="CRM/Contribute/Form/Selector.tpl" context="Search"}
+	</fieldset>
 	{/if}
    {/if}
 
@@ -101,6 +108,7 @@
 
 </fieldset>
 </div>
+{/if}
 
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="record_contribution"

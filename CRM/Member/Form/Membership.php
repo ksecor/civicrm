@@ -35,6 +35,8 @@
 
 require_once 'CRM/Member/Form.php';
 require_once 'CRM/Member/PseudoConstant.php';
+require_once "CRM/Custom/Form/CustomData.php";
+require_once "CRM/Core/BAO/CustomGroup.php";
 
 /**
  * This class generates form components for Membership Type
@@ -45,11 +47,19 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
 
     public function preProcess()  
     {  
+        //custom data related code
+        $this->_cdType     = CRM_Utils_Array::value( 'type', $_GET );
+        $this->assign('cdType', false);
+        if ( $this->_cdType ) {
+            $this->assign('cdType', true);
+            return CRM_Custom_Form_CustomData::preProcess( $this );
+        }
+        
         // check for edit permission
         if ( ! CRM_Core_Permission::check( 'edit memberships' ) ) {
             CRM_Core_Error::fatal( ts( 'You do not have permission to access this page' ) );
         }
-
+        
         // action
         $this->_action    = CRM_Utils_Request::retrieve( 'action', 'String',
                                                          $this, false, 'add' );
@@ -57,28 +67,25 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                                                          $this );
         $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive',
                                                          $this );
-        $this->_memType   = CRM_Utils_Request::retrieve( 'subType', 'Positive',
-                                                         $this );
-
-        if ( ! $this->_memType ) {
-            if ( $this->_id ) {
-                $this->_memType = CRM_Core_DAO::getFieldValue("CRM_Member_DAO_Membership",$this->_id,"membership_type_id");
-            } else {
-                $this->_memType = "Membership";
-            }
-        }     
-    
+        
+        if ( $this->_id ) {
+            $this->_memType = CRM_Core_DAO::getFieldValue("CRM_Member_DAO_Membership",$this->_id,"membership_type_id");
+        } 
+        
         //check whether membership status present or not
         if ( $this->_action & CRM_Core_Action::ADD ) {
             CRM_Member_BAO_Membership::statusAvilability($this->_contactID);
         }
-
-        //get the group Tree
-        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Membership', $this->_id, false,$this->_memType);
- 
+        
+        // when custom data is included in this page
+        if ( CRM_Utils_Array::value( "hidden_custom", $_POST ) ) {
+            eval( 'CRM_Custom_Form_Customdata::preProcess( $this );' );
+            eval( 'CRM_Custom_Form_Customdata::buildQuickForm( $this );' );
+            eval( 'CRM_Custom_Form_Customdata::setDefaultValues( $this );' );
+        }
         parent::preProcess( );
     }
-
+    
     /**
      * This function sets the default values for the form. MobileProvider that in edit/view mode
      * the default values are retrieved from the database
@@ -88,6 +95,11 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
      */
     public function setDefaultValues( ) 
     {
+        
+        if ( $this->_cdType ) {
+            return CRM_Custom_Form_CustomData::setDefaultValues( $this );
+        }
+        
         $defaults = array( );
         $defaults =& parent::setDefaultValues( );
         
@@ -100,13 +112,13 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                 $defaults[$set_date]['d'] = $today_date['mday'];
                 $defaults[$set_date]['Y'] = $today_date['year'];
             }
-          
+            
         }
-       
+        
         if( isset($this->_groupTree) ) {
             CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, false, false );
         }
-
+        
         if (is_numeric($this->_memType)) {
             $defaults["membership_type_id"] = array();
             $defaults["membership_type_id"][0] =  
@@ -126,13 +138,15 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                                                                             'membership_id' );
         }
         
-        $defaults['contribution_type_id'] = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', 
-                                                                         $this->_memType, 
-                                                                         'contribution_type_id' );
-        
-        $defaults['total_amount'] = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', 
-                                                                 $this->_memType, 
-                                                                 'minimum_fee' );
+        if ( $this->_memType ) {
+            $defaults['contribution_type_id'] = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', 
+                                                                             $this->_memType, 
+                                                                             'contribution_type_id' );
+            
+            $defaults['total_amount'] = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', 
+                                                                     $this->_memType, 
+                                                                     'minimum_fee' );
+        }
         
         if ( CRM_Utils_Array::value( 'record_contribution', $defaults ) ) {
             $contributionParams   = array( 'id' => $defaults['record_contribution'] );
@@ -140,11 +154,11 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             
             require_once "CRM/Contribute/BAO/Contribution.php";
             CRM_Contribute_BAO_Contribution::getValues( $contributionParams, $defaults, $contributionIds );
-
+            
             // Contribution::getValues() over-writes the membership record's source field value - so we need to restore it.
             $defaults['source'] = $defaults['membership_source'];
         }
-               
+        
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
             // in this mode by default uncheck this checkbox
             unset($defaults['record_contribution']);
@@ -161,7 +175,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         $this->assign( "member_is_test", CRM_Utils_Array::value('member_is_test',$defaults) );
         return $defaults;
     }
-
+    
     /**
      * Function to build the form
      *
@@ -170,13 +184,21 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
      */
     public function buildQuickForm( ) 
     {
-        parent::buildQuickForm( );
+        if ( $this->_cdType ) {
+            return CRM_Custom_Form_CustomData::buildQuickForm( $this );
+        }
+        
+        //need to assign custom data type and subtype to the template
+        $this->assign('customDataType', 'Membership');
+        $this->assign('customDataSubType',  $this->_memType );
+        $this->assign('entityId',  $this->_id );
+        
         if ($this->_action & CRM_Core_Action::DELETE ) { 
             return;
         }
-
+        
         $selOrgMemType[0][0] = $selMemTypeOrg[0] = ts('- select -');
-
+        
         $dao =& new CRM_Member_DAO_MembershipType();
         $dao->find();
         while ($dao->fetch()) {
@@ -200,26 +222,28 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         if ( count($selMemTypeOrg) == 2 ) {
             unset($selMemTypeOrg[0], $selOrgMemType[0][0]);
         }
-
+        
         $sel =& $this->addElement('hierselect', 
                                   'membership_type_id', 
                                   ts('Membership Organization and Type'), 
-                                  array('onChange' => "if (this.value) reload(true); else return false") );  
+                                  array('onChange' => "buildCustomData( this.value );")
+                                  );
+        
         $sel->setOptions(array($selMemTypeOrg,  $selOrgMemType));
-
+        
         $urlParams = "reset=1&cid={$this->_contactID}&context=membership";
         if ( $this->_id ) {
             $urlParams .= "&action=update&id={$this->_id}";
         } else {
             $urlParams .= "&action=add";
         }
-
+        
         $url = CRM_Utils_System::url('civicrm/contact/view/membership',
                                      $urlParams, true, null, false ); 
         $this->assign("refreshURL",$url);
-
+        
         $this->applyFilter('__ALL__', 'trim');
-
+        
         $this->add('date', 'join_date', ts('Join Date'), CRM_Core_SelectValues::date('activityDate'), false );         
         $this->addRule('join_date', ts('Select a valid date.'), 'qfDate');
         $this->add('date', 'start_date', ts('Start Date'), CRM_Core_SelectValues::date('activityDate'), false );         
@@ -231,13 +255,13 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                    CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_Membership', 'source' ) );
         $this->add('select', 'status_id', ts( 'Status' ), 
                    array(''=>ts( '- select -' )) + CRM_Member_PseudoConstant::membershipStatus( ) );
-
+        
         $this->addElement('checkbox', 
                           'is_override', 
                           ts('Status Override?'), 
                           null, 
                           array( 'onClick' => 'showHideMemberStatus()'));
-
+        
         $this->addElement('checkbox', 'record_contribution', ts('Record Membership Payment?'), null, 
                           array('onclick' =>"return showHideByValue('record_contribution','','recordContribution','table-row','radio',false);"));
         
@@ -245,10 +269,10 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         $this->add('select', 'contribution_type_id', 
                    ts( 'Contribution Type' ), 
                    array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::contributionType( ) );
-
+        
         $this->add('text', 'total_amount', ts('Amount'));
         $this->addRule('total_amount', ts('Please enter a valid amount.'), 'money');
-       
+        
         $this->add('date', 'receive_date', ts('Received'), CRM_Core_SelectValues::date('activityDate'), false );         
         $this->addRule('receive_date', ts('Select a valid date.'), 'qfDate');
         $this->add('select', 'payment_instrument_id', 
@@ -260,7 +284,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                    ts('Payment Status'), 
                    CRM_Contribute_PseudoConstant::contributionStatus( )
                    );
-
+        
         $this->addElement('checkbox', 
                           'send_receipt', 
                           ts('Send Confirmation and Receipt?'), null, 
@@ -273,11 +297,10 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
               $this->_contributorEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $this->_contactID );
         $this->assign( 'emailExists', $this->_contributorEmail );
         $this->addFormRule(array('CRM_Member_Form_Membership', 'formRule'));
-
-        //build custom data
-        CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
+        
+        parent::buildQuickForm( );
     }
-
+    
     /**
      * Function for validation
      *

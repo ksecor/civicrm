@@ -78,7 +78,7 @@ class CRM_Contribute_Form_Offline extends CRM_Core_Form {
 
         $this->_paymentProcessor = array( 'billing_mode' => 1 );
 
-        require_once 'CRM/Contact/BAO/Contact.php';
+        require_once 'CRM/Contact/BAO/Contact/Location.php';
         list( $this->userDisplayName, 
               $this->userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $this->_contactID );
         $this->assign( 'displayName', $this->userDisplayName );
