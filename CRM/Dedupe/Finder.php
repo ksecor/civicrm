@@ -34,6 +34,7 @@
 
 require_once 'CRM/Core/DAO.php';
 require_once 'CRM/Contact/BAO/Group.php';
+require_once 'CRM/Dedupe/BAO/RuleGroup.php';
 
 /**
  * The CiviCRM duplicate discovery engine is based on an
@@ -51,7 +52,6 @@ class CRM_Dedupe_Finder
      * @return array  id-keyed hash of dupes
      */
     function dupes($rgid, $cids = array()) {
-        require_once 'CRM/Dedupe/BAO/RuleGroup.php';
         $rgBao =& new CRM_Dedupe_BAO_RuleGroup();
         $rgBao->domain_id = CRM_Core_Config::DomainID();
         $rgBao->id = $rgid;
@@ -65,6 +65,38 @@ class CRM_Dedupe_Finder
         while ($dao->fetch()) {
             $dupes[$dao->id1][] = $dao->id2;
             $dupes[$dao->id2][] = $dao->id1;
+        }
+        $dao->query($rgBao->tableDropQuery());
+
+        return $dupes;
+    }
+
+    /**
+     * Return an array of possible dupes, based on the provided array of 
+     * params, using the default rule group for the given contact type and 
+     * level.
+     *
+     * @param string $ctype   contact type to match against
+     * @param array  $params  an array of params of the form $params[$table][$field] == $value
+     * @param string $level   dedupe rule group level ('Fuzzy' or 'Strict')
+     *
+     * @return array  matching contact ids
+     */
+    function dupesByParams($ctype, $params, $level = 'Strict') {
+        $rgBao =& new CRM_Dedupe_BAO_RuleGroup();
+        $rgBao->domain_id = CRM_Core_Config::DomainID();
+        $rgBao->contact_type = $ctype;
+        $rgBao->params = $params;
+        $rgBao->level = $level;
+        $rgBao->is_default = 1;
+        $rgBao->find(true);
+
+        $dao =& new CRM_Core_DAO();
+        $dao->query($rgBao->tableQuery());
+        $dao->query($rgBao->thresholdQuery());
+        $dupes = array();
+        while ($dao->fetch()) {
+            $dupes[] = $dao->id2;
         }
         $dao->query($rgBao->tableDropQuery());
 
