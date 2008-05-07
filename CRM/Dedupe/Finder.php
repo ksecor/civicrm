@@ -64,6 +64,7 @@ class CRM_Dedupe_Finder
         $dupes = array();
         while ($dao->fetch()) {
             $dupes[$dao->id1][] = $dao->id2;
+            $dupes[$dao->id2][] = $dao->id1;
         }
         $dao->query($rgBao->tableDropQuery());
 
