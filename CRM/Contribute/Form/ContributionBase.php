@@ -471,6 +471,18 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         }
     }
     
+    function getTemplateFileName() 
+    {
+        if ( $this->_id ) {
+            $templateFile = "CRM/Contribute/Form/Contribution/{$this->_id}/{$this->_name}.tpl";
+            $template =& CRM_Core_Form::getTemplate( );
+            if ( $template->template_exists( $templateFile ) ) {
+                return $templateFile;
+            }
+        }
+        return parent::getTemplateFileName( );
+    }
+    
 }
 
 
