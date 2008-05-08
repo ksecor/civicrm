@@ -56,13 +56,13 @@
     {* Fee block (EventFees.tpl) is injected here when an event is selected. *}
     <div id="feeBlock"></div>
 
-    <fieldset>
-        <div class="form-item">
+    <div class="form-item">
+        <fieldset>
             <dl>
             <dt style="vertical-align: top">{$form.note.label}</dt><dd>{$form.note.html}</dd>
             </dl>
-        </div>
-    </fieldset>
+        </fieldset>
+    </div>
         
     <table class="form-layout">
         <tr><td colspan=2>
