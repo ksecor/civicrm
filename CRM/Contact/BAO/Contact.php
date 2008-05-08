@@ -149,9 +149,13 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             require_once "CRM/Contact/BAO/Individual.php";
             CRM_Contact_BAO_Individual::format( $params, $contact );
         } else if ($contact->contact_type == 'Household') {
-            $contact->display_name = $contact->sort_name = CRM_Utils_Array::value('household_name', $params, '');
+            if ( isset( $params['household_name'] ) ) {
+                $contact->display_name = $contact->sort_name = CRM_Utils_Array::value('household_name', $params, '');
+            }
         } else {
-            $contact->display_name = $contact->sort_name = CRM_Utils_Array::value('organization_name', $params, '') ;
+            if ( isset( $params['organization_name'] ) ) {
+                $contact->display_name = $contact->sort_name = CRM_Utils_Array::value('organization_name', $params, '') ;
+            }
         }
 
         // privacy block
