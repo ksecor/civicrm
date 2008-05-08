@@ -102,7 +102,7 @@
 	    return;
         }
 
-	var dataUrl = {/literal}"{crmURL p='civicrm/ajax/template' q='tid='}"{literal} + val;
+	var dataUrl = {/literal}"{crmURL p='civicrm/ajax/template' h=0 q='tid='}"{literal} + val;
         
         var result = dojo.xhrGet({
         url: dataUrl,

@@ -58,7 +58,7 @@ function checkChildren(obj, element, value, src_func) {
         active_levels[element] = 0;
     }        
 
-    var res = {/literal}"{crmURL p='civicrm/ajax/state' q='s=getParameters'}"{literal};
+    var res = {/literal}"{crmURL p='civicrm/ajax/state' h=0 q='s=getParameters'}"{literal};
     
     var bindArgs = {
         url: res,
