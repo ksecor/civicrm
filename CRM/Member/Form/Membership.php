@@ -193,7 +193,16 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         $this->assign('customDataSubType',  $this->_memType );
         $this->assign('entityId',  $this->_id );
         
-        if ($this->_action & CRM_Core_Action::DELETE ) { 
+        if ( $this->_action & CRM_Core_Action::DELETE ) {
+            $this->addButtons(array( 
+                                    array ( 'type'      => 'next', 
+                                            'name'      => ts('Delete'), 
+                                            'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
+                                            'isDefault' => true   ), 
+                                    array ( 'type'      => 'cancel', 
+                                            'name'      => ts('Cancel') ), 
+                                    ) 
+                              );
             return;
         }
         

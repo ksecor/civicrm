@@ -144,14 +144,5 @@ function showHideMemberStatus() {
 	}
 }
 
-function reload(refresh) {
-    var membershipTypeValue = document.getElementsByName("membership_type_id[1]")[0].options[document.getElementsByName("membership_type_id[1]")[0].selectedIndex].value;
-    var url = {/literal}"{$refreshURL}"{literal}
-    var post = url + "&subType=" + membershipTypeValue;
-    if ( refresh ) {
-        window.location= post; 
-    }
-}
-
 </script>
 {/literal}
