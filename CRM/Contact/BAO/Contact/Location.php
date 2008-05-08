@@ -135,6 +135,8 @@ LEFT JOIN civicrm_phone ON ( civicrm_phone.contact_id = civicrm_contact.id )
           civicrm_contact.contact_type as contact_type,
           civicrm_contact.display_name as display_name,
           civicrm_address.street_address as street_address,
+          civicrm_address.supplemental_address_1 as supplemental_address_1,
+          civicrm_address.supplemental_address_2 as supplemental_address_2,
           civicrm_address.city as city,
           civicrm_address.postal_code as postal_code,
           civicrm_address.postal_code_suffix as postal_code_suffix,
@@ -175,7 +177,10 @@ WHERE civicrm_contact.id IN $idString ";
             $address = '';
 
             CRM_Utils_String::append( $address, '<br />',
-                                      array( $dao->street_address, $dao->city) );
+                                      array( $dao->street_address,
+                                             $dao->supplemental_address_1,
+                                             $dao->supplemental_address_2,
+                                             $dao->city ) );
             CRM_Utils_String::append( $address, ', ',
                                       array(   $dao->state, $dao->postal_code ) );
             CRM_Utils_String::append( $address, '<br /> ',
@@ -184,6 +189,7 @@ WHERE civicrm_contact.id IN $idString ";
             $location['displayAddress'] = str_replace( '<br />', ', ', $address );
             $location['url'           ] = CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $dao->contact_id );
             $location['location_type' ] = $dao->location_type;
+            require_once 'CRM/Contact/BAO/Contact/Utils.php';
             $location['image'] = CRM_Contact_BAO_Contact_Utils::getImage( $dao->contact_type );
             $locations[] = $location;
         }

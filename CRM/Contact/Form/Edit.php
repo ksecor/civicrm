@@ -373,14 +373,16 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
                             $stateValue = $value['address']['state_province_id'];
                                                         
                         }
-     
-                        //retrive country by using country code for assigning country name to template
-                        $state = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_StateProvince', 
-                                                              $stateValue, 
-                                                              'name', 
-                                                              'id' );
-                        $this->assign( "state" , $state );
-                        $this->assign( "state_province_{$key}_value", $stateValue );
+
+                        if ( $stateValue ) {
+                            //retrive country by using country code for assigning country name to template
+                            $state = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_StateProvince', 
+                                                                  $stateValue, 
+                                                                  'name', 
+                                                                  'id' );
+                            $this->assign( "state" , $state );
+                            $this->assign( "state_province_{$key}_value", $stateValue );
+                        }
                     }
                     
                     if ( isset( $value['address']['display']) ) {
