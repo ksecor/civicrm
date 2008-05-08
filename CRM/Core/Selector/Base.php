@@ -161,6 +161,10 @@ class CRM_Core_Selector_Base {
         return null;
     }
 
+    public function getSummary( ) {
+        return null;
+    }
+
 }
 
 

@@ -69,6 +69,12 @@ class CRM_Contact_Form_Search_Custom_Sample
         $form->assign( 'elements', array( 'household_name', 'state_province_id' ) );
     }
 
+    function summary( ) {
+        $summary = array( 'summary' => 'This is a summary',
+                          'total' => 50.0 );
+        return $summary;
+    }
+
     function all( $offset = 0, $rowcount = 0, $sort = null,
                   $includeContactIDs = false ) {
         $selectClause = "

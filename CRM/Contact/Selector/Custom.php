@@ -321,12 +321,13 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
      * @return array              $qill         which contains an array of strings
      * @access public
      */
-  
-    // the current internationalisation is bad, but should more or less work
-    // for most of "European" languages
     public function getQILL( )
     {
         return null;
+    }
+
+    public function getSummary( ) {
+        return $this->_search->summary( );
     }
 
     /**

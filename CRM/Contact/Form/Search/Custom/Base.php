@@ -49,7 +49,11 @@ class CRM_Contact_Form_Search_Custom_Base {
         return CRM_Core_DAO::singleValueQuery( $this->sql( 'count(distinct contact_a.id) as total' ),
                                                CRM_Core_DAO::$_nullArray );
     }
-    
+
+    function summary( ) {
+        return null;
+    }
+
     function contactIDs( $offset = 0, $rowcount = 0, $sort = null) {
         $sql    = $this->sql( 'contact_a.id as contact_id',
                               $offset, $rowcount, $sort );
