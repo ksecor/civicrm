@@ -195,6 +195,7 @@ class CRM_Event_Form_EventFees
                        ts( 'Paid By' ), 
                        array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::paymentInstrument( )
                        );
+            $form->add('text', 'trxn_id', ts('Transaction ID'));
             
             $form->add('select', 'contribution_status_id',
                        ts('Payment Status'), 

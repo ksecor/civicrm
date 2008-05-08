@@ -133,6 +133,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         $this->assign( 'showFeeBlock', false );
         if ( $this->_showFeeBlock ) {
             $this->assign( 'showFeeBlock', true );
+            $this->assign( 'paid', true );
             return CRM_Event_Form_EventFees::preProcess( $this );
         }
         
@@ -640,7 +641,9 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $contributionParams['receipt_date'         ] = $params['send_receipt'] ? 
                 $contributionParams['receive_date'] : 'null';
             $recordContribution = array( 'contribution_type_id', 
-                                         'payment_instrument_id', 'contribution_status_id' );
+                                         'payment_instrument_id',
+                                         'trxn_id',
+                                         'contribution_status_id' );
            
             foreach ( $recordContribution as $f ) {
                 $contributionParams[$f] = CRM_Utils_Array::value( $f, $params );

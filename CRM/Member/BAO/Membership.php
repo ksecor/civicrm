@@ -236,6 +236,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
                                         'total_amount',
                                         'contribution_type_id', 
                                         'payment_instrument_id',
+                                        'trxn_id',
                                         'contribution_status_id'
                                         );
             foreach ( $recordContribution as $f ) {

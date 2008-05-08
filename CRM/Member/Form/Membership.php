@@ -279,7 +279,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                    ts( 'Paid By' ), 
                    array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::paymentInstrument( )
                    );
-        
+        $this->add('text', 'trxn_id', ts('Transaction ID'));
         $this->add('select', 'contribution_status_id',
                    ts('Payment Status'), 
                    CRM_Contribute_PseudoConstant::contributionStatus( )
@@ -384,7 +384,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         
         // get the submitted form values.  
         $formValues = $this->controller->exportValues( $this->_name );
-      
+        
         $params = array( );
         $ids    = array( );
 
@@ -476,6 +476,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                                         'total_amount',
                                         'contribution_type_id', 
                                         'payment_instrument_id',
+                                        'trxn_id',
                                         'contribution_status_id'
                                         );
 
@@ -486,7 +487,9 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             // Retrieve the name and email of the current user - this will be the FROM for the receipt email
             require_once 'CRM/Contact/BAO/Contact/Location.php';
             list( $userName, $userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $ids['userId'] );
-            $params['contribution_source'] = "Offline membership signup (by {$userName})";
+            $membershipType = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType',
+                                                           $formValues['membership_type_id'][1] );
+            $params['contribution_source'] = "{$membershipType} Membership: Offline membership signup (by {$userName})";
             
             if ( $formValues['send_receipt'] ) {
                 $params['receipt_date'] = $params['receive_date'];
