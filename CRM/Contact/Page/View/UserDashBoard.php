@@ -205,17 +205,17 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
             $enableExtra = ts('Are you sure you want to re-enable this relationship?');
 
             self::$_links = array(
+                                  CRM_Core_Action::UPDATE  => array(
+                                                                    'name'  => ts('Edit Contact Information'),
+                                                                    'url'   => 'civicrm/contact/relatedcontact',
+                                                                    'qs'    => 'action=update&reset=1&cid=%%cbid%%',
+                                                                    'title' => ts('Edit Relationship')
+                                                                    ),
                                   CRM_Core_Action::VIEW    => array(
                                                                     'name'  => ts('Dashboard'),
                                                                     'url'   => 'civicrm/user',
                                                                     'qs'    => 'reset=1&id=%%cbid%%',
                                                                     'title' => ts('View Relationship')
-                                                                    ),
-                                  CRM_Core_Action::UPDATE  => array(
-                                                                    'name'  => ts('Edit'),
-                                                                    'url'   => 'civicrm/contact/relatedcontact',
-                                                                    'qs'    => 'action=update&reset=1&cid=%%cbid%%',
-                                                                    'title' => ts('Edit Relationship')
                                                                     ),
                                   CRM_Core_Action::DISABLE => array(
                                                                     'name'  => ts('Disable'),

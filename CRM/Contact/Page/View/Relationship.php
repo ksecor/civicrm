@@ -96,9 +96,9 @@ class CRM_Contact_Page_View_Relationship extends CRM_Contact_Page_View {
                                                                                 $links, $mask );
         
         $this->assign( 'currentRelationships',  $currentRelationships  );
-        // to show the 'Current Relationships' title only when viewed
+        // to show the 'Current Relationships' title and links only when viewed
         // from relationship tab, not from dashboard
-        $this->assign( 'showTitle', true  );
+        $this->assign( 'relationshipTabContext', true  );
         $this->assign( 'inactiveRelationships', $inactiveRelationships );
     }    
     
