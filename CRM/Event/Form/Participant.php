@@ -93,7 +93,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
      * @var int
      * @protected
      */
-    protected $_contactID;
+    public $_contactID;
     
     /**
      * array of event values
@@ -275,13 +275,10 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         
         //setting default register date
         if ($this->_action == CRM_Core_Action::ADD) {
-            $default_dates = array( 'register_date', 'receive_date');
-            foreach ( $default_dates as $set_date ) {
-                $today_date = getDate();
-                $defaults[$this->_id][$set_date]['M'] = $today_date['mon'];
-                $defaults[$this->_id][$set_date]['d'] = $today_date['mday'];
-                $defaults[$this->_id][$set_date]['Y'] = $today_date['year'];
-            }
+            $today_date = getDate();
+            $defaults[$this->_id]['register_date']['M'] = $today_date['mon'];
+            $defaults[$this->_id]['register_date']['d'] = $today_date['mday'];
+            $defaults[$this->_id]['register_date']['Y'] = $today_date['year'];
 
             $defaults[$this->_id]['register_date']['A'] = 'AM';
             if( $today_date['hours'] > 12 ) {
@@ -300,7 +297,6 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                     $defaults[$this->_id]['contribution_type_id'] = $contributionTypeId;
                 }
             }
-            $defaults[$this->_id]['send_receipt'] = 1;
         } else {
             $defaults[$this->_id]['register_date'] = CRM_Utils_Date::unformat($defaults[$this->_id]['register_date']);
             $defaults[$this->_id]['register_date']['i']  = (integer)($defaults[$this->_id]['register_date']['i']/15)*15;
@@ -319,15 +315,9 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                                                                                   $recordContribution, $field );
                 }
             }
-            $defaults[$this->_id]['send_receipt'] = 0;
         }
       
-        if ( isset( $defaults[$this->_id]['event_id'] ) ) {
-            $defaults[$this->_id]['receipt_text'] = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', 
-                                                                                 $defaults[$this->_id]['event_id'], 
-                                                                                 'receipt_text' );
-        }
-        
+
         if ( isset($this->_groupTree) ) {
             CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults[$this->_id], $viewMode, $inactiveNeeded );
         }
@@ -442,46 +432,6 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $buttonType = 'next';
         }
 
-        $this->addElement('checkbox', 'record_contribution', ts('Record Payment?'), null, 
-                          array('onclick' =>"return showHideByValue('record_contribution','','payment_information','table-row','radio',false);"));
-        
-        require_once 'CRM/Contribute/PseudoConstant.php';
-        $this->add('select', 'contribution_type_id', 
-                   ts( 'Contribution Type' ), 
-                   array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::contributionType( ) );
-        
-        $this->add('date', 'receive_date', ts('Received'), CRM_Core_SelectValues::date('activityDate'), false );         
-        $this->addRule('receive_date', ts('Select a valid date.'), 'qfDate');
-        
-        $this->add('select', 'payment_instrument_id', 
-                   ts( 'Paid By' ), 
-                   array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::paymentInstrument( )
-                   );
-        
-        $this->add('select', 'contribution_status_id',
-                   ts('Payment Status'), 
-                   CRM_Contribute_PseudoConstant::contributionStatus( )
-                   );
-        
-        $this->addElement('checkbox', 
-                          'send_receipt', 
-                          ts('Send Confirmation?'), null, 
-                          array('onclick' =>"return showHideByValue('send_receipt','','notice','block','radio',false);") );
-        $this->add('textarea', 'receipt_text', ts('Confirmation Message') );
-        
-        // Retrieve the name and email of the contact - this will be the TO for receipt email
-        if ( $this->_contactID ) {
-            list( $this->_contributorDisplayName, 
-                  $this->_contributorEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $this->_contactID );
-            $this->assign( 'email', $this->_contributorEmail );
-        } else {
-            //show email block for batch update for event
-            $this->assign( 'batchEmail', true );
-        }
-
-        //build custom data
-        //CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
-        
         $this->addButtons(array( 
                                 array ( 'type'      => $buttonType, 
                                         'name'      => ts('Save'), 
@@ -723,13 +673,6 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         }
        
         if ( $params['send_receipt'] ) {
-            require_once 'CRM/Core/DAO.php';
-            CRM_Core_DAO::setFieldValue( 'CRM_Event_DAO_Event', 
-                                         $params['event_id'],
-                                         'receipt_text',
-                                         $params['receipt_text'] );
-           
-           
             $receiptFrom = '"' . $userName . '" <' . $userEmail . '>';
             
             $this->assign( 'module', 'Event Registration' );

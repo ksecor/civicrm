@@ -115,6 +115,7 @@ border-top-style: none;
   vertical-align: top;
   font-weight: bold;
   padding: 5px 15px 5px 0px;
+  font-size: .95em;
 }
 
 #crm-container .section-hidden dt {

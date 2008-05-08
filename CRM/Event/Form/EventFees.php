@@ -69,6 +69,17 @@ class CRM_Event_Form_EventFees
             
             require_once "CRM/Event/BAO/Participant.php";
             CRM_Event_BAO_Participant::getValues( $params, $defaults, $ids );            
+            $defaults[$form->_participantId]['send_receipt'] = 0;
+        } else {
+            $defaults[$form->_participantId]['send_receipt'] = 1;
+            $defaults[$form->_participantId]['receipt_text'] = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_EventPage',
+                                                                                           $form->_eventId, 
+                                                                                           'confirm_email_text',
+                                                                                           'event_id');
+            $today_date = getDate();
+            $defaults[$form->_participantId]['receive_date']['M'] = $today_date['mon'];
+            $defaults[$form->_participantId]['receive_date']['d'] = $today_date['mday'];
+            $defaults[$form->_participantId]['receive_date']['Y'] = $today_date['year'];
         }
 
         require_once 'CRM/Core/BAO/PriceSet.php';
@@ -169,11 +180,48 @@ class CRM_Event_Form_EventFees
             require_once "CRM/Event/Form/Registration/Register.php";
             CRM_Event_Form_Registration::initPriceSet($form, $eventPage['id'] );
             CRM_Event_Form_Registration_Register::buildAmount( $form, false );
+            $form->addElement('checkbox', 'record_contribution', ts('Record Payment?'), null, 
+                              array('onclick' =>"return showHideByValue('record_contribution','','payment_information','table-row','radio',false);"));
+
+            require_once 'CRM/Contribute/PseudoConstant.php';
+            $form->add('select', 'contribution_type_id', 
+                       ts( 'Contribution Type' ), 
+                       array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::contributionType( ) );
+            
+            $form->add('date', 'receive_date', ts('Received'), CRM_Core_SelectValues::date('activityDate'), false );         
+            $form->addRule('receive_date', ts('Select a valid date.'), 'qfDate');
+            
+            $form->add('select', 'payment_instrument_id', 
+                       ts( 'Paid By' ), 
+                       array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::paymentInstrument( )
+                       );
+            
+            $form->add('select', 'contribution_status_id',
+                       ts('Payment Status'), 
+                       CRM_Contribute_PseudoConstant::contributionStatus( )
+                       );
+            
         } else {
             $form->add( 'text', 'amount', ts('Event Fee(s)') );
         }
         
         $form->assign("paid", $form->_isPaidEvent );
+        
+        $form->addElement('checkbox', 
+                          'send_receipt', 
+                          ts('Send Confirmation?'), null, 
+                          array('onclick' =>"return showHideByValue('send_receipt','','notice','block','radio',false);") );
+        $form->add('textarea', 'receipt_text', ts('Confirmation Message') );
+        
+        // Retrieve the name and email of the contact - form will be the TO for receipt email
+        if ( $form->_contactID ) {
+            list( $form->_contributorDisplayName, 
+                 $form->_contributorEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $form->_contactID );
+            $form->assign( 'email', $form->_contributorEmail );
+        } else {
+            //show email block for batch update for event
+            $form->assign( 'batchEmail', true );
+        }
     }
 }
 
