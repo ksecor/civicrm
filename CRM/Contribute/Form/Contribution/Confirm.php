@@ -384,25 +384,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         // If onbehalf-of-organization contribution, add organization
         // and it's location.
         if ( is_array($behalfOrganization) && $behalfOrganization['organization_name'] ) {
-            require_once 'CRM/Contact/BAO/Contact/Utils.php';
-            $orgID = CRM_Contact_BAO_Contact_Utils::makeCurrentEmployerRelationship($contactID,
-                                                                                    $behalfOrganization['organization_name']);
-            
-            // Add/Update location if only new/one-existing organization.
-
-            if ( is_numeric( $orgID ) ) {
-                // if new organization.
-                $behalfOrganization['contact_id']   = $orgID;
-            } else if ( $session->get( 'userID' ) && is_array( $orgID ) && count( $orgID ) == 1 ) {
-                // if organization already exists, allow location
-                // update, only if authenticated user. 
-                $behalfOrganization['contact_id']   = $orgID[0];
-            }
-                
-            if ( isset($behalfOrganization['contact_id']) ) {
-                $behalfOrganization['contact_type'] = 'Organization';
-                CRM_Core_BAO_Location::create( $behalfOrganization );
-            }
+            self::processOnBehalfOrganization( $behalfOrganization, $this->_values, $contactID );
         }
 
         // lets store the contactID in the session
@@ -790,6 +772,53 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         return CRM_Contribute_BAO_Contribution::createHonorContact( $params );
     }
 
+    /**
+     * Function to add on behalf of organization and it's location  
+     *
+     * @param $behalfOrganization array  array of organization info
+     * @param $values             array  form values array
+     * @param $contactID          int    individual contact id. One
+     * who is doing the process of signup / contribution. 
+     *
+     * @return void
+     * @access public
+     */
+    static function processOnBehalfOrganization( &$behalfOrganization, &$values, &$contactID ) {
+        $org =& new CRM_Contact_DAO_Contact( );
+        $org->organization_name = $behalfOrganization['organization_name'];
+        $org->find();
+            
+        if ( ! $org->fetch( ) ) {
+            $behalfOrganization['contact_type']              = 'Organization';
+            $behalfOrganization['location'][1]['is_primary'] = 1;
+            $org = CRM_Contact_BAO_Contact::create( $behalfOrganization );
+            
+            //get the relationship id
+            require_once "CRM/Contact/DAO/RelationshipType.php";
+            $relType =& new CRM_Contact_DAO_RelationshipType();
+            $relType->name_a_b = "Employee of";
+            $relType->find(true);
+            $relTypeId = $relType->id;
+            
+            $relParams['relationship_type_id']    = $relTypeId.'_a_b';
+            $relParams['is_permission_a_b'   ]    = 1;
+            $relParams['is_active'           ]    = 1;
+            $relParams['contact_check'][$org->id] = 1;
+            $cid = array('contact' => $contactID );
+            
+            //create relationship
+            $relationship = CRM_Contact_BAO_Relationship::create($relParams, $cid);
+            
+            // make sure organization-contact-id is considered for recording
+            // contribution/membership etc..
+            if ( $contactID != $org->id ) {
+                // take a note of contact-id, so we can send the
+                // receipt to that contact as well.
+                $values['related_contacts'][] = $contactID;
+                $contactID = $org->id;
+            }
+        }
+    }
 }
 
 

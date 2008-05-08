@@ -345,9 +345,12 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
      */
     function buildOnBehalfOrganization( ) 
     {
-        require_once 'CRM/Contact/BAO/Relationship.php';
-        $this->addElement( 'checkbox', 'is_for_organization', $this->_values['for_organization'] );
-        CRM_Contact_BAO_Relationship::buildOnBehalfForm( $this, 'Organization', 'Organization Details' );
+        require_once 'CRM/Contact/BAO/Contact/Utils.php';
+
+        $attributes = array('onclick' => 
+                            "return showHideByValue('is_for_organization','true','for_organization','block','radio',false);");
+        $this->addElement( 'checkbox', 'is_for_organization', $this->_values['for_organization'], null, $attributes );
+        CRM_Contact_BAO_Contact_Utils::buildOnBehalfForm( $this, 'Organization', 'Organization Details' );
     }
 
     /**

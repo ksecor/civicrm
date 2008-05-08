@@ -294,4 +294,78 @@ UNION
         }
     }
 
+    /**
+     * Function to build form for related contacts / on behalf of organization.
+     * 
+     * @param $form              object  invoking Object
+     * @param $contactType       string  contact type
+     * @param $title             string  fieldset title
+     * @param $maxLocationBlocks int     number of location blocks
+     * 
+     * @static
+     *
+     */
+    static function buildOnBehalfForm( &$form, $contactType = 'Individual', 
+                                       $title = 'Contact Information', $maxLocationBlocks = 1 )
+    {
+        require_once 'CRM/Contact/Form/Location.php';
+        $config =& CRM_Core_Config::singleton( );
+
+        $form->assign( 'locationCount', $maxLocationBlocks + 1 );
+        $form->assign( 'blockCount'   , CRM_Contact_Form_Location::BLOCKS + 1 );
+        $form->assign( 'contact_type' , $contactType );
+        $form->assign( 'fieldSetTitle', ts('%1', array('1' => $title)) );
+
+        $attributes = CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact');
+
+        switch ( $contactType ) {
+        case 'Organization':
+            $form->add('text', 'organization_name', ts('Organization Name'), 
+                       $attributes['organization_name']);
+            break;
+        case 'Household':
+            $form->add('text', 'household_name', ts('Household Name'), 
+                       $attributes['household_name']);
+            break;
+        default:
+            // individual
+            $form->addElement('select', 'prefix_id', ts('Prefix'), 
+                              array('' => ts('- prefix -')) + CRM_Core_PseudoConstant::individualPrefix());
+            $form->addElement('text',   'first_name',  ts('First Name'),  
+                              $attributes['first_name'] );
+            $form->addElement('text',   'middle_name', ts('Middle Name'), 
+                              $attributes['middle_name'] );
+            $form->addElement('text',   'last_name',   ts('Last Name'),   
+                              $attributes['last_name'] );
+            $form->addElement('select', 'suffix_id',   ts('Suffix'), 
+                              array('' => ts('- suffix -')) + CRM_Core_PseudoConstant::individualSuffix());
+        }
+
+        //hack the address sequence so that state province always comes after country
+        $addressSequence = $config->addressSequence();
+        $key = array_search( 'country', $addressSequence);
+        unset($addressSequence[$key]);
+        
+        $key = array_search( 'state_province', $addressSequence);
+        unset($addressSequence[$key]);
+        
+        $addressSequence = array_merge( $addressSequence, array ( 'country', 'state_province' ) );
+        $form->assign( 'addressSequence', $addressSequence );
+
+        //Primary Phone 
+        $form->addElement('text',
+                          "location[1][phone][1][phone]", 
+                          ts('Primary Phone'),
+                          CRM_Core_DAO::getAttribute('CRM_Core_DAO_Phone',
+                                                     'phone'));
+        //Primary Email
+        $form->addElement('text', 
+                          "location[1][email][1][email]",
+                          ts('Primary Email'),
+                          CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email',
+                                                     'email'));
+        //build the address block
+        $location   = array(); 
+        CRM_Contact_Form_Address::buildAddressBlock($form, $location, 1 );
+    }
 }

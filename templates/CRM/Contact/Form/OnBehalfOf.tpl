@@ -3,7 +3,7 @@
 {* Including the javascript source code from the Contact.js *}
 <script type="text/javascript" src="{$config->resourceBase}js/Contact.js"></script>
 
-<fieldset><legend>{$fieldSetTitle}</legend>
+<fieldset id="for_organization"><legend>{$fieldSetTitle}</legend>
 {if $contact_type eq 'Individual'}
  <div id="name">
   <fieldset><legend></legend>
@@ -80,3 +80,14 @@
 </div>
 
 </fieldset>
+
+{if $form.is_for_organization}
+    {include file="CRM/common/showHideByFieldValue.tpl" 
+         trigger_field_id    ="is_for_organization"
+         trigger_value       ="true"
+         target_element_id   ="for_organization" 
+         target_element_type ="block"
+         field_type          ="radio"
+         invert              = "false"
+    }
+{/if}

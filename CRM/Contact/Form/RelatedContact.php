@@ -223,7 +223,7 @@ class CRM_Contact_Form_RelatedContact extends CRM_Core_Form
      */
     public function buildQuickForm( ) 
     {
-        CRM_Contact_BAO_Relationship::buildOnBehalfForm( $this, $this->_contactType );
+        CRM_Contact_BAO_Contact_Utils::buildOnBehalfForm( $this, $this->_contactType );
 
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
@@ -244,9 +244,8 @@ class CRM_Contact_Form_RelatedContact extends CRM_Core_Form
     {
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
-        
-	    $params['contact_type']   = $this->_contactType;
-        
+
+	    $params['contact_type'] = $this->_contactType;
         if ( $this->_contactId ) {
             $params['contact_id'] = $this->_contactId;
         }

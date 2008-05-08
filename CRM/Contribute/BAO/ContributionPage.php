@@ -133,7 +133,21 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
             list( $displayName, $email ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $contactID );
             self::buildCustomDisplay( $values['custom_pre_id'] , 'customPre' , $contactID, $template, $params['custom_pre_id'] );
             self::buildCustomDisplay( $values['custom_post_id'], 'customPost', $contactID, $template, $params['custom_post_id'] );
-
+            
+            // cc to related contacts of contributor OR the one who
+            // signs up. Can be used for cases like - on behalf of
+            // contribution / signup ..etc  
+            if ( array_key_exists('related_contacts', $values) ) {
+                foreach ( $values['related_contacts'] as $rcId ) {
+                    list( $ccDisplayName, $ccEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $rcId );
+                    $ccMailIds = $ccMailIds ? 
+                        ($ccMailIds . ',"' . $ccDisplayName . '" <' . $ccEmail . '>') : 
+                        ('"' . $ccDisplayName . '" <' . $ccEmail . '>');
+                }
+                $values['cc_receipt'] = CRM_Utils_Array::value( 'cc_receipt' , $values ) ? 
+                    ($values['cc_receipt'] . ',' . $ccMailIds) : $ccMailIds;
+            }
+            
             // set email in the template here
             $template->assign( 'email', $email );
 
@@ -141,6 +155,7 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
             $message = $template->fetch( 'CRM/Contribute/Form/Contribution/ReceiptMessage.tpl' );
             
             $receiptFrom = '"' . CRM_Utils_Array::value('receipt_from_name',$values) . '" <' . $values['receipt_from_email'] . '>';
+
             require_once 'CRM/Utils/Mail.php';
             CRM_Utils_Mail::send( $receiptFrom,
                                   $displayName,
