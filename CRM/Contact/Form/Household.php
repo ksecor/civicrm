@@ -91,17 +91,9 @@ class CRM_Contact_Form_Household
         
         //code for dupe match
         if ( ! CRM_Utils_Array::value( '_qf_Edit_next_duplicate', $fields )) {
-            $dupeIDs = array();
-            require_once "CRM/Contact/DAO/Contact.php";
-            $contact = & new CRM_Contact_DAO_Contact();
-            $contact->household_name = $fields['household_name'];
-            $contact->find();
-            while ($contact->fetch(true)) {
-                if ( $contact->id != $options) {
-                    $dupeIDs[] = $contact->id;
-                }
-            }
-
+            require_once 'CRM/Dedupe/Finder.php';
+            $dedupeParams = CRM_Dedupe_Finder::formatParams($fields, 'Household');
+            $dupeIDs = CRM_Dedupe_Finder::dupesByParams('Household', $dedupeParams, 'Fuzzy');
             foreach ( $dupeIDs as $id ) {
                 $displayName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'display_name' );
                 $urls[] = '<a href="' . CRM_Utils_System::url( 'civicrm/contact/add', 'reset=1&action=update&cid=' . $id ) .

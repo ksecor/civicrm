@@ -97,16 +97,9 @@ class CRM_Contact_Form_Organization extends CRM_Core_Form
         
         //code for dupe match
         if ( ! CRM_Utils_Array::value( '_qf_Edit_next_duplicate', $fields )) {
-            $dupeIDs = array();
-            require_once "CRM/Contact/DAO/Contact.php";
-            $contact = & new CRM_Contact_DAO_Contact();
-            $contact->organization_name = $fields['organization_name'];
-            $contact->find();
-            while ($contact->fetch(true)) {
-                if ( $contact->id != $options) {
-                    $dupeIDs[] = $contact->id;
-                }
-            }
+            require_once 'CRM/Dedupe/Finder.php';
+            $dedupeParams = CRM_Dedupe_Finder::formatParams($fields, 'Organization');
+            $dupeIDs = CRM_Dedupe_Finder::dupesByParams('Organization', $dedupeParams, 'Fuzzy');
             foreach( $dupeIDs as $id ) {
                 $displayName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'display_name' );
                 $urls[] = '<a href="' . CRM_Utils_System::url( 'civicrm/contact/add', 'reset=1&action=update&cid=' . $id ) .

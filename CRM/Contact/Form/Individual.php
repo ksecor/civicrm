@@ -278,10 +278,12 @@ setDefaultAddress();
                 $cid = (int ) $options;
             }
             
-            $ids = CRM_Core_BAO_UFGroup::findContact( $fields, $cid, true );
+            require_once 'CRM/Dedupe/Finder.php';
+            $dedupeParams = CRM_Dedupe_Finder::formatParams($fields, 'Individual');
+            $ids = CRM_Dedupe_Finder::dupesByParams('Individual', $dedupeParams, 'Fuzzy');
             if ( $ids ) {
                 $urls = array( );
-                foreach ( explode( ',', $ids ) as $id ) {
+                foreach ($ids as $id) {
                     $displayName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'display_name' );
                     $urls[] = '<a href="' . CRM_Utils_System::url( 'civicrm/contact/add', 'reset=1&action=update&cid=' . $id ) .
                         '">' . $displayName . '</a>';
