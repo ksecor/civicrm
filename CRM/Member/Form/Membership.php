@@ -280,6 +280,8 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                    array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::paymentInstrument( )
                    );
         $this->add('text', 'trxn_id', ts('Transaction ID'));
+        $this->addRule( 'trxn_id', ts('Transaction ID already exists in Database.'),
+                        'objectExists', array( 'CRM_Contribute_DAO_Contribution', $this->_id, 'trxn_id' ) );
         $this->add('select', 'contribution_status_id',
                    ts('Payment Status'), 
                    CRM_Contribute_PseudoConstant::contributionStatus( )
