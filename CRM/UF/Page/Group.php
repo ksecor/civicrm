@@ -261,10 +261,11 @@ class CRM_UF_Page_Group extends CRM_Core_Page
 
         foreach ($allUFGroups as $id => $value) {
             $ufGroup[$id] = array();
-            $ufGroup[$id]['id'       ] = $id;
-            $ufGroup[$id]['title'    ] = $value['title'];
-            $ufGroup[$id]['weight'   ] = $value['weight'];
-            $ufGroup[$id]['is_active'] = $value['is_active'];
+            $ufGroup[$id]['id'        ] = $id;
+            $ufGroup[$id]['title'     ] = $value['title'];
+            $ufGroup[$id]['weight'    ] = $value['weight'];
+            $ufGroup[$id]['is_active' ] = $value['is_active'];
+            $ufGroup[$id]['group_type'] = $value['group_type'];
 
             // form all action links
             $action = array_sum(array_keys($this->actionLinks()));

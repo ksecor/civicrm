@@ -127,7 +127,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
 
         require_once "CRM/Core/BAO/UFField.php";
         foreach ( $ufGroups as $id => $title ) {
-            if ( CRM_Core_BAO_UFField::checkProfileType($id) ) { // to skip mix profiles
+            if ( CRM_Core_BAO_UFField::checkProfileType( $id ) ) { // to skip mix profiles
                 continue;
             }
 
@@ -1240,7 +1240,8 @@ WHERE  id = $cfID
 
         $dao =& new CRM_Core_DAO( );
         $queryString = 'SELECT civicrm_uf_group.id as id, civicrm_uf_group.title as title,
-                               civicrm_uf_join.weight as weight, civicrm_uf_group.is_active as is_active
+                               civicrm_uf_join.weight as weight, civicrm_uf_group.is_active as is_active,
+                               civicrm_uf_group.group_type as group_type
                         FROM civicrm_uf_group
                         LEFT JOIN civicrm_uf_join on ( civicrm_uf_group.id = civicrm_uf_join.uf_group_id )
                         WHERE civicrm_uf_group.domain_id = %1';
@@ -1256,10 +1257,11 @@ WHERE  id = $cfID
 
         $ufGroups = array( );
         while ($dao->fetch( )) {
-            $ufGroups[$dao->id]['name'     ] = $dao->title;
-            $ufGroups[$dao->id]['title'    ] = $dao->title;
-            $ufGroups[$dao->id]['weight'   ] = $dao->weight + $count;
-            $ufGroups[$dao->id]['is_active'] = $dao->is_active;
+            $ufGroups[$dao->id]['name'      ] = $dao->title;
+            $ufGroups[$dao->id]['title'     ] = $dao->title;
+            $ufGroups[$dao->id]['weight'    ] = $dao->weight + $count;
+            $ufGroups[$dao->id]['is_active' ] = $dao->is_active;
+            $ufGroups[$dao->id]['group_type'] = $dao->group_type;
         }
 
         return $ufGroups;

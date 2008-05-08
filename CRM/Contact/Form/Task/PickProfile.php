@@ -154,7 +154,7 @@ class CRM_Contact_Form_Task_PickProfile extends CRM_Contact_Form_Task {
     static function formRule( &$fields ) 
     {
         require_once "CRM/Core/BAO/UFField.php";
-        if ( CRM_Core_BAO_UFField::checkProfileType($fields['uf_group_id'], true) ) {
+        if ( CRM_Core_BAO_UFField::checkProfileType( $fields['uf_group_id'] ) ) {
             $errorMsg['uf_group_id'] = "You cannot select mix profile for batch update.";
         }
 

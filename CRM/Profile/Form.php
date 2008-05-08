@@ -257,7 +257,6 @@ class CRM_Profile_Form extends CRM_Core_Form
         $config  =& CRM_Core_Config::singleton( );
         
         // we should not allow component and mix profiles in search mode
-        //if ( $this->_mode != self::MODE_REGISTER && $this->_mode != self::MODE_SEARCH) {
         if ( $this->_mode != self::MODE_REGISTER ) {
             //check for mix profile fields (eg:  individual + other contact type)
             if ( CRM_Core_BAO_UFField::checkProfileType($this->_gid) ) {
@@ -265,6 +264,7 @@ class CRM_Profile_Form extends CRM_Core_Form
             }
             
             $profileType = CRM_Core_BAO_UFField::getProfileType($this->_gid);  
+
             if(in_array( $profileType, array( "Membership", "Participant", "Contribution" ) ) ){
                 CRM_Core_Session::setStatus(ts('Profile is not configured for the selected action.'));
                 return 0;

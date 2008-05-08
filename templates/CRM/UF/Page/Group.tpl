@@ -36,6 +36,7 @@
       <table cellpadding="0" cellspacing="0" border="0">
          <tr class="columnheader">
             <th>{ts}Profile Title{/ts}</th>
+            <th>{ts}Type{/ts}</th>
             <th>{ts}ID{/ts}</th>
             <th>{ts}Used For{/ts}</th>
             <th>{ts}Status?{/ts}</th>
@@ -46,6 +47,7 @@
         <tr class="{cycle values="odd-row,even-row"} {$row.class}
         {if NOT $row.is_active}disabled{/if}">
             <td>{$row.title}</td>
+            <td>{$row.group_type}</td>
             <td>{$row.id}</td>
             <td>{$row.module}</td>
             <td>{if $row.is_active eq 1} {ts}Active{/ts} {else} {ts}Inactive{/ts} {/if}</td>
