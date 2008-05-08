@@ -11,7 +11,9 @@
     {* show browse table for any action *}
       <div id="current-relationships">
         <p></p>
-        <div><label>{ts}Current Relationships{/ts}</label></div>
+        {if $showTitle} {*to show the title only when viewed from relationship tab, not from dashboard*}
+         <div><label>{ts}Current Relationships{/ts}</label></div>
+        {/if}
         {strip}
         <table>
         <tr class="columnheader">

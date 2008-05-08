@@ -23,13 +23,13 @@
 	   	    {/if}
             {/foreach}
             {if $row.is_permission_a_b}
-                {if $row.rtype EQ 'a_b'}
+                {if $row.rtype EQ 'a_b' AND $is_contact_id_a}
                      <dt>&nbsp;</dt><dd>Can view and update information for <b>'{$row.name}'</b></dd>
                 {else}
                      <dt>&nbsp;</dt><dd><b>'{$row.name}'</b> can view and update information for this contact</dd>          {/if}
             {/if}
             {if $row.is_permission_b_a}
-                 {if $row.rtype EQ 'a_b'}   
+                 {if $row.rtype EQ 'a_b' AND $is_contact_id_a}   
                      <dt>&nbsp;</dt><dd><b>'{$row.name}'</b> can view and update information for this contact</dd>
                  {else}
                      <dt>&nbsp;</dt><dd>Can view and update information for <b>'{$row.name}'</b></dd>

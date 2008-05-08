@@ -56,11 +56,21 @@ class CRM_Contact_Page_View_Relationship extends CRM_Contact_Page_View {
         require_once 'CRM/Core/DAO.php';
         $viewRelationship = CRM_Contact_BAO_Relationship::getRelationship( $this->_contactId, null, null, null, $this->_id );
        
+        //To check whether selected contact is a contact_id_a in
+        //relationship type 'a_b' in relationship table, if yes then
+        //revert the permissionship text in template
+        $relationship =& new CRM_Contact_DAO_Relationship( );
+        $relationship->id = $viewRelationship[$this->_id]['id'];
+        
+        if ($relationship->find(true)) {
+            if ( ( $viewRelationship[$this->_id]['rtype'] == 'a_b' ) && ( $this->_contactId == $relationship->contact_id_a ) ) {
+                $this->assign( "is_contact_id_a", true );
+            }
+        }
+        $relType = $viewRelationship[$this->_id]['civicrm_relationship_type_id'];
         $this->assign( 'viewRelationship', $viewRelationship );
         $viewNote = CRM_Core_BAO_Note::getNote($this->_id);
         $this->assign( 'viewNote', $viewNote );
-        $relType = $viewRelationship[$this->_id]['civicrm_relationship_type_id'];
-       
         $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree('Relationship',$this->_id,0,$relType);
         CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $this->_groupTree );
     }
@@ -86,6 +96,9 @@ class CRM_Contact_Page_View_Relationship extends CRM_Contact_Page_View {
                                                                                 $links, $mask );
         
         $this->assign( 'currentRelationships',  $currentRelationships  );
+        // to show the 'Current Relationships' title only when viewed
+        // from relationship tab, not from dashboard
+        $this->assign( 'showTitle', true  );
         $this->assign( 'inactiveRelationships', $inactiveRelationships );
     }    
     
