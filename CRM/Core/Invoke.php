@@ -95,76 +95,79 @@ class CRM_Core_Invoke
         $template->assign( 'activeComponent', 'CiviCRM' );
         $template->assign( 'formTpl'        , 'default' );
 
-        while ( ! empty( $args ) ) {
-            // get the menu items
-            $path = implode( '/', $args );
-            $item =& CRM_Core_Menu::get( $path );
+        // get the menu items
+        $path = implode( '/', $args );
+        $item =& CRM_Core_Menu::get( $path );
 
-            if ( $item ) {
-                if ( ! array_key_exists( 'page_callback', $item ) ) {
-                    CRM_Core_Error::debug( 'Bad item', $item );
-                    CRM_Core_Error::fatal( ts( 'Bad menu record in database' ) );
-                }
-
-
-                // check that we are permissioned to access this page
-                if ( ! CRM_Core_Permission::checkMenuItem( $item ) ) {
-                    CRM_Utils_System::permissionDenied( );
-                    return;
-                }
-                
-                CRM_Utils_System::setTitle( $item['title'] );
-                CRM_Utils_System::appendBreadCrumb( $item['breadcrumb'] );
-                
-                if ( is_array( $item['page_callback'] ) ) {
-                    $newArgs = explode( '/', $_GET['q'] );
-                    require_once( str_replace( '_',
-                                               DIRECTORY_SEPARATOR,
-                                               $item['page_callback'][0] ) . '.php' );
-                    return call_user_func( $item['page_callback'], 
-                                           $newArgs );
-                } else if (strstr($item['page_callback'], '_Form')) {
-                    $wrapper =& new CRM_Utils_Wrapper( );
-
-                    if ( CRM_Utils_Array::value('page_arguments', $item) ) {
-                        $pageArgs = CRM_Core_Menu::getArrayForPathArgs( $item['page_arguments'] );
-                    }
-
-                    return $wrapper->run( $item['page_callback'],
-                                          $item['title'], 
-                                          $pageArgs );
-                } else {
-                    // page and controller have the same style
-                    
-                    $newArgs = explode( '/', $_GET['q'] );
-                    
-                    if ( CRM_Utils_Array::value('page_arguments', $item) ) {
-                        $pageArgs = CRM_Core_Menu::getArrayForPathArgs( $item['page_arguments'] );
-                        
-                        // FIXME: Following embedding, makes other
-                        // tabs non-working for path -> contact/view
- 
-                        //if ( array_key_exists('setEmbedded', $pageArgs) ) {
-                        //$wrapperArgs = array( 'setEmbedded' => true );
-                        //$wrapper     =& new CRM_Utils_Wrapper( );
-                        //$wrapper->run( $pageArgs['setEmbedded'], null, $wrapperArgs );
-                        //}
-                    }
-                    require_once( str_replace( '_',
-                                               DIRECTORY_SEPARATOR,
-                                               $item['page_callback'] ) . '.php' );
-                    eval( '$page =& new ' .
-                          $item['page_callback'] .
-                          ' ( );' );
-                    return $page->run( $newArgs, $pageArgs );
-                }
+        if ( $item ) {
+            if ( ! array_key_exists( 'page_callback', $item ) ) {
+                CRM_Core_Error::debug( 'Bad item', $item );
+                CRM_Core_Error::fatal( ts( 'Bad menu record in database' ) );
             }
-            array_pop( $args );
+
+            // check that we are permissioned to access this page
+            if ( ! CRM_Core_Permission::checkMenuItem( $item ) ) {
+                CRM_Utils_System::permissionDenied( );
+                return;
+            }
+                
+            CRM_Utils_System::setTitle( $item['title'] );
+            CRM_Utils_System::appendBreadCrumb( $item['breadcrumb'] );
+
+            $template =& CRM_Core_Smarty::singleton( );
+            if ( isset( $item['is_public'] ) &&
+                 $item['is_public'] ) {
+                $template->assign( 'urlIsPublic', true );
+            } else {
+                $template->assign( 'urlIsPublic', false );
+            }
+
+            if ( is_array( $item['page_callback'] ) ) {
+                $newArgs = explode( '/', $_GET['q'] );
+                require_once( str_replace( '_',
+                                           DIRECTORY_SEPARATOR,
+                                           $item['page_callback'][0] ) . '.php' );
+                return call_user_func( $item['page_callback'], 
+                                       $newArgs );
+            } else if (strstr($item['page_callback'], '_Form')) {
+                $wrapper =& new CRM_Utils_Wrapper( );
+
+                if ( CRM_Utils_Array::value('page_arguments', $item) ) {
+                    $pageArgs = CRM_Core_Menu::getArrayForPathArgs( $item['page_arguments'] );
+                }
+
+                return $wrapper->run( $item['page_callback'],
+                                      $item['title'], 
+                                      $pageArgs );
+            } else {
+                // page and controller have the same style
+                    
+                $newArgs = explode( '/', $_GET['q'] );
+                    
+                if ( CRM_Utils_Array::value('page_arguments', $item) ) {
+                    $pageArgs = CRM_Core_Menu::getArrayForPathArgs( $item['page_arguments'] );
+                        
+                    // FIXME: Following embedding, makes other
+                    // tabs non-working for path -> contact/view
+ 
+                    //if ( array_key_exists('setEmbedded', $pageArgs) ) {
+                    //$wrapperArgs = array( 'setEmbedded' => true );
+                    //$wrapper     =& new CRM_Utils_Wrapper( );
+                    //$wrapper->run( $pageArgs['setEmbedded'], null, $wrapperArgs );
+                    //}
+                }
+                require_once( str_replace( '_',
+                                           DIRECTORY_SEPARATOR,
+                                           $item['page_callback'] ) . '.php' );
+                eval( '$page =& new ' .
+                      $item['page_callback'] .
+                      ' ( );' );
+                return $page->run( $newArgs, $pageArgs );
+            }
         }
         
         $url = CRM_Utils_System::url( 'civicrm/menu/rebuild', 'reset=1');
         CRM_Core_Error::fatal( 'Please rebuild your menu, <a href='.$url.'>Click here</a>' );
-        CRM_Utils_System::redirect( );
         return;
     }
 

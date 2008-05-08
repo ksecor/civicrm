@@ -142,6 +142,8 @@ class CRM_Core_Menu
                     } else {
                         $value = array( array( $value ), 'and' );
                     }
+                } else if ( $key == 'is_public' ) {
+                    $value = ( $value == 'true' || $value == 1 ) ? 1 : 0;
                 }
                 $menu[$path][$key] = $value;
             }
