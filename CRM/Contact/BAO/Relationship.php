@@ -753,7 +753,8 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
             while ( $relationship->fetch() ) {
                 $rid = $relationship->civicrm_relationship_id;
                 $cid = $relationship->civicrm_contact_id;
-                if ( ( $permissionedContact ) && ( !CRM_Contact_BAO_Contact_Permission::allow ( $cid ) ) ) {
+                if ( ( $permissionedContact ) && 
+                     ( !CRM_Contact_BAO_Contact_Permission::relationship ( $cid, $contactId ) ) ) {
                     continue;
                 }
                 $values[$rid]['id']         = $rid;

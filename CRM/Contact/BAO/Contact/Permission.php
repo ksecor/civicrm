@@ -72,15 +72,18 @@ WHERE contact_a.id = %1 AND $permission";
       * Function to get the permission base on its relationship
       * 
       * @param int $selectedContactId contact id of selected contact
+      * @param int $contactId contact id of the current contact 
       *
       * @return booleab true if logged in user has permission to view
       * selected contact record else false
       * @static
       */
-    static function relationship ( $selectedContactId ) 
+    static function relationship ( $selectedContactId, $contactID = null ) 
     {
         $session   =& CRM_Core_Session::singleton( );
-        $contactID =  $session->get( 'userID' );
+        if ( !$contactID ) {
+            $contactID =  $session->get( 'userID' );
+        }
         if (  $contactID == $selectedContactId ) {
             return true;
         } else {
@@ -100,6 +103,7 @@ WHERE contact_a.id = %1 AND $permission";
                     return true;
                 }
             }
+           
             return false;
         }
     }
