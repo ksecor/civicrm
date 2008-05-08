@@ -75,7 +75,9 @@
 		{include file="CRM/common/calendar/body.tpl" dateVar=receive_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_membership_4}</dd>  
           
             <dt class="label">{$form.payment_instrument_id.label}</dt><dd>{$form.payment_instrument_id.html}</dd>
-	    <dt class="label">{$form.trxn_id.label}</dt><dd>{$form.trxn_id.html}</dd>	
+	   {if $action neq 2 }	
+	    <dt class="label">{$form.trxn_id.label}</dt><dd>{$form.trxn_id.html}</dd>
+	   {/if}		
 		    <dt class="label">{$form.contribution_status_id.label}</dt><dd>{$form.contribution_status_id.html}</dd>
         </dl>
         {if $emailExists }

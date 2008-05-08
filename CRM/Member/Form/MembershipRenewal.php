@@ -172,6 +172,9 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
                    ts( 'Paid By' ), 
                    array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::paymentInstrument( )
                    );
+        $this->add('text', 'trxn_id', ts('Transaction ID'));
+        $this->addRule( 'trxn_id', ts('Transaction ID already exists in Database.'),
+                        'objectExists', array( 'CRM_Contribute_DAO_Contribution', $this->_id, 'trxn_id' ) );
         
         $this->add('select', 'contribution_status_id',
                    ts('Payment Status'), 
@@ -267,7 +270,7 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
             $contributionParams['receipt_date'         ] = $formValues['send_receipt'] ? 
                                                            $contributionParams['receive_date'] : 'null';
             
-            $recordContribution = array( 'total_amount', 'contribution_type_id', 'payment_instrument_id', 'contribution_status_id' );
+            $recordContribution = array( 'total_amount', 'contribution_type_id', 'payment_instrument_id','trxn_id', 'contribution_status_id' );
             foreach ( $recordContribution as $f ) {
                 $contributionParams[$f] = CRM_Utils_Array::value( $f, $formValues );
             }   
