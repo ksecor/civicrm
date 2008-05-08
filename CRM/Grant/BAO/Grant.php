@@ -260,11 +260,11 @@ class CRM_Grant_BAO_Grant extends CRM_Grant_DAO_Grant
         if ( !$id ) {
             $id = $params['contact_id'];
         } 
-        if ( CRM_Utils_Array::value('note', $params) ) {
+        if ( CRM_Utils_Array::value('note', $params) || CRM_Utils_Array::value( 'id', $ids['note'] ) ) {
             require_once 'CRM/Core/BAO/Note.php';
             $noteParams = array(
                                 'entity_table'  => 'civicrm_grant',
-                                'note'          => $params['note'],
+                                'note'          => $params['note'] = $params['note'] ? $params['note'] : "null",
                                 'entity_id'     => $grant->id,
                                 'contact_id'    => $id,
                                 'modified_date' => date('Ymd')
