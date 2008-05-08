@@ -415,7 +415,7 @@ class CRM_Member_Import_Form_MapField extends CRM_Core_Form {
             $importKeys = array();
             foreach ($fields['mapper'] as $mapperPart) {
                 $importKeys[] = $mapperPart[0];
-            }
+            } 
             // FIXME: should use the schema titles, not redeclare them
             $requiredFields = array(
                                     'membership_contact_id'  => ts('Contact ID'),
@@ -461,11 +461,14 @@ class CRM_Member_Import_Form_MapField extends CRM_Core_Form {
                                 //$errors['_qf_default'] .= ts('Missing required contact matching field: '.$contactFields[trim($v)]['title'].' <br />');
                             }
                         }
-                        if (in_array('household_name', $importKeys) || in_array('organization_name', $importKeys)) {
+                        if ( in_array('email', $importKeys) || in_array('external_identifier', $importKeys) ||
+                             ( in_array('first_name', $importKeys) && in_array('last_name', $importKeys)) || 
+                             in_array('household_name', $importKeys) ||in_array('membership_id', $importKeys) ||
+                             in_array('organization_name', $importKeys)) {
                             $flag = false;
                         }
                         if ( $flag ) {
-                            $errors['_qf_default'] .= ts('Missing required contact matching field: Contact ID.') . '<br />';
+                            $errors['_qf_default'] .= ts('Missing required contact matching field: Contact ID or External ID.') . '<br />';
                         }
                         
                     } else {
