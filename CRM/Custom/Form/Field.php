@@ -940,7 +940,7 @@ SELECT id
                                          $customField->id,
                                          'column_name',
                                          $customField->column_name."_{$customField->id}" );
-
+            $customFieldAdd->column_name .= "_{$customField->id}";
             CRM_Core_BAO_CustomField::createField( $customFieldAdd, 'add' );
         } 
         
