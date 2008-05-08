@@ -423,7 +423,11 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
         if ( isset( $self->_id ) ) {
             $label = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField',
                                                   $self->_id, 'label' );
-            $dupeLabel = ($label == $fields['label']) ? false : true;
+            if ( $customField->id == $self->_id && $customField->custom_group_id == $self->_gid ) {
+                $dupeLabel = ($label == $fields['label']) ? false : true;
+            } else if ( !$dupeLabel ) {
+                $dupeLabel = ($label == $fields['label']) ? true : false;
+            }
         }
         
         if ( $dupeLabel ) {
@@ -903,18 +907,15 @@ SELECT id
         }
 
         //Start Storing the values of Option field if the selected option is Multi Select
-        if ( $this->_action & CRM_Core_Action::ADD ) {
-            CRM_Core_BAO_CustomField::createField( $customField, 'add' );
-        } else {
+        if ( ! $this->_action & CRM_Core_Action::ADD ) {
             $dropIndex = false;
-
+            
             // drop the index if it existed (not the most efficient, but the logic is easy)
             if ( CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField',
                                               $customField->id,
                                               'is_searchable' ) ) {
                 $dropIndex = true;
             }
-
             CRM_Core_BAO_CustomField::createField( $customField, 'modify', $dropIndex );
         }
         
@@ -922,10 +923,27 @@ SELECT id
         if ( $customField->id && $customField->option_group_id ) {
             CRM_Core_BAO_CustomField::fixOptionGroups( $customField->id, $customField->option_group_id ) ;
         }
-        
         // since we need to save option group id :)
+        
+        // make a copy if add action
+        if ( $this->_action & CRM_Core_Action::ADD ) {
+            $customFieldAdd = $customField;
+        }
+        
         $customField->save();
 
+        //preventing any name conflicts in column name of custom
+        //group's table
+        if ( $this->_action & CRM_Core_Action::ADD ) {
+            
+            CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_CustomField',
+                                         $customField->id,
+                                         'column_name',
+                                         $customField->column_name."_{$customField->id}" );
+
+            CRM_Core_BAO_CustomField::createField( $customFieldAdd, 'add' );
+        } 
+        
         // reset the cache
         require_once 'CRM/Core/BAO/Cache.php';
         CRM_Core_BAO_Cache::deleteGroup( 'contact fields' );

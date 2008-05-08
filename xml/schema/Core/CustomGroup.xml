@@ -130,15 +130,17 @@
        <add>2.0</add>
   </field>
   <index>
-    <name>UI_title_domain_id</name>
+    <name>UI_title_extends_domain_id</name>
     <fieldName>title</fieldName>
+    <fieldName>extends</fieldName>
     <fieldName>domain_id</fieldName>
     <unique>true</unique>
     <add>1.1</add>
   </index>
   <index>
-    <name>UI_name_domain_id</name>
+    <name>UI_name_extends_domain_id</name>
     <fieldName>name</fieldName>
+    <fieldName>extends</fieldName>
     <fieldName>domain_id</fieldName>
     <unique>true</unique>
     <add>1.1</add>

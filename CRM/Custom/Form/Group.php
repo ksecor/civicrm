@@ -101,6 +101,30 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
                 $errors['title'] = ts("Group's Name should not start with digit");
             } 
         }
+        //Fixes for CRM-2676
+        $customGroup = new CRM_Core_DAO_CustomGroup( );
+        $customGroup->extends         = $fields['extends'][0];
+        $customGroup->title           = $fields['title'];
+        
+        $dupeTitle = false;
+        if ( $customGroup->find( true ) ) {
+            $dupeTitle = true;
+        }
+        
+        if ( isset( $options->_id ) ) {
+            $title = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup',
+                                                  $options->_id, 'title' );
+            
+            if (  $customGroup->id == $options->_id && $customGroup->custom_group_id == $options->_gid ) {
+                $dupeTitle = ($title == $fields['title']) ? false : true;
+            } else if ( !$dupeTitle ) {
+                $dupeTitle = ($title == $fields['title']) ? true : false;
+            }
+        }
+        
+        if ( $dupeTitle ) {
+            $errors['title'] = ts('Name already exists in Database.');
+        }
         return empty($errors) ? true : $errors;
     }
     
@@ -118,7 +142,7 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
      */
     function addRules( )
     {
-        $this->addFormRule( array( 'CRM_Custom_Form_Group', 'formRule' ) );
+        $this->addFormRule( array( 'CRM_Custom_Form_Group', 'formRule' ), $this ); 
     }
     
     /**
@@ -135,9 +159,7 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
 
         // title
         $this->add('text', 'title', ts('Group Name'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'title'), true);
-        $this->addRule( 'title', ts('Name already exists in Database.'),
-                        'objectExists', array( 'CRM_Core_DAO_CustomGroup', $this->_id, 'title' ) );
-       
+            
         require_once "CRM/Contribute/PseudoConstant.php";
         require_once "CRM/Member/BAO/MembershipType.php";
         $sel1 = CRM_Core_SelectValues::customGroupExtends();
@@ -322,7 +344,6 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         $transaction = new CRM_Core_Transaction( );
 
         $group->save();
-
         if ( $tableName ) {
             // now append group id to table name, this prevent any name conflicts
             // like CRM-2742
