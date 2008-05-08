@@ -191,6 +191,16 @@ class CRM_Core_Payment_BaseIPN {
             $objects['participant'] =& $participant;
 
             $paymentProcessorID = $objects['event']->payment_processor_id;
+
+            if ( ! $contribution->contribution_page_id ) {
+                // return if we are just doing an optional validation
+                if ( ! $required ) {
+                    return true;
+                }
+                CRM_Core_Error::debug_log_message( "Could not find contribution page for contribution record: $contributionID" );
+                echo "Failure: Could not find contribution page for contribution record: $contributionID<p>";
+                return false;
+            }
         }
 
         if ( ! $paymentProcessorID ) {
