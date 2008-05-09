@@ -364,15 +364,12 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         }
         
         if ( ! isset( $contactID ) ) {
-            require_once "CRM/Core/BAO/UFGroup.php";
-            //formatted submiited fields before sending to dupe contact matching
-            $data = CRM_Core_BAO_UFGroup::formatFields( $params );
-
-            $ids = CRM_Core_BAO_UFGroup::findContact( $data );
-            $contactsIDs = explode( ',', $ids );
+            require_once 'CRM/Dedupe/Finder.php';
+            $dedupeParams = CRM_Dedupe_Finder::formatParams($params, 'Individual');
+            $ids = CRM_Dedupe_Finder::dupesByParams('Individual', $dedupeParams);
 
             // if we find more than one contact, use the first one
-            $contact_id  = CRM_Utils_Array::value( 0, $contactsIDs );
+            $contact_id  = CRM_Utils_Array::value( 0, $ids );
             $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $contact_id, $addToGroups );
             $this->set( 'contactID', $contactID );
         } else {
