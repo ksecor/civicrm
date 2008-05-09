@@ -383,8 +383,15 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
             list( $n, $id ) = explode( '-', $part );
             $addressFields[$n] = CRM_Utils_Array::value( $part, $this->_params );
         }
+
         require_once 'CRM/Utils/Address.php';
         $this->assign('address', CRM_Utils_Address::format($addressFields));
+
+        if ( $this->_params['is_for_organization'] ) {
+            $this->assign('onBehalfName', $this->_params['organization_name']);
+            $this->assign('onBehalfEmail', $this->_params['location'][1]['email'][1]['email']);
+            $this->assign('onBehalfAddress', CRM_Utils_Address::format($this->_params['location'][1]['address']));
+        }
 
         if ( $this->_contributeMode == 'direct' && $this->_amount > 0.0 ) {
             $date = CRM_Utils_Date::format( $this->_params['credit_card_exp_date'] );

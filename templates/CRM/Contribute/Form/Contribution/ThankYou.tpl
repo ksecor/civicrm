@@ -97,6 +97,19 @@
          {include file="CRM/UF/Form/Block.tpl" fields=$customPre}
     {/if}
 
+    {if $onBehalfName}
+    <div class="header-dark">
+        {ts}On Behalf Of{/ts}
+    </div>
+    <div class="display-block">
+        <strong>{$onBehalfName}</strong><br />
+        {$onBehalfAddress|nl2br}
+    </div>
+    <div class="display-block">
+        {$onBehalfEmail}
+    </div>
+    {/if}
+
     {if $contributeMode ne 'notify' and ! $is_pay_later and $is_monetary}    
     <div class="header-dark">
         {ts}Billing Name and Address{/ts}
