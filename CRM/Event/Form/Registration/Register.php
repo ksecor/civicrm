@@ -113,6 +113,13 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 }
             }
         }
+        //if event is monetary and pay later is enabled and payment
+        //processor is not available then freeze the pay later checkbox with
+        //default check
+        if ( CRM_Utils_Array::value( 'is_pay_later' , $this->_values['event_page'] ) &&
+             ! is_array( $this->_paymentProcessor ) ) {
+            $this->_defaults['is_pay_later'] = 1;
+        }
 
         //set custom field defaults
         if ( ! empty( $this->_fields ) ) {
@@ -153,15 +160,21 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 $attributes = null;
                 $this->assign( 'hidePaymentInformation', false );
                 if ( !in_array( $this->_paymentProcessor['payment_processor_type'], 
-                                array( 'PayPal_Standard', 'Google_Checkout', 'PayPal_Express' ) ) ) {
+                                array( 'PayPal_Standard', 'Google_Checkout', 'PayPal_Express' ) ) && 
+                     is_array( $this->_paymentProcessor ) ) {
                     $attributes = array('onclick' => "return showHideByValue('is_pay_later','','payment_information',
                                                      'table-row','radio',true);");
-            
+                    
                     $this->assign( 'hidePaymentInformation', true );
                 }
-                                             
-                $this->addElement( 'checkbox', 'is_pay_later', 
-                                   $this->_values['event_page']['pay_later_text'], null, $attributes );
+                
+                $element = $this->addElement( 'checkbox', 'is_pay_later', 
+                                              $this->_values['event_page']['pay_later_text'], null, $attributes );
+                //if payment processor is not available then freeze
+                //the paylater checkbox with default checked.
+                if ( ! is_array( $this->_paymentProcessor ) ) {
+                    $element->freeze();
+                }
             }            
             require_once 'CRM/Core/Payment/Form.php';
             CRM_Core_Payment_Form::buildCreditCard( $this );
@@ -321,12 +334,13 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         }
 
         if ( $self->_values['event']['is_monetary'] ) {
-            $payment =& CRM_Core_Payment::singleton( $self->_mode, 'Event', $self->_paymentProcessor );
-            $error   =  $payment->checkConfig( $self->_mode );
-            if ( $error ) {
-                $errors['_qf_default'] = $error;
+            if ( is_array( $self->_paymentProcessor ) ) {
+                $payment =& CRM_Core_Payment::singleton( $self->_mode, 'Event', $self->_paymentProcessor );
+                $error   =  $payment->checkConfig( $self->_mode );
+                if ( $error ) {
+                    $errors['_qf_default'] = $error;
+                }
             }
-            
             // return if this is express mode
             $config =& CRM_Core_Config::singleton( );
             if ( $self->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_BUTTON ) {
@@ -479,8 +493,9 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 $invoiceID = md5(uniqid(rand(), true));
             }
             $this->set( 'invoiceID', $invoiceID );
-            
-            $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Event', $this->_paymentProcessor ); 
+            if ( is_array( $this->_paymentProcessor ) ) {
+                $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Event', $this->_paymentProcessor ); 
+            }
             // default mode is direct
             $this->set( 'contributeMode', 'direct' ); 
             

@@ -200,7 +200,14 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             // check for is_monetary status
             $isMonetary = CRM_Utils_Array::value( 'is_monetary', $this->_values['event'] );
             
-            if ( $isMonetary ) {
+            //retrieve custom information
+            $eventPageID = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_EventPage', $this->_id, 'id', 'event_id' );
+            
+            $isPayLater  = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_EventPage', $eventPageID, 'is_pay_later' );
+            //check for variour combination for paylater, payment
+            //process with paid event.
+            if ( $isMonetary && 
+                 ( ! $isPayLater || CRM_Utils_Array::value( 'payment_processor_id', $this->_values['event'] ) ) ) {
                 $ppID = CRM_Utils_Array::value( 'payment_processor_id',
                                                 $this->_values['event'] );
                 if ( ! $ppID ) {
@@ -225,19 +232,12 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                         CRM_Core_Error::fatal( $error );
                     }
                 }
-
                 
                 $this->set( 'paymentProcessor', $this->_paymentProcessor );
             }
-
-            //retrieve custom information
-            $eventPageID = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_EventPage',
-                                                        $this->_id,
-                                                        'id',
-                                                        'event_id' );
-
+            
             self::initPriceSet( $this, $eventPageID );
-
+            
             // get price info
             require_once 'CRM/Core/BAO/PriceSet.php';
             $priceSetId = CRM_Core_BAO_PriceSet::getFor( 'civicrm_event_page', $eventPageID );
