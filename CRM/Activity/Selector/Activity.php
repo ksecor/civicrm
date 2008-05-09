@@ -114,24 +114,27 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
      */
     function actionLinks( $activityTypeId, $sourceRecordId = null ) 
     {
-        $activityTypes = CRM_Core_PseudoConstant::activityType( false );
-
+        $activityTypes   = CRM_Core_PseudoConstant::activityType( false );
+        $activityTypeIds = array_flip( CRM_Core_PseudoConstant::activityType( ) );
+        
         //show  edit link only for meeting/phone and other activities
         $showUpdate = false;
         $showDelete = false;
-        if ( array_key_exists(  $activityTypeId,  $activityTypes ) || $activityTypeId > 9 ) {
+        if ( array_key_exists( $activityTypeId,  $activityTypes ) || $activityTypeId > 9 ) {
             $showUpdate = true;
             $showDelete = true;
             $url      = 'civicrm/contact/view/activity';
             $qsView   = "atype={$activityTypeId}&action=view&reset=1&id=%%id%%&cid=%%cid%%&context=%%cxt%%";
             $qsUpdate = "atype={$activityTypeId}&action=update&reset=1&id=%%id%%&cid=%%cid%%&context=%%cxt%%";
-        } elseif ( $activityTypeId == 5 )  { // event registration
+        } elseif ( $activityTypeId == $activityTypeIds['Event Registration'] )  { // event registration
             $url      = 'civicrm/contact/view/participant';
             $qsView   = "action=view&reset=1&id={$sourceRecordId}&cid=%%cid%%&context=%%cxt%%";
-        } elseif ( $activityTypeId == 6 ) { //contribution
+        } elseif ( $activityTypeId == $activityTypeIds['Contribution'] ) { //contribution
             $url      = 'civicrm/contact/view/contribution';
             $qsView   = "action=view&reset=1&id={$sourceRecordId}&cid=%%cid%%&context=%%cxt%%";
-        } elseif ( in_array($activityTypeId, array( 7, 8 ) ) ) {  // membership
+        } elseif ( in_array($activityTypeId, 
+                            array( $activityTypeIds['Membership Signup'], $activityTypeIds['Membership Renewal'] ) 
+                            ) ) {  // membership
             $url      = 'civicrm/contact/view/membership';
             $qsView   = "action=view&reset=1&id={$sourceRecordId}&cid=%%cid%%&context=%%cxt%%";
         } else {
