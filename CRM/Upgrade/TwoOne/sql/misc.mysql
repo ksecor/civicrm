@@ -55,3 +55,10 @@ INSERT INTO civicrm_dedupe_rule (dedupe_rule_group_id, rule_table, rule_field, r
 INSERT INTO civicrm_dedupe_rule_group (domain_id, contact_type, threshold, level, is_default, is_active) VALUES (1, 'Household', 10, 'Strict', true, true);
 SELECT @dedupe_rule_group_id := MAX(id) FROM civicrm_dedupe_rule_group;
 INSERT INTO civicrm_dedupe_rule (dedupe_rule_group_id, rule_table, rule_field, rule_weight) VALUES (@dedupe_rule_group_id, 'civicrm_email', 'email', 10);
+
+--Edited indexing of custom group table
+ALTER TABLE `civicrm_custom_group` DROP INDEX `UI_title_domain_id` ,
+ADD UNIQUE `UI_title_extends_domain_id` ( `title` , `extends` , `domain_id` ); 
+
+ALTER TABLE `civicrm_custom_group` DROP INDEX `UI_name_domain_id` ,
+ADD UNIQUE `UI_name_extends_domain_id` ( `name` , `extends` , `domain_id` );
