@@ -452,7 +452,7 @@ class CRM_Profile_Form extends CRM_Core_Form
         if ( ! $register ) { 
             require_once 'CRM/Dedupe/Finder.php';
             $dedupeParams = CRM_Dedupe_Finder::formatParams($fields, 'Individual');
-            $ids = CRM_Dedupe_Finder::dupesByParams('Individual', $dedupeParams);
+            $ids = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Individual');
             CRM_Core_Error::debug('$dedupeParams', $dedupeParams);
             CRM_Core_Error::debug('$ids', $ids);
             exit;

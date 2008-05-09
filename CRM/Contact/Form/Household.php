@@ -93,7 +93,7 @@ class CRM_Contact_Form_Household
         if ( ! CRM_Utils_Array::value( '_qf_Edit_next_duplicate', $fields )) {
             require_once 'CRM/Dedupe/Finder.php';
             $dedupeParams = CRM_Dedupe_Finder::formatParams($fields, 'Household');
-            $dupeIDs = CRM_Dedupe_Finder::dupesByParams('Household', $dedupeParams, 'Fuzzy', array($options));
+            $dupeIDs = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Household', 'Fuzzy', array($options));
             foreach ( $dupeIDs as $id ) {
                 $displayName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'display_name' );
                 $urls[] = '<a href="' . CRM_Utils_System::url( 'civicrm/contact/add', 'reset=1&action=update&cid=' . $id ) .
