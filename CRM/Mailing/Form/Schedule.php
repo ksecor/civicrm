@@ -66,16 +66,19 @@ class CRM_Mailing_Form_Schedule extends CRM_Core_Form
         
         $this->addFormRule(array('CRM_Mailing_Form_Schedule', 'formRule'));
         
-        $this->addButtons(  array(
-                                array(  'type'  => 'back',
-                                        'name'  => ts('<< Previous')),
-                                array(  'type'  => 'next',
-                                        'name'  => ts('Done'),
-                                        'isDefault' => true),
-                                array(  'type'  => 'cancel',
-                                        'name'  => ts('Cancel')),
-                            )
-                        );
+        $this->addButtons( array(
+                                 array(  'type'  => 'back',
+                                         'name'  => ts('<< Previous')),
+                                 array(  'type'  => 'next',
+                                         'name'  => ts('Done'),
+                                         'isDefault' => true),
+                                 array(  'type'  => 'cancel',
+                                         'name'  => ts('Cancel')),
+                                 array ( 'type'  => 'submit',
+                                         'name'  => ts('Schedule or Send Later'),
+                                         ),
+                                 )
+                           );
     }
     
     /**
@@ -92,6 +95,11 @@ class CRM_Mailing_Form_Schedule extends CRM_Core_Form
      */
     public static function formRule(&$params) 
     {
+        if ( $params['_qf_Schedule_submit'] ) {
+            CRM_Core_Session::setStatus( ts("Your mailing has been saved. Click the 'Continue' action to resume working on it.") );
+            $url = CRM_Utils_System::url( 'civicrm/mailing/browse/unscheduled', 'scheduled=false&reset=1' );
+            CRM_Utils_System::redirect($url);
+        }
         if ( isset($params['now']) || $params['_qf_Schedule_back'] == '<< Previous' ) {
             return true;
         }
