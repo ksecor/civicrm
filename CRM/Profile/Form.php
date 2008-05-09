@@ -450,15 +450,16 @@ class CRM_Profile_Form extends CRM_Core_Form
 
         // dont check for duplicates during registration validation: CRM-375 
         if ( ! $register ) { 
-            //formatted submiited fields before sending to dupe contact matching
-            $data = CRM_Core_BAO_UFGroup::formatFields( $fields, $cid );
-
-            $ids = CRM_Core_BAO_UFGroup::findContact( $data, $cid, true );
+            require_once 'CRM/Dedupe/Finder.php';
+            $dedupeParams = CRM_Dedupe_Finder::formatParams($fields, 'Individual');
+            $ids = CRM_Dedupe_Finder::dupesByParams('Individual', $dedupeParams);
+            CRM_Core_Error::debug('$dedupeParams', $dedupeParams);
+            CRM_Core_Error::debug('$ids', $ids);
+            exit;
             if ( $ids ) {
                 if ( $form->_isUpdateDupe ) {
                     if ( ! $form->_id ) {
-                        $idArray = explode( ',', $ids );
-                        $form->_id = $idArray[0];
+                        $form->_id = $ids[0];
                     }
                 } else {
                     $errors['_qf_default'] = ts( 'An account already exists with the same information.' );
