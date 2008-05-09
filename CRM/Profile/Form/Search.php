@@ -60,18 +60,6 @@ class CRM_Profile_Form_Search extends CRM_Profile_Form
         $this->_mode = CRM_Profile_Form::MODE_SEARCH; 
       
         parent::preProcess( );
-
-        //CRM-2676, replacing the conflict for same custom field name from different custom group.
-        foreach ( $this->_fields as $key => $value ) {
-            if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID( $key ) ) {
-                $customGroupId   = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', $customFieldId, 'custom_group_id' );
-                $customGroupName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup', $customGroupId, 'title' );
-                if ( strlen( $customGroupName ) > 13 ) {
-                    $customGroupName = substr( $customGroupName, 0, 10 ) . '...';
-                }
-                $this->_fields[$key]['title'] = $customGroupName . ': ' . $value['title'];
-            }
-        }
     } 
     
     /** 

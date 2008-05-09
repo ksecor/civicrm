@@ -307,7 +307,18 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         $noSearchable = array();
         foreach ($fields as $key => $value) {
             foreach ($value as $key1 => $value1) {
-                $this->_mapperFields[$key][$key1] = $value1['title'];
+                //CRM-2676, replacing the conflict for same custom field name from different custom group.
+                require_once 'CRM/Core/BAO/CustomField.php';
+                if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID( $key1 ) ) {
+                    $customGroupId   = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', $customFieldId, 'custom_group_id' );
+                    $customGroupName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup', $customGroupId, 'title' );
+                    if ( strlen( $customGroupName ) > 13 ) {
+                        $customGroupName = substr( $customGroupName, 0, 10 ) . '...';
+                    }
+                    $this->_mapperFields[$key][$key1] = $customGroupName . ': ' . $value1['title']; 
+                }else {
+                    $this->_mapperFields[$key][$key1] = $value1['title'];
+                }
                 $hasLocationTypes[$key][$key1]    = CRM_Utils_Array::value( 'hasLocationType', $value1 );
 
                 // hide the 'is searchable' field for 'File' custom data
