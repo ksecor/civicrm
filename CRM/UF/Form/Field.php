@@ -482,6 +482,9 @@ class CRM_UF_Form_Field extends CRM_Core_Form
                                 array ('type'      => 'next',
                                        'name'      => ts('Save'),
                                        'isDefault' => true),
+                                array ('type'      => 'next',
+                                       'name'      => ts('Save and New'),
+                                       'subName'   => 'new' ),
                                 array ('type'      => 'cancel',
                                        'name'      => ts('Cancel')),
                                 )
@@ -585,6 +588,12 @@ class CRM_UF_Form_Field extends CRM_Core_Form
                 }
             }
             CRM_Core_Session::setStatus(ts('Your CiviCRM Profile Field \'%1\' has been saved.', array(1 => $name)));
+        }
+        $buttonName = $this->controller->getButtonName( );
+        $session =& CRM_Core_Session::singleton( );
+        if ( $buttonName == $this->getButtonName( 'next', 'new' ) ) {
+            CRM_Core_Session::setStatus(ts(' You can add another profile field.'));
+            $session->replaceUserContext(CRM_Utils_System::url('civicrm/admin/uf/group/field', 'reset=1&action=add&gid=' . $this->_gid));
         }
     }
     
