@@ -226,7 +226,7 @@ class CRM_Admin_Page_Options extends CRM_Core_Page_Basic
      */
     function userContext($mode = null) 
     {
-        return 'civicrm/admin/options';
+        return 'civicrm/admin/options/'.self::$_gName;
     }
 
     /**
