@@ -211,8 +211,8 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         }
         
         // help text
-        $this->addWysiwyg( 'help_pre', ts('Pre-form Help'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'help_pre');
-        $this->addWysiwyg( 'help_post', ts('Post-form Help'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'help_post');
+        $this->addWysiwyg( 'help_pre', ts('Pre-form Help'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'help_pre'));
+        $this->addWysiwyg( 'help_post', ts('Post-form Help'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'help_post'));
 
         // weight
         $this->add('text', 'weight', ts('Order'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'weight'), true);
