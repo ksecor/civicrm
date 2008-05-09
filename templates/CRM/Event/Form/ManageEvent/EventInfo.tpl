@@ -1,4 +1,7 @@
 {* Step 1 of New Event Wizard, and Edit Event Info form.  *}
+{if $cdType }
+  {include file="CRM/Custom/Form/CustomData.tpl"}
+{else}
 {include file="CRM/common/WizardHeader.tpl"}
 {capture assign=mapURL}{crmURL p='civicrm/admin/setting/mapping' q="reset=1"}{/capture}
 
@@ -48,28 +51,12 @@
         </tr>
         <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
     </table>
-    {if $action eq 4}
-        {include file="CRM/Contact/Page/View/InlineCustomData.tpl"}
-    {else}
-        {include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
-    {/if}
-
+    <div id="customData"></div>
+    {*include custom data js file*}
+    {include file="CRM/common/customData.tpl"}	
     <dl>    
        <dt></dt><dd class="html-adjust">{$form.buttons.html}</dd>   
     </dl> 
 </fieldset>     
 </div>
-
-<script type="text/javascript">
-{literal}
-    function reload(refresh) {
-        var eventId = document.getElementById("event_type_id");
-        var url = "{/literal}{$refreshURL}{literal}"
-        var post = url + "&etype=" + eventId.value;
-        if( refresh ) {
-        window.location= post; 
-        }
-    }
-  
-{/literal}
-</script>
+{/if}

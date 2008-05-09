@@ -36,6 +36,8 @@
 
 require_once 'CRM/Event/Form/ManageEvent.php';
 require_once "CRM/Core/BAO/CustomGroup.php";
+require_once "CRM/Custom/Form/CustomData.php";
+require_once "CRM/Core/BAO/CustomField.php";
 
 /**
  * This class generates form components for processing Event  
@@ -51,22 +53,31 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
      */ 
     function preProcess( )
     {
+        //custom data related code
+        $this->_cdType     = CRM_Utils_Array::value( 'type', $_GET );
+        $this->assign('cdType', false);
+        if ( $this->_cdType ) {
+            $this->assign('cdType', true);
+            return CRM_Custom_Form_CustomData::preProcess( $this );
+        }
         parent::preProcess( );
-        $eventType = CRM_Utils_Request::retrieve( 'etype', 'Positive', $this );   
+                
+        if ( $this->_id ) {
+            $eventType = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event',
+                                                      $this->_id,
+                                                      'event_type_id' );
+        } else {
+            $eventType = 'null';
+        }
         
-        if ( ! $eventType ) {
-            if ( $this->_id ) {
-                $eventType = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event',
-                                                          $this->_id,
-                                                          'event_type_id' );
-            } else {
-                $eventType = 'null';
-            }
-        }     
         $showLocation = false;
-        require_once 'CRM/Core/BAO/CustomGroup.php';    
-        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree("Event", $this->_id, 0, $eventType);       
-
+        // when custom data is included in this page
+        if ( CRM_Utils_Array::value( "hidden_custom", $_POST ) ) {
+            eval( 'CRM_Custom_Form_Customdata::preProcess( $this );' );
+            eval( 'CRM_Custom_Form_Customdata::buildQuickForm( $this );' );
+            eval( 'CRM_Custom_Form_Customdata::setDefaultValues( $this );' );
+        }
+        
     }
     
     /**
@@ -76,13 +87,16 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
      * @access public
      * @return None
      */
+    
     function setDefaultValues( )
     {
+        if ( $this->_cdType ) {
+            return CRM_Custom_Form_CustomData::setDefaultValues( $this );
+        }
         $defaults = parent::setDefaultValues();
-
-        $etype = CRM_Utils_Request::retrieve( 'etype', 'Positive', $this );
-        if ( $etype ) {
-            $defaults["event_type_id"] = $etype;
+        
+        if ( $this->_eventType ) {
+            $defaults["event_type_id"] = $this->_eventType;
         }
         if( !isset ( $defaults['start_date'] ) ) {
             $defaultDate = array( );
@@ -90,20 +104,28 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
             $defaultDate['i'] = (int ) ( $defaultDate['i'] / 15 ) * 15;
             $defaults['start_date'] = $defaultDate;
         }
-	$this->assign('description', $defaults['description'] ); 
-        if( isset($this->_groupTree) ) {
-            CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, false, false );
-        }
+        $this->assign('description', $defaults['description'] ); 
+        
         return $defaults;
     }
+    
     /** 
      * Function to build the form 
      * 
      * @return None 
      * @access public 
      */ 
+    
     public function buildQuickForm( )  
     { 
+        if ( $this->_cdType ) {
+            return CRM_Custom_Form_CustomData::buildQuickForm( $this );
+        }
+        //need to assign custom data type and subtype to the template
+        $this->assign('customDataType', 'Event');
+        $this->assign('customDataSubType',  $this->_eventType );
+        $this->assign('entityId',  $this->_id );
+        
         $this->_first = true;
         $this->applyFilter('__ALL__', 'trim');
         $attributes = CRM_Core_DAO::getAttribute('CRM_Event_DAO_Event');
@@ -131,8 +153,8 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
                    ts('Event Type'),
                    array('' => ts('- select -')) + $event,
                    true, 
-                   array('onChange' => "if (this.value) reload(true); else return false"));
- 
+                   array('onChange' => "buildCustomData( this.value );") );
+        
         $participantRole = CRM_Core_OptionGroup::values('participant_role');
         $this->add('select',
                    'default_role_id',
@@ -170,12 +192,6 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         $this->addElement('checkbox', 'is_active', ts('Is this Event Active?') );
         
         $this->addFormRule( array( 'CRM_Event_Form_ManageEvent_EventInfo', 'formRule' ) );
-
-        if ($this->_action & CRM_Core_Action::VIEW ) { 
-            CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $this->_groupTree );
-        } else {
-            CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
-        }
         
         parent::buildQuickForm();
     }
@@ -217,7 +233,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
     {
         $params = $ids = array();
         $params = $this->controller->exportValues( $this->_name );
-
+        
         //format params
         $params['start_date']      = CRM_Utils_Date::format($params['start_date']);
         $params['end_date'  ]      = CRM_Utils_Date::format($params['end_date']);
