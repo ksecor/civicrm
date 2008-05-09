@@ -273,14 +273,9 @@ setDefaultAddress();
 
         // if this is a forced save, ignore find duplicate rule
         if ( ! CRM_Utils_Array::value( '_qf_Edit_next_duplicate', $fields ) ) {
-            $cid = null;
-            if ( $options ) {
-                $cid = (int ) $options;
-            }
-            
             require_once 'CRM/Dedupe/Finder.php';
             $dedupeParams = CRM_Dedupe_Finder::formatParams($fields, 'Individual');
-            $ids = CRM_Dedupe_Finder::dupesByParams('Individual', $dedupeParams, 'Fuzzy');
+            $ids = CRM_Dedupe_Finder::dupesByParams('Individual', $dedupeParams, 'Fuzzy', array($options));
             if ( $ids ) {
                 $urls = array( );
                 foreach ($ids as $id) {
