@@ -168,6 +168,15 @@ class CRM_Dedupe_Finder
             }
         }
 
+        // drop the -digit postfixes
+        foreach ($flat as $key => $value) {
+            $matches = array();
+            if (preg_match('/(.*)-\d+$/', $key, $matches)) {
+                $flat[$matches[1]] = $value;
+                unset($flat[$key]);
+            }
+        }
+
         $params = array();
         foreach(CRM_Dedupe_BAO_RuleGroup::supportedFields($ctype) as $table => $fields) {
             foreach($fields as $field => $title) {
