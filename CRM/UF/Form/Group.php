@@ -144,8 +144,8 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
         $this->addGroup($uf_group_type, 'uf_group_type', ts('Used For'), '&nbsp;');
 
         // help text
-        $this->add('textarea', 'help_pre',  ts('Pre-form Help'),  CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFGroup', 'help_pre'));
-        $this->add('textarea', 'help_post', ts('Post-form Help'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFGroup', 'help_post'));
+        $this->addWysiwyg( 'help_pre',  ts('Pre-form Help'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFGroup', 'help_post'));
+        $this->addWysiwyg( 'help_post', ts('Post-form Help'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFGroup', 'help_post'));
 
         // weight
         $this->add('text', 'weight', ts('Order'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFJoin', 'weight'), true);

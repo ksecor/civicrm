@@ -910,15 +910,15 @@ commented since it is overwiting simple td
 }
 
 /*
- dojo editor specific classes
+ editor specific classes
 */
 
-#crm-container  #dojoEditor {
-   padding:0px;
-   margin: 0em;
+#crm-container dd.editor {
+   margin-top: 0.7em;
+   margin-left: 0em;
    float: left;
-   border: 1px solid;
    vertical-align:top;
+   width: 40em;
 }
 
 /*#crm-container table.dojoEditor {
