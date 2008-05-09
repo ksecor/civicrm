@@ -77,12 +77,13 @@ class CRM_Dedupe_Finder
      * level.
      *
      * @param string $ctype   contact type to match against
-     * @param array  $params  an array of params of the form $params[$table][$field] == $value
+     * @param array  $params  array of params of the form $params[$table][$field] == $value
      * @param string $level   dedupe rule group level ('Fuzzy' or 'Strict')
+     * @param array  $except  array of contacts that shouldn't be considered dupes
      *
      * @return array  matching contact ids
      */
-    function dupesByParams($ctype, $params, $level = 'Strict') {
+    function dupesByParams($ctype, $params, $level = 'Strict', $except = array()) {
         $rgBao =& new CRM_Dedupe_BAO_RuleGroup();
         $rgBao->domain_id = CRM_Core_Config::DomainID();
         $rgBao->contact_type = $ctype;
@@ -100,7 +101,7 @@ class CRM_Dedupe_Finder
         }
         $dao->query($rgBao->tableDropQuery());
 
-        return $dupes;
+        return array_diff($dupes, $except);
     }
 
     /**
