@@ -257,16 +257,16 @@ class CRM_Contact_Form_Task_EmailCommon
          
         $subject = $form->controller->exportValue( 'Email', 'subject' );
         $text_message = $form->controller->exportValue( 'Email', 'text_message' );
-        $html_message = $form->controller->exportValue( 'Email', 'hmsg' );
-              
+        $html_message = $form->controller->exportValue( 'Email', 'html_message' );
+        
         //added code for CRM-1393
         $messageParams = $form->exportValues( );
-      
+        
         // process message template
         require_once 'CRM/Core/BAO/MessageTemplates.php';
         if ( $messageParams['saveTemplate'] || $messageParams['updateTemplate']) {
             $messageTemplate = array( 'msg_text'    => $messageParams['text_message'],
-                                      'msg_html'    => $messageParams['hmsg'],
+                                      'msg_html'    => $messageParams['html_message'],
                                       'msg_subject' => $messageParams['subject'],
                                       'is_active'   => true );
             

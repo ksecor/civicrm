@@ -93,9 +93,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             }
         }
         
-        if ( !$htmlMessage ) { 
-            $htmlMessage = $this->getElementValue( "hmsg" );
-        }
+      
         
         $htmlMessage = str_replace( array("\n","\r"), ' ', $htmlMessage);
         $htmlMessage = str_replace( "'", "\'", $htmlMessage);
@@ -208,7 +206,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             $params['body_text']     = $text_message;
             $this->set('textFile',     $params['body_text'] );
             $this->set('text_message', $params['body_text'] );
-            $html_message = $this->controller->exportvalue($this->_name, 'hmsg');
+            $html_message = $this->controller->exportvalue($this->_name, 'html_message');
             
             // dojo editor does some html conversion when tokens are
             // inserted as links. Hence token replacement fails.
@@ -289,8 +287,6 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             return true;
         }
         $errors = array();
-
-        $params['html_message'] = $params['hmsg'];
 
         require_once 'CRM/Core/BAO/Domain.php';
 

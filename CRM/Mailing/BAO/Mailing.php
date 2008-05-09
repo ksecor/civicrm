@@ -1863,28 +1863,14 @@ SELECT DISTINCT( m.id ) as id
         if ( ! $form->get('saveTemplate') ) {
             $form->add('text','saveTemplateName',ts('Template Title'));
         } 
-        
+       
         //insert message Text by selecting "Select Template option"
         $form->add( 'textarea', 
                     'text_message', 
                     ts('Text Message'),
                     array('cols' => '80', 'rows' => '8','onkeyup' => "return verify(this)"));
-
-        $form->assign( 'dojoIncludes',
-                       "dojo.require('dijit.Editor'); dojo.require('dojo.parser'); dojo.require('dijit._editor.plugins.FontChoice');
-                        dojo.require('dijit._editor.plugins.TextColor'); dojo.require('dijit._editor.plugins.LinkDialog');");
-                
-        $dojoAttributes = array( 'dojoType'             => 'dijit.Editor',
-                                 'height'               => '250 px',
-                                 'id'                   => 'html_message',
-                                 'extraPlugins'         => '["createLink","foreColor","hiliteColor","formatBlock"]',
-                                 'onkeyup'              => "return verify(this)"
-                                 );
-
-        $form->add( 'textarea', 'html_message', ts('HTML Message'), $dojoAttributes );
-        //special hidden field to fix problem with dojo editor
-        $form->add('hidden', 'hmsg', null);
-
+        $form->addWysiwyg( 'html_message', ts('HTML Message'),array('cols' => '80', 'rows' => '8'), array('onkeyup' =>"return verify(this)") );
+           
     }
 }
 
