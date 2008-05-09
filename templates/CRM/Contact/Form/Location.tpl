@@ -177,7 +177,7 @@ function setDefaultAddress()
 
   if ( document.getElementsByName("use_household_address")[0].checked == false ) {
  
-    {/literal}{if $action eq 2 AND $old_mail_to_household_id}{literal}
+    {/literal}{if $action eq 2}{literal}
        var street    = {/literal}"{$form.location.1.address.street_address.value}"{literal};
        var suppl1    = {/literal}"{$form.location.1.address.supplemental_address_1.value}"{literal};
        var suppl2    = {/literal}"{$form.location.1.address.supplemental_address_2.value}"{literal};
@@ -199,10 +199,22 @@ function setDefaultAddress()
        dijit.byId( 'location_1_address_country_id' ).setDisplayedValue( country );
        dijit.byId( 'location_1_address_state_province_id' ).setDisplayedValue( state );
      {/literal}{/if}{literal}
+
    } else {
-        {/literal}{if $action eq 1}{literal}
-                 document.getElementsByName("shared_option")[1].checked = true; 
-        {/literal}{/if}{literal}
+      if ( document.getElementsByName("shared_option")[0].checked ) {
+         document.getElementById('location_1_address_street_address').value = '';
+         document.getElementById('location_1_address_supplemental_address_1').value = '';
+         document.getElementById('location_1_address_supplemental_address_2').value = '';
+         document.getElementById('location_1_address_city').value = '';
+         document.getElementById('location_1_address_postal_code').value = '';
+         document.getElementById('location_1_address_postal_code_suffix').value = '';
+         document.getElementById('location_1_address_geo_code_1').value = '';
+         document.getElementById('location_1_address_geo_code_2').value = '';
+         dijit.byId( 'location_1_address_country_id' ).setDisplayedValue( country );
+         dijit.byId( 'location_1_address_state_province_id' ).setDisplayedValue( '- type first letter(s) -' );
+      }  
+           
+       
    }  
 }
 function setAddressFields () 
@@ -221,7 +233,7 @@ function setAddressFields ()
        dijit.byId( 'location_1_address_country_id' ).setDisplayedValue( country );
        dijit.byId( 'location_1_address_state_province_id' ).setDisplayedValue( '- type first letter(s) -' ); 
      }
-  }
+  } 
 }
 
 {/literal}{if $action eq 2 AND $old_mail_to_household_id}{literal}	 
