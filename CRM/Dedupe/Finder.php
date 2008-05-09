@@ -141,7 +141,8 @@ class CRM_Dedupe_Finder
         $rgBao->contact_type = $ctype;
         $rgBao->is_default = 1;
         $rgBao->find(true);
-        return self::dupes($rgBao->id, array($cid));
+        $dupes = self::dupes($rgBao->id, array($cid));
+        return $dupes[$cid];
     }
 
     /**
