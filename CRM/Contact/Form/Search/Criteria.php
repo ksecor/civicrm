@@ -135,7 +135,14 @@ class CRM_Contact_Form_Search_Criteria {
             } else {
                 $form->addElement('text', $name, $title, $attributes );
             }
-
+            
+            if ( $addressOptions['Zip / Postal Code'] ) { 
+                $form->addElement('text', 'postal_code_low', ts('Range-From'),
+                          $attributes['postal_code'] );
+                $form->addElement('text', 'postal_code_high', ts('To'),
+                          $attributes['postal_code'] );
+            }
+            
             // select for state province
             $stateProvince = array('' => ts('- any state/province -')) + CRM_Core_PseudoConstant::stateProvince( );
             

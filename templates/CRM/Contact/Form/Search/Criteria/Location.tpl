@@ -13,16 +13,21 @@
             <td class="label">{$form.country.label}</td>
             <td>{$form.country.html|crmReplace:class:big}</td>
         </tr>
-        <tr>
+        {if $form.postal_code.html}
+          <tr>
             <td class="label">{$form.postal_code.label}</td>
             <td>{$form.postal_code.html}&nbsp;&nbsp;<label>{ts}OR{/ts}</label></td> 
             <td class="label">{$form.postal_code_low.label}</td>
-            <td>{$form.postal_code_low.html|crmReplace:class:six}
-                {$form.postal_code_high.label}
-                {$form.postal_code_high.html|crmReplace:class:six}
-            </td>
-        </tr>
-	<tr>
+            <td>{$form.postal_code_low.html|crmReplace:class:six}</td>
+          </tr>
+          <tr>
+            <td> &nbsp; </td>
+            <td> &nbsp; </td>
+            <td class="label">{$form.postal_code_high.label}</td>
+            <td {$form.postal_code_high.html|crmReplace:class:six}</td>
+          </tr>
+        {/if}
+    	<tr>
             <td class="label">{$form.location_type.label}</td>
             <td>{$form.location_type.html} 
                 <div class="description">
