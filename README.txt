@@ -1,5 +1,6 @@
 *************************
 README file for CiviCRM
+**
 *************************
 1. Who
 2. What
@@ -7,6 +8,7 @@ README file for CiviCRM
 4. Installation
 5. Support
 6. Developers
+
 
 *************************
 1. Who
