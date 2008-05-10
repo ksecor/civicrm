@@ -213,7 +213,9 @@ WHERE  $where";
     function save( ) {
         // first build the computed fields
         $this->buildClause( );
+
         parent::save( );
+
     }
 
     /**
@@ -230,7 +232,7 @@ WHERE  $where";
         $group                   =& new CRM_Contact_DAO_Group( );
         $group->saved_search_id = $id;
         if ( $group->find( true ) ) {
-            return CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group', $group->id, $value );
+            return $group->$value;
         }
         return null;
     }

@@ -194,9 +194,6 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
      * @static
      */
     static function getMember ($lngGroupId, $includeChildGroups = false) {
-        require_once 'CRM/Contact/DAO/GroupContact.php';
-        $groupContact =& new CRM_Contact_DAO_GroupContact( );
-        
         $groupIds = array( $lngGroupId );
         if ( $includeChildGroups ) {
             require_once 'CRM/Contact/BAO/GroupNesting.php';
@@ -334,6 +331,11 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
             CRM_Core_BAO_CustomValueTable::store( $params['custom'], 'civicrm_group', $group->id );
         }
 
+
+        // if saved search, re-cache the results
+        require_once 'CRM/Contact/BAO/GroupContactCache.php';
+        CRM_Contact_BAO_GroupContactCache::add( $group->id );
+
         if ( CRM_Utils_Array::value( 'id', $params ) ) {
             CRM_Utils_Hook::post( 'edit', 'Group', $group->id, $group );
         } else {
@@ -377,7 +379,7 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
     public static function createGroup(&$params) {
          
         if ( CRM_Utils_Array::value( 'saved_search_id', $params ) ) {
-            $savedSearch =& new CRM_Contact_DAO_SavedSearch();
+            $savedSearch =& new CRM_Contact_BAO_SavedSearch();
             $savedSearch->domain_id   = CRM_Core_Config::domainID( );
             $savedSearch->form_values = CRM_Utils_Array::value( 'formValues', $params );
             $savedSearch->is_active = 1;
