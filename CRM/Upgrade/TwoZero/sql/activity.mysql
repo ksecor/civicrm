@@ -221,6 +221,10 @@ UPDATE civicrm_activity ca
 SET ca.activity_date_time = ca.scheduled_date_time,
     ca.duration = (ca.duration_hours * 60 + ca.duration_minutes);
 
+UPDATE civicrm_activity ca
+SET ca.source_record_id = ca.id
+WHERE ca.source_record_id IS NULL;
+
 -- for records in activity table, also add a copy to target and assignment
 
 INSERT INTO civicrm_activity_target (activity_id, target_contact_id)
