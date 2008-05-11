@@ -209,7 +209,14 @@ class CRM_Contact_BAO_Query
      * @var boolean
      */
     public $_includeContactIds = false;
-    
+
+    /**
+     * Should we use the smart group cache
+     *
+     * @var boolean
+     */
+    public $_smartGroupCache = false;
+
     /**
      * descend into child groups when searching (or not)
      *
@@ -1761,32 +1768,31 @@ class CRM_Contact_BAO_Query
         $session =& CRM_Core_Session::singleton();
         $context = $session->get('context', 'CRM_Contact_Controller_Search');
 
-        //fix for CRM-1513
-        // if ( isset($group->saved_search_id) && $context == "smog" ) {
-        //   return;
-        // }
-        
         $groupNames =& CRM_Core_PseudoConstant::group();
         
         // add child group ids to the query, if requested
-        // if ( $this->_searchDescendentGroups ) {
-//             $groupIds = array_keys($value);
-//             require_once 'CRM/Contact/BAO/GroupNesting.php';
-//             $descGroups = CRM_Contact_BAO_GroupNesting::getDescendentGroupIds( $groupIds, false );
-//             $descendentGroupNames = array( );
-//             foreach ( $descGroups as $id ) {
-//                 array_push( $groupIds, $id );
-//                 if ( array_key_exists( $id, $groupNames ) ) {
-//                     $descendentGroupNames[] = $groupNames[$id];
-//                 }
-//             }
-//             $groupIds = array_merge( $groupIds, array_keys( $value ) );
-//         } else {
+        /****
+        if ( $this->_searchDescendentGroups ) {
+            $groupIds = array_keys($value);
+            require_once 'CRM/Contact/BAO/GroupNesting.php';
+            $descGroups = CRM_Contact_BAO_GroupNesting::getDescendentGroupIds( $groupIds, false );
+            $descendentGroupNames = array( );
+            foreach ( $descGroups as $id ) {
+                array_push( $groupIds, $id );
+                if ( array_key_exists( $id, $groupNames ) ) {
+                    $descendentGroupNames[] = $groupNames[$id];
+                }
+            }
+            $groupIds = array_merge( $groupIds, array_keys( $value ) );
+        } else {
+            $groupIds = array_keys($value);
+        }
+        ****/
         $groupIds = array_keys($value);
-            //        }
 
         $gcTable = "`civicrm_group_contact-" .implode( ',', array_keys($value) ) ."`";
-        $this->_tables[$gcTable] = $this->_whereTables[$gcTable] = " LEFT JOIN civicrm_group_contact {$gcTable} ON contact_a.id = {$gcTable}.contact_id ";
+        $this->_tables[$gcTable] = $this->_whereTables[$gcTable] =
+            " LEFT JOIN civicrm_group_contact {$gcTable} ON contact_a.id = {$gcTable}.contact_id ";
        
         $groupClause = "{$gcTable}.group_id $op (" . implode( ',', $groupIds ) . ')';
 
@@ -1799,10 +1805,12 @@ class CRM_Contact_BAO_Query
         
         $qill = ts( 'Member of Group %1', array( 1 => $op ) );
         $qill .= ' ' . implode( ' ' . ts('or') . ' ', $names );
-        // if ( $this->_searchDescendentGroups ) {
-//             $qill .= ' (' . ts("or Member of 1 or more Subgroups %1", array( 1 => $op ) );
-//             $qill .= ' ' . implode( ', ', $descendentGroupNames ) . ')';
-//         }
+        /***
+        if ( $this->_searchDescendentGroups ) {
+            $qill .= ' (' . ts("or Member of 1 or more Subgroups %1", array( 1 => $op ) );
+            $qill .= ' ' . implode( ', ', $descendentGroupNames ) . ')';
+        }
+        ***/
         $this->_qill[$grouping][] = $qill;
         
         $statii    =  array(); 
@@ -1813,16 +1821,14 @@ class CRM_Contact_BAO_Query
             foreach ( $gcsValues[2] as $k => $v ) {
                   if ( $v ) {
                     if ( $k == 'Added' ) {
-              $in = true;
+                        $in = true;
                     }
                     $statii[] = "'" . CRM_Utils_Type::escape($k, 'String') . "'";
                 }
             }
         } else {
-            //if ( $op == "IN" ) {
-                $statii[] = '"Added"'; 
-                $in = true; 
-                // }
+            $statii[] = '"Added"'; 
+            $in = true; 
         }
 
         if ( ! empty( $statii ) ) {
@@ -1864,29 +1870,36 @@ class CRM_Contact_BAO_Query
             if ( isset( $group->saved_search_id ) ) {
                 $this->_useDistinct = true;
 
-                require_once 'CRM/Contact/BAO/SavedSearch.php';
-                $ssParams =& CRM_Contact_BAO_SavedSearch::getSearchParams($group->saved_search_id);
-                $returnProperties = array();
-                if (CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_SavedSearch', $group->saved_search_id, 'mapping_id' ) ) {
-                    require_once "CRM/Core/BAO/Mapping.php";
-                    $fv =& CRM_Contact_BAO_SavedSearch::getFormValues($group->saved_search_id);
-                    $returnProperties = CRM_Core_BAO_Mapping::returnProperties( $fv );
-                }        
+                if ( $this->_smartGroupCache ) {
+                    $gcTable = "`civicrm_group_contact_cache_{$group->id}`";
+                    $this->_tables[$gcTable] = $this->_whereTables[$gcTable] =
+                        " LEFT JOIN civicrm_group_contact_cache {$gcTable} ON contact_a.id = {$gcTable}.contact_id ";
+                    $ssWhere[] = "{$gcTable}.group_id = {$group->id}";
+                } else {
+                    require_once 'CRM/Contact/BAO/SavedSearch.php';
+                    $ssParams =& CRM_Contact_BAO_SavedSearch::getSearchParams($group->saved_search_id);
+                    $returnProperties = array();
+                    if (CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_SavedSearch',
+                                                     $group->saved_search_id,
+                                                     'mapping_id' ) ) {
+                        require_once "CRM/Core/BAO/Mapping.php";
+                        $fv =& CRM_Contact_BAO_SavedSearch::getFormValues($group->saved_search_id);
+                        $returnProperties = CRM_Core_BAO_Mapping::returnProperties( $fv );
+                    }
 
-                $query =& new CRM_Contact_BAO_Query($ssParams, $returnProperties);
-                    
-                $smarts =& $query->searchQuery($ssParams, 0, 0, null, false, false, true, true, true);
-                        
-                $ssWhere[] = " 
+                    $query =& new CRM_Contact_BAO_Query($ssParams, $returnProperties);
+                    $smarts =& $query->searchQuery($ssParams, 0, 0, null, false, false, true, true, true);
+                    $ssWhere[] = " 
                             ( contact_a.id IN ( $smarts )  
                               AND contact_a.id NOT IN ( 
                               SELECT contact_id FROM civicrm_group_contact 
                               WHERE civicrm_group_contact.group_id = "   .
-                    CRM_Utils_Type::escape($group_id, 'Integer') .
-                    " AND civicrm_group_contact.status = 'Removed' ) )";
+                        CRM_Utils_Type::escape($group_id, 'Integer') .
+                        " AND civicrm_group_contact.status = 'Removed' ) )";
+                }
+                $group->reset(); 
+                $group->selectAdd('*'); 
             }
-            $group->reset(); 
-            $group->selectAdd('*'); 
         }
         
         if ( ! empty( $ssWhere ) ) {

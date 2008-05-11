@@ -112,6 +112,8 @@ WHERE      g.group_id = %1
 ";
             $params = array( 1 => array( $groupID, 'Integer' ) );
         }
+
+        CRM_Core_DAO::executeQuery( $query, $params );
     }
     
 }

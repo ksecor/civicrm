@@ -332,7 +332,6 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
         }
 
 
-        // if saved search, re-cache the results
         require_once 'CRM/Contact/BAO/GroupContactCache.php';
         CRM_Contact_BAO_GroupContactCache::add( $group->id );
 
