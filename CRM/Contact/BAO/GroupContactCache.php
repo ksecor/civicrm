@@ -40,6 +40,27 @@ class CRM_Contact_BAO_GroupContactCache extends CRM_Contact_DAO_GroupContactCach
     const
         NUM_CONTACTS_TO_INSERT = 5;
 
+    /**
+     * Check to see if we have cache entries for this group
+     * if not, regenerate, else return
+     *
+     * @param int $groupID groupID of group that we are checking against
+     *
+     * @return boolean true if we did not regenerate, false if we did
+     */
+    static function check( $groupID ) {
+        $cacheDate = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group',
+                                                  $groupID,
+                                                  'cache_date' );
+
+        // we'll modify the below if to regenerate if cacheDate is quite old
+        if ( $cacheDate != null ) {
+            return true;
+        }
+        self::add( $groupID );
+        return false;
+    }
+
     static function add( $groupID ) {
         // first delete the current cache
         self::remove( $groupID );
@@ -48,8 +69,10 @@ class CRM_Contact_BAO_GroupContactCache extends CRM_Contact_DAO_GroupContactCach
         }
 
         $params['return.contact_id'] = 1;
-        $params['offset'] = $params['rowCount'] = 0;
-        $params['sort'] = null;
+        $params['offset']            = 0;
+        $params['rowCount']          = 0;
+        $params['sort']              = null;
+        $params['smartGroupCache']   = false;
 
         require_once 'api/v2/Contact.php';
         
@@ -58,18 +81,18 @@ class CRM_Contact_BAO_GroupContactCache extends CRM_Contact_DAO_GroupContactCach
             $params['group'] = array( );
             $params['group'][$gid] = 1;
 
+            // the below call update the cache table as a byproduct of the query
             $contacts = civicrm_contact_search( $params );
-            foreach ( $contacts as $contact ) {
-                $values[] = "({$gid},{$contact['contact_id']})";
-            }
         }
+    }
 
-        // to avoid long strings, lets do CONTACTS_TO_INSERT values at a time
+    static function store( &$groupID, &$values ) {
+
+        // to avoid long strings, lets do NUM_CONTACTS_TO_INSERT values at a time
         while ( ! empty( $values ) ) {
             $input = array_splice( $values, 0, self::NUM_CONTACTS_TO_INSERT );
             $str   = implode( ', ', $input );
             $sql = "INSERT INTO civicrm_group_contact_cache (group_id,contact_id) VALUES $str;";
-            echo "$sql<p>";
             CRM_Core_DAO::executeQuery( $sql,
                                         CRM_Core_DAO::$_nullArray );
         }
@@ -95,12 +118,23 @@ FROM       civicrm_group_contact_cache g
 INNER JOIN civicrm_contact c ON c.id = g.contact_id
 WHERE      c.domain_id = %1
 ";
+
+            $update = "
+UPDATE civicrm_group g
+SET    cache_date = null
+WHERE  g.domain_id = %1
+";
             $params = array( 1 => array( $domainID, 'Integer' ) );
         } else if ( is_array( $groupID ) ) {
             $query = "
 DELETE     g
 FROM       civicrm_group_contact_cache g
 WHERE      g.group_id IN ( %1 )
+";
+            $update = "
+UPDATE civicrm_group g
+SET    cache_date = null
+WHERE  g.group_id IN ( %1 )
 ";
             $groupIDs = implode( ', ', $groupID );
             $params = array( 1 => array( $groupIDs, 'String' ) );
@@ -110,10 +144,18 @@ DELETE     g
 FROM       civicrm_group_contact_cache g
 WHERE      g.group_id = %1
 ";
+            $update = "
+UPDATE civicrm_group g
+SET    cache_date = null
+WHERE  g.id = %1
+";
             $params = array( 1 => array( $groupID, 'Integer' ) );
         }
 
-        CRM_Core_DAO::executeQuery( $query, $params );
+        CRM_Core_DAO::executeQuery( $query , $params );
+
+        // also update the cache_date for these groups
+        CRM_Core_DAO::executeQuery( $update, $params );
     }
     
 }

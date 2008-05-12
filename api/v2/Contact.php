@@ -200,11 +200,12 @@ function &civicrm_contact_search( &$params ) {
 
     $inputParams      = array( );
     $returnProperties = array( );
-    $otherVars = array( 'sort', 'offset', 'rowCount' );
+    $otherVars = array( 'sort', 'offset', 'rowCount', 'smartGroupCache' );
     
-    $sort     = null;
-    $offset   = 0;
-    $rowCount = 25;
+    $sort            = null;
+    $offset          = 0;
+    $rowCount        = 25;
+    $smartGroupCache = false;
     foreach ( $params as $n => $v ) {
         if ( substr( $n, 0, 7 ) == 'return.' ) {
             $returnProperties[ substr( $n, 7 ) ] = $v;
@@ -226,7 +227,8 @@ function &civicrm_contact_search( &$params ) {
                                                                    null,
                                                                    $sort,
                                                                    $offset,
-                                                                   $rowCount );
+                                                                   $rowCount,
+                                                                   $smartGroupCache );
     return $contacts;
 }
 

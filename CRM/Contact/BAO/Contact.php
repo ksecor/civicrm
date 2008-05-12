@@ -296,6 +296,10 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         
         $contact->contact_type_display = CRM_Contact_DAO_Contact::tsEnum('contact_type', $contact->contact_type);
 
+        // reset the group contact cache for this group
+        require_once 'CRM/Contact/BAO/GroupContactCache.php';
+        CRM_Contact_BAO_GroupContactCache::remove( );
+
         if ( $invokeHooks ) {
             if ( $isEdit ) {
                 CRM_Utils_Hook::post( 'edit', $params['contact_type'], $contact->id, $contact );
@@ -525,6 +529,10 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         CRM_Utils_Recent::del($id);
 
         $transaction->commit( );
+
+        // reset the group contact cache for this group
+        require_once 'CRM/Contact/BAO/GroupContactCache.php';
+        CRM_Contact_BAO_GroupContactCache::remove( );
 
         CRM_Utils_Hook::post( 'delete', $contactType, $contact->id, $contact );
 
@@ -1404,6 +1412,10 @@ WHERE  civicrm_contact.id = %1 ";
             CRM_Quest_BAO_Student::create( $params, $ids);
             CRM_Quest_BAO_Student::createStudentSummary($params, $ssids);
         }
+
+        // reset the group contact cache for this group
+        require_once 'CRM/Contact/BAO/GroupContactCache.php';
+        CRM_Contact_BAO_GroupContactCache::remove( );
 
         if ( $editHook ) {
             CRM_Utils_Hook::post( 'edit'  , 'Profile', $contactID  , $params );

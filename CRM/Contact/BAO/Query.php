@@ -215,7 +215,7 @@ class CRM_Contact_BAO_Query
      *
      * @var boolean
      */
-    public $_smartGroupCache = false;
+    public $_smartGroupCache = true;
 
     /**
      * descend into child groups when searching (or not)
@@ -305,7 +305,8 @@ class CRM_Contact_BAO_Query
      */
     function __construct( $params = null, $returnProperties = null, $fields = null,
                           $includeContactIds = false, $strict = false, $mode = 1,
-                          $skipPermission = false, $searchDescendentGroups = true ) 
+                          $skipPermission = false, $searchDescendentGroups = true,
+                          $smartGroupCache = true ) 
     {
         require_once 'CRM/Contact/BAO/Contact.php';
 
@@ -327,6 +328,7 @@ class CRM_Contact_BAO_Query
         $this->_mode                    = $mode;
         $this->_skipPermission          = false;
         //$this->_searchDescendentGroups  = $searchDescendentGroups;
+        $this->_smartGroupCache         = $smartGroupCache;
 
         if ( $fields ) {
             $this->_fields =& $fields;
@@ -1863,19 +1865,15 @@ class CRM_Contact_BAO_Query
         $context = $session->get('context', 'CRM_Contact_Controller_Search');
 
         $ssWhere = array(); 
-        $group =& new CRM_Contact_BAO_Group(); 
         foreach ( array_keys( $value ) as $group_id ) { 
-            $group->id = $group_id; 
+            $group =& new CRM_Contact_BAO_Group(); 
+            $group->id = $group_id;
             $group->find(true); 
             if ( isset( $group->saved_search_id ) ) {
                 $this->_useDistinct = true;
 
-                if ( $this->_smartGroupCache ) {
-                    $gcTable = "`civicrm_group_contact_cache_{$group->id}`";
-                    $this->_tables[$gcTable] = $this->_whereTables[$gcTable] =
-                        " LEFT JOIN civicrm_group_contact_cache {$gcTable} ON contact_a.id = {$gcTable}.contact_id ";
-                    $ssWhere[] = "{$gcTable}.group_id = {$group->id}";
-                } else {
+                if ( ! $this->_smartGroupCache ||
+                     $group->cache_date == null ) {
                     require_once 'CRM/Contact/BAO/SavedSearch.php';
                     $ssParams =& CRM_Contact_BAO_SavedSearch::getSearchParams($group->saved_search_id);
                     $returnProperties = array();
@@ -1887,19 +1885,36 @@ class CRM_Contact_BAO_Query
                         $returnProperties = CRM_Core_BAO_Mapping::returnProperties( $fv );
                     }
 
-                    $query =& new CRM_Contact_BAO_Query($ssParams, $returnProperties);
-                    $smarts =& $query->searchQuery($ssParams, 0, 0, null, false, false, true, true, true);
-                    $ssWhere[] = " 
-                            ( contact_a.id IN ( $smarts )  
-                              AND contact_a.id NOT IN ( 
+                    $query =& new CRM_Contact_BAO_Query($ssParams, $returnProperties, null,
+                                                        false, false, 1,
+                                                        true, true, false );
+                    $smarts =& $query->searchQuery( 0, 0, null,
+                                                    false, false,
+                                                    false, true, true, null );
+                    $query = $smarts . 
+                        " AND contact_a.id NOT IN ( 
                               SELECT contact_id FROM civicrm_group_contact 
-                              WHERE civicrm_group_contact.group_id = "   .
-                        CRM_Utils_Type::escape($group_id, 'Integer') .
-                        " AND civicrm_group_contact.status = 'Removed' ) )";
+                              WHERE civicrm_group_contact.status = 'Removed' 
+                              AND   civicrm_group_contact.group_id = " .
+                        CRM_Utils_Type::escape($group_id, 'Integer') . ' ) ';
+                    $dao = CRM_Core_DAO::executeQuery( $query,
+                                                       CRM_Core_DAO::$_nullArray );
+                    $values = array( );
+                    while ( $dao->fetch( ) ) {
+                        $values[] = "({$group_id},{$dao->id})";
+                    }
+
+                    $groupID = array( $group_id );
+                    require_once 'CRM/Contact/BAO/GroupContactCache.php';
+                    CRM_Contact_BAO_GroupContactCache::store( $groupID,
+                                                              $values );
                 }
-                $group->reset(); 
-                $group->selectAdd('*'); 
             }
+            
+            $gcTable = "`civicrm_group_contact_cache_{$group->id}`";
+            $this->_tables[$gcTable] = $this->_whereTables[$gcTable] =
+                " LEFT JOIN civicrm_group_contact_cache {$gcTable} ON contact_a.id = {$gcTable}.contact_id ";
+            $ssWhere[] = "{$gcTable}.group_id = {$group->id}";
         }
         
         if ( ! empty( $ssWhere ) ) {
@@ -2666,8 +2681,11 @@ class CRM_Contact_BAO_Query
                               $options = null,
                               $sort = null,
                               $offset = 0,
-                              $row_count = 25 ) {
-        $query =& new CRM_Contact_BAO_Query( $params, $returnProperties, null, true );
+                              $row_count = 25,
+                              $smartGroupCache = true ) {
+        $query =& new CRM_Contact_BAO_Query( $params, $returnProperties,
+                                             null, true, false, 1,
+                                             false, true, $smartGroupCache );
  
         list( $select, $from, $where ) = $query->query( );
         $options = $query->_options;
