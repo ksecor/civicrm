@@ -456,7 +456,7 @@ class CRM_Core_Payment_AuthorizeNet extends CRM_Core_Payment {
      * not set
      */
     function _getParam ( $field ) {
-        return CRM_Utils_Array::value( $field, $this->_param, '' );
+        return CRM_Utils_Array::value( $field, $this->_params, '' );
     }
 
     function &error ( $errorCode = null, $errorMessage = null ) {
