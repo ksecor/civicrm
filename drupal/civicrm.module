@@ -46,11 +46,12 @@ function civicrm_html_head()
     $head  = "<style type=\"text/css\">@import url({$config->resourceBase}css/civicrm.css);</style>\n";
 
     // include the below files ONLY if needed, since they are heavy weight
+
+    $includeCommon = $includeDojo = $includeCalender = false;
     if ( arg(0) == 'civicrm' ) {
-        // do not include this in contribution and profile pages
         switch ( arg(1) ) {
         case 'profile': 
-            $includeDojo = false;
+            // do not load anything for profile.
             break;
         case 'contribute':
             if ( arg(2) == 'transact' ) {
@@ -62,31 +63,27 @@ function civicrm_html_head()
             $includeDojo     = true;
             $includeCalender = true;
         }
+    }
 
-        if ( $includeCommon ) {
-            $head .= "<style type=\"text/css\">@import url({$config->resourceBase}css/skins/aqua/theme.css);</style>\n";
-        }
-
-        if ( $includeDojo ) {
-            $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}packages/dojo/dojo/dojo.js\" djConfig=\"isDebug: false, parseOnLoad: true, usePlainJson: true\" ></script>";
-            $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}packages/dojo/dojo/commonWidgets.js\"></script>";
-            $head .= "<style type=\"text/css\">@import url({$config->resourceBase}packages/dojo/dijit/themes/tundra/tundra.css);</style>";
-        } else {
-            $config->includeDojo = 0;
-        }
-
-        if ( $includeCalender ) {
-            $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}js/calendar.js\"></script>";
-            $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}js/lang/calendar-lang.php?{$config->lcMessages}\"></script>";
-            $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}js/calendar-setup.js\"></script>";
-        }
-
+    if ( $includeCommon ) {
+        $head .= "<style type=\"text/css\">@import url({$config->resourceBase}css/skins/aqua/theme.css);</style>\n";
+    }
+    
+    if ( $includeDojo ) {
+        $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}packages/dojo/dojo/dojo.js\" djConfig=\"isDebug: false, parseOnLoad: true, usePlainJson: true\" ></script>";
+        $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}packages/dojo/dojo/commonWidgets.js\"></script>";
+        $head .= "<style type=\"text/css\">@import url({$config->resourceBase}packages/dojo/dijit/themes/tundra/tundra.css);</style>";
     } else {
         $config->includeDojo = 0;
     }
 
+    if ( $includeCalender ) {
+        $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}js/calendar.js\"></script>";
+        $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}js/lang/calendar-lang.php?{$config->lcMessages}\"></script>";
+        $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}js/calendar-setup.js\"></script>";
+    }
+
     return $head;
-    
 }
 
 /**
