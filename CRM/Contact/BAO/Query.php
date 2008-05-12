@@ -2012,11 +2012,18 @@ class CRM_Contact_BAO_Query
             $value = strtolower(addslashes($value));
             $wc = ( $newName == 'sort_name') ? 'LOWER(contact_a.sort_name)' : 'LOWER(contact_a.display_name)';
             $sub[] = " ( $wc = '$value' ) ";
+            if ( $config->includeEmailInName ) {
+                $sub[] = " ( civicrm_email.email = '$value' ) ";
+            }
         } else if ( strpos( $name, ',' ) !== false ) {
             // if we have a comma in the string, search for the entire string 
             $value = strtolower(addslashes($name));
             if ( $wildcard ) {
-                $value = "'$value%'";
+                if ( $config->includeWildCardInName ) {
+                    $value = "'%$value%'";
+                } else {
+                    $value = "'$value%'";
+                }
                 $op    = 'LIKE';
             } else {
                 $value = "'$value'";
@@ -2027,6 +2034,9 @@ class CRM_Contact_BAO_Query
                 $wc = ( $op != 'LIKE' ) ? "LOWER(contact_a.display_name)" : "contact_a.display_name";
             }
             $sub[] = " ( $wc $op $value )";
+            if ( $config->includeEmailInName ) {
+                $sub[] = " ( civicrm_email.email $op $value ) ";
+            }
         } else {
             // split the string into pieces 
             // check if the string is enclosed in quotes
@@ -2044,7 +2054,11 @@ class CRM_Contact_BAO_Query
             foreach ( $pieces as $piece ) { 
                 $value = strtolower( addslashes( trim( $piece ) ) );
                 if ( $wildcard ) {
-                    $value = "'$value%'";
+                    if ( $config->includeWildCardInName ) {
+                        $value = "'%$value%'";
+                    } else {
+                        $value = "'$value%'";
+                    }
                     $op    = 'LIKE';
                 } else {
                     $value = "'$value'";
@@ -2055,11 +2069,20 @@ class CRM_Contact_BAO_Query
                     $wc = ( $op != 'LIKE' ) ? "LOWER(contact_a.display_name)" : "contact_a.display_name";
                 }
                 $sub[] = " ( $wc $op $value )";
+                if ( $config->includeEmailInName ) {
+                    $sub[] = " ( civicrm_email.email $op $value ) ";
+                }
             } 
         }
 
-        $this->_where[$grouping][] = ' ( ' . implode( '  OR ', $sub ) . ' ) '; 
-        $this->_qill[$grouping][]  = ts( 'Name like' ) . " - '$name'";
+        $sub = ' ( ' . implode( '  OR ', $sub ) . ' ) '; 
+        $this->_where[$grouping][] = $sub;
+        if ( $config->includeEmailInName ) {
+            $this->_tables['civicrm_email'] = $this->_whereTables['civicrm_email'] = 1; 
+            $this->_qill[$grouping][]  = ts( 'Name or Email ' ) . "$op - '$name'";
+        } else {
+            $this->_qill[$grouping][]  = ts( 'Name like' ) . " - '$name'";
+        }
     }
 
 

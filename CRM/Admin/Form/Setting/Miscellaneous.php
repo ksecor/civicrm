@@ -50,9 +50,11 @@ class CRM_Admin_Form_Setting_Miscellaneous extends  CRM_Admin_Form_Setting
     public function buildQuickForm( ) {
         CRM_Utils_System::setTitle(ts('Settings - Miscellaneous'));
 
-        $this->addYesNo( 'versionCheck', ts( 'CiviCRM Version Check' ));
+        $this->addYesNo( 'versionCheck'           , ts( 'CiviCRM Version Check' ));
+        $this->addYesNo( 'includeWildCardInName'  , ts( 'Include Wild Card in Name' ));
+        $this->addYesNo( 'includeEmailInName'     , ts( 'Include Email in Name' ));
         $this->addElement('text','captchaFontPath', ts('Captcha Font Path'));  
-        $this->addElement('text','captchaFont', ts('Captcha Font'));  
+        $this->addElement('text','captchaFont'    , ts('Captcha Font'));  
        
         parent::buildQuickForm();    
     }
