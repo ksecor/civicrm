@@ -107,6 +107,10 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
 
         case 'contact':
             return $this->contact( $config );
+
+        case 'employer':
+            return $this->getPermissionedEmployer( $config );
+
         case 'mapper':
             require_once 'CRM/Core/Page/AJAX/Mapper.php';
             $method = array( 'CRM_Core_Page_AJAX_Mapper',
@@ -868,6 +872,22 @@ AND domain_id = {$domainID} ";
         if ( $dao->N == 1) {
             echo $dao->id;
         }
+    }
+
+    /**
+     * Function to obtain list of permissioned employer for the given contact-id.
+     */
+    function getPermissionedEmployer( &$config ) 
+    {
+        $cid       = CRM_Utils_Type::escape( $_GET['cid'], 'Integer' );
+        $name      = trim(CRM_Utils_Type::escape( $_GET['name'], 'String')); 
+        $name      = str_replace( '*', '%', $name );
+
+        require_once 'CRM/Contact/BAO/Relationship.php';
+        $elements = CRM_Contact_BAO_Relationship::getPermissionedEmployer( $cid, $name, 'ajax' );
+
+        require_once "CRM/Utils/JSON.php";
+        echo CRM_Utils_JSON::encode( $elements, 'name');
     }
 
 }

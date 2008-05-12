@@ -47,7 +47,9 @@
 		<td>{$form.organization_name.label}</td>
       </tr>
       <tr>
-        <td>{$form.organization_name.html|crmReplace:class:big}</td>
+        <td><span class="tundra" dojoType= "dojo.data.ItemFileReadStore" jsId="employerStore" url="{$employerDataURL}">
+            {$form.organization_name.html|crmReplace:class:big}</span>
+        </td>
       </tr>
     </table>
  </fieldset>

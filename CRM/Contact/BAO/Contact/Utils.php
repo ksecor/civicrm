@@ -320,8 +320,33 @@ UNION
 
         switch ( $contactType ) {
         case 'Organization':
-            $form->add('text', 'organization_name', ts('Organization Name'), 
-                       $attributes['organization_name']);
+            $session   =& CRM_Core_Session::singleton( );
+            $contactID = $session->get( 'userID' );
+
+            if ( $contactID ) {
+                require_once 'CRM/Contact/BAO/Relationship.php';
+                $employers = CRM_Contact_BAO_Relationship::getPermissionedEmployer( $contactID );
+            }
+
+            if ( $contactID && ( count($employers) >= 1 ) ) {
+                $dojoIncludes    = "dojo.require('dijit.form.ComboBox');";
+                $comboAttributes = array( 'dojoType'     => 'dijit.form.ComboBox',
+                                          'mode'         => 'remote',
+                                          'store'        => 'employerStore',
+                                          'style'        => 'width:225px; border: 1px solid #cfcfcf;',
+                                          'class'        => 'tundra',
+                                          'pageSize'     => 10,
+                                          );
+                $dataURL =  CRM_Utils_System::url( 'civicrm/ajax/employer', 
+                                                   "cid=" . $contactID, 
+                                                   true, null, false );
+                $form->assign( 'employerDataURL', $dataURL );
+
+                $form->add('text', 'organization_name', ts('Select an existing related Organization OR Enter a new one'), $comboAttributes);
+            } else {
+                $form->add('text', 'organization_name', ts('Organization Name'), $attributes['organization_name']);
+            } 
+            
             break;
         case 'Household':
             $form->add('text', 'household_name', ts('Household Name'), 
@@ -343,7 +368,7 @@ UNION
         }
 
         // add country state selector using new hs-widget method.
-        $form->assign( 'dojoIncludes', "dojo.require('civicrm.HierSelect');" );
+        $form->assign( 'dojoIncludes', "dojo.require('civicrm.HierSelect'); $dojoIncludes" );
         $attributes = array( 'dojoType'     => 'civicrm.HierSelect',
                              'url1'         => CRM_Utils_System::url('civicrm/ajax/countries'),
                              'url2'         => CRM_Utils_System::url('civicrm/ajax/states'),
@@ -388,4 +413,5 @@ UNION
         $location   = array(); 
         CRM_Contact_Form_Address::buildAddressBlock($form, $location, 1 );
     }
+
 }

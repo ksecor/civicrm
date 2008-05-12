@@ -1052,5 +1052,59 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
         return $currentEmployer;
     }
 
+
+    /**
+     * Function to return list of permissioned employer for a given contact.
+     * 
+     * @param $contactID   int     contact id whose employers
+     * are to be found.
+     * @param $name        string  employers sort name
+     * @param $mode        string  ajax mode returns the array
+     * required by json.
+     * 
+     * @static
+     * @return array array of employers.
+     *
+     */
+    static function getPermissionedEmployer( $contactID, $name = '%', $mode = 'local' )
+    {
+        $employers = array();
+        
+        //get the relationship id
+        $relTypeId = CRM_Core_DAO::getFieldValue('CRM_Contact_DAO_RelationshipType', 
+                                                 'Employee of', 'id', 'name_a_b' );
+        
+        if ( $relTypeId ) {
+            $domainID  = CRM_Core_Config::domainId( );
+            $query = "
+SELECT cc.id as id, cc.sort_name as name
+FROM civicrm_relationship cr, civicrm_contact cc
+WHERE cr.contact_id_a = $contactID AND 
+cr.relationship_type_id = $relTypeId AND 
+cr.is_permission_a_b = 1 AND
+cc.id = cr.contact_id_b AND
+cc.sort_name LIKE '%$name%' AND 
+cc.domain_id = {$domainID}";            
+        
+            $nullArray = array( );
+            $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
+            
+            if ( $mode = 'ajax' ) {
+                // remote mode => call from AJAX file.
+                while ( $dao->fetch( ) ) {
+                    $employers[$dao->id] = array( 'name'  => ts( $dao->name ),
+                                                  'value' => $dao->id       );
+                }
+            } else {
+                // if required other params like email ..etc can also
+                // be added for local mode
+                while ( $dao->fetch( ) ) {
+                    $employers[$dao->id] = array( 'name'  => ts( $dao->name ) ); 
+                }
+            }
+        }
+
+        return $employers;
+    }
 }
 
