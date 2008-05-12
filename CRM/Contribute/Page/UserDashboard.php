@@ -102,6 +102,9 @@ class CRM_Contribute_Page_UserDashboard extends CRM_Contact_Page_View_UserDashBo
             $values['cancelSubscriptionUrl'] = $paymentObject->cancelSubscriptionURL( );
 
             $recurRow[] = $values;
+            //reset $paymentObject for checking other paymenet processor
+            //recurring url 
+            $paymentObject = reset( );
         }
         $this->assign('recurRows',$recurRow);
 
