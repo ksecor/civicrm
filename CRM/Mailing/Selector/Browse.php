@@ -220,7 +220,7 @@ SELECT count(civicrm_mailing.id)
                 CRM_Core_Action::PREVIEW => array(
                     'name'  => ts('Continue'),
                     'url'   => 'civicrm/mailing/send',
-                    'qs'    => 'mid=%%mid%%&reset=1',
+                    'qs'    => 'mid=%%mid%%&continue=true&reset=1',
                     'title' => ts('Continue Mailing')                    
                     ),
                 CRM_Core_Action::DELETE => array(

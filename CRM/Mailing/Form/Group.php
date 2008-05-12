@@ -57,15 +57,22 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
     function setDefaultValues( ) 
     {
         $mailingID = $this->get("mid");
-
+        $continue = CRM_Utils_Request::retrieve('continue', 'String', $this, false, null );
+        
         // check that the user has permission to access mailing id
         require_once 'CRM/Mailing/BAO/Mailing.php';
         CRM_Mailing_BAO_Mailing::checkPermission( $mailingID );
 
         $defaults = array( );
-        if ( $mailingID ) {
+        
+        if ( $mailingID && $continue ) {
+            $defaults["name"] = ts('%1', array(1 => CRM_Core_DAO::getFieldValue('CRM_Mailing_DAO_Mailing', $mailingID, 'name', 'id')));
+            $this->set('mailing_id', $mailingID);
+        } elseif ( $mailingID && !$continue ) {
             $defaults["name"] = ts('Copy of %1', array(1 => CRM_Core_DAO::getFieldValue('CRM_Mailing_DAO_Mailing', $mailingID, 'name', 'id')));
-
+        }
+                
+        if ( $mailingID ) {
             require_once "CRM/Mailing/DAO/Group.php";
             $dao =&new  CRM_Mailing_DAO_Group();
             
