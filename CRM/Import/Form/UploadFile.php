@@ -164,6 +164,8 @@ class CRM_Import_Form_UploadFile extends CRM_Core_Form {
      * @access public
      */
     public function getTitle( ) {
+        $session = & CRM_Core_Session::singleton( );
+        $session->pushUserContext(CRM_Utils_System::url('civicrm/import', 'reset=1'));
         return ts('Upload Data');
     }
 

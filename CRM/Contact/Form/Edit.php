@@ -124,6 +124,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
      */
     function preProcess( ) 
     {
+        $session = & CRM_Core_Session::singleton( ); 
         // reset action from the session
         $this->_action              = CRM_Utils_Request::retrieve('action', 'String', 
                                                                   $this, false, 'add' );
@@ -169,7 +170,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             } else {
                 CRM_Utils_System::setTitle( ts( 'New %1', array(1 => $this->_contactType ) ) );
             }
-
+            $session->pushUserContext(CRM_Utils_System::url());
             $this->_contactId = null;
         } else {
             // this is update mode, first get the id from the session
@@ -200,6 +201,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
 
                 //get the no of locations for the contact
                 $this->_maxLocationBlocks = CRM_Contact_BAO_Contact::getContactLocations( $this->_contactId );
+                $session->pushUserContext(CRM_Utils_System::url('civicrm/contact/view', 'reset=1&cid='. $this->_contactId ));
                 return;
             }
             CRM_Core_Error::statusBounce( ts('Could not get a contact_id and/or contact_type') );
