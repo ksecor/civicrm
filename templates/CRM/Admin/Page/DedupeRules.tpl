@@ -18,13 +18,21 @@
               <table>
                 <tr class="columnheader">
                   <th>{ts}Contact Type{/ts}</th>
+                  <th>{ts}Thershold{/ts}</th>
                   <th>{ts}Level{/ts}</th>
+                  <th>{ts}Active{/ts}</th>
                   <th></th>
                 </tr>
                 {foreach from=$rows item=row}
                   <tr class="{cycle values="odd-row,even-row"} {$row.class}">
                     <td>{$row.contact_type_display}</td>	
+                    <td>{$row.threshold}</td>
                     <td>{$row.level}</td>	
+                    {if $row.is_active}
+                    <td>yes</td>    
+                    {else}
+                    <td>no</td>
+                    {/if}
                     <td>{$row.action}</td>
                   </tr>
                 {/foreach}
