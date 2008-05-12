@@ -1091,10 +1091,14 @@ WHERE  id = $cfID
         }
         
         // check which values has to be inserted/deleted for contact
+        $menuRebuild = false;
         foreach ($allUFGroupType as $key => $value) {
             $joinParams = array( );
             $joinParams['uf_group_id'] = $ufGroupId;
             $joinParams['module'     ] = $key;
+            if ( $key == 'User Account' ) {
+                $menuRebuild = true;
+            }
             if (array_key_exists($key, $groupTypes) && !in_array($key, $ufGroupRecord )) {
                 // insert a new record
                 CRM_Core_BAO_UFGroup::addUFJoin($joinParams);
@@ -1109,6 +1113,14 @@ WHERE  id = $cfID
                        WHERE  uf_group_id = {$ufGroupId}";
         $p =array( 1 => array( $params['weight'], 'Integer' ) ); 
         CRM_Core_DAO::executeQuery($query, $p);
+
+        // do a menu rebuild if we are on drupal, so it gets all the new menu entries
+        // for user account
+        $config =& CRM_Core_Config::singleton( );
+        if ( $menuRebuild &&
+             $config->userFramework == 'Drupal' ) {
+            menu_rebuild( );
+        }
     }
 
     /**

@@ -296,7 +296,7 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
      * @return void
      * @access public
      */
-    public function postProcess()
+    public function postProcess( )
     {
         if( $this->_action & CRM_Core_Action::DELETE ) {
             $title = CRM_Core_BAO_UFGroup::getTitle($this->_id);        

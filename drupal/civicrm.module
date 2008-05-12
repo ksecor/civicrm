@@ -377,7 +377,7 @@ function civicrm_quickreg( )
  */
 function civicrm_user( $type, &$edit, &$user, $category = NULL ) 
 {
-	if ( $type == 'load' ) {
+    if ( $type == 'load' ) {
         return;
     }			
 
@@ -391,6 +391,7 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL )
         require_once 'CRM/Core/BAO/UFMatch.php';
         return CRM_Core_BAO_UFMatch::synchronize( $user, false, 'Drupal',
                                                   civicrm_get_ctype( 'Individual' ) );
+
     case 'register':
         $config =& CRM_Core_Config::singleton( );
         if ( $config->inCiviCRM ) {
@@ -430,7 +431,7 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL )
         return civicrm_validate_data($edit, $user, $category);
 
     case 'categories':
-        return civicrm_categories($user);
+        return civicrm_categories( $user );
 
 	case 'delete':
         require_once 'CRM/Core/BAO/UFMatch.php';
@@ -445,28 +446,22 @@ function civicrm_categories( &$user )
         return;
     }
 
-    require_once 'CRM/Core/BAO/UFMatch.php';
-    $userID = CRM_Core_BAO_UFMatch::getContactId( $user->uid );
-    if ( ! $userID ) {
-        return null;
-    }
-
-    $ctype = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $userID, 'contact_type' );
-
     require_once 'CRM/Core/BAO/UFGroup.php';
     require_once 'CRM/Core/BAO/UFField.php';
 
     $allUFGroups =& CRM_Core_BAO_UFGroup::getModuleUFGroup('User Account');
     $ufGroups = array( );
 
-    //check if there are any fields in this group
+    $weight = 100;
     foreach ($allUFGroups as $key => $value) {
-        $fieldType = CRM_Core_BAO_UFField::getProfileType( $key );
-        if ( $fieldType != $ctype ) {
-            continue;
+        if ( $value['is_active'] ) {
+            $ufGroups[] = array( 'name'   => $value['name'],
+                                 'title'  => $value['name'],
+                                 'weight' => $weight );
+            $weight += 10;
         }
-        $ufGroups[$key] = $value;
     }
+
     return $ufGroups;
 }
 
@@ -541,9 +536,9 @@ function civicrm_form_data($edit, &$user, $category, $reset, $doNotProcess = fal
     
     if ( $html ) {
         $index = empty( $category ) ? 'civicrm-profile-my-account' : $category;
-        $output[$index] = array( '#title' => $category,
-                                 '#value' => $html,
-                                 '#weight' => 1 );
+        $output[$index][] = array( '#title' => $category,
+                                   '#value' => $html,
+                                   '#weight' => 1 );
     }
 
     return $output;
@@ -581,6 +576,7 @@ function civicrm_view_data( &$user )
         $ctype = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $userID, 'contact_type' );
 
         $ufGroups =& CRM_Core_BAO_UFGroup::getModuleUFGroup('User Account');
+        $weight   = 100;
         foreach ( $ufGroups as $id => $title ) {
             
             $fieldType = CRM_Core_BAO_UFField::getProfileType( $id );
@@ -591,19 +587,24 @@ function civicrm_view_data( &$user )
             $pageContent = $page->run( );
             
             if ( $pageContent ) {
-                $item = array( 'value' => $pageContent );
-                $data[$title['title']][] = $item;
+                $title = 
+                $user->content[$title['title']] =
+                    array( '#title'  => $title['title'],
+                           '#value'  => $pageContent,
+                           '#weight' => $weight );
+                $weight += 10;
             }
         }
         
         if ( $contactURL ) {
-            $item = array( 'title' => '',
-                           'value' => $contactURL );
-            $data[''][] = $item;
+            $user->content['urls'] = 
+                array( '#title'  => '',
+                       '#value'  => $contactURL,
+                       '#weight' => $weight );
         }
     }
 
-    return $data;
+    return;
 }
 
 function civicrm_validate_data($edit, &$user, $title) 
