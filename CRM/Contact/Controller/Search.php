@@ -35,6 +35,7 @@
 
 require_once 'CRM/Core/Controller.php';
 require_once 'CRM/Core/Session.php';
+require_once 'CRM/Core/Config.php';
 
 /**
  * This class is used by the Search functionality.
@@ -78,6 +79,3 @@ class CRM_Contact_Controller_Search extends CRM_Core_Controller {
 }
 
 ?>
-
-
-
