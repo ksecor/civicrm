@@ -109,7 +109,10 @@ class CRM_Contact_Page_View_CustomData extends CRM_Contact_Page_View {
             CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $groupTree );
         } else {
             
-            $controller =& new CRM_Core_Controller_Simple('CRM_Contact_Form_CustomData', ts('Custom Data'), $this->_action);
+            $controller =& new CRM_Core_Controller_Simple('CRM_Contact_Form_CustomData',
+                                                          ts('Custom Data'),
+                                                          $this->_action,
+                                                          false, true );
             $controller->setEmbedded(true);
            
             $controller->set('tableId'   , $this->_contactId );
