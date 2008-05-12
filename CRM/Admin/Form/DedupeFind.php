@@ -129,7 +129,7 @@ class CRM_Admin_Form_DedupeFind extends CRM_Admin_Form
     {
         if ($this->_cid) {
             $session =& CRM_Core_Session::singleton();
-            $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/dedupefind', "action=update&rgid={$this->_rgid}&gid={$this->_gid}&cid={$this->_cid}"));
+            $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/deduperules', "action=update&rgid={$this->_rgid}&gid={$this->_gid}&cid={$this->_cid}"));
         }
     }
 

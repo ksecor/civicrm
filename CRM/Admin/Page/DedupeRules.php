@@ -66,6 +66,12 @@ class CRM_Admin_Page_DedupeRules extends CRM_Core_Page_Basic
           if (!(self::$_links)) {
             // helper variable for nicer formatting
               self::$_links = array(
+                  CRM_Core_Action::VIEW  => array(
+                      'name'  => ts('Use Rule'),
+                      'url'   => 'civicrm/admin/deduperules',
+                      'qs'    => 'reset=1&action=view&rgid=%%id%%',
+                      'title' => ts('Use DedupeRule'),
+                      ),
                   CRM_Core_Action::UPDATE  => array(
                       'name'  => ts('Edit Rule'),
                       'url'   => 'civicrm/admin/deduperules',
@@ -146,9 +152,13 @@ class CRM_Admin_Page_DedupeRules extends CRM_Core_Page_Basic
      */
     function editForm()
     {
-        return 'CRM_Admin_Form_DedupeRules';
+        if ($this->_action == 4) {
+            return 'CRM_Admin_Form_DedupeFind';
+        } else { 
+            return 'CRM_Admin_Form_DedupeRules';
+        }    
     }
-
+    
     /**
      * Get edit form name
      *
@@ -156,9 +166,13 @@ class CRM_Admin_Page_DedupeRules extends CRM_Core_Page_Basic
      */
     function editName()
     {
-        return 'DedupeRules';
+        if ($this->_action == 4) {
+            return 'DedupeFind';
+        } else { 
+            return 'DedupeRules';
+        }    
     }
-
+    
     /**
      * Get user context
      *

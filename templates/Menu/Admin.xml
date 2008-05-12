@@ -50,15 +50,6 @@
      <adminGroup>Customize</adminGroup>
      <icon>admin/small/template.png</icon>
      <weight>30</weight>
-   </item>
-   <item>
-     <path>civicrm/admin/dedupefind</path>
-     <title>Find Duplicate Contacts</title>
-     <desc>Use configured duplicate matching rules to identify suspected duplicate contact records in your database.</desc>
-     <page_callback>CRM_Admin_Page_DedupeFind</page_callback>
-     <adminGroup>Manage</adminGroup>
-     <icon>admin/small/duplicate_matching.png</icon>
-     <weight>130</weight>
   </item>
   <item>
      <path>civicrm/admin/synchUser</path>
