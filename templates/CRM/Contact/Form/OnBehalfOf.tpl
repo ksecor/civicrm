@@ -1,8 +1,5 @@
 {* This file provides the HTML for the on-behalf-of form. Can also be used for related contact edit form. *}
 
-{* Including the javascript source code from the Contact.js *}
-<script type="text/javascript" src="{$config->resourceBase}js/Contact.js"></script>
-
 <fieldset id="for_organization"><legend>{$fieldSetTitle}</legend>
 {if $contact_type eq 'Individual'}
  <div id="name">
@@ -76,7 +73,52 @@
 </div>
 
 <div id="id_location_{$index}_address">
-    {include file="CRM/Contact/Form/Address.tpl"} 
+    {*include file="CRM/Contact/Form/Address.tpl"*} 
+    <fieldset><legend>{if $legend}{$legend}{else}{ts}Address{/ts}{/if}</legend>
+      {if $introText}
+          <div class="description">{$introText}</div>
+      {/if}
+      {foreach item=addressElement from=$addressSequence}
+        <span id="id_location_{$index}_address_{$addressElement}">
+            {include file=CRM/Contact/Form/Address/$addressElement.tpl}
+        </span>
+      {/foreach}
+
+      {* Special block for country & state implemented using new hier-select widget *}  
+      {if $addressSequenceCountry}  
+        <span id="id_location_{$index}_address_country">
+        <div class="form-item">
+        <span class="labels">{ts}Country{/ts}</span>
+        <span class="fields">
+            {$form.location.1.address.country_state.html}
+            <br class="spacer"/>
+            <span class="description font-italic">
+                {ts}Type in the first few letters of the country and then select from the drop-down. After selecting a country, the State / Province field provides a choice of states or provinces in that country.{/ts}
+            </span>
+        </span>
+        </div>
+        </span>
+      {/if}
+
+      {if $addressSequenceState}  
+        <span id="id_location_{$index}_address_state">
+        <div class="form-item">
+        <span class="labels">{ts}State / Province{/ts}</span>
+        <span class="tundra fields"><span id="id_location[1][address][country_state]_1"></span>
+            <br class="spacer"/>
+            <span class="description font-italic">
+                {ts}Type in the first few letters of the country and then select from the drop-down. After selecting a country, the State / Province field provides a choice of states or provinces in that country.{/ts}
+            </span>
+        </span>
+        </div>
+        </span>
+      {/if}  
+
+      {include file=CRM/Contact/Form/Address/geo_code.tpl}
+
+      <!-- Spacer div forces fieldset to contain floated elements -->
+      <div class="spacer"></div>
+    </fieldset>
 </div>
 
 </fieldset>

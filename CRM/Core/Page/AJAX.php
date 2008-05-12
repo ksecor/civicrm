@@ -69,8 +69,14 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
         case 'state':
             return $this->state( $config );
 
+        case 'states':
+            return $this->states( $config );
+
         case 'country':
             return $this->country( $config );
+
+        case 'countries':
+            return $this->countries( $config );
 
         case 'status':
             return $this->status( $config );
@@ -551,6 +557,70 @@ ORDER BY name";
     }
 
     /**
+     * Test Function used for new hs-widget.
+     */
+    function states( &$config ) 
+    {
+        $elements = array( );
+        if ( isset( $_GET['node1'] ) ) {
+            require_once 'CRM/Utils/Type.php';
+            $countryId     = CRM_Utils_Type::escape($_GET['node1'], 'String');
+            if ( $countryId ) {
+                $stateName     = trim(CRM_Utils_Type::escape($_GET['name'], 'String'));
+                $stateName     = str_replace( '*', '%', $stateName );        
+
+                if (isset($_GET['default'])) {
+                    $default   = trim(CRM_Utils_Type::escape($_GET['default'], 'Boolean'));
+                }
+
+                $query = "
+SELECT civicrm_state_province.name name, civicrm_state_province.id id
+FROM civicrm_state_province
+WHERE civicrm_state_province.country_id={$countryId} 
+      AND civicrm_state_province.name LIKE LOWER('$stateName%')
+ORDER BY name";
+
+                $nullArray = array( );
+                $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
+
+                if ( $default ) {
+                    while ($dao->fetch( )) {
+                        $elements[] = array( 'name'  => ts($dao->name),
+                                             'value' => $dao->id );
+                    }
+                } else {
+                    $count = 0;
+                    while ( $dao->fetch( ) && $count < 5 ) {
+                        $elements[] = array( 'name'  => ts($dao->name),
+                                             'value' => $dao->id );
+                        $count++;
+                    }
+                }
+
+                if (empty($elements)) {
+                    if ($stateName != '- type first letter(s) -') {
+                        $label = '- state n/a -';
+                    } else {
+                        $label = '- type first letter(s) -';
+                    }
+                    $elements[] = array( 'name'  => $label,
+                                         'value' => '' );
+                } elseif (!$default && (!$stateName || $stateName=='- type first letter(s) -')) {
+                    $elements = array();
+                    $elements[] = array( 'name'  => '- type first letter(s) -',
+                                         'value' => '' );
+                }
+            } else {
+                $elements[] = array( 'name'  => '- state n/a -',
+                                     'value' => '' );
+            }
+        }
+        
+        require_once "CRM/Utils/JSON.php";
+        echo CRM_Utils_JSON::encode( $elements, 'value');
+    }
+
+    /**
      * Function to build country combo box
      */
     function country( &$config ) 
@@ -562,6 +632,91 @@ ORDER BY name";
         }
         
         $limitCodes = array_intersect( CRM_Core_PseudoConstant::countryIsoCode(), $limitCodes);
+        if ( count($limitCodes) ) {
+            $whereClause = " iso_code IN ('" . implode("', '", $limitCodes) . "')";
+        } else {
+            $whereClause = " 1";
+        }
+
+        $elements = array( );
+        require_once 'CRM/Utils/Type.php';
+        $name      = CRM_Utils_Type::escape( $_GET['name'], 'String'  );
+
+        if ( isset( $_GET['id'] ) ) {
+            $countryId = CRM_Utils_Type::escape( $_GET['id'], 'Positive', false );
+        }
+
+        //temporary fix to handle locales other than default US,
+        // CRM-2653
+        if ( !$countryId && $name && $config->lcMessages != 'en_US') {
+            $countries = CRM_Core_PseudoConstant::country();
+            
+            // get the country name in en_US, since db has this locale
+            $countryName = array_search( $name, $countries );
+            
+            if ( $countryName ) {
+                $countryId = $countryName;
+            }
+        }
+
+        $validValue = true;
+        if ( !$name && !$countryId ) {
+            $validValue = false;
+        }
+
+        if ( $validValue ) {
+            if ( !$countryId ) {
+                $name = str_replace( '*', '%', $name );
+                $countryClause = " civicrm_country.name LIKE LOWER('$name%') ";
+            } else {
+                $countryClause = " civicrm_country.id = {$countryId} ";
+            }
+            
+            $query = "
+SELECT id, name
+  FROM civicrm_country
+ WHERE {$countryClause}
+   AND {$whereClause} 
+ORDER BY name";
+
+            $nullArray = array( );
+            $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
+            
+            $count = 0;
+            while ( $dao->fetch( ) && $count < 5 ) {
+                $elements[] = array( 'name'  => ts($dao->name),
+                                     'value' => $dao->id );
+                $count++;
+            }
+        }
+        
+        if ( empty( $elements) ) {
+            if ( isset( $_GET['id'] ) ) {
+                $name = $_GET['id'];
+            }
+
+            $elements[] = array( 'name'  => trim($name, "%"),
+                                 'value' => trim($name, "%") 
+                                 );
+        }
+
+        require_once "CRM/Utils/JSON.php";
+        echo CRM_Utils_JSON::encode( $elements, 'value');
+    }
+
+    /**
+     * Test Function used for new hs-widget.
+     */
+    function countries( &$config ) 
+    {
+        //get the country limit and restrict the combo select options
+        $limitCodes = $config->countryLimit( );
+        if ( ! is_array( $limitCodes ) ) {
+            $limitCodes = array( $config->countryLimit => 1);
+        }
+        
+        $limitCodes = array_intersect( CRM_Core_PseudoConstant::countryIsoCode(), $limitCodes);
+        //$limitCodes['1101'] = 'IN';// added for testing purpose
         if ( count($limitCodes) ) {
             $whereClause = " iso_code IN ('" . implode("', '", $limitCodes) . "')";
         } else {

@@ -147,7 +147,7 @@ class CRM_Core_Invoke
                 if ( CRM_Utils_Array::value('page_arguments', $item) ) {
                     $pageArgs = CRM_Core_Menu::getArrayForPathArgs( $item['page_arguments'] );
                         
-                    // FIXME: Following embedding, makes other
+                    // FIXME: Following embedding, makes forms on other
                     // tabs non-working for path -> contact/view
  
                     //if ( array_key_exists('setEmbedded', $pageArgs) ) {

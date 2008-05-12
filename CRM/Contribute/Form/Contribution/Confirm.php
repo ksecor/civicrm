@@ -788,6 +788,14 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         if ( ! $org->fetch( ) ) {
             $behalfOrganization['contact_type']              = 'Organization';
             $behalfOrganization['location'][1]['is_primary'] = 1;
+
+            // set country-state values in the required format
+            $behalfOrganization['location'][1]['address']['country_id'] = 
+                $behalfOrganization['location'][1]['address']['country_state'][0];
+            $behalfOrganization['location'][1]['address']['state_province_id'] = 
+                $behalfOrganization['location'][1]['address']['country_state'][1];
+            unset($behalfOrganization['location'][1]['address']['country_state']);
+            
             $org = CRM_Contact_BAO_Contact::create( $behalfOrganization );
             
             //get the relationship id
@@ -805,15 +813,15 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             
             //create relationship
             $relationship = CRM_Contact_BAO_Relationship::create($relParams, $cid);
-            
-            // make sure organization-contact-id is considered for recording
-            // contribution/membership etc..
-            if ( $contactID != $org->id ) {
-                // take a note of contact-id, so we can send the
-                // receipt to that contact as well.
-                $values['related_contacts'][] = $contactID;
-                $contactID = $org->id;
-            }
+        }
+
+        // make sure organization-contact-id is considered for recording
+        // contribution/membership etc..
+        if ( $org->id && ( $contactID != $org->id ) ) {
+            // take a note of contact-id, so we can send the
+            // receipt to that contact as well.
+            $values['related_contacts'][] = $contactID;
+            $contactID = $org->id;
         }
     }
 }

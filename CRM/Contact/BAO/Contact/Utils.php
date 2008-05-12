@@ -339,17 +339,37 @@ UNION
                               $attributes['last_name'] );
             $form->addElement('select', 'suffix_id',   ts('Suffix'), 
                               array('' => ts('- suffix -')) + CRM_Core_PseudoConstant::individualSuffix());
+
         }
 
-        //hack the address sequence so that state province always comes after country
+        // add country state selector using new hs-widget method.
+        $form->assign( 'dojoIncludes', "dojo.require('civicrm.HierSelect');" );
+        $attributes = array( 'dojoType'     => 'civicrm.HierSelect',
+                             'url1'         => CRM_Utils_System::url('civicrm/ajax/countries'),
+                             'url2'         => CRM_Utils_System::url('civicrm/ajax/states'),
+                             //                                     'default3'     => "3",
+                             //                                     'default4'     => "3",
+                             'firstInList'  => "true",
+                             );
+        $form->add( 'text', "location[1][address][country_state]", ts( 'Select Country' ), $attributes );
+
+        // remove country & state from address sequence since address.tpl uses old approach 
+        // and not the new hier-select widget approach / method. So we will add them separately 
+        // keeping in mind whether they are found in addressSequence / preferences. 
+
         $addressSequence = $config->addressSequence();
         $key = array_search( 'country', $addressSequence);
+        if ( $key ) {
+            $form->assign( 'addressSequenceCountry', true );
+        }
         unset($addressSequence[$key]);
         
         $key = array_search( 'state_province', $addressSequence);
+        if ( $key ) {
+            $form->assign( 'addressSequenceState', true );
+        }
         unset($addressSequence[$key]);
-        
-        $addressSequence = array_merge( $addressSequence, array ( 'country', 'state_province' ) );
+
         $form->assign( 'addressSequence', $addressSequence );
 
         //Primary Phone 
