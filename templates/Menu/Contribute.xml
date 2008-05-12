@@ -16,6 +16,7 @@
      <page_callback>CRM_Contribute_Controller_Contribution</page_callback>
      <access_arguments>make online contributions</access_arguments>
      <weight>0</weight>
+     <is_public>true</is_public>
   </item>
   <item>
      <path>civicrm/admin/contribute</path>
@@ -100,4 +101,18 @@
      <page_type>1</page_type>
      <weight>530</weight>
   </item>
+  <item>
+     <path>civicrm/contribute/offline</path>
+     <title>Contribution Payment Form</title>
+     <page_callback>CRM_Contribute_Form_Offline</page_callback>
+     <access_arguments>access CiviContribute</access_arguments>
+     <weight>0</weight>
+  </item>
+  <item>
+     <path>civicrm/contribute/additionalinfo</path>
+     <title>AdditionalInfo Form</title>
+     <page_callback>CRM_Contribute_Form_AdditionalInfo</page_callback>
+     <access_arguments>access CiviContribute</access_arguments>
+     <weight>0</weight>
+  </item>  
 </menu>

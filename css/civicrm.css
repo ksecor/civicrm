@@ -115,6 +115,7 @@ border-top-style: none;
   vertical-align: top;
   font-weight: bold;
   padding: 5px 15px 5px 0px;
+  font-size: .95em;
 }
 
 #crm-container .section-hidden dt {
@@ -909,15 +910,15 @@ commented since it is overwiting simple td
 }
 
 /*
- dojo editor specific classes
+ editor specific classes
 */
 
-#crm-container  #dojoEditor {
-   padding:0px;
-   margin: 0em;
+#crm-container dd.editor {
+   margin-top: 0.7em;
+   margin-left: 0em;
    float: left;
-   border: 1px solid;
    vertical-align:top;
+   width: 40em;
 }
 
 /*#crm-container table.dojoEditor {
@@ -925,3 +926,38 @@ commented since it is overwiting simple td
   border-collapse: collapse;
   border: 0px none;
 }*/
+
+#crm-container.clear { /* generic container (i.e. div) for floating buttons */
+    overflow: hidden;
+    width: 100%;
+}
+
+#crm-container a.button {
+    background: transparent url('bg_button_a.gif') no-repeat scroll top right;
+    color: #444;
+    display: block;
+    float: left;
+    font: normal 12px arial, sans-serif;
+    height: 24px;
+    margin-right: 6px;
+    padding-right: 18px; /* sliding doors padding */
+    text-decoration: none;
+}
+
+#crm-container a.button span {
+    background: transparent url('bg_button_span.gif') no-repeat;
+    display: block;
+    line-height: 14px;
+    padding: 5px 0 5px 18px;
+} 
+
+#crm-container a.button:active {
+    background-position: bottom right;
+    color: #000;
+    outline: none; /* hide dotted outline in Firefox */
+}
+
+#crm-container a.button:active span {
+    background-position: bottom left;
+    padding: 6px 0 4px 18px; /* push text down 1px */
+} 

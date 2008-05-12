@@ -90,7 +90,8 @@ class CRM_Contact_Form_Task_PickProfile extends CRM_Contact_Form_Task {
             $validate = true;
         }
         
-        if (CRM_Contact_BAO_Contact::checkContactType($this->_contactIds)) {
+        require_once 'CRM/Contact/BAO/Contact/Utils.php';
+        if (CRM_Contact_BAO_Contact_Utils::checkContactType($this->_contactIds)) {
             CRM_Core_Session::setStatus("Batch update requires that all selected contacts be the same type (e.g. all Individuals OR all Organizations...). Please modify your selected contacts and try again.");
             $validate = true;
         }
@@ -114,15 +115,11 @@ class CRM_Contact_Form_Task_PickProfile extends CRM_Contact_Form_Task {
             $types[]    = CRM_Contact_BAO_Contact::getContactType($id);
             break;
         }
-        require_once "CRM/Core/BAO/UFGroup.php";
-        if ( CRM_Core_Permission::access( 'TMF' ) ) {
-            $types['TMF'] = 'TMF';            
-        }
-
         if ( CRM_Core_Permission::access( 'Quest' ) ) {
             $types['Student'] = 'Student';            
         }
 
+        require_once "CRM/Core/BAO/UFGroup.php";
         $profiles = array( '' => ts('- select profile -')) + CRM_Core_BAO_UFGroup::getProfiles($types);
         
         if( CRM_Core_BAO_UFGroup::getProfiles($types) == null ) {
@@ -157,7 +154,7 @@ class CRM_Contact_Form_Task_PickProfile extends CRM_Contact_Form_Task {
     static function formRule( &$fields ) 
     {
         require_once "CRM/Core/BAO/UFField.php";
-        if ( CRM_Core_BAO_UFField::checkProfileType($fields['uf_group_id'], true) ) {
+        if ( CRM_Core_BAO_UFField::checkProfileType( $fields['uf_group_id'] ) ) {
             $errorMsg['uf_group_id'] = "You cannot select mix profile for batch update.";
         }
 

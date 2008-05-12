@@ -49,7 +49,11 @@ class CRM_Contact_Form_Search_Custom_Base {
         return CRM_Core_DAO::singleValueQuery( $this->sql( 'count(distinct contact_a.id) as total' ),
                                                CRM_Core_DAO::$_nullArray );
     }
-    
+
+    function summary( ) {
+        return null;
+    }
+
     function contactIDs( $offset = 0, $rowcount = 0, $sort = null) {
         $sql    = $this->sql( 'contact_a.id as contact_id',
                               $offset, $rowcount, $sort );
@@ -62,7 +66,7 @@ class CRM_Contact_Form_Search_Custom_Base {
     }
 
     function sql( $selectClause,
-                  $offset = 0, $rowCount = 0, $sort = null,
+                  $offset = 0, $rowcount = 0, $sort = null,
                   $includeContactIDs = false,
                   $groupBy = null ) {
 
@@ -83,7 +87,7 @@ class CRM_Contact_Form_Search_Custom_Base {
             $sql .= " $groupBy ";
         }
         
-        $this->addSortOffset( $sql, $offset, $rowCount, $sort );
+        $this->addSortOffset( $sql, $offset, $rowcount, $sort );
         return $sql;
     }
 
@@ -117,7 +121,7 @@ class CRM_Contact_Form_Search_Custom_Base {
     }
 
     function addSortOffset( &$sql,
-                            $offset, $rowCount, $sort ) {
+                            $offset, $rowcount, $sort ) {
         if ( ! empty( $sort ) ) {
             if ( is_string( $sort ) ) {
                 $sql .= " ORDER BY $sort ";
@@ -126,8 +130,8 @@ class CRM_Contact_Form_Search_Custom_Base {
             }
         }
         
-        if ( $row_count > 0 && $offset >= 0 ) {
-            $sql .= " LIMIT $offset, $row_count ";
+        if ( $rowcount > 0 && $offset >= 0 ) {
+            $sql .= " LIMIT $offset, $rowcount ";
         }
     }
 

@@ -54,7 +54,12 @@ class CRM_Core_BAO_Email extends CRM_Core_DAO_Email
     {
         $email =& new CRM_Core_DAO_Email( );
         $email->copyValues($params);
-        
+
+        // lower case email field to optimize queries
+        $email->email = strtolower( $email->email );
+
+        // since we're setting bulkmail for 1 of this contact's emails, first reset all their emails to is_bulkmail false
+        // (only 1 email address can have is_bulkmail = true)
         if ( $email->is_bulkmail != 'null' && $params['contact_id']) {
             $sql = "
 UPDATE civicrm_email 
@@ -169,25 +174,6 @@ ORDER BY e.is_primary DESC, email_id ASC ";
         }
         
         return $emails;
-    }
-    
-
-
-    /**
-     * Delete email address records from a location
-     *
-     * @param array $params associated array of values
-     * 
-     * @return void
-     * 
-     * @access public
-     * @static
-     */
-    public static function deleteLocation( $params ) 
-    {
-        $dao =& new CRM_Core_DAO_Email();
-        $dao->copyValues( $params );
-        $dao->delete();
     }
 
     /**

@@ -5,13 +5,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-02-27 13:05+0100\n"
-"PO-Revision-Date: 2007-08-01 14:27+0200\n"
-"Last-Translator: Automatically generated\n"
+"POT-Creation-Date: 2008-04-28 21:53+0200\n"
+"PO-Revision-Date: 2008-03-20 07:31-0700\n"
+"Last-Translator: Markus Larsson <markus.lar@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Pootle 1.0.2\n"
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid ""
@@ -26,53 +27,66 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
+#, fuzzy
 msgid "Full street address (e.g. 110 Main Street)."
-msgstr ""
+msgstr "Hela din gatuadress (t, ex. Kantorsgatan 33b)"
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Supplemental address 1 (line is skipped if empty)."
-msgstr ""
+msgstr "Extra adress 1 (raden ignoreras om den lämnas tom)"
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Supplemental address 2 (line is skipped if empty)."
-msgstr ""
+msgstr "Extra adress 2 (raden ignoreras om den lämnas tom)"
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "City."
-msgstr ""
+msgstr "Stad"
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
+#, fuzzy
 msgid ""
 "County name. If you want to include the county in your mailing labels, the "
 "<strong>Include Counties</strong> setting must be enabled on this screen, "
 "and county names must be added to the civicrm_county table in your database."
 msgstr ""
+"Län. Om du vill inkludera län i din e-postmärkning så måste <strong>Include "
+"Counties</strong> inställningen vara aktiverad på denna sida, och länets "
+"namn måste bli tillagt i civicrm_county listan i din databas."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
+#, fuzzy
 msgid "State or province <strong>abbreviation</strong>."
-msgstr ""
+msgstr "Län eller landskap <strong>abbreviation</strong>."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
+#, fuzzy
 msgid "State or province <strong>full name</strong>."
-msgstr ""
+msgstr "Län eller landskap <strong>full name</strong>."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Postal code."
-msgstr ""
+msgstr "Postnummer"
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Country name (e.g. Canada)."
-msgstr ""
+msgstr "Land (t.ex. Sverige)"
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
+#, fuzzy
 msgid "Add spaces or punctuation to layout by surrounding them with brackets."
 msgstr ""
+"Lägg till mellanslag och punkteringar i utseendet genom att ringa in dem med "
+"hårda parenteser. (t.ex. [.]"
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
+#, fuzzy
 msgid ""
 "The following tokens are available to format Address display on Contact and "
 "Event screens."
 msgstr ""
+"Följande tecken är tillgängliga för i Adressfältet för Kontakt- och "
+"Arrangemangsidan."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid ""
@@ -82,10 +96,13 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
+#, fuzzy
 msgid ""
 "The following tokens are available to control the format of individuals' "
 "contact names when they are included in <strong>mailing labels</strong>."
 msgstr ""
+"Följande tecken är tillgängliga för att variera utseendet av individuella "
+"kontaktnamn när de inkluderas i <strong>mailing labels</strong>."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Assigned name prefix, if any (e.g. 'Ms.', 'Dr.', 'Hon.' etc.)."
@@ -97,21 +114,25 @@ msgstr ""
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Contact's first name."
-msgstr ""
+msgstr "Kontakts tilltalsnamn"
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Contact's middle name."
-msgstr ""
+msgstr "Kontakts mellannamn"
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Contact's last name."
-msgstr ""
+msgstr "Kontakts efternamn"
 
+# anhängare?
 #: templates/CRM/Admin/Form/Setting/Component.hlp
+#, fuzzy
 msgid ""
 "These optional components give you more tools to connect with and engage "
 "your supporters."
 msgstr ""
+"Dessa valbara komponenter ger dig mer verktyg att kommunicera med och "
+"engagera dina användare?"
 
 #: templates/CRM/Admin/Form/Setting/Component.hlp
 msgid ""
@@ -121,6 +142,11 @@ msgid ""
 "pages to accept online donations. Refer to the <a href='%1' "
 "target='_blank'>CiviContribute Guide</a> for more info."
 msgstr ""
+"<strong>CiviContribute</strong> - En online bidrags- och donationskomponent, "
+"vilken låter dig följa och hantera bidrag till din organisation. Den låter "
+"dig även snabbt och enkelt skapa anpassade hemsidor för att ta emot "
+"onlinedonationer. Vänd dig till <a href='%1' target='_blank'>CiviContribute "
+"Guide</a> för mer information."
 
 #: templates/CRM/Admin/Form/Setting/Component.hlp
 msgid ""
@@ -128,13 +154,21 @@ msgid ""
 "to engage your constituents with personalized email blasts and newsletters. "
 "Refer to the <a href='%1' target='_blank'>CiviMail Guide</a> for more info."
 msgstr ""
+"<strong>CiviMail</strong> - En robust komponent som låter dig informera alla "
+"dina användare med personlig e-post och nyhetsbrev. Vänd dig till <a href='%"
+"1' target='_blank'>CiviMail Guide</a> för mer information"
 
 #: templates/CRM/Admin/Form/Setting/Component.hlp
+#, fuzzy
 msgid ""
 "<strong>CiviMember</strong> - A flexible membership management component "
 "which includes convenient online signup and renewal. Refer to the <a href='%"
 "1' target='_blank'>CiviMember Guide</a> for more info."
 msgstr ""
+"<strong>CiviMember</strong> - En flexibel användarhanterare som inkluderar "
+"ett enkelt gränssnitt för onlineregistrering och förnyelse av medlemskap. "
+"Vänd dig till <a href='%1' target='_blank'>CiviMember Guide</a> för mer "
+"information."
 
 #: templates/CRM/Admin/Form/Setting/Date.hlp
 msgid ""
@@ -396,8 +430,14 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
-"The URL for PayPal's LIVE Payment server. Use the default value unless "
-"otherwise advised by PayPal."
+"The URL for PayPal's LIVE Payment server. Use the default value (unless "
+"otherwise advised by PayPal):"
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid ""
+"The URL for PayPal's LIVE API gateway server. Use the default value (unless "
+"otherwise advised by PayPal):"
 msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
@@ -444,8 +484,14 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
-"The URL for PayPal's TEST Payment server. Use the default value unless "
-"otherwise advised by PayPal."
+"The URL for PayPal's TEST Payment server. Use the default value (unless "
+"otherwise advised by PayPal):"
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid ""
+"The URL for PayPal's TEST API gateway server. Use the default value (unless "
+"otherwise advised by PayPal):"
 msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp

@@ -744,6 +744,16 @@ class CRM_Utils_System {
         return $address;
     }
 
+    /**
+     * Returns you the referring / previous page url
+     *
+     * @return string the previous page url
+     * @access public
+     */
+    static function refererPath( ) {
+        return CRM_Utils_Array::value( 'HTTP_REFERER', $_SERVER );
+    }
+
 }
 
 

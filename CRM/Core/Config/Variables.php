@@ -268,11 +268,6 @@ class CRM_Core_Config_Variables extends CRM_Core_Config_Defaults
     public $userFrameworkFrontend       = false;
 
     /**
-     * Mysql path
-     */
-    public $mysqlPath = '/usr/bin/';
-
-    /**
      * the handle for import file size 
      * @var int
      */
@@ -334,7 +329,7 @@ class CRM_Core_Config_Variables extends CRM_Core_Config_Defaults
      *
      * @var string
      */
-    public $fatalErrorTemplate = 'CRM/error.tpl';
+    public $fatalErrorTemplate = 'CRM/common/fatal.tpl';
 
     /**
      * fatal error handler
@@ -377,7 +372,13 @@ class CRM_Core_Config_Variables extends CRM_Core_Config_Defaults
      * @var string
      */
     public $captchaFont = 'HelveticaBold.ttf';
-    
+
+    /**
+     * Some search settings
+     */
+    public $includeWildCardInName = 1;
+    public $includeEmailInName    = 1;
+
     /**
      * Optimization related variables
      */

@@ -141,20 +141,6 @@ class CRM_Project_BAO_TaskStatus {
         $dao->modified_date = date( 'YmdHis' );
         
         $dao->save( );
-
-        // update student's applicant_status_id
-        if ( CRM_Core_Permission::access( 'TMF' ) ) {
-            if($value = 'Completed') {
-                $status =& CRM_Core_OptionGroup::values( 'task_status', true );
-                require_once 'CRM/TMF/DAO/Student.php';
-                $studentDAO =& new CRM_TMF_DAO_Student();
-                $studentDAO->id = $form->get("contactID");
-                if ( $studentDAO->id || $studentDAO->find( true ) ) {
-                    $studentDAO->applicant_status_id = $status['Completed'] ; 
-                    $studentDAO->save();
-                }
-            }
-        }
     }
 
     /**

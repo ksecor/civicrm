@@ -55,10 +55,22 @@ class CRM_Contact_Page_View_Relationship extends CRM_Contact_Page_View {
     {
         require_once 'CRM/Core/DAO.php';
         $viewRelationship = CRM_Contact_BAO_Relationship::getRelationship( $this->_contactId, null, null, null, $this->_id );
+       
+        //To check whether selected contact is a contact_id_a in
+        //relationship type 'a_b' in relationship table, if yes then
+        //revert the permissionship text in template
+        $relationship =& new CRM_Contact_DAO_Relationship( );
+        $relationship->id = $viewRelationship[$this->_id]['id'];
+        
+        if ($relationship->find(true)) {
+            if ( ( $viewRelationship[$this->_id]['rtype'] == 'a_b' ) && ( $this->_contactId == $relationship->contact_id_a ) ) {
+                $this->assign( "is_contact_id_a", true );
+            }
+        }
+        $relType = $viewRelationship[$this->_id]['civicrm_relationship_type_id'];
         $this->assign( 'viewRelationship', $viewRelationship );
         $viewNote = CRM_Core_BAO_Note::getNote($this->_id);
         $this->assign( 'viewNote', $viewNote );
-        $relType = $viewRelationship[$this->_id]['civicrm_relationship_type_id'];
         $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree('Relationship',$this->_id,0,$relType);
         CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $this->_groupTree );
     }
@@ -84,6 +96,9 @@ class CRM_Contact_Page_View_Relationship extends CRM_Contact_Page_View {
                                                                                 $links, $mask );
         
         $this->assign( 'currentRelationships',  $currentRelationships  );
+        // to show the 'Current Relationships' title and links only when viewed
+        // from relationship tab, not from dashboard
+        $this->assign( 'relationshipTabContext', true  );
         $this->assign( 'inactiveRelationships', $inactiveRelationships );
     }    
     
@@ -124,7 +139,9 @@ class CRM_Contact_Page_View_Relationship extends CRM_Contact_Page_View {
      */
     function run( ) {
         $this->preProcess( );
-
+        
+        $this->setContext( );
+      
         if ( $this->_action & CRM_Core_Action::VIEW ) {
             $this->view( );
         } else if ( $this->_action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::DELETE ) ) {
@@ -138,13 +155,30 @@ class CRM_Contact_Page_View_Relationship extends CRM_Contact_Page_View {
         } else if ( $this->_action & CRM_Core_Action::ENABLE ) {
             CRM_Contact_BAO_Relationship::disnableEnableRelationship( $this->_id, CRM_Core_Action::ENABLE );
             CRM_Contact_BAO_Relationship::setIsActive( $this->_id, 1 ) ;
-             $session =& CRM_Core_Session::singleton();
+            $session =& CRM_Core_Session::singleton();
             CRM_Utils_System::redirect( $session->popUserContext() );
         } 
 
         $this->browse( );
 
         return parent::run( );
+    }
+    
+    function setContext( ) 
+    {
+        $context = CRM_Utils_Request::retrieve( 'context', 'String',
+                                                $this, false, 'search' );
+               
+        if ( $context == 'dashboard' ) {
+            $cid = CRM_Utils_Request::retrieve( 'cid', 'Integer',
+                                                $this, false );
+            $url = CRM_Utils_System::url( 'civicrm/user',
+                                          "reset=1&id={$cid}" );
+        } else {
+            $url = CRM_Utils_System::url('civicrm/contact/view', 'action=browse&selectedChild=rel' );
+        }
+        $session =& CRM_Core_Session::singleton( ); 
+        $session->pushUserContext( $url );
     }
     
    /**

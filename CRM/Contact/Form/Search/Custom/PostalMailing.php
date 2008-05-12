@@ -63,7 +63,7 @@ class CRM_Contact_Form_Search_Custom_PostalMailing
     function all( $offset = 0, $rowcount = 0, $sort = null,
                   $includeContactIDs = false ) {
         $selectClause = "
-distinct(contact_a.id)  as contact_id  ,
+DISTINCT contact_a.id  as contact_id  ,
 contact_a.contact_type  as contact_type,
 contact_a.sort_name     as sort_name,
 address.street_address  as address,

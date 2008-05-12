@@ -56,7 +56,8 @@ class CRM_SMS_BAO_History extends CRM_SMS_DAO_History {
     static function send( &$contactIds, &$message, $smsNumber ) {
         $session =& CRM_Core_Session::singleton( );
         $userID  =  $session->get( 'userID' );
-        list( $fromDisplayName, $fromSMSNumber ) = CRM_Contact_BAO_Contact::getPhoneDetails( $userID, 'Mobile' );
+        list( $fromDisplayName, 
+              $fromSMSNumber ) = CRM_Contact_BAO_Contact_Location::getPhoneDetails( $userID, 'Mobile' );
         if ( ! $fromSMSNumber ) {
             return array( count($contactIds), 0, count($contactIds) );
         }
@@ -97,7 +98,8 @@ class CRM_SMS_BAO_History extends CRM_SMS_DAO_History {
      * @static
      */
     static function sendMessage( $from, $toID, &$message, $smsNumber, $activityID ) {
-        list( $toDisplayName  , $toSMS   ) = CRM_Contact_BAO_Contact::getPhoneDetails( $toID, 'Mobile' );
+        list( $toDisplayName, 
+              $toSMS   ) = CRM_Contact_BAO_Contact_Location::getPhoneDetails( $toID, 'Mobile' );
         if ( $toSMS ) {
             $to = trim( $toSMS );
         }

@@ -47,9 +47,24 @@ class CRM_Mailing_Info extends CRM_Core_Component_Info
                       'translatedName' => ts('CiviMail'),
                       'title'          => 'CiviCRM Mailing Engine',
                       'url'            => 'mailing',
-                      'perm'           => array( 'access CiviMail', 'access CiviMail subscribe/unsubscribe pages' ),
                       'menu'           => array( 'Menu/Mailing.xml' ),
                       'search'         => 0 );
+    }
+
+
+    // docs inherited from interface
+    public function getPermissions()
+    {
+        return array( 'access CiviMail', 
+                      'access CiviMail subscribe/unsubscribe pages' );
+    }
+
+
+    // docs inherited from interface
+    public function getUserDashboardElement()
+    {
+        // no dashboard element for this component
+        return null;
     }
     
     // docs inherited from interface    

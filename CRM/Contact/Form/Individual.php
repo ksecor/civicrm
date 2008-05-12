@@ -74,10 +74,7 @@ class CRM_Contact_Form_Individual {
         // nick_name
         $form->addElement('text', 'nick_name', ts('Nick Name'),
                           CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'nick_name') );
-
-        // greeting type
-        $form->addElement('select', 'greeting_type', ts('Greeting'), CRM_Core_SelectValues::greeting());
-        
+      
         // job title
         $form->addElement('text', 'job_title', ts('Job title'), $attributes['job_title']);
 
@@ -118,10 +115,11 @@ class CRM_Contact_Form_Individual {
             $extraOnAddFlds = $extraOnAddFlds ? ($extraOnAddFlds . "|" . $addFld) : $addFld;
         }
         $extraOnAddFlds = "'" . $extraOnAddFlds . "'";
-        
+        //hidden element for checking valid entry in dojo
+        $form->add('hidden', 'HhName', null);
         if ( $action & CRM_Core_Action::UPDATE ) {
 
-            $sharedOptionsExtra = array( 'onclick' => "showHideSharedOptions();" );        
+            $sharedOptionsExtra = array( 'onclick' => "showHideSharedOptions();setAddressFields();" );        
             
             $mailToHouseholdID  = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', 
                                                                $form->_contactId, 
@@ -142,11 +140,11 @@ class CRM_Contact_Form_Individual {
                 $form->assign('old_mail_to_household_id', $mailToHouseholdID);
                 
                 $sharedOptionsExtra = array( 'onclick' => "showHideSharedOptions();
-resetByValue('shared_option',   '', $extraOnAddFlds, 'text', 'radio',   true );
+resetByValue('shared_option',   '', $extraOnAddFlds, 'text', 'radio',   true );setAddressFields();
 " );
             }
         } elseif ( $action & CRM_Core_Action::ADD ) {
-            $sharedOptionsExtra = array( 'onclick' => "showHideSharedOptions();" );        
+            $sharedOptionsExtra = array( 'onclick' => "showHideSharedOptions();setAddressFields();" );        
         }
         
         if ( isset( $mailToHouseholdID ) ) {
@@ -275,15 +273,12 @@ setDefaultAddress();
 
         // if this is a forced save, ignore find duplicate rule
         if ( ! CRM_Utils_Array::value( '_qf_Edit_next_duplicate', $fields ) ) {
-            $cid = null;
-            if ( $options ) {
-                $cid = (int ) $options;
-            }
-            
-            $ids = CRM_Core_BAO_UFGroup::findContact( $fields, $cid, true );
+            require_once 'CRM/Dedupe/Finder.php';
+            $dedupeParams = CRM_Dedupe_Finder::formatParams($fields, 'Individual');
+            $ids = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Individual', 'Fuzzy', array($options));
             if ( $ids ) {
                 $urls = array( );
-                foreach ( explode( ',', $ids ) as $id ) {
+                foreach ($ids as $id) {
                     $displayName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'display_name' );
                     $urls[] = '<a href="' . CRM_Utils_System::url( 'civicrm/contact/add', 'reset=1&action=update&cid=' . $id ) .
                         '">' . $displayName . '</a>';
@@ -299,9 +294,17 @@ setDefaultAddress();
                 CRM_Core_Session::setStatus( 'No matching contact found.' );
             }
         }
-
+     
+        //to get valid Id of entered houseHold
+        if ( $fields ['HhName'] ) {
+            $HouseholdId =  CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $fields ['HhName'] ,'id' ,'display_name' );
+            
+            if ( !$HouseholdId ){
+                $fields['shared_household'] = ''; 
+            }
+        }
         // if use_household_address option is checked, make sure 'valid household_name' is also present.
-        if ( CRM_Utils_Array::value('use_household_address',$fields) && !$fields['shared_household'] ) {
+        if ( CRM_Utils_Array::value('use_household_address',$fields) && (!$fields['shared_household']|| !$fields['shared_option']) ) {
             if ( ! $fields['create_household'] ) {
                 if ( !array_key_exists( 'shared_option', $fields ) || $fields['shared_option'] ) {
                     if ( !$fields['old_mail_to_household_id'] || !$fields['shared_household'] ) {

@@ -97,6 +97,16 @@ abstract class CRM_Core_Payment {
      */
     abstract function checkConfig( );
 
+    /**
+     * This function returns the URL used to cancel recurring subscriptions
+     *
+     * @return string the url of the payment processor cancel page
+     * @public
+     */
+    function cancelSubscriptionURL( ) {
+        return null;
+    }
+
     static function paypalRedirect( &$paymentProcessor ) {
         if ( ! $paymentProcessor ) {
             return false;

@@ -1,4 +1,7 @@
 {* this template is used for adding/editing/deleting memberships for a contact  *}
+{if $cdType }
+  {include file="CRM/Custom/Form/CustomData.tpl"}
+{else}
 <div class="form-item">
 <fieldset><legend>{if $action eq 1}{ts}New Membership{/ts}{elseif $action eq 2}{ts}Edit Membership{/ts}{else}{ts}Delete Membership{/ts}{/if}</legend> 
    {if $action eq 8}
@@ -72,6 +75,9 @@
 		{include file="CRM/common/calendar/body.tpl" dateVar=receive_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_membership_4}</dd>  
           
             <dt class="label">{$form.payment_instrument_id.label}</dt><dd>{$form.payment_instrument_id.html}</dd>
+	   {if $action neq 2 }	
+	    <dt class="label">{$form.trxn_id.label}</dt><dd>{$form.trxn_id.html}</dd>
+	   {/if}		
 		    <dt class="label">{$form.contribution_status_id.label}</dt><dd>{$form.contribution_status_id.html}</dd>
         </dl>
         {if $emailExists }
@@ -88,9 +94,13 @@
             </div>
         {/if}
     </fieldset>
-    {include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
-	{if $action eq 2 and $rows.0.contribution_id}	 
+    <div id="customData"></div>
+    {*include custom data js file*}
+    {include file="CRM/common/customData.tpl"}
+	{if $action eq 2 and $rows.0.contribution_id}
+	<fieldset>	 
      		{include file="CRM/Contribute/Form/Selector.tpl" context="Search"}
+	</fieldset>
 	{/if}
    {/if}
 
@@ -101,6 +111,7 @@
 
 </fieldset>
 </div>
+{/if}
 
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="record_contribution"
@@ -133,15 +144,6 @@ function showHideMemberStatus() {
 	   hide('memberStatus');
        show('memberStatus_show');
 	}
-}
-
-function reload(refresh) {
-    var membershipTypeValue = document.getElementsByName("membership_type_id[1]")[0].options[document.getElementsByName("membership_type_id[1]")[0].selectedIndex].value;
-    var url = {/literal}"{$refreshURL}"{literal}
-    var post = url + "&subType=" + membershipTypeValue;
-    if ( refresh ) {
-        window.location= post; 
-    }
 }
 
 </script>

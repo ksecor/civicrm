@@ -261,10 +261,10 @@ class CRM_UF_Page_Group extends CRM_Core_Page
 
         foreach ($allUFGroups as $id => $value) {
             $ufGroup[$id] = array();
-            $ufGroup[$id]['id'       ] = $id;
-            $ufGroup[$id]['title'    ] = $value['title'];
-            $ufGroup[$id]['weight'   ] = $value['weight'];
-            $ufGroup[$id]['is_active'] = $value['is_active'];
+            $ufGroup[$id]['id'        ] = $id;
+            $ufGroup[$id]['title'     ] = $value['title'];
+            $ufGroup[$id]['is_active' ] = $value['is_active'];
+            $ufGroup[$id]['group_type'] = $value['group_type'];
 
             // form all action links
             $action = array_sum(array_keys($this->actionLinks()));
@@ -277,15 +277,10 @@ class CRM_UF_Page_Group extends CRM_Core_Page
             }
             
             $ufGroup[$id]['action'] = CRM_Core_Action::formLink(self::actionLinks(), $action, 
-                                                                 array('id' => $id));
+                                                                array('id' => $id));
             //get the "Used For" from uf_join
             $ufGroup[$id]['module'] = implode( ', ', CRM_Core_BAO_UFGroup::getUFJoinRecord( $id, true ));
         }
-
-        $returnURL = CRM_Utils_System::url( 'civicrm/admin/uf/group', 'reset=1' ); 
-        require_once 'CRM/Utils/Weight.php';
-        CRM_Utils_Weight::addOrder( $ufGroup, 'CRM_Core_DAO_UFJoin',
-                                    'uf_group_id', $returnURL );
 
         $this->assign('rows', $ufGroup);
     }

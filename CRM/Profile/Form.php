@@ -257,7 +257,6 @@ class CRM_Profile_Form extends CRM_Core_Form
         $config  =& CRM_Core_Config::singleton( );
         
         // we should not allow component and mix profiles in search mode
-        //if ( $this->_mode != self::MODE_REGISTER && $this->_mode != self::MODE_SEARCH) {
         if ( $this->_mode != self::MODE_REGISTER ) {
             //check for mix profile fields (eg:  individual + other contact type)
             if ( CRM_Core_BAO_UFField::checkProfileType($this->_gid) ) {
@@ -265,6 +264,7 @@ class CRM_Profile_Form extends CRM_Core_Form
             }
             
             $profileType = CRM_Core_BAO_UFField::getProfileType($this->_gid);  
+
             if(in_array( $profileType, array( "Membership", "Participant", "Contribution" ) ) ){
                 CRM_Core_Session::setStatus(ts('Profile is not configured for the selected action.'));
                 return 0;
@@ -374,8 +374,8 @@ class CRM_Profile_Form extends CRM_Core_Form
             }
             
             if ($setCaptcha) {
-                require_once 'CRM/Utils/CAPTCHA.php';
-                $captcha =& CRM_Utils_CAPTCHA::singleton( );
+                require_once 'CRM/Utils/ReCAPTCHA.php';
+                $captcha =& CRM_Utils_ReCAPTCHA::singleton( );
                 $captcha->add( $this );
                 $this->assign( "isCaptcha" , true );
             }
@@ -450,18 +450,17 @@ class CRM_Profile_Form extends CRM_Core_Form
 
         // dont check for duplicates during registration validation: CRM-375 
         if ( ! $register ) { 
-            //formatted submiited fields before sending to dupe contact matching
-            $data = CRM_Core_BAO_UFGroup::formatFields( $fields, $cid );
-
-            $ids = CRM_Core_BAO_UFGroup::findContact( $data, $cid, true );
+            require_once 'CRM/Dedupe/Finder.php';
+            $dedupeParams = CRM_Dedupe_Finder::formatParams($fields, 'Individual');
+            $ids = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Individual');
             if ( $ids ) {
                 if ( $form->_isUpdateDupe ) {
                     if ( ! $form->_id ) {
-                        $idArray = explode( ',', $ids );
-                        $form->_id = $idArray[0];
+                        $form->_id = $ids[0];
                     }
                 } else {
-                    $errors['_qf_default'] = ts( 'An account already exists with the same information.' );
+                    // i've commented this so i can get past the error and test reCaptcha
+                    // $errors['_qf_default'] = ts( 'An account already exists with the same information.' );
                 }
             }
         }
@@ -602,6 +601,16 @@ class CRM_Profile_Form extends CRM_Core_Form
 
         $transaction->commit( );
     }
+
+    function getTemplateFileName() {
+        if ( $this->_gid ) {
+            $templateFile = "CRM/Profile/Form/{$this->_gid}/{$this->_name}.tpl";
+            $template =& CRM_Core_Form::getTemplate( );
+            if ( $template->template_exists( $templateFile ) ) {
+                return $templateFile;
+            }
+        }
+        return parent::getTemplateFileName( );
+    }
+
 }
-
-

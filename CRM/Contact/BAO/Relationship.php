@@ -62,6 +62,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
      */
     static function create( &$params, &$ids ) 
     {  
+        
         $valid = $invalid = $duplicate = $saved = 0;
         require_once 'CRM/Utils/Array.php';
         $relationshipId = CRM_Utils_Array::value( 'relationship', $ids );
@@ -163,6 +164,8 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
         $relationship->contact_id_a         = $contact_a;
         $relationship->relationship_type_id = $type;
         $relationship->is_active            = $params['is_active'] ? 1 : 0;
+        $relationship->is_permission_a_b    = $params['is_permission_a_b'] ? 1 : 0;
+        $relationship->is_permission_b_a    = $params['is_permission_b_a'] ? 1 : 0;
         $relationship->description          = CRM_Utils_Array::value( 'description', $params );
         $relationship->start_date           = CRM_Utils_Date::format( CRM_Utils_Array::value( 'start_date', $params ) );
         if ( ! $relationship->start_date ) {
@@ -537,10 +540,6 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
     static function setIsActive( $id, $is_active ) 
     {
          // set the userContext stack
-        $session =& CRM_Core_Session::singleton();
-
-        $url = CRM_Utils_System::url('civicrm/contact/view', 'action=browse&selectedChild=rel' );
-        $session->pushUserContext( $url );
         return CRM_Core_DAO::setFieldValue( 'CRM_Contact_DAO_Relationship', $id, 'is_active', $is_active );
     }
 
@@ -559,8 +558,15 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
     static function &getValues( &$params, &$values ) 
     {
         $v = array( );
-        $v['data'] =& 
-            CRM_Contact_BAO_Relationship::getRelationship($params['contact_id'], null , 3 );
+        
+        // get the specific number of relationship or all relationships.
+        if ( CRM_Utils_Array::value( 'numRelationship', $params ) ) {
+            $v['data'] =& 
+                CRM_Contact_BAO_Relationship::getRelationship($params['contact_id'], null , $params['numRelationship'] );
+        } else {
+            $v['data'] =& 
+                CRM_Contact_BAO_Relationship::getRelationship( $params['contact_id'] );
+        } 
         
         // get the total count of relationships
         $v['totalCount'] =
@@ -615,7 +621,9 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
                               civicrm_relationship.start_date as start_date,
                               civicrm_relationship.end_date as end_date,
                               civicrm_relationship.description as description,
-                              civicrm_relationship.is_active as is_active ';
+                              civicrm_relationship.is_active as is_active,
+                              civicrm_relationship.is_permission_a_b as is_permission_a_b,
+                              civicrm_relationship.is_permission_b_a as is_permission_b_a';
 
             if ( $direction == 'a_b' ) {
                 $select .= ', civicrm_relationship_type.name_a_b as name_a_b,
@@ -681,6 +689,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
      * $param int $relationshipId relationship id
      * $param array $links the list of links to display
      * $param int   $permissionMask  the permission mask to be applied for the actions
+     * $param boolean $permissionedContact to return only permissioned Contact
      *
      * return array $values relationship records
      * @static
@@ -689,11 +698,12 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
     static function getRelationship( $contactId,
                                      $status = 0, $numRelationship = 0,
                                      $count = 0, $relationshipId = 0,
-                                     $links = null, $permissionMask = null )
+                                     $links = null, $permissionMask = null,
+                                     $permissionedContact = false)
     {
         list( $select1, $from1, $where1 ) = self::makeURLClause( $contactId, $status, $numRelationship, $count, $relationshipId, 'a_b' );
         list( $select2, $from2, $where2 ) = self::makeURLClause( $contactId, $status, $numRelationship, $count, $relationshipId, 'b_a' );
-
+       
         $order = $limit = '';
         if (! $count ) {
             $order = ' ORDER BY civicrm_relationship_type_id, sort_name ';
@@ -739,12 +749,16 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
                     $mask = $mask & $permissionMask;
                 }
             }
-
+            require_once 'CRM/Contact/BAO/Contact/Permission.php';
             while ( $relationship->fetch() ) {
                 $rid = $relationship->civicrm_relationship_id;
-
+                $cid = $relationship->civicrm_contact_id;
+                if ( ( $permissionedContact ) && 
+                     ( !CRM_Contact_BAO_Contact_Permission::relationship ( $cid, $contactId ) ) ) {
+                    continue;
+                }
                 $values[$rid]['id']         = $rid;
-                $values[$rid]['cid']        = $relationship->civicrm_contact_id;
+                $values[$rid]['cid']        = $cid;
                 $values[$rid]['relation']   = $relationship->relation;
                 $values[$rid]['name']       = $relationship->sort_name;
                 $values[$rid]['email']      = $relationship->email;
@@ -755,7 +769,9 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
                 $values[$rid]['end_date']   = $relationship->end_date;
                 $values[$rid]['description']= $relationship->description;
                 $values[$rid]['is_active']  = $relationship->is_active;
-                
+                $values[$rid]['is_permission_a_b']= $relationship->is_permission_a_b;
+                $values[$rid]['is_permission_b_a']= $relationship->is_permission_b_a;
+
                 if( $status ) {
                     $values[$rid]['status'] = $status;
                 }
@@ -769,9 +785,10 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
                 }
                 
                 if ( $links ) {
-                    $replace = array( 'id' => $rid, 
-                                      'rtype' => $values[$rid]['rtype'], 
-                                      'cid' => $contactId );
+                    $replace = array( 'id'    => $rid, 
+                                      'rtype' => $values[$rid]['rtype'],
+                                      'cid'   => $contactId, 
+                                      'cbid'  => $values[$rid]['cid'] );
 
                     if ( $status == self::INACTIVE ) {
                         // setting links for inactive relationships
@@ -995,5 +1012,45 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
     {
         return CRM_Core_DAO::setFieldValue('CRM_Contact_DAO_Contact', $id, 'mail_to_household_id','NULL' );
     } 
+
+    /**
+     * Function to get Current Employer for Contact
+     * 
+     * @param $contactId       Contact Id
+     * @param $dojoreturn      boolean
+     * @return $currentEmployer array of the current employer
+     *
+     * @static
+     *
+     */
+    static function getCurrentEmployer( $contactId , $dojoreturn = false )
+    {
+        $currentEmployer = array( );
+        $rel = CRM_Contact_BAO_Relationship::getRelationship( $contactId );
+        krsort( $rel );
+        
+        foreach ( $rel as $key => $value ) {
+            if ( $value['relation'] == 'Employee of' && $value['is_active'] == 1 ) {
+                $query = 
+                    "SELECT CONCAT_WS(':::',organization_name,LEFT(street_address,25),city) 'sort_name', civicrm_contact.id id
+                         FROM civicrm_contact
+                         LEFT JOIN civicrm_address ON ( civicrm_contact.id = civicrm_address.contact_id
+                                                        AND civicrm_address.is_primary=1
+                                                      )
+                         WHERE civicrm_contact.id = {$value['cid']}";
+                if ( $dojoreturn ) {
+                    $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+                    $dao->fetch();
+                    $currentEmployer['employer_option'] = 1;
+                    $currentEmployer['id']              = $dao->id;
+                    $currentEmployer['sort_name']       = $dao->sort_name;
+                }
+                $currentEmployer['org_name'] = $value['name'];
+                break;
+            }
+        }
+        return $currentEmployer;
+    }
+
 }
 

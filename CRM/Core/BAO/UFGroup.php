@@ -127,7 +127,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
 
         require_once "CRM/Core/BAO/UFField.php";
         foreach ( $ufGroups as $id => $title ) {
-            if ( CRM_Core_BAO_UFField::checkProfileType($id) ) { // to skip mix profiles
+            if ( CRM_Core_BAO_UFField::checkProfileType( $id ) ) { // to skip mix profiles
                 continue;
             }
 
@@ -368,7 +368,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                           'group_id'         => $group->id,
                           'add_to_group_id'  => $group->add_to_group_id,
                           'collapse_display' => $group->collapse_display,
-                          'add_captcha'      => $group->add_captcha
+                          'add_captcha'      => $group->add_captcha,
+                          'field_type'       => $field->field_type
                           );
 
                 //adding custom field property 
@@ -535,10 +536,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 $template =& CRM_Core_Smarty::singleton( );
                 return trim( $template->fetch( 'CRM/Profile/Form/Dynamic.tpl' ) );
             } else {
-                // fix for CRM 701
-                require_once 'CRM/Contact/BAO/Contact.php';
-                
-                $userEmail = CRM_Contact_BAO_Contact::getEmailDetails( $userID );
+                require_once 'CRM/Contact/BAO/Contact/Location.php';
+                $userEmail = CRM_Contact_BAO_Contact_Location::getEmailDetails( $userID );
                 
                 // if post not empty then only proceed
                 if ( ! empty ( $_POST ) ) {
@@ -576,7 +575,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         if ( ! $clause || trim( $clause ) === trim( $emptyClause ) ) {
             return null;
         }
-        return CRM_Contact_BAO_Contact::matchContact( $clause, $tables, $id );
+        require_once 'CRM/Contact/BAO/Contact/Utils.php';
+        return CRM_Contact_BAO_Contact_Utils::match( $clause, $tables, $id );
     }
 
     /**
@@ -1091,10 +1091,14 @@ WHERE  id = $cfID
         }
         
         // check which values has to be inserted/deleted for contact
+        $menuRebuild = false;
         foreach ($allUFGroupType as $key => $value) {
             $joinParams = array( );
             $joinParams['uf_group_id'] = $ufGroupId;
             $joinParams['module'     ] = $key;
+            if ( $key == 'User Account' ) {
+                $menuRebuild = true;
+            }
             if (array_key_exists($key, $groupTypes) && !in_array($key, $ufGroupRecord )) {
                 // insert a new record
                 CRM_Core_BAO_UFGroup::addUFJoin($joinParams);
@@ -1109,6 +1113,14 @@ WHERE  id = $cfID
                        WHERE  uf_group_id = {$ufGroupId}";
         $p =array( 1 => array( $params['weight'], 'Integer' ) ); 
         CRM_Core_DAO::executeQuery($query, $p);
+
+        // do a menu rebuild if we are on drupal, so it gets all the new menu entries
+        // for user account
+        $config =& CRM_Core_Config::singleton( );
+        if ( $menuRebuild &&
+             $config->userFramework == 'Drupal' ) {
+            menu_rebuild( );
+        }
     }
 
     /**
@@ -1240,12 +1252,13 @@ WHERE  id = $cfID
 
         $dao =& new CRM_Core_DAO( );
         $queryString = 'SELECT civicrm_uf_group.id as id, civicrm_uf_group.title as title,
-                               civicrm_uf_join.weight as weight, civicrm_uf_group.is_active as is_active
+                               civicrm_uf_group.is_active as is_active,
+                               civicrm_uf_group.group_type as group_type
                         FROM civicrm_uf_group
                         LEFT JOIN civicrm_uf_join on ( civicrm_uf_group.id = civicrm_uf_join.uf_group_id )
                         WHERE civicrm_uf_group.domain_id = %1';
         $p = array( 1 => array( CRM_Core_Config::domainID( ), 'Integer' ) );
-        if ($moduleName) {
+        if ( $moduleName ) {
             $queryString .= ' AND civicrm_uf_group.is_active = 1 
                               AND civicrm_uf_join.module = %2';
             $p[2] = array( $moduleName, 'String' );
@@ -1256,10 +1269,10 @@ WHERE  id = $cfID
 
         $ufGroups = array( );
         while ($dao->fetch( )) {
-            $ufGroups[$dao->id]['name'     ] = $dao->title;
-            $ufGroups[$dao->id]['title'    ] = $dao->title;
-            $ufGroups[$dao->id]['weight'   ] = $dao->weight + $count;
-            $ufGroups[$dao->id]['is_active'] = $dao->is_active;
+            $ufGroups[$dao->id]['name'      ] = $dao->title;
+            $ufGroups[$dao->id]['title'     ] = $dao->title;
+            $ufGroups[$dao->id]['is_active' ] = $dao->is_active;
+            $ufGroups[$dao->id]['group_type'] = $dao->group_type;
         }
 
         return $ufGroups;
@@ -1457,12 +1470,6 @@ WHERE  id = $cfID
             $form->add('select', $name, $title, array( "" => "-- Select -- " )+ array_flip( CRM_Core_OptionGroup::values( 'applicant_status', true ) ) );
         } else if ($fieldName == 'highschool_gpa_id' ) {
             $form->add('select', $name, $title, array( "" => "-- Select -- ") + CRM_Core_OptionGroup::values( 'highschool_gpa' ) );
-        } else if ($fieldName == 'interview_rank' ) {
-            require_once "CRM/TMF/BAO/Query.php";
-            $ranking = array( );
-            require_once "CRM/TMF/BAO/Query.php";
-            $ranking = CRM_TMF_BAO_Query::buildNumberSelect(20);
-            $form->add('select', $name, $title, array("" => "-- Select -- ")+ $ranking );
         } else {
             $processed = false;
             if ( CRM_Core_Permission::access( 'Quest', false ) ) {
@@ -1852,8 +1859,10 @@ WHERE  id = $cfID
         }
         
         $template =& CRM_Core_Smarty::singleton( );
-                   
-        $displayName = CRM_Contact_BAO_Contact::displayName( $contactID );
+
+        $displayName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                    $contactID,
+                                                    'display_name' );
                
         self::profileDisplay( $values['id'] , $values['values'],$template );
         $emailList = explode(',',$values['email']);
@@ -1971,7 +1980,8 @@ WHERE  id = $cfID
     {
         if ( $contactId ) {
             // get the primary location type id and email
-            list($name, $primaryEmail, $primaryLocationType) = CRM_Contact_BAO_Contact::getEmailDetails( $contactId );
+            require_once 'CRM/Contact/BAO/Contact/Location.php';
+            list($name, $primaryEmail, $primaryLocationType) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $contactId );
         } else {
             require_once 'CRM/Core/BAO/LocationType.php';
             $defaultLocationType =& CRM_Core_BAO_LocationType::getDefault();

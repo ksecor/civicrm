@@ -1,6 +1,11 @@
 <div class="form-item">
     <div id="help">
-        <p>{ts}Please verify the information below. Click <strong>Go Back</strong> if you need to make changes. Otherwise, click the <strong>Continue</strong> button below to complete your registration.{/ts}</p>
+        {ts}Please verify the information below. Click <strong>Go Back</strong> if you need to make changes.{/ts}
+    {if $contributeMode EQ 'notify' and $paymentProcessor.payment_processor_type EQ 'Google_Checkout' and !$is_pay_later } 
+        {ts}Click the <strong>Google Checkout</strong> button to checkout to Google, where you will select your payment method and complete the registration.{/ts}
+    {else}
+	{ts}Otherwise, click the <strong>Continue</strong> button below to complete your registration.{/ts}
+    {/if}
     </div>
 
     {if $eventPage.confirm_text}

@@ -31,6 +31,7 @@
         <dt class="label">{$form.total_amount.label}</dt><dd>{$form.total_amount.html}<br />
             <span class="description">{ts}Membership payment amount. A contribution record will be created for this amount.{/ts}</span></dd>
         <dt class="label">{$form.payment_instrument_id.label}</dt><dd>{$form.payment_instrument_id.html}</dd>
+	<dt class="label">{$form.trxn_id.label}</dt><dd>{$form.trxn_id.html}</dd>
         <dt class="label">{$form.contribution_status_id.label}</dt><dd>{$form.contribution_status_id.html}</dd>
     </dl>
 	{if $email}	

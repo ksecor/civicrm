@@ -135,7 +135,8 @@ AND    g.id    = v.option_group_id";
             $label = $dao->fetch( ) ? $dao->label : $value;
             $dao->free();
             break;
-
+            
+        case 'Multi-Select Country':
         case 'Select Country':
             $label =& CRM_Core_PseudoConstant::country($value);
             break;
@@ -143,7 +144,7 @@ AND    g.id    = v.option_group_id";
         case 'Select Date':
             $label = CRM_Utils_Date::customFormat($value);
             break;
-
+        case 'Multi-Select State/Province':
         case 'Select State/Province':
             $label = CRM_Core_PseudoConstant::stateProvince($value);
             break;

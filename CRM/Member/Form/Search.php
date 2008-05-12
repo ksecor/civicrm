@@ -236,7 +236,7 @@ class CRM_Member_Form_Search extends CRM_Core_Form
          */ 
         $rows = $this->get( 'rows' ); 
         if ( is_array( $rows ) ) {
-            if ($this->_context == 'search') {
+            if (!$this->_single) {
                 $this->addElement( 'checkbox', 'toggleSelect', null, null, array( 'onchange' => "return toggleCheckboxVals('mark_x_',this.form);" ) ); 
                 foreach ($rows as $row) { 
                     $this->addElement( 'checkbox', $row['checkbox'], 

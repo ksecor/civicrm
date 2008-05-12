@@ -12,6 +12,8 @@
         <tr><td class="label">{$form.user_dashboard_options.label}</td><td>{$form.user_dashboard_options.html}</td></tr>
         <tr><td>&nbsp;</td><td class="description">{ts}Select the sections that should be included in the Contact Dashboard. EXAMPLE: If you don't want constituents to view their own contribution history, un-check that option.{/ts}</td></tr>
 
+        <tr><td class="label">{$form.wysiwyg_editor.label}</td><td>{$form.wysiwyg_editor.html}</td></tr>
+        <tr><td>&nbsp;</td><td class="description">{ts}Some explanatory text{/ts}</td></tr>
 	{if $action neq 4} {* action is not view *}
            <tr><td></td><td>{$form.buttons.html}</td></tr>
         {else}

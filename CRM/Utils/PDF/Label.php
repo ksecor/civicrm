@@ -208,6 +208,9 @@ class CRM_Utils_PDF_Label extends UFPDF {
         $posX = $this->marginLeft+($this->countX*($this->width+$this->xSpace));
         $posY = $this->marginTop+($this->countY*($this->height+$this->ySpace));
         $this->SetXY($posX+3, $posY+3);
+        $maxwidth = $this->width;
+        //wrap the text if it's width is greater than maxwidth 
+        $this->wordWrap( $texte, $maxwidth);
         $this->MultiCell($this->width, $this->lineHeight, $texte);
         $this->countY++;
         

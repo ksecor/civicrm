@@ -56,6 +56,33 @@ class CRM_Utils_Array {
     }
 
     /**
+     * Given a parameter array and a key to search for, 
+     * search recursively for that key's value.
+     *
+     * @param array $values     The parameter array
+     * @param string $key       The key to search for
+     * @return mixed            The value of the key, or null.
+     * @access public
+     * @static
+     */
+    static function retrieveValueRecursive(&$params, $key) 
+    {
+        if (! is_array($params)) {
+            return null;
+        } else if ($value = CRM_Utils_Array::value($key, $params)) {
+            return $value;
+        } else {
+            foreach ($params as $subParam) {
+                if ( is_array( $subParam ) &&
+                     $value = self::retrieveValueRecursive( $subParam, $key ) ) {
+                    return $value;
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
      * if the value exists in the list returns the associated key
      *
      * @access public
@@ -260,6 +287,48 @@ class CRM_Utils_Array {
         }
         return false;
     }
+    
+    /**
+     * This function is used to convert associative array names to values
+     * and vice-versa.
+     *
+     * This function is used by both the web form layer and the api. Note that
+     * the api needs the name => value conversion, also the view layer typically
+     * requires value => name conversion
+     */
+    static function lookupValue( &$defaults, $property, $lookup, $reverse ) 
+    {
+        $id = $property . '_id';
+
+        $src = $reverse ? $property : $id;
+        $dst = $reverse ? $id       : $property;
+        
+        if ( ! array_key_exists( strtolower($src), array_change_key_case( $defaults, CASE_LOWER )) ) {
+            return false;
+        }
+
+        $look = $reverse ? array_flip( $lookup ) : $lookup;
+        
+        //trim lookup array, ignore . ( fix for CRM-1514 ), eg for prefix/suffix make sure Dr. and Dr both are valid
+        $newLook = array( );
+        foreach( $look as $k => $v) {
+            $newLook[trim($k, ".")] = $v;
+        }
+
+        $look = $newLook;
+
+        if(is_array($look)) {
+            if ( ! array_key_exists( trim(strtolower( $defaults[strtolower($src)] ),'.'),  array_change_key_case( $look, CASE_LOWER )) ) {
+                return false;
+            }
+        }
+        
+        $tempLook = array_change_key_case( $look ,CASE_LOWER);
+
+        $defaults[$dst] = $tempLook[trim(strtolower( $defaults[strtolower($src)] ),'.')];
+        return true;
+    }
+
 
 }
 

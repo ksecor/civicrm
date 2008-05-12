@@ -58,10 +58,10 @@ class CRM_Profile_Form_Search extends CRM_Profile_Form
     function preProcess() 
     { 
         $this->_mode = CRM_Profile_Form::MODE_SEARCH; 
-
-        parent::preProcess( ); 
+      
+        parent::preProcess( );
     } 
-
+    
     /** 
      * Set the default form values 
      * 
@@ -70,7 +70,6 @@ class CRM_Profile_Form_Search extends CRM_Profile_Form
      */ 
     function &setDefaultValues() {
         $defaults = array(); 
-        
         // note we intentionally overwrite value since we use it as defaults
         // and its all pass by value
         // we need to figure out the type, so we can either set an array element
@@ -113,7 +112,7 @@ class CRM_Profile_Form_Search extends CRM_Profile_Form
                                 array ('type'      => 'refresh', 
                                        'name'      => ts('Search'), 
                                        'isDefault' => true ), 
-                                ) ); 
+                                ) );
 
         parent::buildQuickForm( );
      }
@@ -127,17 +126,6 @@ class CRM_Profile_Form_Search extends CRM_Profile_Form
      */
     public function postProcess() 
     {
-    }
-
-    function getTemplateFileName() {
-        if ( $this->_gid ) {
-            $templateFile = "CRM/Profile/Form/{$this->_gid}/Search.tpl";
-            $template =& CRM_Core_Form::getTemplate( );
-            if ( $template->template_exists( $templateFile ) ) {
-                return $templateFile;
-            }
-        }
-        return parent::getTemplateFileName( );
     }
 
 }

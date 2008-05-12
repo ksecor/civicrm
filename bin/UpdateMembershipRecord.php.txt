@@ -121,10 +121,6 @@ WHERE  civicrm_membership.contact_id = civicrm_contact.id
             $reminder_date = CRM_Utils_DATE::unixTime( $dao->reminder_date );
             $today_date    = CRM_Utils_DATE::unixTime( $today );
             
-            //convert date from string format to timestamp format
-            $reminder_date = CRM_Utils_DATE::unixTime( $dao->reminder_date );
-            $today_date    = CRM_Utils_DATE::unixTime( $today );
-
             //send reminder for membership renewal
             if ( $dao->reminder_date &&
                ( $reminder_date <= $today_date ) ) {

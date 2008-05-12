@@ -125,7 +125,9 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         }
 
         if ( !empty($relationshipType) ) {
-            $fields = array_merge($fields, array( 'related' => array('title' => '- related contact info -')) + $relationshipType);
+            $fields = array_merge( $fields,
+                                   array( 'related' => array( 'title' => '- related contact info -') ),
+                                   $relationshipType );
         }
 
         foreach ($fields as $name => $field) {
@@ -137,7 +139,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                              CRM_Utils_Array::value( 'hasLocationType', $field ) );
         }
 
-        $this->_newContacts = array();
+        $this->_newContacts = array( );
 
         $this->setActiveFields( $this->_mapperKeys );
         $this->setActiveFieldLocationTypes( $this->_mapperLocType );
@@ -455,7 +457,10 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         //check if external identifier exists in database
         if ( isset( $params['external_identifier'] ) ) {
             require_once "CRM/Contact/BAO/Contact.php";
-            if ( CRM_Contact_BAO_Contact::checkExternalIdentifierExists( $params['external_identifier'] )  ) {
+            if ( CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                              $params['external_identifier'],
+                                              'id',
+                                              'external_identifier' ) ) {
                 array_unshift($values, ts('External Identifier already exists in database.'));
                 return CRM_Import_Parser::ERROR;
             }
@@ -472,8 +477,10 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                         foreach ($matchedIDs  as $contactId) {
                             if ($params['id'] == $contactId) {
                                 $paramsValues = array('contact_id'=>$contactId);
-                                $contactExists =& CRM_Contact_BAO_Contact::check_contact_exists($params['id']);
-                                if ($formatted['contact_type'] == $contactExists->contact_type) {
+                                $contactType = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                                              $params['id'],
+                                                                              'contact_type' );
+                                if ($formatted['contact_type'] == $contactType ) {
                                     $newContact = $this->createContact( $formatted, $contactFields, 
                                                                         $onDuplicate, $contactId, false );
                                     $updateflag = false; 
@@ -494,9 +501,11 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                 }
             } else {
                 $paramsValues = array('contact_id'=>$params['id']);
-                $contact =& CRM_Contact_BAO_Contact::check_contact_exists($params['id']);
-                if ( is_a( $contact, 'CRM_Contact_DAO_Contact' )) {
-                    if ($formatted['contact_type'] == $contact->contact_type) {
+                $contactType = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                            $params['id'],
+                                                            'contact_type' );
+                if ( $contactType ) {
+                    if ($formatted['contact_type'] == $contactType ) {
                         $newContact = $this->createContact( $formatted, $contactFields, 
                                                             $onDuplicate, $params['id'], false );
                         
@@ -1184,7 +1193,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
             } else if ($customFieldId = CRM_Core_BAO_CustomField::getKeyID($key)) {
                 $custom = true;
             } else {
-                $getValue = CRM_Contact_BAO_Contact::retrieveValue($contact, $key);
+                $getValue = CRM_Utils_Array::retrieveValueRecursive($contact, $key);
                 
                 if ( $key == 'contact_source' ) {
                     $params['source'] = $params[$key];
@@ -1200,7 +1209,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         
         if ( $location ) {
             for ( $loc = 1; $loc <= count( $params['location'] ); $loc++ ) {
-                $getValue = CRM_Contact_BAO_Contact::retrieveValue($contact['location'][$loc], 'location_type_id');
+                $getValue = CRM_Utils_Array::retrieveValueRecursive($contact['location'][$loc], 'location_type_id');
                 
                 if ( ( $modeUpdate && ! isset( $getValue ) ) || 
                      ( $modeFill   &&   isset( $getValue ) ) ) {
@@ -1211,7 +1220,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                     $fields = array( 'street_address', 'city', 'state_province_id', 
                                      'postal_code', 'postal_code_suffix', 'country_id' );
                     foreach( $fields as $field ) {
-                        $getValue = CRM_Contact_BAO_Contact::retrieveValue($contact['location'][$loc]['address'], 
+                        $getValue = CRM_Utils_Array::retrieveValueRecursive($contact['location'][$loc]['address'], 
                                                                            $field);
                         if ( ( $modeUpdate && ! isset( $getValue ) ) || 
                              ( $modeFill   &&   isset( $getValue ) ) ) {
@@ -1224,7 +1233,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                 foreach( $fields as $key => $field ) {
                     if ( array_key_exists( $key, $contact['location'][$loc] ) ) {
                         for ( $c = 1; $c <= count( $params['location'][$loc][$key] ); $c++ ) {
-                            $getValue = CRM_Contact_BAO_Contact::retrieveValue($contact['location'][$loc][$key][$c], 
+                            $getValue = CRM_Utils_Array::retrieveValueRecursive($contact['location'][$loc][$key][$c], 
                                                                                $field);
                             if ( ( $modeUpdate && ! isset( $getValue ) ) || 
                                  ( $modeFill   &&   isset( $getValue ) ) ) {

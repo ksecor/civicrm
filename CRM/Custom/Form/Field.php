@@ -86,11 +86,11 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
             array('Text' => 'Text', 'Select' => 'Select', 'Radio' => 'Radio'),
             array('Text' => 'Text', 'Select' => 'Select', 'Radio' => 'Radio'),
             array('Text' => 'Text', 'Select' => 'Select', 'Radio' => 'Radio'),
-            array('TextArea' => 'TextArea'),
-            array('Date' => 'Select Date'),
+            array('TextArea' => 'TextArea', 'RichTextEditor' => 'RichTextEditor'),
+            array('Date'  => 'Select Date'),
             array('Radio' => 'Radio'),
-            array('StateProvince' => 'Select State/Province'),
-            array('Country' => 'Select Country'),
+            array('StateProvince' => 'Select State/Province' , 'Multi-Select' => 'Multi-Select State/Province'),
+            array('Country' => 'Select Country', 'Multi-Select' => 'Multi-Select Country'),
             array('File' => 'File'),
             array('Link' => 'Link')
     );
@@ -219,7 +219,11 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
         $this->assign( 'dojoIncludes', "dojo.require('civicrm.HierSelect');" );
 
         // label
-        $this->add('text', 'label', ts('Field Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'label'), true);
+        $this->add( 'text',
+                    'label',
+                    ts('Field Label'),
+                    CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'label'),
+                    true );
         
         if ($this->_action == CRM_Core_Action::UPDATE) {
             $this->assign('freezeAll', "true");
@@ -367,6 +371,9 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
                                 array ('type'      => 'next',
                                        'name'      => ts('Save'),
                                        'isDefault' => true),
+                                array ('type'      => 'next',
+                                       'name'      => ts('Save and New'),
+                                       'subName'   => 'new' ),
                                 array ('type'      => 'cancel',
                                        'name'      => ts('Cancel')),
                                 )
@@ -419,7 +426,11 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
         if ( isset( $self->_id ) ) {
             $label = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField',
                                                   $self->_id, 'label' );
-            $dupeLabel = ($label == $fields['label']) ? false : true;
+            if ( $customField->id == $self->_id && $customField->custom_group_id == $self->_gid ) {
+                $dupeLabel = ($label == $fields['label']) ? false : true;
+            } else if ( !$dupeLabel ) {
+                $dupeLabel = ($label == $fields['label']) ? true : false;
+            }
         }
         
         if ( $dupeLabel ) {
@@ -718,10 +729,10 @@ AND    option_group_id = %2";
     public function postProcess()
     {
         // store the submitted values in an array
-        //$params = $this->controller->exportValues( $this->_name );
+        $params = $this->controller->exportValues( $this->_name );
 
-        // POST is required for data_type field.
-        $params = $_POST;
+        // POST is required for data_type field. this is an ugly hack but workable for now
+        $params['data_type'] = $_POST['data_type'];
 
         if ($this->_action == CRM_Core_Action::UPDATE) {
             $params['data_type'] = $this->_defaultDataType;
@@ -899,18 +910,15 @@ SELECT id
         }
 
         //Start Storing the values of Option field if the selected option is Multi Select
-        if ( $this->_action & CRM_Core_Action::ADD ) {
-            CRM_Core_BAO_CustomField::createField( $customField, 'add' );
-        } else {
+        if ( ! $this->_action & CRM_Core_Action::ADD ) {
             $dropIndex = false;
-
+            
             // drop the index if it existed (not the most efficient, but the logic is easy)
             if ( CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField',
                                               $customField->id,
                                               'is_searchable' ) ) {
                 $dropIndex = true;
             }
-
             CRM_Core_BAO_CustomField::createField( $customField, 'modify', $dropIndex );
         }
         
@@ -918,11 +926,39 @@ SELECT id
         if ( $customField->id && $customField->option_group_id ) {
             CRM_Core_BAO_CustomField::fixOptionGroups( $customField->id, $customField->option_group_id ) ;
         }
-        
         // since we need to save option group id :)
+        
+        // make a copy if add action
+        if ( $this->_action & CRM_Core_Action::ADD ) {
+            $customFieldAdd = $customField;
+        }
+        
         $customField->save();
 
-        CRM_Core_Session::setStatus(ts('Your custom field \'%1\' has been saved', array(1 => $customField->label)));
+        //preventing any name conflicts in column name of custom
+        //group's table
+        if ( $this->_action & CRM_Core_Action::ADD ) {
+            
+            CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_CustomField',
+                                         $customField->id,
+                                         'column_name',
+                                         $customField->column_name."_{$customField->id}" );
+            $customFieldAdd->column_name .= "_{$customField->id}";
+            CRM_Core_BAO_CustomField::createField( $customFieldAdd, 'add' );
+        } 
+        
+        // reset the cache
+        require_once 'CRM/Core/BAO/Cache.php';
+        CRM_Core_BAO_Cache::deleteGroup( 'contact fields' );
+
+        CRM_Core_Session::setStatus(ts('Your custom field \'%1\' has been saved.', array(1 => $customField->label)));
+
+        $buttonName = $this->controller->getButtonName( );
+        $session =& CRM_Core_Session::singleton( );
+        if ( $buttonName == $this->getButtonName( 'next', 'new' ) ) {
+            CRM_Core_Session::setStatus(ts(' You can add another custom field.'));
+            $session->replaceUserContext(CRM_Utils_System::url('civicrm/admin/custom/group/field', 'reset=1&action=add&gid=' . $this->_gid));
+        }
     }
 }
 

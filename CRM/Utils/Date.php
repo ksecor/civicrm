@@ -794,6 +794,54 @@ class CRM_Utils_Date
 
         return array( $hour, $minute );
     }
+
+    /**
+     * Function to calculate Age in Years if greater than one year else in months
+     * 
+     * @param date $birthDate Birth Date
+     *
+     * @return int array $results contains years or months
+     * @access public
+     */
+    public function calculateAge($birthDate) 
+    {     
+        $results = array( );
+        $formatedBirthDate  = CRM_Utils_Date::customFormat($birthDate,'%Y-%m-%d'); 
+        
+        $bDate      = explode('-',$formatedBirthDate);
+        $birthYear  = $bDate[0]; 
+        $birthMonth = $bDate[1]; 
+        $birthDay   = $bDate[2]; 
+        $year_diff  = date("Y") - $birthYear; 
+        
+        switch ($year_diff) {
+        case 1: 
+            $month = (12 - $birthMonth) + date("m");
+            if ( $month < 12 ) {
+                if (date("d") < $birthDay) {
+                    $month--;
+                }
+                $results['months'] =  $month;
+            } elseif ( $month == 12 && (date("d") < $birthDay) ) {
+                $results['months'] = $month-1;
+            } else { 
+                $results['years'] =  $year_diff;
+            }
+            break;
+        case 0:
+            $month = date("m") - $birthMonth;
+            $results['months'] = $month;
+            break;
+        default:
+            $results['years'] = $year_diff;
+            if ( ( date("m") < $birthMonth ) || ( date("m") == $birthMonth ) && ( date("d") < $birthDay ) ) {
+                $results['years']--;
+            } 
+        }
+
+        return $results;
+    }
+
 }
 
 

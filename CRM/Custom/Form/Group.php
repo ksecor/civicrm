@@ -101,6 +101,30 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
                 $errors['title'] = ts("Group's Name should not start with digit");
             } 
         }
+        //Fixes for CRM-2676
+        $customGroup = new CRM_Core_DAO_CustomGroup( );
+        $customGroup->extends         = $fields['extends'][0];
+        $customGroup->title           = $fields['title'];
+        
+        $dupeTitle = false;
+        if ( $customGroup->find( true ) ) {
+            $dupeTitle = true;
+        }
+        
+        if ( isset( $options->_id ) ) {
+            $title = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup',
+                                                  $options->_id, 'title' );
+            
+            if (  $customGroup->id == $options->_id && $customGroup->custom_group_id == $options->_gid ) {
+                $dupeTitle = ($title == $fields['title']) ? false : true;
+            } else if ( !$dupeTitle ) {
+                $dupeTitle = ($title == $fields['title']) ? true : false;
+            }
+        }
+        
+        if ( $dupeTitle ) {
+            $errors['title'] = ts('Name already exists in Database.');
+        }
         return empty($errors) ? true : $errors;
     }
     
@@ -118,7 +142,7 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
      */
     function addRules( )
     {
-        $this->addFormRule( array( 'CRM_Custom_Form_Group', 'formRule' ) );
+        $this->addFormRule( array( 'CRM_Custom_Form_Group', 'formRule' ), $this ); 
     }
     
     /**
@@ -135,9 +159,7 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
 
         // title
         $this->add('text', 'title', ts('Group Name'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'title'), true);
-        $this->addRule( 'title', ts('Name already exists in Database.'),
-                        'objectExists', array( 'CRM_Core_DAO_CustomGroup', $this->_id, 'title' ) );
-       
+            
         require_once "CRM/Contribute/PseudoConstant.php";
         require_once "CRM/Member/BAO/MembershipType.php";
         $sel1 = CRM_Core_SelectValues::customGroupExtends();
@@ -189,8 +211,8 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         }
         
         // help text
-        $this->add('textarea', 'help_pre',  ts('Pre-form Help'),  CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'help_pre'));
-        $this->add('textarea', 'help_post',  ts('Post-form Help'),  CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'help_post'));
+        $this->addWysiwyg( 'help_pre', ts('Pre-form Help'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'help_pre'));
+        $this->addWysiwyg( 'help_post', ts('Post-form Help'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'help_post'));
 
         // weight
         $this->add('text', 'weight', ts('Order'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'weight'), true);
@@ -322,7 +344,6 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         $transaction = new CRM_Core_Transaction( );
 
         $group->save();
-
         if ( $tableName ) {
             // now append group id to table name, this prevent any name conflicts
             // like CRM-2742
@@ -337,14 +358,20 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
             CRM_Core_BAO_CustomGroup::createTable( $group );
         }
 
+        // reset the cache
+        require_once 'CRM/Core/BAO/Cache.php';
+        CRM_Core_BAO_Cache::deleteGroup( 'contact fields' );
+
         $transaction->commit( );
 
         if ($this->_action & CRM_Core_Action::UPDATE) {
             CRM_Core_Session::setStatus(ts('Your Group \'%1 \' has been saved.', array(1 => $group->title)));
         } else {
             $url = CRM_Utils_System::url( 'civicrm/admin/custom/group/field', 'reset=1&action=add&gid=' . $group->id);
-            CRM_Core_Session::setStatus(ts('Your Group \'%1\' has been added. You can <a href=\'%2\'>add custom fields</a> to this group now.',
-                                           array(1 => $group->title, 2 => $url)));
+            CRM_Core_Session::setStatus(ts('Your Group \'%1\' has been added. You can add custom fields to this group now.',
+                                           array(1 => $group->title)));
+            $session =& CRM_Core_Session::singleton( );
+            $session->replaceUserContext($url);
         }
     }
 }

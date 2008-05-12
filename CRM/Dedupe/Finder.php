@@ -34,8 +34,7 @@
 
 require_once 'CRM/Core/DAO.php';
 require_once 'CRM/Contact/BAO/Group.php';
-require_once 'CRM/Contact/DAO/Contact.php';
-require_once 'CRM/Dedupe/Criterion.php';
+require_once 'CRM/Dedupe/BAO/RuleGroup.php';
 
 /**
  * The CiviCRM duplicate discovery engine is based on an
@@ -44,100 +43,146 @@ require_once 'CRM/Dedupe/Criterion.php';
 class CRM_Dedupe_Finder
 {
     /**
-     * Based on the provided contact_id, an array of criteria and 
-     * minimal threshold, return an array of duplicate contact ids.
+     * Return a contact_id-keyed array of arrays of possible dupes 
+     * (of the key contact_id) - limited to dupes of $cids if provided.
+     *
+     * @param int   $rgid  rule group id
+     * @param array $cids  contact ids to limit the search to
+     *
+     * @return array  id-keyed hash of dupes
      */
-    function findDupesOfContact($cid, $params, $threshold, $contactType = null)
-    {
-        $criteria = array();
-        foreach ($params as $param) {
-            $criteria[] =& new CRM_Dedupe_Criterion($param);
-        }
+    function dupes($rgid, $cids = array()) {
+        $rgBao =& new CRM_Dedupe_BAO_RuleGroup();
+        $rgBao->domain_id = CRM_Core_Config::DomainID();
+        $rgBao->id = $rgid;
+        $rgBao->contactIds = $cids;
+        $rgBao->find(true);
 
         $dao =& new CRM_Core_DAO();
-        $weights = array();
-        foreach ($criteria as $criterion) {
-            $weight = $criterion->getWeight();
-            $dao->query($criterion->matchQuery($cid));
-            $dao->fetch();
-            $match = isset($dao->match) ? $dao->match : "";
-            if ( $match ) {
-                $dao->query($criterion->query($match));
-                while ($dao->fetch()) {
-                    if ( isset($weights[$dao->contact_id]) ) {
-                        $weights[$dao->contact_id] += $weight;
-                    } else {
-                        $weights[$dao->contact_id] = $weight;
-                    }
-                }
-            }
-        }
-
-        $cids = array();
-        foreach ($weights as $id => $weight) {
-            if ($weight >= $threshold) {
-                $cids[] = $id;
-            }
-        }
-
-        // remove $cid from the results
-        unset($cids[array_search($cid, $cids)]);
-        // screen out contacts from other domains - we can't do that
-        // in criteria, as some of the tables might not carry domain_id
-        static $validCids = array();
-        if (!$validCids) {
-            $domainId = CRM_Core_Config::domainID();
-            $dao =& new CRM_Core_DAO();
-            $sql = "SELECT id FROM civicrm_contact WHERE domain_id = $domainId";
-            if ($contactType) {
-                $sql .= " AND contact_type = '$contactType'";
-            }
-            $dao->query($sql);
-            while ($dao->fetch()) {
-                $validCids[] = $dao->id;
-            }
-        }
-        $cids = array_intersect($cids, $validCids);
-        return $cids;
-    }
-
-    /**
-     * Based on the provided group_id, an array of criteria and minimal
-     * threshold, return a contact_id-keyed array of duplicate contact_ids
-     * in the given group.
-     */
-    function findDupesInGroup($gid, $params, $threshold, $contactType = null)
-    {
-        // get the group's contact_ids
-        $members = array_keys(CRM_Contact_BAO_Group::getMember($gid));
-        $dupes   = array();
-        // for each contact_id find its dupes, but 
-        // intersect the result with this group's contacts
-        foreach ($members as $cid) {
-            $dupes[$cid] = array_intersect(self::findDupesOfContact($cid, $params, $threshold, $contactType), $members);
-        }
-        // return dropping empty matches
-        return array_filter($dupes);
-    }
-
-    /**
-     * Based on an array of criteria and minimal threshold, return 
-     * a contact_id-keyed array of duplicate contact_ids across the 
-     * whole database.
-     */
-    function findDupes($params, $threshold, $contactType = null)
-    {
-        $contacts = array();
-        $dupes    = array();
-        $dao =& new CRM_Contact_DAO_Contact();
-        $dao->domain_id = CRM_Core_Config::domainID();
-        $dao->find();
+        $dao->query($rgBao->tableQuery());
+        $dao->query($rgBao->thresholdQuery());
+        $dupes = array();
         while ($dao->fetch()) {
-            $dupes[$dao->id] = self::findDupesOfContact($dao->id, $params, $threshold, $contactType);
+            $dupes[$dao->id1][] = $dao->id2;
+            $dupes[$dao->id2][] = $dao->id1;
         }
-        // return dropping empty matches
-        return array_filter($dupes);
+        $dao->query($rgBao->tableDropQuery());
+
+        return $dupes;
+    }
+
+    /**
+     * Return an array of possible dupes, based on the provided array of 
+     * params, using the default rule group for the given contact type and 
+     * level.
+     *
+     * @param array  $params  array of params of the form $params[$table][$field] == $value
+     * @param string $ctype   contact type to match against
+     * @param string $level   dedupe rule group level ('Fuzzy' or 'Strict')
+     * @param array  $except  array of contacts that shouldn't be considered dupes
+     *
+     * @return array  matching contact ids
+     */
+    function dupesByParams($params, $ctype, $level = 'Strict', $except = array()) {
+        $rgBao =& new CRM_Dedupe_BAO_RuleGroup();
+        $rgBao->domain_id = CRM_Core_Config::DomainID();
+        $rgBao->contact_type = $ctype;
+        $rgBao->params = $params;
+        $rgBao->level = $level;
+        $rgBao->is_default = 1;
+        $rgBao->find(true);
+
+        $dao =& new CRM_Core_DAO();
+        $dao->query($rgBao->tableQuery());
+        $dao->query($rgBao->thresholdQuery());
+        $dupes = array();
+        while ($dao->fetch()) {
+            $dupes[] = $dao->id2;
+        }
+        $dao->query($rgBao->tableDropQuery());
+
+        return array_diff($dupes, $except);
+    }
+
+    /**
+     * Return a contact_id-keyed array of arrays of possible dupes in the given group.
+     *
+     * @param int $rgid  rule group id
+     * @param int $gid   contact group id (currently, works only with non-smart groups)
+     *
+     * @return array  id-keyed hash of dupes
+     */
+    function dupesInGroup($rgid, $gid) {
+        $cids = array_keys(CRM_Contact_BAO_Group::getMember($gid));
+        return self::dupes($rgid, $cids);
+    }
+
+    /**
+     * Return dupes of a given contact, using the default rule group (of a provided level).
+     *
+     * @param int    $cid    contact id of the given contact
+     * @param string $level  dedupe rule group level ('Fuzzy' or 'Strict')
+     * @param string $ctype  contact type of the given contact
+     *
+     * @return array  id-keyed hash of dupes
+     */
+    function dupesOfContact($cid, $level = 'Strict', $ctype = null) {
+        // if not provided, fetch the contact type from the database
+        if (!$ctype) {
+            $dao =& new CRM_Contact_DAO_Contact();
+            $dao->domain_id = CRM_Core_Config::DomainID();
+            $dao->id = $cid;
+            $dao->find(true);
+            $ctype = $dao->contact_type;
+        }
+        $rgBao =& new CRM_Dedupe_BAO_RuleGroup();
+        $rgBao->domain_id = CRM_Core_Config::DomainID();
+        $rgBao->level = $level;
+        $rgBao->contact_type = $ctype;
+        $rgBao->is_default = 1;
+        $rgBao->find(true);
+        $dupes = self::dupes($rgBao->id, array($cid));
+        return $dupes[$cid];
+    }
+
+    /**
+     * A hackish function needed to massage CRM_Contact_Form_$ctype::formRule() 
+     * object into a valid $params array for dedupe
+     *
+     * @param array $fields  contact structure from formRule()
+     * @param string $ctype  contact type of the given contact
+     *
+     * @return array  valid $params array for dedupe
+     */
+    function formatParams($fields, $ctype) {
+        $flat = array();
+        CRM_Utils_Array::flatten($fields, $flat);
+
+        // if the key is dotted, keep just the last part of it
+        foreach($flat as $key => $value) {
+            if (substr_count($key, '.')) {
+                $last = array_pop(explode('.', $key));
+                // make sure the first occurence is kept, not the last
+                if (!isset($flat[$last])) $flat[$last] = $value;
+                unset($flat[$key]);
+            }
+        }
+
+        // drop the -digit postfixes
+        foreach ($flat as $key => $value) {
+            $matches = array();
+            if (preg_match('/(.*)-\d+$/', $key, $matches)) {
+                $flat[$matches[1]] = $value;
+                unset($flat[$key]);
+            }
+        }
+
+        $params = array();
+        foreach(CRM_Dedupe_BAO_RuleGroup::supportedFields($ctype) as $table => $fields) {
+            foreach($fields as $field => $title) {
+                if ($flat[$field]) $params[$table][$field] = $flat[$field];
+            }
+        }
+        return $params;
     }
 }
-
-

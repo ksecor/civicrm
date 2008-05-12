@@ -58,6 +58,12 @@ interface CRM_Contact_Form_Search_Interface {
     function count     ( );
 
     /**
+     * Summary information for the query that can be displayed in the template
+     * This is useful to pass total / sub total information if needed
+     */
+    function summary   ( );
+
+    /**
      * List of contact ids that match the current input parameters
      * Used by different tasks. Will be also used to optimize the
      * 'all' query below to avoid excessive LEFT JOIN blowup

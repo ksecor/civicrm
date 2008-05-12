@@ -146,7 +146,12 @@ class CRM_Core_Permission_Drupal {
                     $group->id = $id;
                     if ( $group->find( true ) && $group->saved_search_id ) {
                         require_once 'CRM/Contact/BAO/SavedSearch.php';
-                        $clauses[] = CRM_Contact_BAO_SavedSearch::whereClause( $group->saved_search_id, $tables, $whereTables );
+                        $clause    = CRM_Contact_BAO_SavedSearch::whereClause( $group->saved_search_id,
+                                                                               $tables,
+                                                                               $whereTables );
+                        if ( trim( $clause ) ) {
+                            $clauses[] = $clause;
+                        }
                     }
                 }
                 $clause = ' ( ' . implode( ' OR ', $clauses ) . ' ) ';
@@ -171,7 +176,12 @@ class CRM_Core_Permission_Drupal {
                     $group->id = $id;
                     if ( $group->find( true ) && $group->saved_search_id ) {
                         require_once 'CRM/Contact/BAO/SavedSearch.php';
-                        $clauses[] = CRM_Contact_BAO_SavedSearch::whereClause( $group->saved_search_id, $tables, $whereTables );
+                        $clause    = CRM_Contact_BAO_SavedSearch::whereClause( $group->saved_search_id,
+                                                                               $tables,
+                                                                               $whereTables );
+                        if ( trim( $clause ) ) {
+                            $clauses[] = $clause;
+                        }
                     }
                 }
 

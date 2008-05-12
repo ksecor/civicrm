@@ -95,6 +95,13 @@ class CRM_Member_Import_Form_MapField extends CRM_Core_Form {
      */
     protected $_fieldUsed;
     
+    /**
+     * to store contactType
+     *
+     * @var int
+     * @static
+     */
+    static $_contactType = null;
 
     
     /**
@@ -198,7 +205,7 @@ class CRM_Member_Import_Form_MapField extends CRM_Core_Form {
                 unset( $this->_mapperFields[$value] );
             }
         }
-
+        self::$_contactType = $this->get('contactType');
         
     }
 
@@ -410,12 +417,14 @@ class CRM_Member_Import_Form_MapField extends CRM_Core_Form {
      */
     static function formRule( &$fields ) {
         $errors  = array( );
-
+        $errorMessage = array ( 1 => '(Should be First AND Last Name or Primary Email or First Name, Last Name AND Primary Email.) ',
+                                2 => '(Should be Household Name.)',
+                                4 => '(Should be Organization Name.)' );
         if (!array_key_exists('savedMapping', $fields)) {
             $importKeys = array();
             foreach ($fields['mapper'] as $mapperPart) {
                 $importKeys[] = $mapperPart[0];
-            }
+            } 
             // FIXME: should use the schema titles, not redeclare them
             $requiredFields = array(
                                     'membership_contact_id'  => ts('Contact ID'),
@@ -450,7 +459,7 @@ class CRM_Member_Import_Form_MapField extends CRM_Core_Form {
                              in_array('organization_name', $importKeys)) {
                             continue;    
                         } else {
-                            $errors['_qf_default'] .= ts('Missing required contact matching fields. (Should be First AND Last Name or Primary Email or First Name, Last Name AND Primary Email.) (OR Membership ID if update mode.)') . '<br />';
+                            $errors['_qf_default'] .= ts('Missing required contact matching fields. %1 (OR Membership ID if update mode.)',array(1 => $errorMessage[self::$_contactType] )) . '<br />';
                         }
                         
                     } else if ( $field == 'membership_contact_id' &&  ! $defaultFlag ) {
@@ -461,11 +470,14 @@ class CRM_Member_Import_Form_MapField extends CRM_Core_Form {
                                 //$errors['_qf_default'] .= ts('Missing required contact matching field: '.$contactFields[trim($v)]['title'].' <br />');
                             }
                         }
-                        if (in_array('household_name', $importKeys) || in_array('organization_name', $importKeys)) {
+                        if ( in_array('email', $importKeys) || in_array('external_identifier', $importKeys) ||
+                             ( in_array('first_name', $importKeys) && in_array('last_name', $importKeys)) || 
+                             in_array('household_name', $importKeys) ||in_array('membership_id', $importKeys) ||
+                             in_array('organization_name', $importKeys)) {
                             $flag = false;
                         }
                         if ( $flag ) {
-                            $errors['_qf_default'] .= ts('Missing required contact matching field: Contact ID.') . '<br />';
+                            $errors['_qf_default'] .= ts('Missing required contact matching field: Contact ID OR External ID OR %1.',array(1 => $errorMessage[self::$_contactType] )) . '<br />';
                         }
                         
                     } else {

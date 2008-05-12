@@ -69,7 +69,7 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
     public function preProcess( ) 
     {
         parent::preProcess( );
-
+        $session =& CRM_Core_Session::singleton( );
         if ( ! $this->_gName ) {
             $this->_gName = CRM_Utils_Request::retrieve('group','String', $this, false, 0);
             $this->_gid   = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup', $this->_gName, 'id', 'name');
@@ -80,6 +80,7 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
             $this->_gName = $this->get( 'gName' );
         }
         $this->_GName = ucwords(str_replace('_', ' ', $this->_gName));
+        $session->pushUserContext( CRM_Utils_System::url('civicrm/admin/options/'.$this->_gName,'group='.$this->_gName.'&reset=1') );
     }
     
     /**
@@ -132,10 +133,12 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
        
         if ($this->_gName == 'participant_status') {
             $element = $this->add('checkbox', 'filter', ts('Counted?'));
-            if ( CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $this->_id, 'is_reserved' ) == 1 ) {
-                $this->freeze();
-                $element->unfreeze();
-            } 
+            if ( $this->_id ) {
+                if ( CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $this->_id, 'is_reserved' ) == 1 ) {
+                    $this->freeze();
+                    $element->unfreeze();
+                } 
+            }
         }
     }
            

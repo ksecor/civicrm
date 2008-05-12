@@ -67,6 +67,30 @@ WHERE (cc.id IS NULL AND cl.entity_table='civicrm_contact');
 -- *
 -- *******************************/
 
+-- fix NULL names in custom fields / groups
+
+UPDATE civicrm_custom_field 
+SET name = LOWER(REPLACE(REPLACE(REPLACE(label, '/', ''), '-', ''), ' ', '_'))
+WHERE name IS NULL;
+
+UPDATE civicrm_custom_group 
+SET name = LOWER(REPLACE(REPLACE(REPLACE(title, '/', ''), '-', ''), ' ', '_'))
+WHERE name IS NULL;
+
+-- fix duplicate names in custom fields / groups
+
+SET @dupe_field_names = (SELECT name FROM civicrm_custom_field group by name having count(*) > 1);
+
+UPDATE civicrm_custom_field 
+SET name = LOWER(REPLACE(REPLACE(REPLACE(label, '/', ''), '-', ''), ' ', '_'))
+WHERE name IN (@dupe_field_names);
+
+SET @dupe_group_names = (SELECT name FROM civicrm_custom_group group by name having count(*) > 1);
+
+UPDATE civicrm_custom_group 
+SET name = LOWER(REPLACE(REPLACE(REPLACE(title, '/', ''), '-', ''), ' ', '_'))
+WHERE name IN (@dupe_group_names);
+
 -- clean civicrm_custom_value
 
 DELETE cv.* FROM civicrm_custom_value cv

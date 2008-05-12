@@ -124,6 +124,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
      */
     function preProcess( ) 
     {
+        $session = & CRM_Core_Session::singleton( ); 
         // reset action from the session
         $this->_action              = CRM_Utils_Request::retrieve('action', 'String', 
                                                                   $this, false, 'add' );
@@ -169,7 +170,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             } else {
                 CRM_Utils_System::setTitle( ts( 'New %1', array(1 => $this->_contactType ) ) );
             }
-
+            $session->pushUserContext(CRM_Utils_System::url());
             $this->_contactId = null;
         } else {
             // this is update mode, first get the id from the session
@@ -190,7 +191,8 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                 $this->_contactSubType = $contact->contact_sub_type;
 
                 // check for permissions
-                if ( ! CRM_Contact_BAO_Contact::permissionedContact( $this->_contactId, CRM_Core_Permission::EDIT ) ) {
+                require_once 'CRM/Contact/BAO/Contact/Permission.php';
+                if ( ! CRM_Contact_BAO_Contact_Permission::allow( $this->_contactId, CRM_Core_Permission::EDIT ) ) {
                     CRM_Core_Error::statusBounce( ts('You do not have the necessary permission to edit this contact.') );
                 }
 
@@ -199,6 +201,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
 
                 //get the no of locations for the contact
                 $this->_maxLocationBlocks = CRM_Contact_BAO_Contact::getContactLocations( $this->_contactId );
+                $session->pushUserContext(CRM_Utils_System::url('civicrm/contact/view', 'reset=1&cid='. $this->_contactId ));
                 return;
             }
             CRM_Core_Error::statusBounce( ts('Could not get a contact_id and/or contact_type') );
@@ -331,27 +334,12 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
         }
 
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
-            $rel = CRM_Contact_BAO_Relationship::getRelationship($this->_contactId);
-            krsort($rel);
-            
-            foreach ($rel as $key => $value) {
-                if ($value['relation'] == 'Employee of' && $value['is_active'] == 1 ) {
-                    $query = 
-                        "SELECT CONCAT_WS(':::',organization_name,LEFT(street_address,25),city) 'sort_name', civicrm_contact.id id
-                         FROM civicrm_contact
-                         LEFT JOIN civicrm_address ON ( civicrm_contact.id = civicrm_address.contact_id
-                                                        AND civicrm_address.is_primary=1
-                                                      )
-                         WHERE civicrm_contact.id = {$value['cid']}";
-                    $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
-                    $dao->fetch();
-                    
-                    $defaults['employer_option'] = 1;
-                    $defaults['shared_employer'] = $dao->id;
-                    $this->assign( 'sharedEmployer', $dao->sort_name );
-                    break;
-                }
-            }
+            require_once 'CRM/Contact/BAO/Relationship.php';
+            $currentEmployer = CRM_Contact_BAO_Relationship::getCurrentEmployer( $this->_contactId, true );
+          
+            $defaults['employer_option'] = $currentEmployer['employer_option'];
+            $defaults['shared_employer'] = $currentEmployer['id'];
+            $this->assign( 'sharedEmployer', $currentEmployer['sort_name'] );
         }
         
         //set defaults for country-state dojo widget
@@ -369,14 +357,14 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
                         if ( !$countryValue && isset($value['address']['country_id']) ) {
                             $countryValue = $value['address']['country_id'];
                             
-                            //retrive country by using country code for assigning country name to template
-                            $country = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Country', 
-                                                                    $countryValue, 
-                                                                    'name', 
-                                                                    'id' );
-                            $this->assign( "country" , $country );
                         }
                         
+                        //retrive country by using country code for assigning country name to template
+                        $country = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Country', 
+                                                                $countryValue, 
+                                                                'name', 
+                                                                'id' );
+                        $this->assign( "country" , $country );
                         $this->assign( "country_{$key}_value"   ,  $countryValue );
                     }
                     
@@ -385,16 +373,18 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
                         
                         if ( !$stateValue && isset($value['address']['state_province_id']) ) {
                             $stateValue = $value['address']['state_province_id'];
-                            
+                                                        
+                        }
+
+                        if ( $stateValue ) {
                             //retrive country by using country code for assigning country name to template
                             $state = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_StateProvince', 
                                                                   $stateValue, 
                                                                   'name', 
                                                                   'id' );
                             $this->assign( "state" , $state );
+                            $this->assign( "state_province_{$key}_value", $stateValue );
                         }
-
-                        $this->assign( "state_province_{$key}_value", $stateValue );
                     }
                     
                     if ( isset( $value['address']['display']) ) {
@@ -404,7 +394,7 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
                 }
             }
         }
-
+        
         CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, $viewMode, $inactiveNeeded );
         return $defaults;
     }
@@ -518,6 +508,12 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
         if ( $this->_showCommBlock ) {
             self::buildCommunicationBlock($this);
         }
+
+        // greeting type
+        $this->addElement('select', 'greeting_type', ts('Greeting'), CRM_Core_SelectValues::greeting());
+
+        // custom greeting
+        $this->addElement('text', 'custom_greeting', ts('Custom Greeting'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'custom_greeting' ));
 
         //hack the address sequence so that state province always comes after country
         $addressSequence = $config->addressSequence();
@@ -728,15 +724,17 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
             if ( isset( $params['employer_option'] ) && 
                  $params['employer_option'] == 0 && 
                  $params['create_employer'] ) {
-                CRM_Contact_BAO_Contact::makeCurrentEmployerRelationship($contact->id, 
-                                                                         $params['create_employer']);
+                require_once 'CRM/Contact/BAO/Contact/Utils.php';
+                CRM_Contact_BAO_Contact_Utils::makeCurrentEmployerRelationship($contact->id, 
+                                                                               $params['create_employer']);
                 
             } elseif ( isset( $params['employer_option'] ) && 
                        $params['employer_option'] == 1 &&
                        $params['shared_employer'] ) {
                 $orgId = array( 'id' => $params['shared_employer'] );
-                CRM_Contact_BAO_Contact::makeCurrentEmployerRelationship($contact->id, 
-                                                                         $orgId);
+                require_once 'CRM/Contact/BAO/Contact/Utils.php';
+                CRM_Contact_BAO_Contact_Utils::makeCurrentEmployerRelationship($contact->id, 
+                                                                               $orgId);
             }
         }
 

@@ -116,7 +116,7 @@ implements CRM_Contact_Form_Search_Interface {
         }
             
         $sql = "
-            SELECT distinct(contact.id) as contact_id,
+            SELECT DISTINCT contact.id as contact_id,
             contact.display_name as display_name,
             sum(contrib.total_amount) AS donation_amount,
             count(contrib.id) AS donation_count
@@ -155,7 +155,7 @@ implements CRM_Contact_Form_Search_Interface {
                 
             // Run subquery
             $eligible_query =
-                "SELECT distinct(contact_id) AS eligible_id
+                "SELECT DISTINCT contact_id AS eligible_id
                 FROM civicrm_contribution AS contrib_check
                 WHERE contrib_check.is_test = 0
                 And contrib_check.receive_date >= $excludeStart

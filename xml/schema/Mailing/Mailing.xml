@@ -122,12 +122,12 @@
   </field>
   <field>
        <name>body_text</name>
-       <type>text</type>
+       <type>longtext</type>
        <comment>Body of the mailing in text format.</comment>
   </field>
   <field>
        <name>body_html</name>
-       <type>text</type>
+       <type>longtext</type>
        <comment>Body of the mailing in html format.</comment>
   </field>
   <field>

@@ -143,8 +143,8 @@ VALUES
    (@domain_id, 'participant_listing'           , '{ts escape="sql"}Participant Listing{/ts}'                , 0, 1),
    (@domain_id, 'safe_file_extension'           , '{ts escape="sql"}Safe File Extension{/ts}'                , 0, 1),
    (@domain_id, 'from_email_address'            , '{ts escape="sql"}From Email Address{/ts}'                 , 0, 1),
-   (@domain_id, 'mapping_type'                  , '{ts escape="sql"}Mapping Type{/ts}'                       , 0, 1);
-
+   (@domain_id, 'mapping_type'                  , '{ts escape="sql"}Mapping Type{/ts}'                       , 0, 1),
+   (@domain_id, 'wysiwyg_editor'                , '{ts escape="sql"}WYSIWYG Editor{/ts}'                     , 0, 1);
    
 SELECT @option_group_id_pcm            := max(id) from civicrm_option_group where name = 'preferred_communication_method';
 SELECT @option_group_id_act            := max(id) from civicrm_option_group where name = 'activity_type';
@@ -176,6 +176,7 @@ SELECT @option_group_id_cas            := max(id) from civicrm_option_group wher
 SELECT @option_group_id_pl             := max(id) from civicrm_option_group where name = 'participant_listing';
 SELECT @option_group_id_sfe            := max(id) from civicrm_option_group where name = 'safe_file_extension';
 SELECT @option_group_id_mt             := max(id) from civicrm_option_group where name = 'mapping_type';
+SELECT @option_group_id_we             := max(id) from civicrm_option_group where name = 'wysiwyg_editor';
 
 INSERT INTO 
    `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`) 
@@ -299,10 +300,11 @@ VALUES
     (@option_group_id_asOpt, 'Grants'                  ,  12, NULL, NULL, 0, NULL, 14, NULL, 0, 0, 1, NULL),
   {/if}
 
-  (@option_group_id_udOpt, 'Groups'       , 1, NULL, NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL),
-  (@option_group_id_udOpt, 'Contributions', 2, NULL, NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL),
-  (@option_group_id_udOpt, 'Memberships'  , 3, NULL, NULL, 0, NULL, 3, NULL, 0, 0, 1, NULL),
-  (@option_group_id_udOpt, 'Events'       , 4, NULL, NULL, 0, NULL, 4, NULL, 0, 0, 1, NULL),
+  (@option_group_id_udOpt, 'Groups'                     , 1, NULL, NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL),
+  (@option_group_id_udOpt, 'Contributions'              , 2, NULL, NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL),
+  (@option_group_id_udOpt, 'Memberships'                , 3, NULL, NULL, 0, NULL, 3, NULL, 0, 0, 1, NULL),
+  (@option_group_id_udOpt, 'Events'                     , 4, NULL, NULL, 0, NULL, 4, NULL, 0, 0, 1, NULL),
+  (@option_group_id_udOpt, 'My Contacts / Organizations', 5, NULL, NULL, 0, NULL, 5, NULL, 0, 0, 1, NULL),
 
   (@option_group_id_adOpt, 'Street Address'    ,  1, NULL, NULL, 0, NULL,  1, NULL, 0, 0, 1, NULL),
   (@option_group_id_adOpt, 'Addt\'l Address 1' ,  2, NULL, NULL, 0, NULL,  2, NULL, 0, 0, 1, NULL),
@@ -366,6 +368,9 @@ VALUES
   (@option_group_id_sfe, 'ppt'      , 13, NULL   ,  NULL, 0, 0, 13, NULL, 0, 0, 1, NULL),
   (@option_group_id_sfe, 'doc'      , 14, NULL   ,  NULL, 0, 0, 14, NULL, 0, 0, 1, NULL),
 
+  (@option_group_id_we, 'TinyMCE'    , 1, NULL, NULL, 0, NULL, 1, NULL, 0, 1, 1, NULL),
+  (@option_group_id_we, 'FCKEditor'  , 2, NULL, NULL, 0, NULL, 2, NULL, 0, 1, 1, NULL), 
+
   (@option_group_id_mt, '{ts escape="sql"}Search Builder{/ts}',      1, 'Search Builder',      NULL, 0, 0,    1, NULL, 0, 1, 1, NULL),
   (@option_group_id_mt, '{ts escape="sql"}Import Contact{/ts}',     2, 'Import Contacts',     NULL, 0, 0,    2, NULL, 0, 1, 1, NULL),
   (@option_group_id_mt, '{ts escape="sql"}Import Activity{/ts}',     3, 'Import Activity',     NULL, 0, 0,    3, NULL, 0, 1, 1, NULL),
@@ -393,9 +398,9 @@ VALUES
 {literal}
 -- Initial state of system preferences
 INSERT INTO 
-     civicrm_preferences(domain_id, contact_id, is_domain, location_count, contact_view_options, contact_edit_options, advanced_search_options, user_dashboard_options, address_options, address_format, mailing_format, individual_name_format, address_standardization_provider, address_standardization_userid, address_standardization_url )
+     civicrm_preferences(domain_id, contact_id, is_domain, location_count, contact_view_options, contact_edit_options, advanced_search_options, user_dashboard_options, address_options, address_format, mailing_format, individual_name_format, address_standardization_provider, address_standardization_userid, address_standardization_url, editor_id )
 VALUES 
-     (@domain_id,NULL,1,1,'123456789','1234','123456789101112131415','1234','123456891011','{contact.street_address}\n{contact.supplemental_address_1}\n{contact.supplemental_address_2}\n{contact.city}{, }{contact.state_province}{ }{contact.postal_code}\n{contact.country}\n{contact.world_region}','{contact.street_address}\n{contact.supplemental_address_1}\n{contact.supplemental_address_2}\n{contact.city}{, }{contact.state_province}{ }{contact.postal_code}\n{contact.country}','{contact.individual_prefix}{ } {contact.first_name}{ }{contact.middle_name}{ }{contact.last_name}{ }{contact.individual_suffix}',NULL,NULL,NULL);
+     (@domain_id,NULL,1,1,'123456789','1234','123456789101112131415','12345','123456891011','{contact.street_address}\n{contact.supplemental_address_1}\n{contact.supplemental_address_2}\n{contact.city}{, }{contact.state_province}{ }{contact.postal_code}\n{contact.country}\n{contact.world_region}','{contact.street_address}\n{contact.supplemental_address_1}\n{contact.supplemental_address_2}\n{contact.city}{, }{contact.state_province}{ }{contact.postal_code}\n{contact.country}','{contact.individual_prefix}{ } {contact.first_name}{ }{contact.middle_name}{ }{contact.last_name}{ }{contact.individual_suffix}',NULL,NULL,NULL,2);
 {/literal}
 
 INSERT INTO `civicrm_preferences_date`
@@ -431,8 +436,8 @@ VALUES
  (@domain_id,'AuthNet_AIM','{ts escape="sql"}Authorize.Net - AIM{/ts}',NULL,1,0,'{ts escape="sql"}API Login{/ts}','{ts escape="sql"}Payment Key{/ts}','{ts escape="sql"}MD5 Hash{/ts}',NULL,'Payment_AuthorizeNet','https://secure.authorize.net/gateway/transact.dll',NULL,'https://api.authorize.net/xml/v1/request.api',NULL,'https://test.authorize.net/gateway/transact.dll',NULL,'https://apitest.authorize.net/xml/v1/request.api',NULL,1,1),
  (@domain_id,'PayJunction','{ts escape="sql"}PayJunction{/ts}',NULL,1,0,'User Name','Password',NULL,NULL,'Payment_PayJunction','https://payjunction.com/quick_link',NULL,NULL,NULL,'https://payjunction.com/quick_link',NULL,NULL,NULL,1,1);
 
--- the default dedupe rules
-INSERT INTO civicrm_dedupe_rule_group (domain_id, contact_type, threshold) VALUES (@domain_id, 'Individual', 20);
+-- the fuzzy default dedupe rules
+INSERT INTO civicrm_dedupe_rule_group (domain_id, contact_type, threshold, level, is_default, is_active) VALUES (@domain_id, 'Individual', 20, 'Fuzzy', true, true);
 
 SELECT @dedupe_rule_group_id := MAX(id) FROM civicrm_dedupe_rule_group;
 
@@ -442,7 +447,7 @@ VALUES
   (@dedupe_rule_group_id, 'civicrm_contact', 'last_name',  7),
   (@dedupe_rule_group_id, 'civicrm_email'  , 'email',     10);
 
-INSERT INTO civicrm_dedupe_rule_group (domain_id, contact_type, threshold) VALUES (@domain_id, 'Organization', 10);
+INSERT INTO civicrm_dedupe_rule_group (domain_id, contact_type, threshold, level, is_default, is_active) VALUES (@domain_id, 'Organization', 10, 'Fuzzy', true, true);
 
 SELECT @dedupe_rule_group_id := MAX(id) FROM civicrm_dedupe_rule_group;
 
@@ -451,7 +456,7 @@ VALUES
   (@dedupe_rule_group_id, 'civicrm_contact', 'organization_name', 5),
   (@dedupe_rule_group_id, 'civicrm_email'  , 'email',             5);
 
-INSERT INTO civicrm_dedupe_rule_group (domain_id, contact_type, threshold) VALUES (@domain_id, 'Household', 10);
+INSERT INTO civicrm_dedupe_rule_group (domain_id, contact_type, threshold, level, is_default, is_active) VALUES (@domain_id, 'Household', 10, 'Fuzzy', true, true);
 
 SELECT @dedupe_rule_group_id := MAX(id) FROM civicrm_dedupe_rule_group;
 
@@ -460,3 +465,18 @@ VALUES
   (@dedupe_rule_group_id, 'civicrm_contact', 'household_name', 5),
   (@dedupe_rule_group_id, 'civicrm_email'  , 'email',          5);
 
+-- the strict dedupe rules
+INSERT INTO civicrm_dedupe_rule_group (domain_id, contact_type, threshold, level, is_default, is_active) VALUES (@domain_id, 'Individual', 10, 'Strict', true, true);
+SELECT @dedupe_rule_group_id := MAX(id) FROM civicrm_dedupe_rule_group;
+INSERT INTO civicrm_dedupe_rule (dedupe_rule_group_id, rule_table, rule_field, rule_weight)
+VALUES (@dedupe_rule_group_id, 'civicrm_email', 'email', 10);
+
+INSERT INTO civicrm_dedupe_rule_group (domain_id, contact_type, threshold, level, is_default, is_active) VALUES (@domain_id, 'Organization', 10, 'Strict', true, true);
+SELECT @dedupe_rule_group_id := MAX(id) FROM civicrm_dedupe_rule_group;
+INSERT INTO civicrm_dedupe_rule (dedupe_rule_group_id, rule_table, rule_field, rule_weight)
+VALUES (@dedupe_rule_group_id, 'civicrm_email', 'email', 10);
+
+INSERT INTO civicrm_dedupe_rule_group (domain_id, contact_type, threshold, level, is_default, is_active) VALUES (@domain_id, 'Household', 10, 'Strict', true, true);
+SELECT @dedupe_rule_group_id := MAX(id) FROM civicrm_dedupe_rule_group;
+INSERT INTO civicrm_dedupe_rule (dedupe_rule_group_id, rule_table, rule_field, rule_weight)
+VALUES (@dedupe_rule_group_id, 'civicrm_email', 'email', 10);

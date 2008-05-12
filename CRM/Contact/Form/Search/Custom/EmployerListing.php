@@ -99,7 +99,7 @@
             
             // SELECT clause must include contact_id as an alias for civicrm_contact.id
             $select  = "
-            distinct(cInd.id) as contact_id,
+            DISTINCT cInd.id as contact_id,
             cInd.sort_name as sort_name,
             indSP.name as indState,
             cEmp.sort_name as employer,

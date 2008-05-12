@@ -327,6 +327,9 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
     {
         if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
             $this->assign( 'accessContribution', true );
+            $session =& CRM_Core_Session::singleton( );
+            $session->set( 'action', $this->_action );
+            $session->set( 'memberId'  , $this->_id );
             $controller =& new CRM_Core_Controller_Simple( 'CRM_Contribute_Form_Search', ts('Contributions'), null );  
             $controller->setEmbedded( true );                           
             $controller->reset( );  

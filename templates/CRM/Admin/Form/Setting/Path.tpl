@@ -13,6 +13,8 @@
     </dl>
           <dt>{$form.customTemplateDir.label}</dt><dd>{$form.customTemplateDir.html|crmReplace:class:'huge'}</dd>
           <dt>&nbsp;</dt><dd class="description">{ts}Path where site specific templates are stored if any. This directory is searched first if set.{/ts}</dd>
+          <dt>{$form.customPHPPathDir.label}</dt><dd>{$form.customPHPPathDir.html|crmReplace:class:'huge'}</dd>
+          <dt>&nbsp;</dt><dd class="description">{ts}Path where site specific PHP code files are stored if any. This directory is searched first if set.{/ts}</dd>
     </dl>
     <dl>
         <dt></dt><dd>{$form.buttons.html}</dd>

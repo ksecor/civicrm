@@ -152,4 +152,11 @@
        <comment>url of address standardization service</comment>
        <add>1.8</add>
   </field>
+ <field>
+       <name>editor_id</name>
+       <type>int unsigned</type>
+       <length>4</length>
+       <comment>ID of the editor</comment>
+       <add>2.1</add>
+  </field>
 </table>

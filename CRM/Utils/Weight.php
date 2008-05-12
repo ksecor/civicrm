@@ -166,7 +166,7 @@ class CRM_Utils_Weight {
      */
     static function getMax($daoName, $fieldValues = null, $weightField = 'weight')
     {
-        $selectField = "MAX($weightField) AS max_weight";
+        $selectField = "MAX(ROUND($weightField)) AS max_weight";
         $weightDAO =& CRM_Utils_Weight::query( 'SELECT', $daoName, $fieldValues, $selectField );
         $weightDAO->fetch();
         if ( $weightDAO->max_weight ) {

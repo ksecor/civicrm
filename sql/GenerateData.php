@@ -931,7 +931,7 @@ class CRM_GCD {
             $emailName = $this->_sortNameToEmail($sortName);
             $emailDomain = $this->_getRandomElement($this->emailDomain);
             $tld = $this->_getRandomElement($this->emailTLD);
-            $email->email = $emailName . "@" . $emailDomain . "." . $tld;
+            $email->email = strtolower( $emailName . "@" . $emailDomain . "." . $tld );
             $this->_insert($email);
         }
 

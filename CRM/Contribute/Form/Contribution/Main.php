@@ -178,9 +178,13 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                 $this->buildRecur( );
             }
         }
-              
+
         if ( $this->_values['is_pay_later'] ) {
             $this->buildPayLater( );
+        }
+
+        if ( $this->_values['is_for_organization'] ) {
+            $this->buildOnBehalfOrganization( );
         }
 
         require_once 'CRM/Contribute/BAO/Premium.php';
@@ -332,6 +336,21 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         //email
         $this->addElement('text', 'honor_email', ts('Honoree Email Address'));
         $this->addRule( "honor_email", ts('Honoree Email is not valid.'), 'email' );
+    }
+
+    /**
+     * build elements to enable pay on behalf of an organization.
+     *
+     * @access public
+     */
+    function buildOnBehalfOrganization( ) 
+    {
+        require_once 'CRM/Contact/BAO/Contact/Utils.php';
+
+        $attributes = array('onclick' => 
+                            "return showHideByValue('is_for_organization','true','for_organization','block','radio',false);");
+        $this->addElement( 'checkbox', 'is_for_organization', $this->_values['for_organization'], null, $attributes );
+        CRM_Contact_BAO_Contact_Utils::buildOnBehalfForm( $this, 'Organization', 'Organization Details' );
     }
 
     /**
@@ -589,11 +608,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 
         if ( ! $params['amount'] && $params['selectMembership'] ) {
             $memFee = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', $params['selectMembership'], 'minimum_fee' );
-            if ( $memFee && ! $this->_separateMembershipPayment ) {
-                $params['amount'] = $memFee;
-            } else {
-                $params['amount'] = 0;
-            }
+            $params['amount'] = $memFee ? $memFee : 0;
         }
         
         if ( ! isset( $params['amount_other'] ) ) {

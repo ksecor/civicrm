@@ -368,6 +368,10 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO
 
     public static function fixFieldValueOfTypeMemo( &$formValues )
     {
+        if ( empty( $formValues ) ) {
+            return null;
+        }
+
         foreach( array_keys( $formValues ) as $key ){
             if ( substr($key,0,7) != 'custom_' ){
                 continue;

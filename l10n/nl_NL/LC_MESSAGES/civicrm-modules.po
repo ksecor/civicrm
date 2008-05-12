@@ -5,9 +5,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-03-12 12:22+0100\n"
-"PO-Revision-Date: 2008-04-08 12:02-0700\n"
-"Last-Translator: Han Velthuis <han.velthuis@tiscali.nl>\n"
+"POT-Creation-Date: 2008-04-28 21:53+0200\n"
+"PO-Revision-Date: 2008-04-28 13:55-0700\n"
+"Last-Translator: Mathias Dekeyser <mathias.dekeyser@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -40,6 +40,7 @@ msgstr "bijdragepagina"
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Task/Status.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 #: templates/CRM/Contribute/Form/Message.tpl
+#: templates/CRM/Contribute/Form/Task/Status.tpl
 msgid "Transaction ID"
 msgstr "transactie ID"
 
@@ -83,6 +84,7 @@ msgstr "niet-aftrekbaar bedrag"
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/DAO/FinancialTrxn.php
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Task/Status.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
+#: templates/CRM/Contribute/Form/Task/Status.tpl
 msgid "Fee Amount"
 msgstr "bedrag per eenheid"
 
@@ -584,9 +586,8 @@ msgid ""
 "This Premium is being linked to <a href='%1'>Online Contribution page</a>. "
 "Please remove it in order to delete this Premium."
 msgstr ""
-"Dit relatiegeschenk is gekoppeld aan een <a href='%1'>Online "
-"bijdragepagina</a>. Verwijder deze als u dit relatiegeschenk wilt "
-"verwijderen."
+"Dit relatiegeschenk is gekoppeld aan een <a href='%1'>Online bijdragepagina</"
+"a>. Verwijder deze als u dit relatiegeschenk wilt verwijderen."
 
 #: CRM/Contribute/BAO/Premium.php
 msgid "Selected Option"
@@ -877,8 +878,7 @@ msgid ""
 "This contribution has already been submitted. Click <a href='%1'>here</a> if "
 "you want to make another contribution."
 msgstr ""
-"De bijdrage is al verwerkt. U kunt een <a href='%1'>nieuwe bijdrage</a> "
-"doen."
+"De bijdrage is al verwerkt. U kunt een <a href='%1'>nieuwe bijdrage</a> doen."
 
 #: CRM/Contribute/Form/ContributionBase.php
 msgid ""
@@ -1201,12 +1201,6 @@ msgstr "Titel en instellingen (%1)"
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid "Title and Settings"
 msgstr "Titel en instellingen"
-
-#: CRM/Contribute/Form/ContributionPage/Settings.php
-msgid ""
-"Page title can not be longer than 255 characters and must consist of "
-"letters, numbers, spaces and simple punctuation characters."
-msgstr "Moet er een voortgangsmeter getoond worden tijdens de bijdrage?"
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 msgid "Is this Online Contribution Page Active?"
@@ -1734,10 +1728,6 @@ msgid "- Participant Fields -"
 msgstr "- Deelnemersvelden -"
 
 #: CRM/Event/BAO/Query.php
-msgid "Event %2 %1"
-msgstr "Evenement %2 %1"
-
-#: CRM/Event/BAO/Query.php
 msgid "Event Type - %1"
 msgstr "Evenement Type - %1"
 
@@ -2108,6 +2098,16 @@ msgstr "Voer een geldige begindatum voor het evenement in."
 #: CRM/Event/Form/SearchEvent.php
 msgid "Select a valid Event TO date."
 msgstr "Voer een geldige einddatum voor het evenement in."
+
+#: CRM/Event/Form/Search.php
+#, fuzzy
+msgid "Please select valid event."
+msgstr "Kies een geldige einddatum."
+
+#: CRM/Event/Form/Search.php
+#, fuzzy
+msgid "Please select valid event type."
+msgstr "Kies een geldige einddatum."
 
 #: CRM/Event/Form/Task/Batch.php
 msgid "Batch Update for Events"
@@ -2887,17 +2887,17 @@ msgid ""
 "will then be able to delete the membership type on this page. To delete the "
 "membership type, all memberships of this type should be deleted."
 msgstr ""
-"%2. Er zijn contacten met dit lidmaatschaptype. Met <a href=\"%1\">CiviMember "
-">> Find Members</a> kunt U deze opzoeken. Om het type te kunnen verwijderen "
-"dient U alle lidmaatschappen van dit type te verwijderen."
+"%2. Er zijn contacten met dit lidmaatschaptype. Met <a href=\"%1"
+"\">CiviMember >> Find Members</a> kunt U deze opzoeken. Om het type te "
+"kunnen verwijderen dient U alle lidmaatschappen van dit type te verwijderen."
 
 #: CRM/Member/BAO/MembershipType.php
 msgid ""
 "%2. This Membership Type is being link to <a href='%1'>Online Contribution "
 "page</a>. Please change/delete it in order to delete this Membership Type."
 msgstr ""
-"%2. Dit lidmaatschaptype wordt gebruikt in een <a href=\"%1\">Online Bijdrage "
-"Pagina</a>. Wijzig of verwijder deze eerst."
+"%2. Dit lidmaatschaptype wordt gebruikt in een <a href=\"%1\">Online "
+"Bijdrage Pagina</a>. Wijzig of verwijder deze eerst."
 
 #: CRM/Member/BAO/Query.php
 msgid "Member Since %2 %1"
@@ -3079,10 +3079,6 @@ msgstr ""
 #: CRM/Member/Form/MembershipBlock.php
 msgid "Please enable the contribution amount section to use this option."
 msgstr "Zet de bedrag bijdrage sectie aan om deze optie te kunnen gebruiken."
-
-#: CRM/Member/Form/Membership.php
-msgid "-- select --"
-msgstr "-- kies --"
 
 #: CRM/Member/Form/Membership.php
 #: templates/CRM/Member/Form/MembershipRenewal.tpl
@@ -3662,8 +3658,8 @@ msgstr ""
 "bijdragen kunt U voor elk niveau (Friend, Sustainer, etc.) bijdragen tonen. "
 "Als het bedrag ingevuld mag worden kunt U ook een minimum en maximum "
 "instellen. Afhankelijk van de gekozen betaalmethode kunt U ook een optie "
-"periodieke bijdrage optie tonen  (<a href=\"%1\" target=\"_blank\" "
-"title=\"%2\">lees meer...</a>)."
+"periodieke bijdrage optie tonen  (<a href=\"%1\" target=\"_blank\" title=\"%2"
+"\">lees meer...</a>)."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
@@ -3786,8 +3782,8 @@ msgid ""
 "used for this page)."
 msgstr ""
 "U kunt bestaande CiviCRM profielen gebruiken op uw pagina of er een aanmaken "
-"die specifiek op Bijdrage pagina's te gebruiken is. U kunt <a "
-"href=\"%1\">Profielen</a> bekijken,  wijzigen en aanmaken. "
+"die specifiek op Bijdrage pagina's te gebruiken is. U kunt <a href=\"%1"
+"\">Profielen</a> bekijken,  wijzigen en aanmaken. "
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.tpl
 msgid ""
@@ -3961,8 +3957,8 @@ msgid ""
 "a>)"
 msgstr ""
 "Kies de betaalmethode die gebruikt wordt voor deze bijdrage pagina (als er "
-"geldelijke bijdragen kunnen zijn). (<a href='%1' target='_blank' "
-"title='%2'>lees meer...</a>)"
+"geldelijke bijdragen kunnen zijn). (<a href='%1' target='_blank' title='%"
+"2'>lees meer...</a>)"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 msgid ""
@@ -4630,7 +4626,7 @@ msgstr "Frequentie van leveren dienst (bijv. elke 2 maanden een overzicht)."
 #: templates/CRM/Contribute/Form/Message.tpl
 #: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
 msgid "Thanks for your support."
-msgstr ""
+msgstr "Dank voor uw bijdrage."
 
 #: templates/CRM/Contribute/Form/Message.tpl
 #: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
@@ -4804,6 +4800,12 @@ msgstr "Wijzig status Bijdrage"
 #: templates/CRM/Contribute/Form/Task/Status.tpl
 msgid "Assign the selected status to all contributions listed below."
 msgstr ""
+
+#: templates/CRM/Contribute/Form/Task/Status.tpl
+#: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
+#: templates/CRM/Event/Form/Registration/ThankYou.tpl
+msgid "Transaction Date"
+msgstr "Transactie Datum"
 
 #: templates/CRM/Contribute/Form/Task.tpl
 msgid "Number of selected contributions: %1"
@@ -5201,10 +5203,10 @@ msgstr ""
 "a>."
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
+#, fuzzy
 msgid ""
 "CiviContribute allows you to create customized page(s) for collecting online "
-"contributions. Administrators can create or modify your Online Contribution "
-"Pages from <a href='%1'>here</a>."
+"contributions."
 msgstr ""
 "Met CiviContribute is het mogelijk om specifieke bijdrage pagina's aan te "
 "maken voor online bijdragen. Beheerders kunnen de online bijdrage pagina's "
@@ -5239,8 +5241,8 @@ msgid ""
 msgstr ""
 "Deze tabel toont een overzicht van de <strong>Totale Bijdragen</strong>, en "
 "bevat links om bijdrage details over een bepaalde periode te bekijken. Voor "
-"specifieke zoekacties, klikt u op <a href=\"%1\">Zoek bijdragen</a>. Daar kan "
-"op naam, bedrag en andere criteria gezocht worden."
+"specifieke zoekacties, klikt u op <a href=\"%1\">Zoek bijdragen</a>. Daar "
+"kan op naam, bedrag en andere criteria gezocht worden."
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "Current Month-To-Date"
@@ -5347,6 +5349,13 @@ msgstr ""
 "Er zijn geen actieve relatiegeschenken voor uw site. U kunt er <a href=\"%1"
 "\">een maken of inschakelen</a>."
 
+#: templates/CRM/Event/Form/ManageEvent/Delete.tpl
+msgid ""
+"Warning: Deleting this event will also delete associated Event Registration "
+"Page and Event Fee configurations. This operation can not be undone. Do you "
+"want to continue?"
+msgstr ""
+
 #: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
 msgid ""
 "After selecting an Event Type, this page will display any custom event "
@@ -5393,9 +5402,10 @@ msgstr ""
 "getoond als gebruikers zich proberen aan te melden voor het evenement."
 
 #: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
+#, fuzzy
 msgid ""
 "Include a link to map the event location? (A map provider must be configured "
-"under <a href='%1'>Global Settings &raquo; Mapping</a>"
+"under <a href='%1'>Global Settings &raquo; Mapping</a>)"
 msgstr ""
 "Een link naar een plattegrond van de locatie van het evenement toevoegen? "
 "(Een map-aanbieder moet zijn ingesteld met <a href=\"%1\">Algemene "
@@ -5633,16 +5643,16 @@ msgid ""
 "You can notify event organizers of each online registration by specifying an "
 "email address to receive a cc (carbon copy)."
 msgstr ""
-"U kunt de organisator van een online evenement inlichten door een "
-"e-mailadres te registreren bij CC."
+"U kunt de organisator van een online evenement inlichten door een e-"
+"mailadres te registreren bij CC."
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 msgid ""
 "You may specify an email address to receive a blind carbon copy (bcc) of the "
 "confirmation email."
 msgstr ""
-"U kunt een kopie van de e-mail ter bevestiging ook sturen naar een "
-"e-mailadres (BCC, de ontvanger ziet niet dat deze kopie verstuurd wordt)."
+"U kunt een kopie van de e-mail ter bevestiging ook sturen naar een e-"
+"mailadres (BCC, de ontvanger ziet niet dat deze kopie verstuurd wordt)."
 
 #: templates/CRM/Event/Form/Participant.tpl
 msgid "Delete Event Registration"
@@ -5763,8 +5773,8 @@ msgid ""
 "Your registration will not be completed until you click the "
 "<strong>Continue</strong> button. Please click the button one time only."
 msgstr ""
-"Uw registratie is pas definitief als u klikt op de knop <strong>Ga "
-"verder</strong>. Klik  a.u.b. slechts een keer op de knop."
+"Uw registratie is pas definitief als u klikt op de knop <strong>Ga verder</"
+"strong>. Klik  a.u.b. slechts een keer op de knop."
 
 #: templates/CRM/Event/Form/Registration/EventInfoBlock.tpl
 #: templates/CRM/Event/Page/EventInfo.tpl
@@ -5816,11 +5826,6 @@ msgstr ""
 #: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
 msgid "Each"
 msgstr "Elke"
-
-#: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
-#: templates/CRM/Event/Form/Registration/ThankYou.tpl
-msgid "Transaction Date"
-msgstr "Transactie Datum"
 
 #: templates/CRM/Event/Form/Registration/ReceiptPreviewHeader.tpl
 msgid "Event Registration - Test-drive Confirmation / Receipt"
@@ -5994,11 +5999,11 @@ msgid ""
 "2'><strong>import batches of participants</strong></a> from other sources."
 msgstr ""
 "Het is mogelijk om offline evenementen te registreren en te volgen. Om "
-"handmatig evenementen toe te voegen voor personen, gebruik dan <a "
-"href=\"%1\">Zoek contact</a> om het betreffende contact te zoeken. Daarna "
-"klikt u op <strong>Toon</strong> om naar het overzicht van dit contact te "
-"gaan en op <strong>Nieuw evenement </strong> om een deelname toe te voegen. "
-"U kunt ook een lijst van deelnemers <a href=\"%1\">importeren</a>."
+"handmatig evenementen toe te voegen voor personen, gebruik dan <a href=\"%1"
+"\">Zoek contact</a> om het betreffende contact te zoeken. Daarna klikt u op "
+"<strong>Toon</strong> om naar het overzicht van dit contact te gaan en op "
+"<strong>Nieuw evenement </strong> om een deelname toe te voegen. U kunt ook "
+"een lijst van deelnemers <a href=\"%1\">importeren</a>."
 
 #: templates/CRM/Event/Page/DashBoard.tpl
 msgid ""
@@ -6159,7 +6164,8 @@ msgstr ""
 
 #: templates/CRM/Event/Page/ManageEvent.tpl
 msgid "There are no events created yet. You can <a href='%1'>add one</a>."
-msgstr "Er zijn nog geen evenementen, u kunt er <a href='%1'>een toevoegen</a>."
+msgstr ""
+"Er zijn nog geen evenementen, u kunt er <a href='%1'>een toevoegen</a>."
 
 #: templates/CRM/Event/Page/ParticipantListing.tpl
 msgid "There are currently no participants registered for this event."
@@ -6589,6 +6595,11 @@ msgid "Membership section introductory text - displayed to renewing members."
 msgstr "Introductietekst - getoond aan leden die hun lidmaatschap verlengen."
 
 #: templates/CRM/Member/Form/MembershipBlock.tpl
+#, fuzzy
+msgid "Include these membership types"
+msgstr "Verwijder Type Lidmaatschap"
+
+#: templates/CRM/Member/Form/MembershipBlock.tpl
 msgid ""
 "If checked, user must signup for one of the displayed membership options "
 "before continuing."
@@ -6722,9 +6733,9 @@ msgid ""
 "'Expelled', etc."
 msgstr ""
 "Vink dit veld aan als alleen de beheerder deze status mag toekennen, dat mag "
-"dus niet automatisch door CiviMember gedaan worden. Het wordt toegekend "
-"door het aanvinken van de <strong>Status Override</strong> bij het toevoegen "
-"/ wijzigen van een lidmaatschap. Deze optie kan gebruikt worden voor "
+"dus niet automatisch door CiviMember gedaan worden. Het wordt toegekend door "
+"het aanvinken van de <strong>Status Override</strong> bij het toevoegen / "
+"wijzigen van een lidmaatschap. Deze optie kan gebruikt worden voor "
 "bijzondere statussen: 'vervalt niet' of 'geschorst'. "
 
 #: templates/CRM/Member/Form/MembershipStatus.tpl
@@ -7174,8 +7185,8 @@ msgid ""
 "Contribution Pages which include membership sign-up <a href='%1'>here</a>."
 msgstr ""
 "Met CiviMember kunt u lidmaatschaptypes aanmaken, maar ook pagina's maken "
-"voor online lidmaatschap aanmaken en verlengen. Beheerders kunnen <a "
-"href=\"%2\">lidmaatschaptypes aanmaken en beheren</a>, en <a href=\"%1\">Online "
+"voor online lidmaatschap aanmaken en verlengen. Beheerders kunnen <a href=\"%"
+"2\">lidmaatschaptypes aanmaken en beheren</a>, en <a href=\"%1\">Online "
 "Bijdrage Pagina's beheren</a> voor het aanmelden van lidmaatschap."
 
 #: templates/CRM/Member/Page/DashBoard.tpl
@@ -7287,6 +7298,17 @@ msgid ""
 "There are no membership types entered. You can <a href='%1'>add one</a>."
 msgstr ""
 "Er is nog geen lidmaatschapstype. U kunt er een <a href='%1'>toevoegen</a>."
+
+#~ msgid ""
+#~ "Page title can not be longer than 255 characters and must consist of "
+#~ "letters, numbers, spaces and simple punctuation characters."
+#~ msgstr "Moet er een voortgangsmeter getoond worden tijdens de bijdrage?"
+
+#~ msgid "Event %2 %1"
+#~ msgstr "Evenement %2 %1"
+
+#~ msgid "-- select --"
+#~ msgstr "-- kies --"
 
 #~ msgid "Test Participants Only"
 #~ msgstr "Alleen testdeelnemers"

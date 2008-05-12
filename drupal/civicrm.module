@@ -46,27 +46,44 @@ function civicrm_html_head()
     $head  = "<style type=\"text/css\">@import url({$config->resourceBase}css/civicrm.css);</style>\n";
 
     // include the below files ONLY if needed, since they are heavy weight
+
+    $includeCommon = $includeDojo = $includeCalender = false;
     if ( arg(0) == 'civicrm' ) {
-        // do not include this in contribution and profile pages
-        if ( arg(1) == 'profile' ||
-             ( arg(1) == 'contribute' ) && arg(2) == 'transact' ) {
-            // skip, do nothing
-            $config->includeDojo = 0;
-        } else {
-            $head .= "<style type=\"text/css\">@import url({$config->resourceBase}css/skins/aqua/theme.css);</style>\n";
-            $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}packages/dojo/dojo/dojo.js\" djConfig=\"isDebug: false, parseOnLoad: true, usePlainJson: true\" ></script>";
-            $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}packages/dojo/dojo/commonWidgets.js\"></script>";
-            $head .= "<style type=\"text/css\">@import url({$config->resourceBase}packages/dojo/dijit/themes/tundra/tundra.css);</style>";
-            $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}js/calendar.js\"></script>";
-            $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}js/lang/calendar-lang.php?{$config->lcMessages}\"></script>";
-            $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}js/calendar-setup.js\"></script>";
+        switch ( arg(1) ) {
+        case 'profile': 
+            // do not load anything for profile.
+            break;
+        case 'contribute':
+            if ( arg(2) == 'transact' ) {
+                $includeDojo = true;
+            }
+            break;
+        default:
+            $includeCommon   = true;
+            $includeDojo     = true;
+            $includeCalender = true;
         }
+    }
+
+    if ( $includeCommon ) {
+        $head .= "<style type=\"text/css\">@import url({$config->resourceBase}css/skins/aqua/theme.css);</style>\n";
+    }
+    
+    if ( $includeDojo ) {
+        $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}packages/dojo/dojo/dojo.js\" djConfig=\"isDebug: false, parseOnLoad: true, usePlainJson: true\" ></script>";
+        $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}packages/dojo/dojo/commonWidgets.js\"></script>";
+        $head .= "<style type=\"text/css\">@import url({$config->resourceBase}packages/dojo/dijit/themes/tundra/tundra.css);</style>";
     } else {
         $config->includeDojo = 0;
     }
 
+    if ( $includeCalender ) {
+        $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}js/calendar.js\"></script>";
+        $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}js/lang/calendar-lang.php?{$config->lcMessages}\"></script>";
+        $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}js/calendar-setup.js\"></script>";
+    }
+
     return $head;
-    
 }
 
 /**
@@ -137,13 +154,14 @@ function civicrm_perm()
                    'access uploaded files',
                    'profile listings and forms',
                    'access all custom data',
-		   'view all activities',
+                   'view all activities',
                    'access CiviCRM', 'access Contact Dashboard' );
                    
     // permissions for components which are conditionally enabled via config file setting
     require_once 'CRM/Core/Component.php';
-    foreach ( $config->enableComponents as $comp ) {
-        $perm = CRM_Core_Component::get( $comp, 'perm' );
+    $components = CRM_Core_Component::getEnabledComponents();
+    foreach ( $components as $comp ) {
+        $perm = $comp->getPermissions( );
         if ( $perm ) {
             $cPerm = array_merge( $cPerm, $perm );
         }
@@ -208,7 +226,7 @@ function civicrm_menu( )
                                     'title'            => ts('CiviCRM'),
                                     'access callback'  => true,
                                     'page callback'    => 'civicrm_invoke',
-                                    'type'             => 22,
+                                    'type'             => 4,
                                     'weight'           => 0,
                                     )
                  );
@@ -376,7 +394,7 @@ function civicrm_quickreg( )
  */
 function civicrm_user( $type, &$edit, &$user, $category = NULL ) 
 {
-	if ( $type == 'load' ) {
+    if ( $type == 'load' ) {
         return;
     }			
 
@@ -390,6 +408,7 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL )
         require_once 'CRM/Core/BAO/UFMatch.php';
         return CRM_Core_BAO_UFMatch::synchronize( $user, false, 'Drupal',
                                                   civicrm_get_ctype( 'Individual' ) );
+
     case 'register':
         $config =& CRM_Core_Config::singleton( );
         if ( $config->inCiviCRM ) {
@@ -429,7 +448,7 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL )
         return civicrm_validate_data($edit, $user, $category);
 
     case 'categories':
-        return civicrm_categories($user);
+        return civicrm_categories( $user );
 
 	case 'delete':
         require_once 'CRM/Core/BAO/UFMatch.php';
@@ -444,28 +463,22 @@ function civicrm_categories( &$user )
         return;
     }
 
-    require_once 'CRM/Core/BAO/UFMatch.php';
-    $userID = CRM_Core_BAO_UFMatch::getContactId( $user->uid );
-    if ( ! $userID ) {
-        return null;
-    }
-
-    $ctype = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $userID, 'contact_type' );
-
     require_once 'CRM/Core/BAO/UFGroup.php';
     require_once 'CRM/Core/BAO/UFField.php';
 
     $allUFGroups =& CRM_Core_BAO_UFGroup::getModuleUFGroup('User Account');
     $ufGroups = array( );
 
-    //check if there are any fields in this group
+    $weight = 100;
     foreach ($allUFGroups as $key => $value) {
-        $fieldType = CRM_Core_BAO_UFField::getProfileType( $key );
-        if ( $fieldType != $ctype ) {
-            continue;
+        if ( $value['is_active'] ) {
+            $ufGroups[] = array( 'name'   => $value['name'],
+                                 'title'  => $value['name'],
+                                 'weight' => $weight );
+            $weight += 10;
         }
-        $ufGroups[$key] = $value;
     }
+
     return $ufGroups;
 }
 
@@ -540,9 +553,9 @@ function civicrm_form_data($edit, &$user, $category, $reset, $doNotProcess = fal
     
     if ( $html ) {
         $index = empty( $category ) ? 'civicrm-profile-my-account' : $category;
-        $output[$index] = array( '#title' => $category,
-                                 '#value' => $html,
-                                 '#weight' => 1 );
+        $output[$index][] = array( '#title' => $category,
+                                   '#value' => $html,
+                                   '#weight' => 1 );
     }
 
     return $output;
@@ -557,9 +570,10 @@ function civicrm_view_data( &$user )
     if ( $userID ) {
         // make sure user has permission to view the record
         require_once 'CRM/Contact/BAO/Contact.php';
+        require_once 'CRM/Contact/BAO/Contact/Permission.php';
         $contactURL = null;
         if ( CRM_Core_Permission::check( 'access CiviCRM' ) &&
-             CRM_Contact_BAO_Contact::permissionedContact( $userID ) ) {
+             CRM_Contact_BAO_Contact_Permission::allow( $userID ) ) {
             $url = CRM_Utils_System::url( 'civicrm/contact/view', "reset=1&cid=$userID" );
             $contactURL = '<a href="' .$url. '">&raquo; ' .t("View Contact Record") . '</a>';
         }
@@ -579,6 +593,7 @@ function civicrm_view_data( &$user )
         $ctype = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $userID, 'contact_type' );
 
         $ufGroups =& CRM_Core_BAO_UFGroup::getModuleUFGroup('User Account');
+        $weight   = 100;
         foreach ( $ufGroups as $id => $title ) {
             
             $fieldType = CRM_Core_BAO_UFField::getProfileType( $id );
@@ -589,19 +604,24 @@ function civicrm_view_data( &$user )
             $pageContent = $page->run( );
             
             if ( $pageContent ) {
-                $item = array( 'value' => $pageContent );
-                $data[$title['title']][] = $item;
+                $title = 
+                $user->content[$title['title']] =
+                    array( '#title'  => $title['title'],
+                           '#value'  => $pageContent,
+                           '#weight' => $weight );
+                $weight += 10;
             }
         }
         
         if ( $contactURL ) {
-            $item = array( 'title' => '',
-                           'value' => $contactURL );
-            $data[''][] = $item;
+            $user->content['urls'] = 
+                array( '#title'  => '',
+                       '#value'  => $contactURL,
+                       '#weight' => $weight );
         }
     }
 
-    return $data;
+    return;
 }
 
 function civicrm_validate_data($edit, &$user, $title) 

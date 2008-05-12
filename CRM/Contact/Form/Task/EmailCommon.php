@@ -73,7 +73,9 @@ class CRM_Contact_Form_Task_EmailCommon
         $form->_emails = array( );
         $form->_onHold = array( );
         
-        $toName = CRM_Contact_BAO_Contact::displayName( $cid );
+        $toName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                               $cid,
+                                               'display_name' );
         foreach ( $emails as $emailId => $item ) {
             $email = $item['email'];
             if (!$email && ( count($emails) <= 1 ) ) {
@@ -232,7 +234,7 @@ class CRM_Contact_Form_Task_EmailCommon
 
             // for adding the email-id to the primary address
             if ( $cid ) {
-                $location =& CRM_Contact_BAO_Contact::getEmailDetails($cid);
+                $location =& CRM_Contact_BAO_Contact_Location::getEmailDetails($cid);
                 if ( $location[3] ) {
                     $locationID = $location[3];
                     $email =& new CRM_Core_DAO_Email();
@@ -255,16 +257,16 @@ class CRM_Contact_Form_Task_EmailCommon
          
         $subject = $form->controller->exportValue( 'Email', 'subject' );
         $text_message = $form->controller->exportValue( 'Email', 'text_message' );
-        $html_message = $form->controller->exportValue( 'Email', 'hmsg' );
-              
+        $html_message = $form->controller->exportValue( 'Email', 'html_message' );
+        
         //added code for CRM-1393
         $messageParams = $form->exportValues( );
-      
+        
         // process message template
         require_once 'CRM/Core/BAO/MessageTemplates.php';
         if ( $messageParams['saveTemplate'] || $messageParams['updateTemplate']) {
             $messageTemplate = array( 'msg_text'    => $messageParams['text_message'],
-                                      'msg_html'    => $messageParams['hmsg'],
+                                      'msg_html'    => $messageParams['html_message'],
                                       'msg_subject' => $messageParams['subject'],
                                       'is_active'   => true );
             
@@ -284,8 +286,9 @@ class CRM_Contact_Form_Task_EmailCommon
                          );
         
         $statusOnHold = '';
+        require_once 'CRM/Contact/BAO/Contact/Location.php';
         foreach ($form->_contactIds as $item => $contactId) {
-            $email     = CRM_Contact_BAO_Contact::getEmailDetails($contactId);
+            $email     = CRM_Contact_BAO_Contact_Location::getEmailDetails($contactId);
             $allEmails = CRM_Core_BAO_Email::allEmails($contactId);
 
             if ( $allEmails[$email[1]]['is_primary'] && $allEmails[$email[1]]['on_hold'] ) {

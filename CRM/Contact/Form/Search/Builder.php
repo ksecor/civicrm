@@ -139,40 +139,42 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
         $errorMsg = array ();
         foreach ($fld as $k => $v) {   
             if ( !$v[1] ) {
-                $errorMsg["operator[$v[3]][$v[4]]"] = "Please enter the operator.";  
+                $errorMsg["operator[$v[3]][$v[4]]"] = ts("Please enter the operator.");  
             } else {
-                if ( $v[0] == 'group' || $v[0] == 'tag' ) {
+                if ( in_array( $v[1], array( 'IS NULL', 'IS NOT NULL' ) ) && $v[2] ) {
+                    $errorMsg["value[$v[3]][$v[4]]"] = ts("Please clear your value if you want to use %1 operator.", array( $v[1] ));  
+                } else if ( $v[0] == 'group' || $v[0] == 'tag' ) {
                     $grpId = array_keys($v[2]);
                     if( ! key($v[2]) ) {
-                        $errorMsg["value[$v[3]][$v[4]]"] = "Please enter the value.";  
+                        $errorMsg["value[$v[3]][$v[4]]"] = ts("Please enter the value.");  
                     }
                   
                     if ( count($grpId) > 1) { 
                         if ( $v[1] !='IN' && $v[1] != 'NOT IN' ) {
-                            $errorMsg["value[$v[3]][$v[4]]"] = "Please enter the valid value.";  
+                            $errorMsg["value[$v[3]][$v[4]]"] = ts("Please enter the valid value.");  
                         }
                         foreach ($grpId as $val) {
                             $error = CRM_Utils_Type::validate( $val, 'Integer', false );
                             if ( $error != $val  ) { 
-                                $errorMsg["value[$v[3]][$v[4]]"] = "Please enter valid value.";
+                                $errorMsg["value[$v[3]][$v[4]]"] = ts("Please enter valid value.");
                                 break;
                             }
                         }
                     } else {
                         $error = CRM_Utils_Type::validate( $grpId[0], 'Integer', false );
                         if ( $error != $grpId[0] ) {
-                            $errorMsg["value[$v[3]][$v[4]]"] = "Please enter valid $v[0] id.";
+                            $errorMsg["value[$v[3]][$v[4]]"] = ts("Please enter valid $v[0] id.");
                         }
                     }
                 } else if ( substr($v[0], 0, 7) === 'do_not_' or substr($v[0], 0, 3) === 'is_' ) { 
                     $v2 = array($v[2]);
                     if( !isset($v[2]) ) {
-                        $errorMsg["value[$v[3]][$v[4]]"] = "Please enter the value.";  
+                        $errorMsg["value[$v[3]][$v[4]]"] = ts("Please enter the value.");  
                     }
 
                     $error = CRM_Utils_Type::validate($v2[0] , 'Integer', false );
                     if ( $error != $v2[0] ) {
-                        $errorMsg["value[$v[3]][$v[4]]"] = "Please enter valid value.";  
+                        $errorMsg["value[$v[3]][$v[4]]"] = ts("Please enter valid value.");  
                     }
                 } else {
                     if ( substr($v[0], 0, 7) == 'custom_' ) {
@@ -190,7 +192,7 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
                     if ( trim($v[2]) && $type ) {
                         $error = CRM_Utils_Type::validate( $v[2], $type, false );
                         if ( $error != $v[2]  ) {
-                            $errorMsg["value[$v[3]][$v[4]]"] = "Please enter valid value.";;
+                            $errorMsg["value[$v[3]][$v[4]]"] = ts("Please enter valid value.");
                         }
                     }
                 }
@@ -228,7 +230,7 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
         $session->set('isSearchBuilder', '1');
 
         $params = $this->controller->exportValues( $this->_name );
-        
+
         if (!empty($params)) {
             if ( CRM_Utils_Array::value('addBlock',$params) )  { 
                 $this->_blockCount = $this->_blockCount + 1;

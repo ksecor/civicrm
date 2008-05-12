@@ -2,7 +2,7 @@
 {assign var="showBlock" value="'searchForm'"}
 {assign var="hideBlock" value="'searchForm_show'"}
 
-<div id="searchForm_show" class="form-item">
+  <div id="searchForm_show" class="form-item">
   <a href="#" onclick="hide('searchForm_show'); show('searchForm'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}" /></a>
   <label>
         {ts}Edit Search Criteria{/ts}
@@ -22,9 +22,9 @@
             </td>
             <td>{$form.buttons.html}</td>       
         </tr>
-
+<tr><table style="border:0px">
         {include file="CRM/Event/Form/Search/Common.tpl"}
-        
+       </table></tr>
         <tr>
             <td colspan="2">&nbsp;</td>
             <td>{$form.buttons.html}</td>

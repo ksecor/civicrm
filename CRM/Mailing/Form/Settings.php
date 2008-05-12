@@ -105,6 +105,8 @@ class CRM_Mailing_Form_Settings extends CRM_Core_Form
                                          'isDefault' => true   ),
                                  array ( 'type'      => 'cancel',
                                          'name'      => ts('Cancel') ),
+                                 array ( 'type'      => 'submit',
+                                         'name'      => ts('Save & Continue Later') )
                                  )
                            );
         $this->setDefaults($defaults);
@@ -116,6 +118,8 @@ class CRM_Mailing_Form_Settings extends CRM_Core_Form
         
         $uploadParams        = array('reply_id', 'unsubscribe_id', 'optout_id', 'resubscribe_id');
         $uploadParamsBoolean = array('forward_replies', 'url_tracking', 'open_tracking', 'auto_responder');
+       
+        $qf_Settings_submit = $this->controller->exportValue($this->_name, '_qf_Settings_submit');
         
         foreach ( $uploadParams as $key ) {
             $params[$key] = $this->controller->exportvalue($this->_name, $key);
@@ -136,6 +140,12 @@ class CRM_Mailing_Form_Settings extends CRM_Core_Form
         // update mailing
         require_once 'CRM/Mailing/BAO/Mailing.php';
         CRM_Mailing_BAO_Mailing::create($params, $ids);
+
+        if ($qf_Settings_submit) {
+            CRM_Core_Session::setStatus( ts("Your mailing has been saved. Click the 'Continue' action to resume working on it.") );
+            $url = CRM_Utils_System::url( 'civicrm/mailing/browse/unscheduled', 'scheduled=false&reset=1' );
+            CRM_Utils_System::redirect($url);
+        }
     }
     
     /**

@@ -293,8 +293,6 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing
                     SELECT DISTINCT     $email.id as email_id,
                                         contact_a.id as contact_id 
                     $from
-                    LEFT JOIN           $email
-                            ON          $email.contact_id = contact_a.id
                     LEFT JOIN           X_$job_id
                             ON          contact_a.id = X_$job_id.contact_id
                     WHERE           
@@ -692,9 +690,10 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing
                   SELECT DISTINCT contact_a.id as contact_id 
                   FROM civicrm_contact contact_a 
                   LEFT JOIN civicrm_email      ON contact_a.id = civicrm_email.contact_id
-                      WHERE LOWER(civicrm_email.email) = %1";
+                      WHERE civicrm_email.email = %1";
             
-            $params = array( 1 => array( $testParams['test_email'], 'String' ) );
+            $params = array( 1 => array( strtolower( $testParams['test_email'] ),
+                                         'String' ) );
             $dao =& CRM_Core_DAO::executeQuery( $query, $params );
             $id = array( );
             // lets just use the first contact id we got
@@ -1751,7 +1750,14 @@ SELECT DISTINCT( m.id ) as id
                 $custom[] = $cfID;
             }
         }
-
+        
+        //used to get the current employer field.
+        $currentEmployer = false;
+        if ( CRM_Utils_Array::value( 'current_employer', $returnProperties ) ) {
+            $currentEmployer = true;
+            unset( $returnProperties['current_employer'] );
+        }
+        
         //get the total number of contacts to fetch from database.
         $numberofContacts = count( $contactIds );
         
@@ -1781,6 +1787,19 @@ SELECT DISTINCT( m.id ) as id
                 
                 $contactDetails[$contactID]['preferred_communication_method'] = implode(', ',$result);
                 unset($result);
+            }
+            
+            //get the current employer name.
+            if ( $currentEmployer ) {
+                require_once 'CRM/Contact/BAO/Relationship.php';
+                $relationships = CRM_Contact_BAO_Relationship::getRelationship( $contactID );
+                krsort( $relationships );
+                foreach ( $relationships as $relationshipID => $value ) {
+                    if ( $value['relation'] == 'Employee of' && $value['is_active'] == 1 ) {
+                        $contactDetails[$contactID]['current_employer'] = $value['name'];
+                        break;
+                    }
+                }
             }
             
             foreach ( $custom as $cfID ) {
@@ -1842,28 +1861,14 @@ SELECT DISTINCT( m.id ) as id
         if ( ! $form->get('saveTemplate') ) {
             $form->add('text','saveTemplateName',ts('Template Title'));
         } 
-        
+       
         //insert message Text by selecting "Select Template option"
         $form->add( 'textarea', 
                     'text_message', 
                     ts('Text Message'),
                     array('cols' => '80', 'rows' => '8','onkeyup' => "return verify(this)"));
-
-        $form->assign( 'dojoIncludes',
-                       "dojo.require('dijit.Editor'); dojo.require('dojo.parser'); dojo.require('dijit._editor.plugins.FontChoice');
-                        dojo.require('dijit._editor.plugins.TextColor'); dojo.require('dijit._editor.plugins.LinkDialog');");
-                
-        $dojoAttributes = array( 'dojoType'             => 'dijit.Editor',
-                                 'height'               => '250 px',
-                                 'id'                   => 'html_message',
-                                 'extraPlugins'         => '["createLink","foreColor","hiliteColor","formatBlock"]',
-                                 'onkeyup'              => "return verify(this)"
-                                 );
-
-        $form->add( 'textarea', 'html_message', ts('HTML Message'), $dojoAttributes );
-        //special hidden field to fix problem with dojo editor
-        $form->add('hidden', 'hmsg', null);
-
+        $form->addWysiwyg( 'html_message', ts('HTML Message'),array('cols' => '80', 'rows' => '8'), array('onkeyup' =>"return verify(this)") );
+           
     }
 }
 

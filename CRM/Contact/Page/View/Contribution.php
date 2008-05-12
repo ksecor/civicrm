@@ -215,7 +215,8 @@ class CRM_Contact_Page_View_Contribution extends CRM_Contact_Page_View
     {
         $context = CRM_Utils_Request::retrieve( 'context', 'String',
                                                 $this, false, 'search' );
-               
+        $session =& CRM_Core_Session::singleton( ); 
+       
         switch ( $context ) {
 
         case 'user':
@@ -254,12 +255,23 @@ class CRM_Contact_Page_View_Contribution extends CRM_Contact_Page_View
             break;
             
         case 'membership':
-            $url = CRM_Utils_System::url( 'civicrm/contact/view',
-                                          "reset=1&force=1&cid={$this->_contactId}&selectedChild=member" );
+            if ( $session->get( 'action' ) & CRM_Core_Action::VIEW ) {
+                $action = 'view';
+            } else {
+                $action = 'update';
+            } 
+            $url = CRM_Utils_System::url( 'civicrm/contact/view/membership',
+                                          "reset=1&action={$action}&cid={$this->_contactId}&id={$session->get( 'memberId' )}&context=membership&selectedChild=member" );
             break; 
+            
         case 'participant':
-            $url = CRM_Utils_System::url( 'civicrm/contact/view',
-                                          "reset=1&force=1&cid={$this->_contactId}&selectedChild=participant" );
+            if ( $session->get( 'action' ) & CRM_Core_Action::VIEW ) {
+                $action = 'view';
+            } else {
+                $action = 'update';
+            } 
+            $url = CRM_Utils_System::url( 'civicrm/contact/view/participant',
+                                          "reset=1&action={$action}&id={$session->get( 'participantId' )}&cid={$this->_contactId}&context=participant&selectedChild=event" );
             break;
             
         default:

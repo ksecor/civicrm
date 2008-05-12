@@ -204,23 +204,34 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
         $this->preProcess( );
         
         $this->assign( 'recentlyViewed', false );
+        
+        if ( $this->_gid ) {
+            $ufgroupDAO = new CRM_Core_DAO_UFGroup( );
+            $ufgroupDAO->id = $this->_gid;
+            if ( ! $ufgroupDAO->find( true ) ) {
+                CRM_Core_Error::fatal( );
+            }
+        }
+
         if ( $this->_gid ) {
             // set the title of the page
-            $title = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $this->_gid, 'title' );
-            if ( $title ) {
-                CRM_Utils_System::setTitle( $title );
+            if ( $ufgroupDAO->title ) {
+                CRM_Utils_System::setTitle( $ufgroupDAO->title );
             }
         }
 
         // do not do any work if we are in reset mode
-        if ( ! CRM_Utils_Array::value( 'reset', $_GET ) || CRM_Utils_Array::value( 'force', $_GET ) ) {
+        if ( ! CRM_Utils_Array::value( 'reset', $_GET ) ||
+             CRM_Utils_Array::value( 'force', $_GET ) ) {
             $this->assign( 'isReset', false );
 
             $map      = 0;
             $linkToUF = 0;
+            $editLink = false;
             if ( $this->_gid ) {
-                $map      = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $this->_gid, 'is_map'     );
-                $linkToUF = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $this->_gid, 'is_uf_link' );
+                $map      = $ufgroupDAO->is_map;
+                $linkToUF = $ufgroupDAO->is_uf_link;
+                $editLink = $ufgroupDAO->is_edit_link;
             }
             
             if ( $map ) {
@@ -229,7 +240,6 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
                                                       "map=1&gid={$this->_gid}&reset=1" ) );
             }
             
-            $editLink = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $this->_gid, 'is_edit_link' );
             if ( ! CRM_Core_Permission::check( 'access CiviCRM' ) ) {
                 $editLink = false;
             }
@@ -240,7 +250,9 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
             $controller =& new CRM_Core_Selector_Controller($selector ,
                                                             $this->get( CRM_Utils_Pager::PAGE_ID ),
                                                             $this->get( CRM_Utils_Sort::SORT_ID  ),
-                                                            CRM_Core_Action::VIEW, $this, CRM_Core_Selector_Controller::TEMPLATE );
+                                                            CRM_Core_Action::VIEW,
+                                                            $this,
+                                                            CRM_Core_Selector_Controller::TEMPLATE );
             $controller->setEmbedded( true );
             $controller->run( );
 
@@ -249,7 +261,9 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
         }
    
         if ( $this->_search ) {
-            $formController =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Search', ts('Search Profile'), CRM_Core_Action::ADD );
+            $formController =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Search',
+                                                               ts('Search Profile'),
+                                                               CRM_Core_Action::ADD );
             $formController->setEmbedded( true );
             $formController->process( ); 
             $formController->run( ); 

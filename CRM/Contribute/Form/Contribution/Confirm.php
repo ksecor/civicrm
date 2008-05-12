@@ -353,23 +353,35 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 unset( $fields[$value] );
             }
         }
+
+        // if onbehalf-of-organization contribution, take out
+        // organization params in a separate variable. 
+        if ( $params['is_for_organization'] && $params['organization_name'] ) {
+            $behalfOrganization = array();
+            $behalfOrganization['organization_name'] = $params['organization_name'];
+            $behalfOrganization['location']          = $params['location'];
+            unset($params['organization_name'], $params['location']);
+        }
         
         if ( ! isset( $contactID ) ) {
-            require_once "CRM/Core/BAO/UFGroup.php";
-            //formatted submiited fields before sending to dupe contact matching
-            $data = CRM_Core_BAO_UFGroup::formatFields( $params );
-
-            $ids = CRM_Core_BAO_UFGroup::findContact( $data );
-            $contactsIDs = explode( ',', $ids );
+            require_once 'CRM/Dedupe/Finder.php';
+            $dedupeParams = CRM_Dedupe_Finder::formatParams($params, 'Individual');
+            $ids = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Individual');
 
             // if we find more than one contact, use the first one
-            $contact_id  = CRM_Utils_Array::value( 0, $contactsIDs );
+            $contact_id  = CRM_Utils_Array::value( 0, $ids );
             $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $contact_id, $addToGroups );
             $this->set( 'contactID', $contactID );
         } else {
             $ctype = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $contactID, 'contact_type');
             $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $contactID, $addToGroups,
                                                                          null, $ctype);
+        }
+
+        // If onbehalf-of-organization contribution, add organization
+        // and it's location.
+        if ( is_array($behalfOrganization) && $behalfOrganization['organization_name'] ) {
+            self::processOnBehalfOrganization( $behalfOrganization, $this->_values, $contactID );
         }
 
         // lets store the contactID in the session
@@ -701,7 +713,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         }
         
         $now = date( 'YmdHis' );
-        $recurParams['start_date'] = $recurParams['create_date'] = $now;
+        $recurParams['start_date'] = $recurParams['create_date'] = $recurParams['modified_date'] = $now;
         $recurParams['invoice_id'] = $params['invoiceID'];
         $recurParams['contribution_status_id'] = 2;
 
@@ -757,6 +769,61 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         return CRM_Contribute_BAO_Contribution::createHonorContact( $params );
     }
 
+    /**
+     * Function to add on behalf of organization and it's location  
+     *
+     * @param $behalfOrganization array  array of organization info
+     * @param $values             array  form values array
+     * @param $contactID          int    individual contact id. One
+     * who is doing the process of signup / contribution. 
+     *
+     * @return void
+     * @access public
+     */
+    static function processOnBehalfOrganization( &$behalfOrganization, &$values, &$contactID ) {
+        $org =& new CRM_Contact_DAO_Contact( );
+        $org->organization_name = $behalfOrganization['organization_name'];
+        $org->find();
+            
+        if ( ! $org->fetch( ) ) {
+            $behalfOrganization['contact_type']              = 'Organization';
+            $behalfOrganization['location'][1]['is_primary'] = 1;
+
+            // set country-state values in the required format
+            $behalfOrganization['location'][1]['address']['country_id'] = 
+                $behalfOrganization['location'][1]['address']['country_state'][0];
+            $behalfOrganization['location'][1]['address']['state_province_id'] = 
+                $behalfOrganization['location'][1]['address']['country_state'][1];
+            unset($behalfOrganization['location'][1]['address']['country_state']);
+            
+            $org = CRM_Contact_BAO_Contact::create( $behalfOrganization );
+            
+            //get the relationship id
+            require_once "CRM/Contact/DAO/RelationshipType.php";
+            $relType =& new CRM_Contact_DAO_RelationshipType();
+            $relType->name_a_b = "Employee of";
+            $relType->find(true);
+            $relTypeId = $relType->id;
+            
+            $relParams['relationship_type_id']    = $relTypeId.'_a_b';
+            $relParams['is_permission_a_b'   ]    = 1;
+            $relParams['is_active'           ]    = 1;
+            $relParams['contact_check'][$org->id] = 1;
+            $cid = array('contact' => $contactID );
+            
+            //create relationship
+            $relationship = CRM_Contact_BAO_Relationship::create($relParams, $cid);
+        }
+
+        // make sure organization-contact-id is considered for recording
+        // contribution/membership etc..
+        if ( $org->id && ( $contactID != $org->id ) ) {
+            // take a note of contact-id, so we can send the
+            // receipt to that contact as well.
+            $values['related_contacts'][] = $contactID;
+            $contactID = $org->id;
+        }
+    }
 }
 
 

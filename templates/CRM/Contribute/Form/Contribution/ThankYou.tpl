@@ -60,7 +60,7 @@
               {ts}Amount{/ts}: <strong>{$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}</strong><br />
          {/if}
           {ts}Date{/ts}: <strong>{$receive_date|crmDate}</strong><br />
-        {if $contributeMode ne 'notify' and $is_monetary and ! $is_pay_later}
+        {if $contributeMode ne 'notify' and $is_monetary and ! $is_pay_later and $trxn_id}
           {ts}Transaction #{/ts}: {$trxn_id}<br />
         {/if}
         {if $membership_trx_id}
@@ -95,6 +95,19 @@
           {ts}{$groupTitlePre}{/ts}
          </div>  
          {include file="CRM/UF/Form/Block.tpl" fields=$customPre}
+    {/if}
+
+    {if $onBehalfName}
+    <div class="header-dark">
+        {ts}On Behalf Of{/ts}
+    </div>
+    <div class="display-block">
+        <strong>{$onBehalfName}</strong><br />
+        {$onBehalfAddress|nl2br}
+    </div>
+    <div class="display-block">
+        {$onBehalfEmail}
+    </div>
     {/if}
 
     {if $contributeMode ne 'notify' and ! $is_pay_later and $is_monetary}    

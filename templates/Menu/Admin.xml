@@ -22,6 +22,11 @@
      <page_callback>CRM_Custom_Page_Option</page_callback>
   </item>
   <item>
+     <path>civicrm/admin/custom/group/field/move</path>
+     <title>Custom Field - Move</title>
+     <page_callback>CRM_Custom_Form_MoveField</page_callback>
+  </item>
+  <item>
      <path>civicrm/admin/uf/group</path>
      <title>CiviCRM Profile</title>
      <desc>Profiles allow you to aggregate groups of fields and include them in your site as input forms, contact display pages, and search and listings features.</desc>
@@ -313,5 +318,28 @@
      <adminGroup>Manage</adminGroup>
      <icon>admin/small/03.png</icon>
      <weight>110</weight>
+  </item>
+  <item>
+     <path>civicrm/admin</path>
+     <title>Administer CiviCRM</title>
+     <access_arguments>administer CiviCRM,access CiviCRM</access_arguments>
+     <page_type>1</page_type>
+     <page_callback>CRM_Admin_Page_Admin</page_callback>
+     <weight>9000</weight>
+  </item>
+  <item>
+     <path>civicrm/admin/options</path>
+     <title>Option Groups</title>
+     <page_callback>CRM_Admin_Page_OptionGroup</page_callback>
+  </item>
+  <item>
+     <path>civicrm/admin/optionGroup</path>
+     <title>Option Groups</title>
+     <page_callback>CRM_Admin_Page_OptionGroup</page_callback>
+  </item>
+  <item>
+     <path>civicrm/admin/optionValue</path>
+     <title>Option Values</title>
+     <page_callback>CRM_Admin_Page_OptionValue</page_callback>
   </item>
 </menu>

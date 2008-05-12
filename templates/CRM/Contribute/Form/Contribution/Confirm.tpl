@@ -5,7 +5,7 @@
 <div class="form-item">
     <div id="help">
         <p>{ts}Please verify the information below carefully. Click <strong>Go Back</strong> if you need to make changes.{/ts}
-            {if $contributeMode EQ 'notify'}
+            {if $contributeMode EQ 'notify' and ! $is_pay_later}
                {if $paymentProcessor.payment_processor_type EQ 'Google_Checkout'} 
                   {ts}Click the <strong>Google Checkout</strong> button to checkout to Google, where you will select your payment method and complete the contribution.{/ts}
                {else} 
@@ -69,6 +69,19 @@
           {ts}{$groupTitlePre}{/ts}
          </div>  
          {include file="CRM/UF/Form/Block.tpl" fields=$customPre}
+    {/if}
+
+    {if $onBehalfName}
+    <div class="header-dark">
+        {ts}On Behalf Of{/ts}
+    </div>
+    <div class="display-block">
+        <strong>{$onBehalfName}</strong><br />
+        {$onBehalfAddress|nl2br}
+    </div>
+    <div class="display-block">
+        {$onBehalfEmail}
+    </div>
     {/if}
 
     {if $contributeMode ne 'notify' and ! $is_pay_later and $is_monetary}    

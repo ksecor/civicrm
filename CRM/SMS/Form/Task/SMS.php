@@ -77,7 +77,9 @@ class CRM_SMS_Form_Task_SMS extends CRM_Contact_Form_Task {
             $this->_single     = true;
             $smsNumbers        = CRM_Contact_BAO_Contact::allPhones( $cid, 'Mobile' );
             $this->_emails     = array( );
-            $toName = CRM_Contact_BAO_Contact::displayName( $cid );
+            $toName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                   $cid,
+                                                   'display_name' );
             foreach ( $smsNumbers as $number => $item ) {
                 $this->_smsNumbers[$number] = '"' . $toName . '" <' . $number . '> ' . $item['locationType'];
                 if ( $item['is_primary'] ) {
@@ -102,7 +104,8 @@ class CRM_SMS_Form_Task_SMS extends CRM_Contact_Form_Task {
         if ( ! $this->_single ) {
             $toArray = array();
             foreach ( $this->_contactIds as $contactId ) {
-                list($toDisplayName, $toSMS) = CRM_Contact_BAO_Contact::getPhoneDetails($contactId, 'Mobile');
+                list($toDisplayName, 
+                     $toSMS) = CRM_Contact_BAO_Contact_Location::getPhoneDetails($contactId, 'Mobile');
                 if ( ! empty( $toSMS ) ) {
                     $toArray[] = "\"$toDisplayName\" <$toSMS>";
                 }
@@ -121,7 +124,8 @@ class CRM_SMS_Form_Task_SMS extends CRM_Contact_Form_Task {
 
         $session =& CRM_Core_Session::singleton( );
         $userID  =  $session->get( 'userID' );
-        list( $fromDisplayName, $fromSMS ) = CRM_Contact_BAO_Contact::getPhoneDetails( $userID, 'Mobile' );
+        list( $fromDisplayName, 
+              $fromSMS ) = CRM_Contact_BAO_Contact_Location::getPhoneDetails( $userID, 'Mobile' );
         if ( ! $fromSMS ) {
             CRM_Core_Error::statusBounce( ts('Your user record does not have a valid SMS number' ));
         }

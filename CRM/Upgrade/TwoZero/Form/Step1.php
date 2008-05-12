@@ -86,24 +86,31 @@ class CRM_Upgrade_TwoZero_Form_Step1 extends CRM_Upgrade_Form {
             return false;
         }
 
-        // check if name is set for all the custom fields.
-        $query    = "SELECT id FROM civicrm_custom_field WHERE name IS NULL";
-        $res      = $this->runQuery( $query );
-        if ($res->fetch()) {
-            $errorMessage = ts('Database consistency check failed for step %1.', array(1 => '1')) . ' ' . ts("Value missing in %1 for the column '%2'. Please add a unique value for the 'name' column for each database record.", array(1 => 'civicrm_custom_field', 2 => 'name'));
-            return false;
-        }
-        $res->free();
-
         return true;
     }
 
     function upgrade( ) {
-        // cleanup db
+        // run cleanup sql script
         $currentDir = dirname( __FILE__ );
         $sqlFile    = implode( DIRECTORY_SEPARATOR,
                                array( $currentDir, '../sql', 'cleanup.mysql' ) );
         $this->source( $sqlFile );
+
+        // duplicate check for custom field names
+        $query    = "SELECT count(*) AS number FROM civicrm_custom_field group by name having number > 1";
+        $res      = $this->runQuery( $query );
+        if ($res->fetch()) {
+            $errorMessage = ts('Database consistency check failed for step %1.', array(1 => '1')) . ' ' . ts("Duplicate entries found in %1 for the column '%2'.", array(1 => 'civicrm_custom_field', 2 => 'name'));
+            CRM_Core_Error::fatal( $errorMessage );
+        }
+
+        // duplicate check for custom group names
+        $query    = "SELECT count(*) AS number FROM civicrm_custom_group group by name having number > 1";
+        $res      = $this->runQuery( $query );
+        if ($res->fetch()) {
+            $errorMessage = ts('Database consistency check failed for step %1.', array( 1 => '1' )) . ' ' . ts("Duplicate entries found in %1 for the column '%2'.", array(1 => 'civicrm_custom_group', 2 => 'name'));
+            CRM_Core_Error::fatal( $errorMessage );
+        }
 
         $this->setVersion( '1.90' );
     }

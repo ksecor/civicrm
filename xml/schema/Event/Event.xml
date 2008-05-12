@@ -242,6 +242,7 @@
       <length>255</length>
       <comment>Receipt Text for off-line event participation</comment>
       <add>2.0</add>
+      <drop>2.1</drop>
   </field>
   <field> 
       <name>default_role_id</name> 

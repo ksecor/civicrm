@@ -171,6 +171,18 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
     public function preProcess()
     {
         $this->_mapperFields = $this->get( 'fields' );
+        //CRM-2676, replacing the conflict for same custom field name from different custom group.
+        foreach ( $this->_mapperFields as $key => $value ) {
+            require_once 'CRM/Core/BAO/CustomField.php';
+            if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID( $key ) ) {
+                $customGroupId   = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', $customFieldId, 'custom_group_id' );
+                $customGroupName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup', $customGroupId, 'title' );
+                if ( strlen( $customGroupName ) > 13 ) {
+                    $customGroupName = substr( $customGroupName, 0, 10 ) . '...';
+                }
+                $this->_mapperFields[$key] = $customGroupName . ': ' . $this->_mapperFields[$key];
+            }
+        }
         
         $this->_columnCount = $this->get( 'columnCount' );
         $this->assign( 'columnCount' , $this->_columnCount );
@@ -282,6 +294,16 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
 
         $sel4 = null;
 
+        // store and cache all relationship types
+        $contactRelation =& new CRM_Contact_DAO_RelationshipType();
+        $contactRelation->domain_id = CRM_Core_Config::domainID( );
+        $contactRelation->find( );
+        while ( $contactRelation->fetch( ) ) {
+            $contactRelationCache[$contactRelation->id] = array( );
+            $contactRelationCache[$contactRelation->id]['contact_type_a'] = $contactRelation->contact_type_a;
+            $contactRelationCache[$contactRelation->id]['contact_type_b'] = $contactRelation->contact_type_b;
+        }
+
         foreach ($mapperKeys as $key) {
             // check if there is a _a_b or _b_a in the key
             if ( strpos( $key, '_a_b' ) || strpos( $key, '_b_a' ) ) {
@@ -290,11 +312,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
                 $id = $first = $second = null;
             }
             if ( ($first == 'a' && $second == 'b') || ($first == 'b' && $second == 'a') ) {
-                $contactRelation =& new CRM_Contact_DAO_RelationshipType();
-                $contactRelation->id = $id;
-                $contactRelation->find(true);
-
-                eval( '$cType = $contactRelation->contact_type_' . $second . ';');
+                eval( '$cType = ' . $contactRelationCache[$id]["contact_type_{$second}"] . ';' );
 
                 if ( ! $cType ) {
                     $cType = 'All';

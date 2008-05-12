@@ -749,3 +749,27 @@ function popUp(URL) {
   id  = day.getTime();
   eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=0,width=640,height=420,left = 202,top = 184');");
 }
+
+/**
+ * Function to execute javascript that is assigned to element using innerHTML property
+ *
+ * @param elementName element name, that whose innerHTML is set
+ */
+function executeInnerHTML ( elementName ) 
+{
+    var element   = document.getElementById( elementName );
+    var content   = element.getElementsByTagName('script');
+    var tagLength = content.length;
+    
+    for (var x=0; x<tagLength; x++ ) {
+	var newScript = document.createElement('script');
+	newScript.type = "text/javascript";
+	newScript.text = content[x].text;
+	//execute script
+	element.appendChild(newScript);
+    }
+    
+    for ( var y=0; y<tagLength-1; y++ ) {
+	element.removeChild(element.getElementsByTagName('script')[y]);
+    }
+}

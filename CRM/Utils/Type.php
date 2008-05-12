@@ -45,6 +45,7 @@ class CRM_Utils_Type
         T_BOOL      =    16,
         T_BOOLEAN   =    16,
         T_TEXT      =    32,
+        T_LONGTEXT  =    32,
         T_BLOB      =    64,
         T_TIMESTAMP =   256,
         T_FLOAT     =   512,

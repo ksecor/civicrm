@@ -1,0 +1,3 @@
+Please put issue tests into directories named with appropriate version
+number. If the issue is specifically for minor version (2.1.2), it still
+goes into major version number dir (2.1).

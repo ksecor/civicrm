@@ -47,7 +47,7 @@ class CRM_Contact_Page_View_Sunlight extends CRM_Contact_Page_View {
         // get the primary city, state and zip for the contact
         require_once 'CRM/Contact/BAO/Contact.php';
         $ids = array( $this->_contactId );
-        $locations = CRM_Contact_BAO_Contact::getMapInfo( $ids );
+        $locations = CRM_Contact_BAO_Contact_Location::getMapInfo( $ids );
         
         require_once 'CRM/Utils/Sunlight.php';
         $rows =& CRM_Utils_Sunlight::getInfo( $locations[0]['city'],

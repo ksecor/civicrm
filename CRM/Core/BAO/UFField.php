@@ -336,41 +336,45 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
      * @acess public
      * @static
      */
-    static function checkProfileType($ufGroupId, $check = false) 
+    static function checkProfileType( $ufGroupId ) 
     {
-        $ufField =& new CRM_Core_DAO_UFField();
-        $ufField->uf_group_id = $ufGroupId;
-        $ufField->is_active = 1;
-        $ufField->find();
-        $fields = array( );
+        $ufGroup =& new CRM_Core_DAO_UFGroup();
+        $ufGroup->id = $ufGroupId;
+        $ufGroup->find( true );
         
-        while ( $ufField->fetch() ) {
-            if ($ufField->field_type == 'Individual') {
-                if( ! isset($fields['Individual'])) {
-                    $fields['Individual'] = 0;
+        $profileTypes = array( );
+        if ( $ufGroup->group_type ) {
+            $profileTypes = explode( ',',  $ufGroup->group_type );
+        }
+        
+        //we need to unset Contact
+        $index = array_search( 'Contact', $profileTypes );
+        if ( $index !== false ) {
+            unset( $profileTypes[$index] );
+        }
+
+        $contactTypes = array( 'Individual', 'Household', 'Organization' );
+        $components   = array( 'Contribution', 'Participant', 'Membership' );
+        $fields = array( );
+
+        // check for mix profile condition
+        if ( count( $profileTypes ) > 1 ) {
+            //check the there are any components include in profile
+            foreach ( $components as $value ) {
+                if ( in_array( $value, $profileTypes ) ) {
+                    return true;
                 }
-                $fields['Individual'] += 1;
-            } else if ($ufField->field_type == 'Contribution') {
-                if( ! isset($fields['Contribution'])) {
-                    $fields['Contribution'] = 0;
-                }
-                $fields['Contribution'] += 1;
-            } else {
-                if( ! isset($fields['Other'])) {
-                    $fields['Other'] = 0;
-                }
-                $fields['Other'] +=1;
+            }
+            //check if there are more than one contact types included in profile
+            if ( count( $profileTypes ) > 1 ) {
+                return true;
+            }
+        } else {
+            if ( !in_array( $profileTypes[0], $contactTypes ) ) {
+                return true;
             }
         }
         
-        if ( $check &&
-             count($fields) > 1 ) {
-            return true;
-        }
-        
-        if ( (isset($fields['Individual']) && isset($fields['Other'])) || isset($fields['Contribution']) && isset($fields['Other']) ) {
-            return true;
-        }
         return false;
     }
 
@@ -378,42 +382,78 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
      * function to get the profile type (eg: individual/organization/household)
      *
      * @param int      $ufGroupId  uf group id 
-     * @param boolean  $mixType    this is true, then field type of  mix profile field is returned
+     * @param boolean  $returnMixType    this is true, then field type of  mix profile field is returned
      *
      * @return  contact_type
      * @acess public
      * @static
      */
-    static function getProfileType($ufGroupId, $mixType = true ) 
+    static function getProfileType($ufGroupId, $returnMixType = true ) 
     {
-        require_once "CRM/Core/SelectValues.php";
-        $profileTypes = CRM_Core_SelectValues::contactType();
-        $otherTypes   = array ("Student" => "Students", "Contribution" => "Contributions", "Participant" => "Participants", "Membership" => "Memberships", "TMF" => "TMF");
-        $profileTypes = array_merge($profileTypes, $otherTypes);
+        // profile types
+        $contactTypes = array( 'Individual', 'Household', 'Organization', 'Student' );
+        $components   = array( 'Contribution', 'Participant', 'Membership' );
+
+        $ufGroup =& new CRM_Core_DAO_UFGroup( );
+        $ufGroup->id          = $ufGroupId;
+        $ufGroup->is_active   = 1;        
+
+        $ufGroup->find( true );
         
-        $ufField =& new CRM_Core_DAO_UFField();
-        $ufField->uf_group_id = $ufGroupId;
-        $ufField->is_active   = 1;        
-
-        $ufField->find();
-
-        $fieldType = null;
-        while ( $ufField->fetch() ) {
-            if ( array_key_exists( $ufField->field_type, $profileTypes ) ) {
-                if ( $fieldType &&
-                     $fieldType != $ufField->field_type) {
-                    //for a mix profile, depending on mixType we
-                    //return field type of mix field or we return 'Mixed' (kurund)
-                    if ( $mixType ) {
-                        return $ufField->field_type;
-                    } else{
-                        return 'Mixed';
-                    }
-                }
-                $fieldType = $ufField->field_type;
-            }
+        $profileTypes = array( );
+        if ( $ufGroup->group_type ) {
+            $profileTypes = explode( ',',  $ufGroup->group_type );
         }
-        return $fieldType;
+
+        //we need to unset Contact
+        $index = array_search( 'Contact', $profileTypes );
+        if ( $index !== false ) {
+            unset( $profileTypes[$index] );
+        }
+
+        $profileType = $mixProfileType = null;
+
+        if ( count( $profileTypes ) == 1 ) { // this case handles pure profile
+            $profileType = $profileTypes[0]; 
+        } else {
+            //check the there are any components include in profile
+            $componentCount = array( );
+            foreach ( $components as $value ) {
+                if ( in_array( $value, $profileTypes ) ) {
+                    $componentCount[] = $value;
+                }
+            }          
+
+            //check contact type included in profile
+            $contactTypeCount = array( );
+            foreach ( $contactTypes as $value ) {
+                if ( in_array( $value, $profileTypes ) ) {
+                    $contactTypeCount[] = $value;
+                }
+            }
+            
+            if ( count( $componentCount ) == 1 && count( $contactTypeCount ) == 1 ) { 
+                // this case if valid profile contact + component
+                 $profileType = $componentCount[0];
+            } elseif( count( $componentCount ) > 1 ) { 
+                // this is mix component profiles
+                $mixProfileType = $componentCount[1];
+            } else if( count( $contactTypeCount ) > 1 ) {
+                // this is mix contact profiles
+                $mixProfileType = $contactTypeCount[1];
+            }
+
+        }
+        
+        if ( $mixProfileType ) {
+            if ( $returnMixType ) {
+                return $mixProfileType;
+            } else {
+                return 'Mixed';
+                }
+        } else {
+            return $profileType;
+        }
     }
 
     /**

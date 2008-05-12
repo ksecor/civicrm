@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-02-27 13:35+0100\n"
+"POT-Creation-Date: 2008-04-28 21:53+0200\n"
 "PO-Revision-Date: 2007-02-09 14:40-0800\n"
 "Last-Translator: Tóth Zsuzsanna <nyuzs@potkave.hu>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -39,6 +39,7 @@ msgstr "Hozzájárulás oldal"
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Task/Status.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 #: templates/CRM/Contribute/Form/Message.tpl
+#: templates/CRM/Contribute/Form/Task/Status.tpl
 msgid "Transaction ID"
 msgstr "Tranzakció ID"
 
@@ -82,6 +83,7 @@ msgstr "Nem levonható összeg"
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/DAO/FinancialTrxn.php
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Task/Status.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
+#: templates/CRM/Contribute/Form/Task/Status.tpl
 msgid "Fee Amount"
 msgstr "Díjösszeg"
 
@@ -440,17 +442,16 @@ msgstr ""
 msgid "Canceled"
 msgstr ""
 
-#: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/BounceType.php
-#: CRM/Mailing/Event/BAO/Bounce.php
-msgid "Unknown"
-msgstr ""
-
 #: CRM/Mailing/BAO/Mailing.php CRM/Mailing/DAO/Component.php
 msgid "Reply"
 msgstr ""
 
 #: CRM/Mailing/BAO/Mailing.php CRM/Mailing/Selector/Event.php
 msgid "Opt-Out"
+msgstr ""
+
+#: CRM/Mailing/DAO/BounceType.php CRM/Mailing/Event/BAO/Bounce.php
+msgid "Unknown"
 msgstr ""
 
 #: CRM/Mailing/DAO/Component.php CRM/Mailing/Form/Component.php
@@ -658,12 +659,13 @@ msgstr ""
 
 #: CRM/Contribute/BAO/Query.php
 #, fuzzy
-msgid "Find Test Contributions Only?"
+msgid "Find Test Contributions?"
 msgstr "Hozzájárulások"
 
 #: CRM/Contribute/BAO/Query.php
-msgid "Recurring Contributions Only"
-msgstr ""
+#, fuzzy
+msgid "Find Recurring Contributions?"
+msgstr "Hozzájárulások"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Intro Text"
@@ -1218,12 +1220,6 @@ msgid "Title and Settings"
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
-msgid ""
-"Page title can not be longer than 255 characters and must consist of "
-"letters, numbers, spaces and simple punctuation characters."
-msgstr ""
-
-#: CRM/Contribute/Form/ContributionPage/Settings.php
 msgid "Is this Online Contribution Page Active?"
 msgstr ""
 
@@ -1742,18 +1738,14 @@ msgid "- Participant Fields -"
 msgstr "-Hozzájárulás mező-"
 
 #: CRM/Event/BAO/Query.php
-msgid "Event %2 %1"
-msgstr ""
-
-#: CRM/Event/BAO/Query.php
 #, fuzzy
 msgid "Event Type - %1"
 msgstr "Kapcsolat típus"
 
 #: CRM/Event/BAO/Query.php
 #, fuzzy
-msgid "Test Participants Only"
-msgstr "Törlés"
+msgid "Find Test Participants"
+msgstr "Kapcsolatok keresése"
 
 #: CRM/Event/BAO/Query.php
 msgid "Participant Status %1"
@@ -1774,8 +1766,9 @@ msgid "Event Date - From"
 msgstr ""
 
 #: CRM/Event/BAO/Query.php
-msgid "Find Test Participants Only?"
-msgstr ""
+#, fuzzy
+msgid "Find Test Participants?"
+msgstr "Kapcsolatok keresése"
 
 #: CRM/Event/DAO/EventPage.php
 #, fuzzy
@@ -2143,6 +2136,16 @@ msgstr ""
 msgid "Select a valid Event TO date."
 msgstr ""
 
+#: CRM/Event/Form/Search.php
+#, fuzzy
+msgid "Please select valid event."
+msgstr "Helyes időpont kiválasztás"
+
+#: CRM/Event/Form/Search.php
+#, fuzzy
+msgid "Please select valid event type."
+msgstr "Helyes időpont kiválasztás"
+
 #: CRM/Event/Form/Task/Batch.php
 msgid "Batch Update for Events"
 msgstr ""
@@ -2182,12 +2185,37 @@ msgid "Print Participant List"
 msgstr ""
 
 #: CRM/Event/Import/Form/MapField.php
+msgid ""
+"Missing required contact matching fields. (Should be First AND Last Name or "
+"Primary Email or First Name, Last Name AND Primary Email.) (OR Participant "
+"ID if update mode.)"
+msgstr ""
+
+#: CRM/Event/Import/Form/MapField.php
 msgid "Duplicate Import Participant Mapping Name"
+msgstr ""
+
+#: CRM/Event/Import/Form/MapField.php
+#, fuzzy
+msgid "Select saved mapping"
+msgstr "Helyes időpont kiválasztás"
+
+#: CRM/Event/Import/Form/UploadFile.php
+msgid "On Duplicate Entries"
+msgstr ""
+
+#: CRM/Event/Import/Parser/Participant.php
+msgid "Select either EventID OR Event Title"
 msgstr ""
 
 #: CRM/Event/Import/Parser/Participant.php
 msgid "Invalid value for Event ID"
 msgstr ""
+
+#: CRM/Event/Import/Parser.php
+#, fuzzy
+msgid "View Participant URL"
+msgstr "Kapcsolatok keresése"
 
 #: CRM/Event/Info.php
 msgid "CiviCRM Event Engine"
@@ -2353,6 +2381,10 @@ msgstr ""
 
 #: CRM/Mailing/BAO/Job.php
 msgid "The mailing has been canceled."
+msgstr ""
+
+#: CRM/Mailing/BAO/Job.php
+msgid "Not scheduled"
 msgstr ""
 
 #: CRM/Mailing/BAO/Mailing.php
@@ -2947,7 +2979,7 @@ msgstr ""
 
 #: CRM/Member/BAO/Query.php
 #, fuzzy
-msgid "Find Test Memberships Only?"
+msgid "Find Test Memberships?"
 msgstr "Hozzájárulások"
 
 #: CRM/Member/DAO/MembershipBlock.php
@@ -3105,10 +3137,6 @@ msgstr ""
 
 #: CRM/Member/Form/MembershipBlock.php
 msgid "Please enable the contribution amount section to use this option."
-msgstr ""
-
-#: CRM/Member/Form/Membership.php
-msgid "-- select --"
 msgstr ""
 
 #: CRM/Member/Form/Membership.php
@@ -3309,6 +3337,10 @@ msgid ""
 "Missing required contact matching fields. (Should be First AND Last Name or "
 "Primary Email or First Name, Last Name AND Primary Email.) (OR Membership ID "
 "if update mode.)"
+msgstr ""
+
+#: CRM/Member/Import/Form/MapField.php
+msgid "Duplicate Import Membership Mapping Name"
 msgstr ""
 
 #: CRM/Member/Import/Parser.php
@@ -4618,6 +4650,13 @@ msgstr ""
 msgid "Assign the selected status to all contributions listed below."
 msgstr ""
 
+#: templates/CRM/Contribute/Form/Task/Status.tpl
+#: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
+#: templates/CRM/Event/Form/Registration/ThankYou.tpl
+#, fuzzy
+msgid "Transaction Date"
+msgstr "Tranzakció ID"
+
 #: templates/CRM/Contribute/Form/Task.tpl
 msgid "Number of selected contributions: %1"
 msgstr ""
@@ -4943,8 +4982,7 @@ msgstr ""
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid ""
 "CiviContribute allows you to create customized page(s) for collecting online "
-"contributions. Administrators can create or modify your Online Contribution "
-"Pages from <a href='%1'>here</a>."
+"contributions."
 msgstr ""
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
@@ -5055,6 +5093,13 @@ msgid ""
 "or enable premiums here</a>."
 msgstr ""
 
+#: templates/CRM/Event/Form/ManageEvent/Delete.tpl
+msgid ""
+"Warning: Deleting this event will also delete associated Event Registration "
+"Page and Event Fee configurations. This operation can not be undone. Do you "
+"want to continue?"
+msgstr ""
+
 #: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
 msgid ""
 "After selecting an Event Type, this page will display any custom event "
@@ -5091,7 +5136,7 @@ msgstr ""
 #: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
 msgid ""
 "Include a link to map the event location? (A map provider must be configured "
-"under <a href='%1'>Global Settings &raquo; Mapping</a>"
+"under <a href='%1'>Global Settings &raquo; Mapping</a>)"
 msgstr ""
 
 #: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
@@ -5452,12 +5497,6 @@ msgstr ""
 msgid "Each"
 msgstr ""
 
-#: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
-#: templates/CRM/Event/Form/Registration/ThankYou.tpl
-#, fuzzy
-msgid "Transaction Date"
-msgstr "Tranzakció ID"
-
 #: templates/CRM/Event/Form/Registration/ReceiptPreviewHeader.tpl
 msgid "Event Registration - Test-drive Confirmation / Receipt"
 msgstr ""
@@ -5743,6 +5782,10 @@ msgstr ""
 
 #: templates/CRM/Event/Page/ManageEvent.tpl
 msgid "There are no events created yet. You can <a href='%1'>add one</a>."
+msgstr ""
+
+#: templates/CRM/Event/Page/ParticipantListing.tpl
+msgid "There are currently no participants registered for this event."
 msgstr ""
 
 #: templates/CRM/Mailing/Form/Component.tpl
@@ -6126,6 +6169,11 @@ msgstr ""
 #: templates/CRM/Member/Form/MembershipBlock.tpl
 msgid "Membership section introductory text - displayed to renewing members."
 msgstr ""
+
+#: templates/CRM/Member/Form/MembershipBlock.tpl
+#, fuzzy
+msgid "Include these membership types"
+msgstr "Helyes időpont kiválasztás"
 
 #: templates/CRM/Member/Form/MembershipBlock.tpl
 msgid ""
@@ -6680,6 +6728,10 @@ msgid ""
 msgstr ""
 
 #, fuzzy
+#~ msgid "Test Participants Only"
+#~ msgstr "Törlés"
+
+#, fuzzy
 #~ msgid "Title "
 #~ msgstr "Cím"
 
@@ -6712,10 +6764,6 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Please select a payment processor"
-#~ msgstr "Helyes időpont kiválasztás"
-
-#, fuzzy
-#~ msgid "Select saved mapping"
 #~ msgstr "Helyes időpont kiválasztás"
 
 #, fuzzy

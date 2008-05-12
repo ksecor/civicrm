@@ -1,11 +1,11 @@
 {* Links for scheduling/logging meetings and calls and Sending Email *}
-
-{if $contact_id}
+{if $cdType eq false }
+{if $contact_id }
 {assign var = "contactId" value= $contact_id }
 {/if}
 <div class='spacer'></div>
 <div class= "section-hidden section-hidden-border">
-{if $config->smtpServer and $config->smtpServer != 'YOUR SMTP SERVER' and not $privacy.do_not_email}
+{if $config->smtpServer and $config->smtpServer != 'YOUR SMTP SERVER' and not $privacy.do_not_email and not $is_deceased}
    <a href="{crmURL p='civicrm/contact/view/activity' q="atype=3&action=add&reset=1&cid=`$contactId`"}"><img src="{$config->resourceBase}i/EnvelopeIn.gif" alt="{ts}Send Email{/ts}"/></a>&nbsp;
    <a href="{crmURL p='civicrm/contact/view/activity' q="atype=3&action=add&reset=1&cid=`$contactId`"}">{ts}Send an Email{/ts}</a>&nbsp;&nbsp;
 {/if}
@@ -28,3 +28,4 @@
 {/if}
 
 </div>
+{/if}

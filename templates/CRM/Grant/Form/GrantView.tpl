@@ -4,18 +4,19 @@
      <legend>{ts}View Grant{/ts}</legend>
      <dl class="html-adjust">
           <dt class="font-size12pt">{ts}Name{/ts}</dt><dd class="font-size12pt"><strong>{$displayName}</strong>&nbsp;</dd>    
-          <dt>{$form.status_id.label}</dt><dd>{$form.status_id.html}</dd>
-          <dt>{$form.grant_type_id.label}</dt><dd>{$form.grant_type_id.html}</dd>
-          <dt>{$form.application_received_date.label}</dt><dd>{$application_received_date|crmDate}</dd>
-          <dt>{$form.decision_date.label}</dt><dd>{$decision_date|crmDate}</dd>
-          <dt>{$form.money_transfer_date.label}</dt><dd>{$money_transfer_date|crmDate}</dd>
-          <dt>{$form.grant_due_date.label}</dt><dd>{$grant_due_date|crmDate}</dd>
-          <dt>{$form.amount_total.label}</dt><dd>{$form.amount_total.html}</dd>
-	      <dt>{$form.amount_requested.label}</dt><dd>{$form.amount_requested.html}</dd>
-          <dt>{$form.amount_granted.label}</dt><dd>{$form.amount_granted.html}</dd>
-          <dt>{$form.grant_report_received.label}</dt><dd>{$form.grant_report_received.html}</dd>  
-          <dt>{$form.rationale.label}</dt><dd>{$form.rationale.html}</dd>
-          <dt>{$form.note.label}</dt><dd>{$form.note.html}</dd>
+          <dt>{ts}Grant Status{/ts}          </dt> <dd>{$grantStatus}</dd>
+          <dt>{ts}Grant Type{/ts}            </dt> <dd>{$grantType}</dd>
+          <dt>{ts}Application Received{/ts}  </dt> <dd>{$application_received_date}</dd>
+          <dt>{ts}Grant Decision{/ts}        </dt> <dd>{$decision_date |crmDate}</dd>
+          <dt>{ts}Money Transferred{/ts}     </dt> <dd>{$money_transfer_date |crmDate}</dd>
+          <dt>{ts}Grant Report Due{/ts}      </dt> <dd>{$grant_due_date |crmDate}</dd>
+          <dt>{ts}Amount Requested{/ts}      </dt> <dd>{$amount_total |crmMoney}</dd>
+	  <dt>{ts}Amount Requested <br />
+	          (original currency){/ts}   </dt> <dd>{$amount_requested |crmMoney}</dd>
+          <dt>{ts}Amount Granted{/ts}        </dt> <dd>{$amount_granted |crmMoney}</dd>
+          <dt>{ts}Grant Report Received?{/ts}</dt> <dd>{if $grant_report_received}{ts}Yes{/ts} {else}{ts}No{/ts}{/if} </dd>  
+          <dt>{ts}Rationale{/ts}             </dt> <dd>{$rationale}</dd>
+          <dt>{ts}Notes{/ts}                 </dt> <dd>{$note}</dd>
           {include file="CRM/Contact/Page/View/InlineCustomData.tpl" } 
      </dl>
     <div class="spacer"></div>  

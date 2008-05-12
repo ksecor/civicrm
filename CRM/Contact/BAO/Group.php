@@ -147,7 +147,7 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
      * @return int count of members in the group with above status
      * @access public
      */
-    static function memberCount( $id, $status = 'Added', $countChildGroups = true ) {
+    static function memberCount( $id, $status = 'Added', $countChildGroups = false ) {
         require_once 'CRM/Contact/DAO/GroupContact.php';
 	    $groupContact =& new CRM_Contact_DAO_GroupContact( );
         $groupIds = array( $id );
@@ -193,30 +193,30 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
      * @access public
      * @static
      */
-    static function getMember ($lngGroupId, $includeChildGroups = true) {
-        require_once 'CRM/Contact/DAO/GroupContact.php';
-        $groupContact =& new CRM_Contact_DAO_GroupContact( );
-        
+    static function getMember ($lngGroupId, $includeChildGroups = false) {
         $groupIds = array( $lngGroupId );
         if ( $includeChildGroups ) {
             require_once 'CRM/Contact/BAO/GroupNesting.php';
             $groupIds = CRM_Contact_BAO_GroupNesting::getDescendentGroupIds( $groupIds );
         }
-        
-        $strSql = "SELECT civicrm_contact.id as contact_id, civicrm_contact.sort_name as name  
-                   FROM civicrm_contact, civicrm_group_contact
-                   WHERE civicrm_contact.id = civicrm_group_contact.contact_id 
-                     AND civicrm_group_contact.group_id IN (" 
-                . implode( $groupIds, "," ) . ")";
 
-        $groupContact->query($strSql);
+        $params['group'] = array( );
+        foreach ( $groupIds as $gid ) {
+            $params['group'][$gid] = 1;
+        }
+        $params['return.contact_id'] = 1;
+        $params['offset'] = $params['rowCount'] = 0;
+        $params['sort'] = null;
 
-        $aMembers = array();
-        while ($groupContact->fetch()) {
-            $aMembers[$groupContact->contact_id] = $groupContact->name;
+        require_once 'api/v2/Contact.php';
+        $contacts = civicrm_contact_search( $params );
+
+        $aMembers = array( );
+        foreach ( $contacts as $contact ) {
+            $aMembers[$contact['contact_id']] = 1;
         }
 
-       return $aMembers;
+        return $aMembers;
     }
 
     /**
@@ -331,6 +331,10 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
             CRM_Core_BAO_CustomValueTable::store( $params['custom'], 'civicrm_group', $group->id );
         }
 
+
+        require_once 'CRM/Contact/BAO/GroupContactCache.php';
+        CRM_Contact_BAO_GroupContactCache::add( $group->id );
+
         if ( CRM_Utils_Array::value( 'id', $params ) ) {
             CRM_Utils_Hook::post( 'edit', 'Group', $group->id, $group );
         } else {
@@ -374,7 +378,7 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
     public static function createGroup(&$params) {
          
         if ( CRM_Utils_Array::value( 'saved_search_id', $params ) ) {
-            $savedSearch =& new CRM_Contact_DAO_SavedSearch();
+            $savedSearch =& new CRM_Contact_BAO_SavedSearch();
             $savedSearch->domain_id   = CRM_Core_Config::domainID( );
             $savedSearch->form_values = CRM_Utils_Array::value( 'formValues', $params );
             $savedSearch->is_active = 1;

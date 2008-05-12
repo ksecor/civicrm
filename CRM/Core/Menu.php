@@ -68,18 +68,26 @@ class CRM_Core_Menu
                                          'page_callback'   ,
                                          'breadcrumb'      );
 
+    static $_menuCache = null;
+
     const
         MENU_ITEM  = 1;
 
     static function &xmlItems( ) {
         if ( ! self::$_items ) {
-            $files = array( 'Menu/Permissioned.xml',
-                            'Menu/Admin.xml',
+            $files = array( 'Menu/Activity.xml',
                             'Menu/Contact.xml',
-                            'Menu/Group.xml',
+                            'Menu/Custom.xml',
+                            'Menu/Grant.xml',
                             'Menu/Import.xml',
+                            'Menu/Member.xml',
                             'Menu/Profile.xml',
-                            'Menu/Misc.xml'
+                            'Menu/Admin.xml',
+                            'Menu/Contribute.xml',
+                            'Menu/Event.xml',
+                            'Menu/Group.xml',
+                            'Menu/Mailing.xml',
+                            'Menu/Misc.xml',
                             );
 
             $files = array_merge( $files,
@@ -134,6 +142,8 @@ class CRM_Core_Menu
                     } else {
                         $value = array( array( $value ), 'and' );
                     }
+                } else if ( $key == 'is_public' ) {
+                    $value = ( $value == 'true' || $value == 1 ) ? 1 : 0;
                 }
                 $menu[$path][$key] = $value;
             }
@@ -864,14 +874,6 @@ class CRM_Core_Menu
                              'weight' => 1
                              ),
                 
-                       'civicrm/contact/view/basic' =>
-                       array(
-                             'query'   => array('reset' => 1, 'cid' => '%%cid%%'),
-                             'title'   => ts('Contact Summary'),
-                             'page_callback' => 'CRM_Contact_Page_View_Basic',
-                             'weight'  => 0
-                             ),
-
                        'civicrm/contact/view/activity' =>
                        array(
                              'query'   => array('reset' => 1, 'show' => 1, 'cid' => '%%cid%%'),
@@ -1194,8 +1196,15 @@ class CRM_Core_Menu
     }
 
     static function &getNavigation( ) {
-        $nav =& self::get( 'navigation' );
-        
+        if ( ! self::$_menuCache ) {
+            self::get( 'navigation' );
+        }
+
+        if ( ! array_key_exists( 'navigation', self::$_menuCache ) ) {
+            CRM_Core_Error::fatal( );
+        }
+        $nav =& self::$_menuCache['navigation'];
+
         if ( ! $nav ||
              ! isset( $nav['breadcrumb'] ) ) {
             return null;
@@ -1349,20 +1358,56 @@ class CRM_Core_Menu
         }
 
         $params = array( );
+
+        $args = explode( '/', $path );
+
+        $elements = array( );
+        while ( ! empty( $args ) ) {
+            $elements[] = "'" . implode( '/', $args ) . "'";
+            array_pop( $args );
+        }
+
+        $queryString = implode( ', ', $elements );
+        
+        $query = "
+( 
+  SELECT * 
+  FROM     civicrm_menu 
+  WHERE    path in ( $queryString )
+  ORDER BY length(path) DESC
+  LIMIT    1 
+)
+";
+
+        if ( $path != 'navigation' ) {
+            $query .= "
+UNION ( 
+  SELECT *
+  FROM   civicrm_menu 
+  WHERE   path IN ( 'navigation' )
+)
+";
+        }
         
         require_once "CRM/Core/DAO/Menu.php";
         $menu  =& new CRM_Core_DAO_Menu( );
-        $menu->path = $path;
+        $menu->query( $query );
 
-        if ( $menu->find(true) ) {
-            CRM_Core_DAO::storeValues( $menu, $params );
+        self::$_menuCache = array( );
+        while ( $menu->fetch( ) ) {
+            self::$_menuCache[$menu->path] = array( );
+            CRM_Core_DAO::storeValues( $menu, self::$_menuCache[$menu->path] );
 
             foreach ( self::$_serializedElements as $element ) {
-                $params[$element] = unserialize( $menu->$element );
+                self::$_menuCache[$menu->path][$element] = unserialize( $menu->$element );
+                
+                if ( strpos( $path, $menu->path ) !== false ) {
+                    $menuPath =& self::$_menuCache[$menu->path];
+                }
             }
         }
         
-        return $params;
+        return $menuPath;
     }
 
     static function getArrayForPathArgs( $pathArgs )

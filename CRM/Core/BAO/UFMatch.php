@@ -74,10 +74,11 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
             $key = 'id';
             $mail = 'email';
             $uniqId = $user->identity_url;
-            $query = "SELECT uf_id 
-FROM civicrm_uf_match 
-   LEFT JOIN civicrm_openid ON ( civicrm_uf_match.contact_id = civicrm_openid.contact_id ) 
-WHERE openid = %1";
+            $query = "
+SELECT    uf_id 
+FROM      civicrm_uf_match 
+LEFT JOIN civicrm_openid ON ( civicrm_uf_match.contact_id = civicrm_openid.contact_id ) 
+WHERE     openid = %1";
             $p = array( 1 => array( $uniqId, 'String' ) );
             $dao = CRM_Core_DAO::executeQuery( $query, $p );
             $result = $dao->getDatabaseResult( );
@@ -142,16 +143,11 @@ WHERE openid = %1";
 
         if ( $update ) {
             // the only information we care about is uniqId, so lets check that
-            if ( $uniqId != $ufmatch->user_unique_id ) {
+            if ( ! isset( $ufmatch->user_unique_id ) ||
+                 $uniqId != $ufmatch->user_unique_id ) {
                 // uniqId has changed, so we need to update that everywhere
                 $ufmatch->user_unique_id = $uniqId;
                 $ufmatch->save( );
-                
-                /* I don't think we should do this here anymore, since
-                   we no longer use email address as the user identifier.
-                   -- Wes Morgan, FFPIR
-                */
-                //CRM_Contact_BAO_Contact::updatePrimaryEmail( $ufmatch->contact_id, $user->$mail );
             }
         }
     }
@@ -329,17 +325,19 @@ WHERE openid = %1";
      */
     static function updateContactEmail($contactId, $emailAddress) 
     {
+        $emailAddress = strtolower( $emailAddress );
+
         $ufmatch =& new CRM_Core_DAO_UFMatch( );
         $ufmatch->contact_id = $contactId;
         if ( $ufmatch->find( true ) ) {
             // Save the email in UF Match table
-            $ufmatch->email = $emailAddress;
+            $ufmatch->uf_name = $emailAddress;
             $ufmatch->save( );
             
             //check if the primary email for the contact exists 
             //$contactDetails[1] - email 
             //$contactDetails[3] - email id
-            $contactDetails = CRM_Contact_BAO_Contact::getEmailDetails( $contactId );
+            $contactDetails = CRM_Contact_BAO_Contact_Location::getEmailDetails( $contactId );
 
             if ( trim($contactDetails[1]) ) {
                 $emailID = $contactDetails[3];

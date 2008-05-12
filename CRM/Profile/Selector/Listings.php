@@ -450,17 +450,11 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
             $accessKabissa = true;
         }
 
-        //add tmf fields
-        if ( CRM_Core_Permission::access( 'TMF' ) ) {
-            require_once 'CRM/Quest/BAO/Query.php';
-            $tmfFields = array( );
-            $tmfFields = CRM_TMF_BAO_Query::defaultReturnProperties( CRM_Contact_BAO_Query::MODE_TMF );
-        }
-
         if ( $this->_linkToUF ) {
             require_once 'api/UFGroup.php';
         }
 
+        require_once 'CRM/Contact/BAO/Contact/Utils.php';
         while ($result->fetch()) {
             if (isset($result->country)) {
                 // the query returns the untranslated country name
@@ -469,7 +463,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
             }
             $row = array( );
             $empty = true;
-            $row[] = CRM_Contact_BAO_Contact::getImage( $result->contact_type );
+            $row[] = CRM_Contact_BAO_Contact_Utils::getImage( $result->contact_type );
             if ( $result->sort_name ) {
                 $row['sort_name'] = $result->sort_name;
                 $empty            = false;
@@ -477,6 +471,13 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
                 continue;
             }
            
+            //fixes for CRM-2222
+            if ( CRM_Utils_Array::value( 'title', $this->_fields['organization_name'] ) == 'Current Employer' ) {
+                require_once 'CRM/Contact/BAO/Relationship.php';
+                $currentEmployer = CRM_Contact_BAO_Relationship::getCurrentEmployer( $result->contact_id );
+                $result->organization_name = $currentEmployer['org_name'];
+            }
+            
             foreach ( $names as $name ) {
                 if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($name)) {
                     $idName = "custom_value_{$cfID}_id";
@@ -504,17 +505,6 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
                     }
                     CRM_Core_OptionGroup::lookupValues( $paramsNew, $name, false );
                     $row[] = $paramsNew[$key]; 
-                } else if ( isset($tmfFields) && array_key_exists($name, $tmfFields )
-                            || substr( $name, 0, 12 ) == 'participant_' ) { 
-                    if ( substr($name, -3) == '_id') {
-                        $key = substr($name, 0, -3);
-                        $paramsNew = array($key => $result->$name );
-                        $name = array( $key => array('newName' => $key ,'groupName' => $key ));
-                        CRM_Core_OptionGroup::lookupValues( $paramsNew, $name, false );
-                        $row[] = $paramsNew[$key]; 
-                    } else {
-                        $row[] = $result->$name;
-                    }
                 } else if ( strpos($name, '-im-')) {
                     if ( !empty($result->$name) ) {
                         $imProviders  = CRM_Core_PseudoConstant::IMProvider( );

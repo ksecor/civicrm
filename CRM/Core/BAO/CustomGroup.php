@@ -51,24 +51,6 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup
     }
 
     /**
-     * takes an associative array and creates a custom group object
-     *
-     * @param array $params (reference) an assoc array of name/value pairs
-     *
-     * @return object CRM_Core_DAO_CustomGroup object 
-     * @access public
-     * @static
-     */
-    static function create(&$params)
-    {
-        $customGroupBAO =& new CRM_Core_BAO_CustomGroup();
-        $customGroupBAO->copyValues($params);
-        return $customGroupBAO->save();
-    }
-
-
-
-    /**
      * Takes a bunch of params that are needed to match certain criteria and
      * retrieves the relevant objects. Typically the valid params are only
      * contact_id. We'll tweak this function to be more full featured over a period
@@ -698,8 +680,6 @@ $where
             $group['path']    = $path;
             $group['title']   = "$customGroupDAO->title";
             $group['query']   = "reset=1&gid={$customGroupDAO->id}&cid={$cidToken}";
-            $group['type']    = CRM_Core_Menu::CALLBACK;
-            $group['crmType'] = CRM_Core_Menu::LOCAL_TASK;
             $group['extra' ]  = array( 'gid' => $customGroupDAO->id );
             $groups[] = $group;
         }
@@ -827,7 +807,7 @@ $where
         return true;
     }
 
-    static function setDefaults( &$groupTree, &$defaults, $viewMode, $inactiveNeeded ) 
+    static function setDefaults( &$groupTree, &$defaults, $viewMode = false, $inactiveNeeded = false ) 
     {
         foreach ( $groupTree as $id => $group ) {
             if ( $id === 'info' ) {
@@ -885,7 +865,7 @@ $where
                     }
                     break;
                     
-                //added a case for Multi-Select option                    
+                //added a case for Multi-Select option  
                 case 'Multi-Select':
                     if ($viewMode) {
                         $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], $inactiveNeeded);
@@ -926,7 +906,15 @@ $where
                     }
                    
                     break;
-                    
+                case 'Multi-Select Country':
+                case 'Multi-Select State/Province':
+                     if (isset($value)) {
+                         $checkedValue = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$value );
+                         foreach($checkedValue as $val) {
+                             $defaults[$elementName][$val]  =  $val;
+                         } 
+                     }
+                     break;
                 case 'Select Country':
                     if ( $value ) {
                         $defaults[$elementName] = $value;
@@ -1151,7 +1139,7 @@ $where
         $sBlocks = array();
         $hBlocks = array();
         $form = array();
-
+       
         foreach ($groupTree as $key => $group) {
             if ( $key === 'info' ) {
                 continue;
@@ -1164,16 +1152,20 @@ $where
                 $form[$elementName] = array( );
                 $form[$elementName]['name'] = $elementName;
                 $form[$elementName]['html'] = null;
-                
+           
                 if ( $field['data_type'] == 'String' ||
                      $field['data_type'] == 'Int' ||
                      $field['data_type'] == 'Float' ||
-                     $field['data_type'] == 'Money') {
-
+                     $field['data_type'] == 'Money' ||
+                     $field['html_type'] == 'Multi-Select Country' ||
+                     $field['html_type'] == 'Multi-Select State/Province') {
+                   
                     //added check for Multi-Select in the below if-statement
                     if ( $field['html_type'] == 'Radio'    ||
                          $field['html_type'] == 'CheckBox' ||
-                         $field['html_type'] == 'Multi-Select' ) {
+                         $field['html_type'] == 'Multi-Select'||
+                         $field['html_type'] == 'Multi-Select Country'||
+                         $field['html_type'] == 'Multi-Select State/Province') {
                         $freezeString =  "";
                         $freezeStringChecked = "";
                         $customData = array();
@@ -1186,17 +1178,33 @@ $where
                                 $customData[] = $field['customValue']['data'];
                             }
                         }
+
+                        if ( $field['html_type'] == 'Multi-Select Country' ){
+                            $customData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $field['customValue']['data']);
+                            $query = "
+SELECT id as value, name as label  
+  FROM civicrm_country";
+                            $coDAO  = CRM_Core_DAO::executeQuery( $query,CRM_Core_DAO::$_nullArray  );  
+                        } else if ($field['html_type'] == 'Multi-Select State/Province') {
+                            $customData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $field['customValue']['data']);
+                            $query = "
+SELECT id as value, name as label  
+  FROM civicrm_state_province";
+                            $coDAO  = CRM_Core_DAO::executeQuery( $query,CRM_Core_DAO::$_nullArray  ); 
+
+                        } else {
                         
-                        $query = "
+                            $query = "
 SELECT   v.label as label, v.value as value
   FROM   civicrm_option_value v,
          civicrm_option_group g
  WHERE   v.option_group_id = g.id
    AND   g.id = %1
 ORDER BY weight ASC, label ASC";
-                        $params = array( 1 => array( $field['option_group_id'], 'Integer' ) );
-                        $coDAO  = CRM_Core_DAO::executeQuery( $query, $params );
-
+                            $params = array( 1 => array( $field['option_group_id'], 'Integer' ) );
+                            $coDAO  = CRM_Core_DAO::executeQuery( $query, $params );
+                        }
+                        
                         $counter = 1;
                         while($coDAO->fetch()) {
                             //to show only values that are checked

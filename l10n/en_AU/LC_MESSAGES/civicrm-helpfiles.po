@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-02-27 13:05+0100\n"
+"POT-Creation-Date: 2008-04-28 21:53+0200\n"
 "PO-Revision-Date: 2008-02-23 18:57-0800\n"
 "Last-Translator: Michael Knight <jedimike@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -505,9 +505,19 @@ msgstr ""
 "Signature</strong> screen."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#, fuzzy
 msgid ""
+"The URL for PayPal's LIVE Payment server. Use the default value (unless "
+"otherwise advised by PayPal):"
+msgstr ""
 "The URL for PayPal's LIVE Payment server. Use the default value unless "
 "otherwise advised by PayPal."
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#, fuzzy
+msgid ""
+"The URL for PayPal's LIVE API gateway server. Use the default value (unless "
+"otherwise advised by PayPal):"
 msgstr ""
 "The URL for PayPal's LIVE Payment server. Use the default value unless "
 "otherwise advised by PayPal."
@@ -570,9 +580,19 @@ msgstr ""
 "API Signature</strong> screen."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#, fuzzy
 msgid ""
+"The URL for PayPal's TEST Payment server. Use the default value (unless "
+"otherwise advised by PayPal):"
+msgstr ""
 "The URL for PayPal's TEST Payment server. Use the default value unless "
 "otherwise advised by PayPal."
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#, fuzzy
+msgid ""
+"The URL for PayPal's TEST API gateway server. Use the default value (unless "
+"otherwise advised by PayPal):"
 msgstr ""
 "The URL for PayPal's TEST Payment server. Use the default value unless "
 "otherwise advised by PayPal."

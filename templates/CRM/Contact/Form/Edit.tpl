@@ -34,12 +34,14 @@
         <td>{$form.contact_source.label}</td>
         <td>{$form.nick_name.label}</td>
         <td>{$form.greeting_type.label} &nbsp; </td>
+        <td>{$form.custom_greeting.label}</td>	
     </tr>
     <tr>
         <td>&nbsp;</td>
         <td>{$form.contact_source.html|crmReplace:class:big}</td>
         <td>{$form.nick_name.html|crmReplace:class:big}</td>
         <td>{$form.greeting_type.html}</td>
+        <td>{$form.custom_greeting.html|crmReplace:class:big}</td>	
     </tr>
     <tr>
         <td>&nbsp;</td>
@@ -92,10 +94,14 @@
     <tr>
        	<td>{$form.nick_name.label}</td>
         <td>{$form.external_identifier.label}</td>        
+        <td>{$form.greeting_type.label}</td>
+        <td>{$form.custom_greeting.label}</td>	
 	</tr>
     <tr>
         <td>{$form.nick_name.html|crmReplace:class:big}</td>
         <td>{$form.external_identifier.html}</td>        
+        <td>{$form.greeting_type.html}</td>
+        <td>{$form.custom_greeting.html|crmReplace:class:big}</td>	
     </tr>
     </table>
     {$form._qf_Edit_refresh_dedupe.html}    
@@ -114,7 +120,7 @@
 		<td>{$form.organization_name.label}</td>
 		<td>{$form.legal_name.label}</td>
 		<td>{$form.sic_code.label}</td>
-        <td>{$form.contact_source.label}</td>
+                <td>{$form.contact_source.label}</td>
         
     </tr>
     <tr>
@@ -125,7 +131,7 @@
     </tr>
     <tr>
         <td>{$form.home_URL.label}</td>
-		<td>{$form.nick_name.label}</td>
+	<td>{$form.nick_name.label}</td>
         <td>{$form.external_identifier.label}</td>        
 	</tr>
     <tr>

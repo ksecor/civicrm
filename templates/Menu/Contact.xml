@@ -2,6 +2,23 @@
 
 <menu>
   <item>
+     <path>civicrm</path>
+     <title>CiviCRM</title>
+     <access_callback>CRM_Core_Permission::checkMenu</access_callback>
+     <access_arguments>access CiviCRM</access_arguments>
+     <page_callback>CRM_Contact_Page_View_DashBoard</page_callback>
+     <page_arguments>null</page_arguments>
+     <weight>0</weight>
+  </item>
+  <item>
+     <path>civicrm/dashboard</path>
+     <title>CiviCRM Home</title>
+     <page_type>1</page_type>
+     <page_callback>CRM_Contact_Page_View_DashBoard</page_callback>
+     <access_arguments>access CiviCRM</access_arguments>
+     <weight>0</weight>
+  </item>
+  <item>
      <path>civicrm/contact/search</path>
      <title>Contacts</title>
      <page_callback>CRM_Core_Invoke::search</page_callback>
@@ -31,6 +48,12 @@
      <access_arguments>access CiviCRM,add contacts</access_arguments>
   </item>
   <item>
+     <path>civicrm/contact/relatedcontact</path>
+     <title>Edit Related Contact</title>
+     <page_callback>CRM_Contact_Form_RelatedContact</page_callback>
+     <access_arguments>access CiviCRM</access_arguments>
+  </item>
+  <item>
      <path>civicrm/contact/merge</path>
      <title>Merge Contact</title>
      <page_callback>CRM_Contact_Form_Merge</page_callback>
@@ -50,13 +73,6 @@
      <path_arguments>cid=%%cid%%</path_arguments>
      <title>Contact Summary</title>
      <page_callback>CRM_Contact_Page_View_Tabbed</page_callback>
-     <page_arguments>setEmbedded=CRM_Activity_Form_ActivityLinks</page_arguments>
-  </item>
-  <item>
-     <path>civicrm/contact/view/basic</path>
-     <path_arguments>cid=%%cid%%</path_arguments>
-     <title>Contact Summary</title>
-     <page_callback>CRM_Contact_Page_View_Basic</page_callback>
   </item>
   <item>
      <path>civicrm/contact/view/delete</path>
@@ -132,5 +148,19 @@
   <item>
      <path>civicrm/contact/view/log</path>
      <page_callback>CRM_Contact_Page_View_Log</page_callback>
+  </item>
+  <item>
+     <path>civicrm/user</path>
+     <title>Contact Dashboard</title>
+     <saccess_arguments>access Contact Dashboard</saccess_arguments>
+     <page_callback>CRM_Contact_Page_View_UserDashBoard</page_callback>
+     <is_public>true</is_public>
+     <weight>0</weight>
+  </item>
+  <item>
+     <path>civicrm/contact/create</path>
+     <title>New Contact Dialog</title>
+     <page_callback>CRM_Contact_Form_Create</page_callback>
+     <access_arguments>access CiviCRM,add contacts</access_arguments>
   </item>
 </menu>

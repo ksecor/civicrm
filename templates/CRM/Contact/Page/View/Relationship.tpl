@@ -11,7 +11,9 @@
     {* show browse table for any action *}
       <div id="current-relationships">
         <p></p>
-        <div><label>{ts}Current Relationships{/ts}</label></div>
+        {if $relationshipTabContext} {*to show the title and links only when viewed from relationship tab, not from dashboard*}
+         <div><label>{ts}Current Relationships{/ts}</label></div>
+        {/if}
         {strip}
         <table>
         <tr class="columnheader">
@@ -32,8 +34,13 @@
             {assign var = "rtype" value = "b_a" }
           {/if*}
           <tr class="{cycle values="odd-row,even-row"}">
+           {if $relationshipTabContext}
             <td class="label"><a href="{crmURL p='civicrm/contact/view/rel' q="action=view&reset=1&selectedChild=rel&cid=`$contactId`&id=`$rel.id`&rtype=`$rel.rtype`"}">{$rel.relation}</a></td>
             <td><a href="{crmURL p='civicrm/contact/view' q="action=view&reset=1&cid=`$rel.cid`"}">{$rel.name}</a></td>
+            {else}
+              <td class="label">{$rel.relation}</td>
+              <td>{$rel.name}</td>
+            {/if}
             <td>{$rel.city}</td>
             <td>{$rel.state}</td>
             <td>{$rel.email}</td>

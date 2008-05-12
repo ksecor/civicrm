@@ -247,13 +247,6 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
         return $participant;
     }
 
-    static function deleteParticipantSubobjects( $contribId ) 
-    {
-        require_once 'CRM/Contribute/BAO/Contribution.php';
-        CRM_Contribute_BAO_Contribution::deleteContribution( $contribId );
-        return;
-    }
- 
     /**
      * Function to add activity record for Event participation
      *
@@ -539,6 +532,13 @@ WHERE  civicrm_participant.id = {$participantId}
                          'activity_type_id' => 5 );// activity type id for event registration
 
         CRM_Activity_BAO_Activity::deleteActivity( $params );
+
+        // delete the participant payment record
+        // we need to do this since the cascaded constraints
+        // dont work with join tables
+        require_once 'CRM/Event/BAO/ParticipantPayment.php';
+        $p = array( 'participant_id' => $id );
+        CRM_Event_BAO_ParticipantPayment::deleteParticipantPayment( $p );
 
         $participant = new CRM_Event_DAO_Participant( );
         $participant->id = $id;

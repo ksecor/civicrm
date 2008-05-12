@@ -48,16 +48,8 @@ class CRM_Contact_Form_Search_Criteria {
         $form->addGroup($contact_type, 'contact_type', ts('Contact Type(s)'), '<br />');
 
         // checkboxes for groups
-        $group = array();
-        foreach ($form->_groupIterator as $groupID => $group) {
-            $indentLevel = $form->_groupIterator->getCurrentNestingLevel( );
-            $indent = '';
-            while ( $indentLevel-- ) {
-                $indent .= '&nbsp;&nbsp;&nbsp;&nbsp;';
-            }
-            $groupLabel = "$group";
-            $groupLabel = $indent . $groupLabel;
-            $form->_groupElement =& $form->addElement('checkbox', "group[$groupID]", null, $groupLabel);
+        foreach ($form->_group as $groupID => $group) {
+            $form->_groupElement =& $form->addElement('checkbox', "group[$groupID]", null, $group);
         }
 
         // checkboxes for categories
@@ -143,7 +135,14 @@ class CRM_Contact_Form_Search_Criteria {
             } else {
                 $form->addElement('text', $name, $title, $attributes );
             }
-
+            
+            if ( $addressOptions['Zip / Postal Code'] ) { 
+                $form->addElement('text', 'postal_code_low', ts('Range-From'),
+                          $attributes['postal_code'] );
+                $form->addElement('text', 'postal_code_high', ts('To'),
+                          $attributes['postal_code'] );
+            }
+            
             // select for state province
             $stateProvince = array('' => ts('- any state/province -')) + CRM_Core_PseudoConstant::stateProvince( );
             
@@ -218,7 +217,7 @@ class CRM_Contact_Form_Search_Criteria {
     static function task( &$form ) {
         $form->add( 'hidden', 'hidden_task', 1 );
 
-        if ( CRM_Core_Permission::access( 'Quest' ) || CRM_Core_Permission::access( 'TMF' )) {
+        if ( CRM_Core_Permission::access( 'Quest' ) ) {
             $form->assign( 'showTask', 1 );
 
             // add the task search stuff
@@ -339,12 +338,6 @@ class CRM_Contact_Form_Search_Criteria {
         $form->add( 'hidden', 'hidden_quest', 1 );
         require_once 'CRM/Quest/BAO/Query.php';
         CRM_Quest_BAO_Query::buildSearchForm( $form );
-    }
-
-    static function tmf( &$form ) {
-        $form->add( 'hidden', 'hidden_TMF', 1 );
-        require_once 'CRM/TMF/BAO/Query.php';
-        CRM_TMF_BAO_Query::buildSearchForm( $form );
     }
 
     static function kabissa( &$form ) {

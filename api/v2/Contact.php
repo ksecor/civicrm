@@ -370,14 +370,6 @@ function &civicrm_replace_contact_formatted($contactId, &$params, &$fields) {
  */ 
 function &_civicrm_contact_add( &$params, $contactID = null ) 
 {
-    require_once 'CRM/Utils/Hook.php';
-    //    CRM_Core_Error::debug('p', 'oh');
-    if ( $contactID ) {
-        CRM_Utils_Hook::pre( 'edit', 'Individual', $contactID, $params );
-    } else {
-        CRM_Utils_Hook::pre( 'create', 'Individual', null, $params ); 
-    }
-
     require_once 'CRM/Core/Transaction.php';
     $transaction = new CRM_Core_Transaction( );
 
@@ -388,12 +380,6 @@ function &_civicrm_contact_add( &$params, $contactID = null )
     $contact = CRM_Contact_BAO_Contact::create( $params );
 
     $transaction->commit( );
-
-    if ( $contactID ) {
-        CRM_Utils_Hook::post( 'edit', 'Individual', $contact->id, $contact );
-    } else {
-        CRM_Utils_Hook::post( 'create', 'Individual', $contact->id, $contact );
-    }
 
     return $contact;
 }

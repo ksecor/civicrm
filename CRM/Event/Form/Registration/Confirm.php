@@ -285,8 +285,9 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         if ( $this->_values['event']['is_monetary'] ) {
         
             require_once 'CRM/Core/Payment.php';
-            $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Event', $this->_paymentProcessor );
-
+            if ( is_array( $this->_paymentProcessor ) ) {
+                $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Event', $this->_paymentProcessor );
+            }
             $pending = false;
             $result  = null;
             if ( CRM_Utils_Array::value( 'is_pay_later', $this->_params ) ||
@@ -490,16 +491,12 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             $ctype = CRM_Core_DAO::getFieldValue("CRM_Contact_DAO_Contact", $contactID, "contact_type");
             $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $contactID, $addToGroups, null,$ctype);
         } else {
-            require_once "CRM/Core/BAO/UFGroup.php";
-            //formatted submiited fields before sending to dupe contact matching
-            $data = CRM_Core_BAO_UFGroup::formatFields( $params );
+            require_once 'CRM/Dedupe/Finder.php';
+            $dedupeParams = CRM_Dedupe_Finder::formatParams($params, 'Individual');
+            $ids = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Individual');
 
-            // finding contact record based on duplicate match 
-            $ids = CRM_Core_BAO_UFGroup::findContact( $data );
-            $contactsIDs = explode( ',', $ids );
-            
             // if we find more than one contact, use the first one
-            $contact_id  = $contactsIDs[0];
+            $contact_id  = $ids[0];
             $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $contact_id, $addToGroups );
             $this->set( 'contactID', $contactID );
         }

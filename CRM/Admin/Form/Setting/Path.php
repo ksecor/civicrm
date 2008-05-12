@@ -54,6 +54,7 @@ class CRM_Admin_Form_Setting_Path extends CRM_Admin_Form_Setting
         $this->add('text', 'imageUploadDir'     , ts( 'Images'           ) );  
         $this->add('text', 'customFileUploadDir', ts( 'Custom Files'     ) );  
         $this->add('text', 'customTemplateDir'  , ts( 'Custom Templates' ) );  
+        $this->add('text', 'customPHPPathDir'   , ts( 'Custom PHP Path Directory' ) );  
         
         parent::buildQuickForm();
     }

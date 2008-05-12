@@ -200,7 +200,14 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             // check for is_monetary status
             $isMonetary = CRM_Utils_Array::value( 'is_monetary', $this->_values['event'] );
             
-            if ( $isMonetary ) {
+            //retrieve custom information
+            $eventPageID = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_EventPage', $this->_id, 'id', 'event_id' );
+            
+            $isPayLater  = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_EventPage', $eventPageID, 'is_pay_later' );
+            //check for variour combination for paylater, payment
+            //process with paid event.
+            if ( $isMonetary && 
+                 ( ! $isPayLater || CRM_Utils_Array::value( 'payment_processor_id', $this->_values['event'] ) ) ) {
                 $ppID = CRM_Utils_Array::value( 'payment_processor_id',
                                                 $this->_values['event'] );
                 if ( ! $ppID ) {
@@ -225,19 +232,12 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                         CRM_Core_Error::fatal( $error );
                     }
                 }
-
                 
                 $this->set( 'paymentProcessor', $this->_paymentProcessor );
             }
-
-            //retrieve custom information
-            $eventPageID = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_EventPage',
-                                                        $this->_id,
-                                                        'id',
-                                                        'event_id' );
-
+            
             self::initPriceSet( $this, $eventPageID );
-
+            
             // get price info
             require_once 'CRM/Core/BAO/PriceSet.php';
             $priceSetId = CRM_Core_BAO_PriceSet::getFor( 'civicrm_event_page', $eventPageID );
@@ -265,11 +265,10 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             // get the profile ids
             require_once 'CRM/Core/BAO/UFJoin.php'; 
             $ufJoinParams = array( 'entity_table' => 'civicrm_event',   
-                                   'entity_id'    => $this->_id,   
-                                   'weight'       => 1 ); 
-            $this->_values['custom_pre_id'] = CRM_Core_BAO_UFJoin::findUFGroupId( $ufJoinParams ); 
-            $ufJoinParams['weight'] = 2; 
-            $this->_values['custom_post_id'] = CRM_Core_BAO_UFJoin::findUFGroupId( $ufJoinParams );
+                                   'entity_id'    => $this->_id );
+            list( $this->_values['custom_pre_id'],
+                  $this->_values['custom_post_id'] ) =
+                CRM_Core_BAO_UFJoin::getUFGroupIds( $ufJoinParams ); 
     
             $params = array( 'event_id' => $this->_id );
             require_once 'CRM/Event/BAO/EventPage.php';
@@ -316,7 +315,10 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         $this->assign('paidEvent', $this->_values['event']['is_monetary']);
 
         // we do not want to display recently viewed items on Registration pages
-        $this->assign( 'displayRecent' , false );
+        $this->assign( 'displayRecent'  , false );
+        // Registration page values are cleared from session, so can't use normal Printer Friendly view.
+        // Use Browser Print instead.
+        $this->assign( 'browserPrint', true  );
 
         // assign all event properties so wizard templates can display event info.
         $this->assign('event', $this->_values['event']);
@@ -529,6 +531,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             CRM_Event_BAO_EventPage::sendMail( $contactID, $this->_values, $participant->id );
         }
     }
+
     /**
      * Process the participant 
      *
@@ -593,6 +596,18 @@ WHERE  v.option_group_id = g.id
         return $participant;
     }
 
+
+    function getTemplateFileName() 
+    {
+        if ( $this->_id ) {
+            $templateFile = "CRM/Event/Form/Registration/{$this->_id}/{$this->_name}.tpl";
+            $template =& CRM_Core_Form::getTemplate( );
+            if ( $template->template_exists( $templateFile ) ) {
+                return $templateFile;
+            }
+        }
+        return parent::getTemplateFileName( );
+    }
 }
 
 

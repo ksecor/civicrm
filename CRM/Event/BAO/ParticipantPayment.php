@@ -61,22 +61,27 @@ class CRM_Event_BAO_ParticipantPayment extends CRM_Event_DAO_ParticipantPayment
     static function deleteParticipantPayment( $params ) 
     {
         require_once 'CRM/Event/DAO/ParticipantPayment.php';
-        $participantPayment = & new CRM_Event_DAO_ParticipantPayment( );
+        $participantPayment =& new CRM_Event_DAO_ParticipantPayment( );
 
+        $valid = false;
         foreach ( $params as $field => $value ) {
-            $participantPayment->$field  = $value;
+            if ( ! empty( $value ) ) {
+                $participantPayment->$field  = $value;
+                $valid = true;
+            }
         }
-        if ( ! $participantPayment->find( ) ) {
-            return false;
+
+        if ( ! $valid ) {
+            CRM_Core_Error::fatal( );
         }
-        
-        while ( $participantPayment->fetch() ) {
-            require_once 'CRM/Event/BAO/Participant.php';
-            CRM_Event_BAO_Participant::deleteParticipantSubobjects( $participantPayment->contribution_id );
+
+        if ( $participantPayment->find( true ) ) {
+            require_once 'CRM/Contribute/BAO/Contribution.php';
+            CRM_Contribute_BAO_Contribution::deleteContribution( $participantPayment->contribution_id );
             $participantPayment->delete( ); 
+            return $participantPayment;
         }
-        
-        return $participantPayment;
+        return false;
     }
 }
 

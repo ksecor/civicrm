@@ -76,9 +76,19 @@ class CRM_Mailing_Page_Common extends CRM_Core_Page
         $this->assign( 'display_name', $displayName);
         $this->assign( 'email'       , $email );
         $this->assign( 'confirm'     , $confirm );
-
+        
+        require_once 'CRM/Mailing/Event/BAO/Unsubscribe.php';
+        $groups = CRM_Mailing_Event_BAO_Unsubscribe::unsub_from_mailing($job_id, $queue_id, $hash, true);
+        $this->assign( 'groups', $groups);
+        $groupExist = null;
+        foreach($groups as $key => $value) {
+            if ($value) {
+                $groupExist = true;
+            }
+        }
+        $this->assign( 'groupExist', $groupExist);
+     
         if ( $confirm ) { 
-            require_once 'CRM/Mailing/Event/BAO/Unsubscribe.php';
             if ( $this->_type == 'unsubscribe' ) {
                 $groups =& CRM_Mailing_Event_BAO_Unsubscribe::unsub_from_mailing($job_id, $queue_id, $hash);
                 if ( count( $groups ) ) {

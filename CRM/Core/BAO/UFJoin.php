@@ -116,6 +116,25 @@ class CRM_Core_BAO_UFJoin extends CRM_Core_DAO_UFJoin {
         return null; 
     } 
 
+    public static function getUFGroupIds(&$params) { 
+    
+        $dao =& new CRM_Core_DAO_UFJoin( ); 
+         
+        $dao->entity_table = CRM_Utils_Array::value( 'entity_table', $params );
+        $dao->entity_id    = CRM_Utils_Array::value( 'entity_id'   , $params );
+        $dao->orderBy( 'weight' );
+
+        $first = $second  = null;
+        $dao->find( );
+        if ( $dao->fetch( ) ) {
+            $first = $dao->uf_group_id;
+        }
+        if ( $dao->fetch( ) ) {
+            $second = $dao->uf_group_id; 
+        } 
+        return array( $first, $second );
+    } 
+
 }
 
 

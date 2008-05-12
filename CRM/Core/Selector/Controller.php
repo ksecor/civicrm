@@ -321,7 +321,7 @@ class CRM_Core_Selector_Controller {
             $rows = self::getRows( $this );
             $rowsEmpty = count( $rows ) ? false : true;
             $qill      = $this->getQill( );
-
+            $summary   = $this->getSummary( );
             // if we need to store in session, lets update session
             if ($this->_output & self::SESSION) {
                 $this->_store->set( "{$this->_prefix}columnHeaders", $columnHeaders );
@@ -329,6 +329,7 @@ class CRM_Core_Selector_Controller {
                 $this->_store->set( "{$this->_prefix}rowCount"     , $this->_total  );
                 $this->_store->set( "{$this->_prefix}rowsEmpty"    , $rowsEmpty     );
                 $this->_store->set( "{$this->_prefix}qill"         , $qill          );
+                $this->_store->set( "{$this->_prefix}summary"      , $summary       );
             } else {
                 self::$_template->assign_by_ref( "{$this->_prefix}pager"  , $this->_pager   );
                 self::$_template->assign_by_ref( "{$this->_prefix}sort"   , $this->_sort    );
@@ -337,6 +338,7 @@ class CRM_Core_Selector_Controller {
                 self::$_template->assign_by_ref( "{$this->_prefix}rows"         , $rows          );
                 self::$_template->assign       ( "{$this->_prefix}rowsEmpty"    , $rowsEmpty     );
                 self::$_template->assign       ( "{$this->_prefix}qill"         , $qill          );
+                self::$_template->assign       ( "{$this->_prefix}summary"      , $summary       );
             }
 
 
@@ -380,6 +382,10 @@ class CRM_Core_Selector_Controller {
      */
     public function getQill( ) {
         return $this->_object->getQill( );
+    }
+
+    public function getSummary( ) {
+        return $this->_object->getSummary( );
     }
 
     /**
@@ -426,6 +432,7 @@ class CRM_Core_Selector_Controller {
         self::$_template->assign( "{$this->_prefix}rows"         , $rows                                 );
         self::$_template->assign( "{$this->_prefix}rowsEmpty"    , $this->_store->get( "{$this->_prefix}rowsEmpty" )     );
         self::$_template->assign( "{$this->_prefix}qill"         , $this->_store->get( "{$this->_prefix}qill" )          );
+        self::$_template->assign( "{$this->_prefix}summary"      , $this->_store->get( "{$this->_prefix}summary" )       );
 
         if ( $this->_embedded ) {
             return;

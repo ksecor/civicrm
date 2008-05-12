@@ -6,13 +6,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2007-05-07 11:19+0200\n"
-"PO-Revision-Date: 2007-04-19 07:34-0700\n"
-"Last-Translator: Atilla Gökhan Uz <atilla.uz@gmail.com>\n"
+"PO-Revision-Date: 2008-04-27 09:15-0700\n"
+"Last-Translator: Durukan Duru <md_duru@yahoo.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Pootle 0.10\n"
+"X-Generator: Pootle 1.0.2\n"
 
 msgid "add contacts"
 msgstr "irtibatları ekle"
@@ -106,120 +106,110 @@ msgid "You can:"
 msgstr "yapabilirsiniz: "
 
 #: drupal/civicrm.module
-#, fuzzy
 msgid "read the <a href=\"!1\">CiviCRM Administrator Guide</a>."
-msgstr "<a href=\"%1\">CiviCRM Yönetim Rehberi</a>ni okuyunuz."
+msgstr "<a href=\"!1\">CiviCRM Yönetici Rehberi</a>ni okuyunuz."
 
 #: drupal/civicrm.module
-#, fuzzy
 msgid ""
 "enable CiviCRM blocks at <a href=\"!1\">Administer &raquo; Site Building "
 "&raquo; Blocks</a>."
 msgstr ""
-"CiviCRM bloklarını <a href=\"%1\">yönetim &gt;&gt; bloklar</a>a tıklayarak "
-"etkinleştiriniz."
+"CiviCRM bloklarını <a href=\"!1\">Yönetim Paneli &raquo; Site Yapılandırması "
+"&raquo; Bloklar</a>a tıklayarak etkinleştiriniz."
 
 #: drupal/civicrm.module
-#, fuzzy
 msgid ""
 "read about <a href=\"!1\">CiviCRM access permissions</a> and set access "
 "permissions at <a href=\"!2\">Administer CiviCRM &raquo; Access Control</a>."
 msgstr ""
-"<a href=\"%1\">CiviCRM erişim izinleri</a> sayfasını okuyun ve <a href=\"%2"
-"\">yönetim &gt;&gt; erişim denetimi</a>. sayfasından gerekli düzenlemeleri "
-"yapın."
+"<a href=\"!1\">CiviCRM erişim izinleri</a> sayfasını okuyun ve <a "
+"href=\"!2\">Yönetim Paneli &raquo; Erişim Denetimi</a> sayfasından gerekli "
+"düzenlemeleri yapın."
 
 #: drupal/civicrm.module
-#, fuzzy
 msgid ""
 "find contacts by name, email address, group membership and or tagging at <a "
 "href=\"!1\">Find Contacts</a>."
 msgstr ""
-"<a href=\"%1\">irtibatları bul</a> sayfasından adla, eposta adresiyle, ve/"
-"veya öbek üyeliği ile diğer üyeleri bulun."
+"<a href=\"%1\">İrtibatları Bul</a> sayfasında etiketlere, ada, e-posta "
+"adresine, ve/veya öbek üyeliğine göre arama yaparak diğer üyeleri bulun."
 
 #: drupal/civicrm.module
-#, fuzzy
 msgid ""
 "do complex searches based on tags, group membership, location, activities "
 "and custom fields at <a href=\"!1\">Advanced Search</a>."
 msgstr ""
-"<a href=\"%1\">ayrıntılı arama</a> sayfasından etiketleri, öbek "
-"üyeliklerini, yerleri, etknilklikleri ve diğer alanları kullanarak gelişmiş "
-"aramalar yapın."
+"<a href=\"!1\">Gelişmiş Arama</a> sayfasından etiketlere, öbek üyeliklerine, "
+"yere, etknilkliklere ve kişiselleştirilmiş alanlara göre gelişmiş aramalar "
+"yapın."
 
 #: drupal/civicrm.module
-#, fuzzy
 msgid "create or manage groups at <a href=\"!1\">Manage Groups</a>."
-msgstr "<a href=\"%1\">öbekleri yönet</a>. sayfasından öbekleri yönetin."
+msgstr ""
+"<a href=\"!1\">Öbekleri Yönet</a> sayfasından öbekleri (grupları) yönetin."
 
 #: drupal/civicrm.module
-#, fuzzy
 msgid ""
 "import contacts from other sources at <a href=\"!1\">Import Contacts</a>."
 msgstr ""
-"<a href=\"%1\">irtibatları al</a> sayfasından başka konumlardaki "
+"<a href=\"!1\">İrtibatları Al</a> sayfasından başka kaynaklardaki "
 "irtibatlarınızı sisteme aktarın."
 
 #: drupal/civicrm.module
-#, fuzzy
 msgid ""
 "create or administer tags (e.g. organizer, foundation, environment...) at <a "
 "href=\"!1\">CiviCRM &raquo; Administer &raquo; Tags</a>."
 msgstr ""
-"<a href=\"%1\">civicrm &gt;&gt; yönetim &gt;&gt; etiketler</a> sayfasından "
-"etiketleri (örn: düzenleyici, kurum, çevre...) yönetin."
+"<a href=\"!1\">CiviCRM &raquo; Yönetim &raquo; Etiketler</a> sayfasından "
+"etiketleri (örn: düzenleyici, kurum, çevre...) yönetin veya yenilerini "
+"oluşturun."
 
 #: drupal/civicrm.module
-#, fuzzy
 msgid ""
 "create or administer relationship types (e.g. household member, board "
 "member, spouse...) <a href=\"!1\">CiviCRM &raquo; Administer &raquo; "
 "Relationship Types</a>."
 msgstr ""
-"<a href=\"%1\">civicrm &gt;&gt; yönetim &gt;&gt; ilişki türleri</a> "
-"sayfasından \"ilişki türleri\"ni (örn: yönetim kurulu üyesi, eş...) yönetin."
+"<a href=\"!1\">CiviCRM &raquo; Yönetim &raquo; İlişki Türleri</a> sayfasından "
+"\"ilişki türleri\"ni (örn: yönetim kurulu üyesi, eş...) yönetin veya "
+"yenilerini oluşturun."
 
 #: drupal/civicrm.module
-#, fuzzy
 msgid ""
 "create or administer location types (e.g. home, work, school...) <a href=\"!1"
 "\">CiviCRM &raquo; Administer &raquo; Location Types</a>."
 msgstr ""
-"<a href=\"%1\">civicrm &gt;&gt; yönetim &gt;&gt; konum türleri</a> "
-"sayfasından konum türlerini (örn: ev, iş, okul...) yönetin."
+"<a href=\"!1\">CiviCRM &raquo; Yönetim &raquo; Konum Türleri</a> sayfasından "
+"konum türlerini (örn: ev, iş, okul...) yönetin."
 
 #: drupal/civicrm.module
-#, fuzzy
 msgid ""
 "create or administer activity types (e.g. house meeting, intake "
 "interview...) at <a href=\"!1\">CiviCRM &raquo; Administer &raquo; Activity "
 "Types</a>."
 msgstr ""
-"<a href=\"%1\">civicrm &gt;&gt; yönetim &gt;&gt; etkinlik türleri</a> "
+"<a href=\"!1\">CiviCRM &raquo; Yönetim &raquo; Etkinlik Türleri</a> "
 "sayfasından etkinlik türlerini (örn: ev buluşması, mülakat...) yönetin."
 
 #: drupal/civicrm.module
-#, fuzzy
 msgid ""
 "create or administer custom data fields (e.g. volunteer skills, emergency "
 "contact info...) <a href=\"!1\">CiviCRM &raquo; Administer &raquo; Custom "
 "Data</a>."
 msgstr ""
-"<a href=\"%1\">civicrm &gt;&gt; yönetim &gt;&gt; özel veri</a> sayfasından "
+"<a href=\"!1\">CiviCRM &raquo; Yönetim &raquo; Özel Veri</a> sayfasından "
 "özelleştirlmiş verileri (örn: gönüllü yetenekleri, acil durum irtibat "
 "kişisi...) yönetin."
 
 #: drupal/civicrm.module
-#, fuzzy
 msgid ""
 "create or administer CiviCRM profiles (i.e. what contact data is collected "
 "during user registration and included in My Account) at <a href=\"!1"
 "\">CiviCRM &raquo; Administer &raquo; CiviCRM Profiles</a>."
 msgstr ""
-"<a href=\"%1\">civicrm &gt;&gt; yönetim &gt;&gt; civicrm profili</a> "
+"<a href=\"!1\">CiviCRM &raquo; Yönetim &raquo; CiviCRM Profilleri</a> "
 "sayfasından civicrm profillerini (örn: kullanıcı kaydı sıransında toplanan "
-"bilgiler) yönetin."
+"ve Hesabım sayfasında bulunan bilgiler) yönetin."
 
 #: drupal/civicrm.module
 msgid ""
@@ -227,6 +217,9 @@ msgid ""
 "which includes project information, documentation and support resources and "
 "more."
 msgstr ""
+"Daha fazla bilgi için lütfen <a href=\"!1\">CiviCRM web sitesine</a> başvurun. "
+"Sitede proje hakkında detaylı bilgi, dökümantasyon ve teknik destek "
+"kaynaklarına erişebilirsiniz."
 
 #: drupal/civicrm.module
 msgid ""
@@ -236,6 +229,12 @@ msgid ""
 "the <a href=\"!2\">CiviCRM web-site</a> which includes project information, "
 "documentation and support resources and more."
 msgstr ""
+"Üye İlişkileri Yönetimi (CiviCRM !1). Sitenizde irtibatlarınızı, "
+"ilişkilerinizi ve gruplarınızı yönetmenizi, irtibatlarınızın etkinliklerini, "
+"katılımları, üyelikleri ve olayları takip etmenizi sağlar. Daha fazla bilgi "
+"için lütfen <a href=\"!'\">CiviCRM web sitesine</a> başvurun. Sitede proje "
+"hakkında detaylı bilgi, dökümantasyon ve teknik destek kaynaklarına "
+"erişebilirsiniz."
 
 #: drupal/civicrm.module
 msgid "View Contact Record"

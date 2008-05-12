@@ -2,6 +2,14 @@
 
 <menu>
   <item>
+     <path>civicrm/import</path>
+     <title>Import</title>
+     <access_arguments>import contacts,access CiviCRM</access_arguments>
+     <page_type>1</page_type>
+     <page_callback>CRM_Import_Controller</page_callback>
+     <weight>400</weight>
+  </item>
+  <item>
      <path>civicrm/import/contact</path>
      <title>Contacts</title>
      <access_arguments>import contacts,access CiviCRM</access_arguments>
@@ -16,5 +24,10 @@
      <page_type>1</page_type>
      <page_callback>CRM_Activity_Import_Controller</page_callback>
      <weight>420</weight>
+  </item>
+  <item>
+     <path>civicrm/import/mapper</path>
+     <title>Contacts</title>
+     <page_callback>CRM_Import_Form_Mapper</page_callback>
   </item>
 </menu>

@@ -78,7 +78,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                 'Memo'          => ts('Note'),
                 'Date'          => ts('Date'),
                 'Boolean'       => ts('Yes or No'),
-               'StateProvince' => ts('State/Province'),
+                'StateProvince' => ts('State/Province'),
                 'Country'       => ts('Country'),
                 'File'          => ts('File'),
                 'Link'          => ts('Link')
@@ -170,25 +170,31 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
     public static function &getFields($contactType = 'Individual', $showAll = false, $inline = false ) 
     {
         $cacheKey = $inline ? "{$contactType}_1" : "{$contactType}_0";
-        if ( ! self::$_importFields || ! CRM_Utils_Array::value( $cacheKey, self::$_importFields ) ) { 
+        if ( ! self::$_importFields ||
+             CRM_Utils_Array::value( $cacheKey, self::$_importFields ) === null ) { 
             if ( ! self::$_importFields ) {
                 self::$_importFields = array( );
             }
 
-            $cfTable = self::getTableName();
-            $cgTable = CRM_Core_DAO_CustomGroup::getTableName();
+            // check if we can retrieve from database cache
+            require_once 'CRM/Core/BAO/Cache.php'; 
+            $fields =& CRM_Core_BAO_Cache::getItem( 'contact fields', "custom importableFields $cacheKey" );
 
-            $extends = '';
-            if ( $contactType ) {
-                if ( in_array( $contactType, array( 'Individual', 'Household', 'Organization' ) ) ) {
-                    $value = "'" . CRM_Utils_Type::escape($contactType, 'String') . "', 'Contact' ";
-                } else {
-                    $value = "'" . CRM_Utils_Type::escape($contactType, 'String') . "'";
+            if ( $fields === null ) {
+                $cfTable = self::getTableName();
+                $cgTable = CRM_Core_DAO_CustomGroup::getTableName();
+
+                $extends = '';
+                if ( $contactType ) {
+                    if ( in_array( $contactType, array( 'Individual', 'Household', 'Organization' ) ) ) {
+                        $value = "'" . CRM_Utils_Type::escape($contactType, 'String') . "', 'Contact' ";
+                    } else {
+                        $value = "'" . CRM_Utils_Type::escape($contactType, 'String') . "'";
+                    }
+                    $extends = "AND   $cgTable.extends IN ( $value ) ";
                 }
-                $extends = "AND   $cgTable.extends IN ( $value ) ";
-            }
 
-            $query ="SELECT $cfTable.id, $cfTable.label,
+                $query ="SELECT $cfTable.id, $cfTable.label,
                             $cgTable.title,
                             $cfTable.data_type, $cfTable.html_type,
                             $cfTable.options_per_line,
@@ -199,32 +205,36 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                      ON $cfTable.custom_group_id = $cgTable.id
                      WHERE ( 1 ) ";
 
-            if (! $showAll) {
-                $query .= " AND $cfTable.is_active = 1 AND $cgTable.is_active = 1 ";
-            }
+                if (! $showAll) {
+                    $query .= " AND $cfTable.is_active = 1 AND $cgTable.is_active = 1 ";
+                }
 
-            if ( $inline ) {
-                $query .= " AND $cgTable.style = 'Inline' ";
-            }
+                if ( $inline ) {
+                    $query .= " AND $cgTable.style = 'Inline' ";
+                }
             
-            // also get the permission stuff here
+                // also get the permission stuff here
                 require_once 'CRM/Core/Permission.php';
-            $permissionClause = CRM_Core_Permission::customGroupClause( CRM_Core_Permission::VIEW,
-                                                                        "{$cgTable}." );
+                $permissionClause = CRM_Core_Permission::customGroupClause( CRM_Core_Permission::VIEW,
+                                                                            "{$cgTable}." );
 
-            $query .= " $extends AND $permissionClause
+                $query .= " $extends AND $permissionClause
                         ORDER BY $cgTable.weight, $cgTable.title,
                                  $cfTable.weight, $cfTable.label";
          
-            $crmDAO =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
-            $result = $crmDAO->getDatabaseResult();
+                $crmDAO =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+                $result = $crmDAO->getDatabaseResult();
         
-            $fields = array( );
-            while (($row = $result->fetchRow()) != null) {
-                $id = array_shift($row);
-                $fields[$id] = $row;
-            }
+                $fields = array( );
+                while (($row = $result->fetchRow()) != null) {
+                    $id = array_shift($row);
+                    $fields[$id] = $row;
+                }
 
+                CRM_Core_BAO_Cache::setItem( $fields,
+                                             'contact fields',
+                                             "custom importableFields $cacheKey" );
+            }
             self::$_importFields[$cacheKey] = $fields;
         }
         
@@ -461,6 +471,15 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             }
             $qf->add('select', $elementName, $label, $stateOption, (($useRequired && $field->is_required) && !$search));
             break;
+        case 'Multi-Select State/Province':
+            //Add Multi-select State/Province
+            if ($qf->getAction() & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
+                $stateOption = array('' => '') + CRM_Core_PseudoConstant::stateProvince();
+            } else {
+                $stateOption = array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince();
+            }
+            $qf->addElement('select', $elementName, $label, $stateOption, array("size"=>"5","multiple"));
+            break;
             
         case 'Select Country':
             //Add Country
@@ -471,6 +490,20 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             }
             $qf->add('select', $elementName, $label, $countryOption, (($useRequired && $field->is_required) && !$search));
             break;
+
+        case 'Multi-Select Country':
+            //Add Country
+            if ($qf->getAction() & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
+                $countryOption = array('' => '') + CRM_Core_PseudoConstant::country();
+            } else {
+                $countryOption = array('' => ts('- select -')) + CRM_Core_PseudoConstant::country();
+            }
+            $qf->addElement('select', $elementName, $label, $countryOption, array("size"=>"5","multiple"));
+            break;
+        
+        case 'RichTextEditor':
+            $element =& $qf->addWysiwyg( $elementName, $label, CRM_Core_DAO::$_nullArray );
+
         }
         
         switch ( $field->data_type ) {
@@ -631,8 +664,23 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                 $display = CRM_Core_PseudoConstant::stateProvince($value);
             }
             break;
-
+        case 'Multi-Select State/Province':
+            if ( empty( $value ) ) {
+                $display = '';
+            } else {
+                $display = CRM_Core_PseudoConstant::stateProvince($value);
+            }
+            break;
+            
         case 'Select Country':
+            if ( empty( $value ) ) {
+                $display = '';
+            } else {
+                $display = CRM_Core_PseudoConstant::country($value);
+            }
+            break;
+            
+        case 'Multi-Select Country':
             if ( empty( $value ) ) {
                 $display = '';
             } else {
@@ -919,7 +967,7 @@ SELECT id
                     }                    
                     $date = CRM_Utils_Date::format( $value );                    
                 }
-            } 
+            }
             if ( ! $date ) {
                 $date = '00000000000000';
             }
@@ -1040,21 +1088,24 @@ SELECT $columnName
                          'required'   => $field->is_required,
                          'searchable' => $field->is_searchable,
                         );
-
-        if ( $field->data_type == 'Country' ) {
+         
+        if ( $field->data_type == 'Country' && $field->html_type == 'Select Country' ) {
             $params['fk_table_name'] = 'civicrm_country';
             $params['fk_field_name'] = 'id';
             $params['fk_attributes'] = 'ON DELETE SET NULL';
-        } else if ( $field->data_type == 'StateProvince' ) {
+        } else if ( $field->data_type == 'Country' && $field->html_type == 'Multi-Select Country' ) {
+            $params['type'] ='varchar(255)';
+        } else if ( $field->data_type == 'StateProvince' && $field->html_type == 'Select State/Province' ) {
             $params['fk_table_name'] = 'civicrm_state_province';
             $params['fk_field_name'] = 'id';
             $params['fk_attributes'] = 'ON DELETE SET NULL';
+        } else if ( $field->data_type == 'StateProvince' && $field->html_type == 'Multi-Select State/Province' ) {
+            $params['type'] ='varchar(255)';
         } else if ( $field->data_type == 'File' ) {
             $params['fk_table_name'] = 'civicrm_file';
             $params['fk_field_name'] = 'id';
             $params['fk_attributes'] = 'ON DELETE SET NULL';
         }
-
         if ( $field->default_value ) {
             $params['default'] = "'{$field->default_value}'";
         }
@@ -1104,7 +1155,6 @@ AND    f.is_active = 1";
                 $customOptionGroup[$dao->id] = $dao->label;
             }
         }
-        
         return $customOptionGroup;
     }
 

@@ -93,9 +93,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             }
         }
         
-        if ( !$htmlMessage ) { 
-            $htmlMessage = $this->getElementValue( "hmsg" );
-        }
+      
         
         $htmlMessage = str_replace( array("\n","\r"), ' ', $htmlMessage);
         $htmlMessage = str_replace( "'", "\'", $htmlMessage);
@@ -166,6 +164,8 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                                          'isDefault' => true   ),
                                  array ( 'type'      => 'cancel',
                                          'name'      => ts('Cancel') ),
+                                 array ( 'type'      => 'submit',
+                                         'name'      => ts('Save & Continue Later') )
                                  )
                            );
     }
@@ -177,6 +177,8 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                                      'header_id', 'footer_id', 'subject', 'from_name', 'from_email'
                                      );
         $fileType            = array( 'textFile', 'htmlFile' );
+       
+        $qf_Upload_submit = $this->controller->exportValue($this->_name, '_qf_Upload_submit');
         
         foreach ( $uploadParams as $key ) {
             $params[$key] = $this->controller->exportvalue($this->_name, $key);
@@ -204,7 +206,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             $params['body_text']     = $text_message;
             $this->set('textFile',     $params['body_text'] );
             $this->set('text_message', $params['body_text'] );
-            $html_message = $this->controller->exportvalue($this->_name, 'hmsg');
+            $html_message = $this->controller->exportvalue($this->_name, 'html_message');
             
             // dojo editor does some html conversion when tokens are
             // inserted as links. Hence token replacement fails.
@@ -262,6 +264,12 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         /* Build the mailing object */
         require_once 'CRM/Mailing/BAO/Mailing.php';
         CRM_Mailing_BAO_Mailing::create($params, $ids);
+     
+        if ($qf_Upload_submit) {
+            CRM_Core_Session::setStatus( ts("Your mailing has been saved. Click the 'Continue' action to resume working on it.") );
+            $url = CRM_Utils_System::url( 'civicrm/mailing/browse/unscheduled', 'scheduled=false&reset=1' );
+            CRM_Utils_System::redirect($url);
+        }
     }
     
     /**
@@ -279,8 +287,6 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             return true;
         }
         $errors = array();
-
-        $params['html_message'] = $params['hmsg'];
 
         require_once 'CRM/Core/BAO/Domain.php';
 

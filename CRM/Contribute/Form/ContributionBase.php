@@ -74,6 +74,8 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
      */
     public $_paymentProcessor;
 
+    protected $_paymentObject = null;
+
     /**
      * the default values for the form
      *
@@ -140,9 +142,10 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         }
 
         // we do not want to display recently viewed items, so turn off
-        // also no printer friendly icon
         $this->assign       ( 'displayRecent' , false );
-        $this->assign       ( 'hidePrinterIcon', true );
+        // Contribution page values are cleared from session, so can't use normal Printer Friendly view.
+        // Use Browser Print instead.
+        $this->assign( 'browserPrint', true  );
         
         // action
         $this->_action = CRM_Utils_Request::retrieve( 'action', 'String',
@@ -202,14 +205,15 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                                                                                       $this->_mode );
 
                 // ensure that processor has a valid config
-                $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Contribute', $this->_paymentProcessor );
-                $error = $payment->checkConfig( );
+                $this->_paymentObject =&
+                    CRM_Core_Payment::singleton( $this->_mode, 'Contribute', $this->_paymentProcessor );
+                $error = $this->_paymentObject->checkConfig( );
                 if ( ! empty( $error ) ) {
                     CRM_Core_Error::fatal( $error );
                 }
 
                 $this->set( 'paymentProcessor', $this->_paymentProcessor );
-            }                
+            }
             
             // this avoids getting E_NOTICE errors in php
             $setNullFields = array( 'amount_block_is_active',
@@ -243,8 +247,13 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
             if ( $this->_values['custom_post_id'] ) {
                 $postProfileType = CRM_Core_BAO_UFField::getProfileType( $this->_values['custom_post_id'] );
             }
+
+            // also set cancel subscription url
+            $this->_values['cancelSubscriptionUrl'] = $this->_paymentObject->cancelSubscriptionURL( );
             
-            if ( ( ( isset($postProfileType) && $postProfileType == 'Membership' ) || ( isset($preProfileType) && $preProfileType == 'Membership' ) ) && !$membershipEnable ) {
+            if ( ( ( isset($postProfileType) && $postProfileType == 'Membership' ) ||
+                   ( isset($preProfileType ) && $preProfileType == 'Membership' ) ) &&
+                 ! $membershipEnable ) {
                 CRM_Core_Error::fatal( ts('This page includes a Profile with Membership fields - but the Membership Block is NOT enabled. Please notify the site administrator.') );
             }
 
@@ -303,7 +312,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
 
         //assign cancelSubscription URL to templates
         $this->assign( 'cancelSubscriptionUrl',
-                       self::cancelSubscriptionURL( $this->_paymentProcessor, $this->_mode ) );
+                       CRM_Utils_Array::value( 'cancelSubscriptionUrl', $this->_values ) );
         
         // assigning title to template in case someone wants to use it, also setting CMS page title
         $this->assign( 'title', $this->_values['title'] );
@@ -314,22 +323,6 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         $this->_amount   = $this->get( 'amount' );
     }
 
-    static function cancelSubscriptionURL( &$paymentProcessor, $mode = null ) 
-    {
-        $cancelSubscriptionURL = null;
-        if ( $paymentProcessor['payment_processor_type'] == 'PayPal_Standard' ) {
-            $cancelSubscriptionURL = "{$paymentProcessor['url_site']}cgi-bin/webscr?cmd=_subscr-find&alias=" .
-                urlencode( $paymentProcessor['user_name'] );
-        } else if ( $paymentProcessor['payment_processor_type'] == 'AuthNet_AIM' ) {
-            if ( $mode == 'test' ) {
-                $cancelSubscriptionURL = "https://test.authorize.net";
-            } else {
-                $cancelSubscriptionURL = "https://authorize.net";
-            }
-        }
-        return $cancelSubscriptionURL;
-    }
-    
     /** 
      * set the default values
      *                                                           
@@ -390,8 +383,15 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
             list( $n, $id ) = explode( '-', $part );
             $addressFields[$n] = CRM_Utils_Array::value( $part, $this->_params );
         }
+
         require_once 'CRM/Utils/Address.php';
         $this->assign('address', CRM_Utils_Address::format($addressFields));
+
+        if ( $this->_params['is_for_organization'] ) {
+            $this->assign('onBehalfName', $this->_params['organization_name']);
+            $this->assign('onBehalfEmail', $this->_params['location'][1]['email'][1]['email']);
+            $this->assign('onBehalfAddress', CRM_Utils_Address::format($this->_params['location'][1]['address']));
+        }
 
         if ( $this->_contributeMode == 'direct' && $this->_amount > 0.0 ) {
             $date = CRM_Utils_Date::format( $this->_params['credit_card_exp_date'] );
@@ -476,6 +476,18 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                 }
             }
         }
+    }
+    
+    function getTemplateFileName() 
+    {
+        if ( $this->_id ) {
+            $templateFile = "CRM/Contribute/Form/Contribution/{$this->_id}/{$this->_name}.tpl";
+            $template =& CRM_Core_Form::getTemplate( );
+            if ( $template->template_exists( $templateFile ) ) {
+                return $templateFile;
+            }
+        }
+        return parent::getTemplateFileName( );
     }
     
 }

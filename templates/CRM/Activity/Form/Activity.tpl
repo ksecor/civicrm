@@ -1,5 +1,7 @@
 {* this template is used for adding/editing other (custom) activities. *}
-
+{if $cdType }
+   {include file="CRM/Custom/Form/CustomData.tpl"}
+{else}
 
 {* added onload javascript for source contact*}
 {if $source_contact_value and $admin }
@@ -149,7 +151,7 @@
 	           {if $action eq 4} 
                        {include file="CRM/Contact/Page/View/InlineCustomData.tpl"}
                    {else}
-                       {include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
+                      <div id="customData"></div>
                    {/if} 
                 </td>
              </tr> 
@@ -175,3 +177,9 @@
          </table>   
       </fieldset> 
 
+
+{if $action eq 1 or $action eq 2}
+   {*include custom data js file*}
+   {include file="CRM/common/customData.tpl"}
+{/if}
+{/if} {* end of snippet if*}

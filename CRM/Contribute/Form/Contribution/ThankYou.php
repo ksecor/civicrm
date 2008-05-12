@@ -187,7 +187,7 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
         
         $this->freeze();
         // can we blow away the session now to prevent hackery
-        $this->controller->reset( );
+        // $this->controller->reset( );
     }
 }
 

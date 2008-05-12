@@ -56,7 +56,7 @@
     <td>{ts}Make it easy for contributors to spread the word to friends and colleagues.{/ts}</td>
 </tr>
 <tr>
-    <td class="nowrap"><a href="{crmURL q="reset=1&action=update&id=`$id`&subPage=Widget"}" id="idWidget">&raquo; {ts}Create a Widget{/ts}</a></td>
+    <td class="nowrap"><a href="{crmURL q="reset=1&action=update&id=`$id`&subPage=Widget"}" id="idWidget">&raquo; {ts}Contribution Widget{/ts}</a></td>
     <td>{ts}Create a contribution widget which you and your supporters can embed in websites and blogs.{/ts}</td>
 </tr>
 <tr>

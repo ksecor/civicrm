@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-02-27 13:35+0100\n"
-"PO-Revision-Date: 2008-04-02 09:02-0700\n"
+"POT-Creation-Date: 2008-04-28 21:53+0200\n"
+"PO-Revision-Date: 2008-05-01 20:12-0700\n"
 "Last-Translator: ioz <i0z@yahoo.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -40,6 +40,7 @@ msgstr "Bağış Sayfası"
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Task/Status.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 #: templates/CRM/Contribute/Form/Message.tpl
+#: templates/CRM/Contribute/Form/Task/Status.tpl
 msgid "Transaction ID"
 msgstr "İşlem No"
 
@@ -83,6 +84,7 @@ msgstr "İndirilemeyen Miktar"
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/DAO/FinancialTrxn.php
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Task/Status.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
+#: templates/CRM/Contribute/Form/Task/Status.tpl
 msgid "Fee Amount"
 msgstr "Ücret Miktarı"
 
@@ -274,7 +276,8 @@ msgstr "Makbuz Gönderilsin mi ?"
 msgid ""
 "This Transaction ID already exists in the database. Include the account "
 "number for checks."
-msgstr "Bu İşlem Numarası zaten kayıtlı. Kontrol için hesap numarasını ekleyin."
+msgstr ""
+"Bu İşlem Numarası zaten kayıtlı. Kontrol için hesap numarasını ekleyin."
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Offline.php
 #, fuzzy
@@ -451,11 +454,6 @@ msgstr "Duraklatılmış"
 msgid "Canceled"
 msgstr "İptal Edilmiş"
 
-#: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/BounceType.php
-#: CRM/Mailing/Event/BAO/Bounce.php
-msgid "Unknown"
-msgstr "Bilinmeyen"
-
 #: CRM/Mailing/BAO/Mailing.php CRM/Mailing/DAO/Component.php
 msgid "Reply"
 msgstr "Yanıtla"
@@ -463,6 +461,10 @@ msgstr "Yanıtla"
 #: CRM/Mailing/BAO/Mailing.php CRM/Mailing/Selector/Event.php
 msgid "Opt-Out"
 msgstr "Opt-Out"
+
+#: CRM/Mailing/DAO/BounceType.php CRM/Mailing/Event/BAO/Bounce.php
+msgid "Unknown"
+msgstr "Bilinmeyen"
 
 #: CRM/Mailing/DAO/Component.php CRM/Mailing/Form/Component.php
 msgid "Component Type"
@@ -670,11 +672,12 @@ msgstr "Onuruna"
 
 #: CRM/Contribute/BAO/Query.php
 #, fuzzy
-msgid "Find Test Contributions Only?"
+msgid "Find Test Contributions?"
 msgstr "Test Bağışlarını Bul ?"
 
 #: CRM/Contribute/BAO/Query.php
-msgid "Recurring Contributions Only"
+#, fuzzy
+msgid "Find Recurring Contributions?"
 msgstr "Yalnız Süren Bağışlar"
 
 #: CRM/Contribute/DAO/ContributionPage.php
@@ -1248,12 +1251,6 @@ msgid "Title and Settings"
 msgstr "Başlık ve Ayarlar"
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
-msgid ""
-"Page title can not be longer than 255 characters and must consist of "
-"letters, numbers, spaces and simple punctuation characters."
-msgstr ""
-
-#: CRM/Contribute/Form/ContributionPage/Settings.php
 msgid "Is this Online Contribution Page Active?"
 msgstr "Bu Çevrimiçi Bağış Sayfası Etkin mi?"
 
@@ -1807,17 +1804,12 @@ msgstr "- İrtibat Alanları -"
 
 #: CRM/Event/BAO/Query.php
 #, fuzzy
-msgid "Event %2 %1"
-msgstr "Ülke - \"%1\""
-
-#: CRM/Event/BAO/Query.php
-#, fuzzy
 msgid "Event Type - %1"
 msgstr "Öğe Türü"
 
 #: CRM/Event/BAO/Query.php
 #, fuzzy
-msgid "Test Participants Only"
+msgid "Find Test Participants"
 msgstr "Test Bağışlarını Bul ?"
 
 #: CRM/Event/BAO/Query.php
@@ -1842,7 +1834,7 @@ msgstr "Bitiş Tarihi - Den"
 
 #: CRM/Event/BAO/Query.php
 #, fuzzy
-msgid "Find Test Participants Only?"
+msgid "Find Test Participants?"
 msgstr "Test Bağışlarını Bul ?"
 
 #: CRM/Event/DAO/EventPage.php
@@ -2226,6 +2218,16 @@ msgstr ""
 msgid "Select a valid Event TO date."
 msgstr ""
 
+#: CRM/Event/Form/Search.php
+#, fuzzy
+msgid "Please select valid event."
+msgstr "Lütfen geçerli bir bitiş tarihi seçin."
+
+#: CRM/Event/Form/Search.php
+#, fuzzy
+msgid "Please select valid event type."
+msgstr "Lütfen geçerli bir bitiş tarihi seçin."
+
 #: CRM/Event/Form/Task/Batch.php
 #, fuzzy
 msgid "Batch Update for Events"
@@ -2271,13 +2273,38 @@ msgid "Print Participant List"
 msgstr "İrtibat Listesini Yazdır"
 
 #: CRM/Event/Import/Form/MapField.php
+msgid ""
+"Missing required contact matching fields. (Should be First AND Last Name or "
+"Primary Email or First Name, Last Name AND Primary Email.) (OR Participant "
+"ID if update mode.)"
+msgstr ""
+
+#: CRM/Event/Import/Form/MapField.php
 #, fuzzy
 msgid "Duplicate Import Participant Mapping Name"
 msgstr "Duplicate Option label"
 
+#: CRM/Event/Import/Form/MapField.php
+#, fuzzy
+msgid "Select saved mapping"
+msgstr "Eşlemeyi Sil"
+
+#: CRM/Event/Import/Form/UploadFile.php
+msgid "On Duplicate Entries"
+msgstr ""
+
+#: CRM/Event/Import/Parser/Participant.php
+msgid "Select either EventID OR Event Title"
+msgstr ""
+
 #: CRM/Event/Import/Parser/Participant.php
 msgid "Invalid value for Event ID"
 msgstr ""
+
+#: CRM/Event/Import/Parser.php
+#, fuzzy
+msgid "View Participant URL"
+msgstr "View Contact URL"
 
 #: CRM/Event/Info.php
 msgid "CiviCRM Event Engine"
@@ -2450,6 +2477,10 @@ msgstr "Test Postası: "
 #: CRM/Mailing/BAO/Job.php
 msgid "The mailing has been canceled."
 msgstr "Postalama iptal edildi."
+
+#: CRM/Mailing/BAO/Job.php
+msgid "Not scheduled"
+msgstr ""
 
 #: CRM/Mailing/BAO/Mailing.php
 #, fuzzy
@@ -3073,7 +3104,7 @@ msgstr "Bitiş Tarihi - Den"
 
 #: CRM/Member/BAO/Query.php
 #, fuzzy
-msgid "Find Test Memberships Only?"
+msgid "Find Test Memberships?"
 msgstr "Test Bağışlarını Bul ?"
 
 #: CRM/Member/DAO/MembershipBlock.php
@@ -3231,10 +3262,6 @@ msgstr ""
 
 #: CRM/Member/Form/MembershipBlock.php
 msgid "Please enable the contribution amount section to use this option."
-msgstr ""
-
-#: CRM/Member/Form/Membership.php
-msgid "-- select --"
 msgstr ""
 
 #: CRM/Member/Form/Membership.php
@@ -3439,6 +3466,11 @@ msgid ""
 "Primary Email or First Name, Last Name AND Primary Email.) (OR Membership ID "
 "if update mode.)"
 msgstr ""
+
+#: CRM/Member/Import/Form/MapField.php
+#, fuzzy
+msgid "Duplicate Import Membership Mapping Name"
+msgstr "Duplicate Option label"
 
 #: CRM/Member/Import/Parser.php
 msgid "View Membership URL"
@@ -4805,6 +4837,13 @@ msgstr ""
 msgid "Assign the selected status to all contributions listed below."
 msgstr ""
 
+#: templates/CRM/Contribute/Form/Task/Status.tpl
+#: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
+#: templates/CRM/Event/Form/Registration/ThankYou.tpl
+#, fuzzy
+msgid "Transaction Date"
+msgstr "İşlem No"
+
 #: templates/CRM/Contribute/Form/Task.tpl
 #, fuzzy
 msgid "Number of selected contributions: %1"
@@ -5184,8 +5223,7 @@ msgstr ""
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid ""
 "CiviContribute allows you to create customized page(s) for collecting online "
-"contributions. Administrators can create or modify your Online Contribution "
-"Pages from <a href='%1'>here</a>."
+"contributions."
 msgstr ""
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
@@ -5312,6 +5350,13 @@ msgstr ""
 "There are no Relationships entered for this contact. You can <a href=\"%1"
 "\">add one</a>."
 
+#: templates/CRM/Event/Form/ManageEvent/Delete.tpl
+msgid ""
+"Warning: Deleting this event will also delete associated Event Registration "
+"Page and Event Fee configurations. This operation can not be undone. Do you "
+"want to continue?"
+msgstr ""
+
 #: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
 msgid ""
 "After selecting an Event Type, this page will display any custom event "
@@ -5348,7 +5393,7 @@ msgstr ""
 #: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
 msgid ""
 "Include a link to map the event location? (A map provider must be configured "
-"under <a href='%1'>Global Settings &raquo; Mapping</a>"
+"under <a href='%1'>Global Settings &raquo; Mapping</a>)"
 msgstr ""
 
 #: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
@@ -5721,12 +5766,6 @@ msgstr ""
 msgid "Each"
 msgstr ""
 
-#: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
-#: templates/CRM/Event/Form/Registration/ThankYou.tpl
-#, fuzzy
-msgid "Transaction Date"
-msgstr "İşlem No"
-
 #: templates/CRM/Event/Form/Registration/ReceiptPreviewHeader.tpl
 msgid "Event Registration - Test-drive Confirmation / Receipt"
 msgstr ""
@@ -6039,6 +6078,10 @@ msgid "There are no events created yet. You can <a href='%1'>add one</a>."
 msgstr ""
 "There are no Groups entered for this Contact. You can <a href=\"%1\">add "
 "one</a>."
+
+#: templates/CRM/Event/Page/ParticipantListing.tpl
+msgid "There are currently no participants registered for this event."
+msgstr ""
 
 #: templates/CRM/Mailing/Form/Component.tpl
 #: templates/CRM/Mailing/Page/Component.tpl
@@ -6431,6 +6474,11 @@ msgstr ""
 #: templates/CRM/Member/Form/MembershipBlock.tpl
 msgid "Membership section introductory text - displayed to renewing members."
 msgstr ""
+
+#: templates/CRM/Member/Form/MembershipBlock.tpl
+#, fuzzy
+msgid "Include these membership types"
+msgstr "Delete Relationship"
 
 #: templates/CRM/Member/Form/MembershipBlock.tpl
 msgid ""
@@ -6972,11 +7020,11 @@ msgstr "Türlere göre Üyeler"
 
 #: templates/CRM/Member/Page/DashBoard.tpl
 msgid "Current #"
-msgstr ""
+msgstr "Geçerli #"
 
 #: templates/CRM/Member/Page/DashBoard.tpl
 msgid "Totals (all types)"
-msgstr ""
+msgstr "Toplam (Tüm türler için)"
 
 #: templates/CRM/Member/Page/DashBoard.tpl
 msgid "Recent Memberships"
@@ -7027,6 +7075,14 @@ msgid ""
 msgstr ""
 "There are no custom Activity Types entered. You can <a href=\"%1\">add one</"
 "a>."
+
+#, fuzzy
+#~ msgid "Event %2 %1"
+#~ msgstr "Ülke - \"%1\""
+
+#, fuzzy
+#~ msgid "Test Participants Only"
+#~ msgstr "Test Bağışlarını Bul ?"
 
 #, fuzzy
 #~ msgid "Title "
@@ -7115,14 +7171,6 @@ msgstr ""
 #~ msgstr "Please enter a valid name."
 
 #, fuzzy
-#~ msgid "Select saved mapping"
-#~ msgstr "Eşlemeyi Sil"
-
-#, fuzzy
-#~ msgid "View Participant URL"
-#~ msgstr "View Contact URL"
-
-#, fuzzy
 #~ msgid "You do not have access to this page"
 #~ msgstr "You do not have the necessary permission to edit this contact."
 
@@ -7157,10 +7205,6 @@ msgstr ""
 
 #~ msgid "Start Date - From"
 #~ msgstr "Başlangıç Tarihi - Den"
-
-#, fuzzy
-#~ msgid "Duplicate Import Membership Mapping Name"
-#~ msgstr "Duplicate Option label"
 
 #, fuzzy
 #~ msgid "Edit Membership Type"

@@ -514,8 +514,13 @@ class CRM_Utils_Rule
     }
 
     static function xssString( $value ) {
-        return preg_match( '!<(vb)?script[^>]*>.*</(vb)?script.*>!ims',
-                           $value ) ? false : true;
+        return true;
+        if ( is_string( $value ) ) {
+            return preg_match( '!<(vb)?script[^>]*>.*</(vb)?script.*>!ims',
+                               $value ) ? false : true;
+        } else {
+            return true;
+        }
     }
 }
 
