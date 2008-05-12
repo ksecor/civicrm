@@ -288,8 +288,8 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
         $dao->id = $this->_gid;
         $dao->find(true);
         if ( $dao->add_captcha ) {
-            require_once 'CRM/Utils/CAPTCHA.php';
-            $captcha =& CRM_Utils_CAPTCHA::singleton( );
+            require_once 'CRM/Utils/ReCAPTCHA.php';
+            $captcha =& CRM_Utils_ReCAPTCHA::singleton( );
             $captcha->add( $this );
             $this->assign( 'addCAPTCHA' , true );
         }

@@ -80,16 +80,7 @@
     {/foreach}  
      
     {if $addCAPTCHA }
-              <tr>
-               <td></td>
-               <td>{$form.captcha_image.html}</td>
-             </tr>
-             <tr> 
-               <td></td>   
-               <td>{$form.captcha_phrase.html}
-                 <div class="messages help">{ts}Please enter the phrase as displayed in the image{/ts}</div>
-                </td>
-             </tr>
+        {include file='CRM/common/ReCAPTCHA.tpl'}
     {/if}   
     </table></fieldset>
     {if $field.groupHelpPost}

@@ -32,7 +32,7 @@
  *
  */
 
-class CRM_Utils_CAPTCHA {
+class CRM_Utils_ReCAPTCHA {
 
     protected $_captcha = null;
 
@@ -62,34 +62,13 @@ class CRM_Utils_CAPTCHA {
      */
     static function &singleton( ) {
         if (self::$_singleton === null ) {
-            self::$_singleton =& new CRM_Utils_CAPTCHA( );
+            self::$_singleton =& new CRM_Utils_ReCAPTCHA( );
         }
         return self::$_singleton;
     }
 
     function __construct( ) {
     }
-
-    /**
-     * class constructor
-     *
-     */
-    function init( $phrase, $size, $path, $file, $width, $height ) {
-        $options = array( 'font_size' => $size,
-                          'font_path' => $path,
-                          'font_file' => $file );
-        require_once 'Text/CAPTCHA.php';
-        $this->_captcha =& Text_CAPTCHA::factory( 'Image' );
-        $retval = $this->_captcha->init( $width, $height, $phrase, $options );
-        if ( PEAR::isError( $retval ) ) {
-            CRM_Core_Error::statusBounce( ts( 'Error initializing CAPTCHA library' ) );
-        }
-
-        $config =& CRM_Core_Config::singleton( );
-        $this->_name = $config->imageUploadDir . 'captcha_' . md5( session_id( ) ) . '.png';
-        $this->_url  = $config->imageUploadURL . 'captcha_' . md5( session_id( ) ) . '.png';
-    }
-
 
     /**
      * Add element to form
@@ -111,7 +90,7 @@ class CRM_Utils_CAPTCHA {
                     'recaptcha_response_field',
                     'manual_challenge' );
 
-        $form->registerRule( 'recaptcha', 'callback', 'validate', 'CRM_Utils_CAPTCHA' );
+        $form->registerRule( 'recaptcha', 'callback', 'validate', 'CRM_Utils_ReCAPTCHA' );
         $form->addRule( 'recaptcha_challenge_field',
                         ts( 'Input text must match the phrase in the image. Please review the image and re-enter matching text.' ), 
                         'recaptcha',

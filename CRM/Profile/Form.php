@@ -374,8 +374,8 @@ class CRM_Profile_Form extends CRM_Core_Form
             }
             
             if ($setCaptcha) {
-                require_once 'CRM/Utils/CAPTCHA.php';
-                $captcha =& CRM_Utils_CAPTCHA::singleton( );
+                require_once 'CRM/Utils/ReCAPTCHA.php';
+                $captcha =& CRM_Utils_ReCAPTCHA::singleton( );
                 $captcha->add( $this );
                 $this->assign( "isCaptcha" , true );
             }
@@ -459,6 +459,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                         $form->_id = $ids[0];
                     }
                 } else {
+                    // i've commented this so i can get past the error and test reCaptcha
                     // $errors['_qf_default'] = ts( 'An account already exists with the same information.' );
                 }
             }

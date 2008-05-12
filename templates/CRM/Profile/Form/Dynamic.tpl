@@ -109,10 +109,17 @@
         {/if}
 
     {/foreach}
+
         {if $addToGroupId}
 	        <tr><td class="label">{$form.group[$addToGroupId].label}</td><td>{$form.group[$addToGroupId].html}</td></tr>
-	    {/if}
+        {/if}
+
+    {if $isCaptcha && ( $mode eq 8 || $mode eq 4 || $mode eq 1 ) }
+        {include file='CRM/common/ReCAPTCHA.tpl'}
+     {/if}
+
     </table>
+
     {if $field.groupHelpPost}
         <div class="messages help">{$field.groupHelpPost}</div>
     {/if}
@@ -123,20 +130,7 @@
         </fieldset>
         </div>
     {/if}
-    {if $mode eq 8 || $mode eq 4 || $mode eq 1}
-        {if $isCaptcha }
-         <table class="form-layout-compressed">
-           <tr>
-             <td colspan=2>
-{$recaptchaHTML}
-{$form.recaptcha_challenge_field.html}
-{$form.recaptcha_response_field.html}
-</noscript>
-             </td>
-           </tr>
-        </table>
-        {/if}
-     {/if}
+
 
 {if $mode eq 4}
 <div class="crm-submit-buttons"> 
