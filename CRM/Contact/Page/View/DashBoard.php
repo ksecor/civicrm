@@ -106,29 +106,29 @@ class CRM_Contact_Page_View_DashBoard extends CRM_Contact_Page_View
      */
     function browse($id, $admin)
     { 
-        $this->_totalCountOpenActivity = CRM_Contact_BAO_Contact::getNumOpenActivity( $id );
+        //$this->_totalCountOpenActivity = CRM_Contact_BAO_Contact::getNumOpenActivity( $id );
         $this->_contactIds             = $id;
 
-        require_once 'CRM/Core/Selector/Controller.php';
+        //require_once 'CRM/Core/Selector/Controller.php';
 
-        $output = CRM_Core_Selector_Controller::SESSION;
-        require_once 'CRM/Contact/Selector/Activity.php';
-        $selector   =& new CRM_Contact_Selector_Activity( $id, $this->_permission , $admin, 'Home' );
-        $sortID = CRM_Utils_Sort::sortIDValue( $this->get( CRM_Utils_Sort::SORT_ID  ),
-                                               $this->get( CRM_Utils_Sort::SORT_DIRECTION ) );
+        //$output = CRM_Core_Selector_Controller::SESSION;
+        //require_once 'CRM/Contact/Selector/Activity.php';
+        //$selector   =& new CRM_Contact_Selector_Activity( $id, $this->_permission , $admin, 'Home' );
+        //$sortID = CRM_Utils_Sort::sortIDValue( $this->get( CRM_Utils_Sort::SORT_ID  ),
+        //                                       $this->get( CRM_Utils_Sort::SORT_DIRECTION ) );
 
-        $controller =& new CRM_Core_Selector_Controller($selector, $this->get(CRM_Utils_Pager::PAGE_ID),
-                                                        $sortID, CRM_Core_Action::VIEW, $this, $output);
-        $controller->setEmbedded(true);
-        $controller->run();
-        $this->_rows = $controller->getRows($controller);
-        $controller->moveFromSessionToTemplate( );
+        //$controller =& new CRM_Core_Selector_Controller($selector, $this->get(CRM_Utils_Pager::PAGE_ID),
+        //                                                $sortID, CRM_Core_Action::VIEW, $this, $output);
+        //$controller->setEmbedded(true);
+        //$controller->run();
+        //$this->_rows = $controller->getRows($controller);
+        //$controller->moveFromSessionToTemplate( );
         
         $this->_displayName = CRM_Core_DAO::getFieldValue('CRM_Contact_DAO_Contact', $id, 'display_name');
 
-        $this->assign( 'rows',                   $this->_rows);
+        //$this->assign( 'rows',                   $this->_rows);
         $this->assign( 'contactId',              $this->_contactIds);
-        $this->assign( 'totalCountOpenActivity', $this->_totalCountOpenActivity);
+        //$this->assign( 'totalCountOpenActivity', $this->_totalCountOpenActivity);
         $this->assign( 'display_name',           $this->_displayName);
 
         require_once 'CRM/Core/Block.php';
