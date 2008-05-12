@@ -84,7 +84,7 @@ class CRM_Core_IDS {
             file_put_contents( $configFile, $config );
         }
 
-        $init    = IDS_Init::init( '/Users/lobo/svn/trunk/Config.ini' );
+        $init    = IDS_Init::init( $configFile );
         $ids     = new IDS_Monitor($_REQUEST, $init);
         $result  = $ids->run();
 
