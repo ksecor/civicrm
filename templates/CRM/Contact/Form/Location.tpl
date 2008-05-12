@@ -201,6 +201,11 @@ function setDefaultAddress()
      {/literal}{/if}{literal}
 
    } else {
+      {/literal}{if $action eq 1}{literal}
+      if (!document.getElementsByName("shared_option")[0].checked){
+           document.getElementsByName("shared_option")[1].checked = true;
+      }
+      {/literal}{/if}{literal}
       if ( document.getElementsByName("shared_option")[0].checked ) {
          document.getElementById('location_1_address_street_address').value = '';
          document.getElementById('location_1_address_supplemental_address_1').value = '';
