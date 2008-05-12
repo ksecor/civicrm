@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-04-28 21:53+0200\n"
-"PO-Revision-Date: 2008-04-02 00:36-0700\n"
+"PO-Revision-Date: 2008-05-08 06:02-0700\n"
 "Last-Translator: Gerhard Aigner <gerhard.aigner@arcsmed.at>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -1969,7 +1969,7 @@ msgstr ""
 "Diese Veranstaltung kann nicht gelöscht werden, weil noch angemeldete "
 "Teilnehmer gespeichert sind. Um diese Veranstaltung zu löschen, müssen "
 "zuerst alle Teilnehmer gelöscht werden. Sie können dazu die <a href=\"%1\"> "
-"CiviEvent >> Finde Teilnhemer Seite </a> verwenden."
+"CiviEvent >> Finde Teilnehmer Seite </a> verwenden."
 
 #: CRM/Event/Form/ManageEvent/Delete.php
 msgid "The event '%1' has been deleted."
@@ -5424,6 +5424,9 @@ msgid ""
 "Page and Event Fee configurations. This operation can not be undone. Do you "
 "want to continue?"
 msgstr ""
+"Achtung: Das Löschen einer Veranstaltung wird die dazugehörige Anmeldeseite "
+"und die Konfiguration der Veranstaltungsgebühren löschen. Diese Operation "
+"kann nicht rückgängig gemacht werden. Wollen Sie fortfahren?"
 
 #: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
 msgid ""
@@ -5731,14 +5734,12 @@ msgstr ""
 "benachrichtigen indem Sie eine Email-Adresse angeben (wird als BCC versandt)."
 
 #: templates/CRM/Event/Form/Participant.tpl
-#, fuzzy
 msgid "Delete Event Registration"
-msgstr "Registrieren"
+msgstr "Veranstaltungsteilnahme löschen"
 
 #: templates/CRM/Event/Form/Participant.tpl
-#, fuzzy
 msgid "Edit Event Registration"
-msgstr "Registrieren"
+msgstr "Veranstaltungsteilnahme bearbeiten"
 
 #: templates/CRM/Event/Form/Participant.tpl
 msgid ""
@@ -5752,18 +5753,20 @@ msgid ""
 "WARNING: Deleting this registration will result in the loss of related "
 "payment records (if any)."
 msgstr ""
+"ACHTUNG: Das Löschen einer Veranstaltungsteilnahme entfernt auch "
+"dazugehörige Zahlungseinträge (sofern vorhanden)."
 
 #: templates/CRM/Event/Form/Participant.tpl
 msgid "Participant Name"
-msgstr ""
+msgstr "Teilnehmername"
 
 #: templates/CRM/Event/Form/Participant.tpl
 msgid "Include past event(s) in this select list."
-msgstr ""
+msgstr "Vergangene Veranstaltung(en) in die Auswahlliste aufnehmen."
 
 #: templates/CRM/Event/Form/Participant.tpl
 msgid "Source for this registration (if applicable)."
-msgstr ""
+msgstr "Quelle dieser Anmeldung (sofern vorhanden)."
 
 #: templates/CRM/Event/Form/Participant.tpl
 msgid "Event Fee Level (if applicable)."
@@ -5776,46 +5779,48 @@ msgid ""
 "Check this box to enter payment information. You will also be able to "
 "generate a customized receipt."
 msgstr ""
+"Wählen Sie diese Checkbox aus um Zahlungsinformation hinzuzufügen. Sie "
+"können dadurch auch einen selbstdefinierte Empfangsbestätigung erstellten."
 
 #: templates/CRM/Event/Form/Participant.tpl
-#, fuzzy
 msgid "Payment Information"
-msgstr "Veranstaltungsinformation"
+msgstr "Zahlungsinformation"
 
 #: templates/CRM/Event/Form/Participant.tpl
 #: templates/CRM/Member/Form/MembershipRenewal.tpl
 #: templates/CRM/Member/Form/Membership.tpl
 msgid "Select the appropriate contribution type for this payment."
-msgstr ""
+msgstr "Wählen Sie den passenden Zuwendungstyp für diese Zahlung aus."
 
 #: templates/CRM/Event/Form/Participant.tpl
 msgid "Registration Confirmation and Receipt"
-msgstr ""
+msgstr "Anmelde- und Empfangsbestätigung."
 
 #: templates/CRM/Event/Form/Participant.tpl
 #: templates/CRM/Event/Form/Registration/ReceiptSubject.tpl
-#, fuzzy
 msgid "Registration Confirmation"
-msgstr "Kontakte zu Organisation hinzufügen"
+msgstr "Anmeldebestätigung"
 
 #: templates/CRM/Event/Form/Participant.tpl
 msgid "Send Confirmation and Receipt"
-msgstr ""
+msgstr "Anmelde- und Empfangsbestätigung verschicken"
 
 #: templates/CRM/Event/Form/Participant.tpl
 msgid "Send Confirmation"
-msgstr ""
+msgstr "Anmeldebesätitung verschicken"
 
 #: templates/CRM/Event/Form/Participant.tpl
 msgid ""
 "Enter a message you want included at the beginning of the confirmation "
 "email. EXAMPLE: 'Thanks for registering for this event.'"
 msgstr ""
+"Geben sie eine Nachricht ein, die am Anfange der Bestätigungsemail "
+"erschienen soll. BEISPIEL: 'Danke für die Anmeldung an dieser "
+"Veranstaltung.'"
 
 #: templates/CRM/Event/Form/ParticipantView.tpl
-#, fuzzy
 msgid "View Participant"
-msgstr "Aktivität ansehen"
+msgstr "Teilnehmer ansehen"
 
 #: templates/CRM/Event/Form/ParticipantView.tpl
 #: templates/CRM/Event/Form/Registration/LineItem.tpl
@@ -5825,7 +5830,7 @@ msgstr ""
 
 #: templates/CRM/Event/Form/ParticipantView.tpl
 msgid "Event Level"
-msgstr ""
+msgstr "Veranstaltungsebene"
 
 #: templates/CRM/Event/Form/Registration/Confirm.tpl
 msgid ""
@@ -5833,40 +5838,41 @@ msgid ""
 "need to make changes. Otherwise, click the <strong>Continue</strong> button "
 "below to complete your registration."
 msgstr ""
+"Bitte kontrollieren Sie die untenstehende Information. Klicken Sie auf "
+"<strong>Zurück</strong> um Änderungen durchzuführen. Um die Anmeldung "
+"abzuschließen klicken Sie auf <strong>Weiter</strong>."
 
 #: templates/CRM/Event/Form/Registration/Confirm.tpl
 #: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
 #: templates/CRM/Event/Form/Registration/ThankYou.tpl
-#, fuzzy
 msgid "Registered Email"
-msgstr "Bevorzugtes Mailformat"
+msgstr "Angemeldete Email-Adresse"
 
 #: templates/CRM/Event/Form/Registration/Confirm.tpl
 msgid ""
 "Your registration will not be completed until you click the "
 "<strong>Continue</strong> button. Please click the button one time only."
 msgstr ""
+"Ihre Anmeldung wird nicht abgeschlossen solange Sie nicht den "
+"<strong>Weiter</strong>-Knopf gedrückt haben. Bitte drücken Sie nur einmal "
+"auf den Knopf."
 
 #: templates/CRM/Event/Form/Registration/EventInfoBlock.tpl
 #: templates/CRM/Event/Page/EventInfo.tpl
-#, fuzzy
 msgid "Map this Location"
-msgstr "Primärer Standort"
+msgstr "Diesen Ort auf der Karte markieren"
 
 #: templates/CRM/Event/Form/Registration/LineItem.tpl
-#, fuzzy
 msgid "Total Price"
-msgstr "Preis"
+msgstr "Gesamtpreis"
 
 #: templates/CRM/Event/Form/Registration/LineItem.tpl
-#, fuzzy
 msgid "Event Total"
-msgstr "Titel der Veranstaltung"
+msgstr "Veranstaltung Gesamt"
 
 #: templates/CRM/Event/Form/Registration/PreviewHeader.tpl
-#, fuzzy
 msgid "Test-drive Your Event Registration Page"
-msgstr "Registrieren"
+msgstr "Testlauf der Veranstaltungsanmeldeseite"
 
 #: templates/CRM/Event/Form/Registration/PreviewHeader.tpl
 msgid ""
@@ -5879,56 +5885,69 @@ msgid ""
 "to your payment processor's documentation for information on values to use "
 "for test credit card number, security code, postal code, etc."
 msgstr ""
+"Diese Seite läuft im <strong>Testmodus</strong>. Wenn diese Veranstaltung "
+"gebührenpflichtig ist, werden Transaktionen an den Testserver ihres Payment-"
+"Prozessor geleitet. <strong>Es werden keine echten Finanztransaktionen "
+"durchgeführt. Jedoch werden Kontakte erzeugt und aktualisiert und die "
+"Testveranstaltungsteilnahmen und Zuwendungen werden in der Datenbank "
+"gespeichert. Verwenden Sie eindeutig erkennbare Testnamen um diese "
+"Aufzeichnungen später finden und löschen zu können.</strong> Kontaktieren "
+"Sie die Dokumentation ihres Payment-Prozessors für Informationen über die "
+"Testwerte für Kreditkarten, Sicherheitscode, PLZ usw."
 
 #: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
-#, fuzzy
 msgid "Event Information and Location"
-msgstr "Kontakte zu Organisation hinzufügen"
+msgstr "Veranstaltungsinformation und Ort"
 
 #: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
-#, fuzzy
 msgid "Event Contacts:"
-msgstr "Kontaktliste ausdrucken"
+msgstr "Veranstaltungskontakte:"
 
 #: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
 msgid "Download iCalendar File:"
-msgstr ""
+msgstr "iCalender Datei herunterladen:"
 
 #: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
 msgid "Each"
-msgstr ""
+msgstr "Jede/r"
 
 #: templates/CRM/Event/Form/Registration/ReceiptPreviewHeader.tpl
 msgid "Event Registration - Test-drive Confirmation / Receipt"
-msgstr ""
+msgstr "Veranstaltungsanmeldung - Testlauf Anmelde- und Empfangsbestätigung"
 
 #: templates/CRM/Event/Form/Registration/ReceiptPreviewHeader.tpl
 msgid ""
 "This is a test-drive registration. No live financial transaction has "
 "occurred."
 msgstr ""
+"Dies ist eine Testlaufanmeldung. Es werden keine finanziellen Transaktionen "
+"durchgeführt."
 
 #: templates/CRM/Event/Form/Registration/ThankYou.tpl
 msgid ""
 "A registration confirmation email will be sent to %1 once the transaction is "
 "processed successfully."
 msgstr ""
+"Eine Anmeldebestätigungemail wird an %1 geschickt, sobald die Transaktion "
+"erfolgreich durchgeführt wurde."
 
 #: templates/CRM/Event/Form/Registration/ThankYou.tpl
 msgid ""
 "Your registration has been processed successfully. Please print this page "
 "for your records."
 msgstr ""
+"Ihre Anmeldung wurde erfolgreich weitergeleitet. Heben Sie sich den Ausdruck "
+"dieser Seite auf."
 
 #: templates/CRM/Event/Form/Registration/ThankYou.tpl
 msgid "A registration confirmation email has also been sent to %1"
-msgstr ""
+msgstr "Eine Amneldungsbesätigungsemail wurde an %1 gesendet"
 
 #: templates/CRM/Event/Form/Registration/ThankYou.tpl
 #: templates/CRM/Event/Page/EventInfo.tpl
 #: templates/CRM/Event/Page/ManageEvent.tpl
 msgid "Download iCalendar File"
-msgstr ""
+msgstr "iCalender-Datei herunterladen"
 
 #: templates/CRM/Event/Form/Registration/ThankYou.tpl
 #: templates/CRM/Event/Page/EventInfo.tpl
@@ -5939,6 +5958,8 @@ msgstr ""
 #: templates/CRM/Event/Form/Search/EmptyResults.tpl
 msgid "if you are searching by participant name, check your spelling"
 msgstr ""
+"Wenn Sie nach einem Teilnehmernamen suchen überprüfen Sie die "
+"Rechtschreibung"
 
 #: templates/CRM/Event/Form/SearchEvent.tpl
 msgid "Find Events"
