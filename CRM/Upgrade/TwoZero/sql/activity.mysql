@@ -25,9 +25,6 @@ ALTER TABLE `civicrm_activity`
     ADD `is_test` tinyint(4) NULL DEFAULT '0' AFTER parent_id,
     ALTER `activity_type_id` SET DEFAULT 1,
     MODIFY subject varchar(255) NULL DEFAULT NULL,
-    DROP `scheduled_date_time`,
-    DROP `duration_hours`,
-    DROP `duration_minutes`,
     ADD INDEX `UI_source_contact_id` (`source_contact_id`),
     DROP FOREIGN KEY FK_civicrm_activity_source_contact_id,
     DROP FOREIGN KEY FK_civicrm_activity_parent_id;
@@ -220,6 +217,13 @@ UPDATE civicrm_activity ca
 LEFT JOIN civicrm_option_value ov ON (ov.option_group_id = @og_id_as AND ov.label = ca.status)
 SET    ca.status_id = ov.value;
 
+UPDATE civicrm_activity ca
+SET ca.activity_date_time = ca.scheduled_date_time,
+    ca.duration = (ca.duration_hours * 60 + ca.duration_minutes);
+
+UPDATE civicrm_activity ca
+SET ca.source_record_id = ca.id
+WHERE ca.source_record_id IS NULL;
 
 -- for records in activity table, also add a copy to target and assignment
 
@@ -354,6 +358,9 @@ DELETE FROM civicrm_activity_history WHERE module IN ('CiviCRM') AND activity_ty
 -- cleanup
 
 ALTER TABLE civicrm_activity 
+    DROP scheduled_date_time,
+    DROP duration_hours,
+    DROP duration_minutes,
     DROP target_entity_table,
     DROP target_entity_id,
     DROP old_meeting_id, 

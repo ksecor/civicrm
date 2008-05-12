@@ -70,12 +70,9 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
         // get the profile ids
         require_once 'CRM/Core/BAO/UFJoin.php'; 
         $ufJoinParams = array( 'entity_table' => 'civicrm_contribution_page',   
-                               'entity_id'    => $id,   
-                               'weight'       => 1 ); 
-        $values['custom_pre_id'] = CRM_Core_BAO_UFJoin::findUFGroupId( $ufJoinParams ); 
-        
-        $ufJoinParams['weight'] = 2; 
-        $values['custom_post_id'] = CRM_Core_BAO_UFJoin::findUFGroupId( $ufJoinParams );
+                               'entity_id'    => $id );   
+        list( $values['custom_pre_id'],
+              $values['custom_post_id'] ) = CRM_Core_BAO_UFJoin::getUFGroupIds( $ufJoinParams ); 
     }
 
     /**

@@ -6,46 +6,45 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2007-05-07 11:19+0200\n"
-"PO-Revision-Date: 2008-05-10 09:55-0700\n"
-"Last-Translator: Magnus Gunnarsson <seals@passagen.se>\n"
+"PO-Revision-Date: 2007-05-07 11:19+0200\n"
+"Last-Translator: Automatically generated\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Pootle 1.0.2\n"
 
 msgid "add contacts"
-msgstr "lägg till kontakter"
+msgstr ""
 
 msgid "view all contacts"
-msgstr "visa alla kontakter"
+msgstr ""
 
 msgid "edit all contacts"
-msgstr "redigera alla kontakter"
+msgstr ""
 
 msgid "import contacts"
-msgstr "importera kontakter"
+msgstr ""
 
 msgid "edit groups"
-msgstr "redigera grupper"
+msgstr ""
 
 msgid "administer CiviCRM"
-msgstr "administrera CiviCRM"
+msgstr ""
 
 msgid "access uploaded files"
-msgstr "gå till uppladdade filer"
+msgstr ""
 
 msgid "profile listings and forms"
-msgstr "användarlista och formulär"
+msgstr ""
 
 msgid "access all custom data"
-msgstr "kom åt anpassad data"
+msgstr ""
 
 msgid "access CiviCRM"
-msgstr "gå till CiviCRM"
+msgstr ""
 
 msgid "access Contact Dashboard"
-msgstr "ta fram Contact Dashboard"
+msgstr ""
 
 #: drupal/civicrm.module
 msgid ""
@@ -58,15 +57,6 @@ msgid ""
 "opportunities for communities to better communicate and benefit from "
 "relationships with their community members."
 msgstr ""
-"Modulen CiviCRM lagrar information om olika personer som är associerade med "
-"ett community och dess interaktion såsom e-post, donationer, ansökningar, "
-"evenemang och så vidare. Det kan fungera som ett fristående system för "
-"kontakthantering eller så kan det integreras med massutskick av e-post, "
-"skötsel av volontärer, namninsamlingar och för att finna evenemang. CiviCRM "
-"möjliggör för organisationer att upprätthålla alla dessa aktiviteter i en "
-"enstaka databas vilket skapar effektivitet och nya möjligheter för "
-"communitys att kommunicera bättre och dra nytta av förbindelser med deras "
-"communitys medlemmar."
 
 #: drupal/civicrm.module
 msgid ""
@@ -86,30 +76,14 @@ msgid ""
 "as well as share some of that information with others. Finally, you can "
 "configure custom activity types such as volunteering or attending events."
 msgstr ""
-"Modulen CiviCRM låter dig skapa kontakter eller importera från andra källor. "
-"Du kan skapa en förteckning över förbindelser mellan kontakter såsom att de "
-"bor inom samma hushåll. Det finns två typer av grupper av kontakter.Du kan "
-"skapa statiska grupper som har given lista av kontakter. Du kan också skapa "
-"dynamiska (smarta) grupper baserat på kännetecken som kontakterna har "
-"gemensamt. Till exempel, du kan skapa en grupp för alla kontakter som bor i "
-"Stockholm OCH som har erbjudit sin hjälp till din organisation inom det "
-"senaste året. Modulen CiviCRM tillåter också märkning av mindre formell "
-"kategorisering av kontakter eller grupper. Du kan på ett enkelt sätt utöka "
-"CiviCRM att skapa information om medlemmar för communityt genom att använda "
-"anpassade fält. Till exempel, du kan skapa en grupp av fält för att följa "
-"frivilligas färdigheter och preferenser. Profiler i CiviCRM ger dig en "
-"möjlighet att låta medlemmar i comminityt (\"användare\") att uppdatera sin "
-"egen information så väl som att dela med sig av en del av denna information "
-"till andra. Slutligen, du kan konfigurera anpassade typer av aktiviteter "
-"såsom frivilligt arbete eller deltagande vid evenemang."
 
 #: drupal/civicrm.module
 msgid "You can:"
-msgstr "Du kan:"
+msgstr ""
 
 #: drupal/civicrm.module
 msgid "read the <a href=\"!1\">CiviCRM Administrator Guide</a>."
-msgstr "läs <a href=\"!1\">Administratörsguiden för CiviCRM </a>"
+msgstr ""
 
 #: drupal/civicrm.module
 msgid ""

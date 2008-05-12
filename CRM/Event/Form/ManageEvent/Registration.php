@@ -80,13 +80,11 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
             
             require_once 'CRM/Core/BAO/UFJoin.php';
             $ufJoinParams = array( 'entity_table' => 'civicrm_event',
-                                   'entity_id'    => $eventId,
-                                   'weight'       => 1 );
+                                   'entity_id'    => $eventId );
 
-            $defaults['custom_pre_id'] = CRM_Core_BAO_UFJoin::findUFGroupId( $ufJoinParams );
-            
-            $ufJoinParams['weight'] = 2;
-            $defaults['custom_post_id'] = CRM_Core_BAO_UFJoin::findUFGroupId( $ufJoinParams );
+            list( $defaults['custom_pre_id'],
+                  $defaults['custom_post_id'] ) = 
+                CRM_Core_BAO_UFJoin::getUFGroupIds( $ufJoinParams ); 
         }
         return $defaults;
     }   

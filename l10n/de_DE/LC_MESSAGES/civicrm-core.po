@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-04-28 21:53+0200\n"
-"PO-Revision-Date: 2008-03-26 07:13-0700\n"
+"PO-Revision-Date: 2008-05-08 05:56-0700\n"
 "Last-Translator: Gerhard Aigner <gerhard.aigner@arcsmed.at>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -1145,7 +1145,7 @@ msgstr "Haushaltsname"
 
 #: CRM/Contact/DAO/Contact.php CRM/Contact/Form/Organization.php
 msgid "Organization Name"
-msgstr "Organisazion"
+msgstr "Organisationsname"
 
 #: CRM/Contact/DAO/Contact.php CRM/Core/DAO/CustomField.php
 #: CRM/Core/DAO/PriceField.php CRM/Core/SelectValues.php
@@ -13487,18 +13487,15 @@ msgid "No available Groups match your search criteria. Suggestions:"
 msgstr ""
 
 #: templates/CRM/Group/Page/Group.tpl
-#, fuzzy
 msgid "Check your spelling."
 msgstr "Prüfen Sie die Schreibweise"
 
 #: templates/CRM/Group/Page/Group.tpl
-#, fuzzy
 msgid "Try a different spelling or use fewer letters."
 msgstr ""
 "Versuchen Sie eine andere Schreibweise oder benutzen Sie weniger Buchstaben"
 
 #: templates/CRM/Group/Page/Group.tpl
-#, fuzzy
 msgid "Make sure you have enough privileges in the access control system."
 msgstr ""
 "Stellen Sie sicher, dass Sie ausreichende Rechte in der Zugriffskontrolle "
