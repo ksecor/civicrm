@@ -95,47 +95,38 @@ class CRM_Utils_CAPTCHA {
      * Add element to form
      *
      */
-    function add( &$form,
-                  $size   = 24,
-                  $path   = '/usr/X11R6/lib/X11/fonts/openoffice/',
-                  $file   = 'HelveticaBold.ttf',
-                  $width  = 200,
-                  $height = 80 ) {
+    function add( &$form ) {
         $config =& CRM_Core_Config::singleton( );
 
-        if ( $config->captchaFontPath ) {
-            $path = $config->captchaFontPath;
-        }
+        require_once 'packages/recaptcha/recaptchalib.php';
+        $html = recaptcha_get_html($config->recaptchaPublicKey, $error);
 
-        if ( $config->captchaFont ) {
-            $file = $config->captchaFont;
-        }
-
-        $phrase = $form->get( 'captcha_phrase' );
-        $this->init( $phrase, $size, $path, $file, $width, $height );
-
-        // get CAPTCHA image
-        $png = $this->_captcha->getCAPTCHAAsPNG( );
-        if ( PEAR::isError( $png ) ) {
-            CRM_Core_Error::statusBounce( ts( 'Error generating CAPTCHA image' ) );
-        }
-        
-        // store the file keyed to the session for now
-        file_put_contents( $this->_name, $png );
-                             
-        $form->set( 'captcha_phrase', $this->_captcha->getPhrase( ) );
+        $form->assign( 'recaptchaHTML', $html );
         $form->add( 'text',
-                    'captcha_phrase',
-                    ts( 'Please enter the phrase as displayed in the image.' ),
+                    'recaptcha_challenge_field',
+                    null,
                     null,
                     true );
-        $form->registerRule( 'captcha', 'callback', 'validate', 'CRM_Utils_CAPTCHA' );
-        $form->addRule( 'captcha_phrase', ts( 'Input text must match the phrase in the image. Please review the image and re-enter matching text.' ), 'captcha', $form );
-        $form->addElement( 'image','captcha_image',  $this->_url );
+        $form->add( 'hidden',
+                    'recaptcha_response_field',
+                    'manual_challenge' );
+
+        $form->registerRule( 'recaptcha', 'callback', 'validate', 'CRM_Utils_CAPTCHA' );
+        $form->addRule( 'recaptcha_challenge_field',
+                        ts( 'Input text must match the phrase in the image. Please review the image and re-enter matching text.' ), 
+                        'recaptcha',
+                        $form );
+
     }
 
     function validate( $value, &$form ) {
-        return ( $value == $form->get( 'captcha_phrase' ) ) ? true : false;
+        $config =& CRM_Core_Config::singleton( );
+
+        $resp = recaptcha_check_answer( $config->recaptchaPrivateKey,
+                                        $_SERVER['REMOTE_ADDR'],
+                                        $_POST["recaptcha_challenge_field"],
+                                        $_POST["recaptcha_response_field"] );
+        return $resp->is_valid;
     }
 
 }

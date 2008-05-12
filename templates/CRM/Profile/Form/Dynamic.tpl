@@ -127,13 +127,11 @@
         {if $isCaptcha }
          <table class="form-layout-compressed">
            <tr>
-             <td></td>
-             <td>{$form.captcha_image.html}</td>
-           </tr>
-           <tr>
-             <td></td>
-             <td>{$form.captcha_phrase.html}
-               <div class="messages help">{ts}Please enter the phrase as displayed in the image{/ts}</div>
+             <td colspan=2>
+{$recaptchaHTML}
+{$form.recaptcha_challenge_field.html}
+{$form.recaptcha_response_field.html}
+</noscript>
              </td>
            </tr>
         </table>

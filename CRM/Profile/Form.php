@@ -459,7 +459,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                         $form->_id = $ids[0];
                     }
                 } else {
-                    $errors['_qf_default'] = ts( 'An account already exists with the same information.' );
+                    // $errors['_qf_default'] = ts( 'An account already exists with the same information.' );
                 }
             }
         }

@@ -7,10 +7,10 @@
           <dt>&nbsp</dt><dd class="description">{ts}Do you want CiviCRM to include the mysql wildcard when doing a name search? If disabled, it will speed up search significantly and enable mysql to use the relevant index{/ts}</dd>
           <dt>{$form.includeEmailInName.label}</dt><dd>{$form.includeEmailInName.html}</dd>
           <dt>&nbsp</dt><dd class="description">{ts}Do you want CiviCRM to search the email table when searching for a name? if disabled it will speed up search significantly and avoid additional left join's in the query.{/ts}</dd>
-          <dt>{$form.captchaFont.label}</dt><dd>{$form.captchaFont.html}</dd>
-          <dt>&nbsp</dt><dd class="description">{ts}Filename for a suitable true-type font (*.ttf) to render the CAPTCHA image. <strong>IMPORTANT: A valid CAPTCHA font and path are required if you have enabled the CAPTCHA feature for any of your CiviCRM Profile input forms.</strong>{/ts}</dd>
-          <dt>{$form.captchaFontPath.label}</dt><dd>{$form.captchaFontPath.html}</dd>
-          <dt>&nbsp</dt><dd class="description">{ts}Absolute file-system path to the directory where the CAPTCHA font file is located.{/ts}</dd>
+          <dt>{$form.recaptchaPublicKey.label}</dt><dd>{$form.recaptchaPublicKey.html}</dd>
+          <dt>&nbsp</dt><dd class="description">{ts}Public Key obtained from recaptcha.net {/ts}</dd>
+          <dt>{$form.recaptchaPrivateKey.label}</dt><dd>{$form.recaptchaPrivateKey.html}</dd>
+          <dt>&nbsp</dt><dd class="description">{ts}Private Key obtained from recaptcha.net.{/ts}</dd>
           <dt></dt><dd>{$form.buttons.html}</dd>
         </dl>
    
