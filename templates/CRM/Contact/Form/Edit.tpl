@@ -58,6 +58,7 @@
     </table>
 <div id="employer_option" class="form-item">
    {$form.employer_option.label}{$form.employer_option.html}
+   &nbsp; <a href="#" title="unselect" onclick="unselectRadio('employer_option', 'Edit'); return showHideEmployerOptions();" >unselect</a>	
 </div>
 <div id="create_employer" class="form-item">
     <span class="labels">
@@ -244,11 +245,14 @@
             dijit.byId("shared_employer").domNode.style.display = "none";
             show("create_employer");
             hide("shared_employer");   
-        } else {
+        } else if (document.getElementsByName("employer_option")[1].checked) {
             document.getElementsByName("create_employer")[0].value = "";
             hide("create_employer");
             show("shared_employer");
             dijit.byId("shared_employer").domNode.style.display = "block";
+        }else {
+            hide("create_employer");
+            hide("shared_employer");
         }
     }
 </script>
