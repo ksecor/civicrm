@@ -8,10 +8,9 @@ var finished = 0;
 setFinished = function(data, ioArgs) {
 var finished = 1;
 {/literal}
-  if ( data.match( 'Fatal error' ) ) {ldelim}
+  if ( data.match( 'unexpected error' ) ) {ldelim}
     var prog = document.getElementById('error_status');
     prog.innerHTML = "<p>We encountered an unknown error in setFinished: " + data + "</p>";
-    location.href = "{crmURL p='civicrm/import/contact' q='_qf_Preview_display=true' h=0}";
   {rdelim} else {ldelim}
     location.href = "{crmURL p='civicrm/import/contact' q='_qf_Summary_display=true' h=0}";
   {rdelim}
