@@ -56,6 +56,8 @@ function civicrm_html_head()
         case 'contribute':
             if ( arg(2) == 'transact' ) {
                 $includeDojo = true;
+            } else if ( arg(2) == 'offline' ) {
+                $includeDojo = true;
             }
             break;
         default:
