@@ -450,17 +450,17 @@ class CRM_Profile_Form extends CRM_Core_Form
 
         // dont check for duplicates during registration validation: CRM-375 
         if ( ! $register ) { 
+            $session =& CRM_Core_Session::singleton();
             require_once 'CRM/Dedupe/Finder.php';
             $dedupeParams = CRM_Dedupe_Finder::formatParams($fields, 'Individual');
-            $ids = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Individual');
+            $ids = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Individual', 'Fuzzy', array($session->get('userID')));
             if ( $ids ) {
                 if ( $form->_isUpdateDupe ) {
                     if ( ! $form->_id ) {
                         $form->_id = $ids[0];
                     }
                 } else {
-                    // i've commented this so i can get past the error and test reCaptcha
-                    // $errors['_qf_default'] = ts( 'An account already exists with the same information.' );
+                    $errors['_qf_default'] = ts( 'An account already exists with the same information.' );
                 }
             }
         }
