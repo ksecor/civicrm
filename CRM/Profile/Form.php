@@ -453,7 +453,7 @@ class CRM_Profile_Form extends CRM_Core_Form
             $session =& CRM_Core_Session::singleton();
             require_once 'CRM/Dedupe/Finder.php';
             $dedupeParams = CRM_Dedupe_Finder::formatParams($fields, 'Individual');
-            $ids = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Individual', 'Fuzzy', array($session->get('userID')));
+            $ids = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Individual', 'Strict', array($session->get('userID')));
             if ( $ids ) {
                 if ( $form->_isUpdateDupe ) {
                     if ( ! $form->_id ) {
