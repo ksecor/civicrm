@@ -54,9 +54,7 @@ function civicrm_html_head()
             // do not load anything for profile.
             break;
         case 'contribute':
-            if ( arg(2) == 'transact' ) {
-                $includeDojo = true;
-            } else if ( arg(2) == 'offline' ) {
+            if ( in_array( arg(2), array('transact', 'offline') ) ) {
                 $includeDojo = true;
             }
             break;

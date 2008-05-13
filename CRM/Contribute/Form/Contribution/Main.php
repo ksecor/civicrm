@@ -131,7 +131,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 //         $this->_defaults['amount']               = 168;
 //         $this->_defaults['credit_card_number']   = '4807731747657838';
 //         $this->_defaults['cvv2']                 = '000';
-//         $this->_defaults['credit_card_exp_date'] = array( 'Y' => '2008', 'M' => '01' );
+//         $this->_defaults['credit_card_exp_date'] = array( 'Y' => '2009', 'M' => '01' );
 
         return $this->_defaults;
     }

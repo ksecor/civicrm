@@ -329,24 +329,26 @@ UNION
             }
 
             if ( $contactID && ( count($employers) >= 1 ) ) {
-                $dojoIncludes    = "dojo.require('dijit.form.ComboBox');";
-                $comboAttributes = array( 'dojoType'     => 'dijit.form.ComboBox',
+                $comboAttributes = array( 'dojoType'     => 'dijit.form.FilteringSelect',
                                           'mode'         => 'remote',
                                           'store'        => 'employerStore',
                                           'style'        => 'width:225px; border: 1px solid #cfcfcf;',
                                           'class'        => 'tundra',
                                           'pageSize'     => 10,
                                           );
-                $dataURL =  CRM_Utils_System::url( 'civicrm/ajax/employer', 
-                                                   "cid=" . $contactID, 
-                                                   true, null, false );
+                $dataURL = CRM_Utils_System::url( 'civicrm/ajax/employer', 
+                                                  "cid=" . $contactID, 
+                                                  true, null, false );
                 $form->assign( 'employerDataURL', $dataURL );
 
-                $form->add('text', 'organization_name', ts('Select an existing related Organization OR Enter a new one'), $comboAttributes);
-            } else {
-                $form->add('text', 'organization_name', ts('Organization Name'), $attributes['organization_name']);
-            } 
-            
+                $form->add('text', 'organization_id', 
+                           ts('Select an existing related Organization OR Enter a new one'), $comboAttributes);
+
+                $orgOptions = array( '0' => ts('Create new organization'), '1' => ts('Select existing organization') );
+                $form->addRadio('org_option', ts('options'),  $orgOptions, array( 'onclick' => "showHideByValue('org_option','true','select_org','table-row','radio',true);showHideByValue('org_option','true','create_org','table-row','radio',false);"));
+                $form->assign( 'relatedOrganizationFound', true );
+            }
+            $form->add('text', 'organization_name', ts('Organization Name'), $attributes['organization_name']);
             break;
         case 'Household':
             $form->add('text', 'household_name', ts('Household Name'), 
@@ -368,7 +370,7 @@ UNION
         }
 
         // add country state selector using new hs-widget method.
-        $form->assign( 'dojoIncludes', "dojo.require('civicrm.HierSelect'); $dojoIncludes" );
+        $form->assign( 'dojoIncludes', "dojo.require('civicrm.HierSelect');" );
         $attributes = array( 'dojoType'     => 'civicrm.HierSelect',
                              'url1'         => CRM_Utils_System::url('civicrm/ajax/countries'),
                              'url2'         => CRM_Utils_System::url('civicrm/ajax/states'),

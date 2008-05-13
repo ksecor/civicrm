@@ -43,13 +43,19 @@
 <div id="name">
  <fieldset><legend></legend>
 	<table class="form-layout">
+      {if $relatedOrganizationFound}
       <tr>
-		<td>{$form.organization_name.label}</td>
+		<td>{$form.org_option.html}</td>
       </tr>
-      <tr>
+      <tr id="select_org">
         <td><span class="tundra" dojoType= "dojo.data.ItemFileReadStore" jsId="employerStore" url="{$employerDataURL}">
-            {$form.organization_name.html|crmReplace:class:big}</span>
+            {$form.organization_id.html|crmReplace:class:big}</span>
         </td>
+      </tr>
+      {/if}  
+      <tr id="create_org">
+		<td>{$form.organization_name.label}<br/>
+            {$form.organization_name.html|crmReplace:class:big}</td>
       </tr>
     </table>
  </fieldset>
@@ -134,4 +140,33 @@
          field_type          ="radio"
          invert              = "false"
     }
+{/if}
+
+{if $relatedOrganizationFound}
+    {include file="CRM/common/showHideByFieldValue.tpl" 
+         trigger_field_id    ="org_option"
+         trigger_value       ="false"
+         target_element_id   ="select_org" 
+         target_element_type ="table-row"
+         field_type          ="radio"
+         invert              = "false"
+    }
+    {if $form.errors}
+      {include file="CRM/common/showHideByFieldValue.tpl" 
+         trigger_field_id    ="org_option"
+         trigger_value       ="true"
+         target_element_id   ="select_org" 
+         target_element_type ="table-row"
+         field_type          ="radio"
+         invert              = "true"
+      }
+      {include file="CRM/common/showHideByFieldValue.tpl" 
+         trigger_field_id    ="org_option"
+         trigger_value       ="true"
+         target_element_id   ="create_org" 
+         target_element_type ="table-row"
+         field_type          ="radio"
+         invert              = "false"
+      }
+    {/if}
 {/if}

@@ -1059,14 +1059,12 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
      * @param $contactID   int     contact id whose employers
      * are to be found.
      * @param $name        string  employers sort name
-     * @param $mode        string  ajax mode returns the array
-     * required by json.
      * 
      * @static
      * @return array array of employers.
      *
      */
-    static function getPermissionedEmployer( $contactID, $name = '%', $mode = 'local' )
+    static function getPermissionedEmployer( $contactID, $name = '%' )
     {
         $employers = array();
         
@@ -1089,18 +1087,9 @@ cc.domain_id = {$domainID}";
             $nullArray = array( );
             $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
             
-            if ( $mode = 'ajax' ) {
-                // remote mode => call from AJAX file.
-                while ( $dao->fetch( ) ) {
-                    $employers[$dao->id] = array( 'name'  => ts( $dao->name ),
-                                                  'value' => $dao->id       );
-                }
-            } else {
-                // if required other params like email ..etc can also
-                // be added for local mode
-                while ( $dao->fetch( ) ) {
-                    $employers[$dao->id] = array( 'name'  => ts( $dao->name ) ); 
-                }
+            while ( $dao->fetch( ) ) {
+                $employers[$dao->id] = array( 'name'  => ts( $dao->name ),
+                                              'value' => $dao->id       );
             }
         }
 

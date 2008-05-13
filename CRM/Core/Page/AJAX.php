@@ -884,10 +884,10 @@ AND domain_id = {$domainID} ";
         $name      = str_replace( '*', '%', $name );
 
         require_once 'CRM/Contact/BAO/Relationship.php';
-        $elements = CRM_Contact_BAO_Relationship::getPermissionedEmployer( $cid, $name, 'ajax' );
+        $elements = CRM_Contact_BAO_Relationship::getPermissionedEmployer( $cid, $name );
 
         require_once "CRM/Utils/JSON.php";
-        echo CRM_Utils_JSON::encode( $elements, 'name');
+        echo CRM_Utils_JSON::encode( $elements, 'value');
     }
 
 }
