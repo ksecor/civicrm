@@ -10,40 +10,55 @@
 
 
 -- lower case all email addresses
+
 UPDATE civicrm_email    SET email   = LOWER( email   );
 UPDATE civicrm_uf_match SET uf_name = LOWER( uf_name );
 
+
 -- Add new boolean columns in civicrm_relationship
+
 ALTER TABLE `civicrm_relationship`
     ADD `is_permission_a_b` boolean DEFAULT 0 AFTER `description`;
 ALTER TABLE `civicrm_relationship`
     ADD `is_permission_b_a` boolean DEFAULT 0 AFTER `is_permission_a_b`;
 
+
 --Insert new option value for option_group = 'user_dashboard_options'
+
 SELECT @ogi    := id from civicrm_option_group where name = 'user_dashboard_options';
 INSERT INTO `civicrm_option_value` (`option_group_id`, `label`, `value`, `weight`, `is_active`, `is_default`) VALUES
 ( @ogi, 'My Contacts / Organizations', 5, 5, 1, NULL);
 
+
 -- Add 'My Contacts / Organizations' option in user dashboard options
+
 UPDATE civicrm_preferences    SET user_dashboard_options   = CONCAT(user_dashboard_options, '5');
 
+
 -- make the dates in civicrm_contribution_recur optional
+
 ALTER TABLE `civicrm_contribution_recur`
   MODIFY modified_date           datetime DEFAULT NULL,
   MODIFY cancel_date             datetime DEFAULT NULL,
   MODIFY end_date                datetime DEFAULT NULL,
   MODIFY next_sched_contribution datetime DEFAULT NULL;
 
+
 -- extend civicrm_dedupe_rule_group to the current schema
+
 ALTER TABLE civicrm_dedupe_rule_group ADD level      enum('Strict', 'Fuzzy');
 ALTER TABLE civicrm_dedupe_rule_group ADD is_default tinyint;
 ALTER TABLE civicrm_dedupe_rule_group ADD is_active  tinyint;
 
+
 -- make the current dedupe rule groups into default and fuzzy ones
+
 UPDATE civicrm_dedupe_rule_group SET level = 'Fuzzy', is_default = true, is_active = true;
+
 
 -- insert the new strict d_group dupe rules
 -- note: we assume domain_id = 1 here
+
 INSERT INTO civicrm_dedupe_rule_group (domain_id, contact_type, threshold, level, is_default, is_active) VALUES (1, 'Individual', 10, 'Strict', true, true);
 SELECT @dedupe_rule_group_id := MAX(id) FROM civicrm_dedupe_rule_group;
 INSERT INTO civicrm_dedupe_rule (dedupe_rule_group_id, rule_table, rule_field, rule_weight) VALUES (@dedupe_rule_group_id, 'civicrm_email', 'email', 10);
@@ -56,9 +71,20 @@ INSERT INTO civicrm_dedupe_rule_group (domain_id, contact_type, threshold, level
 SELECT @dedupe_rule_group_id := MAX(id) FROM civicrm_dedupe_rule_group;
 INSERT INTO civicrm_dedupe_rule (dedupe_rule_group_id, rule_table, rule_field, rule_weight) VALUES (@dedupe_rule_group_id, 'civicrm_email', 'email', 10);
 
---Edited indexing of custom group table
+
+-- Edited indexing of custom group table
+
 ALTER TABLE `civicrm_custom_group` DROP INDEX `UI_title_domain_id` ,
 ADD UNIQUE `UI_title_extends_domain_id` ( `title` , `extends` , `domain_id` ); 
 
 ALTER TABLE `civicrm_custom_group` DROP INDEX `UI_name_domain_id` ,
 ADD UNIQUE `UI_name_extends_domain_id` ( `name` , `extends` , `domain_id` );
+
+
+-- CRM-3052, dropping location_id from group_contact
+
+ALTER TABLE `civicrm_group_contact` 
+    DROP FOREIGN KEY `FK_civicrm_group_contact_location_id`,
+    DROP location_id;
+
+
