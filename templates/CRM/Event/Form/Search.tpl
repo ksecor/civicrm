@@ -12,15 +12,12 @@
 <div id="searchForm">
 <fieldset><legend>{ts}Search Criteria{/ts}</legend>
     {strip} 
-        <table class="form-layout">
+        <table class="form-layout" style="width:50%">
 		<tr>
             <td class="font-size12pt label">{$form.sort_name.label}</td>
             <td>{$form.sort_name.html|crmReplace:class:'twenty'}
-                <div class="description font-italic">
-                    {ts}To search by first AND last name, enter 'lastname, firstname'. Example: 'Doe, Jane'. For partial name search, use '%partialname' ('%' equals 'begins with any combination of letters').{/ts}
-                </div>
             </td>
-            <td>{$form.buttons.html}</td>       
+            <td style="vertical-align:middle">&nbsp;{$form.buttons.html}</td>       
         </tr>
 <tr><table style="border:0px">
         {include file="CRM/Event/Form/Search/Common.tpl"}

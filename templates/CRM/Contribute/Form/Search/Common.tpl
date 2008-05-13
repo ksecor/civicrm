@@ -1,58 +1,63 @@
         <tr> 
-            <td class="label"> 
+            <td> 
                 {$form.contribution_date_low.label} 
-            </td>
-            <td>
+            <br />
                 {$form.contribution_date_low.html} &nbsp;<br />
                 {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_contribution_1}
                 {include file="CRM/common/calendar/body.tpl" dateVar=contribution_date_low startDate=startYear endDate=endYear offset=5 trigger=trigger_search_contribution_1}
             </td>
             <td colspan="2"> 
-                 {$form.contribution_date_high.label} {$form.contribution_date_high.html}<br />
-                 &nbsp; &nbsp; {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_contribution_2}
+                 {$form.contribution_date_high.label}<br /> {$form.contribution_date_high.html}<br />
+                 {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_contribution_2}
                  {include file="CRM/common/calendar/body.tpl" dateVar=contribution_date_high startDate=startYear endDate=endYear offset=5 trigger=trigger_search_contribution_2}
             </td> 
         </tr> 
         <tr> 
             <td class="label"> 
                 {$form.contribution_amount_low.label} 
-            </td> 
-            <td>
+            <br />
                 {$form.contribution_amount_low.html}
             </td> 
             <td colspan="2"> 
-                  {$form.contribution_amount_high.label} {$form.contribution_amount_high.html} 
+                  {$form.contribution_amount_high.label} <br /> {$form.contribution_amount_high.html} 
             </td> 
         </tr>
         <tr>
-            <td class="label">{ts}Contribution Type{/ts}</td> 
-            <td>{$form.contribution_type_id.html}</td> 
-            <td colspan="2"><label>{ts}Paid By{/ts}</label> {$form.contribution_payment_instrument_id.html}</td> 
+            <td class="label">{ts}Contribution Type{/ts} 
+            <br />{$form.contribution_type_id.html}</td> 
+            <td colspan="2"><label>{ts}Paid By{/ts}</label> <br /> {$form.contribution_payment_instrument_id.html}</td> 
         </tr>
         <tr>
-            <td class="label">{ts}Contribution Page{/ts}</td> 
-            <td>{$form.contribution_page_id.html}</td> 
-            <td colspan="2">{$form.contribution_receipt_date_isnull.html}&nbsp;{$form.contribution_receipt_date_isnull.label}</td>
+            <td class="label">{ts}Contribution Page{/ts} 
+            <br />{$form.contribution_page_id.html}</td> 
+            <td colspan="2">
+                  {$form.contribution_receipt_date_isnull.html}&nbsp;{$form.contribution_receipt_date_isnull.label}<br />
+                  {$form.contribution_thankyou_date_isnull.html}&nbsp;{$form.contribution_thankyou_date_isnull.label}
+                            
+           </td>
         </tr>
         <tr>
-            <td class="label">{ts}Status{/ts}</td> 
-            <td>{$form.contribution_status_id.html}</td>
-            <td colspan="2">{$form.contribution_thankyou_date_isnull.html}&nbsp;{$form.contribution_thankyou_date_isnull.label}</td>
+            <td class="label">{ts}Status{/ts} 
+                  {$form.contribution_status_id.html}</td>
+            <td colspan="2">
+                  {$form.contribution_test.html}&nbsp;{$form.contribution_test.label}<br />
+                  {$form.contribution_pay_later.html}&nbsp;{$form.contribution_pay_later.label}
+            </td>
         </tr>
         <tr>
-            <td class="label">{$form.contribution_in_honor_of.label}</td> 
-            <td>{$form.contribution_in_honor_of.html}</td> 
-            <td colspan="2">{$form.contribution_test.html}&nbsp;{$form.contribution_test.label}</td> 
+            <td class="label">{$form.contribution_in_honor_of.label} 
+            <br />{$form.contribution_in_honor_of.html}</td>
+            <td colspan="2">
+                  {$form.contribution_recurring.html}&nbsp;{$form.contribution_recurring.label}
+            </td>
         </tr>
         <tr>
-            <td class="label">{$form.contribution_source.label}</td>
-            <td>{$form.contribution_source.html}</td>
-            <td colspan="2">{$form.contribution_pay_later.html}&nbsp;{$form.contribution_pay_later.label}</td>
+            <td class="label">{$form.contribution_source.label}
+            <br />{$form.contribution_source.html}</td>
         </tr>
         <tr>        
-            <td class="label">{$form.contribution_transaction_id.label}</td> 
-            <td>{$form.contribution_transaction_id.html}</td> 
-            <td colspan="2">{$form.contribution_recurring.html}&nbsp;{$form.contribution_recurring.label}</td>
+            <td class="label">{$form.contribution_transaction_id.label} 
+            <br />{$form.contribution_transaction_id.html}</td> 
         </tr>
         <tr>
             <td colspan="4">

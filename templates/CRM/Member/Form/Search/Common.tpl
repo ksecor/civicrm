@@ -1,4 +1,4 @@
-<tr> <td>&nbsp;</td>
+<tr> 
     <td><label>{ts}Membership Type(s){/ts}</label><br />
                 <div class="listing-box">
                     {foreach from=$form.member_membership_type_id item="membership_type_val"} 
@@ -20,53 +20,51 @@
 </tr>
 
 <tr>
-    <td class="label">{$form.member_source.label}</td>
-    <td>{$form.member_source.html}</td>
+    <td class="label">{$form.member_source.label}
+    <br />{$form.member_source.html}</td>
     <td>{$form.member_test.html}&nbsp;{$form.member_test.label}<br/>
         {$form.member_pay_later.html}&nbsp;{$form.member_pay_later.label}</td> 
 </tr>
 <tr> 
-    <td class="label"> 
+    <td> 
         <br />{$form.member_join_date_low.label} 
-    </td>
-    <td><br />
+    <br />
+    
         {$form.member_join_date_low.html} &nbsp;<br />
         {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_member_5}
         {include file="CRM/common/calendar/body.tpl" dateVar=member_join_date_low startDate=startYear endDate=endYear offset=5 trigger=trigger_search_member_5}
     </td>
     <td colspan="2"> <br />
-         {$form.member_join_date_high.label} {$form.member_join_date_high.html}<br />
-         &nbsp; &nbsp; {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_member_6}
+         {$form.member_join_date_high.label} <br />{$form.member_join_date_high.html}<br />
+         {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_member_6}
          {include file="CRM/common/calendar/body.tpl" dateVar=member_join_date_high startDate=startYear endDate=endYear offset=5 trigger=trigger_search_member_6}
     </td> 
 </tr> 
 <tr> 
-    <td class="label"> 
+    <td> 
         <br />{$form.member_start_date_low.label} 
-    </td>
-    <td><br />
+    <br />
         {$form.member_start_date_low.html} &nbsp;<br />
         {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_member_1}
         {include file="CRM/common/calendar/body.tpl" dateVar=member_start_date_low startDate=startYear endDate=endYear offset=5 trigger=trigger_search_member_1}
     </td>
     <td colspan="2"> <br />
-         {$form.member_start_date_high.label} {$form.member_start_date_high.html}<br />
-         &nbsp; &nbsp; {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_member_2}
+         {$form.member_start_date_high.label}<br />{$form.member_start_date_high.html}<br />
+         {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_member_2}
          {include file="CRM/common/calendar/body.tpl" dateVar=member_start_date_high startDate=startYear endDate=endYear offset=5 trigger=trigger_search_member_2}
     </td> 
 </tr> 
 <tr> 
-    <td class="label"> <br />
+    <td>  <br />
         {$form.member_end_date_low.label} 
-    </td>
-    <td><br />
+    <br />
         {$form.member_end_date_low.html} &nbsp;<br />
         {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_member_3}
         {include file="CRM/common/calendar/body.tpl" dateVar=member_end_date_low startDate=startYear endDate=endYear offset=5 trigger=trigger_search_member_3}
     </td>
     <td colspan="2"> <br />
-         {$form.member_end_date_high.label} {$form.member_end_date_high.html}<br />
-         &nbsp; &nbsp; {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_member_4}
+         {$form.member_end_date_high.label}<br />{$form.member_end_date_high.html}<br />
+         {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_member_4}
          {include file="CRM/common/calendar/body.tpl" dateVar=member_end_date_high startDate=startYear endDate=endYear offset=5 trigger=trigger_search_member_4}
     </td> 
 </tr> 

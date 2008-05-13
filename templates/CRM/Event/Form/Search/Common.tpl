@@ -27,7 +27,7 @@
  </td>
  </tr>     
  
-<tr> <td class="label"> {$form.event_start_date_low.label} 
+<tr> <td> {$form.event_start_date_low.label} 
     <br>
        {$form.event_start_date_low.html}&nbsp;<br />
        {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_event_1}
