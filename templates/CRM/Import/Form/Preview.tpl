@@ -11,6 +11,10 @@ var finished = 1;
   if ( data.match( 'unexpected error' ) ) {ldelim}
     var prog = document.getElementById('error_status');
     prog.innerHTML = "<p>We encountered an unknown error in setFinished: " + data + "</p>";
+    var ok = confirm( 'Would you like to reload this page and try again?' );
+    if (ok) {ldelim}
+       location.href = "{crmURL p='civicrm/import/contact' q='_qf_Preview_display=true' h=0}";
+    {rdelim}
   {rdelim} else {ldelim}
     location.href = "{crmURL p='civicrm/import/contact' q='_qf_Summary_display=true' h=0}";
   {rdelim}
