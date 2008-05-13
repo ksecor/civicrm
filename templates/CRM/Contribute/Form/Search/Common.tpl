@@ -47,11 +47,12 @@
         <tr>
             <td class="label">{$form.contribution_source.label}</td>
             <td>{$form.contribution_source.html}</td>
-            <td colspan="2">{$form.contribution_recurring.html}&nbsp;{$form.contribution_recurring.label}</td>
+            <td colspan="2">{$form.contribution_pay_later.html}&nbsp;{$form.contribution_pay_later.label}</td>
         </tr>
         <tr>        
             <td class="label">{$form.contribution_transaction_id.label}</td> 
             <td>{$form.contribution_transaction_id.html}</td> 
+            <td colspan="2">{$form.contribution_recurring.html}&nbsp;{$form.contribution_recurring.label}</td>
         </tr>
         <tr>
             <td colspan="4">

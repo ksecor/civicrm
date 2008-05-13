@@ -575,6 +575,7 @@ WHERE  v.option_group_id = g.id
                                    $params['participant_source'] :
                                    $params['description'],
                                    'event_level'   => $params['amount_level']
+                                   'is_pay_later'  => CRM_Utils_Array::value( 'is_pay_later', $params, 0 ),
                                    );
         
         if ( $this->_action & CRM_Core_Action::PREVIEW ) {

@@ -199,7 +199,14 @@ class CRM_Event_BAO_Query
                 $query->_qill[$grouping][]  = ts("Find Test Participants");
             }
             $query->_tables['civicrm_participant'] = $query->_whereTables['civicrm_participant'] = 1;
-            
+            return;
+
+        case 'participant_pay_later':
+            $query->_where[$grouping][] = "civicrm_participant.is_pay_later $op $value";
+            if ( $value ) {
+                $query->_qill[$grouping][]  = ts("Find Pay Later Participants");
+            }
+            $query->_tables['civicrm_participant'] = $query->_whereTables['civicrm_participant'] = 1;
             return;
 
         case 'participant_status_id':
@@ -367,7 +374,8 @@ class CRM_Event_BAO_Query
                                 'participant_register_date' => 1,
                                 'participant_source'        => 1,
                                 'event_level'               => 1,
-                                'participant_is_test'       => 1
+                                'participant_is_test'       => 1,
+                                'participant_is_pay_later'  => 1
                                 );
        
             // also get all the custom participant properties
@@ -450,6 +458,7 @@ class CRM_Event_BAO_Query
         }
      
         $form->addElement( 'checkbox', 'participant_test' , ts( 'Find Test Participants?' ) );
+        $form->addElement( 'checkbox', 'participant_pay_later' , ts( 'Find Pay Later Participants?' ) );
 
         // add all the custom  searchable fields
         require_once 'CRM/Core/BAO/CustomGroup.php';

@@ -256,6 +256,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         
         $fields = array( );
         $this->fixLocationFields( $params, $fields );
+
         //unset the billing parameters if it is pay later mode
         //to avoid creation of billing location
         if ( $params['is_pay_later'] ) {
@@ -366,6 +367,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                                'invoice_id'            => $params['invoiceID'],
                                'currency'              => $params['currencyID'],
                                'source'                => $params['description'],
+                               'is_pay_later'          => CRM_Utils_Array::value( 'is_pay_later', $params, 0 ),
                                );
         
         if ( ! $params['is_pay_later'] ) {

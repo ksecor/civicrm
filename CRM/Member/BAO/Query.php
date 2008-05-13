@@ -188,7 +188,14 @@ class CRM_Member_BAO_Query
             if ( $value ) {
                 $query->_qill[$grouping][]  = "Find Test Memberships";
             }
-
+            $query->_tables['civicrm_membership'] = $query->_whereTables['civicrm_membership'] = 1;
+            return;
+            
+        case 'member_pay_later':
+            $query->_where[$grouping][] = " civicrm_membership.is_pay_later $op $value";
+            if ( $value ) {
+                $query->_qill[$grouping][]  = "Find Pay Later Memberships";
+            }
             $query->_tables['civicrm_membership'] = $query->_whereTables['civicrm_membership'] = 1;
             return;
             
@@ -252,6 +259,7 @@ class CRM_Member_BAO_Query
                                 'display_name'           => 1,
                                 'membership_type'        => 1,
                                 'member_is_test'         => 1, 
+                                'member_is_pay_later'    => 1, 
                                 'join_date'              => 1,
                                 //'start_date'             => 1,
                                 //'end_date'               => 1,
@@ -308,6 +316,8 @@ class CRM_Member_BAO_Query
         $form->addRule('member_end_date_high', ts('Select a valid date.'), 'qfDate'); 
 
         $form->addElement( 'checkbox', 'member_test' , ts( 'Find Test Memberships?' ) );
+        $form->addElement( 'checkbox', 'member_pay_later', ts( 'Find Pay Later Memberships?' ) );
+
         // add all the custom  searchable fields
         require_once 'CRM/Core/BAO/CustomGroup.php';
         $extends      = array( 'Membership' );

@@ -156,4 +156,10 @@
       <default>0</default>
       <import>true</import>
   </field>
+  <field>     
+      <name>is_pay_later</name>  
+      <uniqueName>member_is_pay_later</uniqueName> 
+      <type>boolean</type>
+      <default>0</default>
+  </field>
 </table>

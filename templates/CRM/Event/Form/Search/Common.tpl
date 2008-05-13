@@ -64,7 +64,8 @@
   
  </tr> 
  <tr>
-    <td colspan="2">{$form.participant_test.html}&nbsp;{$form.participant_test.label}</td> 
+    <td>{$form.participant_test.html}&nbsp;{$form.participant_test.label}</td> 
+    <td>{$form.participant_pay_later.html}&nbsp;{$form.participant_pay_later.label}</td> 
  </tr>
  <tr>
     <td colspan="4">

@@ -402,6 +402,9 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             if( $this->_action & CRM_Core_Action::PREVIEW ) {
                 $membershipParams['is_test'] = 1;
             }
+            if ( $this->_params['is_pay_later'] ) {
+                $membershipParams['is_pay_later'] = 1;
+            }
         }
 
    
@@ -584,12 +587,10 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                                'amount_level'          => CRM_Utils_Array::value( 'amount_level', $params ),
                                'invoice_id'            => $params['invoiceID'],
                                'currency'              => $params['currencyID'],
-                               'source'                => ! $online || $params['source'] ?
-                               $params['source'] : 
-                               $params['description'],
+                               'source'                =>
+                               ( ! $online || $params['source'] ) ? $params['source'] : $params['description'],
+                               'is_pay_later'          => CRM_Utils_Array::value( 'is_pay_later', $params, 0 ),
                                );
-
-        
         if ( ! $online && isset($params['thankyou_date'] ) ) {
             $contribParams['thankyou_date'] = $params['thankyou_date'];
         }
