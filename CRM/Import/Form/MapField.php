@@ -425,7 +425,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
                     }
                 } else {
                     // this load section to help mapping if we ran out of saved columns when doing Load Mapping
-                    $js .= "swapOptions($formName, 'mapper[$i]', 0, 3, 'hs_mapper_".$i."_');\n";
+                    $js .= "swapOptions($formName, 'mapper[$i]', 0, 3, 'hs_mapper_0_');\n";
                     
                     if ($hasHeaders) {
                         $defaults["mapper[$i]"] = array( $this->defaultFromHeader($this->_columnHeaders[$i],$headerPatterns) );
@@ -434,7 +434,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
                     }                    
                 } //end of load mapping
             } else {
-                $js .= "swapOptions($formName, 'mapper[$i]', 0, 3, 'hs_mapper_".$i."_');\n";
+                $js .= "swapOptions($formName, 'mapper[$i]', 0, 3, 'hs_mapper_0_');\n";
                 if ($hasHeaders) {
                     // Infer the default from the skipped headers if we have them
                     $defaults["mapper[$i]"] = array(

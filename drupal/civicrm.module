@@ -48,21 +48,9 @@ function civicrm_html_head()
     // include the below files ONLY if needed, since they are heavy weight
 
     $includeCommon = $includeDojo = $includeCalender = false;
-    if ( arg(0) == 'civicrm' ) {
-        switch ( arg(1) ) {
-        case 'profile': 
-            // do not load anything for profile.
-            break;
-        case 'contribute':
-            if ( in_array( arg(2), array('transact', 'offline') ) ) {
-                $includeDojo = true;
-            }
-            break;
-        default:
-            $includeCommon   = true;
-            $includeDojo     = true;
-            $includeCalender = true;
-        }
+    if ( arg(0) == 'civicrm' &&
+       	 arg(1) != 'profile' ) {
+        $includeCommon = $includeDojo = $includeCalender = true;
     }
 
     if ( $includeCommon ) {
