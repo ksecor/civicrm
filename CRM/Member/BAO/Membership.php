@@ -113,6 +113,10 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         require_once 'CRM/Member/BAO/MembershipLog.php';
         CRM_Member_BAO_MembershipLog::add($membershipLog, CRM_Core_DAO::$_nullArray);
         
+        // reset the group contact cache for this group
+        require_once 'CRM/Contact/BAO/GroupContactCache.php';
+        CRM_Contact_BAO_GroupContactCache::remove( );
+
         if ( CRM_Utils_Array::value( 'membership', $ids ) ) {
             CRM_Utils_Hook::post( 'edit', 'Membership', $membership->id, $membership );
         } else {

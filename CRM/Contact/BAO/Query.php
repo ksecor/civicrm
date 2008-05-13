@@ -1885,13 +1885,23 @@ class CRM_Contact_BAO_Query
                         $returnProperties = CRM_Core_BAO_Mapping::returnProperties( $fv );
                     }
 
-                    $query =& new CRM_Contact_BAO_Query($ssParams, $returnProperties, null,
-                                                        false, false, 1,
-                                                        true, true, false );
-                    $smarts =& $query->searchQuery( 0, 0, null,
-                                                    false, false,
-                                                    false, true, true, null );
-                    $query = $smarts . 
+                    $values = array( );
+                    if ( isset( $ssParams['customSearchID'] ) ) {
+                        // if custom search
+                        require_once 'CRM/Contact/BAO/SearchCustom.php';
+                        $sql = CRM_Contact_BAO_SearchCustom::contactIDSQL( $ssParams['customSearchID'],
+                                                                             $group->saved_search_id );
+                        $idName = 'contact_id';
+                    } else {
+                        $query =& new CRM_Contact_BAO_Query($ssParams, $returnProperties, null,
+                                                            false, false, 1,
+                                                            true, true, false );
+                        $sql =& $query->searchQuery( 0, 0, null,
+                                                        false, false,
+                                                        false, true, true, null );
+                        $idName = 'id';
+                    }
+                    $query = $sql . 
                         " AND contact_a.id NOT IN ( 
                               SELECT contact_id FROM civicrm_group_contact 
                               WHERE civicrm_group_contact.status = 'Removed' 
@@ -1899,11 +1909,9 @@ class CRM_Contact_BAO_Query
                         CRM_Utils_Type::escape($group_id, 'Integer') . ' ) ';
                     $dao = CRM_Core_DAO::executeQuery( $query,
                                                        CRM_Core_DAO::$_nullArray );
-                    $values = array( );
                     while ( $dao->fetch( ) ) {
-                        $values[] = "({$group_id},{$dao->id})";
+                        $values[] = "({$group_id},{$dao->$idName})";
                     }
-
                     $groupID = array( $group_id );
                     require_once 'CRM/Contact/BAO/GroupContactCache.php';
                     CRM_Contact_BAO_GroupContactCache::store( $groupID,
