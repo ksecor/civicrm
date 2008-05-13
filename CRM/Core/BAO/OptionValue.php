@@ -306,8 +306,6 @@ class CRM_Core_BAO_OptionValue extends CRM_Core_DAO_OptionValue
             require_once 'CRM/ACL/DAO/ACL.php';
             $entityRole =& new CRM_ACL_DAO_EntityRole( );
             $entityRole->$fieldName = $value;
-            CRM_Core_Error::debug('fieldName', $fieldName);
-            CRM_Core_Error::debug('value', $value); exit();
 
             $aclDAO =& new CRM_ACL_DAO_ACL( );
             $aclDAO->entity_id = $value;
