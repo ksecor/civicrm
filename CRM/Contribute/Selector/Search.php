@@ -291,6 +291,12 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
             foreach (self::$_properties as $property) {
                 $row[$property] = $result->$property;            
             }
+            if ( $result->is_pay_later && $row["contribution_status_id"] == "Pending" ) {
+                $row["contribution_status_id"] .= " (Pay Later)";
+                
+            } else if ( $row["contribution_status_id"] == "Pending") {
+                $row["contribution_status_id"] .= " (Incomplete Transaction)";
+            }
 
             if ( $row["is_test"] ) {
                 $row["contribution_type"] = $row["contribution_type"] . " (test)";

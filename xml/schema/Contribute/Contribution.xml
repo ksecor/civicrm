@@ -299,6 +299,7 @@
       <name>is_pay_later</name>  
       <type>boolean</type>
       <default>0</default>
+      <import>true</import>
   </field>
   <field>
       <name>contribution_status_id</name>

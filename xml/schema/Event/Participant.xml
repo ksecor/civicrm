@@ -128,5 +128,6 @@
       <uniqueName>participant_is_pay_later</uniqueName> 
       <type>boolean</type>
       <default>0</default>
+      <import>true</import>
   </field>
 </table>
