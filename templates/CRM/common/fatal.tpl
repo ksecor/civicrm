@@ -20,6 +20,10 @@
     <hr style="solid 1px" />
     <p>{$message}</p>
 {/if}
+{if $error.message && $message != $error.message}
+    <hr style="solid 1px" />
+    <p>{$error.message}</p>
+{/if}
 {if $code}
     <hr style="solid 1px" />
     <p>Error Code: {$code}</p>

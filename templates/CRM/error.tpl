@@ -18,7 +18,12 @@
   <dt><img src="{$config->resourceBase}i/Error.gif" alt="{ts}unrecoverable error{/ts}" /></dt>
   <dd>
       {ts}Sorry. A non-recoverable error has occurred.{/ts}
+{if $message}
       <p>{$message}</p>
+{/if}
+{if $error.message && $message != $error.message}
+      <p>{$error.message}</p>
+{/if}
 {if $code}
       <p>{ts}Error Code:{/ts} {$code}</p>
 {/if}
