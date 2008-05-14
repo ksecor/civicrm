@@ -617,7 +617,7 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
         // action is taken depending upon the mode
         require_once 'CRM/Utils/Hook.php';
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
-            CRM_Utils_Hook::pre( 'edit', $params['contact_type'], null, $params );
+            CRM_Utils_Hook::pre( 'edit', $params['contact_type'], $params['contact_id'], $params );
         } else {
             CRM_Utils_Hook::pre( 'create', $params['contact_type'], null, $params );
         }
