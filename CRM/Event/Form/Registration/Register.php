@@ -639,7 +639,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             while($participant->fetch()) {
                 if ( ( $participant->status_id == 1 ) ||
                      ( $participant->status_id == 2 ) ) {
-                    $status = "Oops. It looks like you are already registered for this event. If you want to change your registration, or you feel that you've gotten this message in error, please contact the site administrator."; 
+                    $status = ts("Oops. It looks like you are already registered for this event. If you want to change your registration, or you feel that you've gotten this message in error, please contact the site administrator."); 
                     $session->setStatus( $status );
                     $url = CRM_Utils_System::url( 'civicrm/event/info',
                                                   "reset=1&id={$self->_values['event']['id']}" );
