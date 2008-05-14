@@ -390,21 +390,36 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $this->addGroup( $elements, 'is_recur', null, '<br />' );
         $this->_defaults['is_recur'] = 0;
         
-        $this->add( 'text', 'frequency_interval', ts( 'Every' ),
-                    $attributes['frequency_interval'] );
-        $this->addRule( 'frequency_interval', ts( 'Frequency must be a whole number (EXAMPLE: Every 3 months).' ), 'integer' );
+        if ( $this->_values['is_recur_interval'] ) {
+            $this->add( 'text', 'frequency_interval', ts( 'Every' ),
+                        $attributes['frequency_interval'] );
+            $this->addRule( 'frequency_interval', ts( 'Frequency must be a whole number (EXAMPLE: Every 3 months).' ), 'integer' );
+        } else {
+            // make sure frequency_interval is submitted as 1 if given
+            // no choice to user.
+            $this->add( 'hidden', 'frequency_interval', 1 );
+        }
+        
+        $units    = array( );
+        $unitVals = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $this->_values['recur_frequency_unit'] );
+        foreach ( $unitVals as $key => $val ) {
+            $units[$val] = ts( '%1', array(1 => $val) );
+            if ( $this->_values['is_recur_interval'] ) {
+                $units[$val] .= ts('(s)');
+            }
+        }
 
-        $units = array( 0       => ts( '-period-' ),
-                        'day'   => ts( 'day(s)'      ),
-                        'week'  => ts( 'week(s)'     ),
-                        'month' => ts( 'month(s)'    ),
-                        'year'  => ts( 'year(s)'     ) );
-        $this->add( 'select', 'frequency_unit', null, $units );
-
+        $frequencyUnit =& $this->add( 'select', 'frequency_unit', null, $units );
+        
+        // FIXME: Ideally we should freeze select box if there is only
+        // one option but looks there is some problem /w QF freeze.
+        //if ( count( $units ) == 1 ) {
+        //$frequencyUnit->freeze( );
+        //}
+        
         $this->add( 'text', 'installments', ts( 'installments' ),
                     $attributes['installments'] );
         $this->addRule( 'installments', ts( 'Number of installments must be a whole number.' ), 'integer' );
-
     }
 
 

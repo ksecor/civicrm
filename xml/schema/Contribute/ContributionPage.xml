@@ -90,6 +90,21 @@
       <comment>if true - allows recurring contributions, valid only for PayPal_Standard</comment>   
       <add>1.6</add>   
   </field>
+  <field>
+       <name>recur_frequency_unit</name>
+       <type>varchar</type>
+       <length>128</length>
+       <comment>Supported recurring frequency units.</comment>
+       <add>2.1</add>
+  </field>
+  <field>   
+      <name>is_recur_interval</name>   
+      <type>boolean</type>                   
+      <required>true</required>
+      <default>0</default> 
+      <comment>if true - supports recurring intervals</comment>   
+      <add>2.1</add>   
+  </field>
   <field>   
       <name>is_pay_later</name>   
       <type>boolean</type>                   

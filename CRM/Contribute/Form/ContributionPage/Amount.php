@@ -84,9 +84,15 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         //check if selected payment processor supports recurring payment
         
         require_once "CRM/Contribute/BAO/ContributionPage.php";
-        
+
         if ( CRM_Contribute_BAO_ContributionPage::checkRecurPaymentProcessor( $this->_id ) ) {
             $this->addElement('checkbox', 'is_recur', ts('Enable recurring payments') );
+            require_once 'CRM/Core/OptionGroup.php';
+            $this->addCheckBox( 'recur_frequency_unit', ts('Supported recurring units'), 
+                                CRM_Core_OptionGroup::values( 'recur_frequency_units' ),
+                                null, null, null, null,
+                                array( '&nbsp;&nbsp;', '&nbsp;&nbsp;', '&nbsp;&nbsp;', '<br/>' ) );
+            $this->addElement('checkbox', 'is_recur_interval', ts('Support recurring intervals') );
         }
 
         // add pay later options
@@ -203,7 +209,15 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         $params['amount_block_is_active']  = CRM_Utils_Array::value( 'amount_block_is_active', $params, false );
         $params['is_monetary']  = CRM_Utils_Array::value( 'is_monetary', $params ,false );
         $params['is_recur']  = CRM_Utils_Array::value( 'is_recur', $params ,false);
-     
+
+        if ( $params['is_recur'] ) {
+            require_once 'CRM/Core/BAO/CustomOption.php';
+            $params['recur_frequency_unit'] = 
+                implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, 
+                         array_keys( $params['recur_frequency_unit'] ) );
+            $params['is_recur_interval']  = CRM_Utils_Array::value( 'is_recur_interval', $params ,false );
+        }
+
         $options = array( );
         
         for ( $i = 1; $i < self::NUM_OPTION; $i++ ) {

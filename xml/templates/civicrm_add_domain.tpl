@@ -144,7 +144,8 @@ VALUES
    (@domain_id, 'safe_file_extension'           , '{ts escape="sql"}Safe File Extension{/ts}'                , 0, 1),
    (@domain_id, 'from_email_address'            , '{ts escape="sql"}From Email Address{/ts}'                 , 0, 1),
    (@domain_id, 'mapping_type'                  , '{ts escape="sql"}Mapping Type{/ts}'                       , 0, 1),
-   (@domain_id, 'wysiwyg_editor'                , '{ts escape="sql"}WYSIWYG Editor{/ts}'                     , 0, 1);
+   (@domain_id, 'wysiwyg_editor'                , '{ts escape="sql"}WYSIWYG Editor{/ts}'                     , 0, 1),
+   (@domain_id, 'recur_frequency_units'         , '{ts escape="sql"}Recurring Frequency Units{/ts}'          , 0, 1);
    
 SELECT @option_group_id_pcm            := max(id) from civicrm_option_group where name = 'preferred_communication_method';
 SELECT @option_group_id_act            := max(id) from civicrm_option_group where name = 'activity_type';
@@ -177,6 +178,7 @@ SELECT @option_group_id_pl             := max(id) from civicrm_option_group wher
 SELECT @option_group_id_sfe            := max(id) from civicrm_option_group where name = 'safe_file_extension';
 SELECT @option_group_id_mt             := max(id) from civicrm_option_group where name = 'mapping_type';
 SELECT @option_group_id_we             := max(id) from civicrm_option_group where name = 'wysiwyg_editor';
+SELECT @option_group_id_fu             := max(id) from civicrm_option_group where name = 'recur_frequency_units';
 
 INSERT INTO 
    `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`) 
@@ -380,7 +382,12 @@ VALUES
   (@option_group_id_mt, '{ts escape="sql"}Export Contact{/ts}',     7, 'Export Contacts',     NULL, 0, 0,    7, NULL, 0, 1, 1, NULL),
   (@option_group_id_mt, '{ts escape="sql"}Export Contribution{/ts}', 8, 'Export Contribution', NULL, 0, 0,    8, NULL, 0, 1, 1, NULL),
   (@option_group_id_mt, '{ts escape="sql"}Export Membership{/ts}',   9, 'Export Membership',   NULL, 0, 0,    9, NULL, 0, 1, 1, NULL),
-  (@option_group_id_mt, '{ts escape="sql"}Export Participant{/ts}',  10, 'Export Participant', NULL, 0, 0,   10, NULL, 0, 1, 1, NULL);
+  (@option_group_id_mt, '{ts escape="sql"}Export Participant{/ts}',  10, 'Export Participant', NULL, 0, 0,   10, NULL, 0, 1, 1, NULL),
+
+  (@option_group_id_fu, 'day'    , 'day'  ,    'day',  NULL, 0, NULL, 1, NULL, 0, 1, 1, NULL),
+  (@option_group_id_fu, 'week'   , 'week' ,   'week',  NULL, 0, NULL, 2, NULL, 0, 1, 1, NULL),
+  (@option_group_id_fu, 'month'  , 'month',  'month',  NULL, 0, NULL, 3, NULL, 0, 1, 1, NULL),
+  (@option_group_id_fu, 'year'   , 'year' ,   'year',  NULL, 0, NULL, 4, NULL, 0, 1, 1, NULL);
 
 
 -- sample membership status entries

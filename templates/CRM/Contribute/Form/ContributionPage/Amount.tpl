@@ -41,6 +41,20 @@
                   <span class="description">{ts}Check this box if you want to give users the option to make recurring contributions. (This feature requires that you use 'PayPal Website Standard' OR 'PayJunction' as your payment processor.){/ts}</span>
                </td>
             </tr>
+            <tr id="recurFields"><td>&nbsp;</td>
+               <td>
+                  <table class="form-layout-compressed">
+                    <tr><th scope="row" class="label">{$form.recur_frequency_unit.label}<span class="marker" title="This field is required.">*</span></th>
+                        <td>{$form.recur_frequency_unit.html}<br />
+                        <span class="description">{ts}Select recurring units supported for recurring payments.{/ts}</span></td>
+                    </tr> 
+                    <tr><th scope="row" class="label">{$form.is_recur_interval.label}<span class="marker" title="This field is required.">*</span></th>
+                        <td>{$form.is_recur_interval.html}<br />
+                        <span class="description">{ts}Check if users are allowed to enter recurring intervals.{/ts}</span></td>
+                    </tr>
+                  </table>
+                </td>
+            </tr>
             {/if}    
 
 
