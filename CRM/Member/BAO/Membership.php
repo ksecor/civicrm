@@ -71,7 +71,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
     static function &add(&$params, &$ids) 
     {
         require_once 'CRM/Utils/Hook.php';
-        
+       
         if ( CRM_Utils_Array::value( 'membership', $ids ) ) {
             CRM_Utils_Hook::pre( 'edit', 'Membership', $ids['membership'], $params );
         } else {
@@ -79,10 +79,15 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         }
         
         // converting dates to mysql format
-        $params['join_date']  = CRM_Utils_Date::isoToMysql($params['join_date']);
-        $params['start_date'] = CRM_Utils_Date::isoToMysql($params['start_date']);
-        $params['end_date']   = CRM_Utils_Date::isoToMysql($params['end_date']);
-        
+        if ( $params['join_date'] ) {
+            $params['join_date']  = CRM_Utils_Date::isoToMysql($params['join_date']);
+        }
+        if ( $params['start_date'] ) {
+            $params['start_date'] = CRM_Utils_Date::isoToMysql($params['start_date']);
+        }
+        if ( $params['end_date'] ) {
+            $params['end_date']   = CRM_Utils_Date::isoToMysql($params['end_date']);
+        }
         if ($params['reminder_date']) { 
             $params['reminder_date']  = CRM_Utils_Date::isoToMysql($params['reminder_date']);
         } else {
@@ -110,6 +115,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
                                'modified_id'   => CRM_Utils_Array::value( 'userId', $ids ),
                                'modified_date' => date('Ymd')
                                );
+       
         require_once 'CRM/Member/BAO/MembershipLog.php';
         CRM_Member_BAO_MembershipLog::add($membershipLog, CRM_Core_DAO::$_nullArray);
         
@@ -184,7 +190,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             
             require_once 'CRM/Member/BAO/MembershipStatus.php';
             $calcStatus = CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( $startDate, $endDate, $joinDate );
-            
+              
             if ( empty( $calcStatus ) ) {
                 if ( ! $callFromAPI ) {
                     // Redirect the form in case of error
@@ -1415,6 +1421,28 @@ SELECT c.contribution_page_id as pageID
         if ( is_a( civicrm_activity_create( $activityParams ), 'CRM_Core_Error' ) ) {
             CRM_Core_Error::fatal("Failed creating Activity for membership of id {$membership->id}");
         }
+    }
+    
+     /**
+     * function to get the sort name of a contact for a particular membership
+     *
+     * @param  int    $id      id of the membership
+     *
+     * @return null|string     sort name of the contact if found
+     * @static
+     * @access public
+     */
+    static function sortName( $id ) 
+    {
+        $id = CRM_Utils_Type::escape( $id, 'Integer' );
+        
+        $query = "
+SELECT civicrm_contact.sort_name
+FROM   civicrm_membership, civicrm_contact
+WHERE  civicrm_membership.contact_id = civicrm_contact.id
+  AND  civicrm_membership.id = {$id}
+";
+        return CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
     }
 }
 

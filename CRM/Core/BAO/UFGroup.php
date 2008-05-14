@@ -1756,7 +1756,30 @@ WHERE  id = $cfID
                 }  
             }
         }
-        
+
+        //Handling membership Part of the batch profile 
+        if ( CRM_Core_Permission::access( 'CiviMember' ) && $component == 'Membership' ) {
+            $params = $ids = $values = array( );
+            $params = array( 'id' => $componentId );
+            
+            require_once "CRM/Core/BAO/Note.php";
+            require_once "CRM/Member/BAO/Membership.php";
+            CRM_Member_BAO_Membership::getValues( $params, $values,  $ids );
+            
+            foreach ($fields as $name => $field ) {
+                $fldName = "field[$componentId][$name]";
+                if ( array_key_exists($name,$values[$componentId]) ) {
+                    $defaults[$fldName] = $values[$componentId][$name];
+                }  else if ( substr( $name, 0, 7 ) == 'custom_') {               
+                     $groupTrees[] =& CRM_Core_BAO_CustomGroup::getTree( 'Membership', $componentId, 0, null); 
+                     foreach ( $groupTrees as $groupTree ) {
+                         CRM_Core_BAO_CustomGroup::setDefaults( $groupTree, $defaults, false, false );
+                         $defaults[$fldName] = $defaults[$name];
+                         unset($defaults[$name]);
+                     }
+                }  
+            }
+        }
     }
     
     /**
