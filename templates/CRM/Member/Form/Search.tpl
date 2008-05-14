@@ -11,18 +11,16 @@
 <div id="searchForm">
 <fieldset><legend>{ts}Search Criteria{/ts}</legend>
 {strip}
-     <table class="form-layout" style="width:50%">
-		<tr>
-            <td class="font-size12pt label">{$form.sort_name.label}</td>
-            <td>{$form.sort_name.html|crmReplace:class:'twenty'}
-            </td>
-            <td style="vertical-align:middle">&nbsp;{$form.buttons.html}</td>       
-        </tr>
-        <tr><table style="border:0px">
-        {include file="CRM/Member/Form/Search/Common.tpl"}
-        </table></tr>
+     <table class="form-layout">
         <tr>
-            <td colspan="2">&nbsp;</td>
+            <td class="font-size12pt label" style="text-align:left">{$form.sort_name.label}
+             &nbsp;{$form.sort_name.html|crmReplace:class:'twenty'}
+             &nbsp;{$form.buttons.html}</td>       
+        </tr>
+        <tr><td><table style="border:0px">
+        {include file="CRM/Member/Form/Search/Common.tpl"}
+        </table></td></tr>
+        <tr>
             <td>{$form.buttons.html}</td>
         </tr>
     </table>

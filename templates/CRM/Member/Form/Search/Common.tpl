@@ -20,7 +20,7 @@
 </tr>
 
 <tr>
-    <td class="label">{$form.member_source.label}
+    <td>{$form.member_source.label}
     <br />{$form.member_source.html}</td>
     <td>{$form.member_test.html}&nbsp;{$form.member_test.label}<br/>
         {$form.member_pay_later.html}&nbsp;{$form.member_pay_later.label}</td> 

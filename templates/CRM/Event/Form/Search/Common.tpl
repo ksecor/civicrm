@@ -41,7 +41,7 @@
 </tr>
 
 <tr>
-    <td class="label"><label>{ts}Participant Status{/ts}</label> 
+    <td><label>{ts}Participant Status{/ts}</label> 
     <br>
       <div class="listing-box" style="width: auto; height: 120px">
        {foreach from=$form.participant_status_id item="participant_status_val"} 
@@ -59,7 +59,7 @@
                 {$participant_role_id_val.html}
                 </div>
             {/foreach}
-        </div>
+        </div><br />
     </td>
   
  </tr> 
