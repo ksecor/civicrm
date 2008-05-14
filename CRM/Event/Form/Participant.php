@@ -316,6 +316,10 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                                                                                   $recordContribution, $field );
                 }
             }
+            if ( $defaults[$this->_id]['participant_is_pay_later'] ) {
+                $this->assign( 'participant_is_pay_later', true );
+            }
+            $this->assign( 'participant_status_id', $defaults[$this->_id]['participant_status_id'] );
         }
       
 

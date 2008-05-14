@@ -26,7 +26,9 @@
 
         <dt>{ts}Received{/ts}</dt><dd>{if $receive_date}{$receive_date|truncate:10:''|crmDate}{else}({ts}pending{/ts}){/if}&nbsp;</dd>
 
-        <dt>{ts}Contribution Status{/ts}</dt><dd{if $contribution_status_id eq 3} class="font-red bold"{/if}>{$contribution_status}</dd>
+        <dt>{ts}Contribution Status{/ts}</dt><dd{if $contribution_status_id eq 3} class="font-red bold"{/if}>{$contribution_status} 
+	{if $contribution_status_id eq 2} {if $is_pay_later}: {ts}Pay Later{/ts} {else} : {ts}Incomplete Transaction{/ts} {/if} {/if} 
+        </dd>
         {if $cancel_date}
             <dt>{ts}Cancelled Date{/ts}</dt><dd>{$cancel_date|truncate:10:''|crmDate}</dd>
             {if $cancel_reason}

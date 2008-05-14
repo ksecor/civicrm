@@ -173,6 +173,12 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         }
         
         $this->assign( "member_is_test", CRM_Utils_Array::value('member_is_test',$defaults) );
+        
+        $this->assign( 'membership_status_id', $defaults['status_id'] );
+        
+        if ( $defaults['is_pay_later'] ) {
+            $this->assign( 'is_pay_later', true ); 
+        }
         return $defaults;
     }
     

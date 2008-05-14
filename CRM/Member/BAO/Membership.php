@@ -1193,7 +1193,8 @@ AND civicrm_membership.is_test = %2";
 
             $memParams['status_id']     = $status['id'];
             $memParams['is_override']   = false;
-            
+            $memParams['is_pay_later']  = $form->_params['is_pay_later'];
+
             CRM_Utils_Hook::pre('create', 'Membership', null, $memParams );
             
             $membership = &new CRM_Member_DAO_Membership();

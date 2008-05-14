@@ -47,7 +47,8 @@
             {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_2}
             {include file="CRM/common/calendar/body.tpl" dateVar=receipt_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_contribution_2}<br />
             <span class="description">{ts}Date that a receipt was sent to the contributor.{/ts}</span></td></tr>
-        <tr><td class="label">{$form.contribution_status_id.label}</td><td>{$form.contribution_status_id.html}</td></tr>
+        <tr><td class="label">{$form.contribution_status_id.label}</td><td>{$form.contribution_status_id.html} 
+	{if $contribution_status_id eq 2}{if $is_pay_later }: {ts}Pay Later{/ts} {else}: {ts}Incomplete Transaction{/ts}{/if}{/if}</td></tr>
         {* Cancellation fields are hidden unless contribution status is set to Cancelled *}
         <tr id="cancelInfo"> 
            <td>&nbsp;</td> 
