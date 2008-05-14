@@ -9,6 +9,8 @@
             <dt>&nbsp;</dt><dd class="description">{ts}Locale for monetary display (affects formatting specifiers below).{/ts}</dd>
             <dt>{$form.moneyformat.label}</dt><dd>{$form.moneyformat.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts}Format for displaying monetary values.{/ts}</dd>
+            <dt>{$form.customTranslateFunction.label}</dt><dd>{$form.customTranslateFunction.html}</dd>
+            <dt>&nbsp;</dt><dd class="description">{ts}Function name to use for translation inplace of the default CiviCRM translate function. {/ts}</dd>
             <dt>{$form.legacyEncoding.label}</dt><dd>{$form.legacyEncoding.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts}If import files are NOT encoded as UTF-8, specify an alternate character encoding for these files. The default of <strong>Windows-1252</strong> will work for Excel-created .CSV files on many computers.{/ts}</dd>
              <dt>{$form.fieldSeparator.label}</dt><dd>{$form.fieldSeparator.html}</dd>

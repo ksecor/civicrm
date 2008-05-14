@@ -510,7 +510,9 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
      * @access public
      */
     function getTemplateFileName() {
-        return (str_replace('_', DIRECTORY_SEPARATOR, CRM_Utils_System::getClassName($this)) . ".tpl");
+        return str_replace( '_',
+                            DIRECTORY_SEPARATOR,
+                            CRM_Utils_System::getClassName( $this ) ) .'.tpl';
     }
 
     /**
