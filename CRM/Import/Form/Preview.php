@@ -138,7 +138,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         $groups =& $this->get('groups');
         
         if ( ! empty( $groups ) ) {
-            $this->addElement( 'select', 'groups', ts('Join new contacts to existing group(s)'), $groups, array('multiple' => "multiple", 'size' => 5));
+            $this->addElement( 'select', 'groups', ts('Add imported records to existing group(s)'), $groups, array('multiple' => "multiple", 'size' => 5));
         }
 
         //display new tag

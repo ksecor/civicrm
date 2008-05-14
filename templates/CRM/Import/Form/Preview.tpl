@@ -181,7 +181,7 @@ function verify( )
  <table id="preview-counts" class="report">
     <tr><td class="label">{ts}Total Rows{/ts}</td>
         <td class="data">{$totalRowCount}</td>
-        <td class="explanation">{ts}Total rows (contact records) in uploaded file.{/ts}</td>
+        <td class="explanation">{ts}Total number of rows in the uploaded file.{/ts}</td>
     </tr>
     
     {if $invalidRowCount}
@@ -220,11 +220,11 @@ function verify( )
  {* Group options *}
  {* New Group *}
     <div id="newGroup_show" class="section-hidden section-hidden-border">
-        <a href="#" onclick="hide('newGroup_show'); show('newGroup'); return false;">&raquo; <label>{ts}Create a new group from imported records{/ts}</label>{*$form.newGroup.label*}</a>
+        <a href="#" onclick="hide('newGroup_show'); show('newGroup'); return false;">&raquo; <label>{ts}Add imported records to a new group{/ts}</label>{*$form.newGroup.label*}</a>
     </div>
 
     <div id="newGroup" class="section-hidden section-hidden-border">
-        <a href="#" onclick="hide('newGroup'); show('newGroup_show'); return false;">&raquo; <label>{ts}Create a new group from imported records{/ts}</label></a>
+        <a href="#" onclick="hide('newGroup'); show('newGroup_show'); return false;">&raquo; <label>{ts}Add imported records to a new group{/ts}</label></a>
         <div class="form-item">
             <dl>
             <dt class="description">{$form.newGroupName.label}</dt><dd>{$form.newGroupName.html}</dd>
