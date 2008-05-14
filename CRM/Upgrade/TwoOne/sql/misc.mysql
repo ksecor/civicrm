@@ -88,3 +88,7 @@ ALTER TABLE `civicrm_group_contact`
     DROP location_id;
 
 
+-- CRM-3109
+
+-- need to change the default value of is_email_confirm to 0 from 1
+
