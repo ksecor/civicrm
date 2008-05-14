@@ -85,7 +85,10 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
             list( $defaults['custom_pre_id'],
                   $defaults['custom_post_id'] ) = 
                 CRM_Core_BAO_UFJoin::getUFGroupIds( $ufJoinParams ); 
-        }
+        } else {
+	  $defaults['is_email_confirm'] = 0;
+	}
+
         return $defaults;
     }   
     
