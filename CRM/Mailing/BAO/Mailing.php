@@ -848,10 +848,15 @@ AND civicrm_contact.is_opt_out =0";
          *  optOut:         contact unsubscribes from the domain
          */
         $verp = array( );
-        foreach (array('reply', 'bounce', 'unsubscribe', 'resubscribe', 'optOut') as $key) {
+        $verpTokens = array( 'reply'       => 'r' ,
+                             'bounce'      => 'b' ,
+                             'unsubscribe' => 'u' ,
+                             'resubscribe' => 're',
+                             'optOut'      => 'o'  );
+        foreach ($verpTokens as $key => $value ) {
             $verp[$key] = implode($config->verpSeparator,
                                   array(
-                                        $key, 
+                                        $value,
                                         $this->domain_id,
                                         $job_id, 
                                         $event_queue_id,

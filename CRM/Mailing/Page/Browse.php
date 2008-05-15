@@ -96,7 +96,13 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
      * @return void 
      */ 
     function run($newArgs) {
+
         $this->preProcess();
+
+        if ( isset( $_GET['runJobs'] ) ) {
+            require_once 'CRM/Mailing/BAO/Job.php';
+            CRM_Mailing_BAO_Job::runJobs();
+        }
 
         $this->_sortByCharacter = CRM_Utils_Request::retrieve( 'sortByCharacter',
                                                                'String',

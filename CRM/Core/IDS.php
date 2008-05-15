@@ -57,7 +57,15 @@ class CRM_Core_IDS {
      * @param object cake controller object
      * @return boolean
      */
-    public function check( ) {
+    public function check( &$args ) {
+
+        // lets bypass a few civicrm urls from this check
+        static $skip = array( 'civicrm/mailing/send',
+                              'civicrm/mailing/queue' );
+        $path = implode( '/', $args );
+        if ( in_array( $path, $skip ) ) {
+            return;
+        }
 
         #add request url and user agent
         $_REQUEST['IDS_request_uri'] = $_SERVER['REQUEST_URI'];
