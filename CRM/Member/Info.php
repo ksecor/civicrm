@@ -41,12 +41,14 @@ class CRM_Member_Info extends CRM_Core_Component_Info
 {
 
     // docs inherited from interface
+    protected $keyword = 'member';
+
+    // docs inherited from interface
     public function getInfo()
     {
         return array( 'name'           => 'CiviMember',
                       'translatedName' => ts('CiviMember'),
                       'title'          => 'CiviCRM Membership Engine',
-                      'url'            => 'member',
                       'menu'           => array( 'Menu/Member.xml' ),
                       'search'         => 1 );
     }
@@ -69,6 +71,14 @@ class CRM_Member_Info extends CRM_Core_Component_Info
                       // CiviMember
                       'perm'   => array( 'make online contributions' ),
                       'weight' => 30 );
+    }
+
+    // docs inherited from interface
+    public function registerTab()
+    {
+        return array( 'title'   => ts( 'Memberships' ),
+                      'url'	=> 'membership',
+                      'weight'  => 30 );
     }
 
     // docs inherited from interface    

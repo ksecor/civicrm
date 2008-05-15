@@ -182,54 +182,33 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
         
         
         $this->_viewOptions = CRM_Core_BAO_Preferences::valueOptions( 'contact_view_options', true, null, true );
-    
-        // get the contributions, new style of doing stuff
-        // do the below only if the person has access to contributions
-        $config =& CRM_Core_Config::singleton( );
-        if ( CRM_Core_Permission::access( 'CiviContribute' ) &&
-             $this->_viewOptions[ts('Contributions')] ) {
-            $allTabs[] = array ( 'id'     => 'contribute',
-                                 'url'    =>  CRM_Utils_System::url( 'civicrm/contact/view/contribution',
-                                                                     "reset=1&force=1&snippet=1&cid={$this->_contactId}" ),
-                                 'title'  => ts('Contributions'),
-                                 'weight' => $weight );
-            $weight += 10;
-        }
 
-        // get the memberships, new style of doing stuff
-        // do the below only if the person has access to memberships
-        if ( CRM_Core_Permission::access( 'CiviMember' ) &&
-             $this->_viewOptions[ts('Memberships')] ) {
-            $allTabs[] = array ( 'id'  => 'member',
-                                 'url' =>  CRM_Utils_System::url( 'civicrm/contact/view/membership',
-                                                                  "reset=1&force=1&snippet=1&cid={$this->_contactId}" ),
-                                 'title'  => ts('Memberships'),
-                                 'weight' => $weight );
-            $weight += 10;
-        }
+        require_once 'CRM/Core/Component.php';
+        $components = CRM_Core_Component::getEnabledComponents();
 
-        // get the events, new style of doing stuff
-        // do the below only if the person has access to events
-        if ( CRM_Core_Permission::access( 'CiviEvent' ) &&
-             $this->_viewOptions[ts('Events')] ) {
-            $allTabs[] = array ( 'id'  => 'participant',
-                                 'url' =>  CRM_Utils_System::url( 'civicrm/contact/view/participant',
-                                                                  "reset=1&force=1&snippet=1&cid={$this->_contactId}" ),
-                                 'title'  => ts('Events'),
-                                 'weight' => $weight );
-            $weight += 10;
-        }
-
-        // get the grants, new style of doing stuff
-        // do the below only if the person has access to grants
-        if ( CRM_Core_Permission::access( 'CiviGrant' ) ) {
-        // FIXME! FIXME! FIXME! && $this->_viewOptions[ts('Grants')] ) {
-            $allTabs[] = array ( 'id'  => 'grant',
-                                 'url' =>  CRM_Utils_System::url( 'civicrm/contact/view/grant',
-                                                                  "reset=1&force=1&snippet=1&cid={$this->_contactId}" ),
-                                 'title'  => ts('Grants'),
-                                 'weight' => $weight );
-            $weight += 10;
+        foreach( $components as $name => $component ) {
+            $elem = $component->registerTab();
+            if( in_array( $elem['title'], array_keys($this->_viewOptions) ) &&
+                CRM_Core_Permission::access( $component->name ) ) {
+                // FIXME: not very elegant, probably needs better approach
+                // allow explicit id, if not defined, use keyword instead
+                if( array_key_exists( 'id', $elem ) ) {
+                    $i = $elem['id'];
+                } else {
+                    $i = $component->getKeyword();
+                }
+                $u = $elem['url'];
+                $allTabs[] = array( 'id'     =>  $i,
+                                'url'    => CRM_Utils_System::url( "civicrm/contact/view/$u",
+                                                                   "reset=1&snippet=1&cid={$this->_contactId}" ),
+                                'title'  => $elem['title'],
+                                'weight' => $elem['weight'] );
+                // make sure to get maximum weight, rest of tabs go after
+                // FIXME: not very elegant again
+                if( $weight < $elem['weight'] ) {
+                    $weight = $elem['weight'];
+                }
+            }
         }
 
         $rest = array( 'activity'      => ts('Activities')    ,
@@ -258,6 +237,8 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
                                 'weight' => $weight );
             $weight += 10;
         }
+
+//        CRM_Core_Error::debug( 's', $allTabs );
         
         // now add all the custom tabs
         $activeGroups =&

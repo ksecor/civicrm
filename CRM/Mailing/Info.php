@@ -41,12 +41,15 @@ class CRM_Mailing_Info extends CRM_Core_Component_Info
 {
 
     // docs inherited from interface
+    protected $keyword = 'mailing';
+        
+
+    // docs inherited from interface
     public function getInfo()
     {
         return array( 'name'           => 'CiviMail',
                       'translatedName' => ts('CiviMail'),
                       'title'          => 'CiviCRM Mailing Engine',
-                      'url'            => 'mailing',
                       'menu'           => array( 'Menu/Mailing.xml' ),
                       'search'         => 0 );
     }
@@ -64,6 +67,14 @@ class CRM_Mailing_Info extends CRM_Core_Component_Info
     public function getUserDashboardElement()
     {
         // no dashboard element for this component
+        return null;
+    }
+
+
+    // docs inherited from interface  
+    public function registerTab()
+    {
+        // this component doesn't use contact record tabs
         return null;
     }
     

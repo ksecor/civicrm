@@ -41,6 +41,9 @@ class CRM_Grant_Info extends CRM_Core_Component_Info
 {
 
     // docs inherited from interface
+    protected $keyword = 'grant';
+
+    // docs inherited from interface
     public function getInfo()
     {
 
@@ -48,7 +51,6 @@ class CRM_Grant_Info extends CRM_Core_Component_Info
                       'translatedName' => ts('CiviGrant'),
                       'title'          => 'CiviCRM Grant Management Engine',
                       'path'           => 'CRM_Grant_',
-                      'url'            => 'grant',
                       'menu'           => array( 'Menu/Grant.xml' ),
                       'search'         => 1 );
     }
@@ -66,6 +68,14 @@ class CRM_Grant_Info extends CRM_Core_Component_Info
     {
         // no dashboard element for this component
         return null;
+    }
+
+    // docs inherited from interface  
+    public function registerTab()
+    {
+        return array( 'title'   => ts( 'Grants' ),
+                      'url'	=> 'grant',
+                      'weight'  => 50 );
     }
         
     // docs inherited from interface    

@@ -269,16 +269,17 @@ VALUES
 
 -- note that these are not ts'ed since they are used for logic in most cases and not display
 -- they are used for display only in the prefernces field settings
-  (@option_group_id_cvOpt, 'Activities'   ,   1, NULL, NULL, 0, NULL,  1, NULL, 0, 0, 1, NULL),
-  (@option_group_id_cvOpt, 'Relationships',   2, NULL, NULL, 0, NULL,  2, NULL, 0, 0, 1, NULL),
-  (@option_group_id_cvOpt, 'Groups'       ,   3, NULL, NULL, 0, NULL,  3, NULL, 0, 0, 1, NULL),
-  (@option_group_id_cvOpt, 'Notes'        ,   4, NULL, NULL, 0, NULL,  4, NULL, 0, 0, 1, NULL),
-  (@option_group_id_cvOpt, 'Tags'         ,   5, NULL, NULL, 0, NULL,  5, NULL, 0, 0, 1, NULL),
-  (@option_group_id_cvOpt, 'Change Log'   ,   6, NULL, NULL, 0, NULL,  6, NULL, 0, 0, 1, NULL),
-  (@option_group_id_cvOpt, 'Contributions',   7, NULL, NULL, 0, NULL,  7, NULL, 0, 0, 1, NULL),
-  (@option_group_id_cvOpt, 'Memberships'  ,   8, NULL, NULL, 0, NULL,  8, NULL, 0, 0, 1, NULL),
-  (@option_group_id_cvOpt, 'Events'       ,   9, NULL, NULL, 0, NULL,  9, NULL, 0, 0, 1, NULL),
-  (@option_group_id_cvOpt, 'Cases'        ,  10, NULL, NULL, 0, NULL,  10,NULL, 0, 0, 1, NULL),
+  (@option_group_id_cvOpt, 'Activities'   ,   1, NULL, NULL, 0, NULL,  1,  NULL, 0, 0, 1, NULL),
+  (@option_group_id_cvOpt, 'Relationships',   2, NULL, NULL, 0, NULL,  2,  NULL, 0, 0, 1, NULL),
+  (@option_group_id_cvOpt, 'Groups'       ,   3, NULL, NULL, 0, NULL,  3,  NULL, 0, 0, 1, NULL),
+  (@option_group_id_cvOpt, 'Notes'        ,   4, NULL, NULL, 0, NULL,  4,  NULL, 0, 0, 1, NULL),
+  (@option_group_id_cvOpt, 'Tags'         ,   5, NULL, NULL, 0, NULL,  5,  NULL, 0, 0, 1, NULL),
+  (@option_group_id_cvOpt, 'Change Log'   ,   6, NULL, NULL, 0, NULL,  6,  NULL, 0, 0, 1, NULL),
+  (@option_group_id_cvOpt, 'Contributions',   7, NULL, NULL, 0, NULL,  7,  NULL, 0, 0, 1, NULL),
+  (@option_group_id_cvOpt, 'Memberships'  ,   8, NULL, NULL, 0, NULL,  8,  NULL, 0, 0, 1, NULL),
+  (@option_group_id_cvOpt, 'Events'       ,   9, NULL, NULL, 0, NULL,  9,  NULL, 0, 0, 1, NULL),
+  (@option_group_id_cvOpt, 'Cases'        ,  10, NULL, NULL, 0, NULL,  10, NULL, 0, 0, 1, NULL),
+  (@option_group_id_cvOpt, 'Grants'       ,  11, NULL, NULL, 0, NULL,  11, NULL, 0, 0, 1, NULL),
 
   (@option_group_id_ceOpt, 'Communication Preferences',   1, NULL, NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL),
   (@option_group_id_ceOpt, 'Demographics'             ,   2, NULL, NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL),

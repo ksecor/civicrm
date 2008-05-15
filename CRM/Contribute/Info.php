@@ -40,13 +40,16 @@ require_once 'CRM/Core/Component/Info.php';
 class CRM_Contribute_Info extends CRM_Core_Component_Info
 {
 
+
+    // docs inherited from interface
+    protected $keyword = 'contribute';
+
     // docs inherited from interface
     public function getInfo()
     {
         return  array( 'name'	        => 'CiviContribute',
                        'translatedName' => ts('CiviContribute'),
                        'title'          => ts('CiviCRM Contribution Engine'),
-                       'url'            => 'contribute',
                        'menu'           => array( 'Menu/Contribute.xml' ),
                        'search'         => 1 );
     }
@@ -68,6 +71,15 @@ class CRM_Contribute_Info extends CRM_Core_Component_Info
                       'perm'    => array( 'make online contributions' ),
                       'weight'  => 10 );
     }
+
+    // docs inherited from interface
+    public function registerTab()
+    {
+        return array( 'title'   => ts( 'Contributions' ),
+                      'url'     => 'contribution',
+                      'weight'  => 20 );
+    }
+
 
 
     // docs inherited from interface    
