@@ -1,4 +1,4 @@
-<div id="activity">
+<div id="activity" class="form-item">
   <fieldset class="collapsible">
     <table class="form-layout">
         <tr>

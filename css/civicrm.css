@@ -93,6 +93,7 @@ border-top-style: none;
   margin: 0px;
   padding: 3px 0px 3px 0px;
   clear: both;
+  overflow: auto; 
 }
 
 /* Use this rule for Box-Grey or other themes with very large default label fonts... */

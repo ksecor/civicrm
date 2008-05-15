@@ -1,5 +1,5 @@
 {if $validCiviMember}
-    <div id="memberForm">
+    <div id="memberForm" class="form-item">
     <fieldset class="collapsible">
     <table class="form-layout">
        <tr>

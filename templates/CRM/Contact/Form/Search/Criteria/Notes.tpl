@@ -1,5 +1,5 @@
-<div id="changelog">
-<fieldset class="collapsible">
+<div id="notes-search" class="form-item">
+ <fieldset class="collapsible">
     <table class="form-layout">
         <tr>
             <td class="label">
@@ -11,4 +11,4 @@
         </tr>
     </table>
  </fieldset>
- </div>
+</div>
