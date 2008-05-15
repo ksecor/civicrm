@@ -100,7 +100,6 @@
   <field>   
       <name>is_recur_interval</name>   
       <type>boolean</type>                   
-      <required>true</required>
       <default>0</default> 
       <comment>if true - supports recurring intervals</comment>   
       <add>2.1</add>   

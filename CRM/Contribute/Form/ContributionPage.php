@@ -172,6 +172,20 @@ class CRM_Contribute_Form_ContributionPage extends CRM_Core_Form {
             $defaults['for_organization'] = ts('I am contributing on behalf on an organization.');
         }
 
+
+        if ( $defaults['recur_frequency_unit'] ) {
+            require_once 'CRM/Core/BAO/CustomOption.php';
+            $defaults['recur_frequency_unit'] = 
+                array_fill_keys( explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, 
+                                          $defaults['recur_frequency_unit'] ), '1' );
+        } else {
+            $defaults['recur_frequency_unit'] = 
+                array_fill_keys( CRM_Core_OptionGroup::values( 'recur_frequency_units' ), '1' );
+        }
+        if ( !isset( $defaults['is_recur_interval'] ) ) {
+            $defaults['is_recur_interval'] = 1;
+        }
+
         return $defaults;
     }
 

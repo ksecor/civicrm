@@ -86,7 +86,8 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         require_once "CRM/Contribute/BAO/ContributionPage.php";
 
         if ( CRM_Contribute_BAO_ContributionPage::checkRecurPaymentProcessor( $this->_id ) ) {
-            $this->addElement('checkbox', 'is_recur', ts('Enable recurring payments') );
+            $this->addElement( 'checkbox', 'is_recur', ts('Enable recurring payments'), null, 
+                               array('onclick' => "return showHideByValue('is_recur',true,'recurFields','table-row','radio',false);") );
             require_once 'CRM/Core/OptionGroup.php';
             $this->addCheckBox( 'recur_frequency_unit', ts('Supported recurring units'), 
                                 CRM_Core_OptionGroup::values( 'recur_frequency_units' ),
@@ -178,6 +179,13 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
                 $errors['pay_later_receipt'] = ts( 'Please enter the instructions to be sent to the contributor when they choose to \'pay later\'.' );
             }
         }
+        
+        if ( isset( $fields['is_recur'] ) ) {
+            if ( empty( $fields['recur_frequency_unit'] ) ) {
+                $errors['recur_frequency_unit'] = ts( 'Atleast one option needs to be checked.' );
+            }
+        }        
+
         return $errors;
     }
  
@@ -215,7 +223,10 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
             $params['recur_frequency_unit'] = 
                 implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, 
                          array_keys( $params['recur_frequency_unit'] ) );
-            $params['is_recur_interval']  = CRM_Utils_Array::value( 'is_recur_interval', $params ,false );
+            $params['is_recur_interval'] = CRM_Utils_Array::value( 'is_recur_interval', $params ,false );
+        } else {
+            $params['recur_frequency_unit'] = "null";
+            $params['is_recur_interval']    = "null";
         }
 
         $options = array( );

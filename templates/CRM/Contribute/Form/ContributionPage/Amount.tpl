@@ -48,7 +48,7 @@
                         <td>{$form.recur_frequency_unit.html}<br />
                         <span class="description">{ts}Select recurring units supported for recurring payments.{/ts}</span></td>
                     </tr> 
-                    <tr><th scope="row" class="label">{$form.is_recur_interval.label}<span class="marker" title="This field is required.">*</span></th>
+                    <tr><th scope="row" class="label">{$form.is_recur_interval.label}</th>
                         <td>{$form.is_recur_interval.html}<br />
                         <span class="description">{ts}Check if users are allowed to enter recurring intervals.{/ts}</span></td>
                     </tr>
@@ -134,3 +134,12 @@
 
 </script>
 {/literal}
+
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="is_recur"
+    trigger_value       ="true"
+    target_element_id   ="recurFields" 
+    target_element_type ="table-row"
+    field_type          ="radio"
+    invert              = "false"
+}
