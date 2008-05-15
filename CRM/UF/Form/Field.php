@@ -452,7 +452,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         $js .= "</script>\n";
         $this->assign('initHideBoxes', $js);
         
-        $this->add( 'select', 'visibility', ts('Visibility'), CRM_Core_SelectValues::ufVisibility( ), true );
+        $this->add( 'select', 'visibility', ts('Visibility'), CRM_Core_SelectValues::ufVisibility( ), true,array("onChange"=>"showHideSeletorSearch(this.value);") );
         
         // should the field appear in selector?
         $this->add('checkbox', 'in_selector', ts('In Selector?'));

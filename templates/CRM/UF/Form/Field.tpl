@@ -38,7 +38,7 @@
         <dt>{$form.is_view.label}</dt><dd>&nbsp;{$form.is_view.html}</dd>
         {edit}
         <dt>&nbsp;</dt><dd class="description">&nbsp;{ts}If checked, users can view but not edit this field.{/ts}</dd>
-        {/edit}
+	 {/edit}
         <dt>{$form.visibility.label}</dt><dd>&nbsp;{$form.visibility.html}</dd>
         {edit}
         <dt>&nbsp;</dt><dd class="description">&nbsp;{ts}Is this field hidden from other users ('User and User Admin Only'), or is it visible to others ('Public User Pages')? Select 'Public User Pages and Listings' to make the field searchable (in the Profile Search form). When visibility is 'Public User Pages and Listings', users can also click the field value when viewing a contact in order to locate other contacts with the same value(s) (i.e. other contacts who live in Poland).{/ts}</dd>
@@ -47,9 +47,9 @@
         {edit}
         <dt id="is_search_desDt">&nbsp;</dt><dd class="description" id="is_search_desDd">&nbsp;{ts}Do you want to include this field in the Profile's Search form?{/ts}</dd>
         {/edit}
-        <dt>{$form.in_selector.label}</dt><dd>&nbsp;{$form.in_selector.html}</dd>        
+        <dt id="in_selector_label">{$form.in_selector.label}</dt><dd id="in_selector_html">&nbsp;{$form.in_selector.html}</dd>        
         {edit}
-        <dt>&nbsp;</dt><dd class="description">&nbsp;{ts}Is this field included as a column in the search results table? This setting applies only to fields with 'Public User Pages and Listings' visibility.{/ts}</dd>
+        <dt id="in_selector_desDt">&nbsp;</dt><dd id="in_selector_desDd" class="description">&nbsp;{ts}Is this field included as a column in the search results table? This setting applies only to fields with 'Public User Pages and Listings' visibility.{/ts}</dd>
         {/edit}
         <dt>{$form.help_post.label}</dt><dd>&nbsp;{$form.help_post.html|crmReplace:class:huge}</dd>
         {edit}
@@ -164,5 +164,32 @@
 
 
     } 
+
+showHideSeletorSearch();
+	
+function showHideSeletorSearch()
+{
+	var vsbl= document.getElementById("visibility").options[document.getElementById("visibility").selectedIndex].text;
+		if ( vsbl == "User and User Admin Only" ){
+			hide("is_search_label");
+			hide("is_search_html");
+		     	hide("is_search_desDt");
+		     	hide("is_search_desDd");
+		   	hide("in_selector_label");
+		     	hide("in_selector_html");
+		     	hide("in_selector_desDt");
+		     	hide("in_selector_desDd");
+		} else {
+	 		show("is_search_label");
+       			show("is_search_html");
+       			show("is_search_desDt");
+	     		show("is_search_desDd");
+			show("in_selector_label");
+			show("in_selector_html");
+			show("in_selector_desDt");
+			show("in_selector_desDd");
+		}	
+}
+
 </script> 
 {/literal}
