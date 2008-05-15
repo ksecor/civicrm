@@ -9,7 +9,6 @@
         <tr><td class="label">{$form.from_email.label}</td>
             <td>{$form.from_name.html}<br /><span class="description">Name</span></td>
             <td>{$form.from_email.html}<br /><span class="description">Email Address</span></td></tr>
-        <tr><td class="label">{$form.subject.label}</td><td colspan="2">{$form.subject.html|crmReplace:class:huge}</td></tr>
         <tr><td></td><td colspan="2">{$form.upload_type.label} {$form.upload_type.html} {help id="upload-compose"}</td></tr>
     </table>
   </fieldset>
