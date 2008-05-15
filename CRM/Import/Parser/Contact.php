@@ -361,17 +361,17 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                 if ( $customFields[$customFieldID][2] == 'Date' ) {
                     self::formatCustomDate( $params, $formatted, $dateType, $key );
                     unset( $params[$key] );
+                } else if ( $customFields[$customFieldID][2] == 'Boolean' ) {
+                    $params[$key] = CRM_Utils_String::strtoboolstr( $val );
                 }
             }
-            if ( $key == 'birth_date' ) {
-                if( $val ) {
-                    CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
-                }
-            }
-            if ( $key == 'deceased_date' ) {
-                if( $val ) {
-                    CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
-                }
+            
+            if ( $key == 'birth_date' && $val ) {
+                CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
+            } else if ( $key == 'deceased_date' && $val ) {
+                CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
+            } else if ( $key == 'is_deceased' && $val ) {
+                $params[$key] = CRM_Utils_String::strtoboolstr( $val );
             }
         }
         //date-Format part ends
@@ -383,8 +383,10 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         }
         
         foreach ($params as $key => $field) {
+           
             if ($field == null || $field === '') {
                 continue;
+                
             }
 
             if (is_array($field)) {
@@ -409,6 +411,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
             }
             
             $value = array($key => $field);
+           
             if ( ( $key !== 'preferred_communication_method' ) && 
                  ( array_key_exists( $key, $contactFields   ) ) ) {
                 // due to merging of individual table and
@@ -864,7 +867,12 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                     if ($customFields[$customFieldID][2] == 'Date') {
                         if( CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key )) {
                             $value = $params[$key];
+                            
                         } else {
+                            self::addToErrorMsg($customFields[$customFieldID][0], $errorMessage);
+                        }
+                    } else if ( $customFields[$customFieldID][2] == 'Boolean') {
+                        if (CRM_Utils_String::strtoboolstr($value) === false) {
                             self::addToErrorMsg($customFields[$customFieldID][0], $errorMessage);
                         }
                     }
@@ -950,12 +958,16 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                         self::addToErrorMsg('Deceased Date', $errorMessage); 
                     }
                     break;
+                case 'is_deceased': 
+                    if (CRM_Utils_String::strtoboolstr($value) === false) {
+                        self::addToErrorMsg('Is Deceased', $errorMessage);
+                    }
+                    break;
                 case 'gender':    
                     if (!self::in_value($value,CRM_Core_PseudoConstant::gender())) {
                         self::addToErrorMsg('Gender', $errorMessage);
                     }
                     break;
-                    
                 case 'preferred_communication_method':    
                     $preffComm = array( );
                     $preffComm = explode(',' , $value);
@@ -1272,7 +1284,6 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
             $formatted[$dateParam] = CRM_Utils_Date::unformat( CRM_Utils_Date::mysqlToIso( $params[$dateParam] ) ); 
         }
     }
-    
 }
 
 
