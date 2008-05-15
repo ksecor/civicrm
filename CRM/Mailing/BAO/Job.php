@@ -177,7 +177,11 @@ ORDER BY j.scheduled_date,
             $mailing->getTestRecipients($testParams);
         } else {
             $recipients =& $mailing->getRecipientsObject($this->id);
-            
+
+            // since this is such a simple db operation, we could potentially optimize it a lot
+            // by doing a batch of inserts at one time
+            // INSERT INTO civicrm_..._queue ( job_id, email_id, contact_id, hash ) VALUES ( ... ),( ... ),...
+            // this will cut down the number of trips to the db quite nicely rather than doing one insert at a time
             while ($recipients->fetch()) {
                 $params = array(
                                 'job_id'        => $this->id,
@@ -275,11 +279,10 @@ ORDER BY j.scheduled_date,
             }
             $mailsProcessed++;
             
-            $field = array( 'id'         => $eq->id,
-                            'hash'       => $eq->hash,
-                            'contact_id' => $eq->contact_id,
-                            'email'      => $eq->email );
-            $fields[$eq->contact_id] = $field;
+            $fields[$eq->contact_id] = array( 'id'         => $eq->id,
+                                              'hash'       => $eq->hash,
+                                              'contact_id' => $eq->contact_id,
+                                              'email'      => $eq->email );
             if ( count( $fields ) == self::MAX_CONTACTS_TO_PROCESS ) {
                 $this->deliverGroup( $fields, $mailing, $mailer, $job_date );
                 $fields = array( );
