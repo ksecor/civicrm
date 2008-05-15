@@ -51,9 +51,8 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $count = $this->get('count');
         $this->assign('count',$count);
         
-        $session =& CRM_Core_Session::singleton();
-        $session->set('skipTextFile', false);
-        $session->set('skipHtmlFile', false);
+        $this->set('skipTextFile', false);
+        $this->set('skipHtmlFile', false);
        
         $defaults = array( );
         $htmlMessage = null;
@@ -83,18 +82,34 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             if ( isset( $defaults['body_text'] ) ) {
                 $defaults['text_message'] = $defaults['body_text'];
                 $this->set('textFile', $defaults['body_text'] );
-                $session->set('skipTextFile', true);
+                $this->set('skipTextFile', true);
             }
 
             if ( isset( $defaults['body_html'] ) ) {
                 $htmlMessage = $defaults['body_html'];
                 $this->set('htmlFile', $defaults['body_html'] );
-                $session->set('skipHtmlFile', true);
+                $this->set('skipHtmlFile', true);
+            }
+        } else {
+            $textFilePath = $this->get( 'textFilePath' );
+            if ( $textFilePath &&
+                 file_exists( $textFilePath ) ) {
+                $defaults['text_message'] = file_get_contents( $textFilePath );
+                if ( strlen( $defaults['text_message'] ) > 0 ) {
+                    $this->set('skipTextFile', true);
+                }
+            }
+                 
+            $htmlFilePath = $this->get( 'htmlFilePath' );
+            if ( $htmlFilePath &&
+                 file_exists( $htmlFilePath ) ) {
+                $defaults['html_message'] = file_get_contents( $htmlFilePath );
+                if ( strlen( $defaults['html_message'] ) > 0 ) {
+                    $this->set('skipHtmlFile', true);
+                }
             }
         }
-        
-      
-        
+
         $htmlMessage = str_replace( array("\n","\r"), ' ', $htmlMessage);
         $htmlMessage = str_replace( "'", "\'", $htmlMessage);
         $this->assign('message_html', $htmlMessage );        
@@ -332,8 +347,8 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
 
         require_once 'CRM/Utils/Token.php';
 
-        $skipTextFile = $session->get('skipTextFile');
-        $skipHtmlFile = $session->get('skipHtmlFile');
+        $skipTextFile = $this->get('skipTextFile');
+        $skipHtmlFile = $this->get('skipHtmlFile');
         
         if( !$params['upload_type'] ) { 
             if ( ( ! isset( $files['textFile'] ) || ! file_exists( $files['textFile']['tmp_name'] ) ) &&

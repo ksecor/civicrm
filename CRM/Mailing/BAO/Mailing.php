@@ -1866,8 +1866,12 @@ SELECT DISTINCT( m.id ) as id
         $form->add( 'textarea', 
                     'text_message', 
                     ts('Text Message'),
-                    array('cols' => '80', 'rows' => '8','onkeyup' => "return verify(this)"));
-        $form->addWysiwyg( 'html_message', ts('HTML Message'),array('cols' => '80', 'rows' => '8'), array('onkeyup' =>"return verify(this)") );
+                    array('cols' => '80', 'rows' => '8',
+                          'onkeyup' => "return verify(this)"));
+        $form->addWysiwyg( 'html_message',
+                           ts('HTML Message'),
+                           array('cols' => '80', 'rows' => '8',
+                                 'onkeyup' =>"return verify(this)" ) );
            
     }
 }
