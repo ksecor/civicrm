@@ -179,6 +179,7 @@ class CRM_Contribute_Form_ContributionPage extends CRM_Core_Form {
                 array_fill_keys( explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, 
                                           $defaults['recur_frequency_unit'] ), '1' );
         } else {
+            require_once 'CRM/Core/OptionGroup.php';
             $defaults['recur_frequency_unit'] = 
                 array_fill_keys( CRM_Core_OptionGroup::values( 'recur_frequency_units' ), '1' );
         }
