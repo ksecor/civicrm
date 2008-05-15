@@ -76,6 +76,7 @@ class CRM_Dedupe_BAO_RuleGroup extends CRM_Dedupe_DAO_RuleGroup
                 'civicrm_im', 'civicrm_note', 'civicrm_openid', 'civicrm_phone');
 
             require_once 'CRM/Contact/BAO/Contact.php';
+            require_once 'CRM/Core/BAO/CustomGroup.php';
             foreach(array('Individual', 'Organization', 'Household') as $ctype) {
                 // take the table.field pairs and their titles from importableFields() if the table is supported
                 foreach(CRM_Contact_BAO_Contact::importableFields($ctype) as $iField) {
@@ -85,6 +86,13 @@ class CRM_Dedupe_BAO_RuleGroup extends CRM_Dedupe_DAO_RuleGroup
                         list($table, $field) = explode('.', $where);
                         if (!in_array($table, $supportedTables)) continue;
                         $fields[$ctype][$table][$field] = $iField['title'];
+                    }
+                }
+                // add custom data fields
+                foreach(CRM_Core_BAO_CustomGroup::getTree($ctype, null, -1) as $key => $cg) {
+                    if (!is_int($key)) continue;
+                    foreach($cg['fields'] as $cf) {
+                        $fields[$ctype][$cg['table_name']][$cf['column_name']] = $cf['label'];
                     }
                 }
             }
