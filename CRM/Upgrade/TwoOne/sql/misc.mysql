@@ -59,6 +59,8 @@ UPDATE civicrm_dedupe_rule_group SET level = 'Fuzzy', is_default = true, is_acti
 -- insert the new strict d_group dupe rules
 -- note: we assume domain_id = 1 here
 
+SELECT @domain_id := 1;
+
 INSERT INTO civicrm_dedupe_rule_group (domain_id, contact_type, threshold, level, is_default, is_active) VALUES (1, 'Individual', 10, 'Strict', true, true);
 SELECT @dedupe_rule_group_id := MAX(id) FROM civicrm_dedupe_rule_group;
 INSERT INTO civicrm_dedupe_rule (dedupe_rule_group_id, rule_table, rule_field, rule_weight) VALUES (@dedupe_rule_group_id, 'civicrm_email', 'email', 10);
@@ -91,4 +93,29 @@ ALTER TABLE `civicrm_group_contact`
 -- CRM-3109
 
 -- need to change the default value of is_email_confirm to 0 from 1
+
+
+-- CRM-2488
+
+ALTER TABLE `civicrm_contribution_page` 
+    ADD `is_recur_interval` tinyint(4) NULL DEFAULT '0' AFTER is_recur,
+    ADD `recur_frequency_unit` varchar(128) NULL DEFAULT NULL AFTER is_recur;
+
+
+-- add option group & values (CRM-2488)
+
+INSERT INTO 
+   `civicrm_option_group` (`domain_id`, `name`, `description`, `is_reserved`, `is_active`) 
+VALUES 
+   (@domain_id, 'recur_frequency_units', '{ts escape="sql"}Recurring Frequency Units{/ts}', 0, 1);
+
+SELECT @option_group_id_fu             := max(id) from civicrm_option_group where name = 'recur_frequency_units';
+
+INSERT INTO 
+   `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`) 
+VALUES
+  (@option_group_id_fu, 'day'    , 'day'  ,    'day',  NULL, 0, NULL, 1, NULL, 0, 1, 1, NULL),
+  (@option_group_id_fu, 'week'   , 'week' ,   'week',  NULL, 0, NULL, 2, NULL, 0, 1, 1, NULL),
+  (@option_group_id_fu, 'month'  , 'month',  'month',  NULL, 0, NULL, 3, NULL, 0, 1, 1, NULL),
+  (@option_group_id_fu, 'year'   , 'year' ,   'year',  NULL, 0, NULL, 4, NULL, 0, 1, 1, NULL);
 
