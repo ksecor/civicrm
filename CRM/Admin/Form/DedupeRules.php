@@ -57,25 +57,31 @@ class CRM_Admin_Form_DedupeRules extends CRM_Admin_Form
      */
     function preProcess()
     {
-        $this->_rgid      = CRM_Utils_Request::retrieve('id', 'Positive', $this, false, 0);
-        $rgDao            =& new CRM_Dedupe_DAO_RuleGroup();
-        $rgDao->domain_id = CRM_Core_Config::domainID();
-        $rgDao->id        = $this->_rgid;
-        $rgDao->find(true);
-        $this->_defaults['threshold'] = $rgDao->threshold;
-        $this->_contactType           = $rgDao->contact_type;
+        $this->_rgid        = CRM_Utils_Request::retrieve('id', 'Positive', $this, false, 0);
+        $this->_contactType = CRM_Utils_Request::retrieve('contact_type', 'String', $this, false, 0);
+        if ($this->_rgid) {
+            $rgDao            =& new CRM_Dedupe_DAO_RuleGroup();
+            $rgDao->domain_id = CRM_Core_Config::domainID();
+            $rgDao->id        = $this->_rgid;
+            $rgDao->find(true);
+            $this->_defaults['threshold']  = $rgDao->threshold;
+            $this->_contactType            = $rgDao->contact_type;
+            $this->_defaults['level']      = $rgDao->level;
+            $this->_defaults['name']      = $rgDao->name;
+            $this->_defaults['is_active']  = $rgDao->is_active;
+            $this->_defaults['is_default'] = $rgDao->is_default;
 
-        $ruleDao =& new CRM_Dedupe_DAO_Rule();
-        $ruleDao->dedupe_rule_group_id = $this->_rgid;
-        $ruleDao->find();
-        $count = 0;
-        while ($ruleDao->fetch()) {
-            $this->_defaults["where_$count"]  = "{$ruleDao->rule_table}.{$ruleDao->rule_field}";
-            $this->_defaults["length_$count"] = $ruleDao->rule_length;
-            $this->_defaults["weight_$count"] = $ruleDao->rule_weight;
-            $count++;
+            $ruleDao =& new CRM_Dedupe_DAO_Rule();
+            $ruleDao->dedupe_rule_group_id = $this->_rgid;
+            $ruleDao->find();
+            $count = 0;
+            while ($ruleDao->fetch()) {
+                $this->_defaults["where_$count"]  = "{$ruleDao->rule_table}.{$ruleDao->rule_field}";
+                $this->_defaults["length_$count"] = $ruleDao->rule_length;
+                $this->_defaults["weight_$count"] = $ruleDao->rule_weight;
+                $count++;
+            }
         }
-
         $supported =& CRM_Dedupe_BAO_RuleGroup::supportedFields($this->_contactType);
         foreach($supported as $table => $fields) {
             foreach($fields as $field => $title) {
@@ -92,6 +98,15 @@ class CRM_Admin_Form_DedupeRules extends CRM_Admin_Form
      */
     public function buildQuickForm()
     {
+        $this->add('text', 'name', ts('Rule Name') );
+        $this->add('checkbox', 'is_default', ts('Default') );
+        $this->add('checkbox', 'is_active', ts('Is Active?') );
+        $levelType = array(
+                           'Fuzzy'  => ts('Fuzzy'),
+                           'Strict' => ts('Strict')
+                           );
+        $this->add('select', 'level', ts('Level'), $levelType);
+        
         for ($count = 0; $count < self::RULES_COUNT; $count++) {
             $this->add('select', "where_$count", ts('Field'), array(null => ts('- none -')) + $this->_fields);
             $this->add('text', "length_$count", ts('Length'), array('class' => 'two', 'style' => 'text-align: right'));
@@ -119,16 +134,27 @@ class CRM_Admin_Form_DedupeRules extends CRM_Admin_Form
     public function postProcess() 
     {
         $values = $this->exportValues();
-
         $rgDao            =& new CRM_Dedupe_DAO_RuleGroup();
-        $rgDao->domain_id = CRM_Core_Config::domainID();
-        $rgDao->id        = $this->_rgid;
-        $rgDao->find(true);
-        $rgDao->threshold = $values['threshold'];
-        $rgDao->save();
+        if ($this->_action & CRM_Core_Action::UPDATE ) {
+            $rgDao->id        = $this->_rgid;
+        }
+        $rgDao->domain_id    = CRM_Core_Config::domainID();
+        $rgDao->threshold    = $values['threshold'];
+        $rgDao->name         = $values['name'];
+        $rgDao->is_active    = CRM_Utils_Array::value( 'is_active', $values, 0 );
+        $rgDao->level        = $values['level'];
+        $rgDao->is_default   = CRM_Utils_Array::value( 'is_default', $values, 0 );
+        $rgDao->contact_type = $this->_contactType;
+        
+        if ($values['is_default']) {
+            $query = "UPDATE civicrm_dedupe_rule_group SET is_default = 0 WHERE domain_id = {$rgDao->domain_id} AND contact_type = '{$this->_contactType}' AND LEVEL = '{$rgDao->level}'";
+            CRM_Core_DAO::executeQuery($query, CRM_Core_DAO::$_nullArray);
+        }
 
+        $rgDao->save();
+        
         $ruleDao =& new CRM_Dedupe_DAO_Rule();
-        $ruleDao->dedupe_rule_group_id = $this->_rgid;
+        $ruleDao->dedupe_rule_group_id = $rgDao->id;
         $ruleDao->delete();
         $ruleDao->free();
 
@@ -138,7 +164,7 @@ class CRM_Admin_Form_DedupeRules extends CRM_Admin_Form
             $weight = $values["weight_$count"];
             if ($table and $field) {
                 $ruleDao =& new CRM_Dedupe_DAO_Rule();
-                $ruleDao->dedupe_rule_group_id = $this->_rgid;
+                $ruleDao->dedupe_rule_group_id = $rgDao->id;
                 $ruleDao->rule_table           = $table;
                 $ruleDao->rule_field           = $field;
                 $ruleDao->rule_length          = $length;

@@ -1,4 +1,4 @@
-{if $action eq 1 or $action eq 2 or $action eq 8}
+{if $action eq 1 or $action eq 2}
   {include file="CRM/Admin/Form/DedupeRules.tpl"}
 {elseif $action eq 4}
 {include file="CRM/Admin/Form/DedupeFind.tpl"}
@@ -17,6 +17,7 @@
             {strip}
               <table>
                 <tr class="columnheader">
+                  <th>{ts}Name{/ts}</th>
                   <th>{ts}Contact Type{/ts}</th>
                   <th>{ts}Level{/ts}</th>
                   <th>{ts}Default?{/ts}</th>
@@ -25,6 +26,7 @@
                 </tr>
                 {foreach from=$rows item=row}
                   <tr class="{cycle values="odd-row,even-row"} {$row.class}">
+                    <td>{$row.name}</td>
                     <td>{$row.contact_type_display}</td>	
                     <td>{$row.level}</td>	
                     {if $row.is_default}
@@ -45,4 +47,10 @@
           </div>
         </div>
     {/if}
+	    <div class="action-link">
+    	<a href="{crmURL q="action=add&contact_type=Individual&reset=1"}">&raquo; {ts}New Dedupe Rule for Individual{/ts}</a><br/>
+    	<a href="{crmURL q="action=add&contact_type=Household&reset=1"}">&raquo; {ts}New Dedupe Rule for Households{/ts}</a><br/>
+    	<a href="{crmURL q="action=add&contact_type=Organization&reset=1"}">&raquo; {ts}New Dedupe Rule for Organizations{/ts}</a>
+        </div>
+
 {/if}
