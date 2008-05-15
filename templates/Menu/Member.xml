@@ -32,7 +32,7 @@
      <path>civicrm/contact/view/membership</path>
      <path_arguments>force=1,cid=%%cid%%</path_arguments>
      <title>Memberships</title>
-     <page_callback>CRM_Contact_Page_View_Membership</page_callback>
+     <page_callback>CRM_Member_Page_Tab</page_callback>
      <weight>2</weight>
   </item>
   <item>
