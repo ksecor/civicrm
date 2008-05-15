@@ -9,22 +9,19 @@
   </label>
 </div>
 
-<div id="searchForm">
+<div id="searchForm" class="form-item">
 
 <fieldset><legend>{ts}Search Criteria{/ts}</legend>
     {strip} 
-        <table class="form-layout" style="width:50%">
-	<tr>
-            <td class="font-size12pt label">{$form.sort_name.label}
-            &nbsp;{$form.sort_name.html|crmReplace:class:'twenty'}
-            &nbsp;{$form.buttons.html}
+        <table class="form-layout">
+        <tr>
+            <td class="font-size12pt" colspan="2">
+                {$form.sort_name.label}&nbsp;&nbsp;{$form.sort_name.html|crmReplace:class:'twenty'}&nbsp;&nbsp;&nbsp;{$form.buttons.html}
             </td>       
         </tr>
-        <tr><td><table style="border:0px">
         {include file="CRM/Contribute/Form/Search/Common.tpl"}
-        </table></td>
         <tr>
-           <td>{$form.buttons.html}</td>
+           <td colspan="2">{$form.buttons.html}</td>
         </tr>
         </table>
     {/strip}

@@ -8,7 +8,7 @@
   </label>
 </div>
 
-<div id="searchForm">
+<div id="searchForm" class="form-item">
 <fieldset><legend>{ts}Search Criteria{/ts}</legend>
 {strip}
      <table class="form-layout">

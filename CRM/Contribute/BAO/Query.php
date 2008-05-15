@@ -538,10 +538,10 @@ class CRM_Contribute_BAO_Query
         $form->add('date', 'contribution_date_high', ts('To'), CRM_Core_SelectValues::date('relative')); 
         $form->addRule('contribution_date_high', ts('Select a valid date.'), 'qfDate'); 
 
-        $form->add('text', 'contribution_amount_low', ts('Minimum Amount'), array( 'size' => 8, 'maxlength' => 8 ) ); 
+        $form->add('text', 'contribution_amount_low', ts('From'), array( 'size' => 8, 'maxlength' => 8 ) ); 
         $form->addRule( 'contribution_amount_low', ts( 'Please enter a valid money value (e.g. 9.99).' ), 'money' );
 
-        $form->add('text', 'contribution_amount_high', ts('Maximum Amount'), array( 'size' => 8, 'maxlength' => 8 ) ); 
+        $form->add('text', 'contribution_amount_high', ts('To'), array( 'size' => 8, 'maxlength' => 8 ) ); 
         $form->addRule( 'contribution_amount_high', ts( 'Please enter a valid money value (e.g. 99.99).' ), 'money' );
 
         require_once 'CRM/Contribute/PseudoConstant.php';

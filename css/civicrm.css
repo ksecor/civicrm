@@ -214,7 +214,8 @@ border-top-style: none;
 #crm-container .form-layout td {
   padding: 3px;
   white-space: nowrap;
-  border: 0px none;
+  border: 1px groove #DDDDDD;
+  background: #F5F5F5;
 }
 
 #crm-container .form-layout td.report, #crm-container .form-layout td.description, #crm-container .form-layout-compressed td.description {
@@ -858,7 +859,9 @@ div.crm-pager a {
 #crm-container div#searchForm {
 	height: 100%;
 	width: 100%;
-	overflow: hidden;
+    /*  Why this was here? Commenting out so we get horizontal scroll when needed. dgg
+    	overflow: hidden;
+    */
 }
 
 #crm-container #main {
