@@ -13,15 +13,15 @@
 {strip}
      <table class="form-layout">
         <tr>
-            <td class="font-size12pt label" style="text-align:left">{$form.sort_name.label}
-             &nbsp;{$form.sort_name.html|crmReplace:class:'twenty'}
-             &nbsp;{$form.buttons.html}</td>       
+            <td class="font-size12pt" colspan="2">
+                {$form.sort_name.label}&nbsp;&nbsp;{$form.sort_name.html|crmReplace:class:'twenty'}&nbsp;&nbsp;&nbsp;{$form.buttons.html}
+            </td>       
         </tr>
-        <tr><td><table style="border:0px">
+      
         {include file="CRM/Member/Form/Search/Common.tpl"}
-        </table></td></tr>
+      
         <tr>
-            <td>{$form.buttons.html}</td>
+            <td colspan="2">{$form.buttons.html}</td>
         </tr>
     </table>
 {/strip} 
