@@ -121,7 +121,7 @@ class CRM_Dedupe_BAO_RuleGroup extends CRM_Dedupe_DAO_RuleGroup
             $bao->params = $this->params;
             $queries[] = $bao->sql();
         }
-        return 'CREATE TEMPORARY TABLE dedupe ENGINE MEMORY ' . implode(' UNION ALL ', $queries);
+        return 'CREATE TEMPORARY TABLE dedupe ' . implode(' UNION ALL ', $queries);
     }
 
     /**
