@@ -433,7 +433,7 @@ msgstr ""
 msgid "Micronesia, Federated States of"
 msgstr ""
 
-msgid "Moldova, Republic of"
+msgid "Moldova"
 msgstr ""
 
 msgid "Monaco"
