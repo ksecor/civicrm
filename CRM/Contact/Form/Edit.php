@@ -168,7 +168,13 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             if ( $this->_contactSubType ) {
                 CRM_Utils_System::setTitle( ts( 'New %1', array(1 => $this->_contactSubType ) ) );
             } else {
-                CRM_Utils_System::setTitle( ts( 'New %1', array(1 => $this->_contactType ) ) );
+                $title = ts( 'New Individual' );
+                if ( $this->_contactType == 'Household' ) {
+                    $title = ts( 'New Household' );
+                } else if ( $this->_contactType == 'Organization' ) {
+                    $title = ts( 'New Organization' );
+                }
+                CRM_Utils_System::setTitle( $title );
             }
             $session->pushUserContext(CRM_Utils_System::url());
             $this->_contactId = null;
