@@ -527,8 +527,8 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                 }
             }
         } else {
-            $this->assign('action',$this->_action);
-            CRM_Event_BAO_EventPage::sendMail( $contactID, $this->_values, $participant->id );
+            $this->assign('action',$this->_action); 
+            CRM_Event_BAO_EventPage::sendMail( $contactID, $this->_values, $participant->id, $participant->is_test );
         }
     }
 
