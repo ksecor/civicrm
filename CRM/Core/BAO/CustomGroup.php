@@ -1256,9 +1256,9 @@ ORDER BY weight ASC, label ASC";
                             $freezeStringChecked = "";
                             if ( isset($field['customValue']['data']) ) {
                                 if ( $field['customValue']['data'] == '1' ) {
-                                    $form[$elementName]['html'] = $freezeStringChecked."Yes\n";
+                                    $form[$elementName]['html'] = $freezeStringChecked . ts( 'Yes' ) . "\n";
                                 } else {
-                                    $form[$elementName]['html'] = $freezeStringChecked."No\n";
+                                    $form[$elementName]['html'] = $freezeStringChecked . ts( 'No' ) . "\n";
                                 }
                             } else {
                                 $form[$elementName]['html'] = "\n";
