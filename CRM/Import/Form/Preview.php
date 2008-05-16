@@ -384,7 +384,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
             foreach ($tag as $tagId =>$val) {
                 $addTagCount =& CRM_Core_BAO_EntityTag::addContactsToTag( $contactIds, $tagId );
                 if ( !empty($relatedContactIds) ) {
-                    $addRelTagCount =& CRM_Core_BAO_EntityTag::addContactsToTag( $contactIds, $tagId );
+                    $addRelTagCount =& CRM_Core_BAO_EntityTag::addContactsToTag( $relatedContactIds, $tagId );
                 }
                 $totalTagCount = $addTagCount[1] + $addRelTagCount[1];
                 if ($tagId == $addedTag->id) {
