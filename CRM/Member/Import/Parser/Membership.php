@@ -434,6 +434,10 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser
             $error = _civicrm_duplicate_formatted_contact($contactFormatted);
             $matchedIDs = explode(',',$error['error_message']['params'][0]);
 
+            //Format dates
+            $startDate  = CRM_Utils_Date::customFormat($formatted['start_date'],'%Y-%m-%d');
+            $endDate    = CRM_Utils_Date::customFormat($formatted['end_date'],'%Y-%m-%d');
+            $joinDate   = CRM_Utils_Date::customFormat($formatted['join_date'],'%Y-%m-%d');                    
             if ( self::isDuplicate($error) ) { 
                 if (count( $matchedIDs) >1) {                   
                     array_unshift($values,"Multiple matching contact records detected for this row. The membership was not imported");
@@ -447,23 +451,9 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser
                     require_once 'CRM/Member/BAO/MembershipType.php';
                     require_once 'CRM/Member/PseudoConstant.php';
                     $calcDates = CRM_Member_BAO_MembershipType::getDatesForMembershipType($formatted['membership_type_id'], 
-                                                                                          $formatted['join_date']);                    
-                    $dates = array( 'join_date',
-                                    'start_date',
-                                    'end_date',
-                                    );
-                         
-                    foreach ( $dates as $d ) {
-                        if ( isset( $formatted[$d] ) &&
-                             ! CRM_Utils_System::isNull( $formatted[$d] ) ) {
-                            $formatted[$d] = CRM_Utils_Date::isoToMysql($formatted[$d]);                       
-                        } else if ( isset( $calcDates[$d] ) ) {
-                            $formatted[$d] = CRM_Utils_Date::isoToMysql($calcDates[$d]);
-                        }
-                    }                    
-                    $startDate  = CRM_Utils_Date::customFormat($formatted['start_date'],'%Y-%m-%d');
-                    $endDate    = CRM_Utils_Date::customFormat($formatted['end_date'],'%Y-%m-%d');
-                    $joinDate   = CRM_Utils_Date::customFormat($formatted['join_date'],'%Y-%m-%d');                    
+                                                                                          $joinDate);
+                    self::formattedDates( $calcDates, $formatted );
+                    
                     $calcStatus = CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( $startDate,
                                                                                               $endDate,
                                                                                               $joinDate );
@@ -531,29 +521,12 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser
             
             //to calculate dates
             require_once 'CRM/Member/BAO/MembershipType.php';
-           
-            $formatted['start_date']  = CRM_Utils_Date::customFormat($formatted['start_date'],'%Y-%m-%d');
-            $formatted['end_date'  ]  = CRM_Utils_Date::customFormat($formatted['end_date'  ],'%Y-%m-%d');
-            $formatted['join_date' ]  = CRM_Utils_Date::customFormat($formatted['join_date' ],'%Y-%m-%d');                    
             $calcDates = CRM_Member_BAO_MembershipType::getDatesForMembershipType($formatted['membership_type_id'], 
-                                                                                  $formatted['join_date'], 
-                                                                                  $formatted['start_date'],
-                                                                                  $formatted['end_date'] );
+                                                                                  $joinDate,
+                                                                                  $startDate,
+                                                                                  $endDate );
            
-            
-            $dates = array( 'join_date',
-                            'start_date',
-                            'end_date',
-                            );
-            
-            foreach ( $dates as $d ) {
-                if ( isset( $formatted[$d] ) &&
-                     ! CRM_Utils_System::isNull( $formatted[$d] ) ) {
-                    $formatted[$d] = CRM_Utils_Date::isoToMysql($formatted[$d]);                       
-                } else if ( isset( $calcDates[$d] ) ) {
-                    $formatted[$d] = CRM_Utils_Date::isoToMysql($calcDates[$d]);
-                }
-            }                    
+            self::formattedDates( $calcDates, $formatted );
             //end of date calculation part
             
             $newMembership = civicrm_contact_membership_create($formatted, $formatted['contact_id']);
@@ -612,7 +585,31 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser
         
         return false;     
     }
-
+    
+    /**
+     *  to calculate join, start and end dates 
+     *  
+     *  @param Array $calcDates array of dates returned by getDatesForMembershipType()
+     *  
+     *  @return Array formatted containing date values 
+     *  
+     *  @access public 
+     */
+    function formattedDates( $calcDates, &$formatted ) {
+        $dates = array( 'join_date',
+                        'start_date',
+                        'end_date',
+                        );
+        
+        foreach ( $dates as $d ) {
+            if ( isset( $formatted[$d] ) &&
+                 ! CRM_Utils_System::isNull( $formatted[$d] ) ) {
+                $formatted[$d] = CRM_Utils_Date::isoToMysql($formatted[$d]);                       
+            } else if ( isset( $calcDates[$d] ) ) {
+                $formatted[$d] = CRM_Utils_Date::isoToMysql($calcDates[$d]);
+            }
+        }
+    }
 
 }
 
