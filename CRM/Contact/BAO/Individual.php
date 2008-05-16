@@ -137,11 +137,12 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Contact
                 if (! isset($locBlock['is_primary']) || ! ($locBlock['is_primary']) ) {
                     continue;
                 }
-                $email = $locBlock['email'][1]['email'];
-                break;
+                if ( isset($locBlock['email'][1]['email']) ) {
+                    $email = $locBlock['email'][1]['email'];
+                    break;
+                }
             }
         }
-        
         $uniqId = CRM_Utils_Array::value( 'user_unique_id', $params );
         if (empty($contact->display_name)) {
             if (isset($email)) {

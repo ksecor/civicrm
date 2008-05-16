@@ -82,7 +82,7 @@ class CRM_Core_BAO_Phone extends CRM_Core_DAO_Phone
     }
 
     /**
-     * Get all the mobile numbers for a specified contact_id, with the primary mobile being first
+     * Get all the phone numbers for a specified contact_id, with the primary being first
      *
      * @param int $id the contact id
      *
@@ -124,7 +124,7 @@ ORDER BY civicrm_phone.is_primary DESC, civicrm_phone.location_type_id DESC, pho
         return $numbers;
     }
  /**
-     * Get all the mobile numbers for a specified location_block id, with the primary mobile being first
+     * Get all the phone numbers for a specified location_block id, with the primary phone being first
      *
      * @param array $entityElements the array containing entity_id and
      * entity_table name
