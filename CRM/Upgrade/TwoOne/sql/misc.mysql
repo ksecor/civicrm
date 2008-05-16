@@ -92,7 +92,8 @@ ALTER TABLE `civicrm_group_contact`
 
 -- CRM-3109
 
--- need to change the default value of is_email_confirm to 0 from 1
+-- FIXME
+-- need to change the default value of is_email_confirm to 0 from 1 in civicrm_event_page table
 
 
 -- CRM-2488
@@ -119,3 +120,5 @@ VALUES
   (@option_group_id_fu, 'month'  , 'month',  'month',  NULL, 0, NULL, 3, NULL, 0, 1, 1, NULL),
   (@option_group_id_fu, 'year'   , 'year' ,   'year',  NULL, 0, NULL, 4, NULL, 0, 1, 1, NULL);
 
+
+UPDATE civicrm_country SET name = 'Moldova' WHERE id = 1143;
