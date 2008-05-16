@@ -131,7 +131,7 @@ class CRM_Core_BAO_Preferences extends CRM_Core_DAO_Preferences {
         if ( ! empty( $optionValue ) ) { 
             require_once 'CRM/Core/BAO/CustomOption.php';
             $dbValues = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,
-                              substr( $optionValue, 1, -1 ) );
+                                 substr( $optionValue, 1, -1 ) );
             if ( ! empty( $dbValues ) ) {
                 foreach ( $dbValues as $key => $val ) {
                     $returnValues[$groupValues[$val]] = 1;

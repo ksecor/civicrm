@@ -69,9 +69,9 @@ class CRM_Core_Invoke
         }
 
         // first fire up IDS and check for bad stuff
-        require_once 'CRM/Core/IDS.php';
-        $ids = new CRM_Core_IDS( );
-        $ids->check( $args );
+        // require_once 'CRM/Core/IDS.php';
+        // $ids = new CRM_Core_IDS( );
+        // $ids->check( $args );
 
         $config =& CRM_Core_Config::singleton( );
 

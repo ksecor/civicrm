@@ -47,13 +47,6 @@ require_once 'CRM/Core/ShowHideBlocks.php';
 class CRM_Contact_Form_CustomData extends CRM_Core_Form
 {
     /**
-     * The table name, used when editing/creating custom data
-     *
-     * @var string
-     */
-    protected $_tableName;
-
-    /**
      * The table id, used when editing/creating custom data
      *
      * @var int
@@ -111,7 +104,7 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
      * @access protected
      */
     protected $_groupId;
-    
+
     /**
      * pre processing work done here.
      *
@@ -125,12 +118,27 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
      */
     function preProcess()
     {
-        $this->_tableName  = $this->get('tableName');
-        $this->_tableId    = $this->get('tableId');
-        $this->_entityType = $this->get('entityType');
-        $this->_groupId    = $this->get('groupId');
+        $this->_tableId       = CRM_Utils_Request::retrieve( 'tableId', 'Positive', $this, true );
+        $this->_groupId       = CRM_Utils_Request::retrieve( 'groupId', 'Positive', $this, true );
+        $this->_entityType    = CRM_Utils_Request::retrieve( 'entityType', 'String'  , CRM_Core_DAO::$_nullArray );
+        if ( $this->_entityType == null ) {
+            require_once 'CRM/Contact/BAO/Contact.php';
+            $this->_entityType = CRM_Contact_BAO_Contact::getContactType( $this->_tableId );
+
+            $session =& CRM_Core_Session::singleton( );
+            $session->replaceUserContext( CRM_Utils_System::url( 'civicrm/contact/view',
+                                                                 "reset=1&action=browse&cid={$this->_tableId}&gid={$this->_groupId}&selectedChild=custom_{$this->_groupId}" ) );
+
+            // also set title
+            list( $displayName, $contactImage ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $this->_tableId );
+            CRM_Utils_System::setTitle( $displayName, $contactImage . ' ' . $displayName );
+
+            $this->assign( 'showBlockJS', 1 );
+        }
+
         $this->_entitySubType = null;
-        
+
+        require_once 'CRM/Core/BAO/CustomGroup.php';
         $groupDetails = CRM_Core_BAO_CustomGroup::getGroupDetail($this->_groupId);
         if ( $groupDetails[$this->_groupId]['extends'] == 'Contact') {
             $this->_entitySubType = $this->get('entitySubType');
