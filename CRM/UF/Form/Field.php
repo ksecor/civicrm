@@ -555,6 +555,11 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         
         // store the submitted values in an array
         $params = $this->controller->exportValues('Field');
+        if ( $params['visibility'] == 'User and User Admin Only' ){
+            $params['is_searchable'] = 0;
+            $params['in_selector']   = 0; 
+        }
+       
         
         if ($this->_action & CRM_Core_Action::UPDATE ) {
             $ids['uf_field'] = $this->_id;
@@ -623,12 +628,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         if ( $is_view && $is_required ) {
             $errors['is_view'] = ts( 'A View Only field cannot be required' );
         }
-        if ( $in_selector && ($visibility != 'Public User Pages' ) && ($visibility != 'Public User Pages and Listings' )) {
-            $errors['visibility'] = ts( 'Visibility must be "Public User Pages" OR "Public User Pages and Listings" if "In Selector" is checked.' );
-        }
-        if ( $is_searchable && ($visibility != 'Public User Pages' ) && ($visibility != 'Public User Pages and Listings' )) {
-            $errors['visibility'] = ts( 'Visibility must be set to "Public User Pages" OR "Public User Pages and Listings" if you want this field to be "Searchable".' );
-        }
+  
         $fieldName = $fields['field_name'][0];
         if (!$fieldName) {
             $errors['field_name'] = ts( 'Please select a field name' );
