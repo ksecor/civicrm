@@ -44,4 +44,5 @@
 <xi:include href="Worldregion.xml"          parse="xml" />
 <xi:include href="OpenID.xml"               parse="xml" />
 <xi:include href="Component.xml"            parse="xml" />
+<xi:include href="Discount.xml"            parse="xml" />
 </tables>
