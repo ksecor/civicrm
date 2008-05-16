@@ -67,6 +67,10 @@ class CRM_Dedupe_Finder
             $dupes[$dao->id2][] = $dao->id1;
         }
         $dao->query($rgBao->tableDropQuery());
+        CRM_Core_Error::debug('', $rgBao->tableQuery());
+        CRM_Core_Error::debug('', str_replace("\n", '', $rgBao->thresholdQuery()));
+        CRM_Core_Error::debug('', $rgBao->tableDropQuery());
+        exit;
 
         return $dupes;
     }
