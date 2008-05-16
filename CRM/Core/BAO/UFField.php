@@ -394,6 +394,7 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
         $contactTypes = array( 'Individual', 'Household', 'Organization', 'Student' );
         $components   = array( 'Contribution', 'Participant', 'Membership' );
 
+        require_once 'CRM/Core/DAO/UFGroup.php';
         $ufGroup =& new CRM_Core_DAO_UFGroup( );
         $ufGroup->id          = $ufGroupId;
         $ufGroup->is_active   = 1;        
