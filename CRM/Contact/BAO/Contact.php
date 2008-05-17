@@ -202,7 +202,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
      */
     static function &create(&$params, $fixAddress = true, $invokeHooks = true ) 
     {
-        if ( ! $params['contact_type'] ) {
+        if ( ! $params['contact_type'] && ! CRM_Utils_Array::value( 'contact_id', $params ) ) {
             return;
         }
 
@@ -1032,19 +1032,21 @@ WHERE  civicrm_contact.id = %1 ";
         }
 
         $data = array( );
-        if ($ufGroupId) {
-            require_once "CRM/Core/BAO/UFField.php";
-            $data['contact_type'] = CRM_Core_BAO_UFField::getProfileType($ufGroupId);
-        } else if ( $ctype ) {
-            $data['contact_type'] = $ctype;
-        } else {
-            $data['contact_type'] = 'Individual';
-        }
-        
+
         // get the contact details (hier)
         if ( $contactID ) {
             list($details, $options) = self::getHierContactDetails( $contactID, $fields );
             $contactDetails = $details[$contactID];
+        } else {
+            //we should get contact type only if contact
+            if ( $ufGroupId ) {
+                require_once "CRM/Core/BAO/UFField.php";
+                $data['contact_type'] = CRM_Core_BAO_UFField::getProfileType( $ufGroupId );
+            } else if ( $ctype ) {
+                $data['contact_type'] = $ctype;
+            } else {
+                $data['contact_type'] = 'Individual';
+            }
         }
 
         if ( $ctype == "Organization" ) {
@@ -1101,7 +1103,7 @@ WHERE  civicrm_contact.id = %1 ";
                                 
                 $data['location'][$loc]['location_type_id'] = $locTypeId;
                 
-                if ($contactID) {
+                if ( $contactID ) {
                     //get the primary location type
                     if ($locTypeId == $primaryLocationType) {
                         $data['location'][$loc]['is_primary'] = 1;
@@ -1329,7 +1331,7 @@ WHERE  civicrm_contact.id = %1 ";
                 CRM_Contact_BAO_SubscriptionHistory::create($shParams);
             }
         }
-
+        
         require_once 'CRM/Contact/BAO/Contact.php';
         if ( $data['contact_type'] != 'Student' ) {
             $contact =& self::create( $data );

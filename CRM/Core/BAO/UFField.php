@@ -348,12 +348,14 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
         }
         
         //we need to unset Contact
-        $index = array_search( 'Contact', $profileTypes );
-        if ( $index !== false ) {
-            unset( $profileTypes[$index] );
+        if ( count( $profileTypes ) > 1 ) {
+            $index = array_search( 'Contact', $profileTypes );
+            if ( $index !== false ) {
+                unset( $profileTypes[$index] );
+            }
         }
 
-        $contactTypes = array( 'Individual', 'Household', 'Organization' );
+        $contactTypes = array( 'Contact', 'Individual', 'Household', 'Organization' );
         $components   = array( 'Contribution', 'Participant', 'Membership' );
         $fields = array( );
 
@@ -388,10 +390,10 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
      * @acess public
      * @static
      */
-    static function getProfileType($ufGroupId, $returnMixType = true ) 
+    static function getProfileType( $ufGroupId, $returnMixType = true ) 
     {
         // profile types
-        $contactTypes = array( 'Individual', 'Household', 'Organization', 'Student' );
+        $contactTypes = array( 'Contact', 'Individual', 'Household', 'Organization', 'Student' );
         $components   = array( 'Contribution', 'Participant', 'Membership' );
 
         require_once 'CRM/Core/DAO/UFGroup.php';
@@ -407,9 +409,11 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
         }
 
         //we need to unset Contact
-        $index = array_search( 'Contact', $profileTypes );
-        if ( $index !== false ) {
-            unset( $profileTypes[$index] );
+        if ( count( $profileTypes ) > 1 ) {
+            $index = array_search( 'Contact', $profileTypes );
+            if ( $index !== false ) {
+                unset( $profileTypes[$index] );
+            }
         }
 
         $profileType = $mixProfileType = null;
@@ -432,7 +436,7 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
                     $contactTypeCount[] = $value;
                 }
             }
-            
+
             if ( count( $componentCount ) == 1 && count( $contactTypeCount ) == 1 ) { 
                 // this case if valid profile contact + component
                  $profileType = $componentCount[0];

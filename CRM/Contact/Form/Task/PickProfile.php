@@ -118,15 +118,18 @@ class CRM_Contact_Form_Task_PickProfile extends CRM_Contact_Form_Task {
         if ( CRM_Core_Permission::access( 'Quest' ) ) {
             $types['Student'] = 'Student';            
         }
+        
+        //add Contact type profiles
+        $types[] = 'Contact';
 
         require_once "CRM/Core/BAO/UFGroup.php";
-        $profiles = array( '' => ts('- select profile -')) + CRM_Core_BAO_UFGroup::getProfiles($types);
-        
-        if( CRM_Core_BAO_UFGroup::getProfiles($types) == null ) {
+        $profiles = CRM_Core_BAO_UFGroup::getProfiles($types);
+
+        if ( empty( $profiles ) ) {
             CRM_Core_Session::setStatus("The contact type selected for Batch Update do not have corresponding profiles. Please make sure that {$types[0]} has a profile and try again." );
             CRM_Utils_System::redirect( $this->_userContext );
         }
-        $ufGroupElement = $this->add('select', 'uf_group_id', ts('Select Profile'), $profiles, true);
+        $ufGroupElement = $this->add('select', 'uf_group_id', ts('Select Profile'), array( '' => ts('- select profile -')) + $profiles, true);
         
         $this->addDefaultButtons( ts( 'Continue >>' ) );
     }
