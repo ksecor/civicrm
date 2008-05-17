@@ -240,7 +240,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         require_once 'CRM/Core/BAO/Preferences.php';
         $addressOptions = CRM_Core_BAO_Preferences::valueOptions( 'address_options', true, null, true );
         
-        if ( !$addressOptions['County'] ) {
+        if ( !$addressOptions['county'] ) {
             unset( $fields['Individual'  ]['county']);
             unset( $fields['Household'   ]['county']);
             unset( $fields['Organization']['county']);

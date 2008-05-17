@@ -37,7 +37,8 @@ class CRM_Core_OptionGroup
 {
     static $_values = array( );
 
-    static function &valuesCommon( $dao, $flip = false, $grouping = false, $localize = false ) 
+    static function &valuesCommon( $dao, $flip = false, $grouping = false,
+                                   $localize = false, $valueColumnName = 'label' ) 
     {
         self::$_values = array( );
 
@@ -46,13 +47,13 @@ class CRM_Core_OptionGroup
                 if ( $grouping ) {
                     self::$_values[$dao->value] = $dao->grouping;
                 } else {
-                    self::$_values[$dao->label] = $dao->value;
+                    self::$_values[$dao->{$valueColumnName}] = $dao->value;
                 }
             } else {
                 if ( $grouping ) {
-                    self::$_values[$dao->label] = $dao->grouping;
+                    self::$_values[$dao->{$valueColumnName}] = $dao->grouping;
                 } else {
-                    self::$_values[$dao->value] = $dao->label;
+                    self::$_values[$dao->value] = $dao->{$valueColumnName};
                 }
             }
         }
@@ -63,11 +64,13 @@ class CRM_Core_OptionGroup
         return self::$_values;
     }
 
-    static function &values( $name, $flip = false, $grouping = false, $localize = false, $condition = null ) 
+    static function &values( $name, $flip = false, $grouping = false,
+                             $localize = false, $condition = null,
+                             $valueColumnName = 'label' ) 
     {
         $domainID = CRM_Core_Config::domainID( );
         $query = "
-SELECT  v.label as label ,v.value as value, v.grouping as grouping
+SELECT  v.{$valueColumnName} as {$valueColumnName} ,v.value as value, v.grouping as grouping
 FROM   civicrm_option_value v,
        civicrm_option_group g
 WHERE  v.option_group_id = g.id
@@ -85,13 +88,13 @@ WHERE  v.option_group_id = g.id
         $p = array( 1 => array( $name, 'String' ) );
         $dao =& CRM_Core_DAO::executeQuery( $query, $p );
         
-        return self::valuesCommon( $dao, $flip, $grouping, $localize );
+        return self::valuesCommon( $dao, $flip, $grouping, $localize, $valueColumnName );
     }
 
-    static function &valuesByID( $id, $flip = false, $grouping = false, $localize = false ) 
+    static function &valuesByID( $id, $flip = false, $grouping = false, $localize = false, $valueColumnName = 'label' ) 
     {
         $query = "
-SELECT  v.label as label ,v.value as value, v.grouping as grouping
+SELECT  v.{$valueColumnName} as {$valueColumnName} ,v.value as value, v.grouping as grouping
 FROM   civicrm_option_value v,
        civicrm_option_group g
 WHERE  v.option_group_id = g.id
@@ -103,7 +106,7 @@ WHERE  v.option_group_id = g.id
         $p = array( 1 => array( $id, 'Integer' ) );
         $dao =& CRM_Core_DAO::executeQuery( $query, $p );
            
-        return self::valuesCommon( $dao, $flip, $grouping, $localize );
+        return self::valuesCommon( $dao, $flip, $grouping, $localize, $valueColumnName );
     }
     
     /**

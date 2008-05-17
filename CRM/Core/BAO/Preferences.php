@@ -122,7 +122,7 @@ class CRM_Core_BAO_Preferences extends CRM_Core_DAO_Preferences {
 
         $optionValue = $object->$name;
         require_once 'CRM/Core/OptionGroup.php';
-        $groupValues = CRM_Core_OptionGroup::values( $name, false, false, $localize );
+        $groupValues = CRM_Core_OptionGroup::values( $name, false, false, $localize, null, 'name' );
         
         $returnValues = array( );
         foreach ( $groupValues as $gn => $gv ) {

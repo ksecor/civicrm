@@ -187,9 +187,10 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
         $components = CRM_Core_Component::getEnabledComponents();
 
         foreach( $components as $name => $component ) {
-            $elem = $component->registerTab();
-            if( in_array( $elem['title'], array_keys($this->_viewOptions) ) &&
+            if( in_array( $name, array_keys($this->_viewOptions) ) &&
                 CRM_Core_Permission::access( $component->name ) ) {
+                $elem = $component->registerTab();
+
                 // FIXME: not very elegant, probably needs better approach
                 // allow explicit id, if not defined, use keyword instead
                 if( array_key_exists( 'id', $elem ) ) {
@@ -199,10 +200,10 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
                 }
                 $u = $elem['url'];
                 $allTabs[] = array( 'id'     =>  $i,
-                                'url'    => CRM_Utils_System::url( "civicrm/contact/view/$u",
-                                                                   "reset=1&snippet=1&cid={$this->_contactId}" ),
-                                'title'  => $elem['title'],
-                                'weight' => $elem['weight'] );
+                                    'url'    => CRM_Utils_System::url( "civicrm/contact/view/$u",
+                                                                       "reset=1&snippet=1&cid={$this->_contactId}" ),
+                                    'title'  => $elem['title'],
+                                    'weight' => $elem['weight'] );
                 // make sure to get maximum weight, rest of tabs go after
                 // FIXME: not very elegant again
                 if( $weight < $elem['weight'] ) {
@@ -227,7 +228,7 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
         }
 
         foreach ( $rest as $k => $v ) {
-            if ( ! $this->_viewOptions[$v] ) {
+            if ( ! $this->_viewOptions[$k] ) {
                 continue;
             }
             $allTabs[] = array( 'id'     =>  $k,

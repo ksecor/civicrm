@@ -122,3 +122,8 @@ VALUES
 
 
 UPDATE civicrm_country SET name = 'Moldova' WHERE id = 1143;
+
+
+-- we need to update option value table for cvOpt, ceOpt, asOpt, udOpt and adOpt. Not sure the best way to do this
+-- since translations are involved. The easiest option might be to delete the rows and then readd them
+-- CRM-2734

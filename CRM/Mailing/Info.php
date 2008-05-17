@@ -70,7 +70,12 @@ class CRM_Mailing_Info extends CRM_Core_Component_Info
         return null;
     }
 
-
+    public function getUserDashboardObject( )
+    {
+        // no dashboard element for this component
+        return null;
+    }
+    
     // docs inherited from interface  
     public function registerTab()
     {

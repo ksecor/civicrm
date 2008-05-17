@@ -138,14 +138,15 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
 
         $this->_editOptions  = CRM_Core_BAO_Preferences::valueOptions( 'contact_edit_options' );
 
-        $configItems = array( '_showCommBlock'     => 'Communication Preferences',
-                              '_showDemographics'  => 'Demographics',
-                              '_showTagsAndGroups' => 'Tags and Groups',
-                              '_showNotes'         => 'Notes' );
+        $configItems = array( 'CommBlock',
+                              'Demographics',
+                              'TagsAndGroups',
+                              'Notes' );
 
-        foreach ( $configItems as $c => $t ) {
-            $this->$c = $this->_editOptions[$t];
-            $this->assign( substr( $c, 1 ), $this->$c );
+        foreach ( $configItems as $c ) {
+            $varName = '_show' . $c;
+            $this->$varName = $this->_editOptions[$t];
+            $this->assign( substr( $varName, 1 ), $this->$varName );
         }
 
         if ( $this->_action == CRM_Core_Action::ADD ) {

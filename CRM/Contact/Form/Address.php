@@ -70,11 +70,11 @@ class CRM_Contact_Form_Address
                           'geo_code_1'             => array( ts('Latitude') ,  array( 'size' => 9, 'maxlength' => 10 ), null ),
                           'geo_code_2'             => array( ts('Longitude'),  array( 'size' => 9, 'maxlength' => 10 ), null )
                           ); 
-        
+
         foreach ( $elements as $name => $v ) {
             list( $title, $attributes, $select ) = $v;
             
-            if ( ! $addressOptions[$title] ) {
+            if ( ! $addressOptions[$name] ) {
                 continue;
             }
             
