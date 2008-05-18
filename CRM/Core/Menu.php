@@ -1095,7 +1095,11 @@ class CRM_Core_Menu
             $menu->copyValues( $item );
 
             foreach ( self::$_serializedElements as $element ) {
-                $menu->$element = serialize( $item[$element] );
+                if ( $item[$element] == 'null' ) {
+                    $menu->$element = null;
+                } else {
+                    $menu->$element = serialize( $item[$element] );
+                }
             }
 
             $menu->save( );
@@ -1418,6 +1422,7 @@ UNION (
         $args = array();
 
         $elements = explode( ',', $pathArgs );
+        CRM_Core_Error::debug( 'e', $elements );
         foreach ( $elements as $keyVal ) {
             list($key, $val) = explode( '=', $keyVal );
             $arr[$key] = $val;

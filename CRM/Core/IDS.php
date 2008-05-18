@@ -124,9 +124,6 @@ class CRM_Core_IDS {
             $this->log($result, 2, $impact);
             $this->warn($result);
             return true;
-        } else if ($impact >= $this->threshold['mail']) {
-            $this->log($result, 1, $impact);
-            return true;
         } else if ($impact >= $this->threshold['log']) {
             $this->log($result, 0, $impact);
             return true;
@@ -151,12 +148,13 @@ class CRM_Core_IDS {
              '127.0.0.1');
 
         $data = array( );
+        $session =& CRM_Core_Session::singleton( );
         foreach ($result as $event) {
             $data[] = array(
                             'name'      => $event->getName(),
                             'value'     => stripslashes($event->getValue()),
                             'page'      => $_SERVER['REQUEST_URI'],
-                            'userid'    => $user,
+                            'userid'    => $session->get( 'userID' ),
                             'session'   => session_id() ? session_id() : '0',
                             'ip'        => $ip,
                             'reaction'  => $reaction,

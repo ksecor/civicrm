@@ -128,7 +128,8 @@ class CRM_Core_Invoke
             }
 
             if ( is_array( $item['page_callback'] ) ) {
-                $newArgs = explode( '/', $_GET['q'] );
+                $newArgs = explode( '/',
+                                    $_GET[$config->userFrameworkURLVar] );
                 require_once( str_replace( '_',
                                            DIRECTORY_SEPARATOR,
                                            $item['page_callback'][0] ) . '.php' );
@@ -147,8 +148,10 @@ class CRM_Core_Invoke
             } else {
                 // page and controller have the same style
                     
-                $newArgs = explode( '/', $_GET['q'] );
-                    
+                $newArgs  = explode( '/',
+                                     $_GET[$config->userFrameworkURLVar] );
+                $pageArgs = null;
+
                 if ( CRM_Utils_Array::value('page_arguments', $item) ) {
                     $pageArgs = CRM_Core_Menu::getArrayForPathArgs( $item['page_arguments'] );
                         
