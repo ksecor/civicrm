@@ -155,9 +155,19 @@ class CRM_Admin_Page_Options extends CRM_Core_Page_Basic
                                                                     'name'  => ts('Delete'),
                                                                     'url'   => 'civicrm/admin/options/' . self::$_gName,
                                                                     'qs'    => 'group=' . self::$_gName . '&action=delete&id=%%id%%',
-                                                                    'title' => ts('Delete %1 Type', array(1 => self::$_gName))
-                                                                   )
-                                 );
+                                                                    'title' => ts('Delete %1 Type', array(1 => self::$_gName) ),
+                                                                    ),
+                                  );
+
+            if ( self::$_gName == 'custom_search' ) {
+                $runLink = array( CRM_Core_Action::FOLLOWUP => array(
+                                                                     'name'  => ts('Run'),
+                                                                     'url'   => 'civicrm/contact/search/custom',
+                                                                     'qs'    => 'reset=1&csid=%%value%%',
+                                                                     'title' => ts('Run %1', array(1 => self::$_gName) ),
+                                                                     ) );
+                self::$_links = $runLink + self::$_links;
+            }
         }
         return self::$_links;
     }

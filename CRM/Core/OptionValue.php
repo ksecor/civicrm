@@ -123,7 +123,9 @@ class CRM_Core_OptionValue
                 }
             }
             $optionValue[$dao->id]['action'] = CRM_Core_Action::formLink($links, $action, 
-                                                                         array('id' => $dao->id,'gid' => $optionGroupID ));
+                                                                         array('id'    => $dao->id,
+                                                                               'gid'   => $optionGroupID,
+                                                                               'value' => $dao->value ) );
         }
         return $optionValue;
     }
