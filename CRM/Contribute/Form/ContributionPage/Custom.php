@@ -48,8 +48,12 @@ class CRM_Contribute_Form_ContributionPage_Custom extends CRM_Contribute_Form_Co
      */
     public function buildQuickForm()
     {
-        $this->add( 'select', 'custom_pre_id' , ts('Include Profile') . '<br />' . ts('(top of page)'), array('' => ts('- select -')) + CRM_Core_PseudoConstant::ufGroup( ) );
-        $this->add( 'select', 'custom_post_id', ts('Include Profile') . '<br />' . ts('(bottom of page)'), array('' => ts('- select -')) + CRM_Core_PseudoConstant::ufGroup( ) );
+        require_once "CRM/Core/BAO/UFGroup.php";
+        $types    = array( 'Contact', 'Individual','Organization', 'Household','Contribution' );
+        $profiles = CRM_Core_BAO_UFGroup::getProfiles( $types ); 
+
+        $this->add( 'select', 'custom_pre_id' , ts('Include Profile') . '<br />' . ts('(top of page)'), array('' => ts('- select -')) + $profiles );
+        $this->add( 'select', 'custom_post_id', ts('Include Profile') . '<br />' . ts('(bottom of page)'), array('' => ts('- select -')) + $profiles );
 
         $this->addFormRule( array( 'CRM_Contribute_Form_ContributionPage_Custom', 'formRule' ) , $this->_id);
         

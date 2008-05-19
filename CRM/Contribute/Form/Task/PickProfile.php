@@ -76,6 +76,8 @@ class CRM_Contribute_Form_Task_PickProfile extends CRM_Contribute_Form_Task {
         parent::preProcess( );
         $session =& CRM_Core_Session::singleton();
         $this->_userContext = $session->readUserContext( );
+
+        CRM_Utils_System::setTitle( ts('Batch Profile Update for Contribution') );
     
         $validate = false;
         //validations
@@ -98,22 +100,17 @@ class CRM_Contribute_Form_Task_PickProfile extends CRM_Contribute_Form_Task {
     function buildQuickForm( ) 
     {
 
-        $types = array( 'Contribution' );
-        
         require_once "CRM/Core/BAO/UFGroup.php";
+        $types = array( 'Contribution' );
+        $profiles = CRM_Core_BAO_UFGroup::getProfiles( $types ); 
 
-        if ( CRM_Core_BAO_UFGroup::getProfiles($types) == null ) {
+        if ( empty( $profiles ) ) {
             CRM_Core_Session::setStatus("You will need to create a Profile containing the {$types[0]} fields you want to edit before you can use Batch Update via Profile. Navigate to Administer Civicrm >> CiviCRM Profile to configure a Profile. Consult the online Administrator documentation for more information." );
             CRM_Utils_System::redirect( $this->_userContext );
         }
 
-
-        CRM_Utils_System::setTitle( ts('Batch Profile Update for Contribution') );
-        require_once 'CRM/Core/BAO/UFGroup.php';
-        // add select for groups
-        $profiles = array( '' => ts('- select profile -')) + CRM_Core_BAO_UFGroup::getProfiles( $types );
-
-        $ufGroupElement = $this->add('select', 'uf_group_id', ts('Select Profile'), $profiles, true);
+        $ufGroupElement = $this->add('select', 'uf_group_id', ts('Select Profile'), 
+                                     array( '' => ts('- select profile -')) + $profiles, true);
         $this->addDefaultButtons( ts( 'Continue >>' ) );
     }
 
