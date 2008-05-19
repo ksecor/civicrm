@@ -73,13 +73,15 @@ class CRM_Dedupe_BAO_Rule extends CRM_Dedupe_DAO_Rule
             $id = 'id';
             break;
         case 'civicrm_address':
+            $id = 'contact_id';
+            $on[] = 't1.location_type_id = t2.location_type_id';
+            $using[] = 'location_type_id';
+            break;
         case 'civicrm_email':
         case 'civicrm_im':
         case 'civicrm_openid':
         case 'civicrm_phone':
             $id = 'contact_id';
-            $on[] = 't1.location_type_id = t2.location_type_id';
-            $using[] = 'location_type_id';
             break;
         case 'civicrm_note':
             $id = 'entity_id';
