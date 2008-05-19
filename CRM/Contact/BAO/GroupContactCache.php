@@ -134,7 +134,7 @@ WHERE      g.group_id IN ( %1 )
             $update = "
 UPDATE civicrm_group g
 SET    cache_date = null
-WHERE  g.group_id IN ( %1 )
+WHERE  id IN ( %1 )
 ";
             $groupIDs = implode( ', ', $groupID );
             $params = array( 1 => array( $groupIDs, 'String' ) );
@@ -147,7 +147,7 @@ WHERE      g.group_id = %1
             $update = "
 UPDATE civicrm_group g
 SET    cache_date = null
-WHERE  g.id = %1
+WHERE  id = %1
 ";
             $params = array( 1 => array( $groupID, 'Integer' ) );
         }
