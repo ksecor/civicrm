@@ -196,9 +196,6 @@ class CRM_Utils_REST
 
         $store = null;
         if ( $args[1] == 'login' ) {
-
-            
-
             $name = CRM_Utils_Request::retrieve( 'name', 'String', $store, false, 'GET' );
             $pass = CRM_Utils_Request::retrieve( 'pass', 'String', $store, false, 'GET' );
             if ( empty( $name ) ||
@@ -215,27 +212,33 @@ class CRM_Utils_REST
 
         $params =& self::buildParamList( );
 
-        switch ( $args[1] ) {
-        
-        case 'contact':
-            return self::contact( $config, $args, $params );
-
-        case 'constants':
-            return self::constant( $config, $args, $params );
-            
-        case 'group_contact':
-            return self::groupContact( $config, $args, $params );
-            
-        case 'entity_tag':
-            return self::entityTag( $config, $args, $params );
-
-        case 'group':
-            return self::group( $config, $args, $params);
-
-        default:
-            return self::error( ts( 'Unknown function invocation' ) );
+        $fnGroup = ucfirst($args[1]);
+        if ( strpos( $fnGroup, '_' ) ) {
+            $fnGroup    = explode( '_', $fnGroup );
+            $fnGroup[1] = ucfirst( $fnGroup[1] );
+            $fnGroup    = implode( '', $fnGroup );
         }
 
+        $apiPath = substr( $_SERVER['SCRIPT_FILENAME'] , 0 ,-15 ) . 'api/v2/';
+        $apiFile = "{$fnGroup}.php";
+        
+        // check to ensure file exists, else die
+        if ( file_exists( $apiPath . $apiFile ) ) {
+            require_once $apiPath . $apiFile;
+        } else {
+            return self::error( ts( "Unknown function invocation" ) );
+        }
+
+        $fnName = "civicrm_{$args[1]}_{$args[2]}";
+        if ( ! function_exists( $fnName ) ) {
+            return self::error( ts( "Unknown function called: $fnName" ) );
+        }
+
+        $result = $fnName( $params );
+        if ( $result === false ) {
+            return self::error( ts( 'Unknown error' ) );
+        }
+        return result;
     }
 
     function &buildParamList( ) {
@@ -253,108 +256,4 @@ class CRM_Utils_REST
         return $params;
     }
 
-    function contact( &$config, &$args, &$params ) {
-        require_once 'api/v2/Contact.php';
-
-        switch ( $args[2] ) {
-        case 'add':
-        case 'get':
-        case 'delete':
-        case 'search':
-            $fnName = "civicrm_contact_{$args[2]}";
-            $result = $fnName( $params );
-            if ( $result === false ) {
-                return self::error( ts( 'Unknown error' ) );
-            } else {
-                return $result;
-            }
-
-        default:
-            return self::error( ts( 'Unknown function called' ) );
-        }
-    }
-
-    function constant( &$config, &$args, &$params ) {
-        require_once 'api/v2/Constant.php';
-
-        $values = civicrm_constant_get( $args[2] );
-        if ( $values['is_error'] ) {
-            return $values;
-        }
-
-        // format this into a hierarchical array
-        $result = array( );
-        $id = $args[2] . '_id';
-        foreach ( $values as $n => $v ) {
-            $result[] = array( $id    => $n,
-                               'name' => $v );
-        }
-        return $result;
-    }
-
-    function groupContact( &$config, &$args, &$params ) {
-        require_once 'api/v2/GroupContact.php';
-
-        switch ( $args[2] ) {
-        case 'add':
-        case 'get':
-        case 'remove':
-            $fnName = "civicrm_group_contact_{$args[2]}";
-            $result = $fnName( $params );
-            if ( $result === false ) {
-                return self::error( ts( 'Unknown error' ) );
-            } else {
-                return $result;
-            }
-
-        default:
-            return self::error( ts( 'Unknown function called' ) );
-        }
-    }
-
-    function entityTag( &$config, &$args, &$params ) {
-        require_once 'api/v2/EntityTag.php';
-
-        switch ( $args[2] ) {
-        case 'add':
-        case 'get':
-        case 'remove':
-            $fnName = "civicrm_entity_tag_{$args[2]}";
-            $result = $fnName( $params );
-            if ( $result === false ) {
-                return self::error( ts( 'Unknown error' ) );
-            } else {
-                return $result;
-            }
-
-        default:
-            return self::error( ts( 'Unknown function called' ) );
-        }
-    }
-
-    function group( &$config, &$args, &$params ){
-        require_once 'api/v2/Group.php';
-
-        $fnName = '';
-        switch( $args[2]) {
-            case 'get':
-                $fnName = "civicrm_groups_get";
-                break;
-
-            case 'add':
-            case 'delete':
-                $fnName = "civicrm_group_{$args[2]}";
-                break;
-
-            default:
-                return self::error( ts( 'Unknown function called' ) );
-        }
-
-        $result = $fnName( $params );
-        if ( $result === false ) {
-            return self::error( ts( 'Unknown error ' ) );
-        } else {
-            return $result;
-        }
-    }
 }
