@@ -233,12 +233,17 @@ function _civicrm_activity_check_params ( &$params, $addMode = false )
         return civicrm_create_error( ts( 'Input Parameters empty' ) );
     }
 
+    // check for activity subject if add mode
+    if ( $addMode && ! isset( $params['subject'] ) ) {
+        return civicrm_create_error( ts( 'Missing Subject' ) );
+    }
+
     if ( ! $addMode && ! isset( $params['id'] )) {
-        return $errors = civicrm_create_error( ts( 'Required parameter "id" not found' ) );
+        return civicrm_create_error( ts( 'Required parameter "id" not found' ) );
     }
 
     if ( ! $addMode && $params['id'] && ! is_numeric ( $params['id'] )) {
-        return $errors = civicrm_create_error( ts( 'Invalid activity "id"' ) );
+        return civicrm_create_error( ts( 'Invalid activity "id"' ) );
     }
     
     // check if activity type_id is passed in
