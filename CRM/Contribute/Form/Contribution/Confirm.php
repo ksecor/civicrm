@@ -807,6 +807,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
     static function processOnBehalfOrganization( &$behalfOrganization, &$values, &$contactID ) {
         if ( $behalfOrganization['organization_id'] ) {
             $orgID = $behalfOrganization['organization_id'];
+            unset($behalfOrganization['organization_id']);
         }
 
         // formalities for creating / editing organization.
@@ -814,12 +815,15 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $behalfOrganization['location'][1]['is_primary'] = 1;
         
         if ( ! $orgID ) {
-            $org =& new CRM_Contact_DAO_Contact( );
-            $org->organization_name = $behalfOrganization['organization_name'];
-            $org->find();
+            // if unknown organization contact enetered -
             
-            // if new organization, create org, add location & relationship 
-            if ( ! $org->fetch( ) ) {
+            // check if matching organization contact exists
+            require_once 'CRM/Dedupe/Finder.php';
+            $dedupeParams = CRM_Dedupe_Finder::formatParams($behalfOrganization, 'Organization');
+            $dupeIDs      = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Organization', 'Fuzzy');
+            
+            if ( empty($dupeIDs) ) {
+                // if new organization, create org, add location & relationship 
                 $org = CRM_Contact_BAO_Contact::create( $behalfOrganization );
                 
                 //get the relationship type id
@@ -837,20 +841,23 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 
                 //create relationship
                 $relationship = CRM_Contact_BAO_Relationship::create($relParams, $cid);
+                
+                // take a note of new organiation contact.
+                $orgID = $org->id;
+            } else {
+                // if matching contact is found, take a note of first
+                // matching organiation contact.
+                $orgID = $dupeIDs[0];
             }
-            // if matching contact is found don't do anything other
-            // than recording the contact-id in $orgID
         } else {
             // if found permissioned related organization, allow location edit
             $behalfOrganization['contact_id'] = $orgID;
             $org = CRM_Contact_BAO_Contact::create( $behalfOrganization );
         }
 
-        $orgID = $org->id;
-
         // make sure organization-contact-id is considered for recording
         // contribution/membership etc..
-        if ( $orgID && ( $contactID != $orgID ) ) {
+        if ( $contactID != $orgID ) {
             // take a note of contact-id, so we can send the
             // receipt to individual contact as well.
             $values['related_contacts'][] = $contactID;
@@ -858,5 +865,3 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         }
     }
 }
-
-
