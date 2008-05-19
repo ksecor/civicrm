@@ -67,8 +67,39 @@
         {/section}
         </table>
         </fieldset>
-    </div>
     
+    <div id="is_discount">
+         <dl>
+         <dt class="extra-long-fourty">&nbsp;</dt><dd>{$form.is_discount.html}&nbsp;{$form.is_discount.label}<br /><span class="description">{ts}Check this box if you want to give users the option to register for event discounts.{/ts}</span></dd>
+         </dl>
+    </div>
+    <div class="form-item">
+        <fieldset id="discount">
+	<table>
+	<tr  class="columnheader">
+           <th>&nbsp;</th>
+	   <th> {ts}Discount Name{/ts}</th>
+           <th> {ts}Start Date{/ts}</th>
+           <th> {ts}End Date{/ts}</th>
+       </tr>
+	
+	{section name=rowLoop start=1 loop=6}
+	   {assign var=index value=$smarty.section.rowLoop.index}
+	   <tr id="discount_{$index}" class="form-item {cycle values="odd-row,even-row"}">
+           <td>{if $index GT 1} <a onclick="hiderowDiscount('discount_{$index}'); return false;" name="discount_{$index}" href="#discount_{$index}" class="form-link"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}hide field or section{/ts}"/></a>{/if}
+           </td>
+	   <td> {$form.discount_name.$index.html}</td>
+	   <td> {$form.discount_start_date.$index.html}</td>
+	   <td> {$form.discount_end_date.$index.html}</td>
+	   </tr>
+        {/section}
+        </table>
+        <div id="discountLink" class="add-remove-link">
+           <a onclick="showrowDiscount(); return false;" name="discountLink" href="#discountLink" class="form-link"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}show field or section{/ts}"/>{ts}another discount{/ts}</a>
+        </div>
+        </fieldset>
+    </div>
+    </div>
     <dl>   
       <dt></dt><dd>{$form.buttons.html}</dd>
     </dl>
@@ -77,18 +108,32 @@
 
 {include file="CRM/common/showHide.tpl"}
 
-{literal} 
 <script type="text/javascript">
-// Re-show Fee Level grid if Price Set select has been set to none.
-if ( document.getElementById('price_set_id').options[document.getElementById('price_set_id').selectedIndex].value == '' ) {
-    show( 'map-field' );
-}
+    var showRows   = new Array({$showBlocks});
+    var hideBlocks = new Array({$hideBlocks});
+    var rowcounter = 0;
+    {literal}
+    if (navigator.appName == "Microsoft Internet Explorer") {    
+	for ( var count = 0; count < hideBlocks.length; count++ ) {
+	    var r = document.getElementById(hideBlocks[count]);
+            r.style.display = 'none';
+        }
+    }
+    {/literal}
+    {* hide and display the appropriate blocks as directed by the php code *}
+    on_load_init_blocks( showRows, hideBlocks, '' );
 
-if ( document.getElementsByName('is_monetary')[0].checked ) {
-    show( 'event-fees', 'block' );
-}
+    {literal} 
+    // Re-show Fee Level grid if Price Set select has been set to none.
+    if ( document.getElementById('price_set_id').options[document.getElementById('price_set_id').selectedIndex].value == '' ) {
+       show( 'map-field' );
+       }
+    if ( document.getElementsByName('is_monetary')[0].checked ) {
+        show( 'event-fees', 'block' );
+       }
+    {/literal} 
 </script>
-{/literal} 
+
 
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="is_pay_later"
@@ -104,5 +149,13 @@ if ( document.getElementsByName('is_monetary')[0].checked ) {
     target_element_id   ="map-field" 
     target_element_type ="block"
     field_type          ="select"
+    invert              = 0
+}
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="is_discount"
+    trigger_value       =""
+    target_element_id   ="discount" 
+    target_element_type ="block"
+    field_type          ="radio"
     invert              = 0
 }

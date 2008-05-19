@@ -50,6 +50,11 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
     const NUM_OPTION = 11;
     
     /** 
+     * Constants for number of discounts for the event. 
+     */ 
+    const NUM_DISCOUNT = 6;
+
+    /** 
      * Function to set variables up before form is built 
      *                                                           
      * @return void 
@@ -186,6 +191,31 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         
         $this->addGroup( $default, 'default' );
 
+        $this->addElement('checkbox', 'is_discount', ts( 'Discounts by Signup Date?' ), null, array( 'onclick' => "return showHideByValue('is_discount','','discount','block','radio',false);" ));
+
+        require_once 'CRM/Core/ShowHideBlocks.php';
+        // form fields of Discount sets
+        $defaultOption = array();
+        $_showHide =& new CRM_Core_ShowHideBlocks('','');
+        for($i = 1; $i <= self::NUM_DISCOUNT; $i++) {
+            //the show hide blocks
+            $showBlocks = 'discount_'.$i;
+            if ($i > 2) {
+                $_showHide->addHide($showBlocks);
+            } else {
+                $_showHide->addShow($showBlocks);
+            }
+            
+            //discount name
+            $this->add('text','discount_name['.$i.']', ts('Discount Name'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'label'));
+            
+            //discount start date
+            $this->add('date', 'discount_start_date['.$i.']', ts('Discount Start Date'),CRM_Core_SelectValues::date('activityDate') );
+
+            //discount end date
+            $this->add('date', 'discount_end_date['.$i.']', ts('Discount End Date'),CRM_Core_SelectValues::date('activityDate') );
+        }
+        $_showHide->addToTemplate();                
         parent::buildQuickForm();
     }
     
