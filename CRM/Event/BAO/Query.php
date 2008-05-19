@@ -70,9 +70,9 @@ class CRM_Event_BAO_Query
             $query->_tables['civicrm_participant'] = $query->_whereTables['civicrm_participant'] = 1;
 
             //add event level
-            if ( CRM_Utils_Array::value( 'event_level', $query->_returnProperties ) ) {
-                $query->_select['event_level' ]  = "civicrm_participant.event_level as event_level";
-                $query->_element['event_level']  = 1;
+            if ( CRM_Utils_Array::value( 'fee_level', $query->_returnProperties ) ) {
+                $query->_select['fee_level' ]  = "civicrm_participant.fee_level as fee_level";
+                $query->_element['fee_level']  = 1;
             }
         
             //add event title also if event id is select
@@ -369,7 +369,7 @@ class CRM_Event_BAO_Query
                                 'contact_type'              => 1, 
                                 'sort_name'                 => 1, 
                                 'display_name'              => 1,
-                                'event_id'               => 1,
+                                'event_id'                  => 1,
                                 'event_start_date'          => 1,
                                 'event_end_date'            => 1,
                                 'participant_id'            => 1,
@@ -377,9 +377,10 @@ class CRM_Event_BAO_Query
                                 'participant_role_id'       => 1,
                                 'participant_register_date' => 1,
                                 'participant_source'        => 1,
-                                'event_level'               => 1,
+                                'fee_level'                 => 1,
                                 'participant_is_test'       => 1,
-                                'participant_is_pay_later'  => 1
+                                'participant_is_pay_later'  => 1,
+                                'fee_amount'                => 1
                                 );
        
             // also get all the custom participant properties

@@ -618,9 +618,9 @@ WHERE  civicrm_participant.id = {$participantId}
     /**
      * fix the event level
      *
-     * When price sets are used as event fee, event_level is set as ^A
+     * When price sets are used as event fee, fee_level is set as ^A
      * seperated string. We need to change that string to comma
-     * separated string before using event_level in view mode.
+     * separated string before using fee_level in view mode.
      *
      * @param string  $eventLevel  event_leval string from db
      * 

@@ -528,11 +528,13 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 $this->set( 'lineItem', $lineItem );
             }
 	    
-            $params['event_level']              = $params['amount_level'];
+            $params['fee_level']                = $params['amount_level'];
             $contributionParams                 = array( );
             $contributionParams['total_amount'] = $params['amount'];
         }
         
+        //fix for CRM-3086
+        $params['fee_amount'] = $params['amount'];
         unset($params['amount']);
         $params['register_date'] = CRM_Utils_Date::format($params['register_date']);
         $params['receive_date' ] = CRM_Utils_Date::format($params['receive_date' ]);

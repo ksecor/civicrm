@@ -105,7 +105,7 @@
       <add>1.7</add>     
   </field> 
   <field>        
-      <name>event_level</name>
+      <name>fee_level</name>
       <title>Fee level</title>
       <headerPattern>/^(f(ee\s)?level)$/i</headerPattern>
       <type>varchar</type>     
@@ -130,4 +130,13 @@
       <default>0</default>
       <import>true</import>
   </field>
+  <field>    
+      <name>fee_amount</name>    
+      <type>decimal</type>    
+      <import>true</import>
+      <headerPattern>/fee(.?am(ou)?nt)?/i</headerPattern>
+      <dataPattern>/^\d+(\.\d{2})?$/</dataPattern>
+      <comment>actual processor fee if known - may be 0.</comment>
+      <add>2.1</add>    
+  </field> 
 </table>
