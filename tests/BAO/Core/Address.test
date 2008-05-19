@@ -106,7 +106,7 @@ class BAO_Core_Address extends CiviTestCase
                            ); 
         
         require_once 'CRM/Core/BAO/Address.php';
-        $addAddress = CRM_Core_BAO_Address::add( &$fixParams, $fixAddress = true ) ;
+        $addAddress = CRM_Core_BAO_Address::add( $fixParams, $fixAddress = true ) ;
              
         $addParams = $this->assertDBNotNull( 'CRM_Core_DAO_Address', $contactId , 'id', 'contact_id',
                                              'Database check for created contact address.' );
@@ -145,7 +145,7 @@ class BAO_Core_Address extends CiviTestCase
                            ); 
         
         require_once 'CRM/Core/BAO/Address.php';
-        CRM_Core_BAO_Address::add( &$fixParams, $fixAddress=true ) ;
+        CRM_Core_BAO_Address::add( $fixParams, $fixAddress=true ) ;
         
         $addParams = $this->assertDBNotNull( 'CRM_Core_DAO_Address', $contactId , 'id', 'contact_id',
                                              'Database check for created contact address.' );
@@ -167,7 +167,7 @@ class BAO_Core_Address extends CiviTestCase
                            );
         
         require_once 'CRM/Core/BAO/Address.php';
-        CRM_Core_BAO_Address::add( &$fixParams, $fixAddress=true ) ;
+        CRM_Core_BAO_Address::add( $fixParams, $fixAddress=true ) ;
         
         $addParams = $this->assertDBNotNull( 'CRM_Core_DAO_Address', $contactId , 'id', 'contact_id',
                                              'Database check for created contact address.' );
@@ -204,7 +204,7 @@ class BAO_Core_Address extends CiviTestCase
                            );
         
         require_once 'CRM/Core/BAO/Address.php';
-        CRM_Core_BAO_Address::add( &$fixParams, $fixAddress=true ) ;
+        CRM_Core_BAO_Address::add( $fixParams, $fixAddress=true ) ;
         
         $addParams = $this->assertDBNotNull( 'CRM_Core_DAO_Address', $contactId , 'id', 'contact_id',
                                              'Database check for created contact address.' );
