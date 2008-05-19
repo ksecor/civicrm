@@ -112,7 +112,8 @@ class CRM_Utils_REST
      * @static
      */
     public function authenticate($name, $pass) {
-        eval ('$result =& CRM_Utils_System_Drupal::authenticate($name, $pass);');
+        require_once 'CRM/Utils/System.php';
+        eval ('$result =& CRM_Utils_System::authenticate($name, $pass);');
         
         if (empty($result)) {
             return self::error( ts( 'Could not authenticate user, invalid name / password' ) );
