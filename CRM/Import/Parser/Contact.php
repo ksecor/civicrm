@@ -682,9 +682,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                                                                                  $contactFields, 
                                                                                  $onDuplicate);
                                     if ( self::isDuplicate($householdContact) ) {
-                                        foreach ($householdContact['error_message']['params'][0] as $cid) {
-                                            $householdId = $cid;
-                                        }
+                                        $householdIds = explode( ",", $householdContact['error_message']['params'][0] );
+                                        $householdId  = $householdIds[0];  
                                     } else {
                                         $householdContact            = clone($householdContact);
                                         $householdId                 = $householdContact->id;
@@ -702,7 +701,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                                     
                                     $relationParams = array('relationship_type_id' => $relType,
                                                             'contact_check'        => array( $relContactId => 1,
-                                                                                             $primaryContactId => 1)
+                                                                                             $primaryContactId => 1),
+                                                            'is_active'            => 1
                                                             );
                                     $relationIds = array('contact' => $householdId);
                                     CRM_Contact_BAO_Relationship::create( $relationParams, $relationIds );
