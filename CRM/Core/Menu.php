@@ -1397,7 +1397,7 @@ UNION (
         $args = array();
 
         $elements = explode( ',', $pathArgs );
-        CRM_Core_Error::debug( 'e', $elements );
+        //CRM_Core_Error::debug( 'e', $elements );
         foreach ( $elements as $keyVal ) {
             list($key, $val) = explode( '=', $keyVal );
             $arr[$key] = $val;
