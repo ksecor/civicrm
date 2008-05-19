@@ -1,0 +1,97 @@
+<?php
+
+require_once 'CiviTestCase.php';
+require_once 'Contact.php';
+
+class BAO_Activity_Activity extends CiviTestCase 
+{
+    function get_info( ) 
+    {
+        return array(
+                     'name'        => 'Activity BAOs',
+                     'description' => 'Test all Activity_BAO_Activity methods.',
+                     'group'       => 'CiviCRM BAO Tests',
+                     );
+    }
+    
+    function setUp( ) 
+    {
+        parent::setUp();
+    }
+
+    /**
+     * create() method Add/Edit 
+     */
+    function testCreate( )
+    {
+        $contactId = Contact::createIndividual( );
+        
+        $params = array( 
+                        'source_contact_id'  => $contactId,
+                        'subject'            => 'Scheduling Meeting',
+                        'activity_type_id'   => 2
+                        );
+        
+        require_once 'CRM/Activity/BAO/Activity.php';
+        CRM_Activity_BAO_Activity::create( $params );
+        
+        $activityId = $this->assertDBNotNull( 'CRM_Activity_DAO_Activity', 'Scheduling Meeting' , 'id', 
+                                              'subject', 'Database check for created activity.' );
+        
+        // Now call create() to modify an existing Activity
+        
+        $params = array( );
+        $params = array(
+                        'id'                 => $activityId,
+                        'source_contact_id'  => $contactId,
+                        'subject'            => 'Scheduling Interview',
+                        'activity_type_id'   => 3
+                        );
+
+        CRM_Activity_BAO_Activity::create( $params );
+        
+        $activityTypeId = $this->assertDBNotNull( 'CRM_Activity_DAO_Activity', 'Scheduling Interview',
+                                                  'activity_type_id',
+                                                  'subject', 'Database check on updated activity record.' );
+        $this->assertEqual( $activityTypeId, 3, 'Verify activity type id is 3.');
+        
+        Contact::delete( $contactId );
+        
+    }
+    
+    /**
+     * getContactActivity() method get activities detail for given target contact id 
+     */
+    function testGetContactActivity( )
+    {
+        $contactId = Contact::createIndividual( );
+        $params    = array(
+                           'first_name'     => 'liz',
+                           'last_name'      => 'hurleey',
+                           ); 
+        $targetContactId = Contact::createIndividual( $params );
+        
+        $params = array( 
+                        'source_contact_id'  => $contactId,
+                        'subject'            => 'Scheduling Meeting',
+                        'activity_type_id'   => 2,
+                        'target_contact_id'  => $targetContactId,
+                        'activity_date_time' => date('Ymd'),
+                        );
+        
+        require_once 'CRM/Activity/BAO/Activity.php';
+        CRM_Activity_BAO_Activity::create( $params );
+        
+        $activityId = $this->assertDBNotNull( 'CRM_Activity_DAO_Activity', 'Scheduling Meeting' ,
+                                              'id', 
+                                              'subject', 'Database check for created activity.' );
+        
+        $activities = CRM_Activity_BAO_Activity::getContactActivity( $targetContactId );
+        
+        $this->assertEqual( $activities[$activityId]['subject'], 'Scheduling Meeting', 'Verify activity source contact id is correct.');
+        
+        Contact::delete( $contactId );
+        Contact::delete( $targetContactId );
+    }
+    
+}

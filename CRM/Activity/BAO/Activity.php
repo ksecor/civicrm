@@ -233,6 +233,13 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         $params['duration'] = CRM_Utils_Date::standardizeTime( CRM_Utils_Array::value( 'duration_hours', $params ),
                                                                CRM_Utils_Array::value( 'duration_minutes', $params )
                                                                );
+        if ( !$params['status_id'] ) {
+            if ( $params['activity_date_time'] && $params['activity_date_time'] < date('Ymd') ) {
+                $params['status_id'] = 2;
+            } else {
+                $params['status_id'] = 1;
+            }
+        }
         $activity->copyValues( $params );
 
         // start transaction        
@@ -325,7 +332,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         }
 
         $transaction->commit( );  
-        
+
         return $result;
     }
         
@@ -797,6 +804,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             $activities[$dao->activity_id]['activity_type_id']  = $dao->activity_type_id;
             $activities[$dao->activity_id]['subject']           = $dao->subject;
             $activities[$dao->activity_id]['location']          = $dao->location;
+            $activities[$dao->activity_id]['activity_date_time']= $dao->activity_date_time;
             $activities[$dao->activity_id]['details']           = $dao->details;
             $activities[$dao->activity_id]['status_id']         = $dao->status_id;
             $activities[$dao->activity_id]['activity_name']     = CRM_Core_OptionGroup::getLabel('activity_type',
