@@ -1,0 +1,83 @@
+<?php
+
+require_once 'CiviTestCase.php';
+require_once 'Contact.php';
+
+class BAO_Core_Address extends CiviTestCase 
+{
+    function get_info( ) 
+    {
+        return array(
+                     'name'        => 'Address BAOs',
+                     'description' => 'Test all Core_BAO_Address methods.',
+                     'group'       => 'CiviCRM BAO Tests',
+                     );
+    }
+   
+    function setUp( ) 
+    {
+        parent::setUp();
+    }
+
+    /**
+     * create() method (create and update modes)
+     */
+    function testCreate( )
+    {
+        $contactId = Contact::createIndividual( );
+        
+        $params = array( );
+        $params['address']['1'] = array (
+                                         'street_address' => 'Oberoi Garden',
+                                         'supplemental_address_1' => 'Attn: Accounting',
+                                         'supplemental_address_2' => 'Powai',
+                                         'city' => 'Athens',
+                                         'postal_code' => '01903',
+                                         'state_province_id'=> '1000',
+                                         'country_id' => '1228',
+                                         'geo_code_1' => '18.219023',
+                                         'geo_code_2' => '-105.00973',
+                                         'location_type_id' => '1',
+                                         'is_primary' => '1',
+                                         'is_billing' =>'0' 
+                                         );
+                                       
+        $params['address']['contact_id'] = $contactId;
+        
+        
+        $fixAddress = true;
+        
+        require_once 'CRM/Core/BAO/Address.php';
+        CRM_Core_BAO_Address::create( $params, $fixAddress, $entity = null );
+        $addressId = $this->assertDBNotNull( 'CRM_Core_DAO_Address', 'Oberoi Garden' , 'id', 'street_address',
+                                           'Database check for created address.' );
+        
+         // Now call add() to modify an existing  address
+
+        $params = array( );
+        $params['address']['1'] = array (
+                                         
+                                         'id' => $addressId,
+                                         'street_address' => 'Oberoi Garden',
+                                         'supplemental_address_1' => 'A-wing:3037',
+                                         'supplemental_address_2' => 'Bandra',
+                                         'city' => 'Athens',
+                                         'postal_code' => '01903',
+                                         'geo_code_1' => '18.219023',
+                                         'geo_code_2' => '-105.00973',
+                                         'location_type_id' => '1',
+                                         'is_primary' => '1',
+                                         'is_billing' => '0'
+                                         );
+        $params['address']['contact_id'] = $contactId;
+                                       
+        
+            require_once 'CRM/Core/BAO/Address.php';
+            $block = CRM_Core_BAO_Address::create( $params, $fixAddress, $entity = null );
+            $addressId = $this->assertDBNotNull( 'CRM_Core_DAO_Address', $contactId, 'id', 'contact_id',
+                                              'Database check for deleted address.' );
+            Contact::delete( $contactId );
+    }
+}
+
+?>
