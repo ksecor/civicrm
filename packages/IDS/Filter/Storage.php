@@ -89,7 +89,7 @@ class IDS_Filter_Storage
     {
         if ($init->config) {
 
-            $caching      = $init->config['Caching']['caching'];
+            $caching      = isset( $init->config['Caching'] ) ? $init->config['Caching']['caching'] : null;
             $type         = $init->config['General']['filter_type'];
             $this->source = $init->config['General']['filter_path'];
 

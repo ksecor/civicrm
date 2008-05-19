@@ -145,7 +145,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
 
         foreach ( $configItems as $c ) {
             $varName = '_show' . $c;
-            $this->$varName = $this->_editOptions[$t];
+            $this->$varName = $this->_editOptions[$c];
             $this->assign( substr( $varName, 1 ), $this->$varName );
         }
 
@@ -204,7 +204,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                 }
 
                 list( $displayName, $contactImage ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $this->_contactId );
-                CRM_Utils_System::setTitle( $contactImage . ' ' . $displayName ); 
+                CRM_Utils_System::setTitle( $contactImage . ' ' . $displayName, $displayName ); 
 
                 //get the no of locations for the contact
                 $this->_maxLocationBlocks = CRM_Contact_BAO_Contact::getContactLocations( $this->_contactId );
@@ -344,9 +344,12 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
             require_once 'CRM/Contact/BAO/Relationship.php';
             $currentEmployer = CRM_Contact_BAO_Relationship::getCurrentEmployer( $this->_contactId, true );
           
-            $defaults['employer_option'] = $currentEmployer['employer_option'];
-            $defaults['shared_employer'] = $currentEmployer['id'];
-            $this->assign( 'sharedEmployer', $currentEmployer['sort_name'] );
+            $defaults['employer_option'] = CRM_Utils_Array::value( 'employer_option',
+                                                                   $currentEmployer );
+            $defaults['shared_employer'] = CRM_Utils_Array::value( 'id',
+                                                                   $currentEmployer );
+            $this->assign( 'sharedEmployer', CRM_Utils_Array::value( 'sort_name',
+                                                                     $currentEmployer ) );
         }
         
         //set defaults for country-state dojo widget

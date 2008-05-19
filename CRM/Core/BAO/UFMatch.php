@@ -306,11 +306,9 @@ WHERE     openid = %1";
         $ufmatch->uf_name = $ufName;
         $ufmatch->save( );
 
-        if ( $config->userFramework == 'Drupal' ) { 
-            $user = user_load( array( 'uid' => $ufmatch->uf_id ) );
-            user_save( $user, array( 'mail' => $ufName ) );
-            $user = user_load( array( 'uid' => $ufmatch->uf_id ) );
-        }
+        require_once 'CRM/Core/BAO/CMSUser.php';
+        CRM_Core_BAO_CMSUser::updateUFName( $ufmatch->uf_id, $ufName );
+
     }
     
     /**

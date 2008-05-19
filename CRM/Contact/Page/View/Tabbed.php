@@ -149,14 +149,15 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
         //Show blocks only if they are visible in edit form
         require_once 'CRM/Core/BAO/Preferences.php';
         $this->_editOptions  = CRM_Core_BAO_Preferences::valueOptions( 'contact_edit_options' );
-        $configItems = array( '_showCommBlock'     => 'Communication Preferences',
-                              '_showDemographics'  => 'Demographics',
-                              '_showTagsAndGroups' => 'Tags and Groups',
-                              '_showNotes'         => 'Notes' );
+        $configItems = array( 'CommBlock'     => 'Communication Preferences',
+                              'Demographics'  => 'Demographics',
+                              'TagsAndGroups' => 'Tags and Groups',
+                              'Notes'         => 'Notes' );
 
         foreach ( $configItems as $c => $t ) {
-            $this->$c = $this->_editOptions[$t];
-            $this->assign( substr( $c, 1 ), $this->$c );
+            $varName = '_show' . $c;
+            $this->$varName = $this->_editOptions[$c];
+            $this->assign( substr( $varName, 1 ), $this->$varName );
         }
         
         //get the current employer name
@@ -220,13 +221,16 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
                        'tag'           => ts('Tags')          ,
                        'log'           => ts('Change Log')    ,
                        );
-        
-        if ( $config->sunlight ) {
+
+        $config =& CRM_Core_Config::singleton( );
+        if ( isset( $config->sunlight ) &&
+             $config->sunlight ) {
             $title = ts('Elected Officials');
             $rest['sunlight'] = $title;
             $this->_viewOptions[$title] = true;
         }
 
+        $this->_viewOptions['case'] = $this->_viewOptions['CiviCase'];
         foreach ( $rest as $k => $v ) {
             if ( ! $this->_viewOptions[$k] ) {
                 continue;

@@ -116,8 +116,17 @@ class CRM_Core_Invoke
                 return;
             }
                 
-            CRM_Utils_System::setTitle( $item['title'] );
-            CRM_Utils_System::appendBreadCrumb( $item['breadcrumb'] );
+            if ( isset( $item['title'] ) ) {
+                CRM_Utils_System::setTitle( $item['title'] );
+            }
+            if ( isset( $item['breadcrumb'] ) ) {
+                CRM_Utils_System::appendBreadCrumb( $item['breadcrumb'] );
+            }
+
+            $pageArgs = null;
+            if ( CRM_Utils_Array::value('page_arguments', $item) ) {
+                $pageArgs = CRM_Core_Menu::getArrayForPathArgs( $item['page_arguments'] );
+            }
 
             $template =& CRM_Core_Smarty::singleton( );
             if ( isset( $item['is_public'] ) &&
@@ -137,33 +146,13 @@ class CRM_Core_Invoke
                                        $newArgs );
             } else if (strstr($item['page_callback'], '_Form')) {
                 $wrapper =& new CRM_Utils_Wrapper( );
-
-                if ( CRM_Utils_Array::value('page_arguments', $item) ) {
-                    $pageArgs = CRM_Core_Menu::getArrayForPathArgs( $item['page_arguments'] );
-                }
-
                 return $wrapper->run( $item['page_callback'],
                                       $item['title'], 
                                       $pageArgs );
             } else {
                 // page and controller have the same style
-                    
                 $newArgs  = explode( '/',
                                      $_GET[$config->userFrameworkURLVar] );
-                $pageArgs = null;
-
-                if ( CRM_Utils_Array::value('page_arguments', $item) ) {
-                    $pageArgs = CRM_Core_Menu::getArrayForPathArgs( $item['page_arguments'] );
-                        
-                    // FIXME: Following embedding, makes forms on other
-                    // tabs non-working for path -> contact/view
- 
-                    //if ( array_key_exists('setEmbedded', $pageArgs) ) {
-                    //$wrapperArgs = array( 'setEmbedded' => true );
-                    //$wrapper     =& new CRM_Utils_Wrapper( );
-                    //$wrapper->run( $pageArgs['setEmbedded'], null, $wrapperArgs );
-                    //}
-                }
                 require_once( str_replace( '_',
                                            DIRECTORY_SEPARATOR,
                                            $item['page_callback'] ) . '.php' );

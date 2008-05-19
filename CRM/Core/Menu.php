@@ -54,14 +54,6 @@ class CRM_Core_Menu
      */
     static $_permissionedItems = null;
 
-    /**
-     * The list of dynamic params
-     *
-     * @var array
-     * @static
-     */
-    static $_params = null;
-
     static $_serializedElements = array( 'access_arguments',
                                          'access_callback' ,
                                          'page_arguments'  ,
@@ -333,24 +325,6 @@ class CRM_Core_Menu
     }
 
     /**
-     * Add a key, value pair to the params array
-     *
-     * @param string $key  
-     * @param string $value
-     *
-     * @return void
-     * @access public
-     * @static
-     */
-    static function addParam( $key, $value ) 
-    {
-        if ( ! self::$_params ) {
-            self::$_params = array( );
-        }
-        self::$_params[$key] = $value;
-    }
-
-    /**
      * Get children for a particular menu path sorted by ascending weight
      *
      * @param  string        $path  parent menu path
@@ -402,8 +376,9 @@ class CRM_Core_Menu
         $maxWeight  = -1024;   // weights can have -ve numbers hence cant initialize it to 0
         $firstChild = true;
 
-        foreach (self::items() as $menu) {
-            if (strpos($menu['path'], $path) === 0) {
+        CRM_Core_Error::backtrace( );
+        foreach (self::items() as $menuPath => $menu ) {
+            if (strpos($menuPath, $path) === 0) {
                 if ($firstChild) {
                     // maxWeight is initialized to the weight of the first child
                     $maxWeight = $menu['weight'];

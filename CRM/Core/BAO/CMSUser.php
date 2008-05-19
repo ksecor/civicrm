@@ -57,16 +57,8 @@ class CRM_Core_BAO_CMSUser
         $config =& CRM_Core_Config::singleton( );
 
         CRM_Core_Error::ignoreException( );
-        $db_uf = DB::connect($config->userFrameworkDSN);
-        CRM_Core_Error::setCallback();
-        if ( ! $db_uf ||
-             DB::isError( $db_uf ) ) { 
-            $session =& CRM_Core_Session::singleton( );
-            $session->pushUserContext( CRM_Utils_System::url('civicrm/admin', 'reset=1' ) );
-            CRM_Core_Error::statusBounce( ts( "Cannot connect to UF db via %1. Please check the CIVICRM_UF_DSN value in your civicrm.settings.php file",
-                                              array( 1 => $db_uf->getMessage( ) ) ) );
-        } 
- 
+        $db_uf =& self::dbHandle( $config );
+
         if ( $config->userFramework == 'Drupal' ) { 
             $id   = 'uid'; 
             $mail = 'mail'; 
@@ -76,7 +68,7 @@ class CRM_Core_BAO_CMSUser
             $mail = 'email'; 
             $name = 'name';
         } else { 
-            die( "Unknown user framework" ); 
+            CRM_Core_Error::fatal( "CMS user creation not supported for this framework" ); 
         } 
 
 
@@ -519,6 +511,42 @@ SELECT count(*)
 
         return $id;
     }
-    
+
+    static function updateUFName( $ufID, $ufName ) {
+        $config =& CRM_Core_Config::singleton( );
+        
+        if ( $config->userFramework == 'Drupal' ) { 
+            $user = user_load( array( 'uid' => $ufmatch->uf_id ) );
+            user_save( $user, array( 'mail' => $ufName ) );
+            $user = user_load( array( 'uid' => $ufmatch->uf_id ) );
+        } else if ( $config->userFramework == 'Joomla' ) {
+            $db_uf = self::dbHandle( $config );
+            $ufID   = CRM_Utils_Type::escape( $ufID, 'Integer' );
+            $ufName = CRM_Utils_Type::escape( $ufName, 'String' );
+
+            $sql = "
+UPDATE {$config->userFrameworkUsersTableName}
+SET    email = '$ufName'
+WHERE  id    = $ufID";
+
+            $db_uf->query( $sql );
+            $db_uf->disconnect( );
+        }
+    }
+
+    static function &dbHandle( &$config ) {
+        CRM_Core_Error::ignoreException( );
+        $db_uf = DB::connect($config->userFrameworkDSN);
+        CRM_Core_Error::setCallback();
+        if ( ! $db_uf ||
+             DB::isError( $db_uf ) ) { 
+            $session =& CRM_Core_Session::singleton( );
+            $session->pushUserContext( CRM_Utils_System::url('civicrm/admin', 'reset=1' ) );
+            CRM_Core_Error::statusBounce( ts( "Cannot connect to UF db via %1. Please check the CIVICRM_UF_DSN value in your civicrm.settings.php file",
+                                              array( 1 => $db_uf->getMessage( ) ) ) );
+        }
+        return $db_uf;
+    }
+
 }
 

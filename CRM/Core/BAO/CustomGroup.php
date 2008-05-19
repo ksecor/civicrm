@@ -623,34 +623,6 @@ $where
     }
 
 
-    /**
-     *
-     * This function does 2 things - 
-     *   1 - Create menu tabs for all custom groups with style 'Tab'
-     *   2 - Updates tab for custom groups with style 'Inline'. If there
-     *       are no inline groups it removes the 'Custom Data' tab
-     *
-     *
-     * @param string $entityType  - what entity are we extending here ?
-     * @param string $path        - what should be the starting path for the new menus ?
-     * @param int    $startWeight - weight to start the local menu tabs
-     *
-     * @return void
-     *
-     * @access public
-     * @static
-     *
-     */
-    public static function addMenuTabs($entityType, $path, $startWeight)
-    {
-        $groups =& self::getActiveGroups( $entityType, $path );
-
-        foreach( $groups as $group ) {
-            $group['weight']  = $startWeight++;
-            CRM_Core_Menu::add( $group );
-        }
-    }
-
     public static function &getActiveGroups( $entityType, $path, $cidToken = '%%cid%%' ) {
         // for Group's
         $customGroupDAO =& new CRM_Core_DAO_CustomGroup();
