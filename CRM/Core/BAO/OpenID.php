@@ -86,8 +86,7 @@ class CRM_Core_BAO_OpenID extends CRM_Core_DAO_OpenID
     static function isAllowedToLogin( $identity_url ) {
         $openId =& new CRM_Core_DAO_OpenID( );
         $openId->openid = $identity_url;
-        $openId->find( true );
-        if ( $openId ) {
+        if ( $openId->find( true ) ) {
             return $openId->allowed_to_login == 1;
         }
         return false;
@@ -110,7 +109,8 @@ class CRM_Core_BAO_OpenID extends CRM_Core_DAO_OpenID
 
         $query = "
 SELECT openid, civicrm_location_type.name as locationType, civicrm_openid.is_primary as is_primary, 
-civicrm_openid.id as openid_id, civicrm_openid.location_type_id as locationTypeId
+civicrm_openid.allowed_to_login as allowed_to_login, civicrm_openid.id as openid_id, 
+civicrm_openid.location_type_id as locationTypeId
 FROM      civicrm_contact
 LEFT JOIN civicrm_openid ON ( civicrm_openid.contact_id = civicrm_contact.id )
 LEFT JOIN civicrm_location_type ON ( civicrm_openid.location_type_id = civicrm_location_type.id )
@@ -123,11 +123,12 @@ ORDER BY
         $openids = array( );
         $dao =& CRM_Core_DAO::executeQuery( $query, $params );
         while ( $dao->fetch( ) ) {
-            $openids[$dao->openid_id] = array( 'locationType'   => $dao->locationType,
-                                               'is_primary'     => $dao->is_primary,
-                                               'id'             => $dao->openid_id,
-                                               'openid'         => $dao->openid,
-                                               'locationTypeId' => $dao->locationTypeId );
+            $openids[$dao->openid_id] = array( 'locationType'     => $dao->locationType,
+                                               'is_primary'       => $dao->is_primary,
+                                               'id'               => $dao->openid_id,
+                                               'openid'           => $dao->openid,
+                                               'locationTypeId'   => $dao->locationTypeId,
+                                               'allowed_to_login' => $dao->allowed_to_login );
         }
         return $openids;
     }

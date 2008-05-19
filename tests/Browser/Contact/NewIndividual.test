@@ -100,5 +100,30 @@ class Browser_Contact_NewIndividual extends CiviTestCase
         $this->assertDBNull( 'CRM_Contact_DAO_Contact', $last_name . ', ' .$first_name, 'id', 'sort_name',  'Database check, Individual created successfully.' );
     }  
     
-  
+    /**
+     * Test to create individual with address params
+     * 
+     */
+    function testCreateIndividualWithAddress( ) 
+    {
+        $this->civiGet('civicrm/dashboard', 'reset=1' );
+        $this->clickLink('New Individual', '0');
+
+        $params = array ( 'first_name'                                   => 'Jane',     
+                          'last_name'                                    => 'Doe', 
+                          'location[1][location_type_id]'                => 1,
+                          'location[1][is_primary]'                      => 1,
+                          'location[1][email][1][email]'                 => 'sunil@webaccess.co.in',
+                          'location[1][address][street_address]'         => 'Saint Helier St',
+                          'location[1][address][supplemental_address_1]' => 'Hallmark Ct',
+                          'location[1][address][supplemental_address_2]' => 'Jersey Village',
+                          );
+        
+        $this->drupalPost( NULL, $params, '_qf_Edit_next_view');
+        
+        $this->assertText('Your Individual contact record has been saved.');
+
+        //$this->assertDBNotNull( 'CRM_Contact_DAO_Contact', $last_name . ', ' .$first_name, 'id', 'sort_name',  'Checking database for the record.' );
+    }  
+
 }
