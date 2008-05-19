@@ -134,6 +134,10 @@ WHERE (cc.id IS NULL AND cv.entity_table='civicrm_contribution');
 -- *
 -- *******************************/
 
+DELETE ca.* FROM civicrm_activity ca 
+LEFT JOIN civicrm_contact cc ON ca.target_entity_id=cc.id 
+WHERE ca.target_entity_table = 'civicrm_contact' AND cc.id is NULL;
+
 DELETE ah.* FROM civicrm_activity_history ah 
 LEFT JOIN civicrm_contact cc ON ah.entity_id=cc.id 
 WHERE cc.id is NULL;

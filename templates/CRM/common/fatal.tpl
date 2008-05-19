@@ -19,6 +19,10 @@
   <dd>
       {ts}Sorry. A non-recoverable error has occurred.{/ts}
       <p>{$message}</p>
+{if $error.message && $message != $error.message}
+    <hr style="solid 1px" />
+    <p>{$error.message}</p>
+{/if}
 {if $code}
       <p>{ts}Error Code:{/ts} {$code}</p>
 {/if}
