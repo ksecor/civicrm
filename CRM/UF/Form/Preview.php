@@ -170,7 +170,7 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
                 $this->add('select', $name, $field['title'], 
                            array('' => ts('- select -')) + CRM_Core_PseudoConstant::country(), $required);
             } else if ( substr($field['name'],0,6) === 'county' ) {
-                if ( $addressOptions['County'] ) {
+                if ( $addressOptions['county'] ) {
                     $this->add('select', $name, $field['title'], 
                                array('' => ts('- select -')) + CRM_Core_PseudoConstant::county(), $required);
                 }

@@ -138,7 +138,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         require_once 'CRM/Utils/Hook.php';
         
         CRM_Utils_Hook::pre( 'create', 'GroupContact', $groupId, $contactIds ); 
-                
+        
         $date = date('YmdHis');
         $numContactsAdded    = 0;
         $numContactsNotAdded = 0;
@@ -187,6 +187,10 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         require_once 'CRM/ACL/BAO/Cache.php';
         CRM_ACL_BAO_Cache::resetCache( );
         
+        // reset the group contact cache for this group
+        require_once 'CRM/Contact/BAO/GroupContactCache.php';
+        CRM_Contact_BAO_GroupContactCache::remove( $groupId );
+
         CRM_Utils_Hook::post( 'create', 'GroupContact', $groupId, $contactIds );
 
         return array( count($contactIds), $numContactsAdded, $numContactsNotAdded );
@@ -256,6 +260,10 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
         require_once 'CRM/ACL/BAO/Cache.php';
         CRM_ACL_BAO_Cache::resetCache( );
         
+        // reset the group contact cache for this group
+        require_once 'CRM/Contact/BAO/GroupContactCache.php';
+        CRM_Contact_BAO_GroupContactCache::remove( $groupId );
+
         CRM_Utils_Hook::post( $op, 'GroupContact', $groupId, $contactIds );
         
         return array( count($contactIds), $numContactsRemoved, $numContactsNotRemoved );
@@ -410,21 +418,6 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
             }
             return $values;
         }
-    }
-
-    /**
-     * Delete the object records that are associated with this contact
-     *
-     * @param  int  $contactId id of the contact to delete
-     *
-     * @return void
-     * @access public
-     * @static
-     */
-    static function deleteContact( $contactId ) {
-        $groupContact =& new CRM_Contact_DAO_GroupContact( );
-        $groupContact->contact_id = $contactId;
-        $groupContact->delete( );
     }
 
     /**

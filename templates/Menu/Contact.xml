@@ -130,6 +130,11 @@
      <page_callback>CRM_Contact_Page_View_CustomData</page_callback>
   </item>
   <item>
+     <path>civicrm/contact/view/cd/edit</path>
+     <page_callback>CRM_Contact_Form_CustomData</page_callback>
+     <page_arguments>addSequence=1</page_arguments>
+  </item>
+  <item>
      <path>civicrm/contact/view/vcard</path>
      <page_callback>CRM_Contact_Page_View_Vcard</page_callback>
   </item>
@@ -139,11 +144,11 @@
   </item>
   <item>
      <path>civicrm/contact/view/participant</path>
-     <page_callback>CRM_Contact_Page_View_Participant</page_callback>
+     <page_callback>CRM_Event_Page_Tab</page_callback>
   </item>
   <item>
      <path>civicrm/contact/view/grant</path>
-     <page_callback>CRM_Contact_Page_View_Grant</page_callback>
+     <page_callback>CRM_Grant_Page_Tab</page_callback>
   </item>
   <item>
      <path>civicrm/contact/view/log</path>

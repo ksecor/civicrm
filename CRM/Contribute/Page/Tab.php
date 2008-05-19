@@ -35,7 +35,7 @@
 
 require_once 'CRM/Contact/Page/View.php';
 
-class CRM_Contact_Page_View_Contribution extends CRM_Contact_Page_View 
+class CRM_Contribute_Page_Tab extends CRM_Contact_Page_View 
 {
     /**
      * The action links that we need to display for the browse screen

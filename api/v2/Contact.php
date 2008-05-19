@@ -200,11 +200,12 @@ function &civicrm_contact_search( &$params ) {
 
     $inputParams      = array( );
     $returnProperties = array( );
-    $otherVars = array( 'sort', 'offset', 'rowCount' );
+    $otherVars = array( 'sort', 'offset', 'rowCount', 'smartGroupCache' );
     
-    $sort     = null;
-    $offset   = 0;
-    $rowCount = 25;
+    $sort            = null;
+    $offset          = 0;
+    $rowCount        = 25;
+    $smartGroupCache = false;
     foreach ( $params as $n => $v ) {
         if ( substr( $n, 0, 7 ) == 'return.' ) {
             $returnProperties[ substr( $n, 7 ) ] = $v;
@@ -226,7 +227,8 @@ function &civicrm_contact_search( &$params ) {
                                                                    null,
                                                                    $sort,
                                                                    $offset,
-                                                                   $rowCount );
+                                                                   $rowCount,
+                                                                   $smartGroupCache );
     return $contacts;
 }
 
@@ -306,27 +308,10 @@ function civicrm_contact_check_params( &$params, $dupeCheck = true, $dupeErrorAr
     
     if ( $dupeCheck ) {
         // check for record already existing
-        if ( $params['contact_type'] == 'Organization' || $params['contact_type'] == 'Household' ) {
-            require_once "CRM/Contact/DAO/Contact.php";
-            $contact = & new CRM_Contact_DAO_Contact();
-            if ( $params['contact_type'] == 'Organization' ) {
-                $contact->organization_name = $params['organization_name'];
-            } else {
-                $contact->household_name = $params['household_name'];
-            }
+        require_once 'CRM/Dedupe/Finder.php';
+        $dedupeParams = CRM_Dedupe_Finder::formatParams($params, $params['contact_type']);
+        $ids = implode(',', CRM_Dedupe_Finder::dupesByParams($dedupeParams, $params['contact_type']));
 
-            $contactIds = array( );
-            $contact->find();
-            while ( $contact->fetch() ) {
-                $contactIds[] = $contact->id;
-            }
-            $contact->free();
-            $ids = implode( ',',  $contactIds );
-        } else {
-            require_once 'CRM/Core/BAO/UFGroup.php';
-            $ids = CRM_Core_BAO_UFGroup::findContact( $params ) ;
-        }
-        
         if ( $ids != null ) {
             if ( $dupeErrorArray ) {
                 $error = CRM_Core_Error::createError( "Found matching contacts: $ids",

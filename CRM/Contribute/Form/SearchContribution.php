@@ -47,12 +47,12 @@ class CRM_Contribute_Form_SearchContribution extends CRM_Core_Form
      */
     public function buildQuickForm( ) 
     {
-        $this->add( 'text', 'title', ts( 'Find' ),
-                    array(CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'title'), 
-                          'style' => 'width: 90%') );
+        $attributes = CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'title');
+        $attributes['style'] = 'width: 90%';
+        
+        $this->add( 'text', 'title', ts( 'Find' ), $attributes );
         
         $contribution_type = CRM_Contribute_PseudoConstant::contributionType( );
-              
         foreach($contribution_type as $contributionId => $contributionName) {
             $this->addElement('checkbox', "contribution_type_id[$contributionId]", 'Contribution Type', $contributionName);
         }

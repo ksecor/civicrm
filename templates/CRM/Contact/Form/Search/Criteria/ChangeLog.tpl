@@ -1,4 +1,4 @@
-<div id="changelog">
+<div id="changelog" class="form-item">
 <fieldset class="collapsible">
     <table class="form-layout">
         <tr>

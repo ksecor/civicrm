@@ -266,6 +266,7 @@ class CRM_Core_I18n
 function ts($text, $params = array())
 {
     static $i18n = null;
+    static $function = null;
 
     if ($text == '') {
         return '';
@@ -273,9 +274,17 @@ function ts($text, $params = array())
 
     if ( ! $i18n ) {
         $i18n =& CRM_Core_I18n::singleton();
+        $config =& CRM_Core_Config::singleton( );
+        $function = isset( $config->customTranslateFunction ) ? trim( $config->customTranslateFunction ) : null;
+        if ( ! $function ||
+             ! function_exists( $function ) ) {
+            $function = null;
+        }
     }
 
-    return $i18n->crm_translate($text, $params);
+    if ( $function ) {
+        return $function($text, $params);
+    } else {
+        return $i18n->crm_translate($text, $params);
+    }
 }
-
-

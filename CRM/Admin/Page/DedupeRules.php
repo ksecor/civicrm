@@ -34,6 +34,7 @@
  */
 
 require_once 'CRM/Core/Page/Basic.php';
+require_once 'CRM/Dedupe/DAO/Rule.php';
 require_once 'CRM/Dedupe/DAO/RuleGroup.php';
 
 class CRM_Admin_Page_DedupeRules extends CRM_Core_Page_Basic
@@ -53,7 +54,7 @@ class CRM_Admin_Page_DedupeRules extends CRM_Core_Page_Basic
      */
     function getBAOName()
     {
-        return 'CRM_Dedupe_DAO_RuleGroup';
+        return 'CRM_Dedupe_BAO_RuleGroup';
     }
 
     /**
@@ -64,13 +65,42 @@ class CRM_Admin_Page_DedupeRules extends CRM_Core_Page_Basic
     function &links()
     {
           if (!(self::$_links)) {
-            // helper variable for nicer formatting
+              $disableExtra = ts('Are you sure you want to disable this Rule?');
+              $deleteExtra  = ts('Are you sure you want to delete this Rule?');
+
+              // helper variable for nicer formatting
               self::$_links = array(
+                  CRM_Core_Action::VIEW  => array(
+                      'name'  => ts('Use Rule'),
+                      'url'   => 'civicrm/admin/deduperules',
+                      'qs'    => 'reset=1&action=view&rgid=%%id%%',
+                      'title' => ts('Use DedupeRule'),
+                      ),
                   CRM_Core_Action::UPDATE  => array(
                       'name'  => ts('Edit Rule'),
                       'url'   => 'civicrm/admin/deduperules',
                       'qs'    => 'action=update&id=%%id%%',
                       'title' => ts('Edit DedupeRule'),
+                  ),
+                  CRM_Core_Action::ENABLE  => array(
+                      'name'  => ts('Enable'),
+                      'url'   => 'civicrm/admin/deduperules',
+                      'qs'    => 'action=enable&id=%%id%%',
+                      'title' => ts('Enable DedupeRule'),
+                      ),
+                  CRM_Core_Action::DISABLE  => array(
+                      'name'  => ts('Disable'),
+                      'url'   => 'civicrm/admin/deduperules',
+                      'qs'    => 'action=disable&id=%%id%%',
+                      'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
+                      'title' => ts('Disable DedupeRule'),
+                  ),
+                  CRM_Core_Action::DELETE  => array(
+                      'name'  => ts('Delete'),
+                      'url'   => 'civicrm/admin/deduperules',
+                      'qs'    => 'action=delete&id=%%id%%',
+                      'extra' => 'onclick = "return confirm(\'' . $deleteExtra . '\');"',
+                      'title' => ts('Delete DedupeRule'),
                   ),
               );
         }
@@ -101,7 +131,9 @@ class CRM_Admin_Page_DedupeRules extends CRM_Core_Page_Basic
         if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
             $this->edit($action, $id);
         }
-
+        if ($action & CRM_Core_Action::DELETE ) {
+            $this->delete($id);
+        }
         // browse the rules
         $this->browse();
 
@@ -126,14 +158,23 @@ class CRM_Admin_Page_DedupeRules extends CRM_Core_Page_Basic
         $dao->domain_id = $config->domainID( );
 
         $dao->find();
-
+        
         while ($dao->fetch()) {
             $ruleGroups[$dao->id] = array();
             CRM_Core_DAO::storeValues($dao, $ruleGroups[$dao->id]);
+     
             // form all action links
             $action = array_sum(array_keys($this->links()));
-
-            $ruleGroups[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $action, array('id' => $dao->id));
+            $links = self::links();
+            if ($dao->is_active) {
+                unset($links[32]);
+                if($dao->is_default) {
+                    unset($links[64]);
+                }
+            } else {
+                unset($links[64]);
+            }
+            $ruleGroups[$dao->id]['action'] = CRM_Core_Action::formLink($links, $action, array('id' => $dao->id));
             CRM_Dedupe_DAO_RuleGroup::addDisplayEnums($ruleGroups[$dao->id]);
         }
         $this->assign('rows', $ruleGroups);
@@ -146,9 +187,13 @@ class CRM_Admin_Page_DedupeRules extends CRM_Core_Page_Basic
      */
     function editForm()
     {
-        return 'CRM_Admin_Form_DedupeRules';
+        if ($this->_action == 4) {
+            return 'CRM_Admin_Form_DedupeFind';
+        } else { 
+            return 'CRM_Admin_Form_DedupeRules';
+        }    
     }
-
+    
     /**
      * Get edit form name
      *
@@ -156,9 +201,13 @@ class CRM_Admin_Page_DedupeRules extends CRM_Core_Page_Basic
      */
     function editName()
     {
-        return 'DedupeRules';
+        if ($this->_action == 4) {
+            return 'DedupeFind';
+        } else { 
+            return 'DedupeRules';
+        }    
     }
-
+    
     /**
      * Get user context
      *
@@ -167,6 +216,17 @@ class CRM_Admin_Page_DedupeRules extends CRM_Core_Page_Basic
     function userContext($mode = null)
     {
         return 'civicrm/admin/deduperules';
+    }
+
+    function delete($id)
+    {
+        $ruleDao =& new CRM_Dedupe_DAO_Rule();
+        $ruleDao->dedupe_rule_group_id = $id;
+        $ruleDao->delete();
+
+        $rgDao            =& new CRM_Dedupe_DAO_RuleGroup();
+        $rgDao->id        = $id;
+        $rgDao->delete();
     }
 }
 

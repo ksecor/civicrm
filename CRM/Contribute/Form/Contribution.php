@@ -272,7 +272,11 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         
         list( $displayName, $email ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $this->_contactID );
         $this->assign( 'email', $email ); 
-        
+        if ( $defaults['is_pay_later'] ) {
+            $this->assign( 'is_pay_later', true ); 
+        }
+        $this->assign( 'contribution_status_id', $defaults['contribution_status_id'] );
+
         return $defaults;
     }
     

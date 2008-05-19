@@ -108,6 +108,11 @@ class CRM_Member_StateMachine_Search extends CRM_Core_StateMachine {
             $task   = array ('CRM_Member_Form_Task_Email',
                              'CRM_Member_Form_Task_Result');
             break;
+        case CRM_Member_Task::BATCH_MEMBERS:
+            $task   = array( 'CRM_Member_Form_Task_PickProfile',
+                             'CRM_Member_Form_Task_Batch',
+                             'CRM_Member_Form_Task_Result');
+            break;
 
         default: // the print task is the default and catch=all task
             $task = 'CRM_Member_Form_Task_Print';

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-04-28 21:53+0200\n"
-"PO-Revision-Date: 2008-05-09 02:26-0700\n"
-"Last-Translator: Johannes Jonsson <translation@v-dala.se>\n"
+"PO-Revision-Date: 2008-05-15 13:58-0700\n"
+"Last-Translator: Jim Björk <jim.bjoerk@hotmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2174,13 +2174,13 @@ msgstr ""
 #: CRM/Grant/DAO/Grant.php CRM/Grant/Form/Grant.php
 #: CRM/Grant/Selector/Search.php templates/CRM/Grant/Form/Task/Print.tpl
 msgid "Amount Requested"
-msgstr ""
+msgstr "Önskad mängd"
 
 #: CRM/Grant/DAO/Grant.php CRM/Grant/Form/Grant.php
 #: CRM/Grant/Selector/Search.php
 #, fuzzy
 msgid "Amount Granted"
-msgstr "Belopp"
+msgstr "Mängd"
 
 #: CRM/Grant/DAO/Grant.php CRM/Grant/Form/Grant.php
 #, fuzzy
@@ -2225,13 +2225,14 @@ msgstr "Ägares enhetstabell"
 #: CRM/Standalone/OpenID/DAO/Associations.php
 #: CRM/Standalone/OpenID/DAO/Nonce.php
 msgid "Server Url"
-msgstr ""
+msgstr "Server Url"
 
 #: CRM/Upgrade/TwoZero/Form/Step1.php CRM/Upgrade/TwoZero/Form/Step3.php
 #: CRM/Upgrade/TwoZero/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step5.php
 #: CRM/Upgrade/TwoZero/Form/Step6.php
+#, fuzzy
 msgid "Database consistency check failed for step %1."
-msgstr ""
+msgstr "Databas consistency check failed för steg %1"
 
 #: CRM/Upgrade/TwoZero/Form/Step1.php CRM/Upgrade/TwoZero/Form/Step3.php
 #: CRM/Upgrade/TwoZero/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step6.php
@@ -2240,14 +2241,19 @@ msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step1.php CRM/Upgrade/TwoZero/Form/Step3.php
 #: CRM/Upgrade/TwoZero/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step6.php
+#, fuzzy
 msgid "Please rebuild your 1.9 database to ensure schema integrity."
 msgstr ""
+"Var vänlig bygg om din 1.9 databas för att vara säker på schema integritet."
 
 #: CRM/Upgrade/TwoZero/Form/Step1.php CRM/Upgrade/TwoZero/Form/Step5.php
+#, fuzzy
 msgid ""
 "Value missing in %1 for the column '%2'. Please add a unique value for the "
 "'name' column for each database record."
 msgstr ""
+"Värde saknas i %1 för kolumn '%2'. Var god ge ett unikt värde för 'namn' "
+"kolumnen för varje databasregister."
 
 #: CRM/Upgrade/TwoZero/Form/Step1.php CRM/Upgrade/TwoZero/Form/Step2.php
 #: CRM/Upgrade/TwoZero/Form/Step3.php CRM/Upgrade/TwoZero/Form/Step4.php
@@ -2263,8 +2269,9 @@ msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step2.php CRM/Upgrade/TwoZero/Form/Step3.php
 #: CRM/Upgrade/TwoZero/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step5.php
+#, fuzzy
 msgid "Upgrade & Continue"
-msgstr ""
+msgstr "Uppgradera & Fortsätt"
 
 #: CRM/ACL/BAO/ACL.php
 msgid "Contact Group"
@@ -2491,23 +2498,23 @@ msgstr "Kontakt ID (matcha mot kontakt)"
 #: CRM/Activity/Form/ActivityLinks.php
 #: templates/CRM/Activity/Form/ActivityLinks.tpl
 msgid "Other Activities"
-msgstr ""
+msgstr "Andra aktiviteter"
 
 #: CRM/Activity/Form/Activity.php
 msgid "- select activity -"
-msgstr ""
+msgstr "- välj aktivitet -"
 
 #: CRM/Activity/Form/Activity.php templates/CRM/Activity/Form/ActivityView.tpl
 msgid "With Contact"
-msgstr ""
+msgstr "Med kontakt"
 
 #: CRM/Activity/Form/Activity.php
 msgid "Source Contact non-existant!"
-msgstr ""
+msgstr "Källkontakt existerar inte"
 
 #: CRM/Activity/Form/Activity.php
 msgid "Target Contact non-existant!"
-msgstr ""
+msgstr "Målkontakt existerar inte"
 
 #: CRM/Activity/Form/Activity.php
 msgid "Assignee Contact non-existant!"
@@ -2518,8 +2525,9 @@ msgid "Invalid Case"
 msgstr ""
 
 #: CRM/Activity/Form/Activity.php
+#, fuzzy
 msgid "Selected Activity is deleted sucessfully."
-msgstr ""
+msgstr "Vald aktivitet togs bort"
 
 #: CRM/Activity/Form/Activity.php
 msgid "Selected Activity has been sucessfully detached from a case."
@@ -3811,26 +3819,27 @@ msgid "hide this email"
 msgstr ""
 
 #: CRM/Contact/Form/Email.php
+#, fuzzy
 msgid "Use for Bulk Mailings"
-msgstr ""
+msgstr "Använd för Bulkmail"
 
 #: CRM/Contact/Form/GroupContact.php
 #, fuzzy
 msgid "Join a Group"
-msgstr "Kontaktgrupp"
+msgstr "Gå med i Kontaktgrupp"
 
 #: CRM/Contact/Form/GroupContact.php
 #, fuzzy
 msgid "Add to a group"
-msgstr "Typ av kontakt"
+msgstr "Lägg till i en grupp"
 
 #: CRM/Contact/Form/GroupContact.php
 msgid "Add"
-msgstr ""
+msgstr "lägg till"
 
 #: CRM/Contact/Form/GroupContact.php
 msgid "Contact has been added to the selected group."
-msgstr ""
+msgstr "Kontakt har lagts till den valda gruppen."
 
 #: CRM/Contact/Form/IM.php
 msgid "Instant Messenger (preferred)"
@@ -3838,19 +3847,19 @@ msgstr ""
 
 #: CRM/Contact/Form/IM.php
 msgid "Instant Messenger"
-msgstr ""
+msgstr "Instant Messenger"
 
 #: CRM/Contact/Form/IM.php
 msgid "another IM"
-msgstr ""
+msgstr "En annan IM"
 
 #: CRM/Contact/Form/IM.php
 msgid "hide this IM"
-msgstr ""
+msgstr "göm denna IM"
 
 #: CRM/Contact/Form/IM.php
 msgid "- select service -"
-msgstr ""
+msgstr "- välj tjänst -"
 
 #: CRM/Contact/Form/Individual.php
 msgid "Prefix"
@@ -4805,7 +4814,6 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: CRM/Core/BAO/CMSUser.php
-#, fuzzy
 msgid "Create an account?"
 msgstr "Vill du skapa ett användarkonto?"
 
@@ -10360,7 +10368,6 @@ msgid "and a password"
 msgstr "och ett lösenord"
 
 #: templates/CRM/common/CMSUser.tpl
-#, fuzzy
 msgid ""
 "If you already have an account, <a href='%1'>please login</a> before "
 "completing this form."

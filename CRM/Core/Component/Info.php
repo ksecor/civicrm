@@ -68,12 +68,25 @@ abstract class CRM_Core_Component_Info
      * of the component user dashboard plugin.
      */
     const COMPONENT_USERDASHBOARD_CLASS = 'Page_UserDashboard';
+    
+    /*
+     * Name of the class (minus component namespace path) 
+     * of the component tab offered to contact record view.
+     */
+    const COMPONENT_TAB_CLASS = 'Page_Tab';
+    
 
     /*
      * Stores component information.
      * @var array component settings as key/value pairs
      */
     public $info;
+
+    /*
+     * Stores component keyword
+     * @var string name of component keyword
+     */
+    protected $keyword;
 
     /*
      * Class constructor, sets name and namespace (those are stored
@@ -91,6 +104,7 @@ abstract class CRM_Core_Component_Info
         $this->namespace = $namespace;
         $this->componentID = $componentID;
         $this->info = $this->getInfo();
+        $this->info['url'] = $this->getKeyword();
     }                                                          
 
     /**
@@ -126,6 +140,18 @@ abstract class CRM_Core_Component_Info
      *
      */
     abstract public function getUserDashboardElement();
+    
+    
+    /**
+     * Provides information about user dashboard element
+     * offered by this component.
+     *
+     * @return array|null collection of required dashboard settings, 
+     *                    null if no element offered
+     * @access public
+     *
+     */
+    abstract public function registerTab();
 
     /**
      * Provides potential activity types that this 
@@ -209,13 +235,25 @@ abstract class CRM_Core_Component_Info
     /**
      * Provides component's user dashboard page object.
      * 
-     * @return boolean true if component needs search integration
+     * @return mixed component's User Dashboard applet object
      * @access public
      *
      */
     public function getUserDashboardObject( )
     {
         return $this->_instantiate( self::COMPONENT_USERDASHBOARD_CLASS );
+    }
+
+    /**
+     * Provides component's contact record tab object.
+     * 
+     * @return mixed component's contact record tab object
+     * @access public
+     *
+     */
+    public function getTabObject( )
+    {
+        return $this->_instantiate( self::COMPONENT_TAB_CLASS );
     }
 
     /**
@@ -243,6 +281,19 @@ abstract class CRM_Core_Component_Info
     }
 
 
+    /**
+     * Simple "keyword" getter. 
+     * FIXME: It should be protected so the keyword is not
+     * FIXME: accessed from beyond component infrastructure.
+     * 
+     * @return string component keyword
+     * @access public
+     *
+     */
+    public function getKeyword( )
+    {
+        return $this->keyword;
+    }
 
 
 

@@ -70,11 +70,12 @@ class CRM_Contact_Form_Address
                           'geo_code_1'             => array( ts('Latitude') ,  array( 'size' => 9, 'maxlength' => 10 ), null ),
                           'geo_code_2'             => array( ts('Longitude'),  array( 'size' => 9, 'maxlength' => 10 ), null )
                           ); 
-        
+
         foreach ( $elements as $name => $v ) {
             list( $title, $attributes, $select ) = $v;
-            
-            if ( ! $addressOptions[$title] ) {
+
+            $nameWithoutID = strpos( $name, '_id' ) !== false ? substr( $name, 0, -3 ) : $name;
+            if ( ! $addressOptions[$nameWithoutID] ) {
                 continue;
             }
             
@@ -83,7 +84,7 @@ class CRM_Contact_Form_Address
             }
             
             //build normal select if country is not present in address block
-            if ( $name == 'state_province_id' && ! $addressOptions[ $elements['country_id'][0] ] ) {
+            if ( $name == 'state_province_id' && ! $addressOptions['country'] ) {
                 $select = 'stateProvince';
             }
             
@@ -96,7 +97,7 @@ class CRM_Contact_Form_Address
                         $countryUrl =  CRM_Utils_System::url( "civicrm/ajax/country", null, true, null, false );
 
                         //when only country is enable, don't call function to build state province
-                        if ( $addressOptions[ $elements['state_province_id'][0] ] ) {
+                        if ( $addressOptions['state_province'] ) {
                             $onValueChanged = "getStateProvince{$locationId}( dijit.byId( 'location_{$locationId}_address_country_id' ), {$locationId}, null, true )";
                         }
                     } else {

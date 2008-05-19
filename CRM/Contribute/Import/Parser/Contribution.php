@@ -282,6 +282,8 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                     if ( $customFields[$customFieldID][2] == 'Date' ) {
                         CRM_Import_Parser_Contact::formatCustomDate( $params, $formatted, $dateType, $key );
                         unset( $params[$key] );
+                    } else if ( $customFields[$customFieldID][2] == 'Boolean' ) {
+                        $params[$key] = CRM_Utils_String::strtoboolstr( $val );
                     }
                 }
             }

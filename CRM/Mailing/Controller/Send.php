@@ -46,6 +46,23 @@ class CRM_Mailing_Controller_Send extends CRM_Core_Controller {
 
         $mailingID = CRM_Utils_Request::retrieve('mid', 'String', $this, false, null );
 
+        // also get the text and html file
+        $txtFile  = CRM_Utils_Request::retrieve( 'txtFile', 'String',
+                                                 CRM_Core_DAO::$_nullObject, false, null );
+        $htmlFile = CRM_Utils_Request::retrieve( 'htmlFile', 'String',
+                                                 CRM_Core_DAO::$_nullObject, false, null );
+
+        $config =& CRM_Core_Config::singleton( );
+        if ( $txtFile &&
+             file_exists( $config->uploadDir . $txtFile ) ) {
+            $this->set( 'textFilePath', $config->uploadDir . $txtFile );
+        }
+
+        if ( $htmlFile &&
+             file_exists( $config->uploadDir . $htmlFile ) ) {
+            $this->set( 'htmlFilePath', $config->uploadDir . $htmlFile );
+        }
+
         $this->_stateMachine =& new CRM_Mailing_StateMachine_Send( $this, $action, $mailingID);
 
         // create and instantiate the pages

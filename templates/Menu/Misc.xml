@@ -25,6 +25,13 @@
      <weight>0</weight>
   </item>
   <item>
+     <path>civicrm/admin/options/acl_role</path>
+     <title>ACL Roles</title>
+     <path_arguments>group=acl_role</path_arguments>
+     <page_callback>CRM_Admin_Page_Options</page_callback>
+     <access_arguments>administer CiviCRM,access CiviCRM</access_arguments>
+  </item>
+  <item>
      <path>civicrm/acl</path>
      <title>Manage ACLs</title>
      <page_callback>CRM_ACL_Page_ACL</page_callback>
@@ -32,7 +39,7 @@
   </item>
   <item>
      <path>civicrm/acl/entityrole</path>
-     <title>ACL Roles</title>
+     <title>Assign Users to ACL Roles</title>
      <page_callback>CRM_ACL_Page_EntityRole</page_callback>
      <access_arguments>administer CiviCRM,access CiviCRM</access_arguments>
   </item>

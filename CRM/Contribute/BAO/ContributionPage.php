@@ -85,7 +85,7 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
      * @access public
      * @static
      */
-    static function sendMail( $contactID, &$values ) 
+    static function sendMail( $contactID, &$values, $isTest = false ) 
     { 
         require_once "CRM/Core/BAO/UFField.php";
 
@@ -128,8 +128,22 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
 
             require_once 'CRM/Contact/BAO/Contact/Location.php';
             list( $displayName, $email ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $contactID );
-            self::buildCustomDisplay( $values['custom_pre_id'] , 'customPre' , $contactID, $template, $params['custom_pre_id'] );
-            self::buildCustomDisplay( $values['custom_post_id'], 'customPost', $contactID, $template, $params['custom_post_id'] );
+            if ( $isTest &&
+                 ! empty( $params['custom_pre_id'] ) ) {
+                $params['custom_pre_id'][] = array( 'contribution_test', '=', 1, 0, 0 );
+            }
+
+            if ( $isTest &&
+                 ! empty( $params['custom_post_id'] ) ) {
+                $params['custom_post_id'][] = array( 'contribution_test', '=', 1, 0, 0 );
+            }
+
+            self::buildCustomDisplay( $values['custom_pre_id'] ,
+                                      'customPre' , $contactID,
+                                      $template, $params['custom_pre_id'] );
+            self::buildCustomDisplay( $values['custom_post_id'],
+                                      'customPost', $contactID,
+                                      $template, $params['custom_post_id'] );
             
             // cc to related contacts of contributor OR the one who
             // signs up. Can be used for cases like - on behalf of
@@ -150,7 +164,7 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
 
             $subject = trim( $template->fetch( 'CRM/Contribute/Form/Contribution/ReceiptSubject.tpl' ) );
             $message = $template->fetch( 'CRM/Contribute/Form/Contribution/ReceiptMessage.tpl' );
-            
+
             $receiptFrom = '"' . CRM_Utils_Array::value('receipt_from_name',$values) . '" <' . $values['receipt_from_email'] . '>';
 
             require_once 'CRM/Utils/Mail.php';

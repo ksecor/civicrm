@@ -190,15 +190,19 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
             }
             $sel2['Contact']  =  array("" => "-- Any --") + $contactSubTypes;
         } else {
-            $formName = 'document.forms.' . $this->_name;
-                        
-            $js  = "<script type='text/javascript'>\n";
-            $js .= "{$formName}['extends[1]'].style.display = 'none';\n";
-            $js .= "</script>";
-            $this->assign( 'initHideBlocks', $js );
+            if( !isset( $this->_id ) ){
+                $formName = 'document.forms.' . $this->_name;
+                
+                $js  = "<script type='text/javascript'>\n";
+                $js .= "{$formName}['extends[1]'].style.display = 'none';\n";
+                $js .= "</script>";
+                $this->assign( 'initHideBlocks', $js );
+            }
         }
         
-        $sel =& $this->addElement('hierselect', "extends", ts('Used For'));
+        $sel =& $this->addElement('hierselect', "extends", ts('Used For'), array('onClick' => "showHideStyle();",
+                                                                                 'name'=>"extends[0]"
+                                                                                 ));
         $sel->setOptions(array($sel1,$sel2));
         
         // which entity is this custom data group for ?

@@ -138,7 +138,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         $groups =& $this->get('groups');
         
         if ( ! empty( $groups ) ) {
-            $this->addElement( 'select', 'groups', ts('Join new contacts to existing group(s)'), $groups, array('multiple' => "multiple", 'size' => 5));
+            $this->addElement( 'select', 'groups', ts('Add imported records to existing group(s)'), $groups, array('multiple' => "multiple", 'size' => 5));
         }
 
         //display new tag
@@ -384,7 +384,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
             foreach ($tag as $tagId =>$val) {
                 $addTagCount =& CRM_Core_BAO_EntityTag::addContactsToTag( $contactIds, $tagId );
                 if ( !empty($relatedContactIds) ) {
-                    $addRelTagCount =& CRM_Core_BAO_EntityTag::addContactsToTag( $contactIds, $tagId );
+                    $addRelTagCount =& CRM_Core_BAO_EntityTag::addContactsToTag( $relatedContactIds, $tagId );
                 }
                 $totalTagCount = $addTagCount[1] + $addRelTagCount[1];
                 if ($tagId == $addedTag->id) {

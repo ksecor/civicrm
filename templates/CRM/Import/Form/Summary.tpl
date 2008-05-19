@@ -50,7 +50,7 @@
  <table id="summary-counts" class="report">
     <tr><td class="label">{ts}Total Rows{/ts}</td>
         <td class="data">{$totalRowCount}</td>
-        <td class="explanation">{ts}Total rows (contact records) in uploaded file.{/ts}</td>
+        <td class="explanation">{ts}Total number of rows in the uploaded file.{/ts}</td>
     </tr>
 
     {if $invalidRowCount }
@@ -97,9 +97,9 @@
     </tr>
     {/if}
     
-    <tr><td class="label">{ts}Records Imported{/ts}</td>
+    <tr><td class="label">{ts}Total Contacts{/ts}</td>
         <td class="data">{$validRowCount}</td>
-        <td class="explanation">{ts}Rows imported successfully.{/ts}</td>
+        <td class="explanation">{ts}Total number of contact records created or modified during the import.{/ts}</td>
     </tr>
 
     {if $groupAdditions}
@@ -119,7 +119,7 @@
     {/if}
 
     {if $tagAdditions}
-    <tr><td class="label">{ts}Tagged imported contacts{/ts}</td>
+    <tr><td class="label">{ts}Tagged Imported Contacts{/ts}</td>
         <td colspan="2" class="explanation">
             {foreach from="$tagAdditions" item="tag"}
                 <label>{$tag.name}</label>:

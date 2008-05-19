@@ -1,3 +1,4 @@
+<div id="case-search" class="form-item">
 <fieldset class="collapsible">
  <table class="form-layout">  
             <tr>
@@ -39,3 +40,4 @@
            
  </table>
 </fieldset>
+</div>

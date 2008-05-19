@@ -66,12 +66,6 @@ class CRM_Core_Joomla {
         $template->assign_by_ref( 'blocks', $blocks );
         $sidebarLeft = $template->fetch( 'CRM/Block/blocks.tpl' );
         $template->assign_by_ref( 'sidebarLeft', $sidebarLeft );
-
-        $args = explode( '/', trim( $_GET['task'] ) );
-        require_once 'CRM/Core/Menu.php';
-        $breadcrumb =& CRM_Core_Menu::breadcrumb( $args );
-
-        $template->assign_by_ref( 'breadcrumb', $breadcrumb );
     }
 
 }

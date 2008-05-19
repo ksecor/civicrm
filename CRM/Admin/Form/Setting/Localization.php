@@ -107,10 +107,23 @@ class CRM_Admin_Form_Setting_Localization extends  CRM_Admin_Form_Setting
         } 
         $this->addElement('select','defaultCurrency', ts('Default Currency'), $currencySymbols);
         $this->addElement('text','legacyEncoding', ts('Legacy Encoding'));  
+        $this->addElement('text','customTranslateFunction', ts('Custom Translate Function'));  
         $this->addElement('text','fieldSeparator', ts('Import / Export Field Separator'), array('size' => 2)); 
-       
+
+        $this->addFormRule( array( 'CRM_Admin_Form_Setting_Localization', 'formRule' ) );
+
         parent::buildQuickForm();
     }
+
+    static function formRule( &$fields ) {
+        $errors = array( );
+        if ( trim( $fields['customTranslateFunction'] ) &&
+             ! function_exists( trim( $fields['customTranslateFunction'] ) ) ) {
+            $errors['customTranslateFunction'] = ts( 'Please define the custom translation function first' );
+        }
+        return empty( $errors ) ? true : $errors;
+    }
+
 }
 
 

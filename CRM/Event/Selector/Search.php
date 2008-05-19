@@ -309,6 +309,12 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
              //fix role display
              $row['role'] =  $roles[$row['participant_role_id']];
 
+             if ( $result->participant_is_pay_later && $row['participant_status_id'] == 5 ) {
+                 $row['status'] .= " ( Pay Later ) ";
+             } else if ( $row['participant_status_id'] == 5 ) {
+                 $row['status'] .= " ( Incomplete Transaction ) ";
+             }             
+             
              if ( CRM_Utils_Array::value("participant_is_test",$row) ) {
                  $row['status'] = $row['status'] . " (test)";
              }

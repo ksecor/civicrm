@@ -151,49 +151,30 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
         $this->add('text', 'weight', ts('Order'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFJoin', 'weight'), true);
         $this->addRule('weight', ts('is a numeric field') , 'numeric');
 
-        // is this group active ?
-        $this->addElement('checkbox', 'is_active', ts('Is this CiviCRM Profile active?') );
-
-        // should mapping be enabled for this group
-        $this->addElement('checkbox', 'is_map', ts('Enable mapping for this profile?') );
-
-        // should we allow updates on a exisitng contact
-        $this->addElement('checkbox', 'is_update_dupe', ts('Update contact on a duplicate match?' ) );
-
-        // we do not have any url checks to allow relative urls
-        $this->addElement('text', 'post_URL', ts('Redirect URL'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFGroup', 'post_URL') );
-        $this->addElement('text', 'cancel_URL', ts('Cancel Redirect URL'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFGroup', 'cancel_URL') );
-
-        // add select for groups
-        $group               = array('' => ts('- select -')) + $this->_group;
-        $this->_groupElement =& $this->addElement('select', 'group', ts('Limit listings to a specific Group?'), $group);
-
-        //add notify field
-        $this->addElement('text','notify',ts('Notify when profile form is submitted?'));
-
-        //group where new contacts are directed.
-        $this->addElement('select', 'add_contact_to_group', ts('Add new contacts to a Group?'), $group);
+        require_once 'CRM/UF/Form/AdvanceSetting.php';
+        $paneNames =  array ( 'Advanced Settings'  => 'buildAdvanceSetting',
+                              );
         
-         // add CAPTCHA To this group ?
-        $this->addElement('checkbox', 'add_captcha', ts('Include CAPTCHA?') );
-
-        // is this group collapsed or expanded ?
-        $this->addElement('checkbox', 'collapse_display', ts('Collapse profile fieldset on initial display?'));
-
-        // should we display an edit link
-        $this->addElement('checkbox', 'is_edit_link', ts('Include profile edit links in search results?'));
-
-        // should we display a link to the website profile
-        $config =& CRM_Core_Config::singleton( );
-        $this->addElement('checkbox', 'is_uf_link', ts('Include %1 user account information links in search results?', array( 1 => $config->userFramework )));
-
-        // want to create cms user
-        $session =& CRM_Core_Session::singleton( );
-        $cmsId = false;
-        if ( $this->_cId = $session->get( 'userID' ) ){
-            $this->_cmsId = true;
+        foreach ( $paneNames as $name => $type ) {
+            
+            if ( $this->_id ) {
+                $dojoUrlParams = "&reset=1&action=update&id={$this->_id}&snippet=1&formType={$type}";  
+            } else {
+                $dojoUrlParams = "&reset=1&action=add&snippet=1&formType={$type}";
+            }
+            
+            $allPanes[$name] = array( 'url'  => CRM_Utils_System::url( 'civicrm/admin/uf/group/setting',
+                                                                       $dojoUrlParams ),
+                                      'open' => 'false',
+                                      'id'   => $type,
+                                      );
+            
+            eval( 'CRM_UF_Form_AdvanceSetting::' . $type . '( $this );' );
+           
         }
-        $this->add('checkbox', 'is_cms_user', ts('%1 user account registration option?', array( 1=>$config->userFramework )));
+        
+        $this->assign( 'allPanes', $allPanes );
+        $this->assign( 'dojoIncludes', "dojo.require('civicrm.TitlePane');dojo.require('dojo.parser');" );
         
         $this->addButtons(array(
                                 array ( 'type'      => 'next',
@@ -229,7 +210,13 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
             $defaults['weight'] = CRM_Utils_Weight::getDefaultWeight('CRM_Core_DAO_UFJoin');
         }
         
-        if ( isset($this->_id ) ) {
+        //id fetched for Dojo Pane
+        $pId = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
+        if ( isset( $pId )){
+            $this->_id = $pId;
+        }
+
+        if( ( isset($this->_id ) ) ) {
             
             $defaults['weight'] = CRM_Core_BAO_UFGroup::getWeight( $this->_id );
           
@@ -237,7 +224,6 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
             CRM_Core_BAO_UFGroup::retrieve($params, $defaults);
             $defaults['group'] = CRM_Utils_Array::value('limit_listings_group_id',$defaults);
             $defaults['add_contact_to_group'] = CRM_Utils_Array::value('add_to_group_id',$defaults);
-         
             //get the uf join records for current uf group
             $ufJoinRecords = CRM_Core_BAO_UFGroup::getUFJoinRecord( $this->_id );
             foreach ($ufJoinRecords as $key => $value ) {
@@ -262,27 +248,17 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
                                'is_update_dupe', 'is_cms_user');
             foreach($advFields as $key) {
                 if ( !empty($defaults[$key]) ) {
-                    $showAdvanced = 1;
-                    break;
+                     $showAdvanced = 1;
+                     break;
                 }
             }
-
-            if ( $showAdvanced ) {
-                $showHide->addShow( "id-advanced" );
-                $showHide->addHide( "id-advanced-show" );
-            } else {
-                $showHide->addShow( "id-advanced-show" );
-                $showHide->addHide( "id-advanced" );
-            }
-    
+            
         } else {
             $defaults['is_active'     ] = 1;
             $defaults['is_map'        ] = 0;
             $defaults['is_update_dupe'] = 0;
-            $showHide->addShow( "id-advanced-show" );
-            $showHide->addHide( "id-advanced" );
+            
         }
-
         // Don't assign showHide elements to template in DELETE mode (fields to be shown and hidden don't exist)
         if ( !( $this->_action & CRM_Core_Action::DELETE )&& !( $this->_action & CRM_Core_Action::DISABLE )  ) {
             $showHide->addToTemplate( );

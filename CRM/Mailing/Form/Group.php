@@ -89,7 +89,7 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
             $defaults['includeMailings'] = CRM_Utils_Array::value('Include',$mailingGroups['civicrm_mailing']);
             $defaults['excludeMailings'] = $mailingGroups['civicrm_mailing']['Exclude'];
         }
-
+       
         return $defaults;
     }
 
@@ -237,27 +237,6 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
             }
         }
         
-        $daoComponent =& new CRM_Mailing_DAO_Component();
-        $components = array('Reply', 'OptOut', 'Unsubscribe', 'Resubscribe');
-        
-        foreach ($components as $value) {
-            $findDefaultComponent =
-                "SELECT id
-                FROM    civicrm_mailing_component
-                WHERE   component_type = '$value'
-                ORDER BY is_default desc";
-            
-            $daoComponent->query($findDefaultComponent);
-            
-            if ( $daoComponent->fetch( ) ) {
-                $$value = $daoComponent->id;
-            }
-        }
-        
-        $params['reply_id']       = $Reply;
-        $params['optout_id']      = $OptOut;
-        $params['unsubscribe_id'] = $Unsubscribe;
-        $params['resubscribe_id'] = $Resubscribe;
         $session =& CRM_Core_Session::singleton();
         $params['domain_id']      = $session->get('domainID');
         $params['groups']         = $groups;

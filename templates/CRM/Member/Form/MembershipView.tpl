@@ -7,7 +7,8 @@
             <dt>{ts}By Relationship{/ts}</dt><dd>{$relationship}&nbsp;&nbsp;{$owner_display_name}&nbsp;</dd>
         {/if}
         <dt>{ts}Membership Type{/ts}</dt><dd>{$membership_type}&nbsp;</dd>
-        <dt>{ts}Status{/ts}</dt><dd>{$status}&nbsp;</dd>
+        <dt>{ts}Status{/ts}</dt><dd>{$status}&nbsp;
+  	{if $status_id eq 5}{if $member_is_pay_later}: {ts}Pay Later{/ts}{else}: {ts}Incomplete Transaction{/ts}{/if}{/if}</dd>
         <dt>{ts}Source{/ts}</dt><dd>{$source}&nbsp;</dd>
         <dt>{ts}Join date{/ts}</dt><dd>{$join_date|crmDate}&nbsp;</dd>
         <dt>{ts}Start date{/ts}</dt><dd>{$start_date|crmDate}&nbsp;</dd>

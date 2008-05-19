@@ -305,6 +305,15 @@ class CRM_Contribute_BAO_Query
             
             return;
 
+        case 'contribution_pay_later':
+            $query->_where[$grouping][] = " civicrm_contribution.is_pay_later $op '$value'";
+            if ( $value ) {
+                $query->_qill[$grouping][]  = "Find Pay Later Contributions";
+            }
+            $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
+            
+            return;
+
         case 'contribution_recurring':
             if ( $value ) {
                 $query->_where[$grouping][] = "civicrm_contribution.contribution_recur_id IS NOT NULL";
@@ -490,6 +499,7 @@ class CRM_Contribute_BAO_Query
                                 'contribution_start_date' => 1,
                                 'contribution_end_date'   => 1,
                                 'is_test'                 => 1,
+                                'is_pay_later'            => 1,
                                 'contribution_status_id'  => 1,
                                 'contribution_recur_id'   => 1, 
                                 'amount_level'            => 1,
@@ -528,10 +538,10 @@ class CRM_Contribute_BAO_Query
         $form->add('date', 'contribution_date_high', ts('To'), CRM_Core_SelectValues::date('relative')); 
         $form->addRule('contribution_date_high', ts('Select a valid date.'), 'qfDate'); 
 
-        $form->add('text', 'contribution_amount_low', ts('Minimum Amount'), array( 'size' => 8, 'maxlength' => 8 ) ); 
+        $form->add('text', 'contribution_amount_low', ts('From'), array( 'size' => 8, 'maxlength' => 8 ) ); 
         $form->addRule( 'contribution_amount_low', ts( 'Please enter a valid money value (e.g. 9.99).' ), 'money' );
 
-        $form->add('text', 'contribution_amount_high', ts('Maximum Amount'), array( 'size' => 8, 'maxlength' => 8 ) ); 
+        $form->add('text', 'contribution_amount_high', ts('To'), array( 'size' => 8, 'maxlength' => 8 ) ); 
         $form->addRule( 'contribution_amount_high', ts( 'Please enter a valid money value (e.g. 99.99).' ), 'money' );
 
         require_once 'CRM/Contribute/PseudoConstant.php';
@@ -571,7 +581,9 @@ class CRM_Contribute_BAO_Query
 
         //add fields for honor search
         $form->addElement( 'text', 'contribution_in_honor_of', ts( "In Honor Of" ) );
+
         $form->addElement( 'checkbox', 'contribution_test' , ts( 'Find Test Contributions?' ) );
+        $form->addElement( 'checkbox', 'contribution_pay_later' , ts( 'Find Pay Later Contributions?' ) );
 
         //add field for transaction ID search
         $form->addElement( 'text', 'contribution_transaction_id', ts( "Transaction ID" ) );

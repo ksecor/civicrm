@@ -69,6 +69,8 @@ class CRM_Contact_Page_View_DashBoard extends CRM_Contact_Page_View
         
         $this->assign( 'contactId', $uid);
         if ( ! $uid) {
+            require_once 'CRM/Utils/System.php';
+            CRM_Utils_System::setMessage( ts( 'We could not find a contact id.' ) );
             CRM_Core_Error::statusBounce( ts( 'We could not find a contact id.' ) );
         }
 
@@ -86,9 +88,6 @@ class CRM_Contact_Page_View_DashBoard extends CRM_Contact_Page_View
             $this->_permission = CRM_Core_Permission::EDIT;
         }
 
-        // also add the cid params to the Menu array
-        CRM_Core_Menu::addParam( 'cid', $uid );
-        
         $displayName = $this->get( 'displayName' );
         
         list( $displayName, $contactImage ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $uid);
@@ -96,7 +95,7 @@ class CRM_Contact_Page_View_DashBoard extends CRM_Contact_Page_View
         $this->set( 'displayName' , $displayName );
         $this->set( 'contactImage', $contactImage );
         
-        CRM_Utils_System::setTitle( $contactImage . ' ' . $displayName );
+        CRM_Utils_System::setTitle( $contactImage . ' ' . $displayName, $displayName );
         CRM_Utils_Recent::add( $displayName,
                                CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $uid ),
                                $contactImage,$uid );
@@ -144,7 +143,7 @@ class CRM_Contact_Page_View_DashBoard extends CRM_Contact_Page_View
         $viewOptions = CRM_Core_BAO_Preferences::valueOptions( 'contact_view_options', true, null, true );
 
         $enableCase = false;
-        if ( $viewOptions['Cases'] ) { 
+        if ( $viewOptions['CiviCase'] ) { 
             $enableCase = true;
         }
         

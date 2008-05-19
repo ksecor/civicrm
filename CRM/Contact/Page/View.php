@@ -154,19 +154,6 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
                                $contactImage,
                                $this->_contactId );
         
-        // also add the cid params to the Menu array
-        CRM_Core_Menu::addParam( 'cid', $this->_contactId );
-
-        
-        //------------
-        // create menus ..
-        // hack for now, disable if we are in tabbed mode
-        $startWeight = CRM_Core_Menu::getMaxWeight('civicrm/contact/view');
-        $startWeight++;
-        CRM_Core_BAO_CustomGroup::addMenuTabs( CRM_Contact_BAO_Contact::getContactType($this->_contactId), 
-                                               'civicrm/contact/view/cd',
-                                               $startWeight );
-
         //display OtherActivity link 
         $otherAct = CRM_Core_PseudoConstant::activityType(false);
         $activityNum = count($otherAct);

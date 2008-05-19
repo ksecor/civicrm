@@ -8,13 +8,13 @@
             <div class="form-item">
               {if $editCustomData and $groupId}
                 <div class="action-link">
-                  &nbsp; <a href="{crmURL p="civicrm/contact/view/cd" q="cid=`$contactId`&gid=`$groupId`&action=update&reset=1"}">&raquo; {ts 1=$groupTree.$groupId.title}Edit %1{/ts}</a>
+                  &nbsp; <a href="{crmURL p="civicrm/contact/view/cd/edit" q="tableId=`$contactId`&groupId=`$groupId`&action=update&reset=1"}">&raquo; {ts 1=$groupTree.$groupId.title}Edit %1{/ts}</a>
                 </div>
               {/if} 
 		{include file="CRM/Contact/Page/View/InlineCustomData.tpl"}            
  	      {if $editCustomData and $groupId}	
                 <div class="action-link">
-                  &nbsp; <a href="{crmURL p="civicrm/contact/view/cd" q="cid=`$contactId`&gid=`$groupId`&action=update&reset=1"}">&raquo; {ts 1=$groupTree.$groupId.title}Edit %1{/ts}</a>
+                  &nbsp; <a href="{crmURL p="civicrm/contact/view/cd/edit" q="tableId=`$contactId`&groupId=`$groupId`&action=update&reset=1"}">&raquo; {ts 1=$groupTree.$groupId.title}Edit %1{/ts}</a>
                 </div>
               {/if}
             </div>

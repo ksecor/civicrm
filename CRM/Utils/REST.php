@@ -113,7 +113,7 @@ class CRM_Utils_REST
      */
     public function authenticate($name, $pass) {
         eval ('$result =& CRM_Utils_System_Drupal::authenticate($name, $pass);');
-
+        
         if (empty($result)) {
             return self::error( ts( 'Could not authenticate user, invalid name / password' ) );
         }
@@ -196,6 +196,9 @@ class CRM_Utils_REST
 
         $store = null;
         if ( $args[1] == 'login' ) {
+
+            
+
             $name = CRM_Utils_Request::retrieve( 'name', 'String', $store, false, 'GET' );
             $pass = CRM_Utils_Request::retrieve( 'pass', 'String', $store, false, 'GET' );
             if ( empty( $name ) ||
@@ -225,6 +228,9 @@ class CRM_Utils_REST
             
         case 'entity_tag':
             return self::entityTag( $config, $args, $params );
+
+        case 'group':
+            return self::group( $config, $args, $params);
 
         default:
             return self::error( ts( 'Unknown function invocation' ) );
@@ -326,6 +332,29 @@ class CRM_Utils_REST
         }
     }
 
+    function group( &$config, &$args, &$params ){
+        require_once 'api/v2/Group.php';
+
+        $fnName = '';
+        switch( $args[2]) {
+            case 'get':
+                $fnName = "civicrm_groups_get";
+                break;
+
+            case 'add':
+            case 'delete':
+                $fnName = "civicrm_group_{$args[2]}";
+                break;
+
+            default:
+                return self::error( ts( 'Unknown function called' ) );
+        }
+
+        $result = $fnName( $params );
+        if ( $result === false ) {
+            return self::error( ts( 'Unknown error ' ) );
+        } else {
+            return $result;
+        }
+    }
 }
-
-

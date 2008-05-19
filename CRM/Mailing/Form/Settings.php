@@ -50,8 +50,30 @@ class CRM_Mailing_Form_Settings extends CRM_Core_Form
         $mailingID = $this->get("mid");
         $count     = $this->get('count');
         $this->assign('count',$count);
-        
         $defaults = array( );
+
+        $daoComponent =& new CRM_Mailing_DAO_Component();
+        $components = array('Reply', 'OptOut', 'Unsubscribe', 'Resubscribe');
+        
+        foreach ($components as $value) {
+            $findDefaultComponent =
+                "SELECT id
+                FROM    civicrm_mailing_component
+                WHERE   component_type = '$value'
+                ORDER BY is_default desc";
+            
+            $daoComponent->query($findDefaultComponent);
+            
+            if ( $daoComponent->fetch( ) ) {
+                $$value = $daoComponent->id;
+            }
+        }
+        
+        $defaults['reply_id']       = $Reply;
+        $defaults['optout_id']      = $OptOut;
+        $defaults['unsubscribe_id'] = $Unsubscribe;
+        $defaults['resubscribe_id'] = $Resubscribe;
+
         if ( $mailingID ) {
             require_once "CRM/Mailing/DAO/Mailing.php";
             $dao =&new  CRM_Mailing_DAO_Mailing();
@@ -136,7 +158,7 @@ class CRM_Mailing_Form_Settings extends CRM_Core_Form
         }
         
         $ids['mailing_id']    = $this->get('mailing_id');
-
+        
         // update mailing
         require_once 'CRM/Mailing/BAO/Mailing.php';
         CRM_Mailing_BAO_Mailing::create($params, $ids);

@@ -1,5 +1,4 @@
-
-<div id="demographics">
+<div id="demographics" class="form-item">
   <fieldset class="collapsible">
     <table class="form-layout">
        <tr>

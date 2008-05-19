@@ -44,7 +44,8 @@
     <div id="memberStatus_show">
         {if $action eq 2}
         <dl>
-        <dt>{$form.status_id.label}</dt><dd class="html-adjust">{$membershipStatus}</dd>
+        <dt>{$form.status_id.label}</dt><dd class="html-adjust">{$membershipStatus}
+             {if $membership_status_id eq 5}{if $is_pay_later}: {ts}Pay Later{/ts}{else}: {ts}Incomplete Transaction{/ts}{/if}{/if}</dd>
         </dl>
         {/if}
     </div>
@@ -52,7 +53,8 @@
     {* Show editable status field when is_override is TRUE *}
     <div id="memberStatus">
         <dl>
-        <dt>{$form.status_id.label}</dt><dd class="html-adjust">{$form.status_id.html}<br />
+        <dt>{$form.status_id.label}</dt><dd class="html-adjust">{$form.status_id.html}
+ 	{if $membership_status_id eq 5}{if $is_pay_later}: {ts}Pay Later{/ts}{else}: {ts}Incomplete Transaction{/ts}{/if}{/if}<br />
             <span class="description">{ts}If <strong>Status Override</strong> is checked, the selected status will remain in force (it will NOT be modified by the automated status update script).{/ts}</span></dd>
         </dl>
     </div>

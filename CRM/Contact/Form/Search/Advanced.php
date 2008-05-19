@@ -84,44 +84,37 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
             unset( $paneNames[ts('Custom Fields')] );
         }
 
-        if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
-            $paneNames[ts('Contributions')] = 'contribute';
-        }
-        
-        if ( CRM_Core_Permission::access( 'CiviMember' ) ) {
-            $paneNames[ts('Memberships')] = 'membership';
-        }
-        
-        if ( CRM_Core_Permission::access( 'CiviEvent' ) ) {
-            $paneNames[ts('Events')] = 'participant';
-        }
-
-        if ( CRM_Core_Permission::access( 'CiviGrant' ) ) {
-            $paneNames[ts('Grants')] = 'grant';
-        }
-
-        if ( CRM_Core_Permission::access( 'Quest' ) ) {
-            $paneNames[ts('Quest')] = 'quest';
-            $paneNames[ts('Task') ] = 'task';                
-        }
-
-        if ( CRM_Core_Permission::access( 'Kabissa' ) ) {
-            $paneNames[ts('Kabissa')] = 'kabissa';
-        }
-
         require_once 'CRM/Core/BAO/Preferences.php';
-        $this->_viewOptions = CRM_Core_BAO_Preferences::valueOptions( 'contact_view_options', true, null, true );
+        $this->_searchOptions = CRM_Core_BAO_Preferences::valueOptions( 'advanced_search_options', true, null, true );
+        foreach ( $paneNames as $name => $type ) {
+            if ( ! $this->_searchOptions[$type] ) {
+                unset( $paneNames[$name] );
+            }
+        }
 
-        if ( $this->_viewOptions['Cases'] ) { 
+        require_once 'CRM/Core/Component.php';
+        $components = CRM_Core_Component::getEnabledComponents();
+
+        foreach( $components as $name => $component ) {
+            if( in_array( $name, array_keys($this->_searchOptions) ) &&
+                $this->_searchOptions[$name] &&
+                CRM_Core_Permission::access( $component->name ) ) {
+                // FIXME: not very elegant, probably needs better approach
+                // allow explicit id, if not defined, use keyword instead
+                $elem = $component->registerTab();
+
+                $paneNames[$elem['title']] = $name;
+            }
+        }
+    
+        $this->_viewOptions = CRM_Core_BAO_Preferences::valueOptions( 'contact_view_options', true, null, true );
+        if ( $this->_viewOptions['CiviCase'] ) { 
             $paneNames[ts('Cases')] = 'caseSearch';
         }
 
-        $this->_searchOptions = CRM_Core_BAO_Preferences::valueOptions( 'advanced_search_options', true, null, true );
 
-       
         foreach ( $paneNames as $name => $type ) {
-        
-            if ( ! $this->_searchOptions[$name] ) {
+            if ( ! $this->_searchOptions[$type] ) {
                 continue;
                 
             }
@@ -247,8 +240,6 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         
         require_once 'CRM/Contact/BAO/Query.php';
         $this->_params =& CRM_Contact_BAO_Query::convertFormValues( $this->_formValues );
-        
-        //         eval( 'CRM_Contact_Form_Search_Criteria::' . $type . '( $this );' );
         $this->_returnProperties =& $this->returnProperties( );
         parent::postProcess( );
     }

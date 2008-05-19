@@ -93,6 +93,7 @@ border-top-style: none;
   margin: 0px;
   padding: 3px 0px 3px 0px;
   clear: both;
+  overflow: auto; 
 }
 
 /* Use this rule for Box-Grey or other themes with very large default label fonts... */
@@ -213,7 +214,6 @@ border-top-style: none;
 #crm-container .form-layout td {
   padding: 3px;
   white-space: nowrap;
-  border: 0px none;
 }
 
 #crm-container .form-layout td.report, #crm-container .form-layout td.description, #crm-container .form-layout-compressed td.description {
@@ -857,7 +857,15 @@ div.crm-pager a {
 #crm-container div#searchForm {
 	height: 100%;
 	width: 100%;
-	overflow: hidden;
+    /*  Why this was here? Commenting out so we get horizontal scroll when needed. dgg
+    	overflow: hidden;
+    */
+}
+
+#crm-container div#searchForm table.form-layout td {
+  padding: 4px;
+  border: 1px groove #DDDDDD;
+  background: #F5F5F5;
 }
 
 #crm-container #main {

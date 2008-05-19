@@ -41,12 +41,14 @@ class CRM_Event_Info extends CRM_Core_Component_Info
 {
 
     // docs inherited from interface
+    protected $keyword = 'event';
+
+    // docs inherited from interface
     public function getInfo()
     {
         return array( 'name'	       => 'CiviEvent',
                       'translatedName' => ts('CiviEvent'),
                       'title'          => ts('CiviCRM Event Engine'),
-                      'url'            => 'event',
                       'menu'           => array( 'Menu/Event.xml' ),
                       'search'         => 1 );
     }
@@ -69,6 +71,15 @@ class CRM_Event_Info extends CRM_Core_Component_Info
                       'perm'    => array( 'register for events' ),
                       'weight'  => 20 );
     }
+
+    // docs inherited from interface  
+    public function registerTab()
+    {
+        return array( 'title'   => ts( 'Events' ),
+                      'id'      => 'participant',
+                      'url'	=> 'participant',
+                      'weight'  => 40 );
+    }
     
     // docs inherited from interface    
     public function getActivityTypes()
@@ -78,5 +89,9 @@ class CRM_Event_Info extends CRM_Core_Component_Info
                                  'callback' => 'CRM_Event_Page_EventInfo::run()' );
         return $types;
     }
+
+
+
+                                              
 
 }

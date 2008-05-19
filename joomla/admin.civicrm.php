@@ -24,7 +24,7 @@ civicrm_invoke( );
 
 function civicrm_init( ) {
     $config =& CRM_Core_Config::singleton();
-    CRM_Core_DAO::init($config->dsn, $config->daoDebug);
+    CRM_Core_DAO::init( $config->dsn );
 
     $factoryClass = 'CRM_Contact_DAO_Factory';
 

@@ -8,25 +8,20 @@
   </label>
 </div>
 
-<div id="searchForm">
+<div id="searchForm" class="form-item">
 <fieldset><legend>{ts}Search Criteria{/ts}</legend>
 {strip}
      <table class="form-layout">
-		<tr>
-            <td class="font-size12pt label">{$form.sort_name.label}</td>
-            <td>{$form.sort_name.html|crmReplace:class:'twenty'}
-                <div class="description font-italic">
-                    {ts}To search by first AND last name, enter 'lastname, firstname'. Example: 'Doe, Jane'. For partial name search, use '%partialname' ('%' equals 'begins with any combination of letters').{/ts}
-                </div>
-            </td>
-            <td>{$form.buttons.html}</td>       
-        </tr>
-
-        {include file="CRM/Member/Form/Search/Common.tpl"}
-
         <tr>
-            <td colspan="2">&nbsp;</td>
-            <td>{$form.buttons.html}</td>
+            <td class="font-size12pt" colspan="2">
+                {$form.sort_name.label}&nbsp;&nbsp;{$form.sort_name.html|crmReplace:class:'twenty'}&nbsp;&nbsp;&nbsp;{$form.buttons.html}
+            </td>       
+        </tr>
+      
+        {include file="CRM/Member/Form/Search/Common.tpl"}
+      
+        <tr>
+            <td colspan="2">{$form.buttons.html}</td>
         </tr>
     </table>
 {/strip} 

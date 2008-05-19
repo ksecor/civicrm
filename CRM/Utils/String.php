@@ -268,10 +268,28 @@ class CRM_Utils_String {
      * @static
      */
     static function strtobool($str) {
-        if (preg_match('/^(y(es)?|t(rue)?|1)$/i', $str)) {
+        if ( preg_match('/^(y(es)?|t(rue)?|1)$/i', $str) ) {
             return true;
         }
         return false;
+    }
+
+    /**
+     * returns string '1' for a true/yes/1 string, and '0' for no/false/0 else returns false
+     *
+     * @param string $str  the string to be translated
+     * @return boolean
+     * @access public
+     * @static
+     */
+    static function strtoboolstr($str) {
+        if ( preg_match('/^(y(es)?|t(rue)?|1)$/i', $str) ) {
+            return '1';
+        } else if ( preg_match('/^(n(o)?|f(alse)?|0)$/i', $str) ) {
+            return '0';
+        }else {            
+            return false;
+        }
     }
 
     /**

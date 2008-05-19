@@ -103,8 +103,10 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form
     {
         $errors = array();
         if ($testParams['sendtest'] && !($testParams['test_group'] || $testParams['test_email'] )) {
-            $errors['test_email'] = ts('Please provide email or select a group to send test mail.'); 
-            return $errors;
+            CRM_Core_Session::setStatus( ts("Your did not provided any email address or selected any group. No test mail is sent.") );
+            $url = CRM_Utils_System::url( 'civicrm/mailing/send', '_qf_Test_display=true&qfKey=' );
+            CRM_Utils_System::redirect($url);
+            return true;
         }
         if ($testParams['_qf_Test_submit']) {
             CRM_Core_Session::setStatus( ts("Your mailing has been saved. Click the 'Continue' action to resume working on it.") );

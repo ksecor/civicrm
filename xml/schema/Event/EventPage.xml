@@ -83,7 +83,7 @@
       <name>is_email_confirm</name> 
       <type>boolean</type> 
       <title>Is confirm email</title>
-      <default>1</default>                
+      <default>0</default>                
       <comment>If true, confirmation is automatically emailed to contact on successful registration.</comment> 
       <add>1.7</add> 
   </field> 

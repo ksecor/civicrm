@@ -36,7 +36,7 @@
 require_once 'CRM/Contact/Page/View.php';
 require_once 'CRM/Member/BAO/Membership.php';
 
-class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
+class CRM_Member_Page_Tab extends CRM_Contact_Page_View {
 
     /**
      * The action links that we need to display for the browse screen

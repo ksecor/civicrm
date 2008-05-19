@@ -46,31 +46,31 @@ class CRM_Core_Payment_Form {
         $form->_fields['billing_first_name'] = array( 'htmlType'   => 'text', 
                                                       'name'       => 'billing_first_name', 
                                                       'title'      => ts('Billing First Name'), 
-                                                      'attributes' => array( 'size' => 30, 'maxlength' => 60 ),
+                                                      'attributes' => array( 'size' => 30, 'maxlength' => 60, 'autocomplete' => 'off' ),
                                                       'is_required'=> true );
         
         $form->_fields['billing_middle_name'] = array( 'htmlType'   => 'text', 
                                                'name'       => 'billing_middle_name', 
                                                'title'      => ts('Billing Middle Name'), 
-                                               'attributes' => array( 'size' => 30, 'maxlength' => 60 ), 
+                                               'attributes' => array( 'size' => 30, 'maxlength' => 60, 'autocomplete' => 'off' ), 
                                                'is_required'=> false );
         
         $form->_fields['billing_last_name'] = array( 'htmlType'   => 'text', 
                                              'name'       => 'billing_last_name', 
                                              'title'      => ts('Billing Last Name'), 
-                                             'attributes' => array( 'size' => 30, 'maxlength' => 60 ), 
+                                             'attributes' => array( 'size' => 30, 'maxlength' => 60, 'autocomplete' => 'off' ), 
                                              'is_required'=> true );
                                          
         $form->_fields["street_address-{$bltID}"] = array( 'htmlType'   => 'text', 
                                                            'name'       => "street_address-{$bltID}",
                                                            'title'      => ts('Street Address'), 
-                                                           'attributes' => array( 'size' => 30, 'maxlength' => 60 ), 
+                                                           'attributes' => array( 'size' => 30, 'maxlength' => 60, 'autocomplete' => 'off' ), 
                                                            'is_required'=> true );
                                          
         $form->_fields["city-{$bltID}"] = array( 'htmlType'   => 'text', 
                                                  'name'       => "city-{$bltID}",
                                                  'title'      => ts('City'), 
-                                                 'attributes' => array( 'size' => 30, 'maxlength' => 60 ), 
+                                                 'attributes' => array( 'size' => 30, 'maxlength' => 60, 'autocomplete' => 'off' ), 
                                                  'is_required'=> true );
                                          
         $form->_fields["state_province_id-{$bltID}"] = array( 'htmlType'   => 'select', 
@@ -83,7 +83,7 @@ class CRM_Core_Payment_Form {
         $form->_fields["postal_code-{$bltID}"] = array( 'htmlType'   => 'text', 
                                                         'name'       => "postal_code-{$bltID}",
                                                         'title'      => ts('Postal Code'), 
-                                                        'attributes' => array( 'size' => 30, 'maxlength' => 60 ), 
+                                                        'attributes' => array( 'size' => 30, 'maxlength' => 60, 'autocomplete' => 'off' ), 
                                                         'is_required'=> true );
                                          
         $form->_fields["country_id-{$bltID}"] = array( 'htmlType'   => 'select', 
@@ -96,13 +96,13 @@ class CRM_Core_Payment_Form {
         $form->_fields['credit_card_number'] = array( 'htmlType'   => 'text', 
                                                       'name'       => 'credit_card_number', 
                                                       'title'      => ts('Card Number'), 
-                                                      'attributes' => array( 'size' => 20, 'maxlength' => 20 ), 
+                                                      'attributes' => array( 'size' => 20, 'maxlength' => 20, 'autocomplete' => 'off' ), 
                                                       'is_required'=> true );
                                          
         $form->_fields['cvv2'] = array( 'htmlType'   => 'text', 
                                         'name'       => 'cvv2', 
                                         'title'      => ts('Security Code'), 
-                                        'attributes' => array( 'size' => 5, 'maxlength' => 10 ), 
+                                        'attributes' => array( 'size' => 5, 'maxlength' => 10, 'autocomplete' => 'off' ), 
                                         'is_required'=> true );
                                          
         $form->_fields['credit_card_exp_date'] = array( 'htmlType'   => 'date', 

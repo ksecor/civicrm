@@ -76,6 +76,7 @@ class CRM_Dedupe_BAO_RuleGroup extends CRM_Dedupe_DAO_RuleGroup
                 'civicrm_im', 'civicrm_note', 'civicrm_openid', 'civicrm_phone');
 
             require_once 'CRM/Contact/BAO/Contact.php';
+            require_once 'CRM/Core/BAO/CustomGroup.php';
             foreach(array('Individual', 'Organization', 'Household') as $ctype) {
                 // take the table.field pairs and their titles from importableFields() if the table is supported
                 foreach(CRM_Contact_BAO_Contact::importableFields($ctype) as $iField) {
@@ -85,6 +86,13 @@ class CRM_Dedupe_BAO_RuleGroup extends CRM_Dedupe_DAO_RuleGroup
                         list($table, $field) = explode('.', $where);
                         if (!in_array($table, $supportedTables)) continue;
                         $fields[$ctype][$table][$field] = $iField['title'];
+                    }
+                }
+                // add custom data fields
+                foreach(CRM_Core_BAO_CustomGroup::getTree($ctype, null, -1) as $key => $cg) {
+                    if (!is_int($key)) continue;
+                    foreach($cg['fields'] as $cf) {
+                        $fields[$ctype][$cg['table_name']][$cf['column_name']] = $cf['label'];
                     }
                 }
             }
@@ -113,14 +121,33 @@ class CRM_Dedupe_BAO_RuleGroup extends CRM_Dedupe_DAO_RuleGroup
             $bao->params = $this->params;
             $queries[] = $bao->sql();
         }
-        return 'CREATE TEMPORARY TABLE dedupe ENGINE MEMORY ' . implode(' UNION ALL ', $queries);
+        return 'CREATE TEMPORARY TABLE dedupe ' . implode(' UNION ALL ', $queries);
     }
 
     /**
      * Return the SQL query for getting only the interesting results out of the dedupe table.
      */
     function thresholdQuery() {
-        return "SELECT id1, id2, SUM(weight) threshold FROM dedupe GROUP BY id1, id2 HAVING threshold >= {$this->threshold}";
+        return "SELECT id1, id2
+            FROM dedupe JOIN civicrm_contact c1 ON id1 = c1.id JOIN civicrm_contact c2 ON id2 = c2.id
+            WHERE c1.contact_type = '{$this->contact_type}' AND c2.contact_type = '{$this->contact_type}'
+            GROUP BY id1, id2 HAVING SUM(weight) >= {$this->threshold}";
     }
+
+    /**
+     * update the is_active flag in the db
+     *
+     * @param int      $id        id of the database record
+     * @param boolean  $is_active value we want to set the is_active field
+     *
+     * @return Object             DAO object on sucess, null otherwise
+     * 
+     * @access public
+     * @static
+     */
+    static function setIsActive( $id, $is_active ) {
+        return CRM_Core_DAO::setFieldValue( 'CRM_Dedupe_DAO_RuleGroup', $id, 'is_active', $is_active );
+    }
+    
 
 }

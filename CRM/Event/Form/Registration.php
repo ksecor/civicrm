@@ -527,8 +527,8 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                 }
             }
         } else {
-            $this->assign('action',$this->_action);
-            CRM_Event_BAO_EventPage::sendMail( $contactID, $this->_values, $participant->id );
+            $this->assign('action',$this->_action); 
+            CRM_Event_BAO_EventPage::sendMail( $contactID, $this->_values, $participant->id, $participant->is_test );
         }
     }
 
@@ -574,7 +574,8 @@ WHERE  v.option_group_id = g.id
                                    'source'        => isset( $params['participant_source'] ) ?
                                    $params['participant_source'] :
                                    $params['description'],
-                                   'event_level'   => $params['amount_level']
+                                   'event_level'   => $params['amount_level'],
+                                   'is_pay_later'  => CRM_Utils_Array::value( 'is_pay_later', $params, 0 ),
                                    );
         
         if ( $this->_action & CRM_Core_Action::PREVIEW ) {

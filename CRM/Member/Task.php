@@ -44,7 +44,8 @@ class CRM_Member_Task {
         DELETE_MEMBERS       =  1,
         PRINT_MEMBERS        =  2,
         EXPORT_MEMBERS       =  3,
-        EMAIL_CONTACTS       =  4;
+        EMAIL_CONTACTS       =  4,
+        BATCH_MEMBERS        =  5;
 
     /**
      * the task array
@@ -77,6 +78,7 @@ class CRM_Member_Task {
                                   3  => ts( 'Export Members' ),
                                   1  => ts( 'Delete Members' ),
                                   4  => ts( 'Send Email to Contacts' ),
+                                  5  => ts( 'Batch Update Members Via Profile' ),
                                   );
         }
         asort(self::$_tasks); 

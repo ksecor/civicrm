@@ -115,7 +115,7 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
      * @return void
      * @access public
      */
-    static function sendMail( $contactID, &$values, $participantId ) 
+    static function sendMail( $contactID, &$values, $participantId, $isTest = false ) 
     {
         require_once 'CRM/Core/BAO/UFGroup.php';
         //this condition is added, since same contact can have
@@ -147,8 +147,8 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
 
             list( $displayName, 
                   $email ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $contactID, $bltID );
-            self::buildCustomDisplay( $values['custom_pre_id'] , 'customPre' , $contactID, $template, $participantId );
-            self::buildCustomDisplay( $values['custom_post_id'], 'customPost', $contactID, $template, $participantId );
+            self::buildCustomDisplay( $values['custom_pre_id'] , 'customPre' , $contactID, $template, $participantId, $isTest );
+            self::buildCustomDisplay( $values['custom_post_id'], 'customPost', $contactID, $template, $participantId, $isTest );
 
             // set confirm_text and contact email address for display in the template here
             $template->assign( 'email', $email );
@@ -179,8 +179,8 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
      * @return None  
      * @access public  
      */ 
-    function buildCustomDisplay( $gid, $name, $cid, &$template, $participantId ) 
-    {
+    function buildCustomDisplay( $gid, $name, $cid, &$template, $participantId, $isTest ) 
+    {  
         if ( $gid ) {
             require_once 'CRM/Core/BAO/UFGroup.php';
             if ( CRM_Core_BAO_UFGroup::filterUFGroups($gid, $cid) ){
@@ -190,19 +190,23 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
 
                 //this condition is added, since same contact can have multiple event registrations..
                 $params = array( array( 'participant_id', '=', $participantId, 0, 0 ) );
-
+                
                 //add participant id
                 $fields['participant_id'] = array ( 'name' => 'participant_id',
                                                     'title'=> 'Participant Id');
-
+                //check whether its a text drive
+                if ( $isTest ) {
+                    $params[] = array( 'participant_test', '=', 1, 0, 0 );
+                }
+                
                 CRM_Core_BAO_UFGroup::getValues( $cid, $fields, $values , false, $params );
-
+                
                 if ( isset($values[$fields['participant_status_id']['title']]) ) {
                     $status = array( );
                     $status = CRM_Event_PseudoConstant::participantStatus( );
                     $values[$fields['participant_status_id']['title']] = $status[$values[$fields['participant_status_id']['title']]];
                 }
-
+                
                 if ( isset($values[$fields['participant_role_id']['title']]) ) {
                     $roles = array( );
                     $roles = CRM_Event_PseudoConstant::participantRole( );

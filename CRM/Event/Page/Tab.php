@@ -35,7 +35,7 @@
 
 require_once 'CRM/Contact/Page/View.php';
 
-class CRM_Contact_Page_View_Participant extends CRM_Contact_Page_View 
+class CRM_Event_Page_Tab extends CRM_Contact_Page_View 
 {
     /**
      * This function is called when action is browse

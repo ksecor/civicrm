@@ -310,6 +310,31 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
                    'currency_code'      => $params['currencyID'],
                    'invoice'            => $params['invoiceID'] );
 
+        // add name and address if available, CRM-3130
+        $otherVars = array( 'first_name'     => 'first_name',
+                            'last_name'      => 'last_name',
+                            'street_address' => 'address1',
+                            'city'           => 'city',
+                            'state_province' => 'state',
+                            'postal_code'    => 'zip',
+                            'email'          => 'email' );
+
+        foreach ( array_keys( $params ) as $p ) {
+            // get the base name without the location type suffixed to it
+            $parts = split( '-', $p );
+            $name  = count( $parts ) > 1 ? $parts[0] : $p;
+            if ( isset( $otherVars[$name] ) ) {
+                $value = $params[$p];
+                if ( $name == 'state_province' ) {
+                    $stateName = CRM_Core_PseudoConstant::stateProvinceAbbreviation( $value );
+                    $value     = $stateName;
+                }
+                if ( $value ) {
+                    $paypalParams[$otherVars[$name]] = $value;
+                }
+            }
+        }
+
         // if recurring donations, add a few more items
         if ( ! empty( $params['is_recur'] ) ) {
             if ( $params['contributionRecurID'] ) {

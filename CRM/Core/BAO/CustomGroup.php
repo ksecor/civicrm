@@ -623,34 +623,6 @@ $where
     }
 
 
-    /**
-     *
-     * This function does 2 things - 
-     *   1 - Create menu tabs for all custom groups with style 'Tab'
-     *   2 - Updates tab for custom groups with style 'Inline'. If there
-     *       are no inline groups it removes the 'Custom Data' tab
-     *
-     *
-     * @param string $entityType  - what entity are we extending here ?
-     * @param string $path        - what should be the starting path for the new menus ?
-     * @param int    $startWeight - weight to start the local menu tabs
-     *
-     * @return void
-     *
-     * @access public
-     * @static
-     *
-     */
-    public static function addMenuTabs($entityType, $path, $startWeight)
-    {
-        $groups =& self::getActiveGroups( $entityType, $path );
-
-        foreach( $groups as $group ) {
-            $group['weight']  = $startWeight++;
-            CRM_Core_Menu::add( $group );
-        }
-    }
-
     public static function &getActiveGroups( $entityType, $path, $cidToken = '%%cid%%' ) {
         // for Group's
         $customGroupDAO =& new CRM_Core_DAO_CustomGroup();
@@ -832,7 +804,7 @@ $where
                     $defaults[$elementName] = array( );
                     $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], $inactiveNeeded);
                     if ($viewMode) {
-                        $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, substr($value,1,-1));
+                        $checkedData = explode(CRM_Core_DAO::VALUE_SEPARATOR, substr($value,1,-1));
                         if ( isset($value) ) {
                             foreach( $customOption as $val ) {
                                 if ( in_array( $val['value'], $checkedData ) ) {
@@ -844,7 +816,7 @@ $where
                         }
                     } else {
                         if ( isset( $field['customValue']['data'] ) ) {
-                            $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,substr($field['customValue']['data'],1,-1));
+                            $checkedData = explode(CRM_Core_DAO::VALUE_SEPARATOR,substr($field['customValue']['data'],1,-1));
                             foreach( $customOption as $val ) {
                                 if ( in_array( $val['value'], $checkedData ) ) {
                                     $defaults[$elementName][$val['value']] = 1;
@@ -853,7 +825,7 @@ $where
                                 }
                             }
                         } else {
-                            $checkedValue = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, substr($value,1,-1));
+                            $checkedValue = explode(CRM_Core_DAO::VALUE_SEPARATOR, substr($value,1,-1));
                             foreach($customOption as $val) {
                                 if ( in_array($val['value'], $checkedValue) ) {
                                     $defaults[$elementName][$val['value']] = 1;
@@ -869,7 +841,7 @@ $where
                 case 'Multi-Select':
                     if ($viewMode) {
                         $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], $inactiveNeeded);
-                        $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, substr($value,1,-1));
+                        $checkedData = explode(CRM_Core_DAO::VALUE_SEPARATOR, substr($value,1,-1));
                         $defaults[$elementName] = array();
                         if(isset($value)) {
                             foreach($customOption as $val) {
@@ -882,7 +854,7 @@ $where
                         $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], $inactiveNeeded);
                         $defaults[$elementName] = array();
                         if (isset($field['customValue']['data'])) {
-                            $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, substr($field['customValue']['data'],1,-1));
+                            $checkedData = explode(CRM_Core_DAO::VALUE_SEPARATOR, substr($field['customValue']['data'],1,-1));
                             foreach($customOption as $val) {
                                 if (in_array($val['value'], $checkedData)) {
                                     //$defaults[$elementName][$val['value']] = 1;
@@ -890,7 +862,7 @@ $where
                                 } 
                             }
                         } else {
-                            $checkedValue = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, substr($value,1,-1));
+                            $checkedValue = explode(CRM_Core_DAO::VALUE_SEPARATOR, substr($value,1,-1));
                             foreach($customOption as $val) {
                                 if ( in_array($val['value'], $checkedValue) ) {
                                     $defaults[$elementName][$val['value']] = $val['value'];
@@ -966,7 +938,7 @@ $where
                     if ( ! empty( $v ) ) {
                         $customValue = array_keys( $v );
                         $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = 
-                            CRM_Core_BAO_CustomOption::VALUE_SEPERATOR.implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $customValue).CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
+                            CRM_Core_DAO::VALUE_SEPARATOR.implode(CRM_Core_DAO::VALUE_SEPARATOR, $customValue).CRM_Core_DAO::VALUE_SEPARATOR;
                     } else {
                         $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = null;
                     }
@@ -976,7 +948,7 @@ $where
                 case 'Multi-Select':  
                     if ( ! empty( $v ) ) {
                         $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = 
-                            CRM_Core_BAO_CustomOption::VALUE_SEPERATOR.implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $v).CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
+                            CRM_Core_DAO::VALUE_SEPARATOR.implode(CRM_Core_DAO::VALUE_SEPARATOR, $v).CRM_Core_DAO::VALUE_SEPARATOR;
                     } else {
                         $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = null;
                     }
@@ -1055,7 +1027,7 @@ $where
 
             foreach ($group['fields'] as $key2 => $field) {
                 if ($field['data_type'] == 'Date' && $field['date_parts'] ) {
-                    $datePart = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR , $field['date_parts']);
+                    $datePart = explode( CRM_Core_DAO::VALUE_SEPARATOR , $field['date_parts']);
                     $datePart = array_flip( $datePart);
                     
                     if (( !array_key_exists( 'M', $datePart))&&
@@ -1173,7 +1145,7 @@ $where
                         if ( isset( $field['customValue'] ) ) {
                             //added check for Multi-Select in the below if-statement
                             if ( $field['html_type'] == 'CheckBox' || $field['html_type'] == 'Multi-Select') {
-                                $customData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $field['customValue']['data']);
+                                $customData = explode(CRM_Core_DAO::VALUE_SEPARATOR, $field['customValue']['data']);
                             } else {
                                 $customData[] = $field['customValue']['data'];
                             }
@@ -1256,9 +1228,9 @@ ORDER BY weight ASC, label ASC";
                             $freezeStringChecked = "";
                             if ( isset($field['customValue']['data']) ) {
                                 if ( $field['customValue']['data'] == '1' ) {
-                                    $form[$elementName]['html'] = $freezeStringChecked."Yes\n";
+                                    $form[$elementName]['html'] = $freezeStringChecked . ts( 'Yes' ) . "\n";
                                 } else {
-                                    $form[$elementName]['html'] = $freezeStringChecked."No\n";
+                                    $form[$elementName]['html'] = $freezeStringChecked . ts( 'No' ) . "\n";
                                 }
                             } else {
                                 $form[$elementName]['html'] = "\n";
@@ -1274,7 +1246,7 @@ ORDER BY weight ASC, label ASC";
                             break;
                             
                         case 'Date':
-                            $parts = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $field['date_parts']);
+                            $parts = explode(CRM_Core_DAO::VALUE_SEPARATOR, $field['date_parts']);
                             $form[$elementName]['html'] = CRM_Utils_Date::customFormat( $field['customValue']['data'], null, $parts);
                             break;
 

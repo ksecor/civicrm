@@ -60,9 +60,13 @@ class CRM_Dedupe_BAO_Rule extends CRM_Dedupe_DAO_Rule
      */
     function sql() {
 
-        // we need to initialise WHERE here, as some table types extend it
-        // $where is an array of required conditions
+        // we need to initialise WHERE, ON and USING here, as some table types 
+        // extend them; $where is an array of required conditions, $on and 
+        // $using are arrays of required field matchings (for substring and 
+        // full matches, respectively)
         $where = array();
+        $on = array("SUBSTR(t1.{$this->rule_field}, 1, {$this->rule_length}) = SUBSTR(t2.{$this->rule_field}, 1, {$this->rule_length})");
+        $using = array($this->rule_field);
 
         switch ($this->rule_table) {
         case 'civicrm_contact':
@@ -74,6 +78,8 @@ class CRM_Dedupe_BAO_Rule extends CRM_Dedupe_DAO_Rule
         case 'civicrm_openid':
         case 'civicrm_phone':
             $id = 'contact_id';
+            $on[] = 't1.location_type_id = t2.location_type_id';
+            $using[] = 'location_type_id';
             break;
         case 'civicrm_note':
             $id = 'entity_id';
@@ -85,7 +91,12 @@ class CRM_Dedupe_BAO_Rule extends CRM_Dedupe_DAO_Rule
             }
             break;
         default:
-            CRM_Core_Error::fatal("Unsupported rule_table for civicrm_dedupe_rule.id of {$this->id}");
+            // custom data tables
+            if (preg_match('/^civicrm_value_/', $this->rule_table)) {
+                $id = 'entity_id';
+            } else {
+                CRM_Core_Error::fatal("Unsupported rule_table for civicrm_dedupe_rule.id of {$this->id}");
+            }
             break;
         }
 
@@ -109,9 +120,9 @@ class CRM_Dedupe_BAO_Rule extends CRM_Dedupe_DAO_Rule
             }
         } else {
             if ($this->rule_length) {
-                $from = "{$this->rule_table} t1 JOIN {$this->rule_table} t2 ON SUBSTR(t1.{$this->rule_field}, 1, {$this->rule_length}) = SUBSTR(t2.{$this->rule_field}, 1, {$this->rule_length})";
+                $from = "{$this->rule_table} t1 JOIN {$this->rule_table} t2 ON (" . implode(' AND ', $on) . ")";
             } else {
-                $from = "{$this->rule_table} t1 JOIN {$this->rule_table} t2 USING ({$this->rule_field})";
+                $from = "{$this->rule_table} t1 JOIN {$this->rule_table} t2 USING (" . implode(', ', $using) . ")";
             }
         }
 

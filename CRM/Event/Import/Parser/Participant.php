@@ -286,6 +286,8 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
                     if ( $customFields[$customFieldID][2] == 'Date' ) {
                         CRM_Import_Parser_Contact::formatCustomDate( $params, $formatted, $dateType, $key );
                         unset( $params[$key] );
+                    } else if ( $customFields[$customFieldID][2] == 'Boolean' ) {
+                        $params[$key] = CRM_Utils_String::strtoboolstr( $val );
                     }
                 }
             }

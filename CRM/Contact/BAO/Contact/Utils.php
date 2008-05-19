@@ -320,8 +320,35 @@ UNION
 
         switch ( $contactType ) {
         case 'Organization':
-            $form->add('text', 'organization_name', ts('Organization Name'), 
-                       $attributes['organization_name']);
+            $session   =& CRM_Core_Session::singleton( );
+            $contactID = $session->get( 'userID' );
+
+            if ( $contactID ) {
+                require_once 'CRM/Contact/BAO/Relationship.php';
+                $employers = CRM_Contact_BAO_Relationship::getPermissionedEmployer( $contactID );
+            }
+
+            if ( $contactID && ( count($employers) >= 1 ) ) {
+                $comboAttributes = array( 'dojoType'     => 'dijit.form.FilteringSelect',
+                                          'mode'         => 'remote',
+                                          'store'        => 'employerStore',
+                                          'style'        => 'width:225px; border: 1px solid #cfcfcf;',
+                                          'class'        => 'tundra',
+                                          'pageSize'     => 10,
+                                          );
+                $dataURL = CRM_Utils_System::url( 'civicrm/ajax/employer', 
+                                                  "cid=" . $contactID, 
+                                                  true, null, false );
+                $form->assign( 'employerDataURL', $dataURL );
+
+                $form->add('text', 'organization_id', 
+                           ts('Select an existing related Organization OR Enter a new one'), $comboAttributes);
+
+                $orgOptions = array( '0' => ts('Create new organization'), '1' => ts('Select existing organization') );
+                $form->addRadio('org_option', ts('options'),  $orgOptions, array( 'onclick' => "showHideByValue('org_option','true','select_org','table-row','radio',true);showHideByValue('org_option','true','create_org','table-row','radio',false);"));
+                $form->assign( 'relatedOrganizationFound', true );
+            }
+            $form->add('text', 'organization_name', ts('Organization Name'), $attributes['organization_name']);
             break;
         case 'Household':
             $form->add('text', 'household_name', ts('Household Name'), 
@@ -388,4 +415,5 @@ UNION
         $location   = array(); 
         CRM_Contact_Form_Address::buildAddressBlock($form, $location, 1 );
     }
+
 }

@@ -1,4 +1,4 @@
-    <div id="relationship">
+<div id="relationship" class="form-item">
     <fieldset class="collapsible">
     <table class="form-layout">
          <tr>
@@ -28,5 +28,5 @@
         </tr>
       </table>         
     </fieldset>
-    </div>
+</div>
 

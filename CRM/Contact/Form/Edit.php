@@ -138,14 +138,15 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
 
         $this->_editOptions  = CRM_Core_BAO_Preferences::valueOptions( 'contact_edit_options' );
 
-        $configItems = array( '_showCommBlock'     => 'Communication Preferences',
-                              '_showDemographics'  => 'Demographics',
-                              '_showTagsAndGroups' => 'Tags and Groups',
-                              '_showNotes'         => 'Notes' );
+        $configItems = array( 'CommBlock',
+                              'Demographics',
+                              'TagsAndGroups',
+                              'Notes' );
 
-        foreach ( $configItems as $c => $t ) {
-            $this->$c = $this->_editOptions[$t];
-            $this->assign( substr( $c, 1 ), $this->$c );
+        foreach ( $configItems as $c ) {
+            $varName = '_show' . $c;
+            $this->$varName = $this->_editOptions[$c];
+            $this->assign( substr( $varName, 1 ), $this->$varName );
         }
 
         if ( $this->_action == CRM_Core_Action::ADD ) {
@@ -168,7 +169,13 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             if ( $this->_contactSubType ) {
                 CRM_Utils_System::setTitle( ts( 'New %1', array(1 => $this->_contactSubType ) ) );
             } else {
-                CRM_Utils_System::setTitle( ts( 'New %1', array(1 => $this->_contactType ) ) );
+                $title = ts( 'New Individual' );
+                if ( $this->_contactType == 'Household' ) {
+                    $title = ts( 'New Household' );
+                } else if ( $this->_contactType == 'Organization' ) {
+                    $title = ts( 'New Organization' );
+                }
+                CRM_Utils_System::setTitle( $title );
             }
             $session->pushUserContext(CRM_Utils_System::url());
             $this->_contactId = null;
@@ -197,7 +204,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                 }
 
                 list( $displayName, $contactImage ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $this->_contactId );
-                CRM_Utils_System::setTitle( $contactImage . ' ' . $displayName ); 
+                CRM_Utils_System::setTitle( $contactImage . ' ' . $displayName, $displayName ); 
 
                 //get the no of locations for the contact
                 $this->_maxLocationBlocks = CRM_Contact_BAO_Contact::getContactLocations( $this->_contactId );
@@ -337,9 +344,12 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
             require_once 'CRM/Contact/BAO/Relationship.php';
             $currentEmployer = CRM_Contact_BAO_Relationship::getCurrentEmployer( $this->_contactId, true );
           
-            $defaults['employer_option'] = $currentEmployer['employer_option'];
-            $defaults['shared_employer'] = $currentEmployer['id'];
-            $this->assign( 'sharedEmployer', $currentEmployer['sort_name'] );
+            $defaults['employer_option'] = CRM_Utils_Array::value( 'employer_option',
+                                                                   $currentEmployer );
+            $defaults['shared_employer'] = CRM_Utils_Array::value( 'id',
+                                                                   $currentEmployer );
+            $this->assign( 'sharedEmployer', CRM_Utils_Array::value( 'sort_name',
+                                                                     $currentEmployer ) );
         }
         
         //set defaults for country-state dojo widget
@@ -617,7 +627,7 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
         // action is taken depending upon the mode
         require_once 'CRM/Utils/Hook.php';
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
-            CRM_Utils_Hook::pre( 'edit', $params['contact_type'], null, $params );
+            CRM_Utils_Hook::pre( 'edit', $params['contact_type'], $params['contact_id'], $params );
         } else {
             CRM_Utils_Hook::pre( 'create', $params['contact_type'], null, $params );
         }

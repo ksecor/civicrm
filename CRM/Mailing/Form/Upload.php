@@ -51,11 +51,21 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $count = $this->get('count');
         $this->assign('count',$count);
         
-        $session =& CRM_Core_Session::singleton();
-        $session->set('skipTextFile', false);
-        $session->set('skipHtmlFile', false);
+        $this->set('skipTextFile', false);
+        $this->set('skipHtmlFile', false);
        
         $defaults = array( );
+
+        $domain = new CRM_Core_DAO_Domain( );
+        $domain->id = CRM_Core_Config::domainID( );
+        $domain->selectAdd( );
+        $domain->selectAdd( 'id, email_name, email_address' );
+        $domain->find( true );
+        
+        $defaults['from_name' ] = $domain->email_name;
+        $defaults['from_email'] = $domain->email_address;
+        $defaults['subject'] = $this->get('name');   
+        
         $htmlMessage = null;
         if ( $mailingID  ) {
             require_once "CRM/Mailing/DAO/Mailing.php";
@@ -83,31 +93,38 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             if ( isset( $defaults['body_text'] ) ) {
                 $defaults['text_message'] = $defaults['body_text'];
                 $this->set('textFile', $defaults['body_text'] );
-                $session->set('skipTextFile', true);
+                $this->set('skipTextFile', true);
             }
 
             if ( isset( $defaults['body_html'] ) ) {
                 $htmlMessage = $defaults['body_html'];
                 $this->set('htmlFile', $defaults['body_html'] );
-                $session->set('skipHtmlFile', true);
+                $this->set('skipHtmlFile', true);
+            }
+        } else {
+            $textFilePath = $this->get( 'textFilePath' );
+            if ( $textFilePath &&
+                 file_exists( $textFilePath ) ) {
+                $defaults['text_message'] = file_get_contents( $textFilePath );
+                if ( strlen( $defaults['text_message'] ) > 0 ) {
+                    $this->set('skipTextFile', true);
+                }
+            }
+                 
+            $htmlFilePath = $this->get( 'htmlFilePath' );
+            if ( $htmlFilePath &&
+                 file_exists( $htmlFilePath ) ) {
+                $defaults['html_message'] = file_get_contents( $htmlFilePath );
+                if ( strlen( $defaults['html_message'] ) > 0 ) {
+                    $this->set('skipHtmlFile', true);
+                }
             }
         }
-        
-      
-        
+
         $htmlMessage = str_replace( array("\n","\r"), ' ', $htmlMessage);
         $htmlMessage = str_replace( "'", "\'", $htmlMessage);
         $this->assign('message_html', $htmlMessage );        
 
-        $domain = new CRM_Core_DAO_Domain( );
-        $domain->id = CRM_Core_Config::domainID( );
-        $domain->selectAdd( );
-        $domain->selectAdd( 'id, email_name, email_address' );
-        $domain->find( true );
-        
-        $defaults['from_name' ] = $domain->email_name;
-        $defaults['from_email'] = $domain->email_address;
-        $defaults['subject'] = $this->get('name');   
         $defaults['upload_type'] = 1; 
 
         return $defaults;
@@ -152,9 +169,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $this->add( 'select', 'footer_id', ts( 'Mailing Footer' ), 
                     array('' => ts('- none -')) + CRM_Mailing_PseudoConstant::component( 'Footer' ) );
         
-        $values = array('mailing_id'    => $this->get('mailing_id'));
-
-        $this->addFormRule(array('CRM_Mailing_Form_Upload', 'dataRule'), $values );
+        $this->addFormRule(array('CRM_Mailing_Form_Upload', 'formRule'), $this );
         
         $this->addButtons( array(
                                  array ( 'type'      => 'back',
@@ -281,7 +296,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
      * @access public
      * @static
      */
-    static function dataRule(&$params, &$files, &$options) 
+    static function formRule( &$params, &$files, &$self )
     {
         if (CRM_Utils_Array::value('_qf_Import_refresh', $_POST)) {
             return true;
@@ -294,7 +309,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
 
         require_once 'CRM/Mailing/BAO/Mailing.php';
         $mailing = & new CRM_Mailing_BAO_Mailing();
-        $mailing->id = $options['mailing_id'];
+        $mailing->id = $self->get( 'mailing_id' );
         $mailing->find(true);
 
         $session =& CRM_Core_Session::singleton();
@@ -332,8 +347,8 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
 
         require_once 'CRM/Utils/Token.php';
 
-        $skipTextFile = $session->get('skipTextFile');
-        $skipHtmlFile = $session->get('skipHtmlFile');
+        $skipTextFile = $self->get('skipTextFile');
+        $skipHtmlFile = $self->get('skipHtmlFile');
         
         if( !$params['upload_type'] ) { 
             if ( ( ! isset( $files['textFile'] ) || ! file_exists( $files['textFile']['tmp_name'] ) ) &&

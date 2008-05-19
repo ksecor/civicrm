@@ -139,7 +139,8 @@ SELECT     civicrm_email.id as email_id
         $se->group_id = $group_id;
         $se->contact_id = $contact_id;
         $se->time_stamp = date('YmdHis');
-        $se->hash = sha1("{$group_id}:{$contact_id}:{$dao->email_id}");
+        $se->hash = substr( sha1( "{$group_id}:{$contact_id}:{$dao->email_id}:" . time( ) ),
+                            0, 16 );
         $se->save();
         
         $contacts = array($contact_id);
