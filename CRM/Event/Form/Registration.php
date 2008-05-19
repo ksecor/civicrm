@@ -576,6 +576,7 @@ WHERE  v.option_group_id = g.id
                                    $params['description'],
                                    'fee_level'     => $params['amount_level'],
                                    'is_pay_later'  => CRM_Utils_Array::value( 'is_pay_later', $params, 0 ),
+                                   'fee_amount'    => CRM_Utils_Array::value( 'amount', $params )
                                    );
         
         if ( $this->_action & CRM_Core_Action::PREVIEW ) {
