@@ -20,7 +20,8 @@ class BAO_Activity_Activity extends CiviTestCase
     }
 
     /**
-     * create() method Add/Edit 
+     * testcases fir create() method
+     * create() method Add/Edit activity. 
      */
     function testCreate( )
     {
@@ -60,6 +61,7 @@ class BAO_Activity_Activity extends CiviTestCase
     }
     
     /**
+     * testcase for getContactActivity() method. 
      * getContactActivity() method get activities detail for given target contact id 
      */
     function testGetContactActivity( )
@@ -88,10 +90,184 @@ class BAO_Activity_Activity extends CiviTestCase
         
         $activities = CRM_Activity_BAO_Activity::getContactActivity( $targetContactId );
         
-        $this->assertEqual( $activities[$activityId]['subject'], 'Scheduling Meeting', 'Verify activity source contact id is correct.');
+        $this->assertEqual( $activities[$activityId]['subject'], 'Scheduling Meeting', 'Verify activity subject is correct.');
         
         Contact::delete( $contactId );
         Contact::delete( $targetContactId );
+    }
+
+    /**
+     * testcase for retrieve() method. 
+     * retrieve($params, $defaults) method return activity detail for given params
+     *                              and set defaults.   
+     */
+    function testRetrieve ( )
+    {
+        $contactId = Contact::createIndividual( );
+        $params    = array(
+                           'first_name'     => 'liz',
+                           'last_name'      => 'hurleey',
+                           ); 
+        $targetContactId = Contact::createIndividual( $params );
+        
+        $params = array( 
+                        'source_contact_id'  => $contactId,
+                        'subject'            => 'Scheduling Meeting',
+                        'activity_type_id'   => 2,
+                        'target_contact_id'  => $targetContactId,
+                        'activity_date_time' => date('Ymd'),
+                        );
+        
+        require_once 'CRM/Activity/BAO/Activity.php';
+        CRM_Activity_BAO_Activity::create( $params );
+        
+        $activityId = $this->assertDBNotNull( 'CRM_Activity_DAO_Activity', 'Scheduling Meeting' , 'id', 
+                                              'subject', 'Database check for created activity.' );
+        
+        $activityTargetId = $this->assertDBNotNull( 'CRM_Activity_DAO_ActivityTarget', $targetContactId,
+                                                    'id', 'target_contact_id',
+                                                    'Database check for created activity target.' );
+
+        $defaults = array();
+        $activity = CRM_Activity_BAO_Activity::retrieve( $params, $defaults );
+        
+        $this->assertEqual( $activity->subject, 'Scheduling Meeting', 'Verify activity subject is correct.');
+        $this->assertEqual( $activity->source_contact_id, $contactId, 'Verify source contact id is correct.');
+        $this->assertEqual( $activity->activity_type_id, 2, 'Verify activity type id is correct.');
+        
+        $this->assertEqual( $defaults['subject'], 'Scheduling Meeting', 'Verify activity subject is correct.');
+        $this->assertEqual( $defaults['source_contact_id'], $contactId, 'Verify source contact id is correct.');
+        $this->assertEqual( $defaults['activity_type_id'], 2, 'Verify activity type id is correct.');
+        
+        $this->assertEqual( $defaults['target_contact'], 'hurleey, liz', 'Verify sort name of target contact is correct.');
+        
+        Contact::delete( $contactId );
+        Contact::delete( $targetContactId );
+    }
+    
+    /**
+     * testcase for deleteActivity() method. 
+     * deleteActivity($params) method deletes activity for given params.   
+     */
+    function testDeleteActivity ( )
+    {
+        $contactId = Contact::createIndividual( );
+        $params    = array(
+                           'first_name'     => 'liz',
+                           'last_name'      => 'hurleey',
+                           ); 
+        $targetContactId = Contact::createIndividual( $params );
+        
+        $params = array( 
+                        'source_contact_id'  => $contactId,
+                        'subject'            => 'Scheduling Meeting',
+                        'activity_type_id'   => 2,
+                        'target_contact_id'  => $targetContactId,
+                        'activity_date_time' => date('Ymd'),
+                        );
+        
+        require_once 'CRM/Activity/BAO/Activity.php';
+        CRM_Activity_BAO_Activity::create( $params );
+        
+        $activityId = $this->assertDBNotNull( 'CRM_Activity_DAO_Activity', 'Scheduling Meeting' , 'id', 
+                                              'subject', 'Database check for created activity.' );
+        
+        $activityTargetId = $this->assertDBNotNull( 'CRM_Activity_DAO_ActivityTarget', $targetContactId,
+                                                    'id', 'target_contact_id',
+                                                    'Database check for created activity target.' );
+        $params = array( 
+                        'source_contact_id'  => $contactId,
+                        'subject'            => 'Scheduling Meeting',
+                        'activity_type_id'   => 2,
+                        );
+        
+        $result = CRM_Activity_BAO_Activity::deleteActivity( $params );
+        
+        $activityId = $this->assertDBNull( 'CRM_Activity_DAO_Activity', 'Scheduling Meeting' , 'id', 
+                                           'subject', 'Database check for deleted activity.' );
+        Contact::delete( $contactId );
+        Contact::delete( $targetContactId );
+
+    }
+
+    /**
+     * testcase for deleteActivityTarget() method. 
+     * deleteActivityTarget($activityId) method deletes activity target for given activity id.   
+     */
+    function testDeleteActivityTarget ( )
+    {
+        $contactId = Contact::createIndividual( );
+        $params    = array(
+                           'first_name'     => 'liz',
+                           'last_name'      => 'hurleey',
+                           ); 
+        $targetContactId = Contact::createIndividual( $params );
+        
+        $params = array( 
+                        'source_contact_id'  => $contactId,
+                        'subject'            => 'Scheduling Meeting',
+                        'activity_type_id'   => 2,
+                        'target_contact_id'  => $targetContactId,
+                        'activity_date_time' => date('Ymd'),
+                        );
+        
+        require_once 'CRM/Activity/BAO/Activity.php';
+        CRM_Activity_BAO_Activity::create( $params );
+        
+        $activityId = $this->assertDBNotNull( 'CRM_Activity_DAO_Activity', 'Scheduling Meeting' , 'id', 
+                                              'subject', 'Database check for created activity.' );
+        
+        $activityTargetId = $this->assertDBNotNull( 'CRM_Activity_DAO_ActivityTarget', $targetContactId,
+                                                    'id', 'target_contact_id', 
+                                                    'Database check for created activity target.' );
+        
+        CRM_Activity_BAO_Activity::deleteActivityTarget( $activityId );
+        
+        $this->assertDBNull( 'CRM_Activity_DAO_ActivityTarget', $targetContactId, 'id', 
+                             'target_contact_id', 'Database check for deleted activity target.' );
+        
+        Contact::delete( $contactId );
+        Contact::delete( $targetContactId );
+    }
+    
+    /**
+     * testcase for deleteActivityAssignment() method. 
+     * deleteActivityAssignment($activityId) method deletes activity assignment for given activity id.   
+     */
+    function testDeleteActivityAssignment ( )
+    {
+        $contactId = Contact::createIndividual( );
+        $params    = array(
+                           'first_name'     => 'liz',
+                           'last_name'      => 'hurleey',
+                           ); 
+        $assigneeContactId = Contact::createIndividual( $params );
+        
+        $params = array( 
+                        'source_contact_id'  => $contactId,
+                        'subject'            => 'Scheduling Meeting',
+                        'activity_type_id'   => 2,
+                        'assignee_contact_id'=> $assigneeContactId,
+                        'activity_date_time' => date('Ymd'),
+                        );
+        
+        require_once 'CRM/Activity/BAO/Activity.php';
+        CRM_Activity_BAO_Activity::create( $params );
+        
+        $activityId = $this->assertDBNotNull( 'CRM_Activity_DAO_Activity', 'Scheduling Meeting' , 'id', 
+                                              'subject', 'Database check for created activity.' );
+        
+        $activityAssignmentId = $this->assertDBNotNull( 'CRM_Activity_DAO_ActivityAssignment', 
+                                                        $assigneeContactId, 'id', 'target_contact_id', 
+                                                        'Database check for created activity assignment.' );
+        
+        CRM_Activity_BAO_Activity::deleteActivityAssignment( $activityId );
+        
+        $this->assertDBNull( 'CRM_Activity_DAO_ActivityAssignment', $assigneeContactId, 'id', 
+                             'assignee_contact_id', 'Database check for deleted activity assignment.' );
+        
+        Contact::delete( $contactId );
+        Contact::delete( $assigneeContactId );
     }
     
 }
