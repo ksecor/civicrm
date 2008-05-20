@@ -91,8 +91,8 @@ class Browser_Activity_NewActivity extends CiviTestCase
         $this->assertDBCompareValues('CRM_Activity_DAO_Activity', array('id' => $activity_id), $expected);
         $this->assertDBNotNull('CRM_Activity_DAO_ActivityAssignment', $activity_id, 'id', 'activity_id', 'Checking db for the assinment of the activity.');
         $this->assertDBNotNull('CRM_Activity_DAO_ActivityTarget', $activity_id, 'id', 'activity_id', 'Checking db for the targetting of the activity.');
-        // FIXME: delete civicrm_activity.id = $activity_id here
-        // CRM_Activity_BAO_Activity::delete(array('id' => $activity_id)) throws a DB::DataObject error
+        $del = array('id' => $activity_id);
+        CRM_Activity_BAO_Activity::deleteActivity($del);
     }
 
 }
