@@ -305,8 +305,12 @@ UNION
      * @static
      *
      */
-    static function buildOnBehalfForm( &$form, $contactType = 'Individual', 
-                                       $title = 'Contact Information', $maxLocationBlocks = 1 )
+    static function buildOnBehalfForm( &$form, 
+                                       $contactType    = 'Individual', 
+                                       $countryDefault = null,
+                                       $stateDefault   = null,
+                                       $title          = 'Contact Information', 
+                                       $maxLocationBlocks = 1 )
     {
         require_once 'CRM/Contact/Form/Location.php';
         $config =& CRM_Core_Config::singleton( );
@@ -374,8 +378,8 @@ UNION
         $attributes = array( 'dojoType'     => 'civicrm.HierSelect',
                              'url1'         => CRM_Utils_System::url('civicrm/ajax/countries'),
                              'url2'         => CRM_Utils_System::url('civicrm/ajax/states'),
-                             //                                     'default3'     => "3",
-                             //                                     'default4'     => "3",
+                             'default1'     => $countryDefault,
+                             'default2'     => $stateDefault,
                              'firstInList'  => "true",
                              );
         $form->add( 'text', "location[1][address][country_state]", ts( 'Select Country' ), $attributes );

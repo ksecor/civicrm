@@ -448,11 +448,13 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
     /**
      * Function to build Membership  Block in Contribution Pages 
      * 
-     * @param object  $form                  form object
-     * @param int     $pageId                contribution page id
+     * @param object  $form                      form object
+     * @param int     $pageId                    contribution page id
      * @param boolean $formItems
      * @param int     $selectedMembershipTypeID  selected membership id
-     * @param boolean $thankPage             thank you page
+     * @param boolean $thankPage                 thank you page
+     * @param boolean $memContactId              contact who is to be
+     * checked for having a current membership for a particular membership
      *
      * @static
      */
@@ -460,8 +462,9 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
                                    $pageID,
                                    $formItems = false,
                                    $selectedMembershipTypeID = null,
-                                   $thankPage = false,
-                                   $isTest = null )
+                                   $thankPage       = false,
+                                   $isTest          = null,
+                                   $memberContactId = null )
     {
         require_once 'CRM/Member/DAO/MembershipBlock.php';
 
@@ -475,9 +478,13 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             require_once 'CRM/Member/DAO/MembershipType.php';
             require_once 'CRM/Member/DAO/Membership.php';
 
-            $session = & CRM_Core_Session::singleton();
-            $cid = $session->get('userID');    
-
+            if ( !$memberContactId ) {
+                $session = & CRM_Core_Session::singleton();
+                $cid     = $session->get('userID');    
+            } else {
+                $cid     = $memberContactId;
+            }
+            
             $membershipBlock   = array( ); 
             $membershipTypeIds = array( );
             $membershipTypes   = array( ); 

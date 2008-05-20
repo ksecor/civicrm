@@ -209,7 +209,9 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 CRM_Member_BAO_Membership::buildMembershipBlock( $this,
                                                                  $this->_id,
                                                                  false,
-                                                                 $params['selectMembership'] );
+                                                                 $params['selectMembership'],
+                                                                 false, null,
+                                                                 $this->_membershipContactID );
             } else {
                 $this->assign('membershipBlock', false);
             }

@@ -126,6 +126,11 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                                                                            $membershipBlock );
         }
 
+        if ( $this->_membershipContactID ) {
+            $this->_defaults['is_for_organization'] = 1;
+            $this->_defaults['org_option'] = 1;
+        }
+
         // hack to simplify credit card entry for testing
 //         $this->_defaults['credit_card_type']     = 'Visa';
 //         $this->_defaults['amount']               = 168;
@@ -163,9 +168,11 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             }
             
             require_once 'CRM/Member/BAO/Membership.php';
-            $this->_separateMembershipPayment = CRM_Member_BAO_Membership::buildMembershipBlock( $this , $this->_id , 
-                                                                                                 true, null, false, 
-                                                                                                 $isTest );
+            $this->_separateMembershipPayment = 
+                CRM_Member_BAO_Membership::buildMembershipBlock( $this , 
+                                                                 $this->_id , 
+                                                                 true, null, false, 
+                                                                 $isTest, $this->_membershipContactID );
         }
         $this->set( 'separateMembershipPayment', $this->_separateMembershipPayment );
 
@@ -345,12 +352,24 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
      */
     function buildOnBehalfOrganization( ) 
     {
-        require_once 'CRM/Contact/BAO/Contact/Utils.php';
+        if ( $this->_membershipContactID ) {
+            // Setting location defaults for matching permissioned contact.
+            // Setting it here since we require country & state
+            // default values here.
+            require_once 'CRM/Core/BAO/Location.php';
+            $entityBlock = array( 'contact_id' => $this->_membershipContactID );
+            CRM_Core_BAO_Location::getValues( $entityBlock, $this->_defaults );
+        }
 
+        require_once 'CRM/Contact/BAO/Contact/Utils.php';
         $attributes = array('onclick' => 
                             "return showHideByValue('is_for_organization','true','for_organization','block','radio',false);");
         $this->addElement( 'checkbox', 'is_for_organization', $this->_values['for_organization'], null, $attributes );
-        CRM_Contact_BAO_Contact_Utils::buildOnBehalfForm( $this, 'Organization', 'Organization Details' );
+
+        CRM_Contact_BAO_Contact_Utils::buildOnBehalfForm($this, 'Organization', 
+                                                         $this->_defaults['location'][1]['address']['country_id'],
+                                                         $this->_defaults['location'][1]['address']['state_province_id'],
+                                                         'Organization Details');
     }
 
     /**
