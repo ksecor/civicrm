@@ -20,7 +20,7 @@ class BAO_Activity_Activity extends CiviTestCase
     }
 
     /**
-     * testcases fir create() method
+     * testcases for create() method
      * create() method Add/Edit activity. 
      */
     function testCreate( )

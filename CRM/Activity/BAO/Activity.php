@@ -183,32 +183,6 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
     }
 
     /**
-     * delete all records for this contact id
-     *
-     * @param int    $id  ID of the contact for which the records needs to be deleted.
-     * @param string $activityType activity type 
-     * 
-     * @return void
-     * 
-     * @access public
-     */
-    public function deleteContact($id)
-    {
-        $activity = array("Meeting", "Phonecall", "Activity");
-        foreach ($activity as $key) {
-            // need to delete for both source and target
-            eval ('$dao =& new CRM_Activity_DAO_' . $key . '();');
-            $dao->source_contact_id = $id;
-            $dao->delete();
-
-            eval ('$dao =& new CRM_Activity_DAO_' . $key . '();');
-            $dao->target_entity_table = 'civicrm_contact';
-            $dao->target_entity_id    = $id;        
-            $dao->delete();
-        }
-    }
-
-    /**
      * Function to process the activities
      *
      * @param object $form         form object
