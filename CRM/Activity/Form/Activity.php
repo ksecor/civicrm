@@ -186,7 +186,7 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
             $params = array( 'id' => $this->_activityId );
             
             require_once "CRM/Activity/BAO/Activity.php";
-            CRM_Activity_BAO_Activity::retrieve( $params, $defaults, $this->_activityTypeId );
+            CRM_Activity_BAO_Activity::retrieve( $params, $defaults );
 
             if ( CRM_Utils_Array::value('duration',$defaults) ) {
                 require_once "CRM/Utils/Date.php";
