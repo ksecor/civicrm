@@ -192,6 +192,9 @@ class CRM_Utils_REST
         if ( $args[0] != 'civicrm' ) {
             return self::error( ts( 'Unknown function invocation' ) );
         }
+        if ( count( $args ) != 3 ) {
+            return self::error( ts( 'Unknown function invocation' ) );
+        }
 
         require_once 'CRM/Utils/Request.php';
 
@@ -239,7 +242,7 @@ class CRM_Utils_REST
         if ( $result === false ) {
             return self::error( ts( 'Unknown error' ) );
         }
-        return result;
+        return $result;
     }
 
     function &buildParamList( ) {
