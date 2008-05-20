@@ -74,26 +74,15 @@ class Browser_Contact_Profile extends CiviTestCase
     }
     
     /**
-     * Test to create individual without required fields (first + last are required)
+     * Test to create profile without required fields (first + last are required)
      */
     function testCreateIProfileContactWithMissingParams( ) 
     {
-        $first_name  = '';
-        $last_name   = '';
-        $this->civiGet('civicrm/dashboard', 'reset=1' );
-        $this->clickLink('New Individual', '0');
-        $params = array( 'first_name' => $first_name,     
-                         'last_name'  => $last_name );
-        $this->drupalPost( NULL, $params, '_qf_Edit_next');
-        
-        $this->assertWantedRaw( 'First Name', 'Name and Address' );
-        $this->assertWantedRaw( 'Last Name', 'Name and Address' );
-        
-        $this->assertDBNull( 'CRM_Contact_DAO_Contact', $last_name . ', ' .$first_name, 'id', 'sort_name',  'Database check, Individual created successfully.' );
+ 
     }
     
     /**
-     * Test to create individual with 
+     * Test to create profile with 
      * valid parameters
      */
     function testCreateProfileContactwithNames( ) 
@@ -113,7 +102,7 @@ class Browser_Contact_Profile extends CiviTestCase
     }  
     
     /**
-     * Test to create individual with address data (primary location)
+     * Test to create profile with address data (primary location)
      * 
      */
     function testCreateProfileContactwithAll( ) 
