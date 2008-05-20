@@ -45,13 +45,23 @@ require_once 'CRM/Custom/Form/CustomData.php';
  */
 class CRM_Contribute_Form_Contribution extends CRM_Core_Form
 {
+
+    public $_mode;
+    public $_action;
+    
+    public $_bltID;
+    
+    public $_fields;
+    
+    public $_paymentProcessor;
+    
     /**
      * the id of the contribution that we are proceessing
      *
      * @var int
      * @protected
      */
-    protected $_id;
+    public $_id;
 
     /**
      * the id of the premium that we are proceessing
@@ -59,7 +69,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
      * @var int
      * @protected
      */
-    protected $_premiumId;
+    public $_premiumId;
 
     /**
      * the id of the note 
@@ -67,7 +77,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
      * @var int
      * @protected
      */
-    protected $_noteId;
+    public $_noteId;
 
     /**
      * the id of the contact associated with this contribution
@@ -75,7 +85,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
      * @var int
      * @protected
      */
-    protected $_contactID;
+    public $_contactID;
 
     /**
      * is this contribution associated with an online
@@ -84,7 +94,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
      * @var boolean
      * @protected 
      */ 
-    protected $_online = false;
+    public $_online = false;
 
 
      /**
@@ -93,7 +103,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
      * @var boolean
      * @protected 
      */ 
-    protected $_options ;
+    public $_options ;
 
     
     /**
@@ -102,21 +112,22 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
      * @var boolean
      * @protected 
      */ 
-    protected $_honorID = null ;
+    public $_honorID = null ;
 
     /**
      * Store the contribution Type ID
      *
      * @var array
      */
-    protected $_contributionType;
-
+    public $_contributionType;
+    
     /** 
      * Function to set variables up before form is built 
      *                                                           
      * @return void 
      * @access public 
      */ 
+    
     public function preProcess()  
     {  
         $this->_cdType     = CRM_Utils_Array::value( 'type', $_GET );
@@ -127,27 +138,58 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             return CRM_Custom_Form_CustomData::preProcess( $this );
         }
         
+        //CRM_Utils_System::setTitle(ts('Record Contribution') );
+        $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this, true );
+        $this->_action    = CRM_Utils_Request::retrieve( 'action', 'String',
+                                                         $this, false, 'add' );
+        $this->assign( 'action', $this->_action );
+        $this->_id        = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
+        //we shall come back.
+        //$this->_mode       = $this->_action & CRM_Core_Action::PREVIEW ? 'test' : 'live';
+        $this->_mode = 'test';
+        
+        $this->_paymentProcessor = array( 'billing_mode' => 1 );
+        
+        require_once 'CRM/Contact/BAO/Contact/Location.php';
+        list( $this->userDisplayName, 
+              $this->userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $this->_contactID );
+        $this->assign( 'displayName', $this->userDisplayName );
+        
+        // also check for billing information
+        // get the billing location type
+        $locationTypes =& CRM_Core_PseudoConstant::locationType( );
+        $this->_bltID = array_search( 'Billing',  $locationTypes );
+        if ( ! $this->_bltID ) {
+            CRM_Core_Error::fatal( ts( 'Please set a location type of %1', array( 1 => 'Billing' ) ) );
+        }
+        $this->set   ( 'bltID', $this->_bltID );
+        $this->assign( 'bltID', $this->_bltID );
+        
+        $this->_fields = array( );
+        
+        require_once 'CRM/Core/Payment/Form.php';
+        CRM_Core_Payment_Form::setCreditCardFields( $this );
+        
+        // also set the post url
+        $postURL = CRM_Utils_System::url( 'civicrm/contact/view',
+                                          "reset=1&force=1&cid={$this->_contactID}&selectedChild=contribute" );
+        $session =& CRM_Core_Session::singleton( ); 
+        $session->pushUserContext( $postURL );
+        
         require_once 'CRM/Contact/BAO/Contact/Location.php';
         $session =& CRM_Core_Session::singleton( );
-        $contactID = $session->get( 'userID' );
+        $contactID = $this->_contactID ? $this->_contactID : $session->get( 'userID' );
         list( $this->userDisplayName, 
               $this->userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $contactID );
         // check for edit permission
         if ( ! CRM_Core_Permission::check( 'edit contributions' ) ) {
             CRM_Core_Error::fatal( ts( 'You do not have permission to access this page' ) );
         }
-
-        // action
-        $this->_action = CRM_Utils_Request::retrieve( 'action', 'String',
-                                                      $this, false, 'add' );
-        $this->assign( 'action'  , $this->_action   ); 
-
-        $this->_id        = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
-
+        
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             return;
         }
-
+        
         // current contribution id
         if ( $this->_id ) {
             require_once 'CRM/Contribute/DAO/FinancialTrxn.php';
@@ -178,15 +220,18 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                                                                     $this->_id, 
                                                                     'contribution_type_id' );
         }
-
-        $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
-
+        
         // when custom data is included in this page
         if ( CRM_Utils_Array::value( "hidden_custom", $_POST ) ) {
             eval( 'CRM_Custom_Form_Customdata::preProcess( $this );' );
             eval( 'CRM_Custom_Form_Customdata::buildQuickForm( $this );' );
             eval( 'CRM_Custom_Form_Customdata::setDefaultValues( $this );' );
         }
+        // also set the post url
+        $postURL = CRM_Utils_System::url( 'civicrm/contact/view',
+                                          "reset=1&force=1&cid={$this->_contactID}&selectedChild=contribute" );
+        $session =& CRM_Core_Session::singleton( ); 
+        $session->pushUserContext( $postURL );
     }
 
     function setDefaultValues( ) 
@@ -196,9 +241,35 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         }
        
         $defaults = array( );
-        
+        $fields   = array( );
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             return $defaults;
+        }
+        
+        foreach ( $this->_fields as $name => $dontCare ) {
+            $fields[$name] = 1;
+        }
+        $names = array("first_name", "middle_name", "last_name");
+        foreach ($names as $name) {
+            $fields[$name] = 1;
+        }
+        $fields["state_province-{$this->_bltID}"] = 1;
+        $fields["country-{$this->_bltID}"       ] = 1;
+        $fields["email-{$this->_bltID}"         ] = 1;
+        $fields["email-Primary"                 ] = 1;
+        
+        require_once "CRM/Core/BAO/UFGroup.php";
+        CRM_Core_BAO_UFGroup::setProfileDefaults( $this->_contactID, $fields, $defaults  );
+        
+        // use primary email address if billing email address is empty
+        if ( empty( $defaults["email-{$this->_bltID}"] ) &&
+             ! empty( $defaults["email-Primary"] ) ) {
+            $defaults["email-{$this->_bltID}"] = $defaults["email-Primary"];
+        }
+        foreach ($names as $name) {
+            if ( ! empty( $defaults[$name] ) ) {
+                $defaults["billing_" . $name] = $defaults[$name];
+            }
         }
         
         if ( $this->_id ) {
@@ -247,7 +318,6 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             $defaults["honor_email"]     = CRM_Utils_Array::value("email",$honorDefault["location"][1]["email"][1]);
             $defaults["honor_type"]      = $honorType[$defaults["honor_type_id"]];
         }
-        
         
         $this->assign('showOption',true);
         // for Premium section
@@ -313,6 +383,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         $this->assign('customDataSubType',  $this->_contributionType );
         $this->assign('entityId',  $this->_id );
         
+        
         $urlParams = "reset=1&cid={$this->_contactID}&context=contribution";
         if ( $this->_id ) {
             $urlParams .= "&action=update&id={$this->_id}";
@@ -344,6 +415,36 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                                );
         if ( $this->_online ) {
             $element->freeze( );
+        }
+        
+        $element =& $this->add( 'text', 'trxn_id', ts('Transaction ID'), 
+                                $attributes['trxn_id'] );
+        if ( $this->_online ) {
+            $element->freeze( );
+        } else {
+            $this->addRule( 'trxn_id',
+                            ts( 'This Transaction ID already exists in the database. Include the account number for checks.' ),
+                            'objectExists', 
+                            array( 'CRM_Contribute_DAO_Contribution', $this->_id, 'trxn_id' ) );
+        }
+        
+        $processors = CRM_Core_PseudoConstant::paymentProcessor( false, false,
+                                                                 "billing_mode IN ( 1, 3 )" );
+        if ( count( $processors ) > 0 ) {
+            $ccPane = array( 'Credit or Debit Card Information' => 'buildCreditCard' );
+            
+            $element =& $this->add( 'select', 'payment_processor_id',
+                                    ts( 'Payment Processor' ),
+                                    $processors );
+            if ( $this->_online ) {
+                $element->freeze( );
+            }
+            
+            $element =& $this->add( 'text', "email-{$this->_bltID}",
+                                    ts( 'Email Address' ), array( 'size' => 30, 'maxlength' => 60 ) );
+            if ( $this->_online ) {
+                $element->freeze( );
+            }
         }
         
         // add various dates
@@ -436,7 +537,9 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                               'Honoree Information' => 'buildHonoree', 
                               'Premium Information' => 'buildPremium'
                               );
-        
+        if ( is_array( $ccPane ) ) {
+            $paneNames = array_merge( $ccPane, $paneNames );
+        }
         foreach ( $paneNames as $name => $type ) {
             
             if ( $this->_id ) {
@@ -456,7 +559,12 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                  CRM_Utils_Array::value( "hidden_{$type}", $_POST ) ||
                  CRM_Utils_Array::value( "hidden_{$type}", $defaults ) ) {
                 $allPanes[$name]['open'] = 'true';
-                eval( 'CRM_Contribute_Form_AdditionalInfo::' . $type . '( $this );' );
+                if ( $type == 'buildCreditCard' ) {
+                    $this->add('hidden', 'hidden_buildCreditCard', 1 );
+                    eval( 'CRM_Core_Payment_Form::' . $type . '( $this );' );
+                } else {
+                    eval( 'CRM_Contribute_Form_AdditionalInfo::' . $type . '( $this );' );
+                }
             }
         }
         
@@ -504,7 +612,50 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
      */  
     static function formRule( &$fields, &$files, $self ) 
     {  
-        return CRM_Contribute_Form_AdditionalInfo::formRule( $fields, $files, $self );
+        $errors = array( ); 
+        if ( isset( $fields["honor_type_id"] ) ) {
+            if ( !((  CRM_Utils_Array::value( 'honor_first_name', $fields ) && 
+                      CRM_Utils_Array::value( 'honor_last_name' , $fields )) ||
+                   CRM_Utils_Array::value( 'honor_email' , $fields ) )) {
+                $errors['hidden_buildHonoree'] = ts('Honor First Name and Last Name OR an email should be set.');
+            }
+        }
+        //check for Credit Card Contribution.
+        $ccFields = array( 'credit_card_type', 
+                           'credit_card_number',
+                           'cvv2',
+                          );
+        $ccContribution = false;
+        foreach ( $ccFields as $key ) {
+            if ( ! empty( $fields[$key] ) ) {
+                $ccContribution = true;
+            }
+        }
+        
+        if ( $ccContribution ) {
+            $manditoryFields = array_merge( $ccFields, array(
+                                                             "billing_first_name",
+                                                             "billing_last_name",
+                                                             "street_address-{$self->_bltID}",
+                                                             "email-{$self->_bltID}",
+                                                             "city-{$self->_bltID}",
+                                                             "state_province_id-{$self->_bltID}",
+                                                             "postal_code-{$self->_bltID}",
+                                                             "country_id-{$self->_bltID}"
+                                                             )
+                                            );
+            foreach ( $manditoryFields as $key ) {
+                if ( empty( $fields[$key] ) ) {
+                    $errors[$key] = ts('%1 is a required field.', array( 1 => $self->_fields[$key]['title'] ) );
+                }
+            }
+            if ( empty( $fields['credit_card_exp_date']['M'] ) || empty( $fields['credit_card_exp_date']['Y'] ) ) {
+                $errors['credit_card_exp_date'] = ts('%1 is a required field.', 
+                                                     array( 1 => $self->_fields['credit_card_exp_date']['title'] ) );  
+            }
+        }
+        
+        return $errors;
     }
     
     /** 
@@ -514,280 +665,512 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
      * @return None 
      */ 
     public function postProcess( )  
-    {     
+    {   
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             require_once 'CRM/Contribute/BAO/Contribution.php';
             CRM_Contribute_BAO_Contribution::deleteContribution( $this->_id );
             return;
-        }
+        }    
         
         // get the submitted form values.  
-        $formValues = $this->controller->exportValues( $this->_name );
-        
+        $submittedValues = $this->controller->exportValues( $this->_name );
         $config =& CRM_Core_Config::singleton( );
+        $session =& CRM_Core_Session::singleton( );
         
-        $params = array( );
-        $ids    = array( );
-        
-        $params['contact_id'] = $this->_contactID;
-        $params['currency'  ] = $config->defaultCurrency;
-        
-        $fields = array( 'contribution_type_id',
-                         'contribution_status_id',
-                         'payment_instrument_id',
-                         'cancel_reason',
-                         'source'
-                         );
-        
-        foreach ( $fields as $f ) {
-            $params[$f] = CRM_Utils_Array::value( $f, $formValues );
-        }
-        
-        $dates = array( 'receive_date',
-                        'receipt_date',
-                        'cancel_date' );
-        
-        foreach ( $dates as $d ) {
-            if ( ! CRM_Utils_System::isNull( $formValues[$d] ) ) {
-                $formValues[$d]['H'] = '00';
-                $formValues[$d]['i'] = '00';
-                $formValues[$d]['s'] = '00';
-                $params[$d] = CRM_Utils_Date::format( $formValues[$d] );
-            } else{
-                $params[$d] = 'null';
-            }
-        }
-        if ( $formValues['is_email_receipt'] ) {
-            $params['receipt_date'] = date("Y-m-d");
-        }
-        if ( $params["contribution_status_id"] == 3 ) {
-            if ( CRM_Utils_System::isNull( CRM_Utils_Array::value( 'cancel_date', $params ) ) ) {
-                $params['cancel_date'] = date("Y-m-d");
-            }
-        } else { 
-            $params['cancel_date']   = 'null';
-            $params['cancel_reason'] = 'null';
-        }
-        
-        $ids['contribution'] = $params['id'] = $this->_id;
-        
-        //Add Additinal common information  to formatted params
-        CRM_Contribute_Form_AdditionalInfo::postProcessCommon( $formValues, $params );
-        
-        // format custom data
-        // get mime type of the uploaded file
-        if ( !empty($_FILES) ) {
-            foreach ( $_FILES as $key => $value) {
-                $files = array( );
-                if ( $formValues[$key] ) {
-                    $files['name'] = $formValues[$key];
-                }
-                if ( $value['type'] ) {
-                    $files['type'] = $value['type']; 
-                }
-                $formValues[$key] = $files;
+        //check for Credit Card Contribution.
+        $ccFields = array( 'credit_card_type', 
+                           'credit_card_number',
+                           'cvv2',
+                           );
+        $ccContribution = false;
+        foreach ( $ccFields as $key ) {
+            if ( ! empty( $submittedValues[$key] ) ) {
+                $ccContribution = true;
             }
         }
         
-        $customData = array( );
-        foreach ( $formValues as $key => $value ) {
-            if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
-                CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,
-                                                             $value, 'Contribution', null, $this->_id);
-            }
-        }
-        
-        if (! empty($customData) ) {
-            $params['custom'] = $customData;
-        }
-        
-        //special case to handle if all checkboxes are unchecked
-        $customFields = CRM_Core_BAO_CustomField::getFields( 'Contribution' );
-        
-        if ( !empty($customFields) ) {
-            foreach ( $customFields as $k => $val ) {
-                if ( in_array ( $val[3], array ('CheckBox','Multi-Select') ) &&
-                     ! CRM_Utils_Array::value( $k, $params['custom'] ) ) {
-                    CRM_Core_BAO_CustomField::formatCustomField( $k, $params['custom'],
-                                                                 '', 'Contribution', null, $this->_id);
+        //Credit Card Contribution.
+        if ( $ccContribution ) {
+            $unsetParams = array('trxn_id','payment_instrument_id', 'contribution_status_id',
+                                 'receive_date', 'receipt_date','cancel_date','cancel_reason');
+            foreach ( $unsetParams as $key ) {
+                if ( isset( $submittedValues[$key] ) ) {
+                    unset( $submittedValues[$key] );
                 }
             }
-        }
-        
-        require_once 'CRM/Contribute/BAO/Contribution.php';
-        $contribution =& CRM_Contribute_BAO_Contribution::create( $params, $ids );
-        
-        //process associated membership / participant
-        if ( $this->_action & CRM_Core_Action::UPDATE ) {
-            require_once 'CRM/Core/Payment/BaseIPN.php';
-            $baseIPN = new CRM_Core_Payment_BaseIPN( );
             
-            $input = $ids = $objects = array( );
-            $IdDetails = $this->getDetails( $contribution->id );
+            //Get the rquire fields value only.
+            $params = $this->_params = $submittedValues;   
             
-            $input['component']       = $IdDetails['component'];
-            $ids['contact'     ]      = $contribution->contact_id;
-            $ids['contribution']      = $contribution->id;
-            $ids['contributionRecur'] = null;
-            $ids['contributionPage']  = null;
-            $ids['membership']        = $IdDetails['membership'];
-            $ids['participant']       = $IdDetails['participant'];
-            $ids['event']             = $IdDetails['event'];
+            require_once 'CRM/Core/BAO/PaymentProcessor.php';
+            $this->_paymentProcessor = CRM_Core_BAO_PaymentProcessor::getPayment( $this->_params['payment_processor_id'],
+                                                                                  $this->_mode );
+            require_once "CRM/Contact/BAO/Contact.php";
             
-            if ( ! $baseIPN->validateData( $input, $ids, $objects, false ) ) {
-                CRM_Core_Error::fatal( );
+            $now = date( 'YmdHis' );
+            $fields = array( );
+            
+            // set email for primary location.
+            $fields["email-Primary"] = 1;
+            $params["email-Primary"] = $params["email-{$this->_bltID}"];
+            
+            // now set the values for the billing location.
+            foreach ( $this->_fields as $name => $dontCare ) {
+                $fields[$name] = 1;
             }
             
-            $membership   =& $objects['membership']  ;
-            $participant  =& $objects['participant'] ;
+            // also add location name to the array
+            $params["location_name-{$this->_bltID}"] =
+                CRM_Utils_Array::value( 'billing_first_name' , $params ) . ' ' .
+                CRM_Utils_Array::value( 'billing_middle_name', $params ) . ' ' .
+                CRM_Utils_Array::value( 'billing_last_name'  , $params );
+            $params["location_name-{$this->_bltID}"] = trim( $params["location_name-{$this->_bltID}"] );
+            $fields["location_name-{$this->_bltID}"] = 1;
+            $fields["email-{$this->_bltID}"] = 1;
             
-            if ( $contribution->contribution_status_id == 3 ) {
-                if ( $membership ) {
-                    $membership->status_id = 6;
-                    $membership->save( );
-                }
-                if ( $participant ) {
-                    $participant->status_id = 4;
-                    $participant->save( );
-                }
-            } elseif ( $contribution->contribution_status_id == 4 ) {
-                if ( $membership ) {
-                    $membership->status_id = 4;
-                    $membership->save( );
-                }
-                if ( $participant ) {
-                    $participant->status_id = 4;
-                    $participant->save( );
-                }
-            } elseif ( $contribution->contribution_status_id == 1 ) {
-                if ( $membership ) {
-                    $format       = '%Y%m%d';
-                    require_once 'CRM/Member/BAO/MembershipType.php';  
-                    $dates = CRM_Member_BAO_MembershipType::getDatesForMembershipType($membership->membership_type_id);
-                    
-                    $membership->join_date     = 
-                        CRM_Utils_Date::customFormat( $dates['join_date'],     $format );
-                    $membership->start_date    = 
-                        CRM_Utils_Date::customFormat( $dates['start_date'],    $format );
-                    $membership->end_date      = 
-                        CRM_Utils_Date::customFormat( $dates['end_date'],      $format );
-                    $membership->reminder_date = 
-                        CRM_Utils_Date::customFormat( $dates['reminder_date'], $format );
-                    
-                    $membership->status_id = 2;
-                    $membership->save( );
-                }
-                if ( $participant ) {
-                    $participant->status_id = 1;
-                    $participant->save( );
+            $ctype = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                  $this->_contactID,
+                                                  'contact_type' );
+            
+            $nameFields = array( 'first_name', 'middle_name', 'last_name' );
+            foreach ( $nameFields as $name ) {
+                $fields[$name] = 1;
+                if ( array_key_exists( "billing_$name", $params ) ) {
+                    $params[$name] = $params["billing_{$name}"];
                 }
             }
-        }
-        
-        //process  note
-        if ( $contribution->id && isset( $formValues['note'] ) ) {
-            CRM_Contribute_Form_AdditionalInfo::processNote( $formValues, $this->_contactID, $contribution->id, $this->_noteId );
-        }
-        
-        //process premium
-        if ( $contribution->id && isset( $formValues['product_name'][0] ) ) {
-            CRM_Contribute_Form_AdditionalInfo::processPremium( $formValues, $contribution->id, $this->_premiumId, $this->_options ); 
-        }
-        
-        // Code Added to Send ReceiptMail, Assigned variables to
-        // Message generating templates
-        if ( $formValues['is_email_receipt'] ) {
-            //Retrieve Contribution Type Name from contribution_type_id
-            $formValues['contributionType_name'] = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionType',
-                                                                                $formValues['contribution_type_id'] );
             
-            // Retrieve the name and email from receipt is to be send
-            $formValues['receipt_from_name'] = $this->userDisplayName;
-            $formValues['receipt_from_email']= $this->userEmail;
+            $contactID = CRM_Contact_BAO_Contact::createProfileContact( $params, $fields,
+                                                                        $this->_contactID, 
+                                                                        null, null, 
+                                                                        $ctype );
             
-            // assigned various dates to the templates
-            $this->assign('receive_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format($formValues['receive_date'])));
-            $this->assign('receipt_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format($formValues['receipt_date'])));
-            $this->assign('thankyou_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format($formValues['thankyou_date'])));
-            $this->assign('cancel_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format($formValues['cancel_date'])));
+            // add all the additioanl payment params we need
+            $this->_params["state_province-{$this->_bltID}"] =
+                CRM_Core_PseudoConstant::stateProvinceAbbreviation( $this->_params["state_province_id-{$this->_bltID}"] );
+            $this->_params["country-{$this->_bltID}"] =
+                CRM_Core_PseudoConstant::countryIsoCode( $this->_params["country_id-{$this->_bltID}"] );
             
-            // retrieve premium product name and assigned fulfilled
-            // date to template
-            require_once 'CRM/Contribute/DAO/Product.php';
-            $productDAO =& new CRM_Contribute_DAO_Product();
-            $productDAO->id = $formValues['product_name'][0];
-            $productDAO->find(true);
+            $this->_params['year'      ]     = $this->_params['credit_card_exp_date']['Y'];
+            $this->_params['month'     ]     = $this->_params['credit_card_exp_date']['M'];
+            $this->_params['ip_address']     = CRM_Utils_System::ipAddress( );
+            $this->_params['amount'        ] = $this->_params['total_amount'];
+            $this->_params['amount_level'  ] = 0;
+            $this->_params['currencyID'    ] = $config->defaultCurrency;
+            $this->_params['payment_action'] = 'Sale';
             
-            $formValues['product_name'] = $productDAO->name;
+            //Add common data to formatted params
+            CRM_Contribute_Form_AdditionalInfo::postProcessCommon( $params, $this->_params );
             
-            $this->assign('fulfilled_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format($formValues['fulfilled_date'])));
+            if ( empty( $this->_params['invoice_id'] ) ) {
+                $this->_params['invoiceID'] = md5( uniqid( rand( ), true ) );
+            } else {
+                $this->_params['invoiceID'] = $this->_params['invoice_id'];
+            }
             
-            // retrieve payment instrument name
-            $paymentInstrumentGroup = array();
-            $paymentInstrumentGroup['name'] = 'payment_instrument';
-            require_once 'CRM/Core/BAO/OptionGroup.php';
-            CRM_Core_BAO_OptionGroup::retrieve($paymentInstrumentGroup, $paymentInstrumentGroup);
-            $paymentInstrument = array();
-            $paymentInstrument['value']            = $formValues['payment_instrument_id'];      
-            $paymentInstrument['option_group_id']  = $paymentInstrumentGroup['id'];
-            require_once 'CRM/Core/BAO/OptionValue.php';
-            CRM_Core_BAO_OptionValue::retrieve($paymentInstrument, $paymentInstrument);
-            $formValues['paidBy'] = $paymentInstrument['label'];
+            // at this point we've created a contact and stored its address etc
+            // all the payment processors expect the name and address to be in the 
+            // so we copy stuff over to first_name etc. 
+            $paymentParams = $this->_params;
+            require_once 'CRM/Core/Payment/Form.php';
+            CRM_Core_Payment_Form::mapParams( $this->_bltID, $this->_params, $paymentParams, true );
             
-            // retrieve individual prefix value for honoree
-            $individualPrefixGroup = array();
-            $individualPrefixGroup['name'] = 'individual_prefix';
-            require_once 'CRM/Core/BAO/OptionGroup.php';
-            CRM_Core_BAO_OptionGroup::retrieve($individualPrefixGroup, $individualPrefixGroup);
-            $individualPrefix = array();
-            $individualPrefix['value']            = $formValues['honor_prefix_id'];      
-            $individualPrefix['option_group_id']  = $individualPrefixGroup['id'];
-            require_once 'CRM/Core/BAO/OptionValue.php';
-            CRM_Core_BAO_OptionValue::retrieve($individualPrefix,$individualPrefix );
-            $formValues['honor_prefix'] = $individualPrefix['label'];
+            $contributionType =& new CRM_Contribute_DAO_ContributionType( );
+            $contributionType->id = $params['contribution_type_id'];
+            if ( ! $contributionType->find( true ) ) {
+                CRM_Core_Error::fatal( "Could not find a system table" );
+            }
             
-            // retrieve custom data
-            $showCustom = 0;
+            // add some contribution type details to the params list
+            // if folks need to use it
+            $paymentParams['contributionType_name']                = 
+                $this->_params['contributionType_name']            = $contributionType->name;
+            $paymentParams['contributionType_accounting_code']     = 
+                $this->_params['contributionType_accounting_code'] = $contributionType->accounting_code;
+            $paymentParams['contributionPageID']                   = null;
+            
+            
+            $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Contribute', $this->_paymentProcessor );
+            
+            $result =& $payment->doDirectPayment( $paymentParams );
+            
+            if ( is_a( $result, 'CRM_Core_Error' ) ) {
+                CRM_Core_Error::displaySessionError( $result );
+                CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contribute/offline',
+                                                                   "cid={$this->_contactID}" ) );
+            }
+            
+            if ( $result ) {
+                $this->_params = array_merge( $this->_params, $result );
+            }
+            
+            $this->_params['receive_date'] = $now;
+            
+            if ( CRM_Utils_Array::value( 'is_email_receipt', $this->_params ) ) {
+                $this->_params['receipt_date'] = $now;
+            } else {
+                $this->_params['receipt_date'] = null;
+            }
+            
+            $this->set( 'params', $this->_params );
+            $this->assign( 'trxn_id', $result['trxn_id'] );
+            $this->assign( 'receive_date',
+                           CRM_Utils_Date::mysqlToIso( $this->_params['receive_date']) );
+            
+            // result has all the stuff we need
+            // lets archive it to a financial transaction
+            if ( $contributionType->is_deductible ) {
+                $this->assign('is_deductible',  true );
+                $this->set   ('is_deductible',  true );
+            }
+            
+            // set source if not set 
+            if ( empty( $this->_params['source'] ) ) {
+                $this->_params['source'] = ts( 'Online Contribution: CiviCRM Admin Interface' );
+            } else {
+                $this->_params['source'] = $this->_params['source'];
+            }
+            
+            require_once 'CRM/Contribute/Form/Contribution/Confirm.php';
+            $contribution =& CRM_Contribute_Form_Contribution_Confirm::processContribution( $this, $this->_params, $result, 
+                                                                                            $this->_contactID, $contributionType,  
+                                                                                            false, false, false );
+            
+            if ( $contribution->id &&
+                 CRM_Utils_Array::value( 'is_email_receipt', $this->_params ) ) {
+                
+                // Retrieve Contribution Type Name from contribution_type_id
+                $this->_params['contributionType_name'] = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionType',
+                                                                                       $this->_params['contribution_type_id'] );         
+                
+                // Retrieve payment instrument name (from hard-coded payment_instrument_id = 1, credit card)
+                $paymentInstrumentGroup = array();
+                $paymentInstrumentGroup['name'] = 'payment_instrument';
+                require_once 'CRM/Core/BAO/OptionGroup.php';
+                CRM_Core_BAO_OptionGroup::retrieve($paymentInstrumentGroup, $paymentInstrumentGroup);
+                $paymentInstrument = array();
+                $paymentInstrument['value']            = 1;      
+                $paymentInstrument['option_group_id']  = $paymentInstrumentGroup['id'];
+                require_once 'CRM/Core/BAO/OptionValue.php';
+                CRM_Core_BAO_OptionValue::retrieve($paymentInstrument, $paymentInstrument);
+                $this->_params['paidBy'] = $paymentInstrument['label'];
+                
+                $this->_params['trxn_id'] = $result['trxn_id'];
+                
+                $honor  = CRM_Core_PseudoConstant::honor( );             
+                $this->_params["honor_type"] = $honor[$this->_params["honor_type_id"]];
+                
+                $this->assign_by_ref( 'formValues', $this->_params );
+                
+                $template =& CRM_Core_Smarty::singleton( );
+                $message = $template->fetch( 'CRM/Contribute/Form/Message.tpl' );
+                
+                // Retrieve the name and email of the current user - this will be the FROM for the receipt email
+                $session =& CRM_Core_Session::singleton( );
+                $userID = $session->get( 'userID' );
+                list( $userName, $userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $userID );
+                $receiptFrom = '"' . $userName . '" <' . $userEmail . '>';
+                list( $contributorDisplayName, 
+                      $contributorEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $contactID );
+                $subject = ts('Contribution Receipt');
+                
+                require_once 'CRM/Utils/Mail.php';
+                CRM_Utils_Mail::send( $receiptFrom,
+                                      $contributorDisplayName,
+                                      $contributorEmail,
+                                      $subject,
+                                      $message);
+            }
+            
+            //process the note
+            if ( $contribution->id && isset($params['note']) ) {
+                CRM_Contribute_Form_AdditionalInfo::processNote( $params, $contactID, $contribution->id, null );
+            }
+            //process premium
+            if ( $contribution->id && isset($params['product_name'][0]) ) {
+                CRM_Contribute_Form_AdditionalInfo::processPremium( $params, $contribution->id, null, $this->_options );
+            }
+            CRM_Core_Session::setStatus( 'The contribution has been processed and a receipt has been emailed to the contributor.' );
+            //submit credit card contribution ends.
+        } else {
+            //Offline Contribution.
+            
+            $unsetParams = array( "payment_processor_id", "email-{$this->_bltID}", "hidden_buildCreditCard",
+                                  "billing_first_name","billing_middle_name","billing_last_name", "street_address-5",
+                                  "city-{$this->_bltID}","state_province_id-{$this->_bltID}","postal_code-{$this->_bltID}",
+                                  "country_id-{$this->_bltID}","credit_card_number", "cvv2","credit_card_exp_date","credit_card_type",);
+            foreach ( $unsetParams as $key ) {
+                if ( isset( $submittedValues[$key] ) ) {
+                    unset( $submittedValues[$key] );
+                }
+            }
+            // get the required field value only.
+            $formValues = $submittedValues;
+            $params     = array( );
+            $ids        = array( );
+            
+            $params['contact_id'] = $this->_contactID;
+            $params['currency'  ] = $config->defaultCurrency;
+            
+            $fields = array( 'contribution_type_id',
+                             'contribution_status_id',
+                             'payment_instrument_id',
+                             'cancel_reason',
+                             'source'
+                             );
+            
+            foreach ( $fields as $f ) {
+                $params[$f] = CRM_Utils_Array::value( $f, $formValues );
+            }
+            
+            $dates = array( 'receive_date',
+                            'receipt_date',
+                            'cancel_date' );
+            
+            foreach ( $dates as $d ) {
+                if ( ! CRM_Utils_System::isNull( $formValues[$d] ) ) {
+                    $formValues[$d]['H'] = '00';
+                    $formValues[$d]['i'] = '00';
+                    $formValues[$d]['s'] = '00';
+                    $params[$d] = CRM_Utils_Date::format( $formValues[$d] );
+                } else{
+                    $params[$d] = 'null';
+                }
+            }
+            if ( $formValues['is_email_receipt'] ) {
+                $params['receipt_date'] = date("Y-m-d");
+            }
+            if ( $params["contribution_status_id"] == 3 ) {
+                if ( CRM_Utils_System::isNull( CRM_Utils_Array::value( 'cancel_date', $params ) ) ) {
+                    $params['cancel_date'] = date("Y-m-d");
+                }
+            } else { 
+                $params['cancel_date']   = 'null';
+                $params['cancel_reason'] = 'null';
+            }
+            
+            $ids['contribution'] = $params['id'] = $this->_id;
+            
+            //Add Additinal common information  to formatted params
+            CRM_Contribute_Form_AdditionalInfo::postProcessCommon( $formValues, $params );
+            
+            // format custom data
+            // get mime type of the uploaded file
+            if ( !empty($_FILES) ) {
+                foreach ( $_FILES as $key => $value) {
+                    $files = array( );
+                    if ( $formValues[$key] ) {
+                        $files['name'] = $formValues[$key];
+                    }
+                    if ( $value['type'] ) {
+                        $files['type'] = $value['type']; 
+                    }
+                    $formValues[$key] = $files;
+                }
+            }
+            
             $customData = array( );
             foreach ( $formValues as $key => $value ) {
                 if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
-                    $fieldID['id'] = $customFieldId;
-                    CRM_Core_BAO_CustomField::retrieve( $fieldID, $customData);
-                    $customField[$customData['label']] = $value;
-                    if ($value) {
-                        $showCustom = 1;
+                    CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,
+                                                                 $value, 'Contribution', null, $this->_id);
+                }
+            }
+            
+            if (! empty($customData) ) {
+                $params['custom'] = $customData;
+            }
+            
+            //special case to handle if all checkboxes are unchecked
+            $customFields = CRM_Core_BAO_CustomField::getFields( 'Contribution' );
+            
+            if ( !empty($customFields) ) {
+                foreach ( $customFields as $k => $val ) {
+                    if ( in_array ( $val[3], array ('CheckBox','Multi-Select') ) &&
+                         ! CRM_Utils_Array::value( $k, $params['custom'] ) ) {
+                        CRM_Core_BAO_CustomField::formatCustomField( $k, $params['custom'],
+                                                                     '', 'Contribution', null, $this->_id);
                     }
                 }
             }
-            $this->assign('showCustom',$showCustom);
-            $this->assign_by_ref('customField',$customField);
             
-            $honor  = CRM_Core_PseudoConstant::honor( );             
-            $formValues["honor_type"] = $honor[$formValues["honor_type_id"]];
-
-            $this->assign_by_ref('formValues',$formValues);
-            require_once 'CRM/Contact/BAO/Contact.php';
-            list( $contributorDisplayName, 
-                  $contributorEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $this->_contactID );
-            $template =& CRM_Core_Smarty::singleton( );
-            $message = $template->fetch( 'CRM/Contribute/Form/Message.tpl' );
+            require_once 'CRM/Contribute/BAO/Contribution.php';
+            $contribution =& CRM_Contribute_BAO_Contribution::create( $params, $ids );
             
-            $subject = ts('Contribution Receipt');
-            $receiptFrom = '"' . $formValues['receipt_from_name'] . '" <' . $formValues['receipt_from_email'] . '>';
+            //process associated membership / participant
+            if ( $this->_action & CRM_Core_Action::UPDATE ) {
+                require_once 'CRM/Core/Payment/BaseIPN.php';
+                $baseIPN = new CRM_Core_Payment_BaseIPN( );
+                
+                $input = $ids = $objects = array( );
+                $IdDetails = $this->getDetails( $contribution->id );
+                
+                $input['component']       = $IdDetails['component'];
+                $ids['contact'     ]      = $contribution->contact_id;
+                $ids['contribution']      = $contribution->id;
+                $ids['contributionRecur'] = null;
+                $ids['contributionPage']  = null;
+                $ids['membership']        = $IdDetails['membership'];
+                $ids['participant']       = $IdDetails['participant'];
+                $ids['event']             = $IdDetails['event'];
+                
+                if ( ! $baseIPN->validateData( $input, $ids, $objects, false ) ) {
+                    CRM_Core_Error::fatal( );
+                }
+                
+                $membership   =& $objects['membership']  ;
+                $participant  =& $objects['participant'] ;
+                
+                if ( $contribution->contribution_status_id == 3 ) {
+                    if ( $membership ) {
+                        $membership->status_id = 6;
+                        $membership->save( );
+                    }
+                    if ( $participant ) {
+                        $participant->status_id = 4;
+                        $participant->save( );
+                    }
+                } elseif ( $contribution->contribution_status_id == 4 ) {
+                    if ( $membership ) {
+                        $membership->status_id = 4;
+                        $membership->save( );
+                    }
+                    if ( $participant ) {
+                        $participant->status_id = 4;
+                        $participant->save( );
+                    }
+                } elseif ( $contribution->contribution_status_id == 1 ) {
+                    if ( $membership ) {
+                        $format       = '%Y%m%d';
+                        require_once 'CRM/Member/BAO/MembershipType.php';  
+                        $dates = CRM_Member_BAO_MembershipType::getDatesForMembershipType($membership->membership_type_id);
+                        
+                        $membership->join_date     = 
+                            CRM_Utils_Date::customFormat( $dates['join_date'],     $format );
+                        $membership->start_date    = 
+                            CRM_Utils_Date::customFormat( $dates['start_date'],    $format );
+                        $membership->end_date      = 
+                            CRM_Utils_Date::customFormat( $dates['end_date'],      $format );
+                        $membership->reminder_date = 
+                            CRM_Utils_Date::customFormat( $dates['reminder_date'], $format );
+                        
+                        $membership->status_id = 2;
+                        $membership->save( );
+                    }
+                    if ( $participant ) {
+                        $participant->status_id = 1;
+                        $participant->save( );
+                    }
+                }
+            }
             
-            require_once 'CRM/Utils/Mail.php';
-            CRM_Utils_Mail::send( $receiptFrom,
-                                  $contributorDisplayName,
-                                  $contributorEmail,
-                                  $subject,
-                                  $message);
+            //process  note
+            if ( $contribution->id && isset( $formValues['note'] ) ) {
+                CRM_Contribute_Form_AdditionalInfo::processNote( $formValues, $this->_contactID, $contribution->id, $this->_noteId );
+            }
+            
+            //process premium
+            if ( $contribution->id && isset( $formValues['product_name'][0] ) ) {
+                CRM_Contribute_Form_AdditionalInfo::processPremium( $formValues, $contribution->id, 
+                                                                    $this->_premiumId, $this->_options ); 
+            }
+            
+            // Code Added to Send ReceiptMail, Assigned variables to
+            // Message generating templates
+            if ( $formValues['is_email_receipt'] ) {
+                //Retrieve Contribution Type Name from contribution_type_id
+                $formValues['contributionType_name'] = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionType',
+                                                                                    $formValues['contribution_type_id'] );
+                
+                // Retrieve the name and email from receipt is to be send
+                $formValues['receipt_from_name'] = $this->userDisplayName;
+                $formValues['receipt_from_email']= $this->userEmail;
+                
+                // assigned various dates to the templates
+                $this->assign('receive_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format($formValues['receive_date'])));
+                $this->assign('receipt_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format($formValues['receipt_date'])));
+                $this->assign('thankyou_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format($formValues['thankyou_date'])));
+                $this->assign('cancel_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format($formValues['cancel_date'])));
+                
+                // retrieve premium product name and assigned fulfilled
+                // date to template
+                require_once 'CRM/Contribute/DAO/Product.php';
+                $productDAO =& new CRM_Contribute_DAO_Product();
+                $productDAO->id = $formValues['product_name'][0];
+                $productDAO->find(true);
+                
+                $formValues['product_name'] = $productDAO->name;
+                
+                $this->assign('fulfilled_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format($formValues['fulfilled_date'])));
+                
+                // retrieve payment instrument name
+                $paymentInstrumentGroup = array();
+                $paymentInstrumentGroup['name'] = 'payment_instrument';
+                require_once 'CRM/Core/BAO/OptionGroup.php';
+                CRM_Core_BAO_OptionGroup::retrieve($paymentInstrumentGroup, $paymentInstrumentGroup);
+                $paymentInstrument = array();
+                $paymentInstrument['value']            = $formValues['payment_instrument_id'];      
+                $paymentInstrument['option_group_id']  = $paymentInstrumentGroup['id'];
+                require_once 'CRM/Core/BAO/OptionValue.php';
+                CRM_Core_BAO_OptionValue::retrieve($paymentInstrument, $paymentInstrument);
+                $formValues['paidBy'] = $paymentInstrument['label'];
+                
+                // retrieve individual prefix value for honoree
+                $individualPrefixGroup = array();
+                $individualPrefixGroup['name'] = 'individual_prefix';
+                require_once 'CRM/Core/BAO/OptionGroup.php';
+                CRM_Core_BAO_OptionGroup::retrieve($individualPrefixGroup, $individualPrefixGroup);
+                $individualPrefix = array();
+                $individualPrefix['value']            = $formValues['honor_prefix_id'];      
+                $individualPrefix['option_group_id']  = $individualPrefixGroup['id'];
+                require_once 'CRM/Core/BAO/OptionValue.php';
+                CRM_Core_BAO_OptionValue::retrieve($individualPrefix,$individualPrefix );
+                $formValues['honor_prefix'] = $individualPrefix['label'];
+                
+                // retrieve custom data
+                $showCustom = 0;
+                $customData = array( );
+                foreach ( $formValues as $key => $value ) {
+                    if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
+                        $fieldID['id'] = $customFieldId;
+                        CRM_Core_BAO_CustomField::retrieve( $fieldID, $customData);
+                        $customField[$customData['label']] = $value;
+                        if ($value) {
+                            $showCustom = 1;
+                        }
+                    }
+                }
+                $this->assign('showCustom',$showCustom);
+                $this->assign_by_ref('customField',$customField);
+                
+                $honor  = CRM_Core_PseudoConstant::honor( );             
+                $formValues["honor_type"] = $honor[$formValues["honor_type_id"]];
+                
+                $this->assign_by_ref('formValues',$formValues);
+                require_once 'CRM/Contact/BAO/Contact.php';
+                list( $contributorDisplayName, 
+                      $contributorEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $this->_contactID );
+                $template =& CRM_Core_Smarty::singleton( );
+                $message = $template->fetch( 'CRM/Contribute/Form/Message.tpl' );
+                
+                $subject = ts('Contribution Receipt');
+                $receiptFrom = '"' . $formValues['receipt_from_name'] . '" <' . $formValues['receipt_from_email'] . '>';
+                
+                require_once 'CRM/Utils/Mail.php';
+                CRM_Utils_Mail::send( $receiptFrom,
+                                      $contributorDisplayName,
+                                      $contributorEmail,
+                                      $subject,
+                                      $message);
+            }
+            
+            $statusMsg = ts('The contribution record has been saved.');
+            if ( $formValues['is_email_receipt'] ) {
+                $statusMsg .= ' ' . ts('A receipt has been emailed to the contributor.');
+            }
+            CRM_Core_Session::setStatus( $statusMsg );
+            //Offline Contribution ends.
         }
-
-        $statusMsg = ts('The contribution record has been saved.');
-        if ( $formValues['is_email_receipt'] ) {
-            $statusMsg .= ' ' . ts('A receipt has been emailed to the contributor.');
-        }
-        CRM_Core_Session::setStatus( $statusMsg );
         
     }
     

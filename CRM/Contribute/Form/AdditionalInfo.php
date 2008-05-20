@@ -137,18 +137,6 @@ class CRM_Contribute_Form_AdditionalInfo extends CRM_Contribute_Form_Contributio
         } 
         $form->add('textarea', 'note', ts('Notes'),array("rows"=>4,"cols"=>60) );
         
-        if ( $form->_name == 'Contribution' || $form->_name == 'AdditionalInfo' ) {
-            $element =& $form->add( 'text', 'trxn_id', ts('Transaction ID'), 
-                                    $attributes['trxn_id'] );
-            if ( $form->_online ) {
-                $element->freeze( );
-            } else {
-                $form->addRule( 'trxn_id',
-                                ts( 'This Transaction ID already exists in the database. Include the account number for checks.' ),
-                                'objectExists', 
-                                array( 'CRM_Contribute_DAO_Contribution', $form->_id, 'trxn_id' ) );
-            }
-        }
     }
     
     /** 

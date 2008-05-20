@@ -2,8 +2,16 @@
 {if $cdType }
   {include file="CRM/Custom/Form/CustomData.tpl"}
 {else}
-<div class="form-item"> 
-<fieldset><legend>{if $action eq 1}{ts}New Contribution{/ts}{elseif $action eq 8}{ts}Delete Contribution{/ts}{else}{ts}Edit Contribution{/ts}{/if}</legend> 
+<div class="form-item">
+{if $action & 1 or $action & 1024 }
+    {assign var=contribMode value="TEST"}
+{else}
+    {assign var=contribMode value="LIVE"}
+{/if}
+<div id="help">
+    {ts 1=$displayName 2=$contribMode}Use this form to submit a new contribution on behalf of %1. <strong>A %2 transaction will be submitted</strong> using the selected payment processor.{/ts}
+</div> 
+<fieldset><legend>{if $action eq 1 or $action eq 1024}{ts}New Contribution{/ts}{elseif $action eq 8}{ts}Delete Contribution{/ts}{else}{ts}Edit Contribution{/ts}{/if}</legend> 
    
    {if $action eq 8} 
       <div class="messages status"> 
@@ -19,6 +27,11 @@
         <tr>
             <td class="font-size12pt right"><strong>{ts}Contributor{/ts}</strong></td><td class="font-size12pt"><strong>{$displayName}</strong></td>
         </tr>
+        <tr><td class="label nowrap">{$form.payment_processor_id.label}</td><td>{$form.payment_processor_id.html}</td></tr>
+	 <tr>
+	{assign var=n value=email-$bltID}
+        <td class="label">{$form.$n.label}</td><td>{$form.$n.html}</td>
+    	</tr>
         <tr><td class="label">{$form.contribution_type_id.label}</td><td>{$form.contribution_type_id.html}&nbsp;
         {if $is_test}
         {ts}(test){/ts}
@@ -34,9 +47,12 @@
         {/if}    
         </td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}The date this contribution was received.{/ts}</td></tr>
-
         <tr><td class="label">{$form.payment_instrument_id.label}</td><td>{$form.payment_instrument_id.html}</td></tr>
-        <tr><td class="label">&nbsp;</td><td class="description">{ts}Leave blank for non-monetary contributions.{/ts}</td></tr>
+	<tr><td class="label">&nbsp;</td><td class="description">{ts}Leave blank for non-monetary contributions.{/ts}</td></tr>
+	{if $form.trxn_id  AND $action neq 2}    
+	<tr><td class="label">{$form.trxn_id.label}</td><td>{$form.trxn_id.html}</td></tr>
+	<tr><td class="label">&nbsp;</td><td class="description">{ts}Unique payment ID for this transaction. The Payment Processor's transaction ID will be automatically stored here on online contributions.{/ts}<br />{ts}For offline contributions, you can enter an account+check number, bank transfer identifier, etc.{/ts}</td></tr>
+        {/if}
         <tr><td class="label">{$form.source.label}</td><td>{$form.source.html}</td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Optional identifier for the contribution source (campaign name, event, mailer, etc.).{/ts}</td></tr>
         {if $email}
@@ -93,9 +109,10 @@
     </script>
     {/literal}
 
-<div id="additionalInfo">
+<div class="form-item" id="additionalInfo">
     {include file="CRM/Contribute/Form/AdditionalInfo.tpl"}
 </div>
+
 {/if}
     <dl>    
        <dt></dt><dd class="html-adjust">{$form.buttons.html}</dd>   
