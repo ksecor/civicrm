@@ -72,7 +72,7 @@ class CRM_Contact_Form_Search_Criteria {
         }
         // add search profiles
         require_once 'CRM/Core/BAO/UFGroup.php';
-        $types = array( 'Participant', 'Contribution' );
+        $types = array( 'Participant', 'Contribution', 'Membership' );
 
         // get component profiles
         $componentProfiles = array( );
