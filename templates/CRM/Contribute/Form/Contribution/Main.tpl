@@ -187,15 +187,3 @@ if (! is_monetary) {
 
 </script>
 {/literal}
-
-{* If mid present in the url, take the required action (poping up related existing contact ..etc) *}
-{if $membershipContactID}
-<script type="text/javascript">
-   hide('create_org'); 
-   show('select_org'); 
-
-   dojo.addOnLoad( function( ) {ldelim}
-   dijit.byId( 'organization_id' ).setValue("{$membershipContactID}")
-   {rdelim} );
-</script>
-{/if}

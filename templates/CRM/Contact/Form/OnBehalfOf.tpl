@@ -145,28 +145,28 @@
 {if $relatedOrganizationFound}
     {include file="CRM/common/showHideByFieldValue.tpl" 
          trigger_field_id    ="org_option"
-         trigger_value       ="false"
-         target_element_id   ="select_org" 
-         target_element_type ="table-row"
-         field_type          ="radio"
-         invert              = "false"
-    }
-    {if $form.errors}
-      {include file="CRM/common/showHideByFieldValue.tpl" 
-         trigger_field_id    ="org_option"
          trigger_value       ="true"
          target_element_id   ="select_org" 
          target_element_type ="table-row"
          field_type          ="radio"
          invert              = "true"
-      }
-      {include file="CRM/common/showHideByFieldValue.tpl" 
+    }
+    {include file="CRM/common/showHideByFieldValue.tpl" 
          trigger_field_id    ="org_option"
          trigger_value       ="true"
          target_element_id   ="create_org" 
          target_element_type ="table-row"
          field_type          ="radio"
          invert              = "false"
-      }
-    {/if}
+    }
+{/if}
+
+
+{* If mid present in the url, take the required action (poping up related existing contact ..etc) *}
+{if $membershipContactID}
+<script type="text/javascript">
+   dojo.addOnLoad( function( ) {ldelim}
+   dijit.byId( 'organization_id' ).setValue("{$membershipContactID}")
+   {rdelim} );
+</script>
 {/if}

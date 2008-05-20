@@ -129,6 +129,8 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         if ( $this->_membershipContactID ) {
             $this->_defaults['is_for_organization'] = 1;
             $this->_defaults['org_option'] = 1;
+        } elseif ( $this->_values['is_for_organization'] ) {
+            $this->_defaults['org_option'] = 0;
         }
 
         // hack to simplify credit card entry for testing
