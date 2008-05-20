@@ -240,14 +240,16 @@ class CRM_Event_Form_Search extends CRM_Core_Form
         if ( is_array( $rows ) ) {
             $lineItems = array( );
             require_once 'CRM/Event/BAO/Event.php';
-            if ($this->_context == 'search') {
+            
+            if ( !$this->_single ) {
                 $this->addElement( 'checkbox', 'toggleSelect', null, null, array( 'onchange' => "return toggleCheckboxVals('mark_x_',this.form);" ) ); 
+
                 foreach ($rows as $row) { 
                     $this->addElement( 'checkbox', $row['checkbox'], 
                                        null, null, 
                                        array( 'onclick' => "return checkSelectedBox('" . $row['checkbox'] . "', '" . $this->getName() . "');" )
                                        ); 
-
+                    
                     if ( CRM_Event_BAO_Event::usesPriceSet( $row['event_id'] ) ) {
                         // add line item details if applicable
                         $participant_id = $row['participant_id'];
@@ -255,7 +257,6 @@ class CRM_Event_Form_Search extends CRM_Core_Form
                     }
                 }
             }
-
             $this->assign( 'lineItems', $lineItems );
 
             $total = $cancel = 0;
@@ -286,7 +287,6 @@ class CRM_Event_Form_Search extends CRM_Core_Form
             $this->add('submit', $this->_printButtonName, ts('Print'), 
                        array( 'class' => 'form-submit', 
                               'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."', 1);" ) ); 
-            
             
             // need to perform tasks on all or selected items ? using radio_ts(task selection) for it 
             $this->addElement('radio', 'radio_ts', null, '', 'ts_sel', array( 'checked' => 'checked') ); 

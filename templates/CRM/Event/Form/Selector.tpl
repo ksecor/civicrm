@@ -11,18 +11,14 @@
 {strip}
 <table class="selector">
   <tr class="columnheader">
-{if ! $event_single and ! $limit}
+{if ! $event_single }
   <th scope="col" title="Select Rows">{$form.toggleSelect.html}</th> 
 {/if}
   {foreach from=$columnHeaders item=header}
     <th scope="col">
     {if $header.sort}
       {assign var='key' value=$header.sort}
-      {if $context EQ 'Contact Summary'}	
-         {$event_sort->_response.$key.link}
-      {else}
-         {$sort->_response.$key.link}
-      {/if}  
+      {$sort->_response.$key.link}
     {else}
       {$header.name}
     {/if}
@@ -32,13 +28,14 @@
 
   {counter start=0 skip=1 print=false}
   {foreach from=$rows item=row}
-  <tr id='rowid{$row.participant_id}' class="{cycle values="odd-row,even-row"}{*if $row.cancel_date} disabled{/if*}">
-     {if ! $event_single and ! $limit}
-       {assign var=cbName value=$row.checkbox}
-       <td>{$form.$cbName.html}</td> 
-       <td>{$row.contact_type}</td>	
-       <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td> 
+  <tr id='rowid{$row.participant_id}' class="{cycle values="odd-row,even-row"}">
+     {if ! $event_single }
+        {assign var=cbName value=$row.checkbox}
+        <td>{$form.$cbName.html}</td> 
+ 	<td>{$row.contact_type}</td>	
+    	<td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td>
     {/if}
+
     <td>{$row.event_title}</td>
     {assign var="participant_id" value=$row.participant_id}
     {if $lineItems.$participant_id}

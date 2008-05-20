@@ -301,6 +301,7 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
             if ( $row["is_test"] ) {
                 $row["contribution_type"] = $row["contribution_type"] . " (test)";
             }
+            
             $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->contribution_id;
             $row['action']   = CRM_Core_Action::formLink( self::links(), $mask,
                                                           array( 'id'               => $result->contribution_id,
@@ -353,8 +354,7 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
      */ 
     public function &getColumnHeaders( $action = null, $output = null ) 
     {
-        if ( ! isset( self::$_columnHeaders ) )
-        {
+        if ( ! isset( self::$_columnHeaders ) ) {
             self::$_columnHeaders = array(
                                           array(
                                                 'name'      => ts('Amount'),
@@ -393,10 +393,7 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
                                           array('desc' => ts('Actions') ),
                                           );
 
-            //if ( ! $this->_single && ! $this->_limit ) {
-            
-            if ( ( $this->_context == 'dashboard') || 
-                 ( $this->_context == 'search' ) ) {
+            if ( ! $this->_single ) {
                 $pre = array( 
                              array('desc' => ts('Contact Type') ), 
                              array( 

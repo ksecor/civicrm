@@ -319,9 +319,7 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                  $row['status'] = $row['status'] . " (test)";
              }
 
-             if ($this->_context == 'search') {
-                 $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->participant_id;
-             }
+             $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->participant_id;
              
              $row['action']   = CRM_Core_Action::formLink( self::links(), $mask,
                                                            array( 'id'  => $result->participant_id,
