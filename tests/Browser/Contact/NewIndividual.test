@@ -177,7 +177,7 @@ class Browser_Contact_NewIndividual extends CiviTestCase
         $this->assertLink( $this->webUser->mail );
         
         // Now check DB for contact and cleanup by deleting the contact
-        $contactId = $this->assertDBNotNull( 'CRM_Contact_DAO_Contact', $last_name . ', ' .$first_name, 'id', 'sort_name',  'Checking database for the record.' );
+        $contactId = $this->assertDBNotNull( 'CRM_Core_DAO_Phone', 303443689, 'contact_id', 'phone',  'Checking database for the record.' );
         Contact::delete( $contactId );
     }  
     
@@ -231,7 +231,63 @@ class Browser_Contact_NewIndividual extends CiviTestCase
         $this->assertText('Email is not valid.');
         $this->assertLink( $this->webUser->mail );
         
-        $contactId = $this->assertDBNull( 'CRM_Core_DAO_Email', 'xyz' , 'id', 'email',  'Checking database for the empty row.' );
+        $this->assertDBNull( 'CRM_Core_DAO_Email', 'xyz' , 'id', 'email',  'Checking database for the empty row.' );
     }
-    
+
+    /**
+     * Test to create contact with openid
+     * 
+     */
+    function testCreateIndividualWithOpenId( ) 
+    { 
+        $first_name  = 'Alaan';
+        $last_name   = 'Maxwel';
+        $openid      = 'http://civicrm.org';
+
+        $params = array ( 'first_name'                     => $first_name,     
+                          'last_name'                      => $last_name, 
+                          'location[1][location_type_id]'  => 1,
+                          'location[1][is_primary]'        => 1,
+                          'location[1][openid][1][openid]' => $openid
+                          );
+        $this->civiGet('civicrm/dashboard', 'reset=1' );
+        $this->clickLink('New Individual', '0');
+        
+        $this->drupalPost( NULL, $params, '_qf_Edit_next_view');
+        
+        $this->assertText('Your Individual contact record has been saved.');
+        $this->assertLink( $this->webUser->mail );
+        
+        $contactId = $this->assertDBNotNull( 'CRM_Core_DAO_OpenID', $openid, 'contact_id', 'openid',  'Checking database for the record.' );
+        Contact::delete( $contactId );
+    }
+
+    /**
+     * Test to create contact with invalid openid
+     * 
+     */
+    function testCreateIndividualWithInvalidOpenId( ) 
+    { 
+        $first_name  = 'Alaan';
+        $last_name   = 'Maxwel';
+        $openid      = 'civicrm';
+
+        $params = array ( 'first_name'                     => $first_name,     
+                          'last_name'                      => $last_name, 
+                          'location[1][location_type_id]'  => 1,
+                          'location[1][is_primary]'        => 1,
+                          'location[1][openid][1][openid]' => $openid
+                          );
+        $this->civiGet('civicrm/dashboard', 'reset=1' );
+        $this->clickLink('New Individual', '0');
+        
+        $this->drupalPost( NULL, $params, '_qf_Edit_next_view');
+        $this->assertText('OpenID is not a valid URL.');
+        $this->assertLink( $this->webUser->mail );
+        
+        $this->assertDBNull( 'CRM_Core_DAO_OpenID', $openid, 'id', 'openid',  'Checking database for the empty row.' );
+       
+    }
+
+
 }
