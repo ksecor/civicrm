@@ -433,10 +433,13 @@ class CRM_Core_Error extends PEAR_ErrorStack {
         $error->_errorsByLevel = array( ) ;
     }
 
-    public static function ignoreException( ) {
+    public static function ignoreException( $callback = null ) {
+        if ( ! $callback ) {
+            $callback = array( 'CRM_Core_Error', 'nullHandler' );
+        }
+
         PEAR::setErrorHandling( PEAR_ERROR_CALLBACK,
-                                array( 'CRM_Core_Error',
-                                       'nullHandler' ) );
+                                $callback );
     }
     
     /**
@@ -458,9 +461,12 @@ class CRM_Core_Error extends PEAR_ErrorStack {
      * @access public
      * @static
      */
-    public static function setCallback( ) {
+    public static function setCallback( $callback = null ) {
+        if ( ! $callback ) {
+            $callback = array( 'CRM_Core_Error', 'handle' );
+        }
         PEAR::setErrorHandling( PEAR_ERROR_CALLBACK, 
-                                array('CRM_Core_Error', 'handle'));
+                                $callback );
     }
 
 }

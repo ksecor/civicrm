@@ -30,7 +30,6 @@
  *
  * @package CRM
  * @copyright CiviCRM LLC (c) 2004-2007
- * $Id$
  *
  */
 
@@ -159,7 +158,7 @@ class CRM_Utils_REST
                 $result['is_error'] = 0;
             }
         } else {
-            $result = self::error( ts( 'Could not interpert return values from function' ) );
+            $result = self::error( ts( 'Could not interpret return values from function' ) );
         }
 
         if ( CRM_Utils_Array::value( 'json', $_GET ) ) {
@@ -238,7 +237,11 @@ class CRM_Utils_REST
             return self::error( ts( "Unknown function called: $fnName" ) );
         }
 
+        // trap all fatal errors
+        CRM_Core_Error::setCallback( array( 'CRM_Utils_REST', 'fatal' ) );
         $result = $fnName( $params );
+        CRM_Core_Error::setCallback( );
+
         if ( $result === false ) {
             return self::error( ts( 'Unknown error' ) );
         }
@@ -260,4 +263,21 @@ class CRM_Utils_REST
         return $params;
     }
 
+    static function fatal( $pearError ) {
+        header( 'Content-Type: text/xml' );
+        $error = array();
+        $error['code']          = $pearError->getCode();
+        $error['error_message'] = $pearError->getMessage();
+        $error['mode']          = $pearError->getMode();
+        $error['debug_info']    = $pearError->getDebugInfo();
+        $error['type']          = $pearError->getType();
+        $error['user_info']     = $pearError->getUserInfo();
+        $error['to_string']     = $pearError->toString();
+        $error['is_error']      = 1;
+
+        $config = CRM_Core_Config::singleton( );
+        CRM_Core_Error::debug( $error );
+        echo self::output( $config, $error );
+        exit( );
+    }
 }
