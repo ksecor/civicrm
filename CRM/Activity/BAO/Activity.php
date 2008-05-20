@@ -207,8 +207,9 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         $params['duration'] = CRM_Utils_Date::standardizeTime( CRM_Utils_Array::value( 'duration_hours', $params ),
                                                                CRM_Utils_Array::value( 'duration_minutes', $params )
                                                                );
-        if ( !$params['status_id'] ) {
-            if ( $params['activity_date_time'] && $params['activity_date_time'] < date('Ymd') ) {
+        if ( ! CRM_Utils_Array::value( 'status_id', $params ) ) {
+            if ( isset( $params['activity_date_time'] ) &&
+                 $params['activity_date_time'] < date('Ymd') ) {
                 $params['status_id'] = 2;
             } else {
                 $params['status_id'] = 1;
@@ -284,7 +285,19 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             $logMsg = "Activity created for ";
         }
         
-        $logMsg .= "source = {$params['source_contact_id']}, target = {$params['target_contact_id']}, assignee ={$params['assignee_contact_id']}";
+        $msgs = array( );
+        if ( isset( $params['source_contact_id'] ) ) {
+            $msgs[] = "source = {$params['source_contact_id']}";
+        } 
+
+        if ( isset( $params['target_contact_id'] ) ) {
+            $msgs[] = "target = {$params['target_contact_id']}";
+        }
+
+        if ( isset( $params['assignee_contact_id'] ) ) {
+            $msgs[] = "assignee ={$params['assignee_contact_id']}";
+        }
+        $logMsg .= implode( ', ', $msgs );
 
         self::logActivityAction( $result, $logMsg );
 
