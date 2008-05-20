@@ -158,6 +158,19 @@ class CRM_Dedupe_Finder
         $flat = array();
         CRM_Utils_Array::flatten($fields, $flat);
 
+        // handle {birth,deceased}_date
+        foreach(array('birth_date', 'deceased_date') as $date) {
+            if ($fields[$date]) $flat[$date] = CRM_Utils_Date::format($fields[$date]);
+        }
+
+        // handle preferred_communication_method
+        $methods = array_intersect($fields['preferred_communication_method'], array('1'));
+        $methods = array_keys($methods);
+        sort($methods);
+        if ($methods) {
+            $flat['preferred_communication_method'] = CRM_Core_DAO::VALUE_SEPARATOR . implode(CRM_Core_DAO::VALUE_SEPARATOR, $methods) . CRM_Core_DAO::VALUE_SEPARATOR;
+        }
+
         // if the key is dotted, keep just the last part of it
         foreach($flat as $key => $value) {
             if (substr_count($key, '.')) {
