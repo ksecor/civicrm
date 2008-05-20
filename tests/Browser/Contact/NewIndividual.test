@@ -140,7 +140,7 @@ class Browser_Contact_NewIndividual extends CiviTestCase
         $this->assertLink( $this->webUser->mail );
 
         // Now check DB for contact and cleanup by deleting the contact
-        $contactId = $this->assertDBNotNull( 'CRM_Contact_DAO_Contact', $last_name . ', ' .$first_name, 'id', 'sort_name',  'Checking database for the record.' );
+        $contactId = $this->assertDBNotNull( 'CRM_Core_DAO_Address', 'Saint Helier St', 'contact_id', 'street_address', 'Checking database for the record.' );
         Contact::delete( $contactId );
     }  
     
