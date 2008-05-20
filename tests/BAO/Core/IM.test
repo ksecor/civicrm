@@ -62,11 +62,15 @@ class BAO_Core_IM extends CiviTestCase
      */
     function testAllIMs( )
     {
-        $contactParams = array ( 'first_name' => 'Alan',
-                                 'last_name'  => 'Smith',
-                                 'im-1'       => 'alan.smith1',
-                                 'im-2'       => 'alan.smith2',
-                                 'im-3'       => 'alan.smith3');
+        $contactParams = array ( 'first_name'      => 'Alan',
+                                 'last_name'       => 'Smith',
+                                 'im-1'            => 'alan1.smith1',
+                                 'im-2'            => 'alan2.smith2',
+                                 'im-3'            => 'alan3.smith3',
+                                 'im-1-provider_id'=> 1,
+                                 'im-2-provider_id'=> 2,
+                                 'im-3-provider_id'=> 3
+                                 );
 
         $contactId = Contact::createIndividual( $contactParams );
        
@@ -76,8 +80,8 @@ class BAO_Core_IM extends CiviTestCase
         $this->assertEqual( count( $IMs ) , 3, 'Checking number of returned IMs.' );
         
         $firstIMValue = array_slice( $IMs, 0, 1 );
-        
-        $this->assertEqual( 'alan.smith1',  $firstIMValue[0]['name'], 'Confirm primary IM value.' ); 
+                
+        $this->assertEqual( 'alan1.smith1',  $firstIMValue[0]['name'], 'Confirm primary IM value.' ); 
         $this->assertEqual( 1,  $firstIMValue[0]['is_primary'], 'Confirm first IM is primary.' ); 
         
         Contact::delete( $contactId );
