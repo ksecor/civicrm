@@ -141,7 +141,7 @@ class Browser_Contact_NewIndividual extends CiviTestCase
 
         // Now check DB for contact and cleanup by deleting the contact
         $contactId = $this->assertDBNotNull( 'CRM_Contact_DAO_Contact', $last_name . ', ' .$first_name, 'id', 'sort_name',  'Checking database for the record.' );
-//        Contact::delete( $contactId );
+        Contact::delete( $contactId );
     }  
     
     /**
@@ -180,4 +180,58 @@ class Browser_Contact_NewIndividual extends CiviTestCase
         $contactId = $this->assertDBNotNull( 'CRM_Contact_DAO_Contact', $last_name . ', ' .$first_name, 'id', 'sort_name',  'Checking database for the record.' );
         Contact::delete( $contactId );
     }  
+    
+    /**
+     * Test to create contact with email
+     * 
+     */
+    function testCreateIndividualWithEmail( ) 
+    { 
+        $first_name  = 'Roger';
+        $last_name   = 'Fedrer';
+        
+        $params = array ( 'first_name'                                   => $first_name,     
+                          'last_name'                                    => $last_name, 
+                          'location[1][location_type_id]'                => 1,
+                          'location[1][is_primary]'                      => 1,
+                          'location[1][email][1][email]'                 => 'fedrer@example.org'
+                          );
+        $this->civiGet('civicrm/dashboard', 'reset=1' );
+        $this->clickLink('New Individual', '0');
+        
+        $this->drupalPost( NULL, $params, '_qf_Edit_next_view');
+        
+        $this->assertText('Your Individual contact record has been saved.');
+        $this->assertLink( $this->webUser->mail );
+        
+        $contactId = $this->assertDBNotNull( 'CRM_Core_DAO_Email', 'fedrer@example.org' , 'contact_id', 'email',  'Checking database for the record.' );
+        Contact::delete( $contactId );
+    }
+    
+    /**
+     * Test to check invalid email for contact
+     * 
+     */
+    function testCreateIndividualWithInvalidEmail( ) 
+    { 
+        $first_name  = 'Roger';
+        $last_name   = 'Fedrer';
+        
+        $params = array ( 'first_name'                                   => $first_name,     
+                          'last_name'                                    => $last_name, 
+                          'location[1][location_type_id]'                => 1,
+                          'location[1][is_primary]'                      => 1,
+                          'location[1][email][1][email]'                 => 'xyz'
+                          );
+        $this->civiGet('civicrm/dashboard', 'reset=1' );
+        $this->clickLink('New Individual', '0');
+        
+        $this->drupalPost( NULL, $params, '_qf_Edit_next_view');
+        
+        $this->assertText('Email is not valid.');
+        $this->assertLink( $this->webUser->mail );
+        
+        $contactId = $this->assertDBNull( 'CRM_Core_DAO_Email', 'xyz' , 'id', 'email',  'Checking database for the empty row.' );
+    }
+    
 }
