@@ -522,6 +522,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
 
                 $params['amount']       = $this->_values['custom']['value'][array_search( $params['amount'], 
                                                                                           $this->_values['custom']['amount_id'])];
+                $this->assign( 'amount_level', $params['amount_level'] );
             } else {
                 $lineItem = array( );
                 CRM_Event_Form_Registration_Register::processPriceSetAmount( $this->_values['custom']['fields'], 
@@ -685,10 +686,10 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 }
             }
         }
-      
+       
         if ( $params['send_receipt'] ) {
             $receiptFrom = '"' . $userName . '" <' . $userEmail . '>';
-            
+                       
             //use of CRM/Event/Form/Registration/ReceiptMessage.tpl requires variables in different format
             $event = array();
             $event['id'] = $params['event_id'];
@@ -711,6 +712,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             if ( $params['receipt_text'] ) {
                 $eventPage = array();
                 $eventPage['confirm_email_text'] =  $params['receipt_text'];
+                $this->assign( 'eventPage' , $eventPage );
             }
             $isShowLocation = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event',
                                                            $params['event_id'],
@@ -737,7 +739,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $template =& CRM_Core_Smarty::singleton( );
             $subject = trim( $template->fetch( 'CRM/Contribute/Form/ReceiptSubjectOffline.tpl' ) );
             $message = $template->fetch( 'CRM/Event/Form/Registration/ReceiptMessage.tpl' );
-                     
+                              
             // retrieve custom data
             require_once "CRM/Core/BAO/UFGroup.php";
             $customFields = $customValues = array( );
