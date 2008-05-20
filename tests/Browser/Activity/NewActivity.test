@@ -1,0 +1,91 @@
+<?php
+
+/*
+ +--------------------------------------------------------------------+
+ | CiviCRM version 2.1                                                |
+ +--------------------------------------------------------------------+
+ | Copyright CiviCRM LLC (c) 2004-2008                                |
+ +--------------------------------------------------------------------+
+ | This file is a part of CiviCRM.                                    |
+ |                                                                    |
+ | CiviCRM is free software; you can copy, modify, and distribute it  |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
+ |                                                                    |
+ | CiviCRM is distributed in the hope that it will be useful, but     |
+ | WITHOUT ANY WARRANTY; without even the implied warranty of         |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
+ | See the GNU Affero General Public License for more details.        |
+ |                                                                    |
+ | You should have received a copy of the GNU Affero General Public   |
+ | License along with this program; if not, contact CiviCRM LLC       |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
+ | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
+ +--------------------------------------------------------------------+
+*/
+
+/**
+ *
+ * @package CRM
+ * @copyright CiviCRM LLC (c) 2004-2008
+ * $Id$
+ *
+ */
+
+require_once 'CiviTestCase.php';
+
+class Browser_Activity_NewActivity extends CiviTestCase
+{
+
+    var $params;
+    var $webUser;
+
+    function get_info()
+    {
+        return array('name'        => 'New Activity (standalone)',
+                     'description' => 'Tests the standalone New Activity form, available from dashboard',
+                     'group'       => 'CiviCRM Browser Tests');
+    }
+
+    function setUp()
+    {
+        parent::setUp();
+        $this->webUser = $this->drupalCreateUserRolePerm(array(0 => 'access CiviCRM',
+                                                               1 => 'edit all contacts',
+                                                               2 => 'add contacts'));
+        $this->drupalLoginUser($this->webUser);
+        $this->civiGet('civicrm/dashboard', 'reset=1');
+        $this->clickLink('New Activity');
+
+        // create a default params array, unique per each test
+        $uniqid = uniqid('CiviCRM New Activity Test ', true);
+        $this->params = array('assignee_contact'    => $this->webUser->mail,
+                              'target_contact'      => $this->webUser->mail,
+                              'subject'             => "Subject for $uniqid",
+                              'location'            => "Location for $uniqid",
+                              'details'             => "Details for $uniqid");
+    }
+
+    function testCreateWithMissingParams()
+    {
+        $params = array('activity_date_time[Y]' => '');
+        $this->drupalPost(NULL, $params, '_qf_Activity_next');
+        $this->assertText('Subject is a required field.');
+        $this->assertText('Date and Time is a required field.');
+        $this->assertText('Activity Type is a required field.');
+        $this->assertDBNull('CRM_Activity_DAO_Activity', $this->params['subject'], 'id', 'subject', 'Making sure the activity was not created in the database.');
+    }
+
+    function testCreateMeeting()
+    {
+        $this->params['activity_type_id'] = 1; // Meeting
+        $this->drupalPost(NULL, $this->params, '_qf_Activity_next');
+        $activity_id = $this->assertDBNotNull('CRM_Activity_DAO_Activity', $this->params['subject'], 'id', 'subject', 'Checking db for the created meeting.');
+        $this->assertDBNotNull('CRM_Activity_DAO_ActivityAssignment', $activity_id, 'id', 'activity_id', 'Checking db for the assinment of the activity.');
+        $this->assertDBNotNull('CRM_Activity_DAO_ActivityTarget', $activity_id, 'id', 'activity_id', 'Checking db for the targetting of the activity.');
+        // FIXME: delete civicrm_activity.id = $activity_id here
+        // CRM_Activity_BAO_Activity::delete(array('id' => $activity_id)) throws a DB::DataObject error
+    }
+
+}
