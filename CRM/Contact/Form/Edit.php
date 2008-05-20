@@ -362,7 +362,7 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
 
                     // hack, check if we have created a country element
                     if ( isset( $this->_elementIndex[ "location[$key][address][country_id]" ] ) ) {
-                        $countryValue = $this->getElementValue( "location[$key][address][country_id]" );
+                        $countryValue = $this->_elementIndex[ "location[$key][address][country_id]" ];
                         
                         if ( !$countryValue && isset($value['address']['country_id']) ) {
                             $countryValue = $value['address']['country_id'];
