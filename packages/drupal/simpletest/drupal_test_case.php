@@ -487,7 +487,15 @@ class DrupalTestCase extends WebTestCase {
       while ($node = db_fetch_array($result)) {
         node_delete($node['nid']);
       }
+      // delete contact associated with user uid
+      require_once 'CRM/Core/BAO/UFMatch.php';
+      $contactID = CRM_Core_BAO_UFMatch::getContactID( $uid );
+      if ( $contactID ) {
+          require_once 'CRM/Contact/BAO/Contact.php';
+          CRM_Contact_BAO_Contact::deleteContact( $contactID );
+      }
       user_delete(array(), $uid);
+
     }
 
     //delete content types
