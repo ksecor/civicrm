@@ -181,7 +181,7 @@ class CRM_Dedupe_Finder
             }
         }
 
-        // drop the -digit postfixes
+        // drop the -digit postfixes (so event registration's $flat['email-5'] becomes $flat['email'])
         foreach ($flat as $key => $value) {
             $matches = array();
             if (preg_match('/(.*)-\d+$/', $key, $matches)) {
