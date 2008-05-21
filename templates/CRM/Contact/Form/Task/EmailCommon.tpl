@@ -1,7 +1,6 @@
 {*common template for compose mail*}
 <dl>
 <dt>{$form.template.label}</dt><dd>{$form.template.html}</dd>
-  <dt>{$form.subject.label}</dt><dd>{$form.subject.html}</dd>
   <dt>{$form.token1.label}</dt><dd>{$form.token1.html}</dd>
   <dt>{$form.text_message.label}</dt><dd>{$form.text_message.html}</dd></dl>
   <dt>{$form.token2.label}</dt><dd>{$form.token2.html}</dd>
