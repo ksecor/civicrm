@@ -212,36 +212,36 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
 
             $groupNames =& CRM_Core_PseudoConstant::group();
 
-            $childGroups = array( );
+            $parentGroups = array( );
             if ( isset( $this->_id ) &&
-                 $this->_groupValues['child'] ) {
-                $childGroupIds = explode( ',', $this->_groupValues['child'] );
-                foreach ( $childGroupIds as $childGroupId ) {
-                    $childGroups[$childGroupId] = $groupNames[$childGroupId];
-                    $this->addElement( 'checkbox', "remove_child_group_$childGroupId",
-                                       $groupNames[$childGroupId] );
+                 $this->_groupValues['parents'] ) {
+                $parentGroupIds = explode( ',', $this->_groupValues['parents'] );
+                foreach ( $parentGroupIds as $parentGroupId ) {
+                    $parentGroups[$parentGroupId] = $groupNames[$parentGroupId];
+                    $this->addElement( 'checkbox', "remove_parent_group_$parentGroupId",
+                                       $groupNames[$parentGroupId] );
                 }
             }
-            $this->assign_by_ref( 'child_groups', $childGroups );
+            $this->assign_by_ref( 'parent_groups', $parentGroups );
             
             if ( isset( $this->_id ) ) {
                 require_once 'CRM/Contact/BAO/GroupNestingCache.php';
-                $potentialChildGroupIds =
-                    CRM_Contact_BAO_GroupNestingCache::getPotentialChildren( $this->_id,
-                                                                             $groupNames );
+                $potentialParentGroupIds =
+                    CRM_Contact_BAO_GroupNestingCache::getPotentialCandidates( $this->_id,
+                                                                               $groupNames );
             } else {
-                $potentialChildGroupIds = array_keys( $groupNames );
+                $potentialParentGroupIds = array_keys( $groupNames );
             }
 
-            $childGroupSelectValues = array( '' => '- ' . ts('select') . ' -' );
-            foreach ( $potentialChildGroupIds as $potentialChildGroupId ) {
-                if ( array_key_exists( $potentialChildGroupId, $groupNames ) ) {
-                    $childGroupSelectValues[$potentialChildGroupId] = $groupNames[$potentialChildGroupId];
+            $parentGroupSelectValues = array( '' => '- ' . ts('select') . ' -' );
+            foreach ( $potentialParentGroupIds as $potentialParentGroupId ) {
+                if ( array_key_exists( $potentialParentGroupId, $groupNames ) ) {
+                    $parentGroupSelectValues[$potentialParentGroupId] = $groupNames[$potentialParentGroupId];
                 }
             }
             
-            if ( count( $childGroupSelectValues ) > 1 ) {
-                $this->add( 'select', 'add_child_group', ts('Add Subgroup'), $childGroupSelectValues );
+            if ( count( $parentGroupSelectValues ) > 1 ) {
+                $this->add( 'select', 'add_parent_group', ts('Add Parent'), $parentGroupSelectValues );
             }
 
             $this->addButtons( array(
@@ -338,21 +338,21 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
             $group =& CRM_Contact_BAO_Group::create( $params );
             
             /*
-             * Remove any child groups requested to be removed
+             * Remove any parent groups requested to be removed
              */
-            $childGroupIds = explode( ',', $this->_groupValues['child'] );
-            foreach ( $childGroupIds as $childGroupId ) {
-                if ( isset( $params["remove_child_group_$childGroupId"] ) ) {
-                    CRM_Contact_BAO_GroupNesting::removeChildGroup( $group->id, $childGroupId );
+            $parentGroupIds = explode( ',', $this->_groupValues['parents'] );
+            foreach ( $parentGroupIds as $parentGroupId ) {
+                if ( isset( $params["remove_parent_group_$parentGroupId"] ) ) {
+                    CRM_Contact_BAO_GroupNesting::remove( $parentGroupId, $group->id );
                     $updateNestingCache = true;
                 }
             }
             
             /*
-             * Add child group, if that was requested
+             * Add parent group, if that was requested
              */
-            if ( ! empty( $params['add_child_group'] ) ) {
-                CRM_Contact_BAO_GroupNesting::addChildGroup( $group->id, $params['add_child_group']);
+            if ( ! empty( $params['add_parent_group'] ) ) {
+                CRM_Contact_BAO_GroupNesting::add( $params['add_parent_group'], $group->id );
                 $updateNestingCache = true;
             }
 
@@ -385,12 +385,12 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
      *
      * @return void
      */
-    function setShowHide( &$groupsWithChildren, $force ) 
+    function setShowHide( &$groupsWithParentren, $force ) 
     {
         $this->_showHide =& new CRM_Core_ShowHideBlocks( );
  
-        $this->_showHide->addShow( 'id_child_groups_show' );
-        $this->_showHide->addHide( 'id_child_groups' );
+        $this->_showHide->addShow( 'id_parent_groups_show' );
+        $this->_showHide->addHide( 'id_parent_groups' );
 
         if ( $this->_showTagsAndGroups ) {
             //add group and tags

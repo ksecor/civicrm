@@ -27,19 +27,19 @@
 </fieldset>
 </div>
 <div class="form-item">
-<fieldset><legend>{ts}Subgroups{/ts}</legend>
-    {if $child_groups|@count > 0}
+<fieldset><legend>{ts}Parent Groups{/ts}</legend>
+    {if $parent_groups|@count > 0}
     <dl>
-        <dt>{ts}Remove?{/ts}</dt><dd>{ts}Subgroup{/ts}</dd>
-        {foreach from=$child_groups item=cgroup key=group_id}
-            {assign var="element_name" value="remove_child_group_"|cat:$group_id}
+        <dt>{ts}Remove?{/ts}</dt><dd>{ts}Parent{/ts}</dd>
+        {foreach from=$parent_groups item=cgroup key=group_id}
+            {assign var="element_name" value="remove_parent_group_"|cat:$group_id}
             <dt>{$form.$element_name.html}</dt><dd>{$form.$element_name.label}</dd>
         {/foreach}
     </dl><br/><br/>
     {/if}
     <dl>
-    <dt>{$form.add_child_group.label}</dt>
-    <dd>{$form.add_child_group.html}</dd>
+    <dt>{$form.add_parent_group.label}</dt>
+    <dd>{$form.add_parent_group.html}</dd>
     </dl>
 </fieldset>
 </div>

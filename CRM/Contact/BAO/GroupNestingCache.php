@@ -135,7 +135,7 @@ WHERE  id = $id
         return false;
     }
 
-    static function getPotentialChildren( $id, &$groups ) {
+    static function getPotentialCandidates( $id, &$groups ) {
         require_once 'CRM/Core/BAO/Cache.php';
         $tree =& CRM_Core_BAO_Cache::getItem( 'contact groups', 'nestable tree hierarchy' );
 

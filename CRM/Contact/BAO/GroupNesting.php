@@ -243,9 +243,9 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting implemen
      * @access public
      */
     
-    static function addChildGroup( $groupId, $childGroupId ) {
+    static function add( $parentID, $childID ) {
         $dao = new CRM_Contact_DAO_GroupNesting( );
-        $query = "REPLACE INTO civicrm_group_nesting (child_group_id, parent_group_id) VALUES ($childGroupId,$groupId)";
+        $query = "REPLACE INTO civicrm_group_nesting (child_group_id, parent_group_id) VALUES ($childID,$parentID);";
         $dao->query( $query );
     }
     
@@ -254,17 +254,17 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting implemen
      * identified by $groupId; does not delete child group, just the
      * association between the two
      *
-     * @param            $groupId               The id of the group to remove the child from
-     * @param            $childGroupId          The id of the child group being removed
+     * @param            $parentID         The id of the group to remove the child from
+     * @param            $childID          The id of the child group being removed
      *
      * @return           void
      *
      * @access public
      */
     
-    static function removeChildGroup( $groupId, $childGroupId ) {
+    static function remove( $parentID, $childID ) {
         $dao = new CRM_Contact_DAO_GroupNesting( );
-        $query = "DELETE FROM civicrm_group_nesting WHERE child_group_id = $childGroupId AND parent_group_id = $groupId";
+        $query = "DELETE FROM civicrm_group_nesting WHERE child_group_id = $childID AND parent_group_id = $parentID";
         $dao->query( $query );
     }
     
