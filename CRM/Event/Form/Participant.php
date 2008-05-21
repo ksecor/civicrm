@@ -733,7 +733,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 $this->assign( 'amount', $contributionParams['total_amount'] );
             }
             
-            $this->assign( 'receive_date', $params['register_date'] );
+            $this->assign( 'register_date', $params['register_date'] );
             if ( $params['receive_date'] ) {
                 $this->assign( 'receive_date', $params['receive_date'] );  
             }

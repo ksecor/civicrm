@@ -71,8 +71,14 @@
 
 {/if}
 {ts}Total Amount{/ts}     : {$amount|crmMoney} {if $amount_level && !$lineItem} - {$amount_level} {/if}
+{if $register_date}
+
+{ts}Registeration Date{/ts} : {$register_date|crmDate}
+{/if}
+{if $receive_date}
 
 {ts}Transaction Date{/ts} : {$receive_date|crmDate}
+{/if}
 {if $trxn_id}
 {ts}Transaction #{/ts}    : {$trxn_id}
 {/if}
