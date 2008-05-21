@@ -1,3 +1,4 @@
+
 -- /************************************************************************
 -- *
 -- * MySQL Script for civicrm database/tables - upgradation from 2.0 -> 2.1
@@ -48,12 +49,11 @@ ALTER TABLE `civicrm_contribution_recur`
 
 ALTER TABLE civicrm_dedupe_rule_group ADD level      enum('Strict', 'Fuzzy');
 ALTER TABLE civicrm_dedupe_rule_group ADD is_default tinyint;
-ALTER TABLE civicrm_dedupe_rule_group ADD is_active  tinyint;
 
 
 -- make the current dedupe rule groups into default and fuzzy ones
 
-UPDATE civicrm_dedupe_rule_group SET level = 'Fuzzy', is_default = true, is_active = true;
+UPDATE civicrm_dedupe_rule_group SET level = 'Fuzzy', is_default = true;
 
 
 -- insert the new strict d_group dupe rules
@@ -61,15 +61,15 @@ UPDATE civicrm_dedupe_rule_group SET level = 'Fuzzy', is_default = true, is_acti
 
 SELECT @domain_id := 1;
 
-INSERT INTO civicrm_dedupe_rule_group (domain_id, contact_type, threshold, level, is_default, is_active) VALUES (1, 'Individual', 10, 'Strict', true, true);
+INSERT INTO civicrm_dedupe_rule_group (domain_id, contact_type, threshold, level, is_default) VALUES (1, 'Individual', 10, 'Strict', true);
 SELECT @dedupe_rule_group_id := MAX(id) FROM civicrm_dedupe_rule_group;
 INSERT INTO civicrm_dedupe_rule (dedupe_rule_group_id, rule_table, rule_field, rule_weight) VALUES (@dedupe_rule_group_id, 'civicrm_email', 'email', 10);
 
-INSERT INTO civicrm_dedupe_rule_group (domain_id, contact_type, threshold, level, is_default, is_active) VALUES (1, 'Organization', 10, 'Strict', true, true);
+INSERT INTO civicrm_dedupe_rule_group (domain_id, contact_type, threshold, level, is_default) VALUES (1, 'Organization', 10, 'Strict', true);
 SELECT @dedupe_rule_group_id := MAX(id) FROM civicrm_dedupe_rule_group;
 INSERT INTO civicrm_dedupe_rule (dedupe_rule_group_id, rule_table, rule_field, rule_weight) VALUES (@dedupe_rule_group_id, 'civicrm_email', 'email', 10);
 
-INSERT INTO civicrm_dedupe_rule_group (domain_id, contact_type, threshold, level, is_default, is_active) VALUES (1, 'Household', 10, 'Strict', true, true);
+INSERT INTO civicrm_dedupe_rule_group (domain_id, contact_type, threshold, level, is_default) VALUES (1, 'Household', 10, 'Strict', true);
 SELECT @dedupe_rule_group_id := MAX(id) FROM civicrm_dedupe_rule_group;
 INSERT INTO civicrm_dedupe_rule (dedupe_rule_group_id, rule_table, rule_field, rule_weight) VALUES (@dedupe_rule_group_id, 'civicrm_email', 'email', 10);
 
