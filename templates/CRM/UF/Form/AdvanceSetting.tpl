@@ -1,6 +1,5 @@
 <div class ="form-item">
   <dl class="spacer">
-    <dt></dt><dd>{$form.is_active.html} {$form.is_active.label}</dd>
     <dt>{$form.group.label}</dt><dd>{$form.group.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Select a group if you are using this profile for search and listings, AND you want to limit the listings to members of a specific group.{/ts}</dd>
     <dt>{$form.add_contact_to_group.label}</dt><dd>{$form.add_contact_to_group.html}</dd>

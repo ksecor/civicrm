@@ -47,8 +47,6 @@ class CRM_UF_Form_AdvanceSetting extends CRM_UF_Form_Group {
      */ 
     function buildAdvanceSetting( &$form )
     { 
-        // is this group active ?
-        $form->addElement('checkbox', 'is_active', ts('Is this CiviCRM Profile active?') );
         // should mapping be enabled for this group
         $form->addElement('checkbox', 'is_map', ts('Enable mapping for this profile?') );
         
