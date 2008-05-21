@@ -857,10 +857,11 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
                     }
                 }
 
-                if ( self::locationDataExists( $fields['location'][$locationId] ) ) {
+                if ( ( isset( $fields['use_household_address'] ) && $locationId == 1 ) ||
+                     self::locationDataExists( $fields['location'][$locationId] ) ) {
                     $dataExists = true;
                     if ( ! CRM_Utils_Array::value( 'location_type_id', $fields['location'][$locationId] ) ) {
-                        $errors["location[$locationId][location_type_id]"] = ts('The Location Type should be set if there is any location information');
+                        $errors["location[$locationId][location_type_id]"] = ts('The Location Type should be set if there is any location information.');
                     }
                 }
                 require_once 'CRM/Core/BAO/Location.php';
@@ -868,7 +869,7 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
                 if ( CRM_Core_BAO_Location::dataExists( $fields ) ) {
                     if ( $locTypeId ) {
                         if ( $locTypeId == $fields['location'][$locationId]['location_type_id'] ) {
-                            $errors["location[$locationId][location_type_id]"] = ts('Two locations cannot have same location type');
+                            $errors["location[$locationId][location_type_id]"] = ts('Two locations cannot have same location type.');
                         }
                     }
                     $locTypeId = $fields['location'][$locationId]['location_type_id'];
