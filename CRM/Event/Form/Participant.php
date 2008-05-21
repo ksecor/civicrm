@@ -740,11 +740,11 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $this->assign( 'subject', ts('Event Confirmation') );
                         
             $template =& CRM_Core_Smarty::singleton( );
-                                         
+            $customGroup = array(); 
             // retrieve custom data
             require_once "CRM/Core/BAO/UFGroup.php";
-            $customFields = $customValues = array( );
             foreach ( $this->_groupTree as $groupID => $group ) {
+                $customFields = $customValues = array( );
                 if ( $groupID == 'info' ) {
                     continue;
                 } 
@@ -752,17 +752,20 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                     $field['title'] = $field['label'];
                     $customFields["custom_{$k}"] = $field;
                 }
+                //to build array of customgroup & customfields in it
+                CRM_Core_BAO_UFGroup::getValues( $this->_contactIds[0] , $customFields, $customValues , false, 
+                                                 array( array( 'participant_id', '=', $participants[0]->id, 0, 0 ) ) );
+                $customGroup[$group['title']] = $customValues;
             }
             
             foreach ( $this->_contactIds as $num => $contactID ) {
                 // Retrieve the name and email of the contact - this will be the TO for receipt email
                 list( $this->_contributorDisplayName, $this->_contributorEmail, $this->_toDoNotEmail ) = CRM_Contact_BAO_Contact::getContactDetails( $contactID );
-                CRM_Core_BAO_UFGroup::getValues( $contactID, $customFields, $customValues , false, 
-                                                 array( array( 'participant_id', '=', $participants[$num]->id, 0, 0 ) ) );
                 
-                $this->assign( 'customValues', $customValues );
+                $this->assign( 'customGroup', $customGroup );
                 $subject = trim( $template->fetch( 'CRM/Contribute/Form/ReceiptSubjectOffline.tpl' ) );
                 $message = $template->fetch( 'CRM/Event/Form/Registration/ReceiptMessage.tpl' );
+                
                 //Do not try to send emails if emailID is not present
                 //or doNotEmail option is checked for that contact 
                 if( empty($this->_contributorEmail) or $this->_toDoNotEmail ) {

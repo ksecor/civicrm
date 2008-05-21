@@ -113,19 +113,20 @@
 {if $customPost}
 ===========================================================
 {ts}{$customPost_grouptitle}{/ts}
-
 ===========================================================
 {foreach from=$customPost item=value key=name}
  {$name} : {$value}
 {/foreach}
 {/if}
-
-{if $customValues}
-===========================================================
-{$module} {ts}Options{/ts}
-
-===========================================================
-{foreach from=$customValues item=value key=name}
- {$name} : {$value}
+{if $customGroup}
+{foreach from=$customGroup item=value key=name} 
+==========================================================
+{$name}
+==========================================================
+{foreach from=$value item=v key=n}
+{$n} : {$v}
+{/foreach}
 {/foreach}
 {/if}
+
+
