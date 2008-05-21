@@ -76,6 +76,9 @@
 {if $trxn_id}
 {ts}Transaction #{/ts}    : {$trxn_id}
 {/if}
+{if $paidBy}
+{ts}Paid By{/ts}: {$paidBy}
+{/if}
 {if $contributeMode ne 'notify' and !$isAmountzero and !$is_pay_later  }
 
 ===========================================================
@@ -113,6 +116,16 @@
 
 ===========================================================
 {foreach from=$customPost item=value key=name}
+ {$name} : {$value}
+{/foreach}
+{/if}
+
+{if $customValues}
+===========================================================
+{$module} {ts}Options{/ts}
+
+===========================================================
+{foreach from=$customValues item=value key=name}
  {$name} : {$value}
 {/foreach}
 {/if}
