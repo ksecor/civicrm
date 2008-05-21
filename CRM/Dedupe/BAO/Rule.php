@@ -105,7 +105,7 @@ class CRM_Dedupe_BAO_Rule extends CRM_Dedupe_DAO_Rule
         // build SELECT based on the field names containing contact ids
         // if there are params provided, id1 should be 0
         if ($this->params) {
-            $select = "0 id1, $id id2, {$this->rule_weight} weight";
+            $select = "$id id, {$this->rule_weight} weight";
         } else {
             $select = "t1.$id id1, t2.$id id2, {$this->rule_weight} weight";
         }
