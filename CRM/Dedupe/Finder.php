@@ -164,11 +164,13 @@ class CRM_Dedupe_Finder
         }
 
         // handle preferred_communication_method
-        $methods = array_intersect($fields['preferred_communication_method'], array('1'));
-        $methods = array_keys($methods);
-        sort($methods);
-        if ($methods) {
-            $flat['preferred_communication_method'] = CRM_Core_DAO::VALUE_SEPARATOR . implode(CRM_Core_DAO::VALUE_SEPARATOR, $methods) . CRM_Core_DAO::VALUE_SEPARATOR;
+        if ( array_key_exists('preferred_communication_method', $fields) ) {
+            $methods = array_intersect($fields['preferred_communication_method'], array('1'));
+            $methods = array_keys($methods);
+            sort($methods);
+            if ($methods) {
+                $flat['preferred_communication_method'] = CRM_Core_DAO::VALUE_SEPARATOR . implode(CRM_Core_DAO::VALUE_SEPARATOR, $methods) . CRM_Core_DAO::VALUE_SEPARATOR;
+            }
         }
 
         // if the key is dotted, keep just the last part of it

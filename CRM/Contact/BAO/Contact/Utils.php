@@ -333,23 +333,28 @@ UNION
             }
 
             if ( $contactID && ( count($employers) >= 1 ) ) {
-                $comboAttributes = array( 'dojoType'     => 'dijit.form.FilteringSelect',
-                                          'mode'         => 'remote',
-                                          'store'        => 'employerStore',
-                                          'style'        => 'width:225px; border: 1px solid #cfcfcf;',
-                                          'class'        => 'tundra',
-                                          'pageSize'     => 10,
-                                          );
+                $filterAttributes = array( 'dojoType'     => 'dijit.form.FilteringSelect',
+                                           'mode'         => 'remote',
+                                           'store'        => 'employerStore',
+                                           'style'        => 'width:225px; border: 1px solid #cfcfcf;',
+                                           'class'        => 'tundra',
+                                           'pageSize'     => 10,
+                                           );
+                
+                if ( $form->_membershipContactID ) {
+                    $filterAttributes['onChange'] = 'resetLocation()';
+                }
+
                 $dataURL = CRM_Utils_System::url( 'civicrm/ajax/employer', 
                                                   "cid=" . $contactID, 
                                                   true, null, false );
                 $form->assign( 'employerDataURL', $dataURL );
-
+                
                 $form->add('text', 'organization_id', 
-                           ts('Select an existing related Organization OR Enter a new one'), $comboAttributes);
-
+                           ts('Select an existing related Organization OR Enter a new one'), $filterAttributes);
+                
                 $orgOptions = array( '0' => ts('Create new organization'), '1' => ts('Select existing organization') );
-                $form->addRadio('org_option', ts('options'),  $orgOptions, array( 'onclick' => "showHideByValue('org_option','true','select_org','table-row','radio',true);showHideByValue('org_option','true','create_org','table-row','radio',false);"));
+                $form->addRadio('org_option', ts('options'),  $orgOptions, array( 'onclick' => "showHideByValue('org_option','true','select_org','table-row','radio',true);showHideByValue('org_option','true','create_org','table-row','radio',false);resetLocation(this.value);"));
                 $form->assign( 'relatedOrganizationFound', true );
             }
             $form->add('text', 'organization_name', ts('Organization Name'), $attributes['organization_name']);

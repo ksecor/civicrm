@@ -117,7 +117,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             
             // if onbehalf-of-organization
             if ( $this->_params['is_for_organization'] ) {
-                if ( $this->_params['organization_id'] ) {
+                if ( $this->_params['org_option'] && $this->_params['organization_id'] ) {
                     $this->_params['organization_name'] = 
                         CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $this->_params['organization_id'], 'sort_name');
                 }
@@ -379,13 +379,15 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         }
 
         // if onbehalf-of-organization contribution, take out
-        // organization params in a separate variable. 
+        // organization params in a separate variable, to make sure
+        // normal behavior is continued. And use that variable to
+        // process on-behalf-of functionality.
         if ( $params['is_for_organization'] && $params['organization_name'] ) {
             $behalfOrganization = array();
-            $behalfOrganization['organization_name'] = $params['organization_name'];
-            $behalfOrganization['organization_id']   = $params['organization_id'];
-            $behalfOrganization['location']          = $params['location'];
-            unset($params['organization_name'], $params['location']);
+            foreach ( array('organization_name', 'organization_id', 'location', 'org_option') as $fld ) {
+                $behalfOrganization[$fld] = $params[$fld];
+                unset($params[$fld]);
+            }
         }
         
         if ( ! isset( $contactID ) ) {
@@ -807,7 +809,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
      * @access public
      */
     static function processOnBehalfOrganization( &$behalfOrganization, &$values, &$contactID ) {
-        if ( $behalfOrganization['organization_id'] ) {
+        if ( $behalfOrganization['organization_id'] && $behalfOrganization['org_option'] ) {
             $orgID = $behalfOrganization['organization_id'];
             unset($behalfOrganization['organization_id']);
         }
@@ -822,7 +824,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             // check if matching organization contact exists
             require_once 'CRM/Dedupe/Finder.php';
             $dedupeParams = CRM_Dedupe_Finder::formatParams($behalfOrganization, 'Organization');
-            $dupeIDs      = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Organization', 'Fuzzy');
+            $dupeIDs      = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Organization', 'Strict');
             
             if ( empty($dupeIDs) ) {
                 // if new organization, create org, add location & relationship 

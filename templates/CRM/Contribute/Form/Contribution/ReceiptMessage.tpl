@@ -58,6 +58,17 @@
 
 {/if}
 {if $contributeMode ne 'notify' and $is_monetary}
+{if $onBehalfName}
+===========================================================
+{ts}On Behalf Of{/ts}
+
+===========================================================
+{$onBehalfName}
+{$onBehalfAddress}
+
+{$onBehalfEmail}
+
+{/if}
 ===========================================================
 {ts}Billing Name and Address{/ts}
 

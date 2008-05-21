@@ -166,7 +166,46 @@
 {if $membershipContactID}
 <script type="text/javascript">
    dojo.addOnLoad( function( ) {ldelim}
-   dijit.byId( 'organization_id' ).setValue("{$membershipContactID}")
+   dijit.byId( 'organization_id' ).setValue("{$membershipContactID}");
    {rdelim} );
 </script>
 {/if}
+
+{* Javascript method to reset the location fields when a different existing related contact is selected *}
+{literal}
+<script type="text/javascript">
+    function resetLocation(val) {
+        var membershipContactID = {/literal}{if $membershipContactID}{$membershipContactID}{else}''{/if}{literal};
+        if ( !membershipContactID ) {
+            return;
+        }
+        var selectedVal = dijit.byId( 'organization_id' ).getValue();
+        if ( val == '0' ) {
+            selectedVal = "";
+        }
+
+        if ( selectedVal != membershipContactID ) {
+            var fields = new Array('location_1_phone_1_phone', 
+                                   'location_1_address_street_address', 
+                                   'location_1_address_supplemental_address_1', 
+                                   'location_1_address_supplemental_address_2', 
+                                   'location_1_address_city', 
+                                   'location_1_address_postal_code', 
+                                   'location_1_address_postal_code_suffix',
+                                   'location_1_address_geo_code_1',
+                                   'location_1_address_geo_code_2');
+
+            for ( var i in fields ) {
+                eval('document.getElementById(fields[i]).value = ""');
+            }
+            dijit.byId("id_location[1][address][country_state]_0").setValue("");
+            dijit.byId("id_location[1][address][country_state]_1").setValue("");
+            var indEmail = "email-" + {/literal}{$bltID}{literal};
+            if ( document.getElementById(indEmail).value != document.getElementById('location_1_email_1_email').value ) {
+                document.getElementById('location_1_email_1_email').value = document.getElementById(indEmail).value;
+            }
+        }
+    }
+</script>
+{/literal}
+

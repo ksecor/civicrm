@@ -133,6 +133,11 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             $this->_defaults['org_option'] = 0;
         }
 
+        if ( $this->_values['is_for_organization'] && 
+             ! isset($this->_defaults['location'][1]['email'][1]['email']) ) {
+            $this->_defaults['location'][1]['email'][1]['email'] = $this->_defaults["email-{$this->_bltID}"];
+        }
+
         // hack to simplify credit card entry for testing
 //         $this->_defaults['credit_card_type']     = 'Visa';
 //         $this->_defaults['amount']               = 168;
@@ -500,6 +505,18 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         if ( $fields['is_recur'] && $fields['is_pay_later'] ) {
             $errors['is_pay_later'] = ' ';
             $errors['_qf_default'] = ts('You can not set up a recurring contribution if you are not paying online by credit card.'); 
+        }
+
+        if ( $fields['is_for_organization'] ) {
+            if ( $fields['org_option'] && ! $fields['organization_id'] ) {
+                $errors['organization_id'] = ts('Please select an organization or enter a new one.'); 
+            }
+            if ( ! $fields['org_option'] && ! $fields['organization_name'] ) {
+                $errors['organization_name'] = ts('Please enter the organization name.'); 
+            }
+            if ( ! $fields['location'][1]['email'][1]['email']) {
+                $errors["location[1][email][1][email]"] = ts('Organization email is required.'); 
+            }
         }
 
         if ( CRM_Utils_Array::value('selectMembership', $fields) && 
