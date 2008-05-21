@@ -101,7 +101,7 @@ class CRM_Event_Form_Task_PickProfile extends CRM_Event_Form_Task
     {
         require_once "CRM/Core/BAO/UFGroup.php";
         $types    = array( 'Participant' );
-        $profiles = CRM_Core_BAO_UFGroup::getProfiles( $types ); 
+        $profiles = CRM_Core_BAO_UFGroup::getProfiles( $types, true ); 
 
         if ( empty( $profiles ) ) {
             CRM_Core_Session::setStatus("The participant(s) selected for Batch Update do not have corresponding profiles. Please make sure that {$types[0]} has a profile and try again." );

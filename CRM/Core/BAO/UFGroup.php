@@ -1785,19 +1785,20 @@ WHERE  id = $cfID
     /**
      * Function to get profiles by type  eg: pure Individual etc
      *
-     * @params array  $types      associative array of types eg: types('Individual')
+     * @param array   $types      associative array of types eg: types('Individual')
+     * @param boolean $onlyPure   true if only pure profiles are required
      *
      * @return array  $profiles  associative array of profiles  
      * @static
      * @access public
      */
-    static function getProfiles( $types ) 
+    static function getProfiles( $types, $onlyPure = false ) 
     {
         require_once "CRM/Core/BAO/UFField.php";
         $profiles = array();
         $ufGroups = CRM_Core_PseudoConstant::ufgroup( );
         foreach ($ufGroups as $id => $title) {
-            $ptype = CRM_Core_BAO_UFField::getProfileType($id, false);
+            $ptype = CRM_Core_BAO_UFField::getProfileType($id, false, $onlyPure );
             if ( in_array ($ptype, $types) ) {
                 $profiles[$id] = $title;
             }

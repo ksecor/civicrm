@@ -102,7 +102,7 @@ class CRM_Contribute_Form_Task_PickProfile extends CRM_Contribute_Form_Task {
 
         require_once "CRM/Core/BAO/UFGroup.php";
         $types = array( 'Contribution' );
-        $profiles = CRM_Core_BAO_UFGroup::getProfiles( $types ); 
+        $profiles = CRM_Core_BAO_UFGroup::getProfiles( $types, true ); 
 
         if ( empty( $profiles ) ) {
             CRM_Core_Session::setStatus("You will need to create a Profile containing the {$types[0]} fields you want to edit before you can use Batch Update via Profile. Navigate to Administer Civicrm >> CiviCRM Profile to configure a Profile. Consult the online Administrator documentation for more information." );

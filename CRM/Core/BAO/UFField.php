@@ -383,14 +383,15 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
     /**
      * function to get the profile type (eg: individual/organization/household)
      *
-     * @param int      $ufGroupId  uf group id 
-     * @param boolean  $returnMixType    this is true, then field type of  mix profile field is returned
+     * @param int      $ufGroupId     uf group id 
+     * @param boolean  $returnMixType this is true, then field type of  mix profile field is returned
+     * @param boolean  $onlyPure      true if only pure profiles are required
      *
-     * @return  contact_type
+     * @return  profile group_type
      * @acess public
      * @static
      */
-    static function getProfileType( $ufGroupId, $returnMixType = true ) 
+    static function getProfileType( $ufGroupId, $returnMixType = true, $onlyPure = false ) 
     {
         // profile types
         $contactTypes = array( 'Contact', 'Individual', 'Household', 'Organization', 'Student' );
@@ -406,6 +407,14 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
         $profileTypes = array( );
         if ( $ufGroup->group_type ) {
             $profileTypes = explode( ',',  $ufGroup->group_type );
+        }
+        
+        if ( $onlyPure ) {
+            if ( count( $profileTypes ) == 1 ) {
+                return $profileTypes[0]; 
+            } else {
+                return null;
+            }
         }
 
         //we need to unset Contact
