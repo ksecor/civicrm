@@ -59,26 +59,23 @@ class Browser_Contact_Profile extends CiviTestCase
                                                                  2 => 'add contacts',
                                                                  3 => 'profile listings and forms') );
         $this->drupalLoginUser($this->webUser);
-        require_once "CRM/Core/DAO.php";
-        $this->_userContactID = $this->assertDBNotNull('CRM_Core_DAO_Email', $this->webUser->mail, 'contact_id', 'email',
-                                                       'Checking database for the record.' );
         //goto profile form
         $this->civiGet('civicrm/profile/create', 'gid=1' );
-    }
-    
-    function tearDown() 
-    {
-        parent::tearDown( );
-        //delete drupal user contact from civicrm.
-        Contact::delete( $this->_userContactID );
     }
     
     /**
      * Test to create profile without required fields (first + last are required)
      */
-    function testCreateIProfileContactWithMissingParams( ) 
+    function testCreateProfileContactWithMissingParams( ) 
     {
- 
+        $first_name  = '';
+        $last_name   = '';
+        $params = array( 'first_name' => $first_name,     
+                         'last_name'  => $last_name );
+        $this->drupalPost( NULL, $params, '_qf_Edit_next');
+        $this->assertWantedRaw( 'First Name', 'Name and Address' );
+        $this->assertWantedRaw( 'Last Name', 'Name and Address' );
+        $this->assertDBNull( 'CRM_Contact_DAO_Contact', $last_name . ', ' .$first_name, 'id', 'sort_name',  'Database check, Individual created successfully.' );
     }
     
     /**
@@ -89,12 +86,9 @@ class Browser_Contact_Profile extends CiviTestCase
     {
         $first_name  = 'Jane';
         $last_name   = 'Doe';
-        
-        $this->civiGet('civicrm/profile/create', 'reset=1&gid=1' );
         $params = array( 'first_name' => $first_name,     
                          'last_name'  => $last_name );
         $this->drupalPost( NULL, $params, '_qf_Edit_next');
-        //$this->assertText('Thank you. Your information has been saved.');
         
         // Now check DB for contact and cleanup by deleting the contact
         $contactId = $this->assertDBNotNull( 'CRM_Contact_DAO_Contact', $last_name . ', ' .$first_name, 'id', 'sort_name',  'Checking database for the record.' );
@@ -109,29 +103,19 @@ class Browser_Contact_Profile extends CiviTestCase
     {
         $first_name  = 'John';
         $last_name   = 'Smith';
-        
-        $this->civiGet('civicrm/profile/create', 'reset=1&gid=1' );
-        
         $params = array ( 'first_name'       => $first_name,     
-                          'last_name'        => $last_name, 
-                          'street_address-1' => 'Saint Helier St',          
+                          'last_name'        => $last_name,
+                          'street_address-1' => 'Saint Helier St',
                           'city-1'           => 'Newark',
-                          'postal_code-1'    => '12345',
-                          //'state_province-1' => 1228,
-                          //'country-1'        => 1029,
+                          'postal_code-1'    => 12345,
+                          'state_province-1' => 1029, 
+                          'country-1'        => 1228
                           );
-        
         $this->drupalPost( NULL, $params, '_qf_Edit_next');
-        //$this->assertText('Thank you. Your information has been saved.');
-        
-        // webuser email should be a link on the page - as the contact name of "Last changed by" link
-        //$this->assertLink( $first_name );
-        //$this->assertLink( $last_name );
-        
         // Now check DB for contact and cleanup by deleting the contact
         $contactId = $this->assertDBNotNull( 'CRM_Contact_DAO_Contact', $last_name . ', ' .$first_name, 'id', 'sort_name',  'Checking database for the record.' );
         Contact::delete( $contactId );
-    }  
+    }
     
 }
 
