@@ -428,7 +428,7 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
         $profileType = $mixProfileType = null;
 
         if ( count( $profileTypes ) == 1 ) { // this case handles pure profile
-            $profileType = $profileTypes[0]; 
+            $profileType = array_pop( $profileTypes ); 
         } else {
             //check the there are any components include in profile
             $componentCount = array( );
@@ -456,9 +456,8 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
                 // this is mix contact profiles
                 $mixProfileType = $contactTypeCount[1];
             }
-
         }
-        
+
         if ( $mixProfileType ) {
             if ( $returnMixType ) {
                 return $mixProfileType;
