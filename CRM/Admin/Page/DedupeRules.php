@@ -65,7 +65,6 @@ class CRM_Admin_Page_DedupeRules extends CRM_Core_Page_Basic
     function &links()
     {
           if (!(self::$_links)) {
-              $disableExtra = ts('Are you sure you want to disable this Rule?');
               $deleteExtra  = ts('Are you sure you want to delete this Rule?');
               $defaultExtra = ts('Are you sure you want to make this Rule default?');
 
@@ -82,19 +81,6 @@ class CRM_Admin_Page_DedupeRules extends CRM_Core_Page_Basic
                       'url'   => 'civicrm/admin/deduperules',
                       'qs'    => 'action=update&id=%%id%%',
                       'title' => ts('Edit DedupeRule'),
-                  ),
-                  CRM_Core_Action::ENABLE  => array(
-                      'name'  => ts('Enable'),
-                      'url'   => 'civicrm/admin/deduperules',
-                      'qs'    => 'action=enable&id=%%id%%',
-                      'title' => ts('Enable DedupeRule'),
-                      ),
-                  CRM_Core_Action::DISABLE  => array(
-                      'name'  => ts('Disable'),
-                      'url'   => 'civicrm/admin/deduperules',
-                      'qs'    => 'action=disable&id=%%id%%',
-                      'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
-                      'title' => ts('Disable DedupeRule'),
                   ),
                   CRM_Core_Action::MAP  => array(
                       'name'  => ts('Make Default'),
@@ -184,16 +170,10 @@ class CRM_Admin_Page_DedupeRules extends CRM_Core_Page_Basic
             // form all action links
             $action = array_sum(array_keys($this->links()));
             $links = self::links();
-            if ($dao->is_active) {
-                unset($links[CRM_Core_Action::ENABLE]);
-                if($dao->is_default) {
-                    unset($links[CRM_Core_Action::DISABLE]);
-                    unset($links[CRM_Core_Action::MAP]);
-                }
-            } else {
-                unset($links[CRM_Core_Action::DISABLE]);
+            if ($dao->is_default) {
                 unset($links[CRM_Core_Action::MAP]);
-            }
+                unset($links[CRM_Core_Action::DELETE]);
+            } 
             $ruleGroups[$dao->id]['action'] = CRM_Core_Action::formLink($links, $action, array('id' => $dao->id));
             CRM_Dedupe_DAO_RuleGroup::addDisplayEnums($ruleGroups[$dao->id]);
         }

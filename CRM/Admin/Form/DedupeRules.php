@@ -68,7 +68,6 @@ class CRM_Admin_Form_DedupeRules extends CRM_Admin_Form
             $this->_contactType            = $rgDao->contact_type;
             $this->_defaults['level']      = $rgDao->level;
             $this->_defaults['name']       = $rgDao->name;
-            $this->_defaults['is_active']  = $rgDao->is_active;
             
             $ruleDao =& new CRM_Dedupe_DAO_Rule();
             $ruleDao->dedupe_rule_group_id = $this->_rgid;
@@ -134,14 +133,10 @@ class CRM_Admin_Form_DedupeRules extends CRM_Admin_Form
         $rgDao            =& new CRM_Dedupe_DAO_RuleGroup();
         if ($this->_action & CRM_Core_Action::UPDATE ) {
             $rgDao->id           = $this->_rgid;
-            $values['is_active'] = $this->_defaults['is_active'];
-        } else {
-            $values['is_active'] = 1;
         }
         $rgDao->domain_id    = CRM_Core_Config::domainID();
         $rgDao->threshold    = $values['threshold'];
         $rgDao->name         = $values['name'];
-        $rgDao->is_active    = CRM_Utils_Array::value( 'is_active', $values, 0 );
         $rgDao->level        = $values['level'];
         $rgDao->contact_type = $this->_contactType;
         

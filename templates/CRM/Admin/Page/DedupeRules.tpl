@@ -21,7 +21,6 @@
                   <th>{ts}Contact Type{/ts}</th>
                   <th>{ts}Level{/ts}</th>
                   <th>{ts}Default?{/ts}</th>
-                  <th>{ts}Active?{/ts}</th>
                   <th></th>
                 </tr>
                 {foreach from=$rows item=row}
@@ -33,11 +32,6 @@
                     <td>{ts}Default{/ts}</td>    
                     {else}
                     <td></td>
-                    {/if}
-                    {if $row.is_active}
-                    <td>{ts}Yes{/ts}</td>    
-                    {else}
-                    <td>{ts}No{/ts}</td>
                     {/if}
                     <td>{$row.action}</td>
                   </tr>

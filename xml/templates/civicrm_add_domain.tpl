@@ -445,7 +445,7 @@ VALUES
  (@domain_id,'PayJunction','{ts escape="sql"}PayJunction{/ts}',NULL,1,0,'User Name','Password',NULL,NULL,'Payment_PayJunction','https://payjunction.com/quick_link',NULL,NULL,NULL,'https://payjunction.com/quick_link',NULL,NULL,NULL,1,1);
 
 -- the fuzzy default dedupe rules
-INSERT INTO civicrm_dedupe_rule_group (domain_id, contact_type, threshold, level, is_default, is_active) VALUES (@domain_id, 'Individual', 20, 'Fuzzy', true, true);
+INSERT INTO civicrm_dedupe_rule_group (domain_id, contact_type, threshold, level, is_default) VALUES (@domain_id, 'Individual', 20, 'Fuzzy', true);
 
 SELECT @dedupe_rule_group_id := MAX(id) FROM civicrm_dedupe_rule_group;
 
@@ -455,7 +455,7 @@ VALUES
   (@dedupe_rule_group_id, 'civicrm_contact', 'last_name',  7),
   (@dedupe_rule_group_id, 'civicrm_email'  , 'email',     10);
 
-INSERT INTO civicrm_dedupe_rule_group (domain_id, contact_type, threshold, level, is_default, is_active) VALUES (@domain_id, 'Organization', 10, 'Fuzzy', true, true);
+INSERT INTO civicrm_dedupe_rule_group (domain_id, contact_type, threshold, level, is_default) VALUES (@domain_id, 'Organization', 10, 'Fuzzy', true);
 
 SELECT @dedupe_rule_group_id := MAX(id) FROM civicrm_dedupe_rule_group;
 
@@ -464,7 +464,7 @@ VALUES
   (@dedupe_rule_group_id, 'civicrm_contact', 'organization_name', 5),
   (@dedupe_rule_group_id, 'civicrm_email'  , 'email',             5);
 
-INSERT INTO civicrm_dedupe_rule_group (domain_id, contact_type, threshold, level, is_default, is_active) VALUES (@domain_id, 'Household', 10, 'Fuzzy', true, true);
+INSERT INTO civicrm_dedupe_rule_group (domain_id, contact_type, threshold, level, is_default) VALUES (@domain_id, 'Household', 10, 'Fuzzy', true);
 
 SELECT @dedupe_rule_group_id := MAX(id) FROM civicrm_dedupe_rule_group;
 
@@ -474,17 +474,17 @@ VALUES
   (@dedupe_rule_group_id, 'civicrm_email'  , 'email',          5);
 
 -- the strict dedupe rules
-INSERT INTO civicrm_dedupe_rule_group (domain_id, contact_type, threshold, level, is_default, is_active) VALUES (@domain_id, 'Individual', 10, 'Strict', true, true);
+INSERT INTO civicrm_dedupe_rule_group (domain_id, contact_type, threshold, level, is_default) VALUES (@domain_id, 'Individual', 10, 'Strict', true);
 SELECT @dedupe_rule_group_id := MAX(id) FROM civicrm_dedupe_rule_group;
 INSERT INTO civicrm_dedupe_rule (dedupe_rule_group_id, rule_table, rule_field, rule_weight)
 VALUES (@dedupe_rule_group_id, 'civicrm_email', 'email', 10);
 
-INSERT INTO civicrm_dedupe_rule_group (domain_id, contact_type, threshold, level, is_default, is_active) VALUES (@domain_id, 'Organization', 10, 'Strict', true, true);
+INSERT INTO civicrm_dedupe_rule_group (domain_id, contact_type, threshold, level, is_default) VALUES (@domain_id, 'Organization', 10, 'Strict', true);
 SELECT @dedupe_rule_group_id := MAX(id) FROM civicrm_dedupe_rule_group;
 INSERT INTO civicrm_dedupe_rule (dedupe_rule_group_id, rule_table, rule_field, rule_weight)
 VALUES (@dedupe_rule_group_id, 'civicrm_email', 'email', 10);
 
-INSERT INTO civicrm_dedupe_rule_group (domain_id, contact_type, threshold, level, is_default, is_active) VALUES (@domain_id, 'Household', 10, 'Strict', true, true);
+INSERT INTO civicrm_dedupe_rule_group (domain_id, contact_type, threshold, level, is_default) VALUES (@domain_id, 'Household', 10, 'Strict', true);
 SELECT @dedupe_rule_group_id := MAX(id) FROM civicrm_dedupe_rule_group;
 INSERT INTO civicrm_dedupe_rule (dedupe_rule_group_id, rule_table, rule_field, rule_weight)
 VALUES (@dedupe_rule_group_id, 'civicrm_email', 'email', 10);
