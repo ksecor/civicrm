@@ -144,8 +144,8 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                                                          $this, false, 'add' );
         $this->assign( 'action', $this->_action );
         $this->_id        = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
-        //we shall come back.
-        //$this->_mode       = $this->_action & CRM_Core_Action::PREVIEW ? 'test' : 'live';
+        
+        // FIXME : by default it should live mode
         $this->_mode = 'test';
         
         $this->_paymentProcessor = array( 'billing_mode' => 1 );
