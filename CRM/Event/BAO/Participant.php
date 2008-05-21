@@ -343,31 +343,6 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
     }
 
     /**
-     * return the last modified date for participation
-     *
-     * @param int $contactId      contact id
-     * @param int $participantId  participant id
-     *
-     * @static
-     * @access public
-     */
-    static function getModifiedDate( $contactId, $participantId )
-    {
-        $query = "SELECT   civicrm_log.id as id, civicrm_log.modified_date as modified_date
-                  FROM     civicrm_log
-                  WHERE    civicrm_log.entity_table='civicrm_participant' 
-                     AND   civicrm_log.entity_id={$participantId} 
-                     AND   civicrm_log.modified_id={$contactId} 
-                  ORDER BY id DESC LIMIT 1";
-        
-        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
-        if ( $dao->fetch( ) ) {
-             return $dao->modified_date;
-        }
-        return false;
-    }
-        
-    /**
      * combine all the importable fields from the lower levels object
      *
      * @return array array of importable Fields
@@ -595,25 +570,6 @@ WHERE  civicrm_participant.id = {$participantId}
         }
         return $result;
     }
-    
-    /**
-     * Function to check if the participant exits in the db
-     * 
-     * @return id of the paricipant objectif exists else return null
-     * @static
-     */
-    static function checkParticipantExists($params)
-    {
-        require_once "CRM/Event/DAO/Participant.php";
-        $participant =& new CRM_Event_DAO_Participant();
-        $participant->contact_id = $params['contact_id'];
-        $participant->event_id = $params['event_id'];
-        $result = null;
-        if ($participant->find( true )) {
-            $result = $participant->id;
-        } 
-        return $result;
-    } 
     
     /**
      * fix the event level
