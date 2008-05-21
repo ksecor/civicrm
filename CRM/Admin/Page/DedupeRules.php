@@ -67,6 +67,7 @@ class CRM_Admin_Page_DedupeRules extends CRM_Core_Page_Basic
           if (!(self::$_links)) {
               $disableExtra = ts('Are you sure you want to disable this Rule?');
               $deleteExtra  = ts('Are you sure you want to delete this Rule?');
+              $defaultExtra = ts('Are you sure you want to make this Rule default?');
 
               // helper variable for nicer formatting
               self::$_links = array(
@@ -94,6 +95,13 @@ class CRM_Admin_Page_DedupeRules extends CRM_Core_Page_Basic
                       'qs'    => 'action=disable&id=%%id%%',
                       'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
                       'title' => ts('Disable DedupeRule'),
+                  ),
+                  CRM_Core_Action::MAP  => array(
+                      'name'  => ts('Make Default'),
+                      'url'   => 'civicrm/admin/deduperules',
+                      'qs'    => 'action=map&id=%%id%%',
+                      'extra' => 'onclick = "return confirm(\'' . $defaultExtra . '\');"',
+                      'title' => ts('Default DedupeRule'),
                   ),
                   CRM_Core_Action::DELETE  => array(
                       'name'  => ts('Delete'),
@@ -134,6 +142,16 @@ class CRM_Admin_Page_DedupeRules extends CRM_Core_Page_Basic
         if ($action & CRM_Core_Action::DELETE ) {
             $this->delete($id);
         }
+        if ($action & CRM_Core_Action::MAP ) {
+            $rgDao             =& new CRM_Dedupe_DAO_RuleGroup();
+            $rgDao->id         = $id;
+            $rgDao->find(true);
+            $rgDao->is_default = 1;
+            $query = "UPDATE civicrm_dedupe_rule_group SET is_default = 0 WHERE domain_id = {$rgDao->domain_id} AND contact_type = '{$rgDao->contact_type}' AND LEVEL = '{$rgDao->level}'";
+            CRM_Core_DAO::executeQuery($query, CRM_Core_DAO::$_nullArray);
+            $rgDao->save();
+        }
+
         // browse the rules
         $this->browse();
 
@@ -167,12 +185,14 @@ class CRM_Admin_Page_DedupeRules extends CRM_Core_Page_Basic
             $action = array_sum(array_keys($this->links()));
             $links = self::links();
             if ($dao->is_active) {
-                unset($links[32]);
+                unset($links[CRM_Core_Action::ENABLE]);
                 if($dao->is_default) {
-                    unset($links[64]);
+                    unset($links[CRM_Core_Action::DISABLE]);
+                    unset($links[CRM_Core_Action::MAP]);
                 }
             } else {
-                unset($links[64]);
+                unset($links[CRM_Core_Action::DISABLE]);
+                unset($links[CRM_Core_Action::MAP]);
             }
             $ruleGroups[$dao->id]['action'] = CRM_Core_Action::formLink($links, $action, array('id' => $dao->id));
             CRM_Dedupe_DAO_RuleGroup::addDisplayEnums($ruleGroups[$dao->id]);
