@@ -527,8 +527,6 @@ WHERE {$countryClause}
     AND {$stateClause}
 ORDER BY name";
 
-
-            echo "$query<p>";
             $nullArray = array( );
             $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
             
