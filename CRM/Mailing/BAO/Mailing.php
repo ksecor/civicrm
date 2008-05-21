@@ -1852,7 +1852,6 @@ SELECT DISTINCT( m.id ) as id
         
         require_once 'CRM/Core/BAO/MessageTemplates.php';
         $form->_templates = CRM_Core_BAO_MessageTemplates::getMessageTemplates();
-        $form->add('text', 'subject', ts('Mailing Subject'), 'size=30 maxlength=60', true);
         if ( !empty( $form->_templates ) ) {
             $form->assign('templates', true);
             $form->add('select', 'template', ts('Select Template'),

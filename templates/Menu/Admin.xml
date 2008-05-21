@@ -237,6 +237,16 @@
      <weight>340</weight>
   </item>
   <item>
+     <path>civicrm/admin/options/from_email_address</path>
+     <title>From Email Address</title>
+     <desc>List of Email Addresses which can be used when sending emails to contacts.</desc>
+     <path_arguments>group=from_email_address</path_arguments>
+     <page_callback>CRM_Admin_Page_Options</page_callback>
+     <adminGroup>Option Lists</adminGroup>
+     <icon>admin/small/title.png</icon>
+     <weight>345</weight>
+  </item>
+  <item>
      <path>civicrm/admin/options/instant_messenger_service</path>
      <title>Instant Messenger Services</title>
      <desc>List of IM services which can be used when recording screen-names for contacts.</desc>

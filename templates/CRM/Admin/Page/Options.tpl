@@ -82,7 +82,7 @@
     <div class="messages status">
     <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
-        {capture assign=crmURL}{crmURL p='civicrm/admin/options' q="group="|cat:$gName|cat:"&action=add&reset=1"}{/capture}
+        {capture assign=crmURL}{crmURL  q="group="|cat:$gName|cat:"&action=add&reset=1"}{/capture}
         <dd>{ts 1=$crmURL}There are no option values entered. You can <a href='%1'>add one</a>.{/ts}</dd>
         </dl>
     </div>    
