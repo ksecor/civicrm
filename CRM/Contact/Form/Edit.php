@@ -359,23 +359,25 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
             
             foreach ( $defaults['location'] as $key => $value ) {
                 if ( isset( $value['address'] ) ) {
-
+                    
                     // hack, check if we have created a country element
                     if ( isset( $this->_elementIndex[ "location[$key][address][country_id]" ] ) ) {
-                        $countryValue = $this->_elementIndex[ "location[$key][address][country_id]" ];
+                        $countryValue = $this->getElementValue( "location[$key][address][country_id]" ) ;
                         
                         if ( !$countryValue && isset($value['address']['country_id']) ) {
                             $countryValue = $value['address']['country_id'];
                             
                         }
                         
-                        //retrive country by using country code for assigning country name to template
-                        $country = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Country', 
-                                                                $countryValue, 
-                                                                'name', 
-                                                                'id' );
-                        $this->assign( "country" , $country );
-                        $this->assign( "country_{$key}_value"   ,  $countryValue );
+                        if ( $countryValue ) {
+                            //retrive country by using country code for assigning country name to template
+                            $country = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Country', 
+                                                                    $countryValue, 
+                                                                    'name', 
+                                                                    'id' );
+                            $this->assign( "country" , $country );
+                            $this->assign( "country_{$key}_value" ,  $countryValue );
+                        }
                     }
                     
                     if ( isset( $this->_elementIndex[ "location[$key][address][state_province_id]" ] ) ) {
