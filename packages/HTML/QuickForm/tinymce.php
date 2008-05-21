@@ -62,7 +62,7 @@ class HTML_QuickForm_TinyMCE extends HTML_QuickForm_textarea
      * @access  public
      * @return  void
      */
-    function HTML_QuickForm_TinyMCE($elementName=null, $elementLabel=null, $options=array(), $attributes=null)
+    function HTML_QuickForm_TinyMCE($elementName=null, $elementLabel=null, $attributes=null, $options=array())
     {
         HTML_QuickForm_element::HTML_QuickForm_element($elementName, $elementLabel, $attributes);
         $this->_persistantFreeze = true;

@@ -58,7 +58,7 @@
 	function GetXmlHttpObject()
 	{
 		var xmlHttp=null;
-		try
+ 		try
   		{
   			// Firefox, Opera 8.0+, Safari
 			xmlHttp=new XMLHttpRequest();
@@ -142,7 +142,22 @@
 	{
 	 	oEditor = FCKeditorAPI.GetInstance('html_message');
 		oEditor.SetHTML( {/literal}"{$message_html}"{literal});
+		editorInstance.Events.AttachEvent( 'OnFocus',verify ) ;
     	}
+{/literal}
+{/if}
+{if $editor eq "tinymce"}
+{literal}
+	function customEvent() {
+		tinyMCE.get('html_message').onKeyPress.add(function(ed, e) {
+ 		verify();
+		});
+	}
+
+tinyMCE.init({
+	oninit : "customEvent"
+});
+
 {/literal}
 {/if}
 {literal}
