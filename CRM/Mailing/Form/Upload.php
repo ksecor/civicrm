@@ -116,6 +116,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                  file_exists( $htmlFilePath ) ) {
                 $defaults['html_message'] = file_get_contents( $htmlFilePath );
                 if ( strlen( $defaults['html_message'] ) > 0 ) {
+                    $htmlMessage = $defaults['html_message'];
                     $this->set('skipHtmlFile', true);
                 }
             }
