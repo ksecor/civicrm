@@ -410,6 +410,11 @@ class DrupalTestCase extends WebTestCase {
 
     /* Add the raw password */
     $u->pass_raw = $ua['pass'];
+
+    /* add the CiviCRM contact_id property associated with this user */
+    require_once 'CRM/Core/BAO/UFMatch.php';
+    $u->contact_id = CRM_Core_BAO_UFMatch::getContactID($u->uid);
+
     return $u;
   }
 
