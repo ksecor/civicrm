@@ -91,7 +91,7 @@ class CRM_Contact_BAO_GroupContactCache extends CRM_Contact_DAO_GroupContactCach
         // to avoid long strings, lets do NUM_CONTACTS_TO_INSERT values at a time
         while ( ! empty( $values ) ) {
             $input = array_splice( $values, 0, self::NUM_CONTACTS_TO_INSERT );
-            $str   = implode( ', ', $input );
+            $str   = implode( ',', $input );
             $sql = "INSERT INTO civicrm_group_contact_cache (group_id,contact_id) VALUES $str;";
             CRM_Core_DAO::executeQuery( $sql,
                                         CRM_Core_DAO::$_nullArray );

@@ -26,7 +26,6 @@
     {include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
 </fieldset>
 </div>
-{* FIXME : uncomment following code once we will be complete with the subgroup functionality
 <div class="form-item">
 <fieldset><legend>{ts}Subgroups{/ts}</legend>
     {if $child_groups|@count > 0}
@@ -44,7 +43,6 @@
     </dl>
 </fieldset>
 </div>
-*}
 <div class="form-item">
     {$form.buttons.html}
 </div>
