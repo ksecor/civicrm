@@ -164,12 +164,22 @@ class CRM_Dedupe_Finder
         }
 
         // handle preferred_communication_method
-        if ( array_key_exists('preferred_communication_method', $fields) ) {
+        if (array_key_exists('preferred_communication_method', $fields)) {
             $methods = array_intersect($fields['preferred_communication_method'], array('1'));
             $methods = array_keys($methods);
             sort($methods);
             if ($methods) {
                 $flat['preferred_communication_method'] = CRM_Core_DAO::VALUE_SEPARATOR . implode(CRM_Core_DAO::VALUE_SEPARATOR, $methods) . CRM_Core_DAO::VALUE_SEPARATOR;
+            }
+        }
+
+        // handle custom data
+        $tree =& CRM_Core_BAO_CustomGroup::getTree($ctype, null, -1);
+        CRM_Core_BAO_CustomGroup::postProcess($tree, $fields);
+        foreach($tree as $key => $cg) {
+            if (!is_int($key)) continue;
+            foreach($cg['fields'] as $cf) {
+                $flat[$cf['column_name']] = $cf['customValue']['data'];
             }
         }
 
