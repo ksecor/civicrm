@@ -447,15 +447,15 @@ WHERE e.id = %1";
      * @access public
      * @static
      */
-    static function deleteLocationBlocks( $contactId, $locationTypeId ) {
-        static $blocks = array( 'Address', 'Phone', 'IM', 'OpenID' );
+    static function deleteLocationBlocks( $contactId, $locationTypeId ) 
+    {
+        static $blocks = array( 'Address', 'Phone', 'IM', 'OpenID', 'Email' );
+        
         require_once "CRM/Core/BAO/Block.php";
-        $params = array ( 'contact_id' => $contactId, 'location_type_id' => $locationTypeId);
+        $params = array ( 'contact_id' => $contactId, 'location_type_id' => $locationTypeId );
         foreach ($blocks as $name) {
             CRM_Core_BAO_Block::blockDelete( $name, $params );
         }
-        
-        CRM_Core_BAO_Email::deleteLocation( $params );
     }
 
     static function primaryLocationValue( $entityID, $entityTable = 'civicrm_contact', $locationID = null ) {
