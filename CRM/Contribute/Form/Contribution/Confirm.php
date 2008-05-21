@@ -864,7 +864,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         if ( $contactID != $orgID ) {
             // take a note of contact-id, so we can send the
             // receipt to individual contact as well.
-            $values['related_contacts'][] = $contactID;
+            $values['related_contact'] = $contactID;
             $contactID = $orgID;
         }
     }

@@ -145,23 +145,24 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
                                       'customPost', $contactID,
                                       $template, $params['custom_post_id'] );
             
-            // cc to related contacts of contributor OR the one who
-            // signs up. Can be used for cases like - on behalf of
-            // contribution / signup ..etc  
-            if ( array_key_exists('related_contacts', $values) ) {
-                foreach ( $values['related_contacts'] as $rcId ) {
-                    list( $ccDisplayName, $ccEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $rcId );
-                    $ccMailIds = $ccMailIds ? 
-                        ($ccMailIds . ',"' . $ccDisplayName . '" <' . $ccEmail . '>') : 
-                        ('"' . $ccDisplayName . '" <' . $ccEmail . '>');
-                }
-                $values['cc_receipt'] = CRM_Utils_Array::value( 'cc_receipt' , $values ) ? 
-                    ($values['cc_receipt'] . ',' . $ccMailIds) : $ccMailIds;
-            }
-            
             // set email in the template here
             $template->assign( 'email', $email );
 
+            // cc to related contacts of contributor OR the one who
+            // signs up. Is used for cases like - on behalf of
+            // contribution / signup ..etc  
+            if ( array_key_exists('related_contact', $values) ) {
+                list( $ccDisplayName, $ccEmail ) = 
+                    CRM_Contact_BAO_Contact_Location::getEmailDetails( $values['related_contact'] );
+                $ccMailId = '"' . $ccDisplayName . '" <' . $ccEmail . '>';
+                
+                $values['cc_receipt'] = CRM_Utils_Array::value( 'cc_receipt' , $values ) ? 
+                    ($values['cc_receipt'] . ',' . $ccMailId) : $ccMailId;
+                
+                // reset primary-email in the template
+                $template->assign( 'email', $ccEmail );
+            }
+            
             $subject = trim( $template->fetch( 'CRM/Contribute/Form/Contribution/ReceiptSubject.tpl' ) );
             $message = $template->fetch( 'CRM/Contribute/Form/Contribution/ReceiptMessage.tpl' );
 
