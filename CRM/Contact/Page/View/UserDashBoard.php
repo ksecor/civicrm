@@ -147,17 +147,17 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
             }
         }
 
-        $sectionName = 'My Contacts / Organizations';
+        $sectionName = 'Permissioned Orgs';
         if ( $this->_userOptions[ $sectionName ] ) {
             $dashboardElements[] = array( 'templatePath' => 'CRM/Contact/Page/View/Relationship.tpl',
-                                          'sectionTitle' => $sectionName,
+                                          'sectionTitle' => 'My Contacts / Organizations',
                                           'weight'       => 40 );
          
             $links =& self::links( );
             $mask  = CRM_Core_Action::mask( $this->_permission );
            
             $currentRelationships = CRM_Contact_BAO_Relationship::getRelationship($this->_contactId,
-                                                                                  CRM_Contact_BAO_Relationship::CURRENT  ,
+                                                                                  CRM_Contact_BAO_Relationship::CURRENT,
                                                                                   0, 0, 0,
                                                                                   $links, $mask, true );
             $this->assign( 'currentRelationships',  $currentRelationships  );

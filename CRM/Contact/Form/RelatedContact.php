@@ -53,22 +53,18 @@ class CRM_Contact_Form_RelatedContact extends CRM_Core_Form
     protected $_contactType;
 
     /**
-     * The contact type of the form
-     *
-     * @var string
-     */
-    protected $_contactSubType;
-
-    /**
      * The contact id, used when editing the form
      *
      * @var int
      */
     public $_contactId;
     
-    protected $_maxLocationBlocks = 0;
-
-    protected $_editOptions = array( );
+    /**
+     * form defaults
+     *
+     * @var array
+     */
+    protected $_defaults = array( );
 
     /**
      * build all the data structures needed to build the form
@@ -79,22 +75,9 @@ class CRM_Contact_Form_RelatedContact extends CRM_Core_Form
     function preProcess( ) 
     {
         // reset action from the session
-        $this->_action              = CRM_Utils_Request::retrieve('action', 'String', 
-                                                                  $this, false, 'update' );
-        
-        // find the system config related location blocks
-        require_once 'CRM/Core/BAO/Preferences.php';
-        //since we are only editing the primary location
-        $this->_maxLocationBlocks = 1;
-
-        $this->_editOptions  = CRM_Core_BAO_Preferences::valueOptions( 'contact_edit_options' );
-
-        // this is update mode, first get the id from the session
-        // else get it from the REQUEST
-        
-        if ( ! $this->_contactId ) {
-            $this->_contactId   = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this, true );
-        }
+        $this->_action      = CRM_Utils_Request::retrieve( 'action', 'String', 
+                                                           $this, false, 'update' );
+        $this->_contactId   = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this, true );
         
         if ( $this->_contactId ) {
             require_once 'CRM/Contact/BAO/Contact.php';
@@ -104,7 +87,6 @@ class CRM_Contact_Form_RelatedContact extends CRM_Core_Form
                 CRM_Core_Error::statusBounce( ts('contact does not exist: %1', array(1 => $this->_contactId)) );
             }
             $this->_contactType    = $contact->contact_type;
-            $this->_contactSubType = $contact->contact_sub_type;
            
             // check for permissions
             require_once 'CRM/Contact/BAO/Contact/Permission.php';
@@ -114,12 +96,9 @@ class CRM_Contact_Form_RelatedContact extends CRM_Core_Form
             
             list( $displayName, $contactImage ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $this->_contactId );
             CRM_Utils_System::setTitle( $contactImage . ' ' . $displayName ); 
-            
-            //get the no of locations for the contact
-            $this->_maxLocationBlocks = CRM_Contact_BAO_Contact::getContactLocations( $this->_contactId );
-            return;
+        } else {
+            CRM_Core_Error::statusBounce( ts('Could not get a contact_id and/or contact_type') );
         }
-        CRM_Core_Error::statusBounce( ts('Could not get a contact_id and/or contact_type') );
     }
     
 
@@ -132,87 +111,7 @@ class CRM_Contact_Form_RelatedContact extends CRM_Core_Form
      */
     function setDefaultValues( ) 
     {
-        $defaults = array( );
-        $params   = array( );
-
-        $config =& CRM_Core_Config::singleton( );
-
-        // this is update mode
-        // get values from contact table
-        $params['id'] = $params['contact_id'] = $this->_contactId;
-        $contact = CRM_Contact_BAO_Contact::retrieve( $params, $defaults );
-        
-        $locationExists = array( );
-        
-        foreach( $contact->location as $index => $loc) {
-            $locationExists[] = $loc['location_type_id'];
-            //to get the billing location
-            $defaults['location'][$index]['is_billing'] = CRM_Utils_Array::value( 'is_billing' ,
-                                                                                  $defaults['location'][$index]['address'] );
-        }
-        $this->assign( 'locationExists' , $locationExists );
-        
-        $this->assign( 'contactId' , $this->_contactId );
-        // also set contact_type, since this is used in showHide routines 
-        // to decide whether to display certain blocks (demographics)
-        $this->_contactType = CRM_Utils_Array::value( 'contact_type', $defaults );
-        
-        //check primary for first location
-        $defaults['location'][1]['is_primary'] = true;
-      
-        //set defaults for country-state dojo widget
-        if ( ! empty ( $defaults['location'] ) ) {
-            $countries      =& CRM_Core_PseudoConstant::country( );
-            $stateProvinces =& CRM_Core_PseudoConstant::stateProvince( false, false );
-            
-            foreach ( $defaults['location'] as $key => $value ) {
-                if ( isset( $value['address'] ) ) {
-
-                    // hack, check if we have created a country element
-                    if ( isset( $this->_elementIndex[ "location[$key][address][country_id]" ] ) ) {
-                        $countryValue = $this->getElementValue( "location[$key][address][country_id]" );
-                        
-                        if ( !$countryValue && isset($value['address']['country_id']) ) {
-                            $countryValue = $value['address']['country_id'];
-                            
-                            //retrive country by using country code for assigning country name to template
-                            $country = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Country', 
-                                                                    $countryValue, 
-                                                                    'name', 
-                                                                    'id' );
-                            $this->assign( "country" , $country );
-                        }
-                        
-                        $this->assign( "country_{$key}_value"   ,  $countryValue );
-                    }
-                    
-                    if ( isset( $this->_elementIndex[ "location[$key][address][state_province_id]" ] ) ) {
-                        $stateValue = $this->getElementValue( "location[$key][address][state_province_id]" );
-                        
-                        if ( !$stateValue && isset($value['address']['state_province_id']) ) {
-                            $stateValue = $value['address']['state_province_id'];
-                            
-                            //retrive country by using country code for assigning country name to template
-                            $state = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_StateProvince', 
-                                                                  $stateValue, 
-                                                                  'name', 
-                                                                  'id' );
-                            $this->assign( "state" , $state );
-                        }
-
-                        $this->assign( "state_province_{$key}_value", $stateValue );
-                    }
-                    
-                    if ( isset( $value['address']['display']) ) {
-                        $this->assign( "location_{$key}_address_display", 
-                                       str_replace("\n", "<br/>", $value['address']['display']) );
-                    }
-                }
-            }
-        }
-      
-        return $defaults;
-     
+        return $this->_defaults;
     }
 
     /**
@@ -223,7 +122,14 @@ class CRM_Contact_Form_RelatedContact extends CRM_Core_Form
      */
     public function buildQuickForm( ) 
     {
-        CRM_Contact_BAO_Contact_Utils::buildOnBehalfForm( $this, $this->_contactType );
+        $params       = array( );
+        $params['id'] = $params['contact_id'] = $this->_contactId;
+        $contact = CRM_Contact_BAO_Contact::retrieve( $params, $this->_defaults );
+
+        CRM_Contact_BAO_Contact_Utils::buildOnBehalfForm($this, $this->_contactType, 
+                                                         $this->_defaults['location'][1]['address']['country_id'],
+                                                         $this->_defaults['location'][1]['address']['state_province_id'],
+                                                         'Contact Information', false );
 
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
@@ -254,11 +160,8 @@ class CRM_Contact_Form_RelatedContact extends CRM_Core_Form
         unset($params['location'][1]['address']['country_state']);
         
         $params['location'][1]['is_primary'] = 1;
-
-	    $params['contact_type'] = $this->_contactType;
-        if ( $this->_contactId ) {
-            $params['contact_id'] = $this->_contactId;
-        }
+	    $params['contact_type']              = $this->_contactType;
+        $params['contact_id']                = $this->_contactId;
         
         require_once 'CRM/Contact/BAO/Contact.php';
         $contact =& CRM_Contact_BAO_Contact::create($params, true, false );

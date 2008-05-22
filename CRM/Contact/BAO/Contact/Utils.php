@@ -309,7 +309,8 @@ UNION
                                        $contactType    = 'Individual', 
                                        $countryDefault = null,
                                        $stateDefault   = null,
-                                       $title          = 'Contact Information', 
+                                       $title          = 'Contact Information',
+                                       $orgOption      = true,
                                        $maxLocationBlocks = 1 )
     {
         require_once 'CRM/Contact/Form/Location.php';
@@ -332,7 +333,7 @@ UNION
                 $employers = CRM_Contact_BAO_Relationship::getPermissionedEmployer( $contactID );
             }
 
-            if ( $contactID && ( count($employers) >= 1 ) ) {
+            if ( $contactID && ( count($employers) >= 1 ) && $orgOption ) {
                 $filterAttributes = array( 'dojoType'     => 'dijit.form.FilteringSelect',
                                            'mode'         => 'remote',
                                            'store'        => 'employerStore',
@@ -353,8 +354,13 @@ UNION
                 $form->add('text', 'organization_id', 
                            ts('Select an existing related Organization OR Enter a new one'), $filterAttributes);
                 
-                $orgOptions = array( '0' => ts('Create new organization'), '1' => ts('Select existing organization') );
-                $form->addRadio('org_option', ts('options'),  $orgOptions, array( 'onclick' => "showHideByValue('org_option','true','select_org','table-row','radio',true);showHideByValue('org_option','true','create_org','table-row','radio',false);resetLocation(this.value);"));
+                $orgOptions     = array( '0' => ts('Create new organization'), 
+                                         '1' => ts('Select existing organization') );
+                $orgOptionExtra = array( 'onclick' => "showHideByValue('org_option','true','select_org','table-row','radio',true);showHideByValue('org_option','true','create_org','table-row','radio',false);");
+                if ( $form->_membershipContactID ) {
+                    $orgOptionExtra['onclick'] .= "resetLocation(this.value);"; 
+                }
+                $form->addRadio( 'org_option', ts('options'),  $orgOptions, $orgOptionExtra );
                 $form->assign( 'relatedOrganizationFound', true );
             }
             $form->add('text', 'organization_name', ts('Organization Name'), $attributes['organization_name']);

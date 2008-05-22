@@ -172,13 +172,11 @@
 {/if}
 
 {* Javascript method to reset the location fields when a different existing related contact is selected *}
+{if $membershipContactID}
 {literal}
 <script type="text/javascript">
-    function resetLocation(val) {
-        var membershipContactID = {/literal}{if $membershipContactID}{$membershipContactID}{else}''{/if}{literal};
-        if ( !membershipContactID ) {
-            return;
-        }
+    function resetLocation( val ) {
+        var membershipContactID = {/literal}{$membershipContactID}{literal};
         var selectedVal = dijit.byId( 'organization_id' ).getValue();
         if ( val == '0' ) {
             selectedVal = "";
@@ -208,4 +206,4 @@
     }
 </script>
 {/literal}
-
+{/if}
