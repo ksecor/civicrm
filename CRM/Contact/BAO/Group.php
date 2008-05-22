@@ -193,22 +193,13 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
      * @access public
      * @static
      */
-    static function getMember ($lngGroupId, $includeChildGroups = false) {
-        $groupIds = array( $lngGroupId );
-        if ( $includeChildGroups ) {
-            require_once 'CRM/Contact/BAO/GroupNesting.php';
-            $groupIds = CRM_Contact_BAO_GroupNesting::getDescendentGroupIds( $groupIds );
-        }
-
-        $params['group'] = array( );
-        foreach ( $groupIds as $gid ) {
-            $params['group'][$gid] = 1;
-        }
+    static function &getMember( $groupID, $useCache = true ) {
+        $params['group'] = array( $groupID => 1 );
         $params['return.contact_id'] = 1;
         $params['offset']            = 0;
         $params['rowCount']          = 0;
         $params['sort']              = null;
-        $params['smartGroupCache']   = false;
+        $params['smartGroupCache']   = $useCache;
 
         require_once 'api/v2/Contact.php';
         $contacts = civicrm_contact_search( $params );

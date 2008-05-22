@@ -92,7 +92,7 @@ class CRM_Contact_BAO_GroupContactCache extends CRM_Contact_DAO_GroupContactCach
         while ( ! empty( $values ) ) {
             $input = array_splice( $values, 0, self::NUM_CONTACTS_TO_INSERT );
             $str   = implode( ',', $input );
-            $sql = "INSERT INTO civicrm_group_contact_cache (group_id,contact_id) VALUES $str;";
+            $sql = "REPLACE INTO civicrm_group_contact_cache (group_id,contact_id) VALUES $str;";
             CRM_Core_DAO::executeQuery( $sql,
                                         CRM_Core_DAO::$_nullArray );
         }
@@ -158,6 +158,87 @@ WHERE  id = %1
         CRM_Core_DAO::executeQuery( $update, $params );
     }
     
+    /**
+     * load the smart group cache for a saved search
+     */
+    static function load( &$group ) {
+        CRM_Core_Error::debug( $group );
+        $groupID       = $group->id;
+        $savedSearchID = $group->saved_search_id;
+
+        $sql    = null;
+        $idName = 'id';
+        if ( $savedSearchID ) {
+            require_once 'CRM/Contact/BAO/SavedSearch.php';
+            $ssParams =& CRM_Contact_BAO_SavedSearch::getSearchParams($savedSearchID);
+            $returnProperties = array();
+            if (CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_SavedSearch',
+                                             $savedSearchID,
+                                             'mapping_id' ) ) {
+                require_once "CRM/Core/BAO/Mapping.php";
+                $fv =& CRM_Contact_BAO_SavedSearch::getFormValues($savedSearchID);
+                $returnProperties = CRM_Core_BAO_Mapping::returnProperties( $fv );
+            }
+
+            if ( isset( $ssParams['customSearchID'] ) ) {
+                // if custom search
+                require_once 'CRM/Contact/BAO/SearchCustom.php';
+                $searchSQL = CRM_Contact_BAO_SearchCustom::contactIDSQL( $ssParams['customSearchID'],
+                                                                         $savedSearchID );
+                $idName = 'contact_id';
+            } else {
+                $query =& new CRM_Contact_BAO_Query($ssParams, $returnProperties, null,
+                                                    false, false, 1,
+                                                    true, true, false );
+                $searchSQL =& $query->searchQuery( 0, 0, null,
+                                                   false, false,
+                                                   false, true, true, null );
+            }
+            $groupID = CRM_Utils_Type::escape($groupID, 'Integer');
+            $sql = $searchSQL . 
+                " AND contact_a.id NOT IN ( 
+                              SELECT contact_id FROM civicrm_group_contact 
+                              WHERE civicrm_group_contact.status = 'Removed' 
+                              AND   civicrm_group_contact.group_id = $groupID ) ";
+        }
+
+        if ( $sql ) {
+            $sql .= " UNION ";
+        }
+
+        // lets also store the records that are explicitly added to the group
+        // this allows us to skip the group contact LEFT JOIN
+        $sql .= "(
+SELECT contact_id as $idName
+FROM   civicrm_group_contact
+WHERE  civicrm_group_contact.status = 'Added'
+  AND  civicrm_group_contact.group_id = $groupID )";
+
+        $dao = CRM_Core_DAO::executeQuery( $sql,
+                                           CRM_Core_DAO::$_nullArray );
+
+        $values = array( );
+        while ( $dao->fetch( ) ) {
+            $values[] = "({$groupID},{$dao->$idName})";
+        }
+
+        $groupIDs = array( $groupID );
+        self::remove( $groupIDs );
+        self::store ( $groupIDs, $values );
+
+        if ( $group->children ) {
+            require_once 'CRM/Contact/BAO/Group.php';
+            $childrenIDs = explode( ',', $group->children );
+            foreach ( $childrenIDs as $childID ) {
+                $contactIDs =& CRM_Contact_BAO_Group::getMember( $childID, false );
+                $values = array( );
+                foreach ( $contactIDs as $contactID => $dontCare) {
+                    $values[] = "({$groupID},{$contactID})";
+                }
+                self::store ( $groupIDs, $values );
+            }
+        }
+    }
 }
 
 
