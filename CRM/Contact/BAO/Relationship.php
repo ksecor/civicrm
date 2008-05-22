@@ -1080,6 +1080,8 @@ FROM civicrm_relationship cr, civicrm_contact cc
 WHERE cr.contact_id_a = $contactID AND 
 cr.relationship_type_id = $relTypeId AND 
 cr.is_permission_a_b = 1 AND
+IF(cr.end_date IS NULL, 1, (DATEDIFF( CURDATE( ), cr.end_date ) <= 0)) AND
+cr.is_active = 1 AND
 cc.id = cr.contact_id_b AND
 cc.sort_name LIKE '%$name%' AND 
 cc.domain_id = {$domainID}";            

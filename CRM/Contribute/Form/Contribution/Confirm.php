@@ -405,7 +405,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                                                                          null, $ctype);
         }
 
-        // If onbehalf-of-organization contribution, add organization
+        // If onbehalf-of-organization contribution / signup, add organization
         // and it's location.
         if ( is_array($behalfOrganization) && $behalfOrganization['organization_name'] ) {
             self::processOnBehalfOrganization( $behalfOrganization, $this->_values, $contactID );
