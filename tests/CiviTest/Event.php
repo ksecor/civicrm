@@ -1,0 +1,41 @@
+<?php
+class Event extends DrupalTestCase 
+{
+    /*
+     * Helper function to create
+     * an Event 
+     *
+     * @return $event object of created Event
+     */
+    function create( ) 
+    {
+        require_once "CRM/Event/BAO/Event.php";        
+        $params = array('title'                    => 'Test Event',
+                        'event_type_id'            => 1,
+                        'default_role_id'          => 1,
+                        'participant_listing_id'   => 1,
+                        'summary'                  => 'Created for Test Coverage BAO',
+                        'description'              => 'Test Coverage BAO',
+                        'is_public'                => 1,
+                        'start_date'               => '20080526200000',
+                        'end_date'                 => '20080530200000',
+                        'is_active'                => 1
+                        );
+        
+        $event = CRM_Event_BAO_Event::create( $params, $ids );
+        return $event;
+    }
+ 
+    /*
+     * Helper function to delete an Event
+     * 
+     * @param  int  $eventID   id of the event to delete
+     * @return boolean true if event deleted, false otherwise
+     * 
+     */
+    function delete( $eventID ) {
+        return CRM_Event_BAO_Event::del( $eventID );
+    }
+}
+
+?>
