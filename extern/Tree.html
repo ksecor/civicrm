@@ -22,6 +22,8 @@
 			var myModel = new dijit.tree.ForestStoreModel({
 				store: myStore,
 				query: {type:'rootGroup'},
+                                rootId: 'allGroups',
+                                rootLabel: 'All Groups',
 				childrenAttrs: ["children"]
 			});
 			var tree = new civicrm.CheckableTree({
@@ -34,5 +36,48 @@
 </head>
 <body>
         <h1 class="testTitle">Dijit Forest Store Programmatic Test</h1>
+  <h2><span class='crm_blocktitle'>New Individual</span></h2>
+
+  <div class="content"><div id="crm-quick-create">
+
+<form action="http://localhost/~lobo/drupal6/civicrm/contact/add?reset=1&amp;ct=Individual" method="post">
+
+<div class="form-item">
+    <div>
+        <label for="qa_first_name">First Name:</label>
+    </div>
+    <div>
+        <input type="text" name="first_name" id="qa_first_name" class="form-text" maxlength="64" />
+    </div>
+</div>
+
+<div class="form-item">
+    <div>
+        <label for="qa_last_name">Last Name:</label>
+    </div>
+    <div>
+        <input type="text" name="last_name" id="qa_last_name" class="form-text required" maxlength="64" />
+    </div>
+</div>
+
+<div class="form-item">
+    <div>
+        <label for="qa_email">Email:</label>
+    </div>
+    <div>
+        <input type="text" name="location[1][email][1][email]" id="qa_email" class="form-text" maxlength="64" />
+    </div>
+
+    <input type="hidden" name="location[1][location_type_id]" value="1" />
+
+    <input type="hidden" name="location[1][is_primary]" value="1" />
+    <input type="hidden" name="ct" value="Individual" />
+        </div>
+
+<div class="form-item"><input type="submit" name="_qf_Edit_next" value="Save" class="form-submit" /></div>
+
+</form>
+</div></div>
+
 </body>
 </html>

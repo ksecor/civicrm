@@ -10,20 +10,27 @@ dojo.declare(
 	     dijit.Tree, {
     
 		 checkedFiles: [],
-    
+
 		 initCheckedFiles: function(){
 		     var store = this.model.store;
 		     var items = store._arrayOfAllItems;
 		     for (i = 0;i < items.length; i++){
-			 if (store.getValue(items[i], 'type') == 'file' && store.getValue(items[i], 'checked')){
-			     this.checkedFiles[this.checkedFiles.length] = items[i];
+			 if (store.getValue(items[i], 'checked')){
+			     this.addItem( items[i], true );
 			 }
 		     }
 		 },
-    
+
+		 addItem: function(item, checked) {
+		     if ( checked ) 
+			 this.checkedFiles[this.checkedFiles.length] = item;
+		     else
+			 this.checkedFiles.pop(item);
+		     item.checked = [checked];
+		 },
+
 		 onClick: function(item, treeNode){
 		     this.recursiveCheckItem(item, !this.model.store.getValue(item, 'checked'));
-	       
 		     //check or uncheck ancestors if neccessary
 		     if (this.model.store.getValue(item, 'checked')){
 			 var node = treeNode.getParent();
@@ -38,31 +45,33 @@ dojo.declare(
 				 }
 			     }
 			     if (!break_flag){
-				 node.item.checked = [true];
+				 this.addItem( node.item, true );
 			     }
 			     node = node.getParent();
 			 }
-				
 		     } else {
 			 //uncheck all parents
 			 var node = treeNode.getParent();
 			 while (node != null && node.item != this.model.root && this.model.store.getValue(node.item, 'checked')){
-			     node.item.checked = [false];
+			     this.addItem( node.item, false );
 			     node = node.getParent();
 			 }
 		     }
 		     this._refreshTreeDisplay(treeNode);
+		     var value = '';
+		     for ( var i = 0; i < this.checkedFiles.length; i++ ) {
+			 if ( value != '' ) {
+			     value = value + ', ';
+			 }
+			 value = value + this.checkedFiles[i].name;
+		     }
+		     var qa = document.getElementById( 'qa_first_name' );
+		     qa.value = value;
 		 },
 
 		 recursiveCheckItem: function(item, checked){
-		     if (this.model.store.getValue(item, 'type') == 'file'){
-			 if (checked) 
-			     this.checkedFiles[this.checkedFiles.length] = item;
-			 else
-			     this.checkedFiles.pop(item);
-		     }
-		     item.checked = [checked];
-		     if (item.type == 'category'){
+		     this.addItem(item, checked);
+		     if (item.type != 'leafGroup'){
 			 for (var i=0;i<item.children.length;i++){
 			     this.recursiveCheckItem(item.children[i], checked);
 			 }
@@ -104,23 +113,6 @@ dojo.declare(
 		     if( this.model.store.getValue(item, 'checked')) return "dijitCheckBox dijitCheckBoxChecked";
 		     else return "dijitCheckBox";
 		 },
-
-		 getLabelClass: function(item){
-		     if (item == this.model.root) return null;
-		     var time = this.model.store.getValue(item, 'updated_at');
-		     var now = time - 100; // K.upload.now_timestamp;
-		     if (now - time <= 3600) return 'ageHour';
-		     if (now - time <= 43200) return 'ageDay'; // (last 12 hours)
-		     if (now - time <= 604800) return 'ageWeek';
-		     return 'ageOld';
-		 },
-
-		 getLabel: function(item){
-		     if (item == this.model.root) return null;
-		     if (this.model.store.getValue(item, 'type') == 'category')
-			 return this.model.store.getValue(item, 'name');
-		     return this.model.store.getValue(item, 'name');
-		 }
 	     });
 
 }

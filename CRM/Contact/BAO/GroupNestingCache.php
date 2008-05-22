@@ -216,7 +216,7 @@ WHERE  id = $id
                     $string   .= ", type:'leafGroup'";
                 }
             } else {
-                $string .= ", type:'rootGroup'";
+                $string .= ", children:[], type:'rootGroup'";
             }
             $values[] = "{ $string }";
         }
