@@ -1,0 +1,38 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+        "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<title>Dijit Tree Programmatic Test</title>
+
+	<style type="text/css">
+		@import "/~lobo/svn/dojo/dojo/resources/dojo.css";
+		@import "/~lobo/svn/dojo/dijit/tests/css/dijitTests.css";
+	</style>
+
+	<script type="text/javascript" src="../packages/dojo/dojo/dojo.js.uncompressed.js"
+		djConfig="parseOnLoad: false, isDebug: true"></script>
+	<script type="text/javascript" src="/~lobo/svn/dojo/dijit/tests/_testCommon.js"></script>
+
+	<script language="JavaScript" someProperty="text/javascript">
+		dojo.require("dojo.data.ItemFileWriteStore");
+		dojo.require("civicrm.CheckableTree");
+
+		dojo.addOnLoad(function(){
+ 			var myStore = new dojo.data.ItemFileWriteStore({url:'http://localhost/~lobo/drupal6/civicrm/ajax/groupTree'});
+			var myModel = new dijit.tree.ForestStoreModel({
+				store: myStore,
+				query: {type:'rootGroup'},
+				childrenAttrs: ["children"]
+			});
+			var tree = new civicrm.CheckableTree({
+				model: myModel
+			});
+			dojo.body().appendChild(tree.domNode);
+			tree.startup();
+		});
+	</script>
+</head>
+<body>
+        <h1 class="testTitle">Dijit Forest Store Programmatic Test</h1>
+</body>
+</html>

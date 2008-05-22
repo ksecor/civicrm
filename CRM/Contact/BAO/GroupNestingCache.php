@@ -185,6 +185,51 @@ WHERE  id = $id
         }
     }
 
+    static function json( ) {
+        require_once 'CRM/Core/BAO/Cache.php';
+        $tree =& CRM_Core_BAO_Cache::getItem( 'contact groups', 'nestable tree hierarchy' );
+
+        if ( $tree === null ) {
+            self::update( );
+            $tree =& CRM_Core_BAO_Cache::getItem( 'contact groups', 'nestable tree hierarchy' );
+        }
+
+        // get all the groups
+        $groups =& CRM_Core_PseudoConstant::group( );
+
+        foreach ( $groups as $id => $name ) {
+            $string = "id:'$id', name:'$name'";
+            if ( isset( $tree[$id] ) ) {
+                $children = array( );
+                if ( ! empty( $tree[$id]['children'] ) ) {
+                    foreach ( $tree[$id]['children'] as $child ) {
+                        $children[] = "{_reference:'$child'}";
+                    }
+                    $children  = implode( ',', $children );
+                    $string   .= ", children:[$children]";
+                    if ( empty( $tree[$id]['parents'] ) ) {
+                        $string .= ", type:'rootGroup'";
+                    } else {
+                        $string .= ", type:'middleGroup'";
+                    }
+                } else {
+                    $string   .= ", type:'leafGroup'";
+                }
+            } else {
+                $string .= ", type:'rootGroup'";
+            }
+            $values[] = "{ $string }";
+        }
+
+        $items = implode( ",\n", $values );
+        $json = "{
+  identifier:'id',
+  label:'name',
+  items:[ $items ]
+}";
+        return $json;
+    }
+
 }
 
 

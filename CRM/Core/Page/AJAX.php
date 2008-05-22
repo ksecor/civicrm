@@ -121,6 +121,9 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
             }
             exit( );
 
+        case 'groupTree':
+            return $this->groupTree( $config );
+
         default:
             return;
         }
@@ -890,6 +893,11 @@ AND domain_id = {$domainID} ";
 
         require_once "CRM/Utils/JSON.php";
         echo CRM_Utils_JSON::encode( $elements, 'value');
+    }
+
+    function groupTree( $config ) {
+        require_once 'CRM/Contact/BAO/GroupNestingCache.php';
+        echo CRM_Contact_BAO_GroupNestingCache::json( );
     }
 
 }
