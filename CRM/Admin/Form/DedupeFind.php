@@ -89,6 +89,8 @@ class CRM_Admin_Form_DedupeFind extends CRM_Admin_Form
         // FIXME: sort the contacts; $displayName 
         // is already sort_name-sorted, so use that
         // (also, consider sorting by dupe count first)
+        // lobo - change the sort to by threshold value
+        // so the more likely dupes are sorted first
         $session =& CRM_Core_Session::singleton();
         $userId = $session->get('userID');
         $mainContacts = array();
