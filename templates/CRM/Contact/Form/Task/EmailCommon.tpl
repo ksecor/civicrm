@@ -1,4 +1,4 @@
-{*common template for compose mail*}
+s{*common template for compose mail*}
 <dl>
 <dt>{$form.template.label}</dt><dd>{$form.template.html}</dd>
   <dt>{$form.token1.label}</dt><dd>{$form.token1.html}</dd>
@@ -23,9 +23,20 @@
 
 {literal}
 <script type="text/javascript" >
+var editor = {/literal}"{$editor}"{literal}
 	function selectValue( val )
    	{
         	if ( !val ) {
+		document.getElementById("text_message").value ="";
+		document.getElementById("subject").value ="";
+			if ( editor == "fckeditor" ) {
+				oEditor = FCKeditorAPI.GetInstance('html_message');
+				oEditor.SetHTML('');
+			} else if ( editor == "tinymce" ) {
+			     	tinyMCE.get('html_message').setContent('');
+			} else {	
+				document.getElementById("html_message").value = '' ;
+			}
            	return;
         	}
 
@@ -42,7 +53,7 @@
 		if (xmlHttp.readyState==4)
 		{ 
 			result = (xmlHttp.responseText).split('^A');
-			document.getElementById("text_message").innerHTML = result[0] ;
+			document.getElementById("text_message").value =  result[0] ;
 			document.getElementById("subject").value = result[2];
 			if ( editor == "fckeditor" ) {
 				oEditor = FCKeditorAPI.GetInstance('html_message');
@@ -50,7 +61,7 @@
 			} else if ( editor == "tinymce" ) {
 			     	tinyMCE.get('html_message').setContent( result[1] );
 			} else {	
-				document.getElementById("html_message").innerHTML = result[1] ;
+				document.getElementById("html_message").value = result[1] ;
 			}
 		}
 	}
@@ -82,7 +93,7 @@
       	function verify( select )
       	{
 		if ( document.getElementsByName("saveTemplate")[0].checked  == false) {
-	    		document.getElementById("saveDetails").style.display = "none";
+	 		document.getElementById("saveDetails").style.display = "none";
 		}
        		document.getElementById("editMessageDetails").style.display = "block";
 
@@ -118,6 +129,7 @@
     	{
         	var token = document.getElementById("token1").options[document.getElementById("token1").selectedIndex].text;
          	document.getElementById("text_message").value =  document.getElementById("text_message").value + token;
+		verify();
     	}
    
     	function tokenReplHtml ( )
@@ -134,6 +146,7 @@
 	 	} else {
 			 document.getElementById("html_message").value =  document.getElementById("html_message").value + token2;
 		}
+		verify();
 	}
 {/literal}
 {if $editor eq "fckeditor"}
