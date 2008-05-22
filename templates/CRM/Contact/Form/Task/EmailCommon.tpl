@@ -1,4 +1,4 @@
-s{*common template for compose mail*}
+{*common template for compose mail*}
 <dl>
 <dt>{$form.template.label}</dt><dd>{$form.template.html}</dd>
   <dt>{$form.token1.label}</dt><dd>{$form.token1.html}</dd>
@@ -37,7 +37,7 @@ var editor = {/literal}"{$editor}"{literal}
 			} else {	
 				document.getElementById("html_message").value = '' ;
 			}
-           	return;
+		  	return;
         	}
 
 		xmlHttp=GetXmlHttpObject();
