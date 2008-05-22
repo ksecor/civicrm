@@ -506,7 +506,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
      * @access public 
      */ 
     public function postProcess( )
-    { 
+    {   
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             require_once "CRM/Event/BAO/Participant.php";
             CRM_Event_BAO_Participant::deleteParticipant( $this->_id );
@@ -738,7 +738,13 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 $this->assign( 'receive_date', $params['receive_date'] );  
             }
             $this->assign( 'subject', ts('Event Confirmation') );
-                        
+            
+            $participant = array( array( 'participant_id', '=', $participants[0]->id, 0, 0 ) );
+            // check whether its a test drive ref CRM-3075
+            if ( $this->_defaultValues['is_test'] ) {
+                $participant[] = array( 'participant_test', '=', 1, 0, 0 ); 
+            } 
+            
             $template =& CRM_Core_Smarty::singleton( );
             $customGroup = array(); 
             // retrieve custom data
@@ -753,8 +759,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                     $customFields["custom_{$k}"] = $field;
                 }
                 //to build array of customgroup & customfields in it
-                CRM_Core_BAO_UFGroup::getValues( $this->_contactIds[0] , $customFields, $customValues , false, 
-                                                 array( array( 'participant_id', '=', $participants[0]->id, 0, 0 ) ) );
+                CRM_Core_BAO_UFGroup::getValues( $this->_contactIds[0] , $customFields, $customValues , false, $participant );
                 $customGroup[$group['title']] = $customValues;
             }
             
