@@ -1,0 +1,73 @@
+<?php
+
+require_once 'CiviTestCase.php';
+require_once 'Contact.php';
+require_once 'Event.php';
+
+class BAO_Event_Participant extends CiviTestCase 
+{
+    
+    function get_info( ) 
+    {
+        return array(
+                     'name'        => 'Participant BAOs',
+                     'description' => 'Test all Event_BAO_Participant methods.',
+                     'group'       => 'CiviCRM BAO Tests',
+                     );
+    }
+    
+    function setUp( ) 
+    {
+        parent::setUp();
+    }
+    /**
+     * add() method (create and update modes of participant)
+     */
+    function testAdd( )
+    {
+        $contactId = Contact::createIndividual( );
+        $eventId   = Event::create( );
+        $ids       = array();
+        
+        $params = array(
+                        'send_receipt'     => 1,
+                        'event_id'         => $eventId,
+                        'register_date'    => '20080521170000',
+                        'role_id'          => 1,
+                        'status_id'        => 1,
+                        'source'           => 'Event_'.$eventId,
+                        'contact_id'       => $contactId
+                        );
+        
+        require_once 'CRM/Event/BAO/Participant.php';
+
+        // New Participant Created
+        $addEvent = CRM_Event_BAO_Participant::add($params, $ids);
+      
+        $participantID = $addEvent->id;
+        
+        $this->assertDBNotNull('CRM_Event_BAO_Participant', $contactId, 'id', 'contact_id', 'Check DB for Participant of the contact');
+        
+        $this->assertDBCompareValue('CRM_Event_BAO_Participant',  $participantID, 'contact_id', 
+                                    'id', $contactId, 'Check DB for contact of the participant');
+        
+        $params = array_merge( $params, array ('id'        => $participantID,
+                                               'role_id'   => 2,
+                                               'status_id' => 3
+                                               ) );
+        
+        $ids = array('participant' => $participantID );
+
+        // Participant Edited
+        $addEvent = CRM_Event_BAO_Participant::add($params, $ids);
+        $this->assertDBCompareValue('CRM_Event_BAO_Participant', $participantID, 'role_id', 
+                                    'id', 2, 'Check DB for updated role id of the participant');
+        
+        $this->assertDBCompareValue('CRM_Event_BAO_Participant', $participantID, 'status_id', 
+                                    'id', 3, 'Check DB for updated status id  of the participant');
+
+        Contact::delete( $contactId );
+        Event::delete ( $eventId );
+    }
+}
+?>

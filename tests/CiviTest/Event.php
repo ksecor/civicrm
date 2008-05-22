@@ -5,7 +5,7 @@ class Event extends DrupalTestCase
      * Helper function to create
      * an Event 
      *
-     * @return $event object of created Event
+     * @return $event id of created Event
      */
     function create( ) 
     {
@@ -23,7 +23,7 @@ class Event extends DrupalTestCase
                         );
         
         $event = CRM_Event_BAO_Event::create( $params, $ids );
-        return $event;
+        return $event->id;
     }
  
     /*
@@ -33,8 +33,8 @@ class Event extends DrupalTestCase
      * @return boolean true if event deleted, false otherwise
      * 
      */
-    function delete( $eventID ) {
-        return CRM_Event_BAO_Event::del( $eventID );
+    function delete( $eventId ) {
+        return CRM_Event_BAO_Event::del( $eventId );
     }
 }
 
