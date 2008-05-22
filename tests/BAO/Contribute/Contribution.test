@@ -1,0 +1,180 @@
+<?php
+
+require_once 'CiviTestCase.php';
+require_once 'Contact.php';
+
+class BAO_Contribute_Contribution extends CiviTestCase 
+{
+    
+    function get_info( ) 
+    {
+        return array(
+                     'name'        => 'Contribution BAOs',
+                     'description' => 'Test all Contribute_BAO_Contribution methods.',
+                     'group'       => 'CiviCRM BAO Tests',
+                     );
+    }
+    
+    function setUp( ) 
+    {
+        parent::setUp();
+    }
+    
+    /**
+     * add() method (create and update modes)
+     */
+    function testAdd( )
+    {
+        $contactId = Contact::createIndividual( );
+        $ids = array ('contribution' => null );
+
+        $params = array (
+                         'contact_id'             => $contactId,
+                         'currency'               => 'USD',
+                         'contribution_type_id'   => 1,
+                         'contribution_status_id' => 1,
+                         'payment_instrument_id'  => 1,
+                         'source'                 => 'STUDENT',
+                         'receive_date'           => '20080522000000',
+                         'receipt_date'           => '20080522000000',
+                         'id'                     => null,
+                         'non_deductible_amount'  => 0.00,
+                         'total_amount'           => 100.00,
+                         'fee_amount'             => 5,
+                         'net_amount'             => 95,
+                         'trxn_id'                => '11eereerwww322323',
+                         'invoice_id'             => '11ed39c9e9ee6ef6031621ce0eafe6da70',
+                         'thankyou_date'          => '20080522'
+                         );
+
+        require_once 'CRM/Contribute/BAO/Contribution.php';
+        $contribution = CRM_Contribute_BAO_Contribution::add( $params ,$ids );
+        
+        $this->assertDBNotNull('CRM_Contribute_DAO_Contribution', $contactId, 'id', 'contact_id', 'Check DB for contribution of the contact');
+        $this->assertDBCompareValue('CRM_Contribute_DAO_Contribution',  $contribution->id, 'contact_id', 
+                                    'id', $contactId, 'Check DB for contact of the contribution'); 
+        //update contribution amount 
+        $ids = array ('contribution' => $contribution->id );
+        $params['fee_amount'] = 10;
+        $params['net_amount'] = 90;
+        
+        $contribution = CRM_Contribute_BAO_Contribution::add( $params ,$ids );
+        
+        $this->assertEqual( $params['net_amount'],$contribution->net_amount, 'Check for Amount updation.' );
+
+        $this->assertDBCompareValue('CRM_Contribute_DAO_Contribution',  $contribution->id, 'trxn_id', 
+                                    'id', $contribution->trxn_id, 'Check DB for transaction of the contribution'); 
+        //delete the contact
+        Contact::delete( $contactId );
+    }
+ 
+    /**
+     * create() method (create and update modes)
+     */
+    function testCreate( )
+    {
+        $contactId = Contact::createIndividual( );
+        $ids = array ('contribution' => null );
+
+        $params = array (
+                         'contact_id'             => $contactId,
+                         'currency'               => 'USD',
+                         'contribution_type_id'   => 1,
+                         'contribution_status_id' => 1,
+                         'payment_instrument_id'  => 1,
+                         'source'                 => 'STUDENT',
+                         'receive_date'           => '20080522000000',
+                         'receipt_date'           => '20080522000000',
+                         'id'                     => null,
+                         'non_deductible_amount'  => 0.00,
+                         'total_amount'           => 200.00,
+                         'fee_amount'             => 5,
+                         'net_amount'             => 195,
+                         'trxn_id'                => '22ereerwww322323',
+                         'invoice_id'             => '22ed39c9e9ee6ef6031621ce0eafe6da70',
+                         'thankyou_date'          => '20080522'
+                         );
+
+        require_once 'CRM/Contribute/BAO/Contribution.php';
+        $contribution = CRM_Contribute_BAO_Contribution::create( $params ,$ids );
+        
+        $this->assertEqual( $params['trxn_id'], $contribution->trxn_id, 'Check for transcation id creation.' );
+        $this->assertEqual( $contactId, $contribution->contact_id, 'Check for contact id  creation.' );
+        
+        //update contribution amount 
+        $ids = array ('contribution' => $contribution->id );
+        $params['fee_amount'] = 10;
+        $params['net_amount'] = 190;
+        
+        $contribution = CRM_Contribute_BAO_Contribution::create( $params ,$ids );
+        
+        $this->assertEqual( $params['trxn_id'], $contribution->trxn_id, 'Check for transcation id .' );
+        $this->assertEqual( $params['net_amount'],$contribution->net_amount, 'Check for Amount updation.' );
+
+        Contact::delete( $contactId );
+    }
+
+    /**
+     * deleteContribution() method
+     */
+
+    function testDeleteContribution( )
+    {
+        $contactId = Contact::createIndividual( );
+        $ids = array ('contribution' => null );
+
+        $params = array (
+                         'contact_id'             => $contactId,
+                         'currency'               => 'USD',
+                         'contribution_type_id'   => 1,
+                         'contribution_status_id' => 1,
+                         'payment_instrument_id'  => 1,
+                         'source'                 => 'STUDENT',
+                         'receive_date'           => '20080522000000',
+                         'receipt_date'           => '20080522000000',
+                         'id'                     => null,
+                         'non_deductible_amount'  => 0.00,
+                         'total_amount'           => 200.00,
+                         'fee_amount'             => 5,
+                         'net_amount'             => 195,
+                         'trxn_id'                => '33ereerwww322323',
+                         'invoice_id'             => '33ed39c9e9ee6ef6031621ce0eafe6da70',
+                         'thankyou_date'          => '20080522'
+                         );
+
+        require_once 'CRM/Contribute/BAO/Contribution.php';
+        $contribution = CRM_Contribute_BAO_Contribution::create( $params ,$ids );
+        
+        $this->assertEqual( $params['trxn_id'], $contribution->trxn_id, 'Check for transcation id creation.' );
+        $this->assertEqual( $contactId, $contribution->contact_id, 'Check for contact id  creation.' );
+        
+        $contributiondelete = CRM_Contribute_BAO_Contribution::deleteContribution( $contribution->id );
+        
+        $this->assertDBNull( 'CRM_Contribute_DAO_Contribution',$contribution->trxn_id, 
+                             'id','trxn_id','Database check for deleted Contribution.' );
+        Contact::delete( $contactId );
+    }
+
+    /**
+     * create honor-contact method 
+     * createHonorContact();
+     */
+    
+    function testcreateHonorContact( ) 
+    {
+        $honorId = null;
+        $params  = array (
+                          'honor_type_id'    => 1,
+                          'honor_prefix_id'  => 3,
+                          'honor_first_name' => 'John',
+                          'honor_last_name'  => 'Smith',
+                          'honor_email'      => 'john.smith@example.org'
+                          );
+        $contact = CRM_Contribute_BAO_Contribution::createHonorContact( $params, $honorId );
+        
+        $this->assertDBCompareValue( 'CRM_Contact_DAO_Contact', $contact , 'first_name', 'id','John',
+                                     'Database check for created honor contact record.' );
+        Contact::delete( $contact );
+    }
+}
+?>
