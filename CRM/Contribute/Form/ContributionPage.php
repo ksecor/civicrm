@@ -169,7 +169,7 @@ class CRM_Contribute_Form_ContributionPage extends CRM_Core_Form {
         }
 
         if (! isset($defaults['for_organization'])) {
-            $defaults['for_organization'] = ts('I am contributing on behalf on an organization.');
+            $defaults['for_organization'] = ts('I am contributing on behalf of an organization.');
         }
 
 
