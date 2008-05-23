@@ -148,6 +148,8 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         // FIXME : by default it should live mode
         $this->_mode = 'test';
         
+        $this->_processors = CRM_Core_PseudoConstant::paymentProcessor( false, false,
+                                                                 "billing_mode IN ( 1, 3 )" );
         $this->_paymentProcessor = array( 'billing_mode' => 1 );
         
         require_once 'CRM/Contact/BAO/Contact/Location.php';
@@ -380,7 +382,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         
         foreach ( $additionalDetailFields as $key ) {
             if ( ! empty( $defaults[$key] ) ) {
-                $defaults['hidden_buildAdditionalDetail'] = 1;
+                $defaults['hidden_AdditionalDetail'] = 1;
                 break;
             }
         }
@@ -390,7 +392,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         
         foreach ( $honorFields as $key ) {
             if ( ! empty( $defaults[$key] ) ) {
-                $defaults['hidden_buildHonoree'] = 1;
+                $defaults['hidden_Honoree'] = 1;
                     break;
             }
         }
@@ -401,14 +403,14 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             $dao->id = $this->_premiumId;
             $dao->find(true);
             if ( $dao->product_id ) {
-                $defaults['hidden_buildPremium'] = 1;
+                $defaults['hidden_Premium'] = 1;
             }
         }
         
         if ( $this->_noteId ) {
             $defaults['note'] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Note', $this->_noteId, 'note' );
             if ( ! empty( $defaults['note'] ) ) {
-                $defaults['hidden_buildAdditionalDetail'] = 1;
+                $defaults['hidden_AdditionalDetail'] = 1;
             }
         }
         
@@ -416,9 +418,13 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                               'Honoree Information' => 'Honoree', 
                               'Premium Information' => 'Premium'
                               );
+        if ( count( $this->_processors ) > 0 ) {
+            $ccPane = array( 'Credit Card Information' => 'CreditCard' );
+        }
         if ( is_array( $ccPane ) ) {
             $paneNames = array_merge( $ccPane, $paneNames );
         }
+        
         foreach ( $paneNames as $name => $type ) {
             if ( $this->_id ) {
                 $dojoUrlParams = "&reset=1&action=update&id={$this->_id}&snippet=1&cid={$this->_contactID}&formType={$type}";  
@@ -438,9 +444,9 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                  CRM_Utils_Array::value( "hidden_{$type}", $defaults ) ) {
                 $showAdditionalInfo = true;
                 $allPanes[$name]['open'] = 'true';
-                if ( $type == 'buildCreditCard' ) {
+                if ( $type == 'CreditCard' ) {
                     $this->add('hidden', 'hidden_buildCreditCard', 1 );
-                    eval( 'CRM_Core_Payment_Form::' . $type . '( $this );' );
+                    eval( 'CRM_Core_Payment_Form::build' . $type . '( $this );' );
                 } else {
                     eval( 'CRM_Contribute_Form_AdditionalInfo::build' . $type . '( $this );' );
                 }
@@ -512,14 +518,10 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                             array( 'CRM_Contribute_DAO_Contribution', $this->_id, 'trxn_id' ) );
         }
         
-        $processors = CRM_Core_PseudoConstant::paymentProcessor( false, false,
-                                                                 "billing_mode IN ( 1, 3 )" );
-        if ( count( $processors ) > 0 ) {
-            $ccPane = array( 'Credit or Debit Card Information' => 'buildCreditCard' );
-            
+        if ( count( $this->_processors ) > 0 ) {
             $element =& $this->add( 'select', 'payment_processor_id',
                                     ts( 'Payment Processor' ),
-                                    $processors );
+                                    $this->_processors );
             if ( $this->_online ) {
                 $element->freeze( );
             }
@@ -584,16 +586,6 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         
         if ( $this->_action & CRM_Core_Action::VIEW ) {
             $this->freeze( );
-        }
-    }
-    
-    function getTemplateFileName( ) 
-    {
-        if ( ! $this->_formType ) {
-            return parent::getTemplateFileName( );
-        } else {
-            $name = substr( ucfirst( $this->_formType ), 5 );
-            return "CRM/Contribute/Form/AdditionalInfo/{$name}.tpl";
         }
     }
     
