@@ -98,16 +98,17 @@
            <a onclick="showrowDiscount(); return false;" name="discountLink" href="#discountLink" class="form-link"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}show field or section{/ts}"/>{ts}another discount{/ts}</a>
         </div>
         {$form._qf_Fee_refresh.html}
-
+	
         {if $discountSection}
             <fieldset id="map-field"><legend>{ts}Fee Levels{/ts}</legend>
             <p>{ts}Use the table below to enter descriptive labels and amounts for up to ten discounted event fee levels.{/ts}</p>
 	    <table id="map-field-table">
             <tr class="columnheader">
 	       <th scope="column">{ts}Fee Label{/ts}</th>
-	       <th scope="column">{ts}Amount{/ts}</th>
-	       <th scope="column">{ts}Amount1{/ts}</th>
-	       <th scope="column">{ts}Amount2{/ts}</th>	
+	       {section name=dloop start=1 loop=4}
+	          {assign var=i value=$smarty.section.dloop.index}
+	          <th scope="column">{$form.discount_name.$i.value}</th>
+	       {/section}
 	       <th scope="column">{ts}Default?{/ts}</th>
 	    </tr>
             
