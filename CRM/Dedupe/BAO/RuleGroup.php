@@ -143,20 +143,4 @@ class CRM_Dedupe_BAO_RuleGroup extends CRM_Dedupe_DAO_RuleGroup
         }
     }
 
-    /**
-     * update the is_active flag in the db
-     *
-     * @param int      $id        id of the database record
-     * @param boolean  $is_active value we want to set the is_active field
-     *
-     * @return Object             DAO object on sucess, null otherwise
-     * 
-     * @access public
-     * @static
-     */
-    static function setIsActive( $id, $is_active ) {
-        return CRM_Core_DAO::setFieldValue( 'CRM_Dedupe_DAO_RuleGroup', $id, 'is_active', $is_active );
-    }
-    
-
 }

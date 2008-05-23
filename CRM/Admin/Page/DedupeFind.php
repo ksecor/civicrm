@@ -33,12 +33,12 @@
  *
  */
 
-require_once 'CRM/Admin/Form.php';
+require_once 'CRM/Core/Page/Basic.php';
 require_once 'CRM/Dedupe/Finder.php';
 require_once 'CRM/Dedupe/DAO/Rule.php';
 require_once 'CRM/Dedupe/DAO/RuleGroup.php';
 
-class CRM_Admin_Form_DedupeFind extends CRM_Admin_Form
+class CRM_Admin_Page_DedupeFind extends CRM_Core_Page_Basic
 {
     protected $_cid = null;
     protected $_rgid;
@@ -46,12 +46,31 @@ class CRM_Admin_Form_DedupeFind extends CRM_Admin_Form
     protected $_gid;
 
     /**
-     * Function to pre processing
+     * Get BAO Name
      *
-     * @return None
+     * @return string Classname of BAO.
+     */
+    function getBAOName()
+    {
+        return 'CRM_Dedupe_BAO_RuleGroup';
+    }
+
+    /**
+     * Get action Links
+     *
+     * @return array (reference) of action links
+     */
+    function &links()
+    {
+
+    }
+    /**
+     * Browse all rule groups
+     *  
+     * @return void
      * @access public
      */
-    function preProcess()
+    function run()
     {
         $cid    = CRM_Utils_Request::retrieve('cid',  'Positive', $this, false, 0);
         $gid    = CRM_Utils_Request::retrieve('gid',  'Positive', $this, false, 0);
@@ -68,9 +87,10 @@ class CRM_Admin_Form_DedupeFind extends CRM_Admin_Form
         }
         if (!$foundDupes) {
             $this->assign('no_dupes', true);
+            
             return;
         }
-
+        
         $cids = array( );
         foreach ( $foundDupes as $dupe ) {
             $cids[$dupe[0]] = 1;
@@ -110,42 +130,66 @@ class CRM_Admin_Form_DedupeFind extends CRM_Admin_Form
         if ($gid) $this->_gid = $gid;
         $this->_rgid = $rgid;
         $this->_mainContacts = $mainContacts;
-    }
 
-    /**
-     * Function to build the form
-     *
-     * @return None
-     * @access public
-     */
-    public function buildQuickForm()
-    {
-        $this->assign('main_contacts', $this->_mainContacts);
-        if ($this->_cid) $this->assign('cid', $this->_cid);
-        if (isset($this->_gid) || $this->_gid) $this->assign('gid', $this->_gid);
-        $this->assign('rgid', $this->_rgid);
-    }
-
-    function setDefaultValues()
-    {
         if ($this->_cid) {
             $session =& CRM_Core_Session::singleton();
             $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/deduperules', "action=update&rgid={$this->_rgid}&gid={$this->_gid}&cid={$this->_cid}"));
         }
+        
+        $this->browse();
+
+        // parent run
+        parent::run();
     }
 
     /**
-     * Function to process the form
-     *
+     * Browse all rule groups
+     *  
+     * @return void
      * @access public
-     * @return None
      */
-    public function postProcess() 
+    function browse()
     {
-        $exportValues = $this->exportValues();
-        CRM_Core_Error::debug('$exportValues', $exportValues);
-        exit;
+        $this->assign('main_contacts', $this->_mainContacts);
+
+        if ($this->_cid) $this->assign('cid', $this->_cid);
+        if (isset($this->_gid) || $this->_gid) $this->assign('gid', $this->_gid);
+        $this->assign('rgid', $this->_rgid);
+
     }
+
+    /**
+     * Get name of edit form
+     *
+     * @return string  classname of edit form
+     */
+    function editForm()
+    {
+
+    }
+
+    /**
+     * Get edit form name
+     *
+     * @return string  name of this page
+     */
+    function editName()
+    {
+        return 'DedupeFind';
+    }
+    
+    /**
+     * Get user context
+     *
+     * @return string  user context
+     */
+    function userContext($mode = null)
+    {
+        return 'civicrm/admin/dedupefind';
+    }
+
+
+
 }
 
 
