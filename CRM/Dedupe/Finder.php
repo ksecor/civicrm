@@ -49,7 +49,7 @@ class CRM_Dedupe_Finder
      * @param int   $rgid  rule group id
      * @param array $cids  contact ids to limit the search to
      *
-     * @return array  id-keyed hash of dupes
+     * @return array  array of (cid1, cid2, weight) dupe triples
      */
     function dupes($rgid, $cids = array()) {
         $rgBao =& new CRM_Dedupe_BAO_RuleGroup();
@@ -63,8 +63,7 @@ class CRM_Dedupe_Finder
         $dao->query($rgBao->thresholdQuery());
         $dupes = array();
         while ($dao->fetch()) {
-            $dupes[$dao->id1][] = $dao->id2;
-            $dupes[$dao->id2][] = $dao->id1;
+            $dupes[] = array( $dao->id1, $dao->id2, $dao->weight );
         }
         $dao->query($rgBao->tableDropQuery());
 
@@ -110,7 +109,7 @@ class CRM_Dedupe_Finder
      * @param int $rgid  rule group id
      * @param int $gid   contact group id (currently, works only with non-smart groups)
      *
-     * @return array  id-keyed hash of dupes
+     * @return array  array of (cid1, cid2, weight) dupe triples
      */
     function dupesInGroup($rgid, $gid) {
         $cids = array_keys(CRM_Contact_BAO_Group::getMember($gid));
@@ -124,7 +123,7 @@ class CRM_Dedupe_Finder
      * @param string $level  dedupe rule group level ('Fuzzy' or 'Strict')
      * @param string $ctype  contact type of the given contact
      *
-     * @return array  id-keyed hash of dupes
+     * @return array  array of dupe contact_ids
      */
     function dupesOfContact($cid, $level = 'Strict', $ctype = null) {
         // if not provided, fetch the contact type from the database
@@ -142,7 +141,17 @@ class CRM_Dedupe_Finder
         $rgBao->is_default = 1;
         $rgBao->find(true);
         $dupes = self::dupes($rgBao->id, array($cid));
-        return $dupes[$cid];
+        
+        // get the dupes for this cid
+        $result = array( );
+        foreach ( $dupes as $dupe ) {
+            if ( $dupe[0] == $cid ) {
+                $result[] = $dupe[1];
+            } elseif ( $dupe[1] == $cid ) {
+                $result[] = $dupe[0];
+            }
+        }
+        return $result;
     }
 
     /**

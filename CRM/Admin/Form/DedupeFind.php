@@ -43,7 +43,6 @@ class CRM_Admin_Form_DedupeFind extends CRM_Admin_Form
     protected $_cid = null;
     protected $_rgid;
     protected $_mainContacts;
-    protected $_dupeContacts;
     protected $_gid;
 
     /**
@@ -72,11 +71,12 @@ class CRM_Admin_Form_DedupeFind extends CRM_Admin_Form
             return;
         }
 
-        $cids = array_keys($foundDupes);
-        foreach ($foundDupes as $dupeset) {
-            $cids = array_merge($cids, $dupeset);
+        $cids = array( );
+        foreach ( $foundDupes as $dupe ) {
+            $cids[$dupe[0]] = 1;
+            $cids[$dupe[1]] = 1;
         }
-        $cidString = implode(', ', array_unique($cids));
+        $cidString = implode(', ', array_keys($cids));
         $domainId  = CRM_Core_Config::domainID();
         $sql = "SELECT id, display_name FROM civicrm_contact WHERE id IN ($cidString) AND domain_id = $domainId ORDER BY sort_name";
         $dao =& new CRM_Core_DAO();
@@ -85,7 +85,6 @@ class CRM_Admin_Form_DedupeFind extends CRM_Admin_Form
         while ($dao->fetch()) {
             $displayNames[$dao->id] = $dao->display_name;
         }
-
         // FIXME: sort the contacts; $displayName 
         // is already sort_name-sorted, so use that
         // (also, consider sorting by dupe count first)
@@ -94,22 +93,23 @@ class CRM_Admin_Form_DedupeFind extends CRM_Admin_Form
         $session =& CRM_Core_Session::singleton();
         $userId = $session->get('userID');
         $mainContacts = array();
-        $dupeContacts = array();
-        foreach ($foundDupes as $mainId => $dupes) {
-            $mainContacts[$mainId] = $displayNames[$mainId];
-            $localDupes = array();
-            foreach ($dupes as $dupeId) {
-                // we do not want to have our user's contact as the one for deletion, ever (CRM-2475)
-                if ($dupeId == $userId) continue;
-                $localDupes[$dupeId] = $displayNames[$dupeId];
+        foreach ($foundDupes as $dupes) {
+            $srcID = $dupes[0];
+            $dstID = $dupes[1];
+            if ( $srcID == $userId ) {
+                $srcID = $dupes[1];
+                $dstID = $dupes[2];
             }
-            $dupeContacts[$mainId] = $localDupes;
+            $mainContacts[]  = array( 'srcID'   => $srcID,
+                                      'srcName' => $displayNames[$srcID],
+                                      'dstID'   => $dstID,
+                                      'dstName' => $displayNames[$dstID],
+                                      'weight'  => $dupes[2] );
         }
         if ($cid) $this->_cid = $cid;
         if ($gid) $this->_gid = $gid;
         $this->_rgid = $rgid;
         $this->_mainContacts = $mainContacts;
-        $this->_dupeContacts = $dupeContacts;
     }
 
     /**
@@ -121,7 +121,6 @@ class CRM_Admin_Form_DedupeFind extends CRM_Admin_Form
     public function buildQuickForm()
     {
         $this->assign('main_contacts', $this->_mainContacts);
-        $this->assign('dupe_contacts', $this->_dupeContacts);
         if ($this->_cid) $this->assign('cid', $this->_cid);
         if (isset($this->_gid) || $this->_gid) $this->assign('gid', $this->_gid);
         $this->assign('rgid', $this->_rgid);

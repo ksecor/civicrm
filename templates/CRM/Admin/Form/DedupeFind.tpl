@@ -7,18 +7,18 @@
 </div>
 {else}
 <div class="form-item">
-  <table style="width: 45%; float: left; margin: 10px;">
-    <tr class="columnheader"><th colspan="2">{ts}Potentially Duplicate Contacts{/ts}</th></tr>
-    {foreach from=$main_contacts item=main_name key=main_id}
-      {if $main_name}
-        {capture assign=link}<a href="{crmURL p='civicrm/contact/view' q="reset=1&gid=$gid&cid=$main_id"}">{$main_name}</a>{/capture}
-        {capture assign=select}<a href="{crmURL p='civicrm/admin/deduperules' q="action=view&rgid=$rgid&gid=$gid&cid=$main_id"}">{ts}select{/ts}</a>{/capture}
-        {if $cid and $cid == $main_id}
-          <tr class="columnheader"><td>{$main_name}</td><td style="text-align: right;">→</td></tr>
-        {else}
-          <tr class="{cycle values="odd-row,even-row"}"><td>{$link}</td><td style="text-align: right;">{$select}</td></tr>
-        {/if}
-      {/if}
+  <table>
+    <tr class="columnheader"><th>{ts}Contact{/ts} 1</th><th>{ts}Contact{/ts} 2</th><th>{ts}Threshold{/ts}</th><th>&nbsp;</th></tr>
+    {foreach from=$main_contacts item=main key=main_id}
+        {capture assign=srcLink}<a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$main.srcID`"}">{$main.srcName}</a>{/capture}
+        {capture assign=dstLink}<a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$main.dstID`"}">{$main.dstName}</a>{/capture}
+        {capture assign=merge}<a href="{crmURL p='civicrm/contact/merge' q="reset=1&cid=`$main.srcID`&oid=`$main.dstID`"}">{ts}merge{/ts}</a>{/capture}
+        <tr class="{cycle values="odd-row,even-row"}">
+          <td>{$srcLink}</td>
+          <td>{$dstLink}</td>
+          <td>{$main.weight}</td>
+          <td style="text-align: right;">{$merge}</td>
+        </tr>
     {/foreach}
   </table>
   {if $cid}
