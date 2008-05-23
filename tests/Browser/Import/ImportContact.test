@@ -1,0 +1,127 @@
+<?php
+
+/*
+ +--------------------------------------------------------------------+
+ | CiviCRM version 2.1                                                |
+ +--------------------------------------------------------------------+
+ | Copyright CiviCRM LLC (c) 2004-2008                                |
+ +--------------------------------------------------------------------+
+ | This file is a part of CiviCRM.                                    |
+ |                                                                    |
+ | CiviCRM is free software; you can copy, modify, and distribute it  |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
+ |                                                                    |
+ | CiviCRM is distributed in the hope that it will be useful, but     |
+ | WITHOUT ANY WARRANTY; without even the implied warranty of         |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
+ | See the GNU Affero General Public License for more details.        |
+ |                                                                    |
+ | You should have received a copy of the GNU Affero General Public   |
+ | License along with this program; if not, contact CiviCRM LLC       |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
+ | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
+ +--------------------------------------------------------------------+
+*/
+
+/**
+ *
+ * @package CRM
+ * @copyright CiviCRM LLC (c) 2004-2008
+ * $Id$
+ *
+ */
+
+require_once 'CiviTestCase.php';
+
+class Browser_Import_ImportContact extends CiviTestCase
+{
+
+    var $params;
+    var $webUser;
+
+    function get_info()
+    {
+        return array('name'        => 'Import Contact',
+                     'description' => 'Test Import Contacts',
+                     'group'       => 'CiviCRM Browser Tests');
+    }
+
+    function setUp()
+    {
+        parent::setUp();
+        $this->webUser = $this->drupalCreateUserRolePerm(array(0 => 'access CiviCRM',
+                                                               1 => 'add contacts',
+                                                               2 => 'view all contacts',
+                                                               3 => 'edit all contacts',
+                                                               4 => 'import contacts',
+                                                               ));
+        $this->drupalLoginUser($this->webUser);
+        $this->civiGet('civicrm/dashboard', 'reset=1');
+        $this->clickLink('Import');
+
+        
+    }
+
+    function testImportWithMissingParams()
+    { 
+      $this->assertText('Upload Data (step 1 of 4)');
+      $params = array();
+      $this->drupalPost(NULL,$params, '_qf_UploadFile_upload');
+      $this->assertText('Import Data File is a required field.');
+      
+    }
+    function testImport()
+    {
+      $this->params['uploadFile']= $this->createCSV();
+
+      $this->params['skipColumnHeader']=1;
+       $this->params['onDuplicate']=1;
+       $this->params['contactType'] = 1;
+       $this->params['dateFormats'] = 8;
+       $params=$this->params;
+         
+      $this->drupalPost(NULL, $this->params, '_qf_UploadFile_upload');
+     
+        $this->assertText('Match Fields (step 2 of 4)');
+       $this->drupalPost(NULL, null, '_qf_MapField_next');
+       $this->assertText('Preview (step 3 of 4)');
+       $this->drupalPost(NULL, null, '_qf_Preview_next');
+       //CRM_Core_Error::debug('df',$this);
+       //$this->clickSubmit('OK');
+        $this->assertText('Summary (step 4 of 4)');
+       //$this->assertText('JuniaBiswas');
+    }
+    
+       
+         /*  echo"fdfdfdf";
+        $params = array('activity_date_time[Y]' => '');
+        $this->drupalPost(NULL, $params, '_qf_Activity_next');
+        $this->assertText('Import Data File is a required field.Subject is a required field.');
+        $this->assertText('Date and Time is a required field.');
+        $this->assertText('Activity Type is a required field.');
+        $this->assertDBNull('CRM_Activity_DAO_Activity', $this->params['subject'], 'id', 'subject', 'Making sure the activity was not created in the database.');
+    }
+
+    function testCreateMeeting()
+    {
+        $this->params['activity_type_id'] = 1; // Meeting
+        $this->params['duration_hours']   = 3;
+        $this->params['duration_minutes'] = 15;
+        $this->drupalPost(NULL, $this->params, '_qf_Activity_next');
+        // make sure the activity got through (based on the unique subject) and fetch its id
+        $activity_id = $this->assertDBNotNull('CRM_Activity_DAO_Activity', $this->params['subject'], 'id', 'subject', 'Checking db for the created meeting.');
+        $expected = array('source_contact_id' => $this->webUser->contact_id,
+                          'activity_type_id'  => 1,
+                          'subject'           => $this->params['subject'],
+                          'location'          => $this->params['location'],
+                          'details'           => $this->params['details'],
+                          'duration'          => 195);
+        // test whether the above fields were set properly and whether assignee and target contacts were set properly
+        $this->assertDBCompareValues('CRM_Activity_DAO_Activity',           array('id'          => $activity_id), $expected);
+        $this->assertDBCompareValues('CRM_Activity_DAO_ActivityAssignment', array('activity_id' => $activity_id), array('assignee_contact_id' => $this->webUser->contact_id));
+        $this->assertDBCompareValues('CRM_Activity_DAO_ActivityTarget',     array('activity_id' => $activity_id), array('target_contact_id'   => $this->webUser->contact_id));
+    }*/
+
+}
