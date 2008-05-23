@@ -97,6 +97,33 @@
         <div id="discountLink" class="add-remove-link">
            <a onclick="showrowDiscount(); return false;" name="discountLink" href="#discountLink" class="form-link"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}show field or section{/ts}"/>{ts}another discount{/ts}</a>
         </div>
+        {$form._qf_Fee_refresh.html}
+
+        {if $discountSection}
+            <fieldset id="map-field"><legend>{ts}Fee Levels{/ts}</legend>
+            <p>{ts}Use the table below to enter descriptive labels and amounts for up to ten discounted event fee levels.{/ts}</p>
+	    <table id="map-field-table">
+            <tr class="columnheader">
+	       <th scope="column">{ts}Fee Label{/ts}</th>
+	       <th scope="column">{ts}Amount{/ts}</th>
+	       <th scope="column">{ts}Amount1{/ts}</th>
+	       <th scope="column">{ts}Amount2{/ts}</th>	
+	       <th scope="column">{ts}Default?{/ts}</th>
+	    </tr>
+            
+            {section name=loop start=1 loop=11}
+               {assign var=idx value=$smarty.section.loop.index}
+               <tr><td class="even-row">{$form.label.$idx.html}</td>
+	          {section name=loop1 start=1 loop=4}
+                     {assign var=idy value=$smarty.section.loop1.index}
+	              <td>{$form.value.$idy.html|crmMoney}</td>
+	          {/section}
+	          <td class="even-row">{$form.default.$idx.html}</td>
+	       </tr>
+            {/section}
+            </table>
+            </fieldset>
+        {/if}
         </fieldset>
     </div>
     </div>
