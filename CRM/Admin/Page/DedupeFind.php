@@ -87,55 +87,53 @@ class CRM_Admin_Page_DedupeFind extends CRM_Core_Page_Basic
         }
         if (!$foundDupes) {
             $this->assign('no_dupes', true);
+        } else {
             
-            return;
-        }
-        
-        $cids = array( );
-        foreach ( $foundDupes as $dupe ) {
-            $cids[$dupe[0]] = 1;
-            $cids[$dupe[1]] = 1;
-        }
-        $cidString = implode(', ', array_keys($cids));
-        $domainId  = CRM_Core_Config::domainID();
-        $sql = "SELECT id, display_name FROM civicrm_contact WHERE id IN ($cidString) AND domain_id = $domainId ORDER BY sort_name";
-        $dao =& new CRM_Core_DAO();
-        $dao->query($sql);
-        $displayNames = array();
-        while ($dao->fetch()) {
-            $displayNames[$dao->id] = $dao->display_name;
-        }
-        // FIXME: sort the contacts; $displayName 
-        // is already sort_name-sorted, so use that
-        // (also, consider sorting by dupe count first)
-        // lobo - change the sort to by threshold value
-        // so the more likely dupes are sorted first
-        $session =& CRM_Core_Session::singleton();
-        $userId = $session->get('userID');
-        $mainContacts = array();
-        foreach ($foundDupes as $dupes) {
-            $srcID = $dupes[0];
-            $dstID = $dupes[1];
-            if ( $srcID == $userId ) {
-                $srcID = $dupes[1];
-                $dstID = $dupes[2];
+            $cids = array( );
+            foreach ( $foundDupes as $dupe ) {
+                $cids[$dupe[0]] = 1;
+                $cids[$dupe[1]] = 1;
             }
-            $mainContacts[]  = array( 'srcID'   => $srcID,
-                                      'srcName' => $displayNames[$srcID],
-                                      'dstID'   => $dstID,
-                                      'dstName' => $displayNames[$dstID],
-                                      'weight'  => $dupes[2] );
-        }
-        if ($cid) $this->_cid = $cid;
-        if ($gid) $this->_gid = $gid;
-        $this->_rgid = $rgid;
-        $this->_mainContacts = $mainContacts;
-
-        if ($this->_cid) {
+            $cidString = implode(', ', array_keys($cids));
+            $domainId  = CRM_Core_Config::domainID();
+            $sql = "SELECT id, display_name FROM civicrm_contact WHERE id IN ($cidString) AND domain_id = $domainId ORDER BY sort_name";
+            $dao =& new CRM_Core_DAO();
+            $dao->query($sql);
+            $displayNames = array();
+            while ($dao->fetch()) {
+                $displayNames[$dao->id] = $dao->display_name;
+            }
+            // FIXME: sort the contacts; $displayName 
+            // is already sort_name-sorted, so use that
+            // (also, consider sorting by dupe count first)
+            // lobo - change the sort to by threshold value
+            // so the more likely dupes are sorted first
             $session =& CRM_Core_Session::singleton();
-            $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/deduperules', "action=update&rgid={$this->_rgid}&gid={$this->_gid}&cid={$this->_cid}"));
+            $userId = $session->get('userID');
+            $mainContacts = array();
+            foreach ($foundDupes as $dupes) {
+                $srcID = $dupes[0];
+                $dstID = $dupes[1];
+                if ( $srcID == $userId ) {
+                    $srcID = $dupes[1];
+                    $dstID = $dupes[2];
+                }
+                $mainContacts[]  = array( 'srcID'   => $srcID,
+                                          'srcName' => $displayNames[$srcID],
+                                          'dstID'   => $dstID,
+                                          'dstName' => $displayNames[$dstID],
+                                          'weight'  => $dupes[2] );
+            }
+            if ($cid) $this->_cid = $cid;
+            if ($gid) $this->_gid = $gid;
+            $this->_rgid = $rgid;
+            $this->_mainContacts = $mainContacts;
+            
+            if ($this->_cid) {
+                $session =& CRM_Core_Session::singleton();
+                $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/deduperules', "action=update&rgid={$this->_rgid}&gid={$this->_gid}&cid={$this->_cid}"));
+            }
         }
-        
         $this->browse();
 
         // parent run
