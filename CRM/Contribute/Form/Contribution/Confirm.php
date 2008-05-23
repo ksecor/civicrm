@@ -708,7 +708,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         }
 
         // create an activity record
-        CRM_Contribute_BAO_Contribution::addActivity( $contribution );
+        require_once 'CRM/Activity/BAO/Activity.php';
+        CRM_Activity_BAO_Activity::addActivity( $contribution );
 
         $transaction->commit( ); 
 

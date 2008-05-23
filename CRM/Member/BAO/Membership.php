@@ -269,7 +269,8 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         
         // add activity record only during create mode
         if ( !CRM_Utils_Array::value( 'membership', $ids ) ) {
-            self::addActivity( $membership );
+            require_once 'CRM/Activity/BAO/Activity.php';
+            CRM_Activity_BAO_Activity::addActivity( $membership );
         }
         
         $transaction->commit( );
@@ -1231,7 +1232,8 @@ AND civicrm_membership.is_test = %2";
         }
         
         // add activity record
-        self::addActivity( $membership, 'Membership Renewal' );
+        require_once 'CRM/Activity/BAO/Activity.php';
+        CRM_Activity_BAO_Activity::addActivity( $membership, 'Membership Renewal' );
         
         return $membership;
     }
@@ -1372,66 +1374,8 @@ SELECT c.contribution_page_id as pageID
         
         return $fields;
     }
-
-    /**
-     * Function to add activity for Membership
-     *
-     * @param object  $membership   (reference) membership object
-     * @param string  $activityType Membership Signup or Renewal
-     *
-     * @return void
-     * 
-     * @static
-     * @access public
-     */
-    static function addActivity( &$membership, $activityType = 'Membership Signup' )
-    { 
-        require_once "CRM/Member/PseudoConstant.php";
-        $membershipType = CRM_Member_PseudoConstant::membershipType( $membership->membership_type_id );
-        
-        if ( ! $membershipType ) {
-            $membershipType = ts('Membership');
-        }
-        
-        $subject = "{$membershipType}";
-        
-        if ( $membership->source != 'null' ) {
-            $subject .= " - {$membership->source}";
-        }
-        
-        if ( $membership->owner_membership_id ) {
-            $cid         = CRM_Core_DAO::getFieldValue( 
-                                                       'CRM_Member_DAO_Membership', 
-                                                       $membership->owner_membership_id,
-                                                       'contact_id' );
-            $displayName = CRM_Core_DAO::getFieldValue( 
-                                                       'CRM_Contact_DAO_Contact',
-                                                       $cid, 'display_name' );
-            $subject .= " (by {$displayName})";
-        }
-        
-        require_once 'CRM/Member/DAO/MembershipStatus.php';
-        $subject .= " - Status: " . CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipStatus', $membership->status_id );
-
-        require_once "CRM/Core/OptionGroup.php";
-        $activityParams = array( 'source_contact_id' => $membership->contact_id,
-                                 'source_record_id'  => $membership->id,
-                                 'activity_type_id'  => CRM_Core_OptionGroup::getValue( 'activity_type',
-                                                                                        $activityType,
-                                                                                        'name' ),
-                                 'subject'            => $subject,
-                                 'activity_date_time' => $membership->start_date,
-                                 'is_test'            => $membership->is_test,
-                                 'status_id'          => 2
-                               );
-        
-        require_once 'api/v2/Activity.php';
-        if ( is_a( civicrm_activity_create( $activityParams ), 'CRM_Core_Error' ) ) {
-            CRM_Core_Error::fatal("Failed creating Activity for membership of id {$membership->id}");
-        }
-    }
     
-     /**
+    /**
      * function to get the sort name of a contact for a particular membership
      *
      * @param  int    $id      id of the membership
@@ -1441,16 +1385,16 @@ SELECT c.contribution_page_id as pageID
      * @access public
      */
     static function sortName( $id ) 
-    {
-        $id = CRM_Utils_Type::escape( $id, 'Integer' );
-        
-        $query = "
+        {
+            $id = CRM_Utils_Type::escape( $id, 'Integer' );
+            
+            $query = "
 SELECT civicrm_contact.sort_name
 FROM   civicrm_membership, civicrm_contact
 WHERE  civicrm_membership.contact_id = civicrm_contact.id
   AND  civicrm_membership.id = {$id}
 ";
-        return CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
-    }
+            return CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
+        }
 }
 

@@ -191,7 +191,8 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
         
         if ( ( ! CRM_Utils_Array::value( 'participant', $ids ) ) ||
              ( $params['status_id'] != $status ) ) {
-            self::addActivity( $participant );
+            require_once 'CRM/Activity/BAO/Activity.php';
+            CRM_Activity_BAO_Activity::addActivity( $participant );
         }
         
         $session = & CRM_Core_Session::singleton();
@@ -251,49 +252,6 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
         return $participant;
     }
 
-    /**
-     * Function to add activity record for Event participation
-     *
-     * @param object  $participant   (reference) $participant object
-     *
-     * @access public
-     * @static
-     */
-    static function addActivity( &$participant ) 
-    {
-        require_once "CRM/Event/BAO/Event.php";
-        $event = CRM_Event_BAO_Event::getEvents( true, $participant->event_id );
-        $date = date( 'YmdHis' );
-        require_once "CRM/Event/PseudoConstant.php";
-        $roles  = CRM_Event_PseudoConstant::participantRole( );
-        $status = CRM_Event_PseudoConstant::participantStatus( );
-
-        $subject = $event[$participant->event_id];
-        if ( CRM_Utils_Array::value( $participant->role_id, $roles ) ) {
-            $subject .= ' - ' . $roles[$participant->role_id]; 
-        }
-        if ( CRM_Utils_Array::value( $participant->status_id, $status ) ) {
-            $subject .= ' - ' . $status[$participant->status_id]; 
-        }
-
-        require_once "CRM/Core/OptionGroup.php";
-        $activityParams = array( 'source_contact_id' => $participant->contact_id,
-                                 'source_record_id'  => $participant->id,
-                                 'activity_type_id'  => CRM_Core_OptionGroup::getValue( 'activity_type',
-                                                                                        'Event Registration',
-                                                                                        'name' ),
-                                 'subject'            => $subject,
-                                 'activity_date_time' => $date,
-                                 'is_test'            => $participant->is_test,
-                                 'status_id'          => 2
-                                 );
-
-        require_once 'api/v2/Activity.php';
-        if ( is_a( civicrm_activity_create( $activityParams ), 'CRM_Core_Error' ) ) {
-            return false;
-        }
-    }
-    
     /**
      * check whether the event is 
      * full for participation
