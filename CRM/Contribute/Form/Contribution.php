@@ -363,6 +363,99 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             return CRM_Custom_Form_CustomData::buildQuickForm( $this );
         }
         
+        $showAdditionalInfo = false;
+        $this->_formType = CRM_Utils_Array::value( 'formType', $_GET );
+        
+        require_once 'CRM/Contribute/Form/AdditionalInfo.php';
+            
+        if ( $this->_id ) {
+            $ids = array( );
+            $params = array( 'id' => $this->_id );
+            require_once "CRM/Contribute/BAO/Contribution.php";
+            CRM_Contribute_BAO_Contribution::getValues( $params, $defaults, $ids );
+        }
+        
+        $additionalDetailFields = array( 'note', 'thankyou_date', 'invoice_id', 'trxn_id',
+                                         'non_deductible_amount', 'fee_amount', 'net_amount');
+        
+        foreach ( $additionalDetailFields as $key ) {
+            if ( ! empty( $defaults[$key] ) ) {
+                $defaults['hidden_buildAdditionalDetail'] = 1;
+                break;
+            }
+        }
+        
+        $honorFields = array('honor_type_id', 'honor_prefix_id', 'honor_first_name', 
+                             'honor_lastname','honor_email');
+        
+        foreach ( $honorFields as $key ) {
+            if ( ! empty( $defaults[$key] ) ) {
+                $defaults['hidden_buildHonoree'] = 1;
+                    break;
+            }
+        }
+        
+        if ( $this->_premiumId ) {
+            require_once 'CRM/Contribute/DAO/ContributionProduct.php';
+            $dao = & new CRM_Contribute_DAO_ContributionProduct();
+            $dao->id = $this->_premiumId;
+            $dao->find(true);
+            if ( $dao->product_id ) {
+                $defaults['hidden_buildPremium'] = 1;
+            }
+        }
+        
+        if ( $this->_noteId ) {
+            $defaults['note'] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Note', $this->_noteId, 'note' );
+            if ( ! empty( $defaults['note'] ) ) {
+                $defaults['hidden_buildAdditionalDetail'] = 1;
+            }
+        }
+        
+        $paneNames =  array ( 'Additional Details'  => 'AdditionalDetail',
+                              'Honoree Information' => 'Honoree', 
+                              'Premium Information' => 'Premium'
+                              );
+        if ( is_array( $ccPane ) ) {
+            $paneNames = array_merge( $ccPane, $paneNames );
+        }
+        foreach ( $paneNames as $name => $type ) {
+            if ( $this->_id ) {
+                $dojoUrlParams = "&reset=1&action=update&id={$this->_id}&snippet=1&cid={$this->_contactID}&formType={$type}";  
+            } else {
+                $dojoUrlParams = "&reset=1&action=add&snippet=1&cid={$this->_contactID}&formType={$type}";
+            }
+            
+            $allPanes[$name] = array( 'url'  => CRM_Utils_System::url( 'civicrm/contact/view/contribution',
+                                                                       "snippet=1&formType={$type}" ),
+                                      'open' => 'false',
+                                      'id'   => $type,
+                                      );
+            
+            // see if we need to include this paneName in the current form
+            if ( $this->_formType == $type ||
+                 CRM_Utils_Array::value( "hidden_{$type}", $_POST ) ||
+                 CRM_Utils_Array::value( "hidden_{$type}", $defaults ) ) {
+                $showAdditionalInfo = true;
+                $allPanes[$name]['open'] = 'true';
+                if ( $type == 'buildCreditCard' ) {
+                    $this->add('hidden', 'hidden_buildCreditCard', 1 );
+                    eval( 'CRM_Core_Payment_Form::' . $type . '( $this );' );
+                } else {
+                    eval( 'CRM_Contribute_Form_AdditionalInfo::build' . $type . '( $this );' );
+                }
+            }
+        }
+        
+        $this->assign( 'allPanes', $allPanes );
+        $this->assign( 'dojoIncludes', "dojo.require('civicrm.TitlePane');dojo.require('dojo.parser');" );
+        $this->assign( 'showAdditionalInfo', $showAdditionalInfo );
+        
+        if ( $this->_formType ) {
+            $this->assign('formType', $this->_formType );
+            return;
+        }
+
         $this->applyFilter('__ALL__', 'trim');
         
         if ( $this->_action & CRM_Core_Action::DELETE ) {
@@ -474,93 +567,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             $buttonType = 'upload';
         } else {
             $buttonType = 'next';
-        }
-        
-        $this->_formType = CRM_Utils_Array::value( 'formType', $_GET );
-        
-        require_once 'CRM/Contribute/Form/AdditionalInfo.php';
-        
-        if ( $this->_id ) {
-            $ids = array( );
-            $params = array( 'id' => $this->_id );
-            require_once "CRM/Contribute/BAO/Contribution.php";
-            CRM_Contribute_BAO_Contribution::getValues( $params, $defaults, $ids );
-        }
-        
-        $additionalDetailFields = array( 'note', 'thankyou_date', 'invoice_id', 'trxn_id',
-                                         'non_deductible_amount', 'fee_amount', 'net_amount');
-        
-        foreach ( $additionalDetailFields as $key ) {
-            if ( ! empty( $defaults[$key] ) ) {
-                $defaults['hidden_buildAdditionalDetail'] = 1;
-                break;
-            }
-        }
-        
-        $honorFields = array('honor_type_id', 'honor_prefix_id', 'honor_first_name', 
-                             'honor_lastname','honor_email');
-        
-        foreach ( $honorFields as $key ) {
-            if ( ! empty( $defaults[$key] ) ) {
-                $defaults['hidden_buildHonoree'] = 1;
-                break;
-            }
-        }
-        
-        if ( $this->_premiumId ) {
-            require_once 'CRM/Contribute/DAO/ContributionProduct.php';
-            $dao = & new CRM_Contribute_DAO_ContributionProduct();
-            $dao->id = $this->_premiumId;
-            $dao->find(true);
-            if ( $dao->product_id ) {
-                $defaults['hidden_buildPremium'] = 1;
-            }
-        }
-        
-        if ( $this->_noteId ) {
-            $defaults['note'] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Note', $this->_noteId, 'note' );
-            if ( ! empty( $defaults['note'] ) ) {
-                $defaults['hidden_buildAdditionalDetail'] = 1;
-            }
-        }
-        
-        $paneNames =  array ( 'Additional Details'  => 'buildAdditionalDetail',
-                              'Honoree Information' => 'buildHonoree', 
-                              'Premium Information' => 'buildPremium'
-                              );
-        if ( is_array( $ccPane ) ) {
-            $paneNames = array_merge( $ccPane, $paneNames );
-        }
-        foreach ( $paneNames as $name => $type ) {
-            
-            if ( $this->_id ) {
-                $dojoUrlParams = "&reset=1&action=update&id={$this->_id}&snippet=1&cid={$this->_contactID}&formType={$type}";  
-            } else {
-                $dojoUrlParams = "&reset=1&action=add&snippet=1&cid={$this->_contactID}&formType={$type}";
-            }
-            
-            $allPanes[$name] = array( 'url'  => CRM_Utils_System::url( 'civicrm/contribute/additionalinfo',
-                                                                       $dojoUrlParams ),
-                                      'open' => 'false',
-                                      'id'   => $type,
-                                      );
-            
-            // see if we need to include this paneName in the current form
-            if ( $this->_formType == $type ||
-                 CRM_Utils_Array::value( "hidden_{$type}", $_POST ) ||
-                 CRM_Utils_Array::value( "hidden_{$type}", $defaults ) ) {
-                $allPanes[$name]['open'] = 'true';
-                if ( $type == 'buildCreditCard' ) {
-                    $this->add('hidden', 'hidden_buildCreditCard', 1 );
-                    eval( 'CRM_Core_Payment_Form::' . $type . '( $this );' );
-                } else {
-                    eval( 'CRM_Contribute_Form_AdditionalInfo::' . $type . '( $this );' );
-                }
-            }
-        }
-        
-        $this->assign( 'allPanes', $allPanes );
-        $this->assign( 'dojoIncludes', "dojo.require('civicrm.TitlePane');dojo.require('dojo.parser');" );
+        }      
         
         $this->addButtons(array( 
                                 array ( 'type'      => $buttonType, 
@@ -608,9 +615,10 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             if ( !((  CRM_Utils_Array::value( 'honor_first_name', $fields ) && 
                       CRM_Utils_Array::value( 'honor_last_name' , $fields )) ||
                    CRM_Utils_Array::value( 'honor_email' , $fields ) )) {
-                $errors['hidden_buildHonoree'] = ts('Honor First Name and Last Name OR an email should be set.');
+                $errors['honor_first_name'] = ts('Honor First Name and Last Name OR an email should be set.');
             }
         }
+
         //check for Credit Card Contribution.
         $ccFields = array( 'credit_card_type', 
                            'credit_card_number',

@@ -1,6 +1,8 @@
 {* this template is used for adding/editing/deleting contribution *} 
 {if $cdType }
   {include file="CRM/Custom/Form/CustomData.tpl"}
+{elseif $showAdditionalInfo and $formType }
+  {include file="CRM/Contribute/Form/AdditionalInfo/$formType.tpl"}
 {else}
 <div class="form-item">
 {if $action & 1 or $action & 1024 }
@@ -109,8 +111,17 @@
     </script>
     {/literal}
 
-<div class="form-item" id="additionalInfo">
-    {include file="CRM/Contribute/Form/AdditionalInfo.tpl"}
+<div class="form-item" id="additionalInformation">
+   {* Additional Detail / Honoree Information / Premium Information  Fieldset *}
+   <div class="tundra">
+      {foreach from=$allPanes key=paneName item=paneValue}
+        {if $paneValue.open eq 'true'}
+           <div id="{$paneValue.id}" href="{$paneValue.url}" dojoType="civicrm.TitlePane"  title="{$paneName}" open="{$paneValue.open}" width="200" executeScript="true"></div>
+        {else}
+           <div id="{$paneValue.id}" dojoType="civicrm.TitlePane"  title="{$paneName}" open="{$paneValue.open}" href ="{$paneValue.url}" executeScript="true"></div>
+        {/if}
+      {/foreach}
+   </div>
 </div>
 
 {/if}

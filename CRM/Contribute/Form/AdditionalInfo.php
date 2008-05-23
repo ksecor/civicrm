@@ -33,13 +33,8 @@
  *
  */
 
-require_once 'CRM/Core/Form.php';
-require_once 'CRM/Contribute/PseudoConstant.php';
-require_once 'CRM/Core/BAO/CustomGroup.php';
-require_once 'CRM/Contribute/Form/Contribution.php';
-
-class CRM_Contribute_Form_AdditionalInfo extends CRM_Contribute_Form_Contribution {
-    
+class CRM_Contribute_Form_AdditionalInfo 
+{
     /** 
      * Function to build the form for Premium Information. 
      * 
@@ -49,7 +44,7 @@ class CRM_Contribute_Form_AdditionalInfo extends CRM_Contribute_Form_Contributio
     function buildPremium( &$form )
     { 
         //premium section
-        $form->add( 'hidden', 'hidden_buildPremium', 1 );
+        $form->add( 'hidden', 'hidden_Premium', 1 );
         require_once 'CRM/Contribute/DAO/Product.php';
         $sel1 = $sel2 = array();
         
@@ -73,13 +68,10 @@ class CRM_Contribute_Form_AdditionalInfo extends CRM_Contribute_Form_Contributio
         }
         $form->_options = $sel2;
         $form->assign('mincontribution',$min_amount);
-        $sel =& $this->addElement('hierselect', "product_name", ts('Premium'),'onclick="showMinContrib();"');
+        $sel =& $form->addElement('hierselect', "product_name", ts('Premium'),'onclick="showMinContrib();"');
         $js = "<script type='text/javascript'>\n";
-        if ( $form->_name == 'AdditionalInfo' ) {
-            $formName = 'document.forms.' . 'Contribution';
-        } else {
-            $formName = 'document.forms.' . $form->_name;   
-        }
+        $formName = 'document.forms.' . 'Contribution';
+
         for ( $k = 1; $k < 2; $k++ ) {
             if ( ! isset ($defaults['product_name'][$k] )|| (! $defaults['product_name'][$k] ) )  {
                 $js .= "{$formName}['product_name[$k]'].style.display = 'none';\n"; 
@@ -105,7 +97,8 @@ class CRM_Contribute_Form_AdditionalInfo extends CRM_Contribute_Form_Contributio
     function buildAdditionalDetail( &$form )
     { 
         //Additional information section
-        $form->add( 'hidden', 'hidden_buildAdditionalDetail', 1 );
+        $form->add( 'hidden', 'hidden_AdditionalDetail', 1 );
+        
         $attributes = CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Contribution' );
         
         $form->addElement('date', 'thankyou_date', ts('Thank-you Sent'), CRM_Core_SelectValues::date('activityDate')); 
@@ -148,7 +141,7 @@ class CRM_Contribute_Form_AdditionalInfo extends CRM_Contribute_Form_Contributio
     function buildHonoree( &$form )
     { 
         //Honoree section
-        $form->add( 'hidden', 'hidden_buildHonoree', 1 );
+        $form->add( 'hidden', 'hidden_Honoree', 1 );
         $honor = CRM_Core_PseudoConstant::honor( ); 
         foreach ( $honor as $key => $var) {
             $honorTypes[$key] = HTML_QuickForm::createElement('radio', null, null, $var, $key);
@@ -159,31 +152,6 @@ class CRM_Contribute_Form_AdditionalInfo extends CRM_Contribute_Form_Contributio
         $form->add('text','honor_last_name',ts('Last Name'));
         $form->add('text','honor_email',ts('Email'));
         $form->addRule( "honor_email", ts('Email is not valid.'), 'email' );
-    }
-    
-    /**  
-     * global form rule  
-     *  
-     * @param array $fields  the input form values  
-     * @param array $files   the uploaded files if any  
-     * @param array $options additional user data  
-     *  
-     * @return true if no errors, else array of errors  
-     * @access public  
-     * @static  
-     */  
-    static function formRule( &$fields, &$files, $self ) 
-    {  
-        $errors = array( ); 
-        
-        if ( isset( $fields["honor_type_id"] ) ) {
-            if ( !((  CRM_Utils_Array::value( 'honor_first_name', $fields ) && 
-                      CRM_Utils_Array::value( 'honor_last_name' , $fields )) ||
-                   CRM_Utils_Array::value( 'honor_email' , $fields ) )) {
-                $errors['hidden_buildHonoree'] = ts('Honor First Name and Last Name OR an email should be set.');
-            }
-        }
-        return $errors;
     }
     
     /** 
