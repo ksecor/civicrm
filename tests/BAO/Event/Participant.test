@@ -6,7 +6,6 @@ require_once 'Event.php';
 
 class BAO_Event_Participant extends CiviTestCase 
 {
-    
     function get_info( ) 
     {
         return array(
@@ -18,6 +17,30 @@ class BAO_Event_Participant extends CiviTestCase
     
     function setUp( ) 
     {
+        $this->_contactId = Contact::createIndividual( );
+        $this->_eventId   = Event::create( );
+        $this->_params = $tparams = array(
+                                          'send_receipt'     => 1,
+                                          'is_test'          => 0,
+                                          'is_pay_later'     => 0,
+                                          'event_id'         => $this->_eventId,
+                                          'register_date'    => date('Y-m-d')." 00:00:00",
+                                          'role_id'          => 1,
+                                          'status_id'        => 1,
+                                          'source'           => 'Event_'.$this->_eventId,
+                                          'contact_id'       => $this->_contactId
+                                          );
+        
+        require_once 'CRM/Event/BAO/Participant.php';
+        // New Participant Created
+        $participant = CRM_Event_BAO_Participant::add($tparams);
+        $this->_participantID = $participant->id;
+        
+        $this->assertDBNotNull('CRM_Event_BAO_Participant', $this->_contactId, 'id', 
+                               'contact_id', 'Check DB for Participant of the contact');
+        
+        $this->assertDBCompareValue('CRM_Event_BAO_Participant', $this->_participantID, 'contact_id', 
+                                    'id', $this->_contactId, 'Check DB for contact of the participant');
         parent::setUp();
     }
     /**
@@ -25,49 +48,75 @@ class BAO_Event_Participant extends CiviTestCase
      */
     function testAdd( )
     {
-        $contactId = Contact::createIndividual( );
-        $eventId   = Event::create( );
-        $ids       = array();
+        $params = array_merge( $this->_params, array ('id'          => $this->_participantID,
+                                                      'role_id'     => 2,
+                                                      'status_id'   => 3,
+                                                      ) );
         
-        $params = array(
-                        'send_receipt'     => 1,
-                        'event_id'         => $eventId,
-                        'register_date'    => '20080521170000',
-                        'role_id'          => 1,
-                        'status_id'        => 1,
-                        'source'           => 'Event_'.$eventId,
-                        'contact_id'       => $contactId
-                        );
-        
-        require_once 'CRM/Event/BAO/Participant.php';
-
-        // New Participant Created
-        $addEvent = CRM_Event_BAO_Participant::add($params, $ids);
-      
-        $participantID = $addEvent->id;
-        
-        $this->assertDBNotNull('CRM_Event_BAO_Participant', $contactId, 'id', 'contact_id', 'Check DB for Participant of the contact');
-        
-        $this->assertDBCompareValue('CRM_Event_BAO_Participant',  $participantID, 'contact_id', 
-                                    'id', $contactId, 'Check DB for contact of the participant');
-        
-        $params = array_merge( $params, array ('id'        => $participantID,
-                                               'role_id'   => 2,
-                                               'status_id' => 3
-                                               ) );
-        
-        $ids = array('participant' => $participantID );
-
         // Participant Edited
-        $addEvent = CRM_Event_BAO_Participant::add($params, $ids);
-        $this->assertDBCompareValue('CRM_Event_BAO_Participant', $participantID, 'role_id', 
+        require_once 'CRM/Event/BAO/Participant.php';
+        $participant = CRM_Event_BAO_Participant::add($params);
+        $this->assertDBCompareValue('CRM_Event_BAO_Participant', $this->_participantID, 'role_id', 
                                     'id', 2, 'Check DB for updated role id of the participant');
         
-        $this->assertDBCompareValue('CRM_Event_BAO_Participant', $participantID, 'status_id', 
+        $this->assertDBCompareValue('CRM_Event_BAO_Participant', $this->_participantID, 'status_id', 
                                     'id', 3, 'Check DB for updated status id  of the participant');
-
-        Contact::delete( $contactId );
-        Event::delete ( $eventId );
+        
+        Contact::delete( $this->_contactId );
+        Event::delete ( $this->_eventId );
     }
+    /**
+     * getValues() method (fetch value of participant)
+     */
+    function testgetValuesWithValidParams( ) 
+    {
+        $fparams = array( 'id' => $this->_participantID );
+        
+        $fetchParticipant = CRM_Event_BAO_Participant::getValues( $fparams, $values, $ids );
+        $cparams = $fetchParticipant[$this->_participantID];
+        
+        $params = array_merge( $this->_params, array ('id'             => $this->_participantID,
+                                                      'register_date'  => date('Y-m-d')." 00:00:00"
+                                                      ));
+        foreach ( $cparams as $key => $value ) {
+            if ( substr( $key, 0, 1 ) != '_' && $key != 'N' ) {
+                $this->assertEqual( $cparams->$key, $params[$key], 'Check for '.$key.' for given participant');
+            }
+        }
+        
+        Contact::delete( $this->_contactId );
+        Event::delete ( $this->_eventId );
+    }
+    /**
+     * getValues() method (checking for unformated array of participant id )
+     */
+    function testgetValuesWithoutValidParams( ) 
+    {
+        $fparams = array( );
+        
+        $fetchParticipant = CRM_Event_BAO_Participant::getValues( $fparams, $values, $ids );
+        $count = count( $fetchParticipant );
+
+        if ( $count == 1 ){
+            $cparams = $fetchParticipant[$this->_participantID];
+            $this->assertNotEqual( $cparams->id, 0, 'Checking for not finding the participant.' );
+        } else {
+            $this->assertNotEqual( $count, 1, 'Checking number of participant more than one as participantID not passed.' );
+        }
+        
+        Contact::delete( $this->_contactId );
+        Event::delete ( $this->_eventId );
+    }
+    /**
+     * getLineItems() method (checking details for contribution detials )
+     */
+    function testgetLineItems()
+    {
+        $fetchContribution = CRM_Event_BAO_Participant::getLineItems( $this->_participantID );
+                
+        Contact::delete( $this->_contactId );
+        Event::delete ( $this->_eventId );
+    }
+
 }
 ?>

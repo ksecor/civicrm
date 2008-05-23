@@ -66,12 +66,12 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
      * @access public
      * @static
      */
-    static function add(&$params, &$ids)
+    static function add(&$params)
     {
         require_once 'CRM/Utils/Hook.php';
         
-        if ( CRM_Utils_Array::value( 'participant', $ids ) ) {
-            CRM_Utils_Hook::pre( 'edit', 'Participant', $ids['participant'], $params );
+        if ( CRM_Utils_Array::value( 'id', $params ) ) {
+            CRM_Utils_Hook::pre( 'edit', 'Participant', $params['id'], $params );
         } else {
             CRM_Utils_Hook::pre( 'create', 'Participant', null, $params ); 
         }
@@ -81,7 +81,7 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
         
         $participantBAO =& new CRM_Event_BAO_Participant();
         $participantBAO->copyValues($params);
-        $participantBAO->id = CRM_Utils_Array::value( 'participant', $ids );
+        $participantBAO->id = CRM_Utils_Array::value( 'id', $params );
         
         $result = $participantBAO->save();
         
@@ -90,8 +90,8 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
         // reset the group contact cache for this group
         require_once 'CRM/Contact/BAO/GroupContactCache.php';
         CRM_Contact_BAO_GroupContactCache::remove( );
-
-        if ( CRM_Utils_Array::value( 'participant', $ids ) ) {
+        
+        if ( CRM_Utils_Array::value( 'id', $params ) ) {
             CRM_Utils_Hook::post( 'edit', 'Participant', $participantBAO->id, $participantBAO );
         } else {
             CRM_Utils_Hook::post( 'create', 'Participant', $participantBAO->id, $participantBAO );
@@ -171,25 +171,25 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
      * @static
      */
 
-    static function &create(&$params, &$ids) 
+    static function &create(&$params) 
     { 
         require_once 'CRM/Utils/Date.php';
 
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
         
-        if ( CRM_Utils_Array::value( 'participant', $ids ) ) {
-            $status = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Participant', $ids['participant'], 'status_id' );
+        if ( CRM_Utils_Array::value( 'id', $params ) ) {
+            $status = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Participant', $params['id'], 'status_id' );
         }
         
-        $participant = self::add($params, $ids);
+        $participant = self::add($params);
         
         if ( is_a( $participant, 'CRM_Core_Error') ) {
             $transaction->rollback( );
             return $participant;
         }
         
-        if ( ( ! CRM_Utils_Array::value( 'participant', $ids ) ) ||
+        if ( ( ! CRM_Utils_Array::value( 'id', $params ) ) ||
              ( $params['status_id'] != $status ) ) {
             require_once 'CRM/Activity/BAO/Activity.php';
             CRM_Activity_BAO_Activity::addActivity( $participant );
@@ -215,9 +215,9 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
                 $note = CRM_Utils_Array::value('participant_note', $params);
             }
         
-            if ( ! isset($ids['note']) ) {
+            if ( ! isset($params['note']) ) {
                 $noteDetails = CRM_Core_BAO_Note::getNote( $participant->id, 'civicrm_participant' );
-                $ids['note']['id'] = array_pop( array_flip( $noteDetails ) );
+                $params['note']['id'] = array_pop( array_flip( $noteDetails ) );
             }
 
             require_once 'CRM/Core/BAO/Note.php';
@@ -229,7 +229,7 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
                                 'modified_date' => date('Ymd')
                                 );
             
-            CRM_Core_BAO_Note::add( $noteParams, $ids['note'] );
+            CRM_Core_BAO_Note::add( $noteParams, $params['note'] );
         }
 
         // Log the information on successful add/edit of Participant data.

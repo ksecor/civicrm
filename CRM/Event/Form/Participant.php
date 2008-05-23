@@ -538,12 +538,12 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         $params['receive_date' ] = CRM_Utils_Date::format($params['receive_date' ]);
         $params['contact_id'   ] = $this->_contactID;
         if ( $this->_id ) {
-            $ids['participant']  = $params['id'] = $this->_id;
+            $params['id'] = $this->_id;
         }
         
-        $ids['note'] = array( );
+        $params['note'] = array( );
         if ( $this->_noteId ) {
-            $ids['note']['id']   = $this->_noteId;
+            $params['note']['id']   = $this->_noteId;
         }
         
         $status = null;
@@ -602,14 +602,14 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
               $userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $userID );
         require_once "CRM/Event/BAO/Participant.php";
         $participants = array();
+       
         if ( $this->_single ) {
-            $participants[] = CRM_Event_BAO_Participant::create( $params, $ids );
+            $participants[] = CRM_Event_BAO_Participant::create( $params );
             
         } else {
-            $ids = array( );
             foreach ( $this->_contactIds as $contactID ) {
-                $params['contact_id'] = $contactID;
-                $participants[]       = CRM_Event_BAO_Participant::create( $params, $ids );   
+                $params['id'] = $contactID;
+                $participants[]       = CRM_Event_BAO_Participant::create( $params );   
             }           
         }
         
@@ -624,9 +624,9 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         }
         
         if ( $params['record_contribution'] ) {
-            if( $ids['participant'] ) {
+            if( $params['id'] ) {
                 $ids['contribution'] = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_ParticipantPayment', 
-                                                                    $ids['participant'], 
+                                                                    $params['id'], 
                                                                     'contribution_id', 
                                                                     'participant_id' );
             }

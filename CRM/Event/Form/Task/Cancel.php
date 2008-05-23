@@ -89,12 +89,12 @@ class CRM_Event_Form_Task_Cancel extends CRM_Event_Form_Task
         $value  = array( );
 
         foreach( $this->_participantIds as $participantId ) {
-            $ids['participant']    = $participantId;      
+            $value['id']    = $participantId;      
             
             // Cancelled status id = 4
             $value['status_id']    = 4;
             require_once 'CRM/Event/BAO/Participant.php';            
-            CRM_Event_BAO_Participant::add( $value ,$ids );   
+            CRM_Event_BAO_Participant::add( $value );
         }
     }//end of function
 }
