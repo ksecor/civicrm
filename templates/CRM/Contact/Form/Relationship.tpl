@@ -1,4 +1,7 @@
 {* this template is used for adding/editing/viewing relationships  *}
+{if $cdType }
+  {include file="CRM/Custom/Form/CustomData.tpl"}
+{else}
 {if $action eq 4 } {* action = view *}
     <div class="form-item">
       <fieldset><legend>{ts}View Relationship{/ts}</legend>
@@ -147,37 +150,30 @@
         <dt>&nbsp;</dt><dd>{if $revertPermission}{$form.is_permission_a_b.html}{else}{$form.is_permission_b_a.html}{/if}&nbsp;<b>{if $sort_name_b} '{$sort_name_b}'{else}selected contact(s){/if}</b> can view and update information for <b>'{$sort_name_a}'</b></dd>  
 		<dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
         </dl>
-	{include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
+        <div id="customData"></div>
         <dl>
-      	<dt></dt><dd>{$form.buttons.html}</dd>
-                </dl>
-            </div>
-            </div></fieldset>
+      	  <dt></dt><dd>{$form.buttons.html}</dd>
+        </dl>
+        </div>
+        </div></fieldset>
         {/if}
 {/if}
  
-<script type="text/javascript" >
-{literal}
-function reload(refresh) {
-        var relType = document.getElementById("relationship_type_id");
-        var url = {/literal}"{$refreshURL}"{literal}
-        var post = url + "&relTypeId=" + relType.value;
-        if( refresh ) {
-            window.location= post; 
-        }
-    }
-{/literal}       
-</script>
-
-{if $action eq 8}
+  {if $action eq 8}
      <fieldset><legend>{ts}Delete Relationship{/ts}</legend>
-	<dl>
+       <dl>
         <div class="status">
         {capture assign=relationshipsString}{$currentRelationships.$id.relation}{ $disableRelationships.$id.relation} {$currentRelationships.$id.name}{ $disableRelationships.$id.name }{/capture}
         {ts 1=$relationshipsString}Are you sure you want to delete the Relationship '%1'?{/ts}
         </div>
         <dt></dt>
         <dd>{$form.buttons.html}</dd>
-    </dl>
- </fieldset>	
+      </dl>
+    </fieldset>	
+  {/if}
+{/if} {* close of custom data else*}
+
+{if $searchRows OR $action EQ 2}
+ {*include custom data js file*}
+ {include file="CRM/common/customData.tpl"}
 {/if}

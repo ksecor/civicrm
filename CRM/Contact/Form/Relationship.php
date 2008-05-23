@@ -36,6 +36,8 @@
 require_once 'CRM/Core/SelectValues.php';
 require_once 'CRM/Core/Form.php';
 require_once 'CRM/Contact/Form/Note.php';
+require_once 'CRM/Custom/Form/CustomData.php';
+
 /**
  * This class generates form components for relationship
  * 
@@ -87,6 +89,13 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
     
     function preProcess( ) 
     {
+        //custom data related code
+        $this->_cdType     = CRM_Utils_Array::value( 'type', $_GET );
+        $this->assign('cdType', false);
+        if ( $this->_cdType ) {
+            $this->assign('cdType', true);
+            return CRM_Custom_Form_CustomData::preProcess( $this );
+        }
        
         $this->_contactId      = $this->get('contactId');
         $this->_relationshipId = $this->get('id');
@@ -96,7 +105,6 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         
         $this->_rtypeId        = CRM_Utils_Request::retrieve( 'relTypeId', 'String',
                                                               $this );
-        
         $this->_display_name_a       = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
                                                                     $this->_contactId,
                                                                     'display_name' );
@@ -113,6 +121,13 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                 }
             }
         }
+
+        // when custom data is included in this page
+        if ( CRM_Utils_Array::value( "hidden_custom", $_POST ) ) {
+            eval( 'CRM_Custom_Form_Customdata::preProcess( $this );' );
+            eval( 'CRM_Custom_Form_Customdata::buildQuickForm( $this );' );
+            eval( 'CRM_Custom_Form_Customdata::setDefaultValues( $this );' );
+        }
     }
     
     /**
@@ -124,6 +139,10 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
      */
     function setDefaultValues( ) 
     {
+        if ( $this->_cdType ) {
+            return CRM_Custom_Form_CustomData::setDefaultValues( $this );
+        }
+
         $defaults = array( );
         $params   = array( );
 
@@ -163,10 +182,6 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
             $defaults['is_active'           ] = 1;
             $defaults['relationship_type_id'] = $this->_rtypeId;
         }
-
-        if( isset($this->_groupTree) ) {
-            CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, false, false );
-        }
       
         return $defaults;
     }
@@ -180,7 +195,11 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
      */
     function addRules( )
     {
-        if ( !($this->_action & CRM_Core_Action::DELETE) ){
+        if ( $this->_cdType ) {
+            return;
+        }
+
+        if ( !($this->_action & CRM_Core_Action::DELETE) ) {
             $this->addRule('relationship_type_id', ts('Please select a relationship type.'), 'required' );
             $this->addRule('start_date'          , ts('Start date is not valid.')           , 'qfDate' );
             $this->addRule('end_date'            , ts('End date is not valid.')             , 'qfDate' );
@@ -205,10 +224,17 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
      */
     public function buildQuickForm( ) 
     {
-        $domainID = CRM_Core_Config::domainID( ); 
-        $relTypeID =explode('_', $this->_rtypeId, 3);
-              
-        if($this->_action & CRM_Core_Action::DELETE){
+        if ( $this->_cdType ) {
+            return CRM_Custom_Form_CustomData::buildQuickForm( $this );
+        }
+
+        $domainID  = CRM_Core_Config::domainID( ); 
+        $relTypeID = explode('_', $this->_rtypeId, 3);
+             
+
+
+ 
+        if ( $this->_action & CRM_Core_Action::DELETE ) {
        
             $this->addButtons( array(
                                  array ( 'type'      => 'next',
@@ -222,16 +248,12 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
             
         }
 
-        $urlParams = "cid={$this->_contactId}&reset=1&selectedChild=rel";
-        if ( $this->_relationshipId ) {
-            $urlParams .= "&action=update&id={$this->_relationshipId}&rtype={$this->_rtype}";
-        } else {
-            $urlParams .= "&action=add";
+        $searchRows            = $this->get( 'searchRows'    );
+        $attributes = null;
+        if ( $searchRows ) { 
+            $attributes = array('onchange' => "buildCustomData( this.value );");
         }
-        
-        $url = CRM_Utils_System::url( 'civicrm/contact/view/rel', $urlParams, true, null, false ); 
-        $this->assign("refreshURL",$url);
-        
+ 
         $this->addElement('select',
                           'relationship_type_id',
                           ts('Relationship Type'),
@@ -239,8 +261,9 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                           CRM_Contact_BAO_Relationship::getContactRelationshipType( $this->_contactId,
                                                                                     $this->_rtype,
                                                                                     $this->_relationshipId ),
-                          array('onChange' => "if (this.value) reload(true); else return false"));
-       
+                          $attributes
+                          );
+
         if ( $relTypeID[1] == 'b' ) {
             $this->assign( "revertPermission", true );
         }
@@ -252,12 +275,10 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                              'store'          => 'contactStore',
                              'pageSize'       => 10 
                              );
-        
         $dataUrl = CRM_Utils_System::url( "civicrm/ajax/search",
                                           "d={$domainID}&reID={$relTypeID[0]}&retyp=" .CRM_Utils_Array::value( 2, $relTypeID) ,
                                           true, null, false );
         $this->assign('dataUrl',$dataUrl );
-        
         
         $this->addElement('text', 'name'      , ts('Find Target Contact'),$attributes );
         $this->addElement('date', 'start_date', ts('Start Date'), CRM_Core_SelectValues::date( 'relative' ) );
@@ -272,13 +293,6 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         
         CRM_Contact_Form_Note::buildNoteBlock($this);
         
-        $relationshipTypeId = str_replace( array('_a_b', '_b_a'), array('', ''), $this->_rtypeId);
-        
-        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree('Relationship',$this->_relationshipId,0,$relationshipTypeId);
-        
-        CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
-        
-        $searchRows            = $this->get( 'searchRows'    );
         $searchCount           = $this->get( 'searchCount'   );
         $duplicateRelationship = $this->get( 'duplicateRelationship' );
         $searchDone            = $this->get( 'searchDone' );
@@ -308,6 +322,12 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         $this->addElement( 'submit', $this->getButtonName('refresh'), $searchBtn, array( 'class' => 'form-submit' ) );
         $this->addElement( 'submit', $this->getButtonName('cancel' ), ts('Cancel'), array( 'class' => 'form-submit' ) );
 
+        //need to assign custom data type and subtype to the template
+        $this->assign('customDataType', 'Relationship');
+        $relationshipTypeId = str_replace( array('_a_b', '_b_a'), array('', ''), $this->_rtypeId);
+        $this->assign('customDataSubType',  $relationshipTypeId );
+        $this->assign('entityId',  $this->_relationshipId );
+       
         $session = & CRM_Core_Session::singleton( );
         $uploadNames = $session->get( 'uploadNames' );
         if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
@@ -462,7 +482,8 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
      * @return None
      *
      */
-    function search(&$params) {
+    function search( &$params ) 
+    {
         //max records that will be listed
         $searchValues = array();
         $searchValues[] = array( 'sort_name', 'LIKE', $params['name'], 0, 1 );
