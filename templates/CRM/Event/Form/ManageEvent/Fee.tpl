@@ -100,14 +100,16 @@
         {$form._qf_Fee_refresh.html}
 	
         {if $discountSection}
-            <fieldset id="map-field"><legend>{ts}Fee Levels{/ts}</legend>
+            <fieldset id="map-field"><legend>{ts}Discounted Fee Levels{/ts}</legend>
             <p>{ts}Use the table below to enter descriptive labels and amounts for up to ten discounted event fee levels.{/ts}</p>
 	    <table id="map-field-table">
             <tr class="columnheader">
 	       <th scope="column">{ts}Fee Label{/ts}</th>
-	       {section name=dloop start=1 loop=4}
+	       {section name=dloop start=1 loop=6}
 	          {assign var=i value=$smarty.section.dloop.index}
+		  {if $form.discount_name.$i.value}
 	          <th scope="column">{$form.discount_name.$i.value}</th>
+		  {/if}
 	       {/section}
 	       <th scope="column">{ts}Default?{/ts}</th>
 	    </tr>
@@ -115,9 +117,11 @@
             {section name=loop start=1 loop=11}
                {assign var=idx value=$smarty.section.loop.index}
                <tr><td class="even-row">{$form.label.$idx.html}</td>
-	          {section name=loop1 start=1 loop=4}
+	          {section name=loop1 start=1 loop=6}
                      {assign var=idy value=$smarty.section.loop1.index}
+		      {if $form.discount_name.$idy.value}
 	              <td>{$form.value.$idy.html|crmMoney}</td>
+		      {/if}
 	          {/section}
 	          <td class="even-row">{$form.default.$idx.html}</td>
 	       </tr>
