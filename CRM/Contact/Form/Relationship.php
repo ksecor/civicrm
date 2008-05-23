@@ -247,9 +247,9 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         }
 
         $searchRows            = $this->get( 'searchRows'    );
-        $attributes = null;
+        $attributes = array('onchange' => "setUrl( );");
         if ( $searchRows ) { 
-            $attributes = array('onchange' => "buildCustomData( this.value );");
+            $attributes = array('onchange' => "setUrl( ); buildCustomData( this.value );");
         }
  
         $this->addElement('select',
@@ -272,8 +272,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                              'mode'           => 'remote',
                              'store'          => 'contactStore',
                              'pageSize'       => 10, 
-                             'id'             => 'contact',
-                             'onChange'       => 'setUrl()'
+                             'id'             => 'contact'
                              );
         
         $this->addElement('text', 'name'      , ts('Find Target Contact'),$attributes );
@@ -282,7 +281,6 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         $this->addElement('advcheckbox', 'is_active', ts('Enabled?'), null, 'setChecked()');
       
         $this->addElement('checkbox', 'is_permission_a_b', ts( 'Permission for contact a to view and update information for contact b' ) , null);
-      
         $this->addElement('checkbox', 'is_permission_b_a', ts( 'permission for contact b to view and update information for contact a' ) , null);
        
         $this->add('text', 'description', ts('Description'), CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Relationship', 'description' ) );
