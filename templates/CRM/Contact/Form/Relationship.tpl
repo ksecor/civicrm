@@ -67,8 +67,26 @@
                 </dl>
             {else} {* action = add *}
                 </dd>
-                <dt>{$form.name.label}</dt>
-                <div class ="tundra" dojoType="dojox.data.QueryReadStore" jsId="contactStore" url="{$dataUrl}" doClientPaging="false">
+		    <dt>{$form.name.label}</dt>
+                <div class ="tundra" dojoType="dojox.data.QueryReadStore" jsId="contactStore" doClientPaging="false">
+                {literal}
+                  <script type="text/javascript">
+		  function setUrl( ) {
+   		    var relType = document.getElementById('relationship_type_id').value; 
+                    var dataUrl = {/literal}'{crmURL p="civicrm/ajax/search" h=0 q="d=$domainId&rel="}'{literal} + relType;
+                    var queryStore = new dojox.data.QueryReadStore({url: dataUrl, jsId: 'contactStore', doClientPaging: false } );
+
+                    var widget   = dijit.byId('contact');
+                    widget.store = queryStore;
+
+	          }
+		  dojo.addOnLoad( function( ) 
+                  {
+		      setUrl( );
+		   });
+
+                  </script>
+                {/literal}
                 <dd>{$form.name.html}</dd></div>
                 <dt> </dt>
                   <dd>

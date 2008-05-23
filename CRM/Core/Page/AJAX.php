@@ -163,14 +163,10 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
             }
             
             $relType = null;
-            if ( isset($_GET['reID']) ) {
-                $relType = CRM_Utils_Type::escape( $_GET['reID'], 'Integer');
-                $rel = CRM_Utils_Type::escape( $_GET['retyp'], 'String');
-                
-                if ( !$_GET['retyp'] ) {
-                    return;
-                }
-                
+            if ( isset($_GET['rel']) ) {
+                $relation = explode( '_', $_GET['rel'] );
+                $relType  = CRM_Utils_Type::escape( $relation[0], 'Integer');
+                $rel      = CRM_Utils_Type::escape( $relation[2], 'String');
             }
             
             $organization = null;

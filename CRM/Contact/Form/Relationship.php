@@ -228,11 +228,9 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
             return CRM_Custom_Form_CustomData::buildQuickForm( $this );
         }
 
-        $domainID  = CRM_Core_Config::domainID( ); 
+        $domainId  = CRM_Core_Config::domainID( ); 
+        $this->assign( 'domainId', $domainId );
         $relTypeID = explode('_', $this->_rtypeId, 3);
-             
-
-
  
         if ( $this->_action & CRM_Core_Action::DELETE ) {
        
@@ -273,12 +271,10 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         $attributes = array( 'dojoType'       => 'dijit.form.ComboBox',
                              'mode'           => 'remote',
                              'store'          => 'contactStore',
-                             'pageSize'       => 10 
+                             'pageSize'       => 10, 
+                             'id'             => 'contact',
+                             'onChange'       => 'setUrl()'
                              );
-        $dataUrl = CRM_Utils_System::url( "civicrm/ajax/search",
-                                          "d={$domainID}&reID={$relTypeID[0]}&retyp=" .CRM_Utils_Array::value( 2, $relTypeID) ,
-                                          true, null, false );
-        $this->assign('dataUrl',$dataUrl );
         
         $this->addElement('text', 'name'      , ts('Find Target Contact'),$attributes );
         $this->addElement('date', 'start_date', ts('Start Date'), CRM_Core_SelectValues::date( 'relative' ) );
