@@ -122,8 +122,9 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         //set default membership for membershipship block
         require_once 'CRM/Member/BAO/Membership.php';
         if ( $membershipBlock = CRM_Member_BAO_Membership::getMembershipBlock($this->_id) ) {
-            $this->_defaults['selectMembership'] = CRM_Utils_Array::value( 'membership_type_default',
-                                                                           $membershipBlock );
+            $this->_defaults['selectMembership'] = 
+                $this->_defaultMemTypeId ? $this->_defaultMemTypeId : 
+                CRM_Utils_Array::value( 'membership_type_default', $membershipBlock );
         }
 
         if ( $this->_membershipContactID ) {

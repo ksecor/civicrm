@@ -819,9 +819,19 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $behalfOrganization['contact_type']              = 'Organization';
         $behalfOrganization['location'][1]['is_primary'] = 1;
         
+        // get the relationship type id
+        require_once "CRM/Contact/DAO/RelationshipType.php";
+        $relType =& new CRM_Contact_DAO_RelationshipType();
+        $relType->name_a_b = "Employee of";
+        $relType->find(true);
+        $relTypeId = $relType->id;
+        
+        // keep relationship params ready
+        $relParams['relationship_type_id']    = $relTypeId.'_a_b';
+        $relParams['is_permission_a_b'   ]    = 1;
+        $relParams['is_active'           ]    = 1;
+        
         if ( ! $orgID ) {
-            // if unknown organization contact enetered -
-            
             // check if matching organization contact exists
             require_once 'CRM/Dedupe/Finder.php';
             $dedupeParams = CRM_Dedupe_Finder::formatParams($behalfOrganization, 'Organization');
@@ -831,33 +841,30 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 // if new organization, create org, add location & relationship 
                 $org = CRM_Contact_BAO_Contact::create( $behalfOrganization );
                 
-                //get the relationship type id
-                require_once "CRM/Contact/DAO/RelationshipType.php";
-                $relType =& new CRM_Contact_DAO_RelationshipType();
-                $relType->name_a_b = "Employee of";
-                $relType->find(true);
-                $relTypeId = $relType->id;
-                
-                $relParams['relationship_type_id']    = $relTypeId.'_a_b';
-                $relParams['is_permission_a_b'   ]    = 1;
-                $relParams['is_active'           ]    = 1;
+                // create relationship
                 $relParams['contact_check'][$org->id] = 1;
-                $cid = array('contact' => $contactID );
-                
-                //create relationship
+                $cid = array( 'contact' => $contactID );
                 $relationship = CRM_Contact_BAO_Relationship::create($relParams, $cid);
                 
                 // take a note of new organiation contact.
                 $orgID = $org->id;
-            } else {
-                // if matching contact is found, take a note of first
-                // matching organiation contact.
+            } else if ( count($dupeIDs) == 1 ) {
+                // if single matching contact is found, take note of
+                // the contact.
                 $orgID = $dupeIDs[0];
+            } else {
+                // send a duplicate mail. Don't do anything. 
+                return;
             }
         } else {
             // if found permissioned related organization, allow location edit
             $behalfOrganization['contact_id'] = $orgID;
             $org = CRM_Contact_BAO_Contact::create( $behalfOrganization );
+
+            // create relationship
+            $relParams['contact_check'][$org->id] = 1;
+            $cid = array( 'contact' => $contactID );
+            $relationship = CRM_Contact_BAO_Relationship::create($relParams, $cid);
         }
 
         // make sure organization-contact-id is considered for recording

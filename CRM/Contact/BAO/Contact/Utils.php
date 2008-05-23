@@ -306,20 +306,19 @@ UNION
      *
      */
     static function buildOnBehalfForm( &$form, 
-                                       $contactType    = 'Individual', 
-                                       $countryDefault = null,
-                                       $stateDefault   = null,
-                                       $title          = 'Contact Information',
-                                       $orgOption      = true,
+                                       $contactType       = 'Individual', 
+                                       $countryDefault    = null,
+                                       $stateDefault      = null,
+                                       $title             = 'Contact Information',
+                                       $contactEditMode   = false,
                                        $maxLocationBlocks = 1 )
     {
         require_once 'CRM/Contact/Form/Location.php';
         $config =& CRM_Core_Config::singleton( );
 
-        $form->assign( 'locationCount', $maxLocationBlocks + 1 );
-        $form->assign( 'blockCount'   , CRM_Contact_Form_Location::BLOCKS + 1 );
         $form->assign( 'contact_type' , $contactType );
         $form->assign( 'fieldSetTitle', ts('%1', array('1' => $title)) );
+        $form->assign( 'contactEditMode' , $contactEditMode );
 
         $attributes = CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact');
 
@@ -333,7 +332,7 @@ UNION
                 $employers = CRM_Contact_BAO_Relationship::getPermissionedEmployer( $contactID );
             }
 
-            if ( $contactID && ( count($employers) >= 1 ) && $orgOption ) {
+            if ( !$contactEditMode && $contactID && ( count($employers) >= 1 ) ) {
                 $filterAttributes = array( 'dojoType'     => 'dijit.form.FilteringSelect',
                                            'mode'         => 'remote',
                                            'store'        => 'employerStore',
@@ -400,6 +399,7 @@ UNION
         // keeping in mind whether they are found in addressSequence / preferences. 
 
         $addressSequence = $config->addressSequence();
+
         $key = array_search( 'country', $addressSequence);
         if ( $key ) {
             $form->assign( 'addressSequenceCountry', true );

@@ -129,7 +129,7 @@ class CRM_Contact_Form_RelatedContact extends CRM_Core_Form
         CRM_Contact_BAO_Contact_Utils::buildOnBehalfForm($this, $this->_contactType, 
                                                          $this->_defaults['location'][1]['address']['country_id'],
                                                          $this->_defaults['location'][1]['address']['state_province_id'],
-                                                         'Contact Information', false );
+                                                         'Contact Information', true );
 
         $this->addButtons( array(
                                  array ( 'type'      => 'next',

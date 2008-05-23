@@ -81,21 +81,14 @@
 </div>
 
 <div id="id_location_{$index}_address">
-    {*include file="CRM/Contact/Form/Address.tpl"*} 
-    <fieldset><legend>{if $legend}{$legend}{else}{ts}Address{/ts}{/if}</legend>
-      {if $introText}
-          <div class="description">{$introText}</div>
-      {/if}
+    <fieldset><legend>{ts}Address{/ts}</legend>
       {foreach item=addressElement from=$addressSequence}
-        <span id="id_location_{$index}_address_{$addressElement}">
-            {include file=CRM/Contact/Form/Address/$addressElement.tpl}
-        </span>
+          {include file=CRM/Contact/Form/Address/$addressElement.tpl}
       {/foreach}
 
       {* Special block for country & state implemented using new hier-select widget *}  
       {if $addressSequenceCountry}  
-        <span id="id_location_{$index}_address_country">
-        <div class="form-item">
+        <div id="id_location_{$index}_address_country" class="form-item">
         <span class="labels">{ts}Country{/ts}</span>
         <span class="fields">
             {$form.location.1.address.country_state.html}
@@ -105,12 +98,10 @@
             </span>
         </span>
         </div>
-        </span>
       {/if}
 
       {if $addressSequenceState}  
-        <span id="id_location_{$index}_address_state">
-        <div class="form-item">
+        <div id="id_location_{$index}_address_state" class="form-item">
         <span class="labels">{ts}State / Province{/ts}</span>
         <span class="tundra fields"><span id="id_location[1][address][country_state]_1"></span>
             <br class="spacer"/>
@@ -119,10 +110,11 @@
             </span>
         </span>
         </div>
-        </span>
       {/if}  
 
-      {include file=CRM/Contact/Form/Address/geo_code.tpl}
+      {if $contactEditMode}  
+          {include file=CRM/Contact/Form/Address/geo_code.tpl}
+      {/if}
 
       <!-- Spacer div forces fieldset to contain floated elements -->
       <div class="spacer"></div>

@@ -151,7 +151,6 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
 
         if ( $session->get('userID') ) {
             $mid = CRM_Utils_Request::retrieve( 'mid', 'Positive', $this );
-
             if ( $mid ) {
                 require_once 'CRM/Member/DAO/Membership.php';
                 $membership =& new CRM_Member_DAO_Membership( );
@@ -164,6 +163,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                             CRM_Contact_BAO_Relationship::getPermissionedEmployer( $session->get('userID') );
                         if ( array_key_exists($membership->contact_id, $employers) ) {
                             $this->_membershipContactID = $membership->contact_id;
+                            $this->_defaultMemTypeId    = $membership->membership_type_id;
                         }
                     }
                     $this->assign('membershipContactID', $this->_membershipContactID);
