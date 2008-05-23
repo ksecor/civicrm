@@ -445,7 +445,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                 $showAdditionalInfo = true;
                 $allPanes[$name]['open'] = 'true';
                 if ( $type == 'CreditCard' ) {
-                    $this->add('hidden', 'hidden_buildCreditCard', 1 );
+                    $this->add('hidden', 'hidden_CreditCard', 1 );
                     eval( 'CRM_Core_Payment_Form::build' . $type . '( $this );' );
                 } else {
                     eval( 'CRM_Contribute_Form_AdditionalInfo::build' . $type . '( $this );' );
