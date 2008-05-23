@@ -3,13 +3,8 @@
 {elseif $action eq 4}
 {include file="CRM/Admin/Form/DedupeFind.tpl"}
 {else}
-    {capture assign="findURL"}{crmURL p='civicrm/admin/dedupefind' q="reset=1"}{/capture}
-    {capture assign="contactMatchURL"}{crmURL p='civicrm/admin/dupematch' q="reset=1"}{/capture}
-    {capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
     <div id="help">
-        <p>{ts 1="http://wiki.civicrm.org/confluence//x/xis" 2=$docURLTitle}<strong>Duplicate Contact Rules</strong> are used to search through your existing contacts and identify 'suspected' duplicate contact records. Click <strong>Edit Rule</strong> to review or modify the rules for each type of contact (<a href='%1' target='_blank' title='%2'>read more...</a>).{/ts}</p>
-        <p>{ts 1=$config->userFramework 2=$contactMatchURL}NOTE: These rules are NOT used for matching and synchronizing %1 users to CiviCRM contacts. This process uses <a href='%2'>Contact Matching Rules</a>.{/ts}</p>        <p>{ts}Click <strong>Use Rule</strong> next to the type of contact for which you want to look for duplicates.{/ts}</p>
-
+        {ts}Manage the rules used to identify potentially duplicate contact records. Scan for duplicates using a selected rule and merge duplicate contact data as needed.{/ts} {help id="id-dedupe-intro"}
     </div>
     {if $rows}
         <div id="browseValues">
@@ -29,9 +24,9 @@
                     <td>{$row.contact_type_display}</td>	
                     <td>{$row.level}</td>	
                     {if $row.is_default}
-                    <td>{ts}Default{/ts}</td>    
+                        <td><img src="{$config->resourceBase}/i/check.gif" alt="{ts}Default{/ts}" /></td>    
                     {else}
-                    <td></td>
+                        <td></td>
                     {/if}
                     <td>{$row.action}</td>
                   </tr>

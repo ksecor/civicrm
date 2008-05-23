@@ -156,8 +156,8 @@
   </item>
   <item>
      <path>civicrm/admin/deduperules</path>
-     <title>Duplicate Contact Rules</title>
-     <desc>Rules used to identify potentially duplicate contact records, and to match imported data to existing contact records.</desc>
+     <title>Find and Merge Duplicate Contacts</title>
+     <desc>Manage the rules used to identify potentially duplicate contact records. Scan for duplicates using a selected rule and merge duplicate contact data as needed.</desc>
      <page_callback>CRM_Admin_Page_DedupeRules</page_callback>
      <adminGroup>Configure</adminGroup>
      <icon>admin/small/duplicate_matching.png</icon>
