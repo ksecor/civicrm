@@ -129,20 +129,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         $this->_first = true;
         $this->applyFilter('__ALL__', 'trim');
         $attributes = CRM_Core_DAO::getAttribute('CRM_Event_DAO_Event');
-     
-        $urlParams = "reset=1&context=event";
         
-        if ( $this->_action & ( CRM_Core_Action::UPDATE) ) {
-            $urlParams .= "&action=update&id={$this->_id}&subPage=EventInfo";
-             $eventId = $this->_id ;
-        } else {
-            $urlParams .= "&action=add";
-        }
-
-        $url = CRM_Utils_System::url( CRM_Utils_System::currentPath( ),
-                                      $urlParams, true, null, false );
-     
-        $this->assign("refreshURL",$url);
         $this->add('text','title',ts('Event Title'), $attributes['event_title'], true);
 
         require_once 'CRM/Core/OptionGroup.php';

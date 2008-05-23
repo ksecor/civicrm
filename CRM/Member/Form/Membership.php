@@ -115,10 +115,6 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             
         }
         
-        if( isset($this->_groupTree) ) {
-            CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, false, false );
-        }
-        
         if (is_numeric($this->_memType)) {
             $defaults["membership_type_id"] = array();
             $defaults["membership_type_id"][0] =  
@@ -245,17 +241,6 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                                   );
         
         $sel->setOptions(array($selMemTypeOrg,  $selOrgMemType));
-        
-        $urlParams = "reset=1&cid={$this->_contactID}&context=membership";
-        if ( $this->_id ) {
-            $urlParams .= "&action=update&id={$this->_id}";
-        } else {
-            $urlParams .= "&action=add";
-        }
-        
-        $url = CRM_Utils_System::url('civicrm/contact/view/membership',
-                                     $urlParams, true, null, false ); 
-        $this->assign("refreshURL",$url);
         
         $this->applyFilter('__ALL__', 'trim');
         

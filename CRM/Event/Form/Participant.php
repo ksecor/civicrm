@@ -321,12 +321,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             }
             $this->assign( 'participant_status_id', $defaults[$this->_id]['participant_status_id'] );
         }
-      
-
-        if ( isset($this->_groupTree) ) {
-            CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults[$this->_id], $viewMode, $inactiveNeeded );
-        }
-          
+        
         $this->assign( 'event_is_test', CRM_Utils_Array::value('event_is_test',$defaults[$this->_id]) );
         return $defaults[$this->_id];
     }
