@@ -37,7 +37,7 @@
         </div>
     {/if}
 	    <div class="action-link">
-    	<a href="{crmURL q="action=add&contact_type=Individual&reset=1"}">&raquo; {ts}New Dedupe Rule for Individual{/ts}</a><br/>
+    	<a href="{crmURL q="action=add&contact_type=Individual&reset=1"}">&raquo; {ts}New Dedupe Rule for Individuals{/ts}</a><br/>
     	<a href="{crmURL q="action=add&contact_type=Household&reset=1"}">&raquo; {ts}New Dedupe Rule for Households{/ts}</a><br/>
     	<a href="{crmURL q="action=add&contact_type=Organization&reset=1"}">&raquo; {ts}New Dedupe Rule for Organizations{/ts}</a>
         </div>
