@@ -129,7 +129,7 @@ class CRM_Dedupe_BAO_RuleGroup extends CRM_Dedupe_DAO_RuleGroup
      */
     function thresholdQuery() {
         if ($this->params) {
-            return "SELECT id, 0, SUM(weight) as weight
+            return "SELECT id
                 FROM dedupe JOIN civicrm_contact USING (id)
                 WHERE contact_type = '{$this->contact_type}'
                 GROUP BY id HAVING SUM(weight) >= {$this->threshold}
