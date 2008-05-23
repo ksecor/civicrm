@@ -1,5 +1,4 @@
 {* Additional Detail / Honoree Information / Premium Information  Fieldset *}
-<fieldset>
    <div class="tundra">
       {foreach from=$allPanes key=paneName item=paneValue}
         {if $paneValue.open eq 'true'}
@@ -9,4 +8,3 @@
         {/if}
       {/foreach}
    </div>
-</fieldset>

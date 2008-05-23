@@ -383,16 +383,6 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         $this->assign('customDataSubType',  $this->_contributionType );
         $this->assign('entityId',  $this->_id );
         
-        
-        $urlParams = "reset=1&cid={$this->_contactID}&context=contribution";
-        if ( $this->_id ) {
-            $urlParams .= "&action=update&id={$this->_id}";
-        } else {
-            $urlParams .= "&action=add";
-        }
-        $url = CRM_Utils_System::url( 'civicrm/contact/view/contribution',
-                                      $urlParams, true, null, false ); 
-        $this->assign("refreshURL",$url);
         $attributes = CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Contribution' );
         
         $element =& $this->add('select', 'contribution_type_id', 
@@ -409,6 +399,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                    false, array(
                                 'onClick' => "if (this.value != 3) status(); else return false",
                                 'onChange' => "return showHideByValue('contribution_status_id','3','cancelInfo','table-row','select',false);"));
+
         $element =& $this->add('select', 'payment_instrument_id', 
                                ts( 'Paid By' ), 
                                array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::paymentInstrument( )
@@ -674,7 +665,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         
         // get the submitted form values.  
         $submittedValues = $this->controller->exportValues( $this->_name );
-        $config =& CRM_Core_Config::singleton( );
+        $config  =& CRM_Core_Config::singleton( );
         $session =& CRM_Core_Session::singleton( );
         
         //check for Credit Card Contribution.
