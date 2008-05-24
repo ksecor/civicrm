@@ -19,9 +19,11 @@
     </dl>
   </div>
   <div id="map">
+   {if $form.mapping }
      <dl>
         <dd>{$form.mapping.label} &nbsp; {$form.mapping.html}</dd>
      </dl>
+   {/if}
   </div>
 </fieldset>
 
