@@ -155,22 +155,20 @@ class CRM_Member_Page_MembershipStatus extends CRM_Core_Page_Basic
         while ($dao->fetch()) {
             $membershipStatus[$dao->id] = array();
             CRM_Core_DAO::storeValues( $dao, $membershipStatus[$dao->id]);
+            
             // form all action links
             $action = array_sum(array_keys($this->links()));
-
             // update enable/disable links depending on if it is is_reserved or is_active
-            if (isset ( $dao->is_reserved ) ) {
-                continue;
-            } else {
+            if ( ! $dao->is_reserved  ) {
                 if ($dao->is_active) {
                     $action -= CRM_Core_Action::ENABLE;
                 } else {
                     $action -= CRM_Core_Action::DISABLE;
                 }
+                $membershipStatus[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $action, 
+                                                                                  array('id' => $dao->id));                                                                                  
             }
             
-            $membershipStatus[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $action, 
-                                                                              array('id' => $dao->id));
             $membershipStatus[$dao->id]['start_event'] = str_replace("_", " ", $membershipStatus[$dao->id]['start_event']);
             if (isset ($membershipStatus[$dao->id]['end_event'] ) )
                 $membershipStatus[$dao->id]['end_event']   = str_replace("_", " ", $membershipStatus[$dao->id]['end_event']);
