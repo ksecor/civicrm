@@ -2,7 +2,7 @@
 {if $cdType }
   {include file="CRM/Custom/Form/CustomData.tpl"}
 {else}
-{if $action eq 4 } {* action = view *}
+  {if $action eq 4 } {* action = view *}
     <div class="form-item">
       <fieldset><legend>{ts}View Relationship{/ts}</legend>
 
@@ -41,7 +41,7 @@
            
             <dt>{ts}Status:{/ts}</dt><dd>{if $row.is_active}{ts}Enabled{/ts} {else} {ts}Disabled{/ts}{/if}</dd>
             </dl>
-	 	    {include file="CRM/Contact/Page/View/InlineCustomData.tpl" mainEditForm=1}
+
             <dl>
             <dt></dt>
             <dd><input type="button" name='cancel' value="{ts}Done{/ts}" onclick="location.href='{crmURL p='civicrm/contact/view' q='action=browse&selectedChild=rel'}';"/></dd>
@@ -51,8 +51,8 @@
         </div>
         </fieldset>
      </div>    
-{/if}
- {if $action eq 2 | $action eq 1} {* add and update actions *}
+   {/if}
+   {if $action eq 2 | $action eq 1} {* add and update actions *}
     <fieldset><legend>{if $action eq 1}{ts}New Relationship{/ts}{else}{ts}Edit Relationship{/ts}{/if}</legend>
         <div class="form-item">
             {if $action eq 1}
@@ -80,10 +80,7 @@
                     widget.store = queryStore;
 
 	          }
-		  dojo.addOnLoad( function( ) 
-                  {
-		      setUrl( );
-		   });
+		  dojo.addOnLoad( function( ) {  setUrl( ); });
 
                   </script>
                 {/literal}
@@ -175,7 +172,7 @@
         </div>
         </div></fieldset>
         {/if}
-{/if}
+  {/if}
  
   {if $action eq 8}
      <fieldset><legend>{ts}Delete Relationship{/ts}</legend>

@@ -1,13 +1,15 @@
 {* Relationship tab within View Contact - browse, and view relationships for a contact *}
-<div class="view-content">
-{if $action eq 1 or $action eq 2 or $action eq 4 or $action eq 8} {* add, update or view *}
+{if $cdType }
+  {include file="CRM/Custom/Form/CustomData.tpl"}
+{else}
+ <div class="view-content">
+   {if $action eq 1 or $action eq 2 or $action eq 4 or $action eq 8} {* add, update or view *}
     {include file="CRM/Contact/Form/Relationship.tpl"}
     <div class="spacer"></div>
-    
-{/if}
+  {/if}
 
-{* start of code to show current relationships *}
-{if $currentRelationships}
+  {* start of code to show current relationships *}
+  {if $currentRelationships}
     {* show browse table for any action *}
       <div id="current-relationships">
         <p></p>
@@ -127,3 +129,11 @@
 {/if}
 </div>
 {* end of code to show inactive relationships *}
+
+
+{/if} {* close of custom data else*}
+
+{if $searchRows OR $action EQ 2}
+ {*include custom data js file*}
+ {include file="CRM/common/customData.tpl"}
+{/if}
