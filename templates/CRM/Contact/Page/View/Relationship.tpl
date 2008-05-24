@@ -133,7 +133,7 @@
 
 {/if} {* close of custom data else*}
 
-{if $searchRows OR $action EQ 2}
+{if $searchRows }
  {*include custom data js file*}
  {include file="CRM/common/customData.tpl"}
 {/if}
