@@ -378,23 +378,29 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
             $fields['Student'] =& CRM_Quest_BAO_Student::exportableFields();
             $compArray['Student'] = 'Student';
         }
-
-        if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
-            require_once 'CRM/Contribute/BAO/Contribution.php';
-            $fields['Contribution'] =& CRM_Contribute_BAO_Contribution::exportableFields();
-            $compArray['Contribution'] = 'Contribution';
+        
+        if ( ( $mappingType == 'Search Builder' ) || ( $exportMode == CRM_Export_Form_Select::CONTRIBUTE_EXPORT ) ) {
+            if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
+                require_once 'CRM/Contribute/BAO/Contribution.php';
+                $fields['Contribution'] =& CRM_Contribute_BAO_Contribution::exportableFields();
+                $compArray['Contribution'] = 'Contribution';
+            }
+        }
+        
+        if ( ( $mappingType == 'Search Builder' ) || ( $exportMode == CRM_Export_Form_Select::EVENT_EXPORT ) ) {
+            if ( CRM_Core_Permission::access( 'CiviEvent' ) ) {
+                require_once 'CRM/Event/BAO/Participant.php';
+                $fields['Participant'] =& CRM_Event_BAO_Participant::importableFields('Individual', true, true );
+                $compArray['Participant'] = 'Participant';
+            }
         }
 
-        if ( CRM_Core_Permission::access( 'CiviEvent' ) ) {
-            require_once 'CRM/Event/BAO/Participant.php';
-            $fields['Participant'] =& CRM_Event_BAO_Participant::importableFields('Individual', true, true );
-            $compArray['Participant'] = 'Participant';
-        }
-
-        if ( CRM_Core_Permission::access( 'CiviMember' ) ) {
-            require_once 'CRM/Member/BAO/Membership.php';
-            $fields['Membership'] =& CRM_Member_BAO_Membership::getMembershipFields();
-            $compArray['Membership'] = 'Membership';
+        if ( ( $mappingType == 'Search Builder' ) || ( $exportMode == CRM_Export_Form_Select::MEMBER_EXPORT ) ) {
+            if ( CRM_Core_Permission::access( 'CiviMember' ) ) {
+                require_once 'CRM/Member/BAO/Membership.php';
+                $fields['Membership'] =& CRM_Member_BAO_Membership::getMembershipFields();
+                $compArray['Membership'] = 'Membership';
+            }
         }
         
         foreach ($fields as $key => $value) {
