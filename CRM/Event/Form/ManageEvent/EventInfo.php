@@ -95,9 +95,11 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         }
         $defaults = parent::setDefaultValues();
         
-        if ( $this->_eventType ) {
-            $defaults["event_type_id"] = $this->_eventType;
+        // in update mode, we need to set custom data subtype to tpl
+        if ( $defaults["event_type_id"] ) {
+            $this->assign('customDataSubType',  $defaults["event_type_id"] );
         }
+
         if( !isset ( $defaults['start_date'] ) ) {
             $defaultDate = array( );
             CRM_Utils_Date::getAllDefaultValues( $defaultDate );
@@ -123,7 +125,9 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         }
         //need to assign custom data type and subtype to the template
         $this->assign('customDataType', 'Event');
-        $this->assign('customDataSubType',  $this->_eventType );
+        if ( $this->_eventType ) {
+            $this->assign('customDataSubType',  $this->_eventType );
+        }
         $this->assign('entityId',  $this->_id );
         
         $this->_first = true;
