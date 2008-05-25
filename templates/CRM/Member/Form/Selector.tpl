@@ -11,7 +11,7 @@
 {strip}
 <table class="selector">
   <tr class="columnheader">
-{if ! $single }
+{if ! $single and $context neq 'dashboard' }
   <th scope="col" title="Select Rows">{$form.toggleSelect.html}</th> 
 {/if}
   {foreach from=$columnHeaders item=header}
@@ -34,9 +34,11 @@
   {foreach from=$rows item=row}
   <tr id='rowid{$row.membership_id}' class="{cycle values="odd-row,even-row"}{*if $row.cancel_date} disabled{/if*}">
      {if ! $single }
-       {assign var=cbName value=$row.checkbox}
-       <td>{$form.$cbName.html}</td> 
-       <td>{$row.contact_type}</td>	
+       {if $context neq 'dashboard' }       
+          {assign var=cbName value=$row.checkbox}
+          <td>{$form.$cbName.html}</td> 
+          <td>{$row.contact_type}</td>	
+       {/if}
        <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td> 
     {/if}
     <td>{$row.membership_type}</td>
