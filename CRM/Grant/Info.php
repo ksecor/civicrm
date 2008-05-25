@@ -84,6 +84,12 @@ class CRM_Grant_Info extends CRM_Core_Component_Info
                       'url'	=> 'grant',
                       'weight'  => 50 );
     }
+    
+    // docs inherited from interface  
+    public function registerAdvancedSearchPane()
+    {
+        return null;
+    }    
         
     // docs inherited from interface    
     public function getActivityTypes()

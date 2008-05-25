@@ -72,6 +72,9 @@ class CRM_Contact_Form_Search_Criteria {
         }
         // add search profiles
         require_once 'CRM/Core/BAO/UFGroup.php';
+
+        // FIXME: This is probably a part of profiles - need to be
+        // FIXME: eradicated from here when profiles are reworked.
         $types = array( 'Participant', 'Contribution', 'Membership' );
 
         // get component profiles
@@ -313,51 +316,12 @@ class CRM_Contact_Form_Search_Criteria {
         }
     }
 
-    static function CiviContribute( &$form ) {
-        $form->add( 'hidden', 'hidden_contribute', 1 );
-
-        require_once 'CRM/Contribute/BAO/Query.php';
-        CRM_Contribute_BAO_Query::buildSearchForm( $form );
-    }
-
-    static function CiviMember( &$form ) {
-        $form->add( 'hidden', 'hidden_membership', 1 );
-
-        require_once 'CRM/Member/BAO/Query.php';
-        CRM_Member_BAO_Query::buildSearchForm( $form );
-    }
-
-    static function CiviEvent( &$form ) {
-        $form->add( 'hidden', 'hidden_participant', 1 );
-
-        require_once 'CRM/Event/BAO/Query.php';
-        CRM_Event_BAO_Query::buildSearchForm( $form );
-    }
-
-    static function Quest( &$form ) {
-        $form->add( 'hidden', 'hidden_quest', 1 );
-        require_once 'CRM/Quest/BAO/Query.php';
-        CRM_Quest_BAO_Query::buildSearchForm( $form );
-    }
-
-    static function Kabissa( &$form ) {
-        $form->add( 'hidden', 'hidden_kabissa', 1 );
-        require_once 'CRM/Kabissa/BAO/Query.php';
-        CRM_Kabissa_BAO_Query::buildSearchForm( $form );
-    }
-
     static function CiviCase( &$form ) {
         $form->add( 'hidden', 'hidden_caseSearch', 1 );
         require_once 'CRM/Case/BAO/Query.php';
         CRM_Case_BAO_Query::buildSearchForm( $form );
     }
 
-    static function CiviGrant( &$form ) {
-        $form->add( 'hidden', 'hidden_grant', 1 );
-        require_once 'CRM/Grant/BAO/Query.php';
-        CRM_Grant_BAO_Query::buildSearchForm( $form );
-    }
-    
 }
 
 

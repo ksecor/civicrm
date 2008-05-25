@@ -83,6 +83,13 @@ class CRM_Mailing_Info extends CRM_Core_Component_Info
         return null;
     }
     
+    // docs inherited from interface  
+    public function registerAdvancedSearchPane()
+    {
+        // this component doesn't use advanced search
+        return null;
+    }    
+    
     // docs inherited from interface    
     public function getActivityTypes()
     {

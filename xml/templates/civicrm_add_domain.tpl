@@ -297,11 +297,11 @@ VALUES
   (@option_group_id_asOpt, '{ts escape="sql"}Events{/ts}'                  ,   9, 'CiviEvent', NULL, 0, NULL, 10, NULL, 0, 0, 1, NULL),
   (@option_group_id_asOpt, '{ts escape="sql"}Cases{/ts}'                   ,  10, 'CiviCase', NULL, 0, NULL, 11, NULL, 0, 0, 1, NULL),
   (@option_group_id_asOpt, '{ts escape="sql"}Demographics{/ts}'            ,  13, 'demographics', NULL, 0, NULL, 15, NULL, 0, 0, 1, NULL),
-
   {if 0} {* Temporary hack to eliminate Kabissa checkbox in site preferences. *}
     (@option_group_id_asOpt, 'Kabissa'                 ,  11, NULL, NULL, 0, NULL, 13, NULL, 0, 0, 1, NULL),
-    (@option_group_id_asOpt, 'Grants'                  ,  12, NULL, NULL, 0, NULL, 14, NULL, 0, 0, 1, NULL),
   {/if}
+  (@option_group_id_asOpt, 'Grants'                  ,  12, NULL, NULL, 0, NULL, 14, NULL, 0, 0, 1, NULL),
+
 
   (@option_group_id_udOpt, '{ts escape="sql"}Groups{/ts}'                     , 1, 'Groups', NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL),
   (@option_group_id_udOpt, '{ts escape="sql"}Contributions{/ts}'              , 2, 'CiviContribute', NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL),

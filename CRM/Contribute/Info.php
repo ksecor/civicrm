@@ -80,7 +80,12 @@ class CRM_Contribute_Info extends CRM_Core_Component_Info
                       'weight'  => 20 );
     }
 
-
+    // docs inherited from interface
+    public function registerAdvancedSearchPane()
+    {
+        return array( 'title'   => ts( 'Contributions' ),
+                      'weight'  => 20 );
+    }
 
     // docs inherited from interface    
     public function getActivityTypes()

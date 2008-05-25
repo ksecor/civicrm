@@ -54,7 +54,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
      * @access public
      * @return void
      */
-    function buildQuickForm( ) 
+    function buildQuickForm( )
     {
         require_once 'CRM/Contact/Form/Search/Criteria.php';
 
@@ -99,24 +99,25 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
             if( in_array( $name, array_keys($this->_searchOptions) ) &&
                 $this->_searchOptions[$name] &&
                 CRM_Core_Permission::access( $component->name ) ) {
-                // FIXME: not very elegant, probably needs better approach
-                // allow explicit id, if not defined, use keyword instead
-                $elem = $component->registerTab();
-
+                $elem = $component->registerAdvancedSearchPane();
+                // FIXME: we should change the use of $name here
+                // FIXME: to keyword
                 $paneNames[$elem['title']] = $name;
             }
         }
-    
+
+        // FIXME: exception for CiviCase, which is not formally a component
+        // FIXME: consider reworking it for cases project
         $this->_viewOptions = CRM_Core_BAO_Preferences::valueOptions( 'contact_view_options', true, null, true );
-        if ( $this->_viewOptions['CiviCase'] ) { 
+        if ( $this->_viewOptions['CiviCase'] ) {
             $paneNames[ts('Cases')] = 'caseSearch';
         }
 
+//        CRM_Core_Error::debug( 's', $components );
 
         foreach ( $paneNames as $name => $type ) {
             if ( ! $this->_searchOptions[$type] ) {
-                continue;
-                
+                continue;                
             }
     
             $allPanes[$name] = array( 'url' => CRM_Utils_System::url( 'civicrm/contact/search/advanced',
@@ -129,7 +130,12 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
                  CRM_Utils_Array::value( "hidden_{$type}", $_POST ) ||
                  CRM_Utils_Array::value( "hidden_{$type}", $this->_formValues ) ) {
                 $allPanes[$name]['open'] = 'true';
-                eval( 'CRM_Contact_Form_Search_Criteria::' . $type . '( $this );' );
+                if( array_key_exists( $type, $components) ) {
+                    $c = $components[ $type ];
+                    $c->buildAdvancedSearchPaneForm( $this );
+                } else {
+                    eval( 'CRM_Contact_Form_Search_Criteria::' . $type . '( $this );' );
+                }
             }
         }
 
@@ -149,7 +155,6 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
             return parent::getTemplateFileName( );
         } else {
             $name = ucfirst( $this->_formType );
-                      
             return "CRM/Contact/Form/Search/Criteria/{$name}.tpl";
         }
     }
@@ -197,6 +202,8 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         // get it from controller only if form has been submitted, else preProcess has set this
         if ( ! empty( $_POST ) ) {
             $this->_formValues = $this->controller->exportValues( $this->_name );
+            // FIXME: couldn't figure out a good place to do this,
+            // FIXME: so leaving this as a dependency for now
             if ( array_key_exists(  'contribution_amount_low', $this->_formValues ) ) {
                 foreach ( array( 'contribution_amount_low', 'contribution_amount_high' ) as $f ) {
                     $this->_formValues[$f] = CRM_Utils_Rule::cleanMoney( $this->_formValues[$f] );
@@ -205,25 +212,25 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
           
             // set the group if group is submitted
             if ($this->_formValues['uf_group_id']) {
-                $this->set( 'id', $this->_formValues['uf_group_id'] ); 
+                $this->set( 'id', $this->_formValues['uf_group_id'] );
             } else {
-                $this->set( 'id', '' ); 
+                $this->set( 'id', '' );
             }
             
             // also reset the sort by character 
-            $this->_sortByCharacter = null; 
-            $this->set( 'sortByCharacter', null ); 
+            $this->_sortByCharacter = null;
+            $this->set( 'sortByCharacter', null );
         }
 
         // retrieve ssID values only if formValues is null, i.e. form has never been posted
         if ( empty( $this->_formValues ) && isset( $this->_ssID ) ) {
             $this->_formValues = CRM_Contact_BAO_SavedSearch::getFormValues( $this->_ssID );
         }
-
+        
         if ( isset( $this->_groupID ) && ! CRM_Utils_Array::value( 'group', $this->_formValues ) ) {
             $this->_formValues['group'] = array( $this->_groupID => 1 );
         }
-      
+        
         // we dont want to store the sortByCharacter in the formValue, it is more like 
         // a filter on the result set
         // this filter is reset if we click on the search button
@@ -234,7 +241,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
                 $this->_formValues['sortByCharacter'] = $this->_sortByCharacter;
             }
         }
-      
+        
         require_once 'CRM/Core/BAO/CustomValue.php';
         CRM_Core_BAO_CustomValue::fixFieldValueOfTypeMemo( $this->_formValues );
         
@@ -244,6 +251,6 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         parent::postProcess( );
     }
     
- }
+}
 
 

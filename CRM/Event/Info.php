@@ -80,6 +80,13 @@ class CRM_Event_Info extends CRM_Core_Component_Info
                       'url'	=> 'participant',
                       'weight'  => 40 );
     }
+
+    // docs inherited from interface  
+    public function registerAdvancedSearchPane()
+    {
+        return array( 'title'   => ts( 'Events' ),
+                      'weight'  => 40 );
+    }
     
     // docs inherited from interface    
     public function getActivityTypes()
