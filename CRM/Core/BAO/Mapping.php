@@ -109,47 +109,21 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
      * pairs
      * 
      * @param array  $params         (reference) an assoc array of name/value pairs
-     * @param array  $ids            (reference) the array that holds all the db ids
      * 
      * @return object    CRM_Core_DAO_Mapper object on success, otherwise null
      * @access public
      * @static
      */
-    static function add( &$params, &$ids ) 
+    static function add( &$params ) 
     {
-        if ( ! self::dataExists( $params ) ) {
-	  //return null;
-        }
-        
         $mapping            =& new CRM_Core_DAO_Mapping( );
         $mapping->domain_id = CRM_Core_Config::domainID( );        
-        $mapping->id        = CRM_Utils_Array::value( 'mapping', $ids );
         $mapping->copyValues( $params );
         $mapping->save( );
 
-        //CRM_Core_Session::setStatus( ts('The mapping "%1" has been saved.', array(1 => $mapping->name)) );
-        
         return $mapping;
     }
     
-    /**
-     * Check if there is data to create the object
-     *
-     * @param array  $params         (reference ) an assoc array of name/value pairs
-     *
-     * @return boolean
-     * @access public
-     * @static
-     */
-    static function dataExists( &$params ) 
-    {
-        if ( !empty( $params['name'] ) ) {
-            return true;
-        }
-        
-        return false;
-    }
-
     /**
      * function to get the list of mappings
      * 

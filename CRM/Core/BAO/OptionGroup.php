@@ -37,9 +37,6 @@ require_once 'CRM/Core/DAO/OptionGroup.php';
 
 class CRM_Core_BAO_OptionGroup extends CRM_Core_DAO_OptionGroup 
 {
-
-    
-
     /**
      * class constructor
      */
@@ -99,8 +96,7 @@ class CRM_Core_BAO_OptionGroup extends CRM_Core_DAO_OptionGroup
      */
     static function add(&$params, &$ids) 
     {
-        
-        $params['is_active'] =  CRM_Utils_Array::value( 'is_active', $params, false );
+        $params['is_active' ] =  CRM_Utils_Array::value( 'is_active', $params, false );
         $params['is_default'] =  CRM_Utils_Array::value( 'is_default', $params, false );
         
         // action is taken depending upon the mode
@@ -152,13 +148,11 @@ class CRM_Core_BAO_OptionGroup extends CRM_Core_DAO_OptionGroup
      * @access public
      * @static
      */
-
     static function getTitle( $optionGroupId ) {
         $optionGroup               =& new CRM_Core_DAO_OptionGroup( );
         $optionGroup->id = $optionGroupId;
         $optionGroup->find(true);
         return $optionGroup->name;
-        
     }
 
     /**
@@ -215,9 +209,7 @@ AND first.id =%3
             }
             return false;
         }  
-        
     }
-    
 }
 
 

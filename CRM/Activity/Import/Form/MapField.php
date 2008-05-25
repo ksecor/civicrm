@@ -202,9 +202,10 @@ class CRM_Activity_Import_Form_MapField extends CRM_Core_Form
     public function buildQuickForm()
     {
         //get the saved mapping details
-    
         require_once "CRM/Core/BAO/Mapping.php";
-        $mappingArray = CRM_Core_BAO_Mapping::getMappings('Import Activity');
+        $mappingArray = CRM_Core_BAO_Mapping::getMappings( CRM_Core_OptionGroup::getValue( 'mapping_type',
+                                                                                           'Import Activity',
+                                                                                           'name' ) );
         $this->assign('savedMapping',$mappingArray);
         $this->add('select','savedMapping', ts('Mapping Option'), array('' => ts('- select -'))+$mappingArray);
         $this->addElement('submit','loadMapping',ts('Load Mapping'), null, array('onclick'=>'checkSelect()'));
@@ -266,19 +267,6 @@ class CRM_Activity_Import_Form_MapField extends CRM_Core_Form
         $sel1 = $this->_mapperFields;
 
         $sel2[''] = null;
-        /*$phoneTypes = CRM_Core_SelectValues::phoneType();
-        foreach ($this->_location_types as $key => $value) {
-            $sel3['phone'][$key] =& $phoneTypes;
-        }
-        foreach ($mapperKeys as $key) {
-            list($id, $first, $second) = explode('_', $key);
-      
-                if ($hasLocationTypes[$key]) {
-                    $sel2[$key] = $this->_location_types;
-                } else {
-                    $sel2[$key] = null;
-                }
-        }*/
 
         $js = "<script type='text/javascript'>\n";
         $formName = 'document.forms.' . $this->_name;
@@ -454,7 +442,6 @@ class CRM_Activity_Import_Form_MapField extends CRM_Core_Form
             }
         }
 
-
         if ( CRM_Utils_Array::value( 'saveMapping', $fields ) ) {
             $nameField = CRM_Utils_Array::value( 'saveMappingName', $fields );
             if ( empty( $nameField ) ) {
@@ -495,7 +482,6 @@ class CRM_Activity_Import_Form_MapField extends CRM_Core_Form
             $this->controller->resetPage( $this->_name );
             return;
         }
-        
         
         $fileName         = $this->controller->exportValue( 'UploadFile', 'uploadFile' );
         $skipColumnHeader = $this->controller->exportValue( 'UploadFile', 'skipColumnHeader' );
@@ -546,7 +532,6 @@ class CRM_Activity_Import_Form_MapField extends CRM_Core_Form
             }
                 
             for ( $i = 0; $i < $this->_columnCount; $i++ ) {
-
                 $updateMappingFields =& new CRM_Core_DAO_MappingField();
                 $updateMappingFields->id = $mappingFieldsId[$i];
                 $updateMappingFields->mapping_id = $params['mappingId'];
@@ -560,15 +545,14 @@ class CRM_Activity_Import_Form_MapField extends CRM_Core_Form
         
         //Saving Mapping Details and Records
         if ( CRM_Utils_Array::value('saveMapping', $params)) {
-            $mappingParams = array('name'         => $params['saveMappingName'],
-                                   'description'  => $params['saveMappingDesc'],
-                                   'mapping_type' => 'Import Activity');
-            
-            $temp = array();
-            $saveMapping = CRM_Core_BAO_Mapping::add($mappingParams, $temp) ;
+            $mappingParams = array('name'            => $params['saveMappingName'],
+                                   'description'     => $params['saveMappingDesc'],
+                                   'mapping_type_id' => CRM_Core_OptionGroup::getValue( 'mapping_type',
+                                                                                        'Import Activity',
+                                                                                        'name' ) );
+            $saveMapping = CRM_Core_BAO_Mapping::add( $mappingParams );
 
             for ( $i = 0; $i < $this->_columnCount; $i++ ) {                  
-                
                 $saveMappingFields =& new CRM_Core_DAO_MappingField();
                 $saveMappingFields->mapping_id = $saveMapping->id;
                 $saveMappingFields->column_number = $i;                             

@@ -191,8 +191,7 @@ class CRM_Export_Form_Map extends CRM_Core_Form
                                        'description'     => $params['saveMappingDesc'],
                                        'mapping_type_id' => $this->get( 'mappingTypeId') );
                 
-                $temp = array();
-                $saveMapping = CRM_Core_BAO_Mapping::add($mappingParams, $temp) ;
+                $saveMapping = CRM_Core_BAO_Mapping::add( $mappingParams );
                 
                 //save mapping fields
                 CRM_Core_BAO_Mapping::saveMappingFields($params, $saveMapping->id);

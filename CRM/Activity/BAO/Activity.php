@@ -844,7 +844,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             $date = $activity->start_date;
             $component = 'Membership';
 
-        }else if ( $activity->__table == 'civicrm_participant' ) {
+        } else if ( $activity->__table == 'civicrm_participant' ) {
             require_once "CRM/Event/BAO/Event.php";
             $event = CRM_Event_BAO_Event::getEvents( true, $activity->event_id );
             

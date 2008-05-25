@@ -211,7 +211,9 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
     public function buildQuickForm()
     {
         require_once "CRM/Core/BAO/Mapping.php";
-        $mappingArray = CRM_Core_BAO_Mapping::getMappings('Import');
+        $mappingArray = CRM_Core_BAO_Mapping::getMappings( CRM_Core_OptionGroup::getValue( 'mapping_type',
+                                                                                           'Import Contact',
+                                                                                           'name' ) );
 
         $this->assign('savedMapping',$mappingArray);
         $this->addElement('select','savedMapping', ts('Mapping Option'), array('' => ts('- select -'))+$mappingArray, array('onchange' =>  "if (this.value) document.getElementById('loadMapping').disabled = false; else document.getElementById('loadMapping').disabled = true;"));
@@ -226,7 +228,6 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
             $savedMapping = $this->get('savedMapping');
 
             list ($mappingName, $mappingContactType, $mappingLocation, $mappingPhoneType, $mappingRelation  ) = CRM_Core_BAO_Mapping::getMappingFields($savedMapping);
-
             
             //get loaded Mapping Fields
             $mappingName        = CRM_Utils_Array::value( 1, $mappingName );
@@ -634,7 +635,6 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
             }
                 
             for ( $i = 0; $i < $this->_columnCount; $i++ ) {
-
                 $updateMappingFields =& new CRM_Core_DAO_MappingField();
                 $updateMappingFields->id = $mappingFieldsId[$i];
                 $updateMappingFields->mapping_id = $params['mappingId'];
@@ -659,14 +659,14 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
         }
         
         //Saving Mapping Details and Records
-        if ( CRM_Utils_Array::value('saveMapping', $params)) {
+        if ( CRM_Utils_Array::value('saveMapping', $params) ) {
+            $mappingParams = array('name'            => $params['saveMappingName'],
+                                   'description'     => $params['saveMappingDesc'],
+                                   'mapping_type_id' => CRM_Core_OptionGroup::getValue( 'mapping_type',
+                                                                                        'Import Contact',
+                                                                                        'name' ) );
             
-            $mappingParams = array('name'         => $params['saveMappingName'],
-                                   'description'  => $params['saveMappingDesc'],
-                                   'mapping_type' => 'Import');
-            
-            $temp = array();
-            $saveMapping = CRM_Core_BAO_Mapping::add($mappingParams, $temp) ;
+            $saveMapping = CRM_Core_BAO_Mapping::add( $mappingParams );
             
             $locationTypes =& CRM_Core_PseudoConstant::locationType();
             $contactType = $this->get('contactType');
@@ -682,10 +682,9 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
             }
 
             for ( $i = 0; $i < $this->_columnCount; $i++ ) {                  
-                
                 $saveMappingFields =& new CRM_Core_DAO_MappingField();
-                $saveMappingFields->mapping_id = $saveMapping->id;
-                $saveMappingFields->contact_type = $cType;
+                $saveMappingFields->mapping_id    = $saveMapping->id;
+                $saveMappingFields->contact_type  = $cType;
                 $saveMappingFields->column_number = $i;                             
                 
                 list($id, $first, $second) = explode('_', $mapperKeys[$i][0]);
