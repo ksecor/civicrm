@@ -837,8 +837,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $dedupeParams = CRM_Dedupe_Finder::formatParams($behalfOrganization, 'Organization');
             $dupeIDs      = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Organization', 'Strict');
             
-            if ( empty($dupeIDs) ) {
-                // if new organization, create org, add location & relationship 
+            if ( empty($dupeIDs) || (count($dupeIDs) > 1) ) {
+                // if no/multiple match, create org, add location & relationship 
                 $org = CRM_Contact_BAO_Contact::create( $behalfOrganization );
                 
                 // create relationship
@@ -848,13 +848,14 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 
                 // take a note of new organiation contact.
                 $orgID = $org->id;
+
+                if ( count($dupeIDs) > 1 ) {
+                    // if multiple match send a duplicate alert
+                }
             } else if ( count($dupeIDs) == 1 ) {
                 // if single matching contact is found, take note of
                 // the contact.
                 $orgID = $dupeIDs[0];
-            } else {
-                // send a duplicate mail. Don't do anything. 
-                return;
             }
         } else {
             // if found permissioned related organization, allow location edit

@@ -339,12 +339,12 @@ UNION
                                            'style'        => 'width:225px; border: 1px solid #cfcfcf;',
                                            'class'        => 'tundra',
                                            'pageSize'     => 10,
+                                           'onChange'     => 'loadLocationData(this.getValue())'
                                            );
+                $locDataURL = CRM_Utils_System::url( 'civicrm/ajax/permlocation', "cid=", 
+                                                     true, null, false );
+                $form->assign( 'locDataURL', $locDataURL );
                 
-                if ( $form->_membershipContactID ) {
-                    $filterAttributes['onChange'] = 'resetLocation()';
-                }
-
                 $dataURL = CRM_Utils_System::url( 'civicrm/ajax/employer', 
                                                   "cid=" . $contactID, 
                                                   true, null, false );
@@ -356,9 +356,6 @@ UNION
                 $orgOptions     = array( '0' => ts('Create new organization'), 
                                          '1' => ts('Select existing organization') );
                 $orgOptionExtra = array( 'onclick' => "showHideByValue('org_option','true','select_org','table-row','radio',true);showHideByValue('org_option','true','create_org','table-row','radio',false);");
-                if ( $form->_membershipContactID ) {
-                    $orgOptionExtra['onclick'] .= "resetLocation(this.value);"; 
-                }
                 $form->addRadio( 'org_option', ts('options'),  $orgOptions, $orgOptionExtra );
                 $form->assign( 'relatedOrganizationFound', true );
             }

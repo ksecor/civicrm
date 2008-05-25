@@ -124,6 +124,9 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
         case 'groupTree':
             return $this->groupTree( $config );
 
+        case 'permlocation':
+            return $this->getPermissionedLocation( $config );
+
         default:
             return;
         }
@@ -576,6 +579,9 @@ ORDER BY name";
                 if (isset($_GET['default'])) {
                     $default   = trim(CRM_Utils_Type::escape($_GET['default'], 'Boolean'));
                 }
+                if ( isset( $_GET['id'] ) ) {
+                    $stateId = CRM_Utils_Type::escape( $_GET['id'], 'Positive', false  );
+                }
 
                 $query = "
 SELECT civicrm_state_province.name name, civicrm_state_province.id id
@@ -588,9 +594,16 @@ ORDER BY name";
                 $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
 
                 if ( $default ) {
-                    while ($dao->fetch( )) {
+                    while ( $dao->fetch( ) ) {
                         $elements[] = array( 'name'  => ts($dao->name),
                                              'value' => $dao->id );
+                    }
+                } else if ( $stateId ) {
+                    while ( $dao->fetch( ) ) {
+                        if ( $dao->id == $stateId ) {
+                            $elements[] = array( 'name'  => ts($dao->name),
+                                                 'value' => $dao->id );
+                        }
                     }
                 } else {
                     $count = 0;
@@ -609,7 +622,7 @@ ORDER BY name";
                     }
                     $elements[] = array( 'name'  => $label,
                                          'value' => '' );
-                } elseif (!$default && (!$stateName || $stateName=='- type first letter(s) -')) {
+                } elseif (!$default && !$stateId && (!$stateName || $stateName=='- type first letter(s) -')) {
                     $elements = array();
                     $elements[] = array( 'name'  => '- type first letter(s) -',
                                          'value' => '' );
@@ -891,11 +904,34 @@ AND domain_id = {$domainID} ";
         echo CRM_Utils_JSON::encode( $elements, 'value');
     }
 
+    /**
+     * Function to obtain the location of given contact-id. 
+     * This method is used by on-behalf-of form to dynamically generate poulate the 
+     * location field values for selected permissioned contact. 
+     */
+    function getPermissionedLocation( &$config ) 
+    {
+        $cid = CRM_Utils_Type::escape( $_GET['cid'], 'Integer' );
+        
+        require_once 'CRM/Core/BAO/Location.php';
+        $entityBlock = array( 'contact_id' => $cid );
+        $loc =& CRM_Core_BAO_Location::getValues( $entityBlock, $location );
+
+        $str  = "location_1_phone_1_phone::" . $location['location'][1]['phone'][1]['phone'] . ';;';
+        $str .= "location_1_email_1_email::". $location['location'][1]['email'][1]['email'] . ';;';
+        $str .= "location_1_address_street_address::" . $location['location'][1]['address']['street_address'] . ';;';
+        $str .= "location_1_address_supplemental_address_1::" . $location['location'][1]['address']['supplemental_address_1'] . ';;';
+        $str .= "location_1_address_supplemental_address_2::" . $location['location'][1]['address']['supplemental_address_2'] . ';;';
+        $str .= "location_1_address_city::" . $location['location'][1]['address']['city'] . ';;';
+        $str .= "location_1_address_postal_code::" . $location['location'][1]['address']['postal_code'] . ';;';
+        $str .= "id_location[1][address][country_state]_0::" . $location['location'][1]['address']['country_id'] . '-' . $location['location'][1]['address']['state_province_id'] . ';;';
+
+        echo $str;
+    }
+
     function groupTree( $config ) {
         require_once 'CRM/Contact/BAO/GroupNestingCache.php';
         echo CRM_Contact_BAO_GroupNestingCache::json( );
     }
 
 }
-
-

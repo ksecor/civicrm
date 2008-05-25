@@ -153,7 +153,6 @@
     }
 {/if}
 
-
 {* If mid present in the url, take the required action (poping up related existing contact ..etc) *}
 {if $membershipContactID}
 <script type="text/javascript">
@@ -163,39 +162,54 @@
 </script>
 {/if}
 
-{* Javascript method to reset the location fields when a different existing related contact is selected *}
-{if $membershipContactID}
+{* Javascript method to populate the location fields when a different existing related contact is selected *}
 {literal}
 <script type="text/javascript">
-    function resetLocation( val ) {
-        var membershipContactID = {/literal}{$membershipContactID}{literal};
-        var selectedVal = dijit.byId( 'organization_id' ).getValue();
-        if ( val == '0' ) {
-            selectedVal = "";
-        }
+    function loadLocationData( cid ) {
+	    var dataUrl = {/literal}"{$locDataURL}"{literal};
+        dataUrl = dataUrl + cid;
 
-        if ( selectedVal != membershipContactID ) {
-            var fields = new Array('location_1_phone_1_phone', 
-                                   'location_1_address_street_address', 
-                                   'location_1_address_supplemental_address_1', 
-                                   'location_1_address_supplemental_address_2', 
-                                   'location_1_address_city', 
-                                   'location_1_address_postal_code', 
-                                   'location_1_address_postal_code_suffix',
-                                   'location_1_address_geo_code_1',
-                                   'location_1_address_geo_code_2');
+        var result = dojo.xhrGet({
+        url: dataUrl,
+        handleAs: "text",
+        timeout: 5000, //Time in milliseconds
 
-            for ( var i in fields ) {
-                eval('document.getElementById(fields[i]).value = ""');
+        // The LOAD function will be called on a successful response.
+        load: function(response, ioArgs) {
+            var fldVal = response.split(";;");
+            for (var i in fldVal) {
+                var elem = fldVal[i].split('::');
+                if ( elem[0] == 'id_location[1][address][country_state]_0' ) {
+                    var countryState = elem[1].split('-');
+                    var country = countryState[0];
+                    var state   = countryState[1];
+
+                    var selector1 = dijit.byId( elem[0] );
+                    var selector2 = dijit.byId( 'id_location[1][address][country_state]_1' );
+    
+                    selector1.store.fetch({
+                        query: {},
+                        onComplete: function(items, request) {
+                            selector1.setValue(country);
+                            selector2.store.fetch({
+                                query: {id:state},
+                                onComplete: function(items, request) {
+                                    selector2.setValue(state);
+                                }
+                            });
+                        }
+                    });
+                } else if (elem[0]) {
+                    document.getElementById( elem[0] ).value = elem[1];
+                }
             }
-            dijit.byId("id_location[1][address][country_state]_0").setValue("");
-            dijit.byId("id_location[1][address][country_state]_1").setValue("");
-            var indEmail = "email-" + {/literal}{$bltID}{literal};
-            if ( document.getElementById(indEmail).value != document.getElementById('location_1_email_1_email').value ) {
-                document.getElementById('location_1_email_1_email').value = document.getElementById(indEmail).value;
-            }
+        },
+
+        // The ERROR function will be called in an error case.
+        error: function(response, ioArgs) {
+            console.error("HTTP status code: ", ioArgs.xhr.status);
         }
+     });
     }
 </script>
 {/literal}
-{/if}
