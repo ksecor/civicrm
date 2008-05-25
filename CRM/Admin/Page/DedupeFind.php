@@ -116,7 +116,7 @@ class CRM_Admin_Page_DedupeFind extends CRM_Core_Page_Basic
                 $dstID = $dupes[1];
                 if ( $srcID == $userId ) {
                     $srcID = $dupes[1];
-                    $dstID = $dupes[2];
+                    $dstID = $dupes[0];
                 }
                 $mainContacts[]  = array( 'srcID'   => $srcID,
                                           'srcName' => $displayNames[$srcID],
