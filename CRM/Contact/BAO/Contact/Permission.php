@@ -57,6 +57,7 @@ class CRM_Contact_BAO_Contact_Permission {
             require_once 'CRM/ACL/API.php';
             $permission = CRM_ACL_API::whereClause( $type, $tables, $temp );
         }
+        require_once "CRM/Contact/BAO/Query.php";
         $from       = CRM_Contact_BAO_Query::fromClause( $tables );
              
         $query = "
