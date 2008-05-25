@@ -116,14 +116,14 @@
             
             {section name=loop start=1 loop=11}
                {assign var=idx value=$smarty.section.loop.index}
-               <tr><td class="even-row">{$form.label.$idx.html}</td>
+               <tr><td class="even-row">{$form.discounted_label.$idx.html}</td>
 	          {section name=loop1 start=1 loop=6}
                      {assign var=idy value=$smarty.section.loop1.index}
 		      {if $form.discount_name.$idy.value}
-	              <td>{$form.value.$idy.html|crmMoney}</td>
+	              <td>{$form.discounted_value.$idx.$idy.html|crmMoney}</td>
 		      {/if}
 	          {/section}
-	          <td class="even-row">{$form.default.$idx.html}</td>
+	          <td class="even-row">{$form.discounted_default.$idx.html}</td>
 	       </tr>
             {/section}
             </table>

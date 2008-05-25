@@ -219,6 +219,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         }
         $_showHide->addToTemplate();   
         $this->addElement( 'submit', $this->getButtonName('refresh'), ts('Post & Reload Discount'), array( 'class' => 'form-submit' ) );             
+        $this->buildAmountLabel( );
         parent::buildQuickForm();
     }
     
@@ -309,16 +310,18 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         $default = array( );
         for ( $i = 1; $i <= self::NUM_OPTION; $i++ ) {
             // label 
-            $this->add('text', "label[$i]", ts('Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'label')); 
+            $this->add('text', "discounted_label[$i]", ts('Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'label')); 
             // value 
-            $this->add('text', "value[$i]", ts('Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'value')); 
-            $this->addRule("value[$i]", ts('Please enter a valid money value for this field (e.g. 99.99).'), 'money'); 
-            
+            for ( $j = 1; $j <= self::NUM_DISCOUNT; $j++ ) {
+                $this->add('text', "discounted_value[$i][$j]", ts('Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'value')); 
+                $this->addRule("discounted_value[$i][$j]", ts('Please enter a valid money value for this field (e.g. 99.99).'), 'money'); 
+            }
+
             // default
             $default[] = $this->createElement('radio', null, null, null, $i); 
         }
         
-        $this->addGroup( $default, 'default' );
+        $this->addGroup( $default, 'discounted_default' );
     } 
     /**
      * Process the form
