@@ -99,14 +99,22 @@ class CRM_Event_BAO_Query
         
             //add status
             if ( CRM_Utils_Array::value( 'participant_status_id', $query->_returnProperties ) ) {
-                $query->_select['participant_status_id' ]  = "civicrm_participant.status_id as participant_status_id";
-                $query->_element['participant_status_id']  = 1;
+                $query->_select['participant_status']  = "participant_status.name as participant_status_id";
+                $query->_element['participant_status'] = 1;
+                $query->_tables['civicrm_participant'] = 1;
+                $query->_tables['participant_status'] = 1;
+                $query->_whereTables['civicrm_participant'] = 1;
+                $query->_whereTables['participant_status'] = 1;
             }
             
             //add role
             if ( CRM_Utils_Array::value( 'participant_role_id', $query->_returnProperties ) ) {
-                $query->_select['participant_role_id' ]  = "civicrm_participant.role_id as participant_role_id";
-                $query->_element['participant_role_id']  = 1;
+                $query->_select['participant_role']  = "participant_role.name as participant_role_id";
+                $query->_element['participant_role'] = 1;
+                $query->_tables['civicrm_participant'] = 1;
+                $query->_tables['participant_role'] = 1;
+                $query->_whereTables['civicrm_participant'] = 1;
+                $query->_whereTables['participant_role'] = 1;
             }
             
             //add register date
@@ -345,6 +353,20 @@ class CRM_Event_BAO_Query
         case 'participant_note':
             $from .= " $side JOIN civicrm_note ON ( civicrm_note.entity_table = 'civicrm_participant' AND
                                                         civicrm_participant.id = civicrm_note.entity_id )";
+            break;
+
+        case 'participant_status':
+            $domainID = CRM_Core_Config::domainID( );
+            $from = " $side JOIN civicrm_option_group option_group_participant_status ON (option_group_participant_status.name = 'participant_status' AND option_group_participant_status.domain_id = $domainID )";
+            $from .= " $side JOIN civicrm_option_value participant_status ON (civicrm_participant.status_id = participant_status.value 
+                               AND option_group_participant_status.id = participant_status.option_group_id ) ";
+            break;
+
+        case 'participant_role':
+            $domainID = CRM_Core_Config::domainID( );
+            $from = " $side JOIN civicrm_option_group option_group_participant_role ON (option_group_participant_role.name = 'participant_role' AND option_group_participant_role.domain_id = $domainID )";
+            $from .= " $side JOIN civicrm_option_value participant_role ON (civicrm_participant.role_id = participant_role.value 
+                               AND option_group_participant_role.id = participant_role.option_group_id ) ";
             break;
 
         }

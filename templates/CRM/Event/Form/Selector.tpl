@@ -53,8 +53,8 @@
             <br/>- {$row.event_end_date|truncate:10:''|crmDate}
         {/if}
    </td>
-    <td>{$row.status}</td>
-    <td>{$row.role}</td>
+    <td>{$row.participant_status_id}</td>
+    <td>{$row.participant_role_id}</td>
     <td>{$row.action}</td>
    </tr>
   {/foreach}

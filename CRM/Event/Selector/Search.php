@@ -286,12 +286,9 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
              $permission = CRM_Core_Permission::EDIT;
          }
 
-         require_once 'CRM/Event/PseudoConstant.php';
          require_once 'CRM/Event/BAO/Event.php';
-         $statusTypes  = array( );
+         require_once 'CRM/Event/PseudoConstant.php';
          $statusTypes  = CRM_Event_PseudoConstant::participantStatus( );
-         $roles        = array( );
-         $roles        = CRM_Event_PseudoConstant::participantrole( );
 
          $mask = CRM_Core_Action::mask( $permission );
          while ( $result->fetch( ) ) {
@@ -302,17 +299,14 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                      $row[$property] = $result->$property;
                  }
              }
-
-             //fix status display
-             $row['status']   = $statusTypes[$row['participant_status_id']];
              
-             //fix role display
-             $row['role'] =  $roles[$row['participant_role_id']];
-
-             if ( $result->participant_is_pay_later && $row['participant_status_id'] == 5 ) {
-                 $row['status'] .= " ( Pay Later ) ";
-             } else if ( $row['participant_status_id'] == 5 ) {
-                 $row['status'] .= " ( Incomplete Transaction ) ";
+             // gross hack to show extra information for pending status
+             $statusId = array_search( $row['participant_status_id'], $statusTypes );
+             
+             if ( $result->participant_is_pay_later && $statusId == 5 ) {
+                 $row['participant_status_id'] .= " ( Pay Later ) ";
+             } else if ( $statusId == 5 ) {
+                 $row['participant_status_id'] .= " ( Incomplete Transaction ) ";
              }             
              
              if ( CRM_Utils_Array::value("participant_is_test",$row) ) {
@@ -348,7 +342,7 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
              
              $rows[] = $row;
          }
-         
+
          return $rows;
      }
      
