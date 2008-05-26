@@ -334,7 +334,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         $params = $ids = array();
         
         $params = $this->exportValues( );
-
+        
         $this->set( 'discountSection', 0 );
         if ( CRM_Utils_Array::value( '_qf_Fee_refresh', $_POST ) ) {
             $this->buildAmountLabel( );
@@ -415,11 +415,11 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
                             
                             if ( ! empty( $discountOptions ) ) {
                                 $params['default_fee_id'] = null;
-                                $discountOptionsGroupId = CRM_Core_OptionGroup::createAssoc( "civicrm_event_page.amount.{$eventPageId}.discount.{$j}",
+                                $discountOptionsGroupId = CRM_Core_OptionGroup::createAssoc( "civicrm_event_page.amount.{$eventPageId}.discount.{$params[discount_name][$j]}",
                                                                                              $discountOptions,
                                                                                              $params['default_fee_id'],
                                                                                              $params['discount_name'][$j]);
-
+                                
                                 $discountParams = array(
                                                         'entity_table'    => 'civicrm_event',
                                                         'entity_id'       => $this->_id,
