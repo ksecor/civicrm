@@ -285,6 +285,10 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
             if ( $membershipID ) {
                 $notifyURL .= "&membershipID=$membershipID";
             }
+            $relatedContactID = CRM_Utils_Array::value( 'related_contact', $params );
+            if ( $relatedContactID ) {
+                $notifyURL .= "&relatedContactID=$relatedContactID";
+            }
         }
 
         $url    = ( $component == 'event' ) ? 'civicrm/event/register' : 'civicrm/contribute/transact';

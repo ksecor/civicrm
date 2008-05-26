@@ -408,7 +408,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         // If onbehalf-of-organization contribution / signup, add organization
         // and it's location.
         if ( is_array($behalfOrganization) && $behalfOrganization['organization_name'] ) {
-            self::processOnBehalfOrganization( $behalfOrganization, $this->_values, $contactID );
+            self::processOnBehalfOrganization( $behalfOrganization, $contactID, $this->_values, $this->_params );
         }
 
         // lets store the contactID in the session
@@ -809,7 +809,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
      * @return void
      * @access public
      */
-    static function processOnBehalfOrganization( &$behalfOrganization, &$values, &$contactID ) {
+    static function processOnBehalfOrganization( &$behalfOrganization, &$contactID, &$values, &$params ) {
         if ( $behalfOrganization['organization_id'] && $behalfOrganization['org_option'] ) {
             $orgID = $behalfOrganization['organization_id'];
             unset($behalfOrganization['organization_id']);
@@ -836,44 +836,57 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             require_once 'CRM/Dedupe/Finder.php';
             $dedupeParams = CRM_Dedupe_Finder::formatParams($behalfOrganization, 'Organization');
             $dupeIDs      = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Organization', 'Strict');
-            
-            if ( empty($dupeIDs) || (count($dupeIDs) > 1) ) {
-                // if no/multiple match, create org, add location & relationship 
-                $org = CRM_Contact_BAO_Contact::create( $behalfOrganization );
-                
-                // create relationship
-                $relParams['contact_check'][$org->id] = 1;
-                $cid = array( 'contact' => $contactID );
-                $relationship = CRM_Contact_BAO_Relationship::create($relParams, $cid);
-                
-                // take a note of new organiation contact.
-                $orgID = $org->id;
-
-                if ( count($dupeIDs) > 1 ) {
-                    // if multiple match send a duplicate alert
-                }
-            } else if ( count($dupeIDs) == 1 ) {
-                // if single matching contact is found, take note of
-                // the contact.
-                $orgID = $dupeIDs[0];
-            }
         } else {
             // if found permissioned related organization, allow location edit
             $behalfOrganization['contact_id'] = $orgID;
-            $org = CRM_Contact_BAO_Contact::create( $behalfOrganization );
-
-            // create relationship
-            $relParams['contact_check'][$org->id] = 1;
-            $cid = array( 'contact' => $contactID );
-            $relationship = CRM_Contact_BAO_Relationship::create($relParams, $cid);
         }
 
+        // create organization, add location 
+        $org = CRM_Contact_BAO_Contact::create( $behalfOrganization );
+                
+        // create relationship
+        $relParams['contact_check'][$org->id] = 1;
+        $cid = array( 'contact' => $contactID );
+        $relationship = CRM_Contact_BAO_Relationship::create($relParams, $cid);
+        
+        // take a note of new/updated organiation contact-id.
+        $orgID = $org->id;
+
+        // if multiple match - send a duplicate alert
+        if ( count($dupeIDs) > 1 ) {
+            $template =& CRM_Core_Smarty::singleton( );
+            $template->assign( 'dupeID', $orgID );
+
+            $emailTemplate  = 'CRM/Contribute/Form/Contribution/DuplicateAlertMessage.tpl';
+
+            $template->assign( 'returnContent', 'subject' );
+            $subject = $template->fetch( $emailTemplate );
+
+            $template->assign( 'returnContent', 'textMessage' );
+            $message = $template->fetch( $emailTemplate );
+            
+            require_once 'CRM/Utils/Mail.php';
+            $config =& CRM_Core_Config::singleton( );
+            CRM_Utils_Mail::send( $values['receipt_from_email'],
+                                  $org->sort_name, //change to dsplay_name
+                                  $values['receipt_from_email'],
+                                  $subject,
+                                  $message );
+        }
+        
         // make sure organization-contact-id is considered for recording
         // contribution/membership etc..
         if ( $contactID != $orgID ) {
             // take a note of contact-id, so we can send the
             // receipt to individual contact as well.
+
+            // required for mailing/template display ..etc 
             $values['related_contact'] = $contactID;
+            // required for IPN
+            $params['related_contact'] = $contactID;
+            
+            // contribution / signup will be done using this
+            // organization id.
             $contactID = $orgID;
         }
     }

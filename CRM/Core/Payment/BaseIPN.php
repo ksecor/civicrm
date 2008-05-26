@@ -480,7 +480,10 @@ class CRM_Core_Payment_BaseIPN {
             if ( $membership ) {
                 $values['membership_id'] = $membership->id;
             }
-            $values['contribution_id'] = $contribution->id;
+            $values['contribution_id']     = $contribution->id;
+            if ( $ids['relatedContactID'] ) {
+                $values['related_contact'] = $ids['relatedContactID'];
+            }
             CRM_Contribute_BAO_ContributionPage::sendMail( $ids['contact'], $values );
         }
 
