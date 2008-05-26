@@ -75,7 +75,7 @@
 <table class="form-layout-compressed">
     <tr><td class="label nowrap">{$form.$n.label}</td><td>{$form.$n.html}</td></tr>
  </table>
- {if $form.NoOfParticipants.html}
+ {if $form.additional_participants.html}
  <div id="noOfparticipants_show" class="section-hidden section-hidden-border">
         <a href="#" onclick="hide('noOfparticipants_show'); show('noOfparticipants'); return false;">&raquo; <label>{ts}Register additional people for this event{/ts}</label></a>
     </div>
@@ -84,7 +84,7 @@
         <a href="#" onclick="hide('noOfparticipants'); show('noOfparticipants_show'); return false;">&raquo; <label>{ts}Register additional people for this event{/ts}</label></a>
         <div class="form-item">
             <dl>
-            <dt>{$form.NoOfParticipants.label}</dt><dd>{$form.NoOfParticipants.html}</dd>
+            <dt>{$form.additional_participants.label}</dt><dd>{$form.additional_participants.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts}You will be able to enter registration information for each additional person after you complete this page and click Continue.{/ts}</dd>
        	    </dl>
         </div>
