@@ -202,7 +202,7 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
                 $u = $elem['url'];
                 $allTabs[] = array( 'id'     =>  $i,
                                     'url'    => CRM_Utils_System::url( "civicrm/contact/view/$u",
-                                                                       "reset=1&snippet=1&cid={$this->_contactId}" ),
+                                                                       "reset=1&snippet=1&force=1&cid={$this->_contactId}" ),
                                     'title'  => $elem['title'],
                                     'weight' => $elem['weight'] );
                 // make sure to get maximum weight, rest of tabs go after
