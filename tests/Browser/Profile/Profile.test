@@ -252,6 +252,46 @@ class Browser_Contact_Profile extends CiviTestCase
         
         Contact::delete( $contactId );
     }
+
+    /**
+     * Test profile view mode
+     * 
+     */
+    function testProfileViewMode( ) 
+    {
+        $first_name  = 'John';
+        $last_name   = 'Smith';
+        $params = array ( 'first_name'       => $first_name,     
+                          'last_name'        => $last_name,
+                          'street_address-1' => 'Saint Helier St',
+                          'city-1'           => 'Newark',
+                          'postal_code-1'    => 12345,
+                          'state_province-1' => 1029, 
+                          'country-1'        => 1228
+                          );
+        
+        //goto profile form
+        $this->civiGet( 'civicrm/profile/create', 'gid=1&reset=1' );
+        $this->drupalPost( NULL, $params, '_qf_Edit_next');
+        
+        $this->assertText( 'First Name' );
+        $this->assertText( 'Last Name' );
+        $this->assertText( $first_name );
+        $this->assertText( $last_name );
+        
+        //Now check DB for contact 
+        $contactId = $this->assertDBNotNull( 'CRM_Contact_DAO_Contact', $last_name . ', ' .$first_name, 'id', 'sort_name',
+                                             'Checking database for the record.' );
+        
+        $this->civiGet( 'civicrm/profile/view', "gid=1&reset=1&id={$contactId}" );
+        $this->assertText( 'First Name' );
+        $this->assertText( 'Last Name' );
+        $this->assertText( $first_name );
+        $this->assertText( $last_name );
+        
+        //cleanup DB by deleting the contact
+        Contact::delete( $contactId );
+    }
 }
 
 ?>
