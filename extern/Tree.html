@@ -15,6 +15,28 @@
         <script type="text/javascript">
            dojo.require("dijit.Dialog");
 	</script>
+	<script type="text/javascript">
+		dojo.require("dojo.data.ItemFileWriteStore");
+		dojo.require("dijit.Dialog");
+		dojo.require("civicrm.CheckableTree");
+		function displayGroupTree(){
+ 			var myStore = new dojo.data.ItemFileWriteStore({url:'http://brahma/trunk/civicrm/ajax/groupTree'});
+			var myModel = new dijit.tree.ForestStoreModel({
+				store: myStore,
+				query: {type:'rootGroup'},
+                                rootId: 'allGroups',
+                                rootLabel: 'All Groups',
+				childrenAttrs: ["children"]
+			});
+			var tree = new civicrm.CheckableTree({
+				model: myModel
+			});
+			dojo.body().appendChild(tree.domNode);
+			tree.startup();
+		};
+
+	</script>
+
 </head>
 <body>
         <h1 class="testTitle">Dijit Forest Store Programmatic Test</h1>
@@ -56,7 +78,7 @@
     <input type="hidden" name="ct" value="Individual" />
 <br/>
             <a href="javascript:dijit.byId('id-groupPicker').show()">Pick your groups</a>
-            <div dojoType="dijit.Dialog" id="id-groupPicker" refreshOnShow=false widgetsInTemplate=true executeScripts=true class="tundra" href="Group.html"}">
+            <div dojoType="dijit.Dialog" id="id-groupPicker" refreshOnShow=false class="tundra" href="Group.html"}">
             </div>
         </div>
 
