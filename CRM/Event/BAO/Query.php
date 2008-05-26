@@ -69,10 +69,16 @@ class CRM_Event_BAO_Query
             $query->_element['participant_id'         ] = 1;
             $query->_tables['civicrm_participant'] = $query->_whereTables['civicrm_participant'] = 1;
 
-            //add event level
+            //add fee level
             if ( CRM_Utils_Array::value( 'fee_level', $query->_returnProperties ) ) {
                 $query->_select['fee_level' ]  = "civicrm_participant.fee_level as fee_level";
                 $query->_element['fee_level']  = 1;
+            }
+
+            //add fee amount
+            if ( CRM_Utils_Array::value( 'fee_amount', $query->_returnProperties ) ) {
+                $query->_select['fee_amount']  = "civicrm_participant.fee_amount as fee_amount";
+                $query->_element['fee_amount']  = 1;
             }
         
             //add event title also if event id is select

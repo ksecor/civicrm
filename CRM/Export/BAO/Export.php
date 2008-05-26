@@ -97,7 +97,12 @@ class CRM_Export_BAO_Export
                         $returnProperties['location'][$locationTypes[$locTypeId]][$fieldName] = 1;
                     }
                 } else {
-                    $returnProperties[$fieldName] = 1;
+                    //hack to fix component fields
+                    if ( $fieldName == 'event_id' ) {
+                        $returnProperties['event_title'] = 1;
+                    } else {
+                        $returnProperties[$fieldName] = 1;
+                    }
                 }
             }
             //check if user map current employer field,
@@ -140,6 +145,8 @@ class CRM_Export_BAO_Export
         if ( $moreReturnProperties ) {
             $returnProperties = array_merge( $returnProperties, $moreReturnProperties );
         }
+        
+        //crm_core_error::Debug(' $returnProperties',  $returnProperties);
         
         if ( ! $componentClause || $querytMode == CRM_Contact_BAO_Query::MODE_CONTACTS ) {
             if ( $selectAll ) {
