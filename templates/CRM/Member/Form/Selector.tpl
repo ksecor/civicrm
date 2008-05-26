@@ -41,12 +41,12 @@
        {/if}
        <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td> 
     {/if}
-    <td>{$row.membership_type}</td>
+    <td>{$row.membership_type_id}</td>
     <td>{$row.join_date|truncate:10:''|crmDate}</td>
-    <td>{$row.start_date|truncate:10:''|crmDate}</td>
-    <td>{$row.end_date|truncate:10:''|crmDate}</td>
-    <td>{$row.source}</td>
-    <td>{$row.status}</td>
+    <td>{$row.membership_start_date|truncate:10:''|crmDate}</td>
+    <td>{$row.membership_end_date|truncate:10:''|crmDate}</td>
+    <td>{$row.membership_source}</td>
+    <td>{$row.status_id}</td>
     <td>{$row.action}</td>
    </tr>
   {/foreach}

@@ -130,7 +130,7 @@ class CRM_Export_BAO_Export
                 $returnProperties          = array_merge( $returnProperties, $componentReturnProperties );
             }
         }
-        
+
         if ($primary) {
             $returnProperties['location_type'] = 1;
             $returnProperties['im_provider'  ] = 1;
@@ -140,9 +140,6 @@ class CRM_Export_BAO_Export
         if ( $moreReturnProperties ) {
             $returnProperties = array_merge( $returnProperties, $moreReturnProperties );
         }
-        
-        // create the selector, controller and run - store results in session
-        $session =& CRM_Core_Session::singleton( );
         
         if ( ! $componentClause || $querytMode == CRM_Contact_BAO_Query::MODE_CONTACTS ) {
             if ( $selectAll ) {
