@@ -44,7 +44,7 @@ class BAO_Event_Participant extends CiviTestCase
         parent::setUp();
     }
     /**
-     * add() method (create and update modes of participant)
+     * add() method (add and edit modes of participant)
      */
     function testAdd( )
     {
@@ -107,16 +107,140 @@ class BAO_Event_Participant extends CiviTestCase
         Contact::delete( $this->_contactId );
         Event::delete ( $this->_eventId );
     }
+    
     /**
      * getLineItems() method (checking details for contribution detials )
      */
     function testgetLineItems()
     {
         $fetchContribution = CRM_Event_BAO_Participant::getLineItems( $this->_participantID );
-                
+// Not working                
         Contact::delete( $this->_contactId );
         Event::delete ( $this->_eventId );
     }
 
+    /**
+     * eventFull() method (checking the event for full )
+     */
+    function testeventFull()
+    {
+        $eventFull = CRM_Event_BAO_Participant::eventFull( $this->_eventId );
+        $this->assertEqual( $eventFull, 'This event is full !!!', 'Checking if Event is full.' );
+
+        Contact::delete( $this->_contactId );
+        Event::delete ( $this->_eventId );
+    }
+    /**
+     * importableFields() method ( Checking the Event's Importable Fields )
+     */
+    function testimportableFields()
+    {
+        $importableFields = CRM_Event_BAO_Participant::importableFields();
+        $this->assertNotEqual( count( $importableFields ) , 0, 'Checking array not to be empty.' );
+
+        Contact::delete( $this->_contactId );
+        Event::delete ( $this->_eventId );
+    }
+
+    /**
+     * participantDetails() method ( Checking the Participant Details )
+     */
+    function testparticipantDetails()
+    {
+        $params =  array ( 'name'  => 'Doe, John', 'title' => 'Test Event' );
+        
+        $participantDetails = CRM_Event_BAO_Participant::participantDetails( $this->_participantID );
+
+        $this->assertEqual( count( $participantDetails ) , 2, 'Equating the array contains.' );
+        $this->assertEqual( $participantDetails['name'] ,$params['name'] , 'Checking Name of Participant.' );
+        $this->assertEqual( $participantDetails['title'] ,$params['title'] , 'Checking Event Title in which participant is enroled.' );
+        
+        Contact::delete( $this->_contactId );
+        Event::delete ( $this->_eventId );
+    }
+
+    /**
+     * deleteParticipant() method ( Delete a Participant )
+     */
+    function testdeleteParticipant()
+    {
+        $deleteParticipant = CRM_Event_BAO_Participant::deleteParticipant( $this->_participantID );
+        $this->assertDBNull('CRM_Event_BAO_Participant', $this->_participantID,'contact_id','id', 'Check DB for deleted Participant.');
+
+        Contact::delete( $this->_contactId );
+        Event::delete ( $this->_eventId );
+    }
+
+    /**
+     * checkDuplicate() method ( Checking for Duplicate Participant returns array of participant id)
+     */
+    function testcheckDuplicate()
+    {
+        $duplicate    = array();
+        $partiId[]    = $this->_participantID;
+        $participant0 = CRM_Event_BAO_Participant::add($this->_params);
+        $partiId[]    = $participant0->id;
+        $participant1 = CRM_Event_BAO_Participant::add($this->_params);
+        $partiId[]    = $participant1->id;
+
+
+        $params = array ( 'event_id' => $this->_eventId,'contact_id' => $this->_contactId );
+        $checkDuplicate = CRM_Event_BAO_Participant::checkDuplicate( $params, $duplicate );
+
+        $this->assertEqual( count( $duplicate ) , 3, 'Equating the array contains with duplicate array.' );
+        
+        foreach ( $duplicate as $key ) {
+            $this->assertEqual( $partiId[$key] , $duplicate[$key], 'Equating the contactid which is in the database.' );
+        }
+
+        Contact::delete( $this->_contactId );
+        Event::delete ( $this->_eventId );
+    }
+
+    /**
+     * create() method (create and updation of participant)
+     */
+    function testCreate( )
+    {
+        $params = array(
+                        'send_receipt'     => 1,
+                        'is_test'          => 0,
+                        'is_pay_later'     => 0,
+                        'event_id'         => $this->_eventId,
+                        'register_date'    => date('Y-m-d')." 00:00:00",
+                        'role_id'          => 1,
+                        'status_id'        => 1,
+                        'source'           => 'Event_'.$this->_eventId,
+                        'contact_id'       => $this->_contactId
+                        );
+        
+        $participant = CRM_Event_BAO_Participant::create($params);
+        $this->assertDBNotNull('CRM_Event_BAO_Participant', $this->_contactId, 'id', 
+                               'contact_id', 'Check DB for Participant of the contact');
+
+        $params = array_merge($params, array('id'        => $participant->id, 
+                                             'role_id'   => 2,
+                                             'status_id' => 3));
+        
+        $participant = CRM_Event_BAO_Participant::create($params);
+        
+        $this->assertDBCompareValue('CRM_Event_BAO_Participant', $participant->id, 'role_id', 
+                                    'id', 2, 'Check DB for updated role id of the participant');
+        
+        $this->assertDBCompareValue('CRM_Event_BAO_Participant', $participant->id, 'status_id', 
+                                    'id', 3, 'Check DB for updated status id  of the participant');
+        
+        $deleteParticipant = CRM_Event_BAO_Participant::deleteParticipant($this->_participantID);
+        $this->assertDBNull('CRM_Event_BAO_Participant', $this->_participantID, 'contact_id', 
+                            'id', 'Check DB for Participant of the contact');
+        
+        $deleteParticipant = CRM_Event_BAO_Participant::deleteParticipant( $participant->id );
+        $this->assertDBNull('CRM_Event_BAO_Participant', $this->_contactId, 'id', 
+                            'contact_id', 'Check DB for Participant of the contact');
+        
+        Contact::delete( $this->_contactId );
+        Event::delete ( $this->_eventId );
+        
+    }
 }
 ?>
