@@ -105,6 +105,16 @@ class CRM_Export_BAO_Export
                     }
                 }
             }
+            
+            // hack to add default returnproperty based on export mode
+            if ( $exportMode == CRM_Export_Form_Select::CONTRIBUTE_EXPORT ) {
+                $returnProperties['contribution_id'] = 1;
+            } else if ( $exportMode == CRM_Export_Form_Select::EVENT_EXPORT ) {
+                $returnProperties['participant_id'] = 1;
+            } else if ( $exportMode == CRM_Export_Form_Select::MEMBER_EXPORT ) {
+                $returnProperties['membership_id'] = 1;
+            }
+
             //check if user map current employer field,
             //and did not map Internal Contact ID.
             $returnContactID = CRM_Utils_Array::value( 'id' , $returnProperties );
