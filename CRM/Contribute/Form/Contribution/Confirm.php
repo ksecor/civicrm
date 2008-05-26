@@ -836,9 +836,16 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             require_once 'CRM/Dedupe/Finder.php';
             $dedupeParams = CRM_Dedupe_Finder::formatParams($behalfOrganization, 'Organization');
             $dupeIDs      = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Organization', 'Strict');
+            if ( count($dupeIDs) == 1 ) {
+                $behalfOrganization['contact_id'] = $dupeIDs[0];
+                // don't allow name edit
+                unset($behalfOrganization['organization_name']);
+            }
         } else {
             // if found permissioned related organization, allow location edit
             $behalfOrganization['contact_id'] = $orgID;
+            // don't allow name edit
+            unset($behalfOrganization['organization_name']);
         }
 
         // create organization, add location 
@@ -853,7 +860,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $orgID = $org->id;
 
         // if multiple match - send a duplicate alert
-        if ( count($dupeIDs) > 1 ) {
+        if ( $dupeIDs && (count($dupeIDs) > 1) ) {
             $template =& CRM_Core_Smarty::singleton( );
             $template->assign( 'dupeID', $orgID );
 
