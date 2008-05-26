@@ -40,12 +40,20 @@ require_once 'CRM/Event/DAO/Participant.php';
 class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
 {
     /**
-     * static field for all the membership information that we can potentially import
+     * static field for all the participant information that we can potentially import
      *
      * @var array
      * @static
      */
     static $_importableFields = null;
+
+    /**
+     * static field for all the participant information that we can potentially export
+     *
+     * @var array
+     * @static
+     */
+    static $_exportableFields = null;
 
     function __construct()
     {
@@ -325,7 +333,7 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
             
             require_once 'CRM/Core/DAO/Note.php';
             $tmpFields     = CRM_Event_DAO_Participant::import( );
-            unset($tmpFields['participant_is_test']);
+
             $note          = array( 'participant_note' => array( 'title' => 'Participant Note',
                                                                  'name'  => 'participant_note'));
 
@@ -368,7 +376,38 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
             $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport('Participant'));
             self::$_importableFields = $fields;
         }
+
         return self::$_importableFields;
+    }
+
+
+    /**
+     * combine all the exportable fields from the lower levels object
+     *
+     * @return array array of exportable Fields
+     * @access public
+     */
+    function &exportableFields( ) 
+    {
+        if ( ! self::$_exportableFields ) {
+            if ( ! self::$_exportableFields ) {
+                self::$_exportableFields = array();
+            }
+            
+            $fields = array( );
+            
+            require_once 'CRM/Core/DAO/Note.php';
+            $participantFields = CRM_Event_DAO_Participant::export( );
+            $noteField         = array( 'participant_note' => array( 'title' => 'Participant Note',
+                                                                     'name'  => 'participant_note'));
+            $fields = array_merge( $noteField, $participantFields );
+            
+            // add custom data
+            $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport('Participant'));
+            self::$_exportableFields = $fields;
+        }
+
+        return self::$_exportableFields;
     }
 
     /**

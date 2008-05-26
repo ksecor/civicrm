@@ -23,7 +23,7 @@
       <name>contact_id</name>
       <uniqueName>participant_contact_id</uniqueName> 
       <type>int unsigned</type> 
-      <title>Contact ID (match to contact)</title>
+      <title>Contact ID</title>
       <headerPattern>/contact(.?id)?/i</headerPattern>
       <import>true</import>
       <default>0</default>
@@ -126,9 +126,11 @@
   <field>     
       <name>is_pay_later</name>  
       <uniqueName>participant_is_pay_later</uniqueName> 
+      <title>Is Pay Later</title>
       <type>boolean</type>
       <default>0</default>
       <import>true</import>
+      <add>2.1</add> 
   </field>
   <field>    
       <name>fee_amount</name>    
@@ -143,8 +145,7 @@
       <name>registered_by_id</name>
       <uniqueName>participant_registered_by_id</uniqueName> 
       <type>int unsigned</type> 
-      <title>Registered By ID (match to contact)</title>
-      <import>true</import>
+      <title>Registered By ID</title>
       <default>NULL</default>
       <comment>FK to Participant ID</comment> 
       <add>2.1</add> 

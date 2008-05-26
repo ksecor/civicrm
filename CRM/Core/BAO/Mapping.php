@@ -364,7 +364,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         if ( ( $mappingType == 'Search Builder' ) || ( $exportMode == CRM_Export_Form_Select::EVENT_EXPORT ) ) {
             if ( CRM_Core_Permission::access( 'CiviEvent' ) ) {
                 require_once 'CRM/Event/BAO/Participant.php';
-                $fields['Participant'] =& CRM_Event_BAO_Participant::importableFields('Individual', true, true );
+                $fields['Participant'] =& CRM_Event_BAO_Participant::exportableFields( );
                 $compArray['Participant'] = 'Participant';
             }
         }
