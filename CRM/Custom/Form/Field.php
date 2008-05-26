@@ -78,6 +78,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
      * @var array
      * @static
      */
+    private static $_dataTypeValues = null;
     private static $_dataTypeKeys = null;
     
     private static $_dataToHTML = array(
@@ -95,6 +96,9 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
             array('Link' => 'Link')
     );
     
+    private static $_dataToLabels = null;
+
+
     /**
      * Function to set variables up before form is built
      * 
@@ -108,12 +112,34 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
         require_once 'CRM/Core/BAO/CustomField.php';
         if (!(self::$_dataTypeKeys)) {
             self::$_dataTypeKeys   = array_keys  (CRM_Core_BAO_CustomField::dataType());
+            self::$_dataTypeValues = array_values(CRM_Core_BAO_CustomField::dataType());
         }
 
         $this->_gid = CRM_Utils_Request::retrieve('gid', 'Positive',
                                                   $this);
         $this->_id  = CRM_Utils_Request::retrieve('id' , 'Positive',
                                                   $this);
+
+        if (self::$_dataToLabels == null) {
+            self::$_dataToLabels 
+                = array(
+                        array('Text' => ts('Text'), 'Select' => ts('Select'), 
+                              'Radio' => ts('Radio'), 'CheckBox' => ts('CheckBox'), 'Multi-Select' => ts('Multi-Select')),
+                        array('Text' => ts('Text'), 'Select' => ts('Select'), 
+                              'Radio' => ts('Radio')),
+                        array('Text' => ts('Text'), 'Select' => ts('Select'), 
+                              'Radio' => ts('Radio')),
+                        array('Text' => ts('Text'), 'Select' => ts('Select'), 
+                              'Radio' => ts('Radio')),
+                        array('TextArea' => ts('TextArea')),
+                        array('Date' => ts('Select Date')),
+                        array('Radio' => ts('Radio')),
+                        array('StateProvince' => ts('Select State/Province')),
+                        array('Country' => ts('Select Country')),
+                        array('File' => ts('Select File')),
+                        array('Link' => ts ('Link'))
+                        );
+        }
     }
 
     /**
@@ -160,9 +186,6 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
                                                                      self::$_dataTypeKeys ), 
                                                 '1' => $defaults['html_type'] );
                 $this->_defaultDataType = $defaults['data_type'];
-
-                $this->assign('data_type_0',$defaults['data_type']['0']);
-                $this->assign('data_type_1',$defaults['data_type']['1']);
             }
             
             $date_parts = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,
@@ -216,8 +239,6 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
         // lets trim all the whitespace
         $this->applyFilter('__ALL__', 'trim');
 
-        $this->assign( 'dojoIncludes', "dojo.require('civicrm.HierSelect');" );
-
         // label
         $this->add( 'text',
                     'label',
@@ -225,10 +246,20 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
                     CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'label'),
                     true );
         
+        $dt =& self::$_dataTypeValues;
+        $it = array();
+        foreach ($dt as $key => $value) {
+            $it[$key] = self::$_dataToLabels[$key];
+        }
+        $sel =& $this->addElement('hierselect',
+                                  'data_type',
+                                  ts('Data and Input Field Type'), 
+                                  'onclick="clearSearchBoxes();custom_option_html_type(this.form)"; onBlur="custom_option_html_type(this.form)";', 
+                                  '&nbsp;&nbsp;&nbsp;' );
+        $sel->setOptions(array($dt, $it));
+        
         if ($this->_action == CRM_Core_Action::UPDATE) {
-            $this->assign('freezeAll', "true");
-        } else {
-            $this->assign('freezeAll', "false");
+            $this->freeze('data_type');
         }
 
         $optionGroups = CRM_Core_BAO_CustomField::customOptionGroup( );
@@ -437,9 +468,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
             $errors['label'] = ts('Name already exists in Database.');
         }
         
-        // during action=update, since data_type field is disabled/frozen
-        // value is not submitted. 
-        if (is_array($fields['data_type']) && (!isset($fields['data_type'][0]) || !$fields['data_type'][1])) {
+        if (!isset($fields['data_type'][0]) || !$fields['data_type'][1]) {
             $errors['_qf_default'] = ts('Please enter valid - Data and Input Field Type.');
         }
 
@@ -730,9 +759,6 @@ AND    option_group_id = %2";
     {
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
-
-        // POST is required for data_type field. this is an ugly hack but workable for now
-        $params['data_type'] = $_POST['data_type'];
 
         if ($this->_action == CRM_Core_Action::UPDATE) {
             $params['data_type'] = $this->_defaultDataType;
