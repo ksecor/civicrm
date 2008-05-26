@@ -153,26 +153,23 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                     $locLabel[$moniker] = '[' . ts('EMPTY') . ']';
                 } else {
                     $locValue[$moniker] = $locTypeId;
-                    $locLabel[$moniker] = $location['name'] . "\n";
-                    if (!isset($location['email'])) $location['email'] = array();
-                    foreach ($location['email'] as $email) {
-                        $locLabel[$moniker] .= $email['email'] . "\n";
+                    foreach (array('email','phone','im','openid') as $fieldType) {
+                        if (!isset($location[$fieldType])) $location[$fieldType] = array();
+                        foreach ($location[$fieldType] as $field) {
+                            $locLabel[$moniker][$fieldType] = $field[$fieldType];
+                            
+                        }
                     }
-                    if (!isset($location['phone'])) $location['phone'] = array();
-                    foreach ($location['phone'] as $phone) {
-                        $locLabel[$moniker] .= $phone['phone'] . "\n";
-                    }
-                    $locLabel[$moniker] .= $location['address']['display'];
-                    // drop consecutive newlines and convert the rest to <br />s
-                    $locLabel[$moniker] = preg_replace('/\n+/', "\n", $locLabel[$moniker]);
-                    $locLabel[$moniker] = nl2br(trim($locLabel[$moniker]));
+                    $locLabel[$moniker]['address'] = $location['address']['display'];
                 }
             }
             if ($locValue['other'] != 0) {
-                $rows["move_location_$locTypeId"]['main']  = $locLabel['main'];
-                $rows["move_location_$locTypeId"]['other'] = $locLabel['other'];
-                $rows["move_location_$locTypeId"]['title'] = ts('Location: %1', array(1 => $locTypeName));
-                $this->addElement('advcheckbox', "move_location_$locTypeId", null, null, null, $locValue['other']);
+                foreach (array('email','phone','im','openid','address') as $fieldType) {
+                    $rows["move_location_$fieldType"."_$locTypeId"]['main']  = $locLabel['main'][$fieldType];
+                    $rows["move_location_$fieldType"."_$locTypeId"]['other'] = $locLabel['other'][$fieldType];
+                    $rows["move_location_$fieldType"."_$locTypeId"]['title'] = ts('Location %1:%2', array(1 => $locTypeName, 2 => $fieldType));
+                    $this->addElement('advcheckbox', "move_location_$fieldType"."_$locTypeId", null, null, null, $locValue['other']);
+                }
             }
         }
 
