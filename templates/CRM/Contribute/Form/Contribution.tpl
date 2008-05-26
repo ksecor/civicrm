@@ -29,11 +29,13 @@
         <tr>
             <td class="font-size12pt right"><strong>{ts}Contributor{/ts}</strong></td><td class="font-size12pt"><strong>{$displayName}</strong></td>
         </tr>
-        <tr><td class="label nowrap">{$form.payment_processor_id.label}</td><td>{$form.payment_processor_id.html}</td></tr>
-	 <tr>
-	{assign var=n value=email-$bltID}
-        <td class="label">{$form.$n.label}</td><td>{$form.$n.html}</td>
-    	</tr>
+	{if $action neq 2}
+           <tr><td class="label nowrap">{$form.payment_processor_id.label}</td><td>{$form.payment_processor_id.html}</td></tr>
+	    <tr>
+	      {assign var=n value=email-$bltID}
+              <td class="label">{$form.$n.label}</td><td>{$form.$n.html}</td>
+    	    </tr>
+        {/if}
         <tr><td class="label">{$form.contribution_type_id.label}</td><td>{$form.contribution_type_id.html}&nbsp;
         {if $is_test}
         {ts}(test){/ts}

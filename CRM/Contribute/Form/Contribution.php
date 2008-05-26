@@ -732,6 +732,9 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                 }
             }
             
+            if ( CRM_Utils_Array::value( 'source', $params ) ) {
+                unset( $params['source'] );
+            }
             $contactID = CRM_Contact_BAO_Contact::createProfileContact( $params, $fields,
                                                                         $this->_contactID, 
                                                                         null, null, 
