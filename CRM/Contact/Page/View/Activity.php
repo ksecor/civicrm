@@ -100,10 +100,6 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View
             return $wrapper->run( 'CRM_Contact_Form_Task_Email', ts('Email a Contact'),  null );
         }
 
-        // if GET request, reset controller
-        if ( CRM_Utils_Array::value( 'reset', $_GET ) ) {
-            $controller->reset( );
-        }
         $controller->setEmbedded( true );
 
         $controller->set( 'contactId', $this->_contactId );
