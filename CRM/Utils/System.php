@@ -39,7 +39,7 @@
  */
 class CRM_Utils_System {
 
-    const VERSION = '2.0';
+    const VERSION = '2.1';
 
     static $_callbacks = null;
 

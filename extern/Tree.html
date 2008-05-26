@@ -10,28 +10,10 @@
 	</style>
 
 	<script type="text/javascript" src="../packages/dojo/dojo/dojo.js.uncompressed.js"
-		djConfig="parseOnLoad: false, isDebug: true"></script>
-	<script type="text/javascript" src="/~lobo/svn/dojo/dijit/tests/_testCommon.js"></script>
-
-	<script language="JavaScript" someProperty="text/javascript">
-		dojo.require("dojo.data.ItemFileWriteStore");
-		dojo.require("civicrm.CheckableTree");
-
-		dojo.addOnLoad(function(){
- 			var myStore = new dojo.data.ItemFileWriteStore({url:'http://localhost/~lobo/drupal6/civicrm/ajax/groupTree'});
-			var myModel = new dijit.tree.ForestStoreModel({
-				store: myStore,
-				query: {type:'rootGroup'},
-                                rootId: 'allGroups',
-                                rootLabel: 'All Groups',
-				childrenAttrs: ["children"]
-			});
-			var tree = new civicrm.CheckableTree({
-				model: myModel
-			});
-			dojo.body().appendChild(tree.domNode);
-			tree.startup();
-		});
+		djConfig="parseOnLoad: true, isDebug: true"></script>
+	<script type="text/javascript" src="../packages/dojo/dojo/commonWidgets.js.uncompressed.js"></script>
+        <script type="text/javascript">
+           dojo.require("dijit.Dialog");
 	</script>
 </head>
 <body>
@@ -72,6 +54,10 @@
 
     <input type="hidden" name="location[1][is_primary]" value="1" />
     <input type="hidden" name="ct" value="Individual" />
+<br/>
+            <a href="javascript:dijit.byId('id-groupPicker').show()">Pick your groups</a>
+            <div dojoType="dijit.Dialog" id="id-groupPicker" refreshOnShow=false widgetsInTemplate=true executeScripts=true class="tundra" href="Group.html"}">
+            </div>
         </div>
 
 <div class="form-item"><input type="submit" name="_qf_Edit_next" value="Save" class="form-submit" /></div>
