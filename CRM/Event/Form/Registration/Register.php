@@ -153,7 +153,8 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                     ts( 'Email Address' ),
                     array( 'size' => 30, 'maxlength' => 60 ), true );
         if ( $this->_values['event_page']['is_multiple_registrations'] ) {
-            $this->addElement( 'text', 'NoOfParticipants', ts('How many additional people?'));
+            $this->add( 'text', 'NoOfParticipants', ts('How many additional people?'), array( 'size' => 10, 'maxlength' => 10) );
+            $this->addRule( 'NoOfParticipants', ts( 'Please enter a valid No Of People (numbers only).' ), 'positiveInteger' );
         }
         if ( $this->_values['event']['is_monetary'] ) {
             self::buildAmount( $this );

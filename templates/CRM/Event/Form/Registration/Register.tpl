@@ -84,7 +84,7 @@
         <a href="#" onclick="hide('noOfparticipants'); show('noOfparticipants_show'); return false;">&raquo; <label>{ts}Register additional people for this event{/ts}</label></a>
         <div class="form-item">
             <dl>
-            <dt class="description">{$form.NoOfParticipants.label}</dt><dd>{$form.NoOfParticipants.html}</dd>
+            <dt>{$form.NoOfParticipants.label}</dt><dd>{$form.NoOfParticipants.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts}You will be able to enter registration information for each additional person after you complete this page and click Continue.{/ts}</dd>
        	    </dl>
         </div>
