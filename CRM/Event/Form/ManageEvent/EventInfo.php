@@ -73,9 +73,9 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         $showLocation = false;
         // when custom data is included in this page
         if ( CRM_Utils_Array::value( "hidden_custom", $_POST ) ) {
-            eval( 'CRM_Custom_Form_Customdata::preProcess( $this );' );
-            eval( 'CRM_Custom_Form_Customdata::buildQuickForm( $this );' );
-            eval( 'CRM_Custom_Form_Customdata::setDefaultValues( $this );' );
+            CRM_Custom_Form_Customdata::preProcess( $this );
+            CRM_Custom_Form_Customdata::buildQuickForm( $this );
+            CRM_Custom_Form_Customdata::setDefaultValues( $this );
         }
         
     }

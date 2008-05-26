@@ -216,19 +216,18 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
 
         // when fee amount is included in form
         if ( CRM_Utils_Array::value( 'hidden_feeblock', $_POST ) ) {
-            eval( 'CRM_Event_Form_EventFees::preProcess( $this );' );
-            eval( 'CRM_Event_Form_EventFees::buildQuickForm( $this );' );
-            eval( 'CRM_Event_Form_EventFees::setDefaultValues( $this );' );
+            CRM_Event_Form_EventFees::preProcess( $this );
+            CRM_Event_Form_EventFees::buildQuickForm( $this );
+            CRM_Event_Form_EventFees::setDefaultValues( $this );
         }
 
         // when custom data is included in this page
         if ( CRM_Utils_Array::value( "hidden_custom", $_POST ) ) {
-            eval( 'CRM_Custom_Form_Customdata::preProcess( $this );' );
-            eval( 'CRM_Custom_Form_Customdata::buildQuickForm( $this );' );
-            eval( 'CRM_Custom_Form_Customdata::setDefaultValues( $this );' );
+            CRM_Custom_Form_Customdata::preProcess( $this );
+            CRM_Custom_Form_Customdata::buildQuickForm( $this );
+            CRM_Custom_Form_Customdata::setDefaultValues( $this );
         }
     }
-
     
     /**
      * This function sets the default values for the form in edit/view mode

@@ -225,10 +225,11 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         
         // when custom data is included in this page
         if ( CRM_Utils_Array::value( "hidden_custom", $_POST ) ) {
-            eval( 'CRM_Custom_Form_Customdata::preProcess( $this );' );
-            eval( 'CRM_Custom_Form_Customdata::buildQuickForm( $this );' );
-            eval( 'CRM_Custom_Form_Customdata::setDefaultValues( $this );' );
+            CRM_Custom_Form_Customdata::preProcess( $this );
+            CRM_Custom_Form_Customdata::buildQuickForm( $this );
+            CRM_Custom_Form_Customdata::setDefaultValues( $this );
         }
+
         // also set the post url
         $postURL = CRM_Utils_System::url( 'civicrm/contact/view',
                                           "reset=1&force=1&cid={$this->_contactID}&selectedChild=contribute" );
