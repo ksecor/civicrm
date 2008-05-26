@@ -168,7 +168,7 @@ WHERE civicrm_contact.id IN $idString ";
         while ( $dao->fetch( ) ) {
             $location = array( );
             $location['contactID'  ] = $dao->contact_id;
-            $location['displayName'] = $dao->display_name ;
+            $location['displayName'] = addslashes( $dao->display_name );
             $location['city'       ] = $dao->city;
             $location['state'      ] = $dao->state;
             $location['postal_code'] = $dao->postal_code;
@@ -185,7 +185,7 @@ WHERE civicrm_contact.id IN $idString ";
                                       array(   $dao->state, $dao->postal_code ) );
             CRM_Utils_String::append( $address, '<br /> ',
                                       array( $dao->country ) );
-            $location['address'       ] = $address;
+            $location['address'       ] = addslashes( $address );
             $location['displayAddress'] = str_replace( '<br />', ', ', $address );
             $location['url'           ] = CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $dao->contact_id );
             $location['location_type' ] = $dao->location_type;
