@@ -559,7 +559,8 @@ class CRM_Utils_Date
     {
         $now = getDate();
         $cen = substr($now['year'],  0, 2);
-        
+        $prevCen = $cen - 1;
+
         if ($params[$dateParam]) {
             $value = $params[$dateParam];
         }
@@ -598,7 +599,7 @@ class CRM_Utils_Date
             }
             break;
         }
-        
+
         if ( $dateType == 2 || $dateType == 4) {
             $year   = (int) substr($value,  6, $dateType);
             $month  = (int) substr($value,  0, 2);
@@ -611,7 +612,7 @@ class CRM_Utils_Date
             $monthInt = 0;
             $fullMonths = self::getFullMonthNames();
             foreach ($fullMonths as $key => $val) {
-                if ($dateArray[0] == $val) {
+                if (strtolower($dateArray[0]) == strtolower($val)) {
                     $monthInt = $key; 
                     break;
                 }
@@ -619,7 +620,7 @@ class CRM_Utils_Date
             if (!$monthInt) {
                 $abbrMonths = self::getAbbrMonthNames();
                 foreach ($abbrMonths as $key => $val) {
-                    if ($dateArray[0] == $val) {
+                    if (strtolower($dateArray[0]) == strtolower($val)) {
                         $monthInt = $key; 
                         break;
                     }
@@ -635,7 +636,7 @@ class CRM_Utils_Date
             $monthInt = 0;
             $fullMonths = self::getFullMonthNames();
             foreach ($fullMonths as $key => $val) {
-                if ($dateArray[1] == $val) {
+                if (strtolower($dateArray[1]) == strtolower($val)) {
                     $monthInt = $key; 
                     break;
                 }
@@ -643,7 +644,7 @@ class CRM_Utils_Date
             if (!$monthInt) {
                 $abbrMonths = self::getAbbrMonthNames();
                 foreach ($abbrMonths as $key => $val) {
-                    if ($dateArray[1] == $val) {
+                    if (strtolower($dateArray[1]) == strtolower($val)) {
                         $monthInt = $key; 
                         break;
                     }
@@ -659,10 +660,17 @@ class CRM_Utils_Date
             $day    = (int) substr($value,  0, 2);
         }
         
-        $year  = ($year < 10) ? "0" . "$year"  : $year;
         $month = ($month < 10)? "0" . "$month" : $month;
         $day   = ($day < 10)  ? "0" . "$day"   : $day;
-        $year  = ($year < 100)? $cen . "$year" : $year;
+
+        $year = (int ) $year;
+        if ( $year < 9 ) {
+            $year = $cen . '0' . $year;
+        } else if ( $year < 10 ) {
+            $year = $prevCen . '0' . $year;
+        } else if ( $year < 100 ) {
+            $year = $prevCen . $year;
+        }
         
         if ($params[$dateParam]) {
             $params[$dateParam] = "$year$month$day";
