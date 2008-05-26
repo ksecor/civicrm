@@ -93,7 +93,13 @@ class CRM_Contribute_Form_Task extends CRM_Core_Form
                     $ids[] = substr( $name, CRM_Core_Form::CB_PREFIX_LEN );
                 }
             }
-            $this->assign( 'totalSelectedContributions', count( $ids ) );
+            if ( ! empty( $ids ) ) {
+                $this->_componentClause =
+                    ' civicrm_contribution.id IN ( ' .
+                    implode( ',', $ids ) . ' ) ';
+                
+                $this->assign( 'totalSelectedContributions', count( $ids ) );
+            }
         } else {
             $queryParams =  $this->get( 'queryParams' );
             $query       =& new CRM_Contact_BAO_Query( $queryParams, null, null, false, false, 
@@ -103,11 +109,6 @@ class CRM_Contribute_Form_Task extends CRM_Core_Form
                 $ids[] = $result->contribution_id;
             }
             $this->assign( 'totalSelectedContributions', $this->get( 'rowCount' ) );
-        }
-        if ( ! empty( $ids ) ) {
-            $this->_contributionClause =
-                ' civicrm_contribution.id IN ( ' .
-                implode( ',', $ids ) . ' ) ';
         }
         $this->_contributionIds = $ids;
     }
