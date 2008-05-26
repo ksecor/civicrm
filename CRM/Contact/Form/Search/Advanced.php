@@ -132,6 +132,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
                 $allPanes[$name]['open'] = 'true';
                 if( array_key_exists( $type, $components) ) {
                     $c = $components[ $type ];
+                    $this->add( 'hidden', 'hidden_' . $c->getKeyword() , 1 );
                     $c->buildAdvancedSearchPaneForm( $this );
                 } else {
                     eval( 'CRM_Contact_Form_Search_Criteria::' . $type . '( $this );' );
