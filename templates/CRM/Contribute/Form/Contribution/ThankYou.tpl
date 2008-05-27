@@ -33,7 +33,7 @@
         {else}
             <div>{ts}Your transaction has been processed successfully. Please print this page for your records.{/ts}</div>
             {if $is_email_receipt}
-                <div>{ts 1=$email}An email receipt has also been sent to %1{/ts}</div>
+                <div>{ts 1=$email}An email receipt has also been sent to %1{/ts}{if $onBehalfEmail AND ($onBehalfEmail neq $email)}{ts 1=$onBehalfEmail} and to %1{/ts}{/if}</div>
             {/if}
         {/if}
     </div>

@@ -157,7 +157,7 @@
   <item>
      <path>civicrm/user</path>
      <title>Contact Dashboard</title>
-     <saccess_arguments>access Contact Dashboard</saccess_arguments>
+     <access_arguments>access Contact Dashboard</access_arguments>
      <page_callback>CRM_Contact_Page_View_UserDashBoard</page_callback>
      <is_public>true</is_public>
      <weight>0</weight>
