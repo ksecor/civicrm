@@ -123,7 +123,7 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
             }
         }
 
-        if ( $values['is_email_receipt'] ) {
+        if ( $values['is_email_receipt'] || $values['onbehalf_dupe_alert'] ) {
             $template =& CRM_Core_Smarty::singleton( );
 
             require_once 'CRM/Contact/BAO/Contact/Location.php';
@@ -169,14 +169,39 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
             $receiptFrom = '"' . CRM_Utils_Array::value('receipt_from_name',$values) . '" <' . $values['receipt_from_email'] . '>';
 
             require_once 'CRM/Utils/Mail.php';
-            CRM_Utils_Mail::send( $receiptFrom,
-                                  $displayName,
-                                  $email,
-                                  $subject,
-                                  $message,
-                                  CRM_Utils_Array::value( 'cc_receipt' , $values ),
-                                  CRM_Utils_Array::value( 'bcc_receipt', $values )
-                                  );
+
+            if ( $values['is_email_receipt'] ) {
+                CRM_Utils_Mail::send( $receiptFrom,
+                                      $displayName,
+                                      $email,
+                                      $subject,
+                                      $message,
+                                      CRM_Utils_Array::value( 'cc_receipt' , $values ),
+                                      CRM_Utils_Array::value( 'bcc_receipt', $values )
+                                      );
+            }
+
+            // send duplicate alert, if dupe match found during on-behalf-of processing.
+            if ( $values['onbehalf_dupe_alert'] ) {
+                $systemFrom = '"Automatically Generated" <' . $values['receipt_from_email'] . '>';
+                $template->assign( 'dupeID', $contactID );
+
+                $emailTemplate  = 'CRM/Contribute/Form/Contribution/DuplicateAlertMessage.tpl';
+                
+                $template->assign( 'returnContent', 'subject' );
+                $subject = $template->fetch( $emailTemplate );
+                
+                $template->assign( 'receiptMessage', $message );
+
+                $template->assign( 'returnContent', 'textMessage' );
+                $message = $template->fetch( $emailTemplate );
+                
+                CRM_Utils_Mail::send( $systemFrom,
+                                      CRM_Utils_Array::value('receipt_from_name',$values),
+                                      $values['receipt_from_email'],
+                                      $subject,
+                                      $message );
+            }
         }
     }
     

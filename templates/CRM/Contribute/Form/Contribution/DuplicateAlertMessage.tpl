@@ -1,10 +1,21 @@
 {if $returnContent eq 'subject'}
-    {ts}Duplicate Matches Found{/ts}
+    {ts}Possible Duplicate Contact Record{/ts}
 
 {else if $returnContent eq 'textMessage'}
-{ts 1=$dupeID}
-There is a possible duplicate contact situation for contribution / membership signup.
+The contribution listed below was submitted on behalf of an organization, and the organization information matches existing records in your database. Please review the following record:
 
-One recently observed for a new organization contact with contact-id=%1.
-{/ts}
+Contact Record: {crmURL p='civicrm/contact/view' q="reset=1&cid=`$dupeID`"}
+
+If you think this may be a duplicate contact which should be merged with an existing record - use the following link to identify the potential duplicates and merge them if appropriate:
+
+Find Duplicates: {crmURL p='civicrm/admin/dedupefind' q="reset=1&rgid=5"}
+
+{if $receiptMessage}
+###########################################################
+{ts}Copy of Contribution Receipt{/ts}
+
+###########################################################
+{$receiptMessage}
+{/if}
+
 {/if}

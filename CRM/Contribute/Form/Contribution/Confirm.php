@@ -861,24 +861,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
 
         // if multiple match - send a duplicate alert
         if ( $dupeIDs && (count($dupeIDs) > 1) ) {
-            $template =& CRM_Core_Smarty::singleton( );
-            $template->assign( 'dupeID', $orgID );
-
-            $emailTemplate  = 'CRM/Contribute/Form/Contribution/DuplicateAlertMessage.tpl';
-
-            $template->assign( 'returnContent', 'subject' );
-            $subject = $template->fetch( $emailTemplate );
-
-            $template->assign( 'returnContent', 'textMessage' );
-            $message = $template->fetch( $emailTemplate );
-            
-            require_once 'CRM/Utils/Mail.php';
-            $config =& CRM_Core_Config::singleton( );
-            CRM_Utils_Mail::send( $values['receipt_from_email'],
-                                  $org->sort_name, //change to dsplay_name
-                                  $values['receipt_from_email'],
-                                  $subject,
-                                  $message );
+            $values['onbehalf_dupe_alert'] = 1;
         }
         
         // make sure organization-contact-id is considered for recording
