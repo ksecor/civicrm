@@ -253,6 +253,109 @@ class CRM_Contribute_Form_AdditionalInfo
         } 
     }
     
+    /** 
+     * Function to send email receipt.
+     * 
+     * @form object  of Contribution form.
+     * @param array  $params (reference ) an assoc array of name/value pairs.
+     * @$ccContribution boolen,  is it credit card contribution.
+     * @access public. 
+     * @return None.
+     */ 
+    function emailReceipt( &$form, &$params, $ccContribution = false )
+    {
+        // Retrieve Contribution Type Name from contribution_type_id
+        $params['contributionType_name'] = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionType',
+                                                                        $params['contribution_type_id'] );         
+        
+        // retrieve payment instrument name
+        $paymentInstrumentGroup = array();
+        $paymentInstrumentGroup['name'] = 'payment_instrument';
+        require_once 'CRM/Core/BAO/OptionGroup.php';
+        CRM_Core_BAO_OptionGroup::retrieve($paymentInstrumentGroup, $paymentInstrumentGroup);
+        $paymentInstrument = array();
+        $paymentInstrument['value']            = $params['payment_instrument_id'];      
+        $paymentInstrument['option_group_id']  = $paymentInstrumentGroup['id'];
+        require_once 'CRM/Core/BAO/OptionValue.php';
+        CRM_Core_BAO_OptionValue::retrieve($paymentInstrument, $paymentInstrument);
+        $params['paidBy'] = $paymentInstrument['label'];
+        
+        // retrieve individual prefix value for honoree
+        if ( CRM_Utils_Array::value( 'hidden_Honoree', $params ) ) {
+            $individualPrefixGroup = array();
+            $individualPrefixGroup['name'] = 'individual_prefix';
+            require_once 'CRM/Core/BAO/OptionGroup.php';
+            CRM_Core_BAO_OptionGroup::retrieve($individualPrefixGroup, $individualPrefixGroup);
+            $individualPrefix = array();
+            $individualPrefix['value']            = $params['honor_prefix_id'];      
+            $individualPrefix['option_group_id']  = $individualPrefixGroup['id'];
+            require_once 'CRM/Core/BAO/OptionValue.php';
+            CRM_Core_BAO_OptionValue::retrieve($individualPrefix,$individualPrefix );
+            $params['honor_prefix'] = $individualPrefix['label'];
+            $honor  = CRM_Core_PseudoConstant::honor( ); 
+            $params["honor_type"] = $honor[$params["honor_type_id"]];
+        }
+        
+        // retrieve premium product name and assigned fulfilled
+        // date to template
+        if ( CRM_Utils_Array::value( 'hidden_Premium', $params ) ) {
+            require_once 'CRM/Contribute/DAO/Product.php';
+            $productDAO =& new CRM_Contribute_DAO_Product();
+            $productDAO->id = $params['product_name'][0];
+            $productDAO->find(true);
+            $params['product_name'] = $productDAO->name;
+            $this->assign('fulfilled_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format($params['fulfilled_date'])));
+        }
+        if ( ! $ccContribution ) {
+            //offline contribution
+            //Retrieve the name and email from receipt is to be send
+            $params['receipt_from_name'] = $form->userDisplayName;
+            $params['receipt_from_email']= $form->userEmail;
+            // assigned various dates to the templates
+            $form->assign('receive_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format($formValues['receive_date'])));
+            $form->assign('receipt_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format($formValues['receipt_date'])));
+            $form->assign('thankyou_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format($formValues['thankyou_date'])));
+            $form->assign('cancel_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format($formValues['cancel_date'])));
+            
+            //retrieve custom data
+            if ( CRM_Utils_Array::value( 'hidden_custom', $params ) ) {
+                $showCustom = 0;
+                $customData = array( );
+                foreach ( $params as $key => $value ) {
+                    if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
+                        $fieldID['id'] = $customFieldId;
+                        CRM_Core_BAO_CustomField::retrieve( $fieldID, $customData);
+                        $customField[$customData['label']] = $value;
+                        if ($value) {
+                            $showCustom = 1;
+                        }
+                    }
+                }
+                $form->assign('showCustom',$showCustom);
+                $form->assign_by_ref('customField',$customField);
+            }
+        }
+        
+        $form->assign_by_ref( 'formValues', $params );
+        require_once 'CRM/Contact/BAO/Contact.php';
+        list( $contributorDisplayName, 
+              $contributorEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $params['contact_id'] );
+        $template =& CRM_Core_Smarty::singleton( );
+        $message = $template->fetch( 'CRM/Contribute/Form/Message.tpl' );
+        $session =& CRM_Core_Session::singleton( );
+        $userID = $session->get( 'userID' );
+        list( $userName, $userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $userID );
+        $receiptFrom = '"' . $userName . '" <' . $userEmail . '>';
+        $subject = ts('Contribution Receipt');
+        require_once 'CRM/Utils/Mail.php';
+        CRM_Utils_Mail::send( $receiptFrom,
+                              $contributorDisplayName,
+                              $contributorEmail,
+                              $subject,
+                              $message);
+        
+    }
+    
 }
 
 ?>
