@@ -204,23 +204,22 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
      *
      * @params $nameField  string mapping Name
      *
-     * @params $mapType string mapping Type
+     * @params $mapTypeId string mapping Type
      *
      * @return boolean
      * 
      */
-    static function checkMapping($nameField,$mapType)
+    static function checkMapping( $nameField, $mapTypeId )
     {
-         $mappingName =& new CRM_Core_DAO_Mapping();
-         $mappingName->name = $nameField;
-         $mappingName->mapping_type = $mapType;
-         if($mappingName->find(true)){
-             return true;
-         }else{
-             return false;
-         }
+        $mapping =& new CRM_Core_DAO_Mapping();
+        $mapping->name = $nameField;
+        $mapping->mapping_type_id = $mapTypeId;
+        if ( $mapping->find(true) ) {
+            return true;
+        } else {
+            return false;
+        }
     }
-
 
     /**
      * Function returns associated array of elements, that will be passed for search
@@ -284,17 +283,6 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         require_once 'CRM/Core/BAO/LocationType.php';
 
         if ( $mappingType == 'Export' ) {
-            $mappingArray =array();
-            
-            require_once "CRM/Core/BAO/Mapping.php";
-            $mappingArray = CRM_Core_BAO_Mapping::getMappings($mappingType);
-            
-            if ( !empty($mappingArray) ) {
-                $form->assign('savedMapping',$mappingArray);
-                $form->add('select','savedMapping', ts('Mapping Option'), array('' => '- select -')+$mappingArray);
-                $form->addElement( 'submit', 'loadMapping', ts('Load Mapping'), array( 'class' => 'form-submit' ) ); 
-            }
-            
             $form->applyFilter('__ALL__', 'trim');
 
             //to save the current mappings
@@ -320,7 +308,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
             }
             
             $form->addElement('checkbox','saveMapping',$saveDetailsName, null, array('onclick' =>"showSaveDetails(this)"));
-            $form->addFormRule( array( 'CRM_Export_Form_Map', 'formRule' ) );
+            $form->addFormRule( array( 'CRM_Export_Form_Map', 'formRule' ), $form->get( 'mappingTypeId') );
         } else  if ($mappingType == 'Search Builder') { 
             $form->addElement('submit', 'addBlock', ts('Also include contacts where'), 
                               array( 'class' => 'submit-link')
@@ -438,9 +426,8 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         }
         
         foreach($sel1 as $k=>$sel ) {
-            if($k) {
+            if ($k) {
                 foreach ($mapperFields[$k]  as $key=>$value) {
-                    
                     if (isset ( $hasLocationTypes[$k][$key] ) ) {
                         $sel3[$k][$key] = $locationTypes;
                     } else {
