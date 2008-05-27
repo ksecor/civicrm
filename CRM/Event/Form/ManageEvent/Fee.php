@@ -98,11 +98,16 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         $discountedEvent = CRM_Core_BAO_Discount::getOptionGroup($this->_id, "civicrm_event");
         if ( isset($discountedEvent) ) {
             $defaults['is_discount'] = 1;
+            
             foreach ( $discountedEvent as $key => $optionGroupId ) {
-                $defaults["discount_name[$key]"] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup', $optionGroupId, 'label' );
+                $name = $defaults["discount_name[$key]"] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup', $optionGroupId, 'label' );
                 $defaults["discount_start_date[$key]"] = CRM_Utils_Date::unformat(CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Discount', $optionGroupId, 'start_date', 'option_group_id' ));
                 $defaults["discount_end_date[$key]"] = CRM_Utils_Date::unformat(CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Discount', $optionGroupId, 'end_date', 'option_group_id' ));
+                
+                CRM_Core_OptionGroup::getAssoc( "civicrm_event_page.amount.{$eventPageId}.discount.{$name}", $defaultDiscounts );
             }
+            $this->set( 'discountSection', 1 );
+            $this->buildQuickForm( );
         }
         
         $defaults = array_merge( $defaults, $parentDefaults );
