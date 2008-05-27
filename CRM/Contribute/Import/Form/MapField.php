@@ -209,8 +209,8 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
     public function buildQuickForm()
     {
         //get the saved mapping details 
-       
         require_once "CRM/Core/BAO/Mapping.php";
+        require_once "CRM/Core/OptionGroup.php";
         $mappingArray = CRM_Core_BAO_Mapping::getMappings( CRM_Core_OptionGroup::getValue( 'mapping_type',
                                                                                            'Import Contribution',
                                                                                            'name' ) );
