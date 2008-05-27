@@ -424,8 +424,8 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
                                                         'entity_table'    => 'civicrm_event',
                                                         'entity_id'       => $this->_id,
                                                         'option_group_id' => $discountOptionsGroupId,
-                                                        'start_end'       => CRM_Utils_Date::format(CRM_Utils_Array::value( "discount_start_date[$j]"  , $params ) ),
-                                                        'end_date'        => CRM_Utils_Date::format(CRM_Utils_Array::value( "discount_end_date[$j]"  , $params ) ) 
+                                                        'start_date'      => CRM_Utils_Date::format( $params["discount_start_date"][$j] ),
+                                                        'end_date'        => CRM_Utils_Date::format( $params["discount_end_date"][$j] ) 
                                                         );
                                 
                                 require_once 'CRM/Core/BAO/Discount.php';
