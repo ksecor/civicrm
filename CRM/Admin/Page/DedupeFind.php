@@ -114,7 +114,7 @@ class CRM_Admin_Page_DedupeFind extends CRM_Core_Page_Basic
             foreach ($foundDupes as $dupes) {
                 $srcID = $dupes[0];
                 $dstID = $dupes[1];
-                if ( $srcID == $userId ) {
+                if ( $dstID == $userId ) {
                     $srcID = $dupes[1];
                     $dstID = $dupes[0];
                 }
