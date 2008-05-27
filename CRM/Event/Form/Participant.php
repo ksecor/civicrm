@@ -585,6 +585,11 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
               $userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $userID );
         require_once "CRM/Event/BAO/Participant.php";
         $participants = array();
+
+        // fix note if deleted
+        if ( !$params['note'] ) {
+            $params['note'] = 'null';
+        }
        
         if ( $this->_single ) {
             $participants[] = CRM_Event_BAO_Participant::create( $params );
