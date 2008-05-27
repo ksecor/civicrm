@@ -419,7 +419,8 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                               'Honoree Information' => 'Honoree', 
                               'Premium Information' => 'Premium'
                               );
-        if ( count( $this->_processors ) > 0 ) {
+        if ( count( $this->_processors ) > 0 &&
+             ! ( $this->_action & CRM_Core_Action::UPDATE ) ) {
             $ccPane = array( 'Credit Card Information' => 'CreditCard' );
         }
         if ( is_array( $ccPane ) ) {

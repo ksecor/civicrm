@@ -7,12 +7,14 @@
 <div class="form-item">
 {if $action & 1 or $action & 1024 }
     {assign var=contribMode value="TEST"}
-{else}
+{elseif $action neq 2 }
     {assign var=contribMode value="LIVE"}
 {/if}
+{if $action neq 2}
 <div id="help">
     {ts 1=$displayName 2=$contribMode}Use this form to submit a new contribution on behalf of %1. <strong>A %2 transaction will be submitted</strong> using the selected payment processor.{/ts}
-</div> 
+</div>
+{/if} 
 <fieldset><legend>{if $action eq 1 or $action eq 1024}{ts}New Contribution{/ts}{elseif $action eq 8}{ts}Delete Contribution{/ts}{else}{ts}Edit Contribution{/ts}{/if}</legend> 
    
    {if $action eq 8} 
