@@ -295,6 +295,8 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                 $form->addElement( 'submit', 'loadMapping', ts('Load Mapping'), array( 'class' => 'form-submit' ) ); 
             }
             
+            $form->applyFilter('__ALL__', 'trim');
+
             //to save the current mappings
             if ( !isset($mappingId) ) {
                 $saveDetailsName = ts('Save this field mapping');
