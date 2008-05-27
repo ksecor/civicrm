@@ -38,9 +38,6 @@ require_once 'CiviTestCase.php';
 class Browser_Import_ImportContact extends CiviTestCase
 {
 
-    var $params;
-    var $webUser;
-
     function get_info()
     {
         return array('name'        => 'Import Contact',
@@ -67,26 +64,34 @@ class Browser_Import_ImportContact extends CiviTestCase
     function testImportWithMissingParams()
     { 
         $this->assertText('Upload Data (step 1 of 4)');
-        $params = array();
-        $this->drupalPost(NULL,$params, '_qf_UploadFile_upload');
+        $this->drupalPost( NULL, array() , '_qf_UploadFile_upload' );
         $this->assertText('Import Data File is a required field.');
         
     }
     function testImport()
     {
-        $this->params['uploadFile']= $this->createCSV();
-        $this->params['skipColumnHeader']=1;
-        $this->params['onDuplicate']=1;
-        $this->params['contactType'] = 1;
-        $this->params['dateFormats'] = 8;
-        $params=$this->params;
-        $this->drupalPost(NULL, $this->params, '_qf_UploadFile_upload');
-        $this->assertText('Match Fields (step 2 of 4)');
-        $this->drupalPost(NULL, null, '_qf_MapField_next');
-        $this->assertText('Preview (step 3 of 4)');
-        $this->drupalPost(NULL, null, '_qf_Preview_next');
+        $config =& CRM_Core_Config::singleton( );
+        $fileName = "{$config->uploadDir}test_import_contact.csv";
         
-        //$this->clickSubmit('OK');
+        $header = array ("First Name","Last Name");
+        $list   = array ( 0 => array( 0 => 'Joe'  , 1 => 'Morgan'),
+                          1 => array( 0 => 'Janet', 1 => 'Morgan') );
+        
+        require_once'CRM/Import/Parser.php';
+        CRM_Import_Parser::exportCSV($fileName,$header,$list);
+
+        $params['uploadFile']      = $fileName;
+        $params['skipColumnHeader']= 1;
+        $params['onDuplicate']     = 1;
+        $params['contactType']     = 1;
+        $params['dateFormats']     = 8;
+
+        $this->drupalPost( NULL, $params, '_qf_UploadFile_upload' );
+        $this->assertText( 'Match Fields (step 2 of 4)' );
+        $this->drupalPost( NULL, null, '_qf_MapField_next' );
+        $this->assertText( 'Preview (step 3 of 4)' );
+        $this->drupalPost( NULL, null, '_qf_Preview_next' );
+        
         $this->assertText('Summary (step 4 of 4)');
     }
 }
