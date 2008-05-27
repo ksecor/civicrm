@@ -1,11 +1,3 @@
-{if $no_dupes}
-<div class='status'>
-  <dl>
-    <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
-    <dd>{ts}There are no duplicates matching this rule.{/ts}</dd>
-  </dl>
-</div>
-{else}
 <div class="form-item">
   <table>
     <tr class="columnheader"><th>{ts}Contact{/ts} 1</th><th>{ts}Contact{/ts} 2(Duplicate)</th><th>{ts}Threshold{/ts}</th><th>&nbsp;</th></tr>
@@ -35,4 +27,4 @@
   {/if}
 </div>
 <div style="clear: both;"></div>
-{/if}
+

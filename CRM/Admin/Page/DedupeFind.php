@@ -86,7 +86,14 @@ class CRM_Admin_Page_DedupeFind extends CRM_Core_Page_Basic
             $this->set("dedupe_dupes", $foundDupes);
         }
         if (!$foundDupes) {
-            $this->assign('no_dupes', true);
+            $ruleGroup = new CRM_Dedupe_BAO_RuleGroup();
+            $ruleGroup->id = $rgid;
+            $ruleGroup->find(true);
+
+            $session =& CRM_Core_Session::singleton();
+            $session->setStatus("No possible duplicates were found using {$ruleGroup->name} rule.");
+            $url = CRM_Utils_System::url('civicrm/admin/deduperules', "reset=1");
+            CRM_Utils_System::redirect( $url );
         } else {
             
             $cids = array( );
