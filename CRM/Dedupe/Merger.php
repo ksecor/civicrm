@@ -166,7 +166,6 @@ class CRM_Dedupe_Merger
                 'civicrm_membership_log'          => array('modified_id'),
                 'civicrm_membership_type'         => array('member_of_contact_id'),
                 'civicrm_note'                    => array('contact_id'),
-                'civicrm_openid'                  => array('contact_id'),
                 'civicrm_participant'             => array('contact_id'),
                 // 'civicrm_phone'                   => array('contact_id'),
                 'civicrm_preferences'             => array('contact_id'),

@@ -293,31 +293,39 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         // FIXME: the simplest approach to locations
         $locTypes =& CRM_Core_PseudoConstant::locationType();
         if (!isset($locations)) $locations = array();
-        foreach ($locations as $locTypeId => $value) {
-            // delete the old location (if it exists)
+        foreach ($locations as $field => $locTypeId) {
+            $field = substr($field, 0, -2);
             $mainParams = array('contact_id' => $this->_cid, 'location_type' => $locTypeId);
-            civicrm_location_delete($mainParams);
-
+            
             // if the new one is 0, we're done
-            if ($value == 0) continue;
-
-            // otherwise, move the existing components 
-            // of the other's location to main contact
-            // FIXME: handle the proper primariness 
-            // and billingness of the components
-            foreach (array('Address', 'Email', 'IM', 'Phone') as $component) {
-                eval("\$dao =& new CRM_Core_DAO_$component();");
-                $dao->contact_id = $this->_oid;
-                $dao->location_type_id = $locTypeId;
-                $dao->find();
-                while ($dao->fetch()) {
-                    $dao->contact_id = $this->_cid;
-                    $dao->update();
-                }
-                $dao->free();
+            if ($locTypeId == 0) continue;
+            
+            $locComponent = array(
+                                  'email'   => 'Email',
+                                  'phone'   => 'Phone',
+                                  'im'      => 'IM',
+                                  'openid'  => 'OpenID',
+                                  'address' => 'Address',
+                                  ); 
+            //delete the existing location component first(if exists).
+            eval("\$dao =& new CRM_Core_DAO_$locComponent[$field]();");
+            $dao->contact_id = $this->_cid;
+            $dao->location_type_id = $locTypeId;
+            $dao->find();
+            $dao->delete();
+            $dao->free();
+            //move duplicate contact's location component.
+            eval("\$dao =& new CRM_Core_DAO_$locComponent[$field]();");
+            $dao->contact_id = $this->_oid;
+            $dao->location_type_id = $locTypeId;
+            $dao->find();
+            while ($dao->fetch()) {
+                $dao->contact_id = $this->_cid;
+                $dao->update();
             }
+            $dao->free();
         }
-
+       
         // handle the related tables
         if (isset($moveTables)) {
             CRM_Dedupe_Merger::moveContactBelongings($this->_cid, $this->_oid, $moveTables);
