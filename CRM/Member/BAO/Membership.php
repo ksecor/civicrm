@@ -525,6 +525,9 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
                                 $membership = &new CRM_Member_DAO_Membership();
                                 $membership->contact_id         = $cid;
                                 $membership->membership_type_id = $memType->id;
+                                //show current membership, skip pending membership record,
+                                //because we take first memebrship record id for renewal 
+                                $membership->whereAdd( 'status_id != 5' );
                                 
                                 if ( ! is_null( $isTest ) ) {
                                     $membership->is_test        = $isTest;
@@ -606,6 +609,8 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         $dao->contact_id         = $contactID;
         $dao->membership_type_id = $memType;
         $dao->is_test            = $isTest;
+        //avoid pending membership as current memebrship: CRM-3027
+        $dao->whereAdd( 'status_id != 5' );
         if ( $dao->find( true ) ) {
             $membership = array( );
             CRM_Core_DAO::storeValues( $dao, $membership );
@@ -982,7 +987,7 @@ AND civicrm_membership.is_test = %2";
              CRM_Member_BAO_Membership::getContactMembership( $contactID, $membershipTypeID, $is_test, $form->_membershipId ) ) {
             
             $form->set("renewal_mode", true );
-            
+                      
             // Do NOT do anything to membership with status : PENDING/CANCELLED (CRM-2395)
             if ( in_array($currentMembership['status_id'], array( 5, 6 )) ) {
                 $membership =& new CRM_Member_DAO_Membership();
