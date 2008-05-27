@@ -121,10 +121,10 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 
         //set default membership for membershipship block
         require_once 'CRM/Member/BAO/Membership.php';
-        if ( $membershipBlock = CRM_Member_BAO_Membership::getMembershipBlock($this->_id) ) {
+        if ( $this->_membershipBlock ) {
             $this->_defaults['selectMembership'] = 
                 $this->_defaultMemTypeId ? $this->_defaultMemTypeId : 
-                CRM_Utils_Array::value( 'membership_type_default', $membershipBlock );
+                CRM_Utils_Array::value( 'membership_type_default', $this->_membershipBlock );
         }
 
         if ( $this->_membershipContactID ) {
@@ -524,10 +524,9 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
              $fields['selectMembership'] != 'no_thanks') {
             require_once 'CRM/Member/BAO/Membership.php';
             require_once 'CRM/Member/BAO/MembershipType.php';
-            $memBlock       = CRM_Member_BAO_Membership::getMembershipBlock( $self->_id );
             $memTypeDetails = CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $fields['selectMembership']);
             if ( $self->_values['amount_block_is_active'] &&
-                 ! CRM_Utils_Array::value( 'is_separate_payment', $memBlock ) ) {
+                 ! CRM_Utils_Array::value( 'is_separate_payment', $self->_membershipBlock ) ) {
                 require_once 'CRM/Utils/Money.php';
                 if ( $amount < CRM_Utils_Array::value('minimum_fee',$memTypeDetails) ) {
                     $errors['selectMembership'] =

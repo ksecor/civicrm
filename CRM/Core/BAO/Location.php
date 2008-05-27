@@ -239,6 +239,14 @@ WHERE e.id = %1";
     static function formatParams( &$params, &$formattedBlocks, $entity = null ) 
     {
         foreach ( $params['location'] as $key => $value ) {
+            // fix location type id if set to Primary
+            // this enables us to skip resolving this during block rendering time
+            if ( isset( $params['location'][$key]['location_type_id'] ) &&
+                 strtolower( $params['location'][$key]['location_type_id'] ) == 'primary' ) {
+                $defaultLocation = CRM_Core_BAO_LocationType::getDefault( );
+                $params['location'][$key]['location_type_id'] = $defaultLocation->id;
+            }
+            
             foreach ( self::$blocks as $block ) {
                 if ( CRM_Utils_Array::value( $block, $value ) ) {
                     $formattedBlocks[$block][$key]                     = CRM_Utils_Array::value( $block,

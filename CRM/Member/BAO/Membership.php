@@ -469,13 +469,8 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
     {
         require_once 'CRM/Member/DAO/MembershipBlock.php';
 
-        $dao = & new CRM_Member_DAO_MembershipBlock();
-        $dao->entity_table = 'civicrm_contribution_page';
-        $dao->entity_id = $pageID; 
-        $dao->is_active = 1;
-
         $separateMembershipPayment = false;
-        if ( $dao->find(true) ) {
+        if ( $form->_membershipBlock ) {
             require_once 'CRM/Member/DAO/MembershipType.php';
             require_once 'CRM/Member/DAO/Membership.php';
 
@@ -486,15 +481,14 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
                 $cid     = $memberContactId;
             }
             
-            $membershipBlock   = array( ); 
+            $membershipBlock   = $form->_membershipBlock;
             $membershipTypeIds = array( );
             $membershipTypes   = array( ); 
             $radio             = array( ); 
 
-            $separateMembershipPayment = $dao->is_separate_payment;
-            CRM_Core_DAO::storeValues($dao, $membershipBlock );
-            if ( $dao->membership_types ) {
-                $membershipTypeIds = explode( ',' , $dao->membership_types);
+            $separateMembershipPayment = $membershipBlock['is_separate_payment'];
+            if ( $membershipBlock['membership_types'] ) {
+                $membershipTypeIds = explode( ',' , $membershipBlock['membership_types'] );
             }
             if (! empty( $membershipTypeIds ) ) {
                 foreach ( $membershipTypeIds as $value ) {
@@ -546,11 +540,11 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             
             $form->assign( 'showRadio',$formItems );
             if ( $formItems ) {
-                if ( ! $dao->is_required ) {
+                if ( ! $membershipBlock['is_required'] ) {
                     $form->assign( 'showRadioNoThanks', true );
                     $radio[''] = $form->createElement('radio',null,null,null,'no_thanks', null);
                     $form->addGroup($radio,'selectMembership',null);
-                } else if( $dao->is_required  && count( $radio ) == 1 ) {
+                } else if( $membershipBlock['is_required']  && count( $radio ) == 1 ) {
                     $temp = array_keys( $radio ) ;
                     $form->addElement('hidden', "selectMembership", $temp[0]  );
                     $form->assign('singleMembership' , true );

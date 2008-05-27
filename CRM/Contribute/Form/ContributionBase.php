@@ -81,8 +81,15 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
      * @protected
      */
     public $_paymentProcessor;
-
     protected $_paymentObject = null;
+
+    /**
+     * The membership block for this page
+     *
+     * @var array
+     * @protected
+     */
+    public $_membershipBlock = null;
 
     /**
      * the default values for the form
@@ -262,16 +269,9 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
             
             //check if Membership Block is enabled, if Membership Fields are included in profile
             //get membership section for this contribution page
-            require_once 'CRM/Member/DAO/MembershipBlock.php';
-            $dao =& new CRM_Member_DAO_MembershipBlock();
-            $dao->entity_table = 'civicrm_contribution_page';
-            $dao->entity_id    = $this->_id; 
-            
-            $membershipEnable = false;
-            
-            if ( $dao->find(true) && $dao->is_active ) {
-                $membershipEnable = true;
-            }
+            require_once 'CRM/Member/BAO/Membership.php';
+            $this->_membershipBlock = CRM_Member_BAO_Membership::getMembershipBlock( $this->_id );
+            $this->set( 'membershipBlock', $his->_membershipBlock );
             
             require_once "CRM/Core/BAO/UFField.php";
             if ( $this->_values['custom_pre_id'] ) {
@@ -287,14 +287,14 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
             
             if ( ( ( isset($postProfileType) && $postProfileType == 'Membership' ) ||
                    ( isset($preProfileType ) && $preProfileType == 'Membership' ) ) &&
-                 ! $membershipEnable ) {
+                 ! $membership ) {
                 CRM_Core_Error::fatal( ts('This page includes a Profile with Membership fields - but the Membership Block is NOT enabled. Please notify the site administrator.') );
             }
 
             $this->set( 'values', $this->_values );
             $this->set( 'fields', $this->_fields );
-
         }
+
         // we do this outside of the above conditional to avoid 
         // saving the country/state list in the session (which could be huge)
         if ( ( $this->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_FORM ) &&
@@ -320,7 +320,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
 
         // check if one of the (amount , membership)  bloks is active or not
         require_once 'CRM/Member/BAO/Membership.php';
-        $membership = CRM_Member_BAO_Membership::getMembershipBlock( $this->_id );
+        $this->_membershipBlock = $this->get( 'membershipBlock' );
         if ( ! $this->_values['amount_block_is_active'] &&
              ! $membership['is_active'] ) {
             CRM_Core_Error::fatal( ts( 'The requested online contribution page is missing a required Contribution Amount section or Membership section. Please check with the site administrator for assistance.' ) );
