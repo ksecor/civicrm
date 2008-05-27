@@ -150,14 +150,13 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                 }
                 if (empty($location)) {
                     $locValue[$moniker] = 0;
-                    $locLabel[$moniker] = '[' . ts('EMPTY') . ']';
+                    $locLabel[$moniker] = array();
                 } else {
                     $locValue[$moniker] = $locTypeId;
                     foreach (array('email','phone','im','openid') as $fieldType) {
                         if (!isset($location[$fieldType])) $location[$fieldType] = array();
                         foreach ($location[$fieldType] as $field) {
                             $locLabel[$moniker][$fieldType] = $field[$fieldType];
-                            
                         }
                     }
                     $locLabel[$moniker]['address'] = $location['address']['display'];
@@ -172,7 +171,7 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                 }
             }
         }
-
+        
         // handle custom fields
         $mainTree  =& CRM_Core_BAO_CustomGroup::getTree($this->_contactType, $this->_cid, -1);
         $otherTree =& CRM_Core_BAO_CustomGroup::getTree($this->_contactType, $this->_oid, -1);
