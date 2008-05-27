@@ -93,5 +93,12 @@ class Browser_Import_ImportContact extends CiviTestCase
         $this->drupalPost( NULL, null, '_qf_Preview_next' );
         
         $this->assertText('Summary (step 4 of 4)');
+        $contact_id = $this->assertDBNotNull('CRM_Contact_DAO_Contact', 'Joe', 'id', 'first_name', 'Checking db for the created Created Contact.');
+        $expected = array('id' => $contact_id,
+                          'first_name'  => 'Joe',
+                          'last_name'   => 'Morgan',
+                          );
+        
+        $this->assertDBCompareValues('CRM_Contact_DAO_Contact',array('id'=> $contact_id), $expected);
     }
 }
