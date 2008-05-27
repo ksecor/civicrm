@@ -299,13 +299,16 @@ class CRM_Contribute_Form_AdditionalInfo
         // retrieve premium product name and assigned fulfilled
         // date to template
         if ( CRM_Utils_Array::value( 'hidden_Premium', $params ) ) {
+            $params['product_option'] = $form->_options[$params['product_name'][0]][$params['product_name'][1]];
             require_once 'CRM/Contribute/DAO/Product.php';
             $productDAO =& new CRM_Contribute_DAO_Product();
             $productDAO->id = $params['product_name'][0];
             $productDAO->find(true);
             $params['product_name'] = $productDAO->name;
+            $params['product_sku']  = $productDAO->sku;
             $this->assign('fulfilled_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format($params['fulfilled_date'])));
         }
+        
         if ( ! $ccContribution ) {
             //offline contribution
             //Retrieve the name and email from receipt is to be send
