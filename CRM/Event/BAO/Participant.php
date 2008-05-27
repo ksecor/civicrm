@@ -223,10 +223,8 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
                 $note = CRM_Utils_Array::value('participant_note', $params);
             }
         
-            if ( ! isset($params['note']) ) {
-                $noteDetails = CRM_Core_BAO_Note::getNote( $participant->id, 'civicrm_participant' );
-                $params['note']['id'] = array_pop( array_flip( $noteDetails ) );
-            }
+            $noteDetails   = CRM_Core_BAO_Note::getNote( $participant->id, 'civicrm_participant' );
+            $noteIds['id'] = array_pop( array_flip( $noteDetails ) );
 
             require_once 'CRM/Core/BAO/Note.php';
             $noteParams = array(
@@ -237,7 +235,7 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
                                 'modified_date' => date('Ymd')
                                 );
             
-            CRM_Core_BAO_Note::add( $noteParams, $params['note'] );
+            CRM_Core_BAO_Note::add( $noteParams, $noteIds );
         }
 
         // Log the information on successful add/edit of Participant data.

@@ -198,19 +198,8 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         }
 
         if ( $this->_id ) {
-            require_once 'CRM/Core/BAO/Note.php';
-            $noteDAO               = & new CRM_Core_BAO_Note();
-            $noteDAO->entity_table = 'civicrm_participant';
-            $noteDAO->entity_id    = $this->_id;
-            if ( $noteDAO->find(true) ) {
-                $this->_noteId = $noteDAO->id;
-            }
-            
             // assign participant id to the template
             $this->assign('participantId',  $this->_id );
-        }
-
-        if ( $this->_id ) {
             $this->_roleId = CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_Participant", $this->_id, 'role_id' );
         } 
 
@@ -259,10 +248,10 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             require_once "CRM/Event/BAO/Participant.php";
             CRM_Event_BAO_Participant::getValues( $params, $defaults, $ids );            
             $this->_contactID = $defaults[$this->_id]['contact_id'];
-        }
-
-        if ( $this->_noteId ) {
-            $defaults[$this->_id]['note'] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Note', $this->_noteId, 'note' );
+            
+            //set defaults for note
+            $noteDetails = CRM_Core_BAO_Note::getNote( $this->_id, 'civicrm_participant' );
+            $defaults[$this->_id]['note'] = array_pop( $noteDetails );
         }
         
         if ($this->_action & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
@@ -538,11 +527,6 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         $params['contact_id'   ] = $this->_contactID;
         if ( $this->_id ) {
             $params['id'] = $this->_id;
-        }
-        
-        $params['note'] = array( );
-        if ( $this->_noteId ) {
-            $params['note']['id']   = $this->_noteId;
         }
         
         $status = null;
