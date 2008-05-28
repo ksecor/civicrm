@@ -40,7 +40,7 @@ require_once 'CRM/Event/Form/Registration.php';
  * This class generates form components for processing Event  
  * 
  */
-class CRM_Event_Form_AdditionalParticipant extends CRM_Event_Form_Registration
+class CRM_Event_Form__Registration_AdditionalParticipant extends CRM_Event_Form_Registration
 {
     /** 
      * Function to set variables up before form is built 
@@ -84,7 +84,7 @@ class CRM_Event_Form_AdditionalParticipant extends CRM_Event_Form_Registration
                                 )
                           );
 
-        $this->addFormRule( array( 'CRM_Event_Form_Registration_RegisterAdditionalParticipant', 'formRule' ),
+        $this->addFormRule( array( 'CRM_Event_Form_Registration_AdditionalParticipant', 'formRule' ),
                             $this );
     }
     /** 
