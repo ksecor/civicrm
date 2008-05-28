@@ -190,12 +190,12 @@ ORDER BY organization_name ";
                 $query = "
 SELECT CONCAT_WS(':::' , household_name , street_address , supplemental_address_1 , city , sp.abbreviation ,postal_code, cc.name )'sort_name' , civicrm_contact.id 'id' , civicrm_contact.display_name 'disp' FROM civicrm_contact LEFT JOIN civicrm_address ON (civicrm_contact.id =civicrm_address.contact_id AND civicrm_address.is_primary =1 )LEFT JOIN civicrm_state_province sp ON (civicrm_address.state_province_id =sp.id )LEFT JOIN civicrm_country cc ON (civicrm_address.country_id =cc.id )WHERE civicrm_contact.contact_type ='Household' AND household_name LIKE '$name%' {$whereIdClause} ORDER BY household_name ";
 
-            } else if($relType) {
+            } else if ( $relType ) {
                 
                 $query = "
 SELECT c.sort_name, c.id
 FROM civicrm_contact c, civicrm_relationship_type r
-WHERE c.sort_name LIKE '$name%'
+WHERE c.sort_name LIKE '%$name'
 AND c.domain_id = $domainID
 AND r.id = $relType
 AND c.contact_type = r.contact_type_{$rel} {$whereIdClause} 
@@ -235,10 +235,11 @@ ORDER BY sort_name ";
                                          'id'   => $dao->id );
                 }
             }
-        } else {
+        }
+
+        if ( empty( $elements ) ) {
             $elements[] = array( 'name' => $name,
                                  'id'   => $name );
-        
         }
 
         require_once "CRM/Utils/JSON.php";
