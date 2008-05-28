@@ -194,7 +194,7 @@ class CRM_Core_Invoke
      */
     static function search( $args ) 
     {
-        CRM_Core_Error::fatal( );
+        CRM_Core_Error::fatal( 'Please rebuild your menu array.' );
 
         $session =& CRM_Core_Session::singleton( );
         $thirdArg = CRM_Utils_Array::value( 3, $args, '' );
