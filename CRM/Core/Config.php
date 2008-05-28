@@ -437,7 +437,10 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
                 } else {
                     $params['auth']     = false;
                 }
-                
+
+                // set the localhost value, CRM-3153
+                $params['localhost'] = $_SERVER['SERVER_NAME'];
+
                 self::$_mail =& Mail::factory( 'smtp', $params );
             } elseif (self::$_singleton->outbond_option == 1) {
                 if ( self::$_singleton->sendmail_path == '' ||

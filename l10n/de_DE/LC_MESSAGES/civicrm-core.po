@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-04-28 21:53+0200\n"
-"PO-Revision-Date: 2008-05-13 03:11-0700\n"
-"Last-Translator: Gerhard Aigner <gerhard.aigner@arcsmed.at>\n"
+"PO-Revision-Date: 2008-05-26 09:49-0700\n"
+"Last-Translator: Thomas Narres <thomas@narres.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2343,16 +2343,16 @@ msgstr "Zugriff auf hochgeladene Dateien"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "profile listings and forms"
-msgstr ""
+msgstr "Profil-Listen und -Formulare"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "access all custom data"
-msgstr ""
+msgstr "Zugriff auf alle Kundendaten"
 
 #: CRM/ACL/Form/ACLBasic.php
 #, fuzzy
 msgid "view all activities"
-msgstr "Alle Kontakte betrachten"
+msgstr "Alle Aktivitäten betrachten"
 
 #: CRM/ACL/Form/ACLBasic.php
 #, fuzzy

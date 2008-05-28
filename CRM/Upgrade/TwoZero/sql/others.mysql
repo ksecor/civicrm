@@ -605,6 +605,8 @@ ALTER TABLE `civicrm_payment_processor_type`
     ADD `url_api_default` varchar(255) NULL DEFAULT NULL COMMENT '' COLLATE utf8_unicode_ci AFTER url_site_default,
     ADD `url_api_test_default` varchar(255) NULL DEFAULT NULL COMMENT '' COLLATE utf8_unicode_ci AFTER url_site_test_default;
 
+UPDATE civicrm_payment_processor_type SET url_api_default = 'https://api-3t.paypal.com/' WHERE name = 'PayPal' OR name = 'PayPal_Express';
+UPDATE civicrm_payment_processor_type SET url_api_test_default = 'https://api-3t.sandbox.paypal.com/' WHERE name = 'PayPal' OR name = 'PayPal_Express';
 
 -- /*******************************************************
 -- *
