@@ -245,8 +245,16 @@ class BAO_Event_Participant extends CiviTestCase
                                     'source_contact_id', $participant->id, 'Check DB for activity added for the participant');
         
         //Checking for Note added in the table for relative participant.
-        $this->assertDBCompareValue('CRM_Core_BAO_Note', $participant->id, 'note', 
-                                   'entity_id', $params['note'], 'Check note for added for the participant');
+        $session = & CRM_Core_Session::singleton();
+        $id = $session->get('userID');
+        if ( !$id ) {
+            $id = $this->_contactId;
+        }
+        
+        $eparams = array('note' => $params['note'] , 'contact_id' => $id);
+        $sparams = array('entity_table' => 'civicrm_participant' , 'entity_id' => $participant->id);
+
+        $this->assertDBCompareValues('CRM_Core_BAO_Note', $sparams, $eparams );
         
         //Deleting the Participant created in Setup
         $deleteParticipant = CRM_Event_BAO_Participant::deleteParticipant($this->_participantID);
@@ -358,7 +366,7 @@ class BAO_Event_Participant extends CiviTestCase
  
         $deletePriceset = CRM_Core_BAO_PriceSet::deleteSet( $priceset->id );
         $this->assertDBNull('CRM_Core_BAO_PriceSet', $priceset->id, 'title', 
-                            'id', 'Check DB for non-existence of Price Field.');
+                            'id', 'Check DB for non-existence of Price Set.');
         
         Contact::delete( $this->_contactId );
         Event::delete ( $event->id );
