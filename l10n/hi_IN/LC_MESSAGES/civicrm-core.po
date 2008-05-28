@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-04-28 21:53+0200\n"
-"PO-Revision-Date: 2008-04-22 02:28-0700\n"
+"PO-Revision-Date: 2008-05-21 06:59-0700\n"
 "Last-Translator: sunil pawar <sunil.pawar@webaccess.co.in>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -1670,7 +1670,7 @@ msgstr "समुह"
 #: templates/CRM/Contact/Page/View/Print.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl templates/CRM/Tag/Form/Tag.tpl
 msgid "Tags"
-msgstr ""
+msgstr "लेबल"
 
 #: CRM/Contact/Selector/Custom.php CRM/Contact/Selector.php
 msgid "View Contact Details"
@@ -2547,13 +2547,13 @@ msgstr ""
 #: templates/CRM/Activity/Form/ActivityLinks.tpl
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Meeting"
-msgstr ""
+msgstr "बैठक"
 
 #: CRM/Activity/Selector/Activity.php
 #: templates/CRM/Activity/Form/ActivityLinks.tpl
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Phone Call"
-msgstr ""
+msgstr "फोन कॉल"
 
 #: CRM/Activity/Selector/Activity.php xml/templates/civicrm_add_domain.tpl
 msgid "SMS"
@@ -3746,14 +3746,12 @@ msgid "Use for Bulk Mailings"
 msgstr ""
 
 #: CRM/Contact/Form/GroupContact.php
-#, fuzzy
 msgid "Join a Group"
-msgstr "सभी समूह"
+msgstr "समूह से जुड़े"
 
 #: CRM/Contact/Form/GroupContact.php
-#, fuzzy
 msgid "Add to a group"
-msgstr "समूह का संपादन किजिये"
+msgstr "समूह मे जाऐ"
 
 #: CRM/Contact/Form/GroupContact.php
 msgid "Add"
@@ -3965,7 +3963,7 @@ msgstr ""
 
 #: CRM/Contact/Form/Relationship.php
 msgid "Save Relationship"
-msgstr ""
+msgstr "संबंध सुरक्षित करे"
 
 #: CRM/Contact/Form/Relationship.php
 msgid "%count new relationship record created."
@@ -4602,7 +4600,7 @@ msgstr ""
 
 #: CRM/Contact/Page/View/Tag.php
 msgid "Contact Tags"
-msgstr ""
+msgstr "संपर्क लेबल"
 
 #: CRM/Contact/Page/View/UserDashBoard.php
 msgid "You do not have permission to view this contact"
@@ -4630,11 +4628,11 @@ msgstr ""
 
 #: CRM/Contact/Task.php
 msgid "Tag Contacts (assign tags)"
-msgstr ""
+msgstr "संपर्क काे लेबल दिजिये ( लेबल निर्दिष्ट किजिऐ )"
 
 #: CRM/Contact/Task.php
 msgid "Untag Contacts (remove tags)"
-msgstr ""
+msgstr "संपर्क का लेबल निकाले ( लेबल निकाले )"
 
 #: CRM/Contact/Task.php
 msgid "Send Email to Contacts"
@@ -5737,7 +5735,7 @@ msgstr ""
 
 #: CRM/Core/Invoke.php
 msgid "View Tags"
-msgstr ""
+msgstr "लेबल दृश्य"
 
 #: CRM/Core/Invoke.php
 msgid "View Mapping"
@@ -6002,7 +6000,7 @@ msgstr ""
 
 #: CRM/Core/Menu.php
 msgid "Tags (Categories)"
-msgstr ""
+msgstr "लेबल ( श्रेणी )"
 
 #: CRM/Core/Menu.php
 msgid ""
@@ -6090,19 +6088,19 @@ msgstr ""
 
 #: CRM/Core/Payment/Form.php
 msgid "Card Number"
-msgstr ""
+msgstr "कार्ड नंबर"
 
 #: CRM/Core/Payment/Form.php
 msgid "Security Code"
-msgstr ""
+msgstr "सुरक्षा काेड"
 
 #: CRM/Core/Payment/Form.php
 msgid "Expiration Date"
-msgstr ""
+msgstr "समाप्ति दिनांक"
 
 #: CRM/Core/Payment/Form.php
 msgid "Card Type"
-msgstr ""
+msgstr "कार्ड प्रकार"
 
 #: CRM/Core/Payment/Form.php
 msgid ""
@@ -6208,31 +6206,31 @@ msgstr ""
 
 #: CRM/Core/SelectValues.php
 msgid "- all contacts -"
-msgstr ""
+msgstr "- सब सदस्य -"
 
 #: CRM/Core/SelectValues.php
 msgid "Individuals"
-msgstr ""
+msgstr "व्यक्तिगत"
 
 #: CRM/Core/SelectValues.php
 msgid "Households"
-msgstr ""
+msgstr "परिवार संबन्धी"
 
 #: CRM/Core/SelectValues.php
 msgid "Organizations"
-msgstr ""
+msgstr "संगठन"
 
 #: CRM/Core/SelectValues.php
 msgid "day"
-msgstr ""
+msgstr "दिन"
 
 #: CRM/Core/SelectValues.php
 msgid "month"
-msgstr ""
+msgstr "माह"
 
 #: CRM/Core/SelectValues.php
 msgid "year"
-msgstr ""
+msgstr "साल"
 
 #: CRM/Core/SelectValues.php
 msgid "life time"
@@ -6253,7 +6251,7 @@ msgstr ""
 
 #: CRM/Core/SelectValues.php
 msgid "start date"
-msgstr ""
+msgstr "प्रारंभ दिन"
 
 #: CRM/Core/SelectValues.php
 msgid "end date"
@@ -7619,7 +7617,7 @@ msgstr ""
 
 #: CRM/Tag/Form/Tag.php
 msgid "Update Tags"
-msgstr ""
+msgstr "लेबल सुधार"
 
 #: CRM/Tag/Form/Tag.php
 msgid "Your update(s) have been saved."
@@ -8350,7 +8348,7 @@ msgstr ""
 #: templates/CRM/Activity/Form/ActivityLinks.tpl
 #: templates/CRM/Contact/Form/Task/Email.tpl
 msgid "Send an Email"
-msgstr ""
+msgstr "ईमेल भेजिये"
 
 #: templates/CRM/Activity/Form/Activity.tpl
 #: templates/CRM/Admin/Page/Options.tpl xml/templates/civicrm_add_domain.tpl
@@ -8757,11 +8755,11 @@ msgstr ""
 
 #: templates/CRM/Activity/Selector/Activity.tpl
 msgid "There are no Activities to display."
-msgstr ""
+msgstr "दिखाने के लिये घटनाएँ नही है।"
 
 #: templates/CRM/Activity/Selector/Activity.tpl
 msgid "There are no Activites to display."
-msgstr ""
+msgstr "दिखाने के लिये घटनाएँ नही है।"
 
 #: templates/CRM/Activity/Selector/Activity.tpl
 msgid "You can use the links above to schedule or record an activity."
@@ -10014,22 +10012,22 @@ msgstr ""
 
 #: templates/CRM/Block/Add.tpl
 msgid "First Name:"
-msgstr ""
+msgstr "पहला नाम:"
 
 #: templates/CRM/Block/Add.tpl
 msgid "Last Name:"
-msgstr ""
+msgstr "पीछ्ला नाम:"
 
 #: templates/CRM/Block/Add.tpl templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Print.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Email:"
-msgstr ""
+msgstr "ईमेल:"
 
 #: templates/CRM/Block/Search.tpl
 #: templates/CRM/Contact/Page/View/DashBoard.tpl
 msgid "Go to Advanced Search"
-msgstr ""
+msgstr "अग्रवर्ती खोज की तरफ जाईऐ"
 
 #: templates/CRM/Case/Form/CaseActivity.tpl
 msgid "Regarding"
@@ -10112,7 +10110,7 @@ msgstr ""
 
 #: templates/CRM/common/drupal.tpl templates/CRM/common/joomla.tpl
 msgid "Printer-friendly view of this page."
-msgstr ""
+msgstr "इस पन्ने का छापाई याेग्य दृश्य।"
 
 #: templates/CRM/common/footer.tpl
 msgid "External ID"
@@ -10283,7 +10281,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Edit.tpl
 msgid "Tags and Groups"
-msgstr ""
+msgstr "लेबल आैर समूह"
 
 #: templates/CRM/Contact/Form/IM.tpl
 msgid "Select im service provider, and enter screen-name / user id."
@@ -10941,7 +10939,7 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Print.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Date of Birth:"
-msgstr ""
+msgstr "जन्म दिन:"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Print.tpl
@@ -11118,7 +11116,7 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Note.tpl
 msgid "New Note"
-msgstr ""
+msgstr "नई नाेट"
 
 #: templates/CRM/Contact/Page/View/Case.tpl
 msgid "This page lists all case records for %1."
@@ -11234,7 +11232,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
 msgid "Current Groups"
-msgstr ""
+msgstr "जारी समूह"
 
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
 msgid "Are you sure you want to remove %1 from %2?"
@@ -11405,7 +11403,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 msgid "State/Prov"
-msgstr ""
+msgstr "राज्य/प्रान्त"
 
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 msgid ""
@@ -11536,7 +11534,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 msgid "Pending Subscriptions"
-msgstr ""
+msgstr "अनिर्णीत प्रमाणीकरण"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 msgid "Your subscription to these group(s) is pending confirmation."
@@ -11590,19 +11588,19 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/UserDashBoard.tpl
 msgid "Your Group(s)"
-msgstr ""
+msgstr "आपके समूह"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard.tpl
 msgid "Your Contribution(s)"
-msgstr ""
+msgstr "आपकी दान राशि"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard.tpl
 msgid "Your Membership(s)"
-msgstr ""
+msgstr "आपकी सदस्यताएँ"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard.tpl
 msgid "Your Event(s)"
-msgstr ""
+msgstr "आपकी घटनाएँ"
 
 #: templates/CRM/Core/Calendar/GData.tpl templates/CRM/Core/Calendar/Rss.tpl
 msgid "CiviEvent Public Calendar"
@@ -12698,7 +12696,7 @@ msgstr ""
 
 #: templates/CRM/Tag/Form/Tag.tpl
 msgid "Current tags are highlighted."
-msgstr ""
+msgstr "वर्तमान लेबल प्रकाशमय भाग से दर्शाये है।"
 
 #: templates/CRM/Tag/Form/Tag.tpl
 msgid "Mark or unmark the checkboxes, and click 'Update Tags' to modify tags."
@@ -12706,7 +12704,7 @@ msgstr ""
 
 #: templates/CRM/Tag/Form/Tag.tpl
 msgid "Edit Tags"
-msgstr ""
+msgstr "लेबल संपादित किजिऐ"
 
 #: templates/CRM/UF/Form/Field.tpl
 msgid "Delete CiviCRM Profile Field"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-04-28 21:53+0200\n"
-"PO-Revision-Date: 2008-04-24 06:31-0700\n"
+"PO-Revision-Date: 2008-05-26 06:41-0700\n"
 "Last-Translator: Eugenia Franzoni <eugenia@catnic.it>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -126,7 +126,6 @@ msgid "Role"
 msgstr "Ruolo"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php
-#, fuzzy
 msgid "- select role -"
 msgstr "- seleziona ruolo -"
 
@@ -763,7 +762,7 @@ msgstr "Opzioni di Raggruppamento Nomi"
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Admin/Page/PaymentProcessor.php
 msgid "Settings - Payment Processor"
-msgstr "Impostazioni - Strumenti di pagamento"
+msgstr "Impostazioni - Gestori dei pagamenti"
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
 msgid "Site URL"
@@ -788,7 +787,7 @@ msgstr "URL dell'API"
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
 #: CRM/Core/Menu.php
 msgid "Payment Processor Type"
-msgstr "Tipo di Strumento di Pagamento"
+msgstr "Tipo di Gestore dei Pagamenti"
 
 #: CRM/Admin/Form/PaymentProcessorType.php CRM/Core/DAO/PaymentProcessor.php
 #: CRM/Core/DAO/PaymentProcessorType.php
@@ -1911,7 +1910,7 @@ msgstr "Valore opzione"
 
 #: CRM/Core/DAO/PaymentProcessor.php CRM/Core/Menu.php
 msgid "Payment Processor"
-msgstr "Strumento di Pagamento"
+msgstr "Gestore dei Pagamenti"
 
 #: CRM/Core/DAO/PaymentProcessor.php CRM/Core/DAO/PaymentProcessorType.php
 msgid "Suffix for PHP clas name implementation"
@@ -2035,16 +2034,16 @@ msgstr "Il file allegato è stato eliminato."
 msgid ""
 "User Name is not set in the Administer CiviCRM &raquo; Payment Processor."
 msgstr ""
-"Il nome utente non è impostato in Impostazioni CiviCRM &raquo; Strumenti "
-"pagamento."
+"Il nome utente non è impostato in Impostazioni CiviCRM &raquo; Gestori dei "
+"pagamenti."
 
 #: CRM/Core/Payment/Google.php CRM/Core/Payment/IATS.php
 #: CRM/Core/Payment/Moneris.php CRM/Core/Payment/PayPalImpl.php
 msgid ""
 "Password is not set in the Administer CiviCRM &raquo; Payment Processor."
 msgstr ""
-"La password non è impostata in Impostazioni CiviCRM &raquo; Strumenti "
-"pagamento."
+"La password non è impostata in Impostazioni CiviCRM &raquo; Gestori dei "
+"pagamenti."
 
 #: CRM/Custom/Form/DeleteField.php CRM/Custom/Page/Field.php
 msgid "Delete Custom Field"
@@ -2174,14 +2173,12 @@ msgid "Rationale"
 msgstr "Base logica"
 
 #: CRM/Grant/Form/Grant.php CRM/Grant/Selector/Search.php
-#, fuzzy
 msgid "Application Received"
 msgstr "Richiesta ricevuta"
 
 #: CRM/Grant/Form/Grant.php CRM/Grant/Selector/Search.php
-#, fuzzy
 msgid "Money Transferred"
-msgstr "Data trasferimento denaro"
+msgstr "Denaro trasferito"
 
 #: CRM/Grant/Form/Task/Delete.php CRM/Grant/Task.php
 msgid "Delete Grants"
@@ -2236,6 +2233,8 @@ msgid ""
 "Value missing in %1 for the column '%2'. Please add a unique value for the "
 "'name' column for each database record."
 msgstr ""
+"Valore mancante in %1 per la colonna '%2'. Aggiungere un valore univoco per "
+"la colonna 'nome' per ciascun record del database."
 
 #: CRM/Upgrade/TwoZero/Form/Step1.php CRM/Upgrade/TwoZero/Form/Step2.php
 #: CRM/Upgrade/TwoZero/Form/Step3.php CRM/Upgrade/TwoZero/Form/Step4.php
@@ -2323,9 +2322,8 @@ msgid "access all custom data"
 msgstr "accedi a tutti i dati personalizzati"
 
 #: CRM/ACL/Form/ACLBasic.php
-#, fuzzy
 msgid "view all activities"
-msgstr "visualizza tutti i contatti"
+msgstr "visualizza tutte le attività"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "access CiviCRM"
@@ -2719,15 +2717,15 @@ msgstr "Il Valore di Opzione \"%1\" è stato salvato."
 
 #: CRM/Admin/Form/PaymentProcessor.php
 msgid "Could not find payment processor meta information"
-msgstr "Impossibile trovare le meta informazioni sullo strumento di pagamento"
+msgstr "Impossibile trovare le meta informazioni sul gestore dei pagamenti"
 
 #: CRM/Admin/Form/PaymentProcessor.php
 msgid "Is this Payment Processor active?"
-msgstr "Questo strumento di pagamento è attivo?"
+msgstr "Questo gestore dei pagamenti è attivo?"
 
 #: CRM/Admin/Form/PaymentProcessor.php
 msgid "Is this Payment Processor the default?"
-msgstr "Questo strumento di pagamento è il default?"
+msgstr "Questo gestore dei pagamenti è il default?"
 
 #: CRM/Admin/Form/PaymentProcessor.php
 msgid "You must have at least the test or live section filled"
@@ -2739,7 +2737,7 @@ msgstr "Prego specificare almeno il nome utente"
 
 #: CRM/Admin/Form/PaymentProcessor.php
 msgid "Selected Payment Processor has been deleted."
-msgstr "Il metodo di pagamento selezionato è stato eliminato."
+msgstr "Il gestore dei pagamenti selezionato è stato eliminato."
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "Enter a positive integer"
@@ -2799,15 +2797,15 @@ msgstr "URL pulsante di test"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "Is this Payment Processor Type active?"
-msgstr "Questo strumento di pagamento è attivo?"
+msgstr "Questo tipo di gestore dei pagamenti è attivo?"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "Is this Payment Processor Type the default?"
-msgstr "Questo strumento di pagamento è il default?"
+msgstr "Questo tipo di gestore dei pagamenti è il default?"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "Does this Payment Processor Type support recurring donations?"
-msgstr "Questo strumento di pagamento supporta le donazioni ripetute?"
+msgstr "Questo tipo di gestore dei pagamenti supporta le donazioni ripetute?"
 
 #: CRM/Admin/Form/Preferences/Address.php
 msgid "Settings - Addresses"
@@ -3297,7 +3295,7 @@ msgstr "%1 - Valori Opzione"
 
 #: CRM/Admin/Page/PaymentProcessor.php
 msgid "Are you sure you want to disable this payment processor?"
-msgstr "Vuoi davvero disabilitare questo strumento di pagamento?"
+msgstr "Vuoi davvero disabilitare questo gestore dei pagamenti?"
 
 #: CRM/Admin/Page/PaymentProcessor.php
 msgid ""
@@ -3310,36 +3308,36 @@ msgstr ""
 #: CRM/Admin/Page/PaymentProcessor.php
 #: templates/CRM/Admin/Form/PaymentProcessor.tpl
 msgid "Edit Payment Processor"
-msgstr "Modifica Strumento di Pagamento"
+msgstr "Modifica Gestore dei Pagamenti"
 
 #: CRM/Admin/Page/PaymentProcessor.php
 msgid "Disable Payment Processor"
-msgstr "Disabilita Strumento di Pagamento"
+msgstr "Disabilita Gestore dei Pagamenti"
 
 #: CRM/Admin/Page/PaymentProcessor.php
 msgid "Enable Payment Processor"
-msgstr "Abilita Strumento di Pagamento"
+msgstr "Abilita Gestore dei Pagamenti"
 
 #: CRM/Admin/Page/PaymentProcessor.php
 #: templates/CRM/Admin/Form/PaymentProcessor.tpl
 msgid "Delete Payment Processor"
-msgstr "Cancella Strumento di Pagamento"
+msgstr "Cancella Gestore dei Pagamenti"
 
 #: CRM/Admin/Page/PaymentProcessorType.php
 msgid "Edit Payment ProcessorType"
-msgstr "Modifica tipologia di Strumento di Pagamento"
+msgstr "Modifica tipologia di Gestore dei Pagamenti"
 
 #: CRM/Admin/Page/PaymentProcessorType.php
 msgid "Disable Payment ProcessorType"
-msgstr "Disabilita tipologia di Strumento di Pagamento"
+msgstr "Disabilita tipologia di Gestore dei Pagamenti"
 
 #: CRM/Admin/Page/PaymentProcessorType.php
 msgid "Enable Payment ProcessorType"
-msgstr "Abilita tipologia di Strumento di Pagamento"
+msgstr "Abilita tipologia di Gestore dei Pagamenti"
 
 #: CRM/Admin/Page/PaymentProcessorType.php
 msgid "Delete Payment ProcessorType"
-msgstr "Cancella tipologia di Strumento di Pagamento"
+msgstr "Cancella tipologia di Gestore dei Pagamenti"
 
 #: CRM/Admin/Page/PreferencesDate.php
 msgid "Edit Date Type"
@@ -3788,14 +3786,12 @@ msgid "Use for Bulk Mailings"
 msgstr "Usa per le email in serie"
 
 #: CRM/Contact/Form/GroupContact.php
-#, fuzzy
 msgid "Join a Group"
-msgstr "Unisci di nuovo a gruppo"
+msgstr "Partecipa ad un gruppo"
 
 #: CRM/Contact/Form/GroupContact.php
-#, fuzzy
 msgid "Add to a group"
-msgstr "Aggiungi al Gruppo"
+msgstr "Aggiungi ad un gruppo"
 
 #: CRM/Contact/Form/GroupContact.php
 msgid "Add"
@@ -4136,14 +4132,12 @@ msgid "Note Text"
 msgstr "Note"
 
 #: CRM/Contact/Form/Search/Custom/ActivitySearch.php
-#, fuzzy
 msgid "Activity Subject"
-msgstr "Oggetto attività caso %2 %1"
+msgstr "Oggetto attività"
 
 #: CRM/Contact/Form/Search/Custom/ActivitySearch.php
-#, fuzzy
 msgid "Scheduled By"
-msgstr "In calendario"
+msgstr "Messo in calendario da"
 
 #: CRM/Contact/Form/Search/Custom/ActivitySearch.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
@@ -4156,7 +4150,6 @@ msgid "Activity Status"
 msgstr "Stato Attività"
 
 #: CRM/Contact/Form/Search/Custom/ActivitySearch.php
-#, fuzzy
 msgid "Activity Date From"
 msgstr "Data di attività - Da"
 
@@ -4905,9 +4898,8 @@ msgid "Also include contacts where"
 msgstr "Includere anche in contatti in cui"
 
 #: CRM/Core/BAO/Mapping.php
-#, fuzzy
 msgid "- select record type -"
-msgstr "- seleziona gruppo -"
+msgstr "- seleziona tipo di record -"
 
 #: CRM/Core/BAO/Mapping.php
 msgid "Another search field"
@@ -4943,7 +4935,7 @@ msgstr "Valore non valido passato alla funzione getPayment"
 
 #: CRM/Core/BAO/PaymentProcessor.php
 msgid "Could not retrieve payment processor details"
-msgstr "Impossibile estrarre i dettagli sullo strumento di pagamento"
+msgstr "Impossibile estrarre i dettagli sul gestore dei pagamenti"
 
 #: CRM/Core/BAO/Tag.php
 msgid "Selected Tag has been Deleted Successfuly."
@@ -5505,11 +5497,11 @@ msgstr "Filtro"
 
 #: CRM/Core/DAO/PaymentProcessorType.php
 msgid "Payment Processor variable name to be used in code"
-msgstr "Nome della variabile dello strumento di pagamento da usare nel codice"
+msgstr "Nome della variabile del gestore dei pagamenti da usare nel codice"
 
 #: CRM/Core/DAO/PaymentProcessorType.php
 msgid "Payment Processor Title"
-msgstr "Titolo dello Strumento di Pagamento"
+msgstr "Titolo del Gestore dei Pagamenti"
 
 #: CRM/Core/DAO/PaymentProcessorType.php
 msgid "Label for User Name if used"
@@ -5670,7 +5662,7 @@ msgstr "Nome UF"
 
 #: CRM/Core/Error.php
 msgid "Payment Processor Error message"
-msgstr "Messaggio di errore Strumento di Pagamento"
+msgstr "Messaggio di errore del Gestore dei Pagamenti"
 
 #: CRM/Core/Error.php
 msgid ""
@@ -5807,11 +5799,11 @@ msgstr "Visualizza Tipologie Recapiti"
 
 #: CRM/Core/Invoke.php
 msgid "View Payment Processors"
-msgstr "Visualizza Strumenti di Pagamento"
+msgstr "Visualizza Gestori dei Pagamenti"
 
 #: CRM/Core/Invoke.php
 msgid "View Payment Processor Type"
-msgstr "Visualizza Tipologia Strumento di Pagamento"
+msgstr "Visualizza Tipologia Gestore dei Pagamenti"
 
 #: CRM/Core/Invoke.php
 msgid "View Relationship Types"
@@ -5987,8 +5979,8 @@ msgid ""
 msgstr ""
 "Configura le impostazioni generali per il sito, tra cui: Componenti "
 "abilitati, Preferenze del sito per lo schermo e i form, Percorsi delle "
-"Directory e URL delle Risorse, Formati di Recapito, Localizzazione, "
-"Strumento di Pagamento, Email in Uscita, Mappature e Debugging."
+"Directory e URL delle Risorse, Formati di Recapito, Localizzazione, Gestori "
+"dei Pagamenti, Email in Uscita, Mappature e Debugging."
 
 #: CRM/Core/Menu.php
 msgid ""
@@ -6148,12 +6140,11 @@ msgstr ""
 
 #: CRM/Core/Menu.php
 msgid "Payment Processor setup for CiviCRM transactions"
-msgstr ""
-"Impostazione dello Strumento di Pagamento per le transazioni di CiviCRM"
+msgstr "Impostazione del Gestore dei Pagamenti per le transazioni di CiviCRM"
 
 #: CRM/Core/Menu.php
 msgid "Payment Processor type information"
-msgstr "Informazioni sulla tipologia di strumento di pagamento"
+msgstr "Informazioni sulla tipologia di gestori dei pagamenti"
 
 #: CRM/Core/Menu.php
 msgid ""
@@ -6192,11 +6183,11 @@ msgstr "Non hai i permessi sufficienti per modificare il record"
 
 #: CRM/Core/Payment/AuthorizeNet.php
 msgid "APILogin is not set for this payment processor"
-msgstr "APILogin non è impostata per questo strumento di pagamento"
+msgstr "APILogin non è impostata per questo gestore dei pagamenti"
 
 #: CRM/Core/Payment/AuthorizeNet.php
 msgid "Key is not set for this payment processor"
-msgstr "Chiave non impostata per questo strumento di pagamento"
+msgstr "Chiave non impostata per questo gestore dei pagamenti"
 
 #: CRM/Core/Payment/BaseIPN.php
 msgid "Online Contribution"
@@ -6213,7 +6204,7 @@ msgstr "Si prega di impostare un tipo di recapito di %1"
 #: CRM/Core/Payment/Dummy.php
 msgid "Dummy payment processor can not be used for live transactions"
 msgstr ""
-"Lo strumento di pagamento di test non può essere usato per le transazioni "
+"Il gestore dei pagamenti di test non può essere usato per le transazioni "
 "reali"
 
 #: CRM/Core/Payment/Form.php
@@ -6262,43 +6253,43 @@ msgstr "Questa funzione non è implementata"
 
 #: CRM/Core/Payment/Google.php
 msgid "Invalid response code received from Google Checkout: %1"
-msgstr "Codice di risposta non valido ricevuto da Google Checkout: %1"
+msgstr "Codice di risposta non valido ricevuto da Google Checkout : %1"
 
 #: CRM/Core/Payment/IATS.php
 msgid ""
 "Agent Code is not set in the Administer CiviCRM &raquo; Payment Processor."
 msgstr ""
-"Codice agente non impostato in Impostazioni CiviCRM &raquo; Strumento di "
-"pagamento."
+"Codice agente non impostato in Impostazioni CiviCRM &raquo; Gestore dei "
+"pagamenti."
 
 #: CRM/Core/Payment/Moneris.php
 msgid ""
 "Store ID is not set in the Administer CiviCRM &raquo; Payment Processor."
 msgstr ""
-"Store ID non impostato in Impostazioni CiviCRM &raquo; Strumento di "
-"pagamento."
+"Store ID non impostato in Impostazioni CiviCRM &raquo; Gestore dei "
+"pagamenti."
 
 #: CRM/Core/Payment/PayJunction.php
 msgid "Username is not set for this payment processor"
-msgstr "Nome utente non impostato per questo strumento di pagamento"
+msgstr "Nome utente non impostato per questo gestore dei pagamenti"
 
 #: CRM/Core/Payment/PayJunction.php
 msgid "Password is not set for this payment processor"
-msgstr "Password non impostata per questo strumento di pagamento"
+msgstr "Password non impostata per questo gestore dei pagamenti"
 
 #: CRM/Core/Payment/PayJunction.php
 msgid "Site URL is not set for this payment processor"
-msgstr "URL del sito non impostato per questo strumento di pagamento"
+msgstr "URL del sito non impostato per questo gestore dei pagamenti"
 
 #: CRM/Core/Payment/PayPalImpl.php
 msgid "Could not find user name for payment processor"
-msgstr "Nome utente non impostato per questo strumento di pagamento"
+msgstr "Nome utente non impostato per questo gestore dei pagamenti"
 
 #: CRM/Core/Payment/PayPalImpl.php
 msgid ""
 "Signature is not set in the Administer CiviCRM &raquo; Payment Processor."
 msgstr ""
-"Password non impostata in Amministra CiviCRM &raquo; Strumento di pagamento."
+"Password non impostata in Amministra CiviCRM &raquo; Gestore dei pagamenti."
 
 #: CRM/Core/Payment/PayPalImpl.php
 msgid "Component is invalid"
@@ -6313,6 +6304,8 @@ msgid ""
 "Please set the API URL. Please refer to the <a href=\"%1\">documentation</a> "
 "for more details"
 msgstr ""
+"Impostare l'URL dell'API. Si faccia riferimento alla <a "
+"href=\"%1\">documentazione</a> per altri dettagli."
 
 #: CRM/Core/QuickForm/Action/Upload.php
 msgid ""
@@ -6531,7 +6524,7 @@ msgstr "Moneris"
 
 #: CRM/Core/SelectValues.php
 msgid "Test Payment Processor"
-msgstr "Test Strumento di Pagamento"
+msgstr "Test Gestore dei Pagamenti"
 
 #: CRM/Core/SelectValues.php
 msgid "Yahoo"
@@ -7096,7 +7089,6 @@ msgid "Grant Status %2 %1"
 msgstr "Stato del finanziamento %2 %1"
 
 #: CRM/Grant/BAO/Query.php
-#, fuzzy
 msgid "App. Received Date - From"
 msgstr "Data di ricezione domanda - Da"
 
@@ -7157,24 +7149,20 @@ msgid "Amount Total"
 msgstr "Importo totale"
 
 #: CRM/Grant/Form/Grant.php
-#, fuzzy
 msgid "Grant Decision"
-msgstr "Data di decisione finanziamento"
+msgstr "Decisione del finanziamento"
 
 #: CRM/Grant/Form/Grant.php
-#, fuzzy
 msgid "Grant Report Due"
-msgstr "Report finanziamento ricevuto"
+msgstr "Report finanziamento stabilito il"
 
 #: CRM/Grant/Form/Grant.php
-#, fuzzy
 msgid "Grant Report Received?"
-msgstr "Report finanziamento ricevuto"
+msgstr "Report finanziamento ricevuto?"
 
 #: CRM/Grant/Form/Grant.php
-#, fuzzy
 msgid "Amount Requested<br />(original currency)"
-msgstr "Importo richiesto per il finanziamento"
+msgstr "Importo richiesto<br />(valuta originale)"
 
 #: CRM/Grant/Form/Task/Delete.php
 msgid "Deleted Grant(s): %1"
@@ -7783,16 +7771,14 @@ msgid ""
 msgstr "Per la registrazione utente è stato abilitato più di un profilo."
 
 #: CRM/Standalone/OpenID/DAO/Associations.php
-#, fuzzy
 msgid "Handle"
-msgstr "e"
+msgstr "Handle"
 
 #: CRM/Standalone/OpenID/DAO/Associations.php
 msgid "Secret"
 msgstr "Segreto"
 
 #: CRM/Standalone/OpenID/DAO/Associations.php
-#, fuzzy
 msgid "Issued"
 msgstr "Inviato"
 
@@ -8052,6 +8038,9 @@ msgid ""
 "requires InnoDB. You will need to convert any MyISAM tables in your database "
 "to InnoDB before proceeding."
 msgstr ""
+"Il database è stato configurato per usare il motore di database MyISAM. "
+"CiviCRM richiede InnoDB. Dovrete convertire le tabelle MyISAM ad InnoDB "
+"prima di procedere. "
 
 #: CRM/Upgrade/TwoZero/Form/Step1.php
 msgid "CiviCRM 2.0 Upgrade: Step One (Database Cleanup)"
@@ -8123,6 +8112,13 @@ msgid ""
 "MySQL command line query. Consult this document if you are interested in "
 "migrating the records manually: %2"
 msgstr ""
+"%1: Questo database comprende i record dello Storico Attività, che sono "
+"stati generati da moduli di terze parti. Non possiamo migrare "
+"automaticamente questi record alla struttura del 2.0. I record non migrati "
+"sono stati mantenuti nella tabella civicrm_activity_history e possono essere "
+"visualizzati usando phpMyAdmin o una query di MySQL a linea di comando. "
+"Consultate questo documento se siete interessati a migrare manualmente i "
+"record: %2"
 
 #: CRM/Upgrade/TwoZero/Form/Step4.php
 msgid "CiviCRM 2.0 Upgrade: Step Four (Activity Upgrade)"
@@ -8134,6 +8130,9 @@ msgid ""
 "value for these records to something that does not conflict with mysql "
 "reserved keywords."
 msgstr ""
+"Un campo personalizzato non può avere nessuno dei '%1' come '%2'. Rinominare "
+"i valori del nome di questi record a qualcosa che non vada in conflitto con "
+"le parole chiave riservate di MySQL."
 
 #: CRM/Upgrade/TwoZero/Form/Step5.php
 msgid "CiviCRM 2.0 Upgrade: Step Five (Custom Data Upgrade)"
@@ -8161,6 +8160,8 @@ msgid ""
 "%1: PayPal Payment Processor found. You will need to follow the instructions "
 "for %2"
 msgstr ""
+"%1: trovato un gestore di pagamenti PayPal. Dovrete seguire le istruzioni "
+"per %2"
 
 #: CRM/Upgrade/TwoZero/Form/Step7.php
 msgid "Database Upgrade to v2.0 Completed"
@@ -9377,19 +9378,19 @@ msgstr ""
 #: templates/CRM/Admin/Page/PaymentProcessor.tpl
 #: templates/CRM/Admin/Page/PaymentProcessorType.tpl
 msgid "New Payment Processor"
-msgstr "Nuovo Strumento di Pagamento"
+msgstr "Nuovo Gestore dei Pagamenti"
 
 #: templates/CRM/Admin/Form/PaymentProcessor.tpl
 msgid ""
 "WARNING: Deleting this Payment Processor may result in some transaction "
 "pages being rendered inactive."
 msgstr ""
-"ATTENZIONE: Cancellare questo Strumento di Pagamento può portare "
+"ATTENZIONE: Cancellare questo Gestore dei Pagamenti può portare "
 "all'inattività di alcune pagine di transazione."
 
 #: templates/CRM/Admin/Form/PaymentProcessor.tpl
 msgid "Processor Details for Live Payments"
-msgstr ""
+msgstr "Dettagli del gestore dei pagamenti live"
 
 #: templates/CRM/Admin/Form/PaymentProcessorType.tpl
 msgid "New Payment Procesor Type"
@@ -9934,12 +9935,10 @@ msgid "CMS Settings"
 msgstr "Impostazioni CMS"
 
 #: templates/CRM/Admin/Form/Setting/UpdateConfigBackend.tpl
-#, fuzzy
 msgid "Old Base URL"
-msgstr "Nuovo URL di base"
+msgstr "Vecchio URL di base"
 
 #: templates/CRM/Admin/Form/Setting/UpdateConfigBackend.tpl
-#, fuzzy
 msgid "Old Base Dir"
 msgstr "Nuova dir di base"
 
@@ -9957,13 +9956,11 @@ msgstr ""
 "installazione (civicrm.settings.php)."
 
 #: templates/CRM/Admin/Form/Setting/Url.tpl
-#, fuzzy
 msgid ""
 "Absolute URL of the location where the civicrm module or component has been "
 "installed."
 msgstr ""
-"L'URL relativo o assoluto in cui è stato installato il modulo o il "
-"componente di civicrm."
+"L'URL assoluto in cui è stato installato il modulo o il componente civicrm."
 
 #: templates/CRM/Admin/Form/Setting/Url.tpl
 msgid "Drupal Example"
@@ -10108,9 +10105,8 @@ msgstr ""
 "ruoli, usate questo link per assegnare gli utenti ai ruoli."
 
 #: templates/CRM/Admin/Page/Access.tpl
-#, fuzzy
 msgid "4. Manage Core ACLs"
-msgstr "2. Gestione ACL base"
+msgstr "4. Gestione ACL di base"
 
 #: templates/CRM/Admin/Page/Access.tpl
 msgid "Core ACLs define the primitive ACLs that control access to your site."
@@ -10430,7 +10426,7 @@ msgid ""
 msgstr ""
 "Questa pagina elenca le opzioni di carta di credito offerte ai contribuenti "
 "che usino le pagine di Contributi Online. E' necessario verificare quali "
-"carte vengono accettate dallo Strumento di Pagamento scelto e aggiornare di "
+"carte vengono accettate dal Gestore dei Pagamenti scelto e aggiornare di "
 "conseguenza le voci."
 
 #: templates/CRM/Admin/Page/Options.tpl
@@ -10441,8 +10437,8 @@ msgid ""
 msgstr ""
 "IMPORTANTE: questa pagina NON controlla le scelte di carte di credito o "
 "metodi di pagamento per i siti e/o i contributi che usano il servizio PayPal "
-"Express (nel quale le informazioni di fatturazione vengono raccolte sul sito "
-"dello Strumento di Pagamento)"
+"Express (nel quale le informazioni di fatturazione vengono raccolte sul "
+"sito del Gestore dei Pagamenti)"
 
 #: templates/CRM/Admin/Page/Options.tpl
 msgid ""
@@ -10517,11 +10513,11 @@ msgid ""
 "<strong>Online Contribution Page</strong> and each paid <strong>Event</"
 "strong> (<a href='%1' target='_blank' title='%2'>read more...</a>)."
 msgstr ""
-"Si possono configurare più Strumenti di Pagamento per l'installazione di "
-"CiviCRM; si deve poi assegnare uno Strumento di Pagamento attivo a ciascuna "
-"<strong>Pagina per i contributi online</strong> e ad ogni <strong>Evento</"
-"strong> a pagamento (<a href='%1' target='_blank' title='%2'>leggi tutto...</"
-"a>)."
+"Si possono configurare più Gestori dei Pagamenti per l'installazione di "
+"CiviCRM; si deve poi assegnare un Gestore dei Pagamenti attivo a ciascuna "
+"<strong>Pagina per i contributi online</strong> e ad ogni "
+"<strong>Evento</strong> a pagamento (<a href='%1' target='_blank' "
+"title='%2'>leggi tutto...</a>)."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.tpl
 msgid "Processor Type"
@@ -10532,7 +10528,7 @@ msgstr "Tipo Strumento"
 msgid ""
 "There are no Payment Processors entered. You can <a href='%1'>add one</a>."
 msgstr ""
-"Non sono stati inseriti strumenti di pagamento. <a href=\"%1\">Aggiungine "
+"Non sono stati inseriti gestori dei pagamenti. <a href=\"%1\">Aggiungine "
 "uno</a>."
 
 #: templates/CRM/Admin/Page/PaymentProcessorType.tpl
@@ -10540,7 +10536,7 @@ msgid ""
 "Payment Processor configurations for all payment processors that can be used "
 "in this install of CiviCRM."
 msgstr ""
-"Configurazione degli Strumenti di Pagamento utilizzabili in questa "
+"Configurazione dei Gestori dei Pagamenti utilizzabili in questa "
 "installazione di CiviCRM."
 
 #: templates/CRM/Admin/Page/PreferencesDate.tpl
@@ -10673,7 +10669,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid "Payment Processors"
-msgstr "Strumenti di Pagamento"
+msgstr "Gestori dei Pagamenti"
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid ""
@@ -12352,9 +12348,8 @@ msgid "Image"
 msgstr "Immagine"
 
 #: templates/CRM/Contact/Page/View/Sunlight.tpl
-#, fuzzy
 msgid "Party"
-msgstr "Primario"
+msgstr "Partito"
 
 #: templates/CRM/Contact/Page/View/Sunlight.tpl
 msgid "No data available for this contact. Please check city/state/zipcode"
@@ -12463,9 +12458,8 @@ msgid "Your subscription to these group(s) is pending confirmation."
 msgstr "La tua iscrizione a questo/i gruppo/i è in attesa di conferma."
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
-#, fuzzy
 msgid "Are you sure you want to confirm subscription for %1?"
-msgstr "Vuoi davvero disiscriverti da  %1??"
+msgstr "Vuoi davvero confermare l'iscrizione a %1??"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 msgid "Confirm"
@@ -12985,42 +12979,37 @@ msgid "Send to these Friend(s)"
 msgstr "Invia a questi amici"
 
 #: templates/CRM/Grant/Form/Grant.tpl
-#, fuzzy
 msgid "Select the status of this grant."
 msgstr "Seleziona lo stato di questo finanziamento"
 
 #: templates/CRM/Grant/Form/Grant.tpl
-#, fuzzy
 msgid "Select the appropriate grant type."
-msgstr "Seleziona il tipo di caso appropriato"
+msgstr "Seleziona il tipo di finanziamento appropriato."
 
 #: templates/CRM/Grant/Form/Grant.tpl
-#, fuzzy
 msgid "Amount requested for grant."
-msgstr "Importo richiesto per il finanziamento"
+msgstr "Importo richiesto per il finanziamento."
 
 #: templates/CRM/Grant/Form/Grant.tpl
 msgid "Amount requested for grant in original currency (if different)."
 msgstr ""
+"Importo richiesto per il finanziamento nella valuta originale (se diverso)."
 
 #: templates/CRM/Grant/Form/Grant.tpl
-#, fuzzy
 msgid "Actual amount granted."
-msgstr "Importo reale finanziato"
+msgstr "Importo reale finanziato."
 
 #: templates/CRM/Grant/Form/Grant.tpl
 msgid "When was the grant application received?"
-msgstr ""
+msgstr "Quando è stata ricevuta la richiesta di finanziamento?"
 
 #: templates/CRM/Grant/Form/Grant.tpl
-#, fuzzy
 msgid "Date on which the grant decision was finalized."
-msgstr "Data di decisione del finanziamento"
+msgstr "Data della decisione di finanziamento definitiva."
 
 #: templates/CRM/Grant/Form/Grant.tpl
-#, fuzzy
 msgid "Date on which the grant money was transferred."
-msgstr "Data di trasferimento dei fondi del finanziamento"
+msgstr "Data di trasferimento dei fondi del finanziamento."
 
 #: templates/CRM/Grant/Form/Search/Common.tpl
 msgid "Date is not set"
@@ -13239,7 +13228,7 @@ msgstr "Numero finanziamenti"
 
 #: templates/CRM/Grant/Page/DashBoard.tpl
 msgid "TOTAL"
-msgstr ""
+msgstr "TOTALE"
 
 #: templates/CRM/Grant/Page/DashBoard.tpl
 msgid "You have no Grants registered in your database."
@@ -13330,14 +13319,12 @@ msgid "Subgroups"
 msgstr "Sottogruppi"
 
 #: templates/CRM/Group/Form/Edit.tpl
-#, fuzzy
 msgid "Remove?"
-msgstr "Rimuovi"
+msgstr "Rimuovi?"
 
 #: templates/CRM/Group/Form/Edit.tpl
-#, fuzzy
 msgid "Subgroup"
-msgstr "Sottogruppi"
+msgstr "Sottogruppo"
 
 #: templates/CRM/Group/Form/Edit.tpl
 msgid "Edit Smart Group Criteria"
@@ -14809,7 +14796,7 @@ msgstr "Scaduto"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Dummy Payment Processor"
-msgstr "Strumento di Pagamento di prova"
+msgstr "Gestore dei Pagamenti di prova"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Merchant Account Email"
