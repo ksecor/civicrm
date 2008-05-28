@@ -361,6 +361,91 @@ class BAO_Core_Location extends CiviTestCase
         $this->assertDBNull( 'CRM_Event_DAO_Event', $eventId, 'id', 'id', 
                              'Database check, Event deleted successfully.' );
     }
+
+    /**
+     * getValues() method
+     * get the values of various location elements 
+     */
+    function testLocBlockgetValues( )
+    {
+        $contactId = Contact::createIndividual( );
+        
+        //create various element of location block 
+        //like address, phone, email, openid, im.
+        $params['location'][1] = array ( 'location_type_id'                               => 1,
+                                         'is_primary'                                     => 1,
+                                         'address' =>  array ( 
+                                                              'street_address'            => 'Saint Helier St',
+                                                              'supplemental_address_1'    => 'Hallmark Ct',
+                                                              'supplemental_address_2'    => 'Jersey Village',
+                                                              'city'                      => 'Newark',
+                                                              'postal_code'               => '01903',
+                                                              'country_id'                => 1228,
+                                                              'state_province_id'         => 1029,
+                                                              'geo_code_1'                => '18.219023',
+                                                              'geo_code_2'                => '-105.00973',
+                                                              ),
+                                         'email'   => array ( 
+                                                             '1' => array ( 'email'       => 'john.smith@example.org' ), 
+                                                             ),
+                                         'phone'   => array (
+                                                             '1' => array (
+                                                                           'phone_type'   => 'Phone',
+                                                                           'phone'        => '303443689',
+                                                                           ),
+                                                             '2' => array (
+                                                                           'phone_type'   => 'Mobile',
+                                                                           'phone'        => '9833910234',
+                                                                           ),
+                                                             ),
+                                         'openid'  => array (
+                                                             '1' => array ( 'openid'      => 'http://civicrm.org' ),
+                                                             ),
+                                         'im'      => array (
+                                                             '1' => array ( 'name'        => 'jane.doe',
+                                                                            'provider_id' => 1
+                                                                            ),
+                                                             ),
+                                         );
+        
+        $params['contact_id'] = $contactId;
+        
+        //create location elements.
+        require_once 'CRM/Core/BAO/Location.php';
+        CRM_Core_BAO_Location::create( $params );
+        
+        //get the values from DB
+        $values      = array( );
+        $entityBlock = array( 'contact_id' => $contactId );
+        CRM_Core_BAO_Location::getValues( $entityBlock, $values );
+        
+        //Now check values of address
+        $this->assertAttributesEqual( CRM_Utils_Array::value( 'address', $params['location'][1] ),
+                                      CRM_Utils_Array::value( 'address', $values['location'][1] ) );
+        
+        //Now check values of email
+        $this->assertAttributesEqual( CRM_Utils_Array::value( '1', $params['location'][1]['email'] ),
+                                      CRM_Utils_Array::value( '1', $values['location'][1]['email'] ) );
+        
+        //Now check values of phone
+        $this->assertAttributesEqual( CRM_Utils_Array::value( '1', $params['location'][1]['phone'] ),
+                                      CRM_Utils_Array::value( '1', $values['location'][1]['phone'] ) );
+        
+        //Now check values of mobile
+        $this->assertAttributesEqual( CRM_Utils_Array::value( '2', $params['location'][1]['phone'] ),
+                                      CRM_Utils_Array::value( '2', $values['location'][1]['phone'] ) ); 
+        
+        //Now check values of openid
+        $this->assertAttributesEqual( CRM_Utils_Array::value( '1', $params['location'][1]['openid'] ),
+                                      CRM_Utils_Array::value( '1', $values['location'][1]['openid'] ) );
+        
+        //Now check values of im
+        $this->assertAttributesEqual( CRM_Utils_Array::value( '1', $params['location'][1]['im'] ),
+                                      CRM_Utils_Array::value( '1', $values['location'][1]['im'] ) );
+        
+        //cleanup DB by deleting the contact
+        Contact::delete( $contactId );
+    }
     
 }
 
