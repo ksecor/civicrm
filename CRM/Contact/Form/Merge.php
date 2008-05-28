@@ -155,9 +155,12 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                     $locValue[$moniker] = $locTypeId;
                     foreach (array('email','phone','im','openid') as $fieldType) {
                         if (!isset($location[$fieldType])) $location[$fieldType] = array();
-                        foreach ($location[$fieldType] as $field) {
-                            $locLabel[$moniker][$fieldType] = $field[$fieldType];
+                        $locLabel[$moniker][$fieldType] = '';
+                        foreach ($location[$fieldType] as $key =>$field) {
+                            $locLabel[$moniker][$fieldType] .= $field[$fieldType] . "\n";
                         }
+                        $locLabel[$moniker][$fieldType] = preg_replace('/\n+/', "\n", $locLabel[$moniker][$fieldType]);
+                        $locLabel[$moniker][$fieldType] = nl2br(trim($locLabel[$moniker][$fieldType]));
                     }
                     $locLabel[$moniker]['address'] = $location['address']['display'];
                 }
