@@ -281,6 +281,87 @@ class BAO_Core_Location extends CiviTestCase
         Event::delete ( $eventId );
     }
     
+    /**
+     * deleteLocBlock() method
+     * delete the location block
+     * created with various elements.
+     * 
+     */
+    
+    function testDeleteLocBlock( )
+    {
+        //create test event record.
+        $eventId = Event::create( );
+        $params['location'][1] = array ( 'location_type_id'                               => 1,
+                                         'is_primary'                                     => 1,
+                                         'address' =>  array ( 
+                                                              'street_address'            => 'Saint Helier St',
+                                                              'supplemental_address_1'    => 'Hallmark Ct',
+                                                              'supplemental_address_2'    => 'Jersey Village',
+                                                              'city'                      => 'Newark',
+                                                              'postal_code'               => '01903',
+                                                              'country_id'                => 1228,
+                                                              'state_province_id'         => 1029,
+                                                              'geo_code_1'                => '18.219023',
+                                                              'geo_code_2'                => '-105.00973',
+                                                              ),
+                                         'email'   => array ( 
+                                                             '1' => array ( 'email'       => 'john.smith@example.org' ), 
+                                                             ),
+                                         'phone'   => array (
+                                                             '1' => array (
+                                                                           'phone_type'   => 'Phone',
+                                                                           'phone'        => '303443689',
+                                                                           ),
+                                                             '2' => array (
+                                                                           'phone_type'   => 'Mobile',
+                                                                           'phone'        => '9833910234',
+                                                                           ),
+                                                             ),
+                                         'im'      => array (
+                                                             '1' => array ( 'name'        => 'jane.doe',
+                                                                            'provider_id' => 1
+                                                                            ),
+                                                             ),
+                                         );
+        $params['entity_id']    = $eventId;
+        $params['entity_table'] = 'civicrm_event';
+        
+        //create location block.
+        //with various elements
+        //like address, phone, email, im.
+        require_once 'CRM/Core/BAO/Location.php';
+        $location   = CRM_Core_BAO_Location::create( $params, null, true );
+        $locBlockId = CRM_Utils_Array::value( 'id', $location );
+        //update event record with location block id
+        require_once 'CRM/Event/BAO/Event.php';
+        CRM_Event_BAO_Event::add(
+                                 $eventParams = array( 'loc_block_id' => $locBlockId ), 
+                                 $eventIds    = array( 'event_id'     => $eventId )
+                                 );
+        //delete the location block
+        CRM_Core_BAO_Location::deleteLocBlock( $locBlockId );
+        //Now check DB for location elements.
+        //Now check DB for Address
+        $this->assertDBNull( 'CRM_Core_DAO_Address', 'Saint Helier St', 'id', 'street_address', 
+                             'Database check, Address deleted successfully.' );
+        //Now check DB for Email
+        $this->assertDBNull( 'CRM_Core_DAO_Email', 'john.smith@example.org', 'id', 'email', 
+                             'Database check, Email deleted successfully.' );
+        //Now check DB for Phone
+        $this->assertDBNull( 'CRM_Core_DAO_Phone', '303443689', 'id', 'phone', 
+                             'Database check, Phone deleted successfully.' );
+        //Now check DB for Mobile
+        $this->assertDBNull( 'CRM_Core_DAO_Phone', '9833910234', 'id', 'phone', 
+                             'Database check, Mobile deleted successfully.' );
+        //Now check DB for IM
+        $this->assertDBNull( 'CRM_Core_DAO_IM', 'jane.doe', 'id', 'name', 
+                             'Database check, IM deleted successfully.' );
+        //Now check DB for Event
+        $this->assertDBNull( 'CRM_Event_DAO_Event', $eventId, 'id', 'id', 
+                             'Database check, Event deleted successfully.' );
+    }
+    
 }
 
 ?>
