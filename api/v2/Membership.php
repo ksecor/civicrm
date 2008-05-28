@@ -407,7 +407,7 @@ function civicrm_contact_membership_create(&$params)
                                                                    );
     }
     
-    foreach ( $relatedContacts as $contactId ) {
+    foreach ( $relatedContacts as $contactId => $relationshipStatus ) {
         $params['contact_id'         ] = $contactId;
         $params['owner_membership_id'] = $membershipBAO->id;
         unset( $params['id'] );
