@@ -42,7 +42,7 @@ class CRM_Dedupe_Merger
         'greeting_type', 'home_URL', 'household_name', 'image_URL', 
         'individual_prefix', 'individual_suffix', 'is_deceased', 'is_opt_out', 
         'job_title', 'last_name', 'legal_identifier', 'legal_name', 
-        'middle_name', 'nick_name', 'on_hold', 'organization_name', 
+        'middle_name', 'nick_name', 'organization_name', 
         'preferred_communication_method', 'preferred_mail_format', 'sic_code'
     );
 
