@@ -318,39 +318,6 @@ WHERE entity_table = 'civicrm_contribution_page'
     }
 
     /**
-     * This function is to make a shallow copy of an object
-     * and all the fields in the object
-     * @param $daoName     DAO name in which to copy
-     * @param $oldId       id on the basis we need to copy     
-     * @param $newId       id in which to copy  
-     * @param $tableField  table field to be matched before copying  
-     *
-     * @return $ids        array of ids copied from and copied to the particular table 
-     * @access public
-     */
-    static function &copyObjects( $daoName, $oldId, $newId, $tableField ) 
-    {
-        require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
-        eval( '$object   =& new ' . $daoName . '( );' );
-        $object->$tableField =  $oldId;
-        if ( $tableField == 'entity_id' ) {
-            $object->entity_table = 'civicrm_contribution_page';
-        }
-        
-        $object->find( );
-        
-        $ids = array( );
-        while( $object->fetch( ) ) {
-            $ids[] = $object->id;
-            $object->$tableField  = $newId;
-            $object->id           = null;
-            $object->save( );
-        }
-        $ids[] = $object->id;
-        return $ids;
-    }
-
-    /**
      * Function to check if contribution page contains payment
      * processor that supports recurring payment
      *
