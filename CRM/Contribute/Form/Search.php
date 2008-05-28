@@ -480,7 +480,17 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form
             $test = CRM_Utils_Type::escape( $test, 'Boolean' );
             $this->_formValues['contribution_test'] = $test;
         }
-
+    }
+    
+    /**
+     * Return a descriptive name for the page, used in wizard header
+     *
+     * @return string
+     * @access public
+     */
+    public function getTitle( ) 
+    {
+        return ts('Find Contributions');
     }
 
 }

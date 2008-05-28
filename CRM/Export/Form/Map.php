@@ -201,13 +201,13 @@ class CRM_Export_Form_Map extends CRM_Core_Form
         //get the csv file
         require_once "CRM/Export/BAO/Export.php";
         CRM_Export_BAO_Export::exportComponents( $this->get( 'selectAll' ),
-                                                 $this->get( 'contactIds' ),
+                                                 $this->get( 'recordIds' ),
                                                  $this->get( 'queryParams' ),
                                                  $this->get( CRM_Utils_Sort::SORT_ORDER ),
                                                  $mapperKeys,
                                                  $this->get( 'returnProperties' ),
-                                                 $this->get('exportMode'),
-                                                 $this->get('componentClause')
+                                                 $this->get( 'exportMode' ),
+                                                 $this->get( 'componentClause' )
                                                  );
     }
     

@@ -75,7 +75,7 @@ class CRM_Export_Form_Select extends CRM_Core_Form
      */
     function preProcess( ) 
     {
-        $this->_contactIds = array( ); 
+        $this->_recordIds = array( ); 
         $this->_selectAll  = false;
         $this->_exportMode = self::CONTACT_EXPORT;
 
@@ -98,7 +98,6 @@ class CRM_Export_Form_Select extends CRM_Core_Form
                 eval( '$this->_exportMode = self::' . strtoupper( $componentName[1] ) . '_EXPORT;');
                 require_once "CRM/{$componentName[1]}/Form/Task.php";
                 eval('CRM_' . $componentName[1] . '_Form_Task::preprocess();');
-                $this->set( 'exportMode', $this->_exportMode );
                 $values = $this->controller->exportValues( 'Search' ); 
             } else {
                 $values = $this->controller->exportValues( 'Basic' ); 
@@ -106,30 +105,34 @@ class CRM_Export_Form_Select extends CRM_Core_Form
         } 
 
         require_once 'CRM/Contact/Task.php';
+        $this->_task = $values['task']; 
         if ( $this->_exportMode == self::CONTACT_EXPORT ) {
-            $this->_task = $values['task']; 
-            $crmContactTaskTasks = CRM_Contact_Task::taskTitles(); 
-            $this->assign( 'taskName', $crmContactTaskTasks[$this->_task] ); 
+            $contactTasks = CRM_Contact_Task::taskTitles(); 
+            $taskName = $contactTasks[$this->_task]; 
         } else {
             $this->assign( 'taskName', "Export $componentName[1]" ); 
+            $this->_task = $values['task'];
+            eval( '$componentTasks = CRM_'. $componentName[1] .'_Task::tasks();' );
+            $taskName = $componentTasks[$this->_task];
         }
-        
+        $this->assign('taskName', $taskName);
+
         // all contacts or action = save a search 
         if (($values['radio_ts'] == 'ts_all') || ($this->_task == CRM_Contact_Task::SAVE_SEARCH)) { 
             $this->_selectAll = true;
-            $this->assign( 'totalSelectedContacts', $this->get( 'rowCount' ) );
+            $this->assign( 'totalSelectedRecords', $this->get( 'rowCount' ) );
         } else if($values['radio_ts'] == 'ts_sel') { 
             // selected contacts only 
             // need to perform action on only selected contacts 
             foreach ( $values as $name => $value ) { 
                 if ( substr( $name, 0, CRM_Core_Form::CB_PREFIX_LEN ) == CRM_Core_Form::CB_PREFIX ) { 
-                    $this->_contactIds[] = substr( $name, CRM_Core_Form::CB_PREFIX_LEN ); 
+                    $this->_recordIds[] = substr( $name, CRM_Core_Form::CB_PREFIX_LEN ); 
                 } 
             } 
-            $this->assign( 'totalSelectedContacts', count( $this->_contactIds ) ); 
+            $this->assign( 'totalSelectedRecords', count( $this->_recordIds ) ); 
         }
         
-        $this->set( 'contactIds', $this->_contactIds );
+        $this->set( 'recordIds', $this->_recordIds );
         $this->set( 'selectAll' , $this->_selectAll  );
         $this->set( 'exportMode' , $this->_exportMode );
         $this->set( 'componentClause', $this->_componentClause );
@@ -142,12 +145,13 @@ class CRM_Export_Form_Select extends CRM_Core_Form
      * @return void
      * @access public
      */
-    public function buildQuickForm( ) {
+    public function buildQuickForm( ) 
+    {
         //export option
         $exportoptions = array();        
         $exportOptions[] = HTML_QuickForm::createElement('radio',
                                                          null, null,
-                                                         ts('Export PRIMARY contact fields'),
+                                                         ts('Export PRIMARY fields'),
                                                          self::EXPORT_ALL,
                                                          array( 'onClick' => 'showMappingOption( );' ));
         $exportOptions[] = HTML_QuickForm::createElement('radio',
@@ -157,7 +161,6 @@ class CRM_Export_Form_Select extends CRM_Core_Form
                                                          array( 'onClick' => 'showMappingOption( );' ));
 
         $this->addGroup($exportOptions, 'exportOption', ts('Export Type'), '<br/>');
-
         
         $this->buildMapping( );
 
@@ -180,7 +183,8 @@ class CRM_Export_Form_Select extends CRM_Core_Form
      * @return void
      * @access public
      */
-    public function postProcess( ) {
+    public function postProcess( ) 
+    {
         $exportOption = $this->controller->exportValue( $this->_name, 'exportOption' ); 
 
         $mappingId = $this->controller->exportValue( $this->_name, 'mapping' ); 
@@ -203,7 +207,7 @@ class CRM_Export_Form_Select extends CRM_Core_Form
         if ( $exportOption == self::EXPORT_ALL ) {
             require_once "CRM/Export/BAO/Export.php";
             CRM_Export_BAO_Export::exportComponents( $this->_selectAll,
-                                                     $this->_contactIds,
+                                                     $this->_recordIds,
                                                      $this->get( 'queryParams' ),
                                                      $this->get( CRM_Utils_Sort::SORT_ORDER ),
                                                      null,
