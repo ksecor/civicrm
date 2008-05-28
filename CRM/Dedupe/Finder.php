@@ -169,7 +169,10 @@ class CRM_Dedupe_Finder
 
         // handle {birth,deceased}_date
         foreach(array('birth_date', 'deceased_date') as $date) {
-            if ($fields[$date]) $flat[$date] = CRM_Utils_Date::format($fields[$date]);
+            if ($fields[$date]) {
+                $flat[$date] = $fields[$date];
+                if (is_array($flat[$date])) $flat[$date] = CRM_Utils_Date::format($flat[$date]);
+            }
         }
 
         // handle preferred_communication_method
