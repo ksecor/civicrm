@@ -126,7 +126,8 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
                                                              $this->_id,
                                                              false,
                                                              $membershipTypeID,
-                                                             true );
+                                                             true, null,
+                                                             $this->_membershipContactID );
         }
         
         $this->_separateMembershipPayment = $this->get( 'separateMembershipPayment' );

@@ -91,7 +91,6 @@ class CRM_Member_Form_MembershipView extends CRM_Core_Form
             $values['membership_type'] .= ' (test) ';
         }
         $this->assign( $values ); 
-        require_once "CRM/Contact/Page/View/Membership.php";
         $params = array('id'        => $values['membership_id'],
                         'contactID' => $values['contact_id'],
                         'action'    => $this->_action );

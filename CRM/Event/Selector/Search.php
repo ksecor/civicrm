@@ -75,7 +75,7 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                                  'event_id',
                                  'participant_status_id',
                                  'event_title',
-                                 'event_level',
+                                 'fee_level',
                                  'participant_id',
                                  'event_start_date',
                                  'event_end_date',
@@ -158,9 +158,6 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                          $limit = null,
                          $context = 'search' ) 
     {
-
-        // CRM_Core_Error::debug( 'q', $queryParams );
-
         // submitted form values
         $this->_queryParams =& $queryParams;
 
@@ -175,9 +172,6 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
 
         $this->_query =& new CRM_Contact_BAO_Query( $this->_queryParams, null, null, false, false,
                                                     CRM_Contact_BAO_Query::MODE_EVENT );
-        //CRM_Core_Error::debug( 'q', $this->_query );
-        
-
     }//end of constructor
 
 
@@ -194,7 +188,6 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
      */
     static function &links()
     {
-
         if (!(self::$_links)) {
             self::$_links = array(
                                   CRM_Core_Action::VIEW   => array(
@@ -286,12 +279,9 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
              $permission = CRM_Core_Permission::EDIT;
          }
 
-         require_once 'CRM/Event/PseudoConstant.php';
          require_once 'CRM/Event/BAO/Event.php';
-         $statusTypes  = array( );
+         require_once 'CRM/Event/PseudoConstant.php';
          $statusTypes  = CRM_Event_PseudoConstant::participantStatus( );
-         $roles        = array( );
-         $roles        = CRM_Event_PseudoConstant::participantrole( );
 
          $mask = CRM_Core_Action::mask( $permission );
          while ( $result->fetch( ) ) {
@@ -302,26 +292,21 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                      $row[$property] = $result->$property;
                  }
              }
-
-             //fix status display
-             $row['status']   = $statusTypes[$row['participant_status_id']];
              
-             //fix role display
-             $row['role'] =  $roles[$row['participant_role_id']];
-
-             if ( $result->participant_is_pay_later && $row['participant_status_id'] == 5 ) {
-                 $row['status'] .= " ( Pay Later ) ";
-             } else if ( $row['participant_status_id'] == 5 ) {
-                 $row['status'] .= " ( Incomplete Transaction ) ";
+             // gross hack to show extra information for pending status
+             $statusId = array_search( $row['participant_status_id'], $statusTypes );
+             
+             if ( $result->participant_is_pay_later && $statusId == 5 ) {
+                 $row['participant_status_id'] .= " ( Pay Later ) ";
+             } else if ( $statusId == 5 ) {
+                 $row['participant_status_id'] .= " ( Incomplete Transaction ) ";
              }             
              
              if ( CRM_Utils_Array::value("participant_is_test",$row) ) {
                  $row['status'] = $row['status'] . " (test)";
              }
 
-             if ($this->_context == 'search') {
-                 $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->participant_id;
-             }
+             $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->participant_id;
              
              $row['action']   = CRM_Core_Action::formLink( self::links(), $mask,
                                                            array( 'id'  => $result->participant_id,
@@ -344,13 +329,13 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
              $row['contact_type' ] = $contact_type;
              $row['paid'] = CRM_Event_BAO_Event::isMonetary ( $row['event_id'] );
              
-             if ( $row['event_level'] ) {
-                 CRM_Event_BAO_Participant::fixEventLevel( $row['event_level'] );
+             if ( $row['fee_level'] ) {
+                 CRM_Event_BAO_Participant::fixEventLevel( $row['fee_level'] );
              }
              
              $rows[] = $row;
          }
-         
+
          return $rows;
      }
      
@@ -387,7 +372,7 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                                                 ),
                                           array(
                                                 'name'      => ts('Fee Level'),
-                                                'sort'      => 'event_level',
+                                                'sort'      => 'fee_level',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(

@@ -268,7 +268,7 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form
             if (!$this->_single) {
                 $this->addElement( 'checkbox', 'toggleSelect', null, null, array( 'onchange' => "return toggleCheckboxVals('mark_x_',this.form);" ) ); 
             }
-            
+
             $total = $cancel = 0;
             foreach ($rows as $row) { 
                 $this->addElement( 'checkbox', $row['checkbox'], 
@@ -278,7 +278,7 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form
             }
             
             $this->assign( "{$this->_prefix}single", $this->_single );
-            
+
             // also add the action and radio boxes
             require_once 'CRM/Contribute/Task.php';
             $tasks = array( '' => ts('- more actions -') ) + CRM_Contribute_Task::tasks( );
@@ -480,7 +480,17 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form
             $test = CRM_Utils_Type::escape( $test, 'Boolean' );
             $this->_formValues['contribution_test'] = $test;
         }
-
+    }
+    
+    /**
+     * Return a descriptive name for the page, used in wizard header
+     *
+     * @return string
+     * @access public
+     */
+    public function getTitle( ) 
+    {
+        return ts('Find Contributions');
     }
 
 }

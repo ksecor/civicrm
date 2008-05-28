@@ -35,6 +35,7 @@ $rest =& new CRM_Utils_REST();
 
 $config =& CRM_Core_Config::singleton();
 
+header( 'Content-Type: text/xml' );
 echo $rest->run( $config );
 
 

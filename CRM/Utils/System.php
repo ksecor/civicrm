@@ -39,7 +39,7 @@
  */
 class CRM_Utils_System {
 
-    const VERSION = '2.0';
+    const VERSION = '2.1';
 
     static $_callbacks = null;
 
@@ -184,6 +184,12 @@ class CRM_Utils_System {
         $config   =& CRM_Core_Config::singleton( );
         require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userFrameworkClass ) . '.php' );
         return eval( "return {$config->userFrameworkClass}::permissionDenied( );" );
+    }
+
+    static function logout( ) {
+        $config   =& CRM_Core_Config::singleton( );
+        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userFrameworkClass ) . '.php' );
+        return eval( "return {$config->userFrameworkClass}::logout( );" );
     }
 
     /**

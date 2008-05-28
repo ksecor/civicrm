@@ -263,6 +263,7 @@ WHERE     openid = %1";
             }
 
             $ufmatch->save( );
+            $ufmatch->free();
             $newContact   = true;
         }
 

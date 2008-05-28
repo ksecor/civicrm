@@ -160,18 +160,15 @@ class CRM_Member_Page_MembershipType extends CRM_Core_Page_Basic
             $action = array_sum(array_keys($this->links()));
 
             // update enable/disable links depending on if it is is_reserved or is_active
-            if ( isset($dao->is_reserved) ) {
-                continue;
-            } else {
+            if ( ! $dao->is_reserved ) {
                 if ($dao->is_active) {
                     $action -= CRM_Core_Action::ENABLE;
                 } else {
                     $action -= CRM_Core_Action::DISABLE;
                 }
-            }
-            
-            $membershipType[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $action, 
-                                                                            array('id' => $dao->id));
+                $membershipType[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $action, 
+                                                                                array('id' => $dao->id));
+            }            
         }
 
         $returnURL = CRM_Utils_System::url( 'civicrm/admin/member/membershipType', "reset=1&action=browse" );

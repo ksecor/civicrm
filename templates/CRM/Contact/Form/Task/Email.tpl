@@ -18,6 +18,7 @@
 {else}
 <dt>{$form.to.label}</dt><dd>{$form.to.html}{if $noEmails eq true}&nbsp;&nbsp;{$form.emailAddress.html}{/if}</dd>
 {/if}
+<dt>{$form.subject.label}</dt><dd>{$form.subject.html}</dd>
 </dl>
 {include file="CRM/Contact/Form/Task/EmailCommon.tpl"}
 <div class="spacer"> </div>

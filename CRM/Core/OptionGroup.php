@@ -233,15 +233,15 @@ WHERE  v.option_group_id = g.id
         return null;
     }
 
-    static function createAssoc( $groupName, &$values, &$defaultID ) 
+    static function createAssoc( $groupName, &$values, &$defaultID, $groupLabel = null ) 
     {
-        // delete groupName if already present
         self::deleteAssoc( $groupName );
         if ( ! empty( $values ) ) {
             require_once 'CRM/Core/DAO/OptionGroup.php';
             $group = new CRM_Core_DAO_OptionGroup( );
             $group->domain_id   = CRM_Core_Config::domainID( );
             $group->name        = $groupName;
+            $group->label       = $groupLabel;
             $group->is_reserved = 1;
             $group->is_active   = 1;
             $group->save( );
@@ -265,6 +265,8 @@ WHERE  v.option_group_id = g.id
         } else {
             $defaultID = 'null';   
         }
+        
+        return $group->id;
     }
     
     static function getAssoc( $groupName, &$values ) 
@@ -294,18 +296,21 @@ ORDER BY v.weight
     }
 
     static function deleteAssoc( $groupName ) 
-    {
+    {        
         $query = "
 DELETE g, v
   FROM civicrm_option_group g,
        civicrm_option_value v
  WHERE g.id = v.option_group_id
    AND g.name = %1";
+
         $params = array( 1 => array( $groupName, 'String' ) );
+
         $dao = CRM_Core_DAO::executeQuery( $query, $params );
     }
 
-    static function optionLabel( $groupName, $value ) {
+    static function optionLabel( $groupName, $value ) 
+    {
         $query = "
 SELECT v.label
   FROM civicrm_option_group g,

@@ -107,7 +107,7 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
      */
     public function buildQuickForm()
     {
-        if($this->_action & (CRM_Core_Action::DISABLE | CRM_Core_Action::DELETE) ) {
+        if ( $this->_action & (CRM_Core_Action::DISABLE | CRM_Core_Action::DELETE) ) {
             if( $this->_action & (CRM_Core_Action::DISABLE ) ) {
                 $display = 'Disable Profile';
             } else {
@@ -151,12 +151,13 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
         $this->add('text', 'weight', ts('Order'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFJoin', 'weight'), true);
         $this->addRule('weight', ts('is a numeric field') , 'numeric');
 
+        // is this group active ?
+        $this->addElement('checkbox', 'is_active', ts('Is this CiviCRM Profile active?') );
+        
         require_once 'CRM/UF/Form/AdvanceSetting.php';
-        $paneNames =  array ( 'Advanced Settings'  => 'buildAdvanceSetting',
-                              );
+        $paneNames =  array ( 'Advanced Settings'  => 'buildAdvanceSetting' );
         
         foreach ( $paneNames as $name => $type ) {
-            
             if ( $this->_id ) {
                 $dojoUrlParams = "&reset=1&action=update&id={$this->_id}&snippet=1&formType={$type}";  
             } else {
@@ -170,7 +171,6 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
                                       );
             
             eval( 'CRM_UF_Form_AdvanceSetting::' . $type . '( $this );' );
-           
         }
         
         $this->assign( 'allPanes', $allPanes );

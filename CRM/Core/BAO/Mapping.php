@@ -109,47 +109,21 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
      * pairs
      * 
      * @param array  $params         (reference) an assoc array of name/value pairs
-     * @param array  $ids            (reference) the array that holds all the db ids
      * 
      * @return object    CRM_Core_DAO_Mapper object on success, otherwise null
      * @access public
      * @static
      */
-    static function add( &$params, &$ids ) 
+    static function add( &$params ) 
     {
-        if ( ! self::dataExists( $params ) ) {
-	  //return null;
-        }
-        
         $mapping            =& new CRM_Core_DAO_Mapping( );
         $mapping->domain_id = CRM_Core_Config::domainID( );        
-        $mapping->id        = CRM_Utils_Array::value( 'mapping', $ids );
         $mapping->copyValues( $params );
         $mapping->save( );
 
-        //CRM_Core_Session::setStatus( ts('The mapping "%1" has been saved.', array(1 => $mapping->name)) );
-        
         return $mapping;
     }
     
-    /**
-     * Check if there is data to create the object
-     *
-     * @param array  $params         (reference ) an assoc array of name/value pairs
-     *
-     * @return boolean
-     * @access public
-     * @static
-     */
-    static function dataExists( &$params ) 
-    {
-        if ( !empty( $params['name'] ) ) {
-            return true;
-        }
-        
-        return false;
-    }
-
     /**
      * function to get the list of mappings
      * 
@@ -230,23 +204,22 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
      *
      * @params $nameField  string mapping Name
      *
-     * @params $mapType string mapping Type
+     * @params $mapTypeId string mapping Type
      *
      * @return boolean
      * 
      */
-    static function checkMapping($nameField,$mapType)
+    static function checkMapping( $nameField, $mapTypeId )
     {
-         $mappingName =& new CRM_Core_DAO_Mapping();
-         $mappingName->name = $nameField;
-         $mappingName->mapping_type = $mapType;
-         if($mappingName->find(true)){
-             return true;
-         }else{
-             return false;
-         }
+        $mapping =& new CRM_Core_DAO_Mapping();
+        $mapping->name = $nameField;
+        $mapping->mapping_type_id = $mapTypeId;
+        if ( $mapping->find(true) ) {
+            return true;
+        } else {
+            return false;
+        }
     }
-
 
     /**
      * Function returns associated array of elements, that will be passed for search
@@ -310,17 +283,8 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         require_once 'CRM/Core/BAO/LocationType.php';
 
         if ( $mappingType == 'Export' ) {
-            $mappingArray =array();
-            
-            require_once "CRM/Core/BAO/Mapping.php";
-            $mappingArray = CRM_Core_BAO_Mapping::getMappings($mappingType);
-            
-            if ( !empty($mappingArray) ) {
-                $form->assign('savedMapping',$mappingArray);
-                $form->add('select','savedMapping', ts('Mapping Option'), array('' => '- select -')+$mappingArray);
-                $form->addElement( 'submit', 'loadMapping', ts('Load Mapping'), array( 'class' => 'form-submit' ) ); 
-            }
-            
+            $form->applyFilter('__ALL__', 'trim');
+
             //to save the current mappings
             if ( !isset($mappingId) ) {
                 $saveDetailsName = ts('Save this field mapping');
@@ -344,7 +308,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
             }
             
             $form->addElement('checkbox','saveMapping',$saveDetailsName, null, array('onclick' =>"showSaveDetails(this)"));
-            $form->addFormRule( array( 'CRM_Export_Form_Map', 'formRule' ) );
+            $form->addFormRule( array( 'CRM_Export_Form_Map', 'formRule' ), $form->get( 'mappingTypeId') );
         } else  if ($mappingType == 'Search Builder') { 
             $form->addElement('submit', 'addBlock', ts('Also include contacts where'), 
                               array( 'class' => 'submit-link')
@@ -378,23 +342,29 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
             $fields['Student'] =& CRM_Quest_BAO_Student::exportableFields();
             $compArray['Student'] = 'Student';
         }
-
-        if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
-            require_once 'CRM/Contribute/BAO/Contribution.php';
-            $fields['Contribution'] =& CRM_Contribute_BAO_Contribution::exportableFields();
-            $compArray['Contribution'] = 'Contribution';
+        
+        if ( ( $mappingType == 'Search Builder' ) || ( $exportMode == CRM_Export_Form_Select::CONTRIBUTE_EXPORT ) ) {
+            if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
+                require_once 'CRM/Contribute/BAO/Contribution.php';
+                $fields['Contribution'] =& CRM_Contribute_BAO_Contribution::exportableFields();
+                $compArray['Contribution'] = 'Contribution';
+            }
+        }
+        
+        if ( ( $mappingType == 'Search Builder' ) || ( $exportMode == CRM_Export_Form_Select::EVENT_EXPORT ) ) {
+            if ( CRM_Core_Permission::access( 'CiviEvent' ) ) {
+                require_once 'CRM/Event/BAO/Participant.php';
+                $fields['Participant'] =& CRM_Event_BAO_Participant::exportableFields( );
+                $compArray['Participant'] = 'Participant';
+            }
         }
 
-        if ( CRM_Core_Permission::access( 'CiviEvent' ) ) {
-            require_once 'CRM/Event/BAO/Participant.php';
-            $fields['Participant'] =& CRM_Event_BAO_Participant::importableFields('Individual', true, true );
-            $compArray['Participant'] = 'Participant';
-        }
-
-        if ( CRM_Core_Permission::access( 'CiviMember' ) ) {
-            require_once 'CRM/Member/BAO/Membership.php';
-            $fields['Membership'] =& CRM_Member_BAO_Membership::getMembershipFields();
-            $compArray['Membership'] = 'Membership';
+        if ( ( $mappingType == 'Search Builder' ) || ( $exportMode == CRM_Export_Form_Select::MEMBER_EXPORT ) ) {
+            if ( CRM_Core_Permission::access( 'CiviMember' ) ) {
+                require_once 'CRM/Member/BAO/Membership.php';
+                $fields['Membership'] =& CRM_Member_BAO_Membership::getMembershipFields();
+                $compArray['Membership'] = 'Membership';
+            }
         }
         
         foreach ($fields as $key => $value) {
@@ -456,9 +426,8 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         }
         
         foreach($sel1 as $k=>$sel ) {
-            if($k) {
+            if ($k) {
                 foreach ($mapperFields[$k]  as $key=>$value) {
-                    
                     if (isset ( $hasLocationTypes[$k][$key] ) ) {
                         $sel3[$k][$key] = $locationTypes;
                     } else {

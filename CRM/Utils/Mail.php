@@ -154,8 +154,8 @@ class CRM_Utils_Mail {
             $to[] = $bcc;
         }
         $msg = & new Mail_Mime("\n");
-        $msg->setTxtBody( $text_message  );
-        $msg->setHTMLBody( $html_message  );
+        $msg->setTxtBody( $text_message );
+        $msg->setHTMLBody( $html_message );
         $mailMimeParams = array(
                                 'text_encoding' => '8bit',
                                 'html_encoding' => '8bit',

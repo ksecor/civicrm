@@ -116,6 +116,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                  file_exists( $htmlFilePath ) ) {
                 $defaults['html_message'] = file_get_contents( $htmlFilePath );
                 if ( strlen( $defaults['html_message'] ) > 0 ) {
+                    $htmlMessage = $defaults['html_message'];
                     $this->set('skipHtmlFile', true);
                 }
             }
@@ -143,6 +144,8 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $domainID = CRM_Core_Config::domainID( );
         $this->add('text', 'from_name', ts('FROM Name'));
         $this->add('text', 'from_email', ts('FROM'), NULL, true);
+        
+        $this->add('text', 'subject', ts('Mailing Subject'), 'size=30 maxlength=60', true);
         
         $attributes = array( 'onclick' => "showHideUpload();" );    
         $options = array( ts('Upload Content'),  ts('Compose On-screen') );

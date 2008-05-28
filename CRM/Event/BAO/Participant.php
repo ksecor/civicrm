@@ -40,12 +40,20 @@ require_once 'CRM/Event/DAO/Participant.php';
 class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
 {
     /**
-     * static field for all the membership information that we can potentially import
+     * static field for all the participant information that we can potentially import
      *
      * @var array
      * @static
      */
     static $_importableFields = null;
+
+    /**
+     * static field for all the participant information that we can potentially export
+     *
+     * @var array
+     * @static
+     */
+    static $_exportableFields = null;
 
     function __construct()
     {
@@ -66,12 +74,12 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
      * @access public
      * @static
      */
-    static function add(&$params, &$ids)
+    static function add(&$params)
     {
         require_once 'CRM/Utils/Hook.php';
         
-        if ( CRM_Utils_Array::value( 'participant', $ids ) ) {
-            CRM_Utils_Hook::pre( 'edit', 'Participant', $ids['participant'], $params );
+        if ( CRM_Utils_Array::value( 'id', $params ) ) {
+            CRM_Utils_Hook::pre( 'edit', 'Participant', $params['id'], $params );
         } else {
             CRM_Utils_Hook::pre( 'create', 'Participant', null, $params ); 
         }
@@ -81,7 +89,7 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
         
         $participantBAO =& new CRM_Event_BAO_Participant();
         $participantBAO->copyValues($params);
-        $participantBAO->id = CRM_Utils_Array::value( 'participant', $ids );
+        $participantBAO->id = CRM_Utils_Array::value( 'id', $params );
         
         $result = $participantBAO->save();
         
@@ -90,8 +98,8 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
         // reset the group contact cache for this group
         require_once 'CRM/Contact/BAO/GroupContactCache.php';
         CRM_Contact_BAO_GroupContactCache::remove( );
-
-        if ( CRM_Utils_Array::value( 'participant', $ids ) ) {
+        
+        if ( CRM_Utils_Array::value( 'id', $params ) ) {
             CRM_Utils_Hook::post( 'edit', 'Participant', $participantBAO->id, $participantBAO );
         } else {
             CRM_Utils_Hook::post( 'create', 'Participant', $participantBAO->id, $participantBAO );
@@ -171,27 +179,28 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
      * @static
      */
 
-    static function &create(&$params, &$ids) 
+    static function &create(&$params) 
     { 
         require_once 'CRM/Utils/Date.php';
 
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
         
-        if ( CRM_Utils_Array::value( 'participant', $ids ) ) {
-            $status = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Participant', $ids['participant'], 'status_id' );
+        if ( CRM_Utils_Array::value( 'id', $params ) ) {
+            $status = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Participant', $params['id'], 'status_id' );
         }
         
-        $participant = self::add($params, $ids);
+        $participant = self::add($params);
         
         if ( is_a( $participant, 'CRM_Core_Error') ) {
             $transaction->rollback( );
             return $participant;
         }
         
-        if ( ( ! CRM_Utils_Array::value( 'participant', $ids ) ) ||
+        if ( ( ! CRM_Utils_Array::value( 'id', $params ) ) ||
              ( $params['status_id'] != $status ) ) {
-            self::addActivity( $participant );
+            require_once 'CRM/Activity/BAO/Activity.php';
+            CRM_Activity_BAO_Activity::addActivity( $participant );
         }
         
         $session = & CRM_Core_Session::singleton();
@@ -214,10 +223,8 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
                 $note = CRM_Utils_Array::value('participant_note', $params);
             }
         
-            if ( ! isset($ids['note']) ) {
-                $noteDetails = CRM_Core_BAO_Note::getNote( $participant->id, 'civicrm_participant' );
-                $ids['note']['id'] = array_pop( array_flip( $noteDetails ) );
-            }
+            $noteDetails   = CRM_Core_BAO_Note::getNote( $participant->id, 'civicrm_participant' );
+            $noteIds['id'] = array_pop( array_flip( $noteDetails ) );
 
             require_once 'CRM/Core/BAO/Note.php';
             $noteParams = array(
@@ -228,7 +235,7 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
                                 'modified_date' => date('Ymd')
                                 );
             
-            CRM_Core_BAO_Note::add( $noteParams, $ids['note'] );
+            CRM_Core_BAO_Note::add( $noteParams, $noteIds );
         }
 
         // Log the information on successful add/edit of Participant data.
@@ -251,49 +258,6 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
         return $participant;
     }
 
-    /**
-     * Function to add activity record for Event participation
-     *
-     * @param object  $participant   (reference) $participant object
-     *
-     * @access public
-     * @static
-     */
-    static function addActivity( &$participant ) 
-    {
-        require_once "CRM/Event/BAO/Event.php";
-        $event = CRM_Event_BAO_Event::getEvents( true, $participant->event_id );
-        $date = date( 'YmdHis' );
-        require_once "CRM/Event/PseudoConstant.php";
-        $roles  = CRM_Event_PseudoConstant::participantRole( );
-        $status = CRM_Event_PseudoConstant::participantStatus( );
-
-        $subject = $event[$participant->event_id];
-        if ( CRM_Utils_Array::value( $participant->role_id, $roles ) ) {
-            $subject .= ' - ' . $roles[$participant->role_id]; 
-        }
-        if ( CRM_Utils_Array::value( $participant->status_id, $status ) ) {
-            $subject .= ' - ' . $status[$participant->status_id]; 
-        }
-
-        require_once "CRM/Core/OptionGroup.php";
-        $activityParams = array( 'source_contact_id' => $participant->contact_id,
-                                 'source_record_id'  => $participant->id,
-                                 'activity_type_id'  => CRM_Core_OptionGroup::getValue( 'activity_type',
-                                                                                        'Event Registration',
-                                                                                        'name' ),
-                                 'subject'            => $subject,
-                                 'activity_date_time' => $date,
-                                 'is_test'            => $participant->is_test,
-                                 'status_id'          => 2
-                                 );
-
-        require_once 'api/v2/Activity.php';
-        if ( is_a( civicrm_activity_create( $activityParams ), 'CRM_Core_Error' ) ) {
-            return false;
-        }
-    }
-    
     /**
      * check whether the event is 
      * full for participation
@@ -343,31 +307,6 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
     }
 
     /**
-     * return the last modified date for participation
-     *
-     * @param int $contactId      contact id
-     * @param int $participantId  participant id
-     *
-     * @static
-     * @access public
-     */
-    static function getModifiedDate( $contactId, $participantId )
-    {
-        $query = "SELECT   civicrm_log.id as id, civicrm_log.modified_date as modified_date
-                  FROM     civicrm_log
-                  WHERE    civicrm_log.entity_table='civicrm_participant' 
-                     AND   civicrm_log.entity_id={$participantId} 
-                     AND   civicrm_log.modified_id={$contactId} 
-                  ORDER BY id DESC LIMIT 1";
-        
-        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
-        if ( $dao->fetch( ) ) {
-             return $dao->modified_date;
-        }
-        return false;
-    }
-        
-    /**
      * combine all the importable fields from the lower levels object
      *
      * @return array array of importable Fields
@@ -392,7 +331,7 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
             
             require_once 'CRM/Core/DAO/Note.php';
             $tmpFields     = CRM_Event_DAO_Participant::import( );
-            unset($tmpFields['participant_is_test']);
+
             $note          = array( 'participant_note' => array( 'title' => 'Participant Note',
                                                                  'name'  => 'participant_note'));
 
@@ -401,10 +340,14 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
                 require_once 'CRM/Contact/BAO/Contact.php';
                 $contactFields = CRM_Contact_BAO_Contact::importableFields( $contactType, null );
                 if ($contactType == 'Individual') {
-                    require_once 'CRM/Core/DAO/DupeMatch.php';
-                    $dao = & new CRM_Core_DAO_DupeMatch();
-                    $dao->find(true);
-                    $fieldsArray = explode('AND',$dao->rule);
+                    static $individualFieldArray = null;
+                    if ( ! $individualFieldArray ) {
+                        require_once 'CRM/Core/DAO/DupeMatch.php';
+                        $dao = & new CRM_Core_DAO_DupeMatch();
+                        $dao->find(true);
+                        $individalFieldArray = explode('AND',$dao->rule);
+                    }
+                    $fieldsArray = $individualFieldArray;
                 } elseif ($contactType == 'Household') {
                     $fieldsArray = array('household_name', 'email');
                 } elseif ($contactType == 'Organization') {
@@ -435,7 +378,38 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
             $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport('Participant'));
             self::$_importableFields = $fields;
         }
+
         return self::$_importableFields;
+    }
+
+
+    /**
+     * combine all the exportable fields from the lower levels object
+     *
+     * @return array array of exportable Fields
+     * @access public
+     */
+    function &exportableFields( ) 
+    {
+        if ( ! self::$_exportableFields ) {
+            if ( ! self::$_exportableFields ) {
+                self::$_exportableFields = array();
+            }
+            
+            $fields = array( );
+            
+            require_once 'CRM/Core/DAO/Note.php';
+            $participantFields = CRM_Event_DAO_Participant::export( );
+            $noteField         = array( 'participant_note' => array( 'title' => 'Participant Note',
+                                                                     'name'  => 'participant_note'));
+            $fields = array_merge( $noteField, $participantFields );
+            
+            // add custom data
+            $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport('Participant'));
+            self::$_exportableFields = $fields;
+        }
+
+        return self::$_exportableFields;
     }
 
     /**
@@ -597,30 +571,11 @@ WHERE  civicrm_participant.id = {$participantId}
     }
     
     /**
-     * Function to check if the participant exits in the db
-     * 
-     * @return id of the paricipant objectif exists else return null
-     * @static
-     */
-    static function checkParticipantExists($params)
-    {
-        require_once "CRM/Event/DAO/Participant.php";
-        $participant =& new CRM_Event_DAO_Participant();
-        $participant->contact_id = $params['contact_id'];
-        $participant->event_id = $params['event_id'];
-        $result = null;
-        if ($participant->find( true )) {
-            $result = $participant->id;
-        } 
-        return $result;
-    } 
-    
-    /**
      * fix the event level
      *
-     * When price sets are used as event fee, event_level is set as ^A
+     * When price sets are used as event fee, fee_level is set as ^A
      * seperated string. We need to change that string to comma
-     * separated string before using event_level in view mode.
+     * separated string before using fee_level in view mode.
      *
      * @param string  $eventLevel  event_leval string from db
      * 

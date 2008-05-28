@@ -1,3 +1,4 @@
+
 -- /************************************************************************
 -- *
 -- * MySQL Script for civicrm database/tables - upgradation from 2.0 -> 2.1
@@ -48,12 +49,11 @@ ALTER TABLE `civicrm_contribution_recur`
 
 ALTER TABLE civicrm_dedupe_rule_group ADD level      enum('Strict', 'Fuzzy');
 ALTER TABLE civicrm_dedupe_rule_group ADD is_default tinyint;
-ALTER TABLE civicrm_dedupe_rule_group ADD is_active  tinyint;
 
 
 -- make the current dedupe rule groups into default and fuzzy ones
 
-UPDATE civicrm_dedupe_rule_group SET level = 'Fuzzy', is_default = true, is_active = true;
+UPDATE civicrm_dedupe_rule_group SET level = 'Fuzzy', is_default = true;
 
 
 -- insert the new strict d_group dupe rules
@@ -61,15 +61,15 @@ UPDATE civicrm_dedupe_rule_group SET level = 'Fuzzy', is_default = true, is_acti
 
 SELECT @domain_id := 1;
 
-INSERT INTO civicrm_dedupe_rule_group (domain_id, contact_type, threshold, level, is_default, is_active) VALUES (1, 'Individual', 10, 'Strict', true, true);
+INSERT INTO civicrm_dedupe_rule_group (domain_id, contact_type, threshold, level, is_default) VALUES (1, 'Individual', 10, 'Strict', true);
 SELECT @dedupe_rule_group_id := MAX(id) FROM civicrm_dedupe_rule_group;
 INSERT INTO civicrm_dedupe_rule (dedupe_rule_group_id, rule_table, rule_field, rule_weight) VALUES (@dedupe_rule_group_id, 'civicrm_email', 'email', 10);
 
-INSERT INTO civicrm_dedupe_rule_group (domain_id, contact_type, threshold, level, is_default, is_active) VALUES (1, 'Organization', 10, 'Strict', true, true);
+INSERT INTO civicrm_dedupe_rule_group (domain_id, contact_type, threshold, level, is_default) VALUES (1, 'Organization', 10, 'Strict', true);
 SELECT @dedupe_rule_group_id := MAX(id) FROM civicrm_dedupe_rule_group;
 INSERT INTO civicrm_dedupe_rule (dedupe_rule_group_id, rule_table, rule_field, rule_weight) VALUES (@dedupe_rule_group_id, 'civicrm_email', 'email', 10);
 
-INSERT INTO civicrm_dedupe_rule_group (domain_id, contact_type, threshold, level, is_default, is_active) VALUES (1, 'Household', 10, 'Strict', true, true);
+INSERT INTO civicrm_dedupe_rule_group (domain_id, contact_type, threshold, level, is_default) VALUES (1, 'Household', 10, 'Strict', true);
 SELECT @dedupe_rule_group_id := MAX(id) FROM civicrm_dedupe_rule_group;
 INSERT INTO civicrm_dedupe_rule (dedupe_rule_group_id, rule_table, rule_field, rule_weight) VALUES (@dedupe_rule_group_id, 'civicrm_email', 'email', 10);
 
@@ -127,3 +127,37 @@ UPDATE civicrm_country SET name = 'Moldova' WHERE id = 1143;
 -- we need to update option value table for cvOpt, ceOpt, asOpt, udOpt and adOpt. Not sure the best way to do this
 -- since translations are involved. The easiest option might be to delete the rows and then readd them
 -- CRM-2734
+
+-- CRM-2781
+
+ALTER TABLE `civicrm_mapping` CHANGE `mapping_type` `mapping_type_id` INT NULL DEFAULT NULL COMMENT 'Type of Mapping.' 
+
+-- add option group & values (CRM-2781)
+
+INSERT INTO 
+   `civicrm_option_group` (`domain_id`, `name`, `description`, `is_reserved`, `is_active`) 
+VALUES 
+   (@domain_id, 'mapping_type', '{ts escape="sql"}Mapping Type{/ts}', 0, 1);
+
+SELECT @option_group_id_mt             := max(id) from civicrm_option_group where name = 'mapping_type';
+
+INSERT INTO 
+   `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`) 
+VALUES
+
+  (@option_group_id_mt, '{ts escape="sql"}Search Builder{/ts}',      1, 'Search Builder',      NULL, 0, 0,    1, NULL, 0, 1, 1, NULL),
+  (@option_group_id_mt, '{ts escape="sql"}Import Contact{/ts}',      2, 'Import Contact',     NULL, 0, 0,    2, NULL, 0, 1, 1, NULL),
+  (@option_group_id_mt, '{ts escape="sql"}Import Activity{/ts}',     3, 'Import Activity',     NULL, 0, 0,    3, NULL, 0, 1, 1, NULL),
+  (@option_group_id_mt, '{ts escape="sql"}Import Contribution{/ts}', 4, 'Import Contribution', NULL, 0, 0,    4, NULL, 0, 1, 1, NULL),
+  (@option_group_id_mt, '{ts escape="sql"}Import Membership{/ts}',   5, 'Import Membership',   NULL, 0, 0,    5, NULL, 0, 1, 1, NULL),
+  (@option_group_id_mt, '{ts escape="sql"}Import Participant{/ts}',  6, 'Import Participant',  NULL, 0, 0,    6, NULL, 0, 1, 1, NULL),
+  (@option_group_id_mt, '{ts escape="sql"}Export Contact{/ts}',      7, 'Export Contact',     NULL, 0, 0,    7, NULL, 0, 1, 1, NULL),
+  (@option_group_id_mt, '{ts escape="sql"}Export Contribution{/ts}', 8, 'Export Contribution', NULL, 0, 0,    8, NULL, 0, 1, 1, NULL),
+  (@option_group_id_mt, '{ts escape="sql"}Export Membership{/ts}',   9, 'Export Membership',   NULL, 0, 0,    9, NULL, 0, 1, 1, NULL),
+  (@option_group_id_mt, '{ts escape="sql"}Export Participant{/ts}',  10, 'Export Participant', NULL, 0, 0,   10, NULL, 0, 1, 1, NULL);
+
+-- CRM-2964
+
+ALTER TABLE `civicrm_contribution_page` 
+    ADD `for_organization` text NULL DEFAULT NULL AFTER thankyou_footer,
+    ADD `is_for_organization` tinyint(4) NULL DEFAULT '0' AFTER thankyou_footer;

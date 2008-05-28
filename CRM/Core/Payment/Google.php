@@ -122,6 +122,11 @@ class CRM_Core_Payment_Google extends CRM_Core_Payment {
             if ( $membershipID ) {
                 $privateData .= ",membershipID=$membershipID";
             }
+
+            $relatedContactID = CRM_Utils_Array::value( 'related_contact', $params );
+            if ( $relatedContactID ) {
+                $privateData .= ",relatedContactID=$relatedContactID";
+            }
         }
         
         $cart->SetMerchantPrivateData($privateData);

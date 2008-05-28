@@ -123,7 +123,7 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
             }
         }
 
-        if ( $values['is_email_receipt'] ) {
+        if ( $values['is_email_receipt'] || $values['onbehalf_dupe_alert'] ) {
             $template =& CRM_Core_Smarty::singleton( );
 
             require_once 'CRM/Contact/BAO/Contact/Location.php';
@@ -145,37 +145,63 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
                                       'customPost', $contactID,
                                       $template, $params['custom_post_id'] );
             
-            // cc to related contacts of contributor OR the one who
-            // signs up. Can be used for cases like - on behalf of
-            // contribution / signup ..etc  
-            if ( array_key_exists('related_contacts', $values) ) {
-                foreach ( $values['related_contacts'] as $rcId ) {
-                    list( $ccDisplayName, $ccEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $rcId );
-                    $ccMailIds = $ccMailIds ? 
-                        ($ccMailIds . ',"' . $ccDisplayName . '" <' . $ccEmail . '>') : 
-                        ('"' . $ccDisplayName . '" <' . $ccEmail . '>');
-                }
-                $values['cc_receipt'] = CRM_Utils_Array::value( 'cc_receipt' , $values ) ? 
-                    ($values['cc_receipt'] . ',' . $ccMailIds) : $ccMailIds;
-            }
-            
             // set email in the template here
             $template->assign( 'email', $email );
 
+            // cc to related contacts of contributor OR the one who
+            // signs up. Is used for cases like - on behalf of
+            // contribution / signup ..etc  
+            if ( array_key_exists('related_contact', $values) ) {
+                list( $ccDisplayName, $ccEmail ) = 
+                    CRM_Contact_BAO_Contact_Location::getEmailDetails( $values['related_contact'] );
+                $ccMailId = '"' . $ccDisplayName . '" <' . $ccEmail . '>';
+                
+                $values['cc_receipt'] = CRM_Utils_Array::value( 'cc_receipt' , $values ) ? 
+                    ($values['cc_receipt'] . ',' . $ccMailId) : $ccMailId;
+                
+                // reset primary-email in the template
+                $template->assign( 'email', $ccEmail );
+            }
+            
             $subject = trim( $template->fetch( 'CRM/Contribute/Form/Contribution/ReceiptSubject.tpl' ) );
             $message = $template->fetch( 'CRM/Contribute/Form/Contribution/ReceiptMessage.tpl' );
 
             $receiptFrom = '"' . CRM_Utils_Array::value('receipt_from_name',$values) . '" <' . $values['receipt_from_email'] . '>';
 
             require_once 'CRM/Utils/Mail.php';
-            CRM_Utils_Mail::send( $receiptFrom,
-                                  $displayName,
-                                  $email,
-                                  $subject,
-                                  $message,
-                                  CRM_Utils_Array::value( 'cc_receipt' , $values ),
-                                  CRM_Utils_Array::value( 'bcc_receipt', $values )
-                                  );
+
+            if ( $values['is_email_receipt'] ) {
+                CRM_Utils_Mail::send( $receiptFrom,
+                                      $displayName,
+                                      $email,
+                                      $subject,
+                                      $message,
+                                      CRM_Utils_Array::value( 'cc_receipt' , $values ),
+                                      CRM_Utils_Array::value( 'bcc_receipt', $values )
+                                      );
+            }
+
+            // send duplicate alert, if dupe match found during on-behalf-of processing.
+            if ( $values['onbehalf_dupe_alert'] ) {
+                $systemFrom = '"Automatically Generated" <' . $values['receipt_from_email'] . '>';
+                $template->assign( 'dupeID', $contactID );
+
+                $emailTemplate  = 'CRM/Contribute/Form/Contribution/DuplicateAlertMessage.tpl';
+                
+                $template->assign( 'returnContent', 'subject' );
+                $subject = $template->fetch( $emailTemplate );
+                
+                $template->assign( 'receiptMessage', $message );
+
+                $template->assign( 'returnContent', 'textMessage' );
+                $message = $template->fetch( $emailTemplate );
+                
+                CRM_Utils_Mail::send( $systemFrom,
+                                      CRM_Utils_Array::value('receipt_from_name',$values),
+                                      $values['receipt_from_email'],
+                                      $subject,
+                                      $message );
+            }
         }
     }
     
@@ -289,39 +315,6 @@ WHERE entity_table = 'civicrm_contribution_page'
         $copy->save( );
         
         return $copy;
-    }
-
-    /**
-     * This function is to make a shallow copy of an object
-     * and all the fields in the object
-     * @param $daoName     DAO name in which to copy
-     * @param $oldId       id on the basis we need to copy     
-     * @param $newId       id in which to copy  
-     * @param $tableField  table field to be matched before copying  
-     *
-     * @return $ids        array of ids copied from and copied to the particular table 
-     * @access public
-     */
-    static function &copyObjects( $daoName, $oldId, $newId, $tableField ) 
-    {
-        require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
-        eval( '$object   =& new ' . $daoName . '( );' );
-        $object->$tableField =  $oldId;
-        if ( $tableField == 'entity_id' ) {
-            $object->entity_table = 'civicrm_contribution_page';
-        }
-        
-        $object->find( );
-        
-        $ids = array( );
-        while( $object->fetch( ) ) {
-            $ids[] = $object->id;
-            $object->$tableField  = $newId;
-            $object->id           = null;
-            $object->save( );
-        }
-        $ids[] = $object->id;
-        return $ids;
     }
 
     /**

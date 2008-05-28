@@ -24,7 +24,7 @@
            <td>{$row.subject}</td>
            <td>{$row.body_text}</td>
            <td>{$row.body_html|escape}</td>
-           <td>{if $row.is_default eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
+           <td>{if $row.is_default eq 1}<img src="{$config->resourceBase}/i/check.gif" alt="{ts}Default{/ts}" />{/if}&nbsp;</td>
 	       <td>{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
            <td>{$row.action}</td>
         </tr>

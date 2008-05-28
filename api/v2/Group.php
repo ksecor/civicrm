@@ -89,7 +89,7 @@ function &civicrm_group_add( &$params )
  * @return array  (referance) Array of matching groups
  * @access public
  */
-function &civicrm_groups_get( &$params )
+function &civicrm_group_get( &$params )
 {
     _civicrm_initialize( );
     if ( !is_null( $params ) && !is_array( $params ) ) {

@@ -73,9 +73,9 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         $showLocation = false;
         // when custom data is included in this page
         if ( CRM_Utils_Array::value( "hidden_custom", $_POST ) ) {
-            eval( 'CRM_Custom_Form_Customdata::preProcess( $this );' );
-            eval( 'CRM_Custom_Form_Customdata::buildQuickForm( $this );' );
-            eval( 'CRM_Custom_Form_Customdata::setDefaultValues( $this );' );
+            CRM_Custom_Form_Customdata::preProcess( $this );
+            CRM_Custom_Form_Customdata::buildQuickForm( $this );
+            CRM_Custom_Form_Customdata::setDefaultValues( $this );
         }
         
     }
@@ -95,9 +95,11 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         }
         $defaults = parent::setDefaultValues();
         
-        if ( $this->_eventType ) {
-            $defaults["event_type_id"] = $this->_eventType;
+        // in update mode, we need to set custom data subtype to tpl
+        if ( $defaults["event_type_id"] ) {
+            $this->assign('customDataSubType',  $defaults["event_type_id"] );
         }
+
         if( !isset ( $defaults['start_date'] ) ) {
             $defaultDate = array( );
             CRM_Utils_Date::getAllDefaultValues( $defaultDate );
@@ -123,26 +125,15 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         }
         //need to assign custom data type and subtype to the template
         $this->assign('customDataType', 'Event');
-        $this->assign('customDataSubType',  $this->_eventType );
+        if ( $this->_eventType ) {
+            $this->assign('customDataSubType',  $this->_eventType );
+        }
         $this->assign('entityId',  $this->_id );
         
         $this->_first = true;
         $this->applyFilter('__ALL__', 'trim');
         $attributes = CRM_Core_DAO::getAttribute('CRM_Event_DAO_Event');
-     
-        $urlParams = "reset=1&context=event";
         
-        if ( $this->_action & ( CRM_Core_Action::UPDATE) ) {
-            $urlParams .= "&action=update&id={$this->_id}&subPage=EventInfo";
-             $eventId = $this->_id ;
-        } else {
-            $urlParams .= "&action=add";
-        }
-
-        $url = CRM_Utils_System::url( CRM_Utils_System::currentPath( ),
-                                      $urlParams, true, null, false );
-     
-        $this->assign("refreshURL",$url);
         $this->add('text','title',ts('Event Title'), $attributes['event_title'], true);
 
         require_once 'CRM/Core/OptionGroup.php';

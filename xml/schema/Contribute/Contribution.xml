@@ -11,7 +11,7 @@
       <type>int unsigned</type> 
       <required>true</required>
       <import>true</import> 
-      <title>Contribution ID (match to contribution)</title>
+      <title>Contribution ID</title>
       <comment>Contribution ID</comment> 
       <add>1.3</add> 
   </field> 
@@ -35,7 +35,7 @@
   <field> 
       <name>contact_id</name> 
       <uniqueName>contribution_contact_id</uniqueName>
-      <title>Contact ID (match to contact)</title>
+      <title>Contact ID</title>
       <type>int unsigned</type> 
       <required>true</required> 
       <import>true</import>
@@ -297,9 +297,11 @@
   </field>
   <field>     
       <name>is_pay_later</name>  
+      <title>Is Pay Later</title>
       <type>boolean</type>
       <default>0</default>
       <import>true</import>
+      <add>2.1</add> 
   </field>
   <field>
       <name>contribution_status_id</name>

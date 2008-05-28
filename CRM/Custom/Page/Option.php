@@ -179,6 +179,7 @@ ORDER BY weight, label
 
         $customOption = array( );
         $fields = array( 'label', 'value', 'is_active', 'weight' );
+        $config =& CRM_Core_Config::singleton( );
         while ($dao->fetch()) {
             $customOption[$dao->id] = array( ); 
             foreach ( $fields as $field ) {
@@ -194,15 +195,15 @@ ORDER BY weight, label
                 $action -= CRM_Core_Action::DISABLE;
             }
 
-            if ( $fieldHtmlType == 'CheckBox' || $fieldHtmlType == 'Multi-Select' ) {                
+            if ( $fieldHtmlType == 'CheckBox' || $fieldHtmlType == 'Multi-Select' ) {
                 if ( in_array($dao->value, $defVal) ) {
-                    $customOption[$dao->id]['default_value'] = '[x]';
+                    $customOption[$dao->id]['default_value'] = '<img src="' . $config->resourceBase . 'i/check.gif" />';
                 } else {
                     $customOption[$dao->id]['default_value'] = '';
                 }
             } else {
                 if ( $defaultValue == $dao->value ) {
-                    $customOption[$dao->id]['default_value'] = '[x]';
+                    $customOption[$dao->id]['default_value'] = '<img src="' . $config->resourceBase . 'i/check.gif" />';
                 } else {
                     $customOption[$dao->id]['default_value'] = '';
                 }

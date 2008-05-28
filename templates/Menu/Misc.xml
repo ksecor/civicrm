@@ -17,7 +17,7 @@
   <item>
      <path>civicrm/export</path>
      <title>Download Errors</title>
-     <page_callback>CRM_Core_Invoke::export</page_callback>
+     <page_callback>CRM_Export_BAO_Export::invoke</page_callback>
   </item>
   <item>
      <path>civicrm/export/contact</path>
@@ -70,7 +70,7 @@
   <item>
      <path>civicrm/logout</path>
      <title>Log out</title>
-     <page_callback>CRM_Core_Invoke::logout</page_callback>
+     <page_callback>CRM_Utils_System::logout</page_callback>
      <access_arguments>access CiviCRM</access_arguments>
      <weight>9999</weight>
   </item>

@@ -1,0 +1,104 @@
+<?php
+
+/*
+ +--------------------------------------------------------------------+
+ | CiviCRM version 2.1                                                |
+ +--------------------------------------------------------------------+
+ | Copyright CiviCRM LLC (c) 2004-2008                                |
+ +--------------------------------------------------------------------+
+ | This file is a part of CiviCRM.                                    |
+ |                                                                    |
+ | CiviCRM is free software; you can copy, modify, and distribute it  |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
+ |                                                                    |
+ | CiviCRM is distributed in the hope that it will be useful, but     |
+ | WITHOUT ANY WARRANTY; without even the implied warranty of         |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
+ | See the GNU Affero General Public License for more details.        |
+ |                                                                    |
+ | You should have received a copy of the GNU Affero General Public   |
+ | License along with this program; if not, contact CiviCRM LLC       |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
+ | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
+ +--------------------------------------------------------------------+
+*/
+
+/**
+ *
+ * @package CRM
+ * @copyright CiviCRM LLC (c) 2004-2008
+ * $Id$
+ *
+ */
+
+require_once 'CiviTestCase.php';
+
+class Browser_Import_ImportContact extends CiviTestCase
+{
+
+    function get_info()
+    {
+        return array('name'        => 'Import Contact',
+                     'description' => 'Test Import Contacts',
+                     'group'       => 'CiviCRM Browser Tests');
+    }
+
+    function setUp()
+    {
+        parent::setUp();
+        $this->webUser = $this->drupalCreateUserRolePerm(array(0 => 'access CiviCRM',
+                                                               1 => 'add contacts',
+                                                               2 => 'view all contacts',
+                                                               3 => 'edit all contacts',
+                                                               4 => 'import contacts',
+                                                               ));
+        $this->drupalLoginUser($this->webUser);
+        $this->civiGet('civicrm/dashboard', 'reset=1');
+        $this->clickLink('Import');
+
+        
+    }
+
+    function testImportWithMissingParams()
+    { 
+        $this->assertText('Upload Data (step 1 of 4)');
+        $this->drupalPost( NULL, array() , '_qf_UploadFile_upload' );
+        $this->assertText('Import Data File is a required field.');
+        
+    }
+    function testImport()
+    {
+        $config =& CRM_Core_Config::singleton( );
+        $fileName = "{$config->uploadDir}test_import_contact.csv";
+        
+        $header = array ("First Name","Last Name");
+        $list   = array ( 0 => array( 0 => 'Joe'  , 1 => 'Morgan'),
+                          1 => array( 0 => 'Janet', 1 => 'Morgan') );
+        
+        require_once'CRM/Import/Parser.php';
+        CRM_Import_Parser::exportCSV($fileName,$header,$list);
+
+        $params['uploadFile']      = $fileName;
+        $params['skipColumnHeader']= 1;
+        $params['onDuplicate']     = 1;
+        $params['contactType']     = 1;
+        $params['dateFormats']     = 8;
+
+        $this->drupalPost( NULL, $params, '_qf_UploadFile_upload' );
+        $this->assertText( 'Match Fields (step 2 of 4)' );
+        $this->drupalPost( NULL, null, '_qf_MapField_next' );
+        $this->assertText( 'Preview (step 3 of 4)' );
+        $this->drupalPost( NULL, null, '_qf_Preview_next' );
+        
+        $this->assertText('Summary (step 4 of 4)');
+        $contact_id = $this->assertDBNotNull('CRM_Contact_DAO_Contact', 'Joe', 'id', 'first_name', 'Checking db for the created Created Contact.');
+        $expected = array('id' => $contact_id,
+                          'first_name'  => 'Joe',
+                          'last_name'   => 'Morgan',
+                          );
+        
+        $this->assertDBCompareValues('CRM_Contact_DAO_Contact',array('id'=> $contact_id), $expected);
+    }
+}

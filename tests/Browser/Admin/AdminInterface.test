@@ -76,7 +76,7 @@ class Browser_Admin_AdminInterface extends CiviTestCase {
   }  
 
   function testAdminLinkFindDuplicateContacts() {
-    $this->clickLink('Find Duplicate Contacts', '0');
+    $this->clickLink('Duplicate Contact Rules', '0');
     $this->assertClickable('Use Rule');
   }  
 

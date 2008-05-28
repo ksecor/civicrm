@@ -61,20 +61,16 @@ class CRM_Contact_Form_Task_Delete extends CRM_Contact_Form_Task {
     function preProcess( ) { 
         $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive',
                                             $this, false ); 
-
-         if ( $cid ) { 
-             // not sure why this is needed :(
-             // also add the cid params to the Menu array 
-             CRM_Core_Menu::addParam( 'cid', $cid ); 
-             
-             $this->_contactIds = array( $cid ); 
-             $this->_single     = true; 
-             $this->assign( 'totalSelectedContacts', 1 );
-         } else {
-             parent::preProcess( );
-         }
+        
+        if ( $cid ) { 
+            $this->_contactIds = array( $cid ); 
+            $this->_single     = true; 
+            $this->assign( 'totalSelectedContacts', 1 );
+        } else {
+            parent::preProcess( );
+        }
     }
-
+    
     /**
      * Build the form
      *

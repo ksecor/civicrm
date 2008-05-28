@@ -73,13 +73,19 @@ class CRM_Dedupe_BAO_Rule extends CRM_Dedupe_DAO_Rule
             $id = 'id';
             break;
         case 'civicrm_address':
+            $id = 'contact_id';
+            $on[] = 't1.location_type_id = t2.location_type_id';
+            $using[] = 'location_type_id';
+            if ($this->params['civicrm_address']['location_type_id']) {
+                $locTypeId = CRM_Utils_Type::escape($this->params['civicrm_address']['location_type_id'], 'Integer');
+                $where[] = "location_type_id = $locTypeId";
+            }
+            break;
         case 'civicrm_email':
         case 'civicrm_im':
         case 'civicrm_openid':
         case 'civicrm_phone':
             $id = 'contact_id';
-            $on[] = 't1.location_type_id = t2.location_type_id';
-            $using[] = 'location_type_id';
             break;
         case 'civicrm_note':
             $id = 'entity_id';
@@ -103,7 +109,7 @@ class CRM_Dedupe_BAO_Rule extends CRM_Dedupe_DAO_Rule
         // build SELECT based on the field names containing contact ids
         // if there are params provided, id1 should be 0
         if ($this->params) {
-            $select = "0 id1, $id id2, {$this->rule_weight} weight";
+            $select = "$id id, {$this->rule_weight} weight";
         } else {
             $select = "t1.$id id1, t2.$id id2, {$this->rule_weight} weight";
         }

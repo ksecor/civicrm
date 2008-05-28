@@ -7,8 +7,6 @@
   <dl>
     <dt>{$form.name.label}</dt><dd>{$form.name.html}</dd>
     <dt>{$form.level.label}</dt><dd>{$form.level.html}</dd>
-    <dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
-    <dt>{$form.is_default.label}</dt><dd>{$form.is_default.html}</dd>
     <table style="width: auto;">
       <tr class="columnheader"><th>{ts}Field{/ts}</th><th>{ts}Length{/ts}</th><th>{ts}Weight{/ts}</th></tr>
          {section name=count loop=5}

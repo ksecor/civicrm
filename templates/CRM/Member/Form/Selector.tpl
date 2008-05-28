@@ -11,7 +11,7 @@
 {strip}
 <table class="selector">
   <tr class="columnheader">
-{if ! $single and ! $limit}
+{if ! $single and $context neq 'dashboard' }
   <th scope="col" title="Select Rows">{$form.toggleSelect.html}</th> 
 {/if}
   {foreach from=$columnHeaders item=header}
@@ -33,18 +33,20 @@
   {counter start=0 skip=1 print=false}
   {foreach from=$rows item=row}
   <tr id='rowid{$row.membership_id}' class="{cycle values="odd-row,even-row"}{*if $row.cancel_date} disabled{/if*}">
-     {if ! $single and ! $limit}
-       {assign var=cbName value=$row.checkbox}
-       <td>{$form.$cbName.html}</td> 
-       <td>{$row.contact_type}</td>	
+     {if ! $single }
+       {if $context neq 'dashboard' }       
+          {assign var=cbName value=$row.checkbox}
+          <td>{$form.$cbName.html}</td> 
+          <td>{$row.contact_type}</td>	
+       {/if}
        <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td> 
     {/if}
-    <td>{$row.membership_type}</td>
+    <td>{$row.membership_type_id}</td>
     <td>{$row.join_date|truncate:10:''|crmDate}</td>
-    <td>{$row.start_date|truncate:10:''|crmDate}</td>
-    <td>{$row.end_date|truncate:10:''|crmDate}</td>
-    <td>{$row.source}</td>
-    <td>{$row.status}</td>
+    <td>{$row.membership_start_date|truncate:10:''|crmDate}</td>
+    <td>{$row.membership_end_date|truncate:10:''|crmDate}</td>
+    <td>{$row.membership_source}</td>
+    <td>{$row.status_id}</td>
     <td>{$row.action}</td>
    </tr>
   {/foreach}

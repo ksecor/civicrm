@@ -87,7 +87,7 @@ class CRM_Event_Form_EventFees
             $fields = array( );
     
             $eventLevel = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, 
-                                   substr( $defaults[$form->_participantId]['event_level'], 1, -1 ) );
+                                   substr( $defaults[$form->_participantId]['fee_level'], 1, -1 ) );
             foreach ( $eventLevel as $id => $name ) {
                 $optionValue         = new CRM_Core_BAO_OptionValue( );
                 $optionValue->label  = $name;
@@ -142,7 +142,7 @@ class CRM_Event_Form_EventFees
                                                               'id', 
                                                               'name' );
                 $optionParams = array( 'option_group_id' => $optionGroupId,
-                                       'label'           => CRM_Utils_Array::value('event_level',$defaults[$form->_participantId]) );
+                                       'label'           => CRM_Utils_Array::value('fee_level',$defaults[$form->_participantId]) );
                 
                 CRM_Core_BAO_CustomOption::retrieve( $optionParams, $params );
                 $defaults[$form->_participantId]['amount'] = $params['id'];

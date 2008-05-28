@@ -584,6 +584,76 @@ function hiderow(rowid)
 	rowcounter++;
 }
 
+
+/** 
+ * This (temporary) function is used to hide the table row 
+ * for Discounts 
+ * 
+ * Need to make generic with hiderow()
+ * @param null
+ * @access public
+ * @return null
+ *
+ */
+function hiderowDiscount(rowid)
+{
+	hide(rowid);
+        if(document.getElementById('discountLink').style.display == 'none') {
+            document.getElementById('discountLink').style.display = '';
+        }
+	rowcounter++;
+}
+
+/** 
+ * This (temporary) function is used to show the table row 
+ * for Discounts 
+ * 
+ * Need to make generic with showrow()
+ * @param null
+ * @access public
+ * @return null
+ *
+ */
+function showrowDiscount()
+{
+    var rowid ;
+    
+    if(rowcounter == 0) {
+	for (var i=2; i<=6; i++) {
+            rowid = 'discount_'+i;
+
+            if (i == 6) {
+                    document.getElementById('discountLink').style.display = 'none';
+            }
+
+	    if(document.getElementById(rowid).style.display == 'none') {
+                document.getElementById(rowid).style.display = '';
+                break;
+            }   
+        }
+
+    } else {
+        rowcounter--;
+	
+	for (var i=2; i<=6; i++) {
+            rowid = 'discount_'+i;
+	    
+	    if (i == 6) {
+		    document.getElementById('discountLink').style.display = 'none';
+            }	
+       
+	    if(document.getElementById(rowid).style.display == 'none') {
+                document.getElementById(rowid).style.display = '';
+		if (i < 6) {
+		   if(rowcounter == 0) {
+		   	document.getElementById('discountLink').style.display = 'none';
+		   }
+                   break;
+		}
+            }
+        }
+    }
+}
 /** 
  * This function is used to show the table row 
  * also checks whether we have reached the 11th row

@@ -99,8 +99,7 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View
             $wrapper =& new CRM_Utils_Wrapper( );
             return $wrapper->run( 'CRM_Contact_Form_Task_Email', ts('Email a Contact'),  null );
         }
-        
-        $controller->reset( );
+
         $controller->setEmbedded( true );
 
         $controller->set( 'contactId', $this->_contactId );
@@ -136,6 +135,12 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View
         CRM_Contact_BAO_Contact::retrieve($params, $defaults, $ids);
         CRM_Contact_BAO_Contact::resolveDefaults($defaults);
         $this->assign($defaults);
+
+        // also create the form element for the activity links box
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Activity_Form_ActivityLinks',
+                                                       ts('Activity Links'), null );
+        $controller->setEmbedded( true );
+        $controller->run( );
     }
 
     function delete( )

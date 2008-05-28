@@ -305,16 +305,20 @@ UNION
      * @static
      *
      */
-    static function buildOnBehalfForm( &$form, $contactType = 'Individual', 
-                                       $title = 'Contact Information', $maxLocationBlocks = 1 )
+    static function buildOnBehalfForm( &$form, 
+                                       $contactType       = 'Individual', 
+                                       $countryDefault    = null,
+                                       $stateDefault      = null,
+                                       $title             = 'Contact Information',
+                                       $contactEditMode   = false,
+                                       $maxLocationBlocks = 1 )
     {
         require_once 'CRM/Contact/Form/Location.php';
         $config =& CRM_Core_Config::singleton( );
 
-        $form->assign( 'locationCount', $maxLocationBlocks + 1 );
-        $form->assign( 'blockCount'   , CRM_Contact_Form_Location::BLOCKS + 1 );
         $form->assign( 'contact_type' , $contactType );
         $form->assign( 'fieldSetTitle', ts('%1', array('1' => $title)) );
+        $form->assign( 'contactEditMode' , $contactEditMode );
 
         $attributes = CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact');
 
@@ -328,24 +332,31 @@ UNION
                 $employers = CRM_Contact_BAO_Relationship::getPermissionedEmployer( $contactID );
             }
 
-            if ( $contactID && ( count($employers) >= 1 ) ) {
-                $comboAttributes = array( 'dojoType'     => 'dijit.form.FilteringSelect',
-                                          'mode'         => 'remote',
-                                          'store'        => 'employerStore',
-                                          'style'        => 'width:225px; border: 1px solid #cfcfcf;',
-                                          'class'        => 'tundra',
-                                          'pageSize'     => 10,
-                                          );
+            if ( !$contactEditMode && $contactID && ( count($employers) >= 1 ) ) {
+                $filterAttributes = array( 'dojoType'     => 'dijit.form.FilteringSelect',
+                                           'mode'         => 'remote',
+                                           'store'        => 'employerStore',
+                                           'style'        => 'width:225px; border: 1px solid #cfcfcf;',
+                                           'class'        => 'tundra',
+                                           'pageSize'     => 10,
+                                           'onChange'     => 'loadLocationData(this.getValue())'
+                                           );
+                $locDataURL = CRM_Utils_System::url( 'civicrm/ajax/permlocation', "cid=", 
+                                                     true, null, false );
+                $form->assign( 'locDataURL', $locDataURL );
+                
                 $dataURL = CRM_Utils_System::url( 'civicrm/ajax/employer', 
                                                   "cid=" . $contactID, 
                                                   true, null, false );
                 $form->assign( 'employerDataURL', $dataURL );
-
+                
                 $form->add('text', 'organization_id', 
-                           ts('Select an existing related Organization OR Enter a new one'), $comboAttributes);
-
-                $orgOptions = array( '0' => ts('Create new organization'), '1' => ts('Select existing organization') );
-                $form->addRadio('org_option', ts('options'),  $orgOptions, array( 'onclick' => "showHideByValue('org_option','true','select_org','table-row','radio',true);showHideByValue('org_option','true','create_org','table-row','radio',false);"));
+                           ts('Select an existing related Organization OR Enter a new one'), $filterAttributes);
+                
+                $orgOptions     = array( '0' => ts('Create new organization'), 
+                                         '1' => ts('Select existing organization') );
+                $orgOptionExtra = array( 'onclick' => "showHideByValue('org_option','true','select_org','table-row','radio',true);showHideByValue('org_option','true','create_org','table-row','radio',false);");
+                $form->addRadio( 'org_option', ts('options'),  $orgOptions, $orgOptionExtra );
                 $form->assign( 'relatedOrganizationFound', true );
             }
             $form->add('text', 'organization_name', ts('Organization Name'), $attributes['organization_name']);
@@ -374,8 +385,8 @@ UNION
         $attributes = array( 'dojoType'     => 'civicrm.HierSelect',
                              'url1'         => CRM_Utils_System::url('civicrm/ajax/countries'),
                              'url2'         => CRM_Utils_System::url('civicrm/ajax/states'),
-                             //                                     'default3'     => "3",
-                             //                                     'default4'     => "3",
+                             'default1'     => $countryDefault,
+                             'default2'     => $stateDefault,
                              'firstInList'  => "true",
                              );
         $form->add( 'text', "location[1][address][country_state]", ts( 'Select Country' ), $attributes );
@@ -385,6 +396,7 @@ UNION
         // keeping in mind whether they are found in addressSequence / preferences. 
 
         $addressSequence = $config->addressSequence();
+
         $key = array_search( 'country', $addressSequence);
         if ( $key ) {
             $form->assign( 'addressSequenceCountry', true );

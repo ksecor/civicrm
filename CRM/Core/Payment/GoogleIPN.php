@@ -110,7 +110,8 @@ class CRM_Core_Payment_GoogleIPN extends CRM_Core_Payment_BaseIPN {
             $ids['participant'] = self::retrieve( 'participantID', 'Integer', $privateData, true );
             $ids['membership']  = null;
         } else {
-            $ids['membership'] = self::retrieve( 'membershipID'  , 'Integer', $privateData, false );
+            $ids['membership']       = self::retrieve( 'membershipID'  , 'Integer', $privateData, false );
+            $ids['relatedContactID'] = self::retrieve( 'relatedContactID'  , 'Integer', $privateData, false );
         }
         $ids['contributionRecur'] = $ids['contributionPage'] = null;
 
@@ -165,7 +166,9 @@ class CRM_Core_Payment_GoogleIPN extends CRM_Core_Payment_BaseIPN {
                     $ids['event']       . CRM_Core_DAO::VALUE_SEPARATOR .
                     $ids['participant'] ;
             } else {
-                $contribution->trxn_id = $ids['membership'];
+                $contribution->trxn_id = 
+                    $ids['membership'] . CRM_Core_DAO::VALUE_SEPARATOR .
+                    $ids['relatedContactID'];
             }
         }
 
@@ -221,7 +224,9 @@ class CRM_Core_Payment_GoogleIPN extends CRM_Core_Payment_BaseIPN {
                          $contribution->trxn_id );
             
         } else {
-            $ids['membership'] = $contribution->trxn_id;
+            list( $ids['membership'], $ids['relatedContactID'] ) = 
+                explode( CRM_Core_DAO::VALUE_SEPARATOR,
+                         $contribution->trxn_id );
         }
 
         $this->loadObjects( $input, $ids, $objects );

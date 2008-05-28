@@ -81,6 +81,13 @@ class CRM_Member_Info extends CRM_Core_Component_Info
                       'weight'  => 30 );
     }
 
+    // docs inherited from interface
+    public function registerAdvancedSearchPane()
+    {
+        return array( 'title'   => ts( 'Memberships' ),
+                      'weight'  => 30 );
+    }
+
     // docs inherited from interface    
     public function getActivityTypes()
     {

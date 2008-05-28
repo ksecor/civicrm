@@ -153,7 +153,7 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
                     ts( 'Registration End Date'  ),
                     CRM_Core_SelectValues::date('datetime') );
         $this->addRule('registration_end_date', ts('Please select a valid end date.'), 'qfDate');
-
+        $this->addElement('checkbox', 'is_multiple_registrations', ts('Register Multiple Participants?'),null); 
         self::buildRegistrationBlock( $this );
         self::buildConfirmationBlock( $this );
         self::buildMailBlock( $this );
@@ -173,8 +173,13 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
         $attributes = CRM_Core_DAO::getAttribute('CRM_Event_DAO_EventPage');
         $form->add('textarea','intro_text',ts('Introductory Text'), $attributes['intro_text']);
         $form->add('textarea','footer_text',ts('Footer Text'), $attributes['footer_text']);
-        $form->add('select', 'custom_pre_id', ts('Include Profile') . '<br />' . ts('(top of page)'),array(''=>'- select -') + CRM_Core_PseudoConstant::ufGroup( ));
-        $form->add('select', 'custom_post_id', ts('Include Profile') . '<br />' . ts('(bottom of page)'),array(''=>'- select -')+ CRM_Core_PseudoConstant::ufGroup( ));
+
+        require_once "CRM/Core/BAO/UFGroup.php";
+        $types    = array( 'Contact', 'Individual','Organization', 'Household','Participant' );
+        $profiles = CRM_Core_BAO_UFGroup::getProfiles( $types ); 
+
+        $form->add('select', 'custom_pre_id', ts('Include Profile') . '<br />' . ts('(top of page)'),array(''=>'- select -') +  $profiles );
+        $form->add('select', 'custom_post_id', ts('Include Profile') . '<br />' . ts('(bottom of page)'),array(''=>'- select -')+  $profiles );
     }
 
     /**

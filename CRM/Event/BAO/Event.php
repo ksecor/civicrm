@@ -490,18 +490,19 @@ WHERE
         while ( $dao->fetch( ) ) {
        
             $location = array( );
-            $location['displayName'] = $dao->display_name ;
+            $location['displayName'] = addslashes( $dao->display_name );
             $location['lat'        ] = $dao->latitude;
             $location['lng'        ] = $dao->longitude;
             $address = '';
 
             CRM_Utils_String::append( $address, '<br />',
-                                      array( $dao->street_address, $dao->city) );
+                                      array( $dao->street_address,
+                                             $dao->city ) );
             CRM_Utils_String::append( $address, ', ',
                                       array(   $dao->state, $dao->postal_code ) );
             CRM_Utils_String::append( $address, '<br /> ',
                                       array( $dao->country ) );
-            $location['address'      ] = $address;
+            $location['address'      ] = addslashes( $address );
             $location['url'          ] = CRM_Utils_System::url( 'civicrm/event/register', 'reset=1&action=preview&id=' . $dao->event_id );
             $location['location_type'] = $dao->location_type;
             $eventImage = '<img src="' . $config->resourceBase . 'i/contact_org.gif" alt="Organization " height="20" width="15" />';

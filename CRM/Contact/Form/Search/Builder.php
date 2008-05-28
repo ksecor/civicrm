@@ -181,6 +181,8 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
                         $type = $fields[$v[0]]['data_type'];
                     } else {
                         $fldName = $v[0];
+                        // FIXME: no idea at this point what to do with this,
+                        // FIXME: but definitely needs fixing.
                         if ( substr( $v[0], 0, 13 ) == 'contribution_' ) {
                             $fldName = substr($v[0], 13 );
                         }

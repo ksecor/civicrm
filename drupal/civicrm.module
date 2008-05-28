@@ -670,4 +670,29 @@ function civicrm_key_disable( ) {
     $config->formKeyDisable = true;
 }
 
+function civicrm_enable( ) {
+    menu_rebuild( );
 
+    menu_link_maintain( 'civicrm', 'delete', 'civicrm', 'CiviCRM' );
+    
+    $options = array(
+                     'link_title' => 'CiviCRM',
+                     'link_path'  => 'civicrm',
+                     'module'     => 'civicrm',
+                     'options'    => array( 'alter' => true )
+                     );
+    menu_link_save( $options );
+}
+
+/**
+ * An implementation of hook_translated_menu_item_alter(). This is a hack
+ * to hide the CiviCRM menu from the drupal navigation block for folks
+ * who dont have access CiviCRM permissions
+ **/
+function civicrm_translated_menu_link_alter(&$item) {
+    if ( $item['router_path'] == 'civicrm' &&
+         $item['module']      == 'civicrm' &&
+         ! user_access( 'access CiviCRM' ) ) {
+        $item['access_callback'] = $item['access'] = false;
+    }
+}

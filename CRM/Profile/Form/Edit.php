@@ -223,10 +223,12 @@ SELECT module
 
         $session =& CRM_Core_Session::singleton( );
         // only replace user context if we do not have a postURL
-        if ( ! $this->_postURL && $this->_context != 'dialog' ) {
+        if ( ! $this->_postURL  ) {
             $url = CRM_Utils_System::url( 'civicrm/profile/view',
                                           "reset=1&id={$this->_id}&gid={$this->_gid}" );
-        } else {
+        }
+
+        if ( $this->_context == 'dialog' )  {
             $url = CRM_Utils_System::refererPath( );
             $url .= "&ncid={$this->_id}";
         }

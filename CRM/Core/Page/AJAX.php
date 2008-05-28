@@ -87,12 +87,6 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
         case 'eventType':
             return $this->eventType( $config );
 
-        case 'customdatatype':
-            return $this->customDataType( $config );
-
-        case 'custominputtype':
-            return $this->customInputType( $config );
-
         case 'caseSubject':
              return $this->caseSubject( $config );
 
@@ -120,6 +114,12 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
                 return eval( "return CRM_Core_Page_AJAX_Mapper::{$args[3]}( " . ' $config ); ' );
             }
             exit( );
+
+        case 'groupTree':
+            return $this->groupTree( $config );
+
+        case 'permlocation':
+            return $this->getPermissionedLocation( $config );
 
         default:
             return;
@@ -160,14 +160,10 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
             }
             
             $relType = null;
-            if ( isset($_GET['reID']) ) {
-                $relType = CRM_Utils_Type::escape( $_GET['reID'], 'Integer');
-                $rel = CRM_Utils_Type::escape( $_GET['retyp'], 'String');
-                
-                if ( !$_GET['retyp'] ) {
-                    return;
-                }
-                
+            if ( isset($_GET['rel']) ) {
+                $relation = explode( '_', $_GET['rel'] );
+                $relType  = CRM_Utils_Type::escape( $relation[0], 'Integer');
+                $rel      = CRM_Utils_Type::escape( $relation[2], 'String');
             }
             
             $organization = null;
@@ -192,7 +188,7 @@ ORDER BY organization_name ";
             } else if ( $shared ) {
                 
                 $query = "
-SELECT CONCAT_WS(':::' , household_name , street_address , supplemental_address_1 , city , sp.abbreviation ,postal_code, cc.name , cw.name )'sort_name' , civicrm_contact.id 'id' , civicrm_contact.display_name 'disp' FROM civicrm_contact LEFT JOIN civicrm_address ON (civicrm_contact.id =civicrm_address.contact_id AND civicrm_address.is_primary =1 )LEFT JOIN civicrm_state_province sp ON (civicrm_address.state_province_id =sp.id )LEFT JOIN civicrm_country cc ON (civicrm_address.country_id =cc.id )LEFT JOIN civicrm_worldregion cw ON (cw.id =cc.region_id )WHERE civicrm_contact.contact_type ='Household' AND household_name LIKE '$name%' {$whereIdClause} ORDER BY household_name ";
+SELECT CONCAT_WS(':::' , household_name , street_address , supplemental_address_1 , city , sp.abbreviation ,postal_code, cc.name )'sort_name' , civicrm_contact.id 'id' , civicrm_contact.display_name 'disp' FROM civicrm_contact LEFT JOIN civicrm_address ON (civicrm_contact.id =civicrm_address.contact_id AND civicrm_address.is_primary =1 )LEFT JOIN civicrm_state_province sp ON (civicrm_address.state_province_id =sp.id )LEFT JOIN civicrm_country cc ON (civicrm_address.country_id =cc.id )WHERE civicrm_contact.contact_type ='Household' AND household_name LIKE '$name%' {$whereIdClause} ORDER BY household_name ";
 
             } else if($relType) {
                 
@@ -359,110 +355,6 @@ ORDER by v.weight";
     }
 
     /**
-     * Function for building Custom Data Type
-     */
-    function customDataType( &$config ) 
-    {
-        static $dataType = null;
-
-        if (! $dataType) { 
-            require_once 'CRM/Core/BAO/CustomField.php';
-            $dataType = array_values(CRM_Core_BAO_CustomField::dataType());
-        }
-
-        $dataTypeName = trim(CRM_Utils_Type::escape($_GET['name'], 'String'));      
-        $dataTypeName = str_replace(array('*', '/'), array('', '\/'), $dataTypeName);        
-        $pattern = '/^' . $dataTypeName .'/i';
-
-        $elements = array( );
-        if ( is_array($dataType) ) {
-            foreach ( $dataType as $key => $val ) {
-                if ( preg_match($pattern, $val) ) {
-                    $elements[]= array( 'name'  => $val, 
-                                        'value' => $key );
-                }
-            }
-        }
-
-        require_once "CRM/Utils/JSON.php";
-        echo CRM_Utils_JSON::encode( $elements, 'value' );
-    }
-
-    /**
-     * Function for building Custom Input Type
-     */
-    function customInputType( &$config ) 
-    {
-        require_once 'CRM/Utils/Type.php';
-        $inputTypeId    = CRM_Utils_Type::escape($_GET['node1'], 'String');
-
-        $name = array();
-
-        // simulating - dynamic building of array.
-        switch ( $inputTypeId ) {
-        case '0': 
-            $name['Text']         = 'Text';
-            $name['Select']       = 'Select';
-            $name['Radio']        = 'Radio';
-            $name['CheckBox']     = 'CheckBox';
-            $name['Multi-Select'] = 'Multi-Select';
-            break;
-        case '1': 
-        case '2': 
-        case '3': 
-            $name['Text']         = 'Text';
-            $name['Select']       = 'Select';
-            $name['Radio']        = 'Radio';
-            break;
-        case '4':
-            $name['TextArea']     = 'TextArea';
-            $name['RichTextEditor']  = 'Rich Text Editor';
-            break;
-        case '5':
-            $name['Date']         = 'Select Date';
-            break;
-        case '6':
-            $name['Radio']        = 'Radio';
-            break;
-        case '7':
-            $name['StateProvince'] = 'Select State/Province';
-            $name['Multi-Select']  = 'Multi-Select State/Province';
-            break;
-        case '8':
-            $name['Country']      = 'Select Country';
-            $name['Multi-Select'] = 'Multi-Select Country';
-            break;
-        case '9':
-            $name['File']         = 'Select File';
-            break;
-        case '10':
-            $name['Link']         = 'Link';
-            break;
-        }
-
-        $inputTypeName = trim(CRM_Utils_Type::escape($_GET['name'], 'String'));        
-        $inputTypeName = str_replace( '*', '', $inputTypeName );        
-        $pattern = '/^' . $inputTypeName .'/i';
-
-        $elements = array( );
-        if ( is_array($name) ) {
-            foreach ( $name as $key => $val ) {
-                if ( preg_match($pattern, $val) ) {
-                    $elements[]= array( 'name'  => $val, 
-                                        'value' => $key );
-                }
-            }
-        }
-        if (empty($elements)) {
-            $elements[] = array( 'value' => '',
-                                 'name'  => '- input field type n/a -' );
-        }
-
-        require_once "CRM/Utils/JSON.php";
-        echo CRM_Utils_JSON::encode( $elements, 'value' );
-    }
-
-    /**
      * Function to show import status
      */
     function status( &$config ) 
@@ -577,6 +469,9 @@ ORDER BY name";
                 if (isset($_GET['default'])) {
                     $default   = trim(CRM_Utils_Type::escape($_GET['default'], 'Boolean'));
                 }
+                if ( isset( $_GET['id'] ) ) {
+                    $stateId = CRM_Utils_Type::escape( $_GET['id'], 'Positive', false  );
+                }
 
                 $query = "
 SELECT civicrm_state_province.name name, civicrm_state_province.id id
@@ -589,9 +484,16 @@ ORDER BY name";
                 $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
 
                 if ( $default ) {
-                    while ($dao->fetch( )) {
+                    while ( $dao->fetch( ) ) {
                         $elements[] = array( 'name'  => ts($dao->name),
                                              'value' => $dao->id );
+                    }
+                } else if ( $stateId ) {
+                    while ( $dao->fetch( ) ) {
+                        if ( $dao->id == $stateId ) {
+                            $elements[] = array( 'name'  => ts($dao->name),
+                                                 'value' => $dao->id );
+                        }
                     }
                 } else {
                     $count = 0;
@@ -610,7 +512,7 @@ ORDER BY name";
                     }
                     $elements[] = array( 'name'  => $label,
                                          'value' => '' );
-                } elseif (!$default && (!$stateName || $stateName=='- type first letter(s) -')) {
+                } elseif (!$default && !$stateId && (!$stateName || $stateName=='- type first letter(s) -')) {
                     $elements = array();
                     $elements[] = array( 'name'  => '- type first letter(s) -',
                                          'value' => '' );
@@ -892,6 +794,34 @@ AND domain_id = {$domainID} ";
         echo CRM_Utils_JSON::encode( $elements, 'value');
     }
 
+    /**
+     * Function to obtain the location of given contact-id. 
+     * This method is used by on-behalf-of form to dynamically generate poulate the 
+     * location field values for selected permissioned contact. 
+     */
+    function getPermissionedLocation( &$config ) 
+    {
+        $cid = CRM_Utils_Type::escape( $_GET['cid'], 'Integer' );
+        
+        require_once 'CRM/Core/BAO/Location.php';
+        $entityBlock = array( 'contact_id' => $cid );
+        $loc =& CRM_Core_BAO_Location::getValues( $entityBlock, $location );
+
+        $str  = "location_1_phone_1_phone::" . $location['location'][1]['phone'][1]['phone'] . ';;';
+        $str .= "location_1_email_1_email::". $location['location'][1]['email'][1]['email'] . ';;';
+        $str .= "location_1_address_street_address::" . $location['location'][1]['address']['street_address'] . ';;';
+        $str .= "location_1_address_supplemental_address_1::" . $location['location'][1]['address']['supplemental_address_1'] . ';;';
+        $str .= "location_1_address_supplemental_address_2::" . $location['location'][1]['address']['supplemental_address_2'] . ';;';
+        $str .= "location_1_address_city::" . $location['location'][1]['address']['city'] . ';;';
+        $str .= "location_1_address_postal_code::" . $location['location'][1]['address']['postal_code'] . ';;';
+        $str .= "id_location[1][address][country_state]_0::" . $location['location'][1]['address']['country_id'] . '-' . $location['location'][1]['address']['state_province_id'] . ';;';
+
+        echo $str;
+    }
+
+    function groupTree( $config ) {
+        require_once 'CRM/Contact/BAO/GroupNestingCache.php';
+        echo CRM_Contact_BAO_GroupNestingCache::json( );
+    }
+
 }
-
-

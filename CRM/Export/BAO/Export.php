@@ -97,9 +97,24 @@ class CRM_Export_BAO_Export
                         $returnProperties['location'][$locationTypes[$locTypeId]][$fieldName] = 1;
                     }
                 } else {
-                    $returnProperties[$fieldName] = 1;
+                    //hack to fix component fields
+                    if ( $fieldName == 'event_id' ) {
+                        $returnProperties['event_title'] = 1;
+                    } else {
+                        $returnProperties[$fieldName] = 1;
+                    }
                 }
             }
+            
+            // hack to add default returnproperty based on export mode
+            if ( $exportMode == CRM_Export_Form_Select::CONTRIBUTE_EXPORT ) {
+                $returnProperties['contribution_id'] = 1;
+            } else if ( $exportMode == CRM_Export_Form_Select::EVENT_EXPORT ) {
+                $returnProperties['participant_id'] = 1;
+            } else if ( $exportMode == CRM_Export_Form_Select::MEMBER_EXPORT ) {
+                $returnProperties['membership_id'] = 1;
+            }
+
             //check if user map current employer field,
             //and did not map Internal Contact ID.
             $returnContactID = CRM_Utils_Array::value( 'id' , $returnProperties );
@@ -130,7 +145,7 @@ class CRM_Export_BAO_Export
                 $returnProperties          = array_merge( $returnProperties, $componentReturnProperties );
             }
         }
-        
+
         if ($primary) {
             $returnProperties['location_type'] = 1;
             $returnProperties['im_provider'  ] = 1;
@@ -141,8 +156,7 @@ class CRM_Export_BAO_Export
             $returnProperties = array_merge( $returnProperties, $moreReturnProperties );
         }
         
-        // create the selector, controller and run - store results in session
-        $session =& CRM_Core_Session::singleton( );
+        //crm_core_error::Debug(' $returnProperties',  $returnProperties);
         
         if ( ! $componentClause || $querytMode == CRM_Contact_BAO_Query::MODE_CONTACTS ) {
             if ( $selectAll ) {
@@ -359,6 +373,74 @@ class CRM_Export_BAO_Export
             return ts('CiviCRM Participant Search');
         }
     }
+
+
+    /**
+     * handle the export case. this is a hack, so please fix soon
+     *
+     * @param $args array this array contains the arguments of the url
+     *
+     * @static
+     * @access public
+     */
+    static function invoke( $args ) 
+    {
+        // FIXME:  2005-06-22 15:17:33 by Brian McFee <brmcfee@gmail.com>
+        // This function is a dirty, dirty hack.  It should live in its own
+        // file.
+        $session =& CRM_Core_Session::singleton();
+        $type = $_GET['type'];
+        
+        if ($type == 1) {
+            $varName = 'errors';
+            $saveFileName = 'Import_Errors.csv';
+        } else if ($type == 2) {
+            $varName = 'conflicts';
+            $saveFileName = 'Import_Conflicts.csv';
+        } else if ($type == 3) {
+            $varName = 'duplicates';
+            $saveFileName = 'Import_Duplicates.csv';
+        } else if ($type == 4) {
+            $varName = 'mismatch';
+            $saveFileName = 'Import_Mismatch.csv';
+        }else {
+            /* FIXME we should have an error here */
+            return;
+        }
+        
+        // FIXME: a hack until we have common import
+        // mechanisms for contacts and contributions
+        $realm = CRM_Utils_Array::value('realm',$_GET);
+        if ($realm == 'contribution') {
+            $controller = 'CRM_Contribute_Import_Controller';
+        } else if ( $realm == 'membership' ) {
+            $controller = 'CRM_Member_Import_Controller';
+        } else if ( $realm == 'event' ) {
+            $controller = 'CRM_Event_Import_Controller';
+        } else if ( $realm == 'activity' ) {
+            $controller = 'CRM_Activity_Import_Controller';
+        } else {
+            $controller = 'CRM_Import_Controller';
+        }
+        
+        require_once 'CRM/Core/Key.php';
+        $qfKey = CRM_Core_Key::get( $controller );
+        
+        $fileName = $session->get($varName . 'FileName', "{$controller}_{$qfKey}");
+        
+        $config =& CRM_Core_Config::singleton( ); 
+        
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        header('Content-Description: File Transfer');
+        header('Content-Type: text/csv');
+        header('Content-Length: ' . filesize($fileName) );
+        header('Content-Disposition: attachment; filename=' . $saveFileName);
+        
+        readfile($fileName);
+        
+        exit();
+    }
+
 }
 
 

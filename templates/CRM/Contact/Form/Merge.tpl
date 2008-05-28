@@ -1,6 +1,8 @@
 <div id="help">
 {ts}Click <strong>Merge</strong> to move data from the Duplicate Contact on the left into the Main Contact. In addition to the contact data (address, phone, email...), you may choose to move all or some of the related activity records (groups, contributions, memberships, etc.).{/ts} {help id="intro"}
 </div>
+<div class="action-link">
+    	<a href="{crmURL q="reset=1&cid=$other_cid&oid=$main_cid"}">&raquo; {ts}Flip between original and duplicate contacts.{/ts}</a>
 <table>
   <tr class="columnheader">
     <th>&nbsp;</th>

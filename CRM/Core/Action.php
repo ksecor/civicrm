@@ -95,7 +95,7 @@ class CRM_Core_Action {
                            'copy'          => self::COPY,
                            'profile'       => self::PROFILE,
                            'renew'         => self::RENEW,
-                           'detach'       => self::DETACH
+                           'detach'        => self::DETACH
                            );
 
     /**

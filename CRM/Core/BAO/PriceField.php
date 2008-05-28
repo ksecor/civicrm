@@ -96,6 +96,7 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
         }
         
         $options  = array( );
+        require_once 'CRM/Price/Form/Field.php';
         $maxIndex = CRM_Price_Form_Field::NUM_OPTION;
         
         if ( $priceField->html_type == 'Text' ) {

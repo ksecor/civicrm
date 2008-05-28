@@ -121,9 +121,22 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 
         //set default membership for membershipship block
         require_once 'CRM/Member/BAO/Membership.php';
-        if ( $membershipBlock = CRM_Member_BAO_Membership::getMembershipBlock($this->_id) ) {
-            $this->_defaults['selectMembership'] = CRM_Utils_Array::value( 'membership_type_default',
-                                                                           $membershipBlock );
+        if ( $this->_membershipBlock ) {
+            $this->_defaults['selectMembership'] = 
+                $this->_defaultMemTypeId ? $this->_defaultMemTypeId : 
+                CRM_Utils_Array::value( 'membership_type_default', $this->_membershipBlock );
+        }
+
+        if ( $this->_membershipContactID ) {
+            $this->_defaults['is_for_organization'] = 1;
+            $this->_defaults['org_option'] = 1;
+        } elseif ( $this->_values['is_for_organization'] ) {
+            $this->_defaults['org_option'] = 0;
+        }
+
+        if ( $this->_values['is_for_organization'] && 
+             ! isset($this->_defaults['location'][1]['email'][1]['email']) ) {
+            $this->_defaults['location'][1]['email'][1]['email'] = $this->_defaults["email-{$this->_bltID}"];
         }
 
         // hack to simplify credit card entry for testing
@@ -163,9 +176,11 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             }
             
             require_once 'CRM/Member/BAO/Membership.php';
-            $this->_separateMembershipPayment = CRM_Member_BAO_Membership::buildMembershipBlock( $this , $this->_id , 
-                                                                                                 true, null, false, 
-                                                                                                 $isTest );
+            $this->_separateMembershipPayment = 
+                CRM_Member_BAO_Membership::buildMembershipBlock( $this , 
+                                                                 $this->_id , 
+                                                                 true, null, false, 
+                                                                 $isTest, $this->_membershipContactID );
         }
         $this->set( 'separateMembershipPayment', $this->_separateMembershipPayment );
 
@@ -345,12 +360,24 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
      */
     function buildOnBehalfOrganization( ) 
     {
-        require_once 'CRM/Contact/BAO/Contact/Utils.php';
+        if ( $this->_membershipContactID ) {
+            // Setting location defaults for matching permissioned contact.
+            // Setting it here since we require country & state
+            // default values here.
+            require_once 'CRM/Core/BAO/Location.php';
+            $entityBlock = array( 'contact_id' => $this->_membershipContactID );
+            CRM_Core_BAO_Location::getValues( $entityBlock, $this->_defaults );
+        }
 
+        require_once 'CRM/Contact/BAO/Contact/Utils.php';
         $attributes = array('onclick' => 
                             "return showHideByValue('is_for_organization','true','for_organization','block','radio',false);");
         $this->addElement( 'checkbox', 'is_for_organization', $this->_values['for_organization'], null, $attributes );
-        CRM_Contact_BAO_Contact_Utils::buildOnBehalfForm( $this, 'Organization', 'Organization Details' );
+
+        CRM_Contact_BAO_Contact_Utils::buildOnBehalfForm($this, 'Organization', 
+                                                         $this->_defaults['location'][1]['address']['country_id'],
+                                                         $this->_defaults['location'][1]['address']['state_province_id'],
+                                                         'Organization Details');
     }
 
     /**
@@ -481,14 +508,25 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             $errors['_qf_default'] = ts('You can not set up a recurring contribution if you are not paying online by credit card.'); 
         }
 
+        if ( $fields['is_for_organization'] ) {
+            if ( $fields['org_option'] && ! $fields['organization_id'] ) {
+                $errors['organization_id'] = ts('Please select an organization or enter a new one.'); 
+            }
+            if ( ! $fields['org_option'] && ! $fields['organization_name'] ) {
+                $errors['organization_name'] = ts('Please enter the organization name.'); 
+            }
+            if ( ! $fields['location'][1]['email'][1]['email']) {
+                $errors["location[1][email][1][email]"] = ts('Organization email is required.'); 
+            }
+        }
+
         if ( CRM_Utils_Array::value('selectMembership', $fields) && 
              $fields['selectMembership'] != 'no_thanks') {
             require_once 'CRM/Member/BAO/Membership.php';
             require_once 'CRM/Member/BAO/MembershipType.php';
-            $memBlock       = CRM_Member_BAO_Membership::getMembershipBlock( $self->_id );
             $memTypeDetails = CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $fields['selectMembership']);
             if ( $self->_values['amount_block_is_active'] &&
-                 ! CRM_Utils_Array::value( 'is_separate_payment', $memBlock ) ) {
+                 ! CRM_Utils_Array::value( 'is_separate_payment', $self->_membershipBlock ) ) {
                 require_once 'CRM/Utils/Money.php';
                 if ( $amount < CRM_Utils_Array::value('minimum_fee',$memTypeDetails) ) {
                     $errors['selectMembership'] =

@@ -117,7 +117,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             
             // if onbehalf-of-organization
             if ( $this->_params['is_for_organization'] ) {
-                if ( $this->_params['organization_id'] ) {
+                if ( $this->_params['org_option'] && $this->_params['organization_id'] ) {
                     $this->_params['organization_name'] = 
                         CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $this->_params['organization_id'], 'sort_name');
                 }
@@ -209,7 +209,9 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 CRM_Member_BAO_Membership::buildMembershipBlock( $this,
                                                                  $this->_id,
                                                                  false,
-                                                                 $params['selectMembership'] );
+                                                                 $params['selectMembership'],
+                                                                 false, null,
+                                                                 $this->_membershipContactID );
             } else {
                 $this->assign('membershipBlock', false);
             }
@@ -377,13 +379,15 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         }
 
         // if onbehalf-of-organization contribution, take out
-        // organization params in a separate variable. 
+        // organization params in a separate variable, to make sure
+        // normal behavior is continued. And use that variable to
+        // process on-behalf-of functionality.
         if ( $params['is_for_organization'] && $params['organization_name'] ) {
             $behalfOrganization = array();
-            $behalfOrganization['organization_name'] = $params['organization_name'];
-            $behalfOrganization['organization_id']   = $params['organization_id'];
-            $behalfOrganization['location']          = $params['location'];
-            unset($params['organization_name'], $params['location']);
+            foreach ( array('organization_name', 'organization_id', 'location', 'org_option') as $fld ) {
+                $behalfOrganization[$fld] = $params[$fld];
+                unset($params[$fld]);
+            }
         }
         
         if ( ! isset( $contactID ) ) {
@@ -401,10 +405,10 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                                                                          null, $ctype);
         }
 
-        // If onbehalf-of-organization contribution, add organization
+        // If onbehalf-of-organization contribution / signup, add organization
         // and it's location.
         if ( is_array($behalfOrganization) && $behalfOrganization['organization_name'] ) {
-            self::processOnBehalfOrganization( $behalfOrganization, $this->_values, $contactID );
+            self::processOnBehalfOrganization( $behalfOrganization, $contactID, $this->_values, $this->_params );
         }
 
         // lets store the contactID in the session
@@ -704,7 +708,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         }
 
         // create an activity record
-        CRM_Contribute_BAO_Contribution::addActivity( $contribution );
+        require_once 'CRM/Activity/BAO/Activity.php';
+        CRM_Activity_BAO_Activity::addActivity( $contribution );
 
         $transaction->commit( ); 
 
@@ -804,8 +809,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
      * @return void
      * @access public
      */
-    static function processOnBehalfOrganization( &$behalfOrganization, &$values, &$contactID ) {
-        if ( $behalfOrganization['organization_id'] ) {
+    static function processOnBehalfOrganization( &$behalfOrganization, &$contactID, &$values, &$params ) {
+        if ( $behalfOrganization['organization_id'] && $behalfOrganization['org_option'] ) {
             $orgID = $behalfOrganization['organization_id'];
             unset($behalfOrganization['organization_id']);
         }
@@ -814,53 +819,64 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $behalfOrganization['contact_type']              = 'Organization';
         $behalfOrganization['location'][1]['is_primary'] = 1;
         
+        // get the relationship type id
+        require_once "CRM/Contact/DAO/RelationshipType.php";
+        $relType =& new CRM_Contact_DAO_RelationshipType();
+        $relType->name_a_b = "Employee of";
+        $relType->find(true);
+        $relTypeId = $relType->id;
+        
+        // keep relationship params ready
+        $relParams['relationship_type_id']    = $relTypeId.'_a_b';
+        $relParams['is_permission_a_b'   ]    = 1;
+        $relParams['is_active'           ]    = 1;
+        
         if ( ! $orgID ) {
-            // if unknown organization contact enetered -
-            
             // check if matching organization contact exists
             require_once 'CRM/Dedupe/Finder.php';
             $dedupeParams = CRM_Dedupe_Finder::formatParams($behalfOrganization, 'Organization');
-            $dupeIDs      = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Organization', 'Fuzzy');
-            
-            if ( empty($dupeIDs) ) {
-                // if new organization, create org, add location & relationship 
-                $org = CRM_Contact_BAO_Contact::create( $behalfOrganization );
-                
-                //get the relationship type id
-                require_once "CRM/Contact/DAO/RelationshipType.php";
-                $relType =& new CRM_Contact_DAO_RelationshipType();
-                $relType->name_a_b = "Employee of";
-                $relType->find(true);
-                $relTypeId = $relType->id;
-                
-                $relParams['relationship_type_id']    = $relTypeId.'_a_b';
-                $relParams['is_permission_a_b'   ]    = 1;
-                $relParams['is_active'           ]    = 1;
-                $relParams['contact_check'][$org->id] = 1;
-                $cid = array('contact' => $contactID );
-                
-                //create relationship
-                $relationship = CRM_Contact_BAO_Relationship::create($relParams, $cid);
-                
-                // take a note of new organiation contact.
-                $orgID = $org->id;
-            } else {
-                // if matching contact is found, take a note of first
-                // matching organiation contact.
-                $orgID = $dupeIDs[0];
+            $dupeIDs      = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Organization', 'Strict');
+            if ( count($dupeIDs) == 1 ) {
+                $behalfOrganization['contact_id'] = $dupeIDs[0];
+                // don't allow name edit
+                unset($behalfOrganization['organization_name']);
             }
         } else {
             // if found permissioned related organization, allow location edit
             $behalfOrganization['contact_id'] = $orgID;
-            $org = CRM_Contact_BAO_Contact::create( $behalfOrganization );
+            // don't allow name edit
+            unset($behalfOrganization['organization_name']);
         }
 
+        // create organization, add location 
+        $org = CRM_Contact_BAO_Contact::create( $behalfOrganization );
+                
+        // create relationship
+        $relParams['contact_check'][$org->id] = 1;
+        $cid = array( 'contact' => $contactID );
+        $relationship = CRM_Contact_BAO_Relationship::create($relParams, $cid);
+        
+        // take a note of new/updated organiation contact-id.
+        $orgID = $org->id;
+
+        // if multiple match - send a duplicate alert
+        if ( $dupeIDs && (count($dupeIDs) > 1) ) {
+            $values['onbehalf_dupe_alert'] = 1;
+        }
+        
         // make sure organization-contact-id is considered for recording
         // contribution/membership etc..
         if ( $contactID != $orgID ) {
             // take a note of contact-id, so we can send the
             // receipt to individual contact as well.
-            $values['related_contacts'][] = $contactID;
+
+            // required for mailing/template display ..etc 
+            $values['related_contact'] = $contactID;
+            // required for IPN
+            $params['related_contact'] = $contactID;
+            
+            // contribution / signup will be done using this
+            // organization id.
             $contactID = $orgID;
         }
     }

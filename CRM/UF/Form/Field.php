@@ -634,8 +634,8 @@ class CRM_UF_Form_Field extends CRM_Core_Form
             $errors['field_name'] = ts( 'Please select a field name' );
         }
         
-        if ( $in_selector && $fieldName == 'Contribution' ) {
-            $errors['in_selector'] = ts( "'In Selector' can NOT be checked for Contribution fields." );
+        if ( $in_selector && in_array( $fieldName, array('Contribution', 'Participant', 'Membership' ) ) ) {
+            $errors['in_selector'] = ts( "'In Selector' can NOT be checked for %1 fields.", array( 1 => $fieldName ) );
         }
         
         if (! empty($fields['field_id'])) {

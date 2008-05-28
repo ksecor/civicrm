@@ -47,11 +47,11 @@ require_once 'api/v2/utils.php';
  * Create an Event Participant
  *  
  * This API is used for creating a participants in an event.
- * Required parameters : event_id AND contact_id.
- * 
+ * Required parameters : event_id AND contact_id for new creation
+ *                     : participant as name/value with participantid for edit
  * @param   array  $params     an associative array of name/value property values of civicrm_participant
  * 
- * @return array participant id if participant is created otherwise is_error = 1
+ * @return array participant id if participant is created/edited otherwise is_error = 1
  * @access public
  */
 function &civicrm_participant_create(&$params)
@@ -75,15 +75,9 @@ function &civicrm_participant_create(&$params)
     if ( !isset($params['register_date'] )) {
         $params['register_date']= date( 'YmdHis' );
     }
-
-    $ids= array();
-    
-    if( CRM_Utils_Array::value( 'id', $params ) ) {
-        $ids['participant']  = $params['id'];
-    }
     
     require_once 'CRM/Event/BAO/Participant.php';
-    $participant = CRM_Event_BAO_Participant::create($params, $ids);
+    $participant = CRM_Event_BAO_Participant::create($params);
     
     if ( is_a( $participant, 'CRM_Core_Error' ) ) {
         return civicrm_create_error( "Participant is not created" );

@@ -384,12 +384,11 @@ class CRM_Core_Payment_BaseIPN {
         $trxn =& CRM_Contribute_BAO_FinancialTrxn::create( $trxnParams );
 
         // create an activity record
+        require_once "CRM/Acivity/BAO/Activity.php";
         if ( $input['component'] == 'contribute' ) {
-            require_once "CRM/Contribute/BAO/Contribution.php";
-            CRM_Contribute_BAO_Contribution::addActivity( $contribution );
+            CRM_Activity_BAO_Activity::addActivity( $contribution );
         } else { // event 
-            require_once "CRM/Event/BAO/Participant.php";
-            CRM_Event_BAO_Participant::addActivity( $participant );
+            CRM_Activity_BAO_Activity::addActivity( $participant );
         }
 
         CRM_Core_Error::debug_log_message( "Contribution record updated successfully" );
@@ -481,7 +480,10 @@ class CRM_Core_Payment_BaseIPN {
             if ( $membership ) {
                 $values['membership_id'] = $membership->id;
             }
-            $values['contribution_id'] = $contribution->id;
+            $values['contribution_id']     = $contribution->id;
+            if ( $ids['relatedContactID'] ) {
+                $values['related_contact'] = $ids['relatedContactID'];
+            }
             CRM_Contribute_BAO_ContributionPage::sendMail( $ids['contact'], $values );
         }
 

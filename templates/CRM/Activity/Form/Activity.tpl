@@ -4,7 +4,7 @@
 {else}
 
 {* added onload javascript for source contact*}
-{if $source_contact_value and $admin }
+{if $source_contact_value and $admin and $action neq 4}
    <script type="text/javascript">
        dojo.addOnLoad( function( ) {ldelim}
        dijit.byId( 'source_contact' ).setValue( "{$source_contact_value}", "{$source_contact_value}" )
@@ -13,7 +13,7 @@
 {/if}
 
 {* added onload javascript for target contact*}
-{if $target_contact_value and $context eq 'standalone' }
+{if $target_contact_value and $context eq 'standalone' and $action neq 4 }
    <script type="text/javascript">
        dojo.addOnLoad( function( ) {ldelim}
        dijit.byId( 'target_contact' ).setValue( "{$target_contact_value}", "{$target_contact_value}" )
@@ -22,7 +22,7 @@
 {/if}
 
 {* added onload javascript for assignee contact*}
-{if $assignee_contact_value}
+{if $assignee_contact_value and $action neq 4 }
    <script type="text/javascript">
        dojo.addOnLoad( function( ) {ldelim}
        dijit.byId( 'assignee_contact' ).setValue( "{$assignee_contact_value}", "{$assignee_contact_value}" )
@@ -31,7 +31,7 @@
 {/if}
 
 {* added onload javascript for case subject*}
-{if $subject_value and $context neq 'standalone'}
+{if $subject_value and $context neq 'standalone' and $action neq 4}
    <script type="text/javascript">
        dojo.addOnLoad( function( ) {ldelim}
        dijit.byId( 'case_subject' ).setValue( "{$subject_value}", "{$subject_value}" )

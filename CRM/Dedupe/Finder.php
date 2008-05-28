@@ -49,7 +49,7 @@ class CRM_Dedupe_Finder
      * @param int   $rgid  rule group id
      * @param array $cids  contact ids to limit the search to
      *
-     * @return array  id-keyed hash of dupes
+     * @return array  array of (cid1, cid2, weight) dupe triples
      */
     function dupes($rgid, $cids = array()) {
         $rgBao =& new CRM_Dedupe_BAO_RuleGroup();
@@ -63,8 +63,7 @@ class CRM_Dedupe_Finder
         $dao->query($rgBao->thresholdQuery());
         $dupes = array();
         while ($dao->fetch()) {
-            $dupes[$dao->id1][] = $dao->id2;
-            $dupes[$dao->id2][] = $dao->id1;
+            $dupes[] = array( $dao->id1, $dao->id2, $dao->weight );
         }
         $dao->query($rgBao->tableDropQuery());
 
@@ -97,7 +96,7 @@ class CRM_Dedupe_Finder
         $dao->query($rgBao->thresholdQuery());
         $dupes = array();
         while ($dao->fetch()) {
-            $dupes[] = $dao->id2;
+            $dupes[] = $dao->id;
         }
         $dao->query($rgBao->tableDropQuery());
 
@@ -110,7 +109,7 @@ class CRM_Dedupe_Finder
      * @param int $rgid  rule group id
      * @param int $gid   contact group id (currently, works only with non-smart groups)
      *
-     * @return array  id-keyed hash of dupes
+     * @return array  array of (cid1, cid2, weight) dupe triples
      */
     function dupesInGroup($rgid, $gid) {
         $cids = array_keys(CRM_Contact_BAO_Group::getMember($gid));
@@ -124,7 +123,7 @@ class CRM_Dedupe_Finder
      * @param string $level  dedupe rule group level ('Fuzzy' or 'Strict')
      * @param string $ctype  contact type of the given contact
      *
-     * @return array  id-keyed hash of dupes
+     * @return array  array of dupe contact_ids
      */
     function dupesOfContact($cid, $level = 'Strict', $ctype = null) {
         // if not provided, fetch the contact type from the database
@@ -142,7 +141,17 @@ class CRM_Dedupe_Finder
         $rgBao->is_default = 1;
         $rgBao->find(true);
         $dupes = self::dupes($rgBao->id, array($cid));
-        return $dupes[$cid];
+        
+        // get the dupes for this cid
+        $result = array( );
+        foreach ( $dupes as $dupe ) {
+            if ( $dupe[0] == $cid ) {
+                $result[] = $dupe[1];
+            } elseif ( $dupe[1] == $cid ) {
+                $result[] = $dupe[0];
+            }
+        }
+        return $result;
     }
 
     /**
@@ -158,6 +167,35 @@ class CRM_Dedupe_Finder
         $flat = array();
         CRM_Utils_Array::flatten($fields, $flat);
 
+        // handle {birth,deceased}_date
+        foreach(array('birth_date', 'deceased_date') as $date) {
+            if ($fields[$date]) {
+                $flat[$date] = $fields[$date];
+                if (is_array($flat[$date])) $flat[$date] = CRM_Utils_Date::format($flat[$date]);
+            }
+        }
+
+        // handle preferred_communication_method
+        if (array_key_exists('preferred_communication_method', $fields)) {
+            $methods = array_intersect($fields['preferred_communication_method'], array('1'));
+            $methods = array_keys($methods);
+            sort($methods);
+            if ($methods) {
+                $flat['preferred_communication_method'] = CRM_Core_DAO::VALUE_SEPARATOR . implode(CRM_Core_DAO::VALUE_SEPARATOR, $methods) . CRM_Core_DAO::VALUE_SEPARATOR;
+            }
+        }
+
+        // handle custom data
+        require_once 'CRM/Core/BAO/CustomGroup.php';
+        $tree =& CRM_Core_BAO_CustomGroup::getTree($ctype, null, -1);
+        CRM_Core_BAO_CustomGroup::postProcess($tree, $fields);
+        foreach($tree as $key => $cg) {
+            if (!is_int($key)) continue;
+            foreach($cg['fields'] as $cf) {
+                $flat[$cf['column_name']] = $cf['customValue']['data'];
+            }
+        }
+
         // if the key is dotted, keep just the last part of it
         foreach($flat as $key => $value) {
             if (substr_count($key, '.')) {
@@ -168,7 +206,7 @@ class CRM_Dedupe_Finder
             }
         }
 
-        // drop the -digit postfixes
+        // drop the -digit postfixes (so event registration's $flat['email-5'] becomes $flat['email'])
         foreach ($flat as $key => $value) {
             $matches = array();
             if (preg_match('/(.*)-\d+$/', $key, $matches)) {
@@ -179,6 +217,8 @@ class CRM_Dedupe_Finder
 
         $params = array();
         foreach(CRM_Dedupe_BAO_RuleGroup::supportedFields($ctype) as $table => $fields) {
+            // for matching on civicrm_address fields, we also need the location_type_id
+            if ($table == 'civicrm_address') $fields['location_type_id'] = '';
             foreach($fields as $field => $title) {
                 if ($flat[$field]) $params[$table][$field] = $flat[$field];
             }

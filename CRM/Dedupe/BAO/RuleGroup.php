@@ -128,26 +128,19 @@ class CRM_Dedupe_BAO_RuleGroup extends CRM_Dedupe_DAO_RuleGroup
      * Return the SQL query for getting only the interesting results out of the dedupe table.
      */
     function thresholdQuery() {
-        return "SELECT id1, id2
-            FROM dedupe JOIN civicrm_contact c1 ON id1 = c1.id JOIN civicrm_contact c2 ON id2 = c2.id
-            WHERE c1.contact_type = '{$this->contact_type}' AND c2.contact_type = '{$this->contact_type}'
-            GROUP BY id1, id2 HAVING SUM(weight) >= {$this->threshold}";
+        if ($this->params) {
+            return "SELECT id
+                FROM dedupe JOIN civicrm_contact USING (id)
+                WHERE contact_type = '{$this->contact_type}'
+                GROUP BY id HAVING SUM(weight) >= {$this->threshold}
+                ORDER BY SUM(weight) desc";
+        } else {
+            return "SELECT id1, id2, SUM(weight) as weight
+                FROM dedupe JOIN civicrm_contact c1 ON id1 = c1.id JOIN civicrm_contact c2 ON id2 = c2.id
+                WHERE c1.contact_type = '{$this->contact_type}' AND c2.contact_type = '{$this->contact_type}'
+                GROUP BY id1, id2 HAVING SUM(weight) >= {$this->threshold}
+                ORDER BY SUM(weight) desc";
+        }
     }
-
-    /**
-     * update the is_active flag in the db
-     *
-     * @param int      $id        id of the database record
-     * @param boolean  $is_active value we want to set the is_active field
-     *
-     * @return Object             DAO object on sucess, null otherwise
-     * 
-     * @access public
-     * @static
-     */
-    static function setIsActive( $id, $is_active ) {
-        return CRM_Core_DAO::setFieldValue( 'CRM_Dedupe_DAO_RuleGroup', $id, 'is_active', $is_active );
-    }
-    
 
 }

@@ -50,6 +50,11 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
     const NUM_OPTION = 11;
     
     /** 
+     * Constants for number of discounts for the event. 
+     */ 
+    const NUM_DISCOUNT = 6;
+
+    /** 
      * Function to set variables up before form is built 
      *                                                           
      * @return void 
@@ -72,7 +77,6 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         $parentDefaults = parent::setDefaultValues( );
 
         $eventId = $this->_id;
-
         $params   = array( 'event_id' => $eventId );
         $defaults = array( );
         CRM_Event_BAO_EventPage::retrieve( $params, $defaults );
@@ -88,8 +92,25 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
                 CRM_Core_OptionGroup::getAssoc( "civicrm_event_page.amount.{$eventPageId}", $defaults );
             }
         }
-        $defaults = array_merge( $defaults, $parentDefaults );
 
+        //check if discounted
+        require_once 'CRM/Core/BAO/Discount.php';
+        $discountedEvent = CRM_Core_BAO_Discount::getOptionGroup($this->_id, "civicrm_event");
+        if ( isset($discountedEvent) ) {
+            $defaults['is_discount'] = 1;
+            
+            foreach ( $discountedEvent as $key => $optionGroupId ) {
+                $name = $defaults["discount_name[$key]"] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup', $optionGroupId, 'label' );
+                $defaults["discount_start_date[$key]"] = CRM_Utils_Date::unformat(CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Discount', $optionGroupId, 'start_date', 'option_group_id' ));
+                $defaults["discount_end_date[$key]"] = CRM_Utils_Date::unformat(CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Discount', $optionGroupId, 'end_date', 'option_group_id' ));
+                
+                CRM_Core_OptionGroup::getAssoc( "civicrm_event_page.amount.{$eventPageId}.discount.{$name}", $defaultDiscounts );
+            }
+            $this->set( 'discountSection', 1 );
+            $this->buildQuickForm( );
+        }
+        
+        $defaults = array_merge( $defaults, $parentDefaults );
         $defaults['id'] = $eventPageId;
         if ( CRM_Utils_Array::value( 'value', $defaults ) ) {
             foreach ( $defaults['value'] as $i => $v ) {
@@ -186,6 +207,36 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         
         $this->addGroup( $default, 'default' );
 
+        $this->addElement('checkbox', 'is_discount', ts( 'Discounts by Signup Date?' ), null, array( 'onclick' => "return showHideByValue('is_discount','','discount','block','radio',false);" ));
+        
+        $discountSection = $this->get( 'discountSection' );
+        $this->assign('discountSection', $discountSection);
+
+        require_once 'CRM/Core/ShowHideBlocks.php';
+        // form fields of Discount sets
+        $defaultOption = array();
+        $_showHide =& new CRM_Core_ShowHideBlocks('','');
+        for($i = 1; $i <= self::NUM_DISCOUNT; $i++) {
+            //the show hide blocks
+            $showBlocks = 'discount_'.$i;
+            if ($i > 2) {
+                $_showHide->addHide($showBlocks);
+            } else {
+                $_showHide->addShow($showBlocks);
+            }
+            
+            //discount name
+            $this->add('text','discount_name['.$i.']', ts('Discount Name'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'label'));
+            
+            //discount start date
+            $this->add('date', 'discount_start_date['.$i.']', ts('Discount Start Date'),CRM_Core_SelectValues::date('activityDate') );
+
+            //discount end date
+            $this->add('date', 'discount_end_date['.$i.']', ts('Discount End Date'),CRM_Core_SelectValues::date('activityDate') );
+        }
+        $_showHide->addToTemplate();   
+        $this->addElement( 'submit', $this->getButtonName('refresh'), ts('Post & Reload Discount'), array( 'class' => 'form-submit' ) );             
+        $this->buildAmountLabel( );
         parent::buildQuickForm();
     }
     
@@ -212,7 +263,24 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
     static function formRule( &$values ) 
     {
         $errors = array( );
-
+        if ( $values['is_discount'] ) {
+            for ( $i = 1; $i <= self::NUM_DISCOUNT; $i++ ) {
+                if ( $values['discount_name'][$i] ) {
+                    $start_date = CRM_Utils_Date::format( $values['discount_start_date'][$i] );
+                    $end_date   = CRM_Utils_Date::format( $values['discount_end_date'][$i]   );
+                    if ( $start_date && $end_date && (int ) $end_date < (int ) $start_date ) {
+                        $errors["discount_end_date[$i]"] = ts( 'The discount end date cannot be prior to the start date.' );
+                    }
+                    
+                    if ( $i > 1 ) {
+                        if ( $start_date < CRM_Utils_Date::format( $values['discount_end_date'][$i-1]) ) {
+                            $errors["discount_start_date[$i]"] = ts( 'Select non-overlapping discount start date.' );
+                        }
+                    }
+                }
+            }
+        }
+        
         if ( $values['is_monetary'] ) {
             //check if contribution type is selected
             if ( !$values['contribution_type_id'] ) {
@@ -252,10 +320,26 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
             }
             
         }
-
         return empty( $errors ) ? true : $errors;
     }
-    
+    public function buildAmountLabel()
+    {
+        $default = array( );
+        for ( $i = 1; $i <= self::NUM_OPTION; $i++ ) {
+            // label 
+            $this->add('text', "discounted_label[$i]", ts('Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'label')); 
+            // value 
+            for ( $j = 1; $j <= self::NUM_DISCOUNT; $j++ ) {
+                $this->add('text', "discounted_value[$i][$j]", ts('Value'),  array('size' => 10)); 
+                $this->addRule("discounted_value[$i][$j]", ts('Please enter a valid money value for this field (e.g. 99.99).'), 'money'); 
+            }
+
+            // default
+            $default[] = $this->createElement('radio', null, null, null, $i); 
+        }
+        
+        $this->addGroup( $default, 'discounted_default' );
+    } 
     /**
      * Process the form
      *
@@ -267,6 +351,13 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         $params = $ids = array();
         
         $params = $this->exportValues( );
+        
+        $this->set( 'discountSection', 0 );
+        if ( CRM_Utils_Array::value( '_qf_Fee_refresh', $_POST ) ) {
+            $this->buildAmountLabel( );
+            $this->set( 'discountSection', 1 );
+            return;
+        }
         $params['event_id'] = $ids['event_id'] = $this->_id;
 
         $params['is_pay_later'] = CRM_Utils_Array::value( 'is_pay_later', $params, 0 );
@@ -316,6 +407,49 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
                         CRM_Core_OptionGroup::createAssoc( "civicrm_event_page.amount.{$eventPageId}",
                                                            $options,
                                                            $params['default_fee_id'] );
+                    }
+                }
+                
+                if ( $params['is_discount'] == 1 ) {
+                    // if there are discounted set of label / values, 
+                    // create custom options for them
+                    $labels  = CRM_Utils_Array::value( 'discounted_label'  , $params );
+                    $values  = CRM_Utils_Array::value( 'discounted_value'  , $params );
+                    $default = CRM_Utils_Array::value( 'discounted_default', $params ); 
+                    
+                    if ( ! CRM_Utils_System::isNull( $labels ) && ! CRM_Utils_System::isNull( $values )) {
+                        for ( $j = 1; $j <= self::NUM_DISCOUNT; $j++ ) {
+                            $discountOptions = array( );
+                            for ( $i = 1; $i < self::NUM_OPTION; $i++ ) {
+                                if ( ! empty( $labels[$i] ) && ! CRM_Utils_System::isNull( $values[$i][$j] ) ) {
+                                    $discountOptions[] = array( 'label'      => trim( $labels[$i] ),
+                                                                'value'      => CRM_Utils_Rule::cleanMoney( trim( $values[$i][$j] ) ),
+                                                                'weight'     => $i,
+                                                                'is_active'  => 1,
+                                                                'is_default' => $default == $i );
+                                }
+                            }
+                            
+                            if ( ! empty( $discountOptions ) ) {
+                                $params['default_fee_id'] = null;
+                                $discountOptionsGroupId = CRM_Core_OptionGroup::createAssoc( "civicrm_event_page.amount.{$eventPageId}.discount.{$params[discount_name][$j]}",
+                                                                                             $discountOptions,
+                                                                                             $params['default_fee_id'],
+                                                                                             $params['discount_name'][$j]);
+                                
+                                $discountParams = array(
+                                                        'entity_table'    => 'civicrm_event',
+                                                        'entity_id'       => $this->_id,
+                                                        'option_group_id' => $discountOptionsGroupId,
+                                                        'start_date'      => CRM_Utils_Date::format( $params["discount_start_date"][$j] ),
+                                                        'end_date'        => CRM_Utils_Date::format( $params["discount_end_date"][$j] ) 
+                                                        );
+                                
+                                require_once 'CRM/Core/BAO/Discount.php';
+                                CRM_Core_BAO_Discount::add($discountParams);
+                            }
+                            
+                        }
                     }
                 }
             }

@@ -244,6 +244,7 @@ class CRM_Core_Payment_PayPalIPN extends CRM_Core_Payment_BaseIPN {
             $ids['membership']        = self::retrieve( 'membershipID'       , 'Integer', 'GET', false );
             $ids['contributionRecur'] = self::retrieve( 'contributionRecurID', 'Integer', 'GET', false );
             $ids['contributionPage']  = self::retrieve( 'contributionPageID' , 'Integer', 'GET', false );
+            $ids['relatedContactID']  = self::retrieve( 'relatedContactID'   , 'Integer', 'GET', false );
         }
 
         if ( ! $this->validateData( $input, $ids, $objects ) ) {

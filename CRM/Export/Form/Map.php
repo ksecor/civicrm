@@ -112,23 +112,23 @@ class CRM_Export_Form_Map extends CRM_Core_Form
      * @static
      * @access public
      */
-    static function formRule( &$fields ) {
+    static function formRule( &$fields, $values, $mappingTypeId ) 
+    {
         $errors  = array( );
 
         if ( CRM_Utils_Array::value( 'saveMapping', $fields ) && $fields['_qf_Map_next']) {
             $nameField = CRM_Utils_Array::value( 'saveMappingName', $fields );
             if ( empty( $nameField ) ) {
-                $errors['saveMappingName'] = "Name is required to save Export Mapping";
+                $errors['saveMappingName'] = ts('Name is required to save Export Mapping');
             } else {
                 //check for Duplicate mappingName
-               if(CRM_Core_BAO_Mapping::checkMapping($nameField,'Export')){
-                     $errors['saveMappingName'] = ts('Duplicate Export Mapping Name');
+                if ( CRM_Core_BAO_Mapping::checkMapping( $nameField,  $mappingTypeId ) ) {
+                    $errors['saveMappingName'] = ts('Duplicate Export Mapping Name');
                 }
             }
         }
-
+        
         if ( !empty($errors) ) {
-            require_once 'CRM/Core/Page.php';
             $_flag = 1;
             require_once 'CRM/Core/Page.php';
             $assignError =& new CRM_Core_Page(); 
@@ -191,8 +191,7 @@ class CRM_Export_Form_Map extends CRM_Core_Form
                                        'description'     => $params['saveMappingDesc'],
                                        'mapping_type_id' => $this->get( 'mappingTypeId') );
                 
-                $temp = array();
-                $saveMapping = CRM_Core_BAO_Mapping::add($mappingParams, $temp) ;
+                $saveMapping = CRM_Core_BAO_Mapping::add( $mappingParams );
                 
                 //save mapping fields
                 CRM_Core_BAO_Mapping::saveMappingFields($params, $saveMapping->id);
@@ -202,13 +201,13 @@ class CRM_Export_Form_Map extends CRM_Core_Form
         //get the csv file
         require_once "CRM/Export/BAO/Export.php";
         CRM_Export_BAO_Export::exportComponents( $this->get( 'selectAll' ),
-                                                 $this->get( 'contactIds' ),
+                                                 $this->get( 'recordIds' ),
                                                  $this->get( 'queryParams' ),
                                                  $this->get( CRM_Utils_Sort::SORT_ORDER ),
                                                  $mapperKeys,
                                                  $this->get( 'returnProperties' ),
-                                                 $this->get('exportMode'),
-                                                 $this->get('componentClause')
+                                                 $this->get( 'exportMode' ),
+                                                 $this->get( 'componentClause' )
                                                  );
     }
     

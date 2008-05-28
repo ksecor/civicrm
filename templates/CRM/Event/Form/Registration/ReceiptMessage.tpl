@@ -71,10 +71,19 @@
 
 {/if}
 {ts}Total Amount{/ts}     : {$amount|crmMoney} {if $amount_level && !$lineItem} - {$amount_level} {/if}
+{if $register_date}
+
+{ts}Registeration Date{/ts} : {$register_date|crmDate}
+{/if}
+{if $receive_date}
 
 {ts}Transaction Date{/ts} : {$receive_date|crmDate}
+{/if}
 {if $trxn_id}
 {ts}Transaction #{/ts}    : {$trxn_id}
+{/if}
+{if $paidBy}
+{ts}Paid By{/ts}: {$paidBy}
 {/if}
 {if $contributeMode ne 'notify' and !$isAmountzero and !$is_pay_later  }
 
@@ -110,9 +119,20 @@
 {if $customPost}
 ===========================================================
 {ts}{$customPost_grouptitle}{/ts}
-
 ===========================================================
 {foreach from=$customPost item=value key=name}
  {$name} : {$value}
 {/foreach}
 {/if}
+{if $customGroup}
+{foreach from=$customGroup item=value key=name} 
+==========================================================
+{$name}
+==========================================================
+{foreach from=$value item=v key=n}
+{$n} : {$v}
+{/foreach}
+{/foreach}
+{/if}
+
+

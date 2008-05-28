@@ -66,7 +66,7 @@ class CRM_Activity_Form_ActivityView extends CRM_Core_Form
         $params = array( 'id' => $activityId );
             
         require_once "CRM/Activity/BAO/Activity.php";
-        CRM_Activity_BAO_Activity::retrieve( $params, $defaults, $activityId );
+        CRM_Activity_BAO_Activity::retrieve( $params, $defaults );
 
         //set activity type name and description to template
         require_once 'CRM/Core/BAO/OptionValue.php';

@@ -42,7 +42,7 @@ class CRM_Dedupe_Merger
         'greeting_type', 'home_URL', 'household_name', 'image_URL', 
         'individual_prefix', 'individual_suffix', 'is_deceased', 'is_opt_out', 
         'job_title', 'last_name', 'legal_identifier', 'legal_name', 
-        'middle_name', 'nick_name', 'on_hold', 'organization_name', 
+        'middle_name', 'nick_name', 'organization_name', 
         'preferred_communication_method', 'preferred_mail_format', 'sic_code'
     );
 
@@ -166,7 +166,6 @@ class CRM_Dedupe_Merger
                 'civicrm_membership_log'          => array('modified_id'),
                 'civicrm_membership_type'         => array('member_of_contact_id'),
                 'civicrm_note'                    => array('contact_id'),
-                'civicrm_openid'                  => array('contact_id'),
                 'civicrm_participant'             => array('contact_id'),
                 // 'civicrm_phone'                   => array('contact_id'),
                 'civicrm_preferences'             => array('contact_id'),

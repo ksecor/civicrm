@@ -61,7 +61,7 @@ class CRM_Core_Controller_Simple extends CRM_Core_Controller {
                           $addSequence = false,
                           $ignoreKey = false ) {
         // by definition a single page is modal :). We use the form name as the scope for this controller
-        parent::__construct( $title, true, $path, $addSequence, $ignoreKey );
+        parent::__construct( $title, true, $mode, $path, $addSequence, $ignoreKey );
 
         $this->_stateMachine =& new CRM_Core_StateMachine( $this );
 

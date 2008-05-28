@@ -61,10 +61,12 @@
             {$form.shared_option.html}
         </div>
         <div id="shared_household" class="form-item">
-            <div  class="tundra" dojoType= "dojox.data.QueryReadStore" jsId="addressStore" url="{$dataURL}" doClientPaging="false" >
-            {$form.shared_household.html}
+            <div  class="tundra" dojoType= "dojox.data.QueryReadStore" jsId="addressStore" url="{$dataURL}" doClientPaging="false">
+                {$form.shared_household.html}
+                {* Conditionally display the address currently selected in the comboBox *}
+                <span id="household_address" class="description"></span>
             </div>
-            <span class="description">{ts}Enter the first letters of the name of the household to see available households with their addresses.{/ts}</span> 
+            <span id="shared_household_help" class="description">{ts}Enter the first letters of the name of the household to see available households.{/ts}</span> 
         </div>
         <div id="create_household" class="form-item">
             <span class="labels">
@@ -83,17 +85,12 @@
         {include file="CRM/Contact/Form/Address.tpl"} 
     </div>
 
-    {* Display the address block in view-mode *}
-    {if $contact_type eq 'Individual' and $index eq 1}
-    <div id="Hhaddress" style="display:none"> <fieldset><legend>{ts}Household Address{/ts}</legend><div id="household_address">
-       
-       </div></fieldset></div>
-       {/if}
-       {if $contact_type eq 'Individual' and $index eq 1 and $action eq 2 and $form.use_household_address.value}
-       <div id="id_location_1_address_shared_view">
-       <fieldset><legend>{ts}Shared Household Address{/ts}</legend>
-       {$HouseholdName}
-       {$location_1_address_display}
+    {* Display existing shared household address *}
+    {if $contact_type eq 'Individual' and $index eq 1 and $action eq 2 and $form.use_household_address.value}
+        <div id="id_location_1_address_shared_view">
+        <fieldset><legend>{ts}Shared Household Address{/ts}</legend>
+            {$HouseholdName}
+            {$location_1_address_display}
         </fieldset>
         </div>
     {/if}
@@ -142,29 +139,16 @@
     }
 
 
- function showSharedHouseholdAddress()
+ function showSelectedHouseholdAddress()
  {
-     var text = dijit.byId('shared_household').getValue();
-     var ind = text.indexOf(':::');
-     var Household_addr;
-     Household_addr ='';
-     text = text.substr(ind);
-     var formatted_addr = text.split(":::",8);	
-     for (var i = 0; i < 8; i++){      
-       
-       if (i == 3 ){
-	 Household_addr = Household_addr   + formatted_addr[i] + ',';
-       }else if (i == 4){
-	 Household_addr = Household_addr   + ' ' +  formatted_addr[i] + ' ';
-       } else {
-	 Household_addr   = Household_addr + formatted_addr[i] + '<br>';	 
-       }
-          
-     }
-if ( formatted_addr != "" ) {
-     document.getElementById('Hhaddress').style.display='Block';
-     document.getElementById('household_address').innerHTML = Household_addr;	
-  }
+    var selectedAddr = dijit.byId('shared_household').getValue();
+    if ( selectedAddr != "" ) {
+        var ind = selectedAddr.indexOf(':::');
+        selectedAddr = selectedAddr.substr(ind+3);
+        var formattedAddr = selectedAddr.replace(/:::/g, ", ");
+        document.getElementById('shared_household_help').style.display='none';
+        document.getElementById('household_address').innerHTML = formattedAddr;	
+    }
  }
 
 
@@ -175,7 +159,7 @@ function setDefaultAddress()
   var country   = {/literal}"{$country}"{literal};
   var state     = {/literal}"{$state}"{literal};
 
-  if ( document.getElementsByName("use_household_address")[0].checked == false ) {
+  if ( document.getElementsByName("use_household_address")[0].checked == false ) { 
  
     {/literal}{if $action eq 2}{literal}
        var street    = {/literal}"{$form.location.1.address.street_address.value}"{literal};

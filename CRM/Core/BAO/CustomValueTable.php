@@ -269,9 +269,26 @@ class CRM_Core_BAO_CustomValueTable
         }
     }
 
-    public static function &getEntityValues( $entityID, $entityType = null ) {
+    /**
+     * Return an array of all custom values associated with an entity.
+     *
+     * @param int         $entityID      Identification number of the entity
+     * @param string      $entityType    Type of entity that the entityID corresponds to, specified
+     *                                   as a string with format "'<EntityName>'". Comma separated
+     *                                   list may be used to specify OR matches. Allowable values
+     *                                   are enumerated types in civicrm_custom_group.extends field.
+     *                                   Optional. Default value assumes entityID references a 
+     *                                   contact entity. 
+     *                                   
+     * @return array      $fields        Array of custom values for the entity with key=>value 
+     *                                   pairs specified as civicrm_custom_field.id => custom value.
+     *                                   Empty array if no custom values found.
+     * @access public
+     * @static
+     */
+     public static function &getEntityValues( $entityID, $entityType = null ) {
         if ( ! $entityID ) {
-            // adding this year since an empty contact id could have serious repurcussions
+            // adding this here since an empty contact id could have serious repurcussions
             // like looping forever
             CRM_Core_Error::fatal( 'Please file an issue with the backtrace' );
             return null;
@@ -281,7 +298,7 @@ class CRM_Core_BAO_CustomValueTable
             $entityType = "'Contact', 'Individual', 'Household', 'Organization'";
         }
 
-        // first find all the contact fields that extend a contact
+        // first find all the fields that extend this type of entity
         $query = "
 SELECT cg.table_name,
        cg.id as groupID,

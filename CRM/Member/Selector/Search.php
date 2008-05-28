@@ -73,11 +73,11 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
     static $_properties = array( 'contact_id', 'membership_id',
                                  'contact_type',
                                  'sort_name',
-                                 'membership_type',
+                                 'membership_type_id',
                                  'join_date',
-                                 'start_date',
-                                 'end_date',
-                                 'source',
+                                 'membership_start_date',
+                                 'membership_end_date',
+                                 'membership_source',
                                  'status_id',
                                  'member_is_test'
                                  );

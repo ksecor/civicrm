@@ -71,6 +71,7 @@ class CRM_Core_BAO_CMSUser
             CRM_Core_Error::fatal( "CMS user creation not supported for this framework" ); 
         } 
 
+        set_time_limit(300);
 
         $sql   = "SELECT $id, $mail, $name FROM {$config->userFrameworkUsersTableName} where $mail != ''";
         $query = $db_uf->query( $sql );
@@ -85,11 +86,14 @@ class CRM_Core_BAO_CMSUser
             $user->$mail = $row[$mail];
             $user->$name = $row[$name];
             $contactCount++;
-            if ( CRM_Core_BAO_UFMatch::synchronizeUFMatch( $user, $row[$id], $row[$mail], $uf, 1 ) ) {
+            if ($match = CRM_Core_BAO_UFMatch::synchronizeUFMatch( $user, $row[$id], $row[$mail], $uf, 1 ) ) {
                 $contactCreated++;
             } else {
                 $contactMatching++;
-            } 
+            }
+            if (is_object($match)) {
+              $match->free();
+            }
         }
         
         $db_uf->disconnect( );

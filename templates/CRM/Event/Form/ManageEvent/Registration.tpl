@@ -29,6 +29,12 @@
           {include file="CRM/common/calendar/body.tpl" dateVar=registration_end_date offset=3 doTime=1 trigger=trigger_event_2 ampm=1}
         </dd>
     </dl>
+    <div id="register">
+    <dl>
+        <dt>{$form.is_multiple_registrations.label}</dt><dd>{$form.is_multiple_registrations.html}</dd>
+        <dt>&nbsp;</dt><dd class="description">{ts}Enable or disable multiple participant registration for this event.{/ts}</dd>
+    </dl>
+   </div>
     <div id="registration" class="form-item">
         {*Registration Block*}
         <div id="registration_screen_show" class="section-hidden section-hidden-border">

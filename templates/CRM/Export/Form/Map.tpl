@@ -15,7 +15,7 @@
 </div>
 
 {* Table for mapping data to CRM fields *}
-{include file="CRM/Contact/Form/Task/Export/table.tpl"}
+{include file="CRM/Export/Form/table.tpl"}
 
 
 <div id="crm-submit-buttons">

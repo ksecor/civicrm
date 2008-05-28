@@ -66,7 +66,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
      * @return None
      */
     function setDefaultValues( ) 
-    {
+    {  
         // check if the user is registered and we have a contact ID
         $session =& CRM_Core_Session::singleton( );
         $contactID = $session->get( 'userID' ); 
@@ -152,7 +152,10 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                     "email-{$this->_bltID}",
                     ts( 'Email Address' ),
                     array( 'size' => 30, 'maxlength' => 60 ), true );
-        
+        if ( $this->_values['event_page']['is_multiple_registrations'] ) {
+            $this->add( 'text', 'additional_participants', ts('How many additional people?'), array( 'size' => 10, 'maxlength' => 10) );
+            $this->addRule( 'additional_participants', ts( 'Please enter a valid No Of People (numbers only).' ), 'positiveInteger' );
+        }
         if ( $this->_values['event']['is_monetary'] ) {
             self::buildAmount( $this );
 

@@ -17,7 +17,7 @@
 	        <td>{$activeMember.start_date|crmDate}</td>
 	        <td>{$activeMember.end_date|crmDate}</td>
 	        <td>{$activeMember.status}</td>
-	        <td>{if $activeMember.renewPageId}<a href="{crmURL p='civicrm/contribute/transact' q="id=`$activeMember.renewPageId`&reset=1"}">[ {ts}Renew Now{/ts} ]</a>{/if}</td>
+	        <td>{if $activeMember.renewPageId}<a href="{crmURL p='civicrm/contribute/transact' q="id=`$activeMember.renewPageId`&mid=`$activeMember.id`&reset=1"}">[ {ts}Renew Now{/ts} ]</a>{/if}</td>
         </tr>
         {/foreach}
         </table>
@@ -47,7 +47,7 @@
 	        <td>{$inActiveMember.start_date|crmDate}</td>
 	        <td>{$inActiveMember.end_date|crmDate}</td>
 	        <td>{$inActiveMember.status}</td>
-	        <td>{if $inActiveMember.renewPageId}<a href="{crmURL p='civicrm/contribute/transact' q="id=`$inActiveMember.renewPageId`&reset=1"}">[ {ts}Renew Now{/ts} ]</a>{/if}</td>
+	        <td>{if $inActiveMember.renewPageId}<a href="{crmURL p='civicrm/contribute/transact' q="id=`$inActiveMember.renewPageId`&mid=`$inActiveMember.id`&reset=1"}">[ {ts}Renew Now{/ts} ]</a>{/if}</td>
 
         </tr>
         {/foreach}

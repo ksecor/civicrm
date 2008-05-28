@@ -156,12 +156,17 @@
   </item>
   <item>
      <path>civicrm/admin/deduperules</path>
-     <title>Duplicate Contact Rules</title>
-     <desc>Rules used to identify potentially duplicate contact records, and to match imported data to existing contact records.</desc>
+     <title>Find and Merge Duplicate Contacts</title>
+     <desc>Manage the rules used to identify potentially duplicate contact records. Scan for duplicates using a selected rule and merge duplicate contact data as needed.</desc>
      <page_callback>CRM_Admin_Page_DedupeRules</page_callback>
      <adminGroup>Configure</adminGroup>
      <icon>admin/small/duplicate_matching.png</icon>
      <weight>245</weight>
+  </item>
+  <item>
+     <path>civicrm/admin/dedupefind</path>
+     <title>Find and Merge Duplicate Contacts</title>
+     <page_callback>CRM_Admin_Page_DedupeFind</page_callback>
   </item>
   <item>
      <path>civicrm/admin/mapping</path>
@@ -235,6 +240,16 @@
      <adminGroup>Option Lists</adminGroup>
      <icon>admin/small/10.png</icon>
      <weight>340</weight>
+  </item>
+  <item>
+     <path>civicrm/admin/options/from_email_address</path>
+     <title>From Email Address</title>
+     <desc>List of Email Addresses which can be used when sending emails to contacts.</desc>
+     <path_arguments>group=from_email_address</path_arguments>
+     <page_callback>CRM_Admin_Page_Options</page_callback>
+     <adminGroup>Option Lists</adminGroup>
+     <icon>admin/small/title.png</icon>
+     <weight>345</weight>
   </item>
   <item>
      <path>civicrm/admin/options/instant_messenger_service</path>

@@ -359,23 +359,25 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
             
             foreach ( $defaults['location'] as $key => $value ) {
                 if ( isset( $value['address'] ) ) {
-
+                    
                     // hack, check if we have created a country element
                     if ( isset( $this->_elementIndex[ "location[$key][address][country_id]" ] ) ) {
-                        $countryValue = $this->getElementValue( "location[$key][address][country_id]" );
+                        $countryValue = $this->getElementValue( "location[$key][address][country_id]" ) ;
                         
                         if ( !$countryValue && isset($value['address']['country_id']) ) {
                             $countryValue = $value['address']['country_id'];
                             
                         }
                         
-                        //retrive country by using country code for assigning country name to template
-                        $country = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Country', 
-                                                                $countryValue, 
-                                                                'name', 
-                                                                'id' );
-                        $this->assign( "country" , $country );
-                        $this->assign( "country_{$key}_value"   ,  $countryValue );
+                        if ( $countryValue ) {
+                            //retrive country by using country code for assigning country name to template
+                            $country = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Country', 
+                                                                    $countryValue, 
+                                                                    'name', 
+                                                                    'id' );
+                            $this->assign( "country" , $country );
+                            $this->assign( "country_{$key}_value" ,  $countryValue );
+                        }
                     }
                     
                     if ( isset( $this->_elementIndex[ "location[$key][address][state_province_id]" ] ) ) {
@@ -855,10 +857,11 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
                     }
                 }
 
-                if ( self::locationDataExists( $fields['location'][$locationId] ) ) {
+                if ( ( isset( $fields['use_household_address'] ) && $locationId == 1 ) ||
+                     self::locationDataExists( $fields['location'][$locationId] ) ) {
                     $dataExists = true;
                     if ( ! CRM_Utils_Array::value( 'location_type_id', $fields['location'][$locationId] ) ) {
-                        $errors["location[$locationId][location_type_id]"] = ts('The Location Type should be set if there is any location information');
+                        $errors["location[$locationId][location_type_id]"] = ts('The Location Type should be set if there is any location information.');
                     }
                 }
                 require_once 'CRM/Core/BAO/Location.php';
@@ -866,7 +869,7 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
                 if ( CRM_Core_BAO_Location::dataExists( $fields ) ) {
                     if ( $locTypeId ) {
                         if ( $locTypeId == $fields['location'][$locationId]['location_type_id'] ) {
-                            $errors["location[$locationId][location_type_id]"] = ts('Two locations cannot have same location type');
+                            $errors["location[$locationId][location_type_id]"] = ts('Two locations cannot have same location type.');
                         }
                     }
                     $locTypeId = $fields['location'][$locationId]['location_type_id'];

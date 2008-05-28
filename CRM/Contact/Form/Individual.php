@@ -179,7 +179,7 @@ setDefaultAddress();
                                 'style'        => 'width:300px; border: 1px solid #cfcfcf;',
                                 'class'        => 'tundra',
                                 'pageSize'     => 10,
-                                'Onchange'     => 'showSharedHouseholdAddress()'
+                                'onchange'     => 'showSelectedHouseholdAddress()'
                                 );
 
         $dataURL =  CRM_Utils_System::url( 'civicrm/ajax/search',

@@ -154,6 +154,18 @@ abstract class CRM_Core_Component_Info
     abstract public function registerTab();
 
     /**
+     * Provides information about advanced search pane
+     * offered by this component.
+     *
+     * @return array|null collection of required pane settings, 
+     *                    null if no element offered
+     * @access public
+     *
+     */
+    abstract public function registerAdvancedSearchPane();
+
+
+    /**
      * Provides potential activity types that this 
      * component might want to register in activity history.
      * Needs to be implemented in component's information
@@ -164,7 +176,6 @@ abstract class CRM_Core_Component_Info
      *
      */
     abstract public function getActivityTypes();
-
 
     /**
      * Provides information whether given component is currently 
@@ -231,6 +242,19 @@ abstract class CRM_Core_Component_Info
     {
         return $this->_instantiate( self::COMPONENT_BAO_QUERY_CLASS );
     }
+
+    /**
+     * Builds advanced search form's component specific pane.
+     * 
+     * @access public
+     *
+     */
+    public function buildAdvancedSearchPaneForm( &$form ) 
+    {
+        $bao = $this->getBAOQueryObject( );
+        $bao->buildSearchForm( $form );
+    }
+
 
     /**
      * Provides component's user dashboard page object.

@@ -69,10 +69,16 @@ class CRM_Event_BAO_Query
             $query->_element['participant_id'         ] = 1;
             $query->_tables['civicrm_participant'] = $query->_whereTables['civicrm_participant'] = 1;
 
-            //add event level
-            if ( CRM_Utils_Array::value( 'event_level', $query->_returnProperties ) ) {
-                $query->_select['event_level' ]  = "civicrm_participant.event_level as event_level";
-                $query->_element['event_level']  = 1;
+            //add fee level
+            if ( CRM_Utils_Array::value( 'fee_level', $query->_returnProperties ) ) {
+                $query->_select['fee_level' ]  = "civicrm_participant.fee_level as fee_level";
+                $query->_element['fee_level']  = 1;
+            }
+
+            //add fee amount
+            if ( CRM_Utils_Array::value( 'fee_amount', $query->_returnProperties ) ) {
+                $query->_select['fee_amount']  = "civicrm_participant.fee_amount as fee_amount";
+                $query->_element['fee_amount']  = 1;
             }
         
             //add event title also if event id is select
@@ -99,14 +105,22 @@ class CRM_Event_BAO_Query
         
             //add status
             if ( CRM_Utils_Array::value( 'participant_status_id', $query->_returnProperties ) ) {
-                $query->_select['participant_status_id' ]  = "civicrm_participant.status_id as participant_status_id";
-                $query->_element['participant_status_id']  = 1;
+                $query->_select['participant_status']  = "participant_status.name as participant_status_id";
+                $query->_element['participant_status'] = 1;
+                $query->_tables['civicrm_participant'] = 1;
+                $query->_tables['participant_status'] = 1;
+                $query->_whereTables['civicrm_participant'] = 1;
+                $query->_whereTables['participant_status'] = 1;
             }
             
             //add role
             if ( CRM_Utils_Array::value( 'participant_role_id', $query->_returnProperties ) ) {
-                $query->_select['participant_role_id' ]  = "civicrm_participant.role_id as participant_role_id";
-                $query->_element['participant_role_id']  = 1;
+                $query->_select['participant_role']  = "participant_role.name as participant_role_id";
+                $query->_element['participant_role'] = 1;
+                $query->_tables['civicrm_participant'] = 1;
+                $query->_tables['participant_role'] = 1;
+                $query->_whereTables['civicrm_participant'] = 1;
+                $query->_whereTables['participant_role'] = 1;
             }
             
             //add register date
@@ -347,6 +361,20 @@ class CRM_Event_BAO_Query
                                                         civicrm_participant.id = civicrm_note.entity_id )";
             break;
 
+        case 'participant_status':
+            $domainID = CRM_Core_Config::domainID( );
+            $from = " $side JOIN civicrm_option_group option_group_participant_status ON (option_group_participant_status.name = 'participant_status' AND option_group_participant_status.domain_id = $domainID )";
+            $from .= " $side JOIN civicrm_option_value participant_status ON (civicrm_participant.status_id = participant_status.value 
+                               AND option_group_participant_status.id = participant_status.option_group_id ) ";
+            break;
+
+        case 'participant_role':
+            $domainID = CRM_Core_Config::domainID( );
+            $from = " $side JOIN civicrm_option_group option_group_participant_role ON (option_group_participant_role.name = 'participant_role' AND option_group_participant_role.domain_id = $domainID )";
+            $from .= " $side JOIN civicrm_option_value participant_role ON (civicrm_participant.role_id = participant_role.value 
+                               AND option_group_participant_role.id = participant_role.option_group_id ) ";
+            break;
+
         }
         return $from;
     }
@@ -369,7 +397,7 @@ class CRM_Event_BAO_Query
                                 'contact_type'              => 1, 
                                 'sort_name'                 => 1, 
                                 'display_name'              => 1,
-                                'event_id'               => 1,
+                                'event_id'                  => 1,
                                 'event_start_date'          => 1,
                                 'event_end_date'            => 1,
                                 'participant_id'            => 1,
@@ -377,9 +405,10 @@ class CRM_Event_BAO_Query
                                 'participant_role_id'       => 1,
                                 'participant_register_date' => 1,
                                 'participant_source'        => 1,
-                                'event_level'               => 1,
+                                'fee_level'                 => 1,
                                 'participant_is_test'       => 1,
-                                'participant_is_pay_later'  => 1
+                                'participant_is_pay_later'  => 1,
+                                'fee_amount'                => 1
                                 );
        
             // also get all the custom participant properties

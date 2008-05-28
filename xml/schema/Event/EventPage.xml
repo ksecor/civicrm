@@ -181,4 +181,11 @@
       <comment>The receipt sent to the user instead of the normal receipt text</comment>   
       <add>2.0</add>   
   </field>
+  <field>   
+      <name>is_multiple_registrations</name>   
+      <type>boolean</type>
+      <default>0</default>             
+      <comment>if true - allows the user to register multiple participants for event</comment>   
+      <add>2.1</add>   
+  </field>
 </table>

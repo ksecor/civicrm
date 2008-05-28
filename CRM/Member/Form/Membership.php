@@ -79,9 +79,9 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         
         // when custom data is included in this page
         if ( CRM_Utils_Array::value( "hidden_custom", $_POST ) ) {
-            eval( 'CRM_Custom_Form_Customdata::preProcess( $this );' );
-            eval( 'CRM_Custom_Form_Customdata::buildQuickForm( $this );' );
-            eval( 'CRM_Custom_Form_Customdata::setDefaultValues( $this );' );
+            CRM_Custom_Form_Customdata::preProcess( $this );
+            CRM_Custom_Form_Customdata::buildQuickForm( $this );
+            CRM_Custom_Form_Customdata::setDefaultValues( $this );
         }
         parent::preProcess( );
     }
@@ -113,10 +113,6 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                 $defaults[$set_date]['Y'] = $today_date['year'];
             }
             
-        }
-        
-        if( isset($this->_groupTree) ) {
-            CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, false, false );
         }
         
         if (is_numeric($this->_memType)) {
@@ -245,17 +241,6 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                                   );
         
         $sel->setOptions(array($selMemTypeOrg,  $selOrgMemType));
-        
-        $urlParams = "reset=1&cid={$this->_contactID}&context=membership";
-        if ( $this->_id ) {
-            $urlParams .= "&action=update&id={$this->_id}";
-        } else {
-            $urlParams .= "&action=add";
-        }
-        
-        $url = CRM_Utils_System::url('civicrm/contact/view/membership',
-                                     $urlParams, true, null, false ); 
-        $this->assign("refreshURL",$url);
         
         $this->applyFilter('__ALL__', 'trim');
         

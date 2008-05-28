@@ -16,6 +16,11 @@ function buildCustomData( subType )
 	}
 
 	if ( subType) {
+	    /* special case to handle relationship custom data*/
+	    if ( type == 'Relationship' ) {
+		subType = subType.replace( '_a_b', '' );
+		subType = subType.replace( '_b_a', '' );
+	    }
 	   dataUrl = dataUrl + '&subType=' + subType;	
 	}
 	

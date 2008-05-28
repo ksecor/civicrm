@@ -269,7 +269,8 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         
         // add activity record only during create mode
         if ( !CRM_Utils_Array::value( 'membership', $ids ) ) {
-            self::addActivity( $membership );
+            require_once 'CRM/Activity/BAO/Activity.php';
+            CRM_Activity_BAO_Activity::addActivity( $membership );
         }
         
         $transaction->commit( );
@@ -448,11 +449,13 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
     /**
      * Function to build Membership  Block in Contribution Pages 
      * 
-     * @param object  $form                  form object
-     * @param int     $pageId                contribution page id
+     * @param object  $form                      form object
+     * @param int     $pageId                    contribution page id
      * @param boolean $formItems
      * @param int     $selectedMembershipTypeID  selected membership id
-     * @param boolean $thankPage             thank you page
+     * @param boolean $thankPage                 thank you page
+     * @param boolean $memContactId              contact who is to be
+     * checked for having a current membership for a particular membership
      *
      * @static
      */
@@ -460,33 +463,32 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
                                    $pageID,
                                    $formItems = false,
                                    $selectedMembershipTypeID = null,
-                                   $thankPage = false,
-                                   $isTest = null )
+                                   $thankPage       = false,
+                                   $isTest          = null,
+                                   $memberContactId = null )
     {
         require_once 'CRM/Member/DAO/MembershipBlock.php';
 
-        $dao = & new CRM_Member_DAO_MembershipBlock();
-        $dao->entity_table = 'civicrm_contribution_page';
-        $dao->entity_id = $pageID; 
-        $dao->is_active = 1;
-
         $separateMembershipPayment = false;
-        if ( $dao->find(true) ) {
+        if ( $form->_membershipBlock ) {
             require_once 'CRM/Member/DAO/MembershipType.php';
             require_once 'CRM/Member/DAO/Membership.php';
 
-            $session = & CRM_Core_Session::singleton();
-            $cid = $session->get('userID');    
-
-            $membershipBlock   = array( ); 
+            if ( !$memberContactId ) {
+                $session = & CRM_Core_Session::singleton();
+                $cid     = $session->get('userID');    
+            } else {
+                $cid     = $memberContactId;
+            }
+            
+            $membershipBlock   = $form->_membershipBlock;
             $membershipTypeIds = array( );
             $membershipTypes   = array( ); 
             $radio             = array( ); 
 
-            $separateMembershipPayment = $dao->is_separate_payment;
-            CRM_Core_DAO::storeValues($dao, $membershipBlock );
-            if ( $dao->membership_types ) {
-                $membershipTypeIds = explode( ',' , $dao->membership_types);
+            $separateMembershipPayment = $membershipBlock['is_separate_payment'];
+            if ( $membershipBlock['membership_types'] ) {
+                $membershipTypeIds = explode( ',' , $membershipBlock['membership_types'] );
             }
             if (! empty( $membershipTypeIds ) ) {
                 foreach ( $membershipTypeIds as $value ) {
@@ -517,6 +519,9 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
                                 $membership = &new CRM_Member_DAO_Membership();
                                 $membership->contact_id         = $cid;
                                 $membership->membership_type_id = $memType->id;
+                                //show current membership, skip pending membership record,
+                                //because we take first memebrship record id for renewal 
+                                $membership->whereAdd( 'status_id != 5' );
                                 
                                 if ( ! is_null( $isTest ) ) {
                                     $membership->is_test        = $isTest;
@@ -535,11 +540,11 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             
             $form->assign( 'showRadio',$formItems );
             if ( $formItems ) {
-                if ( ! $dao->is_required ) {
+                if ( ! $membershipBlock['is_required'] ) {
                     $form->assign( 'showRadioNoThanks', true );
                     $radio[''] = $form->createElement('radio',null,null,null,'no_thanks', null);
                     $form->addGroup($radio,'selectMembership',null);
-                } else if( $dao->is_required  && count( $radio ) == 1 ) {
+                } else if( $membershipBlock['is_required']  && count( $radio ) == 1 ) {
                     $temp = array_keys( $radio ) ;
                     $form->addElement('hidden', "selectMembership", $temp[0]  );
                     $form->assign('singleMembership' , true );
@@ -598,6 +603,8 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         $dao->contact_id         = $contactID;
         $dao->membership_type_id = $memType;
         $dao->is_test            = $isTest;
+        //avoid pending membership as current memebrship: CRM-3027
+        $dao->whereAdd( 'status_id != 5' );
         if ( $dao->find( true ) ) {
             $membership = array( );
             CRM_Core_DAO::storeValues( $dao, $membership );
@@ -974,7 +981,7 @@ AND civicrm_membership.is_test = %2";
              CRM_Member_BAO_Membership::getContactMembership( $contactID, $membershipTypeID, $is_test, $form->_membershipId ) ) {
             
             $form->set("renewal_mode", true );
-            
+                      
             // Do NOT do anything to membership with status : PENDING/CANCELLED (CRM-2395)
             if ( in_array($currentMembership['status_id'], array( 5, 6 )) ) {
                 $membership =& new CRM_Member_DAO_Membership();
@@ -1224,7 +1231,8 @@ AND civicrm_membership.is_test = %2";
         }
         
         // add activity record
-        self::addActivity( $membership, 'Membership Renewal' );
+        require_once 'CRM/Activity/BAO/Activity.php';
+        CRM_Activity_BAO_Activity::addActivity( $membership, 'Membership Renewal' );
         
         return $membership;
     }
@@ -1365,66 +1373,8 @@ SELECT c.contribution_page_id as pageID
         
         return $fields;
     }
-
-    /**
-     * Function to add activity for Membership
-     *
-     * @param object  $membership   (reference) membership object
-     * @param string  $activityType Membership Signup or Renewal
-     *
-     * @return void
-     * 
-     * @static
-     * @access public
-     */
-    static function addActivity( &$membership, $activityType = 'Membership Signup' )
-    { 
-        require_once "CRM/Member/PseudoConstant.php";
-        $membershipType = CRM_Member_PseudoConstant::membershipType( $membership->membership_type_id );
-        
-        if ( ! $membershipType ) {
-            $membershipType = ts('Membership');
-        }
-        
-        $subject = "{$membershipType}";
-        
-        if ( $membership->source != 'null' ) {
-            $subject .= " - {$membership->source}";
-        }
-        
-        if ( $membership->owner_membership_id ) {
-            $cid         = CRM_Core_DAO::getFieldValue( 
-                                                       'CRM_Member_DAO_Membership', 
-                                                       $membership->owner_membership_id,
-                                                       'contact_id' );
-            $displayName = CRM_Core_DAO::getFieldValue( 
-                                                       'CRM_Contact_DAO_Contact',
-                                                       $cid, 'display_name' );
-            $subject .= " (by {$displayName})";
-        }
-        
-        require_once 'CRM/Member/DAO/MembershipStatus.php';
-        $subject .= " - Status: " . CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipStatus', $membership->status_id );
-
-        require_once "CRM/Core/OptionGroup.php";
-        $activityParams = array( 'source_contact_id' => $membership->contact_id,
-                                 'source_record_id'  => $membership->id,
-                                 'activity_type_id'  => CRM_Core_OptionGroup::getValue( 'activity_type',
-                                                                                        $activityType,
-                                                                                        'name' ),
-                                 'subject'            => $subject,
-                                 'activity_date_time' => $membership->start_date,
-                                 'is_test'            => $membership->is_test,
-                                 'status_id'          => 2
-                               );
-        
-        require_once 'api/v2/Activity.php';
-        if ( is_a( civicrm_activity_create( $activityParams ), 'CRM_Core_Error' ) ) {
-            CRM_Core_Error::fatal("Failed creating Activity for membership of id {$membership->id}");
-        }
-    }
     
-     /**
+    /**
      * function to get the sort name of a contact for a particular membership
      *
      * @param  int    $id      id of the membership
@@ -1434,16 +1384,16 @@ SELECT c.contribution_page_id as pageID
      * @access public
      */
     static function sortName( $id ) 
-    {
-        $id = CRM_Utils_Type::escape( $id, 'Integer' );
-        
-        $query = "
+        {
+            $id = CRM_Utils_Type::escape( $id, 'Integer' );
+            
+            $query = "
 SELECT civicrm_contact.sort_name
 FROM   civicrm_membership, civicrm_contact
 WHERE  civicrm_membership.contact_id = civicrm_contact.id
   AND  civicrm_membership.id = {$id}
 ";
-        return CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
-    }
+            return CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
+        }
 }
 

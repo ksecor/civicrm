@@ -150,32 +150,31 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                 }
                 if (empty($location)) {
                     $locValue[$moniker] = 0;
-                    $locLabel[$moniker] = '[' . ts('EMPTY') . ']';
+                    $locLabel[$moniker] = array();
                 } else {
                     $locValue[$moniker] = $locTypeId;
-                    $locLabel[$moniker] = $location['name'] . "\n";
-                    if (!isset($location['email'])) $location['email'] = array();
-                    foreach ($location['email'] as $email) {
-                        $locLabel[$moniker] .= $email['email'] . "\n";
+                    foreach (array('email','phone','im','openid') as $fieldType) {
+                        if (!isset($location[$fieldType])) $location[$fieldType] = array();
+                        $locLabel[$moniker][$fieldType] = '';
+                        foreach ($location[$fieldType] as $key =>$field) {
+                            $locLabel[$moniker][$fieldType] .= $field[$fieldType] . "\n";
+                        }
+                        $locLabel[$moniker][$fieldType] = preg_replace('/\n+/', "\n", $locLabel[$moniker][$fieldType]);
+                        $locLabel[$moniker][$fieldType] = nl2br(trim($locLabel[$moniker][$fieldType]));
                     }
-                    if (!isset($location['phone'])) $location['phone'] = array();
-                    foreach ($location['phone'] as $phone) {
-                        $locLabel[$moniker] .= $phone['phone'] . "\n";
-                    }
-                    $locLabel[$moniker] .= $location['address']['display'];
-                    // drop consecutive newlines and convert the rest to <br />s
-                    $locLabel[$moniker] = preg_replace('/\n+/', "\n", $locLabel[$moniker]);
-                    $locLabel[$moniker] = nl2br(trim($locLabel[$moniker]));
+                    $locLabel[$moniker]['address'] = $location['address']['display'];
                 }
             }
             if ($locValue['other'] != 0) {
-                $rows["move_location_$locTypeId"]['main']  = $locLabel['main'];
-                $rows["move_location_$locTypeId"]['other'] = $locLabel['other'];
-                $rows["move_location_$locTypeId"]['title'] = ts('Location: %1', array(1 => $locTypeName));
-                $this->addElement('advcheckbox', "move_location_$locTypeId", null, null, null, $locValue['other']);
+                foreach (array('email','phone','im','openid','address') as $fieldType) {
+                    $rows["move_location_$fieldType"."_$locTypeId"]['main']  = $locLabel['main'][$fieldType];
+                    $rows["move_location_$fieldType"."_$locTypeId"]['other'] = $locLabel['other'][$fieldType];
+                    $rows["move_location_$fieldType"."_$locTypeId"]['title'] = ts('Location %1:%2', array(1 => $locTypeName, 2 => $fieldType));
+                    $this->addElement('advcheckbox', "move_location_$fieldType"."_$locTypeId", null, null, null, $locValue['other']);
+                }
             }
         }
-
+        
         // handle custom fields
         $mainTree  =& CRM_Core_BAO_CustomGroup::getTree($this->_contactType, $this->_cid, -1);
         $otherTree =& CRM_Core_BAO_CustomGroup::getTree($this->_contactType, $this->_oid, -1);
@@ -296,31 +295,39 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         // FIXME: the simplest approach to locations
         $locTypes =& CRM_Core_PseudoConstant::locationType();
         if (!isset($locations)) $locations = array();
-        foreach ($locations as $locTypeId => $value) {
-            // delete the old location (if it exists)
+        foreach ($locations as $field => $locTypeId) {
+            $field = substr($field, 0, -2);
             $mainParams = array('contact_id' => $this->_cid, 'location_type' => $locTypeId);
-            civicrm_location_delete($mainParams);
-
+            
             // if the new one is 0, we're done
-            if ($value == 0) continue;
-
-            // otherwise, move the existing components 
-            // of the other's location to main contact
-            // FIXME: handle the proper primariness 
-            // and billingness of the components
-            foreach (array('Address', 'Email', 'IM', 'Phone') as $component) {
-                eval("\$dao =& new CRM_Core_DAO_$component();");
-                $dao->contact_id = $this->_oid;
-                $dao->location_type_id = $locTypeId;
-                $dao->find();
-                while ($dao->fetch()) {
-                    $dao->contact_id = $this->_cid;
-                    $dao->update();
-                }
-                $dao->free();
+            if ($locTypeId == 0) continue;
+            
+            $locComponent = array(
+                                  'email'   => 'Email',
+                                  'phone'   => 'Phone',
+                                  'im'      => 'IM',
+                                  'openid'  => 'OpenID',
+                                  'address' => 'Address',
+                                  ); 
+            //delete the existing location component first(if exists).
+            eval("\$dao =& new CRM_Core_DAO_$locComponent[$field]();");
+            $dao->contact_id = $this->_cid;
+            $dao->location_type_id = $locTypeId;
+            $dao->find();
+            $dao->delete();
+            $dao->free();
+            //move duplicate contact's location component.
+            eval("\$dao =& new CRM_Core_DAO_$locComponent[$field]();");
+            $dao->contact_id = $this->_oid;
+            $dao->location_type_id = $locTypeId;
+            $dao->find();
+            while ($dao->fetch()) {
+                $dao->contact_id = $this->_cid;
+                $dao->update();
             }
+            $dao->free();
         }
-
+       
         // handle the related tables
         if (isset($moveTables)) {
             CRM_Dedupe_Merger::moveContactBelongings($this->_cid, $this->_oid, $moveTables);

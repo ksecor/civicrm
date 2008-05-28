@@ -57,6 +57,12 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
         $entityType = CRM_Contact_BAO_Contact::getContactType($this->_contactId);
         $groupTree =& CRM_Core_BAO_CustomGroup::getTree($entityType, $this->_contactId);
         CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $groupTree );
+
+        // also create the form element for the activity links box
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Activity_Form_ActivityLinks',
+                                                       ts('Activity Links'), null );
+        $controller->setEmbedded( true );
+        $controller->run( );
     }
 
     /**
@@ -202,7 +208,7 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
                 $u = $elem['url'];
                 $allTabs[] = array( 'id'     =>  $i,
                                     'url'    => CRM_Utils_System::url( "civicrm/contact/view/$u",
-                                                                       "reset=1&snippet=1&cid={$this->_contactId}" ),
+                                                                       "reset=1&snippet=1&force=1&cid={$this->_contactId}" ),
                                     'title'  => $elem['title'],
                                     'weight' => $elem['weight'] );
                 // make sure to get maximum weight, rest of tabs go after

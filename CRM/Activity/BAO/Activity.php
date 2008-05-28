@@ -82,7 +82,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      * @return object CRM_Core_BAO_Meeting object
      * @access public
      */
-    public function retrieve ( &$params, &$defaults, $activityType ) 
+    public function retrieve ( &$params, &$defaults ) 
     {
         $activity =& new CRM_Activity_DAO_Activity( );
         $activity->copyValues( $params );
@@ -183,32 +183,6 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
     }
 
     /**
-     * delete all records for this contact id
-     *
-     * @param int    $id  ID of the contact for which the records needs to be deleted.
-     * @param string $activityType activity type 
-     * 
-     * @return void
-     * 
-     * @access public
-     */
-    public function deleteContact($id)
-    {
-        $activity = array("Meeting", "Phonecall", "Activity");
-        foreach ($activity as $key) {
-            // need to delete for both source and target
-            eval ('$dao =& new CRM_Activity_DAO_' . $key . '();');
-            $dao->source_contact_id = $id;
-            $dao->delete();
-
-            eval ('$dao =& new CRM_Activity_DAO_' . $key . '();');
-            $dao->target_entity_table = 'civicrm_contact';
-            $dao->target_entity_id    = $id;        
-            $dao->delete();
-        }
-    }
-
-    /**
      * Function to process the activities
      *
      * @param object $form         form object
@@ -233,6 +207,14 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         $params['duration'] = CRM_Utils_Date::standardizeTime( CRM_Utils_Array::value( 'duration_hours', $params ),
                                                                CRM_Utils_Array::value( 'duration_minutes', $params )
                                                                );
+        if ( ! CRM_Utils_Array::value( 'status_id', $params ) ) {
+            if ( isset( $params['activity_date_time'] ) &&
+                 $params['activity_date_time'] < date('Ymd') ) {
+                $params['status_id'] = 2;
+            } else {
+                $params['status_id'] = 1;
+            }
+        }
         $activity->copyValues( $params );
 
         // start transaction        
@@ -303,7 +285,19 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             $logMsg = "Activity created for ";
         }
         
-        $logMsg .= "source = {$params['source_contact_id']}, target = {$params['target_contact_id']}, assignee ={$params['assignee_contact_id']}";
+        $msgs = array( );
+        if ( isset( $params['source_contact_id'] ) ) {
+            $msgs[] = "source = {$params['source_contact_id']}";
+        } 
+
+        if ( isset( $params['target_contact_id'] ) ) {
+            $msgs[] = "target = {$params['target_contact_id']}";
+        }
+
+        if ( isset( $params['assignee_contact_id'] ) ) {
+            $msgs[] = "assignee ={$params['assignee_contact_id']}";
+        }
+        $logMsg .= implode( ', ', $msgs );
 
         self::logActivityAction( $result, $logMsg );
 
@@ -325,7 +319,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         }
 
         $transaction->commit( );  
-        
+
         return $result;
     }
         
@@ -797,6 +791,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             $activities[$dao->activity_id]['activity_type_id']  = $dao->activity_type_id;
             $activities[$dao->activity_id]['subject']           = $dao->subject;
             $activities[$dao->activity_id]['location']          = $dao->location;
+            $activities[$dao->activity_id]['activity_date_time']= $dao->activity_date_time;
             $activities[$dao->activity_id]['details']           = $dao->details;
             $activities[$dao->activity_id]['status_id']         = $dao->status_id;
             $activities[$dao->activity_id]['activity_name']     = CRM_Core_OptionGroup::getLabel('activity_type',
@@ -806,6 +801,104 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         }
         return $activities;
     }
+
+ /**
+     * Function to add activity for Membership/Event/Contribution
+     *
+     * @param object  $activity   (reference) perticular component object
+     * @param string  $activityType for Membership Signup or Renewal
+     *
+     *  
+     * @static
+     * @access public
+     */
+    static function addActivity( &$activity, $activityType = 'Membership Signup' )
+    { 
+        if ( $activity->__table == 'civicrm_membership' ) {
+            require_once "CRM/Member/PseudoConstant.php";
+            $membershipType = CRM_Member_PseudoConstant::membershipType( $activity->membership_type_id );
+            
+            if ( ! $membershipType ) {
+                $membershipType = ts('Membership');
+            }
+            
+            $subject = "{$membershipType}";
+            
+            if ( $activity->source != 'null' ) {
+                $subject .= " - {$activity->source}";
+            }
+            
+            if ( $activity->owner_membership_id ) {
+                $cid         = CRM_Core_DAO::getFieldValue( 
+                                                           'CRM_Member_DAO_Membership', 
+                                                           $activity->owner_membership_id,
+                                                           'contact_id' );
+                $displayName = CRM_Core_DAO::getFieldValue( 
+                                                           'CRM_Contact_DAO_Contact',
+                                                           $cid, 'display_name' );
+                $subject .= " (by {$displayName})";
+            }
+            
+            require_once 'CRM/Member/DAO/MembershipStatus.php';
+            $subject .= " - Status: " . CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipStatus', $activity->status_id );
+            $date = $activity->start_date;
+            $component = 'Membership';
+
+        } else if ( $activity->__table == 'civicrm_participant' ) {
+            require_once "CRM/Event/BAO/Event.php";
+            $event = CRM_Event_BAO_Event::getEvents( true, $activity->event_id );
+            
+            require_once "CRM/Event/PseudoConstant.php";
+            $roles  = CRM_Event_PseudoConstant::participantRole( );
+            $status = CRM_Event_PseudoConstant::participantStatus( );
+            
+            $subject = $event[$activity->event_id];
+            if ( CRM_Utils_Array::value( $activity->role_id, $roles ) ) {
+                $subject .= ' - ' . $roles[$activity->role_id]; 
+            }
+            if ( CRM_Utils_Array::value( $activity->status_id, $status ) ) {
+                $subject .= ' - ' . $status[$activity->status_id]; 
+            }
+            $date = date( 'YmdHis' );
+            $activityType = 'Event Registration';
+            $component = 'Event';
+            
+        }else if ( $activity->__table == 'civicrm_contribution' ) {
+            //create activity record only for Completed Contributions
+            if ( $activity->contribution_status_id != 1 ) {
+                return;
+            }
+            
+            $subject = null;
+                       
+            require_once "CRM/Utils/Money.php";
+            $subject .= CRM_Utils_Money::format($activity->total_amount, $activity->currency);
+            if ( $activity->source != 'null' ) {
+                $subject .= " - {$activity->source}";
+                
+            } 
+            $date = CRM_Utils_Date::isoToMysql($activity->receive_date);
+            $activityType = $component = 'Contribution';
+        } 
+        require_once "CRM/Core/OptionGroup.php";
+        $activityParams = array( 'source_contact_id' => $activity->contact_id,
+                                 'source_record_id'  => $activity->id,
+                                 'activity_type_id'  => CRM_Core_OptionGroup::getValue( 'activity_type',
+                                                                                        $activityType,
+                                                                                        'name' ),
+                                 'subject'            => $subject,
+                                 'activity_date_time' => $date,
+                                 'is_test'            => $activity->is_test,
+                                 'status_id'          => 2
+                                 );
+        
+        require_once 'api/v2/Activity.php';
+        if ( is_a( civicrm_activity_create( $activityParams ), 'CRM_Core_Error' ) ) {
+            CRM_Core_Error::fatal("Failed creating Activity for $component of id {$activity->id}");
+            return false;
+        }
+    }
+    
 }
 
 

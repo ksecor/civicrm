@@ -238,7 +238,8 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
                                                                       'Contribution',
                                                                       'name' );
         if ( ! $activity->find( ) ) {
-            self::addActivity( $contribution, 'Offline' );
+            require_once "CRM/Activity/BAO/Activity.php";
+            CRM_Activity_BAO_Activity::addActivity( $contribution, 'Offline' );
         }
 
         $transaction->commit( );
@@ -912,53 +913,6 @@ SELECT count(*) as count,
         return NULL;        
     }
 
-    /**
-     * Function to add activity for Contribution
-     *
-     * @param object  $contribution  (reference) contribution object
-     *
-     * @return void
-     * @static
-     * @access public
-     */
-    static function addActivity( &$contribution )
-    {
-        //create activity record only for Completed Contributions
-        if ( $contribution->contribution_status_id != 1 ) {
-            return;
-        }
-
-        $subject = null;
-        
-        if ( $mode == 'Online' ) {
-            $subject .= CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage',
-                                                     $contribution->contribution_page_id,
-                                                     'title' );
-        }
-        
-        require_once "CRM/Utils/Money.php";
-        $subject .= CRM_Utils_Money::format($contribution->total_amount, $contribution->currency);
-        if ( $contribution->source != 'null' ) {
-            $subject .= " - {$contribution->source}";
-        }
-        
-        require_once "CRM/Core/OptionGroup.php";
-        $activityParams = array( 'source_contact_id'     => $contribution->contact_id,
-                                 'source_record_id'      => $contribution->id,
-                                 'activity_type_id'      => CRM_Core_OptionGroup::getValue( 'activity_type',
-                                                                                            'Contribution',
-                                                                                            'name' ),
-                                 'subject'               => $subject,
-                                 'activity_date_time'    => CRM_Utils_Date::isoToMysql($contribution->receive_date),
-                                 'is_test'               => $contribution->is_test,
-                                 'status_id'             => 2
-                                 );
-        
-        require_once 'api/v2/Activity.php';
-        if ( is_a( civicrm_activity_create( $activityParams ), 'CRM_Core_Error' ) ) { 
-            CRM_Core_Error::fatal( "Could not create a system record" );
-        }
-    }
 }
 
 

@@ -40,8 +40,6 @@ class CRM_Member_BAO_Query
     {
         require_once 'CRM/Member/BAO/Membership.php';
         $fields =& CRM_Member_BAO_Membership::importableFields( );
-        //unset( $fields['contact_id']);
-        //unset( $fields['note'] ); 
         return $fields;
     }
     
@@ -55,7 +53,8 @@ class CRM_Member_BAO_Query
     static function select( &$query ) 
     {
         // if membership mode add membership id
-        if ( $query->_mode & CRM_Contact_BAO_Query::MODE_MEMBER ) {
+        if ( $query->_mode & CRM_Contact_BAO_Query::MODE_MEMBER ||
+             CRM_Utils_Array::value( 'membership_id', $query->_returnProperties ) ) {
 
             $query->_select['membership_id'] = "civicrm_membership.id as membership_id";
             $query->_element['membership_id'] = 1;
@@ -63,32 +62,49 @@ class CRM_Member_BAO_Query
             $query->_whereTables['civicrm_membership'] = 1;
            
             //add membership type
-            $query->_select['memership_type']  = "civicrm_membership_type.name as membership_type";
-            $query->_element['membership_type'] = 1;
-            $query->_tables['civicrm_membership_type'] = 1;
-            $query->_whereTables['civicrm_membership_type'] = 1;
+            if ( CRM_Utils_Array::value( 'membership_type_id', $query->_returnProperties ) ) {
+                $query->_select['membership_type_id']  = "civicrm_membership_type.name as membership_type_id";
+                $query->_element['membership_type_id'] = 1;
+                $query->_tables['civicrm_membership_type'] = 1;
+                $query->_whereTables['civicrm_membership_type'] = 1;
+            }
             
             //add join date
-            $query->_select['join_date']  = "civicrm_membership.join_date as join_date";
-            $query->_element['join_date'] = 1;
+            if ( CRM_Utils_Array::value( 'join_date', $query->_returnProperties ) ) {
+                $query->_select['join_date']  = "civicrm_membership.join_date as join_date";
+                $query->_element['join_date'] = 1;
+            }
             
             //add source
-            $query->_select['source']  = "civicrm_membership.source as source";
-            $query->_element['source'] = 1;
-            
+            if ( CRM_Utils_Array::value( 'membership_source', $query->_returnProperties ) ) {
+                $query->_select['membership_source']  = "civicrm_membership.source as membership_source";
+                $query->_element['membership_source'] = 1;
+            }
+
             //add status
-            $query->_select['status_id']  = "civicrm_membership.status_id as status_id";
-            $query->_element['status_id'] = 1;
+            if ( CRM_Utils_Array::value( 'status_id', $query->_returnProperties ) ) {
+                $query->_select['status_id']  = "civicrm_membership_status.name as status_id";
+                $query->_element['status_id'] = 1;
+                $query->_tables['civicrm_membership_status'] = 1;
+                $query->_whereTables['civicrm_membership_status'] = 1;
+            }
             
             //add start date / end date
-            $query->_select['start_date']  = "civicrm_membership.start_date as start_date";
-            $query->_element['start_date'] = 1;
-            $query->_select['end_date']  = "civicrm_membership.end_date as end_date";
-            $query->_element['end_date'] = 1;
-            
+            if ( CRM_Utils_Array::value( 'membership_start_date', $query->_returnProperties ) ) {
+                $query->_select['membership_start_date']  = "civicrm_membership.start_date as membership_start_date";
+                $query->_element['membership_start_date'] = 1;
+            }
+
+            if ( CRM_Utils_Array::value( 'membership_end_date', $query->_returnProperties ) ) {
+                $query->_select['membership_end_date']  = "civicrm_membership.end_date as  membership_end_date";
+                $query->_element['membership_end_date'] = 1;
+            }
+
             //add owner_membership_id
-            $query->_select['owner_membership_id']  = "civicrm_membership.owner_membership_id as owner_membership_id";
-            $query->_element['owner_membership_id'] = 1;
+            if ( CRM_Utils_Array::value( 'owner_membership_id', $query->_returnProperties ) ) {
+                $query->_select['owner_membership_id']  = "civicrm_membership.owner_membership_id as owner_membership_id";
+                $query->_element['owner_membership_id'] = 1;
+            }
         }
     }
 
@@ -115,7 +131,6 @@ class CRM_Member_BAO_Query
             self::whereClauseSingle( $values, $query );
         }
     }
-    
   
     static function whereClauseSingle( &$values, &$query ) 
     {
@@ -241,6 +256,14 @@ class CRM_Member_BAO_Query
                 $from = " $side JOIN civicrm_membership_type ON civicrm_membership.membership_type_id = civicrm_membership_type.id ";
             }
             break;
+
+        case 'civicrm_membership_status':
+            if ( $mode & CRM_Contact_BAO_Query::MODE_MEMBER ) {
+                $from = " INNER JOIN civicrm_membership_status ON civicrm_membership.status_id = civicrm_membership_status.id ";
+            } else {
+                $from = " $side JOIN civicrm_membership_status ON civicrm_membership.status_id = civicrm_membership_status.id ";
+            }
+            break;
             
         case 'civicrm_membership_payment':
             $from = " INNER JOIN civicrm_membership_payment ON civicrm_membership_payment.membership_id = civicrm_membership.id ";
@@ -257,14 +280,14 @@ class CRM_Member_BAO_Query
                                 'contact_type'           => 1, 
                                 'sort_name'              => 1, 
                                 'display_name'           => 1,
-                                'membership_type'        => 1,
+                                'membership_type_id'     => 1,
                                 'member_is_test'         => 1, 
                                 'member_is_pay_later'    => 1, 
                                 'join_date'              => 1,
-                                //'start_date'             => 1,
-                                //'end_date'               => 1,
-                                //'source'                 => 1,
-                                //'status_id'              => 1
+                                'membership_start_date'  => 1,
+                                'membership_end_date'    => 1,
+                                'membership_source'      => 1,
+                                'status_id'              => 1
                                 );
 
             // also get all the custom membership properties

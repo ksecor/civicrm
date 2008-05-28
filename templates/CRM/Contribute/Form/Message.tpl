@@ -49,6 +49,12 @@
 
 ===========================================================
 {$formValues.product_name}
-{ts}Sent{/ts}: {$fulfilled_date|crmDate}
+{if $formValues.product_option}
+{ts}Option{/ts}: {$formValues.product_option}
+{/if}
+{if $formValues.product_sku}
+{ts}SKU{/ts}   : {$formValues.product_sku}
+{/if}
+{ts}Sent{/ts}  : {$fulfilled_date|crmDate}
 
 {/if}
