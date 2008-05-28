@@ -146,7 +146,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         $this->_id        = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
         
         // FIXME : by default it should live mode
-        $this->_mode = 'test';
+        $this->_mode = 'live';
         
         $this->_processors = CRM_Core_PseudoConstant::paymentProcessor( false, false,
                                                                  "billing_mode IN ( 1, 3 )" );
