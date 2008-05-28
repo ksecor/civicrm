@@ -135,6 +135,12 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View
         CRM_Contact_BAO_Contact::retrieve($params, $defaults, $ids);
         CRM_Contact_BAO_Contact::resolveDefaults($defaults);
         $this->assign($defaults);
+
+        // also create the form element for the activity links box
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Activity_Form_ActivityLinks',
+                                                       ts('Activity Links'), null );
+        $controller->setEmbedded( true );
+        $controller->run( );
     }
 
     function delete( )

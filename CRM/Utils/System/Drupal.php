@@ -242,7 +242,11 @@ class CRM_Utils_System_Drupal {
     }
 
     static function permissionDenied( ) {
-        return drupal_access_denied( );
+        drupal_access_denied( );
+    }
+
+    static function logout( ) {
+        return user_logout( );
     }
 
 }

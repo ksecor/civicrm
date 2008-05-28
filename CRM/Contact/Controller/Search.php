@@ -53,7 +53,7 @@ class CRM_Contact_Controller_Search extends CRM_Core_Controller {
     /**
      * class constructor
      */
-    function __construct( $title = null, $action = CRM_Core_Action::NONE, $modal = true ) {
+    function __construct( $title = null, $modal = true, $action = CRM_Core_Action::NONE ) {
         require_once 'CRM/Contact/StateMachine/Search.php';
 
         parent::__construct( $title, $modal );

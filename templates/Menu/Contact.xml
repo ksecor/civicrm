@@ -21,30 +21,40 @@
   <item>
      <path>civicrm/contact/search</path>
      <title>Contacts</title>
-     <page_callback>CRM_Core_Invoke::search</page_callback>
+     <page_callback>CRM_Contact_Controller_Search</page_callback>
+     <access_arguments>access CiviCRM</access_arguments>
      <weight>10</weight>
   </item>
   <item>
      <path>civicrm/contact/search/basic</path>
      <title>Find Contacts</title>
-     <page_type>1</page_type>
-     <access_arguments>access CiviCRM</access_arguments>
-     <weight>1</weight>
+     <page_arguments>mode=256</page_arguments>
   </item>
   <item>
      <path>civicrm/contact/search/advanced</path>
      <title>Advanced Search</title>
-     <weight>2</weight>
+     <page_arguments>mode=512</page_arguments>
   </item>
   <item>
      <path>civicrm/contact/search/builder</path>
      <title>Search Builder</title>
-     <weight>3</weight>
+     <page_arguments>mode=8192</page_arguments>
+  </item>
+  <item>
+     <path>civicrm/contact/search/custom</path>
+     <title>Search Builder</title>
+     <page_arguments>mode=16384</page_arguments>
+  </item>
+  <item>
+     <path>civicrm/contact/search/simple</path>
+     <title>Simple Search</title>
+     <page_callback>CRM_Contact_Form_Search_Simple</page_callback>
   </item>
   <item>
      <path>civicrm/contact/add</path>
      <title>New Contact</title>
      <page_callback>CRM_Contact_Form_Edit</page_callback>
+     <page_arguments>addSequence=1</page_arguments>
      <access_arguments>access CiviCRM,add contacts</access_arguments>
   </item>
   <item>

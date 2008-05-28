@@ -130,7 +130,9 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
      * @return void
      *
      */
-    function __construct( $title = null, $modal = true, $scope = null, $addSequence = false, $ignoreKey = false ) {
+    function __construct( $title = null, $modal = true,
+                          $mode = null, $scope = null,
+                          $addSequence = false, $ignoreKey = false ) {
         // add a unique validable key to the name
         $name = CRM_Utils_System::getClassName($this);
         $name = $name . '_' . $this->key( $name, $addSequence, $ignoreKey );

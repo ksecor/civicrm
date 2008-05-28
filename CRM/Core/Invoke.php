@@ -150,16 +150,32 @@ class CRM_Core_Invoke
                                       $item['title'], 
                                       $pageArgs );
             } else {
-                // page and controller have the same style
                 $newArgs  = explode( '/',
                                      $_GET[$config->userFrameworkURLVar] );
                 require_once( str_replace( '_',
                                            DIRECTORY_SEPARATOR,
                                            $item['page_callback'] ) . '.php' );
-                eval( '$page =& new ' .
-                      $item['page_callback'] .
-                      ' ( );' );
-                return $page->run( $newArgs, $pageArgs );
+                $mode = 'null';
+                if ( isset( $pageArgs['mode'] ) ) {
+                    $mode = $pageArgs['mode'];
+                    unset( $pageArgs['mode'] );
+                }
+                if (strstr($item['page_callback'], '_Page')) {
+                    eval ( '$object =& ' .
+                           "new {$item['page_callback']}( '{$item['title']}', $mode );" );
+                } else if (strstr($item['page_callback'], '_Controller')) { 
+                    $addSequence = 'false';
+                    if ( isset( $pageArgs['addSequence'] ) ) {
+                        $addSequence = $pageArgs['addSequence'];
+                        $addSequence = $addSequence ? 'true' : 'false';
+                        unset( $pageArgs['addSequence'] );
+                    }
+                    eval ( '$object =& ' .
+                           "new {$item['page_callback']} ( '{$item['title']}', true, $mode, null, $addSequence );" );
+                } else {
+                    CRM_Core_Error::fatal( );
+                }
+                return $object->run( $newArgs, $pageArgs );
             }
         }
         
@@ -167,112 +183,6 @@ class CRM_Core_Invoke
         CRM_Core_Error::fatal( 'Please rebuild your menu, <a href='.$url.'>Click here</a>' );
         return;
     }
-
-    /**
-     * This function contains the actions for arg[1] = contact
-     *
-     * @param $args array this array contains the arguments of the url 
-     *
-     * @static
-     * @access public
-     */
-    static function contact( $args ) 
-    {
-
-        $session =& CRM_Core_Session::singleton();
-
-        $isAdvanced = $session->get('isAdvanced');
-        if ( $isAdvanced == '1' ) {
-            $breadCrumbPath = CRM_Utils_System::url( 'civicrm/contact/search/advanced', 'force=1' );
-        } else if ( $isAdvanced == '2' ) {
-            $breadCrumbPath = CRM_Utils_System::url( 'civicrm/contact/search/builder', 'force=1' );
-        } else if ( $isAdvanced == '3' ) {
-            $breadCrumbPath = CRM_Utils_System::url( 'civicrm/contact/search/custom', 'force=1' );
-        } else {
-            $breadCrumbPath = CRM_Utils_System::url( 'civicrm/contact/search/basic', 'force=1' );
-        }
-        
-        if ( $args[1] !== 'contact' ) {
-            return;
-        }
-
-        if ( $args[2] == 'add' ) {
-            if ( ! CRM_Core_Permission::check('add contacts') ) {
-                CRM_Core_Error::fatal( 'You do not have access to this page' );
-            }
-
-            $contactType    = CRM_Utils_Request::retrieve('ct','String', CRM_Core_DAO::$_nullObject,false,null,'GET');
-            $contactSubType = CRM_Utils_Request::retrieve('cst','String', CRM_Core_DAO::$_nullObject,false,null,'GET');
-            return self::form( CRM_Core_Action::ADD, $contactType, $contactSubType );
-        }
-        
-        if ($args[2] == 'view') {
-            $contactId = CRM_Utils_Request::retrieve( 'cid' , 'Positive', $this );
-            $path = CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $contactId );
-            CRM_Utils_System::appendBreadCrumb( ts('View Contact'), $path );
-            CRM_Utils_System::appendBreadCrumb( ts('Search Results'), $breadCrumbPath );
-            $thirdArg = CRM_Utils_Array::value( 3, $args, '' );
-            $fourthArg = CRM_Utils_Array::value(4, $args, 0);
-
-            if ( ! $thirdArg || ($thirdArg == 'activity') ) {
-                //build other activity select
-                $controller =& new CRM_Core_Controller_Simple( 'CRM_Activity_Form_ActivityLinks',
-                                                               ts('Activity Links'), null );
-                $controller->setEmbedded( true );
-                $controller->run( );
-            }
-            
-            switch ( $thirdArg ) {
-
-            default:
-                $id = CRM_Utils_Request::retrieve( 'cid', 'Positive', CRM_Core_DAO::$_nullObject ); 
-                if ( ! $id ) {
-                    $id = $session->get( 'view.id' );
-                    if ( ! $id ) {
-                        CRM_Core_Error::statusBounce( ts( 'Could not retrieve a valid contact' ) );
-                    }
-                }
-
-                $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view', "reset=1&cid=$id" ) );
-                
-                $contact_sub_type = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'contact_sub_type' );
-                $contact_type     = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'contact_type'     );
-                
-                $properties =& CRM_Core_Component::contactSubTypeProperties( $contact_sub_type, 'View' );
-
-                if( $properties ) {
-                    require_once $properties['file'];
-                    eval( '$view =& new ' . $properties['class'] . '( );' );
-                } else {
-                    require_once 'CRM/Contact/Page/View/Tabbed.php';
-                    $view =& new CRM_Contact_Page_View_Tabbed( );
-                }
-                break;
-            }
-            if ( isset( $_GET['snippet'] ) && $_GET['snippet'] ) {
-                $view->setPrint( CRM_Core_Smarty::PRINT_SNIPPET );
-            }
-            return $view->run( );
-        }
-        
-        return CRM_Utils_System::redirect( );
-    }
-
-    /**
-     * This function for CiviCRM logout
-     *
-     *
-     * @static
-     * @access public
-     *
-     */
-
-    static function logout($args)
-    {
-        session_destroy();
-        header("Location:index.php");
-    }
-
 
     /**
      * This function contains the actions for search arguments
@@ -284,6 +194,8 @@ class CRM_Core_Invoke
      */
     static function search( $args ) 
     {
+        CRM_Core_Error::fatal( );
+
         $session =& CRM_Core_Session::singleton( );
         $thirdArg = CRM_Utils_Array::value( 3, $args, '' );
 
@@ -300,30 +212,15 @@ class CRM_Core_Invoke
             $mode    =  CRM_Core_Action::COPY;
             $title   = ts( 'Custom Search' );
             $url   = 'civicrm/contact/search/custom';
-        } else if ( $thirdArg == 'simple' ) {
-            // set the userContext stack
-            $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/search/simple' ) );
-
-            $wrapper =& new CRM_Utils_Wrapper( );
-            return $wrapper->run( 'CRM_Contact_Form_Search_Simple', ts('Simple Search'),  null );
         } else {
             $mode  = CRM_Core_Action::BASIC;
             $title = ts('Search');
             $url   = 'civicrm/contact/search/basic';
         }
 
-        $id = CRM_Utils_Request::retrieve('id', 'Positive',
-                                          CRM_Core_DAO::$_nullObject, false, 0, 'GET');
-        if ( $id ) {
-            $session->set('id', $id);
-        }
-
         require_once 'CRM/Contact/Controller/Search.php';
-        $controller =& new CRM_Contact_Controller_Search($title, $mode);
+        $controller =& new CRM_Contact_Controller_Search($title, true, $mode);
 
-        if ( isset( $_GET['snippet'] ) && $_GET['snippet'] ) {
-            $controller->setPrint( CRM_Core_Smarty::PRINT_SNIPPET ); 
-        }
         $session->pushUserContext(CRM_Utils_System::url($url, 'force=1'));
         return $controller->run();
     }
@@ -431,71 +328,6 @@ class CRM_Core_Invoke
         return $page->run( );
     }
 
-    /**
-     * handle the export case. this is a hack, so please fix soon
-     *
-     * @param $args array this array contains the arguments of the url
-     *
-     * @static
-     * @access public
-     */
-    static function export( $args ) 
-    {
-        // FIXME:  2005-06-22 15:17:33 by Brian McFee <brmcfee@gmail.com>
-        // This function is a dirty, dirty hack.  It should live in its own
-        // file.
-        $session =& CRM_Core_Session::singleton();
-        $type = $_GET['type'];
-        
-        if ($type == 1) {
-            $varName = 'errors';
-            $saveFileName = 'Import_Errors.csv';
-        } else if ($type == 2) {
-            $varName = 'conflicts';
-            $saveFileName = 'Import_Conflicts.csv';
-        } else if ($type == 3) {
-            $varName = 'duplicates';
-            $saveFileName = 'Import_Duplicates.csv';
-        } else if ($type == 4) {
-            $varName = 'mismatch';
-            $saveFileName = 'Import_Mismatch.csv';
-        }else {
-            /* FIXME we should have an error here */
-            return;
-        }
-        
-        // FIXME: a hack until we have common import
-        // mechanisms for contacts and contributions
-        $realm = CRM_Utils_Array::value('realm',$_GET);
-        if ($realm == 'contribution') {
-            $controller = 'CRM_Contribute_Import_Controller';
-        } else if ( $realm == 'membership' ) {
-            $controller = 'CRM_Member_Import_Controller';
-        } else if ( $realm == 'event' ) {
-            $controller = 'CRM_Event_Import_Controller';
-        } else if ( $realm == 'activity' ) {
-            $controller = 'CRM_Activity_Import_Controller';
-        } else {
-            $controller = 'CRM_Import_Controller';
-        }
-        
-        require_once 'CRM/Core/Key.php';
-        $qfKey = CRM_Core_Key::get( $controller );
-        
-        $fileName = $session->get($varName . 'FileName', "{$controller}_{$qfKey}");
-        
-        $config =& CRM_Core_Config::singleton( ); 
-        
-        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-        header('Content-Description: File Transfer');
-        header('Content-Type: text/csv');
-        header('Content-Length: ' . filesize($fileName) );
-        header('Content-Disposition: attachment; filename=' . $saveFileName);
-        
-        readfile($fileName);
-        
-        exit();
-    }
 }
 
 
