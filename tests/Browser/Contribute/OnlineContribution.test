@@ -1,0 +1,159 @@
+<?php
+
+/*
+ +--------------------------------------------------------------------+
+ | CiviCRM version 2.1                                                |
+ +--------------------------------------------------------------------+
+ | Copyright CiviCRM LLC (c) 2004-2008                                |
+ +--------------------------------------------------------------------+
+ | This file is a part of CiviCRM.                                    |
+ |                                                                    |
+ | CiviCRM is free software; you can copy, modify, and distribute it  |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
+ |                                                                    |
+ | CiviCRM is distributed in the hope that it will be useful, but     |
+ | WITHOUT ANY WARRANTY; without even the implied warranty of         |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
+ | See the GNU Affero General Public License for more details.        |
+ |                                                                    |
+ | You should have received a copy of the GNU Affero General Public   |
+ | License along with this program; if not, contact CiviCRM LLC       |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
+ | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
+ +--------------------------------------------------------------------+
+*/
+
+/**
+ *
+ * @package CRM
+ * @copyright CiviCRM LLC (c) 2004-2008
+ * $Id$
+ *
+ */
+
+require_once 'CiviTestCase.php';
+
+class Browser_Contribution_OnlineContribution extends CiviTestCase 
+{
+    var $webUser;
+    
+    function get_info() 
+    {
+        return array(
+                     'name' => 'Online Contribution',
+                     'description' => 'Make online Contribution',
+                     'group' => 'CiviCRM Browser Tests',
+                         );
+    }
+    
+    function setUp() 
+    {
+        parent::setUp();
+        $this->drupalModuleEnable('civicrm');
+        
+        $this->webUser = $this->drupalCreateUserRolePerm(
+                                                         array ( 0 => 'access CiviCRM',
+                                                                 1 => 'administer CiviCRM',
+                                                                 2 => 'access CiviContribute',
+                                                                 3 => 'make online contributions',
+                                                                 4 => 'profile listings and forms' ) );
+        $this->drupalLoginUser($this->webUser);
+        $this->civiGet('civicrm/contribute/manage', 'reset=1' );
+        $this->assertWantedRaw( 'Manage Contribution Pages', 'Manage Contribution Pages.' );
+
+        // get all the urls associated with this item
+        $urls = $this->getUrlsByToken( "id=1", 'civicrm/contribute/transact' );
+              
+        $test = ts( 'Test-drive' );
+        $this->assertArrayValueNotNull( $test, $urls );
+        $this->civiGetURL( $urls[$test] );
+        $this->assertWantedRaw( 'Test-drive Your Contribution Page', 'Test Drive of Contribution Page.' );
+    }
+    
+    /**
+     * Test to Online Contribution without Other Amount  
+     * 
+     */
+    function testOnlineContributionwithoutOtherAmount( ) 
+    {
+        $params = array ( 'email-5'      => 'shailesh.lende@webaccess.co.in' ); 
+        $this->drupalPost(NULL, $params, '_qf_Main_next');
+        $this->assertWantedRaw( 'Amount is required field.','Amount, validation ');
+    }
+
+    /**
+     * Test to Online Contribution without Email Address  
+     * 
+     */
+    function testOnlineContributionwithoutEmail( ) 
+    {
+        $params = array ( 'amount_other'      => '1000','email-5'      => ''); 
+        $this->drupalPost(NULL, $params, '_qf_Main_next');
+        $this->assertText( 'Email Address is a required field.' );
+    }
+
+    /**
+     * Test to Online Contribution without Card Information  
+     * 
+     */
+    function testOnlineContributionwithoutCardInformation( ) 
+    {
+        $params = array ( 'amount_other'      => '1000',
+                          'email-5'           => 'shailesh.lende@webaccess.co.in' ); 
+        $this->drupalPost(NULL, $params, '_qf_Main_next' );
+        $this->assertText( 'Card Number is a required field.' );
+        $this->assertText( 'Security Code is a required field.' );
+        $this->assertText( 'Expiration Date is a required field.' );
+    }
+
+    /**
+     * Test to Online Contribution without Billing Address  
+     * 
+     */
+    function testOnlineContributionwithoutBillingAddress( ) 
+    {
+        $params = array ( 'amount_other'             => '1000',
+                          'email-5'                  => 'shailesh.lende@webaccess.co.in',
+                          'credit_card_type'         => 'Visa',
+                          'credit_card_number'       => '4731463054139660',
+                          'cvv2'                     => '111',
+                          'credit_card_exp_date[M]'  => 'Jan', 
+                          'credit_card_exp_date[Y]'  => '2010', 
+                          );
+        
+        $this->drupalPost(NULL, $params, '_qf_Main_next');
+        $this->assertWantedRaw( 'Billing First Name is a required field.', 'Billing Address, validations.' );
+        $this->assertWantedRaw( 'Street Address is a required field.', 'Billing Address, validations.' );
+        $this->assertWantedRaw( 'State / Province is a required field.', 'Billing Address, validations.' );
+    }
+    /**
+     * Test to Online Contribution with Invalid Card Number  
+     * 
+     */
+    function testOnlineContributionwithBadCardNumber( ) 
+    {
+        $params = array ( 'amount_other'             => '1000',
+                          'email-5'                  => 'shailesh.lende@webaccess.co.in',
+                          'credit_card_type'         => 'Visa',
+                          'credit_card_number'       => '123455554321',
+                          'cvv2'                     => '111',
+                          'credit_card_exp_date[M]'  => 'Jan', 
+                          'credit_card_exp_date[Y]'  => '2010',
+                          'billing_first_name'       => 'John',
+                          'billing_last_name'        => 'Smith',
+                          'street_address-5'         => 'Street Address 1',
+                          'city-5'                   => 'City 1',
+                          'state_province_id-5'      => 'Alaska',
+                          'postal_code-5'            => '12345',
+                          'country_id-5'             => 'United States'
+                          );
+        
+        $this->drupalPost(NULL, $params, '_qf_Main_next');
+        $this->assertWantedRaw( 'Please enter a valid Credit Card Number', 'Credit Card Information, validations.' );
+    }
+
+}
+
+?>
