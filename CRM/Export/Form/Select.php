@@ -33,7 +33,6 @@
  *
  */
 
-//require_once 'CRM/Contact/Form/Task.php';
 require_once 'CRM/Contact/BAO/Contact.php';
 
 /**
@@ -89,13 +88,12 @@ class CRM_Export_Form_Select extends CRM_Core_Form
         $this->_selectAll  = false;
         $this->_exportMode = self::CONTACT_EXPORT;
 
-        // get the submitted values of the search form 
-        // we'll need to get fv from either search or adv search in the future 
-        if ( $this->_action == CRM_Core_Action::ADVANCED ) { 
+        // get the submitted values based on search
+        if ( $this->_mode == CRM_Core_Action::ADVANCED ) { 
             $values = $this->controller->exportValues( 'Advanced' ); 
-        } else if ( $this->_action == CRM_Core_Action::PROFILE ) { 
+        } else if ( $this->_mode == CRM_Core_Action::PROFILE ) { 
             $values = $this->controller->exportValues( 'Builder' ); 
-        } else if ( $this->_action == CRM_Core_Action::COPY ) {
+        } else if ( $this->_mode == CRM_Core_Action::COPY ) {
             $values = $this->controller->exportValues( 'Custom' ); 
         } else {
             // we need to determine component export
