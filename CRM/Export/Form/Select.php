@@ -75,6 +75,16 @@ class CRM_Export_Form_Select extends CRM_Core_Form
      */
     function preProcess( ) 
     {
+        //special case for custom search, directly give option to download csv file
+        $customSearchID = $this->get( 'customSearchID' );
+        if ( $customSearchID ) {
+            require_once 'CRM/Contact/BAO/Export.php';
+            $export =& new CRM_Contact_BAO_Export( );
+            $export->exportCustom( $this->get( 'customSearchClass' ),
+                                   $this->get( 'formValues' ),
+                                   $this->get( CRM_Utils_Sort::SORT_ORDER ) );
+        }
+
         $this->_recordIds = array( ); 
         $this->_selectAll  = false;
         $this->_exportMode = self::CONTACT_EXPORT;
@@ -196,13 +206,6 @@ class CRM_Export_Form_Select extends CRM_Core_Form
 
         require_once 'CRM/Contact/BAO/Export.php';
         $export =& new CRM_Contact_BAO_Export( );
-
-        $customSearchID = $this->get( 'customSearchID' );
-        if ( $customSearchID ) {
-            $export->exportCustom( $this->get( 'customSearchClass' ),
-                                   $this->get( 'formValues' ),
-                                   $this->get( CRM_Utils_Sort::SORT_ORDER ) );
-        }
 
         if ( $exportOption == self::EXPORT_ALL ) {
             require_once "CRM/Export/BAO/Export.php";
