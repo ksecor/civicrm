@@ -154,6 +154,11 @@ class Browser_Contribution_OnlineContribution extends CiviTestCase
         $this->assertWantedRaw( 'Please enter a valid Credit Card Number', 'Credit Card Information, validations.' );
     }
 
+    function testOnlineContributionPageCreation( ) 
+    {
+	ContributionPage::create();
+    }
+
 }
 
 ?>
