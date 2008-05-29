@@ -1035,6 +1035,7 @@ class CRM_Core_Menu
             self::buildBreadcrumb ( $menu, $path );
             self::fillMenuValues  ( $menu, $path );
             self::fillComponentIds( $menu, $path );
+            self::buildReturnUrl  ( $menu, $path );
 
             // add add page_type if not present
             if ( ! isset( $path['page_type'] ) ) {
@@ -1289,12 +1290,36 @@ class CRM_Core_Menu
             // add to crumb, if current-path exists in params.
             if ( array_key_exists($currentPath, $menu) && isset($menu[$currentPath]['title']) ) {
                 $crumbs[] = array('title' => $menu[$currentPath]['title'], 
-                                  'url'   => CRM_Utils_System::url( $currentPath ));
+                                  'url'   => CRM_Utils_System::url( $currentPath, 
+                                                                    'reset=1' . $menu[$currentPath]['path_arguments'] ));
             }
         }
         $menu[$path]['breadcrumb'] = $crumbs;
 
         return $crumbs;
+    }
+
+    static function buildReturnUrl( &$menu, $path ) {
+        if ( ! isset($menu[$path]['return_url']) ) {
+            list( $menu[$path]['return_url'], $menu[$path]['return_url_args'] ) = 
+                self::getReturnUrl( $menu, $path );
+        }
+    }
+    
+    static function getReturnUrl( &$menu, $path ) {
+        if ( ! isset($menu[$path]['return_url']) ) {
+            $pathElements   = explode('/', $path);
+            array_pop( $pathElements );
+            
+            if ( empty($pathElements) ) {
+                return array();
+            }
+            $newPath = implode( '/', $pathElements );
+
+            return self::getReturnUrl( $menu, $newPath );
+        } else {
+            return array( $menu[$path]['return_url'], $menu[$path]['return_url_args'] );
+        }
     }
 
     static function fillComponentIds( &$menu, $path ) {
