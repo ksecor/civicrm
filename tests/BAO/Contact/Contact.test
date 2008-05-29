@@ -32,7 +32,7 @@ class BAO_Contact_Contact extends CiviTestCase
     /**
      * add() method (create and update modes)
      */
-    function testAdd( )
+    function testAddwithNames( )
     {
         $firstName = 'Shane';
         $lastName  = 'Whatson';
@@ -255,16 +255,16 @@ class BAO_Contact_Contact extends CiviTestCase
     }
     
     /**
-     * create() method 
+     * add() method 
      */
-    function testCreate( )
+    function testAddWithAllContactTypes( )
     {
         $firstName = 'Bill';
         $lastName  = 'Adams';
         $params    =  array( 'first_name'   => $firstName,     
-                              'last_name'    => $lastName,
-                              'contact_type' => 'Individual'
-                              );
+                             'last_name'    => $lastName,
+                             'contact_type' => 'Individual'
+                             );
         
         require_once 'CRM/Contact/BAO/Contact.php';
         $contact = CRM_Contact_BAO_Contact::add( $params );
@@ -272,7 +272,7 @@ class BAO_Contact_Contact extends CiviTestCase
         $this->assertEqual( $lastName, $contact->last_name, 'Check for last name creation.' );
         
         $contactId = $contact->id;
-
+        
         //update and change first name and last name, using create()
         $firstName = 'Joan';
         $params = array( 'first_name'   => $firstName, 
@@ -291,7 +291,7 @@ class BAO_Contact_Contact extends CiviTestCase
         $contact = CRM_Contact_BAO_Contact::add( $params );
         $this->assertEqual( $householdName, $contact->sort_name, 'Check for created household.' );
         $contactId = $contact->id;
-
+        
         //update and change name of household, using create
         $householdName = 'Joans home';
         $params = array( 'household_name' => $householdName,
@@ -300,13 +300,13 @@ class BAO_Contact_Contact extends CiviTestCase
         $contact = CRM_Contact_BAO_Contact::add( $params );
         $this->assertEqual( $householdName, $contact->sort_name, 'Check for updated household.' );
         Contact::delete( $contactId );
-
+        
         $organizationName = 'My Organization';
         $params = array( 'organization_name' => $organizationName );
         $contact = CRM_Contact_BAO_Contact::add( $params );
         $this->assertEqual( $organizationName, $contact->sort_name, 'Check for created organization.' );
         $contactId = $contact->id;
-
+        
         //update and change name of organization, using create
         $organizationName = 'Your Changed Organization';
         $params = array( 'organization_name' => $organizationName,
@@ -316,7 +316,132 @@ class BAO_Contact_Contact extends CiviTestCase
         $this->assertEqual( $organizationName, $contact->sort_name, 'Check for updated organization.' );
         Contact::delete( $contactId );
     }
-
+    
+    /**
+     * create() method
+     * test create method with missing params.
+     */
+    
+    function testcreateWithEmptyParams( )
+    {
+        $params = array(
+                        'first_name' => 'Bill',
+                        'last_name'  => 'Adams',
+                        );
+        require_once 'CRM/Contact/BAO/Contact.php';
+        $contact = CRM_Contact_BAO_Contact::create( $params );
+        
+        //Now check Contact object
+        $this->assertNull( $contact );
+    }
+    
+    /**
+     * create() method
+     * test create method with all params.
+     */
+    
+    function testcreateWithAll( )
+    {
+        $params = array(
+                        'first_name'   => 'Bill',
+                        'last_name'    => 'Adams',
+                        'contact_type' => 'Individual',
+                        'note'         => 'test note',
+                        );
+        $params['location'][1] = array ( 'location_type_id'                               => 1,
+                                         'is_primary'                                     => 1,
+                                         'address' =>  array ( 
+                                                              'street_address'            => 'Saint Helier St',
+                                                              'supplemental_address_1'    => 'Hallmark Ct',
+                                                              'supplemental_address_2'    => 'Jersey Village',
+                                                              'city'                      => 'Newark',
+                                                              'postal_code'               => '01903',
+                                                              'country_id'                => 1228,
+                                                              'state_province_id'         => 1029,
+                                                              'geo_code_1'                => '18.219023',
+                                                              'geo_code_2'                => '-105.00973',
+                                                              ),
+                                         'email'   => array ( 
+                                                             '1' => array ( 'email'       => 'john.smith@example.org' ), 
+                                                             ),
+                                         'phone'   => array (
+                                                             '1' => array (
+                                                                           'phone_type'   => 'Phone',
+                                                                           'phone'        => '303443689',
+                                                                           ),
+                                                             '2' => array (
+                                                                           'phone_type'   => 'Mobile',
+                                                                           'phone'        => '9833910234',
+                                                                           ),
+                                                             ),
+                                         'openid'  => array (
+                                                             '1' => array ( 'openid'      => 'http://civicrm.org' ),
+                                                             ),
+                                         'im'      => array (
+                                                             '1' => array ( 'name'        => 'jane.doe',
+                                                                            'provider_id' => 1
+                                                                            ),
+                                                             ),
+                                         );
+        require_once 'CRM/Contact/BAO/Contact.php';
+        //create the contact with given params.
+        $contact = CRM_Contact_BAO_Contact::create( $params );
+        
+        //Now check $contact is object of contact DAO..
+        $this->assertIsA( $contact, 'CRM_Contact_DAO_Contact' );
+        $contactId = $contact->id;
+        
+        //Now check values of contact object with params.
+        $this->assertEqual( $params['first_name'], $contact->first_name, 'Check for first name creation.' );
+        $this->assertEqual( $params['last_name'], $contact->last_name, 'Check for last name creation.' );
+        $this->assertEqual( $params['contact_type'], $contact->contact_type, 'Check for contact type creation.' );
+        
+        //Now check DB for Address
+        $searchParams  = array( 'contact_id'              => $contactId, 
+                                'location_type_id'        => 1, 
+                                'is_primary'              => 1 );
+        $compareParams = array( 'street_address'         => 'Saint Helier St',
+                                'supplemental_address_1' => 'Hallmark Ct',
+                                'supplemental_address_2' => 'Jersey Village',
+                                'city'                   => 'Newark',
+                                'postal_code'            => '01903',
+                                'country_id'             => 1228,
+                                'state_province_id'      => 1029,
+                                'geo_code_1'             => '18.219023',
+                                'geo_code_2'             => '-105.00973' );
+        $this->assertDBCompareValues( 'CRM_Core_DAO_Address', $searchParams, $compareParams );
+        //Now check DB for Email
+        $compareParams = array( 'email'                  => 'john.smith@example.org' );
+        $this->assertDBCompareValues('CRM_Core_DAO_Email', $searchParams, $compareParams );
+        //Now check DB for openid
+        $compareParams = array ( 'openid'                => 'http://civicrm.org' );
+        $this->assertDBCompareValues('CRM_Core_DAO_OpenID', $searchParams, $compareParams );
+        //Now check DB for IM
+        $compareParams = array( 'name'                   => 'jane.doe',
+                                'provider_id'            => 1 );
+        $this->assertDBCompareValues('CRM_Core_DAO_IM', $searchParams, $compareParams );
+        //Now check DB for Phone
+        $searchParams = array( 'contact_id'              => $contactId, 
+                               'location_type_id'        => 1, 
+                               'is_primary'              => 1,
+                               'phone_type'              => 'Phone' );
+        $compareParams = array( 'phone'                  => '303443689' );
+        $this->assertDBCompareValues('CRM_Core_DAO_Phone', $searchParams, $compareParams );
+        //Now check DB for Mobile
+        $searchParams = array( 'contact_id'              => $contactId, 
+                               'location_type_id'        => 1, 
+                               'phone_type'              => 'Mobile' );
+        $compareParams = array( 'phone'                  => '9833910234' );
+        $this->assertDBCompareValues('CRM_Core_DAO_Phone', $searchParams, $compareParams );
+        //Now check DB for Note
+        $searchParams  = array( 'entity_id'    => $contactId,
+                                'entity_table' => 'civicrm_contact'); 
+        $compareParams = array( 'note' => $params['note'] );
+        $this->assertDBCompareValues('CRM_Core_DAO_Note', $searchParams, $compareParams );
+        //cleanup DB by deleting the contact
+        Contact::delete( $contactId );
+    }
+    
     /**
      * test logged in user has permissions for 
      * various  operation types
@@ -330,7 +455,9 @@ class BAO_Contact_Contact extends CiviTestCase
         
         $userEditPermission = CRM_Contact_BAO_Contact_Permission::allow($contactId, CRM_Core_Permission::EDIT);
         $this->assertEqual( $userEditPermission, true, 'Check user for edit contact permission.' );  
-      
+        
         Contact::delete($contactId);
     }
 }
+
+?>
