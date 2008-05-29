@@ -542,6 +542,45 @@ class BAO_Contact_Contact extends CiviTestCase
     }
     
     /**
+     * resolveDefaults() method
+     * test all pseudoConstant, stateProvince, country. 
+     */
+    
+    function testResolveDefaults( )
+    {
+        $params = array( 'prefix_id'  => 3,
+                         'suffix_id'  => 2,
+                         'gender_id'  => 2,
+                         'birth_date' => '1983-12-13',
+                         );
+        
+        $params['location'][1] = array ( 'location_type_id'                       => 1,
+                                         'is_primary'                             => 1,
+                                         'address' =>  array ( 
+                                                              'country_id'        => 1228,
+                                                              'state_province_id' => 1004,
+                                                              )
+                                         );
+        require_once 'CRM/Contact/BAO/Contact.php';
+        CRM_Contact_BAO_Contact::resolveDefaults( $params );
+        
+        //check the resolve values.
+        require_once 'CRM/Core/PseudoConstant.php';
+        $genders = CRM_Core_PseudoConstant::gender( );
+        $this->assertEqual( $genders[$params['gender_id']], $params['gender'], 'Check for gender.' );
+        $prefix = CRM_Core_PseudoConstant::individualPrefix( );
+        $this->assertEqual( $prefix[$params['prefix_id']], $params['prefix'], 'Check for prefix.' );
+        $suffix = CRM_Core_PseudoConstant::individualSuffix( );
+        $this->assertEqual( $suffix[$params['suffix_id']], $params['suffix'], 'Check for suffix.' );
+        $this->assertEqual( CRM_Core_PseudoConstant::stateProvince( $params['location'][1]['address']['state_province_id'] ),
+                            $params['location'][1]['address']['state_province'], 
+                            'Check for state province.' );
+        $this->assertEqual( CRM_Core_PseudoConstant::country( $params['location'][1]['address']['country_id'] ),
+                            $params['location'][1]['address']['country'], 
+                            'Check for country.' );
+    }
+    
+    /**
      * test logged in user has permissions for 
      * various  operation types
      */
