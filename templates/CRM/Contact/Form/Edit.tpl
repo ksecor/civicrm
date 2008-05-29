@@ -85,7 +85,7 @@
  <fieldset><legend>{ts}Household{/ts}</legend>
    	<table class="form-layout">
     <tr>
-		<td>{$form.household_name.label}</td>
+	<td>{$form.household_name.label}</td>
         <td>{$form.contact_source.label}</td>
     </tr>
     <tr>
@@ -326,8 +326,7 @@
     dojo.addOnLoad( setSharedHouseholdDefault );
     function setSharedHouseholdDefault( )
     {
-        var sharedHousehold = dojo.widget.byId('shared_household');
-        sharedHousehold.textInputNode.value = "{/literal}{$defaultSharedHousehold}{literal}";
+        dijit.byId('shared_household').setValue( "{/literal}{$defaultSharedHousehold}{literal}" );
     }
 </script>
 {/literal}

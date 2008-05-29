@@ -170,7 +170,7 @@ setDefaultAddress();
         
         // shared address element block
         $form->addElement('checkbox', 'use_household_address', null, ts('Use Household Address'), $useHouseholdExtra);
-        $this->assign( 'dojoIncludes', " dojo.require('dojo.data.ItemFileReadStore'); dojo.require('dijit.form.ComboBox');dojo.require('dijit.form.FilteringSelect');dojo.require('dojo.parser');" );
+        $this->assign( 'dojoIncludes', " dojo.require('dojox.data.QueryReadStore');dojo.require('dojo.parser');" );
         
         $domainID      =  CRM_Core_Config::domainID( );   
         $attributes    = array( 'dojoType'     => 'civicrm.FilteringSelect',
@@ -199,7 +199,7 @@ setDefaultAddress();
                                        ));
         $form->addRule('home_URL', ts('Enter a valid web location beginning with \'http://\' or \'https://\'. EXAMPLE: http://www.mysite.org/'), 'url');
 
-        $employerAttributes    = array( 'dojoType'     => 'dijit.form.FilteringSelect',
+        $employerAttributes    = array( 'dojoType'     => 'civicrm.FilteringSelect',
                                         'mode'         => 'remote',
                                         'store'        => 'organizationStore',
                                         'style'        => 'width:300px; border: 1px solid #cfcfcf;',

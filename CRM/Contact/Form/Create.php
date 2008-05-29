@@ -48,12 +48,11 @@ class CRM_Contact_Form_Create extends CRM_Core_Form
         
         $this->assign( 'dojoIncludes', "dojo.require('dojox.data.QueryReadStore');
                                         dojo.require('dijit.form.Button');
-                                        dojo.require('dijit.form.FilteringSelect');
                                         dojo.require('dijit.Dialog');
                                         dojo.require('dijit.form.TextBox'); dojo.require('dojo.parser');" );
         
         $domainID             =  CRM_Core_Config::domainID( );   
-        $orgAttributes        = array( 'dojoType'     => 'dijit.form.FilteringSelect',
+        $orgAttributes        = array( 'dojoType'     => 'civicrm.FilteringSelect',
                                        'store'        => 'organizationStore',
                                        'style'        => 'width:300px; border: 1px solid #cfcfcf;',
                                        'class'        => 'tundra',
