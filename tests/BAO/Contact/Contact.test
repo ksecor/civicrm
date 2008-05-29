@@ -63,17 +63,15 @@ class BAO_Contact_Contact extends CiviTestCase
     }
     
     /**
-     * add() method (creat mode)
+     * add() method (creat and update modes)
      * with all contact params
      */
     function testAddWithAll( )
     {
-        $firstName = 'Shane';
-        $lastName  = 'Whatson';
         $params    =  array( 'contact_type'          => 'Individual',
-                             'first_name'            => $firstName,
+                             'first_name'            => 'Shane',
                              'middle_name'           => 'xyz',
-                             'last_name'             => $lastName,
+                             'last_name'             => 'Whatson',
                              'prefix_id'             => 3,
                              'suffix_id'             => 2,
                              'nick_name'             => 'Nick Name',
@@ -86,18 +84,16 @@ class BAO_Contact_Contact extends CiviTestCase
                              'preferred_mail_format' => 'Both',
                              'greeting_type'         => 'Informal',
                              'custom_greeting'       => 'Custom Greeting',
-                             'custom_1'              => 'Edu',
-                             'custom_2'              => 'S',
                              'is_opt_out'            => 1,
                              'deceased_date'                  => array (
-                                                                        'M'            => 2,
-                                                                        'd'            => 2,
-                                                                        'Y'            => 1908,
+                                                                        'M'            => 7,
+                                                                        'd'            => 7,
+                                                                        'Y'            => 1991,
                                                                         ),
                              'birth_date'                     => array (
-                                                                        'M'            => 12,
-                                                                        'd'            => 13,
-                                                                        'Y'            => 1983,
+                                                                        'M'            => 6,
+                                                                        'd'            => 6,
+                                                                        'Y'            => 1961,
                                                                         ),
                              'privacy'                        => array (
                                                                         'do_not_phone' => 1,
@@ -115,14 +111,16 @@ class BAO_Contact_Contact extends CiviTestCase
                              );
         $prefComm = $params['preferred_communication_method'];
         require_once 'CRM/Contact/BAO/Contact.php';
+        //create the contact using add()
         $contact = CRM_Contact_BAO_Contact::add( $params );
+        $contactId = $contact->id;
         
         //Now check $contact is object of contact DAO..
         $this->assertIsA( $contact, 'CRM_Contact_DAO_Contact' );
         
         //Now check values of object with params.
-        $this->assertEqual( $firstName, $contact->first_name, 'Check for first name creation.' );
-        $this->assertEqual( $lastName, $contact->last_name, 'Check for last name creation.' );
+        $this->assertEqual( $params['first_name'], $contact->first_name, 'Check for first name creation.' );
+        $this->assertEqual( $params['last_name'], $contact->last_name, 'Check for last name creation.' );
         $this->assertEqual( $params['middle_name'], $contact->middle_name, 'Check for middle name creation.' );
         $this->assertEqual( $params['contact_type'], $contact->contact_type, 'Check for contact type creation.' );
         $this->assertEqual( '1', $contact->do_not_email, 'Check for do_not_email creation.' );
@@ -131,7 +129,7 @@ class BAO_Contact_Contact extends CiviTestCase
         $this->assertEqual( '1', $contact->do_not_trade, 'Check for do_not_trade creation.' );
         $this->assertEqual( '1', $contact->is_opt_out, 'Check for is_opt_out creation.' );
         $this->assertEqual( $params['external_identifier'], $contact->external_identifier, 'Check for external_identifier creation.' );
-        $this->assertEqual( $lastName . ', ' .$firstName, $contact->sort_name, 'Check for sort_name creation.' );
+        $this->assertEqual( $params['last_name']. ', ' .$params['first_name'], $contact->sort_name, 'Check for sort_name creation.' );
         $this->assertEqual( $params['home_URL'], $contact->home_URL, 'Check for home_URL creation.' );
         $this->assertEqual( $params['preferred_mail_format'], $contact->preferred_mail_format, 
                             'Check for preferred_mail_format creation.' );
@@ -158,7 +156,102 @@ class BAO_Contact_Contact extends CiviTestCase
             }
         }
         $this->assertAttributesEqual( $checkPrefComm,  $prefComm );
-        Contact::delete( $contact->id );
+        
+        //now update the contact using add( )
+        $updateParams    =  array( 'contact_type'          => 'Individual',
+                                   'first_name'            => 'Jane',
+                                   'middle_name'           => 'abc',
+                                   'last_name'             => 'Doe',
+                                   'prefix_id'             => 2,
+                                   'suffix_id'             => 3,
+                                   'nick_name'             => 'Nick Name Second',
+                                   'job_title'             => 'software Developer',
+                                   'gender_id'             => 1,
+                                   'is_deceased'           => 1,
+                                   'home_URL'              => 'http://wiki.civicrm.org',
+                                   'contact_source'        => 'test update contact',
+                                   'external_identifier'   => 111111111,
+                                   'preferred_mail_format' => 'Both',
+                                   'greeting_type'         => 'Informal',
+                                   'custom_greeting'       => 'Custom Greeting Second',
+                                   'is_opt_out'            => 0,
+                                   'deceased_date'                  => array (
+                                                                              'M'            => 3,
+                                                                              'd'            => 3,
+                                                                              'Y'            => 1981,
+                                                                              ),
+                                   'birth_date'                     => array (
+                                                                              'M'            => 4,
+                                                                              'd'            => 4,
+                                                                              'Y'            => 1951,
+                                                                              ),
+                                   'privacy'                        => array (
+                                                                              'do_not_phone' => 0,
+                                                                              'do_not_email' => 0,
+                                                                              'do_not_mail'  => 0,
+                                                                              'do_not_trade' => 0,
+                                                                              ),
+                                   'preferred_communication_method' => array ( 
+                                                                              '1'            => 0,
+                                                                              '2'            => 1,
+                                                                              '3'            => 0,
+                                                                              '4'            => 1,
+                                                                              '5'            => 0,
+                                                                              ),
+                                   );
+        $prefComm = $updateParams['preferred_communication_method'];
+        $updateParams['contact_id'] = $contactId;
+        require_once 'CRM/Contact/BAO/Contact.php';
+        //create the contact using add()
+        $contact = CRM_Contact_BAO_Contact::add( $updateParams );
+        $contactId = $contact->id;
+        
+        //Now check $contact is object of contact DAO..
+        $this->assertIsA( $contact, 'CRM_Contact_DAO_Contact' );
+        
+        //Now check values of object with params.
+        $this->assertEqual( $updateParams['first_name'], $contact->first_name, 'Check for first name creation.' );
+        $this->assertEqual( $updateParams['last_name'], $contact->last_name, 'Check for last name creation.' );
+        $this->assertEqual( $updateParams['middle_name'], $contact->middle_name, 'Check for middle name creation.' );
+        $this->assertEqual( $updateParams['contact_type'], $contact->contact_type, 'Check for contact type creation.' );
+        $this->assertEqual( '0', $contact->do_not_email, 'Check for do_not_email creation.' );
+        $this->assertEqual( '0', $contact->do_not_phone, 'Check for do_not_phone creation.' );
+        $this->assertEqual( '0', $contact->do_not_mail, 'Check for do_not_mail creation.' );
+        $this->assertEqual( '0', $contact->do_not_trade, 'Check for do_not_trade creation.' );
+        $this->assertEqual( '0', $contact->is_opt_out, 'Check for is_opt_out creation.' );
+        $this->assertEqual( $updateParams['external_identifier'], $contact->external_identifier, 
+                            'Check for external_identifier creation.' );
+        $this->assertEqual( $updateParams['last_name'] . ', ' .$updateParams['first_name'], 
+                            $contact->sort_name, 'Check for sort_name creation.' );
+        $this->assertEqual( $updateParams['home_URL'], $contact->home_URL, 'Check for home_URL creation.' );
+        $this->assertEqual( $updateParams['preferred_mail_format'], $contact->preferred_mail_format, 
+                            'Check for preferred_mail_format creation.' );
+        $this->assertEqual( $updateParams['contact_source'], $contact->source, 'Check for contact_source creation.' );
+        $this->assertEqual( $updateParams['prefix_id'], $contact->prefix_id, 'Check for prefix_id creation.' );
+        $this->assertEqual( $updateParams['suffix_id'], $contact->suffix_id, 'Check for suffix_id creation.' );
+        $this->assertEqual( $updateParams['greeting_type'], $contact->greeting_type, 'Check for greeting_type creation.' );
+        $this->assertEqual( $updateParams['custom_greeting'], $contact->custom_greeting, 'Check for custom_greeting creation.' );
+        $this->assertEqual( $updateParams['job_title'], $contact->job_title, 'Check for job_title creation.' ); 
+        $this->assertEqual( $updateParams['gender_id'], $contact->gender_id, 'Check for gender_id creation.' ); 
+        $this->assertEqual( '1', $contact->is_deceased, 'Check for is_deceased creation.' );
+        require_once 'CRM/Utils/Date.php';
+        $this->assertEqual( CRM_Utils_Date::format( $updateParams['birth_date']  ), 
+                            $contact->birth_date, 'Check for birth_date creation.' ); 
+        $this->assertEqual( CRM_Utils_Date::format( $updateParams['deceased_date']  ), 
+                            $contact->deceased_date, 'Check for deceased_date creation.' ); 
+        require_once 'CRM/Core/BAO/CustomOption.php';
+        $dbPrefComm = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,
+                               $contact->preferred_communication_method );
+        $checkPrefComm = array( );
+        foreach( $dbPrefComm as $key => $value ) {
+            if ( $value ) {
+                $checkPrefComm[$value] = 1;
+            }
+        }
+        $this->assertAttributesEqual( $checkPrefComm,  $prefComm );
+        
+        //cleanup DB by deleting the contact
+        Contact::delete( $contactId );
     }
     
     /**
