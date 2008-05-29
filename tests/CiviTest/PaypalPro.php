@@ -1,4 +1,6 @@
 <?php
+
+require_once "CRM/Core/DAO/PaymentProcessor.php";
 class PaypalPro extends DrupalTestCase 
 {
     /*
@@ -9,9 +11,8 @@ class PaypalPro extends DrupalTestCase
      */
     function create( ) 
     {
-        require_once "CRM/Core/DAO/PaymentProcessor.php";
+
         $paymentProcessor =& new CRM_Core_DAO_PaymentProcessor( );
-        
         $domain =  CRM_Core_Config::domainID( );
         $paymentParams = array(
                                'domain_id'              => $domain,
@@ -34,6 +35,23 @@ class PaypalPro extends DrupalTestCase
         return $paymentProcessor->id;
     }
   
+    /*
+     * Helper function to delete a PayPal Pro 
+     * payment processor
+     * @param  int $id - id of the PayPal Pro payment processor
+     * to be deleted
+     * @return boolean true if payment processor deleted, false otherwise
+     * 
+     */
+    function delete( $id ) 
+    {
+        $pp     = & new CRM_Core_DAO_PaymentProcessor( );
+        $pp->id = $id; 
+        if ( $pp->find( true ) ) {
+            $result = $pp->delete( );
+        }
+        return $result;
+    }
 }
 
 ?>

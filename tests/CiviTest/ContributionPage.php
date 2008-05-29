@@ -33,7 +33,25 @@ class ContributionPage extends DrupalTestCase
         $contributionPage = CRM_Contribute_BAO_ContributionPage::create( $params );
         return $contributionPage->id;
     }
-  
+     
+    /*
+     * Helper function to delete a Contribution Page
+     * 
+     * @param  int $contributionPageId - id of the Contribution Page
+     * to be deleted
+     * @return boolean true if Contribution Page deleted, false otherwise
+     * 
+     */
+    function delete( $contributionPageId ) 
+    {
+        require_once "CRM/Contribute/DAO/ContributionPage.php";        
+        $cp     = & new CRM_Contribute_DAO_ContributionPage( );
+        $cp->id = $contributionPageId; 
+        if ( $cp->find( true ) ) {
+            $result = $cp->delete( );
+        }
+        return $result;
+    }
 }
 
 ?>
