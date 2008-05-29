@@ -56,9 +56,7 @@ class Browser_Import_ImportContact extends CiviTestCase
                                                                ));
         $this->drupalLoginUser($this->webUser);
         $this->civiGet('civicrm/dashboard', 'reset=1');
-        $this->clickLink('Import');
-
-        
+        $ret = $this->clickLink('Import');
     }
 
     function testImportWithMissingParams()
@@ -68,6 +66,7 @@ class Browser_Import_ImportContact extends CiviTestCase
         $this->assertText('Import Data File is a required field.');
         
     }
+
     function testImport()
     {
         $config =& CRM_Core_Config::singleton( );
@@ -81,10 +80,10 @@ class Browser_Import_ImportContact extends CiviTestCase
         CRM_Import_Parser::exportCSV($fileName,$header,$list);
 
         $params['uploadFile']      = $fileName;
-        $params['skipColumnHeader']= 1;
-        $params['onDuplicate']     = 1;
-        $params['contactType']     = 1;
-        $params['dateFormats']     = 8;
+        $params['skipColumnHeader']= '1';
+        $params['onDuplicate']     = '1';
+        $params['contactType']     = '1';
+        $params['dateFormats']     = '8';
 
         $this->drupalPost( NULL, $params, '_qf_UploadFile_upload' );
         $this->assertText( 'Match Fields (step 2 of 4)' );
