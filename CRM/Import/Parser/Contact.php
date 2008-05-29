@@ -544,7 +544,10 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
             $relationship = true;
             $newContact = clone( $newContact );
             $this->_newContacts[] = $newContact->id;
-        } 
+        } else if ( self::isDuplicate( $newContact ) ) {
+            $relationship = true;
+            $this->_newContacts[] = $newContact['error_message']['params'][0]; 
+        }
         
         if ( $relationship ) {
             $primaryContactId = null;
@@ -618,6 +621,11 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                         $defaults          = array( );
                         $relatedNewContact = CRM_Contact_BAO_Contact::retrieve( $contact, $defaults );
                     } else {
+                        //fixed for CRM-3146
+                        if ( $this->_contactType == 'Individual' && $onDuplicate = CRM_Import_Parser::DUPLICATE_NOCHECK ) {
+                            $onDuplicate = CRM_Import_Parser::DUPLICATE_FILL;
+                        }
+
                         $relatedNewContact = $this->createContact( $formatting, $contactFields, 
                                                                    $onDuplicate, null, false );
                     }
@@ -630,6 +638,11 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                     if ( is_array( $relatedNewContact ) && civicrm_error( $relatedNewContact ) ) {
                         if ( self::isDuplicate($relatedNewContact) ) {
                             $matchedIDs = explode(',',$relatedNewContact['error_message']['params'][0]);
+                            //update the relative contact if dupe 
+                            if ( $onDuplicate == CRM_Import_Parser::DUPLICATE_UPDATE || 
+                                 $onDuplicate == CRM_Import_Parser::DUPLICATE_FILL ) {
+                                $updatedContact = $this->createContact( $formatting, $contactFields, $onDuplicate, $matchedIDs[0] );
+                            } 
                         } else {
                             array_unshift( $values, $relatedNewContact['error_message'] );
                             return CRM_Import_Parser::ERROR;
@@ -637,16 +650,27 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                     } else {
                         $matchedIDs[] = $relatedNewContact->id;
                     }
-                    
+                    static $relativeContact = array( ) ;
                     if ( self::isDuplicate($relatedNewContact) ) {
                         if ( count($matchedIDs) == 1) {
                             foreach ( $matchedIDs as $cid ) {
                                 $relContactId = $cid;
                             }
+                            //add relative contact to count during update & fill mode.
+                            //logic to make count distinct by contact id.
+                            if ( $this->_newRelatedContacts || ! empty( $relativeContact ) ) {
+                                $reContact = array_keys( $relativeContact, $relContactId );
+                                
+                                if ( empty( $reContact ) ) {
+                                    $this->_newRelatedContacts[] = $relativeContact[] = $relContactId;
+                                }
+                            } else {
+                                $this->_newRelatedContacts[] = $relativeContact[] = $relContactId;
+                            }
                         }
                     } else {
                         $relContactId                = $relatedNewContact->id;
-                        $this->_newRelatedContacts[] = $relContactId;
+                        $this->_newRelatedContacts[] = $relativeContact[] = $relContactId;
                     }
                     
                     if ( self::isDuplicate($relatedNewContact) ||
@@ -803,7 +827,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
      * @access public
      */
     function &getRelatedImportedContacts() 
-    {
+    {    
         return $this->_newRelatedContacts;
     }
 

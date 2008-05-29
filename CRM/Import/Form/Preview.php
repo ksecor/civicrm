@@ -353,7 +353,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
                                                                                'reset=1&force=1&context=smog&gid=' . $groupId ),
                                           'name'     => $name,
                                           'added'    => $totalCount,
-                                          'notAdded' => $addCount[2],
+                                          'notAdded' => $addCount[2] + $addRelCount[2],
                                           'new'      => $new
                                           );
             }
@@ -399,7 +399,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
                                                                              'reset=1&force=1&context=smog&id=' . $tagId ),
                                         'name'     => $tagName,
                                         'added'    => $totalTagCount,
-                                        'notAdded' => $addTagCount[2],
+                                        'notAdded' => $addTagCount[2] + $addRelTagCount[2],
                                         'new'      => $new
                                         );
             }
