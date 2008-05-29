@@ -104,7 +104,8 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
                 $name = $defaults["discount_name[$key]"] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup', $optionGroupId, 'label' );
                 $defaults["discount_start_date[$key]"] = CRM_Utils_Date::unformat(CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Discount', $optionGroupId, 'start_date', 'option_group_id' ));
                 $defaults["discount_end_date[$key]"] = CRM_Utils_Date::unformat(CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Discount', $optionGroupId, 'end_date', 'option_group_id' ));
-                
+
+                $showDiscount[$key] = 1;
                 CRM_Core_OptionGroup::getAssoc( "civicrm_event_page.amount.{$eventPageId}.discount.{$name}", $defaultDiscounts );
                 $defaults["discounted_label"] = $defaultDiscounts["label"];
                 foreach( $defaultDiscounts["value"] as $k => $v ) {
@@ -112,6 +113,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
                 }
             }
             $this->set( 'discountSection', 1 );
+            $this->set( 'showDiscount', $showDiscount );
             $this->buildQuickForm( );
         }
         $defaults = array_merge( $defaults, $parentDefaults );
@@ -216,6 +218,8 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         $discountSection = $this->get( 'discountSection' );
         $this->assign('discountSection', $discountSection);
 
+        $showDiscount = $this->get( 'showDiscount' );
+        $this->assign('showDiscount', $showDiscount);
         require_once 'CRM/Core/ShowHideBlocks.php';
         // form fields of Discount sets
         $defaultOption = array();
