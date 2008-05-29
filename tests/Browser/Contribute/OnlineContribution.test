@@ -35,6 +35,7 @@
 
 require_once 'CiviTestCase.php';
 require_once 'ContributionPage.php';
+require_once 'PaypalPro.php';
 
 class Browser_Contribute_OnlineContribution extends CiviTestCase 
 {
@@ -157,7 +158,8 @@ class Browser_Contribute_OnlineContribution extends CiviTestCase
 
     function testOnlineContributionPageCreation( ) 
     {
-        ContributionPage::create();
+	$paymentProcessorId = PaypalPro::create();
+        ContributionPage::create($paymentProcessorId);
     }
 
 }
