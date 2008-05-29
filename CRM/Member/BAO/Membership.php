@@ -138,7 +138,6 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
      *
      * @param array   $params input parameters to find object
      * @param array   $values output values of the object
-     * @param array   $ids    the array that holds all the db ids
      * @param boolean $active do you want only active memberships to
      *                        be returned
      * 
@@ -146,7 +145,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
      * @access public
      * @static
      */
-    static function &getValues( &$params, &$values, &$ids, $active=false ) 
+    static function &getValues( &$params, &$values, $active=false ) 
     {
         $membership =& new CRM_Member_BAO_Membership( );
         
@@ -161,7 +160,6 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
                 continue;
             }
             
-            $ids['membership'] = $membership->id;
             CRM_Core_DAO::storeValues( $membership, $values[$membership->id] );
             $memberships[$membership->id] = $membership;
         }

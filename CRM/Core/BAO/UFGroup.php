@@ -1759,12 +1759,12 @@ WHERE  id = $cfID
 
         //Handling membership Part of the batch profile 
         if ( CRM_Core_Permission::access( 'CiviMember' ) && $component == 'Membership' ) {
-            $params = $ids = $values = array( );
+            $params = $values = array( );
             $params = array( 'id' => $componentId );
             
             require_once "CRM/Core/BAO/Note.php";
             require_once "CRM/Member/BAO/Membership.php";
-            CRM_Member_BAO_Membership::getValues( $params, $values,  $ids );
+            CRM_Member_BAO_Membership::getValues( $params, $values );
             
             foreach ($fields as $name => $field ) {
                 $fldName = "field[$componentId][$name]";

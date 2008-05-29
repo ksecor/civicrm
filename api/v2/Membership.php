@@ -447,8 +447,8 @@ function civicrm_contact_memberships_get(&$contactID)
     // get the membership for the given contact ID
     require_once 'CRM/Member/BAO/Membership.php';
     $membership = array('contact_id' => $contactID);
-    $membershipValues = $ids = array();
-    CRM_Member_BAO_Membership::getValues($membership, $membershipValues, $ids);
+    $membershipValues = array();
+    CRM_Member_BAO_Membership::getValues($membership, $membershipValues);
     
     if ( empty( $membershipValues ) ) {
         return civicrm_create_error('No memberships for this contact.');

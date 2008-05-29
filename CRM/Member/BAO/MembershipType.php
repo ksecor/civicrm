@@ -443,7 +443,7 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
         $membership->id = $membershipId;
         $membership->find(true);
         
-        $membershipDetails = CRM_Member_BAO_Membership::getValues( $params, $values ,$ids );
+        $membershipDetails = CRM_Member_BAO_Membership::getValues( $params, $values );
         $statusID          = $membershipDetails[$membershipId]->status_id;
         $membershipTypeDetails = self::getMembershipTypeDetails( $membershipDetails[$membershipId]->membership_type_id );
         $statusDetails  = CRM_Member_BAO_MembershipStatus::getMembershipStatus($statusID);

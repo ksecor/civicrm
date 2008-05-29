@@ -925,10 +925,9 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
         foreach ( $values as $cid => $subValues) {
             $memParams     = array( 'contact_id' => $cid );
             $memberships   = array( );
-            $membershipIds = array( );
             
             require_once 'CRM/Member/BAO/Membership.php';
-            CRM_Member_BAO_Membership::getValues($memParams, $memberships, $membershipIds, true);
+            CRM_Member_BAO_Membership::getValues($memParams, $memberships, true);
             
             if ( empty($memberships) ) {
                 continue;
