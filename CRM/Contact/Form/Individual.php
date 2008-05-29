@@ -115,36 +115,18 @@ class CRM_Contact_Form_Individual {
             $extraOnAddFlds = $extraOnAddFlds ? ($extraOnAddFlds . "|" . $addFld) : $addFld;
         }
         $extraOnAddFlds = "'" . $extraOnAddFlds . "'";
-        //hidden element for checking valid entry in dojo
-        $form->add('hidden', 'HhName', null);
-        if ( $action & CRM_Core_Action::UPDATE ) {
 
-            $sharedOptionsExtra = array( 'onclick' => "showHideSharedOptions();setAddressFields();" );        
-            
+        $sharedOptionsExtra = array( 'onclick' => "showHideSharedOptions();setAddressFields();" );   
+        if ( $action & CRM_Core_Action::UPDATE ) {
             $mailToHouseholdID  = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', 
                                                                $form->_contactId, 
                                                                'mail_to_household_id', 
                                                                'id' );
-            
             if ( isset($mailToHouseholdID) ) {
-                $HouseholdName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', 
-                                                              $mailToHouseholdID , 
-                                                              'display_name', 
-                                                              'id' );
-                
-                if ( $HouseholdName ) {
-                    $this->assign( 'HouseholdName',$HouseholdName );
-                }
-                
-                $form->add('hidden', 'old_mail_to_household_id', $mailToHouseholdID);
-                $form->assign('old_mail_to_household_id', $mailToHouseholdID);
-                
                 $sharedOptionsExtra = array( 'onclick' => "showHideSharedOptions();
 resetByValue('shared_option',   '', $extraOnAddFlds, 'text', 'radio',   true );setAddressFields();
 " );
             }
-        } elseif ( $action & CRM_Core_Action::ADD ) {
-            $sharedOptionsExtra = array( 'onclick' => "showHideSharedOptions();setAddressFields();" );        
         }
         
         if ( isset( $mailToHouseholdID ) ) {
@@ -183,7 +165,7 @@ setDefaultAddress();
                                 );
 
         $dataURL =  CRM_Utils_System::url( 'civicrm/ajax/search',
-                                           "d={$domainID}&sh=1&s=",
+                                           "d={$domainID}&hh=1",
                                            true, null, false );
 
         $this->assign('dataURL',$dataURL );
@@ -209,7 +191,7 @@ setDefaultAddress();
                                         );
         
         $employerDataURL =  CRM_Utils_System::url( 'civicrm/ajax/search',
-                                           "d={$domainID}&org=1&s=",
+                                           "d={$domainID}&org=1",
                                            true, null, false );
 
         $this->assign('employerDataURL',$employerDataURL );
@@ -359,18 +341,12 @@ setDefaultAddress();
     static function copyHouseholdAddress( &$params ) 
     { 
         if ( $params['shared_household'] ) {
-            list($householdName) = 
-                explode( ":::", $params['shared_household'] );
-            $params['mail_to_household_id'] = 
-                CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', trim( $householdName ), 'id', 'sort_name' );
+            $params['mail_to_household_id'] = $params['shared_household'];
         }
         
-        if ( !$params['old_mail_to_household_id'] && !$params['mail_to_household_id'] ) {
+        if ( !$params['mail_to_household_id'] ) {
             CRM_Core_Error::statusBounce( ts("Shared Household-ID not found.") );
         }
-        
-        $params['mail_to_household_id'] = 
-            $params['mail_to_household_id'] ? $params['mail_to_household_id'] : $params['old_mail_to_household_id'];
         
         $locParams = array( 'contact_id' => $params['mail_to_household_id'] );
         

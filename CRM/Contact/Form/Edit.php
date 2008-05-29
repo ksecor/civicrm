@@ -304,17 +304,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             // set the default for 'use_household_address' checkbox and Select-Household.
             if ( CRM_Utils_Array::value('mail_to_household_id', $defaults) ) {
                 $defaults['use_household_address'] = true;
-                $domainID      =  CRM_Core_Config::domainID( );   
-                $query         =  "
-SELECT CONCAT_WS( ', ', household_name, LEFT( street_address, 25 ) , city ) 'shared_name', 
-civicrm_contact.id 'id'
-FROM civicrm_contact, civicrm_address
-WHERE civicrm_address.contact_id = civicrm_contact.id 
-   AND civicrm_address.is_primary=1 AND civicrm_contact.id={$defaults['mail_to_household_id']}";
-                
-                $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
-                $dao->fetch( );
-                $this->assign('defaultSharedHousehold', trim( $dao->shared_name ));
+                $this->assign('defaultSharedHousehold', $defaults['mail_to_household_id'] );
             }
         }
       

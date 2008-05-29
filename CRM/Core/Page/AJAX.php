@@ -159,6 +159,12 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
                 $shared = CRM_Utils_Type::escape( $_GET['sh'], 'Integer');
             }
             
+            // contacts of type household
+            $whereContactTypeClause = '';
+            if ( isset($_GET['hh']) ) {
+                $whereContactTypeClause = " AND contact_type = 'Household'";        
+            }
+            
             $relType = null;
             if ( isset($_GET['rel']) ) {
                 $relation = explode( '_', $_GET['rel'] );
@@ -207,12 +213,16 @@ ORDER BY sort_name" ;
 SELECT sort_name, id
 FROM civicrm_contact
 WHERE sort_name LIKE '%$name'
-AND domain_id = $domainID {$whereIdClause}
+AND domain_id = $domainID {$whereIdClause} {$whereContactTypeClause}
 ORDER BY sort_name ";            
         }
- 
-            $start = CRM_Utils_Type::escape( $_GET['start'], 'Integer' );
-            $end = 10;
+
+            $start = 0;
+            $end   = 10;
+            
+            if ( isset( $_GET['start'] ) ) {
+                $start = CRM_Utils_Type::escape( $_GET['start'], 'Integer' );
+            }
             
             if ( isset( $_GET['count'] ) ) {
                 $end   = CRM_Utils_Type::escape( $_GET['count'], 'Integer' );
@@ -225,9 +235,8 @@ ORDER BY sort_name ";
             
             if ( $shared ) {
                 while ( $dao->fetch( ) ) {
-                    $elements[] = array( 'name' => $dao->disp,
-                                         'id'   => $dao->sort_name,
-                                         );
+                    echo $dao->sort_name;
+                    exit();
                 }
             } else {  
                 while ( $dao->fetch( ) ) {

@@ -114,7 +114,7 @@
                 show("create_household");
                 hide("shared_household");
                 show("id_location_1_address");
-                {/literal}{if $action eq 2 AND $old_mail_to_household_id}{literal}
+                {/literal}{if $action eq 2 AND $defaultSharedHousehold}{literal}
                     hide("id_location_1_address_shared_view");
                 {/literal}
 		{/if}{literal}
@@ -122,12 +122,12 @@
                 hide("create_household");
                 show("shared_household");
                 hide("id_location_1_address");
-                {/literal}{if $action eq 2 AND $old_mail_to_household_id}{literal}
+                {/literal}{if $action eq 2 AND $defaultSharedHousehold}{literal}
                     show("id_location_1_address_shared_view");
                 {/literal}{/if}{literal}
             }
         } else {
-            {/literal}{if $action eq 2 AND $old_mail_to_household_id}{literal}
+            {/literal}{if $action eq 2 AND $defaultSharedHousehold}{literal}
                 hide("id_location_1_address_shared_view");
             {/literal}{/if}{literal}
             hide("create_household");
@@ -141,14 +141,35 @@
 
  function showSelectedHouseholdAddress()
  {
-    var selectedAddr = dijit.byId('shared_household').getValue();
-    if ( selectedAddr != "" ) {
-        var ind = selectedAddr.indexOf(':::');
-        selectedAddr = selectedAddr.substr(ind+3);
-        var formattedAddr = selectedAddr.replace(/:::/g, ", ");
-        document.getElementById('shared_household_help').style.display='none';
-        document.getElementById('household_address').innerHTML = formattedAddr;	
-    }
+    var hhId = dijit.byId('shared_household').getValue();
+    var dataUrl = {/literal}"{crmURL p='civicrm/ajax/search' h=0 q='d=1&sh=1&id='}"{literal} + hhId;
+
+    dojo.xhrGet( { 
+		url: dataUrl, 
+		handleAs: "text",
+		timeout: 5000, // Time in milliseconds
+		    
+	         // The LOAD function will be called on a successful response.
+		load: function(response, ioArgs) {
+		    var selectedAddr = response;
+		    if ( selectedAddr != "" ) {
+			var ind = selectedAddr.indexOf(':::');
+			selectedAddr = selectedAddr.substr(ind+3);
+			var formattedAddr = selectedAddr.replace(/:::/g, ", ");
+			document.getElementById('shared_household_help').style.display='none';
+			document.getElementById('household_address').innerHTML = formattedAddr;	
+		    }
+		    return response; 
+		},
+
+		// The ERROR function will be called in an error case.
+		error: function(response, ioArgs) { 
+		    console.error("HTTP status code: ", ioArgs.xhr.status); 
+		    return response; 
+		}
+	});
+    
+
  }
 
 
@@ -225,21 +246,14 @@ function setAddressFields ()
   } 
 }
 
-{/literal}{if $action eq 2 AND $old_mail_to_household_id}{literal}	 
-dojo.connect( dijit.byId('shared_household'), 'onload', 'setHouse')
-function setHouse ( ) 
-{
- 
-      	 var houseHoldName  = {/literal}"{$HouseholdName}" {literal};
-       	 dijit.byId('shared_household').setDisplayedValue( houseHoldName );
-      
-}
-dojo.connect( dijit.byId('shared_household'), 'onsubmit', 'getHouse')
-function getHouse ( ) 
-{
-   document.Edit.HhName.value = dijit.byId('shared_household').getDisplayedValue( );
-
-} 
+{/literal}
+{if $contact_type eq 'Individual' and $defaultSharedHousehold}
+{literal}
+    dojo.addOnLoad( function( )
+    {
+	var sharedHHId = {/literal}{$defaultSharedHousehold}{literal};
+	dijit.byId('shared_household').setValue( sharedHHId );
+    } );	 
 {/literal}
 {/if}
 {literal}
