@@ -5,9 +5,9 @@
   {include file="CRM/Contribute/Form/AdditionalInfo/$formType.tpl"}
 {else}
 <div class="form-item">
-{if $action & 1 or $action & 1024 }
+{if $action & 1024 }
     {assign var=contribMode value="TEST"}
-{elseif $action neq 2 }
+{else}
     {assign var=contribMode value="LIVE"}
 {/if}
 {if $action neq 2}
