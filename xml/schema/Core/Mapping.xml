@@ -19,19 +19,6 @@
       <add>1.2</add>
   </primaryKey>
   <field>
-        <name>domain_id</name>
-        <type>int unsigned</type>
-        <required>true</required>
-        <comment>Domain to which this mapping belongs</comment>
-      <add>1.2</add>
-  </field>
-  <foreignKey>
-        <name>domain_id</name>
-        <table>civicrm_domain</table>
-        <key>id</key>
-      <add>1.2</add>
-  </foreignKey>
-  <field>
        <name>name</name>
        <type>varchar</type>
        <length>64</length>

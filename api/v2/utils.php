@@ -627,12 +627,6 @@ function _civicrm_check_required_fields( &$params, $daoName)
  */
 function _civicrm_participant_formatted_param( &$params, &$values, $create=false) 
 {
-    static $domainID = null;
-    if (!$domainID) {
-        $config =& CRM_Core_Config::singleton();
-        $domainID = $config->domainID();
-    }
-        
     $fields =& CRM_Event_DAO_Participant::fields( );
     _civicrm_store_values( $fields, $params, $values );
     
@@ -683,7 +677,8 @@ function _civicrm_participant_formatted_param( &$params, &$values, $create=false
             }
             $dao =& new CRM_Core_DAO();
             $qParams = array();
-            $svq = $dao->singleValueQuery("SELECT id FROM civicrm_contact WHERE domain_id = $domainID AND id = $value",$qParams);
+            $svq = $dao->singleValueQuery("SELECT id FROM civicrm_contact WHERE id = $value",
+                                          $qParams);
             if (!$svq) {
                 return civicrm_create_error("Invalid Contact ID: There is no contact record with contact_id = $value.");
             }
@@ -705,7 +700,8 @@ function _civicrm_participant_formatted_param( &$params, &$values, $create=false
             }
             $dao =& new CRM_Core_DAO();
             $qParams = array();
-            $svq = $dao->singleValueQuery("SELECT id FROM civicrm_event WHERE domain_id = $domainID AND id = $value",$qParams);
+            $svq = $dao->singleValueQuery("SELECT id FROM civicrm_event WHERE id = $value",
+                                          $qParams);
             if (!$svq) {
                 return civicrm_create_error("Invalid Event ID: There is no event record with event_id = $value.");
             } 
@@ -766,12 +762,6 @@ function _civicrm_contribute_formatted_param( &$params, &$values, $create=false 
    
     $fields =& CRM_Contribute_DAO_Contribution::fields( );
 
-    static $domainID = null;
-    if (!$domainID) {
-        $config =& CRM_Core_Config::singleton();
-        $domainID = $config->domainID();
-    }
-    
     _civicrm_store_values( $fields, $params, $values );
 
     require_once 'CRM/Core/OptionGroup.php';
@@ -822,7 +812,8 @@ function _civicrm_contribute_formatted_param( &$params, &$values, $create=false 
             }
             $dao =& new CRM_Core_DAO();
             $qParams = array();
-            $svq = $dao->singleValueQuery("SELECT id FROM civicrm_contact WHERE domain_id = $domainID AND id = $value",$qParams);
+            $svq = $dao->singleValueQuery("SELECT id FROM civicrm_contact WHERE id = $value",
+                                          $qParams);
             if (!$svq) {
                 return civicrm_create_error("Invalid Contact ID: There is no contact record with contact_id = $value.");
             }
@@ -913,12 +904,6 @@ function _civicrm_contribute_formatted_param( &$params, &$values, $create=false 
  */
 function _civicrm_membership_formatted_param( &$params, &$values, $create=false) 
 {
-    static $domainID = null;
-    if (!$domainID) {
-        $config =& CRM_Core_Config::singleton();
-        $domainID = $config->domainID();
-    }
-    
     require_once "CRM/Member/DAO/Membership.php";
     $fields =& CRM_Member_DAO_Membership::fields( );
 
@@ -971,7 +956,8 @@ function _civicrm_membership_formatted_param( &$params, &$values, $create=false)
             }
             $dao =& new CRM_Core_DAO();
             $qParams = array();
-            $svq = $dao->singleValueQuery("SELECT id FROM civicrm_contact WHERE domain_id = $domainID AND id = $value",$qParams);
+            $svq = $dao->singleValueQuery("SELECT id FROM civicrm_contact WHERE id = $value",
+                                          $qParams);
             if (!$svq) {
                 return civicrm_create_error("Invalid Contact ID: There is no contact record with contact_id = $value.");
             }
@@ -1039,12 +1025,6 @@ function _civicrm_membership_formatted_param( &$params, &$values, $create=false)
  */
 function _civicrm_activity_formatted_param( &$params, &$values, $create=false) 
 {
-    static $domainID = null;
-    if (!$domainID) {
-        $config =& CRM_Core_Config::singleton();
-        $domainID = $config->domainID();
-    }
-        
     $fields =& CRM_Activity_DAO_Activity::fields( );
     _civicrm_store_values( $fields, $params, $values );
     

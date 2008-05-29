@@ -342,7 +342,6 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         require_once 'CRM/Core/DAO/CustomGroup.php';
         require_once 'CRM/Core/DAO/EntityFile.php';
         require_once 'CRM/Core/Config.php';
-        $domainId = CRM_Core_Config::domainID();
 
         if (!isset($customFiles)) $customFiles = array();
         foreach ($customFiles as $customId) {
@@ -350,7 +349,7 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
 
             // get the contact_id -> file_id mapping
             $fileIds = array();
-            $sql = "SELECT entity_id, {$columnName} AS file_id FROM {$tableName} WHERE domain_id = {$domainId} AND entity_id IN ({$this->_cid}, {$this->_oid})";
+            $sql = "SELECT entity_id, {$columnName} AS file_id FROM {$tableName} WHERE entity_id IN ({$this->_cid}, {$this->_oid})";
             $dao =& CRM_Core_DAO::executeQuery($sql, CRM_Core_DAO::$_nullArray);
             while ($dao->fetch()) {
                 $fileIds[$dao->entity_id] = $dao->file_id;
@@ -361,7 +360,7 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
             CRM_Core_BAO_File::delete($fileIds[$this->_cid], $this->_cid, $customId);
 
             // move the other contact's file to main contact
-            $sql = "UPDATE {$tableName} SET {$columnName} = {$fileIds[$this->_oid]} WHERE entity_id = {$this->_cid} AND domain_id = {$domainId}";
+            $sql = "UPDATE {$tableName} SET {$columnName} = {$fileIds[$this->_oid]} WHERE entity_id = {$this->_cid}";
             CRM_Core_DAO::executeQuery($sql, CRM_Core_DAO::$_nullArray);
             $sql = "UPDATE civicrm_entity_file SET entity_id = {$this->_cid} WHERE entity_table = '{$tableName}' AND file_id = {$fileIds[$this->_oid]}";
             CRM_Core_DAO::executeQuery($sql, CRM_Core_DAO::$_nullArray);

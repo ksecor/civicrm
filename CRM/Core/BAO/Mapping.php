@@ -117,7 +117,6 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
     static function add( &$params ) 
     {
         $mapping            =& new CRM_Core_DAO_Mapping( );
-        $mapping->domain_id = CRM_Core_Config::domainID( );        
         $mapping->copyValues( $params );
         $mapping->save( );
 
@@ -137,7 +136,6 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
     {
         $mapping = array( );
         $mappingDAO =&  new CRM_Core_DAO_Mapping();
-        $mappingDAO->domain_id = CRM_Core_Config::domainID( );
         $mappingDAO->mapping_type_id = $mappingTypeId;
         $mappingDAO->find();
         

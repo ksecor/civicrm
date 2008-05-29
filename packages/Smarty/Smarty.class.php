@@ -1089,6 +1089,7 @@ class Smarty
      */
     function trigger_error($error_msg, $error_type = E_USER_WARNING)
     {
+        CRM_Core_Error::backtrace( );
         trigger_error("Smarty error: $error_msg", $error_type);
     }
 

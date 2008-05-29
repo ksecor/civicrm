@@ -102,8 +102,7 @@ class CRM_Core_BAO_PaymentProcessorType extends CRM_Core_DAO_PaymentProcessorTyp
      */
     static function &getDefault( ) {
         if (self::$_defaultPaymentProcessorType == null) {
-            $params = array( 'is_default' => 1,
-                             'domain_id'  => CRM_Core_Config::domainID( ));
+            $params = array( 'is_default' => 1 );
             $defaults = array();
             self::$_defaultPaymentProcessorType = self::retrieve($params, $defaults);
         }

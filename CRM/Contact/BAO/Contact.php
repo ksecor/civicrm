@@ -138,7 +138,6 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
 
         $contact->copyValues($params);
 
-        $contact->domain_id = CRM_Utils_Array::value( 'domain_id' , $params, CRM_Core_Config::domainID( ) );
         $contact->id        = CRM_Utils_Array::value( 'contact_id', $params );
         
         if ( $contact->contact_type == 'Individual') {
@@ -1440,14 +1439,12 @@ WHERE  civicrm_contact.id = %1 ";
     {
         $query = "
     SELECT    civicrm_contact.id as contact_id,
-              civicrm_contact.domain_id as domain_id,
               civicrm_contact.hash as hash,
               civicrm_contact.contact_type as contact_type,
               civicrm_contact.contact_sub_type as contact_sub_type
     FROM      civicrm_contact
-    WHERE     civicrm_contact.user_unique_id = %1 AND civicrm_contact.domain_id = %2";
-        $p = array( 1 => array( $uniqId, 'String' ),
-                    2 => array( CRM_Core_Config::domainID( ), 'Integer' ) );
+    WHERE     civicrm_contact.user_unique_id = %1";
+        $p = array( 1 => array( $uniqId, 'String' ) );
 
         if ( $ctype ) {
            $query .= " AND civicrm_contact.contact_type = %3";
@@ -1476,17 +1473,14 @@ WHERE  civicrm_contact.id = %1 ";
         $mail = strtolower( $mail );
         $query = "
 SELECT    civicrm_contact.id as contact_id,
-          civicrm_contact.domain_id as domain_id,
           civicrm_contact.hash as hash,
           civicrm_contact.contact_type as contact_type,
           civicrm_contact.contact_sub_type as contact_sub_type
 FROM      civicrm_contact
 LEFT JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
     WHERE civicrm_email.is_primary = 1
-      AND civicrm_email.email = %1
-      AND civicrm_contact.domain_id = %2";
-       $p = array( 1 => array( $mail, 'String' ),
-                   2 => array( CRM_Core_Config::domainID( ), 'Integer' ) );
+      AND civicrm_email.email = %1";
+        $p = array( 1 => array( $mail, 'String' ) );
 
        if ( $ctype ) {
            $query .= " AND civicrm_contact.contact_type = %3";

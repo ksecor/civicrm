@@ -1043,7 +1043,7 @@ SELECT $columnName
     }
 
     static function &defaultCustomTableSchema( &$params ) {
-        // add the id, domain_id, and extends_id
+        // add the id and extends_id
         $table = array( 'name'       => $params['name'],
                         'attributes' => "ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci",
                         'fields'     => array(
@@ -1053,12 +1053,6 @@ SELECT $columnName
                                                      'required'      => true,
                                                      'attributes'    => 'AUTO_INCREMENT',
                                                      'comment'       => 'Default MySQL primary key' ),
-                                              array( 'name'          => 'domain_id',
-                                                     'type'          => 'int unsigned',
-                                                     'required'      => true,
-                                                     'comment'       => 'Default Domain that this data belongs to',
-                                                     'fk_table_name' => 'civicrm_domain',
-                                                     'fk_field_name' => 'id' ),
                                               array( 'name'          => 'entity_id',
                                                      'type'          => 'int unsigned',
                                                      'required'      => true,
@@ -1069,8 +1063,7 @@ SELECT $columnName
                                               ),
                         'indexes'    => array(
                                               array( 'unique'        => true,
-                                                     'field_name_1'  => 'domain_id',
-                                                     'field_name_2'  => 'entity_id' )
+                                                     'field_name_1'  => 'entity_id' )
                                               ),
                                                     
                         );

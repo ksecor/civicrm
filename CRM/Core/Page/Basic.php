@@ -231,10 +231,6 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
             $object->orderBy ( $sort );
         }
         
-        // set the domain_id parameter
-        $config =& CRM_Core_Config::singleton( );
-        $object->domain_id = $config->domainID( );
-        
         // find all objects
         $object->find();
         while ($object->fetch()) {

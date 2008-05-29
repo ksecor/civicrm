@@ -133,7 +133,7 @@ class CRM_Admin_Page_DedupeRules extends CRM_Core_Page_Basic
             $rgDao->id         = $id;
             $rgDao->find(true);
             $rgDao->is_default = 1;
-            $query = "UPDATE civicrm_dedupe_rule_group SET is_default = 0 WHERE domain_id = {$rgDao->domain_id} AND contact_type = '{$rgDao->contact_type}' AND LEVEL = '{$rgDao->level}'";
+            $query = "UPDATE civicrm_dedupe_rule_group SET is_default = 0 WHERE contact_type = '{$rgDao->contact_type}' AND LEVEL = '{$rgDao->level}'";
             CRM_Core_DAO::executeQuery($query, CRM_Core_DAO::$_nullArray);
             $rgDao->save();
         }
@@ -156,11 +156,6 @@ class CRM_Admin_Page_DedupeRules extends CRM_Core_Page_Basic
         // get all rule groups
         $ruleGroups = array();
         $dao =& new CRM_Dedupe_DAO_RuleGroup();
-
-        // set the domain_id parameter
-        $config =& CRM_Core_Config::singleton( );
-        $dao->domain_id = $config->domainID( );
-
         $dao->find();
         
         while ($dao->fetch()) {

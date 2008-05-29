@@ -228,8 +228,6 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
             return CRM_Custom_Form_CustomData::buildQuickForm( $this );
         }
 
-        $domainId  = CRM_Core_Config::domainID( ); 
-        $this->assign( 'domainId', $domainId );
         $relTypeID = explode('_', $this->_rtypeId, 3);
  
         if ( $this->_action & CRM_Core_Action::DELETE ) {

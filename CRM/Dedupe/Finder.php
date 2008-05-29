@@ -53,7 +53,6 @@ class CRM_Dedupe_Finder
      */
     function dupes($rgid, $cids = array()) {
         $rgBao =& new CRM_Dedupe_BAO_RuleGroup();
-        $rgBao->domain_id = CRM_Core_Config::DomainID();
         $rgBao->id = $rgid;
         $rgBao->contactIds = $cids;
         $rgBao->find(true);
@@ -84,7 +83,6 @@ class CRM_Dedupe_Finder
      */
     function dupesByParams($params, $ctype, $level = 'Strict', $except = array()) {
         $rgBao =& new CRM_Dedupe_BAO_RuleGroup();
-        $rgBao->domain_id = CRM_Core_Config::DomainID();
         $rgBao->contact_type = $ctype;
         $rgBao->params = $params;
         $rgBao->level = $level;
@@ -129,13 +127,11 @@ class CRM_Dedupe_Finder
         // if not provided, fetch the contact type from the database
         if (!$ctype) {
             $dao =& new CRM_Contact_DAO_Contact();
-            $dao->domain_id = CRM_Core_Config::DomainID();
             $dao->id = $cid;
             $dao->find(true);
             $ctype = $dao->contact_type;
         }
         $rgBao =& new CRM_Dedupe_BAO_RuleGroup();
-        $rgBao->domain_id = CRM_Core_Config::DomainID();
         $rgBao->level = $level;
         $rgBao->contact_type = $ctype;
         $rgBao->is_default = 1;

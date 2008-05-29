@@ -105,10 +105,9 @@ $fd = fopen( $sqlCodePath . "civicrm.mysql", "w" );
 fputs( $fd, $sql );
 fclose($fd);
 
-// write the civicrm data file fixing the domain
-// id variable and translate the {ts}-tagged strings
+// write the civicrm data file
+// and translate the {ts}-tagged strings
 $smarty->clear_all_assign();
-$smarty->assign('civicrmDomainId', 1);
 $smarty->assign('build_version',$build_version);
 
 $config =& CRM_Core_Config::singleton( 'crm', false );
@@ -159,7 +158,6 @@ foreach ($locales as $locale) {
 }
 
 $sample = file_get_contents( $smarty->template_dir . '/civicrm_sample.tpl' );
-$sample = str_replace( '%%CIVICRM_DOMAIN_ID%%', 1, $sample );
 $fd = fopen( $sqlCodePath . "civicrm_sample.mysql", "w" );
 fputs( $fd, $sample );
 fclose( $fd );
@@ -170,7 +168,6 @@ fclose( $fd );
 // civicrm_sample.tpl and appending the tha contents to
 // civicrm_sample.mysql
 $sample = file_get_contents( $smarty->template_dir . '/civicrm_uf.tpl' );
-$sample = str_replace( '%%CIVICRM_DOMAIN_ID%%', 1, $sample );
 $fd = fopen( $sqlCodePath . "civicrm_sample.mysql", "a" );
 fputs( $fd, $sample );
 fclose( $fd );

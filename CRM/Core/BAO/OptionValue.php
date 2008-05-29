@@ -103,8 +103,6 @@ class CRM_Core_BAO_OptionValue extends CRM_Core_DAO_OptionValue
 
         // action is taken depending upon the mode
         $optionValue               =& new CRM_Core_DAO_OptionValue( );
-        $optionValue->domain_id    = CRM_Core_Config::domainID( );
-        
         $optionValue->copyValues( $params );;
         
         if ( $params['is_default'] ) {

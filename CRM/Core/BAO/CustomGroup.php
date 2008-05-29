@@ -162,11 +162,9 @@ LEFT JOIN civicrm_custom_field ON (civicrm_custom_field.custom_group_id = civicr
             $in = "'$entityType'";
         }
 
-        $domainID = CRM_Core_Config::domainID( );
         if ( $subType ) {
             $strWhere = "
-WHERE civicrm_custom_group.domain_id = $domainID
-  AND civicrm_custom_group.is_active = 1 
+WHERE civicrm_custom_group.is_active = 1 
   AND civicrm_custom_field.is_active = 1 
   AND civicrm_custom_group.extends IN ($in)
   AND ( civicrm_custom_group.extends_entity_column_value = '$subType'
@@ -174,8 +172,7 @@ WHERE civicrm_custom_group.domain_id = $domainID
 ";
         } else {
             $strWhere = "
-WHERE civicrm_custom_group.domain_id = $domainID
-  AND civicrm_custom_group.is_active = 1 
+WHERE civicrm_custom_group.is_active = 1 
   AND civicrm_custom_field.is_active = 1 
   AND civicrm_custom_group.extends IN ($in)
   AND civicrm_custom_group.extends_entity_column_value IS NULL
@@ -451,7 +448,6 @@ WHERE  {$table}.entity_id = {$entityId}";
                     } else {
                         $sqlOP = 'INSERT INTO';
                         $where  = null;
-                        $update[] = "{$table}.domain_id = " . CRM_Core_Config::domainID();
                         $update[] = "{$table}.entity_id = '{$entityId}'";
                     }
                 } else {
@@ -631,8 +627,6 @@ $where
         $customGroupDAO->whereAdd("style = 'Tab'");
         $customGroupDAO->whereAdd("is_active = 1");
 
-        $customGroupDAO->whereAdd("domain_id =" . CRM_Core_Config::domainID() );
-        
         // add whereAdd for entity type
         self::_addWhereAdd($customGroupDAO, $entityType);
 

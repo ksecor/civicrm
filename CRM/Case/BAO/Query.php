@@ -184,7 +184,6 @@ class CRM_Case_BAO_Query
     static function buildSearchForm( &$form ) 
     {
         $config =& CRM_Core_Config::singleton( );
-        $domainID = CRM_Core_Config::domainID( );
         require_once 'CRM/Core/OptionGroup.php';
         $caseType = CRM_Core_OptionGroup::values('case_type');
         $form->addElement('select', 'case_type_id',  ts( 'Case Type' ),  

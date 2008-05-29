@@ -102,8 +102,7 @@ class CRM_Admin_Page_DedupeFind extends CRM_Core_Page_Basic
                 $cids[$dupe[1]] = 1;
             }
             $cidString = implode(', ', array_keys($cids));
-            $domainId  = CRM_Core_Config::domainID();
-            $sql = "SELECT id, display_name FROM civicrm_contact WHERE id IN ($cidString) AND domain_id = $domainId ORDER BY sort_name";
+            $sql = "SELECT id, display_name FROM civicrm_contact WHERE id IN ($cidString) ORDER BY sort_name";
             $dao =& new CRM_Core_DAO();
             $dao->query($sql);
             $displayNames = array();

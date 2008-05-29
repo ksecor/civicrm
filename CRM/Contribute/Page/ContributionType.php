@@ -146,10 +146,6 @@ class CRM_Contribute_Page_ContributionType extends CRM_Core_Page_Basic
         require_once 'CRM/Contribute/DAO/ContributionType.php';
         $dao =& new CRM_Contribute_DAO_ContributionType();
 
-        // set the domain_id parameter
-        $config =& CRM_Core_Config::singleton( );
-        $dao->domain_id = $config->domainID( );
-
         $dao->orderBy('name');
         $dao->find();
 

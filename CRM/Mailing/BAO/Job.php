@@ -63,7 +63,6 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
         $config =& CRM_Core_Config::singleton();
         $jobTable     = CRM_Mailing_DAO_Job::getTableName();
         $mailingTable = CRM_Mailing_DAO_Mailing::getTableName();
-        $domainID     = CRM_Core_Config::domainID( );
 
         if (!empty($testParams)) {
             $query = "
@@ -81,7 +80,6 @@ SELECT   j.*
          $mailingTable m
  WHERE   m.id = j.mailing_id
    AND   j.is_test = 0
-   AND   m.domain_id = $domainID
    AND   ( ( j.start_date IS null
    AND       j.scheduled_date <= $currentTime
    AND       j.status = 'Scheduled' )
@@ -97,7 +95,7 @@ ORDER BY j.scheduled_date,
 
         /* TODO We should parallelize or prioritize this */
         while ($job->fetch()) {
-            $lockName = "civimail.job.{$domainID}.{$job->id}";
+            $lockName = "civimail.job.{$job->id}";
 
             // get a lock on this job id
             $lock = new CRM_Core_Lock( $lockName );

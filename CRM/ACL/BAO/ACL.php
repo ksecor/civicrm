@@ -142,7 +142,6 @@ class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
                     FROM        {$t['ACL']}
                     
                     WHERE       {$t['ACL']}.entity_table    = '{$t['Domain']}'
-                            AND {$t['ACL']}.entity_id       = $domainId
                             AND ($where)";
 
         /* Query for permissions granted to all contacts through an ACL group */
@@ -161,7 +160,6 @@ class CRM_ACL_BAO_ACL extends CRM_ACL_DAO_ACL {
                     WHERE       {$t['ACLEntityRole']}.entity_table =
                                     '{$t['Domain']}'
                             AND {$t['ACLRole']}.is_active      = 1
-                            AND {$t['ACLEntityRole']}.entity_id  = $domainId
                             AND ($where)";
         
         /* Query for permissions granted directly to the contact */
@@ -620,8 +618,6 @@ SELECT $acl.*
     static function create( &$params ) {
         $dao =& new CRM_ACL_DAO_ACL( );
         $dao->copyValues( $params );
-        $dao->domain_id = CRM_Core_Config::domainID( );
-
         $dao->save( );
     }
 

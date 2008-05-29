@@ -144,12 +144,11 @@ class CRM_ACL_Page_ACLBasic extends CRM_Core_Page_Basic
         $query = "
   SELECT *
     FROM civicrm_acl
-   WHERE domain_id = %1
-     AND ( object_table NOT IN ( 'civicrm_saved_search', 'civicrm_uf_group', 'civicrm_custom_group' ) )
+   WHERE ( object_table NOT IN ( 'civicrm_saved_search', 'civicrm_uf_group', 'civicrm_custom_group' ) )
 ORDER BY entity_id
 ";
-        $params = array( 1 => array( CRM_Core_Config::domainID( ), 'Integer' ) );
-        $dao    = CRM_Core_DAO::executeQuery( $query, $params );
+        $dao    = CRM_Core_DAO::executeQuery( $query,
+                                              CRM_Core_DAO::$_nullArray );
 
         require_once 'CRM/Core/OptionGroup.php';
         $roles  = CRM_Core_OptionGroup::values( 'acl_role' );

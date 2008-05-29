@@ -105,8 +105,7 @@ class CRM_Core_BAO_PaymentProcessor extends CRM_Core_DAO_PaymentProcessor
     static function &getDefault( ) 
     {
         if (self::$_defaultPaymentProcessor == null) {
-            $params = array( 'is_default' => 1,
-                             'domain_id'  => CRM_Core_Config::domainID( ));
+            $params = array( 'is_default' => 1 );
             $defaults = array();
             self::$_defaultPaymentProcessor = self::retrieve($params, $defaults);
         }
@@ -135,7 +134,6 @@ class CRM_Core_BAO_PaymentProcessor extends CRM_Core_DAO_PaymentProcessor
         $testDAO            =& new CRM_Core_DAO_PaymentProcessor( );
         $testDAO->name      =  $dao->name;
         $testDAO->is_test   =  1;
-        $testDAO->domain_id =  $dao->domain_id;
         $testDAO->delete( );
 
         $dao->delete( );
@@ -160,7 +158,6 @@ class CRM_Core_BAO_PaymentProcessor extends CRM_Core_DAO_PaymentProcessor
         $dao            =& new CRM_Core_DAO_PaymentProcessor( );
         $dao->id        =  $paymentProcessorID;
         $dao->is_active =  1;
-        $dao->domain_id =  CRM_Core_Config::domainID( );
         if ( ! $dao->find( true ) ) {
             return null;
         }
@@ -170,7 +167,6 @@ class CRM_Core_BAO_PaymentProcessor extends CRM_Core_DAO_PaymentProcessor
             $testDAO->name      = $dao->name;
             $testDAO->is_active = 1;
             $testDAO->is_test   = 1;
-            $testDAO->domain_id = $dao->domain_id;
             if ( ! $testDAO->find( true ) ) {
                 CRM_Core_Error::fatal( ts( 'Could not retrieve payment processor details' ) );
             }

@@ -308,7 +308,6 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
         
         $group =& new CRM_Contact_BAO_Group();
         $group->copyValues($params);
-        $group->domain_id = CRM_Core_Config::domainID( ); 
         $group->save( );
 
         if ( ! $group->id ) {
@@ -372,7 +371,6 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
          
         if ( CRM_Utils_Array::value( 'saved_search_id', $params ) ) {
             $savedSearch =& new CRM_Contact_BAO_SavedSearch();
-            $savedSearch->domain_id   = CRM_Core_Config::domainID( );
             $savedSearch->form_values = CRM_Utils_Array::value( 'formValues', $params );
             $savedSearch->is_active = 1;
             $savedSearch->id = $params['saved_search_id'];

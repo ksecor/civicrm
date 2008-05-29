@@ -400,7 +400,6 @@ class CRM_Core_Payment_BaseIPN {
             $honorDefault = array( );
             $honorIds     = array( );
             $honorIds['contribution'] =  $contribution->id;
-            $honorIds['domain']       =  $contribution->domain_id;
             
             $idParams = array( 'id' => $honarID, 'contact_id' => $honarID );
             

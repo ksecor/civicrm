@@ -79,7 +79,6 @@ class CRM_Contribute_Page_ContributionPageEdit extends CRM_Core_Page {
         
         if ( ! $this->_id ) {
             $dao =& new CRM_Contribute_DAO_ContributionPage( ); 
-            $dao->domain_id = CRM_Core_Config::domainID( ); 
             $dao->save( ); 
  
             $this->_id = $dao->id; 
@@ -154,10 +153,6 @@ class CRM_Contribute_Page_ContributionPageEdit extends CRM_Core_Page {
         // get all custom groups sorted by weight
         $donation =  array();
         $dao      =& new CRM_Contribute_DAO_ContributionPage();
-
-        // set the domain_id parameter
-        $config =& CRM_Core_Config::singleton( );
-        $dao->domain_id = $config->domainID( );
 
         $dao->orderBy('title');
         $dao->find();

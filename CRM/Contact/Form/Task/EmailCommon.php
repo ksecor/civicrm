@@ -306,9 +306,8 @@ class CRM_Contact_Form_Task_EmailCommon
         
         // replace domain tokens
         $config   = CRM_Core_Config::singleton( );
-        $domainId = $config->domainID( );
         require_once 'CRM/Core/BAO/Domain.php';
-        $domain = CRM_Core_BAO_Domain::getDomainByID( $domainId );
+        $domain = CRM_Core_BAO_Domain::getDomain( );
         require_once 'CRM/Utils/Token.php';
         $text = CRM_Utils_Token::replaceDomainTokens( $text_message, $domain, false  );
         $html = CRM_Utils_Token::replaceDomainTokens( $html_message, $domain, false  );

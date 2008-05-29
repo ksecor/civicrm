@@ -6,14 +6,12 @@
 -- *
 -- *******************************************************/
 
-SELECT @domain_id := MAX(id) FROM `civicrm_domain`;
-
 -- /*******************************************************
 -- *
 -- * create custom group
 -- *
 -- *******************************************************/
-INSERT INTO `civicrm_custom_group` (`domain_id`, `name`, `title`, `extends`, `style`, `collapse_display`, `help_pre`, `weight`, `is_active`, `table_name`, `is_multiple`) VALUES ( @domain_id, 'constituent_information', 'Constituent Information', 'Individual', 'Inline', 1, 'Please enter additional constituent information as data becomes available for this contact.', 1, 1,'civicrm_value_1_constituent_information', 0);
+INSERT INTO `civicrm_custom_group` (`name`, `title`, `extends`, `style`, `collapse_display`, `help_pre`, `weight`, `is_active`, `table_name`, `is_multiple`) VALUES ( 'constituent_information', 'Constituent Information', 'Individual', 'Inline', 1, 'Please enter additional constituent information as data becomes available for this contact.', 1, 1,'civicrm_value_constituent_information', 0);
 
 
 
@@ -22,7 +20,7 @@ INSERT INTO `civicrm_custom_group` (`domain_id`, `name`, `title`, `extends`, `st
 -- * create option group for storing custom options for custom fields
 -- *
 -- *******************************************************/
-INSERT INTO  `civicrm_option_group` (`domain_id`, `name`, `label`, `is_reserved`, `is_active`) VALUES (1, 'custom_most_important_issue', 'Most Important Issue', 0, 1), ( @domain_id, 'custom_marital_status', 'Marital Status', 0, 1);
+INSERT INTO  `civicrm_option_group` (`name`, `label`, `is_reserved`, `is_active`) VALUES (1, 'custom_most_important_issue', 'Most Important Issue', 0, 1), ( 'custom_marital_status', 'Marital Status', 0, 1);
 
 SELECT @option_most_id    := max(id) from civicrm_option_group where name = 'custom_most_important_issue';
 SELECT @option_marital_id := max(id) from civicrm_option_group where name = 'custom_marital_status';
@@ -50,5 +48,5 @@ INSERT INTO `civicrm_custom_field` (`custom_group_id`, `label`, `data_type`, `ht
 -- * create table to store custom values of a custom group
 -- *
 -- *******************************************************/
-CREATE TABLE `civicrm_value_1_constituent_information` ( id int(10) NOT NULL AUTO_INCREMENT, domain_id int(10) NOT NULL, entity_id int(10) NOT NULL, most_important_issue varchar(255) default NULL, marital_status varchar(255) default NULL, PRIMARY KEY  (id), UNIQUE KEY unique_domain_id_entity_id (domain_id,entity_id), KEY index_marital_status (marital_status), KEY index_most_important_issue (most_important_issue)) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
+CREATE TABLE `civicrm_value_constituent_information` ( id int(10) NOT NULL AUTO_INCREMENT, entity_id int(10) NOT NULL, most_important_issue varchar(255) default NULL, marital_status varchar(255) default NULL, PRIMARY KEY  (id), UNIQUE KEY unique_entity_id (entity_id), KEY index_marital_status (marital_status), KEY index_most_important_issue (most_important_issue)) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
  

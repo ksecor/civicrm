@@ -68,13 +68,11 @@ class CRM_Core_OptionGroup
                              $localize = false, $condition = null,
                              $valueColumnName = 'label' ) 
     {
-        $domainID = CRM_Core_Config::domainID( );
         $query = "
 SELECT  v.{$valueColumnName} as {$valueColumnName} ,v.value as value, v.grouping as grouping
 FROM   civicrm_option_value v,
        civicrm_option_group g
 WHERE  v.option_group_id = g.id
-  AND  g.domain_id       = $domainID
   AND  g.name            = %1
   AND  v.is_active       = 1 
   AND  g.is_active       = 1 ";
@@ -135,7 +133,6 @@ WHERE  v.option_group_id = g.id
     static function lookupValues( &$params, &$names, $flip = false ) 
     {
         require_once "CRM/Core/BAO/CustomOption.php";
-        $domainID = CRM_Core_Config::domainID( );
         foreach ($names as $postName => $value) {
             // See if $params field is in $names array (i.e. is a value that we need to lookup)
             if ( CRM_Utils_Array::value( $postName, $params ) ) {
@@ -169,7 +166,6 @@ WHERE  v.option_group_id = g.id
                         FROM   civicrm_option_value v,
                                civicrm_option_group g
                         WHERE  v.option_group_id = g.id
-                        AND    g.domain_id       = $domainID
                         AND    g.name            = %2
                         AND    $lookupBy";
 
@@ -183,13 +179,11 @@ WHERE  v.option_group_id = g.id
 
     static function getLabel( $groupName, $value ) 
     {
-        $domainID = CRM_Core_Config::domainID( );
         $query = "
 SELECT  v.label as label ,v.value as value
 FROM   civicrm_option_value v, 
        civicrm_option_group g 
 WHERE  v.option_group_id = g.id 
-  AND  g.domain_id       = $domainID 
   AND  g.name            = %1 
   AND  v.is_active       = 1  
   AND  g.is_active       = 1  
@@ -211,13 +205,11 @@ WHERE  v.option_group_id = g.id
             return null;
         }
 
-        $domainID = CRM_Core_Config::domainID( );
         $query = "
 SELECT  v.label as label ,v.value as value
 FROM   civicrm_option_value v, 
        civicrm_option_group g 
 WHERE  v.option_group_id = g.id 
-  AND  g.domain_id       = $domainID 
   AND  g.name            = %1 
   AND  v.is_active       = 1  
   AND  g.is_active       = 1  
@@ -239,7 +231,6 @@ WHERE  v.option_group_id = g.id
         if ( ! empty( $values ) ) {
             require_once 'CRM/Core/DAO/OptionGroup.php';
             $group = new CRM_Core_DAO_OptionGroup( );
-            $group->domain_id   = CRM_Core_Config::domainID( );
             $group->name        = $groupName;
             $group->label       = $groupLabel;
             $group->is_reserved = 1;

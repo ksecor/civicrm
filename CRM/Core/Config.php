@@ -55,12 +55,6 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
     ///
 
     /**
-     * The domainID for this instance. 
-     * @var int
-     */
-    private static $_domainID = 1;
-
-    /**
      * the dsn of the database connection
      * @var string
      */
@@ -161,15 +155,6 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
      */
     private function __construct() 
     {
-        require_once 'CRM/Core/Session.php';
-        $session =& CRM_Core_Session::singleton( );
-        if ( defined( 'CIVICRM_DOMAIN_ID' ) ) {
-            self::$_domainID = CIVICRM_DOMAIN_ID;
-        } else {
-            self::$_domainID = 1;
-        }
-        $session->set( 'domainID', self::$_domainID );
-
     }
 
     /**
@@ -465,7 +450,7 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
      */
     static function domainID( ) 
     {
-        return self::$_domainID;
+        CRM_Core_Error::backtrace( 'Aborting due to invalid call to domainID' );
     }
 
     /**
