@@ -9,6 +9,7 @@ class ContributionPage extends DrupalTestCase
      */
     function create( ) 
     {
+        require_once "CRM/Core/DAO/PaymentProcessor.php";
         $paymentProcessor =& new CRM_Core_DAO_PaymentProcessor( );
         $paymentParams = array(
                                'domain_id' => 1,

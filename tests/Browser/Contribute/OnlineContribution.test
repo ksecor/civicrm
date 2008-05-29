@@ -34,8 +34,9 @@
  */
 
 require_once 'CiviTestCase.php';
+require_once 'ContributionPage.php';
 
-class Browser_Contribution_OnlineContribution extends CiviTestCase 
+class Browser_Contribute_OnlineContribution extends CiviTestCase 
 {
     var $webUser;
     
@@ -156,7 +157,7 @@ class Browser_Contribution_OnlineContribution extends CiviTestCase
 
     function testOnlineContributionPageCreation( ) 
     {
-	ContributionPage::create();
+        ContributionPage::create();
     }
 
 }
