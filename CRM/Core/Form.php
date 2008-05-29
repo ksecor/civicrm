@@ -143,7 +143,7 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         $this->HTML_QuickForm_Page( $this->_name, $method );
     
         $this->_state   = $state;
-        $this->_action  = $action;
+        $this->_action  = (int) $action;
 
         $this->registerRules( );
 
