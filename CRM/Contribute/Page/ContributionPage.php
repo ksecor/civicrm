@@ -357,6 +357,11 @@ ORDER BY title asc
                 $this->assign( 'isSearch', 0 );
             }
         }
+
+        if ( empty( $clauses ) ) {
+            return 1;
+        }
+
         return implode( ' AND ', $clauses );
     }
 
