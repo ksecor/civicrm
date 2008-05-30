@@ -619,6 +619,46 @@ class BAO_Contact_Contact extends CiviTestCase
     }
     
     /**
+     * test deleteContact() BAO method
+     * 
+     */
+    function testDeleteContact( )
+    {
+        $params = $this->contactAllParams( );
+        //create contact
+        require_once 'CRM/Contact/BAO/Contact.php';
+        $contact = CRM_Contact_BAO_Contact::create( $params );
+        $contactId = $contact->id;
+        
+        //delete contact.
+        CRM_Contact_BAO_Contact::deleteContact( $contactId );
+        
+        //Now check DB for location elements.
+        //Now check DB for Address
+        $this->assertDBNull( 'CRM_Core_DAO_Address', CRM_Utils_Array::value( 'street_address', $params['location'][1]['address']), 
+                             'id', 'street_address', 'Database check, Address deleted successfully.' );
+        //Now check DB for Email
+        $this->assertDBNull( 'CRM_Core_DAO_Email', CRM_Utils_Array::value( 'email', $params['location'][1]['email'][1] ), 
+                             'id', 'email', 'Database check, Email deleted successfully.' );
+        //Now check DB for Phone
+        $this->assertDBNull( 'CRM_Core_DAO_Phone', CRM_Utils_Array::value( 'phone', $params['location'][1]['phone'][1] ), 
+                             'id', 'phone', 'Database check, Phone deleted successfully.' );
+        //Now check DB for Mobile
+        $this->assertDBNull( 'CRM_Core_DAO_Phone', CRM_Utils_Array::value( 'phone', $params['location'][1]['phone'][2] ),
+                             'id', 'phone', 'Database check, Mobile deleted successfully.' );
+        //Now check DB for IM
+        $this->assertDBNull( 'CRM_Core_DAO_IM', CRM_Utils_Array::value( 'name', $params['location'][1]['im'][1] ),
+                             'id', 'name', 'Database check, IM deleted successfully.' );
+        //Now check DB for openId
+        $this->assertDBNull( 'CRM_Core_DAO_OpenID', CRM_Utils_Array::value( 'openid', $params['location'][1]['openid'][1] ),
+                             'id', 'name', 'Database check, openId deleted successfully.' );
+        
+        //Now check DB for contact.
+        $this->assertDBNull( 'CRM_Contact_DAO_Contact', $params['last_name'] . ', ' . $params['first_name'], 
+                             'id', 'sort_name', 'Database check, contact deleted successfully.' );
+    }
+    
+    /**
      * test logged in user has permissions for 
      * various  operation types
      */
@@ -639,7 +679,8 @@ class BAO_Contact_Contact extends CiviTestCase
      * function to build common params
      *
      */
-    private function contactAllParams( ) {
+    private function contactAllParams( ) 
+    {
         $params = array(
                         'first_name'            => 'john',
                         'last_name'             => 'smith',
