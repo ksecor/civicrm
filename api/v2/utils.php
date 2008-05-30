@@ -148,6 +148,7 @@ function _civicrm_add_formatted_param(&$values, &$params)
     }
     
     //first add core contact values since for other Civi modules they are not added
+    require_once 'CRM/Contact/BAO/Contact.php';
     $contactFields =& CRM_Contact_DAO_Contact::fields( );
     _civicrm_store_values( $contactFields, $values, $params );
     
@@ -460,7 +461,7 @@ function _civicrm_duplicate_formatted_contact(&$params)
         if ( $params['contact_type'] == 'Individual' || (!isset($params['household_name']) && !isset($params['organization_name'])) ) {
         
         require_once 'CRM/Core/BAO/UFGroup.php';
-        if ( ( $ids =& CRM_Core_BAO_UFGroup::findContact( $params, null, true ) ) != null ) {
+        if ( ( $ids =& CRM_Core_BAO_UFGroup::findContact( $params, null, $params['contact_type'] ) ) != null ) {
             
             $error = CRM_Core_Error::createError( "Found matching contacts: $ids",
                                                   CRM_Core_Error::DUPLICATE_CONTACT, 

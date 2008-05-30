@@ -356,7 +356,7 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
             } elseif ($contacType == 'Organization') {
                 $fieldsArray = array('organization_name', 'email');
             }
-
+            
             $tmpConatctField = array();
             if( is_array($fieldsArray) ) {
                 foreach ( $fieldsArray as $value) {
@@ -624,7 +624,7 @@ GROUP BY p.id
                               'email-Primary' => $params["honor_email"] );
         if ( !$honorId ) {
             require_once "CRM/Core/BAO/UFGroup.php";
-            $ids = CRM_Core_BAO_UFGroup::findContact( $honorParams );
+            $ids = CRM_Core_BAO_UFGroup::findContact( $honorParams, null, 'Individual' );
             $contactsIds = explode( ',', $ids );
             
             if ( is_numeric( $contactsIds[0] ) && count ( $contactsIds ) ==  1 ) {

@@ -265,7 +265,7 @@ class CRM_Core_BAO_CMSUser
 
             if ( $isJoomla ) {
                 require_once 'CRM/Core/BAO/UFGroup.php';
-                $ids = CRM_Core_BAO_UFGroup::findContact( $fields, $cid, true );
+                $ids = CRM_Core_BAO_UFGroup::findContact( $fields, $cid, 'Individual' );
                 if ( $ids ) {
                     $errors['_qf_default'] = ts( 'An account already exists with the same information.' );
                 }

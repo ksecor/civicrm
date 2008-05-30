@@ -567,17 +567,16 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      * @access public
      * @static
      */
-    public static function findContact( &$params, $id = null, $flatten = false ) 
+    public static function findContact( &$params, $id = null, $contactType = 'Individual' ) 
     {
-        $tables = array( );
-        require_once 'CRM/Contact/Form/Search.php';
-        $clause = self::getWhereClause( $params, $tables );
-        $emptyClause = 'civicrm_contact.domain_id = ' . CRM_Core_Config::domainID( );
-        if ( ! $clause || trim( $clause ) === trim( $emptyClause ) ) {
+        require_once 'CRM/Dedupe/Finder.php';
+        $dedupeParams = CRM_Dedupe_Finder::formatParams($params, $contactType);
+        $ids = CRM_Dedupe_Finder::dupesByParams($dedupeParams, $contactType, 'Fuzzy',array($id));
+        if ( !empty($ids) ) {
+            return implode( ',', $ids );
+        } else {
             return null;
         }
-        require_once 'CRM/Contact/BAO/Contact/Utils.php';
-        return CRM_Contact_BAO_Contact_Utils::match( $clause, $tables, $id );
     }
 
     /**
