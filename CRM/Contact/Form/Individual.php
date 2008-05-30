@@ -276,20 +276,12 @@ setDefaultAddress();
                 CRM_Core_Session::setStatus( 'No matching contact found.' );
             }
         }
-     
-        //to get valid Id of entered houseHold
-        if ( $fields ['HhName'] ) {
-            $HouseholdId =  CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $fields ['HhName'] ,'id' ,'display_name' );
-            
-            if ( !$HouseholdId ){
-                $fields['shared_household'] = ''; 
-            }
-        }
+
         // if use_household_address option is checked, make sure 'valid household_name' is also present.
-        if ( CRM_Utils_Array::value('use_household_address',$fields) && (!$fields['shared_household']|| !$fields['shared_option']) ) {
+        if ( CRM_Utils_Array::value('use_household_address',$fields) ) {
             if ( ! $fields['create_household'] ) {
                 if ( !array_key_exists( 'shared_option', $fields ) || $fields['shared_option'] ) {
-                    if ( !$fields['old_mail_to_household_id'] || !$fields['shared_household'] ) {
+                    if ( !is_numeric( $fields['shared_household'] ) ) {
                         $errors["shared_household"] = 
                             ts("Please select a household from the 'Select Household' list");
                     }
@@ -325,7 +317,7 @@ setDefaultAddress();
                 }
             }
         }
-       
+
         return empty($errors) ? true : $errors;
     }
 

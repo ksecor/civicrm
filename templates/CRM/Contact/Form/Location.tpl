@@ -142,6 +142,11 @@
  function showSelectedHouseholdAddress()
  {
     var hhId = dijit.byId('shared_household').getValue();
+    if ( isNaN( hhId ) ) {
+	document.getElementById('shared_household_help').style.display='none';
+	document.getElementById('household_address').innerHTML = '';	
+	return; 
+    }
     var dataUrl = {/literal}"{crmURL p='civicrm/ajax/search' h=0 q='d=1&sh=1&id='}"{literal} + hhId;
 
     dojo.xhrGet( { 
@@ -251,7 +256,7 @@ function setAddressFields ()
 {literal}
     dojo.addOnLoad( function( )
     {
-	var sharedHHId = {/literal}{$defaultSharedHousehold}{literal};
+	var sharedHHId = "{/literal}{$defaultSharedHousehold}{literal}";
 	dijit.byId('shared_household').setValue( sharedHHId );
     } );	 
 {/literal}

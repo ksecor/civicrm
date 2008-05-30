@@ -137,8 +137,12 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
         $name      = strtolower( CRM_Utils_Type::escape( $name, 'String'  ) ); 
         $whereIdClause = '';
         if ( $_GET['id'] ) {
-            $id  = CRM_Utils_Type::escape( $_GET['id'], 'Integer' ) ; 
-            $whereIdClause = " AND civicrm_contact.id = {$id}";
+            if ( is_numeric( $_GET['id'] ) ) {
+                $id  = CRM_Utils_Type::escape( $_GET['id'], 'Integer' ) ; 
+                $whereIdClause = " AND civicrm_contact.id = {$id}";
+            } else {
+                $name = $_GET['id'];
+            }
         }
 
         $elements = array( );
