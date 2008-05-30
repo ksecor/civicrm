@@ -640,16 +640,15 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             $tmpFields     = CRM_Member_DAO_Membership::import( );
             require_once 'CRM/Contact/BAO/Contact.php';
             $contactFields = CRM_Contact_BAO_Contact::importableFields( $contactType, null );
-            if ($contactType == 'Individual') {
-                require_once 'CRM/Core/DAO/DupeMatch.php';
-                $dao = & new CRM_Core_DAO_DupeMatch();
-                $dao->find(true);
-                $fieldsArray = explode('AND',$dao->rule);
-            } elseif ($contactType == 'Household') {
-                $fieldsArray = array('household_name', 'email');
-            } elseif ($contactType == 'Organization') {
-                $fieldsArray = array('organization_name', 'email');
-            }
+
+            // Using new Dedupe rule.
+            $ruleParams = array(
+                                'contact_type' => $contactType,
+                                'level' => 'Strict'
+                                );
+            require_once 'CRM/Dedupe/BAO/Rule.php';
+            $fieldsArray = CRM_Dedupe_BAO_Rule::dedupeRuleFields($ruleParams);
+            
             $tmpConatctField = array();
             if( is_array($fieldsArray) ) {
                 foreach ( $fieldsArray as $value) {
