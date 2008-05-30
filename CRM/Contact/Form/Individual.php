@@ -154,7 +154,6 @@ setDefaultAddress();
         $form->addElement('checkbox', 'use_household_address', null, ts('Use Household Address'), $useHouseholdExtra);
         $this->assign( 'dojoIncludes', " dojo.require('dojox.data.QueryReadStore');dojo.require('dojo.parser');" );
         
-        $domainID      =  CRM_Core_Config::domainID( );   
         $attributes    = array( 'dojoType'     => 'civicrm.FilteringSelect',
                                 'mode'         => 'remote',
                                 'store'        => 'addressStore',
@@ -165,7 +164,7 @@ setDefaultAddress();
                                 );
 
         $dataURL =  CRM_Utils_System::url( 'civicrm/ajax/search',
-                                           "d={$domainID}&hh=1",
+                                           "hh=1",
                                            true, null, false );
 
         $this->assign('dataURL',$dataURL );
@@ -191,7 +190,7 @@ setDefaultAddress();
                                         );
         
         $employerDataURL =  CRM_Utils_System::url( 'civicrm/ajax/search',
-                                           "d={$domainID}&org=1",
+                                           "org=1",
                                            true, null, false );
 
         $this->assign('employerDataURL',$employerDataURL );

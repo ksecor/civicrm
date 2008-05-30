@@ -17,19 +17,6 @@
     <autoincrement>true</autoincrement>
   </primaryKey>
   <field>
-    <name>domain_id</name>
-    <type>int unsigned</type>
-    <required>true</required>
-    <comment>The id of the domain this rule group belongs to</comment>
-    <add>1.8</add>
-  </field>
-  <foreignKey>
-    <name>domain_id</name>
-    <table>civicrm_domain</table>
-    <key>id</key>
-    <add>1.8</add>
-  </foreignKey>
-  <field>
     <name>contact_type</name>
     <type>enum</type>
     <values>Individual, Organization, Household</values>

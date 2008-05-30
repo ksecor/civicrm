@@ -325,9 +325,6 @@ SELECT count(civicrm_mailing.id)
             $params[3] = array( $this->_parent->_sortByCharacter . '%', 'String' );
         }
 
-        $clauses[] = 'domain_id = %4';
-        $params[4] = array( CRM_Core_Config::domainID( ), 'Integer' );
-
         // dont do a the below assignement when doing a 
         // AtoZ pager clause
         if ( $sortBy ) {

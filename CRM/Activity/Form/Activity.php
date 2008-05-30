@@ -281,7 +281,6 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
         $this->add('select','status_id',ts('Status'), CRM_Core_PseudoConstant::activityStatus( ), true );
 
         $config =& CRM_Core_Config::singleton( );
-        $domainID = CRM_Core_Config::domainID( );
 
         // add a dojo facility for searching contacts
         $this->assign( 'dojoIncludes', " dojo.require('dojox.data.QueryReadStore'); dojo.require('dijit.form.ComboBox');dojo.require('dojo.parser');" );
@@ -292,7 +291,7 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
                              'pageSize'       => 10  );
 
         $dataUrl = CRM_Utils_System::url( "civicrm/ajax/search",
-                                          "d={$domainID}",
+                                          "reset=1",
                                           true, null, false );
         $this->assign('dataUrl',$dataUrl );
 

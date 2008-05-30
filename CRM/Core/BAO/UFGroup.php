@@ -423,7 +423,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             $group =& new CRM_Core_DAO_UFGroup( );
             
             $group->title     = $title;
-            $group->domain_id = CRM_Core_Config::domainID( );
             
             if ( $group->find( true ) && $userID ) {
                 $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Dynamic', ts('Dynamic Form Creator'), $action );
@@ -500,7 +499,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 $group =& new CRM_Core_DAO_UFGroup( );
                 
                 $group->title     = $title;
-                $group->domain_id = CRM_Core_Config::domainID( );
 
                 if ( $group->find( true ) ) {
                     $profileID = $group->id;
@@ -948,7 +946,6 @@ WHERE  id = $cfID
         $params['is_cms_user'            ] = CRM_Utils_Array::value( 'is_cms_user'         , $params, false );
 
         $ufGroup             =& new CRM_Core_DAO_UFGroup();
-        $ufGroup->domain_id  = CRM_Core_Config::domainID( );
         $ufGroup->copyValues($params); 
                 
         $ufGroup->id = CRM_Utils_Array::value( 'ufgroup', $ids );;
@@ -1255,9 +1252,8 @@ WHERE  id = $cfID
                                civicrm_uf_group.is_active as is_active,
                                civicrm_uf_group.group_type as group_type
                         FROM civicrm_uf_group
-                        LEFT JOIN civicrm_uf_join on ( civicrm_uf_group.id = civicrm_uf_join.uf_group_id )
-                        WHERE civicrm_uf_group.domain_id = %1';
-        $p = array( 1 => array( CRM_Core_Config::domainID( ), 'Integer' ) );
+                        LEFT JOIN civicrm_uf_join on ( civicrm_uf_group.id = civicrm_uf_join.uf_group_id )';
+        $p = array( );
         if ( $moduleName ) {
             $queryString .= ' AND civicrm_uf_group.is_active = 1 
                               AND civicrm_uf_join.module = %2';
@@ -1908,7 +1904,6 @@ WHERE  id = $cfID
         
         // lets get the stuff from domain to build the email address
         $domain = new CRM_Core_DAO_Domain( );
-        $domain->id = CRM_Core_Config::domainID( );
         $domain->selectAdd( );
         $domain->selectAdd( 'id, email_name, email_address' );
         $domain->find( true );

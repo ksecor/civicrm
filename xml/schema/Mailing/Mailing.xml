@@ -15,17 +15,6 @@
        <autoincrement>true</autoincrement>
   </primaryKey>
   <field>
-      <name>domain_id</name>
-      <type>int unsigned</type>
-      <required>true</required>
-      <comment>Which Domain owns this mailing</comment>
-  </field>
-  <foreignKey>
-       <name>domain_id</name>
-       <table>civicrm_domain</table>
-       <key>id</key>
-  </foreignKey>
-  <field>
       <name>header_id</name>
       <type>int unsigned</type>
       <comment>FK to the header component.</comment>

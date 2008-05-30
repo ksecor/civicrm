@@ -298,7 +298,6 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
 
         // store and cache all relationship types
         $contactRelation =& new CRM_Contact_DAO_RelationshipType();
-        $contactRelation->domain_id = CRM_Core_Config::domainID( );
         $contactRelation->find( );
         while ( $contactRelation->fetch( ) ) {
             $contactRelationCache[$contactRelation->id] = array( );

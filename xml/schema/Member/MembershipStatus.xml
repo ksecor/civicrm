@@ -18,19 +18,6 @@
        <autoincrement>true</autoincrement>
   </primaryKey>
   <field>
-      <name>domain_id</name>
-      <type>int unsigned</type>
-      <required>true</required>
-      <comment>Which Domain owns this contact</comment>
-       <add>1.5</add>
-  </field>
-  <foreignKey>
-       <name>domain_id</name>
-       <table>civicrm_domain</table>
-       <key>id</key>
-       <add>1.5</add>
-  </foreignKey>
-  <field>
        <name>name</name>
        <type>varchar</type>
        <length>128</length>

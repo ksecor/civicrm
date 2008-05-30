@@ -107,7 +107,6 @@ class CRM_Core_BAO_MessageTemplates extends CRM_Core_DAO_MessageTemplates
         $params['is_active']            =  CRM_Utils_Array::value( 'is_active', $params, false );
 
         $messageTemplates               =& new CRM_Core_DAO_MessageTemplates( );
-        $messageTemplates->domain_id    = CRM_Core_Config::domainID( );
         $messageTemplates->copyValues( $params );
         
         $messageTemplates->save( );
@@ -165,7 +164,7 @@ class CRM_Core_BAO_MessageTemplates extends CRM_Core_DAO_MessageTemplates
         return $msgTpls;
     }
 
-    static function sendReminder( $contactId, $email, $domainID, $messageTemplateID ,$from) {
+    static function sendReminder( $contactId, $email, $messageTemplateID ,$from) {
         require_once "CRM/Core/BAO/Domain.php";
         require_once "CRM/Utils/String.php";
         require_once "CRM/Utils/Token.php";
@@ -173,7 +172,7 @@ class CRM_Core_BAO_MessageTemplates extends CRM_Core_DAO_MessageTemplates
         $messageTemplates =& new CRM_Core_DAO_MessageTemplates( );
         $messageTemplates->id = $messageTemplateID;
 
-        $domain = CRM_Core_BAO_Domain::getDomainByID( $domainID );
+        $domain = CRM_Core_BAO_Domain::getDomain( );
         
         if ( $messageTemplates->find(true) ) {
             $body_text = $messageTemplates->msg_text;

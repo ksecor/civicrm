@@ -246,8 +246,6 @@ class CRM_Grant_BAO_Query
      */   
     static function buildSearchForm( &$form ) 
     {
-        $config =& CRM_Core_Config::singleton( );
-        $domainID = CRM_Core_Config::domainID( );
         require_once 'CRM/Core/OptionGroup.php'; 
         $grantType = CRM_Core_OptionGroup::values( 'grant_type' );
         $form->add('select', 'grant_type_id',  ts( 'Grant Type' ),

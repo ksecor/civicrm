@@ -36,7 +36,6 @@
 class CRM_Contact_BAO_GroupNestingCache {
     static public function update( ) {
         // lets build the tree in memory first
-        $domainID = CRM_Core_Config::domainID( );
         
         $sql = "
 SELECT n.child_group_id  as child ,
@@ -46,8 +45,6 @@ FROM   civicrm_group_nesting n,
        civicrm_group gp
 WHERE  n.child_group_id  = gc.id
   AND  n.parent_group_id = gp.id
-  AND  gc.domain_id = $domainID
-  AND  gp.domain_id = $domainID
 ";
 
         $dao =& CRM_Core_DAO::executeQuery( $sql,
@@ -78,7 +75,6 @@ WHERE  n.child_group_id  = gc.id
 UPDATE civicrm_group
 SET    parents  = null,
        children = null
-WHERE  domain_id = $domainID
 ";
         CRM_Core_DAO::executeQuery( $sql,
                                     CRM_Core_DAO::$_nullArray );

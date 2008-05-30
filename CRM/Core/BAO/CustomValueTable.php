@@ -148,9 +148,6 @@ class CRM_Core_BAO_CustomValueTable
             }
 
             if ( ! empty( $set ) ) {
-                $set[] = "domain_id = %{$count}";
-                $params[$count] = array( CRM_Core_Config::domainID( ), 'Integer' );
-                $count++;
                 $set[] = "entity_id = %{$count}";
                 $params[$count] = array( $entityID, 'Integer' );
                 $count++;

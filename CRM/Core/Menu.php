@@ -1063,7 +1063,6 @@ class CRM_Core_Menu
 
         foreach ( $menu as $path => $item ) {
             $menu  =& new CRM_Core_DAO_Menu( );
-            $menu->domain_id = CRM_Core_Config::domainID( );
             $menu->path      = $path;
 
             $menu->find( true );

@@ -109,13 +109,12 @@ class CRM_Member_BAO_MembershipStatus extends CRM_Member_DAO_MembershipStatus
         $params['is_default']         =  CRM_Utils_Array::value( 'is_default', $params, false );
         
         if ( $params['is_default'] ) {// set all other defaults to false. 
-            $query = "UPDATE civicrm_membership_status SET `is_default`= FALSE where `domain_id`=".CRM_Core_Config::domainID( );
-            $dao =& new CRM_Core_DAO( );
-            $dao->query( $query );
+            $query = "UPDATE civicrm_membership_status SET is_default = 0";
+            CRM_Core_DAO::executeQuery( $query, 
+                                        CRM_Core_DAO::$_nullArray );
         }
         // action is taken depending upon the mode
         $membershipStatus               =& new CRM_Member_DAO_MembershipStatus( );
-        $membershipStatus->domain_id    = CRM_Core_Config::domainID( );
         $membershipStatus->copyValues( $params );
         
         $membershipStatus->id = CRM_Utils_Array::value( 'membershipStatus', $ids );
@@ -135,7 +134,6 @@ class CRM_Member_BAO_MembershipStatus extends CRM_Member_DAO_MembershipStatus
     {
         $statusDetails = array();
         $membershipStatus             =& new CRM_Member_DAO_MembershipStatus( );
-        $membershipStatus->domain_id    = CRM_Core_Config::domainID( );
         $membershipStatus->id = $membershipStatusId;
         if ( $membershipStatus->find(true) ) {
             CRM_Core_DAO::storeValues( $membershipStatus, $statusDetails );

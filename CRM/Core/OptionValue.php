@@ -81,7 +81,6 @@ class CRM_Core_OptionValue
         if (! isset( $groupParams['id'] ) || ! $groupParams['id'] ) {
             if ( $groupParams['name'] ) {
                 $config =& CRM_Core_Config::singleton( );
-                $groupParams['domain_id'] = $config->domainID( );
                 
                 $optionGroup = CRM_Core_BAO_OptionGroup::retrieve($groupParams, $dnc);
                 $optionGroupID = $optionGroup->id;
@@ -149,7 +148,6 @@ class CRM_Core_OptionValue
         // checking if the group name with the given id or name (in $groupParams) exists
         if (! empty($groupParams)) {
             $config =& CRM_Core_Config::singleton( );
-            $groupParams['domain_id'] = $config->domainID( );
             $groupParams['is_active']   = 1;
             $optionGroup = CRM_Core_BAO_OptionGroup::retrieve($groupParams, $defaults);
         }

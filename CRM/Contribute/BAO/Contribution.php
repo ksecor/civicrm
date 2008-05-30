@@ -111,10 +111,7 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
         }
 
         $contribution =& new CRM_Contribute_BAO_Contribution();
-        
         $contribution->copyValues($params);
-        
-        $contribution->domain_id = CRM_Utils_Array::value( 'domain' , $ids, CRM_Core_Config::domainID( ) );
         
         $contribution->id        = CRM_Utils_Array::value( 'contribution', $ids );
 
@@ -160,7 +157,6 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
 
         if ( $contribution->find(true) ) {
             $ids['contribution'] = $contribution->id;
-            $ids['domain' ] = $contribution->domain_id;
 
             CRM_Core_DAO::storeValues( $contribution, $values );
 
@@ -433,12 +429,11 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
         }
 
         $whereCond = implode( ' AND ', $where );
-        $domainID  = CRM_Core_Config::domainID( );
 
         $query = "
 SELECT sum( total_amount ) as total_amount, count( id ) as total_count
 FROM   civicrm_contribution
-WHERE  domain_id = $domainID AND $whereCond AND is_test=0
+WHERE  $whereCond AND is_test=0
 ";
 
         $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
@@ -589,13 +584,11 @@ SELECT p.goal_amount as goal, sum( c.total_amount ) as total
  WHERE p.id = c.contribution_page_id
    AND p.id = %1
    AND c.cancel_date is null
-   AND p.domain_id = %2
 GROUP BY p.id
 ";
 
         $config =& CRM_Core_Config::singleton( );
-        $params = array( 1 => array( $pageID, 'Integer' ),
-                         2 => array( $config->domainID( ), 'Integer' ) );
+        $params = array( 1 => array( $pageID, 'Integer' ) );
         $dao =& CRM_Core_DAO::executeQuery( $query, $params );
         
         if ( $dao->fetch( ) ) {

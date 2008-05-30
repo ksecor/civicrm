@@ -175,7 +175,7 @@ class CRM_Mailing_Event_BAO_Resubscribe {
         // param is_domain is not supported as of now.
 
         $config =& CRM_Core_Config::singleton();
-        $domain =& CRM_Mailing_Event_BAO_Queue::getDomain($queue_id);
+        $domain =& CRM_Core_BAO_Domain::getDomain( );
 
         $jobTable = CRM_Mailing_BAO_Job::getTableName();
         $mailingTable = CRM_Mailing_DAO_Mailing::getTableName();

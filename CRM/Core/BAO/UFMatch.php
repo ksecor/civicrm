@@ -138,7 +138,6 @@ WHERE     openid = %1";
 
         $session->set( 'ufID'    , $ufmatch->uf_id          );
         $session->set( 'userID'  , $ufmatch->contact_id     );
-        $session->set( 'domainID', $ufmatch->domain_id      ); 
         $session->set( 'ufUniqID', isset($ufmatch->user_unique_id) ? $ufmatch->user_unique_id : "");
 
         if ( $update ) {
@@ -170,7 +169,7 @@ WHERE     openid = %1";
     {
         // validate that uniqId is a valid url. it will either be
         // an OpenID (which should always be a valid url) or a
-        // http://uf_username.domain/ construction (so that it can
+        // http://uf_username/ construction (so that it can
         // be used as an OpenID in the future)
         require_once 'CRM/Utils/Rule.php';
         if ( $uf == 'Standalone' ) {
@@ -186,14 +185,12 @@ WHERE     openid = %1";
         // make sure that a contact id exists for this user id
         $ufmatch =& new CRM_Core_DAO_UFMatch( );
         $ufmatch->uf_id = $userKey;
-        $ufmatch->domain_id = CRM_Core_Config::domainID( );
         if ( ! $ufmatch->find( true ) ) {
             require_once 'CRM/Contact/BAO/Contact.php';
             $dao =& CRM_Contact_BAO_Contact::matchContactOnEmail( $uniqId, $ctype );
             if ( $dao ) {
                 //print "Found contact with uniqId $uniqId<br/>";
                 $ufmatch->contact_id     = $dao->contact_id;
-                $ufmatch->domain_id      = $dao->domain_id ;
                 $ufmatch->uf_name        = $uniqId;
             } else {
                 if ( $uf == 'Drupal' ) {
@@ -259,7 +256,6 @@ WHERE     openid = %1";
 
                 $contactId = CRM_Contact_BAO_Contact::createProfileContact( $params, CRM_Core_DAO::$_nullArray );
                 $ufmatch->contact_id     = $contactId;
-                $ufmatch->domain_id      = CRM_Core_Config::domainID( );
             }
 
             $ufmatch->save( );

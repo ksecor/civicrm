@@ -106,7 +106,6 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
         }
         
         $event =& new CRM_Event_DAO_Event( );
-        $event->domain_id = CRM_Core_Config::domainID( );
         $event->id = CRM_Utils_Array::value( 'event_id', $ids );
         
         $event->copyValues( $params );
@@ -298,14 +297,12 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
             return $eventSummary;
         }
         
-        $params = array( 1 => array( CRM_Core_Config::domainID( ), 'Integer' ) );
         $query = "
 SELECT     civicrm_event.id as id, civicrm_event.title as event_title, civicrm_event.is_public as is_public,
            civicrm_event.max_participants as max_participants, civicrm_event.start_date as start_date,
            civicrm_event.end_date as end_date, civicrm_event.is_map as is_map
 FROM       civicrm_event
 WHERE      civicrm_event.is_active = 1  AND
-           civicrm_event.domain_id = %1
 GROUP BY   civicrm_event.id
 ORDER BY   civicrm_event.end_date DESC
 LIMIT      0, 10
@@ -313,7 +310,8 @@ LIMIT      0, 10
 
         $eventParticipant = array( );
 
-        $dao =& CRM_Core_DAO::executeQuery( $query, $params );
+        $dao =& CRM_Core_DAO::executeQuery( $query,
+                                            CRM_Core_DAO::$_nullArray );
         $eventParticipant['participants'] = self::getParticipantCount( );
         $eventParticipant['pending']      = self::getParticipantCount( true );
 
@@ -429,15 +427,13 @@ WHERE civicrm_event.id = civicrm_participant.event_id
   AND civicrm_participant.is_test = 0 
   AND civicrm_participant.status_id IN ( {$status} )
   AND civicrm_event.is_active = 1
-  AND civicrm_event.domain_id = %1
 GROUP BY civicrm_event.id
 ORDER BY civicrm_event.end_date DESC
 LIMIT 0 , 10
 ";
-        $params = array( 1 => array( CRM_Core_Config::domainID( ), 'Integer' ) );
         $participant = array( );
-
-        $daoStatus =& CRM_Core_DAO::executeQuery( $query, $params );
+        $daoStatus =& CRM_Core_DAO::executeQuery( $query,
+                                                  CRM_Core_DAO::$_nullArray );
         while ( $daoStatus->fetch( ) ) {
             $participant[$daoStatus->id] = $daoStatus->participant;
         }
@@ -575,7 +571,6 @@ LEFT JOIN civicrm_option_value ON (
                                     civicrm_event.event_type_id = civicrm_option_value.value AND
                                     civicrm_option_value.option_group_id = %1 )
 WHERE civicrm_event.is_active = 1 
-      AND civicrm_event.domain_id = %2
       AND civicrm_event.is_public = 1 
       AND civicrm_event.start_date >= {$condition}"; 
     
@@ -585,10 +580,7 @@ WHERE civicrm_event.is_active = 1
         $query .=" ORDER BY   civicrm_event.start_date ASC";
 
 
-        $params = array( 1 => array( $optionGroupId, 'Integer' ),
-                         2 => array( CRM_Core_Config::domainID( ),'Integer' )
-                         );
-        
+        $params = array( 1 => array( $optionGroupId, 'Integer' ) );
         $dao =& CRM_Core_DAO::executeQuery( $query, $params );
         $all = array( );
         $config =& CRM_Core_Config::singleton( );
@@ -704,7 +696,7 @@ WHERE civicrm_event.is_active = 1
         $groupTree = CRM_Core_BAO_CustomGroup::getGroupDetail( null, null, $extends );
         if ( $groupTree ) {
             foreach ( $groupTree as $groupID => $group ) {
-                $table[$groupTree[$groupID]['table_name']] = array( 'domain_id', 'entity_id');
+                $table[$groupTree[$groupID]['table_name']] = array( 'entity_id');
                 foreach ( $group['fields'] as $fieldID => $field ) {
                     $table[$groupTree[$groupID]['table_name']][] = $groupTree[$groupID]['fields'][$fieldID]['column_name'];
                 }

@@ -64,12 +64,6 @@ function crm_create_event( $params )
         return _crm_error('Missing require fileds ( title, event type id,start date)');
     }
     
-    if ( !$params['domain_id'] ) {
-        require_once 'CRM/Core/Config.php';
-        $config =& CRM_Core_Config::singleton();
-        $params['domain_id'] = $config->domainID();
-    }
-    
     $error = _crm_check_required_fields( $params, 'CRM_Event_DAO_Event');
     if ( is_a($error, 'CRM_Core_Error')  ) {
         return $error;

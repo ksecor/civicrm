@@ -134,17 +134,6 @@ define( 'CIVICRM_TEMPLATE_COMPILEDIR', '%%templateCompileDir%%' );
 define( 'CIVICRM_UF_BASEURL'      , '%%baseURL%%' );
 
 /**
- * Multi-site Support
- *
- * CiviCRM uses Domain ID keys to allow you to store separate data sets for multiple sites
- * using the same codebase.
- *
- * Refer to the 'Multi-site Support' section of the Installation Guide for more info.
- */
-
-define('CIVICRM_DOMAIN_ID' , 1 );
-
-/**
  * 
  * Do not change anything below this line. Keep as is
  *

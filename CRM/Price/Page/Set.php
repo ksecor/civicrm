@@ -238,11 +238,6 @@ class CRM_Price_Page_Set extends CRM_Core_Page {
         $priceSet = array();
         $dao =& new CRM_Core_DAO_PriceSet();
 
-        // set the domain_id parameter
-        $config =& CRM_Core_Config::singleton( );
-        $dao->domain_id = $config->domainID( );
-
-        //$dao->orderBy('title');
         $dao->find();
 
         while ($dao->fetch()) {

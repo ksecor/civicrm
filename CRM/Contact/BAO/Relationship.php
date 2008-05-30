@@ -1072,7 +1072,6 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
                                                  'Employee of', 'id', 'name_a_b' );
         
         if ( $relTypeId ) {
-            $domainID  = CRM_Core_Config::domainId( );
             $query = "
 SELECT cc.id as id, cc.sort_name as name
 FROM civicrm_relationship cr, civicrm_contact cc
@@ -1082,8 +1081,7 @@ cr.is_permission_a_b = 1 AND
 IF(cr.end_date IS NULL, 1, (DATEDIFF( CURDATE( ), cr.end_date ) <= 0)) AND
 cr.is_active = 1 AND
 cc.id = cr.contact_id_b AND
-cc.sort_name LIKE '%$name%' AND 
-cc.domain_id = {$domainID}";            
+cc.sort_name LIKE '%$name%'";
         
             $nullArray = array( );
             $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );

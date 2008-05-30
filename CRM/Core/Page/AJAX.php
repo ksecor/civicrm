@@ -132,7 +132,6 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
     function search( &$config ) 
     {
         require_once 'CRM/Utils/Type.php';
-        $domainID  = CRM_Utils_Type::escape( $_GET['d'], 'Integer' );
         $name      = CRM_Utils_Array::value( 'name', $_GET, '' );
         $name      = strtolower( CRM_Utils_Type::escape( $name, 'String'  ) ); 
         $whereIdClause = '';
@@ -206,7 +205,6 @@ SELECT CONCAT_WS(':::' , household_name , street_address , supplemental_address_
 SELECT c.sort_name, c.id
 FROM civicrm_contact c, civicrm_relationship_type r
 WHERE c.sort_name LIKE '%$name'
-AND c.domain_id = $domainID
 AND r.id = $relType
 AND c.contact_type = r.contact_type_{$rel} {$whereIdClause} 
 ORDER BY sort_name" ;
@@ -217,7 +215,7 @@ ORDER BY sort_name" ;
 SELECT sort_name, id
 FROM civicrm_contact
 WHERE sort_name LIKE '%$name'
-AND domain_id = $domainID {$whereIdClause} {$whereContactTypeClause}
+{$whereIdClause} {$whereContactTypeClause}
 ORDER BY sort_name ";            
         }
 
@@ -265,7 +263,6 @@ ORDER BY sort_name ";
     function event( &$config ) 
     {
         require_once 'CRM/Utils/Type.php';
-        $domainID = CRM_Utils_Type::escape( $_GET['d'], 'Integer' );
         
         $getRecords = false;
         if ( isset( $_GET['name'] ) && $_GET['name'] ) {
@@ -285,8 +282,7 @@ ORDER BY sort_name ";
             $query = "
 SELECT title, id
 FROM civicrm_event
-WHERE domain_id = $domainID
-   AND {$whereClause}
+WHERE {$whereClause}
 ORDER BY title
 ";
             $nullArray = array( );
@@ -317,7 +313,6 @@ ORDER BY title
     function eventType( &$config ) 
     {
         require_once 'CRM/Utils/Type.php';
-        $domainID = CRM_Utils_Type::escape( $_GET['d'], 'Integer' );
 
         $getRecords = false;
         if ( isset( $_GET['name'] ) && $_GET['name'] ) {
@@ -774,14 +769,12 @@ ORDER BY subject";
     function contact( &$config ) 
     {
         require_once 'CRM/Utils/Type.php';
-        $domainID  = CRM_Core_Config::domainId( );
         $name      = strtolower( CRM_Utils_Type::escape( $_GET['name'], 'String'  ) ); 
 
         $query = "
 SELECT id
 FROM civicrm_contact
-WHERE sort_name LIKE '%$name%'
-AND domain_id = {$domainID} ";            
+WHERE sort_name LIKE '%$name%'";
         
         $nullArray = array( );
         $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );

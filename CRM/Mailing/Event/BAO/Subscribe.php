@@ -52,14 +52,13 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
      * Register a subscription event.  Create a new contact if one does not
      * already exist.
      *
-     * @param int $domain_id        The domain id of the new subscription
      * @param int $group_id         The group id to subscribe to
      * @param string $email         The email address of the (new) contact
      * @return int|null $se_id      The id of the subscription event, null on failure
      * @access public
      * @static
      */
-    public static function &subscribe($domain_id, $group_id, $email) {
+    public static function &subscribe($group_id, $email) {
         // CRM-1797 - allow subscription only to public groups
         $params = array('id' => (int) $group_id);
         $defaults = array();
@@ -183,15 +182,14 @@ SELECT     civicrm_email.id as email_id
      */
     public function send_confirm_request($email) {
         $config =& CRM_Core_Config::singleton();
-        $this->domain_id = CRM_Core_Config::domainID();
 
         require_once 'CRM/Core/BAO/Domain.php';
-        $domain =& CRM_Core_BAO_Domain::getCurrentDomain();
+        $domain =& CRM_Core_BAO_Domain::getDomain();
         
         require_once 'CRM/Utils/Verp.php';
         $confirm = CRM_Utils_Verp::encode( implode( $config->verpSeparator,
                                                     array( 'confirm',
-                                                           $this->domain_id,
+                                                           1,
                                                            $this->contact_id,
                                                            $this->id,
                                                            $this->hash )
@@ -205,7 +203,6 @@ SELECT     civicrm_email.id as email_id
         
         require_once 'CRM/Mailing/BAO/Component.php';
         $component =& new CRM_Mailing_BAO_Component();
-        $component->domain_id = $domain->id;
         $component->is_default = 1;
         $component->is_active = 1;
         $component->component_type = 'Subscribe';
@@ -273,26 +270,7 @@ SELECT     civicrm_email.id as email_id
      * @static
      */
     public static function &getDomain($subscribe_id) {
-        $dao =& new  CRM_Core_Dao();
-
-        $subscribe  = self::getTableName();
-
-        require_once 'CRM/Contact/BAO/Group.php';
-        $group      = CRM_Contact_BAO_Group::getTableName();
-        
-        $dao->query("SELECT     $group.domain_id as domain_id
-                        FROM    $group
-                    INNER JOIN  $subscribe
-                            ON  $subscribe.group_id = $group.id
-                        WHERE   $subscribe.id = " .
-                        CRM_Utils_Type::escape($subscribe_id, 'Integer'));
-        $dao->fetch();
-        if (empty($dao->domain_id)) {
-            return null;
-        }
-
-        require_once 'CRM/Core/BAO/Domain.php';
-        return CRM_Core_BAO_Domain::getDomainById($dao->domain_id);
+        return CRM_Core_BAO_Domain::getDomain( );
     }
 
     /**
@@ -337,11 +315,9 @@ SELECT     civicrm_email.id as email_id
      */
     function commonSubscribe( &$groups, &$params ) 
     {
-        $domainID = CRM_Core_Config::domainID( );
         $success = true;
         foreach ( $groups as $groupID ) {
-            $se = self::subscribe( $domainID,
-                                   $groupID,
+            $se = self::subscribe( $groupID,
                                    $params['email'] );
             if ( $se !== null ) {
                 /* Ask the contact for confirmation */

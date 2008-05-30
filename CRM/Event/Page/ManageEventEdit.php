@@ -140,10 +140,6 @@ class CRM_Event_Page_ManageEventEdit extends CRM_Core_Page {
         $event =  array();
         $dao      =& new CRM_Event_DAO_Event();
 
-        // set the domain_id parameter
-        $config =& CRM_Core_Config::singleton( );
-        $dao->domain_id = $config->domainID( );
-
         $dao->orderBy('title');
         $dao->find();
 

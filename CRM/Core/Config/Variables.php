@@ -384,7 +384,6 @@ class CRM_Core_Config_Variables extends CRM_Core_Config_Defaults
      */
     public $includeAlphabeticalPager = 1;
     public $includeOrderByClause     = 1;
-    public $includeDomainID          = 1;
     public $oldInputStyle            = 1;
 
     /**

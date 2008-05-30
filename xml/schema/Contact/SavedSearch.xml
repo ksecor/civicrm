@@ -18,21 +18,6 @@
        <autoincrement>false</autoincrement>
   </primaryKey>
   <field>
-       <name>domain_id</name>
-       <type>int unsigned</type>
-       <required>true</required>
-       <comment>which organization/domain owns this search</comment>
-       <add>1.1</add>
-       <drop>1.5</drop>
-  </field>
-  <foreignKey>
-       <name>domain_id</name>
-       <table>civicrm_domain</table>
-       <key>id</key>
-       <add>1.1</add>
-       <drop>1.5</drop>
-  </foreignKey>
-  <field>
        <name>query</name>
        <title>SQL Query</title>
        <type>text</type>

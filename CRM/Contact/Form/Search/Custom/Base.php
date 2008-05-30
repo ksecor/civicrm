@@ -76,8 +76,6 @@ class CRM_Contact_Form_Search_Custom_Base {
             " WHERE "                   .
             $this->where( )             ;
 
-        $this->addDomainClause( $where );
-
         if ( $includeContactIDs ) {
             $this->includeContactIDs( $sql,
                                       $this->_formValues );
@@ -97,12 +95,6 @@ class CRM_Contact_Form_Search_Custom_Base {
 
     function &columns( ) {
         return $this->_columns;
-    }
-
-    function addDomainClause( &$sql ) {
-        $sql .=
-            " AND contact_a.domain_id = " .
-            CRM_Core_Config::domainID( );
     }
 
     static function includeContactIDs( &$sql, &$formValues ) {
@@ -136,7 +128,7 @@ class CRM_Contact_Form_Search_Custom_Base {
     }
 
     function validateUserSQL( &$sql, $onlyWhere = false ) {
-        $includeStrings = array( 'contact_a', 'contact_a.domain_id = ' );
+        $includeStrings = array( 'contact_a' );
         $excludeStrings = array( 'insert', 'delete', 'update' );
 
         if ( ! $onlyWhere ) {
@@ -161,7 +153,6 @@ class CRM_Contact_Form_Search_Custom_Base {
     function whereClause( &$where, &$params ) {
         $dao = new CRM_Core_DAO( );
         $where = CRM_Core_DAO::composeQuery( $where, $params, true, $dao );
-        $this->addDomainClause( $where );
         $this->validateUserSQL( $where, true );
 
         return $where;

@@ -61,7 +61,6 @@ class CRM_Admin_Form_DedupeRules extends CRM_Admin_Form
         $this->_contactType = CRM_Utils_Request::retrieve('contact_type', 'String', $this, false, 0);
         if ($this->_rgid) {
             $rgDao            =& new CRM_Dedupe_DAO_RuleGroup();
-            $rgDao->domain_id = CRM_Core_Config::domainID();
             $rgDao->id        = $this->_rgid;
             $rgDao->find(true);
             $this->_defaults['threshold']  = $rgDao->threshold;
@@ -134,7 +133,6 @@ class CRM_Admin_Form_DedupeRules extends CRM_Admin_Form
         if ($this->_action & CRM_Core_Action::UPDATE ) {
             $rgDao->id           = $this->_rgid;
         }
-        $rgDao->domain_id    = CRM_Core_Config::domainID();
         $rgDao->threshold    = $values['threshold'];
         $rgDao->name         = $values['name'];
         $rgDao->level        = $values['level'];

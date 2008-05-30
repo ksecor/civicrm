@@ -97,12 +97,10 @@ class CRM_ACL_Form_ACLBasic extends CRM_Admin_Form
             $query = "
 SELECT object_table
   FROM civicrm_acl
- WHERE domain_id = %1
-   AND entity_id = %2
+ WHERE entity_id = %1
    AND ( object_table NOT IN ( 'civicrm_saved_search', 'civicrm_uf_group', 'civicrm_custom_group' ) )
 ";
-            $params = array( 1 => array( CRM_Core_Config::domainID( ), 'Integer' ),
-                             2 => array( $this->_id                  , 'Integer' ) );
+            $params = array( 1 => array( $this->_id                  , 'Integer' ) );
             $dao    = CRM_Core_DAO::executeQuery( $query, $params );
             $defaults['object_table'] = array( );
             while ( $dao->fetch( ) ) {
@@ -173,12 +171,11 @@ SELECT object_table
             $query = "
 DELETE
   FROM civicrm_acl
- WHERE domain_id = %1
-   AND entity_id = %2
+ WHERE entity_id = %1
    AND ( object_table NOT IN ( 'civicrm_saved_search', 'civicrm_uf_group', 'civicrm_custom_group' ) )
 ";
-            $deleteParams = array( 1 => array( CRM_Core_Config::domainID( ), 'Integer' ),
-                                   2 => array( $this->_id                  , 'Integer' ) );
+            $deleteParams = array( 1 => array( $this->_id                  , 'Integer' ) );
+                                   
             $dao          = CRM_Core_DAO::executeQuery( $query, $deleteParams );
 
             if ( $this->_action & CRM_Core_Action::DELETE ) {

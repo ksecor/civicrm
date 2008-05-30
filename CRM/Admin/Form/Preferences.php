@@ -160,7 +160,6 @@ class CRM_Admin_Form_Preferences extends CRM_Core_Form
      */
     public function postProcess() 
     {
-        $this->_config->domain_id = CRM_Core_Config::domainID( );
         foreach ( $this->_cbs as $name => $title ) {
             if ( CRM_Utils_Array::value( $name, $this->_params ) &&
                  is_array( $this->_params[$name] ) ) {

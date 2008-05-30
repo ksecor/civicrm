@@ -107,7 +107,6 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
         
         // action is taken depending upon the mode
         $membershipType               =& new CRM_Member_DAO_MembershipType( );
-        $membershipType->domain_id    = CRM_Core_Config::domainID( );
         
         $membershipType->copyValues( $params );
         

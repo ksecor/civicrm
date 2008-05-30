@@ -147,7 +147,6 @@ SELECT v.id
 
         $dao->entity_table = 'civicrm_group';
         $dao->entity_id    = $params['acl_group_id'];
-        $dao->domain_id    = CRM_Core_Config::domainID( );
         if ( $op == 'delete' ) {
             $dao->delete( );
             return;
@@ -165,7 +164,6 @@ SELECT v.id
         require_once 'CRM/ACL/DAO/ACL.php';
         $dao = new CRM_ACL_DAO_ACL( );
 
-        $dao->domain_id    = CRM_Core_Config::domainID( );
         $dao->object_table = 'civicrm_saved_search';
         $dao->object_id    = $params['civicrm_group_id'];
 

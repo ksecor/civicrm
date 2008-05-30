@@ -626,11 +626,9 @@ LIKE %1
         $query = "
 SELECT version
 FROM   civicrm_domain
-WHERE  id = %1
 ";
-        $params = array( 1 => array( CRM_Core_Config::domainID( ),
-                                     'Integer' ) );
-        $dbVersion = CRM_Core_DAO::singleValueQuery( $query, $params );
+        $dbVersion = CRM_Core_DAO::singleValueQuery( $query,
+                                                     CRM_Core_DAO::$_nullArray );
         return trim( $version ) == trim( $dbVersion ) ? true : false;
     }
     

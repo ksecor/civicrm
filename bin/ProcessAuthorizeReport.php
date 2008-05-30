@@ -140,16 +140,13 @@ class CRM_ProcessAuthorizeReport {
 
     var $_debug = false;
 
-    function CRM_ProcessAuthorizeReport( $domainID ) {
+    function CRM_ProcessAuthorizeReport( ) {
         _crm_initialize( );
 
         $config =& CRM_Core_Config::singleton( );
         $config->userFramework          = 'Soap';
         $config->userFrameworkClass     = 'CRM_Utils_System_Soap';
         $config->userHookClass          = 'CRM_Utils_Hook_Soap';
-
-        $GLOBALS['_CRM_CORE_CONFIG']['_domainID'] = $domainID;
-        $this->_addToSummary('Domain ID:'. $domainID);
 
         if ( !function_exists( 'imap_headers' ) ) {
             die('PHP IMAP extension required to use this script');
@@ -506,7 +503,6 @@ class CRM_ProcessAuthorizeReport {
             $contributionStatus   = $row[10];
 
             $recur =& new CRM_Contribute_DAO_ContributionRecur( );
-            $recur->domain_id = CRM_Core_Config::domainID();
             
             $first_contribution =& new CRM_Contribute_DAO_Contribution( );
             
@@ -637,7 +633,6 @@ class CRM_ProcessAuthorizeReport {
             else {
                 // create a contribution and then get it processed
                 $contribution =& new CRM_Contribute_DAO_Contribution( );
-                $contribution->domain_id = CRM_Core_Config::domainID( );
 
                 // make sure that the transaction doesn't already exist
                 $contribution->trxn_id = $transactionId;

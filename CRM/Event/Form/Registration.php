@@ -543,14 +543,12 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
         
-        $domainID = CRM_Core_Config::domainID( );
         $groupName = "participant_role";
         $query = "
 SELECT  v.label as label ,v.value as value
 FROM   civicrm_option_value v, 
        civicrm_option_group g 
 WHERE  v.option_group_id = g.id 
-  AND  g.domain_id       = $domainID 
   AND  g.name            = %1 
   AND  v.is_active       = 1  
   AND  g.is_active       = 1  

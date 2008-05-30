@@ -74,10 +74,8 @@ class CRM_Mailing_BAO_Spool extends CRM_Mailing_DAO_Spool {
         $headerStr = implode("\n", $headerStr);
         
         $session =& CRM_Core_Session::singleton();
-        $domain_id = $session->get('domainID');
         
         $params = array(
-                        'domain_id'       => $domain_id,
                         'job_id'          => $job_id,
                         'recipient_email' => $recipient,
                         'headers'         => $headerStr,

@@ -925,7 +925,6 @@ SELECT id
                 // first create an option group for this custom group
                 require_once 'CRM/Core/BAO/OptionGroup.php';
                 $optionGroup            =& new CRM_Core_DAO_OptionGroup( );
-                $optionGroup->domain_id =  CRM_Core_Config::domainID( );
                 $optionGroup->name      =  "{$customField->column_name}_". date( 'YmdHis' );
                 $optionGroup->label     =  $customField->label;
                 $optionGroup->is_active = 1;

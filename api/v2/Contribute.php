@@ -311,12 +311,6 @@ function _civicrm_contribute_format_params( &$params, &$values, $create=false ) 
    
     $fields =& CRM_Contribute_DAO_Contribution::fields( );
 
-    static $domainID = null;
-    if (!$domainID) {
-        $config =& CRM_Core_Config::singleton();
-        $domainID = $config->domainID();
-    }
-    
     _civicrm_store_values( $fields, $params, $values );
 
     foreach ($params as $key => $value) {
@@ -333,7 +327,8 @@ function _civicrm_contribute_format_params( &$params, &$values, $create=false ) 
             }
             $dao =& new CRM_Core_DAO();
             $qParams = array();
-            $svq = $dao->singleValueQuery("SELECT id FROM civicrm_contact WHERE domain_id = $domainID AND id = $value",$qParams);
+            $svq = $dao->singleValueQuery("SELECT id FROM civicrm_contact WHERE id = $value",
+                                          $qParams);
             if (!$svq) {
                 return civicrm_create_error("Invalid Contact ID: There is no contact record with contact_id = $value.");
             }

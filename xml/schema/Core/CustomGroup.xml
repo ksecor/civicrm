@@ -18,19 +18,6 @@
        <autoincrement>true</autoincrement>
   </primaryKey>
   <field>
-      <name>domain_id</name>
-      <type>int unsigned</type>
-      <required>true</required>
-      <comment>Which Domain owns this contact</comment>
-       <add>1.1</add>
-  </field>
-  <foreignKey>
-       <name>domain_id</name>
-       <table>civicrm_domain</table>
-       <key>id</key>
-       <add>1.1</add>
-  </foreignKey>
-  <field>
      <name>name</name>
      <type>varchar</type>
      <length>64</length>
@@ -137,20 +124,18 @@
        <add>2.0</add>
   </field>
   <index>
-    <name>UI_title_extends_domain_id</name>
+    <name>UI_title_extends</name>
     <fieldName>title</fieldName>
     <fieldName>extends</fieldName>
-    <fieldName>domain_id</fieldName>
     <unique>true</unique>
-    <add>1.1</add>
+    <add>2.1</add>
   </index>
   <index>
-    <name>UI_name_extends_domain_id</name>
+    <name>UI_name_extends</name>
     <fieldName>name</fieldName>
     <fieldName>extends</fieldName>
-    <fieldName>domain_id</fieldName>
     <unique>true</unique>
-    <add>1.1</add>
+    <add>2.1</add>
   </index>
 </table>
 

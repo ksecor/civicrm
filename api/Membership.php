@@ -64,12 +64,6 @@ function crm_create_membership_type($params)
         return _crm_error('Missing require fileds ( name, duration unit,duration interval)');
     }
     
-    if ( !$params['domain_id'] ) {
-        require_once 'CRM/Core/Config.php';
-        $config =& CRM_Core_Config::singleton();
-        $params['domain_id'] = $config->domainID();
-    }
-    
     $error = _crm_check_required_fields( $params, 'CRM_Member_DAO_MembershipType');
     if ( is_a($error, 'CRM_Core_Error')  ) {
         return $error;
@@ -212,12 +206,6 @@ function crm_create_membership_status($params)
     
     if (! $params["name"] ) {
         return _crm_error('Missing require fileds');
-    }
-    
-    if ( !$params['domain_id'] ) {
-        require_once 'CRM/Core/Config.php';
-        $config =& CRM_Core_Config::singleton();
-        $params['domain_id'] = $config->domainID();
     }
     
     require_once 'CRM/Member/BAO/MembershipStatus.php';

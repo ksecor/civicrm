@@ -323,7 +323,6 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         if ($newGroupName) {
             /* Create a new group */
             $gParams = array(
-                             'domain_id'     => CRM_Core_Config::domainID(),
                              'name'          => $newGroupName,
                              'title'         => $newGroupName,
                              'description'   => $newGroupDesc,
@@ -364,7 +363,6 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         if ($newTagName) {
             /* Create a new Tag */
             $tagParams = array(
-                               'domain_id'     => CRM_Core_Config::domainID(),
                                'name'          => $newTagName,
                                'title'         => $newTagName,
                                'description'   => $newTagDesc,

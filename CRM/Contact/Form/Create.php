@@ -51,7 +51,6 @@ class CRM_Contact_Form_Create extends CRM_Core_Form
                                         dojo.require('dijit.Dialog');
                                         dojo.require('dijit.form.TextBox'); dojo.require('dojo.parser');" );
         
-        $domainID             =  CRM_Core_Config::domainID( );   
         $orgAttributes        = array( 'dojoType'     => 'civicrm.FilteringSelect',
                                        'store'        => 'organizationStore',
                                        'style'        => 'width:300px; border: 1px solid #cfcfcf;',
@@ -61,8 +60,8 @@ class CRM_Contact_Form_Create extends CRM_Core_Form
                                        );
         
         $orgDataURL =  CRM_Utils_System::url( 'civicrm/ajax/search',
-                                                  "d={$domainID}&org=1",
-                                                  true, null, false );
+                                              "org=1",
+                                              true, null, false );
         
         $this->assign('orgDataURL',$orgDataURL );
         $this->addElement('text', 'select_contact', ts('Select Existing Organization'),$orgAttributes );

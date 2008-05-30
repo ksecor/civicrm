@@ -100,7 +100,7 @@ function crm_get_tag($params)
         return _crm_error('Required parameters missing.');
     }
     
-    $properties = array('id', 'domain_id', 'name', 'description', 'parent_id');
+    $properties = array('id', 'name', 'description', 'parent_id');
     foreach ( $properties as $name) {
         if (array_key_exists($name, $params)) {
             $tagBAO->$name = $params[$name];
