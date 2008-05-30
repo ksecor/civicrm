@@ -147,7 +147,7 @@
 	document.getElementById('household_address').innerHTML = '';	
 	return; 
     }
-    var dataUrl = {/literal}"{crmURL p='civicrm/ajax/search' h=0 q='d=1&sh=1&id='}"{literal} + hhId;
+    var dataUrl = {/literal}"{crmURL p='civicrm/ajax/search' h=0 q='sh=1&id='}"{literal} + hhId;
 
     dojo.xhrGet( { 
 		url: dataUrl, 
