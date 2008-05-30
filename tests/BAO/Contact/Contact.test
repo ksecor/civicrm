@@ -73,49 +73,12 @@ class BAO_Contact_Contact extends CiviTestCase
      */
     function testAddWithAll( )
     {
-        $params    =  array( 'contact_type'          => 'Individual',
-                             'first_name'            => 'Shane',
-                             'middle_name'           => 'xyz',
-                             'last_name'             => 'Whatson',
-                             'prefix_id'             => 3,
-                             'suffix_id'             => 2,
-                             'nick_name'             => 'Nick Name',
-                             'job_title'             => 'software engg',
-                             'gender_id'             => 2,
-                             'is_deceased'           => 1,
-                             'home_URL'              => 'http://civicrm.org',
-                             'contact_source'        => 'test contact',
-                             'external_identifier'   => 123456789,
-                             'preferred_mail_format' => 'Both',
-                             'greeting_type'         => 'Informal',
-                             'custom_greeting'       => 'Custom Greeting',
-                             'is_opt_out'            => 1,
-                             'deceased_date'                  => array (
-                                                                        'M'            => 7,
-                                                                        'd'            => 7,
-                                                                        'Y'            => 1991,
-                                                                        ),
-                             'birth_date'                     => array (
-                                                                        'M'            => 6,
-                                                                        'd'            => 6,
-                                                                        'Y'            => 1961,
-                                                                        ),
-                             'privacy'                        => array (
-                                                                        'do_not_phone' => 1,
-                                                                        'do_not_email' => 1,
-                                                                        'do_not_mail'  => 1,
-                                                                        'do_not_trade' => 1,
-                                                                        ),
-                             'preferred_communication_method' => array ( 
-                                                                        '1'            => 1,
-                                                                        '2'            => 0,
-                                                                        '3'            => 1,
-                                                                        '4'            => 0,
-                                                                        '5'            => 1,
-                                                                        ),
-                             );
+        //take the common contact params
+        $params = $this->contactAllParams( );
+        unset( $params['location'] ); 
         $prefComm = $params['preferred_communication_method'];
         require_once 'CRM/Contact/BAO/Contact.php';
+        
         //create the contact using add()
         $contact = CRM_Contact_BAO_Contact::add( $params );
         $contactId = $contact->id;
@@ -204,6 +167,7 @@ class BAO_Contact_Contact extends CiviTestCase
                                                                               '5'            => 0,
                                                                               ),
                                    );
+        
         $prefComm = $updateParams['preferred_communication_method'];
         $updateParams['contact_id'] = $contactId;
         require_once 'CRM/Contact/BAO/Contact.php';
@@ -348,47 +312,10 @@ class BAO_Contact_Contact extends CiviTestCase
     
     function testCreateWithAll( )
     {
-        $params = array(
-                        'first_name'   => 'Bill',
-                        'last_name'    => 'Adams',
-                        'contact_type' => 'Individual',
-                        'note'         => 'test note',
-                        );
-        $params['location'][1] = array ( 'location_type_id'                               => 1,
-                                         'is_primary'                                     => 1,
-                                         'address' =>  array ( 
-                                                              'street_address'            => 'Saint Helier St',
-                                                              'supplemental_address_1'    => 'Hallmark Ct',
-                                                              'supplemental_address_2'    => 'Jersey Village',
-                                                              'city'                      => 'Newark',
-                                                              'postal_code'               => '01903',
-                                                              'country_id'                => 1228,
-                                                              'state_province_id'         => 1029,
-                                                              'geo_code_1'                => '18.219023',
-                                                              'geo_code_2'                => '-105.00973',
-                                                              ),
-                                         'email'   => array ( 
-                                                             '1' => array ( 'email'       => 'john.smith@example.org' ), 
-                                                             ),
-                                         'phone'   => array (
-                                                             '1' => array (
-                                                                           'phone_type'   => 'Phone',
-                                                                           'phone'        => '303443689',
-                                                                           ),
-                                                             '2' => array (
-                                                                           'phone_type'   => 'Mobile',
-                                                                           'phone'        => '9833910234',
-                                                                           ),
-                                                             ),
-                                         'openid'  => array (
-                                                             '1' => array ( 'openid'      => 'http://civicrm.org' ),
-                                                             ),
-                                         'im'      => array (
-                                                             '1' => array ( 'name'        => 'bill.adams',
-                                                                            'provider_id' => 1
-                                                                            ),
-                                                             ),
-                                         );
+        //take the common contact params
+        $params = $this->contactAllParams( );
+        $params['note'] = 'test note';
+        
         require_once 'CRM/Contact/BAO/Contact.php';
         //create the contact with given params.
         $contact = CRM_Contact_BAO_Contact::create( $params );
@@ -406,38 +333,41 @@ class BAO_Contact_Contact extends CiviTestCase
         $searchParams  = array( 'contact_id'             => $contactId, 
                                 'location_type_id'       => 1, 
                                 'is_primary'             => 1 );
-        $compareParams = array( 'street_address'         => 'Saint Helier St',
-                                'supplemental_address_1' => 'Hallmark Ct',
-                                'supplemental_address_2' => 'Jersey Village',
-                                'city'                   => 'Newark',
-                                'postal_code'            => '01903',
-                                'country_id'             => 1228,
-                                'state_province_id'      => 1029,
-                                'geo_code_1'             => '18.219023',
-                                'geo_code_2'             => '-105.00973' );
+        $compareParams = array( 'street_address'         => CRM_Utils_Array::value( 'street_address', $params['location'][1]['address']),
+                                'supplemental_address_1' => CRM_Utils_Array::value( 'supplemental_address_1', 
+                                                                                    $params['location'][1]['address'] ),
+                                'supplemental_address_2' => CRM_Utils_Array::value( 'supplemental_address_2', 
+                                                                                    $params['location'][1]['address'] ),
+                                'city'                   => CRM_Utils_Array::value( 'city', $params['location'][1]['address'] ),
+                                'postal_code'            => CRM_Utils_Array::value( 'postal_code', $params['location'][1]['address'] ),
+                                'country_id'             => CRM_Utils_Array::value( 'country_id', $params['location'][1]['address'] ),
+                                'state_province_id'      => CRM_Utils_Array::value( 'state_province_id', 
+                                                                                    $params['location'][1]['address'] ),
+                                'geo_code_1'             => CRM_Utils_Array::value( 'geo_code_1', $params['location'][1]['address'] ),
+                                'geo_code_2'             => CRM_Utils_Array::value( 'geo_code_2', $params['location'][1]['address']) );
         $this->assertDBCompareValues( 'CRM_Core_DAO_Address', $searchParams, $compareParams );
         //Now check DB for Email
-        $compareParams = array( 'email'                  => 'john.smith@example.org' );
+        $compareParams = array( 'email'                  => CRM_Utils_Array::value( 'email', $params['location'][1]['email'][1] ) );
         $this->assertDBCompareValues('CRM_Core_DAO_Email', $searchParams, $compareParams );
         //Now check DB for openid
-        $compareParams = array ( 'openid'                => 'http://civicrm.org' );
+        $compareParams = array ( 'openid'                => CRM_Utils_Array::value( 'openid', $params['location'][1]['openid'][1] ) );
         $this->assertDBCompareValues('CRM_Core_DAO_OpenID', $searchParams, $compareParams );
         //Now check DB for IM
-        $compareParams = array( 'name'                   => 'bill.adams',
-                                'provider_id'            => 1 );
+        $compareParams = array( 'name'                   => CRM_Utils_Array::value( 'name', $params['location'][1]['im'][1] ),
+                                'provider_id'            => CRM_Utils_Array::value( 'provider_id', $params['location'][1]['im'][1] ) );
         $this->assertDBCompareValues('CRM_Core_DAO_IM', $searchParams, $compareParams );
         //Now check DB for Phone
         $searchParams = array( 'contact_id'              => $contactId, 
                                'location_type_id'        => 1, 
                                'is_primary'              => 1,
-                               'phone_type'              => 'Phone' );
-        $compareParams = array( 'phone'                  => '303443689' );
+                               'phone_type'              => CRM_Utils_Array::value( 'phone_type', $params['location'][1]['phone'][1] ) );
+        $compareParams = array( 'phone'                  => CRM_Utils_Array::value( 'phone', $params['location'][1]['phone'][1] ) );
         $this->assertDBCompareValues('CRM_Core_DAO_Phone', $searchParams, $compareParams );
         //Now check DB for Mobile
         $searchParams = array( 'contact_id'              => $contactId, 
                                'location_type_id'        => 1, 
-                               'phone_type'              => 'Mobile' );
-        $compareParams = array( 'phone'                  => '9833910234' );
+                               'phone_type'              => CRM_Utils_Array::value( 'phone_type', $params['location'][1]['phone'][2] ) );
+        $compareParams = array( 'phone'                  => CRM_Utils_Array::value( 'phone', $params['location'][1]['phone'][2] ) );
         $this->assertDBCompareValues('CRM_Core_DAO_Phone', $searchParams, $compareParams );
         //Now check DB for Note
         $searchParams  = array( 'entity_id'    => $contactId,
@@ -592,52 +522,14 @@ class BAO_Contact_Contact extends CiviTestCase
     
     function testRetrieve( )
     {
-        $params = array(
-                        'first_name'      => 'Bill',
-                        'last_name'       => 'Adams',
-                        'contact_type'    => 'Individual',
-                        'note'            => 'test note',
-                        'create_employer' => 'Yahoo',
-                        'group'           => array( 
-                                                   '1' => 1,
-                                                   '2' => 1,
-                                                   ),
-                        );
-        $params['location'][1] = array ( 'location_type_id'                               => 1,
-                                         'is_primary'                                     => 1,
-                                         'address' =>  array ( 
-                                                              'street_address'            => 'Saint Helier St',
-                                                              'supplemental_address_1'    => 'Hallmark Ct',
-                                                              'supplemental_address_2'    => 'Jersey Village',
-                                                              'city'                      => 'Newark',
-                                                              'postal_code'               => '01903',
-                                                              'country_id'                => 1228,
-                                                              'state_province_id'         => 1029,
-                                                              'geo_code_1'                => '18.219023',
-                                                              'geo_code_2'                => '-105.00973',
-                                                              ),
-                                         'email'   => array ( 
-                                                             '1' => array ( 'email'       => 'john.smith@example.org' ), 
-                                                             ),
-                                         'phone'   => array (
-                                                             '1' => array (
-                                                                           'phone_type'   => 'Phone',
-                                                                           'phone'        => '303443689',
-                                                                           ),
-                                                             '2' => array (
-                                                                           'phone_type'   => 'Mobile',
-                                                                           'phone'        => '9833910234',
-                                                                           ),
-                                                             ),
-                                         'openid'  => array (
-                                                             '1' => array ( 'openid'      => 'http://civicrm.org' ),
-                                                             ),
-                                         'im'      => array (
-                                                             '1' => array ( 'name'        => 'bill.adams',
-                                                                            'provider_id' => 1
-                                                                            ),
-                                                             ),
-                                         );
+        //take the common contact params
+        $params = $this->contactAllParams( );
+        $params['note']            = 'test note';
+        $params['create_employer'] = 'Yahoo';
+        $params['group']           = array( 
+                                           '1' => 1,
+                                           '2' => 1,
+                                           );
         
         require_once 'CRM/Contact/BAO/Contact.php';
         //create the contact with given params.
@@ -707,7 +599,9 @@ class BAO_Contact_Contact extends CiviTestCase
             //Now check values of Relationship organization.
             $this->assertEqual( $params['create_employer'], $val['name'], 'Check for organization' );  
             //Now check values of Relationship type.
-            $this->assertEqual( 'Employee of', $val['relation'], 'Check for relationship type' );  
+            $this->assertEqual( 'Employee of', $val['relation'], 'Check for relationship type' );
+            //delete the organization.
+            Contact::delete( CRM_Utils_Array::value( 'cid', $val ) );
         }
         
         //Now check values of group Count.
@@ -740,6 +634,93 @@ class BAO_Contact_Contact extends CiviTestCase
         
         Contact::delete($contactId);
     }
+    
+    /**
+     * function to build common params
+     *
+     */
+    private function contactAllParams( ) {
+        $params = array(
+                        'first_name'            => 'john',
+                        'last_name'             => 'smith',
+                        'contact_type'          => 'Individual',
+                        'contact_type'          => 'Individual',
+                        'middle_name'           => 'xyz',
+                        'prefix_id'             => 3,
+                        'suffix_id'             => 2,
+                        'nick_name'             => 'Nick Name',
+                        'job_title'             => 'software engg',
+                        'gender_id'             => 2,
+                        'is_deceased'           => 1,
+                        'home_URL'              => 'http://civicrm.org',
+                        'contact_source'        => 'test contact',
+                        'external_identifier'   => 123456789,
+                        'preferred_mail_format' => 'Both',
+                        'greeting_type'         => 'Informal',
+                        'custom_greeting'       => 'Custom Greeting',
+                        'is_opt_out'            => 1,
+                        'deceased_date'                  => array (
+                                                                   'M'            => 7,
+                                                                   'd'            => 7,
+                                                                   'Y'            => 1991,
+                                                                   ),
+                        'birth_date'                     => array (
+                                                                   'M'            => 6,
+                                                                   'd'            => 6,
+                                                                   'Y'            => 1961,
+                                                                   ),
+                        'privacy'                        => array (
+                                                                   'do_not_phone' => 1,
+                                                                   'do_not_email' => 1,
+                                                                   'do_not_mail'  => 1,
+                                                                   'do_not_trade' => 1,
+                                                                   ),
+                        'preferred_communication_method' => array ( 
+                                                                   '1'            => 1,
+                                                                   '2'            => 0,
+                                                                   '3'            => 1,
+                                                                   '4'            => 0,
+                                                                   '5'            => 1,
+                                                                   ),
+                        );
+        $params['location'][1] = array ( 'location_type_id'                               => 1,
+                                         'is_primary'                                     => 1,
+                                         'address' =>  array ( 
+                                                              'street_address'            => 'Saint Helier St',
+                                                              'supplemental_address_1'    => 'Hallmark Ct',
+                                                              'supplemental_address_2'    => 'Jersey Village',
+                                                              'city'                      => 'Newark',
+                                                              'postal_code'               => '01903',
+                                                              'country_id'                => 1228,
+                                                              'state_province_id'         => 1029,
+                                                              'geo_code_1'                => '18.219023',
+                                                              'geo_code_2'                => '-105.00973',
+                                                              ),
+                                         'email'   => array ( 
+                                                             '1' => array ( 'email'       => 'john.smith@example.org' ), 
+                                                             ),
+                                         'phone'   => array (
+                                                             '1' => array (
+                                                                           'phone_type'   => 'Phone',
+                                                                           'phone'        => '303443689',
+                                                                           ),
+                                                             '2' => array (
+                                                                           'phone_type'   => 'Mobile',
+                                                                           'phone'        => '9833910234',
+                                                                           ),
+                                                             ),
+                                         'openid'  => array (
+                                                             '1' => array ( 'openid'      => 'http://civicrm.org' ),
+                                                             ),
+                                         'im'      => array (
+                                                             '1' => array ( 'name'        => 'john.smith',
+                                                                            'provider_id' => 1
+                                                                            ),
+                                                             ),
+                                         );
+        return $params;
+    }
+    
 }
 
 ?>
