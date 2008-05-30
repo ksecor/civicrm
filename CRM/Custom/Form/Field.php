@@ -221,6 +221,8 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
             $defaults['date_parts']   = array('d' => 1,'M' => 1,'Y' => 1); 
             $defaults['note_columns'] = 60;
             $defaults['note_rows']    = 4;
+
+            $defaults['is_code'] = 0;
         }
         
         return $defaults;
@@ -386,6 +388,9 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
 
         // is active ?
         $this->add('checkbox', 'is_active', ts('Active?'));
+
+        // is active ?
+        $this->add('checkbox', 'is_code', ts('PHP Code field?'));
 
         // is searchable ?
         $this->addElement('checkbox', 'is_searchable', ts('Is this Field Searchable?'), null, array('onclick' =>"showSearchRange(this)"));
@@ -736,12 +741,21 @@ AND    option_group_id = %2";
         
         //checks the given custom field name doesnot start with digit
         $title = $fields['label']; 
-        
         if ( ! empty( $title ) ) {
             $asciiValue = ord($title{0});//gives the ascii value
             if($asciiValue>=48 && $asciiValue<=57) {
                 $errors['label'] = ts("Field's Name should not start with digit");
             } 
+        }
+
+        // check that the function to evaluate the code field does exist
+        if ( isset( $fields['is_code'] ) &&
+             $fields['is_code'] ) {
+            $fnName = "civicrm_custom_group_code_{$self->_gid}";
+            if ( ! function_exists( $fnName ) ) {
+                $errors['is_code'] = ts( "A function '%1' does not exist to evaluate this code field",
+                                         array( 1 => $fnName ) );
+            }
         }
 
         return empty($errors) ? true : $errors;
@@ -855,10 +869,11 @@ SELECT id
 
         $customField->help_post        = $params['help_post'];
         $customField->mask             = $params['mask'];
-        $customField->is_required      = CRM_Utils_Array::value( 'is_required', $params, false );
-        $customField->is_searchable    = CRM_Utils_Array::value( 'is_searchable', $params, false );
+        $customField->is_required      = CRM_Utils_Array::value( 'is_required'    , $params, false );
+        $customField->is_searchable    = CRM_Utils_Array::value( 'is_searchable'  , $params, false );
         $customField->is_search_range  = CRM_Utils_Array::value( 'is_search_range', $params, false );
-        $customField->is_active        = CRM_Utils_Array::value( 'is_active', $params, false );
+        $customField->is_active        = CRM_Utils_Array::value( 'is_active'      , $params, false );
+        $customField->is_code          = CRM_Utils_Array::value( 'is_code'        , $params, false );
         $customField->options_per_line = $params['options_per_line'];
         $customField->start_date_years = $params['start_date_years'];
         $customField->end_date_years   = $params['end_date_years'];

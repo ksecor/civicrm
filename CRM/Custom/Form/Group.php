@@ -85,9 +85,9 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
      * @access public
      * @static
      */
-    static function formRule(&$fields, &$files, $options) {
+    static function formRule(&$fields, &$files, $self) {
         $errors = array();
-        // DRAFTING: Verify if we cannot make it pluggable
+
         $extends = array('Activity','Relationship','Group','Contribution','Membership', 'Event','Participant');
         if(in_array($fields['extends'][0],$extends) && $fields['style'] == 'Tab' ) {
             $errors['style'] = 'Display Style should be Inline for this Class';
@@ -101,30 +101,22 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
                 $errors['title'] = ts("Group's Name should not start with digit");
             } 
         }
-        //Fixes for CRM-2676
-        $customGroup = new CRM_Core_DAO_CustomGroup( );
-        $customGroup->extends         = $fields['extends'][0];
-        $customGroup->title           = $fields['title'];
-        
-        $dupeTitle = false;
-        if ( $customGroup->find( true ) ) {
-            $dupeTitle = true;
-        }
-        
-        if ( isset( $options->_id ) ) {
-            $title = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup',
-                                                  $options->_id, 'title' );
-            
-            if (  $customGroup->id == $options->_id && $customGroup->custom_group_id == $options->_gid ) {
-                $dupeTitle = ($title == $fields['title']) ? false : true;
-            } else if ( !$dupeTitle ) {
-                $dupeTitle = ($title == $fields['title']) ? true : false;
+
+        if ( ! empty( $fields['class_name'] ) ) {
+            require_once( str_replace( '_', DIRECTORY_SEPARATOR, $fields['class_name'] ) . '.php' );
+            $interfaces = class_implements( $fields['class_name'] );
+            $found = false;
+            foreach ( $interfaces as $interface ) {
+                if ( $interface == 'CRM_Custom_Interface' ) {
+                    $found = true;
+                    break;
+                }
+            }
+            if ( ! $found ) {
+                $errors['class_name'] = ts( 'Class file does not seem to implement the custom data Interface (CRM_Custom_Interface)' );
             }
         }
-        
-        if ( $dupeTitle ) {
-            $errors['title'] = ts('Name already exists in Database.');
-        }
+
         return empty($errors) ? true : $errors;
     }
     
@@ -156,9 +148,11 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
     public function buildQuickForm()
     {
         $this->applyFilter('__ALL__', 'trim');
+        
+        $attributes = CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_CustomGroup' );
 
         // title
-        $this->add('text', 'title', ts('Group Name'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'title'), true);
+        $this->add('text', 'title', ts('Group Name'), $attributes['title'], true);
             
         require_once "CRM/Contribute/PseudoConstant.php";
         require_once "CRM/Member/BAO/MembershipType.php";
@@ -215,12 +209,14 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         }
         
         // help text
-        $this->addWysiwyg( 'help_pre', ts('Pre-form Help'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'help_pre'));
-        $this->addWysiwyg( 'help_post', ts('Post-form Help'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'help_post'));
+        $this->addWysiwyg( 'help_pre', ts('Pre-form Help'), $attributes['help_pre']);
+        $this->addWysiwyg( 'help_post', ts('Post-form Help'), $attributes['help_post']);
 
         // weight
-        $this->add('text', 'weight', ts('Order'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'weight'), true);
+        $this->add('text', 'weight', ts('Order'), $attributes['weight'], true);
         $this->addRule('weight', ts('is a numeric field') , 'numeric');
+
+        $this->add('text', 'class_name'   , ts('Class Name'   ), $attributes['class_name'] );
 
         // display style
         $this->add('select', 'style', ts('Display Style'), CRM_Core_SelectValues::customGroupStyle());
@@ -231,7 +227,6 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         // is this group active ?
         $this->addElement('checkbox', 'is_active', ts('Is this Custom Data Group active?') );
 
-        // $this->addFormRule(array('CRM_Custom_Form_Group', 'formRule'));
         $this->addButtons(array(
                                 array ( 'type'      => 'next',
                                         'name'      => ts('Save'),
@@ -328,6 +323,7 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         $group->help_pre         = $params['help_pre'];
         $group->help_post        = $params['help_post'];
         $group->is_active        = CRM_Utils_Array::value('is_active'      , $params, false);
+        $group->class_name       = trim( $params['class_name'] );
         $group->domain_id        = CRM_Core_Config::domainID( );
 
         $tableName = null;

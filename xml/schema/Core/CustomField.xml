@@ -129,6 +129,12 @@
        <add>1.1</add>
   </field>
   <field>
+       <name>is_code</name>
+       <type>boolean</type>
+       <comment>Is this property set by PHP Code? A code field is viewable but not editable</comment>
+       <add>1.1</add>
+  </field>
+  <field>
        <name>options_per_line</name>
        <type>int unsigned</type>
        <comment>number of options per line for checkbox and radio</comment>

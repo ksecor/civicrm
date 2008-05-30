@@ -22,13 +22,17 @@
     <dl>
     <dt>&nbsp;</dt><dd>{$form.collapse_display.html} {$form.collapse_display.label}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Check this box if you want only the title for this fieldset to be displayed when the page is initially loaded (fields are hidden).{/ts}</dd>
+    <dt>&nbsp;</dt><dd>{$form.is_active.html} {$form.is_active.label}</dd>
     <dt>{$form.help_pre.label}</dt><dd class="editor">{$form.help_pre.html}</dd>
+   </dl>
+<dl class="spacer">
     <dt>&nbsp;</dt><dd class="description">{ts}Explanatory text displayed at the beginning of this group of fields.{/ts}</dd>
     <dt>{$form.help_post.label}</dt><dd class="editor">{$form.help_post.html} </dd>
 </dl>
 <dl class="spacer">
     <dt>&nbsp;</dt><dd class="description">{ts}Explanatory text displayed below this group of fields.{/ts}</dd>
-    <dt></dt><dd>{$form.is_active.html} {$form.is_active.label}</dd>
+    <dt>{$form.class_name.label}</dt><dd> {$form.class_name.html}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}Class file that implements the custom data interface.{/ts}</dd>
     {if $action ne 4}
         <dt></dt>
         <dd>

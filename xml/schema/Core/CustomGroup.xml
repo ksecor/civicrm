@@ -117,6 +117,13 @@
        <add>1.1</add>
   </field>
   <field>
+       <name>class_name</name>
+       <type>varchar</type>
+       <length>255</length>
+       <comment>Name of the class that implements the custom data interface.</comment>
+       <add>2.1</add>
+  </field>
+  <field>
      <name>table_name</name>
      <type>varchar</type>
      <length>255</length>

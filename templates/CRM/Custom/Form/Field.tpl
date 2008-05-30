@@ -175,6 +175,9 @@
         <dl>
         <dt>{$form.is_active.label}</dt><dd>&nbsp;{$form.is_active.html}</dd>
         </dl>    
+        <dl>
+        <dt>{$form.is_code.label}</dt><dd>&nbsp;{$form.is_code.html}</dd>
+        </dl>    
    </div>
     
     <div id="crm-submit-buttons" class="form-item">
