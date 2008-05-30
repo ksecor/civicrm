@@ -303,12 +303,14 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         }
       
         // set the default for 'use_household_address' checkbox and Select-Household.
-        $sharedHousehold = $this->getElementValue( "shared_household" );
-        if ( $sharedHousehold ) {
-            $this->assign('defaultSharedHousehold', $sharedHousehold );
-        } elseif ( CRM_Utils_Array::value('mail_to_household_id', $defaults) ) {
-            $defaults['use_household_address'] = true;
-            $this->assign('defaultSharedHousehold', $defaults['mail_to_household_id'] );
+        if ( isset( $this->_elementIndex[ "shared_household" ] ) ) {
+            $sharedHousehold = $this->getElementValue( "shared_household" );
+            if ( $sharedHousehold ) {
+                $this->assign('defaultSharedHousehold', $sharedHousehold );
+            } elseif ( CRM_Utils_Array::value('mail_to_household_id', $defaults) ) {
+                $defaults['use_household_address'] = true;
+                $this->assign('defaultSharedHousehold', $defaults['mail_to_household_id'] );
+            }
         }
 
         //check primary for first location
