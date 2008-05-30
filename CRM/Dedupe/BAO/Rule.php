@@ -162,7 +162,6 @@ class CRM_Dedupe_BAO_Rule extends CRM_Dedupe_DAO_Rule
     {
         require_once 'CRM/Dedupe/BAO/RuleGroup.php';
         $rgBao =& new CRM_Dedupe_BAO_RuleGroup();
-        $rgBao->domain_id = CRM_Core_Config::DomainID();
         $rgBao->level = $params['level'];
         $rgBao->contact_type = $params['contact_type'];
         $rgBao->is_default = 1;
