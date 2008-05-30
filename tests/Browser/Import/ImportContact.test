@@ -93,14 +93,20 @@ class Browser_Import_ImportContact extends CiviTestCase
         $this->drupalPost( NULL, null, '_qf_Preview_next' );
         
         $this->assertText('Summary (step 4 of 4)');
-        $this->individualID = $this->assertDBNotNull('CRM_Core_DAO_Email', 'joe.morgan@testcase.com', 'contact_id', 'email', 'Checking db for the created Contact Email.');
+        $this->individualID1 = $this->assertDBNotNull('CRM_Core_DAO_Email', 'joe.morgan@testcase.com', 'contact_id', 'email', 'Checking db for the created Contact Email.');
+        $this->individualID2 = $this->assertDBNotNull('CRM_Core_DAO_Email', 'janet.morgan@testcase.com', 'contact_id', 'email', 'Checking db for the created Contact Email.');
       
-        $expected = array('id'          => $this->individualID,
+        $expected = array('id'          => $this->individualID1,
                           'first_name'  => 'Joe',
                           'last_name'   => 'Morgan',
                           );
         
-        $this->assertDBCompareValues('CRM_Contact_DAO_Contact',array('id'=> $this->individualID), $expected);
+        $this->assertDBCompareValues('CRM_Contact_DAO_Contact',array('id'=> $this->individualID1), $expected);
+        $expected = array('id'          => $this->individualID2,
+                          'first_name'  => 'Janet',
+                          'last_name'   => 'Morgan',
+                          );
+        $this->assertDBCompareValues('CRM_Contact_DAO_Contact',array('id'=> $this->individualID2), $expected);
     }
 
     function testImportHouseHold()
@@ -129,13 +135,13 @@ class Browser_Import_ImportContact extends CiviTestCase
         
         $this->assertText('Summary (step 4 of 4)');
         
-        $contact_id = $this->assertDBNotNull('CRM_Core_DAO_Email', 'ImportHome@testcase.com', 'contact_id', 'email', 'Checking db for the created Created Contact Email.');
+        $this->householdID = $this->assertDBNotNull('CRM_Core_DAO_Email', 'ImportHome@testcase.com', 'contact_id', 'email', 'Checking db for the created Created Contact Email.');
         
-        $expected = array('id'            => $contact_id,
-                           'display_name' => 'TestImportHome'
+        $expected = array('id'            => $this->householdID,
+                          'display_name' => 'TestImportHome'
                           );
         
-        $this->assertDBCompareValues('CRM_Contact_DAO_Contact',array('id'=> $contact_id), $expected);
+        $this->assertDBCompareValues('CRM_Contact_DAO_Contact',array('id'=> $this->householdID), $expected);
     }
     
     function testImportOrganization()
@@ -164,13 +170,13 @@ class Browser_Import_ImportContact extends CiviTestCase
         
         $this->assertText('Summary (step 4 of 4)');
         
-        $contact_id = $this->assertDBNotNull('CRM_Core_DAO_Email', 'ImportOrg@testcase.com', 'contact_id', 'email', 'Checking db for the created Created Contact Email.');
+        $this->orgID = $this->assertDBNotNull('CRM_Core_DAO_Email', 'ImportOrg@testcase.com', 'contact_id', 'email', 'Checking db for the created Created Contact Email.');
         
-        $expected = array('id'            => $contact_id,
+        $expected = array('id'            => $this->orgID,
                           'display_name'  => 'TestImportOrg'
                           );
         
-        $this->assertDBCompareValues('CRM_Contact_DAO_Contact',array('id'=> $contact_id), $expected);
+        $this->assertDBCompareValues('CRM_Contact_DAO_Contact',array('id'=> $this->orgID), $expected);
     }
     
     function testImportIndividualSkipDuplicate()
@@ -265,7 +271,7 @@ class Browser_Import_ImportContact extends CiviTestCase
         $fileName = "{$config->uploadDir}test_import_contact.csv";
         
         $header = array ("Internal Contact ID","First Name","Last Name","Email");
-        $list   = array ( 0 => array( 0 => $this->individualID, 1 => 'Mathew', 2 => 'Morgan', 3 =>'joe.morgan@testcase.com'));
+        $list   = array ( 0 => array( 0 => $this->individualID1, 1 => 'Mathew', 2 => 'Morgan', 3 =>'joe.morgan@testcase.com'));
                 
         require_once'CRM/Import/Parser.php';
         CRM_Import_Parser::exportCSV($fileName,$header,$list);
@@ -366,7 +372,7 @@ class Browser_Import_ImportContact extends CiviTestCase
         $fileName = "{$config->uploadDir}test_import_contact.csv";
         
         $header = array ("Internal Contact ID","First Name","Last Name","Email","External Identifier");
-        $list   = array ( 0 => array( 0 => $this->individualID, 1 => 'Mathew', 2 => 'Morgan', 3 =>'joe.morgan@testcase.com', 4=>'test'));
+        $list   = array ( 0 => array( 0 => $this->individualID1, 1 => 'Mathew', 2 => 'Morgan', 3 => 'joe.morgan@testcase.com', 4 => 'test'));
                 
         require_once'CRM/Import/Parser.php';
         CRM_Import_Parser::exportCSV($fileName,$header,$list);
@@ -462,5 +468,13 @@ class Browser_Import_ImportContact extends CiviTestCase
                           );
         
         $this->assertDBCompareValues('CRM_Contact_DAO_Contact',array('id'=> $contact_id), $expected);
+    }
+
+    function testDeleteContacts()
+    {
+         Contact::delete( $this->individualID1 );
+         Contact::delete( $this->individualID2 );
+         Contact::delete( $this->householdID );
+         Contact::delete( $this->orgID );
     }
 }
