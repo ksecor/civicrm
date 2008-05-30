@@ -44,6 +44,8 @@ class BAO_Contact_Contact extends CiviTestCase
         require_once 'CRM/Contact/BAO/Contact.php';
         $contact = CRM_Contact_BAO_Contact::add( $params );
         
+        //Now check $contact is object of contact DAO..
+        $this->assertIsA( $contact, 'CRM_Contact_DAO_Contact', 'Check for created object' );
         $this->assertEqual( $firstName, $contact->first_name, 'Check for first name creation.' );
         $this->assertEqual( $lastName, $contact->last_name, 'Check for last name creation.' );
         
@@ -56,6 +58,9 @@ class BAO_Contact_Contact extends CiviTestCase
                          'contact_id'   => $contactId );
         
         $contact = CRM_Contact_BAO_Contact::add( $params );
+        
+        //Now check $contact is object of contact DAO..
+        $this->assertIsA( $contact, 'CRM_Contact_DAO_Contact', 'Check for created object' );
         $this->assertEqual( $firstName, $contact->first_name, 'Check for updated first name.' );
         
         $contactId = $contact->id;
@@ -116,7 +121,7 @@ class BAO_Contact_Contact extends CiviTestCase
         $contactId = $contact->id;
         
         //Now check $contact is object of contact DAO..
-        $this->assertIsA( $contact, 'CRM_Contact_DAO_Contact' );
+        $this->assertIsA( $contact, 'CRM_Contact_DAO_Contact', 'Check for created object' );
         
         //Now check values of object with params.
         $this->assertEqual( $params['first_name'], $contact->first_name, 'Check for first name creation.' );
@@ -207,7 +212,7 @@ class BAO_Contact_Contact extends CiviTestCase
         $contactId = $contact->id;
         
         //Now check $contact is object of contact DAO..
-        $this->assertIsA( $contact, 'CRM_Contact_DAO_Contact' );
+        $this->assertIsA( $contact, 'CRM_Contact_DAO_Contact', 'Check for created object' );
         
         //Now check values of object with params.
         $this->assertEqual( $updateParams['first_name'], $contact->first_name, 'Check for first name creation.' );
@@ -389,7 +394,7 @@ class BAO_Contact_Contact extends CiviTestCase
         $contact = CRM_Contact_BAO_Contact::create( $params );
         
         //Now check $contact is object of contact DAO..
-        $this->assertIsA( $contact, 'CRM_Contact_DAO_Contact' );
+        $this->assertIsA( $contact, 'CRM_Contact_DAO_Contact', 'Check for created object' );
         $contactId = $contact->id;
         
         //Now check values of contact object with params.
@@ -488,7 +493,7 @@ class BAO_Contact_Contact extends CiviTestCase
         $contact = CRM_Contact_BAO_Contact::create( $updateParams );
         
         //Now check $contact is object of contact DAO..
-        $this->assertIsA( $contact, 'CRM_Contact_DAO_Contact' );
+        $this->assertIsA( $contact, 'CRM_Contact_DAO_Contact', 'Check for created object' );
         $contactId = $contact->id;
         
         //Now check values of contact object with updated params.
@@ -578,6 +583,145 @@ class BAO_Contact_Contact extends CiviTestCase
         $this->assertEqual( CRM_Core_PseudoConstant::country( $params['location'][1]['address']['country_id'] ),
                             $params['location'][1]['address']['country'], 
                             'Check for country.' );
+    }
+    
+    /**
+     * retrieve() method
+     * test all retrieve values. 
+     */
+    
+    function testRetrieve( )
+    {
+        $params = array(
+                        'first_name'      => 'Bill',
+                        'last_name'       => 'Adams',
+                        'contact_type'    => 'Individual',
+                        'note'            => 'test note',
+                        'create_employer' => 'Yahoo',
+                        'group'           => array( 
+                                                   '1' => 1,
+                                                   '2' => 1,
+                                                   ),
+                        );
+        $params['location'][1] = array ( 'location_type_id'                               => 1,
+                                         'is_primary'                                     => 1,
+                                         'address' =>  array ( 
+                                                              'street_address'            => 'Saint Helier St',
+                                                              'supplemental_address_1'    => 'Hallmark Ct',
+                                                              'supplemental_address_2'    => 'Jersey Village',
+                                                              'city'                      => 'Newark',
+                                                              'postal_code'               => '01903',
+                                                              'country_id'                => 1228,
+                                                              'state_province_id'         => 1029,
+                                                              'geo_code_1'                => '18.219023',
+                                                              'geo_code_2'                => '-105.00973',
+                                                              ),
+                                         'email'   => array ( 
+                                                             '1' => array ( 'email'       => 'john.smith@example.org' ), 
+                                                             ),
+                                         'phone'   => array (
+                                                             '1' => array (
+                                                                           'phone_type'   => 'Phone',
+                                                                           'phone'        => '303443689',
+                                                                           ),
+                                                             '2' => array (
+                                                                           'phone_type'   => 'Mobile',
+                                                                           'phone'        => '9833910234',
+                                                                           ),
+                                                             ),
+                                         'openid'  => array (
+                                                             '1' => array ( 'openid'      => 'http://civicrm.org' ),
+                                                             ),
+                                         'im'      => array (
+                                                             '1' => array ( 'name'        => 'bill.adams',
+                                                                            'provider_id' => 1
+                                                                            ),
+                                                             ),
+                                         );
+        
+        require_once 'CRM/Contact/BAO/Contact.php';
+        //create the contact with given params.
+        $contact = CRM_Contact_BAO_Contact::create( $params );
+        //Now check $contact is object of contact DAO..
+        $this->assertIsA( $contact, 'CRM_Contact_DAO_Contact', 'Check for created object' );
+        $contactId = $contact->id;
+        //create employee of relationship.
+        require_once 'CRM/Contact/BAO/Contact/Utils.php';
+        CRM_Contact_BAO_Contact_Utils::makeCurrentEmployerRelationship( $contactId, $params['create_employer'] );
+        //add contact to group
+        require_once 'CRM/Contact/BAO/GroupContact.php';
+        CRM_Contact_BAO_GroupContact::create( $params['group'], $contactId );
+        
+        //retrieve the contact values from database.
+        $values = array( );
+        $searchParams = array( 'contact_id' => $contactId );
+        $retrieveContact = CRM_Contact_BAO_Contact::retrieve( $searchParams, $values );
+        
+        //Now check $retrieveContact is object of contact DAO..
+        $this->assertIsA( $retrieveContact, 'CRM_Contact_DAO_Contact', 'Check for retrieve object' );
+        
+        //Now check the ids.
+        $this->assertEqual( $contactId, $retrieveContact->id, 'Check for contact id' );
+        
+        //Now check values retrieve from database with params.
+        $this->assertEqual( $params['first_name'], $values['first_name'], 'Check for first name creation.' );
+        $this->assertEqual( $params['last_name'], $values['last_name'], 'Check for last name creation.' );
+        $this->assertEqual( $params['contact_type'], $values['contact_type'], 'Check for contact type creation.' );
+        
+        //Now check values of address
+        $this->assertAttributesEqual( CRM_Utils_Array::value( 'address', $params['location'][1] ),
+                                      CRM_Utils_Array::value( 'address', $values['location'][1] ) );
+        
+        //Now check values of email
+        $this->assertAttributesEqual( CRM_Utils_Array::value( '1', $params['location'][1]['email'] ),
+                                      CRM_Utils_Array::value( '1', $values['location'][1]['email'] ) );
+        
+        //Now check values of phone
+        $this->assertAttributesEqual( CRM_Utils_Array::value( '1', $params['location'][1]['phone'] ),
+                                      CRM_Utils_Array::value( '1', $values['location'][1]['phone'] ) );
+        
+        //Now check values of mobile
+        $this->assertAttributesEqual( CRM_Utils_Array::value( '2', $params['location'][1]['phone'] ),
+                                      CRM_Utils_Array::value( '2', $values['location'][1]['phone'] ) ); 
+        
+        //Now check values of openid
+        $this->assertAttributesEqual( CRM_Utils_Array::value( '1', $params['location'][1]['openid'] ),
+                                      CRM_Utils_Array::value( '1', $values['location'][1]['openid'] ) );
+        
+        //Now check values of im
+        $this->assertAttributesEqual( CRM_Utils_Array::value( '1', $params['location'][1]['im'] ),
+                                      CRM_Utils_Array::value( '1', $values['location'][1]['im'] ) );
+        
+        //Now check values of Note Count.
+        $this->assertEqual( 1, $values['noteTotalCount'], 'Check for total note count' );
+        
+        foreach( $values['note'] as $key => $val ) {
+            $retrieveNote = CRM_Utils_Array::value( 'note', $val );
+            //check the note value
+            $this->assertEqual( $params['note'], $retrieveNote, 'Check for note' );
+        }
+        
+        //Now check values of Relationship Count.
+        $this->assertEqual( 1, $values['relationship']['totalCount'], 'Check for total relationship count' );
+        foreach( $values['relationship']['data'] as $key => $val ) {
+            //Now check values of Relationship organization.
+            $this->assertEqual( $params['create_employer'], $val['name'], 'Check for organization' );  
+            //Now check values of Relationship type.
+            $this->assertEqual( 'Employee of', $val['relation'], 'Check for relationship type' );  
+        }
+        
+        //Now check values of group Count.
+        $this->assertEqual( 2, $values['group']['totalCount'], 'Check for total group count' );
+        
+        //Now check values of group ids.
+        $groupIds = array( );
+        foreach( $values['group']['data'] as $key => $val  ) {
+            $groupIds[$val['group_id']] = 1;
+        }
+        $this->assertAttributesEqual( $params['group'], $groupIds );
+        
+        //cleanup DB by deleting the contact
+        Contact::delete( $contactId );
     }
     
     /**
