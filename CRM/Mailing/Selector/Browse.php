@@ -334,6 +334,10 @@ SELECT count(civicrm_mailing.id)
                 $this->_parent->assign( 'isSearch', 0 );
             }
         }
+ 
+        if ( empty( $clauses ) ) {
+            return 1;
+        }
 
         return implode( ' AND ', $clauses );
     }

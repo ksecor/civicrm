@@ -2634,9 +2634,6 @@ WHERE  id IN ( $groupIDs )
         if ( $row_count > 0 && $offset >= 0 ) {
             $sql .= " LIMIT $offset, $row_count ";
         }
-        while ( $dao->fetch( ) ) {
-            $values[$dao->contact_id] = $query->store( $dao );
-        }
 
         $dao =& CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
         //crm_core_error::Debug('$sql', $sql);
@@ -2647,8 +2644,6 @@ WHERE  id IN ( $groupIDs )
         $dao->free( );
         return array($values, $options);
     }
-
-
 
     /**
      * create and query the db for an contact search
