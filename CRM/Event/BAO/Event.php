@@ -302,7 +302,7 @@ SELECT     civicrm_event.id as id, civicrm_event.title as event_title, civicrm_e
            civicrm_event.max_participants as max_participants, civicrm_event.start_date as start_date,
            civicrm_event.end_date as end_date, civicrm_event.is_map as is_map
 FROM       civicrm_event
-WHERE      civicrm_event.is_active = 1  AND
+WHERE      civicrm_event.is_active = 1
 GROUP BY   civicrm_event.id
 ORDER BY   civicrm_event.end_date DESC
 LIMIT      0, 10
