@@ -622,7 +622,9 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                         $relatedNewContact = CRM_Contact_BAO_Contact::retrieve( $contact, $defaults );
                     } else {
                         //fixed for CRM-3146
-                        if ( $this->_contactType == 'Individual' && $onDuplicate = CRM_Import_Parser::DUPLICATE_NOCHECK ) {
+                        if ( ( $this->_contactType == 'Individual'   || 
+                               $this->_contactType == 'Household'    ||
+                               $this->_contactType == 'Organization' ) && $onDuplicate = CRM_Import_Parser::DUPLICATE_NOCHECK ) {
                             $onDuplicate = CRM_Import_Parser::DUPLICATE_FILL;
                         }
 
@@ -651,11 +653,9 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                         $matchedIDs[] = $relatedNewContact->id;
                     }
                     static $relativeContact = array( ) ;
-                    if ( self::isDuplicate($relatedNewContact) ) {
-                        if ( count($matchedIDs) == 1) {
-                            foreach ( $matchedIDs as $cid ) {
-                                $relContactId = $cid;
-                            }
+                    if ( self::isDuplicate( $relatedNewContact ) ) {
+                        if ( count( $matchedIDs ) >= 1 ) {
+                            $relContactId = $matchedIDs[0];
                             //add relative contact to count during update & fill mode.
                             //logic to make count distinct by contact id.
                             if ( $this->_newRelatedContacts || ! empty( $relativeContact ) ) {
@@ -673,10 +673,12 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                         $this->_newRelatedContacts[] = $relativeContact[] = $relContactId;
                     }
                     
-                    if ( self::isDuplicate($relatedNewContact) ||
+                    if ( self::isDuplicate( $relatedNewContact ) ||
                          ( $relatedNewContact instanceof CRM_Contact_BAO_Contact ) ) {
                         //fix for CRM-1993.Checks for duplicate related contacts
-                        if (count($matchedIDs) == 1) {
+                        if ( count( $matchedIDs ) >= 1 ) {
+                            //if more than one duplicate contact
+                            //found, create relationship with first contact
                             // now create the relationship record
                             $relationParams = array( );
                             $relationParams = array('relationship_type_id' => $key, 
