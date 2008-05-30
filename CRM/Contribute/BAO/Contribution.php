@@ -346,17 +346,14 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
             $optionFields = CRM_Core_OptionValue::getFields($mode ='contribute' );
             require_once 'CRM/Contact/BAO/Contact.php';
             $contactFields = CRM_Contact_BAO_Contact::importableFields( $contacType, null );
-            if ($contacType == 'Individual') {
-                require_once 'CRM/Core/DAO/DupeMatch.php';
-                $dao = & new CRM_Core_DAO_DupeMatch();;
-                $dao->find(true);
-                $fieldsArray = explode('AND',$dao->rule);
-            } elseif ($contacType == 'Household') {
-                $fieldsArray = array('household_name', 'email');
-            } elseif ($contacType == 'Organization') {
-                $fieldsArray = array('organization_name', 'email');
-            }
             
+            // Using new Dedupe rule.
+            $ruleParams = array(
+                                'contact_type' => $contacType,
+                                'level' => 'Strict'
+                                );
+            require_once 'CRM/Dedupe/BAO/Rule.php';
+            $fieldsArray = CRM_Dedupe_BAO_Rule::dedupeRuleFields($ruleParams);
             $tmpConatctField = array();
             if( is_array($fieldsArray) ) {
                 foreach ( $fieldsArray as $value) {
