@@ -1140,7 +1140,7 @@ WHERE  id = $cfID
      * @access public
      * @static
      */
-    public static function getModuleUFGroup( $moduleName = null, $count = 0) 
+    public static function getModuleUFGroup( $moduleName = null, $count = 0, $skipPermission = true) 
     {
         require_once 'CRM/Core/DAO.php';
 
@@ -1157,6 +1157,14 @@ WHERE  id = $cfID
             $p[2] = array( $moduleName, 'String' );
         }
         
+
+        // add permissioning for profiles only if not registration
+        if ( ! $skipPermission ) {
+            require_once 'CRM/Core/Permission.php';
+            $permissionClause = CRM_Core_Permission::ufGroupClause( CRM_Core_Permission::VIEW, 'g.' );
+            $query .= " AND $permissionClause ";
+        }
+
         $queryString .= ' ORDER BY civicrm_uf_join.weight, civicrm_uf_group.title';
         $dao =& CRM_Core_DAO::executeQuery($queryString, $p);
 
