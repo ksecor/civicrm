@@ -161,7 +161,7 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
             if ( isset($_GET['sh']) ) {
                 $shared = CRM_Utils_Type::escape( $_GET['sh'], 'Integer');
             }
-            
+
             // contacts of type household
             $hh = null;
             if ( isset($_GET['hh']) ) {
@@ -256,6 +256,11 @@ ORDER BY sort_name ";
                                          'id'   => $dao->id );
                 }
             }
+        }
+
+        if ( isset($_GET['sh']) ) {
+            echo "";
+            exit();
         }
 
         if ( empty( $elements ) ) {

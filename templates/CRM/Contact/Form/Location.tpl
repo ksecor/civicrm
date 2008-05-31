@@ -163,6 +163,8 @@
 			var formattedAddr = selectedAddr.replace(/:::/g, ", ");
 			document.getElementById('shared_household_help').style.display='none';
 			document.getElementById('household_address').innerHTML = formattedAddr;	
+		    } else {
+			document.getElementById('household_address').innerHTML = '';	
 		    }
 		    return response; 
 		},

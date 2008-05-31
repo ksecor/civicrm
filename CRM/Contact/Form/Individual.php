@@ -157,7 +157,7 @@ setDefaultAddress();
         $attributes    = array( 'dojoType'     => 'civicrm.FilteringSelect',
                                 'mode'         => 'remote',
                                 'store'        => 'addressStore',
-                                'style'        => 'width:300px; border: 1px solid #cfcfcf;',
+                                'style'        => 'width:450px; border: 1px solid #cfcfcf;',
                                 'class'        => 'tundra',
                                 'pageSize'     => 10,
                                 'onchange'     => 'showSelectedHouseholdAddress()'
