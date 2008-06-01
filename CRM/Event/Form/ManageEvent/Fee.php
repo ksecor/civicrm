@@ -350,6 +350,8 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         }
         return empty( $errors ) ? true : $errors;
     }
+
+
     public function buildAmountLabel()
     {
         $default = array( );
@@ -369,6 +371,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         
         $this->addGroup( $default, 'discounted_default' );
     } 
+
     /**
      * Process the form
      *
@@ -440,6 +443,9 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
                 }
                 
                 if ( $params['is_discount'] == 1 ) {
+                    //hack for CRM-3088
+                    CRM_Core_OptionGroup::deleteAssoc ("civicrm_event_page.amount.{$eventPageId}.discount.%", "LIKE");
+
                     // if there are discounted set of label / values, 
                     // create custom options for them
                     $labels  = CRM_Utils_Array::value( 'discounted_label'  , $params );

@@ -286,14 +286,14 @@ ORDER BY v.weight
         } 
     }
 
-    static function deleteAssoc( $groupName ) 
+    static function deleteAssoc( $groupName , $operator = "=" ) 
     {        
         $query = "
 DELETE g, v
   FROM civicrm_option_group g,
        civicrm_option_value v
  WHERE g.id = v.option_group_id
-   AND g.name = %1";
+   AND g.name {$operator} %1";
 
         $params = array( 1 => array( $groupName, 'String' ) );
 
