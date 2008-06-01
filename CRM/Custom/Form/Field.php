@@ -222,7 +222,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
             $defaults['note_columns'] = 60;
             $defaults['note_rows']    = 4;
 
-            $defaults['is_code'] = 0;
+            $defaults['is_view'] = 0;
         }
         
         return $defaults;
@@ -390,7 +390,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
         $this->add('checkbox', 'is_active', ts('Active?'));
 
         // is active ?
-        $this->add('checkbox', 'is_code', ts('PHP Code field?'));
+        $this->add('checkbox', 'is_view', ts('View Only?'));
 
         // is searchable ?
         $this->addElement('checkbox', 'is_searchable', ts('Is this Field Searchable?'), null, array('onclick' =>"showSearchRange(this)"));
@@ -863,7 +863,7 @@ SELECT id
         $customField->is_searchable    = CRM_Utils_Array::value( 'is_searchable'  , $params, false );
         $customField->is_search_range  = CRM_Utils_Array::value( 'is_search_range', $params, false );
         $customField->is_active        = CRM_Utils_Array::value( 'is_active'      , $params, false );
-        $customField->is_code          = CRM_Utils_Array::value( 'is_code'        , $params, false );
+        $customField->is_view          = CRM_Utils_Array::value( 'is_view'        , $params, false );
         $customField->options_per_line = $params['options_per_line'];
         $customField->start_date_years = $params['start_date_years'];
         $customField->end_date_years   = $params['end_date_years'];

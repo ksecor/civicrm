@@ -123,7 +123,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup
                         'default_value',
                         'attributes',
                         'is_required',
-                        'is_code',
+                        'is_view',
                         'help_post',
                         'options_per_line',
                         'start_date_years',
@@ -428,8 +428,8 @@ SELECT $select
             }
             $table = $groupTree[$groupID]['table_name'];
             foreach ( $group['fields'] as $fieldID => $field ) {
-                // ignore code fields in update
-                if ( $field['is_code'] ) {
+                // ignore view fields in update
+                if ( $field['is_view'] ) {
                     continue;
                 }
 
@@ -1071,8 +1071,8 @@ $where
                  
             $groupId = $group['id']; 
             foreach ($group['fields'] as $field) { 
-                // skip all code fields
-                if ( $field['is_code'] ) {
+                // skip all view fields
+                if ( $field['is_view'] ) {
                     continue;
                 }
 

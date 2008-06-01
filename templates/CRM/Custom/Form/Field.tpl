@@ -176,7 +176,9 @@
         <dt>{$form.is_active.label}</dt><dd>&nbsp;{$form.is_active.html}</dd>
         </dl>    
         <dl>
-        <dt>{$form.is_code.label}</dt><dd>&nbsp;{$form.is_code.html}</dd>
+        <dt>{$form.is_view.label}</dt><dd>&nbsp;{$form.is_view.html}</dd>
+        <dl>
+        <dt>&nbsp;</dt><dd class="description">{ts}Is this field set by PHP code (via a custom hook). This field will not be updated by CiviCRM.{/ts}</dd>
         </dl>    
    </div>
     

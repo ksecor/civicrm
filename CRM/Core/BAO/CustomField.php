@@ -197,7 +197,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                 $query ="SELECT $cfTable.id, $cfTable.label,
                             $cgTable.title,
                             $cfTable.data_type, $cfTable.html_type,
-                            $cfTable.options_per_line, $cfTable.is_code,
+                            $cfTable.options_per_line, $cfTable.is_view,
                             $cgTable.extends, $cfTable.is_search_range,
                             $cgTable.extends_entity_column_value
                      FROM $cfTable
@@ -917,7 +917,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
         }
 
         // return if field is a 'code' field
-        if ( $customFields[$customFieldId]['is_code'] ) {
+        if ( $customFields[$customFieldId]['is_view'] ) {
             return;
         }
 

@@ -53,14 +53,13 @@ class CRM_Core_BAO_CustomValueTable
             foreach ( $fields as $field ) {
                 if ( ! $sqlOP ) {
                     $entityID = $field['entity_id'];
-                    $hookID   = $field['group_id'];
+                    $hookID   = $field['custom_group_id'];
                     if ( array_key_exists( 'id', $field ) ) {
                         $sqlOP = "UPDATE $tableName ";
                         $where = " WHERE  id = %{$count}";
                         $params[$count] = array( $field['id'], 'Integer' );
                         $count++;
                         $hookOP = 'edit';
-                        }
                     } else {
                         $sqlOP = "INSERT INTO $tableName ";
                         $where = null;

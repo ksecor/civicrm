@@ -129,7 +129,7 @@
        <add>1.1</add>
   </field>
   <field>
-       <name>is_code</name>
+       <name>is_view</name>
        <type>boolean</type>
        <comment>Is this property set by PHP Code? A code field is viewable but not editable</comment>
        <add>1.1</add>
