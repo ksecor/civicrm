@@ -696,6 +696,3 @@ function civicrm_translated_menu_link_alter(&$item) {
         $item['access_callback'] = $item['access'] = false;
     }
 }
-
-function civicrm_custom_group_code_1( ) {
-}

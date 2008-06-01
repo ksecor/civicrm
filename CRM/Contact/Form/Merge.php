@@ -345,7 +345,7 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
 
         if (!isset($customFiles)) $customFiles = array();
         foreach ($customFiles as $customId) {
-            list($tableName, $columnName) = CRM_Core_BAO_CustomField::getTableColumnName($customId);
+            list($tableName, $columnName, $groupID) = CRM_Core_BAO_CustomField::getTableColumnGroup($customId);
 
             // get the contact_id -> file_id mapping
             $fileIds = array();

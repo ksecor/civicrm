@@ -31,8 +31,6 @@
 </dl>
 <dl class="spacer">
     <dt>&nbsp;</dt><dd class="description">{ts}Explanatory text displayed below this group of fields.{/ts}</dd>
-    <dt>{$form.class_name.label}</dt><dd> {$form.class_name.html}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}Class file that implements the custom data interface.{/ts}</dd>
     {if $action ne 4}
         <dt></dt>
         <dd>
@@ -44,7 +42,7 @@
         <div id="crm-done-button">{$form.done.html}</div>
         </dd>
     {/if} {* $action ne view *}
-    </dl>
+</dl>
     </fieldset>
 </div>
 {if $action eq 2 or $action eq 4} {* Update or View*}
@@ -61,7 +59,10 @@ showHideStyle();
 
 function showHideStyle()
 {
-	if( document.forms.Group['extends[0]'].value =="Contact" )
+	if( document.forms.Group['extends[0]'].value == "Contact"    ||
+            document.forms.Group['extends[0]'].value == "Individual" ||
+            document.forms.Group['extends[0]'].value == "Household"  ||
+            document.forms.Group['extends[0]'].value == "Organization" )
 	{
 		show("style");
 	} else {

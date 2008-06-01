@@ -748,16 +748,6 @@ AND    option_group_id = %2";
             } 
         }
 
-        // check that the function to evaluate the code field does exist
-        if ( isset( $fields['is_code'] ) &&
-             $fields['is_code'] ) {
-            $fnName = "civicrm_custom_group_code_{$self->_gid}";
-            if ( ! function_exists( $fnName ) ) {
-                $errors['is_code'] = ts( "A function '%1' does not exist to evaluate this code field",
-                                         array( 1 => $fnName ) );
-            }
-        }
-
         return empty($errors) ? true : $errors;
     }
     

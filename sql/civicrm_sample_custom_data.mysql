@@ -20,7 +20,7 @@ INSERT INTO `civicrm_custom_group` (`name`, `title`, `extends`, `style`, `collap
 -- * create option group for storing custom options for custom fields
 -- *
 -- *******************************************************/
-INSERT INTO  `civicrm_option_group` (`name`, `label`, `is_reserved`, `is_active`) VALUES (1, 'custom_most_important_issue', 'Most Important Issue', 0, 1), ( 'custom_marital_status', 'Marital Status', 0, 1);
+INSERT INTO  `civicrm_option_group` (`name`, `label`, `is_reserved`, `is_active`) VALUES ('custom_most_important_issue', 'Most Important Issue', 0, 1), ( 'custom_marital_status', 'Marital Status', 0, 1);
 
 SELECT @option_most_id    := max(id) from civicrm_option_group where name = 'custom_most_important_issue';
 SELECT @option_marital_id := max(id) from civicrm_option_group where name = 'custom_marital_status';

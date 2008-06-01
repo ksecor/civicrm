@@ -102,21 +102,6 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
             } 
         }
 
-        if ( ! empty( $fields['class_name'] ) ) {
-            require_once( str_replace( '_', DIRECTORY_SEPARATOR, $fields['class_name'] ) . '.php' );
-            $interfaces = class_implements( $fields['class_name'] );
-            $found = false;
-            foreach ( $interfaces as $interface ) {
-                if ( $interface == 'CRM_Custom_Interface' ) {
-                    $found = true;
-                    break;
-                }
-            }
-            if ( ! $found ) {
-                $errors['class_name'] = ts( 'Class file does not seem to implement the custom data Interface (CRM_Custom_Interface)' );
-            }
-        }
-
         return empty($errors) ? true : $errors;
     }
     
@@ -215,8 +200,6 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         // weight
         $this->add('text', 'weight', ts('Order'), $attributes['weight'], true);
         $this->addRule('weight', ts('is a numeric field') , 'numeric');
-
-        $this->add('text', 'class_name'   , ts('Class Name'   ), $attributes['class_name'] );
 
         // display style
         $this->add('select', 'style', ts('Display Style'), CRM_Core_SelectValues::customGroupStyle());
@@ -323,7 +306,6 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         $group->help_pre         = $params['help_pre'];
         $group->help_post        = $params['help_post'];
         $group->is_active        = CRM_Utils_Array::value('is_active'      , $params, false);
-        $group->class_name       = trim( $params['class_name'] );
 
         $tableName = null;
         if ($this->_action & CRM_Core_Action::UPDATE) {

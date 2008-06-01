@@ -43,22 +43,28 @@ class CRM_Core_BAO_CustomValueTable
         }
 
         foreach ( $customParams as $tableName => $fields ) {
-            $sqlOP    = null;
-            $entityID = null;
-            $set      = array( );
-            $params   = array( );
-            $count    = 1;
+            $sqlOP     = null;
+            $hookID    = null;
+            $hookOP    = null;
+            $entityID  = null;
+            $set       = array( );
+            $params    = array( );
+            $count     = 1;
             foreach ( $fields as $field ) {
                 if ( ! $sqlOP ) {
                     $entityID = $field['entity_id'];
+                    $hookID   = $field['group_id'];
                     if ( array_key_exists( 'id', $field ) ) {
                         $sqlOP = "UPDATE $tableName ";
                         $where = " WHERE  id = %{$count}";
                         $params[$count] = array( $field['id'], 'Integer' );
                         $count++;
+                        $hookOP = 'edit';
+                        }
                     } else {
                         $sqlOP = "INSERT INTO $tableName ";
                         $where = null;
+                        $hookOP    = 'create';
                     }
                 }
 
@@ -154,8 +160,12 @@ class CRM_Core_BAO_CustomValueTable
                 $set   = implode( ", ", $set );
                 $query = "$sqlOP SET $set $where";
                 $dao = CRM_Core_DAO::executeQuery( $query, $params );
-                
                 $dao->free( );
+
+                require_once 'CRM/Utils/Hook.php';
+                CRM_Utils_Hook::post( $hookOP, 'custom',
+                                      array( $hookID, $entityID ),
+                                      $fields );
             }
         }
     }
@@ -208,6 +218,7 @@ class CRM_Core_BAO_CustomValueTable
                              'value'           => $customValue['value'],
                              'type'            => $customValue['type'],
                              'custom_field_id' => $customValue['custom_field_id'],
+                             'custom_group_id' => $customValue['custom_group_id'],
                              'table_name'      => $customValue['table_name'],
                              'column_name'     => $customValue['column_name'],
                              'file_id'         => $customValue['file_id'],

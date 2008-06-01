@@ -123,6 +123,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup
                         'default_value',
                         'attributes',
                         'is_required',
+                        'is_code',
                         'help_post',
                         'options_per_line',
                         'start_date_years',
@@ -427,35 +428,50 @@ SELECT $select
             }
             $table = $groupTree[$groupID]['table_name'];
             foreach ( $group['fields'] as $fieldID => $field ) {
+                // ignore code fields in update
+                if ( $field['is_code'] ) {
+                    continue;
+                }
+
                 if ( isset( $field['customValue'] ) ) {
                     $column    = $groupTree[$groupID]['fields'][$fieldID]['column_name'];
                     $update[] = "{$table}.{$column} = '{$field['customValue']['data']}'";
                 }
             }
 
-            $query = "
+            $sql = "
 SELECT entity_id 
 FROM   {$table} 
 WHERE  {$table}.entity_id = {$entityId}";
-
-            $crmDAO =& CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray ); 
+            $recordExists =& CRM_Core_DAO::singleValueQuery( $sql,
+                                                             CRM_Core_DAO::$_nullArray ); 
             if ( ! empty( $update ) ) {
-                $tables = implode( ', ', $groupTree['info']['from'  ] );
+                $tables = implode( ', ', $groupTree['info']['from'] );
+                $hookOP = null;
                 if ( $groupTree['info']['where' ] ) {
-                    if( $crmDAO ) {
+                    if( $recordExists ) {
                         $sqlOP = 'UPDATE';
                         $where = ' WHERE ' . implode( ', ', $groupTree['info']['where' ] );
+                        $hookOP = 'edit';
                     } else {
                         $sqlOP = 'INSERT INTO';
                         $where  = null;
                         $update[] = "{$table}.entity_id = '{$entityId}'";
+                        $hookOP = 'create';
                     }
                 } else {
                     $sqlOP  = 'SELECT';
                     $where  = null;
                 }
                 $update = implode( ', ', $update );
-                                   
+
+                if ( $hookOP ) {
+                    require_once 'CRM/Utils/Hook.php';
+                    CRM_Utils_Hook::post( $hookOP, 'custom',
+                                          array( $groupID, $entityId ),
+                                          $group['fields'] );
+                }
+
                 $query = "
 $sqlOP $tables
    SET $update
@@ -1055,6 +1071,11 @@ $where
                  
             $groupId = $group['id']; 
             foreach ($group['fields'] as $field) { 
+                // skip all code fields
+                if ( $field['is_code'] ) {
+                    continue;
+                }
+
                 $required = $field['is_required'];
                 //fix for CRM-1620
                 if ( $field['data_type']  == 'File') {
