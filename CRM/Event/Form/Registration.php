@@ -468,6 +468,12 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         } else {
             require_once 'CRM/Core/OptionGroup.php'; 
             CRM_Core_OptionGroup::getAssoc( "civicrm_event_page.amount.{$eventPageID}", $form->_values['custom'] );
+            require_once 'CRM/Core/BAO/Discount.php';
+            $discountedEvent = CRM_Core_BAO_Discount::getOptionGroup( $eventPageID, "civicrm_event");
+            foreach ( $discountedEvent as $key => $optionGroupId ) {
+                $name = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup', $optionGroupId );
+                CRM_Core_OptionGroup::getAssoc( $name, $form->_values["discount[$key]"] );  
+            }
         }
     }
 

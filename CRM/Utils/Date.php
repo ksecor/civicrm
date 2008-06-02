@@ -733,6 +733,34 @@ class CRM_Utils_Date
         return $today;
     }
 
+    /**
+     * Function to find whether today's date lies in 
+     * the given range
+     * 
+     * @param  date  $startDate  start date for the range 
+     * @param  date  $endDate    end date for the range 
+     
+     * @return true              todays date is in the given date range
+     * @static
+     */
+    static function getRange( $startDate, $endDate  )
+    {
+        $today = date( "Y-m-d" );
+        $mysqlStartDate = self::isoToMysql( $startDate );
+        $mysqlEndDate   = self::isoToMysql( $endDate );
+        $mysqlToday     = self::isoToMysql( $today );
+        
+        if ( ( isset( $mysqlStartDate ) && isset( $mysqlEndDate ) ) && ( ( $mysqlToday >= $mysqlStartDate ) && ( $mysqlToday <= $mysqlEndDate ) ) ){
+            return true;
+        } elseif ( ( isset( $mysqlStartDate ) && ! isset( $mysqlEndDate ) ) && ( ( $mysqlToday >= $mysqlStartDate ) ) ) {
+            return true;
+        } elseif ( ( ! isset( $mysqlStartDate ) && isset( $mysqlEndDate ) ) && ( ( $mysqlToday <= $mysqlEndDate ) ) ) {
+            return true;
+        }
+        return false;
+    }
+    
+
     static function getAllDefaultValues( &$defaults, $format = null, $time = null ) 
     {
         if ( ! $format ) {

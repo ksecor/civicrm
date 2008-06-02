@@ -110,6 +110,34 @@ class CRM_Core_BAO_Discount extends CRM_Core_DAO_Discount
         }
         return $optionGroupIDs;
     }
+
+    /**
+     * Determine in which discount set the registration date falls
+     *
+     * @param  integer  $entityId      entity id to be searched 
+     * @param  string   $entityTable   entity table to be searched 
+     *
+     * @return integer  $i             discount set no. which matches
+     *                                 the date criteria
+     */
+    static function findSet( $entityId, $entityTable ) 
+    {
+        require_once 'CRM/Core/DAO/Discount.php';
+        $dao =& new CRM_Core_DAO_Discount( );
+        $dao->entity_id    = $entityId;
+        $dao->entity_table = $entityTable;
+        $dao->find( );
+        $i = 0;
+        require_once "CRM/Utils/Date.php";
+        while ( $dao->fetch( ) ) {
+            $i++;
+            $falls = CRM_Utils_Date::getRange( $dao->start_date, $dao->end_date);
+            if ( $falls == true) {
+                return $i;
+            }
+        }
+        return false;
+    }
 }
 
 
