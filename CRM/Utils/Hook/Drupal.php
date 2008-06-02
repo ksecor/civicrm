@@ -35,14 +35,18 @@
 
 class CRM_Utils_Hook_Drupal {
 
-    static function commonHook( $op, $objectName, $id, &$params, $fnSuffix ) { 
+    static function commonHook( &$arg1, &$arg2, &$arg3, &$arg4, $fnSuffix, $threeArgs = false ) { 
         $result = array( );
         // copied from user_module_invoke
         if (function_exists('module_list')) {
             foreach ( module_list() as $module) { 
                 $function = $module . $fnSuffix;
                 if ( function_exists( $function ) ) {
-                    $fResult = $function( $op, $objectName, $id, $params );
+                    if ( $threeArgs ) {
+                        $fResult = $function( $arg1, $arg2, $arg3, $arg4 );
+                    } else {
+                        $fResult = $function( $arg1, $arg2, $arg3 );
+                    }
                     if ( is_array( $fResult ) ) {
                         $result = array_merge( $result, $fResult );
                     }
@@ -112,7 +116,11 @@ class CRM_Utils_Hook_Drupal {
     }
 
     static function validate( $formName, &$fields, &$files, &$form ) {
-        return self::commonHook( $op, $objectName, $id, $params, '_civicrm_validate' );
+        return self::commonHook( $formName, $fields, $files, $form, '_civicrm_validate' );
+    }
+
+    static function defaults( $formName, &$defaults, &$form ) {
+        return self::commonHook( $formName, $defaults, $form, null, '_civicrm_defaults', true );
     }
 
     static function custom( $op, $groupID, $entityID, &$params ) {

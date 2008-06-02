@@ -306,8 +306,13 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         $this->buildQuickForm();
 
         $defaults =& $this->setDefaultValues( );
-
         unset( $defaults['qfKey'] );
+
+        // also call the hook function so any modules can set thier own custom defaults
+        CRM_Utils_Hook::defaults( get_class( $this ),
+                                  $defaults,
+                                  $this, );
+
         if ( ! empty( $defaults ) ) {
             $this->setDefaults( $defaults );
         }

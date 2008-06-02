@@ -128,4 +128,11 @@ class CRM_Utils_Hook {
             eval( 'return ' . $config->userHookClass . '::custom( $op, $groupID, $entityID, $params );' );  
     }
 
+    static function defaults( $className, &$defaults, &$form ) {
+        $config =& CRM_Core_Config::singleton( );
+        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
+        return   
+            eval( 'return ' . $config->userHookClass . '::custom( $className, $defaults, $form ); ' );
+    }
+
 }

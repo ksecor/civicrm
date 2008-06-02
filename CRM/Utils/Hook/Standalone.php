@@ -111,6 +111,13 @@ class CRM_Utils_Hook_Standalone {
         return null;
     }
 
+    static function defaults( $formName, &$defaults, &$form ) {
+        if ( function_exists( 'standalone_civicrm_defaults' ) ) {
+            return standalone_civicrm_defaults( $formName, $defaults, $form );
+        }
+        return null;
+    }
+
     static function custom( $op, $groupID, $entityID, &$params ) {
         if ( function_exists( 'standalone_civicrm_custom' ) ) {
             reutrn standalone_civicrm_custom( $op, $groupID, $entityID, $params );

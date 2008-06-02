@@ -108,6 +108,12 @@ class CRM_Utils_Hook_Joomla {
         }
     }
 
+    static function defaults( $formName, &$defaults, &$form ) {
+        if ( function_exists( 'joomla_civicrm_defaults' ) ) {
+            return joomla_civicrm_defaults( $formName, $defaults, $form );
+        }
+    }
+
     static function custom( $op, $groupID, $entityID, &$params ) {
         if ( function_exists( 'joomla_civicrm_custom' ) ) {
             return joomla_civicrm_custom( $op, $groupID, $entityID, $params );
