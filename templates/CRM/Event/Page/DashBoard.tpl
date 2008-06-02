@@ -1,7 +1,7 @@
 {* CiviEvent DashBoard (launch page) *}
 {capture assign=newEventURL}{crmURL p="civicrm/event/manage" q="action=add&reset=1"}{/capture}
 {capture assign=configPagesURL}{crmURL p="civicrm/event/manage" q="reset=1"}{/capture}
-<div class="action-link float-right"><a href="{$newEventURL}">&raquo; New Event</a><br /><a href="{$configPagesURL}">&raquo; Manage Events</a></div>
+<div class="action-link float-right"><a href="{$newEventURL}" class="button"><span>&raquo; New Event</span></a><br/><br/><a href="{$configPagesURL}" class="button"><span>&raquo; Manage Events</span></a></div>
 
 <h3>{ts}Event Summary{/ts} {help id="id-event-intro"}</h3>
 {if $eventSummary.total_events}
