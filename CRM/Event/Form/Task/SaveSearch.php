@@ -130,7 +130,6 @@ class CRM_Event_Form_Task_SaveSearch extends CRM_Event_Form_Task
 
         // also create a group that is associated with this saved search only if new saved search
         $params = array( );
-        $params['domain_id'  ]     = CRM_Core_Config::domainID( );
         $params['title'      ]     = $formValues['title'];
         $params['description']     = $formValues['description'];
         $params['visibility' ]     = 'User and User Admin Only';

@@ -817,8 +817,7 @@ AND civicrm_contact.is_opt_out =0";
         require_once 'CRM/Core/BAO/Domain.php';
         $config =& CRM_Core_Config::singleton();
         $bao =& new CRM_Mailing_BAO_Mailing();
-        $bao->domain_id = $config->domainID();
-        $bao->_domain =& CRM_Core_BAO_Domain::getDomainByID($bao->domain_id);
+        $bao->_domain =& CRM_Core_BAO_Domain::getDomain( );
         $bao->from_name = $bao->from_email = $bao->subject = '';
 
         // use $bao's instance method to get verp and urls
@@ -857,7 +856,7 @@ AND civicrm_contact.is_opt_out =0";
             $verp[$key] = implode($config->verpSeparator,
                                   array(
                                         $value,
-                                        $this->domain_id,
+                                        1,
                                         $job_id, 
                                         $event_queue_id,
                                         $hash
@@ -915,7 +914,7 @@ AND civicrm_contact.is_opt_out =0";
         
         if ($this->_domain == null) {
             require_once 'CRM/Core/BAO/Domain.php';
-            $this->_domain =& CRM_Core_BAO_Domain::getDomainByID($this->domain_id);
+            $this->_domain =& CRM_Core_BAO_Domain::getDomain( );
         }
 
         list( $verp, $urls, $headers) = $this->getVerpAndUrlsAndHeaders($job_id, $event_queue_id, $hash, $email);
@@ -1017,7 +1016,7 @@ AND civicrm_contact.is_opt_out =0";
     function tokenReplace( &$mailing )
     {
         require_once 'CRM/Core/BAO/Domain.php';
-        $domain =& CRM_Core_BAO_Domain::getDomainByID($mailing->domain_id);
+        $domain =& CRM_Core_BAO_Domain::getDomain( );
         foreach ( array('text', 'html') as $type ) {
             require_once 'CRM/Utils/Token.php';
             $tokens = $mailing->getTokens();
@@ -1103,7 +1102,6 @@ AND civicrm_contact.is_opt_out =0";
         }
         
         $mailing =& new CRM_Mailing_DAO_Mailing( );
-        $mailing->domain_id = CRM_Core_Config::domainID( );
         $mailing->id = CRM_Utils_Array::value( 'mailing_id', $ids );
         
         if (  ! isset( $params['replyto_email'] ) &&
@@ -1523,8 +1521,6 @@ AND civicrm_contact.is_opt_out =0";
         $this->selectAdd('COUNT(id) as count');
         
         $session =& CRM_Core_Session::singleton();
-        $this->domain_id = $session->get('domainID');
-        
         $this->find(true);
         
         return $this->count;
@@ -1597,7 +1593,6 @@ SELECT DISTINCT( m.id ) as id
         $job        = CRM_Mailing_BAO_Job::getTableName();
         $group      = CRM_Mailing_DAO_Group::getTableName( );
         $session    =& CRM_Core_Session::singleton();
-        $domain_id  = $session->get('domainID');
 
         $mailingACL = self::mailingACL( );
 
@@ -1610,8 +1605,7 @@ SELECT DISTINCT( m.id ) as id
                         MAX($job.end_date) as end_date
             FROM        $mailing 
                         LEFT JOIN $job ON ( $job.mailing_id = $mailing.id AND $job.is_test = 0)
-            WHERE       $mailing.domain_id = $domain_id
-              AND       $mailingACL $additionalClause
+            WHERE       $mailingACL $additionalClause
             GROUP BY    $mailing.id ";
         
         if ($sort) {

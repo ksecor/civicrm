@@ -123,6 +123,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup
                         'default_value',
                         'attributes',
                         'is_required',
+                        'is_view',
                         'help_post',
                         'options_per_line',
                         'start_date_years',
@@ -162,11 +163,9 @@ LEFT JOIN civicrm_custom_field ON (civicrm_custom_field.custom_group_id = civicr
             $in = "'$entityType'";
         }
 
-        $domainID = CRM_Core_Config::domainID( );
         if ( $subType ) {
             $strWhere = "
-WHERE civicrm_custom_group.domain_id = $domainID
-  AND civicrm_custom_group.is_active = 1 
+WHERE civicrm_custom_group.is_active = 1 
   AND civicrm_custom_field.is_active = 1 
   AND civicrm_custom_group.extends IN ($in)
   AND ( civicrm_custom_group.extends_entity_column_value = '$subType'
@@ -174,8 +173,7 @@ WHERE civicrm_custom_group.domain_id = $domainID
 ";
         } else {
             $strWhere = "
-WHERE civicrm_custom_group.domain_id = $domainID
-  AND civicrm_custom_group.is_active = 1 
+WHERE civicrm_custom_group.is_active = 1 
   AND civicrm_custom_field.is_active = 1 
   AND civicrm_custom_group.extends IN ($in)
   AND civicrm_custom_group.extends_entity_column_value IS NULL
@@ -430,36 +428,50 @@ SELECT $select
             }
             $table = $groupTree[$groupID]['table_name'];
             foreach ( $group['fields'] as $fieldID => $field ) {
+                // ignore view fields in update
+                if ( $field['is_view'] ) {
+                    continue;
+                }
+
                 if ( isset( $field['customValue'] ) ) {
                     $column    = $groupTree[$groupID]['fields'][$fieldID]['column_name'];
                     $update[] = "{$table}.{$column} = '{$field['customValue']['data']}'";
                 }
             }
 
-            $query = "
+            $sql = "
 SELECT entity_id 
 FROM   {$table} 
 WHERE  {$table}.entity_id = {$entityId}";
-
-            $crmDAO =& CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray ); 
+            $recordExists =& CRM_Core_DAO::singleValueQuery( $sql,
+                                                             CRM_Core_DAO::$_nullArray ); 
             if ( ! empty( $update ) ) {
-                $tables = implode( ', ', $groupTree['info']['from'  ] );
+                $tables = implode( ', ', $groupTree['info']['from'] );
+                $hookOP = null;
                 if ( $groupTree['info']['where' ] ) {
-                    if( $crmDAO ) {
+                    if( $recordExists ) {
                         $sqlOP = 'UPDATE';
                         $where = ' WHERE ' . implode( ', ', $groupTree['info']['where' ] );
+                        $hookOP = 'edit';
                     } else {
                         $sqlOP = 'INSERT INTO';
                         $where  = null;
-                        $update[] = "{$table}.domain_id = " . CRM_Core_Config::domainID();
                         $update[] = "{$table}.entity_id = '{$entityId}'";
+                        $hookOP = 'create';
                     }
                 } else {
                     $sqlOP  = 'SELECT';
                     $where  = null;
                 }
                 $update = implode( ', ', $update );
-                                   
+
+                if ( $hookOP ) {
+                    require_once 'CRM/Utils/Hook.php';
+                    CRM_Utils_Hook::post( $hookOP, 'custom',
+                                          array( $groupID, $entityId ),
+                                          $group['fields'] );
+                }
+
                 $query = "
 $sqlOP $tables
    SET $update
@@ -631,8 +643,6 @@ $where
         $customGroupDAO->whereAdd("style = 'Tab'");
         $customGroupDAO->whereAdd("is_active = 1");
 
-        $customGroupDAO->whereAdd("domain_id =" . CRM_Core_Config::domainID() );
-        
         // add whereAdd for entity type
         self::_addWhereAdd($customGroupDAO, $entityType);
 
@@ -1061,6 +1071,11 @@ $where
                  
             $groupId = $group['id']; 
             foreach ($group['fields'] as $field) { 
+                // skip all view fields
+                if ( $field['is_view'] ) {
+                    continue;
+                }
+
                 $required = $field['is_required'];
                 //fix for CRM-1620
                 if ( $field['data_type']  == 'File') {
@@ -1446,5 +1461,3 @@ ORDER BY weight ASC, label ASC";
     }
 
 }
-
-

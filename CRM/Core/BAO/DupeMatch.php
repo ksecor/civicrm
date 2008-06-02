@@ -118,12 +118,10 @@ class CRM_Core_BAO_DupeMatch extends CRM_Core_DAO_DupeMatch {
     static function add($rule) {
         // action is taken depending upon the mode
         $dupematch               =& new CRM_Core_DAO_DupeMatch( );
-        $dupematch->domain_id    = CRM_Core_Config::domainID( );
         $dupematch-> find(true);
         $id = $dupematch->id;
 
         $dupematch               =& new CRM_Core_DAO_DupeMatch( );
-        $dupematch->domain_id    = CRM_Core_Config::domainID( );
         $dupematch->id           = $id;  
         $dupematch->entity_table = 'civicrm_individual';
         $dupematch->rule         = $rule;

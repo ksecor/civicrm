@@ -60,7 +60,6 @@ class CRM_Admin_Form_DupeMatch extends CRM_Admin_Form
         $this->_advanced = CRM_Utils_Request::retrieve( 'advance', 'Boolean',
                                                         $this, false );
         $dupematch               =& new CRM_Core_DAO_DupeMatch( );
-        $dupematch->domain_id    = CRM_Core_Config::domainID( );
         $dupematch-> find(true);
         $id = $dupematch->id;
         $rule = $dupematch->rule;

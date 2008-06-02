@@ -78,7 +78,7 @@ class CRM_Mailing_Event_BAO_Confirm extends CRM_Mailing_Event_DAO_Confirm {
         $transaction->commit( );
 
         $config =& CRM_Core_Config::singleton();
-        $domain =& CRM_Mailing_Event_BAO_Subscribe::getDomain($subscribe_id);
+        $domain =& CRM_Core_BAO_Domain::getDomain( );
         
         list($display_name, $email) =
                 CRM_Contact_BAO_Contact_Location::getEmailDetails($se->contact_id);
@@ -89,7 +89,6 @@ class CRM_Mailing_Event_BAO_Confirm extends CRM_Mailing_Event_DAO_Confirm {
         
         require_once 'CRM/Mailing/BAO/Component.php';
         $component =& new CRM_Mailing_BAO_Component();
-        $component->domain_id = $domain->id;
         $component->is_default = 1;
         $component->is_active = 1;
         $component->component_type = 'Welcome';

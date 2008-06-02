@@ -156,47 +156,6 @@ WHERE  id IN ( $idString )
     }
 
     /**
-     * Find contacts which match the criteria
-     *
-     * @param string $matchClause the matching clause
-     * @param  array $tables (reference ) add the tables that are needed for the select clause
-     * @param int    $id          the current contact id (hence excluded from matching)
-     *
-     * @return string                contact ids if match found, else null
-     * @static
-     * @access public
-     */
-    static function match( $matchClause, &$tables, $id = null ) 
-    {
-        // check whether rule is empty or none
-        // if not empty then matchContact other wise skip matchcontact
-        // updated for CRM-974
-        require_once 'CRM/Core/DAO/DupeMatch.php';
-        $dupeMatchDAO = & new CRM_Core_DAO_DupeMatch();
-        $dupeMatchDAO->find(true);
-        if (!($dupeMatchDAO->rule == 'none')){
-            $config =& CRM_Core_Config::singleton( );
-            $query  = "SELECT DISTINCT contact_a.id as id";
-            $query .= CRM_Contact_BAO_Query::fromClause( $tables );
-            $query .= " WHERE $matchClause ";
-            $params = array( );
-            if ( $id ) {
-                $query .= " AND contact_a.id != %1";
-                $params[1] = array( $id, 'Integer' );
-            }
-            $ids = array( );
-            $dao =& CRM_Core_DAO::executeQuery( $query, $params );
-            while ( $dao->fetch( ) ) {
-                $ids[] = $dao->id;
-            }
-            $dao->free( );
-            return implode( ',', $ids );
-        } else {
-             return null;
-        }
-     }
-
-    /**
      * Function to get the count of  contact loctions
      * 
      * @param int $contactId contact id

@@ -197,7 +197,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                 $query ="SELECT $cfTable.id, $cfTable.label,
                             $cgTable.title,
                             $cfTable.data_type, $cfTable.html_type,
-                            $cfTable.options_per_line,
+                            $cfTable.options_per_line, $cfTable.is_view,
                             $cgTable.extends, $cfTable.is_search_range,
                             $cgTable.extends_entity_column_value
                      FROM $cfTable
@@ -782,7 +782,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                 $value = $customField->default_value;
             }
         } else {
-            $info   = self::getTableColumnName( $customFieldId );
+            $info   = self::getTableColumnGroup( $customFieldId );
             
             $query  = "SELECT {$info[0]}.{$info[1]} as value FROM {$info[0]} WHERE {$info[0]}.entity_id = {$contactId}";
             
@@ -916,7 +916,12 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             return;
         }
 
-        list( $tableName, $columnName ) = self::getTableColumnName( $customFieldId );
+        // return if field is a 'code' field
+        if ( $customFields[$customFieldId]['is_view'] ) {
+            return;
+        }
+
+        list( $tableName, $columnName, $groupID ) = self::getTableColumnGroup( $customFieldId );
         
         if ( ! $customValueId && $entityId ) {
             //get the entity table for the custom field
@@ -1034,7 +1039,9 @@ SELECT $columnName
         $customFormatted[$customFieldId] = array('id'              => $customValueId,
                                                  'value'           => $value,
                                                  'type'            => $customFields[$customFieldId][2],
-                                                 'custom_field_id' => $customFieldId,
+                                                 'custom_field_id' => $customFieldId, 
+                                                 'custom_group_id' => $groupID,
+                                                 'class_name'      => $groupClassName,
                                                  'table_name'      => $tableName,
                                                  'column_name'     => $columnName,
                                                  'file_id'         => $fileId
@@ -1043,7 +1050,7 @@ SELECT $columnName
     }
 
     static function &defaultCustomTableSchema( &$params ) {
-        // add the id, domain_id, and extends_id
+        // add the id and extends_id
         $table = array( 'name'       => $params['name'],
                         'attributes' => "ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci",
                         'fields'     => array(
@@ -1053,12 +1060,6 @@ SELECT $columnName
                                                      'required'      => true,
                                                      'attributes'    => 'AUTO_INCREMENT',
                                                      'comment'       => 'Default MySQL primary key' ),
-                                              array( 'name'          => 'domain_id',
-                                                     'type'          => 'int unsigned',
-                                                     'required'      => true,
-                                                     'comment'       => 'Default Domain that this data belongs to',
-                                                     'fk_table_name' => 'civicrm_domain',
-                                                     'fk_field_name' => 'id' ),
                                               array( 'name'          => 'entity_id',
                                                      'type'          => 'int unsigned',
                                                      'required'      => true,
@@ -1069,8 +1070,7 @@ SELECT $columnName
                                               ),
                         'indexes'    => array(
                                               array( 'unique'        => true,
-                                                     'field_name_1'  => 'domain_id',
-                                                     'field_name_2'  => 'entity_id' )
+                                                     'field_name_1'  => 'entity_id' )
                                               ),
                                                     
                         );
@@ -1114,12 +1114,12 @@ SELECT $columnName
         CRM_Core_BAO_SchemaHandler::alterFieldSQL( $params, $dropIndex );
     }
 
-    static function getTableColumnName( $fieldID ) {
+    static function getTableColumnGroup( $fieldID ) {
         static $cache = array( );
 
         if ( ! array_key_exists( $fieldID, $cache ) ) {
             $query = "
-SELECT cg.table_name, cf.column_name
+SELECT cg.table_name, cf.column_name, cg.id
 FROM   civicrm_custom_group cg,
        civicrm_custom_field cf
 WHERE  cf.custom_group_id = cg.id
@@ -1131,7 +1131,7 @@ AND    cf.id = %1";
                 CRM_Core_Error::fatal( );
             }
             $dao->free( );
-            $cache[$fieldID] = array( $dao->table_name, $dao->column_name );
+            $cache[$fieldID] = array( $dao->table_name, $dao->column_name, $dao->id );
         }
         return $cache[$fieldID];
     }

@@ -138,7 +138,6 @@ class CRM_Contribute_Form_ContributionPage_Settings extends CRM_Contribute_Form_
             $params['id'] = $this->_id;
         }
 
-        $params['domain_id']             = CRM_Core_Config::domainID( );
         $params['is_active']             = CRM_Utils_Array::value('is_active'            , $params, false);
         $params['is_credit_card_only']   = CRM_Utils_Array::value('is_credit_card_only'  , $params, false);
         $params['honor_block_is_active'] = CRM_Utils_Array::value('honor_block_is_active', $params, false);

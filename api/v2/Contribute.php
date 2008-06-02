@@ -182,15 +182,25 @@ function &civicrm_contribution_search( &$params ) {
     
     require_once 'CRM/Contact/BAO/Query.php';
     $newParams =& CRM_Contact_BAO_Query::convertFormValues( $inputParams );
+
+    $query =& new CRM_Contact_BAO_Query( $newParams, $returnProperties, null );
+    list( $select, $from, $where ) = $query->query( );
     
-    list( $contacts, $options ) = CRM_Contact_BAO_Query::apiQuery( $newParams,
-                                                                   $returnProperties,
-                                                                   null,
- 	                                                               $sort,
-                                                                   $offset,
-                                                                   $rowCount );
+    $sql = "$select $from $where";  
+
+    if ( ! empty( $sort ) ) {
+        $sql .= " ORDER BY $sort ";
+    }
+    $sql .= " LIMIT $offset, $rowCount ";
+    $dao =& CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
     
-    return $contacts;
+    $contribution = array( );
+    while ( $dao->fetch( ) ) {
+        $contribution[$dao->contribution_id] = $query->store( $dao );
+    }
+    $dao->free( );
+    
+    return $contribution;
 }
 
 function &civicrm_contribution_format_create( &$params ) {
@@ -301,12 +311,6 @@ function _civicrm_contribute_format_params( &$params, &$values, $create=false ) 
    
     $fields =& CRM_Contribute_DAO_Contribution::fields( );
 
-    static $domainID = null;
-    if (!$domainID) {
-        $config =& CRM_Core_Config::singleton();
-        $domainID = $config->domainID();
-    }
-    
     _civicrm_store_values( $fields, $params, $values );
 
     foreach ($params as $key => $value) {
@@ -323,7 +327,8 @@ function _civicrm_contribute_format_params( &$params, &$values, $create=false ) 
             }
             $dao =& new CRM_Core_DAO();
             $qParams = array();
-            $svq = $dao->singleValueQuery("SELECT id FROM civicrm_contact WHERE domain_id = $domainID AND id = $value",$qParams);
+            $svq = $dao->singleValueQuery("SELECT id FROM civicrm_contact WHERE id = $value",
+                                          $qParams);
             if (!$svq) {
                 return civicrm_create_error("Invalid Contact ID: There is no contact record with contact_id = $value.");
             }

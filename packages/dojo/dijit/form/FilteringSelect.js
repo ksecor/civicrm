@@ -45,6 +45,7 @@ this.valueNode.value=_6;
 dijit.form.FilteringSelect.superclass.setValue.call(this,_6,_8,_7);
 this._lastDisplayedValue=_7;
 },setValue:function(_9,_a){
+	    if(!_9){ return; }
 var _b=this;
 var _c=function(_d,_e){
 if(_d){

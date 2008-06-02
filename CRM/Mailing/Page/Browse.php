@@ -221,9 +221,6 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
             $params[2] = array( $this->_sortByCharacter . '%', 'String' );
         }
 
-        $clauses[] = 'domain_id = %3';
-        $params[3] = array( CRM_Core_Config::domainID( ), 'Integer' );
-        
         return implode( ' AND ', $clauses );
     }
 

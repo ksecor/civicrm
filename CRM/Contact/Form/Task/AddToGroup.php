@@ -190,7 +190,6 @@ class CRM_Contact_Form_Task_AddToGroup extends CRM_Contact_Form_Task {
             $groupParams['title'      ] = $this->controller->exportValue( 'AddToGroup', 'title' );
             $groupParams['description'] = $this->controller->exportValue( 'AddToGroup', 'description' );
             $groupParams['visibility' ] = "User and User Admin Only";
-            $groupParams['domain_id'  ] = CRM_Core_Config::domainID( );
             $groupParams['group_type' ] = '';
             $groupParams['is_active'  ] = 1;
            

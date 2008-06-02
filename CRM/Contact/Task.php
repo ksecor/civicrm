@@ -207,6 +207,11 @@ class CRM_Contact_Task {
                            12 => self::$_tasks[12]['title'],
                            16 => self::$_tasks[16]['title'],
                            );
+            if ( ! self::$_tasks[12]['title'] ) {
+                //usset it, No edit permission and Map provider info
+                //absent, drop down shows blank space
+                unset( $tasks[12] );
+            } 
             return $tasks;
         }
     }

@@ -85,7 +85,7 @@ function civicrm_custom_group_create($params)
         return civicrm_create_error( "Title is not set" );
     } else {
         $params['table_name'] = 
-            "civicrm_value_{$params['domain_id']}_" .
+            "civicrm_value_" . 
             strtolower( CRM_Utils_String::munge( $params['title'] ) ) ;
     }
     if (is_a($error, 'CRM_Core_Error')) {
@@ -185,7 +185,6 @@ function civicrm_custom_field_create( $params )
         // first create an option group for this custom group
         require_once 'CRM/Core/BAO/OptionGroup.php';
         $optionGroup            =& new CRM_Core_DAO_OptionGroup( );
-        $optionGroup->domain_id = $params['optionGroup']['domain_id'];
         $optionGroup->name      = "{$params['customGroup']['table_name']}: {$params['fieldParams']['column_name']}";
         $optionGroup->label     = $params['fieldParams']['label'];
         $optionGroup->is_active = 1;

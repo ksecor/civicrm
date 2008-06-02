@@ -111,20 +111,17 @@ WHERE  id IN ( $groupIDs )
 
     static function remove( $groupID = null ) {
         if ( ! isset( $groupID ) ) {
-            $domainID = CRM_Core_Config::domainID( );
             $query = "
 DELETE     g
 FROM       civicrm_group_contact_cache g
 INNER JOIN civicrm_contact c ON c.id = g.contact_id
-WHERE      c.domain_id = %1
 ";
 
             $update = "
 UPDATE civicrm_group g
 SET    cache_date = null
-WHERE  g.domain_id = %1
 ";
-            $params = array( 1 => array( $domainID, 'Integer' ) );
+            $params = array( );
         } else if ( is_array( $groupID ) ) {
             $query = "
 DELETE     g

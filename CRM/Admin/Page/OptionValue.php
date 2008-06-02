@@ -141,9 +141,6 @@ class CRM_Admin_Page_OptionValue extends CRM_Core_Page_Basic
         require_once 'CRM/Core/DAO/OptionValue.php';
         $dao =& new CRM_Core_DAO_OptionValue();
         
-        // set the domain_id parameter
-        $config =& CRM_Core_Config::singleton( );
-        $dao->domain_id = $config->domainID( );
         $dao->option_group_id = $this->_gid;
 
         $dao->orderBy('name');

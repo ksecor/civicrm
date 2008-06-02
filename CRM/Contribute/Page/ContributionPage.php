@@ -255,8 +255,6 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page
 
         $this->search( );
 
-        $config =& CRM_Core_Config::singleton( );
-        
         $params = array( );
                       
         $whereClause = $this->whereClause( $params, false );
@@ -350,9 +348,6 @@ ORDER BY title asc
             $params[3] = array( $this->_sortByCharacter . '%', 'String' );
         }
        
-        $clauses[] = 'domain_id = %4';
-        $params[4] = array( CRM_Core_Config::domainID( ), 'Integer' );
-
         // dont do a the below assignement when doing a 
         // AtoZ pager clause
         if ( $sortBy ) {
@@ -362,6 +357,11 @@ ORDER BY title asc
                 $this->assign( 'isSearch', 0 );
             }
         }
+
+        if ( empty( $clauses ) ) {
+            return 1;
+        }
+
         return implode( ' AND ', $clauses );
     }
 

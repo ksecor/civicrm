@@ -46,7 +46,6 @@ class CRM_Core_BAO_Preferences extends CRM_Core_DAO_Preferences {
     static function &systemObject( ) {
         if ( ! self::$_systemObject ) {
             self::$_systemObject =& new CRM_Core_DAO_Preferences( );
-            self::$_systemObject->domain_id  = CRM_Core_Config::domainID( );
             self::$_systemObject->is_domain  = true;
             self::$_systemObject->contact_id = null;
             self::$_systemObject->find( true );
@@ -61,7 +60,6 @@ class CRM_Core_BAO_Preferences extends CRM_Core_DAO_Preferences {
                 $userID  =  $session->get( 'userID' );
             }
             self::$_userObject =& new CRM_Core_DAO_Preferences( );
-            self::$_userObject->domain_id  = CRM_Core_Config::domainID( );
             self::$_userObject->is_domain  = false;
             self::$_userObject->contact_id = $userID;
             self::$_userObject->find( true );

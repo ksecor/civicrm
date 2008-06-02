@@ -86,11 +86,11 @@ class CRM_Import_Form_Summary extends CRM_Core_Form {
                 ts('These records have not been imported.');
 
             $this->assign('dupeError', true);
-        
-            /* only subtract dupes from succesful import if we're skipping */
-            $this->set('validRowCount', $totalRowCount - $invalidRowCount -
-                    $conflictRowCount - $duplicateRowCount - $mismatchCount);
         }
+        //now we also create relative contact in update and fill mode
+        $this->set('validRowCount', $totalRowCount - $invalidRowCount -
+                   $conflictRowCount - $duplicateRowCount - $mismatchCount);
+        
         $this->assign('dupeActionString', $dupeActionString);
         
         $properties = array( 'totalRowCount', 'validRowCount', 'invalidRowCount', 'conflictRowCount', 'downloadConflictRecordsUrl', 'downloadErrorRecordsUrl', 'duplicateRowCount', 'downloadDuplicateRecordsUrl','downloadMismatchRecordsUrl', 'groupAdditions', 'tagAdditions', 'unMatchCount');

@@ -191,12 +191,6 @@ function _crm_format_contrib_params( &$params, &$values, $create=false ) {
    
     $fields =& CRM_Contribute_DAO_Contribution::fields( );
 
-    static $domainID = null;
-    if (!$domainID) {
-        $config =& CRM_Core_Config::singleton();
-        $domainID = $config->domainID();
-    }
-    
     _crm_store_values( $fields, $params, $values );
     
     foreach ($params as $key => $value) {
@@ -213,7 +207,8 @@ function _crm_format_contrib_params( &$params, &$values, $create=false ) {
             }
             $dao =& new CRM_Core_DAO();
             $qParams = array();
-            $svq = $dao->singleValueQuery("SELECT id FROM civicrm_contact WHERE domain_id = $domainID AND id = $value",$qParams);
+            $svq = $dao->singleValueQuery("SELECT id FROM civicrm_contact WHERE id = $value",
+                                          $qParams);
             if (!$svq) {
                 return _crm_error("Invalid Contact ID: There is no contact record with contact_id = $value.");
             }
@@ -299,12 +294,6 @@ function _crm_format_contrib_params( &$params, &$values, $create=false ) {
  */
 function _crm_format_membership_params( &$params, &$values, $create=false) 
 {
-    static $domainID = null;
-    if (!$domainID) {
-        $config =& CRM_Core_Config::singleton();
-        $domainID = $config->domainID();
-    }
-    
     require_once "CRM/Member/DAO/Membership.php";
     $fields =& CRM_Member_DAO_Membership::fields( );
     _crm_store_values( $fields, $params, $values );
@@ -322,7 +311,7 @@ function _crm_format_membership_params( &$params, &$values, $create=false)
             }
             $dao =& new CRM_Core_DAO();
             $qParams = array();
-            $svq = $dao->singleValueQuery("SELECT id FROM civicrm_contact WHERE domain_id = $domainID AND id = $value",$qParams);
+            $svq = $dao->singleValueQuery("SELECT id FROM civicrm_contact WHERE id = $value",$qParams);
             if (!$svq) {
                 return _crm_error("Invalid Contact ID: There is no contact record with contact_id = $value.");
             }

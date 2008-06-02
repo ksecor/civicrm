@@ -290,7 +290,6 @@ class CRM_Core_PseudoConstant
         require_once(str_replace('_', DIRECTORY_SEPARATOR, $name) . ".php");
         eval( '$object =& new ' . $name . '( );' );
         
-        $object->domain_id = CRM_Core_Config::domainID( );
         $object->selectAdd( );
         $object->selectAdd( "$key, $retrieve" );
         if ($condition) {

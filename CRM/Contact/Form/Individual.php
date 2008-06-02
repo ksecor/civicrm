@@ -115,36 +115,18 @@ class CRM_Contact_Form_Individual {
             $extraOnAddFlds = $extraOnAddFlds ? ($extraOnAddFlds . "|" . $addFld) : $addFld;
         }
         $extraOnAddFlds = "'" . $extraOnAddFlds . "'";
-        //hidden element for checking valid entry in dojo
-        $form->add('hidden', 'HhName', null);
-        if ( $action & CRM_Core_Action::UPDATE ) {
 
-            $sharedOptionsExtra = array( 'onclick' => "showHideSharedOptions();setAddressFields();" );        
-            
+        $sharedOptionsExtra = array( 'onclick' => "showHideSharedOptions();setAddressFields();" );   
+        if ( $action & CRM_Core_Action::UPDATE ) {
             $mailToHouseholdID  = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', 
                                                                $form->_contactId, 
                                                                'mail_to_household_id', 
                                                                'id' );
-            
             if ( isset($mailToHouseholdID) ) {
-                $HouseholdName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', 
-                                                              $mailToHouseholdID , 
-                                                              'display_name', 
-                                                              'id' );
-                
-                if ( $HouseholdName ) {
-                    $this->assign( 'HouseholdName',$HouseholdName );
-                }
-                
-                $form->add('hidden', 'old_mail_to_household_id', $mailToHouseholdID);
-                $form->assign('old_mail_to_household_id', $mailToHouseholdID);
-                
                 $sharedOptionsExtra = array( 'onclick' => "showHideSharedOptions();
 resetByValue('shared_option',   '', $extraOnAddFlds, 'text', 'radio',   true );setAddressFields();
 " );
             }
-        } elseif ( $action & CRM_Core_Action::ADD ) {
-            $sharedOptionsExtra = array( 'onclick' => "showHideSharedOptions();setAddressFields();" );        
         }
         
         if ( isset( $mailToHouseholdID ) ) {
@@ -170,20 +152,19 @@ setDefaultAddress();
         
         // shared address element block
         $form->addElement('checkbox', 'use_household_address', null, ts('Use Household Address'), $useHouseholdExtra);
-        $this->assign( 'dojoIncludes', " dojo.require('dojo.data.ItemFileReadStore'); dojo.require('dijit.form.ComboBox');dojo.require('dijit.form.FilteringSelect');dojo.require('dojo.parser');" );
+        $this->assign( 'dojoIncludes', " dojo.require('dojox.data.QueryReadStore');dojo.require('dojo.parser');" );
         
-        $domainID      =  CRM_Core_Config::domainID( );   
         $attributes    = array( 'dojoType'     => 'civicrm.FilteringSelect',
                                 'mode'         => 'remote',
                                 'store'        => 'addressStore',
-                                'style'        => 'width:300px; border: 1px solid #cfcfcf;',
+                                'style'        => 'width:450px; border: 1px solid #cfcfcf;',
                                 'class'        => 'tundra',
                                 'pageSize'     => 10,
                                 'onchange'     => 'showSelectedHouseholdAddress()'
                                 );
 
         $dataURL =  CRM_Utils_System::url( 'civicrm/ajax/search',
-                                           "d={$domainID}&sh=1&s=",
+                                           "hh=1",
                                            true, null, false );
 
         $this->assign('dataURL',$dataURL );
@@ -199,7 +180,7 @@ setDefaultAddress();
                                        ));
         $form->addRule('home_URL', ts('Enter a valid web location beginning with \'http://\' or \'https://\'. EXAMPLE: http://www.mysite.org/'), 'url');
 
-        $employerAttributes    = array( 'dojoType'     => 'dijit.form.FilteringSelect',
+        $employerAttributes    = array( 'dojoType'     => 'civicrm.FilteringSelect',
                                         'mode'         => 'remote',
                                         'store'        => 'organizationStore',
                                         'style'        => 'width:300px; border: 1px solid #cfcfcf;',
@@ -209,7 +190,7 @@ setDefaultAddress();
                                         );
         
         $employerDataURL =  CRM_Utils_System::url( 'civicrm/ajax/search',
-                                           "d={$domainID}&org=1&s=",
+                                           "org=1",
                                            true, null, false );
 
         $this->assign('employerDataURL',$employerDataURL );
@@ -294,20 +275,12 @@ setDefaultAddress();
                 CRM_Core_Session::setStatus( 'No matching contact found.' );
             }
         }
-     
-        //to get valid Id of entered houseHold
-        if ( $fields ['HhName'] ) {
-            $HouseholdId =  CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $fields ['HhName'] ,'id' ,'display_name' );
-            
-            if ( !$HouseholdId ){
-                $fields['shared_household'] = ''; 
-            }
-        }
+
         // if use_household_address option is checked, make sure 'valid household_name' is also present.
-        if ( CRM_Utils_Array::value('use_household_address',$fields) && (!$fields['shared_household']|| !$fields['shared_option']) ) {
+        if ( CRM_Utils_Array::value('use_household_address',$fields) ) {
             if ( ! $fields['create_household'] ) {
                 if ( !array_key_exists( 'shared_option', $fields ) || $fields['shared_option'] ) {
-                    if ( !$fields['old_mail_to_household_id'] || !$fields['shared_household'] ) {
+                    if ( !is_numeric( $fields['shared_household'] ) ) {
                         $errors["shared_household"] = 
                             ts("Please select a household from the 'Select Household' list");
                     }
@@ -343,7 +316,7 @@ setDefaultAddress();
                 }
             }
         }
-       
+
         return empty($errors) ? true : $errors;
     }
 
@@ -359,18 +332,12 @@ setDefaultAddress();
     static function copyHouseholdAddress( &$params ) 
     { 
         if ( $params['shared_household'] ) {
-            list($householdName) = 
-                explode( ":::", $params['shared_household'] );
-            $params['mail_to_household_id'] = 
-                CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', trim( $householdName ), 'id', 'sort_name' );
+            $params['mail_to_household_id'] = $params['shared_household'];
         }
         
-        if ( !$params['old_mail_to_household_id'] && !$params['mail_to_household_id'] ) {
+        if ( !$params['mail_to_household_id'] ) {
             CRM_Core_Error::statusBounce( ts("Shared Household-ID not found.") );
         }
-        
-        $params['mail_to_household_id'] = 
-            $params['mail_to_household_id'] ? $params['mail_to_household_id'] : $params['old_mail_to_household_id'];
         
         $locParams = array( 'contact_id' => $params['mail_to_household_id'] );
         

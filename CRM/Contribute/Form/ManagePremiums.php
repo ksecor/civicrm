@@ -277,7 +277,6 @@ class CRM_Contribute_Form_ManagePremiums extends CRM_Contribute_Form
 
             // store the submitted values in an array
             $params = $this->exportValues();
-            $params['domain_id'] = CRM_Core_Config::domainID( );
 
             // FIX ME 
             if(CRM_Utils_Array::value( 'imageOption',$params, false )) {

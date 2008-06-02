@@ -55,7 +55,6 @@ function civicrm_location_add( &$params ) {
     require_once 'CRM/Core/DAO/LocationType.php';
     $locationTypeDAO = & new CRM_Core_DAO_LocationType();
     $locationTypeDAO->name      = $params['location_type'];
-    $locationTypeDAO->domain_id = CRM_Core_Config::domainID( );
     $locationTypeDAO->find(true);
     $locationTypeId = $locationTypeDAO->id;
 

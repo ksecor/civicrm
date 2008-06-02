@@ -367,8 +367,6 @@ ORDER BY title asc
             $clauses[] = 'title LIKE %6';
             $params[6] = array( $this->_sortByCharacter . '%', 'String' );
         }
-        $clauses[] = 'domain_id = %7';
-        $params[7] = array( CRM_Core_Config::domainID( ), 'Integer' );
 
         // dont do a the below assignement when doing a 
         // AtoZ pager clause
@@ -379,6 +377,11 @@ ORDER BY title asc
                 $this->assign( 'isSearch', 0 );
             }
         }
+
+        if ( empty( $clauses ) ) {
+            return 1;
+        }
+
         return implode( ' AND ', $clauses );
     }
 

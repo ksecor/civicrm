@@ -44,7 +44,6 @@ class CRM_Core_BAO_Cache extends CRM_Core_DAO_Cache
     static function &getItem( $group, $path, $componentID = null ) {
         $dao = new CRM_Core_DAO_Cache( );
 
-        $dao->domain_id = CRM_Core_Config::domainID( );
         $dao->group_name = $group;
         $dao->path  = $path;
         $dao->component_id = $componentID;
@@ -60,7 +59,6 @@ class CRM_Core_BAO_Cache extends CRM_Core_DAO_Cache
                              $group, $path, $componentID = null ) {
         $dao = new CRM_Core_DAO_Cache( );
 
-        $dao->domain_id = CRM_Core_Config::domainID( );
         $dao->group_name = $group;
         $dao->path  = $path;
         $dao->component_id = $componentID;
@@ -73,7 +71,6 @@ class CRM_Core_BAO_Cache extends CRM_Core_DAO_Cache
     static function deleteGroup( $group = null ) {
         $dao = new CRM_Core_DAO_Cache( );
         
-        $dao->domain_id = CRM_Core_Config::domainID( );
         if ( ! empty( $group ) ) {
             $dao->group_name = $group;
         }

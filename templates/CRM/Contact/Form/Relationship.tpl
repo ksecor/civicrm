@@ -73,7 +73,7 @@
                   <script type="text/javascript">
 		  function setUrl( ) {
    		    var relType = document.getElementById('relationship_type_id').value; 
-                    var dataUrl = {/literal}'{crmURL p="civicrm/ajax/search" h=0 q="d=$domainId&rel="}'{literal} + relType;
+                    var dataUrl = {/literal}'{crmURL p="civicrm/ajax/search" h=0 q="rel="}'{literal} + relType;
                     var queryStore = new dojox.data.QueryReadStore({url: dataUrl, jsId: 'contactStore', doClientPaging: false } );
 
                     var widget   = dijit.byId('contact');

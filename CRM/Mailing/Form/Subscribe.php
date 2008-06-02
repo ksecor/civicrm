@@ -34,6 +34,7 @@
  */
 
 require_once 'CRM/Core/Form.php';
+require_once 'CRM/Mailing/Event/BAO/Subscribe.php';
 
 class CRM_Mailing_Form_Subscribe extends CRM_Core_Form
 {
@@ -162,7 +163,7 @@ ORDER BY title";
                 }
             }
         }
-        require_once 'CRM/Mailing/Event/BAO/Subscribe.php';
+        
         CRM_Mailing_Event_BAO_Subscribe::commonSubscribe( $groups, $params );
     }
 }

@@ -136,7 +136,6 @@ class CRM_Core_BAO_CMSUser
              isset( $params['contactID'] ) ) {
             // create the UF Match record
             $ufmatch                 =& new CRM_Core_DAO_UFMatch( );
-            $ufmatch->domain_id      =  CRM_Core_Config::domainID( );
             $ufmatch->uf_id          =  $ufID;
             $ufmatch->contact_id     =  $params['contactID'];
             $ufmatch->uf_name        =  $params[$mail];
@@ -265,7 +264,7 @@ class CRM_Core_BAO_CMSUser
 
             if ( $isJoomla ) {
                 require_once 'CRM/Core/BAO/UFGroup.php';
-                $ids = CRM_Core_BAO_UFGroup::findContact( $fields, $cid, true );
+                $ids = CRM_Core_BAO_UFGroup::findContact( $fields, $cid, 'Individual' );
                 if ( $ids ) {
                     $errors['_qf_default'] = ts( 'An account already exists with the same information.' );
                 }

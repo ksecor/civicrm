@@ -16,19 +16,6 @@
        <name>id</name> 
        <autoincrement>true</autoincrement> 
   </primaryKey> 
-  <field> 
-      <name>domain_id</name> 
-      <type>int unsigned</type> 
-      <default>0</default>
-      <required>true</required> 
-      <comment>Event belongs to which Domain?</comment> 
-      <add>1.7</add> 
-  </field>
-  <foreignKey> 
-       <name>domain_id</name> 
-       <table>civicrm_domain</table> 
-       <key>id</key> 
-  </foreignKey>
   <field>        
       <name>title</name>     
       <uniqueName>event_title</uniqueName>

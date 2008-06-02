@@ -119,8 +119,6 @@ class CRM_Core_BAO_Tag extends CRM_Core_DAO_Tag {
         }
 
         $tag               =& new CRM_Core_DAO_Tag( );
-        $tag->domain_id    = CRM_Core_Config::domainID( );
-
         $tag->copyValues( $params );
 
         $tag->id = CRM_Utils_Array::value( 'tag', $ids );

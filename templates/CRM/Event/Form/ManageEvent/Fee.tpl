@@ -85,12 +85,24 @@
 	
 	{section name=rowLoop start=1 loop=6}
 	   {assign var=index value=$smarty.section.rowLoop.index}
-	   <tr id="discount_{$index}" class="form-item {cycle values="odd-row,even-row"}">
+	   <tr id="discount_{$index}" {if $index GT 1 AND empty( $form.discount_name[$index].value) } style="display:none"{/if} class="form-item {cycle values="odd-row,even-row"}">
            <td>{if $index GT 1} <a onclick="hiderowDiscount('discount_{$index}'); return false;" name="discount_{$index}" href="#discount_{$index}" class="form-link"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}hide field or section{/ts}"/></a>{/if}
            </td>
 	   <td> {$form.discount_name.$index.html}</td>
-	   <td> {$form.discount_start_date.$index.html}</td>
-	   <td> {$form.discount_end_date.$index.html}</td>
+	   <td> {$form.discount_start_date.$index.html | crmDate }
+		 <span class="description">
+                      {include file="CRM/common/calendar/desc.tpl" trigger=trigger_discount_start doTime=1}
+                      {include file="CRM/common/calendar/body.tpl" dateVar=discount_start_date[$index]  startDate=currentYear 
+                	      startDate=startYear offset=10 doTime=1 trigger=trigger_discount_start ampm=1}
+	         </span>
+	  </td>
+	   <td> {$form.discount_end_date.$index.html | crmDate}
+		 <span class="description">
+                      {include file="CRM/common/calendar/desc.tpl" trigger=trigger_discount_end doTime=1}
+                      {include file="CRM/common/calendar/body.tpl" dateVar=discount_end_date[$index]  endDate=currentYear 
+                	      endDate=startYear offset=10 doTime=1 trigger=trigger_discount_end ampm=1}
+	         </span>
+	  </td>
 	   </tr>
         {/section}
         </table>

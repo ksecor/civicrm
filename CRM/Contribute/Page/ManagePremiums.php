@@ -154,9 +154,6 @@ class CRM_Contribute_Page_ManagePremiums extends CRM_Core_Page_Basic
         $premiums = array();
         require_once 'CRM/Contribute/DAO/Product.php';
         $dao =& new CRM_Contribute_DAO_Product();
-
-        // set the domain_id parameter
-        $config =& CRM_Core_Config::singleton( );
         $dao->orderBy('name');
         $dao->find();
 

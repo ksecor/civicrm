@@ -69,43 +69,26 @@ class CRM_Core_BAO_Domain extends CRM_Core_DAO_Domain {
     }
     
     /**
-     * Return the domain BAO for the current domain.
+     * Get the domain BAO 
      *
-     * @param NULL
-     * 
-     * @return  object  CRM_Core_BAO_Domain object
-     * 
-     * @access public
-     * @static
-     */
-    static function &getCurrentDomain() {
-        if (self::$_domain == null) {
-            self::$_domain =& self::getDomainByID(CRM_Core_Config::domainID());
-        }
-        return self::$_domain;
-    }
-
-    /**
-     * Get the domain BAO with the given ID
-     * 
-     * @param int $id       the domain id to find
-     * 
      * @return null|object CRM_Core_BAO_Domain
      * @access public
      * @static
      */
-    static function &getDomainByID($id) {
-        $domain =& new CRM_Core_BAO_Domain();
-        $domain->id = $id;
-        if ($domain->find(true)) {
-            return $domain;
+    static function &getDomain( ) {
+        static $domain = null;
+        if ( ! $domain ) {
+            $domain =& new CRM_Core_BAO_Domain();
+            if ( ! $domain->find(true) ) {
+                CRM_Core_Error::fatal( );
+            }
         }
-        return null;
+        return $domain;
     }
 
     static function version( ) {
         return CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Domain',
-                                            CRM_Core_Config::domainID( ),
+                                            1,
                                             'version' );
     }
 
@@ -120,7 +103,6 @@ class CRM_Core_BAO_Domain extends CRM_Core_DAO_Domain {
     function &getLocationValues() {
         if ($this->_location == null) {
             $params = array(
-                            'domain_id' => $this->id,
                             'entity_id' => $this->id, 
                             'entity_table' => self::getTableName()
                             );
