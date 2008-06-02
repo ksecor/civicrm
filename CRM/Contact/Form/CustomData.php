@@ -145,9 +145,16 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
         }
         
         if ( is_null($this->_entitySubType) ) {
-            $this->_groupTree  = CRM_Core_BAO_CustomGroup::getTree($this->_entityType, $this->_tableId, $this->_groupId);
+            $this->_groupTree  =
+                CRM_Core_BAO_CustomGroup::getTree($this->_entityType, 
+                                                  $this->_tableId,
+                                                  $this->_groupId);
         } else {
-            $this->_groupTree  = CRM_Core_BAO_CustomGroup::getTree($this->_entityType, $this->_tableId, $this->_groupId, $groupDetails[$this->_groupId]['extends_entity_column_value']);
+            $this->_groupTree  =
+                CRM_Core_BAO_CustomGroup::getTree($this->_entityType,
+                                                  $this->_tableId,
+                                                  $this->_groupId,
+                                                  $groupDetails[$this->_groupId]['extends_entity_column_value']);
         }
     }
     
