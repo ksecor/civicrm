@@ -35,6 +35,23 @@
 
 class CRM_Utils_Hook_Drupal {
 
+    static function commonHook( $op, $objectName, $id, &$params, $fnSuffix ) { 
+        $result = array( );
+        // copied from user_module_invoke
+        if (function_exists('module_list')) {
+            foreach ( module_list() as $module) { 
+                $function = $module . $fnSuffix;
+                if ( function_exists( $function ) ) {
+                    $fResult = $function( $op, $objectName, $id, $params );
+                    if ( is_array( $fResult ) ) {
+                        $result = array_merge( $result, $fResult );
+                    }
+                }
+            }
+        }
+        return empty( $result ) ? true : $result;
+   }
+
     /** 
      * This hook will be called on any operation on some core CiviCRM 
      * objects. We will extend the functionality over a period of time 
@@ -53,20 +70,7 @@ class CRM_Utils_Hook_Drupal {
      * @access public 
      */ 
     static function pre( $op, $objectName, $id, &$params ) {
-        $result = array( );
-        // copied from user_module_invoke
-        if (function_exists('module_list')) {
-            foreach ( module_list() as $module) { 
-                $function = $module . '_civicrm_pre';
-                if ( function_exists( $function ) ) {
-                    $fResult = $function( $op, $objectName, $id, $params );
-                    if ( $fResult !== true ) {
-                        $result = array_merge( $result, $fResult );
-                    }
-                }
-            }
-        }
-        return empty( $result ) ? true : $result;
+        return self::commonHook( $op, $objectName, $id, $params, '_civicrm_pre' );
     }
 
     /** 
@@ -80,6 +84,7 @@ class CRM_Utils_Hook_Drupal {
      * @param string $op         the type of operation being performed 
      * @param string $objectName the BAO class name of the object 
      * @param int    $objectId   the unique identifier for the object 
+
      * @param object $objectRef  the reference to the object if available 
      *  
      * @return mixed             based on op. pre-hooks return a boolean and/or
@@ -87,15 +92,7 @@ class CRM_Utils_Hook_Drupal {
      * @access public 
      */ 
     static function post( $op, $objectName, $objectId, &$objectRef ) {
-        // copied from user_module_invoke
-        if (function_exists( 'module_list')) {
-            foreach (module_list() as $module) { 
-                $function = $module . '_civicrm_post';
-                if ( function_exists( $function ) ) {
-                    $function( $op, $objectName, $objectId, $objectRef );
-                }
-            }
-        }
+        return self::commonHook( $op, $objectName, $id, $params, '_civicrm_post' );
     }
 
     /**
@@ -115,20 +112,11 @@ class CRM_Utils_Hook_Drupal {
     }
 
     static function validate( $formName, &$fields, &$files, &$form ) {
-        $result = array( );
-        // copied from user_module_invoke
-        if (function_exists('module_list')) {
-            foreach ( module_list() as $module) { 
-                $function = $module . '_civicrm_validate';
-                if ( function_exists( $function ) ) {
-                    $fResult = $function( $formName, $fields, $files, $form );
-                    if ( $fResult !== true ) {
-                        $result = array_merge( $result, $fResult );
-                    }
-                }
-            }
-        }
-        return empty( $result ) ? true : $result;
+        return self::commonHook( $op, $objectName, $id, $params, '_civicrm_validate' );
+    }
+
+    static function custom( $op, $groupID, $entityID, &$params ) {
+        return self::commonHook( $op, $groupID, $entityID, $params, '_civicrm_custom' );
     }
 
 }

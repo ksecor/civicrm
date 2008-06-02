@@ -696,23 +696,3 @@ function civicrm_translated_menu_link_alter(&$item) {
         $item['access_callback'] = $item['access'] = false;
     }
 }
-
-function civicrm_civicrm_post( $op, $objectName, $id, &$params ) {
-    if ( $objectName != 'custom' ||
-         ( $op != 'create' && $op != 'edit' ) ) {
-        return;
-    }
-
-    list( $groupID, $entityID ) = $id;
-    $tableName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup',
-                                              $groupID,
-                                              'table_name' );
-    $sql = "
-UPDATE $tableName
-SET    random_code_data_3 = 100
-WHERE  entity_id = $entityID
-";
-    CRM_Core_DAO::executeQuery( $sql,
-                                CRM_Core_DAO::$_nullArray );
-}
-

@@ -105,16 +105,17 @@ class CRM_Utils_Hook_Standalone {
     }
 
     static function validate( $formName, &$fields, &$files, &$form ) {
-        $result = array( );
-        // copied from user_module_invoke
-        $function = 'standalone_civicrm_validate';
-        if ( function_exists( $function ) ) {
-            $fResult = $function( $formName, $fields, $files, $form );
-            if ( $fResult !== true ) {
-                $result = array_merge( $result, $fResult );
-            }
+        if ( function_exists( 'standalone_civicrm_validate' ) ) {
+            reutrn standalone_civicrm_validate( $formName, $fields, $files, $form );
         }
-        return empty( $result ) ? true : $result;
+        return null;
+    }
+
+    static function custom( $op, $groupID, $entityID, &$params ) {
+        if ( function_exists( 'standalone_civicrm_custom' ) ) {
+            reutrn standalone_civicrm_custom( $op, $groupID, $entityID, $params );
+        }
+        return null;
     }
 
 }
