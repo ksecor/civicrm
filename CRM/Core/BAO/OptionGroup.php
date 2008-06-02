@@ -101,13 +101,12 @@ class CRM_Core_BAO_OptionGroup extends CRM_Core_DAO_OptionGroup
         
         // action is taken depending upon the mode
         $optionGroup               =& new CRM_Core_DAO_OptionGroup( );
-        $optionGroup->domain_id    = CRM_Core_Config::domainID( );
-        
         $optionGroup->copyValues( $params );;
         
         if ($params['is_default']) {
-            $query = "UPDATE civicrm_option_group SET is_default = 0 WHERE domain_id = {$optionGroup->domain_id}";
-            CRM_Core_DAO::executeQuery( $query, $p );
+            $query = "UPDATE civicrm_option_group SET is_default = 0";
+            CRM_Core_DAO::executeQuery( $query,
+                                        CRM_Core_DAO::$_nullArray );
         }
         
         $optionGroup->id = CRM_Utils_Array::value( 'optionGroup', $ids );

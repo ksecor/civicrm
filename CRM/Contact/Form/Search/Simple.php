@@ -48,7 +48,6 @@ class CRM_Contact_Form_Search_Simple extends CRM_Core_Form {
 
     public function buildQuickForm( ) { 
         $config   =& CRM_Core_Config::singleton( );
-        $domainID =  CRM_Core_Config::domainID( );
         
         $this->assign( 'dojoIncludes',
                        "dojo.require('dojo.widget.Select');dojo.require('dojo.widget.ComboBox');dojo.require('dojo.widget.Tooltip');" );
@@ -56,7 +55,7 @@ class CRM_Contact_Form_Search_Simple extends CRM_Core_Form {
 //         $attributes = array( 'dojoType'     => 'ComboBox',
 //                              'mode'         => 'remote',
 //                              'dataUrl'      => CRM_Utils_System::url( 'civicrm/ajax/search',
-//                                                                       "d={$domainID}&s=%{searchString}" ),
+//                                                                       "s=%{searchString}" ),
 //                              );
 //         $attributes += CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Contact', 'sort_name' );
 //         $this->add( 'text', 'sort_name', ts('Name'), $attributes );

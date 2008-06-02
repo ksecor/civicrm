@@ -153,11 +153,8 @@ class CRM_Admin_Form_PaymentProcessorType extends CRM_Admin_Form
             return $defaults;
         }
 
-        $domainID = CRM_Core_Config::domainID( );
-
         $dao =& new CRM_Core_DAO_PaymentProcessorType( );
         $dao->id        = $this->_id;
-        $dao->domain_id = $domainID;
 
         if ( ! $dao->find( true ) ) {
             return $defaults;
@@ -178,21 +175,15 @@ class CRM_Admin_Form_PaymentProcessorType extends CRM_Admin_Form
     {
         $values = $this->controller->exportValues( $this->_name );
 
-        $domainID = CRM_Core_Config::domainID( );
-
         if ( CRM_Utils_Array::value( 'is_default', $values ) ) {
             $query = "
-UPDATE civicrm_payment_processor
-   SET is_default = 0
- WHERE domain_id = $domainID;
-";
+UPDATE civicrm_payment_processor SET is_default = 0";
             CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         }
 
         $dao =& new CRM_Core_DAO_PaymentProcessorType( );
 
         $dao->id         = $this->_id;
-        $dao->domain_id  = $domainID;
         $dao->is_default = CRM_Utils_Array::value( 'is_default', $values, 0 );
         $dao->is_active  = CRM_Utils_Array::value( 'is_active' , $values, 0 );
         $dao->is_recur   = CRM_Utils_Array::value( 'is_recur'  , $values, 0 );

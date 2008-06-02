@@ -111,10 +111,7 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
         }
 
         $contribution =& new CRM_Contribute_BAO_Contribution();
-        
         $contribution->copyValues($params);
-        
-        $contribution->domain_id = CRM_Utils_Array::value( 'domain' , $ids, CRM_Core_Config::domainID( ) );
         
         $contribution->id        = CRM_Utils_Array::value( 'contribution', $ids );
 
@@ -160,7 +157,6 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
 
         if ( $contribution->find(true) ) {
             $ids['contribution'] = $contribution->id;
-            $ids['domain' ] = $contribution->domain_id;
 
             CRM_Core_DAO::storeValues( $contribution, $values );
 
@@ -346,17 +342,14 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
             $optionFields = CRM_Core_OptionValue::getFields($mode ='contribute' );
             require_once 'CRM/Contact/BAO/Contact.php';
             $contactFields = CRM_Contact_BAO_Contact::importableFields( $contacType, null );
-            if ($contacType == 'Individual') {
-                require_once 'CRM/Core/DAO/DupeMatch.php';
-                $dao = & new CRM_Core_DAO_DupeMatch();;
-                $dao->find(true);
-                $fieldsArray = explode('AND',$dao->rule);
-            } elseif ($contacType == 'Household') {
-                $fieldsArray = array('household_name', 'email');
-            } elseif ($contacType == 'Organization') {
-                $fieldsArray = array('organization_name', 'email');
-            }
-
+            
+            // Using new Dedupe rule.
+            $ruleParams = array(
+                                'contact_type' => $contacType,
+                                'level' => 'Strict'
+                                );
+            require_once 'CRM/Dedupe/BAO/Rule.php';
+            $fieldsArray = CRM_Dedupe_BAO_Rule::dedupeRuleFields($ruleParams);
             $tmpConatctField = array();
             if( is_array($fieldsArray) ) {
                 foreach ( $fieldsArray as $value) {
@@ -436,12 +429,11 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
         }
 
         $whereCond = implode( ' AND ', $where );
-        $domainID  = CRM_Core_Config::domainID( );
 
         $query = "
 SELECT sum( total_amount ) as total_amount, count( id ) as total_count
 FROM   civicrm_contribution
-WHERE  domain_id = $domainID AND $whereCond AND is_test=0
+WHERE  $whereCond AND is_test=0
 ";
 
         $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
@@ -592,13 +584,11 @@ SELECT p.goal_amount as goal, sum( c.total_amount ) as total
  WHERE p.id = c.contribution_page_id
    AND p.id = %1
    AND c.cancel_date is null
-   AND p.domain_id = %2
 GROUP BY p.id
 ";
 
         $config =& CRM_Core_Config::singleton( );
-        $params = array( 1 => array( $pageID, 'Integer' ),
-                         2 => array( $config->domainID( ), 'Integer' ) );
+        $params = array( 1 => array( $pageID, 'Integer' ) );
         $dao =& CRM_Core_DAO::executeQuery( $query, $params );
         
         if ( $dao->fetch( ) ) {
@@ -624,7 +614,7 @@ GROUP BY p.id
                               'email-Primary' => $params["honor_email"] );
         if ( !$honorId ) {
             require_once "CRM/Core/BAO/UFGroup.php";
-            $ids = CRM_Core_BAO_UFGroup::findContact( $honorParams );
+            $ids = CRM_Core_BAO_UFGroup::findContact( $honorParams, null, 'Individual' );
             $contactsIds = explode( ',', $ids );
             
             if ( is_numeric( $contactsIds[0] ) && count ( $contactsIds ) ==  1 ) {

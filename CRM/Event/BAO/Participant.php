@@ -339,21 +339,15 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
             if ( !$onlyParticipant ) {
                 require_once 'CRM/Contact/BAO/Contact.php';
                 $contactFields = CRM_Contact_BAO_Contact::importableFields( $contactType, null );
-                if ($contactType == 'Individual') {
-                    static $individualFieldArray = null;
-                    if ( ! $individualFieldArray ) {
-                        require_once 'CRM/Core/DAO/DupeMatch.php';
-                        $dao = & new CRM_Core_DAO_DupeMatch();
-                        $dao->find(true);
-                        $individalFieldArray = explode('AND',$dao->rule);
-                    }
-                    $fieldsArray = $individualFieldArray;
-                } elseif ($contactType == 'Household') {
-                    $fieldsArray = array('household_name', 'email');
-                } elseif ($contactType == 'Organization') {
-                    $fieldsArray = array('organization_name', 'email');
-                }
 
+                // Using new Dedupe rule.
+                $ruleParams = array(
+                                    'contact_type' => $contactType,
+                                    'level' => 'Strict'
+                                    );
+                require_once 'CRM/Dedupe/BAO/Rule.php';
+                $fieldsArray = CRM_Dedupe_BAO_Rule::dedupeRuleFields($ruleParams);
+                
                 if( is_array($fieldsArray) ) {
                     foreach ( $fieldsArray as $value) {
                         $tmpConatctField[trim($value)] = CRM_Utils_Array::value(trim($value),$contactFields);

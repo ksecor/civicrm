@@ -136,6 +136,12 @@ class CRM_Core_Invoke
                 $template->assign( 'urlIsPublic', false );
             }
 
+            if ( isset($item['return_url']) ) {
+                $session =& CRM_Core_Session::singleton( ); 
+                $session->pushUserContext( CRM_Utils_System::url($item['return_url'], 
+                                                                 'reset=1' . $item['return_url_args']) );
+            }
+
             if ( is_array( $item['page_callback'] ) ) {
                 $newArgs = explode( '/',
                                     $_GET[$config->userFrameworkURLVar] );

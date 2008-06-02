@@ -95,7 +95,6 @@ class CRM_Mailing_BAO_Component extends CRM_Mailing_DAO_Component {
     {
         // action is taken depending upon the mode
         $component                 =& new CRM_Mailing_DAO_Component( );
-        $component->domain_id      =  CRM_Core_Config::domainID( );
         $component->name           =  $params['name'];
         $component->component_type =  $params['component_type'];
         $component->subject        =  $params['subject'];
@@ -109,7 +108,7 @@ class CRM_Mailing_BAO_Component extends CRM_Mailing_DAO_Component {
         $component->is_default     =  CRM_Utils_Array::value( 'is_default', $params, false );
         
         if ( $component->is_default ) {
-            $query = "UPDATE civicrm_mailing_component SET is_default = 0 WHERE domain_id = {$component->domain_id} AND component_type ='{$component->component_type}'";
+            $query = "UPDATE civicrm_mailing_component SET is_default = 0 WHERE component_type ='{$component->component_type}'";
             CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         }
         

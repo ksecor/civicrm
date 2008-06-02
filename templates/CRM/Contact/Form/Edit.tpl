@@ -85,7 +85,7 @@
  <fieldset><legend>{ts}Household{/ts}</legend>
    	<table class="form-layout">
     <tr>
-		<td>{$form.household_name.label}</td>
+	<td>{$form.household_name.label}</td>
         <td>{$form.contact_source.label}</td>
     </tr>
     <tr>
@@ -318,17 +318,3 @@
 
 {* Include Javascript to hide and display the appropriate blocks as directed by the php code *}
 {include file="CRM/common/showHide.tpl"}
-
-{* Set Default for Shared Household-Name *}
-{if $contact_type eq 'Individual' and $defaultSharedHousehold}
-{literal}
-<script type="text/javascript">
-    dojo.addOnLoad( setSharedHouseholdDefault );
-    function setSharedHouseholdDefault( )
-    {
-        var sharedHousehold = dojo.widget.byId('shared_household');
-        sharedHousehold.textInputNode.value = "{/literal}{$defaultSharedHousehold}{literal}";
-    }
-</script>
-{/literal}
-{/if}

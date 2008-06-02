@@ -109,8 +109,6 @@ class CRM_Contribute_BAO_ContributionType extends CRM_Contribute_DAO_Contributio
         
         // action is taken depending upon the mode
         $contributionType               =& new CRM_Contribute_DAO_ContributionType( );
-        $contributionType->domain_id    = CRM_Core_Config::domainID( );
-        
         $contributionType->copyValues( $params );;
         
         $contributionType->id = CRM_Utils_Array::value( 'contributionType', $ids );

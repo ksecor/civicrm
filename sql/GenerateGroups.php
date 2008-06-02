@@ -21,7 +21,6 @@ $groupType  = array( null, '1', '2', '12' );
 
 for ( $i = 1; $i <= $numGroups; $i++ ) {
 	$group = new CRM_Contact_BAO_Group();
-    $group->domain_id  = 1;
     $cnt      = sprintf( '%05d', $i );
     $alphabet = mt_rand( 97, 122 );
     $group->name = $group->title = chr($alphabet) . ": $prefix $cnt";

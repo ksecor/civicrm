@@ -34,7 +34,6 @@ for ( $i = 1; $i <= $numGroups; $i++ ) {
     
     $cnt      = sprintf( '%05d', $i );
     $mailing->name = chr($alphabet) . ": $prefix $cnt";
-    $mailing->domain_id  = 1;
     $mailing->header_id = $mailing->footer_id =
         $mailing->reply_id = $mailing->unsubscribe_id = $mailing->optout_id = 1;
     $mailing->is_completed = 1;

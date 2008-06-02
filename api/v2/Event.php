@@ -64,12 +64,6 @@ function civicrm_event_create( &$params )
         return civicrm_create_error('Missing require fields ( title, event type id,start date)');
     }
     
-    if ( !$params['domain_id'] ) {
-        require_once 'CRM/Core/Config.php';
-        $config =& CRM_Core_Config::singleton();
-        $params['domain_id'] = $config->domainID();
-    }
-    
     $error = _civicrm_check_required_fields( $params, 'CRM_Event_DAO_Event' );
     if ($error['is_error']) {
         return civicrm_create_error( $error['error_message'] );

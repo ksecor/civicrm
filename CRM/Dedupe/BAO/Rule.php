@@ -151,4 +151,29 @@ class CRM_Dedupe_BAO_Rule extends CRM_Dedupe_DAO_Rule
         return "SELECT $select FROM $from WHERE " . implode(' AND ', $where);
     }
 
+    /**
+     * To find fields related to a rule group.
+     * @param array contains the rule group property to identify rule group
+     *
+     * @return rule fields array associated to rule group
+     * @access public
+     */
+    function dedupeRuleFields( $params)
+    {
+        require_once 'CRM/Dedupe/BAO/RuleGroup.php';
+        $rgBao =& new CRM_Dedupe_BAO_RuleGroup();
+        $rgBao->level = $params['level'];
+        $rgBao->contact_type = $params['contact_type'];
+        $rgBao->is_default = 1;
+        $rgBao->find(true);
+        
+        $ruleBao =& new CRM_Dedupe_BAO_Rule();
+        $ruleBao->dedupe_rule_group_id = $rgBao->id;
+        $ruleBao->find();
+        $ruleFields = array();
+        while ($ruleBao->fetch()) {
+            $ruleFields[] = $ruleBao->rule_field;
+        }
+        return $ruleFields;
+    }
 }

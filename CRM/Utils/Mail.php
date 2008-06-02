@@ -126,7 +126,7 @@ class CRM_Utils_Mail {
                           $replyTo = null,
                           $html_message = null ) {
         $returnPath = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Domain',
-                                                   CRM_Core_Config::domainID( ),
+                                                   1,
                                                    'email_return_path' );
         if ( ! $returnPath ) {
             $returnPath = self::_pluckEmailFromHeader($from);

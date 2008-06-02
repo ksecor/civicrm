@@ -279,7 +279,6 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
             // store the submitted values in an array
             $params = $this->controller->exportValues( $this->_name );
 
-            $params['domain_id'] = CRM_Core_Config::domainID( );
             $params['is_active'] = 1;
 
             if ( is_array( $params['group_type'] ) ) {

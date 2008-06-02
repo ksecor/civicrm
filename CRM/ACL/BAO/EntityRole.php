@@ -53,7 +53,6 @@ class CRM_ACL_BAO_EntityRole extends CRM_ACL_DAO_EntityRole {
     static function create( &$params ) {
         $dao =& new CRM_ACL_DAO_EntityRole( );
         $dao->copyValues( $params );
-        $dao->domain_id = CRM_Core_Config::domainID( );
 
         $dao->save( );
     }

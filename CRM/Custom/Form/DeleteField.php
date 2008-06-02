@@ -37,7 +37,7 @@ require_once 'CRM/Core/Form.php';
 require_once 'CRM/Core/BAO/CustomField.php';
 
 /**
- * This class is to build the form for Deleting Group
+ * This class is to build the form for deleting a field
  */
 class CRM_Custom_Form_DeleteField extends CRM_Core_Form {
 

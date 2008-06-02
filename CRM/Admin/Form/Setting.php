@@ -78,18 +78,6 @@ class CRM_Admin_Form_Setting extends CRM_Core_Form
      */
     public function buildQuickForm( $check = false ) 
     {
-        $session =& CRM_Core_Session::singleton( );
-               
-        // set breadcrumb to append to 2nd layer pages
-        if ( !$check ) {
-            $breadCrumbPath = CRM_Utils_System::url( 'civicrm/admin/setting', 'reset=1' );
-            CRM_Utils_System::appendBreadCrumb( ts('Global Settings'), $breadCrumbPath );
-            $session->pushUserContext( CRM_Utils_System::url('civicrm/admin/setting', 'reset=1') );
-        }else {
-            $session->pushUserContext( CRM_Utils_System::url('civicrm/admin', 'reset=1') );
-        }
-
-        
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
                                          'name'      => ts('Save'),

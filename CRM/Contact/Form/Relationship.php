@@ -228,8 +228,6 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
             return CRM_Custom_Form_CustomData::buildQuickForm( $this );
         }
 
-        $domainId  = CRM_Core_Config::domainID( ); 
-        $this->assign( 'domainId', $domainId );
         $relTypeID = explode('_', $this->_rtypeId, 3);
  
         if ( $this->_action & CRM_Core_Action::DELETE ) {
@@ -267,8 +265,8 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         }
 
         // add a dojo facility for searching contacts
-        $this->assign( 'dojoIncludes', " dojo.require('dojox.data.QueryReadStore'); dojo.require('dijit.form.ComboBox');dojo.require('dojo.parser');" );
-        $attributes = array( 'dojoType'       => 'dijit.form.ComboBox',
+        $this->assign( 'dojoIncludes', " dojo.require('dojox.data.QueryReadStore'); dojo.require('dojo.parser');" );
+        $attributes = array( 'dojoType'       => 'civicrm.FilteringSelect',
                              'mode'           => 'remote',
                              'store'          => 'contactStore',
                              'pageSize'       => 10, 
@@ -480,7 +478,11 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
     {
         //max records that will be listed
         $searchValues = array();
-        $searchValues[] = array( 'sort_name', 'LIKE', $params['name'], 0, 1 );
+        if ( is_numeric( $params['name'] ) ) {
+            $searchValues[] = array( 'contact_id', '=', $params['name'], 0, 1 );
+        } else {
+            $searchValues[] = array( 'sort_name', 'LIKE', $params['name'], 0, 1 );
+        }
         $contactTypeAdded = false;
         
         $excludedContactIds = array( $this->_contactId );

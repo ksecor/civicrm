@@ -1,0 +1,86 @@
+<?php
+
+/*
+ +--------------------------------------------------------------------+
+ | CiviCRM version 2.1                                                |
+ +--------------------------------------------------------------------+
+ | Copyright CiviCRM LLC (c) 2004-2008                                |
+ +--------------------------------------------------------------------+
+ | This file is a part of CiviCRM.                                    |
+ |                                                                    |
+ | CiviCRM is free software; you can copy, modify, and distribute it  |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
+ |                                                                    |
+ | CiviCRM is distributed in the hope that it will be useful, but     |
+ | WITHOUT ANY WARRANTY; without even the implied warranty of         |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
+ | See the GNU Affero General Public License for more details.        |
+ |                                                                    |
+ | You should have received a copy of the GNU Affero General Public   |
+ | License along with this program; if not, contact CiviCRM LLC       |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
+ | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
+ +--------------------------------------------------------------------+
+*/
+
+/**
+ *
+ * @package CRM
+ * @copyright CiviCRM LLC (c) 2004-2008
+ * $Id$
+ *
+ */
+
+/**
+ * Test cases for ajax calls
+ *
+ */
+
+require_once 'CiviTestCase.php';
+
+class Browser_Core_AJAX extends CiviTestCase 
+{
+
+  var $webUser;
+  
+  function get_info() 
+  {
+      return array(
+                   'name' => 'AJAX Calls',
+                   'description' => 'Test AJAX calls.',
+                   'group' => 'CiviCRM Browser Tests',
+                   );
+  }
+  
+  function setUp() 
+  {
+      parent::setUp();
+      
+      $this->drupalModuleEnable('civicrm');
+      $this->webUser = $this->drupalCreateUserRolePerm(
+                                                       array ( 0 => 'access CiviCRM' )
+                                                       );
+      $this->drupalLoginUser($this->webUser);
+  }
+
+  /**
+   * Test case for search()
+   */
+  function testSearch( )
+  {
+      $params = array(
+                      'first_name'     => 'Sarah',
+                      'last_name'      => 'Jones'
+                      );
+      
+      $contactId = Contact::createIndividual( $params );
+
+      $this->civiGet('civicrm/ajax/search', '?d=1&name=Sarah*&start=0&count=10');
+      $this->assertWantedRaw( 'Jones, Sarah', 'Returns json object.' );
+
+      Contact::delete( $contactId );
+  }
+
+}

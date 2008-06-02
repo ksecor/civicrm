@@ -22,19 +22,6 @@
        <autoincrement>true</autoincrement>
   </primaryKey>
   <field>
-      <name>domain_id</name>
-      <type>int unsigned</type>
-      <required>true</required>
-      <comment>Which Domain owns this contact</comment>
-      <add>1.1</add>
-  </field>
-  <foreignKey>
-       <name>domain_id</name>
-       <table>civicrm_domain</table>
-       <key>id</key>
-       <add>1.1</add>
-  </foreignKey>
-  <field>
        <name>contact_type</name>
        <type>enum</type>
        <values>Individual, Organization, Household</values>
@@ -42,10 +29,9 @@
       <add>1.1</add>
   </field>
   <index>
-       <name>index_contact_type_domain</name>
+       <name>index_contact_type</name>
        <fieldName>contact_type</fieldName>
-       <fieldName>domain_id</fieldName>
-       <add>1.6</add>
+       <add>2.1</add>
   </index>
   <field>
        <name>contact_sub_type</name>
@@ -57,10 +43,9 @@
        <add>1.5</add>
   </field>
   <index>
-       <name>index_contact_sub_type_domain</name>
+       <name>index_contact_sub_type</name>
        <fieldName>contact_sub_type</fieldName>
-       <fieldName>domain_id</fieldName>
-       <add>1.6</add>
+       <add>2.1</add>
   </index>
   <field>
        <name>do_not_email</name>
@@ -142,10 +127,9 @@
       <add>1.1</add>
   </field>
   <index>
-       <name>index_sort_name_domain</name>
+       <name>index_sort_name</name>
        <fieldName>sort_name</fieldName>
-       <fieldName>domain_id</fieldName>
-       <add>1.5</add>
+       <add>2.1</add>
   </index>
   <field>
        <name>display_name</name>
@@ -229,10 +213,9 @@
       <change>1.5</change>
   </field>
   <index>
-       <name>index_hash_domain</name>
+       <name>index_hash</name>
        <fieldName>hash</fieldName>
-       <fieldName>domain_id</fieldName>
-       <add>1.5</add>
+       <add>2.1</add>
   </index>
   <field>
        <name>source</name>
@@ -242,7 +225,7 @@
        <length>255</length>
        <import>true</import>
        <headerPattern>/(S(ource\s)?o(f\s)?C(ontact\s)?Data)$/i</headerPattern>
-       <comment>where domain_id contact come from, e.g. import, donate module insert...</comment>
+       <comment>where contact come from, e.g. import, donate module insert...</comment>
        <add>1.1</add>
   </field>
   <field>

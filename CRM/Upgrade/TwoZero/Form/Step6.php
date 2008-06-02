@@ -67,8 +67,6 @@ class CRM_Upgrade_TwoZero_Form_Step6 extends CRM_Upgrade_Form {
         $pattern     = '/\{(\w{3,})\}/i';
         $replacement = '{contact.$1}';
 
-        $domainID    = CRM_Core_Config::domainID( );
-
         $query    = "SELECT * FROM civicrm_preferences WHERE domain_id=$domainID";
         $res      = $this->runQuery( $query );
         if ($res->fetch()) {

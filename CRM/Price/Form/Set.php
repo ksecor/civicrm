@@ -198,7 +198,6 @@ class CRM_Price_Form_Set extends CRM_Core_Form {
         
         $params['name']      = CRM_Utils_String::titleToVar( $params['title'] );
         $params['is_active'] = CRM_Utils_Array::value('is_active', $params, false);
-        $params['domain_id'] = CRM_Core_Config::domainID( );
         
         if ($this->_action & CRM_Core_Action::UPDATE) {
             $params['id']    = $this->_sid;

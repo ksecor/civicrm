@@ -107,10 +107,7 @@ class CRM_Grant_BAO_Grant extends CRM_Grant_DAO_Grant
     static function getGrantStatusOptGroup( ) {
         require_once 'CRM/Core/BAO/OptionGroup.php';
         
-        $config =& CRM_Core_Config::singleton( );
-
         $params = array( );
-        $params['domain_id'] = $config->domainID( );
         $params['name'] = CRM_Grant_BAO_Grant::$statusGroupName;
 
         $defaults = array();
@@ -218,7 +215,6 @@ class CRM_Grant_BAO_Grant extends CRM_Grant_DAO_Grant
         }
         
         $grant =& new CRM_Grant_DAO_Grant( );
-        $grant->domain_id = CRM_Core_Config::domainID( );
         $grant->id = CRM_Utils_Array::value( 'grant', $ids );
         
         $grant->copyValues( $params );
@@ -401,10 +397,7 @@ class CRM_Grant_BAO_Grant extends CRM_Grant_DAO_Grant
             $optionGroupId = $optionGroupDAO->id;
         }
         
-        $params = array( 1 => array( $optionGroupId, 'Integer' ),
-                         2 => array( CRM_Core_Config::domainID( ),
-                                     'Integer' ) );
-        
+        $params = array( 1 => array( $optionGroupId, 'Integer' ) );
         $query = "
 SELECT
   civicrm_event.id as event_id,
@@ -437,7 +430,6 @@ LEFT JOIN  civicrm_option_value ON (
                                     civicrm_event.event_type_id = civicrm_option_value.value AND
                                     civicrm_option_value.option_group_id = %1 )
 WHERE civicrm_event.is_active = 1 
-      AND civicrm_event.domain_id = %2
       AND civicrm_event.is_public = 1 
       AND civicrm_event.start_date >= ". $condition .
 " ORDER BY   civicrm_event.start_date ASC";

@@ -221,6 +221,8 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
             $defaults['date_parts']   = array('d' => 1,'M' => 1,'Y' => 1); 
             $defaults['note_columns'] = 60;
             $defaults['note_rows']    = 4;
+
+            $defaults['is_view'] = 0;
         }
         
         return $defaults;
@@ -386,6 +388,9 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
 
         // is active ?
         $this->add('checkbox', 'is_active', ts('Active?'));
+
+        // is active ?
+        $this->add('checkbox', 'is_view', ts('View Only?'));
 
         // is searchable ?
         $this->addElement('checkbox', 'is_searchable', ts('Is this Field Searchable?'), null, array('onclick' =>"showSearchRange(this)"));
@@ -736,7 +741,6 @@ AND    option_group_id = %2";
         
         //checks the given custom field name doesnot start with digit
         $title = $fields['label']; 
-        
         if ( ! empty( $title ) ) {
             $asciiValue = ord($title{0});//gives the ascii value
             if($asciiValue>=48 && $asciiValue<=57) {
@@ -855,10 +859,11 @@ SELECT id
 
         $customField->help_post        = $params['help_post'];
         $customField->mask             = $params['mask'];
-        $customField->is_required      = CRM_Utils_Array::value( 'is_required', $params, false );
-        $customField->is_searchable    = CRM_Utils_Array::value( 'is_searchable', $params, false );
+        $customField->is_required      = CRM_Utils_Array::value( 'is_required'    , $params, false );
+        $customField->is_searchable    = CRM_Utils_Array::value( 'is_searchable'  , $params, false );
         $customField->is_search_range  = CRM_Utils_Array::value( 'is_search_range', $params, false );
-        $customField->is_active        = CRM_Utils_Array::value( 'is_active', $params, false );
+        $customField->is_active        = CRM_Utils_Array::value( 'is_active'      , $params, false );
+        $customField->is_view          = CRM_Utils_Array::value( 'is_view'        , $params, false );
         $customField->options_per_line = $params['options_per_line'];
         $customField->start_date_years = $params['start_date_years'];
         $customField->end_date_years   = $params['end_date_years'];
@@ -910,7 +915,6 @@ SELECT id
                 // first create an option group for this custom group
                 require_once 'CRM/Core/BAO/OptionGroup.php';
                 $optionGroup            =& new CRM_Core_DAO_OptionGroup( );
-                $optionGroup->domain_id =  CRM_Core_Config::domainID( );
                 $optionGroup->name      =  "{$customField->column_name}_". date( 'YmdHis' );
                 $optionGroup->label     =  $customField->label;
                 $optionGroup->is_active = 1;

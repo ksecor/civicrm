@@ -88,7 +88,7 @@ function crm_mailer_event_bounce($job, $queue, $hash, $body) {
  */
 function crm_mailer_event_unsubscribe($job, $queue, $hash) {
     $groups =& CRM_Mailing_Event_BAO_Unsubscribe::unsub_from_mailing($job, 
-                                                                $queue, $hash);
+                                                                     $queue, $hash);
     
     if (count($groups)) {
         CRM_Mailing_Event_BAO_Unsubscribe::send_unsub_response($queue, $groups, false, $job);
@@ -98,7 +98,7 @@ function crm_mailer_event_unsubscribe($job, $queue, $hash) {
 }
 
 /**
- * Handle a domain-level unsubscribe event
+ * Handle a site-level unsubscribe event
  *
  * @param int $job          ID of the job that caused this unsub
  * @param int $queue        ID of the queue event
@@ -138,13 +138,12 @@ function crm_mailer_event_resubscribe($job, $queue, $hash) {
  * Handle a subscription event
  *
  * @param string $email     The email address to subscribe
- * @param int $domain_id    The domain of the subscription
  * @param int $group_id     The group of the subscription
  * @return boolean
  */
-function crm_mailer_event_subscribe($email, $domain_id, $group_id) {
+function crm_mailer_event_subscribe($email, $group_id) {
     $se =&
-        CRM_Mailing_Event_BAO_Subscribe::subscribe($domain_id, $group_id, $email);
+        CRM_Mailing_Event_BAO_Subscribe::subscribe($group_id, $email);
 
     if ($se !== null) {
         /* Ask the contact for confirmation */

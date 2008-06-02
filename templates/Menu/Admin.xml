@@ -71,6 +71,7 @@
      <title>Global Settings</title>
      <desc>Configure Global Settings for your site, including: Enabled Components, Site Preferences for screens and forms, Directory Paths and Resource URLs, Address formats, Localization, Payment Processor, Outbound Email, Mapping, and Debugging.</desc>
      <page_callback>CRM_Admin_Page_Setting</page_callback>
+     <return_url>civicrm/admin/setting</return_url>
      <adminGroup>Configure</adminGroup>
      <icon>admin/small/36.png</icon>
      <weight>200</weight>

@@ -107,7 +107,6 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
         
         // action is taken depending upon the mode
         $membershipType               =& new CRM_Member_DAO_MembershipType( );
-        $membershipType->domain_id    = CRM_Core_Config::domainID( );
         
         $membershipType->copyValues( $params );
         
@@ -443,7 +442,7 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
         $membership->id = $membershipId;
         $membership->find(true);
         
-        $membershipDetails = CRM_Member_BAO_Membership::getValues( $params, $values ,$ids );
+        $membershipDetails = CRM_Member_BAO_Membership::getValues( $params, $values );
         $statusID          = $membershipDetails[$membershipId]->status_id;
         $membershipTypeDetails = self::getMembershipTypeDetails( $membershipDetails[$membershipId]->membership_type_id );
         $statusDetails  = CRM_Member_BAO_MembershipStatus::getMembershipStatus($statusID);

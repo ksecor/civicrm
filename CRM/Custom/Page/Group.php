@@ -228,10 +228,6 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
         $customGroup = array();
         $dao =& new CRM_Core_DAO_CustomGroup();
 
-        // set the domain_id parameter
-        $config =& CRM_Core_Config::singleton( );
-        $dao->domain_id = $config->domainID( );
-
         $dao->orderBy('weight, title');
         $dao->find();
 

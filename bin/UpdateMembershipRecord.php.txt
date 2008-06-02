@@ -65,7 +65,7 @@ class CRM_UpdateMembershipRecord {
         $config->userHookClass          = 'CRM_Utils_Hook_Soap';
     }
     
-    public function updateMembershipStatus( $domainID )
+    public function updateMembershipStatus( )
     {
         $query = "
 SELECT civicrm_membership.id                 as membership_id,
@@ -76,9 +76,8 @@ SELECT civicrm_membership.id                 as membership_id,
        civicrm_contact.id                    as contact_id
 FROM   civicrm_membership, civicrm_contact
 WHERE  civicrm_membership.contact_id = civicrm_contact.id
-       AND civicrm_contact.domain_id = %1
 ";
-        $params = array( 1 => array( $domainID, 'Integer' ) );
+        $params = array( );
         $dao =& CRM_Core_DAO::executeQuery( $query, $params );
 
         $today = date( "Y-m-d" );
@@ -138,7 +137,6 @@ WHERE  civicrm_membership.contact_id = civicrm_contact.id
                         $from = "EMAIL@FIXME.ORG";
                         CRM_Core_BAO_MessageTemplates::sendReminder( $dao->contact_id,
                                                                      $toEmail,
-                                                                     $domainID,
                                                                      $memType->renewal_msg_id,
                                                                      $from );
                         
@@ -175,10 +173,9 @@ WHERE  civicrm_membership.contact_id = civicrm_contact.id
     }
 }
 
-$domainId = isset( $argv[1] ) ? $argv[1] : 1;
 $obj =& new CRM_UpdateMembershipRecord( );
 echo "\n Updating ";
-$obj->updateMembershipStatus( $domainId );
+$obj->updateMembershipStatus( );
 echo "\n\n Membership records updated. (Done) \n";
 
 ?>

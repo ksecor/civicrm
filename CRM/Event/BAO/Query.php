@@ -362,15 +362,13 @@ class CRM_Event_BAO_Query
             break;
 
         case 'participant_status':
-            $domainID = CRM_Core_Config::domainID( );
-            $from = " $side JOIN civicrm_option_group option_group_participant_status ON (option_group_participant_status.name = 'participant_status' AND option_group_participant_status.domain_id = $domainID )";
+            $from = " $side JOIN civicrm_option_group option_group_participant_status ON (option_group_participant_status.name = 'participant_status')";
             $from .= " $side JOIN civicrm_option_value participant_status ON (civicrm_participant.status_id = participant_status.value 
                                AND option_group_participant_status.id = participant_status.option_group_id ) ";
             break;
 
         case 'participant_role':
-            $domainID = CRM_Core_Config::domainID( );
-            $from = " $side JOIN civicrm_option_group option_group_participant_role ON (option_group_participant_role.name = 'participant_role' AND option_group_participant_role.domain_id = $domainID )";
+            $from = " $side JOIN civicrm_option_group option_group_participant_role ON (option_group_participant_role.name = 'participant_role')";
             $from .= " $side JOIN civicrm_option_value participant_role ON (civicrm_participant.role_id = participant_role.value 
                                AND option_group_participant_role.id = participant_role.option_group_id ) ";
             break;
@@ -426,14 +424,11 @@ class CRM_Event_BAO_Query
 
     static function buildSearchForm( &$form ) 
     {
-        $config =& CRM_Core_Config::singleton( );
-        $domainID = CRM_Core_Config::domainID( );
-
         $dataURLEvent     = CRM_Utils_System::url( 'civicrm/ajax/event',
-                                                   "d={$domainID}",
+                                                   "reset=1",
                                                    true, null, false);
         $dataURLEventType = CRM_Utils_System::url( 'civicrm/ajax/eventType',
-                                                   "d={$domainID}",
+                                                   "reset=1",
                                                    true, null, false);
         
         $form->assign( 'dataURLEvent',     $dataURLEvent );

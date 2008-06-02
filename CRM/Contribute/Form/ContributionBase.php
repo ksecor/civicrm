@@ -271,7 +271,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
             //get membership section for this contribution page
             require_once 'CRM/Member/BAO/Membership.php';
             $this->_membershipBlock = CRM_Member_BAO_Membership::getMembershipBlock( $this->_id );
-            $this->set( 'membershipBlock', $his->_membershipBlock );
+            $this->set( 'membershipBlock', $this->_membershipBlock );
             
             require_once "CRM/Core/BAO/UFField.php";
             if ( $this->_values['custom_pre_id'] ) {
@@ -287,7 +287,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
             
             if ( ( ( isset($postProfileType) && $postProfileType == 'Membership' ) ||
                    ( isset($preProfileType ) && $preProfileType == 'Membership' ) ) &&
-                 ! $membership ) {
+                 ! $this->_membershipBlock ) {
                 CRM_Core_Error::fatal( ts('This page includes a Profile with Membership fields - but the Membership Block is NOT enabled. Please notify the site administrator.') );
             }
 
@@ -321,8 +321,9 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         // check if one of the (amount , membership)  bloks is active or not
         require_once 'CRM/Member/BAO/Membership.php';
         $this->_membershipBlock = $this->get( 'membershipBlock' );
+
         if ( ! $this->_values['amount_block_is_active'] &&
-             ! $membership['is_active'] ) {
+             ! $this->_membershipBlock['is_active'] ) {
             CRM_Core_Error::fatal( ts( 'The requested online contribution page is missing a required Contribution Amount section or Membership section. Please check with the site administrator for assistance.' ) );
         }
 
@@ -330,8 +331,8 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
             $this->set('amount_block_is_active',$this->_values['amount_block_is_active' ]);
         }
 
-        if ( ! empty($membership) &&
-             $membership["is_separate_payment"] &&
+        if ( ! empty($this->_membershipBlock) &&
+             $this->_membershipBlock["is_separate_payment"] &&
              $this->_paymentProcessor['payment_processor_type'] == "PayPal_Standard" ) {
             CRM_Core_Error::fatal( ts( 'This contribution page is configured to support separate contribution and membership payments. The PayPal Website Payments Standard plugin does not currently support multiple simultaneous payments. Please contact the site administrator and notify them of this error' ) );
         }

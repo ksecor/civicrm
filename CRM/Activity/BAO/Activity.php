@@ -747,10 +747,15 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             $tmpFields     = CRM_Activity_DAO_Activity::import( );
             require_once 'CRM/Contact/BAO/Contact.php';
             $contactFields = CRM_Contact_BAO_Contact::importableFields('Individual', null );
-            require_once 'CRM/Core/DAO/DupeMatch.php';
-            $dao = & new CRM_Core_DAO_DupeMatch();;
-            $dao->find(true);
-            $fieldsArray = explode('AND',$dao->rule);
+             
+            // Using new Dedupe rule.
+            $ruleParams = array(
+                                'contact_type' => 'Individual',
+                                'level' => 'Strict'
+                                );
+            require_once 'CRM/Dedupe/BAO/Rule.php';
+            $fieldsArray = CRM_Dedupe_BAO_Rule::dedupeRuleFields($ruleParams);
+            
             $tmpConatctField = array();
             if( is_array($fieldsArray) ) {
                 foreach ( $fieldsArray as $value) {

@@ -166,7 +166,7 @@ WHERE    ( CF.file_type_id = $fileID AND CEF.entity_table = '$entityTable' AND C
     public function delete($fileID , $entityID, $fieldID ) {
         // get the table and column name
         require_once 'CRM/Core/BAO/CustomField.php';
-        list( $tableName, $columnName ) = CRM_Core_BAO_CustomField::getTableColumnName( $fieldID );
+        list( $tableName, $columnName, $groupID ) = CRM_Core_BAO_CustomField::getTableColumnGroup( $fieldID );
 
         require_once "CRM/Core/DAO/EntityFile.php";
         $entityFileDAO =& new CRM_Core_DAO_EntityFile();

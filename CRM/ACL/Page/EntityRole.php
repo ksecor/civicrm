@@ -155,10 +155,6 @@ class CRM_ACL_Page_EntityRole extends CRM_Core_Page_Basic
         // get all acl's sorted by weight
         $entityRoles =  array( );
         $dao =& new CRM_ACL_DAO_EntityRole( );
-
-        // set the domain_id parameter
-        $config =& CRM_Core_Config::singleton( );
-        $dao->domain_id = $config->domainID( );
         $dao->find( );
 
         require_once 'CRM/Core/OptionGroup.php';

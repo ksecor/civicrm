@@ -63,7 +63,7 @@ class CRM_Mailing_Event_BAO_Forward extends CRM_Mailing_Event_DAO_Forward {
         $mailing    =   CRM_Mailing_BAO_Mailing::getTableName();
         $forward    =   self::getTableName();
        
-        $domain     =& CRM_Mailing_Event_BAO_Queue::getDomain($queue_id);
+        $domain     =& CRM_Core_BAO_Domain::getDomain( );
        
         $dao =& new CRM_Core_Dao();
         $dao->query("

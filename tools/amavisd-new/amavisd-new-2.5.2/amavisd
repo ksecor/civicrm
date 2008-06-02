@@ -17820,7 +17820,7 @@ sub process($$) {
         while (1) {
             $result = 
                 $soapClient->mailer_event_subscribe( 
-                                        $soapKey, $from, $dId, $gId);
+                                        $soapKey, $from, $gId);
 
             last unless $result->fault;
             if ($attempt < 1) {

@@ -102,8 +102,6 @@ class CRM_Contribute_Form_ContributionPage_Custom extends CRM_Contribute_Form_Co
             $params['id'] = $this->_id;
         }
 
-        $params['domain_id'] = CRM_Core_Config::domainID( );
-
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
          

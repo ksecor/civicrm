@@ -104,7 +104,6 @@ class CRM_Admin_Form_LocationType extends CRM_Admin_Form
             
         // action is taken depending upon the mode
         $locationType               =& new CRM_Core_DAO_LocationType( );
-        $locationType->domain_id    = CRM_Core_Config::domainID( );
         $locationType->name         = $params['name'];
         $locationType->vcard_name   = $params['vcard_name'];
         $locationType->description  = $params['description'];
@@ -112,7 +111,7 @@ class CRM_Admin_Form_LocationType extends CRM_Admin_Form
         $locationType->is_default   = $params['is_default'];
             
         if ($params['is_default']) {
-            $query = "UPDATE civicrm_location_type SET is_default = 0 WHERE domain_id = {$locationType->domain_id}";
+            $query = "UPDATE civicrm_location_type SET is_default = 0";
             CRM_Core_DAO::executeQuery($query, CRM_Core_DAO::$_nullArray);
         }
             

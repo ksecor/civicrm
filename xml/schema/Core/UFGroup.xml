@@ -18,19 +18,6 @@
        <autoincrement>true</autoincrement>
   </primaryKey>
   <field>
-      <name>domain_id</name>
-      <type>int unsigned</type>
-      <required>true</required>
-      <comment>Which Domain owns this form.</comment>
-      <add>1.1</add>
-  </field>
-  <foreignKey>
-       <name>domain_id</name>
-       <table>civicrm_domain</table>
-       <key>id</key>
-       <add>1.1</add>
-  </foreignKey>
-  <field>
        <name>is_active</name>
        <type>boolean</type>
        <default>1</default>

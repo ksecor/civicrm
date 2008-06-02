@@ -201,7 +201,6 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         $params = $this->controller->exportValues( $this->_name );
 
         $params['id']                    = $this->_id;
-        $params['domain_id']             = CRM_Core_Config::domainID( );
         $params['is_allow_other_amount'] = CRM_Utils_Array::value('is_allow_other_amount', $params, false);
         
         $params['min_amount'] = CRM_Utils_Rule::cleanMoney( $params['min_amount'] );

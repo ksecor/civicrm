@@ -523,7 +523,6 @@ class CRM_Utils_Token
                 // FIXME: an ugly hack for CRM-2035, to be dropped once CRM-1799 is implemented
                 require_once 'CRM/Contact/DAO/Group.php';
                 $dao =& new CRM_Contact_DAO_Group();
-                $dao->domain_id = $config->domainID();
                 $dao->find();
                 while ($dao->fetch()) {
                     if (substr($dao->visibility, 0, 6) == 'Public') {
@@ -616,7 +615,7 @@ class CRM_Utils_Token
                 $gid = substr($value, 18, -1);
                 $config =& CRM_Core_Config::singleton();
                 require_once 'CRM/Core/BAO/Domain.php';
-                $domain = CRM_Core_BAO_Domain::getDomainByID($config->domainID());
+                $domain = CRM_Core_BAO_Domain::getDomain( );
                 $str = preg_replace('/'.preg_quote($value).'/','mailto:subscribe.'.$domain->id.'.'.$gid.'@'.$domain->email_domain, $str);
             }
         }

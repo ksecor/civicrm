@@ -17,19 +17,6 @@
        <autoincrement>true</autoincrement>
   </primaryKey>
   <field>
-      <name>domain_id</name>
-      <type>int unsigned</type>
-      <required>true</required>
-      <comment>Which Domain owns this payment processor.</comment>
-       <add>1.8</add>
-  </field>
-  <foreignKey>
-       <name>domain_id</name>
-       <table>civicrm_domain</table>
-       <key>id</key>
-       <add>1.8</add>
-  </foreignKey>
-  <field>
        <name>name</name>
        <title>Payment Processor</title>
        <type>varchar</type>

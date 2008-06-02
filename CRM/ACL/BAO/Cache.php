@@ -113,16 +113,14 @@ WHERE contact_id = %1
         self::build( $id );
     }
 
-    // deletes all the cache entries for this domain
+    // deletes all the cache entries
     static function resetCache( ) {
         self::$_cache = null;
 
-        $domainID = CRM_Core_Config::domainID( );
         $query = "
 DELETE     c 
 FROM       civicrm_acl_cache c
 INNER JOIN civicrm_acl       a ON c.acl_id = a.id
-WHERE      a.domain_id = $domainID
 ";
 
         $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );

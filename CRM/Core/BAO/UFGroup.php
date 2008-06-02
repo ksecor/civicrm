@@ -423,7 +423,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             $group =& new CRM_Core_DAO_UFGroup( );
             
             $group->title     = $title;
-            $group->domain_id = CRM_Core_Config::domainID( );
             
             if ( $group->find( true ) && $userID ) {
                 $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Dynamic', ts('Dynamic Form Creator'), $action );
@@ -500,7 +499,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 $group =& new CRM_Core_DAO_UFGroup( );
                 
                 $group->title     = $title;
-                $group->domain_id = CRM_Core_Config::domainID( );
 
                 if ( $group->find( true ) ) {
                     $profileID = $group->id;
@@ -567,17 +565,16 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      * @access public
      * @static
      */
-    public static function findContact( &$params, $id = null, $flatten = false ) 
+    public static function findContact( &$params, $id = null, $contactType = 'Individual' ) 
     {
-        $tables = array( );
-        require_once 'CRM/Contact/Form/Search.php';
-        $clause = self::getWhereClause( $params, $tables );
-        $emptyClause = 'civicrm_contact.domain_id = ' . CRM_Core_Config::domainID( );
-        if ( ! $clause || trim( $clause ) === trim( $emptyClause ) ) {
+        require_once 'CRM/Dedupe/Finder.php';
+        $dedupeParams = CRM_Dedupe_Finder::formatParams($params, $contactType);
+        $ids = CRM_Dedupe_Finder::dupesByParams($dedupeParams, $contactType, 'Fuzzy',array($id));
+        if ( !empty($ids) ) {
+            return implode( ',', $ids );
+        } else {
             return null;
         }
-        require_once 'CRM/Contact/BAO/Contact/Utils.php';
-        return CRM_Contact_BAO_Contact_Utils::match( $clause, $tables, $id );
     }
 
     /**
@@ -949,7 +946,6 @@ WHERE  id = $cfID
         $params['is_cms_user'            ] = CRM_Utils_Array::value( 'is_cms_user'         , $params, false );
 
         $ufGroup             =& new CRM_Core_DAO_UFGroup();
-        $ufGroup->domain_id  = CRM_Core_Config::domainID( );
         $ufGroup->copyValues($params); 
                 
         $ufGroup->id = CRM_Utils_Array::value( 'ufgroup', $ids );;
@@ -957,109 +953,6 @@ WHERE  id = $cfID
         return $ufGroup;
     }    
 
-    /**
-     * function to get match clasue for dupe checking
-     *
-     * @param array   $params  the list of values to be used in the where clause
-     * @param  array $tables (reference ) add the tables that are needed for the select clause
-     *
-     * @return string the where clause to include in a sql query
-     * @static
-     * @access public
-     *
-     */
-    public function getWhereClause($params ,&$tables)
-    {
-        require_once 'CRM/Core/DAO/DupeMatch.php';
-
-        if ( is_array($params) ) {
-            if (isset( $params['location'] ) && is_array( $params['location'] ) ) {
-                $params['email'] = null;
-                $params['phone'] = null;
-                $params['im']    = null;
-            
-                foreach($params['location'] as $locIdx => $loc) {
-                    foreach (array('email', 'phone', 'im') as $key) {
-                        if ( isset($loc[$key]) && is_array($loc[$key]) ) {
-                            foreach ($loc[$key] as $keyIdx => $value) {
-                                if ( ! empty( $value[$key] ) && ! $params[$key] ) {
-                                    $params[$key] = $value[$key];
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            foreach (array('email', 'phone', 'im') as $key) {
-                if ( isset( $params[$key] ) && count( $params[$key] ) == 0 ) {
-                    unset( $params[$key] );
-                }
-            }
-            
-            foreach ( array( 'street_address', 'supplemental_address_1', 'supplemental_address_2',
-                             'state_province_id', 'postal_code', 'country_id' ) as $fld ) {
-                if ( ! empty( $params['location'][1]['address'][$fld] ) ) {
-                    $params[$fld] = $params['location'][1]['address'][$fld];
-                }
-            }
-            unset( $params['location'] );
-            
-            if (isset( $params['custom'] ) && is_array( $params['custom'] ) ) {
-                foreach ( $params['custom'] as $key => $value ) {
-                    $params['custom_'. $value['custom_field_id'] ] = $value['value'];
-                }
-            }
-            unset( $params['custom'] );
-        }
-        $importableFields =  CRM_Contact_BAO_Contact::importableFields( );
-              
-        $dupeMatchDAO = & new CRM_Core_DAO_DupeMatch();
-        $dupeMatchDAO->find();
-        while($dupeMatchDAO->fetch()) {
-            $rule = explode('AND',$dupeMatchDAO->rule);
-            foreach ( $rule as $name ) {
-                $name  = trim( $name );
-                $fields[$name] = array('name'             => $name,
-                                       'title'            => $importableFields[$name]['title'],
-                                       'where'            => $importableFields[$name]['where'],
-                                       );
-            }
-        }
-        
-        $fields['external_identifier'] =  array('name'             => 'external_identifier',
-                                                'title'            => $importableFields['external_identifier']['title'],
-                                                'where'            => $importableFields['external_identifier']['where'],
-                                                );
-        
-        //this is the fix to ignore the groups/ tags for dupe checking CRM-664, since we never use them for dupe checking
-        unset( $params['group'] );
-        unset( $params['tag']   );
-        
-        if ( isset( $params["contact_type"] ) && $params["contact_type"] ) {
-            $fields["contact_type"] = array("name"  => "contact_type" ,
-                                            "title" => "Contact Type",
-                                            "where" => "civicrm_contact.contact_type"
-                                            );
-        }
-        
-        // also eliminate all the params that are not present in fields
-        foreach ( $params as $name => $value ) {
-            if ( ! array_key_exists( $name, $fields ) ) {
-                unset( $params[$name] );
-            }
-        }
-
-        if ( empty( $params ) ) {
-            return null;
-        }
-
-        require_once 'CRM/Contact/BAO/Query.php';
-        $params =& CRM_Contact_BAO_Query::convertFormValues( $params, 0, true );
-        $whereTables = array( );
-
-        return CRM_Contact_BAO_Query::getWhereClause( $params, $fields, $tables, $whereTables, true );
-    }
     
     /**
      * Function to make uf join entries for an uf group
@@ -1247,7 +1140,7 @@ WHERE  id = $cfID
      * @access public
      * @static
      */
-    public static function getModuleUFGroup( $moduleName = null, $count = 0) 
+    public static function getModuleUFGroup( $moduleName = null, $count = 0, $skipPermission = true) 
     {
         require_once 'CRM/Core/DAO.php';
 
@@ -1256,15 +1149,22 @@ WHERE  id = $cfID
                                civicrm_uf_group.is_active as is_active,
                                civicrm_uf_group.group_type as group_type
                         FROM civicrm_uf_group
-                        LEFT JOIN civicrm_uf_join on ( civicrm_uf_group.id = civicrm_uf_join.uf_group_id )
-                        WHERE civicrm_uf_group.domain_id = %1';
-        $p = array( 1 => array( CRM_Core_Config::domainID( ), 'Integer' ) );
+                        LEFT JOIN civicrm_uf_join on ( civicrm_uf_group.id = civicrm_uf_join.uf_group_id )';
+        $p = array( );
         if ( $moduleName ) {
             $queryString .= ' AND civicrm_uf_group.is_active = 1 
                               AND civicrm_uf_join.module = %2';
             $p[2] = array( $moduleName, 'String' );
         }
         
+
+        // add permissioning for profiles only if not registration
+        if ( ! $skipPermission ) {
+            require_once 'CRM/Core/Permission.php';
+            $permissionClause = CRM_Core_Permission::ufGroupClause( CRM_Core_Permission::VIEW, 'g.' );
+            $query .= " AND $permissionClause ";
+        }
+
         $queryString .= ' ORDER BY civicrm_uf_join.weight, civicrm_uf_group.title';
         $dao =& CRM_Core_DAO::executeQuery($queryString, $p);
 
@@ -1759,12 +1659,12 @@ WHERE  id = $cfID
 
         //Handling membership Part of the batch profile 
         if ( CRM_Core_Permission::access( 'CiviMember' ) && $component == 'Membership' ) {
-            $params = $ids = $values = array( );
+            $params = $values = array( );
             $params = array( 'id' => $componentId );
             
             require_once "CRM/Core/BAO/Note.php";
             require_once "CRM/Member/BAO/Membership.php";
-            CRM_Member_BAO_Membership::getValues( $params, $values,  $ids );
+            CRM_Member_BAO_Membership::getValues( $params, $values );
             
             foreach ($fields as $name => $field ) {
                 $fldName = "field[$componentId][$name]";
@@ -1909,7 +1809,6 @@ WHERE  id = $cfID
         
         // lets get the stuff from domain to build the email address
         $domain = new CRM_Core_DAO_Domain( );
-        $domain->id = CRM_Core_Config::domainID( );
         $domain->selectAdd( );
         $domain->selectAdd( 'id, email_name, email_address' );
         $domain->find( true );

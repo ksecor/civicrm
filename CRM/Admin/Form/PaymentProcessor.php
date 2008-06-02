@@ -241,12 +241,8 @@ class CRM_Admin_Form_PaymentProcessor extends CRM_Admin_Form
             return $defaults;
         }
 
-        $domainID = CRM_Core_Config::domainID( );
-
         $dao =& new CRM_Core_DAO_PaymentProcessor( );
         $dao->id        = $this->_id;
-        $dao->domain_id = $domainID;
-
         if ( ! $dao->find( true ) ) {
             return $defaults;
         }
@@ -257,7 +253,6 @@ class CRM_Admin_Form_PaymentProcessor extends CRM_Admin_Form
         $testDAO =& new CRM_Core_DAO_PaymentProcessor( );
         $testDAO->name      = $dao->name;
         $testDAO->is_test   = 1;
-        $testDAO->domain_id = $domainID;
         if ( $testDAO->find( true ) ) {
             $this->_testID = $testDAO->id;
 
@@ -290,27 +285,20 @@ class CRM_Admin_Form_PaymentProcessor extends CRM_Admin_Form
 
         $values = $this->controller->exportValues( $this->_name );
 
-        $domainID = CRM_Core_Config::domainID( );
-
         if ( CRM_Utils_Array::value( 'is_default', $values ) ) {
-            $query = "
-UPDATE civicrm_payment_processor
-   SET is_default = 0
- WHERE domain_id = $domainID;
-";
+            $query = "UPDATE civicrm_payment_processor SET is_default = 0";
             CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         }
 
-        $this->updatePaymentProcessor( $values, $domainID, false );
-        $this->updatePaymentProcessor( $values, $domainID, true );
+        $this->updatePaymentProcessor( $values, false );
+        $this->updatePaymentProcessor( $values, true );
 
     }//end of function
 
-    function updatePaymentProcessor( &$values, $domainID, $test ) {
+    function updatePaymentProcessor( &$values, $test ) {
         $dao =& new CRM_Core_DAO_PaymentProcessor( );
 
         $dao->id         = $test ? $this->_testID : $this->_id;
-        $dao->domain_id  = $domainID;
         $dao->is_test    = $test;
         if ( ! $test ) {
             $dao->is_default = CRM_Utils_Array::value( 'is_default', $values, 0 );
