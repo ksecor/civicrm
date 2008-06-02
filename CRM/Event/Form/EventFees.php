@@ -152,8 +152,9 @@ class CRM_Event_Form_EventFees
                                                                                'default_fee_id', 
                                                                                'event_id' );
             }
+            require_once 'CRM/Core/BAO/Discount.php';
+            $defaults[$form->_participantId]['discount_set'] = CRM_Core_BAO_Discount::findSet($defaults[$form->_participantId]['event_id'], "civicrm_event");
         }
-
         return $defaults[$form->_participantId];
     }
     
@@ -163,7 +164,6 @@ class CRM_Event_Form_EventFees
      * @return None 
      * @access public 
      */ 
-
     static function buildQuickForm( &$form )  
     { 
         if ( $form->_eventId ) {
