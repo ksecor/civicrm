@@ -365,10 +365,14 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
                 }
                 
             } else {
-                require_once 'CRM/Core/DAO/DupeMatch.php';
-                $dao = & new CRM_Core_DAO_DupeMatch();;
-                $dao->find(true);
-                $fieldsArray = explode('AND',$dao->rule);
+                // Using new Dedupe rule.
+                $ruleParams = array(
+                                    'contact_type' => 'Individual',
+                                    'level' => 'Strict'
+                                    );
+                require_once 'CRM/Dedupe/BAO/Rule.php';
+                $fieldsArray = CRM_Dedupe_BAO_Rule::dedupeRuleFields($ruleParams);
+                
                 foreach ( $fieldsArray as $value) {
                     if(array_key_exists(trim($value),$params)) {
                         $paramValue = $params[trim($value)];
