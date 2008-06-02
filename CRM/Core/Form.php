@@ -309,9 +309,10 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         unset( $defaults['qfKey'] );
 
         // also call the hook function so any modules can set thier own custom defaults
+        require_once 'CRM/Utils/Hook.php';
         CRM_Utils_Hook::defaults( get_class( $this ),
                                   $defaults,
-                                  $this, );
+                                  $this );
 
         if ( ! empty( $defaults ) ) {
             $this->setDefaults( $defaults );

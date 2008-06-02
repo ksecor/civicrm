@@ -132,7 +132,7 @@ class CRM_Utils_Hook {
         $config =& CRM_Core_Config::singleton( );
         require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
         return   
-            eval( 'return ' . $config->userHookClass . '::custom( $className, $defaults, $form ); ' );
+            eval( 'return ' . $config->userHookClass . '::defaults( $className, $defaults, $form ); ' );
     }
 
 }

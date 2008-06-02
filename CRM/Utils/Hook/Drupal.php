@@ -120,7 +120,9 @@ class CRM_Utils_Hook_Drupal {
     }
 
     static function defaults( $formName, &$defaults, &$form ) {
-        return self::commonHook( $formName, $defaults, $form, null, '_civicrm_defaults', true );
+        return self::commonHook( $formName, $defaults, $form, 
+                                 CRM_Core_DAO::$_nullObject,
+                                 '_civicrm_defaults', true );
     }
 
     static function custom( $op, $groupID, $entityID, &$params ) {
