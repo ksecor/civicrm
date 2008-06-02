@@ -175,7 +175,7 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
             }
             
             if ( isset($_GET['org']) || isset($_GET['hh']) ) {
-                list( $contactName, $street, $city) = explode( ':::', $name );
+                list( $contactName, $street, $city) = explode( ' :: ', $name );
                 
                 if ( $street ) {
                     $addStreet = "AND civicrm_address.street_address LIKE '$street%'";
@@ -188,7 +188,7 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
             if ( $organization ) {
                 
                 $query = "
-SELECT CONCAT_WS(':::',TRIM(organization_name),LEFT(street_address,25),city) 'sort_name', 
+SELECT CONCAT_WS(' :: ',TRIM(sort_name),LEFT(street_address,25),city) 'sort_name', 
 civicrm_contact.id id
 FROM civicrm_contact
 LEFT JOIN civicrm_address ON ( civicrm_contact.id = civicrm_address.contact_id
@@ -201,12 +201,12 @@ ORDER BY organization_name ";
             } else if ( $shared ) {
                 
                 $query = "
-SELECT CONCAT_WS(':::' , household_name , street_address , supplemental_address_1 , city , sp.abbreviation ,postal_code, cc.name )'sort_name' , civicrm_contact.id 'id' , civicrm_contact.display_name 'disp' FROM civicrm_contact LEFT JOIN civicrm_address ON (civicrm_contact.id =civicrm_address.contact_id AND civicrm_address.is_primary =1 )LEFT JOIN civicrm_state_province sp ON (civicrm_address.state_province_id =sp.id )LEFT JOIN civicrm_country cc ON (civicrm_address.country_id =cc.id )WHERE civicrm_contact.contact_type ='Household' AND household_name LIKE '%$name' {$whereIdClause} ORDER BY household_name ";
+SELECT CONCAT_WS(':::' , sort_name , street_address , supplemental_address_1 , city , sp.abbreviation ,postal_code, cc.name )'sort_name' , civicrm_contact.id 'id' , civicrm_contact.display_name 'disp' FROM civicrm_contact LEFT JOIN civicrm_address ON (civicrm_contact.id =civicrm_address.contact_id AND civicrm_address.is_primary =1 )LEFT JOIN civicrm_state_province sp ON (civicrm_address.state_province_id =sp.id )LEFT JOIN civicrm_country cc ON (civicrm_address.country_id =cc.id )WHERE civicrm_contact.contact_type ='Household' AND household_name LIKE '%$name' {$whereIdClause} ORDER BY household_name ";
 
             } else if ( $hh ) {
                 
                 $query = "
-SELECT CONCAT_WS(':::' , household_name, LEFT(street_address, 25), city ) 'sort_name' , civicrm_contact.id 'id' FROM civicrm_contact LEFT JOIN civicrm_address ON (civicrm_contact.id =civicrm_address.contact_id AND civicrm_address.is_primary =1 )
+SELECT CONCAT_WS(' :: ' , sort_name, LEFT(street_address, 25), city ) 'sort_name' , civicrm_contact.id 'id' FROM civicrm_contact LEFT JOIN civicrm_address ON (civicrm_contact.id =civicrm_address.contact_id AND civicrm_address.is_primary =1 )
 WHERE civicrm_contact.contact_type ='Household' AND household_name LIKE '%$contactName' {$addStreet} {$addCity} {$whereIdClause} ORDER BY household_name ";
                 
             } else if ( $relType ) {
