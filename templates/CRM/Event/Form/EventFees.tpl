@@ -50,8 +50,8 @@
     </table>
     {else} {* NOT Price Set *}
     <table style="border: none;">
-    <tr>
-        <td class="label">{$form.amount.label}<span class="marker"> *</span></td><td>{$form.amount.html}
+    <tr><td class="label">{$form.discount_set.label}</td><td>{$form.discount_set.html}</td></tr>
+    <tr><td class="label">{$form.amount.label}<span class="marker"> *</span></td><td>{$form.amount.html}
        {if $action EQ 1}
         <br /><span class="description">{ts}Event Fee Level (if applicable).{/ts}</span>
        {/if}

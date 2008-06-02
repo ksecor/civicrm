@@ -180,6 +180,21 @@ class CRM_Event_Form_EventFees
             require_once "CRM/Event/Form/Registration/Register.php";
             CRM_Event_Form_Registration::initPriceSet($form, $eventPage['id'] );
             CRM_Event_Form_Registration_Register::buildAmount( $form, false );
+            $discount = array();
+            require_once "CRM/Event/Form/ManageEvent/Fee.php";
+            for($i = 1; $i <= CRM_Event_Form_ManageEvent_Fee::NUM_DISCOUNT; $i++) {
+                $name = CRM_Utils_Array::value('name',$form->_values["discount[$i]"]);
+                if ( ! isset ($name) ) {
+                    break;
+                } 
+                $discount[$i] = $name;                   
+            }
+            if ( ! empty ( $discount ) ) {
+                $form->add('select', 'discount_set', 
+                           ts( 'Discount Set' ), 
+                           array(''=>ts( '- select -' )) + $discount);
+            }
+
             $form->addElement('checkbox', 'record_contribution', ts('Record Payment?'), null, 
                               array('onclick' =>"return showHideByValue('record_contribution','','payment_information','table-row','radio',false);"));
 
