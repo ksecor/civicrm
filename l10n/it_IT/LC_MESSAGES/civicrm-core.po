@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-04-28 21:53+0200\n"
-"PO-Revision-Date: 2008-05-26 06:41-0700\n"
+"PO-Revision-Date: 2008-05-30 08:07-0700\n"
 "Last-Translator: Eugenia Franzoni <eugenia@catnic.it>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -6383,11 +6383,11 @@ msgstr "durata della vita"
 
 #: CRM/Core/SelectValues.php
 msgid "rolling"
-msgstr "scorrevole"
+msgstr "Durata periodica"
 
 #: CRM/Core/SelectValues.php
 msgid "fixed"
-msgstr "fisso"
+msgstr "Inizio fisso"
 
 #: CRM/Core/SelectValues.php templates/CRM/Price/Page/Field.tpl
 #: templates/CRM/Price/Page/Option.tpl templates/CRM/Price/Page/Set.tpl
@@ -11229,7 +11229,7 @@ msgstr "Trovate i membri di questo gruppo"
 #: templates/CRM/Contact/Form/Search/BasicCriteria.tpl
 #: templates/CRM/Contact/Form/Search/Basic.tpl
 msgid "Find Contacts to Add to this Group"
-msgstr "Trovate i contatti da aggiungere a questo gruppo."
+msgstr "Trova i contatti da aggiungere a questo gruppo."
 
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 msgid "%1 Smart Group Criteria"
