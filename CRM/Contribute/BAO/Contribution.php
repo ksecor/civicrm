@@ -903,6 +903,62 @@ SELECT count(*) as count,
         return NULL;        
     }
 
+    /**
+     * Function to get the contribution details for component export
+     *
+     * @param int     $exportMode export mode
+     * @param string  $componentIds  component ids
+     *
+     * @return array associated array
+     *
+     * @static
+     * @access public
+     */
+    static function getContributionDetails( $exportMode, $componentIds )
+    {
+        require_once "CRM/Export/Form/Select.php";
+
+        $paymentDetails = array( );
+        $componentClause = ' IN ( ' . implode( ',', $componentIds ) . ' ) ';
+        
+        if ( $exportMode == CRM_Export_Form_Select::EVENT_EXPORT ) {
+            $componentSelect = " civicrm_participant_payment.participant_id id"; 
+            $additionalClause = "
+INNER JOIN civicrm_participant_payment ON (civicrm_contribution.id = civicrm_participant_payment.contribution_id
+AND civicrm_participant_payment.participant_id {$componentClause} )
+";
+        } else if ( $exportMode == CRM_Export_Form_Select::MEMBER_EXPORT ) {
+            $componentSelect = " civicrm_membership_payment.membership_id id"; 
+            $additionalClause = "
+INNER JOIN civicrm_membership_payment ON (civicrm_contribution.id = civicrm_membership_payment.contribution_id
+AND civicrm_membership_payment.membership_id {$componentClause} )
+";
+        }
+        
+        $query = " SELECT total_amount, contribution_status.name as status_id, payment_instrument.name as payment_instrument, receive_date,
+                          trxn_id, {$componentSelect}
+FROM civicrm_contribution 
+LEFT JOIN civicrm_option_group option_group_payment_instrument ON ( option_group_payment_instrument.name = 'payment_instrument')
+LEFT JOIN civicrm_option_value payment_instrument ON (civicrm_contribution.payment_instrument_id = payment_instrument.value
+     AND option_group_payment_instrument.id = payment_instrument.option_group_id )
+LEFT JOIN civicrm_option_group option_group_contribution_status ON (option_group_contribution_status.name = 'contribution_status')
+LEFT JOIN civicrm_option_value contribution_status ON (civicrm_contribution.contribution_status_id = contribution_status.value 
+                               AND option_group_contribution_status.id = contribution_status.option_group_id )
+{$additionalClause}
+";
+
+        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+
+        while ( $dao->fetch() ) {
+            $paymentDetails[$dao->id] = array ( 'total_amount'        => $dao->total_amount,
+                                                'contribution_status' => $dao->status_id,
+                                                'receive_date'        => $dao->receive_date,
+                                                'pay_instru'          => $dao->payment_instrument,
+                                                'trxn_id'             => $dao->trxn_id );
+        }
+
+        return $paymentDetails;
+    }
 }
 
 

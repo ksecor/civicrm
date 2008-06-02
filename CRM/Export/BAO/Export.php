@@ -131,13 +131,18 @@ class CRM_Export_BAO_Export
                 }
             }
             
+            $paymentFields = false;
             $queryMode = CRM_Contact_BAO_Query::MODE_CONTACTS;
             if ( $exportMode == CRM_Export_Form_Select::CONTRIBUTE_EXPORT ) {
                 $queryMode = CRM_Contact_BAO_Query::MODE_CONTRIBUTE;
             } else if ( $exportMode == CRM_Export_Form_Select::EVENT_EXPORT ) {
                 $queryMode = CRM_Contact_BAO_Query::MODE_EVENT;
+                $paymentFields  = true;
+                $paymentTableId = "participant_id";
             } else if ( $exportMode == CRM_Export_Form_Select::MEMBER_EXPORT ) {
                 $queryMode = CRM_Contact_BAO_Query::MODE_MEMBER;
+                $paymentFields  = true;
+                $paymentTableId = "membership_id";
             }
 
             if ( $queryMode != CRM_Contact_BAO_Query::MODE_CONTACTS ) {
@@ -146,7 +151,7 @@ class CRM_Export_BAO_Export
             }
         }
 
-        if ($primary) {
+        if ( $primary ) {
             $returnProperties['location_type'] = 1;
             $returnProperties['im_provider'  ] = 1;
             $returnProperties['phone_type'   ] = 1;
@@ -157,7 +162,7 @@ class CRM_Export_BAO_Export
         }
         
         //crm_core_error::Debug(' $returnProperties',  $returnProperties);
-        
+
         if ( ! $componentClause || $querytMode == CRM_Contact_BAO_Query::MODE_CONTACTS ) {
             if ( $selectAll ) {
                 if ($primary) {
@@ -231,9 +236,17 @@ class CRM_Export_BAO_Export
             $multipleSelectFields = array_merge( $multipleSelectFields, $studentFields );
         }
 
-        //crm_core_error::Debug('$queryString', $queryString); exit();
         $dao =& CRM_Core_DAO::executeQuery( $queryString, CRM_Core_DAO::$_nullArray );
         $header = false;
+        
+        if ( $paymentFields ) {
+            //special return properties for event and members
+            $paymentHeaders = array( 'Total Amount', 'Contribution Status', 'Received Date',
+                                     'Payment Instrument', 'Transaction ID');
+
+            // get payment related in for event and members
+            $paymentDetails = CRM_Contribute_BAO_Contribution::getContributionDetails( $exportMode, $ids );
+        }
 
         $contactDetails = array( );
         while ($dao->fetch()) {
@@ -308,14 +321,18 @@ class CRM_Export_BAO_Export
                                 $hdr .= " " . $keyArray[2];
                             }
                             $headerRows[] = $hdr;
-                        
                         }
                     }
                 }
+             }
+            
+            if ( $paymentFields && isset( $paymentDetails[ $row[$paymentTableId] ] ) ) {
+                $headerRows = array_merge(  $headerRows, $paymentHeaders );
             }
+
             if ( $validRow ) {
                 //get the current employer name, CRM-2968.
-                if ( $currentEmployer || $primary ) {
+                if ( ( $currentEmployer || $primary ) && $exportMode == CRM_Export_Form_Select::CONTACT_EXPORT ) {
                     require_once 'CRM/Contact/BAO/Relationship.php';
                     $relationships = CRM_Contact_BAO_Relationship::getRelationship( $row['contact_id'] );
                     krsort( $relationships );
@@ -330,12 +347,17 @@ class CRM_Export_BAO_Export
                         unset( $row['contact_id'] );
                     }
                 }
+
+                if ( $paymentFields && isset( $paymentDetails[ $row[$paymentTableId] ] ) ) {
+                    $row = array_merge( $row, $paymentDetails[ $row[$paymentTableId] ] );
+                }
+                
                 $contactDetails[] = $row;
             }
             $header = true;
         }
-        
-        if ( $currentEmployer || $primary ) {
+
+        if ( ($currentEmployer || $primary ) && $exportMode == CRM_Export_Form_Select::CONTACT_EXPORT ) {
             $headerRows[] = 'Current Employer';
         }
         //unset contact id from header when Internal Contact ID is not map;
