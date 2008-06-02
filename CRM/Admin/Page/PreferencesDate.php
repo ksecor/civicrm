@@ -94,8 +94,6 @@ class CRM_Admin_Page_PreferencesDate extends CRM_Core_Page_Basic
     {
         // set title and breadcrumb
         CRM_Utils_System::setTitle(ts('Settings - Date Preferences'));
-        $breadCrumbPath = CRM_Utils_System::url( 'civicrm/admin/setting', 'reset=1' );
-        CRM_Utils_System::appendBreadCrumb( ts('Global Settings'), $breadCrumbPath );
         return parent::run();
     }
 

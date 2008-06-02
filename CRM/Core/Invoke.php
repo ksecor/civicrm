@@ -119,7 +119,7 @@ class CRM_Core_Invoke
             if ( isset( $item['title'] ) ) {
                 CRM_Utils_System::setTitle( $item['title'] );
             }
-            if ( isset( $item['breadcrumb'] ) ) {
+            if ( isset( $item['breadcrumb'] ) && !$item['is_public'] ) {
                 CRM_Utils_System::appendBreadCrumb( $item['breadcrumb'] );
             }
 
