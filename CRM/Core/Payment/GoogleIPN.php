@@ -227,14 +227,15 @@ class CRM_Core_Payment_GoogleIPN extends CRM_Core_Payment_BaseIPN {
             list( $ids['membership'], $ids['relatedContactID'] ) = 
                 explode( CRM_Core_DAO::VALUE_SEPARATOR,
                          $contribution->trxn_id );
+            if ( ! is_numeric($ids['membership']) ) {
+                unset($ids['membership']);
+            }
         }
 
         $this->loadObjects( $input, $ids, $objects );
 
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
-
-        $contribution->trxn_id = $orderNo;
 
         // CRM_Core_Error::debug_var( 'c', $contribution );        
         if ( $status == 'PAYMENT_DECLINED' || 

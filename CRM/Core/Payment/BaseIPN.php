@@ -366,7 +366,7 @@ class CRM_Core_Payment_BaseIPN {
         $contribution->trxn_id      = $input['trxn_id'];
         $contribution->receive_date = CRM_Utils_Date::isoToMysql($contribution->receive_date); 
         $contribution->save( );
-        
+
         // next create the transaction record
         $trxnParams = array(
                             'contribution_id'   => $contribution->id,
@@ -384,7 +384,7 @@ class CRM_Core_Payment_BaseIPN {
         $trxn =& CRM_Contribute_BAO_FinancialTrxn::create( $trxnParams );
 
         // create an activity record
-        require_once "CRM/Acivity/BAO/Activity.php";
+        require_once "CRM/Activity/BAO/Activity.php";
         if ( $input['component'] == 'contribute' ) {
             CRM_Activity_BAO_Activity::addActivity( $contribution );
         } else { // event 

@@ -287,7 +287,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
             
             if ( ( ( isset($postProfileType) && $postProfileType == 'Membership' ) ||
                    ( isset($preProfileType ) && $preProfileType == 'Membership' ) ) &&
-                 ! $this->_membershipBlock ) {
+                 ! $this->_membershipBlock['is_active'] ) {
                 CRM_Core_Error::fatal( ts('This page includes a Profile with Membership fields - but the Membership Block is NOT enabled. Please notify the site administrator.') );
             }
 
