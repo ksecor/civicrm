@@ -327,12 +327,21 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
                         $errors["discount_end_date[$i]"] = ts( 'The discount end date cannot be prior to the start date.' );
                     }
                     
+                    if ( ! $start_date && ! $end_date ) {
+                        $errors["discount_start_date[$i]"] = $errors["discount_end_date[$i]"] = ts( 'Please specify either start date or end date.' );
+                    }
+                    
                     if ( $i > 1 ) {
-                        if ( $start_date < CRM_Utils_Date::format( $values['discount_end_date'][$i-1]) ) {
+                        $end_date_1 = CRM_Utils_Date::format( $values['discount_end_date'][$i-1] );
+                        if ( $start_date && $end_date_1 && (int ) $end_date_1 > (int ) $start_date ) {
                             $errors["discount_start_date[$i]"] = ts( 'Select non-overlapping discount start date.' );
+                        } elseif ( ! $start_date && ! $end_date_1 ) {
+                            $j = $i-1;
+                            $errors["discount_start_date[$i]"] = 
+                                $errors["discount_end_date[$j]"] = ts( 'Select either of the dates.' );
                         }
                     }
-
+                    
                     foreach ( $occurDiscount as $key => $value )            
                         if ( $value > 1 && $key <> '' ) {
                             if ( $key == $values['discount_name'][$i] ) {

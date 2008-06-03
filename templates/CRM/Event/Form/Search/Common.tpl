@@ -70,8 +70,8 @@
     <td>{$form.participant_pay_later.html}&nbsp;{$form.participant_pay_later.label}</td> 
 </tr>
 <tr>
-    <td>{$form.participant_fee_level.html}&nbsp;{$form.participant_fee_level.label}</td> 
-    <td>{$form.participant_fee_amount.html}&nbsp;{$form.participant_fee_amount.label}</td> 
+    <td>{$form.participant_fee_level.label}<br /> {$form.participant_fee_level.html}</td> 
+    <td>{$form.participant_fee_amount.label}<br /> {$form.participant_fee_amount.html}</td> 
 </tr>
 <tr>
     <td colspan="4">
