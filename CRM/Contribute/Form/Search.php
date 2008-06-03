@@ -152,7 +152,6 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form
         $this->_actionButtonName = $this->getButtonName( 'next'   , 'action' ); 
 
         $this->_done = false;
-
         $this->defaults = array( );
 
         /* 
@@ -160,24 +159,16 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form
          * driven by the wizard framework 
          */ 
         
-        $this->_reset   = CRM_Utils_Request::retrieve( 'reset', 'Boolean',
-                                                       CRM_Core_DAO::$_nullObject ); 
-        
-        $this->_force   = CRM_Utils_Request::retrieve( 'force', 'Boolean',
-                                                       $this, false );  
-   
-                
-        $this->_limit   = CRM_Utils_Request::retrieve( 'limit', 'Positive',
-                                                       $this );
-        $this->_context = CRM_Utils_Request::retrieve( 'context', 'String',
-                                                       $this );
+        $this->_reset   = CRM_Utils_Request::retrieve( 'reset', 'Boolean',  CRM_Core_DAO::$_nullObject ); 
+        $this->_force   = CRM_Utils_Request::retrieve( 'force', 'Boolean',  $this, false );  
+        $this->_limit   = CRM_Utils_Request::retrieve( 'limit', 'Positive', $this );
+        $this->_context = CRM_Utils_Request::retrieve( 'context', 'String', $this );
+
+        $this->assign( "context", $this->_context );
 
         if ( $this->_context == 'search' ) {
             CRM_Utils_System::setTitle( ts('Find Contributions') );
         }
-
-        $this->assign( "{$this->_prefix}limit"  , $this->_limit );
-        $this->assign( "{$this->_prefix}context", $this->_context );
 
         // get user submitted values  
         // get it from controller only if form has been submitted, else preProcess has set this  
@@ -208,9 +199,9 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form
             $sortID = CRM_Utils_Sort::sortIDValue( $this->get( CRM_Utils_Sort::SORT_ID  ), 
                                                    $this->get( CRM_Utils_Sort::SORT_DIRECTION ) ); 
         } 
+
         require_once 'CRM/Contact/BAO/Query.php';
         $this->_queryParams =& CRM_Contact_BAO_Query::convertFormValues( $this->_formValues );
-        
         $selector =& new CRM_Contribute_Selector_Search( $this->_queryParams,
                                                          $this->_action,
                                                          null,
@@ -218,9 +209,12 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form
                                                          $this->_limit,
                                                          $this->_context ); 
         $prefix = null;
-        if ( $this->_context == 'basic' || $this->_context == 'user') {
+        if ( $this->_context == 'user' ) {
             $prefix = $this->_prefix;
         }
+
+        $this->assign( "{$prefix}limit", $this->_limit );
+        $this->assign( "{$prefix}single", $this->_single );
 
         $controller =& new CRM_Core_Selector_Controller($selector ,  
                                                         $this->get( CRM_Utils_Pager::PAGE_ID ),  
@@ -263,21 +257,20 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form
          * add form checkboxes for each row. This is needed out here to conform to QF protocol 
          * of all elements being declared in builQuickForm 
          */ 
+
         $rows = $this->get( 'rows' ); 
         if ( is_array( $rows ) ) {
-            if (!$this->_single) {
+            if ( !$this->_single ) {
                 $this->addElement( 'checkbox', 'toggleSelect', null, null, array( 'onchange' => "return toggleCheckboxVals('mark_x_',this.form);" ) ); 
+                foreach ($rows as $row) { 
+                    $this->addElement( 'checkbox', $row['checkbox'], 
+                                       null, null, 
+                                       array( 'onclick' => "return checkSelectedBox('" . $row['checkbox'] . "', '" . $this->getName() . "');" )
+                                       ); 
+                }
             }
 
             $total = $cancel = 0;
-            foreach ($rows as $row) { 
-                $this->addElement( 'checkbox', $row['checkbox'], 
-                                   null, null, 
-                                   array( 'onclick' => "return checkSelectedBox('" . $row['checkbox'] . "', '" . $this->getName() . "');" )
-                                   ); 
-            }
-            
-            $this->assign( "{$this->_prefix}single", $this->_single );
 
             // also add the action and radio boxes
             require_once 'CRM/Contribute/Task.php';

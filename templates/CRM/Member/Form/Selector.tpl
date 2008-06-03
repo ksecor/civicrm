@@ -2,23 +2,24 @@
     {include file="CRM/common/pager.tpl" location="top"}
 {/if}
 
-{if $context EQ 'Contact Summary'}
+{if $context EQ 'user'}
     {assign var='columnHeaders' value=$member_columnHeaders}
     {assign var='rows' value=$member_rows}
     {assign var='single' value=$member_single}
     {assign var='limit' value=$member_limit}
 {/if}
+
 {strip}
 <table class="selector">
   <tr class="columnheader">
-{if ! $single and $context neq 'dashboard' }
+{if ! $single and $context eq 'Search' }
   <th scope="col" title="Select Rows">{$form.toggleSelect.html}</th> 
 {/if}
   {foreach from=$columnHeaders item=header}
     <th scope="col">
     {if $header.sort}
       {assign var='key' value=$header.sort}
-      {if $context EQ 'Contact Summary'}	
+      {if $context eq 'user'}	
          {$member_sort->_response.$key.link}
       {else}
          {$sort->_response.$key.link}
@@ -34,11 +35,11 @@
   {foreach from=$rows item=row}
   <tr id='rowid{$row.membership_id}' class="{cycle values="odd-row,even-row"}{*if $row.cancel_date} disabled{/if*}">
      {if ! $single }
-       {if $context neq 'dashboard' }       
+       {if $context eq 'Search' }       
           {assign var=cbName value=$row.checkbox}
           <td>{$form.$cbName.html}</td> 
-          <td>{$row.contact_type}</td>	
        {/if}
+       <td>{$row.contact_type}</td>	
        <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td> 
     {/if}
     <td>{$row.membership_type_id}</td>
@@ -51,7 +52,7 @@
    </tr>
   {/foreach}
 {* Link to "View all memberships" for Contact Summary selector display *}
-{if ($context EQ 'Contact Summary') AND $member_pager->_totalItems GT $limit}
+{if ($context EQ 'membership') AND $pager->_totalItems GT $limit}
   <tr class="even-row">
     <td colspan="7"><a href="{crmURL p='civicrm/contact/view' q="reset=1&force=1&selectedChild=member&cid=$contactId"}">&raquo; {ts}View all memberships for this contact{/ts}...</a></td></tr>
   </tr>

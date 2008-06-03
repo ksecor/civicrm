@@ -177,9 +177,7 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
 
         $this->_query =& new CRM_Contact_BAO_Query( $this->_queryParams, null, null, false, false,
                                                     CRM_Contact_BAO_Query::MODE_CONTRIBUTE );
-
     }//end of constructor
-
 
     /**
      * This method returns the links that are given for each search row.

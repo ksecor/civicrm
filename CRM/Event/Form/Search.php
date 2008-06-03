@@ -161,9 +161,9 @@ class CRM_Event_Form_Search extends CRM_Core_Form
         $this->_force   = CRM_Utils_Request::retrieve( 'force', 'Boolean',  $this, false ); 
         $this->_limit   = CRM_Utils_Request::retrieve( 'limit', 'Positive', $this );
         $this->_context = CRM_Utils_Request::retrieve( 'context', 'String', $this );
-        $this->_ssID    = CRM_Utils_Request::retrieve( 'ssID', 'Positive',  $this );
 
-        $this->assign( "{$this->_prefix}limit", $this->_limit );
+        $this->assign( "context", $this->_context );
+
         if ( $this->_context == 'search' ) {
             CRM_Utils_System::setTitle( ts('Find Participants') );
         }
@@ -202,9 +202,12 @@ class CRM_Event_Form_Search extends CRM_Core_Form
                                                     $this->_limit,
                                                     $this->_context ); 
         $prefix = null;
-        if ( $this->_context == 'basic' || $this->_context == 'user' ) {
+        if ( $this->_context == 'user' ) {
             $prefix = $this->_prefix;
         }
+
+        $this->assign( "{$prefix}limit", $this->_limit );
+        $this->assign( "{$prefix}single", $this->_single );
         
         $controller =& new CRM_Core_Selector_Controller($selector ,  
                                                         $this->get( CRM_Utils_Pager::PAGE_ID ),  
@@ -260,7 +263,6 @@ class CRM_Event_Form_Search extends CRM_Core_Form
             $this->assign( 'lineItems', $lineItems );
 
             $total = $cancel = 0;
-            $this->assign( "{$this->_prefix}single", $this->_single );
             
             // also add the action and radio boxes
             require_once 'CRM/Event/Task.php';
@@ -378,10 +380,13 @@ class CRM_Event_Form_Search extends CRM_Core_Form
                                                     $this->_limit,
                                                     $this->_context ); 
         $prefix = null;
-        if ( $this->_context == 'basic' || $this->_context == 'user') {
+        if ( $this->_context == 'user') {
             $prefix = $this->_prefix;
         }
         
+        $this->assign( "{$prefix}limit", $this->_limit );
+        $this->assign( "{$prefix}single", $this->_single );
+
         $controller =& new CRM_Core_Selector_Controller($selector , 
                                                         $this->get( CRM_Utils_Pager::PAGE_ID ), 
                                                         $sortID, 

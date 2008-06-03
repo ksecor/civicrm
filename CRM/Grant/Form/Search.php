@@ -164,8 +164,8 @@ class CRM_Grant_Form_Search extends CRM_Core_Form
         $this->_context = CRM_Utils_Request::retrieve( 'context', 'String', $this );
         $this->_ssID    = CRM_Utils_Request::retrieve( 'ssID', 'Positive',  $this );
         
-        $this->assign( "{$this->_prefix}limit", $this->_limit );
-          
+        $this->assign( "context", $this->_context );
+        
         // get user submitted values  
         // get it from controller only if form has been submitted, else preProcess has set this  
         if ( ! empty( $_POST ) ) { 
@@ -200,9 +200,12 @@ class CRM_Grant_Form_Search extends CRM_Core_Form
                                                     $this->_limit,
                                                     $this->_context ); 
         $prefix = null;
-        if ( $this->_context == 'basic' || $this->_context == 'user' ) {
+        if ( $this->_context == 'user' ) {
             $prefix = $this->_prefix;
         }
+
+        $this->assign( "{$prefix}limit", $this->_limit );
+        $this->assign( "{$prefix}single", $this->_single );
   
         $controller =& new CRM_Core_Selector_Controller($selector ,  
                                                         $this->get( CRM_Utils_Pager::PAGE_ID ),  
@@ -234,10 +237,10 @@ class CRM_Grant_Form_Search extends CRM_Core_Form
          * add form checkboxes for each row. This is needed out here to conform to QF protocol 
          * of all elements being declared in builQuickForm 
          */ 
+
         $rows = $this->get( 'rows' ); 
-            
         if ( is_array( $rows ) ) {
-            if ($this->_context == 'search') {
+            if ( !$this->_single ) {
                 $this->addElement( 'checkbox', 'toggleSelect', null, null, array( 'onchange' => "return toggleCheckboxVals('mark_x_',this.form);" ) ); 
                 foreach ($rows as $row) { 
                     $this->addElement( 'checkbox', $row['checkbox'], 
@@ -249,7 +252,6 @@ class CRM_Grant_Form_Search extends CRM_Core_Form
             }
 
             $total = $cancel = 0;
-            $this->assign( "{$this->_prefix}single", $this->_single );
             
             // also add the action and radio boxes
             require_once 'CRM/Grant/Task.php';
@@ -270,7 +272,6 @@ class CRM_Grant_Form_Search extends CRM_Core_Form
             $this->add('submit', $this->_printButtonName, ts('Print'), 
                        array( 'class' => 'form-submit', 
                               'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."', 1);" ) ); 
-            
             
             // need to perform tasks on all or selected items ? using radio_ts(task selection) for it 
             $this->addElement('radio', 'radio_ts', null, '', 'ts_sel', array( 'checked' => 'checked') ); 

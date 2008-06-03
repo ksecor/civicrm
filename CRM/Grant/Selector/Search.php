@@ -158,7 +158,6 @@ class CRM_Grant_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
     {
         // submitted form values
         $this->_queryParams =& $queryParams;
-        
 
         $this->_single  = $single;
         $this->_limit   = $limit;
@@ -171,9 +170,6 @@ class CRM_Grant_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
 
         $this->_query =& new CRM_Contact_BAO_Query( $this->_queryParams, null, null, false, false,
                                                     CRM_Contact_BAO_Query::MODE_GRANT );
-        //CRM_Core_Error::debug( 'q', $this->_query );
-        
-
     }//end of constructor
 
 
@@ -294,7 +290,6 @@ class CRM_Grant_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
          $grantStatus  = CRM_Grant_PseudoConstant::grantStatus( );
          $grantType    = array( );
          $grantType    = CRM_Grant_PseudoConstant::grantType( );
-
 
          $mask = CRM_Core_Action::mask( $permission );
          while ($result->fetch()) {
