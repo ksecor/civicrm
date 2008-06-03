@@ -2,7 +2,8 @@
 {if $isAdmin}
     {capture assign=newPageURL}{crmURL p="civicrm/admin/contribute" q="action=add&reset=1"}{/capture}
     {capture assign=configPagesURL}{crmURL p="civicrm/admin/contribute" q="reset=1"}{/capture}
-    <div class="action-link float-right"><a href="{$newPageURL}">&raquo; New Contribution Page</a><br /><a href="{$configPagesURL}">&raquo; Manage Contribution Pages</a></div>
+    {capture assign=chartURL}{crmURL p="civicrm/contribute/chart" q="reset=1"}{/capture}
+    <div class="action-link float-right"><a href="{$newPageURL}">&raquo; New Contribution Page</a><br /><a href="{$configPagesURL}">&raquo; Manage Contribution Pages</a><br /><a href="{$chartURL}">&raquo; View Contribution Through Chart</a></div>
 {/if}
 
 <h3>{ts}Contributions Summary{/ts} {help id="id-contribute-intro"}</h3>

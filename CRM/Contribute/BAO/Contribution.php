@@ -976,6 +976,72 @@ LEFT JOIN civicrm_option_value contribution_status ON (civicrm_contribution.cont
 
         return $paymentDetails;
     }
+
+    /**
+     * Function to get the contribution details by month
+     * of the year
+     * @param int     $param year
+     * 
+     * @return array associated array
+     *
+     * @static
+     * @access public
+     */
+    function contributionChartMonthly( $param ) 
+    {
+        if ( $param ) {
+            $param = array( 1 => array( $param, 'Integer' ) );
+        } else {
+            $param = date("Y");
+            $param = array( 1 => array( $param, 'Integer' ) );
+        }
+        
+        $query = 
+        "SELECT sum(contrib.total_amount) AS ctAmt,
+            DATE_FORMAT(contrib.receive_date,'%b') AS contribMonth
+        FROM civicrm_contribution AS contrib,
+             civicrm_contact AS contact
+        WHERE contrib.contact_id = contact.id
+              AND contrib.is_test = 0
+              AND contrib.contribution_status_id = 1
+              AND date_format(contrib.receive_date,'%Y') = %1 
+        GROUP BY contribMonth
+        ORDER BY month(contrib.receive_date)";
+        
+        $dao = CRM_Core_DAO::executeQuery( $query, $param );
+        
+        while ( $dao->fetch( ) ) {
+            $params['Contribution By Monthly'][$dao->contribMonth] = $dao->ctAmt;
+        } 
+        return $params;
+       
+    }
+
+ /**
+     * Function to get the contribution details by year
+     *
+     * @return array associated array
+     *
+     * @static
+     * @access public
+     */
+    function contributionChartYearly( ) 
+    {
+        $query = 
+        "SELECT sum(contrib.total_amount) AS ctAmt,
+            year(contrib.receive_date) as contribYear
+        FROM civicrm_contribution AS contrib
+        WHERE contrib.is_test = 0
+              AND contrib.contribution_status_id = 1
+        GROUP BY contribYear
+        ORDER BY contribYear desc";
+        $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        while ( $dao->fetch( ) ) {
+            $params['Contribution By Yearly'][$dao->contribYear] = $dao->ctAmt;
+        }  
+        return $params;
+    }
+
 }
 
 
