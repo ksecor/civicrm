@@ -809,6 +809,20 @@ SELECT count(*) as count,
                         $result =& $payment->doTransferCheckout( $form->_params );
                     } else {
                         // follow similar flow as IPN
+                        // send the receipt mail
+                        $form->set( 'params', $form->_params );
+                        if ( $contributionType->is_deductible ) {
+                            $form->assign('is_deductible',  true );
+                            $form->set('is_deductible',  true);
+                        }
+                        if( isset( $paymentParams['contribution_source'] ) ) {
+                            $form->_params['source'] = $paymentParams['contribution_source'];
+                        }
+                        require_once "CRM/Contribute/BAO/ContributionPage.php";
+                        $form->_values['contribution_id'] = $contribution->id;
+                        CRM_Contribute_BAO_ContributionPage::sendMail( $contactID,
+                                                                       $form->_values,
+                                                                       $contribution->is_test );
                         return;
                     }
                 }
@@ -828,7 +842,8 @@ SELECT count(*) as count,
         if ( is_a( $result, 'CRM_Core_Error' ) ) {
             if ( $component !== 'membership' ) {
                 CRM_Core_Error::displaySessionError( $result );
-                CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contribute/transact', '_qf_Main_display=true' ) );
+                CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contribute/transact', 
+                                                                   '_qf_Main_display=true' ) );
             }
             $membershipResult[1] = $result;
         } else {
@@ -851,9 +866,11 @@ SELECT count(*) as count,
                 $form->_params['source'] = $paymentParams['contribution_source'];
             }
             
-            $contribution = CRM_Contribute_Form_Contribution_Confirm::processContribution( $form,
-                                                                      $form->_params, $result, $contactID, 
-                                                                      $contributionType, true, false, true );
+            $contribution =
+                CRM_Contribute_Form_Contribution_Confirm::processContribution( $form,
+                                                                               $form->_params, $result,
+                                                                               $contactID, $contributionType,
+                                                                               true, false, true );
             
             $form->postProcessPremium( $premiumParams, $contribution );
             

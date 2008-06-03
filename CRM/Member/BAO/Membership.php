@@ -924,20 +924,15 @@ AND civicrm_membership.is_test = %2";
                                                                '_qf_Main_display=true' ) );
         }
         
-        if ( ( $form->_contributeMode == 'notify' ||
-               $form->_params['is_pay_later'] ) &&
-             ( $form->_values['is_monetary'] && $form->_amount > 0.0 ) ) {
+        $form->_params['membershipID'] = $membership->id;
 
-            $form->_params['membershipID'] = $membership->id;
-            
-            if ( ! $form->_params['is_pay_later'] ) {
+        if ( $form->_contributeMode == 'notify' ) {
+            if ( $form->_values['is_monetary'] && $form->_amount > 0.0 ) {
                 // this does not return
                 require_once 'CRM/Core/Payment.php';
                 $payment =& CRM_Core_Payment::singleton( $form->_mode, 'Contribute', $form->_paymentProcessor );
                 $payment->doTransferCheckout( $form->_params );
             }
-            // return in case of pay later and goto thank you page
-            return;
         }
         
         $form->_values['membership_id'  ] = $membership->id;
@@ -945,8 +940,7 @@ AND civicrm_membership.is_test = %2";
         //finally send an email receipt
         require_once "CRM/Contribute/BAO/ContributionPage.php";
         CRM_Contribute_BAO_ContributionPage::sendMail( $contactID,
-                                                       $form->_values
-                                                       );
+                                                       $form->_values );
     }
     
     /**

@@ -33,7 +33,14 @@
 {ts}Amount{/ts}: {$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}
 {/if}
 
+
+{if $is_pay_later}
+{$pay_later_receipt}
+{/if}
+
+{if $receive_date}
 {ts}Date{/ts}: {$receive_date|crmDate}
+{/if}
 {if $is_monetary and $trxn_id}
 {ts}Transaction #{/ts}: {$trxn_id}
 {/if}
