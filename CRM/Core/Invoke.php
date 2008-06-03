@@ -140,6 +140,10 @@ class CRM_Core_Invoke
             require_once 'Reports/Zend/Wrapper.php';
             break;
 
+        case 'dedupe':
+            self::dedupeAssoc($args);
+            break;
+
         default         :
             if ( CRM_Core_Component::invoke( $args, 'main' ) ) {
                 break;
@@ -1075,6 +1079,23 @@ class CRM_Core_Invoke
         return $view->run();
     }
 
+    /**
+     * This function is for dedupe/assoc
+     *
+     *
+     * @static
+     * @access public
+     */
+    static function dedupeAssoc( $args ) 
+    {
+        if ( $args[1] !== 'dedupe' && $args[1] !== 'assoc' ) {
+            return;
+        }
+        
+        require_once 'CRM/Admin/Page/DedupeAssoc.php';
+        $view =& new CRM_Admin_Page_DedupeAssoc( );
+        return $view->run();
+    }
 
 }
 

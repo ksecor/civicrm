@@ -380,7 +380,10 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 }
             }
         } else {
-            CRM_Core_Error::fatal( ts( 'This profile is not configured for the requested action. Contact the site administrator if you need assistance.' ) );
+            // CRM_Core_Error::fatal( ts( 'This profile is not configured for the requested action. Contact the site administrator if you need assistance.' ) );
+            $template =& CRM_Core_Smarty::singleton( );
+            print $template->fetch( 'CRM/common/profileNA.tpl' );
+            exit( CRM_Core_Error::FATAL_ERROR );
         }
 
         return $fields;
