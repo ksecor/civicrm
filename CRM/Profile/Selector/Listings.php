@@ -531,7 +531,12 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
             if ( $this->_linkToUF ) {
                 $ufID = crm_uf_get_uf_id( $result->contact_id );
                 if ( ! $ufID ) {
-                    unset( $newLinks[CRM_Core_Action::PROFILE] );
+                    $newLinks[CRM_Core_Action::PROFILE] = array(
+                                                                'name'  => ts('Yahoo!'),
+                                                                'url'   => 'http://www.yahoo.com/',
+                                                                'qs'    => null,
+                                                                'title' => ts('Yahoo!'),
+                                                                );
                 } else {
                     $params['ufID'] = $ufID;
                 }

@@ -201,9 +201,14 @@ class CRM_Core_Action {
         foreach ( $links as $m => $link ) {
             if ( ! $mask || ( $mask & $m ) ) {
                 $extra = CRM_Utils_Array::value( 'extra', $link, '' );
+                if ( strpos( $link['url'], 'http:' ) === false ) {
+                    $linkURL = CRM_Utils_System::url( self::replace( $link['url'], $values ),
+                                                      self::replace( $link['qs'] , $values ) );
+                } else {
+                    $linkURL = self::replace( $link['url'], $values );
+                }
                 $url[] = sprintf('<a href="%s" ' . $extra . '>%s</a>',
-                                 CRM_Utils_System::url( self::replace( $link['url'], $values ),
-                                                        self::replace( $link['qs'] , $values ) ),
+                                 $linkURL,
                                  $link['name'] );
             }
         }
