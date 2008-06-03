@@ -54,16 +54,6 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
      */ 
     const NUM_DISCOUNT = 6;
 
-    /** 
-     * Protected variable to show discount date dynamically one day after.
-     */ 
-    protected $_inDate;
-
-    /** 
-     * Protected flag to show discount date dynamically one day after.
-     */
-    protected $_check = TRUE;
-
     /**
      * Page action
      */
@@ -130,13 +120,6 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
                 $defaults["discounted_label"] = $defaultDiscounts["label"];
                 foreach( $defaultDiscounts["value"] as $k => $v ) {
                     $defaults["discounted_value"][$k][$key] = $v;
-                }
-                if ( array_values( $defaults["discount_end_date[$key]"] ) && $key < 5 && $this->_check) {
-                    $end_date = CRM_Utils_Date::format( $defaults["discount_end_date[$key]"], '-' );
-                    $this->_inDate[$key + 1] = CRM_Utils_Date::unformat( date('Y-m-d', 
-                                                                              strtotime ("+1 days $end_date")
-                                                                              ));
-                    $this->_check = true;
                 }
             }
             $this->set( 'discountSection', 1 );
@@ -262,18 +245,38 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
                 $_showHide->addShow($showBlocks);
             }
 
-            //Increament by 1 of start date of previous end date.
+            //Increment by 1 of start date of previous end date.
             if ( is_array( $this->_submitValues ) &&
+                 ! empty( $this->_submitValues['discount_name'][$i] ) &&
+                 ! empty( $this->_submitValues['discount_name'][$i+1] ) &&
                  isset( $this->_submitValues['discount_end_date'] ) &&
                  isset( $this->_submitValues['discount_end_date'][$i] ) &&
                  array_values( $this->_submitValues['discount_end_date'][$i] ) &&
                  $i <  self::NUM_DISCOUNT - 1 ) {
                 $end_date = CRM_Utils_Date::format( $this->_submitValues['discount_end_date'][$i], '-' );
-                $this->_inDate[$i + 1] = CRM_Utils_Date::unformat( date('Y-m-d', 
-                                                                       strtotime ("+1 days $end_date")
-                                                                       ));
-                $this->_check = false;
+                if (! empty( $this->_submitValues['discount_end_date'][$i + 1]['M'] ) 
+                     && empty( $this->_submitValues['discount_start_date'][$i + 1]['M'] ) )  {
+                    $this->_submitValues['discount_start_date'][$i + 1] = 
+                        CRM_Utils_Date::unformat( date('Y-m-d', strtotime ("+1 days $end_date") ));
+                }
             }
+            //Decrement by 1 of end date from next start date.
+            if ( $i > 1 && 
+                 is_array( $this->_submitValues ) &&
+                 ! empty( $this->_submitValues['discount_name'][$i] ) &&
+                 ! empty( $this->_submitValues['discount_name'][$i-1] ) &&
+                 isset( $this->_submitValues['discount_start_date'] ) &&
+                 isset( $this->_submitValues['discount_start_date'][$i] ) &&
+                 array_values( $this->_submitValues['discount_start_date'][$i] )
+                 ) {
+                $start_date = CRM_Utils_Date::format( $this->_submitValues['discount_start_date'][$i], '-' );
+                if (! empty( $this->_submitValues['discount_start_date'][$i]['M'] ) 
+                    && empty( $this->_submitValues['discount_end_date'][$i-1]['M'] ) )  {
+                    $this->_submitValues['discount_end_date'][$i - 1] = 
+                        CRM_Utils_Date::unformat( date('Y-m-d', strtotime ("-1 days $start_date") ));
+                }
+            }
+            
             //discount name
             $this->add('text','discount_name['.$i.']', ts('Discount Name'), 
                        CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'label'));

@@ -107,7 +107,7 @@
         {/section}
         </table>
         <div id="discountLink" class="add-remove-link">
-           <a onclick="showrowDiscount();inDate();return false;" name="discountLink" href="#discountLink" class="form-link"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}show field or section{/ts}"/>{ts}another discount{/ts}</a>
+           <a onclick="showrowDiscount();return false;" name="discountLink" href="#discountLink" class="form-link"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}show field or section{/ts}"/>{ts}another discount{/ts}</a>
         </div>
         {$form._qf_Fee_refresh.html}
 	
@@ -175,19 +175,7 @@
     if ( document.getElementsByName('is_monetary')[0].checked ) {
         show( 'event-fees', 'block' );
        }
-function inDate( )
-{
- {/literal}
-{foreach from=$inDate key=k item=v }
- {foreach from=$v key=k1 item=v1}
-  {literal}
-   document.getElementById('discount_start_date[{/literal}{$k}{literal}][{/literal}{$k1}{literal}]').value = {/literal}{$v1}{literal}; 
- {/literal}
- {/foreach}
-{/foreach}
- {literal}
-}
- {/literal} 
+
  {/literal} 
 </script>
 
