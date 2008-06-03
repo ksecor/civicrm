@@ -118,23 +118,25 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
         $eventFullMessage = CRM_Event_BAO_Participant::eventFull( $this->_id );
         if( $eventFullMessage ) {
             CRM_Core_Session::setStatus( $eventFullMessage );
-        } else {
-            if ( isset($values['event']['is_online_registration']) ) {
-                // make sure that we are between  registration start date and registration end date
-                $startDate = CRM_Utils_Date::unixTime( CRM_Utils_Array::value( 'registration_start_date',
-                                                                               $values['event'] ) );
-                $endDate = CRM_Utils_Date::unixTime( CRM_Utils_Array::value( 'registration_end_date',
-                                                                             $values['event'] ) );
-                $now = time( );
-                $validDate = true;
-                if ( $startDate && $startDate >= $now ) {
-                    $validDate = false;
-                    
-                }
-                if ( $endDate && $endDate < $now ) {
-                    $validDate = false;
-                }
-                if ( $validDate ) {
+        }
+        
+        if ( isset($values['event']['is_online_registration']) ) {
+            // make sure that we are between  registration start date and registration end date
+            $startDate = CRM_Utils_Date::unixTime( CRM_Utils_Array::value( 'registration_start_date',
+                                                                           $values['event'] ) );
+            $endDate = CRM_Utils_Date::unixTime( CRM_Utils_Array::value( 'registration_end_date',
+                                                                         $values['event'] ) );
+            $now = time( );
+            $validDate = true;
+            if ( $startDate && $startDate >= $now ) {
+                $validDate = false;
+                
+            }
+            if ( $endDate && $endDate < $now ) {
+                $validDate = false;
+            }
+            if ( $validDate ) {
+                if ( ! $eventFullMessage ) {
                     $registerText = ts('Register Now');
                     if ( CRM_Utils_Array::value('registration_link_text',$values['event']) ) {
                         $registerText = $values['event']['registration_link_text'];
@@ -142,33 +144,34 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
                     
                     $this->assign( 'registerText', $registerText );
                     $this->assign( 'is_online_registration', $values['event']['is_online_registration'] );
-
-                    // we always generate urls for the front end in joomla
-                    if ( $action ==  CRM_Core_Action::PREVIEW ) {
-                        $url    = CRM_Utils_System::url( 'civicrm/event/register',
-                                                         "id={$this->_id}&reset=1&action=preview",
-                                                         true, null, true,
-                                                         true );
-                        $mapURL = CRM_Utils_System::url( 'civicrm/contact/map/event',
-                                                         "eid={$this->_id}&reset=1&action=preview",
-                                                         true, null, true,
-                                                         true );
-                    } else {
-                        $url = CRM_Utils_System::url( 'civicrm/event/register',
-                                                      "id={$this->_id}&reset=1",
-                                                      true, null, true,
-                                                      true );
-                        $mapURL = CRM_Utils_System::url( 'civicrm/contact/map/event',
-                                                         "eid={$this->_id}&reset=1",
-                                                         true, null, true,
-                                                         true );
-                    }
-                    $this->assign( 'registerURL', $url    );
-                    $this->assign( 'mapURL'     , $mapURL );
                 }
+                // we always generate urls for the front end in joomla
+                if ( $action ==  CRM_Core_Action::PREVIEW ) {
+                    $url    = CRM_Utils_System::url( 'civicrm/event/register',
+                                                     "id={$this->_id}&reset=1&action=preview",
+                                                     true, null, true,
+                                                     true );
+                    $mapURL = CRM_Utils_System::url( 'civicrm/contact/map/event',
+                                                     "eid={$this->_id}&reset=1&action=preview",
+                                                     true, null, true,
+                                                     true );
+                } else {
+                    $url = CRM_Utils_System::url( 'civicrm/event/register',
+                                                  "id={$this->_id}&reset=1",
+                                                  true, null, true,
+                                                  true );
+                    $mapURL = CRM_Utils_System::url( 'civicrm/contact/map/event',
+                                                     "eid={$this->_id}&reset=1",
+                                                     true, null, true,
+                                                     true );
+                }
+                if ( ! $eventFullMessage ) {
+                    $this->assign( 'registerURL', $url    );
+                }
+                $this->assign( 'mapURL'     , $mapURL );
             }
-            
         }
+
         // we do not want to display recently viewed items, so turn off
         $this->assign('displayRecent' , false );
         
