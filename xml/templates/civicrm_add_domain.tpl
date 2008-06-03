@@ -88,8 +88,6 @@ VALUES
 
 
 
-INSERT INTO civicrm_dupe_match (entity_table , rule) VALUES ( 'contact_individual','first_name AND last_name AND email');
-
 -- contribution types
 INSERT INTO
    civicrm_contribution_type(name, is_reserved, is_active, is_deductible)

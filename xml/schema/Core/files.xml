@@ -9,7 +9,6 @@
 <xi:include href="CustomGroup.xml"          parse="xml" />
 <xi:include href="CustomField.xml"          parse="xml" />
 <xi:include href="Domain.xml"               parse="xml" />
-<xi:include href="DupeMatch.xml"            parse="xml" />
 <xi:include href="Email.xml"                parse="xml" />
 <xi:include href="EntityFile.xml"           parse="xml" />
 <xi:include href="EntityTag.xml"            parse="xml" />

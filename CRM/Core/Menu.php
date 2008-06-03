@@ -577,17 +577,6 @@ class CRM_Core_Menu
                              'page_callback' => 'CRM_Admin_Form_Setting_UpdateConfigBackend',
                              ),
 
-                       'civicrm/admin/dupematch' => 
-                       array(
-                           'title'   => ts('Contact Matching'),
-                           'desc'    => ts('Rules used to identify potentially duplicate contact records, and to match imported data to existing contact records.'), 
-                           'query'  => array('reset' => 1),
-                           'page_callback' => 'CRM_Admin_Page_DupeMatch',
-                           'adminGroup' => ts('Configure'),
-                           'icon'    => 'admin/small/duplicate_matching.png',
-                           'weight'  => 240
-                           ),
-
                        'civicrm/admin/deduperules' =>
                        array(
                            'title'   => ts('Duplicate Contact Rules'),
