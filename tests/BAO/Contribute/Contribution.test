@@ -164,5 +164,133 @@ class BAO_Contribute_Contribution extends CiviTestCase
         //Delete contributor contact
         Contact::delete( $contactId );
     }
+    /**
+     * display sort name during 
+     * contribution batch update through profile 
+     * sortName();
+     */
+    function testsortName( ) 
+    {
+        $params    =  array( 'first_name'   => 'Shane',     
+                             'last_name'    => 'Whatson',
+                             'contact_type' => 'Individual'
+                             );
+        
+        require_once 'CRM/Contact/BAO/Contact.php';
+        $contact = CRM_Contact_BAO_Contact::add( $params );
+        
+        //Now check $contact is object of contact DAO..
+        $this->assertIsA( $contact, 'CRM_Contact_DAO_Contact', 'Check for created object' );
+        
+        $contactId = $contact->id;
+       
+        $ids = array ('contribution' => null );
+
+        $param = array (
+                        'contact_id'             => $contactId,
+                        'currency'               => 'USD',
+                        'contribution_type_id'   => 1,
+                        'contribution_status_id' => 1,
+                        'payment_instrument_id'  => 1,
+                        'source'                 => 'STUDENT',
+                        'receive_date'           => '20080522000000',
+                        'receipt_date'           => '20080522000000',
+                        'id'                     => null,
+                        'non_deductible_amount'  => 0.00,
+                        'total_amount'           => 300.00,
+                        'fee_amount'             => 5,
+                        'net_amount'             => 295,
+                        'trxn_id'                => '22ereerwww323',
+                        'invoice_id'             => '22ed39c9e9ee621ce0eafe6da70',
+                        'thankyou_date'          => '20080522'
+                        );
+
+        require_once 'CRM/Contribute/BAO/Contribution.php';
+        $contribution = CRM_Contribute_BAO_Contribution::create( $param ,$ids );
+        
+        $this->assertEqual( $param['trxn_id'], $contribution->trxn_id, 'Check for transcation id creation.' );
+        $this->assertEqual( $contactId, $contribution->contact_id, 'Check for contact id  creation.' );
+
+        //display sort name during batch update
+        $sortName = CRM_Contribute_BAO_Contribution::sortName( $contribution->id );
+
+        $this->assertEqual( 'Whatson, Shane', $sortName, 'Check for sort name.' );
+        //Delete Contact
+        Contact::delete( $contactId );
+    }
+    /**
+     * Add premium during online Contribution
+     * 
+     * AddPremium();
+     */
+    function testAddPremium( ) 
+    {
+        $contactId = Contact::createIndividual( );
+
+        $ids = array(
+                     'premium' => null
+                     );
+
+
+        $params = array(
+                        'name'             => 'TEST Premium',
+                        'sku'              => 111,
+                        'imageOption'      => 'noImage',
+                        'MAX_FILE_SIZE'    => 2097152,
+                        'price'            => 100.00,
+                        'cost'             => 90.00,
+                        'min_contribution' => 100,
+                        'is_active'        => 1
+                        );
+        require_once 'CRM/Contribute/BAO/ManagePremiums.php';
+       $premium = CRM_Contribute_BAO_ManagePremiums::add( $params,$ids );
+
+       $this->assertEqual( 'TEST Premium', $premium->name, 'Check for premium  name.' );
+
+       $ids = array ('contribution' => null );
+
+       $param = array (
+                       'contact_id'             => $contactId,
+                       'currency'               => 'USD',
+                       'contribution_type_id'   => 1,
+                       'contribution_status_id' => 1,
+                       'payment_instrument_id'  => 1,
+                       'source'                 => 'STUDENT',
+                       'receive_date'           => '20080522000000',
+                       'receipt_date'           => '20080522000000',
+                       'id'                     => null,
+                       'non_deductible_amount'  => 0.00,
+                       'total_amount'           => 300.00,
+                       'fee_amount'             => 5,
+                       'net_amount'             => 295,
+                       'trxn_id'                => '22ereerwww323',
+                       'invoice_id'             => '22ed39c9e9ee621ce0eafe6da70',
+                       'thankyou_date'          => '20080522'
+                       );
+
+       require_once 'CRM/Contribute/BAO/Contribution.php';
+       $contribution = CRM_Contribute_BAO_Contribution::create( $param ,$ids );
+
+       $this->assertEqual( $param['trxn_id'], $contribution->trxn_id, 'Check for transcation id creation.' );
+       $this->assertEqual( $contactId, $contribution->contact_id, 'Check for contact id  creation.' );
+
+       //parameter for adding premium to contribution
+       $data = array(
+                     'product_id'      => $premium->id,
+                     'contribution_id' => $contribution->id,
+                     'product_option'  => null,
+                     'quantity'        => 1,
+                     );
+       $contributionProduct = CRM_Contribute_BAO_Contribution::addPremium( $data );
+       $this->assertEqual( $contributionProduct->product_id, $premium->id, 'Check for Product id .' );
+
+       //Delete Product
+       CRM_Contribute_BAO_ManagePremiums::del( $premium->id);
+       $this->assertDBNull( 'CRM_Contribute_DAO_Product',$premium->name, 
+                             'id','name','Database check for deleted Product.' );
+       //Delete Contact
+       Contact::delete( $contactId );
+    }
+
 }
 ?>
