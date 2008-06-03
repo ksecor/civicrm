@@ -457,42 +457,18 @@ function _civicrm_duplicate_formatted_contact(&$params)
                                                   'Fatal', $contact->id );
             return civicrm_create_error( $error->pop( ) );
         }
-    } else 
-        if ( $params['contact_type'] == 'Individual' || (!isset($params['household_name']) && !isset($params['organization_name'])) ) {
-        
-        require_once 'CRM/Core/BAO/UFGroup.php';
-        if ( ( $ids =& CRM_Core_BAO_UFGroup::findContact( $params, null, $params['contact_type'] ) ) != null ) {
-            
+    } else {
+        require_once 'CRM/Dedupe/Finder.php';
+        $dedupeParams = CRM_Dedupe_Finder::formatParams($params, $params['contact_type']);
+        $ids = CRM_Dedupe_Finder::dupesByParams($dedupeParams, $params['contact_type'], 'Strict');
+        if ( !empty($ids) ) {
+            $ids = implode( ',', $ids );
             $error = CRM_Core_Error::createError( "Found matching contacts: $ids",
                                                   CRM_Core_Error::DUPLICATE_CONTACT, 
                                                   'Fatal', $ids );
             return civicrm_create_error( $error->pop( ) );
-        }
-        
-    } else {  
-        $contact = new CRM_Contact_DAO_Contact( );
-        
-        if ( $params['contact_type'] == 'Household' ) {
-            $contact->household_name    = $params['household_name'];
-        } else if ( $params['contact_type'] == 'Organization' ) {
-            $contact->organization_name = $params['organization_name'];
-        }
-        
-        if ( $contact->find( ) ) {
-            
-            $ids = array( );
-            
-            while( $contact->fetch( ) ) {
-                $ids[] = $contact->id;
-            }
-            
-            $error = CRM_Core_Error::createError( "Found matching contacts: " . implode( ', ', $ids ), 
-                                                  CRM_Core_Error::DUPLICATE_CONTACT, 
-                                                  'Fatal', implode( ', ', $ids ) );
-            return civicrm_create_error( $error->pop( ) );
-        }
+        } 
     }
-    
     return civicrm_create_success( true );
 }
 

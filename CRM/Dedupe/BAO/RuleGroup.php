@@ -142,5 +142,31 @@ class CRM_Dedupe_BAO_RuleGroup extends CRM_Dedupe_DAO_RuleGroup
                 ORDER BY SUM(weight) desc";
         }
     }
-
+    
+    /**
+     * To find fields related to a rule group.
+     * @param array contains the rule group property to identify rule group
+     *
+     * @return (rule field => weight) array and threshold associated to rule group 
+     * @access public
+     */
+    function dedupeRuleFieldsWeight( $params)
+    {
+        require_once 'CRM/Dedupe/BAO/Rule.php';
+        $rgBao =& new CRM_Dedupe_BAO_RuleGroup();
+        $rgBao->level = $params['level'];
+        $rgBao->contact_type = $params['contact_type'];
+        $rgBao->is_default = 1;
+        $rgBao->find(true);
+        
+        $ruleBao =& new CRM_Dedupe_BAO_Rule();
+        $ruleBao->dedupe_rule_group_id = $rgBao->id;
+        $ruleBao->find();
+        $ruleFields = array();
+        while ($ruleBao->fetch()) {
+            $ruleFields[$ruleBao->rule_field] = $ruleBao->rule_weight;
+        }
+        
+        return array($ruleFields, $rgBao->threshold);
+    }
 }
