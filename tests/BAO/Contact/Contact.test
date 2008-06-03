@@ -20,6 +20,10 @@ class BAO_Contact_Contact extends CiviTestCase
         parent::setUp();
     }
     
+    /**
+     * test case for add( )
+     * test with empty params.
+     */
     function testAddWithEmptyParams( )
     {
         require_once 'CRM/Contact/BAO/Contact.php';
@@ -30,7 +34,9 @@ class BAO_Contact_Contact extends CiviTestCase
     }
     
     /**
-     * add() method (create and update modes)
+     * test case for add( )
+     * test with names
+     * (create and update modes)
      */
     function testAddWithNames( )
     {
@@ -68,8 +74,9 @@ class BAO_Contact_Contact extends CiviTestCase
     }
     
     /**
-     * add() method (creat and update modes)
-     * with all contact params
+     * test case for add( )
+     * test with all contact params
+     * (creat and update modes)
      */
     function testAddWithAll( )
     {
@@ -224,7 +231,8 @@ class BAO_Contact_Contact extends CiviTestCase
     }
     
     /**
-     * add() method 
+     * test case for add( )
+     * test with All contact types.
      */
     function testAddWithAllContactTypes( )
     {
@@ -288,10 +296,9 @@ class BAO_Contact_Contact extends CiviTestCase
     }
     
     /**
-     * create() method
-     * test create method with missing params.
+     * test case for create( )
+     * test with missing params.
      */
-    
     function testCreateWithEmptyParams( )
     {
         $params = array(
@@ -306,11 +313,10 @@ class BAO_Contact_Contact extends CiviTestCase
     }
     
     /**
-     * create() method
-     * test create method with all params.
-     * create and update modes.
+     * test case for create( )
+     * test with all params.
+     * ( create and update modes ).
      */
-    
     function testCreateWithAll( )
     {
         //take the common contact params
@@ -478,10 +484,9 @@ class BAO_Contact_Contact extends CiviTestCase
     }
     
     /**
-     * resolveDefaults() method
+     * test case for resolveDefaults( )
      * test all pseudoConstant, stateProvince, country. 
      */
-    
     function testResolveDefaults( )
     {
         $params = array( 'prefix_id'  => 3,
@@ -517,10 +522,9 @@ class BAO_Contact_Contact extends CiviTestCase
     }
     
     /**
-     * retrieve() method
-     * test all retrieve values. 
+     * test case for retrieve( )
+     * test with all values. 
      */
-    
     function testRetrieve( )
     {
         //take the common contact params
@@ -620,8 +624,7 @@ class BAO_Contact_Contact extends CiviTestCase
     }
     
     /**
-     * test deleteContact() BAO method
-     * 
+     * test case for deleteContact( )
      */
     function testDeleteContact( )
     {
@@ -660,11 +663,10 @@ class BAO_Contact_Contact extends CiviTestCase
     }
     
     /**
-     * createProfileContact( ) method
+     * test case for createProfileContac( )
      * test with all params.
      * ( create and update modes )
      */
-    
     function testCreateProfileContact( )
     {
         require_once 'CRM/Contact/BAO/Contact.php';
@@ -1055,8 +1057,7 @@ class BAO_Contact_Contact extends CiviTestCase
     }
     
     /**
-     * test getContactLocations( )
-     * 
+     * test case for getContactLocations( )
      */
     function testGetContactLocations( )
     {
@@ -1077,8 +1078,7 @@ class BAO_Contact_Contact extends CiviTestCase
     }
     
     /**
-     * test getContactDetails( )
-     * 
+     * test case for getContactDetails( )
      */
     function testGetContactDetails( )
     {
@@ -1103,8 +1103,7 @@ class BAO_Contact_Contact extends CiviTestCase
     }
     
     /**
-     * test getPrimaryLocationType( )
-     * 
+     * test case for getPrimaryLocationType( )
      */
     function testGetPrimaryLocationType( )
     {
@@ -1127,8 +1126,8 @@ class BAO_Contact_Contact extends CiviTestCase
     }
     
     /**
-     * test importableFields( ) and 
-     * exportableFields( ) methods
+     * test case for  
+     * importableFields( ) and exportableFields( )
      */
     function testFields( )
     {
@@ -1152,6 +1151,195 @@ class BAO_Contact_Contact extends CiviTestCase
         $organizationExpFileds = CRM_Contact_BAO_Contact::importableFields( 'Organization' );
         //Now check Organization fields
         $this->assertAttributesEqual( $organizationImpFileds, $organizationExpFileds );
+    }
+    
+    /**
+     * test case for getPrimaryEmail( ) 
+     * 
+     */
+    function testGetPrimaryEmail( )
+    {
+        //get the contact params
+        $params = $this->contactParams( );
+        $params['location'][2] = $params['location'][1];
+        $params['location'][2]['location_type_id'] = 2;
+        $params['location'][2]['email'][1]['email'] = 'primarymail@example.org';
+        unset( $params['location'][1]['is_primary'] );
+        
+        //create contact
+        require_once 'CRM/Contact/BAO/Contact.php';
+        $contact = CRM_Contact_BAO_Contact::create( $params );
+        $contactId = $contact->id;
+        //get the primary email.
+        $email = CRM_Contact_BAO_Contact::getPrimaryEmail( $contactId );
+        //Now check the primary email
+        $this->assertEqual( $email, CRM_Utils_Array::value( 'email', $params['location'][2]['email'][1] ), 'Check Primary Email' );
+        
+        //cleanup DB by deleting the contact
+        Contact::delete( $contactId );
+    }
+    
+    /**
+     * test case for getPrimaryOpenId( ) 
+     * 
+     */
+    function testGetPrimaryOpenId( )
+    {
+        //get the contact params
+        $params = $this->contactParams( );
+        $params['location'][2] = $params['location'][1];
+        $params['location'][2]['location_type_id'] = 2;
+        $params['location'][2]['openid'][1]['openid'] = 'http://primaryOpenID.org';
+        unset( $params['location'][1]['is_primary'] );
+        
+        //create contact
+        require_once 'CRM/Contact/BAO/Contact.php';
+        $contact = CRM_Contact_BAO_Contact::create( $params );
+        $contactId = $contact->id;
+        //get the primary openid
+        $openID = CRM_Contact_BAO_Contact::getPrimaryOpenId( $contactId );
+        //Now check the primary openid
+        $this->assertEqual( $openID, CRM_Utils_Array::value( 'openid', $params['location'][2]['openid'][1] ), 'Check Primary OpenID' );
+        
+        //cleanup DB by deleting the contact
+        Contact::delete( $contactId );
+    }
+    
+    /**
+     * test case for matchContactOnEmail( ) 
+     * 
+     */
+    function testMatchContactOnEmail( )
+    {
+        //get the contact params
+        $params = $this->contactParams( ); 
+        //create contact
+        require_once 'CRM/Contact/BAO/Contact.php';
+        $contact = CRM_Contact_BAO_Contact::create( $params );
+        $contactId = $contact->id;
+        
+        //get the matching contact.
+        $match= CRM_Contact_BAO_Contact::matchContactOnEmail( CRM_Utils_Array::value( 'email', $params['location'][1]['email'][1] ), 
+                                                              'Individual' );
+        $this->assertEqual( $contactId, $match->contact_id, 'Check For Matching Contact' );
+        
+        //cleanup DB by deleting the contact
+        Contact::delete( $contactId );
+    }
+    
+    /**
+     * test case for getContactType( ) 
+     * 
+     */
+    function testGetContactType( )
+    {
+        //get the contact params
+        $params = $this->contactParams( ); 
+        //create contact
+        require_once 'CRM/Contact/BAO/Contact.php';
+        $contact = CRM_Contact_BAO_Contact::create( $params );
+        $contactId = $contact->id;
+        
+        //get contact type.
+        $contactType = CRM_Contact_BAO_Contact::getContactType( $contactId );
+        $this->assertEqual( $contactType, $params['contact_type'], 'Check For Contact Type' );
+        
+        //cleanup DB by deleting the contact
+        Contact::delete( $contactId );
+    }
+    
+    /**
+     * test case for getContactSubType( ) 
+     * 
+     */
+    function testgetContactSubType( )
+    {
+        //get the contact params
+        $params = $this->contactParams( ); 
+        $params['contact_sub_type'] = 'Individual';
+        //create contact
+        require_once 'CRM/Contact/BAO/Contact.php';
+        $contact = CRM_Contact_BAO_Contact::create( $params );
+        $contactId = $contact->id;
+        
+        //get contact sub type.
+        $contactType = CRM_Contact_BAO_Contact::getContactSubType( $contactId );
+        $this->assertEqual( $contactType, $params['contact_sub_type'], 'Check For Contact Sub Type' );
+        
+        //cleanup DB by deleting the contact
+        Contact::delete( $contactId );
+    }
+    
+    /**
+     * test case for displayName( ) 
+     * 
+     */
+    function testDisplayName( )
+    {
+        //get the contact params
+        $params = $this->contactParams( ); 
+        
+        //create contact
+        require_once 'CRM/Contact/BAO/Contact.php';
+        $contact = CRM_Contact_BAO_Contact::create( $params );
+        $contactId = $contact->id;
+        
+        //get display name.
+        $dbDisplayName = CRM_Contact_BAO_Contact::displayName( $contactId );
+        
+        require_once 'CRM/Core/PseudoConstant.php';
+        $prefix = CRM_Core_PseudoConstant::individualPrefix( );
+        $suffix = CRM_Core_PseudoConstant::individualSuffix( );
+        
+        //build display name
+        $paramsDisplayName = $prefix[$params['prefix_id']] . ' ' . 
+            $params['first_name']  . ' ' . 
+            $params['middle_name'] . ' ' . 
+            $params['last_name']   . ' ' . 
+            $suffix[$params['suffix_id']];
+        
+        $this->assertEqual( $dbDisplayName, $paramsDisplayName, 'Check For Display Name' );
+        
+        //cleanup DB by deleting the contact
+        Contact::delete( $contactId );
+    }
+    
+    /**
+     * test case for getDisplayAndImage( ) 
+     * 
+     */
+    function testGetDisplayAndImage( )
+    {
+        //get the contact params
+        $params = $this->contactParams( ); 
+        
+        //create contact
+        require_once 'CRM/Contact/BAO/Contact.php';
+        $contact = CRM_Contact_BAO_Contact::create( $params );
+        $contactId = $contact->id;
+        
+        //get DisplayAndImage.
+        list( $displayName, $image ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $contactId );
+        
+        require_once 'CRM/Contact/BAO/Contact/Utils.php';
+        $checkImage = CRM_Contact_BAO_Contact_Utils::getImage( $params['contact_type'] );
+        
+        require_once 'CRM/Core/PseudoConstant.php';
+        $prefix = CRM_Core_PseudoConstant::individualPrefix( );
+        $suffix = CRM_Core_PseudoConstant::individualSuffix( );
+        
+        //build display name
+        $paramsDisplayName = $prefix[$params['prefix_id']] . ' ' . 
+            $params['first_name']  . ' ' . 
+            $params['middle_name'] . ' ' . 
+            $params['last_name']   . ' ' . 
+            $suffix[$params['suffix_id']];
+        
+        $this->assertEqual( $displayName, $paramsDisplayName, 'Check For Display Name' );
+        $this->assertEqual( $image, $checkImage, 'Check For Image' );
+        
+        //cleanup DB by deleting the contact
+        Contact::delete( $contactId );
     }
     
     /**
