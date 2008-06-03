@@ -27,7 +27,7 @@
 <table class="report"> 
 <tr>
     <td class="nowrap"><a href="{crmURL q="reset=1&action=update&id=`$id`&subPage=Settings"}" id="idTitleAndSettings">&raquo; {ts}Title and Settings{/ts}</a></td>
-    <td>{ts}Set page title, contribution type (donation, campaign contribution, etc.), payment processor, goal amount, introduction, honoree features, and page status (active or disabled).{/ts}</td>
+    <td>{ts}Set page title and describe your cause or campaign. Select contribution type (donation, campaign contribution, etc.), and set optional fund-raising goal and campaign start and end dates. Enable honoree features and allow individuals to contribute on behalf of an organization. Enable or disable this page.{/ts}</td>
 </tr>
 <tr>
     <td class="nowrap"><a href="{crmURL q="reset=1&action=update&id=`$id`&subPage=Amount"}" id="idContributionAmounts">&raquo; {ts}Contribution Amounts{/ts}</a></td>

@@ -948,7 +948,7 @@ commented since it is overwiting simple td
     font: normal 12px arial, sans-serif;
     height: 24px;
     margin-right: 6px;
-    padding-right: 18px; /* sliding doors padding */
+    padding-right: 14px; /* sliding doors padding */
     text-decoration: none;
 }
 
@@ -956,7 +956,7 @@ commented since it is overwiting simple td
     background: transparent url('bg_button_span.gif') no-repeat;
     display: block;
     line-height: 14px;
-    padding: 5px 0 5px 18px;
+    padding: 5px 0 5px 12px;
 } 
 
 #crm-container a.button:active {
@@ -967,5 +967,5 @@ commented since it is overwiting simple td
 
 #crm-container a.button:active span {
     background-position: bottom left;
-    padding: 6px 0 4px 18px; /* push text down 1px */
+    padding: 6px 0 4px 12px; /* push text down 1px */
 } 
