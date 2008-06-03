@@ -226,9 +226,10 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
 
             // check for is_monetary status
             $isMonetary = CRM_Utils_Array::value( 'is_monetary', $this->_values );
+            $isPayLater = CRM_Utils_Array::value( 'is_pay_later', $this->_values );
 
-
-            if ( $isMonetary ) {
+            if ( $isMonetary && 
+                 ( ! $isPayLater || CRM_Utils_Array::value( 'payment_processor_id', $this->_values ) ) ) {
                 $ppID = CRM_Utils_Array::value( 'payment_processor_id', $this->_values );
                 if ( ! $ppID ) {
                     CRM_Core_Error::fatal( ts( 'A payment processor must be selected for this contribution page (contact the site administrator for assistance).' ) );
@@ -283,8 +284,9 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
             }
 
             // also set cancel subscription url
-            $this->_values['cancelSubscriptionUrl'] = $this->_paymentObject->cancelSubscriptionURL( );
-            
+            if ( !$isPayLater ) {
+                $this->_values['cancelSubscriptionUrl'] = $this->_paymentObject->cancelSubscriptionURL( );
+            }
             if ( ( ( isset($postProfileType) && $postProfileType == 'Membership' ) ||
                    ( isset($preProfileType ) && $preProfileType == 'Membership' ) ) &&
                  ! $this->_membershipBlock['is_active'] ) {
@@ -314,7 +316,8 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         
         // make sure we have a valid payment class, else abort
         if ( CRM_Utils_Array::value('is_monetary',$this->_values) &&
-             ! $this->_paymentProcessor['class_name'] ) {
+             ! $this->_paymentProcessor['class_name'] &&
+             !CRM_Utils_Array::value( 'is_pay_later',$this->_values ) ) {
             CRM_Core_Error::fatal( ts( 'Payment processor is not set for this page' ) );
         }
 
