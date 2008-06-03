@@ -71,13 +71,13 @@ class CRM_Event_BAO_Query
 
             //add fee level
             if ( CRM_Utils_Array::value( 'participant_fee_level', $query->_returnProperties ) ) {
-                $query->_select['participant_fee_level' ]  = "civicrm_participant.fee_level as fee_level";
+                $query->_select['participant_fee_level' ]  = "civicrm_participant.fee_level as participant_fee_level";
                 $query->_element['participant_fee_level']  = 1;
             }
             
             //add fee amount
             if ( CRM_Utils_Array::value( 'participant_fee_amount', $query->_returnProperties ) ) {
-                $query->_select['participant_fee_amount']  = "civicrm_participant.fee_amount as fee_amount";
+                $query->_select['participant_fee_amount']  = "civicrm_participant.fee_amount as participant_fee_amount";
                 $query->_element['participant_fee_amount']  = 1;
             }
         
