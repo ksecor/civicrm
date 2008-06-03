@@ -393,49 +393,40 @@ class CRM_Activity_Import_Form_MapField extends CRM_Core_Form
             $requiredFields = array(
                 'target_contact_id'  => ts('Contact ID'),
                 'activity_date_time' => ts('Activity Date'),
-                'subject'            => ts('Subject')                
+                'subject'            => ts('Subject'),   
+                'activity_type_id'   => ts('Activity Type Id')             
             );
             
-            // validation for default dupe matching rule
-            $defaultFlag = true;
-            $defaultDupeMatch = array("first_name","last_name","email");
-            require_once 'CRM/Core/DAO/DupeMatch.php';
-            $dao = & new CRM_Core_DAO_DupeMatch();;
-            $dao->find(true);
-            $fieldsArray = explode('AND',$dao->rule);
-            if (count($fieldsArray) == count( $defaultDupeMatch) ){
-                foreach ( $fieldsArray  as $value ) {
-                    if (!in_array(trim($value) ,$defaultDupeMatch)) {
-                        $defaultFlag = false;
-                    }
+            $params = array(
+                            'level'        => 'Strict',
+                            'contact_type' => 'Individual'
+                            );
+            require_once 'CRM/Dedupe/BAO/RuleGroup.php';
+            list($ruleFields, $threshold) = CRM_Dedupe_BAO_RuleGroup::dedupeRuleFieldsWeight( $params );
+            $weightSum = 0;
+            foreach ($importKeys as $key => $val) {
+                if (array_key_exists($val,$ruleFields)) {
+                    $weightSum += $ruleFields[$val];
                 }
-            } else {
-                $defaultFlag = false;
             }
-            require_once 'CRM/Contact/BAO/Contact.php';
-            $contactFields = CRM_Contact_BAO_Contact::importableFields('Individual', null );
+            foreach ($ruleFields as $field => $weight) {
+                $fieldMessage .= ' '.$field.'(weight '.$weight.')';
+            }
             foreach ($requiredFields as $field => $title) {
                 if (!in_array($field, $importKeys)) {
-                    if( $field == 'target_contact_id' &&  $defaultFlag ) {
-                        if ( in_array('email', $importKeys) ||  in_array('external_identifier', $importKeys) || 
-                             ( in_array('first_name', $importKeys) && in_array('last_name', $importKeys))) {
-                            continue;    
+                    if( $field == 'target_contact_id' ) {
+                        if ( $weightSum < $threshold ) {
+                            $errors['_qf_default'] .= ts('Missing required contact matching fields.'.$fieldMessage.' (Sum of all weights should be greater than or equal to threshold(%1))',array(1 => $threshold)) . '<br />';
+                        }
+                        
+                    } elseif ($field == 'activity_type_id' ) {
+                        if(in_array('activity_name', $importKeys)) {
+                            continue;
                         } else {
-                            $errors['_qf_default'] .= ts('Missing required contact matching fields. (Should be First AND Last Name or Primary Email or First Name, Last Name AND Primary Email.)') . '<br />';
+                            $errors['_qf_default'] .= ts('Missing required field: Provide %1 or %2', 
+                                                         array(1 => $title,
+                                                               2 => 'Activity Type Label')) . '<br />';
                         }
-                        
-                    } else if ( $field == 'target_contact_id' &&  ! $defaultFlag ) {
-                        $flag = true;
-                        foreach ( $fieldsArray as $v ) {
-                            if ( in_array( trim($v), $importKeys )) {
-                                $flag = false;
-                                //$errors['_qf_default'] .= ts('Missing required contact matching field: '.$contactFields[trim($v)]['title'].' <br />');
-                            }
-                        }
-                        if ( $flag ) {
-                            $errors['_qf_default'] .= ts('Missing required contact matching field: Contact ID.') . '<br />';
-                        }
-                        
                     } else {
                         $errors['_qf_default'] .= ts('Missing required field: %1', array(1 => $title)) . '<br />';
                     }
