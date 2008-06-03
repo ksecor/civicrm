@@ -30,6 +30,7 @@
      <path>civicrm/contact/search/basic</path>
      <title>Find Contacts</title>
      <page_arguments>mode=256</page_arguments>
+     <page_type>1</page_type>
   </item>
   <item>
      <path>civicrm/contact/search/advanced</path>
