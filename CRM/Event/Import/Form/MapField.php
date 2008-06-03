@@ -257,7 +257,7 @@ class CRM_Event_Import_Form_MapField extends CRM_Core_Form
         
         $this->addElement('checkbox','saveMapping',$saveDetailsName, null, array('onclick' =>"showSaveDetails(this)"));
         
-        $this->addFormRule( array( 'CRM_Event_Import_Form_MapField', 'formRule' ) );
+        $this->addFormRule( array( 'CRM_Event_Import_Form_MapField', 'formRule' ), $this  );
         
         //-------- end of saved mapping stuff ---------
         
@@ -385,67 +385,55 @@ class CRM_Event_Import_Form_MapField extends CRM_Core_Form
      * @static
      * @access public
      */
-    static function formRule( &$fields )
+    static function formRule( &$fields, &$files, &$self )
     {
         $errors  = array( );
         if (!array_key_exists('savedMapping', $fields)) {
             $importKeys = array();
             foreach ($fields['mapper'] as $mapperPart) {
                 $importKeys[] = $mapperPart[0];
-            }
+            }                
             // FIXME: should use the schema titles, not redeclare them
             $requiredFields = array(
-                                    'participant_contact_id' => ts('Contact ID')
+                                    'participant_contact_id' => ts('Contact ID'),
+                                    'event_id'               => ts('Event ID')
                                     );
             
-            // validation for defalut dupe matching rule
-            $defaultFlag = true;
-            $defaultDupeMatch = array("first_name","last_name","email");
-            require_once 'CRM/Core/DAO/DupeMatch.php';
-            $dao = & new CRM_Core_DAO_DupeMatch();
-            $dao->find(true);
-            $fieldsArray = explode('AND',$dao->rule);
-            if (count($fieldsArray) == count( $defaultDupeMatch) ){
-                foreach ( $fieldsArray  as $value ) {
-                    if (!in_array(trim($value) ,$defaultDupeMatch)) {
-                        $defaultFlag = false;
-                    }
+            $contactTypeId = $self->get('contactType');
+            $contactTypes  = array(
+                                   CRM_Event_Import_Parser::CONTACT_INDIVIDUAL   => 'Individual',
+                                   CRM_Event_Import_Parser::CONTACT_HOUSEHOLD    => 'Household',
+                                   CRM_Event_Import_Parser::CONTACT_ORGANIZATION => 'Organization'
+                                   );
+            $params = array(
+                            'level'        => 'Strict',
+                            'contact_type' => $contactTypes[$contactTypeId]
+                            );
+            require_once 'CRM/Dedupe/BAO/RuleGroup.php';
+            list($ruleFields, $threshold) = CRM_Dedupe_BAO_RuleGroup::dedupeRuleFieldsWeight( $params );
+            $weightSum = 0;
+            foreach ($importKeys as $key => $val) {
+                if (array_key_exists($val,$ruleFields)) {
+                    $weightSum += $ruleFields[$val];
                 }
-            } else {
-                $defaultFlag = false;
+            } 
+            foreach ($ruleFields as $field => $weight) {
+                $fieldMessage .= ' '.$field.'(weight '.$weight.')';
             }
-            require_once "CRM/Contact/BAO/Contact.php";
-            $contactFields = CRM_Contact_BAO_Contact::importableFields('Individual', null );
             
             foreach ($requiredFields as $field => $title) {
                 if (!in_array($field, $importKeys)) {
-                    if( $field == 'participant_contact_id' &&  $defaultFlag ) {
-                        if ( in_array('email', $importKeys) || in_array('external_identifier', $importKeys) ||
-                             ( in_array('first_name', $importKeys) && in_array('last_name', $importKeys)) || 
-                             in_array('household_name', $importKeys) || in_array('participant_id', $importKeys) ||
-                             in_array('organization_name', $importKeys)) {
+                    if( $field == 'participant_contact_id' ) {
+                        if ( $weightSum >= $threshold || in_array('external_identifier', $importKeys) ||
+                             in_array('participant_id', $importKeys)) {
                             continue;    
                         } else {
-                            $errors['_qf_default'] .= ts('Missing required contact matching fields. (Should be First AND Last Name or Primary Email or First Name, Last Name AND Primary Email.) (OR Participant ID if update mode.)') . '<br />';
+                            $errors['_qf_default'] .= ts('Missing required contact matching fields. '.$fieldMessage.' (Sum of all weights should be greater than or equal to threshold(%1).) Or Provide Contact Id or External Identifier. (OR Participant ID if update mode.)',array(1 => $threshold )) . '<br />';
                         }
                         
-                    } else if ( $field == 'participant_contact_id' &&  ! $defaultFlag ) {
-                        $flag = true;
-                        foreach ( $fieldsArray as $v ) {
-                            if ( in_array( trim($v), $importKeys )) {
-                                $flag = false;
-                                //$errors['_qf_default'] .= ts('Missing required contact matching field: '.$contactFields[trim($v)]['title'].' <br />');
-                            }
-                        }
-                        if (in_array('household_name', $importKeys) || in_array('organization_name', $importKeys)) {
-                            $flag = false;
-                        }
-                        if ( $flag ) {
-                            $errors['_qf_default'] .= ts('Missing required contact matching field: Contact ID.') . '<br />';
-                        }
-                        
-                    } else {
-                        $errors['_qf_default'] .= ts('Missing required field: %1', array(1 => $title)) . '<br />';
+                    } elseif (!in_array('event_title', $importKeys)) {
+                        $errors['_qf_default'] .= ts('Missing required field: Provide %1 or %2',
+                                                     array(1 => $title, 2 => 'Event Title')) . '<br />';
                     }
                 }
             }
