@@ -42,7 +42,7 @@ class CRM_Event_BAO_Query
         require_once 'CRM/Event/DAO/Event.php';
         $fields = array_merge( $fields, CRM_Event_DAO_Event::import( ) );
         $fields = array_merge( $fields, self::getParticipantFields( ) );
-            
+        
         return $fields;
     }
 
@@ -70,15 +70,15 @@ class CRM_Event_BAO_Query
             $query->_tables['civicrm_participant'] = $query->_whereTables['civicrm_participant'] = 1;
 
             //add fee level
-            if ( CRM_Utils_Array::value( 'fee_level', $query->_returnProperties ) ) {
-                $query->_select['fee_level' ]  = "civicrm_participant.fee_level as fee_level";
-                $query->_element['fee_level']  = 1;
+            if ( CRM_Utils_Array::value( 'participant_fee_level', $query->_returnProperties ) ) {
+                $query->_select['participant_fee_level' ]  = "civicrm_participant.fee_level as fee_level";
+                $query->_element['participant_fee_level']  = 1;
             }
-
+            
             //add fee amount
-            if ( CRM_Utils_Array::value( 'fee_amount', $query->_returnProperties ) ) {
-                $query->_select['fee_amount']  = "civicrm_participant.fee_amount as fee_amount";
-                $query->_element['fee_amount']  = 1;
+            if ( CRM_Utils_Array::value( 'participant_fee_amount', $query->_returnProperties ) ) {
+                $query->_select['participant_fee_amount']  = "civicrm_participant.fee_amount as fee_amount";
+                $query->_element['participant_fee_amount']  = 1;
             }
         
             //add event title also if event id is select
@@ -210,7 +210,7 @@ class CRM_Event_BAO_Query
             $query->_qill[$grouping ][] = ts( 'Event Type - %1', array( 1 => $eventTypes[$value] ) );
             $query->_tables['civicrm_event'] = $query->_whereTables['civicrm_event'] = 1;
             return;
-          
+            
         case 'participant_test':
             $query->_where[$grouping][] = "civicrm_participant.is_test $op $value";
             if ( $value ) {
@@ -218,7 +218,23 @@ class CRM_Event_BAO_Query
             }
             $query->_tables['civicrm_participant'] = $query->_whereTables['civicrm_participant'] = 1;
             return;
-
+            
+        case 'participant_fee_level':
+            $query->_where[$grouping][] = "civicrm_participant.fee_level $op '$value'";
+            if ( $value ) {
+                $query->_qill[$grouping][]  = ts("Fee level" ) . " $op '$value'";
+            }
+            $query->_tables['civicrm_participant'] = $query->_whereTables['civicrm_participant'] = 1;
+            return;
+            
+        case 'participant_fee_amount':
+            $query->_where[$grouping][] = "civicrm_participant.fee_amount $op $value";
+            if ( $value ) {
+                $query->_qill[$grouping][]  = ts("Fee Amount" ) . " $op $value";
+            }
+            $query->_tables['civicrm_participant'] = $query->_whereTables['civicrm_participant'] = 1;
+            return;    
+            
         case 'participant_pay_later':
             $query->_where[$grouping][] = "civicrm_participant.is_pay_later $op $value";
             if ( $value ) {
@@ -403,10 +419,10 @@ class CRM_Event_BAO_Query
                                 'participant_role_id'       => 1,
                                 'participant_register_date' => 1,
                                 'participant_source'        => 1,
-                                'fee_level'                 => 1,
+                                'participant_fee_level'     => 1,
                                 'participant_is_test'       => 1,
                                 'participant_is_pay_later'  => 1,
-                                'fee_amount'                => 1
+                                'participant_fee_amount'    => 1
                                 );
        
             // also get all the custom participant properties
@@ -484,10 +500,11 @@ class CRM_Event_BAO_Query
         foreach (CRM_Event_PseudoConstant::participantRole( ) as $rId => $rName) {
             $form->_participantRole =& $form->addElement('checkbox', "participant_role_id[$rId]", null,$rName);
         }
-     
+        
         $form->addElement( 'checkbox', 'participant_test' , ts( 'Find Test Participants?' ) );
         $form->addElement( 'checkbox', 'participant_pay_later' , ts( 'Find Pay Later Participants?' ) );
-
+        $form->addElement( 'text', 'participant_fee_level' , ts( 'Fee Level' ) );
+        $form->addElement( 'text', 'participant_fee_amount' , ts( 'Fee Amount' ) );
         // add all the custom  searchable fields
         require_once 'CRM/Core/BAO/CustomGroup.php';
         $extends      = array( 'Participant' );

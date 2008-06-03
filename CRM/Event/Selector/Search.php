@@ -75,13 +75,14 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                                  'event_id',
                                  'participant_status_id',
                                  'event_title',
-                                 'fee_level',
+                                 'paricipant_fee_level',
                                  'participant_id',
                                  'event_start_date',
                                  'event_end_date',
                                  'modified_date',
                                  'participant_is_test',
-                                 'participant_role_id'
+                                 'participant_role_id',
+                                 'paricipant_fee_amount'
                                  );
 
     /** 
