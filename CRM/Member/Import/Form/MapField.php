@@ -271,7 +271,7 @@ class CRM_Member_Import_Form_MapField extends CRM_Core_Form {
         
         $this->addElement('checkbox','saveMapping',$saveDetailsName, null, array('onclick' =>"showSaveDetails(this)"));
         
-        $this->addFormRule( array( 'CRM_Member_Import_Form_MapField', 'formRule' ) );
+        $this->addFormRule( array( 'CRM_Member_Import_Form_MapField', 'formRule' ), $this );
 
         //-------- end of saved mapping stuff ---------
 
@@ -402,11 +402,9 @@ class CRM_Member_Import_Form_MapField extends CRM_Core_Form {
      * @static
      * @access public
      */
-    static function formRule( &$fields ) {
+    static function formRule( &$fields, &$files, &$self ) {
         $errors  = array( );
-        $errorMessage = array ( 1 => '(Should be First AND Last Name or Primary Email or First Name, Last Name AND Primary Email.) ',
-                                2 => '(Should be Household Name.)',
-                                4 => '(Should be Organization Name.)' );
+        
         if (!array_key_exists('savedMapping', $fields)) {
             $importKeys = array();
             foreach ($fields['mapper'] as $mapperPart) {
@@ -416,55 +414,38 @@ class CRM_Member_Import_Form_MapField extends CRM_Core_Form {
             $requiredFields = array(
                                     'membership_contact_id'  => ts('Contact ID'),
                                     'membership_type_id'     => ts('Membership Type'),
+                                    'membership_start_date'  => ts('Membership Start Date')
                                     );
             
-            // validation for defalut dupe matching rule
-            $defaultFlag = true;
-            $defaultDupeMatch = array("first_name","last_name","email");
-            require_once 'CRM/Core/DAO/DupeMatch.php';
-            $dao = & new CRM_Core_DAO_DupeMatch();
-            $dao->find(true);
-            $fieldsArray = explode('AND',$dao->rule);
-            if (count($fieldsArray) == count( $defaultDupeMatch) ){
-                foreach ( $fieldsArray  as $value ) {
-                    if (!in_array(trim($value) ,$defaultDupeMatch)) {
-                        $defaultFlag = false;
-                    }
+            $contactTypeId = $self->get('contactType');
+            $contactTypes  = array(
+                                   CRM_Member_Import_Parser::CONTACT_INDIVIDUAL   => 'Individual',
+                                   CRM_Member_Import_Parser::CONTACT_HOUSEHOLD    => 'Household',
+                                   CRM_Member_Import_Parser::CONTACT_ORGANIZATION => 'Organization'
+                                   );
+            $params = array(
+                            'level'        => 'Strict',
+                            'contact_type' => $contactTypes[$contactTypeId]
+                            );
+            require_once 'CRM/Dedupe/BAO/RuleGroup.php';
+            list($ruleFields, $threshold) = CRM_Dedupe_BAO_RuleGroup::dedupeRuleFieldsWeight( $params );
+            $weightSum = 0;
+            foreach ($importKeys as $key => $val) {
+                if (array_key_exists($val,$ruleFields)) {
+                    $weightSum += $ruleFields[$val];
                 }
-            } else {
-                $defaultFlag = false;
             }
-            require_once 'CRM/Contact/BAO/Contact.php';
-            $contactFields = CRM_Contact_BAO_Contact::importableFields('Individual', null );
+            foreach ($ruleFields as $field => $weight) {
+                $fieldMessage .= ' '.$field.'(weight '.$weight.')';
+            }
             
             foreach ($requiredFields as $field => $title) {
                 if (!in_array($field, $importKeys)) {
-                    if( $field == 'membership_contact_id' &&  $defaultFlag ) {
-                        if ( in_array('email', $importKeys) || in_array('external_identifier', $importKeys) ||
-                             ( in_array('first_name', $importKeys) && in_array('last_name', $importKeys)) || 
-                             in_array('household_name', $importKeys) ||in_array('membership_id', $importKeys) ||
-                             in_array('organization_name', $importKeys)) {
+                    if( $field == 'membership_contact_id' ) {
+                        if ( $weightSum >= $threshold ||in_array('membership_id', $importKeys) ) {
                             continue;    
                         } else {
-                            $errors['_qf_default'] .= ts('Missing required contact matching fields. %1 (OR Membership ID if update mode.)',array(1 => $errorMessage[self::$_contactType] )) . '<br />';
-                        }
-                        
-                    } else if ( $field == 'membership_contact_id' &&  ! $defaultFlag ) {
-                        $flag = true;
-                        foreach ( $fieldsArray as $v ) {
-                            if ( in_array( trim($v), $importKeys )) {
-                                $flag = false;
-                                //$errors['_qf_default'] .= ts('Missing required contact matching field: '.$contactFields[trim($v)]['title'].' <br />');
-                            }
-                        }
-                        if ( in_array('email', $importKeys) || in_array('external_identifier', $importKeys) ||
-                             ( in_array('first_name', $importKeys) && in_array('last_name', $importKeys)) || 
-                             in_array('household_name', $importKeys) ||in_array('membership_id', $importKeys) ||
-                             in_array('organization_name', $importKeys)) {
-                            $flag = false;
-                        }
-                        if ( $flag ) {
-                            $errors['_qf_default'] .= ts('Missing required contact matching field: Contact ID OR External ID OR %1.',array(1 => $errorMessage[self::$_contactType] )) . '<br />';
+                            $errors['_qf_default'] .= ts('Missing required contact matching fields.'.$fieldMessage.' (Sum of all weights should be greater than or equal to threshold(%1)) (OR Membership ID if update mode.)',array(1 => $threshold )) . '<br />';
                         }
                         
                     } else {
