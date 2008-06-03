@@ -222,7 +222,8 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
                 }
             }
         }
-        
+        require_once 'CRM/Core/OptionGroup.php';
+        CRM_Core_OptionGroup::deleteAssoc ("civicrm_event_page.amount.{$id}.discount.%", "LIKE");
         require_once 'CRM/Event/DAO/Event.php';
         $event     = & new CRM_Event_DAO_Event( );
         $event->id = $id; 
