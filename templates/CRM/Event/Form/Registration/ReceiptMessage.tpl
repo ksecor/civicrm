@@ -1,6 +1,8 @@
-{if $action eq 1024}{include file="CRM/Event/Form/Registration/ReceiptPreviewHeader.tpl"}
+{if $action eq 1024}
+{include file="CRM/Event/Form/Registration/ReceiptPreviewHeader.tpl"}
 {/if}
-{if $eventPage.confirm_email_text}{$eventPage.confirm_email_text}
+{if $eventPage.confirm_email_text}
+{$eventPage.confirm_email_text}
 {/if}
 {ts}Please print this confirmation for your records.{/ts}
 
@@ -70,10 +72,16 @@
 {/foreach}
 
 {/if}
+
 {ts}Total Amount{/ts}     : {$amount|crmMoney} {if $amount_level && !$lineItem} - {$amount_level} {/if}
+
+{if $is_pay_later}
+{$pay_later_receipt}
+{/if}
+
 {if $register_date}
 
-{ts}Registeration Date{/ts} : {$register_date|crmDate}
+{ts}Registration Date{/ts} : {$register_date|crmDate}
 {/if}
 {if $receive_date}
 

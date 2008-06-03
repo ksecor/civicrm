@@ -257,8 +257,13 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
             } else {
                 $_showHide->addShow($showBlocks);
             }
+
             //Increament by 1 of start date of previous end date.
-            if ( array_values( $this->_submitValues['discount_end_date'][$i] ) && $i <  self::NUM_DISCOUNT - 1 ) {
+            if ( is_array( $this->_submitValues ) &&
+                 isset( $this->_submitValues['discount_end_date'] ) &&
+                 isset( $this->_submitValues['discount_end_date'][$i] ) &&
+                 array_values( $this->_submitValues['discount_end_date'][$i] ) &&
+                 $i <  self::NUM_DISCOUNT - 1 ) {
                 $end_date = CRM_Utils_Date::format( $this->_submitValues['discount_end_date'][$i], '-' );
                 $this->_inDate[$i + 1] = CRM_Utils_Date::unformat( date('Y-m-d', 
                                                                        strtotime ("+1 days $end_date")

@@ -336,7 +336,6 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         }
         $this->set( 'params', $this->_params );
         $this->confirmPostProcess( $contactID, $contribution, $payment);
-        
     } //end of function
     
     /**
