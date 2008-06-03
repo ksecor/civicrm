@@ -1120,10 +1120,38 @@ class BAO_Contact_Contact extends CiviTestCase
         $contactId = $contact->id;
         $primaryLocation = CRM_Contact_BAO_Contact::getPrimaryLocationType( $contactId );
         //Now check the Primary Location Type
-        $this->assertEqual( 2, $primaryLocation, 'Check PRimary Location Type' );
+        $this->assertEqual( 2, $primaryLocation, 'Check Primary Location Type' );
         
         //cleanup DB by deleting the contact
         Contact::delete( $contactId ); 
+    }
+    
+    /**
+     * test importableFields( ) and 
+     * exportableFields( ) methods
+     */
+    function testFields( )
+    {
+        require_once 'CRM/Contact/BAO/Contact.php';
+        $allImpFileds = CRM_Contact_BAO_Contact::importableFields( 'All' );
+        $allExpFileds = CRM_Contact_BAO_Contact::importableFields( 'All' );
+        //Now check all fields
+        $this->assertAttributesEqual( $allImpFileds, $allExpFileds );
+        
+        $individualImpFileds = CRM_Contact_BAO_Contact::importableFields( 'Individual' );
+        $individualExpFileds = CRM_Contact_BAO_Contact::importableFields( 'Individual' );
+        //Now check Individual fields
+        $this->assertAttributesEqual( $individualImpFileds, $individualExpFileds );
+        
+        $householdImpFileds = CRM_Contact_BAO_Contact::importableFields( 'Household' );
+        $householdExpFileds = CRM_Contact_BAO_Contact::importableFields( 'Household' );
+        //Now check Household fields
+        $this->assertAttributesEqual( $householdImpFileds, $householdExpFileds );
+        
+        $organizationImpFileds = CRM_Contact_BAO_Contact::importableFields( 'Organization' );
+        $organizationExpFileds = CRM_Contact_BAO_Contact::importableFields( 'Organization' );
+        //Now check Organization fields
+        $this->assertAttributesEqual( $organizationImpFileds, $organizationExpFileds );
     }
     
     /**
