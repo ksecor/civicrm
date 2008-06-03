@@ -108,7 +108,7 @@ class CRM_Contribute_Form_ContributionCharts extends CRM_Core_Form
                       
             $this->assign( 'mMarker',$mMarker );
             $legend = array_keys( $chartInfoMonthly );
-            $this->assign( 'monthMaxAmount', max( $chartInfoMonthly['Contribution By Monthly']));
+            $this->assign( 'monthMaxAmount', max( $chartInfoMonthly['Contribution By Month']));
             $this->assign( 'chatData',$data['values'] );
             $this->assign( 'chatLabel',$data['names'] );
             $this->assign( 'chartLegend',$legend[0] );
@@ -118,7 +118,7 @@ class CRM_Contribute_Form_ContributionCharts extends CRM_Core_Form
         //take contribution information by yearly
         $chartInfoYearly = CRM_Contribute_BAO_Contribution::contributionChartYearly();
         
-        $this->_years =  $chartInfoYearly['Contribution By Yearly'];
+        $this->_years =  $chartInfoYearly['Contribution By Year'];
         if ( is_array( $chartInfoYearly ) ) {
             foreach ( $chartInfoYearly as $key => $value ) {
                 $data1['marker'] = array_values( $value );
@@ -135,7 +135,7 @@ class CRM_Contribute_Form_ContributionCharts extends CRM_Core_Form
            
             $this->assign( 'yMarker',$yMarker );
             $legend = array_keys( $chartInfoYearly );
-            $this->assign( 'yearMaxAmount', max( $chartInfoYearly['Contribution By Yearly']));
+            $this->assign( 'yearMaxAmount', max( $chartInfoYearly['Contribution By Year']));
             $this->assign( 'chatData1',$data1['values'] );
             $this->assign( 'chatLabel1',$data1['names'] );
             $this->assign( 'chartLegend1',$legend[0] );

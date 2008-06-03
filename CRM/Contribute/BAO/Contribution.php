@@ -1011,7 +1011,7 @@ LEFT JOIN civicrm_option_value contribution_status ON (civicrm_contribution.cont
         $dao = CRM_Core_DAO::executeQuery( $query, $param );
         
         while ( $dao->fetch( ) ) {
-            $params['Contribution By Monthly'][$dao->contribMonth] = $dao->ctAmt;
+            $params['Contribution By Month'][$dao->contribMonth] = $dao->ctAmt;
         } 
         return $params;
        
@@ -1037,7 +1037,7 @@ LEFT JOIN civicrm_option_value contribution_status ON (civicrm_contribution.cont
         ORDER BY contribYear desc";
         $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         while ( $dao->fetch( ) ) {
-            $params['Contribution By Yearly'][$dao->contribYear] = $dao->ctAmt;
+            $params['Contribution By Year'][$dao->contribYear] = $dao->ctAmt;
         }  
         return $params;
     }
