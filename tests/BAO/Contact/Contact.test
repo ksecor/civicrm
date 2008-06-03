@@ -271,7 +271,8 @@ class BAO_Contact_Contact extends CiviTestCase
         Contact::delete( $contactId );
         
         $organizationName = 'My Organization';
-        $params = array( 'organization_name' => $organizationName );
+        $params = array( 'organization_name' => $organizationName, 
+                         'contact_type'      => 'Organization' );
         $contact = CRM_Contact_BAO_Contact::add( $params );
         $this->assertEqual( $organizationName, $contact->sort_name, 'Check for created organization.' );
         $contactId = $contact->id;
@@ -1051,6 +1052,78 @@ class BAO_Contact_Contact extends CiviTestCase
         
         //cleanup DB by deleting the contact
         Contact::delete( $contactId );
+    }
+    
+    /**
+     * test getContactLocations( )
+     * 
+     */
+    function testGetContactLocations( )
+    {
+        //get the contact params
+        $params = $this->contactParams( );
+        $params['location'][2] = $params['location'][1];
+        $params['location'][2]['location_type_id'] = 2;
+        unset( $params['location'][2]['is_primary'] );
+        
+        //create contact
+        require_once 'CRM/Contact/BAO/Contact.php';
+        $contact = CRM_Contact_BAO_Contact::create( $params );
+        $contactId = $contact->id;
+        $locationCount = CRM_Contact_BAO_Contact::getContactLocations( $contactId );
+        $this->assertEqual( 2, $locationCount, 'Check the Location Count' );
+        //cleanup DB by deleting the contact
+        Contact::delete( $contactId );
+    }
+    
+    /**
+     * test getContactDetails( )
+     * 
+     */
+    function testGetContactDetails( )
+    {
+        //get the contact params
+        $params = $this->contactParams( );
+        
+        //create contact
+        require_once 'CRM/Contact/BAO/Contact.php';
+        $contact = CRM_Contact_BAO_Contact::create( $params );
+        $contactId = $contact->id;
+        
+        //get the contact details
+        $contactDetails = CRM_Contact_BAO_Contact::getContactDetails( $contactId );
+        $compareParams = array( $params['first_name'] . ' ' .$params['last_name'],  
+                                CRM_Utils_Array::value( 'email', $params['location'][1]['email'][1]),
+                                $params['privacy']['do_not_email'] );
+        //Now check the contact details
+        $this->assertAttributesEqual( $compareParams, $contactDetails );
+        
+        //cleanup DB by deleting the contact
+        Contact::delete( $contactId );
+    }
+    
+    /**
+     * test getPrimaryLocationType( )
+     * 
+     */
+    function testGetPrimaryLocationType( )
+    {
+        //get the contact params
+        $params = $this->contactParams( );
+        $params['location'][2] = $params['location'][1];
+        $params['location'][2]['location_type_id'] = 2;
+        unset( $params['location'][1]['is_primary'] );
+        
+        //create contact
+        require_once 'CRM/Contact/BAO/Contact.php';
+        $contact = CRM_Contact_BAO_Contact::create( $params );
+        $contactId = $contact->id;
+        $primaryLocation = CRM_Contact_BAO_Contact::getPrimaryLocationType( $contactId );
+        //Now check the Primary Location Type
+        $this->assertEqual( 2, $primaryLocation, 'Check PRimary Location Type' );
+        
+        //cleanup DB by deleting the contact
+        Contact::delete( $contactId ); 
     }
     
     /**
