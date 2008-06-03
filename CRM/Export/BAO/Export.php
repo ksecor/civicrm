@@ -148,6 +148,11 @@ class CRM_Export_BAO_Export
             if ( $queryMode != CRM_Contact_BAO_Query::MODE_CONTACTS ) {
                 $componentReturnProperties =& CRM_Contact_BAO_Query::defaultReturnProperties( $queryMode );
                 $returnProperties          = array_merge( $returnProperties, $componentReturnProperties );
+                
+                // unset groups, tags, notes for components
+                foreach( array( 'groups', 'tags', 'notes' ) as $value ) {
+                    unset( $returnProperties[$value] );
+                }
             }
         }
 
@@ -161,8 +166,6 @@ class CRM_Export_BAO_Export
             $returnProperties = array_merge( $returnProperties, $moreReturnProperties );
         }
         
-        //crm_core_error::Debug(' $returnProperties',  $returnProperties);
-
         if ( ! $componentClause || $querytMode == CRM_Contact_BAO_Query::MODE_CONTACTS ) {
             if ( $selectAll ) {
                 if ($primary) {
@@ -235,11 +238,13 @@ class CRM_Export_BAO_Export
             $studentFields = CRM_Quest_BAO_Student::$multipleSelectFields;
             $multipleSelectFields = array_merge( $multipleSelectFields, $studentFields );
         }
-
+        
+        //crm_core_error::debug( '$queryString', $queryString ); exit();
         $dao =& CRM_Core_DAO::executeQuery( $queryString, CRM_Core_DAO::$_nullArray );
         $header = false;
         
         if ( $paymentFields ) {
+            $addPaymentHeader = true;
             //special return properties for event and members
             $paymentHeaders = array( 'Total Amount', 'Contribution Status', 'Received Date',
                                      'Payment Instrument', 'Transaction ID');
@@ -324,10 +329,11 @@ class CRM_Export_BAO_Export
                         }
                     }
                 }
-             }
+            }
             
-            if ( $paymentFields && isset( $paymentDetails[ $row[$paymentTableId] ] ) ) {
+            if ( $paymentFields && $addPaymentHeader && isset( $paymentDetails[ $row[$paymentTableId] ] ) ) {
                 $headerRows = array_merge(  $headerRows, $paymentHeaders );
+                $addPaymentHeader = false;
             }
 
             if ( $validRow ) {
