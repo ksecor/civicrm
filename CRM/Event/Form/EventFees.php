@@ -50,6 +50,7 @@ class CRM_Event_Form_EventFees
     {
         $form->_eventId       = CRM_Utils_Request::retrieve( 'eventId', 'Positive', $form );
         $form->_participantId = CRM_Utils_Request::retrieve( 'participantId', 'Positive', $form );
+        $form->_discountId    = CRM_Utils_Request::retrieve( 'discountId', 'Positive', $form );
     }
     
     /**
@@ -152,8 +153,14 @@ class CRM_Event_Form_EventFees
                                                                                'default_fee_id', 
                                                                                'event_id' );
             }
-            require_once 'CRM/Core/BAO/Discount.php';
-            $defaults[$form->_participantId]['discount_set'] = CRM_Core_BAO_Discount::findSet($defaults[$form->_participantId]['event_id'], "civicrm_event");
+            
+            if ( ! $form->_discountId )  {
+                require_once 'CRM/Core/BAO/Discount.php';
+                $defaults[$form->_participantId]['discount_set'] = CRM_Core_BAO_Discount::findSet( $defaults[$form->_participantId]['event_id'], 
+                                                                                                   "civicrm_event");
+            } else {
+                $defaults[$form->_participantId]['discount_set'] = $form->_discountId;
+            }
         }
         return $defaults[$form->_participantId];
     }
@@ -179,20 +186,19 @@ class CRM_Event_Form_EventFees
             $form->_values = array( );
             require_once "CRM/Event/Form/Registration/Register.php";
             CRM_Event_Form_Registration::initPriceSet($form, $eventPage['id'] );
-            CRM_Event_Form_Registration_Register::buildAmount( $form, false );
-            $discount = array();
-            require_once "CRM/Event/Form/ManageEvent/Fee.php";
-            for($i = 1; $i <= CRM_Event_Form_ManageEvent_Fee::NUM_DISCOUNT; $i++) {
-                $name = CRM_Utils_Array::value('name',$form->_values["discount[$i]"]);
-                if ( ! isset ($name) ) {
-                    break;
-                } 
-                $discount[$i] = $name;                   
+            CRM_Event_Form_Registration_Register::buildAmount( $form, false, $form->_discountId );
+            $discounts = array( );
+            
+            foreach( $form->_values['discount'] as $key => $value ) { 
+                $discounts[$key] = $value['name'];                   
             }
-            if ( ! empty ( $discount ) ) {
+
+            if ( ! empty ( $discounts ) ) {
                 $form->add('select', 'discount_set', 
                            ts( 'Discount Set' ), 
-                           array(''=>ts( '- select -' )) + $discount);
+                           array(''=>ts( '- select -' )) + $discounts,
+                           false,
+                           array('onchange' => "buildFeeBlock( {$form->_eventId}, this.value );") );
             }
 
             $form->addElement('checkbox', 'record_contribution', ts('Record Payment?'), null, 

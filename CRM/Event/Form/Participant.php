@@ -644,7 +644,6 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 }
             }
             
-            
             require_once 'CRM/Contribute/BAO/Contribution.php';
             $contributions = array( );
             if ( $this->_single ) {

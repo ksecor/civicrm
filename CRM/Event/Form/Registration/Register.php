@@ -230,12 +230,17 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
     
     /**
      * build the radio/text form elements for the amount field
+     * 
+     * @param object   $form form object
+     * @param boolean  $required  true if you want to add formRule
+     * @param int      $discountId discount id for the event
      *
      * @return void
-     * @access private
+     * @access public
+     * @static
      */
     
-    static public function buildAmount( &$form, $required = true ) 
+    static public function buildAmount( &$form, $required = true, $discountId = null ) 
     {
         $elements = array( );
         $form->addGroup( $elements, 'amount', ts('Event Fee(s)'), '<br />' );      
@@ -252,24 +257,27 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                                                              );
                 
             }
-        }        
-        else if ( ! empty( $form->_values['custom']['label'] ) ) {
-            $key = "custom";
-            if ( ! empty( $form->_values['discount[1]'] ) ) {
-                require_once 'CRM/Core/BAO/Discount.php';
-                $form->_discountKey = CRM_Core_BAO_Discount::findSet( $form->_eventId, 'civicrm_event' );
-                if ( $form->_discountKey ) {
-                    $key = "discount[". $form->_discountKey . "]";
+        } else if ( ! empty( $form->_values['custom']['label'] ) ) {
+            $feeBlock = $form->_values['custom'];
+            if ( isset( $form->_values['discount'] ) ) {
+                if ( !$discountId ) {
+                    require_once 'CRM/Core/BAO/Discount.php';
+                    $discountId = CRM_Core_BAO_Discount::findSet( $form->_eventId, 'civicrm_event' );
+                }
+
+                if ( $discountId ) {
+                    $feeBlock = $form->_values['discount'][$discountId];
                 }
             }
             
             require_once 'CRM/Utils/Money.php';
-            for ( $index = 1; $index <= count( $form->_values[$key]['label'] ); $index++ ) {
+            for ( $index = 1; $index <= count(  $feeBlock['label'] ); $index++ ) {
                 $elements[] =& $form->createElement('radio', null, '',
-                                                    CRM_Utils_Money::format($form->_values[$key]['value'][$index]) . ' ' . 
-                                                    $form->_values[$key]['label'][$index], 
-                                                    $form->_values[$key]['amount_id'][$index] );
+                                                    CRM_Utils_Money::format( $feeBlock['value'][$index]) . ' ' . 
+                                                    $feeBlock['label'][$index], 
+                                                    $feeBlock['amount_id'][$index] );
             }
+
             $form->_defaults['amount'] = CRM_Utils_Array::value('default_fee_id',$form->_values['event_page']);
             $element =& $form->addGroup( $elements, 'amount', ts('Event Fee(s)'), '<br />' ); 
             if ( $form->_online ) {
