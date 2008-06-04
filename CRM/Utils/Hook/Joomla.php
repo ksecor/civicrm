@@ -62,4 +62,13 @@ class CRM_Utils_Hook_Joomla {
         return empty( $result ) ? true : $result;
     }
 
+    static function fiveArgsHook( &$arg1, &$arg2, &$arg3, &$arg4, &$arg5, $fnSuffix ) {
+        $result = array( );
+        $fnName = "joomla_{$fnSuffix}";
+        if ( function_exists( $fnName ) ) {
+            $result = $fnName( $arg1, $arg2, $arg3, $arg4, $arg5 );
+        }
+        return empty( $result ) ? true : $result;
+    }
+
 }

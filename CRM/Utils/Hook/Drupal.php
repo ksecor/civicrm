@@ -84,6 +84,23 @@ class CRM_Utils_Hook_Drupal {
             }
         }
         return empty( $result ) ? true : $result;
+    }
+
+    static function fiveArgsHook( &$arg1, &$arg2, &$arg3, &$arg4, &$arg5, $fnSuffix ) {
+        $result = array( );
+        // copied from user_module_invoke
+        if (function_exists('module_list')) {
+            foreach ( module_list() as $module) { 
+                $function = "{$module}_{$fnSuffix}";
+                if ( function_exists( $function ) ) {
+                    $fResult = $function( $arg1, $arg2, $arg3, $arg4, $arg5 );
+                    if ( is_array( $fResult ) ) {
+                        $result = array_merge( $result, $fResult );
+                    }
+                }
+            }
+        }
+        return empty( $result ) ? true : $result;
    }
 
 }

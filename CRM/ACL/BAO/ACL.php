@@ -672,14 +672,14 @@ SELECT count( a.id )
         $acls =& CRM_ACL_BAO_Cache::build( $contactID );
         //CRM_Core_Error::debug( "a: $contactID", $acls );
 
-        if ( empty( $acls ) ) {
-            return ' ( 0 ) ';
-        }
-        
-        $aclKeys = array_keys( $acls );
-        $aclKeys = implode( ',', $aclKeys );
+        $whereClause = ' ( 0 ) ';
+        $clauses = array( );
 
-        $query = "
+        if ( ! empty( $acls ) ) {
+            $aclKeys = array_keys( $acls );
+            $aclKeys = implode( ',', $aclKeys );
+
+            $query = "
 SELECT   a.operation, a.object_id
   FROM   civicrm_acl_cache c, civicrm_acl a
  WHERE   c.acl_id       =  a.id
@@ -688,57 +688,61 @@ SELECT   a.operation, a.object_id
    AND   a.id        IN ( $aclKeys )
 ORDER BY a.object_id
 ";
-        //CRM_Core_Error::debug( 'q', $query );
-
-        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+            
+            $dao =& CRM_Core_DAO::executeQuery( $query,
+                                                CRM_Core_DAO::$_nullArray );
         
-        // do an or of all the where clauses u see
-        $ids = array( );
-        while ( $dao->fetch( ) ) {
-            if ( ! $dao->object_id ) {
-                return ' ( 1 ) ';
-            }
+            // do an or of all the where clauses u see
+            $ids = array( );
+            while ( $dao->fetch( ) ) {
+                if ( ! $dao->object_id ) {
+                    $ids = array( );
+                    $whereClause = ' ( 1 ) ';
+                    break;
+                }
 
-            // make sure operation matches the type TODO
-            if ( $type == CRM_ACL_API::VIEW ||
-                 ( $type == CRM_ACL_API::EDIT &&
-                   $dao->operation == 'Edit' || $dao->operation == 'All' ) ) {
-                $ids[] = $dao->object_id;
+                // make sure operation matches the type TODO
+                if ( $type == CRM_ACL_API::VIEW ||
+                     ( $type == CRM_ACL_API::EDIT &&
+                       $dao->operation == 'Edit' || $dao->operation == 'All' ) ) {
+                    $ids[] = $dao->object_id;
+                }
             }
-        }
-        
-        if ( empty( $ids ) ) {
-            return ' ( 0 ) ';
-        }
-
-        $ids = implode( ',', $ids );
-        $query = "
+            
+            if ( ! empty( $ids ) ) {
+                $ids = implode( ',', $ids );
+                $query = "
 SELECT g.where_clause, g.select_tables, g.where_tables
   FROM civicrm_group g
  WHERE g.id IN ( $ids )
 ";
-        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
-        $clauses = array( );
-        while ( $dao->fetch( ) ) {
-            // currently operation is restrcited to VIEW/EDIT
-            if ( $dao->where_clause ) {
-                $clauses[] = $dao->where_clause;
-                if ( $dao->select_tables ) {
-                    $tables = array_merge( $tables,
-                                           unserialize( $dao->select_tables ) );
-                }
-                if ( $dao->where_tables ) {
-                    $whereTables = array_merge( $whereTables,
-                                                unserialize( $dao->where_tables ) );
+                $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+                while ( $dao->fetch( ) ) {
+                    // currently operation is restrcited to VIEW/EDIT
+                    if ( $dao->where_clause ) {
+                        $clauses[] = $dao->where_clause;
+                        if ( $dao->select_tables ) {
+                            $tables = array_merge( $tables,
+                                                   unserialize( $dao->select_tables ) );
+                        }
+                        if ( $dao->where_tables ) {
+                            $whereTables = array_merge( $whereTables,
+                                                        unserialize( $dao->where_tables ) );
+                        }
+                    }
                 }
             }
         }
 
         if ( ! empty( $clauses ) ) {
-            return ' ( ' . implode( ' OR ', $clauses ) . ' ) ';
-        } else {
-            return ' ( 0 ) ';
+            $whereClause = ' ( ' . implode( ' OR ', $clauses ) . ' ) ';
         }
+
+        // call the hook to get additional whereClauses
+        require_once 'CRM/Utils/Hook.php';
+        CRM_Utils_Hook::aclClause( $type, $tables, $whereTables, $contactID, $whereClause );
+        
+        return $whereClause;
     }
 
     public static function group( $type,

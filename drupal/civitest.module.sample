@@ -71,3 +71,65 @@ WHERE  entity_id = $entityID
     CRM_Core_DAO::executeQuery( $sql,
                                 CRM_Core_DAO::$_nullArray );
 }
+
+/**
+ * Get the permissioned where clause for the user
+ *
+ * @param int $type the type of permission needed
+ * @param  array $tables (reference ) add the tables that are needed for the select clause
+ * @param  array $whereTables (reference ) add the tables that are needed for the where clause
+ * @param int    $contactID the contactID for whom the check is made
+ *
+ * @return string the group where clause for this user
+ * @access public
+ */
+function civitest_civicrm_aclClause( $type, &$tables, &$whereTables, &$contactID, &$where ) {
+    if ( ! $contactID ) {
+        return;
+    }
+
+    $permissionTable = 'civicrm_value_permission';
+    $regionTable     = 'civicrm_value_region';
+    $fields          = array( 'electorate' => 'Integer',
+                              'province'   => 'Integer',
+                              'branch'     => 'Integer' );
+
+    // get all the values from the permission table for this contact
+    $keys = implode( ', ', array_keys( $fields ) );
+    $sql = "
+SELECT $keys
+FROM   {$permissionTable}
+WHERE  entity_id = $contactID
+";
+    $dao = CRM_Core_DAO::executeQuery( $sql,
+                                       CRM_Core_DAO::$_nullArray );
+    if ( ! $dao->fetch( ) ) {
+        return;
+    }
+
+    $tables[$regionTable] = $whereTables[$regionTable] =
+        "LEFT JOIN {$regionTable} regionTable ON contact_a.id = regionTable.entity_id";
+
+    $clauses = array( );
+    foreach( $fields as $field => $fieldType ) {
+        if ( ! empty( $dao->$field ) ) {
+            if ( strpos( CRM_Core_DAO::VALUE_SEPARATOR, $dao->$field ) !== false ) {
+                $value = substr( $dao->$field, 1, -1 );
+                $values = explode( CRM_Core_DAO::VALUE_SEPARATOR, $value );
+                foreach ( $values as $v ) {
+                    $clauses[] = "regionTable.{$field} = $v";
+                }
+            } else {
+                if ( $fieldType == 'String' ) {
+                    $clauses[] = "regionTable.{$field} = '{$dao->$field}'";
+                } else {
+                    $clauses[] = "regionTable.{$field} = {$dao->$field}";
+                }
+            }
+        }
+    }
+
+    if ( ! empty( $clauses ) ) {
+        $where .= ' OR (' . implode( ' OR ', $clauses ) . ')';
+    }
+}

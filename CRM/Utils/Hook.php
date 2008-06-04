@@ -155,4 +155,13 @@ class CRM_Utils_Hook {
                   '::twoArgsHook( $className, $form, \'civicrm_postProcess\' );' );  
     }
 
+    static function aclClause( $type, &$tables, &$whereTables, &$contactID, &$where ) {
+        $config =& CRM_Core_Config::singleton( );
+        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
+        return   
+            eval( 'return ' .
+                  $config->userHookClass .
+                  '::fiveArgsHook( $type, $tables, $whereTables, $contactID, $where, \'civicrm_aclClause\' );' );  
+    }
+
 }
