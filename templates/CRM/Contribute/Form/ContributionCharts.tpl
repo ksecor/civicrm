@@ -10,7 +10,7 @@
 {if $monthlyData}
     <td> <img src="http://chart.apis.google.com/chart?cht={$chartType}&chs={$size}&chd=t:{$chatData}&chl={$chatLabel}&chtt={$chartLegend}&chco=99C754|54C7C5|999999&chxl=1:|0|{$config->defaultCurrency}-{$monthMaxAmount}&chxt=x,y&chds=0,{$monthMaxAmount}&chm={$mMarker}" /> </td>
 {else }
-    <td>{ts}Current Year don't have montly contribution{/ts} </td>
+    <td>{ts}Current Year don't have Month Contribution{/ts} </td>
 {/if}
 
     <td> <img src="http://chart.apis.google.com/chart?cht={$chartType}&chs={$size}&chd=t:{$chatData1}&chl={$chatLabel1}&chtt={$chartLegend1}&chco=99C754|54C7C5|999999&chxl=1:|0|{$config->defaultCurrency}-{$yearMaxAmount}&chxt=x,y&chds=0,{$yearMaxAmount}&chm={$yMarker}" /> </td> </tr>

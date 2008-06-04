@@ -55,8 +55,11 @@ class CRM_Contribute_Form_ContributionCharts extends CRM_Core_Form
      */
     public function buildQuickForm()
     {
-
+        //p3 = Three dimensional pie chart.
+        //bvg = Vertical bar chart
         $this->addElement('select', 'select_map', ts('Select Map'), array( 'bvg' => 'Bar','p3'=> 'Pi' ) );
+
+        //take avaibale year in database to show in drop down
         foreach( $this->_years as  $k => $v ){
             $years[$k] = $k;
         }
@@ -67,8 +70,6 @@ class CRM_Contribute_Form_ContributionCharts extends CRM_Core_Form
                                          'isDefault' => true   ), 
                                  ) 
                            );
-       
-        //CRM_Core_Error::debug( '$this', $this );
     }
 
     /**
@@ -82,23 +83,29 @@ class CRM_Contribute_Form_ContributionCharts extends CRM_Core_Form
     
         $submittedValues = $this->controller->exportValues( $this->_name );
         $config  =& CRM_Core_Config::singleton( );
+
+        //set default currency to graph
         $currency = $config->defaultCurrency;
-       
+
+        //default chart is Bar chart to show data
         if ( $submittedValues['select_map'] == 'p3' ) {
             $this->assign( 'chartType', 'p3');
         } else {
             $this->assign( 'chartType', 'bvg');
         }
+
         //take contribution information monthly
         require_once 'CRM/Contribute/BAO/Contribution.php';
         $chartInfoMonthly = CRM_Contribute_BAO_Contribution::contributionChartMonthly( $submittedValues['select_year'] );
         $this->assign( 'monthlyData', true );       
         if ( is_array( $chartInfoMonthly ) ) {
+            //label are separated by '|' and data is separated by ','
             foreach ( $chartInfoMonthly as $key => $value ) {
                 $data['marker'] = array_values( $value );
                 $data['values'] = implode( ',', $value );
                 $data['names']  = implode( '|', array_keys( $value ) );
-            }			
+            }	
+            //set marker value for each bar with color and size
             foreach( $data['marker'] as $keys => $values ){
                 $marking[] ='t'.$values.',0000FF,0,'.$keys.',10';
                
@@ -120,12 +127,14 @@ class CRM_Contribute_Form_ContributionCharts extends CRM_Core_Form
         
         $this->_years =  $chartInfoYearly['Contribution By Year'];
         if ( is_array( $chartInfoYearly ) ) {
+            //label are separated by '|' and data is separated by ','
             foreach ( $chartInfoYearly as $key => $value ) {
                 $data1['marker'] = array_values( $value );
                 $data1['values'] = implode( ',', $value );
                 $data1['names'] = implode( '|', array_keys( $value ) );
                 
             }
+            //set marker value for each bar with color and size
             foreach( $data1['marker'] as $keys => $values ){
                 $marking1[] ='t'.$values.',0000FF,0,'.$keys.',10';
                
