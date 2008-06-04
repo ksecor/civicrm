@@ -442,10 +442,13 @@ function _civicrm_required_formatted_contact(&$params)
 
 function _civicrm_duplicate_formatted_contact(&$params) 
 {
-    if ( ( $id = CRM_Utils_Array::value( 'id', $params ) ) ) {
+    $id = CRM_Utils_Array::value( 'id', $params );
+    $externalId = CRM_Utils_Array::value( 'external_identifier', $params );
+    if ( $id || $externalId ) {
         $contact = new CRM_Contact_DAO_Contact( );
         
         $contact->id = $id;
+        $contact->external_identifier = $externalId;
         
         if ( $contact->find( true ) ) {
             if ( $params['contact_type'] != $contact->contact_type ) {
