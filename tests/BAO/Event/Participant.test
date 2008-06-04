@@ -398,7 +398,7 @@ class BAO_Event_Participant extends CiviTestCase
         
         Participant::delete( $participant->id );
         Contact::delete( $this->_contactId );
-        Event::delete ( $event->id );
+        Event::delete ( $eventId );
     }
    
 }
