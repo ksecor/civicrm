@@ -119,7 +119,8 @@ class CRM_Core_Invoke
             if ( isset( $item['title'] ) ) {
                 CRM_Utils_System::setTitle( $item['title'] );
             }
-            if ( isset( $item['breadcrumb'] ) && !$item['is_public'] ) {
+            if ( isset( $item['breadcrumb'] ) &&
+                 ( ! isset( $item['is_public'] ) || ! $item['is_public'] ) ) {
                 CRM_Utils_System::appendBreadCrumb( $item['breadcrumb'] );
             }
 
@@ -139,7 +140,9 @@ class CRM_Core_Invoke
             if ( isset($item['return_url']) ) {
                 $session =& CRM_Core_Session::singleton( ); 
                 $session->pushUserContext( CRM_Utils_System::url($item['return_url'], 
-                                                                 'reset=1' . $item['return_url_args']) );
+                                                                 'reset=1' . 
+                                                                 CRM_Utils_Array::value( 'return_url_args',
+                                                                                         $item ) ) );
             }
 
             if ( is_array( $item['page_callback'] ) ) {

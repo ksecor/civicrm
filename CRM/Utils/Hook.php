@@ -56,7 +56,9 @@ class CRM_Utils_Hook {
         $config =& CRM_Core_Config::singleton( );
         require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
         return   
-            eval( 'return ' . $config->userHookClass . '::pre( $op, $objectName, $id, $params );' );  
+            eval( 'return ' .
+                  $config->userHookClass .
+                  '::fourArgsHook( $op, $objectName, $objectId, $objectRef, \'civicrm_pre\' );' );  
     }
 
     /** 
@@ -80,7 +82,9 @@ class CRM_Utils_Hook {
         $config =& CRM_Core_Config::singleton( );  
         require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
         return   
-            eval( 'return ' . $config->userHookClass . '::post( $op, $objectName, $objectId, $objectRef );' );  
+            eval( 'return ' .
+                  $config->userHookClass .
+                  '::fourArgsHook( $op, $objectName, $objectId, $objectRef, \'civicrm_post\' );' );  
     }
 
     /**
@@ -95,12 +99,13 @@ class CRM_Utils_Hook {
      *
      * @access public
      */
-    static function links( $op, $objectName, $objectId ) {
+    static function links( $op, $objectName, &$objectId ) {
         $config =& CRM_Core_Config::singleton( );  
         require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
-        $objectRef = null;
         return   
-            eval( 'return ' . $config->userHookClass . '::links( $op, $objectName, $objectId, $objectRef );' );  
+            eval( 'return ' .
+                  $config->userHookClass .
+                  '::threeArgsHook( $op, $objectName, $objectId, \'civicrm_links\' );' );  
     }
 
     /** 
@@ -118,21 +123,36 @@ class CRM_Utils_Hook {
         $config =& CRM_Core_Config::singleton( );
         require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
         return   
-            eval( 'return ' . $config->userHookClass . '::validate( $formName, $fields, $files, $form );' );  
+            eval( 'return ' .
+                  $config->userHookClass .
+                  '::fourArgsHook( $formName, $fields, $files, $form, \'civicrm_validate\' );' );  
     }
 
     static function custom( $op, $groupID, $entityID, &$params ) {
         $config =& CRM_Core_Config::singleton( );
         require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
         return   
-            eval( 'return ' . $config->userHookClass . '::custom( $op, $groupID, $entityID, $params );' );  
+            eval( 'return ' .
+                  $config->userHookClass .
+                  '::fourArgsHook( $op, $groupID, $entityID, $params, \'civicrm_custom\' );' );  
     }
 
-    static function defaults( $className, &$defaults, &$form ) {
+    static function buildForm( $className, &$form ) {
         $config =& CRM_Core_Config::singleton( );
         require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
         return   
-            eval( 'return ' . $config->userHookClass . '::defaults( $className, $defaults, $form ); ' );
+            eval( 'return ' .
+                  $config->userHookClass .
+                  '::twoArgsHook( $className, $form, \'civicrm_buildForm\' );' );  
+    }
+
+    static function postProcess( $className, &$form ) {
+        $config =& CRM_Core_Config::singleton( );
+        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
+        return   
+            eval( 'return ' .
+                  $config->userHookClass .
+                  '::twoArgsHook( $className, $form, \'civicrm_postProcess\' );' );  
     }
 
 }
