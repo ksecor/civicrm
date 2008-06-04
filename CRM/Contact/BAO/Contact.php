@@ -1436,39 +1436,6 @@ WHERE  civicrm_contact.id = %1 ";
     }
 
     /**
-    * Function to find and get the contact details
-    * 
-    * @param string $uniqId  the unique id of the contact (OpenID)
-    * @param string $ctype   contact type
-    * 
-    * @return object $dao    contact details
-    * @static
-    */
-    static function &matchContactOnUniqId( $uniqId, $ctype = null )
-    {
-        $query = "
-    SELECT    civicrm_contact.id as contact_id,
-              civicrm_contact.hash as hash,
-              civicrm_contact.contact_type as contact_type,
-              civicrm_contact.contact_sub_type as contact_sub_type
-    FROM      civicrm_contact
-    WHERE     civicrm_contact.user_unique_id = %1";
-        $p = array( 1 => array( $uniqId, 'String' ) );
-
-        if ( $ctype ) {
-           $query .= " AND civicrm_contact.contact_type = %3";
-           $p[3]   = array( $ctype, 'String' );
-        }
-        
-        $dao =& CRM_Core_DAO::executeQuery( $query, $p );
-
-        if ( $dao->fetch() ) {
-            return $dao;
-        }
-        return CRM_Core_DAO::$_nullObject;
-    }
-    
-    /**
      * Function to find the get contact details
      *
      * @param string $mail  primary email address of the contact
