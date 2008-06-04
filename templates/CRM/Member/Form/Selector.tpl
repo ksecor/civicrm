@@ -2,13 +2,6 @@
     {include file="CRM/common/pager.tpl" location="top"}
 {/if}
 
-{if $context EQ 'user'}
-    {assign var='columnHeaders' value=$member_columnHeaders}
-    {assign var='rows' value=$member_rows}
-    {assign var='single' value=$member_single}
-    {assign var='limit' value=$member_limit}
-{/if}
-
 {strip}
 <table class="selector">
   <tr class="columnheader">
@@ -19,11 +12,7 @@
     <th scope="col">
     {if $header.sort}
       {assign var='key' value=$header.sort}
-      {if $context eq 'user'}	
-         {$member_sort->_response.$key.link}
-      {else}
-         {$sort->_response.$key.link}
-      {/if}  
+      {$sort->_response.$key.link}
     {else}
       {$header.name}
     {/if}

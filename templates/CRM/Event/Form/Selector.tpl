@@ -2,13 +2,6 @@
     {include file="CRM/common/pager.tpl" location="top"}
 {/if}
 
-{if $context EQ 'user'}
-    {assign var='columnHeaders' value=$event_columnHeaders}
-    {assign var='rows' value=$event_rows}
-    {assign var='single' value=$event_single}
-    {assign var='limit' value=$event_limit}
-{/if}
-
 {strip}
 <table class="selector">
   <tr class="columnheader">

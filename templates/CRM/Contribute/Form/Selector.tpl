@@ -2,13 +2,6 @@
     {include file="CRM/common/pager.tpl" location="top"}
 {/if}
 
-{if $context EQ 'user'}
-    {assign var='columnHeaders' value=$contribute_columnHeaders}
-    {assign var='rows' value=$contribute_rows}
-    {assign var='single' value=$contribute_single}
-    {assign var='limit' value=$contribute_limit}
-{/if}
-
 {strip}
 <table class="selector">
   <tr class="columnheader">
@@ -19,9 +12,6 @@
     <th scope="col">
     {if $header.sort}
       {assign var='key' value=$header.sort}
-      {if $context eq 'user'}	
-         {$contribute_sort->_response.$key.link}
-      {else}
          {$sort->_response.$key.link}
       {/if}
     {else}
