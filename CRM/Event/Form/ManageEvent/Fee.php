@@ -136,9 +136,22 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
                 }
             }
         }
-        
+
+        if ( CRM_Utils_Array::value( 'value', $defaultDiscounts ) ) {
+            foreach ( $defaultDiscounts['value'] as $i => $v ) {
+                if ( $defaultDiscounts['amount_id'][$i] == $defaults['default_discount_id'] ) {
+                    $defaults['discounted_default'] = $i;
+                    break;
+                }
+            }
+        }
+                
         if ( !isset($defaults['default']) ) {
             $defaults['default'] = 1;
+        }
+        
+        if ( !isset($defaults['discounted_default']) ) {
+            $defaults['discounted_default'] = 1;
         }
         
         if ( !isset($defaults['is_monetary']) ) {
@@ -513,11 +526,11 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
                             }
                             
                             if ( ! empty( $discountOptions ) ) {
-                                $params['default_fee_id'] = null;
+                                $params['default_discount_id'] = null;
                                 $discountOptionsGroupId = 
                                     CRM_Core_OptionGroup::createAssoc( "civicrm_event_page.amount.{$eventPageId}.discount.{$params[discount_name][$j]}",
                                                                        $discountOptions,
-                                                                       $params['default_fee_id'],
+                                                                       $params['default_discount_id'],
                                                                        $params['discount_name'][$j]);
                                 
                                 $discountParams = array(
