@@ -188,19 +188,18 @@ class CRM_Event_Form_EventFees
             CRM_Event_Form_Registration::initPriceSet($form, $eventPage['id'] );
             CRM_Event_Form_Registration_Register::buildAmount( $form, false, $form->_discountId );
             $discounts = array( );
-            
-            foreach( $form->_values['discount'] as $key => $value ) { 
-                $discounts[$key] = $value['name'];                   
-            }
-
-            if ( ! empty ( $discounts ) ) {
+            if ( !empty( $form->_values['discount'] ) ) {
+                foreach( $form->_values['discount'] as $key => $value ) { 
+                    $discounts[$key] = $value['name'];                   
+                }
+                
                 $form->add('select', 'discount_set', 
                            ts( 'Discount Set' ), 
                            array(''=>ts( '- select -' )) + $discounts,
                            false,
                            array('onchange' => "buildFeeBlock( {$form->_eventId}, this.value );") );
             }
-
+            
             $form->addElement('checkbox', 'record_contribution', ts('Record Payment?'), null, 
                               array('onclick' =>"return showHideByValue('record_contribution','','payment_information','table-row','radio',false);"));
 
