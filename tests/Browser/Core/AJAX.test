@@ -153,6 +153,37 @@ class Browser_Core_AJAX extends CiviTestCase
       CRM_Core_BAO_MessageTemplates::del( $messageTemplate->id );
   }
 
+  /**
+   * Test case for caseSubject( )
+   */
+  function testCaseSubject( )
+  {
+      $params = array(
+                      'first_name'     => 'Sarah',
+                      'last_name'      => 'Jones'
+                      );
+      $contactId = Contact::createIndividual( $params );
+      
+      //create test case.
+      $caseParams = array( 'subject'      => 'Test Case',
+                           'status_id'    => 1,
+                           'case_type_id' => 1,
+                           'start_date'   => '20080604',
+                           'contact_id'   => $contactId  
+                           );
+      
+      require_once 'CRM/Case/BAO/Case.php';
+      $testCase = CRM_Case_BAO_Case::create( $caseParams );
+      $caseId = $testCase->id; 
+      
+      $this->civiGet('civicrm/ajax/caseSubject', "?d=1&c={$contactId}&name=Test Case*&start=0&count=10");
+      $this->assertWantedRaw( 'Test Case', 'Returns json object.' );
+      
+      //cleanup DB by deleting records.
+      CRM_Case_BAO_Case::deleteCase( $caseId );
+      Contact::delete( $contactId );
+  }
+  
 }
 
 ?>
