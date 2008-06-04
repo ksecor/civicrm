@@ -128,11 +128,29 @@ class Browser_Core_AJAX extends CiviTestCase
   } 
   
   /**
+   * Test case for states()
+   */
+  function testStates( )
+  {
+      $this->civiGet('civicrm/ajax/states', '?d=1&node1=1228&name=California*&start=0&count=10');
+      $this->assertWantedRaw( 'California', 'Returns json object.' );
+  } 
+  
+  /**
    * Test case for country()
    */
   function testCountry( )
   {
       $this->civiGet('civicrm/ajax/country', '?d=1&name=United States*&start=0&count=10');
+      $this->assertWantedRaw( 'United States', 'Returns json object.' );
+  }
+
+  /**
+   * Test case for countries( )
+   */
+  function testCountries( )
+  {
+      $this->civiGet('civicrm/ajax/countries', '?d=1&name=United States*&start=0&count=10');
       $this->assertWantedRaw( 'United States', 'Returns json object.' );
   }
   
@@ -182,6 +200,70 @@ class Browser_Core_AJAX extends CiviTestCase
       //cleanup DB by deleting records.
       CRM_Case_BAO_Case::deleteCase( $caseId );
       Contact::delete( $contactId );
+  }
+
+  /**
+   * Test case for employer( )
+   */
+  function testEmployer( )
+  {
+      //create individual.
+      $indParams = array(
+                         'first_name'     => 'Sarah',
+                         'last_name'      => 'Jones',
+                         );
+      $individualId = Contact::createIndividual( $indParams );
+      
+      $orgParams = array( 'organization_name' => 'Test Organization', 
+                          'contact_type'      => 'Organization' );
+      require_once 'CRM/Contact/BAO/Contact.php';
+      $organization = CRM_Contact_BAO_Contact::add( $orgParams );
+      $orgId =  $organization->id;
+      
+      //create relationship.
+      $relParams = array( 'relationship_type_id' => '4_a_b',
+                          'is_active'            => 1,
+                          'is_permission_a_b'    => 1,
+                          'is_permission_b_a'    => 1,
+                          'contact_check'        => array ( $orgId => 1 )
+                          );
+      $ids = array( 'contact' => $individualId );
+      require_once 'CRM/Contact/BAO/Relationship.php';
+      list( $valid, $invalid, $duplicate, $saved, $relationshipIds ) =
+          CRM_Contact_BAO_Relationship::create( $relParams, $ids );
+      $relId = $relationshipIds[0];
+      
+      $this->civiGet('civicrm/ajax/employer', "?cid={$individualId}");
+      $this->assertWantedRaw( 'Test Organization', 'Returns json object.' );
+      
+      //cleanup DB by deleting records.
+      Contact::delete( $orgId );
+      Contact::delete( $individualId );
+  }
+  
+  /**
+   * Test case for permlocation( )
+   */
+  function testPermLocation( )
+  {
+      //create organization.
+      $orgParams = array( 'organization_name' => 'Test Organization',
+                          'contact_type'      => 'Organization');
+      $orgParams['location'][1] = array('location_type_id' => 1,
+                                        'is_primary'       => 1,
+                                        'email'            => array(
+                                                                    '1' => array( 'email' => 'testorg@civicrm.org' ),
+                                                                    ),
+                                        );
+      require_once 'CRM/Contact/BAO/Contact.php';
+      $organization = CRM_Contact_BAO_Contact::create( $orgParams );
+      $orgId =  $organization->id;
+      
+      $this->civiGet('civicrm/ajax/permlocation', "?d=1&cid={$orgId}");
+      $this->assertWantedRaw( 'testorg@civicrm.org', 'Returns json object.' );
+      
+      //cleanup DB by deleting records.
+      Contact::delete( $orgId );
   }
   
 }
