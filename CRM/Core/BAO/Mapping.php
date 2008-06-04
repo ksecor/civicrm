@@ -342,6 +342,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         }
         
         //we need to unset groups, tags, notes for component export
+        require_once 'CRM/Export/Form/Select.php';
         if ( $exportMode != CRM_Export_Form_Select::CONTACT_EXPORT  ) {
             foreach( array( 'groups', 'tags', 'notes' ) as $value ) {
                 unset( $fields['Individual'][$value] );
