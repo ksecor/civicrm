@@ -162,17 +162,12 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form
         $this->_reset   = CRM_Utils_Request::retrieve( 'reset', 'Boolean',  CRM_Core_DAO::$_nullObject ); 
         $this->_force   = CRM_Utils_Request::retrieve( 'force', 'Boolean',  $this, false );  
         $this->_limit   = CRM_Utils_Request::retrieve( 'limit', 'Positive', $this );
-        $this->_context = CRM_Utils_Request::retrieve( 'context', 'String', $this );
+        $this->_context = CRM_Utils_Request::retrieve( 'context', 'String', $this, false, 'search' );
 
         $this->assign( "context", $this->_context );
 
-        if ( $this->_context == 'search' ) {
-            CRM_Utils_System::setTitle( ts('Find Contributions') );
-        }
-
         // get user submitted values  
         // get it from controller only if form has been submitted, else preProcess has set this  
-        
         if ( ! empty( $_POST ) ) { 
             $this->_formValues = $this->controller->exportValues( $this->_name ); 
         } else {
