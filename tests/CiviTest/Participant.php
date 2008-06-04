@@ -20,7 +20,7 @@ class Participant extends DrupalTestCase
                         'source'           => 'Event_'.$eventId,
                         'contact_id'       => $contactId
                         );
-        //crm_Core_error::debug($params);
+
         require_once 'CRM/Event/BAO/Participant.php';
         $participant = CRM_Event_BAO_Participant::add($params);
         return $participant->id;
@@ -33,8 +33,10 @@ class Participant extends DrupalTestCase
      * @return boolean true if participant deleted, false otherwise
      * 
      */
-    function delete( $participantId ) {
-        return CRM_Event_BAO_Participant::del( $participantId );
+    function delete( $participantId ) 
+    {
+        require_once 'CRM/Event/BAO/Participant.php';
+        return CRM_Event_BAO_Participant::deleteParticipant( $participantId );
     }
 }
 
