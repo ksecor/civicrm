@@ -84,6 +84,56 @@ class Browser_Core_AJAX extends CiviTestCase
   }
   
   /**
+   * Test case for contact()
+   */
+  function testContact( )
+  {
+      //create contact
+      $params = array(
+                      'first_name'     => 'Sarah',
+                      'last_name'      => 'Jones'
+                      );
+      
+      $contactId = Contact::createIndividual( $params );
+      
+      $this->civiGet('civicrm/ajax/contact', '?name=Sarah');
+      $this->assertWantedRaw( "{$contactId}", 'Returns json object.' );
+      
+      Contact::delete( $contactId );
+  }
+  
+  /**
+   * Test case for customField( )
+   */
+  function testCustomField( )
+  {   
+      //get the custom group.
+      $customGroup = CRM_Core_BAO_CustomGroup::retrieve( $groupParams = array( ), 
+                                                         $defaults= array( ) );
+      $customGroupID = $customGroup->id;
+      if ( $customGroupID ) {
+          //create custom field
+          $params = array( 
+                          'label'     => 'Test Custom Field',
+                          'data_type' => 'String',
+                          'html_type' => 'Text',
+                          'help_post' => 'Test Custom Field help',
+                          'custom_group_id' => $customGroupID
+                          );
+          
+          require_once 'CRM/Core/BAO/CustomField.php';
+          $customField = CRM_Core_BAO_CustomField::create( $params );
+          $customFieldID = $customField->id;
+          
+          $this->civiGet('civicrm/ajax/custom', "?id={$customFieldID}");
+          $this->assertWantedRaw( "{$customField->help_post}", 'Returns json object.' );
+          
+          //cleanup DB by deleting Custom Field.
+          $customField->delete( );
+      }
+  }
+  
+  /**
    * Test case for event()
    */
   function testEvent( )
