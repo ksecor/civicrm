@@ -214,11 +214,10 @@ class Browser_Core_AJAX extends CiviTestCase
                          );
       $individualId = Contact::createIndividual( $indParams );
       
+      //create organization.
       $orgParams = array( 'organization_name' => 'Test Organization', 
                           'contact_type'      => 'Organization' );
-      require_once 'CRM/Contact/BAO/Contact.php';
-      $organization = CRM_Contact_BAO_Contact::add( $orgParams );
-      $orgId =  $organization->id;
+      $orgId = Contact::createOrganisation( $orgParams ); 
       
       //create relationship.
       $relParams = array( 'relationship_type_id' => '4_a_b',
@@ -255,9 +254,7 @@ class Browser_Core_AJAX extends CiviTestCase
                                                                     '1' => array( 'email' => 'testorg@civicrm.org' ),
                                                                     ),
                                         );
-      require_once 'CRM/Contact/BAO/Contact.php';
-      $organization = CRM_Contact_BAO_Contact::create( $orgParams );
-      $orgId =  $organization->id;
+      $orgId = Contact::createOrganisation( $orgParams ); 
       
       $this->civiGet('civicrm/ajax/permlocation', "?d=1&cid={$orgId}");
       $this->assertWantedRaw( 'testorg@civicrm.org', 'Returns json object.' );
