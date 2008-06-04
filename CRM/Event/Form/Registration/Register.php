@@ -43,10 +43,6 @@ require_once 'CRM/Core/Payment.php';
  */
 class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
 {
-    /**
-     * Variable to access the Discount Set.
-     */
-    protected $_discountKey;
     /** 
      * Function to set variables up before form is built 
      *                                                           
@@ -496,12 +492,15 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             $params['currencyID']     = $config->defaultCurrency;
 
             //added for discount
-            if ( ! empty( $this->_values['discount['.$this->_discountKey.']'] ) ) {
-                $params['amount_level'] = $this->_values['discount['.$this->_discountKey.']']['label']
-                    [array_search( $params['amount'], $this->_values['discount['.$this->_discountKey.']']['amount_id'])];
+            require_once 'CRM/Core/BAO/Discount.php';
+            $discountId = CRM_Core_BAO_Discount::findSet( $this->_eventId, 'civicrm_event' );
+
+            if ( ! empty( $this->_values['discount'][$discountId] ) ) {
+                $params['amount_level'] = $this->_values['discount'][$discountId]['label']
+                    [array_search( $params['amount'], $this->_values['discount'][$discountId]['amount_id'])];
                 
-                $params['amount'] = $this->_values['discount['.$this->_discountKey.']']['value']
-                    [array_search( $params['amount'], $this->_values['discount['.$this->_discountKey.']']['amount_id'])];
+                $params['amount'] = $this->_values['discount'][$discountId]['value']
+                    [array_search( $params['amount'], $this->_values['discount'][$discountId]['amount_id'])];
                 
             }else if ( empty( $params['priceSetId'] ) ) {
                 $params['amount_level'] = $this->_values['custom']['label'][array_search( $params['amount'], 
