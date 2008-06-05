@@ -209,18 +209,22 @@ class Browser_Core_AJAX extends CiviTestCase
    */
   function testTemplate( )
   {
+      //create message template.
       $params = array(
-                      'msg_title' => 'Test Message',
-                      'is_active' => 1
+                      'msg_title'   => 'Test Message',
+                      'msg_subject' => 'Test Message Subject',
+                      'msg_text'    => 'Text Message',
+                      'msg_html'    => 'HTML Message',
+                      'is_active'   => 1,
                       );
       require_once 'CRM/Core/BAO/MessageTemplates.php';
       $messageTemplate = CRM_Core_BAO_MessageTemplates::add( $params );
       $this->civiGet('civicrm/ajax/template', "?d=1&tid={$messageTemplate->id}");
-      
-      //$this->assertWantedRaw( 'Test Message', 'Returns json object.' );
+      $this->assertWantedRaw( 'Text Message^AHTML Message^ATest Message Subject', 'Returns json object.' );
+      //Now cleanup The DB.
       CRM_Core_BAO_MessageTemplates::del( $messageTemplate->id );
   }
-
+  
   /**
    * Test case for caseSubject( )
    */
@@ -311,6 +315,17 @@ class Browser_Core_AJAX extends CiviTestCase
       
       //cleanup DB by deleting records.
       Contact::delete( $orgId );
+  }
+  
+  /**
+   * Test case for groupTree( )
+   */
+  function testGroupTree( )
+  {
+      $this->civiGet( 'civicrm/ajax/groupTree', '?d=1' );
+      //Now check the group Tree
+      $this->assertText( "identifier:'id', label:'name', items:", 'Returns json object.' );
+      //$this->assertText( "id:'1', name:'Administrators', children:[{_reference:'5'}], type:'rootGroup'", 'Returns json object.' );
   }
   
 }
