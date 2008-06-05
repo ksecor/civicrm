@@ -35,40 +35,24 @@
 
 class CRM_Utils_Hook_Joomla {
 
-    static function twoArgsHook( &$arg1, &$arg2, $fnSuffix ) {
+    static function invoke( $numParams,
+                            &$arg1, &$arg2, &$arg3, &$arg4, &$arg5,
+                            $fnSuffix ) {
         $result = array( );
         $fnName = "joomla_{$fnSuffix}";
         if ( function_exists( $fnName ) ) {
-            $result = $fnName( $arg1, $arg2 );
+            if ( $numParams == 1 ) {
+                $result = $fnName( $arg1 );
+            } else if ( $numParams == 2 ) {
+                $result = $fnName( $arg1, $arg2 );
+            } else if ( $numParams == 3 ) {
+                $result = $fnName( $arg1, $arg2, $arg3 );
+            } else if ( $numParams == 4 ) {
+                $result = $fnName( $arg1, $arg2, $arg3, $arg4 );
+            } else if ( $numParams == 5 ) {
+                $result = $fnName( $arg1, $arg2, $arg3, $arg4, $arg5 );
+            }
         }
         return empty( $result ) ? true : $result;
     }
-
-    static function threeArgsHook( &$arg1, &$arg2, &$arg3, $fnSuffix ) {
-        $result = array( );
-        $fnName = "joomla_{$fnSuffix}";
-        if ( function_exists( $fnName ) ) {
-            $result = $fnName( $arg1, $arg2, $arg3 );
-        }
-        return empty( $result ) ? true : $result;
-    }
-
-    static function fourArgsHook( &$arg1, &$arg2, &$arg3, &$arg4, $fnSuffix ) {
-        $result = array( );
-        $fnName = "joomla_{$fnSuffix}";
-        if ( function_exists( $fnName ) ) {
-            $result = $fnName( $arg1, $arg2, $arg3, $arg4 );
-        }
-        return empty( $result ) ? true : $result;
-    }
-
-    static function fiveArgsHook( &$arg1, &$arg2, &$arg3, &$arg4, &$arg5, $fnSuffix ) {
-        $result = array( );
-        $fnName = "joomla_{$fnSuffix}";
-        if ( function_exists( $fnName ) ) {
-            $result = $fnName( $arg1, $arg2, $arg3, $arg4, $arg5 );
-        }
-        return empty( $result ) ? true : $result;
-    }
-
 }

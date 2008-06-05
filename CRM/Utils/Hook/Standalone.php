@@ -34,40 +34,14 @@
  */
 
 class CRM_Utils_Hook_Standalone {
-    static function twoArgsHook( &$arg1, &$arg2, $fnSuffix ) {
-        $result = array( );
-        $fnName = "standalone_{$fnSuffix}";
-        if ( function_exists( $fnName ) ) {
-            $result = $fnName( $arg1, $arg2 );
-        }
-        return empty( $result ) ? true : $result;
-    }
 
-    static function threeArgsHook( &$arg1, &$arg2, &$arg3, $fnSuffix ) {
-        $result = array( );
-        $fnName = "standalone_{$fnSuffix}";
-        if ( function_exists( $fnName ) ) {
-            $result = $fnName( $arg1, $arg2, $arg3 );
-        }
-        return empty( $result ) ? true : $result;
+    static function invoke( $numParams,
+                            &$arg1, &$arg2, &$arg3, &$arg4, &$arg5,
+                            $fnSuffix ) {
+        require_once 'CRM/Utils/Hook/Joomla.php';
+        CRM_Utils_Hook_Joomla::invoke( $numParams,
+                                       $arg1, $arg2, $arg3, $arg4, $arg5,
+                                       $fnSuffix, 'standalone' );
     }
-
-    static function fourArgsHook( &$arg1, &$arg2, &$arg3, &$arg4, $fnSuffix ) {
-        $result = array( );
-        $fnName = "standalone_{$fnSuffix}";
-        if ( function_exists( $fnName ) ) {
-            $result = $fnName( $arg1, $arg2, $arg3, $arg4 );
-        }
-        return empty( $result ) ? true : $result;
-    }
-    static function fiveArgsHook( &$arg1, &$arg2, &$arg3, &$arg4, &$arg5, $fnSuffix ) {
-        $result = array( );
-        $fnName = "standalone_{$fnSuffix}";
-        if ( function_exists( $fnName ) ) {
-            $result = $fnName( $arg1, $arg2, $arg3, $arg4, $arg5 );
-        }
-        return empty( $result ) ? true : $result;
-    }
-
 
 }

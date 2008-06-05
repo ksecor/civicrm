@@ -35,65 +35,26 @@
 
 class CRM_Utils_Hook_Drupal {
 
-    static function twoArgsHook( &$arg1, &$arg2, $fnSuffix ) {
+    static function invoke( $numParams,
+                            &$arg1, &$arg2, &$arg3, &$arg4, &$arg5,
+                            $fnSuffix ) {
         $result = array( );
         // copied from user_module_invoke
         if (function_exists('module_list')) {
             foreach ( module_list() as $module) { 
-                $function = "{$module}_{$fnSuffix}";
-                if ( function_exists( $function ) ) {
-                    $fResult = $function( $arg1, $arg2 );
-                    if ( is_array( $fResult ) ) {
-                        $result = array_merge( $result, $fResult );
+                $fnName = "{$module}_{$fnSuffix}";
+                if ( function_exists( $fnName ) ) {
+                    if ( $numParams == 1 ) {
+                        $fResult = $fnName( $arg1 );
+                    } else if ( $numParams == 2 ) {
+                        $fResult = $fnName( $arg1, $arg2 );
+                    } else if ( $numParams == 3 ) {
+                        $fResult = $fnName( $arg1, $arg2, $arg3 );
+                    } else if ( $numParams == 4 ) {
+                        $fResult = $fnName( $arg1, $arg2, $arg3, $arg4 );
+                    } else if ( $numParams == 5 ) {
+                        $fResult = $fnName( $arg1, $arg2, $arg3, $arg4, $arg5 );
                     }
-                }
-            }
-        }
-        return empty( $result ) ? true : $result;
-    }
-
-    static function threeArgsHook( &$arg1, &$arg2, &$arg3,$fnSuffix ) {
-        $result = array( );
-        // copied from user_module_invoke
-        if (function_exists('module_list')) {
-            foreach ( module_list() as $module) { 
-                $function = "{$module}_{$fnSuffix}";
-                if ( function_exists( $function ) ) {
-                    $fResult = $function( $arg1, $arg2, $arg3 );
-                    if ( is_array( $fResult ) ) {
-                        $result = array_merge( $result, $fResult );
-                    }
-                }
-            }
-        }
-        return empty( $result ) ? true : $result;
-    }
-    
-    static function fourArgsHook( &$arg1, &$arg2, &$arg3, &$arg4, $fnSuffix ) {
-        $result = array( );
-        // copied from user_module_invoke
-        if (function_exists('module_list')) {
-            foreach ( module_list() as $module) { 
-                $function = "{$module}_{$fnSuffix}";
-                if ( function_exists( $function ) ) {
-                    $fResult = $function( $arg1, $arg2, $arg3, $arg4 );
-                    if ( is_array( $fResult ) ) {
-                        $result = array_merge( $result, $fResult );
-                    }
-                }
-            }
-        }
-        return empty( $result ) ? true : $result;
-    }
-
-    static function fiveArgsHook( &$arg1, &$arg2, &$arg3, &$arg4, &$arg5, $fnSuffix ) {
-        $result = array( );
-        // copied from user_module_invoke
-        if (function_exists('module_list')) {
-            foreach ( module_list() as $module) { 
-                $function = "{$module}_{$fnSuffix}";
-                if ( function_exists( $function ) ) {
-                    $fResult = $function( $arg1, $arg2, $arg3, $arg4, $arg5 );
                     if ( is_array( $fResult ) ) {
                         $result = array_merge( $result, $fResult );
                     }

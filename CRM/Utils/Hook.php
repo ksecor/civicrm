@@ -34,7 +34,7 @@
  */
 
 class CRM_Utils_Hook {
-
+    
     /** 
      * This hook is called before a db write on some core objects.
      * This hook does not allow the abort of the operation 
@@ -53,7 +53,7 @@ class CRM_Utils_Hook {
         return   
             eval( 'return ' .
                   $config->userHookClass .
-                  '::fourArgsHook( $op, $objectName, $objectId, $objectRef, \'civicrm_pre\' );' );  
+                  '::invoke( 4, $op, $objectName, $objectId, $objectRef, $op, \'civicrm_pre\' );' );  
     }
 
     /** 
@@ -74,7 +74,7 @@ class CRM_Utils_Hook {
         return   
             eval( 'return ' .
                   $config->userHookClass .
-                  '::fourArgsHook( $op, $objectName, $objectId, $objectRef, \'civicrm_post\' );' );  
+                  '::invoke( 4, $op, $objectName, $objectId, $objectRef, $op, \'civicrm_post\' );' );  
     }
 
     /**
@@ -95,7 +95,7 @@ class CRM_Utils_Hook {
         return   
             eval( 'return ' .
                   $config->userHookClass .
-                  '::threeArgsHook( $op, $objectName, $objectId, \'civicrm_links\' );' );  
+                  '::invoke( 3, $op, $objectName, $objectId, $op, $op, \'civicrm_links\' );' );  
     }
 
     /** 
@@ -113,7 +113,7 @@ class CRM_Utils_Hook {
         return   
             eval( 'return ' .
                   $config->userHookClass .
-                  '::twoArgsHook( $formName, $form, \'civicrm_buildForm\' );' );  
+                  '::invoke( 2, $formName, $form, $formName, $formName, $formName, \'civicrm_buildForm\' );' );  
     }
 
     /** 
@@ -131,7 +131,7 @@ class CRM_Utils_Hook {
         return   
             eval( 'return ' .
                   $config->userHookClass .
-                  '::twoArgsHook( $formName, $form, \'civicrm_postProcess\' );' );  
+                  '::invoke( 2, $formName, $form, $formName, $formName, $formName, \'civicrm_postProcess\' );' );  
     }
 
     /** 
@@ -153,7 +153,7 @@ class CRM_Utils_Hook {
         return   
             eval( 'return ' .
                   $config->userHookClass .
-                  '::fourArgsHook( $formName, $fields, $files, $form, \'civicrm_validate\' );' );  
+                  '::invoke( 4, $formName, $fields, $files, $form, $formName, \'civicrm_validate\' );' );  
     }
 
     /** 
@@ -173,7 +173,7 @@ class CRM_Utils_Hook {
         return   
             eval( 'return ' .
                   $config->userHookClass .
-                  '::fourArgsHook( $op, $groupID, $entityID, $params, \'civicrm_custom\' );' );  
+                  '::invoke( 4, $op, $groupID, $entityID, $params, $op, \'civicrm_custom\' );' );  
     }
 
     /** 
@@ -195,7 +195,7 @@ class CRM_Utils_Hook {
         return   
             eval( 'return ' .
                   $config->userHookClass .
-                  '::fiveArgsHook( $type, $tables, $whereTables, $contactID, $where, \'civicrm_aclClause\' );' );  
+                  '::invoke( 5, $type, $tables, $whereTables, $contactID, $where, \'civicrm_aclClause\' );' );  
     }
 
 }
