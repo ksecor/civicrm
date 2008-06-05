@@ -237,6 +237,12 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
      */
     static public function buildAmount( &$form, $required = true, $discountId = null ) 
     {
+        //get the button name.
+        $button = substr( $form->controller->getButtonName( ), -4 );
+        if ( $button == 'skip' ) {
+            $required  = false;
+        }
+        
         $elements = array( );
         $form->addGroup( $elements, 'amount', ts('Event Fee(s)'), '<br />' );      
         if ( isset($form->_priceSetId) ) {
@@ -246,11 +252,12 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             foreach ( $form->_values['custom']['fields'] as $field ) {
                 $fieldId = $field['id'];
                 $elementName = 'price_' . $fieldId;
-                CRM_Core_BAO_PriceField::addQuickFormElement(
-                                                             $form, $elementName, $fieldId, false,
-                                                             $field['is_required']
-                                                             );
-                
+                if ( $button == 'skip' ) {
+                    $isRequire = false;
+                } else {
+                    $isRequire = $field['is_required'];
+                }
+                CRM_Core_BAO_PriceField::addQuickFormElement( $form, $elementName, $fieldId, false, $isRequire );
             }
         } else if ( ! empty( $form->_values['custom']['label'] ) ) {
             $feeBlock = $form->_values['custom'];
@@ -622,6 +629,10 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
     public function processRegistration( $params, $contactID = null ) 
     {
         $isAdditional = true;
+        //unset the skip participant from params.
+        if ( $skipParticipant = array_search( 'skip', $params ) ) {
+            unset( $params[$skipParticipant] );
+        }
         foreach ( $params as $key => $value ) {
             $fields = null;
             require_once 'CRM/Event/Form/Registration/Confirm.php';

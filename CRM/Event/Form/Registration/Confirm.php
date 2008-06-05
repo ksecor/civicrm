@@ -270,7 +270,11 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         $now = date( 'YmdHis' );
         $isAdditional = true;
         $params = $this->_params;
-             
+        //unset the skip participant from params.
+        if ( $skipParticipant = array_search( 'skip', $params ) ) {
+            unset( $params[$skipParticipant] );
+        }
+        
         foreach ( $params as $key => $value ) {
             $this->fixLocationFields( $value, $fields );
             $value['fee_amount'] =  $value['amount'];

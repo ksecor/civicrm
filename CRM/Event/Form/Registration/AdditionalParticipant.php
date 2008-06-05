@@ -67,30 +67,33 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
         $this->add( 'text',
                     "email-{$this->_bltID}",
                     ts( 'Email Address' ),
-                    array( 'size' => 30, 'maxlength' => 60 ), true );
+                    array( 'size' => 30, 'maxlength' => 60 ) );
         
         if ( $this->_values['event']['is_monetary'] ) {
             require_once 'CRM/Event/Form/Registration/Register.php';
             CRM_Event_Form_Registration_Register::buildAmount( $this );
         }
-
+        
         $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
         $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
-
+        //add buttons
         $this->addButtons(array(
                                 array ( 'type'      => 'next',
                                         'name'      => 'Continue >>',
                                         'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
                                         'isDefault' => true
                                         ),
-                                
                                 array ( 'type'      => 'back',
-                                        'name'      => ts('<< Go Back')),
+                                        'name'      => ts('<< Go Back')
+                                        ),
+                                array ( 'type'       => 'next',
+                                        'name'       => ts('Skip Participant >>'),
+                                        'subName'    => 'skip' ),
                                 )
                           );
-
+        
         $this->addFormRule( array( 'CRM_Event_Form_Registration_AdditionalParticipant', 'formRule' ),
-                             $this );
+                            $this );
     }
     /** 
      * global form rule 
@@ -106,21 +109,29 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
     static function formRule(&$fields, &$files, &$self) 
     {
         $errors = array( );
+        //get the button name.
+        $button = substr( $self->controller->getButtonName(), -4 );
+        if ( $button != 'skip' ) {
+            if ( empty( $fields["email-{$self->_bltID}"] ) ) {
+                $errors["email-{$self->_bltID}"] = ts( 'Email Address is a required field.' );
+            }
+        }
+        
         //get the complete params.
         $params = $self->get('params');
         //take the participant instance.
         $addParticipantNum = 1 + substr( $self->_name, 12 );
         if ( is_array( $params ) ) {
             foreach ( $params as $key => $value ) {
-                if ( ( $value['email-5'] == $fields['email-5'] ) && $key != $addParticipantNum  ) {
-                    $errors['email-5'] = ts( 'The Email should be unique for Additional Participant' );
+                if ( ( $value["email-{$self->_bltID}"] == $fields["email-{$self->_bltID}"] ) && $key != $addParticipantNum  ) {
+                    $errors["email-{$self->_bltID}"] = ts( 'The Email Address should be unique for Additional Participant' );
                     break;
                 }
             }
         }
         
         return $errors; 
-    }  
+    }
     
     /**
      * Function to process the form
@@ -130,44 +141,49 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
      */
     public function postProcess() 
     {
-        $params = $this->controller->exportValues( $this->_name ); 
-        if ( $this->_values['event']['is_monetary'] ) {
-            if ( empty( $params['priceSetId'] ) ) {
-                $params['amount_level'] = $this->_values['custom']['label'][array_search( $params['amount'], 
-                                                                                          $this->_values['custom']['amount_id'])];
-                
-                $params['amount']       = $this->_values['custom']['value'][array_search( $params['amount'], 
-                                                                                          $this->_values['custom']['amount_id'])];
-            } else {
-                $lineItem = array( );
-                require_once 'CRM/Event/Form/Registration/Register.php';
-                CRM_Event_Form_Registration_Register::processPriceSetAmount( $this->_values['custom']['fields'], $params, $lineItem );
-            }
-                    
-        }else {
-            if ( $this->_values['event']['default_role_id'] ) {
-                $params['participant_role_id'] = $this->_values['event']['default_role_id'];
-            }
-           
-        }
-        if ( ! isset( $params['participant_role_id'] ) && $this->_values['event']['default_role_id'] ) {
-            $params['participant_role_id'] = $this->_values['event']['default_role_id'];
-        }
-        $this->_params  = array ();
+        //get the button name.
+        $button = substr( $this->controller->getButtonName(), -4 );
+        $this->_params  = array( );
         $this->_params =  $this->get( 'params' );
-        if ( CRM_Utils_Array::value( 'is_pay_later', $this->_params[0] ) ) {
-            $params['is_pay_later']  = 1;
-        }
-        
-        //build the params array.
         //take the participant instance.
         $addParticipantNum = 1 + substr( $this->_name, 12 );
-        if ( array_key_exists( $addParticipantNum, $this->_params ) ) {
-            $this->_params[$addParticipantNum] = $params;
+        if ( $button == 'skip' ) {
+            $this->_params[$addParticipantNum] = 'skip';
         } else {
-            $this->_params[] = $params; 
+            $params = $this->controller->exportValues( $this->_name );  
+            if ( $this->_values['event']['is_monetary'] ) {
+                if ( empty( $params['priceSetId'] ) ) {
+                    $params['amount_level'] = $this->_values['custom']['label'][array_search( $params['amount'], 
+                                                                                              $this->_values['custom']['amount_id'])];
+                    
+                    $params['amount']       = $this->_values['custom']['value'][array_search( $params['amount'], 
+                                                                                              $this->_values['custom']['amount_id'])];
+                } else {
+                    $lineItem = array( );
+                    require_once 'CRM/Event/Form/Registration/Register.php';
+                    CRM_Event_Form_Registration_Register::processPriceSetAmount( $this->_values['custom']['fields'], 
+                                                                                 $params, $lineItem );
+                }
+            } else {
+                if ( $this->_values['event']['default_role_id'] ) {
+                    $params['participant_role_id'] = $this->_values['event']['default_role_id'];
+                }
+            }
+            if ( ! isset( $params['participant_role_id'] ) && $this->_values['event']['default_role_id'] ) {
+                $params['participant_role_id'] = $this->_values['event']['default_role_id'];
+            }
+            
+            if ( CRM_Utils_Array::value( 'is_pay_later', $this->_params[0] ) ) {
+                $params['is_pay_later']  = 1;
+            }
+            //build the params array.
+            if ( array_key_exists( $addParticipantNum, $this->_params ) ) {
+                $this->_params[$addParticipantNum] = $params;
+            } else {
+                $this->_params[] = $params; 
+            }
         }
-        
+        //finally set the params.
         $this->set( 'params', $this->_params );
         
         //to check whether call processRegistration() 
@@ -175,11 +191,11 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
             $participant =  $this->_params[0]['additional_participants'] + 1;
             if ( count($this->_params) == $participant ) {
                 require_once 'CRM/Event/Form/Registration/Register.php';
-              CRM_Event_Form_Registration_Register::processRegistration(  $this->_params,  null );
+                CRM_Event_Form_Registration_Register::processRegistration(  $this->_params,  null );
             }
         }
     }
-
+    
     function &getPages( &$controller )
     {
         $details = array( );
