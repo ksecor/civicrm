@@ -415,7 +415,6 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
     /** 
      * Function to obtain active/inactive memberships from the list of memberships passed to it.
      * 
-     * @param int    $contactId   contact id
      * @param array  $memberships membership records
      * @param string $status      active or inactive
      *
@@ -423,7 +422,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
      * @static
      * @access public
      */
-    static function activeMembers( $contactId, $memberships, $status = 'active' ) 
+    static function activeMembers( $memberships, $status = 'active' ) 
     {
         $actives = array();
         if ( $status == 'active' ) {
