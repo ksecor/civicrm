@@ -13,17 +13,15 @@ class PaypalPro extends DrupalTestCase
     {
 
         $paymentProcessor =& new CRM_Core_DAO_PaymentProcessor( );
-        $domain =  CRM_Core_Config::domainID( );
         $paymentParams = array(
-                               'domain_id'              => $domain,
                                'name'                   => 'demo',
                                'payment_processor_type' => 'PayPal',
                                'is_active'              => 1,
                                'is_default'             => 0,
                                'is_test'                => 1,
-                               'user_name'              => 'bharat_axnzoom_api1.yahoo.com',
-                               'password'               => 'JTU844G729L2ZTJZ',
-                               'signature'              => 'An5ns1Kso7MWUdW4ErQKJJJ4qi4-Amskj10OWUIlV7zig.SePDYaN46Z',
+                               'user_name'              => 'sunil._1183377782_biz_api1.webaccess.co.in',
+                               'password'               => '1183377788',
+                               'signature'              => 'APixCoQ-Zsaj-u3IH7mD5Do-7HUqA9loGnLSzsZga9Zr-aNmaJa3WGPH',
                                'url_site'               => 'https://www.sandbox.paypal.com/',
                                'url_api'                => 'https://api-3t.sandbox.paypal.com/',
                                'url_button'             => 'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif',

@@ -10,9 +10,7 @@ class ContributionPage extends DrupalTestCase
     function create( $id ) 
     {
         require_once "CRM/Contribute/BAO/ContributionPage.php";        
-        $domain =  CRM_Core_Config::domainID( );
         $params = array(
-                        'domain_id'                => $domain,
                         'title'                    => 'Help Test CiviCRM!',
                         'intro_text'               => 'Created for Test Coverage Online Contribution Page',
                         'contribution_type_id'     => 1,
@@ -23,7 +21,9 @@ class ContributionPage extends DrupalTestCase
                         'max_amount'               => 10000,
                         'goal_amount'              => 100000,
                         'thankyou_title'           => 'Thanks for Your Support!',
+                        'thankyou_text'            => 'Thank you for your support.',
                         'is_email_receipt'         => 1,
+                        'receipt_from_name'        => 'From TEST',
                         'receipt_from_email'       => 'donations@civicrm.org',
                         'cc_receipt'               => 'receipt@example.com',
                         'bcc_receipt'              => 'bcc@example.com',
