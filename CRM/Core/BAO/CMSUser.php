@@ -475,7 +475,7 @@ SELECT count(*)
         $user->bind( $values );
 
         // Store the Joomla! user.
-        if ( ! $user->store( ) ) {
+        if ( ! $user->save( ) ) {
             // Error can be accessed via $user->getError();
             return false;
         }
