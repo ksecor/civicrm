@@ -48,18 +48,19 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
      * @return void 
      * @access public 
      */ 
-    function preProcess( ) {
-          parent::preProcess( );
-          CRM_Utils_System::setTitle( 'Register Additional Participant' );
-          // lineItem isn't set until Register postProcess
+    function preProcess( ) 
+    {
+        parent::preProcess( );
+        CRM_Utils_System::setTitle( 'Register Additional Participant' );
+        //lineItem isn't set until Register postProcess
     }
+    
     /** 
      * Function to build the form 
      * 
      * @return None 
      * @access public 
      */ 
-    
     public function buildQuickForm( ) 
     {  
         $config =& CRM_Core_Config::singleton( );
@@ -105,6 +106,19 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
     static function formRule(&$fields, &$files, &$self) 
     {
         $errors = array( );
+        //get the complete params.
+        $params = $self->get('params');
+        //take the participant instance.
+        $addParticipantNum = 1 + substr( $self->_name, 12 );
+        if ( is_array( $params ) ) {
+            foreach ( $params as $key => $value ) {
+                if ( ( $value['email-5'] == $fields['email-5'] ) && $key != $addParticipantNum  ) {
+                    $errors['email-5'] = ts( 'The Email should be unique for Additional Participant' );
+                    break;
+                }
+            }
+        }
+        
         return $errors; 
     }  
     
@@ -146,27 +160,16 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
         }
         
         //build the params array.
-        $updateParams= false;
-        $paramsKey = null;
-        if ( is_array( $this->_params ) ) {
-            foreach ( $this->_params as $key => $value ) {
-                if ( $value['email-5'] == $params['email-5'] ) {
-                    $updateParams= true;
-                    $paramsKey = $key;
-                    break;
-                }
-            }
-        }
-       
-        //add participant fields in params.
-        if ( $updateParams ) {
-            $this->_params[$paramsKey] = $params;
+        //take the participant instance.
+        $addParticipantNum = 1 + substr( $this->_name, 12 );
+        if ( array_key_exists( $addParticipantNum, $this->_params ) ) {
+            $this->_params[$addParticipantNum] = $params;
         } else {
-            $this->_params[] = $params;
+            $this->_params[] = $params; 
         }
         
         $this->set( 'params', $this->_params );
-
+        
         //to check whether call processRegistration() 
         if ( !$this->_values['event']['is_monetary'] && CRM_Utils_Array::value( 'additional_participants', $this->_params[0] ) ) {
             $participant =  $this->_params[0]['additional_participants'] + 1;
