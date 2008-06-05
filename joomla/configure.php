@@ -92,6 +92,15 @@ require_once '$configFile';
     civicrm_write_file( FRONT_PATH . DIRECTORY_SEPARATOR . 'civicrm.settings.php',
                         $string );
 
+    include_once COM_PATH . DIRECTORY_SEPARATOR . 'civicrm.settings.php';
+
+    // now also build the menu
+    require_once 'CRM/Core/Config.php';
+    $config =& CRM_Core_Config::singleton();
+
+    // now also build the menu
+    require_once 'CRM/Core/Menu.php';
+    CRM_Core_Menu::store( );
 }
 
 function civicrm_source( $fileName ) {

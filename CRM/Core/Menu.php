@@ -253,7 +253,8 @@ class CRM_Core_Menu
             $menu->copyValues( $item );
 
             foreach ( self::$_serializedElements as $element ) {
-                if ( $item[$element] == 'null' ) {
+                if ( ! isset( $item[$element] ) ||
+                     $item[$element] == 'null' ) {
                     $menu->$element = null;
                 } else {
                     $menu->$element = serialize( $item[$element] );
@@ -465,15 +466,19 @@ class CRM_Core_Menu
 
         $pathElements = explode('/', $path);
         array_pop( $pathElements );
-        
+
+        $currentPath = null;
         while ( $newPath = array_shift($pathElements) ) {
             $currentPath = $currentPath ? ($currentPath . '/' . $newPath) : $newPath;
             
             // add to crumb, if current-path exists in params.
-            if ( array_key_exists($currentPath, $menu) && isset($menu[$currentPath]['title']) ) {
+            if ( array_key_exists( $currentPath, $menu ) &&
+                 isset( $menu[$currentPath]['title'] ) ) {
                 $crumbs[] = array('title' => $menu[$currentPath]['title'], 
                                   'url'   => CRM_Utils_System::url( $currentPath, 
-                                                                    'reset=1' . $menu[$currentPath]['path_arguments'] ));
+                                                                    'reset=1' .
+                                                                    CRM_Utils_Array::value( 'path_arguments',
+                                                                                            $menu[$currentPath] ) ) );
             }
         }
         $menu[$path]['breadcrumb'] = $crumbs;
@@ -500,7 +505,10 @@ class CRM_Core_Menu
 
             return self::getReturnUrl( $menu, $newPath );
         } else {
-            return array( $menu[$path]['return_url'], $menu[$path]['return_url_args'] );
+            return array( CRM_Utils_Array::value( 'return_url',
+                                                  $menu[$path] ),
+                          CRM_Utils_Array::value( 'return_url_args',
+                                                  $menu[$path] ) );
         }
     }
 
@@ -524,7 +532,7 @@ class CRM_Core_Menu
         if ( array_key_exists($compPath, $cache) ) {
             $menu[$path]['component_id'] = $cache[$compPath];
         } else {
-            if ( $menu[$compPath]['component'] ) {
+            if ( CRM_Utils_Array::value( 'component', $menu[$compPath] ) ) {
                 $componentId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Component', 
                                                             $menu[$compPath]['component'], 
                                                             'id', 'name' );
