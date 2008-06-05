@@ -80,7 +80,7 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
                                  'contribution_source',
                                  'receive_date',
                                  'thankyou_date',
-                                 'contribution_status_id',
+                                 'contribution_status',
                                  'cancel_date',
                                  'product_name',
                                  'is_test',
@@ -289,11 +289,11 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
             foreach (self::$_properties as $property) {
                 $row[$property] = $result->$property;            
             }
-            if ( $result->is_pay_later && $row["contribution_status_id"] == "Pending" ) {
-                $row["contribution_status_id"] .= " (Pay Later)";
+            if ( $result->is_pay_later && $row["contribution_status"] == "Pending" ) {
+                $row["contribution_status"] .= " (Pay Later)";
                 
-            } else if ( $row["contribution_status_id"] == "Pending") {
-                $row["contribution_status_id"] .= " (Incomplete Transaction)";
+            } else if ( $row["contribution_status"] == "Pending") {
+                $row["contribution_status"] .= " (Incomplete Transaction)";
             }
 
             if ( $row["is_test"] ) {
@@ -380,7 +380,7 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
                                                 ),
                                           array(
                                                 'name'      => ts('Status'),
-                                                'sort'      => 'contrib_status',
+                                                'sort'      => 'contribution_status',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
