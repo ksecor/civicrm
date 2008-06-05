@@ -457,62 +457,30 @@ SELECT count(*)
      */
     static function createJoomlaUser( &$params, $mail ) 
     {
-        $config =& CRM_Core_Config::singleton( );
-        $dao =& new CRM_Core_DAO( );
-        $name = $dao->escape( $params['cms_name'] );
-        
-        $fname = trim($params['cms_name']);
-        $uname = trim($params['cms_name']);
-        $pwd   = md5($params['cms_pass']);
-        $email = trim($params[$mail]); 
-        $date  = date('y-m-d h:i:s');
-       
-        //In Joomla, Registered User is fixed to 18, at some point we should make this dynamic
-        $userType   = 'Registered';
-        $userTypeId = '18';
+        $acl         = &JFactory::getACL();
+        $userParams  = JComponentHelper::getParams('com_users');
+        $userType    = $userParams->get('new_usertype');
 
-        //Get MySQL Table Prefix eg.'jos_'
-        list( $prefix, $table ) = split( '_', $config->userFrameworkUsersTableName );        
-       
-        $db_cms = DB::connect($config->userFrameworkDSN);
-        if ( DB::isError( $db_cms ) ) { 
-            die( "Cannot connect to UF db via $dsn, " . $db_cms->getMessage( ) ); 
+        // Prepare the values for a new Joomla! user.
+        $values                 = array();
+        $values['name']         = trim($params['cms_name']);
+        $values['username']     = trim($params['cms_name']);
+        $values['password']     = $params['cms_pass'];
+        $values['password2']    = $params['cms_confirm_pass'];
+        $values['email']        = trim($params[$mail]);
+        $values['gid']          = $acl->get_group_id( '', $userType);
+        
+        // Get an empty JUser instance.
+        $user =& JUser::getInstance( 0 );
+        $user->bind( $values );
+
+        // Store the Joomla! user.
+        if ( ! $user->store( ) ) {
+            // Error can be accessed via $user->getError();
+            return false;
         }
 
-        require_once 'CRM/Core/Transaction.php';
-        $transaction = new CRM_Core_Transaction( );
-
-        //1.Insert into 'jos_users' table
-        $sql   = "INSERT INTO {$config->userFrameworkUsersTableName} VALUES 
-              ('', '$fname', '$uname', '$email', '$pwd', '$userType', 0, 1, $userTypeId, '$date', '0000-00-00 00:00:00', '', '')";
-        
-        $query = $db_cms->query( $sql );
-
-        //Fetch id of newly added user
-        $id_sql   = "SELECT id FROM {$config->userFrameworkUsersTableName} where username = '$uname'";
-        $id_query = $db_cms->query( $id_sql );
-        $id_row   = $id_query->fetchRow( DB_FETCHMODE_ASSOC ) ;
-        $id       = $id_row['id'];
-        
-        //2.Insert into 'jos_core_acl_aro' table
-        $table     = "{$prefix}_core_acl_aro";
-        $acl_sql   = "INSERT INTO {$table} VALUES ('','users','$id',0,'$uname',0)";
-        $acl_query = $db_cms->query( $acl_sql );
-
-        //Fetch aro_id of newly added acl
-        $aro_id_sql   = "SELECT aro_id FROM {$table} where value = '$id'";
-        $aro_id_query = $db_cms->query( $aro_id_sql );
-        $aro_id_row   = $aro_id_query->fetchRow( DB_FETCHMODE_ASSOC ) ;
-        $aro_id       = $aro_id_row['aro_id'];
-
-        //3.Insert into 'jos_core_acl_groups_aro_map' table
-        $table       = "{$prefix}_core_acl_groups_aro_map";
-        $group_sql   = "INSERT INTO {$table} VALUES ('$userTypeId','','$aro_id')";
-        $group_query = $db_cms->query( $group_sql );
-
-        $transaction->commit( );
-
-        return $id;
+        return $user->get('id');
     }
 
     static function updateUFName( $ufID, $ufName ) {
