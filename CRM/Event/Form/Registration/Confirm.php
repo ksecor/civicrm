@@ -115,45 +115,49 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             } else {
                 $this->_params = $this->get( 'getExpressCheckoutDetails' );
             }
+        } else {
+            //$this->_params = $this->controller->exportValues( 'Register' );
+            $this->_params = $this->get( 'params' );
+            //process only primary participant params.
+            $registerParams = $this->_params[0];
+            if ( isset( $registerParams["state_province_id-{$this->_bltID}"] ) 
+                 && $registerParams["state_province_id-{$this->_bltID}"] ) {
+                $registerParams["state_province-{$this->_bltID}"] =
+                    CRM_Core_PseudoConstant::stateProvinceAbbreviation( $registerParams["state_province_id-{$this->_bltID}"] ); 
+            }
+            
+            if ( isset( $registerParams["country_id-{$this->_bltID}"] ) && $registerParams["country_id-{$this->_bltID}"] ) {
+                $registerParams["country-{$this->_bltID}"]        =
+                    CRM_Core_PseudoConstant::countryIsoCode( $registerParams["country_id-{$this->_bltID}"] ); 
+            }
+            if ( isset( $registerParams['credit_card_exp_date'] ) ) {
+                $registerParams['year'   ]        = $registerParams['credit_card_exp_date']['Y'];  
+                $registerParams['month'  ]        = $registerParams['credit_card_exp_date']['M'];  
+            }
+            if ( $this->_values['event']['is_monetary'] ) {
+                $registerParams['ip_address']     = CRM_Utils_System::ipAddress( );
+                $registerParams['amount'        ] = $this->get( 'amount' );
+                $registerParams['amount_level'  ] = $this->get( 'amount_level' );
+                $registerParams['currencyID'    ] = $config->defaultCurrency;
+                $registerParams['payment_action'] = 'Sale';
+            }
+            //assign back primary participant params.
+            $this->_params[0] = $registerParams;
         }
-
-        // else {
-//                $this->_params = $this->controller->exportValues( 'Register' );
-
-//             if ( isset( $this->_params["state_province_id-{$this->_bltID}"] ) && $this->_params["state_province_id-{$this->_bltID}"] ) {
-//                 $this->_params["state_province-{$this->_bltID}"] =
-//                     CRM_Core_PseudoConstant::stateProvinceAbbreviation( $this->_params["state_province_id-{$this->_bltID}"] ); 
-//             }
-
-//             if ( isset( $this->_params["country_id-{$this->_bltID}"] ) && $this->_params["country_id-{$this->_bltID}"] ) {
-//                 $this->_params["country-{$this->_bltID}"]        =
-//                     CRM_Core_PseudoConstant::countryIsoCode( $this->_params["country_id-{$this->_bltID}"] ); 
-//             }
-//             if ( isset( $this->_params['credit_card_exp_date'] ) ) {
-//                 $this->_params['year'   ]        = $this->_params['credit_card_exp_date']['Y'];  
-//                 $this->_params['month'  ]        = $this->_params['credit_card_exp_date']['M'];  
-//             }
-//             if ( $this->_values['event']['is_monetary'] ) {
-//                 $this->_params['ip_address']     = CRM_Utils_System::ipAddress( );
-                
-//                 $this->_params['amount'        ] = $this->get( 'amount' );
-//                 $this->_params['amount_level'  ] = $this->get( 'amount_level' );
-//                 $this->_params['currencyID'    ] = $config->defaultCurrency;
-//                 $this->_params['payment_action'] = 'Sale';
-//             }
-//         }
-
-//           if ( $this->_values['event']['is_monetary'] ) {
-//             $this->_params['invoiceID'] = $this->get( 'invoiceID' );
-//         }
-
-//         if ( ! isset( $this->_params['participant_role_id'] ) && $this->_values['event']['default_role_id'] ) {
-//             $this->_params['participant_role_id'] = $this->_values['event']['default_role_id'];
-//         }
         
-        if ( isset ($this->_values['event_page']['confirm_title'] ) ) 
+        if ( $this->_values['event']['is_monetary'] ) {
+            $this->_params[0]['invoiceID'] = $this->get( 'invoiceID' );
+        }
+        
+        if ( ! isset( $this->_params[0]['participant_role_id'] ) && $this->_values['event']['default_role_id'] ) {
+            $this->_params[0]['participant_role_id'] = $this->_values['event']['default_role_id'];
+        }
+        
+        if ( isset ($this->_values['event_page']['confirm_title'] ) ) {
             CRM_Utils_System::setTitle($this->_values['event_page']['confirm_title']);
-                   
+            $this->set( 'params', $this->_params );
+        }
+        
     }
     /**
      * overwrite action, since we are only showing elements in frozen mode

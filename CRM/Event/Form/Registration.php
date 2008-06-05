@@ -337,76 +337,78 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
      */ 
     function assignToTemplate( ) 
     {
-        if ( CRM_Utils_Array::value( 'billing_first_name', $this->_params ) ) {
-            $name = $this->_params['billing_first_name'];
+        //process only primary participant params
+        $params = $this->_params[0];
+        
+        if ( CRM_Utils_Array::value( 'billing_first_name', $params ) ) {
+            $name = $params['billing_first_name'];
         }
         
-        if ( CRM_Utils_Array::value( 'billing_middle_name', $this->_params ) ) {
-            $name .= " {$this->_params['billing_middle_name']}";
+        if ( CRM_Utils_Array::value( 'billing_middle_name', $params ) ) {
+            $name .= " {$params['billing_middle_name']}";
         }
-
-        if ( CRM_Utils_Array::value( 'billing_last_name', $this->_params ) ) {
-            $name .= " {$this->_params['billing_last_name']}";
-            
+        
+        if ( CRM_Utils_Array::value( 'billing_last_name', $params ) ) {
+            $name .= " {$params['billing_last_name']}";
             $this->assign( 'name', $name );
             $this->set( 'name', $name );
         }       
         
         $vars = array( 'amount', 'currencyID', 'credit_card_type', 
                        'trxn_id', 'amount_level', 'receive_date' );
-     
+        
         foreach ( $vars as $v ) {
-            if ( CRM_Utils_Array::value( $v, $this->_params ) ) { 
+            if ( CRM_Utils_Array::value( $v, $params ) ) { 
                 if ( $v == 'receive_date' ) {
-                    $this->assign( $v,  CRM_Utils_Date::mysqlToIso( $this->_params[$v] ) );
+                    $this->assign( $v,  CRM_Utils_Date::mysqlToIso( $params[$v] ) );
                 } else {
-                    $this->assign( $v, $this->_params[$v] );
+                    $this->assign( $v, $params[$v] );
                 }
-            } else if ( $this->_params ['amount'] == 0 ) {
-                $this->assign( $v, $this->_params[$v] );
+            } else if ( $params['amount'] == 0 ) {
+                $this->assign( $v, $params[$v] );
             }
         }
-
+        
         // assign the address formatted up for display
         $addressParts  = array( "street_address-{$this->_bltID}",
                                 "city-{$this->_bltID}",
                                 "postal_code-{$this->_bltID}",
                                 "state_province-{$this->_bltID}",
                                 "country-{$this->_bltID}");
-        $addressFields = array();
+        $addressFields = array( );
         foreach ($addressParts as $part) {
             list( $n, $id ) = explode( '-', $part );
-            if ( isset ( $this->_params[$part] ) ) {
-                $addressFields[$n] = $this->_params[$part];
+            if ( isset ( $params[$part] ) ) {
+                $addressFields[$n] = $params[$part];
             }
         }
         require_once 'CRM/Utils/Address.php';
         $this->assign('address', CRM_Utils_Address::format($addressFields));
-
+        
         if ( $this->_contributeMode == 'direct' &&
-             ! CRM_Utils_Array::value( 'is_pay_later', $this->_params ) ) {
-            $date = CRM_Utils_Date::format( $this->_params['credit_card_exp_date'] );
+             ! CRM_Utils_Array::value( 'is_pay_later', $params ) ) {
+            $date = CRM_Utils_Date::format( $params['credit_card_exp_date'] );
             $date = CRM_Utils_Date::mysqlToIso( $date );
             $this->assign( 'credit_card_exp_date', $date );
             $this->assign( 'credit_card_number',
-                           CRM_Utils_System::mungeCreditCard( $this->_params['credit_card_number'] ) );
+                           CRM_Utils_System::mungeCreditCard( $params['credit_card_number'] ) );
         }
-
+        
         $this->assign( 'email', $this->controller->exportValue( 'Register', "email-{$this->_bltID}" ) );
-
+        
         // assign is_email_confirm to templates
         if ( isset ($this->_values['event_page']['is_email_confirm'] ) ) {
             $this->assign( 'is_email_confirm', $this->_values['event_page']['is_email_confirm'] );
         }
-
+        
         // assign pay later stuff
-        $this->_params['is_pay_later'] = CRM_Utils_Array::value( 'is_pay_later', $this->_params, false );
-        $this->assign( 'is_pay_later', $this->_params['is_pay_later'] );
-        if ( $this->_params['is_pay_later'] ) {
+        $params['is_pay_later'] = CRM_Utils_Array::value( 'is_pay_later', $params, false );
+        $this->assign( 'is_pay_later', $params['is_pay_later'] );
+        if ( $params['is_pay_later'] ) {
             $this->assign( 'pay_later_text'   , $this->_values['event_page']['pay_later_text']    );
             $this->assign( 'pay_later_receipt', $this->_values['event_page']['pay_later_receipt'] );
         }
-
+        
     }
 
     /**  
@@ -496,7 +498,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         if ( $isAdditional ) {
             $this->_params = $this->get('value');
         }
-    
+        
         // create CMS user
         if ( CRM_Utils_Array::value( 'cms_create_account', $this->_params ) ) {
             $this->_params['contactID'] = $contactID;
