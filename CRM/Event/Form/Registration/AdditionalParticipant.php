@@ -104,7 +104,8 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
      */ 
     static function formRule(&$fields, &$files, &$self) 
     {
-        return null; 
+        $errors = array( );
+        return $errors; 
     }  
     
     /**
