@@ -429,7 +429,6 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                                         'name'      => ts('Cancel') ), 
                                 ) 
                           );
-
         if ($this->_action == CRM_Core_Action::VIEW) { 
             $this->freeze();
         }
@@ -498,8 +497,23 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         // get the submitted form values.  
         $params = $this->controller->exportValues( $this->_name );
         
+        //added for discount
+        require_once 'CRM/Core/BAO/Discount.php';
+        $discountId = CRM_Core_BAO_Discount::findSet( $this->_eventId, 'civicrm_event' );
+        
         if ( $this->_isPaidEvent ) {
-            if ( ! isset( $params['priceSetId'] ) ) {
+            
+            //fix for CRM-3088
+            if ( ! empty( $this->_values['discount'][$discountId] ) ) {
+                $params['amount_level'] = $this->_values['discount'][$discountId]['label']
+                    [array_search( $params['amount'], $this->_values['discount'][$discountId]['amount_id'])];
+                
+                $params['amount'] = $this->_values['discount'][$discountId]['value']
+                    [array_search( $params['amount'], $this->_values['discount'][$discountId]['amount_id'])];
+                
+                $this->assign( 'amount_level', $params['amount_level'] );
+                
+            }else if ( ! isset( $params['priceSetId'] ) ) {
                 $params['amount_level'] = $this->_values['custom']['label'][array_search( $params['amount'], 
                                                                                           $this->_values['custom']['amount_id'])];
                 

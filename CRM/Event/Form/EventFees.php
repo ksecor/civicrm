@@ -156,8 +156,19 @@ class CRM_Event_Form_EventFees
             
             if ( ! $form->_discountId )  {
                 require_once 'CRM/Core/BAO/Discount.php';
-                $defaults[$form->_participantId]['discount_set'] = CRM_Core_BAO_Discount::findSet( $defaults[$form->_participantId]['event_id'], 
-                                                                                                   "civicrm_event");
+                $defaults[$form->_participantId]['discount_set'] = $discountKey = 
+                    CRM_Core_BAO_Discount::findSet( $defaults[$form->_participantId]['event_id'], "civicrm_event");
+                
+                $eId = $defaults[$form->_participantId]['event_id'];
+                $name = $form->_values['discount'][$discountKey]['name'];
+                
+                CRM_Core_OptionGroup::getAssoc( "civicrm_event_page.amount.{$eId}.discount.{$name}", $defaultDiscounts );
+                
+                foreach( $defaultDiscounts['label'] as $k => $v ) {
+                    if ( $defaults[$form->_participantId]['fee_level'] == $v ) {
+                        $defaults[$form->_participantId]['amount'] = $defaultDiscounts['amount_id'][$k];
+                    }
+                }
             } else {
                 $defaults[$form->_participantId]['discount_set'] = $form->_discountId;
             }
