@@ -56,19 +56,29 @@ class CRM_Event_StateMachine_Registration extends CRM_Core_StateMachine
         $id      = CRM_Utils_Request::retrieve( 'id', 'Positive', $controller, true );
         $is_monetary  = CRM_Core_DAO::getFieldValue('CRM_Event_DAO_Event', $id, 'is_monetary' );
         
-        $this->_pages = array(
-                              'CRM_Event_Form_Registration_Register'  => null,
-                              'CRM_Event_Form_Registration_Confirm'   => null,
+        $this->_pages = array( 'CRM_Event_Form_Registration_Register'  => null );
+        
+        $pages = array();
+        $pages = array_merge( $pages, $this->_pages );
+
+        //to add instances of Additional Participant page.    
+        require_once "CRM/Event/Form/Registration/AdditionalParticipant.php";
+        eval( '$newPages =& CRM_Event_Form_Registration_AdditionalParticipant::getPages( $controller );' );
+        $pages = array_merge( $pages, $newPages );
+        
+        $this->_pages = array('CRM_Event_Form_Registration_Confirm'   => null,
                               'CRM_Event_Form_Registration_ThankYou'  => null
                               );
-    
+        
+        $pages = array_merge( $pages, $this->_pages );
+        
         if( ! $is_monetary ) {
             unset( $this->_pages['CRM_Event_Form_Registration_Confirm'] );
-                     
+            
         }
-        $this->addSequentialPages( $this->_pages, $action );
+        $this->addSequentialPages( $pages, $action );
     }
-
+    
 }
 
 

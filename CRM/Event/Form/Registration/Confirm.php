@@ -61,7 +61,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
 
         // lineItem isn't set until Register postProcess
         $this->_lineItem = $this->get( 'lineItem' );
-        
+               
         $config =& CRM_Core_Config::singleton( );
         if ( $this->_contributeMode == 'express' ) {
             // rfp == redirect from paypal
@@ -115,44 +115,45 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             } else {
                 $this->_params = $this->get( 'getExpressCheckoutDetails' );
             }
-        } else {
-            $this->_params = $this->controller->exportValues( 'Register' );
+        }
 
-            if ( isset( $this->_params["state_province_id-{$this->_bltID}"] ) && $this->_params["state_province_id-{$this->_bltID}"] ) {
-                $this->_params["state_province-{$this->_bltID}"] =
-                    CRM_Core_PseudoConstant::stateProvinceAbbreviation( $this->_params["state_province_id-{$this->_bltID}"] ); 
-            }
+        // else {
+//                $this->_params = $this->controller->exportValues( 'Register' );
 
-            if ( isset( $this->_params["country_id-{$this->_bltID}"] ) && $this->_params["country_id-{$this->_bltID}"] ) {
-                $this->_params["country-{$this->_bltID}"]        =
-                    CRM_Core_PseudoConstant::countryIsoCode( $this->_params["country_id-{$this->_bltID}"] ); 
-            }
-            if ( isset( $this->_params['credit_card_exp_date'] ) ) {
-                $this->_params['year'   ]        = $this->_params['credit_card_exp_date']['Y'];  
-                $this->_params['month'  ]        = $this->_params['credit_card_exp_date']['M'];  
-            }
-            if ( $this->_values['event']['is_monetary'] ) {
-                $this->_params['ip_address']     = CRM_Utils_System::ipAddress( );
+//             if ( isset( $this->_params["state_province_id-{$this->_bltID}"] ) && $this->_params["state_province_id-{$this->_bltID}"] ) {
+//                 $this->_params["state_province-{$this->_bltID}"] =
+//                     CRM_Core_PseudoConstant::stateProvinceAbbreviation( $this->_params["state_province_id-{$this->_bltID}"] ); 
+//             }
+
+//             if ( isset( $this->_params["country_id-{$this->_bltID}"] ) && $this->_params["country_id-{$this->_bltID}"] ) {
+//                 $this->_params["country-{$this->_bltID}"]        =
+//                     CRM_Core_PseudoConstant::countryIsoCode( $this->_params["country_id-{$this->_bltID}"] ); 
+//             }
+//             if ( isset( $this->_params['credit_card_exp_date'] ) ) {
+//                 $this->_params['year'   ]        = $this->_params['credit_card_exp_date']['Y'];  
+//                 $this->_params['month'  ]        = $this->_params['credit_card_exp_date']['M'];  
+//             }
+//             if ( $this->_values['event']['is_monetary'] ) {
+//                 $this->_params['ip_address']     = CRM_Utils_System::ipAddress( );
                 
-                $this->_params['amount'        ] = $this->get( 'amount' );
-                $this->_params['amount_level'  ] = $this->get( 'amount_level' );
-                $this->_params['currencyID'    ] = $config->defaultCurrency;
-                $this->_params['payment_action'] = 'Sale';
-            }
-        }
+//                 $this->_params['amount'        ] = $this->get( 'amount' );
+//                 $this->_params['amount_level'  ] = $this->get( 'amount_level' );
+//                 $this->_params['currencyID'    ] = $config->defaultCurrency;
+//                 $this->_params['payment_action'] = 'Sale';
+//             }
+//         }
 
-        if ( $this->_values['event']['is_monetary'] ) {
-            $this->_params['invoiceID'] = $this->get( 'invoiceID' );
-        }
+//           if ( $this->_values['event']['is_monetary'] ) {
+//             $this->_params['invoiceID'] = $this->get( 'invoiceID' );
+//         }
 
-        if ( ! isset( $this->_params['participant_role_id'] ) && $this->_values['event']['default_role_id'] ) {
-            $this->_params['participant_role_id'] = $this->_values['event']['default_role_id'];
-        }
+//         if ( ! isset( $this->_params['participant_role_id'] ) && $this->_values['event']['default_role_id'] ) {
+//             $this->_params['participant_role_id'] = $this->_values['event']['default_role_id'];
+//         }
         
         if ( isset ($this->_values['event_page']['confirm_title'] ) ) 
             CRM_Utils_System::setTitle($this->_values['event_page']['confirm_title']);
-        
-        $this->set( 'params', $this->_params );
+                   
     }
     /**
      * overwrite action, since we are only showing elements in frozen mode
@@ -178,17 +179,33 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
     public function buildQuickForm( )  
     { 
         $this->assignToTemplate( );
+        //to set amount & levels
+        $this->_params = $this->get( 'params' );
+        if( $this->_params[0]['amount'] ) {
+            $amount       = array();
+            
+            foreach( $this->_params as $k => $v ) {
+                if ( is_array( $v ) ) {
+                    $amount[ $v['amount_level'].'  -  '. $v ['email-5'] ] = $v['amount'];
+                    $this->_total_amount = $this->_total_amount + $v['amount'];
+                }
+            }
+            $this->assign('amount', $amount);
+            $this->assign('total_amount', $this->_total_amount);
+        }
+
         $config =& CRM_Core_Config::singleton( );
         
         $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
         $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
 
         $this->assign( 'lineItem', $this->_lineItem );
-        if( $this->_params['amount'] == 0 ) {
+     
+        if( $this->_params[0]['amount'] == 0 ) {
             $this->assign( 'isAmountzero', 1 );
         }
         if ( $this->_paymentProcessor['payment_processor_type'] == 'Google_Checkout' && 
-             ! CRM_Utils_Array::value( 'is_pay_later', $this->_params ) ) {
+             ! CRM_Utils_Array::value( 'is_pay_later', $this->_params[0] ) ) {
             $this->_checkoutButtonName = $this->getButtonName( 'next', 'checkout' );
             $this->add('image',
                        $this->_checkoutButtonName,
@@ -226,8 +243,8 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             $fields["country-{$this->_bltID}"] = $fields["email-{$this->_bltID}"] = 1;
 
         foreach ($fields as $name => $dontCare ) {
-            if ( isset($this->_params[$name]) ) {
-                    $defaults[$name] = $this->_params[$name];
+            if ( isset($this->_params[0][$name]) ) {
+                    $defaults[$name] = $this->_params[0][$name];
             }
         }
 
@@ -251,91 +268,104 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
 
         $contactID = $session->get( 'userID' );
         $now = date( 'YmdHis' );
-
+        $isAdditional = true;
         $params = $this->_params;
-        
-        $fields = array( );
-        $this->fixLocationFields( $params, $fields );
-
-        //unset the billing parameters if it is pay later mode
-        //to avoid creation of billing location
-        if ( $params['is_pay_later'] ) {
-            $billingFields = array( 'email-5','billing_first_name', 'billing_middle_name', 'billing_last_name',
-                                    'street_address-5','city-5','state_province_id-5','postal_code-5','country_id-5'
-                                    );
-            foreach( $billingFields as $value ) {
-                unset( $params[$value] );
-            }
-        }
-
-        $contactID =& $this->updateContactFields( $contactID, $params, $fields );
-
-        // lets store the contactID in the session
-        // we dont store in userID in case the user is doing multiple
-        // transactions etc
-        // for things like tell a friend
-        if ( ! $session->get( 'userID' ) ) {
-            $session->set( 'transaction.userID', $contactID );
-        } else {
-            $session->set( 'transaction.userID', null );
-        }
-        
-        $this->_params['description'] = ts( 'Online Event Registration' ) . ': ' . $this->_values['event']['title'];
-
-        // required only if paid event
-        if ( $this->_values['event']['is_monetary'] ) {
-        
-            require_once 'CRM/Core/Payment.php';
-            if ( is_array( $this->_paymentProcessor ) ) {
-                $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Event', $this->_paymentProcessor );
-            }
-            $pending = false;
-            $result  = null;
-            if ( CRM_Utils_Array::value( 'is_pay_later', $this->_params ) ||
-                 $this->_params['amount'] == 0                            || 
-                 $this->_contributeMode   == 'checkout'                   ||
-                 $this->_contributeMode   == 'notify' ) {
-                if ( $this->_params['amount'] != 0 ) {
-                    $pending = true;
-                    $this->_params['participant_status_id'] = 5; // pending
+             
+        foreach ( $params as $key => $value ) {
+            $this->fixLocationFields( $value, $fields );
+            $value['fee_amount'] =  $value['amount'];
+            //unset the billing parameters if it is pay later mode
+            //to avoid creation of billing location
+            if ( $value['is_pay_later'] ) {
+                $billingFields = array( 'email-5','billing_first_name', 'billing_middle_name', 'billing_last_name',
+                                        'street_address-5','city-5','state_province_id-5','postal_code-5','country_id-5'
+                                        );
+                foreach( $billingFields as $field ) {
+                    unset( $value[$field] );
                 }
-            } else if ( $this->_contributeMode == 'express' ) {
-                $result =& $payment->doExpressCheckout( $this->_params );
+            }
+            
+            //Unset ContactID for additional participants
+            if ( ! array_key_exists( 'credit_card_number', $value ) ) {
+                $contactID = null;
+                $registerByID = $this->get( 'registerByID' );
+                if ( $registerByID ) {
+                    $value['registered_by_id'] = $registerByID;
+                }
             } else {
-                require_once 'CRM/Core/Payment/Form.php';
-                CRM_Core_Payment_Form::mapParams( $this->_bltID, $this->_params, $this->_params, true );
-                $result =& $payment->doDirectPayment( $this->_params );
+                $value['amount'] = $this->_total_amount;
             }
             
-            if ( is_a( $result, 'CRM_Core_Error' ) ) {
-                CRM_Core_Error::displaySessionError( $result );
-                CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/event/info', "id={$this->_id}&reset=1" ) );
+            $contactID =& $this->updateContactFields( $contactID, $value, $fields );
+           
+            // lets store the contactID in the session
+            // we dont store in userID in case the user is doing multiple
+            // transactions etc
+            // for things like tell a friend
+            if ( ! $session->get( 'userID' ) ) {
+                $session->set( 'transaction.userID', $contactID );
+            } else {
+                $session->set( 'transaction.userID', null );
             }
             
-            if ( $result ) {
-                $this->_params = array_merge( $this->_params, $result );
-            }
-
-            $this->_params['receive_date'] = $now;
+            $value['description'] = ts( 'Online Event Registration' ) . ': ' . $value['event']['title'];
             
-            if ( ! $pending ) {
-                // transactionID & receive date required while building email template
-                $this->assign( 'trxn_id', $result['trxn_id'] );
-                $this->assign( 'receive_date', CRM_Utils_Date::mysqlToIso( $this->_params['receive_date']) );
+            // required only if paid event
+            if ( $this->_values['event']['is_monetary'] ) {
+                
+                require_once 'CRM/Core/Payment.php';
+                if ( is_array( $this->_paymentProcessor ) ) {
+                    $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Event', $this->_paymentProcessor );
+                }
+                $pending = false;
+                $result  = null;
+                if ( CRM_Utils_Array::value( 'is_pay_later', $value ) ||
+                     $value['fee_amount'] == 0                            || 
+                     $this->_contributeMode   == 'checkout'           ||
+                     $this->_contributeMode   == 'notify' ) {
+                    if ( $value['fee_amount'] != 0 ) {
+                        $pending = true;
+                        $value['participant_status_id'] = 5; // pending
+                    }
+                } else if ( $this->_contributeMode == 'express' && array_key_exists( 'credit_card_number', $value ) ) {
+                    $result =& $payment->doExpressCheckout( $value );
+                } else if ( array_key_exists( 'credit_card_number', $value ) ){
+                    require_once 'CRM/Core/Payment/Form.php';
+                    CRM_Core_Payment_Form::mapParams( $this->_bltID, $value, $value, true );
+                    $result =& $payment->doDirectPayment( $value );
+                }
+                
+                if ( is_a( $result, 'CRM_Core_Error' ) ) {
+                    CRM_Core_Error::displaySessionError( $result );
+                    CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/event/info', "id={$this->_id}&reset=1" ) );
+                }
+                
+                if ( $result ) {
+                    $value = array_merge( $value, $result );
+                }
+                
+                $value['receive_date'] = $now;
+                
+                if ( ! $pending ) {
+                    // transactionID & receive date required while building email template
+                    $this->assign( 'trxn_id', $result['trxn_id'] );
+                    $this->assign( 'receive_date', CRM_Utils_Date::mysqlToIso( $values['receive_date']) );
+                }
+                $contribution = null;
+                // if paid event add a contribution record
+                if( $value['amount'] != 0 && array_key_exists( 'credit_card_number', $value ) ) {
+                    $contribution =& $this->processContribution( $value, $result, $contactID, $pending );
+                }
+                $value['contactID']          = $contactID;
+                $value['eventID']            = $this->_id;
+                $value['contributionID'    ] = $contribution->id;
+                $value['contributionTypeID'] = $contribution->contribution_type_id;
+                $value['item_name'         ] = $value['description'];
             }
-
-            // if paid event add a contribution record
-            if( $params['amount'] != 0 ) {
-                $contribution =& $this->processContribution( $this->_params, $result, $contactID, $pending );
-            }
-            $this->_params['contactID']          = $contactID;
-            $this->_params['eventID']            = $this->_id;
-            $this->_params['contributionID'    ] = $contribution->id;
-            $this->_params['contributionTypeID'] = $contribution->contribution_type_id;
-            $this->_params['item_name'         ] = $this->_params['description'];
-        }
-        $this->set( 'params', $this->_params );
-        $this->confirmPostProcess( $contactID, $contribution, $payment);
+           
+            $this->set( 'value', $value );
+            $this->confirmPostProcess( $contactID, $contribution, $payment, $isAdditional );
+        }                
     } //end of function
     
     /**
@@ -495,7 +525,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             require_once 'CRM/Dedupe/Finder.php';
             $dedupeParams = CRM_Dedupe_Finder::formatParams($params, 'Individual');
             $ids = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Individual');
-
+           
             // if we find more than one contact, use the first one
             $contact_id  = $ids[0];
             $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $contact_id, $addToGroups );

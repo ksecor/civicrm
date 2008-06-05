@@ -1,3 +1,6 @@
+{if $action & 1024}
+    {include file="CRM/Event/Form/Registration/PreviewHeader.tpl"}
+{/if}
 {capture assign='reqMark'}<span class="marker"  title="{ts}This field is required.{/ts}">*</span>{/capture}
 <div class="form-item">
 
@@ -55,6 +58,9 @@
 <table class="form-layout-compressed">
     <tr><td class="label nowrap">{$form.$n.label}</td><td>{$form.$n.html}</td></tr>
 </table>
+
+{include file="CRM/UF/Form/Block.tpl" fields=$customPre} 
+{include file="CRM/UF/Form/Block.tpl" fields=$customPost} 
 
 <div id="crm-submit-buttons">
  {$form.buttons.html}
