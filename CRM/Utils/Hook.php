@@ -36,20 +36,15 @@
 class CRM_Utils_Hook {
 
     /** 
-     * This hook will be called on any operation on some core CiviCRM 
-     * objects. We will extend the functionality over a period of time 
-     * to make it similar to Drupal's user hook, where the external module 
-     * can inject and collect form elements and form information into a 
-     * Drupal form (specifically the registration page and the account 
-     * information page) 
+     * This hook is called before a db write on some core objects.
+     * This hook does not allow the abort of the operation 
      * 
      * @param string $op         the type of operation being performed 
      * @param string $objectName the name of the object 
      * @param object $id         the object id if available
      * @param array  $params     the parameters used for object creation / editing
      *  
-     * @return mixed             based on op. pre-hooks return a boolean or
-     *                           an error message which aborts the operation
+     * @return null the return value is ignored
      * @access public 
      */ 
     static function pre( $op, $objectName, $id, &$params ) {
@@ -62,12 +57,7 @@ class CRM_Utils_Hook {
     }
 
     /** 
-     * This hook will be called on any operation on some core CiviCRM 
-     * objects. We will extend the functionality over a period of time 
-     * to make it similar to Drupal's user hook, where the external module 
-     * can inject and collect form elements and form information into a 
-     * Drupal form (specifically the registration page and the account 
-     * information page) 
+     * This hook is called after a db write on some core objects.
      * 
      * @param string $op         the type of operation being performed 
      * @param string $objectName the name of the object 
@@ -89,7 +79,7 @@ class CRM_Utils_Hook {
 
     /**
      * This hook retrieves links from other modules and injects it into
-     * CiviCRM forms
+     * the view contact tabs
      *
      * @param string $op         the type of operation being performed
      * @param string $objectName the name of the object
@@ -109,6 +99,44 @@ class CRM_Utils_Hook {
     }
 
     /** 
+     * This hook is invoked when building a CiviCRM form. This hook should also
+     * be used to set the default values of a form element
+     * 
+     * @param string $formName the name of the form
+     * @param object $form     reference to the form object
+     *
+     * @return null the return value is ignored
+     */
+    static function buildForm( $formName, &$form ) {
+        $config =& CRM_Core_Config::singleton( );
+        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
+        return   
+            eval( 'return ' .
+                  $config->userHookClass .
+                  '::twoArgsHook( $formName, $form, \'civicrm_buildForm\' );' );  
+    }
+
+    /** 
+     * This hook is invoked when a CiviCRM form is submitted. If the module has injected
+     * any form elements, this hook should save the values in the database
+     * 
+     * @param string $formName the name of the form
+     * @param object $form     reference to the form object
+     *
+     * @return null the return value is ignored
+     */
+    static function postProcess( $formName, &$form ) {
+        $config =& CRM_Core_Config::singleton( );
+        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
+        return   
+            eval( 'return ' .
+                  $config->userHookClass .
+                  '::twoArgsHook( $formName, $form, \'civicrm_postProcess\' );' );  
+    }
+
+    /** 
+     * This hook is invoked during all CiviCRM form validation. An array of errors
+     * detected is returned. Else we assume validation succeeded.
      * 
      * @param string $formName the name of the form
      * @param array  &$fields   the POST parameters as filtered by QF
@@ -128,6 +156,17 @@ class CRM_Utils_Hook {
                   '::fourArgsHook( $formName, $fields, $files, $form, \'civicrm_validate\' );' );  
     }
 
+    /** 
+     * This hook is called before a db write on a custom table
+     * 
+     * @param string $op         the type of operation being performed 
+     * @param string $groupID    the custom group ID
+     * @param object $entityID   the entityID of the row in the custom table
+     * @param array  $params     the parameters that were sent into the calling function
+     *  
+     * @return null the return value is ignored
+     * @access public 
+     */ 
     static function custom( $op, $groupID, $entityID, &$params ) {
         $config =& CRM_Core_Config::singleton( );
         require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
@@ -137,24 +176,19 @@ class CRM_Utils_Hook {
                   '::fourArgsHook( $op, $groupID, $entityID, $params, \'civicrm_custom\' );' );  
     }
 
-    static function buildForm( $className, &$form ) {
-        $config =& CRM_Core_Config::singleton( );
-        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
-        return   
-            eval( 'return ' .
-                  $config->userHookClass .
-                  '::twoArgsHook( $className, $form, \'civicrm_buildForm\' );' );  
-    }
-
-    static function postProcess( $className, &$form ) {
-        $config =& CRM_Core_Config::singleton( );
-        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
-        return   
-            eval( 'return ' .
-                  $config->userHookClass .
-                  '::twoArgsHook( $className, $form, \'civicrm_postProcess\' );' );  
-    }
-
+    /** 
+     * This hook is called when composing the ACL where clause to restrict
+     * visibility of contacts to the logged in user
+     * 
+     * @param int $type the type of permission needed
+     * @param array $tables (reference ) add the tables that are needed for the select clause
+     * @param array $whereTables (reference ) add the tables that are needed for the where clause
+     * @param int    $contactID the contactID for whom the check is made
+     * @param string $where the currrent where clause 
+     *  
+     * @return null the return value is ignored
+     * @access public 
+     */
     static function aclClause( $type, &$tables, &$whereTables, &$contactID, &$where ) {
         $config =& CRM_Core_Config::singleton( );
         require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );

@@ -672,7 +672,7 @@ SELECT count( a.id )
         $acls =& CRM_ACL_BAO_Cache::build( $contactID );
         //CRM_Core_Error::debug( "a: $contactID", $acls );
 
-        $whereClause = ' ( 0 ) ';
+        $whereClause = null;
         $clauses = array( );
 
         if ( ! empty( $acls ) ) {
@@ -741,7 +741,11 @@ SELECT g.where_clause, g.select_tables, g.where_tables
         // call the hook to get additional whereClauses
         require_once 'CRM/Utils/Hook.php';
         CRM_Utils_Hook::aclClause( $type, $tables, $whereTables, $contactID, $whereClause );
-        
+
+        if ( empty( $whereClause ) ) {
+            $whereClause = ' ( 0 ) ';
+        }
+
         return $whereClause;
     }
 
