@@ -21,7 +21,7 @@
       <td class="label">{$form.chart_type.label}</td><td>{$form.chart_type.html}</td> 
       <td class="html-adjust">
         {$form.buttons.html}<br />
-        <span class="add-remove-link"><a href="{crmURL p="civicrm/contribute" q="reset=1"}">{ts}Grid View{/ts}...</a></span>
+        <span class="add-remove-link"><a href="{crmURL p="civicrm/contribute" q="reset=1"}">{ts}Table View{/ts}...</a></span>
       </td> 
 </table> 
 {else}
