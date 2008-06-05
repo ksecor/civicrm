@@ -461,7 +461,7 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
   border: 1px solid #4E82CF;
 }
 
-#crm-container #map-field table, #crm-container table.report  {
+#crm-container #map-field table, #crm-container table.report, #crm-container table.chart  {
     width: auto;
 }
 
@@ -526,7 +526,7 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
     border-right: 1px solid #5A8FDB;
 }
 
-#crm-container #map-field td, #crm-container .report td {
+#crm-container #map-field td, #crm-container .report td, #crm-container .chart td {
     padding: 10px 10px 4px 10px;
 }
 
@@ -540,6 +540,10 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
   background-color: #FFFFFF;
   border-left-color: #FFFFFF;
   border-right-color: #FFFFFF;
+}
+
+#crm-container .chart td {
+  border: 2px solid #92B6EC;
 }
 
 #crm-container .odd-row, tbody.scrollContent {

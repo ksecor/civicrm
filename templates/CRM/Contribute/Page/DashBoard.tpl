@@ -2,9 +2,9 @@
 {if $isAdmin}
     {capture assign=newPageURL}{crmURL p="civicrm/admin/contribute" q="action=add&reset=1"}{/capture}
     {capture assign=configPagesURL}{crmURL p="civicrm/admin/contribute" q="reset=1"}{/capture}
-    {capture assign=chartURL}{crmURL p="civicrm/contribute/chart" q="reset=1"}{/capture}
-    <div class="action-link float-right"><a href="{$newPageURL}">&raquo; New Contribution Page</a><br /><a href="{$configPagesURL}">&raquo; Manage Contribution Pages</a><br /><a href="{$chartURL}">&raquo; View Contribution Through Chart</a></div>
+    <div class="action-link float-right"><a href="{$newPageURL}">&raquo; New Contribution Page</a><br /><a href="{$configPagesURL}">&raquo; Manage Contribution Pages</a></div>
 {/if}
+{capture assign=chartURL}{crmURL p="civicrm/contribute/chart" q="reset=1"}{/capture}
 
 <h3>{ts}Contributions Summary{/ts} {help id="id-contribute-intro"}</h3>
 <table class="report">
@@ -29,9 +29,9 @@
     <td class="label">{if NOT $startToDate.Valid.amount}{ts}(n/a){/ts}{else}{$startToDate.Valid.amount|crmMoney}{/if}</td>
     <td class="label">{$startToDate.Valid.count}</td>
     <td><a href="{$startToDate.Valid.url}">{ts}view details{/ts}...</a></td>
+<tr><td colspan="4" class="right" style="padding: 8px 10px 0px 4px; vertical-align: middle;"><a href="{$chartURL}"><img src="{$config->resourceBase}/i/BarGraph.png" alt="{ts}View contribution summary as bar or circle chart"{/ts} /></a> <a href="{$chartURL}">Bar or Pie Chart...</a></td></tr>
 </tr>
 </table>
-
 {if $pager->_totalItems}
     <h3>{ts}Recent Contributions{/ts}</h3>
     <div class="form-item">

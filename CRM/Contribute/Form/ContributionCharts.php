@@ -57,16 +57,16 @@ class CRM_Contribute_Form_ContributionCharts extends CRM_Core_Form
     {
         //p3 = Three dimensional pie chart.
         //bvg = Vertical bar chart
-        $this->addElement('select', 'select_map', ts('Select Map'), array( 'bvg' => 'Bar','p3'=> 'Pi' ) );
+        $this->addElement('select', 'chart_type', ts('Chart Style'), array( 'bvg' => 'Bar','p3'=> 'Pi' ) );
 
-        //take avaibale year in database to show in drop down
+        //take availble years from database to show in drop down
         foreach( $this->_years as  $k => $v ){
             $years[$k] = $k;
         }
-        $this->addElement('select', 'select_year', ts('Select Year'), $years );
+        $this->addElement('select', 'select_year', ts('Select Year (for monthly breakdown)'), $years );
         $this->addButtons( array( 
                                  array ( 'type'      => 'refresh', 
-                                         'name'      => ts('View'), 
+                                         'name'      => ts('Reload Charts'), 
                                          'isDefault' => true   ), 
                                  ) 
                            );
@@ -88,7 +88,7 @@ class CRM_Contribute_Form_ContributionCharts extends CRM_Core_Form
         $currency = $config->defaultCurrency;
 
         //default chart is Bar chart to show data
-        if ( $submittedValues['select_map'] == 'p3' ) {
+        if ( $submittedValues['chart_type'] == 'p3' ) {
             $this->assign( 'chartType', 'p3');
         } else {
             $this->assign( 'chartType', 'bvg');
@@ -115,17 +115,17 @@ class CRM_Contribute_Form_ContributionCharts extends CRM_Core_Form
                       
             $this->assign( 'mMarker',$mMarker );
             $legend = array_keys( $chartInfoMonthly );
-            $this->assign( 'monthMaxAmount', max( $chartInfoMonthly['Contribution By Month']));
-            $this->assign( 'chatData',$data['values'] );
-            $this->assign( 'chatLabel',$data['names'] );
-            $this->assign( 'chartLegend',$legend[0] );
+            $this->assign( 'monthMaxAmount', max( $chartInfoMonthly['Contributions By Month']));
+            $this->assign( 'chartData',$data['values'] );
+            $this->assign( 'chartLabel',$data['names'] );
+            $this->assign( 'chartLegend',$legend[0] . ' - ' . $submittedValues['select_year']);
         } else {
             $this->assign( 'monthlyData', false );
         } 
         //take contribution information by yearly
         $chartInfoYearly = CRM_Contribute_BAO_Contribution::contributionChartYearly();
         
-        $this->_years =  $chartInfoYearly['Contribution By Year'];
+        $this->_years =  $chartInfoYearly['Contributions By Year'];
         if ( is_array( $chartInfoYearly ) ) {
             //label are separated by '|' and data is separated by ','
             foreach ( $chartInfoYearly as $key => $value ) {
@@ -144,15 +144,15 @@ class CRM_Contribute_Form_ContributionCharts extends CRM_Core_Form
            
             $this->assign( 'yMarker',$yMarker );
             $legend = array_keys( $chartInfoYearly );
-            $this->assign( 'yearMaxAmount', max( $chartInfoYearly['Contribution By Year']));
-            $this->assign( 'chatData1',$data1['values'] );
-            $this->assign( 'chatLabel1',$data1['names'] );
+            $this->assign( 'yearMaxAmount', max( $chartInfoYearly['Contributions By Year']));
+            $this->assign( 'chartData1',$data1['values'] );
+            $this->assign( 'chartLabel1',$data1['names'] );
             $this->assign( 'chartLegend1',$legend[0] );
         } 
-        $this->assign( 'noContribution' ,true );
+        $this->assign( 'hasContributions' ,true );
         if ( empty ( $chartInfoYearly ) ) {
-            //if no contribution available, show the message
-            $this->assign( 'noContribution' ,false );
+            // if no contributions available, show the message
+            $this->assign( 'hasContributions' , false );
         }
 
     }//end of function
