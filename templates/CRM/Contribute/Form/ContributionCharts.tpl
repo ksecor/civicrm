@@ -7,12 +7,14 @@
     {else}
       {assign var=size value="300x150"}
     {/if}
+    {assign var=color value="99C754|54C7C5|999999"}
+    {assign var=bgcolor value="bg,s,fafafa"}
     {if $monthlyData}
-        <td><img src="http://chart.apis.google.com/chart?cht={$chartType}&chs={$size}&chd=t:{$chartData}&chl={$chartLabel}&chtt={$chartLegend}&chco=99C754|54C7C5|999999&chxl=1:|0|{$config->defaultCurrency}-{$monthMaxAmount}&chxt=x,y&chds=0,{$monthMaxAmount}&chm={$mMarker}" /></td>
+        <td><img src="http://chart.apis.google.com/chart?cht={$chartType}&chs={$size}&chd=t:{$chartData}&chl={$chartLabel}&chtt={$chartLegend}&chco={$color}&chxl=1:|0|{$config->defaultCurrency}-{$monthMaxAmount}&chxt=x,y&chds=0,{$monthMaxAmount}&chf={$bgcolor}&chm={$mMarker}" /></td>
     {else}
         <td>{ts}There were no contributions during the selected year.{/ts} </td>
     {/if}
-    <td><img src="http://chart.apis.google.com/chart?cht={$chartType}&chs={$size}&chd=t:{$chartData1}&chl={$chartLabel1}&chtt={$chartLegend1}&chco=99C754|54C7C5|999999&chxl=1:|0|{$config->defaultCurrency}-{$yearMaxAmount}&chxt=x,y&chds=0,{$yearMaxAmount}&chm={$yMarker}" /> </td>
+    <td><img src="http://chart.apis.google.com/chart?cht={$chartType}&chs={$size}&chd=t:{$chartData1}&chl={$chartLabel1}&chtt={$chartLegend1}&chco={$color}&chxl=1:|0|{$config->defaultCurrency}-{$yearMaxAmount}&chxt=x,y&chds=0,{$yearMaxAmount}&chf={$bgcolor}&chm={$yMarker}" /> </td>
 </tr>
 </table>
 

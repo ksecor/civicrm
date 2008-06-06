@@ -95,8 +95,8 @@ class CRM_Contribute_Form_ContributionCharts extends CRM_Core_Form
         }
 
         //take contribution information monthly
-        require_once 'CRM/Contribute/BAO/Contribution.php';
-        $chartInfoMonthly = CRM_Contribute_BAO_Contribution::contributionChartMonthly( $submittedValues['select_year'] );
+        require_once 'CRM/Contribute/BAO/Contribution/Utils.php';
+        $chartInfoMonthly = CRM_Contribute_BAO_Contribution_Utils::contributionChartMonthly( $submittedValues['select_year'] );
         $this->assign( 'monthlyData', true );       
         if ( is_array( $chartInfoMonthly ) ) {
             //label are separated by '|' and data is separated by ','
@@ -118,12 +118,19 @@ class CRM_Contribute_Form_ContributionCharts extends CRM_Core_Form
             $this->assign( 'monthMaxAmount', max( $chartInfoMonthly['Contributions By Month']));
             $this->assign( 'chartData',$data['values'] );
             $this->assign( 'chartLabel',$data['names'] );
-            $this->assign( 'chartLegend',$legend[0] . ' - ' . $submittedValues['select_year']);
+
+            if ( $submittedValues['select_year'] ) {
+                $legendYear = $submittedValues['select_year'];
+            } else {
+                $legendYear = date('Y');
+            }
+            $this->assign( 'chartLegend',$legend[0] . '-' . $legendYear);
+            
         } else {
             $this->assign( 'monthlyData', false );
         } 
         //take contribution information by yearly
-        $chartInfoYearly = CRM_Contribute_BAO_Contribution::contributionChartYearly();
+        $chartInfoYearly = CRM_Contribute_BAO_Contribution_Utils::contributionChartYearly();
         
         $this->_years =  $chartInfoYearly['Contributions By Year'];
         if ( is_array( $chartInfoYearly ) ) {
