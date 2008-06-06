@@ -415,22 +415,45 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL )
         if ( $config->inCiviCRM ) {
             return;
         }
- 
-        return civicrm_register_data($edit, $user, $category, false);
+
+        // did civicrm generate this page, or is it via a user hook?
+        if ( civicrm_on_user_page( ) ) {
+            return civicrm_register_data($edit, $user, $category, false);
+        } else {
+            require_once 'CRM/Core/BAO/UFMatch.php';
+            CRM_Core_BAO_UFMatch::synchronize( $user, false, 'Drupal',
+                                               civicrm_get_ctype( 'Individual' ) );
+        }
+
 
     case 'view':
         return civicrm_view_data($user);
 
     case 'update':
-        return civicrm_form_data($edit, $user, $category, false, false );
+        // this always comes in via user hook, so udpate email only if it has changed
+        if ( isset( $edit['mail'] ) &&
+             $edit['mail'] != $user->mail ) {
+            require_once 'CRM/Core/BAO/UFMatch.php';
+            $contactID = CRM_Core_BAO_UFMatch::getContactId( $user->uid );
+            CRM_Core_BAO_UFMatch::updateContactEmail( $contactID,
+                                                      $edit['mail'] );
+        }
+        break;
+
+
 
     case 'form':
-        if ( empty( $_POST ) ) {
-            return civicrm_form_data($edit, $user, $category, true, false );
-        } else {
-            return civicrm_form_data($edit, $user, $category, true, true );
+        // only return a form to drupal my account page
+        if ( arg(0) == 'user' &&
+             arg(2) == 'edit' &&
+             arg(3) ) {
+            if ( empty( $_POST ) ) {
+                return civicrm_form_data($edit, $user, $category, true, false );
+            } else {
+                return civicrm_form_data($edit, $user, $category, true, true );
+            }
         }
-        return;
+        break;
 
     case 'validate':
         return civicrm_validate_data($edit, $user, $category);
@@ -444,6 +467,14 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL )
     }
 
 }
+
+/**
+ * Determine if the user is on a CiviCRM generated page, i.e. the form has some civicrm unique token
+ */
+function civicrm_on_user_page() {
+    return (bool) $_POST['qfKey'];
+}
+
 
 function civicrm_categories( &$user ) 
 {
