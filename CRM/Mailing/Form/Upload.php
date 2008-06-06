@@ -143,7 +143,8 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $this->add('text', 'from_name', ts('FROM Name'));
         $this->add('text', 'from_email', ts('FROM'), NULL, true);
         
-        $this->add('text', 'subject', ts('Mailing Subject'), 'size=30 maxlength=60', true);
+        $this->add('text', 'subject', ts('Mailing Subject'), 
+                   CRM_Core_DAO::getAttribute( 'CRM_Mailing_DAO_Mailing', 'subject' ), true);
         
         $attributes = array( 'onclick' => "showHideUpload();" );    
         $options = array( ts('Upload Content'),  ts('Compose On-screen') );

@@ -104,7 +104,8 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form
         $errors = array();
         if ($testParams['sendtest'] && !($testParams['test_group'] || $testParams['test_email'] )) {
             CRM_Core_Session::setStatus( ts("Your did not provided any email address or selected any group. No test mail is sent.") );
-            $url = CRM_Utils_System::url( 'civicrm/mailing/send', '_qf_Test_display=true&qfKey=' );
+            $url = CRM_Utils_System::url( 'civicrm/mailing/send', 
+                                          "_qf_Test_display=true&qfKey={$testParams['qfKey']}" );
             CRM_Utils_System::redirect($url);
             return true;
         }
@@ -132,7 +133,8 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form
         }
         if ($testParams['sendtest']) {
             CRM_Core_Session::setStatus( ts("Your test message has been sent. Click 'Next' when you are ready to Schedule or Send your live mailing (you will still have a chance to confirm or cancel sending this mailing on the next page).") );
-            $url = CRM_Utils_System::url( 'civicrm/mailing/send', '_qf_Test_display=true&qfKey=' );
+            $url = CRM_Utils_System::url( 'civicrm/mailing/send',
+                                          "_qf_Test_display=true&qfKey={$testParams['qfKey']}" );
             CRM_Utils_System::redirect($url);
         }
         
