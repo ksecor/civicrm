@@ -77,8 +77,10 @@ class CRM_Dedupe_BAO_Rule extends CRM_Dedupe_DAO_Rule
             $on[] = 't1.location_type_id = t2.location_type_id';
             $using[] = 'location_type_id';
             if ($this->params['civicrm_address']['location_type_id']) {
-                $locTypeId = CRM_Utils_Type::escape($this->params['civicrm_address']['location_type_id'], 'Integer');
-                $where[] = "location_type_id = $locTypeId";
+                $locTypeId = CRM_Utils_Type::escape($this->params['civicrm_address']['location_type_id'], 'Integer', false);
+                if ($locTypeId) {
+                    $where[] = "location_type_id = $locTypeId";
+                }
             }
             break;
         case 'civicrm_email':
