@@ -159,4 +159,20 @@
        <add>2.1</add> 
        <onDelete>SET NULL</onDelete>
   </foreignKey> 
+  <field> 
+      <name>discount_id</name>
+      <uniqueName>participant_discount_id</uniqueName> 
+      <type>int unsigned</type> 
+      <title>Discount ID</title>
+      <default>NULL</default>
+      <comment>FK to Discount ID</comment> 
+      <add>2.1</add> 
+  </field>
+  <foreignKey> 
+       <name>discount_id</name> 
+       <table>civicrm_discount</table> 
+       <key>id</key> 
+       <add>2.1</add> 
+       <onDelete>SET NULL</onDelete>
+  </foreignKey> 
 </table>
