@@ -597,10 +597,10 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
 
         $now = date( 'YmdHis' );    
         $receiptDate = CRM_Utils_Array::value( 'receipt_date', $params );
-        if ( ! $online && $form->_values['is_email_receipt'] ) {
+        if ( $form->_values['is_email_receipt'] ) {
             $receiptDate = $now;
         }
-       
+
         // check contribution Type
         // first create the contribution record
         $contribParams = array(
