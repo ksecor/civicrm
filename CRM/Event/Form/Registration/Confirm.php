@@ -424,17 +424,21 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                     if ( $this->_amount ) {
                         $amount = array();
                         $this->_params = $this->get( 'params' );
-                        $amount[ $this->_params[$count]['amount_level'] ]  =  $this->_params[$count]['amount'];
-                        $this->assign( 'amount', $amount );
+                        if ( $this->_params[$count] != 'skip' ) {
+                            $amount[ $this->_params[$count]['amount_level']] = CRM_Utils_Array::value('amount', $this->_params[$count] );
+                            $this->assign( 'amount', $amount );
+                        }
                     }
                     if ( $this->_lineItem ) {
-                        $lineItem = array();
-                        $lineItem[] = $this->_lineItem[$count];
-                        $this->assign( 'lineItem',$lineItem );
+                        if ( isset( $this->_lineItem[$count] ) && $this->_lineItem[$count] != 'skip'  ) { 
+                            $lineItem = array();
+                            $lineItem[] = $this->_lineItem[$count];
+                            $this->assign( 'lineItem',$lineItem );
+                        }
                     } 
                 }
                 $count++;
-               
+                
                 //send Confirmation mail to Primary & additional Participants if exists
                 CRM_Event_BAO_EventPage::sendMail( $contactId, $this->_values, $participantID, $isTest );
             }
@@ -496,20 +500,22 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         require_once 'CRM/Contribute/BAO/Contribution.php';
         $ids = array( );
         $contribution =& CRM_Contribute_BAO_Contribution::add( $contribParams, $ids );
-
+        
         // store line items
         if ( $this->_lineItem ) {
             require_once 'CRM/Core/BAO/LineItem.php';
             foreach ( $this->_lineItem as $key => $value ) {
-                foreach( $value as $line ) {
-                $unused = array();
-                $line['entity_table'] = 'civicrm_contribution';
-                $line['entity_id'] = $contribution->id;
-                CRM_Core_BAO_LineItem::create( $line, $unused );
+                if ( $value != 'skip' ) {
+                    foreach( $value as $line ) {
+                        $unused = array();
+                        $line['entity_table'] = 'civicrm_contribution';
+                        $line['entity_id'] = $contribution->id;
+                        CRM_Core_BAO_LineItem::create( $line, $unused );
+                    }
                 }
             }
         }
-
+        
         // return if pending
         if ( $pending ) {
             $transaction->commit( );

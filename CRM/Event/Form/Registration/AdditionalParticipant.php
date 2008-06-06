@@ -144,12 +144,16 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
     {
         //get the button name.
         $button = substr( $this->controller->getButtonName(), -4 );
-        $this->_params  = array( );
-        $this->_params =  $this->get( 'params' );
+        $this->_params = array( );
+        $this->_params = $this->get( 'params' );
+        
         //take the participant instance.
-        $addParticipantNum = 1 + substr( $this->_name, 12 );
+        $addParticipantNum = substr( $this->_name, 12 ) + 1;
         if ( $button == 'skip' ) {
             $this->_params[$addParticipantNum] = 'skip';
+            if ( isset( $this->_lineItem ) ) {
+                $this->_lineItem[$addParticipantNum] = 'skip';
+            }
         } else {
             $params = $this->controller->exportValues( $this->_name );  
             if ( $this->_values['event']['is_monetary'] ) {
@@ -160,12 +164,16 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
                     $params['amount']       = $this->_values['custom']['value'][array_search( $params['amount'], 
                                                                                               $this->_values['custom']['amount_id'])];
                 } else {
-                    $lineItem = array( );
+                    $lineItem = array( ); 
                     require_once 'CRM/Event/Form/Registration/Register.php';
                     CRM_Event_Form_Registration_Register::processPriceSetAmount( $this->_values['custom']['fields'], 
                                                                                  $params, $lineItem );
-                    $this->_lineItem[] = $lineItem;
-                    $this->set( 'lineItem', $this->_lineItem );
+                    //build the line item..
+                    if ( array_key_exists( $addParticipantNum, $this->_lineItem ) ) {
+                        $this->_lineItem[$addParticipantNum] = $lineItem;
+                    } else {
+                        $this->_lineItem[] = $lineItem;
+                    }
                 }
             } else {
                 if ( $this->_values['event']['default_role_id'] ) {
@@ -188,7 +196,10 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
         }
         //finally set the params.
         $this->set( 'params', $this->_params );
-        
+        //set the line item.
+        if ( $this->_lineItem ) {
+            $this->set( 'lineItem', $this->_lineItem );
+        }
         //to check whether call processRegistration() 
         if ( !$this->_values['event']['is_monetary'] && CRM_Utils_Array::value( 'additional_participants', $this->_params[0] ) ) {
             $participant =  $this->_params[0]['additional_participants'] + 1;

@@ -1,4 +1,5 @@
-    {foreach from=$lineItem item=value key=pricest}	 
+    {foreach from=$lineItem item=value key=pricest}
+    {if $value neq 'skip'}	 
     <table>
             <tr class="columnheader">
                 <th>{ts}Item{/ts}</th>
@@ -15,5 +16,6 @@
             </tr>
             {/foreach}
     </table>
+    {/if}
     {/foreach}
         <strong>{ts}Event Total{/ts}: {$total_amount|crmMoney}</strong>
