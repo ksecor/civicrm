@@ -498,9 +498,12 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         $params = $this->controller->exportValues( $this->_name );
         
         //added for discount
-        require_once 'CRM/Core/BAO/Discount.php';
-        $discountId = CRM_Core_BAO_Discount::findSet( $this->_eventId, 'civicrm_event' );
-        
+        if ( $params['discount_set'] ) {
+            $discountId = $params['discount_id'] = $params['discount_set'];
+        } else {
+            $params['discount_id'] = 'NULL';
+        }
+                
         if ( $this->_isPaidEvent ) {
             
             //fix for CRM-3088
@@ -532,7 +535,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $contributionParams                 = array( );
             $contributionParams['total_amount'] = $params['amount'];
         }
-        
+
         //fix for CRM-3086
         $params['fee_amount'] = $params['amount'];
         unset($params['amount']);
@@ -590,7 +593,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 }
             }
         }
-        
+     
         require_once 'CRM/Contact/BAO/Contact.php';
         // Retrieve the name and email of the current user - this will be the FROM for the receipt email
         $session =& CRM_Core_Session::singleton( );
@@ -604,7 +607,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         if ( !$params['note'] ) {
             $params['note'] = 'null';
         }
-       
+      
         if ( $this->_single ) {
             $participants[] = CRM_Event_BAO_Participant::create( $params );
             
