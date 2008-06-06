@@ -819,11 +819,11 @@ AND civicrm_membership.is_test = %2";
         //this condition is arises when separate membership payment is
         //enable and contribution amount is not selected. fix for CRM-3010
         if ( $form->_amount > 0.0 ) {
-            require_once 'CRM/Contribute/BAO/Contribution.php';
-            $result = CRM_Contribute_BAO_Contribution::processConfirm( $form, $membershipParams, 
-                                                                       $premiumParams, $contactID,
-                                                                       $contributionTypeId, 
-                                                                       'membership' );
+            require_once 'CRM/Contribute/BAO/Contribution/Utils.php';
+            $result = CRM_Contribute_BAO_Contribution_Utils::processConfirm( $form, $membershipParams, 
+                                                                             $premiumParams, $contactID,
+                                                                             $contributionTypeId, 
+                                                                             'membership' );
         }        
         $errors = array();
         if ( is_a( $result[1], 'CRM_Core_Error' ) ) {
