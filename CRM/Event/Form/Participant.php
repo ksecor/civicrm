@@ -496,16 +496,16 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         }
         // get the submitted form values.  
         $params = $this->controller->exportValues( $this->_name );
-        
-        //added for discount
-        if ( $params['discount_set'] ) {
-            $discountId = $params['discount_id'] = $params['discount_set'];
+
+        //check if discount is selected
+        $discountId = null;
+        if ( isset( $params['discount_id'] ) ) {
+            $discountId = $params['discount_id'];
         } else {
-            $params['discount_id'] = 'NULL';
+            $params['discount_id'] = 'null';
         }
                 
         if ( $this->_isPaidEvent ) {
-            
             //fix for CRM-3088
             if ( ! empty( $this->_values['discount'][$discountId] ) ) {
                 $params['amount_level'] = $this->_values['discount'][$discountId]['label']

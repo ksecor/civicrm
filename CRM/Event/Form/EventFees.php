@@ -156,7 +156,7 @@ class CRM_Event_Form_EventFees
             
             if ( ! isset($form->_discountId) )  {
                 require_once 'CRM/Core/BAO/Discount.php';
-                $defaults[$form->_participantId]['discount_set'] = $discountKey = 
+                $defaults[$form->_participantId]['discount_id'] = $discountKey = 
                     CRM_Core_BAO_Discount::findSet( $defaults[$form->_participantId]['event_id'], "civicrm_event");
                 
                 $eId = $defaults[$form->_participantId]['event_id'];
@@ -170,7 +170,7 @@ class CRM_Event_Form_EventFees
                     }
                 }
             } else {
-                $defaults[$form->_participantId]['discount_set'] = $form->_discountId;
+                $defaults[$form->_participantId]['discount_id'] = $form->_discountId;
             }
         }
         return $defaults[$form->_participantId];
@@ -204,7 +204,7 @@ class CRM_Event_Form_EventFees
                     $discounts[$key] = $value['name'];                   
                 }
                 
-                $form->add('select', 'discount_set', 
+                $form->add('select', 'discount_id', 
                            ts( 'Discount Set' ), 
                            array( 0 => ts( '- select -' )) + $discounts,
                            false,
