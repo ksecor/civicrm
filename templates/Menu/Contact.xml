@@ -8,7 +8,6 @@
      <access_arguments>access CiviCRM</access_arguments>
      <page_callback>CRM_Contact_Page_View_DashBoard</page_callback>
      <page_arguments>null</page_arguments>
-     <return_url>civicrm</return_url>
      <weight>0</weight>
   </item>
   <item>
@@ -68,6 +67,7 @@
      <title>Edit Related Contact</title>
      <page_callback>CRM_Contact_Form_RelatedContact</page_callback>
      <access_arguments>access CiviCRM</access_arguments>
+     <return_url>civicrm/user</return_url>
   </item>
   <item>
      <path>civicrm/contact/merge</path>
