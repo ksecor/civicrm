@@ -153,7 +153,8 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
                     ts( 'Registration End Date'  ),
                     CRM_Core_SelectValues::date('datetime') );
         $this->addRule('registration_end_date', ts('Please select a valid end date.'), 'qfDate');
-        $this->addElement('checkbox', 'is_multiple_registrations', ts('Register Multiple Participants?'),null); 
+     
+        $this->addElement('checkbox', 'is_multiple_registrations', ts('Register Multiple Participants?')); 
         self::buildRegistrationBlock( $this );
         self::buildConfirmationBlock( $this );
         self::buildMailBlock( $this );
@@ -280,12 +281,13 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
     {   
         $params = $ids = array();
         $params = $this->exportValues();
-
+               
         $eventId = $this->_id;
         $params['event_id'] = $ids['event_id'] = $eventId;
 
         //format params
         $params['is_online_registration'] = CRM_Utils_Array::value('is_online_registration', $params, false);
+        $params['is_multiple_registrations'] = CRM_Utils_Array::value('is_multiple_registrations', $params, false);
 
         // reset is_email confirm if not online reg
         if ( ! $params['is_online_registration'] ) {
@@ -297,9 +299,9 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
 
         require_once 'CRM/Event/BAO/Event.php';
         CRM_Event_BAO_Event::add($params ,$ids);
-
+       
         CRM_Event_BAO_EventPage::add( $params );
-
+       
         // also update the ProfileModule tables 
         $ufJoinParams = array( 'is_active'    => 1, 
                                'module'       => 'CiviEvent',

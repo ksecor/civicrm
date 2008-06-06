@@ -338,6 +338,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
     function assignToTemplate( ) 
     {
         //process only primary participant params
+        $this->_params = $this->get( 'params' );
         $params = $this->_params[0];
         
         if ( CRM_Utils_Array::value( 'billing_first_name', $params ) ) {
@@ -510,10 +511,10 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         
         // add participant record
         $participant  = $this->addParticipant( $this->_params, $contactID );
-       
+        //building array of cid & participantId 
+        $this->_ids[$contactID] = $participant->id;
         //setting register_by_id field
-        if( array_key_exists('credit_card_number', $this->_params ) ) {
-
+        if( array_key_exists('credit_card_number', $this->_params ) || array_key_exists('is_primary', $this->_params ) ) {
             $this->set( 'registerByID', $participant->id );
         }
         require_once 'CRM/Core/BAO/CustomValueTable.php';
@@ -547,7 +548,6 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             }
         } else {
             $this->assign('action',$this->_action); 
-            CRM_Event_BAO_EventPage::sendMail( $contactID, $this->_values, $participant->id, $participant->is_test );
         }
     }
 

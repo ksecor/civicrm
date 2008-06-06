@@ -61,7 +61,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
 
         // lineItem isn't set until Register postProcess
         $this->_lineItem = $this->get( 'lineItem' );
-               
+                      
         $config =& CRM_Core_Config::singleton( );
         if ( $this->_contributeMode == 'express' ) {
             // rfp == redirect from paypal
@@ -186,15 +186,15 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         //to set amount & levels
         $this->_params = $this->get( 'params' );
         if( $this->_params[0]['amount'] ) {
-            $amount       = array();
+            $this->_amount       = array();
             
             foreach( $this->_params as $k => $v ) {
                 if ( is_array( $v ) ) {
-                    $amount[ $v['amount_level'].'  -  '. $v ['email-5'] ] = $v['amount'];
+                    $this->_amount[ $v['amount_level'].'  -  '. $v ['email-5'] ] = $v['amount'];
                     $this->_total_amount = $this->_total_amount + $v['amount'];
                 }
             }
-            $this->assign('amount', $amount);
+            $this->assign('amount', $this->_amount);
             $this->assign('total_amount', $this->_total_amount);
         }
 
@@ -274,6 +274,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         $now = date( 'YmdHis' );
         $isAdditional = true;
         $params = $this->_params;
+        $this->_ids = array();
         //unset the skip participant from params.
         if ( $skipParticipant = array_search( 'skip', $params ) ) {
             unset( $params[$skipParticipant] );
@@ -373,7 +374,74 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
            
             $this->set( 'value', $value );
             $this->confirmPostProcess( $contactID, $contribution, $payment, $isAdditional );
-        }                
+        }  
+        //send mail Confirmation/Receipt
+        if ( $this->_contributeMode != 'checkout' ||
+             $this->_contributeMode != 'notify'   ) {
+            $isTest = false;
+            if ( $this->_action & CRM_Core_Action::PREVIEW ) {
+                $isTest = true;
+            }
+
+            //build an array of custom profile and assigning it to template
+            $count = 0;
+            require_once "CRM/Event/BAO/EventPage.php";
+            foreach($this->_ids as $contactId => $participantID ) {
+                if ( $participantID == $registerByID ) {
+                    //set as Primary Participant
+                    $this->assign ( 'isPrimary' , 1 );
+
+                    $customGroup = array();
+                    $customField = array(); 
+                    $i = 0;
+                    $template =& CRM_Core_Smarty::singleton( );
+                    foreach ( $this->_ids as $cId => $pId ) {
+                        require_once 'CRM/Event/BAO/EventPage.php';
+                        $customGroup[$i] = array();
+                        $session->set( 'customsGroup',  $customGroup[$i] );
+                        
+                        CRM_Event_BAO_EventPage::buildCustomDisplay( $this->_values['custom_pre_id'], 'customPre',
+                                                                     $cId, $template, $pId, $isTest );
+                        
+                        
+                        CRM_Event_BAO_EventPage::buildCustomDisplay( $this->_values['custom_post_id'], 'customPost',
+                                                                     $cId, $template, $pId, $isTest );
+                        
+                        $customGroup[$i] = $session->get ( 'customField' );
+                        $i++;
+                    }
+                    //Unset information of primary participant.
+                    $session->set( 'customsGroup', 0  );
+                    unset ( $customGroup[0] );  
+                    if ( count($customGroup) ) {
+                        $this->assign( 'customProfile',$customGroup );
+                    }
+                    
+                } else {
+                    $this->assign ( 'isPrimary' , 0 );
+                    $this->assign( 'customProfile', null );
+                    //Additional Participant should get only it's info
+                    if ( $this->_amount ) {
+                        $amount = array();
+                        $this->_params = $this->get( 'params' );
+                        $amount[ $this->_params[$count]['amount_level'] ]  =  $this->_params[$count]['amount'];
+                        $this->assign( 'amount', $amount );
+                    }
+                    if ( $this->_lineItem ) {
+                        $lineItem = array();
+                        $lineItem[] = $this->_lineItem[$count];
+                        $this->assign( 'lineItem',$lineItem );
+                    } 
+                }
+                $count++;
+               
+                //send Confirmation mail to Primary & additional Participants if exists
+                CRM_Event_BAO_EventPage::sendMail( $contactId, $this->_values, $participantID, $isTest );
+            }
+        }
+       
+
+              
     } //end of function
     
     /**
@@ -432,11 +500,13 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         // store line items
         if ( $this->_lineItem ) {
             require_once 'CRM/Core/BAO/LineItem.php';
-            foreach ( $this->_lineItem as $line ) {
+            foreach ( $this->_lineItem as $key => $value ) {
+                foreach( $value as $line ) {
                 $unused = array();
                 $line['entity_table'] = 'civicrm_contribution';
                 $line['entity_id'] = $contribution->id;
                 CRM_Core_BAO_LineItem::create( $line, $unused );
+                }
             }
         }
 

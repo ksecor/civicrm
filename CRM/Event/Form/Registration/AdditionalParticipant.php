@@ -52,6 +52,7 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
     {
         parent::preProcess( );
         CRM_Utils_System::setTitle( 'Register Additional Participant' );
+        $this->_lineItem = $this->get( 'lineItem' );
         //lineItem isn't set until Register postProcess
     }
     
@@ -163,6 +164,8 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
                     require_once 'CRM/Event/Form/Registration/Register.php';
                     CRM_Event_Form_Registration_Register::processPriceSetAmount( $this->_values['custom']['fields'], 
                                                                                  $params, $lineItem );
+                    $this->_lineItem[] = $lineItem;
+                    $this->set( 'lineItem', $this->_lineItem );
                 }
             } else {
                 if ( $this->_values['event']['default_role_id'] ) {

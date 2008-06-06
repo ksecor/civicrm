@@ -533,7 +533,9 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             } else {
                 $lineItem = array( );
                 self::processPriceSetAmount( $this->_values['custom']['fields'], $params, $lineItem );
-                $this->set( 'lineItem', $lineItem );
+                $priceSet   = array();
+                $priceSet[] = $lineItem;
+                $this->set( 'lineItem', $priceSet );
             }
 
             $this->set( 'amount', $params['amount'] ); 
@@ -616,6 +618,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             }
             
             $params['description'] = ts( 'Online Event Registration' ) . ' ' . $this->_values['event']['title'];
+            $params ['is_primary'] = 1;
 
             $this->_params                = array();
             $this->_params[]              = $params; 
@@ -640,12 +643,21 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
     public function processRegistration( $params, $contactID = null ) 
     {
         $isAdditional = true;
+        $this->_ids = array();
         //unset the skip participant from params.
         if ( $skipParticipant = array_search( 'skip', $params ) ) {
             unset( $params[$skipParticipant] );
         }
         foreach ( $params as $key => $value ) {
             $fields = null;
+            // setting register by Id
+            if ( $key != 0 ) {
+                $registerByID = $this->get( 'registerByID' );
+                if ( $registerByID ) {
+                    $value['registered_by_id'] = $registerByID;
+                }
+            }
+                 
             require_once 'CRM/Event/Form/Registration/Confirm.php';
             CRM_Event_Form_Registration_Confirm::fixLocationFields( $value, $fields );
             
@@ -654,8 +666,60 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             $this->confirmPostProcess( $contactID, null, null,  $isAdditional );
             $contactID = null;
         }
+        
+        //send mail Confirmation/Receipt
+        if ( $this->_contributeMode != 'checkout' ||
+             $this->_contributeMode != 'notify'   ) {
+            $isTest = false;
+            if ( $this->_action & CRM_Core_Action::PREVIEW ) {
+                $isTest = true;
+            }
+            
+            //build an array of custom profile and assigning it to template
+            $session =& CRM_Core_Session::singleton( );
+            require_once "CRM/Event/BAO/EventPage.php";
+            foreach($this->_ids as $contactId => $participantID ) {
+                if ( $participantID == $registerByID ) {
+                    //set as Primary Participant
+                    $this->assign ( 'isPrimary' , 1 );
+                    
+                    $customGroup = array();
+                    $customField = array(); 
+                    $i = 0;
+                    $template =& CRM_Core_Smarty::singleton( );
+                    foreach ( $this->_ids as $cId => $pId ) {
+                        require_once 'CRM/Event/BAO/EventPage.php';
+                        $customGroup[$i] = array();
+                        $session->set( 'customsGroup',  $customGroup[$i] );
+                        
+                        CRM_Event_BAO_EventPage::buildCustomDisplay( $this->_values['custom_pre_id'], 'customPre',
+                                                                     $cId, $template, $pId, $isTest );
+                        
+                        
+                        CRM_Event_BAO_EventPage::buildCustomDisplay( $this->_values['custom_post_id'], 'customPost',
+                                                                     $cId, $template, $pId, $isTest );
+                        
+                        $customGroup[$i] = $session->get ( 'customField' );
+                        $i++;
+                    }
+                    //Unset information of primary participant.
+                    $session->set( 'customsGroup', 0  );
+                    unset ( $customGroup[0] );  
+                    if ( count($customGroup) ) {
+                        $this->assign( 'customProfile',$customGroup );
+                    }
+                    
+                } else {
+                    $this->assign ( 'isPrimary' , 0 );
+                    $this->assign( 'customProfile', null );
+                }
+                               
+                //send Confirmation mail to Primary & additional Participants if exists
+                CRM_Event_BAO_EventPage::sendMail( $contactId, $this->_values, $participantID, $isTest );
+            }
+        }
     }
-
+    
 
 
     static function processPriceSetAmount( &$fields, &$params, &$lineItem ) 
