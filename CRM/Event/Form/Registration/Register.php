@@ -682,38 +682,39 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 if ( $participantID == $registerByID ) {
                     //set as Primary Participant
                     $this->assign ( 'isPrimary' , 1 );
-                    
-                    $customGroup = array();
-                    $customField = array(); 
-                    $i = 0;
-                    $template =& CRM_Core_Smarty::singleton( );
-                    foreach ( $this->_ids as $cId => $pId ) {
-                        require_once 'CRM/Event/BAO/EventPage.php';
-                        $customGroup[$i] = array();
-                        $session->set( 'customsGroup',  $customGroup[$i] );
-                        
-                        CRM_Event_BAO_EventPage::buildCustomDisplay( $this->_values['custom_pre_id'], 'customPre',
-                                                                     $cId, $template, $pId, $isTest );
-                        
-                        
-                        CRM_Event_BAO_EventPage::buildCustomDisplay( $this->_values['custom_post_id'], 'customPost',
-                                                                     $cId, $template, $pId, $isTest );
-                        
-                        $customGroup[$i] = $session->get ( 'customField' );
-                        $i++;
-                    }
-                    //Unset information of primary participant.
-                    $session->set( 'customsGroup', 0  );
-                    unset ( $customGroup[0] );  
-                    if ( count($customGroup) ) {
-                        $this->assign( 'customProfile',$customGroup );
+                    if ( $this->_values['custom_pre_id'] || $this->_values['custom_post_id'] ) {
+                        $customGroup = array();
+                        $customField = array(); 
+                        $i = 0;
+                        $template =& CRM_Core_Smarty::singleton( );
+                        foreach ( $this->_ids as $cId => $pId ) {
+                            require_once 'CRM/Event/BAO/EventPage.php';
+                            $customGroup[$i] = array();
+                            $session->set( 'customsGroup',  $customGroup[$i] );
+                            
+                            CRM_Event_BAO_EventPage::buildCustomDisplay( $this->_values['custom_pre_id'], 'customPre',
+                                                                         $cId, $template, $pId, $isTest );
+                            
+                            
+                            CRM_Event_BAO_EventPage::buildCustomDisplay( $this->_values['custom_post_id'], 'customPost',
+                                                                         $cId, $template, $pId, $isTest );
+                            
+                            $customGroup[$i] = $session->get ( 'customField' );
+                            $i++;
+                        }
+                        //Unset information of primary participant.
+                        $session->set( 'customsGroup', null );
+                        unset ( $customGroup[0] );  
+                        if ( count($customGroup) ) {
+                            $this->assign( 'customProfile',$customGroup );
+                        }
                     }
                     
                 } else {
                     $this->assign ( 'isPrimary' , 0 );
                     $this->assign( 'customProfile', null );
                 }
-                               
+                
                 //send Confirmation mail to Primary & additional Participants if exists
                 CRM_Event_BAO_EventPage::sendMail( $contactId, $this->_values, $participantID, $isTest );
             }

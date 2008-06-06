@@ -73,7 +73,7 @@ class CRM_Event_StateMachine_Registration extends CRM_Core_StateMachine
         $pages = array_merge( $pages, $this->_pages );
         
         if( ! $is_monetary ) {
-            unset( $this->_pages['CRM_Event_Form_Registration_Confirm'] );
+            unset( $pages['CRM_Event_Form_Registration_Confirm'] );
             
         }
         $this->addSequentialPages( $pages, $action );
