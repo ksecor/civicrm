@@ -154,7 +154,7 @@ class CRM_Event_Form_EventFees
                                                                                'event_id' );
             }
             
-            if ( ! $form->_discountId )  {
+            if ( ! isset($form->_discountId) )  {
                 require_once 'CRM/Core/BAO/Discount.php';
                 $defaults[$form->_participantId]['discount_set'] = $discountKey = 
                     CRM_Core_BAO_Discount::findSet( $defaults[$form->_participantId]['event_id'], "civicrm_event");
@@ -206,7 +206,7 @@ class CRM_Event_Form_EventFees
                 
                 $form->add('select', 'discount_set', 
                            ts( 'Discount Set' ), 
-                           array(''=>ts( '- select -' )) + $discounts,
+                           array( 0 => ts( '- select -' )) + $discounts,
                            false,
                            array('onchange' => "buildFeeBlock( {$form->_eventId}, this.value );") );
             }
