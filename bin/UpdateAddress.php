@@ -115,7 +115,8 @@ INNER JOIN civicrm_address        a ON a.contact_id = c.id
 INNER JOIN civicrm_country        o ON a.country_id = o.id
 LEFT  JOIN civicrm_state_province s ON a.state_province_id = s.id
 WHERE      c.id           = a.contact_id
-  AND      a.geo_code_1 is null
+  AND      ( a.geo_code_1 is null OR a.geo_code_1 = 0 )
+  AND      ( a.geo_code_2 is null OR a.geo_code_2 = 0 )
   AND      a.country_id is not null
   AND      a.state_province_id is not null
   AND      a.state_province_id = s.id
