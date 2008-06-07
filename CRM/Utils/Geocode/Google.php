@@ -136,11 +136,10 @@ class CRM_Utils_Geocode_Google {
             if ( $val[0] && $val[1] ) {
                 $values['geo_code_1'] = $val[1];
                 $values['geo_code_2'] = $val[0];
+                return true;
             }
-        } else {
-            $values['geo_code_1'] = $values['geo_code_2'] = 0;
         }
-        return true;
+        return false;
     }
 }
 
