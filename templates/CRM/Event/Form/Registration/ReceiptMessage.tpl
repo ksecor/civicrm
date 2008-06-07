@@ -63,6 +63,7 @@
 {if $lineItem}
 {foreach from=$lineItem item=value key=priceset}
 
+{if $value neq 'skip'}
 ---------------------------------------------------------
 {capture assign="ts_item}{ts}Item{/ts}{/capture}
 {capture assign="ts_qty}{ts}Qty{/ts}{/capture}
@@ -73,6 +74,7 @@
 {foreach from=$value item=line}
 {$line.label|truncate:30:"..."|string_format:"%-30s"} {$line.qty|string_format:"%5s"} {$line.unit_price|crmMoney|string_format:"%10s"} {$line.line_total|crmMoney|string_format:"%10s"}
 {/foreach}
+{/if}
 {/foreach}
 {/if}
 {if $amount && !$lineItem} 

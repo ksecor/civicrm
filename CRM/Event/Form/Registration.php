@@ -421,21 +421,22 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
     function buildCustom( $id, $name ) 
     {
         if ( $id ) {
+            $button = substr( $this->controller->getButtonName(), -4 );
             require_once 'CRM/Core/BAO/UFGroup.php';
             require_once 'CRM/Profile/Form.php';
             $session =& CRM_Core_Session::singleton( );
             $contactID = $session->get( 'userID' );
-
+            
             $fields = null;
             if ( $contactID ) {
                 if ( CRM_Core_BAO_UFGroup::filterUFGroups($id, $contactID)  ) {
                     $fields = CRM_Core_BAO_UFGroup::getFields( $id, false,CRM_Core_Action::ADD ); 
-
+                    
                 }
             } else {
                 $fields = CRM_Core_BAO_UFGroup::getFields( $id, false,CRM_Core_Action::ADD ); 
             }
-
+            
             // unset any email-* fields since we already collect it, CRM-2888
             foreach ( array_keys( $fields ) as $fieldName ) {
                 if ( substr( $fieldName, 0, 6 ) == 'email-' ) {
@@ -445,12 +446,17 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             
             $this->assign( $name, $fields );
             foreach($fields as $key => $field) {
+                //make the field optional if primary participant 
+                //have been skip the additional participant.
+                if ( $button == 'skip' ) {
+                    $field['is_required'] = false;
+                }
                 CRM_Core_BAO_UFGroup::buildProfile($this, $field,CRM_Profile_Form::MODE_CREATE);
                 $this->_fields[$key] = $field;
             }
         }
     }
-
+    
     static function initPriceSet( &$form, $eventPageID ) {
         // get price info
         require_once 'CRM/Core/BAO/PriceSet.php';

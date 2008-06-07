@@ -251,7 +251,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                     $defaults[$name] = $this->_params[0][$name];
             }
         }
-
+        
         $this->setDefaults( $defaults );
         
         $this->freeze();
@@ -269,15 +269,23 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
 
         $config  =& CRM_Core_Config::singleton( );
         $session =& CRM_Core_Session::singleton( );
-
+        
         $contactID = $session->get( 'userID' );
         $now = date( 'YmdHis' );
         $isAdditional = true;
         $params = $this->_params;
         $this->_ids = array();
+        $participantCount = array( );
         //unset the skip participant from params.
-        if ( $skipParticipant = array_search( 'skip', $params ) ) {
-            unset( $params[$skipParticipant] );
+        //build the $participantCount array.
+        //maitain record for all participants.
+        foreach ( $params as $participantNum => $record ) {
+            if ( $record == 'skip' ) {
+                unset( $params[$participantNum] );
+                $participantCount[$participantNum] = 'skip';
+            } else if ( $participantNum ) {
+                $participantCount[$participantNum] = 'participant';
+            }
         }
         
         foreach ( $params as $key => $value ) {
@@ -306,7 +314,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             }
             
             $contactID =& $this->updateContactFields( $contactID, $value, $fields );
-           
+            
             // lets store the contactID in the session
             // we dont store in userID in case the user is doing multiple
             // transactions etc
@@ -371,7 +379,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 $value['contributionTypeID'] = $contribution->contribution_type_id;
                 $value['item_name'         ] = $value['description'];
             }
-           
+            
             $this->set( 'value', $value );
             $this->confirmPostProcess( $contactID, $contribution, $payment, $isAdditional );
         }  
@@ -382,11 +390,10 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             if ( $this->_action & CRM_Core_Action::PREVIEW ) {
                 $isTest = true;
             }
-
+            
             //build an array of custom profile and assigning it to template
-            $count = 0;
             require_once "CRM/Event/BAO/EventPage.php";
-            foreach($this->_ids as $contactId => $participantID ) {
+            foreach( $this->_ids as $contactId => $participantID ) {
                 if ( $participantID == $registerByID ) {
                     //set as Primary Participant
                     $this->assign ( 'isPrimary' , 1 );
@@ -418,34 +425,32 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                         }
                     }
                 } else {
+                    //take the Additional participant number. 
+                    if ( $paticipantNum = array_search( 'participant', $participantCount ) ) {
+                        unset( $participantCount[$paticipantNum] );
+                    }
                     $this->assign ( 'isPrimary' , 0 );
                     $this->assign( 'customProfile', null );
                     //Additional Participant should get only it's info
                     if ( $this->_amount ) {
                         $amount = array();
-                        $this->_params = $this->get( 'params' );
-                        if ( $this->_params[$count] != 'skip' ) {
-                            $amount[ $this->_params[$count]['amount_level']] = CRM_Utils_Array::value('amount', $this->_params[$count] );
-                            $this->assign( 'amount', $amount );
-                        }
+                        $params = $this->get( 'params' );
+                        $amount[$params[$paticipantNum]['amount_level']] = CRM_Utils_Array::value( 'amount', $params[$paticipantNum] );
+                        $this->assign( 'amount', $amount );
                     }
                     if ( $this->_lineItem ) {
-                        if ( isset( $this->_lineItem[$count] ) && $this->_lineItem[$count] != 'skip'  ) { 
-                            $lineItem = array();
-                            $lineItem[] = $this->_lineItem[$count];
-                            $this->assign( 'lineItem',$lineItem );
-                        }
+                        $lineItems = $this->_lineItem;
+                        $lineItem = array();
+                        $lineItem[] = CRM_Utils_Array::value( $paticipantNum, $lineItems );
+                        $this->assign( 'lineItem',$lineItem );
                     } 
                 }
-                $count++;
                 
                 //send Confirmation mail to Primary & additional Participants if exists
                 CRM_Event_BAO_EventPage::sendMail( $contactId, $this->_values, $participantID, $isTest );
             }
         }
-       
-
-              
+        
     } //end of function
     
     /**
@@ -571,7 +576,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
 
         // also add location name to the array
         $params["location_name-{$this->_bltID}"] = 
-            $params["billing_first_name"] . ' ' . $params["billing_middle_name"] . ' ' . $params["billing_last_name"];
+           $params["billing_first_name"] . ' ' . $params["billing_middle_name"] . ' ' . $params["billing_last_name"];
         $fields["location_name-{$this->_bltID}"] = 1;
         $fields["email-{$this->_bltID}"] = 1;
         $fields["email-Primary"] = 1;
