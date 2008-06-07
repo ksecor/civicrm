@@ -139,6 +139,8 @@ class CRM_Utils_Geocode_Google {
                 return true;
             }
         }
+        // reset the geo code values if we did not get any good values
+        $values['geo_code_1'] = $values['geo_code_2'] = 'null';
         return false;
     }
 }
