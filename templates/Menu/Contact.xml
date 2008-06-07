@@ -22,6 +22,7 @@
      <path>civicrm/contact/search</path>
      <title>Find Contacts</title>
      <page_callback>CRM_Contact_Controller_Search</page_callback>
+     <page_arguments>mode=256</page_arguments>
      <access_arguments>access CiviCRM</access_arguments>
      <weight>10</weight>
      <page_type>1</page_type>
