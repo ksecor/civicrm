@@ -34,8 +34,8 @@
         {foreach from= $amount item=amount key=level}  
           <strong>{$amount|crmMoney} &nbsp;&nbsp; {$level}</strong><br />	
         {/foreach}
-        {if $total_amount}
-        <br /><strong>{ts}Total Amount{/ts}:</strong>&nbsp;&nbsp;{$total_amount|crmMoney}
+        {if $totalAmount}
+        <br /><strong>{ts}Total Amount{/ts}:</strong>&nbsp;&nbsp;{$totalAmount|crmMoney}
         {/if}	 		
         {/if}
     </div>

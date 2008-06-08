@@ -84,7 +84,7 @@
 {/if}
 {if $isPrimary }
 
-{ts}Total Amount{/ts}     : {$total_amount|crmMoney} 
+{ts}Total Amount{/ts}     : {$totalAmount|crmMoney} 
 {/if}
 {if $is_pay_later}
 {$pay_later_receipt}

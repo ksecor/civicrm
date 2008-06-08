@@ -116,17 +116,16 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
             if ( empty( $fields["email-{$self->_bltID}"] ) ) {
                 $errors["email-{$self->_bltID}"] = ts( 'Email Address is a required field.' );
             }
-        }
-        
-        //get the complete params.
-        $params = $self->get('params');
-        //take the participant instance.
-        $addParticipantNum = 1 + substr( $self->_name, 12 );
-        if ( is_array( $params ) ) {
-            foreach ( $params as $key => $value ) {
-                if ( ( $value["email-{$self->_bltID}"] == $fields["email-{$self->_bltID}"] ) && $key != $addParticipantNum  ) {
-                    $errors["email-{$self->_bltID}"] = ts( 'The Email Address should be unique for Additional Participant' );
-                    break;
+            //get the complete params.
+            $params = $self->get('params');
+            //take the participant instance.
+            $addParticipantNum = substr( $self->_name, 12 ) + 1;
+            if ( is_array( $params ) ) {
+                foreach ( $params as $key => $value ) {
+                    if ( ( $value["email-{$self->_bltID}"] == $fields["email-{$self->_bltID}"] ) && $key != $addParticipantNum  ) {
+                        $errors["email-{$self->_bltID}"] = ts( 'The Email Address should be unique for Additional Participant' );
+                        break;
+                    }
                 }
             }
         }

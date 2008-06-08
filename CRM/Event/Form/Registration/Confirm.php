@@ -191,11 +191,12 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             foreach( $this->_params as $k => $v ) {
                 if ( is_array( $v ) ) {
                     $this->_amount[ $v['amount_level'].'  -  '. $v ['email-5'] ] = $v['amount'];
-                    $this->_total_amount = $this->_total_amount + $v['amount'];
+                    $this->_totalAmount = $this->_totalAmount + $v['amount'];
                 }
             }
             $this->assign('amount', $this->_amount);
-            $this->assign('total_amount', $this->_total_amount);
+            $this->assign('totalAmount', $this->_totalAmount);
+            $this->set( 'totalAmount', $this->_totalAmount );
         }
 
         $config =& CRM_Core_Config::singleton( );
@@ -310,7 +311,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                     $value['registered_by_id'] = $registerByID;
                 }
             } else {
-                $value['amount'] = $this->_total_amount;
+                $value['amount'] = $this->_totalAmount;
             }
             
             $contactID =& $this->updateContactFields( $contactID, $value, $fields );
@@ -366,7 +367,9 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 if ( ! $pending ) {
                     // transactionID & receive date required while building email template
                     $this->assign( 'trxn_id', $result['trxn_id'] );
-                    $this->assign( 'receive_date', CRM_Utils_Date::mysqlToIso( $values['receive_date']) );
+                    $this->assign( 'receiveDate', CRM_Utils_Date::mysqlToIso( $value['receive_date']) );
+                    $this->set( 'receiveDate', CRM_Utils_Date::mysqlToIso( $value['receive_date']) );
+                    $this->set( 'trxnId', CRM_Utils_Array::value( 'trxn_id', $value ) );
                 }
                 $contribution = null;
                 // if paid event add a contribution record

@@ -18,4 +18,4 @@
     </table>
     {/if}
     {/foreach}
-        <strong>{ts}Event Total{/ts}: {$total_amount|crmMoney}</strong>
+        <strong>{ts}Event Total{/ts}: {$totalAmount|crmMoney}</strong>
