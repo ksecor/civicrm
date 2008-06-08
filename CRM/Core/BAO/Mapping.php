@@ -281,7 +281,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         require_once 'CRM/Core/BAO/LocationType.php';
 
         if ( $mappingType == 'Export' ) {
-            $form->applyFilter('__ALL__', 'trim');
+            // $form->applyFilter('__ALL__', 'trim');
 
             //to save the current mappings
             if ( !isset($mappingId) ) {
@@ -489,9 +489,11 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                                 $locationId = " ";
                             }
 
-                            $defaults["mapper[$x][$i]"] = array( $mappingContactType[$x][$i], $mappingName[$x][$i],
-                                                             $locationId, $phoneType
-                                                             );
+                            $defaults["mapper[$x][$i]"] = array( $mappingContactType[$x][$i],
+                                                                 $mappingName[$x][$i],
+                                                                 $locationId,
+                                                                 $phoneType
+                                                                 );
 
                             if ( ! $mappingName[$x][$i] ) {
                                 $noneArray[] = array( $x, $i, 1 );
@@ -525,7 +527,6 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                         if ( !empty($formValues['mapper'][$x]) ) {
                             foreach ( $formValues['mapper'][$x] as $value) {
                                 for ( $k = 1; $k < 4; $k++ ) {
-
                                     if ( ! isset ($formValues['mapper'][$x][$i][$k] ) ||
                                          ( ! $formValues['mapper'][$x][$i][$k] ) ) {
                                         $noneArray[] = array( $x, $i, $k );
@@ -570,8 +571,13 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         if ( ! empty( $nullArray ) ) {
             $js .= "var nullArray = [";
             $elements = array( );
+            $seen     = array( );
             foreach ( $nullArray as $element ) {
-                $elements[] = "[{$element[0]},{$element[1]},{$element[2]}]";
+                $key = "{$element[0]}, {$element[1]}, {$element[2]}";
+                if ( ! isset( $seen[$key] ) ) {
+                    $elements[] = "[$key]";
+                    $seen[$key] = 1;
+                }
             }
             $js .= implode( ', ', $elements );
             $js .= "]";
@@ -584,8 +590,13 @@ for(var i=0;i<nullArray.length;i++) {
         if ( ! empty( $noneArray ) ) {
             $js .= "var noneArray = [";
             $elements = array( );
+            $seen     = array( );
             foreach ( $noneArray as $element ) {
-                $elements[] = "[{$element[0]}, {$element[1]}, {$element[2]}]";
+                $key = "{$element[0]}, {$element[1]}, {$element[2]}";
+                if ( ! isset( $seen[$key] ) ) {
+                    $elements[] = "[$key]";
+                    $seen[$key] = 1;
+                }
             }
             $js .= implode( ', ', $elements );
             $js .= "]";
