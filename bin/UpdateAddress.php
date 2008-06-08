@@ -148,7 +148,7 @@ ORDER BY a.id
             eval( $config->geocodeMethod . '::format( $params, true );' );
             array_shift( $params );
             $maxTries--;
-        } while ( ( $params['geo_code_1'] == 0 ) &&
+        } while ( ( ! isset( $params['geo_code_1'] ) ) &&
                   ( $maxTries > 1 ) );
             
         if ( isset( $params['geo_code_1'] ) ) {
