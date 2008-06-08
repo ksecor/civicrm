@@ -240,7 +240,7 @@ class CRM_Contribute_BAO_Contribution_Utils {
         $dao = CRM_Core_DAO::executeQuery( $query, $param );
         
         while ( $dao->fetch( ) ) {
-            $params['Contributions By Month'][$dao->contribMonth] = $dao->ctAmt;
+            $params['By Month'][$dao->contribMonth] = $dao->ctAmt;
         } 
         return $params;
        
@@ -266,7 +266,7 @@ class CRM_Contribute_BAO_Contribution_Utils {
         ORDER BY contribYear desc";
         $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         while ( $dao->fetch( ) ) {
-            $params['Contributions By Year'][$dao->contribYear] = $dao->ctAmt;
+            $params['By Year'][$dao->contribYear] = $dao->ctAmt;
         }  
         return $params;
     }

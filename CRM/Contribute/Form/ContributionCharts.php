@@ -97,6 +97,8 @@ class CRM_Contribute_Form_ContributionCharts extends CRM_Core_Form
         //take contribution information monthly
         require_once 'CRM/Contribute/BAO/Contribution/Utils.php';
         $chartInfoMonthly = CRM_Contribute_BAO_Contribution_Utils::contributionChartMonthly( $submittedValues['select_year'] );
+        $totalMonths = count( $chartInfoMonthly['By Month'] );
+        $this->assign( 'totalMonths', $totalMonths );
         $this->assign( 'monthlyData', true );       
         if ( is_array( $chartInfoMonthly ) ) {
             //label are separated by '|' and data is separated by ','
@@ -115,7 +117,14 @@ class CRM_Contribute_Form_ContributionCharts extends CRM_Core_Form
                       
             $this->assign( 'mMarker',$mMarker );
             $legend = array_keys( $chartInfoMonthly );
-            $this->assign( 'monthMaxAmount', max( $chartInfoMonthly['Contributions By Month']));
+            $maxAmount =  max( $chartInfoMonthly['By Month']);
+            //increase the y axis length more than maximum amount
+            //if total months are greater than one
+            if ( $totalMonths > 1 ) {
+                $percentage = $maxAmount / 5;
+                $maxAmount += $percentage;
+            }
+            $this->assign( 'monthMaxAmount', $maxAmount );
             $this->assign( 'chartData',$data['values'] );
             $this->assign( 'chartLabel',$data['names'] );
 
@@ -124,15 +133,16 @@ class CRM_Contribute_Form_ContributionCharts extends CRM_Core_Form
             } else {
                 $legendYear = date('Y');
             }
-            $this->assign( 'chartLegend',$legend[0] . '-' . $legendYear);
+            $this->assign( 'chartLegend',$legend[0] . ' - ' . $legendYear);
             
         } else {
             $this->assign( 'monthlyData', false );
         } 
         //take contribution information by yearly
         $chartInfoYearly = CRM_Contribute_BAO_Contribution_Utils::contributionChartYearly();
-        
-        $this->_years =  $chartInfoYearly['Contributions By Year'];
+        $totalYears = count( $chartInfoYearly['By Year'] );
+        $this->assign( 'totalYears', $totalYears );
+        $this->_years =  $chartInfoYearly['By Year'];
         if ( is_array( $chartInfoYearly ) ) {
             //label are separated by '|' and data is separated by ','
             foreach ( $chartInfoYearly as $key => $value ) {
@@ -150,8 +160,15 @@ class CRM_Contribute_Form_ContributionCharts extends CRM_Core_Form
             $yMarker = implode ('|', $marking1);
            
             $this->assign( 'yMarker',$yMarker );
+            $maxAmount = max( $chartInfoYearly['By Year']);
             $legend = array_keys( $chartInfoYearly );
-            $this->assign( 'yearMaxAmount', max( $chartInfoYearly['Contributions By Year']));
+            //increase the y axis length more than maximum amount
+            //if total years are greater than one
+            if ( $totalYears > 1 ) {
+                $percentage = $maxAmount / 5;
+                $maxAmount += $percentage;
+            }
+            $this->assign( 'yearMaxAmount', $maxAmount );
             $this->assign( 'chartData1',$data1['values'] );
             $this->assign( 'chartLabel1',$data1['names'] );
             $this->assign( 'chartLegend1',$legend[0] );
