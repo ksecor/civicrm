@@ -136,7 +136,9 @@ class CRM_Event_Form_EventFees
         } else {
             $optionGroupId = null;
             // if user has selected discount use that to set default
+            $setValue = true;
             if ( isset( $form->_discountId ) ) {
+                $setValue = false;
                 //hack to set defaults for already selected discount value
                 if ( $form->_action == CRM_Core_Action::UPDATE ) {
                     $form->_originalDiscountId = $defaults[$form->_participantId]['discount_id'];
@@ -150,7 +152,7 @@ class CRM_Event_Form_EventFees
                 }
             } 
 
-            if ( $form->_action == CRM_Core_Action::ADD ) {
+            if ( ( $form->_action == CRM_Core_Action::ADD ) && $setValue ) {
                 // this case is for add mode, where we show discount automatically
                 require_once 'CRM/Core/BAO/Discount.php';
                 $discountId = CRM_Core_BAO_Discount::findSet( $form->_eventId, 'civicrm_event' );
