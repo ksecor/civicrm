@@ -815,8 +815,10 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         }
 
         // formalities for creating / editing organization.
-        $behalfOrganization['contact_type']              = 'Organization';
-        $behalfOrganization['location'][1]['is_primary'] = 1;
+        $behalfOrganization['contact_type']                    = 'Organization';
+        $behalfOrganization['location'][1]['is_primary']       = 1;
+        $behalfOrganization['location'][1]['location_type_id'] = 
+            CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_LocationType', 'Main', 'id', 'name' );
         
         // get the relationship type id
         require_once "CRM/Contact/DAO/RelationshipType.php";

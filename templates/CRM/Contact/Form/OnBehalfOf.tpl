@@ -3,7 +3,7 @@
 <fieldset id="for_organization"><legend>{$fieldSetTitle}</legend>
 {if $contact_type eq 'Individual'}
  <div id="name">
-  <fieldset><legend></legend>
+  {if $contactEditMode}<fieldset><legend></legend>{/if}
 	<table class="form-layout">
     <tr>
 		<td>{$form.prefix_id.label}</td>
@@ -21,12 +21,12 @@
 	</tr>
    	
     </table>
-  </fieldset>
+  {if $contactEditMode}</fieldset>{/if}
  </div>
 
 {elseif $contact_type eq 'Household'}
 <div id="name">
- <fieldset><legend></legend>
+ {if $contactEditMode}<fieldset><legend></legend>{/if}
    	<table class="form-layout">
       <tr>
 		<td>{$form.household_name.label}</td>
@@ -35,13 +35,13 @@
         <td>{$form.household_name.html|crmReplace:class:big}</td>
       </tr>
     </table>   
- </fieldset>
+ {if $contactEditMode}</fieldset>{/if}
 </div>
 
 
 {elseif $contact_type eq 'Organization'}
 <div id="name">
- <fieldset><legend></legend>
+ {if $contactEditMode}<fieldset><legend></legend>{/if}
 	<table class="form-layout">
       {if $relatedOrganizationFound}
       <tr>
@@ -58,30 +58,32 @@
             {$form.organization_name.html|crmReplace:class:big}</td>
       </tr>
     </table>
- </fieldset>
+ {if $contactEditMode}</fieldset>{/if}
 </div>
 {/if}
 
 {* Display the address block *}
 {assign var=index value=1}
 
+{if !$contactEditMode}<br/>{/if}
+
 <div id="id_location_{$index}_phone">
-  <fieldset><legend>{ts}Phone and Email{/ts}</legend>  
-  	<table class="form-layout">
-    <tr>
-		<td>{$form.location.$index.phone.1.phone.label}</td>
-        <td>{$form.location.$index.phone.1.phone.html}</td>  
-    </tr>
-    <tr>
-		<td>{$form.location.$index.email.1.email.label}</td>
-        <td>{$form.location.$index.email.1.email.html}</td>  
-    </tr>
-    </table>
-  </fieldset>
+  {if $contactEditMode}<fieldset><legend>{ts}Phone and Email{/ts}</legend>{/if}
+    <div class="form-item">
+		<span class="labels">{$form.location.$index.phone.1.phone.label}</span>
+        <span class="fields">{$form.location.$index.phone.1.phone.html}</span>  
+    </div>
+    <div class="form-item">
+		<span class="labels">{$form.location.$index.email.1.email.label}</span>
+        <span class="fields">{$form.location.$index.email.1.email.html}</span>
+    </div>
+  {if $contactEditMode}</fieldset>{/if}
 </div>
 
+{if !$contactEditMode}<br/>{/if}
+
 <div id="id_location_{$index}_address">
-    <fieldset><legend>{ts}Address{/ts}</legend>
+    {if $contactEditMode}<fieldset><legend>{ts}Address{/ts}</legend>{/if}
       {foreach item=addressElement from=$addressSequence}
           {include file=CRM/Contact/Form/Address/$addressElement.tpl}
       {/foreach}
@@ -118,7 +120,7 @@
 
       <!-- Spacer div forces fieldset to contain floated elements -->
       <div class="spacer"></div>
-    </fieldset>
+    {if $contactEditMode}</fieldset>{/if}
 </div>
 
 </fieldset>
