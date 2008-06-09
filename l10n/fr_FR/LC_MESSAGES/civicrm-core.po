@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-04-28 21:53+0200\n"
-"PO-Revision-Date: 2008-04-28 16:39+0100\n"
-"Last-Translator: Ebeer <webmaster@ebeer.fr>\n"
+"PO-Revision-Date: 2008-06-08 13:21-0700\n"
+"Last-Translator: Simon Delalay <simon@delalay.net>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -126,9 +126,8 @@ msgid "Role"
 msgstr "Role"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php
-#, fuzzy
 msgid "- select role -"
-msgstr "-sélectionner un rôle-"
+msgstr "- sélectionner un rôle -"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
 msgid "Everyone"
@@ -1710,7 +1709,7 @@ msgstr "Exporter les Contacts"
 
 #: CRM/Core/BAO/CMSUser.php CRM/Profile/Form.php
 msgid "An account already exists with the same information."
-msgstr ""
+msgstr "Un compte similaire existe déjà."
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/SelectValues.php
 msgid "Integer"
@@ -1889,9 +1888,8 @@ msgid "Phone Type"
 msgstr "Type de téléphone"
 
 #: CRM/Core/DAO/Mapping.php CRM/Core/Invoke.php
-#, fuzzy
 msgid "Import Activity"
-msgstr "Importer l'Historique d'Activité"
+msgstr "Importer l'historique d'activité"
 
 #: CRM/Core/DAO/Mapping.php CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Search Builder"
@@ -1951,7 +1949,7 @@ msgstr "Profile CiviCRM"
 #: CRM/Core/Invoke.php CRM/Friend/Form/Contribute.php
 #: CRM/Friend/Form/Event.php templates/CRM/Friend/Form/Friend.tpl
 msgid "Tell A Friend"
-msgstr ""
+msgstr "Envoi  à un ami"
 
 #: CRM/Core/Invoke.php CRM/Core/Page/File.php
 msgid "Domain Information Page"
@@ -2178,12 +2176,11 @@ msgstr "Option de Valeur"
 #: CRM/Grant/Form/Grant.php CRM/Grant/Selector/Search.php
 #, fuzzy
 msgid "Application Received"
-msgstr "Supprime"
+msgstr "Application reçue"
 
 #: CRM/Grant/Form/Grant.php CRM/Grant/Selector/Search.php
-#, fuzzy
 msgid "Money Transferred"
-msgstr "Téléphone (préféré)"
+msgstr "Paiement transféré"
 
 #: CRM/Grant/Form/Task/Delete.php CRM/Grant/Task.php
 msgid "Delete Grants"
@@ -2219,7 +2216,7 @@ msgstr "Url du serveur"
 #: CRM/Upgrade/TwoZero/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step5.php
 #: CRM/Upgrade/TwoZero/Form/Step6.php
 msgid "Database consistency check failed for step %1."
-msgstr "La vérification d'intégrité de la base de donnée a échoué (step %1)"
+msgstr "La vérification d'intégrité de la base de donnée a échoué (étape %1)"
 
 #: CRM/Upgrade/TwoZero/Form/Step1.php CRM/Upgrade/TwoZero/Form/Step3.php
 #: CRM/Upgrade/TwoZero/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step6.php
@@ -2231,39 +2228,43 @@ msgstr "Le nom des contraintes Foreign Key ne sont pas dans le bon format."
 msgid "Please rebuild your 1.9 database to ensure schema integrity."
 msgstr ""
 "Merci de reconstruire votre base de donnée 1.9 pour assurer l'intégrité de "
-"la base"
+"la base."
 
 #: CRM/Upgrade/TwoZero/Form/Step1.php CRM/Upgrade/TwoZero/Form/Step5.php
 msgid ""
 "Value missing in %1 for the column '%2'. Please add a unique value for the "
 "'name' column for each database record."
 msgstr ""
+"La valeur de %1 est manquante pour la colonne '%2'. Veuillez mettre une "
+"valeur unique de la colonne 'name' pour chaque enregistrement."
 
 #: CRM/Upgrade/TwoZero/Form/Step1.php CRM/Upgrade/TwoZero/Form/Step2.php
 #: CRM/Upgrade/TwoZero/Form/Step3.php CRM/Upgrade/TwoZero/Form/Step4.php
 #: CRM/Upgrade/TwoZero/Form/Step5.php CRM/Upgrade/TwoZero/Form/Step6.php
 msgid "Post-condition failed for upgrade step %1."
-msgstr "Les conditions ne sont pas réunies pour passer l'étape %1 d'upgrade "
+msgstr ""
+"Les conditions ne sont pas réunies pour passer l'étape %1 de mise à jour."
 
 #: CRM/Upgrade/TwoZero/Form/Step2.php CRM/Upgrade/TwoZero/Form/Step3.php
 #: CRM/Upgrade/TwoZero/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step5.php
 #: CRM/Upgrade/TwoZero/Form/Step6.php CRM/Upgrade/TwoZero/Form/Step7.php
 msgid "Pre-condition failed for upgrade step %1."
 msgstr ""
-"Les conditions n'ont pas pu être réunies pour passer l'étape %1 d'upgrade"
+"Les conditions n'ont pas pu être réunies pour passer l'étape %1 de mise à "
+"jour."
 
 #: CRM/Upgrade/TwoZero/Form/Step2.php CRM/Upgrade/TwoZero/Form/Step3.php
 #: CRM/Upgrade/TwoZero/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step5.php
 msgid "Upgrade & Continue"
-msgstr "Upgrader et continuer"
+msgstr "Mettre à jour et continuer"
 
 #: CRM/ACL/BAO/ACL.php
 msgid "Contact Group"
-msgstr "Groupe de Contact"
+msgstr "Groupe de contacts"
 
 #: CRM/ACL/BAO/ACL.php
 msgid "Administer"
-msgstr "Administration"
+msgstr "Gérer"
 
 #: CRM/ACL/DAO/ACL.php
 msgid "ACL Name"
@@ -2291,19 +2292,19 @@ msgstr "Révoqué"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "add contacts"
-msgstr "Contact (ajout)"
+msgstr "Ajouter des contacts"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "view all contacts"
-msgstr "Contact (voir)"
+msgstr "Voir tous les contacts"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "edit all contacts"
-msgstr "Contact (édition)"
+msgstr "Editer tous les contacts"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "import contacts"
-msgstr "Contact (import)"
+msgstr "Importer des contacts"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "edit groups"
@@ -2323,20 +2324,17 @@ msgstr ""
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "access all custom data"
-msgstr ""
+msgstr "Accéder aux données personnalisées"
 
 #: CRM/ACL/Form/ACLBasic.php
-#, fuzzy
 msgid "view all activities"
-msgstr "Contact (voir)"
+msgstr "Voir toutes les activités"
 
 #: CRM/ACL/Form/ACLBasic.php
-#, fuzzy
 msgid "access CiviCRM"
-msgstr "CiviCRM"
+msgstr "Accéder à CiviCRM"
 
 #: CRM/ACL/Form/ACLBasic.php
-#, fuzzy
 msgid "access Contact Dashboard"
 msgstr "Tableau de bord des contacts"
 
@@ -2381,11 +2379,11 @@ msgstr ""
 
 #: CRM/ACL/Form/EntityRole.php
 msgid "Selected Entity Role has been deleted."
-msgstr "La sélection des Rôles d'Entité a été supprimés."
+msgstr "La sélection du Rôle d'Entité a été supprimée."
 
 #: CRM/ACL/Page/ACLBasic.php
 msgid "Any Role"
-msgstr "Chaque Rôle"
+msgstr "Tous les rôles"
 
 #: CRM/ACL/Page/ACL.php
 msgid "Disable ACL"
@@ -2417,7 +2415,7 @@ msgstr "Supprimer l'Attribution de Rôle ACL"
 
 #: CRM/ACL/Page/EntityRole.php
 msgid "Assign Users to Roles"
-msgstr "Assigner les Utilisateurs à des Rôles"
+msgstr "Assigner les utilisateurs à des Rôles"
 
 #: CRM/Activity/BAO/Activity.php
 #, fuzzy
@@ -2432,12 +2430,11 @@ msgstr "Type d'Activité %2 '%1'"
 #: CRM/Activity/BAO/Query.php
 #, fuzzy
 msgid "Communication Medium %2 %1"
-msgstr "Méthode de communication préférée"
+msgstr "Méthode de communication %2 %1"
 
 #: CRM/Activity/BAO/Query.php
-#, fuzzy
 msgid "Violation Type %2 %1"
-msgstr "Lieu"
+msgstr "Violation de type %2 %1"
 
 #: CRM/Activity/BAO/Query.php
 #, fuzzy
@@ -2450,27 +2447,22 @@ msgid "Activity Medium"
 msgstr "Type d'activité"
 
 #: CRM/Activity/BAO/Query.php
-#, fuzzy
 msgid "Violation Type"
-msgstr "Lieu"
+msgstr "Type d'erreur"
 
 #: CRM/Activity/BAO/Query.php
-#, fuzzy
 msgid "Content"
-msgstr "Contact"
+msgstr "Contenu"
 
 #: CRM/Activity/DAO/Activity.php
-#, fuzzy
 msgid "Activity ID"
-msgstr "Activité"
+msgstr "ID d'activité"
 
 #: CRM/Activity/DAO/Activity.php
-#, fuzzy
 msgid "Activity Type ID"
-msgstr "Type d'activité"
+msgstr "ID de type d'activité"
 
 #: CRM/Activity/DAO/Activity.php
-#, fuzzy
 msgid "Activity Date Time"
 msgstr "Date de l'activité"
 
@@ -2485,21 +2477,20 @@ msgstr "Numéro de téléphone"
 
 #: CRM/Activity/DAO/Activity.php
 msgid "Activity Status Label"
-msgstr ""
+msgstr "Etat de l'activité"
 
 #: CRM/Activity/DAO/Activity.php
-#, fuzzy
 msgid "Test"
-msgstr "Texte"
+msgstr "Test"
 
 #: CRM/Activity/DAO/ActivityTarget.php
 msgid "Contact ID (match to contact)"
-msgstr ""
+msgstr "ID correspondant du contact"
 
 #: CRM/Activity/Form/ActivityLinks.php
 #: templates/CRM/Activity/Form/ActivityLinks.tpl
 msgid "Other Activities"
-msgstr ""
+msgstr "Autres activités"
 
 #: CRM/Activity/Form/Activity.php
 #, fuzzy
@@ -2508,25 +2499,24 @@ msgstr "- sélectionner le type d'activité -"
 
 #: CRM/Activity/Form/Activity.php templates/CRM/Activity/Form/ActivityView.tpl
 msgid "With Contact"
-msgstr ""
+msgstr "Avec le contact"
 
 #: CRM/Activity/Form/Activity.php
 #, fuzzy
 msgid "Source Contact non-existant!"
-msgstr "Source des données du Contact"
+msgstr "Source des données du Contact inexistante"
 
 #: CRM/Activity/Form/Activity.php
-#, fuzzy
 msgid "Target Contact non-existant!"
-msgstr "Contact cible"
+msgstr "Contact cible inexistant!"
 
 #: CRM/Activity/Form/Activity.php
 msgid "Assignee Contact non-existant!"
-msgstr ""
+msgstr "Contact assigné inexistant!"
 
 #: CRM/Activity/Form/Activity.php
 msgid "Invalid Case"
-msgstr ""
+msgstr "Cas invalide"
 
 #: CRM/Activity/Form/Activity.php
 #, fuzzy
@@ -2541,27 +2531,29 @@ msgstr "Le type de location sélectionné a été supprimé."
 #: CRM/Activity/Form/Activity.php
 #, fuzzy
 msgid "Activity '%1' has been saved."
-msgstr "\"%1\" a été enregistré."
+msgstr "L'activité '%1' a été enregistrée."
 
 #: CRM/Activity/Import/Form/MapField.php
 #: templates/CRM/Contact/Form/Search/Simple.tpl
 #, fuzzy
 msgid "Contact ID"
-msgstr "Type de contact"
+msgstr "ID du contact"
 
 #: CRM/Activity/Import/Form/MapField.php
 msgid ""
 "Missing required contact matching fields. (Should be First AND Last Name or "
 "Primary Email or First Name, Last Name AND Primary Email.)"
 msgstr ""
+"Contact manquant pour les champs correspondants. (Devrait être First AND "
+"Last Name or Primary Email or First Name, Last Name AND Primary Email.)"
 
 #: CRM/Activity/Import/Form/MapField.php
 msgid "Missing required contact matching field: Contact ID."
-msgstr ""
+msgstr "Contact manquant pour le champ correspondant : ID du contact."
 
 #: CRM/Activity/Import/Form/MapField.php
 msgid "Missing required field: %1"
-msgstr ""
+msgstr "Champ manquant : %1"
 
 #: CRM/Activity/Import/Form/UploadFile.php
 msgid "On duplicate entries"
@@ -2570,15 +2562,16 @@ msgstr ""
 #: CRM/Activity/Import/Parser/Activity.php
 msgid "Please select either Activity Type ID OR Activity Type Label."
 msgstr ""
+"Veuillez choisir soit un type d'activité, soit l'ID d'un type d'activité."
 
 #: CRM/Activity/Import/Parser.php
 msgid "View Activity History URL"
-msgstr ""
+msgstr "Voir l'historique des URL"
 
 #: CRM/Activity/Selector/Activity.php
 #, fuzzy
 msgid "Update Activity"
-msgstr "Supprimer l'activité"
+msgstr "Mettre à jour l'activité"
 
 #: CRM/Activity/Selector/Activity.php
 msgid "Delete Activity"
@@ -2592,13 +2585,13 @@ msgstr "Supprimer l'activité"
 #: CRM/Activity/Selector/Activity.php
 #, fuzzy
 msgid "Activities %%StatusMessage%%"
-msgstr "Contact %%Message de Status%%"
+msgstr "Activités %%StatusMessage%%"
 
 #: CRM/Activity/Selector/Activity.php
 #: templates/CRM/Activity/Form/ActivityLinks.tpl
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Meeting"
-msgstr "Reunion"
+msgstr "Réunion"
 
 #: CRM/Activity/Selector/Activity.php
 #: templates/CRM/Activity/Form/ActivityLinks.tpl
@@ -2610,15 +2603,16 @@ msgstr "Appel téléphonique"
 msgid "SMS"
 msgstr "SMS"
 
+# Le nom du module de change pas!
 #: CRM/Activity/Selector/Activity.php
 #, fuzzy
 msgid "CiviCRM Activity"
-msgstr "CiviCRM Historique d'Activité"
+msgstr "CiviCRM Activity"
 
 #: CRM/Activity/Selector/Activity.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "With"
-msgstr ""
+msgstr "avec"
 
 #: CRM/Admin/Form/CMSUser.php
 msgid "OK"
