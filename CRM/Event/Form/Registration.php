@@ -520,7 +520,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         //building array of cid & participantId 
         $this->_ids[$contactID] = $participant->id;
         //setting register_by_id field
-        if( array_key_exists('credit_card_number', $this->_params ) || array_key_exists('is_primary', $this->_params ) ) {
+        if( CRM_Utils_Array::value('is_primary', $this->_params ) ) {
             $this->set( 'registerByID', $participant->id );
         }
         require_once 'CRM/Core/BAO/CustomValueTable.php';
@@ -549,7 +549,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
              $this->_contributeMode == 'notify'   ) {
             // do a transfer only if a monetary payment greater than 0
             if ( $this->_values['event']['is_monetary'] &&
-                 $this->_params['amount'] > 0 ) {
+                 $this->_params['amount'] > 0 && !$this->_params['is_pay_later'] ) {
                 $payment->doTransferCheckout( $this->_params );
             }
         } else {

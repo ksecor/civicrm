@@ -113,6 +113,11 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
         //get the button name.
         $button = substr( $self->controller->getButtonName(), -4 );
         if ( $button != 'skip' ) {
+            require_once 'CRM/Event/Form/Registration/Register.php';
+            $isRegistered =  CRM_Event_Form_Registration_Register::checkRegistration( $fields, $self, true );
+            if ( $isRegistered ) {
+                $errors["email-{$self->_bltID}"] = ts( 'Already Registered.');
+            } 
             if ( empty( $fields["email-{$self->_bltID}"] ) ) {
                 $errors["email-{$self->_bltID}"] = ts( 'Email Address is a required field.' );
             }

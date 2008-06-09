@@ -49,12 +49,16 @@
         {if $lineItem}
             {include file="CRM/Event/Form/Registration/LineItem.tpl}<br />
         {elseif $amount || $amount == 0}
-            <strong>{$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}</strong><br />
-            {if $totalAmount}
-	     <strong>{ts}Event Total{/ts}: {$totalAmount|crmMoney}</strong><br />
-            {/if}	
+        {foreach from= $finalAmount item=amount key=level}  
+          <strong>{$amount|crmMoney} &nbsp;&nbsp; {$level}</strong><br />	
+        {/foreach}
+        {if $totalAmount}
+	<br /> <strong>{ts}Event Total{/ts}: {$totalAmount|crmMoney}</strong><br />
+        {/if}	
         {/if}
+        {if $receiveDate}
         <strong>{ts}Transaction Date{/ts}: {$receiveDate|crmDate}</strong><br />
+        {/if}
         {if $contributeMode ne 'notify' AND $trxnId}
           <strong>{ts}Transaction #{/ts}: {$trxnId}</strong><br />
         {/if}
@@ -112,6 +116,28 @@
           {ts}{$groupTitlePost}{/ts}
          </div>  
          {include file="CRM/UF/Form/Block.tpl" fields=$customPost}
+    {/if}
+
+    {if $customProfile}
+    <div class="header-dark">
+         {ts}Information Of Additional Participants{/ts}
+    </div>
+     {foreach from=$customProfile item=value key=name}
+        {foreach from=$value item=val key=field}
+           {if $field}
+               {if $field eq 'customPre' }
+               <div class="bold">
+                    {ts}{$customPre_grouptitle}{/ts}
+               {else}
+                    {ts}{$customPost_grouptitle}{/ts}
+               </div>
+               {/if}
+               {foreach from=$val item=v key=f}
+                  <strong>{$f}</strong>:{$v}
+               {/foreach}
+          {/if}
+        {/foreach}
+     {/foreach} 
     {/if}
 
     {if $eventPage.thankyou_footer_text}

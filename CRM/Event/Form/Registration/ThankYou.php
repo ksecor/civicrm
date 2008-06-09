@@ -55,7 +55,10 @@ class CRM_Event_Form_Registration_ThankYou extends CRM_Event_Form_Registration
         $this->_totalAmount = $this->get( 'totalAmount' );
         $this->_receiveDate = $this->get( 'receiveDate' );
         $this->_trxnId      = $this->get( 'trxnId' );
-        
+        $finalAmount = $this->get( 'finalAmount' );
+        $this->assign('finalAmount',  $finalAmount); 
+        $customGroup = $this->get('customProfile');
+        $this->assign( 'customProfile',$customGroup );
         CRM_Utils_System::setTitle(CRM_Utils_Array::value('thankyou_title',$this->_values['event_page']));
     }
 
