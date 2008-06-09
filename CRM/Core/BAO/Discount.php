@@ -97,7 +97,7 @@ class CRM_Core_BAO_Discount extends CRM_Core_DAO_Discount
      * @return array    $optionGroupIDs option group Ids associated with discount
      *
      */
-    static function getOptionGroup( $entityId, $entityTable ) 
+    static function getOptionGroup( $entityId, $entityTable, $id = false ) 
     {
         require_once 'CRM/Core/DAO/Discount.php';
         $dao =& new CRM_Core_DAO_Discount( );
@@ -106,7 +106,11 @@ class CRM_Core_BAO_Discount extends CRM_Core_DAO_Discount
         $dao->find( );
         $i = 1;
         while ( $dao->fetch( ) ) {
-            $optionGroupIDs[$i++] = $dao->option_group_id;
+            if ( $id == false ) {
+                $optionGroupIDs[$i++] = $dao->option_group_id;
+            } else {
+                $optionGroupIDs[$i++] = $dao->id;
+            }
         }
         return $optionGroupIDs;
     }

@@ -153,26 +153,34 @@ class CRM_Event_Form_EventFees
                                                                                'default_fee_id', 
                                                                                'event_id' );
             }
-            
+         
             if ( ! isset($form->_discountId) )  {
-                require_once 'CRM/Core/BAO/Discount.php';
-                $defaults[$form->_participantId]['discount_id'] = $discountKey = 
-                    CRM_Core_BAO_Discount::findSet( $defaults[$form->_participantId]['event_id'], "civicrm_event");
-                
-                $eId = $defaults[$form->_participantId]['event_id'];
-                $name = $form->_values['discount'][$discountKey]['name'];
-                
-                CRM_Core_OptionGroup::getAssoc( "civicrm_event_page.amount.{$eId}.discount.{$name}", $defaultDiscounts );
-                
-                foreach( $defaultDiscounts['label'] as $k => $v ) {
-                    if ( $defaults[$form->_participantId]['fee_level'] == $v ) {
-                        $defaults[$form->_participantId]['amount'] = $defaultDiscounts['amount_id'][$k];
+                if ( $form->_action == CRM_Core_Action::ADD ) {
+                    require_once 'CRM/Core/BAO/Discount.php';
+                    $discountId = CRM_Core_BAO_Discount::findSet( $form->_eventId, 'civicrm_event' );
+                    $defaultDiscountId = CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_EventPage", 
+                                                                      $form->_eventId, 
+                                                                      'default_discount_id' );
+                    if ( $defaultDiscountId ) {
+                        $discountKey = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_OptionValue", 
+                                                                    $defaultDiscountId, 
+                                                                    'weight' );
                     }
+                    $defaults[$form->_participantId]['discount_id'] = $discountId;
+                    $defaults[$form->_participantId]['amount'] = $form->_values['discount'][$discountId]['amount_id'][$discountKey];
+
+                } elseif ( $form->_action == CRM_Core_Action::UPDATE ) {
+                    $discountId = CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_Participant", $form->_participantId, 'discount_id' );
+                    $discount = CRM_Core_BAO_Discount::getOptionGroup( $form->_eventId, 'civicrm_event', true );
+                  
+                    $defaults[$form->_participantId]['discount_id'] = CRM_Utils_Array::key( $discountId,  $discount);
+                   
                 }
             } else {
                 $defaults[$form->_participantId]['discount_id'] = $form->_discountId;
             }
         }
+
         return $defaults[$form->_participantId];
     }
     
