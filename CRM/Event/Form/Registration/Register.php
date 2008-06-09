@@ -876,8 +876,8 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
      */ 
     function checkRegistration($fields, &$self, $isAdditional = false)
     {
+        $session =& CRM_Core_Session::singleton( );
         if( !$isAdditional ) {
-            $session =& CRM_Core_Session::singleton( );
             $contactID = $session->get( 'userID' );
         }
         if ( ! $contactID &&
@@ -910,21 +910,21 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             while($participant->fetch()) {
                 if ( array_key_exists ( $participant->status_id, $statusTypes ) ) {
                     if ( !$isAdditional ) {
-                        $status = ts("Oops. It looks like you are already registered for this event. If you want to change your registration, or you feel that you've gotten this message in error, please contact the site administrator."); 
+                        $status = ts("Oops. It looks like you are already registered for this event. If you want to change your registration, or you feel that you've gotten this message in error, please contact the site administrator.");
                         $session->setStatus( $status );
                         $url = CRM_Utils_System::url( 'civicrm/event/info',
                                                       "reset=1&id={$self->_values['event']['id']}" );
                         CRM_Utils_System::redirect( $url );
                     }
-                    else {
-                        $status = ts("Oops. It looks like this participant is already registered for this event.If you want to change your registration, or you feel that you've gotten this message in error, please contact the site administrator."); 
-                        $session->setStatus( $status );
-                        return $participant->id; 
-                    }
                 }
+                   if ( $isAdditional ) {
+                       $status = ts("Oops. It looks like this participant is already registered for this event.If you want to change your registration, or you feel that you've gotten this message in error, please contact the site administrator."); 
+                       $session->setStatus( $status );
+                       return $participant->id;
+                   }
             }
         }
     }
-
+    
 }
 
