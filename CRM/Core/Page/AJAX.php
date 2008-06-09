@@ -831,13 +831,29 @@ WHERE sort_name LIKE '%$name%'";
 
         $str  = "location_1_phone_1_phone::" . $location['location'][1]['phone'][1]['phone'] . ';;';
         $str .= "location_1_email_1_email::". $location['location'][1]['email'][1]['email'] . ';;';
-        $str .= "location_1_address_street_address::" . $location['location'][1]['address']['street_address'] . ';;';
-        $str .= "location_1_address_supplemental_address_1::" . $location['location'][1]['address']['supplemental_address_1'] . ';;';
-        $str .= "location_1_address_supplemental_address_2::" . $location['location'][1]['address']['supplemental_address_2'] . ';;';
-        $str .= "location_1_address_city::" . $location['location'][1]['address']['city'] . ';;';
-        $str .= "location_1_address_postal_code::" . $location['location'][1]['address']['postal_code'] . ';;';
-        $str .= "id_location[1][address][country_state]_0::" . $location['location'][1]['address']['country_id'] . '-' . $location['location'][1]['address']['state_province_id'] . ';;';
 
+        $addressSequence = array_flip($config->addressSequence());
+
+        if ( array_key_exists( 'street_address', $addressSequence) ) {
+            $str .= "location_1_address_street_address::" . $location['location'][1]['address']['street_address'] . ';;';
+        }
+        if ( array_key_exists( 'supplemental_address_1', $addressSequence) ) {
+            $str .= "location_1_address_supplemental_address_1::" . $location['location'][1]['address']['supplemental_address_1'] . ';;';
+        }
+        if ( array_key_exists( 'supplemental_address_2', $addressSequence) ) {
+            $str .= "location_1_address_supplemental_address_2::" . $location['location'][1]['address']['supplemental_address_2'] . ';;';
+        }
+        if ( array_key_exists( 'city', $addressSequence) ) {
+            $str .= "location_1_address_city::" . $location['location'][1]['address']['city'] . ';;';
+        }
+        if ( array_key_exists( 'postal_code', $addressSequence) ) {
+            $str .= "location_1_address_postal_code::" . $location['location'][1]['address']['postal_code'] . ';;';
+            $str .= "location_1_address_postal_code_suffix::" . $location['location'][1]['address']['postal_code_suffix'] . ';;';
+        }
+        if ( array_key_exists( 'country', $addressSequence) || array_key_exists( 'state_province', $addressSequence) ) {
+            $str .= "id_location[1][address][country_state]_0::" . $location['location'][1]['address']['country_id'] . '-' . $location['location'][1]['address']['state_province_id'] . ';;';
+
+        }
         echo $str;
     }
 

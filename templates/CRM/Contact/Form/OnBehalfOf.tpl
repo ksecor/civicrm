@@ -2,9 +2,9 @@
 
 <fieldset id="for_organization"><legend>{$fieldSetTitle}</legend>
 {if $contact_type eq 'Individual'}
- <div id="name">
+
   {if $contactEditMode}<fieldset><legend></legend>{/if}
-	<table class="form-layout">
+	<table class="form-layout-compressed">
     <tr>
 		<td>{$form.prefix_id.label}</td>
 		<td>{$form.first_name.label}</td>
@@ -22,12 +22,12 @@
    	
     </table>
   {if $contactEditMode}</fieldset>{/if}
- </div>
+
 
 {elseif $contact_type eq 'Household'}
-<div id="name">
+
  {if $contactEditMode}<fieldset><legend></legend>{/if}
-   	<table class="form-layout">
+   	<table class="form-layout-compressed">
       <tr>
 		<td>{$form.household_name.label}</td>
       </tr>
@@ -36,13 +36,12 @@
       </tr>
     </table>   
  {if $contactEditMode}</fieldset>{/if}
-</div>
 
 
 {elseif $contact_type eq 'Organization'}
-<div id="name">
+
  {if $contactEditMode}<fieldset><legend></legend>{/if}
-	<table class="form-layout">
+	<table class="form-layout-compressed">
       {if $relatedOrganizationFound}
       <tr>
 		<td>{$form.org_option.html}</td>
@@ -59,69 +58,109 @@
       </tr>
     </table>
  {if $contactEditMode}</fieldset>{/if}
-</div>
+
 {/if}
 
 {* Display the address block *}
 {assign var=index value=1}
 
+{if $contactEditMode}
+  <fieldset><legend>{ts}Phone and Email{/ts}</legend>
+    <table class="form-layout-compressed">
+		<tr>
+            <td width="25%">{$form.location.$index.phone.1.phone.label}</td>
+            <td>{$form.location.$index.phone.1.phone.html}</td>
+        </tr>
+		<tr>
+            <td>{$form.location.$index.email.1.email.label}</td>
+            <td>{$form.location.$index.email.1.email.html}</td>
+        </tr>
+    </table>
+  </fieldset>
+{/if}
+
+
 {if !$contactEditMode}<br/>{/if}
 
-<div id="id_location_{$index}_phone">
-  {if $contactEditMode}<fieldset><legend>{ts}Phone and Email{/ts}</legend>{/if}
-    <div class="form-item">
-		<span class="labels">{$form.location.$index.phone.1.phone.label}</span>
-        <span class="fields">{$form.location.$index.phone.1.phone.html}</span>  
-    </div>
-    <div class="form-item">
-		<span class="labels">{$form.location.$index.email.1.email.label}</span>
-        <span class="fields">{$form.location.$index.email.1.email.html}</span>
-    </div>
-  {if $contactEditMode}</fieldset>{/if}
-</div>
-
-{if !$contactEditMode}<br/>{/if}
-
-<div id="id_location_{$index}_address">
     {if $contactEditMode}<fieldset><legend>{ts}Address{/ts}</legend>{/if}
-      {foreach item=addressElement from=$addressSequence}
-          {include file=CRM/Contact/Form/Address/$addressElement.tpl}
-      {/foreach}
+    <table class="form-layout-compressed">
+        {if !$contactEditMode}
+		<tr>
+            <td>{$form.location.$index.phone.1.phone.label}</td>
+            <td>{$form.location.$index.phone.1.phone.html}</td>
+        </tr>
+		<tr>
+            <td>{$form.location.$index.email.1.email.label}</td>
+            <td>{$form.location.$index.email.1.email.html}</td>
+        </tr>
+        {/if}
+        {if $addressSequence.street_address}
+        <tr>
+            <td width="15%">{$form.location.$index.address.street_address.label}</td>
+            <td>{$form.location.$index.address.street_address.html}    
+                <br class="spacer"/>
+                <span class="description font-italic">{ts}Street number, street name, apartment/unit/suite - OR P.O. box{/ts}</span>
+            </td>
+        </tr>
+        {/if}
+        {if $addressSequence.supplemental_address_1}
+        <tr>
+            <td>{$form.location.$index.address.supplemental_address_1.label}</td>
+            <td>{$form.location.$index.address.supplemental_address_1.html}    
+                <br class="spacer"/>
+                <span class="description font-italic">{ts} Supplemental address info, e.g. c/o, department name, building name, etc.{/ts}</span>
+            </td>
+        </tr>
+        {/if}
+        {if $addressSequence.supplemental_address_2}
+        <tr>
+            <td>{$form.location.$index.address.supplemental_address_2.label}</td>
+            <td>{$form.location.$index.address.supplemental_address_2.html}    
+            </td>
+        </tr>
+        {/if}
+        {if $addressSequence.city}
+        <tr>
+            <td>{$form.location.$index.address.city.label}</td>
+            <td>{$form.location.$index.address.city.html}</td>
+        </tr>
+        {/if}
+        {if $addressSequence.postal_code}
+        <tr>
+            <td>{$form.location.$index.address.postal_code.label}</td>
+            <td>{$form.location.$index.address.postal_code.html}
+                {if $form.location.$index.address.postal_code_suffix.html}
+                     - {$form.location.$index.address.postal_code_suffix.html}    
+                    <br class="spacer"/>
+                    <span class="description font-italic">{ts}Enter optional 'add-on' code after the dash ('plus 4' code for U.S. addresses).{/ts}</span>
+                {/if}
+            </td>
+        </tr>
+        {/if}
+        {if $addressSequenceCountry}
+        <tr>
+            <td>{$form.location.$index.address.country_state.label}</td>
+            <td>{$form.location.$index.address.country_state.html}{if $addressSequenceState} - <span class="tundra"><span id="id_location[1][address][country_state]_1"></span></span>{/if}
+                <br class="spacer"/>
+                <span class="description font-italic">
+                    {ts}Type in the first few letters of the country and then select from the drop-down. After selecting a country, the State / Province field provides a choice of states or provinces in that country.{/ts}
+                </span>
+            </td>
+        </tr>
+        {/if}
+        {if $contactEditMode}
+        <tr>
+            <td>{$form.location.$index.address.geo_code_1.label}, {$form.location.$index.address.geo_code_2.label}</td>
+            <td>{$form.location.$index.address.geo_code_1.html}, {$form.location.$index.address.geo_code_2.html}    
+                <br class="spacer"/>
+                <span class="description font-italic">
+                    {ts 1="http://wiki.civicrm.org/confluence//x/Ois" 2=$docURLTitle}Latitude and longitude may be automatically populated by enabling a Mapping Provider (<a href='%1' target='_blank' title='%2'>read more...</a>).{/ts}</span>
+            </td>
+        </tr>
+        {/if}
+    </table>
 
-      {* Special block for country & state implemented using new hier-select widget *}  
-      {if $addressSequenceCountry}  
-        <div id="id_location_{$index}_address_country" class="form-item">
-        <span class="labels">{ts}Country{/ts}</span>
-        <span class="fields">
-            {$form.location.1.address.country_state.html}
-            <br class="spacer"/>
-            <span class="description font-italic">
-                {ts}Type in the first few letters of the country and then select from the drop-down. After selecting a country, the State / Province field provides a choice of states or provinces in that country.{/ts}
-            </span>
-        </span>
-        </div>
-      {/if}
-
-      {if $addressSequenceState}  
-        <div id="id_location_{$index}_address_state" class="form-item">
-        <span class="labels">{ts}State / Province{/ts}</span>
-        <span class="tundra fields"><span id="id_location[1][address][country_state]_1"></span>
-            <br class="spacer"/>
-            <span class="description font-italic">
-                {ts}Type in the first few letters of the country and then select from the drop-down. After selecting a country, the State / Province field provides a choice of states or provinces in that country.{/ts}
-            </span>
-        </span>
-        </div>
-      {/if}  
-
-      {if $contactEditMode}  
-          {include file=CRM/Contact/Form/Address/geo_code.tpl}
-      {/if}
-
-      <!-- Spacer div forces fieldset to contain floated elements -->
-      <div class="spacer"></div>
     {if $contactEditMode}</fieldset>{/if}
-</div>
 
 </fieldset>
 
@@ -201,7 +240,7 @@
                             });
                         }
                     });
-                } else if (elem[0]) {
+                } else if ( elem[0] ) {
                     document.getElementById( elem[0] ).value = elem[1];
                 }
             }
