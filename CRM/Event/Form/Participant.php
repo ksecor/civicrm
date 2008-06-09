@@ -494,14 +494,13 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             CRM_Event_BAO_Participant::deleteParticipant( $this->_id );
             return;
         }
+
         // get the submitted form values.  
         $params = $this->controller->exportValues( $this->_name );
-        $discount = CRM_Core_BAO_Discount::getOptionGroup( $form->_eventId, 'civicrm_event', true );
         
         //check if discount is selected
         if ( isset( $params['discount_id'] ) ) {
             $discountId = $params['discount_id'];
-            $params['discount_id'] = $discount[$params['discount_id']];
         } else {
             $params['discount_id'] = 'null';
         }
