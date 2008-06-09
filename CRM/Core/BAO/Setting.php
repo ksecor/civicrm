@@ -173,16 +173,19 @@ class CRM_Core_BAO_Setting
                 }
             }
 
-            // set lcMessages dynamically based on GET and session values
-            // if session unset, initialise it to admin-specified value
+            // set lcMessages dynamically based on GET and cookie values
+            // if cookie unset, initialise it to admin-specified value
+            // FIXME: this should be moved to user preferences once they're introduced
             require_once 'CRM/Utils/Request.php';
             $session =& CRM_Core_Session::singleton();
             if ($lcMessages = CRM_Utils_Request::retrieve('lcMessages', 'String', $this)) {
-                $session->set('lcMessages', $lcMessages);
-            } elseif (!$session->get('lcMessages')) {
-                $session->set('lcMessages', $defaults['lcMessages']);
+                setcookie('CiviCRMlcMessages', $lcMessages, time()+60*60*24*365);
+                $defaults['lcMessages'] = $lcMessages;
+            } elseif (!$_COOKIE['CiviCRMlcMessages']) {
+                setcookie('CiviCRMlcMessages', $defaults['lcMessages'], time()+60*60*24*365);
+            } else {
+                $defaults['lcMessages'] = $_COOKIE['CiviCRMlcMessages'];
             }
-            $defaults['lcMessages'] = $session->get('lcMessages');
         }
     }
 }
