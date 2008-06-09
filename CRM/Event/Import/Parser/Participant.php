@@ -116,8 +116,8 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
             case 'event_title':
                 $this->_eventTitleIndex          = $index;
                 break;
+                $index++;
             }
-            $index++;
         }
     }
     
@@ -451,6 +451,9 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
         if ( is_array( $newParticipant ) && civicrm_error( $newParticipant ) ) {
             if ($onDuplicate == CRM_Event_Import_Parser::DUPLICATE_SKIP){
                 array_unshift($values, $newParticipant['message']);
+                if ( $newParticipant['error_message']['params'][0] ) {
+                    return CRM_Event_Import_Parser::DUPLICATE;
+                }
                 return CRM_Event_Import_Parser::ERROR;
             } 
         }
