@@ -499,7 +499,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         $params = $this->controller->exportValues( $this->_name );
         
         //check if discount is selected
-        if ( isset( $params['discount_id'] ) ) {
+        if ( $params['discount_id'] ) {
             $discountId = $params['discount_id'];
         } else {
             $params['discount_id'] = 'null';
