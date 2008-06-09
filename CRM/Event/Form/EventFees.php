@@ -134,30 +134,15 @@ class CRM_Event_Form_EventFees
                 $defaults[$form->_participantId]["price_{$priceField->id}"] = $optionId;
             }
         } else {
-            if ( $defaults[$form->_participantId]['event_id'] && ($form->_action == CRM_Core_Action::UPDATE ) ) {
-                $optionGroupId = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_OptionGroup", 
-                                                              'civicrm_event_page.amount.' . 
-                                                              CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_EventPage", 
-                                                                                           $defaults[$form->_participantId]['event_id'],
-                                                                                           'id', 'event_id' ), 
-                                                              'id', 
-                                                              'name' );
-                $optionParams = array( 'option_group_id' => $optionGroupId,
-                                       'label'           => CRM_Utils_Array::value('fee_level',$defaults[$form->_participantId]) );
-                
-                CRM_Core_BAO_CustomOption::retrieve( $optionParams, $params );
-                $defaults[$form->_participantId]['amount'] = $params['id'];
-            } elseif ( $defaults[$form->_participantId]['event_id'] && ($form->_action == CRM_Core_Action::ADD ) ) {
-                $defaults[$form->_participantId]['amount'] = CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_EventPage", 
-                                                                               $defaults[$form->_participantId]['event_id'], 
-                                                                               'default_fee_id', 
-                                                                               'event_id' );
-            }
-         
-            if ( ! isset($form->_discountId) )  {
-                if ( $form->_action == CRM_Core_Action::ADD ) {
-                    require_once 'CRM/Core/BAO/Discount.php';
-                    $discountId = CRM_Core_BAO_Discount::findSet( $form->_eventId, 'civicrm_event' );
+            $optionGroupId = null;
+            // if user has selected discount use that to set default
+            if ( isset( $form->_discountId ) ) {
+                $defaults[$form->_participantId]['discount_id'] = $form->_discountId;
+            } elseif ( $form->_action == CRM_Core_Action::ADD ) {
+                // this case is for add mode, where we show discount automatically
+                require_once 'CRM/Core/BAO/Discount.php';
+                $discountId = CRM_Core_BAO_Discount::findSet( $form->_eventId, 'civicrm_event' );
+                if ( $discountId ) {
                     $defaultDiscountId = CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_EventPage", 
                                                                       $form->_eventId, 
                                                                       'default_discount_id' );
@@ -167,17 +152,36 @@ class CRM_Event_Form_EventFees
                                                                     'weight' );
                     }
                     $defaults[$form->_participantId]['discount_id'] = $discountId;
-                    $defaults[$form->_participantId]['amount'] = $form->_values['discount'][$discountId]['amount_id'][$discountKey];
-
-                } elseif ( $form->_action == CRM_Core_Action::UPDATE ) {
-                    $discountId = CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_Participant", $form->_participantId, 'discount_id' );
-                    $discount = CRM_Core_BAO_Discount::getOptionGroup( $form->_eventId, 'civicrm_event', true );
-                  
-                    $defaults[$form->_participantId]['discount_id'] = CRM_Utils_Array::key( $discountId,  $discount);
-                   
+                    $defaults[$form->_participantId]['amount']      = $form->_values['discount'][$discountId]['amount_id'][$discountKey];
+                } else {
+                    $defaults[$form->_participantId]['amount'] = CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_EventPage", 
+                                                                                              $defaults[$form->_participantId]['event_id'], 
+                                                                                              'default_fee_id', 
+                                                                                              'event_id' );
                 }
-            } else {
-                $defaults[$form->_participantId]['discount_id'] = $form->_discountId;
+            } elseif ( $form->_action == CRM_Core_Action::UPDATE && $defaults[$form->_participantId]['discount_id'] ) {
+                // setdefaults if user has selected discount
+                $optionGroupId = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_Discount", 
+                                                              $defaults[$form->_participantId]['discount_id'], 
+                                                              'option_group_id' );
+            }
+            
+            if ( $defaults[$form->_participantId]['event_id'] && ($form->_action == CRM_Core_Action::UPDATE ) ) {
+                if ( ! $optionGroupId ) {
+                    $optionGroupId = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_OptionGroup", 
+                                                                  'civicrm_event_page.amount.' . 
+                                                                  CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_EventPage", 
+                                                                                               $defaults[$form->_participantId]['event_id'],
+                                                                                               'id', 'event_id' ), 
+                                                                  'id', 
+                                                                  'name' );
+                }
+
+                $optionParams = array( 'option_group_id' => $optionGroupId,
+                                       'label'           => CRM_Utils_Array::value('fee_level',$defaults[$form->_participantId]) );
+                
+                CRM_Core_BAO_CustomOption::retrieve( $optionParams, $params );
+                $defaults[$form->_participantId]['amount'] = $params['id'];
             }
         }
 
