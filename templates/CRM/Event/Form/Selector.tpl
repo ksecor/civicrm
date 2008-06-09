@@ -2,16 +2,10 @@
     {include file="CRM/common/pager.tpl" location="top"}
 {/if}
 
-{if $context EQ 'Contact Summary'}
-    {assign var='columnHeaders' value=$event_columnHeaders}
-    {assign var='rows' value=$event_rows}
-    {assign var='single' value=$event_single}
-    {assign var='limit' value=$event_limit}
-{/if}
 {strip}
 <table class="selector">
   <tr class="columnheader">
-{if ! $event_single and $context neq 'dashboard' }
+{if ! $single and $context eq 'Search' }
   <th scope="col" title="Select Rows">{$form.toggleSelect.html}</th> 
 {/if}
   {foreach from=$columnHeaders item=header}
@@ -29,12 +23,12 @@
   {counter start=0 skip=1 print=false}
   {foreach from=$rows item=row}
   <tr id='rowid{$row.participant_id}' class="{cycle values="odd-row,even-row"}">
-     {if ! $event_single }
-        {if $context neq 'dashboard' }       
+     {if ! $single }
+        {if $context eq 'Search' }       
             {assign var=cbName value=$row.checkbox}
             <td>{$form.$cbName.html}</td> 
- 	    <td>{$row.contact_type}</td>
         {/if}	
+	<td>{$row.contact_type}</td>
     	<td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td>
     {/if}
 
@@ -48,7 +42,8 @@
         {/foreach}
     </td>
     {else}
-    <td>{if !$row.paid && !$row.fee_level} {ts}(no fee){/ts}{else} {$row.fee_level}{/if}</td>
+    <td>{if !$row.paid && !$row.participant_fee_level} {ts}(no fee){/ts}{else} {$row.participant_fee_level}{/if}</td>
+    <td>{$row.participant_fee_amount|crmMoney}</td>
     {/if}
     <td>{$row.event_start_date|truncate:10:''|crmDate}
         {if $row.event_end_date && $row.event_end_date|date_format:"%Y%m%d" NEQ $row.event_start_date|date_format:"%Y%m%d"}
@@ -61,15 +56,16 @@
    </tr>
   {/foreach}
 {* Link to "View all participations" for Contact Summary selector display *}
-{if ($context EQ 'Contact Summary') AND $event_pager->_totalItems GT $limit}
-  <tr class="even-row">
-    <td colspan="7"><a href="{crmURL p='civicrm/contact/view' q="reset=1&force=1&selectedChild=participant&cid=$contactId"}">&raquo; {ts}View all events for this contact{/ts}...</a></td></tr>
-  </tr>
-{/if}
-{if ($context EQ 'dashboard') AND $pager->_totalItems GT $limit}
-  <tr class="even-row">
+{if $limit and $pager->_totalItems GT $limit }
+  {if $context EQ 'dashboard' }
+    <tr class="even-row">
     <td colspan="9"><a href="{crmURL p='civicrm/event/search' q='reset=1&force=1'}">&raquo; {ts}List more Event Participants{/ts}...</a></td></tr>
-  </tr>
+    </tr>
+  {elseif $context eq 'participant' }  
+    <tr class="even-row">
+    <td colspan="7"><a href="{crmURL p='civicrm/contact/view' q="reset=1&force=1&selectedChild=participant&cid=$contactId"}">&raquo; {ts}View all events for this contact{/ts}...</a></td></tr>
+    </tr>
+  {/if}
 {/if}
 </table>
 {/strip}

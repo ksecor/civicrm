@@ -50,8 +50,11 @@ class CRM_Event_Form_Registration_ThankYou extends CRM_Event_Form_Registration
      */ 
     function preProcess( ) {
         parent::preProcess( );
-        $this->_params = $this->get( 'params' );
-        $this->_lineItem = $this->get( 'lineItem' );
+        $this->_params      = $this->get( 'params' );
+        $this->_lineItem    = $this->get( 'lineItem' );
+        $this->_totalAmount = $this->get( 'totalAmount' );
+        $this->_receiveDate = $this->get( 'receiveDate' );
+        $this->_trxnId      = $this->get( 'trxnId' );
         
         CRM_Utils_System::setTitle(CRM_Utils_Array::value('thankyou_title',$this->_values['event_page']));
     }
@@ -85,7 +88,10 @@ class CRM_Event_Form_Registration_ThankYou extends CRM_Event_Form_Registration
         $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
 
         $this->assign( 'lineItem', $this->_lineItem );
-
+        $this->assign( 'totalAmount', $this->_totalAmount );
+        $this->assign( 'receiveDate', $this->_receiveDate );
+        $this->assign( 'trxnId', $this->_trxnId );
+        
         if( $this->_params['amount'] == 0 ) {
             $this->assign( 'isAmountzero', 1 );
         }

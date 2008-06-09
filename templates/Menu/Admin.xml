@@ -147,15 +147,6 @@
      <page_callback>CRM_Admin_Form_Setting_UpdateConfigBackend</page_callback>
   </item>
   <item>
-     <path>civicrm/admin/dupematch</path>
-     <title>Contact Matching</title>
-     <desc>Rules used to identify potentially duplicate contact records, and to match imported data to existing contact records.</desc>
-     <page_callback>CRM_Admin_Page_DupeMatch</page_callback>
-     <adminGroup>Configure</adminGroup>
-     <icon>admin/small/duplicate_matching.png</icon>
-     <weight>240</weight>
-  </item>
-  <item>
      <path>civicrm/admin/deduperules</path>
      <title>Find and Merge Duplicate Contacts</title>
      <desc>Manage the rules used to identify potentially duplicate contact records. Scan for duplicates using a selected rule and merge duplicate contact data as needed.</desc>

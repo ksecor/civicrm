@@ -94,7 +94,7 @@
 
 buildFeeBlock( );
 
-function buildFeeBlock( eventId )
+function buildFeeBlock( eventId, discountId )
 {
 	var dataUrl = {/literal}"{crmURL h=0 q='snippet=1'}"{literal};
 	
@@ -113,6 +113,10 @@ function buildFeeBlock( eventId )
 
 	if ( participantId ) {
 	   dataUrl = dataUrl + '&participantId=' + participantId;	
+	}
+
+	if ( discountId ) {
+	   dataUrl = dataUrl + '&discountId=' + discountId;	
 	}
 
         var result = dojo.xhrGet({

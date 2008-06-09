@@ -162,9 +162,10 @@ class CRM_Core_BAO_CustomValueTable
                 $dao->free( );
 
                 require_once 'CRM/Utils/Hook.php';
-                CRM_Utils_Hook::post( $hookOP, 'custom',
-                                      array( $hookID, $entityID ),
-                                      $fields );
+                CRM_Utils_Hook::custom( $hookOP,
+                                        $hookID,
+                                        $entityID,
+                                        $fields );
             }
         }
     }

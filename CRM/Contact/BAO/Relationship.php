@@ -1031,7 +1031,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
         foreach ( $rel as $key => $value ) {
             if ( $value['relation'] == 'Employee of' && $value['is_active'] == 1 ) {
                 $query = 
-                    "SELECT CONCAT_WS(':::',organization_name,LEFT(street_address,25),city) 'sort_name', civicrm_contact.id id
+                    "SELECT CONCAT_WS(' :: ', sort_name, LEFT(street_address,25),city) 'sort_name', civicrm_contact.id id
                          FROM civicrm_contact
                          LEFT JOIN civicrm_address ON ( civicrm_contact.id = civicrm_address.contact_id
                                                         AND civicrm_address.is_primary=1

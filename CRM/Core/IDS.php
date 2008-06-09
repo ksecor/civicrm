@@ -40,10 +40,11 @@ class CRM_Core_IDS {
      * define the threshold for the ids reactions
      */
     private $threshold = array(
-                               'log'      => 20,
-                               'warn'     => 35,
-                               'kick'     => 50
+                               'log'      => 10,
+                               'warn'     => 15,
+                               'kick'     => 30
                                );
+
 
     /**
      * the init object

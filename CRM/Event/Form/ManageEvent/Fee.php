@@ -54,6 +54,10 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
      */ 
     const NUM_DISCOUNT = 6;
 
+    /**
+     * Page action
+     */
+    public $_action;
     /** 
      * Function to set variables up before form is built 
      *                                                           
@@ -132,9 +136,22 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
                 }
             }
         }
-        
+
+        if ( CRM_Utils_Array::value( 'value', $defaultDiscounts ) ) {
+            foreach ( $defaultDiscounts['value'] as $i => $v ) {
+                if ( $defaultDiscounts['amount_id'][$i] == $defaults['default_discount_id'] ) {
+                    $defaults['discounted_default'] = $i;
+                    break;
+                }
+            }
+        }
+                
         if ( !isset($defaults['default']) ) {
             $defaults['default'] = 1;
+        }
+        
+        if ( !isset($defaults['discounted_default']) ) {
+            $defaults['discounted_default'] = 1;
         }
         
         if ( !isset($defaults['is_monetary']) ) {
@@ -160,7 +177,8 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
             $this->_showHide->addHide( 'map-field' );
         }
         $this->_showHide->addToTemplate( );
-        
+        $this->assign('inDate', $this->_inDate );
+
         return $defaults;
     }
     
@@ -239,6 +257,38 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
             } else {
                 $_showHide->addShow($showBlocks);
             }
+
+            //Increment by 1 of start date of previous end date.
+            if ( is_array( $this->_submitValues ) &&
+                 ! empty( $this->_submitValues['discount_name'][$i] ) &&
+                 ! empty( $this->_submitValues['discount_name'][$i+1] ) &&
+                 isset( $this->_submitValues['discount_end_date'] ) &&
+                 isset( $this->_submitValues['discount_end_date'][$i] ) &&
+                 array_values( $this->_submitValues['discount_end_date'][$i] ) &&
+                 $i <  self::NUM_DISCOUNT - 1 ) {
+                $end_date = CRM_Utils_Date::format( $this->_submitValues['discount_end_date'][$i], '-' );
+                if (! empty( $this->_submitValues['discount_end_date'][$i + 1]['M'] ) 
+                     && empty( $this->_submitValues['discount_start_date'][$i + 1]['M'] ) )  {
+                    $this->_submitValues['discount_start_date'][$i + 1] = 
+                        CRM_Utils_Date::unformat( date('Y-m-d', strtotime ("+1 days $end_date") ));
+                }
+            }
+            //Decrement by 1 of end date from next start date.
+            if ( $i > 1 && 
+                 is_array( $this->_submitValues ) &&
+                 ! empty( $this->_submitValues['discount_name'][$i] ) &&
+                 ! empty( $this->_submitValues['discount_name'][$i-1] ) &&
+                 isset( $this->_submitValues['discount_start_date'] ) &&
+                 isset( $this->_submitValues['discount_start_date'][$i] ) &&
+                 array_values( $this->_submitValues['discount_start_date'][$i] )
+                 ) {
+                $start_date = CRM_Utils_Date::format( $this->_submitValues['discount_start_date'][$i], '-' );
+                if (! empty( $this->_submitValues['discount_start_date'][$i]['M'] ) 
+                    && empty( $this->_submitValues['discount_end_date'][$i-1]['M'] ) )  {
+                    $this->_submitValues['discount_end_date'][$i - 1] = 
+                        CRM_Utils_Date::unformat( date('Y-m-d', strtotime ("-1 days $start_date") ));
+                }
+            }
             
             //discount name
             $this->add('text','discount_name['.$i.']', ts('Discount Name'), 
@@ -293,12 +343,21 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
                         $errors["discount_end_date[$i]"] = ts( 'The discount end date cannot be prior to the start date.' );
                     }
                     
+                    if ( ! $start_date && ! $end_date ) {
+                        $errors["discount_start_date[$i]"] = $errors["discount_end_date[$i]"] = ts( 'Please specify either start date or end date.' );
+                    }
+                    
                     if ( $i > 1 ) {
-                        if ( $start_date < CRM_Utils_Date::format( $values['discount_end_date'][$i-1]) ) {
+                        $end_date_1 = CRM_Utils_Date::format( $values['discount_end_date'][$i-1] );
+                        if ( $start_date && $end_date_1 && (int ) $end_date_1 > (int ) $start_date ) {
                             $errors["discount_start_date[$i]"] = ts( 'Select non-overlapping discount start date.' );
+                        } elseif ( ! $start_date && ! $end_date_1 ) {
+                            $j = $i-1;
+                            $errors["discount_start_date[$i]"] = 
+                                $errors["discount_end_date[$j]"] = ts( 'Select either of the dates.' );
                         }
                     }
-
+                    
                     foreach ( $occurDiscount as $key => $value )            
                         if ( $value > 1 && $key <> '' ) {
                             if ( $key == $values['discount_name'][$i] ) {
@@ -441,11 +500,12 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
                                                            $params['default_fee_id'] );
                     }
                 }
-                
-                if ( $params['is_discount'] == 1 ) {
+               
+                if ( $this->_action & CRM_Core_Action::UPDATE ) {
                     //hack for CRM-3088
                     CRM_Core_OptionGroup::deleteAssoc ("civicrm_event_page.amount.{$eventPageId}.discount.%", "LIKE");
-
+                }
+                if ( $params['is_discount'] == 1 ) {
                     // if there are discounted set of label / values, 
                     // create custom options for them
                     $labels  = CRM_Utils_Array::value( 'discounted_label'  , $params );
@@ -466,11 +526,11 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
                             }
                             
                             if ( ! empty( $discountOptions ) ) {
-                                $params['default_fee_id'] = null;
+                                $params['default_discount_id'] = null;
                                 $discountOptionsGroupId = 
                                     CRM_Core_OptionGroup::createAssoc( "civicrm_event_page.amount.{$eventPageId}.discount.{$params[discount_name][$j]}",
                                                                        $discountOptions,
-                                                                       $params['default_fee_id'],
+                                                                       $params['default_discount_id'],
                                                                        $params['discount_name'][$j]);
                                 
                                 $discountParams = array(

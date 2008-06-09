@@ -157,34 +157,46 @@ class CRM_Core_BAO_OptionGroup extends CRM_Core_DAO_OptionGroup
     /**
      * Function to copy the option group and values
      * 
-     * @param  String $component     - component page for which custom 
-     *                                 option group and values need to be copied 
-     * @param  int    $fromId        - component page id on which
-     *                                 basis copy is to be made 
-     * @param  int    $toId          - component page id to be copied onto 
-     * @param  int    $defaultId     - default custom value id on the 
-     *                                 component page 
+     * @param  String $component      - component page for which custom 
+     *                                  option group and values need to be copied 
+     * @param  int    $fromId         - component page id on which
+     *                                  basis copy is to be made 
+     * @param  int    $toId           - component page id to be copied onto 
+     * @param  int    $defaultId      - default custom value id on the 
+     *                                  component page 
+     * @param  String $discountSuffix - discount suffix for the discounted
+     *                                  option group
      * 
-     * @return int   $id             - default custom value id for the 
+     * @return int   $id              - default custom value id for the 
      *                                 copied component page 
      * 
      * @access public
      * @static
      */
-    static function copyValue( $component, $fromId, $toId, $defaultId = false ) 
+    static function copyValue( $component, $fromId, $toId, $defaultId = false,  $discountSuffix = null ) 
     {
         $optionGroupId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup', 
-                                                      'civicrm_'. $component. '_page.amount.' .$fromId, 
+                                                      'civicrm_'. $component. '_page.amount.' .$fromId .$discountSuffix, 
                                                       'id', 
                                                       'name' );
         if ( $optionGroupId ) {
             $copyOptionGroup =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_OptionGroup', 
-                                                           array( 'name' => 'civicrm_'.$component.'_page.amount.'.$fromId ),
-                                                           array( 'name' => 'civicrm_'.$component.'_page.amount.'.$toId ) );
+                                                           array( 'name' => 'civicrm_'.$component.'_page.amount.'.$fromId . $discountSuffix ),
+                                                           array( 'name' => 'civicrm_'.$component.'_page.amount.'.$toId . $discountSuffix ) );
             
             $copyOptionValue =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_OptionValue', 
                                                            array( 'option_group_id' => $optionGroupId ),
                                                            array( 'option_group_id' => $copyOptionGroup->id ) );
+            
+            if ( $discountSuffix ) {
+                $copyDiscount =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_Discount',
+                                                      array( 'entity_id'       => $fromId,
+                                                             'entity_table'    => 'civicrm_' . $component,
+                                                             'option_group_id' => $optionGroupId ),
+                                                      array( 'entity_id'       => $toId,
+                                                             'option_group_id' => $copyOptionGroup->id ) );
+            }
+            
             if ( $defaultId ) {
                 $query = "
 SELECT second.id default_id 

@@ -165,7 +165,8 @@
         <dt>&nbsp;</dt><dd>{if $revertPermission}{$form.is_permission_a_b.html}{else}{$form.is_permission_b_a.html}{/if}&nbsp;<b>{if $sort_name_b} '{$sort_name_b}'{else}selected contact(s){/if}</b> can view and update information for <b>'{$sort_name_a}'</b></dd>  
 		<dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
         </dl>
-        <dl><dt></dt><dd id="customData"></dd></dl>    
+        <dl><dt></dt><dd id="customData"></dd></dl>
+        <div class="spacer"></div>
         <dl>
       	  <dt></dt><dd>{$form.buttons.html}</dd>
         </dl>

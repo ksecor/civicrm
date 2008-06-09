@@ -75,13 +75,14 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                                  'event_id',
                                  'participant_status_id',
                                  'event_title',
-                                 'fee_level',
+                                 'participant_fee_level',
                                  'participant_id',
                                  'event_start_date',
                                  'event_end_date',
                                  'modified_date',
                                  'participant_is_test',
-                                 'participant_role_id'
+                                 'participant_role_id',
+                                 'participant_fee_amount'
                                  );
 
     /** 
@@ -329,8 +330,8 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
              $row['contact_type' ] = $contact_type;
              $row['paid'] = CRM_Event_BAO_Event::isMonetary ( $row['event_id'] );
              
-             if ( $row['fee_level'] ) {
-                 CRM_Event_BAO_Participant::fixEventLevel( $row['fee_level'] );
+             if ( $row['participant_fee_level'] ) {
+                 CRM_Event_BAO_Participant::fixEventLevel( $row['participant_fee_level'] );
              }
              
              $rows[] = $row;
@@ -373,6 +374,11 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                                           array(
                                                 'name'      => ts('Fee Level'),
                                                 'sort'      => 'fee_level',
+                                                'direction' => CRM_Utils_Sort::DONTCARE,
+                                                ),
+                                          array(
+                                                'name'      => ts('Fee Amount'),
+                                                'sort'      => 'fee_amount',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(

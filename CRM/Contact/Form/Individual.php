@@ -275,7 +275,7 @@ setDefaultAddress();
                 CRM_Core_Session::setStatus( 'No matching contact found.' );
             }
         }
-
+        
         // if use_household_address option is checked, make sure 'valid household_name' is also present.
         if ( CRM_Utils_Array::value('use_household_address',$fields) ) {
             if ( ! $fields['create_household'] ) {
@@ -291,16 +291,11 @@ setDefaultAddress();
             } else {
                 if ( ! CRM_Utils_Array::value( '_qf_Edit_next_sharedHouseholdDuplicate', $fields ) ) {
                     $dupeIDs = array();
-                    require_once "CRM/Contact/DAO/Contact.php";
-                    $contact = & new CRM_Contact_DAO_Contact();
-                    $contact->household_name = $fields['create_household'];
-                    $contact->find();
-
-                    while ($contact->fetch(true)) {
-                        if ( $contact->contact_id != $options) {
-                            $dupeIDs[] = $contact->contact_id;
-                        }
-                    }
+                    require_once 'CRM/Dedupe/Finder.php';
+                    $dedupeParams = CRM_Dedupe_Finder::formatParams($fields, 'Household');
+                    $newDedupeParams['civicrm_address'] = $dedupeParams['civicrm_address']; 
+                    $newDedupeParams['civicrm_contact']['household_name'] = $fields['create_household']; 
+                    $dupeIDs = CRM_Dedupe_Finder::dupesByParams($newDedupeParams, 'Household', 'Fuzzy', array($options));
                     unset($urls);
                     foreach( $dupeIDs as $id ) {
                         $displayName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $id, 'display_name' );
@@ -316,7 +311,7 @@ setDefaultAddress();
                 }
             }
         }
-
+        
         return empty($errors) ? true : $errors;
     }
 

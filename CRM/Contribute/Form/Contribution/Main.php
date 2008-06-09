@@ -138,6 +138,13 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
              ! isset($this->_defaults['location'][1]['email'][1]['email']) ) {
             $this->_defaults['location'][1]['email'][1]['email'] = $this->_defaults["email-{$this->_bltID}"];
         }
+        //if contribution pay later is enabled and payment
+        //processor is not available then freeze the pay later checkbox with
+        //default check
+        if ( CRM_Utils_Array::value( 'is_pay_later' , $this->_values ) &&
+             empty ( $this->_paymentProcessor ) ) {
+            $this->_defaults['is_pay_later'] = 1;
+        }
 
         // hack to simplify credit card entry for testing
 //         $this->_defaults['credit_card_type']     = 'Visa';
@@ -392,15 +399,21 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $this->assign( 'hidePaymentInformation', false );
                    
         if ( !in_array( $this->_paymentProcessor['payment_processor_type'], 
-                        array( 'PayPal_Standard', 'Google_Checkout', 'PayPal_Express' ) ) && $this->_values['is_monetary'] ) {
+                        array( 'PayPal_Standard', 'Google_Checkout', 'PayPal_Express' ) ) 
+             && $this->_values['is_monetary'] && is_array( $this->_paymentProcessor ) ) {
             $attributes = array('onclick' => "return showHideByValue('is_pay_later','','payment_information',
                                                      'table-row','radio',true);");
             
             $this->assign( 'hidePaymentInformation', true );
         }
         
-        $this->addElement( 'checkbox', 'is_pay_later', 
-                           $this->_values['pay_later_text'], null, $attributes );
+        $element = $this->addElement( 'checkbox', 'is_pay_later', 
+                                      $this->_values['pay_later_text'], null, $attributes );
+        //if payment processor is not available then freeze
+        //the paylater checkbox with default checked.
+        if ( empty ( $this->_paymentProcessor ) ) {
+            $element->freeze();
+        }
     }
 
     /** 
@@ -678,7 +691,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $this->set( 'invoiceID', $invoiceID );
 
         // required only if is_monetary and valid postive amount 
-        if ( $this->_values['is_monetary'] && (float ) $params['amount'] > 0.0 ) {
+        if ( $this->_values['is_monetary'] && (float ) $params['amount'] > 0.0 && is_array( $this->_paymentProcessor ) ) {
             
             $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Contribute', $this->_paymentProcessor ); 
             

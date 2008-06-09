@@ -136,11 +136,13 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             }
         }
 
-        $contact->copyValues($params);
+        $allNull = $contact->copyValues($params);
 
         $contact->id        = CRM_Utils_Array::value( 'contact_id', $params );
         
         if ( $contact->contact_type == 'Individual') {
+            $allNull = false;
+
             //unset organization name 
             $contact->organization_name = 'null';
 
@@ -149,17 +151,22 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             CRM_Contact_BAO_Individual::format( $params, $contact );
         } else if ($contact->contact_type == 'Household') {
             if ( isset( $params['household_name'] ) ) {
+                $allNull = false;
                 $contact->display_name = $contact->sort_name = CRM_Utils_Array::value('household_name', $params, '');
             }
-        } else {
+        } else if ( $contact->contact_type == 'Organization' ) {
             if ( isset( $params['organization_name'] ) ) {
+                $allNull = false;
                 $contact->display_name = $contact->sort_name = CRM_Utils_Array::value('organization_name', $params, '') ;
             }
         }
 
         // privacy block
         $privacy = CRM_Utils_Array::value('privacy', $params);
-        if ($privacy && is_array($privacy)) {
+        if ( $privacy &&
+             is_array( $privacy ) &&
+             ! empty( $privacy ) ) {
+            $allNull = false;
             foreach (self::$_commPrefs as $name) {
                 $contact->$name = CRM_Utils_Array::value($name, $privacy, false);
             }
@@ -169,16 +176,18 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         // fixed in 1.5 by making hash optional
         // only do this in create mode, not update
         if ( ( ! array_key_exists( 'hash', $contact ) || ! $contact->hash ) && ! $contact->id ) {
+            $allNull = false;
             $contact->hash = md5( uniqid( rand( ), true ) );
         }
 
-        $contact->save( );
+        if ( ! $allNull ) {
+            $contact->save( );
 
-        require_once 'CRM/Core/BAO/Log.php';
-        CRM_Core_BAO_Log::register( $contact->id,
-                                    'civicrm_contact',
-                                    $contact->id );
-                           
+            require_once 'CRM/Core/BAO/Log.php';
+            CRM_Core_BAO_Log::register( $contact->id,
+                                        'civicrm_contact',
+                                        $contact->id );
+        }
         return $contact;
     }
 
@@ -1426,39 +1435,6 @@ WHERE  civicrm_contact.id = %1 ";
         return $contactID;
     }
 
-    /**
-    * Function to find and get the contact details
-    * 
-    * @param string $uniqId  the unique id of the contact (OpenID)
-    * @param string $ctype   contact type
-    * 
-    * @return object $dao    contact details
-    * @static
-    */
-    static function &matchContactOnUniqId( $uniqId, $ctype = null )
-    {
-        $query = "
-    SELECT    civicrm_contact.id as contact_id,
-              civicrm_contact.hash as hash,
-              civicrm_contact.contact_type as contact_type,
-              civicrm_contact.contact_sub_type as contact_sub_type
-    FROM      civicrm_contact
-    WHERE     civicrm_contact.user_unique_id = %1";
-        $p = array( 1 => array( $uniqId, 'String' ) );
-
-        if ( $ctype ) {
-           $query .= " AND civicrm_contact.contact_type = %3";
-           $p[3]   = array( $ctype, 'String' );
-        }
-        
-        $dao =& CRM_Core_DAO::executeQuery( $query, $p );
-
-        if ( $dao->fetch() ) {
-            return $dao;
-        }
-        return CRM_Core_DAO::$_nullObject;
-    }
-    
     /**
      * Function to find the get contact details
      *

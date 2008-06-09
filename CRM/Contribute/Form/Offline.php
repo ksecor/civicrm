@@ -378,8 +378,13 @@ class CRM_Contribute_Form_Offline extends CRM_Core_Form {
         }
         
         require_once 'CRM/Contribute/Form/Contribution/Confirm.php';
-        $contribution =& CRM_Contribute_Form_Contribution_Confirm::processContribution( $this, $this->_params, $result, $this->_contactID, 
-                                                                                        $contributionType,  false, false, false );
+        $contribution =& 
+            CRM_Contribute_Form_Contribution_Confirm::processContribution( $this, 
+                                                                           $this->_params, 
+                                                                           $result, 
+                                                                           $this->_contactID, 
+                                                                           $contributionType,  
+                                                                           false, false, false );
         
         if ( $contribution->id &&
              CRM_Utils_Array::value( 'is_email_receipt', $this->_params ) ) {

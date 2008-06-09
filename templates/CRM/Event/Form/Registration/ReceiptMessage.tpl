@@ -1,6 +1,8 @@
-{if $action eq 1024}{include file="CRM/Event/Form/Registration/ReceiptPreviewHeader.tpl"}
+{if $action eq 1024}
+{include file="CRM/Event/Form/Registration/ReceiptPreviewHeader.tpl"}
 {/if}
-{if $eventPage.confirm_email_text}{$eventPage.confirm_email_text}
+{if $eventPage.confirm_email_text}
+{$eventPage.confirm_email_text}
 {/if}
 {ts}Please print this confirmation for your records.{/ts}
 
@@ -59,21 +61,38 @@
 {$event.fee_label}
 ===========================================================
 {if $lineItem}
+{foreach from=$lineItem item=value key=priceset}
+
+{if $value neq 'skip'}
+---------------------------------------------------------
 {capture assign="ts_item}{ts}Item{/ts}{/capture}
 {capture assign="ts_qty}{ts}Qty{/ts}{/capture}
 {capture assign="ts_each}{ts}Each{/ts}{/capture}
 {capture assign="ts_total}{ts}Total{/ts}{/capture}
 {$ts_item|string_format:"%-30s"} {$ts_qty|string_format:"%5s"} {$ts_each|string_format:"%10s"} {$ts_total|string_format:"%10s"}
 ----------------------------------------------------------
-{foreach from=$lineItem item=line}
+{foreach from=$value item=line}
 {$line.label|truncate:30:"..."|string_format:"%-30s"} {$line.qty|string_format:"%5s"} {$line.unit_price|crmMoney|string_format:"%10s"} {$line.line_total|crmMoney|string_format:"%10s"}
 {/foreach}
-
 {/if}
-{ts}Total Amount{/ts}     : {$amount|crmMoney} {if $amount_level && !$lineItem} - {$amount_level} {/if}
+{/foreach}
+{/if}
+{if $amount && !$lineItem} 
+{foreach from= $amount item=amount key=level}  
+{$amount|crmMoney}   {$level}	
+{/foreach}
+{/if}
+{if $isPrimary }
+
+{ts}Total Amount{/ts}     : {$totalAmount|crmMoney} 
+{/if}
+{if $is_pay_later}
+{$pay_later_receipt}
+{/if}
+
 {if $register_date}
 
-{ts}Registeration Date{/ts} : {$register_date|crmDate}
+{ts}Registration Date{/ts} : {$register_date|crmDate}
 {/if}
 {if $receive_date}
 
@@ -85,6 +104,7 @@
 {if $paidBy}
 {ts}Paid By{/ts}: {$paidBy}
 {/if}
+{if $isPrimary }
 {if $contributeMode ne 'notify' and !$isAmountzero and !$is_pay_later  }
 
 ===========================================================
@@ -104,6 +124,7 @@
 {$credit_card_number}
 {ts}Expires{/ts}: {$credit_card_exp_date|truncate:7:''|crmDate}
 {/if}
+{/if}
 {/if} {* End of conditional section for Paid events *}
 
 {if $customPre}
@@ -119,10 +140,38 @@
 {if $customPost}
 ===========================================================
 {ts}{$customPost_grouptitle}{/ts}
+
 ===========================================================
 {foreach from=$customPost item=value key=name}
  {$name} : {$value}
 {/foreach}
+{/if}
+{if $customProfile}
+===========================================================
+{ts}Information Of Additional Participants{/ts}
+
+===========================================================
+{foreach from=$customProfile item=value key=name}
+{foreach from=$value item=val key=field}
+{if $field}
+{if $field eq 'customPre' }
+----------------------------------------------------------
+{ts}{$customPre_grouptitle}{/ts}
+
+----------------------------------------------------------
+{else}
+----------------------------------------------------------
+{ts}{$customPost_grouptitle}{/ts}
+
+----------------------------------------------------------
+{/if}
+
+{foreach from=$val item=v key=f}
+{$f}:{$v}
+{/foreach}
+{/if}
+{/foreach}
+{/foreach} 
 {/if}
 {if $customGroup}
 {foreach from=$customGroup item=value key=name} 

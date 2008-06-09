@@ -8,7 +8,6 @@
      <access_arguments>access CiviCRM</access_arguments>
      <page_callback>CRM_Contact_Page_View_DashBoard</page_callback>
      <page_arguments>null</page_arguments>
-     <return_url>civicrm</return_url>
      <weight>0</weight>
   </item>
   <item>
@@ -21,10 +20,12 @@
   </item>
   <item>
      <path>civicrm/contact/search</path>
-     <title>Contacts</title>
+     <title>Find Contacts</title>
      <page_callback>CRM_Contact_Controller_Search</page_callback>
+     <page_arguments>mode=256</page_arguments>
      <access_arguments>access CiviCRM</access_arguments>
      <weight>10</weight>
+     <page_type>1</page_type>
   </item>
   <item>
      <path>civicrm/contact/search/basic</path>
@@ -35,15 +36,19 @@
      <path>civicrm/contact/search/advanced</path>
      <title>Advanced Search</title>
      <page_arguments>mode=512</page_arguments>
+     <page_type>1</page_type>
+     <weight>12</weight>
   </item>
   <item>
      <path>civicrm/contact/search/builder</path>
      <title>Search Builder</title>
      <page_arguments>mode=8192</page_arguments>
+     <page_type>1</page_type>
+     <weight>14</weight>
   </item>
   <item>
      <path>civicrm/contact/search/custom</path>
-     <title>Search Builder</title>
+     <title>Custom Search</title>
      <page_arguments>mode=16384</page_arguments>
   </item>
   <item>
@@ -63,6 +68,7 @@
      <title>Edit Related Contact</title>
      <page_callback>CRM_Contact_Form_RelatedContact</page_callback>
      <access_arguments>access CiviCRM</access_arguments>
+     <return_url>civicrm/user</return_url>
   </item>
   <item>
      <path>civicrm/contact/merge</path>

@@ -159,7 +159,6 @@ WHERE  id = %1
      * load the smart group cache for a saved search
      */
     static function load( &$group ) {
-        CRM_Core_Error::debug( $group );
         $groupID       = $group->id;
         $savedSearchID = $group->saved_search_id;
 

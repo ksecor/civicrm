@@ -82,8 +82,8 @@ class CRM_Member_Page_UserDashboard extends CRM_Contact_Page_View_UserDashBoard
             $membership[$dao->id]['renewPageId'] = CRM_Member_BAO_Membership::getContributionPageId( $dao->id );
         }
         
-        $activeMembers   = CRM_Member_BAO_Membership::activeMembers($this->_contactId, $membership );
-        $inActiveMembers = CRM_Member_BAO_Membership::activeMembers($this->_contactId, $membership, 'inactive' );
+        $activeMembers   = CRM_Member_BAO_Membership::activeMembers( $membership );
+        $inActiveMembers = CRM_Member_BAO_Membership::activeMembers( $membership, 'inactive' );
 
         $this->assign('activeMembers', $activeMembers);
         $this->assign('inActiveMembers', $inActiveMembers);

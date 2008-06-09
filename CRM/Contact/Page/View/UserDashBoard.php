@@ -154,12 +154,10 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
                                           'weight'       => 40 );
          
             $links =& self::links( );
-            $mask  = CRM_Core_Action::mask( $this->_permission );
-           
             $currentRelationships = CRM_Contact_BAO_Relationship::getRelationship($this->_contactId,
                                                                                   CRM_Contact_BAO_Relationship::CURRENT,
                                                                                   0, 0, 0,
-                                                                                  $links, $mask, true );
+                                                                                  $links, null, true );
             $this->assign( 'currentRelationships',  $currentRelationships  );
         }
 

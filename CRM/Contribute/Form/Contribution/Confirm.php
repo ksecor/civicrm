@@ -446,15 +446,14 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             // at this point we've created a contact and stored its address etc
             // all the payment processors expect the name and address to be in the 
             // so we copy stuff over to first_name etc. 
-            
             $paymentParams      = $this->_params;
             $contributionTypeId = $this->_values['contribution_type_id'];
             
-            require_once "CRM/Contribute/BAO/Contribution.php";
-            CRM_Contribute_BAO_Contribution::processConfirm( $this, $paymentParams, 
-                                                             $premiumParams, $contactID, 
-                                                             $contributionTypeId, 
-                                                             'contribution' );
+            require_once "CRM/Contribute/BAO/Contribution/Utils.php";
+            CRM_Contribute_BAO_Contribution_Utils::processConfirm( $this, $paymentParams, 
+                                                                   $premiumParams, $contactID, 
+                                                                   $contributionTypeId, 
+                                                                   'contribution' );
         }
     }
     
@@ -598,10 +597,10 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
 
         $now = date( 'YmdHis' );    
         $receiptDate = CRM_Utils_Array::value( 'receipt_date', $params );
-        if ( ! $online && $form->_values['is_email_receipt'] ) {
+        if ( $form->_values['is_email_receipt'] ) {
             $receiptDate = $now;
         }
-       
+
         // check contribution Type
         // first create the contribution record
         $contribParams = array(
@@ -816,8 +815,10 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         }
 
         // formalities for creating / editing organization.
-        $behalfOrganization['contact_type']              = 'Organization';
-        $behalfOrganization['location'][1]['is_primary'] = 1;
+        $behalfOrganization['contact_type']                    = 'Organization';
+        $behalfOrganization['location'][1]['is_primary']       = 1;
+        $behalfOrganization['location'][1]['location_type_id'] = 
+            CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_LocationType', 'Main', 'id', 'name' );
         
         // get the relationship type id
         require_once "CRM/Contact/DAO/RelationshipType.php";

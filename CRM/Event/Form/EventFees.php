@@ -50,6 +50,7 @@ class CRM_Event_Form_EventFees
     {
         $form->_eventId       = CRM_Utils_Request::retrieve( 'eventId', 'Positive', $form );
         $form->_participantId = CRM_Utils_Request::retrieve( 'participantId', 'Positive', $form );
+        $form->_discountId    = CRM_Utils_Request::retrieve( 'discountId', 'Positive', $form );
     }
     
     /**
@@ -152,6 +153,32 @@ class CRM_Event_Form_EventFees
                                                                                'default_fee_id', 
                                                                                'event_id' );
             }
+         
+            if ( ! isset($form->_discountId) )  {
+                if ( $form->_action == CRM_Core_Action::ADD ) {
+                    require_once 'CRM/Core/BAO/Discount.php';
+                    $discountId = CRM_Core_BAO_Discount::findSet( $form->_eventId, 'civicrm_event' );
+                    $defaultDiscountId = CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_EventPage", 
+                                                                      $form->_eventId, 
+                                                                      'default_discount_id' );
+                    if ( $defaultDiscountId ) {
+                        $discountKey = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_OptionValue", 
+                                                                    $defaultDiscountId, 
+                                                                    'weight' );
+                    }
+                    $defaults[$form->_participantId]['discount_id'] = $discountId;
+                    $defaults[$form->_participantId]['amount'] = $form->_values['discount'][$discountId]['amount_id'][$discountKey];
+
+                } elseif ( $form->_action == CRM_Core_Action::UPDATE ) {
+                    $discountId = CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_Participant", $form->_participantId, 'discount_id' );
+                    $discount = CRM_Core_BAO_Discount::getOptionGroup( $form->_eventId, 'civicrm_event', true );
+                  
+                    $defaults[$form->_participantId]['discount_id'] = CRM_Utils_Array::key( $discountId,  $discount);
+                   
+                }
+            } else {
+                $defaults[$form->_participantId]['discount_id'] = $form->_discountId;
+            }
         }
 
         return $defaults[$form->_participantId];
@@ -163,7 +190,6 @@ class CRM_Event_Form_EventFees
      * @return None 
      * @access public 
      */ 
-
     static function buildQuickForm( &$form )  
     { 
         if ( $form->_eventId ) {
@@ -179,7 +205,20 @@ class CRM_Event_Form_EventFees
             $form->_values = array( );
             require_once "CRM/Event/Form/Registration/Register.php";
             CRM_Event_Form_Registration::initPriceSet($form, $eventPage['id'] );
-            CRM_Event_Form_Registration_Register::buildAmount( $form, false );
+            CRM_Event_Form_Registration_Register::buildAmount( $form, false, $form->_discountId );
+            $discounts = array( );
+            if ( !empty( $form->_values['discount'] ) ) {
+                foreach( $form->_values['discount'] as $key => $value ) { 
+                    $discounts[$key] = $value['name'];                   
+                }
+                
+                $form->add('select', 'discount_id', 
+                           ts( 'Discount Set' ), 
+                           array( 0 => ts( '- select -' )) + $discounts,
+                           false,
+                           array('onchange' => "buildFeeBlock( {$form->_eventId}, this.value );") );
+            }
+            
             $form->addElement('checkbox', 'record_contribution', ts('Record Payment?'), null, 
                               array('onclick' =>"return showHideByValue('record_contribution','','payment_information','table-row','radio',false);"));
 

@@ -23,9 +23,11 @@
   </primaryKey>
   <field>
        <name>contact_type</name>
+       <title>Contact Type</title>
        <type>enum</type>
        <values>Individual, Organization, Household</values>
        <comment>Type of Contact.</comment>
+       <export>true</export>
       <add>1.1</add>
   </field>
   <index>
@@ -37,7 +39,7 @@
        <name>contact_sub_type</name>
        <type>varchar</type>
        <length>64</length>
-       <import>true</import>
+       <export>true</export>
        <headerPattern>/C(ontact )?(sub-type|sub type)/i</headerPattern>
        <comment>May be used to over-ride contact view and edit templates.</comment>
        <add>1.5</add>
@@ -121,8 +123,10 @@
   </index>
   <field>
        <name>sort_name</name>
+       <title>Sort Name</title>
        <type>varchar</type>
        <length>128</length>
+       <export>true</export>
        <comment>Name used for sorting different contact types</comment>
       <add>1.1</add>
   </field>
@@ -133,8 +137,10 @@
   </index>
   <field>
        <name>display_name</name>
+       <title>Display Name</title>
        <type>varchar</type>
        <length>128</length>
+       <export>true</export>
        <comment>Formatted name representing preferred format for display/print/other output.</comment>
        <add>1.1</add>
   </field>

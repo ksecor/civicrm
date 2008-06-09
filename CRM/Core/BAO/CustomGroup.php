@@ -467,9 +467,10 @@ WHERE  {$table}.entity_id = {$entityId}";
 
                 if ( $hookOP ) {
                     require_once 'CRM/Utils/Hook.php';
-                    CRM_Utils_Hook::post( $hookOP, 'custom',
-                                          array( $groupID, $entityId ),
-                                          $group['fields'] );
+                    CRM_Utils_Hook::custom( $hookOP,
+                                            $groupID,
+                                            $entityId,
+                                            $group['fields'] );
                 }
 
                 $query = "

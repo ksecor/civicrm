@@ -379,7 +379,7 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
             self::$_columnHeaders = array(
                                           array(
                                                 'name'      => ts('Type'),
-                                                'sort'      => 'membership_type',
+                                                'sort'      => 'membership_type_id',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array('name'      => ts('Member Since'),
@@ -388,17 +388,17 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
                                                 ),
                                           array(
                                                 'name'      => ts('Start Date'),
-                                                'sort'      => 'start_date',
+                                                'sort'      => 'membership_start_date',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
                                                 'name'      => ts('End Date'),
-                                                'sort'      => 'end_date',
+                                                'sort'      => 'membership_end_date',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
                                                 'name'      => ts('Source'),
-                                                'sort'      => 'source',
+                                                'sort'      => 'membership_source',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(

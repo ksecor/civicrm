@@ -415,7 +415,6 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
     /** 
      * Function to obtain active/inactive memberships from the list of memberships passed to it.
      * 
-     * @param int    $contactId   contact id
      * @param array  $memberships membership records
      * @param string $status      active or inactive
      *
@@ -423,7 +422,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
      * @static
      * @access public
      */
-    static function activeMembers( $contactId, $memberships, $status = 'active' ) 
+    static function activeMembers( $memberships, $status = 'active' ) 
     {
         $actives = array();
         if ( $status == 'active' ) {
@@ -820,11 +819,11 @@ AND civicrm_membership.is_test = %2";
         //this condition is arises when separate membership payment is
         //enable and contribution amount is not selected. fix for CRM-3010
         if ( $form->_amount > 0.0 ) {
-            require_once 'CRM/Contribute/BAO/Contribution.php';
-            $result = CRM_Contribute_BAO_Contribution::processConfirm( $form, $membershipParams, 
-                                                                       $premiumParams, $contactID,
-                                                                       $contributionTypeId, 
-                                                                       'membership' );
+            require_once 'CRM/Contribute/BAO/Contribution/Utils.php';
+            $result = CRM_Contribute_BAO_Contribution_Utils::processConfirm( $form, $membershipParams, 
+                                                                             $premiumParams, $contactID,
+                                                                             $contributionTypeId, 
+                                                                             'membership' );
         }        
         $errors = array();
         if ( is_a( $result[1], 'CRM_Core_Error' ) ) {
@@ -924,20 +923,15 @@ AND civicrm_membership.is_test = %2";
                                                                '_qf_Main_display=true' ) );
         }
         
-        if ( ( $form->_contributeMode == 'notify' ||
-               $form->_params['is_pay_later'] ) &&
-             ( $form->_values['is_monetary'] && $form->_amount > 0.0 ) ) {
+        $form->_params['membershipID'] = $membership->id;
 
-            $form->_params['membershipID'] = $membership->id;
-            
-            if ( ! $form->_params['is_pay_later'] ) {
+        if ( $form->_contributeMode == 'notify' ) {
+            if ( $form->_values['is_monetary'] && $form->_amount > 0.0 ) {
                 // this does not return
                 require_once 'CRM/Core/Payment.php';
                 $payment =& CRM_Core_Payment::singleton( $form->_mode, 'Contribute', $form->_paymentProcessor );
                 $payment->doTransferCheckout( $form->_params );
             }
-            // return in case of pay later and goto thank you page
-            return;
         }
         
         $form->_values['membership_id'  ] = $membership->id;
@@ -945,8 +939,7 @@ AND civicrm_membership.is_test = %2";
         //finally send an email receipt
         require_once "CRM/Contribute/BAO/ContributionPage.php";
         CRM_Contribute_BAO_ContributionPage::sendMail( $contactID,
-                                                       $form->_values
-                                                       );
+                                                       $form->_values );
     }
     
     /**
