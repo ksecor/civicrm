@@ -44,9 +44,12 @@ class Contact extends DrupalTestCase
         //compose the params, when not passed
         if ( !$params ) {
             $household_name = "John Doe's home";
-            $params = array( 'household_name'     => $household_name );
+            $params = array( 'household_name' => $household_name,
+                             'contact_type'   => 'Household' );
         }
-        return self::create($params);
+        require_once "CRM/Contact/BAO/Contact.php";
+        $household = CRM_Contact_BAO_Contact::create( $params );
+        return $household->id;
     }
 
     /*
@@ -59,9 +62,12 @@ class Contact extends DrupalTestCase
         //compose the params, when not passed
         if ( !$params ) {
             $organization_name = "My Organization";
-            $params = array( 'organization_name' => $organization_name );
+            $params = array( 'organization_name' => $organization_name, 
+                             'contact_type'      => 'Organization' );
         }
-        return $this->create($params);
+        require_once "CRM/Contact/BAO/Contact.php";
+        $organization = CRM_Contact_BAO_Contact::create( $params );
+        return $organization->id;
     }
     
     /*

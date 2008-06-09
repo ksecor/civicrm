@@ -348,7 +348,7 @@ UNION
                              'default2'     => $stateDefault,
                              'firstInList'  => "true",
                              );
-        $form->add( 'text', "location[1][address][country_state]", ts( 'Select Country' ), $attributes );
+        $form->add( 'text', "location[1][address][country_state]", ts( 'Country - State' ), $attributes );
 
         // remove country & state from address sequence since address.tpl uses old approach 
         // and not the new hier-select widget approach / method. So we will add them separately 
@@ -368,7 +368,7 @@ UNION
         }
         unset($addressSequence[$key]);
 
-        $form->assign( 'addressSequence', $addressSequence );
+        $form->assign( 'addressSequence', array_fill_keys($addressSequence, 1) );
 
         //Primary Phone 
         $form->addElement('text',

@@ -27,7 +27,6 @@ function civicrm_init( ) {
     CRM_Core_DAO::init( $config->dsn );
 
     $factoryClass = 'CRM_Contact_DAO_Factory';
-
     CRM_Core_DAO::setFactory(new $factoryClass());
 
     // set error handling

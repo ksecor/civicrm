@@ -35,100 +35,33 @@
 
 class CRM_Utils_Hook_Drupal {
 
-    /** 
-     * This hook will be called on any operation on some core CiviCRM 
-     * objects. We will extend the functionality over a period of time 
-     * to make it similar to Drupal's user hook, where the external module 
-     * can inject and collect form elements and form information into a 
-     * Drupal form (specifically the registration page and the account 
-     * information page) 
-     * 
-     * @param string $op         the type of operation being performed 
-     * @param string $objectName the BAO class name of the object 
-     * @param object $id         the object id if available
-     * @param array  $params     the parameters used for object creation / editing
-     *  
-     * @return mixed             based on op. pre-hooks return a boolean and/or
-     *                           an error message which aborts the operation
-     * @access public 
-     */ 
-    static function pre( $op, $objectName, $id, &$params ) {
+    static function invoke( $numParams,
+                            &$arg1, &$arg2, &$arg3, &$arg4, &$arg5,
+                            $fnSuffix ) {
         $result = array( );
         // copied from user_module_invoke
         if (function_exists('module_list')) {
             foreach ( module_list() as $module) { 
-                $function = $module . '_civicrm_pre';
-                if ( function_exists( $function ) ) {
-                    $fResult = $function( $op, $objectName, $id, $params );
-                    if ( $fResult !== true ) {
+                $fnName = "{$module}_{$fnSuffix}";
+                if ( function_exists( $fnName ) ) {
+                    if ( $numParams == 1 ) {
+                        $fResult = $fnName( $arg1 );
+                    } else if ( $numParams == 2 ) {
+                        $fResult = $fnName( $arg1, $arg2 );
+                    } else if ( $numParams == 3 ) {
+                        $fResult = $fnName( $arg1, $arg2, $arg3 );
+                    } else if ( $numParams == 4 ) {
+                        $fResult = $fnName( $arg1, $arg2, $arg3, $arg4 );
+                    } else if ( $numParams == 5 ) {
+                        $fResult = $fnName( $arg1, $arg2, $arg3, $arg4, $arg5 );
+                    }
+                    if ( is_array( $fResult ) ) {
                         $result = array_merge( $result, $fResult );
                     }
                 }
             }
         }
         return empty( $result ) ? true : $result;
-    }
-
-    /** 
-     * This hook will be called on any operation on some core CiviCRM 
-     * objects. We will extend the functionality over a period of time 
-     * to make it similar to Drupal's user hook, where the external module 
-     * can inject and collect form elements and form information into a 
-     * Drupal form (specifically the registration page and the account 
-     * information page) 
-     * 
-     * @param string $op         the type of operation being performed 
-     * @param string $objectName the BAO class name of the object 
-     * @param int    $objectId   the unique identifier for the object 
-     * @param object $objectRef  the reference to the object if available 
-     *  
-     * @return mixed             based on op. pre-hooks return a boolean and/or
-     *                           an error message which aborts the operation
-     * @access public 
-     */ 
-    static function post( $op, $objectName, $objectId, &$objectRef ) {
-        // copied from user_module_invoke
-        if (function_exists( 'module_list')) {
-            foreach (module_list() as $module) { 
-                $function = $module . '_civicrm_post';
-                if ( function_exists( $function ) ) {
-                    $function( $op, $objectName, $objectId, $objectRef );
-                }
-            }
-        }
-    }
-
-    /**
-     * This hook retrieves links from other modules and injects it into
-     * CiviCRM forms
-     *
-     * @param string $op         the type of operation being performed
-     * @param string $objectName the name of the object
-     * @param int    $objectId   the unique identifier for the object 
-     *
-     * @return array|null        an array of arrays, each element is a tuple consisting of url, img, title
-     *
-     * @access public
-     */
-    static function links( $op, $objectName, $objectId ) {
-        return module_invoke_all( 'civicrm_links', $op, $objectName, $objectId ); 
-    }
-
-    static function validate( $formName, &$fields, &$files, &$form ) {
-        $result = array( );
-        // copied from user_module_invoke
-        if (function_exists('module_list')) {
-            foreach ( module_list() as $module) { 
-                $function = $module . '_civicrm_validate';
-                if ( function_exists( $function ) ) {
-                    $fResult = $function( $formName, $fields, $files, $form );
-                    if ( $fResult !== true ) {
-                        $result = array_merge( $result, $fResult );
-                    }
-                }
-            }
-        }
-        return empty( $result ) ? true : $result;
-    }
+   }
 
 }

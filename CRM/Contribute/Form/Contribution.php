@@ -834,14 +834,18 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             }
             
             require_once 'CRM/Contribute/Form/Contribution/Confirm.php';
-            $contribution =& CRM_Contribute_Form_Contribution_Confirm::processContribution( $this, $this->_params, $result, 
-                                                                                            $this->_contactID, $contributionType,  
-                                                                                            false, false, false );
+            $contribution 
+                =& CRM_Contribute_Form_Contribution_Confirm::processContribution( $this, 
+                                                                                  $this->_params, 
+                                                                                  $result, 
+                                                                                  $this->_contactID, 
+                                                                                  $contributionType,  
+                                                                                  false, false, false );
             if ( $contribution->id &&
                  CRM_Utils_Array::value( 'is_email_receipt', $this->_params ) ) {
                 $this->_params['trxn_id']    =  CRM_Utils_Array::value( 'trxn_id', $result );
                 $this->_params['contact_id'] =  $this->_contactID;
-                CRM_Contribute_Form_AdditionalInfo::emailReceipt( &$this, &$this->_params, true );
+                CRM_Contribute_Form_AdditionalInfo::emailReceipt( $this, $this->_params, true );
             }
             
             //process the note
@@ -1041,7 +1045,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             // Message generating templates
             if ( $formValues['is_email_receipt'] ) {
                 $formValues['contact_id'] =  $this->_contactID;
-                CRM_Contribute_Form_AdditionalInfo::emailReceipt( &$this, &$formValues );
+                CRM_Contribute_Form_AdditionalInfo::emailReceipt( $this, $formValues );
             }
             
             $statusMsg = ts('The contribution record has been saved.');

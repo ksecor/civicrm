@@ -10,6 +10,13 @@
      <weight>500</weight>
      <component>CiviContribute</component>
   </item>
+ <item>
+     <path>civicrm/contribute/chart</path>
+     <title>Contribution Chart</title>
+     <page_callback>CRM_Contribute_Form_ContributionCharts</page_callback>
+     <access_arguments>access CiviContribute</access_arguments>
+     <component>CiviContribute</component>
+  </item> 
   <item>
      <path>civicrm/contribute/transact</path>
      <title>CiviContribute</title>
@@ -114,5 +121,5 @@
      <page_callback>CRM_Contribute_Form_AdditionalInfo</page_callback>
      <access_arguments>access CiviContribute</access_arguments>
      <weight>0</weight>
-  </item>  
-</menu>
+  </item>
+ </menu>

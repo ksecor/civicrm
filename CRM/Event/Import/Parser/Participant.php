@@ -408,16 +408,14 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
                 }  
                 
             } else {
-                if ($this->_contactType == 'Individual') {
-                    require_once 'CRM/Core/DAO/DupeMatch.php';
-                    $dao = & new CRM_Core_DAO_DupeMatch();;
-                    $dao->find(true);
-                    $fieldsArray = explode('AND',$dao->rule);
-                } elseif ($this->_contactType == 'Household') {
-                    $fieldsArray = array('household_name', 'email');
-                } elseif ($this->_contactType == 'Organization') {
-                    $fieldsArray = array('organization_name', 'email');
-                }
+                // Using new Dedupe rule.
+                $ruleParams = array(
+                                    'contact_type' => $this->_contactType,
+                                    'level' => 'Strict'
+                                    );
+                require_once 'CRM/Dedupe/BAO/Rule.php';
+                $fieldsArray = CRM_Dedupe_BAO_Rule::dedupeRuleFields($ruleParams);
+                
                 foreach ( $fieldsArray as $value ) {
                     if(array_key_exists(trim($value),$params)) {
                         $paramValue = $params[trim($value)];

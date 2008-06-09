@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-04-28 21:53+0200\n"
-"PO-Revision-Date: 2008-06-01 22:48-0700\n"
+"PO-Revision-Date: 2008-06-02 02:04-0700\n"
 "Last-Translator: DOKTER_MOF <mofdok@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -387,7 +387,7 @@ msgstr "Уточнения"
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 #: templates/CRM/Activity/Form/Activity.tpl
 msgid "Detach"
-msgstr ""
+msgstr "Отделить"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Import/Form/MapField.php
 #: CRM/Activity/Import/Form/Preview.php
@@ -441,12 +441,12 @@ msgstr "Статус"
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 #: templates/CRM/Activity/Form/ActivityView.tpl
 msgid "Added By"
-msgstr ""
+msgstr "Добавил"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 #: CRM/Core/Menu.php templates/CRM/Case/Form/CaseActivity.tpl
 msgid "Case"
-msgstr ""
+msgstr "Портфель"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Form/ActivityView.php
 #: CRM/Activity/Import/Form/Summary.php CRM/Admin/Form/RelationshipType.php
@@ -654,7 +654,7 @@ msgstr "Нехватает обязательных полей"
 
 #: CRM/Activity/Import/Parser.php CRM/Import/Parser.php
 msgid "Line Number"
-msgstr ""
+msgstr "Номер линии"
 
 #: CRM/Activity/Import/Parser.php CRM/Import/Parser.php
 msgid "Reason"
@@ -791,11 +791,11 @@ msgstr ""
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
 msgid "Button URL"
-msgstr ""
+msgstr "URL адрес кнопки"
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
 msgid "API URL"
-msgstr ""
+msgstr "URL адрес API"
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
 #: CRM/Core/Menu.php
@@ -818,12 +818,12 @@ msgstr "Фамилия"
 #: CRM/Admin/Form/PaymentProcessorType.php CRM/Core/BAO/CMSUser.php
 #: CRM/Core/DAO/PaymentProcessor.php xml/templates/civicrm_add_domain.tpl
 msgid "Password"
-msgstr ""
+msgstr "Пароль"
 
 #: CRM/Admin/Form/PaymentProcessorType.php CRM/Core/DAO/PaymentProcessor.php
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Signature"
-msgstr ""
+msgstr "Подпись"
 
 #: CRM/Admin/Form/Preferences/Address.php CRM/Contact/Form/Search/Advanced.php
 #, fuzzy
@@ -843,7 +843,7 @@ msgstr ""
 #: CRM/Admin/Form/PreferencesDate.php CRM/Core/DAO/PreferencesDate.php
 #: templates/CRM/Admin/Page/PreferencesDate.tpl
 msgid "Format"
-msgstr ""
+msgstr "Формат"
 
 #: CRM/Admin/Form/PreferencesDate.php CRM/Custom/Form/Field.php
 msgid "Value should be a positive number"
@@ -896,19 +896,19 @@ msgstr "<< Удалить"
 
 #: CRM/Admin/Form/Setting/Smtp.php CRM/Admin/Page/Setting.php
 msgid "SMTP Server"
-msgstr ""
+msgstr "SMTP сервер"
 
 #: CRM/Admin/Form/Setting/UF.php CRM/Admin/Form/Setting/Url.php
 msgid "Settings - Resource URLs"
-msgstr ""
+msgstr "Настройки - URL адрес источника"
 
 #: CRM/Admin/Page/Admin.php CRM/Core/Menu.php
 msgid "Customize"
-msgstr ""
+msgstr "Настройки"
 
 #: CRM/Admin/Page/Admin.php CRM/Core/Menu.php
 msgid "Configure"
-msgstr "Настраивать"
+msgstr "Конфигурация"
 
 #: CRM/Admin/Page/Admin.php CRM/Core/Menu.php
 msgid "Manage"
@@ -939,12 +939,12 @@ msgstr "Редактировать %1"
 
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 msgid "File System Paths"
-msgstr ""
+msgstr "Путь"
 
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Form/Setting/Url.tpl
 msgid "Site URLs"
-msgstr ""
+msgstr "URL Адрес сайта"
 
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Form/Setting/Mapping.tpl
@@ -965,7 +965,7 @@ msgstr ""
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid "Debugging"
-msgstr ""
+msgstr "Отладка"
 
 #: CRM/Case/BAO/Query.php CRM/Contact/BAO/Query.php
 msgid "or"
@@ -975,13 +975,13 @@ msgstr "или"
 #: templates/CRM/Contact/Page/View/Case.tpl
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Case Type"
-msgstr ""
+msgstr "Тип портфеля"
 
 #: CRM/Case/BAO/Query.php CRM/Case/Form/Case.php
 #: templates/CRM/Contact/Page/View/Case.tpl
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Case Status"
-msgstr ""
+msgstr "Статус портфеля"
 
 #: CRM/Case/DAO/Case.php CRM/Case/Form/Case.php
 #: CRM/Contact/DAO/Relationship.php CRM/Contact/Form/Relationship.php
@@ -1084,7 +1084,7 @@ msgstr "Страна"
 #: CRM/Contact/BAO/Query.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Core/DAO/Worldregion.php
 msgid "World Region"
-msgstr ""
+msgstr "Регион"
 
 #: CRM/Contact/BAO/Query.php CRM/Contact/Form/Individual.php
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
@@ -1228,7 +1228,7 @@ msgstr "Выберите закладку"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
 msgid "Where Tables"
-msgstr ""
+msgstr "Где таблица"
 
 #: CRM/Contact/DAO/Group.php CRM/Group/Form/Edit.php
 #: templates/CRM/Group/Page/Group.tpl xml/templates/civicrm_add_domain.tpl
@@ -1295,7 +1295,7 @@ msgstr "Область / Регион"
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/Edit.php
 #: CRM/Core/BAO/Address.php templates/CRM/Contact/Form/Address/country.tpl
 msgid "- type first letter(s) -"
-msgstr ""
+msgstr "- введите первую букву(ы) -"
 
 #: CRM/Contact/Form/DeleteLocation.php CRM/Core/Invoke.php
 #, fuzzy
@@ -1370,7 +1370,7 @@ msgstr "Веб-сайт"
 
 #: CRM/Contact/Form/Merge.php CRM/Grant/Invoke.php
 msgid "You do not have access to this page"
-msgstr ""
+msgstr "У Вас нет доступа к этой странице"
 
 #: CRM/Contact/Form/Merge.php CRM/Contact/Form/Task/Delete.php
 #, fuzzy
@@ -1417,7 +1417,7 @@ msgstr "Да"
 
 #: CRM/Contact/Form/OpenID.php CRM/Standalone/Form/Register.php
 msgid "OpenID"
-msgstr ""
+msgstr "Открытый ID"
 
 #: CRM/Contact/Form/Organization.php CRM/Core/BAO/CustomField.php
 #: CRM/Core/BAO/UFGroup.php
@@ -1472,7 +1472,7 @@ msgstr "Связи"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Tabbed.php
 msgid "Change Log"
-msgstr ""
+msgstr "Дата изменения"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Basic.php
 #: CRM/Contact/Page/View/Contribution.php CRM/Contact/Page/View/Tabbed.php
@@ -1496,7 +1496,7 @@ msgstr ""
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Tabbed.php
 msgid "Cases"
-msgstr ""
+msgstr "Портфели"
 
 #: CRM/Contact/Form/Search/Basic.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Contact/Form/Search/Custom/ActivitySearch.php
@@ -1574,7 +1574,7 @@ msgstr ""
 #: CRM/Contact/Form/Search/Custom.php CRM/Core/Invoke.php
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Custom Search"
-msgstr ""
+msgstr "Выборочный поиск"
 
 #: CRM/Contact/Form/Search/Custom/Sample.php CRM/Core/BAO/CustomField.php
 msgid "State/Province"
@@ -1750,7 +1750,7 @@ msgstr "Экспорт контактов"
 
 #: CRM/Core/BAO/CMSUser.php CRM/Profile/Form.php
 msgid "An account already exists with the same information."
-msgstr ""
+msgstr "В акаунте существует данная информация"
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/SelectValues.php
 msgid "Integer"
@@ -1788,6 +1788,7 @@ msgstr "%1 должно быть целым числом."
 #: CRM/Core/BAO/CustomField.php CRM/Core/BAO/File.php
 msgid "Could not move custom file to custom upload directory"
 msgstr ""
+"Невозможно переместить выбранный файл в выбраную директорию для загрузки"
 
 #: CRM/Core/BAO/Note.php CRM/Note/Form/Note.php
 msgid "We could not find your logged in user ID"
@@ -1826,7 +1827,7 @@ msgstr ""
 
 #: CRM/Core/Block.php CRM/Core/Menu.php
 msgid "Log out"
-msgstr ""
+msgstr "Выйти"
 
 #: CRM/Core/Block.php CRM/Grant/Info.php CRM/Grant/Menu.php
 msgid "CiviGrant"
@@ -1891,7 +1892,7 @@ msgstr "Множественный выбор"
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
 msgid "Radio"
-msgstr "Радиальная"
+msgstr "Радио кнопка"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
@@ -1934,7 +1935,7 @@ msgstr "Категория Тел. Номера"
 
 #: CRM/Core/DAO/Mapping.php CRM/Core/Invoke.php
 msgid "Import Activity"
-msgstr ""
+msgstr "Импорт активности"
 
 #: CRM/Core/DAO/Mapping.php CRM/Core/Invoke.php CRM/Core/Menu.php
 #, fuzzy
@@ -1998,11 +1999,11 @@ msgstr "Профиль  CiviCRM"
 #: CRM/Core/Invoke.php CRM/Friend/Form/Contribute.php
 #: CRM/Friend/Form/Event.php templates/CRM/Friend/Form/Friend.tpl
 msgid "Tell A Friend"
-msgstr ""
+msgstr "Сказать другу"
 
 #: CRM/Core/Invoke.php CRM/Core/Page/File.php
 msgid "Domain Information Page"
-msgstr ""
+msgstr "Страница информации о домене"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
 #, fuzzy
@@ -2052,7 +2053,7 @@ msgstr "Встечи контакта"
 
 #: CRM/Core/Invoke.php CRM/Price/Page/Set.php
 msgid "Price Sets"
-msgstr ""
+msgstr "Выборка прайсов"
 
 #: CRM/Core/Invoke.php CRM/Price/Page/Field.php
 #: templates/CRM/Price/Form/Field.tpl
@@ -2062,7 +2063,7 @@ msgstr "Редактировать поле"
 
 #: CRM/Core/Invoke.php CRM/Price/Page/Set.php templates/CRM/Price/Form/Set.tpl
 msgid "Price Set"
-msgstr ""
+msgstr "выбрать цену"
 
 #: CRM/Core/Menu.php CRM/Group/Form/Edit.php
 msgid "Manage Groups"
@@ -2071,7 +2072,7 @@ msgstr "Редактировать Группы"
 #: CRM/Core/Menu.php CRM/Friend/BAO/Friend.php CRM/Friend/Form/Contribute.php
 #: CRM/Friend/Form/Event.php xml/templates/civicrm_add_domain.tpl
 msgid "Tell a Friend"
-msgstr ""
+msgstr "Сказать другу"
 
 #: CRM/Core/Menu.php CRM/Core/SelectValues.php
 msgid "Contacts"
@@ -2089,13 +2090,13 @@ msgstr "Настраиваемое поле \"%1\" удалено."
 #: CRM/Core/Payment/Google.php CRM/Core/Payment/PayPalImpl.php
 msgid ""
 "User Name is not set in the Administer CiviCRM &raquo; Payment Processor."
-msgstr ""
+msgstr "Не выбрано имя пользователя в CiviCRM &raquo; Payment Processor."
 
 #: CRM/Core/Payment/Google.php CRM/Core/Payment/IATS.php
 #: CRM/Core/Payment/Moneris.php CRM/Core/Payment/PayPalImpl.php
 msgid ""
 "Password is not set in the Administer CiviCRM &raquo; Payment Processor."
-msgstr ""
+msgstr "Не выбран пароль в CiviCRM &raquo;Payment Processor."
 
 #: CRM/Custom/Form/DeleteField.php CRM/Custom/Page/Field.php
 msgid "Delete Custom Field"
@@ -2117,7 +2118,7 @@ msgstr "Лэйбл поля"
 #: templates/CRM/Custom/Page/Group.tpl templates/CRM/Price/Page/Field.tpl
 #: templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Group.tpl
 msgid "Order"
-msgstr ""
+msgstr "Заказ"
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php
 #: CRM/Price/Form/Field.php CRM/Price/Form/Option.php
@@ -2133,7 +2134,7 @@ msgstr "Обязательно?"
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
 msgid "must be a numeric value"
-msgstr ""
+msgstr "Должно быть числовое значение"
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php CRM/UF/Form/Field.php
 msgid "Field Help"
@@ -2163,7 +2164,7 @@ msgstr "Опция значение не может быть пустой"
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
 #, fuzzy
 msgid "Please enter a valid money value."
-msgstr "Пожалуйста укажите действительную числове значение."
+msgstr "Пожалуйста укажите действительное числовое значение."
 
 #: CRM/Custom/Form/Group.php CRM/Price/Form/Set.php
 msgid "Preview %1"
@@ -2189,7 +2190,7 @@ msgstr "Завершить с предварительным просмотро�
 
 #: CRM/Custom/Page/Field.php CRM/Custom/Page/Group.php CRM/UF/Page/Field.php
 msgid "Preview Custom Data"
-msgstr "Просмотрт настраиваемых данных"
+msgstr "Просмотр настраиваемых данных"
 
 #: CRM/Custom/Page/Group.php CRM/Group/Page/Group.php CRM/Price/Page/Set.php
 #: CRM/UF/Page/Group.php
@@ -2198,31 +2199,31 @@ msgstr "Настройки"
 
 #: CRM/Friend/BAO/Friend.php CRM/Friend/DAO/Friend.php
 msgid "Suggested Message"
-msgstr ""
+msgstr "Предложенное сообщение"
 
 #: CRM/Friend/Form/Contribute.php CRM/Friend/Form/Event.php
 msgid "Thanks for Spreading the Word"
-msgstr ""
+msgstr "Спасибо за распространение Слова =)"
 
 #: CRM/Grant/BAO/Query.php CRM/Grant/Form/Grant.php
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Grant Type"
-msgstr ""
+msgstr "Тип представления"
 
 #: CRM/Grant/BAO/Query.php CRM/Grant/Form/Grant.php
 msgid "Grant Status"
-msgstr ""
+msgstr "Статус представления"
 
 #: CRM/Grant/DAO/Grant.php CRM/Grant/Form/Grant.php
 #: CRM/Grant/Selector/Search.php templates/CRM/Grant/Form/Task/Print.tpl
 msgid "Amount Requested"
-msgstr ""
+msgstr "Сумма запрошенная"
 
 #: CRM/Grant/DAO/Grant.php CRM/Grant/Form/Grant.php
 #: CRM/Grant/Selector/Search.php
 #, fuzzy
 msgid "Amount Granted"
-msgstr "Сумма"
+msgstr "Сумма предоставленная"
 
 #: CRM/Grant/DAO/Grant.php CRM/Grant/Form/Grant.php
 #, fuzzy
@@ -2241,7 +2242,7 @@ msgstr "Телефон (предпочтение)"
 
 #: CRM/Grant/Form/Task/Delete.php CRM/Grant/Task.php
 msgid "Delete Grants"
-msgstr ""
+msgstr "Удалить представления"
 
 #: CRM/Group/Form/Edit.php CRM/Group/Page/Group.php
 msgid "Delete Group"
@@ -2270,46 +2271,50 @@ msgstr "Таблица едениц"
 #: CRM/Standalone/OpenID/DAO/Associations.php
 #: CRM/Standalone/OpenID/DAO/Nonce.php
 msgid "Server Url"
-msgstr ""
+msgstr "URL адрес сервера"
 
 #: CRM/Upgrade/TwoZero/Form/Step1.php CRM/Upgrade/TwoZero/Form/Step3.php
 #: CRM/Upgrade/TwoZero/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step5.php
 #: CRM/Upgrade/TwoZero/Form/Step6.php
 msgid "Database consistency check failed for step %1."
-msgstr ""
+msgstr "Неудачная проверка последовательности базы данных для шага %1."
 
 #: CRM/Upgrade/TwoZero/Form/Step1.php CRM/Upgrade/TwoZero/Form/Step3.php
 #: CRM/Upgrade/TwoZero/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step6.php
 msgid "FK constraint names not in the required format."
-msgstr ""
+msgstr "FK ограничение имени не в требуемом формате."
 
 #: CRM/Upgrade/TwoZero/Form/Step1.php CRM/Upgrade/TwoZero/Form/Step3.php
 #: CRM/Upgrade/TwoZero/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step6.php
 msgid "Please rebuild your 1.9 database to ensure schema integrity."
 msgstr ""
+"Пожалуйста перестройте свою 1.9 базу данных для гарантирования целостности "
+"схемы"
 
 #: CRM/Upgrade/TwoZero/Form/Step1.php CRM/Upgrade/TwoZero/Form/Step5.php
 msgid ""
 "Value missing in %1 for the column '%2'. Please add a unique value for the "
 "'name' column for each database record."
 msgstr ""
+"Ошибка значения в %1 для строки '%2'. Пожалуйста добавте уникальное значение "
+"для строки 'Имя' для каждой записи базы данных"
 
 #: CRM/Upgrade/TwoZero/Form/Step1.php CRM/Upgrade/TwoZero/Form/Step2.php
 #: CRM/Upgrade/TwoZero/Form/Step3.php CRM/Upgrade/TwoZero/Form/Step4.php
 #: CRM/Upgrade/TwoZero/Form/Step5.php CRM/Upgrade/TwoZero/Form/Step6.php
 msgid "Post-condition failed for upgrade step %1."
-msgstr ""
+msgstr "Ошибка выходного условия для обновления шага %1."
 
 #: CRM/Upgrade/TwoZero/Form/Step2.php CRM/Upgrade/TwoZero/Form/Step3.php
 #: CRM/Upgrade/TwoZero/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step5.php
 #: CRM/Upgrade/TwoZero/Form/Step6.php CRM/Upgrade/TwoZero/Form/Step7.php
 msgid "Pre-condition failed for upgrade step %1."
-msgstr ""
+msgstr "Ошибка входного условия для обновления шага %1."
 
 #: CRM/Upgrade/TwoZero/Form/Step2.php CRM/Upgrade/TwoZero/Form/Step3.php
 #: CRM/Upgrade/TwoZero/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step5.php
 msgid "Upgrade & Continue"
-msgstr ""
+msgstr "Обновить и Продолжить"
 
 #: CRM/ACL/BAO/ACL.php
 #, fuzzy
@@ -2351,39 +2356,39 @@ msgstr "Отозвать/анулировать"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "add contacts"
-msgstr ""
+msgstr "добавить контакты"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "view all contacts"
-msgstr ""
+msgstr "просмотреть все контакты"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "edit all contacts"
-msgstr ""
+msgstr "редактировать все контакты"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "import contacts"
-msgstr ""
+msgstr "импортировать контакты"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "edit groups"
-msgstr ""
+msgstr "редактировать группы"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "administer CiviCRM"
-msgstr ""
+msgstr "администрирование CiviCRM"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "access uploaded files"
-msgstr ""
+msgstr "доступ для загруженных файлов"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "profile listings and forms"
-msgstr ""
+msgstr "профиль списков и форм"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "access all custom data"
-msgstr ""
+msgstr "доступ ко всем выбраным данным"
 
 #: CRM/ACL/Form/ACLBasic.php
 #, fuzzy
@@ -2392,20 +2397,20 @@ msgstr "Просмотр всей истории действий..."
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "access CiviCRM"
-msgstr ""
+msgstr "доступ CiviCRM"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "access Contact Dashboard"
-msgstr ""
+msgstr "доступ Контакт панель"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "ACL Type"
-msgstr ""
+msgstr "тип ACL"
 
 #: CRM/ACL/Form/ACL.php
 #, fuzzy
 msgid "A group of contacts"
-msgstr "Поиск Контактов CiviCRM"
+msgstr "Группа контактов"
 
 #: CRM/ACL/Form/ACL.php
 #, fuzzy
@@ -2434,11 +2439,11 @@ msgstr "Выберите группу для отправки"
 #: CRM/ACL/Form/ACL.php
 #, fuzzy
 msgid "Please select a Profile (or ALL Profiles)."
-msgstr "Выберите группу для отправки"
+msgstr "Выберите профиль для отправки"
 
 #: CRM/ACL/Form/ACL.php
 msgid "Please select a set of Custom Data (or ALL Custom Data)."
-msgstr ""
+msgstr "Выберите ранее выбранные данные (или ВСЕ выбранные данные)"
 
 #: CRM/ACL/Form/EntityRole.php
 #, fuzzy
@@ -2447,74 +2452,74 @@ msgstr "Выбранный тип действия удален."
 
 #: CRM/ACL/Page/ACLBasic.php
 msgid "Any Role"
-msgstr ""
+msgstr "Любая роль"
 
 #: CRM/ACL/Page/ACL.php
 #, fuzzy
 msgid "Disable ACL"
-msgstr "Деактивировать"
+msgstr "Выключить ACL"
 
 #: CRM/ACL/Page/ACL.php
 #, fuzzy
 msgid "Enable ACL"
-msgstr "Активировать"
+msgstr "Включить ACL"
 
 #: CRM/ACL/Page/EntityRole.php
 #, fuzzy
 msgid "Are you sure you want to disable this ACL Role Assignment?"
-msgstr "Вы действительно хотите отключить этот Пол?"
+msgstr "Вы действительно хотите отключить эту ACL роль?"
 
 #: CRM/ACL/Page/EntityRole.php
 msgid "Edit ACL Role Assignment"
-msgstr ""
+msgstr "Редактировать назначение ACL роли"
 
 #: CRM/ACL/Page/EntityRole.php
 msgid "Disable ACL Role Assignment"
-msgstr ""
+msgstr "Отключить назначение ACL роли"
 
 #: CRM/ACL/Page/EntityRole.php
 msgid "Enable ACL Role Assignment"
-msgstr ""
+msgstr "Включить назначение ACL роли"
 
 #: CRM/ACL/Page/EntityRole.php templates/CRM/ACL/Form/EntityRole.tpl
 msgid "Delete ACL Role Assignment"
-msgstr ""
+msgstr "Удалить назначение ACL роли"
 
 #: CRM/ACL/Page/EntityRole.php
 msgid "Assign Users to Roles"
-msgstr ""
+msgstr "Назначить пользователям роли"
 
 #: CRM/Activity/BAO/Activity.php
 msgid "- Activity Fields -"
-msgstr ""
+msgstr "- Активные области -"
 
 #: CRM/Activity/BAO/Query.php
 msgid "Case Activity %2 %1"
-msgstr ""
+msgstr "Активный портфель %2 %1"
 
 #: CRM/Activity/BAO/Query.php
 msgid "Communication Medium %2 %1"
-msgstr ""
+msgstr "Связи Средние %2 %1"
 
 #: CRM/Activity/BAO/Query.php
 msgid "Violation Type %2 %1"
-msgstr ""
+msgstr "Тип нарушения %2 %1"
 
 #: CRM/Activity/BAO/Query.php
 msgid "Case Activity Subject %2 %1"
-msgstr ""
+msgstr "Тема активного портфеля %2 %1"
 
 #: CRM/Activity/BAO/Query.php
 msgid "Activity Medium"
-msgstr ""
+msgstr "Активность Средняя"
 
 #: CRM/Activity/BAO/Query.php
 msgid "Violation Type"
-msgstr ""
+msgstr "Тип нарушения"
 
 #: CRM/Activity/BAO/Query.php
 msgid "Content"
-msgstr ""
+msgstr "Содержание"
 
 #: CRM/Activity/DAO/Activity.php
 msgid "Activity ID"
@@ -2522,15 +2527,15 @@ msgstr "ID Действия"
 
 #: CRM/Activity/DAO/Activity.php
 msgid "Activity Type ID"
-msgstr ""
+msgstr "ID Тип действия"
 
 #: CRM/Activity/DAO/Activity.php
 msgid "Activity Date Time"
-msgstr ""
+msgstr "Время действия"
 
 #: CRM/Activity/DAO/Activity.php
 msgid "Due Date Time"
-msgstr ""
+msgstr "Срок"
 
 #: CRM/Activity/DAO/Activity.php
 msgid "Phone Number"
@@ -2538,12 +2543,12 @@ msgstr "Номер телефона"
 
 #: CRM/Activity/DAO/Activity.php
 msgid "Activity Status Label"
-msgstr ""
+msgstr "Название статуса действия"
 
 #: CRM/Activity/DAO/Activity.php
 #, fuzzy
 msgid "Test"
-msgstr "Текст"
+msgstr "Тест"
 
 #: CRM/Activity/DAO/ActivityTarget.php
 msgid "Contact ID (match to contact)"
@@ -2556,7 +2561,7 @@ msgstr "Другие взаимодействия"
 
 #: CRM/Activity/Form/Activity.php
 msgid "- select activity -"
-msgstr ""
+msgstr "- выбрать действие -"
 
 #: CRM/Activity/Form/Activity.php templates/CRM/Activity/Form/ActivityView.tpl
 msgid "With Contact"
@@ -2564,23 +2569,23 @@ msgstr "С Контактом"
 
 #: CRM/Activity/Form/Activity.php
 msgid "Source Contact non-existant!"
-msgstr ""
+msgstr "Исходный контакт не существует!"
 
 #: CRM/Activity/Form/Activity.php
 msgid "Target Contact non-existant!"
-msgstr ""
+msgstr "Конечный контакт не существует!"
 
 #: CRM/Activity/Form/Activity.php
 msgid "Assignee Contact non-existant!"
-msgstr ""
+msgstr "Представитель контакта не существует!"
 
 #: CRM/Activity/Form/Activity.php
 msgid "Invalid Case"
-msgstr ""
+msgstr "нет портфеля"
 
 #: CRM/Activity/Form/Activity.php
 msgid "Selected Activity is deleted sucessfully."
-msgstr ""
+msgstr "Выбранное действие успешно удалено"
 
 #: CRM/Activity/Form/Activity.php
 msgid "Selected Activity has been sucessfully detached from a case."

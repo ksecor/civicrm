@@ -118,8 +118,8 @@ class CRM_Member_Page_Tab extends CRM_Contact_Page_View {
             
         }
 
-        $activeMembers = CRM_Member_BAO_Membership::activeMembers($this->_contactId, $membership );
-        $inActiveMembers = CRM_Member_BAO_Membership::activeMembers($this->_contactId, $membership, 'inactive');
+        $activeMembers = CRM_Member_BAO_Membership::activeMembers( $membership );
+        $inActiveMembers = CRM_Member_BAO_Membership::activeMembers( $membership, 'inactive');
         $this->assign('activeMembers',   $activeMembers);
         $this->assign('inActiveMembers', $inActiveMembers);
         $this->assign('membershipTypes', $membershipTypes);

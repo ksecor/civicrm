@@ -69,12 +69,22 @@ class IDS_Report implements Countable, IteratorAggregate
     /**
      * Impact level
      *
-     * The impact level is calculated on demand by adding the results of the event
-     * objects on IDS_Report->getImpact()
+     * The impact level is calculated on demand by adding the results of the 
+     * event objects on IDS_Report->getImpact()
      *
      * @var integer
      */
     protected $impact = 0;
+    
+    /**
+     * Centrifuge data
+     * 
+     * This variable - initiated as an empty array - carries all information 
+     * about the centrifuge data if available
+     *
+     * @var array
+     */
+    protected $centrifuge = array();
 
     /**
      * Constructor
@@ -179,6 +189,8 @@ class IDS_Report implements Countable, IteratorAggregate
      *
      * @param scalar $name the event name
      * 
+     * @throws InvalidArgumentException if argument is illegal
+     * 
      * @return boolean
      */
     public function hasEvent($name) 
@@ -234,6 +246,36 @@ class IDS_Report implements Countable, IteratorAggregate
         $this->impact = 0;
         $this->tags   = array();
     }
+    
+    /**
+     * This method returns the centrifuge property or null if not 
+     * filled with data
+     *
+     * @return array/null
+     */
+    public function getCentrifuge() 
+    {
+        return ($this->centrifuge && count($this->centrifuge) > 0) 
+            ? $this->centrifuge : null;
+    }
+    
+    /**
+     * This method sets the centrifuge property
+     *
+     * @param array $centrifuge the centrifuge data
+     * 
+     * @throws InvalidArgumentException if argument is illegal
+     * 
+     * @return boolean true is arguments were valid
+     */
+    public function setCentrifuge($centrifuge = array()) 
+    {
+        if (is_array($centrifuge) && $centrifuge) {
+            $this->centrifuge = $centrifuge;
+            return true;
+        }
+        throw new InvalidArgumentException('Invalid argument given');
+    }
 
     /**
      * Directly outputs all available information
@@ -261,6 +303,16 @@ class IDS_Report implements Countable, IteratorAggregate
                     $output .= 'Tags: ' . join(', ', $filter->getTags()) . 
                         "<br/>\n";
                 }
+            }
+            
+            $output .= '<br/>';
+            
+            if ($centrifuge = $this->getCentrifuge()) {
+                $output .= 'Centrifuge detection data'; 
+                $output .= '<br/>  Threshold: ' . $centrifuge['threshold'];
+                $output .= '<br/>  Ratio: ' . $centrifuge['ratio'];
+                $output .= '<br/>  Converted: ' . $centrifuge['converted'];
+                $output .= "<br/><br/>\n";
             }
         }
 

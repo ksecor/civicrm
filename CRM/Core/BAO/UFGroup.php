@@ -1152,8 +1152,8 @@ WHERE  id = $cfID
                         LEFT JOIN civicrm_uf_join on ( civicrm_uf_group.id = civicrm_uf_join.uf_group_id )';
         $p = array( );
         if ( $moduleName ) {
-            $queryString .= ' AND civicrm_uf_group.is_active = 1 
-                              AND civicrm_uf_join.module = %2';
+            $queryString .= ' AND civicrm_uf_group.is_active = 1
+                              WHERE civicrm_uf_join.module = %2';
             $p[2] = array( $moduleName, 'String' );
         }
         
@@ -1162,7 +1162,11 @@ WHERE  id = $cfID
         if ( ! $skipPermission ) {
             require_once 'CRM/Core/Permission.php';
             $permissionClause = CRM_Core_Permission::ufGroupClause( CRM_Core_Permission::VIEW, 'g.' );
-            $query .= " AND $permissionClause ";
+            if ( strpos( $query, 'WHERE' ) !== false ) {
+                $query .= " AND $permissionClause ";
+            } else {
+                $query .= " $permissionClause ";
+            }
         }
 
         $queryString .= ' ORDER BY civicrm_uf_join.weight, civicrm_uf_group.title';

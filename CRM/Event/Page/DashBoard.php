@@ -51,6 +51,8 @@ class CRM_Event_Page_DashBoard extends CRM_Core_Page
     {
         CRM_Utils_System::setTitle( ts('CiviEvent') );
 
+        $admin = CRM_Core_Permission::check( 'access CiviEvent' );
+
         require_once 'CRM/Event/BAO/Event.php';
         $eventSummary = CRM_Event_BAO_Event::getEventSummary( $admin );
 
@@ -65,7 +67,8 @@ class CRM_Event_Page_DashBoard extends CRM_Core_Page
                 }
             }
         }
-                
+
+        $this->assign( 'eventAdmin'  , $admin );
         $this->assign( 'eventMap'    , $eventMap );
         $this->assign('eventSummary' , $eventSummary);
     }

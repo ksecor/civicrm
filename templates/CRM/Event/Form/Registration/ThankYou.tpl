@@ -50,10 +50,13 @@
             {include file="CRM/Event/Form/Registration/LineItem.tpl}<br />
         {elseif $amount || $amount == 0}
             <strong>{$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}</strong><br />
+            {if $totalAmount}
+	     <strong>{ts}Event Total{/ts}: {$totalAmount|crmMoney}</strong><br />
+            {/if}	
         {/if}
-        {ts}Transaction Date{/ts}: <strong>{$receive_date|crmDate}</strong><br />
-        {if $contributeMode ne 'notify' AND $trxn_id}
-          {ts}Transaction #{/ts}: {$trxn_id}<br />
+        <strong>{ts}Transaction Date{/ts}: {$receiveDate|crmDate}</strong><br />
+        {if $contributeMode ne 'notify' AND $trxnId}
+          <strong>{ts}Transaction #{/ts}: {$trxnId}</strong><br />
         {/if}
     </div>
     {/if}

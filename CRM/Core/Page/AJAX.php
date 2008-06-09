@@ -175,7 +175,7 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
             }
             
             if ( isset($_GET['org']) || isset($_GET['hh']) ) {
-                list( $contactName, $street, $city) = explode( ':::', $name );
+                list( $contactName, $street, $city) = explode( ' :: ', $name );
                 
                 if ( $street ) {
                     $addStreet = "AND civicrm_address.street_address LIKE '$street%'";
@@ -188,7 +188,7 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
             if ( $organization ) {
                 
                 $query = "
-SELECT CONCAT_WS(':::',TRIM(organization_name),LEFT(street_address,25),city) 'sort_name', 
+SELECT CONCAT_WS(' :: ',TRIM(sort_name),LEFT(street_address,25),city) 'sort_name', 
 civicrm_contact.id id
 FROM civicrm_contact
 LEFT JOIN civicrm_address ON ( civicrm_contact.id = civicrm_address.contact_id
@@ -201,12 +201,12 @@ ORDER BY organization_name ";
             } else if ( $shared ) {
                 
                 $query = "
-SELECT CONCAT_WS(':::' , household_name , street_address , supplemental_address_1 , city , sp.abbreviation ,postal_code, cc.name )'sort_name' , civicrm_contact.id 'id' , civicrm_contact.display_name 'disp' FROM civicrm_contact LEFT JOIN civicrm_address ON (civicrm_contact.id =civicrm_address.contact_id AND civicrm_address.is_primary =1 )LEFT JOIN civicrm_state_province sp ON (civicrm_address.state_province_id =sp.id )LEFT JOIN civicrm_country cc ON (civicrm_address.country_id =cc.id )WHERE civicrm_contact.contact_type ='Household' AND household_name LIKE '%$name' {$whereIdClause} ORDER BY household_name ";
+SELECT CONCAT_WS(':::' , sort_name, supplemental_address_1, sp.abbreviation, postal_code, cc.name )'sort_name' , civicrm_contact.id 'id' , civicrm_contact.display_name 'disp' FROM civicrm_contact LEFT JOIN civicrm_address ON (civicrm_contact.id =civicrm_address.contact_id AND civicrm_address.is_primary =1 )LEFT JOIN civicrm_state_province sp ON (civicrm_address.state_province_id =sp.id )LEFT JOIN civicrm_country cc ON (civicrm_address.country_id =cc.id )WHERE civicrm_contact.contact_type ='Household' AND household_name LIKE '%$name' {$whereIdClause} ORDER BY household_name ";
 
             } else if ( $hh ) {
                 
                 $query = "
-SELECT CONCAT_WS(':::' , household_name, LEFT(street_address, 25), city ) 'sort_name' , civicrm_contact.id 'id' FROM civicrm_contact LEFT JOIN civicrm_address ON (civicrm_contact.id =civicrm_address.contact_id AND civicrm_address.is_primary =1 )
+SELECT CONCAT_WS(' :: ' , sort_name, LEFT(street_address, 25), city ) 'sort_name' , civicrm_contact.id 'id' FROM civicrm_contact LEFT JOIN civicrm_address ON (civicrm_contact.id =civicrm_address.contact_id AND civicrm_address.is_primary =1 )
 WHERE civicrm_contact.contact_type ='Household' AND household_name LIKE '%$contactName' {$addStreet} {$addCity} {$whereIdClause} ORDER BY household_name ";
                 
             } else if ( $relType ) {
@@ -831,13 +831,29 @@ WHERE sort_name LIKE '%$name%'";
 
         $str  = "location_1_phone_1_phone::" . $location['location'][1]['phone'][1]['phone'] . ';;';
         $str .= "location_1_email_1_email::". $location['location'][1]['email'][1]['email'] . ';;';
-        $str .= "location_1_address_street_address::" . $location['location'][1]['address']['street_address'] . ';;';
-        $str .= "location_1_address_supplemental_address_1::" . $location['location'][1]['address']['supplemental_address_1'] . ';;';
-        $str .= "location_1_address_supplemental_address_2::" . $location['location'][1]['address']['supplemental_address_2'] . ';;';
-        $str .= "location_1_address_city::" . $location['location'][1]['address']['city'] . ';;';
-        $str .= "location_1_address_postal_code::" . $location['location'][1]['address']['postal_code'] . ';;';
-        $str .= "id_location[1][address][country_state]_0::" . $location['location'][1]['address']['country_id'] . '-' . $location['location'][1]['address']['state_province_id'] . ';;';
 
+        $addressSequence = array_flip($config->addressSequence());
+
+        if ( array_key_exists( 'street_address', $addressSequence) ) {
+            $str .= "location_1_address_street_address::" . $location['location'][1]['address']['street_address'] . ';;';
+        }
+        if ( array_key_exists( 'supplemental_address_1', $addressSequence) ) {
+            $str .= "location_1_address_supplemental_address_1::" . $location['location'][1]['address']['supplemental_address_1'] . ';;';
+        }
+        if ( array_key_exists( 'supplemental_address_2', $addressSequence) ) {
+            $str .= "location_1_address_supplemental_address_2::" . $location['location'][1]['address']['supplemental_address_2'] . ';;';
+        }
+        if ( array_key_exists( 'city', $addressSequence) ) {
+            $str .= "location_1_address_city::" . $location['location'][1]['address']['city'] . ';;';
+        }
+        if ( array_key_exists( 'postal_code', $addressSequence) ) {
+            $str .= "location_1_address_postal_code::" . $location['location'][1]['address']['postal_code'] . ';;';
+            $str .= "location_1_address_postal_code_suffix::" . $location['location'][1]['address']['postal_code_suffix'] . ';;';
+        }
+        if ( array_key_exists( 'country', $addressSequence) || array_key_exists( 'state_province', $addressSequence) ) {
+            $str .= "id_location[1][address][country_state]_0::" . $location['location'][1]['address']['country_id'] . '-' . $location['location'][1]['address']['state_province_id'] . ';;';
+
+        }
         echo $str;
     }
 

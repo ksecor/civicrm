@@ -26,7 +26,7 @@
                     {/if}
                 {/if}
            </td>
-           <td>{$row.status}<br/>{$row.modified_date|truncate:10:''|crmDate}</td>
+           <td>{$row.participant_status_id}</td>
         </tr>
       {/foreach}
   </table>

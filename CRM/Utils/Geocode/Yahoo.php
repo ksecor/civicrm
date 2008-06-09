@@ -132,11 +132,11 @@ class CRM_Utils_Geocode_Yahoo {
 
             $values['geo_code_1'] = $ret['Latitude' ];
             $values['geo_code_2'] = $ret['Longitude'];
-        } else {
-            $values['geo_code_1'] = $values['geo_code_2'] = 0;
+            return true;
         }
-
-        return true;
+        // reset the geo code values if we did not get any good values
+        $values['geo_code_1'] = $values['geo_code_2'] = 'null';
+        return false;
     }
 
 }

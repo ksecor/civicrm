@@ -727,151 +727,8 @@ SELECT count(*) as count,
         }
         return array( 0, 0, 0 );
     }
-    
+
     /**
-     * process payment confirm
-     *
-     * 
-     */
-    public function processConfirm( &$form, 
-                                    &$paymentParams,
-                                    &$premiumParams,
-                                    $contactID,
-                                    $contributionTypeId,
-                                    $component = 'contribution' )
-    { 
-        require_once 'CRM/Core/Payment/Form.php';
-        CRM_Core_Payment_Form::mapParams( $form->_bltID, $form->_params, $paymentParams, true );
-        
-        $contributionType =& new CRM_Contribute_DAO_ContributionType( );
-        if( isset( $paymentParams['contribution_type'] ) ) {
-            $contributionType->id = $paymentParams['contribution_type'];
-        } else {
-            $contributionType->id = $contributionTypeId;
-        }
-        if ( ! $contributionType->find( true ) ) {
-            CRM_Core_Error::fatal( "Could not find a system table" );
-        }
-        
-        // add some contribution type details to the params list
-        // if folks need to use it
-        $paymentParams['contributionType_name']                = 
-            $form->_params['contributionType_name']            = $contributionType->name;
-        $paymentParams['contributionType_accounting_code']     = 
-            $form->_params['contributionType_accounting_code'] = $contributionType->accounting_code;
-        $paymentParams['contributionPageID']                   =
-            $form->_params['contributionPageID']               = $form->_values['id'];
-        
-        
-        if ( $form->_values['is_monetary'] && $form->_amount > 0.0 ) {
-            require_once 'CRM/Core/Payment.php';
-            $payment =& CRM_Core_Payment::singleton( $form->_mode, 'Contribute', $form->_paymentProcessor );
-        }
-        
-        //fix for CRM-2062
-        $now = date( 'YmdHis' );
-
-        $result = null;
-        if ( $form->_contributeMode == 'notify' ||
-             $form->_params['is_pay_later'] ) {
-            // this is not going to come back, i.e. we fill in the other details
-            // when we get a callback from the payment processor
-            // also add the contact ID and contribution ID to the params list
-            $paymentParams['contactID'] = $form->_params['contactID'] = $contactID;
-            $contribution =
-                CRM_Contribute_Form_Contribution_Confirm::processContribution(
-                                                                              $form,
-                                                                              $paymentParams,
-                                                                              null,
-                                                                              $contactID,
-                                                                              $contributionType, 
-                                                                              true, true, true );
-            $form->_params['contributionID'    ] = $contribution->id;
-            $form->_params['contributionTypeID'] = $contributionType->id;
-            $form->_params['item_name'         ] = $form->_params['description'];
-            $form->_params['receive_date'      ] = $now;
-            if ( $form->_values['is_recur'] &&
-                 $contribution->contribution_recur_id ) {
-                $form->_params['contributionRecurID'] = $contribution->contribution_recur_id;
-            }
-            
-            $form->set( 'params', $form->_params );
-            $form->postProcessPremium( $premiumParams, $contribution );
-            
-            if ( $form->_values['is_monetary'] && $form->_amount > 0.0 ) {
-                // add qfKey so we can send to paypal
-                $form->_params['qfKey'] = $form->controller->_key;
-                if ( $component == 'membership' ) {
-                    $membershipResult = array( 1 => $contribution );
-                    return $membershipResult;
-                } else {
-                    if ( ! $form->_params['is_pay_later'] ) {
-                        $result =& $payment->doTransferCheckout( $form->_params );
-                    } else {
-                        // follow similar flow as IPN
-                        return;
-                    }
-                }
-            }
-        } elseif ( $form->_contributeMode == 'express' ) {
-            if ( $form->_values['is_monetary'] && $form->_amount > 0.0 ) {
-                $result =& $payment->doExpressCheckout( $paymentParams );
-            }
-        } elseif ( $form->_values['is_monetary'] && $form->_amount > 0.0 ) {
-            $result =& $payment->doDirectPayment( $paymentParams );
-        }
-        
-        if ( $component == 'membership' ) {
-            $membershipResult = array( );
-        }       
-        
-        if ( is_a( $result, 'CRM_Core_Error' ) ) {
-            if ( $component !== 'membership' ) {
-                CRM_Core_Error::displaySessionError( $result );
-                CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contribute/transact', '_qf_Main_display=true' ) );
-            }
-            $membershipResult[1] = $result;
-        } else {
-            if ( $result ) {
-                $form->_params = array_merge( $form->_params, $result );
-            }
-            $form->_params['receive_date'] = $now;
-            $form->set( 'params', $form->_params );
-            $form->assign( 'trxn_id', $result['trxn_id'] );
-            $form->assign( 'receive_date',
-                           CRM_Utils_Date::mysqlToIso( $form->_params['receive_date']) );
-        
-            // result has all the stuff we need
-            // lets archive it to a financial transaction
-            if ( $contributionType->is_deductible ) {
-                $form->assign('is_deductible',  true );
-                $form->set('is_deductible',  true);
-            }
-            if( isset( $paymentParams['contribution_source'] ) ) {
-                $form->_params['source'] = $paymentParams['contribution_source'];
-            }
-            
-            $contribution = CRM_Contribute_Form_Contribution_Confirm::processContribution( $form,
-                                                                      $form->_params, $result, $contactID, 
-                                                                      $contributionType, true, false, true );
-            
-            $form->postProcessPremium( $premiumParams, $contribution );
-            
-            $membershipResult[1] = $contribution;
-        }
-        
-        if ( $component == 'membership' ) {
-            return $membershipResult;
-        }       
-        
-        // finally send an email receipt
-        require_once "CRM/Contribute/BAO/ContributionPage.php";
-        $form->_values['contribution_id'] = $contribution->id;
-        CRM_Contribute_BAO_ContributionPage::sendMail( $contactID, $form->_values, $contribution->is_test );
-    }
-
-
-     /**
      * Check if there is a contribution with the params passed in.
      * Used for trxn_id,invoice_id and contribution_id
      *
@@ -903,6 +760,62 @@ SELECT count(*) as count,
         return NULL;        
     }
 
+    /**
+     * Function to get the contribution details for component export
+     *
+     * @param int     $exportMode export mode
+     * @param string  $componentIds  component ids
+     *
+     * @return array associated array
+     *
+     * @static
+     * @access public
+     */
+    static function getContributionDetails( $exportMode, $componentIds )
+    {
+        require_once "CRM/Export/Form/Select.php";
+
+        $paymentDetails = array( );
+        $componentClause = ' IN ( ' . implode( ',', $componentIds ) . ' ) ';
+        
+        if ( $exportMode == CRM_Export_Form_Select::EVENT_EXPORT ) {
+            $componentSelect = " civicrm_participant_payment.participant_id id"; 
+            $additionalClause = "
+INNER JOIN civicrm_participant_payment ON (civicrm_contribution.id = civicrm_participant_payment.contribution_id
+AND civicrm_participant_payment.participant_id {$componentClause} )
+";
+        } else if ( $exportMode == CRM_Export_Form_Select::MEMBER_EXPORT ) {
+            $componentSelect = " civicrm_membership_payment.membership_id id"; 
+            $additionalClause = "
+INNER JOIN civicrm_membership_payment ON (civicrm_contribution.id = civicrm_membership_payment.contribution_id
+AND civicrm_membership_payment.membership_id {$componentClause} )
+";
+        }
+        
+        $query = " SELECT total_amount, contribution_status.name as status_id, payment_instrument.name as payment_instrument, receive_date,
+                          trxn_id, {$componentSelect}
+FROM civicrm_contribution 
+LEFT JOIN civicrm_option_group option_group_payment_instrument ON ( option_group_payment_instrument.name = 'payment_instrument')
+LEFT JOIN civicrm_option_value payment_instrument ON (civicrm_contribution.payment_instrument_id = payment_instrument.value
+     AND option_group_payment_instrument.id = payment_instrument.option_group_id )
+LEFT JOIN civicrm_option_group option_group_contribution_status ON (option_group_contribution_status.name = 'contribution_status')
+LEFT JOIN civicrm_option_value contribution_status ON (civicrm_contribution.contribution_status_id = contribution_status.value 
+                               AND option_group_contribution_status.id = contribution_status.option_group_id )
+{$additionalClause}
+";
+
+        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+
+        while ( $dao->fetch() ) {
+            $paymentDetails[$dao->id] = array ( 'total_amount'        => $dao->total_amount,
+                                                'contribution_status' => $dao->status_id,
+                                                'receive_date'        => $dao->receive_date,
+                                                'pay_instru'          => $dao->payment_instrument,
+                                                'trxn_id'             => $dao->trxn_id );
+        }
+
+        return $paymentDetails;
+    }
 }
 
 

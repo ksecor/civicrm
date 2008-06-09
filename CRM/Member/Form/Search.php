@@ -156,20 +156,12 @@ class CRM_Member_Form_Search extends CRM_Core_Form
          * we allow the controller to set force/reset externally, useful when we are being 
          * driven by the wizard framework 
          */ 
-        $this->_reset   = CRM_Utils_Request::retrieve( 'reset', 'Boolean',
-                                                       CRM_Core_DAO::$_nullObject ); 
-        $this->_force   = CRM_Utils_Request::retrieve( 'force', 'Boolean',
-                                                       $this, false ); 
-        $this->_limit   = CRM_Utils_Request::retrieve( 'limit', 'Positive',
-                                                       $this );
-        $this->_context = CRM_Utils_Request::retrieve( 'context', 'String',
-                                                       $this );
+        $this->_reset   = CRM_Utils_Request::retrieve( 'reset', 'Boolean',  CRM_Core_DAO::$_nullObject ); 
+        $this->_force   = CRM_Utils_Request::retrieve( 'force', 'Boolean',  $this, false ); 
+        $this->_limit   = CRM_Utils_Request::retrieve( 'limit', 'Positive', $this );
+        $this->_context = CRM_Utils_Request::retrieve( 'context', 'String', $this, false, 'search' );
 
-        $this->assign( "{$this->_prefix}limit", $this->_limit );
-        
-        if ( $this->_context == 'search' ) {
-            CRM_Utils_System::setTitle( ts('Find Members') );
-        }
+        $this->assign( "context", $this->_context );
             
         // get user submitted values  
         // get it from controller only if form has been submitted, else preProcess has set this  
@@ -202,6 +194,9 @@ class CRM_Member_Form_Search extends CRM_Core_Form
         if ( $this->_context == 'basic' ) {
             $prefix = $this->_prefix;
         }
+
+        $this->assign( "{$prefix}limit", $this->_limit );
+        $this->assign( "{$prefix}single", $this->_single );
 
         $controller =& new CRM_Core_Selector_Controller($selector ,  
                                                         $this->get( CRM_Utils_Pager::PAGE_ID ),  
@@ -247,7 +242,6 @@ class CRM_Member_Form_Search extends CRM_Core_Form
             }
 
             $total = $cancel = 0;
-            $this->assign( "{$this->_prefix}single", $this->_single );
             
             // also add the action and radio boxes
             require_once 'CRM/Member/Task.php';

@@ -43,7 +43,6 @@ require_once 'CRM/Core/Payment.php';
  */
 class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
 {
-
     /** 
      * Function to set variables up before form is built 
      *                                                           
@@ -134,6 +133,17 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             }
         }
 
+        //fix for CRM-3088, default value for discount set.      
+        if ( ! empty( $this->_values['discount'] ) ){
+            require_once 'CRM/Core/BAO/Discount.php';
+            $discountId = CRM_Core_BAO_Discount::findSet( $this->_eventId, 'civicrm_event' );
+            
+            $discountKey = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_OptionValue", $this->_values['event_page']['default_discount_id']
+                                                        , 'weight', 'id' );
+            
+            $this->_defaults['amount'] = $this->_values['discount'][$discountId]['amount_id'][$discountKey];
+        }
+       
         return $this->_defaults;
     }
 
@@ -227,13 +237,23 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
     
     /**
      * build the radio/text form elements for the amount field
+     * 
+     * @param object   $form form object
+     * @param boolean  $required  true if you want to add formRule
+     * @param int      $discountId discount id for the event
      *
      * @return void
-     * @access private
+     * @access public
+     * @static
      */
-    
-    static public function buildAmount( &$form, $required = true ) 
+    static public function buildAmount( &$form, $required = true, $discountId = null ) 
     {
+        //get the button name.
+        $button = substr( $form->controller->getButtonName( ), -4 );
+        if ( $button == 'skip' ) {
+            $required  = false;
+        }
+        
         $elements = array( );
         $form->addGroup( $elements, 'amount', ts('Event Fee(s)'), '<br />' );      
         if ( isset($form->_priceSetId) ) {
@@ -243,21 +263,34 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             foreach ( $form->_values['custom']['fields'] as $field ) {
                 $fieldId = $field['id'];
                 $elementName = 'price_' . $fieldId;
-                CRM_Core_BAO_PriceField::addQuickFormElement(
-                                                             $form, $elementName, $fieldId, false,
-                                                             $field['is_required']
-                                                             );
-                
+                if ( $button == 'skip' ) {
+                    $isRequire = false;
+                } else {
+                    $isRequire = $field['is_required'];
+                }
+                CRM_Core_BAO_PriceField::addQuickFormElement( $form, $elementName, $fieldId, false, $isRequire );
             }
-        }        
-        else if ( ! empty( $form->_values['custom']['label'] ) ) {        
+        } else if ( ! empty( $form->_values['custom']['label'] ) ) {
+            $feeBlock = $form->_values['custom'];
+            if ( isset( $form->_values['discount'] ) ) {
+                if ( ! isset( $discountId ) ) {
+                    require_once 'CRM/Core/BAO/Discount.php';
+                    $discountId = CRM_Core_BAO_Discount::findSet( $form->_eventId, 'civicrm_event' );
+                }
+
+                if ( $discountId ) {
+                    $feeBlock = $form->_values['discount'][$discountId];
+                }
+            }
+            
             require_once 'CRM/Utils/Money.php';
-            for ( $index = 1; $index <= count( $form->_values['custom']['label'] ); $index++ ) {
+            for ( $index = 1; $index <= count(  $feeBlock['label'] ); $index++ ) {
                 $elements[] =& $form->createElement('radio', null, '',
-                                                    CRM_Utils_Money::format($form->_values['custom']['value'][$index]) . ' ' . 
-                                                    $form->_values['custom']['label'][$index], 
-                                                    $form->_values['custom']['amount_id'][$index] );
+                                                    CRM_Utils_Money::format( $feeBlock['value'][$index]) . ' ' . 
+                                                    $feeBlock['label'][$index], 
+                                                    $feeBlock['amount_id'][$index] );
             }
+
             $form->_defaults['amount'] = CRM_Utils_Array::value('default_fee_id',$form->_values['event_page']);
             $element =& $form->addGroup( $elements, 'amount', ts('Event Fee(s)'), '<br />' ); 
             if ( $form->_online ) {
@@ -465,6 +498,11 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
     {
         // get the submitted form values. 
         $params = $this->controller->exportValues( $this->_name ); 
+        $session =& CRM_Core_Session::singleton( );
+       
+        //set number of additional participant.
+        $session->set('addParticipant', CRM_Utils_Array::value( 'additional_participants', $params, false ) );
+                
         if ($this->_values['event']['is_monetary']) {
             $config =& CRM_Core_Config::singleton( );
             
@@ -474,8 +512,19 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             // get the submitted form values. 
             
             $params['currencyID']     = $config->defaultCurrency;
-            
-            if ( empty( $params['priceSetId'] ) ) {
+
+            //added for discount
+            require_once 'CRM/Core/BAO/Discount.php';
+            $discountId = CRM_Core_BAO_Discount::findSet( $this->_eventId, 'civicrm_event' );
+
+            if ( ! empty( $this->_values['discount'][$discountId] ) ) {
+                $params['amount_level'] = $this->_values['discount'][$discountId]['label']
+                    [array_search( $params['amount'], $this->_values['discount'][$discountId]['amount_id'])];
+                
+                $params['amount'] = $this->_values['discount'][$discountId]['value']
+                    [array_search( $params['amount'], $this->_values['discount'][$discountId]['amount_id'])];
+                
+            }else if ( empty( $params['priceSetId'] ) ) {
                 $params['amount_level'] = $this->_values['custom']['label'][array_search( $params['amount'], 
                                                                                           $this->_values['custom']['amount_id'])];
                 
@@ -484,12 +533,14 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             } else {
                 $lineItem = array( );
                 self::processPriceSetAmount( $this->_values['custom']['fields'], $params, $lineItem );
-                $this->set( 'lineItem', $lineItem );
+                $priceSet   = array();
+                $priceSet[] = $lineItem;
+                $this->set( 'lineItem', $priceSet );
             }
-            
+
             $this->set( 'amount', $params['amount'] ); 
-            $this->set( 'amount_level', $params['amount_level'] ); 
-            
+            $this->set( 'amount_level', $params['amount_level'] );
+                      
             // generate and set an invoiceID for this transaction
             $invoiceID = $this->get( 'invoiceID' );
             if ( ! $invoiceID ) {
@@ -501,7 +552,35 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             }
             // default mode is direct
             $this->set( 'contributeMode', 'direct' ); 
+                      
+            if ( isset( $params["state_province_id-{$this->_bltID}"] ) && $params["state_province_id-{$this->_bltID}"] ) {
+                $this->params["state_province-{$this->_bltID}"] =
+                    CRM_Core_PseudoConstant::stateProvinceAbbreviation( $params["state_province_id-{$this->_bltID}"] ); 
+            }
             
+            if ( isset( $params["country_id-{$this->_bltID}"] ) && $params["country_id-{$this->_bltID}"] ) {
+                $params["country-{$this->_bltID}"]        =
+                    CRM_Core_PseudoConstant::countryIsoCode( $params["country_id-{$this->_bltID}"] ); 
+            }
+            if ( isset( $params['credit_card_exp_date'] ) ) {
+                $params['year'   ]        = $params['credit_card_exp_date']['Y'];  
+                $params['month'  ]        = $params['credit_card_exp_date']['M'];  
+            }
+            if ( $this->_values['event']['is_monetary'] ) {
+                $params['ip_address']     = CRM_Utils_System::ipAddress( );
+                $params['currencyID'    ] = $config->defaultCurrency;
+                $params['payment_action'] = 'Sale';
+                $params['invoiceID'] = $invoiceID;
+            }
+
+            if ( ! isset( $params['participant_role_id'] ) && $this->_values['event']['default_role_id'] ) {
+                $params['participant_role_id'] = $this->_values['event']['default_role_id'];
+            }
+
+            $this->_params  = array ();
+            $this->_params[] = $params;
+            $this->set( 'params', $this->_params );
+
             if ( $this->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_BUTTON ) {
                 //get the button name  
                 $buttonName = $this->controller->getButtonName( );  
@@ -535,23 +614,115 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             $session =& CRM_Core_Session::singleton( );
             $contactID = $session->get( 'userID' );
             if ( $this->_values['event']['default_role_id'] ) {
-                $this->_params['participant_role_id'] = $this->_values['event']['default_role_id'];
+                $params['participant_role_id'] = $this->_values['event']['default_role_id'];
             }
-            $this->_params                = $params;
-            $this->_params['description'] = ts( 'Online Event Registration' ) . ' ' . $this->_values['event']['title'];
             
-            require_once 'CRM/Event/Form/Registration/Confirm.php';
-            CRM_Event_Form_Registration_Confirm::fixLocationFields( $this->_params, $fields );
-            $contactID =& CRM_Event_Form_Registration_Confirm::updateContactFields( $contactID, $this->_params, $fields );
-            $session->set( 'userID', $contactID );
-            $this->confirmPostProcess( $contactID );
+            $params['description'] = ts( 'Online Event Registration' ) . ' ' . $this->_values['event']['title'];
+            $params ['is_primary'] = 1;
+
+            $this->_params                = array();
+            $this->_params[]              = $params; 
+            if ( !CRM_Utils_Array::value( 'additional_participants', $params ) ) {
+                self::processRegistration(  $this->_params,  $contactID );
+            }
+            
             $this->set( 'params', $this->_params );
         }
     }//end of function
     
-
-
+    /*
+     *Function to process Registration of free event
+     *
+     *@param  array $param Form valuess 
+     *@param  int contactID
+     *
+     *@return None
+     *access public
+     *
+     */
+    public function processRegistration( $params, $contactID = null ) 
+    {
+        $isAdditional = true;
+        $this->_ids = array();
+        //unset the skip participant from params.
+        if ( $skipParticipant = array_search( 'skip', $params ) ) {
+            unset( $params[$skipParticipant] );
+        }
+        foreach ( $params as $key => $value ) {
+            $fields = null;
+            // setting register by Id
+            if ( $key != 0 ) {
+                $registerByID = $this->get( 'registerByID' );
+                if ( $registerByID ) {
+                    $value['registered_by_id'] = $registerByID;
+                }
+            }
+                 
+            require_once 'CRM/Event/Form/Registration/Confirm.php';
+            CRM_Event_Form_Registration_Confirm::fixLocationFields( $value, $fields );
+            
+            $contactID =& CRM_Event_Form_Registration_Confirm::updateContactFields( $contactID, $value, $fields );
+            $this->set( 'value', $value );
+            $this->confirmPostProcess( $contactID, null, null,  $isAdditional );
+            $contactID = null;
+        }
+        
+        //send mail Confirmation/Receipt
+        if ( $this->_contributeMode != 'checkout' ||
+             $this->_contributeMode != 'notify'   ) {
+            $isTest = false;
+            if ( $this->_action & CRM_Core_Action::PREVIEW ) {
+                $isTest = true;
+            }
+            
+            //build an array of custom profile and assigning it to template
+            $session =& CRM_Core_Session::singleton( );
+            require_once "CRM/Event/BAO/EventPage.php";
+            foreach($this->_ids as $contactId => $participantID ) {
+                if ( $participantID == $registerByID ) {
+                    //set as Primary Participant
+                    $this->assign ( 'isPrimary' , 1 );
+                    if ( $this->_values['custom_pre_id'] || $this->_values['custom_post_id'] ) {
+                        $customGroup = array();
+                        $customField = array(); 
+                        $i = 0;
+                        $template =& CRM_Core_Smarty::singleton( );
+                        foreach ( $this->_ids as $cId => $pId ) {
+                            require_once 'CRM/Event/BAO/EventPage.php';
+                            $customGroup[$i] = array();
+                            $session->set( 'customsGroup',  $customGroup[$i] );
+                            
+                            CRM_Event_BAO_EventPage::buildCustomDisplay( $this->_values['custom_pre_id'], 'customPre',
+                                                                         $cId, $template, $pId, $isTest );
+                            
+                            
+                            CRM_Event_BAO_EventPage::buildCustomDisplay( $this->_values['custom_post_id'], 'customPost',
+                                                                         $cId, $template, $pId, $isTest );
+                            
+                            $customGroup[$i] = $session->get ( 'customField' );
+                            $i++;
+                        }
+                        //Unset information of primary participant.
+                        $session->set( 'customsGroup', null );
+                        unset ( $customGroup[0] );  
+                        if ( count($customGroup) ) {
+                            $this->assign( 'customProfile',$customGroup );
+                        }
+                    }
+                    
+                } else {
+                    $this->assign ( 'isPrimary' , 0 );
+                    $this->assign( 'customProfile', null );
+                }
+                
+                //send Confirmation mail to Primary & additional Participants if exists
+                CRM_Event_BAO_EventPage::sendMail( $contactId, $this->_values, $participantID, $isTest );
+            }
+        }
+    }
     
+
+
     static function processPriceSetAmount( &$fields, &$params, &$lineItem ) 
     {
         // using price set
@@ -745,5 +916,6 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             }
         }
     }
+
 }
 

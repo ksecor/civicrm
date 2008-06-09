@@ -461,7 +461,7 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
   border: 1px solid #4E82CF;
 }
 
-#crm-container #map-field table, #crm-container table.report  {
+#crm-container #map-field table, #crm-container table.report, #crm-container table.chart  {
     width: auto;
 }
 
@@ -526,7 +526,7 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
     border-right: 1px solid #5A8FDB;
 }
 
-#crm-container #map-field td, #crm-container .report td {
+#crm-container #map-field td, #crm-container .report td, #crm-container .chart td {
     padding: 10px 10px 4px 10px;
 }
 
@@ -540,6 +540,10 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
   background-color: #FFFFFF;
   border-left-color: #FFFFFF;
   border-right-color: #FFFFFF;
+}
+
+#crm-container .chart td {
+  border: 2px solid #92B6EC;
 }
 
 #crm-container .odd-row, tbody.scrollContent {
@@ -564,6 +568,11 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
 
 #crm-container .font-red, #crm-container .status-removed, #crm-container .disabled, #crm-container .status-overdue, #crm-container .status-hold {
   color: #FF0105;
+}
+
+// this fixes the sloppy vertical mis-alignments in selectors and keeps sort icons aligned with sort header text
+#crm-container a.sort-ascending, #crm-container a.sort-descending, #crm-container a.sort-none {
+   white-space: nowrap;
 }
 
 #crm-container a.sort-ascending:before, #crm-container thead th.selectedDown:before {
@@ -948,7 +957,7 @@ commented since it is overwiting simple td
     font: normal 12px arial, sans-serif;
     height: 24px;
     margin-right: 6px;
-    padding-right: 18px; /* sliding doors padding */
+    padding-right: 14px; /* sliding doors padding */
     text-decoration: none;
 }
 
@@ -956,7 +965,7 @@ commented since it is overwiting simple td
     background: transparent url('bg_button_span.gif') no-repeat;
     display: block;
     line-height: 14px;
-    padding: 5px 0 5px 18px;
+    padding: 5px 0 5px 12px;
 } 
 
 #crm-container a.button:active {
@@ -967,5 +976,5 @@ commented since it is overwiting simple td
 
 #crm-container a.button:active span {
     background-position: bottom left;
-    padding: 6px 0 4px 18px; /* push text down 1px */
+    padding: 6px 0 4px 12px; /* push text down 1px */
 } 

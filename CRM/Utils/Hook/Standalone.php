@@ -34,87 +34,14 @@
  */
 
 class CRM_Utils_Hook_Standalone {
-	
-		/* Copied from CRM/Utils/Hook/Joomla.php */
 
-    /** 
-     * This hook will be called on any operation on some core CiviCRM 
-     * objects. We will extend the functionality over a period of time 
-     * to make it similar to Drupal's user hook, where the external module 
-     * can inject and collect form elements and form information into a 
-     * Drupal form (specifically the registration page and the account 
-     * information page) 
-     * 
-     * @param string $op         the type of operation being performed 
-     * @param string $objectName the BAO class name of the object 
-     * @param object $id         the object id if available
-     * @param array  $params     the parameters used for object creation / editing
-     *  
-     * @return mixed             based on op. pre-hooks return a boolean and/or
-     *                           an error message which aborts the operation
-     * @access public 
-     */ 
-    static function pre( $op, $objectName, $id, &$params ) {
-        if ( function_exists( 'standalone_civicrm_pre' ) ) {
-            standalone_civicrm_pre( $op, $objectName, $id, $params );
-        }
-        return;
-    }
-
-    /** 
-     * This hook will be called on any operation on some core CiviCRM 
-     * objects. We will extend the functionality over a period of time 
-     * to make it similar to Drupal's user hook, where the external module 
-     * can inject and collect form elements and form information into a 
-     * Drupal form (specifically the registration page and the account 
-     * information page) 
-     * 
-     * @param string $op         the type of operation being performed 
-     * @param string $objectName the BAO class name of the object 
-     * @param int    $objectId   the unique identifier for the object 
-     * @param object $objectRef  the reference to the object if available 
-     *  
-     * @return mixed             based on op. pre-hooks return a boolean and/or
-     *                           an error message which aborts the operation
-     * @access public 
-     */ 
-    static function post( $op, $objectName, $objectId, &$objectRef ) {
-        if ( function_exists( 'standalone_civicrm_post' ) ) {
-            standalone_civicrm_post( $op, $objectName, $objectId, $objectRef );
-        }
-        return;
-    }
-
-    /**
-     * This hook retrieves links from other modules and injects it into
-     * CiviCRM forms
-     *
-     * @param string $op         the type of operation being performed
-     * @param string $objectName the name of the object
-     * @param int    $objectId   the unique identifier for the object 
-     *
-     * @return array|null        an array of arrays, each element is a tuple consisting of url, img, title
-     *
-     * @access public
-     */
-    static function links( $op, $objectName, $objectId ) {
-        if ( function_exists( 'standalone_civicrm_links' ) ) {
-            standalone_civicrm_links( $op, $objectName, $objectId );
-        }
-        return null;
-    }
-
-    static function validate( $formName, &$fields, &$files, &$form ) {
-        $result = array( );
-        // copied from user_module_invoke
-        $function = 'standalone_civicrm_validate';
-        if ( function_exists( $function ) ) {
-            $fResult = $function( $formName, $fields, $files, $form );
-            if ( $fResult !== true ) {
-                $result = array_merge( $result, $fResult );
-            }
-        }
-        return empty( $result ) ? true : $result;
+    static function invoke( $numParams,
+                            &$arg1, &$arg2, &$arg3, &$arg4, &$arg5,
+                            $fnSuffix ) {
+        require_once 'CRM/Utils/Hook/Joomla.php';
+        CRM_Utils_Hook_Joomla::invoke( $numParams,
+                                       $arg1, $arg2, $arg3, $arg4, $arg5,
+                                       $fnSuffix, 'standalone' );
     }
 
 }

@@ -222,7 +222,8 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
                 }
             }
         }
-        
+        require_once 'CRM/Core/OptionGroup.php';
+        CRM_Core_OptionGroup::deleteAssoc ("civicrm_event_page.amount.{$id}.discount.%", "LIKE");
         require_once 'CRM/Event/DAO/Event.php';
         $event     = & new CRM_Event_DAO_Event( );
         $event->id = $id; 
@@ -296,12 +297,24 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
              $dao->total_events == 0 ) {
             return $eventSummary;
         }
+
+        // Get the Id of Option Group for Event Types
+        require_once 'CRM/Core/DAO/OptionGroup.php';
+        $optionGroupDAO = new CRM_Core_DAO_OptionGroup();
+        $optionGroupDAO->name = 'event_type';
+        $optionGroupId = null;
+        if ($optionGroupDAO->find(true) ) {
+            $optionGroupId = $optionGroupDAO->id;
+        }
         
         $query = "
 SELECT     civicrm_event.id as id, civicrm_event.title as event_title, civicrm_event.is_public as is_public,
            civicrm_event.max_participants as max_participants, civicrm_event.start_date as start_date,
-           civicrm_event.end_date as end_date, civicrm_event.is_map as is_map
+           civicrm_event.end_date as end_date, civicrm_event.is_map as is_map, civicrm_option_value.label as event_type
 FROM       civicrm_event
+LEFT JOIN  civicrm_option_value ON (
+           civicrm_event.event_type_id = civicrm_option_value.value AND
+           civicrm_option_value.option_group_id = %1 )
 WHERE      civicrm_event.is_active = 1
 GROUP BY   civicrm_event.id
 ORDER BY   civicrm_event.end_date DESC
@@ -309,9 +322,10 @@ LIMIT      0, 10
 ";
 
         $eventParticipant = array( );
+        $params = array( 1 => array( $optionGroupId, 'Integer' ) );
 
-        $dao =& CRM_Core_DAO::executeQuery( $query,
-                                            CRM_Core_DAO::$_nullArray );
+        $dao =& CRM_Core_DAO::executeQuery( $query, $params );
+
         $eventParticipant['participants'] = self::getParticipantCount( );
         $eventParticipant['pending']      = self::getParticipantCount( true );
 
@@ -332,7 +346,7 @@ LIMIT      0, 10
                 if (( $name == 'start_date' ) || 
                     ( $name == 'end_date' ) ) {
                     $eventSummary['events'][$dao->id][$property] = 
-                        CRM_Utils_Date::customFormat($dao->$name,null, array( 'd' ) );
+                        CRM_Utils_Date::customFormat($dao->$name,'%b %e, %Y', array( 'd' ) );
                 } else if ( $name == 'participants' || $name == 'pending' ) {
                     $eventSummary['events'][$dao->id][$property] = $eventParticipant[$name][$dao->id] ? $eventParticipant[$name][$dao->id] : 0;
                     if ( $name == 'participants' && 
@@ -689,6 +703,23 @@ WHERE civicrm_event.is_active = 1
                                                                              CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_EventPage', 
                                                                                                           $eventPageId, 'default_fee_id' ) );
         
+        
+        //copy discounted fee levels
+        require_once 'CRM/Core/BAO/Discount.php';
+        $discount = CRM_Core_BAO_Discount::getOptionGroup( $id, 'civicrm_event' );
+        if ( !empty ( $discount ) ) {
+            foreach ( $discount as $discountOptionGroup ) {
+                $name = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup',
+                                                     $discountOptionGroup );
+                $length         = substr_compare($name, "civicrm_event_page.amount.". $id, 0);
+                $discountSuffix = substr($name, $length * (-1));
+                CRM_Core_BAO_OptionGroup::copyValue('event', 
+                                                    $eventPageId, 
+                                                    $copyEventPage->id, 
+                                                    false,
+                                                    $discountSuffix );
+            }
+        }
         
         //copy custom data
         require_once 'CRM/Core/BAO/CustomGroup.php';

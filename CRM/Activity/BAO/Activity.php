@@ -868,7 +868,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             $activityType = 'Event Registration';
             $component = 'Event';
             
-        }else if ( $activity->__table == 'civicrm_contribution' ) {
+        } else if ( $activity->__table == 'civicrm_contribution' ) {
             //create activity record only for Completed Contributions
             if ( $activity->contribution_status_id != 1 ) {
                 return;

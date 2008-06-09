@@ -76,7 +76,7 @@ class CRM_Core_QuickForm_Action_Done extends CRM_Core_QuickForm_Action {
         }
 
         // the page is valid, process it before we jump to the next state
-        $page->postProcess( );
+        $page->mainProcess( );
 
         // ok so we are done now, pop stack and jump back to where we came from
         // we do not reset the context because u can achieve that affect using next

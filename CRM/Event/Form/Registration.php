@@ -120,7 +120,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
      * @protected
      */
     public $_priceSet;
-
+    
     /** 
      * Function to set variables up before form is built 
      *                                                           
@@ -337,76 +337,79 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
      */ 
     function assignToTemplate( ) 
     {
-        if ( CRM_Utils_Array::value( 'billing_first_name', $this->_params ) ) {
-            $name = $this->_params['billing_first_name'];
+        //process only primary participant params
+        $this->_params = $this->get( 'params' );
+        $params = $this->_params[0];
+        
+        if ( CRM_Utils_Array::value( 'billing_first_name', $params ) ) {
+            $name = $params['billing_first_name'];
         }
         
-        if ( CRM_Utils_Array::value( 'billing_middle_name', $this->_params ) ) {
-            $name .= " {$this->_params['billing_middle_name']}";
+        if ( CRM_Utils_Array::value( 'billing_middle_name', $params ) ) {
+            $name .= " {$params['billing_middle_name']}";
         }
-
-        if ( CRM_Utils_Array::value( 'billing_last_name', $this->_params ) ) {
-            $name .= " {$this->_params['billing_last_name']}";
-            
+        
+        if ( CRM_Utils_Array::value( 'billing_last_name', $params ) ) {
+            $name .= " {$params['billing_last_name']}";
             $this->assign( 'name', $name );
             $this->set( 'name', $name );
         }       
         
         $vars = array( 'amount', 'currencyID', 'credit_card_type', 
                        'trxn_id', 'amount_level', 'receive_date' );
-     
+        
         foreach ( $vars as $v ) {
-            if ( CRM_Utils_Array::value( $v, $this->_params ) ) { 
+            if ( CRM_Utils_Array::value( $v, $params ) ) { 
                 if ( $v == 'receive_date' ) {
-                    $this->assign( $v,  CRM_Utils_Date::mysqlToIso( $this->_params[$v] ) );
+                    $this->assign( $v,  CRM_Utils_Date::mysqlToIso( $params[$v] ) );
                 } else {
-                    $this->assign( $v, $this->_params[$v] );
+                    $this->assign( $v, $params[$v] );
                 }
-            } else if ( $this->_params ['amount'] == 0 ) {
-                $this->assign( $v, $this->_params[$v] );
+            } else if ( $params['amount'] == 0 ) {
+                $this->assign( $v, $params[$v] );
             }
         }
-
+        
         // assign the address formatted up for display
         $addressParts  = array( "street_address-{$this->_bltID}",
                                 "city-{$this->_bltID}",
                                 "postal_code-{$this->_bltID}",
                                 "state_province-{$this->_bltID}",
                                 "country-{$this->_bltID}");
-        $addressFields = array();
+        $addressFields = array( );
         foreach ($addressParts as $part) {
             list( $n, $id ) = explode( '-', $part );
-            if ( isset ( $this->_params[$part] ) ) {
-                $addressFields[$n] = $this->_params[$part];
+            if ( isset ( $params[$part] ) ) {
+                $addressFields[$n] = $params[$part];
             }
         }
         require_once 'CRM/Utils/Address.php';
         $this->assign('address', CRM_Utils_Address::format($addressFields));
-
+        
         if ( $this->_contributeMode == 'direct' &&
-             ! CRM_Utils_Array::value( 'is_pay_later', $this->_params ) ) {
-            $date = CRM_Utils_Date::format( $this->_params['credit_card_exp_date'] );
+             ! CRM_Utils_Array::value( 'is_pay_later', $params ) ) {
+            $date = CRM_Utils_Date::format( $params['credit_card_exp_date'] );
             $date = CRM_Utils_Date::mysqlToIso( $date );
             $this->assign( 'credit_card_exp_date', $date );
             $this->assign( 'credit_card_number',
-                           CRM_Utils_System::mungeCreditCard( $this->_params['credit_card_number'] ) );
+                           CRM_Utils_System::mungeCreditCard( $params['credit_card_number'] ) );
         }
-
+        
         $this->assign( 'email', $this->controller->exportValue( 'Register', "email-{$this->_bltID}" ) );
-
+        
         // assign is_email_confirm to templates
         if ( isset ($this->_values['event_page']['is_email_confirm'] ) ) {
             $this->assign( 'is_email_confirm', $this->_values['event_page']['is_email_confirm'] );
         }
-
+        
         // assign pay later stuff
-        $this->_params['is_pay_later'] = CRM_Utils_Array::value( 'is_pay_later', $this->_params, false );
-        $this->assign( 'is_pay_later', $this->_params['is_pay_later'] );
-        if ( $this->_params['is_pay_later'] ) {
+        $params['is_pay_later'] = CRM_Utils_Array::value( 'is_pay_later', $params, false );
+        $this->assign( 'is_pay_later', $params['is_pay_later'] );
+        if ( $params['is_pay_later'] ) {
             $this->assign( 'pay_later_text'   , $this->_values['event_page']['pay_later_text']    );
             $this->assign( 'pay_later_receipt', $this->_values['event_page']['pay_later_receipt'] );
         }
-
+        
     }
 
     /**  
@@ -418,21 +421,22 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
     function buildCustom( $id, $name ) 
     {
         if ( $id ) {
+            $button = substr( $this->controller->getButtonName(), -4 );
             require_once 'CRM/Core/BAO/UFGroup.php';
             require_once 'CRM/Profile/Form.php';
             $session =& CRM_Core_Session::singleton( );
             $contactID = $session->get( 'userID' );
-
+            
             $fields = null;
             if ( $contactID ) {
                 if ( CRM_Core_BAO_UFGroup::filterUFGroups($id, $contactID)  ) {
                     $fields = CRM_Core_BAO_UFGroup::getFields( $id, false,CRM_Core_Action::ADD ); 
-
+                    
                 }
             } else {
                 $fields = CRM_Core_BAO_UFGroup::getFields( $id, false,CRM_Core_Action::ADD ); 
             }
-
+            
             // unset any email-* fields since we already collect it, CRM-2888
             foreach ( array_keys( $fields ) as $fieldName ) {
                 if ( substr( $fieldName, 0, 6 ) == 'email-' ) {
@@ -442,12 +446,17 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             
             $this->assign( $name, $fields );
             foreach($fields as $key => $field) {
+                //make the field optional if primary participant 
+                //have been skip the additional participant.
+                if ( $button == 'skip' ) {
+                    $field['is_required'] = false;
+                }
                 CRM_Core_BAO_UFGroup::buildProfile($this, $field,CRM_Profile_Form::MODE_CREATE);
                 $this->_fields[$key] = $field;
             }
         }
     }
-
+    
     static function initPriceSet( &$form, $eventPageID ) {
         // get price info
         require_once 'CRM/Core/BAO/PriceSet.php';
@@ -468,6 +477,15 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         } else {
             require_once 'CRM/Core/OptionGroup.php'; 
             CRM_Core_OptionGroup::getAssoc( "civicrm_event_page.amount.{$eventPageID}", $form->_values['custom'] );
+            require_once 'CRM/Core/BAO/Discount.php';
+            $discountedEvent = CRM_Core_BAO_Discount::getOptionGroup( $eventPageID, "civicrm_event");
+            if ( is_array( $discountedEvent ) ) {
+                foreach ( $discountedEvent as $key => $optionGroupId ) {
+                    $name = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup', $optionGroupId );
+                    CRM_Core_OptionGroup::getAssoc( $name, $form->_values['discount'][$key] );
+                    $form->_values['discount'][$key]["name"] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup', $optionGroupId, 'label');;
+                }
+            }
         }
     }
 
@@ -477,11 +495,16 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
      * @return None  
      * @access public  
      */ 
-    function confirmPostProcess( $contactID = null, $contribution = null, $payment = null )
+    function confirmPostProcess( $contactID = null, $contribution = null, $payment = null, $isAdditional = false )
     {
         // add/update contact information
         $fields = array( );
         unset($this->_params['note']);
+
+        //if additional participant is set overwrite $this->_params
+        if ( $isAdditional ) {
+            $this->_params = $this->get('value');
+        }
         
         // create CMS user
         if ( CRM_Utils_Array::value( 'cms_create_account', $this->_params ) ) {
@@ -494,7 +517,12 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         
         // add participant record
         $participant  = $this->addParticipant( $this->_params, $contactID );
-
+        //building array of cid & participantId 
+        $this->_ids[$contactID] = $participant->id;
+        //setting register_by_id field
+        if( array_key_exists('credit_card_number', $this->_params ) || array_key_exists('is_primary', $this->_params ) ) {
+            $this->set( 'registerByID', $participant->id );
+        }
         require_once 'CRM/Core/BAO/CustomValueTable.php';
         CRM_Core_BAO_CustomValueTable::postProcess( $this->_params,
                                                     CRM_Core_DAO::$_nullArray,
@@ -504,7 +532,8 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         
 
    
-        if ( $this->_values['event']['is_monetary'] && ( $this->_params['amount'] != 0 ) ) {
+        if ( $this->_values['event']['is_monetary'] && ( $this->_params['amount'] != 0 )
+                                                         &&  CRM_Utils_Array::value( 'contributionID', $this->_params ) ) {
             require_once 'CRM/Event/BAO/ParticipantPayment.php';
             $paymentParams = array( 'participant_id'  => $participant->id ,
                                     'contribution_id' => $contribution->id, ); 
@@ -514,21 +543,17 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         }
         
         require_once "CRM/Event/BAO/EventPage.php";
+        $this->_params['participantID'] = $participant->id;
 
-        if ( ( CRM_Utils_Array::value( 'is_pay_later', $this->_params ) ||
-               $this->_contributeMode == 'checkout'                     ||
-               $this->_contributeMode == 'notify' )                     && 
-             $this->_params['amount'] != 0 ) {
-            // do a transfer only if a monetary payment
-            if ( $this->_values['event']['is_monetary'] ) {
-                $this->_params['participantID'] = $participant->id;
-                if ( ! $this->_params['is_pay_later'] ) {
-                    $payment->doTransferCheckout( $this->_params );
-                }
+        if ( $this->_contributeMode == 'checkout' ||
+             $this->_contributeMode == 'notify'   ) {
+            // do a transfer only if a monetary payment greater than 0
+            if ( $this->_values['event']['is_monetary'] &&
+                 $this->_params['amount'] > 0 ) {
+                $payment->doTransferCheckout( $this->_params );
             }
         } else {
             $this->assign('action',$this->_action); 
-            CRM_Event_BAO_EventPage::sendMail( $contactID, $this->_values, $participant->id, $participant->is_test );
         }
     }
 
@@ -574,7 +599,8 @@ WHERE  v.option_group_id = g.id
                                    $params['description'],
                                    'fee_level'     => $params['amount_level'],
                                    'is_pay_later'  => CRM_Utils_Array::value( 'is_pay_later', $params, 0 ),
-                                   'fee_amount'    => CRM_Utils_Array::value( 'amount', $params )
+                                   'fee_amount'    => CRM_Utils_Array::value( 'fee_amount', $params ),
+                                   'registered_by_id' => $params['registered_by_id']
                                    );
         
         if ( $this->_action & CRM_Core_Action::PREVIEW ) {

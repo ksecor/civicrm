@@ -114,16 +114,10 @@ class CRM_Admin_Form_Preferences extends CRM_Core_Form
      * @return None
      * @access public
      */
-    public function buildQuickForm( $check = false ) 
+    public function buildQuickForm( ) 
     {
         parent::buildQuickForm( );
 
-        // set breadcrumb to append to 2nd layer pages
-        if ( !$check ) {
-            $breadCrumbPath = CRM_Utils_System::url( 'civicrm/admin/setting', 'reset=1' );
-            CRM_Utils_System::appendBreadCrumb( ts('Global Settings'), $breadCrumbPath );
-        }
-        
         require_once 'CRM/Core/OptionGroup.php';
         foreach ( $this->_cbs as $name => $title ) {
             $options = array_flip( CRM_Core_OptionGroup::values( $name, false, false, true ) );

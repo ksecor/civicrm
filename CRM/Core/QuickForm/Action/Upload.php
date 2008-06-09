@@ -150,7 +150,7 @@ class CRM_Core_QuickForm_Action_Upload extends CRM_Core_QuickForm_Action {
         }
         
         // the page is valid, process it before we jump to the next state
-        $page->postProcess( );
+        $page->mainProcess( );
 
         $state->handleNextState( $page );
     }

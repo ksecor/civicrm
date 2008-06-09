@@ -240,6 +240,17 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
     }
 
     /**
+     * This function is just a wrapper, so that we can call all the hook functions
+     */
+    function mainProcess() {
+        $this->postProcess( );
+
+        CRM_Utils_Hook::postProcess( get_class( $this ),
+                                     $this );
+        
+    }
+
+    /**
      * This virtual function is used to build the form. It replaces the
      * buildForm associated with QuickForm_Page. This allows us to put 
      * preProcess in front of the actual form building routine
@@ -303,11 +314,19 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
             $this->addElement( 'hidden', 'qfKey', $this->controller->_key );
         }
 
+        require_once 'CRM/Utils/Hook.php';
+        
         $this->buildQuickForm();
 
-        $defaults =& $this->setDefaultValues( );
+        // call the form hook
+        // also call the hook function so any modules can set thier own custom defaults
+        // the user can do both the form and set default values with this hook
+        CRM_Utils_Hook::buildForm( get_class( $this ),
+                                   $this );
 
+        $defaults =& $this->setDefaultValues( );
         unset( $defaults['qfKey'] );
+
         if ( ! empty( $defaults ) ) {
             $this->setDefaults( $defaults );
         }

@@ -429,7 +429,6 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                                         'name'      => ts('Cancel') ), 
                                 ) 
                           );
-
         if ($this->_action == CRM_Core_Action::VIEW) { 
             $this->freeze();
         }
@@ -495,11 +494,29 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             CRM_Event_BAO_Participant::deleteParticipant( $this->_id );
             return;
         }
+
         // get the submitted form values.  
         $params = $this->controller->exportValues( $this->_name );
         
+        //check if discount is selected
+        if ( isset( $params['discount_id'] ) ) {
+            $discountId = $params['discount_id'];
+        } else {
+            $params['discount_id'] = 'null';
+        }
+
         if ( $this->_isPaidEvent ) {
-            if ( ! isset( $params['priceSetId'] ) ) {
+            //fix for CRM-3088
+            if ( ! empty( $this->_values['discount'][$discountId] ) ) {
+                $params['amount_level'] = $this->_values['discount'][$discountId]['label']
+                    [array_search( $params['amount'], $this->_values['discount'][$discountId]['amount_id'])];
+                
+                $params['amount'] = $this->_values['discount'][$discountId]['value']
+                    [array_search( $params['amount'], $this->_values['discount'][$discountId]['amount_id'])];
+                
+                $this->assign( 'amount_level', $params['amount_level'] );
+                
+            }else if ( ! isset( $params['priceSetId'] ) ) {
                 $params['amount_level'] = $this->_values['custom']['label'][array_search( $params['amount'], 
                                                                                           $this->_values['custom']['amount_id'])];
                 
@@ -518,7 +535,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $contributionParams                 = array( );
             $contributionParams['total_amount'] = $params['amount'];
         }
-        
+
         //fix for CRM-3086
         $params['fee_amount'] = $params['amount'];
         unset($params['amount']);
@@ -576,7 +593,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 }
             }
         }
-        
+     
         require_once 'CRM/Contact/BAO/Contact.php';
         // Retrieve the name and email of the current user - this will be the FROM for the receipt email
         $session =& CRM_Core_Session::singleton( );
@@ -590,7 +607,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         if ( !$params['note'] ) {
             $params['note'] = 'null';
         }
-       
+      
         if ( $this->_single ) {
             $participants[] = CRM_Event_BAO_Participant::create( $params );
             
@@ -643,7 +660,6 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                     $this->assign ( 'trxn_id',  $contributionParams[$f] );                   
                 }
             }
-            
             
             require_once 'CRM/Contribute/BAO/Contribution.php';
             $contributions = array( );
