@@ -54,21 +54,62 @@ class CRM_Admin_Form_Setting_Localization extends  CRM_Admin_Form_Setting
         $i18n   =& CRM_Core_I18n::singleton();
         CRM_Utils_System::setTitle(ts('Settings - Localization'));
 
-        $locales = array();
+        // create the code-keyed list of locales
+        $locales = array('en_US' => 'English (USA)',
+                         'af_ZA' => 'Afrikaans',
+                         'bg_BG' => 'български',
+                         'ca_ES' => 'Català',
+                         'da_DK' => 'dansk',
+                         'de_DE' => 'Deutsch',
+                         'el_GR' => 'Ελληνικά',
+                         'en_AU' => 'English (Australia)',
+                         'en_GB' => 'English (United Kingdom)',
+                         'es_ES' => 'español',
+                         'fr_FR' => 'français',
+                         'fr_CA' => 'français (Canada)',
+                         'hi_IN' => 'हिन्दी',
+                         'it_IT' => 'Italiano',
+                         'he_IL' => 'עברית',
+                         'hu_HU' => 'Magyar',
+                         'nl_NL' => 'Nederlands',
+                         'ja_JP' => '日本語',
+                         'no_NO' => 'Norsk',
+                         'km_KH' => 'ភាសាខ្មែរ',
+                         'pl_PL' => 'polski',
+                         'pt_PT' => 'Português',
+                         'pt_BR' => 'Português (Brasil)',
+                         'ro_RO' => 'română',
+                         'ru_RU' => 'русский',
+                         'sl_SI' => 'slovenščina',
+                         'fi_FI' => 'suomi',
+                         'sv_SE' => 'Svenska',
+                         'th_TH' => 'ไทย',
+                         'tr_TR' => 'Türkçe',
+                         'uk_UA' => 'Українська',
+                         'zh_CN' => '中文 (简体字)',
+                         'zh_TW' => '中文 (繁體字)');
        
+        // check which ones are available; add them to $locales if not there already
+        $available = array();
         if (is_dir($config->gettextResourceDir)) {
             $dir = opendir($config->gettextResourceDir);
             while ($filename = readdir($dir)) {
                 if (preg_match('/^[a-z][a-z]_[A-Z][A-Z]$/', $filename)) {
-                    $locales[$filename] = $filename;
+                    $available[] = $filename;
+                    if (!isset($locales[$filename])) $locales[$filename] = $filename;
                 }
             }
             closedir($dir);
         }
-        asort($locales);
-        
-        $this->addElement('select','lcMessages', ts('User Language'), array('en_US' => 'en_US') + $locales);
-        $this->addElement('select','lcMonetary', ts('Monetary Locale'), array('en_US' => 'en_US') + $locales);
+
+        // drop the unavailable locales (except en_US)
+        foreach (array_keys($locales) as $code) {
+            if ($code == 'en_US') continue;
+            if (!in_array($code, $available)) unset($locales[$code]);
+        }
+
+        $this->addElement('select', 'lcMessages', ts('Default Language'), $locales);
+        $this->addElement('select', 'lcMonetary', ts('Monetary Locale'),  $locales);
         $this->addElement('text','moneyformat', ts('Monetary Display')); 
 
         $country = array( ) ;
