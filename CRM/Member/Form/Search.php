@@ -151,6 +151,11 @@ class CRM_Member_Form_Search extends CRM_Core_Form
         $this->_done = false;
 
         $this->defaults = array( );
+        
+        $this->set('type', 'Membership');
+        $this->set('subType', 4);
+        require_once "CRM/Custom/Form/CustomData.php";
+        CRM_Custom_Form_CustomData::preProcess( $this );
 
         /* 
          * we allow the controller to set force/reset externally, useful when we are being 
@@ -362,9 +367,10 @@ class CRM_Member_Form_Search extends CRM_Core_Form
 
     function setDefaultValues( ) 
     { 
-        return $this->_defaults; 
+        require_once "CRM/Custom/Form/CustomData.php";
+        return CRM_Custom_Form_Customdata::setDefaultValues( $this );
     } 
-     
+    
 
     function fixFormValues( ) {
         // if this search has been forced
