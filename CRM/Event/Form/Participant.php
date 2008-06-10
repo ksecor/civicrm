@@ -719,7 +719,13 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             if ( $this->_isPaidEvent ) {
                 $paymentInstrument = CRM_Contribute_PseudoConstant::paymentInstrument();
                 $this->assign( 'paidBy', $paymentInstrument[$params['payment_instrument_id']] );
-                $this->assign( 'amount', $contributionParams['total_amount'] );
+                $this->assign( 'totalAmount', $contributionParams['total_amount'] );
+                //as we are using same template for online & offline registration.
+                //So we have to build amount as array.
+                $amount = array();
+                $amount[$params['amount_level']] =  $params['amount'];
+                $this->assign( 'amount', $amount );
+                $this->assign( 'isPrimary', 1 );
             }
             
             $this->assign( 'register_date', $params['register_date'] );
