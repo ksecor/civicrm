@@ -63,7 +63,7 @@ class CRM_Event_Form_EventFees
     static function setDefaultValues( &$form ) 
     { 
         $defaults = array( );
-
+        
         if ( $form->_participantId ) {
             $ids    = array( );
             $params = array( 'id' => $form->_participantId );
@@ -144,7 +144,9 @@ class CRM_Event_Form_EventFees
                     $form->_originalDiscountId = $defaults[$form->_participantId]['discount_id'];
                 }
                 
-                $defaults[$form->_participantId]['discount_id'] = $form->_discountId;
+                if ( ! $defaults[$form->_participantId]['discount_id'] ) {
+                    $defaults[$form->_participantId]['discount_id'] = $form->_discountId;
+                }
                 if ( $form->_discountId == $form->_originalDiscountId ) {
                     $optionGroupId = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_Discount", 
                                                                   $form->_discountId,
