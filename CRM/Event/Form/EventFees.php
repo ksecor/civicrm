@@ -137,7 +137,7 @@ class CRM_Event_Form_EventFees
             $optionGroupId = null;
             // if user has selected discount use that to set default
             $setValue = true;
-            if ( isset( $form->_discountId ) ) {
+            if ( ! empty( $form->_discountId ) ) {
                 $setValue = false;
                 //hack to set defaults for already selected discount value
                 if ( $form->_action == CRM_Core_Action::UPDATE ) {
