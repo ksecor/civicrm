@@ -456,4 +456,3 @@ WHERE  id = $cfID
 
 }
 
-?>

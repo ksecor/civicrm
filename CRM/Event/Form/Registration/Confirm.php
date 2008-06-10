@@ -423,9 +423,22 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             $this->set( 'value', $value ); 
             $this->confirmPostProcess( $contactID, $contribution, $payment, $isAdditional );
         }  
-        //send mail Confirmation/Receipt
-        if ( $this->_contributeMode != 'checkout' ||
-             $this->_contributeMode != 'notify'   ) {
+
+        require_once "CRM/Event/BAO/EventPage.php";
+        if ( $this->_contributeMode == 'checkout' ||
+             $this->_contributeMode == 'notify'   ) {
+            $primaryParticipant = $this->get ( 'primaryParticipant' );
+            if ( !CRM_Utils_Array::value( 'participantID', $primaryParticipant ) ) {
+                $primaryParticipant['participantID'] = $registerByID;
+            } 
+            // do a transfer only if a monetary payment greater than 0
+                 if ( $this->_values['event']['is_monetary'] &&
+                      $primaryParticipant && $primaryParticipant['amount'] > 0 ) {
+                     
+                     $payment->doTransferCheckout( $this->_params );
+                 }
+        } else {
+            //send mail Confirmation/Receipt
             $isTest = false;
             if ( $this->_action & CRM_Core_Action::PREVIEW ) {
                 $isTest = true;
