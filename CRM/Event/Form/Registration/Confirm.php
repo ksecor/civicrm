@@ -56,23 +56,26 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
      * @return void 
      * @access public 
      */ 
-    function preProcess( ) {
+    function preProcess( ) 
+    {
         parent::preProcess( );
-
+        
         // lineItem isn't set until Register postProcess
         $this->_lineItem = $this->get( 'lineItem' );
-        $this->_params = $this->get( 'params' );              
+        $this->_params = $this->get( 'params' );
         $config =& CRM_Core_Config::singleton( );
         if ( $this->_contributeMode == 'express' ) {
             $params = array(); 
             // rfp == redirect from paypal
             $rfp = CRM_Utils_Request::retrieve( 'rfp', 'Boolean',
                                                 CRM_Core_DAO::$_nullObject, false, null, 'GET' );
-            if ( $rfp ) {
+           
+            //we lost rfp in case of additional participant. So set it explicitly.
+            if ( $rfp || CRM_Utils_Array::value( 'additional_participants', $this->_params[0], false ) ) {
                 require_once 'CRM/Core/Payment.php'; 
                 $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Event', $this->_paymentProcessor );
                 $expressParams = $payment->getExpressCheckoutDetails( $this->get( 'token' ) );
-                
+                             
                 $params['payer'       ] = $expressParams['payer'       ];
                 $params['payer_id'    ] = $expressParams['payer_id'    ];
                 $params['payer_status'] = $expressParams['payer_status'];
@@ -117,6 +120,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 $params = $this->get( 'getExpressCheckoutDetails' );
             }
             $this->_params[0] = $params;
+            $this->_params[0]['is_primary'] = 1; 
         } else {
             //$this->_params = $this->controller->exportValues( 'Register' );
             //process only primary participant params.

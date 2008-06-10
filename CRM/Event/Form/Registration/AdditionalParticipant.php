@@ -51,9 +51,12 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
     function preProcess( ) 
     {
         parent::preProcess( );
-        CRM_Utils_System::setTitle( 'Register Additional Participant' );
         $this->_lineItem = $this->get( 'lineItem' );
-        //lineItem isn't set until Register postProcess
+        $participantNo = substr( $this->_name, 12 );
+        $this->_params = array( );
+        $this->_params = $this->get( 'params' );
+        CRM_Utils_System::setTitle( 'Register Additional Participant No '.$participantNo.' of  '.
+                                    $this->_params[0]['additional_participants'] );
     }
     
     /** 
@@ -149,9 +152,7 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
     {
         //get the button name.
         $button = substr( $this->controller->getButtonName(), -4 );
-        $this->_params = array( );
-        $this->_params = $this->get( 'params' );
-        
+                
         //take the participant instance.
         $addParticipantNum = substr( $this->_name, 12 );
         if ( $button == 'skip' ) {

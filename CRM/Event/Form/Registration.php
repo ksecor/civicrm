@@ -120,7 +120,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
      * @protected
      */
     public $_priceSet;
-    
+          
     /** 
      * Function to set variables up before form is built 
      *                                                           
@@ -549,7 +549,8 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
              $this->_contributeMode == 'notify'   ) {
             // do a transfer only if a monetary payment greater than 0
             if ( $this->_values['event']['is_monetary'] &&
-                 $this->_params['amount'] > 0 && !$this->_params['is_pay_later'] ) {
+                 $this->_params['amount'] > 0 && CRM_Utils_Array::value( 'is_primary', $this->_params ) ) {
+             
                 $payment->doTransferCheckout( $this->_params );
             }
         } else {
