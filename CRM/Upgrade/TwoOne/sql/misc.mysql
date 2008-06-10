@@ -456,3 +456,9 @@ DROP domain_id;
 ALTER TABLE `civicrm_uf_group` DROP FOREIGN KEY `FK_civicrm_uf_group_domain_id`, 
 DROP domain_id;
 
+
+
+-- fix too much escaping in civicrm_option_value
+
+UPDATE civicrm_option_value SET label = 'Addt\'l Address 1' WHERE label = 'Addt\\\'l Address 1';
+UPDATE civicrm_option_value SET label = 'Addt\'l Address 2' WHERE label = 'Addt\\\'l Address 2';
