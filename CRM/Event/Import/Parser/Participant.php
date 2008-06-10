@@ -174,20 +174,14 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
         $params =& $this->getActiveFieldParams( );
 
         require_once 'CRM/Import/Parser/Contact.php';
-        if (!(($index < 0) || ($this->_participantStatusIndex < 0) || ($this->_participantRoleIndex < 0))) {
-            $errorRequired = ! CRM_Utils_Array::value($this->_participantStatusIndex, $values) ||
-                ! CRM_Utils_Array::value($this->_participantRoleIndex, $values);
+        if (!(($index < 0) || ($this->_participantStatusIndex < 0) )) {
+            $errorRequired = ! CRM_Utils_Array::value($this->_participantStatusIndex, $values); 
             if ((!$params['event_id'] && !$params['event_title'])) {
                 CRM_Import_Parser_Contact::addToErrorMsg('Event', $missingField);
             } 
             if (!$params['participant_status_id']) {
                 CRM_Import_Parser_Contact::addToErrorMsg('Participant Status', $missingField);
             } 
-            if (!$params['participant_role_id']) {
-             
-                CRM_Import_Parser_Contact::addToErrorMsg('Participant Role', $missingField);
-            } 
-            
         } else { 
             $errorRequired = true;  
             $missingField  = null;
@@ -196,10 +190,6 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
             } 
             if ($this->_participantStatusIndex < 0) {
                 CRM_Import_Parser_Contact::addToErrorMsg('Participant Status', $missingField);
-            } 
-            if ($this->_participantRoleIndex < 0) {
-             
-                CRM_Import_Parser_Contact::addToErrorMsg('Participant Role', $missingField);
             } 
         }
      
@@ -290,8 +280,24 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
                         $params[$key] = CRM_Utils_String::strtoboolstr( $val );
                     }
                 }
-            }
+            } 
         }
+
+        if ( ! $params['participant_role_id'] ) {
+            if ( $params['event_id'] ) {
+                $roleId= 
+                    CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_Event", $params['event_id'] , 'default_role_id' );
+            } else {
+                $eventTitle = $params['event_title'];
+                $qParams = array();
+                $dao =& new CRM_Core_DAO();
+                $roleId =
+                    $dao->singleValueQuery("SELECT default_role_id FROM civicrm_event WHERE title = '$eventTitle' ",
+                                           $qParams);
+            }
+            require_once 'CRM/Event/PseudoConstant.php';
+            $params['participant_role_id'] = CRM_Event_PseudoConstant::participantRole( $roleId );
+        } 
         //date-Format part ends
         static $indieFields = null;
         if ($indieFields == null) {
