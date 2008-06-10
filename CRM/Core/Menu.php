@@ -499,7 +499,7 @@ class CRM_Core_Menu
             array_pop( $pathElements );
             
             if ( empty($pathElements) ) {
-                return array();
+                return array( null, null );
             }
             $newPath = implode( '/', $pathElements );
 
@@ -588,6 +588,7 @@ UNION (
         $menu->query( $query );
 
         self::$_menuCache = array( );
+        $menuPath = null;
         while ( $menu->fetch( ) ) {
             self::$_menuCache[$menu->path] = array( );
             CRM_Core_DAO::storeValues( $menu, self::$_menuCache[$menu->path] );

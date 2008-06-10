@@ -113,7 +113,9 @@ WHERE     openid = %1";
         // make sure we load the joomla object to get valid information
         if ( $uf == 'Joomla' ) {
             if ( class_exists( 'JFactory' ) ) {
-                $user =& JFactory::getUser( );
+                if ( ! $user->id || ! isset( $user->email ) ) {
+                    $user =& JFactory::getUser( );
+                }
             } else {
                 $user->load( );
             }
