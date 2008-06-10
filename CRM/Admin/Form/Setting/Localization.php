@@ -144,7 +144,8 @@ class CRM_Admin_Form_Setting_Localization extends  CRM_Admin_Form_Setting
         
         $symbol = $config->currencySymbols;
         foreach($symbol as $key=>$value) {
-            $currencySymbols[$key] = "$key ($value)";
+            $currencySymbols[$key] = "$key";
+            if ($value) $currencySymbols[$key] .= " ($value)";
         } 
         $this->addElement('select','defaultCurrency', ts('Default Currency'), $currencySymbols);
         $this->addElement('text','legacyEncoding', ts('Legacy Encoding'));  
