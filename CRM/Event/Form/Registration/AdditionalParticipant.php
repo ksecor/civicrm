@@ -125,7 +125,7 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
             //get the complete params.
             $params = $self->get('params');
             //take the participant instance.
-            $addParticipantNum = substr( $self->_name, 12 ) + 1;
+            $addParticipantNum = substr( $self->_name, 12 );
             if ( is_array( $params ) ) {
                 foreach ( $params as $key => $value ) {
                     if ( ( $value["email-{$self->_bltID}"] == $fields["email-{$self->_bltID}"] ) && $key != $addParticipantNum  ) {
@@ -153,7 +153,7 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
         $this->_params = $this->get( 'params' );
         
         //take the participant instance.
-        $addParticipantNum = substr( $this->_name, 12 ) + 1;
+        $addParticipantNum = substr( $this->_name, 12 );
         if ( $button == 'skip' ) {
             $this->_params[$addParticipantNum] = 'skip';
             if ( isset( $this->_lineItem ) ) {

@@ -159,6 +159,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             $this->set( 'params', $this->_params );
         }
         
+        
     }
     /**
      * overwrite action, since we are only showing elements in frozen mode
@@ -204,9 +205,40 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         
         $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
         $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
-
+        
         $this->assign( 'lineItem', $this->_lineItem );
-     
+        
+        //display additional participants.
+        require_once 'CRM/Event/BAO/EventPage.php';
+        $template =& CRM_Core_Smarty::singleton( );
+        $participantParams = $this->_params;
+        $addParticipantCount = 0;
+        foreach( $participantParams as $participantNum => $participantValue ) {
+            if ( $participantNum ) {
+                if ( $participantValue == 'skip' ) {
+                    unset( $participantParams[$participantNum] );
+                } else {
+                    $addParticipantCount++; 
+                }
+            }
+        }
+        
+        require_once 'CRM/Core/ShowHideBlocks.php';
+        $showHide =& new CRM_Core_ShowHideBlocks( );
+        if ( CRM_Utils_array::value( 'custom_pre_id', $this->_values ) && $addParticipantCount ) {
+            $showHide->addShow( "id-addParticipantsPre-show" );
+            $showHide->addHide( "id-addParticipantsPre" );
+            CRM_Event_BAO_EventPage::displayProfile( $participantParams, $this->_values['custom_pre_id'], 
+                                                     'customPre_addParticipants', $template );
+        }
+        if ( CRM_Utils_array::value( 'custom_post_id', $this->_values ) && $addParticipantCount ) {
+            $showHide->addShow( "id-addParticipantsPost-show" );
+            $showHide->addHide( "id-addParticipantsPost" );
+            CRM_Event_BAO_EventPage::displayProfile( $participantParams, $this->_values['custom_post_id'], 
+                                                     'customPost_addParticipants', $template );
+        }
+        $showHide->addToTemplate( );
+        
         if( $this->_params[0]['amount'] == 0 ) {
             $this->assign( 'isAmountzero', 1 );
         }
@@ -255,7 +287,6 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         }
         
         $this->setDefaults( $defaults );
-        
         $this->freeze();
     }
     
