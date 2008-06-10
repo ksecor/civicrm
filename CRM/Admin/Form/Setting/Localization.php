@@ -107,6 +107,14 @@ class CRM_Admin_Form_Setting_Localization extends  CRM_Admin_Form_Setting
             if ($code == 'en_US') continue;
             if (!in_array($code, $available)) unset($locales[$code]);
         }
+        
+        $includeLanguage =& $this->addElement('advmultiselect', 'languageLimit',
+                                              ts('Available Languages'), $locales,
+                                              array('size'  => 5,
+                                                    'style' => 'width: 200px',
+                                                    'class' => 'advmultiselect'));
+        $includeLanguage->setButtonAttributes('add',    array('value' => ts('Add >>')));
+        $includeLanguage->setButtonAttributes('remove', array('value' => ts('<< Remove')));
 
         $this->addElement('select', 'lcMessages', ts('Default Language'), $locales);
         $this->addElement('select', 'lcMonetary', ts('Monetary Locale'),  $locales);
