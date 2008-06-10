@@ -514,7 +514,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                 CRM_Core_Error::statusBounce( ts('Your profile is not saved and Account is not created.') );
             }
         }
-        
+
         // add participant record
         $participant  = $this->addParticipant( $this->_params, $contactID );
         //building array of cid & participantId 
@@ -595,12 +595,12 @@ WHERE  v.option_group_id = g.id
                                    CRM_Utils_Date::format( $params['participant_register_date'] ) :
                                    date( 'YmdHis' ),
                                    'source'        => isset( $params['participant_source'] ) ?
-                                   $params['participant_source'] :
-                                   $params['description'],
+                                                      $params['participant_source']:$params['description'],
                                    'fee_level'     => $params['amount_level'],
                                    'is_pay_later'  => CRM_Utils_Array::value( 'is_pay_later', $params, 0 ),
                                    'fee_amount'    => CRM_Utils_Array::value( 'fee_amount', $params ),
-                                   'registered_by_id' => $params['registered_by_id']
+                                   'registered_by_id' => $params['registered_by_id'],
+                                   'discount_id'    => $params['discount_id']
                                    );
         
         if ( $this->_action & CRM_Core_Action::PREVIEW ) {

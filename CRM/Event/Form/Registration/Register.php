@@ -253,7 +253,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         if ( $button == 'skip' ) {
             $required  = false;
         }
-        
+  
         $elements = array( );
         $form->addGroup( $elements, 'amount', ts('Event Fee(s)'), '<br />' );      
         if ( isset($form->_priceSetId) ) {
@@ -275,14 +275,15 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             if ( isset( $form->_values['discount'] ) ) {
                 if ( ! isset( $discountId ) ) {
                     require_once 'CRM/Core/BAO/Discount.php';
-                    $discountId = CRM_Core_BAO_Discount::findSet( $form->_eventId, 'civicrm_event' );
+                    $form->_discountId = $discountId = 
+                        CRM_Core_BAO_Discount::findSet( $form->_eventId, 'civicrm_event' );
                 }
 
                 if ( $discountId ) {
                     $feeBlock = $form->_values['discount'][$discountId];
                 }
             }
-            
+
             require_once 'CRM/Utils/Money.php';
             for ( $index = 1; $index <= count(  $feeBlock['label'] ); $index++ ) {
                 $elements[] =& $form->createElement('radio', null, '',
@@ -519,6 +520,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             $discountId = CRM_Core_BAO_Discount::findSet( $this->_eventId, 'civicrm_event' );
 
             if ( ! empty( $this->_values['discount'][$discountId] ) ) {
+                $params['discount_id'] = $discountId;
                 $params['amount_level'] = $this->_values['discount'][$discountId]['label']
                     [array_search( $params['amount'], $this->_values['discount'][$discountId]['amount_id'])];
                 
@@ -577,7 +579,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             if ( ! isset( $params['participant_role_id'] ) && $this->_values['event']['default_role_id'] ) {
                 $params['participant_role_id'] = $this->_values['event']['default_role_id'];
             }
-
+            
             $this->_params  = array ();
             $this->_params[] = $params;
             $this->set( 'params', $this->_params );
