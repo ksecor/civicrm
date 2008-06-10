@@ -235,10 +235,12 @@
         hide("shared_employer");
     }else { 
         dojo.addOnLoad( function( ) 
-            {
-                var sharedEmployer   = {/literal}"{$sharedEmployer}"{literal};
-                dijit.byId( 'shared_employer' ).setDisplayedValue(sharedEmployer ) 
-            }); 
+ 	{
+         	var sharedEmployer   = "{/literal}{$sharedEmployer}{literal}";
+	        dijit.byId( 'shared_employer' ).setValue(sharedEmployer);
+  		showSelectedAddress( 'shared_employer');
+        }); 
+	
     }
     if (!document.getElementsByName("employer_option")[0].checked ) {
         hide("create_employer");
@@ -259,6 +261,7 @@
             hide("shared_employer");
         }
     }
+
 
 </script>
 {/literal}

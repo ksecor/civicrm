@@ -341,10 +341,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
           
             $defaults['employer_option'] = CRM_Utils_Array::value( 'employer_option',
                                                                    $currentEmployer );
-            $defaults['shared_employer'] = CRM_Utils_Array::value( 'id',
-                                                                   $currentEmployer );
-            $this->assign( 'sharedEmployer', CRM_Utils_Array::value( 'sort_name',
-                                                                     $currentEmployer ) );
+            $this->assign( 'sharedEmployer', $currentEmployer['id']  );
         }
         
         //set defaults for country-state dojo widget
@@ -606,8 +603,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
-        
-	    $params['contact_type'] = $this->_contactType;
+        $params['contact_type'] = $this->_contactType;
         
         if ( $this->_contactId ) {
             $params['contact_id'] = $this->_contactId;
