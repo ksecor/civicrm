@@ -78,11 +78,14 @@ class CRM_Core_I18n
     /**
      * Languages available in this instance of CiviCRM
      *
-     * @return array of code/language name mappings
+     * @param  bool $justEnabled whether to return all languages or just the enabled ones
+     * @return array             of code/language name mappings
      */
-    function &languages()
+    function &languages($justEnabled = false)
     {
-        static $all = null;
+        static $all     = null;
+        static $enabled = null;
+
         if (!$all) {
             $all = array('en_US' => 'English (USA)',
                          'af_ZA' => 'Afrikaans',
@@ -138,7 +141,16 @@ class CRM_Core_I18n
                 if (!in_array($code, $codes)) unset($all[$code]);
             }
         }
-        return $all;
+
+        if ($enabled === null) {
+            $config =& CRM_Core_Config::singleton();
+            $enabled = array();
+            foreach ($all as $code => $name) {
+                if (in_array($code, $config->languageLimit)) $enabled[$code] = $name;
+            }
+        }
+
+        return $justEnabled ? $enabled : $all;
     }
 
     /**
