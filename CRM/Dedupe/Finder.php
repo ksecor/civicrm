@@ -216,7 +216,9 @@ class CRM_Dedupe_Finder
             // for matching on civicrm_address fields, we also need the location_type_id
             if ($table == 'civicrm_address') $fields['location_type_id'] = '';
             foreach($fields as $field => $title) {
-                if ($flat[$field]) $params[$table][$field] = $flat[$field];
+                if ( CRM_Utils_Array::value( $field, $flat ) ) {
+                    $params[$table][$field] = $flat[$field];
+                }
             }
         }
         return $params;

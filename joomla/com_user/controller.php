@@ -83,6 +83,23 @@ class UserController extends JController
 			}
 		}
 
+        // do civicrm validation here
+        require_once 'administrator/components/com_civicrm/civicrm.settings.php';
+        require_once 'CRM/Core/Config.php';
+        $civiConfig =& CRM_Core_Config::singleton( );
+        $civiConfig->formKeyDisable = true;
+
+        require_once 'CRM/Core/BAO/UFGroup.php';
+        $errors = CRM_Core_BAO_UFGroup::isValid( null, null, true );
+        if ( is_array( $errors ) ) {
+            $msg = null;
+            foreach ( $errors as $name => $error ) {
+                $msg .= "$name: $error<br/>";
+            }
+            $this->setRedirect($_SERVER['HTTP_REFERER'], $msg);
+            return false;
+        }
+
 		// we don't want users to edit certain fields so we will unset them
 		unset($post['gid']);
 		unset($post['block']);
@@ -95,6 +112,13 @@ class UserController extends JController
 
 		if ($model->store($post)) {
 			$msg	= JText::_( 'Your settings have been saved.' );
+
+            require_once 'CRM/Core/BAO/UFMatch.php';
+            $userID = CRM_Core_BAO_UFMatch::getContactId( $user->id );
+            if ( $userID ) {
+                require_once 'CRM/Core/BAO/UFGroup.php';
+                CRM_Core_BAO_UFGroup::getEditHTML( $userID, null, 2, true, false, null, false, 'Individual' );
+            }
 		} else {
 			//$msg	= JText::_( 'Error saving your settings.' );
 			$msg	= $model->getError();
@@ -273,6 +297,7 @@ class UserController extends JController
 		$password = JRequest::getString('password', '', 'post', JREQUEST_ALLOWRAW);
 		$password = preg_replace('/[\x00-\x1F\x7F]/', '', $password); //Disallow control chars in the email
 		UserController::_sendMail($user, $password);
+
 
         // if this was a successful save, call civicrm code to save the contact
         if ( $user->id ) {

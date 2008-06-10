@@ -1073,7 +1073,7 @@ $where
             $groupId = $group['id']; 
             foreach ($group['fields'] as $field) { 
                 // skip all view fields
-                if ( $field['is_view'] ) {
+                if ( CRM_Utils_Array::value( 'is_view', $field ) ) {
                     continue;
                 }
 

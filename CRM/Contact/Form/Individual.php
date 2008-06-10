@@ -232,7 +232,9 @@ setDefaultAddress();
     {
         $errors = array( );
              
-        if ($fields['employer_option'] == 1 && !$fields['shared_employer'] ) {
+        if ( isset( $fields['employer_option'] ) &&
+             $fields['employer_option'] == 1     && 
+             ! $fields['shared_employer'] ) {
             $errors['shared_employer'] =  ts('Please select an organization from the list ');
         } elseif ( isset($fields['employer_option']) && 
                    $fields['employer_option'] == 0   &&

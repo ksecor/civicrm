@@ -679,7 +679,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         
         // copy household address, if use_household_address option (for individual form) is checked
         if ( $this->_contactType == 'Individual' ) {
-            if ( $params['use_household_address'] ) {
+            if ( CRM_Utils_Array::value( 'use_household_address', $params ) ) {
                 if ( !$params['shared_option'] && $params['create_household'] ) {
                     CRM_Contact_Form_Individual::createSharedHousehold( $params );
                 } elseif ( $params['shared_option'] ) {

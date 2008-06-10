@@ -137,8 +137,8 @@ class CRM_Utils_Array {
 
         return str_replace( $src, $dst, $value );
     }
-
-    static function &flatten( &$list, &$flat, $prefix = '', $seperator = "." ) {
+    
+    static function flatten( &$list, &$flat, $prefix = '', $seperator = "." ) {
         foreach( $list as $name => $value ) {
             $newPrefix = ( $prefix ) ? $prefix . $seperator . $name : $name;
             if ( is_array( $value ) ) {
