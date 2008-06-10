@@ -176,16 +176,6 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $this->_single    = false;
             $this->_contactID = null;
         }
-
-        // participant id
-        if ( $this->_id ) {
-            require_once 'CRM/Event/BAO/ParticipantPayment.php';
-            $particpant =& new CRM_Event_BAO_ParticipantPayment( );
-            $particpant->participant_id = $this->_id;
-            if ( $particpant->find( true ) ) {
-                $this->_online = true;
-            }
-        }
         
         $this->assign( 'single', $this->_single );
         
@@ -202,7 +192,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $this->assign('participantId',  $this->_id );
             $this->_roleId = CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_Participant", $this->_id, 'role_id' );
         } 
-
+       
         // when fee amount is included in form
         if ( CRM_Utils_Array::value( 'hidden_feeblock', $_POST ) ) {
             CRM_Event_Form_EventFees::preProcess( $this );

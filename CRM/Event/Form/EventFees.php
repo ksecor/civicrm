@@ -219,11 +219,18 @@ class CRM_Event_Form_EventFees
      * @access public 
      */ 
     static function buildQuickForm( &$form )  
-    { 
+    {
         if ( $form->_eventId ) {
             $form->_isPaidEvent = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $form->_eventId, 'is_monetary' );
         }
-
+        
+        if ( $form->_participantId ) { 
+            if( CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_ParticipantPayment', 
+                                             $form->_participantId, 'contribution_id', 'participant_id' ) ) {
+                 $form->_online = true;
+            }
+        }
+        
         if ( $form->_isPaidEvent ) {
             $form->addElement( 'hidden', 'hidden_feeblock', 1 );
             require_once "CRM/Event/BAO/EventPage.php";
@@ -241,11 +248,15 @@ class CRM_Event_Form_EventFees
                     $discounts[$key] = $value['name'];                   
                 }
                 
-                $form->add('select', 'discount_id', 
-                           ts( 'Discount Set' ), 
-                           array( 0 => ts( '- select -' )) + $discounts,
-                           false,
-                           array('onchange' => "buildFeeBlock( {$form->_eventId}, this.value );") );
+                $element = $form->add('select', 'discount_id', 
+                                      ts( 'Discount Set' ), 
+                                      array( 0 => ts( '- select -' )) + $discounts,
+                                      false,
+                                      array('onchange' => "buildFeeBlock( {$form->_eventId}, this.value );") );
+           
+                if ( $form->_online ) {
+                    $element->freeze();
+                }
             }
             
             $form->addElement('checkbox', 'record_contribution', ts('Record Payment?'), null, 
