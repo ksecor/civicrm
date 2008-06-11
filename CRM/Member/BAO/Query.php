@@ -344,8 +344,22 @@ class CRM_Member_BAO_Query
 
         // add all the custom  searchable fields
         require_once 'CRM/Core/BAO/CustomGroup.php';
-        CRM_Custom_Form_CustomData::buildQuickForm( $form );
-        $form->assign('membershipGroupTree', $form->_groupTree);
+        $extends      = array( 'Membership' );
+        $groupDetails = CRM_Core_BAO_CustomGroup::getGroupDetail( null, true, $extends );
+        if ( $groupDetails ) {
+            require_once 'CRM/Core/BAO/CustomField.php';
+            $form->assign('membershipGroupTree', $groupDetails);
+            foreach ($groupDetails as $group) {
+                foreach ($group['fields'] as $field) {
+                    $fieldId = $field['id'];                
+                    $elementName = 'custom_' . $fieldId;
+                    CRM_Core_BAO_CustomField::addQuickFormElement( $form,
+                                                                   $elementName,
+                                                                   $fieldId,
+                                                                   false, false, true );
+                }
+            }
+        }
         $form->assign( 'validCiviMember', true );
     }
 
