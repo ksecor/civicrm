@@ -453,7 +453,6 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                     $this->assign ( 'isPrimary' , 1 );
                     if ( $this->_values['custom_pre_id'] || $this->_values['custom_post_id'] ) {
                         $customGroup = array();
-                        $customField = array(); 
                         $i = 0;
                         $template =& CRM_Core_Smarty::singleton( );
                        
@@ -669,6 +668,10 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $contactID, $addToGroups, null,$ctype);
         } else {
             require_once 'CRM/Dedupe/Finder.php';
+            //Dedupe couldn't recognize "email-Primary".So modify params temporary.
+            if ( CRM_Utils_Array::value('email-Primary', $params) ) {
+                $params ['email'] = $params['email-Primary'];
+            }
             $dedupeParams = CRM_Dedupe_Finder::formatParams($params, 'Individual');
             $ids = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Individual');
            
