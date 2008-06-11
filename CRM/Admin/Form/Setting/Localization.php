@@ -54,21 +54,18 @@ class CRM_Admin_Form_Setting_Localization extends  CRM_Admin_Form_Setting
         $i18n   =& CRM_Core_I18n::singleton();
         CRM_Utils_System::setTitle(ts('Settings - Localization'));
 
-        $locales = array();
-       
-        if (is_dir($config->gettextResourceDir)) {
-            $dir = opendir($config->gettextResourceDir);
-            while ($filename = readdir($dir)) {
-                if (preg_match('/^[a-z][a-z]_[A-Z][A-Z]$/', $filename)) {
-                    $locales[$filename] = $filename;
-                }
-            }
-            closedir($dir);
-        }
-        asort($locales);
-        
-        $this->addElement('select','lcMessages', ts('User Language'), array('en_US' => 'en_US') + $locales);
-        $this->addElement('select','lcMonetary', ts('Monetary Locale'), array('en_US' => 'en_US') + $locales);
+        $locales =& CRM_Core_I18n::languages();
+
+        $includeLanguage =& $this->addElement('advmultiselect', 'languageLimit',
+                                              ts('Available Languages'), $locales,
+                                              array('size'  => 5,
+                                                    'style' => 'width: 200px',
+                                                    'class' => 'advmultiselect'));
+        $includeLanguage->setButtonAttributes('add',    array('value' => ts('Add >>')));
+        $includeLanguage->setButtonAttributes('remove', array('value' => ts('<< Remove')));
+
+        $this->addElement('select', 'lcMessages', ts('Default Language'), $locales);
+        $this->addElement('select', 'lcMonetary', ts('Monetary Locale'),  $locales);
         $this->addElement('text','moneyformat', ts('Monetary Display')); 
 
         $country = array( ) ;
@@ -103,7 +100,8 @@ class CRM_Admin_Form_Setting_Localization extends  CRM_Admin_Form_Setting
         
         $symbol = $config->currencySymbols;
         foreach($symbol as $key=>$value) {
-            $currencySymbols[$key] = "$key ($value)";
+            $currencySymbols[$key] = "$key";
+            if ($value) $currencySymbols[$key] .= " ($value)";
         } 
         $this->addElement('select','defaultCurrency', ts('Default Currency'), $currencySymbols);
         $this->addElement('text','legacyEncoding', ts('Legacy Encoding'));  

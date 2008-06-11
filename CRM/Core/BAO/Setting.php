@@ -172,6 +172,27 @@ class CRM_Core_BAO_Setting
                     unset( $defaults[$skip] );
                 }
             }
+
+            // set lcMessages dynamically based on GET and civicrm_uf_match values
+            // if cookie unset, initialise it to admin-specified value
+            // FIXME: this should be moved to user preferences once they're introduced
+            require_once 'CRM/Utils/Request.php';
+            require_once 'CRM/Core/DAO/UFMatch.php';
+            $session =& CRM_Core_Session::singleton();
+            $dao =& new CRM_Core_DAO_UFMatch();
+            $dao->contact_id = $session->get('userID');
+            $dao->find(true);
+            if ($lcMessages = CRM_Utils_Request::retrieve('lcMessages', 'String', $this)) {
+                $dao->language = $lcMessages;
+                $dao->save();
+                $defaults['lcMessages'] = $lcMessages;
+            } elseif (!$dao->language) {
+                $dao->language = $defaults['lcMessages'];
+                $dao->save();
+            } else {
+                $defaults['lcMessages'] = $dao->language;
+            }
+            $dao->free();
         }
     }
 }

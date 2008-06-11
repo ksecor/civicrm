@@ -4,6 +4,7 @@
        {include file="CRM/Activity/Selector/Activity.tpl}
    </td>
    <td>
+      {if $languages}<fieldset><legend>{ts}Choose Language{/ts}</legend>{$languages}</fieldset>{/if}
       <fieldset><legend>{ts}Quick Search{/ts}</legend>
       <form action="{$postURL}" method="post">
       <div class="form-item">
