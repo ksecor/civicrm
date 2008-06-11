@@ -72,7 +72,10 @@ class CRM_Contact_Form_Search_Basic extends CRM_Contact_Form_Search {
      */
     function buildQuickForm( ) 
     {
-        $this->add('select', 'contact_type', ts('Find...'), CRM_Core_SelectValues::contactType());
+        // text for sort_name or email criteria
+        $this->add('text', 'sort_name', ts('Name or Email'));
+
+        $this->add('select', 'contact_type', ts('is...'), CRM_Core_SelectValues::contactType());
 
         // add select for groups
         $group               = array('' => ts('- any group -')) + $this->_group;
@@ -81,14 +84,12 @@ class CRM_Contact_Form_Search_Basic extends CRM_Contact_Form_Search {
         //FIXME : uncomment following code once we will be complete with the subgroup functionality
         // add checkbox for searching subgroups
 	    // $subgroups = $this->addElement( 'checkbox', "subgroups", null, ts( 'Search Subgroups' ) );
-// 	    $subgroups_dummy = $this->addElement( 'hidden', 'subgroups_dummy', '666' );
+        // $subgroups_dummy = $this->addElement( 'hidden', 'subgroups_dummy', '666' );
 
-        // add select for categories
+        // tag criteria
         $tag = array('' => ts('- any tag -')) + $this->_tag;
-        $this->_tagElement =& $this->addElement('select', 'tag', ts('Tagged'), $tag);
+        $this->_tagElement =& $this->addElement('select', 'tag', ts('with'), $tag);
 
-        // text for sort_name
-        $this->add('text', 'sort_name', ts('Name'));
 
         parent::buildQuickForm( );
     }
