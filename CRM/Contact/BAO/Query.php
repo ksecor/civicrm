@@ -301,6 +301,7 @@ class CRM_Contact_BAO_Query
                           $skipPermission = false, $searchDescendentGroups = true,
                           $smartGroupCache = true ) 
     {
+        $args = func_get_args( );
         require_once 'CRM/Contact/BAO/Contact.php';
 
         // CRM_Core_Error::backtrace( );
@@ -1527,11 +1528,12 @@ class CRM_Contact_BAO_Query
         }
 
         $tables = $newTables;
-        
+
         foreach ( $tables as $name => $value ) {
             if ( ! $value ) {
                 continue;
             }
+
             if (CRM_Utils_Array::value($name, $inner)) {
                 $side = 'INNER';
             } elseif (CRM_Utils_Array::value($name, $right)) {
@@ -1552,7 +1554,11 @@ class CRM_Contact_BAO_Query
             switch ( $name ) {
 
             case 'civicrm_address':
-                $from .= " $side JOIN civicrm_address ON ( contact_a.id = civicrm_address.contact_id AND civicrm_address.is_primary = 1 )";
+                if ( $primaryLocation ) {
+                    $from .= " $side JOIN civicrm_address ON ( contact_a.id = civicrm_address.contact_id AND civicrm_address.is_primary = 1 )";
+                } else {
+                    $from .= " $side JOIN civicrm_address ON ( contact_a.id = civicrm_address.contact_id ) ";
+                }
                 continue;
 
             case 'civicrm_phone':
