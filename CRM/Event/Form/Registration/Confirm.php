@@ -310,6 +310,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         $contactID = $session->get( 'userID' );
         $now = date( 'YmdHis' );
         $isAdditional = true;
+        $this->_params = $this->get( 'params' );
         $params = $this->_params;
         $this->_ids = array();
         $this->set( 'finalAmount' ,$this->_amount );
@@ -423,7 +424,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             $this->set( 'value', $value ); 
             $this->confirmPostProcess( $contactID, $contribution, $payment, $isAdditional );
         }  
-
+        // for Transfer checkout.
         require_once "CRM/Event/BAO/EventPage.php";
         if ( $this->_contributeMode == 'checkout' ||
              $this->_contributeMode == 'notify'   ) {
@@ -435,10 +436,10 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                  if ( $this->_values['event']['is_monetary'] &&
                       $primaryParticipant && $primaryParticipant['amount'] > 0 ) {
                      
-                     $payment->doTransferCheckout( $this->_params );
+                     $payment->doTransferCheckout( $primaryParticipant );
                  }
         } else {
-            //send mail Confirmation/Receipt
+            //otherwise send mail Confirmation/Receipt
             $isTest = false;
             if ( $this->_action & CRM_Core_Action::PREVIEW ) {
                 $isTest = true;
@@ -455,6 +456,8 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                         $customField = array(); 
                         $i = 0;
                         $template =& CRM_Core_Smarty::singleton( );
+                       
+                        //primary participant should get all payment & participant's information
                         foreach ( $this->_ids as $cId => $pId ) {
                             require_once 'CRM/Event/BAO/EventPage.php';
                             $customGroup[$i] = array();
@@ -485,7 +488,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                     }
                     $this->assign ( 'isPrimary' , 0 );
                     $this->assign( 'customProfile', null );
-                    //Additional Participant should get only it's info
+                    //Additional Participant should get only it's payment information
                     if ( $this->_amount ) {
                         $amount = array();
                         $params = $this->get( 'params' );

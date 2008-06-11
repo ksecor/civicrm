@@ -541,26 +541,13 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             
             $paymentPartcipant = CRM_Event_BAO_ParticipantPayment::create($paymentParams, $ids);
         }
-       
+        //set only primary participant's params for transfer checkout.
         if ( ($this->_contributeMode == 'checkout'||  $this->_contributeMode == 'notify') 
              && CRM_Utils_Array::value( 'is_primary', $this->_params ) ) {
             $this->_params['participantID'] = $participant->id;
             $this->set ( 'primaryParticipant',  $this->_params );
         } 
-//         require_once "CRM/Event/BAO/EventPage.php";
-//         $this->_params['participantID'] = $participant->id;
-
-//         if ( $this->_contributeMode == 'checkout' ||
-//              $this->_contributeMode == 'notify'   ) {
-//             // do a transfer only if a monetary payment greater than 0
-//             if ( $this->_values['event']['is_monetary'] &&
-//                  $this->_params['amount'] > 0 && CRM_Utils_Array::value( 'is_primary', $this->_params ) ) {
-                
-//                 $payment->doTransferCheckout( $this->_params );
-//             }
-//         } else {
-            $this->assign('action',$this->_action); 
-//         }
+        $this->assign('action',$this->_action); 
     }
 
     /**
