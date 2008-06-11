@@ -589,24 +589,8 @@ class CRM_Contribute_BAO_Query
         $form->addElement( 'checkbox', 'contribution_recurring' , ts( 'Find Recurring Contributions?' ) );
 
         // add all the custom  searchable fields
-        require_once 'CRM/Core/BAO/CustomGroup.php';
-        $contribution = array( 'Contribution' );
-        $groupDetails = CRM_Core_BAO_CustomGroup::getGroupDetail( null, true, $contribution );
-        if ( $groupDetails ) {
-            require_once 'CRM/Core/BAO/CustomField.php';
-            $form->assign('contributeGroupTree', $groupDetails);
-            foreach ($groupDetails as $group) {
-                foreach ($group['fields'] as $field) {
-                    $fieldId = $field['id'];                
-                    $elementName = 'custom_' . $fieldId;
-                    CRM_Core_BAO_CustomField::addQuickFormElement( $form,
-                                                                   $elementName,
-                                                                   $fieldId,
-                                                                   false, false, true );
-                }
-            }
-        }
-
+        CRM_Custom_Form_CustomData::buildQuickForm( $form );
+        $form->assign('contributeGroupTree', $form->_groupTree);
         $form->assign( 'validCiviContribute', true );
     }
 

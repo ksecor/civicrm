@@ -104,7 +104,8 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup
     public static function &getTree( $entityType,
                                      $entityID = null,
                                      $groupID  = null,
-                                     $subType  = null )
+                                     $subType  = null,
+                                     $search   = false )
     {
         // create a new tree
         $groupTree = array();
@@ -170,6 +171,12 @@ WHERE civicrm_custom_group.is_active = 1
   AND civicrm_custom_group.extends IN ($in)
   AND ( civicrm_custom_group.extends_entity_column_value = '$subType'
    OR   civicrm_custom_group.extends_entity_column_value IS NULL )
+";
+        } elseif ( $search ) {
+            $strWhere = "
+WHERE civicrm_custom_group.is_active = 1 
+  AND civicrm_custom_field.is_active = 1 
+  AND civicrm_custom_group.extends IN ($in)
 ";
         } else {
             $strWhere = "
@@ -1026,7 +1033,8 @@ $where
                                     $showName = 'showBlocks',
                                     $hideName = 'hideBlocks',
                                     $inactiveNeeded = false,
-                                    $alwaysShow = false ) {
+                                    $alwaysShow = false,
+                                    $search = false ) {
         require_once 'CRM/Core/BAO/CustomField.php';
         require_once 'CRM/Core/BAO/CustomOption.php';
 
@@ -1088,7 +1096,7 @@ $where
                 $fieldId = $field['id'];                 
                 $elementName = 'custom_' . $fieldId;
                 require_once "CRM/Core/BAO/CustomField.php";
-                CRM_Core_BAO_CustomField::addQuickFormElement($form, $elementName, $fieldId, $inactiveNeeded, $required); 
+                CRM_Core_BAO_CustomField::addQuickFormElement($form, $elementName, $fieldId, $inactiveNeeded, $required, $search); 
             } 
  
             if ( $group['collapse_display'] && ! $alwaysShow ) { 
