@@ -238,7 +238,6 @@
  	{
          	var sharedEmployer   = "{/literal}{$sharedEmployer}{literal}";
 	        dijit.byId( 'shared_employer' ).setValue(sharedEmployer);
-  		showSelectedAddress( 'shared_employer');
         }); 
 	
     }

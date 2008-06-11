@@ -670,9 +670,6 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             $params['is_opt_out'] = CRM_Utils_Array::value( 'is_opt_out', $params, false );
         }
         
-        require_once 'CRM/Contact/BAO/Contact.php';
-        $contact =& CRM_Contact_BAO_Contact::create($params, true, false );
-        
         // copy household address, if use_household_address option (for individual form) is checked
         if ( $this->_contactType == 'Individual' ) {
             if ( CRM_Utils_Array::value( 'use_household_address', $params ) ) {
@@ -681,12 +678,18 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                 } elseif ( $params['shared_option'] ) {
                     CRM_Contact_Form_Individual::copyHouseholdAddress( $params );
                 }
-                // add/edit/delete the relation of individual with household, if use-household-address option is checked/unchecked.
-                CRM_Contact_Form_Individual::handleSharedRelation($contact->id , $params );
             } else {
                 $params['mail_to_household_id'] = 'null';
             }
         } 
+        
+        require_once 'CRM/Contact/BAO/Contact.php';
+        $contact =& CRM_Contact_BAO_Contact::create($params, true,false );
+        
+        if ( $this->_contactType == 'Individual' && ( CRM_Utils_Array::value( 'use_household_address', $params )) ){
+            // add/edit/delete the relation of individual with household, if use-household-address option is checked/unchecked.
+            CRM_Contact_Form_Individual::handleSharedRelation($contact->id , $params );
+        }
         
         if ( $this->_contactType == 'Household' && ( $this->_action & CRM_Core_Action::UPDATE ) ) {
             //TO DO: commented because of schema changes
