@@ -218,6 +218,18 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
                         CRM_Utils_Date::customFormat($values[$fields['participant_register_date']['title']]);
                 }
                 
+                //handle fee_level for price set
+                if ( isset( $values[$fields['participant_fee_level']['title']] ) ) {
+                    $feeLevel = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, 
+                                         $values[$fields['participant_fee_level']['title']] );
+                    foreach ( $feeLevel as $key => $val ) {
+                        if ( ! $val ) {
+                            unset( $feeLevel[$key] );
+                        }
+                    }
+                    $values[$fields['participant_fee_level']['title']] = implode( ",", $feeLevel );
+                }
+                
                 unset( $values[$fields['participant_id']['title']] );
 
                 foreach( $fields as $v  ) {
@@ -367,8 +379,11 @@ WHERE  id = $cfID
                                                 $customVal = (int ) ($params[$name]);
                                             } else if ( $dao->data_type == 'Float' ) {
                                                 $customVal = (float ) ($params[$name]);
-                                            } else if ( $dao->data_type == 'Date' ) { 
-                                                $customVal = CRM_Utils_Date::format( $params[$name] );
+                                            } else if ( $dao->data_type == 'Date' ) {
+                                                $date = CRM_Utils_Date::format( $params[$name], null, 'invalidDate' );
+                                                if ( $date != 'invalidDate' ) {
+                                                    $customVal = $date;
+                                                }
                                             } else {
                                                 $customVal = $params[$name];
                                             }

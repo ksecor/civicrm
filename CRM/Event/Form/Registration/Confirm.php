@@ -405,7 +405,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 if ( ! $pending ) {
                     // transactionID & receive date required while building email template
                     $this->assign( 'trxn_id', $result['trxn_id'] );
-                    $this->assign( 'receiveDate', CRM_Utils_Date::mysqlToIso( $value['receive_date']) );
+                    $this->assign( 'receive_date', CRM_Utils_Date::mysqlToIso( $value['receive_date']) );
                     $this->set( 'receiveDate', CRM_Utils_Date::mysqlToIso( $value['receive_date']) );
                     $this->set( 'trxnId', CRM_Utils_Array::value( 'trxn_id', $value ) );
                 }
@@ -421,9 +421,13 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 $value['item_name'         ] = $value['description'];
             }
             
-            $this->set( 'value', $value ); 
+            $this->set( 'value', $value );
+            $registerDate = isset( $value['participant_register_date'] ) ?
+                CRM_Utils_Date::format( $value['participant_register_date'] ) : date( 'YmdHis' );
+            $this->assign( 'register_date', $registerDate );
+            
             $this->confirmPostProcess( $contactID, $contribution, $payment, $isAdditional );
-        }  
+        }
         // for Transfer checkout.
         require_once "CRM/Event/BAO/EventPage.php";
         if ( $this->_contributeMode == 'checkout' ||
@@ -443,6 +447,11 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             $isTest = false;
             if ( $this->_action & CRM_Core_Action::PREVIEW ) {
                 $isTest = true;
+            }
+            
+            //handle if no additional participant.
+            if ( ! $registerByID ) {
+                $registerByID = $this->get('registerByID');
             }
             
             //build an array of custom profile and assigning it to template

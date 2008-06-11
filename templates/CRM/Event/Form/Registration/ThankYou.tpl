@@ -56,11 +56,11 @@
 	<br /> <strong>{ts}Event Total{/ts}: {$totalAmount|crmMoney}</strong><br />
         {/if}	
         {/if}
-        {if $receiveDate}
-        <strong>{ts}Transaction Date{/ts}: {$receiveDate|crmDate}</strong><br />
+        {if $receive_date}
+        <strong>{ts}Transaction Date{/ts}: {$receive_date|crmDate}</strong><br />
         {/if}
-        {if $contributeMode ne 'notify' AND $trxnId}
-          <strong>{ts}Transaction #{/ts}: {$trxnId}</strong><br />
+        {if $contributeMode ne 'notify' AND $trxn_id}
+          <strong>{ts}Transaction #{/ts}: {$trxn_id}</strong><br />
         {/if}
     </div>
     {/if}

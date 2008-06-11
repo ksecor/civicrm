@@ -92,8 +92,8 @@ class CRM_Event_Form_Registration_ThankYou extends CRM_Event_Form_Registration
 
         $this->assign( 'lineItem', $this->_lineItem );
         $this->assign( 'totalAmount', $this->_totalAmount );
-        $this->assign( 'receiveDate', $this->_receiveDate );
-        $this->assign( 'trxnId', $this->_trxnId );
+        $this->assign( 'receive_date', $this->_receiveDate );
+        $this->assign( 'trxn_id', $this->_trxnId );
         
         if( $this->_params['amount'] == 0 ) {
             $this->assign( 'isAmountzero', 1 );
