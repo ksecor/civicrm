@@ -53,6 +53,13 @@
        <add>1.1</add>
        <drop>2.0</drop>
   </field>
+  <field>
+    <name>language</name>
+    <type>varchar</type>
+    <length>5</length>
+    <comment>UI language preferred by the given user/contact</comment>
+    <add>2.1</add>
+  </field>
   <index>
      <name>UI_uf_id</name>
      <fieldName>uf_id</fieldName>
