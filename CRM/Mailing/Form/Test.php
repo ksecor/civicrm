@@ -101,21 +101,26 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form
      */
     public function &testMail($testParams, &$files, &$options) 
     {
-        $errors = array();
-        if ($testParams['sendtest'] && !($testParams['test_group'] || $testParams['test_email'] )) {
-            CRM_Core_Session::setStatus( ts("Your did not provided any email address or selected any group. No test mail is sent.") );
-            $url = CRM_Utils_System::url( 'civicrm/mailing/send', 
-                                          "_qf_Test_display=true&qfKey={$testParams['qfKey']}" );
-            CRM_Utils_System::redirect($url);
-            return true;
-        }
-        if ($testParams['sendtest'] && substr_count($testParams['test_email'], '@') > 1) {
-            CRM_Core_Session::setStatus( ts("Your can not provided more than one email address") );
-            $url = CRM_Utils_System::url( 'civicrm/mailing/send', 
-                                          "_qf_Test_display=true&qfKey={$testParams['qfKey']}" );
-            CRM_Utils_System::redirect($url);
-            return true;
-        }
+        $error = null;
+        if ($testParams['sendtest']) {
+            if (!($testParams['test_group'] || $testParams['test_email'] )) {
+                CRM_Core_Session::setStatus( ts("Your did not provided any email address or selected any group. No test mail is sent.") );
+                $error = true;
+            } elseif (substr_count($testParams['test_email'], '@') > 1) {
+                CRM_Core_Session::setStatus( ts("Your can not provided more than one email address") );
+                $error = true;
+            } elseif (!CRM_Utils_Rule::email($testParams['test_email'])) {
+                CRM_Core_Session::setStatus( ts("Please enter a valid email address") );
+                $error = true;
+            }
+            if ($error) {
+                $url = CRM_Utils_System::url( 'civicrm/mailing/send', 
+                                              "_qf_Test_display=true&qfKey={$testParams['qfKey']}" );
+                CRM_Utils_System::redirect($url);
+                return true;
+            }
+        } 
+        
         if ($testParams['_qf_Test_submit']) {
             CRM_Core_Session::setStatus( ts("Your mailing has been saved. Click the 'Continue' action to resume working on it.") );
             $url = CRM_Utils_System::url( 'civicrm/mailing/browse/unscheduled', 'scheduled=false&reset=1' );

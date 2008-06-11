@@ -441,7 +441,7 @@ function checkPerformAction (fldPrefix, form, taskButton) {
 
     if (gotTask == 1) {
         // If user wants to perform action on ALL records and we have a task, return (no need to check further)
-        if (document.forms[form].radio_ts[1].checked) {
+        if (document.forms[form].radio_ts[0].checked) {
             return true;
         }
 	
@@ -472,7 +472,7 @@ function checkSelectedBox (chkName, form)
   
     if (document.forms[form].elements[chkName].checked == true) {
         // change 'all records' radio to 'selected' if any row is checked
-        document.forms[form].radio_ts[0].checked = true;
+        document.forms[form].radio_ts[1].checked = true;
         
         if (document.getElementById(row).className == 'even-row') {
             document.getElementById(row).className = 'selected even-row';

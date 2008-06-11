@@ -59,6 +59,71 @@
          </div>  
          {include file="CRM/UF/Form/Block.tpl" fields=$customPre}
     {/if}
+    {if $customPost}
+         {foreach from=$customPost item=field key=cname}
+              {if $field.groupTitle}
+                {assign var=groupTitlePost  value=$field.groupTitle} 
+              {/if}
+         {/foreach}
+        <div class="header-dark">
+          {ts}{$groupTitlePost}{/ts}
+         </div>  
+         {include file="CRM/UF/Form/Block.tpl" fields=$customPost}
+    {/if}
+{*diaplay Additional Participant customPre profile Info*}
+{if $customPre_addParticipants}
+<div class="header-dark">
+    	{ts}Additional Participants{/ts} : {$customPre_addParticipants_groupName}
+</div>
+
+<div id="id-addParticipantsPre-show" class="section-hidden section-hidden-border" style="clear: both;">
+        <a href="#" onclick="hide('id-addParticipantsPre-show'); show('id-addParticipantsPre'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Additional Participants{/ts}</label><br />
+</div>
+<div id="id-addParticipantsPre" class="section-shown">
+   <fieldset>
+     <legend><a href="#" onclick="hide('id-addParticipantsPre'); show('id-addParticipantsPre-show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Additional Participants{/ts}</legend>
+<table class="form-layout-compressed">
+{foreach from=$customPre_addParticipants item=participant key=participantNum}
+<tr><td class="right font-size10pt bold">{ts}Participant : {$participantNum} {/ts}&nbsp;&nbsp;</td>
+   <tr>
+      {foreach from=$participant item=value key=field}
+          <tr>
+             <td class="labels">{$field}</td> <td>{$value}</td>
+          </tr>
+      {/foreach}
+   </tr>
+{/foreach}
+</table>
+</fieldset>
+</div>  
+{/if}
+
+{*diaplay Additional Participant customPost profile Info*}
+{if $customPost_addParticipants}
+<div class="header-dark">
+    	{ts}Additional Participants{/ts} : {$customPost_addParticipants_groupName} 
+</div>
+<div id="id-addParticipantsPost-show" class="section-hidden section-hidden-border" style="clear: both;">
+        <a href="#" onclick="hide('id-addParticipantsPost-show'); show('id-addParticipantsPost'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Additional Participants{/ts}</label><br />
+</div>
+<div id="id-addParticipantsPost" class="section-shown">
+   <fieldset>
+     <legend><a href="#" onclick="hide('id-addParticipantsPost'); show('id-addParticipantsPost-show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Additional Participants{/ts}</legend>
+<table class="form-layout-compressed">
+{foreach from=$customPost_addParticipants item=participant key=participantNum}
+<tr><td class="right font-size10pt bold">{ts}Participant : {$participantNum} {/ts}&nbsp;&nbsp;</td>
+   <tr>
+      {foreach from=$participant item=value key=field}
+          <tr>
+             <td class="labels">{$field}</td> <td>{$value}</td>
+          </tr>
+      {/foreach}
+   </tr>
+{/foreach}
+</table>
+</fieldset>
+</div> 
+{/if}
 
     {if $contributeMode ne 'notify' and
         ! $is_pay_later             and
@@ -85,18 +150,7 @@
         {ts}Expires{/ts}: {$credit_card_exp_date|truncate:7:''|crmDate}<br />
     </div>
     {/if}
-
-    {if $customPost}
-         {foreach from=$customPost item=field key=cname}
-              {if $field.groupTitle}
-                {assign var=groupTitlePost  value=$field.groupTitle} 
-              {/if}
-         {/foreach}
-        <div class="header-dark">
-          {ts}{$groupTitlePost}{/ts}
-         </div>  
-         {include file="CRM/UF/Form/Block.tpl" fields=$customPost}
-    {/if}
+    
     {if $contributeMode NEQ 'notify'} {* In 'notify mode, contributor is taken to processor payment forms next *}
     <div class="messages status">
         <p>
@@ -124,4 +178,4 @@
         </div>
     {/if}
 </div>
-
+{include file="CRM/common/showHide.tpl"}

@@ -48,7 +48,11 @@ class CRM_Utils_Address
      *
      * @static
      */
-    static function format($fields, $format = null, $microformat = false, $mailing = false, $individualFormat = false )
+    static function format($fields,
+                           $format = null,
+                           $microformat = false,
+                           $mailing = false,
+                           $individualFormat = false )
     {
         static $config = null;
         require_once 'CRM/Core/BAO/Preferences.php';
@@ -80,8 +84,8 @@ class CRM_Utils_Address
             }
         }
 
-        $contactName = null;
-        if ( !$individualFormat ) {  
+        $contactName = CRM_Utils_Array::value( 'display_name', $fields );
+        if ( ! $individualFormat ) {  
             require_once "CRM/Contact/BAO/Contact.php"; 
             if ( isset( $fields['id'] ) ) {
                 $type = CRM_Contact_BAO_Contact::getContactType($fields['id']);
@@ -93,8 +97,6 @@ class CRM_Utils_Address
                 $format = CRM_Core_BAO_Preferences::value( 'individual_name_format' );
                 $format = str_replace('contact.',"",$format);
                 $contactName = self::format($fields, $format, null, null, true);
-            } else {
-                $contactName = CRM_Utils_Array::value( 'display_name', $fields );
             }
         }
 

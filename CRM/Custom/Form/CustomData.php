@@ -46,8 +46,9 @@ class CRM_Custom_Form_CustomData
         $form->_type     = CRM_Utils_Request::retrieve( 'type', 'String', $form );
         $form->_subType  = CRM_Utils_Request::retrieve( 'subType', 'String', $form );
         $form->_entityId = CRM_Utils_Request::retrieve( 'entityId', 'Positive', $form );
+        $form->_search   = CRM_Utils_Request::retrieve( 'search', 'Boolean', $form );
 
-        $form->_groupTree =& CRM_Core_BAO_CustomGroup::getTree( $form->_type, $form->_entityId, 0, $form->_subType );
+        $form->_groupTree =& CRM_Core_BAO_CustomGroup::getTree( $form->_type, $form->_entityId, 0, $form->_subType, $form->_search);
     }
 
     static function setDefaultValues( &$form ) 
@@ -60,7 +61,8 @@ class CRM_Custom_Form_CustomData
     static function buildQuickForm( &$form )
     {
         $form->addElement( 'hidden', 'hidden_custom', 1 );
-        CRM_Core_BAO_CustomGroup::buildQuickForm( $form, $form->_groupTree );
+        $form->_search     = CRM_Utils_Request::retrieve( 'search', 'Boolean', $form );
+        CRM_Core_BAO_CustomGroup::buildQuickForm( $form, $form->_groupTree, 'showBlocks', 'hideBlocks', false, false, $form->_search);
     }
 
 

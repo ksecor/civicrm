@@ -427,12 +427,14 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
 
         foreach($sel1 as $k=>$sel ) {
             if($k) {
-                foreach ($locationTypes as $key => $value) {                        
-                    $sel4[$k]['phone'][$key] =& $phoneTypes;
+                foreach ($locationTypes as $key => $value) {
+                    if ( trim( $key ) != '' ) {
+                        $sel4[$k]['phone'][$key] =& $phoneTypes;
+                    }
                 }
             }
         }
-        
+
         foreach($sel1 as $k=>$sel ) {
             if ($k) {
                 foreach ($mapperFields[$k]  as $key=>$value) {

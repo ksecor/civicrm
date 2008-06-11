@@ -735,3 +735,29 @@ function civicrm_translated_menu_link_alter(&$item) {
         $item['access_callback'] = $item['access'] = false;
     }
 }
+
+function civicrm_admin_menu( ) {
+  $weight  = 10;
+  $links   = array();
+  $links[] = array(
+    'title' => 'CiviCRM',
+    'path' => 'civicrm',
+    'weight' => $weight,
+    'parent_path' => 'CiviCRM'
+  );
+
+  require_once 'CRM/Core/Menu.php';
+  $nav = CRM_Core_Menu::getNavigation( );
+
+  foreach ( $nav as $key => $value ) {
+      $weight  += 10;
+      $links[]  = array(
+                        'title' => $value['title'],
+                        'path' => $value['path'],
+                        'weight' => $weight,
+                        'parent_path' => 'CiviCRM' );
+  }
+  
+  return $links;
+
+}

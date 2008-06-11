@@ -412,8 +412,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         $session =& CRM_Core_Session::singleton( );
 
         if ( $register ) {
-            $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Dynamic', ts('Dynamic Form Creator'), $action );
-            $controller->set( 'gid'     , $group->id );
+            $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Dynamic',
+                                                           ts('Dynamic Form Creator'),
+                                                           $action );
             $controller->set( 'id'      , $userID );
             $controller->set( 'register', 1 );
             $controller->process( );
@@ -469,7 +470,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                                            $action );
             if ( $reset || $doNotProcess ) {
                 // hack to make sure we do not process this form
-                $oldQFDefault = $_POST['_qf_default'];
+                $oldQFDefault = CRM_Utils_Array::value( '_qf_default',
+                                                        $_POST );
                 unset( $_POST['_qf_default'] );
                 unset( $_REQUEST['_qf_default'] );
                 if ( $reset ) {

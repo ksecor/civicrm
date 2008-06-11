@@ -64,7 +64,7 @@
             <div  class="tundra" dojoType= "dojox.data.QueryReadStore" jsId="addressStore" url="{$dataURL}" doClientPaging="false">
                 {$form.shared_household.html}
                 {* Conditionally display the address currently selected in the comboBox *}
-                <span id="household_address" class="description"></span>
+                <span id="shared_household_address" class="description"></span>
             </div>
             <span id="shared_household_help" class="description">{ts}Enter the first letters of the name of the household to see available households.{/ts}</span> 
         </div>
@@ -139,15 +139,23 @@
     }
 
 
- function showSelectedHouseholdAddress()
+ function showSelectedAddress( val )
  {
-    var hhId = dijit.byId('shared_household').getValue();
-    if ( isNaN( hhId ) ) {
-	document.getElementById('shared_household_help').style.display='none';
-	document.getElementById('household_address').innerHTML = '';	
+    var help = val+'_help';
+    var address = val+'_address';
+
+    var contactId = dijit.byId(val).getValue();
+    if ( isNaN( contactId ) ) {
+	document.getElementById(help).style.display='none';
+	document.getElementById(address).innerHTML = '';	
 	return; 
     }
-    var dataUrl = {/literal}"{crmURL p='civicrm/ajax/search' h=0 q='sh=1&id='}"{literal} + hhId;
+
+    if(val == 'shared_household'){		
+	    var dataUrl = {/literal}"{crmURL p='civicrm/ajax/search' h=0 q='sh=1&id='}"{literal} + contactId;
+    } else {
+	    var dataUrl = {/literal}"{crmURL p='civicrm/ajax/search' h=0 q='sh=2&id='}"{literal} + contactId;
+    }
 
     dojo.xhrGet( { 
 		url: dataUrl, 
@@ -161,10 +169,10 @@
 			var ind = selectedAddr.indexOf(':::');
 			selectedAddr = selectedAddr.substr(ind+3);
 			var formattedAddr = selectedAddr.replace(/:::/g, ", ");
-			document.getElementById('shared_household_help').style.display='none';
-			document.getElementById('household_address').innerHTML = formattedAddr;	
+			document.getElementById(help).style.display='none';
+			document.getElementById(address).innerHTML = formattedAddr;	
 		    } else {
-			document.getElementById('household_address').innerHTML = '';	
+			document.getElementById(address).innerHTML = '';	
 		    }
 		    return response; 
 		},
@@ -175,12 +183,7 @@
 		    return response; 
 		}
 	});
-    
-
  }
-
-
-
 
 function setDefaultAddress()
 {
@@ -257,7 +260,7 @@ function setAddressFields ()
 {if $contact_type eq 'Individual' and $defaultSharedHousehold}
 {literal}
     dojo.addOnLoad( function( )
-    {
+    { 
 	var sharedHHId = "{/literal}{$defaultSharedHousehold}{literal}";
 	dijit.byId('shared_household').setValue( sharedHHId );
     } );	 

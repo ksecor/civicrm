@@ -91,8 +91,16 @@
 {if $action eq 1 or $action eq 2}
 {literal}
 <script type="text/javascript">
-
+//build fee block
 buildFeeBlock( );
+
+//build discount block
+var discountId  = document.getElementById('discount_id').value;
+if ( discountId ) {
+    var eventId  = document.getElementById('event_id').value;
+    buildFeeBlock( eventId, discountId );    
+}
+
 
 function buildFeeBlock( eventId, discountId )
 {
@@ -122,6 +130,7 @@ function buildFeeBlock( eventId, discountId )
         var result = dojo.xhrGet({
         url: dataUrl,
         handleAs: "text",
+ 	sync: true,
         timeout: 5000, //Time in milliseconds
         handle: function(response, ioArgs){
                 if(response instanceof Error){

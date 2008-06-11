@@ -40,6 +40,7 @@
 require_once 'CRM/Contribute/PseudoConstant.php';
 require_once 'CRM/Contribute/Selector/Search.php';
 require_once 'CRM/Core/Selector/Controller.php';
+require_once "CRM/Custom/Form/CustomData.php";
 
 /**
  * advanced search, extends basic search
@@ -154,6 +155,11 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form
         $this->_done = false;
         $this->defaults = array( );
 
+        //set custom data
+        $this->set('type', 'Contribution');
+        $this->set('search', true);
+        CRM_Custom_Form_CustomData::preProcess( $this );
+        
         /* 
          * we allow the controller to set force/reset externally, useful when we are being 
          * driven by the wizard framework 
@@ -227,6 +233,7 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form
 
     function setDefaultValues( ) 
     { 
+        $this->_defaults = CRM_Custom_Form_Customdata::setDefaultValues( $this );
         if ( ! CRM_Utils_Array::value( 'contribution_status',
                                        $this->_defaults ) ) {
             $this->_defaults['contribution_status'][1] = 1;

@@ -2,7 +2,7 @@
 
 {include file="CRM/common/pagerAToZ.tpl"}
 
-<table summary="{ts}Search results listings.{/ts}">
+<table summary="{ts}Search results listings.{/ts}" class="selector">
   <tr class="columnheader">
   <th scope="col" title="Select All Rows">{$form.toggleSelect.html}</th>
   {if $context eq 'smog'}

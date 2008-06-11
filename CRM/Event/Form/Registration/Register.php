@@ -253,7 +253,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         if ( $button == 'skip' ) {
             $required  = false;
         }
-        
+  
         $elements = array( );
         $form->addGroup( $elements, 'amount', ts('Event Fee(s)'), '<br />' );      
         if ( isset($form->_priceSetId) ) {
@@ -275,14 +275,15 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             if ( isset( $form->_values['discount'] ) ) {
                 if ( ! isset( $discountId ) ) {
                     require_once 'CRM/Core/BAO/Discount.php';
-                    $discountId = CRM_Core_BAO_Discount::findSet( $form->_eventId, 'civicrm_event' );
+                    $form->_discountId = $discountId = 
+                        CRM_Core_BAO_Discount::findSet( $form->_eventId, 'civicrm_event' );
                 }
 
                 if ( $discountId ) {
                     $feeBlock = $form->_values['discount'][$discountId];
                 }
             }
-            
+
             require_once 'CRM/Utils/Money.php';
             for ( $index = 1; $index <= count(  $feeBlock['label'] ); $index++ ) {
                 $elements[] =& $form->createElement('radio', null, '',
@@ -502,7 +503,8 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
        
         //set number of additional participant.
         $session->set('addParticipant', CRM_Utils_Array::value( 'additional_participants', $params, false ) );
-                
+        //set as Primary participant
+        $params ['is_primary'] = 1;         
         if ($this->_values['event']['is_monetary']) {
             $config =& CRM_Core_Config::singleton( );
             
@@ -518,6 +520,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             $discountId = CRM_Core_BAO_Discount::findSet( $this->_eventId, 'civicrm_event' );
 
             if ( ! empty( $this->_values['discount'][$discountId] ) ) {
+                $params['discount_id'] = $discountId;
                 $params['amount_level'] = $this->_values['discount'][$discountId]['label']
                     [array_search( $params['amount'], $this->_values['discount'][$discountId]['amount_id'])];
                 
@@ -576,7 +579,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             if ( ! isset( $params['participant_role_id'] ) && $this->_values['event']['default_role_id'] ) {
                 $params['participant_role_id'] = $this->_values['event']['default_role_id'];
             }
-
+            
             $this->_params  = array ();
             $this->_params[] = $params;
             $this->set( 'params', $this->_params );
@@ -589,8 +592,14 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                      ! isset( $params['is_pay_later'] ) ) { 
                     $this->set( 'contributeMode', 'express' ); 
                     
-                    $params['cancelURL' ] = CRM_Utils_System::url( 'civicrm/event/register', '_qf_Register_display=1', true, null, false ); 
-                    $params['returnURL' ] = CRM_Utils_System::url( 'civicrm/event/register', '_qf_Confirm_display=1&rfp=1', true, null, false ); 
+                                      
+                    $params['cancelURL' ] = CRM_Utils_System::url( 'civicrm/event/register', '_qf_Register_display=1', true, null, false );
+                    if ( CRM_Utils_Array::value( 'additional_participants', $params, false ) ) {
+                    $params['returnURL' ] = CRM_Utils_System::url('civicrm/event/register', '_qf_Participant-1_display=1&rfp=1&qfKey='.$this->controller->_key, true, null, false ); 
+                    }
+                    else {
+                        $params['returnURL' ] = CRM_Utils_System::url( 'civicrm/event/register', '_qf_Confirm_display=1&rfp=1', true, null, false );
+                    } 
                     $params['invoiceID' ] = $invoiceID;
                     
                     $token = $payment->setExpressCheckout( $params ); 
@@ -618,8 +627,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             }
             
             $params['description'] = ts( 'Online Event Registration' ) . ' ' . $this->_values['event']['title'];
-            $params ['is_primary'] = 1;
-
+            
             $this->_params                = array();
             $this->_params[]              = $params; 
             if ( !CRM_Utils_Array::value( 'additional_participants', $params ) ) {
@@ -874,10 +882,12 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
      * @return void  
      * @access public 
      */ 
-    function checkRegistration($fields, &$self)
+    function checkRegistration($fields, &$self, $isAdditional = false)
     {
         $session =& CRM_Core_Session::singleton( );
-        $contactID = $session->get( 'userID' );
+        if( !$isAdditional ) {
+            $contactID = $session->get( 'userID' );
+        }
         if ( ! $contactID &&
              ! empty( $fields ) &&
              isset( $fields['email-5'] ) ) {
@@ -907,15 +917,22 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             $statusTypes = CRM_Event_PseudoConstant::participantStatus( null, false );
             while($participant->fetch()) {
                 if ( array_key_exists ( $participant->status_id, $statusTypes ) ) {
-                    $status = ts("Oops. It looks like you are already registered for this event. If you want to change your registration, or you feel that you've gotten this message in error, please contact the site administrator."); 
-                    $session->setStatus( $status );
-                    $url = CRM_Utils_System::url( 'civicrm/event/info',
-                                                  "reset=1&id={$self->_values['event']['id']}" );
-                    CRM_Utils_System::redirect( $url );
+                    if ( !$isAdditional ) {
+                        $status = ts("Oops. It looks like you are already registered for this event. If you want to change your registration, or you feel that you've gotten this message in error, please contact the site administrator.");
+                        $session->setStatus( $status );
+                        $url = CRM_Utils_System::url( 'civicrm/event/info',
+                                                      "reset=1&id={$self->_values['event']['id']}" );
+                        CRM_Utils_System::redirect( $url );
+                    }
                 }
+                   if ( $isAdditional ) {
+                       $status = ts("Oops. It looks like this participant is already registered for this event.If you want to change your registration, or you feel that you've gotten this message in error, please contact the site administrator."); 
+                       $session->setStatus( $status );
+                       return $participant->id;
+                   }
             }
         }
     }
-
+    
 }
 

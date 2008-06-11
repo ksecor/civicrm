@@ -1222,7 +1222,11 @@ WHERE  civicrm_contact.id = %1 ";
                 $data['location'][$primaryLocationKey] = $tempLocation;
             }
         }
-        
+
+        if ( ! isset( $data['contact_type'] ) ) {
+            $data['contact_type'] = 'Individual';
+        }
+
         //get the custom fields for the contact
         $customFields = CRM_Core_BAO_CustomField::getFields( $data['contact_type'] );
 

@@ -427,6 +427,9 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             //added for select multiple
         case 'Multi-Select':
             $selectOption =& CRM_Core_OptionGroup::valuesByID( $field->option_group_id );
+            if ( $search ) {
+                $selectOption['CiviCRM_OP_OR'] = ts( 'Use SQL OR' );
+            }
             $qf->addElement('select', $elementName, $label, $selectOption,  array("size"=>"5","multiple"));
             
             if (( $useRequired ||( $useRequired && $field->is_required) ) && !$search) {
@@ -439,6 +442,9 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             $check = array();
             foreach ($customOption as $v => $l) {
                 $check[] =& $qf->createElement('checkbox', $v, null, $l); 
+            }
+            if ( $search ) {
+                $check[] =& $qf->createElement('checkbox', 'CiviCRM_OP_OR', null, ts( 'Use SQL OR' ) ); 
             }
             $qf->addGroup($check, $elementName, $label);
             if (( $useRequired ||( $useRequired && $field->is_required) ) && !$search) {
@@ -637,6 +643,9 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             $v = array( );
             $p = array( );
             foreach ( $checkedData as $key => $val ) {
+                if ( $key == 'CiviCRM_OP_OR' ) {
+                    continue;
+                }
                 if ( $html_type == 'CheckBox' ) {
                     $p[] = $key;
                     $v[] = $option[$key];

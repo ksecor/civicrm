@@ -250,6 +250,10 @@ border-top-style: none;
   vertical-align: top;
 }
 
+#crm-container table.selector td {
+ border-right: 1px solid #dddddd;
+}
+
 #crm-container .form-layout td.view-value, #crm-container .form-layout-compressed td.view-value {
   text-align: left;
   padding: 0em 0em 0em 0.5em;
@@ -269,10 +273,6 @@ border-top-style: none;
 
 #crm-container .right {
   text-align: right;
-}
-
-#crm-container .bold {
-  font-weight: bold;
 }
 
 #crm-container .form-layout-compressed td.option-label {
@@ -431,6 +431,10 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
   font-weight: lighter;
 }
 
+#crm-container .bold {
+  font-weight: bold;
+}
+
 .font-italic {
   font-style: italic
 }
@@ -443,6 +447,10 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
   font-size: 1.2em;
 }
 
+.qill {
+  font-weight: normal;
+  line-height: 1.1em;
+}
 .status-pending {
   color: green;
 }
@@ -551,7 +559,6 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
   background-color: #FAFAFA;
 }
 #crm-container .even-row, tbody.scrollContent tr.alternateRow  {
-  /*background-color: #EAEAEA;*/
   background-color: #E8F2FF;
 }
 #crm-container tr.even-row td, #crm-container tr.odd-row td{

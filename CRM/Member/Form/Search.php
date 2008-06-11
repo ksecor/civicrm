@@ -38,7 +38,7 @@
  */
 require_once 'CRM/Member/Selector/Search.php';
 require_once 'CRM/Core/Selector/Controller.php';
-
+require_once "CRM/Custom/Form/CustomData.php";
 
 /**
  * This file is for civimember search
@@ -151,6 +151,10 @@ class CRM_Member_Form_Search extends CRM_Core_Form
         $this->_done = false;
 
         $this->defaults = array( );
+        
+        $this->set('type', 'Membership');
+        $this->set('search', true);
+        CRM_Custom_Form_CustomData::preProcess( $this );
 
         /* 
          * we allow the controller to set force/reset externally, useful when we are being 
@@ -362,9 +366,9 @@ class CRM_Member_Form_Search extends CRM_Core_Form
 
     function setDefaultValues( ) 
     { 
-        return $this->_defaults; 
+        return CRM_Custom_Form_Customdata::setDefaultValues( $this );
     } 
-     
+    
 
     function fixFormValues( ) {
         // if this search has been forced

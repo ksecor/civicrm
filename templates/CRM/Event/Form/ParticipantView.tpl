@@ -12,7 +12,7 @@
         {if $source}
             <dt>{ts}Event Source{/ts}</dt><dd>{$source}&nbsp;</dd>
         {/if}
-        {if $event_level}
+        {if $fee_level}
             {if $line_items}
                 {assign var="total_price" value=0}
                 <dt>{ts}Event Fees{/ts}</dt>
@@ -40,7 +40,7 @@
                     </table>
                 </dd>
             {else}
-                <dt>{ts}Event Level{/ts}</dt><dd>{$event_level}&nbsp;</dd>
+                <dt>{ts}Event Level{/ts}</dt><dd>{$fee_level}&nbsp;</dd>
             {/if}
         {/if}
         {foreach from=$note item="rec"}
