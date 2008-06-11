@@ -112,6 +112,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
                                'status_id'     => $membership->status_id,
                                'start_date'    => $membership->start_date,
                                'end_date'      => $membership->end_date,
+                               'renewal_reminder_date' => $membership->reminder_date, 
                                'modified_id'   => CRM_Utils_Array::value( 'userId', $ids ),
                                'modified_date' => date('Ymd')
                                );
@@ -180,8 +181,8 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
      */
     static function &create(&$params, &$ids, $callFromAPI = false ) 
     {  
-        require_once 'CRM/Utils/Date.php';
         if ( ! isset( $params['is_override'] ) ) {
+            require_once 'CRM/Utils/Date.php';
             $startDate  = CRM_Utils_Date::customFormat($params['start_date'],'%Y%m%d');
             $endDate    = CRM_Utils_Date::customFormat($params['end_date'],'%Y%m%d');
             $joinDate   = CRM_Utils_Date::customFormat($params['join_date'],'%Y%m%d');
@@ -273,6 +274,8 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         
         $transaction->commit( );
 
+        $relatedMembership = self::createRelatedMemberships( $params, $membership->id );
+        
         return $membership;
     }
     
@@ -943,10 +946,9 @@ AND civicrm_membership.is_test = %2";
     }
     
     /**
-     * Renew the membership
-     * 
-     * This method will renew the membership and will add the modified
-     * dates for mebership and in the log table.
+     * This method will renew / create the membership depending on
+     * whether the given contact has membership or not. And will add
+     * the modified dates for mebership and in the log table.
      * 
      * @param int     $contactID           id of the contact 
      * @param int     $membershipTypeID    id of the membership type
@@ -966,6 +968,7 @@ AND civicrm_membership.is_test = %2";
         require_once 'CRM/Utils/Hook.php';
         $statusFormat = '%Y-%m-%d';
         $format       = '%Y%m%d';
+        $ids          = array();
         
         if ( $currentMembership = 
              CRM_Member_BAO_Membership::getContactMembership( $contactID, $membershipTypeID, $is_test, $form->_membershipId ) ) {
@@ -1017,57 +1020,9 @@ AND civicrm_membership.is_test = %2";
                 }
 
                 if ( CRM_Utils_Array::value( 'id', $currentMembership ) ) {
-                    CRM_Utils_Hook::pre('edit', 'Membership', $currentMembership['id'], $currentMembership);
-                } else {
-                    CRM_Utils_Hook::pre('create', 'Membership', null, $currentMembership);
+                    $ids['membership'] = $currentMembership['id'];
                 }
-                
-                $membership =& new CRM_Member_DAO_Membership();
-                $membership->copyValues($currentMembership);
-                $membership->save( );
-                
-                if ( CRM_Utils_Array::value( 'id', $currentMembership ) ) {
-                    CRM_Utils_Hook::post( 'edit', 'Membership', $membership->id, $membership );
-                } else {
-                    CRM_Utils_Hook::post( 'create', 'Membership', $membership->id, $membership );
-                }
-                
-                // membership status will change as per the new start
-                // and end dates.
-                $membershipStatus = 
-                    CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( 
-                                                                               CRM_Utils_Date::customFormat( $membership->start_date,
-                                                                                                             $statusFormat ),
-                                                                               CRM_Utils_Date::customFormat( $membership->end_date,
-                                                                                                             $statusFormat ),
-                                                                               CRM_Utils_Date::customFormat( $membership->join_date,
-                                                                                                             $statusFormat )
-                                                                               );
-                $membership->status_id = $membershipStatus['id'];
-                $membership->save();
-                
-                //insert log here 
-                $logParams = array( 
-                                   'membership_id'         => $membership->id,
-                                   'status_id'             => $membership->status_id,
-                                   'start_date'            => (CRM_Utils_Date::customFormat($dates['log_start_date'],
-                                                                                            $format) ),
-                                   'end_date'              => (CRM_Utils_Date::customFormat($dates['end_date'],
-                                                                                            $format) ), 
-                                   'renewal_reminder_date' => (CRM_Utils_Date::customFormat($dates['reminder_date'],
-                                                                                            $format) ), 
-                                   'modified_id'           => $contactID,
-                                   'modified_date'         => (CRM_Utils_Date::customFormat($currentMembership['today_date'],
-                                                                                            $format) ) );
-                $dontCare = null;
-                
-                require_once 'CRM/Member/BAO/MembershipLog.php';
-                CRM_Member_BAO_MembershipLog::add( $logParams, $dontCare );
-                
-                $form->assign('mem_start_date',  
-                              CRM_Utils_Date::customFormat($dates['start_date'], $format) );
-                $form->assign('mem_end_date', 
-                              CRM_Utils_Date::customFormat($dates['end_date'],   $format) );
+                $memParams = $currentMembership;
 
             } else {
                 // CURRENT Membership
@@ -1081,62 +1036,24 @@ AND civicrm_membership.is_test = %2";
                                                                                           $changeToday );
                 
                 // Insert renewed dates for CURRENT membership
-                $params               = array( );
-                $params['join_date']  = CRM_Utils_Date::isoToMysql( $membership->join_date );
-                $params['start_date'] = CRM_Utils_Date::isoToMysql( $membership->start_date );
-                $params['end_date']   = CRM_Utils_Date::customFormat( $dates['end_date'], $format );
+                $memParams               = array( );
+                $memParams['join_date']  = CRM_Utils_Date::isoToMysql( $membership->join_date );
+                $memParams['start_date'] = CRM_Utils_Date::isoToMysql( $membership->start_date );
+                $memParams['end_date']   = CRM_Utils_Date::customFormat( $dates['end_date'], $format );
                 
                 if ( empty( $membership->source ) ) {
                     if ( $form ) {
                         if ( $form->_params['membership_source'] ) {
-                            $params['source'] = $form->_params['membership_source'];
+                            $memParams['source'] = $form->_params['membership_source'];
                         } else {
-                            $params['source'] = ts( 'Online Contribution:' ) . ' ' . $form->_values['title'];
+                            $memParams['source'] = ts( 'Online Contribution:' ) . ' ' . $form->_values['title'];
                         }
                     }
                 }
-                
-                CRM_Utils_Hook::pre('edit', 'Membership', $currentMembership['id'], $params );
-                $membership->copyValues( $params );
-                $membership->save( );
-                CRM_Utils_Hook::post( 'edit', 'Membership', $membership->id, $membership );
-                
-                // membership status will change as per the new start
-                // and end dates.
-                $membershipStatus = 
-                    CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( 
-                                                                               CRM_Utils_Date::customFormat( $membership->start_date,
-                                                                                                             $statusFormat ),
-                                                                               CRM_Utils_Date::customFormat( $membership->end_date,
-                                                                                                             $statusFormat ),
-                                                                               CRM_Utils_Date::customFormat( $membership->join_date,
-                                                                                                             $statusFormat )
-                                                                               );
-                $membership->status_id = $membershipStatus['id'];
-                $membership->save();                
-                
-                //Now insert the log for renewal 
-                $logParams = array( 
-                                   'membership_id'         => $membership->id,
-                                   'status_id'             => $membership->status_id,
-                                   'start_date'            => ( CRM_Utils_Date::customFormat($dates['log_start_date'],
-                                                                                             $format) ),
-                                   'end_date'              => ( CRM_Utils_Date::customFormat($dates['end_date'],
-                                                                                             $format) ),
-                                   'renewal_reminder_date' => ( CRM_Utils_Date::customFormat($dates['reminder_date'],
-                                                                                             $format) ),
-                                   'modified_id'           => $contactID,
-                                   'modified_date'         => (CRM_Utils_Date::customFormat($currentMembership['today_date'],
-                                                                                            $format) ) );
-                $dontCare = null;
-                
-                require_once 'CRM/Member/BAO/MembershipLog.php';
-                CRM_Member_BAO_MembershipLog::add( $logParams, $dontCare );
-                
-                $form->assign('mem_start_date',  
-                              CRM_Utils_Date::customFormat($dates['start_date'], $format));
-                $form->assign('mem_end_date', 
-                              CRM_Utils_Date::customFormat($dates['end_date'],   $format));
+
+                if ( CRM_Utils_Array::value( 'id', $currentMembership ) ) {
+                    $ids['membership'] = $currentMembership['id'];
+                }
             }
         } else {
             // NEW Membership
@@ -1191,39 +1108,16 @@ AND civicrm_membership.is_test = %2";
             $memParams['status_id']     = $status['id'];
             $memParams['is_override']   = false;
             $memParams['is_pay_later']  = $form->_params['is_pay_later'];
-
-            CRM_Utils_Hook::pre('create', 'Membership', null, $memParams );
-            
-            $membership = &new CRM_Member_DAO_Membership();
-            $membership->copyValues($memParams);
-            $membership->save();
-            
-            CRM_Utils_Hook::post( 'create', 'Membership', $membership->id, $membership );
-            
-            //Now insert the log  
-            $logParams = array( 
-                               'membership_id' => $membership->id,
-                               'status_id'     => $membership->status_id,
-                               'start_date'    => ( CRM_Utils_Date::customFormat($dates['start_date'],'%Y%m%d') ),
-                               'end_date'      => ( CRM_Utils_Date::customFormat($dates['end_date'],'%Y%m%d') ),
-                               'modified_id'   => $contactID,
-                               'modified_date' => date('Ymd') );
-            
-            $dontCare = null;
-            
-            require_once 'CRM/Member/BAO/MembershipLog.php';
-            CRM_Member_BAO_MembershipLog::add( $logParams, $dontCare );
-            
-            $form->assign( 'mem_start_date',
-                           CRM_Utils_Date::customFormat($dates['start_date'], $format) );
-            $form->assign( 'mem_end_date'  ,
-                           CRM_Utils_Date::customFormat($dates['end_date'],   $format) );
         }
         
-        // add activity record
-        require_once 'CRM/Activity/BAO/Activity.php';
-        CRM_Activity_BAO_Activity::addActivity( $membership, 'Membership Renewal' );
-        
+        // create / update membership
+        $membership =& self::create( $memParams, $ids );
+            
+        $form->assign('mem_start_date',  
+                      CRM_Utils_Date::customFormat($dates['start_date'], $format) );
+        $form->assign('mem_end_date', 
+                      CRM_Utils_Date::customFormat($dates['end_date'],   $format) );
+
         return $membership;
     }
     
@@ -1374,16 +1268,93 @@ SELECT c.contribution_page_id as pageID
      * @access public
      */
     static function sortName( $id ) 
-        {
-            $id = CRM_Utils_Type::escape( $id, 'Integer' );
-            
-            $query = "
+    {
+        $id = CRM_Utils_Type::escape( $id, 'Integer' );
+        
+        $query = "
 SELECT civicrm_contact.sort_name
 FROM   civicrm_membership, civicrm_contact
 WHERE  civicrm_membership.contact_id = civicrm_contact.id
   AND  civicrm_membership.id = {$id}
 ";
-            return CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
+        return CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
+    }
+
+    /**
+     * function to create memberships for related contacts
+     *
+     * @param  array      $params       array of key - value pairs
+     * @param  object     $membership   membership object
+     *
+     * @return null|relatedMembership     array of memberships if created
+     * @static
+     * @access public
+     */
+    static function createRelatedMemberships( &$params, $membershipId ) 
+    {
+        // The block of code below is required since create method doesn't
+        // return all the parameters in the returned membership object
+        $membership =& new CRM_Member_DAO_Membership();
+        $membership->id = $membershipId;
+        if ( ! $membership->find( true ) ) {
+            return null;
         }
+        
+        $relatedContacts = array( );
+        if ( ! is_a( $membership, 'CRM_Core_Error') ) {
+            $relatedContacts = CRM_Member_BAO_Membership::checkMembershipRelationship( 
+                                                                                      $membership->id,
+                                                                                      $membership->contact_id,
+                                                                                      $params['action']
+                                                                                      );
+        }
+        
+        if ( ! empty($relatedContacts) ) {
+            // delete all the related membership records before creating
+            CRM_Member_BAO_Membership::deleteRelatedMemberships( $membership->id );
+            
+            // Edit the params array
+            unset( $params['id'] );
+            // Reminder should be sent only to the direct membership
+            unset( $params['reminder_date'] );
+            // unset the custom value ids
+            if ( is_array( $params['custom'] ) ) {
+                foreach ( $params['custom'] as $k => $v ) {
+                    unset( $params['custom'][$k]['id'] );
+                }
+            }
+            if ( ! isset($params['membership_type_id']) ) {
+                $params['membership_type_id'] = $membership->membership_type_id;
+            }
+
+            foreach ( $relatedContacts as $contactId => $relationshipStatus ) {
+                $params['contact_id'         ] = $contactId;
+                $params['owner_membership_id'] = $membership->id;
+                // set status_id as it might have been changed for
+                // past relationship
+                $params['status_id'          ] = $membership->status_id;
+                
+                if ( ( $params['action'] & CRM_Core_Action::UPDATE ) && 
+                     ( $relationshipStatus == CRM_Contact_BAO_Relationship::PAST ) ) {
+                    // FIXME : While updating/ renewing the
+                    // membership, if the relationship is PAST then
+                    // the membership of the related contact must be
+                    // expired. 
+                    // For that, getting Membership Status for which
+                    // is_current_member is 0. It works for the
+                    // generated data as there is only one membership
+                    // status having is_current_member = 0.
+                    // But this wont work exactly if there will be
+                    // more than one status having is_current_member = 0.
+                    $params['status_id'] = CRM_Core_DAO::getFieldValue('CRM_Member_DAO_MembershipStatus', '0', 'id', 'is_current_member' );
+                }
+                $relatedMembership = CRM_Member_BAO_Membership::create( $params, CRM_Core_DAO::$_nullArray );
+
+                return $relatedMembership;
+            }
+        }
+        
+        return null;
+    }
 }
 
