@@ -3,7 +3,9 @@
 require_once 'CiviTestCase.php';
 require_once 'Contact.php';
 require_once 'CRM/Member/BAO/Membership.php';
-
+require_once 'ContributionPage.php';
+require_once 'Membership.php';
+require_once 'CRM/Member/BAO/MembershipType.php';
 class BAO_Member_Membership extends CiviTestCase 
 {
     function get_info( ) 
@@ -242,4 +244,164 @@ class BAO_Member_Membership extends CiviTestCase
         Contact::delete( $contactId );
     }
 
+
+    /*
+     * Function to build Membership  Block in Contribution Pages
+     *
+     */
+    function testbuildMembershipBlock ( )
+    {
+        //create membership type 
+        $membershipType     = Membership::createMembershipType( );
+        //create contribution page
+        $contributionPageID = ContributionPage::create( );
+        //create membership blok and add to contribution page
+        $membershipBlock    = Membership::createMembershipBlock( $membershipType->id , $contributionPageID );
+        
+        $getMembershipBlock = CRM_Member_BAO_Membership::getMembershipBlock( $contributionPageID );
+        require_once 'CRM/Contribute/Form/Contribution/Main.php';
+        $main =new  CRM_Contribute_Form_Contribution_Main();
+        $main->_id = 1;
+        $main->_mode = 'test';
+        $main->_membershipBlock = array(
+                                        'id'                  => $membershipBlock->id,      //block id
+                                        'entity_table'        => 'civicrm_contribution_page',
+                                        'entity_id'           => $contributionPageID, //page id
+                                        'membership_types'    => $membershipType->id,
+                                        'display_min_fee'     => 1,
+                                        'is_separate_payment' => 0,
+                                        'new_title'           => 'Membership Levels and Fees',
+                                        'new_text'            => 'Membership Levels and Fees',
+                                        'renewal_title'       => 'Renew or Upgrade Your Membership',
+                                        'renewal_text'        => 'Renew or Upgrade Your Membership',
+                                        'is_required'         => 1,
+                                        'is_active'           => 1
+                                        );
+      $buildMemberBlock = CRM_Member_BAO_Membership::buildMembershipBlock( $main, $contributionPageID, true , null,null,true,null );
+     
+      //delete membership type
+      CRM_Member_BAO_MembershipType::del( $membershipType->id );
+      //delete membership block
+      Membership::deleteMembershipBlock( $membershipBlock->id);
+      //delete contribution page
+      ContributionPage::delete( $contributionPageID );
+      //delete contact id
+      Contact::delete( $membershipType->orgnizationID );
+     
+    }
+    /*
+     * Function to get the contribution 
+     * page id from the membership record
+     */
+
+    function testgetContributionPageId( )  
+    {
+        $contactId = Contact::createIndividual( );
+        CRM_Core_Error::debug( '$contactId', $contactId );
+        
+        $params = array(
+                        'contact_id'         => $contactId,  
+                        'membership_type_id' => '1',
+                        'join_date'          => '2008-01-21',
+                        'start_date'         => '2008-01-21',
+                        'end_date'           => '2008-12-21',
+                        'source'             => 'Payment',
+                        'is_override'        => 1,
+                        'status_id'          => 2                       
+                        );
+        $ids = array();
+        CRM_Member_BAO_Membership::create( $params, $ids );
+        
+        
+        $membershipId = $this->assertDBNotNull( 'CRM_Member_BAO_Membership', $contactId, 'id', 
+                                                'contact_id', 'Database check for created membership.' );
+        $membership[$membershipId]['renewPageId'] = CRM_Member_BAO_Membership::getContributionPageId( $membershipId );
+        CRM_Core_Error::debug( '$membership', $membership );
+        
+        Contact::delete( $contactId );
+    }
+    /*
+     * Function to get membership joins/renewals 
+     * for a specified membership
+     * type.
+     *
+     */
+
+    function testgetMembershipStarts( ) 
+    {
+        $membershipType     = Membership::createMembershipType( );
+     
+        $contactId = Contact::createIndividual( );
+     
+               
+        $params = array(
+                        'contact_id'         => $contactId,  
+                        'membership_type_id' => $membershipType->id,
+                        'join_date'          => '2008-01-21',
+                        'start_date'         => '2008-01-21',
+                        'end_date'           => '2008-12-21',
+                        'source'             => 'Payment',
+                        'is_override'        => 1,
+                        'status_id'          => 2                       
+                        );
+        $ids = array();
+        CRM_Member_BAO_Membership::create( $params, $ids );
+
+        $membershipId = $this->assertDBNotNull( 'CRM_Member_BAO_Membership', $contactId, 'id', 
+                                                'contact_id', 'Database check for created membership.' );
+        $yearStart        = date('Y').'0101';
+        $currentDate      = date('Ymd');
+        CRM_Member_BAO_Membership::getMembershipStarts( $membershipType->id, $yearStart,$currentDate );
+        
+        Contact::delete( $contactId ); 
+        
+        CRM_Member_BAO_MembershipType::del( $membershipType->id );
+       
+        Contact::delete( $membershipType->orgnizationID );
+       
+      
+    }
+
+    /*
+     * Function to get a count of membership for a specified membership type,
+     * optionally for a specified date.
+     *
+     */
+
+    function testgetMembershipCount( ) 
+    {
+        $membershipType = Membership::createMembershipType( );
+     
+        $contactId      = Contact::createIndividual( );
+     
+               
+        $params = array(
+                        'contact_id'         => $contactId,  
+                        'membership_type_id' => $membershipType->id,
+                        'join_date'          => '2008-01-21',
+                        'start_date'         => '2008-01-21',
+                        'end_date'           => '2008-12-21',
+                        'source'             => 'Payment',
+                        'is_override'        => 1,
+                        'status_id'          => 2                       
+                        );
+        $ids = array();
+        CRM_Member_BAO_Membership::create( $params, $ids );
+        
+        $membershipId = $this->assertDBNotNull( 'CRM_Member_BAO_Membership', $contactId, 'id', 
+                                                'contact_id', 'Database check for created membership.' );
+        $currentDate  = date('Ymd');
+        $test         = 0;
+        CRM_Member_BAO_Membership::getMembershipCount( $membershipType->id, $currentDate,$test );
+        
+        Contact::delete( $contactId ); 
+        
+        CRM_Member_BAO_MembershipType::del( $membershipType->id );
+        
+        Contact::delete( $membershipType->orgnizationID );
+              
+    }
+
+
 }
+?>
