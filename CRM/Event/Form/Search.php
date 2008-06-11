@@ -40,6 +40,7 @@ require_once 'CRM/Event/PseudoConstant.php';
 require_once 'CRM/Event/Selector/Search.php';
 require_once 'CRM/Core/Selector/Controller.php';
 require_once 'CRM/Contact/BAO/SavedSearch.php';
+require_once "CRM/Custom/Form/CustomData.php";
 
 /**
  * This file is for civievent search
@@ -152,7 +153,12 @@ class CRM_Event_Form_Search extends CRM_Core_Form
         
         $this->_done = false;
         $this->defaults = array( );
-        
+
+        //set custom data
+        $this->set('type', 'Participant');
+        $this->set('search', true);
+        CRM_Custom_Form_CustomData::preProcess( $this );
+
         /* 
          * we allow the controller to set force/reset externally, useful when we are being 
          * driven by the wizard framework 
@@ -450,8 +456,10 @@ class CRM_Event_Form_Search extends CRM_Core_Form
      */
     function &setDefaultValues() 
     {
-        $defaults = array();
-        $defaults = $this->_formValues;
+        $defaults = CRM_Custom_Form_Customdata::setDefaultValues( $this );
+        if (is_array($this->_formValues)) {
+            $defaults = array_merge($defaults, $this->_formValues);
+        }
         return $defaults;
     }
 

@@ -506,24 +506,9 @@ class CRM_Event_BAO_Query
         $form->addElement( 'text', 'participant_fee_level' , ts( 'Fee Level' ) );
         $form->addElement( 'text', 'participant_fee_amount' , ts( 'Fee Amount' ) );
         // add all the custom  searchable fields
-        require_once 'CRM/Core/BAO/CustomGroup.php';
-        $extends      = array( 'Participant' );
-        $groupDetails = CRM_Core_BAO_CustomGroup::getGroupDetail( null, true, $extends );
-        if ( $groupDetails ) {
-            require_once 'CRM/Core/BAO/CustomField.php';
-            $form->assign('participantGroupTree', $groupDetails);
-            foreach ($groupDetails as $group) {
-                foreach ($group['fields'] as $field) {
-                    $fieldId = $field['id'];
-                    $elementName = 'custom_' . $fieldId;
-                    CRM_Core_BAO_CustomField::addQuickFormElement( $form,
-                                                                   $elementName,
-                                                                   $fieldId,
-                                                                   false, false, true );
-                }
-            }
-        }
-
+        CRM_Custom_Form_CustomData::buildQuickForm( $form );
+        $form->assign('participantGroupTree', $form->_groupTree);
+        
         $form->assign( 'validCiviEvent', true );
     }
     
