@@ -52,7 +52,7 @@
     </td>
   </tr>
   <tr>
-    <td class="font-size11pt"> Select Records:</td>
+    <td class="font-size11pt"> {ts}Select Records{/ts}:</td>
     <td class="nowrap">
         {$form.radio_ts.ts_all.html} {ts count=$pager->_totalItems plural='All %count records'}The found record{/ts} &nbsp; {$form.radio_ts.ts_sel.html} {ts}Selected records only{/ts}
     </td>
@@ -88,8 +88,4 @@
   </table>
   
  </div>
-
-<script>
-//    document.getElementById("task").disabled=true;
-</script>
 
