@@ -75,6 +75,16 @@ class CRM_Contribute_Import_Form_UploadFile extends CRM_Core_Form {
         
         $this->addGroup($duplicateOptions, 'onDuplicate', 
                         ts('On duplicate entries'));
+
+        //get the saved mapping details 
+        require_once "CRM/Core/BAO/Mapping.php";
+        require_once "CRM/Core/OptionGroup.php";
+        $mappingArray = CRM_Core_BAO_Mapping::getMappings( CRM_Core_OptionGroup::getValue( 'mapping_type',
+                                                                                           'Import Contribution',
+                                                                                           'name' ) );
+        $this->assign('savedMapping',$mappingArray);
+        $this->add('select','savedMapping', ts('Mapping Option'), array('' => ts('- select -'))+$mappingArray);
+        $this->addElement('submit','loadMapping',ts('Load Mapping'), null, array('onclick'=>'checkSelect()'));
         $this->setDefaults(array('onDuplicate' =>
                         CRM_Contribute_Import_Parser::DUPLICATE_SKIP));
 
@@ -120,10 +130,12 @@ class CRM_Contribute_Import_Form_UploadFile extends CRM_Core_Form {
         $onDuplicate      = $this->controller->exportValue( $this->_name, 'onDuplicate' );
         $contactType      = $this->controller->exportValue( $this->_name, 'contactType' ); 
         $dateFormats      = $this->controller->exportValue( $this->_name, 'dateFormats' ); 
+        $savedMapping     = $this->controller->exportValue( $this->_name, 'savedMapping' );
 
         $this->set('onDuplicate', $onDuplicate);
         $this->set('contactType', $contactType);
         $this->set('dateFormats', $dateFormats);
+        $this->set('savedMapping', $savedMapping);
 
         $session =& CRM_Core_Session::singleton();
         $session->set("dateTypes",$dateFormats);

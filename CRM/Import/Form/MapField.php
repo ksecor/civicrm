@@ -211,15 +211,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
     public function buildQuickForm()
     {
         require_once "CRM/Core/BAO/Mapping.php";
-        require_once "CRM/Core/OptionGroup.php";
-        $mappingArray = CRM_Core_BAO_Mapping::getMappings( CRM_Core_OptionGroup::getValue( 'mapping_type',
-                                                                                           'Import Contact',
-                                                                                           'name' ) );
-
-        $this->assign('savedMapping',$mappingArray);
-        $this->addElement('select','savedMapping', ts('Mapping Option'), array('' => ts('- select -'))+$mappingArray, array('onchange' =>  "if (this.value) document.getElementById('loadMapping').disabled = false; else document.getElementById('loadMapping').disabled = true;"));
-        $this->addElement('submit','loadMapping',ts('Load Mapping') );
-
+        require_once "CRM/Core/OptionGroup.php";        
         //to save the current mappings
         if ( !$this->get('savedMapping') ) {
             $saveDetailsName = ts('Save this field mapping');

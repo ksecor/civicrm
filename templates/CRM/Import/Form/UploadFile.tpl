@@ -38,6 +38,12 @@
         <dd class="description">
             {ts}Select the format that is used for date fields in your import data.{/ts}
         </dd>
+{if $savedMapping}
+      <dt>{if $loadedMapping}{ts}Select a Different Field Mapping{/ts}{else}{ts}Load Saved Field Mapping{/ts}{/if}</dt>
+       <dd> <span>{$form.savedMapping.html}</span> </dd>
+      <dt>&nbsp;</dt>
+       <dd class="description">{ts}Select Saved Mapping or Leave blank to create a new One.{/ts}</dd>
+{/if}
     </dl>
  </fieldset>
  <div class="spacer"></div>

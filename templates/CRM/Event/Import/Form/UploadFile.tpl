@@ -26,12 +26,6 @@
 	<dd class="description">
             {ts}Check this box if the first row of your file consists of field names (Example: "Contact ID", "Participant Role").{/ts}
         </dd>
-{if $savedMapping}
-      <dt>{if $loadedMapping}{ts}Select a Different Field Mapping{/ts}{else}{ts}Load Saved Field Mapping{/ts}{/if}</dt>
-       <dd> <span>{$form.savedMapping.html}</span> </dd>
-      <dt>&nbsp;</dt>
-       <dd class="description">{ts}Select Saved Mapping or Leave blank to create a new One.{/ts}</dd>
-{/if}
 	<dt>{$form.contactType.label}</dt><dd>{$form.contactType.html}</dd>
         <dt>&nbsp;</dt>
         <dd class="description">
@@ -41,6 +35,12 @@
         <dd class="description">{ts}Select 'Organization' or 'Household' if you are importing event participation data for contacts of that type.{/ts}</dd>
         <dt>{$form.onDuplicate.label}</dt><dd>{$form.onDuplicate.html}</dd> 
         {include file="CRM/Core/Date.tpl"}  
+{if $savedMapping}
+      <dt>{if $loadedMapping}{ts}Select a Different Field Mapping{/ts}{else}{ts}Load Saved Field Mapping{/ts}{/if}</dt>
+       <dd> <span>{$form.savedMapping.html}</span> </dd>
+      <dt>&nbsp;</dt>
+       <dd class="description">{ts}Select Saved Mapping or Leave blank to create a new One.{/ts}</dd>
+{/if}
     </dl>
     <div class="spacer"></div>
  </fieldset>
