@@ -290,7 +290,6 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
                     //start of code to set the default values
                     foreach ($fields as $name => $field ) { 
                         $index   = $field['title'];
-                        $params[$index] = $values[$index] = '';
                         $customFieldName = null;
                         if ( $name === 'organization_name' ) {
                             $values[$index] = $params[$name];
@@ -315,13 +314,12 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
                                 $communicationFields = CRM_Core_PseudoConstant::pcm();
                                 $pref = array();
                                 $compref = array();
-                                $pref = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $params[$name] );
-                                foreach($pref as $k) {
-                                    if ( $k ) {
+                                $pref = $params[$name];
+                                foreach($pref as $k => $v ) {
+                                    if ( $v ) {
                                         $compref[] = $communicationFields[$k];
                                     }
                                 }
-                                $params[$index] = $params[$name];
                                 $values[$index] = implode( ",", $compref);
                             } else if ( $name == 'group' ) {
                                 require_once 'CRM/Contact/BAO/GroupContact.php';
@@ -369,9 +367,10 @@ WHERE  id = $cfID
                                                 $customVal = (int ) ($params[$name]);
                                             } else if ( $dao->data_type == 'Float' ) {
                                                 $customVal = (float ) ($params[$name]);
+                                            } else if ( $dao->data_type == 'Date' ) { 
+                                                $customVal = CRM_Utils_Date::format( $params[$name] );
                                             } else {
                                                 $customVal = $params[$name];
-                                                
                                             }
                                             //take the custom field options
                                             $returnProperties = array( $name => 1 );
@@ -388,10 +387,9 @@ WHERE  id = $cfID
                                                 ! empty( $params[$name] ) ) {
                                         $url = CRM_Utils_System::fixURL( $params[$name] );
                                         $values[$index] = "<a href=\"$url\">{$params[$name]}</a>";
-                                    } else if ( in_array( $name, array('birth_date', 'deceased_date',
-                                                                       'membership_start_date','membership_end_date','join_date')) ) {
+                                    } else if ( in_array( $name, array('birth_date', 'deceased_date','participant_register_date') ) ) {
                                         require_once 'CRM/Utils/Date.php';
-                                        $values[$index] = CRM_Utils_Date::format( $params[$name], '-' );
+                                        $values[$index] = CRM_Utils_Date::customFormat( CRM_Utils_Date::format( $params[$name] ) );
                                     } else {
                                         $values[$index] = $params[$name];
                                     }
@@ -429,7 +427,7 @@ WHERE  id = $cfID
                                 $providerId     = $detailName . '-provider_id';
                                 $providerName   = $imProviders[$params[$providerId]];
                                 if ( $providerName ) {
-                                    //$values[$index] = $details->$detailName . " (" . $providerName .")";
+                                    $values[$index] = $params[$detailName] . " (" . $providerName .")";
                                 } else {
                                     $values[$index] = $params[$detailName];
                                 }
