@@ -76,6 +76,7 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
                        "L7163" => "L7163");
         
         $this->add('select', 'label_id', ts('Select Label'), array( '' => ts('- select label -')) + $label, true);
+
         
         // add select for Location Type
         $this->addElement('select', 'location_type_id', ts('Select Location'),
@@ -84,6 +85,8 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
         // checkbox for SKIP contacts with Do Not Mail privacy option
         $this->addElement('checkbox', 'do_not_mail', ts('Do not print labels for contacts with "Do Not Mail" privacy option checked') );
         
+        $this->add( 'checkbox', 'merge_same_address', ts( 'Merge labels with same Address' ), null );
+
         $this->addDefaultButtons( ts('Make Mailing Labels'));
        
     }
@@ -145,15 +148,15 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
         if ( stristr( $mailingFormat ,'custom_' ) ) {
             foreach ( $mailingFormatProperties as $token => $true ) {
                 if ( substr( $token,0,7 ) == 'custom_' ) {
-                    if ( !CRM_Utils_Array::value( $token, $nameFormatProerties ) ) { 
-                        $nameFormatProerties[$token] = $mailingFormatProperties[$token];
+                    if ( !CRM_Utils_Array::value( $token, $nameFormatProperties ) ) { 
+                        $nameFormatProperties[$token] = $mailingFormatProperties[$token];
                     }
                 }
             }
         }
         
-        if ( is_array( $nameFormatProerties ) ) {
-            $returnProperties = array_merge( $returnProperties , $nameFormatProerties );
+        if ( is_array( $nameFormatProperties ) ) {
+            $returnProperties = array_merge( $returnProperties , $nameFormatProperties );
         }
         
         if ($fv['location_type_id']) {
@@ -214,7 +217,7 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
             unset( $contact['contact_id'] );
             
             if ( $locName && CRM_Utils_Array::value( $locName, $contact ) ) {
-                // If location type is not priamry, $contact contains
+                // If location type is not primary, $contact contains
                 // one more array as "$contact[$locName] = array( values... )"
                 $found = false;
                 
@@ -266,7 +269,7 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
                     }
                 }
                 
-                foreach ( $nameFormatProerties as $token => $true ) {
+                foreach ( $nameFormatProperties as $token => $true ) {
                     if ( substr( $token, 0, 7 ) == 'custom_' ) {
                         $rows[$value][$token] = $contact[$token];
                     }
@@ -310,12 +313,18 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
                 }
             }
         }
-        
+
+        $individualFormat = false;
+        if ( isset( $fv['merge_same_address'] ) ) {
+            $this->mergeSameAddress( $rows );
+            $individualFormat = true;
+        }
+
         // format the addresses according to CIVICRM_ADDRESS_FORMAT (CRM-1327)
         require_once 'CRM/Utils/Address.php';
         foreach ($rows as $id => $row) {
             $row['id'] = $id;
-            $formatted = CRM_Utils_Address::format( $row, 'mailing_format', null, true );
+            $formatted = CRM_Utils_Address::format( $row, 'mailing_format', null, true, $individualFormat );
             // CRM-2211: UFPDF doesn't have bidi support; use the PECL fribidi package to fix it.
             // On Ubuntu (possibly Debian?) be aware of http://pecl.php.net/bugs/bug.php?id=12366
             // Due to FriBidi peculiarities, this can't be called on
@@ -396,6 +405,26 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
         return $returnProperties;  
     }
     
+    function mergeSameAddress( &$rows ) {
+        $uniqueAddress = array( );
+
+        foreach ( array_keys( $rows ) as $rowID ) {
+            $address =
+                trim( $rows[$rowID]['street_address'] ) .
+                trim( $rows[$rowID]['city']           ) .
+                trim( $rows[$rowID]['state_province'] ) .
+                trim( $rows[$rowID]['postal_code']    ) .
+                trim( $rows[$rowID]['country']        );
+            if ( isset( $uniqueAddress[$address] ) ) {
+                $mergeID = $uniqueAddress[$address];
+                $rows[$mergeID]['display_name'] .= "\n{$rows[$rowID]['display_name']}";
+                unset( $rows[$rowID] );
+            } else {
+                $uniqueAddress[$address] = $rowID;
+            }
+        }
+    }
+
 }
 
 
