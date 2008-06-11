@@ -297,8 +297,7 @@ class BAO_Member_Membership extends CiviTestCase
     function testgetContributionPageId( )  
     {
         $contactId = Contact::createIndividual( );
-        CRM_Core_Error::debug( '$contactId', $contactId );
-        
+               
         $params = array(
                         'contact_id'         => $contactId,  
                         'membership_type_id' => '1',
@@ -316,8 +315,7 @@ class BAO_Member_Membership extends CiviTestCase
         $membershipId = $this->assertDBNotNull( 'CRM_Member_BAO_Membership', $contactId, 'id', 
                                                 'contact_id', 'Database check for created membership.' );
         $membership[$membershipId]['renewPageId'] = CRM_Member_BAO_Membership::getContributionPageId( $membershipId );
-        CRM_Core_Error::debug( '$membership', $membership );
-        
+               
         Contact::delete( $contactId );
     }
     /*
@@ -403,5 +401,97 @@ class BAO_Member_Membership extends CiviTestCase
     }
 
 
+    /*
+     * Function check the status of the membership before adding membership for a contact
+     *
+     */
+
+    function teststatusAvilability( ) 
+    {
+
+        $contactId  = Contact::createIndividual( );
+
+        CRM_Member_BAO_Membership::statusAvilability( $contactId );
+
+        Contact::delete( $contactId );
+    }
+
+    /*
+     * Function take sort name of contact during 
+     * batch update member via profile
+     *
+     */
+
+    function testsortName( ) 
+    {
+        $membershipType = Membership::createMembershipType( );
+        
+        $contactId      = Contact::createIndividual( );
+        
+        $params = array(
+                        'contact_id'         => $contactId,  
+                        'membership_type_id' => $membershipType->id,
+                        'join_date'          => '2008-01-21',
+                        'start_date'         => '2008-01-21',
+                        'end_date'           => '2008-12-21',
+                        'source'             => 'Payment',
+                        'is_override'        => 1,
+                        'status_id'          => 2                       
+                        );
+        $ids = array();
+        
+        CRM_Member_BAO_Membership::create( $params, $ids );
+
+        $membershipId = $this->assertDBNotNull( 'CRM_Member_BAO_Membership', $contactId, 'id', 
+                                                'contact_id', 'Database check for created membership.' );
+
+        CRM_Member_BAO_Membership::sortName( $membershipId );
+
+        $this->assertDBCompareValue( 'CRM_Contact_DAO_Contact', $contactId , 'sort_name', 'id','Doe, John',
+                                     'Database check for sort name record.' );
+
+        Contact::delete( $contactId );
+        
+        CRM_Member_BAO_MembershipType::del( $membershipType->id );
+        
+        Contact::delete( $membershipType->orgnizationID );
+    }
+
+    /*
+     * Function to delete related memberships
+     *
+     */
+
+    function testdeleteRelatedMemberships( ) 
+    {
+        $contactId = Contact::createIndividual( );
+        $orgId     = Contact::createOrganisation( );
+
+        $membershipType = Membership::createMembershipType( );
+        $params = array(
+                        'contact_id'         => $contactId,  
+                        'membership_type_id' => $membershipType->id,
+                        'join_date'          => '2008-01-21',
+                        'start_date'         => '2008-01-21',
+                        'end_date'           => '2008-12-21',
+                        'source'             => 'Payment',
+                        'is_override'        => 1,
+                        'status_id'          => 2                       
+                        );
+        $ids = array();
+        
+        CRM_Member_BAO_Membership::create( $params, $ids );
+
+        $membershipId = $this->assertDBNotNull( 'CRM_Member_BAO_Membership', $contactId, 'id', 
+                                                'contact_id', 'Database check for created membership.' );
+        
+        CRM_Member_BAO_Membership::deleteRelatedMemberships( $membershipId );
+        
+        Contact::delete( $contactId );
+        
+        CRM_Member_BAO_MembershipType::del( $membershipType->id );
+        
+        Contact::delete( $membershipType->orgnizationID );
+    }
 }
 ?>
