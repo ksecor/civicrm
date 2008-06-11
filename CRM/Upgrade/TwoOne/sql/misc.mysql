@@ -462,3 +462,9 @@ DROP domain_id;
 
 UPDATE civicrm_option_value SET label = 'Addt\'l Address 1' WHERE label = 'Addt\\\'l Address 1';
 UPDATE civicrm_option_value SET label = 'Addt\'l Address 2' WHERE label = 'Addt\\\'l Address 2';
+
+
+
+-- add the civicrm_uf_match.language column
+
+ALTER TABLE civicrm_uf_match ADD language VARCHAR(5) COMMENT 'UI language preferred by the given user/contact';
