@@ -145,8 +145,10 @@ class CRM_Core_I18n
         if ($enabled === null) {
             $config =& CRM_Core_Config::singleton();
             $enabled = array();
-            foreach ($all as $code => $name) {
-                if (in_array($code, $config->languageLimit)) $enabled[$code] = $name;
+            if ($config->languageLimit) {
+                foreach ($all as $code => $name) {
+                    if (in_array($code, $config->languageLimit)) $enabled[$code] = $name;
+                }
             }
         }
 
