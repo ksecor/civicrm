@@ -72,10 +72,10 @@
     {/if}
 
 {*diaplay Additional Participant Profile Information*}
+{if $addParticipantProfile}
 <div class="header-dark">
     {ts}Additional Participants Information{/ts}	
 </div>
-{if $addParticipantProfile}
     {foreach from=$addParticipantProfile item=participant key=participantNo}
     <div id= "{$participantNo}_show" classsection-hidden section-hidden-border" style="clear: both;">
         <a href="#" onclick="hide( '{$participantNo}_show' ); show( '{$participantNo}_hide' ); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Additional Participant{/ts} : {$participantNo}</label><br />
