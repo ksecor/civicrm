@@ -238,7 +238,7 @@ AND    co.id IN ( $contribIDs )";
             $ids['membership']        = $details[$row['contribution_id']]['membership'];
             $ids['participant']       = $details[$row['contribution_id']]['participant'];
             $ids['event']             = $details[$row['contribution_id']]['event'];
-            
+
             if ( ! $baseIPN->validateData( $input, $ids, $objects ) ) {
                 CRM_Core_Error::fatal( );
             }
