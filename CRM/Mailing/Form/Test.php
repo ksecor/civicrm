@@ -55,7 +55,11 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form
         $session =& CRM_Core_Session::singleton();
         $this->add('text', 'test_email', ts('Send to This Address'));
         $defaults['test_email'] = $session->get('ufUniqID');
-        $this->add('select', 'test_group', ts('Send to This Group'), array('' => ts('- none -')) + CRM_Core_PseudoConstant::group());
+
+        $this->add('select',
+                   'test_group',
+                   ts('Send to This Group'),
+                   array( '' => ts( '- none -' ) ) + CRM_Core_PseudoConstant::group( 'Mailing' ) );
         $this->setDefaults($defaults);
 
         $this->add('submit', 'sendtest', ts('Send a Test Mailing'));
