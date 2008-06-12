@@ -64,7 +64,7 @@ class CRM_Contribute_Form_Task_Status extends CRM_Contribute_Form_Task {
 
         if ( $id ) {
             $this->_contributionIds    = array( $id );
-            $this->_contributionClause =
+            $this->_componentClause =
                 " civicrm_contribution.id IN ( $id ) ";
             $this->_single             = true;
             $this->assign( 'totalSelectedContributions', 1 );
@@ -77,7 +77,7 @@ class CRM_Contribute_Form_Task_Status extends CRM_Contribute_Form_Task {
 SELECT count(*)
 FROM   civicrm_contribution
 WHERE  contribution_status_id != 2
-AND    {$this->_contributionClause}";
+AND    {$this->_componentClause}";
         $count = CRM_Core_DAO::singleValueQuery( $query,
                                                  CRM_Core_DAO::$_nullArray );
         if ( $count != 0 ) {
@@ -88,7 +88,7 @@ AND    {$this->_contributionClause}";
         $query = "
 SELECT DISTINCT( source ) as source
 FROM   civicrm_contribution
-WHERE  {$this->_contributionClause}";
+WHERE  {$this->_componentClause}";
         $dao = CRM_Core_DAO::executeQuery( $query,
                                            CRM_Core_DAO::$_nullArray );
         while ( $dao->fetch( ) ) {

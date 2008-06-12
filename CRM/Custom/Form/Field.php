@@ -940,7 +940,7 @@ SELECT id
         }
 
         //Start Storing the values of Option field if the selected option is Multi Select
-        if ( ! $this->_action & CRM_Core_Action::ADD ) {
+        if ( $this->_action & CRM_Core_Action::UPDATE ) {
             $dropIndex = false;
             
             // drop the index if it existed (not the most efficient, but the logic is easy)
@@ -968,7 +968,6 @@ SELECT id
         //preventing any name conflicts in column name of custom
         //group's table
         if ( $this->_action & CRM_Core_Action::ADD ) {
-            
             CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_CustomField',
                                          $customField->id,
                                          'column_name',

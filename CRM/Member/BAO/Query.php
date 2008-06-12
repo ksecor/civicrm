@@ -343,7 +343,7 @@ class CRM_Member_BAO_Query
         $form->addElement( 'checkbox', 'member_pay_later', ts( 'Find Pay Later Memberships?' ) );
 
         // add all the custom  searchable fields
-        require_once 'CRM/Core/BAO/CustomGroup.php';
+        require_once 'CRM/Custom/Form/CustomData.php';
         $extends      = array( 'Membership' );
         $groupDetails = CRM_Core_BAO_CustomGroup::getGroupDetail( null, true, $extends );
         if ( $groupDetails ) {
