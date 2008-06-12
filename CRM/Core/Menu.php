@@ -434,7 +434,8 @@ class CRM_Core_Menu
         }
 
         ksort($values, SORT_NUMERIC );
-        // CRM_Core_Error::debug( 'v', $values );
+        $i18n =& CRM_Core_I18n::singleton();
+        $i18n->localizeTitles($values);
         return $values;
     }
 
@@ -602,6 +603,8 @@ UNION (
             }
         }
         
+        $i18n =& CRM_Core_I18n::singleton();
+        $i18n->localizeTitles($menuPath);
         return $menuPath;
     }
 
