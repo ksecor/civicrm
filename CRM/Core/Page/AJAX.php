@@ -425,6 +425,7 @@ ORDER by v.weight";
             $stateName    = trim (CRM_Utils_Type::escape( $_GET['name']   , 'String') );
         }
 
+        $stateId = null;
         if ( isset( $_GET['id'] ) ) {
             $stateId = CRM_Utils_Type::escape( $_GET['id'], 'Positive', false  );
         }
@@ -581,6 +582,7 @@ ORDER BY name";
         $name      = CRM_Utils_Array::value( 'name', $_GET, '' );
         $name      = CRM_Utils_Type::escape( $name, 'String'  );
 
+        $countryId = null;
         if ( isset( $_GET['id'] ) ) {
             $countryId = CRM_Utils_Type::escape( $_GET['id'], 'Positive', false );
         }
