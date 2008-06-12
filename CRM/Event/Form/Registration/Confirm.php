@@ -211,37 +211,38 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
         
         $this->assign( 'lineItem', $this->_lineItem );
-        
-        //display additional participants.
+        //display additional participants profile.
         require_once 'CRM/Event/BAO/EventPage.php';
-        $template =& CRM_Core_Smarty::singleton( );
+        require_once 'CRM/Core/ShowHideBlocks.php';
+        $showHide =& new CRM_Core_ShowHideBlocks( );
         $participantParams = $this->_params;
-        $addParticipantCount = 0;
-        foreach( $participantParams as $participantNum => $participantValue ) {
-            if ( $participantNum ) {
-                if ( $participantValue == 'skip' ) {
-                    unset( $participantParams[$participantNum] );
-                } else {
-                    $addParticipantCount++; 
+        $allValues = array( );
+        $count = 1;
+        foreach ( $participantParams as $participantNum => $participantValue ) {
+            if ( $participantNum && $participantValue != 'skip') {
+                $showHide->addShow( $count. '_show' );
+                $showHide->addHide( $count. '_hide' );
+                $values = array( );
+                if ( CRM_Utils_Array::value( 'custom_pre_id', $this->_values ) ) {
+                    CRM_Event_BAO_EventPage::displayProfile( $participantValue, $this->_values['custom_pre_id'], 
+                                                             $groupName, $values );
+                    $allValues[$count]['customPre'] = $values;
+                    $allValues[$count]['customPreGroupTitle'] = $groupName;
                 }
+                if ( CRM_Utils_Array::value( 'custom_post_id', $this->_values ) ) {
+                    CRM_Event_BAO_EventPage::displayProfile( $participantValue, $this->_values['custom_post_id'], 
+                                                             $groupName, $values );
+                    $allValues[$count]['customPost'] = $values;
+                    $allValues[$count]['customPostGroupTitle'] = $groupName;
+                }
+                $count++; 
             }
         }
         
-        require_once 'CRM/Core/ShowHideBlocks.php';
-        $showHide =& new CRM_Core_ShowHideBlocks( );
-        if ( CRM_Utils_array::value( 'custom_pre_id', $this->_values ) && $addParticipantCount ) {
-            $showHide->addShow( "id-addParticipantsPre-show" );
-            $showHide->addHide( "id-addParticipantsPre" );
-            CRM_Event_BAO_EventPage::displayProfile( $participantParams, $this->_values['custom_pre_id'], 
-                                                     'customPre_addParticipants', $template );
+        if ( ! empty( $allValues ) && $count > 1 ) {
+            $this->assign( 'addParticipantProfile' , $allValues );
+            $showHide->addToTemplate( );
         }
-        if ( CRM_Utils_array::value( 'custom_post_id', $this->_values ) && $addParticipantCount ) {
-            $showHide->addShow( "id-addParticipantsPost-show" );
-            $showHide->addHide( "id-addParticipantsPost" );
-            CRM_Event_BAO_EventPage::displayProfile( $participantParams, $this->_values['custom_post_id'], 
-                                                     'customPost_addParticipants', $template );
-        }
-        $showHide->addToTemplate( );
         
         if( $this->_params[0]['amount'] == 0 ) {
             $this->assign( 'isAmountzero', 1 );

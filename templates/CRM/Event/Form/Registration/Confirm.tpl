@@ -55,7 +55,7 @@
               {/if}
          {/foreach}
         <div class="header-dark">
-            {$groupTitlePre}
+          {$groupTitlePre}
          </div>  
          {include file="CRM/UF/Form/Block.tpl" fields=$customPre}
     {/if}
@@ -66,63 +66,51 @@
               {/if}
          {/foreach}
         <div class="header-dark">
-            {$groupTitlePost}
+          {$groupTitlePost}
          </div>  
          {include file="CRM/UF/Form/Block.tpl" fields=$customPost}
     {/if}
-{*diaplay Additional Participant customPre profile Info*}
-{if $customPre_addParticipants}
-<div class="header-dark">
-    	{ts}Additional Participants{/ts} : {$customPre_addParticipants_groupName}
-</div>
 
-<div id="id-addParticipantsPre-show" class="section-hidden section-hidden-border" style="clear: both;">
-        <a href="#" onclick="hide('id-addParticipantsPre-show'); show('id-addParticipantsPre'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Additional Participants{/ts}</label><br />
+{*diaplay Additional Participant Profile Information*}
+<div class="header-dark">
+    {ts}Additional Participants Information{/ts}	
 </div>
-<div id="id-addParticipantsPre" class="section-shown">
-   <fieldset>
-     <legend><a href="#" onclick="hide('id-addParticipantsPre'); show('id-addParticipantsPre-show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Additional Participants{/ts}</legend>
-<table class="form-layout-compressed">
-{foreach from=$customPre_addParticipants item=participant key=participantNum}
-<tr><td class="right font-size10pt bold">{ts}Participant{/ts}  : {$participantNum}&nbsp;&nbsp;</td>
-   <tr>
-      {foreach from=$participant item=value key=field}
-          <tr>
-             <td class="labels">{$field}</td> <td>{$value}</td>
-          </tr>
-      {/foreach}
-   </tr>
-{/foreach}
-</table>
-</fieldset>
-</div>  
+{if $addParticipantProfile}
+    {foreach from=$addParticipantProfile item=participant key=participantNo}
+    <div id= "{$participantNo}_show" classsection-hidden section-hidden-border" style="clear: both;">
+        <a href="#" onclick="hide( '{$participantNo}_show' ); show( '{$participantNo}_hide' ); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Additional Participant{/ts} : {$participantNo}</label><br />
+    </div>
+    <div id= "{$participantNo}_hide" class="section-shown">
+       <fieldset>
+            <legend><a href="#" onclick="hide( '{$participantNo}_hide' ); show( '{$participantNo}_show' ); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Additional Participant{/ts} : {$participantNo}</legend>
+
+{if $participant.customPre}
+    <fieldset><legend>{$participant.customPreGroupTitle}</legend>
+         <table class="form-layout-compressed">
+            {foreach from=$participant.customPre item=value key=field}
+            <tr>
+                <td class="labels">{$field}</td> <td>{$value}</td>
+            </tr>
+            {/foreach}
+         </table>
+    </fieldset>
 {/if}
 
-{*diaplay Additional Participant customPost profile Info*}
-{if $customPost_addParticipants}
-<div class="header-dark">
-    	{ts}Additional Participants{/ts} : {$customPost_addParticipants_groupName} 
-</div>
-<div id="id-addParticipantsPost-show" class="section-hidden section-hidden-border" style="clear: both;">
-        <a href="#" onclick="hide('id-addParticipantsPost-show'); show('id-addParticipantsPost'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Additional Participants{/ts}</label><br />
-</div>
-<div id="id-addParticipantsPost" class="section-shown">
-   <fieldset>
-     <legend><a href="#" onclick="hide('id-addParticipantsPost'); show('id-addParticipantsPost-show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Additional Participants{/ts}</legend>
-<table class="form-layout-compressed">
-{foreach from=$customPost_addParticipants item=participant key=participantNum}
-<tr><td class="right font-size10pt bold">{ts}Participant{/ts} : {$participantNum} &nbsp;&nbsp;</td>
-   <tr>
-      {foreach from=$participant item=value key=field}
-          <tr>
-             <td class="labels">{$field}</td> <td>{$value}</td>
-          </tr>
-      {/foreach}
-   </tr>
-{/foreach}
-</table>
+{if $participant.customPost}
+    <fieldset><legend>{$participant.customPostGroupTitle}</legend>
+         <table class="form-layout-compressed">
+            {foreach from=$participant.customPost item=value key=field}
+            <tr>
+                <td class="labels">{$field}</td> <td>{$value}</td>
+            </tr>
+            {/foreach}
+         </table>
+    </fieldset>
+{/if}
+
 </fieldset>
 </div> 
+{/foreach}
 {/if}
 
     {if $contributeMode ne 'notify' and
