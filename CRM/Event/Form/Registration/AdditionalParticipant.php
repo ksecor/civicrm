@@ -160,6 +160,24 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
                     }
                 }
             }
+            //check for atleast one pricefields should be selected
+            if ( $fields['priceSetId'] ) {
+                $priceField = new CRM_Core_DAO_PriceField( );
+                $priceField->price_set_id = $fields['priceSetId'];
+                $priceField->find( );
+                
+                $check = array( );
+                
+                while ( $priceField->fetch( ) ) {
+                    if ( ! empty( $fields["price_{$priceField->id}"] ) ) {
+                        $check[] = $priceField->id; 
+                    }
+                }
+                
+                if ( empty( $check ) ) {
+                    $errors['_qf_default'] = ts( "Select atleast one option from Event Fee(s)" );
+                }
+            }
         }
         
         return $errors; 
