@@ -95,7 +95,7 @@ class CRM_Event_Form_Registration_ThankYou extends CRM_Event_Form_Registration
         $this->assign( 'receive_date', $this->_receiveDate );
         $this->assign( 'trxn_id', $this->_trxnId );
         
-        if( $this->_params['amount'] == 0 ) {
+        if( $this->_params[0]['amount'] == 0 ) {
             $this->assign( 'isAmountzero', 1 );
         }
         $defaults = array( );
@@ -107,8 +107,8 @@ class CRM_Event_Form_Registration_ThankYou extends CRM_Event_Form_Registration
         }
         $fields['state_province'] = $fields['country'] = $fields['email'] = 1;
         foreach ($fields as $name => $dontCare ) {
-            if ( isset($this->_params[$name]) ) {
-                $defaults[$name] = $this->_params[$name];
+            if ( isset($this->_params[0][$name]) ) {
+                $defaults[$name] = $this->_params[0][$name];
             }
         }
         $this->setDefaults( $defaults );
