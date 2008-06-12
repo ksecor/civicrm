@@ -263,10 +263,11 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
     /**  
      * Function to build the array for display the profile fields
      *  
-     * @$params array of key value. 
-     * @gid profile Id
-     * @$groupTitle Profile Group Title.
-     * @values build formatted array for display purpose  
+     * @param array $params key value. 
+     * @param int $gid profile Id
+     * @param array $groupTitle Profile Group Title.
+     * @param array $values formatted array of key value
+     *
      * @return None  
      * @access public  
      */ 
@@ -278,21 +279,17 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
             $session =& CRM_Core_Session::singleton( );
             $contactID = $session->get( 'userID' );
             if ( CRM_Core_BAO_UFGroup::filterUFGroups($gid, $contactID ) ) {
-                $values = array( );
-                $groupTitle = null;
                 $fields = CRM_Core_BAO_UFGroup::getFields( $gid, false, CRM_Core_Action::VIEW );
             }
-            foreach( $fields as $v  ) {
-                if ( ! $groupTitle ) {
-                    $groupTitle = $v["groupTitle"];
-                } else {
+            
+            foreach ( $fields as $v  ) {
+                if ( CRM_Utils_Array::value( 'groupTitle', $v ) ) {
+                    $groupTitle['groupTitle'] = $v["groupTitle"];
                     break;
                 }
             }
             
             $config =& CRM_Core_Config::singleton( );
-            $values    = array( );
-            $allValues = array( );
             require_once 'CRM/Core/PseudoConstant.php'; 
             $locationTypes = $imProviders = array( );
             $locationTypes = CRM_Core_PseudoConstant::locationType( );
