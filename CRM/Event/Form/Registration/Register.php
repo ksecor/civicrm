@@ -692,7 +692,6 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                     $this->assign ( 'isPrimary' , 1 );
                     if ( $this->_values['custom_pre_id'] || $this->_values['custom_post_id'] ) {
                         $customGroup = array();
-                        $customField = array(); 
                         $i = 0;
                         $template =& CRM_Core_Smarty::singleton( );
                         foreach ( $this->_ids as $cId => $pId ) {
@@ -715,6 +714,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                         unset ( $customGroup[0] );  
                         if ( count($customGroup) ) {
                             $this->assign( 'customProfile',$customGroup );
+                            $this->set('customProfile',$customGroup);
                         }
                     }
                     

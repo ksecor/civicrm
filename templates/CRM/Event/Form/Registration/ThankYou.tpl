@@ -117,27 +117,36 @@
          {include file="CRM/UF/Form/Block.tpl" fields=$customPost}
     {/if}
 
+    {*diaplay Additional Participant Info*}
     {if $customProfile}
-    <div class="header-dark">
-         {ts}Information Of Additional Participants{/ts}
-    </div>
-     {foreach from=$customProfile item=value key=name}
-        {foreach from=$value item=val key=field}
-           {if $field}
-               {if $field eq 'customPre' }
-               	   <fieldset><legend>{$groupTitlePre}</legend>
-               {else}
-                   <fieldset><legend>{$groupTitlePost}</legend>
-              
-               {/if}
-               {foreach from=$val item=v key=f}
-                  <strong>{$f}</strong>  :{$v}<br />
+      <div class="header-dark">
+    	{ts}Information Of Additional Participants{/ts}
+      </div>
+      {foreach from=$customProfile item=value key=name}
+        <div id= hide_{$name} class="section-hidden section-hidden-border" style="clear: both;">
+          <a href="#" onclick="hide( 'hide_{$name}' ); show( 'show_{$name}' ); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>Participant {$name}</label><br />
+        </div>
+        <div id=show_{$name} class="section-shown" style="display: none;">
+          <fieldset>
+            <legend><a href="#" onclick="hide( 'show_{$name}' ); show( 'hide_{$name}' ); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>Participant {$name}</legend>
 
-               {/foreach}
-	       </fieldset>
-          {/if}
-        {/foreach}
-     {/foreach} 
+            {foreach from=$value item=val key=field}
+            {if $field}
+            {if $field eq 'customPre' }
+    	      <fieldset><legend>{$groupTitlePre}</legend>
+            {else}
+              <fieldset><legend>{$groupTitlePost}</legend>
+              
+            {/if}
+            {foreach from=$val item=v key=f}
+              <strong>{$f}</strong>  :{$v}<br />
+            {/foreach}
+              </fieldset>
+            {/if}
+            {/foreach}
+          </fieldset>
+        </div>  
+      {/foreach}
     {/if}
 
     {if $eventPage.thankyou_footer_text}
