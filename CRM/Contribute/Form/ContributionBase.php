@@ -164,13 +164,13 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                 $membership->id = $mid;
                 
                 if ( $membership->find(true) ) {
+                    $this->_defaultMemTypeId = $membership->membership_type_id;
                     if ( $membership->contact_id != $session->get('userID') ) {
                         require_once 'CRM/Contact/BAO/Relationship.php';
                         $employers = 
                             CRM_Contact_BAO_Relationship::getPermissionedEmployer( $session->get('userID') );
                         if ( array_key_exists($membership->contact_id, $employers) ) {
                             $this->_membershipContactID = $membership->contact_id;
-                            $this->_defaultMemTypeId    = $membership->membership_type_id;
                             $this->assign('membershipContactID', $this->_membershipContactID);
                         } else {
                             CRM_Core_Session::setStatus( ts("Oops. The membership you're trying to renew appears to be invalid. Contact your site administrator if you need assistance. If you continue, you will be issued a new membership.") );
