@@ -58,7 +58,30 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
         CRM_Utils_System::setTitle( 'Register Additional Participant No '.$participantNo.' of  '.
                                     $this->_params[0]['additional_participants'] );
     }
-    
+   
+    /**
+     * This function sets the default values for the form. For edit/view mode
+     * the default values are retrieved from the database
+     *
+     * @access public
+     * @return None
+     */
+    function setDefaultValues( ) 
+    {
+        $defaults = array( );
+        //fix for CRM-3088, default value for discount set.      
+        if ( ! empty( $this->_values['discount'] ) ){
+            require_once 'CRM/Core/BAO/Discount.php';
+            $discountId = CRM_Core_BAO_Discount::findSet( $this->_eventId, 'civicrm_event' );
+            
+            $discountKey = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_OptionValue", $this->_values['event_page']['default_discount_id']
+                                                        , 'weight', 'id' );
+            
+            $defaults['amount'] = $this->_values['discount'][$discountId]['amount_id'][$discountKey];
+        }
+        
+        return $defaults;  
+    }  
     /** 
      * Function to build the form 
      * 
@@ -163,7 +186,20 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
         } else {
             $params = $this->controller->exportValues( $this->_name );  
             if ( $this->_values['event']['is_monetary'] ) {
-                if ( empty( $params['priceSetId'] ) ) {
+
+                //added for discount
+                require_once 'CRM/Core/BAO/Discount.php';
+                $discountId = CRM_Core_BAO_Discount::findSet( $this->_eventId, 'civicrm_event' );
+                
+                if ( ! empty( $this->_values['discount'][$discountId] ) ) {
+                    $params['discount_id'] = $discountId;
+                    $params['amount_level'] = $this->_values['discount'][$discountId]['label']
+                        [array_search( $params['amount'], $this->_values['discount'][$discountId]['amount_id'])];
+                    
+                    $params['amount'] = $this->_values['discount'][$discountId]['value']
+                        [array_search( $params['amount'], $this->_values['discount'][$discountId]['amount_id'])];
+                    
+                }else if ( empty( $params['priceSetId'] ) ) {
                     $params['amount_level'] = $this->_values['custom']['label'][array_search( $params['amount'], 
                                                                                               $this->_values['custom']['amount_id'])];
                     
