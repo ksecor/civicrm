@@ -143,6 +143,7 @@ class CRM_Core_Payment_Google extends CRM_Core_Payment {
 
         $cart->SetContinueShoppingUrl( $returnURL );
 
+        CRM_Core_Error::debug_var( 'cartXML', $cart->GetXML() );
         $cartVal      = base64_encode($cart->GetXML());
         $signatureVal = base64_encode($cart->CalcHmacSha1($cart->GetXML()));
         
@@ -158,6 +159,7 @@ class CRM_Core_Payment_Google extends CRM_Core_Payment {
             $request->addPostData($key, $value);
         }
 
+        CRM_Core_Error::debug_var( 'request', $request );
         $result = $request->sendRequest( );
 
         if ( PEAR::isError( $result ) ) {

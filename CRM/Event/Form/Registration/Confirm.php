@@ -569,6 +569,16 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         }
         require_once 'CRM/Contribute/BAO/Contribution.php';
         $ids = array( );
+        if ( isset( $contribParams['invoice_id'] ) ) {
+            $contribID = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_Contribution',
+                                                      $contribParams['invoice_id'],
+                                                      'id',
+                                                      'invoice_id' );
+            if ( isset( $contribID ) ) {
+                $ids['contribution'] = $contribID;
+                $contribParams['id'] = $contribID;
+            }
+        }
         $contribution =& CRM_Contribute_BAO_Contribution::add( $contribParams, $ids );
         
         // store line items
