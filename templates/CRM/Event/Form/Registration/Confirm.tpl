@@ -55,7 +55,7 @@
               {/if}
          {/foreach}
         <div class="header-dark">
-          {ts}{$groupTitlePre}{/ts}
+            {$groupTitlePre}
          </div>  
          {include file="CRM/UF/Form/Block.tpl" fields=$customPre}
     {/if}
@@ -66,7 +66,7 @@
               {/if}
          {/foreach}
         <div class="header-dark">
-          {ts}{$groupTitlePost}{/ts}
+            {$groupTitlePost}
          </div>  
          {include file="CRM/UF/Form/Block.tpl" fields=$customPost}
     {/if}
@@ -84,7 +84,7 @@
      <legend><a href="#" onclick="hide('id-addParticipantsPre'); show('id-addParticipantsPre-show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Additional Participants{/ts}</legend>
 <table class="form-layout-compressed">
 {foreach from=$customPre_addParticipants item=participant key=participantNum}
-<tr><td class="right font-size10pt bold">{ts}Participant : {$participantNum} {/ts}&nbsp;&nbsp;</td>
+<tr><td class="right font-size10pt bold">{ts}Participant{/ts}  : {$participantNum}&nbsp;&nbsp;</td>
    <tr>
       {foreach from=$participant item=value key=field}
           <tr>
@@ -111,7 +111,7 @@
      <legend><a href="#" onclick="hide('id-addParticipantsPost'); show('id-addParticipantsPost-show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Additional Participants{/ts}</legend>
 <table class="form-layout-compressed">
 {foreach from=$customPost_addParticipants item=participant key=participantNum}
-<tr><td class="right font-size10pt bold">{ts}Participant : {$participantNum} {/ts}&nbsp;&nbsp;</td>
+<tr><td class="right font-size10pt bold">{ts}Participant{/ts} : {$participantNum} &nbsp;&nbsp;</td>
    <tr>
       {foreach from=$participant item=value key=field}
           <tr>

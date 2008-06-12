@@ -53,11 +53,11 @@
           <strong>{$amount|crmMoney} &nbsp;&nbsp; {$level}</strong><br />	
         {/foreach}
         {if $totalAmount}
-	<br /> <strong>{ts}Event Total{/ts}: {$totalAmount|crmMoney}</strong><br />
+	<br /> <strong>{ts}Event Total{/ts}</strong>: {$totalAmount|crmMoney}<br />
         {/if}	
         {/if}
         {if $receive_date}
-        <strong>{ts}Transaction Date{/ts}: {$receive_date|crmDate}</strong><br />
+        <strong>{ts}Transaction Date{/ts}</strong>: {$receive_date|crmDate}<br />
         {/if}
         {if $contributeMode ne 'notify' AND $trxn_id}
           <strong>{ts}Transaction #{/ts}: {$trxn_id}</strong><br />
@@ -79,8 +79,7 @@
               {/if}
          {/foreach}
         <div class="header-dark">
-
-          {ts}{$groupTitlePre}{/ts}
+	    {$groupTitlePre}
          </div>  
          {include file="CRM/UF/Form/Block.tpl" fields=$customPre}
     {/if}
@@ -113,7 +112,7 @@
               {/if}
          {/foreach}
         <div class="header-dark">
-          {ts}{$groupTitlePost}{/ts}
+          {$groupTitlePost}
          </div>  
          {include file="CRM/UF/Form/Block.tpl" fields=$customPost}
     {/if}
