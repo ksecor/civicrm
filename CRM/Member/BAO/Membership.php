@@ -179,7 +179,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
      * @access public
      * @static
      */
-    static function &create(&$params, &$ids, $callFromAPI = false ) 
+    static function &create( &$params, &$ids, $callFromAPI = false, $activityType = 'Membership Signup' ) 
     {  
         if ( ! isset( $params['is_override'] ) ) {
             require_once 'CRM/Utils/Date.php';
@@ -269,12 +269,12 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         // add activity record only during create mode
         if ( !CRM_Utils_Array::value( 'membership', $ids ) ) {
             require_once 'CRM/Activity/BAO/Activity.php';
-            CRM_Activity_BAO_Activity::addActivity( $membership );
+            CRM_Activity_BAO_Activity::addActivity( $membership, $activityType );
         }
         
         $transaction->commit( );
 
-        $relatedMembership = self::createRelatedMemberships( $params, $membership->id );
+        $relatedMembership = self::createRelatedMemberships( $params, $membership );
         
         return $membership;
     }
@@ -989,7 +989,6 @@ AND civicrm_membership.is_test = %2";
             // Now Renew the membership
             if ( ! $currentMembership['is_current_member'] ) {
                 // membership is not CURRENT
-                require_once 'CRM/Member/BAO/MembershipStatus.php';
                 
                 if ( $form->get( 'renewDate' ) ) {
                     $changeToday = $form->get( 'renewDate' );
@@ -1026,7 +1025,6 @@ AND civicrm_membership.is_test = %2";
 
             } else {
                 // CURRENT Membership
-                require_once 'CRM/Member/BAO/MembershipStatus.php';
                 $membership =& new CRM_Member_DAO_Membership();
                 $membership->id = $currentMembership['id'];
                 $membership->find( true ); 
@@ -1063,7 +1061,6 @@ AND civicrm_membership.is_test = %2";
                 $pending = true;
             }
 
-            require_once 'CRM/Member/BAO/MembershipStatus.php';
             $memParams                       = array( );
             $memParams['contact_id']         = $contactID;
             $memParams['membership_type_id'] = $membershipTypeID;
@@ -1091,6 +1088,7 @@ AND civicrm_membership.is_test = %2";
             }
             
             if ( !$pending ) {
+                require_once 'CRM/Member/BAO/MembershipStatus.php';
                 $status =
                     CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( 
                                                                                CRM_Utils_Date::customFormat( $dates['start_date'],
@@ -1110,8 +1108,9 @@ AND civicrm_membership.is_test = %2";
             $memParams['is_pay_later']  = $form->_params['is_pay_later'];
         }
         
-        // create / update membership
-        $membership =& self::create( $memParams, $ids );
+        // create / renew membership
+        $membership =& self::create( $memParams, $ids, false, 'Membership Renewal' );
+        $membership->find(true);
             
         $form->assign('mem_start_date',  
                       CRM_Utils_Date::customFormat($dates['start_date'], $format) );
@@ -1290,16 +1289,14 @@ WHERE  civicrm_membership.contact_id = civicrm_contact.id
      * @static
      * @access public
      */
-    static function createRelatedMemberships( &$params, $membershipId ) 
+    static function createRelatedMemberships( &$params, &$membership ) 
     {
-        // The block of code below is required since create method doesn't
-        // return all the parameters in the returned membership object
-        $membership =& new CRM_Member_DAO_Membership();
-        $membership->id = $membershipId;
+        // required since create method doesn't return all the
+        // parameters in the returned membership object
         if ( ! $membership->find( true ) ) {
             return null;
         }
-        
+
         $relatedContacts = array( );
         if ( ! is_a( $membership, 'CRM_Core_Error') ) {
             $relatedContacts = CRM_Member_BAO_Membership::checkMembershipRelationship( 
@@ -1349,12 +1346,10 @@ WHERE  civicrm_membership.contact_id = civicrm_contact.id
                     $params['status_id'] = CRM_Core_DAO::getFieldValue('CRM_Member_DAO_MembershipStatus', '0', 'id', 'is_current_member' );
                 }
                 $relatedMembership = CRM_Member_BAO_Membership::create( $params, CRM_Core_DAO::$_nullArray );
-
-                return $relatedMembership;
             }
         }
         
-        return null;
+        return $relatedMembership;
     }
 }
 
