@@ -212,6 +212,7 @@ border-top-style: none;
 }
 
 #crm-container .form-layout td {
+  vertical-align: text-top;
   padding: 3px;
   white-space: nowrap;
 }
@@ -220,8 +221,9 @@ border-top-style: none;
   white-space: normal;
 }
 
-#crm-container .form-layout td, #crm-container .form-layout-compressed td, #crm-container .form-layout-compressed th {
+#crm-container .form-layout-compressed td, #crm-container .form-layout-compressed th {
   vertical-align: text-top;
+  padding: 2px;
 }
 
 /*
