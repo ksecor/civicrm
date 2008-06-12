@@ -126,14 +126,14 @@
         {foreach from=$value item=val key=field}
            {if $field}
                {if $field eq 'customPre' }
-               <div class="bold">
-                    {ts}{$customPre_grouptitle}{/ts}
+               	   <div class="bold">{$customPre_grouptitle}</div>
                {else}
-                    {ts}{$customPost_grouptitle}{/ts}
-               </div>
+                   <div class="bold">{$customPost_grouptitle}</div>
+              
                {/if}
                {foreach from=$val item=v key=f}
-                  <strong>{$f}</strong>:{$v}
+                  <strong>{$f}</strong>:{$v}<br />
+
                {/foreach}
           {/if}
         {/foreach}
@@ -154,3 +154,4 @@
       </div>
     {/if} 
 </div>
+
