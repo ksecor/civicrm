@@ -18,9 +18,11 @@
         <tr><td class="label">{$form.description.label}</td><td>{$form.description.html}<br />
             <span class="description">{ts}Group description is displayed when groups are listed in Profiles and Mailing List Subscribe forms.{/ts}</span>
             </td></tr>
+{if $form.group_type}
         <tr><td class="label">{$form.group_type.label}</td><td>{$form.group_type.html}<br />
                 <span class="description">{ts 1="http://wiki.civicrm.org/confluence//x/SyU" 2="http://wiki.civicrm.org/confluence//x/DCg" 3=$docURLTitle}Check 'Access Control' you want to use this group to assign access permissions to a set of contacts (<a href='%1' target='_blank' title='%3'>more info...</a>). Check 'Mailing List' if you are using this group as a mailing list in the <a href='%2' target='_blank' title='%3'>CiviMail component</a>.{/ts}</span>
             </td></tr>
+{/if}
         <tr><td class="label">{$form.visibility.label}</td><td>{$form.visibility.html}<br />
                 <span class="description">{ts}Select 'User and User Admin Only' if membership in this group is controlled by authorized CiviCRM users only. If you want to allow contacts to join and remove themselves from this group via the Registration and Account Profile forms, select 'Public User Pages'. If you also want to include group membership search and sharing in the Profile screens, select 'Public User Pages and Listings'.{/ts}</span>
             </td></tr> 

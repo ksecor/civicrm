@@ -97,10 +97,24 @@ class CRM_Contact_Form_Task_AddToGroup extends CRM_Contact_Form_Task {
             $this->addRule( 'title', ts('Name already exists in Database.'),
                             'objectExists', array( 'CRM_Contact_DAO_Group', $this->_id, 'title' ) );
             
-            $this->add('text', 'description', ts('Description:') . ' ', 
+            $this->add('textarea', 'description', ts('Description:') . ' ', 
                        CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Group', 'description' ) );
-        }
 
+            require_once 'CRM/Core/OptionGroup.php';
+            $groupTypes = CRM_Core_OptionGroup::values( 'group_type', true );
+            unset( $groupTypes['Access Control'] );
+            if ( ! CRM_Core_Permission::access( 'CiviMail' ) ) {
+                unset( $groupTypes['Mailing List'] );
+            }
+            
+            if ( ! empty( $groupTypes ) ) {
+                $this->addCheckBox( 'group_type',
+                                    ts( 'Group Type' ),
+                                    $groupTypes,
+                                    null, null, null, null, '&nbsp;&nbsp;&nbsp;' );
+            }
+        }
+        
         // add select for groups
         $group = array( '' => ts('- select group -')) + CRM_Core_PseudoConstant::group( );
         
@@ -183,29 +197,38 @@ class CRM_Contact_Form_Task_AddToGroup extends CRM_Contact_Form_Task {
      * @return None
      */
     public function postProcess() {
-                
-        $groupOption = $this->controller->exportValue( 'AddToGroup', 'group_option'  );
+        $params = $this->controller->exportValues( );
+        $groupOption = $params['group_option'];
         if ( $groupOption ) {
             $groupParams = array();
-            $groupParams['title'      ] = $this->controller->exportValue( 'AddToGroup', 'title' );
-            $groupParams['description'] = $this->controller->exportValue( 'AddToGroup', 'description' );
+            $groupParams['title'      ] = $params['title'];
+            $groupParams['description'] = $params['description'];
             $groupParams['visibility' ] = "User and User Admin Only";
-            $groupParams['group_type' ] = '';
+            if ( is_array( $params['group_type'] ) ) {
+                $groupParams['group_type'] =
+                    CRM_Core_DAO::VALUE_SEPARATOR . 
+                    implode( CRM_Core_DAO::VALUE_SEPARATOR,
+                             array_keys( $params['group_type'] ) ) .
+                    CRM_Core_DAO::VALUE_SEPARATOR;
+            } else {
+                $groupParams['group_type'] = '';
+            }
             $groupParams['is_active'  ] = 1;
            
             require_once 'CRM/Contact/BAO/Group.php';
             $createdGroup   =& CRM_Contact_BAO_Group::create( $groupParams );
-            $groupId        = $createdGroup->id;
+            $groupID        = $createdGroup->id;
             $groupName      = $groupParams['title'];
              
         } else {
-            $groupId   = $this->controller->exportValue( 'AddToGroup', 'group_id'  );
+            $groupID   = $params['group_id'];
             $group   =& CRM_Core_PseudoConstant::group( );
-            $groupName = $group[$groupId];
+            $groupName = $group[$groupID];
             
         }
         
-        list( $total, $added, $notAdded ) = CRM_Contact_BAO_GroupContact::addContactsToGroup( $this->_contactIds, $groupId );
+        list( $total, $added, $notAdded ) =
+            CRM_Contact_BAO_GroupContact::addContactsToGroup( $this->_contactIds, $groupID );
         
         $status = array(
                         ts('Added Contact(s) to %1', array(1 => $groupName)),

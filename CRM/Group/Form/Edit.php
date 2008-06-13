@@ -198,10 +198,12 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
                 unset( $groupTypes['Mailing List'] );
             }
 
-            $this->addCheckBox( 'group_type',
-                                ts( 'Group Type' ),
-                                $groupTypes,
-                                null, null, null, null, '&nbsp;&nbsp;&nbsp;' );
+            if ( ! empty( $groupTypes ) ) {
+                $this->addCheckBox( 'group_type',
+                                    ts( 'Group Type' ),
+                                    $groupTypes,
+                                    null, null, null, null, '&nbsp;&nbsp;&nbsp;' );
+            }
 
             $this->add( 'select', 'visibility', ts('Visibility'),
                         CRM_Core_SelectValues::ufVisibility( ), true ); 
