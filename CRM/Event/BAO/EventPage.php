@@ -174,7 +174,8 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
     }
 
     /**  
-     * Function to add the custom fields
+     * Function to add the custom fields OR array of participant's
+     * profile info
      *  
      * @return None  
      * @access public  
@@ -239,7 +240,7 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
                         break;
                     }
                 }
-              
+                //return if we only require array of participant's info.
                 if ( $isCustomProfile ) {
                     if ( count($values) ) {
                         return $values;
@@ -247,14 +248,6 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
                         return null;
                     }
                 } 
-               //  //to build customgoup fields array
-//                 $session =& CRM_Core_Session::singleton( );
-//                 $customGroup = array();
-//                 $customGroup = $session->get ( 'customGroup' );
-//                 $customGroup[$name] = $values;
-//                 $session->set ( 'customGroup',$customGroup ); 
-//                 $session->set( 'customField',  $customGroup );
-               
 
                 if ( $groupTitle ) {
                     $template->assign( $name."_grouptitle", $groupTitle );
