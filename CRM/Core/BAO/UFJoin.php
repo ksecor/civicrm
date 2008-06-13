@@ -137,7 +137,8 @@ class CRM_Core_BAO_UFJoin extends CRM_Core_DAO_UFJoin {
 
         // if there is only one profile check to see the weight, if > 1 then let it be second
         // this is an approx rule, but should work in most cases.
-        if ( $firstWeight > 1 ) {
+        if ( $second == null &&
+             $firstWeight > 1 ) {
             $second = $first;
             $first  = null;
         }
