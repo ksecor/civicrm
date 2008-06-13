@@ -406,7 +406,7 @@ ORDER by v.weight";
                 $eid = $_GET['eid'];
                 $whereClause = "cg.name LIKE 'civicrm_event_page.amount.{$eid}' AND cg.id = cv.option_group_id ORDER BY cv.label";
              }else{
-                $whereClause = "cg.name LIKE 'civicrm_event_page.amount%' AND cg.id = cv.option_group_id ORDER BY cv.label";
+                $whereClause = "cg.name LIKE 'civicrm_event_page.amount%' AND cg.id = cv.option_group_id GROUP BY cv.label";
              }
                $getRecords = true;
         }
