@@ -257,6 +257,13 @@ class CRM_Core_PseudoConstant
      */
     private static $wysiwygEditor;
 
+   /**
+     * Mapping Types
+     * @var array
+     * @static
+     */
+    private static $mappingType;
+
     /**
      * populate the object from the database. generic populate
      * method
@@ -1154,6 +1161,23 @@ class CRM_Core_PseudoConstant
         }
         return self::$wysiwygEditor;
     }
+
+    /**
+     * Get all mapping types
+     *
+     * @return array - array reference of all mapping types
+     * @access public
+     * @static
+     */
+    public static function &mappingTypes( )
+    {
+        if ( ! self::$mappingType ) {
+            require_once 'CRM/Core/OptionGroup.php';
+            self::$mappingType = CRM_Core_OptionGroup::values('mapping_type');
+        }
+        return self::$mappingType;
+    }
+
 }
 
 
