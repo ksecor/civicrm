@@ -9,10 +9,8 @@
 
 {if $rows}
 <div id="ltype">
-<p></p>
-    <div class="form-item">
         {strip}
-        <table cellpadding="0" cellspacing="0" border="0">
+        <table class="selector">
         <tr class="columnheader">
             <th >{ts}Name{/ts}</th>
             <th >{ts}Processor Type{/ts}</th>
@@ -39,7 +37,6 @@
     	<a href="{crmURL q="action=add&reset=1&pp=PayPal"}" id="newPaymentProcessor">&raquo; {ts}New Payment Processor{/ts}</a>
         </div>
         {/if}
-    </div>
 </div>
 {elseif $action ne 1}
     <div class="messages status">
