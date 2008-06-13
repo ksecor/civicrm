@@ -54,7 +54,7 @@ class CRM_Contribute_Form_Task extends CRM_Core_Form
      *
      * @var string
      */
-    protected $_contributionClause = null;
+    protected $_componentClause = null;
 
     /**
      * The array that holds all the contribution ids
@@ -82,7 +82,7 @@ class CRM_Contribute_Form_Task extends CRM_Core_Form
         $this->_contributionIds = array();
 
         $values = $this->controller->exportValues( 'Search' );
-        
+
         $this->_task = $values['task'];
         $contributeTasks = CRM_Contribute_Task::tasks();
         $this->assign( 'taskName', $contributeTasks[$this->_task] );
@@ -92,13 +92,6 @@ class CRM_Contribute_Form_Task extends CRM_Core_Form
                 if ( substr( $name, 0, CRM_Core_Form::CB_PREFIX_LEN ) == CRM_Core_Form::CB_PREFIX ) {
                     $ids[] = substr( $name, CRM_Core_Form::CB_PREFIX_LEN );
                 }
-            }
-            if ( ! empty( $ids ) ) {
-                $this->_componentClause =
-                    ' civicrm_contribution.id IN ( ' .
-                    implode( ',', $ids ) . ' ) ';
-                
-                $this->assign( 'totalSelectedContributions', count( $ids ) );
             }
         } else {
             $queryParams =  $this->get( 'queryParams' );
@@ -111,6 +104,15 @@ class CRM_Contribute_Form_Task extends CRM_Core_Form
             $this->assign( 'totalSelectedContributions', $this->get( 'rowCount' ) );
         }
         $this->_contributionIds = $ids;
+        if ( ! empty( $ids ) ) {
+            $this->_componentClause =
+                ' civicrm_contribution.id IN ( ' .
+                implode( ',', $ids ) . ' ) ';
+            
+            $this->assign( 'totalSelectedContributions', count( $ids ) );
+        } else {
+            $this->assign( 'totalSelectedContributions', 0 );
+        }
     }
 
     /**

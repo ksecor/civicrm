@@ -95,12 +95,13 @@
 buildFeeBlock( );
 
 //build discount block
-var discountId  = document.getElementById('discount_id').value;
-if ( discountId ) {
-    var eventId  = document.getElementById('event_id').value;
-    buildFeeBlock( eventId, discountId );    
+if ( document.getElementById('discount_id') ) {
+    var discountId  = document.getElementById('discount_id').value;
+    if ( discountId ) {
+	var eventId  = document.getElementById('event_id').value;
+	buildFeeBlock( eventId, discountId );    
+    }
 }
-
 
 function buildFeeBlock( eventId, discountId )
 {

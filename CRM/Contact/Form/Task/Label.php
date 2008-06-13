@@ -134,9 +134,9 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
         $returnProperties = array ('display_name' => 1 );
         
         $nameFormat = CRM_Core_BAO_Preferences::value( 'individual_name_format' );
-        $nameFormatProerties = array();
+        $nameFormatProperties = array();
         if ( $nameFormat ) {
-            $nameFormatProerties = self::getReturnProperties( $nameFormat );
+            $nameFormatProperties = self::getReturnProperties( $nameFormat );
         }
         
         $mailingFormat = CRM_Core_BAO_Preferences::value( 'mailing_format' );
@@ -194,9 +194,9 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
         
         //get the total number of contacts to fetch from database.
         $numberofContacts = count( $this->_contactIds );
-        
+
         require_once 'CRM/Contact/BAO/Query.php';
-        
+
         $query   =& new CRM_Contact_BAO_Query( $params, $returnProperties );
         $details = $query->apiQuery( $params, $returnProperties, NULL, NULL, 0, $numberofContacts );
         

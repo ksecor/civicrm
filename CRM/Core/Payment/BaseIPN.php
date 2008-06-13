@@ -191,16 +191,6 @@ class CRM_Core_Payment_BaseIPN {
             $objects['participant'] =& $participant;
 
             $paymentProcessorID = $objects['event']->payment_processor_id;
-
-            if ( ! $contribution->contribution_page_id ) {
-                // return if we are just doing an optional validation
-                if ( ! $required ) {
-                    return true;
-                }
-                CRM_Core_Error::debug_log_message( "Could not find contribution page for contribution record: $contributionID" );
-                echo "Failure: Could not find contribution page for contribution record: $contributionID<p>";
-                return false;
-            }
         }
 
         if ( ! $paymentProcessorID ) {
@@ -473,8 +463,43 @@ class CRM_Core_Payment_BaseIPN {
             $template->assign( 'customPre', $values['custom_pre_id'] );
             $template->assign( 'customPost', $values['custom_post_id'] );
             
+          
+            //send confirmation mail to primary participant.
+            $isTest = false;
+            if ( $participant->is_test ) {
+                $isTest = true;
+            }
+
+            //build an array of custom profile and assigning it to template
+            $customProfile = CRM_Event_BAO_EventPage::buildCustomProfile( $participant->id, $values, null, $isTest );
+            
+            if ( count($customProfile) ) {
+                $template->assign( 'customProfile', $customProfile );
+            }
+            $template->assign( 'isPrimary', 1 ); 
             require_once "CRM/Event/BAO/EventPage.php";
-            CRM_Event_BAO_EventPage::sendMail( $ids['contact'], $values, $participant->id );
+            CRM_Event_BAO_EventPage::sendMail( $ids['contact'], $values, $participant->id, $isTest );
+
+            //build an array of cId/pId of participants
+            $additionalIDs = CRM_Event_BAO_EventPage::buildCustomProfile( $participant->id, null, $ids['contact'], $isTest, true );
+            
+            //send receipt to additional participant if exists
+            if ( count($additionalIDs) ) {
+                $template->assign( 'isPrimary', 0 ); 
+                $template->assign( 'customProfile', null );
+                foreach ( $additionalIDs as $pId => $cId ) {
+                    //to change the status pending to completed
+                    $additional = & new CRM_Event_DAO_Participant( );
+                    $additional->id = $pId;
+                    $additional->contact_id = $cId; 
+                    $additional->find(true);
+                    $additional->status_id = 1;
+                    $additional->save( );
+                    $additional->free( );
+                    CRM_Event_BAO_EventPage::sendMail( $cId, $values, $pId, $isTest );
+                } 
+            }
+            
         } else {
             if ( $membership ) {
                 $values['membership_id'] = $membership->id;
@@ -485,9 +510,9 @@ class CRM_Core_Payment_BaseIPN {
             }
             CRM_Contribute_BAO_ContributionPage::sendMail( $ids['contact'], $values );
         }
-
+        
         CRM_Core_Error::debug_log_message( "Success: Database updated and mail sent" );
-
+        
         /* echo commented since creates problem when this method is
            called from some other file, inside civicrm (not from files
            in extern dir).                                            */

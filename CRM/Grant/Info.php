@@ -46,12 +46,12 @@ class CRM_Grant_Info extends CRM_Core_Component_Info
     // docs inherited from interface
     public function getInfo()
     {
-
+        $config =& CRM_Core_Config::singleton( );
         return array( 'name'           => 'CiviGrant',
                       'translatedName' => ts('CiviGrant'),
                       'title'          => 'CiviCRM Grant Management Engine',
                       'path'           => 'CRM_Grant_',
-                      'menu'           => array( 'Menu/Grant.xml' ),
+                      'menu'           => array( $config->templateDir . 'Menu/Grant.xml' ),
                       'search'         => 1 );
     }
 

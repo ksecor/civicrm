@@ -135,14 +135,14 @@ class CRM_Event_Form_EventFees
             }
         } else {
             $optionGroupId = null;
+
             // if user has selected discount use that to set default
             if ( isset( $form->_discountId ) ) {
-                //hack to set defaults for already selected discount value
                 $defaults[$form->_participantId]['discount_id'] = $form->_discountId;
 
-                if ( $form->_action == CRM_Core_Action::UPDATE ) {
+                //hack to set defaults for already selected discount value
+                if ( $form->_action == CRM_Core_Action::UPDATE && !$form->_originalDiscountId ) {
                     $form->_originalDiscountId = $defaults[$form->_participantId]['discount_id'];
-                
                     if ( $form->_originalDiscountId ) {
                         $optionGroupId = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_Discount", 
                                                                       $form->_originalDiscountId,
@@ -185,11 +185,6 @@ class CRM_Event_Form_EventFees
                                                                                                   'event_id' );
                     }
                 }
-            } elseif ( $form->_action == CRM_Core_Action::UPDATE && $defaults[$form->_participantId]['discount_id'] ) {
-                // setdefaults if user has selected discount
-                $optionGroupId = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_Discount", 
-                                                              $defaults[$form->_participantId]['discount_id'], 
-                                                              'option_group_id' );
             }
 
             if ( $defaults[$form->_participantId]['event_id'] && ($form->_action == CRM_Core_Action::UPDATE ) ) {

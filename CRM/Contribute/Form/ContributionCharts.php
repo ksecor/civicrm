@@ -59,9 +59,11 @@ class CRM_Contribute_Form_ContributionCharts extends CRM_Core_Form
         //bvg = Vertical bar chart
         $this->addElement('select', 'chart_type', ts('Chart Style'), array( 'bvg' => 'Bar','p3'=> 'Pi' ) );
 
-        //take availble years from database to show in drop down
-        foreach( $this->_years as  $k => $v ){
-            $years[$k] = $k;
+        //take available years from database to show in drop down
+        if ( !empty( $this->_years ) ) {
+            foreach( $this->_years as  $k => $v ){
+                $years[$k] = $k;
+            }
         }
         $this->addElement('select', 'select_year', ts('Select Year (for monthly breakdown)'), $years );
         $this->addButtons( array( 

@@ -19,7 +19,7 @@
         {if $is_pay_later and $paidEvent}
            <div class="bold">{$pay_later_receipt}</div>
             {if $is_email_confirm}
-                <p>{ts 1=$email}A registration confirmation email will be sent to %1 once the transaction is processed successfully.{/ts}</p>
+                <p>{ts 1=$email}An email with event details has been sent to %1.{/ts}</p>
             {/if}
         {elseif $contributeMode EQ 'notify' and $paidEvent}
             <p>{ts}Your registration payment has been submitted to {if $paymentProcessor.payment_processor_type EQ 'Google_Checkout'}Google{else}PayPal{/if} for processing. Please print this page for your records.{/ts}</p>
@@ -33,6 +33,7 @@
             {/if}
         {/if}
     </div>
+    <div class="spacer"></div>
 
     <div class="header-dark">
         {ts}Event Information{/ts}
@@ -53,14 +54,14 @@
           <strong>{$amount|crmMoney} &nbsp;&nbsp; {$level}</strong><br />	
         {/foreach}
         {if $totalAmount}
-	<br /> <strong>{ts}Event Total{/ts}: {$totalAmount|crmMoney}</strong><br />
+	<br /> <strong>{ts}Event Total{/ts}</strong>: {$totalAmount|crmMoney}<br />
         {/if}	
         {/if}
-        {if $receiveDate}
-        <strong>{ts}Transaction Date{/ts}: {$receiveDate|crmDate}</strong><br />
+        {if $receive_date}
+        <strong>{ts}Transaction Date{/ts}</strong>: {$receive_date|crmDate}<br />
         {/if}
-        {if $contributeMode ne 'notify' AND $trxnId}
-          <strong>{ts}Transaction #{/ts}: {$trxnId}</strong><br />
+        {if $contributeMode ne 'notify' AND $trxn_id}
+          <strong>{ts}Transaction #{/ts}: {$trxn_id}</strong><br />
         {/if}
     </div>
     {/if}
@@ -79,8 +80,7 @@
               {/if}
          {/foreach}
         <div class="header-dark">
-
-          {ts}{$groupTitlePre}{/ts}
+	    {$groupTitlePre}
          </div>  
          {include file="CRM/UF/Form/Block.tpl" fields=$customPre}
     {/if}
@@ -113,31 +113,41 @@
               {/if}
          {/foreach}
         <div class="header-dark">
-          {ts}{$groupTitlePost}{/ts}
+          {$groupTitlePost}
          </div>  
          {include file="CRM/UF/Form/Block.tpl" fields=$customPost}
     {/if}
 
+    {*diaplay Additional Participant Info*}
     {if $customProfile}
-    <div class="header-dark">
-         {ts}Information Of Additional Participants{/ts}
-    </div>
-     {foreach from=$customProfile item=value key=name}
-        {foreach from=$value item=val key=field}
-           {if $field}
-               {if $field eq 'customPre' }
-               <div class="bold">
-                    {ts}{$customPre_grouptitle}{/ts}
-               {else}
-                    {ts}{$customPost_grouptitle}{/ts}
-               </div>
-               {/if}
-               {foreach from=$val item=v key=f}
-                  <strong>{$f}</strong>:{$v}
-               {/foreach}
-          {/if}
-        {/foreach}
-     {/foreach} 
+      <div class="header-dark">
+    	{ts}Information Of Additional Participants{/ts}
+      </div>
+      {foreach from=$customProfile item=value key=name}
+        <div id= hide_{$name} class="section-hidden section-hidden-border" style="clear: both;">
+          <a href="#" onclick="hide( 'hide_{$name}' ); show( 'show_{$name}' ); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>Participant {$name}</label><br />
+        </div>
+        <div id=show_{$name} class="section-shown" style="display: none;">
+          <fieldset>
+            <legend><a href="#" onclick="hide( 'show_{$name}' ); show( 'hide_{$name}' ); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>Participant {$name}</legend>
+
+            {foreach from=$value item=val key=field}
+            {if $field}
+            {if $field eq 'customPre' }
+    	      <fieldset><legend>{$groupTitlePre}</legend>
+            {else}
+              <fieldset><legend>{$groupTitlePost}</legend>
+              
+            {/if}
+            {foreach from=$val item=v key=f}
+              <strong>{$f}</strong>  :{$v}<br />
+            {/foreach}
+              </fieldset>
+            {/if}
+            {/foreach}
+          </fieldset>
+        </div>  
+      {/foreach}
     {/if}
 
     {if $eventPage.thankyou_footer_text}

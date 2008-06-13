@@ -66,6 +66,7 @@ class CRM_Utils_Address
             $format = CRM_Core_BAO_Preferences::value( 'mailing_format' );
             $format = str_replace('contact.',"",$format);
         }
+
         $formatted = $format;
 
         $fullPostalCode = CRM_Utils_Array::value( 'postal_code', $fields );

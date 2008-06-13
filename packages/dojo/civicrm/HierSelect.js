@@ -112,7 +112,12 @@ dojo.declare(
 
 		    dojo.connect(selector2, 'onChange', this, 
 		    function(e) {
-			storeOption3.url = storeOption3.url.split("?")[0] + "?node1=" + selector1.getValue() + "&node2=" + e;
+		    	urlNameValPairs = this.getUrlNameValPairs( storeOption3.url );
+			urlNameValPairs['node1'] = selector1.getValue();
+			urlNameValPairs['node2'] = e;
+	    		urlQuery = this.getUrlQuery( urlNameValPairs );
+
+			storeOption3.url = storeOption3.url.split("?")[0] + "?" + urlQuery;
 			if (e && (e != "")) {
 			    if (selector3.disabled == true && !this.freezeAll) {
 				selector3.setAttribute('disabled',false);
@@ -169,7 +174,13 @@ dojo.declare(
 
 			dojo.connect(selector3, 'onChange', this, 
 			function(e) {
-			    storeOption4.url = storeOption4.url.split("?")[0] + "?node1=" + selector1.getValue() + "&node2=" + selector2.getValue() + "&node3=" + e;
+			    urlNameValPairs = this.getUrlNameValPairs( storeOption3.url );
+			    urlNameValPairs['node1'] = selector1.getValue();
+			    urlNameValPairs['node2'] = selector2.getValue();
+			    urlNameValPairs['node3'] = e;
+	    		    urlQuery = this.getUrlQuery( urlNameValPairs );
+	
+			    storeOption4.url = storeOption4.url.split("?")[0] + "?" + urlQuery;
 			    if (e && (e != "")) {
 				if (selector4.disabled == true && !this.freezeAll) {
 				    selector4.setAttribute('disabled',false);
@@ -235,7 +246,13 @@ dojo.declare(
 
 	onSelectionOne : function(e) {
 		var storeOption2 = this.storeOption2;
-		storeOption2.url = storeOption2.url.split("?")[0] + "?node1=" + e;
+		
+	    	urlNameValPairs = this.getUrlNameValPairs( storeOption2.url );
+		urlNameValPairs['node1'] = e;
+	    	urlQuery = this.getUrlQuery( urlNameValPairs );
+
+		storeOption2.url = storeOption2.url.split("?")[0] + "?" + urlQuery;
+
 		var selector2 = dijit.byId( "id_" + this.name + "_1" );
 		
 		if (e && (e != "")) {
@@ -271,6 +288,23 @@ dojo.declare(
 		   this.default2="";
 		}
 		//console.log(e);
+	},
+
+	getUrlNameValPairs : function( url ) {
+	    var urlNameValPairs = new Array();
+	    urlQueryVars = url.split("?")[1].split("&");
+	    for (var i in urlQueryVars) {
+		urlNameValPairs[urlQueryVars[i].split("=")[0]] = urlQueryVars[i].split("=")[1];
+	    }
+	    return urlNameValPairs;
+	},
+
+	getUrlQuery : function( urlNameValPairs ) {
+	    urlQueryVars = new Array();
+	    for (var i in urlNameValPairs) {
+		urlQueryVars[urlQueryVars.length] = i + "=" + urlNameValPairs[i];
+	    }
+	    return urlQueryVars.join('&');	
 	}
     }
 );

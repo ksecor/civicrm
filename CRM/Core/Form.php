@@ -44,7 +44,7 @@ require_once 'CRM/Utils/Weight.php';
 require_once 'CRM/Core/Smarty.php';
 require_once 'CRM/Core/Form/Renderer.php';
 require_once 'CRM/Core/SelectValues.php';
-
+require_once 'CRM/Utils/String.php';
 class CRM_Core_Form extends HTML_QuickForm_Page {
 
     /**

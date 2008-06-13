@@ -5,12 +5,12 @@
 	<title>Dijit Tree Programmatic Test</title>
 
 	<style type="text/css">
-		@import "/~lobo/svn/dojo/dojo/resources/dojo.css";
-		@import "/~lobo/svn/dojo/dijit/tests/css/dijitTests.css";
+		@import "/~kurund/svn/dojo1.1/dojo/resources/dojo.css";
+		@import "/~kurund/svn/dojo1.1/dijit/tests/css/dijitTests.css";
 	</style>
 
 	<script type="text/javascript" src="../packages/dojo/dojo/dojo.js.uncompressed.js"
-		djConfig="parseOnLoad: true, isDebug: true"></script>
+		djConfig="parseOnLoad: true, isDebug: false"></script>
 	<script type="text/javascript" src="../packages/dojo/dojo/commonWidgets.js.uncompressed.js"></script>
         <script type="text/javascript">
            dojo.require("dijit.Dialog");
@@ -30,8 +30,10 @@
 			});
 			var tree = new civicrm.CheckableTree({
 				model: myModel
-			});
-			dojo.body().appendChild(tree.domNode);
+			    });
+
+			var dd = dijit.byId('id-groupPicker');
+		        dd.containerNode.appendChild(tree.domNode);
 			tree.startup();
 		};
 

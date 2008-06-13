@@ -495,17 +495,15 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
      * @return None  
      * @access public  
      */ 
-    function confirmPostProcess( $contactID = null, $contribution = null, $payment = null, $isAdditional = false )
+    function confirmPostProcess( $contactID = null, $contribution = null, $payment = null )
     {
         // add/update contact information
         $fields = array( );
         unset($this->_params['note']);
 
-        //if additional participant is set overwrite $this->_params
-        if ( $isAdditional ) {
-            $this->_params = $this->get('value');
-        }
-        
+        //to avoid conflict overwrite $this->_params
+        $this->_params = $this->get('value');
+              
         // create CMS user
         if ( CRM_Utils_Array::value( 'cms_create_account', $this->_params ) ) {
             $this->_params['contactID'] = $contactID;
@@ -517,11 +515,11 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
 
         // add participant record
         $participant  = $this->addParticipant( $this->_params, $contactID );
-        //building array of cid & participantId 
-        $this->_ids[$contactID] = $participant->id;
-        //setting register_by_id field
+      
+        //setting register_by_id field and primaryContactId
         if( CRM_Utils_Array::value('is_primary', $this->_params ) ) {
             $this->set( 'registerByID', $participant->id );
+            $this->set( 'primaryContactId', $contactID );
         }
         require_once 'CRM/Core/BAO/CustomValueTable.php';
         CRM_Core_BAO_CustomValueTable::postProcess( $this->_params,
@@ -598,6 +596,8 @@ WHERE  v.option_group_id = g.id
         
         if ( $this->_action & CRM_Core_Action::PREVIEW ) {
             $participantParams['is_test'] = 1;
+        } else {
+            $participantParams['is_test'] = 0;
         }
 
         if ( $this->_params['note'] ) {
@@ -606,9 +606,22 @@ WHERE  v.option_group_id = g.id
             $participantParams['note'] = $this->_params['participant_note'];
         }
         
-        $ids = array();
+        // reuse id if one already exists for this one (can happen with back button being hit etc)
+        $sql = "
+SELECT id
+FROM   civicrm_participant
+WHERE  contact_id = $contactID
+  AND  event_id   = {$this->_id}
+  AND  is_test    = {$participantParams['is_test']}
+";
+        $pID = CRM_Core_DAO::singleValueQuery( $sql,
+                                               CRM_Core_DAO::$_nullArray );
+        if ( $pID ) {
+            $participantParams['id'] = $pID;
+        }
+
         require_once 'CRM/Event/BAO/Participant.php';
-        $participant = CRM_Event_BAO_Participant::create($participantParams, $ids);
+        $participant = CRM_Event_BAO_Participant::create($participantParams);
         
         $transaction->commit( );
         

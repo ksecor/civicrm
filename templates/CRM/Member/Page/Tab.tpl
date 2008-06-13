@@ -36,9 +36,8 @@
     {if $activeMembers}
     <div id="memberships">
         <div><label>{ts}Active Memberships{/ts}</label></div>
-        <div class="form-item">
-            {strip}
-            <table>
+        {strip}
+        <table class="selector">
             <tr class="columnheader">
                 <th>{ts}Membership{/ts}</th>
                 <th>{ts}Start Date{/ts}</th>
@@ -57,20 +56,17 @@
                 <td>{$activeMember.action}</td>
             </tr>
             {/foreach}
-            </table>
-            {/strip}
-
-        </div>
+        </table>
+        {/strip}
     </div>
     {/if}
 
     {if $inActiveMembers}
         <div id="inactive-memberships">
         <p></p>
-        <div class="label font-red">{ts}Inactive Memberships{/ts}</div>
-        <div class="form-item">
-            {strip}
-            <table>
+        <div class="label font-red">{ts}Pending and Inactive Memberships{/ts}</div>
+        {strip}
+        <table class="selector">
             <tr class="columnheader">
                 <th>{ts}Membership{/ts}</th>
                 <th>{ts}Start Date{/ts}</th>
@@ -89,10 +85,8 @@
                 <td>{$inActiveMember.action}</td>
             </tr>
             {/foreach}
-            </table>
-            {/strip}
-
-        </div>
+        </table>
+        {/strip}
         </div>
     {/if}
 

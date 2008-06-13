@@ -65,7 +65,7 @@ class CRM_Contribute_Form_Task_Print extends CRM_Contribute_Form_Task {
                                                    $this->get( CRM_Utils_Sort::SORT_DIRECTION ) );
         }
 
-        $selector   =& new CRM_Contribute_Selector_Search($queryParams, $this->_action, $this->_contributionClause );
+        $selector   =& new CRM_Contribute_Selector_Search($queryParams, $this->_action, $this->_componentClause );
         $controller =& new CRM_Core_Selector_Controller($selector , null, $sortID, CRM_Core_Action::VIEW, $this, CRM_Core_Selector_Controller::SCREEN);
         $controller->setEmbedded( true );
         $controller->run();

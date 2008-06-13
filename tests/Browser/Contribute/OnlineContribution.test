@@ -206,6 +206,7 @@ class Browser_Contribute_OnlineContribution extends CiviTestCase
         $this->drupalPost(NULL, array(), '_qf_Confirm_next');
         $this->assertText( 'Thank you for your support.' );
         $this->assertText( 'Your transaction has been processed successfully. Please print this page for your records.' );
+        $this->assertText( 'An email receipt has also been sent to shailesh.lende@webaccess.co.in');
         $this->assertDBNotNull( 'CRM_Contribute_DAO_Contribution', $this->_contributionPageId , 'id', 'contribution_page_id', 'Database check for Contribution Page ID.' );
         $ContributionId = $this->assertDBNotNull( 'CRM_Contribute_DAO_Contribution','Online Contribution: Help Test CiviCRM!' , 'id', 'source',  'Database check Contribution source.' );
         $this->assertDBNotNull( 'CRM_Contribute_DAO_Contribution', 1, $ContributionId, 'is_test', 'Database check for Contribution ID.');

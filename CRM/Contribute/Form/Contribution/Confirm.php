@@ -542,6 +542,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                             'end_date'           => CRM_Utils_Date::customFormat($endDate,'%Y%m%d'),
                             );
             
+            require_once 'CRM/Contribute/BAO/Contribution.php';
             CRM_Contribute_BAO_Contribution::addPremium($params);
         }
     }
@@ -663,6 +664,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             }
         }
         
+        require_once 'CRM/Contribute/BAO/Contribution.php';
         $contribution =& CRM_Contribute_BAO_Contribution::add( $contribParams, $ids );
 
         if ( $online ) {
@@ -794,6 +796,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $this->assign("honor_email",      $params["honor_email"]);
         
         //create honoree contact
+        require_once 'CRM/Contribute/BAO/Contribution.php';
         return CRM_Contribute_BAO_Contribution::createHonorContact( $params );
     }
 

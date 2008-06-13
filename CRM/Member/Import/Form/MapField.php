@@ -217,16 +217,8 @@ class CRM_Member_Import_Form_MapField extends CRM_Core_Form {
      */
     public function buildQuickForm()
     {
-        //get the saved mapping details
         require_once "CRM/Core/BAO/Mapping.php";
-        require_once "CRM/Core/OptionGroup.php";       
-        $mappingArray = CRM_Core_BAO_Mapping::getMappings( CRM_Core_OptionGroup::getValue( 'mapping_type',
-                                                                                           'Import Membership',
-                                                                                           'name' ) );
-        $this->assign('savedMapping',$mappingArray);
-        $this->add('select','savedMapping', ts('Mapping Option'), array('' => ts('- select -'))+$mappingArray);
-        $this->addElement('submit','loadMapping',ts('Load Mapping'), null, array('onclick'=>'checkSelect()'));
-
+        require_once "CRM/Core/OptionGroup.php";  
         //to save the current mappings
         if ( !$this->get('savedMapping') ) {
             $saveDetailsName = ts('Save this field mapping');
@@ -234,7 +226,7 @@ class CRM_Member_Import_Form_MapField extends CRM_Core_Form {
             $this->add('text','saveMappingDesc',ts('Description'));
         } else {
             $savedMapping = $this->get('savedMapping');
-
+            
             list ($mappingName, $mappingContactType, $mappingLocation, $mappingPhoneType, $mappingRelation  ) = CRM_Core_BAO_Mapping::getMappingFields($savedMapping);
             
             $mappingName        = $mappingName[1];

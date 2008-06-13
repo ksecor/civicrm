@@ -37,20 +37,20 @@ require_once 'CRM/Core/Component/Info.php';
  * $Id$
  *
  */
-class CRM_Member_Info extends CRM_Core_Component_Info
+class CRM_PledgeBank_Info extends CRM_Core_Component_Info
 {
 
     // docs inherited from interface
-    protected $keyword = 'member';
+    protected $keyword = 'pledgebank';
 
     // docs inherited from interface
     public function getInfo()
     {
         $config =& CRM_Core_Config::singleton( );
-        return array( 'name'           => 'CiviMember',
-                      'translatedName' => ts('CiviMember'),
-                      'title'          => 'CiviCRM Membership Engine',
-                      'menu'           => array( $config->templateDir . 'Menu/Member.xml' ),
+        return array( 'name'	       => 'PledgeBank',
+                      'translatedName' => ts('PledgeBank for CiviCRM'),
+                      'title'          => ts('PledgeBank for CiviCRM module'),
+                      'menu'           => array( $config->templateDir . 'Menu/PledgeBank.xml' ),
                       'search'         => 1 );
     }
 
@@ -58,42 +58,40 @@ class CRM_Member_Info extends CRM_Core_Component_Info
     // docs inherited from interface
     public function getPermissions()
     {
-        return array( 'access CiviMember',
-                      'edit memberships');
+        return array( 'access PledgeBank for CiviCRM',
+                      'edit pledge signer records',
+                      'access PledgeBank public pages'    ,
+                      'view pledge signer records' );
     }
 
     // docs inherited from interface
     public function getUserDashboardElement()
     {
-        return array( 'name'   => ts( 'Memberships' ),
-                      'title'  => ts( 'Your Membership(s)' ),
-                      // this is CiviContribute specific permission, since
-                      // there is no permission that could be checked for
-                      // CiviMember
-                      'perm'   => array( 'make online contributions' ),
-                      'weight' => 30 );
+        return array( 'name'    => ts( 'Pledges' ),
+                      'title'   => ts( 'Your Pledge(s)' ),
+                      'perm'    => array( 'access PledgeBank public pages' ),
+                      'weight'  => 120 );
     }
 
-    // docs inherited from interface
+    // docs inherited from interface  
     public function registerTab()
     {
-        return array( 'title'   => ts( 'Memberships' ),
-                      'url'	=> 'membership',
-                      'weight'  => 30 );
+        return array( 'title'   => ts( 'Pledges' ),
+                      'id'      => 'pledgesigner',
+                      'url'	=> 'pledgesigner',
+                      'weight'  => 40 );
     }
 
-    // docs inherited from interface
+    // docs inherited from interface  
     public function registerAdvancedSearchPane()
     {
-        return array( 'title'   => ts( 'Memberships' ),
-                      'weight'  => 30 );
+        return array( 'title'   => ts( 'Pledges' ),
+                      'weight'  => 140 );
     }
-
+    
     // docs inherited from interface    
     public function getActivityTypes()
     {
         return null;
     }
-    
 }
-

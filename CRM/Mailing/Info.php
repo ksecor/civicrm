@@ -47,10 +47,11 @@ class CRM_Mailing_Info extends CRM_Core_Component_Info
     // docs inherited from interface
     public function getInfo()
     {
+        $config =& CRM_Core_Config::singleton( );
         return array( 'name'           => 'CiviMail',
                       'translatedName' => ts('CiviMail'),
                       'title'          => 'CiviCRM Mailing Engine',
-                      'menu'           => array( 'Menu/Mailing.xml' ),
+                      'menu'           => array( $config->templateDir . 'Menu/Mailing.xml' ),
                       'search'         => 0 );
     }
 

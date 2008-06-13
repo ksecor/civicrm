@@ -303,6 +303,27 @@ class CRM_Core_I18n
     }
 
     /**
+     * Localizes (destructively) array elements with keys of 'title'
+     *
+     * @param $array array  this array's values should be localized
+     * @return void
+     */
+    function localizeTitles(&$array)
+    {
+        $config =& CRM_Core_Config::singleton();
+        if ($config->lcMessages != '' and $config->lcMessages != 'en_US') {
+            foreach ($array as $key => $value) {
+                if (is_array($value)) {
+                    $this->localizeTitles($value);
+                    $array[$key] = $value;
+                } elseif ($key == 'title') {
+                    $array[$key] = $this->_phpgettext->translate($value);
+                }
+            }
+        }
+    }
+
+    /**
      * Static instance provider.
      *
      * Method providing static instance of CRM_Core_I18n, as

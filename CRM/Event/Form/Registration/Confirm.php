@@ -211,37 +211,45 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
         
         $this->assign( 'lineItem', $this->_lineItem );
-        
-        //display additional participants.
+        //display additional participants profile.
         require_once 'CRM/Event/BAO/EventPage.php';
-        $template =& CRM_Core_Smarty::singleton( );
+        require_once 'CRM/Core/ShowHideBlocks.php';
+        $showHide =& new CRM_Core_ShowHideBlocks( );
         $participantParams = $this->_params;
-        $addParticipantCount = 0;
-        foreach( $participantParams as $participantNum => $participantValue ) {
-            if ( $participantNum ) {
-                if ( $participantValue == 'skip' ) {
-                    unset( $participantParams[$participantNum] );
-                } else {
-                    $addParticipantCount++; 
+        $formattedValues = array( );
+        $count = 1;
+        foreach ( $participantParams as $participantNum => $participantValue ) {
+            if ( $participantNum && $participantValue != 'skip') {
+                $showHide->addShow( $count. '_show' );
+                $showHide->addHide( $count. '_hide' );
+                //get the customPre profile info
+                if ( CRM_Utils_Array::value( 'custom_pre_id', $this->_values ) ) {
+                    $values = array( );
+                    $groupName = array( );
+                    CRM_Event_BAO_EventPage::displayProfile( $participantValue, $this->_values['custom_pre_id'], $groupName, $values );
+                    if ( count( $values ) ) {
+                        $formattedValues[$count]['customPre'] = $values;
+                    }
+                    $formattedValues[$count]['customPreGroupTitle'] = CRM_Utils_Array::value( 'groupTitle', $groupName );
                 }
+                //get the customPost profile info
+                if ( CRM_Utils_Array::value( 'custom_post_id', $this->_values ) ) {
+                    $values = array( );
+                    $groupName = array( );
+                    CRM_Event_BAO_EventPage::displayProfile( $participantValue, $this->_values['custom_post_id'], $groupName, $values );
+                    if ( count( $values ) ) {
+                        $formattedValues[$count]['customPost'] = $values;
+                    }
+                    $formattedValues[$count]['customPostGroupTitle'] = CRM_Utils_Array::value( 'groupTitle', $groupName );
+                }
+                $count++; 
             }
         }
         
-        require_once 'CRM/Core/ShowHideBlocks.php';
-        $showHide =& new CRM_Core_ShowHideBlocks( );
-        if ( CRM_Utils_array::value( 'custom_pre_id', $this->_values ) && $addParticipantCount ) {
-            $showHide->addShow( "id-addParticipantsPre-show" );
-            $showHide->addHide( "id-addParticipantsPre" );
-            CRM_Event_BAO_EventPage::displayProfile( $participantParams, $this->_values['custom_pre_id'], 
-                                                     'customPre_addParticipants', $template );
+        if ( ! empty( $formattedValues ) && $count > 1 ) {
+            $this->assign( 'addParticipantProfile' , $formattedValues );
+            $showHide->addToTemplate( );
         }
-        if ( CRM_Utils_array::value( 'custom_post_id', $this->_values ) && $addParticipantCount ) {
-            $showHide->addShow( "id-addParticipantsPost-show" );
-            $showHide->addHide( "id-addParticipantsPost" );
-            CRM_Event_BAO_EventPage::displayProfile( $participantParams, $this->_values['custom_post_id'], 
-                                                     'customPost_addParticipants', $template );
-        }
-        $showHide->addToTemplate( );
         
         if( $this->_params[0]['amount'] == 0 ) {
             $this->assign( 'isAmountzero', 1 );
@@ -309,10 +317,8 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         
         $contactID = $session->get( 'userID' );
         $now = date( 'YmdHis' );
-        $isAdditional = true;
         $this->_params = $this->get( 'params' );
         $params = $this->_params;
-        $this->_ids = array();
         $this->set( 'finalAmount' ,$this->_amount );
         $participantCount = array( );
         //unset the skip participant from params.
@@ -341,7 +347,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 }
             }
             
-            //Unset ContactID for additional participants
+            //Unset ContactID for additional participants and set RegisterBy Id.
             if ( !CRM_Utils_Array::value( 'is_primary', $value ) ) {
                 $contactID = null;
                 $registerByID = $this->get( 'registerByID' );
@@ -364,7 +370,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 $session->set( 'transaction.userID', null );
             }
             
-            $value['description'] = ts( 'Online Event Registration' ) . ': ' . $value['event']['title'];
+            $value['description'] = ts( 'Online Event Registration' ) . ': ' . $this->_values['event']['title'];
             
             // required only if paid event
             if ( $this->_values['event']['is_monetary'] ) {
@@ -405,7 +411,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 if ( ! $pending ) {
                     // transactionID & receive date required while building email template
                     $this->assign( 'trxn_id', $result['trxn_id'] );
-                    $this->assign( 'receiveDate', CRM_Utils_Date::mysqlToIso( $value['receive_date']) );
+                    $this->assign( 'receive_date', CRM_Utils_Date::mysqlToIso( $value['receive_date']) );
                     $this->set( 'receiveDate', CRM_Utils_Date::mysqlToIso( $value['receive_date']) );
                     $this->set( 'trxnId', CRM_Utils_Array::value( 'trxn_id', $value ) );
                 }
@@ -421,66 +427,67 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 $value['item_name'         ] = $value['description'];
             }
             
-            $this->set( 'value', $value ); 
-            $this->confirmPostProcess( $contactID, $contribution, $payment, $isAdditional );
-        }  
+            $this->set( 'value', $value );
+            $registerDate = isset( $value['participant_register_date'] ) ?
+                CRM_Utils_Date::format( $value['participant_register_date'] ) : date( 'YmdHis' );
+            $this->assign( 'register_date', $registerDate );
+            
+            $this->confirmPostProcess( $contactID, $contribution, $payment );
+        }
+
+        $isTest = false;
+        if ( $this->_action & CRM_Core_Action::PREVIEW ) {
+            $isTest = true;
+        }
+        
+        //handle if no additional participant.
+        if ( ! $registerByID ) {
+            $registerByID = $this->get('registerByID');
+        }
+
         // for Transfer checkout.
         require_once "CRM/Event/BAO/EventPage.php";
-        if ( $this->_contributeMode == 'checkout' ||
-             $this->_contributeMode == 'notify'   ) {
+        if ( ( $this->_contributeMode == 'checkout' ||
+               $this->_contributeMode == 'notify'   ) && ! CRM_Utils_Array::value( 'is_pay_later', $params[0] ) ) {
+
             $primaryParticipant = $this->get ( 'primaryParticipant' );
             if ( !CRM_Utils_Array::value( 'participantID', $primaryParticipant ) ) {
                 $primaryParticipant['participantID'] = $registerByID;
             } 
-            // do a transfer only if a monetary payment greater than 0
-                 if ( $this->_values['event']['is_monetary'] &&
-                      $primaryParticipant && $primaryParticipant['amount'] > 0 ) {
-                     
-                     $payment->doTransferCheckout( $primaryParticipant );
-                 }
-        } else {
-            //otherwise send mail Confirmation/Receipt
-            $isTest = false;
-            if ( $this->_action & CRM_Core_Action::PREVIEW ) {
-                $isTest = true;
-            }
             
             //build an array of custom profile and assigning it to template
+            $customProfile = CRM_Event_BAO_EventPage::buildCustomProfile( $registerByID, $this->_values, null, $isTest );
+            
+            if ( count($customProfile) ) {
+                $this->assign( 'customProfile', $customProfile );
+                $this->set   ( 'customProfile', $customProfile );
+            }
+            
+            // do a transfer only if a monetary payment greater than 0
+            if ( $this->_values['event']['is_monetary'] && $primaryParticipant && $primaryParticipant['amount'] > 0 ) {
+                $payment->doTransferCheckout( $primaryParticipant );
+            }
+
+        } else {
+            //otherwise send mail Confirmation/Receipt
+            $primaryContactId = $this->get('primaryContactId');
+            
+            //build an array of cId/pId of participants
             require_once "CRM/Event/BAO/EventPage.php";
-            foreach( $this->_ids as $contactId => $participantID ) {
+            $additionalIDs = CRM_Event_BAO_EventPage::buildCustomProfile( $registerByID, null, $primaryContactId, $isTest, true );
+           
+            foreach( $additionalIDs as $participantID => $contactId ) {
                 if ( $participantID == $registerByID ) {
                     //set as Primary Participant
                     $this->assign ( 'isPrimary' , 1 );
-                    if ( $this->_values['custom_pre_id'] || $this->_values['custom_post_id'] ) {
-                        $customGroup = array();
-                        $customField = array(); 
-                        $i = 0;
-                        $template =& CRM_Core_Smarty::singleton( );
-                       
-                        //primary participant should get all payment & participant's information
-                        foreach ( $this->_ids as $cId => $pId ) {
-                            require_once 'CRM/Event/BAO/EventPage.php';
-                            $customGroup[$i] = array();
-                            $session->set( 'customsGroup',  $customGroup[$i] );
-                            
-                            CRM_Event_BAO_EventPage::buildCustomDisplay( $this->_values['custom_pre_id'], 'customPre',
-                                                                         $cId, $template, $pId, $isTest );
-                            
-                            
-                            CRM_Event_BAO_EventPage::buildCustomDisplay( $this->_values['custom_post_id'], 'customPost',
-                                                                         $cId, $template, $pId, $isTest );
-                            
-                            $customGroup[$i] = $session->get ( 'customField' );
-                            $i++;
-                        }
-                        //Unset information of primary participant.
-                        $session->set( 'customsGroup', 0  );
-                        unset ( $customGroup[0] );  
-                        if ( count($customGroup) ) {
-                            $this->assign( 'customProfile',$customGroup );
-                            $this->set('customProfile',$customGroup);
-                        }
+                    //build an array of custom profile and assigning it to template.
+                    $customProfile = CRM_Event_BAO_EventPage::buildCustomProfile( $participantID, $this->_values, null, $isTest );
+                                                     
+                    if ( count($customProfile) ) {
+                        $this->assign( 'customProfile', $customProfile );
+                        $this->set   ( 'customProfile', $customProfile );
                     }
+                    
                 } else {
                     //take the Additional participant number. 
                     if ( $paticipantNum = array_search( 'participant', $participantCount ) ) {
@@ -561,6 +568,16 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         }
         require_once 'CRM/Contribute/BAO/Contribution.php';
         $ids = array( );
+        if ( isset( $contribParams['invoice_id'] ) ) {
+            $contribID = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_Contribution',
+                                                      $contribParams['invoice_id'],
+                                                      'id',
+                                                      'invoice_id' );
+            if ( isset( $contribID ) ) {
+                $ids['contribution'] = $contribID;
+                $contribParams['id'] = $contribID;
+            }
+        }
         $contribution =& CRM_Contribute_BAO_Contribution::add( $contribParams, $ids );
         
         // store line items
@@ -669,6 +686,10 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $contactID, $addToGroups, null,$ctype);
         } else {
             require_once 'CRM/Dedupe/Finder.php';
+            //Dedupe couldn't recognize "email-Primary".So modify params temporary.
+            if ( CRM_Utils_Array::value('email-Primary', $params) ) {
+                $params ['email'] = $params['email-Primary'];
+            }
             $dedupeParams = CRM_Dedupe_Finder::formatParams($params, 'Individual');
             $ids = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Individual');
            

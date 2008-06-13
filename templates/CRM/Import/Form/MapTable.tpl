@@ -1,36 +1,6 @@
 {* Import Wizard - Data Mapping table used by MapFields.tpl and Preview.tpl *}
 
  <div id="map-field">
-    {if $savedMapping}
-    <div>
-	<p><a href="#" onclick="mappingOption(); return false;" >&raquo; {if $loadedMapping}{ts}Select a Different Field Mapping{/ts}{else}{ts}Load Saved Field Mapping{/ts}{/if}</a></p>
-    </div>
-    <div id="savedMappingOption">
-	<span>{$form.savedMapping.label}</span> <span>{$form.savedMapping.html}</span>
-	<span>{$form.loadMapping.html}</span>
-    </div>
-    
-    <script type="text/javascript">
-	hide('savedMappingOption');
-	document.getElementById("savedMapping").disabled = true;	
-	{literal}
-	function mappingOption() {
-		if (document.getElementById("savedMappingOption").style.display == "block") {
-		    hide('savedMappingOption');
-		    document.getElementById("savedMapping").disabled = true;
-		    return false;
-		} else {
-		    show('savedMappingOption');
-            document.getElementById("loadMapping").disabled = true; 
-		    document.getElementById("savedMapping").disabled = false;
-		    return false;
-		}
-	}
-		
-	{/literal}
-    </script>  
-    {/if}
-
     {strip}
     <table>
     {if $loadedMapping}

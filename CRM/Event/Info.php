@@ -46,10 +46,11 @@ class CRM_Event_Info extends CRM_Core_Component_Info
     // docs inherited from interface
     public function getInfo()
     {
+        $config =& CRM_Core_Config::singleton( );
         return array( 'name'	       => 'CiviEvent',
                       'translatedName' => ts('CiviEvent'),
                       'title'          => ts('CiviCRM Event Engine'),
-                      'menu'           => array( 'Menu/Event.xml' ),
+                      'menu'           => array( $config->templateDir . 'Menu/Event.xml' ),
                       'search'         => 1 );
     }
 

@@ -174,12 +174,13 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
     }
 
     /**  
-     * Function to add the custom fields
+     * Function to add the custom fields OR array of participant's
+     * profile info
      *  
      * @return None  
      * @access public  
      */ 
-    function buildCustomDisplay( $gid, $name, $cid, &$template, $participantId, $isTest ) 
+    function buildCustomDisplay( $gid, $name, $cid, &$template, $participantId, $isTest, $isCustomProfile = false ) 
     {  
         if ( $gid ) {
             require_once 'CRM/Core/BAO/UFGroup.php';
@@ -218,6 +219,18 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
                         CRM_Utils_Date::customFormat($values[$fields['participant_register_date']['title']]);
                 }
                 
+                //handle fee_level for price set
+                if ( isset( $values[$fields['participant_fee_level']['title']] ) ) {
+                    $feeLevel = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, 
+                                         $values[$fields['participant_fee_level']['title']] );
+                    foreach ( $feeLevel as $key => $val ) {
+                        if ( ! $val ) {
+                            unset( $feeLevel[$key] );
+                        }
+                    }
+                    $values[$fields['participant_fee_level']['title']] = implode( ",", $feeLevel );
+                }
+                
                 unset( $values[$fields['participant_id']['title']] );
 
                 foreach( $fields as $v  ) {
@@ -227,15 +240,14 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
                         break;
                     }
                 }
-               
-                //to build customgoup fields array
-                $session =& CRM_Core_Session::singleton( );
-                $customGroup = array();
-                $customGroup = $session->get ( 'customGroup' );
-                $customGroup[$name] = $values;
-                $session->set ( 'customGroup',$customGroup ); 
-                $session->set( 'customField',  $customGroup );
-               
+                //return if we only require array of participant's info.
+                if ( $isCustomProfile ) {
+                    if ( count($values) ) {
+                        return $values;
+                    } else {
+                        return null;
+                    }
+                } 
 
                 if ( $groupTitle ) {
                     $template->assign( $name."_grouptitle", $groupTitle );
@@ -249,15 +261,17 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
     }
     
     /**  
-     * Function to display the profile fields
+     * Function to build the array for display the profile fields
      *  
-     * @$participants array of key value. 
-     * @gid profile Id
-     * @$blockName pre or post profile.
+     * @param array $params key value. 
+     * @param int $gid profile Id
+     * @param array $groupTitle Profile Group Title.
+     * @param array $values formatted array of key value
+     *
      * @return None  
      * @access public  
      */ 
-    function displayProfile( &$participants, $gid, $blockName, &$template ) 
+    function displayProfile( &$params, $gid, &$groupTitle, &$values ) 
     {   
         if ( $gid ) {
             require_once 'CRM/Core/BAO/UFGroup.php';
@@ -265,192 +279,236 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
             $session =& CRM_Core_Session::singleton( );
             $contactID = $session->get( 'userID' );
             if ( CRM_Core_BAO_UFGroup::filterUFGroups($gid, $contactID ) ) {
-                $values = array( );
-                $groupTitle = null;
                 $fields = CRM_Core_BAO_UFGroup::getFields( $gid, false, CRM_Core_Action::VIEW );
             }
-            foreach( $fields as $v  ) {
-                if ( ! $groupTitle ) {
-                    $groupTitle = $v["groupTitle"];
-                } else {
+            
+            foreach ( $fields as $v  ) {
+                if ( CRM_Utils_Array::value( 'groupTitle', $v ) ) {
+                    $groupTitle['groupTitle'] = $v["groupTitle"];
                     break;
                 }
             }
             
             $config =& CRM_Core_Config::singleton( );
-            $values    = array( );
-            $allValues = array( );
             require_once 'CRM/Core/PseudoConstant.php'; 
             $locationTypes = $imProviders = array( );
             $locationTypes = CRM_Core_PseudoConstant::locationType( );
             $imProviders   = CRM_Core_PseudoConstant::IMProvider( );
-            //set default for each Additional Participant.
-            foreach ( $participants as $participantNum => $params ) {
-                if ( $participantNum ) {
-                    //start of code to set the default values
-                    foreach ($fields as $name => $field ) { 
-                        $index   = $field['title'];
-                        $customFieldName = null;
-                        if ( $name === 'organization_name' ) {
-                            $values[$index] = $params[$name];
+            //start of code to set the default values
+            foreach ($fields as $name => $field ) { 
+                $index   = $field['title'];
+                $customFieldName = null;
+                if ( $name === 'organization_name' ) {
+                    $values[$index] = $params[$name];
+                }
+                if ( !empty( $params[$name] ) || $name == 'group' || $name == 'tag') { 
+                    if ( 'state_province' == substr( $name, 0, 14 ) ) {
+                        $values[$index] = CRM_Core_PseudoConstant::stateProvince( $params[$name] );
+                    } else if ( 'country' == substr( $name, 0, 7 ) ) {
+                        $values[$index] = CRM_Core_PseudoConstant::country( $params[$name] );
+                    } else if ( 'county' == substr( $name, 0, 6 ) ) {
+                        $values[$index] = $params[$name];
+                    } else if ( 'gender' == substr( $name, 0, 6 ) ) {
+                        $gender =  CRM_Core_PseudoConstant::gender( );
+                        $values[$index] = $gender[$params[$name]];
+                    } else if ( 'individual_prefix' == substr( $name, 0, 17 ) ) {
+                        $prefix =  CRM_Core_PseudoConstant::individualPrefix( );
+                        $values[$index] = $prefix[$params[$name]];
+                    } else if ( 'individual_suffix' == substr( $name, 0, 17 ) ) {
+                        $suffix = CRM_Core_PseudoConstant::individualSuffix( );
+                        $values[$index] = $suffix[$params[$name]];
+                    } else if ( $name === 'preferred_communication_method' ) {
+                        $communicationFields = CRM_Core_PseudoConstant::pcm();
+                        $pref = array();
+                        $compref = array();
+                        $pref = $params[$name];
+                        foreach($pref as $k => $v ) {
+                            if ( $v ) {
+                                $compref[] = $communicationFields[$k];
+                            }
                         }
-                        if ( !empty( $params[$name] ) || $name == 'group' || $name == 'tag') { 
-                            if ( 'state_province' == substr( $name, 0, 14 ) ) {
-                                $values[$index] = CRM_Core_PseudoConstant::stateProvince( $params[$name] );
-                            } else if ( 'country' == substr( $name, 0, 7 ) ) {
-                                $values[$index] = CRM_Core_PseudoConstant::country( $params[$name] );
-                            } else if ( 'county' == substr( $name, 0, 6 ) ) {
-                                $values[$index] = $params[$name];
-                            } else if ( 'gender' == substr( $name, 0, 6 ) ) {
-                                $gender =  CRM_Core_PseudoConstant::gender( );
-                                $values[$index] = $gender[$params[$name]];
-                            } else if ( 'individual_prefix' == substr( $name, 0, 17 ) ) {
-                                $prefix =  CRM_Core_PseudoConstant::individualPrefix( );
-                                $values[$index] = $prefix[$params[$name]];
-                            } else if ( 'individual_suffix' == substr( $name, 0, 17 ) ) {
-                                $suffix = CRM_Core_PseudoConstant::individualSuffix( );
-                                $values[$index] = $suffix[$params[$name]];
-                            } else if ( $name === 'preferred_communication_method' ) {
-                                $communicationFields = CRM_Core_PseudoConstant::pcm();
-                                $pref = array();
-                                $compref = array();
-                                $pref = $params[$name];
-                                foreach($pref as $k => $v ) {
-                                    if ( $v ) {
-                                        $compref[] = $communicationFields[$k];
-                                    }
-                                }
-                                $values[$index] = implode( ",", $compref);
-                            } else if ( $name == 'group' ) {
-                                require_once 'CRM/Contact/BAO/GroupContact.php';
-                                $groups = CRM_Contact_BAO_GroupContact::getGroupList( );
-                                $title = array( );
-                                foreach ( $params[$name] as $gId => $dontCare ) {
-                                    $title[] = $groups[$gId];
-                                }
-                                $values[$index] = implode( ', ', $title );
-                            } else if ( $name == 'tag' ) {
-                                require_once 'CRM/Core/BAO/EntityTag.php';
-                                $entityTags = $params[$name];
-                                $allTags    =& CRM_Core_PseudoConstant::tag();
-                                $title = array( );
-                                foreach ( $entityTags as $tagId => $dontCare ) { 
-                                    $title[] = $allTags[$tagId];
-                                }
-                                $values[$index] = implode( ', ', $title );
-                            } else {
-                                if ( substr($name, 0, 7) === 'do_not_' or substr($name, 0, 3) === 'is_' ) {  
-                                    if ($params[$name] ) {
-                                        $values[$index] = '[ x ]';
-                                    }
-                                } else {
-                                    require_once 'CRM/Core/BAO/CustomField.php';
-                                    if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($name)) {
-                                        $query  = "
+                        $values[$index] = implode( ",", $compref);
+                    } else if ( $name == 'group' ) {
+                        require_once 'CRM/Contact/BAO/GroupContact.php';
+                        $groups = CRM_Contact_BAO_GroupContact::getGroupList( );
+                        $title = array( );
+                        foreach ( $params[$name] as $gId => $dontCare ) {
+                            $title[] = $groups[$gId];
+                        }
+                        $values[$index] = implode( ', ', $title );
+                    } else if ( $name == 'tag' ) {
+                        require_once 'CRM/Core/BAO/EntityTag.php';
+                        $entityTags = $params[$name];
+                        $allTags    =& CRM_Core_PseudoConstant::tag();
+                        $title = array( );
+                        foreach ( $entityTags as $tagId => $dontCare ) { 
+                            $title[] = $allTags[$tagId];
+                        }
+                        $values[$index] = implode( ', ', $title );
+                    } else {
+                        if ( substr($name, 0, 7) === 'do_not_' or substr($name, 0, 3) === 'is_' ) {  
+                            if ($params[$name] ) {
+                                $values[$index] = '[ x ]';
+                            }
+                        } else {
+                            require_once 'CRM/Core/BAO/CustomField.php';
+                            if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($name)) {
+                                $query  = "
 SELECT html_type, data_type
 FROM   civicrm_custom_field
 WHERE  id = $cfID
 ";
-                                        $dao = CRM_Core_DAO::executeQuery( $query,
-                                                                           CRM_Core_DAO::$_nullArray );
-                                        $dao->fetch( );
-                                        $htmlType  = $dao->html_type;
-                                        $dataType  = $dao->data_type;
-                                        
-                                        if ( $htmlType == 'File') {
-                                            //$fileURL = CRM_Core_BAO_CustomField::getFileURL( $contactID, $cfID );
-                                            //$params[$index] = $values[$index] = $fileURL['file_url'];
-                                            $values[$index] = $params[$index];
-                                        } else {
-                                            if ( $dao->data_type == 'Int' ||
-                                                 $dao->data_type == 'Boolean' ) {
-                                                $customVal = (int ) ($params[$name]);
-                                            } else if ( $dao->data_type == 'Float' ) {
-                                                $customVal = (float ) ($params[$name]);
-                                            } else if ( $dao->data_type == 'Date' ) { 
-                                                $customVal = CRM_Utils_Date::format( $params[$name] );
-                                            } else {
-                                                $customVal = $params[$name];
-                                            }
-                                            //take the custom field options
-                                            $returnProperties = array( $name => 1 );
-                                            require_once 'CRM/Contact/BAO/Query.php';
-                                            $query   =& new CRM_Contact_BAO_Query( $params, $returnProperties, $fields );
-                                            $options =& $query->_options;
-                                            $values[$index] = CRM_Core_BAO_CustomField::getDisplayValue( $customVal, $cfID, $options );
-                                            if ( CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', 
-                                                                              $cfID, 'is_search_range' ) ) {
-                                                $customFieldName = "{$name}_from";
-                                            }
+                                $dao = CRM_Core_DAO::executeQuery( $query,
+                                                                   CRM_Core_DAO::$_nullArray );
+                                $dao->fetch( );
+                                $htmlType  = $dao->html_type;
+                                $dataType  = $dao->data_type;
+                                
+                                if ( $htmlType == 'File') {
+                                    //$fileURL = CRM_Core_BAO_CustomField::getFileURL( $contactID, $cfID );
+                                    //$params[$index] = $values[$index] = $fileURL['file_url'];
+                                    $values[$index] = $params[$index];
+                                } else {
+                                    if ( $dao->data_type == 'Int' ||
+                                         $dao->data_type == 'Boolean' ) {
+                                        $customVal = (int ) ($params[$name]);
+                                    } else if ( $dao->data_type == 'Float' ) {
+                                        $customVal = (float ) ($params[$name]);
+                                    } else if ( $dao->data_type == 'Date' ) {
+                                        $date = CRM_Utils_Date::format( $params[$name], null, 'invalidDate' );
+                                        if ( $date != 'invalidDate' ) {
+                                            $customVal = $date;
                                         }
-                                    } else if ( $name == 'home_URL' &&
-                                                ! empty( $params[$name] ) ) {
-                                        $url = CRM_Utils_System::fixURL( $params[$name] );
-                                        $values[$index] = "<a href=\"$url\">{$params[$name]}</a>";
-                                    } else if ( in_array( $name, array('birth_date', 'deceased_date','participant_register_date') ) ) {
-                                        require_once 'CRM/Utils/Date.php';
-                                        $values[$index] = CRM_Utils_Date::customFormat( CRM_Utils_Date::format( $params[$name] ) );
                                     } else {
-                                        $values[$index] = $params[$name];
+                                        $customVal = $params[$name];
+                                    }
+                                    //take the custom field options
+                                    $returnProperties = array( $name => 1 );
+                                    require_once 'CRM/Contact/BAO/Query.php';
+                                    $query   =& new CRM_Contact_BAO_Query( $params, $returnProperties, $fields );
+                                    $options =& $query->_options;
+                                    $values[$index] = CRM_Core_BAO_CustomField::getDisplayValue( $customVal, $cfID, $options );
+                                    if ( CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', 
+                                                                      $cfID, 'is_search_range' ) ) {
+                                        $customFieldName = "{$name}_from";
                                     }
                                 }
-                            }
-                        } else if ( strpos( $name, '-' ) !== false ) {
-                            list( $fieldName, $id, $type ) = CRM_Utils_System::explode( '-', $name, 3 );
-                            if ($id == 'Primary') {
-                                // not sure why we'd every use Primary location type id
-                                // we need to fix the source if we are using it
-                                // $locationTypeName = CRM_Contact_BAO_Contact::getPrimaryLocationType( $cid ); 
-                                $locationTypeName = 1;
+                            } else if ( $name == 'home_URL' &&
+                                        ! empty( $params[$name] ) ) {
+                                $url = CRM_Utils_System::fixURL( $params[$name] );
+                                $values[$index] = "<a href=\"$url\">{$params[$name]}</a>";
+                            } else if ( in_array( $name, array('birth_date', 'deceased_date','participant_register_date') ) ) {
+                                require_once 'CRM/Utils/Date.php';
+                                $values[$index] = CRM_Utils_Date::customFormat( CRM_Utils_Date::format( $params[$name] ) );
                             } else {
-                                $locationTypeName = CRM_Utils_Array::value( $id, $locationTypes );
-                            }
-                            if ( ! $locationTypeName ) {
-                                continue;
-                            }
-                            $detailName = "{$locationTypeName}-{$fieldName}";
-                            $detailName = str_replace( ' ', '_', $detailName );
-                            
-                            if ( in_array( $fieldName, array( 'phone', 'im', 'email' ) ) ) {
-                                if ( $type ) {
-                                    $detailName .= "-{$type}";
-                                } else {
-                                    $detailName .= '-1';
-                                }
-                            }
-                            
-                            if ( in_array( $fieldName, array( 'state_province', 'country', 'county' ) ) ) {
-                                $values[$index] = $params[$detailName];
-                                $idx = $detailName . '_id';
-                                $values[$index] = $params[$idx];
-                            } else if ( $fieldName == 'im'){
-                                $providerId     = $detailName . '-provider_id';
-                                $providerName   = $imProviders[$params[$providerId]];
-                                if ( $providerName ) {
-                                    $values[$index] = $params[$detailName] . " (" . $providerName .")";
-                                } else {
-                                    $values[$index] = $params[$detailName];
-                                }
-                                $values[$index] = $params[$detailName];        
-                            } else {
-                                $values[$index] = $params[$detailName];
+                                $values[$index] = $params[$name];
                             }
                         }
                     }
-                    //collect all additional participants values.
-                    $allValues[$participantNum] = $values;
+                } else if ( strpos( $name, '-' ) !== false ) {
+                    list( $fieldName, $id, $type ) = CRM_Utils_System::explode( '-', $name, 3 );
+                    if ($id == 'Primary') {
+                        // not sure why we'd every use Primary location type id
+                        // we need to fix the source if we are using it
+                        // $locationTypeName = CRM_Contact_BAO_Contact::getPrimaryLocationType( $cid ); 
+                        $locationTypeName = 1;
+                    } else {
+                        $locationTypeName = CRM_Utils_Array::value( $id, $locationTypes );
+                    }
+                    if ( ! $locationTypeName ) {
+                        continue;
+                    }
+                    $detailName = "{$locationTypeName}-{$fieldName}";
+                    $detailName = str_replace( ' ', '_', $detailName );
+                    
+                    if ( in_array( $fieldName, array( 'phone', 'im', 'email' ) ) ) {
+                        if ( $type ) {
+                            $detailName .= "-{$type}";
+                        } else {
+                            $detailName .= '-1';
+                        }
+                    }
+                    
+                    if ( in_array( $fieldName, array( 'state_province', 'country', 'county' ) ) ) {
+                        $values[$index] = $params[$detailName];
+                        $idx = $detailName . '_id';
+                        $values[$index] = $params[$idx];
+                    } else if ( $fieldName == 'im'){
+                        $providerId     = $detailName . '-provider_id';
+                        $providerName   = $imProviders[$params[$providerId]];
+                        if ( $providerName ) {
+                            $values[$index] = $params[$detailName] . " (" . $providerName .")";
+                        } else {
+                            $values[$index] = $params[$detailName];
+                        }
+                        $values[$index] = $params[$detailName];        
+                    } else {
+                        $values[$index] = $params[$detailName];
+                    }
                 }
-            }
-            
-            if ( $groupTitle ) {
-                $template->assign( $blockName.'_groupName', $groupTitle );
-            }
-            
-            if ( count( $allValues ) ) {
-                $template->assign( $blockName, $allValues );
             }
         }
     }
 
+    /**  
+     * Function to build the array for Additional participant's information  array of priamry and additional Ids 
+     *  
+     *@param int $participantId id of Primary participant
+     *@param array $values key/value eventpage info
+     *@param int $contactId contact id of Primary participant 
+     *@param boolean $isTest whether test or live transaction 
+     *@param boolean $isArray to return an array of Ids
+     *
+     *@return array $customProfile array of Additional participant's info OR array of Ids.   
+     *@access public  
+     */ 
+    function buildCustomProfile( $participantId, $values, $contactId = null, $isTest = false, $isArray = false ) 
+    {
+        $additionalIDs = array();
+        $customProfile = array();
+
+        //set Ids of Primary Participant also.
+        if ( $isArray && $contactId ) {
+            $additionalIDs[$participantId] = $contactId; 
+        }
+        require_once 'CRM/Event/DAO/Participant.php';
+        $participant   =  & new CRM_Event_DAO_Participant( );
+        $participant->registered_by_id = $participantId;
+        $participant->find();
+        
+        while ( $participant->fetch() ) {
+            $additionalIDs[$participant->id] = $participant->contact_id;
+        } 
+        $participant->free( );
+        
+        //return if only array is required.
+        if ( $isArray && $contactId ) {
+            return $additionalIDs;
+        }
+       
+        //else build array of Additional participant's information. 
+        if ( count($additionalIDs) ) { 
+            if ( $values['custom_pre_id'] || $values['custom_post_id'] ) {
+                $isCustomProfile = true;
+                $i = 1;
+                foreach ( $additionalIDs as $pId => $cId ) {
+                    $profilePre =  self::buildCustomDisplay( $values['custom_pre_id'], 'customPre',
+                                                                                $cId, $template, $pId, $isTest, $isCustomProfile );
+                    if ( $profilePre ) {
+                        $customProfile[$i]['customPre'] =  $profilePre;
+                    }
+
+                    $profilePost =  self::buildCustomDisplay( $values['custom_post_id'], 'customPost',
+                                                                                 $cId, $template, $pId, $isTest, $isCustomProfile );
+                    if ( $profilePost ) {
+                        $customProfile[$i]['customPost'] =  $profilePost;
+                    }
+                    $i++;
+                }
+            }
+        }
+
+        return $customProfile;
+    }
 }
 
