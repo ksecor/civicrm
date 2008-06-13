@@ -598,6 +598,8 @@ WHERE  v.option_group_id = g.id
         
         if ( $this->_action & CRM_Core_Action::PREVIEW ) {
             $participantParams['is_test'] = 1;
+        } else {
+            $participantParams['is_test'] = 0;
         }
 
         if ( $this->_params['note'] ) {
@@ -606,9 +608,22 @@ WHERE  v.option_group_id = g.id
             $participantParams['note'] = $this->_params['participant_note'];
         }
         
-        $ids = array();
+        // reuse id if one already exists for this one (can happen with back button being hit etc)
+        $sql = "
+SELECT id
+FROM   civicrm_participant
+WHERE  contact_id = $contactID
+  AND  event_id   = {$this->_id}
+  AND  is_test    = {$participantParams['is_test']}
+";
+        $pID = CRM_Core_DAO::singleValueQuery( $sql,
+                                               CRM_Core_DAO::$_nullArray );
+        if ( $pID ) {
+            $participantParams['id'] = $pID;
+        }
+
         require_once 'CRM/Event/BAO/Participant.php';
-        $participant = CRM_Event_BAO_Participant::create($participantParams, $ids);
+        $participant = CRM_Event_BAO_Participant::create($participantParams);
         
         $transaction->commit( );
         
