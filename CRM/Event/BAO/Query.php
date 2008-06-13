@@ -179,7 +179,6 @@ class CRM_Event_BAO_Query
     static function whereClauseSingle( &$values, &$query ) 
     {
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
-
         switch( $name ) {
             
         case 'event_start_date_low':
@@ -237,6 +236,12 @@ class CRM_Event_BAO_Query
             $query->_tables['civicrm_participant'] = $query->_whereTables['civicrm_participant'] = 1;
             return;    
             
+        case 'participant_fee_amount_high':
+        case 'participant_fee_amount_low':
+            $query->numberRangeBuilder( $values,
+                                        'civicrm_participant', 'participant_fee_amount', 'fee_amount', 'Fee Amount' );
+            return;
+
         case 'participant_pay_later':
             $query->_where[$grouping][] = "civicrm_participant.is_pay_later $op $value";
             if ( $value ) {
@@ -246,7 +251,6 @@ class CRM_Event_BAO_Query
             return;
 
         case 'participant_status_id':
-
             $val = array( );
             if ( is_array( $value ) ) {
                 foreach ($value as $k => $v) {
@@ -527,7 +531,11 @@ class CRM_Event_BAO_Query
         
         $form->addElement( 'checkbox', 'participant_test' , ts( 'Find Test Participants?' ) );
         $form->addElement( 'checkbox', 'participant_pay_later' , ts( 'Find Pay Later Participants?' ) );
-        $form->addElement( 'text', 'participant_fee_amount' , ts( 'Fee Amount' ) );
+        $form->addElement( 'text', 'participant_fee_amount_low', ts( 'From' ), array( 'size' => 8, 'maxlength' => 8 ) );
+        $form->addElement( 'text', 'participant_fee_amount_high' , ts( 'To' ), array( 'size' => 8, 'maxlength' => 8 ) );
+
+        $form->addRule( 'participant_fee_amount_low', ts( 'Please enter a valid money value.' ), 'money' );
+        $form->addRule( 'participant_fee_amount_high', ts( 'Please enter a valid money value.' ), 'money' );
         // add all the custom  searchable fields
         require_once 'CRM/Core/BAO/CustomGroup.php';
         $extends      = array( 'Participant' );
