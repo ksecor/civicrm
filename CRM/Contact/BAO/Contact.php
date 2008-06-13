@@ -846,7 +846,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
 
         // we dont know the contents of return properties, but we need the lower level ids of the contact
         // so add a few fields
-        $returnProperties['first_name'] = $returnProperties['organization_name'] = $returnProperties['household_name'] = 1;
+        $returnProperties['first_name'] = $returnProperties['organization_name'] = $returnProperties['household_name'] = $returnProperties['contact_type'] = 1;
         return list($query, $options) = CRM_Contact_BAO_Query::apiQuery( $params, $returnProperties, $options );        
     }
 
@@ -1045,6 +1045,7 @@ WHERE  civicrm_contact.id = %1 ";
         if ( $contactID ) {
             list($details, $options) = self::getHierContactDetails( $contactID, $fields );
             $contactDetails = $details[$contactID];
+            $data['contact_type'] = CRM_Utils_Array::value( 'contact_type', $contactDetails );
         } else {
             //we should get contact type only if contact
             if ( $ufGroupId ) {
