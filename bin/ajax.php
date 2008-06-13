@@ -168,8 +168,12 @@ function countries( &$config )
     
     $elements = array( );
     require_once 'CRM/Utils/Type.php';
-    $name      = CRM_Utils_Type::escape( $_GET['name'], 'String'  );
-    
+
+    $name = null;
+    if ( isset( $_GET['name'] ) ) {
+        $name = CRM_Utils_Type::escape( $_GET['name'], 'String'  );
+    }
+
     $countryId = null;
     if ( isset( $_GET['id'] ) ) {
         $countryId = CRM_Utils_Type::escape( $_GET['id'], 'Positive', false );
