@@ -67,23 +67,26 @@ class CRM_Core_Menu
 
     static function &xmlItems( ) {
         if ( ! self::$_items ) {
-            $files = array( 'Menu/Activity.xml',
-                            'Menu/Contact.xml',
-                            'Menu/Custom.xml',
-                            'Menu/Grant.xml',
-                            'Menu/Import.xml',
-                            'Menu/Member.xml',
-                            'Menu/Profile.xml',
-                            'Menu/Admin.xml',
-                            'Menu/Contribute.xml',
-                            'Menu/Event.xml',
-                            'Menu/Group.xml',
-                            'Menu/Mailing.xml',
-                            'Menu/Misc.xml',
+            $config =& CRM_Core_Config::singleton( );
+            $coreMenuFiles = array( 'Activity', 'Contact', 'Import', 
+                                    'Profile', 'Admin', 'Group', 'Misc', );
+
+            $files = array( $config->templateDir . 'Menu/Activity.xml',
+                            $config->templateDir . 'Menu/Contact.xml',
+                            $config->templateDir . 'Menu/Custom.xml',
+                            $config->templateDir . 'Menu/Import.xml',
+                            $config->templateDir . 'Menu/Profile.xml',
+                            $config->templateDir . 'Menu/Admin.xml',
+                            $config->templateDir . 'Menu/Group.xml',
+                            $config->templateDir . 'Menu/Misc.xml',
                             );
 
             $files = array_merge( $files,
                                   CRM_Core_Component::xmlMenu( ) );
+
+            // lets call a hook and get any additional files if needed
+            require_once 'CRM/Utils/Hook.php';
+            CRM_Utils_Hook::xmlMenu( $files );
 
             self::$_items = array( );
             foreach ( $files as $file ) {
@@ -97,11 +100,8 @@ class CRM_Core_Menu
     static function read( $name, &$menu ) {
 
         $config =& CRM_Core_Config::singleton( );
-        $fileName =
-            $config->templateDir .
-            $name;
 
-        $xml = simplexml_load_file( $fileName );
+        $xml = simplexml_load_file( $name );
         foreach ( $xml->item as $item ) {
             if ( ! (string ) $item->path ) {
                 CRM_Core_Error::debug( 'i', $item );

@@ -127,7 +127,6 @@ class CRM_Core_Component
             if ( in_array( $name, $config->enableComponents ) &&
                  ( ( $comp->info['url'] === $firstArg  && $type == 'main' )  ||
                    ( $comp->info['url'] === $secondArg && $type == 'admin' ) ) ) {
-                
                 if ( $type == 'main' ) {
                     // also set the smarty variables to the current component
                     $template =& CRM_Core_Smarty::singleton( );
@@ -150,7 +149,9 @@ class CRM_Core_Component
     }
 
     static function xmlMenu( ) {
-        $info =& self::_info( );
+
+        // lets build the menu for all components
+        $info =& self::getComponents( );
 
         $files = array( );
         foreach( $info as $name => $comp ) {

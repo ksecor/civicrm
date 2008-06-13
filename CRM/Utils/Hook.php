@@ -198,4 +198,13 @@ class CRM_Utils_Hook {
                   '::invoke( 5, $type, $tables, $whereTables, $contactID, $where, \'civicrm_aclClause\' );' );  
     }
 
+    static function xmlMenu( &$files ) {
+        $config =& CRM_Core_Config::singleton( );
+        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
+        $null =& CRM_Core_DAO::$_nullObject;
+        return   
+            eval( 'return ' .
+                  $config->userHookClass .
+                  '::invoke( 1, $files, $null, $null, $null, $null, \'civicrm_xmlMenu\' );' );
+    }
 }

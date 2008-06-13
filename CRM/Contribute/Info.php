@@ -47,10 +47,11 @@ class CRM_Contribute_Info extends CRM_Core_Component_Info
     // docs inherited from interface
     public function getInfo()
     {
+        $config =& CRM_Core_Config::singleton( );
         return  array( 'name'	        => 'CiviContribute',
                        'translatedName' => ts('CiviContribute'),
                        'title'          => ts('CiviCRM Contribution Engine'),
-                       'menu'           => array( 'Menu/Contribute.xml' ),
+                       'menu'           => array( $config->templateDir . 'Menu/Contribute.xml' ),
                        'search'         => 1 );
     }
 

@@ -46,10 +46,11 @@ class CRM_Member_Info extends CRM_Core_Component_Info
     // docs inherited from interface
     public function getInfo()
     {
+        $config =& CRM_Core_Config::singleton( );
         return array( 'name'           => 'CiviMember',
                       'translatedName' => ts('CiviMember'),
                       'title'          => 'CiviCRM Membership Engine',
-                      'menu'           => array( 'Menu/Member.xml' ),
+                      'menu'           => array( $config->templateDir . 'Menu/Member.xml' ),
                       'search'         => 1 );
     }
 

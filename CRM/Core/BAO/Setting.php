@@ -181,16 +181,17 @@ class CRM_Core_BAO_Setting
             $session =& CRM_Core_Session::singleton();
             $dao =& new CRM_Core_DAO_UFMatch();
             $dao->contact_id = $session->get('userID');
-            $dao->find(true);
-            if ($lcMessages = CRM_Utils_Request::retrieve('lcMessages', 'String', $this)) {
-                $dao->language = $lcMessages;
-                $dao->save();
-                $defaults['lcMessages'] = $lcMessages;
-            } elseif (!$dao->language) {
-                $dao->language = $defaults['lcMessages'];
-                $dao->save();
-            } else {
-                $defaults['lcMessages'] = $dao->language;
+            if ( $dao->find(true) ) {
+                if ($lcMessages = CRM_Utils_Request::retrieve('lcMessages', 'String', $this)) {
+                    $dao->language = $lcMessages;
+                    $dao->save();
+                    $defaults['lcMessages'] = $lcMessages;
+                } elseif (!$dao->language) {
+                    $dao->language = $defaults['lcMessages'];
+                    $dao->save();
+                } else {
+                    $defaults['lcMessages'] = $dao->language;
+                }
             }
             $dao->free();
         }
