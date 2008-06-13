@@ -432,7 +432,7 @@ class CRM_Core_Payment_BaseIPN {
             $template->assign( 'amount' , $input['amount'] );
         } else {
             $template->assign( 'title', $values['event']['title']);
-            $template->assign( 'amount' , $input['amount'] );
+            $template->assign( 'totalAmount' , $input['amount'] );
         }
 
         $template->assign( 'trxn_id', $contribution->trxn_id );
@@ -469,36 +469,45 @@ class CRM_Core_Payment_BaseIPN {
             if ( $participant->is_test ) {
                 $isTest = true;
             }
-
-            //build an array of custom profile and assigning it to template
-            $customProfile = CRM_Event_BAO_EventPage::buildCustomProfile( $participant->id, $values, null, $isTest );
-            
-            if ( count($customProfile) ) {
-                $template->assign( 'customProfile', $customProfile );
-            }
-            $template->assign( 'isPrimary', 1 ); 
+          
             require_once "CRM/Event/BAO/EventPage.php";
-            CRM_Event_BAO_EventPage::sendMail( $ids['contact'], $values, $participant->id, $isTest );
-
+            //to get email of primary participant.
+            $primaryEmail = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Email',  $participant->contact_id, 'email', 'contact_id' );  
+            $pramryAmount[$participant->fee_level.'-'.$primaryEmail] = $participant->fee_amount;
             //build an array of cId/pId of participants
             $additionalIDs = CRM_Event_BAO_EventPage::buildCustomProfile( $participant->id, null, $ids['contact'], $isTest, true );
-            
+            unset( $additionalIDs[$participant->id] ); 
             //send receipt to additional participant if exists
             if ( count($additionalIDs) ) {
                 $template->assign( 'isPrimary', 0 ); 
                 $template->assign( 'customProfile', null );
                 foreach ( $additionalIDs as $pId => $cId ) {
+                    $amount = array( );
                     //to change the status pending to completed
                     $additional = & new CRM_Event_DAO_Participant( );
                     $additional->id = $pId;
                     $additional->contact_id = $cId; 
                     $additional->find(true);
                     $additional->status_id = 1;
+                    $additionalEmail = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Email',  $additional->contact_id, 'email', 'contact_id' );  
+                    $amount[$additional->fee_level.'-'.$additionalEmail]       =  $additional->fee_amount;
+                    $pramryAmount[$additional->fee_level.'-'.$additionalEmail] =  $additional->fee_amount; 
                     $additional->save( );
                     $additional->free( );
+                    $template->assign( 'amount', $amount );
                     CRM_Event_BAO_EventPage::sendMail( $cId, $values, $pId, $isTest );
                 } 
             }
+            
+            //build an array of custom profile and assigning it to template
+            $customProfile = CRM_Event_BAO_EventPage::buildCustomProfile( $participant->id, $values, null, $isTest );
+            
+            if ( count($customProfile) ) {
+                $template->assign( 'customProfile', $customProfile );
+            }
+            $template->assign( 'isPrimary', 1 );
+            $template->assign( 'amount', $primaryAmount );
+            CRM_Event_BAO_EventPage::sendMail( $ids['contact'], $values, $participant->id, $isTest );
             
         } else {
             if ( $membership ) {

@@ -676,6 +676,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         }
         
         //send mail Confirmation/Receipt
+        require_once "CRM/Event/BAO/EventPage.php";
         if ( $this->_contributeMode != 'checkout' ||
              $this->_contributeMode != 'notify'   ) {
             $isTest = false;
@@ -692,7 +693,6 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             //build an array of custom profile and assigning it to template.
             $additionalIDs = CRM_Event_BAO_EventPage::buildCustomProfile( $registerByID, null, $primaryContactId, $isTest, true );  
 
-            require_once "CRM/Event/BAO/EventPage.php";
             foreach( $additionalIDs as $participantID => $contactId ) {
                 if ( $participantID == $registerByID ) {
                     //set as Primary Participant
