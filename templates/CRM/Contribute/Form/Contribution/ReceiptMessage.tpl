@@ -1,8 +1,17 @@
 {if $action eq 1024}{include file="CRM/Contribute/Form/Contribution/ReceiptPreviewHeader.tpl"}
 {/if}
+{if $receipt_text}
 {$receipt_text}
+{/if}
+{if $is_pay_later}
+
+===========================================================
+{$pay_later_receipt}
+===========================================================
+{else}
 
 {ts}Please print this receipt for your records.{/ts}
+{/if}
 
 {if $membership_assign}
 ===========================================================
@@ -10,8 +19,10 @@
 
 ===========================================================
 {ts}Membership Type{/ts}: {$membership_name}
-{ts}Membership Start Date{/ts}: {$mem_start_date|crmDate}
-{ts}Membership End Date{/ts}: {$mem_end_date|crmDate}
+{if $mem_start_date}{ts}Membership Start Date{/ts}: {$mem_start_date|crmDate}
+{/if}
+{if $mem_start_date}{ts}Membership End Date{/ts}: {$mem_end_date|crmDate}
+{/if}
 
 {/if}
 ===========================================================
@@ -32,13 +43,15 @@
 {else}
 {ts}Amount{/ts}: {$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}
 {/if}
-
-
 {if $is_pay_later}
-{$pay_later_receipt}
-{/if}
 
+
+===========================================================
+{$pay_later_receipt}
+===========================================================
+{else}
 {if $receive_date}
+
 {ts}Date{/ts}: {$receive_date|crmDate}
 {/if}
 {if $is_monetary and $trxn_id}
@@ -53,6 +66,7 @@
 
 {$cancelSubscriptionUrl}
 {/if}
+{/if} {* End of ! is_pay_later condition *}
 
 {if $honor_block_is_active }
 ===========================================================
@@ -76,6 +90,13 @@
 {$onBehalfEmail}
 
 {/if}
+{if $is_pay_later}
+===========================================================
+{ts}Registered Email{/ts}
+
+===========================================================
+{$email}
+{else}
 ===========================================================
 {ts}Billing Name and Address{/ts}
 
@@ -84,9 +105,10 @@
 {$address}
 
 {$email}
+{/if} {* End ! is_pay_later condition. *}
 {/if}
+{if $contributeMode eq 'direct' AND !$is_pay_later}
 
-{if $contributeMode eq 'direct'}
 ===========================================================
 {ts}Credit or Debit Card Information{/ts}
 

@@ -33,6 +33,7 @@
             {/if}
         {/if}
     </div>
+    <div class="spacer"></div>
 
     <div class="header-dark">
         {ts}Event Information{/ts}
