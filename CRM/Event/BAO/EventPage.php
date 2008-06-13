@@ -179,7 +179,7 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
      * @return None  
      * @access public  
      */ 
-    function buildCustomDisplay( $gid, $name, $cid, &$template, $participantId, $isTest ) 
+    function buildCustomDisplay( $gid, $name, $cid, &$template, $participantId, $isTest, $isCustomProfile = false ) 
     {  
         if ( $gid ) {
             require_once 'CRM/Core/BAO/UFGroup.php';
@@ -239,14 +239,21 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
                         break;
                     }
                 }
-               
-                //to build customgoup fields array
-                $session =& CRM_Core_Session::singleton( );
-                $customGroup = array();
-                $customGroup = $session->get ( 'customGroup' );
-                $customGroup[$name] = $values;
-                $session->set ( 'customGroup',$customGroup ); 
-                $session->set( 'customField',  $customGroup );
+              
+                if ( $isCustomProfile ) {
+                    if ( count($values) ) {
+                        return $values;
+                    } else {
+                        return null;
+                    }
+                } 
+               //  //to build customgoup fields array
+//                 $session =& CRM_Core_Session::singleton( );
+//                 $customGroup = array();
+//                 $customGroup = $session->get ( 'customGroup' );
+//                 $customGroup[$name] = $values;
+//                 $session->set ( 'customGroup',$customGroup ); 
+//                 $session->set( 'customField',  $customGroup );
                
 
                 if ( $groupTitle ) {
@@ -449,6 +456,66 @@ WHERE  id = $cfID
             }
         }
     }
-    
+
+    /**  
+     * Function to build the array for Additional participant's information  array of priamry and additional Ids 
+     *  
+     *@param int $participantId id of Primary participant
+     *@param array $values key/value eventpage info
+     *@param int $contactId contact id of Primary participant 
+     *@param boolean $isTest whether test or live transaction 
+     *@param boolean $isArray to return an array of Ids
+     *
+     *@return array $customProfile array of Additional participant's info OR array of Ids.   
+     *@access public  
+     */ 
+    function buildCustomProfile( $participantId, $values, $contactId = null, $isTest = false, $isArray = false ) 
+    {
+        $additionalIDs = array();
+        $customProfile = array();
+
+        //set Ids of Primary Participant also.
+        if ( $isArray && $contactId ) {
+            $additionalIDs[$participantId] = $contactId; 
+        }
+        require_once 'CRM/Event/DAO/Participant.php';
+        $participant   =  & new CRM_Event_DAO_Participant( );
+        $participant->registered_by_id = $participantId;
+        $participant->find();
+        
+        while ( $participant->fetch() ) {
+            $additionalIDs[$participant->id] = $participant->contact_id;
+        } 
+        $participant->free( );
+        
+        //return if only array is required.
+        if ( $isArray && $contactId ) {
+            return $additionalIDs;
+        }
+       
+        //else build array of Additional participant's information. 
+        if ( count($additionalIDs) ) { 
+            if ( $values['custom_pre_id'] || $values['custom_post_id'] ) {
+                $isCustomProfile = true;
+                $i = 1;
+                foreach ( $additionalIDs as $pId => $cId ) {
+                    $profilePre =  self::buildCustomDisplay( $values['custom_pre_id'], 'customPre',
+                                                                                $cId, $template, $pId, $isTest, $isCustomProfile );
+                    if ( $profilePre ) {
+                        $customProfile[$i]['customPre'] =  $profilePre;
+                    }
+
+                    $profilePost =  self::buildCustomDisplay( $values['custom_post_id'], 'customPost',
+                                                                                 $cId, $template, $pId, $isTest, $isCustomProfile );
+                    if ( $profilePost ) {
+                        $customProfile[$i]['customPost'] =  $profilePost;
+                    }
+                    $i++;
+                }
+            }
+        }
+
+        return $customProfile;
+    }
 }
 

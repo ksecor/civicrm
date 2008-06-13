@@ -495,17 +495,15 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
      * @return None  
      * @access public  
      */ 
-    function confirmPostProcess( $contactID = null, $contribution = null, $payment = null, $isAdditional = false )
+    function confirmPostProcess( $contactID = null, $contribution = null, $payment = null )
     {
         // add/update contact information
         $fields = array( );
         unset($this->_params['note']);
 
-        //if additional participant is set overwrite $this->_params
-        if ( $isAdditional ) {
-            $this->_params = $this->get('value');
-        }
-        
+        //to avoid conflict overwrite $this->_params
+        $this->_params = $this->get('value');
+              
         // create CMS user
         if ( CRM_Utils_Array::value( 'cms_create_account', $this->_params ) ) {
             $this->_params['contactID'] = $contactID;
@@ -517,11 +515,11 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
 
         // add participant record
         $participant  = $this->addParticipant( $this->_params, $contactID );
-        //building array of cid & participantId 
-        $this->_ids[$contactID] = $participant->id;
-        //setting register_by_id field
+      
+        //setting register_by_id field and primaryContactId
         if( CRM_Utils_Array::value('is_primary', $this->_params ) ) {
             $this->set( 'registerByID', $participant->id );
+            $this->set( 'primaryContactId', $contactID );
         }
         require_once 'CRM/Core/BAO/CustomValueTable.php';
         CRM_Core_BAO_CustomValueTable::postProcess( $this->_params,

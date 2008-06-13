@@ -650,16 +650,17 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
      */
     public function processRegistration( $params, $contactID = null ) 
     {
-        $isAdditional = true;
-        $this->_ids = array();
+             
         //unset the skip participant from params.
         if ( $skipParticipant = array_search( 'skip', $params ) ) {
             unset( $params[$skipParticipant] );
         }
         foreach ( $params as $key => $value ) {
             $fields = null;
-            // setting register by Id
-            if ( $key != 0 ) {
+          
+            // setting register by Id and unset contactId.
+            if ( !CRM_Utils_Array::value( 'is_primary', $value ) ) {
+                $contactID = null;
                 $registerByID = $this->get( 'registerByID' );
                 if ( $registerByID ) {
                     $value['registered_by_id'] = $registerByID;
@@ -671,8 +672,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             
             $contactID =& CRM_Event_Form_Registration_Confirm::updateContactFields( $contactID, $value, $fields );
             $this->set( 'value', $value );
-            $this->confirmPostProcess( $contactID, null, null,  $isAdditional );
-            $contactID = null;
+            $this->confirmPostProcess( $contactID, null, null );
         }
         
         //send mail Confirmation/Receipt
@@ -683,39 +683,26 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 $isTest = true;
             }
             
-            //build an array of custom profile and assigning it to template
-            $session =& CRM_Core_Session::singleton( );
+            //handle if no additional participant.
+            if ( ! $registerByID ) {
+                $registerByID = $this->get('registerByID');
+            }
+            $primaryContactId = $this->get('primaryContactId');
+
+            //build an array of custom profile and assigning it to template.
+            $additionalIDs = CRM_Event_BAO_EventPage::buildCustomProfile( $registerByID, null, $primaryContactId, $isTest, true );  
+
             require_once "CRM/Event/BAO/EventPage.php";
-            foreach($this->_ids as $contactId => $participantID ) {
+            foreach( $additionalIDs as $participantID => $contactId ) {
                 if ( $participantID == $registerByID ) {
                     //set as Primary Participant
                     $this->assign ( 'isPrimary' , 1 );
-                    if ( $this->_values['custom_pre_id'] || $this->_values['custom_post_id'] ) {
-                        $customGroup = array();
-                        $i = 0;
-                        $template =& CRM_Core_Smarty::singleton( );
-                        foreach ( $this->_ids as $cId => $pId ) {
-                            require_once 'CRM/Event/BAO/EventPage.php';
-                            $customGroup[$i] = array();
-                            $session->set( 'customsGroup',  $customGroup[$i] );
-                            
-                            CRM_Event_BAO_EventPage::buildCustomDisplay( $this->_values['custom_pre_id'], 'customPre',
-                                                                         $cId, $template, $pId, $isTest );
-                            
-                            
-                            CRM_Event_BAO_EventPage::buildCustomDisplay( $this->_values['custom_post_id'], 'customPost',
-                                                                         $cId, $template, $pId, $isTest );
-                            
-                            $customGroup[$i] = $session->get ( 'customField' );
-                            $i++;
-                        }
-                        //Unset information of primary participant.
-                        $session->set( 'customsGroup', null );
-                        unset ( $customGroup[0] );  
-                        if ( count($customGroup) ) {
-                            $this->assign( 'customProfile',$customGroup );
-                            $this->set('customProfile',$customGroup);
-                        }
+                    
+                    $customProfile = CRM_Event_BAO_EventPage::buildCustomProfile( $participantID, $this->_values, null, $isTest );
+                                       
+                    if ( count($customProfile) ) {
+                        $this->assign( 'customProfile', $customProfile );
+                        $this->set   ( 'customProfile', $customProfile );
                     }
                     
                 } else {

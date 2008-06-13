@@ -469,55 +469,25 @@ class CRM_Core_Payment_BaseIPN {
             if ( $participant->is_test ) {
                 $isTest = true;
             }
+
             //build an array of custom profile and assigning it to template
-            require_once 'CRM/Event/DAO/Participant.php';
-            $additional = & new CRM_Event_DAO_Participant( );
-            $additional->registered_by_id = $participant->id;
-            $additional->find(true);
-            $additionalIDs = array();
-            while ( $additional->fetch() ) {
-                $additionalIDs[$additional->contact_id] = $additional->id;
-            } 
-            $additional->free( );
-            //primary participant should get all payment & participant's information
-            if ( count($additionalIDs) ) { 
-                $session =& CRM_Core_Session::singleton( );
-                if ( $values['custom_pre_id'] || $values['custom_post_id'] ) {
-                    $customGroup = array();
-                    $i = 0;
-                    $messageTemplate =& CRM_Core_Smarty::singleton( );
-                    
-                    //primary participant should get all payment & participant's information
-                    foreach ( $additionalIDs as $cId => $pId ) {
-                        $customGroup[$i] = array();
-                        $session->set( 'customsGroup',  $customGroup[$i] );
-                        
-                        CRM_Event_BAO_EventPage::buildCustomDisplay( $values['custom_pre_id'], 'customPre',
-                                                                     $cId, $messageTemplate, $pId, $isTest );
-                        
-                        
-                        CRM_Event_BAO_EventPage::buildCustomDisplay( $values['custom_post_id'], 'customPost',
-                                                                     $cId, $messageTemplate, $pId, $isTest );
-                        
-                        $customGroup[$i] = $session->get ( 'customField' );
-                        $i++;
-                    }
-                    //Unset information of primary participant.
-                    $session->set( 'customsGroup', 0  );
-                    if ( count($customGroup) ) {
-                        $template->assign( 'customProfile',$customGroup );
-                    }
-                }
+            $customProfile = CRM_Event_BAO_EventPage::buildCustomProfile( $participant->id, $values, null, $isTest );
+            
+            if ( count($customProfile) ) {
+                $template->assign( 'customProfile', $customProfile );
             }
             $template->assign( 'isPrimary', 1 ); 
             require_once "CRM/Event/BAO/EventPage.php";
             CRM_Event_BAO_EventPage::sendMail( $ids['contact'], $values, $participant->id, $isTest );
+
+            //build an array of cId/pId of participants
+            $additionalIDs = CRM_Event_BAO_EventPage::buildCustomProfile( $participant->id, null, $ids['contact'], $isTest, true );
             
             //send receipt to additional participant if exists
             if ( count($additionalIDs) ) {
                 $template->assign( 'isPrimary', 0 ); 
                 $template->assign( 'customProfile', null );
-                foreach ( $additionalIDs as $cId => $pId ) {
+                foreach ( $additionalIDs as $pId => $cId ) {
                     //to change the status pending to completed
                     $additional = & new CRM_Event_DAO_Participant( );
                     $additional->id = $pId;
@@ -525,7 +495,7 @@ class CRM_Core_Payment_BaseIPN {
                     $additional->find(true);
                     $additional->status_id = 1;
                     $additional->save( );
-                    free($additional);
+                    $additional->free( );
                     CRM_Event_BAO_EventPage::sendMail( $cId, $values, $pId, $isTest );
                 } 
             }
