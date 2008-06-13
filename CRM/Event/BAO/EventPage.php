@@ -457,18 +457,18 @@ WHERE  id = $cfID
      *@param array $values key/value eventpage info
      *@param int $contactId contact id of Primary participant 
      *@param boolean $isTest whether test or live transaction 
-     *@param boolean $isArray to return an array of Ids
+     *@param boolean $isIdsArray to return an array of Ids
      *
      *@return array $customProfile array of Additional participant's info OR array of Ids.   
      *@access public  
      */ 
-    function buildCustomProfile( $participantId, $values, $contactId = null, $isTest = false, $isArray = false ) 
+    function buildCustomProfile( $participantId, $values, $contactId = null, $isTest = false, $isIdsArray = false ) 
     {
         $additionalIDs = array();
         $customProfile = array();
 
         //set Ids of Primary Participant also.
-        if ( $isArray && $contactId ) {
+        if ( $isIdsArray && $contactId ) {
             $additionalIDs[$participantId] = $contactId; 
         }
         require_once 'CRM/Event/DAO/Participant.php';
@@ -482,7 +482,7 @@ WHERE  id = $cfID
         $participant->free( );
         
         //return if only array is required.
-        if ( $isArray && $contactId ) {
+        if ( $isIdsArray && $contactId ) {
             return $additionalIDs;
         }
        
