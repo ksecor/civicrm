@@ -220,9 +220,11 @@ class CRM_Event_BAO_Query
             return;
             
         case 'participant_fee_level':
-            $query->_where[$grouping][] = "civicrm_participant.fee_level $op '$value'";
+
+            $feeLabel = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_OptionValue', $value, 'label');
             if ( $value ) {
-                $query->_qill[$grouping][]  = ts("Fee level" ) . " $op '$value'";
+                $query->_where[$grouping][] = "civicrm_participant.fee_level $op '$feeLabel'";
+                $query->_qill[$grouping][]  = ts("Fee level" ) . " $op $feeLabel";
             }
             $query->_tables['civicrm_participant'] = $query->_whereTables['civicrm_participant'] = 1;
             return;
@@ -371,7 +373,7 @@ class CRM_Event_BAO_Query
         case 'civicrm_event':
             $from = " INNER JOIN civicrm_event ON civicrm_participant.event_id = civicrm_event.id ";
             break;
-
+            
         case 'participant_note':
             $from .= " $side JOIN civicrm_note ON ( civicrm_note.entity_table = 'civicrm_participant' AND
                                                         civicrm_participant.id = civicrm_note.entity_id )";
@@ -446,10 +448,10 @@ class CRM_Event_BAO_Query
         $dataURLEventType = CRM_Utils_System::url( 'civicrm/ajax/eventType',
                                                    "reset=1",
                                                    true, null, false);
-        
+              
         $form->assign( 'dataURLEvent',     $dataURLEvent );
         $form->assign( 'dataURLEventType', $dataURLEventType );
-
+       
         $form->assign( 'dojoIncludes', " dojo.require('dojox.data.QueryReadStore'); dojo.require('dijit.form.FilteringSelect');dojo.require('dojo.parser');" );
         
         $dojoAttributesEvent = array( 'dojoType'       => 'dijit.form.FilteringSelect',
@@ -463,9 +465,22 @@ class CRM_Event_BAO_Query
                                           'store'          => 'eventTypeStore',
                                           'class'          => 'tundra',
                                           );
+
+        $dojoAttributesEventFee = array( 'dojoType'       => 'dijit.form.FilteringSelect',
+                                         'mode'           => 'remote',
+                                         'store'          => 'eventFeeStore',
+                                         'class'          => 'tundra',
+                                         );
+
+        $eventId         =& $form->add('text', 'event_id', ts('Event Name'), $dojoAttributesEvent );
+        $eventType       =& $form->add('text', 'event_type',  ts('Event Type'), $dojoAttributesEventType );
         
-        $eventId   =& $form->add('text', 'event_id', ts('Event Name'), $dojoAttributesEvent );
-        $eventType =& $form->add('text', 'event_type',  ts('Event Type'), $dojoAttributesEventType );
+        $dataURLEventFee = CRM_Utils_System::url( 'civicrm/ajax/eventFee',
+                                                  "reset=1",
+                                                  true, null, false);
+        $form->assign( 'dataURLEventFee', $dataURLEventFee );
+        $participantFee  =& $form->add('text', 'participant_fee_level', ts('Fee Level'), $dojoAttributesEventFee );
+
         if ( $eventId->getValue( ) ) {
             $form->assign( 'event_id_value', $eventId->getValue( ) );
         } else {
@@ -481,6 +496,15 @@ class CRM_Event_BAO_Query
             $fv  =& $form->getFormValues( );
             if ( $fv['event_type'] ) {
                 $form->assign( 'event_type_value',  $fv['event_type'] );
+            }
+        }
+        
+        if ( $participantFee->getValue( ) ) {
+            $form->assign( 'participant_fee_level_value',  $participantFee->getValue( ) );
+        } else {
+            $fv  =& $form->getFormValues( );
+            if ( $fv['participant_fee_level'] ) {
+                $form->assign( 'participant_fee_level_value',  $fv['participant_fee'] );
             }
         }
 
@@ -503,7 +527,6 @@ class CRM_Event_BAO_Query
         
         $form->addElement( 'checkbox', 'participant_test' , ts( 'Find Test Participants?' ) );
         $form->addElement( 'checkbox', 'participant_pay_later' , ts( 'Find Pay Later Participants?' ) );
-        $form->addElement( 'text', 'participant_fee_level' , ts( 'Fee Level' ) );
         $form->addElement( 'text', 'participant_fee_amount' , ts( 'Fee Amount' ) );
         // add all the custom  searchable fields
         require_once 'CRM/Core/BAO/CustomGroup.php';

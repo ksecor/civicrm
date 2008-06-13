@@ -70,8 +70,20 @@
     <td>{$form.participant_pay_later.html}&nbsp;{$form.participant_pay_later.label}</td> 
 </tr>
 <tr>
-    <td>{$form.participant_fee_level.label}<br /> {$form.participant_fee_level.html}</td> 
-    <td>{$form.participant_fee_amount.label}<br /> {$form.participant_fee_amount.html}</td> 
+    <td>{$form.participant_fee_level.label}<br /> 
+   {if $participant_fee_level_value}
+    <script type="text/javascript">
+	dojo.addOnLoad( function( ) {ldelim}
+        dijit.byId( 'participant_fee_level' ).setValue( "{$participant_fee_level_value}")
+        {rdelim} );
+    </script>
+    {/if}
+
+    <div dojoType="dojox.data.QueryReadStore" jsId="eventFeeStore" url="{$dataURLEventFee}" class="tundra">
+    {$form.participant_fee_level.html}
+    </div> 
+    </td>
+     <td>{$form.participant_fee_amount.label}<br /> {$form.participant_fee_amount.html}</td> 
 </tr>
 <tr>
     <td colspan="4">

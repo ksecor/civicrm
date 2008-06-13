@@ -87,6 +87,9 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
         case 'eventType':
             return $this->eventType( $config );
 
+        case 'eventFee':
+            return $this->eventFee( $config );
+            
         case 'caseSubject':
              return $this->caseSubject( $config );
 
@@ -385,7 +388,63 @@ ORDER by v.weight";
         echo CRM_Utils_JSON::encode( $elements,'value' );
     }
 
-    /**
+     /**
+     * Function for building EventFee combo box
+     */
+    function eventFee( &$config ) 
+    {
+        require_once 'CRM/Utils/Type.php';
+
+        $getRecords = false;
+        if ( isset( $_GET['name'] ) && $_GET['name'] && ! isset( $_GET['count'] ) ) {
+            $name     = strtolower( CRM_Utils_Type::escape( $_GET['name'], 'String' ) );
+            $name     = str_replace( '*', '%', $name );
+            $whereClause = "cv.label LIKE '$name%' ";
+            $getRecords = true;
+        } else {
+             if ( isset( $_GET['eid'] ) ) {
+                $eid = $_GET['eid'];
+                $whereClause = "cg.name LIKE 'civicrm_event_page.amount.{$eid}' AND cg.id = cv.option_group_id ORDER BY cv.label";
+             }else{
+                $whereClause = "cg.name LIKE 'civicrm_event_page.amount%' AND cg.id = cv.option_group_id ORDER BY cv.label";
+             }
+               $getRecords = true;
+        }
+        
+       if ( isset( $_GET['id'] ) && is_numeric($_GET['id']) && !$_GET['count'] ) {
+               $eventId     = CRM_Utils_Type::escape( $_GET['id'], 'Integer'  );
+               $whereClause = "cv.id = {$participantFeeLevel} ";
+               $getRecords = true;
+           }
+
+        if ( $getRecords ) {
+$query = "
+SELECT distinct(cv.label), cv.id
+FROM civicrm_option_value cv, civicrm_option_group cg
+WHERE {$whereClause}
+";
+            $nullArray = array( );
+            $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
+            $elements = array( );
+            while ( $dao->fetch( ) ) {
+                $elements[] = array( 'name' => $dao->label,
+                                     'value'=> $dao->id );
+            }
+        }
+        
+        if ( empty( $elements) ) { 
+            $name = $_GET['name'];
+            if ( !$name && isset( $_GET['id'] ) ) {
+                $name = $_GET['id'];
+            } 
+            $elements[] = array( 'name' => trim( $name, '*'),
+                                 'value'=> trim( $name, '*') );
+        }
+            require_once "CRM/Utils/JSON.php";
+            echo CRM_Utils_JSON::encode( $elements, 'value');
+    } 
+
+  /**
      * Function to show import status
      */
     function status( &$config ) 
