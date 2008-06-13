@@ -259,7 +259,7 @@ class CRM_Export_Form_Select extends CRM_Core_Form
 
         $mappings  = CRM_Core_BAO_Mapping::getMappings( $mappingTypeId );
         if ( !empty( $mappings ) ) {
-            $this->add('select','mapping', ts('Mapping Option'), array('' => '-select-') + $mappings );
+            $this->add('select','mapping', ts('Use Saved Field Mapping'), array('' => '-select-') + $mappings );
         }
     }
 
