@@ -9,10 +9,8 @@
 
 {if $rows}
 <div id="membership_type">
-<p></p>
-    <div class="form-item">
-        {strip}
-	<table cellpadding="0" cellspacing="0" border="0">
+    {strip}
+	<table class="selector">
         <tr class="columnheader">
             <th>{ts}Membership{/ts}</th>
             <th>{ts}Period{/ts}</th>
@@ -24,7 +22,7 @@
  	        <th>{ts}Enabled?{/ts}</th>
             <th></th>
         </tr>
-          {foreach from=$rows item=row}
+        {foreach from=$rows item=row}
            <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
 	        <td>{$row.name}</td>	
 	        <td>{$row.period_type}</td>
@@ -36,16 +34,15 @@
 	        <td>{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
 	        <td>{$row.action}</td>
            </tr>
-          {/foreach}
-        </table>
-        {/strip}
+        {/foreach}
+    </table>
+    {/strip}
 
         {if $action ne 1 and $action ne 2}
 	    <div class="action-link">
     	<a href="{crmURL q="action=add&reset=1"}" id="newMembershipType">&raquo; {ts}New Membership Type{/ts}</a>
         </div>
         {/if}
-    </div>
 </div>
 {else}
   {if $action ne 1}
