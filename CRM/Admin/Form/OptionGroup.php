@@ -55,17 +55,27 @@ class CRM_Admin_Form_OptionGroup extends CRM_Admin_Form
         }
 
         $this->applyFilter('__ALL__', 'trim');
-        $this->add('text', 'name', ts('Name'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionGroup', 'name' ),true );
-        $this->addRule( 'name', ts('Name already exists in Database.'), 'objectExists', array( 'CRM_Core_DAO_OptionGroup', $this->_id ) );
+        $this->add('text',
+                   'name',
+                   ts('Name'),
+                   CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionGroup', 'name' ),
+                   true );
+        $this->addRule( 'name',
+                        ts('Name already exists in Database.'),
+                        'objectExists',
+                        array( 'CRM_Core_DAO_OptionGroup', $this->_id ) );
         
-        $this->add('text', 'description', ts('Description'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionGroup', 'description' ) );
+        $this->add('text',
+                   'description',
+                   ts('Description'),
+                   CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionGroup', 'description' ) );
 
         $this->add('checkbox', 'is_active', ts('Enabled?'));
       
-        if ($this->_action == CRM_Core_Action::UPDATE && CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup', $this->_id, 'is_reserved' )) { 
+        if ($this->_action == CRM_Core_Action::UPDATE &&
+            CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup', $this->_id, 'is_reserved' )) { 
             $this->freeze(array('name', 'description', 'is_active' ));
         }
-        
     }
 
        
