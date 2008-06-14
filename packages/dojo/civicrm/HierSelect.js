@@ -142,7 +142,7 @@ dojo.declare(
 			    });
 			} else {
 			    storeOption3.fetch({
-				   query: {default:true},
+				   query: {'default': 'true'},
 				   onComplete: function(items, request) {
 					selector3.setValue(d3);
 				   }
@@ -205,7 +205,7 @@ dojo.declare(
 				});
 			    } else {
 				storeOption4.fetch({
-				     query: {default:true},
+				     query: {'default': 'true'},
 				     onComplete: function(items, request) {
 					  selector4.setValue(d4);
 				     }
@@ -280,7 +280,7 @@ dojo.declare(
 		} else {
 		   storeOption2.fetch(
 		   {
-		      query: {default:true},
+		      query: {'default': 'true'},
 		      onComplete: function(items, request) {
 			   selector2.setValue(d2);
 		      }
