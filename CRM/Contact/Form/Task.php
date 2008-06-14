@@ -57,6 +57,13 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
     public $_contactIds;
 
     /**
+     * The additional clause that we restrict the search with
+     *
+     * @var string
+     */
+    protected $_componentClause = null;
+
+    /**
      * The array that holds all the component ids
      *
      * @var array
@@ -128,9 +135,15 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
                 }
             }
         }
-        
-        $this->_componentIds = $this->_contactIds;
-        $this->assign( 'totalSelectedContacts', count( $this->_contactIds ) );
+
+        if ( ! empty( $this->_contactIds ) ) {
+            $this->_componentClause =
+                ' contact_a.id IN ( ' .
+                implode( ',', $this->_contactIds ) . ' ) ';
+            $this->assign( 'totalSelectedContacts', count( $this->_contactIds ) );             
+
+            $this->_componentIds = $this->_contactIds;
+        }
     }
 
     /**

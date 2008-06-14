@@ -133,16 +133,21 @@ class CRM_Export_BAO_Export
             
             $paymentFields = false;
             $queryMode = CRM_Contact_BAO_Query::MODE_CONTACTS;
-            if ( $exportMode == CRM_Export_Form_Select::CONTRIBUTE_EXPORT ) {
+
+            switch ( $exportMode )  {
+            case CRM_Export_Form_Select::CONTRIBUTE_EXPORT :
                 $queryMode = CRM_Contact_BAO_Query::MODE_CONTRIBUTE;
-            } else if ( $exportMode == CRM_Export_Form_Select::EVENT_EXPORT ) {
+                break;
+            case CRM_Export_Form_Select::EVENT_EXPORT :
                 $queryMode = CRM_Contact_BAO_Query::MODE_EVENT;
                 $paymentFields  = true;
                 $paymentTableId = "participant_id";
-            } else if ( $exportMode == CRM_Export_Form_Select::MEMBER_EXPORT ) {
+                break;
+            case CRM_Export_Form_Select::MEMBER_EXPORT :
                 $queryMode = CRM_Contact_BAO_Query::MODE_MEMBER;
                 $paymentFields  = true;
                 $paymentTableId = "membership_id";
+                break;
             }
 
             if ( $queryMode != CRM_Contact_BAO_Query::MODE_CONTACTS ) {
@@ -150,7 +155,7 @@ class CRM_Export_BAO_Export
                 $returnProperties          = array_merge( $returnProperties, $componentReturnProperties );
                 
                 // unset groups, tags, notes for components
-                foreach( array( 'groups', 'tags', 'notes' ) as $value ) {
+                foreach ( array( 'groups', 'tags', 'notes' ) as $value ) {
                     unset( $returnProperties[$value] );
                 }
             }
@@ -166,28 +171,7 @@ class CRM_Export_BAO_Export
             $returnProperties = array_merge( $returnProperties, $moreReturnProperties );
         }
         
-        if ( ! $componentClause || $querytMode == CRM_Contact_BAO_Query::MODE_CONTACTS ) {
-            if ( $selectAll ) {
-                if ($primary) {
-                    $query =& new CRM_Contact_BAO_Query( $params, $returnProperties, $fields );
-                } else {
-                    $query =& new CRM_Contact_BAO_Query( $params, $returnProperties );
-                }
-            } else {
-                $idParams = array( );
-                foreach ($ids as $id) { 
-                    $idParams[] = array( CRM_Core_Form::CB_PREFIX . $id, '=', 1, 0, 0 );
-                }
-                
-                if ($primary) {
-                    $query =& new CRM_Contact_BAO_Query( $idParams, $returnProperties, $fields, true );
-                } else {
-                    $query =& new CRM_Contact_BAO_Query( $idParams, $returnProperties, null, true );         
-                }
-            }
-        } else {
-            $query =& new CRM_Contact_BAO_Query( 0, $returnProperties, null, false, false, $queryMode ); 
-        }
+        $query =& new CRM_Contact_BAO_Query( 0, $returnProperties, null, false, false, $queryMode ); 
 
         list( $select, $from, $where ) = $query->query( );
 
@@ -203,7 +187,7 @@ class CRM_Export_BAO_Export
                 $where .= " AND $groupClause";
             }
         }
-        
+
         if ( $componentClause ) {
             if ( empty( $where ) ) {
                 $where = "WHERE $componentClause";
