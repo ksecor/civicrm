@@ -185,12 +185,12 @@ class CRM_Export_BAO_Export
                     $query =& new CRM_Contact_BAO_Query( $idParams, $returnProperties, null, true );         
                 }
             }
-            
         } else {
             $query =& new CRM_Contact_BAO_Query( 0, $returnProperties, null, false, false, $queryMode ); 
         }
 
         list( $select, $from, $where ) = $query->query( );
+
         // make sure the groups stuff is included only if specifically specified
         // by the fields param (CRM-1969), else we limit the contacts outputted to only
         // ones that are part of a group
@@ -238,8 +238,7 @@ class CRM_Export_BAO_Export
             $studentFields = CRM_Quest_BAO_Student::$multipleSelectFields;
             $multipleSelectFields = array_merge( $multipleSelectFields, $studentFields );
         }
-        
-        //crm_core_error::debug( '$queryString', $queryString ); exit();
+        //crm_core_error::debug('$queryString', $queryString ); exit();
         $dao =& CRM_Core_DAO::executeQuery( $queryString, CRM_Core_DAO::$_nullArray );
         $header = false;
         
@@ -282,7 +281,7 @@ class CRM_Export_BAO_Export
                     $flag = true;
                 }
                 
-                if ($flag) {
+                if ( $flag ) {
                     if ( isset( $varValue ) && $varValue != '' ) {
                         if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($key) ) {
                             $row[$key] = CRM_Core_BAO_CustomField::getDisplayValue( $varValue, $cfID, $query->_options );

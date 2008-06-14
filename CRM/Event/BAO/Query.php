@@ -418,6 +418,7 @@ class CRM_Event_BAO_Query
                                 'sort_name'                 => 1, 
                                 'display_name'              => 1,
                                 'event_id'                  => 1,
+                                'event_title'               => 1,
                                 'event_start_date'          => 1,
                                 'event_end_date'            => 1,
                                 'participant_id'            => 1,

@@ -57,6 +57,13 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
     public $_contactIds;
 
     /**
+     * The array that holds all the component ids
+     *
+     * @var array
+     */
+    protected $_componentIds;
+
+    /**
      * build all the data structures needed to build the form
      *
      * @param
@@ -121,7 +128,8 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
                 }
             }
         }
-
+        
+        $this->_componentIds = $this->_contactIds;
         $this->assign( 'totalSelectedContacts', count( $this->_contactIds ) );
     }
 

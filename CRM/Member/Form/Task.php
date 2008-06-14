@@ -53,7 +53,14 @@ class CRM_Member_Form_Task extends CRM_Core_Form
      *
      * @var string
      */
-    protected $_memberClause = null;
+    protected $_componentClause = null;
+
+    /**
+     * The array that holds all the component ids
+     *
+     * @var array
+     */
+    protected $_componentIds;
 
     /**
      * The array that holds all the contact ids
@@ -85,18 +92,13 @@ class CRM_Member_Form_Task extends CRM_Core_Form
         $this->_task = $values['task'];
         $memberTasks = CRM_Member_Task::tasks();
         $this->assign( 'taskName', $memberTasks[$this->_task] );
+
         $ids = array();
         if ( $values['radio_ts'] == 'ts_sel' ) {
             foreach ( $values as $name => $value ) {
                 if ( substr( $name, 0, CRM_Core_Form::CB_PREFIX_LEN ) == CRM_Core_Form::CB_PREFIX ) {
                     $ids[] = substr( $name, CRM_Core_Form::CB_PREFIX_LEN );
                 }
-            }
-            if ( ! empty( $ids ) ) {
-                $this->_componentClause =
-                    ' civicrm_membership.id IN ( ' .
-                    implode( ',', $ids ) . ' ) ';
-                $this->assign( 'totalSelectedMembers', count( $ids ) );
             }
         } else {
             $queryParams =  $this->get( 'queryParams' );
@@ -107,28 +109,26 @@ class CRM_Member_Form_Task extends CRM_Core_Form
             while ($result->fetch()) {
                 $ids[] = $result->membership_id;
             }
-            $this->assign( 'totalSelectedMembers', $this->get( 'rowCount' ) );
         }
-        $this->_memberIds = $ids;
+        
+        if ( ! empty( $ids ) ) {
+            $this->_componentClause =
+                ' civicrm_membership.id IN ( ' .
+                implode( ',', $ids ) . ' ) ';
+            $this->assign( 'totalSelectedMembers', count( $ids ) );
+        }
+        
+        $this->_memberIds = $this->_componentIds = $ids;
     }
 
     /**
-     * Given the component id, compute the contact id
+     * Given the membership id, compute the contact id
      * since its used for things like send email
      */
-    public function setContactIDs( ) {
+    public function setContactIDs( ) 
+    {
         $this->_contactIds =& CRM_Core_DAO::getContactIDsFromComponent( $this->_memberIds,
                                                                         'civicrm_membership' );
-    }
-
-    /**
-     * Function to actually build the form
-     *
-     * @return void
-     * @access public
-     */
-    public function buildQuickForm( ) 
-    {
     }
 
     /**
@@ -140,7 +140,8 @@ class CRM_Member_Form_Task extends CRM_Core_Form
      * @return void
      * @access public
      */
-    function addDefaultButtons( $title, $nextType = 'next', $backType = 'back' ) {
+    function addDefaultButtons( $title, $nextType = 'next', $backType = 'back' ) 
+    {
         $this->addButtons( array(
                                  array ( 'type'      => $nextType,
                                          'name'      => $title,
