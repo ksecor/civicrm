@@ -150,7 +150,7 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
         $javascript = 'onchange="option_html_type(this.form)";';
         
         $htmlTypes = array(
-                           'Text'     => ts('Text'),
+                           'Text'     => ts('Text / Numeric Quantity'),
                            'Select'   => ts('Select'),
                            'Radio'    => ts('Radio'),
                            'CheckBox' => ts('CheckBox')
