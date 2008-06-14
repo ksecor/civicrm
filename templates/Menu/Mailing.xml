@@ -32,7 +32,7 @@
   </item>
   <item>
      <path>civicrm/mailing/send</path>
-     <title>Send Mailing</title>
+     <title>New Mailing</title>
      <page_callback>CRM_Mailing_Controller_Send</page_callback>
      <access_arguments>access CiviMail</access_arguments>
      <page_type>1</page_type>
@@ -40,7 +40,7 @@
   </item>
   <item>
      <path>civicrm/mailing/browse/scheduled</path>
-     <title>Browse Scheduled/Sent Mailings</title>
+     <title>Scheduled and Sent Mailings</title>
      <path_arguments>scheduled=true</path_arguments>
      <page_callback>CRM_Mailing_Page_Browse</page_callback>
      <access_arguments>access CiviMail</access_arguments>
@@ -49,7 +49,7 @@
   </item>
   <item>
      <path>civicrm/mailing/browse/unscheduled</path>
-     <title>Browse Unscheduled Mailings</title>
+     <title>Draft and Unscheduled Mailings</title>
      <path_arguments>scheduled=false</path_arguments>
      <page_callback>CRM_Mailing_Page_Browse</page_callback>
      <access_arguments>access CiviMail</access_arguments>
