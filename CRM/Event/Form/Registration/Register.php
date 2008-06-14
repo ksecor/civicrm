@@ -877,8 +877,8 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         }
         if ( ! $contactID &&
              ! empty( $fields ) &&
-             isset( $fields['email-5'] ) ) {
-            $emailString = trim( $fields['email-5'] );
+             isset( $fields["email-{$this->_bltID}"] ) ) {
+            $emailString = trim( $fields["email-{$this->_bltID}"] );
             if ( ! empty( $emailString ) ) {
                 require_once 'CRM/Core/BAO/Email.php';
                 $email =&new CRM_Core_BAO_Email();
