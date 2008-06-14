@@ -203,6 +203,10 @@ implements CRM_Contact_Form_Search_Interface {
     function templateFile( ) {
         return null;
     }
+
+    function summary( ) {
+        return null;
+    }
         
 }
     

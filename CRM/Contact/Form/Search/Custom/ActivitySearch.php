@@ -269,5 +269,9 @@ JOIN civicrm_contact contact_b ON activity.source_contact_id = contact_b.id
             CRM_Utils_System::setTitle(ts('Search'));
         }
     }
+
+    function summary( ) {
+        return null;
+    }
        
 }
