@@ -6,7 +6,7 @@
 	<table>
 	<tr><th>&nbsp;</th>
         <th> {ts}Label{/ts}</th>
-        <th> {ts}Value{/ts}</th>
+        <th> {ts}Amount{/ts}</th>
         <th> {ts}Weight{/ts}</th>
 	    <th> {ts}Active?{/ts}</th>
     </tr>
