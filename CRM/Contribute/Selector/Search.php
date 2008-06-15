@@ -80,7 +80,7 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
                                  'contribution_source',
                                  'receive_date',
                                  'thankyou_date',
-                                 'contribution_status',
+                                 'contribution_status_id',
                                  'cancel_date',
                                  'product_name',
                                  'is_test',
@@ -289,23 +289,22 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
             foreach (self::$_properties as $property) {
                 $row[$property] = $result->$property;            
             }
-            if ( $result->is_pay_later && $row["contribution_status"] == "Pending" ) {
-                $row["contribution_status"] .= " (Pay Later)";
+            if ( $result->is_pay_later && $row['contribution_status_id'] == 'Pending' ) {
+                $row['contribution_status_id'] .= ' (Pay Later)';
                 
-            } else if ( $row["contribution_status"] == "Pending") {
-                $row["contribution_status"] .= " (Incomplete Transaction)";
+            } else if ( $row['contribution_status_id'] == 'Pending' ) {
+                $row['contribution_status_id'] .= ' (Incomplete Transaction)';
             }
 
-            if ( $row["is_test"] ) {
-                $row["contribution_type"] = $row["contribution_type"] . " (test)";
+            if ( $row['is_test'] ) {
+                $row['contribution_type'] = $row['contribution_type'] . ' (test)';
             }
             
             $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->contribution_id;
             $row['action']   = CRM_Core_Action::formLink( self::links(), $mask,
                                                           array( 'id'               => $result->contribution_id,
                                                                  'cid'              => $result->contact_id,
-                                                                 'cxt'              => $this->_context,
-                                                                 'contributionType' => $result->contribution_type_id 
+                                                                 'cxt'              => $this->_context
                                                                  ) );
             $config =& CRM_Core_Config::singleton( );
             $contact_type    = '<img src="' . $config->resourceBase . 'i/contact_';
