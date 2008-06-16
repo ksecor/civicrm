@@ -1,0 +1,92 @@
+<?php
+
+require_once 'api/v2/Activity.php';
+require_once 'api/v2/Contact.php';
+
+require_once 'tests/CiviTest/CiviUnitTestCase.php';
+
+class TestOfWebServiceActivityCreateAPIV2 extends CiviUnitTestCase 
+{
+    /**
+     * Assume empty database with just civicrm_data
+     */
+    protected $_basicContactId;
+    protected $_derivedContactId;    
+    protected $_targetContactId;
+    
+    function setUp() 
+    {
+    }
+    
+    function tearDown() 
+    {
+        $this->contactDelete($this->_basicContactId);
+        $this->contactDelete($this->_derivedContactId);
+        $this->contactDelete($this->_targetContactId);
+    }
+    
+    function testCreateWSActivityDetails()
+    {
+        /* --- 1. create basic contact  --- */
+
+        // Note: we'll use this contact as the source_contact_id for
+        // the activity
+
+        $basicContactParams = array( 'first_name'       => 'Anthony',
+                                     'middle_name'      => 'J.',
+                                     'last_name'        => 'Anderson',
+                                     'email'            => 'anthony_anderson@civicrm.org',
+                                     'contact_type'     => 'Individual');
+        $contact =& civicrm_contact_add( $basicContactParams );
+        $this->_basicContactId = $contact['contact_id'];
+        
+
+        /* --- 2. create derived contact  --- */
+
+        // Note: we'll assign the activity to this contact. So this
+        // contact will be one of the assignee
+
+        $derivedContactParams = array( 'first_name'       => 'Anthony',
+                                       'middle_name'      => 'J.',
+                                       'last_name'        => 'Anderson',
+                                       'email'            => 'anthony_anderson@civicrm.org',
+                                       'contact_type'     => 'Individual');
+        $contact =& civicrm_contact_add( $derivedContactParams );
+        $this->_derivedContactId = $contact['contact_id'];
+
+
+        /* --- 3. create target contact  --- */
+
+        // Note: this contact will be the target contact for the activity.
+
+        $targetContactParams = array( 'first_name'       => 'Anthony',
+                                       'middle_name'      => 'J.',
+                                       'last_name'        => 'Anderson',
+                                       'email'            => 'anthony_anderson@civicrm.org',
+                                       'contact_type'     => 'Individual');
+        $contact =& civicrm_contact_add( $targetContactParams );
+        $this->_targetContactId = $contact['contact_id'];
+
+
+        // Note: Message, Source code, External ID, Campaign and Mailing(s)
+        // could be stored as custom data for activity.
+
+        $activityParams = array(
+                                'source_contact_id'   => $this->_basicContactId,
+                                'subject'             => 'Discussion on Apis for v2',
+                                'activity_date_time'  => date('Ymd'),
+                                'duration_hours'      => 30,
+                                'duration_minutes'    => 20,
+                                'location'            => 'Pensulvania',
+                                'details'             => 'a phonecall activity',
+                                'status_id'           => 1,
+                                'activity_name'       => 'Phone Call',
+                                'assignee_contact_id' => $this->_derivedContactId,
+                                'target_contact_id'   => $this->_targetContactId,
+                                //'custom_3'            => "api custom testing"
+                                );
+        
+        $activity =& civicrm_activity_create( $activityParams );
+    }
+
+}

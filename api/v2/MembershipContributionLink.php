@@ -45,7 +45,7 @@ require_once 'api/v2/utils.php';
  * @static void
  * @access public
  */
-function &civicrm_membershipcontributionlink_add( &$params ) {
+function &civicrm_membershipcontributionlink_create( &$params ) {
     _civicrm_initialize( );
 
     if ( empty( $params ) ) {
