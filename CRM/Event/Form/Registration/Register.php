@@ -831,21 +831,37 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
      */
     static function getLineItem( $fid, &$params, &$fields, &$values )
     {
+        if ( empty( $params["price_{$fid}"] ) ) {
+            return;
+        }
+
+        $optionIDs = implode( ',', array_keys( $params["price_{$fid}"] ) );
+        $sql = "
+SELECT id, option_group_id, label, description
+FROM   civicrm_option_value
+WHERE  id IN ($optionIDs)
+";
+        $dao = CRM_Core_DAO::executeQuery( $sql,
+                                           CRM_Core_DAO::$_nullArray );
+        $optionValues = array( );
+        while ( $dao->fetch( ) ) {
+            $optionValues[$dao->id] = array('gid'   => $dao->option_group_id,
+                                            'label' => $dao->label,
+                                            'description' => $dao->description );
+        }
+                            
         foreach( $params["price_{$fid}"] as $oid => $qty ) {
-            $price        = $fields['options'][$oid]['value'];
+            $price        = $fields['options'][$oid]['name'];
             
             $values[$oid] = array(
                                   'price_field_id'   => $fid,
                                   'option_value_id'  => $oid,
-                                  'option_group_id'  => CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue',
-                                                                                     $oid,
-                                                                                     'option_group_id' ),
-                                  'label'            => CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue',
-                                                                                     $oid,
-                                                                                     'label' ),
+                                  'option_group_id'  => $optionValues[$oid]['gid'],
+                                  'label'            => $optionValues[$oid]['label'],
+                                  'description'      => $optionValues[$oid]['description'],
                                   'qty'              => $qty,
                                   'unit_price'       => $price,
-                                  'line_total'       => $qty * $fields['options'][$oid]['value'],
+                                  'line_total'       => $qty * $fields['options'][$oid]['name'],
                                   'html_type'        => $fields['html_type']
                                   );
         }
