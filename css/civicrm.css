@@ -17,6 +17,13 @@
 #crm-container .huge {width: 30em;}
 
 /*
+** Override line-height from style.css
+*/
+div#crm-container {
+    line-height: 125%;
+}
+
+/*
 ** class for hiding the text box; it is used in the OtherActivity template 
 ** for showing the descrition of activity type element.
 */
@@ -228,7 +235,7 @@ div.spacer, .spacer {
 
 #crm-container .form-layout-compressed td, #crm-container .form-layout-compressed th {
   vertical-align: text-top;
-  padding: 2px;
+  padding: 5px;
 }
 
 /*
