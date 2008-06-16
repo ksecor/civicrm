@@ -393,21 +393,16 @@ ORDER by v.weight";
         if ( isset( $_GET['name'] ) && $_GET['name'] && ! isset( $_GET['count'] ) ) {
             $name     = strtolower( CRM_Utils_Type::escape( $_GET['name'], 'String' ) );
             $name     = str_replace( '*', '%', $name );
-            $whereClause = "cv.label LIKE '$name%' ";
+            $whereClause = "cv.label LIKE '$name%' GROUP BY cv.label";
             $getRecords = true;
         } else {
-             if ( isset( $_GET['eid'] ) ) {
-                $eid = $_GET['eid'];
-                $whereClause = "cg.name LIKE 'civicrm_event_page.amount.{$eid}' AND cg.id = cv.option_group_id ORDER BY cv.label";
-             }else{
-                $whereClause = "cg.name LIKE 'civicrm_event_page.amount%' AND cg.id = cv.option_group_id GROUP BY cv.label";
-             }
-               $getRecords = true;
+            $whereClause = "cg.name LIKE 'civicrm_event_page.amount%' AND cg.id = cv.option_group_id GROUP BY cv.label";
+            $getRecords = true;
         }
         
        if ( isset( $_GET['id'] ) && is_numeric($_GET['id']) && !$_GET['count'] ) {
-               $eventId     = CRM_Utils_Type::escape( $_GET['id'], 'Integer'  );
-               $whereClause = "cv.id = {$participantFeeLevel} ";
+               $levelId     = CRM_Utils_Type::escape( $_GET['id'], 'Integer'  );
+               $whereClause = "cv.id = {$levelId} ";
                $getRecords = true;
            }
 
