@@ -1,3 +1,6 @@
+{if $skipCount}
+<h3>Skipped Participant(s):{$skipCount}</h3>
+{/if}
 {if $action & 1024}
     {include file="CRM/Event/Form/Registration/PreviewHeader.tpl"}
 {/if}

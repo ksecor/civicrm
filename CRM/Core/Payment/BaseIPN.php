@@ -488,6 +488,7 @@ class CRM_Core_Payment_BaseIPN {
                     $additional->id = $pId;
                     $additional->contact_id = $cId; 
                     $additional->find(true);
+                    $additional->register_date = $participant->register_date;
                     $additional->status_id = 1;
                     $additionalEmail = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Email',  $additional->contact_id, 'email', 'contact_id' );  
                     $amount[$additional->fee_level.'-'.$additionalEmail]       =  $additional->fee_amount;

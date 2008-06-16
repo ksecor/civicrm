@@ -55,6 +55,10 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
         $participantNo = substr( $this->_name, 12 );
         $this->_params = array( );
         $this->_params = $this->get( 'params' );
+        $skipCount = count( array_keys( $this->_params, "skip" ) );
+        if( $skipCount ) {
+            $this->assign('skipCount', $skipCount );
+        }
         CRM_Utils_System::setTitle( 'Register Additional Participant No '.$participantNo.' of  '.
                                     $this->_params[0]['additional_participants'] );
     }
