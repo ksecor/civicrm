@@ -107,7 +107,7 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
                 require_once 'CRM/Core/OptionGroup.php';
                 CRM_Core_OptionGroup::getAssoc( "civicrm_price_field.amount.{$this->_fid}", $optionValues );
                 
-                $defaults['price'] = $optionValues['value'][1];
+                $defaults['price'] = $optionValues['name'][1];
             }
         } else {
             $defaults['is_active'] = 1;
@@ -169,9 +169,11 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
 
         // form fields of Custom Option rows
         $_showHide =& new CRM_Core_ShowHideBlocks('','');
-        $labelAttribute = CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'label');
-        $valueAttribute = CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'value');
-        $weightAttribute = CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'weight');
+        $attributes = CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue' );
+        $labelAttribute  = $attributes['label' ];
+        $nameAttribute   = $attributes['name'  ];
+        $weightAttribute = $attributes['weight'];
+
         for($i = 1; $i <= self::NUM_OPTION; $i++) {
             
             //the show hide blocks
@@ -186,11 +188,11 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
             // label
             $this->add('text','option_label['.$i.']', ts('Label'), $labelAttribute);
                        
-            // value
-            $this->add('text', 'option_value['.$i.']', ts('Value'), $valueAttribute);
+            // name
+            $this->add('text', 'option_name['.$i.']', ts('Name'), $nameAttribute);
             
             // Below rule is uncommented for CRM-1313
-            $this->addRule('option_value['.$i.']', ts('Please enter a valid value for this field.'), 'qfVariable');
+            $this->addRule('option_name['.$i.']' , ts('Please enter a valid amount for this field.'), 'money');
             
             // weight
             $this->add('text', 'option_weight['.$i.']', ts('Order'), $weightAttribute);
@@ -290,60 +292,68 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
                 }
             } else {
                 $countemptyrows = 0;
-            
+
                 for ( $index = ( self::NUM_OPTION ) ; $index > 0 ; $index-- ) { 
                     
-                    $noLabel = $noValue = 1;
-                    if ( !empty( $fields['option_label'][$index] ) ) {
+                    $noLabel = $noAmount = $noWeight = 1;
+                    if ( ! empty( $fields['option_label'][$index] ) ) {
                         $noLabel    =  0;
-                        $valueIndex =  CRM_Utils_Array::key( $fields['option_label'][$index],
-                                                             $fields['option_label'] );
+
+                        $duplicateIndex =  CRM_Utils_Array::key( $fields['option_label'][$index],
+                                                                 $fields['option_label'] );
                         
-                        if( ( ! ( $valueIndex === false ) ) && 
-                            ( ! ( $valueIndex == $index ) ) ){
+                        if( ( ! ( $duplicateIndex === false ) ) && 
+                            ( ! ( $duplicateIndex == $index ) ) ) {
                             $errors["option_label[{$index}]"] = ts( 'Duplicate label value' );      
                         }
+
                     }
                     
-                    if ( !empty( $fields['option_value'][$index] ) ) {
-                        $noValue    =  0;
-                        $valueIndex =  CRM_Utils_Array::key( $fields['option_value'][$index],
-                                                             $fields['option_value'] );
+                    if ( ! empty( $fields['option_name'][$index] ) ) {
+                        $noAmount    =  0;
+                    }
+                    
+                    if ( ! empty( $fields['option_weight'][$index] ) ) {
+                        $noWeight    =  0;
+
+                        $duplicateIndex =  CRM_Utils_Array::key( $fields['option_weight'][$index],
+                                                             $fields['option_weight'] );
                         
-                        if( ( ! ( $valueIndex === false ) ) && 
-                            ( ! ( $valueIndex == $index ) ) ){
-                            $errors["option_value[{$index}]"] = ts( 'Duplicate value' );      
+                        if( ( ! ( $duplicateIndex === false ) ) && 
+                            ( ! ( $duplicateIndex == $index ) ) ) {
+                            $errors["option_weight[{$index}]"] = ts( 'Duplicate weight value' );      
                         }
                     }
                     
-                    if ( ( $noLabel && !$noValue ) ) { 
+                    if ( $noLabel && ! $noAmount ) {
                         $errors["option_label[{$index}]"] = ts( 'Label can not be empty' );      
                     }
                     
-                    if ( ( ! $noLabel && $noValue ) ) {
-                        $errors["option_value[{$index}]"] = ts( 'Value can not be empty' );
+                    if ( ! $noLabel && $noAmount ) {
+                        $errors["option_name[{$index}]"] = ts( 'Amount can not be empty' );
                     }
-                    if ( $noLabel && $noValue ) {
+
+                    if ( $noLabel && $noAmount ) {
                         $countemptyrows++; 
                     }
                 }
                 
                 if ( $countemptyrows == 11 ) {
                     $errors["option_label[1]"] = 
-                        $errors["option_value[1]"] = 
+                        $errors["option_name[1]"] = 
                         ts( 'Label and value can not be empty' );    
                 }
             }
             
-            $_showHide = & new CRM_Core_ShowHideBlocks('','');
+    $_showHide = & new CRM_Core_ShowHideBlocks('','');
             
             // do not process if no option rows were submitted
-            if ( empty( $fields['option_value'] ) && empty( $fields['option_label'] ) ) {
+            if ( empty( $fields['option_name'] ) && empty( $fields['option_label'] ) ) {
                 return true;
             }
             
-            if ( empty( $fields['option_value'] ) ) {
-                $fields['option_value'] = array( );
+            if ( empty( $fields['option_name'] ) ) {
+                $fields['option_name'] = array( );
             }
             
             if ( empty( $fields['option_label'] ) ) {
@@ -360,7 +370,7 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
                 $showBlocks  = 'optionField_'.$idx;
                 
                 // both value and label are empty
-                if ( $fields['option_value'][$idx] == '' && $fields['option_label'][$idx] == '' ) {
+                if ( $fields['option_name'][$idx] == '' && $fields['option_label'][$idx] == '' ) {
                     $_showHide->addHide($showBlocks);
                     $count++;
                     
@@ -374,23 +384,23 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
                 
                 $_showHide->addShow($showBlocks);
                 
-                if ( $fields['option_value'][$idx] != '' ) {
+                if ( $fields['option_name'][$idx] != '' ) {
                     // check for empty label
                     if ( $fields['option_label'][$idx] == '' ) {
                         $errors['option_label]['.$idx.']'] = ts( 'Option label cannot be empty' );
                     }
                     // all fields are money fields
-                    if ( ! CRM_Utils_Rule::money( $fields['option_value'][$idx] ) ) {
+                    if ( ! CRM_Utils_Rule::money( $fields['option_name'][$idx] ) ) {
                         $_flagOption = 1;
-                        $errors['option_value['.$idx.']'] = ts( 'Please enter a valid money value.' );
+                        $errors['option_name['.$idx.']'] = ts( 'Please enter a valid money value.' );
                         
                     }
                 }
                 
                 if ( $fields['option_label'][$idx] != '' ) {
                     // check for empty value
-                    if ( $fields['option_value'][$idx] == '' ) {
-                        $errors['option_value]['.$idx.']'] = ts( 'Option value cannot be empty' );
+                    if ( $fields['option_name'][$idx] == '' ) {
+                        $errors['option_name]['.$idx.']'] = ts( 'Option value cannot be empty' );
                     }
                     // check for duplicate labels, if not already done
                     if ( isset( $dupeLabels[$idx] ) ) {
@@ -403,7 +413,7 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
                         $_flagOption = 1;
                         $errors['option_label]['.$idx.']'] = ts( 'Duplicate Option label' );
                         foreach ( $also_in as $also_in_key ) {
-                            $errors['option_value]['.$also_in_key.']'] = ts( 'Duplicate Option label' );
+                            $errors['option_name]['.$also_in_key.']'] = ts( 'Duplicate Option label' );
                             $dupeValues[$also_in_key] = true;
                         }
                     }
@@ -467,10 +477,19 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
             // modify params values as per the option group and option
             // value
             $params['option_value'] = array( 1 => $params['price'] );
+            $params['option_name']  = array( 1 => $params['price'] );
             $params['option_label'] = array( 1 => $params['label'] );
+            $params['option_weight'] = array( 1 => $params['weight'] );
             $params['is_active']    = array( 1 => 1 );
         } else {
             $params['is_enter_qty'] = CRM_Utils_Array::value( 'is_enter_qty', $params, false );
+
+            // fix option_value
+            $value = 1;
+            $params['option_value'] = array( );
+            foreach ( $params['option_name'] as $key => $dontCare ) {
+                $params['option_value'][$key] = $value++;
+            }
         }
         
         $ids = array( );

@@ -149,7 +149,8 @@ class CRM_Price_Page_Field extends CRM_Core_Page {
                 CRM_Core_OptionValue::getValues( $params, $optionValues );
                 
                 foreach( $optionValues as $values ) {
-                    $priceField[$priceFieldBAO->id]['price'] = CRM_Utils_Array::value('value',$values);
+                    $priceField[$priceFieldBAO->id]['price'] = CRM_Utils_Array::value('name',
+                                                                                      $values);
                 }
             }
             

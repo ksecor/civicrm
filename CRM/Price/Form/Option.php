@@ -143,11 +143,11 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
             $this->add('text', 'label', ts('Option Label'),null, true);
              
             // value
-            $this->add('text', 'value', ts('Option Value'),null, true);
+            $this->add('text', 'name', ts('Option Amount'),null, true);
                       
             // the above value is used directly by QF, so the value has to be have a rule
             // please check with Lobo before u comment this
-            $this->addRule('value', ts('Please enter a monetary value for this field.'), 'money');
+            $this->addRule('name', ts('Please enter a monetary value for this field.'), 'money');
             
             // weight
             $this->add('text', 'weight', ts('Weight'), null, true);
@@ -202,7 +202,7 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
         CRM_Core_OptionValue::getValues( $groupParams, $customOption );
         
         foreach( $customOption as $key => $value ) {
-            if( !( $value['id'] == $form->_oid ) && ( $value['value'] == $fields['value'] ) ) {
+            if( !( $value['id'] == $form->_oid ) && ( $value['value'] == $fields['weight'] ) ) {
                 $errors['value'] = ts( 'Duplicate option value' );  
             }
             if( !( $value['id']==$form->_oid ) && ( $value['label'] == $fields['label'] ) ) {
@@ -235,9 +235,10 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
         $groupName                 = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup', $params['option_group_id'], 'name' );
         if ( $groupName ) {
             $fieldName      = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_PriceField', substr( $groupName, -1, 1 ), 'label') ;
-            $params['name'] = $fieldName.' - '.$params['label'] ;
+            $params['description'] = $fieldName.' - '.$params['label'] ;
         }  
-             
+        $params['value'] = $params['weight'];
+
         if ( $this->_action == CRM_Core_Action::DELETE ) {
             $label = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_OptionValue",
                                                   $this->_oid,

@@ -105,18 +105,19 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
                 
         for ( $index = 1; $index <= $maxIndex; $index++ ) {
             if ( $maxIndex == 1 ) {
-                $name = $params['label'];
+                $description = $params['label'];
             } else {
-                $name = $params['label'] . " - " . trim($params['option_label'][$index]);
+                $description = $params['label'] . " - " . trim($params['option_label'][$index]);
             }
             
             if ( ( ! empty( $params['option_label'][$index] ) ) &&
                  ( ! empty( $params['option_value'][$index] ) ) ) {
-                $options[] = array( 'label'      => trim( $params['option_label'][$index] ),
-                                    'value'      => CRM_Utils_Rule::cleanMoney( trim( $params['option_value'][$index] ) ),
-                                    'name'       => $name,
-                                    'weight'     => $params['option_weight'][$index],
-                                    'is_active'  => 1 );
+                $options[] = array( 'label'       => trim( $params['option_label'][$index] ),
+                                    'name'        => CRM_Utils_Rule::cleanMoney( trim( $params['option_name'][$index] ) ),
+                                    'value'       => trim( $params['option_value'][$index] ),
+                                    'description' => $description,
+                                    'weight'      => $params['option_weight'][$index],
+                                    'is_active'   => 1 );
             }
         }
         
@@ -263,7 +264,7 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
                 // text fields only have one option
                 $optionKey = key($customOption);
                 $label .= '&nbsp;-&nbsp;';
-                $label .= CRM_Utils_Money::format( CRM_Utils_Array::value('value', $customOption[$optionKey]) );
+                $label .= CRM_Utils_Money::format( CRM_Utils_Array::value('name', $customOption[$optionKey]) );
             }
             $element =& $qf->add(
                                  'text', $elementName, $label, 'size="4"',
@@ -286,7 +287,7 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
             foreach ($customOption as $opt) {
                 if ($field->is_display_amounts) {
                     $opt['label'] .= '&nbsp;-&nbsp;';
-                    $opt['label'] .= CRM_Utils_Money::format( $opt['value'] );
+                    $opt['label'] .= CRM_Utils_Money::format( $opt['name'] );
                 }
                 $choice[] = $qf->createElement('radio', null, '', $opt['label'], $opt['id'] );
             }
@@ -303,7 +304,7 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
             foreach ($customOption as $opt) {
                 if ($field->is_display_amounts) {
                     $opt['label'] .= '&nbsp;-&nbsp;';
-                    $opt['label'] .= CRM_Utils_Money::format( $opt['value'] );
+                    $opt['label'] .= CRM_Utils_Money::format( $opt['name'] );
                 }
                 $selectOption[$opt['id']] = $opt['label'];
             }
@@ -318,7 +319,7 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
             foreach ($customOption as $opt) {
                 if ($field->is_display_amounts) {
                     $opt['label'] .= '&nbsp;-&nbsp;';
-                    $opt['label'] .= CRM_Utils_Money::format( $opt['value'] );
+                    $opt['label'] .= CRM_Utils_Money::format( $opt['name'] );
                 }
                 $check[] =& $qf->createElement('checkbox', $opt['id'], null, $opt['label']); 
             }

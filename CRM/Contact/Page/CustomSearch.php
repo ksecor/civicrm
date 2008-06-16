@@ -60,7 +60,7 @@ class CRM_Contact_Page_CustomSearch extends CRM_Core_Page {
         $rows = array();
 
         $sql = "
-SELECT v.value, v.description
+SELECT v.value, v.label, v.description
 FROM   civicrm_option_group g,
        civicrm_option_value v
 WHERE  v.option_group_id = g.id
@@ -73,7 +73,11 @@ AND    v.is_active = 1
         $links = self::links( );
         while ( $dao->fetch( ) ) {
             $row = array( );
-            $row['name']   = $dao->description;
+            if ( trim( $dao->description ) ) {
+                $row['name']   = $dao->description;
+            } else {
+                $row['name']   = $dao->label;
+            }
             $row['action'] = CRM_Core_Action::formLink( $links,
                                                         false,
                                                         array( 'id' => $dao->value ) );

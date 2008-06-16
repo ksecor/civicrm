@@ -244,6 +244,7 @@ WHERE  v.option_group_id = g.id
                 $value->label           = $v['label'];
                 $value->value           = $v['value'];
                 $value->name            = $v['name'];
+                $value->description     = CRM_Utils_Array::value( 'description', $v );
                 $value->weight          = $v['weight'];
                 $value->is_default      = $v['is_default'];
                 $value->is_active       = $v['is_active'];
@@ -263,7 +264,7 @@ WHERE  v.option_group_id = g.id
     static function getAssoc( $groupName, &$values ) 
     {
         $query = "
-SELECT v.id, v.value, v.label
+SELECT v.id, v.value, v.label, v.name
   FROM civicrm_option_group g,
        civicrm_option_value v
  WHERE g.id = v.option_group_id
@@ -276,11 +277,13 @@ ORDER BY v.weight
         // now extract the amount 
         $values['value'] = array( ); 
         $values['label'] = array( ); 
+        $values['name']  = array( ); 
         $index  = 1; 
          
         while ( $dao->fetch( ) ) { 
             $values['value'    ][$index] = $dao->value; 
             $values['label'    ][$index] = $dao->label; 
+            $values['name'     ][$index] = $dao->name; 
             $values['amount_id'][$index] = $dao->id; 
             $index++; 
         } 
