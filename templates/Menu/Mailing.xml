@@ -102,4 +102,18 @@
      <access_arguments>access CiviMail subscribe/unsubscribe pages</access_arguments>
      <weight>660</weight>
   </item>
+  <item>
+     <path>civicrm/mailing/preview</path>
+     <title>Preview Mailing</title>
+     <page_callback>CRM_Mailing_Page_Preview</page_callback>
+     <access_arguments>access CiviMail</access_arguments>
+     <weight>670</weight>
+  </item>
+  <item>
+     <path>civicrm/mailing/report</path>
+     <title>Mailing Report</title>
+     <page_callback>CRM_Mailing_Page_Report</page_callback>
+     <access_arguments>access CiviMail</access_arguments>
+     <weight>680</weight>
+  </item>
 </menu>
