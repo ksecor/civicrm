@@ -5,7 +5,7 @@
         <dl>
         <dt>{$form.name.label}</dt><dd>{$form.name.html}</dd>
         <dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>
-        <dt>{$form.mapping_type.label}</dt><dd>{$form.mapping_type.html}</dd>
+        <dt>{$form.mapping_type_id.label}</dt><dd>{$form.mapping_type_id.html}</dd>
         </dl>
     {else}
         <div class="status">

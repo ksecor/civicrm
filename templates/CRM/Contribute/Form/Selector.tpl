@@ -41,7 +41,7 @@
     <td>{$row.receive_date|truncate:10:''|crmDate}</td>
     <td>{$row.thankyou_date|truncate:10:''|crmDate}</td>
     <td> 
-        {$row.contribution_status}<br />
+        {$row.contribution_status_id}<br />
         {if $row.cancel_date}    
         {$row.cancel_date|truncate:10:''|crmDate}
         {/if}

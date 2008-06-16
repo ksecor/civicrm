@@ -6,7 +6,7 @@
 	<table>
 	<tr><th>&nbsp;</th>
         <th> {ts}Label{/ts}</th>
-        <th> {ts}Value{/ts}</th>
+        <th> {ts}Amount{/ts}</th>
         <th> {ts}Weight{/ts}</th>
 	    <th> {ts}Active?{/ts}</th>
     </tr>
@@ -20,7 +20,7 @@
         {/if}
         </td>
 	    <td> {$form.option_label.$index.html}</td>
-	    <td> {$form.option_value.$index.html}</td>
+	    <td> {$form.option_name.$index.html}</td>
 	    <td> {$form.option_weight.$index.html}</td>
  	    <td> {$form.option_status.$index.html}</td>
 	</tr>

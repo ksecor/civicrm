@@ -55,7 +55,10 @@ class CRM_Event_Form_Registration_ThankYou extends CRM_Event_Form_Registration
         $this->_totalAmount = $this->get( 'totalAmount' );
         $this->_receiveDate = $this->get( 'receiveDate' );
         $this->_trxnId      = $this->get( 'trxnId' );
-        
+        $finalAmount = $this->get( 'finalAmount' );
+        $this->assign('finalAmount',  $finalAmount); 
+        $customGroup = $this->get('customProfile');
+        $this->assign( 'customProfile',$customGroup );
         CRM_Utils_System::setTitle(CRM_Utils_Array::value('thankyou_title',$this->_values['event_page']));
     }
 
@@ -89,10 +92,10 @@ class CRM_Event_Form_Registration_ThankYou extends CRM_Event_Form_Registration
 
         $this->assign( 'lineItem', $this->_lineItem );
         $this->assign( 'totalAmount', $this->_totalAmount );
-        $this->assign( 'receiveDate', $this->_receiveDate );
-        $this->assign( 'trxnId', $this->_trxnId );
+        $this->assign( 'receive_date', $this->_receiveDate );
+        $this->assign( 'trxn_id', $this->_trxnId );
         
-        if( $this->_params['amount'] == 0 ) {
+        if( $this->_params[0]['amount'] == 0 ) {
             $this->assign( 'isAmountzero', 1 );
         }
         $defaults = array( );
@@ -104,12 +107,23 @@ class CRM_Event_Form_Registration_ThankYou extends CRM_Event_Form_Registration
         }
         $fields['state_province'] = $fields['country'] = $fields['email'] = 1;
         foreach ($fields as $name => $dontCare ) {
-            if ( isset($this->_params[$name]) ) {
-                $defaults[$name] = $this->_params[$name];
+            if ( isset($this->_params[0][$name]) ) {
+                $defaults[$name] = $this->_params[0][$name];
             }
         }
         $this->setDefaults( $defaults );
-        
+      
+        require_once 'CRM/Core/ShowHideBlocks.php';
+        $showHide =& new CRM_Core_ShowHideBlocks( );
+        if ( ( CRM_Utils_array::value( 'custom_pre_id', $this->_values ) || 
+               CRM_Utils_array::value( 'custom_post_id', $this->_values ) ) && count($customGroup) ) {
+            foreach ( $customGroup as $name => $group ) {
+                $showHide->addShow( 'hide_'.$name  );
+                $showHide->addHide( 'show_'.$name  );
+            }
+        }
+        $showHide->addToTemplate( );
+
         require_once 'CRM/Friend/BAO/Friend.php';
         
         $params['entity_id']    = $this->_id;

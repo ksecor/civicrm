@@ -342,7 +342,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
 
      * @static
      */
-    static function disnableEnableRelationship ( $id, $action ) 
+    static function disableEnableRelationship ( $id, $action ) 
     {
         $relationship =& new CRM_Contact_DAO_Relationship( );
         $relationship->id = $id;
@@ -847,7 +847,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
      * @static
      *
      */
-    static function relatedMemberships( $contactId, &$params, $ids, $action = CRM_Core_Action::ADD )
+    static function relatedMemberships( $contactId, &$params, $ids, $action = CRM_Core_Action::ADD, $active = true )
     { 
         // Check the end date and set the status of the relationship
         // accrodingly.
@@ -927,7 +927,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
             $memberships   = array( );
             
             require_once 'CRM/Member/BAO/Membership.php';
-            CRM_Member_BAO_Membership::getValues($memParams, $memberships, true);
+            CRM_Member_BAO_Membership::getValues($memParams, $memberships, $active);
             
             if ( empty($memberships) ) {
                 continue;

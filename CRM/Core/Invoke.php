@@ -169,9 +169,10 @@ class CRM_Core_Invoke
                     $mode = $pageArgs['mode'];
                     unset( $pageArgs['mode'] );
                 }
+                $title = CRM_Utils_Array::value( 'title', $item );
                 if (strstr($item['page_callback'], '_Page')) {
                     eval ( '$object =& ' .
-                           "new {$item['page_callback']}( '{$item['title']}', $mode );" );
+                           "new {$item['page_callback']}( '{$title}', $mode );" );
                 } else if (strstr($item['page_callback'], '_Controller')) { 
                     $addSequence = 'false';
                     if ( isset( $pageArgs['addSequence'] ) ) {
@@ -180,7 +181,7 @@ class CRM_Core_Invoke
                         unset( $pageArgs['addSequence'] );
                     }
                     eval ( '$object =& ' .
-                           "new {$item['page_callback']} ( '{$item['title']}', true, $mode, null, $addSequence );" );
+                           "new {$item['page_callback']} ( '{$title}', true, $mode, null, $addSequence );" );
                 } else {
                     CRM_Core_Error::fatal( );
                 }
@@ -188,9 +189,9 @@ class CRM_Core_Invoke
             }
         }
         
-        $url = CRM_Utils_System::url( 'civicrm/menu/rebuild', 'reset=1');
-        CRM_Core_Error::fatal( 'Please rebuild your menu, <a href='.$url.'>Click here</a>' );
-        return;
+        CRM_Core_Menu::store( );
+        CRM_Core_Session::setStatus( ts( 'Menu has been rebuilt' ) );
+        return CRM_Utils_System::redirect( );
     }
 
     /**

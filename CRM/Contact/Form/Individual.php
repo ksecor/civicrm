@@ -160,7 +160,7 @@ setDefaultAddress();
                                 'style'        => 'width:450px; border: 1px solid #cfcfcf;',
                                 'class'        => 'tundra',
                                 'pageSize'     => 10,
-                                'onchange'     => 'showSelectedHouseholdAddress()'
+                                'onchange'     => 'showSelectedAddress( "shared_household" )'
                                 );
 
         $dataURL =  CRM_Utils_System::url( 'civicrm/ajax/search',
@@ -183,10 +183,11 @@ setDefaultAddress();
         $employerAttributes    = array( 'dojoType'     => 'civicrm.FilteringSelect',
                                         'mode'         => 'remote',
                                         'store'        => 'organizationStore',
-                                        'style'        => 'width:300px; border: 1px solid #cfcfcf;',
+                                        'style'        => 'width:450px; border: 1px solid #cfcfcf;',
                                         'class'        => 'tundra',
                                         'pageSize'     => 10,
-                                        'id'           => 'shared_employer'
+                                        'onchange'     => 'showSelectedAddress("shared_employer")',
+                                        
                                         );
         
         $employerDataURL =  CRM_Utils_System::url( 'civicrm/ajax/search',
@@ -231,7 +232,9 @@ setDefaultAddress();
     {
         $errors = array( );
              
-        if ($fields['employer_option'] == 1 && !$fields['shared_employer'] ) {
+        if ( isset( $fields['employer_option'] ) &&
+             $fields['employer_option'] == 1     && 
+             ! $fields['shared_employer'] ) {
             $errors['shared_employer'] =  ts('Please select an organization from the list ');
         } elseif ( isset($fields['employer_option']) && 
                    $fields['employer_option'] == 0   &&

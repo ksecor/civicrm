@@ -21,14 +21,14 @@
  <div id = "id_{$groupName}_show" class="section-hidden label{if $smarty.foreach.adminLoop.last eq false} section-hidden-border{/if}">
     <table class="form-layout">
     <tr>
-        <td width="20%" class="font-size11pt" style="vertical-align: top; padding: 0px;">{$group.show} {$groupName}</td>
+        <td width="20%" class="font-size11pt" style="vertical-align: top; padding: 0px;">{$group.show} {ts}{$groupName}{/ts}</td>
         <td width="80%" style="white-space: nowrap; padding: 0px;">
 
             <table class="form-layout" width="100%">
             <tr>
 	       <td width="50%" style="padding: 0px;">
                 {foreach from=$group.fields item=panelItem  key=panelName name=groupLoop}
-                    &raquo;&nbsp;<a href="{$panelItem.url}"{if $panelItem.extra} {$panelItem.extra}{/if} id="idc_{$panelItem.id}">{$panelItem.title}</a><br />
+                    &raquo;&nbsp;<a href="{$panelItem.url}"{if $panelItem.extra} {$panelItem.extra}{/if} id="idc_{$panelItem.id}">{ts}{$panelItem.title}{/ts}</a><br />
                     {if $smarty.foreach.groupLoop.iteration EQ $group.perColumn}
                          </td><td width="50%" style="padding: 0px;">
                     {/if}
@@ -42,7 +42,7 @@
  </div>
  
  <div id="id_{$groupName}">
-    <fieldset><legend><strong>{$group.hide}{$groupName}</strong></legend>
+    <fieldset><legend><strong>{$group.hide}{ts}{$groupName}{/ts}</strong></legend>
         <table class="form-layout">
                 
         {foreach from=$group.fields item=panelItem  key=panelName name=groupLoop}
@@ -52,10 +52,10 @@
                     {$panelItem.icon}" alt="{$panelItem.title}"/></a>
                 </td>
                 <td class="report font-size11pt" style="vertical-align: text-top;" width="20%">
-                    <a href="{$panelItem.url}"{if $panelItem.extra} {$panelItem.extra}{/if} id="id_{$panelItem.id}">{$panelItem.title}</a>
+                    <a href="{$panelItem.url}"{if $panelItem.extra} {$panelItem.extra}{/if} id="id_{$panelItem.id}">{ts}{$panelItem.title}{/ts}</a>
                 </td>
                 <td class="description"  style="vertical-align: text-top;" width="75%">
-                    {$panelItem.desc}
+                    {ts}{$panelItem.desc}{/ts}
                 </td>
             </tr>
         {/foreach}

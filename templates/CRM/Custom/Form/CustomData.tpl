@@ -1,7 +1,9 @@
 {* Custom Data form*}
 {strip}
+{assign var="addJsCode" value = 0}
 {foreach from=$groupTree item=cd_edit key=group_id}
     {if $group_id ne 'info'}
+    {assign var="addJsCode" value = 1}
     <div id="{$cd_edit.name}_show" class="section-hidden section-hidden-border">
     <a href="#" onclick="hide('{$cd_edit.name}_show'); show('{$cd_edit.name}'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}{$cd_edit.title}{/ts}</label><br />
     </div>
@@ -100,7 +102,7 @@
 </dl>  
 {/if}
 
-
+{if $addJsCode eq 1 }
 <script type="text/javascript">  
     var showBlocks = new Array({$showBlocks});  
     var hideBlocks = new Array({$hideBlocks});  
@@ -108,5 +110,6 @@
     {* hide and display the appropriate blocks as directed by the php code *}  
     on_load_init_blocks( showBlocks, hideBlocks );  
  </script>  
+{/if}
 
 

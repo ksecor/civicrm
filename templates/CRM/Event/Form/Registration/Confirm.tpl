@@ -1,3 +1,6 @@
+{if $action & 1024}
+    {include file="CRM/Event/Form/Registration/PreviewHeader.tpl"}
+{/if}
 <div class="form-item">
     <div id="help">
         {ts}Please verify the information below. Click <strong>Go Back</strong> if you need to make changes.{/ts}
@@ -55,10 +58,63 @@
               {/if}
          {/foreach}
         <div class="header-dark">
-          {ts}{$groupTitlePre}{/ts}
+          {$groupTitlePre}
          </div>  
          {include file="CRM/UF/Form/Block.tpl" fields=$customPre}
     {/if}
+    {if $customPost}
+         {foreach from=$customPost item=field key=cname}
+              {if $field.groupTitle}
+                {assign var=groupTitlePost  value=$field.groupTitle} 
+              {/if}
+         {/foreach}
+        <div class="header-dark">
+          {$groupTitlePost}
+         </div>  
+         {include file="CRM/UF/Form/Block.tpl" fields=$customPost}
+    {/if}
+
+{*diaplay Additional Participant Profile Information*}
+{if $addParticipantProfile}
+<div class="header-dark">
+    {ts}Additional Participants Information{/ts}	
+</div>
+    {foreach from=$addParticipantProfile item=participant key=participantNo}
+    <div id= "{$participantNo}_show" classsection-hidden section-hidden-border" style="clear: both;">
+        <a href="#" onclick="hide( '{$participantNo}_show' ); show( '{$participantNo}_hide' ); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Additional Participant{/ts} : {$participantNo}</label><br />
+    </div>
+    <div id= "{$participantNo}_hide" class="section-shown">
+       <fieldset>
+            <legend><a href="#" onclick="hide( '{$participantNo}_hide' ); show( '{$participantNo}_show' ); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Additional Participant{/ts} : {$participantNo}</legend>
+
+{if $participant.customPre}
+    <fieldset><legend>{$participant.customPreGroupTitle}</legend>
+         <table class="form-layout-compressed">
+            {foreach from=$participant.customPre item=value key=field}
+            <tr>
+                <td class="labels">{$field}</td> <td>{$value}</td>
+            </tr>
+            {/foreach}
+         </table>
+    </fieldset>
+{/if}
+
+{if $participant.customPost}
+    <fieldset><legend>{$participant.customPostGroupTitle}</legend>
+         <table class="form-layout-compressed">
+            {foreach from=$participant.customPost item=value key=field}
+            <tr>
+                <td class="labels">{$field}</td> <td>{$value}</td>
+            </tr>
+            {/foreach}
+         </table>
+    </fieldset>
+{/if}
+
+</fieldset>
+</div> 
+{/foreach}
+{/if}
 
     {if $contributeMode ne 'notify' and
         ! $is_pay_later             and
@@ -85,18 +141,7 @@
         {ts}Expires{/ts}: {$credit_card_exp_date|truncate:7:''|crmDate}<br />
     </div>
     {/if}
-
-    {if $customPost}
-         {foreach from=$customPost item=field key=cname}
-              {if $field.groupTitle}
-                {assign var=groupTitlePost  value=$field.groupTitle} 
-              {/if}
-         {/foreach}
-        <div class="header-dark">
-          {ts}{$groupTitlePost}{/ts}
-         </div>  
-         {include file="CRM/UF/Form/Block.tpl" fields=$customPost}
-    {/if}
+    
     {if $contributeMode NEQ 'notify'} {* In 'notify mode, contributor is taken to processor payment forms next *}
     <div class="messages status">
         <p>
@@ -124,4 +169,4 @@
         </div>
     {/if}
 </div>
-
+{include file="CRM/common/showHide.tpl"}

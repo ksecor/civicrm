@@ -67,11 +67,15 @@
     <span class="fields">
         {$form.create_employer.html}
     </span>
+
 </div>
 <div id="shared_employer" class="form-item">
-<div  class="tundra" dojoType= "dojox.data.QueryReadStore" jsId="organizationStore" url="{$employerDataURL}" doClientPaging="false" >
+	<div  class="tundra" dojoType= "dojox.data.QueryReadStore" jsId="organizationStore" url="{$employerDataURL}" doClientPaging="false" >
             {$form.shared_employer.html}
-            </div>
+       	{* Conditionally display the address currently selected in the comboBox *}
+           <span id="shared_employer_address" class="description"></span>
+	 </div>
+	<span id="shared_employer_help" class="description">{ts}Enter the first letters of the name of the organization to see available organizations.{/ts}</span> 
 </div>
 
     {$form._qf_Edit_refresh_dedupe.html}
@@ -231,10 +235,11 @@
         hide("shared_employer");
     }else { 
         dojo.addOnLoad( function( ) 
-            {
-                var sharedEmployer   = {/literal}"{$sharedEmployer}"{literal};
-                dijit.byId( 'shared_employer' ).setDisplayedValue(sharedEmployer ) 
-            }); 
+ 	{
+         	var sharedEmployer   = "{/literal}{$sharedEmployer}{literal}";
+	        dijit.byId( 'shared_employer' ).setValue(sharedEmployer);
+        }); 
+	
     }
     if (!document.getElementsByName("employer_option")[0].checked ) {
         hide("create_employer");
@@ -255,6 +260,8 @@
             hide("shared_employer");
         }
     }
+
+
 </script>
 {/literal}
 

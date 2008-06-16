@@ -299,6 +299,11 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
         $cancelURL = CRM_Utils_System::url( $url,
                                             "$cancel=1&cancel=1&qfKey={$params['qfKey']}",
                                             true, null, false );
+
+        // ensure that the returnURL is absolute.
+        if ( substr( $returnURL, 0, 4 ) != 'http' ) {
+            CRM_Core_Error::fatal( ts( 'Sending a relative URL to PayPalIPN is erroneous. Please make your resource URL (in Administer CiviCRM >> Global Settings) absolute' ) );
+        }
         
         $paypalParams =
             array( 'business'           => $this->_paymentProcessor['user_name'],

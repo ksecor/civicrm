@@ -85,7 +85,7 @@ class CRM_Admin_Form_Setting_Smtp extends CRM_Admin_Form_Setting
             list( $fromDisplayName, $fromEmail, $fromDoNotEmail ) = CRM_Contact_BAO_Contact::getContactDetails( $userID );
             
             if ( ! $fromEmail ) {
-                CRM_Core_Error::statusBounce( ts('Your user record does not have a valid email address' ));
+                CRM_Core_Error::statusBounce( ts('Oops. Can not send a test email because your user record does not have a valid email address.' ));
             }
             
             if ( ! trim($fromDisplayName) ) {
@@ -128,10 +128,11 @@ class CRM_Admin_Form_Setting_Smtp extends CRM_Admin_Form_Setting
             CRM_Core_Error::ignoreException( );
             $result = $mailer->send( $fromEmail, $headers, $message );
             if ( !is_a( $result, 'PEAR_Error' ) ) {
-                CRM_Core_Session::setStatus( ts('Your '.$mailerName.' settings are correct. A test email has been sent to your email address.') ); 
+                CRM_Core_Session::setStatus( ts('Your %1 settings are correct. A test email has been sent to your email address.', array(1 => strtoupper( $mailerName ) ) ) ); 
             } else {
-                CRM_Core_Session::setStatus( ts('Your '.$mailerName.' settings are incorrect. No test mail has been sent.') );
+                CRM_Core_Session::setStatus( ts('Oops. Your %1 settings are incorrect. No test mail has been sent.', array(1 => strtoupper( $mailerName ) ) ) . '<p class="font-red">' . ts('Error message') . ':<br />' . $result->message . '</p>' );
             }
+//            CRM_Core_Error::debug('pe', $result); exit();
             
         } 
         parent::postProcess();
@@ -157,10 +158,10 @@ class CRM_Admin_Form_Setting_Smtp extends CRM_Admin_Form_Setting
             }
             if ( $fields['smtpAuth'] ) {
                 if (!$fields['smtpUsername']){
-                    $errors['smtpUsername'] = 'If your SMTP server require authentication please provide user name.';
+                    $errors['smtpUsername'] = 'If your SMTP server requires authentication please provide a valid user name.';
                 }
                 if (!$fields['smtpPassword']) {
-                    $errors['smtpPassword'] = 'If your SMTP server require authentication please provide password.';
+                    $errors['smtpPassword'] = 'If your SMTP server requires authentication, please provide a password.';
                 }
             }
         }

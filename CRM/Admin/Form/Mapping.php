@@ -58,12 +58,10 @@ class CRM_Admin_Form_Mapping extends CRM_Admin_Form
     public function buildQuickForm( ) 
     {
         parent::buildQuickForm( );
-        if ($this->_action == CRM_Core_Action::DELETE) {
-            
+        if ( $this->_action == CRM_Core_Action::DELETE ) {
             return;
         } else {
             $this->applyFilter('__ALL__', 'trim');
-            
 
             $this->add('text', 'name' , ts('Name')       ,
                               CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Mapping', 'name' ),true );
@@ -71,8 +69,9 @@ class CRM_Admin_Form_Mapping extends CRM_Admin_Form
             
             $this->addElement('text', 'description', ts('Description'), 
                               CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Mapping', 'description' ) );
-            
-            $mappingType = $this->addElement('text', 'mapping_type', ts('Mapping Type'));
+
+            require_once 'CRM/Core/PseudoConstant.php';
+            $mappingType = $this->addElement('select', 'mapping_type_id', ts('Mapping Type'), CRM_Core_PseudoConstant::mappingTypes( ));
             
             if ( $this->_action == CRM_Core_Action::UPDATE ) {
                 $mappingType->freeze();
@@ -83,7 +82,6 @@ class CRM_Admin_Form_Mapping extends CRM_Admin_Form
     function setDefaultValues()
     {
         $defaults = parent::setDefaultValues();
-        $defaults['mapping_type'] = CRM_Core_DAO_Mapping::tsEnum('mapping_type', $defaults['mapping_type']);
         return $defaults;
     }
     
@@ -95,19 +93,19 @@ class CRM_Admin_Form_Mapping extends CRM_Admin_Form
      */
     public function postProcess() 
     {
-        $params = $ids = array();
-        
         // store the submitted values in an array
         $params = $this->exportValues();
         
-        $ids['mapping'] = $this->_id;
-        
-        if ($this->_action == CRM_Core_Action::DELETE) {
-            if ($this->_id  > 0 ) {
+        if ( $this->_action == CRM_Core_Action::DELETE ) {
+            if ( $this->_id ) {
                 CRM_Core_BAO_Mapping::del( $this->_id );
             }
         } else {
-            CRM_Core_BAO_Mapping::add($params, $ids);
+            if ( $this->_id ) {
+                $params['id'] = $this->_id;
+            }
+            
+            CRM_Core_BAO_Mapping::add( $params );
         }        
     }//end of function
 }

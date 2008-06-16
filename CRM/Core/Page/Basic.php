@@ -234,8 +234,8 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
         // find all objects
         $object->find();
         while ($object->fetch()) {
-            if ( ! isset( $object->mapping_type ) ||
-                 $object->mapping_type != "Search Builder" ) {
+            if ( ! isset( $object->mapping_type_id ) ||
+                 $object->mapping_type_id != 1  ) {  // "1 for Search Builder"
                 $permission = CRM_Core_Permission::EDIT;
                 if ( $key ) {
                     $permission = $this->checkPermission( $object->id, $object->$key );
@@ -249,6 +249,12 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
                     
                     // populate action links
                     self::action( $object, $action, $values[$object->id], $links, $permission );
+                    
+                    if ( isset( $object->mapping_type_id ) ) {
+                        require_once 'CRM/Core/PseudoConstant.php';
+                        $mappintTypes = CRM_Core_PseudoConstant::mappingTypes( );
+                        $values[$object->id]['mapping_type'] = $mappintTypes[$object->mapping_type_id];
+                    }
                 }
                 $this->assign( 'rows', $values );
             }

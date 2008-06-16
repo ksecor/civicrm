@@ -91,11 +91,7 @@ class CRM_Profile_Form_Dynamic extends CRM_Profile_Form
         $this->addElement('hidden', "edit[civicrm_dummy_field]", "CiviCRM Dummy Field for Drupal" );
         parent::buildQuickForm( ); 
 
-        if ( $this->_mode == CRM_Profile_Form::MODE_REGISTER ) {
-            $this->addFormRule( array( 'CRM_Profile_Form_Dynamic', 'formRule' ), $this );
-        } else {
-            $this->addFormRule( array( 'CRM_Profile_Form_Dynamic', 'formRule' ), $this );
-        }
+        $this->addFormRule( array( 'CRM_Profile_Form_Dynamic', 'formRule' ), $this );
     }
 
     /**

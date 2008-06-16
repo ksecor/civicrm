@@ -75,7 +75,6 @@ abstract class CRM_Core_Component_Info
      */
     const COMPONENT_TAB_CLASS = 'Page_Tab';
     
-
     /*
      * Stores component information.
      * @var array component settings as key/value pairs

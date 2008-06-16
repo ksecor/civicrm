@@ -352,11 +352,11 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
                                                                               $this->_id, 
                                                                               "end_date" ) );
         if ( $endDate ) {
-            $statusMsg .= ts('The new membership End Date is %1.', array(1 => $endDate));
+            $statusMsg .= ' ' . ts('The new membership End Date is %1.', array(1 => $endDate));
         }
         
         if ( $receiptSend ) {
-            $statusMsg .= ts('A renewal confirmation and receipt has been sent to %1.', array(1 => $this->_contributorEmail));
+            $statusMsg .= ' ' . ts('A renewal confirmation and receipt has been sent to %1.', array(1 => $this->_contributorEmail));
         }
         
         CRM_Core_Session::setStatus($statusMsg);

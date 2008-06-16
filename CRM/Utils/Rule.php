@@ -174,7 +174,8 @@ class CRM_Utils_Rule
         $d = CRM_Utils_Array::value( 'd', $date );
         $m = CRM_Utils_Array::value( $config->dateformatMonthVar, $date );
         $y = CRM_Utils_Array::value( 'Y', $date );
-        if( $date['h'] || $date['g'] ){
+        if( isset( $date['h'] ) ||
+            isset( $date['g'] ) ){
             $m = CRM_Utils_Array::value( $config->datetimeformatMonthVar, $date );
         }
 
@@ -213,7 +214,7 @@ class CRM_Utils_Rule
      * @static 
      * @access public 
      */
-    static function currentDate( $date ) 
+    static function currentDate( $date, $monthRequired = true ) 
     {
         $d = CRM_Utils_Array::value( 'd', $date );
         $m = CRM_Utils_Array::value( 'M', $date );
@@ -242,6 +243,11 @@ class CRM_Utils_Rule
         }
 
         if ( ! $result ) {
+            return false;
+        }
+
+        // ensure we have month if required
+        if ( $monthRequired && ! $m ) {
             return false;
         }
 

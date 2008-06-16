@@ -72,7 +72,10 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
         $session =& CRM_Core_Session::singleton( );
         if ( ! $this->_gName ) {
             $this->_gName = CRM_Utils_Request::retrieve('group','String', $this, false, 0);
-            $this->_gid   = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup', $this->_gName, 'id', 'name');
+            $this->_gid   = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup',
+                                                         $this->_gName,
+                                                         'id',
+                                                         'name');
         }
         if ($this->_gName) {
             $this->set( 'gName', $this->_gName );
@@ -80,7 +83,9 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
             $this->_gName = $this->get( 'gName' );
         }
         $this->_GName = ucwords(str_replace('_', ' ', $this->_gName));
-        $session->pushUserContext( CRM_Utils_System::url('civicrm/admin/options/'.$this->_gName,'group='.$this->_gName.'&reset=1') );
+        $url = "civicrm/admin/options/{$this->_gName}";
+        $params = "group={$this->_gName}&reset=1";
+        $session->pushUserContext( CRM_Utils_System::url( $url, $params ) );
     }
     
     /**
@@ -117,16 +122,35 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
         
         $this->applyFilter('__ALL__', 'trim');
         
-        $this->add('text', 'label', ts('Label'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'label' ),true );
-        $this->addRule( 'label', ts('This Label already exists in the database for this option group. Please select a different Value.'), 'optionExists', array( 'CRM_Core_DAO_OptionValue', $this->_id, $this->_gid, 'label' ) );
+        $this->add('text',
+                   'label',
+                   ts('Label'),
+                   CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'label' ),
+                   true );
+        $this->addRule( 'label',
+                        ts('This Label already exists in the database for this option group. Please select a different Value.'),
+                        'optionExists',
+                        array( 'CRM_Core_DAO_OptionValue', $this->_id, $this->_gid, 'label' ) );
         
         if ( $this->_gName == 'from_email_address' ) {
             $this->addRule( 'label', ts('Email is not valid.'), 'email' );
         }
         
-        $this->add('text', 'description', ts('Description'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'description' ) );
-       
-        $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'weight'), true);
+        $required = false;
+        if ( $this->_gName == 'custom_search' ) {
+            $required = true;
+        }
+        $this->add('text',
+                   'description',
+                   ts('Description'),
+                   CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'description' ),
+                   $required );
+
+        $this->add('text',
+                   'weight',
+                   ts('Weight'),
+                   CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'weight'),
+                   true);
         $this->addRule('weight', ts('is a numeric field') , 'numeric');
         
         $this->add('checkbox', 'is_active', ts('Enabled?'));

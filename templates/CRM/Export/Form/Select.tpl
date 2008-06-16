@@ -17,13 +17,12 @@
         </dd> 
         <dd>{$form.exportOption.html}</dd>
     </dl>
-  </div>
-  <div id="map">
-   {if $form.mapping }
-     <dl>
-        <dd>{$form.mapping.label} &nbsp; {$form.mapping.html}</dd>
-     </dl>
-   {/if}
+      <div id="map">
+       {if $form.mapping }
+            <table class="form-layout-compressed">
+            <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>{$form.mapping.label} &nbsp; {$form.mapping.html}</td></tr></table>
+       {/if}
+      </div>
   </div>
 </fieldset>
 

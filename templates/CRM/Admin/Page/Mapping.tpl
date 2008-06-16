@@ -15,14 +15,14 @@
         <tr class="columnheader">
 	        <th>{ts}Name{/ts}</th>
 	        <th>{ts}Description{/ts}</th>
-            <th>{ts}Mapping Type{/ts}</th>
+                <th>{ts}Mapping Type{/ts}</th>
 	        <th></th>
         </tr>
         {foreach from=$rows item=row}
         <tr class="{cycle values="odd-row,even-row"} {$row.class}">
             <td>{$row.name}</td>	
             <td>{$row.description}</td>
-            <td>{$row.mapping_type_display}</td>
+            <td>{$row.mapping_type}</td>
             <td>{$row.action}</td>
         </tr>
         {/foreach}

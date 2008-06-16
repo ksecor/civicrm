@@ -51,11 +51,37 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
     function preProcess( ) 
     {
         parent::preProcess( );
-        CRM_Utils_System::setTitle( 'Register Additional Participant' );
         $this->_lineItem = $this->get( 'lineItem' );
-        //lineItem isn't set until Register postProcess
+        $participantNo = substr( $this->_name, 12 );
+        $this->_params = array( );
+        $this->_params = $this->get( 'params' );
+        CRM_Utils_System::setTitle( 'Register Additional Participant No '.$participantNo.' of  '.
+                                    $this->_params[0]['additional_participants'] );
     }
-    
+   
+    /**
+     * This function sets the default values for the form. For edit/view mode
+     * the default values are retrieved from the database
+     *
+     * @access public
+     * @return None
+     */
+    function setDefaultValues( ) 
+    {
+        $defaults = array( );
+        //fix for CRM-3088, default value for discount set.      
+        if ( ! empty( $this->_values['discount'] ) ){
+            require_once 'CRM/Core/BAO/Discount.php';
+            $discountId = CRM_Core_BAO_Discount::findSet( $this->_eventId, 'civicrm_event' );
+            
+            $discountKey = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_OptionValue", $this->_values['event_page']['default_discount_id']
+                                                        , 'weight', 'id' );
+            
+            $defaults['amount'] = $this->_values['discount'][$discountId]['amount_id'][$discountKey];
+        }
+        
+        return $defaults;  
+    }  
     /** 
      * Function to build the form 
      * 
@@ -113,19 +139,43 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
         //get the button name.
         $button = substr( $self->controller->getButtonName(), -4 );
         if ( $button != 'skip' ) {
+            require_once 'CRM/Event/Form/Registration/Register.php';
+            $isRegistered =  CRM_Event_Form_Registration_Register::checkRegistration( $fields, $self, true );
+            
+            if ( $isRegistered ) {
+                $errors["email-{$self->_bltID}"] = ts( 'Already Registered for this Event.');
+            } 
             if ( empty( $fields["email-{$self->_bltID}"] ) ) {
                 $errors["email-{$self->_bltID}"] = ts( 'Email Address is a required field.' );
             }
             //get the complete params.
             $params = $self->get('params');
             //take the participant instance.
-            $addParticipantNum = substr( $self->_name, 12 ) + 1;
+            $addParticipantNum = substr( $self->_name, 12 );
             if ( is_array( $params ) ) {
                 foreach ( $params as $key => $value ) {
                     if ( ( $value["email-{$self->_bltID}"] == $fields["email-{$self->_bltID}"] ) && $key != $addParticipantNum  ) {
                         $errors["email-{$self->_bltID}"] = ts( 'The Email Address should be unique for Additional Participant' );
                         break;
                     }
+                }
+            }
+            //check for atleast one pricefields should be selected
+            if ( $fields['priceSetId'] ) {
+                $priceField = new CRM_Core_DAO_PriceField( );
+                $priceField->price_set_id = $fields['priceSetId'];
+                $priceField->find( );
+                
+                $check = array( );
+                
+                while ( $priceField->fetch( ) ) {
+                    if ( ! empty( $fields["price_{$priceField->id}"] ) ) {
+                        $check[] = $priceField->id; 
+                    }
+                }
+                
+                if ( empty( $check ) ) {
+                    $errors['_qf_default'] = ts( "Select atleast one option from Event Fee(s)" );
                 }
             }
         }
@@ -143,11 +193,9 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
     {
         //get the button name.
         $button = substr( $this->controller->getButtonName(), -4 );
-        $this->_params = array( );
-        $this->_params = $this->get( 'params' );
-        
+                
         //take the participant instance.
-        $addParticipantNum = substr( $this->_name, 12 ) + 1;
+        $addParticipantNum = substr( $this->_name, 12 );
         if ( $button == 'skip' ) {
             $this->_params[$addParticipantNum] = 'skip';
             if ( isset( $this->_lineItem ) ) {
@@ -156,7 +204,20 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
         } else {
             $params = $this->controller->exportValues( $this->_name );  
             if ( $this->_values['event']['is_monetary'] ) {
-                if ( empty( $params['priceSetId'] ) ) {
+
+                //added for discount
+                require_once 'CRM/Core/BAO/Discount.php';
+                $discountId = CRM_Core_BAO_Discount::findSet( $this->_eventId, 'civicrm_event' );
+                
+                if ( ! empty( $this->_values['discount'][$discountId] ) ) {
+                    $params['discount_id'] = $discountId;
+                    $params['amount_level'] = $this->_values['discount'][$discountId]['label']
+                        [array_search( $params['amount'], $this->_values['discount'][$discountId]['amount_id'])];
+                    
+                    $params['amount'] = $this->_values['discount'][$discountId]['value']
+                        [array_search( $params['amount'], $this->_values['discount'][$discountId]['amount_id'])];
+                    
+                }else if ( empty( $params['priceSetId'] ) ) {
                     $params['amount_level'] = $this->_values['custom']['label'][array_search( $params['amount'], 
                                                                                               $this->_values['custom']['amount_id'])];
                     
@@ -211,20 +272,19 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
     
     function &getPages( &$controller )
     {
-        $details = array( );
-        $i = 0;
         $session =& CRM_Core_Session::singleton( );
         $additional = $session->get('addParticipant');
         
-        for ( ; $i < $additional; $i++ ) {
-            $details["Participant-{$i}"] = array( 'className' => 'CRM_Event_Form_Registration_AdditionalParticipant', 
-                                                  'title'   => "Participant $i"
-                                                  );
-        }
-                
-        if ( ! $details ) {
-            $details = array( );
-        }
+        $details = array( );
+        
+        if ( $additional ) {
+            for ( $i = 1; $i <= $additional; $i++ ) {
+                $details["Participant-{$i}"] = array( 'className' => 'CRM_Event_Form_Registration_AdditionalParticipant', 
+                                                      'title'     => "Register Additional Participant {$i}"
+                                                      );
+            }
+             
+        }   
         return $details;
     } 
 

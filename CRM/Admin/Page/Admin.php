@@ -49,7 +49,7 @@ class CRM_Admin_Page_Admin extends CRM_Core_Page
             CRM_Core_Session::setStatus( $errorMessage );
         }
 
-        $groups = array( ts('Customize'), ts('Configure'), ts('Manage'), ts('Option Lists') );
+        $groups = array( 'Customize', 'Configure', 'Manage', 'Option Lists' );
 
         $config =& CRM_Core_Config::singleton( );
         if ( in_array("CiviContribute", $config->enableComponents) ) {
@@ -70,6 +70,7 @@ class CRM_Admin_Page_Admin extends CRM_Core_Page
 
         require_once 'CRM/Core/Menu.php';
         $values =& CRM_Core_Menu::getAdminLinks( );
+
         require_once 'CRM/Core/ShowHideBlocks.php';
         $this->_showHide =& new CRM_Core_ShowHideBlocks( );
         foreach ( $groups as $group ) {
@@ -85,7 +86,6 @@ class CRM_Admin_Page_Admin extends CRM_Core_Page
         $versionCheck =& CRM_Utils_VersionCheck::singleton();
         $this->assign('newVersion',   $versionCheck->newerVersion());
         $this->assign('localVersion', $versionCheck->localVersion);
-
         $this->assign('adminPanel', $adminPanel);
         $this->_showHide->addToTemplate( );
         return parent::run( );

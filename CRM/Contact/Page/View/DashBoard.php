@@ -94,6 +94,13 @@ class CRM_Contact_Page_View_DashBoard extends CRM_Contact_Page_View
         
         $this->set( 'displayName' , $displayName );
         $this->set( 'contactImage', $contactImage );
+
+        $languages = array();
+        foreach (CRM_Core_I18n::languages(true) as $code => $language) {
+            $href = CRM_Utils_System::url('civicrm/dashboard', "reset=1&lcMessages=$code");
+            $languages[] = "<a href='$href'>$language</a>";
+        }
+        $this->assign('languages', implode(', ', $languages));
         
         CRM_Utils_System::setTitle( $contactImage . ' ' . $displayName, $displayName );
         CRM_Utils_Recent::add( $displayName,

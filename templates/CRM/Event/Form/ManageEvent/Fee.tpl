@@ -57,7 +57,7 @@
             </dl>
         </div>
         
-        <fieldset id="map-field"><legend>{ts}Fee Levels{/ts}</legend>
+        <fieldset id="map-field"><legend>{ts}Regular Fee Levels{/ts}</legend>
         <p>{ts}Use the table below to enter descriptive labels and amounts for up to ten event fee levels. These will be presented as a list of radio button options. Both the label and dollar amount will be displayed.{/ts}</p>
         <table id="map-field-table">
         <tr class="columnheader"><th scope="column">{ts}Fee Label{/ts}</th><th scope="column">{ts}Amount{/ts}</th><th scope="column">{ts}Default?{/ts}</th></tr>

@@ -153,7 +153,6 @@ class CRM_Contact_Form_Search_Custom_Base {
     function whereClause( &$where, &$params ) {
         $dao = new CRM_Core_DAO( );
         $where = CRM_Core_DAO::composeQuery( $where, $params, true, $dao );
-        $this->validateUserSQL( $where, true );
 
         return $where;
     }

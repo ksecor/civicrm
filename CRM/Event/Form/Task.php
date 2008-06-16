@@ -54,10 +54,17 @@ class CRM_Event_Form_Task extends CRM_Core_Form
      *
      * @var string
      */
-    protected $_eventClause = null;
+    protected $_componentClause = null;
 
     /**
-     * The array that holds all the contribution ids
+     * The array that holds all the component ids
+     *
+     * @var array
+     */
+    protected $_componentIds;
+
+    /**
+     * The array that holds all the participant ids
      *
      * @var array
      */
@@ -72,7 +79,7 @@ class CRM_Event_Form_Task extends CRM_Core_Form
      */
     function preProcess( ) 
     {
-        $this->_participantIds = array();
+        $this->_participantIds = array( );
         
         $values = $this->controller->exportValues( 'Search' );
 
@@ -87,43 +94,34 @@ class CRM_Event_Form_Task extends CRM_Core_Form
                     $ids[] = substr( $name, CRM_Core_Form::CB_PREFIX_LEN );
                 }
             }
-            if ( ! empty( $ids ) ) {
-                $this->_componentClause =
-                    ' civicrm_participant.id IN ( ' .
-                    implode( ',', $ids ) . ' ) ';
-            $this->assign( 'totalSelectedParticipants', count( $ids ) );             
-            }
         } else {
             $queryParams =  $this->get( 'queryParams' );
-            
             $query       =& new CRM_Contact_BAO_Query( $queryParams, null, null, false, false, 
                                                        CRM_Contact_BAO_Query::MODE_EVENT);
             $result = $query->searchQuery(0, 0, null);
             while ($result->fetch()) {
                 $ids[] = $result->participant_id;
             }
-            $this->assign( 'totalSelectedParticipants', $this->get( 'rowCount' ) );
         }
-        $this->_participantIds = $ids;
+        
+        if ( ! empty( $ids ) ) {
+            $this->_componentClause =
+                ' civicrm_participant.id IN ( ' .
+                implode( ',', $ids ) . ' ) ';
+            $this->assign( 'totalSelectedParticipants', count( $ids ) );             
+        }
+        
+        $this->_participantIds = $this->_componentIds = $ids;
     }
 
     /**
-     * Given the component id, compute the contact id
+     * Given the participant id, compute the contact id
      * since its used for things like send email
      */
-    public function setContactIDs( ) {
+    public function setContactIDs( ) 
+    {
         $this->_contactIds =& CRM_Core_DAO::getContactIDsFromComponent( $this->_participantIds,
                                                                         'civicrm_participant' );
-    }
-
-    /**
-     * Function to actually build the form
-     *
-     * @return void
-     * @access public
-     */
-    public function buildQuickForm( ) 
-    {
     }
 
     /**

@@ -4,8 +4,15 @@
 {if $eventPage.confirm_email_text}
 {$eventPage.confirm_email_text}
 {/if}
-{ts}Please print this confirmation for your records.{/ts}
+{if $is_pay_later}
 
+===========================================================
+{$pay_later_receipt}
+===========================================================
+{else}
+
+{ts}Please print this confirmation for your records.{/ts}
+{/if}
 
 ===========================================================
 {ts}Event Information and Location{/ts}
@@ -87,11 +94,13 @@
 {ts}Total Amount{/ts}     : {$totalAmount|crmMoney} 
 {/if}
 {if $is_pay_later}
+
+===========================================================
 {$pay_later_receipt}
+===========================================================
 {/if}
 
 {if $register_date}
-
 {ts}Registration Date{/ts} : {$register_date|crmDate}
 {/if}
 {if $receive_date}

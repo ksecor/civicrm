@@ -366,7 +366,6 @@ address.geo_code_2 <= $maxLongitude AND
     }
 
     function alterRow( &$row ) {
-        $row['sort_name'] .= ' ( altered )';
     }
     
     function setTitle( $title ) {

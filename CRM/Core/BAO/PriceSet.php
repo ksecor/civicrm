@@ -437,7 +437,7 @@ class CRM_Core_BAO_PriceSet extends CRM_Core_DAO_PriceSet {
      * @param int $setId - price set id whose details are needed
      * @return array $setTree - array consisting of field details
      */
-    public static function getSetDetail($setId) {
+    public static function getSetDetail($setID) {
         // create a new tree
         $setTree = array();
         $select = $from = $where = $orderBy = '';
@@ -460,7 +460,7 @@ class CRM_Core_BAO_PriceSet extends CRM_Core_DAO_PriceSet {
         $from = ' FROM civicrm_price_field';
         
         $params = array( );
-        $params[1] = array( $setId, 'Integer' );
+        $params[1] = array( $setID, 'Integer' );
         $where = ' WHERE price_set_id = %1';
         $where .= ' AND is_active = 1';
 
@@ -470,18 +470,19 @@ class CRM_Core_BAO_PriceSet extends CRM_Core_DAO_PriceSet {
 
         $crmDAO =& CRM_Core_DAO::executeQuery( $queryString, $params );
 
+        require_once 'CRM/Core/BAO/PriceField.php';
         while ( $crmDAO->fetch() ) {
-            //$setId = $crmDAO->civicrm_price_set_id;
-            $fieldId = $crmDAO->id;
+            $fieldID = $crmDAO->id;
 
-            $setTree[$setId]['fields'][$fieldId] = array();
-            $setTree[$setId]['fields'][$fieldId]['id'] = $fieldId;
+            $setTree[$setID]['fields'][$fieldID] = array();
+            $setTree[$setID]['fields'][$fieldID]['id'] = $fieldID;
 
             foreach ( $priceFields as $field ) {
                 if ( $field == 'id' || is_null( $crmDAO->$field) ) {
                     continue;
                 }
-                $setTree[$setId]['fields'][$fieldId][$field] = $crmDAO->$field;
+                $setTree[$setID]['fields'][$fieldID][$field] = $crmDAO->$field;
+                $setTree[$setID]['fields'][$fieldID]['options'] = CRM_Core_BAO_PriceField::getOptions( $fieldID, false );
             }
         }
 

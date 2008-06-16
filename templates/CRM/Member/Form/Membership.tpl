@@ -113,7 +113,6 @@
 
 </fieldset>
 </div>
-{/if}
 
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="record_contribution"
@@ -150,3 +149,4 @@ function showHideMemberStatus() {
 
 </script>
 {/literal}
+{/if}

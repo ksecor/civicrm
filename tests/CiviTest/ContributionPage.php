@@ -7,7 +7,7 @@ class ContributionPage extends DrupalTestCase
      *
      * @return $contributionPage id of created Contribution Page
      */
-    function create( $id ) 
+    function create( $id = null ) 
     {
         require_once "CRM/Contribute/BAO/ContributionPage.php";        
         $params = array(

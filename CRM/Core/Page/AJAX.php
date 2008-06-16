@@ -69,14 +69,8 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
         case 'state':
             return $this->state( $config );
 
-        case 'states':
-            return $this->states( $config );
-
         case 'country':
             return $this->country( $config );
-
-        case 'countries':
-            return $this->countries( $config );
 
         case 'status':
             return $this->status( $config );
@@ -87,6 +81,9 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
         case 'eventType':
             return $this->eventType( $config );
 
+        case 'eventFee':
+            return $this->eventFee( $config );
+            
         case 'caseSubject':
              return $this->caseSubject( $config );
 
@@ -160,6 +157,13 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
             $shared = null;
             if ( isset($_GET['sh']) ) {
                 $shared = CRM_Utils_Type::escape( $_GET['sh'], 'Integer');
+                 if ( $shared == 1 ) {
+                     $contactType = 'Household';
+                     $cName = 'household_name';
+                 } else {
+                     $contactType = 'Organization';
+                     $cName = 'organization_name';
+                 }
             }
 
             // contacts of type household
@@ -188,8 +192,8 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
             if ( $organization ) {
                 
                 $query = "
-SELECT CONCAT_WS(' :: ',TRIM(sort_name),LEFT(street_address,25),city) 'sort_name', 
-civicrm_contact.id id
+SELECT CONCAT_WS(' :: ',sort_name,LEFT(street_address,25),city) 'sort_name', 
+civicrm_contact.id 'id'
 FROM civicrm_contact
 LEFT JOIN civicrm_address ON ( civicrm_contact.id = civicrm_address.contact_id
                                 AND civicrm_address.is_primary=1
@@ -201,7 +205,7 @@ ORDER BY organization_name ";
             } else if ( $shared ) {
                 
                 $query = "
-SELECT CONCAT_WS(':::' , sort_name, supplemental_address_1, sp.abbreviation, postal_code, cc.name )'sort_name' , civicrm_contact.id 'id' , civicrm_contact.display_name 'disp' FROM civicrm_contact LEFT JOIN civicrm_address ON (civicrm_contact.id =civicrm_address.contact_id AND civicrm_address.is_primary =1 )LEFT JOIN civicrm_state_province sp ON (civicrm_address.state_province_id =sp.id )LEFT JOIN civicrm_country cc ON (civicrm_address.country_id =cc.id )WHERE civicrm_contact.contact_type ='Household' AND household_name LIKE '%$name' {$whereIdClause} ORDER BY household_name ";
+SELECT CONCAT_WS(':::' , sort_name, supplemental_address_1, sp.abbreviation, postal_code, cc.name )'sort_name' , civicrm_contact.id 'id' , civicrm_contact.display_name 'disp' FROM civicrm_contact LEFT JOIN civicrm_address ON (civicrm_contact.id =civicrm_address.contact_id AND civicrm_address.is_primary =1 )LEFT JOIN civicrm_state_province sp ON (civicrm_address.state_province_id =sp.id )LEFT JOIN civicrm_country cc ON (civicrm_address.country_id =cc.id )WHERE civicrm_contact.contact_type ='{$contactType}' AND {$cName} LIKE '%$name' {$whereIdClause} ORDER BY {$cName} ";
 
             } else if ( $hh ) {
                 
@@ -378,7 +382,63 @@ ORDER by v.weight";
         echo CRM_Utils_JSON::encode( $elements,'value' );
     }
 
-    /**
+     /**
+     * Function for building EventFee combo box
+     */
+    function eventFee( &$config ) 
+    {
+        require_once 'CRM/Utils/Type.php';
+
+        $getRecords = false;
+        if ( isset( $_GET['name'] ) && $_GET['name'] && ! isset( $_GET['count'] ) ) {
+            $name     = strtolower( CRM_Utils_Type::escape( $_GET['name'], 'String' ) );
+            $name     = str_replace( '*', '%', $name );
+            $whereClause = "cv.label LIKE '$name%' ";
+            $getRecords = true;
+        } else {
+             if ( isset( $_GET['eid'] ) ) {
+                $eid = $_GET['eid'];
+                $whereClause = "cg.name LIKE 'civicrm_event_page.amount.{$eid}' AND cg.id = cv.option_group_id ORDER BY cv.label";
+             }else{
+                $whereClause = "cg.name LIKE 'civicrm_event_page.amount%' AND cg.id = cv.option_group_id GROUP BY cv.label";
+             }
+               $getRecords = true;
+        }
+        
+       if ( isset( $_GET['id'] ) && is_numeric($_GET['id']) && !$_GET['count'] ) {
+               $eventId     = CRM_Utils_Type::escape( $_GET['id'], 'Integer'  );
+               $whereClause = "cv.id = {$participantFeeLevel} ";
+               $getRecords = true;
+           }
+
+        if ( $getRecords ) {
+$query = "
+SELECT distinct(cv.label), cv.id
+FROM civicrm_option_value cv, civicrm_option_group cg
+WHERE {$whereClause}
+";
+            $nullArray = array( );
+            $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
+            $elements = array( );
+            while ( $dao->fetch( ) ) {
+                $elements[] = array( 'name' => $dao->label,
+                                     'value'=> $dao->id );
+            }
+        }
+        
+        if ( empty( $elements) ) { 
+            $name = $_GET['name'];
+            if ( !$name && isset( $_GET['id'] ) ) {
+                $name = $_GET['id'];
+            } 
+            $elements[] = array( 'name' => trim( $name, '*'),
+                                 'value'=> trim( $name, '*') );
+        }
+            require_once "CRM/Utils/JSON.php";
+            echo CRM_Utils_JSON::encode( $elements, 'value');
+    } 
+
+  /**
      * Function to show import status
      */
     function status( &$config ) 
@@ -418,6 +478,7 @@ ORDER by v.weight";
             $stateName    = trim (CRM_Utils_Type::escape( $_GET['name']   , 'String') );
         }
 
+        $stateId = null;
         if ( isset( $_GET['id'] ) ) {
             $stateId = CRM_Utils_Type::escape( $_GET['id'], 'Positive', false  );
         }
@@ -478,80 +539,6 @@ ORDER BY name";
     }
 
     /**
-     * Test Function used for new hs-widget.
-     */
-    function states( &$config ) 
-    {
-        $elements = array( );
-        if ( isset( $_GET['node1'] ) ) {
-            require_once 'CRM/Utils/Type.php';
-            $countryId     = CRM_Utils_Type::escape($_GET['node1'], 'String');
-            if ( $countryId ) {
-                $stateName     = trim(CRM_Utils_Type::escape($_GET['name'], 'String'));
-                $stateName     = str_replace( '*', '%', $stateName );        
-
-                if (isset($_GET['default'])) {
-                    $default   = trim(CRM_Utils_Type::escape($_GET['default'], 'Boolean'));
-                }
-                if ( isset( $_GET['id'] ) ) {
-                    $stateId = CRM_Utils_Type::escape( $_GET['id'], 'Positive', false  );
-                }
-
-                $query = "
-SELECT civicrm_state_province.name name, civicrm_state_province.id id
-FROM civicrm_state_province
-WHERE civicrm_state_province.country_id={$countryId} 
-      AND civicrm_state_province.name LIKE LOWER('$stateName%')
-ORDER BY name";
-
-                $nullArray = array( );
-                $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
-
-                if ( $default ) {
-                    while ( $dao->fetch( ) ) {
-                        $elements[] = array( 'name'  => ts($dao->name),
-                                             'value' => $dao->id );
-                    }
-                } else if ( $stateId ) {
-                    while ( $dao->fetch( ) ) {
-                        if ( $dao->id == $stateId ) {
-                            $elements[] = array( 'name'  => ts($dao->name),
-                                                 'value' => $dao->id );
-                        }
-                    }
-                } else {
-                    $count = 0;
-                    while ( $dao->fetch( ) && $count < 5 ) {
-                        $elements[] = array( 'name'  => ts($dao->name),
-                                             'value' => $dao->id );
-                        $count++;
-                    }
-                }
-
-                if (empty($elements)) {
-                    if ($stateName != '- type first letter(s) -') {
-                        $label = '- state n/a -';
-                    } else {
-                        $label = '- type first letter(s) -';
-                    }
-                    $elements[] = array( 'name'  => $label,
-                                         'value' => '' );
-                } elseif (!$default && !$stateId && (!$stateName || $stateName=='- type first letter(s) -')) {
-                    $elements = array();
-                    $elements[] = array( 'name'  => '- type first letter(s) -',
-                                         'value' => '' );
-                }
-            } else {
-                $elements[] = array( 'name'  => '- state n/a -',
-                                     'value' => '' );
-            }
-        }
-        
-        require_once "CRM/Utils/JSON.php";
-        echo CRM_Utils_JSON::encode( $elements, 'value');
-    }
-
-    /**
      * Function to build country combo box
      */
     function country( &$config ) 
@@ -574,91 +561,7 @@ ORDER BY name";
         $name      = CRM_Utils_Array::value( 'name', $_GET, '' );
         $name      = CRM_Utils_Type::escape( $name, 'String'  );
 
-        if ( isset( $_GET['id'] ) ) {
-            $countryId = CRM_Utils_Type::escape( $_GET['id'], 'Positive', false );
-        }
-
-        //temporary fix to handle locales other than default US,
-        // CRM-2653
-        if ( !$countryId && $name && $config->lcMessages != 'en_US') {
-            $countries = CRM_Core_PseudoConstant::country();
-            
-            // get the country name in en_US, since db has this locale
-            $countryName = array_search( $name, $countries );
-            
-            if ( $countryName ) {
-                $countryId = $countryName;
-            }
-        }
-
-        $validValue = true;
-        if ( !$name && !$countryId ) {
-            $validValue = false;
-        }
-
-        if ( $validValue ) {
-            if ( !$countryId ) {
-                $name = str_replace( '*', '%', $name );
-                $countryClause = " civicrm_country.name LIKE LOWER('$name%') ";
-            } else {
-                $countryClause = " civicrm_country.id = {$countryId} ";
-            }
-            
-            $query = "
-SELECT id, name
-  FROM civicrm_country
- WHERE {$countryClause}
-   AND {$whereClause} 
-ORDER BY name";
-
-            $nullArray = array( );
-            $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
-            
-            $count = 0;
-            while ( $dao->fetch( ) && $count < 5 ) {
-                $elements[] = array( 'name'  => ts($dao->name),
-                                     'value' => $dao->id );
-                $count++;
-            }
-        }
-        
-        if ( empty( $elements) ) {
-            if ( isset( $_GET['id'] ) ) {
-                $name = $_GET['id'];
-            }
-
-            $elements[] = array( 'name'  => trim($name, "%"),
-                                 'value' => trim($name, "%") 
-                                 );
-        }
-
-        require_once "CRM/Utils/JSON.php";
-        echo CRM_Utils_JSON::encode( $elements, 'value');
-    }
-
-    /**
-     * Test Function used for new hs-widget.
-     */
-    function countries( &$config ) 
-    {
-        //get the country limit and restrict the combo select options
-        $limitCodes = $config->countryLimit( );
-        if ( ! is_array( $limitCodes ) ) {
-            $limitCodes = array( $config->countryLimit => 1);
-        }
-        
-        $limitCodes = array_intersect( CRM_Core_PseudoConstant::countryIsoCode(), $limitCodes);
-        //$limitCodes['1101'] = 'IN';// added for testing purpose
-        if ( count($limitCodes) ) {
-            $whereClause = " iso_code IN ('" . implode("', '", $limitCodes) . "')";
-        } else {
-            $whereClause = " 1";
-        }
-
-        $elements = array( );
-        require_once 'CRM/Utils/Type.php';
-        $name      = CRM_Utils_Type::escape( $_GET['name'], 'String'  );
-
+        $countryId = null;
         if ( isset( $_GET['id'] ) ) {
             $countryId = CRM_Utils_Type::escape( $_GET['id'], 'Positive', false );
         }
