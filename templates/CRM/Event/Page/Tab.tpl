@@ -14,7 +14,7 @@
     </div>
     {if $action eq 16 and $permission EQ 'edit'}
        <div class="action-link">
-           <a accesskey="N" href="{$newEventURL}">&raquo; {ts}New Event Registration{/ts}</a>
+           <a accesskey="N" href="{$newEventURL}" class="button"><span>&raquo; {ts}New Event Registration{/ts}</span></a><br/><br/>
        </div>
    {/if}
 

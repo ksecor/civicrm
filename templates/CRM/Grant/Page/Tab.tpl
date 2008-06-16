@@ -19,7 +19,7 @@
     {if $rows}
         {if $action eq 16 and $permission EQ 'edit'}
             <div class="action-link">
-            <a href="{$newGrantURL}">&raquo; {ts}New Grant{/ts}</a>
+            <a href="{$newGrantURL}" class="button"><span>&raquo; {ts}New Grant{/ts}</span></a><br/><br/>
             </div>
         {/if}
         {include file="CRM/Grant/Form/Selector.tpl"}
