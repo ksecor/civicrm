@@ -20,7 +20,7 @@
 ** Override line-height from style.css
 */
 div#crm-container {
-    line-height: 125%;
+    line-height: 135%;
 }
 
 /*
@@ -225,7 +225,7 @@ div.spacer, .spacer {
 
 #crm-container .form-layout td {
   vertical-align: text-top;
-  padding: 3px;
+  padding: 5px;
   white-space: nowrap;
 }
 

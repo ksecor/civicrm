@@ -42,10 +42,8 @@
 
 {if $rows}
 <div id={$gName}>
-<p></p>
-    <div class="form-item">
         {strip}
-        <table cellpadding="0" cellspacing="0" border="0">
+        <table class="selector">
 	        <tr class="columnheader">
             <th>{ts}Label{/ts}</th>
             <th>{ts}Value{/ts}</th>
@@ -57,7 +55,7 @@
             <th></th>
             </tr>
         {foreach from=$rows item=row}
-        <tr class="{$row.class}{cycle values="odd-row even-row"}{if NOT $row.is_active} disabled{/if}">
+        <tr class="{cycle values="odd-row,even-row"}{$row.class}{if NOT $row.is_active} disabled{/if}">
 	        <td>{$row.label}</td>	
 	        <td>{$row.value}</td>	
 	        {if $gName eq 'participant_status'}<td>{if $row.filter eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>{/if}
@@ -76,7 +74,6 @@
                 <a href="{crmURL q="group="|cat:$gName|cat:"&action=add&reset=1"}" id="new"|cat:$GName class="button"><span>&raquo; {ts}New {$GName}{/ts}</span></a>
             </div>
         {/if}
-    </div>
 </div>
 {else}
     <div class="messages status">
