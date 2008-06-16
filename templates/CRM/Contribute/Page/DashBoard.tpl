@@ -5,8 +5,8 @@
 <div class="float-right">
 <table class="form-layout-compressed">
 <tr>
-    <td><a href="{$configPagesURL}" class="button"><span>&raquo; Manage Contribution Pages</span></a></td>
-    <td><a href="{$newPageURL}" class="button"><span>&raquo; New Contribution Page</span></a></td>
+    <td><a href="{$configPagesURL}" class="button"><span>&raquo; {ts}Manage Contribution Pages{/ts}</span></a></td>
+    <td><a href="{$newPageURL}" class="button"><span>&raquo; {ts}New Contribution Page{/ts}</span></a></td>
 </tr>
 </table>
 </div>

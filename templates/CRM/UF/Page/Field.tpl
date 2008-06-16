@@ -39,7 +39,7 @@
         
 {if not ($action eq 2 or $action eq 1)}
             <div class="action-link">
-            <a href="{crmURL p="civicrm/admin/uf/group/field" q="reset=1&action=add&gid=$gid"}">&raquo; {ts}New CiviCRM Profile Field{/ts}</a>
+            <a href="{crmURL p="civicrm/admin/uf/group/field" q="reset=1&action=add&gid=$gid"}" class="button"><span>&raquo; {ts}New CiviCRM Profile Field{/ts}</span></a><br/>
             </div>
 {/if}
         </div>
