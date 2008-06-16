@@ -1,14 +1,13 @@
 <div id="help">
     {ts}These settings define the URLs used to access CiviCRM resources (CSS files, Javascript files, images, etc.). Default values will be inserted the first time you access CiviCRM - based on the CIVICRM_UF_BASEURL specified in your installation's settings file (civicrm.settings.php).{/ts}
 </div>
-<div class="form-item">
 <fieldset><legend>{ts}Site URLs{/ts}</legend>
-
+  <div class="form-item">
         <dl>
             <dt>{$form.userFrameworkResourceURL.label}</dt><dd>{$form.userFrameworkResourceURL.html|crmReplace:class:'huge'}</dd>
             <dt>&nbsp</dt><dd class="description">{ts}Absolute URL of the location where the civicrm module or component has been installed.{/ts}</dd>
             <dt>&nbsp;</dt><dd class="description">
-            <table class="form-layout">
+            <table class="form-layout-compressed">
             <tr><td>
             <strong>{ts}Drupal Example{/ts}</strong><br />
             {ts 1=http://www.example.com/}If your site's home url is %1 ... then your CiviCRM Resource URL would be:{/ts} 
@@ -32,6 +31,6 @@
         <dl>
             <dt></dt><dd>{$form.buttons.html}</dd>
         </dl>
-<div class="spacer"></div>
+  <div class="spacer"></div>
+  </div>
 </fieldset>
-</div>

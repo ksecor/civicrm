@@ -225,7 +225,11 @@ civicrm_contact AS contact
            CRM_Utils_System::setTitle(ts('Search'));
        }
    }
-       
+
+   function summary( ) {
+       return null;
+   }
+
 }
 
 

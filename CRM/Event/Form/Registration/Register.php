@@ -528,11 +528,13 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                     [array_search( $params['amount'], $this->_values['discount'][$discountId]['amount_id'])];
                 
             }else if ( empty( $params['priceSetId'] ) ) {
-                $params['amount_level'] = $this->_values['custom']['label'][array_search( $params['amount'], 
-                                                                                          $this->_values['custom']['amount_id'])];
+                $params['amount_level'] =
+                    $this->_values['custom']['label'][array_search( $params['amount'], 
+                                                                    $this->_values['custom']['amount_id'])];
                 
-                $params['amount']       = $this->_values['custom']['value'][array_search( $params['amount'], 
-                                                                                          $this->_values['custom']['amount_id'])];
+                $params['amount'] =
+                    $this->_values['custom']['value'][array_search( $params['amount'], 
+                                                                    $this->_values['custom']['amount_id'])];
             } else {
                 $lineItem = array( );
                 self::processPriceSetAmount( $this->_values['custom']['fields'], $params, $lineItem );
@@ -676,6 +678,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         }
         
         //send mail Confirmation/Receipt
+        require_once "CRM/Event/BAO/EventPage.php";
         if ( $this->_contributeMode != 'checkout' ||
              $this->_contributeMode != 'notify'   ) {
             $isTest = false;
@@ -692,7 +695,6 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             //build an array of custom profile and assigning it to template.
             $additionalIDs = CRM_Event_BAO_EventPage::buildCustomProfile( $registerByID, null, $primaryContactId, $isTest, true );  
 
-            require_once "CRM/Event/BAO/EventPage.php";
             foreach( $additionalIDs as $participantID => $contactId ) {
                 if ( $participantID == $registerByID ) {
                     //set as Primary Participant
@@ -733,9 +735,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             switch ( $field['html_type'] ) {
             case 'Text':
                 $params["price_{$id}"] = array( key( $field['options'] ) => $params["price_{$id}"] );
-                
                 self::getLineItem( $id, $params, $field, $lineItem );
-                
                 $totalPrice += $lineItem[key( $field['options'] )]['line_total'];
                 break;
                 
@@ -746,38 +746,30 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 $optionLabel      = $field['options'][$optionValueId]['label'];
                 $params['amount_priceset_level_radio']                = array( );
                 $params['amount_priceset_level_radio'][$optionValueId]= $optionLabel;
-                
                 if( isset( $radioLevel ) ) {
                     $radioLevel   = array_merge( $radioLevel,
                                                  array_keys( $params['amount_priceset_level_radio'] ) );   
                 } else {
                     $radioLevel   = array_keys($params['amount_priceset_level_radio']);
                 }
-                
                 self::getLineItem( $id, $params, $field, $lineItem );
-                
                 $totalPrice += $lineItem[$optionValueId]['line_total'];
-                
                 break;
+
             case 'Select': 
                 $params["price_{$id}"] = array( $params["price_{$id}"] => 1 );
-                                
                 $optionValueId    = CRM_Utils_Array::key( 1, $params["price_{$id}"] );
                 $optionLabel      = $field['options'][$optionValueId]['label'];
                 $params['amount_priceset_level_select']                 = array();
                 $params['amount_priceset_level_select']
                     [CRM_Utils_Array::key( 1, $params["price_{$id}"] )] = $optionLabel;
-                
                 if( isset( $selectLevel ) ) {
                     $selectLevel   = array_merge($selectLevel,array_keys($params['amount_priceset_level_select']));   
                 } else {
                     $selectLevel   = array_keys($params['amount_priceset_level_select']);
                 }
-                
                 self::getLineItem( $id, $params, $field, $lineItem );
-                
                 $totalPrice += $lineItem[$optionValueId]['line_total'];
-                
                 break;
                 
             case 'CheckBox':
@@ -786,7 +778,6 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                     $optionIds[] = $optionId;
                     $optionLabel = $field['options'][$optionId]['label'];
                     $params['amount_priceset_level_checkbox']["{$field['options'][$optionId]['id']}"]= $optionLabel;
-                    
                     if( isset($checkboxLevel) ){
                         $checkboxLevel=array_unique( 
                                                     array_merge(
@@ -798,13 +789,10 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                         $checkboxLevel=array_keys($params['amount_priceset_level_checkbox']);
                     }
                 }
-                
                 self::getLineItem( $id, $params, $field, $lineItem );
-                
                 foreach( $optionIds as $optionId ) {
                     $totalPrice += $lineItem[$optionId]['line_total'];
                 }
-                
                 break;
             }
         }
@@ -843,17 +831,37 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
      */
     static function getLineItem( $fid, &$params, &$fields, &$values )
     {
+        if ( empty( $params["price_{$fid}"] ) ) {
+            return;
+        }
+
+        $optionIDs = implode( ',', array_keys( $params["price_{$fid}"] ) );
+        $sql = "
+SELECT id, option_group_id, label, description
+FROM   civicrm_option_value
+WHERE  id IN ($optionIDs)
+";
+        $dao = CRM_Core_DAO::executeQuery( $sql,
+                                           CRM_Core_DAO::$_nullArray );
+        $optionValues = array( );
+        while ( $dao->fetch( ) ) {
+            $optionValues[$dao->id] = array('gid'   => $dao->option_group_id,
+                                            'label' => $dao->label,
+                                            'description' => $dao->description );
+        }
+                            
         foreach( $params["price_{$fid}"] as $oid => $qty ) {
-            $price        = $fields['options'][$oid]['value'];
+            $price        = $fields['options'][$oid]['name'];
             
             $values[$oid] = array(
                                   'price_field_id'   => $fid,
                                   'option_value_id'  => $oid,
-                                  'label'            => CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue',
-                                                                                     $oid, 'label', 'id' ),
+                                  'option_group_id'  => $optionValues[$oid]['gid'],
+                                  'label'            => $optionValues[$oid]['label'],
+                                  'description'      => $optionValues[$oid]['description'],
                                   'qty'              => $qty,
                                   'unit_price'       => $price,
-                                  'line_total'       => $qty * $fields['options'][$oid]['value'],
+                                  'line_total'       => $qty * $fields['options'][$oid]['name'],
                                   'html_type'        => $fields['html_type']
                                   );
         }
@@ -877,8 +885,8 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         }
         if ( ! $contactID &&
              ! empty( $fields ) &&
-             isset( $fields['email-5'] ) ) {
-            $emailString = trim( $fields['email-5'] );
+             isset( $fields["email-{$this->_bltID}"] ) ) {
+            $emailString = trim( $fields["email-{$this->_bltID}"] );
             if ( ! empty( $emailString ) ) {
                 require_once 'CRM/Core/BAO/Email.php';
                 $email =&new CRM_Core_BAO_Email();

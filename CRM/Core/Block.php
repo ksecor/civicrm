@@ -245,6 +245,13 @@ class CRM_Core_Block {
      
             }
 
+            // add new activity creation link
+            $shortCuts = array_merge($shortCuts, array( array( 'path'  => 'civicrm/activity',
+                                                              'query' => 'action=add&reset=1&context=standalone',
+                                                              'key'   => 'A',
+                                                              'title' => ts('New Activity') ) ));
+            
+            
             if ( CRM_Core_Permission::check('edit groups')) {
                 $shortCuts = array_merge($shortCuts, array( array( 'path'  => 'civicrm/group/add',
                                                                    'query' => 'reset=1',
@@ -257,12 +264,6 @@ class CRM_Core_Block {
                                                                    'query' => 'reset=1',
                                                                    'title' => ts('My Contact Dashboard') ) ));
             }
-
-            // add new activity creation link
-            $shortCuts = array_merge($shortCuts, array( array( 'path'  => 'civicrm/activity',
-                                                               'query' => 'action=add&reset=1&context=standalone',
-                                                               'key'   => 'A',
-                                                               'title' => ts('New Activity') ) ));
 
             if ( empty( $shortCuts ) ) {
                 return null;

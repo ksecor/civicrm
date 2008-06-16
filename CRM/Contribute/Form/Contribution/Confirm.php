@@ -382,7 +382,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         // organization params in a separate variable, to make sure
         // normal behavior is continued. And use that variable to
         // process on-behalf-of functionality.
-        if ( $params['is_for_organization'] && $params['organization_name'] ) {
+        if ( $this->_values['is_for_organization'] ) {
             $behalfOrganization = array();
             foreach ( array('organization_name', 'organization_id', 'location', 'org_option') as $fld ) {
                 $behalfOrganization[$fld] = $params[$fld];
@@ -407,7 +407,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
 
         // If onbehalf-of-organization contribution / signup, add organization
         // and it's location.
-        if ( is_array($behalfOrganization) && $behalfOrganization['organization_name'] ) {
+        if ( $params['is_for_organization'] && isset( $behalfOrganization['organization_name'] ) ) {
             self::processOnBehalfOrganization( $behalfOrganization, $contactID, $this->_values, $this->_params );
         }
 

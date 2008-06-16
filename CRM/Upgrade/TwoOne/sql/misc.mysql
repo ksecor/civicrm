@@ -468,3 +468,10 @@ UPDATE civicrm_option_value SET label = 'Addt\'l Address 2' WHERE label = 'Addt\
 -- add the civicrm_uf_match.language column
 
 ALTER TABLE civicrm_uf_match ADD language VARCHAR(5) COMMENT 'UI language preferred by the given user/contact';
+
+-- fix for CRM-3209
+UPDATE civicrm_option_value v,
+       civicrm_option_group g
+SET    v.description = v.name, v.name = v.value
+WHERE  v.option_group_id = g.id
+AND    g.name LIKE 'civicrm_price_field.amount.%'

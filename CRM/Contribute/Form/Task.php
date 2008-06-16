@@ -57,6 +57,13 @@ class CRM_Contribute_Form_Task extends CRM_Core_Form
     protected $_componentClause = null;
 
     /**
+     * The array that holds all the component ids
+     *
+     * @var array
+     */
+    protected $_componentIds;
+
+    /**
      * The array that holds all the contribution ids
      *
      * @var array
@@ -86,6 +93,7 @@ class CRM_Contribute_Form_Task extends CRM_Core_Form
         $this->_task = $values['task'];
         $contributeTasks = CRM_Contribute_Task::tasks();
         $this->assign( 'taskName', $contributeTasks[$this->_task] );
+
         $ids = array();
         if ( $values['radio_ts'] == 'ts_sel' ) {
             foreach ( $values as $name => $value ) {
@@ -103,35 +111,26 @@ class CRM_Contribute_Form_Task extends CRM_Core_Form
             }
             $this->assign( 'totalSelectedContributions', $this->get( 'rowCount' ) );
         }
-        $this->_contributionIds = $ids;
+
         if ( ! empty( $ids ) ) {
             $this->_componentClause =
                 ' civicrm_contribution.id IN ( ' .
                 implode( ',', $ids ) . ' ) ';
             
             $this->assign( 'totalSelectedContributions', count( $ids ) );
-        } else {
-            $this->assign( 'totalSelectedContributions', 0 );
         }
+
+        $this->_contributionIds = $this->_componentIds = $ids;
     }
 
     /**
-     * Given the component id, compute the contact id
+     * Given the contribution id, compute the contact id
      * since its used for things like send email
      */
-    public function setContactIDs( ) {
+    public function setContactIDs( ) 
+    {
         $this->_contactIds =& CRM_Core_DAO::getContactIDsFromComponent( $this->_contributionIds,
                                                                         'civicrm_contribution' );
-    }
-
-    /**
-     * Function to actually build the form
-     *
-     * @return void
-     * @access public
-     */
-    public function buildQuickForm( ) 
-    {
     }
 
     /**
@@ -143,7 +142,8 @@ class CRM_Contribute_Form_Task extends CRM_Core_Form
      * @return void
      * @access public
      */
-    function addDefaultButtons( $title, $nextType = 'next', $backType = 'back' ) {
+    function addDefaultButtons( $title, $nextType = 'next', $backType = 'back' ) 
+    {
         $this->addButtons( array(
                                  array ( 'type'      => $nextType,
                                          'name'      => $title,
@@ -153,7 +153,6 @@ class CRM_Contribute_Form_Task extends CRM_Core_Form
                                  )
                            );
     }
-
 }
 
 

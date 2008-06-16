@@ -54,7 +54,14 @@ class CRM_Grant_Form_Task extends CRM_Core_Form
      *
      * @var string
      */
-    protected $_grantClause = null;
+    protected $_componentClause = null;
+
+    /**
+     * The array that holds all the component ids
+     *
+     * @var array
+     */
+    protected $_componentIds;
 
     /**
      * The array that holds all the grant ids
@@ -87,43 +94,34 @@ class CRM_Grant_Form_Task extends CRM_Core_Form
                     $ids[] = substr( $name, CRM_Core_Form::CB_PREFIX_LEN );
                 }
             }
-            if ( ! empty( $ids ) ) {
-                $this->_grantClause =
-                    ' civicrm_grant.id IN ( ' .
-                    implode( ',', $ids ) . ' ) ';
-            $this->assign( 'totalSelectedGrants', count( $ids ) );             
-            }
         } else {
             $queryParams =  $this->get( 'queryParams' );
-            
             $query       =& new CRM_Contact_BAO_Query( $queryParams, null, null, false, false, 
                                                        CRM_Contact_BAO_Query::MODE_GRANT);
             $result = $query->searchQuery(0, 0, null);
             while ($result->fetch()) {
                 $ids[] = $result->grant_id;
             }
-            $this->assign( 'totalSelectedGrants', $this->get( 'rowCount' ) );
         }
-        $this->_grantIds = $ids;
+
+        if ( ! empty( $ids ) ) {
+            $this->_grantClause =
+                ' civicrm_grant.id IN ( ' .
+                implode( ',', $ids ) . ' ) ';
+            $this->assign( 'totalSelectedGrants', count( $ids ) );             
+        }
+        
+        $this->_grantIds = $this->_componentIds = $ids;
     }
 
     /**
-     * Given the component id, compute the contact id
+     * Given the grant id, compute the contact id
      * since its used for things like send email
      */
-     public function setContactIDs( ) {
-         $this->_contactIds =& CRM_Core_DAO::getContactIDsFromComponent( $this->_grantIds,
-                                                                        'civicrm_grant' );
-    }
-
-    /**
-     * Function to actually build the form
-     *
-     * @return void
-     * @access public
-     */
-    public function buildQuickForm( ) 
+    public function setContactIDs( ) 
     {
+        $this->_contactIds =& CRM_Core_DAO::getContactIDsFromComponent( $this->_grantIds,
+                                                                        'civicrm_grant' );
     }
 
     /**

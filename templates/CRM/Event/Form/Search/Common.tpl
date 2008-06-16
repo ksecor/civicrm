@@ -83,7 +83,10 @@
     {$form.participant_fee_level.html}
     </div> 
     </td>
-     <td>{$form.participant_fee_amount.label}<br /> {$form.participant_fee_amount.html}</td> 
+     <td><label>{ts}Fee Amount{/ts}</label><br />
+     	{$form.participant_fee_amount_low.label} &nbsp; {$form.participant_fee_amount_low.html} &nbsp;&nbsp; 
+	{$form.participant_fee_amount_high.label} &nbsp; {$form.participant_fee_amount_high.html}
+     </td> 
 </tr>
 <tr>
     <td colspan="4">

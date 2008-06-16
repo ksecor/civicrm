@@ -86,11 +86,11 @@ class CRM_Core_Component
         return $comp;
     }
 
-    public function &getComponents( )
+    public function &getComponents( $force = false )
     {
         static $_cache = null;
 
-        if ( ! $_cache ) {
+        if ( ! $_cache || $force ) {
             $_cache = array( );
 
             require_once 'CRM/Core/DAO/Component.php';
@@ -151,7 +151,7 @@ class CRM_Core_Component
     static function xmlMenu( ) {
 
         // lets build the menu for all components
-        $info =& self::getComponents( );
+        $info =& self::getComponents( true );
 
         $files = array( );
         foreach( $info as $name => $comp ) {

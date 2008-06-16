@@ -281,8 +281,8 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         require_once 'CRM/Core/BAO/LocationType.php';
 
         if ( $mappingType == 'Export' ) {
-            // $form->applyFilter('__ALL__', 'trim');
-
+            $form->applyFilter('saveMappingName', 'trim');
+            
             //to save the current mappings
             if ( !isset($mappingId) ) {
                 $saveDetailsName = ts('Save this field mapping');

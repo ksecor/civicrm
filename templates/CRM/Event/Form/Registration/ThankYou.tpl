@@ -1,3 +1,6 @@
+{if $action & 1024}
+    {include file="CRM/Event/Form/Registration/PreviewHeader.tpl"}
+{/if}
 <div class="form-item">
     {if $eventPage.thankyou_text} 
         <div id="intro_text">

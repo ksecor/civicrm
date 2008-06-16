@@ -176,11 +176,11 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
         }
         if ($newArgs[3] == 'unscheduled') {
             $unscheduled = true;
-            CRM_Utils_System::setTitle(ts('Browse Mailings (Not Scheduled)'));
+            CRM_Utils_System::setTitle(ts('Draft and Unscheduled Mailings'));
             $this->assign('rows', $notScheduled);
             $this->assign('unscheduled', $unscheduled);
         } else {
-            CRM_Utils_System::setTitle(ts('Browse Mailings (Scheduled and Sent)'));
+            CRM_Utils_System::setTitle(ts('Scheduled and Sent Mailings'));
             $this->assign('rows', $scheduled);
         }
         return parent::run( );

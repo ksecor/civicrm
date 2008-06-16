@@ -14,6 +14,9 @@
     <dl id="id_new_group">
         <dt>{$form.title.label}<span class="marker">*</span></dt><dd>{$form.title.html}</dd>
         <dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>
+{if $form.group_type}
+     <dt>{$form.group_type.label}</dt><dd>{$form.group_type.html}</dd>
+{/if}
     </dl> 
     <dl>
     {/if}

@@ -244,12 +244,6 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             if ( $priceSetId ) {
                 $this->_priceSetId = $priceSetId;
                 $priceSet = CRM_Core_BAO_PriceSet::getSetDetail($priceSetId);
-                require_once 'CRM/Core/BAO/PriceField.php';
-                if ( isset($priceSet[$priceSetId]['fields']) ) {
-                    foreach ( array_keys($priceSet[$priceSetId]['fields']) as $fieldId ) {
-                        $priceSet[$priceSetId]['fields'][$fieldId]['options'] = CRM_Core_BAO_PriceField::getOptions($fieldId, false);
-                    }
-                }
                 $this->_priceSet = CRM_Utils_Array::value($priceSetId,$priceSet);
                 $this->_values['custom'] = CRM_Utils_Array::value($priceSetId,$priceSet);
                 $this->set('priceSetId', $this->_priceSetId);
@@ -464,12 +458,6 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         if ( $priceSetId = CRM_Core_BAO_PriceSet::getFor( 'civicrm_event_page', $eventPageID ) ) {
             $form->_priceSetId = $priceSetId;
             $priceSet = CRM_Core_BAO_PriceSet::getSetDetail($priceSetId);
-            require_once 'CRM/Core/BAO/PriceField.php';
-            if ( isset($priceSet[$priceSetId]['fields']) ) {
-                foreach ( array_keys($priceSet[$priceSetId]['fields']) as $fieldId ) {
-                    $priceSet[$priceSetId]['fields'][$fieldId]['options'] = CRM_Core_BAO_PriceField::getOptions($fieldId, false);
-                }
-            }
             $form->_priceSet = CRM_Utils_Array::value($priceSetId,$priceSet);
             $form->_values['custom'] = CRM_Utils_Array::value($priceSetId,$priceSet);
             $form->set('priceSetId', $form->_priceSetId);

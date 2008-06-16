@@ -222,6 +222,7 @@ class CRM_Member_Import_Form_MapField extends CRM_Core_Form {
         //to save the current mappings
         if ( !$this->get('savedMapping') ) {
             $saveDetailsName = ts('Save this field mapping');
+           $this->applyFilter('saveMappingName', 'trim');
             $this->add('text','saveMappingName',ts('Name'));
             $this->add('text','saveMappingDesc',ts('Description'));
         } else {

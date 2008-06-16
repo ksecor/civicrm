@@ -107,8 +107,8 @@ class CRM_Contribute_BAO_Query
         }
 
         // get contribution_status
-        if ( CRM_Utils_Array::value( 'contribution_status', $query->_returnProperties ) ) {
-            $query->_select['contribution_status']  = "contribution_status.name as contribution_status";
+        if ( CRM_Utils_Array::value( 'contribution_status_id', $query->_returnProperties ) ) {
+            $query->_select['contribution_status']  = "contribution_status.name as contribution_status_id";
             $query->_element['contribution_status'] = 1;
             $query->_tables['civicrm_contribution'] = 1;
             $query->_tables['contribution_status'] = 1;
@@ -498,7 +498,7 @@ class CRM_Contribute_BAO_Query
                                 'contribution_end_date'   => 1,
                                 'is_test'                 => 1,
                                 'is_pay_later'            => 1,
-                                'contribution_status'     => 1,
+                                'contribution_status_id'  => 1,
                                 'contribution_recur_id'   => 1, 
                                 'amount_level'            => 1,
                                 'contribution_note'       => 1

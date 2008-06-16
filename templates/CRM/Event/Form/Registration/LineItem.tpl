@@ -9,7 +9,7 @@
             </tr>
                 {foreach from=$value item=line}
             <tr>
-                <td>{$line.label}</td>
+                <td>{$line.description}</td>
                 <td class="right">{$line.qty}</td>
                 <td class="right">{$line.unit_price|crmMoney}</td>
                 <td class="right">{$line.line_total|crmMoney}</td>

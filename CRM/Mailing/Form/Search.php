@@ -42,8 +42,8 @@ class CRM_Mailing_Form_Search extends CRM_Core_Form {
     }
 
     public function buildQuickForm( ) {
-        $this->add( 'text', 'mailing_name', ts( 'Find' ),
-                    array(CRM_Core_DAO::getAttribute('CRM_Mailing_DAO_Mailing', 'title'), 'style' => 'width: 90%'));
+        $this->add( 'text', 'mailing_name', ts( 'Name' ),
+                    CRM_Core_DAO::getAttribute('CRM_Mailing_DAO_Mailing', 'title') );
 
         $this->add('date', 'mailing_from', ts('From'), CRM_Core_SelectValues::date('relative')); 
         $this->addRule('mailing_from', ts('Select a valid Sent FROM date.'), 'qfDate'); 

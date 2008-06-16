@@ -17,7 +17,7 @@
          <div><label>{ts}Current Relationships{/ts}</label></div>
         {/if}
         {strip}
-        <table>
+        <table class="selector">
         <tr class="columnheader">
             <th>{ts}Relationship{/ts}</th>
             <th></th>
@@ -37,10 +37,10 @@
           {/if*}
           <tr class="{cycle values="odd-row,even-row"}">
            {if $relationshipTabContext}
-            <td class="label"><a href="{crmURL p='civicrm/contact/view/rel' q="action=view&reset=1&selectedChild=rel&cid=`$contactId`&id=`$rel.id`&rtype=`$rel.rtype`"}">{$rel.relation}</a></td>
+            <td class="bold"><a href="{crmURL p='civicrm/contact/view/rel' q="action=view&reset=1&selectedChild=rel&cid=`$contactId`&id=`$rel.id`&rtype=`$rel.rtype`"}">{$rel.relation}</a></td>
             <td><a href="{crmURL p='civicrm/contact/view' q="action=view&reset=1&cid=`$rel.cid`"}">{$rel.name}</a></td>
             {else}
-              <td class="label">{$rel.relation}</td>
+              <td class="bold">{$rel.relation}</strong></td>
               <td>{$rel.name}</td>
             {/if}
             <td>{$rel.city}</td>
@@ -95,7 +95,7 @@
         <div class="label font-red">{ts}Inactive Relationships{/ts}</div>
         <div class="description">{ts}These relationships are Disabled OR have a past End Date.{/ts}</div>
         {strip}
-        <table>
+        <table class="selector">
         <tr class="columnheader">
             <th>{ts}Relationship{/ts}</th>
             <th></th>
@@ -114,12 +114,12 @@
             {assign var = "rtype" value = "a_b" }
           {/if}
           <tr class="{cycle values="odd-row,even-row"}">
-            <td class="label">{$rel.relation}</td>
+            <td class="bold">{$rel.relation}</td>
             <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$rel.cid`"}">{$rel.name}</a></td>
             <td>{$rel.city}</td>
             <td>{$rel.state}</td>
-    	    <td>{$rel.phone}</td>    
-	    <td>{$rel.end_date|crmDate}</td>
+    	    <td>{$rel.phone}</td>
+            <td>{$rel.end_date|crmDate}</td>
             <td class="nowrap">{$rel.action}</td>
           </tr>
         {/foreach}

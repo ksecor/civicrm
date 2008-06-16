@@ -85,7 +85,7 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
         // checkbox for SKIP contacts with Do Not Mail privacy option
         $this->addElement('checkbox', 'do_not_mail', ts('Do not print labels for contacts with "Do Not Mail" privacy option checked') );
         
-        $this->add( 'checkbox', 'merge_same_address', ts( 'Merge labels with same Address' ), null );
+        $this->add( 'checkbox', 'merge_same_address', ts( 'Merge labels for contacts with the same address' ), null );
 
         $this->addDefaultButtons( ts('Make Mailing Labels'));
        

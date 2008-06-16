@@ -85,11 +85,16 @@ div.spacer, .spacer {
 }
   
 #crm-container fieldset {
- margin: 1em 0em .5em 0em;
+  margin: .25em 0em .5em 0em;
+}
+
+#crm-container fieldset.form-layout {
+  margin: .25em 0em .5em 0em;
+  padding: 1px 10px 1px 10px;
 }
 
 #crm-container div.form-item {
-border-top-style: none;
+  border-top-style: none;
   margin: 0px;
   padding: 3px 0px 3px 0px;
   clear: both;
