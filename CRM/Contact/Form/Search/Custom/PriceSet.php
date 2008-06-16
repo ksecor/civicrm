@@ -39,13 +39,125 @@ class CRM_Contact_Form_Search_Custom_PriceSet
    extends    CRM_Contact_Form_Search_Custom_Base
    implements CRM_Contact_Form_Search_Interface {
 
+    protected $_eventID   = null;
+
+    protected $_tableName = null;
+
     function __construct( &$formValues ) {
         parent::__construct( $formValues );
 
-        $this->_columns = array( ts('Contact Id')      => 'contact_id'    ,
-                                 ts('Participant Id' ) => 'participant_id',
-                                 ts('Name')            => 'display_name'  );
+        $this->_eventID = CRM_Utils_Array::value( 'event_id',
+                                                  $this->_formValues );
 
+        $this->setColumns( );
+
+        if ( $this->_eventID ) {
+            $this->buildTempTable( );
+        
+            $this->fillTable( );
+        }
+
+    }
+
+    function __destruct( ) {
+        if ( $this->_eventID ) {
+            $sql = "DROP TEMPORARY TABLE {$this->_tableName}";
+            CRM_Core_DAO::executeQuery( $sql,
+                                        CRM_Core_DAO::$_nullArray ) ;
+        }
+    }
+
+    function buildTempTable( ) {
+        $randomNum = md5( uniqid( ) );
+        $this->_tableName = "civicrm_temp_custom_{$randomNum}";
+        $sql = "
+CREATE TEMPORARY TABLE {$this->_tableName} (
+  id int unsigned NOT NULL AUTO_INCREMENT,
+  contact_id int unsigned NOT NULL,
+  participant_id int unsigned NOT NULL,
+";
+
+        foreach ( $this->_columns as $dontCare => $fieldName ) {
+            if ( in_array( $fieldName, array( 'contact_id',
+                                              'participant_id',
+                                              'display_name' ) ) ) {
+                continue;
+            }
+            $sql .= "{$fieldName} int default 0,\n";
+        }
+        
+        $sql .= "
+PRIMARY KEY ( id ),
+UNIQUE INDEX unique_contact_id     ( contact_id ),
+UNIQUE INDEX unique_participatn_id ( participant_id )
+) ENGINE=HEAP
+";
+        
+        CRM_Core_DAO::executeQuery( $sql,
+                                    CRM_Core_DAO::$_nullArray ) ;
+    }
+
+    function fillTable( ) {
+        $sql = "
+INSERT INTO {$this->_tableName}
+( contact_id, participant_id )
+SELECT c.id, p.id
+FROM   civicrm_contact c,
+       civicrm_participant p
+WHERE  p.contact_id = c.id
+  AND  p.event_id = {$this->_eventID}
+";
+        CRM_Core_DAO::executeQuery( $sql,
+                                    CRM_Core_DAO::$_nullArray );
+
+        $sql = "
+SELECT c.id as contact_id,
+       p.id as participant_id, 
+       v.id as option_value_id, 
+       l.qty
+FROM   civicrm_contact c,
+       civicrm_contribution o,
+       civicrm_participant  p,
+       civicrm_participant_payment pp,
+       civicrm_line_item    l,
+       civicrm_option_group g,
+       civicrm_option_value v
+WHERE  c.id = o.contact_id
+AND    c.id = p.contact_id
+AND    p.event_id = {$this->_eventID}
+AND    pp.contribution_id = o.id
+AND    pp.participant_id  = p.id
+AND    o.id = l.entity_id
+AND    l.option_group_id = g.id
+AND    v.option_group_id = g.id
+AND    v.label = l.label
+ORDER BY c.id, v.id;
+";
+
+        $dao = CRM_Core_DAO::executeQuery( $sql,
+                                           CRM_Core_DAO::$_nullArray );
+
+        // first store all the information by option value id
+        $rows = array( );
+        while ( $dao->fetch( ) ) {
+            $contactID = $dao->contact_id;
+            if ( ! isset( $rows[$contactID] ) ) {
+                $rows[$contactID] = array( );
+            }
+
+            $rows[$contactID][] = "price_field_{$dao->option_value_id} = {$dao->qty}";
+        }
+
+        foreach ( array_keys( $rows ) as $contactID ) {
+            $values = implode( ',', $rows[$contactID] );
+            $sql = "
+UPDATE {$this->_tableName}
+SET $values
+WHERE contact_id = $contactID;
+";
+            CRM_Core_DAO::executeQuery( $sql,
+                                        CRM_Core_DAO::$_nullArray );
+        }
     }
 
     function priceSetDAO( $eventID = null ) {
@@ -105,7 +217,15 @@ AND    ep.event_id     = e.id
          $form->assign( 'elements', array( 'event_id' ) );
     }
 
-    function &columns( ) {
+    function &setColumns( ) {
+        $this->_columns = array( ts('Contact Id')      => 'contact_id'    ,
+                                 ts('Participant Id' ) => 'participant_id',
+                                 ts('Name')            => 'display_name'  );
+
+        if ( ! $this->_eventID ) {
+            return;
+        }
+
         // for the selected event, find the price set and all the columns associated with it.
         // create a column for each field and option group within it
         $dao = $this->priceSetDAO( $this->_formValues['event_id'] );
@@ -122,13 +242,11 @@ AND    ep.event_id     = e.id
             foreach ( $priceSet[$dao->price_set_id]['fields'] as $key => $value ) {
                 if ( is_array( $value['options'] ) ) {
                     foreach ( $value['options'] as $oKey => $oValue ) {
-                        $this->_columns[$oValue['label']] = $oValue['label'];
+                        $this->_columns[$oValue['description']] = "price_field_{$oValue['id']}";
                     }
                 }
             }
         }
-
-        return $this->_columns;
     }
 
     function summary( ) {
@@ -138,11 +256,17 @@ AND    ep.event_id     = e.id
     function all( $offset = 0, $rowcount = 0, $sort = null,
                   $includeContactIDs = false ) {
         $selectClause = "
-contact_a.id           as contact_id  ,
-contact_a.contact_type as contact_type,
-contact_a.sort_name    as sort_name,
-state_province.name    as state_province
-";
+contact_a.id             as contact_id  ,
+contact_a.display_name   as display_name";
+
+        foreach ( $this->_columns as $dontCare => $fieldName ) {
+            if ( in_array( $fieldName, array( 'contact_id',
+                                              'display_name' ) ) ) {
+                continue;
+            }
+            $selectClause .= ",\ntempTable.{$fieldName} as {$fieldName}";
+        }
+        
         return $this->sql( $selectClause,
                            $offset, $rowcount, $sort,
                            $includeContactIDs, null );
@@ -151,45 +275,13 @@ state_province.name    as state_province
     
     function from( ) {
         return "
-FROM      civicrm_contact contact_a
-LEFT JOIN civicrm_address address ON ( address.contact_id       = contact_a.id AND
-                                       address.is_primary       = 1 )
-LEFT JOIN civicrm_email           ON ( civicrm_email.contact_id = contact_a.id AND
-                                       civicrm_email.is_primary = 1 )
-LEFT JOIN civicrm_state_province state_province ON state_province.id = address.state_province_id
+FROM       civicrm_contact contact_a
+INNER JOIN {$this->_tableName} tempTable ON ( tempTable.contact_id = contact_a.id )
 ";
     }
 
     function where( $includeContactIDs = false ) {
-        $params = array( );
-        $where  = "contact_a.contact_type   = 'Household'";
-
-        $count  = 1;
-        $clause = array( );
-        $name   = CRM_Utils_Array::value( 'household_name',
-                                          $this->_formValues );
-        if ( $name != null ) {
-            if ( strpos( $name, '%' ) === false ) {
-                $name = "%{$name}%";
-            }
-            $params[$count] = array( $name, 'String' );
-            $clause[] = "contact_a.household_name LIKE %{$count}";
-            $count++;
-        }
-
-        $state = CRM_Utils_Array::value( 'state_province_id',
-                                         $this->_formValues );
-        if ( $state ) {
-            $params[$count] = array( $state, 'Integer' );
-            $clause[] = "state_province.id = %{$count}";
-        }
-
-        if ( ! empty( $clause ) ) {
-            $where .= ' AND ' . implode( ' AND ', $clause );
-        }
-
-
-        return $this->whereClause( $where, $params );
+        return ' (1) ';
     }
 
     function templateFile( ) {
@@ -197,7 +289,7 @@ LEFT JOIN civicrm_state_province state_province ON state_province.id = address.s
     }
 
     function setDefaultValues( ) {
-        return array( 'household_name'    => '', );
+        return array( );
     }
 
     function alterRow( &$row ) {
@@ -207,7 +299,7 @@ LEFT JOIN civicrm_state_province state_province ON state_province.id = address.s
         if ( $title ) {
             CRM_Utils_System::setTitle( $title );
         } else {
-            CRM_Utils_System::setTitle(ts('Search'));
+            CRM_Utils_System::setTitle(ts('Export Price Set Info for an Event'));
         }
     }
 }
