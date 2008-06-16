@@ -1,7 +1,17 @@
+
+{assign var="showBlock" value="'searchForm'"}
+{assign var="hideBlock" value="'searchForm_show'"}
+<div id="searchForm_show" class="form-item">
+  <a href="#" onclick="hide('searchForm_show'); show('searchForm'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}" /></a>
+  <label>
+        {ts}Edit Search Criteria{/ts}
+  </label>
+</div>
 {* Search form and results for Grants *}
 <div id="help">
     {ts}Use this form to find Grant(s) by Contact name, Grant Status, Grant Type, Total Amount , etc .{/ts}
 </div>
+<div id="searchForm" class="form-item">
 <fieldset><legend>{ts}Find Grants{/ts}</legend>
 <div class="form-item">
 {strip} 
@@ -21,12 +31,15 @@
     {/strip}
 </div> 
 </fieldset>
-
+</div>
 {if $rowsEmpty}
     {include file="CRM/Grant/Form/Search/EmptyResults.tpl"}
 {/if}
 
 {if $rows}
+    {* Search request has returned 1 or more matching rows. Display results and collapse the search criteria fieldset. *}
+    {assign var="showBlock" value="'searchForm_show'"}
+    {assign var="hideBlock" value="'searchForm'"}
     {* Search request has returned 1 or more matching rows. *}
     <fieldset>
     
@@ -41,3 +54,10 @@
     {* END Actions/Results section *}
 
 {/if}
+<script type="text/javascript">
+    var showBlock = new Array({$showBlock});
+    var hideBlock = new Array({$hideBlock});
+
+{* hide and display the appropriate blocks *}
+    on_load_init_blocks( showBlock, hideBlock );
+</script>
