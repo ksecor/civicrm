@@ -4,11 +4,9 @@
 <dl><dt></dt><dd>{$form.buttons.html}</dd></dl>
 </fieldset>
 {/if}
-
 <div class="action-link">
-    <a accesskey="N" href="{crmURL p='civicrm/mailing/send' q='reset=1'}">&raquo; {ts}New Mailing{/ts}</a>
+    <a accesskey="N" href="{crmURL p='civicrm/mailing/send' q='reset=1'}" class="button"><span>&raquo; New Mailing</span></a><br/><br/>
 </div>
-
 {include file="CRM/Mailing/Form/Search.tpl"}
 
 {if $rows}
@@ -45,12 +43,9 @@
 {/strip}
 
 {include file="CRM/common/pager.tpl" location="bottom"}
-
-<div class="action-link">
-    <a href="{crmURL p='civicrm/mailing/send' q='reset=1'}">&raquo; {ts}New Mailing{/ts}</a>
-</div>
-
-
+    <div class="action-link">
+        <a accesskey="N" href="{crmURL p='civicrm/mailing/send' q='reset=1'}" class="button"><span>&raquo; New Mailing</span></a><br/>
+    </div>
 {* No mailings to list. Check isSearch flag to see if we're in a search or not. *}
 {elseif $isSearch eq 1}
     <div class="status messages">

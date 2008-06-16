@@ -12,7 +12,7 @@
 
         {if NOT ($action eq 1 or $action eq 2) }
             <div class="action-link">
-            <a accesskey="N" href="{$newPageURL}" id="newContributionPage">&raquo;  {ts}New Contribution Page{/ts}</a>
+                <a href="{$newPageURL}" class="button"><span>&raquo; New Contribution Page</span></a><br/>
             </div>
         {/if}
         
