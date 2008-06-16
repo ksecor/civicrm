@@ -298,13 +298,13 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
              $statusId = array_search( $row['participant_status_id'], $statusTypes );
              
              if ( $result->participant_is_pay_later && $statusId == 5 ) {
-                 $row['participant_status_id'] .= " ( Pay Later ) ";
+                 $row['participant_status_id'] .= ' ( Pay Later ) ';
              } else if ( $statusId == 5 ) {
-                 $row['participant_status_id'] .= " ( Incomplete Transaction ) ";
+                 $row['participant_status_id'] .= ' ( Incomplete Transaction ) ';
              }             
              
-             if ( CRM_Utils_Array::value("participant_is_test",$row) ) {
-                 $row['status'] = $row['status'] . " (test)";
+             if ( CRM_Utils_Array::value( "participant_is_test", $row ) ) {
+                 $row['participant_status_id'] .= ' (test)';
              }
 
              $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->participant_id;
