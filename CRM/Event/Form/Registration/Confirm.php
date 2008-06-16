@@ -582,7 +582,6 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         
         // store line items
         if ( $this->_lineItem ) {
-            CRM_Core_Error::debug( $this->_lineItem );
             require_once 'CRM/Core/BAO/LineItem.php';
             foreach ( $this->_lineItem as $key => $value ) {
                 if ( $value != 'skip' ) {
