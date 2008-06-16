@@ -885,8 +885,8 @@ WHERE  id IN ($optionIDs)
         }
         if ( ! $contactID &&
              ! empty( $fields ) &&
-             isset( $fields["email-{$this->_bltID}"] ) ) {
-            $emailString = trim( $fields["email-{$this->_bltID}"] );
+             isset( $fields["email-{$self->_bltID}"] ) ) {
+            $emailString = trim( $fields["email-{$self->_bltID}"] );
             if ( ! empty( $emailString ) ) {
                 require_once 'CRM/Core/BAO/Email.php';
                 $email =&new CRM_Core_BAO_Email();

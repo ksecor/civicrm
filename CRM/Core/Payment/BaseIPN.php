@@ -473,7 +473,7 @@ class CRM_Core_Payment_BaseIPN {
             require_once "CRM/Event/BAO/EventPage.php";
             //to get email of primary participant.
             $primaryEmail = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Email',  $participant->contact_id, 'email', 'contact_id' );  
-            $pramryAmount[$participant->fee_level.'-'.$primaryEmail] = $participant->fee_amount;
+            $primaryAmount[$participant->fee_level.'-'.$primaryEmail] = $participant->fee_amount;
             //build an array of cId/pId of participants
             $additionalIDs = CRM_Event_BAO_EventPage::buildCustomProfile( $participant->id, null, $ids['contact'], $isTest, true );
             unset( $additionalIDs[$participant->id] ); 
@@ -491,7 +491,7 @@ class CRM_Core_Payment_BaseIPN {
                     $additional->status_id = 1;
                     $additionalEmail = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Email',  $additional->contact_id, 'email', 'contact_id' );  
                     $amount[$additional->fee_level.'-'.$additionalEmail]       =  $additional->fee_amount;
-                    $pramryAmount[$additional->fee_level.'-'.$additionalEmail] =  $additional->fee_amount; 
+                    $primaryAmount[$additional->fee_level.'-'.$additionalEmail] =  $additional->fee_amount; 
                     $additional->save( );
                     $additional->free( );
                     $template->assign( 'amount', $amount );
