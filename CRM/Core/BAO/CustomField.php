@@ -69,20 +69,20 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
      */
     static function &dataType()
     {
-        if (!(self::$_dataType)) {
+        if ( !(self::$_dataType) ) {
             self::$_dataType = array(
-                'String'        => ts('Alphanumeric'),
-                'Int'           => ts('Integer'),
-                'Float'         => ts('Number'),
-                'Money'         => ts('Money'),
-                'Memo'          => ts('Note'),
-                'Date'          => ts('Date'),
-                'Boolean'       => ts('Yes or No'),
-                'StateProvince' => ts('State/Province'),
-                'Country'       => ts('Country'),
-                'File'          => ts('File'),
-                'Link'          => ts('Link')
-            );
+                                     'String'        => ts('Alphanumeric'),
+                                     'Int'           => ts('Integer'),
+                                     'Float'         => ts('Number'),
+                                     'Money'         => ts('Money'),
+                                     'Memo'          => ts('Note'),
+                                     'Date'          => ts('Date'),
+                                     'Boolean'       => ts('Yes or No'),
+                                     'StateProvince' => ts('State/Province'),
+                                     'Country'       => ts('Country'),
+                                     'File'          => ts('File'),
+                                     'Link'          => ts('Link')
+                                     );
         }
         return self::$_dataType;
     }
@@ -104,7 +104,6 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
         $customFieldBAO->copyValues($params);
         return $customFieldBAO->save();
     }
-
 
     /**
      * Takes a bunch of params that are needed to match certain criteria and
