@@ -39,7 +39,7 @@ require_once 'CRM/Core/Form.php';
  * This class previews the uploaded file and returns summary
  * statistics
  */
-class CRM_Event_Import_Form_Preview extends CRM_Core_Form
+class CRM_PledgeBank_Import_Form_Preview extends CRM_Core_Form
 {
     /**
      * Function to set variables up before form is built
@@ -159,8 +159,8 @@ class CRM_Event_Import_Form_Preview extends CRM_Core_Form
             $mapperKeys[$key] = $mapper[$key][0];
         }
         
-        require_once 'CRM/Event/Import/Parser/Participant.php';
-        $parser =& new CRM_Event_Import_Parser_Participant( $mapperKeys );
+        require_once 'CRM/PledgeBank/Import/Parser/PledgeSigner.php';
+        $parser =& new CRM_PledgeBank_Import_Parser_PledgeSigner( $mapperKeys );
         
         $mapFields = $this->get('fields');
         

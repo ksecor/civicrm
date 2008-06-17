@@ -34,12 +34,12 @@
  */
 
 require_once 'CRM/Core/Form.php';
-require_once 'CRM/Event/Import/Parser.php';
+require_once 'CRM/PledgeBank/Import/Parser.php';
 
 /**
  * This class gets the name of the file to upload
  */
-class CRM_Event_Import_Form_UploadFile extends CRM_Core_Form
+class CRM_PledgeBank_Import_Form_UploadFile extends CRM_Core_Form
 {
     /**
      * Function to actually build the form
@@ -71,11 +71,11 @@ class CRM_Event_Import_Form_UploadFile extends CRM_Core_Form
 
         $duplicateOptions = array();        
         $duplicateOptions[] = HTML_QuickForm::createElement('radio',
-            null, null, ts('Skip'), CRM_Event_Import_Parser::DUPLICATE_SKIP);
+            null, null, ts('Skip'), CRM_PledgeBank_Import_Parser::DUPLICATE_SKIP);
         $duplicateOptions[] = HTML_QuickForm::createElement('radio',
-            null, null, ts('Update'), CRM_Event_Import_Parser::DUPLICATE_UPDATE);
+            null, null, ts('Update'), CRM_PledgeBank_Import_Parser::DUPLICATE_UPDATE);
         $duplicateOptions[] = HTML_QuickForm::createElement('radio',
-            null, null, ts('No Duplicate Checking'), CRM_Event_Import_Parser::DUPLICATE_NOCHECK);
+            null, null, ts('No Duplicate Checking'), CRM_PledgeBank_Import_Parser::DUPLICATE_NOCHECK);
         // for contributions NOCHECK == SKIP
         //      $duplicateOptions[] = HTML_QuickForm::createElement('radio',
         //          null, null, ts('No Duplicate Checking'), CRM_Contribute_Import_Parser::DUPLICATE_NOCHECK);
@@ -93,21 +93,21 @@ class CRM_Event_Import_Form_UploadFile extends CRM_Core_Form
         $this->add('select','savedMapping', ts('Mapping Option'), array('' => ts('- select -'))+$mappingArray);
         
         $this->setDefaults(array('onDuplicate' =>
-                                 CRM_Event_Import_Parser::DUPLICATE_SKIP));
+                                 CRM_PledgeBank_Import_Parser::DUPLICATE_SKIP));
         
         //contact types option
         $contactOptions = array();        
         $contactOptions[] = HTML_QuickForm::createElement('radio',
-                                                          null, null, ts('Individual'), CRM_Event_Import_Parser::CONTACT_INDIVIDUAL);
+                                                          null, null, ts('Individual'), CRM_PledgeBank_Import_Parser::CONTACT_INDIVIDUAL);
         $contactOptions[] = HTML_QuickForm::createElement('radio',
-                                                          null, null, ts('Household'), CRM_Event_Import_Parser::CONTACT_HOUSEHOLD);
+                                                          null, null, ts('Household'), CRM_PledgeBank_Import_Parser::CONTACT_HOUSEHOLD);
         $contactOptions[] = HTML_QuickForm::createElement('radio',
-                                                          null, null, ts('Organization'), CRM_Event_Import_Parser::CONTACT_ORGANIZATION);
+                                                          null, null, ts('Organization'), CRM_PledgeBank_Import_Parser::CONTACT_ORGANIZATION);
         
         $this->addGroup( $contactOptions, 'contactType', ts('Contact Type') );
         
         $this->setDefaults(array('contactType' =>
-                                 CRM_Event_Import_Parser::CONTACT_INDIVIDUAL)
+                                 CRM_PledgeBank_Import_Parser::CONTACT_INDIVIDUAL)
                            );
         
         //build date formats
@@ -152,13 +152,13 @@ class CRM_Event_Import_Form_UploadFile extends CRM_Core_Form
         $seperator = $config->fieldSeparator;
 
         $mapper = array( );
-        require_once 'CRM/Event/Import/Parser/Participant.php';
-        $parser =& new CRM_Event_Import_Parser_Participant( $mapper );
+        require_once 'CRM/PledgeBank/Import/Parser/PledgeSigner.php';
+        $parser =& new CRM_PledgeBank_Import_Parser_PledgeSigner( $mapper );
         $parser->setMaxLinesToProcess( 100 );
         $parser->run( $fileName, $seperator,
                       $mapper,
                       $skipColumnHeader,
-                      CRM_Event_Import_Parser::MODE_MAPFIELD, $contactType);
+                      CRM_PledgeBank_Import_Parser::MODE_MAPFIELD, $contactType);
         
         // add all the necessary variables to the form
         $parser->set( $this );

@@ -38,7 +38,7 @@ require_once 'CRM/Core/Form.php';
 /**
  * This class gets the name of the file to upload
  */
-class CRM_Event_Import_Form_MapField extends CRM_Core_Form
+class CRM_PledgeBank_Import_Form_MapField extends CRM_Core_Form
 {
     /**
      * cache of preview data values
@@ -184,12 +184,12 @@ class CRM_Event_Import_Form_MapField extends CRM_Core_Form
         } else {
             $this->assign( 'rowDisplayCount', 2 );
         }
-        if ( $this->_onDuplicate == CRM_Event_Import_Parser::DUPLICATE_UPDATE ) {
+        if ( $this->_onDuplicate == CRM_PledgeBank_Import_Parser::DUPLICATE_UPDATE ) {
             $remove = array('participant_contact_id','email','first_name','last_name');
             foreach( $remove as $value ) {
                 unset( $this->_mapperFields[$value] );
             }
-        } else if ( $this->_onDuplicate == CRM_Event_Import_Parser::DUPLICATE_SKIP ) {
+        } else if ( $this->_onDuplicate == CRM_PledgeBank_Import_Parser::DUPLICATE_SKIP ) {
             unset( $this->_mapperFields['participant_id'] );
         }
     }
@@ -251,7 +251,7 @@ class CRM_Event_Import_Form_MapField extends CRM_Core_Form
         
         $this->addElement('checkbox','saveMapping',$saveDetailsName, null, array('onclick' =>"showSaveDetails(this)"));
         
-        $this->addFormRule( array( 'CRM_Event_Import_Form_MapField', 'formRule' ), $this  );
+        $this->addFormRule( array( 'CRM_PledgeBank_Import_Form_MapField', 'formRule' ), $this  );
         
         $defaults = array( );
         $mapperKeys      = array_keys( $this->_mapperFields );
@@ -393,9 +393,9 @@ class CRM_Event_Import_Form_MapField extends CRM_Core_Form
             
             $contactTypeId = $self->get('contactType');
             $contactTypes  = array(
-                                   CRM_Event_Import_Parser::CONTACT_INDIVIDUAL   => 'Individual',
-                                   CRM_Event_Import_Parser::CONTACT_HOUSEHOLD    => 'Household',
-                                   CRM_Event_Import_Parser::CONTACT_ORGANIZATION => 'Organization'
+                                   CRM_PledgeBank_Import_Parser::CONTACT_INDIVIDUAL   => 'Individual',
+                                   CRM_PledgeBank_Import_Parser::CONTACT_HOUSEHOLD    => 'Household',
+                                   CRM_PledgeBank_Import_Parser::CONTACT_ORGANIZATION => 'Organization'
                                    );
             $params = array(
                             'level'        => 'Strict',
@@ -548,10 +548,10 @@ class CRM_Event_Import_Form_MapField extends CRM_Core_Form
             }
         }
         
-        require_once 'CRM/Event/Import/Parser/Participant.php';
-        $parser =& new CRM_Event_Import_Parser_Participant( $mapperKeysMain );
+        require_once 'CRM/PledgeBank/Import/Parser/PledgeSigner.php';
+        $parser =& new CRM_PledgeBank_Import_Parser_PledgeSigner( $mapperKeysMain );
         $parser->run( $fileName, $seperator, $mapper, $skipColumnHeader,
-                      CRM_Event_Import_Parser::MODE_PREVIEW, $this->get('contactType') );
+                      CRM_PledgeBank_Import_Parser::MODE_PREVIEW, $this->get('contactType') );
         // add all the necessary variables to the form
         $parser->set( $this );        
     }

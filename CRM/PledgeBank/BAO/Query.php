@@ -33,14 +33,14 @@
  *
  */
 
-class CRM_Pledge_BAO_Query 
+class CRM_PledgeBank_BAO_Query 
 {
     
     static function &getFields( ) 
     {
         $fields = array( );
-        require_once 'CRM/Pledge/DAO/Pledge.php';
-        $fields = array_merge( $fields, CRM_Pledge_DAO_Pledge::import( ) );
+        require_once 'CRM/PledgeBank/DAO/Pledge.php';
+        $fields = array_merge( $fields, CRM_PledgeBank_DAO_Pledge::import( ) );
         return $fields;
     }
 

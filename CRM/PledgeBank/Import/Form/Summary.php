@@ -38,7 +38,7 @@ require_once 'CRM/Core/Form.php';
 /**
  * This class summarizes the import results
  */
-class CRM_Event_Import_Form_Summary extends CRM_Core_Form {
+class CRM_PledgeBank_Import_Form_Summary extends CRM_Core_Form {
 
     /**
      * Function to set variables up before form is built

@@ -46,7 +46,7 @@ require_once 'CRM/Contact/BAO/Query.php';
  * results of advanced search options.
  *
  */
-class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Core_Selector_API 
+class CRM_PledgeBank_Selector_Search extends CRM_Core_Selector_Base implements CRM_Core_Selector_API 
 {
     /**
      * This defines two actions- View and Edit.
@@ -425,7 +425,7 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
      * @return string name of the file 
      */ 
      function getExportFileName( $output = 'csv') { 
-         return ts('CiviCRM Event Search'); 
+         return ts('Pledge Bank Search'); 
      } 
 
 }//end of class

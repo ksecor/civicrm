@@ -29,9 +29,9 @@
 require_once 'CRM/Utils/String.php';
 require_once 'CRM/Utils/Type.php';
 
-require_once 'CRM/Event/Import/Field.php';
+require_once 'CRM/PledgeBank/Import/Field.php';
 
-abstract class CRM_Event_Import_Parser
+abstract class CRM_PledgeBank_Import_Parser
 {
     const
         MAX_ERRORS      = 250,
@@ -442,10 +442,10 @@ abstract class CRM_Event_Import_Parser
     function setActiveFields( $fieldKeys )
     {
         $this->_activeFieldCount = count( $fieldKeys );
-        require_once 'CRM/Event/Import/Field.php';
+        require_once 'CRM/PledgeBank/Import/Field.php';
         foreach ( $fieldKeys as $key ) {
             if ( empty( $this->_fields[$key] ) ) {
-                $this->_activeFields[] =& new CRM_Event_Import_Field( '', ts( '- do not import -' ) );
+                $this->_activeFields[] =& new CRM_PledgeBank_Import_Field( '', ts( '- do not import -' ) );
             } else {
                 $this->_activeFields[] = clone( $this->_fields[$key] );
             }
@@ -568,13 +568,13 @@ abstract class CRM_Event_Import_Parser
     
     function addField( $name, $title, $type = CRM_Utils_Type::T_INT, $headerPattern = '//', $dataPattern = '//') {
         if ( empty( $name ) ) {
-            $this->_fields['doNotImport'] =& new CRM_Event_Import_Field($name, $title, $type, $headerPattern, $dataPattern);
+            $this->_fields['doNotImport'] =& new CRM_PledgeBank_Import_Field($name, $title, $type, $headerPattern, $dataPattern);
         } else {
             
             //$tempField = CRM_Contact_BAO_Contact::importableFields('Individual', null );
             $tempField = CRM_Contact_BAO_Contact::importableFields('All', null );
             if (! array_key_exists ($name,$tempField) ) {
-                $this->_fields[$name] =& new CRM_Event_Import_Field($name, $title, $type, $headerPattern, $dataPattern);
+                $this->_fields[$name] =& new CRM_PledgeBank_Import_Field($name, $title, $type, $headerPattern, $dataPattern);
             } else {
                 require_once 'CRM/Import/Field.php';
                 $this->_fields[$name] =& new CRM_Import_Field($name, $title, $type, $headerPattern, $dataPattern,$tempField[$name]['hasLocationType']);

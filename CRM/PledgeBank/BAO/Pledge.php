@@ -33,9 +33,9 @@
  *
  */
 
-require_once 'CRM/Pledge/DAO/Pledge.php';
+require_once 'CRM/PledgeBank/DAO/Pledge.php';
 
-class CRM_Pledge_BAO_Pledge extends CRM_Pledge_DAO_Pledge 
+class CRM_PledgeBank_BAO_Pledge extends CRM_PledgeBank_DAO_Pledge 
 {
 
     /**
@@ -82,7 +82,7 @@ class CRM_Pledge_BAO_Pledge extends CRM_Pledge_DAO_Pledge
      */
     static function setIsActive( $id, $is_active ) 
     {
-        return CRM_Core_DAO::setFieldValue( 'CRM_Pledge_DAO_Pledge', $id, 'is_active', $is_active );
+        return CRM_Core_DAO::setFieldValue( 'CRM_PledgeBank_DAO_Pledge', $id, 'is_active', $is_active );
     }
     
     /**

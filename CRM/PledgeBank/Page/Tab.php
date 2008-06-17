@@ -35,7 +35,7 @@
 
 require_once 'CRM/Contact/Page/View.php';
 
-class CRM_Event_Page_Tab extends CRM_Contact_Page_View 
+class CRM_PledgeBank_Page_Tab extends CRM_Contact_Page_View 
 {
     /**
      * This function is called when action is browse
@@ -45,11 +45,11 @@ class CRM_Event_Page_Tab extends CRM_Contact_Page_View
      */
     function browse( ) 
     {
-        $controller =& new CRM_Core_Controller_Simple( 'CRM_Event_Form_Search', ts('Events'), $this->_action );
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_PledgeBank_Form_Search', ts('Pledges'), $this->_action );
         $controller->setEmbedded( true );
         $controller->reset( );
         $controller->set( 'cid'  , $this->_contactId );
-        $controller->set( 'context', 'participant' ); 
+        $controller->set( 'context', 'pledgesigner' ); 
         $controller->process( );
         $controller->run( );
     }
@@ -65,13 +65,13 @@ class CRM_Event_Page_Tab extends CRM_Contact_Page_View
         // build associated contributions
         $this->associatedContribution( );
         if ( CRM_Utils_Request::retrieve( 'history', 'Boolean', $this ) ) {
-            $controller =& new CRM_Core_Controller_Simple( 'CRM_Event_Form_ActivityView',  
+            $controller =& new CRM_Core_Controller_Simple( 'CRM_PledgeBank_Form_ActivityView',  
                                                            'View Participant Details',  
                                                            $this->_action ); 
             
         } else {
-            $controller =& new CRM_Core_Controller_Simple( 'CRM_Event_Form_ParticipantView',  
-                                                           'View Participant',  
+            $controller =& new CRM_Core_Controller_Simple( 'CRM_PledgeBank_Form_PledgeSignerView',  
+                                                           'View Signer',  
                                                            $this->_action ); 
         }
         $controller->setEmbedded( true );  
@@ -91,8 +91,8 @@ class CRM_Event_Page_Tab extends CRM_Contact_Page_View
     { 
         // build associated contributions
         $this->associatedContribution( );
-        $controller =& new CRM_Core_Controller_Simple( 'CRM_Event_Form_Participant', 
-                                                       'Create Participation', 
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_PledgeBank_Form_PledgeSigner', 
+                                                       'Create PledgeSigner', 
                                                        $this->_action );
         $controller->setEmbedded( true ); 
         $controller->set( 'id' , $this->_id ); 
@@ -112,7 +112,7 @@ class CRM_Event_Page_Tab extends CRM_Contact_Page_View
     {
         $this->preProcess( );
 
-        if ( $this->_permission == CRM_Core_Permission::EDIT && ! CRM_Core_Permission::check( 'edit event participants' ) ) {
+        if ( $this->_permission == CRM_Core_Permission::EDIT && ! CRM_Core_Permission::check( 'edit pledge signer records' ) ) {
             $this->_permission = CRM_Core_Permission::VIEW; // demote to view since user does not have edit event participants rights
             $this->assign( 'permission', 'view' );
         }
@@ -145,11 +145,11 @@ class CRM_Event_Page_Tab extends CRM_Contact_Page_View
         switch ( $context ) {
             
         case 'dashboard':           
-            $url = CRM_Utils_System::url( 'civicrm/event', 'reset=1' );
+            $url = CRM_Utils_System::url( 'civicrm/pledge', 'reset=1' );
             break;
             
         case 'search':
-            $url = CRM_Utils_System::url( 'civicrm/event/search', 'force=1' );
+            $url = CRM_Utils_System::url( 'civicrm/pledge/search', 'force=1' );
             break;
             
         case 'user':
@@ -175,7 +175,7 @@ class CRM_Event_Page_Tab extends CRM_Contact_Page_View
             if ( $this->_contactId ) {
                 $cid = '&cid=' . $this->_contactId;
             }
-            $url = CRM_Utils_System::url( 'civicrm/event/search', 
+            $url = CRM_Utils_System::url( 'civicrm/pledge/search', 
                                           'force=1' . $cid );
             break;
         }

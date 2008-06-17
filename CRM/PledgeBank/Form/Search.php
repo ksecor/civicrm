@@ -36,15 +36,15 @@
 /**
  * Files required
  */
-require_once 'CRM/Pledge/PseudoConstant.php';
-require_once 'CRM/Pledge/Selector/Search.php';
+require_once 'CRM/PledgeBank/PseudoConstant.php';
+require_once 'CRM/PledgeBank/Selector/Search.php';
 require_once 'CRM/Core/Selector/Controller.php';
 
 
 /**
  * This file is for civievent search
  */
-class CRM_Pledge_Form_Search extends CRM_Core_Form
+class CRM_PledgeBank_Form_Search extends CRM_Core_Form
 {
     /** 
      * Are we forced to run a search 
@@ -186,7 +186,7 @@ class CRM_Pledge_Form_Search extends CRM_Core_Form
      */
     function addRules( )
     {
-        $this->addFormRule( array( 'CRM_Pledge_Form_Search', 'formRule' ) );
+        $this->addFormRule( array( 'CRM_PledgeBank_Form_Search', 'formRule' ) );
     }
 
     /**

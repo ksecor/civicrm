@@ -27,9 +27,9 @@
 
 
 require_once 'CRM/Utils/Type.php';
-require_once 'CRM/Event/PseudoConstant.php';
+require_once 'CRM/PledgeBank/PseudoConstant.php';
 
-class CRM_Event_Import_Field
+class CRM_PledgeBank_Import_Field
 {
     /**#@+
      * @access protected
