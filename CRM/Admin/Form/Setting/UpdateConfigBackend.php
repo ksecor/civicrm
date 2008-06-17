@@ -59,6 +59,10 @@ class CRM_Admin_Form_Setting_UpdateConfigBackend extends CRM_Admin_Form_Setting
             $this->_oldBaseURL = substr( $config->userFrameworkResourceURL,
                                          0, -45 );
         } else {
+            if ( strpos( $config->userFrameworkResourceURL,
+                         'sites/all/modules' ) == false ) {
+                CRM_Core_Error::statusBounce( ts( 'This function only works when CiviCRM is installed in sites/all/modules' ) );
+            }
             $this->_oldBaseURL = substr( $config->userFrameworkResourceURL,
                                          0, -26 );
         }
