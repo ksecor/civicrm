@@ -2,6 +2,7 @@
 
 require_once 'api/v2/Activity.php';
 require_once 'api/v2/Contact.php';
+require_once 'api/v2/Location.php';
 
 require_once 'tests/CiviTest/CiviUnitTestCase.php';
 
@@ -31,15 +32,18 @@ class TestOfWebServiceActivityCreateAPIV2 extends CiviUnitTestCase
 
         // Note: we'll use this contact as the source_contact_id for
         // the activity
-
         $basicContactParams = array( 'first_name'       => 'Anthony',
                                      'middle_name'      => 'J.',
                                      'last_name'        => 'Anderson',
                                      'email'            => 'anthony_anderson@civicrm.org',
                                      'contact_type'     => 'Individual');
         $contact =& civicrm_contact_add( $basicContactParams );
+
+        $this->assertEqual  ( $contact['is_error'], 0 );
+        $this->assertNotNull( $contact['contact_id'] );   
+
         $this->_basicContactId = $contact['contact_id'];
-        
+
 
         /* --- 2. create derived contact  --- */
 
@@ -50,9 +54,29 @@ class TestOfWebServiceActivityCreateAPIV2 extends CiviUnitTestCase
                                        'middle_name'      => 'J.',
                                        'last_name'        => 'Anderson',
                                        'email'            => 'anthony_anderson@civicrm.org',
-                                       'contact_type'     => 'Individual');
+                                       'contact_type'     => 'Individual',
+                                       //'custom_2'         => 'api custom'  // custom data here
+                                       );
         $contact =& civicrm_contact_add( $derivedContactParams );
+
+        $this->assertEqual  ( $contact['is_error'], 0 );
+        $this->assertNotNull( $contact['contact_id'] );   
+
         $this->_derivedContactId = $contact['contact_id'];
+
+        // Adding location info like - state, zip, country 
+        $locParams = array('contact_id'         => $this->_derivedContactId,
+                           'location_type'      => 'Home',
+                           'is_primary'         => 1,
+                           'country'            => 'United States', 
+                           'state_province'     => 'Alabama',
+                           'postal_code'        => '1234',  // ZIP
+                           'postal_code_suffix' => '5678'  // ZIP+4
+                           );
+        $location = & civicrm_location_add($locParams);
+
+        $this->assertEqual  ( $location['is_error'], 0 );
+
 
 
         /* --- 3. create target contact  --- */
@@ -66,7 +90,6 @@ class TestOfWebServiceActivityCreateAPIV2 extends CiviUnitTestCase
                                        'contact_type'     => 'Individual');
         $contact =& civicrm_contact_add( $targetContactParams );
         $this->_targetContactId = $contact['contact_id'];
-
 
         // Note: Message, Source code, External ID, Campaign and Mailing(s)
         // could be stored as custom data for activity.
@@ -83,10 +106,11 @@ class TestOfWebServiceActivityCreateAPIV2 extends CiviUnitTestCase
                                 'activity_name'       => 'Phone Call',
                                 'assignee_contact_id' => $this->_derivedContactId,
                                 'target_contact_id'   => $this->_targetContactId,
-                                //'custom_3'            => "api custom testing"
+                                //'custom_1'            => "api custom testing2222" // custom data here
                                 );
-        
         $activity =& civicrm_activity_create( $activityParams );
+
+        $this->assertNotNull( $activity['id'] );   
     }
 
 }
