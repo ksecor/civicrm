@@ -36,7 +36,7 @@
 /**
  * Files required
  */
-require_once 'CRM/PledgeBank/PseudoConstant.php';
+
 require_once 'CRM/PledgeBank/Selector/Search.php';
 require_once 'CRM/Core/Selector/Controller.php';
 

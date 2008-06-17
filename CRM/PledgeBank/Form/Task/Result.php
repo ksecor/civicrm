@@ -1,5 +1,4 @@
 <?php
-
 /*
  +--------------------------------------------------------------------+
  | CiviCRM version 2.1                                                |
@@ -33,43 +32,41 @@
  *
  */
 
-class CRM_PledgeBank_Invoke
+require_once 'CRM/Event/Form/Task.php';
+
+/**
+ * Used for displaying results
+ *
+ *
+ */
+class CRM_PledgeBank_Form_Task_Result extends CRM_PledgeBank_Form_Task 
 {
-    static function admin( &$args ) 
+    
+    /**
+     * build all the data structures needed to build the form
+     *
+     * @return void
+     * @access public
+     */
+    function preProcess( ) 
     {
-        if ( $args[1] !== 'admin' && $args[2] !== 'pledge' ) {
-            return;
-        }
-
-        if ( ! CRM_Core_Permission::check( 'administer CiviCRM' ) ||
-             ! CRM_Core_Permission::check( 'access PledgeBank' ) ) {
-            CRM_Core_Error::fatal( ts( 'You do not have access to this page' ) );
-        }
-
-        return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm' ) );
     }
 
-    /*
-     * This function contains the actions for pledge bank arguments  
-     *  
-     * @param $args array this array contains the arguments of the url  
-     *  
-     * @static  
-     * @access public  
-     */  
-    static function main( &$args )
+    /**
+     * Function to actually build the form
+     *
+     * @return None
+     * @access public
+     */
+    public function buildQuickForm( ) 
     {
-        if ( $args[1] !== 'pledge' ) {  
-            return;  
-        }
-       
-        $session =& CRM_Core_Session::singleton( );
-        $config  =& CRM_Core_Config::singleton ( );
-
-        $secondArg = CRM_Utils_Array::value( 2, $args, '' );
-        if ( ! CRM_Core_Permission::check('access PledgeBank') ) {
-            CRM_Core_Error::fatal( ts('You do not have access to this page.') );
-        }
+        $this->addButtons( array(
+                                 array ( 'type'      => 'done',
+                                         'name'      => ts('Done'),
+                                         'isDefault' => true   ),
+                                 )
+                           );
     }
+
 }
 
