@@ -695,45 +695,6 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                             CRM_Contact_BAO_Relationship::relatedMemberships( $primaryContactId, 
                                                                               $relationParams,
                                                                               $relationIds );
-                            
-                            //check if the two contacts are related and of type individual
-                            if ( $params[$key]['contact_type'] == 'Individual' && $this->_contactType  == 'Individual') {
-                                if( $name_a_b == 'Spouse of' || $name_a_b == 'Child of' || $name_a_b == 'Sibling of') {
-                                    $householdName       = "The ".$formatting['last_name']." household";
-                                    
-                                    $householdFormatting = array( 'contact_type'   => 'Household', 
-                                                                  'household_name' => $householdName );
-                                    
-                                    $householdContact    = $this->createContact( $householdFormatting, 
-                                                                                 $contactFields, 
-                                                                                 $onDuplicate);
-                                    if ( self::isDuplicate($householdContact) ) {
-                                        $householdIds = explode( ",", $householdContact['error_message']['params'][0] );
-                                        $householdId  = $householdIds[0];  
-                                    } else {
-                                        $householdContact            = clone($householdContact);
-                                        $householdId                 = $householdContact->id;
-                                        $this->_newRelatedContacts[] = $householdId;
-                                    }
-                                    
-                                    //Household contact is created 
-                                    //for two related individual contacts waiting confirmation whether 
-                                    //to add it in a group
-                                    //$this->_newRelatedContacts[] = $householdId;
-                                    
-                                    $relationParams = array();
-                                    // adding household relationship
-                                    $relType = '7_'.$second.'_'.$first;
-                                    
-                                    $relationParams = array('relationship_type_id' => $relType,
-                                                            'contact_check'        => array( $relContactId => 1,
-                                                                                             $primaryContactId => 1),
-                                                            'is_active'            => 1
-                                                            );
-                                    $relationIds = array('contact' => $householdId);
-                                    CRM_Contact_BAO_Relationship::create( $relationParams, $relationIds );
-                                }
-                            }
                         }
                     }
                 }
