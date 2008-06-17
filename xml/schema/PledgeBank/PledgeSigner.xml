@@ -39,7 +39,7 @@
   <field> 
       <name>pledge_id</name> 
       <type>int unsigned</type> 
-      <title>Pledge</title>
+      <title>Pledge ID</title>
       <headerPattern>/pledge(.?id)?/i</headerPattern>
       <import>true</import>
       <default>0</default>
