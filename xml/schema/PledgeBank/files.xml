@@ -3,4 +3,5 @@
 <tables xmlns:xi="http://www.w3.org/2001/XInclude">
 
 <xi:include href="Pledge.xml"       parse="xml" />
+<xi:include href="PledgeSigner.xml" parse="xml" />
 </tables>
