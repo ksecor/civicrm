@@ -146,10 +146,10 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         $this->_id        = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
         
         // FIXME : by default it should live mode
-        $this->_mode = 'live';
+        $this->_mode = 'test';
         
         $this->_processors = CRM_Core_PseudoConstant::paymentProcessor( false, false,
-                                                                 "billing_mode IN ( 1, 3 )" );
+                                                                        "billing_mode IN ( 1, 3 )" );
         $this->_paymentProcessor = array( 'billing_mode' => 1 );
         
         require_once 'CRM/Contact/BAO/Contact/Location.php';
@@ -736,6 +736,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                 $fields[$name] = 1;
                 if ( array_key_exists( "billing_$name", $params ) ) {
                     $params[$name] = $params["billing_{$name}"];
+                    $params['preserveDBName'] = true;
                 }
             }
             
@@ -860,7 +861,6 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             //submit credit card contribution ends.
         } else {
             //Offline Contribution.
-            
             $unsetParams = array( "payment_processor_id", "email-{$this->_bltID}", "hidden_buildCreditCard",
                                   "billing_first_name","billing_middle_name","billing_last_name", "street_address-5",
                                   "city-{$this->_bltID}","state_province_id-{$this->_bltID}","postal_code-{$this->_bltID}",

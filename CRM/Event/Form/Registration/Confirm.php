@@ -339,8 +339,17 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             //unset the billing parameters if it is pay later mode
             //to avoid creation of billing location
             if ( $value['is_pay_later'] ) {
-                $billingFields = array( 'email-5','billing_first_name', 'billing_middle_name', 'billing_last_name',
-                                        'street_address-5','city-5','state_province_id-5','postal_code-5','country_id-5'
+                $billingFields = array( "email-{$this->_bltID}",
+                                        "billing_first_name",
+                                        "billing_middle_name",
+                                        "billing_last_name",
+                                        "street_address-{$this->_bltID}",
+                                        "city-{$this->_bltID}",
+                                        "state_province-{$this->_bltID}",
+                                        "state_province_id-{$this->_bltID}",
+                                        "postal_code-{$this->_bltID}",
+                                        "country-{$this->_bltID}",
+                                        "country_id-{$this->_bltID}"
                                         );
                 foreach( $billingFields as $field ) {
                     unset( $value[$field] );
@@ -643,6 +652,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                     $fields[$name] = 1;
                     if ( array_key_exists( "billing_$name", $params ) ) {
                         $params[$name] = $params["billing_{$name}"];
+                        $params['preserveDBName'] = true;
                     }
                 }
             }
