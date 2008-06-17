@@ -72,17 +72,7 @@ class CRM_PledgeBank_Selector_Search extends CRM_Core_Selector_Base implements C
     static $_properties = array( 'contact_id', 
                                  'contact_type',
                                  'sort_name',
-                                 'event_id',
-                                 'participant_status_id',
-                                 'event_title',
-                                 'participant_fee_level',
-                                 'participant_id',
-                                 'event_start_date',
-                                 'event_end_date',
-                                 'modified_date',
-                                 'participant_is_test',
-                                 'participant_role_id',
-                                 'participant_fee_amount'
+                                 'signer_id'
                                  );
 
     /** 
@@ -131,7 +121,7 @@ class CRM_PledgeBank_Selector_Search extends CRM_Core_Selector_Base implements C
      * 
      * @var string 
      */ 
-    protected $_eventClause = null;
+    protected $_additionalClause = null;
 
     /** 
      * The query object
@@ -152,12 +142,12 @@ class CRM_PledgeBank_Selector_Search extends CRM_Core_Selector_Base implements C
      * @return CRM_Contact_Selector
      * @access public
      */
-    function __construct(&$queryParams,
-                         $action = CRM_Core_Action::NONE,
-                         $eventClause = null,
-                         $single = false,
-                         $limit = null,
-                         $context = 'search' ) 
+    function __construct( &$queryParams,
+                          $action = CRM_Core_Action::NONE,
+                          $additionalClause = null,
+                          $single = false,
+                          $limit = null,
+                          $context = 'search' ) 
     {
         // submitted form values
         $this->_queryParams =& $queryParams;
@@ -166,13 +156,13 @@ class CRM_PledgeBank_Selector_Search extends CRM_Core_Selector_Base implements C
         $this->_limit   = $limit;
         $this->_context = $context;
 
-        $this->_eventClause = $eventClause;
-
+        $this->_additionalClause = $additionalClause;
+        
         // type of selector
         $this->_action = $action;
 
         $this->_query =& new CRM_Contact_BAO_Query( $this->_queryParams, null, null, false, false,
-                                                    CRM_Contact_BAO_Query::MODE_EVENT );
+                                                    CRM_Contact_BAO_Query::MODE_PLEDGEBANK );
     }//end of constructor
 
 
@@ -193,21 +183,21 @@ class CRM_PledgeBank_Selector_Search extends CRM_Core_Selector_Base implements C
             self::$_links = array(
                                   CRM_Core_Action::VIEW   => array(
                                                                    'name'     => ts('View'),
-                                                                   'url'      => 'civicrm/contact/view/participant',
+                                                                   'url'      => 'civicrm/contact/view/signer',
                                                                    'qs'       => 'reset=1&id=%%id%%&cid=%%cid%%&action=view&context=%%cxt%%&selectedChild=event',
-                                                                   'title'    => ts('View Participation'),
+                                                                   'title'    => ts('View Signer'),
                                                                    ),
                                   CRM_Core_Action::UPDATE => array(
                                                                    'name'     => ts('Edit'),
-                                                                   'url'      => 'civicrm/contact/view/participant',
+                                                                   'url'      => 'civicrm/contact/view/signer',
                                                                    'qs'       => 'reset=1&action=update&id=%%id%%&cid=%%cid%%&context=%%cxt%%',
-                                                                   'title'    => ts('Edit Participation'),
+                                                                   'title'    => ts('Edit Signer'),
                                                                   ),
                                   CRM_Core_Action::DELETE => array(
                                                                    'name'     => ts('Delete'),
-                                                                   'url'      => 'civicrm/contact/view/participant',
+                                                                   'url'      => 'civicrm/contact/view/signer',
                                                                    'qs'       => 'reset=1&action=delete&id=%%id%%&cid=%%cid%%&context=%%cxt%%',
-                                                                   'title'    => ts('Delete Participation'),
+                                                                   'title'    => ts('Delete Signer'),
                                                                   ),
                                   );
         }
@@ -223,7 +213,7 @@ class CRM_PledgeBank_Selector_Search extends CRM_Core_Selector_Base implements C
      */
     function getPagerParams($action, &$params) 
     {
-        $params['status']       = ts('Event') . ' %%StatusMessage%%';
+        $params['status']       = ts('Signer') . ' %%StatusMessage%%';
         $params['csvString']    = null;
         if ( $this->_limit ) {
             $params['rowCount']     = $this->_limit;
@@ -248,7 +238,7 @@ class CRM_PledgeBank_Selector_Search extends CRM_Core_Selector_Base implements C
                                            true, false, 
                                            false, false, 
                                            false, 
-                                           $this->_eventClause );
+                                           $this->_additionalClause );
     }
 
     
@@ -269,20 +259,17 @@ class CRM_PledgeBank_Selector_Search extends CRM_Core_Selector_Base implements C
                                                false, false, 
                                                false, false, 
                                                false, 
-                                               $this->_eventClause );
+                                               $this->_additionalClause );
 
          // process the result of the query
          $rows = array( );
          
          // check is the user has view/edit participation permission
          $permission = CRM_Core_Permission::VIEW;
-         if ( CRM_Core_Permission::check( 'edit event participants' ) ) {
-             $permission = CRM_Core_Permission::EDIT;
-         }
+//          if ( CRM_Core_Permission::check( 'edit event participants' ) ) {
+//              $permission = CRM_Core_Permission::EDIT;
+//          }
 
-         require_once 'CRM/Event/BAO/Event.php';
-         require_once 'CRM/Event/PseudoConstant.php';
-         $statusTypes  = CRM_Event_PseudoConstant::participantStatus( );
 
          $mask = CRM_Core_Action::mask( $permission );
          while ( $result->fetch( ) ) {
@@ -294,23 +281,10 @@ class CRM_PledgeBank_Selector_Search extends CRM_Core_Selector_Base implements C
                  }
              }
              
-             // gross hack to show extra information for pending status
-             $statusId = array_search( $row['participant_status_id'], $statusTypes );
-             
-             if ( $result->participant_is_pay_later && $statusId == 5 ) {
-                 $row['participant_status_id'] .= ' ( Pay Later ) ';
-             } else if ( $statusId == 5 ) {
-                 $row['participant_status_id'] .= ' ( Incomplete Transaction ) ';
-             }             
-             
-             if ( CRM_Utils_Array::value( "participant_is_test", $row ) ) {
-                 $row['participant_status_id'] .= ' (test)';
-             }
-
-             $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->participant_id;
+             $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->signer_id;
              
              $row['action']   = CRM_Core_Action::formLink( self::links(), $mask,
-                                                           array( 'id'  => $result->participant_id,
+                                                           array( 'id'  => $result->signer_id,
                                                                   'cid' => $result->contact_id,
                                                                   'cxt' => $this->_context ) );
              $config =& CRM_Core_Config::singleton( );
@@ -328,11 +302,6 @@ class CRM_PledgeBank_Selector_Search extends CRM_Core_Selector_Base implements C
              }
 
              $row['contact_type' ] = $contact_type;
-             $row['paid'] = CRM_Event_BAO_Event::isMonetary ( $row['event_id'] );
-             
-             if ( $row['participant_fee_level'] ) {
-                 CRM_Event_BAO_Participant::fixEventLevel( $row['participant_fee_level'] );
-             }
              
              $rows[] = $row;
          }
@@ -367,35 +336,6 @@ class CRM_PledgeBank_Selector_Search extends CRM_Core_Selector_Base implements C
     {
         if ( ! isset( self::$_columnHeaders ) ) {
             self::$_columnHeaders = array(
-                                          array('name'      => ts('Event'),
-                                                'sort'      => 'title',
-                                                'direction' => CRM_Utils_Sort::DONTCARE,
-                                                ),
-                                          array(
-                                                'name'      => ts('Fee Level'),
-                                                'sort'      => 'fee_level',
-                                                'direction' => CRM_Utils_Sort::DONTCARE,
-                                                ),
-                                          array(
-                                                'name'      => ts('Fee Amount'),
-                                                'sort'      => 'fee_amount',
-                                                'direction' => CRM_Utils_Sort::DONTCARE,
-                                                ),
-                                          array(
-                                                'name'      => ts('Event Date(s)'),
-                                                'sort'      => 'start_date',
-                                                'direction' => CRM_Utils_Sort::DONTCARE,
-                                                ),
-                                          array(
-                                                'name'      => ts('Status'),
-                                                'sort'      => 'status_id',
-                                                'direction' => CRM_Utils_Sort::DONTCARE,
-                                                ),
-                                          array(
-                                                'name'      => ts('Role'),
-                                                'sort'      => 'role_id',
-                                                'direction' => CRM_Utils_Sort::DONTCARE,
-                                                ),
                                           array('desc' => ts('Actions') ),
                                           );
 
@@ -403,11 +343,12 @@ class CRM_PledgeBank_Selector_Search extends CRM_Core_Selector_Base implements C
                 $pre = array( 
                              array('desc' => ts('Contact Type') ), 
                              array( 
-                                   'name'      => ts('Participant'), 
+                                   'name'      => ts('Signer'), 
                                    'sort'      => 'sort_name', 
                                    'direction' => CRM_Utils_Sort::ASCENDING, 
                                    )
                              );
+                
                 self::$_columnHeaders = array_merge( $pre, self::$_columnHeaders );
             }
         }
@@ -425,7 +366,7 @@ class CRM_PledgeBank_Selector_Search extends CRM_Core_Selector_Base implements C
      * @return string name of the file 
      */ 
      function getExportFileName( $output = 'csv') { 
-         return ts('Pledge Bank Search'); 
+         return ts('PledgeBank Signer Search'); 
      } 
 
 }//end of class

@@ -52,22 +52,54 @@ class CRM_PledgeBank_BAO_Query
      */
     static function select( &$query ) 
     {
-
+        if ( ( $query->_mode & CRM_Contact_BAO_Query::MODE_PLEDGEBANK ) ||
+             CRM_Utils_Array::value( 'signer_id', $query->_returnProperties ) ) {
+            $query->_select['signer_id'] = "civicrm_pledgesigner.id as signer_id";
+            $query->_element['signer_id'] = 1;
+            $query->_tables['civicrm_pledgesigner'] = $query->_whereTables['civicrm_pledgesigner'] = 1;
+        }
     }
 
     static function where( &$query ) 
     {
-
+        $grouping = null;
+        foreach ( array_keys( $query->_params ) as $id ) {
+            if ( substr( $query->_params[$id][0], 0, 7) == 'pledge_' ||
+                 substr( $query->_params[$id][0], 0, 7) == 'signer_') {
+                if ( $query->_mode == CRM_Contact_BAO_QUERY::MODE_CONTACTS ) {
+                    $query->_useDistinct = true;
+                }
+                self::whereClauseSingle( $query->_params[$id], $query );
+            }
+        }
     }
     
   
     static function whereClauseSingle( &$values, &$query ) 
     {
+        list( $name, $op, $value, $grouping, $wildcard ) = $values;
+        switch( $name ) {
 
+        case 'signer_id':
+            $query->_where[$grouping][] = "civicrm_pledgesigner.id $op $value";
+            $query->_tables['civicrm_pledgesigner'] = $query->_whereTables['civicrm_pledgesigner'] = 1;
+            return;
+        }
     }
 
     static function from( $name, $mode, $side ) 
     {
+        $from = null;
+        switch ( $name ) {
+        
+        case 'civicrm_pledgesigner':
+            if ( $mode & CRM_Contact_BAO_Query::MODE_PLEDGEBANK ) {
+                $from = " INNER JOIN civicrm_pledgesigner ON civicrm_pledgesigner.contact_id = contact_a.id ";
+            }  else {
+                $from = " $side JOIN civicrm_pledgesigner ON civicrm_pledgesigner.contact_id = contact_a.id ";
+            }
+            break;
+        }
         return $from;
     }
 
@@ -83,13 +115,21 @@ class CRM_PledgeBank_BAO_Query
    
     static function defaultReturnProperties( $mode ) 
     {
+        $properties = null;
+        if ( $mode & CRM_Contact_BAO_Query::MODE_PLEDGEBANK ) {
+            $properties = array(  
+                                'contact_type'  => 1, 
+                                'sort_name'     => 1, 
+                                'display_name'  => 1,
+                                'signer_id'     => 1 );
+        }
         return $properties;
     }
 
     static function buildSearchForm( &$form ) 
     {
 
-        $form->assign( 'validPledge', true );
+        $form->assign( 'validPledgeBank', true );
     }
     
     static function searchAction( &$row, $id ) 

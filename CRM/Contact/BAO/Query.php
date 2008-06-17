@@ -55,7 +55,8 @@ class CRM_Contact_BAO_Query
         MODE_EVENT      =  16,
         MODE_KABISSA    =  64,
         MODE_GRANT      = 128,
-        MODE_ALL        = 255;
+        MODE_PLEDGEBANK = 256,
+        MODE_ALL        = 511;
     
     /**
      * the default set of return properties

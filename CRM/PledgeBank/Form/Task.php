@@ -68,7 +68,7 @@ class CRM_PledgeBank_Form_Task extends CRM_Core_Form
      *
      * @var array
      */
-    protected $_pledgeIds;
+    protected $_signerIds;
 
     /**
      * build all the data structures needed to build the form
@@ -79,7 +79,7 @@ class CRM_PledgeBank_Form_Task extends CRM_Core_Form
      */
     function preProcess( ) 
     {
-        $this->_pledgeIds = array( );
+        $this->_signerIds = array( );
         
         $values = $this->controller->exportValues( 'Search' );
 
@@ -97,31 +97,31 @@ class CRM_PledgeBank_Form_Task extends CRM_Core_Form
         } else {
             $queryParams =  $this->get( 'queryParams' );
             $query       =& new CRM_Contact_BAO_Query( $queryParams, null, null, false, false, 
-                                                       CRM_Contact_BAO_Query::MODE_EVENT);
+                                                       CRM_Contact_BAO_Query::MODE_PLEDGEBANK );
             $result = $query->searchQuery(0, 0, null);
             while ($result->fetch()) {
-                $ids[] = $result->participant_id;
+                $ids[] = $result->signer_id;
             }
         }
         
         if ( ! empty( $ids ) ) {
             $this->_componentClause =
-                ' civicrm_participant.id IN ( ' .
+                ' civicrm_pledgesigner.id IN ( ' .
                 implode( ',', $ids ) . ' ) ';
             $this->assign( 'totalSelectedParticipants', count( $ids ) );             
         }
         
-        $this->_participantIds = $this->_componentIds = $ids;
+        $this->_signerIds = $this->_componentIds = $ids;
     }
 
     /**
-     * Given the participant id, compute the contact id
+     * Given the signer id, compute the contact id
      * since its used for things like send email
      */
     public function setContactIDs( ) 
     {
-        $this->_contactIds =& CRM_Core_DAO::getContactIDsFromComponent( $this->_participantIds,
-                                                                        'civicrm_participant' );
+        $this->_contactIds =& CRM_Core_DAO::getContactIDsFromComponent( $this->_signerIds,
+                                                                        'civicrm_pledgesigner' );
     }
 
     /**
