@@ -475,3 +475,7 @@ UPDATE civicrm_option_value v,
 SET    v.description = v.name, v.name = v.value
 WHERE  v.option_group_id = g.id
 AND    g.name LIKE 'civicrm_price_field.amount.%'
+
+-- CRM-3217
+ALTER TABLE `civicrm_custom_field` MODIFY `label` VARCHAR(255) NULL DEFAULT NULL COMMENT 'Text for form field label (also friendly name for administering this custom property).';
+ALTER TABLE `civicrm_option_value` MODIFY `label` VARCHAR(255) NULL DEFAULT '' COMMENT 'Option string as displayed to users - e.g. the label in an HTML OPTION tag.';
