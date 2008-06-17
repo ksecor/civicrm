@@ -49,24 +49,24 @@ class CRM_PledgeBank_BAO_Pledge extends CRM_PledgeBank_DAO_Pledge
     /**
      * Takes a bunch of params that are needed to match certain criteria and
      * retrieves the relevant objects. Typically the valid params are only
-     * contact_id. We'll tweak this function to be more full featured over a period
+     * pledge id. We'll tweak this function to be more full featured over a period
      * of time. This is the inverse function of create. It also stores all the retrieved
      * values in the default array
      *
      * @param array $params   (reference ) an assoc array of name/value pairs
      * @param array $defaults (reference ) an assoc array to hold the flattened values
      *
-     * @return object CRM_Pledge_BAO_Pledge object
+     * @return object CRM_PledgeBank_BAO_Pledge object
      * @access public
      * @static
      */
     static function retrieve( &$params, &$defaults ) 
     {
-        $event  = new CRM_Pledge_DAO_Pledge( );
-        $event->copyValues( $params );
-        if ( $event->find( true ) ) {
-            CRM_Core_DAO::storeValues( $event, $defaults );
-            return $event;
+        $pledge = new CRM_PledgeBank_DAO_Pledge( );
+        $pledge->copyValues( $params );
+        if ( $pledge->find( true ) ) {
+            CRM_Core_DAO::storeValues( $pledge, $defaults );
+            return $pledge;
         }
         return null;
     }
@@ -89,7 +89,8 @@ class CRM_PledgeBank_BAO_Pledge extends CRM_PledgeBank_DAO_Pledge
      * function to add pledge
      *
      * @param array $params reference array contains the values submitted by the form
-     * 
+     * @param array $ids the array that holds all the db ids
+     *
      * @access public
      * @static 
      * @return object
@@ -104,7 +105,7 @@ class CRM_PledgeBank_BAO_Pledge extends CRM_PledgeBank_DAO_Pledge
             CRM_Utils_Hook::pre( 'create', 'Pledge', null, $params ); 
         }
         
-        $pledge =& new CRM_Pledge_DAO_Pledge( );
+        $pledge =& new CRM_PledgeBank_DAO_Pledge( );
         
         $pledge->copyValues( $params );
         $result = $pledge->save( );
