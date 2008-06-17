@@ -266,10 +266,9 @@ class CRM_PledgeBank_Selector_Search extends CRM_Core_Selector_Base implements C
          
          // check is the user has view/edit participation permission
          $permission = CRM_Core_Permission::VIEW;
-//          if ( CRM_Core_Permission::check( 'edit event participants' ) ) {
-//              $permission = CRM_Core_Permission::EDIT;
-//          }
-
+         if ( CRM_Core_Permission::check( 'edit pledge signer records' ) ) {
+             $permission = CRM_Core_Permission::EDIT;
+         }
 
          $mask = CRM_Core_Action::mask( $permission );
          while ( $result->fetch( ) ) {

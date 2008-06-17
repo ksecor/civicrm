@@ -64,14 +64,14 @@ class CRM_PledgeBank_Page_DashBoard extends CRM_Core_Page
     {
         $this->preProcess( );
         
-//         $controller =& new CRM_Core_Controller_Simple( 'CRM_Pledge_Form_Search', ts('pledges'), null );
-//         $controller->setEmbedded( true ); 
-//         $controller->reset( ); 
-//         $controller->set( 'limit', 10 );
-//         $controller->set( 'force', 1 );
-//         $controller->set( 'context', 'dashboard' ); 
-//         $controller->process( ); 
-//         $controller->run( ); 
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_PledgeBank_Form_Search', ts('Pledge Signers'), null );
+        $controller->setEmbedded( true ); 
+        $controller->reset( ); 
+        $controller->set( 'limit', 10 );
+        $controller->set( 'force', 1 );
+        $controller->set( 'context', 'dashboard' ); 
+        $controller->process( ); 
+        $controller->run( ); 
         
         return parent::run( );
     }
