@@ -45,34 +45,44 @@ class CRM_Contact_Form_Search_Custom_Group
         $this->_columns = array( ts('Contact Id')   => 'contact_id'  ,
                                  ts('Contact Type') => 'contact_type',
                                  ts('Name')         => 'sort_name',
-                                 ts('State')        => 'state_province' );
+                                 ts('Group Name')   => 'name' );
     }
+
+     function __destruct( ) {
+        if ($this->_tableName ) {
+            
+            $sql = "DROP TEMPORARY TABLE I_{$this->_tableName}";
+            CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray ) ;
+
+            if ( is_array( $this->_excludeGroups ) ){
+                $sql = "DROP TEMPORARY TABLE X_{$this->_tableName}";
+                CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray ) ; }
+        }
+    }
+
 
     function buildForm( &$form ) {
         $groups         =& CRM_Core_PseudoConstant::group( );
 
-        require_once 'CRM/Core/QuickForm/GroupMultiSelect.php';
-        $inGroupsSelect =& new CRM_Core_QuickForm_GroupMultiSelect( 'includeGroups',
-                                                                    ts('Include Group(s)') . ' ', $groups,
-                                                                    array( 'size'  => 5,
-                                                                           'style' => 'width:240px',
-                                                                           'class' => 'advmultiselect' )
-                                                                    );
-        $inG =& $form->addElement( $inGroupsSelect );
+        $inG =& $form->addElement('advmultiselect', 'includeGroups', 
+                                  ts('Include Group(s)') . ' ', $groups,
+                                  array('size'  => 5,
+                                        'style' => 'width:240px',
+                                        'class' => 'advmultiselect')
+                                  );
         
-        $outGroupsSelect =& new CRM_Core_QuickForm_GroupMultiSelect( 'excludeGroups',
-                                                                     ts('Exclude Group(s)') . ' ', $groups,
-                                                                     array( 'size'  => 5,
-                                                                            'style' => 'width:240px',
-                                                                            'class' => 'advmultiselect' )
-                                                                     );
-        $outG =& $form->addElement($outGroupsSelect);
+        $outG =& $form->addElement('advmultiselect', 'excludeGroups', 
+                                   ts('Exclude Group(s)') . ' ', $groups,
+                                   array('size'  => 5,
+                                         'style' => 'width:240px',
+                                         'class' => 'advmultiselect')
+                                   );  
         
-        $inG->setButtonAttributes('add', array('value' => ts('Add >>')));;
+        $inG->setButtonAttributes('add',  array('value' => ts('Add >>')));;
         $outG->setButtonAttributes('add', array('value' => ts('Add >>')));;
-        $inG->setButtonAttributes('remove', array('value' => ts('<< Remove')));;
+        $inG->setButtonAttributes('remove',  array('value' => ts('<< Remove')));;
         $outG->setButtonAttributes('remove', array('value' => ts('<< Remove')));;
-
+        
         /**
          * if you are using the standard template, this array tells the template what elements
          * are part of the search criteria
@@ -83,21 +93,18 @@ class CRM_Contact_Form_Search_Custom_Group
     function all( $offset = 0, $rowcount = 0, $sort = null,
                   $includeContactIDs = false ) {
 
-        $includeGroups   = CRM_Utils_Array::value( 'includeGroups',
-                                          $this->_formValues );
-
-        $excludeGroups   = CRM_Utils_Array::value( 'excludeGroups',
-                                          $this->_formValues );
-
         //creation of temporary tablle
 
-        
+        $this->_includeGroups   = CRM_Utils_Array::value( 'includeGroups', $this->_formValues );
+               
+        $this->_excludeGroups   = CRM_Utils_Array::value( 'excludeGroups', $this->_formValues );      
+  
         $selectClause = "
-contact_a.id           as contact_id  ,
-contact_a.contact_type as contact_type,
-contact_a.sort_name    as sort_name,
-state_province.name    as state_province
-";
+                      DISTINCT( contact_a.id)  as contact_id  ,
+                      contact_a.contact_type as contact_type,
+                      contact_a.sort_name    as sort_name,
+                      g.name                 as name
+                      ";
         return $this->sql( $selectClause,
                            $offset, $rowcount, $sort,
                            $includeContactIDs, null );
@@ -105,45 +112,79 @@ state_province.name    as state_province
     }
     
     function from( ) {
+
+      if ( ! empty( $this->_includeGroups ) ) { 
+            $iGroups = implode( ',', $this->_includeGroups );
+        } else {
+            //if no group selected search for all groups 
+            require_once 'CRM/Contact/DAO/Group.php';
+            $group = new CRM_Contact_DAO_Group( );
+            $group->is_active = 1;
+            $group->find();
+            while( $group->fetch( ) ) {
+                $allGroups[] = $group->id;
+            }
+            $iGroups = implode( ',',$allGroups );
+           
+        }
+        if ( is_array( $this->_excludeGroups ) ) {
+            $xGroups = implode( ',', $this->_excludeGroups );
+        } else {
+            $xGroups = 0;
+        }
+        $randomNum = md5( uniqid( ) );
+        $this->_tableName = "civicrm_temp_custom_{$randomNum}";
+        
+        $sql = "CREATE TEMPORARY TABLE X_{$this->_tableName} ( contact_id int primary key) ENGINE=HEAP";                 
+        
+        CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
+        if( $xGroups != 0 ) {
+        $excludeGroup = 
+            "INSERT INTO  X_{$this->_tableName} ( contact_id )
+                  SELECT  DISTINCT civicrm_group_contact.contact_id
+                  FROM civicrm_group_contact, civicrm_contact                    
+                  WHERE 
+                     civicrm_contact.id = civicrm_group_contact.contact_id AND 
+                     civicrm_group_contact.status = 'Added' AND
+                     civicrm_group_contact.group_id IN( {$xGroups})";
+        
+        CRM_Core_DAO::executeQuery( $excludeGroup, CRM_Core_DAO::$_nullArray );
+        }
+       
+        $sql = "CREATE TEMPORARY TABLE I_{$this->_tableName} ( contact_id int primary key) ENGINE=HEAP";
+       
+        CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
+
+        $includeGroup = 
+            "INSERT INTO I_{$this->_tableName} (contact_id)
+                 SELECT DISTINCT     civicrm_contact.id as contact_id
+                 FROM                civicrm_contact
+                    INNER JOIN       civicrm_group_contact
+                            ON       civicrm_group_contact.contact_id = civicrm_contact.id";
+        if( $xGroups != 0 ) {
+             $includeGroup .= " LEFT JOIN        X_{$this->_tableName}
+                                       ON       civicrm_contact.id = X_{$this->_tableName}.contact_id";
+        }
+        $includeGroup .= " WHERE           
+                                     civicrm_group_contact.status = 'Added'  AND
+                                     civicrm_group_contact.group_id IN($iGroups)";
+        if ( $xGroups != 0 ) {
+            $includeGroup .=" AND  X_{$this->_tableName}.contact_id IS null";
+        }
+
+        CRM_Core_DAO::executeQuery( $includeGroup, CRM_Core_DAO::$_nullArray );
+
         return "
-FROM      civicrm_contact contact_a
-LEFT JOIN civicrm_address address ON ( address.contact_id       = contact_a.id AND
-                                       address.is_primary       = 1 )
-LEFT JOIN civicrm_email           ON ( civicrm_email.contact_id = contact_a.id AND
-                                       civicrm_email.is_primary = 1 )
-LEFT JOIN civicrm_state_province state_province ON state_province.id = address.state_province_id
-";
+                FROM   civicrm_group g, civicrm_group_contact gc , civicrm_contact contact_a
+                INNER JOIN I_{$this->_tableName} temptable ON ( contact_a.id = temptable.contact_id )";
     }
 
     function where( $includeContactIDs = false ) {
-        $params = array( );
-        $where  = "contact_a.contact_type   = 'Household'";
-
-        $count  = 1;
-        $clause = array( );
-        $name   = CRM_Utils_Array::value( 'household_name',
-                                          $this->_formValues );
-        if ( $name != null ) {
-            if ( strpos( $name, '%' ) === false ) {
-                $name = "%{$name}%";
-            }
-            $params[$count] = array( $name, 'String' );
-            $clause[] = "contact_a.household_name LIKE %{$count}";
-            $count++;
-        }
-
-        $state = CRM_Utils_Array::value( 'state_province_id',
-                                         $this->_formValues );
-        if ( $state ) {
-            $params[$count] = array( $state, 'Integer' );
-            $clause[] = "state_province.id = %{$count}";
-        }
-
-        if ( ! empty( $clause ) ) {
-            $where .= ' AND ' . implode( ' AND ', $clause );
-        }
-
-        return $this->whereClause( $where, $params );
+        $clauses = array( );
+ 
+        $clauses[] = "g.id = gc.group_id";
+        $clauses[] = " contact_a.id = gc.contact_id ";
+        return implode( ' AND ', $clauses );
     }
 
     function templateFile( ) {
