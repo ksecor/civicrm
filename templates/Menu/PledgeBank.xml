@@ -11,7 +11,7 @@
      <component>PledgeBank</component>
   </item>
   <item>
-     <path>civicrm/pledgebank/search</path>
+     <path>civicrm/pledge/search</path>
      <title>Find Signers</title>
      <page_callback>CRM_PledgeBank_Controller_Search</page_callback>
      <access_arguments>access PledgeBank</access_arguments>
