@@ -204,11 +204,11 @@ WHERE  id = %1
 
         // lets also store the records that are explicitly added to the group
         // this allows us to skip the group contact LEFT JOIN
-        $sql .= "(
+        $sql .= "
 SELECT contact_id as $idName
 FROM   civicrm_group_contact
 WHERE  civicrm_group_contact.status = 'Added'
-  AND  civicrm_group_contact.group_id = $groupID )";
+  AND  civicrm_group_contact.group_id = $groupID ";
 
         $dao = CRM_Core_DAO::executeQuery( $sql,
                                            CRM_Core_DAO::$_nullArray );
