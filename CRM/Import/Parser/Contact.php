@@ -624,7 +624,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                         //fixed for CRM-3146
                         if ( ( $this->_contactType == 'Individual'   || 
                                $this->_contactType == 'Household'    ||
-                               $this->_contactType == 'Organization' ) && $onDuplicate = CRM_Import_Parser::DUPLICATE_NOCHECK ) {
+                               $this->_contactType == 'Organization' ) && $onDuplicate == CRM_Import_Parser::DUPLICATE_NOCHECK ) {
                             $onDuplicate = CRM_Import_Parser::DUPLICATE_FILL;
                         }
 
