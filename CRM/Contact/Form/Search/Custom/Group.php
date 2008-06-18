@@ -55,9 +55,10 @@ class CRM_Contact_Form_Search_Custom_Group
             $sql = "DROP TEMPORARY TABLE I_{$this->_tableName}";
             CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray ) ;
 
-            if ( is_array( $this->_excludeGroups ) ){
+            if ( is_array( $this->_excludeGroups ) ) {
                 $sql = "DROP TEMPORARY TABLE X_{$this->_tableName}";
-                CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray ) ; }
+                CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray ) ;
+            }
         }
     }
 
