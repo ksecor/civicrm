@@ -142,11 +142,6 @@
      <page_callback>CRM_Admin_Form_Setting_Debugging</page_callback>
   </item>
   <item>
-     <path>civicrm/admin/setting/updateConfigBackend</path>
-     <title>Update Config Backend</title>
-     <page_callback>CRM_Admin_Form_Setting_UpdateConfigBackend</page_callback>
-  </item>
-  <item>
      <path>civicrm/admin/deduperules</path>
      <title>Find and Merge Duplicate Contacts</title>
      <desc>Manage the rules used to identify potentially duplicate contact records. Scan for duplicates using a selected rule and merge duplicate contact data as needed.</desc>
@@ -187,6 +182,15 @@
      <adminGroup>Configure</adminGroup>
      <icon>admin/small/domain.png</icon>
      <weight>270</weight>
+  </item>
+  <item>
+     <path>civicrm/admin/setting/updateConfigBackend</path>
+     <title>Update Directory Path and URL</title>
+     <desc>Reset the Base Directory Path and Base URL settings - generally when a CiviCRM site is moved to another location in the file system and/or to another domain.</desc>
+     <page_callback>CRM_Admin_Form_Setting_UpdateConfigBackend</page_callback>
+     <adminGroup>Configure</adminGroup>
+     <icon>admin/small/updatepath.png</icon>
+     <weight>280</weight>
   </item>
   <item>
      <path>civicrm/admin/weight</path>
