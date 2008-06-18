@@ -244,6 +244,10 @@ class CRM_Export_BAO_Export
             //first loop through returnproperties so that we return what is required, and in same order.
             foreach( array_keys($returnProperties) as $field ) {
                 $fieldValue = $dao->$field;
+                //few exceptions
+                if ( $field == 'id' ) {
+                    $fieldValue = $dao->contact_id;
+                }
 
                 //we should set header only once
                 if ( $setHeader ) { 
@@ -251,8 +255,6 @@ class CRM_Export_BAO_Export
                         $headerRows[] = $query->_fields[$field]['title'];
                     } else if ($field == 'phone_type'){
                         $headerRows[] = 'Phone Type';
-                    } else if ($field == 'contact_id'){
-                        $headerRows[] = $query->_fields['id']['title'];
                     } else {
                         $keyArray = explode('-', $field);
                         $hdr      = $keyArray[0];
@@ -283,7 +285,6 @@ class CRM_Export_BAO_Export
                         }
                         CRM_Core_OptionGroup::lookupValues( $paramsNew, $name, false );
                         $row[$field] = $paramsNew[$field];
-                        
                     } else {
                         $row[$field] = $fieldValue;
                     }
@@ -301,18 +302,13 @@ class CRM_Export_BAO_Export
             //get the current employer name, CRM-2968.
             if ( ( $currentEmployer || $primary ) && $exportMode == CRM_Export_Form_Select::CONTACT_EXPORT ) {
                 require_once 'CRM/Contact/BAO/Relationship.php';
-                $relationships = CRM_Contact_BAO_Relationship::getRelationship( $row['contact_id'] );
+                $relationships = CRM_Contact_BAO_Relationship::getRelationship( $dao->contact_id );
                 krsort( $relationships );
                 foreach ( $relationships as $relationshipID => $value ) {
                     if ( $value['relation'] == 'Employee of' && $value['is_active'] == 1 ) {
                         $row['current_employer'] = $value['name'];
                         break;
                     }
-                }
-            
-                //unset contact_id if Internal Contact ID is not map;
-                if ( $unsetContactID ) {
-                    unset( $row['contact_id'] );
                 }
             }
             
