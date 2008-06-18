@@ -130,6 +130,12 @@ class CRM_Export_BAO_Export
                     $returnProperties[$key] = 1;
                 }
             }
+
+            if ( $primary ) {
+                $returnProperties['location_type'] = 1;
+                $returnProperties['im_provider'  ] = 1;
+                $returnProperties['phone_type'   ] = 1;
+            }
             
             $paymentFields = false;
             $queryMode = CRM_Contact_BAO_Query::MODE_CONTACTS;
@@ -161,16 +167,10 @@ class CRM_Export_BAO_Export
             }
         }
 
-        if ( $primary ) {
-            $returnProperties['location_type'] = 1;
-            $returnProperties['im_provider'  ] = 1;
-            $returnProperties['phone_type'   ] = 1;
-        }
-
         if ( $moreReturnProperties ) {
             $returnProperties = array_merge( $returnProperties, $moreReturnProperties );
         }
-        
+        //crm_core_error::debug('$returnProperties', $returnProperties );
         $query =& new CRM_Contact_BAO_Query( 0, $returnProperties, null, false, false, $queryMode ); 
 
         list( $select, $from, $where ) = $query->query( );
@@ -218,7 +218,7 @@ class CRM_Export_BAO_Export
 
         if ( CRM_Core_Permission::access( 'Quest' ) ) { 
             require_once 'CRM/Quest/BAO/Student.php';
-            $studentFields = array();
+            $studentFields = array( );
             $studentFields = CRM_Quest_BAO_Student::$multipleSelectFields;
             $multipleSelectFields = array_merge( $multipleSelectFields, $studentFields );
         }
@@ -236,119 +236,103 @@ class CRM_Export_BAO_Export
             $paymentDetails = CRM_Contribute_BAO_Contribution::getContributionDetails( $exportMode, $ids );
         }
 
-        $contactDetails = array( );
-        while ($dao->fetch()) {
+        $componentDetails = $headerRows = array( );
+        $setHeader = true;
+        while ( $dao->fetch( ) ) {
             $row = array( );
-            $validRow = false;
-            foreach ($dao as $key => $varValue) {
-                $flag = false;
-                foreach ($returnProperties as $propKey => $props) {
-                    if (is_array($props)) {
-                        foreach($props as $propKey1=>$prop) {
-                            foreach($prop as $propkey2=>$prop1) {
-                                $locationfield = str_replace( ' ', '_', $propKey1."-".$propkey2 );
-                                if( $locationfield == $key) {
-                                    $flag = true;
-                                }
-                            }
-                        }
-                    }
-                } 
-                
-                if (array_key_exists($key, $returnProperties)) {
-                    $flag = true;
-                }
-                //for exporting both Current Employer and 
-                //Internal contact ID, 'contact_id' should be present in $row.
-                if ( ( $key == 'contact_id' && array_key_exists( 'id' , $returnProperties ) ) ||
-                     ( $key == 'contact_id' && $currentEmployer ) ) {
-                    $flag = true;
-                }
-                
-                if ( $flag ) {
-                    if ( isset( $varValue ) && $varValue != '' ) {
-                        if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($key) ) {
-                            $row[$key] = CRM_Core_BAO_CustomField::getDisplayValue( $varValue, $cfID, $query->_options );
-                        } else if ( array_key_exists($key ,$multipleSelectFields ) ){
-                            $paramsNew = array($key => $varValue );
-                            if ( $key == 'test_tutoring') {
-                                $name = array( $key => array('newName' => $key ,'groupName' => 'test' ));
-                            } else if (substr( $key, 0, 4) == 'cmr_') { //for  readers group
-                                $name = array( $key => array('newName' => $key, 'groupName' => substr($key, 0, -3) ));
-                            } else {
-                                $name = array( $key => array('newName' => $key ,'groupName' => $key ));
-                            }
-                            CRM_Core_OptionGroup::lookupValues( $paramsNew, $name, false );
-                            $row[$key] = $paramsNew[$key];
-                            
-                        } else {
-                            $row[$key] = $varValue;
-                        }
-                        $validRow  = true;
+
+            //first loop through returnproperties so that we return what is required, and in same order.
+            foreach( array_keys($returnProperties) as $field ) {
+                $fieldValue = $dao->$field;
+
+                //we should set header only once
+                if ( $setHeader ) { 
+                    if ( isset( $query->_fields[$field]['title'] ) ) {
+                        $headerRows[] = $query->_fields[$field]['title'];
+                    } else if ($field == 'phone_type'){
+                        $headerRows[] = 'Phone Type';
+                    } else if ($field == 'contact_id'){
+                        $headerRows[] = $query->_fields['id']['title'];
                     } else {
-                        $row[$key] = '';
-                    }
-                   
-                    if ( ! $header ) {
-                        if (isset($query->_fields[$key]['title'])) {
-                            $headerRows[] = $query->_fields[$key]['title'];
-                        } else if ($key == 'phone_type'){
-                            $headerRows[] = 'Phone Type';
-                        } else if ($key == 'contact_id'){
-                            $headerRows[] = $query->_fields['id']['title'];
-                        } else {
-                            $keyArray = explode('-', $key);
-                            
-                            $hdr      = $keyArray[0];
-
-                            if ( CRM_Utils_Array::value( 1, $keyArray ) ) {
-                                $hdr .= "-" . $query->_fields[$keyArray[1]]['title'];
-                            }
-
-                            if ( CRM_Utils_Array::value( 2, $keyArray ) ) {
-                                $hdr .= " " . $keyArray[2];
-                            }
-                            $headerRows[] = $hdr;
+                        $keyArray = explode('-', $field);
+                        $hdr      = $keyArray[0];
+                        
+                        if ( CRM_Utils_Array::value( 1, $keyArray ) ) {
+                            $hdr .= "-" . $query->_fields[$keyArray[1]]['title'];
                         }
+                        
+                        if ( CRM_Utils_Array::value( 2, $keyArray ) ) {
+                            $hdr .= " " . $keyArray[2];
+                        }
+                        $headerRows[] = $hdr;
+                    }                                     
+                }
+               
+                //build row values (data)
+                if ( isset( $fieldValue ) && $fieldValue != '' ) {
+                    if ( $cfID = CRM_Core_BAO_CustomField::getKeyID( $field ) ) {
+                        $row[$field] = CRM_Core_BAO_CustomField::getDisplayValue( $fieldValue, $cfID, $query->_options );
+                    } else if ( array_key_exists( $field ,$multipleSelectFields ) ) {
+                        $paramsNew = array( $field => $fieldValue );
+                        if ( $field == 'test_tutoring') {
+                            $name = array( $field => array('newName' => $field ,'groupName' => 'test' ));
+                        } else if (substr( $field, 0, 4) == 'cmr_') { //for  readers group
+                            $name = array( $field => array('newName' => $field, 'groupName' => substr($field, 0, -3) ));
+                        } else {
+                            $name = array( $field => array('newName' => $field ,'groupName' => $field ));
+                        }
+                        CRM_Core_OptionGroup::lookupValues( $paramsNew, $name, false );
+                        $row[$field] = $paramsNew[$field];
+                        
+                    } else {
+                        $row[$field] = $fieldValue;
                     }
+                } else {
+                    $row[$field] = '';
                 }
             }
             
-            if ( $paymentFields && $addPaymentHeader && isset( $paymentDetails[ $row[$paymentTableId] ] ) ) {
-                $headerRows = array_merge(  $headerRows, $paymentHeaders );
+            // add payment headers if required
+            if ( $addPaymentHeader && $paymentFields ) {
+                $headerRows = array_merge( $headerRows, $paymentHeaders );
                 $addPaymentHeader = false;
             }
 
-            if ( $validRow ) {
-                //get the current employer name, CRM-2968.
-                if ( ( $currentEmployer || $primary ) && $exportMode == CRM_Export_Form_Select::CONTACT_EXPORT ) {
-                    require_once 'CRM/Contact/BAO/Relationship.php';
-                    $relationships = CRM_Contact_BAO_Relationship::getRelationship( $row['contact_id'] );
-                    krsort( $relationships );
-                    foreach ( $relationships as $relationshipID => $value ) {
-                        if ( $value['relation'] == 'Employee of' && $value['is_active'] == 1 ) {
-                            $row['current_employer'] = $value['name'];
-                            break;
-                        }
-                    }
-                    //unset contact_id if Internal Contact ID is not map;
-                    if ( $unsetContactID ) {
-                        unset( $row['contact_id'] );
+            //get the current employer name, CRM-2968.
+            if ( ( $currentEmployer || $primary ) && $exportMode == CRM_Export_Form_Select::CONTACT_EXPORT ) {
+                require_once 'CRM/Contact/BAO/Relationship.php';
+                $relationships = CRM_Contact_BAO_Relationship::getRelationship( $row['contact_id'] );
+                krsort( $relationships );
+                foreach ( $relationships as $relationshipID => $value ) {
+                    if ( $value['relation'] == 'Employee of' && $value['is_active'] == 1 ) {
+                        $row['current_employer'] = $value['name'];
+                        break;
                     }
                 }
-
-                if ( $paymentFields && isset( $paymentDetails[ $row[$paymentTableId] ] ) ) {
-                    $row = array_merge( $row, $paymentDetails[ $row[$paymentTableId] ] );
+            
+                //unset contact_id if Internal Contact ID is not map;
+                if ( $unsetContactID ) {
+                    unset( $row['contact_id'] );
                 }
-                
-                $contactDetails[] = $row;
             }
-            $header = true;
+            
+            // add payment related information
+            if ( $paymentFields && isset( $paymentDetails[ $row[$paymentTableId] ] ) ) {
+                $row = array_merge( $row, $paymentDetails[ $row[$paymentTableId] ] );
+            }
+            
+            // add component info
+            $componentDetails[] = $row;         
+          
         }
+
+        //build header only once
+        $setHeader = false;
 
         if ( ($currentEmployer || $primary ) && $exportMode == CRM_Export_Form_Select::CONTACT_EXPORT ) {
             $headerRows[] = 'Current Employer';
         }
+
         //unset contact id from header when Internal Contact ID is not map;
         if ( $unsetContactID ) {
             $unsetKey = CRM_Utils_Array::key('Internal Contact ID', $headerRows );
@@ -356,8 +340,7 @@ class CRM_Export_BAO_Export
         }
         
         require_once 'CRM/Core/Report/Excel.php';
-        CRM_Core_Report_Excel::writeCSVFile( self::getExportFileName( 'csv', $exportMode ), $headerRows, $contactDetails );
-        
+        CRM_Core_Report_Excel::writeCSVFile( self::getExportFileName( 'csv', $exportMode ), $headerRows, $componentDetails );
         exit();
     }
 
