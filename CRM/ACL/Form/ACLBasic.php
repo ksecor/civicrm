@@ -44,44 +44,6 @@ require_once 'CRM/Admin/Form.php';
  */
 class CRM_ACL_Form_ACLBasic extends CRM_Admin_Form
 {
-    protected $_basicPermissions = null;
-
-    function &basicPermissions( ) {
-       if ( ! $this->_basicPermissions ) {
-           $this->_basicPermissions =
-                array(
-                      'add contacts'               => ts( 'add contacts' ),
-                      'view all contacts'          => ts( 'view all contacts' ),
-                      'edit all contacts'          => ts( 'edit all contacts' ),
-                      'import contacts'            => ts( 'import contacts' ),
-                      'edit groups'                => ts( 'edit groups' ),
-                      'administer CiviCRM'         => ts( 'administer CiviCRM' ),
-                      'access uploaded files'      => ts( 'access uploaded files' ),
-                      'profile listings and forms' => ts( 'profile listings and forms' ),
-                      'access all custom data'     => ts( 'access all custom data' ),
-                      'view all activities'        => ts( 'view all activities' ),
-                      'access CiviCRM'             => ts( 'access CiviCRM' ),
-                      'access Contact Dashboard'   => ts( 'access Contact Dashboard' ),
-                     );
-
-           $config = CRM_Core_Config::singleton( );
-           require_once 'CRM/Core/Component.php';
-           $components = CRM_Core_Component::getEnabledComponents();
-           foreach ( $components as $comp ) {
-               $perm = $comp->getPermissions( );
-               if ( $perm ) {
-                   sort( $perm );
-                   foreach ( $perm as $p ) {
-                      $this->_basicPermissions[$p] = $p;
-                   }
-               }
-           }
-           asort( $this->_basicPermissions );
-       }
-       
-       return $this->_basicPermissions;
-    }
-
     /**
     * This function sets the default values for the form.
      * 
@@ -126,9 +88,10 @@ SELECT object_table
             return;
         }
 
+        require_once 'CRM/Core/Permission.php';
         $this->addCheckBox( 'object_table',
                             ts('ACL Type'),
-                            $this->basicPermissions( ),
+                            CRM_Core_Permission::basicPermissions( ),
                             null, null, true, null,
                             array( '</td><td>', '</td></tr><tr><td>' ) );
 

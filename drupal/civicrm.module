@@ -136,26 +136,9 @@ function civicrm_perm()
 
     $config =& CRM_Core_Config::singleton();
 
-    // static permissions
-    $cPerm = array('add contacts', 'view all contacts', 'edit all contacts', 'import contacts',
-                   'edit groups', 'administer CiviCRM', 
-                   'access uploaded files',
-                   'profile listings and forms',
-                   'access all custom data',
-                   'view all activities',
-                   'access CiviCRM', 'access Contact Dashboard' );
-                   
-    // permissions for components which are conditionally enabled via config file setting
-    require_once 'CRM/Core/Component.php';
-    $components = CRM_Core_Component::getEnabledComponents();
-    foreach ( $components as $comp ) {
-        $perm = $comp->getPermissions( );
-        if ( $perm ) {
-            $cPerm = array_merge( $cPerm, $perm );
-        }
-    }
-    
-	return $cPerm;
+    require_once 'CRM/Core/Permission.php';
+    $permissions =& CRM_Core_Permission::basicPermissions( );
+	return array_keys( $permissions );
 }
 
 /**

@@ -146,7 +146,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         
         if ( ! $this->_values ) {
             // this is the first time we are hitting this, so check for permissions her
-            if ( ! CRM_Core_Permission::event( CRM_Core_Permission::VIEW,
+            if ( ! CRM_Core_Permission::event( CRM_Core_Permission::EDIT,
                                                $this->_id ) ) {
                 CRM_Core_Error::fatal( ts( 'You do not have permission to register for this event' ) );
             }
