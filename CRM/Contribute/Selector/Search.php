@@ -204,7 +204,7 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
                                   CRM_Core_Action::UPDATE => array(
                                                                    'name'     => ts('Edit'),
                                                                    'url'      => 'civicrm/contact/view/contribution',
-                                                                   'qs'       => 'reset=1&action=update&id=%%id%%&cid=%%cid%%&context=%%cxt%%&subType=%%contributionType%%',
+                                                                   'qs'       => 'reset=1&action=update&id=%%id%%&cid=%%cid%%&context=%%cxt%%&subType=%%contributionType%%&mode=Record Contribution',
                                                                    'title'    => ts('Edit Contribution'),
                                                                   ),
                                   CRM_Core_Action::DELETE => array(
