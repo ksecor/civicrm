@@ -26,7 +26,7 @@
   </item>
   <item>
      <path>civicrm/event/ical</path>
-     <title>Event Listings</title>
+     <title>Event Listing</title>
      <page_callback>CRM_Event_Page_ICalendar</page_callback>
      <access_arguments>register for events</access_arguments>
      <is_public>true</is_public>
