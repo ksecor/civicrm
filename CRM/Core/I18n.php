@@ -40,27 +40,21 @@ require_once 'CRM/Core/Config.php';
 class CRM_Core_I18n
 {
     /**
-     * We only need one instance of this object. So we use the singleton
-     * pattern and cache the instance in this variable
-     *
-     * @var object
-     * @static
-     */
-    static private $_singleton = null;
-
-    /**
      * A PHP-gettext instance for string translation; should stay null if the strings are not to be translated (en_US).
      */
     private $_phpgettext = null;
 
     /**
-     * A constructor that shouldn't be called from outside of this class (use singleton() instead).
+     * A locale-based constructor that shouldn't be called from outside of this class (use singleton() instead).
+     *
+     * @param  $locale string  the base of this certain object's existence
+     * @return         void
      */
-    private function __construct()
+    private function __construct($locale)
     {
-        $config =& CRM_Core_Config::singleton();
-        if ($config->lcMessages != '' and $config->lcMessages != 'en_US') {
-            $streamer = new FileReader(implode(DIRECTORY_SEPARATOR, array($config->gettextResourceDir, $config->lcMessages, 'LC_MESSAGES', 'civicrm.mo')));
+        if ($locale != '' and $locale != 'en_US') {
+            $config =& CRM_Core_Config::singleton();
+            $streamer = new FileReader(implode(DIRECTORY_SEPARATOR, array($config->gettextResourceDir, $locale, 'LC_MESSAGES', 'civicrm.mo')));
             $this->_phpgettext = new gettext_reader($streamer);
         }
     }
@@ -279,37 +273,38 @@ class CRM_Core_I18n
     }
 
     /**
-     * Static instance provider.
-     *
-     * Method providing static instance of CRM_Core_I18n, as
-     * in Singleton pattern; re-initialise on lcMessages change.
+     * Static instance provider - return the instance for the current locale.
      */
     static function &singleton()
     {
-        static $lcMessages = null;
+        static $singleton = array();
+
         $config =& CRM_Core_Config::singleton();
-        if (!isset(self::$_singleton) or $lcMessages != $config->lcMessages) {
+        if (!isset($singleton[$config->lcMessages])) {
             $lcMessages = $config->lcMessages;
-            self::$_singleton =& new CRM_Core_I18n();
+            $singleton[$config->lcMessages] =& new CRM_Core_I18n($config->lcMessages);
         }
-        return self::$_singleton;
+
+        return $singleton[$config->lcMessages];
     }
 
     /**
-     * Set the LC_TIME locale if it's not set already.
+     * Set the LC_TIME locale if it's not set already (for a given language choice).
      *
      * @return string  the final LC_TIME that got set
      */
     static function setLcTime()
     {
-        static $locale;
-        if (!isset($locale)) {
-            // with the config being set up to, e.g., pl_PL: try pl_PL.UTF-8 at first,
-            // if it's not present try pl_PL, finally - fall back to C
-            $config =& CRM_Core_Config::singleton();
-            $locale = setlocale(LC_TIME, $config->lcMessages . '.UTF-8', $config->lcMessages, 'C');
+        static $locales = array();
+
+        $config =& CRM_Core_Config::singleton();
+        if (!isset($locales[$config->lcMessages])) {
+            // with the config being set to pl_PL: try pl_PL.UTF-8,
+            // then pl_PL, if neither present fall back to C
+            $locales[$config->lcMessages] = setlocale(LC_TIME, $config->lcMessages . '.UTF-8', $config->lcMessages, 'C');
         }
-        return $locale;
+
+        return $locales[$config->lcMessages];
     }
 
 }
