@@ -49,12 +49,7 @@ class CRM_Core_I18n
     static private $_singleton = null;
 
     /**
-     * The locale used for this instance of the class; should stay null if the strings are not to be translated (en_US).
-     */
-    private $_locale = null;
-
-    /**
-     * A PHP-gettext instance for string translation.
+     * A PHP-gettext instance for string translation; should stay null if the strings are not to be translated (en_US).
      */
     private $_phpgettext = null;
 
@@ -67,7 +62,6 @@ class CRM_Core_I18n
         if ($config->lcMessages != '' and $config->lcMessages != 'en_US') {
             $streamer = new FileReader(implode(DIRECTORY_SEPARATOR, array($config->gettextResourceDir, $config->lcMessages, 'LC_MESSAGES', 'civicrm.mo')));
             $this->_phpgettext = new gettext_reader($streamer);
-            $this->_locale     = $config->lcMessages;
         }
     }
 
@@ -211,7 +205,7 @@ class CRM_Core_I18n
         // use plural if required parameters are set
         if (isset($count) && isset($plural)) {
 
-            if ($this->_locale) {
+            if ($this->_phpgettext) {
                 $text = $this->_phpgettext->ngettext($text, $plural, $count);
             } else {
                 // if the locale's not set, we do ngettext work by hand
@@ -223,7 +217,7 @@ class CRM_Core_I18n
             $text = strtr($text, array('%count' => $count));
 
         // if not plural, but the locale's set, translate
-        } elseif ($this->_locale) {
+        } elseif ($this->_phpgettext) {
             $text = $this->_phpgettext->translate($text);
         }
 
@@ -246,7 +240,7 @@ class CRM_Core_I18n
      */
     function translate($string)
     {
-        return ($this->_locale) ? $this->_phpgettext->translate($string) : $string;
+        return ($this->_phpgettext) ? $this->_phpgettext->translate($string) : $string;
     }
 
     /**
@@ -257,7 +251,7 @@ class CRM_Core_I18n
      */
     function localizeArray(&$array)
     {
-        if ($this->_locale) {
+        if ($this->_phpgettext) {
             foreach ($array as $key => $value) {
                 $array[$key] = $this->_phpgettext->translate($value);
             }
@@ -272,7 +266,7 @@ class CRM_Core_I18n
      */
     function localizeTitles(&$array)
     {
-        if ($this->_locale) {
+        if ($this->_phpgettext) {
             foreach ($array as $key => $value) {
                 if (is_array($value)) {
                     $this->localizeTitles($value);
