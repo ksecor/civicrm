@@ -70,7 +70,7 @@ class CRM_Contribute_Page_Tab extends CRM_Contact_Page_View
                                   CRM_Core_Action::UPDATE => array(
                                                                    'name'     => ts('Edit'),
                                                                    'url'      => 'civicrm/contact/view/contribution',
-                                                                   'qs'       => 'reset=1&action=update&id=%%id%%&cid=%%cid%%&honorId=%%honorId%%&context=%%cxt%%&subType=%%contributionType%%&mode=Record Contribution',
+                                                                   'qs'       => 'reset=1&action=update&id=%%id%%&cid=%%cid%%&honorId=%%honorId%%&context=%%cxt%%&subType=%%contributionType%%',
                                                                    'title'    => ts('Edit Contribution'),
                                                                    ),
                                   CRM_Core_Action::DELETE => array(

@@ -11,16 +11,13 @@
     {assign var=contribMode value="LIVE"}
 {/if}
 
-{if $contributionMode == 'test' or $contributionMode == 'live' }
+{if $contributionMode}
 <div id="help">
     {ts 1=$displayName 2=$contribMode}Use this form to submit a new contribution on behalf of %1. <strong>A %2 transaction will be submitted</strong> using the selected payment processor.{/ts}
-</div>
+</div><fieldset>
+{else} 
+<fieldset><legend>{if $action eq 1 or $action eq 1024}{ts}New Contribution{/ts}{elseif $action eq 8}{ts}Delete Contribution{/ts}{else}{ts}Edit Contribution{/ts}{/if}</legend> 
 {/if}
-<fieldset>
-{if $contributionMode == 'Record Contribution'} 
-<legend>{if $action eq 1 or $action eq 1024}{ts}New Contribution{/ts}{elseif $action eq 8}{ts}Delete Contribution{/ts}{else}{ts}Edit Contribution{/ts}{/if}</legend> 
-{/if}
-
    {if $action eq 8} 
       <div class="messages status"> 
         <dl> 
@@ -35,7 +32,7 @@
         <tr>
             <td class="font-size12pt right"><strong>{ts}Contributor{/ts}</strong></td><td class="font-size12pt"><strong>{$displayName}</strong></td>
         </tr>
-	{if $contributionMode == 'test' or $contributionMode == 'live'}
+	{if $contributionMode}
            <tr><td class="label nowrap">{$form.payment_processor_id.label}</td><td>{$form.payment_processor_id.html}</td></tr>
 	    <tr>
 	      {assign var=n value=email-$bltID}
@@ -52,13 +49,13 @@
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Actual amount given by contributor.{/ts}</td></tr>
 	<tr><td class="label">{$form.source.label}</td><td>{$form.source.html}</td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Optional identifier for the contribution source (campaign name, event, mailer, etc.).{/ts}</td></tr>
-        {if $contributionMode == 'test' or $contributionMode == 'live'}
+        {if $contributionMode}
 	    {if $email}
             <tr><td class="label">{$form.is_email_receipt_cc.label}</td><td>{$form.is_email_receipt_cc.html}</td></tr>
             <tr><td class="label">&nbsp;</td><td class="description">{ts}Automatically email a receipt for this contribution to {$email}?{/ts}</td></tr>
             {/if}
         {/if}
-	{if $contributionMode == 'Record Contribution' }
+	{if !$contributionMode}
         <tr><td class="label">{$form.receive_date.label}</td><td>{$form.receive_date.html}
             {if $hideCalender neq true}
                  {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_1}
@@ -146,7 +143,7 @@
 </div> 
 {/if} 
 
-{if $contributionMode == 'Record Contribution'}
+{if !$contributionMode}
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="is_email_receipt"
     trigger_value       =""

@@ -146,17 +146,10 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         $this->_id        = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
         
         //set the contribution mode.
-        $mode = CRM_Utils_Request::retrieve( 'mode', 'String', $this, false );
-        if ( $mode == 'Submit CC-Live' ) {
-            $this->_mode = 'live';
-        } else if ( $mode == 'Submit CC-Test' ) {
-            $this->_mode = 'test';
-        } else if ( $mode == 'Record Contribution' ) {
-            $this->_mode = $mode;
-        }
+        $this->_mode = CRM_Utils_Request::retrieve( 'mode', 'String', $this, false );
         
         $this->assign( 'contributionMode', $this->_mode );
-
+        
         $this->_processors = CRM_Core_PseudoConstant::paymentProcessor( false, false,
                                                                         "billing_mode IN ( 1, 3 )" );
         $this->_paymentProcessor = array( 'billing_mode' => 1 );
@@ -258,7 +251,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             return $defaults;
         }
         
-        if ( $this->_mode == 'live' || $this->_mode == 'test' ) {
+        if ( $this->_mode ) {
             foreach ( $this->_fields as $name => $dontCare ) {
                 $fields[$name] = 1;
             }
@@ -431,24 +424,22 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                               'Premium Information' => 'Premium'
                               );
         
-        if ( $this->_mode == 'live' || $this->_mode == 'test' ) {
+        if ( $this->_mode ) {
             $ccPane = array( 'Credit Card Information' => 'CreditCard' );
         }
         if ( is_array( $ccPane ) ) {
             $paneNames = array_merge( $ccPane, $paneNames );
         }
         
-        //get the contribution mode
-        $mode = CRM_Utils_Array::value( 'mode', $_GET );
         foreach ( $paneNames as $name => $type ) {
-            if ( $this->_id ) {
-                $dojoUrlParams = "&reset=1&action=update&id={$this->_id}&snippet=1&cid={$this->_contactID}&formType={$type}";  
+            
+            if ( $this->_mode ) {
+                $urlParams = "snippet=1&formType={$type}&mode={$this->_mode}";
             } else {
-                $dojoUrlParams = "&reset=1&action=add&snippet=1&cid={$this->_contactID}&formType={$type}";
+                $urlParams = "snippet=1&formType={$type}";
             }
             
-            $allPanes[$name] = array( 'url'  => CRM_Utils_System::url( 'civicrm/contact/view/contribution',
-                                                                       "snippet=1&formType={$type}&mode={$mode}" ),
+            $allPanes[$name] = array( 'url'  => CRM_Utils_System::url( 'civicrm/contact/view/contribution', $urlParams ),
                                       'open' => 'false',
                                       'id'   => $type,
                                       );
@@ -625,7 +616,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         }
         
         //check for Credit Card Contribution.
-        if ( $self->_mode == 'live' || $self->_mode == 'test' ) {
+        if ( $self->_mode ) {
             $manditoryFields = array_merge( $ccFields, array(
                                                              "credit_card_type",
                                                              "credit_card_number",
@@ -674,7 +665,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         $session =& CRM_Core_Session::singleton( );
         
         //Credit Card Contribution.
-        if ( $this->_mode == 'live' || $this->_mode == 'test' ) {
+        if ( $this->_mode ) {
             $unsetParams = array('trxn_id','payment_instrument_id', 'contribution_status_id',
                                  'receive_date', 'receipt_date','cancel_date','cancel_reason');
             foreach ( $unsetParams as $key ) {

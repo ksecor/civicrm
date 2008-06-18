@@ -339,6 +339,28 @@ class CRM_Contribute_Form_AdditionalInfo
             }
         }
         
+        //build Billing Name / Address and Credit Card blocks.
+        foreach ( $form->_fields as  $key => $value ) {
+            $billingParams[$value['title']] = $params[$key];
+        }
+        
+        if ( CRM_Utils_Array::value( 'Country', $billingParams ) ) {
+            $billingParams['Country'] = CRM_Core_PseudoConstant::country( $billingParams['Country'] );
+        }
+        if ( CRM_Utils_Array::value( 'State / Province', $billingParams ) ) {
+            $billingParams['State / Province'] = CRM_Core_PseudoConstant::stateProvince( $billingParams['State / Province'] );
+        }
+        
+        if ( CRM_Utils_Array::value( 'Expiration Date', $billingParams ) ) {
+            $date = CRM_Utils_Date::format( $billingParams['Expiration Date'], null, 'invalidDate' );
+            if ( $date != 'invalidDate' ) {
+                $billingParams['Expiration Date'] = CRM_Utils_Date::customFormat( $date, '%B-%Y' );
+            }
+        }
+        if ( ! empty( $billingParams ) ) {
+            $form->assign( 'billingBlock', $billingParams );
+        }
+        
         $form->assign_by_ref( 'formValues', $params );
         require_once 'CRM/Contact/BAO/Contact.php';
         list( $contributorDisplayName, 

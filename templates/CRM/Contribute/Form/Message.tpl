@@ -22,8 +22,18 @@
 {if $formValues.trxn_id}
 {ts}Transaction ID{/ts}: {$formValues.trxn_id}
 {/if}
-{if $showCustom}
 
+{if $billingBlock}
+===========================================================
+{ts}Billing Information{/ts}
+
+===========================================================
+{foreach from=$billingBlock item=value key=name}
+ {$name}: {$value}
+{/foreach}
+{/if}
+
+{if $showCustom}
 ===========================================================
 {ts}Additional Information{/ts}
 
