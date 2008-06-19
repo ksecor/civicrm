@@ -240,41 +240,55 @@ class CRM_Export_BAO_Export
         $setHeader = true;
         while ( $dao->fetch( ) ) {
             $row = array( );
-
             //first loop through returnproperties so that we return what is required, and in same order.
-            foreach( array_keys($returnProperties) as $field ) {
-                $fieldValue = $dao->$field;
-                //few exceptions
-                if ( $field == 'id' ) {
-                    $fieldValue = $dao->contact_id;
-                }
-
+            foreach( $returnProperties as $field => $value ) {
                 //we should set header only once
                 if ( $setHeader ) { 
                     if ( isset( $query->_fields[$field]['title'] ) ) {
                         $headerRows[] = $query->_fields[$field]['title'];
                     } else if ($field == 'phone_type'){
                         $headerRows[] = 'Phone Type';
-                    } else {
-                        $keyArray = explode('-', $field);
-                        $hdr      = $keyArray[0];
-                        
-                        if ( CRM_Utils_Array::value( 1, $keyArray ) ) {
-                            $hdr .= "-" . $query->_fields[$keyArray[1]]['title'];
+                    } else if ( is_array( $value ) && $field == 'location' ) {
+                        // fix header for location type case
+                        foreach ( $value as $ltype => $val ) {
+                            foreach ( array_keys($val) as $fld ) {
+                                $type = explode('-', $fld );
+                                $hdr = "{$ltype}-" . $query->_fields[$type[0]]['title'];
+                                
+                                if ( CRM_Utils_Array::value( 1, $type ) ) {
+                                    $hdr .= " " . $type[1];
+                                }
+                                $headerRows[] = $hdr;
+                            }
                         }
-                        
-                        if ( CRM_Utils_Array::value( 2, $keyArray ) ) {
-                            $hdr .= " " . $keyArray[2];
-                        }
-                        $headerRows[] = $hdr;
                     }                                     
                 }
-               
+
                 //build row values (data)
-                if ( isset( $fieldValue ) && $fieldValue != '' ) {
+                $fieldValue = $dao->$field;
+                
+                if ( $field == 'id' ) {
+                    $row[$field] = $dao->contact_id;
+                } else if ( is_array( $value ) && $field == 'location' ) {
+                    // fix header for location type case
+                    foreach ( $value as $ltype => $val ) {
+                        foreach ( array_keys($val) as $fld ) {
+                            $type = explode('-', $fld );
+                            $fldValue = "{$ltype}-" . $type[0];
+                            
+                            if ( CRM_Utils_Array::value( 1, $type ) ) {
+                                $fldValue .= "-" . $type[1];
+                            }
+                            
+                            $row[$fldValue] = $dao->$fldValue;
+                        }
+                    }
+                } else if ( isset( $fieldValue ) && $fieldValue != '' ) {
+                    //check for custom data
                     if ( $cfID = CRM_Core_BAO_CustomField::getKeyID( $field ) ) {
                         $row[$field] = CRM_Core_BAO_CustomField::getDisplayValue( $fieldValue, $cfID, $query->_options );
-                    } else if ( array_key_exists( $field ,$multipleSelectFields ) ) {
+                    } else if ( array_key_exists( $field, $multipleSelectFields ) ) {
+                        //option group fixes
                         $paramsNew = array( $field => $fieldValue );
                         if ( $field == 'test_tutoring') {
                             $name = array( $field => array('newName' => $field ,'groupName' => 'test' ));
@@ -286,9 +300,11 @@ class CRM_Export_BAO_Export
                         CRM_Core_OptionGroup::lookupValues( $paramsNew, $name, false );
                         $row[$field] = $paramsNew[$field];
                     } else {
+                        //normal fields
                         $row[$field] = $fieldValue;
                     }
                 } else {
+                    // if field is empty or null
                     $row[$field] = '';
                 }
             }
