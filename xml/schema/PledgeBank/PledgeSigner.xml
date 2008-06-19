@@ -87,6 +87,15 @@
        <key>id</key> 
        <onDelete>CASCADE</onDelete>
   </foreignKey>
+  <field>        
+      <name>signing_date</name>
+      <uniqueName>pledgesigner_signing_date</uniqueName>
+      <title>Signing date</title>
+      <import>true</import>
+      <type>datetime</type>     
+      <comment>When did contact sign this pledge?</comment>
+      <add>2.1</add>     
+  </field>
   <field>
        <name>geo_code_1</name>
        <type>float</type>
