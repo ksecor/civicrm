@@ -37,12 +37,11 @@ require_once 'CRM/Contact/Form/Search/Custom/Base.php';
 require_once 'CRM/Contact/BAO/SavedSearch.php';
 
 class CRM_Contact_Form_Search_Custom_Group
-   extends    CRM_Contact_Form_Search_Custom_Base
-   implements CRM_Contact_Form_Search_Interface {
+    implements CRM_Contact_Form_Search_Interface {
 
     function __construct( &$formValues ) {
-        parent::__construct( $formValues );
-        
+      
+        $this->_formValues = $formValues;
         $this->_columns = array( ts('Contact Id')   => 'contact_id'  ,
                                  ts('Contact Type') => 'contact_type',
                                  ts('Name')         => 'sort_name',
@@ -106,11 +105,12 @@ class CRM_Contact_Form_Search_Custom_Group
                       GROUP_CONCAT(group_names ) as name
                       ";
 
-        $groupBy = " GROUP BY contact_id";
-        
-        return $this->sql( $selectClause,
-                           $offset, $rowcount, $sort,
-                           $includeContactIDs, $groupBy );
+        $from  = $this->from( );
+
+        $where = $this->where( $includeContactIDs );
+
+        $sql = " SELECT $selectClause FROM   $from WHERE  $where GROUP BY contact_id ";
+        return $sql;
         
     }
     
@@ -238,13 +238,36 @@ class CRM_Contact_Form_Search_Custom_Group
         }
             
         return "
-                FROM civicrm_contact contact_a 
+                civicrm_contact contact_a 
                 INNER JOIN I_{$this->_tableName} temptable ON (contact_a.id = temptable.contact_id)
                 ";
     }
 
     function where( $includeContactIDs = false ) {
          return ' (1) ' ;
+    }
+
+    /* 
+     * Functions below generally don't need to be modified
+     */
+    function count( ) {
+        $sql = $this->all( );
+           
+        $dao = CRM_Core_DAO::executeQuery( $sql,
+                                             CRM_Core_DAO::$_nullArray );
+        return $dao->N;
+    }
+       
+    function contactIDs( $offset = 0, $rowcount = 0, $sort = null) { 
+        return $this->all( $offset, $rowcount, $sort );
+    }
+
+    function &columns( ) {
+        return $this->_columns;
+    }
+
+    function summary( ) {
+        return null;
     }
 
     function templateFile( ) {
