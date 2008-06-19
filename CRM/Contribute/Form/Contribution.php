@@ -231,7 +231,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             CRM_Custom_Form_Customdata::buildQuickForm( $this );
             CRM_Custom_Form_Customdata::setDefaultValues( $this );
         }
-        
+
         // also set the post url
         $postURL = CRM_Utils_System::url( 'civicrm/contact/view',
                                           "reset=1&force=1&cid={$this->_contactID}&selectedChild=contribute" );
@@ -398,7 +398,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         foreach ( $honorFields as $key ) {
             if ( ! empty( $defaults[$key] ) ) {
                 $defaults['hidden_Honoree'] = 1;
-                    break;
+                break;
             }
         }
         
@@ -437,8 +437,13 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                 $urlParams .= "&mode={$this->_mode}";
             }
             
+            $open = 'false';
+            if ( $type == 'CreditCard' ) {
+                $open = 'true';
+            }
+
             $allPanes[$name] = array( 'url'  => CRM_Utils_System::url( 'civicrm/contact/view/contribution', $urlParams ),
-                                      'open' => 'false',
+                                      'open' => $open,
                                       'id'   => $type,
                                       );
             
@@ -450,7 +455,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                 $allPanes[$name]['open'] = 'true';
                 if ( $type == 'CreditCard' ) {
                     $this->add('hidden', 'hidden_CreditCard', 1 );
-                    eval( 'CRM_Core_Payment_Form::build' . $type . '( $this );' );
+                    CRM_Core_Payment_Form::buildCreditCard( $this );
                 } else {
                     eval( 'CRM_Contribute_Form_AdditionalInfo::build' . $type . '( $this );' );
                 }
