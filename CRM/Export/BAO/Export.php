@@ -293,6 +293,9 @@ class CRM_Export_BAO_Export
                 }
             }
             
+            //build header only once
+            $setHeader = false;
+        
             // add payment headers if required
             if ( $addPaymentHeader && $paymentFields ) {
                 $headerRows = array_merge( $headerRows, $paymentHeaders );
@@ -322,9 +325,6 @@ class CRM_Export_BAO_Export
           
         }
 
-        //build header only once
-        $setHeader = false;
-
         if ( ($currentEmployer || $primary ) && $exportMode == CRM_Export_Form_Select::CONTACT_EXPORT ) {
             $headerRows[] = 'Current Employer';
         }
@@ -334,7 +334,7 @@ class CRM_Export_BAO_Export
             $unsetKey = CRM_Utils_Array::key('Internal Contact ID', $headerRows );
             unset( $headerRows[$unsetKey] );
         }
-        
+
         require_once 'CRM/Core/Report/Excel.php';
         CRM_Core_Report_Excel::writeCSVFile( self::getExportFileName( 'csv', $exportMode ), $headerRows, $componentDetails );
         exit();
