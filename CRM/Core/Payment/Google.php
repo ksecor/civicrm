@@ -126,6 +126,11 @@ class CRM_Core_Payment_Google extends CRM_Core_Payment {
             $relatedContactID = CRM_Utils_Array::value( 'related_contact', $params );
             if ( $relatedContactID ) {
                 $privateData .= ",relatedContactID=$relatedContactID";
+
+                $onBehalfDupeAlert = CRM_Utils_Array::value( 'onbehalf_dupe_alert', $params );
+                if ( $onBehalfDupeAlert ) {
+                    $privateData .= ",onBehalfDupeAlert=$onBehalfDupeAlert";
+                }
             }
         }
         

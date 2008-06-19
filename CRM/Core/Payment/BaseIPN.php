@@ -515,9 +515,12 @@ class CRM_Core_Payment_BaseIPN {
                 $values['membership_id'] = $membership->id;
             }
             $values['contribution_id']     = $contribution->id;
-            if ( $ids['relatedContactID'] ) {
-                $values['related_contact'] = $ids['relatedContactID'];
-                
+            if ( $ids['related_contact'] ) {
+                $values['related_contact'] = $ids['related_contact'];
+                if ( isset($ids['onbehalf_dupe_alert']) ) {
+                    $values['onbehalf_dupe_alert'] = $ids['onbehalf_dupe_alert'];
+                }
+
                 require_once 'CRM/Core/BAO/Address.php';
                 $entityBlock = array( 'contact_id'       => $ids['contact'], 
                                       'location_type_id' => CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_LocationType', 

@@ -110,8 +110,9 @@ class CRM_Core_Payment_GoogleIPN extends CRM_Core_Payment_BaseIPN {
             $ids['participant'] = self::retrieve( 'participantID', 'Integer', $privateData, true );
             $ids['membership']  = null;
         } else {
-            $ids['membership']       = self::retrieve( 'membershipID'  , 'Integer', $privateData, false );
-            $ids['relatedContactID'] = self::retrieve( 'relatedContactID'  , 'Integer', $privateData, false );
+            $ids['membership']          = self::retrieve( 'membershipID'  , 'Integer', $privateData, false );
+            $ids['related_contact']     = self::retrieve( 'relatedContactID'  , 'Integer', $privateData, false );
+            $ids['onbehalf_dupe_alert'] = self::retrieve( 'onBehalfDupeAlert'  , 'Integer', $privateData, false );
         }
         $ids['contributionRecur'] = $ids['contributionPage'] = null;
 
@@ -168,7 +169,8 @@ class CRM_Core_Payment_GoogleIPN extends CRM_Core_Payment_BaseIPN {
             } else {
                 $contribution->trxn_id = 
                     $ids['membership'] . CRM_Core_DAO::VALUE_SEPARATOR .
-                    $ids['relatedContactID'];
+                    $ids['related_contact'] . CRM_Core_DAO::VALUE_SEPARATOR .
+                    $ids['onbehalf_dupe_alert'];
             }
         }
 
@@ -224,11 +226,14 @@ class CRM_Core_Payment_GoogleIPN extends CRM_Core_Payment_BaseIPN {
                          $contribution->trxn_id );
             
         } else {
-            list( $ids['membership'], $ids['relatedContactID'] ) = 
+            list( $ids['membership'], $ids['related_contact'], $ids['onbehalf_dupe_alert'] ) = 
                 explode( CRM_Core_DAO::VALUE_SEPARATOR,
                          $contribution->trxn_id );
-            if ( ! is_numeric($ids['membership']) ) {
-                unset($ids['membership']);
+
+            foreach ( array('membership', 'related_contact', 'onbehalf_dupe_alert') as $fld ) {
+                if ( ! is_numeric( $ids[$fld] ) ) {
+                    unset( $ids[$fld] );
+                }
             }
         }
 

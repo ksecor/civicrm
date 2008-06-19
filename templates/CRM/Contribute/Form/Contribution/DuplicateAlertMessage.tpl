@@ -1,14 +1,13 @@
 {if $returnContent eq 'subject'}
     {ts}Possible Duplicate Contact Record{/ts}
-
 {else if $returnContent eq 'textMessage'}
 The contribution listed below was submitted on behalf of an organization, and the organization information matches existing records in your database. Please review the following record:
 
-Contact Record: {crmURL p='civicrm/contact/view' q="reset=1&cid=`$dupeID`"}
+Contact Record: {$dupeContactUrl}
 
 If you think this may be a duplicate contact which should be merged with an existing record - use the following link to identify the potential duplicates and merge them if appropriate:
 
-Find Duplicates: {crmURL p='civicrm/admin/dedupefind' q="reset=1&rgid=5"}
+Find Duplicates: {$dupeFindUrl}
 
 {if $receiptMessage}
 ###########################################################

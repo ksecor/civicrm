@@ -187,8 +187,13 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
             // send duplicate alert, if dupe match found during on-behalf-of processing.
             if ( $values['onbehalf_dupe_alert'] ) {
                 $systemFrom = '"Automatically Generated" <' . $values['receipt_from_email'] . '>';
-                $template->assign( 'dupeID', $contactID );
 
+                $dupeContactUrl = CRM_Utils_System::url('civicrm/contact/view', 'reset=1&cid=' . $contactID);
+                $template->assign( 'dupeContactUrl', $dupeContactUrl );
+
+                $dupeFindUrl = CRM_Utils_System::url('civicrm/admin/dedupefind', 'reset=1&rgid=5');
+                $template->assign( 'dupeFindUrl', $dupeFindUrl );
+                
                 $emailTemplate  = 'CRM/Contribute/Form/Contribution/DuplicateAlertMessage.tpl';
                 
                 $template->assign( 'returnContent', 'subject' );

@@ -875,6 +875,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         // if multiple match - send a duplicate alert
         if ( $dupeIDs && (count($dupeIDs) > 1) ) {
             $values['onbehalf_dupe_alert'] = 1;
+            // required for IPN
+            $params['onbehalf_dupe_alert'] = 1;
         }
         
         // make sure organization-contact-id is considered for recording
