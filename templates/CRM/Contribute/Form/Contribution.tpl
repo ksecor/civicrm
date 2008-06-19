@@ -34,10 +34,6 @@
         </tr>
 	{if $contributionMode}
            <tr><td class="label nowrap">{$form.payment_processor_id.label}</td><td>{$form.payment_processor_id.html}</td></tr>
-	    <tr>
-	      {assign var=n value=email-$bltID}
-              <td class="label">{$form.$n.label}</td><td>{$form.$n.html}</td>
-    	    </tr>
         {/if}
 	<tr><td class="label">{$form.contribution_type_id.label}</td><td>{$form.contribution_type_id.html}&nbsp;
         {if $is_test}
@@ -54,6 +50,10 @@
             <tr><td class="label">{$form.is_email_receipt_cc.label}</td><td>{$form.is_email_receipt_cc.html}</td></tr>
             <tr><td class="label">&nbsp;</td><td class="description">{ts}Automatically email a receipt for this contribution to {$email}?{/ts}</td></tr>
             {/if}
+        <tr>
+	    {assign var=n value=email-$bltID}
+            <td class="label">{$form.$n.label}</td><td>{$form.$n.html}</td>
+        </tr> 
         {/if}
 	{if !$contributionMode}
         <tr><td class="label">{$form.receive_date.label}</td><td>{$form.receive_date.html}

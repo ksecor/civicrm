@@ -20,8 +20,9 @@
     <div class="action-link">
        <a accesskey="N" href="{$newContribURL}" class="button"><span>&raquo; {ts}Record Contribution (Check, Cash, EFT ...){/ts}</a></span>
        {if $newCredit}
-           <a accesskey="N" href="{$newCreditURL}" class="button"><span>&raquo; {ts}Submit Credit / Debit Card Contribution{/ts}</a></span><br/><br/>
+           <a accesskey="N" href="{$newCreditURL}" class="button"><span>&raquo; {ts}Submit Credit / Debit Card Contribution{/ts}</a></span>
        {/if}
+       <br/><br/>
     </div>
 {/if}
 
