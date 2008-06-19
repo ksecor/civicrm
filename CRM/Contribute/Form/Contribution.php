@@ -146,7 +146,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         $this->_id        = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
         
         //set the contribution mode.
-        $this->_mode = CRM_Utils_Request::retrieve( 'mode', 'String', $this, false );
+        $this->_mode = CRM_Utils_Request::retrieve( 'mode', 'String', $this );
         
         $this->assign( 'contributionMode', $this->_mode );
         
@@ -432,11 +432,9 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         }
         
         foreach ( $paneNames as $name => $type ) {
-            
+            $urlParams = "snippet=1&formType={$type}";
             if ( $this->_mode ) {
-                $urlParams = "snippet=1&formType={$type}&mode={$this->_mode}";
-            } else {
-                $urlParams = "snippet=1&formType={$type}";
+                $urlParams .= "&mode={$this->_mode}";
             }
             
             $allPanes[$name] = array( 'url'  => CRM_Utils_System::url( 'civicrm/contact/view/contribution', $urlParams ),
@@ -781,16 +779,12 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             
             if ( is_a( $result, 'CRM_Core_Error' ) ) {
                 //set the contribution mode.
-                if ( $this->_mode = 'live' ) {
-                    $mode == 'Submit CC-Live';
-                } else if ( $this->_mode = 'test' ) {
-                    $mode == 'Submit CC-Test';
-                } else if ( $this->_mode == 'Record Contribution' ) {
-                    $mode = $this->_mode;
-                }
+                $urlParams = "action=add&cid={$this->_contactID}";
+                if ( $this->_mode ) {
+                    $urlParams .= "&mode={$this->_mode}";
+                } 
                 CRM_Core_Error::displaySessionError( $result );
-                CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/view/contribution',
-                                                                   "action=add&cid={$this->_contactID}&mode={$mode}" ) );
+                CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/view/contribution', $urlParams ) );
             }
             
             if ( $result ) {
