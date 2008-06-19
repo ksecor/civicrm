@@ -53,9 +53,9 @@
        <onDelete>CASCADE</onDelete>
   </foreignKey>
   <field>     
-      <name>anonymity</name>  
-      <uniqueName>anonymity</uniqueName> 
-      <title>Anonymity</title>
+      <name>is_anonymous</name>  
+      <uniqueName>is_anonymous</uniqueName> 
+      <title>Anonymity - whether given pledge signer name should stay disclosed</title>
       <type>boolean</type>
       <default>0</default>
       <import>true</import>
