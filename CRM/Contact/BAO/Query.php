@@ -474,10 +474,11 @@ class CRM_Contact_BAO_Query
                             $this->_element['address_id']     = 1;
                         }
                         
-                        if ($tableName == 'gender' || $tableName == 'individual_prefix' || $tableName == 'individual_suffix' || $tableName == 'im_provider' ) {
+                        if ($tableName == 'gender' || $tableName == 'individual_prefix' 
+                            || $tableName == 'individual_suffix' || $tableName == 'im_provider' ) {
+
                             require_once 'CRM/Core/OptionValue.php';
                             CRM_Core_OptionValue::select($this);
-                            
                         } else {
                             
                             $this->_tables[$tableName]         = 1;
@@ -497,7 +498,7 @@ class CRM_Contact_BAO_Query
                             }
                            
                             if ( $name == 'state_province' ) {
-                                $this->_select [$name]              = "civicrm_state_province.abbreviation as `$name`, civicrm_state_province.name as state_province_name";
+                                $this->_select [$name]                 = "civicrm_state_province.abbreviation as `$name`, civicrm_state_province.name as state_province_name";
                                 $this->_element['state_province_name'] = 1;
                             } else if ( $tName == 'contact' ) {
                                 if ( $fieldName != 'id' ) {
