@@ -142,9 +142,13 @@
               <fieldset><legend>{$groupTitlePost}</legend>
               
             {/if}
-            {foreach from=$val item=v key=f}
-              <strong>{$f}</strong>  :{$v}<br />
-            {/foreach}
+              <table class="form-layout-compressed">	
+                 {foreach from=$val item=v key=f}
+ 	         <tr>
+                   <td class="labels"><strong>{$f}:</strong></td>  <td>{$v}</td>
+	         </tr>
+                 {/foreach}
+              </table>
               </fieldset>
             {/if}
             {/foreach}
