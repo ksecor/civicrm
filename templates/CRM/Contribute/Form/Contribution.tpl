@@ -141,7 +141,6 @@
     </dl> 
 </fieldset>
 </div> 
-{/if} 
 
 {if !$contributionMode}
 {include file="CRM/common/showHideByFieldValue.tpl" 
@@ -161,4 +160,7 @@
     field_type          ="select"
     invert              = 0
 }
+{/if} 
+
 {/if}
+{* closing of main custom data if*}
