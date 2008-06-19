@@ -78,4 +78,20 @@
        <key>id</key> 
        <onDelete>CASCADE</onDelete>
   </foreignKey>
+  <field>
+       <name>geo_code_1</name>
+       <type>float</type>
+       <import>true</import>
+       <headerPattern>/geo/i</headerPattern>
+       <comment>Latitude</comment>
+       <add>1.1</add>
+  </field>
+  <field>
+       <name>geo_code_2</name>
+       <type>float</type>
+       <comment>Longitude</comment>
+       <import>true</import>
+       <headerPattern>/geo/i</headerPattern>
+       <add>1.1</add>
+  </field>
 </table>
