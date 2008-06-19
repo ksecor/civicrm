@@ -261,7 +261,9 @@ class CRM_Export_BAO_Export
                                 $headerRows[] = $hdr;
                             }
                         }
-                    }                                     
+                    } else {
+                        $headerRows[] = $field;
+                    }
                 }
 
                 //build row values (data)
@@ -338,7 +340,6 @@ class CRM_Export_BAO_Export
             
             // add component info
             $componentDetails[] = $row;         
-          
         }
 
         if ( ($currentEmployer || $primary ) && $exportMode == CRM_Export_Form_Select::CONTACT_EXPORT ) {
