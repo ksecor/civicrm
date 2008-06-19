@@ -102,7 +102,7 @@
        <import>true</import>
        <headerPattern>/geo/i</headerPattern>
        <comment>Latitude</comment>
-       <add>1.1</add>
+       <add>2.1</add>
   </field>
   <field>
        <name>geo_code_2</name>
@@ -110,6 +110,6 @@
        <comment>Longitude</comment>
        <import>true</import>
        <headerPattern>/geo/i</headerPattern>
-       <add>1.1</add>
+       <add>2.1</add>
   </field>
 </table>
