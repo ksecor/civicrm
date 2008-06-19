@@ -210,8 +210,8 @@ class CRM_Contact_Form_Task_EmailCommon
         }
         
         //Added for CRM-1393
-        if( CRM_Utils_Array::value('saveMessage',$fields) ==1 && empty($fields['saveMessageName']) ){
-            $errors['saveMessageName'] = ts("Enter name to save message template");
+        if( CRM_Utils_Array::value('saveTemplate',$fields) && empty($fields['saveTemplateName']) ){
+            $errors['saveTemplateName'] = ts("Enter name to save message template");
         }
         return empty($errors) ? true : $errors;
     }

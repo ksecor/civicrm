@@ -24,6 +24,25 @@
 {literal}
 <script type="text/javascript" >
 var editor = {/literal}"{$editor}"{literal}
+
+	function showSaveUpdateChkBox()
+	{
+		if ( document.getElementsByName("saveTemplate")[0].checked && document.getElementsByName("updateTemplate")[0].checked == false  ) {
+			document.getElementById("updateDetails").style.display = "none";
+		}else if ( document.getElementsByName("saveTemplate")[0].checked && document.getElementsByName("updateTemplate")[0].checked ){
+		
+ 			document.getElementById("editMessageDetails").style.display = "block";	
+			document.getElementById("saveDetails").style.display = "block";	
+		}else if ( document.getElementsByName("saveTemplate")[0].checked == false && document.getElementsByName("updateTemplate")[0].checked ){
+			document.getElementById("saveDetails").style.display = "none";
+ 			document.getElementById("editMessageDetails").style.display = "block";
+		} else {
+
+			document.getElementById("saveDetails").style.display = "none";
+ 			document.getElementById("editMessageDetails").style.display = "none";
+		}
+
+	}
 	function selectValue( val )
    	{
         	if ( !val ) {
@@ -122,8 +141,7 @@ var editor = {/literal}"{$editor}"{literal}
 	        }
 	}
 	
-    	document.getElementById("saveDetails").style.display = "none";
-    	document.getElementById("editMessageDetails").style.display = "none";
+        showSaveUpdateChkBox();
             
 	function tokenReplText ( )
     	{
