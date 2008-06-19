@@ -231,7 +231,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             CRM_Custom_Form_Customdata::buildQuickForm( $this );
             CRM_Custom_Form_Customdata::setDefaultValues( $this );
         }
-
+        
         // also set the post url
         $postURL = CRM_Utils_System::url( 'civicrm/contact/view',
                                           "reset=1&force=1&cid={$this->_contactID}&selectedChild=contribute" );
@@ -424,7 +424,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                               'Premium Information' => 'Premium'
                               );
         
-        if ( $this->_mode ) {
+        if ( $this->_mode ) { 
             $ccPane = array( 'Credit Card Information' => 'CreditCard' );
         }
         if ( is_array( $ccPane ) ) {
@@ -615,20 +615,18 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         
         //check for Credit Card Contribution.
         if ( $self->_mode ) {
-            $manditoryFields = array_merge( $ccFields, array(
-                                                             "credit_card_type",
-                                                             "credit_card_number",
-                                                             "cvv2",
-                                                             "billing_first_name",
-                                                             "billing_last_name",
-                                                             "street_address-{$self->_bltID}",
-                                                             "email-{$self->_bltID}",
-                                                             "city-{$self->_bltID}",
-                                                             "state_province_id-{$self->_bltID}",
-                                                             "postal_code-{$self->_bltID}",
-                                                             "country_id-{$self->_bltID}"
-                                                             )
-                                            );
+            $manditoryFields = array(
+                                     "credit_card_type",
+                                     "credit_card_number",
+                                     "cvv2",
+                                     "billing_first_name",
+                                     "billing_last_name",
+                                     "street_address-{$self->_bltID}",
+                                     "city-{$self->_bltID}",
+                                     "state_province_id-{$self->_bltID}",
+                                     "postal_code-{$self->_bltID}",
+                                     "country_id-{$self->_bltID}"
+                                     );
             foreach ( $manditoryFields as $key ) {
                 if ( empty( $fields[$key] ) ) {
                     $errors[$key] = ts('%1 is a required field.', array( 1 => $self->_fields[$key]['title'] ) );
@@ -637,6 +635,12 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             if ( empty( $fields['credit_card_exp_date']['M'] ) || empty( $fields['credit_card_exp_date']['Y'] ) ) {
                 $errors['credit_card_exp_date'] = ts('%1 is a required field.', 
                                                      array( 1 => $self->_fields['credit_card_exp_date']['title'] ) );  
+            }
+            if ( empty( $fields['payment_processor_id'] ) ) {
+                $errors['payment_processor_id'] = ts( 'Payment Processor is a required field.' );
+            }
+            if ( empty( $fields["email-{$self->_bltID}"] ) ) {
+                $errors["email-{$self->_bltID}"] = ts( 'Email Address is a required field.' );
             }
         }
         

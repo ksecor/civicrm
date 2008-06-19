@@ -309,7 +309,38 @@ class CRM_Contribute_Form_AdditionalInfo
             $this->assign('fulfilled_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format($params['fulfilled_date'])));
         }
         
-        if ( ! $ccContribution ) {
+        $this->assign( 'ccContribution', $ccContribution );
+        if ( $ccContribution ) {
+            //build the name.
+            $name = CRM_Utils_Array::value( 'billing_first_name', $params );
+            if ( CRM_Utils_Array::value( 'billing_middle_name', $params ) ) {
+                $name .= " {$params['billing_middle_name']}";
+            }
+            $name .= ' ' . CRM_Utils_Array::value( 'billing_last_name', $params );
+            $name = trim( $name );
+            $this->assign( 'name', $name );
+            
+            //assign the address formatted up for display
+            $addressParts  = array( "street_address-{$form->_bltID}",
+                                    "city-{$form->_bltID}",
+                                    "postal_code-{$form->_bltID}",
+                                    "state_province-{$form->_bltID}",
+                                    "country-{$form->_bltID}");
+            $addressFields = array( );
+            foreach ( $addressParts as $part) {
+                list( $n, $id ) = explode( '-', $part );
+                $addressFields[$n] = CRM_Utils_Array::value( $part, $params );
+            }
+            require_once 'CRM/Utils/Address.php';
+            $this->assign('address', CRM_Utils_Address::format( $addressFields ) );
+            
+            $date = CRM_Utils_Date::format( $params['credit_card_exp_date'] );  
+            $date = CRM_Utils_Date::mysqlToIso( $date ); 
+            $this->assign( 'credit_card_type', CRM_Utils_Array::value( 'credit_card_type', $params ) );
+            $this->assign( 'credit_card_exp_date', $date );
+            $this->assign( 'credit_card_number',
+                           CRM_Utils_System::mungeCreditCard( $params['credit_card_number'] ) );
+        } else {
             //offline contribution
             //Retrieve the name and email from receipt is to be send
             $params['receipt_from_name'] = $form->userDisplayName;
@@ -337,28 +368,6 @@ class CRM_Contribute_Form_AdditionalInfo
                 $form->assign('showCustom',$showCustom);
                 $form->assign_by_ref('customField',$customField);
             }
-        }
-        
-        //build Billing Name / Address and Credit Card blocks.
-        foreach ( $form->_fields as  $key => $value ) {
-            $billingParams[$value['title']] = $params[$key];
-        }
-        
-        if ( CRM_Utils_Array::value( 'Country', $billingParams ) ) {
-            $billingParams['Country'] = CRM_Core_PseudoConstant::country( $billingParams['Country'] );
-        }
-        if ( CRM_Utils_Array::value( 'State / Province', $billingParams ) ) {
-            $billingParams['State / Province'] = CRM_Core_PseudoConstant::stateProvince( $billingParams['State / Province'] );
-        }
-        
-        if ( CRM_Utils_Array::value( 'Expiration Date', $billingParams ) ) {
-            $date = CRM_Utils_Date::format( $billingParams['Expiration Date'], null, 'invalidDate' );
-            if ( $date != 'invalidDate' ) {
-                $billingParams['Expiration Date'] = CRM_Utils_Date::customFormat( $date, '%B-%Y' );
-            }
-        }
-        if ( ! empty( $billingParams ) ) {
-            $form->assign( 'billingBlock', $billingParams );
         }
         
         $form->assign_by_ref( 'formValues', $params );

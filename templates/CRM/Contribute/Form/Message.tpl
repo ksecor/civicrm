@@ -23,14 +23,21 @@
 {ts}Transaction ID{/ts}: {$formValues.trxn_id}
 {/if}
 
-{if $billingBlock}
+{if $ccContribution}
 ===========================================================
-{ts}Billing Information{/ts}
+{ts}Billing Name and Address{/ts}
 
 ===========================================================
-{foreach from=$billingBlock item=value key=name}
- {$name}: {$value}
-{/foreach}
+{$name}
+{$address}
+
+===========================================================
+{ts}Credit or Debit Card Information{/ts}
+
+===========================================================
+{$credit_card_type}
+{$credit_card_number}
+{ts}Expires{/ts}: {$credit_card_exp_date|truncate:7:''|crmDate}
 {/if}
 
 {if $showCustom}
