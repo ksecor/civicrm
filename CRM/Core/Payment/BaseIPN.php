@@ -517,6 +517,13 @@ class CRM_Core_Payment_BaseIPN {
             $values['contribution_id']     = $contribution->id;
             if ( $ids['relatedContactID'] ) {
                 $values['related_contact'] = $ids['relatedContactID'];
+                
+                require_once 'CRM/Core/BAO/Address.php';
+                $entityBlock = array( 'contact_id'       => $ids['contact'], 
+                                      'location_type_id' => CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_LocationType', 
+                                                                                         'Main', 'id', 'name' ) );
+                $address = CRM_Core_BAO_Address::getValues( $entityBlock );
+                $template->assign('onBehalfAddress', $address[$entityBlock['location_type_id']]['display']);
             }
             CRM_Contribute_BAO_ContributionPage::sendMail( $ids['contact'], $values );
         }

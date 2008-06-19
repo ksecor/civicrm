@@ -161,6 +161,9 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
                 
                 // reset primary-email in the template
                 $template->assign( 'email', $ccEmail );
+                
+                $template->assign('onBehalfName',    $displayName);
+                $template->assign('onBehalfEmail',   $email);
             }
             
             $subject = trim( $template->fetch( 'CRM/Contribute/Form/Contribution/ReceiptSubject.tpl' ) );
