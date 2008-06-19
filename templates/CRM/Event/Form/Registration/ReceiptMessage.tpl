@@ -67,8 +67,7 @@
 ===========================================================
 {$event.fee_label}
 ===========================================================
-{if $lineItem}
-{foreach from=$lineItem item=value key=priceset}
+{if $lineItem}{foreach from=$lineItem item=value key=priceset}
 
 {if $value neq 'skip'}
 {if $priceset eq 0}
@@ -90,8 +89,7 @@ Additional Participant {$priceset}
 {/foreach}
 {/if}
 {if $amount && !$lineItem} 
-{foreach from= $amount item=amount key=level}  
-{$amount|crmMoney}   {$level}	
+{foreach from= $amount item=amount key=level}{$amount|crmMoney}   {$level}	
 {/foreach}
 {/if}
 {if $isPrimary }
@@ -109,7 +107,6 @@ Additional Participant {$priceset}
 {ts}Registration Date{/ts} : {$register_date|crmDate}
 {/if}
 {if $receive_date}
-
 {ts}Transaction Date{/ts} : {$receive_date|crmDate}
 {/if}
 {if $trxn_id}
@@ -161,8 +158,9 @@ Additional Participant {$priceset}
 {/foreach}
 {/if}
 {if $customProfile}
+
 ===========================================================
-{ts}Information Of Additional Participants{/ts}
+{ts}Additional Participant Information{/ts}
 
 ===========================================================
 {foreach from=$customProfile item=value key=name}
@@ -179,9 +177,8 @@ Additional Participant {$priceset}
 
 ----------------------------------------------------------
 {/if}
-
 {foreach from=$val item=v key=f}
-{$f}:{$v}
+ {$f} : {$v}
 {/foreach}
 {/if}
 {/foreach}
@@ -193,7 +190,7 @@ Additional Participant {$priceset}
 {$name}
 ==========================================================
 {foreach from=$value item=v key=n}
-{$n} : {$v}
+ {$n} : {$v}
 {/foreach}
 {/foreach}
 {/if}

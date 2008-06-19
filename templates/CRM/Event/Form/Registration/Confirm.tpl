@@ -74,10 +74,10 @@
          {include file="CRM/UF/Form/Block.tpl" fields=$customPost}
     {/if}
 
-{*diaplay Additional Participant Profile Information*}
+{*display Additional Participant Profile Information*}
 {if $addParticipantProfile}
 <div class="header-dark">
-    {ts}Additional Participants Information{/ts}	
+    {ts}Additional Participant Information{/ts}	
 </div>
     {foreach from=$addParticipantProfile item=participant key=participantNo}
     <div id= "{$participantNo}_show" classsection-hidden section-hidden-border" style="clear: both;">

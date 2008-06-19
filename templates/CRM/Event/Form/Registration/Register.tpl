@@ -77,16 +77,19 @@
  </table>
  {if $form.additional_participants.html}
  <div id="noOfparticipants_show" class="section-hidden section-hidden-border">
-        <a href="#" onclick="hide('noOfparticipants_show'); show('noOfparticipants'); return false;">&raquo; <label>{ts}Register additional people for this event{/ts}</label></a>
+        <a href="#" onclick="hide('noOfparticipants_show'); show('noOfparticipants'); document.forms[1].additional_participants.focus(); return false;">&raquo; <label>{ts}Register additional people for this event{/ts}</label></a>
     </div>
 {/if}
     <div id="noOfparticipants" class="section-hidden section-hidden-border" style="display:none">
         <a href="#" onclick="hide('noOfparticipants'); show('noOfparticipants_show'); return false;">&raquo; <label>{ts}Register additional people for this event{/ts}</label></a>
         <div class="form-item">
-            <dl>
-            <dt>{$form.additional_participants.label}</dt><dd>{$form.additional_participants.html}</dd>
-            <dt>&nbsp;</dt><dd class="description">{ts}You will be able to enter registration information for each additional person after you complete this page and click Continue.{/ts}</dd>
-       	    </dl>
+            <table class="form-layout">
+            <tr><td><label>{$form.additional_participants.label}</label></td>
+                <td>{$form.additional_participants.html|crmReplace:class:two}<br />
+                    <span class="description">{ts}You will be able to enter registration information for each additional person after you complete this page and click Continue.{/ts}</span>
+                </td>
+       	    </tr>
+            </table>
         </div>
     </div> 
 
