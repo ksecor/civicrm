@@ -100,6 +100,6 @@
       <name>is_active</name>
       <type>boolean</type>
       <comment>Is this pledge active?</comment>
-      <add>1.3</add>
+      <add>2.1</add>
   </field>                                
 </table>
