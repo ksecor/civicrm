@@ -50,7 +50,13 @@ class CRM_PledgeBank_Page_DashBoard extends CRM_Core_Page
     function preProcess( ) 
     {
         CRM_Utils_System::setTitle( ts('PledgeBank') );
-
+        
+        $admin = CRM_Core_Permission::check( 'access PledgeBank' );
+        require_once 'CRM/PledgeBank/BAO/Pledge.php';
+        $pledgeSummary = CRM_PledgeBank_BAO_Pledge::getPledgeSummary( $admin );
+        
+        $this->assign( 'pledgeAdmin', $admin );
+        $this->assign( 'pledgeSummary', $pledgeSummary );
     }
     
     /** 

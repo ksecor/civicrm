@@ -133,5 +133,88 @@ class CRM_PledgeBank_BAO_Pledge extends CRM_PledgeBank_DAO_Pledge
 
     }
 
+    /**
+     * Function to get pledges Summary
+     *
+     * @static
+     * @return array Array of pledge summary values
+     */
+    static function getPledgeSummary( $admin = false )
+    {
+        //get only those pledges whose  
+        //deadline should be current or future
+        $pledgeSummary = array( );
+        
+        require_once 'CRM/Utils/Date.php';
+        $now = CRM_Utils_Date::isoToMysql( date("Y-m-d") );
+        $params = array( 1 => array( $now, 'Date' ) );
+        
+        $query = "SELECT count(id) as total_pledges
+                  FROM   civicrm_pledge
+                  WHERE  civicrm_pledge.is_active=1 AND civicrm_pledge.deadline >= %1"; 
+        
+        $dao =& CRM_Core_DAO::executeQuery( $query, $params );
+        
+        if ( $dao->fetch( ) ) {
+            $pledgeSummary['total_pledges'] = $dao->total_pledges;
+        }
+        
+        if ( empty( $pledgeSummary ) ||
+             $dao->total_pledges == 0 ) {
+            return $pledgeSummary;
+        }
+        
+        $query = "
+SELECT     civicrm_pledge.id as id, civicrm_pledge.creator_pledge_desc as creator_pledge_desc, 
+           civicrm_pledge.signers_limit as signers_limit, civicrm_pledge.signer_description_text as signer_description_text, 
+           civicrm_pledge.signer_pledge_desc as signer_pledge_desc, civicrm_pledge.deadline as deadline,
+           civicrm_pledge.is_active as is_active, civicrm_contact.display_name as display_name
+FROM       civicrm_pledge
+LEFT JOIN  civicrm_contact ON ( civicrm_pledge.creator_id = civicrm_contact.id )
+WHERE      civicrm_pledge.is_active = 1 AND civicrm_pledge.deadline >= %1
+GROUP BY   civicrm_pledge.id
+ORDER BY   civicrm_pledge.created_date DESC
+LIMIT      0, 10
+";
+        $dao =& CRM_Core_DAO::executeQuery( $query, $params );
+        
+        $properties = array( 'creatorPledgeDesc'     => 'creator_pledge_desc',     'signersLimit'     => 'signers_limit', 
+                             'signerDescriptionText' => 'signer_description_text', 'signerPledgeDesc' => 'signer_pledge_desc', 
+                             'deadline'              => 'deadline',                'isActive'         => 'is_active', 
+                             'displayName'           => 'display_name',           
+                             );
+        
+        while ( $dao->fetch( ) ) {
+            require_once 'CRM/Core/Config.php';
+            $config = CRM_Core_Config::singleton();
+            
+            foreach ( $properties as $property => $name ) {
+                $set = null;
+                if ( $name == 'deadline'  ) {
+                    $pledgeSummary['pledges'][$dao->id][$property] = 
+                        CRM_Utils_Date::customFormat( $dao->$name,'%b %e, %Y', array( 'd' ) );
+                } else if ( $name == 'is_active' ) {
+                    if ( $dao->$name ) {
+                        $set = 'Yes';
+                    } else {
+                        $set = 'No';
+                    }
+                    $pledgeSummary['pledges'][$dao->id][$property] = $set;
+                } else {
+                    $pledgeSummary['pledges'][$dao->id][$property] = $dao->$name;
+                }
+            }
+            
+            $pledgeSummary['pledges'][$dao->id]['title'] = "I will {$dao->creator_pledge_desc} but only if {$dao->signers_limit} {$dao->signer_description_text} will {$dao->signer_pledge_desc}.";
+            
+            if ( $admin ) {
+                $pledgeSummary['pledges'][$dao->id]['configure'] =
+                    CRM_Utils_System::url( "civicrm/admin/pledge", "action=update&id={$dao->id}&reset=1" );
+            }
+        }
+        
+        return $pledgeSummary;
+    }
+    
 }
 
