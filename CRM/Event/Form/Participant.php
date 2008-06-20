@@ -120,6 +120,10 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
      * Page action
      */
     public $_action;
+    /**
+     * Role Id
+     */
+    protected $_roleId = null;
     
     /** 
      * Function to set variables up before form is built 

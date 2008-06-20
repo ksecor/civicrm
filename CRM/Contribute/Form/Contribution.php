@@ -349,10 +349,10 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         
         list( $displayName, $email ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $this->_contactID );
         $this->assign( 'email', $email ); 
-        if ( $defaults['is_pay_later'] ) {
+        if ( CRM_Utils_Array::value( 'is_pay_later',$defaults ) ) {
             $this->assign( 'is_pay_later', true ); 
         }
-        $this->assign( 'contribution_status_id', $defaults['contribution_status_id'] );
+        $this->assign( 'contribution_status_id', CRM_Utils_Array::value('contribution_status_id',$defaults ) );
 
         return $defaults;
     }
@@ -421,6 +421,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                               'Honoree Information' => 'Honoree', 
                               'Premium Information' => 'Premium'
                               );
+        $ccPane = null;
         
         if ( $this->_mode ) { 
             $ccPane = array( 'Credit Card Information' => 'CreditCard' );
