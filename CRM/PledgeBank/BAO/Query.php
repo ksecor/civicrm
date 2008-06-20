@@ -65,6 +65,19 @@ class CRM_PledgeBank_BAO_Query
             $query->_tables['civicrm_pledge'] = 1;
             $query->_whereTables['civicrm_pledge'] = 1;
         }
+       
+        if ( CRM_Utils_Array::value( 'pledge_is_active', $query->_returnProperties ) ) {
+            $query->_select['pledge_is_active']  = "civicrm_pledge.is_active as pledge_is_active";
+            $query->_element['pledge_is_active'] = 1;
+            $query->_tables['civicrm_pledge'] = 1;
+            $query->_whereTables['civicrm_pledge'] = 1;
+        }
+        
+        if ( CRM_Utils_Array::value( 'signer_pledge_done', $query->_returnProperties ) ) {
+            $query->_select['signer_pledge_done']  = "civicrm_pledgesigner.pledge_done as signer_pledge_done";
+            $query->_element['signer_pledge_done'] = 1;
+            $query->_tables['civicrm_pledgesigner'] = $query->_whereTables['civicrm_pledgesigner'] = 1;
+        }
     }
 
     static function where( &$query ) 
@@ -99,7 +112,22 @@ class CRM_PledgeBank_BAO_Query
             $query->_qill[$grouping][]  = ts("Pledge" ) . " $op - '$value'";
             $query->_tables['civicrm_pledge'] = $query->_whereTables['civicrm_pledge'] = 1;
             return;
+            
+        case 'pledge_is_active':
+            $query->_where[$grouping][] = "civicrm_pledge.is_active $op $value";
+            if ( $value ) {
+                $query->_qill[$grouping][]  = ts("Find active Pledges");
+            }
+            $query->_tables['civicrm_pledge'] = $query->_whereTables['civicrm_pledge'] = 1;
+            return;
 
+        case 'signer_pledge_done':
+            $query->_where[$grouping][] = "civicrm_pledgesigner.pledge_done $op $value";
+            if ( $value ) {
+                $query->_qill[$grouping][]  = ts("Find done Pledges");
+            }
+            $query->_tables['civicrm_pledgesigner'] = $query->_whereTables['civicrm_pledgesigner'] = 1;
+            return;
         }
     }
 
@@ -152,6 +180,8 @@ class CRM_PledgeBank_BAO_Query
     {
         $form->addElement('text', 'pledge_name', ts('Pledge'), 
                           CRM_Core_DAO::getAttribute('CRM_PledgeBank_DAO_Pledge', 'creator_pledge_desc') );
+        $form->addElement( 'checkbox', 'pledge_is_active' , ts( 'Is pledge active?' ) );
+        $form->addElement( 'checkbox', 'signer_pledge_done' , ts( 'Is pledge done?' ) );
         $form->assign( 'validPledgeBank', true );
     }
     

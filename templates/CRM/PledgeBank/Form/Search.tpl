@@ -18,11 +18,6 @@
                {$form.sort_name.label}&nbsp;&nbsp;{$form.sort_name.html|crmReplace:class:'twenty'}&nbsp;&nbsp;&nbsp;{$form.buttons.html}
            </td>       
         </tr>
-        <tr>
-           <td class="font-size12pt" colspan="2">
-               {$form.pledge_name.label}&nbsp;&nbsp;{$form.pledge_name.html}
-           </td>       
-        </tr>
         {include file="CRM/PledgeBank/Form/Search/Common.tpl"}
      
         <tr>
