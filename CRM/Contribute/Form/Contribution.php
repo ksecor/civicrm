@@ -382,9 +382,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             CRM_Contribute_BAO_Contribution::getValues( $params, $defaults, $ids );
         }
         
-        $additionalDetailFields = array( 'note', 'thankyou_date', 'invoice_id', 'trxn_id',
-                                         'non_deductible_amount', 'fee_amount', 'net_amount');
-        
+        $additionalDetailFields = array( 'note', 'thankyou_date', 'invoice_id', 'non_deductible_amount', 'fee_amount', 'net_amount');
         foreach ( $additionalDetailFields as $key ) {
             if ( ! empty( $defaults[$key] ) ) {
                 $defaults['hidden_AdditionalDetail'] = 1;
@@ -455,7 +453,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                 $allPanes[$name]['open'] = 'true';
                 if ( $type == 'CreditCard' ) {
                     $this->add('hidden', 'hidden_CreditCard', 1 );
-                    CRM_Core_Payment_Form::buildCreditCard( $this );
+                    CRM_Core_Payment_Form::buildCreditCard( $this, true );
                 } else {
                     eval( 'CRM_Contribute_Form_AdditionalInfo::build' . $type . '( $this );' );
                 }
@@ -620,27 +618,6 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         
         //check for Credit Card Contribution.
         if ( $self->_mode ) {
-            $manditoryFields = array(
-                                     "credit_card_type",
-                                     "credit_card_number",
-                                     "cvv2",
-                                     "billing_first_name",
-                                     "billing_last_name",
-                                     "street_address-{$self->_bltID}",
-                                     "city-{$self->_bltID}",
-                                     "state_province_id-{$self->_bltID}",
-                                     "postal_code-{$self->_bltID}",
-                                     "country_id-{$self->_bltID}"
-                                     );
-            foreach ( $manditoryFields as $key ) {
-                if ( empty( $fields[$key] ) ) {
-                    $errors[$key] = ts('%1 is a required field.', array( 1 => $self->_fields[$key]['title'] ) );
-                }
-            }
-            if ( empty( $fields['credit_card_exp_date']['M'] ) || empty( $fields['credit_card_exp_date']['Y'] ) ) {
-                $errors['credit_card_exp_date'] = ts('%1 is a required field.', 
-                                                     array( 1 => $self->_fields['credit_card_exp_date']['title'] ) );  
-            }
             if ( empty( $fields['payment_processor_id'] ) ) {
                 $errors['payment_processor_id'] = ts( 'Payment Processor is a required field.' );
             }
