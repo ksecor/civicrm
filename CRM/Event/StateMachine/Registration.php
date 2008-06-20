@@ -58,11 +58,23 @@ class CRM_Event_StateMachine_Registration extends CRM_Core_StateMachine
         
         $pages = array( 'CRM_Event_Form_Registration_Register' => null );
         
-        //to add instances of Additional Participant page.    
-        require_once "CRM/Event/Form/Registration/AdditionalParticipant.php";
-        eval( '$newPages =& CRM_Event_Form_Registration_AdditionalParticipant::getPages( $controller );' );
-        $pages = array_merge( $pages, $newPages );
-        
+        //handle additional participant scenario, where we need to insert participant pages on runtime
+        $additionalParticipant = null;
+        if ( !$controller->isModal( ) ) {
+            $values = $controller->exportValues('Register');
+            if ( $values['additional_participants'] ) {
+                $additionalParticipant = $values['additional_participants'];
+                $controller->set( 'addParticipant', $values['additional_participants'] );
+            }
+        }
+
+        //to add instances of Additional Participant page, only if user has entered any additional participants
+        if ( $additionalParticipant ) {
+            require_once "CRM/Event/Form/Registration/AdditionalParticipant.php";
+            $extraPages =& CRM_Event_Form_Registration_AdditionalParticipant::getPages( $additionalParticipant );
+            $pages = array_merge( $pages, $extraPages );
+        }
+
         $additionalPages = array( 'CRM_Event_Form_Registration_Confirm'   => null,
                                   'CRM_Event_Form_Registration_ThankYou'  => null
                                   );

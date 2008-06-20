@@ -281,21 +281,14 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
         }
     }
     
-    function &getPages( &$controller )
+    function &getPages( $additionalParticipant )
     {
-        $session =& CRM_Core_Session::singleton( );
-        $additional = $session->get('addParticipant');
-        
         $details = array( );
-        
-        if ( $additional ) {
-            for ( $i = 1; $i <= $additional; $i++ ) {
-                $details["Participant-{$i}"] = array( 'className' => 'CRM_Event_Form_Registration_AdditionalParticipant', 
-                                                      'title'     => "Register Additional Participant {$i}"
-                                                      );
-            }
-             
-        }   
+        for ( $i = 1; $i <= $additionalParticipant; $i++ ) {
+            $details["Participant-{$i}"] = array( 'className' => 'CRM_Event_Form_Registration_AdditionalParticipant', 
+                                                  'title'     => "Register Additional Participant {$i}"
+                                                  );
+        }
         return $details;
     } 
 
