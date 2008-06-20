@@ -70,10 +70,12 @@
 {if $lineItem}{foreach from=$lineItem item=value key=priceset}
 
 {if $value neq 'skip'}
-{if $priceset eq 0}
+{if $isPrimary}
+{if $priceset eq 0 }
 Primary Participant
 {else}
 Additional Participant {$priceset}
+{/if}
 {/if}
 ---------------------------------------------------------
 {capture assign="ts_item}{ts}Item{/ts}{/capture}

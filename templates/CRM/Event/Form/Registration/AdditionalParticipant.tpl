@@ -1,5 +1,5 @@
 {if $skipCount}
-<h3>Skipped Participant(s):{$skipCount}</h3>
+<h3>Skipped Participant(s): {$skipCount}</h3>
 {/if}
 {if $action & 1024}
     {include file="CRM/Event/Form/Registration/PreviewHeader.tpl"}
@@ -59,7 +59,7 @@
 
 {assign var=n value=email-$bltID}
 <table class="form-layout-compressed">
-    <tr><td class="label nowrap">{$form.$n.label} <span class="marker">*</span></td><td>{$form.$n.html}</td></tr>
+    <tr><td class="label nowrap">{$form.$n.label}</td><td>{$form.$n.html}</td></tr>
 </table>
 
 {include file="CRM/UF/Form/Block.tpl" fields=$customPre} 
