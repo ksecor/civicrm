@@ -580,7 +580,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                                 array ( 'type'      => $buttonType, 
                                         'name'      => ts('Save'), 
                                         'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
-                                        'js'        => array( 'onclick' => "return verify( );" ),
+                                        'js'        => $this->_mode ? null : array( 'onclick' => "return verify( );" ),
                                         'isDefault' => true   ), 
                                 array ( 'type'      => 'cancel', 
                                         'name'      => ts('Cancel') ), 
