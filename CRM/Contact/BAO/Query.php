@@ -923,7 +923,7 @@ class CRM_Contact_BAO_Query
         }
 
         if ( ! $likeNames ) {
-            $likeNames = array( 'sort_name', 'email', 'notes', 'display_name', 'pledge_name' );
+            $likeNames = array( 'sort_name', 'email', 'notes', 'display_name' );
         }
 
         if ( ! $useEquals &&
