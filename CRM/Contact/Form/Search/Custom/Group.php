@@ -39,6 +39,10 @@ require_once 'CRM/Contact/BAO/SavedSearch.php';
 class CRM_Contact_Form_Search_Custom_Group
     implements CRM_Contact_Form_Search_Interface {
 
+    protected $_formValues;
+
+    protected $_tableName = null;
+
     function __construct( &$formValues ) {
       
         $this->_formValues = $formValues;
@@ -162,11 +166,13 @@ class CRM_Contact_Form_Search_Custom_Group
 
         //distinguish column according to user selection
         if ( $this->_groups && ! $this->_tags ) {
-            $selectClause .= ", GROUP_CONCAT(DISTINCT group_names ) as gname";
+            unset( $this->_columns['Tag Name'] );
+            $selectClause .= ", GROUP_CONCAT(DISTINCT group_names ORDER BY group_names ASC ) as gname";
         } else if ( ! $this->_groups && $this->_tags) {
-            $selectClause .= ", GROUP_CONCAT(DISTINCT tag_names ) as tname";
+            unset( $this->_columns['Group Name'] );
+            $selectClause .= ", GROUP_CONCAT(DISTINCT tag_names  ORDER BY tag_names ASC ) as tname";
         } else {
-            $selectClause .=", GROUP_CONCAT(DISTINCT group_names ) as gname , GROUP_CONCAT(DISTINCT tag_names ) as tname";
+            $selectClause .=", GROUP_CONCAT(DISTINCT group_names ORDER BY group_names ASC ) as gname , GROUP_CONCAT(DISTINCT tag_names ORDER BY tag_names ASC ) as tname";
         }
         $from  = $this->from( );
         
@@ -410,6 +416,24 @@ class CRM_Contact_Form_Search_Custom_Group
     }
 
     function where( $includeContactIDs = false ) {
+         
+        if ( $includeContactIDs ) {
+            $contactIDs = array( );
+            
+            foreach ( $this->_formValues as $id => $value ) {
+                if ( $value &&
+                     substr( $id, 0, CRM_Core_Form::CB_PREFIX_LEN ) == CRM_Core_Form::CB_PREFIX ) {
+                    $contactIDs[] = substr( $id, CRM_Core_Form::CB_PREFIX_LEN );
+                }
+            }
+            
+            if ( ! empty( $contactIDs ) ) {
+                $contactIDs = implode( ', ', $contactIDs );
+                $clauses[] = "contact_a.id IN ( $contactIDs )";
+            }
+            return implode( ' AND ', $clauses );
+        }
+           
          return ' (1) ' ;
     }
 
