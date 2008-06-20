@@ -276,7 +276,7 @@ ORDER BY v.weight
 
         // now extract the amount 
         $values['value'] = $values['label'] = $values['name'] = array( );
-        $values['description'] = $values['amount_id'] = array( ); 
+        $values['description'] = array( ); 
         $index  = 1; 
          
         while ( $dao->fetch( ) ) { 
@@ -318,5 +318,3 @@ SELECT v.label
 
     }
 }
-
-
