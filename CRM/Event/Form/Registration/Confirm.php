@@ -338,7 +338,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             $value['fee_amount'] =  $value['amount'];
             //unset the billing parameters if it is pay later mode
             //to avoid creation of billing location
-            if ( $value['is_pay_later'] ) {
+            if ( $value['is_pay_later'] || !CRM_Utils_Array::value( 'is_primary', $value ) ) {
                 $billingFields = array( "email-{$this->_bltID}",
                                         "billing_first_name",
                                         "billing_middle_name",

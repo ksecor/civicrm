@@ -499,12 +499,9 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
     {
         // get the submitted form values. 
         $params = $this->controller->exportValues( $this->_name ); 
-        $session =& CRM_Core_Session::singleton( );
-       
-        //set number of additional participant.
-        $session->set('addParticipant', CRM_Utils_Array::value( 'additional_participants', $params, false ) );
         //set as Primary participant
         $params ['is_primary'] = 1;         
+        
         if ($this->_values['event']['is_monetary']) {
             $config =& CRM_Core_Config::singleton( );
             
