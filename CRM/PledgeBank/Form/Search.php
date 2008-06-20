@@ -42,7 +42,7 @@ require_once 'CRM/Core/Selector/Controller.php';
 
 
 /**
- * This file is for civievent search
+ * This file is for PledgeBank search
  */
 class CRM_PledgeBank_Form_Search extends CRM_Core_Form
 {
@@ -190,6 +190,7 @@ class CRM_PledgeBank_Form_Search extends CRM_Core_Form
         } 
 
         require_once 'CRM/Contact/BAO/Query.php';
+       
         $this->_queryParams =& CRM_Contact_BAO_Query::convertFormValues( $this->_formValues ); 
         $selector =& new CRM_PledgeBank_Selector_Search( $this->_queryParams,
                                                     $this->_action,

@@ -35,7 +35,6 @@
 
 class CRM_PledgeBank_BAO_Query 
 {
-    
     static function &getFields( ) 
     {
         $fields = array( );
@@ -58,6 +57,14 @@ class CRM_PledgeBank_BAO_Query
             $query->_element['signer_id'] = 1;
             $query->_tables['civicrm_pledgesigner'] = $query->_whereTables['civicrm_pledgesigner'] = 1;
         }
+
+        //add pledge select
+        if ( CRM_Utils_Array::value( 'pledge_name', $query->_returnProperties ) ) {
+            $query->_select['pledge_name'] = "civicrm_pledge.creator_pledge_desc as pledge_name";
+            $query->_element['pledge_name'] = 1;
+            $query->_tables['civicrm_pledge'] = 1;
+            $query->_whereTables['civicrm_pledge'] = 1;
+        }
     }
 
     static function where( &$query ) 
@@ -78,12 +85,20 @@ class CRM_PledgeBank_BAO_Query
     static function whereClauseSingle( &$values, &$query ) 
     {
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
+      
         switch( $name ) {
 
         case 'signer_id':
             $query->_where[$grouping][] = "civicrm_pledgesigner.id $op $value";
             $query->_tables['civicrm_pledgesigner'] = $query->_whereTables['civicrm_pledgesigner'] = 1;
             return;
+            
+        case 'pledge_name':
+            $query->_where[$grouping][] = "civicrm_pledge.creator_pledge_desc $op '%$value%'";
+            $query->_qill[$grouping][]  = ts("Pledge" ) . " $op - '$value'";
+            $query->_tables['civicrm_pledge'] = $query->_whereTables['civicrm_pledge'] = 1;
+            return;
+
         }
     }
 
@@ -99,6 +114,11 @@ class CRM_PledgeBank_BAO_Query
                 $from = " $side JOIN civicrm_pledgesigner ON civicrm_pledgesigner.contact_id = contact_a.id ";
             }
             break;
+            
+        case 'civicrm_pledge':
+            $from = " LEFT JOIN civicrm_pledge ON civicrm_pledge.is_active = 1";
+            break;
+            
         }
         return $from;
     }
@@ -118,17 +138,19 @@ class CRM_PledgeBank_BAO_Query
         $properties = null;
         if ( $mode & CRM_Contact_BAO_Query::MODE_PLEDGEBANK ) {
             $properties = array(  
-                                'contact_type'  => 1, 
-                                'sort_name'     => 1, 
-                                'display_name'  => 1,
-                                'signer_id'     => 1 );
+                                'contact_type' => 1, 
+                                'sort_name'    => 1, 
+                                'display_name' => 1,
+                                'signer_id'    => 1,
+                                'pledge_name'  => 1 );
         }
         return $properties;
     }
 
     static function buildSearchForm( &$form ) 
     {
-
+        $form->addElement('text', 'pledge_name', ts('Pledge'), 
+                          CRM_Core_DAO::getAttribute('CRM_PledgeBank_DAO_Pledge', 'creator_pledge_desc') );
         $form->assign( 'validPledgeBank', true );
     }
     
@@ -138,7 +160,10 @@ class CRM_PledgeBank_BAO_Query
 
     static function tableNames( &$tables ) 
     {
-
+        //add signer table 
+        if ( CRM_Utils_Array::value( 'civicrm_pledge', $tables ) ) {
+            $tables = array_merge( array( 'civicrm_pledgesigner' => 1), $tables );
+        }
     }
   
 }
