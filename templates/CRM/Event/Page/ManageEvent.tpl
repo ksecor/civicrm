@@ -2,6 +2,7 @@
 {capture assign=icalFile}{crmURL p='civicrm/event/ical' q="reset=1"}{/capture}
 {capture assign=icalFeed}{crmURL p='civicrm/event/ical' q="reset=1&page=1"}{/capture}
 {capture assign=rssFeed}{crmURL p='civicrm/event/ical' q="reset=1&page=1&rss=1"}{/capture}
+{capture assign=htmlFeed}{crmURL p='civicrm/event/ical' q="reset=1&page=1&html=1"}{/capture}
 {capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
 
 
@@ -10,12 +11,12 @@
 {/if}
 
 <a accesskey="N" href="{$newEventURL}" id="newManageEvent" class="button"><span>&raquo; {ts}New Event{/ts}</span></a>
+<div class="right">
+    <a href="{$htmlFeed}" title="{ts}HTML listing of current and future public events.{/ts}"><img src="{$config->resourceBase}i/firefox_logo.jpg" alt="{ts}HTML listing of current and future public events.{/ts}" /></a>&nbsp;&nbsp;<a href="{$rssFeed}" title="{ts}Get RSS 2.0 feed for current and future public events.{/ts}"><img src="{$config->resourceBase}i/feed-icon-28x28.png" height="20" width="20" alt="{ts}Get RSS 2.0 feed for current and future public events.{/ts}" /></a>&nbsp;&nbsp;<a href="{$icalFile}" title="{ts}Download iCalendar file for current and future public events.{/ts}"><img src="{$config->resourceBase}i/ical16x16.gif" alt="{ts}Download iCalendar file for current and future public events.{/ts}" /></a>&nbsp;&nbsp;<a href="{$icalFeed}" title="{ts}Get iCalendar feed for current and future public events.{/ts}"><img src="{$config->resourceBase}i/ical_feed.gif" alt="{ts}Get iCalendar feed for current and future public events.{/ts}" /></a>&nbsp;&nbsp;&nbsp;{help id='icalendar'}
+</div>
+
 
 {include file="CRM/Event/Form/SearchEvent.tpl"}
-
-<div class="right">
-    <a href="{$icalFile}" title="{ts}Download iCalendar File{/ts}"><img src="{$config->resourceBase}i/ical16x16.gif" alt="{ts}Download iCalendar file for current and future public events.{/ts}" /></a>&nbsp;&nbsp;<a href="{$icalFeed}" title="{ts}iCalendar Feed{/ts}"><img src="{$config->resourceBase}i/ical_feed.gif" alt="{ts}Get iCalendar feed for current and future public events.{/ts}" /></a>&nbsp;&nbsp;<a href="{$rssFeed}" title="{ts}RSS 2.0 Feed{/ts}"><img src="{$config->resourceBase}i/rss2.png" alt="{ts}Get RSS 2.0 feed or current and future public events.{/ts}" /></a>&nbsp;&nbsp;&nbsp;{help id='icalendar'}
-</div>
 
 {if $rows}
     <div class="form-item" id=event_status_id>

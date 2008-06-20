@@ -9,9 +9,11 @@
 <docs>http://blogs.law.harvard.edu/tech/rss</docs>
 {foreach from=$events key=uid item=event}
 <item>
-<title>{$event.summary|escape:'htmlall'}</title>
+<title>{$event.title|escape:'htmlall'}</title>
 <link>{crmURL p='civicrm/event/info' q="reset=1&id=`$event.event_id`"}</link>
 <description>
+{if $event.summary}{$event.summary|escape:'htmlall'}
+{/if}
 {if $event.description}{$event.description|escape:'htmlall'}
 {/if}
 {if $event.start_date}{ts}When{/ts}: {$event.start_date|crmDate}{if $event.end_date} {ts}through{/ts} {strip}
