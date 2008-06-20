@@ -104,7 +104,7 @@ class CRM_Core_I18n
                          'uk_UA' => 'Українська',
                          'zh_CN' => '中文 (简体字)',
                          'zh_TW' => '中文 (繁體字)');
-           
+
             // check which ones are available; add them to $all if not there already
             $config =& CRM_Core_Config::singleton();
             $codes = array();
@@ -317,24 +317,28 @@ class CRM_Core_I18n
  */
 function ts($text, $params = array())
 {
-    static $i18n = null;
+    static $config   = null;
+    static $locale   = null;
+    static $i18n     = null;
     static $function = null;
 
     if ($text == '') {
         return '';
     }
 
-    if ( ! $i18n ) {
+    if (!$config) {
+        $config =& CRM_Core_Config::singleton();
+    }
+
+    if (!$i18n or $locale != $config->lcMessages) {
         $i18n =& CRM_Core_I18n::singleton();
-        $config =& CRM_Core_Config::singleton( );
-        $function = isset( $config->customTranslateFunction ) ? trim( $config->customTranslateFunction ) : null;
-        if ( ! $function ||
-             ! function_exists( $function ) ) {
-            $function = null;
+        $locale = $config->lcMessages;
+        if (isset($config->customTranslateFunction) and function_exists($config->customTranslateFunction)) {
+            $function = $config->customTranslateFunction;
         }
     }
 
-    if ( $function ) {
+    if ($function) {
         return $function($text, $params);
     } else {
         return $i18n->crm_translate($text, $params);
