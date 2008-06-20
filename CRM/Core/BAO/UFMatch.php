@@ -339,6 +339,7 @@ WHERE openid = %1";
             //check if the primary email for the contact exists 
             //$contactDetails[1] - email 
             //$contactDetails[3] - email id
+            require_once 'CRM/Contact/BAO/Contact.php';
             $contactDetails = CRM_Contact_BAO_Contact::getEmailDetails( $contactId );
 
             if ( trim($contactDetails[1]) ) {
