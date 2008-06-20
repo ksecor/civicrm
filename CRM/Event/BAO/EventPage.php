@@ -278,8 +278,12 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
             require_once 'CRM/Profile/Form.php';
             $session =& CRM_Core_Session::singleton( );
             $contactID = $session->get( 'userID' );
-            if ( CRM_Core_BAO_UFGroup::filterUFGroups($gid, $contactID ) ) {
-                $fields = CRM_Core_BAO_UFGroup::getFields( $gid, false, CRM_Core_Action::VIEW );
+            if ( $contactID ) {
+                if ( CRM_Core_BAO_UFGroup::filterUFGroups($gid, $contactID ) ) {
+                    $fields = CRM_Core_BAO_UFGroup::getFields( $gid, false, CRM_Core_Action::VIEW );
+                }
+            } else {
+                $fields = CRM_Core_BAO_UFGroup::getFields( $gid, false, CRM_Core_Action::ADD ); 
             }
             
             foreach ( $fields as $v  ) {
