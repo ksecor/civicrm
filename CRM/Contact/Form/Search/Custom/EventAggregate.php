@@ -267,10 +267,6 @@ implements CRM_Contact_Form_Search_Interface {
             CRM_Utils_System::setTitle(ts('Search'));
         }
     }
-
-    function summary( ) {
-        return null;
-    }
     
 }
 
