@@ -980,16 +980,18 @@ $where
                     if ( $groupTree[$groupId]['fields'][$fieldId]['customValue']['fid'] ) {
                         $fileParams['id'] = $groupTree[$groupId]['fields'][$fieldId]['customValue']['fid'];
                     }     
-                    require_once 'CRM/Core/BAO/File.php';
-                    CRM_Core_BAO_File::filePostProcess($v, 
-                                                       $groupTree[$groupId]['fields'][$fieldId]['customValue']['fid'], 
-                                                       $groupTree[$groupId]['table_name'],
-                                                       $entityId[1],
-                                                       false,
-                                                       true,
-                                                       $fileParams,
-                                                       'custom_' . $fieldId
-                                                       );
+                    if ( ! empty( $v ) ) {
+                        require_once 'CRM/Core/BAO/File.php';
+                        CRM_Core_BAO_File::filePostProcess($v, 
+                                                           $groupTree[$groupId]['fields'][$fieldId]['customValue']['fid'], 
+                                                           $groupTree[$groupId]['table_name'],
+                                                           $entityId[1],
+                                                           false,
+                                                           true,
+                                                           $fileParams,
+                                                           'custom_' . $fieldId
+                                                           );
+                    }
                     $defaults   = array( );
                     $paramsFile =  array( 'entity_table' => $groupTree[$groupId]['table_name'],
                                           'entity_id'    => $entityId[1] );
