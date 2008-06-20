@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<table>
+  <base>CRM/Core</base>
+  <class>L10n</class>
+  <name>civicrm_l10n</name>
+  <comment>Localization strings for database data</comment>
+  <add>2.1.i18n</add>
+  <field>
+    <name>id</name>
+    <type>int unsigned</type>
+    <required>true</required>
+    <comment>Unique dedupe rule id</comment>
+    <add>2.1.i18n</add>
+  </field>
+  <primaryKey>
+    <name>id</name>
+    <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+    <name>entity_table</name>
+    <type>varchar</type>
+    <length>64</length>
+    <required>true</required>
+    <comment>Table referred by this entry</comment>
+    <add>2.1.i18n</add>
+  </field>
+  <index>
+    <name>index_entity_table</name>
+    <fieldName>entity_table</fieldName>
+    <add>2.1.i18n</add>
+  </index>
+  <field>
+    <name>entity_column</name>
+    <type>varchar</type>
+    <length>64</length>
+    <required>true</required>
+    <comment>Column referred by this entry</comment>
+    <add>2.1.i18n</add>
+  </field>
+  <index>
+    <name>index_entity_column</name>
+    <fieldName>entity_column</fieldName>
+    <add>2.1.i18n</add>
+  </index>
+  <field>
+    <name>entity_id</name>
+    <type>int unsigned</type>
+    <required>true</required>
+    <comment>Row referred by this entry</comment>
+    <add>2.1.i18n</add>
+  </field>
+  <index>
+    <name>index_entity_id</name>
+    <fieldName>entity_id</fieldName>
+    <add>2.1.i18n</add>
+  </index>
+  <field>
+    <name>locale</name>
+    <type>varchar</type>
+    <length>5</length>
+    <required>true</required>
+    <comment>Locale of the string</comment>
+    <add>2.1.i18n</add>
+  </field>
+  <index>
+    <name>index_locale</name>
+    <fieldName>locale</fieldName>
+    <add>2.1.i18n</add>
+  </index>
+  <field>
+    <name>translation</name>
+    <type>text</type>
+    <required>true</required>
+    <comment>Localized value of the referred string</comment>
+    <add>2.1.i18n</add>
+  </field>
+</table>
