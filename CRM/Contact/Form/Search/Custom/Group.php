@@ -127,7 +127,7 @@ class CRM_Contact_Form_Search_Custom_Group
                   $includeContactIDs = false ) {
         
         $this->_includeGroups   = CRM_Utils_Array::value( 'includeGroups', $this->_formValues );
-               
+                      
         $this->_excludeGroups   = CRM_Utils_Array::value( 'excludeGroups', $this->_formValues ); 
 
         $this->_includeTags     = CRM_Utils_Array::value( 'includeTags', $this->_formValues );
@@ -173,7 +173,17 @@ class CRM_Contact_Form_Search_Custom_Group
         $where = $this->where( $includeContactIDs );
         
         $sql = " SELECT $selectClause FROM   $from WHERE  $where GROUP BY contact_id ";
-               
+
+        // Define ORDER BY for query in $sort, with default value
+        if ( ! empty( $sort ) ) {
+            if ( is_string( $sort ) ) {
+                $sql .= " ORDER BY $sort ";
+            } else {
+                $sql .= " ORDER BY " . trim( $sort->orderBy() );
+            }
+        } else {
+            $sql .= " ORDER BY contact_id ASC";
+        }
         return $sql;
         
     }
