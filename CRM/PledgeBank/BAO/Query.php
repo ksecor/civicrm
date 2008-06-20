@@ -94,6 +94,7 @@ class CRM_PledgeBank_BAO_Query
             return;
             
         case 'pledge_name':
+            $op = 'LIKE';
             $query->_where[$grouping][] = "civicrm_pledge.creator_pledge_desc $op '%$value%'";
             $query->_qill[$grouping][]  = ts("Pledge" ) . " $op - '$value'";
             $query->_tables['civicrm_pledge'] = $query->_whereTables['civicrm_pledge'] = 1;
@@ -116,7 +117,7 @@ class CRM_PledgeBank_BAO_Query
             break;
             
         case 'civicrm_pledge':
-            $from = " LEFT JOIN civicrm_pledge ON civicrm_pledge.is_active = 1";
+            $from = " INNER JOIN civicrm_pledge ON civicrm_pledge.id = civicrm_pledgesigner.pledge_id ";
             break;
             
         }
