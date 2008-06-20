@@ -174,7 +174,7 @@ class CRM_Contribute_Form_ContributionPage extends CRM_Core_Form {
         }
 
 
-        if ( $defaults['recur_frequency_unit'] ) {
+        if ( CRM_Utils_Array::value( 'recur_frequency_unit',$defaults ) ) {
             require_once 'CRM/Core/BAO/CustomOption.php';
             $defaults['recur_frequency_unit'] = 
                 array_fill_keys( explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, 
