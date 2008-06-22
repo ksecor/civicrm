@@ -592,13 +592,17 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                     $this->set( 'contributeMode', 'express' ); 
                     
                                       
-                    $params['cancelURL' ] = CRM_Utils_System::url( 'civicrm/event/register', '_qf_Register_display=1', true, null, false );
+                    $params['cancelURL' ] = CRM_Utils_System::url( 'civicrm/event/register',
+                                                                   '_qf_Register_display=1',
+                                                                   true, null, false );
                     if ( CRM_Utils_Array::value( 'additional_participants', $params, false ) ) {
-                    $params['returnURL' ] = CRM_Utils_System::url('civicrm/event/register', '_qf_Participant-1_display=1&rfp=1&qfKey='.$this->controller->_key, true, null, false ); 
-                    }
-                    else {
-                        $params['returnURL' ] = CRM_Utils_System::url( 'civicrm/event/register', '_qf_Confirm_display=1&rfp=1', true, null, false );
+                        $urlArgs = "_qf_Participant-1_display=1&rfp=1&qfKey={$this->controller->_key}";
+                    } else {
+                        $urlArgs = '_qf_Confirm_display=1&rfp=1';
                     } 
+                    $params['returnURL' ] = CRM_Utils_System::url('civicrm/event/register',
+                                                                  $urlArgs,
+                                                                  true, null, false ); 
                     $params['invoiceID' ] = $invoiceID;
                     
                     $token = $payment->setExpressCheckout( $params ); 
