@@ -361,8 +361,9 @@ SELECT $select
                                                                                   'eid' => $dao->$entityIDName,
                                                                                   'fid' => $fieldID ) );
                                             $customValue['fileName'] = basename( $fileDAO->uri );
-                                            if ( $fileDAO->mime_type =="image/jpeg" ||
-                                                 $fileDAO->mime_type =="image/gif"  ||
+                                            if ( $fileDAO->mime_type =="image/jpeg"  ||
+                                                 $fileDAO->mime_type =="image/pjpeg" ||
+                                                 $fileDAO->mime_type =="image/gif"   ||
                                                  $fileDAO->mime_type =="image/png" ) {
                                                 $customValue['displayURL'] = $customValue['fileURL'];
                                             }
