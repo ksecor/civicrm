@@ -51,20 +51,20 @@ class CRM_Utils_PDF_Utils {
         $first = true;
         $html = "
 <style>
-h6 {
+.page_break {
   page-break-before: always;
 }
 </style>
-<h5>&nbsp;</h5>
 ";
 
         foreach ( $values as $value ) {
             if ( ! $first ) {
-                $html .= "<h6>&nbsp;</h6>";
+                $html .= "<h2 class=\"page_break\">{$value['to']}: {$value['subject']}</h2><p>";
             } else {
+                $html .= "<h2>{$value['to']}: {$value['subject']}</h2><p>";
                 $first = false;
             }
-            $html .= "{$value}\n";
+            $html .= "{$value['body']}\n";
         }
         $dompdf->load_html( $html );
         $dompdf->render( );

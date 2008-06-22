@@ -115,24 +115,26 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
      * @return void
      * @access public
      */
-    static function sendMail( $contactID, &$values, $participantId, $isTest = false ) 
+    static function sendMail( $contactID, &$values, $participantId, $isTest = false, $returnMessageText = false ) 
     {
         require_once 'CRM/Core/BAO/UFGroup.php';
         //this condition is added, since same contact can have
         //multiple event registrations..       
         $params = array( array( 'participant_id', '=', $participantId, 0, 0 ) );
         $gIds = array(
-                    'custom_pre_id' => $values['custom_pre_id'],
-                    'custom_post_id'=> $values['custom_post_id']
-                    );
+                      'custom_pre_id' => $values['custom_pre_id'],
+                      'custom_post_id'=> $values['custom_post_id']
+                      );
         
-        //send notification email if field values are set (CRM-1941)
-        foreach ( $gIds as $gId ) {
-            if ( $gId ) {
-                $email = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $gId, 'notify' );
-                if ( $email ) {
-                    $val = CRM_Core_BAO_UFGroup::checkFieldsEmptyValues( $gId, $contactID, $params );         
-                    CRM_Core_BAO_UFGroup::commonSendMail( $contactID, $val );
+        if ( ! $returnMessageText ) {
+            //send notification email if field values are set (CRM-1941)
+            foreach ( $gIds as $gId ) {
+                if ( $gId ) {
+                    $email = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $gId, 'notify' );
+                    if ( $email ) {
+                        $val = CRM_Core_BAO_UFGroup::checkFieldsEmptyValues( $gId, $contactID, $params );         
+                        CRM_Core_BAO_UFGroup::commonSendMail( $contactID, $val );
+                    }
                 }
             }
         }
@@ -160,7 +162,12 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
             $subject = trim( $template->fetch( 'CRM/Event/Form/Registration/ReceiptSubject.tpl' ) );
             $message = $template->fetch( 'CRM/Event/Form/Registration/ReceiptMessage.tpl' );
             $receiptFrom = '"' . $values['event_page']['confirm_from_name'] . '" <' . $values['event_page']['confirm_from_email'] . '>';
-            
+
+            if ( $returnMessageText ) {
+                return array( 'subject' => $subject,
+                              'body'    => $message,
+                              'to'      => $displayName );
+            }
             require_once 'CRM/Utils/Mail.php';
             CRM_Utils_Mail::send( $receiptFrom,
                                   $displayName,

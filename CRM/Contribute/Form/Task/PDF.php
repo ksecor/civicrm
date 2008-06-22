@@ -156,7 +156,6 @@ AND    {$this->_componentClause}";
             $mail = str_replace( "\n", "<br/>", $mail );
 
             $message[] = $mail;
-            $message[] = $mail;
         }
 
         require_once 'CRM/Utils/PDF/Utils.php';
