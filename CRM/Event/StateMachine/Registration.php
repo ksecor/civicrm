@@ -64,15 +64,16 @@ class CRM_Event_StateMachine_Registration extends CRM_Core_StateMachine
         // check that the controller has some data, hence we dont send the form name                                         
         // which results in an invalid argument error                                                                        
         $values = $controller->exportValues( );
-        if ( isset( $values['additional_participants'] ) ) {
-            $additionalParticipant = $values['additional_participants'];
-        } else if ( isset( $_POST['additional_participants'] ) ) {
+        //first check POST value then QF
+        if ( isset( $_POST['additional_participants'] ) ) {
             // we need to use $_POST since the QF framework has not yet been called
             // and the additional participants page is the next one, so need to set this up
             // now
             $additionalParticipant = $_POST['additional_participants'];
+        } else if ( isset( $values['additional_participants'] ) ) {
+            $additionalParticipant = $values['additional_participants'];
         }
-
+        
         if ( $additionalParticipant ) {
             $additionalParticipant = CRM_Utils_Type::escape( $additionalParticipant, 'Integer' );
             $controller->set( 'addParticipant', $additionalParticipant );
