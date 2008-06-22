@@ -60,12 +60,13 @@ class CRM_Event_StateMachine_Registration extends CRM_Core_StateMachine
         
         //handle additional participant scenario, where we need to insert participant pages on runtime
         $additionalParticipant = null;
-        if ( !$controller->isModal( ) ) {
-            $values = $controller->exportValues('Register');
-            if ( $values['additional_participants'] ) {
-                $additionalParticipant = $values['additional_participants'];
-                $controller->set( 'addParticipant', $values['additional_participants'] );
-            }
+
+        // check that the controller has some data, hence we dont send the form name
+        // which results in an invalid argument error
+        $values = $controller->exportValues( );
+        if ( isset( $values['additional_participants'] ) ) {
+            $additionalParticipant = $values['additional_participants'];
+            $controller->set( 'addParticipant', $values['additional_participants'] );
         }
 
         //to add instances of Additional Participant page, only if user has entered any additional participants
