@@ -49,11 +49,18 @@ class CRM_Utils_PDF_Utils {
         }
 
         $first = true;
-        $html = null;
+        $html = "
+<style>
+h6 {
+  page-break-before: always;
+}
+</style>
+<h5>&nbsp;</h5>
+";
 
         foreach ( $values as $value ) {
             if ( ! $first ) {
-                $html .= "<h1>Foo</h1>";
+                $html .= "<h6>&nbsp;</h6>";
             } else {
                 $first = false;
             }
