@@ -34,16 +34,45 @@
  */
 
 
-class CRM_Utils_PDFlib {
-    static function &compose( $fileName,
-                              $searchPath,
-                              &$values,
-                              $numPages = 1,
-                              $echo    = true,
-                              $output  = 'College_Match_App',
-                              $creator = 'CiviCRM',
-                              $author  = 'http://www.civicrm.org/',
-                              $title   = '2006 College Match Scholarship Application' ) {
+class CRM_Utils_PDF_Utils {
+
+    static function domlib( $text,
+                            $fileName = 'civicrm.pdf' ) {
+        require_once 'packages/dompdf/dompdf_config.inc.php';
+        $dompdf = new DOMPDF( );
+        
+        $values = array( );
+        if ( ! is_array( $text ) ) {
+            $values =  array( $text );
+        } else {
+            $values =& $text;
+        }
+
+        $first = true;
+        $html = null;
+
+        foreach ( $values as $value ) {
+            if ( ! $first ) {
+                $html .= "<h1>Foo</h1>";
+            } else {
+                $first = false;
+            }
+            $html .= "{$value}\n";
+        }
+        $dompdf->load_html( $html );
+        $dompdf->render( );
+        $dompdf->stream( $fileName );
+    }
+
+    static function &pdflib( $fileName,
+                             $searchPath,
+                             &$values,
+                             $numPages = 1,
+                             $echo    = true,
+                             $output  = 'College_Match_App',
+                             $creator = 'CiviCRM',
+                             $author  = 'http://www.civicrm.org/',
+                             $title   = '2006 College Match Scholarship Application' ) {
         try {
             $pdf = new PDFlib( );
             $pdf->set_parameter( "compatibility", "1.6");

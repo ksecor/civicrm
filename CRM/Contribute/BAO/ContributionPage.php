@@ -78,14 +78,16 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
     /**
      * Function to send the emails
      * 
-     * @param int   $contactID        contact id 
-     * @param array $values           associated array of fields
+     * @param int     $contactID         contact id 
+     * @param array   $values            associated array of fields
+     * @param boolean $isTest            if in test mode
+     * @param boolean $returnMessageText return the message text instead of sending the mail
      *
      * @return void
      * @access public
      * @static
      */
-    static function sendMail( $contactID, &$values, $isTest = false ) 
+    static function sendMail( $contactID, &$values, $isTest = false, $returnMessageText = false ) 
     { 
         require_once "CRM/Core/BAO/UFField.php";
 
@@ -113,13 +115,15 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
             $gIds['custom_post_id'] = $values['custom_post_id'];
         }
         
-        //send notification email if field values are set (CRM-1941)
-        require_once 'CRM/Core/BAO/UFGroup.php';
-        foreach ( $gIds as $key => $gId ) {
-            $email = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $gId, 'notify' );
-            if ( $email ) {
-                $val = CRM_Core_BAO_UFGroup::checkFieldsEmptyValues( $gId, $contactID, $params[$key] );
-                CRM_Core_BAO_UFGroup::commonSendMail($contactID, $val); 
+        if ( ! $returnMessageText ) {
+            //send notification email if field values are set (CRM-1941)
+            require_once 'CRM/Core/BAO/UFGroup.php';
+            foreach ( $gIds as $key => $gId ) {
+                $email = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $gId, 'notify' );
+                if ( $email ) {
+                    $val = CRM_Core_BAO_UFGroup::checkFieldsEmptyValues( $gId, $contactID, $params[$key] );
+                    CRM_Core_BAO_UFGroup::commonSendMail($contactID, $val); 
+                }
             }
         }
 
@@ -168,6 +172,9 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
             
             $subject = trim( $template->fetch( 'CRM/Contribute/Form/Contribution/ReceiptSubject.tpl' ) );
             $message = $template->fetch( 'CRM/Contribute/Form/Contribution/ReceiptMessage.tpl' );
+            if ( $returnMessageText ) {
+                return $message;
+            }
 
             $receiptFrom = '"' . CRM_Utils_Array::value('receipt_from_name',$values) . '" <' . $values['receipt_from_email'] . '>';
 
