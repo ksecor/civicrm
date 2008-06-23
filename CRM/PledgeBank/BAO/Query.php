@@ -167,19 +167,33 @@ class CRM_PledgeBank_BAO_Query
         $properties = null;
         if ( $mode & CRM_Contact_BAO_Query::MODE_PLEDGEBANK ) {
             $properties = array(  
-                                'contact_type' => 1, 
-                                'sort_name'    => 1, 
-                                'display_name' => 1,
-                                'signer_id'    => 1,
-                                'pledge_name'  => 1 );
+                                'contact_type'       => 1, 
+                                'sort_name'          => 1, 
+                                'display_name'       => 1,
+                                'signer_id'          => 1,
+                                'pledge_name'        => 1,
+                                'pledge_is_active'   => 1,
+                                'signer_pledge_done' => 1 
+                               );
         }
         return $properties;
     }
 
     static function buildSearchForm( &$form ) 
     {
-        $form->addElement('text', 'pledge_name', ts('Pledge'), 
-                          CRM_Core_DAO::getAttribute('CRM_PledgeBank_DAO_Pledge', 'creator_pledge_desc') );
+        
+        $form->assign( 'dojoIncludes', " dojo.require('dojox.data.QueryReadStore'); dojo.require('dijit.form.FilteringSelect');dojo.require('dojo.parser');" );
+        
+        $dojoAttributesPledgeName = array( 'dojoType'       => 'dijit.form.FilteringSelect',
+                                           'mode'           => 'remote',
+                                           'store'          => 'pledgeNameStore',
+                                           'class'          => 'tundra',
+                                           );
+        $dataURLPledgeName = CRM_Utils_System::url( 'civicrm/ajax/pledgeName',
+                                                    "reset=1",
+                                                    true, null, false);
+        $form->assign( 'dataURLPledgeName', $dataURLPledgeName );
+        $form->addElement( 'text', 'pledge_name', ts('Pledge'), $dojoAttributesPledgeName );
         $form->addElement( 'checkbox', 'pledge_is_active' , ts( 'Is pledge active?' ) );
         $form->addElement( 'checkbox', 'signer_pledge_done' , ts( 'Is pledge done?' ) );
         $form->assign( 'validPledgeBank', true );
