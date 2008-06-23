@@ -546,6 +546,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
     public function addParticipant( $params, $contactID ) 
     {
         require_once 'CRM/Core/Transaction.php';
+      
         $transaction = new CRM_Core_Transaction( );
         
         $groupName = "participant_role";
@@ -566,7 +567,7 @@ WHERE  v.option_group_id = g.id
         }
         
         $participantParams = array('contact_id'    => $contactID,
-                                   'event_id'      => $this->_id,
+                                   'event_id'      => $this->_id ? $this->_id : $params['event_id'],
                                    'status_id'     => CRM_Utils_Array::value( 'participant_status_id',
                                                                               $params, 1 ),
                                    'role_id'       => CRM_Utils_Array::value( 'participant_role_id',
@@ -582,7 +583,7 @@ WHERE  v.option_group_id = g.id
                                    'registered_by_id' => $params['registered_by_id'],
                                    'discount_id'    => $params['discount_id']
                                    );
-        
+       
         if ( $this->_action & CRM_Core_Action::PREVIEW ) {
             $participantParams['is_test'] = 1;
         } else {
@@ -595,18 +596,21 @@ WHERE  v.option_group_id = g.id
             $participantParams['note'] = $this->_params['participant_note'];
         }
         
-        // reuse id if one already exists for this one (can happen with back button being hit etc)
-        $sql = "
+        // reuse id if one already exists for this one (can happen
+        // with back button being hit etc)
+        if ( $this->_id ) {        
+            $sql = "
 SELECT id
 FROM   civicrm_participant
 WHERE  contact_id = $contactID
   AND  event_id   = {$this->_id}
   AND  is_test    = {$participantParams['is_test']}
 ";
-        $pID = CRM_Core_DAO::singleValueQuery( $sql,
-                                               CRM_Core_DAO::$_nullArray );
-        if ( $pID ) {
-            $participantParams['id'] = $pID;
+            $pID = CRM_Core_DAO::singleValueQuery( $sql,
+                                                   CRM_Core_DAO::$_nullArray );
+            if ( $pID ) {
+                $participantParams['id'] = $pID;
+            }
         }
 
         require_once 'CRM/Event/BAO/Participant.php';
