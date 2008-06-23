@@ -291,7 +291,7 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         require_once 'CRM/Utils/Hook.php';
         $hookErrors = CRM_Utils_Hook::validate( get_class( $this ),
                                                 $this->_submitValues, $this->_submitFiles, $this );
-        if ( $hookErrors !== true ) {
+        if ( $hookErrors !== true && !empty($hookErrors) ) {
             $this->_errors += $hookErrors;
             $error = false;
         }

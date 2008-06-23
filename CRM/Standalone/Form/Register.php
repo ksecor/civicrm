@@ -134,7 +134,9 @@ class CRM_Standalone_Form_Register extends CRM_Core_Form {
         // Set this to false if the registration is successful
         $session->set('new_install', false);
         
-        header( "Location: index.php" );
+        // Noticed header already sent error & therefore commented the below
+//         header( "Location: index.php" );
+//         exit();
     }
 
 }

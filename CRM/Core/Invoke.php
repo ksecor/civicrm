@@ -92,6 +92,8 @@ class CRM_Core_Invoke
             if ( $session->get('new_install') !== true ) {
                 require_once 'CRM/Core/Standalone.php';
                 CRM_Core_Standalone::sidebarLeft( );
+            } else if ( $args[1] == 'standalone' && $args[2] == 'register' ) {
+                CRM_Core_Menu::store( );
             }
         }
 
@@ -119,8 +121,7 @@ class CRM_Core_Invoke
             if ( isset( $item['title'] ) ) {
                 CRM_Utils_System::setTitle( $item['title'] );
             }
-            if ( isset( $item['breadcrumb'] ) &&
-                 ( ! isset( $item['is_public'] ) || ! $item['is_public'] ) ) {
+            if ( isset( $item['breadcrumb'] ) && !isset( $item['is_public'] ) ) {
                 CRM_Utils_System::appendBreadCrumb( $item['breadcrumb'] );
             }
 

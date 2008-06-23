@@ -51,15 +51,6 @@ class CRM_Core_Standalone {
     static function sidebarLeft( ) {
         $config =& CRM_Core_Config::singleton( );
 
-        // intialize the menu and set the default title
-        CRM_Core_Menu::createLocalTasks( $_GET[$config->userFrameworkURLVar] );
-	// Not sure we want this for the standalone version
-	/*
-        if ( $config->userFrameworkFrontend ) {
-            return;
-        }
-	*/
-
         $blockIds = array( 1, 2, 4, 8 );
 
         $blocks = array( );
@@ -73,12 +64,6 @@ class CRM_Core_Standalone {
         $template->assign_by_ref( 'blocks', $blocks );
         $sidebarLeft = $template->fetch( 'CRM/Block/blocks.tpl' );
         $template->assign_by_ref( 'sidebarLeft', $sidebarLeft );
-
-        $args = explode( '/', trim( $config->userFrameworkURLVar ) );
-        require_once 'CRM/Core/Menu.php';
-        $breadcrumb =& CRM_Core_Menu::breadcrumb( $args );
-
-        $template->assign_by_ref( 'breadcrumb', $breadcrumb );
     }
 
 }
