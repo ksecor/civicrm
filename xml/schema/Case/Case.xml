@@ -111,8 +111,11 @@
   <field>
       <name>details</name>
       <type>text</type>
+      <htmlType>textarea</htmlType>
+      <rows>16</rows>
+      <cols>60</cols>
       <comment>Details about the meeting (agenda, notes, etc).</comment>
-       <add>1.8</add>
+      <add>1.8</add>
   </field>
   <field>
        <name>status_id</name>
