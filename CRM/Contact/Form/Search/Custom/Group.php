@@ -128,7 +128,7 @@ class CRM_Contact_Form_Search_Custom_Group
     }
 
     function all( $offset = 0, $rowcount = 0, $sort = null,
-                  $includeContactIDs = false ) {
+                  $includeContactIDs = false, $justIDs = false ) {
         
         $this->_includeGroups   = CRM_Utils_Array::value( 'includeGroups', $this->_formValues );
                       
@@ -159,21 +159,26 @@ class CRM_Contact_Form_Search_Custom_Group
             //tag(s) selected
             $this->_tags = true;  
         }
-       
-        $selectClause = "contact_a.id  as contact_id,
+
+        if ( $justIDs ) {
+            $selectClause = "contact_a.id  as contact_id";
+        } else {
+            $selectClause = "contact_a.id  as contact_id,
                          contact_a.contact_type as contact_type,
                          contact_a.sort_name    as sort_name";
 
-        //distinguish column according to user selection
-        if ( $this->_groups && ! $this->_tags ) {
-            unset( $this->_columns['Tag Name'] );
-            $selectClause .= ", GROUP_CONCAT(DISTINCT group_names ORDER BY group_names ASC ) as gname";
-        } else if ( ! $this->_groups && $this->_tags) {
-            unset( $this->_columns['Group Name'] );
-            $selectClause .= ", GROUP_CONCAT(DISTINCT tag_names  ORDER BY tag_names ASC ) as tname";
-        } else {
-            $selectClause .=", GROUP_CONCAT(DISTINCT group_names ORDER BY group_names ASC ) as gname , GROUP_CONCAT(DISTINCT tag_names ORDER BY tag_names ASC ) as tname";
+            //distinguish column according to user selection
+            if ( $this->_groups && ! $this->_tags ) {
+                unset( $this->_columns['Tag Name'] );
+                $selectClause .= ", GROUP_CONCAT(DISTINCT group_names ORDER BY group_names ASC ) as gname";
+            } else if ( ! $this->_groups && $this->_tags) {
+                unset( $this->_columns['Group Name'] );
+                $selectClause .= ", GROUP_CONCAT(DISTINCT tag_names  ORDER BY tag_names ASC ) as tname";
+            } else {
+                $selectClause .=", GROUP_CONCAT(DISTINCT group_names ORDER BY group_names ASC ) as gname , GROUP_CONCAT(DISTINCT tag_names ORDER BY tag_names ASC ) as tname";
+            }
         }
+
         $from  = $this->from( );
         
         $where = $this->where( $includeContactIDs );
@@ -181,14 +186,16 @@ class CRM_Contact_Form_Search_Custom_Group
         $sql = " SELECT $selectClause FROM   $from WHERE  $where GROUP BY contact_id ";
 
         // Define ORDER BY for query in $sort, with default value
-        if ( ! empty( $sort ) ) {
-            if ( is_string( $sort ) ) {
-                $sql .= " ORDER BY $sort ";
+        if ( ! $justIDs ) {
+            if ( ! empty( $sort ) ) {
+                if ( is_string( $sort ) ) {
+                    $sql .= " ORDER BY $sort ";
+                } else {
+                    $sql .= " ORDER BY " . trim( $sort->orderBy() );
+                }
             } else {
-                $sql .= " ORDER BY " . trim( $sort->orderBy() );
+                $sql .= " ORDER BY contact_id ASC";
             }
-        } else {
-            $sql .= " ORDER BY contact_id ASC";
         }
         return $sql;
         
@@ -201,6 +208,7 @@ class CRM_Contact_Form_Search_Custom_Group
         $this->_tableName = "civicrm_temp_custom_{$randomNum}";
 
         //block for Group search
+        $smartGroup = array( );
         if ( $this->_groups || $this->_allSearch ) { 
             require_once 'CRM/Contact/DAO/Group.php';
             $group = new CRM_Contact_DAO_Group( );
@@ -449,7 +457,7 @@ class CRM_Contact_Form_Search_Custom_Group
     }
        
     function contactIDs( $offset = 0, $rowcount = 0, $sort = null) { 
-        return $this->all( $offset, $rowcount, $sort );
+        return $this->all( $offset, $rowcount, $sort, false, true );
     }
 
     function &columns( ) {

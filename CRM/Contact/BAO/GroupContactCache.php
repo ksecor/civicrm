@@ -162,8 +162,9 @@ WHERE  id = %1
         $groupID       = $group->id;
         $savedSearchID = $group->saved_search_id;
 
-        $sql    = null;
-        $idName = 'id';
+        $sql         = null;
+        $idName      = 'id';
+        $customClass = null;
         if ( $savedSearchID ) {
             require_once 'CRM/Contact/BAO/SavedSearch.php';
             $ssParams =& CRM_Contact_BAO_SavedSearch::getSearchParams($savedSearchID);
@@ -179,8 +180,13 @@ WHERE  id = %1
             if ( isset( $ssParams['customSearchID'] ) ) {
                 // if custom search
                 require_once 'CRM/Contact/BAO/SearchCustom.php';
-                $searchSQL = CRM_Contact_BAO_SearchCustom::contactIDSQL( $ssParams['customSearchID'],
-                                                                         $savedSearchID );
+                
+                // we split it up and store custom class
+                // so temp tables are not destroyed if they are used
+                // hence customClass is defined above at top of function
+                $customClass = CRM_Contact_BAO_SearchCustom::customClass( $ssParams['customSearchID'],
+                                                                          $savedSearchID );
+                $searchSQL   = $customClass->contactIDs( );
                 $idName = 'contact_id';
             } else {
                 $query =& new CRM_Contact_BAO_Query($ssParams, $returnProperties, null,
