@@ -497,7 +497,8 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         if ( CRM_Utils_Array::value( 'cms_create_account', $this->_params ) ) {
             $this->_params['contactID'] = $contactID;
             require_once "CRM/Core/BAO/CMSUser.php";
-            if ( ! CRM_Core_BAO_CMSUser::create( $this->_params, 'email-' . $this->_bltID ) ) {
+            //in case of Pay later option we skipped 'email-5' so we should use 'email-Primary'
+            if ( ! CRM_Core_BAO_CMSUser::create( $this->_params, 'email-Primary' ) ) {
                 CRM_Core_Error::statusBounce( ts('Your profile is not saved and Account is not created.') );
             }
         }
