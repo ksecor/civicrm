@@ -64,16 +64,10 @@ class CRM_Event_Page_Tab extends CRM_Contact_Page_View
     {    
         // build associated contributions
         $this->associatedContribution( );
-        if ( CRM_Utils_Request::retrieve( 'history', 'Boolean', $this ) ) {
-            $controller =& new CRM_Core_Controller_Simple( 'CRM_Event_Form_ActivityView',  
-                                                           'View Participant Details',  
-                                                           $this->_action ); 
-            
-        } else {
-            $controller =& new CRM_Core_Controller_Simple( 'CRM_Event_Form_ParticipantView',  
-                                                           'View Participant',  
-                                                           $this->_action ); 
-        }
+        
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Event_Form_ParticipantView',  
+                                                       'View Participant',  
+                                                       $this->_action ); 
         $controller->setEmbedded( true );  
         $controller->set( 'id' , $this->_id );  
         $controller->set( 'cid', $this->_contactId );  
