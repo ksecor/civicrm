@@ -59,12 +59,12 @@ function myHandler(field, value) {
 
     <table class="form-layout-compressed">
     <tr>
-        <td><label>{ts}Source{/ts}:</label></td><td id="contact_source" dojoType="dijit.InlineEditBox" onChange="myHandler(this.id,arguments[0])">{$source}</td>
+        <td><label>{ts}Source{/ts}:</label></td><td id="contact_source" dojoType="dijit.InlineEditBox" onChange="myHandler(this.id,arguments[0])" title="{ts}click to edit{/ts}">{$source}</td>
         {if $contactTag}<td><label>{ts}Tags{/ts}:</label></td><td>{$contactTag}</td>{/if}
         {if !$contactTag}<td colspan="2"></td>{/if}
     </tr>
     <tr>
-        <td><label>{ts}Job Title{/ts}:</label></td><td id="job_title" dojoType="dijit.InlineEditBox" onChange="myHandler(this.id,arguments[0])">{$job_title}</td>
+        <td><label>{ts}Job Title{/ts}:</label></td><td id="job_title" dojoType="dijit.InlineEditBox" onChange="myHandler(this.id,arguments[0])" title="{ts}click to edit{/ts}">{$job_title}</td>
         {if $current_employer}<td><label>{ts}Current Employer{/ts}:</label></td><td>{$current_employer}</td>{/if}
         {if $home_URL}<td><label>{ts}Website{/ts}</label></td><td><a href="{$home_URL}" target="_blank">{$home_URL}</a></td>{/if}
         {if !$current_employer}<td colspan="2"></td>{/if}
