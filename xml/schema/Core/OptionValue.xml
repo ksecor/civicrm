@@ -35,7 +35,7 @@
        <title>Option Label</title>
        <type>varchar</type>
        <required>true</required>
-       <length>64</length>
+       <length>255</length>
        <comment>Option string as displayed to users - e.g. the label in an HTML OPTION tag.</comment>
        <add>1.5</add>
   </field>

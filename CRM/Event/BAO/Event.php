@@ -560,7 +560,8 @@ WHERE
 SELECT
   civicrm_event.id as event_id, 
   civicrm_email.email as email, 
-  civicrm_event.title as summary, 
+  civicrm_event.title as title, 
+  civicrm_event.summary as summary, 
   civicrm_event.start_date as start, 
   civicrm_event.end_date as end, 
   civicrm_event.description as description, 
@@ -604,6 +605,7 @@ WHERE civicrm_event.is_active = 1
             $info                     = array( );
             $info['event_id'     ]    = $dao->event_id;
             $info['uid'          ]    = "CiviCRM_EventID_" . $dao->event_id . "@" . $config->userFrameworkBaseURL;
+            $info['title'        ]    = $dao->title;
             $info['summary'      ]    = $dao->summary;
             $info['description'  ]    = $dao->description;
             $info['start_date'   ]    = $dao->start;

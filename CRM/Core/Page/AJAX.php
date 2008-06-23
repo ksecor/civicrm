@@ -77,13 +77,16 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
 
         case 'event':
             return $this->event( $config );
-        
+            
         case 'eventType':
             return $this->eventType( $config );
 
         case 'eventFee':
             return $this->eventFee( $config );
             
+        case 'pledgeName':
+            return $this->pledgeName( $config );
+        
         case 'caseSubject':
              return $this->caseSubject( $config );
 
@@ -118,6 +121,9 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
         case 'permlocation':
             return $this->getPermissionedLocation( $config );
 
+        case 'memType':
+            return $this->getMemberTypeDefaults( $config );
+            
         default:
             return;
         }
@@ -382,7 +388,7 @@ ORDER by v.weight";
         echo CRM_Utils_JSON::encode( $elements,'value' );
     }
 
-     /**
+    /**
      * Function for building EventFee combo box
      */
     function eventFee( &$config ) 
@@ -393,21 +399,16 @@ ORDER by v.weight";
         if ( isset( $_GET['name'] ) && $_GET['name'] && ! isset( $_GET['count'] ) ) {
             $name     = strtolower( CRM_Utils_Type::escape( $_GET['name'], 'String' ) );
             $name     = str_replace( '*', '%', $name );
-            $whereClause = "cv.label LIKE '$name%' ";
+            $whereClause = "cv.label LIKE '$name%' GROUP BY cv.label";
             $getRecords = true;
         } else {
-             if ( isset( $_GET['eid'] ) ) {
-                $eid = $_GET['eid'];
-                $whereClause = "cg.name LIKE 'civicrm_event_page.amount.{$eid}' AND cg.id = cv.option_group_id ORDER BY cv.label";
-             }else{
-                $whereClause = "cg.name LIKE 'civicrm_event_page.amount%' AND cg.id = cv.option_group_id GROUP BY cv.label";
-             }
-               $getRecords = true;
+            $whereClause = "cg.name LIKE 'civicrm_event_page.amount%' AND cg.id = cv.option_group_id GROUP BY cv.label";
+            $getRecords = true;
         }
         
        if ( isset( $_GET['id'] ) && is_numeric($_GET['id']) && !$_GET['count'] ) {
-               $eventId     = CRM_Utils_Type::escape( $_GET['id'], 'Integer'  );
-               $whereClause = "cv.id = {$participantFeeLevel} ";
+               $levelId     = CRM_Utils_Type::escape( $_GET['id'], 'Integer'  );
+               $whereClause = "cv.id = {$levelId} ";
                $getRecords = true;
            }
 
@@ -438,7 +439,56 @@ WHERE {$whereClause}
             echo CRM_Utils_JSON::encode( $elements, 'value');
     } 
 
-  /**
+    /**
+     * Function for building Pledge Name combo box
+     */
+    function pledgeName( &$config ) 
+    {
+        require_once 'CRM/Utils/Type.php';
+   
+        $getRecords = false;
+        if ( isset( $_GET['name'] ) && $_GET['name'] ) {
+            $name     = strtolower( CRM_Utils_Type::escape( $_GET['name'], 'String' ) );
+            $name     = str_replace( '*', '%', $name );
+            $whereClause = "p.creator_pledge_desc LIKE '%$name%' ";
+            $getRecords = true;
+        }
+
+        if ( isset( $_GET['id'] ) && is_numeric($_GET['id']) ) {
+            $pledgeId    = CRM_Utils_Type::escape( $_GET['id'], 'Integer'  );
+            $whereClause = "p.id = {$pledgeId} ";
+            $getRecords = true;
+        }
+        
+        if ( $getRecords ) {
+$query = "
+SELECT p.creator_pledge_desc, p.id
+FROM civicrm_pledge p
+WHERE {$whereClause}
+";
+            $nullArray = array( );
+            $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
+            $elements = array( );
+            while ( $dao->fetch( ) ) {
+                $elements[] = array( 'name' => $dao->creator_pledge_desc,
+                                     'value'=> $dao->id );
+            }
+        }
+
+        if ( empty( $elements) ) { 
+            $name = $_GET['name'];
+            if ( !$name && isset( $_GET['id'] ) ) {
+                $name = $_GET['id'];
+            } 
+            $elements[] = array( 'name' => trim( $name, '*'),
+                                 'value'=> trim( $name, '*') );
+        }
+
+        require_once "CRM/Utils/JSON.php";
+        echo CRM_Utils_JSON::encode( $elements, 'value');
+    } 
+
+    /**
      * Function to show import status
      */
     function status( &$config ) 
@@ -760,9 +810,28 @@ WHERE sort_name LIKE '%$name%'";
         echo $str;
     }
 
-    function groupTree( $config ) {
+    function groupTree( $config ) 
+    {
         require_once 'CRM/Contact/BAO/GroupNestingCache.php';
         echo CRM_Contact_BAO_GroupNestingCache::json( );
     }
 
+    /**
+     * Function to setDefaults according to membership type
+     */
+    function getMemberTypeDefaults( $config ) 
+    {
+        require_once 'CRM/Utils/Type.php';
+        $memType  = CRM_Utils_Type::escape( $_GET['mtype'], 'Integer') ; 
+        
+        $contributionType = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', 
+                                                         $memType, 
+                                                         'contribution_type_id' );
+        
+        $totalAmount = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', 
+                                                    $memType, 
+                                                    'minimum_fee' );
+
+        echo $contributionType . "^A" . $totalAmount;
+    }
 }

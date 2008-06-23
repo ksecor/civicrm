@@ -1,27 +1,29 @@
-<div class="form-item">
 <fieldset><legend>{ts}Find Groups{/ts}</legend>
+<div class="form-item">
 <table class="form-layout">
     <tr>
-        <td>{$form.title.label}</td>
-        <td>{$form.title.html}
-            <div class="description font-italic">
+        <td>{$form.title.label}<br />
+            {$form.title.html}<br />
+            <span class="description font-italic">
                 {ts}Complete OR partial group name.{/ts}
-            </div>
+            </span>
         </td>
-        <td>{$form.group_type.label}</td>
-        <td>{$form.group_type.html}
-            <div class="description font-italic">
+        <td>{$form.group_type.label}<br />
+            {$form.group_type.html}<br />
+            <span class="description font-italic">
                 {ts}Filter search by group type(s).{/ts}
-            </div>
+            </span>
         </td>
-        <td>{$form.visibility.label}</td>
-        <td>{$form.visibility.html}
-            <div class="description font-italic">
+        <td>{$form.visibility.label}<br />
+            {$form.visibility.html}<br />
+            <span class="description font-italic">
                 {ts}Filter search by visibility.{/ts}
-            </div>
+            </span>
         </td>
-        <td class="right">&nbsp;{$form.buttons.html}</td>
+    </tr>
+    <tr>
+        <td>{$form.buttons.html}</td><td colspan="2">
     </tr>
 </table>
-</fieldset>
 </div>
+</fieldset>

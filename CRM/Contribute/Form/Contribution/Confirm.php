@@ -357,6 +357,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $fields[$name] = 1;
                 if ( array_key_exists( "billing_$name", $params ) ) {
                     $params[$name] = $params["billing_{$name}"];
+                    $params['preserveDBName'] = true;
                 }
             }
         }
@@ -367,9 +368,17 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         //unset the billing parameters if it is pay later mode
         //to avoid creation of billing location
         if ( $params['is_pay_later'] ) {
-            $billingFields = array( 'email-5','billing_first_name', 'billing_middle_name', 'billing_last_name',
-                                    'street_address-5','city-5','state_province-5', 'state_province_id-5',
-                                    'postal_code-5','country-5','country_id-5'
+            $billingFields = array( "email-{$this->_bltID}",
+                                    "billing_first_name",
+                                    "billing_middle_name",
+                                    "billing_last_name",
+                                    "street_address-{$this->_bltID}",
+                                    "city-{$this->_bltID}",
+                                    "state_province-{$this->_bltID}",
+                                    "state_province_id-{$this->_bltID}",
+                                    "postal_code-{$this->_bltID}",
+                                    "country-{$this->_bltID}",
+                                    "country_id-{$this->_bltID}"
                                     );
 
             foreach( $billingFields as $value ) {
@@ -866,6 +875,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         // if multiple match - send a duplicate alert
         if ( $dupeIDs && (count($dupeIDs) > 1) ) {
             $values['onbehalf_dupe_alert'] = 1;
+            // required for IPN
+            $params['onbehalf_dupe_alert'] = 1;
         }
         
         // make sure organization-contact-id is considered for recording

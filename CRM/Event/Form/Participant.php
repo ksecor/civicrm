@@ -120,6 +120,10 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
      * Page action
      */
     public $_action;
+    /**
+     * Role Id
+     */
+    protected $_roleId = null;
     
     /** 
      * Function to set variables up before form is built 
@@ -175,6 +179,9 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             parent::preProcess( );
             $this->_single    = false;
             $this->_contactID = null;
+
+            //set ajax path, this used for custom data building
+            $this->assign( 'urlPath', 'civicrm/contact/view/participant' );
         }
         
         $this->assign( 'single', $this->_single );

@@ -45,7 +45,8 @@ class CRM_Contribute_Task {
         EXPORT_CONTRIBUTIONS =  3,
         BATCH_CONTRIBUTIONS  =  4,
         EMAIL_CONTACTS       =  5,
-        UPDATE_STATUS        =  6;
+        UPDATE_STATUS        =  6,
+        PDF_RECEIPT          =  7;
 
     /**
      * the task array
@@ -80,6 +81,7 @@ class CRM_Contribute_Task {
                                   5 => ts( 'Send Email to Contacts' ),
                                   6 => ts( 'Update Pending Contribution Status' ),
                                   4 => ts( 'Batch Update Contributions Via Profile' ),
+                                  7 => ts( 'Batch Print Thank You Receipt PDF' ),
                                   );
         }
         return self::$_tasks;

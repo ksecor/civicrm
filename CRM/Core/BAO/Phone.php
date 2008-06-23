@@ -158,7 +158,7 @@ ORDER BY ph.is_primary DESC, phone_id ASC ";
        
         $params = array( 1 => array( $entityId, 'Integer' ) );
         $numbers = array( );
-         $dao =& CRM_Core_DAO::executeQuery( $sql, $params );
+        $dao =& CRM_Core_DAO::executeQuery( $sql, $params );
         while ( $dao->fetch( ) ) {
             $numbers[$dao->phone_id] = array( 'locationType'   => $dao->locationType,
                                               'is_primary'     => $dao->is_primary,

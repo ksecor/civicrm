@@ -164,7 +164,7 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
                                                         CRM_Core_Selector_Controller::TEMPLATE );
         $controller->setEmbedded( true );
         $controller->run( );
-
+        $scheduled = null;
         // hack to display results as per search
         $rows = $controller->getRows($controller);
         foreach ($rows as $key => $val) {
@@ -174,7 +174,7 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
                 $scheduled[] = $val;
             }
         }
-        if ($newArgs[3] == 'unscheduled') {
+        if ( isset($newArgs[3]) && ($newArgs[3]== 'unscheduled') ) {
             $unscheduled = true;
             CRM_Utils_System::setTitle(ts('Draft and Unscheduled Mailings'));
             $this->assign('rows', $notScheduled);

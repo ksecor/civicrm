@@ -78,14 +78,16 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
     /**
      * Function to send the emails
      * 
-     * @param int   $contactID        contact id 
-     * @param array $values           associated array of fields
+     * @param int     $contactID         contact id 
+     * @param array   $values            associated array of fields
+     * @param boolean $isTest            if in test mode
+     * @param boolean $returnMessageText return the message text instead of sending the mail
      *
      * @return void
      * @access public
      * @static
      */
-    static function sendMail( $contactID, &$values, $isTest = false ) 
+    static function sendMail( $contactID, &$values, $isTest = false, $returnMessageText = false ) 
     { 
         require_once "CRM/Core/BAO/UFField.php";
 
@@ -113,13 +115,15 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
             $gIds['custom_post_id'] = $values['custom_post_id'];
         }
         
-        //send notification email if field values are set (CRM-1941)
-        require_once 'CRM/Core/BAO/UFGroup.php';
-        foreach ( $gIds as $key => $gId ) {
-            $email = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $gId, 'notify' );
-            if ( $email ) {
-                $val = CRM_Core_BAO_UFGroup::checkFieldsEmptyValues( $gId, $contactID, $params[$key] );
-                CRM_Core_BAO_UFGroup::commonSendMail($contactID, $val); 
+        if ( ! $returnMessageText ) {
+            //send notification email if field values are set (CRM-1941)
+            require_once 'CRM/Core/BAO/UFGroup.php';
+            foreach ( $gIds as $key => $gId ) {
+                $email = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $gId, 'notify' );
+                if ( $email ) {
+                    $val = CRM_Core_BAO_UFGroup::checkFieldsEmptyValues( $gId, $contactID, $params[$key] );
+                    CRM_Core_BAO_UFGroup::commonSendMail($contactID, $val); 
+                }
             }
         }
 
@@ -161,10 +165,18 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
                 
                 // reset primary-email in the template
                 $template->assign( 'email', $ccEmail );
+                
+                $template->assign('onBehalfName',    $displayName);
+                $template->assign('onBehalfEmail',   $email);
             }
             
             $subject = trim( $template->fetch( 'CRM/Contribute/Form/Contribution/ReceiptSubject.tpl' ) );
             $message = $template->fetch( 'CRM/Contribute/Form/Contribution/ReceiptMessage.tpl' );
+            if ( $returnMessageText ) {
+                return array( 'subject' => $subject,
+                              'body'    => $message,
+                              'to'      => $displayName );
+            }
 
             $receiptFrom = '"' . CRM_Utils_Array::value('receipt_from_name',$values) . '" <' . $values['receipt_from_email'] . '>';
 
@@ -184,8 +196,8 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
             // send duplicate alert, if dupe match found during on-behalf-of processing.
             if ( $values['onbehalf_dupe_alert'] ) {
                 $systemFrom = '"Automatically Generated" <' . $values['receipt_from_email'] . '>';
-                $template->assign( 'dupeID', $contactID );
-
+                $template->assign('onBehalfID', $contactID);
+                
                 $emailTemplate  = 'CRM/Contribute/Form/Contribution/DuplicateAlertMessage.tpl';
                 
                 $template->assign( 'returnContent', 'subject' );

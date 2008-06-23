@@ -499,12 +499,9 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
     {
         // get the submitted form values. 
         $params = $this->controller->exportValues( $this->_name ); 
-        $session =& CRM_Core_Session::singleton( );
-       
-        //set number of additional participant.
-        $session->set('addParticipant', CRM_Utils_Array::value( 'additional_participants', $params, false ) );
         //set as Primary participant
         $params ['is_primary'] = 1;         
+        
         if ($this->_values['event']['is_monetary']) {
             $config =& CRM_Core_Config::singleton( );
             
@@ -595,13 +592,17 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                     $this->set( 'contributeMode', 'express' ); 
                     
                                       
-                    $params['cancelURL' ] = CRM_Utils_System::url( 'civicrm/event/register', '_qf_Register_display=1', true, null, false );
+                    $params['cancelURL' ] = CRM_Utils_System::url( 'civicrm/event/register',
+                                                                   '_qf_Register_display=1',
+                                                                   true, null, false );
                     if ( CRM_Utils_Array::value( 'additional_participants', $params, false ) ) {
-                    $params['returnURL' ] = CRM_Utils_System::url('civicrm/event/register', '_qf_Participant-1_display=1&rfp=1&qfKey='.$this->controller->_key, true, null, false ); 
-                    }
-                    else {
-                        $params['returnURL' ] = CRM_Utils_System::url( 'civicrm/event/register', '_qf_Confirm_display=1&rfp=1', true, null, false );
+                        $urlArgs = "_qf_Participant-1_display=1&rfp=1&qfKey={$this->controller->_key}";
+                    } else {
+                        $urlArgs = '_qf_Confirm_display=1&rfp=1';
                     } 
+                    $params['returnURL' ] = CRM_Utils_System::url('civicrm/event/register',
+                                                                  $urlArgs,
+                                                                  true, null, false ); 
                     $params['invoiceID' ] = $invoiceID;
                     
                     $token = $payment->setExpressCheckout( $params ); 
@@ -885,8 +886,8 @@ WHERE  id IN ($optionIDs)
         }
         if ( ! $contactID &&
              ! empty( $fields ) &&
-             isset( $fields["email-{$this->_bltID}"] ) ) {
-            $emailString = trim( $fields["email-{$this->_bltID}"] );
+             isset( $fields["email-{$self->_bltID}"] ) ) {
+            $emailString = trim( $fields["email-{$self->_bltID}"] );
             if ( ! empty( $emailString ) ) {
                 require_once 'CRM/Core/BAO/Email.php';
                 $email =&new CRM_Core_BAO_Email();

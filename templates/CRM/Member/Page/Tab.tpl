@@ -29,7 +29,7 @@
         </div>
 
         <div class="action-link solid-border-bottom">
-            <a accesskey="N" href="{$newURL}">&raquo; {ts}New Membership{/ts}</a>
+            <a accesskey="N" href="{$newURL}" class="button"><span>&raquo; {ts}New Membership{/ts}</span></a><br/><br/>
         </div>
     {/if}
 

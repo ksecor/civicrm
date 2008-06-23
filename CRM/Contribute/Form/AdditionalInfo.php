@@ -309,7 +309,38 @@ class CRM_Contribute_Form_AdditionalInfo
             $this->assign('fulfilled_date', CRM_Utils_Date::MysqlToIso(CRM_Utils_Date::format($params['fulfilled_date'])));
         }
         
-        if ( ! $ccContribution ) {
+        $this->assign( 'ccContribution', $ccContribution );
+        if ( $ccContribution ) {
+            //build the name.
+            $name = CRM_Utils_Array::value( 'billing_first_name', $params );
+            if ( CRM_Utils_Array::value( 'billing_middle_name', $params ) ) {
+                $name .= " {$params['billing_middle_name']}";
+            }
+            $name .= ' ' . CRM_Utils_Array::value( 'billing_last_name', $params );
+            $name = trim( $name );
+            $this->assign( 'name', $name );
+            
+            //assign the address formatted up for display
+            $addressParts  = array( "street_address-{$form->_bltID}",
+                                    "city-{$form->_bltID}",
+                                    "postal_code-{$form->_bltID}",
+                                    "state_province-{$form->_bltID}",
+                                    "country-{$form->_bltID}");
+            $addressFields = array( );
+            foreach ( $addressParts as $part) {
+                list( $n, $id ) = explode( '-', $part );
+                $addressFields[$n] = CRM_Utils_Array::value( $part, $params );
+            }
+            require_once 'CRM/Utils/Address.php';
+            $this->assign('address', CRM_Utils_Address::format( $addressFields ) );
+            
+            $date = CRM_Utils_Date::format( $params['credit_card_exp_date'] );  
+            $date = CRM_Utils_Date::mysqlToIso( $date ); 
+            $this->assign( 'credit_card_type', CRM_Utils_Array::value( 'credit_card_type', $params ) );
+            $this->assign( 'credit_card_exp_date', $date );
+            $this->assign( 'credit_card_number',
+                           CRM_Utils_System::mungeCreditCard( $params['credit_card_number'] ) );
+        } else {
             //offline contribution
             //Retrieve the name and email from receipt is to be send
             $params['receipt_from_name'] = $form->userDisplayName;

@@ -3,82 +3,87 @@
 require_once 'api/v2/Contribute.php';
 require_once 'api/v2/Membership.php';
 require_once 'api/v2/MembershipContributionLink.php';
+require_once 'api/v2/Relationship.php';
+require_once 'api/v2/Contact.php';
+
+require_once 'CRM/Contribute/BAO/ContributionType.php';
+
+require_once 'tests/CiviTest/CiviUnitTestCase.php';
 
 class TestOfWebServiceContributionDetailsCreateAPIV2 extends CiviUnitTestCase 
 {
     /**
      * Assume empty database with just civicrm_data
      */
-    protected $_individualId;    
-    protected $_contribution;
+    protected $_contributorId;
+    protected $_householdId;    
     protected $_contributionTypeId;
-    //protected $_customGroupId;
-    //protected $_customFieldId;
+    protected $_membershipId;
+    protected $_contributionId;
     
     function setUp() 
     {
-        $this->_contributionTypeId = $this->contributionTypeCreate();  
-        $this->_individualId = $this->individualCreate();
-        //$this->_customGroupId = $this->customGroupCreate('Contribution','C1');
-        //$this->_customFieldId = $this->customFieldCreate($this->_customGroupId,'F1');
     }
     
     function tearDown() 
     {
-        //$this->customFieldDelete($this->_customFieldId);
-        //$this->customGroupDelete($this->_customGroupId);
-        $this->contactDelete($this->_individualId);
+        $this->contactDelete($this->_contributorId);
+        $this->contactDelete($this->_householdId);
         $this->contributionTypeDelete($this->_contributionTypeId);
     }
     
-     
     function testCreateWSContributionDetails()
     {
-        // 1. create contribution
-        $contributionParams = array(
-                                    'domain_id'              => 1,
-                                    'contact_id'             => $this->_individualId,                              
-                                    'receive_date'           => date('Ymd'),
-                                    'total_amount'           => 100.00,
-                                    'contribution_type_id'   => $this->_contributionTypeId,
-                                    'payment_instrument_id'  => 1,
-                                    'non_deductible_amount'  => 10.00,
-                                    'fee_amount'             => 50.00,
-                                    'net_amount'             => 90.00,
-                                    'trxn_id'                => 12345,
-                                    'invoice_id'             => 67890,
-                                    'source'                 => 'SSF',
-                                    'contribution_status_id' => 1,
-                                    //'note'                   => 'Donating for Nobel Cause',
-                                    $customField             => 'Custom Data for Contribution'
-                                    );
         
-        $contribution =& civicrm_contribution_add($contributionParams);
-        
-        $this->assertEqual($contribution['domain_id'], 1);
-        $this->assertEqual($contribution['contact_id'], $this->_individualId);                              
-        $this->assertEqual($contribution['receive_date'],date('Ymd'));
-        $this->assertEqual($contribution['total_amount'],100.00);
-        $this->assertEqual($contribution['contribution_type_id'],$this->_contributionTypeId);
-        $this->assertEqual($contribution['payment_instrument_id'],1);
-        $this->assertEqual($contribution['non_deductible_amount'],10.00);
-        $this->assertEqual($contribution['fee_amount'],50.00);
-        $this->assertEqual($contribution['net_amount'],90.00);
-        $this->assertEqual($contribution['trxn_id'],12345);
-        $this->assertEqual($contribution['invoice_id'],67890);
-        $this->assertEqual($contribution['source'],'SSF');
-        $this->assertEqual($contribution['contribution_status_id'], 1);
-        $this->_contribution = $contribution;
+        /* --- 1. create contributor contact --- */
+        $contactParams = array( 'first_name'       => 'Anthony',
+                                'middle_name'      => 'J.',
+                                'last_name'        => 'Anderson',
+                                'email'            => 'anthony_anderson@civicrm.org',
+                                'contact_type'     => 'Individual');
+        $contact =& civicrm_contact_add( $contactParams );
 
-        $contributionID = array( 'contribution_id' => $contribution['id'] );
-        //$contribution   =& civicrm_contribution_delete($contributionID);
-        
-        $this->assertEqual( $contribution['is_error'], 0 );
-        $this->assertEqual( $contribution['result'], 1 );
+        $this->assertEqual  ( $contact['is_error'], 0 );
+        $this->assertNotNull( $contact['contact_id'] );   
 
-        // 2. create membership
+        $this->_contributorId = $contact['contact_id'];
+
+
+        /* --- 2. create spouse of contributor (household) --- */
+        $contactParams = array('household_name' => 'The abc Household',
+                               'contact_type' => 'Household',
+                               );
+        $contact =& civicrm_contact_add( $contactParams );
+
+        $this->assertEqual  ( $contact['is_error'], 0 );
+        $this->assertNotNull( $contact['contact_id'] );   
+
+        $this->_householdId   = $contact['contact_id'];
+
+
+        /* --- 3. create "spouse of" relationship between the two contacts --- */
+        $relationshipTypeId = 2; // for "spouse of" relationship, relationship-type-id is 2 
+
+        // Note: new relationship-type can be added using the 
+        // civicrm_relationship_type_add() api
+
+        // create relationship
+        $relationParams = array( 'contact_id_a'         => $this->_contributorId,
+                                 'contact_id_b'         => $this->_householdId,
+                                 'relationship_type_id' => $relationshipTypeId,
+                                 );
+        $relationship =& civicrm_relationship_create( $relationParams );
+
+        // *Error expected* since "Spouse Of" relationship can't be
+        // created between individual and household.
+
+//         $this->assertEqual( $relationship['is_error'], 0 );
+//         $this->assertNotNull( $relationship['id'] );   
+
+
+        /* --- 4. create membership record --- */
         $membershipParams = array(
-                                  'contact_id'         => $this->individualID,  
+                                  'contact_id'         => $this->_contributorId,  
                                   'membership_type_id' => '1',
                                   'join_date'          => '2006-01-21',
                                   'start_date'         => '2006-01-21',
@@ -87,16 +92,84 @@ class TestOfWebServiceContributionDetailsCreateAPIV2 extends CiviUnitTestCase
                                   'is_override'        => 1,
                                   'status_id'          => 2                       
                                   );
-        $membership = civicrm_contact_membership_create( $membershipParams );
-        $this->assertEqual( $membership['is_error'], 0 );
-        $this->assertNotNull( $membership['id'] );
+        $membership =& civicrm_contact_membership_create( $membershipParams );
+        
+        $this->assertEqual  ( $membership['is_error'], 0 );
+        $this->assertNotNull( $membership['id'] );   
 
-        // 3. create link between contribution & membership
+        $this->_membershipId = $membership['id'];
+
+
+        /* --- 5. create contribution record --- */
+
+        // creating a contribution-type, required for contribution
+        $$this->_contributionTypeId = $this->contributionTypeCreate();  
+
+        // If any custom field need to be set, get the custom field id
+        // and uncomment the below line after having replaced
+        // $customFieldId with custom-field-id & pass it along with
+        // contribution-params.
+
+        // $customField = 'custom_' . $customFieldId;
+
+        // Note: Employer, Occupation, One-time vs. recurring contribution, 
+        // Credit Card Type, Exp Date - all these could be set as custom fields
+
+        // use this random number for setting transaction_id & invoice_id
+        $randomNum = md5(uniqid(rand(), true));
+
+        $contributionParams = array(
+                                    'contact_id'             => $this->_contributorId,                              
+                                    'receive_date'           => date('Ymd'), // date time can be set here
+                                    'total_amount'           => 100.00,
+                                    'contribution_type_id'   => $$this->_contributionTypeId,
+                                    'payment_instrument_id'  => 1, // payment method. This is custom definable.
+                                    'non_deductible_amount'  => 10.00,
+                                    'fee_amount'             => 50.00,
+                                    'net_amount'             => 90.00, // set amount
+                                    'trxn_id'                => $randomNum, // this can also be used as account number
+                                    'invoice_id'             => $randomNum,
+                                    'source'                 => 'SSF', // souce code can be put here
+                                    'contribution_status_id' => 1,
+                                    //$customField             => "Custom Field Value"
+                                    );
+        
+        $contribution =& civicrm_contribution_add($contributionParams);
+
+        $this->assertNotNull( $contribution['id'] );
+        $this->assertEqual($contribution['contact_id'], $this->_contributorId);                              
+        $this->assertEqual($contribution['receive_date'],date('Ymd'));
+        $this->assertEqual($contribution['total_amount'],100.00);
+
+        $this->assertEqual($contribution['contribution_type_id'],$$this->_contributionTypeId);
+        $this->assertEqual($contribution['payment_instrument_id'],1);
+        $this->assertEqual($contribution['non_deductible_amount'],10.00);
+        $this->assertEqual($contribution['fee_amount'],50.00);
+        $this->assertEqual($contribution['net_amount'],90.00);
+        $this->assertEqual($contribution['trxn_id'],$randomNum);
+        $this->assertEqual($contribution['invoice_id'],$randomNum);
+        $this->assertEqual($contribution['source'],'SSF');
+        $this->assertEqual($contribution['contribution_status_id'], 1);
+
+        $this->_contributionId = $contribution['id'];
+
+
+        /* --- 6. create link between contribution & membership --- */
         $linkParams = array( 'contribution_id' => $contribution['id'],
                              'membership_id'   => $membership['id']
                              );
-        $mpArray = civicrm_membershipcontributionlink_get( $linkParams );
+        $mpLink = civicrm_membershipcontributionlink_create( $linkParams );
+
+        $this->assertNotNull( $mpLink['id'] );
+
+
+        /* --- 7. activity create --- */
+        // Note: activity records are already created during
+        // contribution and membership create. Still if you want to
+        // call explicitly, uncomment and use the api below (be sure
+        // to pass the relevant params)
+        
+        //civicrm_activity_create( $activityParams );
     }
 
 }
-

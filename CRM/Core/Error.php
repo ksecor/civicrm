@@ -285,11 +285,11 @@ class CRM_Core_Error extends PEAR_ErrorStack {
     static function debug( $name, $variable = null, $log = true, $html = true ) {
         $error =& self::singleton( );
 
-        if ( $variable == null ) {
+        if ( $variable === null ) {
             $variable = $name;
             $name = null;
         }
-
+        
         $out = print_r( $variable, true );
         $prefix = null;
         if ($html) {

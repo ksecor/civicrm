@@ -146,7 +146,11 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
         $this->_scope = $this->_scope . '_' . $this->_key;
 
         if ( isset( $_GET['snippet'] ) && $_GET['snippet'] ) {
-            $this->_print = CRM_Core_Smarty::PRINT_SNIPPET;
+            if ( $_GET['snippet'] == 3 ) {
+                $this->_print = CRM_Core_Smarty::PRINT_PDF;
+            } else {
+                $this->_print = CRM_Core_Smarty::PRINT_SNIPPET;
+            }
         }
 
         // let the constructor initialize this, should happen only once
@@ -525,7 +529,8 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
 
     function getTemplateFile( ) {
         if ( $this->_print ) {
-            if ( $this->_print == CRM_Core_Smarty::PRINT_SNIPPET ) {
+            if ( $this->_print == CRM_Core_Smarty::PRINT_SNIPPET ||
+                 $this->_print == CRM_Core_Smarty::PRINT_PDF ) {
                 return 'CRM/common/snippet.tpl';
             } else {
                 return 'CRM/common/print.tpl';

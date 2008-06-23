@@ -55,6 +55,10 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
         $participantNo = substr( $this->_name, 12 );
         $this->_params = array( );
         $this->_params = $this->get( 'params' );
+        $skipCount = count( array_keys( $this->_params, "skip" ) );
+        if( $skipCount ) {
+            $this->assign('skipCount', $skipCount );
+        }
         CRM_Utils_System::setTitle( 'Register Additional Participant No '.$participantNo.' of  '.
                                     $this->_params[0]['additional_participants'] );
     }
@@ -91,10 +95,18 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
     public function buildQuickForm( ) 
     {  
         $config =& CRM_Core_Config::singleton( );
+        $button = substr( $this->controller->getButtonName(), -4 );
+        if ( $button == 'skip' ) {
         $this->add( 'text',
                     "email-{$this->_bltID}",
                     ts( 'Email Address' ),
                     array( 'size' => 30, 'maxlength' => 60 ) );
+        } else {
+            $this->add( 'text',
+                        "email-{$this->_bltID}",
+                        ts( 'Email Address' ),
+                        array( 'size' => 30, 'maxlength' => 60 ), true );
+        }
         
         if ( $this->_values['event']['is_monetary'] ) {
             require_once 'CRM/Event/Form/Registration/Register.php';
@@ -139,15 +151,14 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
         //get the button name.
         $button = substr( $self->controller->getButtonName(), -4 );
         if ( $button != 'skip' ) {
+            //Additional Participant can also register for an event only once 
             require_once 'CRM/Event/Form/Registration/Register.php';
             $isRegistered =  CRM_Event_Form_Registration_Register::checkRegistration( $fields, $self, true );
             
             if ( $isRegistered ) {
                 $errors["email-{$self->_bltID}"] = ts( 'Already Registered for this Event.');
             } 
-            if ( empty( $fields["email-{$self->_bltID}"] ) ) {
-                $errors["email-{$self->_bltID}"] = ts( 'Email Address is a required field.' );
-            }
+            
             //get the complete params.
             $params = $self->get('params');
             //take the participant instance.
@@ -270,21 +281,14 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
         }
     }
     
-    function &getPages( &$controller )
+    function &getPages( $additionalParticipant )
     {
-        $session =& CRM_Core_Session::singleton( );
-        $additional = $session->get('addParticipant');
-        
         $details = array( );
-        
-        if ( $additional ) {
-            for ( $i = 1; $i <= $additional; $i++ ) {
-                $details["Participant-{$i}"] = array( 'className' => 'CRM_Event_Form_Registration_AdditionalParticipant', 
-                                                      'title'     => "Register Additional Participant {$i}"
-                                                      );
-            }
-             
-        }   
+        for ( $i = 1; $i <= $additionalParticipant; $i++ ) {
+            $details["Participant-{$i}"] = array( 'className' => 'CRM_Event_Form_Registration_AdditionalParticipant', 
+                                                  'title'     => "Register Additional Participant {$i}"
+                                                  );
+        }
         return $details;
     } 
 

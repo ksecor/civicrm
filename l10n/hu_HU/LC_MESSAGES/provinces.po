@@ -6,30 +6,31 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2007-04-18 07:35+0200\n"
-"PO-Revision-Date: 2001-11-27 00:03GMT+1\n"
-"Last-Translator: Arpad Biro <biro_arpad@yahoo.com>\n"
+"PO-Revision-Date: 2008-06-20 06:46-0700\n"
+"Last-Translator: Robe Dosa <robe.dosa@t-online.hu>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Pootle 1.0.2\n"
 
 msgid "Alabama"
 msgstr "Alabama"
 
 msgid "Alaska"
-msgstr "Alaszka"
+msgstr "Alaska"
 
 msgid "Arizona"
-msgstr ""
+msgstr "Arizona"
 
 msgid "Arkansas"
 msgstr "Arkansas"
 
 msgid "California"
-msgstr ""
+msgstr "California"
 
 msgid "Colorado"
-msgstr ""
+msgstr "Colorado"
 
 msgid "Connecticut"
 msgstr "Connecticut"
@@ -41,7 +42,7 @@ msgid "Florida"
 msgstr "Florida"
 
 msgid "Georgia"
-msgstr "Grúzia"
+msgstr "Georgia"
 
 msgid "Hawaii"
 msgstr "Hawaii"
@@ -110,10 +111,10 @@ msgid "New York"
 msgstr "New York"
 
 msgid "North Carolina"
-msgstr "Észak-Karolina"
+msgstr "North Carolina"
 
 msgid "North Dakota"
-msgstr "Észak-Dakota"
+msgstr "North Dakota"
 
 msgid "Ohio"
 msgstr "Ohio"
@@ -131,10 +132,10 @@ msgid "Rhode Island"
 msgstr "Rhode Island"
 
 msgid "South Carolina"
-msgstr "Dél-Karolina"
+msgstr "South Carolina"
 
 msgid "South Dakota"
-msgstr "Dél-Dakota"
+msgstr "South Dakota"
 
 msgid "Tennessee"
 msgstr "Tennessee"
@@ -164,40 +165,40 @@ msgid "Wyoming"
 msgstr "Wyoming"
 
 msgid "District of Columbia"
-msgstr "Washington és környéke"
+msgstr "District of Columbia"
 
 msgid "American Samoa"
-msgstr "Amerikai Samoa"
+msgstr "American Samoa"
 
 msgid "Guam"
 msgstr "Guam"
 
 msgid "Northern Mariana Islands"
-msgstr "Északi Mariana-szigetek"
+msgstr "Northern Mariana Islands"
 
 msgid "Puerto Rico"
 msgstr "Puerto Rico"
 
 msgid "Virgin Islands"
-msgstr "Virgin-szigetek"
+msgstr "Virgin Islands"
 
 msgid "United States Minor Outlying Islands"
-msgstr "Amerikai Egyesült Államok - kisebb külső szigetek"
+msgstr "United States Minor Outlying Islands"
 
 msgid "Armed Forces Europe"
-msgstr ""
+msgstr "Armed Forces Europe"
 
 msgid "Armed Forces Americas"
-msgstr ""
+msgstr "Armed Forces Americas"
 
 msgid "Armed Forces Pacific"
-msgstr ""
+msgstr "Armed Forces Pacific"
 
 msgid "Alberta"
 msgstr "Alberta"
 
 msgid "British Columbia"
-msgstr "Brit Kolumbia"
+msgstr "British Columbia"
 
 msgid "Manitoba"
 msgstr "Manitoba"
@@ -206,22 +207,22 @@ msgid "New Brunswick"
 msgstr "New Brunswick"
 
 msgid "Newfoundland and Labrador"
-msgstr ""
+msgstr "Newfoundland and Labrador"
 
 msgid "Northwest Territories"
-msgstr ""
+msgstr "Northwest Territories"
 
 msgid "Nova Scotia"
 msgstr "Nova Scotia"
 
 msgid "Nunavut"
-msgstr ""
+msgstr "Nunavut"
 
 msgid "Ontario"
 msgstr "Ontario"
 
 msgid "Prince Edward Island"
-msgstr "Prince Edward-sziget"
+msgstr "Prince Edward Island"
 
 msgid "Quebec"
 msgstr "Quebec"
@@ -230,211 +231,211 @@ msgid "Saskatchewan"
 msgstr "Saskatchewan"
 
 msgid "Yukon Territory"
-msgstr "Yukoni terület"
+msgstr "Yukon Territory"
 
 msgid "Maharashtra"
-msgstr ""
+msgstr "Maharashtra"
 
 msgid "Karnataka"
-msgstr ""
+msgstr "Karnataka"
 
 msgid "Andhra Pradesh"
-msgstr ""
+msgstr "Andhra Pradesh"
 
 msgid "Arunachal Pradesh"
-msgstr ""
+msgstr "Arunachal Pradesh"
 
 msgid "Assam"
-msgstr ""
+msgstr "Assam"
 
 msgid "Bihar"
-msgstr ""
+msgstr "Bihar"
 
 msgid "Chhattisgarh"
-msgstr ""
+msgstr "Chhattisgarh"
 
 msgid "Goa"
-msgstr ""
+msgstr "Goa"
 
 msgid "Gujarat"
-msgstr ""
+msgstr "Gujarat"
 
 msgid "Haryana"
-msgstr ""
+msgstr "Haryana"
 
 msgid "Himachal Pradesh"
-msgstr ""
+msgstr "Himachal Pradesh"
 
 msgid "Jammu and Kashmir"
-msgstr ""
+msgstr "Jammu and Kashmir"
 
 msgid "Jharkhand"
-msgstr ""
+msgstr "Jharkhand"
 
 msgid "Kerala"
-msgstr ""
+msgstr "Kerala"
 
 msgid "Madhya Pradesh"
-msgstr ""
+msgstr "Madhya Pradesh"
 
 msgid "Manipur"
-msgstr ""
+msgstr "Manipur"
 
 msgid "Meghalaya"
-msgstr ""
+msgstr "Meghalaya"
 
 msgid "Mizoram"
-msgstr ""
+msgstr "Mizoram"
 
 msgid "Nagaland"
-msgstr ""
+msgstr "Nagaland"
 
 msgid "Orissa"
-msgstr ""
+msgstr "Orissa"
 
 msgid "Punjab"
-msgstr ""
+msgstr "Punjab"
 
 msgid "Rajasthan"
-msgstr ""
+msgstr "Rajasthan"
 
 msgid "Sikkim"
-msgstr ""
+msgstr "Sikkim"
 
 msgid "Tamil Nadu"
-msgstr ""
+msgstr "Tamil Nadu"
 
 msgid "Tripura"
-msgstr ""
+msgstr "Tripura"
 
 msgid "Uttaranchal"
-msgstr ""
+msgstr "Uttaranchal"
 
 msgid "Uttar Pradesh"
-msgstr ""
+msgstr "Uttar Pradesh"
 
 msgid "West Bengal"
-msgstr ""
+msgstr "West Bengal"
 
 msgid "Andaman and Nicobar Islands"
-msgstr ""
+msgstr "Andaman and Nicobar Islands"
 
 msgid "Dadra and Nagar Haveli"
-msgstr ""
+msgstr "Dadra and Nagar Haveli"
 
 msgid "Daman and Diu"
-msgstr ""
+msgstr "Daman and Diu"
 
 msgid "Delhi"
-msgstr ""
+msgstr "Delhi"
 
 msgid "Lakshadweep"
-msgstr ""
+msgstr "Lakshadweep"
 
 msgid "Pondicherry"
-msgstr ""
+msgstr "Pondicherry"
 
 msgid "mazowieckie"
-msgstr ""
+msgstr "mazowieckie"
 
 msgid "pomorskie"
-msgstr ""
+msgstr "pomorskie"
 
 msgid "dolnośląskie"
-msgstr ""
+msgstr "dolnośląskie"
 
 msgid "kujawsko-pomorskie"
-msgstr ""
+msgstr "kujawsko-pomorskie"
 
 msgid "lubelskie"
-msgstr ""
+msgstr "lubelskie"
 
 msgid "lubuskie"
-msgstr ""
+msgstr "lubuskie"
 
 msgid "łódzkie"
-msgstr ""
+msgstr "łódzkie"
 
 msgid "małopolskie"
-msgstr ""
+msgstr "małopolskie"
 
 msgid "opolskie"
-msgstr ""
+msgstr "opolskie"
 
 msgid "podkarpackie"
-msgstr ""
+msgstr "podkarpackie"
 
 msgid "podlaskie"
-msgstr ""
+msgstr "podlaskie"
 
 msgid "śląskie"
-msgstr ""
+msgstr "śląskie"
 
 msgid "świętokrzyskie"
-msgstr ""
+msgstr "świętokrzyskie"
 
 msgid "warmińsko-mazurskie"
-msgstr ""
+msgstr "warmińsko-mazurskie"
 
 msgid "wielkopolskie"
-msgstr ""
+msgstr "wielkopolskie"
 
 msgid "zachodniopomorskie"
-msgstr ""
+msgstr "zachodniopomorskie"
 
 msgid "Abu Zaby"
-msgstr ""
+msgstr "Abu Zaby"
 
 msgid "'Ajman"
-msgstr ""
+msgstr "'Ajman"
 
 msgid "Al Fujayrah"
-msgstr ""
+msgstr "Al Fujayrah"
 
 msgid "Ash Shariqah"
-msgstr ""
+msgstr "Ash Shariqah"
 
 msgid "Dubayy"
-msgstr ""
+msgstr "Dubayy"
 
 msgid "Ra's al Khaymah"
-msgstr ""
+msgstr "Ra's al Khaymah"
 
 msgid "Dac Lac"
-msgstr ""
+msgstr "Dac Lac"
 
 msgid "Umm al Qaywayn"
-msgstr ""
+msgstr "Umm al Qaywayn"
 
 msgid "Badakhshan"
-msgstr ""
+msgstr "Badakhshan"
 
 msgid "Badghis"
-msgstr ""
+msgstr "Badghis"
 
 msgid "Baghlan"
-msgstr ""
+msgstr "Baghlan"
 
 msgid "Balkh"
-msgstr ""
+msgstr "Balkh"
 
 msgid "Bamian"
-msgstr ""
+msgstr "Bamian"
 
 msgid "Farah"
-msgstr ""
+msgstr "Farah"
 
 msgid "Faryab"
-msgstr ""
+msgstr "Faryab"
 
 msgid "Ghazni"
-msgstr ""
+msgstr "Ghazni"
 
 msgid "Ghowr"
-msgstr ""
+msgstr "Ghowr"
 
 msgid "Helmand"
-msgstr ""
+msgstr "Helmand"
 
 msgid "Herat"
 msgstr ""

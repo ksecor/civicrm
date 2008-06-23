@@ -77,16 +77,19 @@
  </table>
  {if $form.additional_participants.html}
  <div id="noOfparticipants_show" class="section-hidden section-hidden-border">
-        <a href="#" onclick="hide('noOfparticipants_show'); show('noOfparticipants'); return false;">&raquo; <label>{ts}Register additional people for this event{/ts}</label></a>
+        <a href="#" onclick="hide('noOfparticipants_show'); show('noOfparticipants'); document.forms[1].additional_participants.focus(); return false;">&raquo; <label>{ts}Register additional people for this event{/ts}</label></a>
     </div>
 {/if}
     <div id="noOfparticipants" class="section-hidden section-hidden-border" style="display:none">
         <a href="#" onclick="hide('noOfparticipants'); show('noOfparticipants_show'); return false;">&raquo; <label>{ts}Register additional people for this event{/ts}</label></a>
         <div class="form-item">
-            <dl>
-            <dt>{$form.additional_participants.label}</dt><dd>{$form.additional_participants.html}</dd>
-            <dt>&nbsp;</dt><dd class="description">{ts}You will be able to enter registration information for each additional person after you complete this page and click Continue.{/ts}</dd>
-       	    </dl>
+            <table class="form-layout">
+            <tr><td><label>{$form.additional_participants.label}</label></td>
+                <td>{$form.additional_participants.html|crmReplace:class:two}<br />
+                    <span class="description">{ts}You will be able to enter registration information for each additional person after you complete this page and click Continue.{/ts}</span>
+                </td>
+       	    </tr>
+            </table>
         </div>
     </div> 
 
@@ -107,12 +110,12 @@
     {/if}
     {if $paymentProcessor.billing_mode & 1}
       <table class="form-layout-compressed">
-        <tr><td class="label">{$form.credit_card_type.label}</td><td>{$form.credit_card_type.html}</td></tr>
-        <tr><td class="label">{$form.credit_card_number.label}</td><td>{$form.credit_card_number.html}<br />
+        <tr><td class="label">{$form.credit_card_type.label}</td><td colspan="2">{$form.credit_card_type.html}</td></tr>
+        <tr><td class="label">{$form.credit_card_number.label}</td><td colspan="2">{$form.credit_card_number.html}<br />
             <span class="description">{ts}Enter numbers only, no spaces or dashes.{/ts}</span></td></tr>
-        <tr><td class="label">{$form.cvv2.label}</td><td>{$form.cvv2.html} &nbsp; <img src="{$config->resourceBase}i/mini_cvv2.gif" alt="{ts}Security Code Location on Credit Card{/ts}" style="vertical-align: text-bottom;" /><br />
+        <tr><td class="label">{$form.cvv2.label}</td><td style="vertical-align: top;">{$form.cvv2.html}</td><td><img src="{$config->resourceBase}i/mini_cvv2.gif" alt="{ts}Security Code Location on Credit Card{/ts}" style="vertical-align: text-bottom;" /><br />
             <span class="description">{ts}Usually the last 3-4 digits in the signature area on the back of the card.{/ts}</span></td></tr>
-        <tr><td class="label">{$form.credit_card_exp_date.label}</td><td>{$form.credit_card_exp_date.html}</td></tr>
+        <tr><td class="label">{$form.credit_card_exp_date.label}</td><td colspan="2">{$form.credit_card_exp_date.html}</td></tr>
       </table>
       </fieldset>
 

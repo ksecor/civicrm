@@ -355,6 +355,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
             if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
                 require_once 'CRM/Contribute/BAO/Contribution.php';
                 $fields['Contribution'] =& CRM_Contribute_BAO_Contribution::exportableFields();
+                unset($fields['Contribution']['contribution_contact_id']);
                 $compArray['Contribution'] = 'Contribution';
             }
         }
@@ -363,6 +364,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
             if ( CRM_Core_Permission::access( 'CiviEvent' ) ) {
                 require_once 'CRM/Event/BAO/Participant.php';
                 $fields['Participant'] =& CRM_Event_BAO_Participant::exportableFields( );
+                unset($fields['Participant']['participant_contact_id']);
                 $compArray['Participant'] = 'Participant';
             }
         }
@@ -371,6 +373,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
             if ( CRM_Core_Permission::access( 'CiviMember' ) ) {
                 require_once 'CRM/Member/BAO/Membership.php';
                 $fields['Membership'] =& CRM_Member_BAO_Membership::getMembershipFields();
+                unset($fields['Membership']['membership_contact_id']);
                 $compArray['Membership'] = 'Membership';
             }
         }

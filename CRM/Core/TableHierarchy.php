@@ -65,13 +65,12 @@ class CRM_Core_TableHierarchy {
                          'civicrm_subscription_history' => '20',
                          'civicrm_entity_tag'           => '21',
                          'civicrm_note'                 => '22',
-                         'civicrm_activity_history'     => '23',
-                         'civicrm_custom_value'         => '24',
-                         'civicrm_contribution'         => '25',
-                         'civicrm_contribution_type'    => '26',
-                         'civicrm_participant'          => '27',
-                         'civicrm_event'                => '28',
-                         'civicrm_worldregion'          => '29'  
+                         'civicrm_contribution'         => '23',
+                         'civicrm_contribution_type'    => '24',
+                         'civicrm_participant'          => '25',
+                         'civicrm_event'                => '26',
+                         'civicrm_worldregion'          => '27',
+                         'civicrm_pledgesigner'         => '28'
                          );
 
     static function &info( ) {

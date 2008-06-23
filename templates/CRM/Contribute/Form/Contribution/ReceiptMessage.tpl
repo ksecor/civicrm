@@ -78,7 +78,6 @@
 {/if}
 
 {/if}
-{if $contributeMode ne 'notify' and $is_monetary}
 {if $onBehalfName}
 ===========================================================
 {ts}On Behalf Of{/ts}
@@ -90,6 +89,7 @@
 {$onBehalfEmail}
 
 {/if}
+{if $contributeMode ne 'notify' and $is_monetary}
 {if $is_pay_later}
 ===========================================================
 {ts}Registered Email{/ts}

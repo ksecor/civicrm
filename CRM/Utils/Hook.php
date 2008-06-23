@@ -189,13 +189,22 @@ class CRM_Utils_Hook {
      * @return null the return value is ignored
      * @access public 
      */
-    static function aclClause( $type, &$tables, &$whereTables, &$contactID, &$where ) {
+    static function aclWhereClause( $type, &$tables, &$whereTables, &$contactID, &$where ) {
         $config =& CRM_Core_Config::singleton( );
         require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
         return   
             eval( 'return ' .
                   $config->userHookClass .
-                  '::invoke( 5, $type, $tables, $whereTables, $contactID, $where, \'civicrm_aclClause\' );' );  
+                  '::invoke( 5, $type, $tables, $whereTables, $contactID, $where, \'civicrm_aclWhereClause\' );' );  
+    }
+
+    static function aclGroup( $type, $contactID, $tableName, &$allGroups, &$currentGroups ) {
+        $config =& CRM_Core_Config::singleton( );
+        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
+        return   
+            eval( 'return ' .
+                  $config->userHookClass .
+                  '::invoke( 5, $type, $contactID, $tableName, $allGroups, $currentGroups, $where, \'civicrm_aclGroup\' );' );  
     }
 
     static function xmlMenu( &$files ) {

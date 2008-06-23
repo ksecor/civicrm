@@ -210,8 +210,8 @@ class CRM_Contact_Form_Task_EmailCommon
         }
         
         //Added for CRM-1393
-        if( CRM_Utils_Array::value('saveMessage',$fields) ==1 && empty($fields['saveMessageName']) ){
-            $errors['saveMessageName'] = ts("Enter name to save message template");
+        if( CRM_Utils_Array::value('saveTemplate',$fields) && empty($fields['saveTemplateName']) ){
+            $errors['saveTemplateName'] = ts("Enter name to save message template");
         }
         return empty($errors) ? true : $errors;
     }
@@ -276,15 +276,16 @@ class CRM_Contact_Form_Task_EmailCommon
             
             if ( $messageParams['saveTemplate'] ) {
                 $messageTemplate['msg_title'] = $messageParams['saveTemplateName'];
-            }
-
-            if ( $messageParams['template'] ) {
-                $messageTemplate['id'] = $messageParams['template'];
+                CRM_Core_BAO_MessageTemplates::add( $messageTemplate );
             }
             
-            CRM_Core_BAO_MessageTemplates::add( $messageTemplate );
+            if ( $messageParams['template'] && $messageParams['updateTemplate']  ) {
+                $messageTemplate['id'] = $messageParams['template'];
+                unset($messageTemplate['msg_title']);
+                CRM_Core_BAO_MessageTemplates::add( $messageTemplate );
+            } 
         }
-
+        
         $status = array( '',
                          ts('Total Selected Contact(s): %1', array(1 => count($form->_contactIds) ))
                          );

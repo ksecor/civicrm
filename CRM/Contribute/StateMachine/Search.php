@@ -121,6 +121,10 @@ class CRM_Contribute_StateMachine_Search extends CRM_Core_StateMachine
                              'CRM_Contribute_Form_Task_Result');
             break;
 
+        case CRM_Contribute_Task::PDF_RECEIPT:
+            $task = 'CRM_Contribute_Form_Task_PDF';
+            break;
+
         default: // the print task is the default and catch=all task
             $task = 'CRM_Contribute_Form_Task_Print';
             break;

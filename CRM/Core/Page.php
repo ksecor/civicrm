@@ -125,7 +125,11 @@ class CRM_Core_Page {
         $this->_mode  = $mode;
 
         if ( isset( $_GET['snippet'] ) && $_GET['snippet'] ) {
-            $this->_print = CRM_Core_Smarty::PRINT_SNIPPET;
+            if ( $_GET['snippet'] == 3 ) {
+                $this->_print = CRM_Core_Smarty::PRINT_PDF;
+            } else {
+                $this->_print = CRM_Core_Smarty::PRINT_SNIPPET;
+            }
         }
 
         // let the constructor initialize this, should happen only once
@@ -158,12 +162,18 @@ class CRM_Core_Page {
         self::$_template->assign( 'tplFile', $this->getTemplateFileName() );
 
         if ( $this->_print ) {
-            if ( $this->_print == CRM_Core_Smarty::PRINT_SNIPPET ) {
+            if ( $this->_print == CRM_Core_Smarty::PRINT_SNIPPET ||
+                 $this->_print == CRM_Core_Smarty::PRINT_PDF ) {
                 $content = self::$_template->fetch( 'CRM/common/snippet.tpl' );
             } else {
                 $content = self::$_template->fetch( 'CRM/common/print.tpl' );
             }
-            echo $content;
+            if ( $this->_print == CRM_Core_Smarty::PRINT_PDF ) {
+                require_once 'CRM/Utils/PDF/Utils.php';
+                CRM_Utils_PDF_Utils::domlib( $content, "{$this->_name}.pdf" );
+            } else {
+                echo $content;
+            }
             exit( );
         }
         $config =& CRM_Core_Config::singleton();
