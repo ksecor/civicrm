@@ -61,15 +61,13 @@ function myHandler(field, value) {
     <tr>
         <td><label>{ts}Source{/ts}:</label></td><td id="contact_source" dojoType="dijit.InlineEditBox" onChange="myHandler(this.id,arguments[0])">{$source}</td>
         {if $contactTag}<td><label>{ts}Tags{/ts}:</label></td><td>{$contactTag}</td>{/if}
-        <td colspan="2"></td>
         {if !$contactTag}<td colspan="2"></td>{/if}
     </tr>
     <tr>
-        {if $job_title}<td><label>{ts}Job Title{/ts}:</label></td><td>{$job_title}</td>{/if}
-	{if $current_employer}<td><label>{ts}Current Employer{/ts}:</label></td><td>{$current_employer}</td>{/if}
+        <td><label>{ts}Job Title{/ts}:</label></td><td id="job_title" dojoType="dijit.InlineEditBox" onChange="myHandler(this.id,arguments[0])">{$job_title}</td>
+        {if $current_employer}<td><label>{ts}Current Employer{/ts}:</label></td><td>{$current_employer}</td>{/if}
         {if $home_URL}<td><label>{ts}Website{/ts}</label></td><td><a href="{$home_URL}" target="_blank">{$home_URL}</a></td>{/if}
-        {if !$job_title}<td colspan="2"></td>{/if}
-	{if !$current_employer}<td colspan="2"></td>{/if}
+        {if !$current_employer}<td colspan="2"></td>{/if}
         {if !$home_URL}<td colspan="2"></td>{/if}
     </tr>
     </table>
