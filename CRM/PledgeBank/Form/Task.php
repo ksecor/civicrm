@@ -106,7 +106,7 @@ class CRM_PledgeBank_Form_Task extends CRM_Core_Form
         
         if ( ! empty( $ids ) ) {
             $this->_componentClause =
-                ' civicrm_pledgesigner.id IN ( ' .
+                ' civicrm_pb_signer.id IN ( ' .
                 implode( ',', $ids ) . ' ) ';
             $this->assign( 'totalSelectedParticipants', count( $ids ) );             
         }
@@ -121,7 +121,7 @@ class CRM_PledgeBank_Form_Task extends CRM_Core_Form
     public function setContactIDs( ) 
     {
         $this->_contactIds =& CRM_Core_DAO::getContactIDsFromComponent( $this->_signerIds,
-                                                                        'civicrm_pledgesigner' );
+                                                                        'civicrm_pb_signer' );
     }
 
     /**

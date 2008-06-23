@@ -1612,7 +1612,7 @@ VALUES
 
     function addPledge( )
     {
-        $pledge = "INSERT INTO civicrm_pledge
+        $pledge = "INSERT INTO civicrm_pb_pledge
         ( creator_pledge_desc, signers_limit, signer_description_text, signer_pledge_desc, deadline, url_reference, description, creator_id, creator_description, created_date, loc_block_id, is_active )
       VALUES 
         ( 'donate $200 towards defending WikiLeaks in their first amendment fight', 10, 'other good people', 'give $20 to $200 dollars and encourage others to do the same!', '2009-06-30 00:00:00', NULL, NULL, 76, NULL, '2008-06-23 17:57:28', NULL, 1 ),
@@ -1624,7 +1624,7 @@ VALUES
     
     function addPledgeSigner( )
     {
-        $pledgeSigner = "INSERT INTO civicrm_pledgesigner
+        $pledgeSigner = "INSERT INTO civicrm_pb_signer
         ( contact_id,  pledge_id, is_anonymous, email_id, is_done, signing_date, is_test)
       VALUES
         ( 19, 1, 1, 42, 1, '2008-06-23 18:18:58', 0 ),

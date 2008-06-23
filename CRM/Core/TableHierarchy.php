@@ -70,7 +70,7 @@ class CRM_Core_TableHierarchy {
                          'civicrm_participant'          => '25',
                          'civicrm_event'                => '26',
                          'civicrm_worldregion'          => '27',
-                         'civicrm_pledgesigner'         => '28'
+                         'civicrm_pb_signer'            => '28'
                          );
 
     static function &info( ) {

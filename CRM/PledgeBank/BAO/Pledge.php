@@ -150,8 +150,8 @@ class CRM_PledgeBank_BAO_Pledge extends CRM_PledgeBank_DAO_Pledge
         $params = array( 1 => array( $now, 'Date' ) );
         
         $query = "SELECT count(id) as total_pledges
-                  FROM   civicrm_pledge
-                  WHERE  civicrm_pledge.is_active=1 AND civicrm_pledge.deadline >= %1"; 
+                  FROM   civicrm_pb_pledge
+                  WHERE  civicrm_pb_pledge.is_active=1 AND civicrm_pb_pledge.deadline >= %1"; 
         
         $dao =& CRM_Core_DAO::executeQuery( $query, $params );
         
@@ -165,15 +165,15 @@ class CRM_PledgeBank_BAO_Pledge extends CRM_PledgeBank_DAO_Pledge
         }
         
         $query = "
-SELECT     civicrm_pledge.id as id, civicrm_pledge.creator_pledge_desc as creator_pledge_desc, 
-           civicrm_pledge.signers_limit as signers_limit, civicrm_pledge.signer_description_text as signer_description_text, 
-           civicrm_pledge.signer_pledge_desc as signer_pledge_desc, civicrm_pledge.deadline as deadline,
-           civicrm_pledge.is_active as is_active, civicrm_contact.display_name as display_name
-FROM       civicrm_pledge
-LEFT JOIN  civicrm_contact ON ( civicrm_pledge.creator_id = civicrm_contact.id )
-WHERE      civicrm_pledge.is_active = 1 AND civicrm_pledge.deadline >= %1
-GROUP BY   civicrm_pledge.id
-ORDER BY   civicrm_pledge.created_date DESC
+SELECT     civicrm_pb_pledge.id as id, civicrm_pb_pledge.creator_pledge_desc as creator_pledge_desc, 
+           civicrm_pb_pledge.signers_limit as signers_limit, civicrm_pb_pledge.signer_description_text as signer_description_text, 
+           civicrm_pb_pledge.signer_pledge_desc as signer_pledge_desc, civicrm_pb_pledge.deadline as deadline,
+           civicrm_pb_pledge.is_active as is_active, civicrm_contact.display_name as display_name
+FROM       civicrm_pb_pledge
+LEFT JOIN  civicrm_contact ON ( civicrm_pb_pledge.creator_id = civicrm_contact.id )
+WHERE      civicrm_pb_pledge.is_active = 1 AND civicrm_pb_pledge.deadline >= %1
+GROUP BY   civicrm_pb_pledge.id
+ORDER BY   civicrm_pb_pledge.created_date DESC
 LIMIT      0, 10
 ";
         $dao =& CRM_Core_DAO::executeQuery( $query, $params );

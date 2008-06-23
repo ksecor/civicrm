@@ -466,7 +466,7 @@ WHERE {$whereClause}
         if ( $getRecords ) {
 $query = "
 SELECT p.creator_pledge_desc, p.id
-FROM civicrm_pledge p
+FROM civicrm_pb_pledge p
 WHERE {$whereClause}
 ";
             $nullArray = array( );
