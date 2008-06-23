@@ -77,7 +77,7 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
 
         case 'event':
             return $this->event( $config );
-        
+            
         case 'eventType':
             return $this->eventType( $config );
 
@@ -118,6 +118,9 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
         case 'permlocation':
             return $this->getPermissionedLocation( $config );
 
+        case 'memType':
+            return $this->getMemberTypeDefaults( $config );
+            
         default:
             return;
         }
@@ -755,9 +758,28 @@ WHERE sort_name LIKE '%$name%'";
         echo $str;
     }
 
-    function groupTree( $config ) {
+    function groupTree( $config ) 
+    {
         require_once 'CRM/Contact/BAO/GroupNestingCache.php';
         echo CRM_Contact_BAO_GroupNestingCache::json( );
     }
 
+    /**
+     * Function to setDefaults according to membership type
+     */
+    function getMemberTypeDefaults( $config ) 
+    {
+        require_once 'CRM/Utils/Type.php';
+        $memType  = CRM_Utils_Type::escape( $_GET['mtype'], 'Integer') ; 
+        
+        $contributionType = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', 
+                                                         $memType, 
+                                                         'contribution_type_id' );
+        
+        $totalAmount = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', 
+                                                    $memType, 
+                                                    'minimum_fee' );
+
+        echo $contributionType . "^A" . $totalAmount;
+    }
 }
