@@ -8,7 +8,7 @@ dojo.require("dojo.parser");
 dojo.require("dijit.InlineEditBox");
 dojo.require("dijit.form.TextBox");
 function myHandler(field, value) {
-    var dataUrl = {/literal}"{crmURL p=civicrm/ajax/summary h=0 q='cid=102&field='}"{literal} + field + '&value=' + value;
+    var dataUrl = {/literal}"{crmURL p=civicrm/ajax/summary h=0 q='cid='}{$contactId}"{literal} + '&field=' + field + '&value=' + value;
     
     var result = dojo.xhrPost({
         url: dataUrl,
