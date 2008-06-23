@@ -34,7 +34,7 @@
 
         {if $action ne 1 and $action ne 2}
 	    <div class="action-link">
-    	<a href="{crmURL q="action=add&reset=1&pp=PayPal"}" id="newPaymentProcessor">&raquo; {ts}New Payment Processor{/ts}</a>
+    	<a href="{crmURL q="action=add&reset=1&pp=PayPal"}" id="newPaymentProcessor" class="button"><span>&raquo; {ts}New Payment Processor{/ts}</span></a>
         </div>
         {/if}
 </div>

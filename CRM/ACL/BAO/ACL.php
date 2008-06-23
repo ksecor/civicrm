@@ -740,7 +740,7 @@ SELECT g.where_clause, g.select_tables, g.where_tables
 
         // call the hook to get additional whereClauses
         require_once 'CRM/Utils/Hook.php';
-        CRM_Utils_Hook::aclClause( $type, $tables, $whereTables, $contactID, $whereClause );
+        CRM_Utils_Hook::aclWhereClause( $type, $tables, $whereTables, $contactID, $whereClause );
 
         if ( empty( $whereClause ) ) {
             $whereClause = ' ( 0 ) ';
@@ -758,14 +758,11 @@ SELECT g.where_clause, g.select_tables, g.where_tables
         $acls =& CRM_ACL_BAO_Cache::build( $contactID );
 
         $ids  = array( );
-        if ( empty( $acls ) ) {
-            return $ids;
-        }
-        
-        $aclKeys = array_keys( $acls );
-        $aclKeys = implode( ',', $aclKeys );
+        if ( ! empty( $acls ) ) {
+            $aclKeys = array_keys( $acls );
+            $aclKeys = implode( ',', $aclKeys );
 
-        $query = "
+            $query = "
 SELECT   a.operation, a.object_id
   FROM   civicrm_acl_cache c, civicrm_acl a
  WHERE   c.acl_id       =  a.id
@@ -774,36 +771,35 @@ SELECT   a.operation, a.object_id
    AND   a.id        IN ( $aclKeys )
 ORDER BY a.object_id
 ";
-        $params = array( 1 => array( $tableName, 'String' ) );
-
-        // CRM_Core_Error::debug( $query, $params );
-
-        $dao =& CRM_Core_DAO::executeQuery( $query, $params );
-
-
-        while ( $dao->fetch( ) ) {
-            if ( $dao->object_id ) {
-                if ( $type == CRM_ACL_API::VIEW ||
-                     ( $type == CRM_ACL_API::EDIT &&
-                       $dao->operation == 'Edit' || $dao->operation == 'All' ) ) {
-                    $ids[] = $dao->object_id;
-                }
-            } else {
-                // this user has got the permission for all objects of this type
-                if ( $type == CRM_ACL_API::VIEW ||
-                     ( $type == CRM_ACL_API::EDIT &&
-                       $dao->operation == 'Edit' || $dao->operation == 'All' ) ) {
-                    if ( ! empty( $allGroups ) ) {
-                        return array_keys( $allGroups );
-                    } else {
-                        return array( );
+            $params = array( 1 => array( $tableName, 'String' ) );
+            $dao =& CRM_Core_DAO::executeQuery( $query, $params );
+            while ( $dao->fetch( ) ) {
+                if ( $dao->object_id ) {
+                    if ( $type == CRM_ACL_API::VIEW ||
+                         ( $type == CRM_ACL_API::EDIT &&
+                           $dao->operation == 'Edit' || $dao->operation == 'All' ) ) {
+                        $ids[] = $dao->object_id;
+                    }
+                } else {
+                    // this user has got the permission for all objects of this type
+                    if ( $type == CRM_ACL_API::VIEW ||
+                         ( $type == CRM_ACL_API::EDIT &&
+                           $dao->operation == 'Edit' || $dao->operation == 'All' ) ) {
+                        foreach ( $allGroups as $id => $dontCare ) {
+                            $ids[] = $id;
+                        }
+                        break;
                     }
                 }
             }
         }
+
+        require_once 'CRM/Utils/Hook.php';
+        CRM_Utils_Hook::aclGroup( $type, $contactID, $tableName, $allGroups, $ids );
         
         return $ids;
     }
+
     /**
     * Function to delete ACL records 
      * 

@@ -6,13 +6,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2007-04-18 07:35+0200\n"
-"PO-Revision-Date: 2007-09-28 15:11-0700\n"
+"PO-Revision-Date: 2008-06-22 14:56-0700\n"
 "Last-Translator: Martin Bozic <martin.bozic@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Pootle 1.0.1\n"
+"X-Generator: Pootle 1.0.2\n"
 
 msgid "Alabama"
 msgstr "Alabama"
@@ -9054,460 +9054,460 @@ msgid "Tristan da Cunha"
 msgstr ""
 
 msgid "Ajdovscina"
-msgstr ""
+msgstr "Ajdovščina"
 
 msgid "Beltinci"
-msgstr ""
+msgstr "Beltinci"
 
 msgid "Benedikt"
-msgstr ""
+msgstr "Benedikt"
 
 msgid "Bistrica ob Sotli"
-msgstr ""
+msgstr "Bistrica ob Sotli"
 
 msgid "Bled"
-msgstr ""
+msgstr "Bled"
 
 msgid "Bloke"
-msgstr ""
+msgstr "Bloke"
 
 msgid "Bohinj"
-msgstr ""
+msgstr "Bohinj"
 
 msgid "Borovnica"
-msgstr ""
+msgstr "Borovnica"
 
 msgid "Bovec"
-msgstr ""
+msgstr "Bovec"
 
 msgid "Braslovce"
-msgstr ""
+msgstr "Braslovče"
 
 msgid "Brda"
-msgstr ""
+msgstr "Brda"
 
 msgid "Brezovica"
-msgstr ""
+msgstr "Brezovica"
 
 msgid "Brezica"
-msgstr ""
+msgstr "Brežica"
 
 msgid "Cankova"
-msgstr ""
+msgstr "Cankova"
 
 msgid "Celje"
-msgstr ""
+msgstr "Celje"
 
 msgid "Cerklje na Gorenjskem"
-msgstr ""
+msgstr "Cerklje na Gorenjskem"
 
 msgid "Cerknica"
-msgstr ""
+msgstr "Cerknica"
 
 msgid "Cerkno"
-msgstr ""
+msgstr "Cerkno"
 
 msgid "Cerkvenjak"
-msgstr ""
+msgstr "Cerkvenjak"
 
 msgid "Crensovci"
-msgstr ""
+msgstr "Črešnovci"
 
 msgid "Crna na Koroskem"
-msgstr ""
+msgstr "Črna na Koroškem"
 
 msgid "Crnomelj"
-msgstr ""
+msgstr "Črnomelj"
 
 msgid "Destrnik"
-msgstr ""
+msgstr "Destrnik"
 
 msgid "Divaca"
-msgstr ""
+msgstr "Divača"
 
 msgid "Dobje"
-msgstr ""
+msgstr "Dobje"
 
 msgid "Dobrepolje"
-msgstr ""
+msgstr "Dobrepolje"
 
 msgid "Dobrna"
-msgstr ""
+msgstr "Dobrna"
 
 msgid "Dobrova-Polhov Gradec"
-msgstr ""
+msgstr "Dobrova - Polhov Gradec"
 
 msgid "Dobrovnik"
-msgstr ""
+msgstr "Dobrovnik"
 
 msgid "Dol pri Ljubljani"
-msgstr ""
+msgstr "Dol pri Ljubljani"
 
 msgid "Dolenjske Toplice"
-msgstr ""
+msgstr "Dolenjske Toplice"
 
 msgid "Domzale"
-msgstr ""
+msgstr "Domžale"
 
 msgid "Dornava"
-msgstr ""
+msgstr "Dornava"
 
 msgid "Dravograd"
-msgstr ""
+msgstr "Dravograd"
 
 msgid "Duplek"
-msgstr ""
+msgstr "Duplek"
 
 msgid "Gorenja vas-Poljane"
-msgstr ""
+msgstr "Gorenja vas - Poljane"
 
 msgid "Gorsnica"
-msgstr ""
+msgstr "Gorišnica"
 
 msgid "Gornja Radgona"
-msgstr ""
+msgstr "Gornja Radgona"
 
 msgid "Gornji Grad"
-msgstr ""
+msgstr "Gornji Grad"
 
 msgid "Gornji Petrovci"
-msgstr ""
+msgstr "Gornji Petrovci"
 
 msgid "Grad"
-msgstr ""
+msgstr "Grad"
 
 msgid "Grosuplje"
-msgstr ""
+msgstr "Grosuplje"
 
 msgid "Hajdina"
-msgstr ""
+msgstr "Hajdina"
 
 msgid "Hoce-Slivnica"
-msgstr ""
+msgstr "Hoče - Slivnica"
 
 msgid "Hodos"
-msgstr ""
+msgstr "Hodoš"
 
 msgid "Jorjul"
-msgstr ""
+msgstr "Horjul"
 
 msgid "Hrastnik"
-msgstr ""
+msgstr "Hrastnik"
 
 msgid "Hrpelje-Kozina"
-msgstr ""
+msgstr "Hrpelje - Kozina"
 
 msgid "Idrija"
-msgstr ""
+msgstr "Idrija"
 
 msgid "Ig"
-msgstr ""
+msgstr "Ig"
 
 msgid "IIrska Bistrica"
-msgstr ""
+msgstr "Ilirska Bistrica"
 
 msgid "Ivancna Gorica"
-msgstr ""
+msgstr "Ivančna Gorica"
 
 msgid "Izola"
-msgstr ""
+msgstr "Izola"
 
 msgid "Jesenice"
-msgstr ""
+msgstr "Jesenice"
 
 msgid "Jezersko"
-msgstr ""
+msgstr "Jezersko"
 
 msgid "Jursinci"
-msgstr ""
+msgstr "Juršinci"
 
 msgid "Kamnik"
-msgstr ""
+msgstr "Kamnik"
 
 msgid "Kanal"
-msgstr ""
+msgstr "Kanal ob Soči"
 
 msgid "Kidricevo"
-msgstr ""
+msgstr "Kidričevo"
 
 msgid "Kobarid"
-msgstr ""
+msgstr "Kobarid"
 
 msgid "Kobilje"
-msgstr ""
+msgstr "Kobilje"
 
 msgid "Jovevje"
-msgstr ""
+msgstr "Kočevje"
 
 msgid "Komen"
-msgstr ""
+msgstr "Komen"
 
 msgid "Komenda"
-msgstr ""
+msgstr "Komenda"
 
 msgid "Koper"
-msgstr ""
+msgstr "Koper"
 
 msgid "Kostel"
-msgstr ""
+msgstr "Kostel"
 
 msgid "Kozje"
-msgstr ""
+msgstr "Kozje"
 
 msgid "Kranj"
-msgstr ""
+msgstr "Kranj"
 
 msgid "Kranjska Gora"
-msgstr ""
+msgstr "Kranjska Gora"
 
 msgid "Krizevci"
-msgstr ""
+msgstr "Križevci"
 
 msgid "Krsko"
-msgstr ""
+msgstr "Krško"
 
 msgid "Kungota"
-msgstr ""
+msgstr "Kungota"
 
 msgid "Kuzma"
-msgstr ""
+msgstr "Kuzma"
 
 msgid "Lasko"
-msgstr ""
+msgstr "Laško"
 
 msgid "Lenart"
-msgstr ""
+msgstr "Lenart"
 
 msgid "Lendava"
-msgstr ""
+msgstr "Lendava"
 
 msgid "Litija"
-msgstr ""
+msgstr "Litija"
 
 msgid "Ljubljana"
-msgstr ""
+msgstr "Ljubljana"
 
 msgid "Ljubno"
-msgstr ""
+msgstr "Ljubno"
 
 msgid "Ljutomer"
-msgstr ""
+msgstr "Ljutomer"
 
 msgid "Logatec"
-msgstr ""
+msgstr "Logatec"
 
 msgid "Loska dolina"
-msgstr ""
+msgstr "Loška Dolina"
 
 msgid "Loski Potok"
-msgstr ""
+msgstr "Loški Potok"
 
 msgid "Lovrenc na Pohorju"
-msgstr ""
+msgstr "Lovrenc na Pohorju"
 
 msgid "Luce"
-msgstr ""
+msgstr "Luče"
 
 msgid "Lukovica"
-msgstr ""
+msgstr "Lukovica"
 
 msgid "Majsperk"
-msgstr ""
+msgstr "Majšperk"
 
 msgid "Maribor"
-msgstr ""
+msgstr "Maribor"
 
 msgid "Markovci"
-msgstr ""
+msgstr "Markovci"
 
 msgid "Medvode"
-msgstr ""
+msgstr "Medvode"
 
 msgid "Menges"
-msgstr ""
+msgstr "Mengeš"
 
 msgid "Metlika"
-msgstr ""
+msgstr "Metlika"
 
 msgid "Mezica"
-msgstr ""
+msgstr "Mežica"
 
 msgid "Miklavz na Dravskern polju"
-msgstr ""
+msgstr "Miklavž na Dravskem polju"
 
 msgid "Miren-Kostanjevica"
-msgstr ""
+msgstr "Miren - Kostanjevica"
 
 msgid "Mirna Pec"
-msgstr ""
+msgstr "Mirna Peč"
 
 msgid "Mislinja"
-msgstr ""
+msgstr "Mislinja"
 
 msgid "Moravce"
-msgstr ""
+msgstr "Moravče"
 
 msgid "Moravske Toplice"
-msgstr ""
+msgstr "Moravske Toplice"
 
 msgid "Mozirje"
-msgstr ""
+msgstr "Mozirje"
 
 msgid "Murska Sobota"
-msgstr ""
+msgstr "Murska Sobota"
 
 msgid "Muta"
-msgstr ""
+msgstr "Muta"
 
 msgid "Naklo"
-msgstr ""
+msgstr "Naklo"
 
 msgid "Nazarje"
-msgstr ""
+msgstr "Nazarje"
 
 msgid "Nova Gorica"
-msgstr ""
+msgstr "Nova Gorica"
 
 msgid "Nova mesto"
-msgstr ""
+msgstr "Novo mesto"
 
 msgid "Sveta Ana"
-msgstr ""
+msgstr "Sveta Ana"
 
 msgid "Sveti Andraz v Slovenskih goricah"
-msgstr ""
+msgstr "Sveti Andraž v Slovenskih goricah"
 
 msgid "Sveti Jurij"
-msgstr ""
+msgstr "Sveti Jurij ob Ščavnici"
 
 msgid "Salovci"
-msgstr ""
+msgstr "Šalovci"
 
 msgid "Sempeter-Vrtojba"
-msgstr ""
+msgstr "Šempeter - Vrtojba"
 
 msgid "Sencur"
-msgstr ""
+msgstr "Šenčur"
 
 msgid "Sentilj"
-msgstr ""
+msgstr "Šentilj"
 
 msgid "Sentjernej"
-msgstr ""
+msgstr "Šentjernej"
 
 msgid "Sentjur pri Celju"
-msgstr ""
+msgstr "Šentjur pri Celju"
 
 msgid "Skocjan"
-msgstr ""
+msgstr "Škocjan"
 
 msgid "Skofja Loka"
-msgstr ""
+msgstr "Škofja Loka"
 
 msgid "Skoftjica"
-msgstr ""
+msgstr "Škofljica"
 
 msgid "Smarje pri Jelsah"
-msgstr ""
+msgstr "Šmarje pri Jelšah"
 
 msgid "Smartno ob Paki"
-msgstr ""
+msgstr "Šmartno ob Paki"
 
 msgid "Smartno pri Litiji"
-msgstr ""
+msgstr "Šmartno pri Litiji"
 
 msgid "Sostanj"
-msgstr ""
+msgstr "Šoštanj"
 
 msgid "Store"
-msgstr ""
+msgstr "Štore"
 
 msgid "Tabor"
-msgstr ""
+msgstr "Tabor"
 
 msgid "Tisina"
-msgstr ""
+msgstr "Tišina"
 
 msgid "Tolmin"
-msgstr ""
+msgstr "Tolmin"
 
 msgid "Trbovje"
-msgstr ""
+msgstr "Trbovlje"
 
 msgid "Trebnje"
-msgstr ""
+msgstr "Trebnje"
 
 msgid "Trnovska vas"
-msgstr ""
+msgstr "Trnovska vas"
 
 msgid "Trzic"
-msgstr ""
+msgstr "Tržič"
 
 msgid "Trzin"
-msgstr ""
+msgstr "Trzin"
 
 msgid "Turnisce"
-msgstr ""
+msgstr "Turnišče"
 
 msgid "Velenje"
-msgstr ""
+msgstr "Velenje"
 
 msgid "Velika Polana"
-msgstr ""
+msgstr "Velika Polana"
 
 msgid "Velika Lasce"
-msgstr ""
+msgstr "Velike Lašče"
 
 msgid "Verzej"
-msgstr ""
+msgstr "Veržej"
 
 msgid "Videm"
-msgstr ""
+msgstr "Videm"
 
 msgid "Vipava"
-msgstr ""
+msgstr "Vipava"
 
 msgid "Vitanje"
-msgstr ""
+msgstr "Vitanje"
 
 msgid "Vojnik"
-msgstr ""
+msgstr "Vojnik"
 
 msgid "Vransko"
-msgstr ""
+msgstr "Vransko"
 
 msgid "Vrhnika"
-msgstr ""
+msgstr "Vrhnika"
 
 msgid "Vuzenica"
-msgstr ""
+msgstr "Vuzenica"
 
 msgid "Zagorje ob Savi"
-msgstr ""
+msgstr "Zagorje ob Savi"
 
 msgid "Zavrc"
-msgstr ""
+msgstr "Zavrč"
 
 msgid "Zrece"
-msgstr ""
+msgstr "Zreče"
 
 msgid "Zalec"
-msgstr ""
+msgstr "Žalec"
 
 msgid "Zelezniki"
-msgstr ""
+msgstr "Železniki"
 
 msgid "Zetale"
-msgstr ""
+msgstr "Žetale"
 
 msgid "Ziri"
-msgstr ""
+msgstr "Žiri"
 
 msgid "Zirovnica"
-msgstr ""
+msgstr "Žirovnica"
 
 msgid "Zuzemberk"
-msgstr ""
+msgstr "Žužemberk"
 
 msgid "Banskobystrický kraj"
 msgstr ""

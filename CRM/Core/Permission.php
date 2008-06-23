@@ -167,6 +167,11 @@ class CRM_Core_Permission {
             return array_keys( $events );
         }
 
+        if ( $type == CRM_Core_Permission::VIEW &&
+             self::check( 'view event info' ) ) {
+            return array_keys( $events );
+        }
+
         require_once 'CRM/ACL/API.php';
         $permissionedEvents = CRM_ACL_API::group( $type, null, 'civicrm_event', $events );
         if ( ! $eventID ) {
@@ -251,5 +256,43 @@ class CRM_Core_Permission {
                                          $item['access_arguments'] );
         }
     }
-    
+
+    static function &basicPermissions( ) {
+        static $permissions = null;
+
+        if ( ! $permissions ) {
+            $permissions = 
+                array(
+                      'add contacts'               => ts( 'add contacts' ),
+                      'view all contacts'          => ts( 'view all contacts' ),
+                      'edit all contacts'          => ts( 'edit all contacts' ),
+                      'import contacts'            => ts( 'import contacts' ),
+                      'edit groups'                => ts( 'edit groups' ),
+                      'administer CiviCRM'         => ts( 'administer CiviCRM' ),
+                      'access uploaded files'      => ts( 'access uploaded files' ),
+                      'profile listings and forms' => ts( 'profile listings and forms' ),
+                      'access all custom data'     => ts( 'access all custom data' ),
+                      'view all activities'        => ts( 'view all activities' ),
+                      'access CiviCRM'             => ts( 'access CiviCRM' ),
+                      'access Contact Dashboard'   => ts( 'access Contact Dashboard' ),
+                      );
+
+            $config = CRM_Core_Config::singleton( );
+            require_once 'CRM/Core/Component.php';
+            $components = CRM_Core_Component::getEnabledComponents();
+            foreach ( $components as $comp ) {
+                $perm = $comp->getPermissions( );
+                if ( $perm ) {
+                    sort( $perm );
+                    foreach ( $perm as $p ) {
+                        $permissions[$p] = $p;
+                    }
+                }
+            }
+            asort( $permissions );
+        }
+
+        return $permissions;
+    }
+
 }

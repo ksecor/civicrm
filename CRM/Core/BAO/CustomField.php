@@ -69,20 +69,20 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
      */
     static function &dataType()
     {
-        if (!(self::$_dataType)) {
+        if ( !(self::$_dataType) ) {
             self::$_dataType = array(
-                'String'        => ts('Alphanumeric'),
-                'Int'           => ts('Integer'),
-                'Float'         => ts('Number'),
-                'Money'         => ts('Money'),
-                'Memo'          => ts('Note'),
-                'Date'          => ts('Date'),
-                'Boolean'       => ts('Yes or No'),
-                'StateProvince' => ts('State/Province'),
-                'Country'       => ts('Country'),
-                'File'          => ts('File'),
-                'Link'          => ts('Link')
-            );
+                                     'String'        => ts('Alphanumeric'),
+                                     'Int'           => ts('Integer'),
+                                     'Float'         => ts('Number'),
+                                     'Money'         => ts('Money'),
+                                     'Memo'          => ts('Note'),
+                                     'Date'          => ts('Date'),
+                                     'Boolean'       => ts('Yes or No'),
+                                     'StateProvince' => ts('State/Province'),
+                                     'Country'       => ts('Country'),
+                                     'File'          => ts('File'),
+                                     'Link'          => ts('Link')
+                                     );
         }
         return self::$_dataType;
     }
@@ -104,7 +104,6 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
         $customFieldBAO->copyValues($params);
         return $customFieldBAO->save();
     }
-
 
     /**
      * Takes a bunch of params that are needed to match certain criteria and
@@ -427,7 +426,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             //added for select multiple
         case 'Multi-Select':
             $selectOption =& CRM_Core_OptionGroup::valuesByID( $field->option_group_id );
-            if ( $search ) {
+            if ( $search &&
+                 count( $selectOption ) > 1 ) {
                 $selectOption['CiviCRM_OP_OR'] = ts( 'Use SQL OR' );
             }
             $qf->addElement('select', $elementName, $label, $selectOption,  array("size"=>"5","multiple"));
@@ -443,7 +443,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             foreach ($customOption as $v => $l) {
                 $check[] =& $qf->createElement('checkbox', $v, null, $l); 
             }
-            if ( $search ) {
+            if ( $search &&
+                 count( $check ) > 1 ) {
                 $check[] =& $qf->createElement('checkbox', 'CiviCRM_OP_OR', null, ts( 'Use SQL OR' ) ); 
             }
             $qf->addGroup($check, $elementName, $label);
@@ -885,8 +886,9 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                                                          'id' );
                 $result['file_id'] = $fileID;
                 
-                if ( $fileType == "image/jpeg" ||
-                     $fileType == "image/gif"  ||
+                if ( $fileType == "image/jpeg"  ||
+                     $fileType == "image/pjpeg" ||
+                     $fileType == "image/gif"   ||
                      $fileType == "image/png" ) { 
                     $url = CRM_Utils_System::url( 'civicrm/file', "reset=1&id=$fileID&eid=$contactID" );
                     $result['file_url'] = "<a href='javascript:popUp(\"$url\");'><img src=\"$url\" width=100 height=100/></a>";

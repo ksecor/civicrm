@@ -9,6 +9,7 @@ INSERT INTO civicrm_component (name, namespace) VALUES ('CiviContribute', 'CRM_C
 INSERT INTO civicrm_component (name, namespace) VALUES ('CiviMember', 'CRM_Member' );
 INSERT INTO civicrm_component (name, namespace) VALUES ('CiviMail', 'CRM_Mailing' );
 INSERT INTO civicrm_component (name, namespace) VALUES ('CiviGrant', 'CRM_Grant' );
+INSERT INTO civicrm_component (name, namespace) VALUES ('PledgeBank', 'CRM_PledgeBank' );
 
 INSERT INTO civicrm_address ( contact_id, location_type_id, is_primary, is_billing, street_address, street_number, street_number_suffix, street_number_predirectional, street_name, street_type, street_number_postdirectional, street_unit, supplemental_address_1, supplemental_address_2, supplemental_address_3, city, county_id, state_province_id, postal_code_suffix, postal_code, usps_adc, country_id, geo_code_1, geo_code_2, timezone)
       VALUES
@@ -326,12 +327,12 @@ VALUES
   (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_Sample'               , 1, 'CRM_Contact_Form_Search_Custom_Sample'      , NULL, 0, NULL, 1, '{ts escape="sql"}Household Name and State{/ts}', 0, 0, 1, NULL),
   (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_ContributionAggregate', 2, 'CRM_Contact_Form_Search_Custom_ContributionAggregate', NULL, 0, NULL, 2, '{ts escape="sql"}Contribution Aggregate{/ts}', 0, 0, 1, NULL),
   (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_Basic'                , 3, 'CRM_Contact_Form_Search_Custom_Basic'       , NULL, 0, NULL, 3, '{ts escape="sql"}Basic Search{/ts}', 0, 0, 1, NULL),
-  (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_Group'                , 4, 'CRM_Contact_Form_Search_Custom_Group'       , NULL, 0, NULL, 4, '{ts escape="sql"}Include / Exclude Contacts in a Group{/ts}', 0, 0, 1, NULL),
+  (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_Group'                , 4, 'CRM_Contact_Form_Search_Custom_Group'       , NULL, 0, NULL, 4, '{ts escape="sql"}Include / Exclude Contacts in a Group / Tag{/ts}', 0, 0, 1, NULL),
   (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_PostalMailing'        , 5, 'CRM_Contact_Form_Search_Custom_PostalMailing', NULL, 0, NULL, 5, '{ts escape="sql"}Postal Mailing{/ts}', 0, 0, 1, NULL),
   (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_Proximity'            , 6, 'CRM_Contact_Form_Search_Custom_Proximity', NULL, 0, NULL, 6, '{ts escape="sql"}Proximity Search{/ts}', 0, 0, 1, NULL),
   (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_EventAggregate', 7, 'CRM_Contact_Form_Search_Custom_EventAggregate', NULL, 0, NULL, 7, '{ts escape="sql"}Event Aggregate{/ts}', 0, 0, 1, NULL),
   (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_ActivitySearch', 8, 'CRM_Contact_Form_Search_Custom_ActivitySearch', NULL, 0, NULL, 8, '{ts escape="sql"}Activity Search{/ts}', 0, 0, 1, NULL),
-  (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_PriceSet', 9, 'CRM_Contact_Form_Search_Custom_PriceSet', NULL, 0, NULL, 9, '{ts escape="sql"}Price Set Details for Event Particiant{/ts}', 0, 0, 1, NULL),
+  (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_PriceSet', 9, 'CRM_Contact_Form_Search_Custom_PriceSet', NULL, 0, NULL, 9, '{ts escape="sql"}Price Set Details for Event Participants{/ts}', 0, 0, 1, NULL),
 
   (@option_group_id_acs, '{ts escape="sql"}Scheduled{/ts}',  1, 'Scheduled',  NULL, 0, 1,    1, NULL, 0, 1, 1, NULL),
   (@option_group_id_acs, '{ts escape="sql"}Completed{/ts}',  2, 'Completed',  NULL, 0, NULL, 2, NULL, 0, 1, 1, NULL),
@@ -439,45 +440,38 @@ VALUES
 
 -- the fuzzy default dedupe rules
 INSERT INTO civicrm_dedupe_rule_group (contact_type, threshold, level, is_default) VALUES ('Individual', 20, 'Fuzzy', true);
-
-SELECT @dedupe_rule_group_id := MAX(id) FROM civicrm_dedupe_rule_group;
-
+SELECT @drgid := MAX(id) FROM civicrm_dedupe_rule_group;
 INSERT INTO civicrm_dedupe_rule (dedupe_rule_group_id, rule_table, rule_field, rule_weight)
-VALUES
-  (@dedupe_rule_group_id, 'civicrm_contact', 'first_name', 5),
-  (@dedupe_rule_group_id, 'civicrm_contact', 'last_name',  7),
-  (@dedupe_rule_group_id, 'civicrm_email'  , 'email',     10);
+VALUES (@drgid, 'civicrm_contact', 'first_name', 5),
+       (@drgid, 'civicrm_contact', 'last_name',  7),
+       (@drgid, 'civicrm_email'  , 'email',     10);
 
 INSERT INTO civicrm_dedupe_rule_group (contact_type, threshold, level, is_default) VALUES ('Organization', 10, 'Fuzzy', true);
-
-SELECT @dedupe_rule_group_id := MAX(id) FROM civicrm_dedupe_rule_group;
-
+SELECT @drgid := MAX(id) FROM civicrm_dedupe_rule_group;
 INSERT INTO civicrm_dedupe_rule (dedupe_rule_group_id, rule_table, rule_field, rule_weight)
-VALUES
-  (@dedupe_rule_group_id, 'civicrm_contact', 'organization_name', 5),
-  (@dedupe_rule_group_id, 'civicrm_email'  , 'email',             5);
+VALUES (@drgid, 'civicrm_contact', 'organization_name', 10),
+       (@drgid, 'civicrm_email'  , 'email',             10);
 
 INSERT INTO civicrm_dedupe_rule_group (contact_type, threshold, level, is_default) VALUES ('Household', 10, 'Fuzzy', true);
-
-SELECT @dedupe_rule_group_id := MAX(id) FROM civicrm_dedupe_rule_group;
-
+SELECT @drgid := MAX(id) FROM civicrm_dedupe_rule_group;
 INSERT INTO civicrm_dedupe_rule (dedupe_rule_group_id, rule_table, rule_field, rule_weight)
-VALUES
-  (@dedupe_rule_group_id, 'civicrm_contact', 'household_name', 5),
-  (@dedupe_rule_group_id, 'civicrm_email'  , 'email',          5);
+VALUES (@drgid, 'civicrm_contact', 'household_name', 10),
+       (@drgid, 'civicrm_email'  , 'email',          10);
 
 -- the strict dedupe rules
 INSERT INTO civicrm_dedupe_rule_group (contact_type, threshold, level, is_default) VALUES ('Individual', 10, 'Strict', true);
-SELECT @dedupe_rule_group_id := MAX(id) FROM civicrm_dedupe_rule_group;
+SELECT @drgid := MAX(id) FROM civicrm_dedupe_rule_group;
 INSERT INTO civicrm_dedupe_rule (dedupe_rule_group_id, rule_table, rule_field, rule_weight)
-VALUES (@dedupe_rule_group_id, 'civicrm_email', 'email', 10);
+VALUES (@drgid, 'civicrm_email', 'email', 10);
 
 INSERT INTO civicrm_dedupe_rule_group (contact_type, threshold, level, is_default) VALUES ('Organization', 10, 'Strict', true);
-SELECT @dedupe_rule_group_id := MAX(id) FROM civicrm_dedupe_rule_group;
+SELECT @drgid := MAX(id) FROM civicrm_dedupe_rule_group;
 INSERT INTO civicrm_dedupe_rule (dedupe_rule_group_id, rule_table, rule_field, rule_weight)
-VALUES (@dedupe_rule_group_id, 'civicrm_email', 'email', 10);
+VALUES (@drgid, 'civicrm_contact', 'organization_name', 10),
+       (@drgid, 'civicrm_email'  , 'email',             10);
 
 INSERT INTO civicrm_dedupe_rule_group (contact_type, threshold, level, is_default) VALUES ('Household', 10, 'Strict', true);
-SELECT @dedupe_rule_group_id := MAX(id) FROM civicrm_dedupe_rule_group;
+SELECT @drgid := MAX(id) FROM civicrm_dedupe_rule_group;
 INSERT INTO civicrm_dedupe_rule (dedupe_rule_group_id, rule_table, rule_field, rule_weight)
-VALUES (@dedupe_rule_group_id, 'civicrm_email', 'email', 10);
+VALUES (@drgid, 'civicrm_contact', 'household_name', 10),
+       (@drgid, 'civicrm_email'  , 'email',          10);

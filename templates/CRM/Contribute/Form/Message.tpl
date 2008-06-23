@@ -22,8 +22,25 @@
 {if $formValues.trxn_id}
 {ts}Transaction ID{/ts}: {$formValues.trxn_id}
 {/if}
-{if $showCustom}
 
+{if $ccContribution}
+===========================================================
+{ts}Billing Name and Address{/ts}
+
+===========================================================
+{$name}
+{$address}
+
+===========================================================
+{ts}Credit or Debit Card Information{/ts}
+
+===========================================================
+{$credit_card_type}
+{$credit_card_number}
+{ts}Expires{/ts}: {$credit_card_exp_date|truncate:7:''|crmDate}
+{/if}
+
+{if $showCustom}
 ===========================================================
 {ts}Additional Information{/ts}
 

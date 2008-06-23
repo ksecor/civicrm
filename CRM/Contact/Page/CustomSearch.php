@@ -70,17 +70,14 @@ AND    v.is_active = 1
         $dao = CRM_Core_DAO::executeQuery( $sql,
                                            CRM_Core_DAO::$_nullArray );
 
-        $links = self::links( );
         while ( $dao->fetch( ) ) {
             $row = array( );
             if ( trim( $dao->description ) ) {
-                $row['name']   = $dao->description;
+                $row['name']    = $dao->description;
             } else {
-                $row['name']   = $dao->label;
+                $row['name']    = $dao->label;
             }
-            $row['action'] = CRM_Core_Action::formLink( $links,
-                                                        false,
-                                                        array( 'id' => $dao->value ) );
+            $row['csid']        = $dao->value;
             $rows[] = $row;
         }
         $this->assign('rows', $rows);
@@ -99,29 +96,6 @@ AND    v.is_active = 1
 
         $this->assign( 'action', $action );
         $this->browse( );
-    }
-
-
-    /**
-     * Get action Links
-     *
-     * @return array (reference) of action links
-     * @static
-     */
-    static function &links()
-    {
-
-        if (!(self::$_links)) {
-            self::$_links = array(
-                                  CRM_Core_Action::VIEW   => array(
-                                                                   'name'  => ts('Run'),
-                                                                   'url'   => 'civicrm/contact/search/custom',
-                                                                   'qs'    => 'reset=1&&csid=%%id%%',
-                                                                   'title' => ts('Run')
-                                                                  ),
-                                 );
-        }
-        return self::$_links;
     }
 
 }

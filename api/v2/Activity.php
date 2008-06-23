@@ -73,12 +73,21 @@ function &civicrm_activity_create( &$params )
 
     $errors = array( );
     
-    //check for various error and required conditions
+    // check for various error and required conditions
     $errors = _civicrm_activity_check_params( $params, true ) ;
 
     if ( !empty( $errors ) ) {
         return $errors;
     }
+    
+    // processing for custom data
+    $values = array();
+    _civicrm_custom_format_params( $params, $values, 'Activity' );
+    if ( ! empty($values['custom']) ) {
+        $params['custom'] = $values['custom'];
+    }
+    
+    // create activity
     $activity = CRM_Activity_BAO_Activity::create( $params );
     $activityArray = array(); 
     _civicrm_object_to_array( $activity, $activityArray);

@@ -26,7 +26,7 @@
       <uniqueName>membership_contact_id</uniqueName>
       <type>int unsigned</type>
       <required>true</required>
-      <title>Contact ID (match to contact)</title>
+      <title>Contact ID</title>
       <headerPattern>/contact(.?id)?/i</headerPattern>
       <dataPattern>/^\d+$/</dataPattern>
       <import>true</import>

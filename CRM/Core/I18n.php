@@ -118,8 +118,8 @@ class CRM_Core_I18n
                          'th_TH' => 'ไทย',
                          'tr_TR' => 'Türkçe',
                          'uk_UA' => 'Українська',
-                         'zh_CN' => '中文 (简体字)',
-                         'zh_TW' => '中文 (繁體字)');
+                         'zh_CN' => '中文 (简体)',
+                         'zh_TW' => '中文 (繁體)');
            
             // check which ones are available; add them to $all if not there already
             $config =& CRM_Core_Config::singleton();

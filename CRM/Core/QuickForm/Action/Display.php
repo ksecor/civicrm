@@ -142,7 +142,12 @@ class CRM_Core_QuickForm_Action_Display extends CRM_Core_QuickForm_Action {
         }
 
         if ( $print ) {
-            echo $html;
+            if ( $print == CRM_Core_Smarty::PRINT_PDF ) {
+                require_once 'CRM/Utils/PDF/Utils.php';
+                CRM_Utils_PDF_Utils::domlib( $content, "{$page->_name}.pdf" );
+            } else {
+                echo $html;
+            }
             exit( );
         }
 

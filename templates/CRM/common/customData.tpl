@@ -8,8 +8,8 @@ function buildCustomData( subType )
 	show('customData');
 	
 	var type     = "{/literal}{$customDataType}{literal}";
-	
-	var dataUrl = {/literal}"{crmURL h=0 q='snippet=1&type='}"{literal} + type;
+
+	var dataUrl = {/literal}"{crmURL p=$urlPath h=0 q='snippet=1&type='}"{literal} + type;
 	
 	if ( !subType ) {
 	   var subType  = "{/literal}{$customDataSubType}{literal}";

@@ -42,7 +42,7 @@
 
         {if $action ne 1 and $action ne 2}
 	    <div class="action-link">
-    	<a href="{crmURL q="action=add&reset=1"}" id="newMembershipStatus">&raquo; {ts}New Membership Status{/ts}</a>
+    	<a href="{crmURL q="action=add&reset=1"}" id="newMembershipStatus" class="button"><span>&raquo; {ts}New Membership Status{/ts}</span></a>
         </div>
         {/if}
     </div>

@@ -88,13 +88,28 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Contact
             $individual =& new CRM_Contact_BAO_Contact();
             $individual->id = $contact->id;
             if ( $individual->find( true ) ) {
+                $useDBName = false;
+                foreach ( array( 'last', 'middle', 'first' ) as $name ) {
+                    $dbName  = "{$name}_name";
+                    $value   = $individual->$dbName;
+                    if ( ! empty( $value ) &&
+                         CRM_Utils_Array::value( 'preserveDBName', $params ) ) {
+                        // the db has name values
+                        $useDBName = true;
+                    }
+                }
+                    
                 foreach ( array( 'last', 'middle', 'first' ) as $name ) {
                     $phpName = "{$name}Name";
                     $dbName  = "{$name}_name";
                     $value   = $individual->$dbName;
-                    if ( empty( $$phpName ) &&
-                         ! CRM_Utils_Array::value( $phpName, $params ) &&
-                         ! empty( $value ) ) {
+                    if ( $useDBName ) {
+                        $params[$dbName]  = $value;
+                        $contact->$dbName = $value;
+                        $$phpName         = $value;
+                    } else if ( empty( $$phpName ) &&
+                                ! CRM_Utils_Array::value( $phpName, $params ) &&
+                                ! empty( $value ) ) {
                         $$phpName = $value;
                     }
                 }
@@ -105,7 +120,16 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Contact
                     $vals    = "{$name}es";
 
                     $value   = $individual->$dbName;
-                    if ( empty( $$phpName ) &&
+                    if ( $useDBName ) {
+                        $params[$dbName]  = $value;
+                        $contact->$dbName = $value;
+                        if ( $value ) {
+                            $temp     = $$vals;
+                            $$phpName = $temp[$value];
+                        } else {
+                            $$phpName = null;
+                        }
+                    } else if ( empty( $$phpName ) &&
                          ! isset( $params[$dbName] ) &&
                          ! empty( $value ) ) {
                         $temp = $$vals;
@@ -179,15 +203,10 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Contact
         } else if ( $contact->deceased_date ) {
             $contact->deceased_date = CRM_Utils_Date::isoToMysql( $contact->deceased_date );
         }
+
         if ( $middle_name = CRM_Utils_Array::value('middle_name', $params)) {
             $contact->middle_name = $middle_name;
         }
-
-        // commented for CRM-2550
-        // hack to make db_do save a null value to a field
-        // if ( ! $contact->birth_date ) {
-        //     $contact->birth_date = 'NULL';
-        // }
 
         return $contact;
     }

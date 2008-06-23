@@ -1,5 +1,10 @@
-    {foreach from=$lineItem item=value key=pricest}
-    {if $value neq 'skip'}	 
+    {foreach from=$lineItem item=value key=priceset}
+    {if $value neq 'skip'}
+    {if $priceset eq 0}
+    <strong>{ts}Primary Participant{/ts}</strong>
+    {else}
+    <strong>{ts}Additional Participant {$priceset}{/ts}</strong>
+    {/if}				 
     <table>
             <tr class="columnheader">
                 <th>{ts}Item{/ts}</th>

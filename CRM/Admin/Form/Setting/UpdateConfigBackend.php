@@ -51,7 +51,7 @@ class CRM_Admin_Form_Setting_UpdateConfigBackend extends CRM_Admin_Form_Setting
      * @access public
      */
     public function buildQuickForm( ) {
-        CRM_Utils_System::setTitle(ts('Settings - Update Config Backend'));
+        CRM_Utils_System::setTitle(ts('Settings - Update Directory Path and URL'));
 
         $config =& CRM_Core_Config::singleton( );
 
@@ -59,6 +59,10 @@ class CRM_Admin_Form_Setting_UpdateConfigBackend extends CRM_Admin_Form_Setting
             $this->_oldBaseURL = substr( $config->userFrameworkResourceURL,
                                          0, -45 );
         } else {
+            if ( strpos( $config->userFrameworkResourceURL,
+                         'sites/all/modules' ) == false ) {
+                CRM_Core_Error::statusBounce( ts( 'This function only works when CiviCRM is installed in sites/all/modules' ) );
+            }
             $this->_oldBaseURL = substr( $config->userFrameworkResourceURL,
                                          0, -26 );
         }
@@ -72,7 +76,7 @@ class CRM_Admin_Form_Setting_UpdateConfigBackend extends CRM_Admin_Form_Setting
                        $this->_oldBaseDir );
                                
         $this->add( 'text', 'newBaseURL', ts( 'New Base URL' ), null, true );
-        $this->add( 'text', 'newBaseDir', ts( 'New Base Dir' ), null, true );
+        $this->add( 'text', 'newBaseDir', ts( 'New Base Directory' ), null, true );
  
         $this->addFormRule( array( 'CRM_Admin_Form_Setting_UpdateConfigBackend', 'formRule' ) );
 
@@ -102,6 +106,10 @@ class CRM_Admin_Form_Setting_UpdateConfigBackend extends CRM_Admin_Form_Setting
     }
 
     function postProcess( ) {
+        // redirect to admin page after saving
+        $session =& CRM_Core_Session::singleton();
+        $session->pushUserContext( CRM_Utils_System::url( 'civicrm/admin') );
+
         $params = $this->controller->exportValues( $this->_name );
 
         $newValues = str_replace( array( $this->_oldBaseURL, $this->_oldBaseDir ),

@@ -143,9 +143,15 @@ class CRM_Event_BAO_Query
                 $query->_tables['participant_note' ] = 1;
                 $query->_whereTables['civicrm_note'] = 1;
             }
+
             if ( CRM_Utils_Array::value( 'participant_is_pay_later', $query->_returnProperties ) ) {
                 $query->_select['participant_is_pay_later']  = "civicrm_participant.is_pay_later as participant_is_pay_later";
                 $query->_element['participant_is_pay_later'] = 1;
+            }
+
+            if ( CRM_Utils_Array::value( 'participant_is_test', $query->_returnProperties ) ) {
+                $query->_select['participant_is_test']  = "civicrm_participant.is_test as participant_is_test";
+                $query->_element['participant_is_test'] = 1;
             }
         }
     }

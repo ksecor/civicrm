@@ -288,6 +288,11 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
             $relatedContactID = CRM_Utils_Array::value( 'related_contact', $params );
             if ( $relatedContactID ) {
                 $notifyURL .= "&relatedContactID=$relatedContactID";
+
+                $onBehalfDupeAlert = CRM_Utils_Array::value( 'onbehalf_dupe_alert', $params );
+                if ( $onBehalfDupeAlert ) {
+                    $notifyURL .= "&onBehalfDupeAlert=$onBehalfDupeAlert";
+                }
             }
         }
 

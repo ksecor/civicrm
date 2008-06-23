@@ -3,7 +3,7 @@
 <table class="form-layout">
     <tr>
         <td>{$form.mailing_name.label}<br />
-            {$form.mailing_name.html|crmReplace:class:twenty}<br />
+            {$form.mailing_name.html|crmReplace:class:big}<br />
             <span class="description font-italic">{ts}Complete OR partial name.{/ts}</span>
         </td>
         <td class="nowrap">{$form.mailing_from.label}<br />{$form.mailing_from.html}<br />
@@ -14,7 +14,9 @@
             {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_member_2}
             {include file="CRM/common/calendar/body.tpl" dateVar=mailing_to startDate=startYear endDate=endYear offset=5 trigger=trigger_search_member_2}
         </td> 
-        <td>{$form.buttons.html}</td>
+    </tr>
+    <tr>
+        <td>{$form.buttons.html}</td><td colspan="2"></td>
     </tr>
 </table>
 </div>

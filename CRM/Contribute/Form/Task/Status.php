@@ -29,7 +29,6 @@
  *
  * @package CRM
  * @copyright CiviCRM LLC (c) 2004-2007
- * $Id: Status.php 11513 2007-09-18 09:31:05Z lobo $
  *
  */
 
@@ -223,7 +222,7 @@ AND    co.id IN ( $contribIDs )";
 
         // get the missing pieces for each contribution
         $contribIDs = implode( ',', $this->_contributionIds );
-        $details = $this->getDetails( $contribIDs );
+        $details = self::getDetails( $contribIDs );
 
         // for each contribution id, we just call the baseIPN stuff 
         foreach ( $this->_rows as $row ) {
@@ -279,9 +278,10 @@ AND    co.id IN ( $contribIDs )";
         CRM_Core_Session::setStatus( ts('Contribution status has been updated for selected record(s).') );
     }
 
-    function &getDetails( $contributionIDs ) {
+    static function &getDetails( $contributionIDs ) {
         $query = "
 SELECT    c.id              as contribution_id,
+          c.contact_id      as contact_id     ,
           mp.membership_id  as membership_id  ,
           pp.participant_id as participant_id ,
           p.event_id        as event_id
@@ -296,6 +296,7 @@ WHERE     c.id IN ( $contributionIDs )";
                                            CRM_Core_DAO::$_nullArray );
         while ( $dao->fetch( ) ) {
             $rows[$dao->contribution_id] = array( 'component'   => $dao->participant_id ? 'event' : 'contribute',
+                                                  'contact'     => $dao->contact_id,
                                                   'membership'  => $dao->membership_id,
                                                   'participant' => $dao->participant_id,
                                                   'event'       => $dao->event_id );

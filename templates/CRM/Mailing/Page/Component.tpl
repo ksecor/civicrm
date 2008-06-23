@@ -35,7 +35,7 @@
        {if $action ne 1 and $action ne 2}
 	<br/>
        <div class="action-link">
-    	 <a href="{crmURL q="action=add&reset=1"}">&raquo; {ts}New Mailing Component{/ts}</a>
+    	 <a href="{crmURL q="action=add&reset=1"}" class="button"><span>&raquo; {ts}New Mailing Component{/ts}</span></a>
        </div>
        {/if}
     </div>

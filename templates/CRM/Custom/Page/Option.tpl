@@ -36,7 +36,7 @@
         {/strip}
         
         <div class="action-link">
-            <a href="{crmURL q="reset=1&action=add&fid=$fid"}">&raquo; {ts 1=$fieldTitle}New Option for '%1'{/ts}</a>
+            <a href="{crmURL q="reset=1&action=add&fid=$fid"}" class="button"><span>&raquo; {ts 1=$fieldTitle}New Option for '%1'{/ts}</span></a>
         </div>
 
         </div>

@@ -135,7 +135,11 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
             if ( $endDate && $endDate < $now ) {
                 $validDate = false;
             }
-            if ( $validDate ) {
+
+            // also check that the user has permission to register for this event
+            $hasPermission = CRM_Core_Permission::event( CRM_Core_Permission::EDIT,
+                                                         $this->_id );
+            if ( $validDate && $hasPermission ) {
                 if ( ! $eventFullMessage ) {
                     $registerText = ts('Register Now');
                     if ( CRM_Utils_Array::value('registration_link_text',$values['event']) ) {
@@ -145,6 +149,7 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
                     $this->assign( 'registerText', $registerText );
                     $this->assign( 'is_online_registration', $values['event']['is_online_registration'] );
                 }
+
                 // we always generate urls for the front end in joomla
                 if ( $action ==  CRM_Core_Action::PREVIEW ) {
                     $url    = CRM_Utils_System::url( 'civicrm/event/register',

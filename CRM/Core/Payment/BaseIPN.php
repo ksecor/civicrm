@@ -194,17 +194,19 @@ class CRM_Core_Payment_BaseIPN {
         }
 
         if ( ! $paymentProcessorID ) {
-            CRM_Core_Error::debug_log_message( "Could not find payment processor for contribution record: $contributionID" );
-            echo "Failure: Could not find payment processor for contribution record: $contributionID<p>";
-            return false;
+            if ( $required ) {
+                CRM_Core_Error::debug_log_message( "Could not find payment processor for contribution record: $contributionID" );
+                echo "Failure: Could not find payment processor for contribution record: $contributionID<p>";
+                return false;
+            }
+        } else {
+            require_once 'CRM/Core/BAO/PaymentProcessor.php';
+            $paymentProcessor = CRM_Core_BAO_PaymentProcessor::getPayment( $paymentProcessorID,
+                                                                           $contribution->is_test ? 'test' : 'live' );
+            
+            $ids['paymentProcessor']       =  $paymentProcessorID;
+            $objects['paymentProcessor']   =& $paymentProcessor;
         }
-
-        require_once 'CRM/Core/BAO/PaymentProcessor.php';
-        $paymentProcessor = CRM_Core_BAO_PaymentProcessor::getPayment( $paymentProcessorID,
-                                                                       $contribution->is_test ? 'test' : 'live' );
-
-        $ids['paymentProcessor']       =  $paymentProcessorID;
-        $objects['paymentProcessor']   =& $paymentProcessor;
 
         return true;
     }
@@ -383,7 +385,68 @@ class CRM_Core_Payment_BaseIPN {
 
         CRM_Core_Error::debug_log_message( "Contribution record updated successfully" );
         $transaction->commit( );
-      
+
+        self::sendMail( $input, $ids, $objects, $values, $recur, false );
+
+        CRM_Core_Error::debug_log_message( "Success: Database updated and mail sent" );
+    }
+    
+    function getBillingID( &$ids ) {
+        // get the billing location type
+        require_once "CRM/Core/PseudoConstant.php";
+        $locationTypes  =& CRM_Core_PseudoConstant::locationType( );
+        $ids['billing'] =  array_search( 'Billing',  $locationTypes );
+        if ( ! $ids['billing'] ) {
+            CRM_Core_Error::debug_log_message( ts( 'Please set a location type of %1', array( 1 => 'Billing' ) ) );
+            echo "Failure: Could not find billing location type<p>";
+            return false;
+        }
+        return true;
+    }
+
+    function sendMail( &$input, &$ids, &$objects, &$values, $recur = false, $returnMessageText = false ) {
+        $contribution =& $objects['contribution'];
+        $membership   =& $objects['membership']  ;
+        $participant  =& $objects['participant'] ;
+        $event        =& $objects['event']       ;
+
+        if ( empty( $values ) ) {
+            $values = array( );
+            if ( $input['component'] == 'contribute' ) {
+                require_once 'CRM/Contribute/BAO/ContributionPage.php';
+                CRM_Contribute_BAO_ContributionPage::setValues( $contribution->contribution_page_id, $values );
+            } else {
+                // event
+                $eventParams     = array( 'id' => $objects['event']->id );
+                $values['event'] = array( );
+                
+                require_once 'CRM/Event/BAO/Event.php';
+                CRM_Event_BAO_Event::retrieve( $eventParams, $values['event'] );
+                
+                $eventParams = array( 'event_id' => $objects['event']->id );
+                $values['event_page'] = array( );
+                
+                require_once 'CRM/Event/BAO/EventPage.php';
+                CRM_Event_BAO_EventPage::retrieve( $eventParams, $values['event_page'] );
+                
+                //get location details
+                $locationParams = array( 'entity_id' => $objects['event']->id, 'entity_table' => 'civicrm_event' );
+                require_once 'CRM/Core/BAO/Location.php';
+                require_once 'CRM/Event/Form/ManageEvent/Location.php';
+                CRM_Core_BAO_Location::getValues($locationParams, $values );
+                
+                require_once 'CRM/Core/BAO/UFJoin.php';
+                $ufJoinParams = array( 'entity_table' => 'civicrm_event',
+                                       'entity_id'    => $ids['event'],
+                                       'weight'       => 1 );
+                
+                $values['custom_pre_id'] = CRM_Core_BAO_UFJoin::findUFGroupId( $ufJoinParams );
+                
+                $ufJoinParams['weight'] = 2;
+                $values['custom_post_id'] = CRM_Core_BAO_UFJoin::findUFGroupId( $ufJoinParams );
+            }
+        }
+
         $template =& CRM_Core_Smarty::singleton( );
         //assign honor infomation to receiptmessage
         if ( $honarID = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_Contribution', $contribution->id, 'honor_contact_id' ) ) {
@@ -462,9 +525,7 @@ class CRM_Core_Payment_BaseIPN {
             $template->assign( 'location', $values['location'] );
             $template->assign( 'customPre', $values['custom_pre_id'] );
             $template->assign( 'customPost', $values['custom_post_id'] );
-            
           
-            //send confirmation mail to primary participant.
             $isTest = false;
             if ( $participant->is_test ) {
                 $isTest = true;
@@ -473,7 +534,7 @@ class CRM_Core_Payment_BaseIPN {
             require_once "CRM/Event/BAO/EventPage.php";
             //to get email of primary participant.
             $primaryEmail = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Email',  $participant->contact_id, 'email', 'contact_id' );  
-            $pramryAmount[$participant->fee_level.'-'.$primaryEmail] = $participant->fee_amount;
+            $primaryAmount[$participant->fee_level.' - '.$primaryEmail] = $participant->fee_amount;
             //build an array of cId/pId of participants
             $additionalIDs = CRM_Event_BAO_EventPage::buildCustomProfile( $participant->id, null, $ids['contact'], $isTest, true );
             unset( $additionalIDs[$participant->id] ); 
@@ -488,14 +549,15 @@ class CRM_Core_Payment_BaseIPN {
                     $additional->id = $pId;
                     $additional->contact_id = $cId; 
                     $additional->find(true);
+                    $additional->register_date = $participant->register_date;
                     $additional->status_id = 1;
                     $additionalEmail = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Email',  $additional->contact_id, 'email', 'contact_id' );  
-                    $amount[$additional->fee_level.'-'.$additionalEmail]       =  $additional->fee_amount;
-                    $pramryAmount[$additional->fee_level.'-'.$additionalEmail] =  $additional->fee_amount; 
+                    $amount[$additional->fee_level.' - '.$additionalEmail]        =  $additional->fee_amount;
+                    $primaryAmount[$additional->fee_level.' - '.$additionalEmail] =  $additional->fee_amount; 
                     $additional->save( );
                     $additional->free( );
                     $template->assign( 'amount', $amount );
-                    CRM_Event_BAO_EventPage::sendMail( $cId, $values, $pId, $isTest );
+                    CRM_Event_BAO_EventPage::sendMail( $cId, $values, $pId, $isTest, $returnMessageText );
                 } 
             }
             
@@ -507,39 +569,37 @@ class CRM_Core_Payment_BaseIPN {
             }
             $template->assign( 'isPrimary', 1 );
             $template->assign( 'amount', $primaryAmount );
-            CRM_Event_BAO_EventPage::sendMail( $ids['contact'], $values, $participant->id, $isTest );
+            return CRM_Event_BAO_EventPage::sendMail( $ids['contact'], $values, $participant->id, $isTest, $returnMessageText );
             
         } else {
             if ( $membership ) {
                 $values['membership_id'] = $membership->id;
             }
             $values['contribution_id']     = $contribution->id;
-            if ( $ids['relatedContactID'] ) {
-                $values['related_contact'] = $ids['relatedContactID'];
+            if ( $ids['related_contact'] ) {
+                $values['related_contact'] = $ids['related_contact'];
+                if ( isset($ids['onbehalf_dupe_alert']) ) {
+                    $values['onbehalf_dupe_alert'] = $ids['onbehalf_dupe_alert'];
+                }
+
+                require_once 'CRM/Core/BAO/Address.php';
+                $entityBlock = array( 'contact_id'       => $ids['contact'], 
+                                      'location_type_id' => CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_LocationType', 
+                                                                                         'Main', 'id', 'name' ) );
+                $address = CRM_Core_BAO_Address::getValues( $entityBlock );
+                $template->assign('onBehalfAddress', $address[$entityBlock['location_type_id']]['display']);
             }
-            CRM_Contribute_BAO_ContributionPage::sendMail( $ids['contact'], $values );
+
+            $isTest = false;
+            if ( $contribution->is_test ) {
+                $isTest = true;
+            }
+
+            return CRM_Contribute_BAO_ContributionPage::sendMail( $ids['contact'], $values, $isTest, $returnMessageText );
         }
-        
-        CRM_Core_Error::debug_log_message( "Success: Database updated and mail sent" );
-        
-        /* echo commented since creates problem when this method is
-           called from some other file, inside civicrm (not from files
-           in extern dir).                                            */
-        //echo "Success: Database updated<p>";
     }
-    
-    function getBillingID( &$ids ) {
-        // get the billing location type
-        require_once "CRM/Core/PseudoConstant.php";
-        $locationTypes  =& CRM_Core_PseudoConstant::locationType( );
-        $ids['billing'] =  array_search( 'Billing',  $locationTypes );
-        if ( ! $ids['billing'] ) {
-            CRM_Core_Error::debug_log_message( ts( 'Please set a location type of %1', array( 1 => 'Billing' ) ) );
-            echo "Failure: Could not find billing location type<p>";
-            return false;
-        }
-        return true;
-    }
+
+
 }
 
 

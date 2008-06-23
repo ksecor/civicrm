@@ -121,10 +121,10 @@
          {include file="CRM/UF/Form/Block.tpl" fields=$customPost}
     {/if}
 
-    {*diaplay Additional Participant Info*}
+    {*display Additional Participant Info*}
     {if $customProfile}
       <div class="header-dark">
-    	{ts}Information Of Additional Participants{/ts}
+    	{ts}Additional Participant Information{/ts}
       </div>
       {foreach from=$customProfile item=value key=name}
         <div id= hide_{$name} class="section-hidden section-hidden-border" style="clear: both;">
@@ -142,9 +142,13 @@
               <fieldset><legend>{$groupTitlePost}</legend>
               
             {/if}
-            {foreach from=$val item=v key=f}
-              <strong>{$f}</strong>  :{$v}<br />
-            {/foreach}
+              <table class="form-layout-compressed">	
+                 {foreach from=$val item=v key=f}
+ 	         <tr>
+                   <td class="labels"><strong>{$f}:</strong></td>  <td>{$v}</td>
+	         </tr>
+                 {/foreach}
+              </table>
               </fieldset>
             {/if}
             {/foreach}

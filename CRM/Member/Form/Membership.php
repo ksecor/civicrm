@@ -44,6 +44,7 @@ require_once "CRM/Core/BAO/CustomGroup.php";
  */
 class CRM_Member_Form_Membership extends CRM_Member_Form
 {
+    protected $_memType =null;
 
     public function preProcess()  
     {  
@@ -69,7 +70,8 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                                                          $this );
         
         if ( $this->_id ) {
-            $this->_memType = CRM_Core_DAO::getFieldValue("CRM_Member_DAO_Membership",$this->_id,"membership_type_id");
+            $this->_memType = CRM_Core_DAO::getFieldValue( "CRM_Member_DAO_Membership", $this->_id, 
+                                                           "membership_type_id");
         } 
         
         //check whether membership status present or not
@@ -95,7 +97,6 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
      */
     public function setDefaultValues( ) 
     {
-        
         if ( $this->_cdType ) {
             return CRM_Custom_Form_CustomData::setDefaultValues( $this );
         }
@@ -112,10 +113,9 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                 $defaults[$set_date]['d'] = $today_date['mday'];
                 $defaults[$set_date]['Y'] = $today_date['year'];
             }
-            
         }
         
-        if (is_numeric($this->_memType)) {
+        if ( is_numeric( $this->_memType ) ) {
             $defaults["membership_type_id"] = array();
             $defaults["membership_type_id"][0] =  
                 CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', 
@@ -170,9 +170,9 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         
         $this->assign( "member_is_test", CRM_Utils_Array::value('member_is_test',$defaults) );
         
-        $this->assign( 'membership_status_id', $defaults['status_id'] );
+        $this->assign( 'membership_status_id', CRM_Utils_Array::value('status_id',$defaults) );
         
-        if ( $defaults['is_pay_later'] ) {
+        if ( CRM_Utils_Array::value( 'is_pay_later', $defaults) ) {
             $this->assign( 'is_pay_later', true ); 
         }
         return $defaults;
@@ -237,7 +237,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         $sel =& $this->addElement('hierselect', 
                                   'membership_type_id', 
                                   ts('Membership Organization and Type'), 
-                                  array('onChange' => "buildCustomData( this.value );")
+                                  array('onChange' => "buildCustomData( this.value ); setPaymentBlock( this.value );")
                                   );
         
         $sel->setOptions(array($selMemTypeOrg,  $selOrgMemType));

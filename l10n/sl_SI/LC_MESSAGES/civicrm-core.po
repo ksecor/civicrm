@@ -6,14 +6,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-04-28 21:53+0200\n"
-"PO-Revision-Date: 2007-11-30 00:23-0800\n"
+"PO-Revision-Date: 2008-06-22 14:11-0700\n"
 "Last-Translator: Martin Bozic <martin.bozic@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
-"%100==4 ? 2 : 3);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || "
+"n%100==4 ? 2 : 3);\n"
 "X-Generator: Pootle 1.0.2\n"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/BAO/EntityRole.php
@@ -129,9 +129,8 @@ msgid "Role"
 msgstr "Vloga"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php
-#, fuzzy
 msgid "- select role -"
-msgstr "_-izberi vlogo-_"
+msgstr "- izberi vlogo -"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
 msgid "Everyone"
@@ -228,7 +227,7 @@ msgstr "Vsi profili"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
 msgid "All Events"
-msgstr ""
+msgstr "Vsi dogodki"
 
 # "Posebno" je problem.
 #: CRM/ACL/Form/ACL.php CRM/Contact/Page/View/CustomData.php CRM/Core/Menu.php
@@ -338,7 +337,7 @@ msgstr "Zadeva"
 
 #: CRM/Activity/BAO/Query.php CRM/Case/BAO/Query.php
 msgid "Start Date - From"
-msgstr ""
+msgstr "Začetni datum - Od"
 
 #: CRM/Activity/BAO/Query.php CRM/Activity/Form/Activity.php
 #: CRM/Case/BAO/Query.php CRM/Case/Form/Case.php
@@ -382,7 +381,7 @@ msgstr "Podrobnosti"
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 #: templates/CRM/Activity/Form/Activity.tpl
 msgid "Detach"
-msgstr ""
+msgstr "Odpni"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Import/Form/MapField.php
 #: CRM/Activity/Import/Form/Preview.php
@@ -436,12 +435,12 @@ msgstr "Stanje"
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 #: templates/CRM/Activity/Form/ActivityView.tpl
 msgid "Added By"
-msgstr ""
+msgstr "Dodal/a"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 #: CRM/Core/Menu.php templates/CRM/Case/Form/CaseActivity.tpl
 msgid "Case"
-msgstr ""
+msgstr "Primer"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Form/ActivityView.php
 #: CRM/Activity/Import/Form/Summary.php CRM/Admin/Form/RelationshipType.php
@@ -626,7 +625,7 @@ msgstr "Veljavna datoteka mora biti naložena."
 
 #: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "File size should be less than %1 MBytes (%2 bytes)"
-msgstr "Velikot datoteke bi morala biti manj kot %1 MB (%2 Bajtov)"
+msgstr "Velikost datoteke bi morala biti manj kot %1 MBajtov (%2 bajtov)"
 
 #: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Input file must be in CSV format"
@@ -660,7 +659,7 @@ msgstr "Manjkajo zahtevana polja"
 
 #: CRM/Activity/Import/Parser.php CRM/Import/Parser.php
 msgid "Line Number"
-msgstr ""
+msgstr "Številka vrste"
 
 # Upam da je razlog
 #: CRM/Activity/Import/Parser.php CRM/Import/Parser.php
@@ -669,7 +668,7 @@ msgstr "Razlog"
 
 #: CRM/Activity/Selector/Activity.php CRM/Core/Invoke.php
 msgid "View Activity"
-msgstr ""
+msgstr "Poglej aktivnost"
 
 #: CRM/Activity/Selector/Activity.php CRM/Contact/BAO/Query.php
 #: CRM/Contact/DAO/SubscriptionHistory.php CRM/Contact/Form/Email.php
@@ -752,7 +751,7 @@ msgstr "Oznaka"
 #: CRM/Price/Form/Field.php CRM/Price/Form/Option.php CRM/UF/Form/Field.php
 #: CRM/UF/Form/Group.php
 msgid "is a numeric field"
-msgstr ""
+msgstr "je numerično polje"
 
 #: CRM/Admin/Form/OptionValue.php CRM/Admin/Form/PaymentProcessorType.php
 #: CRM/Contact/DAO/Group.php CRM/Core/DAO/CustomGroup.php
@@ -799,7 +798,7 @@ msgstr "URL gumba"
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
 msgid "API URL"
-msgstr ""
+msgstr "API URL"
 
 # Moti me beseda "procesor"
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
@@ -843,11 +842,11 @@ msgstr ""
 #: CRM/Admin/Form/PreferencesDate.php CRM/Core/DAO/PreferencesDate.php
 #: templates/CRM/Admin/Page/PreferencesDate.tpl
 msgid "Format"
-msgstr ""
+msgstr "Oblika"
 
 #: CRM/Admin/Form/PreferencesDate.php CRM/Custom/Form/Field.php
 msgid "Value should be a positive number"
-msgstr ""
+msgstr "Vrednost mora biti pozitivna številka"
 
 #: CRM/Admin/Form/Preferences/Display.php CRM/Core/Invoke.php
 #: CRM/Core/Menu.php templates/CRM/Block/Search.tpl
@@ -901,7 +900,7 @@ msgstr "Nastavitve - URLji virov"
 
 #: CRM/Admin/Page/Admin.php CRM/Core/Menu.php
 msgid "Customize"
-msgstr ""
+msgstr "Priredi"
 
 #: CRM/Admin/Page/Admin.php CRM/Core/Menu.php
 msgid "Configure"
@@ -972,13 +971,13 @@ msgstr "ali"
 #: templates/CRM/Contact/Page/View/Case.tpl
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Case Type"
-msgstr ""
+msgstr "Tip primera"
 
 #: CRM/Case/BAO/Query.php CRM/Case/Form/Case.php
 #: templates/CRM/Contact/Page/View/Case.tpl
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Case Status"
-msgstr ""
+msgstr "Status primera"
 
 #: CRM/Case/DAO/Case.php CRM/Case/Form/Case.php
 #: CRM/Contact/DAO/Relationship.php CRM/Contact/Form/Relationship.php
@@ -1082,7 +1081,7 @@ msgstr "Okrožje"
 #: CRM/Contact/BAO/Query.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Core/DAO/Worldregion.php
 msgid "World Region"
-msgstr ""
+msgstr "Svetovna regija"
 
 #: CRM/Contact/BAO/Query.php CRM/Contact/Form/Individual.php
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
@@ -1101,9 +1100,11 @@ msgstr "Spol"
 msgid "Contact Type"
 msgstr "Tip stika"
 
+# Status skupin?
 #: CRM/Contact/BAO/Query.php CRM/Contact/Form/Search.php
+#, fuzzy
 msgid "Group Status"
-msgstr ""
+msgstr "Skupinski status"
 
 # Mogoče tudi "Beležka".
 #: CRM/Contact/BAO/Query.php CRM/Core/BAO/CustomField.php
@@ -1114,7 +1115,7 @@ msgstr "Opomba"
 
 #: CRM/Contact/BAO/Query.php CRM/Core/DAO/LocationType.php
 msgid "Location Type"
-msgstr ""
+msgstr "Tip lokacije"
 
 #: CRM/Contact/BAO/Query.php CRM/Contact/DAO/Contact.php
 #: xml/templates/civicrm_add_domain.tpl
@@ -1128,7 +1129,7 @@ msgstr "Naloga"
 
 #: CRM/Contact/BAO/Query.php CRM/Contact/Form/Search/Criteria.php
 msgid "Task Status"
-msgstr ""
+msgstr "Stanje naloge"
 
 #: CRM/Contact/DAO/Contact.php CRM/Contact/Form/Household.php
 #: CRM/Contact/Form/Individual.php CRM/Contact/Form/Organization.php
@@ -1295,7 +1296,7 @@ msgstr "Dežela"
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/Edit.php
 #: CRM/Core/BAO/Address.php templates/CRM/Contact/Form/Address/country.tpl
 msgid "- type first letter(s) -"
-msgstr ""
+msgstr "- vtipkajte prvo črko/e -"
 
 #: CRM/Contact/Form/DeleteLocation.php CRM/Core/Invoke.php
 msgid "Delete Location"
@@ -1303,7 +1304,7 @@ msgstr "Izbriši lokacijo"
 
 #: CRM/Contact/Form/Domain.php CRM/Core/Menu.php
 msgid "Domain Information"
-msgstr ""
+msgstr "Podatki o domeni"
 
 #: CRM/Contact/Form/Domain.php CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Administer CiviCRM"
@@ -1371,13 +1372,15 @@ msgstr "Spletna stran"
 
 #: CRM/Contact/Form/Merge.php CRM/Grant/Invoke.php
 msgid "You do not have access to this page"
-msgstr ""
+msgstr "Do te strani nimate dostopa"
 
 #: CRM/Contact/Form/Merge.php CRM/Contact/Form/Task/Delete.php
 msgid ""
 "The contact record which is linked to the currently logged in user account - "
 "'%1' - can not be deleted."
 msgstr ""
+"Zapisa stika, ki je vezan na trenutno prijavljen uporabniški račun - '%1' - "
+"ni mogoče izbrisati."
 
 #: CRM/Contact/Form/Merge.php CRM/Core/BAO/CustomField.php
 #: CRM/Core/BAO/CustomOption.php CRM/Core/BAO/CustomQuery.php
@@ -1415,12 +1418,12 @@ msgstr "Da"
 
 #: CRM/Contact/Form/OpenID.php CRM/Standalone/Form/Register.php
 msgid "OpenID"
-msgstr ""
+msgstr "OpenID"
 
 #: CRM/Contact/Form/Organization.php CRM/Core/BAO/CustomField.php
 #: CRM/Core/BAO/UFGroup.php
 msgid "Enter a valid Website."
-msgstr "Vpiši veljavno spletno stran."
+msgstr "Vpišite veljavno spletno stran."
 
 #: CRM/Contact/Form/Phone.php CRM/Contact/Form/Search/Custom/Basic.php
 #: CRM/Contact/Selector.php CRM/Core/DAO/Phone.php CRM/Core/SelectValues.php
@@ -13606,67 +13609,68 @@ msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Female"
-msgstr ""
+msgstr "Ženski"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Male"
-msgstr ""
+msgstr "Moški"
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Transgender"
-msgstr ""
+msgstr "Drugo"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Mrs"
-msgstr ""
+msgstr "Gdč."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Ms"
-msgstr ""
+msgstr "Ga."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Mr"
-msgstr ""
+msgstr "G."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Dr"
-msgstr ""
+msgstr "Dr."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Jr"
-msgstr ""
+msgstr "Ml."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Sr"
-msgstr ""
+msgstr "St."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Administrator"
-msgstr ""
+msgstr "Administrator"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Authenticated"
-msgstr ""
+msgstr "Potrjeno"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Credit Card"
-msgstr ""
+msgstr "Kreditna kartica"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Debit Card"
-msgstr ""
+msgstr "Debitna kartica"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Cash"
-msgstr ""
+msgstr "Gotovina"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Check"
-msgstr ""
+msgstr "Ček"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "EFT"
-msgstr ""
+msgstr "EFT"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Completed"
@@ -13674,27 +13678,30 @@ msgstr "Končano"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Cancelled"
-msgstr ""
+msgstr "Preklicano"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Failed"
-msgstr ""
+msgstr "Spodletelo"
 
+# Napreduje?
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "In Progress"
-msgstr ""
+msgstr "V teku"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Registered"
-msgstr ""
+msgstr "Prijavljen"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Attended"
-msgstr ""
+msgstr "Prisostvoval"
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "No-show"
-msgstr ""
+msgstr "Ni prikazal"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Attendee"
@@ -13702,51 +13709,54 @@ msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Host"
-msgstr ""
+msgstr "Gostitelj"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Speaker"
-msgstr ""
+msgstr "Govorec"
 
+# Zborovanje?
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Conference"
-msgstr ""
+msgstr "Konferenca"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Exhibition"
-msgstr ""
+msgstr "Razstava"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Fundraiser"
-msgstr ""
+msgstr "Zbiranje sredstev"
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Performance"
-msgstr ""
+msgstr "Predstava"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Workshop"
-msgstr ""
+msgstr "Delavnica"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Granted"
-msgstr ""
+msgstr "Odobreno"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Rejected"
-msgstr ""
+msgstr "Zavrnjeno"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Emergency"
-msgstr ""
+msgstr "Nujno"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Family Support"
-msgstr ""
+msgstr "Družinska podpora"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "General Protection"
-msgstr ""
+msgstr "Splošna zaščita"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Impunity"
@@ -13754,11 +13764,11 @@ msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "In Honor of"
-msgstr ""
+msgstr "V čast"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "In Memory of"
-msgstr ""
+msgstr "V spomin na"
 
 # Upam da je to to.
 #: xml/templates/civicrm_add_domain.tpl
@@ -13775,35 +13785,35 @@ msgstr "Nedosegljiv"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Civil & Political"
-msgstr ""
+msgstr "Civilno in politično"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Economic, Social & Cultural"
-msgstr ""
+msgstr "Ekonomsko, družbeno in kulturno"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Gender Issues"
-msgstr ""
+msgstr "Vprašanja družbenega spola"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Ongoing"
-msgstr ""
+msgstr "V teku"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Resolved"
-msgstr ""
+msgstr "Razrešeno"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Name Only"
-msgstr ""
+msgstr "Samo ime"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Name and Email"
-msgstr ""
+msgstr "Ime in e-pošta"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Current"
-msgstr ""
+msgstr "Trenutno"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Grace"
@@ -13811,7 +13821,7 @@ msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Expired"
-msgstr ""
+msgstr "Poteklo"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Dummy Payment Processor"
@@ -13827,23 +13837,28 @@ msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Key"
-msgstr ""
+msgstr "Ključ"
 
+# ID trgovine?
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Store ID"
-msgstr ""
+msgstr "Shrani ID"
 
+# Prijava API?
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "API Login"
-msgstr ""
+msgstr "API prijava"
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Payment Key"
-msgstr ""
+msgstr "Ključ plačila"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "MD5 Hash"
-msgstr ""
+msgstr "MD5 Hash"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "PayJunction"
@@ -13855,39 +13870,39 @@ msgstr ""
 
 #: xml/templates/civicrm_data.tpl
 msgid "Recipient is on vacation"
-msgstr ""
+msgstr "Prejemnik je na dopustu"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Unable to resolve recipient domain"
-msgstr ""
+msgstr "Ni bilo mogoče razrešiti naslova prejemnika"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Unable to deliver to destintation mail server"
-msgstr ""
+msgstr "Ni bilo mogoče dostaviti na ciljani poštni strežnik"
 
 #: xml/templates/civicrm_data.tpl
 msgid "User account is no longer active"
-msgstr ""
+msgstr "Uporabniški račun ni več dejaven"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Email address is not valid"
-msgstr ""
+msgstr "Elektronski naslov ni več veljaven"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Mail routing error"
-msgstr ""
+msgstr "Napaka v usmerjanju pošte"
 
 #: xml/templates/civicrm_data.tpl
 msgid "User inbox is full"
-msgstr ""
+msgstr "Uporabnikov poštni nabiralnik je poln"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Unable to reach destination mail server"
-msgstr ""
+msgstr "Ni bilo mogoče doseči ciljanega poštnega strežnika"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Message caught by a content filter"
-msgstr ""
+msgstr "Sporočilo je prestregel filter vsebin"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"

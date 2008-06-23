@@ -1,14 +1,13 @@
 {if $returnContent eq 'subject'}
     {ts}Possible Duplicate Contact Record{/ts}
-
 {else if $returnContent eq 'textMessage'}
-The contribution listed below was submitted on behalf of an organization, and the organization information matches existing records in your database. Please review the following record:
+Listed below is the organization information on behalf of whom a contribution / membership signup was done and was found to be matching with some of your existing records in your database.
 
-Contact Record: {crmURL p='civicrm/contact/view' q="reset=1&cid=`$dupeID`"}
+Organization Name : {$onBehalfName} 
+Organization Email: {$onBehalfEmail} 
+Organization Contact Id: {$onBehalfID} 
 
-If you think this may be a duplicate contact which should be merged with an existing record - use the following link to identify the potential duplicates and merge them if appropriate:
-
-Find Duplicates: {crmURL p='civicrm/admin/dedupefind' q="reset=1&rgid=5"}
+If you think this may be a duplicate contact which should be merged with an existing record - Go to "CiviCRM >> Administer CiviCRM >> Find and Merge Duplicate Contacts" and use strict rule for Organization to find the potential duplicates and merge them if appropriate. 
 
 {if $receiptMessage}
 ###########################################################
@@ -16,6 +15,6 @@ Find Duplicates: {crmURL p='civicrm/admin/dedupefind' q="reset=1&rgid=5"}
 
 ###########################################################
 {$receiptMessage}
-{/if}
 
+{/if}
 {/if}
