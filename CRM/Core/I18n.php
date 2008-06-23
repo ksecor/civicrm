@@ -65,7 +65,7 @@ class CRM_Core_I18n
      * @param $justEnabled boolean  whether to return all languages or just the enabled ones
      * @return             array    of code/language name mappings
      */
-    static function &languages($justEnabled = false)
+    static function languages($justEnabled = false)
     {
         static $all     = null;
         static $enabled = null;
@@ -129,7 +129,7 @@ class CRM_Core_I18n
         if ($enabled === null) {
             $config =& CRM_Core_Config::singleton();
             $enabled = array();
-            if ($config->languageLimit) {
+            if (isset($config->languageLimit) and $config->languageLimit) {
                 foreach ($all as $code => $name) {
                     if (in_array($code, $config->languageLimit)) $enabled[$code] = $name;
                 }

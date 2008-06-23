@@ -1,3 +1,4 @@
+{capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
 {htxt id="id-dedupe-intro"}
 <p>{ts}Manage the rules used to identify potentially duplicate contact records. Scan for duplicates using a selected rule and merge duplicate contact data as needed. Click <strong>Edit Rule</strong> to review or modify the rules for each type of contact. You will generally want to maintain both 'fuzzy' and 'strict' rules for each contact type.{/ts}</p>
 

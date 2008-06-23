@@ -57,7 +57,7 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
      *
      * @var array
      */
-    protected $_locationIds;
+    protected $_locationIds = array();
 
     /** 
      * Function to set variables up before form is built 
@@ -88,7 +88,6 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
             require_once 'CRM/Core/BAO/Location.php';
             $location = CRM_Core_BAO_Location::getValues($params, $defaults);
             
-            $this->_locationIds = $ids;
             $isShowLocation = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event',
                                                            $eventId,
                                                            'is_show_location',

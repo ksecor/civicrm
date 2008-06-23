@@ -35,18 +35,67 @@
 require_once 'CRM/Core/Form.php';
 require_once 'CRM/Core/PseudoConstant.php';
 require_once 'CRM/Core/BAO/CustomGroup.php';
+require_once 'CRM/Contact/BAO/Contact/Location.php';
 
 class CRM_Event_Form_Offline extends CRM_Core_Form 
 {
-
+    /**
+     * the id of the contact associated with this participation
+     *
+     * @var int
+     * @public
+     */
     public $_contactID;
 
+    /**
+     * the mode that we are in
+     * 
+     * @var string
+     * @public
+     */
     public $_mode;
+    
+    /**
+     * Page action
+     */
     public $_action;
-
+    
+    /**
+     * Price Set ID, if the new price set method is used
+     *
+     * @var int
+     * @public
+     */
+    public $_priceSetId;
+   
+    /**
+     * The billing location id for this contribiution page
+     *
+     * @var int
+     * @public
+     */
     public $_bltID;
-
+    
+    /** 
+     * The fields involved in this contribution page
+     * 
+     * @var array 
+     * @public 
+     */
     public $_fields;
+
+    /**
+     * If event is paid or unpaid
+     */
+    public $_isPaidEvent;
+    
+    /**
+     * array of event values
+     * 
+     * @var array
+     * @protected
+     */
+    protected $_event;
 
     /**
      * the id of the event
@@ -54,18 +103,11 @@ class CRM_Event_Form_Offline extends CRM_Core_Form
      * @var int
      * @protected
      */
-    protected $_eId = null;
+    protected $_eId ;
 
     public $_paymentProcessor;
     
-    /**
-     * Stores all producuct option
-     *
-     * @var boolean
-     * @public 
-     */ 
-    public $_options ;
-    
+       
     /** 
      * Function to set variables up before form is built 
      *                                                           
@@ -95,7 +137,7 @@ class CRM_Event_Form_Offline extends CRM_Core_Form
 
         $this->_paymentProcessor = array( 'billing_mode' => 1 );
 
-        require_once 'CRM/Contact/BAO/Contact.php';
+        require_once 'CRM/Contact/BAO/Contact/Location.php';
         list( $this->userDisplayName, 
               $this->userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $this->_contactID );
         $this->assign( 'displayName', $this->userDisplayName );
@@ -117,7 +159,7 @@ class CRM_Event_Form_Offline extends CRM_Core_Form
 
         // also set the post url
         $postURL = CRM_Utils_System::url( 'civicrm/contact/view',
-                                          "reset=1&force=1&cid={$this->_contactID}&selectedChild=contribute" );
+                                          "reset=1&force=1&cid={$this->_contactID}&selectedChild=participant" );
         $session =& CRM_Core_Session::singleton( ); 
         $session->pushUserContext( $postURL );
     }
@@ -259,6 +301,162 @@ class CRM_Event_Form_Offline extends CRM_Core_Form
     function postProcess( ) 
     {
         
+        $config  =& CRM_Core_Config::singleton( );
+        $session =& CRM_Core_Session::singleton( );
+    
+        // get the submitted form values. 
+        $params = $this->_params = $this->controller->exportValues( $this->_name );
+        $this->_params['participant_role_id'] = $this->_event['default_role_id'];
+        $this->_params['event_id'] =  $this->_eId;
+       
+        if ( ! isset( $params['priceSetId'] ) ) {
+            $params['amount_level'] = $this->_values['custom']['label'][array_search( $params['amount'], 
+                                                                                      $this->_values['custom']['amount_id'])];
+            
+            $params['amount']       = $this->_values['custom']['value'][array_search( $params['amount'], 
+                                                                                      $this->_values['custom']['amount_id'])];
+            $this->assign( 'amount_level', $params['amount_level'] );
+        } else {
+            $lineItem = array( );
+            CRM_Event_Form_Registration_Register::processPriceSetAmount( $this->_values['custom']['fields'], 
+                                                                         $params, $lineItem );
+            $this->set( 'lineItem', $lineItem );
+            $this->assign( 'lineItem', $lineItem );
+        }
+
+        require_once 'CRM/Core/BAO/PaymentProcessor.php';
+        $this->_paymentProcessor = CRM_Core_BAO_PaymentProcessor::getPayment( $this->_params['payment_processor_id'],
+                                                                              $this->_mode );
+       
+        require_once "CRM/Contact/BAO/Contact.php";
+       
+        $now = date( 'YmdHis' );
+        $fields = array( );
+        
+        // set email for primary location.
+        $fields["email-Primary"] = 1;
+        $params["email-Primary"] = $params["email-{$this->_bltID}"];
+        
+        $params['register_date'] = $now;
+        
+        // now set the values for the billing location.
+        foreach ( $this->_fields as $name => $dontCare ) {
+            $fields[$name] = 1;
+        }
+        
+        // also add location name to the array
+        $params["location_name-{$this->_bltID}"] =
+            CRM_Utils_Array::value( 'billing_first_name' , $params ) . ' ' .
+            CRM_Utils_Array::value( 'billing_middle_name', $params ) . ' ' .
+            CRM_Utils_Array::value( 'billing_last_name'  , $params );
+        
+        $params["location_name-{$this->_bltID}"] = trim( $params["location_name-{$this->_bltID}"] );
+        
+        $fields["location_name-{$this->_bltID}"] = 1;
+        
+        $fields["email-{$this->_bltID}"] = 1;
+
+        $ctype = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $this->_contactID, 'contact_type' );
+        
+        $nameFields = array( 'first_name', 'middle_name', 'last_name' );
+        
+        foreach ( $nameFields as $name ) {
+            $fields[$name] = 1;
+            if ( array_key_exists( "billing_$name", $params ) ) {
+                $params[$name] = $params["billing_{$name}"];
+            }
+        }
+        
+        $contactID = CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $this->_contactID, null, null, $ctype );
+        
+        // add all the additioanl payment params we need
+        $this->_params["state_province-{$this->_bltID}"] =
+            CRM_Core_PseudoConstant::stateProvinceAbbreviation( $this->_params["state_province_id-{$this->_bltID}"] );
+        $this->_params["country-{$this->_bltID}"] =
+            CRM_Core_PseudoConstant::countryIsoCode( $this->_params["country_id-{$this->_bltID}"] );
+
+        $this->_params['year'      ]     = $this->_params['credit_card_exp_date']['Y'];
+        $this->_params['month'     ]     = $this->_params['credit_card_exp_date']['M'];
+        $this->_params['ip_address']     = CRM_Utils_System::ipAddress( );
+        $this->_params['amount'        ] =  $this->_params['fee_amount'] = $params['amount'];
+        $this->_params['amount_level'  ] = $params['amount_level'];
+        $this->_params['currencyID'    ] = $config->defaultCurrency;
+        $this->_params['payment_action'] = 'Sale';
+        $this->_params['invoiceID']      = md5( uniqid( rand( ), true ) );
+        
+        // at this point we've created a contact and stored its address etc
+        // all the payment processors expect the name and address to be in the 
+        // so we copy stuff over to first_name etc. 
+        $paymentParams = $this->_params;
+       
+        require_once 'CRM/Core/Payment/Form.php';
+        CRM_Core_Payment_Form::mapParams( $this->_bltID, $this->_params, $paymentParams, true );
+        
+        $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Event', $this->_paymentProcessor );
+        
+        $result =& $payment->doDirectPayment( $paymentParams );
+        
+        if ( is_a( $result, 'CRM_Core_Error' ) ) {
+            CRM_Core_Error::displaySessionError( $result );
+            CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/event/offline',
+                                                               "cid={$this->_contactID}" ) );
+        }
+        
+        if ( $result ) {
+            $this->_params = array_merge( $this->_params, $result );
+        }
+        
+        $this->_params['receive_date'] = $now;
+        
+        if ( CRM_Utils_Array::value( 'is_email_receipt', $this->_params ) ) {
+            $this->_params['receipt_date'] = $now;
+        } else {
+            $this->_params['receipt_date'] = null;
+        }
+        
+        $this->set( 'params', $this->_params );
+        $this->assign( 'trxn_id', $result['trxn_id'] );
+        $this->assign( 'receive_date',
+                       CRM_Utils_Date::mysqlToIso( $this->_params['receive_date']) );
+        // set source if not set 
+        
+        $this->_params['description'] = ts( 'Online Event: CiviCRM Admin Interface' );
+        require_once 'CRM/Event/Form/Registration/Confirm.php';
+        require_once 'CRM/Event/Form/Registration.php';
+        //add contribution record
+        $contribution = CRM_Event_Form_Registration_Confirm::processContribution( $this->_params, $result, $contactID, false );
+         // add participant record
+        $participant  = CRM_Event_Form_Registration::addParticipant( $this->_params, $contactID );
+
+   
+        require_once 'CRM/Event/BAO/ParticipantPayment.php';
+        $paymentPartcipant = array( 'participant_id'  => $participant->id ,
+                                    'contribution_id' => $contribution->id, ); 
+        $ids = array();       
+        
+        CRM_Event_BAO_ParticipantPayment::create( $paymentPartcipant, $ids);
+        if ( CRM_Utils_Array::value( 'is_email_receipt', $this->_params ) ) {
+            $this->assign_by_ref( 'formValues', $this->_params );
+            $template =& CRM_Core_Smarty::singleton( );
+            $message = $template->fetch( 'CRM/Event/Form/Registration/ReceiptMessage.tpl' );
+            
+            $session =& CRM_Core_Session::singleton( );
+     
+            $userID = $session->get( 'userID' );
+            list( $userName, $userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $userID );
+            $receiptFrom = '"' . $userName . '" <' . $userEmail . '>';
+            
+            list( $participantDisplayName, $participantEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $contactID );
+            $subject = ts('Event Registration Receipt');
+            
+            require_once 'CRM/Utils/Mail.php';
+            CRM_Utils_Mail::send( $receiptFrom,
+                                  $participantDisplayName,
+                                  $participantEmail,
+                                  $subject,
+                                  $message);
+        }
+        CRM_Core_Session::setStatus( 'Your registration has been processed successfully and a receipt has been emailed to the Participant.' );
     }
     
 }

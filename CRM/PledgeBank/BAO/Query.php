@@ -73,9 +73,9 @@ class CRM_PledgeBank_BAO_Query
             $query->_whereTables['civicrm_pledge'] = 1;
         }
         
-        if ( CRM_Utils_Array::value( 'signer_pledge_done', $query->_returnProperties ) ) {
-            $query->_select['signer_pledge_done']  = "civicrm_pledgesigner.pledge_done as signer_pledge_done";
-            $query->_element['signer_pledge_done'] = 1;
+        if ( CRM_Utils_Array::value( 'signer_is_done', $query->_returnProperties ) ) {
+            $query->_select['signer_is_done']  = "civicrm_pledgesigner.is_done as signer_is_done";
+            $query->_element['signer_is_done'] = 1;
             $query->_tables['civicrm_pledgesigner'] = $query->_whereTables['civicrm_pledgesigner'] = 1;
         }
         
@@ -143,8 +143,8 @@ class CRM_PledgeBank_BAO_Query
             $query->_tables['civicrm_pledge'] = $query->_whereTables['civicrm_pledge'] = 1;
             return;
 
-        case 'signer_pledge_done':
-            $query->_where[$grouping][] = "civicrm_pledgesigner.pledge_done $op $value";
+        case 'signer_is_done':
+            $query->_where[$grouping][] = "civicrm_pledgesigner.is_done $op $value";
             if ( $value ) {
                 $query->_qill[$grouping][]  = ts("Find done Pledges");
             }
@@ -195,7 +195,7 @@ class CRM_PledgeBank_BAO_Query
                                 'signer_id'           => 1,
                                 'pledge_name'         => 1,
                                 'pledge_is_active'    => 1,
-                                'signer_pledge_done'  => 1,
+                                'signer_is_done'      => 1,
                                 'signer_pledge_desc'  => 1,
                                 'signer_signing_date' => 1,
                                 'signer_is_anonymous' => 1
@@ -220,7 +220,7 @@ class CRM_PledgeBank_BAO_Query
         $form->assign( 'dataURLPledgeName', $dataURLPledgeName );
         $form->addElement( 'text', 'pledge_name', ts('Pledge'), $dojoAttributesPledgeName );
         $form->addElement( 'checkbox', 'pledge_is_active' , ts( 'Is pledge active?' ) );
-        $form->addElement( 'checkbox', 'signer_pledge_done' , ts( 'Is pledge done?' ) );
+        $form->addElement( 'checkbox', 'signer_is_done' , ts( 'Is pledge done?' ) );
         $form->assign( 'validPledgeBank', true );
     }
     
