@@ -108,8 +108,11 @@ class CRM_PledgeBank_BAO_Query
             
         case 'pledge_name':
             $op = 'LIKE';
-            $query->_where[$grouping][] = "civicrm_pledge.creator_pledge_desc $op '%$value%'";
-            $query->_qill[$grouping][]  = ts("Pledge" ) . " $op - '$value'";
+            if ( $value ){
+                $pledgeValue = CRM_Core_DAO::getFieldValue('CRM_PledgeBank_DAO_Pledge', $value, 'creator_pledge_desc' );
+                $query->_where[$grouping][] = "civicrm_pledge.creator_pledge_desc $op '%$pledgeValue%'";
+                $query->_qill[$grouping][]  = ts("Pledge" ) . " $op - '$pledgeValue'";
+            }
             $query->_tables['civicrm_pledge'] = $query->_whereTables['civicrm_pledge'] = 1;
             return;
             

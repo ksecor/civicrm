@@ -447,12 +447,14 @@ WHERE {$whereClause}
         require_once 'CRM/Utils/Type.php';
    
         $getRecords = false;
-        if ( isset( $_GET['name'] ) && $_GET['name'] && ! isset( $_GET['count'] ) ) {
+        if ( isset( $_GET['name'] ) && $_GET['name'] ) {
             $name     = strtolower( CRM_Utils_Type::escape( $_GET['name'], 'String' ) );
             $name     = str_replace( '*', '%', $name );
             $whereClause = "p.creator_pledge_desc LIKE '%$name%' ";
             $getRecords = true;
-        } elseif ( isset( $_GET['id'] ) && is_numeric($_GET['id']) && !$_GET['count'] ) {
+        }
+
+        if ( isset( $_GET['id'] ) && is_numeric($_GET['id']) ) {
             $pledgeId    = CRM_Utils_Type::escape( $_GET['id'], 'Integer'  );
             $whereClause = "p.id = {$pledgeId} ";
             $getRecords = true;
@@ -472,6 +474,7 @@ WHERE {$whereClause}
                                      'value'=> $dao->id );
             }
         }
+
         if ( empty( $elements) ) { 
             $name = $_GET['name'];
             if ( !$name && isset( $_GET['id'] ) ) {
@@ -480,13 +483,10 @@ WHERE {$whereClause}
             $elements[] = array( 'name' => trim( $name, '*'),
                                  'value'=> trim( $name, '*') );
         }
+
         require_once "CRM/Utils/JSON.php";
         echo CRM_Utils_JSON::encode( $elements, 'value');
     } 
-    
-
-
-
 
     /**
      * Function to show import status
