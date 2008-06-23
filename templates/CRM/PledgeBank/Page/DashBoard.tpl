@@ -34,3 +34,9 @@
 {/if}
 </table>
 {/if}
+{if $pager->_totalItems}
+    <h3>{ts}Recent Pledge Signers{/ts}</h3>
+    <div class="form-item">
+        {include file="CRM/PledgeBank/Form/Selector.tpl" context="pledge_dashboard"}
+    </div>
+{/if}

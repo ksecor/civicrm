@@ -78,6 +78,25 @@ class CRM_PledgeBank_BAO_Query
             $query->_element['signer_pledge_done'] = 1;
             $query->_tables['civicrm_pledgesigner'] = $query->_whereTables['civicrm_pledgesigner'] = 1;
         }
+        
+        if ( CRM_Utils_Array::value( 'signer_pledge_desc', $query->_returnProperties ) ) {
+            $query->_select['signer_pledge_desc']  = "civicrm_pledge.signer_pledge_desc as signer_pledge_desc";
+            $query->_element['signer_pledge_desc'] = 1;
+            $query->_tables['civicrm_pledge'] = $query->_whereTables['civicrm_pledge'] = 1;
+        }
+        
+        if ( CRM_Utils_Array::value( 'signing_date', $query->_returnProperties ) ) {
+            $query->_select['signing_date']  = "civicrm_pledgesigner.signing_date as signer_signing_date";
+            $query->_element['signing_date'] = 1;
+            $query->_tables['civicrm_pledgesigner'] = $query->_whereTables['civicrm_pledgesigner'] = 1;
+        }
+        
+        if ( CRM_Utils_Array::value( 'is_anonymous', $query->_returnProperties ) ) {
+            $query->_select['is_anonymous']  = "civicrm_pledgesigner.is_anonymous as signer_is_anonymous";
+            $query->_element['is_anonymous'] = 1;
+            $query->_tables['civicrm_pledgesigner'] = $query->_whereTables['civicrm_pledgesigner'] = 1;
+        }
+        
     }
 
     static function where( &$query ) 
@@ -176,7 +195,10 @@ class CRM_PledgeBank_BAO_Query
                                 'signer_id'          => 1,
                                 'pledge_name'        => 1,
                                 'pledge_is_active'   => 1,
-                                'signer_pledge_done' => 1 
+                                'signer_pledge_done' => 1,
+                                'signer_pledge_desc' => 1,
+                                'signing_date'       => 1,
+                                'is_anonymous'       => 1
                                );
         }
         return $properties;

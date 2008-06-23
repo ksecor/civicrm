@@ -69,10 +69,14 @@ class CRM_PledgeBank_Selector_Search extends CRM_Core_Selector_Base implements C
      * @var array
      * @static
      */
-    static $_properties = array( 'contact_id', 
+    static $_properties = array( 'contact_id',
                                  'contact_type',
                                  'sort_name',
-                                 'signer_id'
+                                 'pledge_id',
+                                 'signer_id',
+                                 'signer_pledge_desc',
+                                 'signer_signing_date',
+                                 'signer_is_anonymous'
                                  );
 
     /** 
@@ -184,7 +188,7 @@ class CRM_PledgeBank_Selector_Search extends CRM_Core_Selector_Base implements C
                                   CRM_Core_Action::VIEW   => array(
                                                                    'name'     => ts('View'),
                                                                    'url'      => 'civicrm/contact/view/signer',
-                                                                   'qs'       => 'reset=1&id=%%id%%&cid=%%cid%%&action=view&context=%%cxt%%&selectedChild=event',
+                                                                   'qs'       => 'reset=1&id=%%id%%&cid=%%cid%%&action=view&context=%%cxt%%&selectedChild=pledge',
                                                                    'title'    => ts('View Signer'),
                                                                    ),
                                   CRM_Core_Action::UPDATE => array(
@@ -269,13 +273,21 @@ class CRM_PledgeBank_Selector_Search extends CRM_Core_Selector_Base implements C
          if ( CRM_Core_Permission::check( 'edit pledge signer records' ) ) {
              $permission = CRM_Core_Permission::EDIT;
          }
-
+         
          $mask = CRM_Core_Action::mask( $permission );
          while ( $result->fetch( ) ) {
              $row = array();
              // the columns we are interested in
              foreach (self::$_properties as $property) {
-                 if ( isset( $result->$property ) ) {
+                 if ( $property == 'signer_is_anonymous' ) {
+                     if ( isset( $result->$property ) ) {
+                         $row[$property] = 'Yes';
+                     } else {
+                         $row[$property] = 'No';
+                     }
+                 } else if ( $property == 'signer_pledge_desc' ) {
+                     $row['pledge'] = "...will " . $result->$property;
+                 } else if ( isset( $result->$property ) ) {
                      $row[$property] = $result->$property;
                  }
              }
@@ -299,12 +311,12 @@ class CRM_PledgeBank_Selector_Search extends CRM_Core_Selector_Base implements C
                  $contact_type .= 'org.gif" alt="' . ts('Organization') . '" height="16" width="18" />';
                  break;
              }
-
+             
              $row['contact_type' ] = $contact_type;
              
              $rows[] = $row;
          }
-
+         
          return $rows;
      }
      
@@ -334,10 +346,25 @@ class CRM_PledgeBank_Selector_Search extends CRM_Core_Selector_Base implements C
     public function &getColumnHeaders( $action = null, $output = null ) 
     {
         if ( ! isset( self::$_columnHeaders ) ) {
-            self::$_columnHeaders = array(
+            self::$_columnHeaders = array( 
+                                          array(
+                                                'name'      => ts('Pledge'),
+                                                'sort'      => 'signer_pledge_desc',
+                                                'direction' => CRM_Utils_Sort::DONTCARE,
+                                                ),
+                                          array(
+                                                'name'      => ts('Signed on'),
+                                                'sort'      => 'signer_signing_date',
+                                                'direction' => CRM_Utils_Sort::DONTCARE,
+                                                ),
+                                          array(
+                                                'name'      => ts('Anonymous?'),
+                                                'sort'      => 'signer_is_anonymous',
+                                                'direction' => CRM_Utils_Sort::DONTCARE,
+                                                ),
                                           array('desc' => ts('Actions') ),
                                           );
-
+            
             if ( ! $this->_single ) {
                 $pre = array( 
                              array('desc' => ts('Contact Type') ), 
