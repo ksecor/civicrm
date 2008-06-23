@@ -48,7 +48,7 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
         $this->invoke( $args );
         exit( );
     }
-
+    
     /**
      * Invoke function that redirects to respective functions
      */
@@ -56,16 +56,16 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
     {
         // intialize the system
         $config =& CRM_Core_Config::singleton( );
-
+        
         if ( $args[0] != 'civicrm' && $args[1] != 'ajax' ) {
             exit( );
         }
-
+        
         switch ( $args[2] ) {
-
+            
         case 'search':
             return $this->search( $config );
-
+            
         case 'state':
             return $this->state( $config );
 
@@ -123,6 +123,9 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
 
         case 'memType':
             return $this->getMemberTypeDefaults( $config );
+            
+        case 'summary':
+            return $this->inlineEdit( $config );
             
         default:
             return;
@@ -834,4 +837,24 @@ WHERE sort_name LIKE '%$name%'";
 
         echo $contributionType . "^A" . $totalAmount;
     }
+
+    /**
+     * Function to save inline editing values
+     */
+    function inlineEdit( $config ) 
+    {
+        require_once 'CRM/Utils/Type.php';
+        $field     = CRM_Utils_Type::escape( $_GET['field'], 'String');
+        $value     = CRM_Utils_Type::escape( $_GET['value'], 'String');
+        $contactId = CRM_Utils_Type::escape( $_GET['cid'], 'Integer'); 
+        
+        $params = array( );
+        $params[$field] = $value;
+        
+        $ctype = CRM_Core_DAO::getFieldValue("CRM_Contact_DAO_Contact", $contactId, "contact_type");
+
+        require_once "CRM/Contact/BAO/Contact.php";
+        CRM_Contact_BAO_Contact::createProfileContact( $params, CRM_Core_DAO::$_nullArray, $contactId );
+    }
+
 }

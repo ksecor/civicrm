@@ -2,7 +2,43 @@
 {if $action eq 2}
   {include file="CRM/Contact/Form/Edit.tpl"}
 {else}
+{literal}
+<script type="text/javascript">
+dojo.require("dojo.parser");
+dojo.require("dijit.InlineEditBox");
+dojo.require("dijit.form.TextBox");
+function myHandler(field, value) {
+    console.log("Edited value from "+field+" is now "+value);
+    var dataUrl = {/literal}"{crmURL p=civicrm/ajax/summary h=0 q='cid=102&field='}"{literal} + field + '&value=' + value;
+    
+    var result = dojo.xhrPost({
+        url: dataUrl,
+        handleAs: "text",
+	form:'summary',
+        timeout: 5000, //Time in milliseconds
+        handle: function(response, ioArgs){
+                if(response instanceof Error){
+		    if(response.dojoType == "cancel"){
+			//The request was canceled by some other JavaScript code.
+			console.debug("Request canceled.");
+		    }else if(response.dojoType == "timeout"){
+			//The request took over 5 seconds to complete.
+			console.debug("Request timed out.");
+		    }else{
+			//Some other error happened.
+			console.error(response);
+		    }
+                } else {
+		    // on success
+		    console.log('Saved');
+		}
+	    }
+	});
 
+
+}
+</script>
+{/literal}
 <div id="mainTabContainer" dojoType="dijit.layout.TabContainer" class ="tundra" style="width: 100%; height: 600px; overflow-y: auto;" >
 
 <div id="summary" dojoType="dojox.layout.ContentPane" title="{ts}Summary{/ts}" class ="tundra" style="overflow: auto; width: 100%; height: 100%;">
@@ -21,9 +57,10 @@
     {/if}
     {if $dashboardURL } &nbsp; &nbsp; <a href="{$dashboardURL}">&raquo; {ts}View Contact Dashboard{/ts}</a> {/if}
     {if $url } &nbsp; &nbsp; <a href="{$url}">&raquo; {ts}View User Record{/ts}</a> {/if}
+
     <table class="form-layout-compressed">
     <tr>
-        {if $source}<td><label>{ts}Source{/ts}:</label></td><td>{$source}</td>{/if}
+        {if $source}<td><label>{ts}Source{/ts}:</label></td><td id="contact_source" dojoType="dijit.InlineEditBox" onChange="myHandler(this.id,arguments[0])">{$source}</td>{/if}
         {if $contactTag}<td><label>{ts}Tags{/ts}:</label></td><td>{$contactTag}</td>{/if}
         {if !$source}<td colspan="2"></td>{/if}
         {if !$contactTag}<td colspan="2"></td>{/if}
