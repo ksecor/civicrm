@@ -104,6 +104,19 @@
       <add>2.1</add>     
   </field>
   <field>
+      <name>loc_block_id</name>
+      <type>int unsigned</type>
+      <comment>FK to Location Block ID</comment>
+      <add>2.1</add>
+  </field>
+  <foreignKey>
+       <name>loc_block_id</name>
+       <table>civicrm_loc_block</table>
+       <key>id</key>
+       <onDelete>CASCADE</onDelete>
+       <add>2.1</add>
+  </foreignKey>
+  <field>
       <name>is_active</name>
       <type>boolean</type>
       <comment>Is this pledge active?</comment>

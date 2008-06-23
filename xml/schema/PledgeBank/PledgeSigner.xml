@@ -79,7 +79,7 @@
        <onDelete>CASCADE</onDelete>
   </foreignKey>
   <field>     
-      <name>pledge_done</name>  
+      <name>is_done</name>  
       <uniqueName>pledge_done</uniqueName> 
       <title>Whether given signer fulfilled their pledge.</title>
       <type>boolean</type>
@@ -96,20 +96,13 @@
       <comment>When did contact sign this pledge?</comment>
       <add>2.1</add>     
   </field>
-  <field>
-       <name>geo_code_1</name>
-       <type>float</type>
-       <import>true</import>
-       <headerPattern>/geo/i</headerPattern>
-       <comment>Latitude</comment>
-       <add>2.1</add>
-  </field>
-  <field>
-       <name>geo_code_2</name>
-       <type>float</type>
-       <comment>Longitude</comment>
-       <import>true</import>
-       <headerPattern>/geo/i</headerPattern>
-       <add>2.1</add>
-  </field>
+  <field>     
+      <name>is_test</name>  
+      <uniqueName>pledgesigner_is_test</uniqueName> 
+      <title>Test</title>
+      <type>boolean</type>
+      <default>0</default>
+      <import>true</import>
+      <add>2.1</add>
+  </field>  
 </table>
