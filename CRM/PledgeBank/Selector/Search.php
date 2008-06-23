@@ -34,10 +34,8 @@
 
 require_once 'CRM/Core/Selector/Base.php';
 require_once 'CRM/Core/Selector/API.php';
-
 require_once 'CRM/Utils/Pager.php';
 require_once 'CRM/Utils/Sort.php';
-
 require_once 'CRM/Contact/BAO/Query.php';
 
 /**
@@ -72,11 +70,12 @@ class CRM_PledgeBank_Selector_Search extends CRM_Core_Selector_Base implements C
     static $_properties = array( 'contact_id',
                                  'contact_type',
                                  'sort_name',
-                                 'pledge_id',
-                                 'signer_id',
-                                 'signer_pledge_desc',
-                                 'signer_signing_date',
-                                 'signer_is_anonymous'
+                                 'pb_pledge_id',
+                                 'pb_signer_id',
+                                 'pb_pledge_name',
+                                 'pb_signer_pledge_desc',
+                                 'pb_signer_signing_date',
+                                 'pb_signer_is_anonymous'
                                  );
 
     /** 
@@ -349,17 +348,17 @@ class CRM_PledgeBank_Selector_Search extends CRM_Core_Selector_Base implements C
             self::$_columnHeaders = array( 
                                           array(
                                                 'name'      => ts('Pledge'),
-                                                'sort'      => 'signer_pledge_desc',
+                                                'sort'      => 'pb_pledge_name',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
                                                 'name'      => ts('Signed on'),
-                                                'sort'      => 'signer_signing_date',
+                                                'sort'      => 'pb_signer_signing_date',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
                                                 'name'      => ts('Anonymous?'),
-                                                'sort'      => 'signer_is_anonymous',
+                                                'sort'      => 'pb_signer_is_anonymous',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array('desc' => ts('Actions') ),

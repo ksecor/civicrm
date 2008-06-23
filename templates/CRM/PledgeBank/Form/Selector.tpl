@@ -22,7 +22,7 @@
 
   {counter start=0 skip=1 print=false}
   {foreach from=$rows item=row}
-  <tr id='rowid{$row.signer_id}' class="{cycle values="odd-row,even-row"}">
+  <tr id='rowid{$row.pb_signer_id}' class="{cycle values="odd-row,even-row"}">
      {if ! $single }
         {if $context eq 'Search' }       
             {assign var=cbName value=$row.checkbox}
@@ -31,9 +31,9 @@
 	<td>{$row.contact_type}</td>
     	<td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td>
     {/if}
-    <td><a href="{crmURL p='civicrm/pledge/view' q="reset=1&id=`$row.pledge_id`"}">{$row.pledge}</a></td>	
-    <td>{$row.signer_signing_date|truncate:10:''|crmDate}</td>
-    <td>{$row.signer_is_anonymous}</td>
+    <td><a href="{crmURL p='civicrm/pledge/view' q="reset=1&id=`$row.pb_pledge_id`"}">{$row.pb_pledge_name}</a></td>	
+    <td>{$row.pb_signer_signing_date|truncate:10:''|crmDate}</td>
+    <td>{if $row.pb_signer_is_anonymous}{ts}Yes{/ts}{else}{ts}No{/ts}{/if}</td>
     <td>{$row.action}</td>
    </tr>
   {/foreach}
@@ -52,3 +52,4 @@
 {if $context EQ 'Search'}
     {include file="CRM/common/pager.tpl" location="bottom"}
 {/if}
+	

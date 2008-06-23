@@ -1,18 +1,18 @@
  <tr>
-     <td class="font-size12pt" colspan="2">{$form.pledge_name.label}&nbsp;&nbsp;
+     <td class="font-size12pt" colspan="2">{$form.pb_pledge_name.label}&nbsp;&nbsp;
     {if $pledge_name_value}
     <script type="text/javascript">
 	dojo.addOnLoad( function( ) {ldelim}
-        dijit.byId( 'pledge_name' ).setValue( "{$pledge_name_value}")
+        dijit.byId( 'pb_pledge_name' ).setValue( "{$pb_pledge_name_value}")
         {rdelim} );
     </script>
     {/if}
  <div dojoType="dojox.data.QueryReadStore" jsId="pledgeNameStore" url="{$dataURLPledgeName}" class="tundra">
-{$form.pledge_name.html}
+{$form.pb_pledge_name.html}
      </td>       
  </tr>
  <tr> 
-     <td>{$form.pledge_is_active.html}&nbsp;{$form.pledge_is_active.label}</td> 
-     <td>{$form.signer_pledge_done.html}&nbsp;{$form.signer_pledge_done.label}</td> 
+     <td>{$form.pb_pledge_is_active.html}&nbsp;{$form.pb_pledge_is_active.label}</td> 
+     <td>{$form.pb_signer_is_done.html}&nbsp;{$form.pb_signer_is_done.label}</td> 
  </tr>
    
