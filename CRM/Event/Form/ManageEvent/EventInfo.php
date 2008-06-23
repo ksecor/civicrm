@@ -45,6 +45,10 @@ require_once "CRM/Core/BAO/CustomField.php";
  */
 class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
 {
+    /**
+     * Event type
+     */
+    protected $_eventType = null;
     /** 
      * Function to set variables up before form is built 
      *                                                           
@@ -96,7 +100,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         $defaults = parent::setDefaultValues();
         
         // in update mode, we need to set custom data subtype to tpl
-        if ( $defaults["event_type_id"] ) {
+        if ( CRM_Utils_Array::value( 'event_type_id' ,$defaults ) ) {
             $this->assign('customDataSubType',  $defaults["event_type_id"] );
         }
 
@@ -106,7 +110,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
             $defaultDate['i'] = (int ) ( $defaultDate['i'] / 15 ) * 15;
             $defaults['start_date'] = $defaultDate;
         }
-        $this->assign('description', $defaults['description'] ); 
+        $this->assign('description', CRM_Utils_Array::value('description', $defaults ) ); 
         
         return $defaults;
     }
