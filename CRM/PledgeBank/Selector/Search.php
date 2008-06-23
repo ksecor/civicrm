@@ -278,23 +278,19 @@ class CRM_PledgeBank_Selector_Search extends CRM_Core_Selector_Base implements C
              $row = array();
              // the columns we are interested in
              foreach (self::$_properties as $property) {
-                 if ( $property == 'signer_is_anonymous' ) {
-                     if ( isset( $result->$property ) ) {
-                         $row[$property] = 'Yes';
-                     } else {
-                         $row[$property] = 'No';
-                     }
-                 } else if ( $property == 'signer_pledge_desc' ) {
-                     $row['pledge'] = "...will " . $result->$property;
-                 } else if ( isset( $result->$property ) ) {
+                 if ( isset( $result->$property ) ) {
                      $row[$property] = $result->$property;
                  }
              }
              
-             $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->signer_id;
+             if ( $result->pb_signer_pledge_desc ) {
+                 $row['pledge'] = ts('...will') . $result->pb_signer_pledge_desc;
+             }             
+
+             $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->pb_signer_id;
              
              $row['action']   = CRM_Core_Action::formLink( self::links(), $mask,
-                                                           array( 'id'  => $result->signer_id,
+                                                           array( 'id'  => $result->pb_signer_id,
                                                                   'cid' => $result->contact_id,
                                                                   'cxt' => $this->_context ) );
              $config =& CRM_Core_Config::singleton( );

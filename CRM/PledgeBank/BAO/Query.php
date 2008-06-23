@@ -62,6 +62,8 @@ class CRM_PledgeBank_BAO_Query
         if ( CRM_Utils_Array::value( 'pb_pledge_name', $query->_returnProperties ) ) {
             $query->_select['pb_pledge_name'] = "civicrm_pb_pledge.creator_pledge_desc as pb_pledge_name";
             $query->_element['pb_pledge_name'] = 1;
+            $query->_select['pb_pledge_id'] = "civicrm_pb_pledge.id as pb_pledge_id";
+            $query->_element['pb_pledge_id'] = 1;
             $query->_tables['civicrm_pb_pledge'] = 1;
             $query->_whereTables['civicrm_pb_pledge'] = 1;
         }
@@ -192,6 +194,7 @@ class CRM_PledgeBank_BAO_Query
                                 'sort_name'              => 1, 
                                 'display_name'           => 1,
                                 'pb_signer_id'           => 1,
+                                'pb_pledge_id'           => 1,
                                 'pb_pledge_name'         => 1,
                                 'pb_pledge_is_active'    => 1,
                                 'pb_signer_is_done'      => 1,
@@ -206,7 +209,7 @@ class CRM_PledgeBank_BAO_Query
     static function buildSearchForm( &$form ) 
     {
         
-        $form->assign( 'dojoIncludes', " dojo.require('dojox.data.QueryReadStore'); dojo.require('civicrm.FilteringSelect');dojo.require('dojo.parser');" );
+        $form->assign( 'dojoIncludes', " dojo.require('dojox.data.QueryReadStore');dojo.require('dojo.parser');" );
         
         $dojoAttributesPledgeName = array( 'dojoType'       => 'civicrm.FilteringSelect',
                                            'mode'           => 'remote',

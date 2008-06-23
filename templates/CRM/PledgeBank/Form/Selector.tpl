@@ -31,13 +31,12 @@
 	<td>{$row.contact_type}</td>
     	<td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td>
     {/if}
-    <td><a href="{crmURL p='civicrm/pledge/view' q="reset=1&id=`$row.pb_pledge_id`"}">{$row.pb_pledge_name}</a></td>	
+    <td><a href="{crmURL p='civicrm/pledge/view' q="reset=1&id=`$row.pb_pledge_id`"}">{$row.pledge}</a></td>	
     <td>{$row.pb_signer_signing_date|truncate:10:''|crmDate}</td>
     <td>{if $row.pb_signer_is_anonymous}{ts}Yes{/ts}{else}{ts}No{/ts}{/if}</td>
     <td>{$row.action}</td>
    </tr>
   {/foreach}
-
 </table>
 {/strip}
 
