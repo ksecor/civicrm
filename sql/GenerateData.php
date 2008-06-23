@@ -1605,9 +1605,33 @@ VALUES
     (19, 6, 6, '$ 175.00-Apr 2007 Mailer 1', '2007-04-11 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
     (82, 7, 6, '$ 50.00-Online: Save the Penguins', '2007-03-27 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
     (92, 8, 6, '$ 10.00-Online: Save the Penguins', '2007-03-08 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    (34, 9, 6, '$ 250.00-Online: Save the Penguins', '2007-04-22 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 )
+    (34, 9, 6, '$ 250.00-Online: Save the Penguins', '2007-04-22 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 );
     ";
         CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+    }
+
+    function addPledge( )
+    {
+        $pledge = "INSERT INTO civicrm_pledge
+        ( creator_pledge_desc, signers_limit, signer_description_text, signer_pledge_desc, deadline, url_reference, description, creator_id, creator_description, created_date, loc_block_id, is_active )
+      VALUES 
+        ( 'donate $200 towards defending WikiLeaks in their first amendment fight', 10, 'other good people', 'give $20 to $200 dollars and encourage others to do the same!', '2009-06-30 00:00:00', NULL, NULL, 76, NULL, '2008-06-23 17:57:28', NULL, 1 ),
+        ( 'give at least 20 pounds to the Ebbsfleet United playing budget for 2008-09', 1000, 'other people',  'do the same', '2009-06-23 00:00:00', NULL, NULL, 90, NULL, '2008-06-23 18:08:32', NULL, 1 ),
+        (  'donate my old laptop to a charity', 10, 'other people', 'do the same', '2009-06-30 00:00:00', NULL, NULL, 40, NULL, '2008-06-23 18:12:38', NULL, 1 );
+      ";
+        CRM_Core_DAO::executeQuery( $pledge, CRM_Core_DAO::$_nullArray );      
+    }
+    
+    function addPledgeSigner( )
+    {
+        $pledgeSigner = "INSERT INTO civicrm_pledgesigner
+        ( contact_id,  pledge_id, is_anonymous, email_id, is_done, signing_date, is_test)
+      VALUES
+        ( 19, 1, 1, 42, 1, '2008-06-23 18:18:58', 0 ),
+        (  9, 2, 0,  8, 1, '2008-06-23 00:00:00', 0 ),
+        ( 73, 3, 0,  4, 0, '2008-06-23 18:20:16', 0 );
+      ";
+        CRM_Core_DAO::executeQuery( $pledgeSigner, CRM_Core_DAO::$_nullArray );      
     }
     
 }
@@ -1644,6 +1668,8 @@ $obj1->addEventAndLocation();
 $obj1->addEventPage();
 $obj1->addParticipant();
 $obj1->addContribution();
+$obj1->addPledge();
+$obj1->addPledgeSigner();
 echo("Ending data generation on " . date("F dS h:i:s A") . "\n");
 
 
