@@ -111,10 +111,6 @@ class CRM_Standalone_Form_Register extends CRM_Core_Form {
     function postProcess( ) {
         $formValues = $this->controller->exportValues( $this->_name );
         
-        //print "formValues: <pre>";
-        //print_r($formValues);
-        //print "</pre>";
-        
         require_once 'CRM/Standalone/User.php';
         require_once 'CRM/Utils/System/Standalone.php';
         require_once 'CRM/Core/BAO/OpenID.php';
@@ -125,20 +121,16 @@ class CRM_Standalone_Form_Register extends CRM_Core_Form {
         require_once 'CRM/Core/Session.php';
         $session =& CRM_Core_Session::singleton( );
         $contactId = $session->get( 'userID' );
-        $openId = new CRM_Core_BAO_OpenId( );
-        $openId->contact_id = $contact_id;
+        $openId =& new CRM_Core_DAO_OpenID( );
+        $openId->contact_id = $contactId;
         $openId->find( true );
         $openId->allowed_to_login = 1;
         $openId->update( );
-        
+
         // Set this to false if the registration is successful
         $session->set('new_install', false);
         
-        // Noticed header already sent error & therefore commented the below
-//         header( "Location: index.php" );
-//         exit();
+        header( "Location: index.php" );
+        exit();
     }
-
 }
-
-

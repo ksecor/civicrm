@@ -2,6 +2,8 @@
 
 class CRM_Standalone_User {
   
+  public $id;
+
   public $identity_url;
   
   public $email;

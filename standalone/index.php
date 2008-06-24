@@ -24,21 +24,19 @@ if ( !empty( $session->get['msg'] ) ) {
 
 //print "userID: " . $session->get('userID') . "<br/>";
 //print "ufName: " . $session->get('ufName') . "<br/>";
-if ( $session->get('new_install') !== true && ( $session->get('userID') == null || $session->get('userID') == '' ) ) {
-    include 'login.php';
-    exit(0);
-}
 
-if ($session->get('goahead') == "yes") {
-    // If we didn't get any parameters, we should default to the dashboard
+if ( $session->get('userID') == null || $session->get('userID') == '' ) {
+    if ($_GET[$urlVar] == "") {
+        header("Location: login.php");
+        exit();
+    } else {
+        print "<a href=\"{$config->userFrameworkBaseURL}\">Login here</a> if you have an account.\n";
+        print CRM_Core_Invoke::invoke( explode('/', $_GET[$urlVar] ) );
+    }
+} else {
     if ($_GET[$urlVar] == "") {
         print CRM_Core_Invoke::invoke( array("civicrm","dashboard") );
     } else {
         print CRM_Core_Invoke::invoke( explode('/', $_GET[$urlVar] ) );
     }
-} else {
-    $session->set('msg', 'Login failed!');
-    header("Location: login.php");
 }
-
-
