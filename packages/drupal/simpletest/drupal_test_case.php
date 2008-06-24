@@ -503,6 +503,9 @@ class DrupalTestCase extends WebTestCase {
 
     }
 
+    // also reset the DAO static arrays
+    CRM_Core_DAO::freeResult( );
+
     //delete content types
     foreach ($this->_cleanupContentTypes as $type) {
       node_type_delete($type);
