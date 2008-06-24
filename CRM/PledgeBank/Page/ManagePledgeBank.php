@@ -74,18 +74,20 @@ class CRM_PledgeBank_Page_ManagePledgeBank extends CRM_Core_Page
                                                                           'qs'    => 'action=update&id=%%id%%&reset=1',
                                                                           'title' => ts('Configure Pledge') 
                                                                           ),
-                                        CRM_Core_Action::PREVIEW => array(
-                                                                          'name'  => ts('Test-drive'),
-                                                                          'url'   => 'civicrm/event/info',
-                                                                          'qs'    => 'reset=1&action=preview&id=%%id%%',
-                                                                          'title' => ts('Preview') 
-                                                                          ),
-                                        CRM_Core_Action::FOLLOWUP    => array(
-                                                                          'name'  => ts('Live Page'),
-                                                                          'url'   => 'civicrm/event/info',
-                                                                          'qs'    => 'reset=1&id=%%id%%',
-                                                                          'title' => ts('FollowUp'),
-                                                                          ),
+                                        
+//                                         CRM_Core_Action::PREVIEW => array(
+//                                                                           'name'  => ts('Test-drive'),
+//                                                                           'url'   => 'civicrm/event/info',
+//                                                                           'qs'    => 'reset=1&action=preview&id=%%id%%',
+//                                                                           'title' => ts('Preview') 
+//                                                                           ),
+//                                         CRM_Core_Action::FOLLOWUP    => array(
+//                                                                           'name'  => ts('Live Page'),
+//                                                                           'url'   => 'civicrm/event/info',
+//                                                                           'qs'    => 'reset=1&id=%%id%%',
+//                                                                           'title' => ts('FollowUp'),
+//                                                                           ),
+                                        
                                         CRM_Core_Action::DISABLE => array(
                                                                           'name'  => ts('Disable'),
                                                                           'url'   => CRM_Utils_System::currentPath( ),
@@ -189,10 +191,9 @@ class CRM_PledgeBank_Page_ManagePledgeBank extends CRM_Core_Page
         // parent run 
         parent::run();
     }
-
+    
     /**
-     * Browse all custom data groups.
-     *  
+     * Browse all Pledges.
      * 
      * @return void
      * @access public
@@ -200,7 +201,6 @@ class CRM_PledgeBank_Page_ManagePledgeBank extends CRM_Core_Page
      */
     function browse()
     {
-
         $this->_sortByCharacter = CRM_Utils_Request::retrieve( 'sortByCharacter',
                                                                'String',
                                                                $this );
@@ -209,45 +209,42 @@ class CRM_PledgeBank_Page_ManagePledgeBank extends CRM_Core_Page
             $this->_sortByCharacter = '';
             $this->set( 'sortByCharacter', '' );
         }
-
+        
         $this->_force = null;
         $this->_searchResult = null;
-      
         $this->search( );
-
+        
         $config =& CRM_Core_Config::singleton( );
         
         $params = array( );
-        $this->_force = CRM_Utils_Request::retrieve( 'force', 'Boolean',
-                                                       $this, false ); 
+        $this->_force = CRM_Utils_Request::retrieve( 'force', 'Boolean', $this, false ); 
         $this->_searchResult = CRM_Utils_Request::retrieve( 'searchResult', 'Boolean', $this );
-      
         $whereClause = $this->whereClause( $params, false, $this->_force );
         $this->pagerAToZ( $whereClause, $params );
-
+        
         $params      = array( );
         $whereClause = $this->whereClause( $params, true, $this->_force );
         $this->pager( $whereClause, $params );
         list( $offset, $rowCount ) = $this->_pager->getOffsetAndRowCount( );
-
-        // get all custom groups sorted by weight
-        $manageEvent = array();
-             
+        
+        //get all pledges sorted by weight
+        $managePledge = array();
+        
         $query = "
   SELECT *
-    FROM civicrm_event
+    FROM civicrm_pb_pledge
    WHERE $whereClause
-ORDER BY title asc
+ORDER BY deadline asc
    LIMIT $offset, $rowCount";
-
-        $dao = CRM_Core_DAO::executeQuery( $query, $params, true, 'CRM_Event_DAO_Event' );
-     
+        
+        $dao = CRM_Core_DAO::executeQuery( $query, $params, true, 'CRM_PledgeBank_DAO_Pledge' );
+        
         while ($dao->fetch()) {
-            $manageEvent[$dao->id] = array();
-            CRM_Core_DAO::storeValues( $dao, $manageEvent[$dao->id]);
+            $managePledge[$dao->id] = array();
+            CRM_Core_DAO::storeValues( $dao, $managePledge[$dao->id]);
             
-            // form all action links
-            $action = array_sum(array_keys($this->links()));
+            //form all action links
+            $action = array_sum( array_keys( $this->links( ) ) );
             
             if ($dao->is_active) {
                 $action -= CRM_Core_Action::ENABLE;
@@ -255,20 +252,23 @@ ORDER BY title asc
                 $action -= CRM_Core_Action::DISABLE;
             }
             
-            $manageEvent[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $action, 
-                                                                         array('id' => $dao->id));
-
-            $params = array( 'entity_id' => $dao->id, 'entity_table' => 'civicrm_event');
+            $managePledge[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $action, 
+                                                                          array('id' => $dao->id));
+            
+            $params = array( 'entity_id' => $dao->id, 'entity_table' => 'civicrm_pb_pledge');
             require_once 'CRM/Core/BAO/Location.php';
-            $location = CRM_Core_BAO_Location::getValues($params, $defaults );
+            $location = CRM_Core_BAO_Location::getValues( $params, $defaults );
             if ( isset ( $defaults['location'][1]['address']['city'] ) ) {
-                $manageEvent[$dao->id]['city'] = $defaults['location'][1]['address']['city'];
+                $managePledge[$dao->id]['city'] = $defaults['location'][1]['address']['city'];
             }
             if ( isset( $defaults['location'][1]['address']['state_province_id'] )) {
-                $manageEvent[$dao->id]['state_province'] = CRM_Core_PseudoConstant::stateProvince($defaults['location'][1]['address']['state_province_id']);
+                $managePledge[$dao->id]['state_province'] = CRM_Core_PseudoConstant::stateProvince($defaults['location'][1]['address']['state_province_id']);
             }
+            
+            $managePledge[$dao->id]['title'] = "I will {$dao->creator_pledge_desc} but only if {$dao->signers_limit} {$dao->signer_description_text} will {$dao->signer_pledge_desc}.";
         }
-        $this->assign('rows', $manageEvent);
+        
+        $this->assign( 'rows', $managePledge );
     }
     
     /**
@@ -284,11 +284,11 @@ ORDER BY title asc
         
         require_once 'CRM/Event/BAO/Event.php';
         CRM_Event_BAO_Event::copy( $id );
-
+        
         return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/event/manage', 'reset=1' ) );
     }
-
-
+    
+    
     function search( ) {
         if ( isset($this->_action) &
              ( CRM_Core_Action::ADD    |
@@ -309,65 +309,47 @@ ORDER BY title asc
         $clauses = array( );
         $title   = $this->get( 'title' );
         if ( $title ) {
-            $clauses[] = "title LIKE %1";
+            $clauses[] = "creator_pledge_desc LIKE %1";
             if ( strpos( $title, '%' ) !== false ) {
                 $params[1] = array( trim($title), 'String', false );
             } else {
                 $params[1] = array( trim($title), 'String', true );
             }
         }
-
-        $value = $this->get( 'event_type_id' );
-        $val = array( );
-        if( $value) {
-            if ( is_array( $value ) ) {
-                foreach ($value as $k => $v) {
-                    if ($v) {
-                        $val[$k] = $k;
-                    }
-                } 
-                $type = implode (',' ,$val);
-            }
-            
-            $clauses[] = "event_type_id IN ({$type})";
-        }
         
-        $eventsByDates = $this->get( 'eventsByDates' );
+        $pledgeByDates = $this->get( 'pledgeByDates' );
         if ($this->_searchResult) {
-            if ( $eventsByDates) {
+            if ( $pledgeByDates) {
                 require_once 'CRM/Utils/Date.php';
-                
-                $from = $this->get( 'start_date' );
+                $from = $this->get( 'created_date' );
                 if ( ! CRM_Utils_System::isNull( $from ) ) {
                     $from = CRM_Utils_date::format( $from );
                     $from .= '000000';
-                    $clauses[] = 'start_date >= %3';
+                    $clauses[] = 'created_date >= %3';
                     $params[3] = array( $from, 'String' );
                 }
-                
-                $to = $this->get( 'end_date' );
+                $to = $this->get( 'deadline' );
                 if ( ! CRM_Utils_System::isNull( $to ) ) {
                     $to = CRM_Utils_date::format( $to );
                     $to .= '235959';
-                    $clauses[] = 'start_date <= %4';
+                    $clauses[] = 'created_date <= %4';
                     $params[4] = array( $to, 'String' );
                 }
-                
             } else {
                 $curDate = date( 'YmdHis' );
-                $clauses[5] =  "(end_date >= {$curDate} OR end_date IS NULL)";
+                $clauses[5] =  "(deadline >= {$curDate} OR deadline IS NULL)";
             }
-        
+            
         } else {
             $curDate = date( 'YmdHis' );
-            $clauses[] =  "(end_date >= {$curDate} OR end_date IS NULL)";
+            $clauses[] =  "( deadline >= {$curDate} OR deadline IS NULL)";
         }
         if ( $sortBy &&
              $this->_sortByCharacter ) {
-            $clauses[] = 'title LIKE %6';
+            $clauses[] = 'creator_pledge_desc LIKE %6';
             $params[6] = array( $this->_sortByCharacter . '%', 'String' );
         }
-
+        
         // dont do a the below assignement when doing a 
         // AtoZ pager clause
         if ( $sortBy ) {
@@ -377,18 +359,18 @@ ORDER BY title asc
                 $this->assign( 'isSearch', 0 );
             }
         }
-
+        
         if ( empty( $clauses ) ) {
             return 1;
         }
-
+        
         return implode( ' AND ', $clauses );
     }
-
-
-     function pager( $whereClause, $whereParams ) {
+    
+    function pager( $whereClause, $whereParams ) 
+    {
         require_once 'CRM/Utils/Pager.php';
-
+        
         $params['status']       = ts('PledgeBank %%StatusMessage%%');
         $params['csvString']    = null;
         $params['buttonTop']    = 'PagerTopButton';
@@ -397,29 +379,30 @@ ORDER BY title asc
         if ( ! $params['rowCount'] ) {
             $params['rowCount'] = CRM_Utils_Pager::ROWCOUNT;
         }
-
+        
         $query = "
 SELECT count(id)
-  FROM civicrm_event
+  FROM civicrm_pb_pledge
  WHERE $whereClause";
-
+        
         $params['total'] = CRM_Core_DAO::singleValueQuery( $query, $whereParams );
-            
+        
         $this->_pager = new CRM_Utils_Pager( $params );
         $this->assign_by_ref( 'pager', $this->_pager );
     }
-
-    function pagerAtoZ( $whereClause, $whereParams ) {
+    
+    function pagerAtoZ( $whereClause, $whereParams ) 
+    {
         require_once 'CRM/Utils/PagerAToZ.php';
         
         $query = "
-   SELECT DISTINCT UPPER(LEFT(title, 1)) as sort_name
-     FROM civicrm_event
+   SELECT DISTINCT UPPER(LEFT(creator_pledge_desc, 1)) as sort_name
+     FROM civicrm_pb_pledge
     WHERE $whereClause
- ORDER BY LEFT(title, 1)
+ ORDER BY LEFT(creator_pledge_desc, 1)
 ";
         $dao = CRM_Core_DAO::executeQuery( $query, $whereParams );
-
+        
         $aToZBar = CRM_Utils_PagerAToZ::getAToZBar( $dao, $this->_sortByCharacter, true );
         $this->assign( 'aToZ', $aToZBar );
     }
