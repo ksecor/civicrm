@@ -101,7 +101,7 @@
 {ts}Billing Name and Address{/ts}
 
 ===========================================================
-{$name}
+{$billingName}
 {$address}
 
 {$email}
@@ -157,8 +157,8 @@ End Date: {$end_date|crmDate}
 {ts}{$customPre_grouptitle} {/ts}
 
 ===========================================================
-{foreach from=$customPre item=value key=name}
- {$name} : {$value}
+{foreach from=$customPre item=customValue key=customName}
+ {$customName} : {$customValue}
 {/foreach}
 {/if}
 
@@ -168,7 +168,7 @@ End Date: {$end_date|crmDate}
 {ts}{$customPost_grouptitle}{/ts}
 
 ===========================================================
-{foreach from=$customPost item=value key=name}
- {$name} : {$value}
+{foreach from=$customPost item=customValue key=customName}
+ {$customName} : {$customValue}
 {/foreach}
 {/if}
