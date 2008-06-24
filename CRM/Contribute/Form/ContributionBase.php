@@ -285,8 +285,9 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
             }
 
             // also set cancel subscription url
-            if ( !$isPayLater ) {
+            if ( !$isPayLater && $this->_paymentObject ) {    
                 $this->_values['cancelSubscriptionUrl'] = $this->_paymentObject->cancelSubscriptionURL( );
+
             }
             if ( ( ( isset($postProfileType) && $postProfileType == 'Membership' ) ||
                    ( isset($preProfileType ) && $preProfileType == 'Membership' ) ) &&
