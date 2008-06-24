@@ -1,0 +1,95 @@
+<?php
+
+/*
+ +--------------------------------------------------------------------+
+ | CiviCRM version 2.1                                                |
+ +--------------------------------------------------------------------+
+ | Copyright CiviCRM LLC (c) 2004-2008                                |
+ +--------------------------------------------------------------------+
+ | This file is a part of CiviCRM.                                    |
+ |                                                                    |
+ | CiviCRM is free software; you can copy, modify, and distribute it  |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
+ |                                                                    |
+ | CiviCRM is distributed in the hope that it will be useful, but     |
+ | WITHOUT ANY WARRANTY; without even the implied warranty of         |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
+ | See the GNU Affero General Public License for more details.        |
+ |                                                                    |
+ | You should have received a copy of the GNU Affero General Public   |
+ | License along with this program; if not, contact CiviCRM LLC       |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
+ | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
+ +--------------------------------------------------------------------+
+*/
+
+/**
+ *
+ * @package CRM
+ * @copyright CiviCRM LLC (c) 2004-2008
+ * $Id$
+ *
+ */
+
+require_once 'CiviTestCase.php';
+
+class Browser_Custom_Group extends CiviTestCase
+{
+
+    var $params;
+    var $webUser;
+
+    function get_info()
+    {
+        return array('name'        => 'New Custom Group',
+                     'description' => 'Tests New Custom Group form',
+                     'group'       => 'CiviCRM Browser Tests');
+    }
+
+    function setUp()
+    {
+        parent::setUp();
+        $this->webUser = $this->drupalCreateUserRolePerm(array('access CiviCRM',
+                                                               'administer CiviCRM'));
+        $this->drupalLoginUser($this->webUser);
+        $this->civiGet('civicrm/admin/custom/group', 'action=add&reset=1');
+
+        // create a default params array, unique per each test
+        $uniqid = uniqid('Custom Group Test ', true);
+        $this->params = array('title' => $uniqid);
+    }
+
+    function testCreateWithMissingParams()
+    {
+        $params = array('title' => '', 'weight' => '');
+        $this->drupalPost(NULL, $params, '_qf_Group_next');
+        $this->assertText('Group Name is a required field.');
+        $this->assertText('Order is a required field.');
+        $this->assertDBNull('CRM_Core_DAO_CustomGroup', $this->params['title'], 'id', 'title', 'Making sure the custom group was not created in the database.');
+    }
+
+    function testCreateForParticipant()
+    {
+        $this->params['extends[0]'] = 'Participant';
+        $this->params['help_pre']   = "help_pre for {$this->params['title']}";
+        $this->params['help_post']  = "help_post for {$this->params['title']}";
+        $this->drupalPost(NULL, $this->params, '_qf_Group_next');
+
+        // make sure the group got created (based on the unique title) and fetch its id
+        $group_id = $this->assertDBNotNull('CRM_Core_DAO_CustomGroup', $this->params['title'], 'id', 'title', 'Checking db for the created group.');
+
+        $expected = array('title'            => $this->params['title'],
+                          'extends'          => 'Participant',
+                          'style'            => 'Inline',
+                          'collapse_display' => 0,
+                          'help_pre'         => "help_pre for {$this->params['title']}",
+                          'help_post'        => "help_post for {$this->params['title']}",
+                          'is_active'        => 1,
+                          'is_multiple'      => 0);
+        // test whether the above fields were set properly
+        $this->assertDBCompareValues('CRM_Core_DAO_CustomGroup', array('id' => $group_id), $expected);
+    }
+
+}
