@@ -1,0 +1,21 @@
+<?php
+
+require_once 'CiviTestCase.php';
+
+class BAO_Core_CustomGroup extends CiviTestCase 
+{
+    function get_info( ) 
+    {
+        return array(
+                     'name'        => 'CustomGroup BAOs',
+                     'description' => 'Test all Core_BAO_CustomGroup methods.',
+                     'group'       => 'CiviCRM BAO Tests',
+                     );
+    }
+    
+    function setUp( ) 
+    {
+        parent::setUp();
+    }
+    
+}
