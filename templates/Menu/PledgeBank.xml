@@ -35,6 +35,8 @@
      <page_type>1</page_type>
      <weight>1130</weight>
   </item>
+<!-- commenting out - this is a low priority requirement, come back to it if
+  time allows
   <item>
      <path>civicrm/pb/import</path>
      <title>Import Signers</title>
@@ -43,4 +45,5 @@
      <page_type>1</page_type>
      <weight>1140</weight>
   </item>
+-->
 </menu>
