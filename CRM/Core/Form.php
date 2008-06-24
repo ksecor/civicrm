@@ -310,7 +310,8 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
 
         $this->preProcess();
 
-        if ( $this->controller->_key ) {
+        if ( $this->controller->_key &&
+             ! $this->controller->_print ) {
             $this->addElement( 'hidden', 'qfKey', $this->controller->_key );
         }
 

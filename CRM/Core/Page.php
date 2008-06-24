@@ -124,18 +124,20 @@ class CRM_Core_Page {
         $this->_title = $title;
         $this->_mode  = $mode;
 
+        // let the constructor initialize this, should happen only once
+        if ( ! isset( self::$_template ) ) {
+            self::$_template =& CRM_Core_Smarty::singleton( );
+            self::$_session  =& CRM_Core_Session::singleton( );
+
+        }
+
         if ( isset( $_GET['snippet'] ) && $_GET['snippet'] ) {
             if ( $_GET['snippet'] == 3 ) {
                 $this->_print = CRM_Core_Smarty::PRINT_PDF;
             } else {
                 $this->_print = CRM_Core_Smarty::PRINT_SNIPPET;
+                self::$_template->assign( 'suppressForm', true );
             }
-        }
-
-        // let the constructor initialize this, should happen only once
-        if ( ! isset( self::$_template ) ) {
-            self::$_template =& CRM_Core_Smarty::singleton( );
-            self::$_session  =& CRM_Core_Session::singleton( );
         }
 
         // if the request has a reset value, initialize the controller session

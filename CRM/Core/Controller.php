@@ -93,7 +93,7 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
      *
      * @var boolean
      */
-    protected $_print = 0;
+    public $_print = 0;
 
     /**
      * cache the smarty template for efficiency reasons
