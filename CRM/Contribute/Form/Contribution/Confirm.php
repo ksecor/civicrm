@@ -657,7 +657,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
 
         $contribParams["contribution_status_id"] = $pending ? 2 : 1;
 
-        if( $form->_action & CRM_Core_Action::PREVIEW ) {
+        if ( $form->_mode == 'test' ) {
             $contribParams["is_test"] = 1;
         }
 

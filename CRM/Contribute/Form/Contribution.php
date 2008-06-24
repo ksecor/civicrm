@@ -159,6 +159,17 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
               $this->userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $this->_contactID );
         $this->assign( 'displayName', $this->userDisplayName );
         
+        //get the diaplay name when user doesn't have email.
+        if ( ! $this->userEmail ) {
+            $displayName = CRM_Contact_BAO_Contact::displayName( $this->_contactID );
+            $this->assign( 'displayName', $displayName );
+            //display message at top of page.
+            if ( !CRM_Utils_Array::value( 'formType', $_GET ) ) {
+                $statusMsg = ts( "You will not be able to send an automatic email receipt for this contribution because there is no email address recorded for this contact. If you want a receipt to be sent when this contribution is recorded, click Cancel and then click Edit from the Summary tab to add an email address before recording the contribution." );
+                CRM_Core_Session::setStatus( $statusMsg );
+            }
+        }
+        
         // also check for billing information
         // get the billing location type
         $locationTypes =& CRM_Core_PseudoConstant::locationType( );
@@ -261,17 +272,10 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             }
             $fields["state_province-{$this->_bltID}"] = 1;
             $fields["country-{$this->_bltID}"       ] = 1;
-            $fields["email-{$this->_bltID}"         ] = 1;
-            $fields["email-Primary"                 ] = 1;
             
             require_once "CRM/Core/BAO/UFGroup.php";
             CRM_Core_BAO_UFGroup::setProfileDefaults( $this->_contactID, $fields, $defaults  );
             
-            // use primary email address if billing email address is empty
-            if ( empty( $defaults["email-{$this->_bltID}"] ) &&
-                 ! empty( $defaults["email-Primary"] ) ) {
-                $defaults["email-{$this->_bltID}"] = $defaults["email-Primary"];
-            }
             foreach ($names as $name) {
                 if ( ! empty( $defaults[$name] ) ) {
                     $defaults["billing_" . $name] = $defaults[$name];
@@ -348,12 +352,12 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         }
         
         list( $displayName, $email ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $this->_contactID );
-        $this->assign( 'email', $email ); 
+        $this->assign( 'email', $email );
         if ( CRM_Utils_Array::value( 'is_pay_later',$defaults ) ) {
             $this->assign( 'is_pay_later', true ); 
         }
         $this->assign( 'contribution_status_id', CRM_Utils_Array::value('contribution_status_id',$defaults ) );
-
+        
         return $defaults;
     }
     
@@ -549,11 +553,6 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             $element->freeze( );
         }
         
-        $element =& $this->add( 'text', "email-{$this->_bltID}",
-                                ts( 'Email Address' ), array( 'size' => 30, 'maxlength' => 60 ) );
-        if ( $this->_online ) {
-            $element->freeze( );
-        }
         //add receipt for credit card contribution
         $this->addElement('checkbox', 'is_email_receipt_cc', ts('Send Receipt?'), null );
         
@@ -622,9 +621,6 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             if ( empty( $fields['payment_processor_id'] ) ) {
                 $errors['payment_processor_id'] = ts( 'Payment Processor is a required field.' );
             }
-            if ( empty( $fields["email-{$self->_bltID}"] ) ) {
-                $errors["email-{$self->_bltID}"] = ts( 'Email Address is a required field.' );
-            }
         }
         
         return $errors;
@@ -676,10 +672,6 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             $now = date( 'YmdHis' );
             $fields = array( );
             
-            // set email for primary location.
-            $fields["email-Primary"] = 1;
-            $params["email-Primary"] = $params["email-{$this->_bltID}"];
-            
             // now set the values for the billing location.
             foreach ( $this->_fields as $name => $dontCare ) {
                 $fields[$name] = 1;
@@ -692,8 +684,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                 CRM_Utils_Array::value( 'billing_last_name'  , $params );
             $params["location_name-{$this->_bltID}"] = trim( $params["location_name-{$this->_bltID}"] );
             $fields["location_name-{$this->_bltID}"] = 1;
-            $fields["email-{$this->_bltID}"] = 1;
-            
+                        
             $ctype = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
                                                   $this->_contactID,
                                                   'contact_type' );
@@ -801,9 +792,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             // set source if not set 
             if ( empty( $this->_params['source'] ) ) {
                 $this->_params['source'] = ts( 'Online Contribution: CiviCRM Admin Interface' );
-            } else {
-                $this->_params['source'] = $this->_params['source'];
-            }
+            } 
             
             require_once 'CRM/Contribute/Form/Contribution/Confirm.php';
             $contribution 
