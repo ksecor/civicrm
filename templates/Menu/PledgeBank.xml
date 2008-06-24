@@ -2,7 +2,7 @@
 
 <menu>
   <item>
-     <path>civicrm/pledge</path>
+     <path>civicrm/pb</path>
      <title>PledgeBank</title>
      <page_callback>CRM_PledgeBank_Page_DashBoard</page_callback>
      <access_arguments>access PledgeBank</access_arguments>
@@ -11,7 +11,7 @@
      <component>PledgeBank</component>
   </item>
   <item>
-     <path>civicrm/pledge/search</path>
+     <path>civicrm/pb/search</path>
      <title>Find Signers</title>
      <page_callback>CRM_PledgeBank_Controller_Search</page_callback>
      <access_arguments>access PledgeBank</access_arguments>
@@ -19,7 +19,7 @@
      <weight>1110</weight>
   </item>
   <item>
-     <path>civicrm/pledge/manage</path>
+     <path>civicrm/pb/manage</path>
      <title>Manage Pledges</title>
      <page_callback>CRM_PledgeBank_Page_ManagePledgeBank</page_callback>
      <access_arguments>access PledgeBank</access_arguments>
@@ -27,7 +27,7 @@
      <weight>1120</weight>
   </item>
   <item>
-     <path>civicrm/pledge/add</path>
+     <path>civicrm/pb/add</path>
      <path_arguments>action=add</path_arguments>
      <title>New Pledge</title>
      <page_callback>CRM_PledgeBank_Page_ManagePledgeBank</page_callback>
@@ -36,7 +36,7 @@
      <weight>1130</weight>
   </item>
   <item>
-     <path>civicrm/pledge/import</path>
+     <path>civicrm/pb/import</path>
      <title>Import Signers</title>
      <page_callback>CRM_PledgeBank_Import_Controller</page_callback>
      <access_arguments>access PledgeBank,edit pledge signers</access_arguments>
