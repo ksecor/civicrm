@@ -77,7 +77,7 @@ class Browser_Core_AJAX extends CiviTestCase
       
       $contactId = Contact::createIndividual( $params );
 
-      $this->civiGet('civicrm/ajax/search', '?d=1&name=Sarah*&start=0&count=10');
+      $this->civiGet('civicrm/ajax/search', '?name=Sarah*&start=0&count=10');
       $this->assertWantedRaw( 'Jones, Sarah', 'Returns json object.' );
 
       Contact::delete( $contactId );
@@ -107,7 +107,8 @@ class Browser_Core_AJAX extends CiviTestCase
    */
   function testCustomField( )
   {   
-      //get the custom group.
+      //get the custom group
+      require_once "CRM/Core/BAO/CustomGroup.php";
       $customGroup = CRM_Core_BAO_CustomGroup::retrieve( $groupParams = array( ), 
                                                          $defaults= array( ) );
       $customGroupID = $customGroup->id;
@@ -141,7 +142,7 @@ class Browser_Core_AJAX extends CiviTestCase
       //create test event
       $eventId = Event::create( );
       
-      $this->civiGet('civicrm/ajax/event', '?d=1&name=Test Event*&start=0&count=10');
+      $this->civiGet('civicrm/ajax/event', '?name=Test Event*&start=0&count=10');
       $this->assertWantedRaw( 'Test Event', 'Returns json object.' );
       
       //cleanup DB by deleting Event.
@@ -161,7 +162,7 @@ class Browser_Core_AJAX extends CiviTestCase
       require_once 'CRM/Core/OptionValue.php';
       $optionValue = CRM_Core_OptionValue::addOptionValue( $params, $groupParams, $action = 1, $id = null );
       
-      $this->civiGet('civicrm/ajax/eventType', '?d=1&name=Test Event Type*&start=0&count=10');
+      $this->civiGet('civicrm/ajax/eventType', '?name=Test Event Type*&start=0&count=10');
       $this->assertWantedRaw( 'Test Event Type', 'Returns json object.' );
       
       //cleanup DB by deleting EventType.
@@ -173,7 +174,7 @@ class Browser_Core_AJAX extends CiviTestCase
    */
   function testState( )
   {
-      $this->civiGet('civicrm/ajax/state', '?d=1&name=California*&start=0&count=10');
+      $this->civiGet('civicrm/ajax/state', '?name=California*&start=0&count=10');
       $this->assertWantedRaw( 'California', 'Returns json object.' );
   } 
   
@@ -182,7 +183,7 @@ class Browser_Core_AJAX extends CiviTestCase
    */
   function testStates( )
   {
-      $this->civiGet('civicrm/ajax/states', '?d=1&node1=1228&name=California*&start=0&count=10');
+      $this->civiGet('civicrm/ajax/states', 'return=states&node1=1228&name=California&start=0');
       $this->assertWantedRaw( 'California', 'Returns json object.' );
   } 
   
@@ -191,7 +192,7 @@ class Browser_Core_AJAX extends CiviTestCase
    */
   function testCountry( )
   {
-      $this->civiGet('civicrm/ajax/country', '?d=1&name=United States*&start=0&count=10');
+      $this->civiGet('civicrm/ajax/country', '?name=United States*&start=0&count=10');
       $this->assertWantedRaw( 'United States', 'Returns json object.' );
   }
 
@@ -200,7 +201,7 @@ class Browser_Core_AJAX extends CiviTestCase
    */
   function testCountries( )
   {
-      $this->civiGet('civicrm/ajax/countries', '?d=1&name=United States*&start=0&count=10');
+      $this->civiGet('civicrm/ajax/countries', 'return=countries&name=United States&start=0');
       $this->assertWantedRaw( 'United States', 'Returns json object.' );
   }
   
@@ -219,7 +220,7 @@ class Browser_Core_AJAX extends CiviTestCase
                       );
       require_once 'CRM/Core/BAO/MessageTemplates.php';
       $messageTemplate = CRM_Core_BAO_MessageTemplates::add( $params );
-      $this->civiGet('civicrm/ajax/template', "?d=1&tid={$messageTemplate->id}");
+      $this->civiGet('civicrm/ajax/template', "?tid={$messageTemplate->id}");
       $this->assertWantedRaw( 'Text Message^AHTML Message^ATest Message Subject', 'Returns json object.' );
       //Now cleanup The DB.
       CRM_Core_BAO_MessageTemplates::del( $messageTemplate->id );
@@ -248,7 +249,7 @@ class Browser_Core_AJAX extends CiviTestCase
       $testCase = CRM_Case_BAO_Case::create( $caseParams );
       $caseId = $testCase->id; 
       
-      $this->civiGet('civicrm/ajax/caseSubject', "?d=1&c={$contactId}&name=Test Case*&start=0&count=10");
+      $this->civiGet('civicrm/ajax/caseSubject', "?c={$contactId}&name=Test Case*&start=0&count=10");
       $this->assertWantedRaw( 'Test Case', 'Returns json object.' );
       
       //cleanup DB by deleting records.
@@ -310,7 +311,7 @@ class Browser_Core_AJAX extends CiviTestCase
                                         );
       $orgId = Contact::createOrganisation( $orgParams ); 
       
-      $this->civiGet('civicrm/ajax/permlocation', "?d=1&cid={$orgId}");
+      $this->civiGet('civicrm/ajax/permlocation', "?cid={$orgId}");
       $this->assertWantedRaw( 'testorg@civicrm.org', 'Returns json object.' );
       
       //cleanup DB by deleting records.
@@ -322,7 +323,7 @@ class Browser_Core_AJAX extends CiviTestCase
    */
   function testGroupTree( )
   {
-      $this->civiGet( 'civicrm/ajax/groupTree', '?d=1' );
+      $this->civiGet( 'civicrm/ajax/groupTree','reset=1' );
       //Now check the group Tree
       $this->assertText( "identifier:'id', label:'name', items:", 'Returns json object.' );
       //$this->assertText( "id:'1', name:'Administrators', children:[{_reference:'5'}], type:'rootGroup'", 'Returns json object.' );
