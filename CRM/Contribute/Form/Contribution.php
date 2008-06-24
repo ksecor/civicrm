@@ -150,8 +150,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         
         $this->assign( 'contributionMode', $this->_mode );
         
-        $this->_processors = CRM_Core_PseudoConstant::paymentProcessor( false, false,
-                                                                        "billing_mode IN ( 1, 3 )" );
+        $this->_processors = CRM_Core_PseudoConstant::paymentProcessor( false, false, "billing_mode IN ( 1, 3 )" );
         $this->_paymentProcessor = array( 'billing_mode' => 1 );
         
         require_once 'CRM/Contact/BAO/Contact/Location.php';
@@ -163,11 +162,6 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         if ( ! $this->userEmail ) {
             $displayName = CRM_Contact_BAO_Contact::displayName( $this->_contactID );
             $this->assign( 'displayName', $displayName );
-            //display message at top of page.
-            if ( !CRM_Utils_Array::value( 'formType', $_GET ) ) {
-                $statusMsg = ts( "You will not be able to send an automatic email receipt for this contribution because there is no email address recorded for this contact. If you want a receipt to be sent when this contribution is recorded, click Cancel and then click Edit from the Summary tab to add an email address before recording the contribution." );
-                CRM_Core_Session::setStatus( $statusMsg );
-            }
         }
         
         // also check for billing information

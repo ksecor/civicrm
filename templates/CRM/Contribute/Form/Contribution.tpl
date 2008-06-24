@@ -10,7 +10,16 @@
 {else if $contributionMode == 'live'}
     {assign var=contribMode value="LIVE"}
 {/if}
-
+{if !$email}
+<div class="messages status">
+  <dl>
+    <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
+    <dd>
+        <p>{ts}You will not be able to send an automatic email receipt for this contribution because there is no email address recorded for this contact. If you want a receipt to be sent when this contribution is recorded, click Cancel and then click Edit from the Summary tab to add an email address before recording the contribution.{/ts}</p>
+    </dd>
+  </dl>
+</div>
+{/if}
 {if $contributionMode}
 <div id="help">
     {ts 1=$displayName 2=$contribMode}Use this form to submit a new contribution on behalf of %1. <strong>A %2 transaction will be submitted</strong> using the selected payment processor.{/ts}
