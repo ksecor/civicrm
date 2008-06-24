@@ -77,9 +77,8 @@ class CRM_Member_Form_Task_Delete extends CRM_Member_Form_Task {
      * @access public
      * @return None
      */
-    public function postProcess() {
-        $session =& CRM_Core_Session::singleton();
-
+    public function postProcess( ) 
+    {
         $deletedMemberss = 0;
         foreach ($this->_memberIds as $memberId) {
             if (CRM_Member_BAO_Membership::deleteMembership($memberId)) {
