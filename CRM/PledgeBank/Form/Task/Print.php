@@ -63,7 +63,7 @@ class CRM_PledgeBank_Form_Task_Print extends CRM_PledgeBank_Form_Task
                                                    $this->get( CRM_Utils_Sort::SORT_DIRECTION ) );
         }
 
-        $selector   =& new CRM_PledgeBank_Selector_Search($queryParams, $this->_action, $this->_eventClause );
+        $selector   =& new CRM_PledgeBank_Selector_Search($queryParams, $this->_action, $this->_componentClause );
         $controller =& new CRM_Core_Selector_Controller($selector , null, $sortID, CRM_Core_Action::VIEW, $this, CRM_Core_Selector_Controller::SCREEN);
         $controller->setEmbedded( true );
         $controller->run();
@@ -84,7 +84,7 @@ class CRM_PledgeBank_Form_Task_Print extends CRM_PledgeBank_Form_Task
         // 
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
-                                         'name'      => ts('Print Pledge Signer List'),
+                                         'name'      => ts('Print Signer List'),
                                          'js'        => array( 'onclick' => 'window.print()' ),
                                          'isDefault' => true   ),
                                  array ( 'type'      => 'back',

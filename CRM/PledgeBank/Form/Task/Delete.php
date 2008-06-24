@@ -69,7 +69,7 @@ class CRM_PledgeBank_Form_Task_Delete extends CRM_PledgeBank_Form_Task
      */
     function buildQuickForm( ) 
     {
-        $this->addDefaultButtons( ts( 'Delete Pledge Signer' ), 'done' );
+        $this->addDefaultButtons( ts( 'Delete Signers' ), 'done' );
     }
 
     /**
@@ -80,6 +80,19 @@ class CRM_PledgeBank_Form_Task_Delete extends CRM_PledgeBank_Form_Task
      */
     public function postProcess( ) 
     {
+        $deletedSigners = 0;
+        require_once 'CRM/PledgeBank/BAO/Signer.php';
+        foreach ( $this->_signerIds as $signerId ) {
+            if ( CRM_PledgeBank_BAO_Signer::del( $signerId ) ) {
+                $deletedSigners++;
+            }
+        }
+
+        $status = array(
+                        ts( 'Deleted Signer(s): %1',        array( 1 => $deletedSigners ) ),
+                        ts( 'Total Selected Signer(s): %1', array( 1 => count($this->_signerIds ) ) ),
+                        );
+        CRM_Core_Session::setStatus( $status );
 
     }
 }

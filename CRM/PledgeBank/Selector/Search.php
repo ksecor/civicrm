@@ -138,9 +138,9 @@ class CRM_PledgeBank_Selector_Search extends CRM_Core_Selector_Base implements C
      *
      * @param array   $queryParams array of parameters for query
      * @param int     $action - action of search basic or advanced.
-     * @param string  $eventClause if the caller wants to further restrict the search (used in participations)
+     * @param string  $additionalClause if the caller wants to further restrict the search (used in participations)
      * @param boolean $single are we dealing only with one contact?
-     * @param int     $limit  how many participations do we want returned
+     * @param int     $limit  how many signers do we want returned
      *
      * @return CRM_Contact_Selector
      * @access public
@@ -267,7 +267,7 @@ class CRM_PledgeBank_Selector_Search extends CRM_Core_Selector_Base implements C
          // process the result of the query
          $rows = array( );
          
-         // check is the user has view/edit participation permission
+         // check is the user has view/edit signer permission
          $permission = CRM_Core_Permission::VIEW;
          if ( CRM_Core_Permission::check( 'edit pledge signer records' ) ) {
              $permission = CRM_Core_Permission::EDIT;

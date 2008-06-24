@@ -9,21 +9,17 @@
 <p>
 <table>
   <tr class="columnheader">
-    <th>{ts}Name{/ts}</th>
-    <th>{ts}Event{/ts}</th>
-    <th>{ts}Fee Level{/ts}</th>
-    <th>{ts}Event Date{/ts}</th>
-    <th>{ts}Participation Status{/ts}</th>
+    <th>{ts}Signer{/ts}</th>
+    <th>{ts}Pledge{/ts}</th>
+    <th>{ts}Signed On{/ts}</th>
+    <th>{ts}Anonymous?{/ts}</th>
   </tr>
 {foreach from=$rows item=row}
     <tr class="{cycle values="odd-row,even-row"}">
         <td>{$row.sort_name}</td>
-        <td>{$row.event_title}</td>  
-        <td>{$row.event_level}</td> 
-        <td>{$row.start_date|truncate:10:''|crmDate}<br/>
-            {$row.end_date|truncate:10:''|crmDate}
-        </td>
-        <td>{$row.status}</td>
+        <td>{$row.pledge}</td>  
+        <td>{$row.pb_signer_signing_date|truncate:10:''|crmDate}</td> 
+        <td>{if $row.pb_signer_is_anonymous}{ts}Yes{/ts}{else}{ts}No{/ts}{/if}</td>
     </tr>
 {/foreach}
 </table>

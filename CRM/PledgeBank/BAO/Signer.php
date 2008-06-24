@@ -33,65 +33,32 @@
  *
  */
 
+require_once 'CRM/PledgeBank/DAO/Signer.php';
 /**
- * class to represent the actions that can be performed on a group of contacts
- * used by the search forms
- *
+ * This class is for PledgeBank Signer related functions
  */
-class CRM_PledgeBank_Task
+class CRM_PledgeBank_BAO_Signer extends CRM_PledgeBank_DAO_Signer
 {
-    const
-        DELETE_SIGNERS                     =     1,
-        PRINT_SIGNERS                      =     2;
-
     /**
-     * the task array
+     * Function to delete signer
      *
-     * @var array
-     * @static
-     */
-    static $_tasks = null;
-
-    /**
-     * the optional task array
+     * @param int $id  signer id
      *
-     * @var array
-     * @static
-     */
-    static $_optionalTasks = null;
-
-    /**
-     * These tasks are the core set of tasks that the user can perform
-     * on a contact / group of contacts
-     *
-     * @return array the set of tasks for a group of contacts
-     * @static
      * @access public
-     */
-    static function &tasks()
-    {
-        if ( !self::$_tasks ) {
-            self::$_tasks = array(
-                                  1     => ts( 'Delete Signers' )
-                                  );
-        }
-
-        asort( self::$_tasks );
-        return self::$_tasks;
-    }
-
-    /**
-     * These tasks get added based on the context the user is in
-     *
-     * @return array the set of optional tasks for a group of contacts
      * @static
-     * @access public
+     *
      */
-    static function &optionalTaskTitle()
-    {
-        $tasks = array( );
-        return $tasks;
+    static function del( $id )
+    { 
+        require_once 'CRM/Core/Transaction.php';
+        $transaction = new CRM_Core_Transaction( );
+        
+        $signer = new CRM_PledgeBank_DAO_Signer( );
+        $signer->id = $id;
+        $signer->delete( );
+        
+        $transaction->commit( );
+        return $signer;
     }
-
 }
 

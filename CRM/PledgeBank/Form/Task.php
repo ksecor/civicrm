@@ -84,7 +84,7 @@ class CRM_PledgeBank_Form_Task extends CRM_Core_Form
         $values = $this->controller->exportValues( 'Search' );
 
         $this->_task = $values['task'];
-        $pledgeTasks = CRM_Event_Task::tasks();
+        $pledgeTasks = CRM_PledgeBank_Task::tasks();
         $this->assign( 'taskName', $pledgeTasks[$this->_task] );
         
         $ids = array();
@@ -100,7 +100,7 @@ class CRM_PledgeBank_Form_Task extends CRM_Core_Form
                                                        CRM_Contact_BAO_Query::MODE_PLEDGEBANK );
             $result = $query->searchQuery(0, 0, null);
             while ($result->fetch()) {
-                $ids[] = $result->signer_id;
+                $ids[] = $result->pb_signer_id;
             }
         }
         
@@ -108,9 +108,9 @@ class CRM_PledgeBank_Form_Task extends CRM_Core_Form
             $this->_componentClause =
                 ' civicrm_pb_signer.id IN ( ' .
                 implode( ',', $ids ) . ' ) ';
-            $this->assign( 'totalSelectedParticipants', count( $ids ) );             
+            $this->assign( 'totalSelectedSigners', count( $ids ) );             
         }
-        
+
         $this->_signerIds = $this->_componentIds = $ids;
     }
 
