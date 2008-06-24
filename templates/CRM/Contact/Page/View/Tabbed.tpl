@@ -7,10 +7,12 @@
 dojo.require("dojo.parser");
 dojo.require("dijit.InlineEditBox");
 dojo.require("dijit.form.TextBox");
+dojo.require("dojox.widget.Toaster");
+
 function myHandler(field, value) {
     var dataUrl = {/literal}"{crmURL p=civicrm/ajax/summary h=0 q='cid='}{$contactId}"{literal} + '&field=' + field + '&value=' + value;
     
-    var result = dojo.xhrPost({
+    var result = dojo.xhrGet({
         url: dataUrl,
         handleAs: "text",
 	form:'summary',
@@ -29,19 +31,18 @@ function myHandler(field, value) {
 		    }
                 } else {
 		    // on success
-		    console.log('Saved');
+		    var messg = "{/literal}{ts}Your data is saved.{/ts}{literal}"
+		    dojo.publish("testMessageTopic", [ messg ] );
 		}
 	    }
 	});
-
-
 }
+
 </script>
 {/literal}
+<div class="tundra" dojoType="dojox.widget.Toaster" id="toast" positionDirection="tl-down" messageTopic="testMessageTopic"></div>
 <div id="mainTabContainer" dojoType="dijit.layout.TabContainer" class ="tundra" style="width: 100%; height: 600px; overflow-y: auto;" >
-
 <div id="summary" dojoType="dojox.layout.ContentPane" title="{ts}Summary{/ts}" class ="tundra" style="overflow: auto; width: 100%; height: 100%;">
-
 {* View Contact Summary *}
 <div id="contact-name" class="section-hidden section-hidden-border">
    <div>
