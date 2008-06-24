@@ -40,15 +40,11 @@ require_once "CRM/Custom/Form/CustomData.php";
 require_once "CRM/Core/BAO/CustomField.php";
 
 /**
- * This class generates form components for processing Event  
+ * This class generates form components for processing Pledges 
  * 
  */
 class CRM_PledgeBank_Form_ManagePledgeBank_PledgeInfo extends CRM_PledgeBank_Form_ManagePledgeBank
 {
-    /**
-     * Event type
-     */
-    protected $_eventType = null;
     /** 
      * Function to set variables up before form is built 
      *                                                           
@@ -102,7 +98,7 @@ class CRM_PledgeBank_Form_ManagePledgeBank_PledgeInfo extends CRM_PledgeBank_For
         $this->addWysiwyg( 'description', ts('Pledge detailed Description'),$attributes['description']);
       
         
-        $this->add('text', 'creator_description', ts('Pledge owners description'), $attributes['creator_description'], true);
+        $this->add('text', 'creator_description', ts('Pledge owners description'), $attributes['creator_description']);
        
         
         $this->addElement('checkbox', 'is_active', ts('Is this Pledge Active?') );
@@ -122,19 +118,6 @@ class CRM_PledgeBank_Form_ManagePledgeBank_PledgeInfo extends CRM_PledgeBank_For
      */
     static function formRule( &$values ) 
     {
-        /*     $errors = array( );
-        if ( ! $values['start_date'] ) {
-            $errors['start_date'] = ts( 'Start Date and Time are required fields' );
-            return $errors;
-        }
-
-        $start = CRM_Utils_Date::format( $values['start_date'] );
-        $end   = CRM_Utils_Date::format( $values['end_date'  ] );
-        if ( ($end < $start) && ($end != 0) ) {
-            $errors['end_date'] = ts( 'End date should be after Start date' );
-            return $errors;
-        }
-        */
         return true;
     }
 
@@ -146,62 +129,23 @@ class CRM_PledgeBank_Form_ManagePledgeBank_PledgeInfo extends CRM_PledgeBank_For
      */
     public function postProcess() 
     {
-        /* $params = $ids = array();
+        $params = $ids = array();
         $params = $this->controller->exportValues( $this->_name );
         
         //format params
-        $params['start_date']      = CRM_Utils_Date::format($params['start_date']);
-        $params['end_date'  ]      = CRM_Utils_Date::format($params['end_date']);
-        $params['is_map'    ]      = CRM_Utils_Array::value('is_map', $params, false);
-        $params['is_active' ]      = CRM_Utils_Array::value('is_active', $params, false);
-        $params['is_public' ]      = CRM_Utils_Array::value('is_public', $params, false);
-        $params['default_role_id'] = CRM_Utils_Array::value('default_role_id', $params, false);
-        $ids['event_id']           = $this->_id;
-
-        // format custom data
-        // get mime type of the uploaded file
-        if ( !empty($_FILES) ) {
-            foreach ( $_FILES as $key => $value) {
-                $files = array( );
-                if ( $params[$key] ) {
-                    $files['name'] = $params[$key];
-                }
-                if ( $value['type'] ) {
-                    $files['type'] = $value['type']; 
-                }
-                $params[$key] = $files;
-            }
-        }
-        $customData = array( );
-        foreach ( $params as $key => $value ) {
-            if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
-                CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,
-                                                             $value, 'Event', null, $this->_id);
-            }
-        }
+        $params['deadline'    ] = CRM_Utils_Date::format($params['deadline']);
+        $params['is_active'   ] = CRM_Utils_Array::value('is_active', $params, false);
+        $params['created_date'] = date( 'YmdHis' );
+        $session =& CRM_Core_Session::singleton( );
+        $params['creator_id' ]  = $session->get( 'userID' );
         
-        if (! empty($customData) ) {
-            $params['custom'] = $customData;
-        }
-
-        //special case to handle if all checkboxes are unchecked
-        $customFields = CRM_Core_BAO_CustomField::getFields( 'Event' );
-
-        if ( ! empty( $customFields ) ) {
-            foreach ( $customFields as $k => $val ) {
-                if ( in_array ( $val[3], array ('CheckBox','Multi-Select') ) &&
-                     ! CRM_Utils_Array::value( $k, $params['custom'] ) ) {
-                    CRM_Core_BAO_CustomField::formatCustomField( $k, $params['custom'],
-                                                                 '', 'Event', null, $this->_id);
-                }
-            }
-        }
+        $ids['pledge_id']       = $this->_id;
         
-        require_once 'CRM/Event/BAO/Event.php';
-        $event =  CRM_Event_BAO_Event::create($params ,$ids);
+        require_once 'CRM/PledgeBank/BAO/Pledge.php';
+        $pledge =  CRM_PledgeBank_BAO_Pledge::add($params ,$ids);
         
-        $this->set( 'id', $event->id );
-        */
+        $this->set( 'id', $pledge->id );
+        
     }//end of function
     
     /**
