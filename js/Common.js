@@ -421,18 +421,14 @@ function toggleTaskAction( status ) {
 	status = true;
     }
 
-    var task = document.getElementById('task');
-    if ( status ) {
-	task.disabled = false;
-    } else {
-	task.disabled = true;
-    }
-
-    var go = document.getElementById('Go');
-    if ( status ) {
-	go.disabled = false;
-    } else {
-	go.disabled = true;
+    var formElements = ['task', 'Go', 'Print'];
+    for(var i=0; i<formElements.length; i++ ) {
+	var element = document.getElementById( formElements[i] );
+	if ( status ) {
+	    element.disabled = false;
+	} else {
+	    element.disabled = true;
+	}
     }
 }
 
