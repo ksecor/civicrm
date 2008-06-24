@@ -55,7 +55,7 @@ class CRM_PledgeBank_StateMachine_ManagePledgeBank extends CRM_Core_StateMachine
         
         $this->_pages = array(
                               'CRM_PledgeBank_Form_ManagePledgeBank_PledgeInfo' => null,
-                              //  'CRM_PledgeBank_Form_ManagePledgeBank_Location'  => null,
+                              'CRM_PledgeBank_Form_ManagePledgeBank_Location'  => null,
                               // 'CRM_Friend_Form_Pledge'                         => null
                               );
         
