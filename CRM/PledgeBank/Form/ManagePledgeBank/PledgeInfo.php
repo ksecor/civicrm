@@ -57,30 +57,6 @@ class CRM_PledgeBank_Form_ManagePledgeBank_PledgeInfo extends CRM_PledgeBank_For
      */ 
     function preProcess( )
     {
-        //custom data related code
-        $this->_cdType     = CRM_Utils_Array::value( 'type', $_GET );
-        $this->assign('cdType', false);
-        if ( $this->_cdType ) {
-            $this->assign('cdType', true);
-            return CRM_Custom_Form_CustomData::preProcess( $this );
-        }
-        parent::preProcess( );
-                
-        if ( $this->_id ) {
-            $eventType = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event',
-                                                      $this->_id,
-                                                      'event_type_id' );
-        } else {
-            $eventType = 'null';
-        }
-        
-        $showLocation = false;
-        // when custom data is included in this page
-        if ( CRM_Utils_Array::value( "hidden_custom", $_POST ) ) {
-            CRM_Custom_Form_Customdata::preProcess( $this );
-            CRM_Custom_Form_Customdata::buildQuickForm( $this );
-            CRM_Custom_Form_Customdata::setDefaultValues( $this );
-        }
         
     }
     
@@ -94,24 +70,7 @@ class CRM_PledgeBank_Form_ManagePledgeBank_PledgeInfo extends CRM_PledgeBank_For
     
     function setDefaultValues( )
     {
-        if ( $this->_cdType ) {
-            return CRM_Custom_Form_CustomData::setDefaultValues( $this );
-        }
         $defaults = parent::setDefaultValues();
-        
-        // in update mode, we need to set custom data subtype to tpl
-        if ( CRM_Utils_Array::value( 'event_type_id' ,$defaults ) ) {
-            $this->assign('customDataSubType',  $defaults["event_type_id"] );
-        }
-
-        if( !isset ( $defaults['start_date'] ) ) {
-            $defaultDate = array( );
-            CRM_Utils_Date::getAllDefaultValues( $defaultDate );
-            $defaultDate['i'] = (int ) ( $defaultDate['i'] / 15 ) * 15;
-            $defaults['start_date'] = $defaultDate;
-        }
-        $this->assign('description', CRM_Utils_Array::value('description', $defaults ) ); 
-        
         return $defaults;
     }
     
@@ -124,69 +83,30 @@ class CRM_PledgeBank_Form_ManagePledgeBank_PledgeInfo extends CRM_PledgeBank_For
     
     public function buildQuickForm( )  
     { 
-        if ( $this->_cdType ) {
-            return CRM_Custom_Form_CustomData::buildQuickForm( $this );
-        }
-        //need to assign custom data type and subtype to the template
-        $this->assign('customDataType', 'Event');
-        if ( $this->_eventType ) {
-            $this->assign('customDataSubType',  $this->_eventType );
-        }
         $this->assign('entityId',  $this->_id );
         
         $this->_first = true;
         $this->applyFilter('__ALL__', 'trim');
-        $attributes = CRM_Core_DAO::getAttribute('CRM_Event_DAO_Event');
+        $attributes = CRM_Core_DAO::getAttribute('CRM_PledgeBank_DAO_Pledge');
         
-        $this->add('text','title',ts('Event Title'), $attributes['event_title'], true);
+        $this->add('text', 'creator_name', ts('Creators name'), $attributes['creator_name'], true);
+        $this->add('text', 'creator_pledge_desc', ts('Creators pledge'), $attributes['creator_pledge_desc'], true);
+        $this->add('text','signers_limit', ts('Required number of signers'), $attributes['signers_limit'], true );
+        $this->addRule('signers_limit', ts('is a positive field') , 'positiveInteger');
+        
+        $this->add('text', 'signer_description_text', ts('Description of signers'), $attributes['signer_description_text'], true);
 
-        require_once 'CRM/Core/OptionGroup.php';
-        $event = CRM_Core_OptionGroup::values('event_type');
+        $this->add('text', 'signer_pledge_desc', ts('Signers pledge'), $attributes['signer_pledge_desc'], true);
+        $this->add( 'date', 'deadline', ts('Pledge deadline'), CRM_Core_SelectValues::date('relative'), true );
+        $this->addRule('deadline', ts('Please select a valid deadline.'), 'qfDate');
+        $this->addWysiwyg( 'description', ts('Pledge detailed Description'),$attributes['description']);
+      
         
-        $this->add('select',
-                   'event_type_id',
-                   ts('Event Type'),
-                   array('' => ts('- select -')) + $event,
-                   true, 
-                   array('onChange' => "buildCustomData( this.value );") );
+        $this->add('text', 'creator_description', ts('Pledge owners description'), $attributes['creator_description'], true);
+       
         
-        $participantRole = CRM_Core_OptionGroup::values('participant_role');
-        $this->add('select',
-                   'default_role_id',
-                   ts('Participant Role'),
-                   $participantRole,
-                   true); 
-        
-        $participantListing = CRM_Core_OptionGroup::values('participant_listing');
-        $this->add('select',
-                   'participant_listing_id',
-                   ts('Participant Listing'),
-                   array('' => ts('Disabled')) + $participantListing ,
-                   false );
-        
-        $this->add('textarea','summary',ts('Event Summary'), $attributes['summary']);
-        $this->addWysiwyg( 'description', ts('Complete Description'),$attributes['event_description']);
-        $this->addElement('checkbox', 'is_public', ts('Public Event?') );
-        $this->addElement('checkbox', 'is_map', ts('Include Map Link?') );
-         
-        $this->add( 'date', 'start_date',
-                    ts('Start Date'),
-                    CRM_Core_SelectValues::date('datetime') );
-        $this->addRule('start_date', ts('Please select a valid start date.'), 'qfDate');
-
-        $this->add('date', 'end_date',
-                   ts('End Date / Time'),
-                   CRM_Core_SelectValues::date('datetime')
-                   );
-        $this->addRule('end_date', ts('Please select a valid end date.'), 'qfDate');
-     
-        $this->add('text','max_participants', ts('Max Number of Participants'));
-        $this->addRule('max_participants', ts('is a positive field') , 'positiveInteger');
-        $this->add('textarea','event_full_text', ts('Message if Event is Full'), $attributes['event_full_text']);
-        
-        $this->addElement('checkbox', 'is_active', ts('Is this Event Active?') );
-        
-        $this->addFormRule( array( 'CRM_Event_Form_ManageEvent_EventInfo', 'formRule' ) );
+        $this->addElement('checkbox', 'is_active', ts('Is this Pledge Active?') );
+        $this->addFormRule( array( 'CRM_PledgeBank_Form_ManagePledgeBank_PledgeInfo', 'formRule' ) );
         
         parent::buildQuickForm();
     }
@@ -202,7 +122,7 @@ class CRM_PledgeBank_Form_ManagePledgeBank_PledgeInfo extends CRM_PledgeBank_For
      */
     static function formRule( &$values ) 
     {
-        $errors = array( );
+        /*     $errors = array( );
         if ( ! $values['start_date'] ) {
             $errors['start_date'] = ts( 'Start Date and Time are required fields' );
             return $errors;
@@ -214,7 +134,7 @@ class CRM_PledgeBank_Form_ManagePledgeBank_PledgeInfo extends CRM_PledgeBank_For
             $errors['end_date'] = ts( 'End date should be after Start date' );
             return $errors;
         }
-
+        */
         return true;
     }
 
@@ -226,7 +146,7 @@ class CRM_PledgeBank_Form_ManagePledgeBank_PledgeInfo extends CRM_PledgeBank_For
      */
     public function postProcess() 
     {
-        $params = $ids = array();
+        /* $params = $ids = array();
         $params = $this->controller->exportValues( $this->_name );
         
         //format params
@@ -281,7 +201,7 @@ class CRM_PledgeBank_Form_ManagePledgeBank_PledgeInfo extends CRM_PledgeBank_For
         $event =  CRM_Event_BAO_Event::create($params ,$ids);
         
         $this->set( 'id', $event->id );
-
+        */
     }//end of function
     
     /**
@@ -292,7 +212,7 @@ class CRM_PledgeBank_Form_ManagePledgeBank_PledgeInfo extends CRM_PledgeBank_For
      */
     public function getTitle( ) 
     {
-        return ts('Event Information and Settings');
+        return ts('Pledge Settings');
     }
 }
 
