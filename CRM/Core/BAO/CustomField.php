@@ -98,11 +98,34 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
      * @access public
      * @static
      */
-    static function create(&$params)
+    static function create( &$params, $ids )
     {
-        $customFieldBAO =& new CRM_Core_BAO_CustomField();
-        $customFieldBAO->copyValues($params);
-        return $customFieldBAO->save();
+        $customField =& new CRM_Core_DAO_CustomField();
+        $customField->copyValues( $params );
+        $customField->id = CRM_Utils_Array::value( 'custom_field', $ids );
+        $customField->save( );
+        
+        // make sure all values are present in the object for further processing
+        $customField->find(true);
+        
+        // if update mode
+        if ( CRM_Utils_Array::value( 'custom_field', $ids ) ) {
+            $dropIndex  = false;
+            // drop the index if it existed (not the most efficient, but the logic is easy)
+            if ( $customField->is_searchable ) {
+                $dropIndex = true;
+            }
+            self::createField( $customField, 'modify', $dropIndex );
+        } else {
+            $customField->column_name .= "_{$customField->id}";
+            $customField->save();
+            // make sure all values are present in the object
+            $customField->find(true);
+
+            self::createField( $customField, 'add' );
+        }
+
+        return $customField;
     }
 
     /**

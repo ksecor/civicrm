@@ -768,12 +768,8 @@ AND    option_group_id = %2";
             $params['data_type'] = $this->_defaultDataType;
         }
 
-        // set values for custom field properties and save
-        $customField                =& new CRM_Core_DAO_CustomField();
-        $customField->label         = $params['label'];
-        $customField->data_type     = self::$_dataTypeKeys[$params['data_type'][0]];
-        
-        $customField->html_type     = self::$_dataToHTML[$params['data_type'][0]][$params['data_type'][1]];
+        $params['html_type']     = self::$_dataToHTML[$params['data_type'][0]][$params['data_type'][1]];
+        $params['data_type']     = self::$_dataTypeKeys[$params['data_type'][0]];
         
         // fix for CRM-316
         if ($this->_action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
@@ -783,8 +779,6 @@ AND    option_group_id = %2";
             }
             $params['weight'] = 
                 CRM_Utils_Weight::updateOtherWeights( 'CRM_Core_DAO_CustomField', $oldWeight, $params['weight'], $fieldValues );
-            
-            $customField->weight  = $params['weight'];
         }
 
         //store the primary key for State/Province or Country as default value.
@@ -799,7 +793,7 @@ SELECT id
     OR abbreviation = '$fieldStateProvince'";
                 $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
                 if ( $dao->fetch() ) {
-                    $customField->default_value = $dao->id;
+                    $params['default_value'] = $dao->id;
                 }
                 break;
                 
@@ -812,18 +806,15 @@ SELECT id
     OR iso_code = '$fieldCountry'";
                 $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
                 if ( $dao->fetch() ) {
-                    $customField->default_value = $dao->id;
+                    $params['default_value'] = $dao->id;
                 }
                 break;
-
-            default:
-                $customField->default_value = $params['default_value'];              
             }
         }
 
         // special for checkbox options
-        if ( ( $customField->html_type == 'CheckBox' ||
-               $customField->html_type == 'Multi-Select' ) &&
+        if ( ( $params['html_type'] == 'CheckBox' ||
+               $params['html_type'] == 'Multi-Select' ) &&
              isset($params['default_checkbox_option'] ) ) {
             $tempArray = array_keys($params['default_checkbox_option']);
             $defaultArray = array();
@@ -835,16 +826,14 @@ SELECT id
             
             if ( ! empty( $defaultArray ) ) {
                 // also add the seperator before and after the value per new conventio (CRM-1604)
-                $customField->default_value =
+                $params['default_value'] = 
                     CRM_Core_BAO_CustomOption::VALUE_SEPERATOR .
                     implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $defaultArray) .
                     CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
             }
         } else {
             if ( isset($params['option_value'][$params['default_option']]) ) {
-                $customField->default_value = $params['option_value'][$params['default_option']];
-            } elseif (! isset($customField->default_value)) {
-                $customField->default_value = $params['default_value'];
+                $params['default_value'] = $params['option_value'][$params['default_option']];
             }
         }
 
@@ -857,18 +846,11 @@ SELECT id
             $params['is_search_range'] = 0;
         }
 
-        $customField->help_post        = $params['help_post'];
-        $customField->mask             = $params['mask'];
-        $customField->is_required      = CRM_Utils_Array::value( 'is_required'    , $params, false );
-        $customField->is_searchable    = CRM_Utils_Array::value( 'is_searchable'  , $params, false );
-        $customField->is_search_range  = CRM_Utils_Array::value( 'is_search_range', $params, false );
-        $customField->is_active        = CRM_Utils_Array::value( 'is_active'      , $params, false );
-        $customField->is_view          = CRM_Utils_Array::value( 'is_view'        , $params, false );
-        $customField->options_per_line = $params['options_per_line'];
-        $customField->start_date_years = $params['start_date_years'];
-        $customField->end_date_years   = $params['end_date_years'];
-        $customField->note_columns     = $params['note_columns'];
-        $customField->note_rows        = $params['note_rows'];
+        $params['is_required']      = CRM_Utils_Array::value( 'is_required'    , $params, false );
+        $params['is_searchable']    = CRM_Utils_Array::value( 'is_searchable'  , $params, false );
+        $params['is_search_range']  = CRM_Utils_Array::value( 'is_search_range', $params, false );
+        $params['is_active']        = CRM_Utils_Array::value( 'is_active'      , $params, false );
+        $params['is_view']          = CRM_Utils_Array::value( 'is_view'        , $params, false );
         
         if ( !isset ( $params['date_parts']['A'] ) && isset ( $params['date_parts']['h'] ) ) {
             unset( $params['date_parts']['h'] );
@@ -878,32 +860,33 @@ SELECT id
         }
         
         if ( is_array($params['date_parts']) ) {
-            $customField->date_parts = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($params['date_parts']));
+            $params['date_parts'] = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($params['date_parts']));
         } else {
-            $customField->date_parts = "";
+            $params['date_parts'] = "";
         }
 
-        if ( strtolower( $customField->html_type ) == 'textarea' ) {
-            $customField->attributes = 'rows=4, cols=60';
+        if ( strtolower( $params['html_type'] ) == 'textarea' ) {
+            $params['attributes'] = 'rows=4, cols=60';
         }
 
         // need the FKEY - custom group id
-        $customField->custom_group_id = $this->_gid;
+        $params['custom_group_id'] = $this->_gid;
         
+        $ids = array( );
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
-            $customField->id = $this->_id;
+            $ids['custom_field'] = $this->_id;
         }
 
         if ( $this->_action & CRM_Core_Action::ADD ) {
-            $customField->column_name = strtolower( CRM_Utils_String::munge( $customField->label, '_', 32 ) );
+            $params['column_name'] = strtolower( CRM_Utils_String::munge( $params['label'], '_', 32 ) );
         } else if ( $this->_action & CRM_Core_Action::UPDATE ) { 
-            $customField->column_name = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField',
-                                                                     $customField->id,
-                                                                     'column_name' );
+            $params['column_name'] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField',
+                                                                  $ids['custom_field'],
+                                                                  'column_name' );
         }
 
-        if ( $customField->html_type != 'Text' &&
-             in_array( $customField->data_type,
+        if ( $params['html_type'] != 'Text' &&
+             in_array( $params['data_type'],
                        array( 'String', 'Int', 'Float', 'Money' ) ) &&
              ! empty( $params['option_value'] ) ) {
 
@@ -915,8 +898,8 @@ SELECT id
                 // first create an option group for this custom group
                 require_once 'CRM/Core/BAO/OptionGroup.php';
                 $optionGroup            =& new CRM_Core_DAO_OptionGroup( );
-                $optionGroup->name      =  "{$customField->column_name}_". date( 'YmdHis' );
-                $optionGroup->label     =  $customField->label;
+                $optionGroup->name      =  "{$params['column_name']}_". date( 'YmdHis' );
+                $optionGroup->label     =  $params['label'];
                 $optionGroup->is_active = 1;
                 $optionGroup->save( );
                 $optionGroupID = $optionGroup->id;
@@ -936,45 +919,16 @@ SELECT id
                 $optionGroupID = $params['option_group_id'];
             }                                               
             
-            $customField->option_group_id = $optionGroupID;
+            $params['option_group_id'] = $optionGroupID;
         }
 
-        //Start Storing the values of Option field if the selected option is Multi Select
-        if ( $this->_action & CRM_Core_Action::UPDATE ) {
-            $dropIndex = false;
-            
-            // drop the index if it existed (not the most efficient, but the logic is easy)
-            if ( CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField',
-                                              $customField->id,
-                                              'is_searchable' ) ) {
-                $dropIndex = true;
-            }
-            CRM_Core_BAO_CustomField::createField( $customField, 'modify', $dropIndex );
-        }
-        
         //check for orphan option groups
-        if ( $customField->id && $customField->option_group_id ) {
-            CRM_Core_BAO_CustomField::fixOptionGroups( $customField->id, $customField->option_group_id ) ;
+        if ( $params['id'] && $params['option_group_id'] ) {
+            CRM_Core_BAO_CustomField::fixOptionGroups( $params['id'], $params['option_group_id'] ) ;
         }
         // since we need to save option group id :)
         
-        // make a copy if add action
-        if ( $this->_action & CRM_Core_Action::ADD ) {
-            $customFieldAdd = $customField;
-        }
-        
-        $customField->save();
-
-        //preventing any name conflicts in column name of custom
-        //group's table
-        if ( $this->_action & CRM_Core_Action::ADD ) {
-            CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_CustomField',
-                                         $customField->id,
-                                         'column_name',
-                                         $customField->column_name."_{$customField->id}" );
-            $customFieldAdd->column_name .= "_{$customField->id}";
-            CRM_Core_BAO_CustomField::createField( $customFieldAdd, 'add' );
-        } 
+        $customField = CRM_Core_BAO_CustomField::create( $params, $ids );
         
         // reset the cache
         require_once 'CRM/Core/BAO/Cache.php';
