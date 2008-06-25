@@ -409,7 +409,7 @@ WHERE  $where
          }
 
          $fieldValues = array( );
-         foreach ( $values as $idx => v ) {
+         foreach ( $values as $idx => $v ) {
              if ( ! isset( $v['id'] ) ) {
                  return CRM_Core_Error::createAPIError( ts( 'Missing field id in param list for index %1',
                                                             array( 1 => $idx ) ) );
