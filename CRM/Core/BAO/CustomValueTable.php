@@ -373,7 +373,7 @@ WHERE  $where
     }
 
      /**
-      * Function to take in an array of entityID, field_id_XXX, field_value_XXX
+      * Function to take in an array of entityID, custom_XXX => value
       * and set the value in the appropriate table. Should also be able
       * to set the value to null. Follows api parameter/return conventions
       *
@@ -391,43 +391,23 @@ WHERE  $where
          }
 
          // first collect all the id/value pairs. The format is:
-         // field_id_X and field_value_x
+         // custom_X => value
          $values = array( );
-         foreach ( $params as $n => $v ) {
-             $key = $idx = null;
-             if ( substr( $n, 0, 9 ) == 'field_id_' ) {
-                 $key = 'id';
-                 $idx = substr( $n, 10 );
-             } else if ( substr( $n, 0, 12 ) == 'field_value_' ) {
-                 $key = 'value';
-                 $idx = substr( $n, 13 );
-             }
-             if ( ! array_key_exists( $idx, $values ) ) {
-                 $values[$idx] = array( );
-             }
-             $values[$idx][$key] = $v;
-         }
-
          $fieldValues = array( );
-         foreach ( $values as $idx => $v ) {
-             if ( ! isset( $v['id'] ) ) {
-                 return CRM_Core_Error::createAPIError( ts( 'Missing field id in param list for index %1',
-                                                            array( 1 => $idx ) ) );
+         foreach ( $params as $n => $v ) {
+             if ( substr( $n, 0, 7 ) == 'custom_' ) {
+                 $idx = substr( $n, 7 );
+                 if ( CRM_Utils_Type::escape( $idx,
+                                              'Integer', false ) === null ) {
+                     return CRM_Core_Error::createAPIError( ts( 'field ID needs to be of type Integer for index %1',
+                                                                array( 1 => $idx ) ) );
+                 }
+                 $fieldValues[(int ) $idx] = $v;
              }
-             if ( CRM_Utils_Type::escape( $v['id'],
-                                          'Integer', false ) === null ) {
-                 return CRM_Core_Error::createAPIError( ts( 'field ID needs to be of type Integer for index %1',
-                                                            array( 1 => $idx ) ) );
-             }
-             if ( ! isset( $v['value'] ) ) {
-                 return CRM_Core_Error::createAPIError( ts( 'Missing field value in param list for index %1',
-                                                            array( 1 => $idx ) ) );
-             }
-
-             $fieldValues[$v['id']] = $v['value'];
          }
 
-         $fieldIDList = implode( ',', $fieldValues );
+         $fieldIDList = implode( ',', array_keys( $fieldValues ) );
+
          // format it so that we can just use create
          $sql = "
 SELECT cg.table_name  as table_name ,
@@ -479,7 +459,7 @@ AND    cf.id IN ( $fieldIDList )
      }
 
      /**
-      * Function to take in an array of entityID, field_id_XXX
+      * Function to take in an array of entityID, custom_ID
       * and gets the value from the appropriate table.
       *
       * @array $params
@@ -495,27 +475,31 @@ AND    cf.id IN ( $fieldIDList )
          }
 
          // first collect all the ids. The format is:
-         // field_id_X 
+         // custom_ID
          $fieldsIDs = array( );
          foreach ( $params as $n => $v ) {
              $key = $idx = null;
-             if ( substr( $n, 0, 9 ) == 'field_id_' ) {
-                 $idx = substr( $n, 10 );
-                 if ( CRM_Utils_Type::escape( $v,
+             if ( substr( $n, 0, 7 ) == 'custom_' ) {
+                 $idx = substr( $n, 7 );
+                 if ( CRM_Utils_Type::escape( $idx,
                                               'Integer', false ) === null ) {
                      return CRM_Core_Error::createAPIError( ts( 'field ID needs to be of type Integer for index %1',
                                                                 array( 1 => $idx ) ) );
                  }
-                 $fieldIDs[] = $v;
+                 $fieldIDs[] = (int ) $idx;
              }
          }
 
          $values = self::getEntityValues( $params['entityID'],
                                           null,
                                           $fieldIDs );
-         $values['is_error'] = 0;
-         return $values;
+         if ( empty( $values ) ) {
+             return CRM_Core_Error::createAPIError( ts( 'Unknown error' ) );
+         } else {
+             $values['is_error'] = 0;
+             $values['entityID'] = $params['entityID'];
+             return $values;
+         }
      }
+
 }
-
-
