@@ -119,7 +119,7 @@ if ( document.getElementById('discount_id') ) {
 
 function buildFeeBlock( eventId, discountId )
 {
-	var dataUrl = {/literal}"{crmURL p='civicrm/contact/view/participant' h=0 q='snippet=1'}"{literal};
+	var dataUrl = {/literal}"{crmURL p='civicrm/contact/view/participant' h=0 q='snippet=4'}"{literal};
 	
 	if ( !eventId ) {
 	   var eventId  = document.getElementById('event_id').value;
