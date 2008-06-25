@@ -104,7 +104,7 @@ class BAO_Core_CustomValueTable extends CiviTestCase
         $fields      = array (
                               'groupId'  => $customGroup->id,
                               'dataType' => 'StateProvince',
-                              'htmlType' => 'Select State'
+                              'htmlType' => 'Select State/Province'
                               );
         
         $customField = Custom::createField( $params, $fields );
@@ -175,8 +175,8 @@ class BAO_Core_CustomValueTable extends CiviTestCase
         $customGroup = Custom::createGroup( $params ,'Individual' );
         $fields      = array (
                               'groupId'  => $customGroup->id,
-                              'dataType' => 'RichTextEditor',
-                              'htmlType' => 'Meno'
+                              'htmlType' => 'RichTextEditor',
+                              'dataType' => 'Memo'
                               );
         
         $customField = Custom::createField( $params, $fields );

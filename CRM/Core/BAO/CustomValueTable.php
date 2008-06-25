@@ -360,6 +360,9 @@ WHERE  $where
         return $result;
     }
 
+     static function setValue( $entityID, $fieldID, &$value ) {
+     }
+
 }
 
 

@@ -96,6 +96,12 @@ function simpletest_entrypoint() {
   drupal_add_js(drupal_get_path('module', 'simpletest') .'/simpletest.js', 'module');
   $output = drupal_get_form('simpletest_overview_form');
 
+  if ( $_GET['test'] ) {
+      $tests_list = array();
+      $tests_list[] = $_GET['test'];
+      $output = simpletest_run_tests($tests_list);
+  }
+  
   if (simpletest_running_output()) {
     return simpletest_running_output() . $output;
   }
