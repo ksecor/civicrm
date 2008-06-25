@@ -51,16 +51,15 @@ class CRM_Contact_BAO_Contact_Location
         if ( $locationTypeID ) {
             $locationClause = " AND civicrm_email.location_type_id = $locationTypeID";
         }
-
+        
         $sql = "
 SELECT    civicrm_contact.display_name,
           civicrm_email.email,
           civicrm_email.location_type_id,
           civicrm_email.id
 FROM      civicrm_contact
-LEFT JOIN civicrm_email ON ( civicrm_contact.id = civicrm_email.contact_id )
-WHERE     civicrm_email.is_primary = 1
-AND       civicrm_contact.id = %1";
+LEFT JOIN civicrm_email ON ( civicrm_contact.id = civicrm_email.contact_id AND civicrm_email.is_primary = 1 $locationClause )
+WHERE     civicrm_contact.id = %1";
 
         $params = array( 1 => array( $id, 'Integer' ) );
         $dao =& CRM_Core_DAO::executeQuery( $sql, $params );
