@@ -103,10 +103,11 @@ class BAO_Core_CustomOption extends CiviTestCase
         // Check that value is stored
         $params = array( 'entityID'               => $contactID,
                          'custom_' . $field['id'] => 1);
+        $values = array( );
         $values = CRM_Core_BAO_CustomValueTable::getValues( $params );
+        // CRM_Core_Error::debug('v1',$values);
         $this->assertEqual( $values['custom_' . $fieldID], 'V', 'Verify that option_value.value is stored for contact ' . $contactID);
         
-        // CRM_Core_Error::debug('v1',$values);
         
         // Now delete the option value which we added
         CRM_Core_BAO_CustomOption::del( $defaults['id'] );

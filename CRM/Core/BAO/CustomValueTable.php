@@ -501,7 +501,7 @@ AND    cf.id IN ( $fieldIDList )
              $result = array( 'is_error' => 0,
                               'entityID' => $params['entityID'] );
              foreach ( $values as $id => $value ) {
-                 $result["custom_$id"] => $value;
+                 $result["custom_{$id}"] = $value;
              }
              return $result;
          }
