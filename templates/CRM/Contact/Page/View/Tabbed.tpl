@@ -28,11 +28,10 @@ function myHandler(field, value) {
 		    }else{
 			//Some other error happened.
 			console.error(response);
+		        dojo.publish("testMessageTopic", [ response ] );
 		    }
                 } else {
 		    // on success
-		    var messg = "{/literal}{ts}Your data is saved.{/ts}{literal}"
-		    dojo.publish("testMessageTopic", [ messg ] );
 		}
 	    }
 	});
