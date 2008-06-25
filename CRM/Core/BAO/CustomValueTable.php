@@ -498,9 +498,12 @@ AND    cf.id IN ( $fieldIDList )
          if ( empty( $values ) ) {
              return CRM_Core_Error::createAPIError( ts( 'Unknown error' ) );
          } else {
-             $values['is_error'] = 0;
-             $values['entityID'] = $params['entityID'];
-             return $values;
+             $result = array( 'is_error' => 0,
+                              'entityID' => $params['entityID'] );
+             foreach ( $values as $id => $value ) {
+                 $result["custom_$id"] => $value;
+             }
+             return $result;
          }
      }
 
