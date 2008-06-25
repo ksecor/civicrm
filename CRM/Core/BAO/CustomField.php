@@ -942,11 +942,13 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
      * @static
      */
     static function formatCustomField( $customFieldId, &$customFormatted, $value, 
-                                       $customFieldExtend, $customValueId = null, $entityId = null ) 
+                                       $customFieldExtend, $customValueId = null,
+                                       $entityId = null, 
+                                       $inline = false ) 
     {
         //get the custom fields for the entity
-        $customFields = CRM_Core_BAO_CustomField::getFields( $customFieldExtend );
-        
+        $customFields = CRM_Core_BAO_CustomField::getFields( $customFieldExtend, false, $inline );
+
         if ( ! array_key_exists( $customFieldId, $customFields )) {
             return;
         }
