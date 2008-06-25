@@ -76,7 +76,7 @@ class CRM_PledgeBank_Info extends CRM_Core_Component_Info
     // docs inherited from interface  
     public function registerTab()
     {
-        return array( 'title'   => ts( 'PledgeBank Signatures' ),
+        return array( 'title'   => ts( 'PledgeBank' ),
                       'id'      => 'pbsigner',
                       'url'	=> 'pbsigner',
                       'weight'  => 40 );

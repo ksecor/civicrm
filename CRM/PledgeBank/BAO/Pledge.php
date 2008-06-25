@@ -205,7 +205,7 @@ LIMIT      0, 10
             }
             
             $pledgeSummary['pledges'][$dao->id]['title'] = ts( '%1 will %2 but only if %3 %4 will %5', 
-                                                               array( 1 => $dao->display_name, 
+                                                               array( 1 => $dao->creator_name, 
                                                                       2 => $dao->creator_pledge_desc,
                                                                       3 => $dao->signers_limit,
                                                                       4 => $dao->signer_description_text,

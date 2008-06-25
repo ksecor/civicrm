@@ -49,7 +49,7 @@ class CRM_PledgeBank_Page_DashBoard extends CRM_Core_Page
      */ 
     function preProcess( ) 
     {
-        CRM_Utils_System::setTitle( ts('PledgeBank') );
+        CRM_Utils_System::setTitle( ts('PledgeBank for CiviCRM') );
         
         $admin = CRM_Core_Permission::check( 'access PledgeBank' );
         require_once 'CRM/PledgeBank/BAO/Pledge.php';
@@ -70,7 +70,9 @@ class CRM_PledgeBank_Page_DashBoard extends CRM_Core_Page
     {
         $this->preProcess( );
         
-        $controller =& new CRM_Core_Controller_Simple( 'CRM_PledgeBank_Form_Search', ts('Pledge Signers'), null );
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_PledgeBank_Form_Search', 
+                                                       ts('Pledge Signers'), 
+                                                       null );
         $controller->setEmbedded( true ); 
         $controller->reset( ); 
         $controller->set( 'limit', 10 );
