@@ -34,13 +34,13 @@
  */
 
 require_once 'CRM/Friend/BAO/Friend.php';
-require_once 'CRM/PledgeBank/StateMachine/ManagePledgeBank.php';
+require_once 'CRM/PledgeBank/Form/ManagePledgeBank.php';
 
 /**
  * This class generates form components for Tell A Friend
  * 
  */
-class CRM_Friend_Form_Pledge extends CRM_PledgeBank_StateMachine_ManagePledgeBank
+class CRM_Friend_Form_Pledge extends CRM_PledgeBank_Form_ManagePledgeBank
 {
     /** 
      * tell a friend id in db
