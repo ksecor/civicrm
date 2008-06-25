@@ -75,7 +75,8 @@ class CRM_PledgeBank_Selector_Search extends CRM_Core_Selector_Base implements C
                                  'pb_pledge_name',
                                  'pb_signer_pledge_desc',
                                  'pb_signer_signing_date',
-                                 'pb_signer_is_anonymous'
+                                 'pb_signer_is_anonymous',
+                                 'pb_signer_is_done'
                                  );
 
     /** 
@@ -357,14 +358,19 @@ class CRM_PledgeBank_Selector_Search extends CRM_Core_Selector_Base implements C
                                                 'sort'      => 'pb_signer_is_anonymous',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
-                                          array('desc' => ts('Actions') ),
+                                          array(
+                                                'name'      => ts('Done?'),
+                                                'sort'      => 'civicrm_pb_signer.is_done',
+                                                'direction' => CRM_Utils_Sort::DONTCARE,
+                                                ),
+                                          array('desc'      => ts('Actions') ),
                                           );
             
             if ( ! $this->_single ) {
                 $pre = array( 
-                             array('desc' => ts('Contact Type') ), 
+                             array('desc'      => ts('Contact Type') ), 
                              array( 
-                                   'name'      => ts('Signer'), 
+                                   'name'      => ts('Name'), 
                                    'sort'      => 'sort_name', 
                                    'direction' => CRM_Utils_Sort::ASCENDING, 
                                    )

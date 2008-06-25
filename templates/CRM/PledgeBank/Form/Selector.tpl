@@ -34,6 +34,7 @@
     <td><a href="{crmURL p='civicrm/pledge/view' q="reset=1&id=`$row.pb_pledge_id`"}">{$row.pledge}</a></td>	
     <td>{$row.pb_signer_signing_date|truncate:10:''|crmDate}</td>
     <td>{if $row.pb_signer_is_anonymous}{ts}Yes{/ts}{else}{ts}No{/ts}{/if}</td>
+    <td>{if $row.pb_signer_is_done}{ts}Yes{/ts}{else}{ts}No{/ts}{/if}</td>
     <td>{$row.action}</td>
    </tr>
   {/foreach}
