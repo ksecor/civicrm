@@ -6,7 +6,8 @@ class Custom extends DrupalTestCase
      *
      * @return object of created group
      */ 
-    function createGroup( $group, $extends ) {
+    function createGroup( $group, $extends =  null ) 
+    {
         if ( empty( $group ) ) {
             $group = array(
                            'title'      => 'Test_Group',

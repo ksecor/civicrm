@@ -1,6 +1,8 @@
 <?php
 
 require_once 'CiviTestCase.php';
+require_once 'Contact.php';
+require_once 'Custom.php';
 
 class BAO_Core_CustomGroup extends CiviTestCase 
 {
@@ -17,5 +19,42 @@ class BAO_Core_CustomGroup extends CiviTestCase
     {
         parent::setUp();
     }
-    
+
+    /**
+     * Function to test getTree()
+     */
+    function testgetTree()
+    {
+        $params      = array( );
+        $contactId   = Contact::createIndividual();
+        $customGrouptitle = 'My Custom Group';
+        $groupParams = array(
+                             'title'      => $customGrouptitle,
+                             'name'       => 'my_custom_group',
+                             'style'      => 'Tab',
+                             'extends'    => 'Individual',
+                             'is_active'  => 1
+                             );
+
+        $customGroup = Custom::createGroup( $groupParams );
+        $customGroupId = $customGroup->id;
+
+        $fields      = array (
+                              'groupId'  =>  $customGroupId,
+                              'dataType' => 'String',
+                              'htmlType' => 'Text'
+                              );
+        
+        $customField = Custom::createField( $params, $fields );
+        
+        require_once 'CRM/Core/BAO/CustomGroup.php';
+        $getTree = CRM_Core_BAO_CustomGroup::getTree('Individual', null, $customGroupId );
+        
+        $dbCustomGroupTitle = $this->assertDBNotNull( 'CRM_Core_DAO_CustomGroup', $customGroupId, 'title', 'id',
+                                                      'Database check for custom group record.' );
+
+        Custom::deleteField( $customField );        
+        Custom::deleteGroup( $customGroup );
+        Contact::delete( $contactId );
+    }
 }
