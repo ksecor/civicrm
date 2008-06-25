@@ -1151,10 +1151,10 @@ AND    cf.id = %1";
     public static function &customOptionGroup( )
     {
         static $customOptionGroup = null;
-
+        
         if ( ! $customOptionGroup ) {
             $query = "
-SELECT g.id, g.label
+SELECT g.id, f.label
 FROM   civicrm_option_group g,
        civicrm_custom_field f
 WHERE  g.id = f.option_group_id
