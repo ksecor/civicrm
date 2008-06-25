@@ -69,7 +69,8 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
      * @var int
      * @protected
      */
-    public $_premiumId;
+    public $_premiumID  = null;
+    public $_productDAO = null;
 
     /**
      * the id of the note 
@@ -202,9 +203,18 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                                                           'contribution_id' );
 
             //to get Premium id
-            $this->_premiumId = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionProduct',
-                                                             $this->_id,
-                                                             'contribution_id' );
+            $sql = "
+SELECT *
+FROM   civicrm_contribution_product
+WHERE  contribution_id = {$this->_id}
+";
+            $dao = CRM_Core_DAO::executeQuery( $sql,
+                                               CRM_Core_DAO::$_nullArray );
+            if ( $dao->fetch( ) ) {
+                $this->_premiumID  = $dao->id;
+                $this->_productDAO = $dao;
+            }
+            $dao->free( );
 
             $ids    = array( );
             $params = array( 'id' => $this->_id );
@@ -311,23 +321,19 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         
         $this->assign('showOption',true);
         // for Premium section
-        if( $this->_premiumId ) {
+        if( $this->_premiumID ) {
             $this->assign('showOption',false);
-            require_once 'CRM/Contribute/DAO/ContributionProduct.php';
-            $dao = & new CRM_Contribute_DAO_ContributionProduct();
-            $dao->id = $this->_premiumId;
-            $dao->find(true);
-            $options = isset($this->_options[$dao->product_id]) ? $this->_options[$dao->product_id] : "";
+            $options = isset($this->_options[$this->_productDAO->product_id]) ? $this->_options[$this->_productDAO->product_id] : "";
             if ( ! $options ) {
                 $this->assign('showOption',true);
             }
-            $options_key = CRM_Utils_Array::key($dao->product_option,$options);
+            $options_key = CRM_Utils_Array::key($this->_productDAO->product_option,$options);
             if( $options_key) {
-                $defaults['product_name']   = array ( $dao->product_id , trim($options_key) );
+                $defaults['product_name']   = array ( $this->_productDAO->product_id , trim($options_key) );
             } else {
-                $defaults['product_name']   = array ( $dao->product_id);
+                $defaults['product_name']   = array ( $this->_productDAO->product_id);
             }
-            $defaults['fulfilled_date'] = $dao->fulfilled_date;
+            $defaults['fulfilled_date'] = $this->_productDAO->fulfilled_date;
         }
         
         $this->assign( 'email', $this->userEmail );
@@ -374,7 +380,8 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         
         $honorFields = array('honor_type_id', 'honor_prefix_id', 'honor_first_name', 
                              'honor_lastname','honor_email');
-        
+        $defaults = array( );
+
         foreach ( $honorFields as $key ) {
             if ( ! empty( $defaults[$key] ) ) {
                 $defaults['hidden_Honoree'] = 1;
@@ -382,21 +389,15 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             }
         }
         
-        if ( $this->_premiumId ) {
-            require_once 'CRM/Contribute/DAO/ContributionProduct.php';
-            $dao = & new CRM_Contribute_DAO_ContributionProduct();
-            $dao->id = $this->_premiumId;
-            $dao->find(true);
-            if ( $dao->product_id ) {
+        if ( $this->_productDAO ) {
+            if ( $this->_productDAO->product_id ) {
                 $defaults['hidden_Premium'] = 1;
             }
         }
         
-        if ( $this->_noteID ) {
-            $defaults['note'] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Note', $this->_noteID, 'note' );
-            if ( ! empty( $defaults['note'] ) ) {
-                $defaults['hidden_AdditionalDetail'] = 1;
-            }
+        if ( $this->_noteID &&
+             isset( $this->_values['note'] ) ) {
+            $defaults['hidden_AdditionalDetail'] = 1;
         }
         
         $paneNames =  array ( 'Additional Details'  => 'AdditionalDetail',
@@ -984,7 +985,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             //process premium
             if ( $contribution->id && isset( $formValues['product_name'][0] ) ) {
                 CRM_Contribute_Form_AdditionalInfo::processPremium( $formValues, $contribution->id, 
-                                                                    $this->_premiumId, $this->_options ); 
+                                                                    $this->_premiumID, $this->_options ); 
             }
             
             // Code Added to Send ReceiptMail, Assigned variables to
