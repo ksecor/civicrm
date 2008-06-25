@@ -129,7 +129,7 @@ class CRM_PledgeBank_Form_ManagePledgeBank_PledgeInfo extends CRM_PledgeBank_For
      */
     public function postProcess() 
     {
-        $params = $ids = array();
+        $params = array();
         $params = $this->controller->exportValues( $this->_name );
         
         //format params
@@ -139,10 +139,10 @@ class CRM_PledgeBank_Form_ManagePledgeBank_PledgeInfo extends CRM_PledgeBank_For
         $session =& CRM_Core_Session::singleton( );
         $params['creator_id' ]  = $session->get( 'userID' );
         
-        $ids['pledge_id']       = $this->_id;
+        $params['id']       = $this->_id;
         
         require_once 'CRM/PledgeBank/BAO/Pledge.php';
-        $pledge =  CRM_PledgeBank_BAO_Pledge::add($params ,$ids);
+        $pledge =  CRM_PledgeBank_BAO_Pledge::add($params);
         
         $this->set( 'id', $pledge->id );
         
