@@ -231,7 +231,8 @@ class CRM_PledgeBank_Page_ManagePledgeBank extends CRM_Core_Page
         $managePledge = array();
         
         $query = "
-SELECT     civicrm_pb_pledge.id as id, civicrm_pb_pledge.creator_pledge_desc as creator_pledge_desc, 
+SELECT     civicrm_pb_pledge.id as id, civicrm_pb_pledge.creator_name as creator_name,
+           civicrm_pb_pledge.creator_pledge_desc as creator_pledge_desc, 
            civicrm_pb_pledge.signers_limit as signers_limit, civicrm_pb_pledge.signer_description_text as signer_description_text, 
            civicrm_pb_pledge.signer_pledge_desc as signer_pledge_desc, civicrm_pb_pledge.deadline as deadline,
            civicrm_pb_pledge.is_active as is_active, civicrm_contact.display_name as display_name

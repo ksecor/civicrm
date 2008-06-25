@@ -164,7 +164,8 @@ class CRM_PledgeBank_BAO_Pledge extends CRM_PledgeBank_DAO_Pledge
         }
         
         $query = "
-SELECT     civicrm_pb_pledge.id as id, civicrm_pb_pledge.creator_pledge_desc as creator_pledge_desc, 
+SELECT     civicrm_pb_pledge.id as id, civicrm_pb_pledge.creator_name as creator_name,
+           civicrm_pb_pledge.creator_pledge_desc as creator_pledge_desc, 
            civicrm_pb_pledge.signers_limit as signers_limit, civicrm_pb_pledge.signer_description_text as signer_description_text, 
            civicrm_pb_pledge.signer_pledge_desc as signer_pledge_desc, civicrm_pb_pledge.deadline as deadline,
            civicrm_pb_pledge.is_active as is_active, civicrm_contact.display_name as display_name
@@ -177,7 +178,8 @@ LIMIT      0, 10
 ";
         $dao =& CRM_Core_DAO::executeQuery( $query, $params );
         
-        $properties = array( 'creatorPledgeDesc'     => 'creator_pledge_desc',     'signersLimit'     => 'signers_limit', 
+        $properties = array( 'creatorName'           => 'creator_name',
+                             'creatorPledgeDesc'     => 'creator_pledge_desc',     'signersLimit'     => 'signers_limit', 
                              'signerDescriptionText' => 'signer_description_text', 'signerPledgeDesc' => 'signer_pledge_desc', 
                              'deadline'              => 'deadline',                'isActive'         => 'is_active', 
                              'displayName'           => 'display_name',           

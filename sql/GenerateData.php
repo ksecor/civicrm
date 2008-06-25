@@ -1613,11 +1613,11 @@ VALUES
     function addPledge( )
     {
         $pledge = "INSERT INTO civicrm_pb_pledge
-        ( creator_pledge_desc, signers_limit, signer_description_text, signer_pledge_desc, deadline, url_reference, description, creator_id, creator_description, created_date, loc_block_id, is_active )
+        ( creator_name, creator_pledge_desc, signers_limit, signer_description_text, signer_pledge_desc, deadline, url_reference, description, creator_id, creator_description, created_date, loc_block_id, is_active )
       VALUES 
-        ( 'donate $200 towards defending WikiLeaks in their first amendment fight', 10, 'other good people', 'give $20 to $200 dollars and encourage others to do the same!', '2009-06-30 00:00:00', NULL, NULL, 76, NULL, '2008-06-23 17:57:28', NULL, 1 ),
-        ( 'give at least 20 pounds to the Ebbsfleet United playing budget for 2008-09', 1000, 'other people',  'do the same', '2009-06-23 00:00:00', NULL, NULL, 90, NULL, '2008-06-23 18:08:32', NULL, 1 ),
-        (  'donate my old laptop to a charity', 10, 'other people', 'do the same', '2009-06-30 00:00:00', NULL, NULL, 40, NULL, '2008-06-23 18:12:38', NULL, 1 );
+        ( 'I', 'donate $200 towards defending WikiLeaks in their first amendment fight', 10, 'other good people', 'give $20 to $200 dollars and encourage others to do the same!', '2009-06-30 00:00:00', NULL, NULL, 76, NULL, '2008-06-23 17:57:28', NULL, 1 ),
+        ( 'My organisation', 'give at least 20 pounds to the Ebbsfleet United playing budget for 2008-09', 1000, 'other people',  'do the same', '2009-06-23 00:00:00', NULL, NULL, 90, NULL, '2008-06-23 18:08:32', NULL, 1 ),
+        ( 'I',  'donate my old laptop to a charity', 10, 'other people', 'do the same', '2009-06-30 00:00:00', NULL, NULL, 40, NULL, '2008-06-23 18:12:38', NULL, 1 );
       ";
         CRM_Core_DAO::executeQuery( $pledge, CRM_Core_DAO::$_nullArray );      
     }
