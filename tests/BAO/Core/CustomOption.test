@@ -47,8 +47,6 @@ class BAO_Core_CustomOption extends CiviTestCase
         require_once 'CRM/Core/BAO/CustomOption.php';
         CRM_Core_BAO_CustomOption::retrieve( $params, $defaults );
 
-//        CRM_Core_Error::debug('p',$params);
-
         $this->assertEqual( $defaults['label'], 'Divorced', 'Verify that label of retrieved option is "Divorced".');
 
         // Now delete the option value which we added
@@ -72,6 +70,7 @@ class BAO_Core_CustomOption extends CiviTestCase
         
         require_once 'CRM/Core/BAO/CustomField.php';
         CRM_Core_BAO_CustomField::retrieve( $params, $field );
+        $fieldID = $field['id'];
         
         // Now add an option_value for this custom field
         $params = array( );
@@ -91,31 +90,63 @@ class BAO_Core_CustomOption extends CiviTestCase
         // CRM_Core_Error::debug('p',$params);
 
         // Create an individual and assign our custom option to that contact
-        $contactId = Contact::createIndividual( );
+        $contactID = Contact::createIndividual( );
 
         require_once 'CRM/Core/BAO/CustomValueTable.php';
-        $params = array( 'entityID'      => $contactId,
-                         'field_id_1'    => $field['id'],
-                         'field_value_1' => 'V' );
-        $values = CRM_Core_BAO_CustomValueTable::setValues( $params );
-        CRM_Core_Error::debug('p1',$params);
-        CRM_Core_Error::debug('v1',$values);
+        $params = array( 'entityID'           => $contactID,
+                         'custom_' . $fieldID => 'V');
+        $result = CRM_Core_BAO_CustomValueTable::setValues( $params );
+ 
+        // CRM_Core_Error::debug('p1',$params);
+        // CRM_Core_Error::debug('r1',$result);
         
         // Check that value is stored
-        $params = array( 'entityID'   => $contactId,
-                         'field_id_1' => $field['id'] );
-        $values = CRM_Core_BAO_CustomValueTable::getValues( $params );        
-        CRM_Core_Error::debug('v2',$values); exit();
+        $params = array( 'entityID'               => $contactID,
+                         'custom_' . $field['id'] => 1);
+        $values = CRM_Core_BAO_CustomValueTable::getValues( $params );
+        $this->assertEqual( $values['custom_' . $fieldID], 'V', 'Verify that option_value.value is stored for contact ' . $contactID);
+        
+        // CRM_Core_Error::debug('v1',$values);
         
         // Now delete the option value which we added
         CRM_Core_BAO_CustomOption::del( $defaults['id'] );
         $this->assertDBNull( 'CRM_Core_DAO_OptionValue', $defaults['id'], 'id', 'id', 'Verify that inserted option value has been deleted');
 
         // And verify that value is no longer set for our contact.
+        $values = CRM_Core_BAO_CustomValueTable::getValues( $params );        
+        $this->assertEqual( $values['custom_' . $fieldID], '', 'Verify that option_value.value has been cleared for contact ' . $contactID);
+
+        // CRM_Core_Error::debug('v2',$values); exit();
         
         // Now cleanup our contact
-        Contact::delete( $contactId );
+        Contact::delete( $contactID );
 
+    }
+    
+    /**
+     * getCustomOption() method - Retrieves all option_value records ordered by weight for a given field. Default is 'active options' only.
+     */
+    function testGetCustomOption( )
+    {
+        // Retrieve the field id for sample custom field 'Marital Status'
+        $params = array( );
+        $params = array( 'label'   => 'Marital Status');
+        $field  = array( );
+        
+        require_once 'CRM/Core/BAO/CustomField.php';
+        CRM_Core_BAO_CustomField::retrieve( $params, $field );
+        $fieldID = $field['id'];
+        
+        // Now get the active options
+        require_once 'CRM/Core/BAO/CustomOption.php';
+        $options = array( );
+        $options = CRM_Core_BAO_CustomOption::getCustomOption( $fieldID );
+
+        // Should have 5 array items (option_value rows)
+        $this->assertEqual( count($options), 5, 'Verify that we got 5 option value items back.');
+        // Last item should have label = 'Other' (since ordered by weight).
+        $lastOption = array_pop( $options );
+        $this->assertEqual( $lastOption['label'], 'Other', 'Verify that label for last option is "Other".');
     }
     
 }

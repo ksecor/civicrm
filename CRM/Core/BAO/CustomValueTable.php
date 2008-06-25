@@ -420,6 +420,7 @@ FROM   civicrm_custom_group cg,
 WHERE  cf.custom_group_id = cg.id
 AND    cf.id IN ( $fieldIDList )
 ";
+
          $dao       = CRM_Core_DAO::executeQuery( $sql,
                                                   CRM_Core_DAO::$_nullArray );
          $cvParams  = array( );
@@ -430,7 +431,7 @@ AND    cf.id IN ( $fieldIDList )
              if ( CRM_Utils_Type::escape( $fieldValues[$dao->cf_id],
                                           $dataType, false ) === null ) {
                  return CRM_Core_Error::createAPIError( ts( 'value: %1 is not of the right field data type: %2',
-                                                            array( 1 => $params['value'],
+                                                            array( 1 => $fieldValues[$dao->cf_id],
                                                                    2 => $dao->data_type ) ) );
              }
 
@@ -448,7 +449,7 @@ AND    cf.id IN ( $fieldIDList )
                 $cvParams[$dao->table_name] = array( );
             }
 
-            $cvParams[$daa->table_name][] = $cvParam;
+            $cvParams[$dao->table_name][] = $cvParam;
          }
 
          if ( ! empty( $cvParams ) ) {

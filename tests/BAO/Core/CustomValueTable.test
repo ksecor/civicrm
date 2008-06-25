@@ -20,6 +20,7 @@ class BAO_Core_CustomValueTable extends CiviTestCase
         parent::setUp();
     }
 
+
     /*
      * function to test store function for country
      *
@@ -27,7 +28,7 @@ class BAO_Core_CustomValueTable extends CiviTestCase
     function testStoreCountry()
     {
         $params      = array();
-        $contactId   = Contact::createIndividual();
+        $contactID   = Contact::createIndividual();
         $customGroup = Custom::createGroup( $params ,'Individual' );
         $fields      = array (
                               'groupId'  => $customGroup->id,
@@ -48,22 +49,22 @@ class BAO_Core_CustomValueTable extends CiviTestCase
                                                      ));
 
         require_once 'CRM/Core/BAO/CustomValueTable.php';
-        CRM_Core_BAO_CustomValueTable::store( $params, 'civicrm_contact', $contactId );
+        CRM_Core_BAO_CustomValueTable::store( $params, 'civicrm_contact', $contactID );
         //        $this->assertDBCompareValue('CRM_Custom_DAO_CustomValue', )
         
         Custom::deleteField( $customField );        
         Custom::deleteGroup( $customGroup );
-        Contact::delete( $contactId );
+        Contact::delete( $contactID );
     }
 
     /*
      * function to test store function for file
      *
      */
-    function atestStoreFile()
+    function testStoreFile()
     {
         $params      = array();
-        $contactId   = Contact::createIndividual();
+        $contactID   = Contact::createIndividual();
         $customGroup = Custom::createGroup( $params ,'Individual' );
         $fields      = array (
                               'groupId'  => $customGroup->id,
@@ -84,12 +85,12 @@ class BAO_Core_CustomValueTable extends CiviTestCase
                                                      ));
 
         require_once 'CRM/Core/BAO/CustomValueTable.php';
-        CRM_Core_BAO_CustomValueTable::store( $params, 'civicrm_contact', $contactId );
+        CRM_Core_BAO_CustomValueTable::store( $params, 'civicrm_contact', $contactID );
         //        $this->assertDBCompareValue('CRM_Custom_DAO_CustomValue', )
         
         Custom::deleteField( $customField );        
         Custom::deleteGroup( $customGroup );
-        Contact::delete( $contactId );
+        Contact::delete( $contactID );
     }
 
     /*
@@ -99,7 +100,7 @@ class BAO_Core_CustomValueTable extends CiviTestCase
     function testStoreStateProvince()
     {
         $params      = array();
-        $contactId   = Contact::createIndividual();
+        $contactID   = Contact::createIndividual();
         $customGroup = Custom::createGroup( $params ,'Individual' );
         $fields      = array (
                               'groupId'  => $customGroup->id,
@@ -120,12 +121,12 @@ class BAO_Core_CustomValueTable extends CiviTestCase
                                                     ));
 
         require_once 'CRM/Core/BAO/CustomValueTable.php';
-        CRM_Core_BAO_CustomValueTable::store( $params, 'civicrm_contact', $contactId );
+        CRM_Core_BAO_CustomValueTable::store( $params, 'civicrm_contact', $contactID );
         //        $this->assertDBCompareValue('CRM_Custom_DAO_CustomValue', )
         
         Custom::deleteField( $customField );        
         Custom::deleteGroup( $customGroup );
-        Contact::delete( $contactId );
+        Contact::delete( $contactID );
     }
 
     /*
@@ -135,7 +136,7 @@ class BAO_Core_CustomValueTable extends CiviTestCase
     function testStoreDate()
     {
         $params      = array();
-        $contactId   = Contact::createIndividual();
+        $contactID   = Contact::createIndividual();
         $customGroup = Custom::createGroup( $params ,'Individual' );
         $fields      = array (
                               'groupId'  => $customGroup->id,
@@ -156,12 +157,12 @@ class BAO_Core_CustomValueTable extends CiviTestCase
                                                     ));
 
         require_once 'CRM/Core/BAO/CustomValueTable.php';
-        CRM_Core_BAO_CustomValueTable::store( $params, 'civicrm_contact', $contactId );
+        CRM_Core_BAO_CustomValueTable::store( $params, 'civicrm_contact', $contactID );
         //        $this->assertDBCompareValue('CRM_Custom_DAO_CustomValue', )
         
         Custom::deleteField( $customField );        
         Custom::deleteGroup( $customGroup );
-        Contact::delete( $contactId );
+        Contact::delete( $contactID );
     }
 
     /*
@@ -171,7 +172,7 @@ class BAO_Core_CustomValueTable extends CiviTestCase
     function testStoreRichTextEditor()
     {
         $params      = array();
-        $contactId   = Contact::createIndividual();
+        $contactID   = Contact::createIndividual();
         $customGroup = Custom::createGroup( $params ,'Individual' );
         $fields      = array (
                               'groupId'  => $customGroup->id,
@@ -192,40 +193,12 @@ class BAO_Core_CustomValueTable extends CiviTestCase
                                                     ));
         
         require_once 'CRM/Core/BAO/CustomValueTable.php';
-        CRM_Core_BAO_CustomValueTable::store( $params, 'civicrm_contact', $contactId );
+        CRM_Core_BAO_CustomValueTable::store( $params, 'civicrm_contact', $contactID );
         //        $this->assertDBCompareValue('CRM_Custom_DAO_CustomValue', )
         
         Custom::deleteField( $customField );        
         Custom::deleteGroup( $customGroup );
-        Contact::delete( $contactId );
+        Contact::delete( $contactID );
     }
 
-    /*
-     * function to test setValue() method with Date Field
-     * Use sample custom field 'Marriage Date'
-     *
-     */
-    function testSetValueDate()
-    {
-        $params      = array();
-        $contactId   = Contact::createIndividual();
-
-        // Retrieve the option_group_id for sample custom field 'Marital Status'
-        $params = array( );
-        $params = array( 'label'   => 'Marriage Date');
-        $field  = array( );
-        
-        require_once 'CRM/Core/BAO/CustomField.php';
-        CRM_Core_BAO_CustomField::retrieve( $params, $field );
-
-        $value = '20080608000000';
-        require_once 'CRM/Core/BAO/CustomValueTable.php';
-        CRM_Core_BAO_CustomValueTable::setValue( $contactId, $field['id'], $value );
-
-        // Check that value is stored
-        //        $this->assertDBCompareValue('CRM_Custom_DAO_CustomValue', )
-
-        // Cleanup our contact
-        Contact::delete( $contactId );
-    }
 }
