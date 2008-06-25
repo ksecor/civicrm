@@ -94,10 +94,18 @@ class BAO_Core_CustomOption extends CiviTestCase
         $contactId = Contact::createIndividual( );
 
         require_once 'CRM/Core/BAO/CustomValueTable.php';
-        CRM_Core_BAO_CustomValueTable::setValue( $contactId, $field['id'], 'V' );
+        $params = array( 'entityID'      => $contactId,
+                         'field_id_1'    => $field['id'],
+                         'field_value_1' => 'V' );
+        $values = CRM_Core_BAO_CustomValueTable::setValues( $params );
+        CRM_Core_Error::debug('p1',$params);
+        CRM_Core_Error::debug('v1',$values);
         
         // Check that value is stored
-
+        $params = array( 'entityID'   => $contactId,
+                         'field_id_1' => $field['id'] );
+        $values = CRM_Core_BAO_CustomValueTable::getValues( $params );        
+        CRM_Core_Error::debug('v2',$values); exit();
         
         // Now delete the option value which we added
         CRM_Core_BAO_CustomOption::del( $defaults['id'] );

@@ -53,6 +53,7 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO
      */
     public static function typecheck($type, $value) 
     {
+        require_once 'CRM/Utils/Rule.php';
         switch($type) {
         case 'Memo':
             return true;
