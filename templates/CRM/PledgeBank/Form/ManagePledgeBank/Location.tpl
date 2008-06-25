@@ -14,17 +14,10 @@
        </span>
     </div>
     <div id="location_show" class="form-item">
-       <span class="labels">
-           <label>{$form.location.1.name.label}</label>
-       </span>  
-       <span class="fields">
-          {$form.location.1.name.html|crmReplace:class:big}
-       </span>
-    </div>
-    <div class="spacer"></div>
     {* Display the address block *}
-    {include file="CRM/Contact/Form/Address.tpl"} 
-   
+    {include file="CRM/Contact/Form/Address.tpl"} 	
+    </div>
+         
 </fieldset>
 <dl>
     <dt>&nbsp;</dt><dd>{$form.buttons.html}</dd>

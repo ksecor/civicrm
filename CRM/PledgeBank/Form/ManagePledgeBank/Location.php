@@ -169,7 +169,7 @@ class CRM_PledgeBank_Form_ManagePledgeBank_Location extends CRM_PledgeBank_Form_
      */ 
     public function buildQuickForm( )  
     { 
-        $this->addElement('advcheckbox', 'has_location', ts('Does this pledge have location?'), null,
+        $this->addElement('checkbox', 'has_location', ts('Does this pledge have location?'), null,
                           array('onclick' =>"return showHideByValue('has_location','','location_show','block','radio',false);"));
         $this->assign( 'locationCount', self::LOCATION_BLOCKS + 1);
         
