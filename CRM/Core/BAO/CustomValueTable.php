@@ -426,8 +426,9 @@ AND    cf.id IN ( $fieldIDList )
          
          if ( $dao->fetch( ) ) {
              // ensure that value is of the right data type
+             $dataType = $dao->data_type == 'Date' ? 'Timestamp' : $dao->data_type;
              if ( CRM_Utils_Type::escape( $fieldValues[$dao->cf_id],
-                                          $dao->data_type, false ) === null ) {
+                                          $dataType, false ) === null ) {
                  return CRM_Core_Error::createAPIError( ts( 'value: %1 is not of the right field data type: %2',
                                                             array( 1 => $params['value'],
                                                                    2 => $dao->data_type ) ) );
@@ -436,7 +437,7 @@ AND    cf.id IN ( $fieldIDList )
              $cvParam = array(
                               'entity_id'       => $params['entityID'],
                               'value'           => $fieldValues[$dao->cf_id],
-                              'type'            => $dao->data_type == 'Date' ? 'Timestamp' : $dao->data_type,
+                              'type'            => $dataType,
                               'custom_field_id' => $dao->cf_id,
                               'custom_group_id' => $dao->cg_id,
                               'table_name'      => $dao->table_name,
