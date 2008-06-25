@@ -136,7 +136,6 @@ class CRM_Core_Page {
                 $this->_print = CRM_Core_Smarty::PRINT_PDF;
             } else {
                 $this->_print = CRM_Core_Smarty::PRINT_SNIPPET;
-                self::$_template->assign( 'suppressForm', true );
             }
         }
 
