@@ -82,7 +82,40 @@ class CRM_Event_Form_EventFees
             $defaults[$form->_participantId]['receive_date']['d'] = $today_date['mday'];
             $defaults[$form->_participantId]['receive_date']['Y'] = $today_date['year'];
         }
-
+        if ( $form->_mode ) {
+            $fields = array( );
+            
+            foreach ( $form->_fields as $name => $dontCare ) {
+                $fields[$name] = 1;
+            }
+            
+            $names = array("first_name", "middle_name", "last_name" );
+            foreach ($names as $name) {
+                $fields[$name] = 1;
+            }
+            
+            $fields["state_province-{$form->_bltID}"] = 1;
+            $fields["country-{$form->_bltID}"       ] = 1;
+            $fields["email-{$form->_bltID}"         ] = 1;
+            $fields["email-Primary"                 ] = 1;
+            
+            require_once "CRM/Core/BAO/UFGroup.php";
+            CRM_Core_BAO_UFGroup::setProfileDefaults( $form->_contactID, $fields, $form->_defaults );
+            
+            $defaultAddress = array("street_address-5","city-5", "state_province_id-5", "country_id-5","postal_code-5" );
+            foreach ($defaultAddress as $name) {
+                if ( ! empty( $form->_defaults[$name] ) ) {
+                    $defaults[$form->_participantId][$name] = $form->_defaults[$name];
+                }
+            } 
+            
+            foreach ($names as $name) {
+                if ( ! empty( $form->_defaults[$name] ) ) {
+                    $defaults[$form->_participantId]["billing_" . $name] = $form->_defaults[$name];
+                }
+            } 
+        }
+        
         require_once 'CRM/Core/BAO/PriceSet.php';
         if ( $priceSetId = CRM_Core_BAO_PriceSet::getFor( 'civicrm_event_page', $form->_eventId ) ) {
             $fields = array( );
@@ -205,8 +238,9 @@ class CRM_Event_Form_EventFees
                 $defaults[$form->_participantId]['amount'] = $params['id'];
             }
         }
-
+       
         return $defaults[$form->_participantId];
+        
     }
     
     /** 
@@ -255,30 +289,34 @@ class CRM_Event_Form_EventFees
                     $element->freeze();
                 }
             }
+            if ( $form->_mode ) {
+                require_once 'CRM/Core/Payment/Form.php';
+                CRM_Core_Payment_Form::buildCreditCard( $form, true );
+            } else if ( !$form->_mode ) {
+                $form->addElement('checkbox', 'record_contribution', ts('Record Payment?'), null, 
+                                  array('onclick' =>"return showHideByValue('record_contribution','','payment_information','table-row','radio',false);"));
+                
+                require_once 'CRM/Contribute/PseudoConstant.php';
+                $form->add('select', 'contribution_type_id', 
+                           ts( 'Contribution Type' ), 
+                           array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::contributionType( ) );
+                
+                $form->add('date', 'receive_date', ts('Received'), CRM_Core_SelectValues::date('activityDate'), false );         
+                $form->addRule('receive_date', ts('Select a valid date.'), 'qfDate');
+                
+                $form->add('select', 'payment_instrument_id', 
+                           ts( 'Paid By' ), 
+                           array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::paymentInstrument( )
+                           );
+                $form->add('text', 'trxn_id', ts('Transaction ID'));
+                $form->addRule( 'trxn_id', ts('Transaction ID already exists in Database.'),
+                                'objectExists', array( 'CRM_Contribute_DAO_Contribution', $form->_id, 'trxn_id' ) );
             
-            $form->addElement('checkbox', 'record_contribution', ts('Record Payment?'), null, 
-                              array('onclick' =>"return showHideByValue('record_contribution','','payment_information','table-row','radio',false);"));
-
-            require_once 'CRM/Contribute/PseudoConstant.php';
-            $form->add('select', 'contribution_type_id', 
-                       ts( 'Contribution Type' ), 
-                       array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::contributionType( ) );
-            
-            $form->add('date', 'receive_date', ts('Received'), CRM_Core_SelectValues::date('activityDate'), false );         
-            $form->addRule('receive_date', ts('Select a valid date.'), 'qfDate');
-            
-            $form->add('select', 'payment_instrument_id', 
-                       ts( 'Paid By' ), 
-                       array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::paymentInstrument( )
-                       );
-            $form->add('text', 'trxn_id', ts('Transaction ID'));
-            $form->addRule( 'trxn_id', ts('Transaction ID already exists in Database.'),
-                        'objectExists', array( 'CRM_Contribute_DAO_Contribution', $form->_id, 'trxn_id' ) );
-            
-            $form->add('select', 'contribution_status_id',
-                       ts('Payment Status'), 
-                       CRM_Contribute_PseudoConstant::contributionStatus( )
-                       );
+                $form->add('select', 'contribution_status_id',
+                           ts('Payment Status'), 
+                           CRM_Contribute_PseudoConstant::contributionStatus( )
+                           );
+            }
         } else {
             $form->add( 'text', 'amount', ts('Event Fee(s)') );
         }

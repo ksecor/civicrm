@@ -585,7 +585,7 @@ WHERE  v.option_group_id = g.id
                                    'discount_id'    => $params['discount_id']
                                    );
        
-        if ( $this->_action & CRM_Core_Action::PREVIEW ) {
+        if ( $this->_action & CRM_Core_Action::PREVIEW || $params['mode'] == 'test' ) {
             $participantParams['is_test'] = 1;
         } else {
             $participantParams['is_test'] = 0;

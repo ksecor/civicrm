@@ -4,7 +4,18 @@
 {elseif $cdType }
   {include file="CRM/Custom/Form/CustomData.tpl"}
 {else}
-<fieldset><legend>{if $action eq 1}{ts}New Event Registration{/ts}{elseif $action eq 8}{ts}Delete Event Registration{/ts}{else}{ts}Edit Event Registration{/ts}{/if}</legend> 
+{if $participantMode == 'test' }
+    {assign var=registerMode value="TEST"}
+{else if $participantMode == 'live'}
+    {assign var=registerMode value="LIVE"}
+{/if}
+{if $participantMode}
+<div id="help">
+    {ts 1=$displayName 2=$registerMode}Use this form to submit an event registration on behalf of %1. <strong>A %2 transaction will be submitted</strong> using the selected payment processor.{/ts}
+</div>
+{else}
+<fieldset><legend>{if $action eq 1}{ts}New Event Registration{/ts}{elseif $action eq 8}{ts}Delete Event Registration{/ts}{else}{ts}Edit Event Registration{/ts}{/if}</legend>
+{/if} 
     {if $action eq 1 AND $paid}
     <div id="help">
 	{ts}If you are accepting offline payment from this participant, check <strong>Record Payment</strong>. You will be able to fill in the payment information, and optionally send a receipt.{/ts}
@@ -28,6 +39,7 @@
         {if $single}
         <tr><td class="right font-size12pt bold">{ts}Participant Name{/ts}&nbsp;&nbsp;</td><td class="font-size12pt"><strong>{$displayName}</strong>&nbsp;</td></tr>
         {/if}
+	<tr><td class="label nowrap">{$form.payment_processor_id.label}</td><td>{$form.payment_processor_id.html}</td>
         <tr><td class="label">{$form.event_id.label}</td><td>{$form.event_id.html}&nbsp;        
         {if $action eq 1 && !$past }<br /><a href="{$pastURL}">&raquo; {ts}Include past event(s) in this select list.{/ts}</a>{/if}    
         {if $is_test}
@@ -53,6 +65,8 @@
         <tr><td class="label">{$form.source.label}</td><td>{$form.source.html|crmReplace:class:huge}</td></tr>
 
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Source for this registration (if applicable).{/ts}</td></tr>
+	{assign var=n value=email-$bltID}
+        <tr><td class="label">{$form.$n.label}</td><td>{$form.$n.html}</td><tr>
     </table>
     
     {* Fee block (EventFees.tpl) is injected here when an event is selected. *}
