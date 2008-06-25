@@ -35,7 +35,7 @@
 
 class CRM_Core_BAO_CustomValueTable 
 {
-    function create ( &$customParams ) 
+    function create( &$customParams ) 
     {
         if ( empty( $customParams ) ||
              ! is_array( $customParams ) ) {
@@ -360,7 +360,84 @@ WHERE  $where
         return $result;
     }
 
-     static function setValue( $entityID, $fieldID, &$value ) {
+     /**
+      * Function to take in an array of entityID, fieldID, value
+      * and set the value in the appropriate table. Should also be able
+      * to set the value to null. Follows api parameter/return conventions
+      * Sometime real soon we should extend the function to take in an
+      * entityID, array of (fieldID, value) pairs and set multiple values
+      *
+      * @array $params
+      *
+      * @return array 
+      * @static
+      */
+     static function setValue( &$params ) {
+
+         if ( ! isset( $params['entityID'] ) ||
+              CRM_Utils_Type::escape( $params['entityID'],
+                                      'Integer', false ) === null ) {
+             return CRM_Core_Error::createAPIError( ts( 'entityID needs to be set and of type Integer' ) );
+         }
+
+         if ( ! isset( $params['value'] ) ) {
+             return CRM_Core_Error::createAPIError( ts( 'value needs to be set' ) );
+         }
+
+         if ( ! isset( $params['fieldID'] ) ||
+              CRM_Utils_Type::escape( $params['fieldID'],
+                                      'Integer', false ) === null ) {
+             return CRM_Core_Error::createAPIError( ts( 'fieldID needs to be set and of type Integer' ) );
+         }
+
+
+         // format it so that we can just use create
+         $sql = "
+SELECT cg.table_name  as table_name ,
+       cg.id          as cg_id      ,
+       cf.column_name as column_name,
+       cf.id          as cf_id      ,
+       cf.data_type   as data_type 
+FROM   civicrm_custom_group cg,
+       civicrm_custom_field cf
+WHERE  cf.custom_group_id = cg.id
+AND    cf.id = %1
+";
+         $sqlParams = array( 1 => array( $params['fieldID'], 'Integer' ) );
+         $dao       = CRM_Core_DAO::executeQuery( $sql, $sqlParams );
+         $cvParams  = array( );
+         
+         if ( $dao->fetch( ) ) {
+             // ensure that value is of the right data type
+             if ( CRM_Utils_Type::escape( $params['value'], $dao->data_type, false ) === null ) {
+                 return CRM_Core_Error::createAPIError( ts( 'value: %1 is not of the right field data type: %2',
+                                                            array( 1 => $params['value'],
+                                                                   2 => $dao->data_type ) ) );
+             }
+
+             $cvParam = array(
+                              'entity_id'       => $params['entityID'],
+                              'value'           => $params['value'],
+                              'type'            => $dao->data_type == 'Date' ? 'Timestamp' : $dao->data_type,
+                              'custom_field_id' => $dao->cf_id,
+                              'custom_group_id' => $dao->cg_id,
+                              'table_name'      => $dao->table_name,
+                              'column_name'     => $dao->column_name,
+                              );                              
+
+            if ( ! array_key_exists( $dao->table_name, $cvParams ) ) {
+                $cvParams[$dao->table_name] = array( );
+            }
+
+            $cvParams[$daa->table_name][] = $cvParam;
+         }
+
+         if ( ! empty( $cvParams ) ) {
+             self::create( $cvParams );
+             return CRM_Core_Error::createAPISuccess( );
+         }
+
+         return CRM_Core_Error::createAPIError( ts( 'Unknown error' ) );
      }
 
 }

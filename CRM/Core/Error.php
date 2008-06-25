@@ -471,6 +471,22 @@ class CRM_Core_Error extends PEAR_ErrorStack {
                                 $callback );
     }
 
+    public static function &createAPIError( $msg ) {
+        $values = array( );
+        
+        $values['is_error']      = 1;
+        $values['error_message'] = $msg;
+        return $values;
+    }
+
+    public static function &createAPISuccess( $result = 1 ) {
+        $values = array( );
+        
+        $values['is_error'] = 0;
+        $values['result'  ] = $result;
+        return $values;
+    }
+
 }
 
 PEAR_ErrorStack::singleton('CRM', false, null, 'CRM_Core_Error');
