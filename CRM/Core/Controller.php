@@ -145,18 +145,21 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
         }
         $this->_scope = $this->_scope . '_' . $this->_key;
 
-        if ( isset( $_GET['snippet'] ) && $_GET['snippet'] ) {
-            if ( $_GET['snippet'] == 3 ) {
-                $this->_print = CRM_Core_Smarty::PRINT_PDF;
-            } else {
-                $this->_print = CRM_Core_Smarty::PRINT_SNIPPET;
-            }
-        }
-
         // let the constructor initialize this, should happen only once
         if ( ! isset( self::$_template ) ) {
             self::$_template =& CRM_Core_Smarty::singleton( );
             self::$_session  =& CRM_Core_Session::singleton( );
+        }
+
+        if ( isset( $_GET['snippet'] ) && $_GET['snippet'] ) {
+            if ( $_GET['snippet'] == 3 ) {
+                $this->_print = CRM_Core_Smarty::PRINT_PDF;
+            } else if ( $_GET['snippet'] == 4 ) {
+                $this->_print = CRM_Core_Smarty::PRINT_NOFORM;
+                self::$_template->assign( 'suppressForm', true );
+            } else {
+                $this->_print = CRM_Core_Smarty::PRINT_SNIPPET;
+            }
         }
 
         // if the request has a reset value, initialize the controller session

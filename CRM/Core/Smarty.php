@@ -52,7 +52,8 @@ class CRM_Core_Smarty extends Smarty {
     const
         PRINT_PAGE    = 1,
         PRINT_SNIPPET = 2,
-        PRINT_PDF     = 3;
+        PRINT_PDF     = 3,
+        PRINT_NOFORM  = 4;
 
     /**
      * We only need one instance of this object. So we use the singleton
