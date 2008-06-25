@@ -48,7 +48,7 @@ class BAO_Core_CustomValue extends CiviTestCase
                      );
     }
 
-    function testtypecheck( )
+    function testTypeCheckWithValidInput( )
     {
 
         $values = array( );
@@ -71,6 +71,10 @@ class BAO_Core_CustomValue extends CiviTestCase
                 $this->assertEqual( $valid, 'true','Checking type '.$type.' for returned CustomField Type.' ); 
             }
         } 
+    }     
+    
+    function testTypeCheckWithInvalidInput( )
+    {
         $values = array( );
         $values = array( 'check1'  => 'chk' );
         foreach ( $values as $type => $value ) {
@@ -79,7 +83,21 @@ class BAO_Core_CustomValue extends CiviTestCase
         }
     }
     
-    function testtypeToField ( )
+    function testTypeCheckWithWrongInput( )
+    {
+        $values = array( );
+        $values = array ( 'String'   => 1 ,
+                          'Boolean'  => 'US'
+                          );
+        require_once 'CRM/Core/BAO/CustomValue.php';
+        foreach ( $values as $type => $value ) {
+            $valid =  CRM_Core_BAO_CustomValue::typecheck( $type, $value );
+            $this->assertEqual( $valid, null, 'Checking type '.$type.' for returned CustomField Type.' ); 
+        }
+
+    }
+
+    function testTypeToFieldWithValidInput ( )
     {
         $values = array( );
         $values = array( 'String'        => 'char_data',
@@ -102,7 +120,22 @@ class BAO_Core_CustomValue extends CiviTestCase
         }
     }
 
-    function testfixFieldValueOfTypeMemo ( )
+    function testTypeToFieldWithWrongInput ( )
+    {
+      $values = array( );
+      $values = array( 'String'        => 'memo_data',
+                       'File'          => 'date_data',
+                       'Boolean'       => 'char_data'
+                       );
+      require_once 'CRM/Core/BAO/CustomValue.php';
+      foreach ( $values as $type => $value ) {
+          $valid =  CRM_Core_BAO_CustomValue::typeToField( $type );
+          $this->assertNotEqual( $valid, $value, 'Checking type '.$type.' for returned CustomField Type.'); 
+      }
+      
+    }
+    
+    function testFixFieldValueOfTypeMemo ( )
     {
         $customGroup = Custom::createGroup( array(), 'Individual' );
      
@@ -127,4 +160,13 @@ class BAO_Core_CustomValue extends CiviTestCase
         Custom::deleteField( $customField );        
         Custom::deleteGroup( $customGroup );    
     }
+
+    function testFixFieldValueOfTypeMemoWithEmptyParams ( )
+    {
+        $params = array ( );
+        require_once 'CRM/Core/BAO/CustomValue.php';
+        CRM_Core_BAO_CustomValue::fixFieldValueOfTypeMemo( $params );
+        $this->assertEqual( $params, null, 'Checking the returned value of type Memo.');  
+    }
+
 }
