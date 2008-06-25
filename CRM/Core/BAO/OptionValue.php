@@ -85,7 +85,7 @@ class CRM_Core_BAO_OptionValue extends CRM_Core_DAO_OptionValue
     }
 
     /**
-     * function to add the Option Group
+     * Function to add an Option Value
      *
      * @param array $params reference array contains the values submitted by the form
      * @param array $ids    reference array contains the id

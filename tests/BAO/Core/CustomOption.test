@@ -1,0 +1,114 @@
+<?php
+
+require_once 'CiviTestCase.php';
+require_once 'Contact.php';
+
+class BAO_Core_CustomOption extends CiviTestCase 
+{
+    function get_info( ) 
+    {
+        return array(
+                     'name'        => 'CustomOption BAOs',
+                     'description' => 'Test all Core_BAO_CustomOption methods.',
+                     'group'       => 'CiviCRM BAO Tests',
+                     );
+    }
+    
+    function setUp( ) 
+    {
+        parent::setUp();
+    }
+    
+    /**
+     * retrieve() method - Retrieves a single option_value record as an array when the option_value.id is passed
+     */
+    function testRetrieve( )
+    {
+        // Retrieve the option_group_id for sample custom field 'Marital Status'
+        $params = array( );
+        $params = array( 'label'   => 'Marital Status');
+        $field  = array( );
+        
+        require_once 'CRM/Core/BAO/CustomField.php';
+        CRM_Core_BAO_CustomField::retrieve( $params, $field );
+
+        // Now add an option_value for this custom field
+        $params = array( );
+        $params = array( 'option_group_id' => $field['option_group_id'],
+                         'label'           => 'Divorced',
+                         'value'           => 'V');
+        $ids = array( );
+        require_once 'CRM/Core/BAO/OptionValue.php';
+        $option = CRM_Core_BAO_OptionValue::add( $params, $ids );
+
+        // Now use retrieve to get the new option value
+        $defaults = array( );
+        $params   = array( 'id' => $option->id);
+        require_once 'CRM/Core/BAO/CustomOption.php';
+        CRM_Core_BAO_CustomOption::retrieve( $params, $defaults );
+
+//        CRM_Core_Error::debug('p',$params);
+
+        $this->assertEqual( $defaults['label'], 'Divorced', 'Verify that label of retrieved option is "Divorced".');
+
+        // Now delete the option value which we added
+        CRM_Core_BAO_CustomOption::del( $defaults['id'] );
+        $this->assertDBNull( 'CRM_Core_DAO_OptionValue', $defaults['id'], 'id', 'id', 'Verify that inserted option value has been deleted');
+        
+    }
+
+}
+
+    /**
+     * del () method - Deletes a single option_value record after updating (set to null or 0) any custom data that uses that option_value.
+     * For this test we will actually assign our new custom field value to a contact, and then verify that
+     * the del() method clears the value.
+     */
+    function testDel( )
+    {
+        // Retrieve the option_group_id for sample custom field 'Marital Status'
+        $params = array( );
+        $params = array( 'label'   => 'Marital Status');
+        $field  = array( );
+        
+        require_once 'CRM/Core/BAO/CustomField.php';
+        CRM_Core_BAO_CustomField::retrieve( $params, $field );
+        
+        // Now add an option_value for this custom field
+        $params = array( );
+        $params = array( 'option_group_id' => $field['option_group_id'],
+                        'label'           => 'Divorced',
+                        'value'           => 'V');
+        $ids = array( );
+        require_once 'CRM/Core/BAO/OptionValue.php';
+        $option = CRM_Core_BAO_OptionValue::add( $params, $ids );
+        
+        // Now use retrieve to get the new option value
+        $defaults = array( );
+        $params   = array( 'id' => $option->id);
+        require_once 'CRM/Core/BAO/CustomOption.php';
+        CRM_Core_BAO_CustomOption::retrieve( $params, $defaults );
+        
+        // CRM_Core_Error::debug('p',$params);
+
+        // Create an individual and assign our custom option to that contact
+        $contactId = Contact::createIndividual( );
+
+        require_once 'CRM/Core/BAO/CustomValueTable.php';
+        CRM_Core_BAO_CustomValueTable::setValue( $contactId, $field['id'], 'V' );
+        
+        // Check that value is stored
+
+        
+        // Now delete the option value which we added
+        CRM_Core_BAO_CustomOption::del( $defaults['id'] );
+        $this->assertDBNull( 'CRM_Core_DAO_OptionValue', $defaults['id'], 'id', 'id', 'Verify that inserted option value has been deleted');
+
+        // And verify that value is no longer set for our contact.
+        
+        // Now cleanup our contact
+        Contact::delete( $contactId );
+
+    }
+    
+    }
