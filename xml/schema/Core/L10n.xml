@@ -37,11 +37,6 @@
     <comment>Column referred by this entry</comment>
     <add>2.1.i18n</add>
   </field>
-  <index>
-    <name>index_entity_column</name>
-    <fieldName>entity_column</fieldName>
-    <add>2.1.i18n</add>
-  </index>
   <field>
     <name>entity_id</name>
     <type>int unsigned</type>
@@ -49,11 +44,6 @@
     <comment>Row referred by this entry</comment>
     <add>2.1.i18n</add>
   </field>
-  <index>
-    <name>index_entity_id</name>
-    <fieldName>entity_id</fieldName>
-    <add>2.1.i18n</add>
-  </index>
   <field>
     <name>locale</name>
     <type>varchar</type>
