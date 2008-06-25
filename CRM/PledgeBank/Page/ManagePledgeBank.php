@@ -231,17 +231,36 @@ class CRM_PledgeBank_Page_ManagePledgeBank extends CRM_Core_Page
         $managePledge = array();
         
         $query = "
-  SELECT *
-    FROM civicrm_pb_pledge
-   WHERE $whereClause
-ORDER BY deadline asc
-   LIMIT $offset, $rowCount";
-        
+SELECT     civicrm_pb_pledge.id as id, civicrm_pb_pledge.creator_pledge_desc as creator_pledge_desc, 
+           civicrm_pb_pledge.signers_limit as signers_limit, civicrm_pb_pledge.signer_description_text as signer_description_text, 
+           civicrm_pb_pledge.signer_pledge_desc as signer_pledge_desc, civicrm_pb_pledge.deadline as deadline,
+           civicrm_pb_pledge.is_active as is_active, civicrm_contact.display_name as display_name
+FROM       civicrm_pb_pledge
+LEFT JOIN  civicrm_contact ON ( civicrm_pb_pledge.creator_id = civicrm_contact.id )
+WHERE      $whereClause
+GROUP BY   civicrm_pb_pledge.id
+ORDER BY   civicrm_pb_pledge.deadline ASC
+LIMIT      $offset, $rowCount
+";
         $dao = CRM_Core_DAO::executeQuery( $query, $params, true, 'CRM_PledgeBank_DAO_Pledge' );
+        
+        $properties = array( 'creatorPledgeDesc'     => 'creator_pledge_desc',     'signersLimit'     => 'signers_limit', 
+                             'signerDescriptionText' => 'signer_description_text', 'signerPledgeDesc' => 'signer_pledge_desc', 
+                             'deadline'              => 'deadline',                'isActive'         => 'is_active', 
+                             'displayName'           => 'display_name',           
+                             );
         
         while ($dao->fetch()) {
             $managePledge[$dao->id] = array();
-            CRM_Core_DAO::storeValues( $dao, $managePledge[$dao->id]);
+            foreach ( $properties as $property => $name ) {
+                $managePledge[$dao->id][$property] = $dao->$name;
+            }
+            $managePledge[$dao->id]['title'] = ts( '%1 will %2 but only if %3 %4 will %5', 
+                                                   array( 1 => $dao->display_name, 
+                                                          2 => $dao->creator_pledge_desc,
+                                                          3 => $dao->signers_limit,
+                                                          4 => $dao->signer_description_text,
+                                                          5 => $dao->signer_pledge_desc ));
             
             //form all action links
             $action = array_sum( array_keys( $this->links( ) ) );
@@ -254,18 +273,6 @@ ORDER BY deadline asc
             
             $managePledge[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $action, 
                                                                           array('id' => $dao->id));
-            
-            $params = array( 'entity_id' => $dao->id, 'entity_table' => 'civicrm_pb_pledge');
-            require_once 'CRM/Core/BAO/Location.php';
-            $location = CRM_Core_BAO_Location::getValues( $params, $defaults );
-            if ( isset ( $defaults['location'][1]['address']['city'] ) ) {
-                $managePledge[$dao->id]['city'] = $defaults['location'][1]['address']['city'];
-            }
-            if ( isset( $defaults['location'][1]['address']['state_province_id'] )) {
-                $managePledge[$dao->id]['state_province'] = CRM_Core_PseudoConstant::stateProvince($defaults['location'][1]['address']['state_province_id']);
-            }
-            
-            $managePledge[$dao->id]['title'] = "I will {$dao->creator_pledge_desc} but only if {$dao->signers_limit} {$dao->signer_description_text} will {$dao->signer_pledge_desc}.";
         }
         
         $this->assign( 'rows', $managePledge );

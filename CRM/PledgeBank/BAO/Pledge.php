@@ -205,14 +205,12 @@ LIMIT      0, 10
                 }
             }
             
-            $pledgeSummary['pledges'][$dao->id]['title'] = ts( 'I will %1 but only if %2 %3 will %4', 
-                                                      array(  1 => $dao->creator_pledge_desc,
-                                                              2 => $dao->signers_limit,
-                                                              3 => $dao->signer_description_text,
-                                                              4 => $dao->signer_pledge_desc ));
-
-
-
+            $pledgeSummary['pledges'][$dao->id]['title'] = ts( '%1 will %2 but only if %3 %4 will %5', 
+                                                               array( 1 => $dao->display_name, 
+                                                                      2 => $dao->creator_pledge_desc,
+                                                                      3 => $dao->signers_limit,
+                                                                      4 => $dao->signer_description_text,
+                                                                      5 => $dao->signer_pledge_desc ));
             
             if ( $admin ) {
                 $pledgeSummary['pledges'][$dao->id]['configure'] =

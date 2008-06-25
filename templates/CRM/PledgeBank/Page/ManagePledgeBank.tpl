@@ -9,23 +9,23 @@
         {include file="CRM/common/pagerAToZ.tpl}    
         <table cellpadding="0" cellspacing="0" border="0">
          <tr class="columnheader">
-            <th>{ts}Pledge{/ts}</th>
-            <th>{ts}City{/ts}</th>
-            <th>{ts}State/Province{/ts}</th>
-            <th>{ts}Creates{/ts}</th>
-            <th>{ts}Deadlines{/ts}</th>
+            <th>{ts}Title{/ts}</th>
+            <th>{ts}Id{/ts}</th>
+            <th>{ts}Signers limit{/ts}</th>
+            <th>{ts}Deadline{/ts}</th>
+            <th>{ts}Creator{/ts}</th>
 	    <th>{ts}Active?{/ts}</th>
 	    <th></th>
          </tr>
-        {foreach from=$rows item=row}
-          <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
-            <td>{$row.title} ({ts}ID:{/ts} {$row.id})</td> 
-            <td>{$row.city}</td>  
-            <td>{$row.state_province}</td>	
-    	    <td>{$row.created_date|crmDate}</td>
-   	        <td>{$row.deadline|crmDate}</td>
-	        <td>{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
-	        <td>{$row.action}</td>
+        {foreach from=$rows item=row key=id}
+          <tr class="{cycle values="odd-row,even-row"}{if NOT $row.isActive} disabled{/if}">
+            <td>{$row.title}</td>
+            <td>{$id}</td>  
+            <td>{$row.signersLimit}</td>	
+    	    <td>{$row.deadline|crmDate}</td>
+   	    <td>{$row.displayName}</td>
+	    <td>{if $row.isActive eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
+	    <td>{$row.action}</td>
           </tr>
         {/foreach}    
         </table>
