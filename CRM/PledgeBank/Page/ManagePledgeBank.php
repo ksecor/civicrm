@@ -243,7 +243,7 @@ GROUP BY   civicrm_pb_pledge.id
 ORDER BY   civicrm_pb_pledge.deadline ASC
 LIMIT      $offset, $rowCount
 ";
-        $dao = CRM_Core_DAO::executeQuery( $query, $params, true, 'CRM_PledgeBank_DAO_Pledge' );
+        $dao = CRM_Core_DAO::executeQuery( $query, $params );
         
         $properties = array( 'creatorPledgeDesc'     => 'creator_pledge_desc',     'signersLimit'     => 'signers_limit', 
                              'signerDescriptionText' => 'signer_description_text', 'signerPledgeDesc' => 'signer_pledge_desc', 
@@ -274,6 +274,10 @@ LIMIT      $offset, $rowCount
             
             $managePledge[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $action, 
                                                                           array('id' => $dao->id));
+            //get the pledge status
+            require_once 'CRM/PledgeBank/BAO/Pledge.php';
+            $managePledge[$dao->id]['status'] = CRM_PledgeBank_BAO_Pledge::getPledgeStatus( $dao->id ); 
+            
         }
         
         $this->assign( 'rows', $managePledge );

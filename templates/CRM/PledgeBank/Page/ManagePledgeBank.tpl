@@ -14,6 +14,7 @@
             <th>{ts}Signers limit{/ts}</th>
             <th>{ts}Deadline{/ts}</th>
             <th>{ts}Creator{/ts}</th>
+            <th>{ts}Status{/ts}</th>
 	    <th>{ts}Active?{/ts}</th>
 	    <th></th>
          </tr>
@@ -24,6 +25,7 @@
             <td>{$row.signersLimit}</td>	
     	    <td>{$row.deadline|crmDate}</td>
    	    <td>{$row.displayName}</td>
+            <td>{$row.status}</td>
 	    <td>{if $row.isActive eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
 	    <td>{$row.action}</td>
           </tr>

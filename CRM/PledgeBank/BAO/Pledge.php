@@ -135,7 +135,6 @@ class CRM_PledgeBank_BAO_Pledge extends CRM_PledgeBank_DAO_Pledge
     /**
      * Function to get pledges Summary
      *
-     * @static
      * @return array Array of pledge summary values
      */
     static function getPledgeSummary( $admin = false )
@@ -213,6 +212,8 @@ LIMIT      0, 10
                                                                       4 => $dao->signer_description_text,
                                                                       5 => $dao->signer_pledge_desc ));
             
+            //get the pledge status
+            $pledgeSummary['pledges'][$dao->id]['status'] = self::getPledgeStatus( $dao->id ); 
             if ( $admin ) {
                 $pledgeSummary['pledges'][$dao->id]['configure'] =
                     CRM_Utils_System::url( "civicrm/admin/pledge", "action=update&id={$dao->id}&reset=1" );
@@ -220,6 +221,34 @@ LIMIT      0, 10
         }
         
         return $pledgeSummary;
+    }
+    
+    /**
+     * Function to get pledge Status
+     *
+     * @param int $id  pledge id
+     * @return string pledge status( Successful / Failed )
+     */
+    static function getPledgeStatus( $id )
+    {
+        $params = array( 1 => array( $id, 'Integer' ) );
+        
+        $query = "
+SELECT     count( civicrm_pb_signer.id ) as signers, civicrm_pb_pledge.signers_limit as signer_limit
+FROM       civicrm_pb_signer
+LEFT JOIN  civicrm_pb_pledge ON ( civicrm_pb_signer.pledge_id = civicrm_pb_pledge.id AND 
+                                  DATE(civicrm_pb_signer.signing_date) <= civicrm_pb_pledge.deadline )
+WHERE      civicrm_pb_pledge.id = %1
+GROUP BY   civicrm_pb_pledge.id
+";
+        $dao =& CRM_Core_DAO::executeQuery( $query, $params );
+        while ( $dao->fetch( ) ) {
+            if ( $dao->signers >= $dao->signer_limit ) {
+                return "Successful";
+            }
+        }
+        
+        return "Failed";
     }
     
 }
