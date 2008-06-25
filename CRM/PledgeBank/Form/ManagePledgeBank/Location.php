@@ -83,19 +83,19 @@ class CRM_PledgeBank_Form_ManagePledgeBank_Location extends CRM_PledgeBank_Form_
 
         $defaults = array( );
         $params   = array( );
-        if ( isset( $eventId ) ) {
+        if ( isset( $pledgeId ) ) {
             $params = array( 'entity_id' => $pledgeId ,'entity_table' => 'civicrm_pb_pledge');
             require_once 'CRM/Core/BAO/Location.php';
             $location = CRM_Core_BAO_Location::getValues($params, $defaults);
             
-            $isShowLocation = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event',
-                                                           $eventId,
-                                                           'is_show_location',
-                                                           'id' );
+            $hasLocation = CRM_Core_DAO::getFieldValue( 'CRM_PledgeBank_BAO_Pledge',
+                                                           $pledgeId,
+                                                           'loc_block_id'
+            );
             
         }
         
-        $defaults['is_show_location'] = $isShowLocation;
+        $defaults['has_location'] = $hasLocation;
        
         //set defaults for country-state dojo widget
         if ( ! empty ( $defaults['location'] ) ) {
@@ -194,7 +194,6 @@ class CRM_PledgeBank_Form_ManagePledgeBank_Location extends CRM_PledgeBank_Form_
        
         $addressSequence = array_merge( $addressSequence, array ( 'country', 'state_province' ) );
         $this->assign( 'addressSequence', $addressSequence );
-        //         crm_core_error::debug('as',$addressSequence);  
         require_once 'CRM/Contact/Form/Location.php';
 
         //blocks to be displayed
@@ -221,24 +220,22 @@ class CRM_PledgeBank_Form_ManagePledgeBank_Location extends CRM_PledgeBank_Form_
         $ids = $this->_locationIds;
         $pledgeId = $this->_id;
         unset($params['location'][1]['email']);
-         crm_core_error::Debug('p0',$params);
         $params['entity_id'] = $pledgeId; 
+        
         //set the location type to default location type
         require_once 'CRM/Core/BAO/LocationType.php';
         $defaultLocationType =& CRM_Core_BAO_LocationType::getDefault();
         $params['location'][1]['location_type_id'] = $defaultLocationType->id;
         $params['location'][1]['is_primary'] = 1;
-        crm_core_error::Debug('p',$params);
-        exit();
-
         require_once 'CRM/Core/BAO/Location.php';
-        $location = CRM_Core_BAO_Location::create($params, true, 'event');
+        $location = CRM_Core_BAO_Location::create($params, true, 'pb_pledge');
         $params['loc_block_id'] = $location['id'];
         
-        $ids['event_id']  = $eventId;
-        require_once 'CRM/Event/BAO/Event.php';
-        CRM_Event_BAO_Event::add($params, $ids);
+        $params['id'] = $pledgeId;
         
+        require_once 'CRM/PledgeBank/BAO/Pledge.php';
+        CRM_PledgeBank_BAO_Pledge::add($params ,$ids);
+                
     }//end of function
 
     /**

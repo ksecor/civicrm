@@ -89,13 +89,12 @@ class CRM_PledgeBank_BAO_Pledge extends CRM_PledgeBank_DAO_Pledge
      * function to add pledge
      *
      * @param array $params reference array contains the values submitted by the form
-     * @param array $ids the array that holds all the db ids
      *
      * @access public
      * @static 
      * @return object
      */
-    static function add( &$params, &$ids)
+    static function add( &$params)
     {
         require_once 'CRM/Utils/Hook.php';
         
