@@ -59,21 +59,16 @@ SELECT    civicrm_contact.display_name,
           civicrm_email.id
 FROM      civicrm_contact
 LEFT JOIN civicrm_email ON ( civicrm_contact.id = civicrm_email.contact_id )
-    WHERE civicrm_email.is_primary = 1
-      AND civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
+WHERE     civicrm_email.is_primary = 1
+AND       civicrm_contact.id = %1";
 
-        $dao =& new CRM_Core_DAO( );
-        $dao->query( $sql );
-        $result = $dao->getDatabaseResult();
-        if ( $result ) {
-            $row    = $result->fetchRow();
-            if ( $row ) {
-                return array( $row[0], $row[1], $row[2], $row[3] );
-            }
+        $params = array( 1 => array( $id, 'Integer' ) );
+        $dao =& CRM_Core_DAO::executeQuery( $sql, $params );
+        if ( $dao->fetch( ) ) {
+            return array( $row->display_name, $row->email, $row->location_type_id, $row->id );
         }
         return array( null, null, null, null );
     }
-    
     
     /**
      * function to get the sms number and display name of a contact

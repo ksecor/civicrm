@@ -288,6 +288,8 @@ class CRM_Core_BAO_CustomValueTable
      *                                   are enumerated types in civicrm_custom_group.extends field.
      *                                   Optional. Default value assumes entityID references a 
      *                                   contact entity. 
+     * @param array       $fieldIDs      optional list of fieldIDs that we want to retrieve. If this
+     *                                   is set the entityType is ignored
      *                                   
      * @return array      $fields        Array of custom values for the entity with key=>value 
      *                                   pairs specified as civicrm_custom_field.id => custom value.
@@ -295,7 +297,7 @@ class CRM_Core_BAO_CustomValueTable
      * @access public
      * @static
      */
-     public static function &getEntityValues( $entityID, $entityType = null ) {
+    public static function &getEntityValues( $entityID, $entityType = null, $fieldIDs = null ) {
         if ( ! $entityID ) {
             // adding this here since an empty contact id could have serious repurcussions
             // like looping forever
@@ -303,9 +305,19 @@ class CRM_Core_BAO_CustomValueTable
             return null;
         }
 
-        if ( ! $entityType ) {
-            $entityType = "'Contact', 'Individual', 'Household', 'Organization'";
+        $cond = array( );
+        if ( $entityType ) {
+            $cond[] = "cg.extends IN ( $entityType )";
         }
+        if ( $fieldIDs &&
+             is_array( $fieldIDs ) ) {
+            $fieldIDList = implode( ',', $fieldIDs );
+            $cond[] = "cf.id IN ( $fieldIDList )";
+        }
+        if ( empty( $cond ) ) {
+            $cond[] = "cg.extends IN ( 'Contact', 'Individual', 'Household', 'Organization' )";
+        }
+        $cond = implode( ' AND ', $cond );
 
         // first find all the fields that extend this type of entity
         $query = "
@@ -318,7 +330,7 @@ FROM   civicrm_custom_group cg,
 WHERE  cf.custom_group_id = cg.id
 AND    cg.is_active = 1
 AND    cf.is_active = 1
-AND    cg.extends IN ( $entityType )
+AND    $cond
 ";
         $dao = CRM_Core_DAO::executeQuery( $query,
                                            CRM_Core_DAO::$_nullArray );
@@ -361,18 +373,16 @@ WHERE  $where
     }
 
      /**
-      * Function to take in an array of entityID, fieldID, value
+      * Function to take in an array of entityID, field_id_XXX, field_value_XXX
       * and set the value in the appropriate table. Should also be able
       * to set the value to null. Follows api parameter/return conventions
-      * Sometime real soon we should extend the function to take in an
-      * entityID, array of (fieldID, value) pairs and set multiple values
       *
       * @array $params
       *
       * @return array 
       * @static
       */
-     static function setValue( &$params ) {
+     static function setValues( &$params ) {
 
          if ( ! isset( $params['entityID'] ) ||
               CRM_Utils_Type::escape( $params['entityID'],
@@ -380,17 +390,44 @@ WHERE  $where
              return CRM_Core_Error::createAPIError( ts( 'entityID needs to be set and of type Integer' ) );
          }
 
-         if ( ! isset( $params['value'] ) ) {
-             return CRM_Core_Error::createAPIError( ts( 'value needs to be set' ) );
+         // first collect all the id/value pairs. The format is:
+         // field_id_X and field_value_x
+         $values = array( );
+         foreach ( $params as $n => $v ) {
+             $key = $idx = null;
+             if ( substr( $n, 0, 9 ) == 'field_id_' ) {
+                 $key = 'id';
+                 $idx = substr( $n, 10 );
+             } else if ( substr( $n, 0, 12 ) == 'field_value_' ) {
+                 $key = 'value';
+                 $idx = substr( $n, 13 );
+             }
+             if ( ! array_key_exists( $idx, $values ) ) {
+                 $values[$idx] = array( );
+             }
+             $values[$idx][$key] = $v;
          }
 
-         if ( ! isset( $params['fieldID'] ) ||
-              CRM_Utils_Type::escape( $params['fieldID'],
-                                      'Integer', false ) === null ) {
-             return CRM_Core_Error::createAPIError( ts( 'fieldID needs to be set and of type Integer' ) );
+         $fieldValues = array( );
+         foreach ( $values as $idx => v ) {
+             if ( ! isset( $v['id'] ) ) {
+                 return CRM_Core_Error::createAPIError( ts( 'Missing field id in param list for index %1',
+                                                            array( 1 => $idx ) ) );
+             }
+             if ( CRM_Utils_Type::escape( $v['id'],
+                                          'Integer', false ) === null ) {
+                 return CRM_Core_Error::createAPIError( ts( 'field ID needs to be of type Integer for index %1',
+                                                            array( 1 => $idx ) ) );
+             }
+             if ( ! isset( $v['value'] ) ) {
+                 return CRM_Core_Error::createAPIError( ts( 'Missing field value in param list for index %1',
+                                                            array( 1 => $idx ) ) );
+             }
+
+             $fieldValues[$v['id']] = $v['value'];
          }
 
-
+         $fieldIDList = implode( ',', $fieldValues );
          // format it so that we can just use create
          $sql = "
 SELECT cg.table_name  as table_name ,
@@ -401,15 +438,16 @@ SELECT cg.table_name  as table_name ,
 FROM   civicrm_custom_group cg,
        civicrm_custom_field cf
 WHERE  cf.custom_group_id = cg.id
-AND    cf.id = %1
+AND    cf.id IN ( $fieldIDList )
 ";
-         $sqlParams = array( 1 => array( $params['fieldID'], 'Integer' ) );
-         $dao       = CRM_Core_DAO::executeQuery( $sql, $sqlParams );
+         $dao       = CRM_Core_DAO::executeQuery( $sql,
+                                                  CRM_Core_DAO::$_nullArray );
          $cvParams  = array( );
          
          if ( $dao->fetch( ) ) {
              // ensure that value is of the right data type
-             if ( CRM_Utils_Type::escape( $params['value'], $dao->data_type, false ) === null ) {
+             if ( CRM_Utils_Type::escape( $fieldValues[$dao->cf_id],
+                                          $dao->data_type, false ) === null ) {
                  return CRM_Core_Error::createAPIError( ts( 'value: %1 is not of the right field data type: %2',
                                                             array( 1 => $params['value'],
                                                                    2 => $dao->data_type ) ) );
@@ -417,7 +455,7 @@ AND    cf.id = %1
 
              $cvParam = array(
                               'entity_id'       => $params['entityID'],
-                              'value'           => $params['value'],
+                              'value'           => $fieldValues[$dao->cf_id],
                               'type'            => $dao->data_type == 'Date' ? 'Timestamp' : $dao->data_type,
                               'custom_field_id' => $dao->cf_id,
                               'custom_group_id' => $dao->cg_id,
@@ -440,6 +478,44 @@ AND    cf.id = %1
          return CRM_Core_Error::createAPIError( ts( 'Unknown error' ) );
      }
 
+     /**
+      * Function to take in an array of entityID, field_id_XXX
+      * and gets the value from the appropriate table.
+      *
+      * @array $params
+      *
+      * @return array 
+      * @static
+      */
+     static function &getValues( &$params ) {
+         if ( ! isset( $params['entityID'] ) ||
+              CRM_Utils_Type::escape( $params['entityID'],
+                                      'Integer', false ) === null ) {
+             return CRM_Core_Error::createAPIError( ts( 'entityID needs to be set and of type Integer' ) );
+         }
+
+         // first collect all the ids. The format is:
+         // field_id_X 
+         $fieldsIDs = array( );
+         foreach ( $params as $n => $v ) {
+             $key = $idx = null;
+             if ( substr( $n, 0, 9 ) == 'field_id_' ) {
+                 $idx = substr( $n, 10 );
+                 if ( CRM_Utils_Type::escape( $v,
+                                              'Integer', false ) === null ) {
+                     return CRM_Core_Error::createAPIError( ts( 'field ID needs to be of type Integer for index %1',
+                                                                array( 1 => $idx ) ) );
+                 }
+                 $fieldIDs[] = $v;
+             }
+         }
+
+         $values = self::getEntityValues( $params['entityID'],
+                                          null,
+                                          $fieldIDs );
+         $values['is_error'] = 0;
+         return $values;
+     }
 }
 
 

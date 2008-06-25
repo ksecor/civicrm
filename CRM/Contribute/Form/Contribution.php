@@ -45,8 +45,8 @@ require_once 'CRM/Custom/Form/CustomData.php';
  */
 class CRM_Contribute_Form_Contribution extends CRM_Core_Form
 {
-
     public $_mode;
+
     public $_action;
     
     public $_bltID;
@@ -77,7 +77,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
      * @var int
      * @protected
      */
-    public $_noteId;
+    public $_noteID;
 
     /**
      * the id of the contact associated with this contribution
@@ -98,7 +98,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
 
 
      /**
-     * Stores all producuct option
+     * Stores all product option
      *
      * @var boolean
      * @protected 
@@ -120,7 +120,12 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
      * @var array
      */
     public $_contributionType;
-    
+
+    /**
+     * The contribution values if an existing contribution
+     */
+    public $_values;
+
     /** 
      * Function to set variables up before form is built 
      *                                                           
@@ -130,6 +135,11 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
     
     public function preProcess()  
     {  
+        // check for edit permission
+        if ( ! CRM_Core_Permission::check( 'edit contributions' ) ) {
+            CRM_Core_Error::fatal( ts( 'You do not have permission to access this page' ) );
+        }
+
         $this->_cdType     = CRM_Utils_Array::value( 'type', $_GET );
 
         $this->assign('cdType', false);
@@ -138,7 +148,6 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             return CRM_Custom_Form_CustomData::preProcess( $this );
         }
         
-        //CRM_Utils_System::setTitle(ts('Record Contribution') );
         $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this, true );
         $this->_action    = CRM_Utils_Request::retrieve( 'action', 'String',
                                                          $this, false, 'add' );
@@ -157,12 +166,6 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         list( $this->userDisplayName, 
               $this->userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $this->_contactID );
         $this->assign( 'displayName', $this->userDisplayName );
-        
-        //get the diaplay name when user doesn't have email.
-        if ( ! $this->userEmail ) {
-            $displayName = CRM_Contact_BAO_Contact::displayName( $this->_contactID );
-            $this->assign( 'displayName', $displayName );
-        }
         
         // also check for billing information
         // get the billing location type
@@ -185,49 +188,40 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         $session =& CRM_Core_Session::singleton( ); 
         $session->pushUserContext( $postURL );
         
-        require_once 'CRM/Contact/BAO/Contact/Location.php';
-        $session =& CRM_Core_Session::singleton( );
-        $contactID = $this->_contactID ? $this->_contactID : $session->get( 'userID' );
-        list( $this->userDisplayName, 
-              $this->userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $contactID );
-        // check for edit permission
-        if ( ! CRM_Core_Permission::check( 'edit contributions' ) ) {
-            CRM_Core_Error::fatal( ts( 'You do not have permission to access this page' ) );
-        }
         
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             return;
         }
         
+        $this->_values = array( );
+
         // current contribution id
         if ( $this->_id ) {
-            require_once 'CRM/Contribute/DAO/FinancialTrxn.php';
-            $trxn =& new CRM_Contribute_DAO_FinancialTrxn( );
-            $trxn->contribution_id = $this->_id;
-            if ( $trxn->find( true ) ) {
-                $this->_online = true;
-            }
+            $this->_online = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_FinancialTrxn',
+                                                          $this->_id,
+                                                          'contribution_id' );
 
             //to get Premium id
-            require_once 'CRM/Contribute/DAO/ContributionProduct.php';
-            $dao = & new CRM_Contribute_DAO_ContributionProduct();
-            $dao->contribution_id = $this->_id;
-            if ( $dao->find(true) ) {
-                $this->_premiumId = $dao->id;
-            }
+            $this->_premiumId = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionProduct',
+                                                             $this->_id,
+                                                             'contribution_id' );
 
+            $ids    = array( );
+            $params = array( 'id' => $this->_id );
+            require_once "CRM/Contribute/BAO/Contribution.php";
+            CRM_Contribute_BAO_Contribution::getValues( $params, $this->_values, $ids );
+            
             //to get note id 
             require_once 'CRM/Core/BAO/Note.php';
             $daoNote = & new CRM_Core_BAO_Note();
             $daoNote->entity_table = 'civicrm_contribution';
             $daoNote->entity_id = $this->_id;
             if ( $daoNote->find(true) ) {
-                $this->_noteId = $daoNote->id;
+                $this->_noteID = $daoNote->id;
+                $this->_values['note'] = $daoNote->note;
             }
-            
-            $this->_contributionType = CRM_Core_DAO::getFieldValue( "CRM_Contribute_DAO_Contribution", 
-                                                                    $this->_id, 
-                                                                    'contribution_type_id' );
+
+            $this->_contributionType = $this->_values['contribution_type_id'];
         }
         
         // when custom data is included in this page
@@ -250,7 +244,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             return CRM_Custom_Form_CustomData::setDefaultValues( $this );
         }
        
-        $defaults = array( );
+        $defaults = $this->_values;
         $fields   = array( );
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             return $defaults;
@@ -278,11 +272,6 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         }
         
         if ( $this->_id ) {
-            $ids = array( );
-            $params = array( 'id' => $this->_id );
-            require_once "CRM/Contribute/BAO/Contribution.php";
-            CRM_Contribute_BAO_Contribution::getValues( $params, $defaults, $ids );
-            
             // throw out a warning if pay later contrib in pending state
             // check if its an online contrib or event registration
             if ( $defaults['contribution_status_id'] == 2 &&
@@ -303,14 +292,10 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             $defaults['contribution_type_id'] = $this->_contributionType;
         }
         
-        //get Note
-        if($this->_noteId) {
-            $defaults['note'] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Note', $this->_noteId, 'note' );
-        }
-        
         if (  CRM_Utils_Array::value('is_test',$defaults) ){
             $this->assign( "is_test" , true);
         } 
+
         if (isset ( $defaults["honor_contact_id"] ) ) {
             $honorDefault = array();
             $this->_honorID = $defaults["honor_contact_id"];
@@ -345,8 +330,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             $defaults['fulfilled_date'] = $dao->fulfilled_date;
         }
         
-        list( $displayName, $email ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $this->_contactID );
-        $this->assign( 'email', $email );
+        $this->assign( 'email', $this->userEmail );
         if ( CRM_Utils_Array::value( 'is_pay_later',$defaults ) ) {
             $this->assign( 'is_pay_later', true ); 
         }
@@ -408,8 +392,8 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             }
         }
         
-        if ( $this->_noteId ) {
-            $defaults['note'] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Note', $this->_noteId, 'note' );
+        if ( $this->_noteID ) {
+            $defaults['note'] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Note', $this->_noteID, 'note' );
             if ( ! empty( $defaults['note'] ) ) {
                 $defaults['hidden_AdditionalDetail'] = 1;
             }
@@ -994,7 +978,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             
             //process  note
             if ( $contribution->id && isset( $formValues['note'] ) ) {
-                CRM_Contribute_Form_AdditionalInfo::processNote( $formValues, $this->_contactID, $contribution->id, $this->_noteId );
+                CRM_Contribute_Form_AdditionalInfo::processNote( $formValues, $this->_contactID, $contribution->id, $this->_noteID );
             }
             
             //process premium
