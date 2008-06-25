@@ -57,7 +57,6 @@ class BAO_Core_CustomOption extends CiviTestCase
         
     }
 
-}
 
     /**
      * del () method - Deletes a single option_value record after updating (set to null or 0) any custom data that uses that option_value.
@@ -111,4 +110,4 @@ class BAO_Core_CustomOption extends CiviTestCase
 
     }
     
-    }
+}
