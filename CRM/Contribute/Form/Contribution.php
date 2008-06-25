@@ -560,9 +560,6 @@ WHERE  contribution_id = {$this->_id}
             $element->freeze( );
         }
         
-        //add receipt for credit card contribution
-        $this->addElement('checkbox', 'is_email_receipt_cc', ts('Send Receipt?'), null );
-        
         $element =& $this->add( 'text', 'total_amount', ts('Total Amount'),
                                 $attributes['total_amount'], true );
         $this->addRule('total_amount', ts('Please enter a valid amount.'), 'money');
@@ -655,7 +652,7 @@ WHERE  contribution_id = {$this->_id}
         //Credit Card Contribution.
         if ( $this->_mode ) {
             $unsetParams = array('trxn_id','payment_instrument_id', 'contribution_status_id',
-                                 'receive_date', 'receipt_date','cancel_date','cancel_reason');
+                                 'receive_date', 'cancel_date','cancel_reason');
             foreach ( $unsetParams as $key ) {
                 if ( isset( $submittedValues[$key] ) ) {
                     unset( $submittedValues[$key] );
@@ -778,10 +775,17 @@ WHERE  contribution_id = {$this->_id}
             
             $this->_params['receive_date'] = $now;
             
-            if ( CRM_Utils_Array::value( 'is_email_receipt_cc', $this->_params ) ) {
+            if ( CRM_Utils_Array::value( 'is_email_receipt', $this->_params ) ) {
                 $this->_params['receipt_date'] = $now;
             } else {
-                $this->_params['receipt_date'] = null;
+                if ( ! CRM_Utils_System::isNull( $this->_params[ 'receipt_date' ] ) ) {
+                    $this->_params['receipt_date']['H'] = '00';
+                    $this->_params['receipt_date']['i'] = '00';
+                    $this->_params['receipt_date']['s'] = '00';
+                    $this->_params['receipt_date'] = CRM_Utils_Date::format( $this->_params['receipt_date'] );
+                } else{
+                    $this->_params['receipt_date'] = 'null';
+                }
             }
             
             $this->set( 'params', $this->_params );
@@ -810,7 +814,7 @@ WHERE  contribution_id = {$this->_id}
                                                                                   $contributionType,  
                                                                                   false, false, false );
             if ( $contribution->id &&
-                 CRM_Utils_Array::value( 'is_email_receipt_cc', $this->_params ) ) {
+                 CRM_Utils_Array::value( 'is_email_receipt', $this->_params ) ) {
                 $this->_params['trxn_id']    =  CRM_Utils_Array::value( 'trxn_id', $result );
                 $this->_params['contact_id'] =  $this->_contactID;
                 CRM_Contribute_Form_AdditionalInfo::emailReceipt( $this, $this->_params, true );
@@ -827,7 +831,7 @@ WHERE  contribution_id = {$this->_id}
             
             if ( $contribution->id ) {
                 $statusMsg = ts('The contribution record has been processed.');
-                if ( CRM_Utils_Array::value( 'is_email_receipt_cc', $this->_params ) ) {
+                if ( CRM_Utils_Array::value( 'is_email_receipt', $this->_params ) ) {
                     $statusMsg .= ' ' . ts('A receipt has been emailed to the contributor.');
                 }
                 CRM_Core_Session::setStatus( $statusMsg );
