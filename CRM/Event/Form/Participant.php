@@ -393,6 +393,9 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             if (CRM_Utils_Request::retrieve( 'past', 'Boolean', $this ) ) {
                 $urlParams .= "&past=true";
             }
+            if ( $this->_mode ) {
+                $urlParams .= "&mode={$this->_mode}";
+            }
             
             $url = CRM_Utils_System::url( 'civicrm/contact/view/participant',
                                           $urlParams, true, null, false ); 
