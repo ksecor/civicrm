@@ -73,6 +73,28 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             $this->_memType = CRM_Core_DAO::getFieldValue( "CRM_Member_DAO_Membership", $this->_id, 
                                                            "membership_type_id");
         } 
+        $this->_mode      = CRM_Utils_Request::retrieve( 'mode', 'String', $this );
+       
+        if ( $this->_mode ) {
+            $this->assign( 'membershipMode', $this->_mode );
+            $this->_processors = CRM_Core_PseudoConstant::paymentProcessor( false, false,
+                                                                            "billing_mode IN ( 1, 3 )" );
+            $this->_paymentProcessor = array( 'billing_mode' => 1 );
+            // also check for billing information
+            // get the billing location type
+            $locationTypes =& CRM_Core_PseudoConstant::locationType( );
+            $this->_bltID = array_search( 'Billing',  $locationTypes );
+            if ( ! $this->_bltID ) {
+                CRM_Core_Error::fatal( ts( 'Please set a location type of %1', array( 1 => 'Billing' ) ) );
+            }
+            $this->set   ( 'bltID', $this->_bltID );
+            $this->assign( 'bltID', $this->_bltID );
+                       
+            $this->_fields = array( );
+            
+            require_once 'CRM/Core/Payment/Form.php';
+            CRM_Core_Payment_Form::setCreditCardFields( $this );
+        }
         
         //check whether membership status present or not
         if ( $this->_action & CRM_Core_Action::ADD ) {
@@ -144,7 +166,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                                                                      'minimum_fee' );
         }
         
-        if ( CRM_Utils_Array::value( 'record_contribution', $defaults ) ) {
+        if ( CRM_Utils_Array::value( 'record_contribution', $defaults ) && ! $this->_mode ) {
             $contributionParams   = array( 'id' => $defaults['record_contribution'] );
             $contributionIds      = array( );
             
@@ -175,7 +197,44 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         if ( CRM_Utils_Array::value( 'is_pay_later', $defaults) ) {
             $this->assign( 'is_pay_later', true ); 
         }
+        if ( $this->_mode ) {
+            $fields = array( );
+            
+            foreach ( $this->_fields as $name => $dontCare ) {
+                $fields[$name] = 1;
+            }
+            
+            $names = array("first_name", "middle_name", "last_name" );
+            foreach ($names as $name) {
+                $fields[$name] = 1;
+            }
+            
+            $fields["state_province-{$this->_bltID}"] = 1;
+            $fields["country-{$this->_bltID}"       ] = 1;
+            $fields["email-{$this->_bltID}"         ] = 1;
+            $fields["email-Primary"                 ] = 1;
+            
+            require_once "CRM/Core/BAO/UFGroup.php";
+            CRM_Core_BAO_UFGroup::setProfileDefaults( $this->_contactID, $fields, $this->_defaults );
+                                 
+            $defaultAddress = array("street_address-5","city-5", "state_province_id-5", "country_id-5","postal_code-5" );
+            foreach ($defaultAddress as $name) {
+                if ( ! empty( $this->_defaults[$name] ) ) {
+                    $defaults[$name] = $this->_defaults[$name];
+                }
+            } 
+            if ( empty( $this->_defaults["email-{$this->_bltID}"] ) && ! empty( $this->_defaults["email-Primary"] ) ) {
+                $defaults["email-{$this->_bltID}"] = $this->_defaults["email-Primary"];
+            }
+            
+            foreach ($names as $name) {
+                if ( ! empty( $this->_defaults[$name] ) ) {
+                    $defaults["billing_" . $name] = $this->_defaults[$name];
+                }
+            } 
+        }
         return $defaults;
+        
     }
     
     /**
@@ -253,50 +312,63 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         
         $this->add('text', 'source', ts('Source'), 
                    CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_Membership', 'source' ) );
-        $this->add('select', 'status_id', ts( 'Status' ), 
-                   array(''=>ts( '- select -' )) + CRM_Member_PseudoConstant::membershipStatus( ) );
         
-        $this->addElement('checkbox', 
-                          'is_override', 
-                          ts('Status Override?'), 
-                          null, 
-                          array( 'onClick' => 'showHideMemberStatus()'));
-        
-        $this->addElement('checkbox', 'record_contribution', ts('Record Membership Payment?'), null, 
-                          array('onclick' =>"return showHideByValue('record_contribution','','recordContribution','table-row','radio',false);"));
-        
-        require_once 'CRM/Contribute/PseudoConstant.php';
-        $this->add('select', 'contribution_type_id', 
-                   ts( 'Contribution Type' ), 
-                   array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::contributionType( ) );
-        
-        $this->add('text', 'total_amount', ts('Amount'));
-        $this->addRule('total_amount', ts('Please enter a valid amount.'), 'money');
-        
-        $this->add('date', 'receive_date', ts('Received'), CRM_Core_SelectValues::date('activityDate'), false );         
-        $this->addRule('receive_date', ts('Select a valid date.'), 'qfDate');
-        $this->add('select', 'payment_instrument_id', 
-                   ts( 'Paid By' ), 
-                   array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::paymentInstrument( )
-                   );
-        $this->add('text', 'trxn_id', ts('Transaction ID'));
-        $this->addRule( 'trxn_id', ts('Transaction ID already exists in Database.'),
-                        'objectExists', array( 'CRM_Contribute_DAO_Contribution', $this->_id, 'trxn_id' ) );
-        $this->add('select', 'contribution_status_id',
-                   ts('Payment Status'), 
-                   CRM_Contribute_PseudoConstant::contributionStatus( )
-                   );
-        
+        if ( !$this->_mode ) {
+            $this->add('select', 'status_id', ts( 'Status' ), 
+                       array(''=>ts( '- select -' )) + CRM_Member_PseudoConstant::membershipStatus( ) );
+            $this->addElement('checkbox', 'is_override', 
+                              ts('Status Override?'), null, 
+                              array( 'onClick' => 'showHideMemberStatus()'));
+            
+            $this->addElement('checkbox', 'record_contribution', ts('Record Membership Payment?'), null, 
+                              array('onclick' =>"return showHideByValue('record_contribution','','recordContribution','table-row','radio',false);"));
+            
+            require_once 'CRM/Contribute/PseudoConstant.php';
+            $this->add('select', 'contribution_type_id', 
+                       ts( 'Contribution Type' ), 
+                       array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::contributionType( ) );
+            
+            $this->add('text', 'total_amount', ts('Amount'));
+            $this->addRule('total_amount', ts('Please enter a valid amount.'), 'money');
+            
+            $this->add('date', 'receive_date', ts('Received'), CRM_Core_SelectValues::date('activityDate'), false );         
+            $this->addRule('receive_date', ts('Select a valid date.'), 'qfDate');
+            $this->add('select', 'payment_instrument_id', 
+                       ts( 'Paid By' ), 
+                       array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::paymentInstrument( )
+                       );
+            $this->add('text', 'trxn_id', ts('Transaction ID'));
+            $this->addRule( 'trxn_id', ts('Transaction ID already exists in Database.'),
+                            'objectExists', array( 'CRM_Contribute_DAO_Contribution', $this->_id, 'trxn_id' ) );
+            $this->add('select', 'contribution_status_id',
+                       ts('Payment Status'), 
+                       CRM_Contribute_PseudoConstant::contributionStatus( )
+                       );
+        }
         $this->addElement('checkbox', 
                           'send_receipt', 
                           ts('Send Confirmation and Receipt?'), null, 
                           array('onclick' =>"return showHideByValue('send_receipt','','notice','table-row','radio',false);") );
         $this->add('textarea', 'receipt_text_signup', ts('Receipt Message') );
+        if ( $this->_mode ) {
+        
+            $this->add( 'select', 'payment_processor_id',
+                        ts( 'Payment Processor' ),
+                        $this->_processors, true );
+            
+            $this->add( 'text', "email-{$this->_bltID}",
+                        ts( 'Email Address' ), array( 'size' => 30, 'maxlength' => 60 ), true );
+        }
+        if ( $this->_mode ) {
+            require_once 'CRM/Core/Payment/Form.php';
+            CRM_Core_Payment_Form::buildCreditCard( $this, true );
+        }
         
         // Retrieve the name and email of the contact - this will be the TO for receipt email
         require_once 'CRM/Contact/BAO/Contact/Location.php';
         list( $this->_contributorDisplayName, 
               $this->_contributorEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $this->_contactID );
+        
         $this->assign( 'emailExists', $this->_contributorEmail );
         $this->addFormRule(array('CRM_Member_Form_Membership', 'formRule'));
         
@@ -383,10 +455,10 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             CRM_Member_BAO_Membership::deleteMembership( $this->_id );
             return;
         }
-        
+        $config =& CRM_Core_Config::singleton(); 
         // get the submitted form values.  
-        $formValues = $this->controller->exportValues( $this->_name );
-        
+        $this->_params = $formValues = $this->controller->exportValues( $this->_name );
+              
         $params = array( );
         $ids    = array( );
 
@@ -403,7 +475,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         }
         
         $params['membership_type_id'] = $formValues['membership_type_id'][1];
-               
+                      
         $joinDate  = CRM_Utils_Date::mysqlToIso(CRM_Utils_Date::format( $formValues['join_date'] ));
         $startDate = CRM_Utils_Date::mysqlToIso(CRM_Utils_Date::format( $formValues['start_date'] ));
         $endDate   = CRM_Utils_Date::mysqlToIso(CRM_Utils_Date::format( $formValues['end_date'] ));
@@ -498,10 +570,138 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             }
         }
 
-        // required for creating membership for related contacts
-        $params['action'] = $this->_action;
+        if ( $this->_mode ) {
+            $params['total_amount'] = $formValues['total_amount']  = 
+                CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', 
+                                             $params['membership_type_id'],'minimum_fee' );
+            $params['contribution_type_id'] = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', 
+                                                                           $params['membership_type_id'],'contribution_type_id' );
+            require_once 'CRM/Core/BAO/PaymentProcessor.php';
+            $this->_paymentProcessor = CRM_Core_BAO_PaymentProcessor::getPayment( $formValues['payment_processor_id'],
+                                                                                  $this->_mode );
+           
+            require_once "CRM/Contact/BAO/Contact.php";
+            
+            $now = date( 'YmdHis' );
+            $fields = array( );
+            
+            // set email for primary location.
+            $fields["email-Primary"] = 1;
+            $formValues["email-Primary"] = $formValues["email-{$this->_bltID}"];
+            
+            $params['register_date'] = $now;
+            
+            // now set the values for the billing location.
+            foreach ( $this->_fields as $name => $dontCare ) {
+                $fields[$name] = 1;
+            }
+            
+            // also add location name to the array
+            $formValues["location_name-{$this->_bltID}"] =
+                CRM_Utils_Array::value( 'billing_first_name' , $formValues ) . ' ' .
+                CRM_Utils_Array::value( 'billing_middle_name', $formValues ) . ' ' .
+                CRM_Utils_Array::value( 'billing_last_name'  , $formValues );
+            
+            $formValues["location_name-{$this->_bltID}"] = trim( $formValues["location_name-{$this->_bltID}"] );
         
-        $membership =& CRM_Member_BAO_Membership::create( $params, $ids );
+            $fields["location_name-{$this->_bltID}"] = 1;
+            
+            $fields["email-{$this->_bltID}"] = 1;
+            
+            $ctype = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $this->_contactID, 'contact_type' );
+            
+            $nameFields = array( 'first_name', 'middle_name', 'last_name' );
+            
+            foreach ( $nameFields as $name ) {
+                $fields[$name] = 1;
+                if ( array_key_exists( "billing_$name", $formValues ) ) {
+                    $formValues[$name] = $formValues["billing_{$name}"];
+                }
+            }
+            
+            $contactID = CRM_Contact_BAO_Contact::createProfileContact( $formValues, $fields, $this->_contactID, null, null, $ctype );
+            
+            // add all the additioanl payment params we need
+            $this->_params["state_province-{$this->_bltID}"] =
+                CRM_Core_PseudoConstant::stateProvinceAbbreviation( $this->_params["state_province_id-{$this->_bltID}"] );
+            $this->_params["country-{$this->_bltID}"] =
+                CRM_Core_PseudoConstant::countryIsoCode( $this->_params["country_id-{$this->_bltID}"] );
+            
+            $this->_params['year'      ]     = $this->_params['credit_card_exp_date']['Y'];
+            $this->_params['month'     ]     = $this->_params['credit_card_exp_date']['M'];
+            $this->_params['ip_address']     = CRM_Utils_System::ipAddress( );
+            $this->_params['amount'        ] = $params['total_amount'];
+            $this->_params['currencyID'    ] = $config->defaultCurrency;
+            $this->_params['payment_action'] = 'Sale';
+            $this->_params['invoiceID']      = md5( uniqid( rand( ), true ) );
+        
+            // at this point we've created a contact and stored its address etc
+            // all the payment processors expect the name and address to be in the 
+            // so we copy stuff over to first_name etc. 
+            $paymentParams = $this->_params;
+           
+            
+            require_once 'CRM/Core/Payment/Form.php';
+            CRM_Core_Payment_Form::mapParams( $this->_bltID, $this->_params, $paymentParams, true );
+            
+            $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Contribute', $this->_paymentProcessor );
+            
+            $result =& $payment->doDirectPayment( $paymentParams );
+                      
+            if ( is_a( $result, 'CRM_Core_Error' ) ) {
+                CRM_Core_Error::displaySessionError( $result );
+                CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/view/membership',
+                                                                   "reset=1&action=add&cid={$this->_contactID}&context=&mode={$this->_mode}" ) );
+            }
+            
+            if ( $result ) {
+                $this->_params = array_merge( $this->_params, $result );
+            }
+            $params['contribution_status_id'] = 1;
+            $params['receive_date']           = $now;
+            $params['invoice_id']             = $this->_params['invoiceID'];
+            $params['contribution_source']    = $params['source'] = ts( 'Online Membership: CiviCRM Admin Interface' );
+            $params['trxn_id']                = $result['trxn_id'];
+            $params['payment_instrument_id']  = 1;
+            $params['is_test']                = ( $this->_mode == 'live' ) ? 0 : 1 ; 
+            if ( CRM_Utils_Array::value( 'send_receipt', $this->_params ) ) {
+                $params['receipt_date'] = $now;
+            } else {
+                $params['receipt_date'] = null;
+            }
+            
+            $this->set( 'params', $this->_params );
+            $this->assign( 'trxn_id', $result['trxn_id'] );
+            $this->assign( 'receive_date',
+                           CRM_Utils_Date::mysqlToIso( $params['receive_date']) );
+       
+            // required for creating membership for related contacts
+            $params['action'] = $this->_action;
+            
+            $membership =& CRM_Member_BAO_Membership::create( $params, $ids );
+            $contribution = new CRM_Contribute_BAO_Contribution();
+            $contribution->trxn_id = $result['trxn_id'];
+            if ( $contribution->find( true ) ) {
+                // next create the transaction record
+                $trxnParams = array(
+                                    'contribution_id'   => $contribution->id,
+                                    'trxn_date'         => $now,
+                                    'trxn_type'         => 'Debit',
+                                    'total_amount'      => $params['total_amount'],
+                                    'fee_amount'        => CRM_Utils_Array::value( 'fee_amount', $result ),
+                                    'net_amount'        => CRM_Utils_Array::value( 'net_amount', $result, $params['total_amount'] ),
+                                    'currency'          => $config->defaultCurrency,
+                                    'payment_processor' => $this->_paymentProcessor['payment_processor_type'],
+                                    'trxn_id'           => $result['trxn_id'],
+                                    );
+                
+                require_once 'CRM/Contribute/BAO/FinancialTrxn.php';
+                $trxn =& CRM_Contribute_BAO_FinancialTrxn::create( $trxnParams );
+            }
+        } else {
+            $params['action'] = $this->_action;
+            $membership =& CRM_Member_BAO_Membership::create( $params, $ids );
+        }
         if ( $formValues['send_receipt'] ) {
             require_once 'CRM/Core/DAO.php';
             CRM_Core_DAO::setFieldValue( 'CRM_Member_DAO_MembershipType', 
@@ -511,7 +711,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         }
 
         $receiptSend = false;
-        if ( $formValues['record_contribution'] && $formValues['send_receipt'] ) {
+        if ( $formValues['send_receipt'] ) {
             $receiptSend = true;
             $receiptFrom = '"' . $userName . '" <' . $userEmail . '>';
             $paymentInstrument = CRM_Contribute_PseudoConstant::paymentInstrument();

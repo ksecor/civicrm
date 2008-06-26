@@ -7,30 +7,36 @@
     {include file="CRM/Member/Form/MembershipRenewal.tpl"}
 {elseif $action eq 16} {* Browse memberships for a contact *}
     {if $permission EQ 'edit'}{capture assign=newURL}{crmURL p="civicrm/contact/view/membership" q="reset=1&action=add&cid=`$contactId`&context=membership"}{/capture}{/if}
+     
+    {if $action ne 1 and $action ne 2 and $permission EQ 'edit'}
+        <div id="help">
+            {ts 1=$newURL}Current and inactive memberships for {$displayName} are listed below.{/ts}
+            {if $permission EQ 'edit'}{ts 1=$newURL}Click <a href='%1'>New Membership</a> to record a new membership.{/ts}{/if}
+	    {if $newCredit}	
+            {capture assign=newCreditURL}{crmURL p="civicrm/contact/view/membership" q="reset=1&action=add&cid=`$contactId`&context=membership&mode=live"}{/capture}
+            {ts 1=$newCreditURL}Click <a href='%1'>Submit Credit Card Membership Record</a> to process a Membership on behalf of the member using their credit or debit card.{/ts}
+            {/if}
+        </div>
 
+        <div class="action-link solid-border-bottom">
+            <a accesskey="N" href="{$newURL}" class="button"><span>&raquo; {ts}New Membership{/ts}</span></a>
+	    {if $newCredit}
+            <a accesskey="N" href="{$newCreditURL}" class="button"><span>&raquo; {ts}Submit Credit / Debit Card Membership Record{/ts}</span></a><br/><br/>{/if}
+        </div>
+    {/if}
     {if NOT ($activeMembers or $inActiveMembers) and $action ne 2 and $action ne 1 and $action ne 8 and $action ne 4 and $action ne 32768}
-       <div class="messages status">
+       	<div class="messages status">
            <dl>
-           <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
+	   <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
            <dd>
                 {if $permission EQ 'edit'}
-                    {ts 1=$newURL}There are no memberships recorded for this contact. You can <a accesskey="N" href='%1'>enter one now</a>.{/ts}
+		{ts 1=$newURL}There are no memberships recorded for this contact. You can <a accesskey="N" href='%1'>enter one now</a>.{/ts}          
                 {else}
-                    {ts}There are no memberships recorded for this contact.{/ts}
+                {ts}There are no memberships recorded for this contact.{/ts}
                 {/if}
            </dd>
            </dl>
       </div>
-      
-    {elseif $action ne 1 and $action ne 2 and $permission EQ 'edit'}
-        <div id="help">
-            {ts 1=$newURL}Current and inactive memberships for {$displayName} are listed below.{/ts}
-            {if $permission EQ 'edit'}{ts 1=$newURL}Click <a href='%1'>New Membership</a> to record a new membership.{/ts}{/if}
-        </div>
-
-        <div class="action-link solid-border-bottom">
-            <a accesskey="N" href="{$newURL}" class="button"><span>&raquo; {ts}New Membership{/ts}</span></a><br/><br/>
-        </div>
     {/if}
 
     {if $activeMembers}
