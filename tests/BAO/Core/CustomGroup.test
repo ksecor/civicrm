@@ -57,4 +57,68 @@ class BAO_Core_CustomGroup extends CiviTestCase
         Custom::deleteGroup( $customGroup );
         Contact::delete( $contactId );
     }
+    
+    /**
+     * Function to test retrieve()
+     */
+    function testRetrieve()
+    {
+        $customGrouptitle = 'My Custom Group';
+        $groupParams = array(
+                             'title'            => $customGrouptitle,
+                             'name'             => 'my_custom_group',
+                             'style'            => 'Tab',
+                             'extends'          => 'Individual',
+                             'help_pre'         => 'Custom Group Help Pre',
+                             'help_post'        => 'Custom Group Help Post',
+                             'is_active'        => 1,
+                             'collapse_display' => 1,
+                             'weight'           => 2
+                             );
+        
+        $customGroup = Custom::createGroup( $groupParams );
+        $customGroupId = $customGroup->id;
+        
+        $params = array( 'id' => $customGroupId );
+        require_once 'CRM/Core/BAO/CustomGroup.php';
+        $customGroup = CRM_Core_BAO_CustomGroup::retrieve( $params, $dafaults );
+        $dbCustomGroupTitle = $this->assertDBNotNull( 'CRM_Core_DAO_CustomGroup', $customGroupId, 'title', 'id',
+                                                      'Database check for custom group record.' );
+        
+        $this->assertEqual( $customGrouptitle, $dbCustomGroupTitle );
+        //check retieve values
+        $this->assertAttributesEqual( $groupParams, $dafaults ); 
+        
+        //cleanup DB by deleting customGroup
+        Custom::deleteGroup( $customGroup );
+    }
+    
+    /**
+     * Function to test setIsActive()
+     */
+    function testSetIsActive()
+    {
+        $customGrouptitle = 'My Custom Group';
+        $groupParams = array(
+                             'title'      => $customGrouptitle,
+                             'name'       => 'my_custom_group',
+                             'style'      => 'Tab',
+                             'extends'    => 'Individual',
+                             'is_active'  => 0
+                             );
+        
+        $customGroup = Custom::createGroup( $groupParams );
+        $customGroupId = $customGroup->id;
+        
+        require_once 'CRM/Core/BAO/CustomGroup.php';
+        //update is_active
+        $result = CRM_Core_BAO_CustomGroup::setIsActive( $customGroupId, true );
+        //check for object update
+        $this->assertEqual( true, $result );
+        //check for is_active
+        $this->assertDBCompareValue( 'CRM_Core_DAO_CustomGroup', $customGroupId, 'is_active', 'id', true, 
+                                     'Database check for custom group is_active field.' );
+        //cleanup DB by deleting customGroup
+        Custom::deleteGroup( $customGroup );
+    }
 }
