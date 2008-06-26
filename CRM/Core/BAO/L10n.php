@@ -51,6 +51,7 @@ class CRM_Core_BAO_L10n extends CRM_Core_DAO_L10n
         static $cache = array();
         $config =& CRM_Core_Config::singleton();
         if (!isset($cache[$config->lcMessages][$table])) {
+            $cache[$config->lcMessages][$table] = array();
             $bao =& new self();
             $bao->locale = $config->lcMessages;
             $bao->entity_table = $table;
@@ -83,6 +84,9 @@ class CRM_Core_BAO_L10n extends CRM_Core_DAO_L10n
             foreach ($group['fields'] as $fieldKey => $field) {
                 if ($localized = self::cache('civicrm_custom_field', 'label', $field['id'])) {
                     $groupTree[$groupKey]['fields'][$fieldKey]['label'] = $localized;
+                }
+                if ($localized = self::cache($group['table_name'], $field['column_name'], $field['customValue']['id'])) {
+                    $groupTree[$groupKey]['fields'][$fieldKey]['customValue']['data'] = $localized;
                 }
             }
         }
