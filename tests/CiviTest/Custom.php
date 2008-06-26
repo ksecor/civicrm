@@ -80,7 +80,7 @@ class Custom extends DrupalTestCase
      */
     function deleteGroup( $params ) {
         require_once 'CRM/Core/BAO/CustomGroup.php';
-        $deleteCustomGroup = CRM_Core_BAO_CustomGroup::deleteGroup( $params );
+        $deleteCustomGroup = CRM_Core_BAO_CustomGroup::deleteGroup( $params, true );
         return $deleteCustomGroup;
     }
 }
