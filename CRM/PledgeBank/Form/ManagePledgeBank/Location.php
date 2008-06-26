@@ -89,9 +89,9 @@ class CRM_PledgeBank_Form_ManagePledgeBank_Location extends CRM_PledgeBank_Form_
             $location = CRM_Core_BAO_Location::getValues($params, $defaults);
             
             $hasLocation = CRM_Core_DAO::getFieldValue( 'CRM_PledgeBank_BAO_Pledge',
-                                                           $pledgeId,
-                                                           'loc_block_id'
-            );
+                                                        $pledgeId,
+                                                        'loc_block_id'
+                                                        );
             
         }
         
