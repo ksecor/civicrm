@@ -398,6 +398,8 @@ SELECT $select
         //hack for field type File
         $session = & CRM_Core_Session::singleton( );
         $session->set('uploadNames', $uploadNames);
+        require_once 'CRM/Core/BAO/L10n.php';
+        CRM_Core_BAO_L10n::localizeGroupTree($groupTree);
         return $groupTree;
     }
 
