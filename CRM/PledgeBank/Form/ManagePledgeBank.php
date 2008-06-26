@@ -80,9 +80,9 @@ class CRM_PledgeBank_Form_ManagePledgeBank extends CRM_Core_Form
 
         $this->_single = $this->get( 'single' );
 
-        // setting 3rd level breadcrumb for html page if Event exists
+        // setting 3rd level breadcrumb for html page if Pledge exists
         if ( $this->_id ) {
-            $breadCrumb = array( array('title' => ts('Configure Event'),
+            $breadCrumb = array( array('title' => ts('Configure Pledge'),
                                        'url'   => CRM_Utils_System::url( CRM_Utils_System::currentPath( ), "action=update&reset=1&id={$this->_id}" )) );
             CRM_Utils_System::appendBreadCrumb( $breadCrumb );
         }
@@ -101,8 +101,8 @@ class CRM_PledgeBank_Form_ManagePledgeBank extends CRM_Core_Form
         $defaults = array( );
         if ( isset( $this->_id ) ) {
             $params = array( 'id' => $this->_id );
-            require_once 'CRM/Event/BAO/Event.php';
-            CRM_Event_BAO_Event::retrieve($params, $defaults);
+            require_once 'CRM/PledgeBank/BAO/Pledge.php';
+            CRM_PledgeBank_BAO_Pledge::retrieve($params, $defaults);
         } else {
             $defaults['is_active'] = 1;
             $defaults['style']     = 'Inline';
@@ -123,7 +123,7 @@ class CRM_PledgeBank_Form_ManagePledgeBank extends CRM_Core_Form
         $session = & CRM_Core_Session::singleton( );
         $uploadNames = $session->get( 'uploadNames' );
         if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) 
-             && $className == 'CRM_Event_Form_ManageEvent_EventInfo' ) {
+             && $className == 'CRM_PledgeBank_Form_ManagePledgeBank_PledgeInfo' ) {
             $buttonType = 'upload';
         } else {
             $buttonType = 'next';

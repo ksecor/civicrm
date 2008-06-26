@@ -53,7 +53,7 @@ class CRM_PledgeBank_Form_ManagePledgeBank_PledgeInfo extends CRM_PledgeBank_For
      */ 
     function preProcess( )
     {
-        
+        parent::preProcess( );
     }
     
     /**
