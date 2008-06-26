@@ -319,7 +319,7 @@ class CRM_Core_BAO_CustomValueTable
 
         $cond = array( );
         if ( $entityType ) {
-            $cond[] = "cg.extends IN ( $entityType )";
+            $cond[] = "cg.extends IN ( '$entityType' )";
         }
         if ( $fieldIDs &&
              is_array( $fieldIDs ) ) {
