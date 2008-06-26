@@ -464,7 +464,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
      * @return None  
      * @access public  
      */ 
-    function buildCustom( $id, $name ) 
+    function buildCustom( $id, $name, $skipCaptcha = false ) 
     {
         if ( $id ) {
             require_once 'CRM/Core/BAO/UFGroup.php';
@@ -510,9 +510,21 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                 
                 $this->assign( $name, $fields );
                 
+                $addCaptcha = false;
                 foreach($fields as $key => $field) {
-                    CRM_Core_BAO_UFGroup::buildProfile($this, $field,CRM_Profile_Form::MODE_CREATE);
+                    CRM_Core_BAO_UFGroup::buildProfile($this, $field, CRM_Profile_Form::MODE_CREATE);
                     $this->_fields[$key] = $field;
+                    if ( $field['add_captcha'] ) {
+                        $addCaptcha = true;
+                    }
+                }
+
+                if ( $addCaptcha &&
+                     ! $skipCaptcha ) {
+                    require_once 'CRM/Utils/ReCAPTCHA.php';
+                    $captcha =& CRM_Utils_ReCAPTCHA::singleton( );
+                    $captcha->add( $this );
+                    $this->assign( "isCaptcha" , true );
                 }
             }
         }

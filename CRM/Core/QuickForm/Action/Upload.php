@@ -91,10 +91,12 @@ class CRM_Core_QuickForm_Action_Upload extends CRM_Core_QuickForm_Action {
                 $uniqID = md5(uniqid(rand(), true));
                 $info   = pathinfo($value['name']);
                 $basename = substr($info['basename'], 0, -(strlen($info['extension']) + ($info['extension'] == '' ? 0 : 1)));
-                $newName = $basename . "_{$uniqID}." . $info['extension'];
                 require_once 'CRM/Utils/File.php';
                 if ( ! CRM_Utils_File::isExtensionSafe( $info['extension'] ) ) {
-                    $newName .= ".unknown";
+                    // munge extension so it cannot have an embbeded dot in it
+                    $newName = CRM_Utils_String::munge( "{$basename}_{$uniqID}_{$info['extension']}" ) . ".unknown";
+                } else {
+                    $newName = CRM_Utils_String::munge( "{$basename}_{$uniqID}" ) . "{$info['extension']}";
                 }
                 $status = $element->moveUploadedFile( $this->_uploadDir, $newName );
                 if ( ! $status ) {

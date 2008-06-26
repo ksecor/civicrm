@@ -216,8 +216,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $this->assign('membershipBlock', false);
             }
         }
-        $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
-        $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
+        $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre' , true );
+        $this->buildCustom( $this->_values['custom_post_id'], 'customPost', true );
         $this->_separateMembershipPayment = $this->get( 'separateMembershipPayment' );
         $this->assign( "is_separate_payment", $this->_separateMembershipPayment );
         

@@ -413,7 +413,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
      * @return None  
      * @access public  
      */ 
-    function buildCustom( $id, $name ) 
+    function buildCustom( $id, $name, $skipCaptcha = false ) 
     {
         if ( $id ) {
             $button = substr( $this->controller->getButtonName(), -4 );
@@ -425,11 +425,11 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             $fields = null;
             if ( $contactID ) {
                 if ( CRM_Core_BAO_UFGroup::filterUFGroups($id, $contactID)  ) {
-                    $fields = CRM_Core_BAO_UFGroup::getFields( $id, false,CRM_Core_Action::ADD ); 
+                    $fields = CRM_Core_BAO_UFGroup::getFields( $id, false, CRM_Core_Action::ADD ); 
                     
                 }
             } else {
-                $fields = CRM_Core_BAO_UFGroup::getFields( $id, false,CRM_Core_Action::ADD ); 
+                $fields = CRM_Core_BAO_UFGroup::getFields( $id, false, CRM_Core_Action::ADD ); 
             }
             
             // unset any email-* fields since we already collect it, CRM-2888
@@ -439,16 +439,29 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                 }
             }
             
+            $addCaptcha = false;
             $this->assign( $name, $fields );
             foreach($fields as $key => $field) {
                 //make the field optional if primary participant 
                 //have been skip the additional participant.
                 if ( $button == 'skip' ) {
                     $field['is_required'] = false;
+                } else if ( $field['add_captcha'] ) {
+                    // only add captcha for first page
+                    $addCaptcha = true;
                 }
                 CRM_Core_BAO_UFGroup::buildProfile($this, $field,CRM_Profile_Form::MODE_CREATE);
                 $this->_fields[$key] = $field;
             }
+
+            if ( $addCaptcha &&
+                 ! $skipCaptcha ) {
+                require_once 'CRM/Utils/ReCAPTCHA.php';
+                $captcha =& CRM_Utils_ReCAPTCHA::singleton( );
+                $captcha->add( $this );
+                $this->assign( "isCaptcha" , true );
+            }
+
         }
     }
     
