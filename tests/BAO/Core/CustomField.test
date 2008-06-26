@@ -1,0 +1,62 @@
+<?php
+
+require_once 'CiviTestCase.php';
+require_once 'Contact.php';
+require_once 'Custom.php';
+class BAO_Core_CustomField extends CiviTestCase 
+{
+      function get_info( ) 
+    {
+        return array(
+                     'name'        => 'Custom Field BAOs',
+                     'description' => 'Test all Core_BAO_CustomField methods.',
+                     'group'       => 'CiviCRM BAO Tests',
+                     );
+    }
+    
+   
+    function testCreateCustomfield()
+    {
+        $customGroup = Custom::createGroup( array(), 'Individual' );
+        $fields = array(
+                        'label'            => 'testFld',
+                        'data_type'        => 'String',
+                        'html_type'        => 'Text',
+                        'custom_group_id'  => $customGroup->id,
+                        'column_name'      => 'testFld'
+                        );
+        $customField = CRM_Core_BAO_CustomField::create( $fields );
+        $customFieldID = $this->assertDBNotNull( 'CRM_Core_DAO_CustomField',  $customGroup->id , 'id','custom_group_id' ,
+                                           'Database check for created CustomField.' );
+        
+         
+        $fields =array();
+        $fields = array(
+                        'id'               => $customFieldID,
+                        'label'            => 'testEditFld',
+                        'data_type'        => 'String',
+                        'html_type'        => 'Text',
+                        'custom_group_id'  => $customGroup->id,
+                        'column_name'      => 'testEditFld'
+                        );
+        $customField = CRM_Core_BAO_CustomField::create( $fields );
+        Custom::deleteGroup( $customGroup );
+
+    }  
+    
+    function testDeleteCustomfield()
+    {
+        $customGroup = Custom::createGroup( array(), 'Individual' );
+        $fields      = array (
+                              'groupId'  => $customGroup->id,
+                              'dataType' => 'Memo',
+                              'htmlType' => 'TextArea'
+                              );
+        $customField = Custom::createField( array(), $fields );
+        CRM_Core_BAO_CustomField::deleteField($customField );
+        $this->assertDBNull( 'CRM_Core_DAO_CustomField', $customGroup->id, 'id', 
+                                             'custom_group_id', 'Database check for deleted Custom Field.' );
+        Custom::deleteGroup( $customGroup );
+    }
+}
+?>
