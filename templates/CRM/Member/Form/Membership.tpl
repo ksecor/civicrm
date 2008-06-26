@@ -96,7 +96,7 @@
         	{assign var=n value=state_province_id-$bltID}
         	<dt class="label">{$form.$n.label}</dt><dd class="html-adjust">{$form.$n.html}</dd><br />
         	{assign var=n value=postal_code-$bltID}
-        	<dt class="label">{$form.$n.label}</dt><dd class="html-adjust">{$form.$n.html}</d><br />
+        	<dt class="label">{$form.$n.label}</dt><dd class="html-adjust">{$form.$n.html}</dd><br />
         	{assign var=n value=country_id-$bltID}
         	<dt class="label">{$form.$n.label}</dt><dd class="html-adjust">{$form.$n.html}</dd><br />
              </fieldset></dd>

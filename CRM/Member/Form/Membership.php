@@ -697,6 +697,8 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                 
                 require_once 'CRM/Contribute/BAO/FinancialTrxn.php';
                 $trxn =& CRM_Contribute_BAO_FinancialTrxn::create( $trxnParams );
+                require_once 'CRM/Contact/BAO/Contact/Location.php';
+                list( $userName, $userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $ids['userId'] );
             }
         } else {
             $params['action'] = $this->_action;
@@ -729,9 +731,12 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                     $customFields["custom_{$k}"] = $field;
                 }
             }
-            
-            CRM_Core_BAO_UFGroup::getValues( $this->_contactID, $customFields, $customValues , false, 
-                                             array( array( 'member_id', '=', $membership->id, 0, 0 ) ) );
+            $members = array( array( 'member_id', '=', $membership->id, 0, 0 ) );
+            // check whether its a test drive 
+            if ( $this->_mode ) {
+                $members[] = array( 'member_test', '=', 1, 0, 0 ); 
+            } 
+            CRM_Core_BAO_UFGroup::getValues( $this->_contactID, $customFields, $customValues , false, $members );
             $this->assign( 'module', 'Membership' );
             $this->assign( 'subject', ts('Membership Confirmation and Receipt') );
             $this->assign( 'receive_date', $params['receive_date'] );            
