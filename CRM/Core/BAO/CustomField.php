@@ -98,10 +98,15 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
      * @access public
      * @static
      */
-    static function create( &$params, $ids )
+    static function create( &$params, &$ids )
     {
         $customField =& new CRM_Core_DAO_CustomField();
         $customField->copyValues( $params );
+        $customField->is_required      = CRM_Utils_Array::value( 'is_required'    , $params, false );
+        $customField->is_searchable    = CRM_Utils_Array::value( 'is_searchable'  , $params, false );
+        $customField->is_search_range  = CRM_Utils_Array::value( 'is_search_range', $params, false );
+        $customField->is_active        = CRM_Utils_Array::value( 'is_active'      , $params, false );
+        $customField->is_view          = CRM_Utils_Array::value( 'is_view'        , $params, false );
         $customField->id = CRM_Utils_Array::value( 'custom_field', $ids );
         $customField->save( );
         

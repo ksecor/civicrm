@@ -846,12 +846,6 @@ SELECT id
             $params['is_search_range'] = 0;
         }
 
-        $params['is_required']      = CRM_Utils_Array::value( 'is_required'    , $params, false );
-        $params['is_searchable']    = CRM_Utils_Array::value( 'is_searchable'  , $params, false );
-        $params['is_search_range']  = CRM_Utils_Array::value( 'is_search_range', $params, false );
-        $params['is_active']        = CRM_Utils_Array::value( 'is_active'      , $params, false );
-        $params['is_view']          = CRM_Utils_Array::value( 'is_view'        , $params, false );
-        
         if ( !isset ( $params['date_parts']['A'] ) && isset ( $params['date_parts']['h'] ) ) {
             unset( $params['date_parts']['h'] );
             unset( $params['date_parts']['i'] );
