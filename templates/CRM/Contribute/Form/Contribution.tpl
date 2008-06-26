@@ -151,6 +151,7 @@
 </fieldset>
 </div> 
 
+{if $email}
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="is_email_receipt"
     trigger_value       =""
@@ -159,6 +160,7 @@
     field_type          ="radio"
     invert              = 1
 }
+{/if}
 {if !$contributionMode} 
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="contribution_status_id"

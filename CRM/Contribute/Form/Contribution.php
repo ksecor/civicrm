@@ -580,11 +580,16 @@ WHERE  contribution_id = {$this->_id}
             $buttonType = 'next';
         }      
         
+        $js = null;
+        if ( !$this->_mode && $this->userEmail ) {
+            $js = array( 'onclick' => "return verify( );" );    
+        }
+        
         $this->addButtons(array( 
                                 array ( 'type'      => $buttonType, 
                                         'name'      => ts('Save'), 
                                         'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
-                                        'js'        => $this->_mode ? null : array( 'onclick' => "return verify( );" ),
+                                        'js'        => $js,
                                         'isDefault' => true   ), 
                                 array ( 'type'      => 'cancel', 
                                         'name'      => ts('Cancel') ), 
