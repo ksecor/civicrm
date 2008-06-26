@@ -147,17 +147,29 @@ class CRM_Core_BAO_CustomValueTable
                     break;
 
                 }
-                $set[] = "`{$field['column_name']}` = %{$count}";
+                $set[$field['column_name']] = "%{$count}";
                 $params[$count] = array( $value, $type );
                 $count++;
             }
 
             if ( ! empty( $set ) ) {
-                $set[] = "entity_id = %{$count}";
-                $params[$count] = array( $entityID, 'Integer' );
-                $count++;
-                $set   = implode( ", ", $set );
-                $query = "$sqlOP SET $set $where";
+                $setClause = array( );
+                foreach ( $set as $n => $v ) {
+                    $setClause[] = "$n = $v";
+                }
+                $setClause = implode( ',', $setClause );
+                if ( ! $where ) {
+                    // do this only for insert
+                    $set['entity_id'] = "%{$count}";
+                    $params[$count] = array( $entityID, 'Integer' );
+                    $count++;
+
+                    $fieldNames  = implode( ',', array_keys  ( $set ) );
+                    $fieldValues = implode( ',', array_values( $set ) );
+                    $query = "$sqlOP ( $fieldNames ) VALUES ( $fieldValues ) ON DUPLICATE KEY UPDATE $setClause";
+                } else {
+                    $query = "$sqlOP SET $set $where";
+                }
                 $dao = CRM_Core_DAO::executeQuery( $query, $params );
                 $dao->free( );
 

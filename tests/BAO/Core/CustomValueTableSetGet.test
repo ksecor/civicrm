@@ -59,7 +59,7 @@ class BAO_Core_CustomValueTableSetGet extends CiviTestCase
         $this->assertEqual( $values['is_error'], 0, 'Verify that is_error = 0 (success).');
 
         // Now set Marriage Date to an invalid date value and try to reset
-        $badDate = '20080631000000';
+        $badDate = '20080629000000';
         $params   = array( 'entityID'           => $contactID,
                            'custom_' . $fieldID => $badDate );
         require_once 'CRM/Core/BAO/CustomValueTable.php';
