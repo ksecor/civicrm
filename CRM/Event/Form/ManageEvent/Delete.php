@@ -70,16 +70,7 @@ class CRM_Event_Form_ManageEvent_Delete extends CRM_Event_Form_ManageEvent
     public function buildQuickForm( )
     {
         $this->assign( 'title', $this->_title );
-        /*
-        $buttons = array();
-        $buttons[] =  array ( 'type'      => 'next',
-                              'name'      => ts('Delete Contribution Page'),
-                              'isDefault' => true   );
-        $buttons[] =  array ( 'type'       => 'cancel',
-                              'name'      => ts('Cancel') 
-                              );
-        */
-        
+
         $buttons = array(
                       array(
                             'type'      => 'next',
