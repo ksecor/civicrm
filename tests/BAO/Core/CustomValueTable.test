@@ -61,7 +61,7 @@ class BAO_Core_CustomValueTable extends CiviTestCase
      * function to test store function for file
      *
      */
-    function testStoreFile()
+    function atestStoreFile()
     {
         $params      = array();
         $contactID   = Contact::createIndividual();
@@ -188,7 +188,7 @@ class BAO_Core_CustomValueTable extends CiviTestCase
                                                     'custom_field_id'  => $customField->id,
                                                     'custom_group_id'  => $customGroup->id,
                                                     'table_name'       => 'civicrm_value_test_group_'.$customGroup->id,
-                                                    'column_name'      => 'test_RichTextEditor_'.$customField->id,
+                                                    'column_name'      => 'test_Memo_'.$customField->id,
                                                     'file_id'          => ''
                                                     ));
         
@@ -201,4 +201,45 @@ class BAO_Core_CustomValueTable extends CiviTestCase
         Contact::delete( $contactID );
     }
 
+    /*
+     * function to test getEntityValues function for stored value
+     *
+     */
+    function testgetEntityValues()
+    {
+
+        $params      = array();
+        $contactID   = Contact::createIndividual();
+        $customGroup = Custom::createGroup( $params ,'Individual' );
+        $fields      = array (
+                              'groupId'  => $customGroup->id,
+                              'htmlType' => 'RichTextEditor',
+                              'dataType' => 'Memo'
+                              );
+        
+        $customField = Custom::createField( $params, $fields );
+        
+        $params = array( $customField->id => array (
+                                                    'value'            => '<p><strong>This is a <u>test</u></p>',
+                                                    'type'             => 'Memo',
+                                                    'custom_field_id'  => $customField->id,
+                                                    'custom_group_id'  => $customGroup->id,
+                                                    'table_name'       => 'civicrm_value_test_group_'.$customGroup->id,
+                                                    'column_name'      => 'test_Memo_'.$customField->id,
+                                                    'file_id'          => ''
+                                                    ));
+        
+        require_once 'CRM/Core/BAO/CustomValueTable.php';
+        CRM_Core_BAO_CustomValueTable::store( $params, 'civicrm_contact', $contactID );
+        //        $this->assertDBCompareValue('CRM_Custom_DAO_CustomValue', )
+
+        require_once 'CRM/Core/BAO/CustomValueTable.php';
+        $entityValues =  CRM_Core_BAO_CustomValueTable::getEntityValues( $contactID, 'Individual' );
+              
+        $this->assertEqual( $entityValues[$customField->id] ,'<p><strong>This is a <u>test</u></p>',
+                            'Checking same for returned value.' );    
+        Custom::deleteField( $customField );        
+        Custom::deleteGroup( $customGroup );
+        Contact::delete( $contactID );
+    }
 }
