@@ -762,7 +762,8 @@ $where
     /**
      * Delete the Custom Group.
      *
-     * @param  int    $id  Group Id 
+     * @param $group object   the DAO custom group object
+     * @param $force boolean  whether to force the deletion, even if there are custom fields
      * 
      * @return boolean   false if field exists for this group, true if group gets deleted.
      *
@@ -770,16 +771,20 @@ $where
      * @static
      *
      */
-    public static function deleteGroup( $group )
+    public static function deleteGroup( $group, $force = false )
     { 
-        require_once 'CRM/Core/DAO/CustomField.php';
+        require_once 'CRM/Core/BAO/CustomField.php';
 
         //check wheter this contain any custom fields
         $customField = & new CRM_Core_DAO_CustomField();
         $customField->custom_group_id = $group->id;
         $customField->find();
-        if ($customField->fetch()) {
-            return false;
+
+        // return early if there are custom fields and we're not 
+        // forcing the delete, otherwise delete the fields one by one
+        while ($customField->fetch()) {
+            if (!$force) return false;
+            CRM_Core_BAO_CustomField::deleteField($customField);
         }
 
         // drop the table associated with this custom group
