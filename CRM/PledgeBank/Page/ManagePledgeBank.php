@@ -158,13 +158,13 @@ class CRM_PledgeBank_Page_ManagePledgeBank extends CRM_Core_Page
             require_once 'CRM/PledgeBank/Controller/ManagePledgeBank.php';
             $controller =& new CRM_PledgeBank_Controller_ManagePledgeBank( );
             return $controller->run( );
-        } /*else if ($action & CRM_Core_Action::UPDATE ) {
+        } else if ($action & CRM_Core_Action::UPDATE ) {
             CRM_Utils_System::appendBreadCrumb( $breadCrumb );
 
-            require_once 'CRM/Event/Page/ManageEventEdit.php';
-            $page =& new CRM_Event_Page_ManageEventEdit( );
+            require_once 'CRM/PledgeBank/Page/ManagePledgeBankEdit.php';
+            $page =& new CRM_PledgeBank_Page_ManagePledgeBankEdit( );
             return $page->run( );
-        } else if ($action & CRM_Core_Action::DISABLE ) {
+        } /*else if ($action & CRM_Core_Action::DISABLE ) {
             require_once 'CRM/Event/BAO/Event.php';
             CRM_Event_BAO_Event::setIsActive($id ,0);
         } else if ($action & CRM_Core_Action::ENABLE ) {
