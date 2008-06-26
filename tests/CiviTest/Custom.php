@@ -50,7 +50,7 @@ class Custom extends DrupalTestCase
         $customFieldBAO =& new CRM_Core_BAO_CustomField();
         $customFieldBAO->copyValues( $params );
         $customField = $customFieldBAO->save();
-        $customFieldBAO->column_name = 'test_'. $fields['dataType'] . '_'.$customField->id;
+        $customFieldBAO->column_name = 'test_'. $params['data_type'] . '_'.$customField->id;
         $customFieldObject =  $customFieldBAO;
         $customField = $customFieldBAO->save();
         
