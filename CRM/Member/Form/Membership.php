@@ -390,6 +390,13 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         if (!$params['membership_type_id'][1]) {
             $errors['membership_type_id'] = ts('Please select a membership type.');
         }
+        if ( $params['membership_type_id'][1] && $params['payment_processor_id'] ) {
+          $memberFee = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', 
+                                                    $params['membership_type_id'][1], 'minimum_fee' );
+          if ( ! $memberFee ) {
+              $errors['membership_type_id'] = ts('Selected a membership type have no fee.');;
+          }
+        }
         
         $joinDate = CRM_Utils_Date::format( $params['join_date'] );
         if ( $joinDate ) {
@@ -429,10 +436,15 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
              ! $params['status_id'] ) {
             $errors['status_id'] = ts('Please enter the status.');
         }
-        
-        if ( isset( $params['record_contribution'] ) && 
-             ! isset( $params['contribution_type_id'] ) ) {
-            $errors['contribution_type_id'] = ts('Please enter the contribution.');
+        //total amount condition arise when membership type having no
+        //minimum fee
+        if ( isset( $params['record_contribution'] ) ) { 
+            if ( ! $params['contribution_type_id'] ) {
+                $errors['contribution_type_id'] = ts('Please enter the contribution Type.');
+            } 
+            if ( !$params['total_amount'] ) {
+               $errors['total_amount'] = ts('Please enter the contribution.'); 
+            }
         }
         
         return empty($errors) ? true : $errors;
@@ -545,6 +557,10 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                 }
             }
         }
+        // Retrieve the name and email of the current user - this will be the FROM for the receipt email
+        require_once 'CRM/Contact/BAO/Contact/Location.php';
+        list( $userName, $userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $ids['userId'] );
+        
         if ( $formValues['record_contribution'] ) {
             $recordContribution = array(
                                         'total_amount',
@@ -558,9 +574,6 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                 $params[$f] = CRM_Utils_Array::value( $f, $formValues );
             }
            
-            // Retrieve the name and email of the current user - this will be the FROM for the receipt email
-            require_once 'CRM/Contact/BAO/Contact/Location.php';
-            list( $userName, $userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $ids['userId'] );
             $membershipType = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType',
                                                            $formValues['membership_type_id'][1] );
             $params['contribution_source'] = "{$membershipType} Membership: Offline membership signup (by {$userName})";
@@ -698,8 +711,6 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                 
                 require_once 'CRM/Contribute/BAO/FinancialTrxn.php';
                 $trxn =& CRM_Contribute_BAO_FinancialTrxn::create( $trxnParams );
-                require_once 'CRM/Contact/BAO/Contact/Location.php';
-                list( $userName, $userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $ids['userId'] );
             }
         } else {
             $params['action'] = $this->_action;

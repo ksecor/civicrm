@@ -15,7 +15,7 @@
 {ts}Membership Type{/ts}: {$membership_name}
 {ts}Membership Start Date{/ts}: {$mem_start_date}
 {ts}Membership End Date{/ts}: {$mem_end_date}
-
+{if $formValues.total_amount}
 ===========================================================
 {ts}Membership Fee{/ts}
 
@@ -27,7 +27,7 @@
 {if $formValues.paidBy}
 {ts}Paid By{/ts}: {$formValues.paidBy}
 {/if}
-
+{/if}
 {else if $module eq 'Event Registration'}
 {if $receipt_text}
 {$receipt_text}
