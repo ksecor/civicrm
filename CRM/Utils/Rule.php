@@ -278,6 +278,25 @@ class CRM_Utils_Rule
         return true;
     }
 
+    /**
+     * check the validity of a date or datetime (timestamp)
+     * value which is in YYYYMMDD or YYYYMMDDHHMMSS format
+     *
+     * Uses PHP checkdate() - params are ( int $month, int $day, int $year )
+     * @param string $date
+     *
+     * @return bool true if valid date
+     * @static
+     * @access public
+     */
+    static function mysqlDate($date) {
+        if (checkdate( substr($date, 4, 2), substr($date, 6, 2), substr($date, 0, 4) )) {
+            return true;
+        }
+        
+        return false;
+    }
+    
     static function integer($value) 
     {
         if ( is_int($value)) {

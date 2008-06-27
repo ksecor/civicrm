@@ -845,7 +845,7 @@ FROM   civicrm_domain
                             $item[0] = "'{$item[0]}'";
                         }
                     }
-                    if ( $item[1] == 'Date' &&
+                    if ( ( $item[1] == 'Date' || $item[1] == 'Timestamp' ) &&
                          strlen( $item[0] ) == 0 ) {
                         // set a null date to the empty string
                         $item[0] = 'null';

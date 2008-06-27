@@ -40,7 +40,7 @@ class BAO_Core_CustomValueTableSetGet extends CiviTestCase
         $fieldID = $field['id'];
 
         // Set Marriage Date to a valid date value
-        $date = '2008-06-08 00:00:00';
+        $date = '20080608000000';
         $params = array( 'entityID'           => $contactID,
                          'custom_' . $fieldID => $date );
         require_once 'CRM/Core/BAO/CustomValueTable.php';
@@ -54,13 +54,15 @@ class BAO_Core_CustomValueTableSetGet extends CiviTestCase
         $params = array( 'entityID'           => $contactID,
                          'custom_' . $fieldID => 1);
         $values = CRM_Core_BAO_CustomValueTable::getValues( $params );
+
         CRM_Core_Error::debug('v1',$values);
-        // 2008-06-08 00:00:00
+
         $this->assertEqual( $values['is_error'], 0, 'Verify that is_error = 0 (success).');
-        $this->assertEqual( $values['custom_' . $fieldID], $date, 'Verify that the date value is stored for contact ' . $contactID);
+        require_once 'CRM/Utils/Date.php';
+        $this->assertEqual( $values['custom_' . $fieldID], CRM_Utils_Date::mysqlToIso($date), 'Verify that the date value is stored for contact ' . $contactID);
 
         // Now set Marriage Date to an invalid date value and try to reset
-        $badDate = '20080629000000';
+        $badDate = '20080631000000';
         $params   = array( 'entityID'           => $contactID,
                            'custom_' . $fieldID => $badDate );
         require_once 'CRM/Core/BAO/CustomValueTable.php';
@@ -68,24 +70,33 @@ class BAO_Core_CustomValueTableSetGet extends CiviTestCase
         
         // Check that the error flag is set AND that custom date value has not been modified
         $this->assertEqual( $result['is_error'], 1, 'Verify that is_error = 1 when bad date is passed.');
+        
+        CRM_Core_Error::debug('r2-bad date',$result);
+                
         $params = array( 'entityID'               => $contactID,
                          'custom_' . $fieldID => 1);
         $values = CRM_Core_BAO_CustomValueTable::getValues( $params );
-        $this->assertEqual( $values['custom_' . $fieldID], $date, 'Verify that the date value has NOT been updated for contact ' . $contactID);
+        $this->assertEqual( $values['custom_' . $fieldID], CRM_Utils_Date::mysqlToIso($date), 'Verify that the date value has NOT been updated for contact ' . $contactID);
         
+        CRM_Core_Error::debug('v2',$values);
+
         // Test setting Marriage Date to null
         $params = array( 'entityID'           => $contactID,
                          'custom_' . $fieldID => null );
         require_once 'CRM/Core/BAO/CustomValueTable.php';
         $result = CRM_Core_BAO_CustomValueTable::setValues( $params );
-        
+
+        CRM_Core_Error::debug('r3',$result);
+
         // Check that the date value is empty
         $params = array( 'entityID'           => $contactID,
                          'custom_' . $fieldID => 1);
         $values = CRM_Core_BAO_CustomValueTable::getValues( $params );
         $this->assertEqual( $values['custom_' . $fieldID], '', 'Verify that the date value is empty for contact ' . $contactID);
         $this->assertEqual( $values['is_error'], 0, 'Verify that is_error = 0 (success).');
-        
+
+        CRM_Core_Error::debug('v3-empty date',$values);
+
         // Cleanup our contact
         Contact::delete( $contactID );
     }
