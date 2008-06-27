@@ -28,21 +28,25 @@ class BAO_Core_CustomField extends CiviTestCase
         $customField = CRM_Core_BAO_CustomField::create( $fields );
         $customFieldID = $this->assertDBNotNull( 'CRM_Core_DAO_CustomField',  $customGroup->id , 'id','custom_group_id' ,
                                            'Database check for created CustomField.' );
-        
-         
-        $fields =array();
-        $fields = array(
+        $fields1 = array(
                         'id'               => $customFieldID,
-                        'label'            => 'testEditFld',
+                        'label'            => 'editTestFld',
+                        'is_active'           => 1,
                         'data_type'        => 'String',
                         'html_type'        => 'Text',
                         'custom_group_id'  => $customGroup->id,
-                        'column_name'      => 'testEditFld'
+                        'column_name'      => 'testFld_'.$customFieldID
                         );
-        $customField = CRM_Core_BAO_CustomField::create( $fields );
+        $ids =   array(
+                       'custom_field' => $customFieldID
+                       );
+       
+        $customField = CRM_Core_BAO_CustomField::create( $fields1, $ids  );
+        $this->assertDBNotNull( 'CRM_Core_DAO_CustomField',1 , 'id','is_active' ,'Database check for edited CustomField.' );
+        $this->assertDBNotNull( 'CRM_Core_DAO_CustomField' ,'editTestFld', 'id','label' ,'Database check for edited CustomField.' );
+        
         Custom::deleteGroup( $customGroup );
-
-    }  
+    }
     
     function testDeleteCustomfield()
     {
