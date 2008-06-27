@@ -19,18 +19,16 @@ if ( !empty( $error ) ) {
 }
 if ( !empty( $session->get['msg'] ) ) {
     print "<div class=\"msg\">$msg</div>\n";
-    //header("Location:login.php");
 }
-
-//print "userID: " . $session->get('userID') . "<br/>";
-//print "ufName: " . $session->get('ufName') . "<br/>";
 
 if ( $session->get('userID') == null || $session->get('userID') == '' ) {
     if ($_GET[$urlVar] == "") {
         header("Location: login.php");
         exit();
     } else {
-        print "<a href=\"{$config->userFrameworkBaseURL}\">Login here</a> if you have an account.\n";
+        if ( $session->get('new_install') !== true ) {
+            print "<a href=\"{$config->userFrameworkBaseURL}\">Login here</a> if you have an account.\n";
+        }
         print CRM_Core_Invoke::invoke( explode('/', $_GET[$urlVar] ) );
     }
 } else {

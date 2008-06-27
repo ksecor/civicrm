@@ -1,7 +1,7 @@
 <?php
 
 function civicrm_setup( $filesDirectory ) {
-    global $cmsPath, $crmPath, $sqlPath, $pkgPath, $tplPath;
+    global $crmPath, $sqlPath, $pkgPath, $tplPath;
     global $compileDir;
 
     $pkgPath = $crmPath . DIRECTORY_SEPARATOR . 'packages';
@@ -35,9 +35,14 @@ function civicrm_write_file( $name, &$buffer ) {
 }
 
 function civicrm_main( &$config ) {
-    global $sqlPath, $crmPath, $cmsPath;
+    global $sqlPath, $crmPath, $installType;
 
-    civicrm_setup( $cmsPath . DIRECTORY_SEPARATOR . 'files' );
+    if ( $installType == 'drupal' ) {
+        global $cmsPath;
+        civicrm_setup( $cmsPath . DIRECTORY_SEPARATOR . 'files' );
+    } elseif ( $installType == 'standalone' ) {
+        civicrm_setup( $crmPath . DIRECTORY_SEPARATOR . 'standalone' . DIRECTORY_SEPARATOR . 'files' );
+    }
 
     $dsn = "mysql://{$config['mysql']['username']}:{$config['mysql']['password']}@{$config['mysql']['server']}/{$config['mysql']['database']}?new_link=true";
 
@@ -51,11 +56,19 @@ function civicrm_main( &$config ) {
     }
     
     // generate backend settings file
-    $configFile =
-        $cmsPath  . DIRECTORY_SEPARATOR .
-        'sites'   . DIRECTORY_SEPARATOR .
-        'default' . DIRECTORY_SEPARATOR .
-        'civicrm.settings.php';
+    if ( $installType == 'drupal' ) {
+        $configFile =
+            $cmsPath  . DIRECTORY_SEPARATOR .
+            'sites'   . DIRECTORY_SEPARATOR .
+            'default' . DIRECTORY_SEPARATOR .
+            'civicrm.settings.php';
+    } elseif ( $installType == 'standalone' ) {
+        $configFile =
+            $crmPath     . DIRECTORY_SEPARATOR .
+            'standalone' . DIRECTORY_SEPARATOR .
+            'civicrm.settings.php';
+    }
+
     $string = civicrm_config( $config );
     civicrm_write_file( $configFile,
                         $string );
@@ -109,24 +122,40 @@ function civicrm_config( &$config ) {
     global $crmPath, $comPath;
     global $compileDir;
     global $tplPath;
+    global $installType;
 
     $params = array(
-                'cms' => 'Drupal',
-                'cmsVersion' => '5.2',
-                'usersTable' => 'users',
-                'crmRoot' => $crmPath,
-                'templateCompileDir' => $compileDir,
-                'baseURL' => civicrm_drupal_base( ),
-                'frontEnd' => 0,
-                'dbUser' => $config['mysql']['username'],
-                'dbPass' => $config['mysql']['password'],
-                'dbHost' => $config['mysql']['server'],
-                'dbName' => $config['mysql']['database'],
-                'CMSdbUser' => $config['drupal']['username'],
-                'CMSdbPass' => $config['drupal']['password'],
-                'CMSdbHost' => $config['drupal']['server'],
-                'CMSdbName' => $config['drupal']['database'],
-                );
+                    'crmRoot' => $crmPath,
+                    'templateCompileDir' => $compileDir,
+                    'frontEnd' => 0,
+                    'dbUser' => $config['mysql']['username'],
+                    'dbPass' => $config['mysql']['password'],
+                    'dbHost' => $config['mysql']['server'],
+                    'dbName' => $config['mysql']['database'],
+                    );
+    
+    if ( $installType == 'drupal' ) {
+        $params['cms']        = 'Drupal';
+        $params['cmsVersion'] = '5.2';
+        $params['usersTable'] = 'users';
+        $params['baseURL']    = civicrm_cms_base( );
+        $params['CMSdbUser']  = $config['drupal']['username'];
+        $params['CMSdbPass']  = $config['drupal']['password'];
+        $params['CMSdbHost']  = $config['drupal']['server'];
+        $params['CMSdbName']  = $config['drupal']['database'];
+    } elseif ( $installType == 'standalone' ) {
+        $filesDir = $crmPath . DIRECTORY_SEPARATOR . 'standalone' . DIRECTORY_SEPARATOR . 'files';
+        $params['cms']            = 'Standalone';
+        $params['cmsVersion']     = '';
+        $params['usersTable']     = '';
+        $params['cmsURLVar']      = 'q';
+        $params['uploadDir']      = $filesDir . DIRECTORY_SEPARATOR . 'upload';
+        $params['imageUploadDir'] = '';
+        $params['imageUploadURL'] = '';
+        $params['customFileUploadDir'] = $filesDir . DIRECTORY_SEPARATOR . 'custom';
+        $params['baseURL']        = civicrm_cms_base( )  . 'standalone/';
+        $params['resourceURL']    = civicrm_cms_base( );
+    }
 
     $str = file_get_contents( $tplPath . 'civicrm.settings.php.sample.tpl' );
     foreach ( $params as $key => $value ) { 
@@ -135,12 +164,19 @@ function civicrm_config( &$config ) {
     return trim( $str );
 }
 
-function civicrm_drupal_base( ) {
+function civicrm_cms_base( ) {
+    global $installType;
+
+    $numPrevious = 7;
+    if ( $installType == 'standalone' ) {
+        $numPrevious = 3;
+    }
+
     $url = 'http://' . $_SERVER['HTTP_HOST'];
 
     $baseURL = $_SERVER['SCRIPT_NAME'];
 
-    for ( $i = 0; $i <= 6; $i++ ) {
+    for ( $i = 1; $i <= $numPrevious; $i++ ) {
         $baseURL = dirname( $baseURL );
     }
 
@@ -160,7 +196,7 @@ function civicrm_drupal_base( ) {
 }
 
 function civicrm_home_url( ) {
-    $drupalURL = civicrm_drupal_base( );
+    $drupalURL = civicrm_cms_base( );
     return $drupalURL . 'index.php?q=civicrm';
 }
 

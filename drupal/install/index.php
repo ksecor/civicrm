@@ -19,6 +19,26 @@
 
 ini_set('max_execution_time', 300);
 
+// set installation type - drupal / standalone
+session_start();
+
+if ( isset($_GET['mode']) ) {
+    $_SESSION['install_type'] = $_GET['mode'];
+} else {
+    if (! isset($_SESSION['install_type'])) {
+        $_SESSION['install_type'] = "drupal";
+    }
+}
+
+global $installType;
+$installType = strtolower($_SESSION['install_type']);
+
+if ( ! in_array($installType, array('drupal', 'standalone')) ) {
+    $errorTitle = "Oops! Unsupported installation mode";
+    $errorMsg   = "";
+    errorDisplayPage( $errorTitle, $errorMsg );
+}
+
 if ( strpos( dirname( $_SERVER['SCRIPT_FILENAME'] ), 'sites/all/modules' ) === false ) {
     $errorTitle = "Oops! Please Correct Your Install Location";
     $errorMsg = "Please untar (uncompress) your downloaded copy of CiviCRM in the <strong>sites/all/modules</strong> directory below your Drupal root directory. Refer to the online <a href='http://wiki.civicrm.org/confluence//x/mQ8' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a> for more information.";
@@ -38,16 +58,18 @@ if(isset($_REQUEST['mysql'])) {
                             );
 }
 
-// Load drupal database config
-if(isset($_REQUEST['drupal'])) {
-	$drupalConfig = $_REQUEST['drupal'];
-} else {
-	$drupalConfig = array(
-                            "server"   => "localhost",
-                            "username" => "civicrm",
-                            "password" => "",
-                            "database" => "drupal",
-                            );
+if ( $installType == 'drupal' ) {
+    // Load drupal database config
+    if(isset($_REQUEST['drupal'])) {
+        $drupalConfig = $_REQUEST['drupal'];
+    } else {
+        $drupalConfig = array(
+                              "server"   => "localhost",
+                              "username" => "civicrm",
+                              "password" => "",
+                              "database" => "drupal",
+                              );
+    }
 }
 
 $loadGenerated = 0;
@@ -55,19 +77,30 @@ if ( isset($_REQUEST['loadGenerated'] ) ) {
     $loadGenerated = 1;
 }
 
-global $cmsPath, $crmPath;
+global $crmPath;
 $crmPath = dirname( dirname ( dirname( $_SERVER['SCRIPT_FILENAME'] ) ) );
-$cmsPath = dirname( dirname( dirname( dirname( $crmPath ) ) ) );
 
-$alreadyInstalled = file_exists( $cmsPath  . DIRECTORY_SEPARATOR .
-                                 'sites'   . DIRECTORY_SEPARATOR .
-                                 'default' . DIRECTORY_SEPARATOR .
-                                 'civicrm.settings.php');
+if ( $installType == 'drupal' ) {
+    global $cmsPath;
+    $cmsPath = dirname( dirname( dirname( dirname( $crmPath ) ) ) );
+    $alreadyInstalled = file_exists( $cmsPath  . DIRECTORY_SEPARATOR .
+                                     'sites'   . DIRECTORY_SEPARATOR .
+                                     'default' . DIRECTORY_SEPARATOR .
+                                     'civicrm.settings.php' );
+} elseif ( $installType == 'standalone' ) {
+    $alreadyInstalled = file_exists( $crmPath     . DIRECTORY_SEPARATOR .
+                                     'standalone' . DIRECTORY_SEPARATOR .
+                                     'civicrm.settings.php' );
+}
 
 // Exit with error if CiviCRM has already been installed.
 if ($alreadyInstalled ) {
     $errorTitle = "Oops! CiviCRM is Already Installed";
-    $errorMsg = "CiviCRM has already been installed in this Drupal site. <ul><li>To <strong>start over</strong>, you must delete or rename the existing CiviCRM settings file - <strong>civicrm.settings.php</strong> - from <strong>[your Drupal root directory]/sites/default</strong>.</li><li>To <strong>upgrade an existing installation</strong>, refer to the online <a href='http://wiki.civicrm.org/confluence//x/mQ8' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a>.</li></ul>";
+    if ( $installType == 'drupal' ) {
+        $errorMsg = "CiviCRM has already been installed in this Drupal site. <ul><li>To <strong>start over</strong>, you must delete or rename the existing CiviCRM settings file - <strong>civicrm.settings.php</strong> - from <strong>[your Drupal root directory]/sites/default</strong>.</li><li>To <strong>upgrade an existing installation</strong>, refer to the online <a href='http://wiki.civicrm.org/confluence//x/mQ8' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a>.</li></ul>";
+    } elseif ( $installType == 'standalone' ) {
+        $errorMsg = "CiviCRM has already been installed in this Standalone site. <ul><li>To <strong>start over</strong>, you must delete or rename the existing CiviCRM settings file - <strong>civicrm.settings.php</strong> - from <strong>[your CiviCRM root directory]/standalone</strong>.</li><li>To <strong>upgrade an existing installation</strong>, refer to the online <a href='http://wiki.civicrm.org/confluence//x/mQ8' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a>.</li></ul>";
+    }
     errorDisplayPage( $errorTitle, $errorMsg );
 }
 
@@ -78,24 +111,26 @@ if(file_exists($versionFile)) {
 	$civicrm_version = 'unknown';
 }
 
-// Ensure that they have downloaded the correct version of CiviCRM
-if ( ( strpos( $civicrm_version, 'PHP5'   ) === false) ||
-     ( strpos( $civicrm_version, 'Drupal' ) === false ) ) {
-    $errorTitle = "Oops! Incorrect CiviCRM Version";
-    $errorMsg = "This installer can only be used for the Drupal PHP5 version of CiviCRM. Refer to the online <a href='http://wiki.civicrm.org/confluence//x/mQ8' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a> for information about installing CiviCRM on PHP4 servers OR installing CiviCRM for Joomla!";
-    errorDisplayPage( $errorTitle, $errorMsg );
-}
-
-$drupalVersionFile = implode(DIRECTORY_SEPARATOR, array($cmsPath, 'modules', 'system', 'system.module'));
-
-if ( file_exists( $drupalVersionFile ) ) {
-    require_once $drupalVersionFile;
-}
-
-if ( !defined('VERSION') or version_compare(VERSION, '6.0') < 0 ) {
-    $errorTitle = "Oops! Incorrect Drupal Version";
-    $errorMsg = "This installer can only be used with Drupal 5.x. Please ensure that '$drupalVersionFile' exists if you are running Drupal 5.0 and over. Refer to the online <a href='http://wiki.civicrm.org/confluence//x/mQ8' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a> for information about installing CiviCRM on other Drupal versions OR installing CiviCRM for Joomla!";
-    errorDisplayPage( $errorTitle, $errorMsg );
+if ( $installType == 'drupal' ) {
+    // Ensure that they have downloaded the correct version of CiviCRM
+    if ( ( strpos( $civicrm_version, 'PHP5'   ) === false) ||
+         ( strpos( $civicrm_version, 'Drupal' ) === false ) ) {
+        $errorTitle = "Oops! Incorrect CiviCRM Version";
+        $errorMsg = "This installer can only be used for the Drupal PHP5 version of CiviCRM. Refer to the online <a href='http://wiki.civicrm.org/confluence//x/mQ8' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a> for information about installing CiviCRM on PHP4 servers OR installing CiviCRM for Joomla!";
+        errorDisplayPage( $errorTitle, $errorMsg );
+    }
+    
+    $drupalVersionFile = implode(DIRECTORY_SEPARATOR, array($cmsPath, 'modules', 'system', 'system.module'));
+    
+    if ( file_exists( $drupalVersionFile ) ) {
+        require_once $drupalVersionFile;
+    }
+    
+    if ( !defined('VERSION') or version_compare(VERSION, '6.0') < 0 ) {
+        $errorTitle = "Oops! Incorrect Drupal Version";
+        $errorMsg = "This installer can only be used with Drupal 5.x. Please ensure that '$drupalVersionFile' exists if you are running Drupal 5.0 and over. Refer to the online <a href='http://wiki.civicrm.org/confluence//x/mQ8' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a> for information about installing CiviCRM on other Drupal versions OR installing CiviCRM for Joomla!";
+        errorDisplayPage( $errorTitle, $errorMsg );
+    }
 }
 
 // Check requirements
@@ -109,7 +144,9 @@ if($req->hasErrors()) {
 if($databaseConfig) {
 	$dbReq = new InstallRequirements();
 	$dbReq->checkdatabase($databaseConfig, 'CiviCRM');
-	$dbReq->checkdatabase($drupalConfig, 'Drupal');
+    if ( $installType == 'drupal' ) {
+        $dbReq->checkdatabase($drupalConfig, 'Drupal');
+    }
 }
 
 // Actual processor
@@ -176,7 +213,7 @@ class InstallRequirements {
 	 * Check everything except the database
 	 */
 	function check() {
-        global $cmsPath, $crmPath;
+        global $crmPath, $installType;
 
 		$this->errors = null;
 		
@@ -195,14 +232,33 @@ class InstallRequirements {
         foreach ( $requiredDirectories as $dir ) {
             $this->requireFile( $crmPath . DIRECTORY_SEPARATOR . $dir, array("File permissions", "$dir folder exists", "There is no $dir folder" ), true );
         }
-        
-        // make sure that we can write to sites/default and files/
-        $writableDirectories = array( 'files', 
-                                      'sites' . DIRECTORY_SEPARATOR . 'default' );
-        foreach ( $writableDirectories as $dir ) {
-            $this->requireWriteable( $cmsPath . DIRECTORY_SEPARATOR . $dir,
-                                     array("File permissions", "Is the $dir folder writeable?", null ),
-                                     true );
+
+        if ( $installType == 'standalone' ) {
+            $requiredDirectories = array( 'files' );
+            foreach ( $requiredDirectories as $dir ) {
+                $this->requireFile( $crmPath . DIRECTORY_SEPARATOR . 'standalone' . DIRECTORY_SEPARATOR . $dir, 
+                                    array("File permissions", "$dir folder exists", "There is no $dir folder" ), true );
+            }
+            // make sure that we can write to standalone and standalone/files 
+            $writableDirectories = array( 'standalone', 
+                                          'standalone' . DIRECTORY_SEPARATOR . 'files' );
+            foreach ( $writableDirectories as $dir ) {
+                $this->requireWriteable( $crmPath . DIRECTORY_SEPARATOR . $dir,
+                                         array("File permissions", "Is the $dir folder writeable?", null ),
+                                         true );
+            }
+        }
+
+        if ( $installType == 'drupal' ) {
+            global $cmsPath;
+            // make sure that we can write to sites/default and files/
+            $writableDirectories = array( 'files', 
+                                          'sites' . DIRECTORY_SEPARATOR . 'default' );
+            foreach ( $writableDirectories as $dir ) {
+                $this->requireWriteable( $cmsPath . DIRECTORY_SEPARATOR . $dir,
+                                         array("File permissions", "Is the $dir folder writeable?", null ),
+                                         true );
+            }
         }
 
 		// Check for rewriting
@@ -579,11 +635,22 @@ class Installer extends InstallRequirements {
         civicrm_main( $config );
 
         if(! $this->errors) {
-            $drupalURL = civicrm_drupal_base( );
-            echo "<p>Installed CiviCRM successfully.  I will now try and direct you to 
+            global $installType;
+
+            if ( $installType == 'drupal' ) {
+                $drupalURL     = civicrm_cms_base( );
+                echo "<p>Installed CiviCRM successfully.  I will now try and direct you to 
 					<a href=\"$drupalURL\">Drupal Home</a> to confirm that the installation was successful.</p>
 					<script>setTimeout(function() { window.location.href = '$drupalURL'; }, 1000);</script>
 					";
+            } elseif ( $installType == 'standalone' ) {
+                $standaloneURL = civicrm_cms_base( ) . 'standalone/';
+                echo "Standalone Home -> $standaloneURL";
+                echo "<p>Installed CiviCRM successfully.  I will now try and direct you to 
+					<a href=\"$standaloneURL\">Standalone Home</a> to confirm that the installation was successful.</p>
+					<script>setTimeout(function() { window.location.href = '$standaloneURL'; }, 1000);</script>
+					";
+            }
         }
 		
 		return $this->errors;
@@ -595,5 +662,4 @@ function errorDisplayPage( $errorTitle, $errorMsg ) {
     include('error.html');
     exit();
 }
-
 
