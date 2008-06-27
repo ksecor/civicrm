@@ -632,7 +632,7 @@ class CRM_Utils_System {
         $params = array( 'method' => 'HEAD' );
         $request =& new HTTP_Request( $url, $params );
         if ( $addCookie ) {
-            foreach ( $_COOKIE as $name = $value ) {
+            foreach ( $_COOKIE as $name => $value ) {
                 $request->addCookie( $name, $value );
             }
         }

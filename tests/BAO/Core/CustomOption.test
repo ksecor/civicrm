@@ -36,7 +36,8 @@ class BAO_Core_CustomOption extends CiviTestCase
         $params = array( );
         $params = array( 'option_group_id' => $field['option_group_id'],
                          'label'           => 'Divorced',
-                         'value'           => 'V');
+                         'value'           => 'V',
+                         'weight'          => 6 );
         $ids = array( );
         require_once 'CRM/Core/BAO/OptionValue.php';
         $option = CRM_Core_BAO_OptionValue::add( $params, $ids );
@@ -75,8 +76,9 @@ class BAO_Core_CustomOption extends CiviTestCase
         // Now add an option_value for this custom field
         $params = array( );
         $params = array( 'option_group_id' => $field['option_group_id'],
-                        'label'           => 'Divorced',
-                        'value'           => 'V');
+                        'label'            => 'Divorced',
+                        'value'            => 'V',
+                        'weight'           => 6 );
         $ids = array( );
         require_once 'CRM/Core/BAO/OptionValue.php';
         $option = CRM_Core_BAO_OptionValue::add( $params, $ids );
