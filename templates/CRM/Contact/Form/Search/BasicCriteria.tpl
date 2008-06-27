@@ -12,7 +12,34 @@
             <h3>{ts}Find Contacts to Add to this Group{/ts}</h3>
         {/if}
     {/if}
+{literal}
+   <script type="text/javascript">
+        dojo.require("dojo.data.ItemFileWriteStore");
+	dojo.require("civicrm.CheckableTree");
+        dojo.require("dojo.parser");
+        dojo.require("dijit.Dialog");
 
+function displayGroupTree(){
+    var myStore = new dojo.data.ItemFileWriteStore({url:'http://brahma/trunk/civicrm/ajax/groupTree'});
+    var myModel = new dijit.tree.ForestStoreModel({
+	    store: myStore,
+	    query: {type:'rootGroup'},
+	    rootId: 'allGroups',
+	    rootLabel: 'All Groups',
+	    childrenAttrs: ["children"]
+	});
+    var tree = new civicrm.CheckableTree({
+	    model: myModel
+	});
+    
+    //var dd = dijit.byId('id-groupPicker');
+    //dd.containerNode.appendChild(tree.domNode);
+    dojo.body().appendChild(tree.domNode);
+    tree.startup();
+};
+
+</script>
+{/literal}
     {strip}
 	<table class="no-border">
         <tr>
@@ -34,7 +61,13 @@
                 {$form.buttons.html}
             </td>
         </tr>
-            
+ 	<tr>
+	<td class="tundra">
+	    <a href="javascript:displayGroupTree()">All Groups</a>
+            <!-a href="javascript:dijit.byId('id-groupPicker').show()">Pick your groups</a>
+            <div dojoType="dijit.Dialog" id="id-groupPicker" refreshOnShow=false class="tundra" href="Group.tpl"> </div-->
+	</td>
+	</tr>           
         {*FIXME : uncomment following fields and place in form layout when subgroup functionality is implemented
         {if $context EQ 'smog'}
            <td>  
