@@ -1191,11 +1191,9 @@ SELECT id as value, name as label
                         } else {
                         
                             $query = "
-SELECT   v.label as label, v.value as value
-  FROM   civicrm_option_value v,
-         civicrm_option_group g
- WHERE   v.option_group_id = g.id
-   AND   g.id = %1
+SELECT label, value
+FROM civicrm_option_value
+WHERE option_group_id = %1
 ORDER BY weight ASC, label ASC";
                             $params = array( 1 => array( $field['option_group_id'], 'Integer' ) );
                             $coDAO  = CRM_Core_DAO::executeQuery( $query, $params );
@@ -1218,11 +1216,9 @@ ORDER BY weight ASC, label ASC";
                     } else {
                         if ( $field['html_type'] == 'Select' ) {
                             $query = "
-SELECT   v.label as label, v.value as value
-  FROM   civicrm_option_value v,
-         civicrm_option_group g
- WHERE   v.option_group_id = g.id
-   AND   g.id = %1
+SELECT label, value
+FROM civicrm_option_value
+WHERE option_group_id = %1
 ORDER BY weight ASC, label ASC";
                             $params = array( 1 => array( $field['option_group_id'], 'Integer' ) );
                             $coDAO  = CRM_Core_DAO::executeQuery( $query, $params );
