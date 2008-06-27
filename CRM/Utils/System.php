@@ -626,11 +626,16 @@ class CRM_Utils_System {
         return $result;
     }
 
-    static function checkURL( $url ) {
+    static function checkURL( $url, $addCookie = false ) {
         CRM_Core_Error::ignoreException( );
         require_once 'HTTP/Request.php';
         $params = array( 'method' => 'HEAD' );
         $request =& new HTTP_Request( $url, $params );
+        if ( $addCookie ) {
+            foreach ( $_COOKIE as $name = $value ) {
+                $request->addCookie( $name, $value );
+            }
+        }
         $request->sendRequest( );
         $result = $request->getResponseCode( ) == 200 ? true : false;
         CRM_Core_Error::setCallback( );
@@ -727,7 +732,7 @@ class CRM_Utils_System {
             // ensure that SSL is enabled on the base url (for cookie reasons etc)
             $baseURL = str_replace( 'http://', 'https://',
                                     $config->userFrameworkBaseURL );
-            if ( ! self::checkURL( $baseURL ) ) {
+            if ( ! self::checkURL( $baseURL, true ) ) {
                 if ( $abort ) {
                     CRM_Core_Error::fatal( 'HTTPS is not set up on this machine' );
                 } else {
