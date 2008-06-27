@@ -660,7 +660,8 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             $params['contribution_status_id'] = 1;
             $params['receive_date']           = $now;
             $params['invoice_id']             = $this->_params['invoiceID'];
-            $params['contribution_source']    = $params['source'] = ts( 'Online Membership: CiviCRM Admin Interface' );
+            $params['contribution_source']    = ts( 'Online Membership: Admin Interface' );
+            $params['source']                 = $formValues['source'] ? $formValues['source'] :$params['contribution_source'];
             $params['trxn_id']                = $result['trxn_id'];
             $params['payment_instrument_id']  = 1;
             $params['is_test']                = ( $this->_mode == 'live' ) ? 0 : 1 ; 
