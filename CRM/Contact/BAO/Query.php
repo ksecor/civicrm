@@ -56,7 +56,8 @@ class CRM_Contact_BAO_Query
         MODE_KABISSA    =  64,
         MODE_GRANT      = 128,
         MODE_PLEDGEBANK = 256,
-        MODE_ALL        = 511;
+        MODE_ALL        = 511,
+        MODE_PLEDGE     = 1024;
     
     /**
      * the default set of return properties
