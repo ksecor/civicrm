@@ -77,9 +77,33 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
        
         if ( $this->_mode ) {
             $this->assign( 'membershipMode', $this->_mode );
-            $this->_processors = CRM_Core_PseudoConstant::paymentProcessor( false, false,
-                                                                            "billing_mode IN ( 1, 3 )" );
+            
             $this->_paymentProcessor = array( 'billing_mode' => 1 );
+            $validProcessors = array( );
+            $processors = CRM_Core_PseudoConstant::paymentProcessor( false, false, "billing_mode IN ( 1, 3 )" );
+            
+            foreach ( $processors as $ppID => $label ) {
+                require_once 'CRM/Core/BAO/PaymentProcessor.php';
+                require_once 'CRM/Core/Payment.php';
+                $paymentProcessor =& CRM_Core_BAO_PaymentProcessor::getPayment( $ppID, $this->_mode );
+                if ( $paymentProcessor['payment_processor_type'] == 'PayPal' && !$paymentProcessor['user_name'] ) {
+                    continue;
+                } else if ( $paymentProcessor['payment_processor_type'] == 'Dummy' && $this->_mode == 'live' ) {
+                    continue;
+                } else {
+                    $paymentObject =& CRM_Core_Payment::singleton( $this->_mode, 'Contribute', $paymentProcessor );
+                    $error = $paymentObject->checkConfig( );
+                    if ( empty( $error ) ) {
+                        $validProcessors[$ppID] = $label;
+                    }
+                    $paymentObject = null;
+                }
+            }
+            if ( empty( $validProcessors )  ) {
+                CRM_Core_Error::fatal( ts( 'Could not find valid payment processor for this page' ) );
+            } else {
+                $this->_processors = $validProcessors;  
+            }
             // also check for billing information
             // get the billing location type
             $locationTypes =& CRM_Core_PseudoConstant::locationType( );
@@ -273,20 +297,25 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         $dao->find();
         while ($dao->fetch()) {
             if ($dao->is_active) {
-                if ( !CRM_Utils_Array::value($dao->member_of_contact_id,$selMemTypeOrg) ) {
-                    $selMemTypeOrg[$dao->member_of_contact_id] = 
-                        CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', 
-                                                     $dao->member_of_contact_id, 
-                                                     'display_name', 
-                                                     'id' );
-                    $selOrgMemType[$dao->member_of_contact_id][0] = ts('- select -');
-                }                
-                if ( !CRM_Utils_Array::value($dao->id,$selOrgMemType[$dao->member_of_contact_id]) ) {
-                    $selOrgMemType[$dao->member_of_contact_id][$dao->id] = $dao->name;
+                if ( $this->_mode && ! $dao->minimum_fee ) {
+                    continue;
+                } else {
+                    if ( !CRM_Utils_Array::value($dao->member_of_contact_id,$selMemTypeOrg) ) {
+                        $selMemTypeOrg[$dao->member_of_contact_id] = 
+                            CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', 
+                                                         $dao->member_of_contact_id, 
+                                                         'display_name', 
+                                                         'id' );
+                   
+                        $selOrgMemType[$dao->member_of_contact_id][0] = ts('- select -');
+                    }                
+                    if ( !CRM_Utils_Array::value($dao->id,$selOrgMemType[$dao->member_of_contact_id]) ) {
+                        $selOrgMemType[$dao->member_of_contact_id][$dao->id] = $dao->name;
+                    }
                 }
             }
         }
-        
+
         // show organization by default, if only one organization in
         // the list 
         if ( count($selMemTypeOrg) == 2 ) {
@@ -391,24 +420,19 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             $errors['membership_type_id'] = ts('Please select a membership type.');
         }
         if ( $params['membership_type_id'][1] && $params['payment_processor_id'] ) {
-          $memberFee = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', 
-                                                    $params['membership_type_id'][1], 'minimum_fee' );
-          if ( ! $memberFee ) {
-              $errors['membership_type_id'] = ts('Selected a membership type have no fee.');
-          }
-          // make sure that credit card number and cvv are valid
-          require_once 'CRM/Utils/Rule.php';
-          if ( CRM_Utils_Array::value( 'credit_card_type', $params ) ) {
-              if ( CRM_Utils_Array::value( 'credit_card_number', $params ) &&
-                   ! CRM_Utils_Rule::creditCardNumber( $params['credit_card_number'], $params['credit_card_type'] ) ) {
-                  $errors['credit_card_number'] = ts( "Please enter a valid Credit Card Number" );
-              }
-              
-              if ( CRM_Utils_Array::value( 'cvv2', $params ) &&
-                   ! CRM_Utils_Rule::cvv( $params['cvv2'], $params['credit_card_type'] ) ) {
-                  $errors['cvv2'] =  ts( "Please enter a valid Credit Card Verification Number" );
-              }
-          }
+            // make sure that credit card number and cvv are valid
+            require_once 'CRM/Utils/Rule.php';
+            if ( CRM_Utils_Array::value( 'credit_card_type', $params ) ) {
+                if ( CRM_Utils_Array::value( 'credit_card_number', $params ) &&
+                     ! CRM_Utils_Rule::creditCardNumber( $params['credit_card_number'], $params['credit_card_type'] ) ) {
+                    $errors['credit_card_number'] = ts( "Please enter a valid Credit Card Number" );
+                }
+                
+                if ( CRM_Utils_Array::value( 'cvv2', $params ) &&
+                     ! CRM_Utils_Rule::cvv( $params['cvv2'], $params['credit_card_type'] ) ) {
+                    $errors['cvv2'] =  ts( "Please enter a valid Credit Card Verification Number" );
+                }
+            }
         }
         
         $joinDate = CRM_Utils_Date::format( $params['join_date'] );

@@ -74,7 +74,7 @@
     </div>
 	{else if $membershipMode}
  	<div class="spacer"></div>
-	        <dd> <fieldset><legend>{ts}Credit or Debit Card Information{/ts}</legend>
+	        <fieldset><legend>{ts}Credit or Debit Card Information{/ts}</legend>
 	
 	       	<dt class="label">{$form.credit_card_type.label}</dt><dd class="html-adjust">{$form.credit_card_type.html}</dd><br />
         	<dt class="label">{$form.credit_card_number.label}</dt><dd class="html-adjust">{$form.credit_card_number.html}<br />
@@ -99,7 +99,7 @@
         	<dt class="label">{$form.$n.label}</dt><dd class="html-adjust">{$form.$n.html}</dd><br />
         	{assign var=n value=country_id-$bltID}
         	<dt class="label">{$form.$n.label}</dt><dd class="html-adjust">{$form.$n.html}</dd><br />
-             </fieldset></dd>
+             </fieldset>
  	{/if}
     	{if ! $membershipMode}
     <div id="contri">
