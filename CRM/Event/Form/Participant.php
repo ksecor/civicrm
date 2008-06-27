@@ -516,6 +516,26 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             return true;
            
         }
+        //validation for unpaid event and credit card 
+        if ( $values['payment_processor_id'] ) {
+            $isPaid = CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_Event", $values['event_id'], 'is_monetary' );
+            if ( ! $isPaid ) {
+                $errorMsg['event_id'] = ts('Selected Event is not a paid event');
+            }
+            // make sure that credit card number and cvv are valid
+            require_once 'CRM/Utils/Rule.php';
+            if ( CRM_Utils_Array::value( 'credit_card_type', $values ) ) {
+                if ( CRM_Utils_Array::value( 'credit_card_number', $values ) &&
+                     ! CRM_Utils_Rule::creditCardNumber( $values['credit_card_number'], $values['credit_card_type'] ) ) {
+                    $errorMsg['credit_card_number'] = ts( "Please enter a valid Credit Card Number" );
+                }
+                
+                if ( CRM_Utils_Array::value( 'cvv2', $values ) &&
+                     ! CRM_Utils_Rule::cvv( $values['cvv2'], $values['credit_card_type'] ) ) {
+                    $errorMsg['cvv2'] =  ts( "Please enter a valid Credit Card Verification Number" );
+                }
+            }
+        }
 
         if ( $values['status_id'] == 1 || $values['status_id'] == 2 ) {
             if ( $id ) {

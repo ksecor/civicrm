@@ -394,7 +394,20 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
           $memberFee = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', 
                                                     $params['membership_type_id'][1], 'minimum_fee' );
           if ( ! $memberFee ) {
-              $errors['membership_type_id'] = ts('Selected a membership type have no fee.');;
+              $errors['membership_type_id'] = ts('Selected a membership type have no fee.');
+          }
+          // make sure that credit card number and cvv are valid
+          require_once 'CRM/Utils/Rule.php';
+          if ( CRM_Utils_Array::value( 'credit_card_type', $params ) ) {
+              if ( CRM_Utils_Array::value( 'credit_card_number', $params ) &&
+                   ! CRM_Utils_Rule::creditCardNumber( $params['credit_card_number'], $params['credit_card_type'] ) ) {
+                  $errors['credit_card_number'] = ts( "Please enter a valid Credit Card Number" );
+              }
+              
+              if ( CRM_Utils_Array::value( 'cvv2', $params ) &&
+                   ! CRM_Utils_Rule::cvv( $params['cvv2'], $params['credit_card_type'] ) ) {
+                  $errors['cvv2'] =  ts( "Please enter a valid Credit Card Verification Number" );
+              }
           }
         }
         
