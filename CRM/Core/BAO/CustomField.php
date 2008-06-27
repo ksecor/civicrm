@@ -102,6 +102,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
     {
         if ( !isset($params['id']) && !isset($params['column_name']) ) {
             // if add mode & column_name not present, calculate it.
+            require_once 'CRM/Utils/String.php';
             $params['column_name'] = strtolower( CRM_Utils_String::munge( $params['label'], '_', 32 ) );
         } else if ( isset($params['id']) ) {
             $params['column_name'] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField',
@@ -146,7 +147,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
         }
 
         // check for orphan option groups
-        if ( $params['id'] && $params['option_group_id'] ) {
+        if ( CRM_Utils_Array::value( 'id', $params )  && CRM_Utils_Array::value( 'option_group_id',$params ) ) {
             CRM_Core_BAO_CustomField::fixOptionGroups( $params['id'], $params['option_group_id'] ) ;
         }
         // since we need to save option group id :)
@@ -156,7 +157,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
         }
 
         // process data params
-        if ( is_array($params['date_parts']) ) {
+        if ( is_array( CRM_Utils_Array::value( 'date_parts', $params ) ) ) {
             $params['date_parts'] = implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,
                                              array_keys($params['date_parts']) );
         } else {
