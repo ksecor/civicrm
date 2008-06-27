@@ -853,76 +853,14 @@ SELECT id
             $params['date_parts']['i'] = 1;
         }
         
-        if ( is_array($params['date_parts']) ) {
-            $params['date_parts'] = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($params['date_parts']));
-        } else {
-            $params['date_parts'] = "";
-        }
-
-        if ( strtolower( $params['html_type'] ) == 'textarea' ) {
-            $params['attributes'] = 'rows=4, cols=60';
-        }
-
         // need the FKEY - custom group id
         $params['custom_group_id'] = $this->_gid;
         
-        $ids = array( );
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
-            $ids['custom_field'] = $this->_id;
+            $params['id'] = $this->_id;
         }
 
-        if ( $this->_action & CRM_Core_Action::ADD ) {
-            $params['column_name'] = strtolower( CRM_Utils_String::munge( $params['label'], '_', 32 ) );
-        } else if ( $this->_action & CRM_Core_Action::UPDATE ) { 
-            $params['column_name'] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField',
-                                                                  $ids['custom_field'],
-                                                                  'column_name' );
-        }
-
-        if ( $params['html_type'] != 'Text' &&
-             in_array( $params['data_type'],
-                       array( 'String', 'Int', 'Float', 'Money' ) ) &&
-             ! empty( $params['option_value'] ) ) {
-
-            $tableName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup',
-                                                      $this->_gid,
-                                                      'table_name' );
-                                                                        
-            if ( $params['option_type'] == 1 ) {
-                // first create an option group for this custom group
-                require_once 'CRM/Core/BAO/OptionGroup.php';
-                $optionGroup            =& new CRM_Core_DAO_OptionGroup( );
-                $optionGroup->name      =  "{$params['column_name']}_". date( 'YmdHis' );
-                $optionGroup->label     =  $params['label'];
-                $optionGroup->is_active = 1;
-                $optionGroup->save( );
-                $optionGroupID = $optionGroup->id;
-                
-                foreach ($params['option_value'] as $k => $v) {
-                    if (strlen(trim($v))) {
-                        $optionValue                  =& new CRM_Core_DAO_OptionValue( );
-                        $optionValue->option_group_id =  $optionGroup->id;
-                        $optionValue->label           =  $params['option_label'][$k];
-                        $optionValue->value           =  $v;
-                        $optionValue->weight          =  $params['option_weight'][$k];
-                        $optionValue->is_active       = CRM_Utils_Array::value( $k, $params['option_status'], false );
-                        $optionValue->save( );
-                    }
-                }
-            } else {
-                $optionGroupID = $params['option_group_id'];
-            }                                               
-            
-            $params['option_group_id'] = $optionGroupID;
-        }
-
-        //check for orphan option groups
-        if ( $params['id'] && $params['option_group_id'] ) {
-            CRM_Core_BAO_CustomField::fixOptionGroups( $params['id'], $params['option_group_id'] ) ;
-        }
-        // since we need to save option group id :)
-        
-        $customField = CRM_Core_BAO_CustomField::create( $params, $ids );
+        $customField = CRM_Core_BAO_CustomField::create( $params );
         
         // reset the cache
         require_once 'CRM/Core/BAO/Cache.php';
