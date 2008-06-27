@@ -508,7 +508,7 @@ AND    cf.id IN ( $fieldIDList )
                                           null,
                                           $fieldIDs );
          if ( empty( $values ) ) {
-             return CRM_Core_Error::createAPIError( ts( 'Unknown error' ) );
+             return CRM_Core_Error::createAPIError( ts( 'No values found for the specified entity ID and custom field(s).' ) );
          } else {
              $result = array( 'is_error' => 0,
                               'entityID' => $params['entityID'] );
