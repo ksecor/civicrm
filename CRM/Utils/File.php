@@ -234,10 +234,18 @@ class CRM_Utils_File {
         static $extensions = null;
         if ( ! $extensions ) {
             require_once 'CRM/Core/OptionGroup.php';
-            $extensions = CRM_Core_OptionGroup::values( 'safe_file_extension' );
-            $extensions = array_values( $extensions );
+            $extensions = CRM_Core_OptionGroup::values( 'safe_file_extension', true );
+            
+            // allow html/htm extension ONLY if the user is admin 
+            // and/or has access CiviMail
+            require_once 'CRM/Core/Permission.php';
+            if ( ! CRM_Core_Permission::check( 'access CiviMail' ) &&
+                 ! CRM_Core_Permission::check( 'administer CiviCRM' ) ) {
+                unset( $extensions['html'] );
+                unset( $extensions['htm' ] );
+            }
         }
-        return in_array( $ext, $extensions ) ? true : false;
+        return isset( $extensions[$ext] ) ? true : false;
     }
 
 
