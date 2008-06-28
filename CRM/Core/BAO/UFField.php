@@ -183,6 +183,7 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
         $ufField->is_searchable   = CRM_Utils_Array::value( 'is_searchable'  , $params, false );
         
         // fix for CRM-316
+        $oldWeight = null;
         if ($params['field_id']) {
             $oldWeight = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFField', $params['field_id'], 'weight', 'id' );
         }
