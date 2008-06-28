@@ -39,6 +39,10 @@ div#crm-container {
  border-bottom: 2px solid #777;
 }
 
+#crm-container div.solid-border-top {
+ margin-top: 15px;
+ border-top: 1px solid #4E82CF;}
+
 /*
 ** Size the verticle heights in crm-containers by class. 
 */
