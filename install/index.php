@@ -39,12 +39,14 @@ if ( ! in_array($installType, array('drupal', 'standalone')) ) {
     errorDisplayPage( $errorTitle, $errorMsg );
 }
 
-if ( strpos( dirname( $_SERVER['SCRIPT_FILENAME'] ), 'sites/all/modules' ) === false ) {
-    $errorTitle = "Oops! Please Correct Your Install Location";
-    $errorMsg = "Please untar (uncompress) your downloaded copy of CiviCRM in the <strong>sites/all/modules</strong> directory below your Drupal root directory. Refer to the online <a href='http://wiki.civicrm.org/confluence//x/mQ8' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a> for more information.";
-    errorDisplayPage( $errorTitle, $errorMsg );
-}
 
+if ( $installType == 'drupal' ) {
+    if ( strpos( dirname( $_SERVER['SCRIPT_FILENAME'] ), 'sites/all/modules' ) === false ) {
+        $errorTitle = "Oops! Please Correct Your Install Location";
+        $errorMsg = "Please untar (uncompress) your downloaded copy of CiviCRM in the <strong>sites/all/modules</strong> directory below your Drupal root directory. Refer to the online <a href='http://wiki.civicrm.org/confluence//x/mQ8' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a> for more information.<p>If you want to setup / install a <strong>Standalone CiviCRM</strong> version (i.e. not a Drupal or Joomla module), <a href=\"?mode=standalone\">click here</a>.</p>";
+        errorDisplayPage( $errorTitle, $errorMsg );
+    }
+}
 
 // Load civicrm database config
 if(isset($_REQUEST['mysql'])) {
