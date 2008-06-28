@@ -14,29 +14,22 @@ exit(0);
 
 <head>
   <title>CiviCRM User Authentication</title>
-  <style type="text/css">
-    <!--
-    /* TODO: Move this to a better location so it doesn't have to be repeated */
-    /* OpenID logo for login / registration */
-    #openid_url {
-      background: #FFFFFF url('i/openid-icon-small.gif') no-repeat scroll 0pt 50%;
-      padding-left: 18px;
-    }
-    -->
-    </style>
+  <link rel="stylesheet" type="text/css" href="../install/template.css" />
 </head>
 <body>
-  <h1 class="title">CiviCRM Login</h1>
-    <h2>Please enter your OpenID</h2>
+<div id="All">
+   <h1 class="title">CiviCRM Login</h1>
+   <h3>Please enter your OpenID</h3>
 
-     <div id="verify-form">
+   <div id="verify-form">
    <form method="get" action="try_auth.php">
         Identity&nbsp;URL:
         <input type="hidden" name="action" value="verify" />
         <input id="openid_url" type="text" name="openid_url" value="" />
         <input type="submit" value="Verify" />
-      </form>
-    </div>
+   </form>
+   </div>
    <p>If you don't have an OpenID yet, go to <a href="http://www.myopenid.com/">MyOpenID to get one</a>.</p>
+</div>
 </body>
 </html>
