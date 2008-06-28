@@ -145,6 +145,7 @@ function civicrm_config( &$config ) {
         $params['CMSdbName']  = $config['drupal']['database'];
     } elseif ( $installType == 'standalone' ) {
         $filesDir = $crmPath . DIRECTORY_SEPARATOR . 'standalone' . DIRECTORY_SEPARATOR . 'files';
+
         $params['cms']            = 'Standalone';
         $params['cmsVersion']     = '';
         $params['usersTable']     = '';
@@ -167,9 +168,12 @@ function civicrm_config( &$config ) {
 function civicrm_cms_base( ) {
     global $installType;
 
-    $numPrevious = 7;
+    // for drupal
+    $numPrevious = 6;
+
+    // for standalone
     if ( $installType == 'standalone' ) {
-        $numPrevious = 3;
+        $numPrevious = 2;
     }
 
     $url = 'http://' . $_SERVER['HTTP_HOST'];

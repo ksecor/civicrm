@@ -78,7 +78,7 @@ if ( isset($_REQUEST['loadGenerated'] ) ) {
 }
 
 global $crmPath;
-$crmPath = dirname( dirname ( dirname( $_SERVER['SCRIPT_FILENAME'] ) ) );
+$crmPath = dirname ( dirname( $_SERVER['SCRIPT_FILENAME'] ) );
 
 if ( $installType == 'drupal' ) {
     global $cmsPath;
@@ -99,7 +99,7 @@ if ($alreadyInstalled ) {
     if ( $installType == 'drupal' ) {
         $errorMsg = "CiviCRM has already been installed in this Drupal site. <ul><li>To <strong>start over</strong>, you must delete or rename the existing CiviCRM settings file - <strong>civicrm.settings.php</strong> - from <strong>[your Drupal root directory]/sites/default</strong>.</li><li>To <strong>upgrade an existing installation</strong>, refer to the online <a href='http://wiki.civicrm.org/confluence//x/mQ8' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a>.</li></ul>";
     } elseif ( $installType == 'standalone' ) {
-        $errorMsg = "CiviCRM has already been installed in this Standalone site. <ul><li>To <strong>start over</strong>, you must delete or rename the existing CiviCRM settings file - <strong>civicrm.settings.php</strong> - from <strong>[your CiviCRM root directory]/standalone</strong>.</li><li>To <strong>upgrade an existing installation</strong>, refer to the online <a href='http://wiki.civicrm.org/confluence//x/mQ8' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a>.</li></ul>";
+        $errorMsg = "Standalone CiviCRM has already been installed. <ul><li>To <strong>start over</strong>, you must delete or rename the existing CiviCRM settings file - <strong>civicrm.settings.php</strong> - from <strong>[your CiviCRM root directory]/standalone</strong>.</li><li>To <strong>upgrade an existing installation</strong>, refer to the online <a href='http://wiki.civicrm.org/confluence//x/mQ8' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a>.</li></ul>";
     }
     errorDisplayPage( $errorTitle, $errorMsg );
 }
@@ -613,7 +613,6 @@ class Installer extends InstallRequirements {
     }
 
 	function install($config) {
-		session_start();
             ?>
             <h1>Installing CiviCRM...</h1>
                  <p>I am now running through the installation steps (this should take a few minutes)</p>
@@ -645,7 +644,6 @@ class Installer extends InstallRequirements {
 					";
             } elseif ( $installType == 'standalone' ) {
                 $standaloneURL = civicrm_cms_base( ) . 'standalone/';
-                echo "Standalone Home -> $standaloneURL";
                 echo "<p>Installed CiviCRM successfully.  I will now try and direct you to 
 					<a href=\"$standaloneURL\">Standalone Home</a> to confirm that the installation was successful.</p>
 					<script>setTimeout(function() { window.location.href = '$standaloneURL'; }, 1000);</script>
