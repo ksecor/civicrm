@@ -143,7 +143,7 @@ class CRM_Core_BAO_Domain extends CRM_Core_DAO_Domain {
         $numberDomains = $session->get( 'numberDomains' );
         if ( ! $numberDomains ) {
             $query = "SELECT count(*) from civicrm_domain";
-            $numberDomains = CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
+            $numberDomains = CRM_Core_DAO::singleValueQuery( $query );
             $session->set( 'numberDomains', $numberDomains );
         }
         return $numberDomains > 1 ? true : false;

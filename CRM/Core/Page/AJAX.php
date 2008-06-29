@@ -255,8 +255,7 @@ ORDER BY sort_name ";
             
             $query .= " LIMIT {$start},{$end}";
             
-            $nullArray = array( );
-            $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
+            $dao = CRM_Core_DAO::executeQuery( $query );
             
             if ( $shared ) {
                 while ( $dao->fetch( ) ) {
@@ -313,8 +312,7 @@ FROM civicrm_event
 WHERE {$whereClause}
 ORDER BY title
 ";
-            $nullArray = array( );
-            $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
+            $dao = CRM_Core_DAO::executeQuery( $query );
             $elements = array( );
             while ( $dao->fetch( ) ) {
                 $elements[] = array( 'name' => $dao->title,
@@ -368,8 +366,7 @@ AND v.is_active = 1
 AND {$whereClause}
 ORDER by v.weight";
 
-            $nullArray = array( );
-            $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
+            $dao = CRM_Core_DAO::executeQuery( $query );
             
             $elements = array( );
             while ( $dao->fetch( ) ) {
@@ -421,8 +418,7 @@ SELECT distinct(cv.label), cv.id
 FROM civicrm_option_value cv, civicrm_option_group cg
 WHERE {$whereClause}
 ";
-            $nullArray = array( );
-            $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
+            $dao = CRM_Core_DAO::executeQuery( $query );
             $elements = array( );
             while ( $dao->fetch( ) ) {
                 $elements[] = array( 'name' => $dao->label,
@@ -469,8 +465,7 @@ SELECT p.creator_pledge_desc, p.id
 FROM civicrm_pb_pledge p
 WHERE {$whereClause}
 ";
-            $nullArray = array( );
-            $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
+            $dao = CRM_Core_DAO::executeQuery( $query );
             $elements = array( );
             while ( $dao->fetch( ) ) {
                 $elements[] = array( 'name' => $dao->creator_pledge_desc,
@@ -557,8 +552,7 @@ WHERE {$countryClause}
     AND {$stateClause}
 ORDER BY name";
 
-            $nullArray = array( );
-            $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
+            $dao = CRM_Core_DAO::executeQuery( $query );
             
             $count = 0;
             
@@ -652,8 +646,7 @@ SELECT id, name
    AND {$whereClause} 
 ORDER BY name";
 
-            $nullArray = array( );
-            $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
+            $dao = CRM_Core_DAO::executeQuery( $query );
             
             $count = 0;
             while ( $dao->fetch( ) && $count < 5 ) {
@@ -690,8 +683,8 @@ SELECT subject
 FROM civicrm_case
 WHERE contact_id = $contactID 
 ORDER BY subject";
-        $nullArray = array( );
-        $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
+
+        $dao = CRM_Core_DAO::executeQuery( $query );
         $elements = array( );
        
         while ( $dao->fetch( ) ) {
@@ -747,8 +740,7 @@ SELECT id
 FROM civicrm_contact
 WHERE sort_name LIKE '%$name%'";
         
-        $nullArray = array( );
-        $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
+        $dao = CRM_Core_DAO::executeQuery( $query );
         $dao->fetch( );
         
         if ( $dao->N == 1) {

@@ -488,7 +488,7 @@ SELECT ufg.id as id
    AND ufj.module = 'User Registration'
    AND ufg.is_active = 1 ";
 
-        $ufGroup =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        $ufGroup =& CRM_Core_DAO::executeQuery( $query );
         
         $fields = array( );
         $validProfiles = array( 'Individual', 'Organization', 'Household', 'Contribution' );

@@ -214,7 +214,7 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
 
         $query .= " ORDER BY $priceSetTable.title, $priceFieldTable.weight, $priceFieldTable.label";
      
-        $crmDAO =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        $crmDAO =& CRM_Core_DAO::executeQuery( $query );
         $result = $crmDAO->getDatabaseResult();
     
         $fields = array( );
@@ -373,9 +373,7 @@ WHERE
     AND option_group.id    = option_value.option_group_id
     AND option_value.label = '" . $optionLabel . "'";
         
-        $params = array( );
-        
-        $dao    =& CRM_Core_DAO::executeQuery( $query, $params );
+        $dao    =& CRM_Core_DAO::executeQuery( $query );
         
         while ( $dao->fetch( ) ) {
             return $dao->id;

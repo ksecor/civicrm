@@ -344,8 +344,7 @@ AND    cg.is_active = 1
 AND    cf.is_active = 1
 AND    $cond
 ";
-        $dao = CRM_Core_DAO::executeQuery( $query,
-                                           CRM_Core_DAO::$_nullArray );
+        $dao = CRM_Core_DAO::executeQuery( $query );
 
         $select = array( );
         $where  = array( );
@@ -372,8 +371,7 @@ SELECT $select
 FROM   $from
 WHERE  $where
 ";
-            $dao = CRM_Core_DAO::executeQuery( $query,
-                                               CRM_Core_DAO::$_nullArray );
+            $dao = CRM_Core_DAO::executeQuery( $query );
             if ( $dao->fetch( ) ) {
                 foreach ( $fields as $fieldID ) {
                     $fieldName = "custom_{$fieldID}";
@@ -433,8 +431,7 @@ WHERE  cf.custom_group_id = cg.id
 AND    cf.id IN ( $fieldIDList )
 ";
 
-         $dao       = CRM_Core_DAO::executeQuery( $sql,
-                                                  CRM_Core_DAO::$_nullArray );
+         $dao       = CRM_Core_DAO::executeQuery( $sql );
          $cvParams  = array( );
          
          if ( $dao->fetch( ) ) {

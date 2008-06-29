@@ -281,7 +281,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             
             $query =  "SELECT * FROM civicrm_uf_field $where ORDER BY weight, field_name"; 
             
-            $field =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+            $field =& CRM_Core_DAO::executeQuery( $query );
             require_once 'CRM/Contact/BAO/Contact.php';
             if ( !$showAll ) {
                 $importableFields =& CRM_Contact_BAO_Contact::importableFields( "All");
@@ -729,8 +729,7 @@ SELECT html_type, data_type
 FROM   civicrm_custom_field
 WHERE  id = $cfID
 ";
-                                $dao = CRM_Core_DAO::executeQuery( $query,
-                                                                   CRM_Core_DAO::$_nullArray );
+                                $dao = CRM_Core_DAO::executeQuery( $query );
                                 $dao->fetch( );
                                 $htmlType  = $dao->html_type;
                                 $dataType  = $dao->data_type;

@@ -190,8 +190,7 @@ class CRM_Core_BAO_PriceSet extends CRM_Core_DAO_PriceSet {
                 $eventIdList = implode( ',', $entities );
                 $queryString = "SELECT event_id FROM civicrm_event_page WHERE";
                 $queryString .= " id IN ($eventIdList)";
-                $params = array( );
-                $crmDAO = CRM_Core_DAO::executeQuery( $queryString, $params );
+                $crmDAO = CRM_Core_DAO::executeQuery( $queryString );
 
                 while ( $crmDAO->fetch() ) {
                     $is_past = false;
@@ -421,7 +420,7 @@ class CRM_Core_BAO_PriceSet extends CRM_Core_DAO_PriceSet {
            $query .= " AND civicrm_price_set.is_active = 1 ";
         }
 
-        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        $dao =& CRM_Core_DAO::executeQuery( $query );
         $priceSets = array();
         while ( $dao->fetch() ) {
             $priceSets[$dao->id] = $dao->title;

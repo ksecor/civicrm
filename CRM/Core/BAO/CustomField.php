@@ -317,7 +317,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                         ORDER BY $cgTable.weight, $cgTable.title,
                                  $cfTable.weight, $cfTable.label";
          
-                $crmDAO =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+                $crmDAO =& CRM_Core_DAO::executeQuery( $query );
                 $result = $crmDAO->getDatabaseResult();
         
                 $fields = array( );
@@ -892,7 +892,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             
             $query  = "SELECT {$info[0]}.{$info[1]} as value FROM {$info[0]} WHERE {$info[0]}.entity_id = {$contactId}";
             
-            $result = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+            $result = CRM_Core_DAO::executeQuery( $query );
             
             if ( $result->fetch( ) ) {
                 $value = $result->value;
@@ -970,7 +970,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                 
                 //query to fetch id from civicrm_file
                 $query = "SELECT {$columnName} FROM {$tableName} where entity_id = {$contactID}";
-                $fileID = CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray ); 
+                $fileID = CRM_Core_DAO::singleValueQuery( $query );
             }
             
             $result = array();
@@ -1042,7 +1042,7 @@ SELECT id
   FROM $tableName
  WHERE entity_id={$entityId}";
 
-            $customValueId = CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
+            $customValueId = CRM_Core_DAO::singleValueQuery( $query );
         }
 
         //fix checkbox
@@ -1128,7 +1128,7 @@ SELECT id
 SELECT $columnName
   FROM $tableName
  WHERE entity_id={$entityId}";
-                $fileId = CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
+                $fileId = CRM_Core_DAO::singleValueQuery( $query );
             }
             
             $fileDAO =& new CRM_Core_DAO_File();
@@ -1257,8 +1257,7 @@ FROM   civicrm_option_group g,
 WHERE  g.id = f.option_group_id
 AND    g.is_active = 1
 AND    f.is_active = 1";
-            $dao = CRM_Core_DAO::executeQuery( $query, 
-                                               CRM_Core_DAO::$_nullArray );
+            $dao = CRM_Core_DAO::executeQuery( $query );
             $customOptionGroup = array( );
             while ( $dao->fetch( ) ) {
                 $customOptionGroup[$dao->id] = $dao->label;
@@ -1308,7 +1307,7 @@ SELECT count(*)
 FROM   civicrm_custom_field
 WHERE  option_group_id = {$optionGroupId}";
         
-        $count = CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
+        $count = CRM_Core_DAO::singleValueQuery( $query );
 
         if ( $count < 2 ) {
             //delete the option group

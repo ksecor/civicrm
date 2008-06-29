@@ -497,7 +497,7 @@ LIKE %1
         $engines = array();
         $query   = "SHOW TABLE STATUS LIKE %1";
 
-        $params = CRM_Core_DAO::$_nullArray;
+        $params = array( );
         
         if ( isset($tableName) ) {
             $params = array( 1 => array( $tableName, 'String' ) );
@@ -549,7 +549,7 @@ LIKE %1
         
         if ( ! array_key_exists( $tableName, $show ) ) {
             $query = "SHOW CREATE TABLE $tableName";
-            $dao   = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+            $dao   = CRM_Core_DAO::executeQuery( $query );
             
             if ( ! $dao->fetch( ) ) {
                 CRM_Core_Error::fatal( );
@@ -575,7 +575,7 @@ LIKE %1
     function checkFieldHasAlwaysValue($tableName, $columnName, $columnValue) 
     {
         $query  = "SELECT * FROM $tableName WHERE $columnName != '$columnValue'";
-        $dao    = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        $dao    = CRM_Core_DAO::executeQuery( $query );
         $result = $dao->fetch() ? false : true;
         $dao->free();
         return $result;
@@ -593,7 +593,7 @@ LIKE %1
     function checkFieldIsAlwaysNull($tableName, $columnName) 
     {
         $query  = "SELECT * FROM $tableName WHERE $columnName IS NOT NULL";
-        $dao    = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        $dao    = CRM_Core_DAO::executeQuery( $query );
         $result = $dao->fetch() ? false : true;
         $dao->free();
         return $result;
@@ -627,8 +627,7 @@ LIKE %1
 SELECT version
 FROM   civicrm_domain
 ";
-        $dbVersion = CRM_Core_DAO::singleValueQuery( $query,
-                                                     CRM_Core_DAO::$_nullArray );
+        $dbVersion = CRM_Core_DAO::singleValueQuery( $query );
         return trim( $version ) == trim( $dbVersion ) ? true : false;
     }
     
@@ -780,7 +779,7 @@ FROM   civicrm_domain
      * @static
      * @access public
      */
-    static function &executeQuery( $query, &$params, $abort = true, $daoName = null, $freeDAO = false ) 
+    static function &executeQuery( $query, $params = array( ), $abort = true, $daoName = null, $freeDAO = false ) 
     {
         if ( ! $daoName ) {
             $dao =& new CRM_Core_DAO( );
@@ -808,7 +807,7 @@ FROM   civicrm_domain
      * @static 
      * @access public 
      */ 
-    static function singleValueQuery( $query, &$params, $abort = true ) 
+    static function singleValueQuery( $query, $params = array( ), $abort = true ) 
     {
         $dao =& new CRM_Core_DAO( ); 
         $queryStr = self::composeQuery( $query, $params, $abort, $dao );
@@ -985,7 +984,7 @@ SELECT contact_id
  WHERE id IN ( $IDs )
 ";
 
-        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        $dao =& CRM_Core_DAO::executeQuery( $query );
         while ( $dao->fetch( ) ) {
             $contactIDs[] = $dao->contact_id;
         }
