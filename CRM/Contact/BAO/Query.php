@@ -881,7 +881,6 @@ class CRM_Contact_BAO_Query
         if ( empty( $formValues ) ) {
             return $params;
         }
-
         
         foreach ( $formValues as $id => $values ) {
             if ( $id == 'privacy' ) {
@@ -933,21 +932,24 @@ class CRM_Contact_BAO_Query
         } else if ( is_string( $values ) && strpos( $values, '%' ) !== false ) {
             $result = array( $id, 'LIKE', $values, 0, 0 );
         } else if ( $id == 'group' ) {
-//             foreach ( $values as $groupIds => $val ) {
-//                 $matches = array( );
-//                 if ( preg_match( '/-(\d+)$/', $groupIds, $matches ) ) {
-//                     if ( strlen( $matches[1] ) > 0 ) {
-//                         $values[$matches[1]] = 1;
-//                         unset( $values[$groupIds] );
-//                     }
-//                 }
-//             }
-            
-            $groupIds = explode( ',', $values );
-            unset( $values );
-            foreach( $groupIds as $groupId ) {
-                $values[$groupId] = 1;
+            if ( is_array( $values ) ) {
+                foreach ( $values as $groupIds => $val ) {
+                    $matches = array( );
+                    if ( preg_match( '/-(\d+)$/', $groupIds, $matches ) ) {
+                        if ( strlen( $matches[1] ) > 0 ) {
+                            $values[$matches[1]] = 1;
+                            unset( $values[$groupIds] );
+                        }
+                    }
+                }
+            } else {
+                $groupIds = explode( ',', $values );
+                unset( $values );
+                foreach( $groupIds as $groupId ) {
+                    $values[$groupId] = 1;
+                }
             }
+
             $result = array( $id, 'IN', $values, 0, 0 );
         } else if ( $id == 'tag' ) {
             $result = array( $id, 'IN', $values, 0, 0 );

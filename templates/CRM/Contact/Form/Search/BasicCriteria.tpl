@@ -19,7 +19,7 @@
       dojo.require("dijit.Dialog");
       dojo.require("dojo.data.ItemFileWriteStore");
       dojo.require("civicrm.CheckableTree");
-      function displayGroupTree(){
+      function displayGroupTree( ) {
 	  var dataUrl = {/literal}"{crmURL p='civicrm/ajax/groupTree' h=0 }"{literal};
 	  var myStore = new dojo.data.ItemFileWriteStore({url: dataUrl});
 	  var myModel = new dijit.tree.ForestStoreModel({
@@ -36,10 +36,9 @@
 	  var dd = dijit.byId('id-groupPicker');
 	  dd.containerNode.appendChild(tree.domNode);
 	  tree.startup();
-
       };
 
-function setCheckBoxValues(){
+function setCheckBoxValues( ) {
     var tt = dijit.byId('civicrm_CheckableTree_0');
     console.log(tt.getCheckedValues());
 
@@ -47,6 +46,10 @@ function setCheckBoxValues(){
     groupId.value = tt.getCheckedValues( );
 
 };
+
+dojo.addOnLoad( function() {
+    dojo.connect( dojo.byId("id-groupPicker"), "onOpen", "displayGroupTree" );
+});
 
 </script>
 {/literal}
