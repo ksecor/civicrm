@@ -110,13 +110,12 @@ function civicrm_views_data() {
 
     $data['civicrm_email']['email'] = array(
                                             'title' => t('Email'),
-                                            'help' => t('Email address of the user'),
+                                            'help' => t('Email address of the contact'),
                                             'field' => array(
-                                                             'handler' => 'views_handler_field_civicrm_name',
+                                                             'handler' => 'views_handler_field_civicrm_email',
                                                              ),
                                             'filter' => array(
-                                                              'handler' => 'views_handler_filter_civicrm_name',
-                                                              'numeric' => TRUE,
+                                                              'handler' => 'views_handler_filter_string',
                                                               ),
                                             );
 
@@ -129,17 +128,9 @@ function civicrm_views_data() {
 function civicrm_views_plugins() {
     return array(
                  'module' => 'views', // This just tells our themes are elsewhere.
-                 /*
-                  'argument validator' => array(
-                  'user' => array(
-                  'title' => t('User'),
-                  'handler' => 'views_plugin_argument_validate_civicrm',
-                  ),
-                  ),
-                 */
                  'argument default' => array(
                                              'user' => array(
-                                                             'title' => t('User ID from URL'),
+                                                             'title' => t('Contact ID from URL'),
                                                              'handler' => 'views_plugin_argument_default_civicrm',
                                                              ),
                                              ),
@@ -147,7 +138,7 @@ function civicrm_views_plugins() {
 }
 
 /**
- * Default argument plugin to extract a user via menu_get_object
+ * Default argument plugin to extract a civicrm user id via menu_get_object
  */
 class views_plugin_argument_default_civicrm extends views_plugin_argument_default {
     var $option_name = 'default_argument_civicrm';
@@ -325,7 +316,7 @@ class views_handler_field_civicrm_link_delete extends views_handler_field_civicr
 
     function render($values) {
         $text = !empty($this->options['text']) ? $this->options['text'] : t('delete');
-        $id = $values->{$this->aliases['uid']};
+        $id = $values->{$this->aliases['id']};
         return l($text, "user/$id/delete", array('query' => drupal_get_destination()));
     }
 }
@@ -361,29 +352,6 @@ class views_handler_field_civicrm_mail extends views_handler_field_civicrm {
             return l($values->{$this->field_alias}, "mailto:" . $values->{$this->field_alias});
         }
         return $this->render_link(check_plain($values->{$this->field_alias}), $values);
-    }
-}
-
-/**
- * Field handler to provide simple renderer that allows using a themed user link
- *
- * @ingroup views_field_handlers
- */
-class views_handler_field_civicrm_picture extends views_handler_field {
-    function construct() {
-        parent::construct();
-        $this->additional_fields['uid'] = 'uid';
-        $this->additional_fields['name'] = 'name';
-    }
-
-    function render($values) {
-        // Fake an account object.
-        $account = new stdClass();
-        $account->uid = $values->{$this->aliases['uid']};
-        $account->name = $values->{$this->aliases['name']};
-        $account->picture = $values->{$this->field_alias};
-
-        return theme('civicrm_picture', $account);
     }
 }
 
@@ -554,15 +522,37 @@ class views_handler_filter_civicrm_current extends views_handler_filter_boolean_
 }
 
 /**
- * Filter handler for user roles
+ * Field handler to provide acess control for the email field
  *
- * @ingroup views_filter_handlers
+ * @ingroup views_field_handlers
  */
-class views_handler_filter_civicrm_roles extends views_handler_filter_many_to_one {
-    function get_value_options() {
-        $this->value_options = civicrm_roles(TRUE);
-        unset($this->value_options[DRUPAL_AUTHENTICATED_RID]);
+class views_handler_field_civicrm_email extends views_handler_field_civicrm {
+  function option_definition() {
+    $options = parent::option_definition();
+    $options['link_to_user'] = array('default' => 'mailto');
+    return $options;
+  }
+
+  function options_form(&$form, &$form_state) {
+    parent::options_form($form, $form_state);
+    $form['link_to_user'] = array(
+      '#title' => t('Link this field'),
+      '#type' => 'radios',
+      '#options' => array(
+        0 => t('No link'),
+        'user' => t('To the user'),
+        'mailto' => t("With a mailto:"),
+      ),
+      '#default_value' => $this->options['link_to_user'],
+    );
+  }
+
+  function render($values) {
+    if ($this->options['link_to_user'] == 'mailto') {
+      return l($values->{$this->field_alias}, "mailto:" . $values->{$this->field_alias});
     }
+    return $this->render_link(check_plain($values->{$this->field_alias}), $values);
+  }
 }
 
 /**
@@ -574,25 +564,7 @@ function civicrm_views_query_substitutions($view) {
     civicrm_initialize( );
     require_once 'CRM/Core/BAO/UFMatch.php';
     $id  = CRM_Core_BAO_UFMatch::getContactId( $uid );
-    return array('***CURRENT_CIVICRM***' => intval($user->uid));
-}
-
-/**
- * Allow role ID(s) as argument
- *
- * @ingroup views_argument_handlers
- */
-class views_handler_argument_civicrm_roles_rid extends views_handler_argument_many_to_one {
-    function title_query() {
-        $titles = array();
-        $placeholders = implode(', ', array_fill(0, sizeof($this->value), '%d'));
-
-        $result = db_query("SELECT name FROM {role} WHERE rid IN ($placeholders)", $this->value);
-        while ($term = db_fetch_object($result)) {
-            $titles[] = check_plain($term->name);
-        }
-        return $titles;
-    }
+    return array('***CURRENT_CIVICRM***' => intval($id));
 }
 
 /**
