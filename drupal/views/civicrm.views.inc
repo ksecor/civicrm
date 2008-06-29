@@ -219,7 +219,9 @@ class views_handler_field_civicrm extends views_handler_field {
 
     function render_link($data, $values) {
         if (!empty($this->options['link_to_civicrm']) && user_access('access user profiles') && $values->{$this->aliases['id']}) {
-            return l($data, 'civicrm/contact/view?reset=1&id=' . $values->{$this->aliases['id']}, array('html' => TRUE));
+            return civicrm_views_href( $data,
+                                       'civicrm/contact/view',
+                                       'reset=1&id=' . $values->{$this->aliases['id']} );
         }
         else {
             return $data;
@@ -281,7 +283,7 @@ class views_handler_field_civicrm_link extends views_handler_field {
     function render($values) {
         $text = !empty($this->options['text']) ? $this->options['text'] : t('view');
         $id = $values->{$this->aliases['id']};
-        return l($text, "civicrm/contact/view?reset=1&id=$id");
+        return civicrm_views_href($text, "civicrm/contact/view", "reset=1&id=$id");
     }
 }
 
@@ -299,7 +301,9 @@ class views_handler_field_civicrm_link_edit extends views_handler_field_civicrm_
     function render($values) {
         $text = !empty($this->options['text']) ? $this->options['text'] : t('edit');
         $id = $values->{$this->aliases['id']};
-        return l($text, "civicrm/contact/add?reset=1&id=$id");
+        return civicrm_views_href( $data,
+                                   'civicrm/contact/add',
+                                   "reset=1&id=$id" );
     }
 }
 
@@ -317,7 +321,9 @@ class views_handler_field_civicrm_link_delete extends views_handler_field_civicr
     function render($values) {
         $text = !empty($this->options['text']) ? $this->options['text'] : t('delete');
         $id = $values->{$this->aliases['id']};
-        return l($text, "user/$id/delete", array('query' => drupal_get_destination()));
+        return civicrm_views_href( $text,
+                                   'civicrm/contact/delete',
+                                   "reset=1&id=$id" );
     }
 }
 
@@ -565,6 +571,13 @@ function civicrm_views_query_substitutions($view) {
     require_once 'CRM/Core/BAO/UFMatch.php';
     $id  = CRM_Core_BAO_UFMatch::getContactId( $uid );
     return array('***CURRENT_CIVICRM***' => intval($id));
+}
+
+function civicrm_views_href( $text, $path, $query ) {
+    civicrm_initialize( );
+    require_once 'CRM/Utils/System.php';
+    return CRM_Utils_System::href( $text, $path, $query );
+
 }
 
 /**

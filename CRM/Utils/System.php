@@ -180,6 +180,12 @@ class CRM_Utils_System {
 
     }
 
+    function href( $text, $path = null, $query = null, $absolute = true,
+                      $fragment = null, $htmlize = true, $frontend = false ) {
+        $url = self::url( $path, $qury, $absolute, $fragment, $htmlize, $frontend );
+        return "<a href=\"$url\">$text</a>";
+    }
+
     function permissionDenied( ) {
         $config   =& CRM_Core_Config::singleton( );
         require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userFrameworkClass ) . '.php' );
