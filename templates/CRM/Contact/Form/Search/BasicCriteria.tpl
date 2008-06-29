@@ -13,6 +13,32 @@
         {/if}
     {/if}
 
+{literal}
+    <script type="text/javascript">
+       dojo.require("dojo.parser");
+       dojo.require("dijit.Dialog");
+       dojo.require("dojo.data.ItemFileWriteStore");
+       dojo.require("civicrm.CheckableTree");
+		function displayGroupTree(){
+ 			var myStore = new dojo.data.ItemFileWriteStore({url:'http://brahma/trunk/civicrm/ajax/groupTree'});
+			var myModel = new dijit.tree.ForestStoreModel({
+				store: myStore,
+				query: {type:'rootGroup'},
+                                rootId: 'allGroups',
+                                rootLabel: 'All Groups',
+				childrenAttrs: ["children"]
+			});
+			var tree = new civicrm.CheckableTree({
+				model: myModel
+			    });
+
+			var dd = dijit.byId('id-groupPicker');
+		        dd.containerNode.appendChild(tree.domNode);
+			tree.startup();
+		};
+    </script>
+{/literal}
+
     {strip}
 	<table class="no-border">
         <tr>
@@ -34,6 +60,17 @@
                 {$form.buttons.html}
             </td>
         </tr>
+<tr>
+<td>
+
+<a href="#" onclick="dijit.byId('id-groupPicker').show()">{ts}Select Group(s){/ts}</a>
+<div class="tundra" dojoType="dijit.Dialog" id="id-groupPicker" title="Select Group(s)">
+<a href="javascript:displayGroupTree()">All Groups</a>
+</div>
+
+</td>
+</tr>
+
 
         {*FIXME : uncomment following fields and place in form layout when subgroup functionality is implemented
         {if $context EQ 'smog'}

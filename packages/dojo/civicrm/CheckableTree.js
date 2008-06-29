@@ -65,8 +65,6 @@ dojo.declare(
 			 }
 			 value = value + this.checkedFiles[i].name;
 		     }
-		     var qa = document.getElementById( 'qa_first_name' );
-		     qa.value = value;
 		 },
 
 		 recursiveCheckItem: function(item, checked){
