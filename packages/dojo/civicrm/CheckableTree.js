@@ -63,8 +63,19 @@ dojo.declare(
 			 if ( value != '' ) {
 			     value = value + ', ';
 			 }
+			 value = value + this.checkedFiles[i].name;
+		     }
+		 },
+
+		 getCheckedValues: function( item, treeNode ){
+		     var value = '';
+		     for ( var i = 0; i < this.checkedFiles.length; i++ ) {
+			 if ( value != '' ) {
+			     value = value + ',';
+			 }
 			 value = value + this.checkedFiles[i].id;
 		     }
+		     return value;
 		 },
 
 		 recursiveCheckItem: function(item, checked){

@@ -78,9 +78,11 @@ class CRM_Contact_Form_Search_Basic extends CRM_Contact_Form_Search {
         $this->add('select', 'contact_type', ts('is...'), CRM_Core_SelectValues::contactType());
 
         // add select for groups
-        $group               = array('' => ts('- any group -')) + $this->_group;
-        $this->_groupElement =& $this->addElement('select', 'group', ts('in'), $group);
+//         $group               = array('' => ts('- any group -')) + $this->_group;
+//         $this->_groupElement =& $this->addElement('select', 'group', ts('in'), $group);
 
+        $this->add('hidden', 'group', null, array('id' => 'group' ));
+        
         //FIXME : uncomment following code once we will be complete with the subgroup functionality
         // add checkbox for searching subgroups
 	    // $subgroups = $this->addElement( 'checkbox', "subgroups", null, ts( 'Search Subgroups' ) );
@@ -219,11 +221,11 @@ class CRM_Contact_Form_Search_Basic extends CRM_Contact_Form_Search {
             $this->_formValues['contact_type'][$contactType] = 1;
         }
 
-        $group = CRM_Utils_Array::value( 'group', $this->_formValues );
-        if ( $group && ! is_array( $group ) ) {
-            unset( $this->_formValues['group'] );
-            $this->_formValues['group'][$group] = 1;
-        }
+//         $group = CRM_Utils_Array::value( 'group', $this->_formValues );
+//         if ( $group && ! is_array( $group ) ) {
+//             unset( $this->_formValues['group'] );
+//             $this->_formValues['group'][$group] = 1;
+//         }
 
         $tag = CRM_Utils_Array::value( 'tag', $this->_formValues );
         if ( $tag && ! is_array( $tag ) ) {
