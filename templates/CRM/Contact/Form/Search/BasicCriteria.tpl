@@ -20,7 +20,8 @@
        dojo.require("dojo.data.ItemFileWriteStore");
        dojo.require("civicrm.CheckableTree");
 		function displayGroupTree(){
- 			var myStore = new dojo.data.ItemFileWriteStore({url:'http://brahma/trunk/civicrm/ajax/groupTree'});
+     		        var dataUrl = {/literal}"{crmURL p='civicrm/ajax/groupTree' h=0 }"{literal};
+ 			var myStore = new dojo.data.ItemFileWriteStore({url: dataUrl});
 			var myModel = new dijit.tree.ForestStoreModel({
 				store: myStore,
 				query: {type:'rootGroup'},

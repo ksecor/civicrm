@@ -63,7 +63,7 @@ dojo.declare(
 			 if ( value != '' ) {
 			     value = value + ', ';
 			 }
-			 value = value + this.checkedFiles[i].name;
+			 value = value + this.checkedFiles[i].id;
 		     }
 		 },
 
