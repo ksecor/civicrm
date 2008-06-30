@@ -398,8 +398,6 @@ SELECT $select
         //hack for field type File
         $session = & CRM_Core_Session::singleton( );
         $session->set('uploadNames', $uploadNames);
-        require_once 'CRM/Core/BAO/L10n.php';
-        CRM_Core_BAO_L10n::localizeGroupTree($groupTree);
         return $groupTree;
     }
 
@@ -1137,9 +1135,6 @@ $where
         $sBlocks = array();
         $hBlocks = array();
         $form = array();
-
-        $config =& CRM_Core_Config::singleton();
-        $locale = $config->lcMessages;
        
         foreach ($groupTree as $key => $group) {
             if ( $key === 'info' ) {
@@ -1196,14 +1191,11 @@ SELECT id as value, name as label
                         } else {
                         
                             $query = "
--- the translation can be missing, hence the LEFT JOIN and ternary check in the SELECT part
-SELECT IF (translation IS NULL, label, translation) label, value
-FROM civicrm_option_value v LEFT JOIN civicrm_l10n
-ON (entity_table = 'civicrm_option_value' AND entity_column = 'label' AND entity_id = v.id AND locale = %2)
+SELECT label, value
+FROM civicrm_option_value
 WHERE option_group_id = %1
 ORDER BY weight ASC, label ASC";
-                            $params = array(1 => array($field['option_group_id'], 'Integer'),
-                                            2 => array($locale,                   'String'));
+                            $params = array( 1 => array( $field['option_group_id'], 'Integer' ) );
                             $coDAO  = CRM_Core_DAO::executeQuery( $query, $params );
                         }
                         
@@ -1224,14 +1216,11 @@ ORDER BY weight ASC, label ASC";
                     } else {
                         if ( $field['html_type'] == 'Select' ) {
                             $query = "
--- the translation can be missing, hence the LEFT JOIN and ternary check in the SELECT part
-SELECT IF (translation IS NULL, label, translation) label, value
-FROM civicrm_option_value v LEFT JOIN civicrm_l10n
-ON (entity_table = 'civicrm_option_value' AND entity_column = 'label' AND entity_id = v.id AND locale = %2)
+SELECT label, value
+FROM civicrm_option_value
 WHERE option_group_id = %1
 ORDER BY weight ASC, label ASC";
-                            $params = array(1 => array($field['option_group_id'], 'Integer'),
-                                            2 => array($locale,                   'String'));
+                            $params = array( 1 => array( $field['option_group_id'], 'Integer' ) );
                             $coDAO  = CRM_Core_DAO::executeQuery( $query, $params );
 
                             while($coDAO->fetch()) {
