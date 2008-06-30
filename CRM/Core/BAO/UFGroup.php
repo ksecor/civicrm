@@ -1940,7 +1940,7 @@ WHERE  id = $cfID
                 
                     // if we are getting in a new primary email, dont overwrite the new one
                     if ( $locTypeId == $primaryLocationType ) {
-                        if ( CRM_Utils_Array::value( 'email-' . $primaryLocationType, $fields ) ) {
+                        if ( CRM_Utils_Array::value( 'email-' . $primaryLocationType, $params ) ) {
                             $data['location'][$loc]['email'][$loc]['email'] = $fields['email-' . $primaryLocationType];
                         } else {
                             $data['location'][$loc]['email'][$loc]['email'] = $primaryEmail;
