@@ -185,7 +185,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                 }
             }
             if ( empty( $validProcessors )  ) {
-                CRM_Core_Error::fatal( ts( 'Could not find valid payment processor for this page' ) );
+                CRM_Core_Error::fatal( ts( 'You will need to configure the %1 settings for your Payment Processor before you can submit credit card transactions.', array( 1 => $this->_mode ) ) );
             } else {
                 $this->_processors = $validProcessors;  
             }
