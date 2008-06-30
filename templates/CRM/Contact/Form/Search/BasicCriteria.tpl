@@ -39,17 +39,10 @@
       };
 
 function setCheckBoxValues( ) {
-    var tt = dijit.byId('civicrm_CheckableTree_0');
-    console.log(tt.getCheckedValues());
-
-    var groupId = document.getElementById('group');
+    var tt        = dijit.byId('civicrm_CheckableTree_0');
+    var groupId   = document.getElementById('group');
     groupId.value = tt.getCheckedValues( );
-
 };
-
-dojo.addOnLoad( function() {
-    dojo.connect( dojo.byId("id-groupPicker"), "onOpen", "displayGroupTree" );
-});
 
 </script>
 {/literal}
@@ -69,10 +62,9 @@ dojo.addOnLoad( function() {
                     {$form.group_contact_status.html}
                 {else}
 
-<a href="#" onclick="dijit.byId('id-groupPicker').show()">{ts}Select Group(s){/ts}</a>
+<a href="#" onclick="dijit.byId('id-groupPicker').show(); displayGroupTree( );">{ts}Select Group(s){/ts}</a>
 <div class="tundra" dojoType="dijit.Dialog" id="id-groupPicker" title="Select Group(s)" execute="setCheckBoxValues();">
-<a href="javascript:displayGroupTree()">All Groups</a><br/>
-<button dojoType=dijit.form.Button type="submit">Done</button>
+<button dojoType=dijit.form.Button type="submit">{ts}Done{/ts}</button>
 </div>
                     {*$form.group.html*}
                 {/if}
