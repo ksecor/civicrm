@@ -250,7 +250,47 @@ class CRM_Contribute_Form_AdditionalInfo
             $formatted["honor_contact_id"] = $honorId;
         } else {
             $formatted["honor_contact_id"] = 'null';
-        } 
+        }
+
+        // format custom data
+        // get mime type of the uploaded file
+        if ( !empty($_FILES) ) {
+            foreach ( $_FILES as $key => $value) {
+                $files = array( );
+                if ( $params[$key] ) {
+                    $files['name'] = $params[$key];
+                }
+                if ( $value['type'] ) {
+                    $files['type'] = $value['type']; 
+                }
+                $params[$key] = $files;
+            }
+        }
+        
+        $customData = array( );
+        foreach ( $params as $key => $value ) {
+            if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID( $key ) ) {
+                CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,
+                                                             $value, 'Contribution', null, $params['id'] );
+            }
+        }
+        
+        if ( ! empty($customData) ) {
+            $formatted['custom'] = $customData;
+        }
+        
+        //special case to handle if all checkboxes are unchecked
+        $customFields = CRM_Core_BAO_CustomField::getFields( 'Contribution' );
+        
+        if ( !empty($customFields) ) {
+            foreach ( $customFields as $k => $val ) {
+                if ( in_array ( $val[3], array ('CheckBox','Multi-Select') ) &&
+                     ! CRM_Utils_Array::value( $k, $formatted['custom'] ) ) {
+                    CRM_Core_BAO_CustomField::formatCustomField( $k, $formatted['custom'],
+                                                                 '', 'Contribution', null, $params['id'] );
+                }
+            }
+        }
     }
     
     /** 
