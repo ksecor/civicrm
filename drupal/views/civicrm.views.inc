@@ -19,135 +19,14 @@ function civicrm_views_data() {
 
     // Define the base group of this table. Fields that don't
     // have a group defined will go into this field by default.
-    $data['civicrm_contact']['table']['group']  = t('CiviCRM');
 
-    $data['civicrm_contact']['table']['base'] = array(
-                                                      'field' => 'id',
-                                                      'title' => t('CiviCRM Contacts'),
-                                                      'help' => t('CiviCRM Contacts. First attempt at a views integration'),
-                                                      );
+    $data = array( );
 
-    $data['civicrm_contact']['table']['join'] = array(
-  );
+    civicrm_views_data_contact     ( $data );
 
-    // id
-    $data['civicrm_contact']['id'] = array(
-                                           'title' => t('Contact ID'),
-                                           'help' => t('The contact ID'), // The help that appears on the UI,
-                                           'field' => array(
-                                                            'handler' => 'views_handler_field_civicrm',
-                                                            'click sortable' => TRUE,
-                                                            ),
-                                           'argument' => array(
-                                                               'handler' => 'views_handler_argument_civicrm_id',
-                                                               'name field' => 'name', // display this field in the summary
-                                                               ),
-                                           'filter' => array(
-                                                             'title' => t('Name'),
-                                                             'handler' => 'views_handler_filter_civicrm_name',
-                                                             ),
-                                           'sort' => array(
-                                                           'handler' => 'views_handler_sort',
-                                                           ),
-                                           );
+    civicrm_views_data_email       ( $data );
 
-    // name
-    $data['civicrm_contact']['name'] = array(
-                                             'title' => t('Name'), // The item it appears as on the UI,
-                                             'real field' => 'display_name',
-                                             'help' => t('The display name of the contact.'), // The help that appears on the UI,
-                                             'field' => array(
-                                                              'handler' => 'views_handler_field',
-                                                              'click sortable' => TRUE,
-                                                              ),
-                                             'sort' => array(
-                                                             'handler' => 'views_handler_sort',
-                                                             ),
-                                             'argument' => array(
-                                                                 'handler' => 'views_handler_argument_string',
-                                                                 ),
-                                             );
-
-    // contact_type
-    $data['civicrm_contact']['contact_type'] = array(
-                                                     'title' => t('Contact Type'), // The item it appears as on the UI,
-                                                     'help' => t('Contact Type.'), // The help that appears on the UI,
-                                                     'field' => array(
-                                                                      'handler' => 'views_handler_field_civicrm_name',
-                                                                      'click sortable' => TRUE,
-                                                                      ),
-                                                     'sort' => array(
-                                                                     'handler' => 'views_handler_sort',
-                                                                     ),
-                                                     'filter' => array(
-                                                                       'handler' => 'views_handler_filter_civicrm_contact_type',
-                                                                       ),
-                                                     );
-
-    $data['civicrm_contact']['edit_contact'] = array(
-                                                     'field' => array(
-                                                                      'title' => t('Edit link'),
-                                                                      'help' => t('link to edit the contact.'),
-                                                                      'handler' => 'views_handler_field_civicrm_link_edit',
-                                                                      ),
-                                                     );
-
-    $data['civicrm_contact']['delete_contact'] = array(
-                                                       'field' => array(
-                                                                        'title' => t('Delete link'),
-                                                                        'help' => t('link to delete the contact.'),
-                                                                        'handler' => 'views_handler_field_civicrm_link_delete',
-                                                                        ),
-                                                       );
-
-    // ----------------------------------------------------------------------
-    // CiviCRM email table
-
-    $data['civicrm_email']['table']['group']  = t('CiviCRM');
-
-    // Explain how this table joins to others.
-    $data['civicrm_email']['table']['join'] = array(
-                                                    // Directly links to contact table.
-                                                    'civicrm_contact' => array(
-                                                                               'left_field' => 'id',
-                                                                               'field' => 'contact_id',
-                                                                               ),
-                                                    );
-
-    $data['civicrm_email']['email'] = array(
-                                            'title' => t('Email'),
-                                            'help' => t('Email address of the contact'),
-                                            'field' => array(
-                                                             'handler' => 'views_handler_field_civicrm_email',
-                                                             ),
-                                            'filter' => array(
-                                                              'handler' => 'views_handler_filter_string',
-                                                              ),
-                                            );
-
-    $data['civicrm_email']['email_location'] = array(
-                                                     'title' => t('Email Location'),
-                                                     'real field' => 'location_type_id',
-                                                     'help' => t('Email location of the contact (home,work...)'),
-                                                     'field' => array(
-                                                                      'handler' => 'views_handler_field_civicrm_location',
-                                                                      ),
-                                                     'filter' => array(
-                                                                       'handler' => 'views_handler_filter_civicrm_location',
-                                                                       ),
-                                            );
-
-    $data['civicrm_email']['email_is_primary'] = array(
-                                                       'title' => t('Is Primary Email?'),
-                                                       'real field' => 'is_primary',
-                                                       'help' => t('Is this the primary email?'),
-                                                       'field' => array(
-                                                                        'handler' => 'views_handler_field_boolean',
-                                                                        ),
-                                                       'filter' => array(
-                                                                         'handler' => 'views_handler_filter_boolean_operator',
-                                                                         ),
-                                                       );
+    civicrm_views_data_contribution( $data );
 
     return $data;
   }
@@ -224,15 +103,6 @@ class views_handler_field_civicrm extends views_handler_field {
      */
     function init(&$view, &$data) {
         parent::init($view, $data);
-        if (!empty($this->options['link_to_civicrm'])) {
-            $this->additional_fields['id'] = 'id';
-        }
-    }
-
-    function option_definition() {
-        $options = parent::option_definition();
-        $options['link_to_civicrm'] = array('default' => TRUE);
-        return $options;
     }
 
     /**
@@ -664,7 +534,194 @@ function civicrm_views_href( $text, $path, $query ) {
     civicrm_initialize( );
     require_once 'CRM/Utils/System.php';
     return CRM_Utils_System::href( $text, $path, $query );
+}
+ 
+function civicrm_views_data_contact( &$data ) {
+   $data['civicrm_contact']['table']['group']  = t('CiviCRM');
 
+    $data['civicrm_contact']['table']['base'] = array(
+                                                      'field' => 'id',
+                                                      'title' => t('CiviCRM Contacts'),
+                                                      'help' => t('CiviCRM Contacts. First attempt at a views integration'),
+                                                      );
+
+    // id
+    $data['civicrm_contact']['id'] = array(
+                                           'title' => t('Contact ID'),
+                                           'help' => t('The contact ID'), // The help that appears on the UI,
+                                           'field' => array(
+                                                            'handler' => 'views_handler_field_civicrm',
+                                                            'click sortable' => TRUE,
+                                                            ),
+                                           'argument' => array(
+                                                               'handler' => 'views_handler_argument_civicrm_id',
+                                                               'name field' => 'name', // display this field in the summary
+                                                               ),
+                                           'filter' => array(
+                                                             'title' => t('Name'),
+                                                             'handler' => 'views_handler_filter_civicrm_name',
+                                                             ),
+                                           'sort' => array(
+                                                           'handler' => 'views_handler_sort',
+                                                           ),
+                                           );
+
+    // name
+    $data['civicrm_contact']['name'] = array(
+                                             'title' => t('Name'), // The item it appears as on the UI,
+                                             'real field' => 'display_name',
+                                             'help' => t('The display name of the contact.'), // The help that appears on the UI,
+                                             'field' => array(
+                                                              'handler' => 'views_handler_field',
+                                                              'click sortable' => TRUE,
+                                                              ),
+                                             'sort' => array(
+                                                             'handler' => 'views_handler_sort',
+                                                             ),
+                                             'argument' => array(
+                                                                 'handler' => 'views_handler_argument_string',
+                                                                 ),
+                                             );
+
+    // contact_type
+    $data['civicrm_contact']['contact_type'] = array(
+                                                     'title' => t('Contact Type'), // The item it appears as on the UI,
+                                                     'help' => t('Contact Type.'), // The help that appears on the UI,
+                                                     'field' => array(
+                                                                      'handler' => 'views_handler_field_civicrm_name',
+                                                                      'click sortable' => TRUE,
+                                                                      ),
+                                                     'sort' => array(
+                                                                     'handler' => 'views_handler_sort',
+                                                                     ),
+                                                     'filter' => array(
+                                                                       'handler' => 'views_handler_filter_civicrm_contact_type',
+                                                                       ),
+                                                     );
+
+    $data['civicrm_contact']['edit_contact'] = array(
+                                                     'field' => array(
+                                                                      'title' => t('Edit link'),
+                                                                      'help' => t('link to edit the contact.'),
+                                                                      'handler' => 'views_handler_field_civicrm_link_edit',
+                                                                      ),
+                                                     );
+
+    $data['civicrm_contact']['delete_contact'] = array(
+                                                       'field' => array(
+                                                                        'title' => t('Delete link'),
+                                                                        'help' => t('link to delete the contact.'),
+                                                                        'handler' => 'views_handler_field_civicrm_link_delete',
+                                                                        ),
+                                                       );
+
+}
+
+function civicrm_views_data_email( &$data ) {
+    // ----------------------------------------------------------------------
+    // CiviCRM email table
+
+    $data['civicrm_email']['table']['group']  = t('CiviCRM');
+
+    // Explain how this table joins to others.
+    $data['civicrm_email']['table']['join'] = array(
+                                                    // Directly links to contact table.
+                                                    'civicrm_contact' => array(
+                                                                               'left_field' => 'id',
+                                                                               'field' => 'contact_id',
+                                                                               ),
+                                                    );
+
+    $data['civicrm_email']['email'] = array(
+                                            'title' => t('Email'),
+                                            'help' => t('Email address of the contact'),
+                                            'field' => array(
+                                                             'handler' => 'views_handler_field_civicrm_email',
+                                                             ),
+                                            'filter' => array(
+                                                              'handler' => 'views_handler_filter_string',
+                                                              ),
+                                            );
+
+    $data['civicrm_email']['email_location'] = array(
+                                                     'title' => t('Email Location'),
+                                                     'real field' => 'location_type_id',
+                                                     'help' => t('Email location of the contact (home,work...)'),
+                                                     'field' => array(
+                                                                      'handler' => 'views_handler_field_civicrm_location',
+                                                                      ),
+                                                     'filter' => array(
+                                                                       'handler' => 'views_handler_filter_civicrm_location',
+                                                                       ),
+                                            );
+
+    $data['civicrm_email']['email_is_primary'] = array(
+                                                       'title' => t('Is Primary Email?'),
+                                                       'real field' => 'is_primary',
+                                                       'help' => t('Is this the primary email?'),
+                                                       'field' => array(
+                                                                        'handler' => 'views_handler_field_boolean',
+                                                                        ),
+                                                       'filter' => array(
+                                                                         'handler' => 'views_handler_filter_boolean_operator',
+                                                                         ),
+                                                       );
+
+}
+
+function civicrm_views_data_contribution( &$data ) {
+    // ----------------------------------------------------------------------
+    // CiviCRM email table
+
+    $data['civicrm_contribution']['table']['group']  = t('CiviContribute');
+
+    // Explain how this table joins to others.
+    $data['civicrm_contribution']['table']['base'] =
+        array(
+              'field' => 'id',
+              'title' => t('CiviCRM Contributions'),
+              'help' => t('CiviCRM Contributions' ),
+              );
+
+    $data['civicrm_contribution']['id'] = array(
+                                                'title' => t('Contribution ID'),
+                                                'help'  => t('The contribution ID'),
+                                                'field' => array(
+                                                                 'handler' => 'views_handler_field_numeric',
+                                                                 'click sortable' => TRUE,
+                                                                 ),
+                                                'filter' => array(
+                                                                  'handler' => 'views_handler_filter_numeric',
+                                                                  ),
+                                                'sort' => array(
+                                                                'handler' => 'views_handler_sort',
+                                                                ),
+                                                'argument' => array(
+                                                                    'handler' => 'views_handler_argument',
+                                                                    ),
+                                                );
+
+    $data['civicrm_contribution']['contact_id'] = array(
+                                                        'title' => t('Contact ID'),
+                                                        'help' => t('The contact who made this contribution'),
+                                                        'relationship' => array(
+                                                                                'base' => 'civicrm_contact',
+                                                                                'field' => 'id',
+                                                                                'handler' => 'views_handler_relationship',
+                                                                                'label' => t('Contact'),
+                                                                                ),
+                                                        );
+
+    $data['civicrm_contribution']['total_amount'] = array(
+                                                          'title' => t('Total Amount'),
+                                                          'help' => t('Total Amount contributed'),
+                                                          'field' => array(
+                                                                           'handler' => 'views_handler_field_numeric',
+                                                                           ),
+                                                          'filter' => array(
+                                                                            'handler' => 'views_handler_filter_numeric',
+                                                                            ),
+                                                          );
 }
 
 /**
