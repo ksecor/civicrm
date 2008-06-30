@@ -21,6 +21,11 @@ dojo.require("dojo.data.ItemFileWriteStore");
 dojo.require("civicrm.CheckableTree");
 
 function displayGroupTree( ) {
+    // do not recreate if tree is already created
+    if ( dijit.byId('civicrm_CheckableTree') ) {
+	return;
+    }
+
     var dataUrl = {/literal}"{crmURL p='civicrm/ajax/groupTree' h=0 }"{literal};
     var myStore = new dojo.data.ItemFileWriteStore({url: dataUrl});
     var myModel = new dijit.tree.ForestStoreModel({
@@ -31,16 +36,26 @@ function displayGroupTree( ) {
 	    childrenAttrs: ["children"]
 	});
     var tree = new civicrm.CheckableTree({
-	    model: myModel
+	    model: myModel,
+	    id: 'civicrm_CheckableTree'
 	});
     
     var dd = dijit.byId('id-groupPicker');
+
+    var button1 = new dijit.form.Button({label: "Done", type: "submit"});                                                                   
+    dd.containerNode.appendChild(button1.domNode);      
+    
     dd.containerNode.appendChild(tree.domNode);
+
+    var button2 = new dijit.form.Button({label: "Done", type: "submit"});                                                                   
+    dd.containerNode.appendChild(button2.domNode);      
+
     tree.startup();
+    
 };
 
 function setCheckBoxValues( ) {
-    var tt        = dijit.byId('civicrm_CheckableTree_0');
+    var tt        = dijit.byId('civicrm_CheckableTree');
     var groupId   = document.getElementById('group');
     groupId.value = tt.getCheckedIds( );
     var groupNames   = document.getElementById('id-group-names');
@@ -67,7 +82,6 @@ function setCheckBoxValues( ) {
 
 <a href="#" onclick="dijit.byId('id-groupPicker').show(); displayGroupTree( );">{ts}Select Group(s){/ts}</a>
 <div class="tundra" dojoType="dijit.Dialog" id="id-groupPicker" title="Select Group(s)" execute="setCheckBoxValues();">
-<button dojoType=dijit.form.Button type="submit">{ts}Done{/ts}</button>
 </div><br/><br/>
 <span id="id-group-names"></span>
                     {*$form.group.html*}
