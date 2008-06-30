@@ -1942,7 +1942,7 @@ WHERE  id = $cfID
                     if ( $locTypeId == $primaryLocationType ) {
                         if ( CRM_Utils_Array::value( 'email-' . $primaryLocationType, $params ) ) {
                             $data['location'][$loc]['email'][$loc]['email'] = $fields['email-' . $primaryLocationType];
-                        } else {
+                        } else if ( isset( $primaryEmail ) ) {
                             $data['location'][$loc]['email'][$loc]['email'] = $primaryEmail;
                         }
                         $primaryLocation++;
