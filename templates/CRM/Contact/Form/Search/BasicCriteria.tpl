@@ -14,34 +14,37 @@
     {/if}
 
 {literal}
-    <script type="text/javascript">
-      dojo.require("dojo.parser");
-      dojo.require("dijit.Dialog");
-      dojo.require("dojo.data.ItemFileWriteStore");
-      dojo.require("civicrm.CheckableTree");
-      function displayGroupTree( ) {
-	  var dataUrl = {/literal}"{crmURL p='civicrm/ajax/groupTree' h=0 }"{literal};
-	  var myStore = new dojo.data.ItemFileWriteStore({url: dataUrl});
-	  var myModel = new dijit.tree.ForestStoreModel({
-		  store: myStore,
-		  query: {type:'rootGroup'},
-		  rootId: 'allGroups',
-		  rootLabel: 'All Groups',
-		  childrenAttrs: ["children"]
-			});
-	  var tree = new civicrm.CheckableTree({
-		  model: myModel
-	      });
+<script type="text/javascript">
+dojo.require("dojo.parser");
+dojo.require("dijit.Dialog");
+dojo.require("dojo.data.ItemFileWriteStore");
+dojo.require("civicrm.CheckableTree");
 
-	  var dd = dijit.byId('id-groupPicker');
-	  dd.containerNode.appendChild(tree.domNode);
-	  tree.startup();
-      };
+function displayGroupTree( ) {
+    var dataUrl = {/literal}"{crmURL p='civicrm/ajax/groupTree' h=0 }"{literal};
+    var myStore = new dojo.data.ItemFileWriteStore({url: dataUrl});
+    var myModel = new dijit.tree.ForestStoreModel({
+	    store: myStore,
+	    query: {type:'rootGroup'},
+	    rootId: 'allGroups',
+	    rootLabel: 'All Groups',
+	    childrenAttrs: ["children"]
+	});
+    var tree = new civicrm.CheckableTree({
+	    model: myModel
+	});
+    
+    var dd = dijit.byId('id-groupPicker');
+    dd.containerNode.appendChild(tree.domNode);
+    tree.startup();
+};
 
 function setCheckBoxValues( ) {
     var tt        = dijit.byId('civicrm_CheckableTree_0');
     var groupId   = document.getElementById('group');
-    groupId.value = tt.getCheckedValues( );
+    groupId.value = tt.getCheckedIds( );
+    var groupNames   = document.getElementById('id-group-names');
+    groupNames.innerHTML = tt.getCheckedNames( );
 };
 
 </script>
@@ -65,7 +68,8 @@ function setCheckBoxValues( ) {
 <a href="#" onclick="dijit.byId('id-groupPicker').show(); displayGroupTree( );">{ts}Select Group(s){/ts}</a>
 <div class="tundra" dojoType="dijit.Dialog" id="id-groupPicker" title="Select Group(s)" execute="setCheckBoxValues();">
 <button dojoType=dijit.form.Button type="submit">{ts}Done{/ts}</button>
-</div>
+</div><br/><br/>
+<span id="id-group-names"></span>
                     {*$form.group.html*}
                 {/if}
             <td class="label">{$form.tag.label} {$form.tag.html}</td>

@@ -67,13 +67,24 @@ dojo.declare(
 		     }
 		 },
 
-		 getCheckedValues: function( item, treeNode ){
+		 getCheckedIds: function( item, treeNode ){
 		     var value = '';
 		     for ( var i = 0; i < this.checkedFiles.length; i++ ) {
 			 if ( value != '' ) {
 			     value = value + ',';
 			 }
 			 value = value + this.checkedFiles[i].id;
+		     }
+		     return value;
+		 },
+
+		 getCheckedNames: function( item, treeNode ){
+		     var value = '';
+		     for ( var i = 0; i < this.checkedFiles.length; i++ ) {
+			 if ( value != '' ) {
+			     value = value + '<br/>';
+			 }
+			 value = value + this.checkedFiles[i].name;
 		     }
 		     return value;
 		 },
