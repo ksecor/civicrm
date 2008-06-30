@@ -408,8 +408,6 @@ WHERE  contribution_id = {$this->_id}
         
         $honorFields = array('honor_type_id', 'honor_prefix_id', 'honor_first_name', 
                              'honor_lastname','honor_email');
-        $defaults = array( );
-
         foreach ( $honorFields as $key ) {
             if ( ! empty( $defaults[$key] ) ) {
                 $defaults['hidden_Honoree'] = 1;
