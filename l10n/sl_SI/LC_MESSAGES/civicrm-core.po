@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-04-28 21:53+0200\n"
-"PO-Revision-Date: 2008-06-22 14:11-0700\n"
+"PO-Revision-Date: 2008-06-23 16:14-0700\n"
 "Last-Translator: Martin Bozic <martin.bozic@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -836,8 +836,9 @@ msgstr "Oblika posameznega imena"
 
 #: CRM/Admin/Form/PreferencesDate.php CRM/Core/DAO/PreferencesDate.php
 #: templates/CRM/Admin/Page/PreferencesDate.tpl
+#, fuzzy
 msgid "Minute Increment"
-msgstr ""
+msgstr "Minutni prirastek"
 
 #: CRM/Admin/Form/PreferencesDate.php CRM/Core/DAO/PreferencesDate.php
 #: templates/CRM/Admin/Page/PreferencesDate.tpl
@@ -1497,7 +1498,7 @@ msgstr ""
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Tabbed.php
 msgid "Cases"
-msgstr ""
+msgstr "Primeri"
 
 #: CRM/Contact/Form/Search/Basic.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Contact/Form/Search/Custom/ActivitySearch.php
@@ -1507,19 +1508,19 @@ msgstr "Najdi..."
 
 #: CRM/Contact/Form/Search/Basic.php CRM/Contact/Form/Search/Custom/Basic.php
 msgid "- any group -"
-msgstr ""
+msgstr "- katerakoli skupina -"
 
 #: CRM/Contact/Form/Search/Basic.php CRM/Contact/Form/Search/Custom/Basic.php
 msgid "in"
-msgstr ""
+msgstr "v"
 
 #: CRM/Contact/Form/Search/Basic.php CRM/Contact/Form/Search/Custom/Basic.php
 msgid "- any tag -"
-msgstr ""
+msgstr "- katerakoli oznaka -"
 
 #: CRM/Contact/Form/Search/Basic.php CRM/Contact/Form/Search/Custom/Basic.php
 msgid "Tagged"
-msgstr ""
+msgstr "Označen"
 
 #: CRM/Contact/Form/Search/Basic.php CRM/Core/Menu.php
 msgid "Find Contacts"
@@ -1529,7 +1530,7 @@ msgstr "Najdi stike"
 #: CRM/Contact/Form/Search/Custom/EmployerListing.php
 #: CRM/Contact/Form/Search/Custom/Sample.php
 msgid "- any state/province -"
-msgstr ""
+msgstr "- katerakoli občina -"
 
 #: CRM/Contact/Form/Search/Criteria.php CRM/Core/BAO/CustomQuery.php
 msgid "and"
@@ -1538,7 +1539,7 @@ msgstr "in"
 #: CRM/Contact/Form/Search/Custom/ActivitySearch.php
 #: CRM/Contact/Form/Search/Custom/ContributionAggregate.php
 msgid "...through"
-msgstr ""
+msgstr "...skozi"
 
 #: CRM/Contact/Form/Search/Custom/Basic.php
 #: CRM/Contact/Form/Search/Custom/PostalMailing.php CRM/Contact/Selector.php
@@ -1551,7 +1552,7 @@ msgstr "Naslov"
 #: CRM/Contact/Form/Search/Custom/Basic.php CRM/Contact/Selector.php
 #: templates/CRM/Contact/Form/Task/Print.tpl
 msgid "Postal"
-msgstr ""
+msgstr "Poštna"
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 #: CRM/Contact/Form/Search/Custom/ContributionAggregate.php
@@ -1560,22 +1561,26 @@ msgstr ""
 #: CRM/Contact/Form/Search/Custom/PostalMailing.php
 #: CRM/Contact/Form/Search/Custom/Sample.php CRM/Contact/Selector.php
 msgid "Contact Id"
-msgstr ""
+msgstr "Id stika"
 
+# Število donacij
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 #: CRM/Contact/Form/Search/Custom/ContributionAggregate.php
+#, fuzzy
 msgid "Donation Count"
-msgstr ""
+msgstr "Število donacije"
 
+# Znesek donacij
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 #: CRM/Contact/Form/Search/Custom/ContributionAggregate.php
+#, fuzzy
 msgid "Donation Amount"
-msgstr ""
+msgstr "Znesek donacije"
 
 #: CRM/Contact/Form/Search/Custom.php CRM/Core/Invoke.php
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Custom Search"
-msgstr ""
+msgstr "Prirejeno iskanje"
 
 #: CRM/Contact/Form/Search/Custom/Sample.php CRM/Core/BAO/CustomField.php
 msgid "State/Province"
@@ -1583,22 +1588,22 @@ msgstr "Regija"
 
 #: CRM/Contact/Form/Search.php CRM/Grant/Form/Search.php
 msgid "- more actions -"
-msgstr ""
+msgstr "- več dejanj -"
 
 #: CRM/Contact/Form/Search.php CRM/Grant/Form/Search.php
 msgid "Actions:"
-msgstr ""
+msgstr "Dejanja:"
 
 #: CRM/Contact/Form/Search.php CRM/Grant/Form/Search.php
 #: templates/CRM/common/pager.tpl
 msgid "Go"
-msgstr ""
+msgstr "Pojdi"
 
 #: CRM/Contact/Form/Search.php CRM/Grant/Form/Search.php
 #: templates/CRM/Contact/Page/View/Print.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Print"
-msgstr ""
+msgstr "Natisni"
 
 #: CRM/Contact/Form/Task/AddToGroup.php
 #: CRM/Contact/Form/Task/RemoveFromGroup.php
@@ -1685,7 +1690,7 @@ msgstr "Ali res hočete odstraniti to pametno skupino?"
 
 #: CRM/Contact/Page/View/Activity.php CRM/Core/Invoke.php
 msgid "Email a Contact"
-msgstr ""
+msgstr "Pošlji stiku elektronsko pošto"
 
 #: CRM/Contact/Page/View/Basic.php CRM/Contact/Page/View/Tabbed.php
 msgid "Contact Page"
@@ -1708,7 +1713,7 @@ msgstr "Stikove skupine"
 
 #: CRM/Contact/Page/View/Membership.php CRM/Group/Page/Group.php
 msgid "Members"
-msgstr ""
+msgstr "Člani"
 
 #: CRM/Contact/Page/View/SMS.php CRM/SMS/BAO/History.php
 msgid "SMS Sent"
@@ -1729,11 +1734,11 @@ msgstr "Oznake"
 
 #: CRM/Contact/Selector/Custom.php CRM/Contact/Selector.php
 msgid "View Contact Details"
-msgstr ""
+msgstr "Poglej podrobnosti stika"
 
 #: CRM/Contact/Selector/Custom.php CRM/Contact/Selector.php
 msgid "Edit Contact Details"
-msgstr ""
+msgstr "Uredi podrobnosti stika"
 
 #: CRM/Contact/Selector/Custom.php CRM/Contact/Selector.php
 #: CRM/Profile/Selector/Listings.php
@@ -1757,7 +1762,7 @@ msgstr "Izvozi stike"
 
 #: CRM/Core/BAO/CMSUser.php CRM/Profile/Form.php
 msgid "An account already exists with the same information."
-msgstr ""
+msgstr "Račun z enakimi podatki že obstaja."
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/SelectValues.php
 msgid "Integer"
@@ -1784,7 +1789,7 @@ msgstr "Povezava"
 #: templates/CRM/Contact/Page/View/Email.tpl
 #: templates/CRM/Contact/Page/View/SMS.tpl templates/CRM/SMS/Form/Task/SMS.tpl
 msgid "From"
-msgstr ""
+msgstr "Od"
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/BAO/PriceField.php
 msgid "%1 must be an integer (whole number)."
@@ -1821,7 +1826,7 @@ msgstr "Tip prispevka"
 
 #: CRM/Core/BAO/UFGroup.php CRM/Grant/Form/Grant.php
 msgid "Please enter a valid amount."
-msgstr ""
+msgstr "Prosimo, vpišite veljaven znesek."
 
 #: CRM/Core/Block.php CRM/Core/Menu.php
 msgid "CiviCRM"
@@ -1829,15 +1834,16 @@ msgstr "CiviCRM"
 
 #: CRM/Core/Block.php CRM/Core/Invoke.php
 msgid "New Activity"
-msgstr ""
+msgstr "Nova dejavnost"
 
 #: CRM/Core/Block.php CRM/Core/Menu.php
 msgid "Log out"
-msgstr ""
+msgstr "Odjava"
 
 #: CRM/Core/Block.php CRM/Grant/Info.php CRM/Grant/Menu.php
+#, fuzzy
 msgid "CiviGrant"
-msgstr ""
+msgstr "CiviGrant"
 
 #: CRM/Core/DAO/Address.php CRM/Core/Payment/Form.php
 msgid "Postal Code"
@@ -1949,7 +1955,7 @@ msgstr "Tip telefona"
 
 #: CRM/Core/DAO/Mapping.php CRM/Core/Invoke.php
 msgid "Import Activity"
-msgstr ""
+msgstr "Dejavnost uvažanja"
 
 # Mogoče bi bilo še kaj bolj primernega od izdelovalec.
 #: CRM/Core/DAO/Mapping.php CRM/Core/Invoke.php CRM/Core/Menu.php
@@ -2011,7 +2017,7 @@ msgstr "CiviCRM profil"
 #: CRM/Core/Invoke.php CRM/Friend/Form/Contribute.php
 #: CRM/Friend/Form/Event.php templates/CRM/Friend/Form/Friend.tpl
 msgid "Tell A Friend"
-msgstr ""
+msgstr "Povej prijatelju"
 
 #: CRM/Core/Invoke.php CRM/Core/Page/File.php
 msgid "Domain Information Page"
@@ -2083,7 +2089,7 @@ msgstr "Upravljaj skupine"
 #: CRM/Core/Menu.php CRM/Friend/BAO/Friend.php CRM/Friend/Form/Contribute.php
 #: CRM/Friend/Form/Event.php xml/templates/civicrm_add_domain.tpl
 msgid "Tell a Friend"
-msgstr ""
+msgstr "Povej prijatelju/ci"
 
 #: CRM/Core/Menu.php CRM/Core/SelectValues.php
 msgid "Contacts"
@@ -2125,13 +2131,15 @@ msgstr "Skupina \"%1\" je bila izbrisana."
 msgid "Field Label"
 msgstr "Oznaka polja"
 
+# Naroči?
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Group.php
 #: CRM/Price/Form/Field.php CRM/UF/Form/Field.php CRM/UF/Form/Group.php
 #: templates/CRM/Admin/Page/Options.tpl templates/CRM/Custom/Page/Field.tpl
 #: templates/CRM/Custom/Page/Group.tpl templates/CRM/Price/Page/Field.tpl
 #: templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Group.tpl
+#, fuzzy
 msgid "Order"
-msgstr ""
+msgstr "Red"
 
 # Aktiven, aktivna, aktivno?
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php
@@ -2149,7 +2157,7 @@ msgstr "Zahtevano?"
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
 msgid "must be a numeric value"
-msgstr ""
+msgstr "mora biti numerična vrednost"
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php CRM/UF/Form/Field.php
 msgid "Field Help"
@@ -2215,11 +2223,12 @@ msgstr "Nastavitve"
 
 #: CRM/Friend/BAO/Friend.php CRM/Friend/DAO/Friend.php
 msgid "Suggested Message"
-msgstr ""
+msgstr "Predlagano sporočilo"
 
 #: CRM/Friend/Form/Contribute.php CRM/Friend/Form/Event.php
+#, fuzzy
 msgid "Thanks for Spreading the Word"
-msgstr ""
+msgstr "Hvala za Vaše širjenje našega sporočila"
 
 #: CRM/Grant/BAO/Query.php CRM/Grant/Form/Grant.php
 #: xml/templates/civicrm_add_domain.tpl
@@ -2232,8 +2241,9 @@ msgstr ""
 
 #: CRM/Grant/DAO/Grant.php CRM/Grant/Form/Grant.php
 #: CRM/Grant/Selector/Search.php templates/CRM/Grant/Form/Task/Print.tpl
+#, fuzzy
 msgid "Amount Requested"
-msgstr ""
+msgstr "Zahtevani znesek"
 
 #: CRM/Grant/DAO/Grant.php CRM/Grant/Form/Grant.php
 #: CRM/Grant/Selector/Search.php
@@ -2246,11 +2256,13 @@ msgstr ""
 
 #: CRM/Grant/Form/Grant.php CRM/Grant/Selector/Search.php
 msgid "Application Received"
-msgstr ""
+msgstr "Prijava sprejeta"
 
+# Denar prenešen?
 #: CRM/Grant/Form/Grant.php CRM/Grant/Selector/Search.php
+#, fuzzy
 msgid "Money Transferred"
-msgstr ""
+msgstr "Prenešen denar"
 
 #: CRM/Grant/Form/Task/Delete.php CRM/Grant/Task.php
 msgid "Delete Grants"
@@ -2262,7 +2274,7 @@ msgstr "Izbriši skupino"
 
 #: CRM/Group/Form/Edit.php CRM/Upgrade/Form.php
 msgid "Continue"
-msgstr ""
+msgstr "Nadaljuj"
 
 # Nabor cen?
 #: CRM/Price/Form/DeleteSet.php CRM/Price/Page/Set.php
@@ -2272,33 +2284,41 @@ msgstr "Izbriši nabor cen"
 #: CRM/Price/Form/Field.php CRM/Price/Page/Field.php
 #: templates/CRM/Price/Page/Field.tpl
 msgid "Price"
-msgstr ""
+msgstr "Cena"
 
 # Ne dovolj dober prevod
 #: CRM/Project/DAO/Project.php CRM/Project/DAO/Task.php
+#, fuzzy
 msgid "Owner Entity Table"
 msgstr "Tabela lastniških entitet"
 
 #: CRM/Standalone/OpenID/DAO/Associations.php
 #: CRM/Standalone/OpenID/DAO/Nonce.php
 msgid "Server Url"
-msgstr ""
+msgstr "URL strežnika"
 
+# ... je spodletelo v koraku %1? Ali bi bilo mogoče nekaj povsem drugega?
 #: CRM/Upgrade/TwoZero/Form/Step1.php CRM/Upgrade/TwoZero/Form/Step3.php
 #: CRM/Upgrade/TwoZero/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step5.php
 #: CRM/Upgrade/TwoZero/Form/Step6.php
+#, fuzzy
 msgid "Database consistency check failed for step %1."
 msgstr ""
+"Preverjanje konsistenčnosti podatkovne baze je spodletelo pri koraku %1."
 
+# Imena FK omejitev niso v zahtevani obliki? formatu?
 #: CRM/Upgrade/TwoZero/Form/Step1.php CRM/Upgrade/TwoZero/Form/Step3.php
 #: CRM/Upgrade/TwoZero/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step6.php
+#, fuzzy
 msgid "FK constraint names not in the required format."
-msgstr ""
+msgstr "Imena FK omejitev niso v potrebni obliki."
 
 #: CRM/Upgrade/TwoZero/Form/Step1.php CRM/Upgrade/TwoZero/Form/Step3.php
 #: CRM/Upgrade/TwoZero/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step6.php
 msgid "Please rebuild your 1.9 database to ensure schema integrity."
 msgstr ""
+"Prosimo vas, da obnovite vašo 1.9 podatkovno bazo za zagotovitev integritete "
+"sheme."
 
 #: CRM/Upgrade/TwoZero/Form/Step1.php CRM/Upgrade/TwoZero/Form/Step5.php
 msgid ""
@@ -2321,10 +2341,11 @@ msgstr ""
 #: CRM/Upgrade/TwoZero/Form/Step2.php CRM/Upgrade/TwoZero/Form/Step3.php
 #: CRM/Upgrade/TwoZero/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step5.php
 msgid "Upgrade & Continue"
-msgstr ""
+msgstr "Nadgradi in nadaljuj"
 
-# Hudo pomanjkanje konteksta.
+# Kontaktna skupina?
 #: CRM/ACL/BAO/ACL.php
+#, fuzzy
 msgid "Contact Group"
 msgstr "Kontaktiraj skupino"
 
@@ -2362,27 +2383,27 @@ msgstr "Razveljavi"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "add contacts"
-msgstr ""
+msgstr "dodaj stike"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "view all contacts"
-msgstr ""
+msgstr "poglej vse stike"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "edit all contacts"
-msgstr ""
+msgstr "uredi vse stike"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "import contacts"
-msgstr ""
+msgstr "uvozi stike"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "edit groups"
-msgstr ""
+msgstr "uredi skupine"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "administer CiviCRM"
-msgstr ""
+msgstr "administriraj CiviCRM"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "access uploaded files"

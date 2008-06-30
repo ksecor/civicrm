@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-04-28 21:53+0200\n"
-"PO-Revision-Date: 2008-06-17 05:40-0700\n"
+"PO-Revision-Date: 2008-06-26 05:22-0700\n"
 "Last-Translator: Eugenia Franzoni <eugenia@catnic.it>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -3887,7 +3887,7 @@ msgstr ""
 
 #: CRM/Contact/Form/Individual.php
 msgid "Current Employer"
-msgstr "Attuale datore di lavoro"
+msgstr "Organizzazione o datore di lavoro"
 
 #: CRM/Contact/Form/Individual.php
 msgid ""
@@ -11436,9 +11436,9 @@ msgid ""
 "'Volunteer%' as your Activity Type to match any activity whose type is "
 "'Volunteer' + any other words (e.g. Volunteer for Open House)."
 msgstr ""
-"Per una ricerca parziale utilizzare il carattere “%”. Ad esempio “Istituto%” "
-"fornirà l'elenco di tutte le organizzazioni che cominciano con la parola "
-"“Istituto”."
+"Per una ricerca parziale utilizzare il carattere <strong>%</strong>. Ad "
+"esempio 'Istituto%' fornirà l'elenco di tutte le organizzazioni che "
+"cominciano con la parola 'Istituto'."
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid ""
