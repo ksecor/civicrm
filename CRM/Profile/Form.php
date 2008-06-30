@@ -430,13 +430,9 @@ class CRM_Profile_Form extends CRM_Core_Form
             return true;
         }
 
-        // hack add the email, does not work in registration, we need the real user object
-        // hack this will not work in joomla, not sure why we need it
-        global $user; 
+        // fix for CRM-3240
         if ( CRM_Utils_Array::value( 'email-Primary', $fields ) ) {
             $fields['email'] = CRM_Utils_Array::value( 'email-Primary', $fields );
-        } elseif ( isset($user) ) {
-            $fields['email'] = $user->mail; 
         }
         
         $cid = $register = null; 
