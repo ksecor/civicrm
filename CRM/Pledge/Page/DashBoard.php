@@ -52,6 +52,7 @@ class CRM_Pledge_Page_DashBoard extends CRM_Core_Page
         CRM_Utils_System::setTitle( ts('Pledge for CiviCRM') );
         
         $admin = CRM_Core_Permission::check( 'access Pledge' );
+      
         require_once 'CRM/Pledge/BAO/Pledge.php';
         $pledgeSummary = CRM_Pledge_BAO_Pledge::getPledgeSummary( $admin );
         

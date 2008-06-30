@@ -44,7 +44,7 @@ require_once 'CRM/Contact/BAO/Query.php';
  * results of advanced search options.
  *
  */
-class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base implements CRM_Core_Selector_API 
+class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base 
 {
     /**
      * This defines two actions- View and Edit.
@@ -187,21 +187,21 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
             self::$_links = array(
                                   CRM_Core_Action::VIEW   => array(
                                                                    'name'     => ts('View'),
-                                                                   'url'      => 'civicrm/contact/view/signer',
+                                                                   'url'      => 'civicrm/contact/view/pledge',
                                                                    'qs'       => 'reset=1&id=%%id%%&cid=%%cid%%&action=view&context=%%cxt%%&selectedChild=pledge',
-                                                                   'title'    => ts('View Signer'),
+                                                                   'title'    => ts('View Pledge'),
                                                                    ),
                                   CRM_Core_Action::UPDATE => array(
                                                                    'name'     => ts('Edit'),
-                                                                   'url'      => 'civicrm/contact/view/signer',
+                                                                   'url'      => 'civicrm/contact/view/pledge',
                                                                    'qs'       => 'reset=1&action=update&id=%%id%%&cid=%%cid%%&context=%%cxt%%',
-                                                                   'title'    => ts('Edit Signer'),
+                                                                   'title'    => ts('Edit Pledge'),
                                                                   ),
                                   CRM_Core_Action::DELETE => array(
                                                                    'name'     => ts('Delete'),
-                                                                   'url'      => 'civicrm/contact/view/signer',
+                                                                   'url'      => 'civicrm/contact/view/pledge',
                                                                    'qs'       => 'reset=1&action=delete&id=%%id%%&cid=%%cid%%&context=%%cxt%%',
-                                                                   'title'    => ts('Delete Signer'),
+                                                                   'title'    => ts('Delete Pledge'),
                                                                   ),
                                   );
         }
@@ -217,7 +217,7 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
      */
     function getPagerParams($action, &$params) 
     {
-        $params['status']       = ts('Signer') . ' %%StatusMessage%%';
+        $params['status']       = ts('Pledge') . ' %%StatusMessage%%';
         $params['csvString']    = null;
         if ( $this->_limit ) {
             $params['rowCount']     = $this->_limit;
@@ -264,7 +264,6 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
                                                false, false, 
                                                false, 
                                                $this->_additionalClause );
-
          // process the result of the query
          $rows = array( );
          
@@ -312,7 +311,6 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
              
              $rows[] = $row;
          }
-         
          return $rows;
      }
      
@@ -349,18 +347,30 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
-                                                'name'      => ts('Signed on'),
-                                                'sort'      => 'pb_signer_signing_date',
+                                                'name'      => ts('Amount'),
+                                                'sort'      => 'pb_pledge_amount',
+                                                'direction' => CRM_Utils_Sort::DONTCARE,
+                                                ),
+                                          
+                                          array(
+                                                'name'      => ts('Type'),
+                                                'sort'      => 'pb_pledge_type',
+                                                'direction' => CRM_Utils_Sort::DONTCARE,
+                                                ),
+                                          
+                                          array(
+                                                'name'      => ts('Source'),
+                                                'sort'      => 'pb_pledge_source',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
-                                                'name'      => ts('Anonymous?'),
-                                                'sort'      => 'pb_signer_is_anonymous',
+                                                'name'      => ts('Received'),
+                                                'sort'      => 'pb_pledge_received_date',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
-                                                'name'      => ts('Done?'),
-                                                'sort'      => 'civicrm_pb_signer.is_done',
+                                                'name'      => ts('Status'),
+                                                'sort'      => 'pb_pledge_status',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array('desc'      => ts('Actions') ),
