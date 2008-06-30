@@ -168,7 +168,7 @@ class CRM_Core_BAO_CustomValueTable
                     $fieldValues = implode( ',', array_values( $set ) );
                     $query = "$sqlOP ( $fieldNames ) VALUES ( $fieldValues ) ON DUPLICATE KEY UPDATE $setClause";
                 } else {
-                    $query = "$sqlOP SET $set $where";
+                    $query = "$sqlOP SET $setClause $where";
                 }
                 $dao = CRM_Core_DAO::executeQuery( $query, $params );
                 $dao->free( );
