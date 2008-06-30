@@ -7,6 +7,16 @@
 {else if $membershipMode == 'live'}
     {assign var=registerMode value="LIVE"}
 {/if}
+{if !$emailExists}
+<div class="messages status">
+  <dl>
+    <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
+    <dd>
+        <p>{ts}You will not be able to send an automatic email receipt for this Membership because there is no email address recorded for this contact. If you want a receipt to be sent when this Membershiph is recorded, click Cancel and then click Edit from the Summary tab to add an email address before recording the Membership.{/ts}</p>
+    </dd>
+  </dl>
+</div>
+{/if}
 {if $membershipMode}
 <div id="help">
     {ts 1=$displayName 2=$registerMode}Use this form to submit Membership Record on behalf of %1. <strong>A %2 transaction will be submitted</strong> using the selected payment processor.{/ts}
@@ -47,8 +57,6 @@
 		{include file="CRM/common/calendar/body.tpl" dateVar=end_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_membership_3}
 		<br />
         <span class="description">{ts}Latest membership period expiration date. End Date will be automatically set based on Membership Type if you don't select a date.{/ts}</span></dd>
-	{assign var=n value=email-$bltID}
-        <dt>{$form.$n.label}</dt><dd class="html-adjust">{$form.$n.html}</dd><br />
 {if ! $membershipMode}
     <dt>{$form.is_override.label}</dt><dd class="html-adjust">{$form.is_override.html}&nbsp;&nbsp;{help id="id-status-override"}</dd><br />
 {/if}
@@ -130,7 +138,7 @@
 	 {if $emailExists }
             <dl>
             <dt class="label">{$form.send_receipt.label}</dt><dd>{$form.send_receipt.html}<br />
-                <span class="description">{ts}Automatically email a membership confirmation and contribution receipt to {$email}?{/ts}</span></dd>
+                <span class="description">{ts}Automatically email a membership confirmation and contribution receipt to {$emailExists}?{/ts}</span></dd>
             </dl>
             <div id='notice'>
                 <dl>

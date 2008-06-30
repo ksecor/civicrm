@@ -454,6 +454,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                     unset( $events[$key] );
                 }
             }
+            $this->add( 'select', 'payment_processor_id', ts( 'Payment Processor' ), $this->_processors, true );
         }
          
         $this->add('select', 'event_id',  ts( 'Event' ),  
@@ -491,18 +492,6 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $buttonType = 'upload';
         } else {
             $buttonType = 'next';
-        }
-
-        if ( $this->_mode ) {
-            // CRM_Core_Payment_Form::buildCreditCard( $this, true );
-            // CRM_Core_Payment_Form::buildCreditCard( $this, true );
-        
-            $this->add( 'select', 'payment_processor_id',
-                        ts( 'Payment Processor' ),
-                        $this->_processors, true );
-            
-            $this->add( 'text', "email-{$this->_bltID}",
-                        ts( 'Email Address' ), array( 'size' => 30, 'maxlength' => 60 ), true );
         }
 
         $this->addButtons(array( 
@@ -706,7 +695,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             
             // set email for primary location.
             $fields["email-Primary"] = 1;
-            $params["email-Primary"] = $params["email-{$this->_bltID}"];
+            $params["email-Primary"] = $params["email-{$this->_bltID}"] = $this->_contributorEmail;
             
             $params['register_date'] = $now;
             
@@ -737,8 +726,8 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                     $params[$name] = $params["billing_{$name}"];
                 }
             }
-            
             $contactID = CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $this->_contactID, null, null, $ctype );
+            
         }
         //custom data block common for offline as well as credit card
         //(online) mode

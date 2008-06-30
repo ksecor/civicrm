@@ -65,8 +65,6 @@
         <tr><td class="label">{$form.source.label}</td><td>{$form.source.html|crmReplace:class:huge}</td></tr>
 
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Source for this registration (if applicable).{/ts}</td></tr>
-	{assign var=n value=email-$bltID}
-        <tr><td class="label">{$form.$n.label}</td><td>{$form.$n.html}</td><tr>
     </table>
     
     {* Fee block (EventFees.tpl) is injected here when an event is selected. *}
