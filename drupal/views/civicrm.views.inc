@@ -118,10 +118,10 @@ class views_handler_field_civicrm extends views_handler_field {
     }
 
     function render_link($data, $values) {
-        if (!empty($this->options['link_to_civicrm']) && user_access('access user profiles') && $values->{$this->aliases['id']}) {
+        if (!empty($this->options['link_to_civicrm']) && user_access('access user profiles') && $values->id) {
             return civicrm_views_href( $data,
                                        'civicrm/contact/view',
-                                       'reset=1&id=' . $values->{$this->aliases['id']} );
+                                       "reset=1&id={$values->id}" );
         }
         else {
             return $data;
@@ -537,12 +537,12 @@ function civicrm_views_href( $text, $path, $query ) {
 }
  
 function civicrm_views_data_contact( &$data ) {
-   $data['civicrm_contact']['table']['group']  = t('CiviCRM');
+   $data['civicrm_contact']['table']['group']  = t('CiviCRM Contact');
 
     $data['civicrm_contact']['table']['base'] = array(
                                                       'field' => 'id',
                                                       'title' => t('CiviCRM Contacts'),
-                                                      'help' => t('CiviCRM Contacts. First attempt at a views integration'),
+                                                      'help' => t('CiviCRM Contacts'),
                                                       );
 
     // id
@@ -621,7 +621,7 @@ function civicrm_views_data_email( &$data ) {
     // ----------------------------------------------------------------------
     // CiviCRM email table
 
-    $data['civicrm_email']['table']['group']  = t('CiviCRM');
+    $data['civicrm_email']['table']['group']  = t('CiviCRM Contact');
 
     // Explain how this table joins to others.
     $data['civicrm_email']['table']['join'] = array(
@@ -673,15 +673,24 @@ function civicrm_views_data_contribution( &$data ) {
     // ----------------------------------------------------------------------
     // CiviCRM email table
 
-    $data['civicrm_contribution']['table']['group']  = t('CiviContribute');
+    $data['civicrm_contribution']['table']['group']  = t('CiviCRM Contributions');
 
-    // Explain how this table joins to others.
     $data['civicrm_contribution']['table']['base'] =
         array(
               'field' => 'id',
               'title' => t('CiviCRM Contributions'),
               'help' => t('CiviCRM Contributions' ),
               );
+
+    // Explain how this table joins to others.
+    $data['civicrm_contribution']['table']['join'] = array(
+                                                           // Directly links to contact table.
+                                                           'civicrm_contact' => array(
+                                                                                      'left_field' => 'id',
+                                                                                      'field' => 'contact_id',
+                                                                                      ),
+                                                           );
+
 
     $data['civicrm_contribution']['id'] = array(
                                                 'title' => t('Contribution ID'),
@@ -708,7 +717,7 @@ function civicrm_views_data_contribution( &$data ) {
                                                                                 'base' => 'civicrm_contact',
                                                                                 'field' => 'id',
                                                                                 'handler' => 'views_handler_relationship',
-                                                                                'label' => t('Contact'),
+                                                                                'label' => t('CiviCRM Contact'),
                                                                                 ),
                                                         );
 
