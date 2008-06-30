@@ -431,7 +431,8 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
             foreach ($requiredFields as $field => $title) {
                 if (!in_array($field, $importKeys)) {
                     if( $field == 'contribution_contact_id' ) {
-                        if ( $weightSum >= $threshold || in_array('external_identifier', $importKeys) ||
+                        if ( ( $weightSum >= $threshold || in_array('external_identifier', $importKeys ) &&
+                               $self->_onDuplicate != CRM_Contribute_Import_Parser::DUPLICATE_UPDATE ) ||
                              in_array('invoice_id', $importKeys) || in_array('trxn_id', $importKeys) ||
                              in_array('contribution_id', $importKeys) ) {
                             continue;    
