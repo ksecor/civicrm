@@ -129,6 +129,13 @@
        <comment>Date this pledge finished successfully (total pledge payments equal to or greater than pledged amount).</comment>
        <add>2.1</add>
   </field>
+  <field>
+      <name>payment_instrument_id</name>
+      <title>Payment Instrument</title>
+      <type>int unsigned</type>
+      <comment>Implicit foreign key to civicrm_option_values in the payment_instrument option group. Propagated to contribution records when pledge payment is made.</comment>
+      <add>2.1</add>
+  </field>
   <field>   
       <name>honor_contact_id</name>   
       <type>int unsigned</type>   

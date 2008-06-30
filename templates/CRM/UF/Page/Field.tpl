@@ -6,9 +6,8 @@
     {if $ufField}
     <div id="field_page">
      <p></p>
-        <div class="form-item">
-        {strip}
-    <table cellpadding="0" cellspacing="0" border="0">
+    {strip}
+    <table class="selector">
         <tr class="columnheader">
             <th>{ts}CiviCRM Field Name{/ts}</th>
             <th>{ts}Visibility{/ts}</th>
@@ -34,15 +33,14 @@
             <td>{$row.action}</td>
         </tr>
         {/foreach}
-        </table>
-        {/strip}
+    </table>
+    {/strip}
         
-{if not ($action eq 2 or $action eq 1)}
+    {if not ($action eq 2 or $action eq 1)}
             <div class="action-link">
             <a href="{crmURL p="civicrm/admin/uf/group/field" q="reset=1&action=add&gid=$gid"}" class="button"><span>&raquo; {ts}New CiviCRM Profile Field{/ts}</span></a><br/>
             </div>
-{/if}
-        </div>
+    {/if}
      </div>
     {else}
         {if $action eq 16}

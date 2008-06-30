@@ -6,7 +6,7 @@
 {if $action ne 1 and $action ne 2 and $action ne 8 and $groupPermission eq 1}
     <div class="action-link">
         <a accesskey="N" href="{crmURL p='civicrm/group/add' q='reset=1'}" id="newGroup" class="button"><span>&raquo; {ts}New Group{/ts}</span></a><br/>
-    </div>
+    </div><br />
 {/if} {* action ne add or edit *}
 {include file="CRM/Group/Form/Search.tpl"}
 {/if}
