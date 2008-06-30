@@ -41,7 +41,7 @@ class CRM_Pledge_Info extends CRM_Core_Component_Info
 {
 
     // docs inherited from interface
-    protected $keyword = 'pledgebank';
+    protected $keyword = 'pledge';
 
     // docs inherited from interface
     public function getInfo()
@@ -76,8 +76,8 @@ class CRM_Pledge_Info extends CRM_Core_Component_Info
     public function registerTab()
     {
         return array( 'title'   => ts( 'Pledges' ),
-                      'id'      => 'pledges',
-                      'url'	    => 'pledges',
+                      'id'      => 'pledge',
+                      'url'	    => 'pledge',
                       'weight'  => 25 );
     }
 

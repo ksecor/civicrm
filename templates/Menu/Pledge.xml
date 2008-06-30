@@ -35,4 +35,11 @@
      <page_type>1</page_type>
      <weight>580</weight>
   </item>
+ <item>
+     <path>civicrm/contact/view/pledge</path>
+     <path_arguments>force=1,cid=%%cid%%</path_arguments>
+     <title>Pledges</title>
+     <page_callback>CRM_Pledge_Page_Tab</page_callback>
+     <weight>590</weight>
+  </item>
 </menu>
