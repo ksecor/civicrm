@@ -1,18 +1,62 @@
  <tr>
-    <td><div dojoType="dojox.data.QueryReadStore" jsId="pledgeNameStore" url="{$dataURLPledgeName}" class="tundra">
-      {$form.pb_pledge_name.label}&nbsp;&nbsp;
-    {if $pledge_name_value}
-    <script type="text/javascript">
-	dojo.addOnLoad( function( ) {ldelim}
-        dijit.byId( 'pb_pledge_name' ).setValue( "{$pb_pledge_name_value}")
-        {rdelim} );
-    </script>
-    {/if}
-     {$form.pb_pledge_name.html}
-     </td>       
-     <td>
-         {$form.pb_pledge_is_active.html}&nbsp;{$form.pb_pledge_is_active.label}&nbsp;&nbsp;
-         {$form.pb_signer_is_done.html}&nbsp;{$form.pb_signer_is_done.label}
-     </td> 
+    <td>
+     {$form.pledge_start_date_low.label} 
+     <br />
+     {$form.pledge_start_date_low.html} &nbsp;
+     {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_pledge_1}
+     {include file="CRM/common/calendar/body.tpl" dateVar=pledge_start_date_low startDate=startYear endDate=endYear offset=5 trigger=trigger_search_pledge_1}
+    </td>
+    <td>
+     {$form.pledge_start_date_high.label}
+    <br />
+     {$form.pledge_start_date_high.html}&nbsp
+     {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_pledge_2}
+     {include file="CRM/common/calendar/body.tpl" dateVar=pledge_start_date_high startDate=startYear endDate=endYear offset=5 trigger=trigger_search_pledge_2}
+    </td> 
  </tr>
-   
+ <tr> 
+    <td>  
+     {$form.pledge_end_date_low.label} 
+     <br />
+     {$form.pledge_end_date_low.html} &nbsp;
+     {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_pledge_3}
+     {include file="CRM/common/calendar/body.tpl" dateVar=pledge_end_date_low startDate=startYear endDate=endYear offset=5 trigger=trigger_search_pledge_3}
+    </td>
+    <td> 
+     {$form.pledge_end_date_high.label}
+    <br />
+     {$form.pledge_end_date_high.html} &nbsp;
+     {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_pledge_4}
+     {include file="CRM/common/calendar/body.tpl" dateVar=pledge_end_date_high startDate=startYear endDate=endYear offset=5 trigger=trigger_search_pledge_4}
+    </td> 
+ </tr>   
+ <tr>
+    <td> 
+     <label>{ts}Pledge Amounts{/ts} 
+     <br />
+     {$form.pledge_amount_low.label} {$form.pledge_amount_low.html} &nbsp;&nbsp; {$form.pledge_amount_high.label} {$form.pledge_amount_high.html}
+    </td>
+    <td>
+     <label>{ts}Pledge Status{/ts} 
+     <br />{$form.pledge_status_id.html}
+    </td>
+ </tr>
+ <tr>
+    <td>
+     <label>{ts}Contribution Type{/ts}</label> 
+     <br />{$form.contribution_type_id.html}
+    </td>
+    <td>
+      <label>{ts}Contribution Page{/ts}</label> 
+      <br />{$form.contribution_page_id.html}
+    </td> 
+ </tr>
+ <tr> 
+    <td>
+     {$form.pledge_in_honor_of.label} 
+     <br />{$form.pledge_in_honor_of.html}
+    </td>
+    <td>
+     {$form.pledge_test.html}&nbsp;{$form.pledge_test.label}
+    </td>
+ </tr>

@@ -18,7 +18,7 @@
                {$form.sort_name.label}&nbsp;&nbsp;{$form.sort_name.html|crmReplace:class:'twenty'}&nbsp;&nbsp;&nbsp;{$form.buttons.html}
            </td>       
         </tr>
-        {include file="CRM/PledgeBank/Form/Search/Common.tpl"}
+        {include file="CRM/Pledge/Form/Search/Common.tpl"}
      
         <tr>
            <td colspan="2">{$form.buttons.html}</td>

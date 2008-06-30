@@ -193,11 +193,11 @@ class CRM_Pledge_Form_Search extends CRM_Core_Form
        
         $this->_queryParams =& CRM_Contact_BAO_Query::convertFormValues( $this->_formValues ); 
         $selector =& new CRM_Pledge_Selector_Search( $this->_queryParams,
-                                                    $this->_action,
-                                                    null,
-                                                    $this->_single,
-                                                    $this->_limit,
-                                                    $this->_context ); 
+                                                     $this->_action,
+                                                     null,
+                                                     $this->_single,
+                                                     $this->_limit,
+                                                     $this->_context ); 
         $prefix = null;
         if ( $this->_context == 'user' ) {
             $prefix = $this->_prefix;
@@ -227,7 +227,7 @@ class CRM_Pledge_Form_Search extends CRM_Core_Form
      */
     function buildQuickForm( ) 
     {
-        $this->addElement('text', 'sort_name', ts('Signer Name or Email'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
+        $this->addElement('text', 'sort_name', ts('Pledger Name or Email'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
         
         require_once 'CRM/Pledge/BAO/Query.php';
         CRM_Pledge_BAO_Query::buildSearchForm( $this );

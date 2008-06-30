@@ -209,22 +209,53 @@ class CRM_Pledge_BAO_Query
     static function buildSearchForm( &$form ) 
     {
         
-        $form->assign( 'dojoIncludes', " dojo.require('dojox.data.QueryReadStore');dojo.require('dojo.parser');" );
+        // Date selects for date 
+        $form->add('date', 'pledge_start_date_low', ts('Pledge Start Date - From'), CRM_Core_SelectValues::date('relative')); 
+        $form->addRule('pledge_start_date_low', ts('Select a valid date.'), 'qfDate'); 
         
-        $dojoAttributesPledgeName = array( 'dojoType'       => 'civicrm.FilteringSelect',
-                                           'mode'           => 'remote',
-                                           'store'          => 'pledgeNameStore',
-                                           'class'          => 'tundra',
-                                           );
-        
-        $dataURLPledgeName = CRM_Utils_System::url( 'civicrm/ajax/pledgeName',
-                                                    "reset=1",
-                                                    true, null, false);
+        $form->add('date', 'pledge_start_date_high', ts('To'), CRM_Core_SelectValues::date('relative')); 
+        $form->addRule('pledge_start_date_high', ts('Select a valid date.'), 'qfDate'); 
 
-        $form->assign( 'dataURLPledgeName', $dataURLPledgeName );
-        $form->addElement( 'text', 'pb_pledge_name', ts('Pledge'), $dojoAttributesPledgeName );
-        $form->addElement( 'checkbox', 'pb_pledge_is_active' , ts( 'Is pledge active?' ) );
-        $form->addElement( 'checkbox', 'pb_signer_is_done' , ts( 'Is pledge done?' ) );
+        $form->add('date', 'pledge_end_date_low', ts('Pledge End Date - From'), CRM_Core_SelectValues::date('relative')); 
+        $form->addRule('pledge_end_date_low', ts('Select a valid date.'), 'qfDate'); 
+        
+        $form->add('date', 'pledge_end_date_high', ts('To'), CRM_Core_SelectValues::date('relative')); 
+        $form->addRule('pledge_end_date_high', ts('Select a valid date.'), 'qfDate'); 
+
+        $form->addElement( 'checkbox', 'pledge_test' , ts( 'Find Test Pledge?' ) );
+
+        $form->add('text', 'pledge_amount_low', ts('From'), array( 'size' => 8, 'maxlength' => 8 ) ); 
+        $form->addRule( 'pledge_amount_low', ts( 'Please enter a valid money value (e.g. 9.99).' ), 'money' );
+        
+        $form->add('text', 'pledge_amount_high', ts('To'), array( 'size' => 8, 'maxlength' => 8 ) ); 
+        $form->addRule( 'pledge_amount_high', ts( 'Please enter a valid money value (e.g. 99.99).' ), 'money' );
+
+        require_once "CRM/Core/OptionGroup.php";
+        $statusValues = CRM_Core_OptionGroup::values("contribution_status");
+        // Remove status values that are only used for recurring contributions for now (Failed and In Progress).
+        unset( $statusValues['4']);
+        unset( $statusValues['5']);
+ 
+        foreach ( $statusValues as $key => $val ) {
+            $status[] =  $form->createElement('advcheckbox',$key, null, $val );
+        }
+        
+        $form->addGroup( $status, 'pledge_status_id', ts( 'Pledge Status' ) );
+
+        require_once 'CRM/Contribute/PseudoConstant.php';
+        $form->add('select', 'contribution_type_id', 
+                   ts( 'Contribution Type' ),
+                   array( '' => ts( '- select -' ) ) +
+                   CRM_Contribute_PseudoConstant::contributionType( ) );
+       
+        $form->add('select', 'contribution_page_id', 
+                   ts( 'Contribution Page' ),
+                   array( '' => ts( '- select -' ) ) +
+                   CRM_Contribute_PseudoConstant::contributionPage( ) );
+        
+        //add fields for honor search
+        $form->addElement( 'text', 'pledge_in_honor_of', ts( "In Honor Of" ) );
+        
         $form->assign( 'validPledge', true );
     }
     
