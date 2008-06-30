@@ -12,7 +12,7 @@
         {if $permission EQ 'edit'}{ts 1=$newEventURL}Click <a accesskey="N" href='%1'>New Event Registration</a> to register this contact for an event.{/ts}{/if}
         </p>
 	{if $newCredit}
-       {capture assign=newCreditURL}{crmURL p="civicrm/event/offline" q="reset=1&cid=`$contactId`"}{/capture}
+       {capture assign=newCreditURL}{crmURL p="civicrm/contact/view/participant" q="reset=1&action=add&cid=`$contactId`&context=participant&mode=live"}{/capture}
        {ts 1=$newCreditURL}Click <a href='%1'>Submit Credit Card Event Registration</a> to process a new New Registration on behalf of the participant using their credit or debit card.{/ts}
      {/if}
     </div>

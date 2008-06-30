@@ -115,7 +115,7 @@ class BAO_Event_Participant extends CiviTestCase
         $count = count( $fetchParticipant );
         
         if ( $count == 1 ){
-            $cparams = $fetchParticipant[$this->_participantID];
+            $cparams = $fetchParticipant[$participantId];
             $this->assertNotEqual( $cparams->id, 0, 'Checking for not finding the participant.' );
         } else {
             $this->assertNotEqual( $count, 1, 'Checking number of participant more than one as participantID not passed.' );

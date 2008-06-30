@@ -413,6 +413,26 @@ function countSelectedCheckboxes(fldPrefix, form) {
 }
 
 /**
+ * Function to enable task action select
+ */
+function toggleTaskAction( status ) {
+    var radio_ts = document.getElementsByName('radio_ts');
+    if ( radio_ts[0].checked || radio_ts[1].checked ) {
+	status = true;
+    }
+
+    var formElements = ['task', 'Go', 'Print'];
+    for(var i=0; i<formElements.length; i++ ) {
+	var element = document.getElementById( formElements[i] );
+	if ( status ) {
+	    element.disabled = false;
+	} else {
+	    element.disabled = true;
+	}
+    }
+}
+
+/**
  * This function is used to check if any actio is selected and also to check if any contacts are checked.
  *
  * @access public

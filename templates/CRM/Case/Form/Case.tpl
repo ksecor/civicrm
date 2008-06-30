@@ -33,7 +33,7 @@
     	        {include file="CRM/common/calendar/body.tpl" dateVar=end_date offset=10 trigger=trigger_case_2}       
                 </td>
             </tr>
-          <tr><td class="label">{$form.details.label}</td><td>{$form.details.html|crmReplace:class:huge}</td></tr>
+           <tr><td class="label">{$form.details.label}</td><td>{$form.details.html}</td></tr>
      {/if}
             <tr> {* <tr> for add / edit form buttons *}
       	    <td>&nbsp;</td><td>{$form.buttons.html}</td> 

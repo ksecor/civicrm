@@ -291,7 +291,7 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         require_once 'CRM/Utils/Hook.php';
         $hookErrors = CRM_Utils_Hook::validate( get_class( $this ),
                                                 $this->_submitValues, $this->_submitFiles, $this );
-        if ( $hookErrors !== true ) {
+        if ( $hookErrors !== true && is_array($hookErrors) && !empty($hookErrors) ) {
             $this->_errors += $hookErrors;
             $error = false;
         }
@@ -310,7 +310,8 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
 
         $this->preProcess();
 
-        if ( $this->controller->_key ) {
+        if ( $this->controller->_key &&
+             $this->controller->_print != CRM_Core_Smarty::PRINT_NOFORM ) {
             $this->addElement( 'hidden', 'qfKey', $this->controller->_key );
         }
 

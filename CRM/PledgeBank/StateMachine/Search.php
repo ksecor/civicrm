@@ -90,7 +90,7 @@ class CRM_PledgeBank_StateMachine_Search extends CRM_Core_StateMachine
         // total hack, check POST vars and then session to determine stuff
         // fix value if print button is pressed
         if ( CRM_Utils_Array::value( '_qf_' . $formName . '_next_print', $_POST ) ) {
-            $value = CRM_PledgeBank_Task::PRINT_EVENTS;
+            $value = CRM_PledgeBank_Task::PRINT_SIGNERS;
         } else {
             $value = CRM_Utils_Array::value( 'task', $_POST );
         }
@@ -102,7 +102,7 @@ class CRM_PledgeBank_StateMachine_Search extends CRM_Core_StateMachine
         $result = false;
 
         switch ( $value ) {
-        case CRM_PledgeBank_Task::DELETE_PLEDGES:
+        case CRM_PledgeBank_Task::DELETE_SIGNERS:
             $task   = 'CRM_PledgeBank_Form_Task_Delete';
             break;
             

@@ -114,7 +114,8 @@ class CRM_Case_Form_Case extends CRM_Core_Form
             return;
         }
 
-        $this->add( 'text', 'subject', ts('Subject'), 'maxlength=128', true);
+        $attributes = CRM_Core_DAO::getAttribute( 'CRM_Case_DAO_Case' );
+        $this->add( 'text', 'subject', ts('Subject'), array_merge( $attributes['subject'], array('maxlength' => '128') ), true);
 
         require_once 'CRM/Core/OptionGroup.php';        
         $caseStatus  = CRM_Core_OptionGroup::values('case_status');
@@ -137,7 +138,7 @@ class CRM_Case_Form_Case extends CRM_Core_Form
                     false); 
         $this->addRule('end_date', ts('Select a valid date.'), 'qfDate');
         
-        $this->add('textarea', 'details', ts('Notes'));
+        $this->add('textarea', 'details', ts('Notes'), $attributes['details'] );
 
         $this->addFormRule( array( 'CRM_Case_Form_Case', 'formRule' ) );
         

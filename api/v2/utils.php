@@ -37,20 +37,12 @@ function _civicrm_initialize( ) {
     $config =& CRM_Core_Config::singleton( );
 }
 
-function civicrm_create_error( $msg ) {
-    $values = array( );
-    
-    $values['is_error']      = 1;
-    $values['error_message'] = $msg;
-    return $values;
+function &civicrm_create_error( $msg ) {
+    return CRM_Core_Error::createAPIError( $msg );
 }
 
 function civicrm_create_success( $result = 1 ) {
-    $values = array( );
-    
-    $values['is_error'] = 0;
-    $values['result']   = $result;
-    return $values;
+    return CRM_Core_Error::createAPISuccess( $result );
 }
 
 /**

@@ -207,8 +207,8 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
 
         $config =& CRM_Core_Config::singleton( );
         
-        $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
-        $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
+        $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre' , true );
+        $this->buildCustom( $this->_values['custom_post_id'], 'customPost', true );
         
         $this->assign( 'lineItem', $this->_lineItem );
         //display additional participants profile.
@@ -547,7 +547,8 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         
         $contribParams = array(
                                'contact_id'            => $contactID,
-                               'contribution_type_id'  => $this->_values['event']['contribution_type_id'],
+                               'contribution_type_id'  => $this->_values['event']['contribution_type_id'] ?
+                               $this->_values['event']['contribution_type_id'] : $params['contribution_type_id'],
                                'receive_date'          => $now,
                                'total_amount'          => $params['amount'],
                                'amount_level'          => $params['amount_level'],
@@ -572,7 +573,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
 
         $contribParams["contribution_status_id"] = $pending ? 2 : 1;
 
-        if( $this->_action & CRM_Core_Action::PREVIEW ) {
+        if( $this->_action & CRM_Core_Action::PREVIEW || $params['mode'] == 'test' ) {
             $contribParams["is_test"] = 1;
         }
         require_once 'CRM/Contribute/BAO/Contribution.php';

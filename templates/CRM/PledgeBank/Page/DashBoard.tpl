@@ -8,6 +8,7 @@
     <th scope="col">{ts}Signers limit{/ts}</th>
     <th scope="col">{ts}Deadline{/ts}</th>
     <th scope="col">{ts}Creator{/ts}</th>
+    <th scope="col">{ts}Status{/ts}</th>
     <th scope="col">{ts}Active?{/ts}</th>
 {if $pledgeAdmin}
     <th></th>
@@ -20,6 +21,7 @@
     <td class="right">{$values.signersLimit}</td>
     <td>{$values.deadline}</td>
     <td>{$values.displayName}</td>
+    <td>{$values.status}</td>
     <td class="right">{$values.isActive}</td>
 {if $pledgeAdmin}
     <td> <a href="{$values.configure}">{ts}Configure{/ts}</a>

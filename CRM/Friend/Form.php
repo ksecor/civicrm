@@ -37,7 +37,7 @@ require_once 'CRM/Core/Form.php';
 require_once 'CRM/Friend/BAO/Friend.php';
 
 /**
- * This class generates form components for Tell A Frienf Form For End User
+ * This class generates form components for Tell A Friend Form For End User
  * 
  */
 class CRM_Friend_Form extends CRM_Core_Form
@@ -77,13 +77,15 @@ class CRM_Friend_Form extends CRM_Core_Form
         $this->_entityId = CRM_Utils_Request::retrieve( 'eid'   , 'Positive', $this, true );       
         
         $page = CRM_Utils_Request::retrieve( 'page', 'String', $this, true );
-                      
         if ( $page == 'contribution' ) {
             $this->_entityTable = 'civicrm_contribution_page';
             $this->_title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $this->_entityId, 'title');
         } elseif ( $page == 'event' ) {
             $this->_entityTable = 'civicrm_event_page';
             $this->_title = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $this->_entityId, 'title' );            
+        } elseif ( $page == 'pledge' ) {
+            $this->_entityTable = 'civicrm_pb_pledge';
+            $this->_title = CRM_Core_DAO::getFieldValue( 'CRM_PledgeBank_DAO_Pledge', $this->_entityId, 'creator_pledge_desc' );            
         }
        
         $session =& CRM_Core_Session::singleton( );

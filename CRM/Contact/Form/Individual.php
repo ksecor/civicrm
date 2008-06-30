@@ -341,9 +341,22 @@ setDefaultAddress();
         
         require_once 'api/v2/Location.php';
         $values =& _civicrm_location_get( $locParams, $location_types );
-        
+ 
+        $addressFields = CRM_Core_DAO_Address::fields();
+        foreach($addressFields as  $key =>$val ){
+            if( !CRM_Utils_Array::value( $key, $values[1]['address'] ) ){
+                $values[1]['address'][$key]="null";
+            }
+        }
+        if( $values[1]['address']['country_id']=="null"){
+            $values[1]['address']['country_id']=0;
+        }
+        if( $values[1]['address']['state_province_id']=="null"){
+            $values[1]['address']['state_province_id']=0;
+        }
+      
         $params['location'][1]['address'] = $values[1]['address'];
-        
+          
         // unset all the ids and unwanted fields
         $unsetFields = array( 'id', 'location_id', 'timezone', 'note' );
         foreach ( $unsetFields as $fld ) {

@@ -98,11 +98,39 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
      * @access public
      * @static
      */
-    static function create(&$params)
+    static function create( &$params, &$ids )
     {
-        $customFieldBAO =& new CRM_Core_BAO_CustomField();
-        $customFieldBAO->copyValues($params);
-        return $customFieldBAO->save();
+        $customField =& new CRM_Core_DAO_CustomField();
+        $customField->copyValues( $params );
+        $customField->is_required      = CRM_Utils_Array::value( 'is_required'    , $params, false );
+        $customField->is_searchable    = CRM_Utils_Array::value( 'is_searchable'  , $params, false );
+        $customField->is_search_range  = CRM_Utils_Array::value( 'is_search_range', $params, false );
+        $customField->is_active        = CRM_Utils_Array::value( 'is_active'      , $params, false );
+        $customField->is_view          = CRM_Utils_Array::value( 'is_view'        , $params, false );
+        $customField->id = CRM_Utils_Array::value( 'custom_field', $ids );
+        $customField->save( );
+        
+        // make sure all values are present in the object for further processing
+        $customField->find(true);
+        
+        // if update mode
+        if ( CRM_Utils_Array::value( 'custom_field', $ids ) ) {
+            $dropIndex  = false;
+            // drop the index if it existed (not the most efficient, but the logic is easy)
+            if ( $customField->is_searchable ) {
+                $dropIndex = true;
+            }
+            self::createField( $customField, 'modify', $dropIndex );
+        } else {
+            $customField->column_name .= "_{$customField->id}";
+            $customField->save();
+            // make sure all values are present in the object
+            $customField->find(true);
+
+            self::createField( $customField, 'add' );
+        }
+
+        return $customField;
     }
 
     /**
@@ -919,11 +947,13 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
      * @static
      */
     static function formatCustomField( $customFieldId, &$customFormatted, $value, 
-                                       $customFieldExtend, $customValueId = null, $entityId = null ) 
+                                       $customFieldExtend, $customValueId = null,
+                                       $entityId = null, 
+                                       $inline = false ) 
     {
         //get the custom fields for the entity
-        $customFields = CRM_Core_BAO_CustomField::getFields( $customFieldExtend );
-        
+        $customFields = CRM_Core_BAO_CustomField::getFields( $customFieldExtend, false, $inline );
+
         if ( ! array_key_exists( $customFieldId, $customFields )) {
             return;
         }
@@ -1151,10 +1181,10 @@ AND    cf.id = %1";
     public static function &customOptionGroup( )
     {
         static $customOptionGroup = null;
-
+        
         if ( ! $customOptionGroup ) {
             $query = "
-SELECT g.id, g.label
+SELECT g.id, f.label
 FROM   civicrm_option_group g,
        civicrm_custom_field f
 WHERE  g.id = f.option_group_id

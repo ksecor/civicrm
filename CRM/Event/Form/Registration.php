@@ -413,7 +413,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
      * @return None  
      * @access public  
      */ 
-    function buildCustom( $id, $name ) 
+    function buildCustom( $id, $name, $skipCaptcha = false ) 
     {
         if ( $id ) {
             $button = substr( $this->controller->getButtonName(), -4 );
@@ -425,11 +425,11 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             $fields = null;
             if ( $contactID ) {
                 if ( CRM_Core_BAO_UFGroup::filterUFGroups($id, $contactID)  ) {
-                    $fields = CRM_Core_BAO_UFGroup::getFields( $id, false,CRM_Core_Action::ADD ); 
+                    $fields = CRM_Core_BAO_UFGroup::getFields( $id, false, CRM_Core_Action::ADD ); 
                     
                 }
             } else {
-                $fields = CRM_Core_BAO_UFGroup::getFields( $id, false,CRM_Core_Action::ADD ); 
+                $fields = CRM_Core_BAO_UFGroup::getFields( $id, false, CRM_Core_Action::ADD ); 
             }
             
             // unset any email-* fields since we already collect it, CRM-2888
@@ -439,16 +439,29 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                 }
             }
             
+            $addCaptcha = false;
             $this->assign( $name, $fields );
             foreach($fields as $key => $field) {
                 //make the field optional if primary participant 
                 //have been skip the additional participant.
                 if ( $button == 'skip' ) {
                     $field['is_required'] = false;
+                } else if ( $field['add_captcha'] ) {
+                    // only add captcha for first page
+                    $addCaptcha = true;
                 }
                 CRM_Core_BAO_UFGroup::buildProfile($this, $field,CRM_Profile_Form::MODE_CREATE);
                 $this->_fields[$key] = $field;
             }
+
+            if ( $addCaptcha &&
+                 ! $skipCaptcha ) {
+                require_once 'CRM/Utils/ReCAPTCHA.php';
+                $captcha =& CRM_Utils_ReCAPTCHA::singleton( );
+                $captcha->add( $this );
+                $this->assign( "isCaptcha" , true );
+            }
+
         }
     }
     
@@ -497,7 +510,8 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         if ( CRM_Utils_Array::value( 'cms_create_account', $this->_params ) ) {
             $this->_params['contactID'] = $contactID;
             require_once "CRM/Core/BAO/CMSUser.php";
-            if ( ! CRM_Core_BAO_CMSUser::create( $this->_params, 'email-' . $this->_bltID ) ) {
+            //in case of Pay later option we skipped 'email-5' so we should use 'email-Primary'
+            if ( ! CRM_Core_BAO_CMSUser::create( $this->_params, 'email-Primary' ) ) {
                 CRM_Core_Error::statusBounce( ts('Your profile is not saved and Account is not created.') );
             }
         }
@@ -584,7 +598,7 @@ WHERE  v.option_group_id = g.id
                                    'discount_id'    => $params['discount_id']
                                    );
        
-        if ( $this->_action & CRM_Core_Action::PREVIEW ) {
+        if ( $this->_action & CRM_Core_Action::PREVIEW || $params['mode'] == 'test' ) {
             $participantParams['is_test'] = 1;
         } else {
             $participantParams['is_test'] = 0;

@@ -64,16 +64,10 @@ class CRM_Event_Page_Tab extends CRM_Contact_Page_View
     {    
         // build associated contributions
         $this->associatedContribution( );
-        if ( CRM_Utils_Request::retrieve( 'history', 'Boolean', $this ) ) {
-            $controller =& new CRM_Core_Controller_Simple( 'CRM_Event_Form_ActivityView',  
-                                                           'View Participant Details',  
-                                                           $this->_action ); 
-            
-        } else {
-            $controller =& new CRM_Core_Controller_Simple( 'CRM_Event_Form_ParticipantView',  
-                                                           'View Participant',  
-                                                           $this->_action ); 
-        }
+        
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Event_Form_ParticipantView',  
+                                                       'View Participant',  
+                                                       $this->_action ); 
         $controller->setEmbedded( true );  
         $controller->set( 'id' , $this->_id );  
         $controller->set( 'cid', $this->_contactId );  
@@ -110,8 +104,18 @@ class CRM_Event_Page_Tab extends CRM_Contact_Page_View
      */
     function run( ) 
     {
-        $this->preProcess( );
+        // we should call contact view, preprocess only for participant mode
+        $contactId = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
+        $context   = CRM_Utils_Request::retrieve( 'context', 'String', $this );
 
+        if ( $contactId && $context != 'search' ) {
+            $this->preProcess( );
+        } else {
+            // this case is for batch update, event registration action 
+            $this->_action = CRM_Core_Action::ADD;
+            $this->assign( 'action', $this->_action );
+        }
+        
         if ( $this->_permission == CRM_Core_Permission::EDIT && ! CRM_Core_Permission::check( 'edit event participants' ) ) {
             $this->_permission = CRM_Core_Permission::VIEW; // demote to view since user does not have edit event participants rights
             $this->assign( 'permission', 'view' );

@@ -83,7 +83,7 @@ class CRM_Utils_System_Standalone {
      * @access public
      * @static
      */
-    static function appendBreadCrumb( $title, $url ) {
+    static function appendBreadCrumb( $breadCrumbs ) {
         return;
     }
 

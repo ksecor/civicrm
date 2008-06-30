@@ -1,0 +1,106 @@
+<?php
+
+/*
+ +--------------------------------------------------------------------+
+ | CiviCRM version 2.1                                                |
+ +--------------------------------------------------------------------+
+ | Copyright CiviCRM LLC (c) 2004-2008                                |
+ +--------------------------------------------------------------------+
+ | This file is a part of CiviCRM.                                    |
+ |                                                                    |
+ | CiviCRM is free software; you can copy, modify, and distribute it  |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
+ |                                                                    |
+ | CiviCRM is distributed in the hope that it will be useful, but     |
+ | WITHOUT ANY WARRANTY; without even the implied warranty of         |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
+ | See the GNU Affero General Public License for more details.        |
+ |                                                                    |
+ | You should have received a copy of the GNU Affero General Public   |
+ | License along with this program; if not, contact CiviCRM LLC       |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
+ | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
+ +--------------------------------------------------------------------+
+*/
+
+/**
+ *
+ * @package CRM
+ * @copyright CiviCRM LLC (c) 2004-2008
+ * $Id$
+ *
+ */
+
+require_once 'CiviTestCase.php';
+require_once 'Custom.php';
+
+class Browser_Custom_Field extends CiviTestCase
+{
+
+    var $params;
+    var $webUser;
+    var $group;
+
+    function get_info()
+    {
+        return array('name'        => 'New Custom Field',
+                     'description' => 'Tests New Custom Field form',
+                     'group'       => 'CiviCRM Browser Tests');
+    }
+
+    function setUp()
+    {
+        parent::setUp();
+        $this->webUser = $this->drupalCreateUserRolePerm(array('access CiviCRM',
+                                                               'administer CiviCRM'));
+        $this->drupalLoginUser($this->webUser);
+        $this->group = Custom::createGroup(array(), 'Participant');
+        $this->civiGet('civicrm/admin/custom/group/field', "action=add&reset=1&gid={$this->group->id}");
+
+        // create a default params array, unique per each test
+        $uniqid = uniqid('Custom Field Test ', true);
+        $this->params = array('label' => $uniqid);
+    }
+
+    function testCreateWithMissingParams()
+    {
+        $params = array('label' => '', 'weight' => '');
+        $this->drupalPost(NULL, $params, '_qf_Field_next');
+        $this->assertText('Field Label is a required field.');
+        $this->assertText('Order is a required field.');
+        $this->assertDBNull('CRM_Core_DAO_CustomField', $this->params['label'], 'id', 'label', 'Making sure the custom field was not created in the database.');
+    }
+
+    function testCreateForParticipant()
+    {
+        $this->params['default_value']  = 'test';
+        $this->params['help_post']      = "help_post for {$this->params['label']}";
+        $this->params['is_required']    = 1;
+        $this->params['is_searchable']  = 1;
+        $this->drupalPost(NULL, $this->params, '_qf_Field_next');
+
+        // make sure the group got created (based on the unique title) and fetch its id
+        $field_id = $this->assertDBNotNull('CRM_Core_DAO_CustomField', $this->params['label'], 'id', 'label', 'Checking db for the created field.');
+
+        $expected = array('custom_group_id'  => $this->group->id,
+                          'label'            => $this->params['label'],
+                          'data_type'        => 'String',
+                          'html_type'        => 'Text',
+                          'default_value'    => 'test',
+                          'is_required'      => 1,
+                          'is_searchable'    => 1,
+                          'help_post'        => "help_post for {$this->params['label']}",
+                          'is_active'        => 1);
+        // test whether the above fields were set properly
+        $this->assertDBCompareValues('CRM_Core_DAO_CustomField', array('id' => $field_id), $expected);
+    }
+
+    function tearDown()
+    {
+        // the below should take down any associated custom fields as well
+        Custom::deleteGroup($this->group);
+    }
+
+}

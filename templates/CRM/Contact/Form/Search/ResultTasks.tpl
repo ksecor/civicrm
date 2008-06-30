@@ -86,6 +86,11 @@
      </td>
   </tr>
   </table>
-  
  </div>
+
+{literal}
+<script type="text/javascript">
+toggleTaskAction( );
+</script>
+{/literal}
 

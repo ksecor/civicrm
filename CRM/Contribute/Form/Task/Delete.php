@@ -77,9 +77,8 @@ class CRM_Contribute_Form_Task_Delete extends CRM_Contribute_Form_Task {
      * @access public
      * @return None
      */
-    public function postProcess() {
-        $session =& CRM_Core_Session::singleton();
-
+    public function postProcess( ) 
+    {
         $deletedContributions = 0;
         foreach ($this->_contributionIds as $contributionId) {
             if (CRM_Contribute_BAO_Contribution::deleteContribution($contributionId)) {
