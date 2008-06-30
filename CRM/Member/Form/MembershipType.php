@@ -183,7 +183,12 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
         }
         
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
-            $memberRel->freeze( );
+            require_once 'CRM/Member/BAO/Membership.php';
+            $membershipType = new CRM_Member_BAO_Membership();
+            $membershipType->membership_type_id = $this->_id;
+            if ( $membershipType->find( true ) ) {
+                $memberRel->freeze( );    
+            } 
             $memberOrg->freeze( );
             if ( $searchDone ) {
                 $memberOrg->unfreeze( );

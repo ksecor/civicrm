@@ -41,8 +41,8 @@
 class CRM_PledgeBank_Task
 {
     const
-        DELETE_PLEDGES                     =     1,
-        PRINT_PLEDGES                      =     2;
+        DELETE_SIGNERS                     =     1,
+        PRINT_SIGNERS                      =     2;
 
     /**
      * the task array
@@ -72,7 +72,7 @@ class CRM_PledgeBank_Task
     {
         if ( !self::$_tasks ) {
             self::$_tasks = array(
-                                  1     => ts( 'Delete Pledge Signers' )
+                                  1     => ts( 'Delete Signers' )
                                   );
         }
 

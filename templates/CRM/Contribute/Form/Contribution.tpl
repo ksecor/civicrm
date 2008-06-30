@@ -10,7 +10,16 @@
 {else if $contributionMode == 'live'}
     {assign var=contribMode value="LIVE"}
 {/if}
-
+{if !$email}
+<div class="messages status">
+  <dl>
+    <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
+    <dd>
+        <p>{ts}You will not be able to send an automatic email receipt for this contribution because there is no email address recorded for this contact. If you want a receipt to be sent when this contribution is recorded, click Cancel and then click Edit from the Summary tab to add an email address before recording the contribution.{/ts}</p>
+    </dd>
+  </dl>
+</div>
+{/if}
 {if $contributionMode}
 <div id="help">
     {ts 1=$displayName 2=$contribMode}Use this form to submit a new contribution on behalf of %1. <strong>A %2 transaction will be submitted</strong> using the selected payment processor.{/ts}
@@ -33,7 +42,7 @@
             <td class="font-size12pt right"><strong>{ts}Contributor{/ts}</strong></td><td class="font-size12pt"><strong>{$displayName}</strong></td>
         </tr>
 	{if $contributionMode}
-           <tr><td class="label nowrap">{$form.payment_processor_id.label}</td><td>{$form.payment_processor_id.html}</td></tr>
+           <tr><td class="label nowrap">{$form.payment_processor_id.label}<span class="marker"> * </span></td><td>{$form.payment_processor_id.html}</td></tr>
         {/if}
 	<tr><td class="label">{$form.contribution_type_id.label}</td><td>{$form.contribution_type_id.html}&nbsp;
         {if $is_test}
@@ -47,13 +56,13 @@
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Optional identifier for the contribution source (campaign name, event, mailer, etc.).{/ts}</td></tr>
         {if $contributionMode}
 	    {if $email}
-            <tr><td class="label">{$form.is_email_receipt_cc.label}</td><td>{$form.is_email_receipt_cc.html}</td></tr>
+            <tr><td class="label">{$form.is_email_receipt.label}</td><td>{$form.is_email_receipt.html}</td></tr>
             <tr><td class="label">&nbsp;</td><td class="description">{ts}Automatically email a receipt for this contribution to {$email}?{/ts}</td></tr>
             {/if}
-        <tr>
-	    {assign var=n value=email-$bltID}
-            <td class="label">{$form.$n.label}</td><td>{$form.$n.html}</td>
-        </tr> 
+	    <tr id="receiptDate"><td class="label">{$form.receipt_date.label}</td><td>{$form.receipt_date.html}
+            {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_2}
+            {include file="CRM/common/calendar/body.tpl" dateVar=receipt_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_contribution_2}<br />
+            <span class="description">{ts}Date that a receipt was sent to the contributor.{/ts}</span></td></tr>	
         {/if}
 	{if !$contributionMode}
         <tr><td class="label">{$form.receive_date.label}</td><td>{$form.receive_date.html}
@@ -66,7 +75,7 @@
         <tr><td class="label">{$form.payment_instrument_id.label}</td><td>{$form.payment_instrument_id.html}</td></tr>
 	<tr><td class="label">&nbsp;</td><td class="description">{ts}Leave blank for non-monetary contributions.{/ts}</td></tr>
 	<tr><td class="label">{$form.trxn_id.label}</td><td>{$form.trxn_id.html}</td></tr>
-	<tr><td class="label">&nbsp;</td><td class="description">{ts}Unique payment ID for this transaction. The Payment Processor's transaction ID will be automatically stored here on online contributions.{/ts}<br />{ts}For offline contributions, you can enter an account+check number, bank transfer identifier, etc.{/ts}</td></tr>      	 
+	<tr><td class="label">&nbsp;</td><td class="description">{ts}Unique payment ID for this transaction. The Payment Processor's transaction ID will be automatically stored here on online contributions.{/ts}<br />{ts}For offline contributions, you can enter an account+check number, bank transfer identifier, etc.{/ts}</td></tr>
 	{if $email}
             <tr><td class="label">{$form.is_email_receipt.label}</td><td>{$form.is_email_receipt.html}</td></tr>
             <tr><td class="label">&nbsp;</td><td class="description">{ts}Automatically email a receipt for this contribution to {$email}?{/ts}</td></tr>
@@ -142,7 +151,7 @@
 </fieldset>
 </div> 
 
-{if !$contributionMode}
+{if $email}
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="is_email_receipt"
     trigger_value       =""
@@ -151,7 +160,8 @@
     field_type          ="radio"
     invert              = 1
 }
-
+{/if}
+{if !$contributionMode} 
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="contribution_status_id"
     trigger_value       = '3'

@@ -2,10 +2,10 @@
 {if $config->includeDojo }
 {include file="CRM/common/accesskeys.tpl"}
 {/if}
-{if $contactId} {* Display contact-related footer. *}
+{if isset($contactId) and $contactId} {* Display contact-related footer. *}
     <div class="footer" id="record-log">
-    <span class="col1">{if $external_identifier}{ts}External ID{/ts}:&nbsp;{$external_identifier}{/if}&nbsp; &nbsp;{ts}CiviCRM ID{/ts}:&nbsp;{$contactId}</span>
-    {if $lastModified}
+    <span class="col1">{if isset($external_identifier) and $external_identifier}{ts}External ID{/ts}:&nbsp;{$external_identifier}{/if}&nbsp; &nbsp;{ts}CiviCRM ID{/ts}:&nbsp;{$contactId}</span>
+    {if isset($lastModified) and $lastModified}
         {ts}Last Change by{/ts} <a href="{crmURL p='civicrm/contact/view' q="action=view&reset=1&cid=`$lastModified.id`"}">{$lastModified.name}</a> ({$lastModified.date|crmDate}) &nbsp; <a href="{crmURL p='civicrm/contact/view' q="reset=1&action=browse&selectedChild=log&cid=`$contactId`"}">&raquo; {ts}View Change Log{/ts}</a>
     {/if}
     </div>

@@ -49,7 +49,7 @@ class CRM_PledgeBank_Page_Tab extends CRM_Contact_Page_View
         $controller->setEmbedded( true );
         $controller->reset( );
         $controller->set( 'cid'  , $this->_contactId );
-        $controller->set( 'context', 'pledgesigner' ); 
+        $controller->set( 'context', 'pbsigner' ); 
         $controller->process( );
         $controller->run( );
     }

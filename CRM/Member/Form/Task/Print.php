@@ -38,10 +38,10 @@ require_once 'CRM/Member/Selector/Search.php';
 require_once 'CRM/Core/Selector/Controller.php';
 
 /**
- * This class provides the functionality to print the contacts
+ * This class provides the functionality to print members
  */
-class CRM_Member_Form_Task_Print extends CRM_Member_Form_Task {
-
+class CRM_Member_Form_Task_Print extends CRM_Member_Form_Task 
+{
     /**
      * build all the data structures needed to build the form
      *
@@ -64,7 +64,7 @@ class CRM_Member_Form_Task_Print extends CRM_Member_Form_Task {
                                                    $this->get( CRM_Utils_Sort::SORT_DIRECTION ) );
         }
 
-        $selector   =& new CRM_Member_Selector_Search($queryParams, $this->_action, $this->_memberClause );
+        $selector   =& new CRM_Member_Selector_Search($queryParams, $this->_action, $this->_componentClause );
         $controller =& new CRM_Core_Selector_Controller($selector , null, $sortID, CRM_Core_Action::VIEW, $this, CRM_Core_Selector_Controller::SCREEN);
         $controller->setEmbedded( true );
         $controller->run();

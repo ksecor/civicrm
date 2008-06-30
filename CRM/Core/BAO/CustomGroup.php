@@ -295,8 +295,7 @@ SELECT id
 FROM   $table
 WHERE  entity_id = $entityID
 ";
-                    $recordExists = CRM_Core_DAO::singleValueQuery( $query,
-                                                                    CRM_Core_DAO::$_nullArray );
+                    $recordExists = CRM_Core_DAO::singleValueQuery( $query );
                     if ( $recordExists ) {
                         $firstTable = $table;
                         break;
@@ -317,7 +316,7 @@ SELECT $select
  WHERE {$firstTable}.entity_id = $entityID
 ";
 
-                    $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+                    $dao = CRM_Core_DAO::executeQuery( $query );
                 
                     if ( $dao->fetch( ) ) {
                         foreach ( $groupTree as $groupID => $group ) {
@@ -444,8 +443,7 @@ SELECT $select
 SELECT entity_id 
 FROM   {$table} 
 WHERE  {$table}.entity_id = {$entityId}";
-            $recordExists =& CRM_Core_DAO::singleValueQuery( $sql,
-                                                             CRM_Core_DAO::$_nullArray ); 
+            $recordExists =& CRM_Core_DAO::singleValueQuery( $sql );
             if ( ! empty( $update ) ) {
                 $tables = implode( ', ', $groupTree['info']['from'] );
                 $hookOP = null;
@@ -479,7 +477,7 @@ $sqlOP $tables
    SET $update
 $where       
 ";
-                $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+                $dao = CRM_Core_DAO::executeQuery( $query );
             }
         }
     }
@@ -762,7 +760,8 @@ $where
     /**
      * Delete the Custom Group.
      *
-     * @param  int    $id  Group Id 
+     * @param $group object   the DAO custom group object
+     * @param $force boolean  whether to force the deletion, even if there are custom fields
      * 
      * @return boolean   false if field exists for this group, true if group gets deleted.
      *
@@ -770,16 +769,20 @@ $where
      * @static
      *
      */
-    public static function deleteGroup( $group )
+    public static function deleteGroup( $group, $force = false )
     { 
-        require_once 'CRM/Core/DAO/CustomField.php';
+        require_once 'CRM/Core/BAO/CustomField.php';
 
         //check wheter this contain any custom fields
         $customField = & new CRM_Core_DAO_CustomField();
         $customField->custom_group_id = $group->id;
         $customField->find();
-        if ($customField->fetch()) {
-            return false;
+
+        // return early if there are custom fields and we're not 
+        // forcing the delete, otherwise delete the fields one by one
+        while ($customField->fetch()) {
+            if (!$force) return false;
+            CRM_Core_BAO_CustomField::deleteField($customField);
         }
 
         // drop the table associated with this custom group
@@ -1175,22 +1178,20 @@ $where
                             $query = "
 SELECT id as value, name as label  
   FROM civicrm_country";
-                            $coDAO  = CRM_Core_DAO::executeQuery( $query,CRM_Core_DAO::$_nullArray  );  
+                            $coDAO  = CRM_Core_DAO::executeQuery( $query );
                         } else if ($field['html_type'] == 'Multi-Select State/Province') {
                             $customData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $field['customValue']['data']);
                             $query = "
 SELECT id as value, name as label  
   FROM civicrm_state_province";
-                            $coDAO  = CRM_Core_DAO::executeQuery( $query,CRM_Core_DAO::$_nullArray  ); 
+                            $coDAO  = CRM_Core_DAO::executeQuery( $query );
 
                         } else {
                         
                             $query = "
-SELECT   v.label as label, v.value as value
-  FROM   civicrm_option_value v,
-         civicrm_option_group g
- WHERE   v.option_group_id = g.id
-   AND   g.id = %1
+SELECT label, value
+FROM civicrm_option_value
+WHERE option_group_id = %1
 ORDER BY weight ASC, label ASC";
                             $params = array( 1 => array( $field['option_group_id'], 'Integer' ) );
                             $coDAO  = CRM_Core_DAO::executeQuery( $query, $params );
@@ -1213,11 +1214,9 @@ ORDER BY weight ASC, label ASC";
                     } else {
                         if ( $field['html_type'] == 'Select' ) {
                             $query = "
-SELECT   v.label as label, v.value as value
-  FROM   civicrm_option_value v,
-         civicrm_option_group g
- WHERE   v.option_group_id = g.id
-   AND   g.id = %1
+SELECT label, value
+FROM civicrm_option_value
+WHERE option_group_id = %1
 ORDER BY weight ASC, label ASC";
                             $params = array( 1 => array( $field['option_group_id'], 'Integer' ) );
                             $coDAO  = CRM_Core_DAO::executeQuery( $query, $params );
@@ -1406,7 +1405,7 @@ ORDER BY weight ASC, label ASC";
                   WHERE cg.id = cf.custom_group_id
                     AND cf.id =" . CRM_Utils_Type::escape($customFieldId, 'Integer');
 
-        $extends = CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
+        $extends = CRM_Core_DAO::singleValueQuery( $query );
         
         if ( in_array( $extends, $removeCustomFieldTypes ) ) {
             return false;

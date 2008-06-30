@@ -241,6 +241,8 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             $contributionParams['receipt_date'] = $params['receipt_date'] ? $params['receipt_date'] : 'null';
             $contributionParams['source']       = $params['contribution_source'];
             $contributionParams['non_deductible_amount'] = 'null';
+            $contributionParams['invoice_id']   = $params['invoice_id'];
+            $contributionParams['is_test']      = $params['is_test'];
             $recordContribution = array(
                                         'total_amount',
                                         'contribution_type_id', 

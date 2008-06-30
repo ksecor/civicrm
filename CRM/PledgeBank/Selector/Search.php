@@ -34,10 +34,8 @@
 
 require_once 'CRM/Core/Selector/Base.php';
 require_once 'CRM/Core/Selector/API.php';
-
 require_once 'CRM/Utils/Pager.php';
 require_once 'CRM/Utils/Sort.php';
-
 require_once 'CRM/Contact/BAO/Query.php';
 
 /**
@@ -72,11 +70,13 @@ class CRM_PledgeBank_Selector_Search extends CRM_Core_Selector_Base implements C
     static $_properties = array( 'contact_id',
                                  'contact_type',
                                  'sort_name',
-                                 'pledge_id',
-                                 'signer_id',
-                                 'signer_pledge_desc',
-                                 'signer_signing_date',
-                                 'signer_is_anonymous'
+                                 'pb_pledge_id',
+                                 'pb_signer_id',
+                                 'pb_pledge_name',
+                                 'pb_signer_pledge_desc',
+                                 'pb_signer_signing_date',
+                                 'pb_signer_is_anonymous',
+                                 'pb_signer_is_done'
                                  );
 
     /** 
@@ -139,9 +139,9 @@ class CRM_PledgeBank_Selector_Search extends CRM_Core_Selector_Base implements C
      *
      * @param array   $queryParams array of parameters for query
      * @param int     $action - action of search basic or advanced.
-     * @param string  $eventClause if the caller wants to further restrict the search (used in participations)
+     * @param string  $additionalClause if the caller wants to further restrict the search (used in participations)
      * @param boolean $single are we dealing only with one contact?
-     * @param int     $limit  how many participations do we want returned
+     * @param int     $limit  how many signers do we want returned
      *
      * @return CRM_Contact_Selector
      * @access public
@@ -268,7 +268,7 @@ class CRM_PledgeBank_Selector_Search extends CRM_Core_Selector_Base implements C
          // process the result of the query
          $rows = array( );
          
-         // check is the user has view/edit participation permission
+         // check is the user has view/edit signer permission
          $permission = CRM_Core_Permission::VIEW;
          if ( CRM_Core_Permission::check( 'edit pledge signer records' ) ) {
              $permission = CRM_Core_Permission::EDIT;
@@ -279,23 +279,19 @@ class CRM_PledgeBank_Selector_Search extends CRM_Core_Selector_Base implements C
              $row = array();
              // the columns we are interested in
              foreach (self::$_properties as $property) {
-                 if ( $property == 'signer_is_anonymous' ) {
-                     if ( isset( $result->$property ) ) {
-                         $row[$property] = 'Yes';
-                     } else {
-                         $row[$property] = 'No';
-                     }
-                 } else if ( $property == 'signer_pledge_desc' ) {
-                     $row['pledge'] = "...will " . $result->$property;
-                 } else if ( isset( $result->$property ) ) {
+                 if ( isset( $result->$property ) ) {
                      $row[$property] = $result->$property;
                  }
              }
              
-             $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->signer_id;
+             if ( $result->pb_signer_pledge_desc ) {
+                 $row['pledge'] = ts('...will') . ' ' . $result->pb_signer_pledge_desc;
+             }             
+
+             $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->pb_signer_id;
              
              $row['action']   = CRM_Core_Action::formLink( self::links(), $mask,
-                                                           array( 'id'  => $result->signer_id,
+                                                           array( 'id'  => $result->pb_signer_id,
                                                                   'cid' => $result->contact_id,
                                                                   'cxt' => $this->_context ) );
              $config =& CRM_Core_Config::singleton( );
@@ -349,27 +345,32 @@ class CRM_PledgeBank_Selector_Search extends CRM_Core_Selector_Base implements C
             self::$_columnHeaders = array( 
                                           array(
                                                 'name'      => ts('Pledge'),
-                                                'sort'      => 'signer_pledge_desc',
+                                                'sort'      => 'pb_pledge_name',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
                                                 'name'      => ts('Signed on'),
-                                                'sort'      => 'signer_signing_date',
+                                                'sort'      => 'pb_signer_signing_date',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
                                                 'name'      => ts('Anonymous?'),
-                                                'sort'      => 'signer_is_anonymous',
+                                                'sort'      => 'pb_signer_is_anonymous',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
-                                          array('desc' => ts('Actions') ),
+                                          array(
+                                                'name'      => ts('Done?'),
+                                                'sort'      => 'civicrm_pb_signer.is_done',
+                                                'direction' => CRM_Utils_Sort::DONTCARE,
+                                                ),
+                                          array('desc'      => ts('Actions') ),
                                           );
             
             if ( ! $this->_single ) {
                 $pre = array( 
-                             array('desc' => ts('Contact Type') ), 
+                             array('desc'      => ts('Contact Type') ), 
                              array( 
-                                   'name'      => ts('Signer'), 
+                                   'name'      => ts('Name'), 
                                    'sort'      => 'sort_name', 
                                    'direction' => CRM_Utils_Sort::ASCENDING, 
                                    )

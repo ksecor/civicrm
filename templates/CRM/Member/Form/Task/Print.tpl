@@ -11,7 +11,7 @@
     <th>{ts}Name{/ts}</th>
     <th>{ts}Type{/ts}</th>
     <th>{ts}Member Since{/ts}</th>
-    <th>{ts}Start/Renew Date{/ts}</th>
+    <th>{ts}Start Date{/ts}</th>
     <th>{ts}End Date{/ts}</th>
     <th>{ts}Source{/ts}</th>
     <th>{ts}Status{/ts}</th>
@@ -19,12 +19,12 @@
 {foreach from=$rows item=row}
     <tr class="{cycle values="odd-row,even-row"}">
         <td>{$row.sort_name}</td>
-	<td>{$row.membership_type}</td>
+	<td>{$row.membership_type_id}</td>
         <td>{$row.join_date|truncate:10:''|crmDate}</td>
-        <td>{$row.start_date|truncate:10:''|crmDate}</td>
-        <td>{$row.end_date|truncate:10:''|crmDate}</td>
-        <td>{$row.source}</td>
-        <td>{$row.status}</td>
+        <td>{$row.membership_start_date|truncate:10:''|crmDate}</td>
+        <td>{$row.membership_end_date|truncate:10:''|crmDate}</td>
+        <td>{$row.membership_source}</td>
+        <td>{$row.status_id}</td>
     </tr>
 {/foreach}
 </table>

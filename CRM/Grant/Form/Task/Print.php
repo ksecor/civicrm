@@ -36,8 +36,7 @@
 require_once 'CRM/Grant/Form/Task.php';
 
 /**
- * This class provides the functionality to save a search
- * Saved Searches are used for saving frequently used queries
+ * This class provides the functionality to grant list
  */
 class CRM_Grant_Form_Task_Print extends CRM_Grant_Form_Task
 {
@@ -63,7 +62,7 @@ class CRM_Grant_Form_Task_Print extends CRM_Grant_Form_Task
                                                    $this->get( CRM_Utils_Sort::SORT_DIRECTION ) );
         }
 
-        $selector   =& new CRM_Grant_Selector_Search($queryParams, $this->_action, $this->_grantClause );
+        $selector   =& new CRM_Grant_Selector_Search($queryParams, $this->_action, $this->_componentClause );
         $controller =& new CRM_Core_Selector_Controller($selector , null, $sortID, CRM_Core_Action::VIEW, $this, CRM_Core_Selector_Controller::SCREEN);
         $controller->setEmbedded( true );
         $controller->run();

@@ -38,11 +38,10 @@ require_once 'CRM/Contribute/Selector/Search.php';
 require_once 'CRM/Core/Selector/Controller.php';
 
 /**
- * This class provides the functionality to save a search
- * Saved Searches are used for saving frequently used queries
+ * This class provides the functionality to print contribution records
  */
-class CRM_Contribute_Form_Task_Print extends CRM_Contribute_Form_Task {
-
+class CRM_Contribute_Form_Task_Print extends CRM_Contribute_Form_Task 
+{
     /**
      * build all the data structures needed to build the form
      *

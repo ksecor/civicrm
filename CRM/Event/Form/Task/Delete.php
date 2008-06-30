@@ -80,8 +80,6 @@ class CRM_Event_Form_Task_Delete extends CRM_Event_Form_Task
      */
     public function postProcess( ) 
     {
-        $session =& CRM_Core_Session::singleton();
-
         $deletedParticipants = 0;
         require_once 'CRM/Event/BAO/Participant.php';
         foreach ( $this->_participantIds as $participantId ) {

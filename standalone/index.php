@@ -19,26 +19,25 @@ if ( !empty( $error ) ) {
 }
 if ( !empty( $session->get['msg'] ) ) {
     print "<div class=\"msg\">$msg</div>\n";
-    //header("Location:login.php");
 }
 
-//print "userID: " . $session->get('userID') . "<br/>";
-//print "ufName: " . $session->get('ufName') . "<br/>";
-if ( $session->get('new_install') !== true && ( $session->get('userID') == null || $session->get('userID') == '' ) ) {
-    include 'login.php';
-    exit(0);
-}
-
-if ($session->get('goahead') == "yes") {
-    // If we didn't get any parameters, we should default to the dashboard
+if ( $session->get('userID') == null || $session->get('userID') == '' ) {
+    if ($_GET[$urlVar] == "") {
+        header("Location: login.php");
+        exit();
+    } else {
+        if ( $session->get('new_install') !== true ) {
+            print "<a href=\"{$config->userFrameworkBaseURL}\">Login here</a> if you have an account.\n";
+        } elseif ($_GET[$urlVar] == "civicrm/standalone/register" && isset($_GET['reset'])) {
+            // this is when user first registers with civicrm
+            print "<head><style type=\"text/css\"> body {border: 1px #CCC solid;margin: 3em;padding: 1em 1em 1em 2em;} </head>";
+        }
+        print CRM_Core_Invoke::invoke( explode('/', $_GET[$urlVar] ) );
+    }
+} else {
     if ($_GET[$urlVar] == "") {
         print CRM_Core_Invoke::invoke( array("civicrm","dashboard") );
     } else {
         print CRM_Core_Invoke::invoke( explode('/', $_GET[$urlVar] ) );
     }
-} else {
-    $session->set('msg', 'Login failed!');
-    header("Location: login.php");
 }
-
-

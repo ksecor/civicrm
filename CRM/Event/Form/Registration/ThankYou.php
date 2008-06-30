@@ -87,8 +87,8 @@ class CRM_Event_Form_Registration_ThankYou extends CRM_Event_Form_Registration
     { 
         $this->assignToTemplate( );
 
-        $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
-        $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
+        $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre' , true );
+        $this->buildCustom( $this->_values['custom_post_id'], 'customPost', true );
 
         $this->assign( 'lineItem', $this->_lineItem );
         $this->assign( 'totalAmount', $this->_totalAmount );

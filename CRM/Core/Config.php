@@ -47,9 +47,6 @@ require_once 'CRM/Core/Config/Variables.php';
 
 class CRM_Core_Config extends CRM_Core_Config_Variables
 {
-
-
-
     ///
     /// BASE SYSTEM PROPERTIES (CIVICRM.SETTINGS.PHP)
     ///

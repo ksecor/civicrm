@@ -70,7 +70,7 @@ class CRM_Contact_Page_View_DashBoard extends CRM_Contact_Page_View
         $this->assign( 'contactId', $uid);
         if ( ! $uid) {
             require_once 'CRM/Utils/System.php';
-            CRM_Utils_System::setMessage( ts( 'We could not find a contact id.' ) );
+            CRM_Utils_System::setUFMessage( ts( 'We could not find a contact id.' ) );
             CRM_Core_Error::statusBounce( ts( 'We could not find a contact id.' ) );
         }
 
@@ -150,7 +150,7 @@ class CRM_Contact_Page_View_DashBoard extends CRM_Contact_Page_View
         $viewOptions = CRM_Core_BAO_Preferences::valueOptions( 'contact_view_options', true, null, true );
 
         $enableCase = false;
-        if ( $viewOptions['CiviCase'] ) { 
+        if ( $viewOptions[ts('CiviCase')] ) { 
             $enableCase = true;
         }
         

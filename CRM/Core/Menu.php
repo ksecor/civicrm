@@ -235,8 +235,7 @@ class CRM_Core_Menu
     static function store( ) {
         // first clean up the db
         $query = 'TRUNCATE civicrm_menu';
-        CRM_Core_DAO::executeQuery( $query,
-                                    CRM_Core_DAO::$_nullArray );
+        CRM_Core_DAO::executeQuery( $query );
 
         $menu =& self::items( );
 
@@ -375,7 +374,6 @@ class CRM_Core_Menu
         }
 
         $values =& $nav['breadcrumb'];
-
         $config =& CRM_Core_Config::singleton( );
         foreach ( $values as $index => $item ) {
             if ( strpos( CRM_Utils_Array::value( $config->userFrameworkURLVar, $_REQUEST ),

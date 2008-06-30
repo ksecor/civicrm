@@ -5,7 +5,7 @@
 
 if ( ! isset( $civicrm_root ) ) {
     // It seems we need to bootstrap this installation, so redirect there
-    header("Location: new_install_setup.php");
+    header("Location: ../install/index.php?mode=standalone");
     exit(0);
 }
 

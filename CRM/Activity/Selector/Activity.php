@@ -237,7 +237,7 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
         } else {
             $columnHeaders = self::_getColumnHeaders();
             //unset case if not enabled
-            if ( ! $this->_viewOptions['CiviCase'] ) { 
+            if ( ! $this->_viewOptions[ts('CiviCase')] ) { 
                 unset( $columnHeaders[1]);
             }
             return $columnHeaders;

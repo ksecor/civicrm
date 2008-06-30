@@ -67,8 +67,8 @@ class CRM_PledgeBank_Info extends CRM_Core_Component_Info
     // docs inherited from interface
     public function getUserDashboardElement()
     {
-        return array( 'name'    => ts( 'Pledges' ),
-                      'title'   => ts( 'Your Pledge(s)' ),
+        return array( 'name'    => ts( 'PledgeBank' ),
+                      'title'   => ts( 'Your PledgeBank' ),
                       'perm'    => array( 'access PledgeBank public pages' ),
                       'weight'  => 120 );
     }
@@ -76,16 +76,16 @@ class CRM_PledgeBank_Info extends CRM_Core_Component_Info
     // docs inherited from interface  
     public function registerTab()
     {
-        return array( 'title'   => ts( 'Pledges' ),
-                      'id'      => 'pledgesigner',
-                      'url'	=> 'pledgesigner',
+        return array( 'title'   => ts( 'PledgeBank' ),
+                      'id'      => 'pbsigner',
+                      'url'	=> 'pbsigner',
                       'weight'  => 40 );
     }
 
     // docs inherited from interface  
     public function registerAdvancedSearchPane()
     {
-        return array( 'title'   => ts( 'Pledges' ),
+        return array( 'title'   => ts( 'PledgeBank' ),
                       'weight'  => 140 );
     }
     

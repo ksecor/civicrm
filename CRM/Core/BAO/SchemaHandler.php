@@ -77,7 +77,7 @@ class CRM_Core_BAO_SchemaHandler
     static function createTable( &$params )
     {
         $sql =  self::buildTableSQL( $params );
-        $dao =& CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
+        $dao =& CRM_Core_DAO::executeQuery( $sql );
         $dao->free();
 
         return true;
@@ -256,7 +256,7 @@ class CRM_Core_BAO_SchemaHandler
 
         }
 
-        $dao =& CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
+        $dao =& CRM_Core_DAO::executeQuery( $sql );
         $dao->free();
 
         return true;
@@ -275,13 +275,13 @@ class CRM_Core_BAO_SchemaHandler
     static function dropTable( $tableName ) 
     {
         $sql = "DROP TABLE $tableName";
-        $dao =& CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
+        $dao =& CRM_Core_DAO::executeQuery( $sql );
     }
 
     static function dropColumn( $tableName, $columnName ) 
     {
         $sql = "ALTER TABLE $tableName DROP COLUMN $columnName";
-        $dao =& CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
+        $dao =& CRM_Core_DAO::executeQuery( $sql );
     }
 }
 

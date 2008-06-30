@@ -8,6 +8,10 @@
         {assign var=enduser value="participant"}
         {assign var=pageType value="Event Information page"}
         {ts}Tell a Friend gives registering participants an easy way to spread the word about this event. The registration thank-you page will include a link to a form where they can enter their friends' email addresses, along with a personalized message. CiviCRM will record these solicitation activities, and will add the friends to your database.{/ts}
+    {elseif $context EQ 'Pledge'}
+        {assign var=enduser value="pledge"}
+        {assign var=pageType value="Pledge Information page"}
+        {ts}Tell a Friend gives registering pledge signers an easy way to spread the word about this pledge. The registration thank-you page will include a link to a form where they can enter their friends' email addresses, along with a personalized message. CiviCRM will record these solicitation activities, and will add the friends to your database.{/ts}	
     {/if}
 </div>
 

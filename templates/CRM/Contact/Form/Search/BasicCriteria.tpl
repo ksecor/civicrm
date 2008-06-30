@@ -13,6 +13,58 @@
         {/if}
     {/if}
 
+{literal}
+<script type="text/javascript">
+dojo.require("dojo.parser");
+dojo.require("dijit.Dialog");
+dojo.require("dojo.data.ItemFileWriteStore");
+dojo.require("civicrm.CheckableTree");
+
+function displayGroupTree( ) {
+    // do not recreate if tree is already created
+    if ( dijit.byId('civicrm_CheckableTree') ) {
+	return;
+    }
+
+    var dataUrl = {/literal}"{crmURL p='civicrm/ajax/groupTree' h=0 }"{literal};
+    var myStore = new dojo.data.ItemFileWriteStore({url: dataUrl});
+    var myModel = new dijit.tree.ForestStoreModel({
+	    store: myStore,
+	    query: {type:'rootGroup'},
+	    rootId: 'allGroups',
+	    rootLabel: 'All Groups',
+	    childrenAttrs: ["children"]
+	});
+    var tree = new civicrm.CheckableTree({
+	    model: myModel,
+	    id: 'civicrm_CheckableTree'
+	});
+    
+    var dd = dijit.byId('id-groupPicker');
+
+    var button1 = new dijit.form.Button({label: "Done", type: "submit"});                                                                   
+    dd.containerNode.appendChild(button1.domNode);      
+    
+    dd.containerNode.appendChild(tree.domNode);
+
+    var button2 = new dijit.form.Button({label: "Done", type: "submit"});                                                                   
+    dd.containerNode.appendChild(button2.domNode);      
+
+    tree.startup();
+    
+};
+
+function setCheckBoxValues( ) {
+    var tt        = dijit.byId('civicrm_CheckableTree');
+    var groupId   = document.getElementById('group');
+    groupId.value = tt.getCheckedIds( );
+    var groupNames   = document.getElementById('id-group-names');
+    groupNames.innerHTML = tt.getCheckedNames( );
+};
+
+</script>
+{/literal}
+
     {strip}
 	<table class="no-border">
         <tr>
@@ -22,19 +74,24 @@
                 {if $context EQ 'smog'}
                     {$form.group_contact_status.label}<br />
                 {else}
-                    {$form.group.label} &nbsp;
+{*$form.group.label*}{ts}in{/ts} &nbsp;
                 {/if}
                 {if $context EQ 'smog'}
                     {$form.group_contact_status.html}
                 {else}
-                    {$form.group.html}
+
+<a href="#" onclick="dijit.byId('id-groupPicker').show(); displayGroupTree( );">{ts}Select Group(s){/ts}</a>
+<div class="tundra" dojoType="dijit.Dialog" id="id-groupPicker" title="Select Group(s)" execute="setCheckBoxValues();">
+</div><br/><br/>
+<span id="id-group-names"></span>
+                    {*$form.group.html*}
                 {/if}
             <td class="label">{$form.tag.label} {$form.tag.html}</td>
             <td style="vertical-align: bottom;">
                 {$form.buttons.html}
             </td>
         </tr>
-            
+
         {*FIXME : uncomment following fields and place in form layout when subgroup functionality is implemented
         {if $context EQ 'smog'}
            <td>  

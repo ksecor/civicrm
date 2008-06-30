@@ -48,7 +48,7 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
         $this->invoke( $args );
         exit( );
     }
-
+    
     /**
      * Invoke function that redirects to respective functions
      */
@@ -56,16 +56,16 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
     {
         // intialize the system
         $config =& CRM_Core_Config::singleton( );
-
+        
         if ( $args[0] != 'civicrm' && $args[1] != 'ajax' ) {
             exit( );
         }
-
+        
         switch ( $args[2] ) {
-
+            
         case 'search':
             return $this->search( $config );
-
+            
         case 'state':
             return $this->state( $config );
 
@@ -123,6 +123,9 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
 
         case 'memType':
             return $this->getMemberTypeDefaults( $config );
+            
+        case 'summary':
+            return $this->inlineEdit( $config );
             
         default:
             return;
@@ -252,8 +255,7 @@ ORDER BY sort_name ";
             
             $query .= " LIMIT {$start},{$end}";
             
-            $nullArray = array( );
-            $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
+            $dao = CRM_Core_DAO::executeQuery( $query );
             
             if ( $shared ) {
                 while ( $dao->fetch( ) ) {
@@ -310,8 +312,7 @@ FROM civicrm_event
 WHERE {$whereClause}
 ORDER BY title
 ";
-            $nullArray = array( );
-            $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
+            $dao = CRM_Core_DAO::executeQuery( $query );
             $elements = array( );
             while ( $dao->fetch( ) ) {
                 $elements[] = array( 'name' => $dao->title,
@@ -365,8 +366,7 @@ AND v.is_active = 1
 AND {$whereClause}
 ORDER by v.weight";
 
-            $nullArray = array( );
-            $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
+            $dao = CRM_Core_DAO::executeQuery( $query );
             
             $elements = array( );
             while ( $dao->fetch( ) ) {
@@ -418,8 +418,7 @@ SELECT distinct(cv.label), cv.id
 FROM civicrm_option_value cv, civicrm_option_group cg
 WHERE {$whereClause}
 ";
-            $nullArray = array( );
-            $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
+            $dao = CRM_Core_DAO::executeQuery( $query );
             $elements = array( );
             while ( $dao->fetch( ) ) {
                 $elements[] = array( 'name' => $dao->label,
@@ -463,11 +462,10 @@ WHERE {$whereClause}
         if ( $getRecords ) {
 $query = "
 SELECT p.creator_pledge_desc, p.id
-FROM civicrm_pledge p
+FROM civicrm_pb_pledge p
 WHERE {$whereClause}
 ";
-            $nullArray = array( );
-            $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
+            $dao = CRM_Core_DAO::executeQuery( $query );
             $elements = array( );
             while ( $dao->fetch( ) ) {
                 $elements[] = array( 'name' => $dao->creator_pledge_desc,
@@ -554,8 +552,7 @@ WHERE {$countryClause}
     AND {$stateClause}
 ORDER BY name";
 
-            $nullArray = array( );
-            $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
+            $dao = CRM_Core_DAO::executeQuery( $query );
             
             $count = 0;
             
@@ -649,8 +646,7 @@ SELECT id, name
    AND {$whereClause} 
 ORDER BY name";
 
-            $nullArray = array( );
-            $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
+            $dao = CRM_Core_DAO::executeQuery( $query );
             
             $count = 0;
             while ( $dao->fetch( ) && $count < 5 ) {
@@ -687,8 +683,8 @@ SELECT subject
 FROM civicrm_case
 WHERE contact_id = $contactID 
 ORDER BY subject";
-        $nullArray = array( );
-        $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
+
+        $dao = CRM_Core_DAO::executeQuery( $query );
         $elements = array( );
        
         while ( $dao->fetch( ) ) {
@@ -744,8 +740,7 @@ SELECT id
 FROM civicrm_contact
 WHERE sort_name LIKE '%$name%'";
         
-        $nullArray = array( );
-        $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
+        $dao = CRM_Core_DAO::executeQuery( $query );
         $dao->fetch( );
         
         if ( $dao->N == 1) {
@@ -834,4 +829,24 @@ WHERE sort_name LIKE '%$name%'";
 
         echo $contributionType . "^A" . $totalAmount;
     }
+
+    /**
+     * Function to save inline editing values
+     */
+    function inlineEdit( $config ) 
+    {
+        require_once 'CRM/Utils/Type.php';
+        $field     = CRM_Utils_Type::escape( $_GET['field'], 'String');
+        $value     = CRM_Utils_Type::escape( $_GET['value'], 'String');
+        $contactId = CRM_Utils_Type::escape( $_GET['cid'], 'Integer'); 
+        
+        $params = array( );
+        $params[$field] = $value;
+        
+        $ctype = CRM_Core_DAO::getFieldValue("CRM_Contact_DAO_Contact", $contactId, "contact_type");
+
+        require_once "CRM/Contact/BAO/Contact.php";
+        CRM_Contact_BAO_Contact::createProfileContact( $params, CRM_Core_DAO::$_nullArray, $contactId );
+    }
+
 }

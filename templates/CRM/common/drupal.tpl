@@ -10,7 +10,7 @@
     {include file="CRM/common/recentlyViewed.tpl"}
 {/if}
 
-{if $browserPrint}
+{if isset($browserPrint) and $browserPrint}
 {* Javascript window.print link. Used for public pages where we can't do printer-friendly view. *}
 <div id="printer-friendly"><a href="javascript:window.print()" title="{ts}Print this page.{/ts}"><img src="{$config->resourceBase}i/print_preview.gif" alt="{ts}Print this page.{/ts}" /></a></div>
 {else}
@@ -22,14 +22,14 @@
 
 <div class="spacer"></div>
 
-{if $localTasks}
+{if isset($localTasks) and $localTasks}
     {include file="CRM/common/localNav.tpl"}
 {/if}
 
 {include file="CRM/common/status.tpl"}
 
 <!-- .tpl file invoked: {$tplFile}. Call via form.tpl if we have a form in the page. -->
-{if $isForm}
+{if isset($isForm) and $isForm}
     {include file="CRM/Form/$formTpl.tpl"}
 {else}
     {include file=$tplFile}

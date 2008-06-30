@@ -644,10 +644,11 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         foreach ( $params as $key => $value ) {
             if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
                 CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,
-                                                             $value, $params['contact_type'], null, $this->_contactId);
+                                                             $value, $params['contact_type'], null,
+                                                             $this->_contactId, true);
             }
         }
-        
+
         //special case to handle if all checkboxes are unchecked
         $customFields = CRM_Core_BAO_CustomField::getFields( $params['contact_type'], false, true );
         

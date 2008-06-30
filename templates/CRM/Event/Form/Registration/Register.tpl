@@ -144,6 +144,10 @@
 
 {include file="CRM/UF/Form/Block.tpl" fields=$customPost}   
 
+{if $isCaptcha}
+  {include file='CRM/common/ReCAPTCHA.tpl'}
+{/if}
+
 {* Put PayPal Express button after customPost block since it's the submit button in this case. *}
 {if $paymentProcessor.payment_processor_type EQ 'PayPal_Express'}
     <fieldset><legend>{ts}Checkout with PayPal{/ts}</legend>

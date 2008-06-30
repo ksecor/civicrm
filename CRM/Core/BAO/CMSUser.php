@@ -408,13 +408,14 @@ SELECT count(*)
      */
     static function createDrupalUser( &$params, $mail )
     {
-        $values = array( 
-                        'name' => $params['cms_name'],
-                        'mail' => $params[$mail],
-                         );
+        $values['values']  = array (
+                                    'name' => $params['cms_name'],
+                                    'mail' => $params[$mail],
+                                    'op'   => 'Create new account'
+                                    );
         if ( !variable_get('user_email_verification', TRUE )) {
-            $values['pass'] = array('pass1' => $params['cms_pass'],
-                                    'pass2' => $params['cms_confirm_pass']);
+            $values['values']['pass1']   =  $params['cms_pass'];
+            $values['values']['pass2'] =  $params['cms_confirm_pass'];
             
         }
 
@@ -422,7 +423,7 @@ SELECT count(*)
 
         // we also need to redirect b
         $config->inCiviCRM = true;
-        
+
         $res = drupal_execute( 'user_register', $values );
         
         $config->inCiviCRM = false;

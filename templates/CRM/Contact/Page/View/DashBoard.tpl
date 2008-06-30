@@ -8,7 +8,7 @@
       <fieldset><legend>{ts}Quick Search{/ts}</legend>
       <form action="{$postURL}" method="post">
       <div class="form-item">
-        {if $drupalFormToken}
+        {if isset($drupalFormToken) and $drupalFormToken}
             <input type="hidden" name="edit[token]" value="{$drupalFormToken}" />
         {/if}
         <input type="hidden" name="contact_type" value="" />

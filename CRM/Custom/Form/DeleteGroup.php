@@ -63,11 +63,22 @@ class CRM_Custom_Form_DeleteGroup extends CRM_Core_Form {
     function preProcess( ) {
         $this->_id    = $this->get( 'id' );
         
-       
         $defaults = array( );
         $params   = array( 'id' => $this->_id );
         CRM_Core_BAO_CustomGroup::retrieve( $params, $defaults );
         $this->_title = $defaults['title'];
+        
+        require_once 'CRM/Core/BAO/CustomField.php';
+        //check wheter this contain any custom fields
+        $customField = & new CRM_Core_DAO_CustomField();
+        $customField->custom_group_id = $this->_id;
+        
+        if ($customField->find(true)) {
+            CRM_Core_Session::setStatus( ts("The Group '%1' can not be deleted! You must Delete all custom fields in this group prior to deleting the group.", array(1 => $this->_title)) );
+            $url = CRM_Utils_System::url( 'civicrm/admin/custom/group', "reset=1" );
+            CRM_Utils_System::redirect($url);
+            return true;
+        }
         $this->assign( 'name' , $this->_title );
         
         CRM_Utils_System::setTitle( ts('Confirm Custom Group Delete') );
@@ -101,15 +112,11 @@ class CRM_Custom_Form_DeleteGroup extends CRM_Core_Form {
         $group = & new CRM_Core_DAO_CustomGroup();
         $group->id = $this->_id;
         $group->find( true );
-
+        
         $wt = CRM_Utils_Weight::delWeight('CRM_Core_DAO_CustomGroup', $this->_id);
-        if (CRM_Core_BAO_CustomGroup::deleteGroup( $group ) ) {
-            CRM_Core_Session::setStatus( ts("The Group '%1' has been deleted.", array(1 => $group->title)) );        
-        } else {
-            CRM_Core_Session::setStatus( ts("The Group '%1' has not been deleted! You must Delete all custom fields in this group prior to deleting the group", array(1 => $group->title)) ); 
-            CRM_Utils_Weight::correctDuplicateWeights('CRM_Core_DAO_CustomGroup');       
-        }
-   }
+        CRM_Core_BAO_CustomGroup::deleteGroup( $group );
+        CRM_Core_Session::setStatus( ts("The Group '%1' has been deleted.", array(1 => $group->title)) ); 
+    }
 }
 
 

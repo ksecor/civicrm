@@ -110,7 +110,7 @@
     <div class="spacer"></div>	    
     <dl> 	
         <dt>{$form.relationship_type_id.label}</dt>
-        <dd>{if ! $form.relationship_type_id.value and ($action neq 1)} {ts}None{/ts} {else}{$form.relationship_type_id.html}{/if}</dd>
+        <dd>{$form.relationship_type_id.html}</dd>
         <dt>&nbsp;</dt>
         <dd class="description">{ts}Memberships can be automatically granted to related contacts by selecting a Relationship Type.{/ts} {help id="rel-type"}</dd>
         <dt>{$form.visibility.label}</dt>

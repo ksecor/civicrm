@@ -66,7 +66,7 @@ UPDATE civicrm_email
 SET is_bulkmail = 0
 WHERE 
 contact_id = {$params['contact_id']}";
-            CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
+            CRM_Core_DAO::executeQuery( $sql );
         }
 
         // handle if email is on hold

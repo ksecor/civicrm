@@ -113,8 +113,9 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
             CRM_Event_Form_Registration_Register::buildAmount( $this );
         }
         
-        $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
-        $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
+        $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre' , true );
+        $this->buildCustom( $this->_values['custom_post_id'], 'customPost', true );
+
         //add buttons
         $this->addButtons(array(
                                 array ( 'type'      => 'next',

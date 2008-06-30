@@ -76,8 +76,8 @@ class Browser_Admin_AdminInterface extends CiviTestCase {
   }  
 
   function testAdminLinkFindDuplicateContacts() {
-    $this->clickLink('Duplicate Contact Rules', '0');
-    $this->assertClickable('Use Rule');
+    $this->clickLink('Find and Merge Duplicate Contacts', '0');
+    $this->assertText('Manage the rules used to identify potentially duplicate contact records.');
   }  
 
   function testAdminLinkActivityTypes() {

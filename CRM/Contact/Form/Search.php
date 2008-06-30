@@ -254,7 +254,8 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         if ( $this->_context === 'smog' ) {
             // need to figure out how to freeze a bunch of checkboxes, hack for now
             if ( $this->_action != CRM_Core_Action::ADVANCED ) {
-                $this->_groupElement->freeze( );
+                //Fix ME
+                //$this->_groupElement->freeze( );
             }
             
             // also set the group title
@@ -316,14 +317,16 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         } else {
             $this->add('select', 'task'   , ts('Actions:') . ' '    , $tasks    );
             $this->add('submit', $this->_actionButtonName, ts('Go'),
-                       array( 'class' => 'form-submit',
-                          'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."', 0);" ) );
+                       array( 'class'   => 'form-submit',
+                              'id'      => 'Go',
+                              'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."', 0);" ) );
         }
         
         // need to perform tasks on all or selected items ? using radio_ts(task selection) for it
-        $this->addElement('radio', 'radio_ts', null, '', 'ts_sel', array( 'checked' => 'checked' ) );
+        $this->addElement('radio', 'radio_ts', null, '', 'ts_sel', array( 'checked' => 'checked',
+                                                                          'onclick' => 'toggleTaskAction( true );') );
         
-        $this->addElement('radio', 'radio_ts', null, '', 'ts_all', array( 'onclick' => $this->getName().".toggleSelect.checked = false; toggleCheckboxVals('mark_x_',".$this->getName().");" ) );
+        $this->addElement('radio', 'radio_ts', null, '', 'ts_all', array( 'onclick' => $this->getName().".toggleSelect.checked = false; toggleCheckboxVals('mark_x_',".$this->getName().");toggleTaskAction( true );" ) );
 
         /*
          * add form checkboxes for each row. This is needed out here to conform to QF protocol
@@ -331,11 +334,11 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
          */
         $rows = $this->get( 'rows' );
         if ( is_array( $rows ) ) {
-            $this->addElement( 'checkbox', 'toggleSelect', null, null, array( 'onclick' => "return toggleCheckboxVals('mark_x_',this.form);" ) );
+            $this->addElement( 'checkbox', 'toggleSelect', null, null, array( 'onclick' => "toggleTaskAction( true ); return toggleCheckboxVals('mark_x_',this.form);" ) );
             foreach ($rows as $row) {
                 $this->addElement( 'checkbox', $row['checkbox'],
                                    null, null,
-                                   array( 'onclick' => "return checkSelectedBox('" . $row['checkbox'] . "', '" . $this->getName() . "');" ) );
+                                   array( 'onclick' => "toggleTaskAction( true ); return checkSelectedBox('" . $row['checkbox'] . "', '" . $this->getName() . "');" ) );
             }
         }
 
@@ -348,7 +351,8 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
                            );
 
         $this->add('submit', $this->_printButtonName, ts('Print'),
-                   array( 'class' => 'form-submit',
+                   array( 'class'   => 'form-submit',
+                          'id'      => 'Print',  
                           'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."', 1);" ) );
         
         $this->setDefaultAction( 'refresh' );

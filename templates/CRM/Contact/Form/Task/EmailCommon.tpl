@@ -58,20 +58,27 @@ var editor = {/literal}"{$editor}"{literal}
 			}
 		  	return;
         	}
-
-		xmlHttp=GetXmlHttpObject();
-		var url={/literal}"{crmURL p='civicrm/ajax/template' q='tid='}"{literal} + val;
-		xmlHttp.onreadystatechange=stateChanged;
-		xmlHttp.open("GET",url,true);
-		xmlHttp.send(null);
-	}
-
-    	function stateChanged() 
-	{ 
-		var editor = {/literal}"{$editor}"{literal}
-		if (xmlHttp.readyState==4)
-		{ 
-			result = (xmlHttp.responseText).split('^A');
+ 
+		var dataUrl = {/literal}"{crmURL p='civicrm/ajax/template' q='tid='}"{literal} + val;
+        
+        	var result = dojo.xhrGet({
+        	url: dataUrl,
+       		handleAs: "text",
+	        timeout: 5000, //Time in milliseconds
+	        handle: function(response, ioArgs){
+                if(response instanceof Error){
+                        if(response.dojoType == "cancel"){
+                                //The request was canceled by some other JavaScript code.
+                                console.debug("Request canceled.");
+                        }else if(response.dojoType == "timeout"){
+                                //The request took over 5 seconds to complete.
+                                console.debug("Request timed out.");
+                        }else{
+                                //Some other error happened.
+                                console.error(response);
+                        }
+                 } else {
+	           	result = response.split('^A');
 			document.getElementById("text_message").value =  result[0] ;
 			document.getElementById("subject").value = result[2];
 			if ( editor == "fckeditor" ) {
@@ -83,31 +90,12 @@ var editor = {/literal}"{$editor}"{literal}
 				document.getElementById("html_message").value = result[1] ;
 			}
 		}
+		}});
+	
 	}
 
-	function GetXmlHttpObject()
-	{
-		var xmlHttp=null;
- 		try
-  		{
-  			// Firefox, Opera 8.0+, Safari
-			xmlHttp=new XMLHttpRequest();
-		}	
-		catch (e)
-  		{
-			// Internet Explorer
-  			try
-    			{
-    				xmlHttp=new ActiveXObject("Msxml2.XMLHTTP");
-    			}
- 			catch (e)
-    			{
-    				xmlHttp=new ActiveXObject("Microsoft.XMLHTTP");
-    			}
- 		 }
-		return xmlHttp;
-	}
-	document.getElementById("editMessageDetails").style.display = "block";
+ 
+  	document.getElementById("editMessageDetails").style.display = "block";
 
       	function verify( select )
       	{
@@ -134,7 +122,7 @@ var editor = {/literal}"{$editor}"{literal}
      	{
 		if (chkbox.checked) {
 	        	document.getElementById("saveDetails").style.display = "block";
-	        	document.getElementById("saveTemplateName").disabled = false;
+	        	//document.getElementById("saveTemplateName").disabled = false;
 	    	} else {
 	        	document.getElementById("saveDetails").style.display = "none";
 		        document.getElementById("saveTemplateName").disabled = true;

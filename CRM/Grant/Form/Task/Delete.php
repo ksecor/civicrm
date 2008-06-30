@@ -80,10 +80,8 @@ class CRM_Grant_Form_Task_Delete extends CRM_Grant_Form_Task
      */
     public function postProcess( ) 
     {
-        $session =& CRM_Core_Session::singleton();
-       
         $deletedGrants = 0;
-         require_once 'CRM/Grant/BAO/Grant.php';
+        require_once 'CRM/Grant/BAO/Grant.php';
         foreach ( $this->_grantIds as $grantId ) {
             if ( CRM_Grant_BAO_Grant::del( $grantId ) ) {
                 $deletedGrants++;

@@ -128,7 +128,7 @@ WHERE    ( CF.file_type_id = $fileID AND CEF.entity_table = '$entityTable' AND C
             $sql = "SELECT id FROM civicrm_file WHERE 0";
         }
 
-        $dao =& CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
+        $dao =& CRM_Core_DAO::executeQuery( $sql );
         $dao->fetch();
        
         $mimeType = $_FILES[$uploadName]['type'];
