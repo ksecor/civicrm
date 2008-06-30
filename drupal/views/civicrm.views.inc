@@ -137,6 +137,18 @@ function civicrm_views_data() {
                                                                        ),
                                             );
 
+    $data['civicrm_email']['email_is_primary'] = array(
+                                                       'title' => t('Is Primary Email?'),
+                                                       'real field' => 'is_primary',
+                                                       'help' => t('Is this the primary email?'),
+                                                       'field' => array(
+                                                                        'handler' => 'views_handler_field_boolean',
+                                                                        ),
+                                                       'filter' => array(
+                                                                         'handler' => 'views_handler_filter_boolean_operator',
+                                                                         ),
+                                                       );
+
     return $data;
   }
 
