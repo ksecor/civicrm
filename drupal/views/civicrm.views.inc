@@ -452,6 +452,35 @@ function civicrm_views_data_contact( &$data, &$config ) {
                                                                         ),
                                                        );
 
+    // add the other generic fields
+    civicrm_initialize( );
+    $objType = 'Individual';
+    require_once 'CRM/Contact/BAO/Contact.php';
+    $fields = CRM_Contact_BAO_Contact::exportableFields( $objType );
+    $skipFields = array( 'id' => 1,
+                         'contact_type' => 1,
+                         'contact_sub_type' => 1,
+                         );
+    foreach ( $fields as $name => $value ) {
+        if ( CRM_Utils_Array::value( $name, $skipFields ) ) {
+            continue;
+        }
+
+        $data['civicrm_contact'][$name] = array(
+                                                'title' => $value['title'],
+                                                'help'  => $value['title'],
+                                                'field' => array( 
+                                                                 'handler' => civicrm_views_get_field_handler  ( $value['type'], $name, $objType ),
+                                                                 'click sortable' => true,
+                                                                  ),
+                                                'sort'  => array(
+                                                                 'handler' => civicrm_views_get_sort_handler   ( $value['type'], $name, $objType ),
+                                                                 ),
+                                                'filter' => array(
+                                                                  'handler' => civicrm_views_get_filter_handler( $value['type'], $name, $objType ),
+                                                                  ),
+                                                );
+    }
 }
 
 function civicrm_views_data_email( &$data, &$config ) {
@@ -569,6 +598,18 @@ function civicrm_views_data_contribution( &$data, &$config ) {
                                                                             'handler' => 'views_handler_filter_numeric',
                                                                             ),
                                                           );
+}
+
+function civicrm_views_get_field_handler( $type, $fieldName, $objectName ) {
+    return 'views_handler_field';
+}
+
+function civicrm_views_get_filter_handler( $type, $fieldName, $objectName ) {
+    return 'views_handler_filter';
+}
+
+function civicrm_views_get_sort_handler( $type, $fieldName, $objectName ) {
+    return 'views_handler_sort';
 }
 
 /**
