@@ -102,14 +102,26 @@ class CRM_Pledge_BAO_Query
     
     static function where( &$query ) 
     {
+        $isTest   = false;
         $grouping = null;
         foreach ( array_keys( $query->_params ) as $id ) {
-            if ( substr( $query->_params[$id][0], 0, 3) == 'pb_') {
-                if ( $query->_mode == CRM_Contact_BAO_QUERY::MODE_CONTACTS ) 
-                    self::whereClauseSingle( $query->_params[$id], $query );
-                $query->_useDistinct = true;
+            if ( substr( $query->_params[$id][0], 0, 7) == 'pledge_') {
+                if ( $query->_mode == CRM_Contact_BAO_QUERY::MODE_CONTACTS ) {
+                    $query->_useDistinct = true;
+                }
+                if ( $query->_params[$id][0] == 'pledge_test' ) {
+                    $isTest = true;
+                }
+                $grouping = $query->_params[$id][3];
+                self::whereClauseSingle( $query->_params[$id], $query );
             }
         }
+        
+        if ( $grouping !== null &&
+             ! $isTest ) {
+            $values = array( 'pledge_test', '=', 0, $grouping, 0 );
+            self::whereClauseSingle( $values, $query );
+        }  
     }
         
     static function whereClauseSingle( &$values, &$query ) 
@@ -232,7 +244,8 @@ class CRM_Pledge_BAO_Query
                                 'pledge_frequency_interval'   => 1,
                                 'pledge_create_date'          => 1,
                                 'pledge_start_date'           => 1,
-                                'pledge_status_id'            => 1
+                                'pledge_status_id'            => 1,
+                                'is_test'                     => 1 
                                 );
         }
         return $properties;

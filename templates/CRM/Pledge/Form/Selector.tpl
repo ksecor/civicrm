@@ -32,7 +32,7 @@
     {/if}
     <td>{$row.pledge_amount}</td>	
     <td>{$row.pledge_create_date|truncate:10:''|crmDate}</td>
-    <td>{$row.pledge_frequency_interval} ({$row.pledge_frequency_unit}(s)) </td>	
+    <td>{$row.pledge_frequency_interval} {$row.pledge_frequency_unit|capitalize:true}(s) </td>	
     <td>{$row.pledge_start_date|truncate:10:''|crmDate}</td>
     <td>{$row.pledge_status_id}</td>	
     <td>{$row.action}</td>
