@@ -39,7 +39,7 @@
    {else}
       <table class="form-layout-compressed">
         <tr>
-            <td class="font-size12pt right"><strong>{ts}Contributor{/ts}</strong></td><td class="font-size12pt"><strong>{$displayName}</strong></td>
+            <td class="font-size12pt right"><strong>{ts}Pledger{/ts}</strong></td><td class="font-size12pt"><strong>{$displayName}</strong></td>
         </tr>
 	{if $pledgeMode}
            <tr><td class="label nowrap">{$form.payment_processor_id.label}<span class="marker"> * </span></td><td>{$form.payment_processor_id.html}</td></tr>
@@ -51,7 +51,7 @@
         </td></tr> 
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Select the appropriate contribution type for this transaction.{/ts}</td></tr>
         <tr><td class="label">{$form.amount.label}</td><td>{$form.amount.html|crmMoney}</td></tr>
-        <tr><td class="label">&nbsp;</td><td class="description">{ts}Actual amount given by contributor.{/ts}</td></tr>
+        <tr><td class="label">&nbsp;</td><td class="description">{ts}Actual amount given by pledger.{/ts}</td></tr>
 	<tr><td class="label">{$form.source.label}</td><td>{$form.source.html}</td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Optional identifier for the contribution source (campaign name, event, mailer, etc.).{/ts}</td></tr>
 	<tr><td class="label">{$form.frequency_unit.label}</td><td>{$form.frequency_unit.html}</td></tr>
@@ -84,7 +84,7 @@
 	    <tr id="receiptDate"><td class="label">{$form.receipt_date.label}</td><td>{$form.receipt_date.html}
             {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_2}
             {include file="CRM/common/calendar/body.tpl" dateVar=receipt_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_contribution_2}<br />
-            <span class="description">{ts}Date that a receipt was sent to the contributor.{/ts}</span></td></tr>	
+            <span class="description">{ts}Date that a receipt was sent to the pledger.{/ts}</span></td></tr>	
         {/if}
 	{if !$pledgeMode}
         <tr><td class="label">{$form.receive_date.label}</td><td>{$form.receive_date.html}
@@ -105,7 +105,7 @@
 	<tr id="receiptDate"><td class="label">{$form.receipt_date.label}</td><td>{$form.receipt_date.html}
             {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_2}
             {include file="CRM/common/calendar/body.tpl" dateVar=receipt_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_contribution_2}<br />
-            <span class="description">{ts}Date that a receipt was sent to the contributor.{/ts}</span></td></tr>
+            <span class="description">{ts}Date that a receipt was sent to the pledger.{/ts}</span></td></tr>
 	<tr><td class="label">{$form.status_id.label}</td><td>{$form.status_id.html}
 	{if $status_id eq 2}{if $is_pay_later }: {ts}Pay Later{/ts} {else}: {ts}Incomplete Transaction{/ts}{/if}{/if}</td></tr>
         {* Cancellation fields are hidden unless contribution status is set to Cancelled *}
