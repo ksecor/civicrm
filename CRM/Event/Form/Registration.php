@@ -335,7 +335,8 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         //process only primary participant params
         $this->_params = $this->get( 'params' );
         $params = $this->_params[0];
-        
+
+        $name = '';
         if ( CRM_Utils_Array::value( 'billing_first_name', $params ) ) {
             $name = $params['billing_first_name'];
         }
@@ -346,9 +347,10 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         
         if ( CRM_Utils_Array::value( 'billing_last_name', $params ) ) {
             $name .= " {$params['billing_last_name']}";
-            $this->assign( 'name', $name );
-            $this->set( 'name', $name );
         }       
+        $this->assign( 'name', $name );
+        $this->assign( 'billingName', $name );
+        $this->set( 'name', $name );
         
         $vars = array( 'amount', 'currencyID', 'credit_card_type', 
                        'trxn_id', 'amount_level', 'receive_date' );

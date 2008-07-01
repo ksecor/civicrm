@@ -457,12 +457,14 @@ function civicrm_views_data_contact( &$data, &$config ) {
     $objType = 'Individual';
     require_once 'CRM/Contact/BAO/Contact.php';
     $fields = CRM_Contact_BAO_Contact::exportableFields( $objType );
+
     $skipFields = array( 'id' => 1,
                          'contact_type' => 1,
                          'contact_sub_type' => 1,
                          );
     foreach ( $fields as $name => $value ) {
-        if ( CRM_Utils_Array::value( $name, $skipFields ) ) {
+        if ( CRM_Utils_Array::value( $name, $skipFields ) ||
+             substr( $value['where'], 0, 15 ) != 'civicrm_contact' ) {
             continue;
         }
 
