@@ -67,13 +67,17 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base
      * @var array
      * @static
      */
-    static $_properties = array( 'contact_id',
-                                 'contact_type',
-                                 'sort_name',
-                                 'pledge_id',
-                                 'pledge_name',
-                                 'pledge_date',
-                                 'pledge_is_done'
+    static $_properties = array( 
+                                'contact_id',
+                                'sort_name',   
+                                'display_name',
+                                'pledge_id',   
+                                'amount',      
+                                'frequency_unit',
+                                'frequency_interval',
+                                'create_date',       
+                                'start_date',        
+                                'status_id'         
                                  );
 
     /** 

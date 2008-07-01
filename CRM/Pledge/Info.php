@@ -51,7 +51,7 @@ class CRM_Pledge_Info extends CRM_Core_Component_Info
                       'translatedName' => ts('CiviPledge'),
                       'title'          => ts('CiviCRM Pledge Engine'),
                       'menu'           => array( $config->templateDir . 'Menu/Pledge.xml' ),
-                      'search'         => 0 );
+                      'search'         => 1 );
     }
 
 
