@@ -182,7 +182,7 @@ class CRM_Utils_System {
 
     function href( $text, $path = null, $query = null, $absolute = true,
                       $fragment = null, $htmlize = true, $frontend = false ) {
-        $url = self::url( $path, $qury, $absolute, $fragment, $htmlize, $frontend );
+        $url = self::url( $path, $query, $absolute, $fragment, $htmlize, $frontend );
         return "<a href=\"$url\">$text</a>";
     }
 
