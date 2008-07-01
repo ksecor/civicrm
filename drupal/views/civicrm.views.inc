@@ -22,11 +22,15 @@ function civicrm_views_data() {
 
     $data = array( );
 
-    civicrm_views_data_contact     ( $data );
+    civicrm_initialize( );
+    require_once 'CRM/Core/Config.php';
+    $config =& CRM_Core_Config::singleton( );
 
-    civicrm_views_data_email       ( $data );
+    civicrm_views_data_contact     ( $data, $config );
 
-    civicrm_views_data_contribution( $data );
+    civicrm_views_data_email       ( $data, $config );
+
+    civicrm_views_data_contribution( $data, $config );
 
     return $data;
   }
@@ -536,13 +540,14 @@ function civicrm_views_href( $text, $path, $query ) {
     return CRM_Utils_System::href( $text, $path, $query );
 }
  
-function civicrm_views_data_contact( &$data ) {
+function civicrm_views_data_contact( &$data, &$config ) {
    $data['civicrm_contact']['table']['group']  = t('CiviCRM Contact');
 
     $data['civicrm_contact']['table']['base'] = array(
                                                       'field' => 'id',
                                                       'title' => t('CiviCRM Contacts'),
                                                       'help' => t('CiviCRM Contacts'),
+                                                      'database' => 'civicrm',
                                                       );
 
     // id
@@ -617,7 +622,7 @@ function civicrm_views_data_contact( &$data ) {
 
 }
 
-function civicrm_views_data_email( &$data ) {
+function civicrm_views_data_email( &$data, &$config ) {
     // ----------------------------------------------------------------------
     // CiviCRM email table
 
@@ -669,7 +674,7 @@ function civicrm_views_data_email( &$data ) {
 
 }
 
-function civicrm_views_data_contribution( &$data ) {
+function civicrm_views_data_contribution( &$data, &$config ) {
     // ----------------------------------------------------------------------
     // CiviCRM email table
 
@@ -679,8 +684,9 @@ function civicrm_views_data_contribution( &$data ) {
         array(
               'field' => 'id',
               'title' => t('CiviCRM Contributions'),
-              'help' => t('CiviCRM Contributions' ),
-              );
+              'help' => t('CiviCRM Contributions' ), 
+              'database' => 'civicrm',
+             );
 
     // Explain how this table joins to others.
     $data['civicrm_contribution']['table']['join'] = array(
