@@ -227,9 +227,8 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         // current contribution id
         if ( $this->_id ) {
             $this->_online = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_FinancialTrxn',
-                                                          $this->_id,
-                                                          'contribution_id' );
-
+                                                          $this->_id, 'id', 'contribution_id' );
+            
             //to get Premium id
             $sql = "
 SELECT *
@@ -390,15 +389,8 @@ WHERE  contribution_id = {$this->_id}
         $this->_formType = CRM_Utils_Array::value( 'formType', $_GET );
         
         require_once 'CRM/Contribute/Form/AdditionalInfo.php';
-            
-        if ( $this->_id ) {
-            $ids = array( );
-            $params = array( 'id' => $this->_id );
-            $defaults = array( );
-            require_once "CRM/Contribute/BAO/Contribution.php";
-            CRM_Contribute_BAO_Contribution::getValues( $params, $defaults, $ids );
-        }
         
+        $defaults = $this->_values;
         $additionalDetailFields = array( 'note', 'thankyou_date', 'invoice_id', 'non_deductible_amount', 'fee_amount', 'net_amount');
         foreach ( $additionalDetailFields as $key ) {
             if ( ! empty( $defaults[$key] ) ) {
