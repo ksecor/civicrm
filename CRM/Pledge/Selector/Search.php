@@ -70,13 +70,10 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base
     static $_properties = array( 'contact_id',
                                  'contact_type',
                                  'sort_name',
-                                 'pb_pledge_id',
-                                 'pb_signer_id',
-                                 'pb_pledge_name',
-                                 'pb_signer_pledge_desc',
-                                 'pb_signer_signing_date',
-                                 'pb_signer_is_anonymous',
-                                 'pb_signer_is_done'
+                                 'pledge_id',
+                                 'pledge_name',
+                                 'pledge_date',
+                                 'pledge_is_done'
                                  );
 
     /** 
@@ -269,7 +266,7 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base
          
          // check is the user has view/edit signer permission
          $permission = CRM_Core_Permission::VIEW;
-         if ( CRM_Core_Permission::check( 'edit pledge signer records' ) ) {
+         if ( CRM_Core_Permission::check( 'edit pledge records' ) ) {
              $permission = CRM_Core_Permission::EDIT;
          }
          
@@ -343,34 +340,34 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base
             self::$_columnHeaders = array( 
                                           array(
                                                 'name'      => ts('Pledge'),
-                                                'sort'      => 'pb_pledge_name',
+                                                'sort'      => 'pledge_name',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
                                                 'name'      => ts('Amount'),
-                                                'sort'      => 'pb_pledge_amount',
+                                                'sort'      => 'pledge_amount',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           
                                           array(
                                                 'name'      => ts('Type'),
-                                                'sort'      => 'pb_pledge_type',
+                                                'sort'      => 'pledge_type',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           
                                           array(
                                                 'name'      => ts('Source'),
-                                                'sort'      => 'pb_pledge_source',
+                                                'sort'      => 'pledge_source',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
                                                 'name'      => ts('Received'),
-                                                'sort'      => 'pb_pledge_received_date',
+                                                'sort'      => 'pledge_received_date',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
                                                 'name'      => ts('Status'),
-                                                'sort'      => 'pb_pledge_status',
+                                                'sort'      => 'pledge_status',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array('desc'      => ts('Actions') ),
