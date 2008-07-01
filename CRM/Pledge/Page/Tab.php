@@ -162,8 +162,8 @@ class CRM_Pledge_Page_Tab extends CRM_Contact_Page_View
      */ 
     function edit( ) 
     { 
-        $controller =& new CRM_Core_Controller_Simple( 'CRM_Contribute_Form_Contribution', 
-                                                       'Create Contribution', 
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Pledge_Form_Pledge', 
+                                                       'Create Pledge', 
                                                        $this->_action );
         $controller->setEmbedded( true ); 
         $controller->set( 'id' , $this->_id ); 

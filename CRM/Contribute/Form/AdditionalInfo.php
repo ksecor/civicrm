@@ -70,8 +70,8 @@ class CRM_Contribute_Form_AdditionalInfo
         $form->assign('mincontribution',$min_amount);
         $sel =& $form->addElement('hierselect', "product_name", ts('Premium'),'onclick="showMinContrib();"');
         $js = "<script type='text/javascript'>\n";
-        $formName = 'document.forms.' . 'Contribution';
-
+        $formName = 'document.forms.' . $form->getName( );
+        
         for ( $k = 1; $k < 2; $k++ ) {
             if ( ! isset ($defaults['product_name'][$k] )|| (! $defaults['product_name'][$k] ) )  {
                 $js .= "{$formName}['product_name[$k]'].style.display = 'none';\n"; 
