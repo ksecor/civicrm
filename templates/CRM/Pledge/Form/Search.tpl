@@ -30,7 +30,7 @@
 </div>
 
 {if $rowsEmpty}
-    {include file="CRM/PledgeBank/Form/Search/EmptyResults.tpl"}
+    {include file="CRM/Pledge/Form/Search/EmptyResults.tpl"}
 {/if}
 
 {if $rows}
@@ -46,7 +46,7 @@
 
        {* This section displays the rows along and includes the paging controls *}
        <p></p>
-       {include file="CRM/PledgeBank/Form/Selector.tpl" context="Search"}
+       {include file="CRM/Pledge/Form/Selector.tpl" context="Search"}
        
     </fieldset>
     {* END Actions/Results section *}

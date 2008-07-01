@@ -19,10 +19,9 @@
     </th>
   {/foreach}
   </tr>
-
   {counter start=0 skip=1 print=false}
   {foreach from=$rows item=row}
-  <tr id='rowid{$row.pb_signer_id}' class="{cycle values="odd-row,even-row"}">
+  <tr id='rowid{$row.pledge_id}' class="{cycle values="odd-row,even-row"}">
      {if ! $single }
         {if $context eq 'Search' }       
             {assign var=cbName value=$row.checkbox}
@@ -31,10 +30,11 @@
 	<td>{$row.contact_type}</td>
     	<td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td>
     {/if}
-    <td><a href="{crmURL p='civicrm/pledge/view' q="reset=1&id=`$row.pb_pledge_id`"}">{$row.pledge}</a></td>	
-    <td>{$row.pb_signer_signing_date|truncate:10:''|crmDate}</td>
-    <td>{if $row.pb_signer_is_anonymous}{ts}Yes{/ts}{else}{ts}No{/ts}{/if}</td>
-    <td>{if $row.pb_signer_is_done}{ts}Yes{/ts}{else}{ts}No{/ts}{/if}</td>
+    <td>{$row.pledge_amount}</td>	
+    <td>{$row.pledge_create_date|truncate:10:''|crmDate}</td>
+    <td>{$row.frequency}</td>	
+    <td>{$row.pledge_start_date|truncate:10:''|crmDate}</td>
+    <td>{$row.status}</td>	
     <td>{$row.action}</td>
    </tr>
   {/foreach}

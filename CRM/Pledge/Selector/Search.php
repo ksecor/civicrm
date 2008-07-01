@@ -72,8 +72,8 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base
                                 'sort_name',   
                                 'display_name',
                                 'pledge_id',   
-                                'amount',      
-                                'frequency_unit',
+                                'pledge_amount',      
+                                'frequency',
                                 'frequency_interval',
                                 'create_date',       
                                 'start_date',        
@@ -312,6 +312,7 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base
              
              $rows[] = $row;
          }
+         //CRM_Core_Error::debug( '$result', $rows );
          return $rows;
      }
      
@@ -343,35 +344,28 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base
         if ( ! isset( self::$_columnHeaders ) ) {
             self::$_columnHeaders = array( 
                                           array(
-                                                'name'      => ts('Pledge'),
-                                                'sort'      => 'pledge_name',
-                                                'direction' => CRM_Utils_Sort::DONTCARE,
-                                                ),
-                                          array(
                                                 'name'      => ts('Amount'),
                                                 'sort'      => 'pledge_amount',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
-                                          
                                           array(
-                                                'name'      => ts('Type'),
-                                                'sort'      => 'pledge_type',
-                                                'direction' => CRM_Utils_Sort::DONTCARE,
-                                                ),
-                                          
-                                          array(
-                                                'name'      => ts('Source'),
-                                                'sort'      => 'pledge_source',
+                                                'name'      => ts('Create Date'),
+                                                'sort'      => 'pledge_create_date',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
-                                                'name'      => ts('Received'),
-                                                'sort'      => 'pledge_received_date',
+                                                'name'      => ts('To be Paid'),
+                                                'sort'      => 'frequency',
+                                                'direction' => CRM_Utils_Sort::DONTCARE,
+                                                ),
+                                          array(
+                                                'name'      => ts('Begining Date'),
+                                                'sort'      => 'pledge_start_date',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
                                                 'name'      => ts('Status'),
-                                                'sort'      => 'pledge_status',
+                                                'sort'      => 'status',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array('desc'      => ts('Actions') ),
@@ -379,7 +373,7 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base
             
             if ( ! $this->_single ) {
                 $pre = array( 
-                             array('desc'      => ts('Contact Type') ), 
+                             array('desc'      => ts('Contact Id') ), 
                              array( 
                                    'name'      => ts('Name'), 
                                    'sort'      => 'sort_name', 
