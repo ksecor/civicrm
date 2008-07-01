@@ -674,6 +674,10 @@ WHERE  contribution_id = {$this->_id}
             $now = date( 'YmdHis' );
             $fields = array( );
             
+            //set email for primary location.
+            $fields["email-Primary"] = 1;
+            $params["email-Primary"] = $this->userEmail;
+            
             // now set the values for the billing location.
             foreach ( $this->_fields as $name => $dontCare ) {
                 $fields[$name] = 1;
