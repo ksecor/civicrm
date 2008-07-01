@@ -620,7 +620,9 @@ class CRM_Contact_BAO_Query
                 }
                 $lCond = "location_type_id = $locationTypeId";
                 $this->_useDistinct = true;
-                $this->_useGroupBy  = true;
+                
+                //commented for CRM-3256
+                //$this->_useGroupBy  = true;
             }
             
             $name = str_replace( ' ', '_', $name );
@@ -2821,7 +2823,7 @@ WHERE  id IN ( $groupIDs )
             $groupBy = ' GROUP BY contact_a.id';
         }
         $query = "$select $from $where $groupBy $order $limit";
-        // CRM_Core_Error::debug('query', $query);
+        //CRM_Core_Error::debug('query', $query);
 
         if ( $returnQuery ) {
             return $query;
