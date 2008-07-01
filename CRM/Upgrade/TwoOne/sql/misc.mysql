@@ -499,3 +499,6 @@ ALTER TABLE civicrm_acl_cache
 ALTER TABLE civicrm_acl_cache
     ADD CONSTRAINT FK_civicrm_acl_cache_contact_id FOREIGN KEY (contact_id) REFERENCES civicrm_contact(id) ON DELETE CASCADE,      
     ADD CONSTRAINT FK_civicrm_acl_cache_acl_id FOREIGN KEY (acl_id) REFERENCES civicrm_acl(id) ON DELETE CASCADE;  
+
+-- CRM-3261
+UPDATE civicrm_relationship_type SET is_reserved = 1 WHERE id IN (4,6,7);
