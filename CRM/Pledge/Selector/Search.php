@@ -73,11 +73,11 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base
                                 'display_name',
                                 'pledge_id',   
                                 'pledge_amount',      
-                                'frequency',
-                                'frequency_interval',
-                                'create_date',       
-                                'start_date',        
-                                'status_id'         
+                                'pledge_frequency_unit',
+                                'pledge_frequency_interval',
+                                'pledge_create_date',       
+                                'pledge_start_date',        
+                                'pledge_status_id'         
                                  );
 
     /** 
@@ -291,7 +291,7 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base
              $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->pb_signer_id;
              
              $row['action']   = CRM_Core_Action::formLink( self::links(), $mask,
-                                                           array( 'id'  => $result->pb_signer_id,
+                                                           array( 'id'  => $result->pledge_id,
                                                                   'cid' => $result->contact_id,
                                                                   'cxt' => $this->_context ) );
              $config =& CRM_Core_Config::singleton( );
@@ -312,7 +312,6 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base
              
              $rows[] = $row;
          }
-         //CRM_Core_Error::debug( '$result', $rows );
          return $rows;
      }
      

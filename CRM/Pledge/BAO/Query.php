@@ -50,7 +50,7 @@ class CRM_Pledge_BAO_Query
      * @access public  
      */
     static function select( &$query ) 
-    {
+    {  
         if ( ( $query->_mode & CRM_Contact_BAO_Query::MODE_PLEDGE ) ||
              CRM_Utils_Array::value( 'id', $query->_returnProperties ) ) {
             $query->_select['pledge_id'] = "civicrm_pledge.id as pledge_id";
@@ -58,40 +58,49 @@ class CRM_Pledge_BAO_Query
             $query->_tables['civicrm_pledge'] = $query->_whereTables['civicrm_pledge'] = 1;
         }
         
-//         //add pledge select
-//         if ( CRM_Utils_Array::value( 'pb_pledge_name', $query->_returnProperties ) ) {
-//             $query->_select['pb_pledge_name'] = "civicrm_pb_pledge.creator_pledge_desc as pb_pledge_name";
-//             $query->_element['pb_pledge_name'] = 1;
-//             $query->_select['pb_pledge_id'] = "civicrm_pb_pledge.id as pb_pledge_id";
-//             $query->_element['pb_pledge_id'] = 1;
-//             $query->_tables['civicrm_pb_pledge'] = 1;
-//             $query->_whereTables['civicrm_pb_pledge'] = 1;
-//         }
+         //add pledge select
+         if ( CRM_Utils_Array::value( 'pledge_amount', $query->_returnProperties ) ) {
+             $query->_select['pledge_amount'] = "civicrm_pledge.amount as pledge_amount";
+             $query->_element['pledge_amount'] = 1;
+             $query->_tables['civicrm_pledge'] = 1;
+             $query->_whereTables['civicrm_pledge'] = 1;
+         }
         
-//         if ( CRM_Utils_Array::value( 'pb_pledge_is_active', $query->_returnProperties ) ) {
-//             $query->_select['pb_pledge_is_active']  = "civicrm_pb_pledge.is_active as pb_pledge_is_active";
-//             $query->_element['pb_pledge_is_active'] = 1;
-//             $query->_tables['civicrm_pb_pledge'] = 1;
-//             $query->_whereTables['civicrm_pb_pledge'] = 1;
-//         }
+         if ( CRM_Utils_Array::value( 'pledge_create_date', $query->_returnProperties ) ) {
+             $query->_select['pledge_create_date']  = "civicrm_pledge.create_date as pledge_create_date";
+             $query->_element['pledge_create_date'] = 1;
+             $query->_tables['civicrm_pledge'] = 1;
+             $query->_whereTables['civicrm_pledge'] = 1;
+         }
         
-//         if ( CRM_Utils_Array::value( 'pb_signer_is_done', $query->_returnProperties ) ) {
-//             $query->_select['pb_signer_is_done']  = "civicrm_pb_signer.is_done as pb_signer_is_done";
-//             $query->_element['pb_signer_is_done'] = 1;
-//             $query->_tables['civicrm_pb_signer'] = $query->_whereTables['civicrm_pb_signer'] = 1;
-//         }
+         if ( CRM_Utils_Array::value( 'pledge_start_date', $query->_returnProperties ) ) {
+             $query->_select['pledge_start_date']  = "civicrm_pledge.start_date as pledge_start_date";
+             $query->_element['pledge_start_date'] = 1;
+             $query->_tables['civicrm_pledge'] = 1;
+             $query->_whereTables['civicrm_pledge'] = 1;
+         }
          
-//         if ( CRM_Utils_Array::value( 'pb_signer_pledge_desc', $query->_returnProperties ) ) {
-//             $query->_select['pb_signer_pledge_desc']  = "civicrm_pb_pledge.signer_pledge_desc as pb_signer_pledge_desc";
-//             $query->_element['pb_signer_pledge_desc'] = 1;
-//             $query->_tables['civicrm_pb_pledge'] = $query->_whereTables['civicrm_pb_pledge'] = 1;
-//         }
+         if ( CRM_Utils_Array::value( 'pledge_frequency_interval', $query->_returnProperties ) ) {
+             $query->_select['pledge_frequency_interval']  = "civicrm_pledge.frequency_interval as pledge_frequency_interval";
+             $query->_element['pledge_frequency_interval'] = 1;
+             $query->_tables['civicrm_pledge']             = 1;
+         }
         
-//         if ( CRM_Utils_Array::value( 'pb_signer_signing_date', $query->_returnProperties ) ) {
-//             $query->_select['pb_signer_signing_date']  = "civicrm_pb_signer.signing_date as pb_signer_signing_date";
-//             $query->_element['pb_signer_signing_date'] = 1;
-//             $query->_tables['civicrm_pb_signer'] = $query->_whereTables['civicrm_pb_signer'] = 1;
-//         }
+         if ( CRM_Utils_Array::value( 'pledge_frequency_unit', $query->_returnProperties ) ) {
+             $query->_select['pledge_frequency_unit']  = "civicrm_pledge.frequency_unit as pledge_frequency_unit";
+             $query->_element['pledge_frequency_unit'] = 1;
+             $query->_tables['civicrm_pledge']             = 1;
+         }
+         
+         if ( CRM_Utils_Array::value( 'pledge_status_id', $query->_returnProperties ) ) {
+             $query->_select['pledge_status']  = "civicrm_pledge.status_id as pledge_status_id";
+             $query->_element['pledge_status'] = 1;
+             $query->_tables['civicrm_pledge'] = 1;
+             // $query->_tables['contribution_status'] = 1;
+             $query->_whereTables['civicrm_pledge'] = 1;
+             // $query->_whereTables['contribution_status'] = 1;
+             
+         }
         
 //         if ( CRM_Utils_Array::value( 'pb_signer_is_anonymous', $query->_returnProperties ) ) {
 //             $query->_select['pb_signer_is_anonymous']  = "civicrm_pb_signer.is_anonymous as pb_signer_is_anonymous";
@@ -151,6 +160,44 @@ class CRM_Pledge_BAO_Query
             }
             $query->_tables['civicrm_pb_signer'] = $query->_whereTables['civicrm_pb_signer'] = 1;
             return;
+
+        case 'pledge_status':
+            
+            if ( is_array( $value ) ) {
+                foreach ($value as $k => $v) {
+                    if ( $v ) {
+                        $val[$k] = $k;
+                    }
+                } 
+                
+                $status = implode (',' ,$val);
+                
+                if ( count($val) > 1 ) {
+                    $op = 'IN';
+                    $status = "({$status})";
+                }     
+            } else {
+                $status = $value;
+            }
+
+            require_once "CRM/Core/OptionGroup.php";
+            $statusValues = CRM_Core_OptionGroup::values("contribution_status");
+            
+            $names = array( );
+            if ( is_array( $val ) ) {
+                foreach ( $val as $id => $dontCare ) {
+                    $names[] = $statusValues[ $id ];
+                }
+            } else {
+                $names[] = $statusValues[ $value ];
+            }
+
+            $query->_qill[$grouping][]  = ts('Contribution Status %1', array( 1 => $op ) ) . ' ' . implode( ' ' . ts('or') . ' ', $names );
+            $query->_where[$grouping][] = "civicrm_pledge.pledge_status_id {$op} {$status}";
+            $query->_tables['civicrm_pledge'] = $query->_whereTables['civicrm_pledge'] = 1;
+            return;
+
+
         }
     }
 
@@ -184,17 +231,18 @@ class CRM_Pledge_BAO_Query
      
         if ( $mode & CRM_Contact_BAO_Query::MODE_PLEDGE ) {
             $properties = array(  
-                                'contact_id'             => 1, 
-                                'sort_name'              => 1, 
-                                'display_name'           => 1,
-                                'pledge_id'              => 1
-                                /*                                'amount'                 => 1,
-                                'frequency_unit'         => 1,
-                                'frequency_interval'     => 1,
-                                'create_date'            => 1,
-                                'start_date'             => 1,
-                                'status_id'              => 1*/
-                               );
+                                'contact_id'                  => 1,
+                                'contact_type'                => 1, 
+                                'sort_name'                   => 1, 
+                                'display_name'                => 1,
+                                'pledge_id'                   => 1,
+                                'pledge_amount'               => 1,
+                                'pledge_frequency_unit'       => 1,
+                                'pledge_frequency_interval'   => 1,
+                                'pledge_create_date'          => 1,
+                                'pledge_start_date'           => 1,
+                                'pledge_status_id'            => 1
+                                );
         }
         return $properties;
     }
