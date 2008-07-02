@@ -290,8 +290,8 @@ class CRM_Utils_Rule
      * @access public
      */
     static function mysqlDate($date) {
-        // allow date to be 0
-        if ( substr( $date, 0, 8 ) == '00000000' ) {
+        // allow date to be null
+        if ( $date == null ) {
             return true;
         }
 

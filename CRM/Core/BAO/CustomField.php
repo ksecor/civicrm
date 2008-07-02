@@ -1083,7 +1083,7 @@ SELECT id
                 }
             }
             if ( ! $date ) {
-                $date = '00000000000000';
+                $date = null;
             }
             $value = $date;
         }
