@@ -78,7 +78,7 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base
                                 'pledge_create_date',       
                                 'pledge_start_date',        
                                 'pledge_status_id' ,
-                                'is_test'        
+                                'pledge_is_test'        
                                  );
 
     /** 

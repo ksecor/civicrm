@@ -44,11 +44,11 @@
  <tr>
     <td>
      <label>{ts}Contribution Type{/ts}</label> 
-     <br />{$form.contribution_type_id.html}
+     <br />{$form.pledge_contribution_type_id.html}
     </td>
     <td>
       <label>{ts}Contribution Page{/ts}</label> 
-      <br />{$form.contribution_page_id.html}
+      <br />{$form.pledge_contribution_page_id.html}
     </td> 
  </tr>
  <tr> 

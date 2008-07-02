@@ -105,7 +105,7 @@ class CRM_Pledge_BAO_Query
         $isTest   = false;
         $grouping = null;
         foreach ( array_keys( $query->_params ) as $id ) {
-            if ( substr( $query->_params[$id][0], 0, 7) == 'pledge_') {
+            if ( substr( $query->_params[$id][0], 0, 7) == 'pledge_' || substr( $query->_params[$id][0], 0, 13 ) == 'contribution_' ) {
                 if ( $query->_mode == CRM_Contact_BAO_QUERY::MODE_CONTACTS ) {
                     $query->_useDistinct = true;
                 }
@@ -123,55 +123,47 @@ class CRM_Pledge_BAO_Query
             self::whereClauseSingle( $values, $query );
         }  
     }
-        
+    
     static function whereClauseSingle( &$values, &$query ) 
     {
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
-        
+             
         switch( $name ) {
-            
-        case 'pledge_id':
-            $query->_where[$grouping][] = "civicrm_pledge.id $op $value";
-            $query->_tables['civicrm_pledge'] = $query->_whereTables['civicrm_pledge'] = 1;
-            return;
-            
-        case 'pb_pledge_name':
-            $op = 'LIKE';
-            if ( $value ){
-                $pledgeValue = CRM_Core_DAO::getFieldValue('CRM_Pledge_DAO_Pledge', $value, 'creator_pledge_desc' );
-                $query->_where[$grouping][] = "civicrm_pb_pledge.creator_pledge_desc $op '%$pledgeValue%'";
-                $query->_qill[$grouping][]  = ts("Pledge" ) . " $op - '$pledgeValue'";
-            }
-            $query->_tables['civicrm_pb_pledge'] = $query->_whereTables['civicrm_pb_pledge'] = 1;
-            return;
-            
-        case 'pb_pledge_is_active':
-            $query->_where[$grouping][] = "civicrm_pb_pledge.is_active $op $value";
-            if ( $value ) {
-                $query->_qill[$grouping][]  = ts("Find Active Pledges");
-            }
-            $query->_tables['civicrm_pb_pledge'] = $query->_whereTables['civicrm_pb_pledge'] = 1;
+        
+        case 'pledge_start_date_low':
+        case 'pledge_start_date_high':
+            // process to / from date
+            $query->dateQueryBuilder( $values,
+                                      'civicrm_pledge', 'pledge_start_date', 'start_date', 'Pledge Start Date' );
             return;
 
-        case 'pb_signer_is_done':
-            $query->_where[$grouping][] = "civicrm_pb_signer.is_done $op $value";
-            if ( $value ) {
-                $query->_qill[$grouping][]  = ts("Find Done Pledges");
-            }
-            $query->_tables['civicrm_pb_signer'] = $query->_whereTables['civicrm_pb_signer'] = 1;
+        case 'pledge_end_date_low':
+        case 'pledge_end_date_high':
+            // process to / from date
+            $query->dateQueryBuilder( $values,
+                                      'civicrm_pledge', 'pledge_end_date', 'end_date', 'Pledge End Date' );
             return;
-
+    
+        case 'pledge_amount':
+        case 'pledge_amount_low':
+        case 'pledge_amount_high':
+            // process min/max amount
+            $query->numberRangeBuilder( $values,
+                                        'civicrm_pledge', 'pledge_amount', 'amount', 'Pledge Amount' );
+            return;
+         
+            
         case 'pledge_status_id':
-            
+           
             if ( is_array( $value ) ) {
                 foreach ($value as $k => $v) {
                     if ( $v ) {
                         $val[$k] = $k;
                     }
                 } 
-                
+               
                 $status = implode (',' ,$val);
-                
+                                
                 if ( count($val) > 1 ) {
                     $op = 'IN';
                     $status = "({$status})";
@@ -182,7 +174,7 @@ class CRM_Pledge_BAO_Query
 
             require_once "CRM/Core/OptionGroup.php";
             $statusValues = CRM_Core_OptionGroup::values("contribution_status");
-            
+         
             $names = array( );
             if ( is_array( $val ) ) {
                 foreach ( $val as $id => $dontCare ) {
@@ -191,13 +183,40 @@ class CRM_Pledge_BAO_Query
             } else {
                 $names[] = $statusValues[ $value ];
             }
-
-            $query->_qill[$grouping][]  = ts('Contribution Status %1', array( 1 => $op ) ) . ' ' . implode( ' ' . ts('or') . ' ', $names );
-            $query->_where[$grouping][] = "civicrm_pledge.pledge_status_id {$op} {$status}";
+           
+            $query->_qill[$grouping][]  = ts('Pledge Status %1', array( 1 => $op ) ) . ' ' . implode( ' ' . ts('or') . ' ', $names );
+            $query->_where[$grouping][] = "civicrm_pledge.status_id {$op} {$status}";
             $query->_tables['civicrm_pledge'] = $query->_whereTables['civicrm_pledge'] = 1;
             return;
 
-
+        case 'pledge_test':
+            $query->_where[$grouping][] = " civicrm_pledge.is_test $op '$value'";
+            if ( $value ) {
+                $query->_qill[$grouping][]  = "Find Test Pledges";
+            }
+            $query->_tables['civicrm_pledge'] = $query->_whereTables['civicrm_pledge'] = 1;
+            
+            return;
+        
+        case 'pledge_contribution_type_id':
+        case 'contribution_type':
+            require_once 'CRM/Contribute/PseudoConstant.php';
+            $cType = $value;
+            $types = CRM_Contribute_PseudoConstant::contributionType( );
+            $query->_where[$grouping][] = "civicrm_pledge.contribution_type_id = $cType";
+            $query->_qill[$grouping ][] = ts( 'Contribution Type - %1', array( 1 => $types[$cType] ) );
+            $query->_tables['civicrm_pledge'] = $query->_whereTables['civicrm_pledge'] = 1;
+            return;
+            
+        case 'pledge_contribution_page_id':
+            require_once 'CRM/Contribute/PseudoConstant.php';
+            $cPage = $value;
+            $pages = CRM_Contribute_PseudoConstant::contributionPage( );
+            $query->_where[$grouping][] = "civicrm_pledge.contribution_page_id = $cPage";
+            $query->_qill[$grouping ][] = ts( 'Contribution Page - %1', array( 1 => $pages[$cPage] ) );
+            $query->_tables['civicrm_pledge'] = $query->_whereTables['civicrm_pledge'] = 1;
+            return;
+            
         }
     }
 
@@ -245,7 +264,7 @@ class CRM_Pledge_BAO_Query
                                 'pledge_create_date'          => 1,
                                 'pledge_start_date'           => 1,
                                 'pledge_status_id'            => 1,
-                                'is_test'                     => 1 
+                                'pledge_is_test'              => 1 
                                 );
         }
         return $properties;
@@ -288,12 +307,12 @@ class CRM_Pledge_BAO_Query
         $form->addGroup( $status, 'pledge_status_id', ts( 'Pledge Status' ) );
 
         require_once 'CRM/Contribute/PseudoConstant.php';
-        $form->add('select', 'contribution_type_id', 
+        $form->add('select', 'pledge_contribution_type_id', 
                    ts( 'Contribution Type' ),
                    array( '' => ts( '- select -' ) ) +
                    CRM_Contribute_PseudoConstant::contributionType( ) );
        
-        $form->add('select', 'contribution_page_id', 
+        $form->add('select', 'pledge_contribution_page_id', 
                    ts( 'Contribution Page' ),
                    array( '' => ts( '- select -' ) ) +
                    CRM_Contribute_PseudoConstant::contributionPage( ) );
@@ -314,7 +333,6 @@ class CRM_Pledge_BAO_Query
         if ( CRM_Utils_Array::value( 'contribution_status', $tables ) ) {
             $tables = array_merge( array( 'civicrm_contribution' => 1), $tables );
         }
-        //    CRM_Core_Error::debug( '$tables', $tables );
     }
   
 }
