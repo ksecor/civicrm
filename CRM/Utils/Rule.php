@@ -290,6 +290,11 @@ class CRM_Utils_Rule
      * @access public
      */
     static function mysqlDate($date) {
+        // allow date to be 0
+        if ( substr( $date, 0, 8 ) == '00000000' ) {
+            return true;
+        }
+
         if (checkdate( substr($date, 4, 2), substr($date, 6, 2), substr($date, 0, 4) )) {
             return true;
         }
