@@ -441,7 +441,10 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                     $formatted['contact_id'] = $cid;
                     $newContribution = civicrm_contribution_format_create( $formatted );
                     if ( civicrm_error( $newContribution ) ) { 
-                        array_unshift($values, $newContribution['error_message']);
+                        array_unshift($values, $newContribution['error_message']['message']);
+                        if ( $newContribution['error_message']['params'][0] ) {
+                            return CRM_Contribute_Import_Parser::DUPLICATE;
+                        }
                         return CRM_Contribute_Import_Parser::ERROR;
                     }
                     
@@ -490,7 +493,10 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
             }
             $newContribution = civicrm_contribution_format_create( $formatted );
             if ( civicrm_error( $newContribution ) ) { 
-                array_unshift($values, $newContribution['error_message']);
+                array_unshift($values, $newContribution['error_message']['message']);
+                if ( $newContribution['error_message']['params'][0] ) {
+                    return CRM_Contribute_Import_Parser::DUPLICATE;
+                }
                 return CRM_Contribute_Import_Parser::ERROR;
             }
             
