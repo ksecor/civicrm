@@ -133,6 +133,43 @@ class CRM_Pledge_BAO_Pledge extends CRM_Pledge_DAO_Pledge
     }
     
     /**
+     * takes an associative array and creates a pledge object
+     *
+     * @param array $params (reference ) an assoc array of name/value pairs
+     *
+     * @return object CRM_Pledge_BAO_Pledge object 
+     * @access public
+     * @static
+     */
+    static function &create( &$params ) 
+    {
+        require_once 'CRM/Utils/Date.php';
+        //FIXME: a cludgy hack to fix the dates to MySQL format
+        $dateFields = array( 'start_date', 'create_date', 'acknowledge_date', 'modified_date', 'cancel_date', 'end_date' );
+        foreach ($dateFields as $df) {
+            if (isset($params[$df])) {
+                $params[$df] = CRM_Utils_Date::isoToMysql($params[$df]);
+            }
+        }
+        
+        require_once 'CRM/Core/Transaction.php';
+        $transaction = new CRM_Core_Transaction( );
+        
+        $pledge = self::add( $params );
+        
+        if ( is_a( $pledge, 'CRM_Core_Error') ) {
+            $pledge->rollback( );
+            return $pledge;
+        }
+        
+        $params['id'] = $pledge->id;
+        
+        $transaction->commit( );
+        
+        return $pledge;
+   }
+    
+    /**
      * Function to delete the pledge
      *
      * @param int $id  pledge id
