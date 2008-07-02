@@ -13,6 +13,7 @@
         {/if}
     {/if}
 
+{ if $config->groupTree }
 {literal}
 <script type="text/javascript">
 dojo.require("dojo.parser");
@@ -54,16 +55,24 @@ function displayGroupTree( ) {
     
 };
 
-function setCheckBoxValues( ) {
-    var tt        = dijit.byId('civicrm_CheckableTree');
-    var groupId   = document.getElementById('group');
-    groupId.value = tt.getCheckedIds( );
-    var groupNames   = document.getElementById('id-group-names');
-    groupNames.innerHTML = tt.getCheckedNames( );
+function setCheckBoxValues( reload ) {
+    var grp  = document.getElementById('id-group-names');
+    if ( !reload ) {
+	var tt        = dijit.byId('civicrm_CheckableTree');
+	var groupId   = document.getElementById('group');
+	groupId.value = tt.getCheckedIds( );
+	grp.innerHTML = tt.getCheckedNames( );
+    } else {
+	grp.innerHTML = {/literal}"{$groupNames}"{literal};
+    }
 };
 
+dojo.addOnLoad( function( ) {
+    setCheckBoxValues( true );
+});
 </script>
 {/literal}
+{/if}
 
     {strip}
 	<table class="no-border">
@@ -79,12 +88,14 @@ function setCheckBoxValues( ) {
                 {if $context EQ 'smog'}
                     {$form.group_contact_status.html}
                 {else}
-
+{ if $config->groupTree }
 <a href="#" onclick="dijit.byId('id-groupPicker').show(); displayGroupTree( );">{ts}Select Group(s){/ts}</a>
 <div class="tundra" dojoType="dijit.Dialog" id="id-groupPicker" title="Select Group(s)" execute="setCheckBoxValues();">
 </div><br/><br/>
 <span id="id-group-names"></span>
-                    {*$form.group.html*}
+{else}
+                    {$form.group.html}
+{/if}
                 {/if}
             <td class="label">{$form.tag.label} {$form.tag.html}</td>
             <td style="vertical-align: bottom;">

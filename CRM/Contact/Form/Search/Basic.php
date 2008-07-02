@@ -77,11 +77,29 @@ class CRM_Contact_Form_Search_Basic extends CRM_Contact_Form_Search {
 
         $this->add('select', 'contact_type', ts('is...'), CRM_Core_SelectValues::contactType());
 
-        // add select for groups
-//         $group               = array('' => ts('- any group -')) + $this->_group;
-//         $this->_groupElement =& $this->addElement('select', 'group', ts('in'), $group);
-
-        $this->add('hidden', 'group', null, array('id' => 'group' ));
+        $config =& CRM_Core_Config::singleton( );
+        //crm_core_error::debug('$config->groupTree', $config->groupTree);
+        if ( $config->groupTree ) {
+            $this->add('hidden', 'group', null, array('id' => 'group' ));
+            
+            $group = CRM_Utils_Array::value( 'group', $this->_formValues );
+            $selectedGroups = explode( ',', $group );
+            
+            if ( is_array( $selectedGroups ) ) {
+                $groupNames = null;
+                foreach( $selectedGroups as $groupId ) {
+                    if ( $groupNames ) {
+                        $groupNames .= ',';
+                    }
+                    $groupNames .= $this->_group[$groupId];
+                }
+            }
+            $this->assign('groupNames', $groupNames );
+        } else {
+            // add select for groups
+            $group               = array('' => ts('- any group -')) + $this->_group;
+            $this->_groupElement =& $this->addElement('select', 'group', ts('in'), $group);
+        }
         
         //FIXME : uncomment following code once we will be complete with the subgroup functionality
         // add checkbox for searching subgroups
@@ -91,7 +109,6 @@ class CRM_Contact_Form_Search_Basic extends CRM_Contact_Form_Search {
         // tag criteria
         $tag = array('' => ts('- any tag -')) + $this->_tag;
         $this->_tagElement =& $this->addElement('select', 'tag', ts('with'), $tag);
-
 
         parent::buildQuickForm( );
     }
@@ -221,11 +238,15 @@ class CRM_Contact_Form_Search_Basic extends CRM_Contact_Form_Search {
             $this->_formValues['contact_type'][$contactType] = 1;
         }
 
-//         $group = CRM_Utils_Array::value( 'group', $this->_formValues );
-//         if ( $group && ! is_array( $group ) ) {
-//             unset( $this->_formValues['group'] );
-//             $this->_formValues['group'][$group] = 1;
-//         }
+        $config =& CRM_Core_Config::singleton( );
+        
+        if ( !$config->groupTree ) {
+            $group = CRM_Utils_Array::value( 'group', $this->_formValues );
+            if ( $group && ! is_array( $group ) ) {
+                unset( $this->_formValues['group'] );
+                $this->_formValues['group'][$group] = 1;
+            }
+        }
 
         $tag = CRM_Utils_Array::value( 'tag', $this->_formValues );
         if ( $tag && ! is_array( $tag ) ) {
