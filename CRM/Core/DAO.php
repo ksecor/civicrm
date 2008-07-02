@@ -845,11 +845,10 @@ FROM   civicrm_domain
                         }
                     }
 
-                    if ( ( $item[1] == 'Date' || $item[1] == 'Timestamp' ) &&
-                         ( strlen( $item[0] ) == 0 ||
-                           $item[0] = '00000000'   || // date
-                           $item[0] = '00000000000000' ) ) { // time 
-                        // set a null date to the empty string
+                    if ( ( $item[1] == 'Date' &&
+                           ( strlen( $item[0] ) == 0 || $item[0] = '00000000' ) ) ||
+                         ( $item[1] == 'Timestamp' &&
+                           ( strlen( $item[0] ) == 0 || $item[0] = '00000000000000' ) ) ) {
                         $item[0] = 'null';
                     }
 
