@@ -622,7 +622,7 @@ class CRM_Contact_BAO_Query
                 $this->_useDistinct = true;
                 
                 //commented for CRM-3256
-                //$this->_useGroupBy  = true;
+                $this->_useGroupBy  = true;
             }
             
             $name = str_replace( ' ', '_', $name );
@@ -2819,7 +2819,8 @@ WHERE  id IN ( $groupIDs )
 
         // building the query string
         $groupBy = null;
-        if ( $this->_useGroupBy ) {
+        if ( ! $count &&
+             $this->_useGroupBy ) {
             $groupBy = ' GROUP BY contact_a.id';
         }
         $query = "$select $from $where $groupBy $order $limit";

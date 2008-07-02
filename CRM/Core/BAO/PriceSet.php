@@ -354,8 +354,7 @@ class CRM_Core_BAO_PriceSet extends CRM_Core_DAO_PriceSet {
         $dao =& new CRM_Core_DAO_PriceSetEntity( );
         $dao->entity_table = $entityTable;
         $dao->entity_id = $entityId;
-        if ( $dao->find() ) {
-            $dao->fetch();
+        if ( $dao->find( true ) ) {
             return $dao->price_set_id;
         } else {
             return false;
