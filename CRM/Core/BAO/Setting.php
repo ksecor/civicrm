@@ -194,6 +194,11 @@ class CRM_Core_BAO_Setting
                 }
             }
             $dao->free();
+
+            // set suffix for table names - use views if more than one language
+            // FIXME: port this to depend on some kind of flag
+            global $dbLocale;
+            $dbLocale = "_{$defaults['lcMessages']}";
         }
     }
 }

@@ -106,6 +106,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup
                                      $groupID  = null,
                                      $subType  = null )
     {
+        global $dbLocale;
         // create a new tree
         $groupTree = array();
         $strSelect = $strFrom = $strWhere = $orderBy = ''; 
@@ -268,13 +269,13 @@ ORDER BY civicrm_custom_group.weight,
             $select = $from = $where = array( );
             foreach ( $groupTree['info']['tables'] as $table => $fields ) {
                 $from[]   = $table;
-                $select[] = "{$table}.id as {$table}_id";
-                $select[] = "{$table}.entity_id as {$table}_entity_id";
+                $select[] = "{$table}{$dbLocale}.id as {$table}_id";
+                $select[] = "{$table}{$dbLocale}.entity_id as {$table}_entity_id";
                 foreach ( $fields as $column => $dontCare ) {
-                    $select[] = "{$table}.{$column} as {$table}_{$column}";
+                    $select[] = "{$table}{$dbLocale}.{$column} as {$table}_{$column}";
                 }
                 if ( $entityID ) {
-                    $where[]  = "{$table}.entity_id = $entityID";
+                    $where[]  = "{$table}{$dbLocale}.entity_id = $entityID";
                 }
             }
 
@@ -304,17 +305,17 @@ WHERE  entity_id = $entityID
                 }
 
                 if ( $firstTable ) {
-                    $fromSQL    = $firstTable;
+                    $fromSQL    = "{$firstTable}{$dbLocale}";
                     foreach ( $from as $table ) {
                         if ( $table != $firstTable ) {
-                            $fromSQL .= "\nLEFT JOIN $table USING (entity_id)";
+                            $fromSQL .= "\nLEFT JOIN {$table}{$dbLocale} USING (entity_id)";
                         }
                     }
 
                     $query = "
 SELECT $select
   FROM $fromSQL
- WHERE {$firstTable}.entity_id = $entityID
+ WHERE {$firstTable}{$dbLocale}.entity_id = $entityID
 ";
 
                     $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
