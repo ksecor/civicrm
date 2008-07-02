@@ -95,15 +95,31 @@ class CRM_Mailing_Page_Report extends CRM_Core_Page_Basic {
             CRM_Core_Error::statusBounce(ts('Selected Mailing has more than one live job.'));
         }   
         
+        require_once 'CRM/Mailing/BAO/Component.php';
+        if ($report['mailing']['header_id']) { 
+            $header = new CRM_Mailing_BAO_Component();
+            $header->id = $report['mailing']['header_id'];
+            $header->find(true);
+            $htmlHeader = $header->body_html;
+            $textHeader = $header->body_text;
+        }
+        if ($report['mailing']['footer_id']) { 
+            $footer = new CRM_Mailing_BAO_Component();
+            $footer->id = $report['mailing']['footer_id'];
+            $footer->find(true);
+            $htmlFooter = $footer->body_html;
+            $textFooter = $footer->body_text;
+        }
+
         $text = CRM_Utils_Request::retrieve( 'text', 'Boolean', $this );
         if ( $text ) {
-            echo "<pre>{$report['mailing']['body_text']}</pre>";
+            echo "<pre>{$textHeader}</br>{$report['mailing']['body_text']}</br>{$textFooter}</pre>";
             exit( );
         }
 
         $html = CRM_Utils_Request::retrieve( 'html', 'Boolean', $this );
         if ( $html ) {
-            echo $report['mailing']['body_html'];
+            echo $htmlHeader . $report['mailing']['body_html'] . $htmlFooter;
             exit( );
         }
 
