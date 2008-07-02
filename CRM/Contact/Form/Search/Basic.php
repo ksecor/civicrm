@@ -89,7 +89,7 @@ class CRM_Contact_Form_Search_Basic extends CRM_Contact_Form_Search {
                 $groupNames = null;
                 foreach( $selectedGroups as $groupId ) {
                     if ( $groupNames ) {
-                        $groupNames .= ',';
+                        $groupNames .= '<br/>';
                     }
                     $groupNames .= $this->_group[$groupId];
                 }

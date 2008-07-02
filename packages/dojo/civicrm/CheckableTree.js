@@ -69,7 +69,7 @@ dojo.declare(
 		     }
 		 },
 
-		 getCheckedIds: function( item, treeNode ){
+		 getCheckedIds: function( ) {
 		     var value = '';
 		     for ( var i = 0; i < this.checkedFiles.length; i++ ) {
 			 if ( value != '' ) {
@@ -80,7 +80,7 @@ dojo.declare(
 		     return value;
 		 },
 
-		 getCheckedNames: function( item, treeNode ){
+		 getCheckedNames: function( ) {
 		     var value = '';
 		     for ( var i = 0; i < this.checkedFiles.length; i++ ) {
 			 if ( value != '' ) {
