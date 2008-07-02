@@ -8,20 +8,13 @@
     {ts 1=$displayName}Pledges received from %1 since inception.{/ts} 
     {if $permission EQ 'edit'}
      {capture assign=newContribURL}{crmURL p="civicrm/contact/view/pledge" q="reset=1&action=add&cid=`$contactId`&context=pledge"}{/capture}
-     {ts 1=$newContribURL}Click <a href='%1'>Record Pledge</a> to record a new pledge received from this contact.{/ts}
-     {if $newCredit}
-       {capture assign=newCreditURL}{crmURL p="civicrm/contact/view/pledge" q="reset=1&action=add&cid=`$contactId`&context=pledge&mode=live"}{/capture}
-       {ts 1=$newCreditURL}Click <a href='%1'>Submit Credit Card Contribution</a> to process a new pledge on behalf of the contributor using their credit or debit card.{/ts}
-     {/if}
+     {ts 1=$newContribURL}Click <a href='%1'>New Pledge</a> to record a new pledge received from this contact.{/ts}
     {/if}
 </div>
 
 {if $action eq 16 and $permission EQ 'edit'}
     <div class="action-link">
-       <a accesskey="N" href="{$newContribURL}" class="button"><span>&raquo; {ts}Record Pledge (Check, Cash, EFT ...){/ts}</a></span>
-       {if $newCredit}
-           <a accesskey="N" href="{$newCreditURL}" class="button"><span>&raquo; {ts}Submit Credit / Debit Card Pledge{/ts}</a></span>
-       {/if}
+       <a accesskey="N" href="{$newContribURL}" class="button"><span>&raquo; {ts}New Pledge{/ts}</a></span>
        <br/><br/>
     </div>
 {/if}
@@ -37,7 +30,7 @@
        <dl>
        <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
        <dd>
-            {ts}No contributions have been recorded from this contact.{/ts}
+            {ts}No pledges have been recorded from this contact.{/ts}
        </dd>
        </dl>
   </div>
