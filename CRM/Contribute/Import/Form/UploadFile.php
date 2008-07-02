@@ -69,12 +69,14 @@ class CRM_Contribute_Import_Form_UploadFile extends CRM_Core_Form {
 
         $this->addElement( 'checkbox', 'skipColumnHeader', ts('First row contains column headers') );
 
-        $duplicateOptions = array();         
+        $duplicateOptions = array();
+
         $duplicateOptions[] = HTML_QuickForm::createElement('radio',
-            null, null, ts('Update'), CRM_Contribute_Import_Parser::DUPLICATE_UPDATE);        
-        
+                                                            null, null, ts('Insert new contributions'), CRM_Contribute_Import_Parser::DUPLICATE_SKIP);
+        $duplicateOptions[] = HTML_QuickForm::createElement('radio',
+                                                            null, null, ts('Update existing contributions'), CRM_Contribute_Import_Parser::DUPLICATE_UPDATE);
         $this->addGroup($duplicateOptions, 'onDuplicate', 
-                        ts('On duplicate entries'));
+                        ts('Import mode'));
 
         //get the saved mapping details 
         require_once "CRM/Core/BAO/Mapping.php";
