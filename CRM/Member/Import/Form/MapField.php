@@ -435,8 +435,9 @@ class CRM_Member_Import_Form_MapField extends CRM_Core_Form {
             foreach ($requiredFields as $field => $title) {
                 if (!in_array($field, $importKeys)) {
                     if( $field == 'membership_contact_id' ) {
-                        if ( $weightSum >= $threshold || in_array('external_identifier', $importKeys)
-                             || in_array('membership_id', $importKeys) ) {
+                        if ( ( ( $weightSum >= $threshold || in_array('external_identifier', $importKeys ) ) &&
+                               $self->_onDuplicate != CRM_Member_Import_Parser::DUPLICATE_UPDATE ) ||
+                             in_array('membership_id', $importKeys) ) {
                             continue;    
                         } else {
                             $errors['_qf_default'] .= ts('Missing required contact matching fields.'.$fieldMessage.' (Sum of all weights should be greater than or equal to threshold(%1)) (OR Membership ID if update mode.)',array(1 => $threshold )) . '<br />';
