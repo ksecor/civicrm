@@ -2,14 +2,6 @@
 {if $pledgeAdmin}
     {capture assign=newPageURL}{crmURL p="civicrm/admin/pledge" q="action=add&reset=1"}{/capture}
     {capture assign=configPagesURL}{crmURL p="civicrm/admin/pldedge" q="reset=1"}{/capture}
-<div class="float-right">
-<table class="form-layout-compressed">
-<tr>
-    <td><a href="{$configPagesURL}" class="button"><span>&raquo; {ts}Manage Pledge Pages{/ts}</span></a></td>
-    <td><a href="{$newPageURL}" class="button"><span>&raquo; {ts}New Pledge Page{/ts}</span></a></td>
-</tr>
-</table>
-</div>
 {/if}
 	
 <h3>{ts}Pledge Summary{/ts} {help id="id-contribute-intro"}</h3>

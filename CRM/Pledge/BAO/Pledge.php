@@ -162,6 +162,44 @@ class CRM_Pledge_BAO_Pledge extends CRM_Pledge_DAO_Pledge
         return null;
         
     }
-    
+ 
+    /**
+     * function to get the amount details date wise.
+     */
+    function getTotalAmountAndCount( $status = null, $startDate = null, $endDate = null ) 
+    {
+        $where = array( );
+        switch ( $status ) {
+        case 'Valid':
+            $where[] = 'status_id = 1';
+            break;
+            
+        case 'Cancelled':
+            $where[] = 'status_id = 3';
+            break;
+        }
+        
+        if ( $startDate ) {
+            $where[] = "create_date >= '" . CRM_Utils_Type::escape( $startDate, 'Timestamp' ) . "'";
+        }
+        if ( $endDate ) {
+            $where[] = "create_date <= '" . CRM_Utils_Type::escape( $endDate, 'Timestamp' ) . "'";
+        }
+        
+        $whereCond = implode( ' AND ', $where );
+        
+        $query = "
+SELECT sum( amount ) as total_amount, count( id ) as total_count
+FROM   civicrm_pledge
+WHERE  $whereCond AND is_test=0
+";
+        
+        $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        if ( $dao->fetch( ) ) {
+            return array( 'amount' => $dao->total_amount,
+                          'count'  => $dao->total_count );
+        }
+        return null;
+    }
 }
 
