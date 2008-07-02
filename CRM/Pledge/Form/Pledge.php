@@ -35,18 +35,17 @@
 
 require_once 'CRM/Core/Form.php';
 require_once 'CRM/Contribute/PseudoConstant.php';
-require_once 'CRM/Core/BAO/CustomGroup.php';
 require_once 'CRM/Contribute/Form/AdditionalInfo.php';
 require_once 'CRM/Custom/Form/CustomData.php';
 
 /**
- * This class generates form components for processing a ontribution 
+ * This class generates form components for processing a pledge 
  * 
  */
 class CRM_Pledge_Form_Pledge extends CRM_Core_Form
 {
     public $_mode;
-
+    
     public $_action;
     
     public $_bltID;
@@ -59,15 +58,15 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
      * the id of the pledge that we are proceessing
      *
      * @var int
-     * @protected
+     * @public
      */
     public $_id;
-
+    
     /**
      * the id of the contribution that we are proceessing
      *
      * @var int
-     * @protected
+     * @public
      */
     public $_contributionID;
     
@@ -75,7 +74,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
      * the id of the premium that we are proceessing
      *
      * @var int
-     * @protected
+     * @public
      */
     public $_premiumID  = null;
     public $_productDAO = null;
@@ -84,24 +83,24 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
      * the id of the note 
      *
      * @var int
-     * @protected
+     * @public
      */
     public $_noteID;
     
     /**
-     * the id of the contact associated with this contribution
+     * the id of the contact associated with this pledge
      *
      * @var int
-     * @protected
+     * @public
      */
     public $_contactID;
     
     /**
-     * is this contribution associated with an online
+     * is this pledge associated with an online
      * financial transaction
      *
      * @var boolean
-     * @protected 
+     * @public 
      */ 
     public $_online = false;
     
@@ -110,7 +109,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
      * Stores all product option
      *
      * @var boolean
-     * @protected 
+     * @public 
      */ 
     public $_options ;
     
@@ -119,7 +118,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
      * stores the honor id
      *
      * @var boolean
-     * @protected 
+     * @public 
      */ 
     public $_honorID = null ;
     
@@ -127,11 +126,13 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
      * Store the contribution Type ID
      *
      * @var array
+     * @public
      */
     public $_contributionType;
     
     /**
      * The Pledge values if an existing pledge
+     * @public
      */
     public $_values;
     
@@ -141,16 +142,15 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
      * @return void 
      * @access public 
      */ 
-    
     public function preProcess()  
     {  
         // check for edit permission
         if ( ! CRM_Core_Permission::check( 'edit pledges' ) ) {
             CRM_Core_Error::fatal( ts( 'You do not have permission to access this page' ) );
         }
-
+        
         $this->_cdType     = CRM_Utils_Array::value( 'type', $_GET );
-
+        
         $this->assign('cdType', false);
         if ( $this->_cdType ) {
             $this->assign('cdType', true);
@@ -258,7 +258,7 @@ WHERE  contribution_id = {$this->_contributionID}
                 CRM_Contribute_BAO_Contribution::getValues( $contribParams, $contribValues, $contribIDs );
                 
                 if ( ! empty( $contribValues ) ) {
-                    $this->_values = array_merge( $this->_values, $contribValues );
+                    $this->_values['contribution'] = $contribValues;
                 }
                 //to get note id 
                 require_once 'CRM/Core/BAO/Note.php';
@@ -279,7 +279,7 @@ WHERE  contribution_id = {$this->_contributionID}
             require_once "CRM/Contribute/BAO/Contribution.php";
             CRM_Pledge_BAO_Pledge::getValues( $params, $pledgeValues, $ids );
             if ( ! empty( $pledgeValues ) ) {
-                $this->_values = array_merge( $this->_values, $pledgeValues );
+                $this->_values['pledge'] = $pledgeValues;
             }
         }
         
@@ -292,18 +292,25 @@ WHERE  contribution_id = {$this->_contributionID}
         
         // also set the post url
         $postURL = CRM_Utils_System::url( 'civicrm/contact/view',
-                                          "reset=1&force=1&cid={$this->_contactID}&selectedChild=contribute" );
+                                          "reset=1&force=1&cid={$this->_contactID}&selectedChild=pledge" );
         $session =& CRM_Core_Session::singleton( ); 
         $session->pushUserContext( $postURL );
     }
-
+    
+    /**
+     * This function sets the default values for the form. 
+     * the default values are retrieved from the database
+     * 
+     * @access public
+     * @return None
+     */
     function setDefaultValues( ) 
     {
         if ( $this->_cdType ) {
             return CRM_Custom_Form_CustomData::setDefaultValues( $this );
         }
-       
-        $defaults = $this->_values;
+        
+        $defaults = CRM_Utils_Array::value( 'contribution', $this->_values );
         $fields   = array( );
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             return $defaults;
@@ -331,15 +338,6 @@ WHERE  contribution_id = {$this->_contributionID}
         }
         
         if ( $this->_contributionID ) {
-            // throw out a warning if pay later contrib in pending state
-            // check if its an online contrib or event registration
-            if ( $defaults['contribution_status_id'] == 2 &&
-                 ( strpos( $defaults['contribution_source'], ts( 'Online Contribution' ) ) !== false ||
-                   strpos( $defaults['contribution_source'], ts( 'Online Event Registration' ) ) !== false ) ) {
-                $message = ts( 'If you have received payment for this Pending online contribution, record it using <strong>Update Pending Contribution Status</strong> from <strong><a href=\'%1\'>CiviContribute &raquo; Find Contributions</a></strong>. If you update the status from here the contributor may not got complete information on their receipt. Also, if there is an associated membership or event registration record - it\'s status will not be updated.',
-                               array( 1 => CRM_Utils_System::url( 'civicrm/contribute/search', "reset=1" )) );
-                CRM_Core_Session::setStatus( $message );
-            }
             $this->_contactID = $defaults['contact_id'];
         } else {
             $now = date("Y-m-d");
@@ -351,7 +349,7 @@ WHERE  contribution_id = {$this->_contributionID}
         }
         
         if (  CRM_Utils_Array::value( 'is_test', $defaults ) ) {
-            $this->assign( "is_test" , true);
+            $this->assign( "is_test" , true );
         } 
         
         if ( isset ( $defaults["honor_contact_id"] ) ) {
@@ -367,13 +365,13 @@ WHERE  contribution_id = {$this->_contributionID}
             $defaults["honor_type"]      = $honorType[$defaults["honor_type_id"]];
         }
         
-        $this->assign('showOption',true);
+        $this->assign( 'showOption', true );
         // for Premium section
         if( $this->_premiumID ) {
-            $this->assign('showOption',false);
+            $this->assign( 'showOption', false );
             $options = isset($this->_options[$this->_productDAO->product_id]) ? $this->_options[$this->_productDAO->product_id] : "";
             if ( ! $options ) {
-                $this->assign('showOption',true);
+                $this->assign( 'showOption', true );
             }
             $options_key = CRM_Utils_Array::key($this->_productDAO->product_option,$options);
             if( $options_key) {
@@ -411,7 +409,7 @@ WHERE  contribution_id = {$this->_contributionID}
         
         require_once 'CRM/Contribute/Form/AdditionalInfo.php';
         
-        $defaults = $this->_values;
+        $defaults = CRM_Utils_Array::value( 'contribution', $this->_values );
         
         $additionalDetailFields = array( 'note', 'thankyou_date', 'invoice_id', 'non_deductible_amount', 'fee_amount', 'net_amount');
         foreach ( $additionalDetailFields as $key ) {
@@ -612,7 +610,6 @@ WHERE  contribution_id = {$this->_contributionID}
         
         $this->addElement('date', 'acknowledge_date', ts('Acknowledge Date'), CRM_Core_SelectValues::date('activityDate')); 
         $this->addRule('acknowledge_date', ts('Select a valid date.'), 'qfDate');
-        
         
         $element =& $this->add( 'select', 'payment_processor_id',
                                 ts( 'Payment Processor' ),
