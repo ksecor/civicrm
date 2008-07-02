@@ -123,37 +123,29 @@
 
     {*display Additional Participant Info*}
     {if $customProfile}
-      <div class="header-dark">
-    	{ts}Additional Participant Information{/ts}
-      </div>
       {foreach from=$customProfile item=value key=name}
-        <div id= hide_{$name} class="section-hidden section-hidden-border" style="clear: both;">
-          <a href="#" onclick="hide( 'hide_{$name}' ); show( 'show_{$name}' ); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>Participant {$name}</label><br />
+        <div class="header-dark">
+            {ts 1=$name}Additional Participant Information - Participant %1{/ts}	
         </div>
-        <div id=show_{$name} class="section-shown" style="display: none;">
-          <fieldset>
-            <legend><a href="#" onclick="hide( 'show_{$name}' ); show( 'hide_{$name}' ); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>Participant {$name}</legend>
-
-            {foreach from=$value item=val key=field}
+        {foreach from=$value item=val key=field}
             {if $field}
             {if $field eq 'customPre' }
-    	      <fieldset><legend>{$groupTitlePre}</legend>
+              <fieldset><legend>{$groupTitlePre}</legend>
             {else}
               <fieldset><legend>{$groupTitlePost}</legend>
               
             {/if}
               <table class="form-layout-compressed">	
                  {foreach from=$val item=v key=f}
- 	         <tr>
-                   <td class="labels"><strong>{$f}:</strong></td>  <td>{$v}</td>
-	         </tr>
+                 <tr>
+                   <td class="label">{$f}</td><td class="view-value">{$v}</td>
+                 </tr>
                  {/foreach}
               </table>
               </fieldset>
             {/if}
-            {/foreach}
-          </fieldset>
-        </div>  
+        {/foreach}
+        <div class="spacer"></div>  
       {/foreach}
     {/if}
 
