@@ -43,6 +43,65 @@ class BAO_Core_CustomField extends CiviTestCase
         Custom::deleteGroup( $customGroup );
     }
     
+    function testGetFields()
+    {
+        $customGroup = Custom::createGroup( array(), 'Individual' );
+        $fields = array(
+                        'label'            => 'testFld1',
+                        'data_type'        => 'String',
+                        'html_type'        => 'Text',
+                        'is_active'        => 1,
+                        'custom_group_id'  => $customGroup->id,
+                        );
+        $customField1 = CRM_Core_BAO_CustomField::create( $fields );
+        $customFieldID1 = $this->assertDBNotNull( 'CRM_Core_DAO_CustomField',  $customGroup->id , 'id','custom_group_id' ,
+                                           'Database check for created CustomField.' );
+        $fields = array(
+                        'label'            => 'testFld2',
+                        'data_type'        => 'String',
+                        'html_type'        => 'Text',
+                        'is_active'        => 1,
+                        'custom_group_id'  => $customGroup->id,
+                        );
+        $customField2 = CRM_Core_BAO_CustomField::create( $fields );
+        $customFieldID2 = $this->assertDBNotNull( 'CRM_Core_DAO_CustomField',  $customGroup->id , 'id','custom_group_id' ,
+                                           'Database check for created CustomField.' );
+        $getCustomFields=array();
+        $getCustomFields = CRM_Core_BAO_CustomField::getFields('Individual', true, true);
+        //CRM_Core_Error::debug('fdf',$getCustomFields);
+        //$this->assertEqual( 'testFld1',  $getCustomFields[$customFieldID1][0], 'Confirm First Custom field label' );
+        //$this->assertEqual( 'testFld2',  $getCustomFields[$customFieldID2][0], 'Confirm Second Custom field label' );
+        
+       
+        Custom::deleteGroup( $customGroup );
+    }
+    
+    function testGetDisplayedValues()
+    {
+        $customGroup = Custom::createGroup( array(), 'Individual' );
+        $fields = array(
+                        'label'            => 'testCountryFld1',
+                        'data_type'        => 'Country',
+                        'html_type'        => 'Select Country',
+                        'is_active'        => 1,
+                        'default_value'    => 1228,
+                        'custom_group_id'  => $customGroup->id,
+                        );
+        $customField1 = CRM_Core_BAO_CustomField::create( $fields );
+        $customFieldID1 = $this->assertDBNotNull( 'CRM_Core_DAO_CustomField',  $customGroup->id , 'id','custom_group_id' ,
+                                           'Database check for created CustomField.' );
+        $options=array();
+        $options[$customFieldID1]['attributes']=  array(
+                        'label'            => 'testCountryFld1',
+                        'data_type'        => 'Country',
+                        'html_type'        => 'Select Country',
+                        );
+        $display = CRM_Core_BAO_CustomField::getDisplayValue($fields['default_value'], $customFieldID1,$options );
+       
+        $this->assertEqual( 'United States',  $display, 'Confirm Country display Name' );
+              
+        Custom::deleteGroup( $customGroup );
+    }
     function testDeleteCustomfield()
     {
         $customGroup = Custom::createGroup( array(), 'Individual' );
