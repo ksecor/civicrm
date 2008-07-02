@@ -390,11 +390,24 @@ ORDER BY title asc
             $clauses[] = 'visibility = %3';
             $params[3] = array( $visibility, 'String' );
         }
-
+        $active_status = $this->get( 'active_status' );
+        $inactive_status = $this->get( 'inactive_status' );
+        if ( $active_status && !$inactive_status) {
+            $clauses[] = 'is_active = 1';
+            $params[4] = array( $active_status, 'Boolean' );
+        }
+       
+      
+        if ( $inactive_status && !$active_status) {
+            $clauses[] = 'is_active = 0';
+            $params[5] = array( $inactive_status, 'Boolean' );
+        }
+        
+     
         if ( $sortBy &&
              $this->_sortByCharacter ) {
-            $clauses[] = 'title LIKE %4';
-            $params[4] = array( $this->_sortByCharacter . '%', 'String' );
+            $clauses[] = 'title LIKE %6';
+            $params[6] = array( $this->_sortByCharacter . '%', 'String' );
         }
 
         // dont do a the below assignement when doing a 
@@ -430,7 +443,7 @@ ORDER BY title asc
 SELECT id, title
   FROM civicrm_group
  WHERE $whereClause";
-
+      
         $object = CRM_Core_DAO::executeQuery( $query, $whereParams );
         $total  = 0;
         while ( $object->fetch( ) ) {
