@@ -245,6 +245,7 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base
                                            false, false, 
                                            false, 
                                            $this->_additionalClause );
+        
     }
 
     
@@ -341,27 +342,27 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base
             self::$_columnHeaders = array( 
                                           array(
                                                 'name'      => ts('Amount'),
-                                                'sort'      => 'pledge_amount',
+                                                'sort'      => 'amount',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
                                                 'name'      => ts('Create Date'),
-                                                'sort'      => 'pledge_create_date',
+                                                'sort'      => 'create_date',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
                                                 'name'      => ts('To be Paid'),
-                                                'sort'      => 'frequency',
+                                                'sort'      => 'frequency_interval',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
                                                 'name'      => ts('Begining Date'),
-                                                'sort'      => 'pledge_start_date',
+                                                'sort'      => 'start_date',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
                                                 'name'      => ts('Status'),
-                                                'sort'      => 'status',
+                                                'sort'      => 'status_id',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array('desc'      => ts('Actions') ),

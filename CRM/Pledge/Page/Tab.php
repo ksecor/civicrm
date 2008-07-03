@@ -100,16 +100,7 @@ class CRM_Pledge_Page_Tab extends CRM_Contact_Page_View
     function run( ) 
     {
         // we should call contact view, preprocess only for participant mode
-        $contactId = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
-        $context   = CRM_Utils_Request::retrieve( 'context', 'String', $this );
-
-        if ( $contactId && $context != 'search' ) {
-            $this->preProcess( );
-        } else {
-            // this case is for batch update, event registration action 
-            $this->_action = CRM_Core_Action::ADD;
-            $this->assign( 'action', $this->_action );
-        }
+        $this->preProcess( );
         
         if ( $this->_permission == CRM_Core_Permission::EDIT && ! CRM_Core_Permission::check( 'edit pledge records' ) ) {
             $this->_permission = CRM_Core_Permission::VIEW; // demote to view since user does not have edit pledge rights
