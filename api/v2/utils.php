@@ -734,7 +734,7 @@ function _civicrm_contribute_formatted_param( &$params, &$values, $create=false 
     // copy all the contribution fields as is
    
     $fields =& CRM_Contribute_DAO_Contribution::fields( );
-
+      
     _civicrm_store_values( $fields, $params, $values );
 
     require_once 'CRM/Core/OptionGroup.php';
@@ -793,6 +793,39 @@ function _civicrm_contribute_formatted_param( &$params, &$values, $create=false 
             
             $values['contact_id'] = $values['contribution_contact_id'];
             unset ($values['contribution_contact_id']);
+            break;
+
+        case 'contact_type':
+            //import contribution record according to select contact type
+            require_once 'CRM/Contact/DAO/Contact.php';
+            $contactType =& new CRM_Contact_DAO_Contact();
+            //when insert mode check contact id or external identifire
+            if ( $params['contribution_contact_id'] || $params['external_identifier'] ) {
+                if ( $params['contribution_contact_id'] ) {
+                    $contactType->id = $params['contribution_contact_id'];
+                } else if( $params['external_identifier'] ) {
+                    $contactType->external_identifier = $params['external_identifier'];
+                }
+            } else if ( $params['contribution_id'] || $params['trxn_id'] ||$params['invoice_id'] ) {
+                //when update mode check contribution id or trxn id or
+                //invoice id
+                $contactId =& new  CRM_Contribute_DAO_Contribution();
+                if ( $params['contribution_id'] ) {
+                    $contactId->id = $params['contribution_id'];
+                } else if ( $params['trxn_id'] ) {
+                    $contactId->trxn_id = $params['trxn_id'];
+                } else if ( $params['invoice_id'] ) {
+                    $contactId->invoice_id = $params['invoice_id'];  
+                }
+                if ( $contactId->find(true) ) {
+                    $contactType->id = $contactId->contact_id;
+                }
+            }
+            if ( $contactType->find(true) ) {
+                if ( $params['contact_type'] != $contactType->contact_type ) {
+                    return civicrm_create_error("Contact Type is wrong: $contactType->contact_type");
+                }
+            }
             break;
 
         case 'receive_date':
