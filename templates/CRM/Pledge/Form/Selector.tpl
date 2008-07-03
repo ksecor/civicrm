@@ -39,12 +39,12 @@
    </tr>
    <tr id="{$row.pledge_id}_show">
        <td colspan="8">
-          <a href="#" onclick="show('paymentDetails{$row.pledge_id}'); buildPaymentDetails('{$row.pledge_id}'); hide('{$row.pledge_id}_show');show('{$row.pledge_id}_hide');return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/>{ts}Show Payment Details{/ts}</a>
+          <a href="#" onclick="show('paymentDetails{$row.pledge_id}', 'table-row'); buildPaymentDetails('{$row.pledge_id}'); hide('{$row.pledge_id}_show');show('{$row.pledge_id}_hide','table-row');return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/>{ts}Show Payments{/ts}</a>
        </td>
    </tr>
    <tr id="{$row.pledge_id}_hide">
      <td colspan="8">
-         <a href="#" onclick="show('{$row.pledge_id}_show');hide('{$row.pledge_id}_hide');return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}open section{/ts}"/>{ts}Hide Payment Details{/ts}</a>
+         <a href="#" onclick="show('{$row.pledge_id}_show', 'table-row');hide('{$row.pledge_id}_hide');return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}open section{/ts}"/>{ts}Hide Payments{/ts}</a>
        <br/>
        <div id="paymentDetails{$row.pledge_id}"></div>
      </td>
