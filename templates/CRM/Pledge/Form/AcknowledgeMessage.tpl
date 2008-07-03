@@ -6,8 +6,8 @@
 {ts}Pledge Information{/ts}
 
 ===========================================================
-{ts}Total Pledge Amount{/ts}: {$amount|crmMoney}
-{ts}Pledge Received{/ts}: {$create_date|crmDate}
+{ts}Pledge Received{/ts} : {$create_date|crmDate}
+{ts}Total Pledge Amount{/ts} : {$amount|crmMoney}
 
 ===========================================================
 {ts}Payment Schedule{/ts}
@@ -32,7 +32,7 @@ or need to modify your payment schedule.{/ts}
 ===========================================================
 {$honor_prefix} {$honor_first_name} {$honor_last_name}
 {if $honor_email}
-{ts}Honoree Email{/ts}: {$honor_email}
+{ts}Honoree Email{/ts} : {$honor_email}
 {/if}
 
 {if $customData}
