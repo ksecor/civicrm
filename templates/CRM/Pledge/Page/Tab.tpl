@@ -2,7 +2,7 @@
 {if $action eq 1 or $action eq 2 or $action eq 8} {* add, update or view *}            
     {include file="CRM/Pledge/Form/Pledge.tpl"}
 {elseif $action eq 4}
-    {include file="CRM/Pldge/Form/PledgeView.tpl"}
+    {include file="CRM/Pledge/Form/PledgeView.tpl"}
 {else}
 <div id="help">
     {ts 1=$displayName}Pledges received from %1 since inception.{/ts} 

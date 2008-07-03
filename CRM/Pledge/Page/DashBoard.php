@@ -108,7 +108,7 @@ class CRM_Pledge_Page_DashBoard extends CRM_Core_Page
         $this->preProcess( );
         
         $controller =& new CRM_Core_Controller_Simple( 'CRM_Pledge_Form_Search', 
-                                                       ts('Pledge Signers'), 
+                                                       ts('Pledge'), 
                                                        null );
         $controller->setEmbedded( true ); 
         $controller->reset( ); 

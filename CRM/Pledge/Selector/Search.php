@@ -285,7 +285,7 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base
                  }
              }
 
-             $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->pb_signer_id;
+             $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->pledge_id;
              
              $row['action']   = CRM_Core_Action::formLink( self::links(), $mask,
                                                            array( 'id'  => $result->pledge_id,
