@@ -236,14 +236,8 @@ class InstallRequirements {
         }
 
         if ( $installType == 'standalone' ) {
-            $requiredDirectories = array( 'files' );
-            foreach ( $requiredDirectories as $dir ) {
-                $this->requireFile( $crmPath . DIRECTORY_SEPARATOR . 'standalone' . DIRECTORY_SEPARATOR . $dir, 
-                                    array("File permissions", "$dir folder exists", "There is no $dir folder" ), true );
-            }
             // make sure that we can write to standalone and standalone/files 
-            $writableDirectories = array( 'standalone', 
-                                          'standalone' . DIRECTORY_SEPARATOR . 'files' );
+            $writableDirectories = array( 'standalone' );
             foreach ( $writableDirectories as $dir ) {
                 $this->requireWriteable( $crmPath . DIRECTORY_SEPARATOR . $dir,
                                          array("File permissions", "Is the $dir folder writeable?", null ),
