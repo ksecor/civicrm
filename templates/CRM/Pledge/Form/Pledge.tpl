@@ -2,6 +2,9 @@
 {* if $cdType *}
   {* include file="CRM/Custom/Form/CustomData.tpl" *}
 {* else *}
+{if $showAdditionalInfo and $formType }
+  {include file="CRM/Contribute/Form/AdditionalInfo/$formType.tpl"}
+{else}
 <div class="form-item">
 {if !$email}
 <div class="messages status">
@@ -86,6 +89,21 @@
      }
     </script>
     {/literal}
+	
+{* dojo pane *}
+<div class="form-item" id="additionalInformation">
+   {* Honoree Information / Payment Reminders*}
+   <div class="tundra">
+      {foreach from=$allPanes key=paneName item=paneValue}
+        {if $paneValue.open eq 'true'}
+           <div id="{$paneValue.id}" href="{$paneValue.url}" dojoType="civicrm.TitlePane"  title="{$paneName}" open="{$paneValue.open}" width="200" executeScript="true"></div>
+        {else}
+           <div id="{$paneValue.id}" dojoType="civicrm.TitlePane"  title="{$paneName}" open="{$paneValue.open}" href ="{$paneValue.url}" executeScript="true"></div>
+        {/if}
+      {/foreach}
+   </div>
+</div>
+
     <dl>    
        <dt></dt><dd class="html-adjust">{$form.buttons.html}</dd>   
     </dl> 
@@ -110,5 +128,5 @@
     field_type          ="select"
     invert              = 0
 }
-{* /if *}
-{* closing of main custom data if*}
+{/if}
+{* closing of main dojo pane if*}
