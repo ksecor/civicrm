@@ -7,6 +7,7 @@
     <th>{ts}Last Reminder{/ts}</th>
     <th>{ts}Reminders Sent{/ts}</th>
     <th>{ts}Status{/ts}</th>
+    <th></th>
   </tr>
 
   {foreach from=$rows item=row}
@@ -18,6 +19,18 @@
     <td>{$row.reminder_date|truncate:10:''|crmDate}</td>
     <td>{$row.reminder_count}</td>
     <td>{$row.status}</td>	
+    <td>
+      {if $permission EQ 'edit'}
+        {capture assign=newContribURL}{crmURL p="civicrm/contact/view/contribution" q="reset=1&action=add&cid=`$contactId`&context=contribution&pledgeId=`$pledgeId`"}{/capture}
+        {ts 1=$newContribURL}<a href='%1'>Record Payment (Check, Cash, EFT ...)</a>{/ts}
+        {if $newCredit}
+	   <br/>  
+          {capture assign=newCreditURL}{crmURL p="civicrm/contact/view/contribution" q="reset=1&action=add&cid=`$contactId`&pledgeId=`$pledgeId`&context=contribution&mode=live"}{/capture}
+          {ts 1=$newCreditURL}<a href='%1'>Submit Credit Card Payment</a>{/ts}
+     {/if}
+    {/if}
+
+    </td>
    </tr>
   {/foreach}
 </table>

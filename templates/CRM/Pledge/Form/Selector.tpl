@@ -37,13 +37,13 @@
     <td>{$row.pledge_status_id}</td>	
     <td>{$row.action}<br/>
 	<div id="{$row.pledge_id}_show">
-	    <a href="#" onclick="show('paymentDetails{$row.pledge_id}', 'table-row'); buildPaymentDetails('{$row.pledge_id}'); hide('{$row.pledge_id}_show');show('{$row.pledge_id}_hide','table-row');return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/>{ts}Show Payments{/ts}</a>
+	    <a href="#" onclick="show('paymentDetails{$row.pledge_id}', 'table-row'); buildPaymentDetails('{$row.pledge_id}','{$row.contact_id}'); hide('{$row.pledge_id}_show');show('{$row.pledge_id}_hide','table-row');return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/>{ts}Payments{/ts}</a>
 	</div>
     </td>
    </tr>
    <tr id="{$row.pledge_id}_hide">
      <td colspan="8">
-         <a href="#" onclick="show('{$row.pledge_id}_show', 'table-row');hide('{$row.pledge_id}_hide');return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}open section{/ts}"/>{ts}Hide Payments{/ts}</a>
+         <a href="#" onclick="show('{$row.pledge_id}_show', 'table-row');hide('{$row.pledge_id}_hide');return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}open section{/ts}"/>{ts}Payments{/ts}</a>
        <br/>
        <div id="paymentDetails{$row.pledge_id}"></div>
      </td>
@@ -71,9 +71,9 @@
 {literal}
 <script type="text/javascript">
 
-function buildPaymentDetails( pledgeId )
+function buildPaymentDetails( pledgeId, contactId )
 {
-    var dataUrl = {/literal}"{crmURL p='civicrm/pledge/payment' h=0 q='snippet=4&pledgeId='}"{literal} + pledgeId;
+    var dataUrl = {/literal}"{crmURL p='civicrm/pledge/payment' h=0 q='snippet=4&pledgeId='}"{literal} + pledgeId + '&cid=' + contactId;
 	
     var result = dojo.xhrGet({
         url: dataUrl,

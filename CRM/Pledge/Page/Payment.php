@@ -46,12 +46,31 @@ class CRM_Pledge_Page_Payment extends CRM_Core_Page
     function run( ) 
     {
         $pledgeId = CRM_Utils_Request::retrieve( 'pledgeId', 'Positive', $this );
+        $contactId = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
         
         require_once 'CRM/Pledge/BAO/Pledge.php';
         $paymentDetails = CRM_Pledge_BAO_Pledge::getPledgePayments( $pledgeId );
+
+        $this->assign( 'rows'     , $paymentDetails );
+        $this->assign( 'pledgeId' , $pledgeId );
+        $this->assign( 'contactId', $contactId );
         
-        $this->assign( 'rows', $paymentDetails );
-        $this->assign( 'pledgeId', $pledgeId );
+        // check if we can process credit card contribs
+        $processors = CRM_Core_PseudoConstant::paymentProcessor( false, false,
+                                                                 "billing_mode IN ( 1, 3 )" );
+        if ( count( $processors ) > 0 ) {
+            $this->assign( 'newCredit', true );
+        } else {
+            $this->assign( 'newCredit', false );
+        }
+
+        // check is the user has view/edit signer permission
+        $permission = 'view';
+        if ( CRM_Core_Permission::check( 'edit pledge records' ) ) {
+            $permission = 'edit';
+        }
+        $this->assign( 'permission', $permission );
+
         parent::run();
     }
 }
