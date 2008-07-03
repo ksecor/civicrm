@@ -259,7 +259,7 @@ class CRM_Pledge_Form_Search extends CRM_Core_Form
                 require_once "CRM/Core/Permission.php";
                 $permission = CRM_Core_Permission::getPermission( );
                 if ( $permission == CRM_Core_Permission::EDIT ) {
-                    $tasks = $tasks + CRM_CRM_Pledge_Task::optionalTaskTitle();
+                    $tasks = $tasks + CRM_Pledge_Task::optionalTaskTitle();
                 }
                 
                 $savedSearchValues = array( 'id' => $this->_ssID,
@@ -440,6 +440,20 @@ class CRM_Pledge_Form_Search extends CRM_Core_Form
 
     function fixFormValues( )
     {
+        $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
+
+        if ( $cid ) {
+            $cid = CRM_Utils_Type::escape( $cid, 'Integer' );
+            if ( $cid > 0 ) {
+                require_once 'CRM/Contact/BAO/Contact.php';
+                $this->_formValues['contact_id'] = $cid;
+                list( $display, $image ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $cid );
+                $this->_defaults['sort_name'] = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $cid,
+                                                                             'sort_name' );
+                // also assign individual mode to the template
+                $this->_single = true;
+            }
+        }
     }
 
     function getFormValues( ) 
