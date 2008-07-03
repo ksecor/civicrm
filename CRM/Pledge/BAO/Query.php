@@ -107,7 +107,7 @@ class CRM_Pledge_BAO_Query
         $isTest   = false;
         $grouping = null;
         foreach ( array_keys( $query->_params ) as $id ) {
-            if ( substr( $query->_params[$id][0], 0, 7) == 'pledge_' || substr( $query->_params[$id][0], 0, 13 ) == 'contribution_' ) {
+            if ( substr( $query->_params[$id][0], 0, 7) == 'pledge_' ) {
                 if ( $query->_mode == CRM_Contact_BAO_QUERY::MODE_CONTACTS ) {
                     $query->_useDistinct = true;
                 }
@@ -334,8 +334,8 @@ class CRM_Pledge_BAO_Query
     static function tableNames( &$tables ) 
     {
         //add status table 
-        if ( CRM_Utils_Array::value( 'contribution_status', $tables ) ) {
-            $tables = array_merge( array( 'civicrm_contribution' => 1), $tables );
+        if ( CRM_Utils_Array::value( 'pledge_status', $tables ) ) {
+            $tables = array_merge( array( 'civicrm_pledge' => 1), $tables );
         }
     }
   
