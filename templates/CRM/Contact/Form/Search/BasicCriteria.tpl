@@ -90,7 +90,7 @@ dojo.addOnLoad( function( ) {
                 {else}
 { if $config->groupTree }
 <a href="#" onclick="dijit.byId('id-groupPicker').show(); displayGroupTree( );">{ts}Select Group(s){/ts}</a>
-<div class="tundra" dojoType="dijit.Dialog" id="id-groupPicker" title="Select Group(s)" execute="setCheckBoxValues();">
+<div class="tundra" style="background-color: #f4eeee;" dojoType="dijit.Dialog" id="id-groupPicker" title="Select Group(s)" execute="setCheckBoxValues();">
 </div><br/><br/>
 <span id="id-group-names"></span>
 {else}
