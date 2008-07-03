@@ -50,12 +50,13 @@ class CRM_Mailing_Page_Preview extends CRM_Core_Page
         require_once 'CRM/Mailing/BAO/Mailing.php';
 
         $session =& CRM_Core_Session::singleton();
-
-        $options = array();
-        $session->getVars($options, 'CRM_Mailing_Controller_Send_');
         
-        $type = CRM_Utils_Request::retrieve('type', 'String', CRM_Core_DAO::$_nullObject, false, 'text');
-
+        $qfKey = CRM_Utils_Request::retrieve('qfKey', 'String', CRM_Core_DAO::$_nullObject, false, 'text');
+        $type  = CRM_Utils_Request::retrieve('type', 'String', CRM_Core_DAO::$_nullObject, false, 'text');
+        
+        $options = array();
+        $session->getVars($options, "CRM_Mailing_Controller_Send_$qfKey");
+        
         // FIXME: the below and CRM_Mailing_Form_Test::testMail()
         // should be refactored
         $fromEmail = null;
