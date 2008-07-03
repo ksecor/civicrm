@@ -52,9 +52,9 @@ class CRM_Pledge_BAO_Query
     static function select( &$query ) 
     {  
         if ( ( $query->_mode & CRM_Contact_BAO_Query::MODE_PLEDGE ) ||
-             CRM_Utils_Array::value( 'id', $query->_returnProperties ) ) {
+             CRM_Utils_Array::value( 'pledge_id', $query->_returnProperties ) ) {
             $query->_select['pledge_id'] = "civicrm_pledge.id as pledge_id";
-            $query->_element['id'] = 1;
+            $query->_element['pledge_id'] = 1;
             $query->_tables['civicrm_pledge'] = $query->_whereTables['civicrm_pledge'] = 1;
         }
         
@@ -93,10 +93,12 @@ class CRM_Pledge_BAO_Query
         }
         
         if ( CRM_Utils_Array::value( 'pledge_status_id', $query->_returnProperties ) ) {
-            $query->_select['pledge_status_id']  = "pledge_status.label as pledge_status_id";
+            $query->_select['pledge_status_id']  = "pledge_status.name as pledge_status_id";
             $query->_element['pledge_status'] = 1;
+            $query->_tables['pledge_status'] = 1;
             $query->_tables['civicrm_pledge'] = 1;
             $query->_whereTables['civicrm_pledge'] = 1;
+            $query->_whereTables['pledge_status'] = 1;
         }
     }
     
@@ -227,8 +229,10 @@ class CRM_Pledge_BAO_Query
         switch ( $name ) {
        
         case 'civicrm_pledge':
-            $from = " $side JOIN civicrm_pledge ON civicrm_pledge.contact_id = contact_a.id JOIN civicrm_pledge_payment ON civicrm_pledge.id = civicrm_pledge_payment.pledge_id ";
-           
+            $from = " $side JOIN civicrm_pledge ON civicrm_pledge.contact_id = contact_a.id ";
+            break;
+            
+        case 'pledge_status':
             $from .= " $side JOIN civicrm_option_group option_group_pledge_status ON (option_group_pledge_status.name = 'contribution_status')";
             $from .= " $side JOIN civicrm_option_value pledge_status ON (civicrm_pledge.status_id = pledge_status.value AND option_group_pledge_status.id = pledge_status.option_group_id ) ";
             break;
