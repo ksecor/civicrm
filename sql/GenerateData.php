@@ -1589,7 +1589,13 @@ VALUES
     (19, 1, 4, '2007-04-11 00:00:00', 0.00, 175.00, 'check #102', 'USD', NULL, NULL, NULL, NULL, 'Apr 2007 Mailer 1'),
     (82, 1, 1, '2007-03-27 00:00:00', 0.00, 50.00, 'P20193L2', 'USD', NULL, NULL, NULL, NULL, 'Online: Save the Penguins'),
     (92, 1, 1, '2007-03-08 00:00:00', 0.00, 10.00, 'P40232Y3', 'USD', NULL, NULL, NULL, NULL, 'Online: Save the Penguins'),
-    (34, 1, 1, '2007-04-22 00:00:00', 0.00, 250.00, 'P20193L6', 'USD', NULL, NULL, NULL, NULL, 'Online: Save the Penguins');
+    (34, 1, 1, '2007-04-22 00:00:00', 0.00, 250.00, 'P20193L6', 'USD', NULL, NULL, NULL, NULL, 'Online: Save the Penguins'),
+    (71, 1, 1, '2008-07-26 11:53:50', 0.00, 100.00, 'PL71', 'USD', NULL, NULL, NULL, NULL, NULL ),
+    (43, 1, 1, '2008-07-26 11:53:50', 0.00, 300.00, 'PL43I', 'USD', NULL, NULL, NULL, NULL, NULL ),
+    (43, 1, 1, '2008-07-11 12:55:41', 0.00, 172.00, 'PL43II', 'USD', NULL, NULL, NULL, NULL, NULL ),
+    (32, 1, 1, '2008-07-26 11:53:50', 0.00, 200.00, 'PL32I', 'USD', NULL, NULL, NULL, NULL, NULL ),
+    (32, 1, 1, '2008-07-11 12:55:41', 0.00, 200.00, 'PL32II', 'USD', NULL, NULL, NULL, NULL, NULL ),
+    (32, 1, 1, '2008-07-26 11:53:50', 0.00, 178.00, 'PL32III', 'USD', NULL, NULL, NULL, NULL, NULL );
 ";
         CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         
@@ -1605,12 +1611,18 @@ VALUES
     (19, 6, 6, '$ 175.00-Apr 2007 Mailer 1', '2007-04-11 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
     (82, 7, 6, '$ 50.00-Online: Save the Penguins', '2007-03-27 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
     (92, 8, 6, '$ 10.00-Online: Save the Penguins', '2007-03-08 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    (34, 9, 6, '$ 250.00-Online: Save the Penguins', '2007-04-22 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 );
+    (34, 9, 6, '$ 250.00-Online: Save the Penguins', '2007-04-22 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    (71, 10, 6, NULL, '2008-07-26 11:53:50', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    (43, 11, 6, NULL, '2008-07-26 11:53:50', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    (43, 12, 6, NULL, '2008-07-11 12:55:41', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    (32, 13, 6, NULL, '2008-07-26 11:53:50', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    (32, 14, 6, NULL, '2008-07-11 12:55:41', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    (32, 15, 6, NULL, '2008-07-26 11:53:50', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 );
     ";
         CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
     }
 
-    function addPledge( )
+    function addPbPledge( )
     {
         $pledge = "INSERT INTO civicrm_pb_pledge
         ( creator_name, creator_pledge_desc, signers_limit, signer_description_text, signer_pledge_desc, deadline, url_reference, description, creator_id, creator_description, created_date, loc_block_id, is_active )
@@ -1622,7 +1634,7 @@ VALUES
         CRM_Core_DAO::executeQuery( $pledge, CRM_Core_DAO::$_nullArray );      
     }
     
-    function addPledgeSigner( )
+    function addPbPledgeSigner( )
     {
         $pledgeSigner = "INSERT INTO civicrm_pb_signer
         ( contact_id,  pledge_id, is_anonymous, email_id, is_done, signing_date, is_test)
@@ -1633,9 +1645,35 @@ VALUES
       ";
         CRM_Core_DAO::executeQuery( $pledgeSigner, CRM_Core_DAO::$_nullArray );      
     }
+
+    function addPledge( )
+    {
+        $pledge = "INSERT INTO civicrm_pledge
+        (contact_id, contribution_type_id, contribution_page_id, amount, frequency_unit, frequency_interval, frequency_day, installments, start_date, create_date, acknowledge_date, modified_date, cancel_date, end_date, payment_instrument_id, honor_contact_id, honor_type_id, status_id, is_test) 
+        VALUES 
+       (71, 1, 1, 100.00, 'month', 1, 1, 1, '2008-06-26 21:19:02', '2008-07-17 00:00:00', NULL, NULL, NULL, NULL, 1, NULL, NULL, 1, 0),
+       (43, 1, 2, 472.00, 'year', 2, 1, 2, '2008-07-03 10:11:09', '2008-07-03 10:11:14', '2008-07-11 10:11:18', '2008-07-11 10:11:24', NULL, '2009-07-02 10:11:40', 1, NULL, NULL, 1, 0),
+       (32, 1, 2, 578.00, 'week', 3, 1, 3, '2008-08-04 10:12:35', '2008-08-04 10:12:44', '2008-08-06 10:12:52', '2008-08-07 10:12:59', NULL, '2008-08-10 10:13:11', 1, NULL, NULL, 1, 0);
+";
+        CRM_Core_DAO::executeQuery( $pledge, CRM_Core_DAO::$_nullArray );      
+    }
+
+    function addPledgePayment( )
+    {
+        $pledgePayment = "INSERT INTO civicrm_pledge_payment 
+        ( pledge_id, contribution_id, scheduled_amount, scheduled_date, reminder_date, reminder_count, status_id) 
+       VALUES 
+         (1, 10, 100.00, '2008-07-02 13:03:45', '2008-07-01 13:03:49', 0, 1),
+         (2, 11, 300.00, '2008-07-20 10:59:35', '2008-07-17 10:59:41', 0, 1),
+         (2, 12, 172.00, '2008-07-20 10:59:35', '2008-07-17 10:59:41', 0, 1),
+         (3, 13, 200.00, '2008-08-20 11:00:12', '2008-07-17 11:00:20', 0, 1),
+         (3, 14, 200.00, '2008-07-20 10:59:35', '2008-07-17 10:59:41', 0, 1),
+         (3, 15, 178.00, '2008-08-20 11:00:12', '2008-07-17 11:00:20', 0, 1);
+        ";
+        CRM_Core_DAO::executeQuery( $pledgePayment, CRM_Core_DAO::$_nullArray );
+    }
     
 }
-
 function user_access( $str = null ) {
     return true;
 }
@@ -1668,8 +1706,10 @@ $obj1->addEventAndLocation();
 $obj1->addEventPage();
 $obj1->addParticipant();
 $obj1->addContribution();
+$obj1->addPbPledge();
+$obj1->addPbPledgeSigner();
 $obj1->addPledge();
-$obj1->addPledgeSigner();
+$obj1->addPledgePayment();
 echo("Ending data generation on " . date("F dS h:i:s A") . "\n");
 
 
