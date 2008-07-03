@@ -41,8 +41,8 @@
 class CRM_Pledge_Task
 {
     const
-        DELETE_SIGNERS                     =     1,
-        PRINT_SIGNERS                      =     2;
+        DELETE_PLEDGES  = 1,
+        PRINT_PLEDGES   = 2;
 
     /**
      * the task array

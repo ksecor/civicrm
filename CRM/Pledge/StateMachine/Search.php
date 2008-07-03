@@ -59,7 +59,7 @@ class CRM_Pledge_StateMachine_Search extends CRM_Core_StateMachine
         $this->_pages['CRM_Pledge_Form_Search'] = null;
         list( $task, $result ) = $this->taskName( $controller, 'Search' );
         $this->_task    = $task;
-        /*
+        
         if ( is_array( $task ) ) {
             foreach ( $task as $t ) {
                 $this->_pages[$t] = null;
@@ -69,9 +69,9 @@ class CRM_Pledge_StateMachine_Search extends CRM_Core_StateMachine
         }
 
         if ( $result ) {
-            //            $this->_pages['CRM_Pledge_Form_Task_Result'] = null;
+            $this->_pages['CRM_Pledge_Form_Task_Result'] = null;
         }
-        */
+
         $this->addSequentialPages( $this->_pages, $action );
     }
     
@@ -90,7 +90,7 @@ class CRM_Pledge_StateMachine_Search extends CRM_Core_StateMachine
         // total hack, check POST vars and then session to determine stuff
         // fix value if print button is pressed
         if ( CRM_Utils_Array::value( '_qf_' . $formName . '_next_print', $_POST ) ) {
-            $value = CRM_Pledge_Task::PRINT_SIGNERS;
+            $value = CRM_Pledge_Task::PRINT_PLEDGES;
         } else {
             $value = CRM_Utils_Array::value( 'task', $_POST );
         }
@@ -102,12 +102,12 @@ class CRM_Pledge_StateMachine_Search extends CRM_Core_StateMachine
         $result = false;
 
         switch ( $value ) {
-        case CRM_Pledge_Task::DELETE_SIGNERS:
-            //    $task   = 'CRM_Pledge_Form_Task_Delete';
+        case CRM_Pledge_Task::DELETE_PLEDGES:
+            $task   = 'CRM_Pledge_Form_Task_Delete';
             break;
             
         default: // the print task is the default and catch=all task
-            //   $task = 'CRM_Pledge_Form_Task_Print';
+            $task = 'CRM_Pledge_Form_Task_Print';
             break;
         }
         

@@ -182,22 +182,12 @@ class CRM_Pledge_BAO_Pledge extends CRM_Pledge_DAO_Pledge
     { 
         $pledge     = & new CRM_Pledge_DAO_Pledge( );
         $pledge->id = $id; 
+
+        //we need to add more checks before deleting pledges
         
-        if ( $pledge->find( true ) ) {
-            $locBlockId = $pledge->loc_block_id;
-            
-            $result = $pledge->delete( );
-            
-            if ( ! is_null( $locBlockId ) ) {
-                require_once 'CRM/Core/BAO/Location.php';
-                CRM_Core_BAO_Location::deleteLocBlock( $locBlockId );
-            }
-            
-            return $result;
-        }
-        
-        return null;
-        
+        //$result = $pledge->delete( );
+
+        return $result;
     }
  
     /**

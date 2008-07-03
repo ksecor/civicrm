@@ -9,17 +9,21 @@
 <p>
 <table>
   <tr class="columnheader">
-    <th>{ts}Signer{/ts}</th>
-    <th>{ts}Pledge{/ts}</th>
-    <th>{ts}Signed On{/ts}</th>
-    <th>{ts}Anonymous?{/ts}</th>
+    <th>{ts}Name{/ts}</th>
+    <th>{ts}Amount{/ts}</th>
+    <th>{ts}Create Date{/ts}</th>
+    <th>{ts}To Be Paid{/ts}</th>
+    <th>{ts}Begining Date{/ts}</th>
+    <th>{ts}Status{/ts}</th>
   </tr>
 {foreach from=$rows item=row}
     <tr class="{cycle values="odd-row,even-row"}">
         <td>{$row.sort_name}</td>
-        <td>{$row.pledge}</td>  
-        <td>{$row.pb_signer_signing_date|truncate:10:''|crmDate}</td> 
-        <td>{if $row.pb_signer_is_anonymous}{ts}Yes{/ts}{else}{ts}No{/ts}{/if}</td>
+        <td>{$row.pledge_amount|crmMoney}</td>	
+        <td>{$row.pledge_create_date|truncate:10:''|crmDate}</td>
+        <td>{$row.pledge_frequency_interval} {$row.pledge_frequency_unit|capitalize:true}(s) </td>	
+        <td>{$row.pledge_start_date|truncate:10:''|crmDate}</td>
+        <td>{$row.pledge_status_id}</td>	
     </tr>
 {/foreach}
 </table>

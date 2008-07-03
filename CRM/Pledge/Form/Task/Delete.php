@@ -33,18 +33,18 @@
  *
  */
 
-require_once 'CRM/PledgeBank/Form/Task.php';
+require_once 'CRM/Pledge/Form/Task.php';
 
 /**
  * This class provides the functionality to delete a group of
  * participations. This class provides functionality for the actual
  * deletion.
  */
-class CRM_PledgeBank_Form_Task_Delete extends CRM_PledgeBank_Form_Task 
+class CRM_Pledge_Form_Task_Delete extends CRM_Pledge_Form_Task 
 {
     /**
      * Are we operating in "single mode", i.e. deleting one
-     * specific participation?
+     * specific pledge?
      *
      * @var boolean
      */
@@ -69,7 +69,7 @@ class CRM_PledgeBank_Form_Task_Delete extends CRM_PledgeBank_Form_Task
      */
     function buildQuickForm( ) 
     {
-        $this->addDefaultButtons( ts( 'Delete Signers' ), 'done' );
+        $this->addDefaultButtons( ts( 'Delete Pledges' ), 'done' );
     }
 
     /**
@@ -80,17 +80,17 @@ class CRM_PledgeBank_Form_Task_Delete extends CRM_PledgeBank_Form_Task
      */
     public function postProcess( ) 
     {
-        $deletedSigners = 0;
-        require_once 'CRM/PledgeBank/BAO/Signer.php';
-        foreach ( $this->_signerIds as $signerId ) {
-            if ( CRM_PledgeBank_BAO_Signer::del( $signerId ) ) {
-                $deletedSigners++;
+        $deletedPledges = 0;
+        require_once 'CRM/Pledge/BAO/Pledge.php';
+        foreach ( $this->_pledgeIds as $pledgeId ) {
+            if ( CRM_Pledge_BAO_Pledge::del( $pledgeId ) ) {
+                $deletedPledges++;
             }
         }
 
         $status = array(
-                        ts( 'Deleted Signer(s): %1',        array( 1 => $deletedSigners ) ),
-                        ts( 'Total Selected Signer(s): %1', array( 1 => count($this->_signerIds ) ) ),
+                        ts( 'Deleted Pledge(s): %1',        array( 1 => $deletedPledges ) ),
+                        ts( 'Total Selected Pledge(s): %1', array( 1 => count($this->_pledgeIds ) ) ),
                         );
         CRM_Core_Session::setStatus( $status );
 

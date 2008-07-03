@@ -68,7 +68,7 @@ class CRM_Pledge_Form_Task extends CRM_Core_Form
      *
      * @var array
      */
-    protected $_signerIds;
+    protected $_pledgeIds;
 
     /**
      * build all the data structures needed to build the form
@@ -97,21 +97,21 @@ class CRM_Pledge_Form_Task extends CRM_Core_Form
         } else {
             $queryParams =  $this->get( 'queryParams' );
             $query       =& new CRM_Contact_BAO_Query( $queryParams, null, null, false, false, 
-                                                       CRM_Contact_BAO_Query::MODE_PLEDGEBANK );
+                                                       CRM_Contact_BAO_Query::MODE_PLEDGE );
             $result = $query->searchQuery(0, 0, null);
             while ($result->fetch()) {
-                $ids[] = $result->pb_signer_id;
+                $ids[] = $result->pledge_id;
             }
         }
         
         if ( ! empty( $ids ) ) {
             $this->_componentClause =
-                ' civicrm_pb_signer.id IN ( ' .
+                ' civicrm_pledge.id IN ( ' .
                 implode( ',', $ids ) . ' ) ';
-            $this->assign( 'totalSelectedSigners', count( $ids ) );             
+            $this->assign( 'totalSelectedPledges', count( $ids ) );             
         }
 
-        $this->_signerIds = $this->_componentIds = $ids;
+        $this->_pledgeIds = $this->_componentIds = $ids;
     }
 
     /**
@@ -120,8 +120,8 @@ class CRM_Pledge_Form_Task extends CRM_Core_Form
      */
     public function setContactIDs( ) 
     {
-        $this->_contactIds =& CRM_Core_DAO::getContactIDsFromComponent( $this->_signerIds,
-                                                                        'civicrm_pb_signer' );
+        $this->_contactIds =& CRM_Core_DAO::getContactIDsFromComponent( $this->_pledgeIds,
+                                                                        'civicrm_pledge' );
     }
 
     /**

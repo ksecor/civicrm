@@ -284,10 +284,6 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base
                      $row[$property] = $result->$property;
                  }
              }
-             
-             if ( $result->pb_signer_pledge_desc ) {
-                 $row['pledge'] = ts('...will') . ' ' . $result->pb_signer_pledge_desc;
-             }             
 
              $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->pb_signer_id;
              
