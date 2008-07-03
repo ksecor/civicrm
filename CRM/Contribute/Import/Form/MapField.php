@@ -431,15 +431,14 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
             foreach ($requiredFields as $field => $title) {
                 if (!in_array($field, $importKeys)) {
                     if( $field == 'contribution_contact_id' ) {
-                        if ( ( $weightSum >= $threshold || in_array('external_identifier', $importKeys ) &&
-                               $self->_onDuplicate != CRM_Contribute_Import_Parser::DUPLICATE_UPDATE ) ||
-                             in_array('invoice_id', $importKeys) || in_array('trxn_id', $importKeys) ||
-                             in_array('contribution_id', $importKeys) ) {
-                            continue;    
-                        } else {
-                            $errors['_qf_default'] .= ts('Missing required contact matching fields.'.$fieldMessage.' (Sum of all weights should be greater than or equal to threshold(%1)) (OR Invoice ID or Transaction ID or Contribution ID if update mode.)',array(1 => $threshold)) . '<br />';
+                        if ( ! ( $weightSum >= $threshold || in_array( 'external_identifier', $importKeys ) ) &&
+                             $self->_onDuplicate != CRM_Contribute_Import_Parser::DUPLICATE_UPDATE ) {
+                            $errors['_qf_default'] .= ts('Missing required contact matching fields.'.$fieldMessage.' (Sum of all weights should be greater than or equal to threshold(%1))',array(1 => $threshold)) . '<br />';
+                        } else if ( $self->_onDuplicate == CRM_Contribute_Import_Parser::DUPLICATE_UPDATE && 
+                                    ! ( in_array( 'invoice_id', $importKeys ) || in_array( 'trxn_id', $importKeys ) || 
+                                        in_array( 'contribution_id', $importKeys ) ) ) {
+                            $errors['_qf_default'] .= ts('Invoice ID or Transaction ID or Contribution ID are the required field in update mode.'). '<br />';
                         }
-                        
                     } else {
                         $errors['_qf_default'] .= ts('Missing required field: %1', array(1 => $title)) . '<br />';
                     }
