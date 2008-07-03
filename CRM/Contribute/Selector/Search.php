@@ -379,7 +379,7 @@ class CRM_Contribute_Selector_Search extends CRM_Core_Selector_Base implements C
                                                 ),
                                           array(
                                                 'name'      => ts('Status'),
-                                                'sort'      => 'contribution_status',
+                                                'sort'      => 'contribution_status_id',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
