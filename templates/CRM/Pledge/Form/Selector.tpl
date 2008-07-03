@@ -35,12 +35,11 @@
     <td>{$row.pledge_frequency_interval} {$row.pledge_frequency_unit|capitalize:true}(s) </td>	
     <td>{$row.pledge_start_date|truncate:10:''|crmDate}</td>
     <td>{$row.pledge_status_id}</td>	
-    <td>{$row.action}</td>
-   </tr>
-   <tr id="{$row.pledge_id}_show">
-       <td colspan="8">
-          <a href="#" onclick="show('paymentDetails{$row.pledge_id}', 'table-row'); buildPaymentDetails('{$row.pledge_id}'); hide('{$row.pledge_id}_show');show('{$row.pledge_id}_hide','table-row');return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/>{ts}Show Payments{/ts}</a>
-       </td>
+    <td>{$row.action}<br/>
+	<div id="{$row.pledge_id}_show">
+	    <a href="#" onclick="show('paymentDetails{$row.pledge_id}', 'table-row'); buildPaymentDetails('{$row.pledge_id}'); hide('{$row.pledge_id}_show');show('{$row.pledge_id}_hide','table-row');return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/>{ts}Show Payments{/ts}</a>
+	</div>
+    </td>
    </tr>
    <tr id="{$row.pledge_id}_hide">
      <td colspan="8">
