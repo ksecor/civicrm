@@ -25,4 +25,10 @@
      <page_callback>CRM_Pledge_Page_Tab</page_callback>
      <weight>570</weight>
   </item>
+  <item>
+     <path>civicrm/pledge/payment</path>
+     <title>Pledge Payments</title>
+     <page_callback>CRM_Pledge_Page_Payment</page_callback>
+     <weight>580</weight>
+  </item>
 </menu>

@@ -37,6 +37,21 @@
     <td>{$row.pledge_status_id}</td>	
     <td>{$row.action}</td>
    </tr>
+   <tr id="{$row.pledge_id}_show">
+       <td colspan="8">
+          <a href="#" onclick="show('paymentDetails{$row.pledge_id}'); buildPaymentDetails('{$row.pledge_id}'); hide('{$row.pledge_id}_show');show('{$row.pledge_id}_hide');return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/>{ts}Show Payment Details{/ts}</a>
+       </td>
+   </tr>
+   <tr id="{$row.pledge_id}_hide">
+     <td colspan="8">
+         <a href="#" onclick="show('{$row.pledge_id}_show');hide('{$row.pledge_id}_hide');return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}open section{/ts}"/>{ts}Hide Payment Details{/ts}</a>
+       <br/>
+       <div id="paymentDetails{$row.pledge_id}"></div>
+     </td>
+  </tr>
+ <script type="text/javascript">
+     hide('{$row.pledge_id}_hide');
+ </script>
   {/foreach}
 </table>
 {/strip}
@@ -52,4 +67,40 @@
 {if $context EQ 'Search'}
     {include file="CRM/common/pager.tpl" location="bottom"}
 {/if}
+
+{* Build pledge payment details*}
+{literal}
+<script type="text/javascript">
+
+function buildPaymentDetails( pledgeId )
+{
+    var dataUrl = {/literal}"{crmURL p='civicrm/pledge/payment' h=0 q='snippet=4&pledgeId='}"{literal} + pledgeId;
 	
+    var result = dojo.xhrGet({
+        url: dataUrl,
+        handleAs: "text",
+        timeout: 5000, //Time in milliseconds
+        handle: function(response, ioArgs){
+                if(response instanceof Error){
+                        if(response.dojoType == "cancel"){
+                                //The request was canceled by some other JavaScript code.
+                                console.debug("Request canceled.");
+                        }else if(response.dojoType == "timeout"){
+                                //The request took over 5 seconds to complete.
+                                console.debug("Request timed out.");
+                        }else{
+                                //Some other error happened.
+                                console.error(response);
+                        }
+                } else {
+		   // on success
+                   dojo.byId('paymentDetails' + pledgeId).innerHTML = response;
+	       }
+        }
+     });
+
+
+}
+</script>
+
+{/literal}	
