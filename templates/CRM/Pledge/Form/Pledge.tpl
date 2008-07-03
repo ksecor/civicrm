@@ -26,42 +26,42 @@
    {else}
       <table class="form-layout-compressed">
         <tr>
-            <td class="font-size12pt right"><strong>{ts}Pledger{/ts}</strong></td><td class="font-size12pt"><strong>{$displayName}</strong></td>
+            <td class="font-size12pt right"><strong>{ts}Pledge From{/ts}</strong></td><td class="font-size12pt"><strong>{$displayName}</strong></td>
         </tr>
         <tr><td class="label">{$form.amount.label}</td><td>{$form.amount.html|crmMoney}</td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Actual amount given by pledger.{/ts}</td></tr>
-	<tr><td class="label">{$form.frequency_unit.label}</td><td>{$form.frequency_unit.html}</td></tr>
+        <tr><td class="label">{$form.frequency_unit.label}</td><td>{$form.frequency_unit.html}</td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Frequency Unit of this Pledge(day, week, month etc.){/ts}</td></tr>
-	<tr><td class="label">{$form.frequency_interval.label}</td><td>{$form.frequency_interval.html}</td></tr>
+        <tr><td class="label">{$form.frequency_interval.label}</td><td>{$form.frequency_interval.html}</td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Frequency Interval of this Pledge(integer - e.g. every "3" months){/ts}</td></tr>
-	<tr><td class="label">{$form.frequency_day.label}</td><td>{$form.frequency_day.html}</td></tr>
+        <tr><td class="label">{$form.frequency_day.label}</td><td>{$form.frequency_day.html}</td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}The day of week, month or year that payment is scheduled.{/ts}</td></tr>
-	<tr><td class="label">{$form.installments.label}</td><td>{$form.installments.html}</td></tr>
+        <tr><td class="label">{$form.installments.label}</td><td>{$form.installments.html}</td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Number of Installments.{/ts}</td></tr>
-	<tr><td class="label">{$form.create_date.label}</td><td>{$form.create_date.html}
+        <tr><td class="label">{$form.create_date.label}</td><td>{$form.create_date.html}
             {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_2}
             {include file="CRM/common/calendar/body.tpl" dateVar=create_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_contribution_2}<br />
             <span class="description">{ts}The date this pledge was received.{/ts}</span></td></tr>
-	<tr><td class="label">{$form.start_date.label}</td><td>{$form.start_date.html}
+        <tr><td class="label">{$form.start_date.label}</td><td>{$form.start_date.html}
             {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_2}
             {include file="CRM/common/calendar/body.tpl" dateVar=start_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_contribution_2}<br />
-             {if $email}
             <span class="description">{ts}The date this pledge was started.{/ts}</span></td></tr>
-	<tr><td class="label">{$form.is_acknowledge.label}</td><td>{$form.is_acknowledge.html}</td></tr>
-            <tr><td class="label">&nbsp;</td><td class="description">{ts}Automatically email a acknowledgment for this contribution to {$email}?{/ts}</td></tr>
-             {/if}
-	<tr id="acknowledgeDate"><td class="label">{$form.acknowledge_date.label}</td><td>{$form.acknowledge_date.html}
+        {if $email}
+            <tr><td class="label">{$form.is_acknowledge.label}</td><td>{$form.is_acknowledge.html}</td></tr>
+            <tr><td class="label">&nbsp;</td><td class="description">{ts}Automatically email an acknowledgment of this pledge to {$email}?{/ts}</td></tr>
+        {/if}
+        <tr id="acknowledgeDate"><td class="label">{$form.acknowledge_date.label}</td><td>{$form.acknowledge_date.html}
             {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_2}
             {include file="CRM/common/calendar/body.tpl" dateVar=acknowledge_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_contribution_2}<br />
-            <span class="description">{ts}Date that a acknowledgment was sent.{/ts}</span></td></tr>
-	<tr><td class="label">{$form.status_id.label}</td><td>{$form.status_id.html}
-	{if $status_id eq 2}{if $is_pay_later }: {ts}Pay Later{/ts} {else}: {ts}Incomplete Transaction{/ts}{/if}{/if}</td></tr>
+            <span class="description">{ts}Date that an acknowledgment was sent.{/ts}</span></td></tr>
+        <tr><td class="label">{$form.status_id.label}</td><td>{$form.status_id.html}
+        {if $status_id eq 2}{if $is_pay_later }: {ts}Pay Later{/ts} {else}: {ts}Incomplete Transaction{/ts}{/if}{/if}</td></tr>
         {* Cancellation fields are hidden unless contribution status is set to Cancelled *}
         <tr id="cancelDate"><td class="label">{$form.cancel_date.label}</td><td>{$form.cancel_date.html}
-                   {if $hideCalendar neq true}
-                     {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_4}
-                     {include file="CRM/common/calendar/body.tpl" dateVar=cancel_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_contribution_4}
-                   {/if}
+           {if $hideCalendar neq true}
+             {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_4}
+             {include file="CRM/common/calendar/body.tpl" dateVar=cancel_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_contribution_4}
+           {/if}
         </td></tr>
         {/if}
       </table>
@@ -75,7 +75,7 @@
      function verify( ) {
        var element = document.getElementsByName("is_acknowledge");
         if ( element[0].checked ) {
-         var ok = confirm( "Click OK to save this Pledge record AND send a acknowledgment to the pledger now." );    
+         var ok = confirm( "Click OK to save this Pledge record AND send an acknowledgment to {/literal}{$email}{literal} now." );    
           if (!ok ) {
             return false;
           }
