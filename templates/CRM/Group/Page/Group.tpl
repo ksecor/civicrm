@@ -8,9 +8,8 @@
         <a accesskey="N" href="{crmURL p='civicrm/group/add' q='reset=1'}" id="newGroup" class="button"><span>&raquo; {ts}New Group{/ts}</span></a><br/>
     </div><br />
 {/if} {* action ne add or edit *}
-{include file="CRM/Group/Form/Search.tpl"}
 {/if}
- 
+{include file="CRM/Group/Form/Search.tpl"}
 {if $rows}
 <div id="group">
 {if $action eq 16 or $action eq 32 or $action eq 64} {* browse *}  
