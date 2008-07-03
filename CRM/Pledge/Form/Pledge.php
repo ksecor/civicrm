@@ -170,6 +170,18 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             $this->assign( "is_test" , true );
         } 
         
+        //default values.
+        if ( !$this->_id ) {
+            $now = date("Y-m-d");
+            $defaults['create_date']          = $now;
+            $defaults['start_date']           = $now;
+            $defaults['installments']         = 1;
+            $defaults['frequency_day']        = 3;
+            $defaults['frequency_unit']       = array_search( 'month', CRM_Core_SelectValues::unitList());
+            $defaults['status_id']            = array_search( 'Pending', CRM_Contribute_PseudoConstant::contributionStatus());
+            $defaults['contribution_type_id'] = array_search( 'Donation', CRM_Contribute_PseudoConstant::contributionType());
+        }
+        
         $this->assign( 'email', $this->userEmail );
         
         return $defaults;
