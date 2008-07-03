@@ -80,8 +80,8 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
     /**
      * stores the honor id
      *
-     * @var boolean
-     * @protected 
+     * @var int
+     * @public 
      */ 
     public $_honorID = null ;
     
@@ -291,7 +291,8 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         $element =& $this->add( 'select', 'frequency_unit', 
                                 ts( 'Each payment amount will be' ), 
                                 array(''=>ts( '- select -' )) + CRM_Core_SelectValues::unitList( ), 
-                                true );
+                                true, array( 'onblur' => "calculatedPaymentAmount( );"));
+                                
         if ( $this->_online ) {
             $element->freeze( );
         }
@@ -301,6 +302,8 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         if ( $this->_online ) {
             $element->freeze( );
         }
+        
+        $element =& $this->add( 'text', 'payment_amount', ts('Each payment amount will be'), 'size=10 READONLY' );
         
         //add various dates
         $element =& $this->add('date', 'create_date', ts('Pledge Received'), CRM_Core_SelectValues::date('activityDate'));    

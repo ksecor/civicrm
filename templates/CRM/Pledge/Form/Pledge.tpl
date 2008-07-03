@@ -37,6 +37,7 @@
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Number of Installments.{/ts}</td></tr>
 	<tr><td class="label">{$form.frequency_day.label}</td><td>{$form.frequency_day.html}</td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}This applies to weekly, monthly and yearly payments.{/ts}</td></tr>
+	<tr><td class="label">{$form.payment_amount.label}</td><td>{$form.payment_amount.html|crmMoney}</td></tr>
         <tr><td class="label">{$form.create_date.label}</td><td>{$form.create_date.html}
             {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_2}
             {include file="CRM/common/calendar/body.tpl" dateVar=create_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_contribution_2}<br />
@@ -87,9 +88,14 @@
        document.getElementById("cancel_date[d]").value = "";
        document.getElementById("cancel_date[Y]").value = "";
      }
+     function calculatedPaymentAmount( ) {
+       var amount = document.getElementById("amount").value;
+       var installments = document.getElementById("installments").value;
+       document.getElementById("payment_amount").value = (amount/installments);
+     }
     </script>
     {/literal}
-	
+
 {* dojo pane *}
 <div class="form-item" id="additionalInformation">
    {* Honoree Information / Payment Reminders*}
