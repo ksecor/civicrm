@@ -21,9 +21,8 @@
 
 
 {if $rows}
-    {include file="CRM/Contribute/Page/ContributionTotals.tpl" mode="view"}
     <p> </p>
-    {include file="CRM/Contribute/Form/Selector.tpl"}
+    {include file="CRM/Pledge/Form/Selector.tpl"}
     
 {else}
    <div class="messages status">

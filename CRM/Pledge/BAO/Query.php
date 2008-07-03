@@ -218,7 +218,23 @@ class CRM_Pledge_BAO_Query
             $query->_qill[$grouping ][] = ts( 'Contribution Page - %1', array( 1 => $pages[$cPage] ) );
             $query->_tables['civicrm_pledge'] = $query->_whereTables['civicrm_pledge'] = 1;
             return;
+          
+        case 'pledge_in_honor_of':
+            $name = trim( $value ); 
+            $newName = str_replace(',' , " " ,$name );
+            $pieces =  explode( ' ', $newName ); 
+            foreach ( $pieces as $piece ) { 
+                $value = strtolower(addslashes(trim($piece)));
+                $value = "'%$value%'";
+                $sub[] = " ( contact_b.sort_name LIKE $value )";
+            }
             
+            $query->_where[$grouping][] = ' ( ' . implode( '  OR ', $sub ) . ' ) '; 
+            $query->_qill[$grouping][]  = ts( 'Honor name like - \'%1\'', array( 1 => $name ) );
+            $query->_tables['civicrm_contact_b'] = $query->_whereTables['civicrm_contact_b'] = 1;
+            $query->_tables['civicrm_pledge'] = $query->_whereTables['civicrm_pledge'] = 1;
+            return;
+  
         }
     }
 
