@@ -205,13 +205,58 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
 //         $this->assign('entityId',  $this->_id );
         
         //pledge fields. 
-        $this->addElement('date', 'cancel_date', ts('Cancelled Date'), CRM_Core_SelectValues::date('activityDate')); 
-        $this->addRule('cancel_date', ts('Select a valid date.'), 'qfDate');
-        
         $attributes = CRM_Core_DAO::getAttribute( 'CRM_Pledge_DAO_Pledge' );
-        $element =& $this->add( 'text', 'amount', ts('Amount'),
+        $element =& $this->add( 'text', 'amount', ts('Total Pledge Amount'),
                                 $attributes['amount'], true );
-        $this->addRule('amount', ts('Please enter a valid amount.'), 'money');
+        $this->addRule( 'amount', ts('Please enter a valid amount.'), 'money');
+        if ( $this->_online ) {
+            $element->freeze( );
+        }
+        
+        $element =& $this->add( 'text', 'installments', ts('To be Paid in'), $attributes['installments'], true );
+        $this->addRule('installments', ts('Please enter a valid Installments.'), 'integer');
+        if ( $this->_online ) {
+            $element->freeze( );
+        }
+        
+        $element =& $this->add( 'select', 'frequency_unit', 
+                                ts( 'Each payment amount will be' ), 
+                                array(''=>ts( '- select -' )) + CRM_Core_SelectValues::unitList( ), 
+                                true );
+        if ( $this->_online ) {
+            $element->freeze( );
+        }
+        
+        $element =& $this->add( 'text', 'frequency_day', ts('Payments are Due on the'), $attributes['frequency_day'], true );
+        $this->addRule('frequency_day', ts('Please enter a valid Payments are Due on the.'), 'integer');
+        if ( $this->_online ) {
+            $element->freeze( );
+        }
+        
+        //add various dates
+        $element =& $this->add('date', 'create_date', ts('Pledge Received'), CRM_Core_SelectValues::date('activityDate'));    
+        $this->addRule('create_date', ts('Select a valid Pledge Received date.'), 'qfDate');
+        if ( $this->_online ) {
+            $this->assign("hideCalender" , true );
+            $element->freeze( );
+        }
+        
+        $element =& $this->addElement('date', 'start_date', ts('Payments Start'), CRM_Core_SelectValues::date('activityDate')); 
+        $this->addRule('start_date', ts('Select a valid Payments Start date.'), 'qfDate');
+        if ( $this->_online ) {
+            $this->assign("hideCalender" , true );
+            $element->freeze( );
+        }
+        
+        $this->addElement('checkbox','is_acknowledge', ts('Send Acknowledgment?'),null, array('onclick' =>"return showHideByValue('is_acknowledge','','acknowledgeDate','table-row','radio',true);") );
+        
+        $this->addElement('date', 'acknowledge_date', ts('Acknowledgment Date'), CRM_Core_SelectValues::date('activityDate')); 
+        $this->addRule('acknowledge_date', ts('Select a valid date.'), 'qfDate');
+        
+        $element =& $this->add('select', 'contribution_type_id', 
+                               ts( 'Contribution Type' ), 
+                               array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::contributionType( ),
+                               true );
         if ( $this->_online ) {
             $element->freeze( );
         }
@@ -223,46 +268,8 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
                                 'onClick'  => "if (this.value != 3) status(); else return false",
                                 'onChange' => "return showHideByValue('status_id','3','cancelDate','table-row','select',false);")); 
         
-        $element =& $this->add('select', 'frequency_unit', 
-                               ts( 'Frequency Unit' ), 
-                               array(''=>ts( '- select -' )) + CRM_Core_SelectValues::unitList( ), 
-                               true );
-        if ( $this->_online ) {
-            $element->freeze( );
-        }
-        
-        $element =& $this->add( 'text', 'frequency_interval', ts('Frequency Interval'), $attributes['frequency_interval'], true );
-        $this->addRule('frequency_interval', ts('Please enter a valid Frequency Interval.'), 'numeric');
-        if ( $this->_online ) {
-            $element->freeze( );
-        }
-        
-        $element =& $this->add( 'text', 'frequency_day', ts('Frequency Day'), $attributes['frequency_day'], true );
-        if ( $this->_online ) {
-            $element->freeze( );
-        }
-        
-        $element =& $this->add( 'text', 'installments', ts('Installments'), $attributes['installments'], true );
-        $this->addRule('installments', ts('Please enter a valid Installments.'), 'numeric');
-        if ( $this->_online ) {
-            $element->freeze( );
-        }
-        
-        $this->addElement('checkbox','is_acknowledge', ts('Acknowledgment?'),null, array('onclick' =>"return showHideByValue('is_acknowledge','','acknowledgeDate','table-row','radio',true);") );
-        
-        //add various dates
-        $element =& $this->add('date', 'create_date', ts('Create Date'), CRM_Core_SelectValues::date('activityDate'), false );         
-        $this->addRule('create_date', ts('Select a valid date.'), 'qfDate');
-        if ( $this->_online ) {
-            $this->assign("hideCalender" , true );
-            $element->freeze( );
-        }
-        
-        $this->addElement('date', 'start_date', ts('Start Date'), CRM_Core_SelectValues::date('activityDate')); 
-        $this->addRule('start_date', ts('Select a valid date.'), 'qfDate');
-        
-        $this->addElement('date', 'acknowledge_date', ts('Acknowledge Date'), CRM_Core_SelectValues::date('activityDate')); 
-        $this->addRule('acknowledge_date', ts('Select a valid date.'), 'qfDate');
+        $this->addElement('date', 'cancel_date', ts('Cancelled Date'), CRM_Core_SelectValues::date('activityDate')); 
+        $this->addRule('cancel_date', ts('Select a valid date.'), 'qfDate');
         
         $session = & CRM_Core_Session::singleton( );
         $uploadNames = $session->get( 'uploadNames' );
@@ -324,11 +331,10 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         //get the submitted form values.  
         $formValues = $this->controller->exportValues( $this->_name );
         $config  =& CRM_Core_Config::singleton( );
-        $session =& CRM_Core_Session::singleton( ); 
+        $session =& CRM_Core_Session::singleton( );
         
         $fields = array( 'status_id',
                          'frequency_unit',
-                         'frequency_interval',
                          'frequency_day',
                          'installments' );
         foreach ( $fields as $f ) {
@@ -362,10 +368,25 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         
         $params['id'] = $this->_id;
         $params['contact_id'] = $this->_contactID;
-        
-        //create pledge.
-        require_once 'CRM/Pledge/BAO/Pledge.php';
-        $pledge =& CRM_Pledge_BAO_Pledge::create( $params );
+        if ( $this->_action & CRM_Core_Action::ADD ) {
+            //create pledge.
+            require_once 'CRM/Pledge/BAO/Pledge.php';
+            $pledge =& CRM_Pledge_BAO_Pledge::create( $params ); 
+            $pledgeID = $pledge->id;
+            
+            $installments = CRM_Utils_Array::value( 'installments', $params ); 
+            $paymentParams = array( );
+            $paymentParams['pledge_id'] = $pledgeID;
+            $paymentParams['status_id'] = array_search( 'Pending', CRM_Contribute_PseudoConstant::contributionStatus() );
+            
+            //create payment records.
+            for ( $i = 1; $i <= $installments; $i++  ) {
+                require_once 'CRM/Pledge/DAO/Payment.php';
+                $pledgePayment =& new CRM_Pledge_DAO_Payment( );
+                $pledgePayment->copyValues( $paymentParams );
+                $result = $pledgePayment->save( );
+            }
+        }
         
         // // Code Added to Send acknowledgment, Assigned variables to
 //         // Message generating templates
