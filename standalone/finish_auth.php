@@ -35,8 +35,8 @@ function run() {
 
         $sreg_resp = Auth_OpenID_SRegResponse::fromSuccessResponse($response);
         $sreg      = $sreg_resp->contents();
-        
-        if ( $session->get('new_install') === true ) {
+
+        if ( $session->get('new_install') == true ) {
             require_once 'CRM/Core/BAO/UFGroup.php';
             require_once 'CRM/Core/Action.php';
             
@@ -66,7 +66,8 @@ function run() {
         }
     }
     
-    include 'index.php';
+    displayError("Unknown status returned.");
 }
 
 run();
+?>

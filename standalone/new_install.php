@@ -1,7 +1,7 @@
 <?php
-
 global $skipConfigError;
 $skipConfigError = true;
+
 require_once 'auth_common.php';
 require_once "CRM/Core/BAO/UFMatch.php";
 $contactIds = CRM_Core_BAO_UFMatch::getContactIDs();

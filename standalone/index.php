@@ -1,5 +1,4 @@
 <?php
-
 require_once 'bootstrap_common.php';
 
 require_once 'CRM/Core/Session.php';
@@ -47,3 +46,4 @@ if ( $session->get('userID') == null || $session->get('userID') == '' ) {
         print CRM_Core_Invoke::invoke( explode('/', $_GET[$urlVar] ) );
     }
 }
+?>

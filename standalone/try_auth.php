@@ -1,5 +1,4 @@
 <?php
-
 require_once "auth_common.php";
 
 function getOpenIDURL() {
@@ -30,6 +29,8 @@ function run() {
         if ( count($contactIds) > 0 ) {
             displayError("Authentication error; not a valid OpenID.");
         } else {
+            //displayError("Authentication error; not a valid
+            //OpenID.");
             header("Location: new_install.php"); 
             exit(1);
         }
@@ -45,7 +46,7 @@ function run() {
         $auth_request->addExtension($sreg_request);
     }
 
-    $policy_uris = array();
+    $policy_uris = null;
     if ( isset($_REQUEST['policies']) ) {
         $policy_uris = $_REQUEST['policies'];
     }
@@ -79,7 +80,7 @@ function run() {
         $form_id = 'openid_message';
         $form_html = $auth_request->htmlMarkup(getTrustRoot(), getReturnTo(),
                                                false, array('id' => $form_id));
-
+        
         // Display an error if the form markup couldn't be generated;
         // otherwise, render the HTML.
         if (Auth_OpenID::isFailure($form_html)) {
@@ -91,3 +92,4 @@ function run() {
 }
 
 run();
+?>
