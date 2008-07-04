@@ -25,7 +25,7 @@ $session->set( 'new_install', true );
 <div id="verify-form">
  <form method="post" action="try_auth.php">
   Identity&nbsp;URL:
-  <input id="openid_url" type="text" name="openid_url" value="" /> (for example: me.myopenid.com) <br/><br/>
+  <input id="openid_identifier" type="text" name="openid_identifier" value="" /> (for example: me.myopenid.com) <br/><br/>
   <input type="submit" value="Verify">
  </form>
 </div>

@@ -2,25 +2,31 @@
 
 require_once 'bootstrap_common.php';
 
-// Get ready to fire it up
-require_once 'CRM/Core/Invoke.php';
 require_once 'CRM/Core/Session.php';
-
-$session =& CRM_Core_Session::singleton();
-
+$session =& CRM_Core_Session::singleton( );
+if ( ! isset($config) ) {
+    $config  =& CRM_Core_Config::singleton( );
+}
 $urlVar = $config->userFrameworkURLVar;
-
 if ( !isset( $_GET[$urlVar] ) ) {
     $_GET[$urlVar] = '';
 }
 
+// Display error if any
 if ( !empty( $error ) ) {
     print "<div class=\"error\">$error</div>\n";
+    $gotError = true;
 }
 if ( !empty( $session->get['msg'] ) ) {
     print "<div class=\"msg\">$msg</div>\n";
+    $gotError = true;
+}
+if ( isset($gotError) ) {
+    exit(0);
 }
 
+// Get ready to fire it up
+require_once 'CRM/Core/Invoke.php';
 if ( $session->get('userID') == null || $session->get('userID') == '' ) {
     if ($_GET[$urlVar] == "") {
         header("Location: login.php");

@@ -5,8 +5,8 @@ require_once "CRM/Core/BAO/UFMatch.php";
 
 $ar = CRM_Core_BAO_UFMatch::getContactIDs();
 if (empty($ar[0])){
-  header("Location:new_install.php");
-exit(0);
+  header("Location: new_install.php");
+  exit(0);
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -25,7 +25,7 @@ exit(0);
    <form method="get" action="try_auth.php">
         Identity&nbsp;URL:
         <input type="hidden" name="action" value="verify" />
-        <input id="openid_url" type="text" name="openid_url" value="" />
+        <input id="openid_identifier" type="text" name="openid_identifier" value="" />
         <input type="submit" value="Verify" />
    </form>
    </div>
