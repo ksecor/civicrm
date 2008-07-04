@@ -73,7 +73,7 @@
 
 function buildPaymentDetails( pledgeId, contactId )
 {
-    var dataUrl = {/literal}"{crmURL p='civicrm/pledge/payment' h=0 q='snippet=4&pledgeId='}"{literal} + pledgeId + '&cid=' + contactId;
+    var dataUrl = {/literal}"{crmURL p='civicrm/pledge/payment' h=0 q='action=browse&snippet=4&pledgeId='}"{literal} + pledgeId + '&cid=' + contactId;
 	
     var result = dojo.xhrGet({
         url: dataUrl,

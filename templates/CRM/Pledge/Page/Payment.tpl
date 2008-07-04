@@ -1,3 +1,6 @@
+{if $action eq 2 } {* update *}            
+    {include file="CRM/Pledge/Form/Payment.tpl"}
+{else}
 <table class="selector">
   <tr class="columnheader">
     <th>{ts}Scheduled Amount{/ts}</th>
@@ -24,12 +27,16 @@
         {capture assign=newContribURL}{crmURL p="civicrm/contact/view/contribution" q="reset=1&action=add&cid=`$contactId`&context=contribution&pledgeId=`$pledgeId`"}{/capture}
         {ts 1=$newContribURL}<a href='%1'>Record Payment (Check, Cash, EFT ...)</a>{/ts}
         {if $newCredit}
-	   <br/>  
+	  <br/>  
           {capture assign=newCreditURL}{crmURL p="civicrm/contact/view/contribution" q="reset=1&action=add&cid=`$contactId`&pledgeId=`$pledgeId`&context=contribution&mode=live"}{/capture}
           {ts 1=$newCreditURL}<a href='%1'>Submit Credit Card Payment</a>{/ts}
+          <br/> 
+          {capture assign=editURL}{crmURL p="civicrm/pledge/payment" q="reset=1&action=update&cid=`$contactId`&context=contribution&ppId=`$row.id`"}{/capture}
+          {ts 1=$editURL}<a href='%1'>Edit Schedule</a>{/ts}
         {/if}
     {/if}
     </td>
    </tr>
   {/foreach}
 </table>
+{/if}
