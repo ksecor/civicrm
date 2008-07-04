@@ -7,6 +7,8 @@
           <dt>&nbsp</dt><dd class="description">{ts}Do you want CiviCRM to include the mysql wildcard when doing a name search? If disabled, it will speed up search significantly and enable mysql to use the relevant index{/ts}</dd>
           <dt>{$form.includeEmailInName.label}</dt><dd>{$form.includeEmailInName.html}</dd>
           <dt>&nbsp</dt><dd class="description">{ts}Do you want CiviCRM to search the email table when searching for a name? if disabled it will speed up search significantly and avoid additional left join's in the query.{/ts}</dd>
+          <dt>{$form.includeNickNameInName.label}</dt><dd>{$form.includeNickNameInName.html}</dd>
+          <dt>&nbsp</dt><dd class="description">{ts}Do you want CiviCRM to search the nickname field when searching for a name?{/ts}</dd>
           <dt>{$form.recaptchaPublicKey.label}</dt><dd>{$form.recaptchaPublicKey.html}</dd>
           <dt>&nbsp</dt><dd class="description">{ts}Public Key obtained from recaptcha.net {/ts}</dd>
           <dt>{$form.recaptchaPrivateKey.label}</dt><dd>{$form.recaptchaPrivateKey.html}</dd>

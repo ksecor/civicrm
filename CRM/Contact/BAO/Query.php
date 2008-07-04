@@ -303,7 +303,6 @@ class CRM_Contact_BAO_Query
                           $skipPermission = false, $searchDescendentGroups = true,
                           $smartGroupCache = true ) 
     {
-        $args = func_get_args( );
         require_once 'CRM/Contact/BAO/Contact.php';
 
         // CRM_Core_Error::backtrace( );
@@ -342,7 +341,6 @@ class CRM_Contact_BAO_Query
 
         // basically do all the work once, and then reuse it
         $this->initialize( );
-       
     }
 
     /**
@@ -883,13 +881,14 @@ class CRM_Contact_BAO_Query
         if ( empty( $formValues ) ) {
             return $params;
         }
-        
+
         foreach ( $formValues as $id => $values ) {
             if ( $id == 'privacy' ) {
                 if ( is_array($formValues['privacy']) ) { 
+                    $op = CRM_Utils_Array::value( 'do_not_toggle', $formValues['privacy'] ) ? '=' : '!=';
                     foreach ($formValues['privacy'] as $key => $value) { 
                         if ($value) {
-                            $params[] = array( $key, '!=', $value, 0, 0 );
+                            $params[] = array( $key, $op, $value, 0, 0 );
                         }
                     } 
                 }
@@ -2006,6 +2005,10 @@ WHERE  id IN ( $groupIDs )
                 $wc = ( $op != 'LIKE' ) ? "LOWER(contact_a.display_name)" : "contact_a.display_name";
             }
             $sub[] = " ( $wc $op $value )";
+            if ( $config->includeNickNameInName ) {
+                $wc    = ( $op != 'LIKE' ) ? "LOWER(contact_a.nick_name)" : "contact_a.nick_name";
+                $sub[] = " ( $wc $op $value )";
+            }
             if ( $config->includeEmailInName ) {
                 $sub[] = " ( civicrm_email.email $op $value ) ";
             }
@@ -2041,6 +2044,10 @@ WHERE  id IN ( $groupIDs )
                     $wc = ( $op != 'LIKE' ) ? "LOWER(contact_a.display_name)" : "contact_a.display_name";
                 }
                 $sub[] = " ( $wc $op $value )";
+                if ( $config->includeNickNameInName ) {
+                    $wc    = ( $op != 'LIKE' ) ? "LOWER(contact_a.nick_name)" : "contact_a.nick_name";
+                    $sub[] = " ( $wc $op $value )";
+                }
                 if ( $config->includeEmailInName ) {
                     $sub[] = " ( civicrm_email.email $op $value ) ";
                 }
@@ -2372,11 +2379,7 @@ WHERE  id IN ( $groupIDs )
         $this->_where[$grouping][] = "contact_a.{$name} $op $value";
 
         $field = CRM_Utils_Array::value( $name, $this->_fields );
-        if ( $field ) {
-            $title = $field['title'];
-        } else {
-            $title = $name;
-        }
+        $title = $field ? $field['title'] : $name;
         $this->_qill[$grouping][]  = "$title $op $value";
     }
 
