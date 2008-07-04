@@ -176,16 +176,24 @@ class CRM_Pledge_BAO_Pledge extends CRM_Pledge_DAO_Pledge
      * @static
      *
      */
-    static function del( $id )
+    static function deletePledge( $id )
     { 
-        $pledge     = & new CRM_Pledge_DAO_Pledge( );
-        $pledge->id = $id; 
-
-        //we need to add more checks before deleting pledges
+        CRM_Utils_Hook::pre( 'delete', 'Pledge', $id, CRM_Core_DAO::$_nullArray );
         
-        //$result = $pledge->delete( );
-
-        return $result;
+        require_once 'CRM/Core/Transaction.php';
+        $transaction = new CRM_Core_Transaction( );
+        
+        $results = null;
+        
+        $dao     = new CRM_Pledge_DAO_Pledge( );
+        $dao->id = $id;
+        $results = $dao->delete( );
+        
+        $transaction->commit( );
+        
+        CRM_Utils_Hook::post( 'delete', 'Pledge', $dao->id, $dao );
+        
+        return $results;
     }
  
     /**

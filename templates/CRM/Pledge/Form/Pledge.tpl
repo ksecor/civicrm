@@ -5,8 +5,7 @@
 {if $showAdditionalInfo and $formType }
   {include file="CRM/Contribute/Form/AdditionalInfo/$formType.tpl"}
 {else}
-<div class="form-item">
-{if !$email}
+{if !$email and $action neq 8}
 <div class="messages status">
   <dl>
     <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
@@ -16,6 +15,7 @@
   </dl>
 </div>
 {/if}
+<div class="form-item">
 <fieldset><legend>{if $action eq 1 or $action eq 1024}{ts}New Pledge{/ts}{elseif $action eq 8}{ts}Delete Pledge{/ts}{else}{ts}Edit Pledge{/ts}{/if}</legend> 
    {if $action eq 8} 
       <div class="messages status"> 

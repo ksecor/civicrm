@@ -224,18 +224,18 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
 //         if ( $this->_cdType ) {
 //             return CRM_Custom_Form_CustomData::buildQuickForm( $this );
 //         }
-//         if ( $this->_action & CRM_Core_Action::DELETE ) {
-//             $this->addButtons(array( 
-//                                     array ( 'type'      => 'next', 
-//                                             'name'      => ts('Delete'), 
-//                                             'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
-//                                             'isDefault' => true   ), 
-//                                     array ( 'type'      => 'cancel', 
-//                                             'name'      => ts('Cancel') ), 
-//                                     ) 
-//                               );
-//             return;
-//         }
+        if ( $this->_action & CRM_Core_Action::DELETE ) {
+            $this->addButtons(array( 
+                                    array ( 'type'      => 'next', 
+                                            'name'      => ts('Delete'), 
+                                            'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
+                                            'isDefault' => true   ), 
+                                    array ( 'type'      => 'cancel', 
+                                            'name'      => ts('Cancel') ), 
+                                    ) 
+                              );
+            return;
+        }
         
 //         //need to assign custom data type and subtype to the template
 //         $this->assign('customDataType', 'Pledge');
@@ -401,11 +401,11 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
      */ 
     public function postProcess( )  
     {
-//         if ( $this->_action & CRM_Core_Action::DELETE ) {
-//             require_once 'CRM/Pledge/BAO/Pledge.php';
-//             CRM_Pledge_BAO_Pledge::delete( $this->_id );
-//             return;
-//         }
+        if ( $this->_action & CRM_Core_Action::DELETE ) {
+            require_once 'CRM/Pledge/BAO/Pledge.php';
+            CRM_Pledge_BAO_Pledge::deletePledge( $this->_id );
+            return;
+        }
         
         //get the submitted form values.  
         $formValues = $this->controller->exportValues( $this->_name );
@@ -416,6 +416,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
                          'frequency_unit',
                          'frequency_day',
                          'installments',
+                         'contribution_type_id',
                          'initial_reminder_day',
                          'additional_reminder_day',
                          'honor_type_id',
