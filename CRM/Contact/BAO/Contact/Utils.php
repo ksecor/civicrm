@@ -268,7 +268,7 @@ UNION
                                        $contactType       = 'Individual', 
                                        $countryDefault    = null,
                                        $stateDefault      = null,
-                                       $title             = 'Contact Information',
+                                       $title             = ts('Contact Information'),
                                        $contactEditMode   = false,
                                        $maxLocationBlocks = 1 )
     {
@@ -276,7 +276,7 @@ UNION
         $config =& CRM_Core_Config::singleton( );
 
         $form->assign( 'contact_type' , $contactType );
-        $form->assign( 'fieldSetTitle', ts('%1', array('1' => $title)) );
+        $form->assign( 'fieldSetTitle', $title );
         $form->assign( 'contactEditMode' , $contactEditMode );
 
         $attributes = CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact');
