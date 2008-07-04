@@ -15,9 +15,9 @@
       <td>{$row.title}</td><td>{$row.other}</td><td style='white-space: nowrap'>{if $form.$field}=={$form.$field.html}==&gt;{/if}</td><td>{$row.main}</td>
     </tr>
   {/foreach}
-  {foreach from=$rel_tables item=params key=name}
+  {foreach from=$rel_tables item=params key=paramName}
     <tr class="{cycle values="even-row,odd-row"}">
-      <th>{ts}Move related...{/ts}</th><td><a href="{$params.other_url}">{$params.title}</a></td><td style='white-space: nowrap'>=={$form.$name.html}==&gt;</td><td><a href="{$params.main_url}">{$params.title}</a></td>
+      <th>{ts}Move related...{/ts}</th><td><a href="{$params.other_url}">{$params.title}</a></td><td style='white-space: nowrap'>=={$form.$paramName.html}==&gt;</td><td><a href="{$params.main_url}">{$params.title}</a></td>
     </tr>
   {/foreach}
 </table>

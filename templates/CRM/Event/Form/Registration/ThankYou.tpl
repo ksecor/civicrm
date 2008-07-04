@@ -77,7 +77,7 @@
     </div>
 
     {if $customPre}
-         {foreach from=$customPre item=field key=cname}
+         {foreach from=$customPre item=field key=customName}
               {if $field.groupTitle}
                 {assign var=groupTitlePre  value=$field.groupTitle} 
               {/if}
@@ -110,7 +110,7 @@
     {/if}
 
     {if $customPost}
-         {foreach from=$customPost item=field key=cname}
+         {foreach from=$customPost item=field key=customName}
               {if $field.groupTitle}
                 {assign var=groupTitlePost  value=$field.groupTitle} 
               {/if}
@@ -123,9 +123,9 @@
 
     {*display Additional Participant Info*}
     {if $customProfile}
-      {foreach from=$customProfile item=value key=name}
+      {foreach from=$customProfile item=value key=customName}
         <div class="header-dark">
-            {ts 1=$name}Additional Participant Information - Participant %1{/ts}	
+            {ts 1=$customName}Additional Participant Information - Participant %1{/ts}	
         </div>
         {foreach from=$value item=val key=field}
             {if $field}

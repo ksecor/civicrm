@@ -12,7 +12,7 @@
 {/if}
 
     <table class="form-layout-compressed">
-    {foreach from=$fields item=field key=name}
+    {foreach from=$fields item=field key=fieldName}
         {assign var=n value=$field.name}
 	{if $field.is_search_range}
 	   {assign var=from value=$field.name|cat:'_from'}
