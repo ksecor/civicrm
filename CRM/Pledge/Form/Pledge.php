@@ -130,7 +130,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         // current pledge id
         if ( $this->_id ) {
             //get the contribution id
-            $this->_contributionID = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_PledgePayment',
+            $this->_contributionID = CRM_Core_DAO::getFieldValue( 'CRM_Pledge_DAO_Payment',
                                                                   $this->_id, 'contribution_id', 'pledge_id' );
             if ( $this->_contributionID ) {
                 $this->_online = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_FinancialTrxn',
@@ -138,7 +138,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             }
             $ids    = array( );
             $params = array( 'id' => $this->_id );
-            require_once "CRM/Contribute/BAO/Contribution.php";
+            require_once "CRM/Pledge/BAO/Pledge.php";
             CRM_Pledge_BAO_Pledge::getValues( $params, $this->_values, $ids );
         }
         
