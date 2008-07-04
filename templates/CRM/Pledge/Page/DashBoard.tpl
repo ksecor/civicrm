@@ -5,7 +5,7 @@
 {/if}
 
 {* Sample layout with hard-coded values. dgg *}
-<h3>{ts}Pledge Summary{/ts} {help id="id-contribute-intro"}</h3>
+<h3>{ts}Pledge Summary{/ts}</h3>
 <table class="report">
 <tr class="columnheader-dark">
     <th>&nbsp;</th>
