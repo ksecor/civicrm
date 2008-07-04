@@ -50,7 +50,7 @@ class CRM_Pledge_BAO_Query
      * @access public  
      */
     static function select( &$query ) 
-    {  
+    { 
         if ( ( $query->_mode & CRM_Contact_BAO_Query::MODE_PLEDGE ) ||
              CRM_Utils_Array::value( 'pledge_id', $query->_returnProperties ) ) {
             $query->_select['pledge_id'] = "civicrm_pledge.id as pledge_id";
@@ -63,6 +63,15 @@ class CRM_Pledge_BAO_Query
             $query->_select['pledge_amount'] = "civicrm_pledge.amount as pledge_amount";
             $query->_element['pledge_amount'] = 1;
             $query->_tables['civicrm_pledge'] = 1;
+            $query->_whereTables['civicrm_pledge'] = 1;
+        }
+     
+        // get contribution_type
+        if ( CRM_Utils_Array::value( 'pledge_contribution_type', $query->_returnProperties ) ) {
+            $query->_select['pledge_contribution_type']  = "civicrm_contribution_type.name as contribution_type";
+            $query->_element['pledge_contribution_type'] = 1;
+            $query->_tables['civicrm_pledge'] = 1;
+            $query->_tables['pledge_contribution_type'] = 1;
             $query->_whereTables['civicrm_pledge'] = 1;
         }
         
@@ -123,7 +132,7 @@ class CRM_Pledge_BAO_Query
              ! $isTest ) {
             $values = array( 'pledge_test', '=', 0, $grouping, 0 );
             self::whereClauseSingle( $values, $query );
-        }  
+        }
     }
     
     static function whereClauseSingle( &$values, &$query ) 
@@ -245,7 +254,7 @@ class CRM_Pledge_BAO_Query
         switch ( $name ) {
        
         case 'civicrm_pledge':
-            $from = " $side JOIN civicrm_pledge ON civicrm_pledge.contact_id = contact_a.id ";
+            $from = " $side JOIN civicrm_pledge  ON civicrm_pledge.contact_id = contact_a.id ";
             break;
             
         case 'pledge_status':
@@ -253,6 +262,13 @@ class CRM_Pledge_BAO_Query
             $from .= " $side JOIN civicrm_option_value pledge_status ON (civicrm_pledge.status_id = pledge_status.value AND option_group_pledge_status.id = pledge_status.option_group_id ) ";
             break;
             
+        case 'pledge_paid_amount': 
+            $from .= " $side  JOIN civicrm_pledge_payment ON civicrm_pledge_payment.pledge_id = pledge_id";
+            $from .= " $side  JOIN civicrm_contribution    ON civicrm_pledge_payment.contribution_id  = civicrm_contribution.id AND civicrm_contribution.contact_id = contact_a.id ";
+            break;
+
+        case 'pledge_contribution_type':
+            $from .= " $side JOIN civicrm_contribution_type ON civicrm_pledge.contribution_type_id = civicrm_contribution_type.id ";
         }
         return $from;
     }
@@ -279,12 +295,13 @@ class CRM_Pledge_BAO_Query
                                 'display_name'                => 1,
                                 'pledge_id'                   => 1,
                                 'pledge_amount'               => 1,
+                                'pledge_contribution_type'    => 1,
                                 'pledge_frequency_unit'       => 1,
                                 'pledge_frequency_interval'   => 1,
                                 'pledge_create_date'          => 1,
                                 'pledge_start_date'           => 1,
                                 'pledge_status_id'            => 1,
-                                'pledge_is_test'              => 1 
+                                'pledge_is_test'              => 1
                                 );
         }
         return $properties;

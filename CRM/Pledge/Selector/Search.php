@@ -72,7 +72,8 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base
                                 'sort_name',   
                                 'display_name',
                                 'pledge_id',   
-                                'pledge_amount',      
+                                'pledge_amount', 
+                                'contribution_type',
                                 'pledge_frequency_unit',
                                 'pledge_frequency_interval',
                                 'pledge_create_date',       
@@ -171,7 +172,7 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base
                                                     CRM_Contact_BAO_Query::MODE_PLEDGE);
     }//end of constructor
 
-
+    
     /**
      * This method returns the links that are given for each search row.
      * currently the links added for each row are 
@@ -346,13 +347,17 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
+                                                'name'      => ts('Type'),
+                                                'sort'      => 'contribution_type_id',
+                                                'direction' => CRM_Utils_Sort::DONTCARE,
+                                                ),
+                                          array(
                                                 'name'      => ts('Create Date'),
                                                 'sort'      => 'create_date',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
                                                 'name'      => ts('To be Paid'),
-                                                'sort'      => 'frequency_interval',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
