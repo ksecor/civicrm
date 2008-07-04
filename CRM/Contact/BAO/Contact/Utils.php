@@ -268,10 +268,11 @@ UNION
                                        $contactType       = 'Individual', 
                                        $countryDefault    = null,
                                        $stateDefault      = null,
-                                       $title             = ts('Contact Information'),
+                                       $title             = 'Contact Information',
                                        $contactEditMode   = false,
                                        $maxLocationBlocks = 1 )
     {
+        if ($title == 'Contact Information') $title = ts('Contact Information');
         require_once 'CRM/Contact/Form/Location.php';
         $config =& CRM_Core_Config::singleton( );
 
