@@ -62,12 +62,7 @@ class CRM_Pledge_Form_Payment extends CRM_Core_Form
             CRM_Core_Error::fatal( ts( 'You do not have permission to access this page' ) );
         }
         
-        $this->_id        = CRM_Utils_Request::retrieve( 'ppId', 'Positive', $this );
-
-//         $postURL = CRM_Utils_System::url( 'civicrm/contact/view',
-//                                           "reset=1&force=1&cid={$this->_contactID}&selectedChild=pledge" );
-//         $session =& CRM_Core_Session::singleton( ); 
-//         $session->pushUserContext( $postURL );
+        $this->_id  = CRM_Utils_Request::retrieve( 'ppId', 'Positive', $this );
     }
     
     /**
@@ -80,9 +75,18 @@ class CRM_Pledge_Form_Payment extends CRM_Core_Form
     function setDefaultValues( ) 
     {
         
-        $defaults = $this->_values;
-        $fields   = array( );
-        
+        $defaults = array( );
+        if ( $this->_id ) {
+            $params['id'] = $this->_id;
+            require_once 'CRM/Pledge/BAO/Payment.php';
+            CRM_Pledge_BAO_Payment::retrieve( $params, $defaults );
+            $defaults['scheduled_date'] = CRM_Utils_Date::unformat($defaults['scheduled_date']);
+            
+            require_once 'CRM/Contribute/PseudoConstant.php';
+            $statuses = CRM_Contribute_PseudoConstant::contributionStatus( );
+            $this->assign('status', $statuses[$defaults['status_id']] );
+        }
+
         return $defaults;
     }
     
