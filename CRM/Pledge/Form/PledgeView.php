@@ -36,7 +36,7 @@
 require_once 'CRM/Core/Form.php';
 
 /**
- * This class generates form components for Payment-Instrument
+ * This class generates form components for Pledge
  * 
  */
 class CRM_Pledge_Form_PledgeView extends CRM_Core_Form
@@ -47,7 +47,8 @@ class CRM_Pledge_Form_PledgeView extends CRM_Core_Form
      * @return void  
      * @access public  
      */
-    public function preProcess( ) {
+    public function preProcess( ) 
+    {
         require_once 'CRM/Pledge/BAO/Pledge.php';
         require_once 'CRM/Contribute/BAO/Contribution.php';
 
@@ -57,7 +58,7 @@ class CRM_Pledge_Form_PledgeView extends CRM_Core_Form
         CRM_Pledge_BAO_Pledge::getValues( $params, 
                                           $values,  
                                           $ids );
-        
+        $values['contribution_status_id'] = $values['status_id'];
         CRM_Contribute_BAO_Contribution::resolveDefaults( $values );                 
         
         if (isset( $values["honor_contact_id"] ) && $values["honor_contact_id"] ) {

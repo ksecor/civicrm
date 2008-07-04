@@ -119,22 +119,14 @@ class CRM_Pledge_BAO_Pledge extends CRM_Pledge_DAO_Pledge
     static function &getValues( &$params, &$values, &$ids ) 
     {
         $pledge =& new CRM_Pledge_BAO_Pledge( );
-        $contribution =& new CRM_Contribute_BAO_Contribution( );
-        
         $pledge->copyValues( $params );
         
         if ( $pledge->find(true) ) {
             $ids['pledge'] = $pledge->id;
             CRM_Core_DAO::storeValues( $pledge, $values );
-        }
-        
-        $contribution->contact_id = $pledge->contact_id;
-
-        if ( $contribution->find(true) ) {
-            CRM_Core_DAO::storeValues( $contribution, $values );
-            array_merge($pledge, $contribution);
             return $pledge;
         }
+        
         return null;
     }
     

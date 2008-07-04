@@ -13,7 +13,7 @@
 	   {if $acknowledge_date}	
         	<dt>{ts}Received{/ts}</dt><dd>{if $acknowledge_date}{$acknowledge_date|truncate:10:''|crmDate}{else}({ts}pending{/ts}){/if}&nbsp;</dd>
 	{/if}
-        <dt>{ts}Contribution Status{/ts}</dt><dd{if $contribution_status_id eq 3} class="font-red bold"{/if}>{$contribution_status} </dd>
+        <dt>{ts}Pledge Status{/ts}</dt><dd{if $contribution_status_id eq 3} class="font-red bold"{/if}>{$contribution_status} </dd>
 	{if $start_date}     
        		<dt>{ts}Start Date{/ts}</dt><dd>{$start_date|truncate:10:''|crmDate}</dd
 	{/if}
