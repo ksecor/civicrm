@@ -37,7 +37,7 @@
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Number of Installments.{/ts}</td></tr>
 	<tr><td class="label">{$form.frequency_day.label}</td><td>{$form.frequency_day.html}</td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}This applies to weekly, monthly and yearly payments.{/ts}</td></tr>
-	<tr><td class="label">{$form.payment_amount.label}</td><td>{$form.payment_amount.html|crmMoney}</td></tr>
+	<tr><td class="label">{$form.eachPaymentAmount.label}</td><td>{$form.eachPaymentAmount.html|crmMoney}</td></tr>
         <tr><td class="label">{$form.create_date.label}</td><td>{$form.create_date.html}
             {if $hideCalender neq true}
             {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_2}
@@ -93,7 +93,7 @@
      function calculatedPaymentAmount( ) {
        var amount = document.getElementById("amount").value;
        var installments = document.getElementById("installments").value;
-       document.getElementById("payment_amount").value = (amount/installments);
+       document.getElementById("eachPaymentAmount").value = (amount/installments);
      }
     </script>
     {/literal}

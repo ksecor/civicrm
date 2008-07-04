@@ -26,13 +26,14 @@ Payment {$payment.count} : {$payment.amount|crmMoney} due {$payment.due_date|crm
 or need to modify your payment schedule.{/ts}
 
 
-{if $honor_block_is_active }
+{if $honor_block_is_active}
 ===========================================================
 {$honor_type}
 ===========================================================
 {$honor_prefix} {$honor_first_name} {$honor_last_name}
 {if $honor_email}
 {ts}Honoree Email{/ts} : {$honor_email}
+{/if}
 {/if}
 
 {if $customData}
