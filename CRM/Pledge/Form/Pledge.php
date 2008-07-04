@@ -63,14 +63,6 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
     public $_contactID;
     
     /**
-     * is this pledge in update mode
-     *
-     * @var boolean
-     * @public 
-     */ 
-    public $_updateMode = false;
-    
-    /**
      * The Pledge values if an existing pledge
      * @public
      */
@@ -125,9 +117,6 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             return;
         }
         
-        if ( $this->_action & CRM_Core_Action::UPDATE ) { 
-            $this->_updateMode = true;
-        }
         $this->_values = array( );
         // current pledge id
         if ( $this->_id ) {
@@ -185,6 +174,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             $defaults['installments']            = 1;
             $defaults['frequency_day']           = 3;
             $defaults['initial_reminder_day']    = 5;
+            $defaults['max_reminders']           = 1;
             $defaults['additional_reminder_day'] = 5;
             $defaults['frequency_unit']          = array_search( 'month', CRM_Core_SelectValues::unitList());
             $defaults['status_id']               = array_search( 'Pending', CRM_Contribute_PseudoConstant::contributionStatus());
@@ -276,13 +266,13 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         $element =& $this->add( 'text', 'amount', ts('Total Pledge Amount'),
                                 $attributes['amount'], true );
         $this->addRule( 'amount', ts('Please enter a valid amount.'), 'money');
-        if ( $this->_updateMode ) {
+        if ( $this->_id ) {
             $element->freeze( );
         }
         
         $element =& $this->add( 'text', 'installments', ts('To be Paid in'), $attributes['installments'], true );
         $this->addRule('installments', ts('Please enter a valid Installments.'), 'integer');
-        if ( $this->_updateMode ) {
+        if ( $this->_id ) {
             $element->freeze( );
         }
         
@@ -291,13 +281,13 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
                                 array(''=>ts( '- select -' )) + CRM_Core_SelectValues::unitList( ), 
                                 true, array( 'onblur' => "calculatedPaymentAmount( );"));
                                 
-        if ( $this->_updateMode ) {
+        if ( $this->_id ) {
             $element->freeze( );
         }
         
         $element =& $this->add( 'text', 'frequency_day', ts('Payments are Due on the'), $attributes['frequency_day'], true );
         $this->addRule('frequency_day', ts('Please enter a valid Payments are Due on the.'), 'integer');
-        if ( $this->_updateMode ) {
+        if ( $this->_id ) {
             $element->freeze( );
         }
         
@@ -306,14 +296,14 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         //add various dates
         $element =& $this->add('date', 'create_date', ts('Pledge Received'), CRM_Core_SelectValues::date('activityDate'));    
         $this->addRule('create_date', ts('Select a valid Pledge Received date.'), 'qfDate');
-        if ( $this->_updateMode ) {
+        if ( $this->_id ) {
             $this->assign("hideCalender" , true );
             $element->freeze( );
         }
         
         $element =& $this->addElement('date', 'start_date', ts('Payments Start'), CRM_Core_SelectValues::date('activityDate')); 
         $this->addRule('start_date', ts('Select a valid Payments Start date.'), 'qfDate');
-        if ( $this->_updateMode ) {
+        if ( $this->_id ) {
             $element->freeze( );
         }
         
@@ -411,6 +401,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
                          'installments',
                          'contribution_type_id',
                          'initial_reminder_day',
+                         'max_reminders',
                          'additional_reminder_day',
                          'honor_type_id',
                          'honor_prefix_id',
@@ -467,11 +458,11 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             //create pledge.
             require_once 'CRM/Pledge/BAO/Pledge.php';
             $pledge =& CRM_Pledge_BAO_Pledge::create( $params ); 
-            $pledgeID = $pledge->id;
+            $this->_id = $pledge->id;
             
             $installments = CRM_Utils_Array::value( 'installments', $params ); 
             $paymentParams = array( );
-            $paymentParams['pledge_id'] = $pledgeID;
+            $paymentParams['pledge_id'] = $this->_id;
             $paymentParams['status_id'] = array_search( 'Pending', CRM_Contribute_PseudoConstant::contributionStatus() );
             
             //create payment records.
@@ -491,9 +482,25 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
 //         }
         
         //set the status msg.
-        $statusMsg = ts('The Pledge record has been saved.');
+        if ( $this->_action & CRM_Core_Action::UPDATE ) { 
+            if ( $params['status_id'] == array_search( 'Cancelled', CRM_Contribute_PseudoConstant::contributionStatus()) ) {
+                $statusMsg = ts('Pledge has been Cancelled and all scheduled (not completed) payments have been cancelled.<br />');
+            } else {
+                $statusMsg = ts('Pledge has been updated.<br />');
+            }
+        } else {
+            $statusMsg = ts('Pledge has been recorded and payment schedule has been created.<br />');
+        }
+        
+        //build the urls.
+        $urlParams  = "reset=1&action=add&cid={$this->_contactID}&ppid={$this->_id}&context=pledge";
+        $contribURL = CRM_Utils_System::url( 'civicrm/contact/view/contribution', $urlParams );
+        $urlParams .= "&mode=live";
+        $creditURL  = CRM_Utils_System::url( 'civicrm/contact/view/contribution', $urlParams );
+        
         if ( $formValues['is_acknowledge'] ) {
-            $statusMsg .= ' ' . ts('A acknowledgment has been emailed to the Pledger.');
+            $statusMsg .= ' ' . ts( "An acknowledgment email has been sent to %1.<br />", array( 1 => $this->userEmail ) );
+            $statusMsg .= ' ' . ts( "If a payment is due now, you can record <a href='{$contribURL}'>a Cash or Check payment for this pledge</a> OR <a href='{$creditURL}'>submit a credit card payment</a>.", array( 1 =>$contribURL, 2 => $creditURL ) );
         }
         CRM_Core_Session::setStatus( $statusMsg );
         
