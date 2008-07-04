@@ -39,12 +39,16 @@
         <tr><td class="label">&nbsp;</td><td class="description">{ts}This applies to weekly, monthly and yearly payments.{/ts}</td></tr>
 	<tr><td class="label">{$form.payment_amount.label}</td><td>{$form.payment_amount.html|crmMoney}</td></tr>
         <tr><td class="label">{$form.create_date.label}</td><td>{$form.create_date.html}
+            {if $hideCalender neq true}
             {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_2}
-            {include file="CRM/common/calendar/body.tpl" dateVar=create_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_contribution_2}<br />
+            {include file="CRM/common/calendar/body.tpl" dateVar=create_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_contribution_2}
+            {/if}<br />
             <span class="description">{ts}Date when pledge was made by the contributor.{/ts}</span></td></tr>
         <tr><td class="label">{$form.start_date.label}</td><td>{$form.start_date.html}
+            {if $hideCalender neq true}
             {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_2}
-            {include file="CRM/common/calendar/body.tpl" dateVar=start_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_contribution_2}<br />
+            {include file="CRM/common/calendar/body.tpl" dateVar=start_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_contribution_2}
+            {/if}<br />
             <span class="description">{ts}Date of first pledge payment.{/ts}</span></td></tr>
         {if $email}
             <tr><td class="label">{$form.is_acknowledge.label}</td><td>{$form.is_acknowledge.html}</td></tr>
@@ -60,10 +64,8 @@
         <tr><td class="label">&nbsp;</td><td class="description">{ts}If payments are received on time, Pledges remain in Pending status until all scheduled payment are completed. Overdue pledges are ones with payment(s) past due.{/ts}</td></tr>
         {* Cancellation fields are hidden unless contribution status is set to Cancelled *}
         <tr id="cancelDate"><td class="label">{$form.cancel_date.label}</td><td>{$form.cancel_date.html}
-           {if $hideCalendar neq true}
              {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_4}
              {include file="CRM/common/calendar/body.tpl" dateVar=cancel_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_contribution_4}
-           {/if}
         </td></tr>
         {/if}
       </table>

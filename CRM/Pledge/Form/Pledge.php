@@ -63,13 +63,12 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
     public $_contactID;
     
     /**
-     * is this pledge associated with an online
-     * financial transaction
+     * is this pledge in update mode
      *
      * @var boolean
      * @public 
      */ 
-    public $_online = false;
+    public $_updateMode = false;
     
     /**
      * The Pledge values if an existing pledge
@@ -126,16 +125,15 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             return;
         }
         
+        if ( $this->_action & CRM_Core_Action::UPDATE ) { 
+            $this->_updateMode = true;
+        }
         $this->_values = array( );
         // current pledge id
         if ( $this->_id ) {
             //get the contribution id
             $this->_contributionID = CRM_Core_DAO::getFieldValue( 'CRM_Pledge_DAO_Payment',
                                                                   $this->_id, 'contribution_id', 'pledge_id' );
-            if ( $this->_contributionID ) {
-                $this->_online = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_FinancialTrxn',
-                                                              $this->_contributionID, 'id', 'contribution_id' );
-            }
             $ids    = array( );
             $params = array( 'id' => $this->_id );
             require_once "CRM/Pledge/BAO/Pledge.php";
@@ -273,18 +271,18 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         }
         
         $this->applyFilter('__ALL__', 'trim');
-        //pledge fields. 
+        //pledge fields.
         $attributes = CRM_Core_DAO::getAttribute( 'CRM_Pledge_DAO_Pledge' );
         $element =& $this->add( 'text', 'amount', ts('Total Pledge Amount'),
                                 $attributes['amount'], true );
         $this->addRule( 'amount', ts('Please enter a valid amount.'), 'money');
-        if ( $this->_online ) {
+        if ( $this->_updateMode ) {
             $element->freeze( );
         }
         
         $element =& $this->add( 'text', 'installments', ts('To be Paid in'), $attributes['installments'], true );
         $this->addRule('installments', ts('Please enter a valid Installments.'), 'integer');
-        if ( $this->_online ) {
+        if ( $this->_updateMode ) {
             $element->freeze( );
         }
         
@@ -293,13 +291,13 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
                                 array(''=>ts( '- select -' )) + CRM_Core_SelectValues::unitList( ), 
                                 true, array( 'onblur' => "calculatedPaymentAmount( );"));
                                 
-        if ( $this->_online ) {
+        if ( $this->_updateMode ) {
             $element->freeze( );
         }
         
         $element =& $this->add( 'text', 'frequency_day', ts('Payments are Due on the'), $attributes['frequency_day'], true );
         $this->addRule('frequency_day', ts('Please enter a valid Payments are Due on the.'), 'integer');
-        if ( $this->_online ) {
+        if ( $this->_updateMode ) {
             $element->freeze( );
         }
         
@@ -308,15 +306,14 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         //add various dates
         $element =& $this->add('date', 'create_date', ts('Pledge Received'), CRM_Core_SelectValues::date('activityDate'));    
         $this->addRule('create_date', ts('Select a valid Pledge Received date.'), 'qfDate');
-        if ( $this->_online ) {
+        if ( $this->_updateMode ) {
             $this->assign("hideCalender" , true );
             $element->freeze( );
         }
         
         $element =& $this->addElement('date', 'start_date', ts('Payments Start'), CRM_Core_SelectValues::date('activityDate')); 
         $this->addRule('start_date', ts('Select a valid Payments Start date.'), 'qfDate');
-        if ( $this->_online ) {
-            $this->assign("hideCalender" , true );
+        if ( $this->_updateMode ) {
             $element->freeze( );
         }
         
@@ -329,9 +326,6 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
                                ts( 'Contribution Type' ), 
                                array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::contributionType( ),
                                true );
-        if ( $this->_online ) {
-            $element->freeze( );
-        }
         
         $this->add('select', 'status_id',
                    ts('Pledge Status'), 
@@ -339,7 +333,6 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
                    false, array(
                                 'onClick'  => "if (this.value != 3) status(); else return false",
                                 'onChange' => "return showHideByValue('status_id','3','cancelDate','table-row','select',false);")); 
-        
         $this->addElement('date', 'cancel_date', ts('Cancelled Date'), CRM_Core_SelectValues::date('activityDate')); 
         $this->addRule('cancel_date', ts('Select a valid date.'), 'qfDate');
         
