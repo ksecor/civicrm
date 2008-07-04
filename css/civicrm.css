@@ -542,6 +542,12 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
   font-size: 1.1em;
   font-weight: bold;
 }
+
+#crm-container tr.columnheader-dark th span.extra {
+  font-size: .95em;
+  font-weight: normal;
+}
+
 #crm-container tr.columnfooter {
   /*border-top: 2px solid #000000;*/
   border-top: 2px solid #4E82CF; /*#4574BA;*//*#4A88DF;*/
@@ -559,6 +565,11 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
 #crm-container .report td {
   border: 1px solid #92B6EC;
   background-color: #F6F6F6;
+}
+
+// double line right border for last cell in a horizontal grouping
+#crm-container .report td.splitter {
+    border-right: 3px double #92B6EC;
 }
 
 #crm-container .report td.separator {
