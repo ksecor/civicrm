@@ -43,7 +43,7 @@
     </td>
    </tr>
    <tr id="{$row.pledge_id}_hide">
-     <td colspan="8">
+     <td colspan="9">
          <a href="#" onclick="show('{$row.pledge_id}_show', 'table-row');hide('{$row.pledge_id}_hide');return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}open section{/ts}"/>{ts}Payments{/ts}</a>
        <br/>
        <div id="paymentDetails{$row.pledge_id}"></div>
