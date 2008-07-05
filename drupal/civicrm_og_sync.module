@@ -136,7 +136,7 @@ function civicrm_og_sync_civicrm_post( $op, $objectName, $objectID, $objectRef )
     if ( ! CRM_Bridge_OG_Utils::syncFromCiviCRM( ) ) {
         return;
     }
-
+    
     switch ( $objectName ) {
     case 'Group':
         require_once 'CRM/Bridge/OG/CiviCRM.php';

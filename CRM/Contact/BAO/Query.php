@@ -2654,9 +2654,11 @@ class CRM_Contact_BAO_Query
 
         // building the query string
         $groupBy = null;
-        if ( $this->_useGroupBy ) {
+        if ( ! $count &&
+             $this->_useGroupBy ) {
             $groupBy = ' GROUP BY contact_a.id';
         }
+
         $query = "$select $from $where $groupBy $order $limit";
         // CRM_Core_Error::debug('query', $query);
 
