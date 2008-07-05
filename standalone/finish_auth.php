@@ -51,7 +51,7 @@ function run() {
             require_once 'CRM/Utils/System/Standalone.php';
             $allow_login = CRM_Utils_System_Standalone::getAllowedToLogin( $user );
             if ( !$allow_login && (!defined('CIVICRM_ALLOW_ALL') || !CIVICRM_ALLOW_ALL ) ) {
-                $session->set( 'msg' , 'Login failed.' );	
+                $session->set( 'msg' , 'You are not allowed to login. Login failed.' );	
                 $session->set( 'goahead', "no" );
             }
             CRM_Utils_System_Standalone::getUserID( $user );
