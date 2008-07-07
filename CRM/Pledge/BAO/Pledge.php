@@ -162,6 +162,20 @@ class CRM_Pledge_BAO_Pledge extends CRM_Pledge_DAO_Pledge
         
         $params['id'] = $pledge->id;
         
+        //building payment params
+        require_once 'CRM/Pledge/BAO/Payment.php';
+        $installments = CRM_Utils_Array::value( 'installments', $params );
+        $paymentParams = array( );
+        $paymentParams['pledge_id'] = $params['id'];
+        require_once 'CRM/Contribute/PseudoConstant.php';
+        $paymentParams['status_id'] = array_search( 'Pending', 
+                                                    CRM_Contribute_PseudoConstant::contributionStatus());
+        $paymentParams['scheduled_amount'] = $params['eachPaymentAmount'];
+        // need to calculate the scheduled amount for every installment
+        for ( $i = 1; $i <= $installments; $i++ ) {
+            CRM_Pledge_BAO_Payment::add( $paymentParams );
+        }
+        
         $transaction->commit( );
         
         return $pledge;

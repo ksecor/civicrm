@@ -464,15 +464,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             $pledge =& CRM_Pledge_BAO_Pledge::create( $params ); 
             $this->_id = $pledge->id;
             //create pledge payment.
-            require_once 'CRM/Contribute/PseudoConstant.php';
-            require_once 'CRM/Pledge/BAO/Payment.php';
-            $installments = CRM_Utils_Array::value( 'installments', $params );
-            $paymentParams = array( );
-            $paymentParams['pledge_id'] = $pledge->id;
-            $paymentParams['status_id'] = array_search( 'Pending', CRM_Contribute_PseudoConstant::contributionStatus());
-            for ( $i = 1; $i <= $installments; $i++ ) {
-                CRM_Pledge_BAO_Payment::add( $paymentParams );
-            }
+           
         }
         
         //handle Acknowledgment.
