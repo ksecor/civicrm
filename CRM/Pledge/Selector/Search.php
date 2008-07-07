@@ -73,7 +73,7 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base
                                 'display_name',
                                 'pledge_id',   
                                 'pledge_amount', 
-                                'pledge_contribution_type',
+                                'pledge_create_date',
                                 'pledge_total_paid',
                                 'pledge_balance_amount',
                                 'pledge_next_pay_date', 
@@ -361,9 +361,9 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
-                                                'name'      => ts('Type'),
-                                                'sort'      => 'pledge_contribution_type',
-                                                'direction' => CRM_Utils_Sort::DONTCARE,
+                                                'name'      => ts('Pledge Made'),
+                                                'sort'      => 'pledge_create_date',
+                                                'direction' => CRM_Utils_Sort::ASCENDING,
                                                 ),
                                           array(
                                                 'name'      => ts('Next Payment Date'),
@@ -389,7 +389,7 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base
                              array( 
                                    'name'      => ts('Name'), 
                                    'sort'      => 'sort_name', 
-                                   'direction' => CRM_Utils_Sort::ASCENDING, 
+                                   'direction' => CRM_Utils_Sort::DONTCARE,
                                    )
                              );
                 
