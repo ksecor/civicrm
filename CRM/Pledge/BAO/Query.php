@@ -83,6 +83,26 @@ class CRM_Pledge_BAO_Query
             $query->_whereTables['civicrm_pledge'] = 1;
             $query->_whereTables['pledge_status'] = 1;
         }
+
+        if ( CRM_Utils_Array::value( 'pledge_total_paid', $query->_returnProperties ) ) {
+            $query->_select['pledge_total_paid']  = " (SELECT sum(civicrm_pledge_payment.scheduled_amount) FROM civicrm_pledge_payment WHERE civicrm_pledge_payment.pledge_id = civicrm_pledge.id AND civicrm_pledge_payment.status_id = 1 ) as pledge_total_paid";
+            $query->_element['pledge_total_paid'] = 1;
+        }
+
+        if ( CRM_Utils_Array::value( 'pledge_balance_amount', $query->_returnProperties ) ) {
+            $query->_select['pledge_balance_amount']  = " (SELECT sum(civicrm_pledge_payment.scheduled_amount) FROM civicrm_pledge_payment WHERE civicrm_pledge_payment.pledge_id = civicrm_pledge.id AND civicrm_pledge_payment.status_id = 2 ) as pledge_balance_amount";
+            $query->_element['pledge_balance_amount'] = 1;
+        }
+
+        if ( CRM_Utils_Array::value( 'pledge_next_pay_date', $query->_returnProperties ) ) {
+            $query->_select['pledge_next_pay_date']  = " (SELECT civicrm_pledge_payment.scheduled_date FROM civicrm_pledge_payment WHERE civicrm_pledge_payment.pledge_id = civicrm_pledge.id AND civicrm_pledge_payment.status_id = 2 ORDER BY civicrm_pledge_payment.scheduled_date ASC LIMIT 0, 1) as pledge_next_pay_date";
+            $query->_element['pledge_next_pay_date'] = 1;
+        }
+        
+        if ( CRM_Utils_Array::value( 'pledge_next_pay_amount', $query->_returnProperties ) ) {
+            $query->_select['pledge_next_pay_amount']  = " (SELECT civicrm_pledge_payment.scheduled_amount FROM civicrm_pledge_payment WHERE civicrm_pledge_payment.pledge_id = civicrm_pledge.id AND civicrm_pledge_payment.status_id = 2 ORDER BY civicrm_pledge_payment.scheduled_date ASC LIMIT 0, 1) as pledge_next_pay_amount";
+            $query->_element['pledge_next_pay_amount'] = 1;
+        }
     }
     
     static function where( &$query ) 
@@ -270,10 +290,10 @@ class CRM_Pledge_BAO_Query
                                 'pledge_id'                   => 1,
                                 'pledge_amount'               => 1,
                                 'pledge_contribution_type'    => 1,
-                                'pledge_frequency_unit'       => 1,
-                                'pledge_frequency_interval'   => 1,
-                                'pledge_create_date'          => 1,
-                                'pledge_start_date'           => 1,
+                                'pledge_total_paid'           => 1,
+                                'pledge_balance_amount'       => 1,
+                                'pledge_next_pay_date'        => 1,
+                                'pledge_next_pay_amount'      => 1,
                                 'pledge_status_id'            => 1,
                                 'pledge_is_test'              => 1
                                 );
