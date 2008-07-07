@@ -479,6 +479,10 @@ AND    g.name LIKE 'civicrm_price_field.amount.%'
 -- CRM-3217
 ALTER TABLE `civicrm_custom_field` MODIFY `label` VARCHAR(255) NULL DEFAULT NULL COMMENT 'Text for form field label (also friendly name for administering this custom property).';
 ALTER TABLE `civicrm_option_value` MODIFY `label` VARCHAR(255) NULL DEFAULT '' COMMENT 'Option string as displayed to users - e.g. the label in an HTML OPTION tag.';
+ALTER TABLE `civicrm_price_set` MODIFY `title` VARCHAR(255) NULL DEFAULT NULL COMMENT 'Displayed title for Price Set.';
+ALTER TABLE `civicrm_price_set` MODIFY `name` VARCHAR(255) NULL DEFAULT NULL COMMENT 'Variable name/programmatic handle for this set of price fields.';
+ALTER TABLE `civicrm_price_field` MODIFY `label` VARCHAR(255) NULL DEFAULT NULL COMMENT 'Text for form field label (also friendly name for administering this field).';
+ALTER TABLE `civicrm_price_field` MODIFY `name` VARCHAR(255) NULL DEFAULT NULL COMMENT 'Variable name/programmatic handle for this field.';
 
 --Insert new option value for option_group = 'contribution_status'
 
