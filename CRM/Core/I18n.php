@@ -317,7 +317,7 @@ class CRM_Core_I18n
                 if (is_array($value)) {
                     $this->localizeTitles($value);
                     $array[$key] = $value;
-                } elseif ($key == 'title') {
+                } elseif ((string ) $key == 'title') {
                     $array[$key] = $this->_phpgettext->translate($value);
                 }
             }
