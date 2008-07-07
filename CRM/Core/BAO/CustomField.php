@@ -99,7 +99,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
      * @static
      */
     static function create( &$params )
-    {
+        {CRM_Core_Error::debug('fdf',$params);
         if ( !isset($params['id']) && !isset($params['column_name']) ) {
             // if add mode & column_name not present, calculate it.
             require_once 'CRM/Utils/String.php';
@@ -110,9 +110,32 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                                                                   'column_name' );
         }
 
+       
+        if ( ( $params['html_type'] == 'CheckBox' ||
+               $params['html_type'] == 'Multi-Select' ) &&
+             isset($params['default_checkbox_option'] ) ) {
+            $tempArray = array_keys($params['default_checkbox_option']);
+            $defaultArray = array();
+            foreach ($tempArray as $k => $v) {
+                if ( $params['option_value'][$v] ) {
+                    $defaultArray[] = $params['option_value'][$v];
+                }
+            }
+            
+            if ( ! empty( $defaultArray ) ) {
+                // also add the seperator before and after the value per new conventio (CRM-1604)
+                $params['default_value'] = 
+                    CRM_Core_BAO_CustomOption::VALUE_SEPERATOR .
+                    implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $defaultArray) .
+                    CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
+            }
+        } else {
+            if ( isset($params['option_value'][$params['default_option']]) ) {
+                $params['default_value'] = $params['option_value'][$params['default_option']];
+            }
+        }
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
-
         // create any option group & values if required
         if ( $params['html_type'] != 'Text' &&
              in_array( $params['data_type'], array('String', 'Int', 'Float', 'Money') ) &&
@@ -121,6 +144,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             $tableName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup',
                                                       $params['custom_group_id'],
                                                       'table_name' );
+            
                                                                         
             if ( $params['option_type'] == 1 ) {
                 // first create an option group for this custom group

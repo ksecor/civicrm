@@ -1,7 +1,6 @@
 <?php
 
 require_once 'api/v2/CustomGroup.php';
-require_once 'tests/CiviTest/CiviUnitTestCase.php';
 
 class TestOfCustomFieldCreateAPIV2 extends CiviUnitTestCase 
 {
@@ -35,7 +34,7 @@ class TestOfCustomFieldCreateAPIV2 extends CiviUnitTestCase
                              'is_active'      => 1
                              );
                
-        $customField =& civicrm_custom_field_create($$fieldParams);     
+        $customField =& civicrm_custom_field_create($fieldParams);     
         $this->assertEqual($customField['is_error'], 1);
         $this->assertEqual( $customField['error_message'],'Missing Required field :custom_group_id' );
     }    
@@ -180,7 +179,7 @@ class TestOfCustomFieldCreateAPIV2 extends CiviUnitTestCase
     }
     
     function testCustomFieldCheckBoxOptionValueCreate( )
-    {
+    { 
         $customGroup = $this->customGroupCreate('Contact','CheckBox_test_group');
         $params = array ('custom_group_id' => $customGroup['id'],
                          'label'           => 'PriceChk',
@@ -195,6 +194,7 @@ class TestOfCustomFieldCreateAPIV2 extends CiviUnitTestCase
                          'option_value'    => array( '10', '20' ),
                          'option_weight'   => array( 1, 2),
                          'option_status'   => array( 1, 1),
+                         'default_checkbox_option' => array(1)
                          );
         
         $customField =& civicrm_custom_field_create($params); 
@@ -235,7 +235,7 @@ class TestOfCustomFieldCreateAPIV2 extends CiviUnitTestCase
     {
         $customGroup = $this->customGroupCreate('Contact', 'MultiSelect_test_group');
         $params = array ('custom_group_id' => $customGroup['id'],
-                         'label'           => 'PriceMulti',
+                         'label'           => 'PriceMufdlti',
                          'html_type'       => 'Multi-Select',
                          'data_type'       => 'String',
                          'weight'          => 4,

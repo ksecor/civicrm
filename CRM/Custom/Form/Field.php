@@ -811,33 +811,7 @@ SELECT id
                 break;
             }
         }
-
-        // special for checkbox options
-        if ( ( $params['html_type'] == 'CheckBox' ||
-               $params['html_type'] == 'Multi-Select' ) &&
-             isset($params['default_checkbox_option'] ) ) {
-            $tempArray = array_keys($params['default_checkbox_option']);
-            $defaultArray = array();
-            foreach ($tempArray as $k => $v) {
-                if ( $params['option_value'][$v] ) {
-                    $defaultArray[] = $params['option_value'][$v];
-                }
-            }
-            
-            if ( ! empty( $defaultArray ) ) {
-                // also add the seperator before and after the value per new conventio (CRM-1604)
-                $params['default_value'] = 
-                    CRM_Core_BAO_CustomOption::VALUE_SEPERATOR .
-                    implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $defaultArray) .
-                    CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
-            }
-        } else {
-            if ( isset($params['option_value'][$params['default_option']]) ) {
-                $params['default_value'] = $params['option_value'][$params['default_option']];
-            }
-        }
-
-        // for 'is_search_range' field.   
+       // for 'is_search_range' field. 
         if ( in_array( $params['data_type'][0], array( 1, 2, 3, 5 ) ) ) {
             if ( ! $params['is_searchable'] ) {
                 $params['is_search_range'] = 0;
