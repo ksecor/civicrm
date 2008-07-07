@@ -1,8 +1,8 @@
 {if $preview_type eq 'group'}
     {capture assign=infoMessage}{ts}Preview of the custom data group (fieldset) as it will be displayed within an edit form.{/ts}{/capture}
     {capture name=legend}
-        {foreach from=$groupTree item=name}
-        {$name.title}
+        {foreach from=$groupTree item=fieldName}
+          {$fieldName.title}
         {/foreach}
     {/capture}
 {else}

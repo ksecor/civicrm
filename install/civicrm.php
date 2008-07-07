@@ -12,6 +12,11 @@ function civicrm_setup( $filesDirectory ) {
     $sqlPath = $crmPath . DIRECTORY_SEPARATOR . 'sql';
     $tplPath = $crmPath . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'CRM' . DIRECTORY_SEPARATOR . 'common' . DIRECTORY_SEPARATOR;
 
+    if ( ! is_dir( $filesDirectory ) ) {
+        mkdir( $filesDirectory, 0777 );
+        chmod( $filesDirectory, 0777 );
+    }
+
     $scratchDir   = $filesDirectory . DIRECTORY_SEPARATOR . 'civicrm';
     if ( ! is_dir( $scratchDir ) ) {
         mkdir( $scratchDir, 0777 );
@@ -41,7 +46,8 @@ function civicrm_main( &$config ) {
         global $cmsPath;
         civicrm_setup( $cmsPath . DIRECTORY_SEPARATOR . 'files' );
     } elseif ( $installType == 'standalone' ) {
-        civicrm_setup( $crmPath . DIRECTORY_SEPARATOR . 'standalone' . DIRECTORY_SEPARATOR . 'files' );
+        $filesDirectory = $crmPath . DIRECTORY_SEPARATOR . 'standalone' . DIRECTORY_SEPARATOR . 'files';
+        civicrm_setup( $filesDirectory );
     }
 
     $dsn = "mysql://{$config['mysql']['username']}:{$config['mysql']['password']}@{$config['mysql']['server']}/{$config['mysql']['database']}?new_link=true";

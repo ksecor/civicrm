@@ -41,6 +41,7 @@ require_once 'CRM/Mailing/BAO/Mailing.php';
 require_once 'CRM/Mailing/DAO/Group.php';
 require_once 'CRM/Contact/BAO/Group.php';
 require_once 'CRM/Contact/BAO/GroupContact.php';
+require_once 'CRM/Core/BAO/Domain.php';
 
 class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscribe {
 

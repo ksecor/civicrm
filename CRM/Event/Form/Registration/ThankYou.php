@@ -112,17 +112,6 @@ class CRM_Event_Form_Registration_ThankYou extends CRM_Event_Form_Registration
             }
         }
         $this->setDefaults( $defaults );
-      
-        require_once 'CRM/Core/ShowHideBlocks.php';
-        $showHide =& new CRM_Core_ShowHideBlocks( );
-        if ( ( CRM_Utils_array::value( 'custom_pre_id', $this->_values ) || 
-               CRM_Utils_array::value( 'custom_post_id', $this->_values ) ) && count($customGroup) ) {
-            foreach ( $customGroup as $name => $group ) {
-                $showHide->addShow( 'hide_'.$name  );
-                $showHide->addHide( 'show_'.$name  );
-            }
-        }
-        $showHide->addToTemplate( );
 
         require_once 'CRM/Friend/BAO/Friend.php';
         

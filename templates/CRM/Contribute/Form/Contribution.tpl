@@ -10,7 +10,7 @@
 {else if $contributionMode == 'live'}
     {assign var=contribMode value="LIVE"}
 {/if}
-{if !$email}
+{if !$email and $action neq 8}
 <div class="messages status">
   <dl>
     <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>

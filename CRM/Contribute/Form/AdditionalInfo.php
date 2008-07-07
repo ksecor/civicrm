@@ -70,8 +70,8 @@ class CRM_Contribute_Form_AdditionalInfo
         $form->assign('mincontribution',$min_amount);
         $sel =& $form->addElement('hierselect', "product_name", ts('Premium'),'onclick="showMinContrib();"');
         $js = "<script type='text/javascript'>\n";
-        $formName = 'document.forms.' . 'Contribution';
-
+        $formName = 'document.forms.' . $form->getName( );
+        
         for ( $k = 1; $k < 2; $k++ ) {
             if ( ! isset ($defaults['product_name'][$k] )|| (! $defaults['product_name'][$k] ) )  {
                 $js .= "{$formName}['product_name[$k]'].style.display = 'none';\n"; 
@@ -152,6 +152,21 @@ class CRM_Contribute_Form_AdditionalInfo
         $form->add('text','honor_last_name',ts('Last Name'));
         $form->add('text','honor_email',ts('Email'));
         $form->addRule( "honor_email", ts('Email is not valid.'), 'email' );
+    }
+    
+    /** 
+     * Function to build the form for PaymentReminders Information. 
+     * 
+     * @access public 
+     * @return None 
+     */ 
+    function buildPaymentReminders( &$form )
+    { 
+        //PaymentReminders section
+        $form->add( 'hidden', 'hidden_PaymentReminders', 1 );
+        $form->add( 'text', 'initial_reminder_day', ts('Send Initial Reminder') );
+        $form->add( 'text', 'max_reminders', ts('Send up to') );
+        $form->add( 'text', 'additional_reminder_day', ts('Send additional reminders') );
     }
     
     /** 

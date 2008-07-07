@@ -19,9 +19,9 @@
   <field>
       <name>name</name>
       <type>varchar</type>
-      <length>64</length>
+      <length>255</length>
       <required>true</required>
-      <comment>Variable name/programmatic handle for this group</comment>
+      <comment>Variable name/programmatic handle for this set of price fields.</comment>
       <add>1.8</add>
   </field>
   <index>
@@ -33,9 +33,9 @@
   <field>
       <name>title</name>
       <type>varchar</type>
-      <length>64</length>
+      <length>255</length>
       <required>true</required>
-      <comment>Friendly name</comment>
+      <comment>Displayed title for the Price Set.</comment>
       <add>1.8</add>
   </field>
   <index>

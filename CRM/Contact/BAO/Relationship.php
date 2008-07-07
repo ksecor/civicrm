@@ -1087,7 +1087,7 @@ cc.sort_name LIKE '%$name%'";
             $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
             
             while ( $dao->fetch( ) ) {
-                $employers[$dao->id] = array( 'name'  => ts( $dao->name ),
+                $employers[$dao->id] = array( 'name'  => $dao->name,
                                               'value' => $dao->id       );
             }
         }

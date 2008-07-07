@@ -6,12 +6,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2007-04-18 07:35+0200\n"
-"PO-Revision-Date: 2002-01-05 1835+0000\n"
-"Last-Translator: Thanomsub Noppaburana <donga@midaassets.com>\n"
+"PO-Revision-Date: 2008-07-02 19:09+0700\n"
+"Last-Translator: Patipat Susumpow <kengggg@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Pootle 1.0.2\n"
 
 msgid "Alabama"
 msgstr ""
@@ -9791,235 +9792,235 @@ msgid "Savannes"
 msgstr ""
 
 msgid "Krung Thep Maha Nakhon Bangkok"
-msgstr ""
+msgstr "กรุงเทพมหานคร"
 
 msgid "Phatthaya"
-msgstr ""
+msgstr "พัทยา"
 
 msgid "Amnat Charoen"
-msgstr ""
+msgstr "อำนาจเจริญ"
 
 msgid "Ang Thong"
-msgstr ""
+msgstr "อ่างทอง"
 
 msgid "Buri Ram"
-msgstr ""
+msgstr "บุรีรัมย์"
 
 msgid "Chachoengsao"
-msgstr ""
+msgstr "ฉะเชิงเทรา"
 
 msgid "Chai Nat"
-msgstr ""
+msgstr "ชัยนาท"
 
 msgid "Chaiyaphum"
-msgstr ""
+msgstr "ชัยภูมิ"
 
 msgid "Chanthaburi"
-msgstr ""
+msgstr "จันทบุรี"
 
 msgid "Chiang Mai"
-msgstr ""
+msgstr "เชียงใหม่"
 
 msgid "Chiang Rai"
-msgstr ""
+msgstr "เชียงราย"
 
 msgid "Chon Buri"
-msgstr ""
+msgstr "ชลบุรี"
 
 msgid "Chumphon"
-msgstr ""
+msgstr "ชุมพร"
 
 msgid "Kalasin"
-msgstr ""
+msgstr "กาฬสินธุ์"
 
 msgid "Kamphasng Phet"
-msgstr ""
+msgstr "กำแพงเพชร"
 
 msgid "Kanchanaburi"
-msgstr ""
+msgstr "กาญจนบุรี"
 
 msgid "Khon Kaen"
-msgstr ""
+msgstr "ขอนแก่น"
 
 msgid "Krabi"
-msgstr ""
+msgstr "กระบี่"
 
 msgid "Lampang"
-msgstr ""
+msgstr "ลำปาง"
 
 msgid "Lamphun"
-msgstr ""
+msgstr "ลำพูน"
 
 msgid "Loei"
-msgstr ""
+msgstr "เลย"
 
 msgid "Lop Buri"
-msgstr ""
+msgstr "ลพบุรี"
 
 msgid "Mae Hong Son"
-msgstr ""
+msgstr "แม่ฮ่องสอน"
 
 msgid "Maha Sarakham"
-msgstr ""
+msgstr "มหาสารคาม"
 
 msgid "Mukdahan"
-msgstr ""
+msgstr "มุกดาหาร"
 
 msgid "Nakhon Nayok"
-msgstr ""
+msgstr "นครนายก"
 
 msgid "Nakhon Pathom"
-msgstr ""
+msgstr "นครปฐม"
 
 msgid "Nakhon Phanom"
-msgstr ""
+msgstr "นครพนม"
 
 msgid "Nakhon Ratchasima"
-msgstr ""
+msgstr "นครราชสีมา"
 
 msgid "Nakhon Sawan"
-msgstr ""
+msgstr "นครสวรรค์"
 
 msgid "Nakhon Si Thammarat"
-msgstr ""
+msgstr "นครศรีธรรมราช"
 
 msgid "Nan"
-msgstr ""
+msgstr "น่าน"
 
 msgid "Narathiwat"
-msgstr ""
+msgstr "นราธิวาส"
 
 msgid "Nong Bua Lam Phu"
-msgstr ""
+msgstr "หนองบัวลำพู"
 
 msgid "Nong Khai"
-msgstr ""
+msgstr "หนองคาย"
 
 msgid "Nonthaburi"
-msgstr ""
+msgstr "นนทบุรี"
 
 msgid "Pathum Thani"
-msgstr ""
+msgstr "ปทุมธานี"
 
 msgid "Pattani"
-msgstr ""
+msgstr "ปัตตานี"
 
 msgid "Phangnga"
-msgstr ""
+msgstr "พังงา"
 
 msgid "Phatthalung"
-msgstr ""
+msgstr "พัทลุง"
 
 msgid "Phayao"
-msgstr ""
+msgstr "พะเยา"
 
 msgid "Phetchabun"
-msgstr ""
+msgstr "เพชรบูรณ์"
 
 msgid "Phetchaburi"
-msgstr ""
+msgstr "เพชรบุรี"
 
 msgid "Phichit"
-msgstr ""
+msgstr "พิจิตร"
 
 msgid "Phitsanulok"
-msgstr ""
+msgstr "พิษณุโลก"
 
 msgid "Phrae"
-msgstr ""
+msgstr "แพร่"
 
 msgid "Phra Nakhon Si Ayutthaya"
-msgstr ""
+msgstr "พระนครศรีอยุธยา"
 
 msgid "Phaket"
-msgstr ""
+msgstr "ภูเก็ต"
 
 msgid "Prachin Buri"
-msgstr ""
+msgstr "ปราจีนบุรี"
 
 msgid "Prachuap Khiri Khan"
-msgstr ""
+msgstr "ประจวบคิรีขันธ์"
 
 msgid "Ranong"
-msgstr ""
+msgstr "ระนอง"
 
 msgid "Ratchaburi"
-msgstr ""
+msgstr "ราชบุรี"
 
 msgid "Rayong"
-msgstr ""
+msgstr "ระยอง"
 
 msgid "Roi Et"
-msgstr ""
+msgstr "ร้อยเอ็ด"
 
 msgid "Sa Kaeo"
-msgstr ""
+msgstr "สระแก้ว"
 
 msgid "Sakon Nakhon"
-msgstr ""
+msgstr "สกลนคร"
 
 msgid "Samut Prakan"
-msgstr ""
+msgstr "สมุทรปราการ"
 
 msgid "Samut Sakhon"
-msgstr ""
+msgstr "สมุทรสาคร"
 
 msgid "Samut Songkhram"
-msgstr ""
+msgstr "สมุทรสงคราม"
 
 msgid "Saraburi"
-msgstr ""
+msgstr "สระบุรี"
 
 msgid "Satun"
-msgstr ""
+msgstr "สตูล"
 
 msgid "Sing Buri"
-msgstr ""
+msgstr "สิงห์บุรี"
 
 msgid "Si Sa Ket"
-msgstr ""
+msgstr "ศรีสะเกษ"
 
 msgid "Songkhla"
-msgstr ""
+msgstr "สงขลา"
 
 msgid "Sukhothai"
-msgstr ""
+msgstr "สุโขทัย"
 
 msgid "Suphan Buri"
-msgstr ""
+msgstr "สุพรรณบุรี"
 
 msgid "Surat Thani"
-msgstr ""
+msgstr "สุราษฎร์ธานี"
 
 msgid "Surin"
-msgstr ""
+msgstr "สุรินทร์"
 
 msgid "Tak"
-msgstr ""
+msgstr "ตาก"
 
 msgid "Trang"
-msgstr ""
+msgstr "ตรัง"
 
 msgid "Trat"
-msgstr ""
+msgstr "ตราด"
 
 msgid "Ubon Ratchathani"
-msgstr ""
+msgstr "อุบลราชธานี"
 
 msgid "Udon Thani"
-msgstr ""
+msgstr "อุดรธานี"
 
 msgid "Uthai Thani"
-msgstr ""
+msgstr "อุทัยธานี"
 
 msgid "Uttaradit"
-msgstr ""
+msgstr "อุตรดิตถ์"
 
 msgid "Yala"
-msgstr ""
+msgstr "ยะลา"
 
 msgid "Yasothon"
-msgstr ""
+msgstr "ยโสธร"
 
 msgid "Sughd"
 msgstr ""

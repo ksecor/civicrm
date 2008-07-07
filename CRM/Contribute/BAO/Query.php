@@ -108,13 +108,12 @@ class CRM_Contribute_BAO_Query
 
         // get contribution_status
         if ( CRM_Utils_Array::value( 'contribution_status_id', $query->_returnProperties ) ) {
-            $query->_select['contribution_status']  = "contribution_status.name as contribution_status_id";
-            $query->_element['contribution_status'] = 1;
+            $query->_select['contribution_status_id']  = "contribution_status.name as contribution_status_id";
+            $query->_element['contribution_status_id'] = 1;
             $query->_tables['civicrm_contribution'] = 1;
             $query->_tables['contribution_status'] = 1;
             $query->_whereTables['civicrm_contribution'] = 1;
             $query->_whereTables['contribution_status'] = 1;
-
         }
         
         // get payment instruments

@@ -193,11 +193,11 @@ class CRM_Pledge_Form_Search extends CRM_Core_Form
        
         $this->_queryParams =& CRM_Contact_BAO_Query::convertFormValues( $this->_formValues ); 
         $selector =& new CRM_Pledge_Selector_Search( $this->_queryParams,
-                                                    $this->_action,
-                                                    null,
-                                                    $this->_single,
-                                                    $this->_limit,
-                                                    $this->_context ); 
+                                                     $this->_action,
+                                                     null,
+                                                     $this->_single,
+                                                     $this->_limit,
+                                                     $this->_context ); 
         $prefix = null;
         if ( $this->_context == 'user' ) {
             $prefix = $this->_prefix;
@@ -227,7 +227,7 @@ class CRM_Pledge_Form_Search extends CRM_Core_Form
      */
     function buildQuickForm( ) 
     {
-        $this->addElement('text', 'sort_name', ts('Signer Name or Email'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
+        $this->addElement('text', 'sort_name', ts('Pledger Name or Email'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
         
         require_once 'CRM/Pledge/BAO/Query.php';
         CRM_Pledge_BAO_Query::buildSearchForm( $this );
@@ -259,7 +259,7 @@ class CRM_Pledge_Form_Search extends CRM_Core_Form
                 require_once "CRM/Core/Permission.php";
                 $permission = CRM_Core_Permission::getPermission( );
                 if ( $permission == CRM_Core_Permission::EDIT ) {
-                    $tasks = $tasks + CRM_CRM_Pledge_Task::optionalTaskTitle();
+                    $tasks = $tasks + CRM_Pledge_Task::optionalTaskTitle();
                 }
                 
                 $savedSearchValues = array( 'id' => $this->_ssID,
@@ -319,7 +319,13 @@ class CRM_Pledge_Form_Search extends CRM_Core_Form
         $this->_formValues = $this->controller->exportValues($this->_name);
         $this->fixFormValues( );
         
-       
+        // we don't show test contributions in Contact Summary / User Dashboard
+        // in Search mode by default we hide test contributions
+        if ( ! CRM_Utils_Array::value( 'pledge_test',
+                                       $this->_formValues ) ) {
+            $this->_formValues["pledge_test"] = 0;
+        } 
+        
         if ( isset( $this->_ssID ) && empty( $_POST ) ) {
             // if we are editing / running a saved search and the form has not been posted
             $this->_formValues = CRM_Contact_BAO_SavedSearch::getFormValues( $this->_ssID );
@@ -434,6 +440,20 @@ class CRM_Pledge_Form_Search extends CRM_Core_Form
 
     function fixFormValues( )
     {
+        $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
+
+        if ( $cid ) {
+            $cid = CRM_Utils_Type::escape( $cid, 'Integer' );
+            if ( $cid > 0 ) {
+                require_once 'CRM/Contact/BAO/Contact.php';
+                $this->_formValues['contact_id'] = $cid;
+                list( $display, $image ) = CRM_Contact_BAO_Contact::getDisplayAndImage( $cid );
+                $this->_defaults['sort_name'] = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $cid,
+                                                                             'sort_name' );
+                // also assign individual mode to the template
+                $this->_single = true;
+            }
+        }
     }
 
     function getFormValues( ) 

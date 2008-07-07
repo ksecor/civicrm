@@ -94,7 +94,7 @@ class CRM_Core_QuickForm_Action_Upload extends CRM_Core_QuickForm_Action {
                 require_once 'CRM/Utils/File.php';
                 if ( ! CRM_Utils_File::isExtensionSafe( $info['extension'] ) ) {
                     // munge extension so it cannot have an embbeded dot in it
-                    $newName = CRM_Utils_String::munge( "{$basename}_{$uniqID}_{$info['extension']}" ) . ".unknown";
+                    $newName = CRM_Utils_String::munge( "{$basename}_{$info['extension']}_{$uniqID}" ) . ".unknown";
                 } else {
                     $newName = CRM_Utils_String::munge( "{$basename}_{$uniqID}" ) . ".{$info['extension']}";
                 }

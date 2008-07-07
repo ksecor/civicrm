@@ -255,7 +255,7 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
         }
         
         $params =& $this->getActiveFieldParams( );
-        
+                       
         //for date-Formats
         $session =& CRM_Core_Session::singleton();
         $dateType = $session->get("dateTypes");
@@ -305,7 +305,11 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
             }
             $values[$key] = $field;
         }
-        
+        //import contribution record according to select contact type
+        if ( $values['contribution_contact_id'] || $values['external_identifier'] || 
+             $values['contribution_id'] || $values['trxn_id'] || $values['invoice_id']) {
+            $values['contact_type'] = $this->_contactType;
+        }
         $formatError = _civicrm_contribute_formatted_param($values, $formatted, true);
        
         if ( $formatError ) {
@@ -441,7 +445,10 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                     $formatted['contact_id'] = $cid;
                     $newContribution = civicrm_contribution_format_create( $formatted );
                     if ( civicrm_error( $newContribution ) ) { 
-                        array_unshift($values, $newContribution['error_message']);
+                        array_unshift($values, $newContribution['error_message']['message']);
+                        if ( $newContribution['error_message']['params'][0] ) {
+                            return CRM_Contribute_Import_Parser::DUPLICATE;
+                        }
                         return CRM_Contribute_Import_Parser::ERROR;
                     }
                     
@@ -490,7 +497,10 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
             }
             $newContribution = civicrm_contribution_format_create( $formatted );
             if ( civicrm_error( $newContribution ) ) { 
-                array_unshift($values, $newContribution['error_message']);
+                array_unshift($values, $newContribution['error_message']['message']);
+                if ( $newContribution['error_message']['params'][0] ) {
+                    return CRM_Contribute_Import_Parser::DUPLICATE;
+                }
                 return CRM_Contribute_Import_Parser::ERROR;
             }
             

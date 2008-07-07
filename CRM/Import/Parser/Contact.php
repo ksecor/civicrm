@@ -1209,8 +1209,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
             for ( $loc = 1; $loc <= count( $params['location'] ); $loc++ ) {
                 $getValue = CRM_Utils_Array::retrieveValueRecursive($contact['location'][$loc], 'location_type_id');
                 
-                if ( ( $modeUpdate && ! isset( $getValue ) ) || 
-                     ( $modeFill   &&   isset( $getValue ) ) ) {
+                if ( $modeFill && isset( $getValue ) ) {
                     unset( $params['location'][$loc] );
                 }
                 
@@ -1220,8 +1219,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                     foreach( $fields as $field ) {
                         $getValue = CRM_Utils_Array::retrieveValueRecursive($contact['location'][$loc]['address'], 
                                                                            $field);
-                        if ( ( $modeUpdate && ! isset( $getValue ) ) || 
-                             ( $modeFill   &&   isset( $getValue ) ) ) {
+                        if ( $modeFill && isset( $getValue ) ) {
                             unset( $params['location'][$loc]['address'][$field] );
                         }
                     }
@@ -1233,13 +1231,10 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                         for ( $c = 1; $c <= count( $params['location'][$loc][$key] ); $c++ ) {
                             $getValue = CRM_Utils_Array::retrieveValueRecursive($contact['location'][$loc][$key][$c], 
                                                                                $field);
-                            if ( ( $modeUpdate && ! isset( $getValue ) ) || 
-                                 ( $modeFill   &&   isset( $getValue ) ) ) {
-                                unset( $params['location'][$loc]['email'][$c][$field] );
+                            if ( $modeFill && isset( $getValue ) ) {
+                                unset( $params['location'][$loc][$key][$c][$field] );
                             }
                         }
-                    } else {
-                        unset( $params['location'][$loc][$key] );
                     }
                 }
             }              

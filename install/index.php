@@ -130,7 +130,7 @@ if ( $installType == 'drupal' ) {
     
     if ( !defined('VERSION') or version_compare(VERSION, '6.0') < 0 ) {
         $errorTitle = "Oops! Incorrect Drupal Version";
-        $errorMsg = "This installer can only be used with Drupal 5.x. Please ensure that '$drupalVersionFile' exists if you are running Drupal 5.0 and over. Refer to the online <a href='http://wiki.civicrm.org/confluence//x/mQ8' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a> for information about installing CiviCRM on other Drupal versions OR installing CiviCRM for Joomla!";
+        $errorMsg = "This version of CiviCRM can only be used with Drupal 6.x. Please ensure that '$drupalVersionFile' exists if you are running Drupal 6.0 and over. Refer to the online <a href='http://wiki.civicrm.org/confluence//x/mQ8' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a> for information about installing CiviCRM.";
         errorDisplayPage( $errorTitle, $errorMsg );
     }
 }
@@ -204,8 +204,8 @@ class InstallRequirements {
                                           $databaseConfig['password'],
                                           $databaseConfig['database'], 
                                           array("MySQL $dbName Configuration",
-                                                "Can I access/create innodb tables in the database",
-                                                "InnoDB is not enabled in the database" ) );
+                                                "Can I access/create InnoDB tables in the database",
+                                                "Unable to create InnoDB tables. MySQL InnoDB support is required for CiviCRM but is either not available or not enabled in this MySQL database server." ) );
             }
         }
 	}
@@ -236,14 +236,8 @@ class InstallRequirements {
         }
 
         if ( $installType == 'standalone' ) {
-            $requiredDirectories = array( 'files' );
-            foreach ( $requiredDirectories as $dir ) {
-                $this->requireFile( $crmPath . DIRECTORY_SEPARATOR . 'standalone' . DIRECTORY_SEPARATOR . $dir, 
-                                    array("File permissions", "$dir folder exists", "There is no $dir folder" ), true );
-            }
             // make sure that we can write to standalone and standalone/files 
-            $writableDirectories = array( 'standalone', 
-                                          'standalone' . DIRECTORY_SEPARATOR . 'files' );
+            $writableDirectories = array( 'standalone' );
             foreach ( $writableDirectories as $dir ) {
                 $this->requireWriteable( $crmPath . DIRECTORY_SEPARATOR . $dir,
                                          array("File permissions", "Is the $dir folder writeable?", null ),
@@ -422,13 +416,13 @@ class InstallRequirements {
             $name = null;
             if ( function_exists( 'posix_getpwuid' ) ) {
                 $user = posix_getpwuid(posix_geteuid());
-                $name = $user['name'];
+                $name = '- ' . $user['name'] . ' -';
             }
 
             if ( ! isset( $testDetails[2] ) ) {
                 $testDetails[2] = null;
             }
-			$testDetails[2] .= "The web server user $name needs to write be able to write to this file:\n$filename";
+			$testDetails[2] .= "The user account used by your web-server $name needs to be granted write access to the following directory in order to configure the CiviCRM settings file:\n$filename";
 			$this->error($testDetails);
 		}
 	}

@@ -7,7 +7,7 @@
          <table>
             <tr class="columnheader">
              <th>{ts}Name{/ts}</th>
-             {foreach from=$fields item=field key=name}
+             {foreach from=$fields item=field key=fieldName}
                 {if strpos( $field.name, '_date' ) !== false}
                   <th><img  src="{$config->resourceBase}i/copy.png" alt="{ts 1=$field.title}Click to copy %1 from row one to all rows.{/ts}" onclick="copyValuesDate('{$field.name}')" class="action-icon" title="{ts}Click here to copy the value in row one to ALL rows.{/ts}" />{$field.title}</th>
                 {else}
@@ -18,7 +18,7 @@
             {foreach from=$contributionIds item=cid}
              <tr class="{cycle values="odd-row,even-row"}">
               <td>{$sortName.$cid}</td> 
-              {foreach from=$fields item=field key=name}
+              {foreach from=$fields item=field key=fieldName}
                 {assign var=n value=$field.name}
                 <td class="compressed">{$form.field.$cid.$n.html}</td> 
               {/foreach}

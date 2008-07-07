@@ -243,8 +243,9 @@ class CRM_Utils_Type
                 return trim( $data );
             }
             
-            if (preg_match('/^\d{14}$/', $data) && CRM_Utils_Rule::mysqlDate($data)) {
-            return $data;
+            if (preg_match('/^\d{14}$/', $data) &&
+                CRM_Utils_Rule::mysqlDate($data)) {
+                return $data;
             }
             break;
             

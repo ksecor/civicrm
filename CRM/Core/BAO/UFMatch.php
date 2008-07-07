@@ -424,7 +424,12 @@ WHERE     openid = %1";
         }
         return null;
     }
-    
+
+    static function isEmptyTable( ) {
+        $sql = "SELECT count(id) FROM civicrm_uf_match";
+        return CRM_CORE_DAO::singleValueQuery( $sql ) > 0 ? false : true;
+    }
+
     /**
      * get the list of contact_id
      *
@@ -477,14 +482,13 @@ WHERE     openid = %1";
         $result = $dao->getDatabaseResult( );
         if ( $result ) {
             $row = $result->fetchRow( );
-            if ( isset($row) ) {
+            if ( isset($row[0]) ) {
                 $ufId = $row[0];
             }
         }
-        if ( ! $ufId ) {
+        if ( ! isset($ufId) ) {
             $ufId = 1;
         }
         return $ufId;
     }
 }
-

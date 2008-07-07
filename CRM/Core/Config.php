@@ -495,4 +495,13 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
         return true;
     }
 
+    /**
+     * reset the serialized array and recompute
+     * use with care
+     */
+    function reset( ) {
+        $query = "UPDATE civicrm_domain SET config_backend = null";
+        CRM_Core_DAO::executeQuery( $query );
+    }
+
 } // end CRM_Core_Config

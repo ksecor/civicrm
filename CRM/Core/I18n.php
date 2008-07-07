@@ -116,6 +116,7 @@ class CRM_Core_I18n
                          'fi_FI' => 'suomi',
                          'sv_SE' => 'Svenska',
                          'th_TH' => 'ไทย',
+                         'vi_VN' => 'Tiếng Việt',
                          'tr_TR' => 'Türkçe',
                          'uk_UA' => 'Українська',
                          'zh_CN' => '中文 (简体)',
@@ -316,7 +317,7 @@ class CRM_Core_I18n
                 if (is_array($value)) {
                     $this->localizeTitles($value);
                     $array[$key] = $value;
-                } elseif ($key == 'title') {
+                } elseif ((string ) $key == 'title') {
                     $array[$key] = $this->_phpgettext->translate($value);
                 }
             }

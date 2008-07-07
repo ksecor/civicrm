@@ -384,11 +384,6 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             $this->add( 'select', 'payment_processor_id',
                         ts( 'Payment Processor' ),
                         $this->_processors, true );
-            
-            $this->add( 'text', "email-{$this->_bltID}",
-                        ts( 'Email Address' ), array( 'size' => 30, 'maxlength' => 60 ), true );
-        }
-        if ( $this->_mode ) {
             require_once 'CRM/Core/Payment/Form.php';
             CRM_Core_Payment_Form::buildCreditCard( $this, true );
         }
@@ -637,8 +632,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             
             // set email for primary location.
             $fields["email-Primary"] = 1;
-            $formValues["email-Primary"] = $formValues["email-{$this->_bltID}"];
-            
+            $formValues["email-5"]   = $formValues["email-Primary"] = $this->_contributorEmail;
             $params['register_date'] = $now;
             
             // now set the values for the billing location.
@@ -786,6 +780,47 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                 $members[] = array( 'member_test', '=', 1, 0, 0 ); 
             } 
             CRM_Core_BAO_UFGroup::getValues( $this->_contactID, $customFields, $customValues , false, $members );
+            if( $this->_mode ) {
+                if ( CRM_Utils_Array::value( 'billing_first_name', $this->_params ) ) {
+                    $name = $this->_params['billing_first_name'];
+                    
+                }
+                
+                if ( CRM_Utils_Array::value( 'billing_middle_name', $this->_params ) ) {
+                    $name .= " {$this->_params['billing_middle_name']}";
+                }
+                
+                if ( CRM_Utils_Array::value( 'billing_last_name', $this->_params ) ) {
+                    $name .= " {$this->_params['billing_last_name']}";
+                }
+                $this->assign( 'name', $name );
+                
+                // assign the address formatted up for display
+                $addressParts  = array( "street_address-{$this->_bltID}",
+                                        "city-{$this->_bltID}",
+                                        "postal_code-{$this->_bltID}",
+                                        "state_province_id-{$this->_bltID}",
+                                        "country_id-{$this->_bltID}");
+                $addressFields = array( );
+                foreach ($addressParts as $part) {
+                    list( $n, $id ) = explode( '-', $part );
+                    if ( isset ( $this->_params[$part] ) ) {
+                        $addressFields[$n] = $this->_params[$part];
+                    }
+                }
+                require_once 'CRM/Utils/Address.php';
+                $this->assign('address', CRM_Utils_Address::format( $addressFields ) );
+                $date = CRM_Utils_Date::format( $this->_params['credit_card_exp_date'] );
+                $date = CRM_Utils_Date::mysqlToIso( $date );
+                $this->assign( 'credit_card_exp_date', $date );
+                $this->assign( 'credit_card_number',
+                               CRM_Utils_System::mungeCreditCard( $this->_params['credit_card_number'] ) );
+                $this->assign( ' credit_card_type', $this->_params['credit_card_type'] );
+                $this->assign( 'contributeMode', 'direct');
+                $this->assign( 'isAmountzero' , 0);
+                $this->assign( 'is_pay_later',0);
+                $this->assign( 'isPrimary', 1 );
+            }
             $this->assign( 'module', 'Membership' );
             $this->assign( 'subject', ts('Membership Confirmation and Receipt') );
             $this->assign( 'receive_date', $params['receive_date'] );            

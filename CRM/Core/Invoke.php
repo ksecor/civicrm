@@ -139,11 +139,12 @@ class CRM_Core_Invoke
             }
 
             if ( isset($item['return_url']) ) {
-                $session =& CRM_Core_Session::singleton( ); 
-                $session->pushUserContext( CRM_Utils_System::url($item['return_url'], 
-                                                                 'reset=1' . 
-                                                                 CRM_Utils_Array::value( 'return_url_args',
-                                                                                         $item ) ) );
+                $session =& CRM_Core_Session::singleton( );
+                $args = CRM_Utils_Array::value( 'return_url_args',
+                                                $item,
+                                                'reset=1' );
+                $session->pushUserContext( CRM_Utils_System::url( $item['return_url'], 
+                                                                  $args ) );
             }
 
             if ( is_array( $item['page_callback'] ) ) {

@@ -53,16 +53,17 @@ class CRM_Grant_BAO_Query
     {
         if ( $query->_mode & CRM_Contact_BAO_Query::MODE_GRANT ) {
 
-            $query->_select['grant_type_id'] = "civicrm_grant.grant_type_id as grant_type_id";
-            $query->_select['grant_status_id' ]  = "civicrm_grant.status_id as grant_status_id";
-            $query->_select['grant_amount_requested']  = "civicrm_grant.amount_requested as grant_amount_requested";
-            $query->_select['grant_amount_granted']  = "civicrm_grant.amount_granted as grant_amount_granted";
-            $query->_select['grant_amount_total']  = "civicrm_grant.amount_total as grant_amount_total";
+            $query->_select['grant_type_id']          = "civicrm_grant.grant_type_id as grant_type_id";
+            $query->_select['grant_status_id' ]       = "civicrm_grant.status_id as grant_status_id";
+            $query->_select['grant_amount_requested'] = "civicrm_grant.amount_requested as grant_amount_requested";
+            $query->_select['grant_amount_granted']   = "civicrm_grant.amount_granted as grant_amount_granted";
+            $query->_select['grant_amount_total']     = "civicrm_grant.amount_total as grant_amount_total";
             $query->_select['grant_application_received_date']  = "civicrm_grant.application_received_date as grant_application_received_date ";
+            $query->_select['grant_report_received']  = "civicrm_grant.grant_report_received as grant_report_received";
             $query->_select['grant_money_transfer_date']  = "civicrm_grant.money_transfer_date as grant_money_transfer_date ";
-            $query->_element['grant_type_id'] = 1;
-            $query->_element['grant_status_id'] = 1;
-            $query->_tables['civicrm_grant'] = 1;
+            $query->_element['grant_type_id']     = 1;
+            $query->_element['grant_status_id']   = 1;
+            $query->_tables['civicrm_grant']      = 1;
             $query->_whereTables['civicrm_grant'] = 1;
         }
     }
@@ -228,7 +229,8 @@ class CRM_Grant_BAO_Query
                                 'grant_status_id'                 => 1, 
                                 'grant_amount_requested'          => 1,
                                 'grant_application_received_date' => 1,
-                                'grant_money_transfer_date'    => 1,
+                                'grant_report_received'           => 1,
+                                'grant_money_transfer_date'       => 1,
                                 );
        
  

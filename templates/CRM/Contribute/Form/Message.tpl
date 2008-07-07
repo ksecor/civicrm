@@ -45,8 +45,8 @@
 {ts}Additional Information{/ts}
 
 ===========================================================
-{foreach from=$customField item=value key=name}
- {$name}: {$value}
+{foreach from=$customField item=value key=customName}
+ {$custoName}: {$value}
 {/foreach}
 {/if}
 {if $formValues.honor_first_name}

@@ -429,16 +429,7 @@ class CRM_Profile_Form extends CRM_Core_Form
         if ( empty( $fields ) ) {
             return true;
         }
-
-        // hack add the email, does not work in registration, we need the real user object
-        // hack this will not work in joomla, not sure why we need it
-        global $user; 
-        if ( CRM_Utils_Array::value( 'email-Primary', $fields ) ) {
-            $fields['email'] = CRM_Utils_Array::value( 'email-Primary', $fields );
-        } elseif ( isset($user) ) {
-            $fields['email'] = $user->mail; 
-        }
-        
+       
         $cid = $register = null; 
 
         // hack we use a -1 in options to indicate that its registration 
@@ -452,6 +443,11 @@ class CRM_Profile_Form extends CRM_Core_Form
 
         // dont check for duplicates during registration validation: CRM-375 
         if ( ! $register ) { 
+            // fix for CRM-3240
+            if ( CRM_Utils_Array::value( 'email-Primary', $fields ) ) {
+                $fields['email'] = CRM_Utils_Array::value( 'email-Primary', $fields );
+            }
+
             $session =& CRM_Core_Session::singleton();
             require_once 'CRM/Dedupe/Finder.php';
             $dedupeParams = CRM_Dedupe_Finder::formatParams($fields, 'Individual');

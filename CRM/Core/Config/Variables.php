@@ -314,8 +314,8 @@ class CRM_Core_Config_Variables extends CRM_Core_Config_Defaults
      *
      * @var array
      */
-    public $enableComponents   = array( 'CiviContribute','CiviPledge','CiviMember','CiviEvent', 'CiviMail', 'CiviGrant', 'PledgeBank' );
-    public $enableComponentIDs = array( 1, 6, 2, 3, 4, 5, 7 );
+    public $enableComponents   = array( 'CiviContribute','CiviPledge','CiviMember','CiviEvent', 'CiviMail', 'CiviGrant' );
+    public $enableComponentIDs = array( 1, 6, 2, 3, 4, 5 );
 
     /**
      * Should payments be accepted only via SSL?
@@ -378,6 +378,7 @@ class CRM_Core_Config_Variables extends CRM_Core_Config_Defaults
      */
     public $includeWildCardInName = 1;
     public $includeEmailInName    = 1;
+    public $includeNickNameInName = 0;
 
     /**
      * Optimization related variables

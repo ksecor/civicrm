@@ -69,6 +69,9 @@ class CRM_Core_Config_Defaults
         // This should be moved to database config.
         $this->sunlight = defined( 'CIVICRM_SUNLIGHT' ) ? true : false;
 
+        // show tree widget
+        $this->groupTree = defined( 'CIVICRM_GROUPTREE' ) ? true : false;
+
         // 
         $size = trim( ini_get( 'upload_max_filesize' ) );
         if ( $size ) {

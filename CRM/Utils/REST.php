@@ -234,7 +234,7 @@ class CRM_Utils_REST
 
         $fnName = "civicrm_{$args[1]}_{$args[2]}";
         if ( ! function_exists( $fnName ) ) {
-            return self::error( ts( "Unknown function called: $fnName" ) );
+            return self::error( ts( 'Unknown function called: %1', array(1 => $fnName)) );
         }
 
         // trap all fatal errors

@@ -100,7 +100,7 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
             if ( ! CRM_Core_BAO_PriceSet::getFor( 'civicrm_event_page', $eventPageId ) ) {
                 //retrieve custom information
                 require_once 'CRM/Core/OptionGroup.php'; 
-                CRM_Core_OptionGroup::getAssoc( 'civicrm_event_page', $eventPageId, $values['custom'] );
+                CRM_Core_OptionGroup::getAssoc( 'civicrm_event_page', $values['custom'] );
             }
         }
 

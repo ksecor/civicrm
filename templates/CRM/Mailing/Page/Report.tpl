@@ -119,6 +119,15 @@
 </tr>
 {/if}
 
+{if $report.mailing.attachment}
+<tr>
+  <td class="label nowrap">{ts}Attachments{/ts}</td>
+  <td>
+    {$report.mailing.attachment}
+  </td>
+</tr>
+{/if}
+
 {foreach from=$report.component item=component}
     <tr><td class="label">{$component.type}</td><td><a href="{$component.link}">{$component.name}</a></td></tr>
 {/foreach}

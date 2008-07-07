@@ -53,7 +53,8 @@ class CRM_Group_Form_Search extends CRM_Core_Form {
         
         $this->add( 'select', 'visibility', ts('Visibility'        ),
                     array( '' => ts('- any visibility -' ) ) + CRM_Core_SelectValues::ufVisibility( ) );
-        
+        $this->addElement( 'checkbox', 'active_status' , ts( 'Active Groups' ) );
+        $this->addElement( 'checkbox', 'inactive_status' , ts( 'Inactive Groups' ) );
         $this->addButtons(array( 
                                 array ('type'      => 'refresh', 
                                        'name'      => ts('Search'), 
@@ -65,10 +66,9 @@ class CRM_Group_Form_Search extends CRM_Core_Form {
 
     function postProcess( ) {
         $params = $this->controller->exportValues( $this->_name );
-
         $parent = $this->controller->getParent( );
         if ( ! empty( $params ) ) {
-            $fields = array( 'title', 'group_type', 'visibility' );
+            $fields = array( 'title', 'group_type', 'visibility','active_status','inactive_status' );
             foreach ( $fields as $field ) {
                 if ( isset( $params[$field] ) &&
                      ! CRM_Utils_System::isNull( $params[$field] ) ) {

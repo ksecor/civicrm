@@ -51,12 +51,61 @@ class CRM_Pledge_Page_DashBoard extends CRM_Core_Page
     {
         CRM_Utils_System::setTitle( ts('Pledge for CiviCRM') );
         
-        $admin = CRM_Core_Permission::check( 'access Pledge' );
-        require_once 'CRM/Pledge/BAO/Pledge.php';
-        $pledgeSummary = CRM_Pledge_BAO_Pledge::getPledgeSummary( $admin );
+        $startToDate   = array( );
+        $yearToDate    = array( );
+        $monthToDate   = array( );
+        $previousToDate = array( );
         
+        $status = array( 'Valid', 'Cancelled' );
+        
+        $startDate = null;
+        $config =& CRM_Core_Config::singleton( );
+        $yearDate = $config->fiscalYearStart;
+        $year  = array('Y' => date('Y'));
+        $this->assign('curYear', $year['Y']);
+        $yearDate = array_merge($year,$yearDate);
+        $yearDate = CRM_Utils_Date::format( $yearDate );
+        
+        $monthDate = date('Ym') . '01000000';
+
+        $prefixes = array( 'start', 'month', 'year' , 'previous' );
+        $status   = array( 'Valid', 'Cancelled', 'Pending', 'Overdue' );
+        
+        $yearNow = $yearDate + 10000;
+        $yearNow .= '000000';
+        $yearDate  = $yearDate  . '000000';
+        
+        $previousDate = CRM_Utils_Date::customFormat(date( "Y-m-d", mktime(0, 0, 0, date("m")-1,01,date("Y"))) , '%Y%m%d').'000000';
+        $previousMonth = date( "F Y", mktime(0, 0, 0, date("m")-1,01,date("Y")));
+        $this->assign( 'previousMonthYear', $previousMonth );
+
+        $currentMonth = date( "F Y", mktime(0, 0, 0, date("m"),01,date("Y")));
+        $this->assign( 'currentMonthYear', $currentMonth );
+
+        $previousDateEnd = CRM_Utils_Date::customFormat(date( "Y-m-t", mktime(0, 0, 0, date("m")-1,01,date("Y"))) , '%Y%m%d').'000000';
+        // we are specific since we want all information till this second
+        $now       = date( 'YmdHis' );
+        
+        require_once 'CRM/Pledge/BAO/Pledge.php';
+        foreach ( $prefixes as $prefix ) {
+            $aName = $prefix . 'ToDate';
+            $dName = $prefix . 'Date';
+            
+            if ( $prefix == 'year') {
+                $now  = $yearNow;
+            }
+            if ( $prefix == 'previous' ) {
+                $now  = $previousDateEnd;
+            }
+            foreach ( $status as $s ) {
+                ${$aName}[$s]        =  CRM_Pledge_BAO_Pledge::getTotalAmountAndCount( $s, $$dName, $now );
+                ${$aName}[$s]['url'] = CRM_Utils_System::url( 'civicrm/pledge/search',
+                                                              "reset=1&force=1&status=1&start={$$dName}&end=$now&test=0");
+            }
+            $this->assign( $aName, $$aName );
+        }
+        $admin = CRM_Core_Permission::check( 'access Pledge' );
         $this->assign( 'pledgeAdmin', $admin );
-        $this->assign( 'pledgeSummary', $pledgeSummary );
     }
     
     /** 
@@ -71,7 +120,7 @@ class CRM_Pledge_Page_DashBoard extends CRM_Core_Page
         $this->preProcess( );
         
         $controller =& new CRM_Core_Controller_Simple( 'CRM_Pledge_Form_Search', 
-                                                       ts('Pledge Signers'), 
+                                                       ts('Pledge'), 
                                                        null );
         $controller->setEmbedded( true ); 
         $controller->reset( ); 

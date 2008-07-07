@@ -9,9 +9,8 @@
     
     <div id="field_page">
      <p></p>
-        <div class="form-item">
         {strip}
-         <table cellpadding="0" cellspacing="0" border="0">
+         <table class="selector">
          <tr class="columnheader">
             <th>{ts}Field Label{/ts}</th>
             <th>{ts}Data Type{/ts}</th>
@@ -37,8 +36,6 @@
         
         <div class="action-link">
             <a href="{crmURL q="reset=1&action=add&gid=$gid"}" id="newCustomField" class="button"><span>&raquo; {ts}New Custom Field{/ts}</span></a>
-        </div>
-
         </div>
      </div>
 

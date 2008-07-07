@@ -411,7 +411,7 @@ class CRM_Activity_Import_Form_MapField extends CRM_Core_Form
                         if ( $weightSum >= $threshold || in_array('external_identifier', $importKeys)) {
                             continue;
                         } else { 
-                            $errors['_qf_default'] .= ts('Missing required contact matching fields.'.$fieldMessage.' (Sum of all weights should be greater than or equal to threshold(%1))',array(1 => $threshold)) . '<br />';
+                            $errors['_qf_default'] .= ts('Missing required contact matching fields.') . $fieldMessage . ' ' . ts('(Sum of all weights should be greater than or equal to threshold: %1).', array(1 => $threshold)) . '<br />';
                         }
                         
                     } elseif ($field == 'activity_type_id' ) {

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-04-28 21:53+0200\n"
-"PO-Revision-Date: 2008-05-26 09:49-0700\n"
-"Last-Translator: Thomas Narres <thomas@narres.com>\n"
+"PO-Revision-Date: 2008-07-07 12:02-0700\n"
+"Last-Translator: AE <aeinstein@virtas.net>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1067,8 +1067,9 @@ msgstr "Ort"
 
 #: CRM/Contact/BAO/Query.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Core/DAO/Worldregion.php
+#, fuzzy
 msgid "World Region"
-msgstr ""
+msgstr "Weltregion"
 
 #: CRM/Contact/BAO/Query.php CRM/Contact/Form/Individual.php
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
@@ -1357,8 +1358,8 @@ msgid ""
 "The contact record which is linked to the currently logged in user account - "
 "'%1' - can not be deleted."
 msgstr ""
-"Der Kontakt, der mit dem derzeit eingeloggeden Benutzer \"%1\" verknüpft "
-"ist, kann nicht gelöscht werden.  "
+"Der Kontakteintrag, welcher mit dem derzeit eingeloggten Benutzer \"%1\" "
+"verknüpft ist, kann nicht gelöscht werden.  "
 
 #: CRM/Contact/Form/Merge.php CRM/Core/BAO/CustomField.php
 #: CRM/Core/BAO/CustomOption.php CRM/Core/BAO/CustomQuery.php
@@ -1396,7 +1397,7 @@ msgstr "Ja"
 
 #: CRM/Contact/Form/OpenID.php CRM/Standalone/Form/Register.php
 msgid "OpenID"
-msgstr ""
+msgstr "OpenID"
 
 #: CRM/Contact/Form/Organization.php CRM/Core/BAO/CustomField.php
 #: CRM/Core/BAO/UFGroup.php
@@ -1471,12 +1472,12 @@ msgstr "Letzte Mitgliedschaften"
 #: CRM/Contact/Page/View/Tabbed.php CRM/Core/SelectValues.php
 #, fuzzy
 msgid "Grants"
-msgstr "gewähren"
+msgstr "Unterstützungen / Zuschüsse"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Tabbed.php
 #, fuzzy
 msgid "Cases"
-msgstr "Bargeld"
+msgstr "Fälle"
 
 #: CRM/Contact/Form/Search/Basic.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Contact/Form/Search/Custom/ActivitySearch.php
@@ -1551,13 +1552,13 @@ msgstr "Standort"
 #: CRM/Contact/Form/Search/Custom/ContributionAggregate.php
 #, fuzzy
 msgid "Donation Amount"
-msgstr "Standort"
+msgstr "Spendenbetrag"
 
 #: CRM/Contact/Form/Search/Custom.php CRM/Core/Invoke.php
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "Custom Search"
-msgstr "Quest-Suche"
+msgstr "benutzerdefinierte Suche"
 
 #: CRM/Contact/Form/Search/Custom/Sample.php CRM/Core/BAO/CustomField.php
 msgid "State/Province"
@@ -1750,7 +1751,7 @@ msgstr "Datei"
 #: CRM/Core/SelectValues.php CRM/Custom/Form/Field.php
 #, fuzzy
 msgid "Link"
-msgstr "in"
+msgstr "Link"
 
 #: CRM/Core/BAO/CustomField.php CRM/Friend/Form.php
 #: templates/CRM/Case/Form/CaseActivity.tpl
@@ -1808,7 +1809,7 @@ msgstr "Ausloggen"
 #: CRM/Core/Block.php CRM/Grant/Info.php CRM/Grant/Menu.php
 #, fuzzy
 msgid "CiviGrant"
-msgstr "gewähren"
+msgstr "CiviGrant"
 
 #: CRM/Core/DAO/Address.php CRM/Core/Payment/Form.php
 msgid "Postal Code"
@@ -1816,7 +1817,7 @@ msgstr "PLZ"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
 msgid "Html Type"
-msgstr "Html Typ"
+msgstr "HTML-Typ"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Default Value"
@@ -1914,6 +1915,7 @@ msgid "Import Activity"
 msgstr "Aktivitätshistorie importieren"
 
 #: CRM/Core/DAO/Mapping.php CRM/Core/Invoke.php CRM/Core/Menu.php
+#, fuzzy
 msgid "Search Builder"
 msgstr "Such Generator"
 
@@ -1935,7 +1937,7 @@ msgstr "Zahlungsbearbeiter"
 
 #: CRM/Core/DAO/PaymentProcessor.php CRM/Core/DAO/PaymentProcessorType.php
 msgid "Suffix for PHP clas name implementation"
-msgstr ""
+msgstr "Suffix für die Implementierung von PHP-Klassen Namen"
 
 #: CRM/Core/DAO/Phone.php CRM/Core/SelectValues.php
 msgid "Mobile"
@@ -1970,8 +1972,9 @@ msgstr "CiviCRM Profil"
 
 #: CRM/Core/Invoke.php CRM/Friend/Form/Contribute.php
 #: CRM/Friend/Form/Event.php templates/CRM/Friend/Form/Friend.tpl
+#, fuzzy
 msgid "Tell A Friend"
-msgstr ""
+msgstr "Tell-A-Friend"
 
 #: CRM/Core/Invoke.php CRM/Core/Page/File.php
 msgid "Domain Information Page"
@@ -2036,8 +2039,9 @@ msgstr "Gruppen verwalten"
 
 #: CRM/Core/Menu.php CRM/Friend/BAO/Friend.php CRM/Friend/Form/Contribute.php
 #: CRM/Friend/Form/Event.php xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Tell a Friend"
-msgstr ""
+msgstr "Tell-A-Friend"
 
 #: CRM/Core/Menu.php CRM/Core/SelectValues.php
 msgid "Contacts"
@@ -2175,29 +2179,29 @@ msgstr "Danke für die Verbreitung"
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "Grant Type"
-msgstr "Datentyp"
+msgstr "Art der Zuwendung"
 
 #: CRM/Grant/BAO/Query.php CRM/Grant/Form/Grant.php
 #, fuzzy
 msgid "Grant Status"
-msgstr "Gruppenstatus"
+msgstr "Zuwendungsstatus"
 
 #: CRM/Grant/DAO/Grant.php CRM/Grant/Form/Grant.php
 #: CRM/Grant/Selector/Search.php templates/CRM/Grant/Form/Task/Print.tpl
 #, fuzzy
 msgid "Amount Requested"
-msgstr "Betrag"
+msgstr "beantragter Betrag"
 
 #: CRM/Grant/DAO/Grant.php CRM/Grant/Form/Grant.php
 #: CRM/Grant/Selector/Search.php
 #, fuzzy
 msgid "Amount Granted"
-msgstr "Betrag"
+msgstr "bewilligter Betrag"
 
 #: CRM/Grant/DAO/Grant.php CRM/Grant/Form/Grant.php
 #, fuzzy
 msgid "Rationale"
-msgstr "Optionswert"
+msgstr "Begründung"
 
 #: CRM/Grant/Form/Grant.php CRM/Grant/Selector/Search.php
 #, fuzzy
@@ -2207,12 +2211,12 @@ msgstr "Eingangsdatum"
 #: CRM/Grant/Form/Grant.php CRM/Grant/Selector/Search.php
 #, fuzzy
 msgid "Money Transferred"
-msgstr "Telefon (bevorzugt)"
+msgstr "Zahlungsdatum"
 
 #: CRM/Grant/Form/Task/Delete.php CRM/Grant/Task.php
 #, fuzzy
 msgid "Delete Grants"
-msgstr "Gruppe löschen"
+msgstr "Zuwendungen löschen"
 
 #: CRM/Group/Form/Edit.php CRM/Group/Page/Group.php
 msgid "Delete Group"
@@ -2230,22 +2234,23 @@ msgstr "Preisvorgabe löschen"
 #: templates/CRM/Price/Page/Field.tpl
 #, fuzzy
 msgid "Price"
-msgstr "Profilname"
+msgstr "Preis"
 
 #: CRM/Project/DAO/Project.php CRM/Project/DAO/Task.php
 msgid "Owner Entity Table"
-msgstr "Datentabelle"
+msgstr "Besitzer Datentabelle"
 
 #: CRM/Standalone/OpenID/DAO/Associations.php
 #: CRM/Standalone/OpenID/DAO/Nonce.php
 msgid "Server Url"
-msgstr ""
+msgstr "URL des Servers"
 
 #: CRM/Upgrade/TwoZero/Form/Step1.php CRM/Upgrade/TwoZero/Form/Step3.php
 #: CRM/Upgrade/TwoZero/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step5.php
 #: CRM/Upgrade/TwoZero/Form/Step6.php
 msgid "Database consistency check failed for step %1."
 msgstr ""
+"Konsistenztest der Datenbank ist fehlgeschlagen bei folgenden Schritt: %1."
 
 #: CRM/Upgrade/TwoZero/Form/Step1.php CRM/Upgrade/TwoZero/Form/Step3.php
 #: CRM/Upgrade/TwoZero/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step6.php
@@ -2256,12 +2261,16 @@ msgstr ""
 #: CRM/Upgrade/TwoZero/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step6.php
 msgid "Please rebuild your 1.9 database to ensure schema integrity."
 msgstr ""
+"Bitte stelle die 1.9 Datenbank wieder her um die Vollständigkeit des Schemas "
+"zu gewährleisten."
 
 #: CRM/Upgrade/TwoZero/Form/Step1.php CRM/Upgrade/TwoZero/Form/Step5.php
 msgid ""
 "Value missing in %1 for the column '%2'. Please add a unique value for the "
 "'name' column for each database record."
 msgstr ""
+"Der Wert in %1 für Spalte '%2' fehlt. Bitte gib einen eindeutigen Wert für "
+"den Spaltennamen jedes Datenbankeintrags ein."
 
 #: CRM/Upgrade/TwoZero/Form/Step1.php CRM/Upgrade/TwoZero/Form/Step2.php
 #: CRM/Upgrade/TwoZero/Form/Step3.php CRM/Upgrade/TwoZero/Form/Step4.php
@@ -2279,7 +2288,7 @@ msgstr ""
 #: CRM/Upgrade/TwoZero/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step5.php
 #, fuzzy
 msgid "Upgrade & Continue"
-msgstr "Weiter"
+msgstr "Upgraden und fortfahren.."
 
 #: CRM/ACL/BAO/ACL.php
 msgid "Contact Group"
@@ -2485,7 +2494,7 @@ msgstr "Standorttyp"
 #: CRM/Activity/BAO/Query.php
 #, fuzzy
 msgid "Content"
-msgstr "Kontakt"
+msgstr "Inhalt"
 
 #: CRM/Activity/DAO/Activity.php
 msgid "Activity ID"
@@ -2512,7 +2521,7 @@ msgstr "Telefonnummer"
 
 #: CRM/Activity/DAO/Activity.php
 msgid "Activity Status Label"
-msgstr ""
+msgstr "Kennzeichnung für den Aktivitätenstatus"
 
 #: CRM/Activity/DAO/Activity.php
 msgid "Test"
@@ -3803,7 +3812,9 @@ msgstr "Ungültige Emailadresse"
 msgid ""
 "Domain Email Address must use a valid email address format (e.g. "
 "'info@example.org')."
-msgstr "Bitte eine gültige eMail-Adresse angeben."
+msgstr ""
+"Die E-Mail-Adresse muss ein korrektes Format haben. (z.B. "
+"'info@beispiel.de')"
 
 #: CRM/Contact/Form/Domain.php
 msgid ""
@@ -4006,8 +4017,8 @@ msgid ""
 "Enter a valid web location beginning with 'http://' or 'https://'. EXAMPLE: "
 "http://www.mysite.org/"
 msgstr ""
-"Geben Sie eine gültige Webadresse an, welche mit \"http://\" oder \"https://"
-"\" beginnt. BEISPIEL: http://www.mysite.de"
+"Geben Sie eine gültige Webadresse an, welche mit \"http://\" oder \"https://\" "
+"beginnt. BEISPIEL: http://www.meineseite.de"
 
 #: CRM/Contact/Form/Individual.php
 msgid "Current Employer"
@@ -6556,7 +6567,7 @@ msgstr "Nicht weitergeben"
 
 #: CRM/Core/SelectValues.php
 msgid "- all contacts -"
-msgstr "-alle kontakte-"
+msgstr "- alle Kontakte -"
 
 #: CRM/Core/SelectValues.php
 msgid "Individuals"
@@ -10666,7 +10677,7 @@ msgstr "Beziehung von B zu A"
 #: templates/CRM/Admin/Page/RelationshipType.tpl
 #, fuzzy
 msgid "All Contacts"
-msgstr "-alle kontakte-"
+msgstr "- alle Kontakte -"
 
 #: templates/CRM/Admin/Page/RelationshipType.tpl
 #, fuzzy
@@ -13065,15 +13076,16 @@ msgstr ""
 "an die Freunde zur Verfügung."
 
 #: templates/CRM/Friend/Form/Friend.tpl
+#, fuzzy
 msgid ""
 "A link to this %1 is automatically included in the email sent to friends. If "
 "you ALSO want to include a link providing general information about your "
 "organization, enter that link here (e.g <em>http://www.example.org/</em>)"
 msgstr ""
-"Ein Link zu dieser %1 wird automatisch in die Email an die Freunde "
+"Ein Link zu dieser %1 wird automatisch in die E-Mail an die Freunde "
 "eingebunden. Wenn Sie ZUSÄTZLICH einen Link mit allgemeiner Information über "
-"ihre Organisation hinzufügen wollen, kann dieser hier eingegeben werden (z."
-"B.: <em>http://www.example.org</em>)"
+"ihre Organisation hinzufügen wollen, kann dieser hier eingegeben werden "
+"(z.B.: <em>http://www.example.org</em>)"
 
 #: templates/CRM/Friend/Form/Friend.tpl
 msgid ""
@@ -14532,15 +14544,15 @@ msgstr "Mailing Fußzeile"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Descriptive Title for this Footer."
-msgstr ""
+msgstr "beschreibender Titel für diese Fußzeile"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Sample Footer for HTML formatted content."
-msgstr ""
+msgstr "Beispiel-Fußzeile für Inhalt im HTML-Format"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Sample Footer for TEXT formatted content."
-msgstr ""
+msgstr "Beispiel-Fußzeile für Inhalte im TEXT-Format"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
@@ -14590,11 +14602,11 @@ msgstr "Spende"
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "Member Dues"
-msgstr "Gruppenmitglieder"
+msgstr "Mitgliedsbeiträge"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Campaign Contribution"
-msgstr ""
+msgstr "Spende für eine Kampagne"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Event Fee"
@@ -14603,15 +14615,15 @@ msgstr "Teilnahmegebühr"
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "Instant Messenger (IM) screen-names"
-msgstr "Instant Messenger (bevorzugt)"
+msgstr "Instant Messenger (IM), angezeigter Name"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Individual contact prefixes"
-msgstr ""
+msgstr "individueller Namenszusatz (vorangestellt)"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Individual contact suffixes"
-msgstr ""
+msgstr "individueller Namenszusatz (nachgestellt)"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Accepted Credit Cards"
@@ -14634,7 +14646,7 @@ msgstr "Einstellungen für Adressierungen"
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "Honor Type"
-msgstr "Coord Type"
+msgstr "Art der Ehrenmitgliedschaft"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Participant Listing"
@@ -14642,7 +14654,7 @@ msgstr "Teilnehmerliste"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Safe File Extension"
-msgstr ""
+msgstr "speichere Dateierweiterung"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Postal Mail"
@@ -14655,17 +14667,17 @@ msgstr "Email gesendet."
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "Text Message (SMS)"
-msgstr "Text Nachricht"
+msgstr "Textnachricht (SMS)"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "Text message (SMS) sent."
-msgstr "Text Nachricht"
+msgstr "Textnachricht (SMS) gesendet."
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "Event Registration"
-msgstr "Registrieren"
+msgstr "Veranstaltungsanmeldung"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
@@ -14867,8 +14879,9 @@ msgid "Scheduled"
 msgstr "Wartend"
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Left Message"
-msgstr "Hinterlassene Nachricht"
+msgstr "Nachricht hinterlassen"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Unreachable"
@@ -14934,7 +14947,7 @@ msgstr "Händler ID - LIVE"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Key"
-msgstr ""
+msgstr "Schlüssel"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Store ID"

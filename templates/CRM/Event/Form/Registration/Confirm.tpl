@@ -74,47 +74,38 @@
          {include file="CRM/UF/Form/Block.tpl" fields=$customPost}
     {/if}
 
-{*display Additional Participant Profile Information*}
-{if $addParticipantProfile}
-<div class="header-dark">
-    {ts}Additional Participant Information{/ts}	
-</div>
-    {foreach from=$addParticipantProfile item=participant key=participantNo}
-    <div id= "{$participantNo}_show" classsection-hidden section-hidden-border" style="clear: both;">
-        <a href="#" onclick="hide( '{$participantNo}_show' ); show( '{$participantNo}_hide' ); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Additional Participant{/ts} : {$participantNo}</label><br />
-    </div>
-    <div id= "{$participantNo}_hide" class="section-shown">
-       <fieldset>
-            <legend><a href="#" onclick="hide( '{$participantNo}_hide' ); show( '{$participantNo}_show' ); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Additional Participant{/ts} : {$participantNo}</legend>
+    {*display Additional Participant Profile Information*}
+    {if $addParticipantProfile}
+        {foreach from=$addParticipantProfile item=participant key=participantNo}
+            <div class="header-dark">
+                {ts 1=$participantNo}Additional Participant Information - Participant %1{/ts}	
+            </div>
+            {if $participant.customPre}
+                <fieldset><legend>{$participant.customPreGroupTitle}</legend>
+                     <table class="form-layout-compressed">
+                        {foreach from=$participant.customPre item=value key=field}
+                        <tr>
+                            <td class="label">{$field}</td><td class="view-value">{$value}</td>
+                        </tr>
+                        {/foreach}
+                     </table>
+                </fieldset>
+            {/if}
 
-{if $participant.customPre}
-    <fieldset><legend>{$participant.customPreGroupTitle}</legend>
-         <table class="form-layout-compressed">
-            {foreach from=$participant.customPre item=value key=field}
-            <tr>
-                <td class="labels">{$field}</td> <td>{$value}</td>
-            </tr>
-            {/foreach}
-         </table>
-    </fieldset>
-{/if}
-
-{if $participant.customPost}
-    <fieldset><legend>{$participant.customPostGroupTitle}</legend>
-         <table class="form-layout-compressed">
-            {foreach from=$participant.customPost item=value key=field}
-            <tr>
-                <td class="labels">{$field}</td> <td>{$value}</td>
-            </tr>
-            {/foreach}
-         </table>
-    </fieldset>
-{/if}
-
-</fieldset>
-</div> 
-{/foreach}
-{/if}
+            {if $participant.customPost}
+                <fieldset><legend>{$participant.customPostGroupTitle}</legend>
+                     <table class="form-layout-compressed">
+                        {foreach from=$participant.customPost item=value key=field}
+                        <tr>
+                            <td class="label">{$field}</td><td class="view-value">{$value}</td>
+                        </tr>
+                        {/foreach}
+                     </table>
+                </fieldset>
+            {/if}
+        <div class="spacer"></div>
+        {/foreach}
+    {/if}
 
     {if $contributeMode ne 'notify' and
         ! $is_pay_later             and

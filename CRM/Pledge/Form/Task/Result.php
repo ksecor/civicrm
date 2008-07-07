@@ -32,14 +32,14 @@
  *
  */
 
-require_once 'CRM/Event/Form/Task.php';
+require_once 'CRM/Pledge/Form/Task.php';
 
 /**
  * Used for displaying results
  *
  *
  */
-class CRM_PledgeBank_Form_Task_Result extends CRM_PledgeBank_Form_Task 
+class CRM_Pledge_Form_Task_Result extends CRM_Pledge_Form_Task 
 {
     
     /**

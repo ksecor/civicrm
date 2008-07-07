@@ -362,7 +362,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
                     foreach ( $occurDiscount as $key => $value )            
                         if ( $value > 1 && $key <> '' ) {
                             if ( $key == $values['discount_name'][$i] ) {
-                                $errors['discount_name['.$i.']'] = ts( $key.' is already used for Discount Name.' );
+                                $errors['discount_name['.$i.']'] = ts('%1 is already used for Discount Name.', array(1 => $key));
                             }
                         }
                 }

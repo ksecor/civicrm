@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-04-28 21:53+0200\n"
-"PO-Revision-Date: 2008-06-26 01:55-0700\n"
+"PO-Revision-Date: 2008-07-04 02:53-0700\n"
 "Last-Translator: Eugenia Franzoni <eugenia@catnic.it>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -523,7 +523,6 @@ msgstr ""
 "<strong>Profile - View API Signature</strong>."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
-#, fuzzy
 msgid ""
 "The URL for PayPal's LIVE Payment server. Use the default value (unless "
 "otherwise advised by PayPal):"
@@ -532,13 +531,12 @@ msgstr ""
 "meno che non venga suggerito altrimenti da PayPal."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
-#, fuzzy
 msgid ""
 "The URL for PayPal's LIVE API gateway server. Use the default value (unless "
 "otherwise advised by PayPal):"
 msgstr ""
-"L'URL del server di pagamento LIVE di PayPal. Usate il valore di default a "
-"meno che non venga suggerito altrimenti da PayPal."
+"L'URL del server di gateway dell'API LIVE di PayPal. Usate il valore di "
+"default a meno che non venga suggerito altrimenti da PayPal."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
@@ -598,118 +596,134 @@ msgstr ""
 "<strong>Profile - View API Signature</strong>."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
-#, fuzzy
 msgid ""
 "The URL for PayPal's TEST Payment server. Use the default value (unless "
 "otherwise advised by PayPal):"
 msgstr ""
-"L'URL del server di pagamento LIVE di PayPal. Usate il valore di default a "
-"meno che non venga suggerito altrimenti da PayPal."
+"L'URL del server di pagamento di TEST di PayPal. Usate il valore di default "
+"a meno che non venga suggerito altrimenti da PayPal."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
-#, fuzzy
 msgid ""
 "The URL for PayPal's TEST API gateway server. Use the default value (unless "
 "otherwise advised by PayPal):"
 msgstr ""
-"L'URL del server di pagamento LIVE di PayPal. Usate il valore di default a "
-"meno che non venga suggerito altrimenti da PayPal."
+"L'URL del server di  gateway di TEST dell'API di PayPal. Usate il valore di "
+"default a meno che non venga suggerito altrimenti da PayPal."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "LIVE Merchant Account Email Address:"
-msgstr ""
+msgstr "Indirizzo di email dell'account Venditore LIVE:"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
 "Enter the Merchant Account Email Address linked to your LIVE PayPal Merchant "
 "Account."
 msgstr ""
+"Inserire l'indirizzo di email dell'account Venditore collegato all'account "
+"Venditore di PayPal LIVE."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
 "The URL for PayPal's LIVE Payment server. Use the default value unless "
 "otherwise indicated by PayPal."
 msgstr ""
+"L'URL del server di pagamento LIVE di PayPal. Usate il valore di default a "
+"meno che non sia indicato diversamente da PayPal."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
 "The URL for PayPal Standard recurring payments. Use the default value unless "
 "otherwise indicated by PayPal."
 msgstr ""
+"L'URL per i pagamenti ricorrenti Standard di PayPal. Usate il valore di "
+"default a meno che non sia indicato diversamente da PayPal."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "TEST Merchant Account Email Address:"
-msgstr ""
+msgstr "Indirizzo di email dell'account venditore di TEST:"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
 "Enter the Merchant Account Email Address linked to your PayPal Sandbox "
 "merchant account (NOT your Developer Central login - unless it's the same)."
 msgstr ""
+"Inserire l'indirizzo di email dell'account venditore collegato all'account "
+"venditore di prova di PayPal (NON il login della Developer Central, a meno "
+"che non sia lo stesso).l"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
 "The URL for PayPal's TEST Payment server. Use the default value unless "
 "otherwise indicated by PayPal."
 msgstr ""
+"L'URL del server di pagamento di TEST di PayPal. Usate il valore di default "
+"a meno che non sia indicato diversamente da PayPal."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "User Name (TEST account):"
-msgstr ""
+msgstr "Nome utente (account di TEST):"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
 "Enter <strong>pj-ql-01</strong>. This is the User Name associated with the "
 "shared PayJunction test account."
 msgstr ""
+"Inserire <strong>pj-ql-01</strong>: è il nome utente associato all'account "
+"condiviso di test di PayJunction."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Password (TEST account):"
-msgstr ""
+msgstr "Password (account di TEST):"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
 "Enter <strong>pj-ql-01p</strong>. This is the Password associated with the "
 "shared PayJunction test account."
 msgstr ""
+"Inserire <strong>pj-ql-01</strong>: è la password associata all'account "
+"condiviso di test di PayJunction."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
 "The URL for PayJunction's Payment server. This is the same for TEST and LIVE "
 "transactions. Use the default value unless otherwise advised by PayPal."
 msgstr ""
+"L'URL del server di pagamento di PayJunction. E' lo stesso per le "
+"transazioni LIVE e quelle di TEST. Usate il valore di default a meno che non "
+"sia indicato diversamente da PayPal."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "The Recurring Payments URL is not currently used."
-msgstr ""
+msgstr "L'URL di pagamento ricorrente non viene al momento usato."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "User Name (LIVE account):"
-msgstr ""
+msgstr "Nome utente (account LIVE):"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Enter the User Name associated with your LIVE merchant account."
-msgstr ""
+msgstr "Inserire il nome utente associato con l'account venditore LIVE."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Password (LIVE account):"
-msgstr ""
+msgstr "Password (account LIVE):"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Enter the Password associated with your LIVE merchant account."
-msgstr ""
+msgstr "Inserire la password associata con l'account venditore LIVE."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "LIVE Account Merchant ID:"
-msgstr ""
+msgstr "ID account venditore LIVE:"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Enter the Merchant ID from your Live account."
-msgstr ""
+msgstr "Inserire l'ID venditore per l'account LIVE."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "How do I Find my Merchant-ID?"
-msgstr ""
+msgstr "Come faccio a trovare il mio ID venditore?"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
@@ -718,34 +732,38 @@ msgid ""
 "Merchant ID and your Merchant Key will both be listed under the Account "
 "information header."
 msgstr ""
+"Dopo esservi collegati al vostro account, cliccate sulla scheda "
+"Impostazioni, poi sul link Integrazione a sinistra. l'ID venditore (di 10 o "
+"15 cifre) e la chiave venditore saranno mostrati entrambi sotto "
+"l'intestazione Informazioni Account."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "LIVE Account Merchant Key:"
-msgstr ""
+msgstr "Chiave venditore dell'account LIVE:"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Enter the Merchant Key from your Live account."
-msgstr ""
+msgstr "Inserire la chiave del venditore dell'account LIVE."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "How do I Find my Merchant Key?"
-msgstr ""
+msgstr "Come faccio a trovare la chiave del venditore?"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "TEST/Sandbox Account Merchant ID:"
-msgstr ""
+msgstr "ID venditore dell'account di TEST:"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Enter the Merchant ID from your Sandbox account."
-msgstr ""
+msgstr "Inserire l'ID del venditore dell'account di TEST."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "TEST/Sandbox Account Merchant Key:"
-msgstr ""
+msgstr "Chiave del venditore dell'account di TEST:"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Enter the Merchant Key from your Sandbox account."
-msgstr ""
+msgstr "Inserire la chiave del venditore dell'account di TEST."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
@@ -769,49 +787,51 @@ msgstr "Pulsante Google Checkout:"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "The base URL for the <strong>TEST - Image</strong> is: %1"
-msgstr ""
+msgstr "L'URL di base per l'<strong>Immagine - TEST</strong> è %1."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
 "To display an image, you must add several parameters to this URL as "
 "name=value pairs."
 msgstr ""
+"Per visualizzare un'immagine, dovete aggiungere diversi parametri a questo "
+"URL sotto forma di coppie chiave=valore."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Parameters"
-msgstr ""
+msgstr "Parametri"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Values"
-msgstr ""
+msgstr "Valori"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "large/medium/small"
-msgstr ""
+msgstr "grande/medio/piccolo"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "width of the button in pixels"
-msgstr ""
+msgstr "larghezza del pulsante in pixel"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "height of the button in pixels"
-msgstr ""
+msgstr "altezza del pulsante in pixel"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "background color for the button"
-msgstr ""
+msgstr "colore di sfondo del pulsante"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "whether the button is clickable or disabled"
-msgstr ""
+msgstr "se il pulsante è cliccabile o disabilitato"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "a locale associated with the transaction (optional)"
-msgstr ""
+msgstr "una locale associata alla transazione (opzionale)"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "(e.g %1)"
-msgstr ""
+msgstr "(es. %1)"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
@@ -823,7 +843,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "The base URL for the <strong>LIVE - Image</strong> is: %1"
-msgstr ""
+msgstr "L'URL di base per l'<strong>Immagine - LIVE</strong> è %1."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
@@ -838,32 +858,36 @@ msgid ""
 "Moneris doesn't currently use the Username field. Enter 'ignoreme' as a "
 "placeholder since the field can't be left blank."
 msgstr ""
+"Moneris non usa il campo nomeutente; inserite il valore 'ignorami' come "
+"segnaposto, dato che il campo non può essere lasciato vuoto."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "API Token (TEST account)"
-msgstr ""
+msgstr "Token API (account di TEST)"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Enter the API Token from your live merchant account."
-msgstr ""
+msgstr "Inserire il token dell'API del'account venditore LIVE."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Store ID (LIVE account)"
-msgstr ""
+msgstr "ID negozio (account LIVE)"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Enter your live merchant account Store ID."
-msgstr ""
+msgstr "Inserire l'ID del negozio dell'account venditore LIVE."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
 "The URL for the Moneris LIVE Payment server. Use the default value unless "
 "otherwise advised by the processor."
 msgstr ""
+"L'URL per il server di pagamento LIVE di Moneris. Usate il valore "
+"predefinito a meno che non vi venga indicato il contrario."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "The Recurring Payments URL is not currently used for Moneris."
-msgstr ""
+msgstr "L'URL dei pagamenti ricorrenti non viene usato con Moneris."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
@@ -871,10 +895,13 @@ msgid ""
 "account. Enter <strong>%1</strong> here, which is the API Token for this "
 "test account."
 msgstr ""
+"Tutte le transazioni di test con Moneris sono inviate ad un account di "
+"venditore di test condiviso. Inserite <strong>%1</strong>, il token API per "
+"questo account."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Store ID (TEST account)"
-msgstr ""
+msgstr "ID negozio (account di TEST)"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
@@ -882,16 +909,22 @@ msgid ""
 "You can use <strong>%1</strong> as your test store ID. '%2' and '%3' also "
 "work, but only '%1' accepts recurring payments."
 msgstr ""
+"Tutte le transazioni di test di Moneris vengono inviate ad un account di "
+"venditore di test condiviso. Potete usare <strong>%1</strong> come ID del "
+"negozio di test. Funzionano anche '%2' e '%3', ma solo '%1' accetta i "
+"pagamenti ricorrenti. "
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
 "The URL for the Moneris TEST Payment server. Use the default value unless "
 "otherwise advised by the processor."
 msgstr ""
+"L'URL del server di pagamento di TEST di Moneris. Usate il valore "
+"predefinito a meno che non vi venga indicato il contrario."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Dummy Processor"
-msgstr ""
+msgstr "Gestore di prova"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
@@ -911,6 +944,10 @@ msgid ""
 "Email Address are also used as the default 'sender' values when you create a "
 "new CiviMail Mailing."
 msgstr ""
+"Il nome e l'email DA vengono usati come dati del mittente quando vengono "
+"inviate automaticamente delle email (es. per le conferme di iscrizione e "
+"deiscrizione). Questi dati vengono usati anche come valori predefiniti per "
+"il mittente quando si crea una nuova mailing in CiviMail."
 
 #: templates/CRM/Contact/Form/Domain.hlp
 msgid ""
@@ -921,14 +958,22 @@ msgid ""
 "record points to) must be configured to handle incoming CiviMail emails (so "
 "it can process the 'actions' like subscribe, optOut, etc.)."
 msgstr ""
+"Il dominio email è il dominio internet (es. <code>esempio.org</code>) da "
+"usare nell'indirizzo delle mailing di 'azione' (es. l'indirizzo a cui "
+"rispondere quando si conferma una iscrizione: "
+"<code>subscribe.*@<strong>esempio.org</strong></code>).Il dominio (o, più "
+"propriamente, la macchina a cui punta il record MX per quel dominio) deve "
+"essere configurato in modo da gestire le email in ingresso per CiviMail (in "
+"modo da poter elaborare le azioni, come l'iscrizione, la deiscrizione, l"
+"'opt-out etc)."
 
 #: templates/CRM/Contact/Form/Domain.hlp
 msgid "Opens documentation in a new window."
-msgstr ""
+msgstr "Apre la documentazione in una nuova finestra."
 
 #: templates/CRM/Contact/Form/Domain.hlp
 msgid "Read more"
-msgstr ""
+msgstr "Leggi tutto"
 
 #: templates/CRM/Contact/Form/Domain.hlp
 msgid ""
@@ -999,6 +1044,9 @@ msgid ""
 "search values. Review the <a href='%1' target='_blank' title='%2'>Search "
 "Builder documentation</a> before building your first search..."
 msgstr ""
+"IMPORTANTE: nel Costruttore Ricerca si devono usare dei formati specifici "
+"per i valori di ricerca. Prima di costruire una ricerca si può accedere alla "
+"<a href='%1' target='_blank' title='%2'>documentazione.</a>"
 
 #: templates/CRM/Contact/Form/Search/Builder.hlp
 msgid ""
@@ -1008,6 +1056,11 @@ msgid ""
 "Washington AND City IS Seattle AND Birth Date is later than (>) Jan 1, 1985</"
 "em>"
 msgstr ""
+"Create una ricerca personalizzata selezionando i criteri (tipo di dato), "
+"l'operatore di confronto da usare, e inserendo il valore su cui volete fare "
+"la ricerca. Potete definire uno o più criteri come insieme: <em>includi "
+"contatti in cui ... la provincia E' UGUALE a Perugia E la città E' UGUALE A "
+"Assisi E la data di nascita è successiva al (>) 1 gennaio 1985</em>"
 
 #: templates/CRM/Contact/Form/Search/Builder.hlp
 msgid ""
@@ -1015,6 +1068,9 @@ msgid ""
 "where... State IS California AND City IS Los Angeles AND Birth Date is later "
 "than (>) Jan 1, 1985</em>"
 msgstr ""
+"Potete anche creare degli insiemi di criteri aggiuntivi: <em>Includi anche i "
+"contatti in cui ... la provincia E' UGUALE a Terni E la città E' UGUALE A "
+"Narni E la data di nascita è successiva al (>) 1 gennaio 1985</em>"
 
 #: templates/CRM/Contact/Page/View/Membership.hlp
 msgid ""
@@ -1030,6 +1086,9 @@ msgid ""
 "this screen. As long as the Status Override flag is checked, the automated "
 "membership status update script will NOT update this membership record."
 msgstr ""
+"Lo stato che avete assegnato rimarrà valido, a meno che non sia modificato "
+"di nuovo in questa schermata. Finché è attivo Forza stato, lo script di "
+"aggiornamento automatico degli stati NON aggiornerà questa iscrizione."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.hlp
 msgid ""
@@ -1622,6 +1681,11 @@ msgid ""
 "screen - you can update this for an existing group from <strong>Manage "
 "Groups &raquo; Settings</strong>.)"
 msgstr ""
+"Determinate qualii contatti nel database devono ricevere questa mailing "
+"selezionando come prima cosa uno o più <strong>gruppi da includere</strong> "
+"(perché appaiano in questa lista, ai gruppi deve essere assegnato il tipo "
+"<strong>Mailing List</strong>: potete farlo per i gruppi esistenti usando "
+"<strong>Gestione gruppi &raquo; Impostazioni</strong>)."
 
 #: templates/CRM/Mailing/Form/Group.hlp
 msgid ""
@@ -1630,6 +1694,10 @@ msgid ""
 "Contacts who are in both groups will NOT receive the mailing (they are "
 "'excluded')."
 msgstr ""
+"Potete anche <strong>escludere</strong> dei contatti appartenenti ai gruppi "
+"inclusi, selezionando uno o più <strong>gruppi da escludere</strong>. I "
+"contatti che appartengono sia ad uno dei gruppi inclusi che ad uno dei "
+"gruppi esclusi NON riceveranno la mailing (sono 'esclusi')."
 
 #: templates/CRM/Mailing/Form/Group.hlp
 msgid ""
@@ -1638,6 +1706,11 @@ msgid ""
 "duplications so that contacts who are in an Included Group AND were "
 "recipients of an Included Mailing will only be sent one copy of this mailing."
 msgstr ""
+"Se avete inviato altre mailing, potete anche includere (o escludere) i "
+"contatti che hanno ricevuto queste altre mailing. CiviCRM eliminerà i "
+"duplicati, quindi ai contatti che appartengono ad uno dei gruppi inclusi ed "
+"hanno già ricevuto una mailing che si include, verrà inviata solo una copia "
+"della mailing."
 
 #: templates/CRM/Mailing/Form/Group.hlp
 msgid ""
@@ -1646,6 +1719,10 @@ msgid ""
 "check' to help you confirm that you've targeted (and excluded) the desired "
 "recipients."
 msgstr ""
+"Dopo aver cliccato su <strong>Succ.</strong>, comparirà una schermata con "
+"riportato il numero totale dei destinatari della mailing. Usate questa cifra "
+"come controllo di validità, per capire se avete inserito ed escluso i "
+"destinatari desiderati."
 
 #: templates/CRM/Mailing/Form/Group.hlp
 msgid ""
@@ -1654,10 +1731,14 @@ msgid ""
 "Contacts who are in both groups will NOT receive the mailing (they are "
 "'excluded')."
 msgstr ""
+"Potete anche <strong>escludere</strong> dei contatti appartenenti ai gruppi "
+"inclusi, selezionando uno o più <strong>gruppi da escludere</strong>. I "
+"contatti che appartengono sia ad uno dei gruppi inclusi che ad uno dei "
+"gruppi esclusi NON riceveranno la mailing (sono 'esclusi')."
 
 #: templates/CRM/Mailing/Form/Schedule.hlp
 msgid "Scheduling and Sending Mailings"
-msgstr ""
+msgstr "Pianificazione e invio delle mailing"
 
 #: templates/CRM/Mailing/Form/Schedule.hlp
 msgid ""
@@ -1665,6 +1746,9 @@ msgid ""
 "OR you can request that they be sent as soon as possible by checking &quot;"
 "Send Immediately&quot;."
 msgstr ""
+"Potete pianificare l'invio di questa mailing ad una data e ora specifica, O "
+"richiedere che venga inviata il prima possibile spuntando &quot;Invia "
+"Immediatamente&quot;"
 
 #: templates/CRM/Mailing/Form/Schedule.hlp
 msgid ""
@@ -1672,6 +1756,9 @@ msgid ""
 "automated task which runs periodically on your server processes mailings in "
 "the queue, and starts actually sending out your mail."
 msgstr ""
+"Cliccando su <strong>Fatto</strong> si aggiunge questa mailing alla coda; un "
+"programma automatico in esecuzione sul server elabora le mail in coda e le "
+"invia."
 
 #: templates/CRM/Mailing/Form/Schedule.hlp
 msgid ""
@@ -1681,6 +1768,11 @@ msgid ""
 "running - and how frequently. (<a href='%1' title='%2' target='_blank'>more "
 "info...</a>)"
 msgstr ""
+"<strong>Se qualcosa va storto</strong> - Se vi accorgete che le vostre "
+"mailing non vengono inviate, chiedete all'amministratore di sistema o al "
+"supporto tecnico di verificare che il programma periodico di invio (il "
+"&quot;cron job&quot;) sia in esecuzione, e con quale frequenza (<a href='%1' "
+"title='%2' target='_blank'>per saperne di più...</a>)"
 
 #: templates/CRM/Mailing/Form/Test.hlp
 msgid ""
@@ -1688,21 +1780,28 @@ msgid ""
 "<strong>Next</strong> with 'Send Test Mailing' checked to generate the test "
 "mailing. Once you receive the test mailing:"
 msgstr ""
+"Verificate l'indirizzo di email usato per la prova e/o il gruppo di "
+"destinatari del test, poi cliccate su <strong>Successivo</strong> con "
+"spuntata la casella di \"Invia email di prova\" per generare la mailing di "
+"test. Una volta che avete ricevuto la mail:"
 
 #: templates/CRM/Mailing/Form/Test.hlp
 msgid "Verify the content and formattting."
-msgstr ""
+msgstr "Verificate il contenuto e la formattazione."
 
 #: templates/CRM/Mailing/Form/Test.hlp
 msgid ""
 "If you are using mail-merge tokens, check that they have been replaced with "
 "expected values."
 msgstr ""
+"Se state usando degli elementi che inseriscono valori relativi ai contatti, "
+"controllate che siano stati sostituiti dai valori corretti."
 
 #: templates/CRM/Mailing/Form/Test.hlp
 msgid ""
 "Click on each included link to make sure they go to the expected web pages."
 msgstr ""
+"Cliccate su tutti i link per assicurarvi che portino alla pagina corretta."
 
 #: templates/CRM/Mailing/Form/Test.hlp
 msgid ""
@@ -1710,10 +1809,14 @@ msgid ""
 "the next screen, and again from this screen to return to step 3. After "
 "making your changes, you can send another test and repeat as needed."
 msgstr ""
+"Se dovete effettuare delle modifiche, potete cliccare su "
+"<strong>Precedente</strong> dal passo in cui vi trovate, e poi di nuovo da "
+"questo passo per tornare al passo 3. Dopo aver fatto le modifiche fate altri "
+"test."
 
 #: templates/CRM/Mailing/Form/Upload.hlp
 msgid "Message Formats"
-msgstr ""
+msgstr "Formati Messaggio"
 
 #: templates/CRM/Mailing/Form/Upload.hlp
 msgid ""
@@ -1721,6 +1824,10 @@ msgid ""
 "<strong>TEXT</strong> version of your mailing, OR you can send a "
 "<strong>TEXT</strong> version only."
 msgstr ""
+"Potete scegliere se mandare SIA una versione <strong>HTML</strong> della "
+"mail che una versione <strong>TESTO PURO</strong>, OPPURE di inviare solo "
+"una versione <strong>TESTO PURO</strong>. Con la versione HTML è possibile "
+"inserire colori e formattazioni, ma non immagini."
 
 #: templates/CRM/Mailing/Form/Upload.hlp
 msgid ""
@@ -1728,10 +1835,13 @@ msgid ""
 "automatically create a <strong>TEXT</strong> version for your recipients who "
 "have chosen NOT to receive HTML email."
 msgstr ""
+"Se create solo la versione <strong>HTML</strong> del messaggio, CiviCRM ne "
+"produrrà automaticamente una versione in testo puro per i destinatari che "
+"hanno scelto di non ricevere email in HTML."
 
 #: templates/CRM/Mailing/Form/Upload.hlp
 msgid "Required Elements"
-msgstr ""
+msgstr "Elementi obbligatori"
 
 #: templates/CRM/Mailing/Form/Upload.hlp
 msgid ""
@@ -1744,10 +1854,20 @@ msgid ""
 "messages. Opens a new window.'>how to include required links and contact "
 "information as well as sample messages....</a>"
 msgstr ""
+"Le mailing di CiviMail devono comprendere un <strong>link di "
+"deiscrizione</strong> dalla singola lista, uno per fare <strong>opt-"
+"out</strong> (cioè per non ricevere più email dal sistema), e l'indirizzo di "
+"posta dell'organizzazione. Questi elementi riducono il rischio che la mail "
+"venga classificata come SPAM, e possono essere inclusi nel corpo del "
+"messaggio O in un <strong>piedipagina</strong> (<em>footer</em>) "
+"riutilizzabile. Fate riferimento alla documentazione online per avere "
+"dettagli su <a href='%1' target='_blank' title='Help sui messaggi. Si apre "
+"in una nuova finestra.'>come includere i link richiesti e le informazioni di "
+"contatto, con messaggi di esempio</a>."
 
 #: templates/CRM/Mailing/Form/Upload.hlp
 msgid "Upload or Compose On-screen"
-msgstr ""
+msgstr "Invia file o componi su schermo"
 
 #: templates/CRM/Mailing/Form/Upload.hlp
 msgid ""
@@ -1755,6 +1875,9 @@ msgid ""
 "and then <strong>Upload</strong> the files. OR you can <strong>Compose</"
 "strong> content directly on the screen."
 msgstr ""
+"Potete usare il vostro editor preferito per creare il contenuto della "
+"mailing sul vostro computer e poi <strong>Caricare il contenuto "
+"pronto</strong> oppure <strong>Comporlo</strong> direttamente a schermo."
 
 #: templates/CRM/Mailing/Form/Upload.hlp
 msgid ""
@@ -1765,6 +1888,10 @@ msgid ""
 "Then locate and upload the saved file(s) by clicking the <strong>Browse</"
 "strong> button."
 msgstr ""
+"Se scegliete di comporre il contenuto a schermo, è disponibile un editor "
+"HTML di base; se volete creare messaggi con struttura complessa è meglio "
+"usare un editor sul vostro computer, e poi caricare il file cliccando su "
+"<strong>Sfoglia</strong>."
 
 #: templates/CRM/Member/Form/MembershipBlock.hlp
 msgid ""
@@ -2047,6 +2174,11 @@ msgid ""
 "profile form. You can override this behavior - specifying your own error "
 "page - by adding a hidden <strong>errorURL</strong> input field"
 msgstr ""
+"Se il modulo viene inviato senza errori (es. un campo obbligatorio non "
+"completato), il comportamento predefinito è di visualizzare gli errori nel "
+"modulo di profilo interno. Potete forzare questo comportamento indicando la "
+"vostra pagina di errore aggiungendo un campo nascosto (hidden) "
+"<strong>errorURL</strong>."
 
 #: templates/CRM/UF/Page/Group.hlp
 msgid ""

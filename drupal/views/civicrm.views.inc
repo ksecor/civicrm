@@ -22,11 +22,15 @@ function civicrm_views_data() {
 
     $data = array( );
 
-    civicrm_views_data_contact     ( $data );
+    civicrm_initialize( );
+    require_once 'CRM/Core/Config.php';
+    $config =& CRM_Core_Config::singleton( );
 
-    civicrm_views_data_email       ( $data );
+    civicrm_views_data_contact     ( $data, $config );
 
-    civicrm_views_data_contribution( $data );
+    civicrm_views_data_email       ( $data, $config );
+
+    civicrm_views_data_contribution( $data, $config );
 
     return $data;
   }
@@ -118,10 +122,10 @@ class views_handler_field_civicrm extends views_handler_field {
     }
 
     function render_link($data, $values) {
-        if (!empty($this->options['link_to_civicrm']) && user_access('access user profiles') && $values->{$this->aliases['id']}) {
+        if (!empty($this->options['link_to_civicrm']) && user_access('access CiviCRM') && $values->id) {
             return civicrm_views_href( $data,
                                        'civicrm/contact/view',
-                                       'reset=1&id=' . $values->{$this->aliases['id']} );
+                                       "reset=1&cid={$values->id}" );
         }
         else {
             return $data;
@@ -130,17 +134,6 @@ class views_handler_field_civicrm extends views_handler_field {
 
     function render($values) {
         return $this->render_link(check_plain($values->{$this->field_alias}), $values);
-    }
-}
-
-/**
- * Field handler to provide simple renderer that allows using a themed user link
- *
- * @ingroup views_field_handlers
- */
-class views_handler_field_civicrm_name extends views_handler_field_civicrm {
-    function render_link($data, $values) {
-        return $data;
     }
 }
 
@@ -200,10 +193,10 @@ class views_handler_field_civicrm_link_edit extends views_handler_field_civicrm_
 
     function render($values) {
         $text = !empty($this->options['text']) ? $this->options['text'] : t('edit');
-        $id = $values->{$this->aliases['id']};
-        return civicrm_views_href( $data,
+        $id = $values->id;
+        return civicrm_views_href( $text,
                                    'civicrm/contact/add',
-                                   "reset=1&id=$id" );
+                                   "reset=1&action=update&cid=$id" );
     }
 }
 
@@ -258,155 +251,6 @@ class views_handler_field_civicrm_mail extends views_handler_field_civicrm {
             return l($values->{$this->field_alias}, "mailto:" . $values->{$this->field_alias});
         }
         return $this->render_link(check_plain($values->{$this->field_alias}), $values);
-    }
-}
-
-/**
- * Argument handler to accept a user id.
- *
- * @ingroup views_argument_handlers
- */
-class views_handler_argument_civicrm_id extends views_handler_argument_numeric {
-    /**
-     * Override the behavior of title(). Get the name of the user.
-     */
-    function title_query() {
-        if (!$this->argument) {
-            return array(variable_get('anonymous', t('Anonymous')));
-        }
-      
-        $titles = array();
-        $placeholders = implode(', ', array_fill(0, sizeof($this->value), '%d'));
-      
-        $result = db_query("SELECT c.display_name FROM {civicrm_contact} c WHERE c.id IN ($placeholders)", $this->value);
-        while ($term = db_fetch_object($result)) {
-            $titles[] = check_plain($term->name);
-        }
-        return $titles;
-    }
-}
-
-/**
- * Filter handler for usernames
- *
- * @ingroup views_filter_handlers
- */
-class views_handler_filter_civicrm_name extends views_handler_filter_in_operator {
-    function value_form(&$form, &$form_state) {
-        $values = array();
-        if ($this->value) {
-            $result = db_query("SELECT * FROM {users} u WHERE uid IN ("  . implode(', ', $this->value) . ")");
-            while ($account = db_fetch_object($result)) {
-                if ($account->uid) {
-                    $values[] = $account->name;
-                }
-                else {
-                    $values[] = 'Anonymous'; // Intentionally NOT translated.
-                }
-            }
-        }
-
-        sort($values);
-        $form['value'] = array(
-                               '#type' => 'textfield',
-                               '#title' => t('Usernames'),
-                               '#description' => t('Enter a comma separated list of user names.'),
-                               '#default_value' => implode(', ', $values),
-                               '#autocomplete_path' => 'admin/views/ajax/autocomplete/user',
-                               );
-    }
-
-    function value_validate(&$form, &$form_state) {
-        $values = drupal_explode_tags($form_state['values']['options']['value']);
-        $ids = $this->validate_civicrm_strings($form['value'], $values);
-
-        if ($ids) {
-            $form_state['values']['options']['value'] = $ids;
-        }
-    }
-
-    function exposed_validate(&$form, &$form_state) {
-        if (empty($this->options['exposed'])) {
-            return;
-        }
-
-        if (empty($this->options['expose']['identifier'])) {
-            return;
-        }
-
-        $identifier = $this->options['expose']['identifier'];
-        $values = drupal_explode_tags($form_state['values'][$identifier]);
-
-        $ids = $this->validate_civicrm_strings($form[$identifier], $values);
-
-        if ($ids) {
-            $form_state['values'][$identifier] = $ids;
-        }
-    }
-
-    /**
-     * Validate the user string. Since this can come from either the form
-     * or the exposed filter, this is abstracted out a bit so it can
-     * handle the multiple input sources.
-     */
-    function validate_civicrm_strings(&$form, $values) {
-        $ids = array();
-        $placeholders = array();
-        $args = array();
-        $results = array();
-        foreach ($values as $value) {
-            if (strtolower($value) == 'anonymous') {
-                $ids[] = 0;
-            }
-            else {
-                $missing[strtolower($value)] = TRUE;
-                $args[] = $value;
-                $placeholders[] = "'%s'";
-            }
-        }
-
-        if (!$args) {
-            return $ids;
-        }
-
-        $result = db_query("SELECT * FROM {users} WHERE name IN (" . implode(', ', $placeholders) . ")", $args);
-        while ($account = db_fetch_object($result)) {
-            unset($missing[strtolower($account->name)]);
-            $ids[] = $account->uid;
-        }
-
-        if ($missing) {
-            form_error($form, format_plural(count($missing), 'Unable to find user: @users', 'Unable to find users: @users', array('@users' => implode(', ', array_keys($missing)))));
-        }
-
-        return $ids;
-    }
-
-    function value_submit() {
-        // prevent array filter from removing our anonymous user.
-    }
-
-    // Override to do nothing.
-    function get_value_options() { }
-
-    function admin_summary() {
-        // set up $this->value_options for the parent summary
-        $this->value_options = array();
-
-        if ($this->value) {
-            $result = db_query("SELECT * FROM {users} u WHERE uid IN ("  . implode(', ', $this->value) . ")");
-
-            while ($account = db_fetch_object($result)) {
-                if ($account->uid) {
-                    $this->value_options[$account->uid] = $account->name;
-                }
-                else {
-                    $this->value_options[$account->uid] = 'Anonymous'; // Intentionally NOT translated.
-                }
-            }
-        }
-
-        return parent::admin_summary();
     }
 }
 
@@ -536,13 +380,14 @@ function civicrm_views_href( $text, $path, $query ) {
     return CRM_Utils_System::href( $text, $path, $query );
 }
  
-function civicrm_views_data_contact( &$data ) {
-   $data['civicrm_contact']['table']['group']  = t('CiviCRM');
+function civicrm_views_data_contact( &$data, &$config ) {
+   $data['civicrm_contact']['table']['group']  = t('CiviCRM Contact');
 
     $data['civicrm_contact']['table']['base'] = array(
                                                       'field' => 'id',
                                                       'title' => t('CiviCRM Contacts'),
-                                                      'help' => t('CiviCRM Contacts. First attempt at a views integration'),
+                                                      'help' => t('CiviCRM Contacts'),
+                                                      'database' => 'civicrm',
                                                       );
 
     // id
@@ -550,17 +395,9 @@ function civicrm_views_data_contact( &$data ) {
                                            'title' => t('Contact ID'),
                                            'help' => t('The contact ID'), // The help that appears on the UI,
                                            'field' => array(
-                                                            'handler' => 'views_handler_field_civicrm',
+                                                            'handler' => 'views_handler_field',
                                                             'click sortable' => TRUE,
                                                             ),
-                                           'argument' => array(
-                                                               'handler' => 'views_handler_argument_civicrm_id',
-                                                               'name field' => 'name', // display this field in the summary
-                                                               ),
-                                           'filter' => array(
-                                                             'title' => t('Name'),
-                                                             'handler' => 'views_handler_filter_civicrm_name',
-                                                             ),
                                            'sort' => array(
                                                            'handler' => 'views_handler_sort',
                                                            ),
@@ -588,7 +425,7 @@ function civicrm_views_data_contact( &$data ) {
                                                      'title' => t('Contact Type'), // The item it appears as on the UI,
                                                      'help' => t('Contact Type.'), // The help that appears on the UI,
                                                      'field' => array(
-                                                                      'handler' => 'views_handler_field_civicrm_name',
+                                                                      'handler' => 'views_handler_field',
                                                                       'click sortable' => TRUE,
                                                                       ),
                                                      'sort' => array(
@@ -615,13 +452,44 @@ function civicrm_views_data_contact( &$data ) {
                                                                         ),
                                                        );
 
+    // add the other generic fields
+    civicrm_initialize( );
+    $objType = 'Individual';
+    require_once 'CRM/Contact/BAO/Contact.php';
+    $fields = CRM_Contact_BAO_Contact::exportableFields( $objType );
+
+    $skipFields = array( 'id' => 1,
+                         'contact_type' => 1,
+                         'contact_sub_type' => 1,
+                         );
+    foreach ( $fields as $name => $value ) {
+        if ( CRM_Utils_Array::value( $name, $skipFields ) ||
+             substr( $value['where'], 0, 15 ) != 'civicrm_contact' ) {
+            continue;
+        }
+
+        $data['civicrm_contact'][$name] = array(
+                                                'title' => $value['title'],
+                                                'help'  => $value['title'],
+                                                'field' => array( 
+                                                                 'handler' => civicrm_views_get_field_handler  ( $value['type'], $name, $objType ),
+                                                                 'click sortable' => true,
+                                                                  ),
+                                                'sort'  => array(
+                                                                 'handler' => civicrm_views_get_sort_handler   ( $value['type'], $name, $objType ),
+                                                                 ),
+                                                'filter' => array(
+                                                                  'handler' => civicrm_views_get_filter_handler( $value['type'], $name, $objType ),
+                                                                  ),
+                                                );
+    }
 }
 
-function civicrm_views_data_email( &$data ) {
+function civicrm_views_data_email( &$data, &$config ) {
     // ----------------------------------------------------------------------
     // CiviCRM email table
 
-    $data['civicrm_email']['table']['group']  = t('CiviCRM');
+    $data['civicrm_email']['table']['group']  = t('CiviCRM Contact');
 
     // Explain how this table joins to others.
     $data['civicrm_email']['table']['join'] = array(
@@ -669,19 +537,29 @@ function civicrm_views_data_email( &$data ) {
 
 }
 
-function civicrm_views_data_contribution( &$data ) {
+function civicrm_views_data_contribution( &$data, &$config ) {
     // ----------------------------------------------------------------------
     // CiviCRM email table
 
-    $data['civicrm_contribution']['table']['group']  = t('CiviContribute');
+    $data['civicrm_contribution']['table']['group']  = t('CiviCRM Contributions');
 
-    // Explain how this table joins to others.
     $data['civicrm_contribution']['table']['base'] =
         array(
               'field' => 'id',
               'title' => t('CiviCRM Contributions'),
-              'help' => t('CiviCRM Contributions' ),
-              );
+              'help' => t('CiviCRM Contributions' ), 
+              'database' => 'civicrm',
+             );
+
+    // Explain how this table joins to others.
+    $data['civicrm_contribution']['table']['join'] = array(
+                                                           // Directly links to contact table.
+                                                           'civicrm_contact' => array(
+                                                                                      'left_field' => 'id',
+                                                                                      'field' => 'contact_id',
+                                                                                      ),
+                                                           );
+
 
     $data['civicrm_contribution']['id'] = array(
                                                 'title' => t('Contribution ID'),
@@ -708,7 +586,7 @@ function civicrm_views_data_contribution( &$data ) {
                                                                                 'base' => 'civicrm_contact',
                                                                                 'field' => 'id',
                                                                                 'handler' => 'views_handler_relationship',
-                                                                                'label' => t('Contact'),
+                                                                                'label' => t('CiviCRM Contact'),
                                                                                 ),
                                                         );
 
@@ -722,6 +600,18 @@ function civicrm_views_data_contribution( &$data ) {
                                                                             'handler' => 'views_handler_filter_numeric',
                                                                             ),
                                                           );
+}
+
+function civicrm_views_get_field_handler( $type, $fieldName, $objectName ) {
+    return 'views_handler_field';
+}
+
+function civicrm_views_get_filter_handler( $type, $fieldName, $objectName ) {
+    return 'views_handler_filter';
+}
+
+function civicrm_views_get_sort_handler( $type, $fieldName, $objectName ) {
+    return 'views_handler_sort';
 }
 
 /**

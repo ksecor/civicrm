@@ -60,6 +60,28 @@
 {/if}
 {/if}
 
+{if $isPrimary }
+{if $contributeMode ne 'notify' and !$isAmountzero and !$is_pay_later  }
+
+===========================================================
+{ts}Billing Name and Address{/ts}
+
+===========================================================
+{$name}
+{$address}
+{/if}
+
+{if $contributeMode eq 'direct' and !$isAmountzero and !$is_pay_later}
+===========================================================
+{ts}Credit or Debit Card Information{/ts}
+
+===========================================================
+{$credit_card_type}
+{$credit_card_number}
+{ts}Expires{/ts}: {$credit_card_exp_date|truncate:7:''|crmDate}
+{/if}
+{/if}
+
 {if $customValues}
 ===========================================================
 {$module} {ts}Options{/ts}

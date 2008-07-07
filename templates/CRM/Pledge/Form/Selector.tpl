@@ -19,10 +19,9 @@
     </th>
   {/foreach}
   </tr>
-
   {counter start=0 skip=1 print=false}
   {foreach from=$rows item=row}
-  <tr id='rowid{$row.pb_signer_id}' class="{cycle values="odd-row,even-row"}">
+  <tr id='rowid{$row.pledge_id}' class="{cycle values="odd-row,even-row"} {if $row.pledge_status_id eq 'Overdue' } disabled{/if}">
      {if ! $single }
         {if $context eq 'Search' }       
             {assign var=cbName value=$row.checkbox}
@@ -31,12 +30,29 @@
 	<td>{$row.contact_type}</td>
     	<td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td>
     {/if}
-    <td><a href="{crmURL p='civicrm/pledge/view' q="reset=1&id=`$row.pb_pledge_id`"}">{$row.pledge}</a></td>	
-    <td>{$row.pb_signer_signing_date|truncate:10:''|crmDate}</td>
-    <td>{if $row.pb_signer_is_anonymous}{ts}Yes{/ts}{else}{ts}No{/ts}{/if}</td>
-    <td>{if $row.pb_signer_is_done}{ts}Yes{/ts}{else}{ts}No{/ts}{/if}</td>
-    <td>{$row.action}</td>
+    <td>{$row.pledge_amount|crmMoney}</td>
+    <td>{$row.pledge_total_paid|crmMoney}</td>
+    <td>{$row.pledge_balance_amount|crmMoney}</td>
+    <td>{$row.pledge_contribution_type}</td>
+    <td>{$row.pledge_next_pay_date|truncate:10:''|crmDate}</td>
+    <td>{$row.pledge_next_pay_amount|crmMoney}</td>
+    <td>{$row.pledge_status_id}</td>	
+    <td>{$row.action}<br/>
+	<div id="{$row.pledge_id}_show">
+	    <a href="#" onclick="show('paymentDetails{$row.pledge_id}', 'table-row'); buildPaymentDetails('{$row.pledge_id}','{$row.contact_id}'); hide('{$row.pledge_id}_show');show('{$row.pledge_id}_hide','table-row');return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/>{ts}Payments{/ts}</a>
+	</div>
+    </td>
    </tr>
+   <tr id="{$row.pledge_id}_hide">
+     <td colspan="11">
+         <a href="#" onclick="show('{$row.pledge_id}_show', 'table-row');hide('{$row.pledge_id}_hide');return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}open section{/ts}"/>{ts}Payments{/ts}</a>
+       <br/>
+       <div id="paymentDetails{$row.pledge_id}"></div>
+     </td>
+  </tr>
+ <script type="text/javascript">
+     hide('{$row.pledge_id}_hide');
+ </script>
   {/foreach}
 </table>
 {/strip}
@@ -52,4 +68,40 @@
 {if $context EQ 'Search'}
     {include file="CRM/common/pager.tpl" location="bottom"}
 {/if}
+
+{* Build pledge payment details*}
+{literal}
+<script type="text/javascript">
+
+function buildPaymentDetails( pledgeId, contactId )
+{
+    var dataUrl = {/literal}"{crmURL p='civicrm/pledge/payment' h=0 q='action=browse&snippet=4&pledgeId='}"{literal} + pledgeId + '&cid=' + contactId;
 	
+    var result = dojo.xhrGet({
+        url: dataUrl,
+        handleAs: "text",
+        timeout: 5000, //Time in milliseconds
+        handle: function(response, ioArgs){
+                if(response instanceof Error){
+                        if(response.dojoType == "cancel"){
+                                //The request was canceled by some other JavaScript code.
+                                console.debug("Request canceled.");
+                        }else if(response.dojoType == "timeout"){
+                                //The request took over 5 seconds to complete.
+                                console.debug("Request timed out.");
+                        }else{
+                                //Some other error happened.
+                                console.error(response);
+                        }
+                } else {
+		   // on success
+                   dojo.byId('paymentDetails' + pledgeId).innerHTML = response;
+	       }
+        }
+     });
+
+
+}
+</script>
+
+{/literal}	

@@ -1538,6 +1538,12 @@ WHERE  id = $cfID
                                             $defaults[$fldName] = $value['county_id'];
                                         } else if ( $fieldName == 'country' ) {
                                             $defaults[$fldName] = $value['country_id'];
+                                            if ( ! isset($value['country_id']) || ! $value['country_id'] ) {
+                                                $config =& CRM_Core_Config::singleton();
+                                                if ( $config->defaultContactCountry ) {
+                                                    $defaults[$fldName] = $config->defaultContactCountry;
+                                                }
+                                            }
                                         } else if ( $fieldName == 'phone' ) {
                                             if ($phoneTypeId) {
                                                 if ( $value['phone'][$phoneTypeId] ) {
@@ -1558,15 +1564,6 @@ WHERE  id = $cfID
                                         }
                                     }
                                 }
-                                if ( $fieldName == 'country' ) {
-                                    if ( ! isset($value['country_id']) || ! $value['country_id'] ) {
-                                        $config =& CRM_Core_Config::singleton();
-                                        if ( $config->defaultContactCountry ) {
-                                            $defaults[$fldName] = $config->defaultContactCountry;
-                                        }
-                                    }
-                                }
-
                             }
                         }
                     }
@@ -1940,9 +1937,9 @@ WHERE  id = $cfID
                 
                     // if we are getting in a new primary email, dont overwrite the new one
                     if ( $locTypeId == $primaryLocationType ) {
-                        if ( CRM_Utils_Array::value( 'email-' . $primaryLocationType, $fields ) ) {
+                        if ( CRM_Utils_Array::value( 'email-' . $primaryLocationType, $params ) ) {
                             $data['location'][$loc]['email'][$loc]['email'] = $fields['email-' . $primaryLocationType];
-                        } else {
+                        } else if ( isset( $primaryEmail ) ) {
                             $data['location'][$loc]['email'][$loc]['email'] = $primaryEmail;
                         }
                         $primaryLocation++;
