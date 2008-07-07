@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-04-28 21:53+0200\n"
-"PO-Revision-Date: 2008-05-21 06:50-0700\n"
+"PO-Revision-Date: 2008-07-06 23:15-0700\n"
 "Last-Translator: sunil pawar <sunil.pawar@webaccess.co.in>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -33,7 +33,7 @@ msgstr "सहभाग माध्यम"
 #: templates/CRM/Contribute/Form/Preview.tpl
 #: templates/CRM/Contribute/Form/Search/Common.tpl
 msgid "Contribution Page"
-msgstr ""
+msgstr "योगदान पृष्ठ"
 
 #: CRM/Contribute/BAO/Query.php CRM/Contribute/DAO/Contribution.php
 #: CRM/Contribute/DAO/ContributionRecur.php
@@ -46,35 +46,35 @@ msgstr ""
 
 #: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/EventPage.php
 msgid "Pay Later Text"
-msgstr ""
+msgstr "वेतन बाद पाठ"
 
 #: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/EventPage.php
 msgid "Pay Later Receipt"
-msgstr ""
+msgstr "वेतन रसीद बाद"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 msgid "Goal Amount"
-msgstr ""
+msgstr "लक्ष्य राशि"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "Receipt From Name"
-msgstr ""
+msgstr "रसीद से नाम"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "Receipt From Email"
-msgstr ""
+msgstr "से रसीद ईमेल"
 
 #: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/Event.php
 msgid "Receipt Text"
-msgstr ""
+msgstr "रसीद पाठ"
 
 #: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/EventPage.php
 #: CRM/Event/Form/ManageEvent/Registration.php
 msgid "Footer Text"
-msgstr ""
+msgstr "फूटर पाठ"
 
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/Form/Contribution.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
@@ -86,20 +86,20 @@ msgstr ""
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 #: templates/CRM/Contribute/Form/Task/Status.tpl
 msgid "Fee Amount"
-msgstr ""
+msgstr "राशि शुल्क"
 
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/DAO/FinancialTrxn.php
 #: CRM/Contribute/Form/Contribution.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 msgid "Net Amount"
-msgstr ""
+msgstr "नेट राशि"
 
 #: CRM/Contribute/DAO/Contribution.php
 #: CRM/Contribute/DAO/ContributionRecur.php
 #: CRM/Contribute/Form/Contribution.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 msgid "Invoice ID"
-msgstr ""
+msgstr "चालान ID"
 
 #: CRM/Contribute/DAO/Contribution.php
 #: CRM/Contribute/DAO/ContributionRecur.php
@@ -109,25 +109,25 @@ msgstr "रद्द दिनांक"
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/Form/Contribution.php
 #: CRM/Contribute/Form/Task/Status.php
 msgid "Receipt Date"
-msgstr ""
+msgstr "रसीद तिथि"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "Frequency Unit"
-msgstr ""
+msgstr "फ़्रिक्वेंसी इकाई"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 msgid "Frequency Interval"
-msgstr ""
+msgstr "फ़्रिक्वेंसी अंतराल"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 msgid "week"
-msgstr ""
+msgstr "हफ्ते"
 
 #: CRM/Contribute/DAO/ContributionType.php
 #: CRM/Contribute/Form/ContributionType.php
 msgid "Accounting Code"
-msgstr ""
+msgstr "लेखा संहिता"
 
 #: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
 #: templates/CRM/Contribute/Page/ManagePremiums.tpl
@@ -138,17 +138,17 @@ msgstr ""
 #: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
 #: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
 msgid "Period Type"
-msgstr ""
+msgstr "अवधि प्रकार"
 
 #: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
 #: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
 msgid "Fixed Period Start Day"
-msgstr ""
+msgstr "अवधि निश्चित प्रारंभ दिन"
 
 #: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
 #: CRM/Member/DAO/MembershipType.php
 msgid "Duration Unit"
-msgstr ""
+msgstr "अवधि इकाई"
 
 #: CRM/Contribute/DAO/Product.php CRM/Member/DAO/MembershipType.php
 #: CRM/Member/Form/MembershipType.php
@@ -158,22 +158,22 @@ msgstr "कालावधी"
 #: CRM/Contribute/DAO/Widget.php
 #: CRM/Contribute/Form/ContributionPage/Widget.php
 msgid "Button Title"
-msgstr ""
+msgstr "बटन शीर्षक"
 
 #: CRM/Contribute/DAO/Widget.php
 #: CRM/Contribute/Form/ContributionPage/Widget.php
 msgid "About"
-msgstr ""
+msgstr "के बारे में"
 
 #: CRM/Contribute/Form/ContributionBase.php CRM/Event/Form/Registration.php
 #: CRM/Event/Page/EventInfo.php
 msgid "The page you requested is currently unavailable."
-msgstr ""
+msgstr "अनुरोध पन्ना वर्तमान में आप के लिये उपलब्ध नहीं है।"
 
 #: CRM/Contribute/Form/Contribution/Confirm.php
 #: CRM/Event/Form/Registration/Confirm.php
 msgid "<< Go Back"
-msgstr ""
+msgstr "<< वापस जाएँ"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 #: CRM/Event/Form/Registration/Register.php
@@ -183,12 +183,12 @@ msgstr "कृपया याेग्य क्रेडिट कार्ड
 #: CRM/Contribute/Form/Contribution/Main.php
 #: CRM/Event/Form/Registration/Register.php
 msgid "Please enter a valid Credit Card Verification Number"
-msgstr ""
+msgstr "कृपया वैध क्रेडिट कार्ड सत्यापन संख्या दे"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Event/Form/ManageEvent/Fee.php
 msgid "Please enter a valid money value for this field (e.g. 99.99)."
-msgstr ""
+msgstr "कृपया वैध मुद्रा मूल्य क्षेत्र में दे (उ. ९९.९९)"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Event/Form/ManageEvent/Fee.php
@@ -198,54 +198,54 @@ msgstr ""
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 #: CRM/Event/Form/ManageEvent/Registration.php
 msgid "Include Profile"
-msgstr ""
+msgstr "शामिल प्रोफाइल"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 #: CRM/Event/Form/ManageEvent/Registration.php
 msgid "(top of page)"
-msgstr ""
+msgstr "( ऊपर पृष्ठ )"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 #: CRM/Event/Form/ManageEvent/Registration.php
 msgid "(bottom of page)"
-msgstr ""
+msgstr "( नीचे पृष्ठ )"
 
 #: CRM/Contribute/Form/ContributionPage.php
 #: CRM/Contribute/Page/ContributionPageEdit.php
 msgid "Configure Contribution Page"
-msgstr ""
+msgstr "योगदान पृष्ठ कॉन्फ़िगर करे"
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 #: CRM/Event/DAO/EventPage.php
 msgid "Introductory Message"
-msgstr ""
+msgstr "परिचयात्मक संदेश"
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 #: CRM/Event/DAO/EventPage.php
 msgid "Footer Message"
-msgstr ""
+msgstr "फूटर संदेश"
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 #: CRM/Event/Form/ManageEvent/Registration.php
 msgid "Please select a valid start date."
-msgstr ""
+msgstr "वैध आरंभ तिथि चुनें।"
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 msgid "End Date / Time"
-msgstr ""
+msgstr "समाप्ति तिथि / समय"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 #: CRM/Member/Form/Membership.php
 msgid "Receipt Message"
-msgstr ""
+msgstr "रसीद संदेश"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Event/Form/Participant.php
 #: CRM/Member/Form/Membership.php CRM/Member/Form/MembershipRenewal.php
 msgid "You do not have permission to access this page"
-msgstr ""
+msgstr "आप को इस पन्ने की पहुँच अनुमति नहीं है।"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
@@ -272,72 +272,72 @@ msgstr ""
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Offline.php
 msgid "Contribution Receipt"
-msgstr ""
+msgstr "योगदान रसीद"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 msgid "Premium"
-msgstr ""
+msgstr "प्रीमियम"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/ManagePremiums.php
 msgid "Minimum Contribution Amount"
-msgstr ""
+msgstr "न्यूनतम योगदान राशि"
 
 #: CRM/Contribute/Form/Task/Delete.php CRM/Contribute/Task.php
 msgid "Delete Contributions"
-msgstr ""
+msgstr "योगदान नष्ट"
 
 #: CRM/Contribute/Invoke.php CRM/Contribute/Menu.php
 msgid "Contribution Types"
-msgstr ""
+msgstr "योगदान प्रकार"
 
 #: CRM/Contribute/Invoke.php CRM/Contribute/Menu.php
 msgid "Manage Premiums"
-msgstr ""
+msgstr "प्रबंधित प्रीमियम"
 
 #: CRM/Contribute/Invoke.php CRM/Member/Invoke.php
 msgid "DashBoard"
-msgstr ""
+msgstr "डैशबोर्ड"
 
 #: CRM/Contribute/Menu.php CRM/Contribute/Page/ContributionPage.php
 msgid "Manage Contribution Pages"
-msgstr ""
+msgstr "योगदान प्रबंधित पन्ने"
 
 #: CRM/Contribute/Page/ContributionPage.php CRM/Event/Page/ManageEvent.php
 #: templates/CRM/Contribute/Form/Contribution/PreviewHeader.tpl
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 #: templates/CRM/Event/Form/Registration/PreviewHeader.tpl
 msgid "Test-drive"
-msgstr ""
+msgstr "टेस्ट ड्राइव"
 
 #: CRM/Contribute/Page/ContributionPage.php CRM/Event/Page/ManageEvent.php
 msgid "Live Page"
-msgstr ""
+msgstr "लाइव पृष्ठ"
 
 #: CRM/Contribute/Page/ContributionPage.php CRM/Event/Page/ManageEvent.php
 msgid "FollowUp"
-msgstr ""
+msgstr "फॉलोअप"
 
 #: CRM/Contribute/Page/ManagePremiums.php CRM/Contribute/Page/Premium.php
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid "Edit Premium"
-msgstr ""
+msgstr "प्रीमियम संपादन"
 
 #: CRM/Contribute/Page/ManagePremiums.php CRM/Contribute/Page/Premium.php
 msgid "Preview Premium"
-msgstr ""
+msgstr "प्रीमियम पूर्वावलोकन"
 
 #: CRM/Contribute/Page/ManagePremiums.php CRM/Contribute/Page/Premium.php
 msgid "Disable Premium"
-msgstr ""
+msgstr "प्रीमियम नष्ट"
 
 #: CRM/Event/BAO/Query.php CRM/Event/DAO/Participant.php
 msgid "Participant Source"
-msgstr ""
+msgstr "भागीदारी स्रोत"
 
 #: CRM/Event/DAO/EventPage.php CRM/Event/Form/Task/Export.php
 msgid "Event ID"
-msgstr ""
+msgstr "घटना ID"
 
 #: CRM/Event/DAO/EventPage.php CRM/Event/Form/ManageEvent/Registration.php
 msgid "Confirm From Name"
@@ -349,75 +349,75 @@ msgstr ""
 
 #: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/EventInfo.php
 msgid "Event Title"
-msgstr ""
+msgstr "घटना शीर्षक"
 
 #: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/EventInfo.php
 #: templates/CRM/Event/Page/DashBoard.tpl
 msgid "Event Summary"
-msgstr ""
+msgstr "घटना सारांश"
 
 #: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/Registration.php
 msgid "Registration Start Date"
-msgstr ""
+msgstr "पंजीकरण आरंभ तिथि"
 
 #: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/Registration.php
 msgid "Registration End Date"
-msgstr ""
+msgstr "पंजीकरण समाप्ति तिथि"
 
 #: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/Fee.php
 #: templates/CRM/Event/Form/ManageEvent/Fee.tpl
 msgid "Fee Label"
-msgstr ""
+msgstr "शुल्क लेबल"
 
 #: CRM/Event/DAO/ParticipantPayment.php CRM/Event/DAO/Participant.php
 #: CRM/Event/Form/Task/Export.php
 msgid "Participant ID"
-msgstr ""
+msgstr "भागीदारी ID"
 
 #: CRM/Event/Form/ManageEvent/Delete.php CRM/Event/Page/ManageEvent.php
 msgid "Delete Event"
-msgstr ""
+msgstr "घटना नष्ट"
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 #: CRM/Event/Form/ManageEvent/Registration.php
 msgid "Please select a valid end date."
-msgstr ""
+msgstr "वैध अंतिम तिथि चुनें।"
 
 #: CRM/Event/Form/ManageEvent/Fee.php CRM/Event/Form/Participant.php
 #: CRM/Event/Form/Registration/Register.php
 msgid "Event Fee(s)"
-msgstr ""
+msgstr "घटना शुल्क"
 
 #: CRM/Event/Form/ManageEvent.php CRM/Event/Page/ManageEvent.php
 msgid "Configure Event"
-msgstr ""
+msgstr "घटना कॉन्फ़िगर करे"
 
 #: CRM/Event/Form/ManageEvent/Registration.php CRM/Event/Invoke.php
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
 msgid "Online Registration"
-msgstr ""
+msgstr "ऑनलाइन पंजीकरण"
 
 #: CRM/Event/Form/Participant.php CRM/Member/Form/Membership.php
 #: CRM/Member/Form/MembershipRenewal.php
 msgid "Payment Status"
-msgstr ""
+msgstr "भुगतान स्थिति"
 
 #: CRM/Event/Form/Task/Export.php CRM/Event/Task.php
 msgid "Export Participants"
-msgstr ""
+msgstr "प्रतिभागियों काे निर्यात करे"
 
 #: CRM/Event/Menu.php CRM/Event/Page/ManageEvent.php
 msgid "Manage Events"
-msgstr ""
+msgstr "घटना प्रबंधित"
 
 #: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
 msgid "Running"
-msgstr ""
+msgstr "चल रहा है"
 
 #: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
 msgid "Complete"
-msgstr ""
+msgstr "पूर्ण"
 
 #: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
 msgid "Paused"
@@ -425,23 +425,23 @@ msgstr ""
 
 #: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
 msgid "Canceled"
-msgstr ""
+msgstr "रद्द"
 
 #: CRM/Mailing/BAO/Mailing.php CRM/Mailing/DAO/Component.php
 msgid "Reply"
-msgstr ""
+msgstr "उत्तर"
 
 #: CRM/Mailing/BAO/Mailing.php CRM/Mailing/Selector/Event.php
 msgid "Opt-Out"
-msgstr ""
+msgstr "ऑप्ट - आउट"
 
 #: CRM/Mailing/DAO/BounceType.php CRM/Mailing/Event/BAO/Bounce.php
 msgid "Unknown"
-msgstr ""
+msgstr "अज्ञात"
 
 #: CRM/Mailing/DAO/Component.php CRM/Mailing/Form/Component.php
 msgid "Component Type"
-msgstr ""
+msgstr "घटक प्रकार"
 
 #: CRM/Mailing/DAO/Component.php CRM/Mailing/DAO/Mailing.php
 msgid "Body Html"
@@ -515,20 +515,20 @@ msgstr ""
 
 #: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
 msgid "Start Event Adjust Interval"
-msgstr ""
+msgstr "समायोजित अंतराल घटना प्रारंभ"
 
 #: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
 #: templates/CRM/Member/Page/MembershipStatus.tpl
 msgid "End Event"
-msgstr ""
+msgstr "घटना समाप्त"
 
 #: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
 msgid "End Event Adjust Interval"
-msgstr ""
+msgstr "समायोजित अंतराल घटना समाप्ति"
 
 #: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
 msgid "Current Membership?"
-msgstr ""
+msgstr "वर्तमान सदस्यता?"
 
 #: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
 msgid "Fixed Period Rollover Day"
@@ -536,11 +536,11 @@ msgstr ""
 
 #: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
 msgid "Renewal Reminder Day"
-msgstr ""
+msgstr "नवीकरण स्मरणक दिवस"
 
 #: CRM/Member/Form/Membership.php CRM/Member/Form/MembershipRenewal.php
 msgid "Send Confirmation and Receipt?"
-msgstr ""
+msgstr "पुष्टि और रसीद भेजें?"
 
 #: CRM/Member/Form/Membership.php CRM/Member/Form/MembershipRenewal.php
 msgid "The new membership End Date is %1."
@@ -550,11 +550,11 @@ msgstr ""
 #: CRM/Member/Selector/Search.php templates/CRM/Member/Form/MembershipView.tpl
 #: templates/CRM/Member/Page/MembershipStatus.tpl
 msgid "Member"
-msgstr ""
+msgstr "सदस्य"
 
 #: CRM/Member/Form/Task/Delete.php CRM/Member/Task.php
 msgid "Delete Members"
-msgstr ""
+msgstr "सदस्यों काे नष्ट करे"
 
 #: CRM/Member/Form/Task/Export.php CRM/Member/Task.php
 msgid "Export Members"
@@ -566,7 +566,7 @@ msgstr ""
 
 #: CRM/Contribute/BAO/Contribution.php
 msgid "- Contribution Fields -"
-msgstr ""
+msgstr "- योगदान कोष्ठक -"
 
 #: CRM/Contribute/BAO/ContributionType.php
 msgid ""
@@ -584,11 +584,11 @@ msgstr ""
 
 #: CRM/Contribute/BAO/Premium.php
 msgid "Selected Option"
-msgstr ""
+msgstr "चुनिंदा विकल्प"
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Contribution Total Amount %1 %2"
-msgstr ""
+msgstr "कुल योगदान राशि %1 %2"
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Contribution Thank-you date is null"
@@ -600,15 +600,15 @@ msgstr ""
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Contribution Type - %1"
-msgstr ""
+msgstr "योगदान प्रकार - %1"
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Contribution Page - %1"
-msgstr ""
+msgstr "योगदान पन्ना - %1"
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Paid By - %1"
-msgstr ""
+msgstr "सशुल्क द्वारा - %1"
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Honor name like - '%1'"
@@ -616,15 +616,15 @@ msgstr ""
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Contribution Status %1"
-msgstr ""
+msgstr "योगदान स्थिति %1"
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Contribution Dates - From"
-msgstr ""
+msgstr "योगदान तिथियाँ - से"
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Payment Instrument"
-msgstr ""
+msgstr "भुगतान साधन"
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Thank-you date not set?"
@@ -632,21 +632,19 @@ msgstr ""
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Receipt not sent?"
-msgstr ""
+msgstr "रसीद नहीं भेजी है?"
 
 #: CRM/Contribute/BAO/Query.php
 msgid "In Honor Of"
-msgstr ""
+msgstr "आदर में"
 
 #: CRM/Contribute/BAO/Query.php
-#, fuzzy
 msgid "Find Test Contributions?"
-msgstr "सहभाग माध्यम"
+msgstr "परीक्षण योगदान खोजें?"
 
 #: CRM/Contribute/BAO/Query.php
-#, fuzzy
 msgid "Find Recurring Contributions?"
-msgstr "सहभाग माध्यम"
+msgstr "पुनरावृत्ति योगदान खोजें?"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Intro Text"
@@ -654,11 +652,11 @@ msgstr ""
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Thank-you Text"
-msgstr ""
+msgstr "धन्यवाद पाठ"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Thank-you Footer"
-msgstr ""
+msgstr "फूटर - धन्यवाद"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Cc Receipt"
@@ -678,11 +676,11 @@ msgstr ""
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Contribution Page Start Date"
-msgstr ""
+msgstr "योगदान पृष्ठ आरंभ तिथि"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Contribution Page End Date"
-msgstr ""
+msgstr "योगदान पृष्ठ समाप्ति तिथि"
 
 #: CRM/Contribute/DAO/Contribution.php
 msgid "Contribution ID (match to contribution)"
@@ -694,11 +692,11 @@ msgstr ""
 
 #: CRM/Contribute/DAO/Contribution.php
 msgid "Receive Date"
-msgstr ""
+msgstr "प्राप्त तिथि"
 
 #: CRM/Contribute/DAO/Contribution.php
 msgid "Cancel Reason"
-msgstr ""
+msgstr "रद्द का कारण"
 
 #: CRM/Contribute/DAO/Contribution.php
 msgid "Thank-you Date"
@@ -706,27 +704,27 @@ msgstr ""
 
 #: CRM/Contribute/DAO/Contribution.php
 msgid "Amount Label"
-msgstr ""
+msgstr "राशि लेबल"
 
 #: CRM/Contribute/DAO/ContributionProduct.php
 msgid "Product Option"
-msgstr ""
+msgstr "उत्पाद विकल्प"
 
 #: CRM/Contribute/DAO/ContributionProduct.php
 msgid "Quantity"
-msgstr ""
+msgstr "मात्रा"
 
 #: CRM/Contribute/DAO/ContributionProduct.php
 msgid "Fulfilled Date"
-msgstr ""
+msgstr "पूरी तिथि"
 
 #: CRM/Contribute/DAO/ContributionProduct.php
 msgid "Comment"
-msgstr ""
+msgstr "टिप्पणी"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 msgid "Installments"
-msgstr ""
+msgstr "किश्तों"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 msgid "Create Date"
@@ -734,7 +732,7 @@ msgstr ""
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 msgid "Recurring Contribution Status"
-msgstr ""
+msgstr "पुनरावृत्ति योगदान स्थिति"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 msgid "Cycle Day"
@@ -746,15 +744,15 @@ msgstr ""
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 msgid "Failure Count"
-msgstr ""
+msgstr "विफलता गिनती"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 msgid "Failure Retry Date"
-msgstr ""
+msgstr "पुनः प्रयास विफलता तिथि"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 msgid "Auto Renew"
-msgstr ""
+msgstr "ऑटो नवीनीकृत"
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
 msgid "Trxn Date"
@@ -770,11 +768,11 @@ msgstr ""
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
 msgid "Debit"
-msgstr ""
+msgstr "डेबिट"
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
 msgid "Credit"
-msgstr ""
+msgstr "क्रेडिट"
 
 #: CRM/Contribute/DAO/Premium.php
 msgid "Premiums Active"
@@ -782,7 +780,7 @@ msgstr ""
 
 #: CRM/Contribute/DAO/Premium.php
 msgid "Title for Premiums section"
-msgstr ""
+msgstr "प्रीमियम की धारा के लिए शीर्षक"
 
 #: CRM/Contribute/DAO/Premium.php
 msgid "Premiums Intro Text"
@@ -790,11 +788,11 @@ msgstr ""
 
 #: CRM/Contribute/DAO/Premium.php
 msgid "Premiums Contact Email"
-msgstr ""
+msgstr "प्रीमियम संपर्क ईमेल"
 
 #: CRM/Contribute/DAO/Premium.php
 msgid "Premiums Contact Phone"
-msgstr ""
+msgstr "प्रीमियम संपर्क फोन"
 
 #: CRM/Contribute/DAO/Premium.php
 msgid "Premiums Display Min Contribution"
@@ -806,43 +804,43 @@ msgstr "वस्तु का नाम"
 
 #: CRM/Contribute/DAO/Product.php
 msgid "Thumbnail"
-msgstr ""
+msgstr "लघुछवि"
 
 #: CRM/Contribute/DAO/Product.php
 msgid "Minimum Contribution"
-msgstr ""
+msgstr "न्यूनतम योगदान"
 
 #: CRM/Contribute/DAO/Product.php
 msgid "Cost"
-msgstr ""
+msgstr "मूल्य"
 
 #: CRM/Contribute/DAO/Widget.php
 msgid "Url Logo"
-msgstr ""
+msgstr "Url लोगो"
 
 #: CRM/Contribute/DAO/Widget.php
 msgid "Url Homepage"
-msgstr ""
+msgstr "Url मुखपृष्ठ"
 
 #: CRM/Contribute/DAO/Widget.php
 msgid "Color Title"
-msgstr ""
+msgstr "रंग शीर्षक"
 
 #: CRM/Contribute/DAO/Widget.php
 msgid "Color Button"
-msgstr ""
+msgstr "रंग बटन"
 
 #: CRM/Contribute/DAO/Widget.php
 msgid "Color Bar"
-msgstr ""
+msgstr "रंग बार"
 
 #: CRM/Contribute/DAO/Widget.php
 msgid "Color Main Text"
-msgstr ""
+msgstr "मुख्य रंग पाठ"
 
 #: CRM/Contribute/DAO/Widget.php
 msgid "Color Main"
-msgstr ""
+msgstr "मुख्य रंग"
 
 #: CRM/Contribute/DAO/Widget.php
 msgid "Color Main Bg"
@@ -909,29 +907,29 @@ msgstr ""
 
 #: CRM/Contribute/Form/Contribution/Confirm.php
 msgid "Make Contribution"
-msgstr ""
+msgstr "योगदान बनाएँ"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 msgid "Contribution Amount"
-msgstr ""
+msgstr "योगदान राशि"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "Other Amount"
-msgstr ""
+msgstr "अन्य राशि"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 msgid "Additional Contribution"
-msgstr ""
+msgstr "अतिरिक्त योगदान"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "Please enter a valid amount (numbers and decimal point only)."
-msgstr ""
+msgstr "कृपया वैध राशि ( संख्या और दशमलव बिन्दु केवल ) डाले।"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "Honoree Prefix"
@@ -955,51 +953,51 @@ msgstr ""
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "I want to make a one-time contribution."
-msgstr ""
+msgstr "मैं एक बार योगदान करना चाहता हुँ।"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "I want to contribute this amount"
-msgstr ""
+msgstr "मैं इस राशि का योगदान करना चाहता हुँ।"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "Every"
-msgstr ""
+msgstr "प्रत्येक"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "Frequency must be a whole number (EXAMPLE: Every 3 months)."
-msgstr ""
+msgstr "फ़्रिक्वेंसी पूरी संख्या होना चाहिए  ( उदाहरण : हर महीने 3 )."
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "-period-"
-msgstr ""
+msgstr "-अवधि-"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "day(s)"
-msgstr ""
+msgstr "दिन"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "week(s)"
-msgstr ""
+msgstr "हफ्ते"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "month(s)"
-msgstr ""
+msgstr "महीने"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "year(s)"
-msgstr ""
+msgstr "साल"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "installments"
-msgstr ""
+msgstr "किश्तों"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "Number of installments must be a whole number."
-msgstr ""
+msgstr "किश्तों की संख्या पूरी संख्या होना चाहिए।"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "The premium you have selected requires a minimum contribution of %1"
-msgstr ""
+msgstr "आपने चुने प्रीमियम का आवश्यक न्यूनतम योगदान %1"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid ""
@@ -1030,15 +1028,15 @@ msgstr ""
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "Amount is required field."
-msgstr ""
+msgstr "राशि क्षेत्र जरूरी है।"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "Contribution amount must be greater than %1"
-msgstr ""
+msgstr "राशि का योगदान %1 से अधिक होना चाहिए"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "Contribution amount can not be greater than %1"
-msgstr ""
+msgstr "राशि का योगदान %1 से अधिक नहीं हो सकता"
 
 #: CRM/Contribute/Form/ContributionPage/AddProduct.php
 msgid "Selected Premium Product has been removed from this Contribution Page."
@@ -1046,31 +1044,31 @@ msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/AddProduct.php
 msgid "Select the Product"
-msgstr ""
+msgstr "उत्पाद चुनें"
 
 #: CRM/Contribute/Form/ContributionPage/AddProduct.php
 msgid "Please enter integer value for weight"
-msgstr ""
+msgstr "कृपया वजन का मूल्य पूर्णांक मे दे"
 
 #: CRM/Contribute/Form/ContributionPage/AddProduct.php
 msgid "Add Premium to Contribution Page"
-msgstr ""
+msgstr "प्रीमियम योगदान पृष्ठ से जोड़ें"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 msgid "Allow other amounts"
-msgstr ""
+msgstr "अन्य राशि काे अनुमति"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 msgid "Contribution Amounts section enabled"
-msgstr ""
+msgstr "योगदान राशियाँ अनुभाग सक्षम"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 msgid "Execute real-time monetary transactions"
-msgstr ""
+msgstr "Execute वास्तविक समय मौद्रिक लेनदेन"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 msgid "Enable recurring payments"
-msgstr ""
+msgstr "सक्षम पुनरावृत्ति भुगतान"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 msgid "Enable pay later option?"
@@ -1086,11 +1084,11 @@ msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 msgid "Contribution Amounts (%1)"
-msgstr ""
+msgstr "योगदान राशियाँ (%1)"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 msgid "Minimum Amount should be less than Maximum Amount"
-msgstr ""
+msgstr "न्यूनतम राशि अधिकतम राशि से कम चाहिए"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 msgid ""
@@ -1106,27 +1104,29 @@ msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 msgid "Amounts"
-msgstr ""
+msgstr "राशियाँ"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 msgid "Include Profiles (%1)"
-msgstr ""
+msgstr "शामिल प्रोफाइल (%1)"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.tpl
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid "Include Profiles"
-msgstr ""
+msgstr "शामिल प्रोफाइलस्"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 msgid ""
 "You must enable the Membership Block for this Contribution Page if you want "
 "to include a Profile with Membership fields."
 msgstr ""
+"यदि आप के योगदान पृष्ठ में शामिल प्रोफाइल से सदस्यता क्षेत्र चाहते है, ताे "
+"आप सदस्य ब्लॉक सक्षम करे।"
 
 #: CRM/Contribute/Form/ContributionPage/Delete.php
 msgid "Delete Contribution Page"
-msgstr ""
+msgstr "योगदान पन्ना मिटाएँ"
 
 #: CRM/Contribute/Form/ContributionPage/Delete.php
 msgid "The contribution page '%1' has been deleted."
@@ -1150,28 +1150,28 @@ msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
 msgid "Premiums Section Enabled?"
-msgstr ""
+msgstr "प्रीमियम धारा सक्रिय है?"
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
 msgid "Please enter a valid email address for Contact Email"
-msgstr ""
+msgstr "कृपया संपर्क ईमेल के लिए वैध ईमेल डाले"
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
 msgid "Contact Phone"
-msgstr ""
+msgstr "संपर्क फाेन"
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
 msgid "Please enter a valid phone number."
-msgstr ""
+msgstr "कृपया वैध फोन नंबर डाले"
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
 msgid "Display Minimum Contribution Amount?"
-msgstr ""
+msgstr "न्यूनतम योगदान राशि प्रदर्शित?"
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid "Premiums"
-msgstr ""
+msgstr "प्रीमियम"
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 msgid "Title and Settings (%1)"
@@ -1185,7 +1185,7 @@ msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 msgid "Is this Online Contribution Page Active?"
-msgstr ""
+msgstr "क्या यह ऑनलाइन योगदान पृष्ठ सक्रीय है?"
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 msgid "Honoree Section Enabled"
@@ -1201,7 +1201,7 @@ msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 msgid "Please select a end valid date."
-msgstr ""
+msgstr "कृपया अंत वैध तिथि चुनें"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "Thank-you and Receipting (%1)"
@@ -1333,7 +1333,7 @@ msgstr ""
 
 #: CRM/Contribute/Form/Contribution.php
 msgid "The contribution record has been saved."
-msgstr "आपकी दान राशि सुरक्षित कर दी है।"
+msgstr "आपकी योगदान राशि सुरक्षित कर दी है।"
 
 #: CRM/Contribute/Form/Contribution.php
 msgid "A receipt has been emailed to the contributor."
@@ -2807,9 +2807,8 @@ msgid "There are no status present, You can not add membership."
 msgstr ""
 
 #: CRM/Member/BAO/Membership.php
-#, fuzzy
 msgid "Online Contribution:"
-msgstr "सहभाग माध्यम"
+msgstr "ऑनलाइन योगदान"
 
 #: CRM/Member/BAO/MembershipStatus.php
 msgid "This membership status can not be deleted"

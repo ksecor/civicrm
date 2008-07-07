@@ -8,7 +8,7 @@
  *
  */
 
- include( "creditcard.php" );
+ include_once( "creditcard.php" );
  
  class iatslink
  {

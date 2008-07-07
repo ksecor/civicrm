@@ -2826,6 +2826,7 @@ WHERE  id IN ( $groupIDs )
              $this->_useGroupBy ) {
             $groupBy = ' GROUP BY contact_a.id';
         }
+
         $query = "$select $from $where $groupBy $order $limit";
         //CRM_Core_Error::debug('query', $query);
 

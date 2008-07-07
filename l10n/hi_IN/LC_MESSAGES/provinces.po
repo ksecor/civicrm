@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2007-04-18 07:35+0200\n"
-"PO-Revision-Date: 2008-03-04 06:34-0800\n"
+"PO-Revision-Date: 2008-07-04 08:16-0700\n"
 "Last-Translator: sunil pawar <sunil.pawar@webaccess.co.in>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -177,13 +177,13 @@ msgid "Northern Mariana Islands"
 msgstr "उत्तरीय मरियाना आइसलँड"
 
 msgid "Puerto Rico"
-msgstr ""
+msgstr "प्यर्टो रिको"
 
 msgid "Virgin Islands"
 msgstr "व्ह्रजीन आइसलँड"
 
 msgid "United States Minor Outlying Islands"
-msgstr ""
+msgstr "संयुक्त राज्य माइनर आउटलाईंग द्वीप"
 
 msgid "Armed Forces Europe"
 msgstr "आर्मड फाेर्सेस युराेप"
@@ -204,34 +204,34 @@ msgid "Manitoba"
 msgstr ""
 
 msgid "New Brunswick"
-msgstr ""
+msgstr "नई ब्राउनश्विक"
 
 msgid "Newfoundland and Labrador"
-msgstr ""
+msgstr "न्यूफ़ाउंडलैंड और लेब्राडार"
 
 msgid "Northwest Territories"
 msgstr "उत्तरपश्चिम टेरिटरीज्"
 
 msgid "Nova Scotia"
-msgstr ""
+msgstr "नोवा स्कोटिया"
 
 msgid "Nunavut"
 msgstr ""
 
 msgid "Ontario"
-msgstr ""
+msgstr "ओन्टारियो"
 
 msgid "Prince Edward Island"
-msgstr ""
+msgstr "प्रिंस एडवर्ड द्वीप"
 
 msgid "Quebec"
-msgstr ""
+msgstr "कबेक"
 
 msgid "Saskatchewan"
 msgstr ""
 
 msgid "Yukon Territory"
-msgstr ""
+msgstr "युकोन क्षेत्र"
 
 msgid "Maharashtra"
 msgstr "महाराष्ट्रा"
@@ -339,7 +339,7 @@ msgid "mazowieckie"
 msgstr ""
 
 msgid "pomorskie"
-msgstr ""
+msgstr "पोमोर्स्की"
 
 msgid "dolnośląskie"
 msgstr ""
@@ -417,19 +417,19 @@ msgid "Baghlan"
 msgstr ""
 
 msgid "Balkh"
-msgstr ""
+msgstr "बल्ख"
 
 msgid "Bamian"
 msgstr ""
 
 msgid "Farah"
-msgstr ""
+msgstr "फराह"
 
 msgid "Faryab"
 msgstr ""
 
 msgid "Ghazni"
-msgstr ""
+msgstr "गजनी"
 
 msgid "Ghowr"
 msgstr ""
