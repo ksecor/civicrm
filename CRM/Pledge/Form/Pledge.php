@@ -291,12 +291,14 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             $element->freeze( );
         }
         
-        $element =& $this->add( 'text', 'eachPaymentAmount', ts('Each payment amount will be'), 'size=10 READONLY' );
-        
+        $this->add( 'text', 'eachPaymentAmount', ts('Each payment amount will be'), 'size=10 READONLY' );
+
         //add various dates
         $element =& $this->add('date', 'create_date', ts('Pledge Received'), CRM_Core_SelectValues::date('activityDate'));    
         $this->addRule('create_date', ts('Select a valid Pledge Received date.'), 'qfDate');
         if ( $this->_id ) {
+            $eachPaymentAmount = $this->_values['amount'] / $this->_values['installments'];
+            $this->assign("eachPaymentAmount" , $eachPaymentAmount );
             $this->assign("hideCalender" , true );
             $element->freeze( );
         }
