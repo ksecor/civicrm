@@ -158,16 +158,12 @@ function civicrm_custom_field_create( $params )
         return civicrm_create_error("params is not an array ");
     }
     
-    if ( !( CRM_Utils_Array::value('custom_group_id', $params['fieldParams'] ) ) ) {                        
+    if ( !( CRM_Utils_Array::value('custom_group_id', $params ) ) ) {                        
         return civicrm_create_error("Missing Required field :custom_group_id");
     }
     
-    if (!($params['fieldParams']['label']) ) {                                     
+    if (!($params['label']) ) {                                     
         return civicrm_create_error("Missing Required field :label");
-    } else {             
-        require_once 'CRM/Utils/String.php';
-        $params['fieldParams']['column_name'] = 
-            strtolower( CRM_Utils_String::munge( $params['fieldParams']['label'], '_', 32 ) );
     }
     
     $error = _civicrm_check_required_fields($params, 'CRM_Core_DAO_CustomField');
@@ -175,46 +171,9 @@ function civicrm_custom_field_create( $params )
         return civicrm_create_error( $error->_errors[0]['message'] );
     }
     
-    $values = array( );
-    
-    if ( ( !in_array( $params['fieldParams']['html_type'],
-                      array( 'Text', 'Select Country', 'Select Date', 'TextArea' ) ) ) 
-         && in_array( $params['fieldParams']['data_type'],
-                      array( 'String', 'Int', 'Float', 'Money' ) ) ) {  
-        
-        // first create an option group for this custom group
-        require_once 'CRM/Core/BAO/OptionGroup.php';
-        $optionGroup            =& new CRM_Core_DAO_OptionGroup( );
-        $optionGroup->name      = "{$params['customGroup']['table_name']}: {$params['fieldParams']['column_name']}";
-        $optionGroup->label     = $params['fieldParams']['label'];
-        $optionGroup->is_active = 1;
-        $optionGroup->save( );
-        
-        $values['optionGroupId'] = $optionGroup->id;    
-        
-        $params['fieldParams']['option_group_id'] = $optionGroup->id;
-        require_once 'CRM/Core/BAO/OptionValue.php';
-        if ($params['optionValue']) {
-            foreach($params['optionValue'] as $key => $value ) {
-                
-                $optionValue                  =& new CRM_Core_DAO_OptionValue( );
-                $optionValue->option_group_id =  $optionGroup->id;
-                $optionValue->label           =  $value['label'];
-                $optionValue->value           =  $value['value'];
-                $optionValue->weight          =  $value['weight'];
-                $optionValue->is_active       =  $value['is_active'];
-                $optionValue->save( );
-                
-                $values['optionValueId'] = $optionValue->id;
-            }
-        }
-    }
-    
     require_once 'CRM/Core/BAO/CustomField.php';
-    $customField = CRM_Core_BAO_CustomField::create($params['fieldParams']);  
-    
-    $column = CRM_Core_BAO_CustomField::createField( $customField, 'add' );
-    
+    $customField = CRM_Core_BAO_CustomField::create($params);  
+        
     $values['customFieldId'] = $customField->id;
     
     if ( is_a( $customField, 'CRM_Core_Error' ) && is_a( $column, 'CRM_Core_Error' )  ) {

@@ -132,6 +132,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                 $optionGroup->save( );
                 $params['option_group_id'] = $optionGroup->id;
                 
+                require_once 'CRM/Core/BAO/OptionValue.php';
                 foreach ($params['option_value'] as $k => $v) {
                     if (strlen(trim($v))) {
                         $optionValue                  =& new CRM_Core_DAO_OptionValue( );
