@@ -57,8 +57,8 @@
             </dl>
         </div>
         
-        <fieldset id="map-field"><legend>{ts}Regular Fee Levels{/ts}</legend>
-        <p>{ts}Use the table below to enter descriptive labels and amounts for up to ten event fee levels. These will be presented as a list of radio button options. Both the label and dollar amount will be displayed.{/ts}</p>
+        <fieldset id="map-field"><legend>{ts}Regular Fees{/ts}</legend>
+        <p>{ts}Use the table below to enter descriptive labels and amounts for up to ten event fee levels. These will be presented as a list of radio button options. Both the label and dollar amount will be displayed. You can also configure one or more sets of discounted fees by checking "Discounts by Signup Date" below.{/ts}</p>
         <table id="map-field-table">
         <tr class="columnheader"><th scope="column">{ts}Fee Label{/ts}</th><th scope="column">{ts}Amount{/ts}</th><th scope="column">{ts}Default?{/ts}</th></tr>
         {section name=loop start=1 loop=11}
@@ -70,18 +70,18 @@
     
     <div id="is_discount">
          <dl>
-         <dt class="extra-long-fourty">&nbsp;</dt><dd>{$form.is_discount.html}&nbsp;{$form.is_discount.label}<br /><span class="description">{ts}Check this box if you want to give users the option to register for event discounts.{/ts}</span></dd>
+         <dt class="extra-long-fourty">&nbsp;</dt><dd>{$form.is_discount.html}&nbsp;{$form.is_discount.label}<br /><span class="description">{ts}Check this box if you want to offer discounted fees based on registration date (e.g. 'early-registration discounts').{/ts}</span></dd>
          </dl>
     </div>
     <div class="form-item">
         <fieldset id="discount">
 	<table>
-	<tr  class="columnheader">
-           <th>&nbsp;</th>
-	   <th> {ts}Discount Name{/ts}</th>
-           <th> {ts}Start Date{/ts}</th>
-           <th> {ts}End Date{/ts}</th>
-       </tr>
+	<tr class="columnheader">
+        <th>&nbsp;</th>
+        <th>{ts}Discount Set{/ts}</th>
+        <th>{ts}Start Date{/ts}</th>
+        <th>{ts}End Date{/ts}</th>
+    </tr>
 	
 	{section name=rowLoop start=1 loop=6}
 	   {assign var=index value=$smarty.section.rowLoop.index}
@@ -94,26 +94,26 @@
                       {include file="CRM/common/calendar/desc.tpl" trigger=trigger_discount_start doTime=1}
                       {include file="CRM/common/calendar/body.tpl" dateVar=discount_start_date[$index]  startDate=currentYear 
                 	      startDate=startYear offset=10 doTime=1 trigger=trigger_discount_start ampm=1}
-	         </span>
-	  </td>
+          </span>
+	   </td>
 	   <td> {$form.discount_end_date.$index.html | crmDate}
 		 <span class="description">
                       {include file="CRM/common/calendar/desc.tpl" trigger=trigger_discount_end doTime=1}
                       {include file="CRM/common/calendar/body.tpl" dateVar=discount_end_date[$index]  endDate=currentYear 
                 	      endDate=startYear offset=10 doTime=1 trigger=trigger_discount_end ampm=1}
-	         </span>
-	  </td>
+         </span>
+	   </td>
 	   </tr>
         {/section}
         </table>
         <div id="discountLink" class="add-remove-link">
-           <a onclick="showrowDiscount();return false;" name="discountLink" href="#discountLink" class="form-link"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}show field or section{/ts}"/>{ts}another discount{/ts}</a>
+           <a onclick="showrowDiscount();return false;" name="discountLink" href="#discountLink" class="form-link"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}show field or section{/ts}"/>{ts}another discount set{/ts}</a>
         </div>
         {$form._qf_Fee_refresh.html}
 	
         {if $discountSection}
-            <fieldset id="map-field"><legend>{ts}Discounted Fee Levels{/ts}</legend>
-            <p>{ts}Use the table below to enter descriptive labels and amounts for up to ten discounted event fee levels.{/ts}</p>
+            <fieldset id="map-field"><legend>{ts}Discounted Fees{/ts}</legend>
+            <p>{ts}Use the table below to enter descriptive labels and amounts for up to ten discounted event fees for each discount set. <strong>Don't forget to click 'Save' when you are finished.</strong>{/ts}</p>
 	    <table id="map-field-table">
             <tr class="columnheader">
 	       <th scope="column">{ts}Fee Label{/ts}</th>

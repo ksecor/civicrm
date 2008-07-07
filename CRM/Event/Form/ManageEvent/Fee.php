@@ -304,7 +304,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
                        CRM_Core_SelectValues::date('activityDate') );
         }
         $_showHide->addToTemplate();   
-        $this->addElement( 'submit', $this->getButtonName('refresh'), ts('Post & Reload Discount'), 
+        $this->addElement( 'submit', $this->getButtonName('refresh'), ts('Add Discount Set to Fee Table'), 
                            array( 'class' => 'form-submit' ) );             
         
         $this->buildAmountLabel( );
