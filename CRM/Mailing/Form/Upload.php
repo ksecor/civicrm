@@ -38,6 +38,12 @@
  */
 class CRM_Mailing_Form_Upload extends CRM_Core_Form 
 {
+    public $_mailingID;
+
+    function preProcess( ) {
+        $this->_mailingID = $this->get( 'mailing_id' );
+    }
+
     /**
      * This function sets the default values for the form.
      * the default values are retrieved from the database
@@ -47,7 +53,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
      */
     function setDefaultValues( ) 
     {
-        $mailingID = $this->get("mid");
+        $mailingID = $this->_mailingID;
         $count = $this->get('count');
         $this->assign('count',$count);
         
@@ -68,7 +74,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $htmlMessage = null;
         if ( $mailingID  ) {
             require_once "CRM/Mailing/DAO/Mailing.php";
-            $dao =&new  CRM_Mailing_DAO_Mailing();
+            $dao =& new  CRM_Mailing_DAO_Mailing();
             $dao->id = $mailingID; 
             $dao->find(true);
             $dao->storeValues($dao, $defaults);
@@ -161,9 +167,39 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         
         $this->addElement( 'file', 'htmlFile', ts('Upload HTML Message'), 'size=30 maxlength=60' );
         $this->setMaxFileSize( 1024 * 1024 );
-        $this->addRule( 'htmlFile', ts('File size should be less than 1 MByte'), 'maxfilesize', 1024 * 1024 );
+        $this->addRule( 'htmlFile', 
+                        ts( 'File size should be less than %1 MByte(s)',
+                            array( 1 => 1 ) ),
+                        'maxfilesize',
+                        1024 * 1024 );
         $this->addRule( 'htmlFile', ts('File must be in UTF-8 encoding'), 'utf8File' );
-        
+
+        // add 3 attachments
+        for ( $i = 1; $i <= 3; $i++ ) {
+            $this->addElement( 'file', "attachFile_$i", ts('Attach File to Message'), 'size=30 maxlength=60' );
+            $this->setMaxFileSize( 2 * 1024 * 1024 );
+            $this->addRule( "attachFile_$i",
+                            ts( 'File size should be less than %1 MByte(s)',
+                                array( 1 => 2 ) ),
+                            'maxfilesize',
+                            2 * 1024 * 1024 );
+        }
+
+        require_once 'CRM/Core/BAO/File.php';
+        $currentAttachments = CRM_Core_BAO_File::getEntityFile( 'civicrm_mailing',
+                                                                $this->_mailingID );
+        if ( ! empty( $currentAttachments ) ) {
+            $this->add( 'checkbox', 'is_delete_attachment', ts( 'Delete Current Attachment(s)' ) );
+            $currentAttachmentURL = array( );
+            foreach ( $currentAttachments as $fileID => $attach ) {
+                $currentAttachmentURL[] = $attach['href'];
+            }
+            $this->assign( 'currentAttachmentURL',
+                           implode( '<br/>', $currentAttachmentURL ) );
+        } else {
+            $this->assign( 'currentAttachmentURL', null );
+        }
+
         require_once 'CRM/Mailing/PseudoConstant.php';
         $this->add( 'select', 'header_id', ts( 'Mailing Header' ), 
                     array('' => ts('- none -')) + CRM_Mailing_PseudoConstant::component( 'Header' ) );
@@ -189,41 +225,38 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
     
     public function postProcess() 
     {
-        $params      = $ids  = array( );
-        $uploadParams        = array( 
-                                     'header_id', 'footer_id', 'subject', 'from_name', 'from_email'
-                                     );
-        $fileType            = array( 'textFile', 'htmlFile' );
-       
-        $qf_Upload_submit = $this->controller->exportValue($this->_name, '_qf_Upload_submit');
+        $params = $ids = array( );
+        $uploadParams  = array( 'header_id', 'footer_id', 'subject', 'from_name', 'from_email' );
+        $fileType      = array( 'textFile', 'htmlFile' );
+
+        $formValues    = $this->controller->exportValues( $this->_name );
+        $qf_Upload_submit = $formValues['_qf_Upload_submit'];
         
         foreach ( $uploadParams as $key ) {
-            $params[$key] = $this->controller->exportvalue($this->_name, $key);
-            $this->set($key, $this->controller->exportvalue($this->_name, $key));
+            $params[$key] = $formValues[$key];
+            $this->set($key, $formValues[$key]);
         }
         
-        if ( !$this->controller->exportvalue($this->_name, 'upload_type')) {
+        if ( ! $formValues['upload_type']) {
             foreach ( $fileType as $key ) {
-                if( file_get_contents($this->controller->exportvalue($this->_name, $key) ) ) { 
-                    $params['body_'. substr($key,0,4 )] = file_get_contents($this->controller->exportvalue($this->_name, $key) );
+                $contents = null;
+                if ( isset( $formValues[$key] ) &&
+                     ! empty( $formValues[$key] ) ) {
+                    $contents = file_get_contents( $formValues[$key] );
+                    $this->set($key, $formValues[$key] );
+                }
+                if ( $contents ) {
+                    $params['body_'. substr($key,0,4 )] = $contents;
                 } else {
                     $params['body_'. substr($key,0,4 )] = 'NULL';
                 }
-                $this->set($key, $this->controller->exportvalue($this->_name, $key));
-            }
-            if ( $this->controller->exportvalue($this->_name, 'textFile') ) {
-                $this->set('textFile', $this->controller->exportvalue($this->_name, 'textFile') );
-            }
-            
-            if ($this->controller->exportvalue($this->_name, 'htmlFile')) {
-                $this->set('htmlFile', $this->controller->exportvalue($this->_name, 'htmlFile'));
             }
         } else {
-            $text_message = $this->controller->exportvalue($this->_name, 'text_message');
+            $text_message = $formValues['text_message'];
             $params['body_text']     = $text_message;
             $this->set('textFile',     $params['body_text'] );
             $this->set('text_message', $params['body_text'] );
-            $html_message = $this->controller->exportvalue($this->_name, 'html_message');
+            $html_message = $formValues['html_message'];
             
             // dojo editor does some html conversion when tokens are
             // inserted as links. Hence token replacement fails.
@@ -244,10 +277,10 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                                         'updateTemplate', 'saveTemplateName' );
         
         //mail template is composed 
-        if ( $this->controller->exportvalue($this->_name, 'upload_type') ) {
+        if ( $formValues['upload_type'] ) {
             foreach ( $composeFields as $key ) {
-                $composeParams[$key] = $this->controller->exportvalue($this->_name, $key);
-                $this->set($key, $this->controller->exportvalue($this->_name, $key));
+                $composeParams[$key] = $formValues[$key];
+                $this->set($key, $formValues[$key]);
             }          
            
             if ( $composeParams['saveTemplate'] || $composeParams['updateTemplate'] ) {
@@ -262,7 +295,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                 }
                 
                 if ( $composeParams['updateTemplate'] ) {
-                    $templateParams['id'] = $this->controller->exportvalue($this->_name, 'template');
+                    $templateParams['id'] = $formValues['template'];
                 }
 
                 $msgTemplate = CRM_Core_BAO_MessageTemplates::add( $templateParams );  
@@ -271,11 +304,35 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             if ( $msgTemplate->id ) {
                 $params['msg_template_id'] = $msgTemplate->id;
             } else {
-                $params['msg_template_id'] = $this->controller->exportvalue($this->_name, 'template');
+                $params['msg_template_id'] = $formValues['template'];
             }
         }
-    
-        $ids['mailing_id'] = $this->get('mailing_id');
+
+        // setup all attachments
+        for ( $i = 1; $i <= 3; $i++ ) {
+            $attachName = "attachFile_$i";
+            if ( isset( $formValues[$attachName] ) &&
+                 ! empty( $formValues[$attachName] ) ) {
+                // ensure file is not empty
+                $contents = file_get_contents( $formValues[$attachName] );
+                if ( $contents ) {
+                    $fileParams = array( 'uri'        => $_FILES[$attachName]['name'],
+                                         'type'       => $_FILES[$attachName]['type'],
+                                         'upload_date'=> date( 'Ymdhis' ),
+                                         'location'   => $formValues[$attachName] );
+                    $params[$attachName] = $fileParams;
+                }
+            }
+        }
+
+        // delete current attachments if applicable
+        if ( CRM_Utils_Array::value( 'is_delete_attachment', $formValues ) ) {
+            CRM_Core_BAO_File::deleteEntityFile( 'civicrm_mailing',
+                                                 $this->_mailingID );
+        }
+            
+             
+        $ids['mailing_id'] = $this->_mailingID;
 
         /* Build the mailing object */
         require_once 'CRM/Mailing/BAO/Mailing.php';
@@ -310,7 +367,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
 
         require_once 'CRM/Mailing/BAO/Mailing.php';
         $mailing = & new CRM_Mailing_BAO_Mailing();
-        $mailing->id = $self->get( 'mailing_id' );
+        $mailing->id = $self->_mailingID;
         $mailing->find(true);
 
         $session =& CRM_Core_Session::singleton();

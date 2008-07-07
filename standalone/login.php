@@ -3,10 +3,9 @@
 require_once 'auth_common.php';  
 require_once "CRM/Core/BAO/UFMatch.php";
 
-$ar = CRM_Core_BAO_UFMatch::getContactIDs();
-if (empty($ar[0])){
-  header("Location: new_install.php");
-  exit(0);
+if ( CRM_Core_BAO_UFMatch::isEmptyTable( ) ) {
+    header("Location: new_install.php");
+    exit(0);
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">

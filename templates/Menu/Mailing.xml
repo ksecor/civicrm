@@ -35,6 +35,7 @@
      <title>New Mailing</title>
      <page_callback>CRM_Mailing_Controller_Send</page_callback>
      <access_arguments>access CiviMail</access_arguments>
+     <return_url>civicrm/mailing</return_url>
      <page_type>1</page_type>
      <weight>610</weight>
   </item>

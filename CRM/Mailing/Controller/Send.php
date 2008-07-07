@@ -70,7 +70,12 @@ class CRM_Mailing_Controller_Send extends CRM_Core_Controller {
 
         // add all the actions
         $config =& CRM_Core_Config::singleton( );
-        $this->addActions( $config->uploadDir, array( 'textFile', 'htmlFile' ) );
+        $this->addActions( $config->uploadDir,
+                           array( 'textFile',
+                                  'htmlFile',
+                                  'attachFile_1',
+                                  'attachFile_2',
+                                  'attachFile_3' ) );
     }
 
 }

@@ -135,10 +135,22 @@ class CRM_Mailing_Page_Report extends CRM_Core_Page_Basic {
             $this->assign( 'htmlViewURL' , $popup  );
         }
 
+        require_once 'CRM/Core/BAO/File.php';
+        $currentAttachments = CRM_Core_BAO_File::getEntityFile( 'civicrm_mailing',
+                                                                $this->_mailing_id );
+        if ( ! empty( $currentAttachments ) ) {
+            $currentAttachmentURL = array( );
+            foreach ( $currentAttachments as $fileID => $attach ) {
+                $currentAttachmentURL[] = $attach['href'];
+            }
+            $report['mailing']['attachment'] = implode( '<br/>', $currentAttachmentURL );
+        } else {
+            $report['mailing']['attachment'] = null;
+        }
+
         $this->assign( 'report', $report );
-        CRM_Utils_System::setTitle(ts('CiviMail Report: %1',
-                                      array(1 =>
-                                            $report['mailing']['name'])));
+        CRM_Utils_System::setTitle( ts( 'CiviMail Report: %1',
+                                        array( 1 => $report['mailing']['name'] ) ) );
 
         parent::run();
     }

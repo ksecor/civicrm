@@ -91,7 +91,7 @@ class CRM_Core_BAO_File extends CRM_Core_DAO_File {
 
     
     public function filePostProcess($data, $fileID, 
-                                    $entityTable, $entityId,
+                                    $entityTable, $entityID,
                                     $entitySubtype, $overwrite = true,
                                     $fileParams = null,
                                     $uploadName = 'uploadFile' ) {
@@ -104,7 +104,7 @@ class CRM_Core_BAO_File extends CRM_Core_DAO_File {
         
         // rename this file to go into the secure directory
         if ( $entitySubtype ) {
-            $directoryName = $config->customFileUploadDir . $entitySubtype .DIRECTORY_SEPARATOR . $entityId;
+            $directoryName = $config->customFileUploadDir . $entitySubtype .DIRECTORY_SEPARATOR . $entityID;
         } else {
             $directoryName = $config->customFileUploadDir;
         }
@@ -119,24 +119,20 @@ class CRM_Core_BAO_File extends CRM_Core_DAO_File {
 
         // to get id's 
         if ( $overwrite && $fileID ) {
-            $sql = "
-SELECT    CF.id as fID, CF.uri as uri, CEF.id as feID
-FROM      civicrm_file AS CF
-LEFT JOIN civicrm_entity_file AS CEF ON ( CEF.file_id = CF.id )
-WHERE    ( CF.file_type_id = $fileID AND CEF.entity_table = '$entityTable' AND CEF.entity_id = $entityId )";
+            list( $sql, $params ) = self::sql( $entityTable, $entityID, $fileID );
         } else {
-            $sql = "SELECT id FROM civicrm_file WHERE 0";
+            list( $sql, $params ) = self::sql( $entityTable, $entityID, 0 );
         }
 
-        $dao =& CRM_Core_DAO::executeQuery( $sql );
+        $dao =& CRM_Core_DAO::executeQuery( $sql, $params );
         $dao->fetch();
        
         $mimeType = $_FILES[$uploadName]['type'];
         
         require_once "CRM/Core/DAO/File.php";
         $fileDAO =& new CRM_Core_DAO_File();
-        if ( $dao->fID ) {
-            $fileDAO->id = $dao->fID;
+        if ( $dao->cfID ) {
+            $fileDAO->id = $dao->cfID;
             unlink( $directoryName . DIRECTORY_SEPARATOR . $dao->uri );
         }
 
@@ -153,11 +149,11 @@ WHERE    ( CF.file_type_id = $fileID AND CEF.entity_table = '$entityTable' AND C
         // need to add/update civicrm_entity_file
         require_once "CRM/Core/DAO/EntityFile.php";
         $entityFileDAO =& new CRM_Core_DAO_EntityFile();
-        if ($dao->feID ) {
-            $entityFileDAO->id =  $dao->feID;
+        if ($dao->cefID ) {
+            $entityFileDAO->id =  $dao->cefID;
         }
         $entityFileDAO->entity_table = $entityTable;
-        $entityFileDAO->entity_id    = $entityId;
+        $entityFileDAO->entity_id    = $entityID;
         $entityFileDAO->file_id      = $fileDAO->id;
         $entityFileDAO->save();
         
@@ -194,6 +190,92 @@ WHERE    ( CF.file_type_id = $fileID AND CEF.entity_table = '$entityTable' AND C
         $params = array( 1 => array( $entityID, 'Integer' ) );
         CRM_Core_DAO::executeQuery( $query, $params );
     }
-}
 
+    /**
+     * delete all the files and associated object associated with this 
+     * combination
+     */
+    public function deleteEntityFile( $entityTable, $entityID ) {
+        $config =& CRM_Core_Config::singleton( );
+
+        list( $sql, $params ) = self::sql( $entityTable, $entityID, null );
+        $dao    = CRM_Core_DAO::executeQuery( $sql, $params );
+        $cfIDs  = array( );
+        $cefIDs = array( );
+        while ( $dao->fetch( ) ) {
+            unlink( $config->customFileUploadDir . DIRECTORY_SEPARATOR . $dao->uri );
+            $cfIDs[]  = $dao->cfID ;
+            $cefIDs[] = $dao->cefID;
+        }
+
+        if ( ! empty( $cefIDs ) ) {
+            $cefIDs = implode( ',', $cefIDs );
+            $sql = "DELETE FROM civicrm_entity_file where id IN ( $cefIDs )";
+            CRM_Core_DAO::executeQuery( $sql );
+        }
+
+        if ( ! empty( $cfIDs ) ) {
+            $cfIDs = implode( ',', $cfIDs );
+            $sql = "DELETE FROM civicrm_file where id IN ( $cfIDs )";
+            CRM_Core_DAO::executeQuery( $sql );
+        }
+    }
+
+    /**
+     * get all the files and associated object associated with this 
+     * combination
+     */
+    public function &getEntityFile( $entityTable, $entityID ) {
+        $config =& CRM_Core_Config::singleton( );
+
+        list( $sql, $params ) = self::sql( $entityTable, $entityID, null );
+        $dao    = CRM_Core_DAO::executeQuery( $sql, $params );
+        $results = array( );
+        while ( $dao->fetch( ) ) {
+            $result['fileID'  ]  = $dao->cfID;
+            $result['entityID']  = $dao->cefID;
+            $result['mime_type'] = $dao->mime_type;
+            $result['fileName']  = $dao->uri;
+            $result['cleanName'] = self::cleanName( $dao->uri );
+            $result['fullPath']  = $config->customFileUploadDir . DIRECTORY_SEPARATOR . $dao->uri;
+            $result['url'     ]  = CRM_Utils_System::url( 'civicrm/file', "reset=1&id={$dao->cfID}&eid={$entityID}" );
+            $result['href'    ]  = "<a href=\"{$result['url']}\">{$dao->uri}</a>";
+            $results[$dao->cfID] = $result;
+        }
+        return $results;
+    }
+
+    public function sql( $entityTable, $entityID, $fileID = null ) {
+        $sql = "
+SELECT    CF.id as cfID,
+          CF.uri as uri,
+          CF.mime_type as mime_type,
+          CEF.id as cefID
+FROM      civicrm_file AS CF
+LEFT JOIN civicrm_entity_file AS CEF ON ( CEF.file_id = CF.id )
+WHERE     CEF.entity_table = %1
+AND       CEF.entity_id    = %2";
+        $params = array( 1 => array( $entityTable, 'String'  ),
+                         2 => array( $entityID   , 'Integer' ) );
+
+        if ( $fileID !== null ) {
+            $sql .= " AND CF.file_type_id = %3";
+            $params[3] = array( $fileID, 'Integer' );
+        }
+
+        return array( $sql, $params );
+
+    }
+    
+    /**
+     * remove the 32 bit md5 we add to the fileName
+     * also remove the unknown tag if we added it
+     */
+    function cleanName( $name ) {
+        // replace the last 33 character before the '.' with null
+        $name = preg_replace( '/(_[\w]{32})\./', '.', $name );
+        return $name;
+    }
+
+}
 

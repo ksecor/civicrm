@@ -903,8 +903,8 @@ AND civicrm_contact.is_opt_out =0";
      * @access public
      */
     public function &compose($job_id, $event_queue_id, $hash, $contactId, 
-                             $email, &$recipient, $test = false, 
-                             $contactDetails = null ) 
+                             $email, &$recipient, $test, 
+                             $contactDetails, &$attachments ) 
     {
         
         require_once 'api/v2/Contact.php';
@@ -981,6 +981,14 @@ AND civicrm_contact.is_opt_out =0";
         if ( $html && ( $test ||  ( $contact['preferred_mail_format'] == 'HTML' ||
                                     $contact['preferred_mail_format'] == 'Both') ) ) {
             $message->setHTMLBody( join( '', $html ) );
+        }
+
+        if ( ! empty( $attachments ) ) {
+            foreach ( $attachments as $fileID => $attach ) {
+                $message->addAttachment( $attach['fullPath'],
+                                         $attach['mime_type'],
+                                         $attach['cleanName'] );
+            }
         }
 
         $recipient = "\"{$contact['display_name']}\" <$email>";
@@ -1162,6 +1170,24 @@ AND civicrm_contact.is_opt_out =0";
                 }
             }
         }
+
+
+        // check and attach and files as needed
+        require_once 'CRM/Core/BAO/File.php';
+        for ( $i = 1; $i <= 3; $i++ ) {
+            if ( isset( $params["attachFile_$i"] ) &&
+                 is_array( $params["attachFile_$i"] ) ) {
+                CRM_Core_BAO_File::filePostProcess($params["attachFile_$i"]['location'],
+                                                   null, 
+                                                   'civicrm_mailing',
+                                                   $mailing->id,
+                                                   null,
+                                                   true,
+                                                   $params["attachFile_$i"],
+                                                   "attachFile_$i" );
+            }
+        }
+
         $transaction->commit( );
         return $mailing;
     }
@@ -1669,6 +1695,11 @@ SELECT DISTINCT( m.id ) as id
         if ( empty( $id ) ) {
             CRM_Core_Error::fatal( );
         }
+
+        // delete all file attachments 
+        require_once 'CRM/Core/BAO/File.php';
+        CRM_Core_BAO_File::deleteEntityFile( 'civicrm_mailing',
+                                             $id );
 
         $dao = & new CRM_Mailing_DAO_Mailing();
         $dao->id = $id;
