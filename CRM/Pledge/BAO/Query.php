@@ -229,12 +229,12 @@ class CRM_Pledge_BAO_Query
             foreach ( $pieces as $piece ) { 
                 $value = strtolower(addslashes(trim($piece)));
                 $value = "'%$value%'";
-                $sub[] = " ( contact_b.sort_name LIKE $value )";
+                $sub[] = " ( pledge_contact_b.sort_name LIKE $value )";
             }
             
             $query->_where[$grouping][] = ' ( ' . implode( '  OR ', $sub ) . ' ) '; 
             $query->_qill[$grouping][]  = ts( 'Honor name like - \'%1\'', array( 1 => $name ) );
-            $query->_tables['civicrm_contact_b'] = $query->_whereTables['civicrm_contact_b'] = 1;
+            $query->_tables['pledge_contact_b'] = $query->_whereTables['pledge_contact_b'] = 1;
             $query->_tables['civicrm_pledge'] = $query->_whereTables['civicrm_pledge'] = 1;
             return;
   
@@ -263,7 +263,13 @@ class CRM_Pledge_BAO_Query
 
         case 'pledge_contribution_type':
             $from .= " $side JOIN civicrm_contribution_type ON civicrm_pledge.contribution_type_id = civicrm_contribution_type.id ";
+            break;
+
+        case 'pledge_contact_b':
+            $from .= " $side JOIN civicrm_contact pledge_contact_b ON (civicrm_pledge.honor_contact_id = pledge_contact_b.id )";
+            break;
         }
+
         return $from;
     }
 
