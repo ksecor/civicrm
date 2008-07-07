@@ -78,7 +78,9 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form
                         'name'      => ts('Save & Continue Later') )
                 )
             );
-        $values = array( 'mailing_id' => $this->get('mailing_id' ) );
+
+        $mailingID = $this->get('mailing_id' );
+        $values = array( 'mailing_id' => $mailingID );
         $textFile = $this->get('textFile');
         $htmlFile = $this->get('htmlFile');
         $subject = $this->get('subject');
@@ -92,6 +94,9 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form
         if ($htmlFile) {
             $preview['html_link'] = CRM_Utils_System::url('civicrm/mailing/preview', "type=html&qfKey=$qfKey");
         }
+
+        require_once 'CRM/Mailing/BAO/Mailing.php';
+        $preview['attachment'] = CRM_Mailing_BAO_Mailing::attachmentInfo( $mailingID );
         $this->assign('preview', $preview);
     }
     

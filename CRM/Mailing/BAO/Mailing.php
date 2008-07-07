@@ -1903,6 +1903,21 @@ SELECT DISTINCT( m.id ) as id
                                  'onkeyup' =>"return verify(this)" ) );
            
     }
+
+    static function attachmentInfo( $mailingID, $separator = '<br />' ) {
+        require_once 'CRM/Core/BAO/File.php';
+        $currentAttachments = CRM_Core_BAO_File::getEntityFile( 'civicrm_mailing',
+                                                                $mailingID );
+        if ( ! empty( $currentAttachments ) ) {
+            $currentAttachmentURL = array( );
+            foreach ( $currentAttachments as $fileID => $attach ) {
+                $currentAttachmentURL[] = $attach['href'];
+            }
+            return implode( $separator, $currentAttachmentURL );
+        }
+        return null;
+    }
+
 }
 
 

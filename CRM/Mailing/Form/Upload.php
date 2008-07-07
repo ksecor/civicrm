@@ -185,17 +185,11 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                             2 * 1024 * 1024 );
         }
 
-        require_once 'CRM/Core/BAO/File.php';
-        $currentAttachments = CRM_Core_BAO_File::getEntityFile( 'civicrm_mailing',
-                                                                $this->_mailingID );
-        if ( ! empty( $currentAttachments ) ) {
+        $attachmentInfo = CRM_Mailing_BAO_Mailing::attachmentInfo(  $this->_mailingID );
+        if ( $attachmentInfo ) {
             $this->add( 'checkbox', 'is_delete_attachment', ts( 'Delete Current Attachment(s)' ) );
-            $currentAttachmentURL = array( );
-            foreach ( $currentAttachments as $fileID => $attach ) {
-                $currentAttachmentURL[] = $attach['href'];
-            }
             $this->assign( 'currentAttachmentURL',
-                           implode( '<br/>', $currentAttachmentURL ) );
+                           $attachmentInfo );
         } else {
             $this->assign( 'currentAttachmentURL', null );
         }
