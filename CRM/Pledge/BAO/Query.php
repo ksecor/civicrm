@@ -65,40 +65,14 @@ class CRM_Pledge_BAO_Query
             $query->_tables['civicrm_pledge'] = 1;
             $query->_whereTables['civicrm_pledge'] = 1;
         }
-     
+        
         // get contribution_type
         if ( CRM_Utils_Array::value( 'pledge_contribution_type', $query->_returnProperties ) ) {
-            $query->_select['pledge_contribution_type']  = "civicrm_contribution_type.name as contribution_type";
+            $query->_select['pledge_contribution_type']  = "civicrm_contribution_type.name as pledge_contribution_type";
             $query->_element['pledge_contribution_type'] = 1;
             $query->_tables['civicrm_pledge'] = 1;
             $query->_tables['pledge_contribution_type'] = 1;
             $query->_whereTables['civicrm_pledge'] = 1;
-        }
-        
-        if ( CRM_Utils_Array::value( 'pledge_create_date', $query->_returnProperties ) ) {
-            $query->_select['pledge_create_date']  = "civicrm_pledge.create_date as pledge_create_date";
-            $query->_element['pledge_create_date'] = 1;
-            $query->_tables['civicrm_pledge'] = 1;
-            $query->_whereTables['civicrm_pledge'] = 1;
-        }
-        
-        if ( CRM_Utils_Array::value( 'pledge_start_date', $query->_returnProperties ) ) {
-            $query->_select['pledge_start_date']  = "civicrm_pledge.start_date as pledge_start_date";
-            $query->_element['pledge_start_date'] = 1;
-            $query->_tables['civicrm_pledge'] = 1;
-            $query->_whereTables['civicrm_pledge'] = 1;
-        }
-         
-        if ( CRM_Utils_Array::value( 'pledge_frequency_interval', $query->_returnProperties ) ) {
-            $query->_select['pledge_frequency_interval']  = "civicrm_pledge.frequency_interval as pledge_frequency_interval";
-            $query->_element['pledge_frequency_interval'] = 1;
-            $query->_tables['civicrm_pledge']             = 1;
-        }
-        
-        if ( CRM_Utils_Array::value( 'pledge_frequency_unit', $query->_returnProperties ) ) {
-            $query->_select['pledge_frequency_unit']  = "civicrm_pledge.frequency_unit as pledge_frequency_unit";
-            $query->_element['pledge_frequency_unit'] = 1;
-            $query->_tables['civicrm_pledge']         = 1;
         }
         
         if ( CRM_Utils_Array::value( 'pledge_status_id', $query->_returnProperties ) ) {

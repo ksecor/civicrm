@@ -73,11 +73,11 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base
                                 'display_name',
                                 'pledge_id',   
                                 'pledge_amount', 
-                                'contribution_type',
-                                'pledge_frequency_unit',
-                                'pledge_frequency_interval',
-                                'pledge_create_date',       
-                                'pledge_start_date',        
+                                'pledge_contribution_type',
+                                'pledge_total_paid',
+                                'pledge_balance_amount',
+                                'pledge_next_pay_date', 
+                                'pledge_next_pay_amount',    
                                 'pledge_status_id' ,
                                 'pledge_is_test'        
                                  );
@@ -286,6 +286,10 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base
                      $row[$property] = $result->$property;
                  }
              }
+             
+             if ( CRM_Utils_Array::value( 'pledge_is_test', $row ) ) {
+                 $row['pledge_status_id'] .= ' (test)';
+             }
 
              $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->pledge_id;
              
@@ -342,32 +346,38 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base
         if ( ! isset( self::$_columnHeaders ) ) {
             self::$_columnHeaders = array( 
                                           array(
-                                                'name'      => ts('Amount'),
-                                                'sort'      => 'amount',
+                                                'name'      => ts('Total Pledged'),
+                                                'sort'      => 'pledge_amount',
+                                                'direction' => CRM_Utils_Sort::DONTCARE,
+                                                ),
+                                          array(
+                                                'name'      => ts('Total Paid'),
+                                                'sort'      => 'pledge_total_paid',
+                                                'direction' => CRM_Utils_Sort::DONTCARE,
+                                                ),
+                                          array(
+                                                'name'      => ts('Balance Due'),
+                                                'sort'      => 'pledge_balance_amount',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
                                                 'name'      => ts('Type'),
-                                                'sort'      => 'contribution_type_id',
+                                                'sort'      => 'pledge_contribution_type',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
-                                                'name'      => ts('Create Date'),
-                                                'sort'      => 'create_date',
+                                                'name'      => ts('Next Payment Date'),
+                                                'sort'      => 'pledge_next_pay_date',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
-                                                'name'      => ts('To be Paid'),
-                                                'direction' => CRM_Utils_Sort::DONTCARE,
-                                                ),
-                                          array(
-                                                'name'      => ts('Begining Date'),
-                                                'sort'      => 'start_date',
+                                                'name'      => ts('Next Payment Amount'),
+                                                'sort'      => 'pledge_next_pay_amount',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
                                                 'name'      => ts('Status'),
-                                                'sort'      => 'status_id',
+                                                'sort'      => 'pledge_status_id',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array('desc'      => ts('Actions') ),

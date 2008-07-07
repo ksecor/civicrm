@@ -31,10 +31,11 @@
     	<td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td>
     {/if}
     <td>{$row.pledge_amount|crmMoney}</td>
-    <td>{$row.contribution_type}</td>		
-    <td>{$row.pledge_create_date|truncate:10:''|crmDate}</td>
-    <td>{$row.pledge_frequency_interval} {$row.pledge_frequency_unit|capitalize:true}(s) </td>	
-    <td>{$row.pledge_start_date|truncate:10:''|crmDate}</td>
+    <td>{$row.pledge_total_paid}</td>
+    <td>{$row.pledge_balance_amount|crmMoney}</td>
+    <td>{$row.pledge_contribution_type}</td>
+    <td>{$row.pledge_next_pay_date|truncate:10:''|crmDate}</td>
+    <td>{$row.pledge_next_pay_amount|crmMoney}</td>
     <td>{$row.pledge_status_id}</td>	
     <td>{$row.action}<br/>
 	<div id="{$row.pledge_id}_show">
