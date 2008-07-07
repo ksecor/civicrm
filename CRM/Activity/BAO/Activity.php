@@ -183,6 +183,23 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
     }
 
     /**
+     * Create activity target record
+     *
+     * @param array    activity_id, target_contact_id
+     *
+     * @return null
+     * @access public
+     */
+    public function createActivityTarget( $params ) 
+    {
+        require_once 'CRM/Activity/BAO/ActivityTarget.php';
+        $target              =& new CRM_Activity_BAO_ActivityTarget( );
+        $target->activity_id = $params['activity_id'];
+        $target->target_contact_id = $params['target_contact_id'];
+        $target->save( );
+    }
+
+    /**
      * Function to process the activities
      *
      * @param object $form         form object
@@ -598,14 +615,23 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         if (!$from ) {
             $from = CRM_Utils_Mail::encodeAddressHeader($fromDisplayName, $fromEmail);
         }
-        // create the meta level record first
-        //         TO DO
-        //         $params =  array( 'subject'    => $subject,
-        //                               'message'    => $message,
-        //                               'contact_id' => $userID );
         
-        //         $email  =& self::add( $params );
+        //create the meta level record first
         
+        $activityTypeID = CRM_Core_OptionGroup::getValue( 'activity_type',
+                                                          'Email',
+                                                          'name' );
+        
+        $activityParams = array('source_contact_id'    => $userID,
+                                'activity_type_id'     => $activityTypeID,
+                                'activity_date_time'   => date('YmdHis'),
+                                'subject'              => $subject,
+                                'details'              => $text,
+                                'status_id'            => 2
+                                );
+        
+        $activity = self::create($activityParams);
+
         $sent = $notSent = array();
         $returnProperties = array();
         if( isset( $messageToken['contact'] ) ) { 
@@ -646,7 +672,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             $tokenText = CRM_Utils_Token::replaceContactTokens( $text, $contact, false, $messageToken);
             $tokenSubject = CRM_Utils_Token::replaceContactTokens( $subject, $contact, false, $subjectToken);
             $tokenHtml = CRM_Utils_Token::replaceContactTokens( $html, $contact, false, $messageToken);
-            if ( self::sendMessage( $from, $userID, $contactId, $tokenSubject, $tokenText, $tokenHtml, $emailAddress, $email->id ) ) {
+            if ( self::sendMessage( $from, $userID, $contactId, $tokenSubject, $tokenText, $tokenHtml, $emailAddress, $activity->id ) ) {
                 $sent[] =  $contactId;
             } else {
                 $notSent[] = $contactId;
@@ -697,25 +723,12 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             return false;
         }
 
-        // add activity histroy record for every mail that is send
-        $activityTypeID = CRM_Core_OptionGroup::getValue( 'activity_type',
-                                                          'Email',
-                                                          'name' );
-        
-        $activity = array('source_contact_id'    => $fromID,
-                          'target_contact_id'    => $toID,
-                          'activity_type_id'     => $activityTypeID,
-                          'activity_date_time'   => date('YmdHis'),
-                          'subject'              => $subject,
-                          'details'              => $text_message,
-                          'status_id'            => 2
-                          );
-        
-        require_once 'api/v2/Activity.php';
-        if ( is_a( civicrm_activity_create($activity, 'Email'), 'CRM_Core_Error' ) ) {
-            return false;
-        }
-        
+        // add activity target record for every mail that is send
+        $activityTargetParams = array( 
+                                      'activity_id'       => $activityID,
+                                      'target_contact_id' => $toID
+                                      );
+        self::createActivityTarget( $activityTargetParams );
         return true;
     }
     
