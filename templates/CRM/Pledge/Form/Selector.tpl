@@ -21,7 +21,7 @@
   </tr>
   {counter start=0 skip=1 print=false}
   {foreach from=$rows item=row}
-  <tr id='rowid{$row.pledge_id}' class="{cycle values="odd-row,even-row"}">
+  <tr id='rowid{$row.pledge_id}' class="{cycle values="odd-row,even-row"} {if $row.pledge_status_id eq 'Pending' or $row.pledge_status_id eq 'Overdue' } disabled{/if}">
      {if ! $single }
         {if $context eq 'Search' }       
             {assign var=cbName value=$row.checkbox}
