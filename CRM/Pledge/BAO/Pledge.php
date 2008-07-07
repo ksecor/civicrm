@@ -224,6 +224,14 @@ class CRM_Pledge_BAO_Pledge extends CRM_Pledge_DAO_Pledge
         case 'Cancelled':
             $where[] = 'status_id = 3';
             break;
+
+        case 'Pending':
+            $where[] = 'status_id = 2';
+            break;
+
+        case 'Overdue':
+            $where[] = 'status_id = 6';
+            break;
         }
         
         if ( $startDate ) {
@@ -236,15 +244,68 @@ class CRM_Pledge_BAO_Pledge extends CRM_Pledge_DAO_Pledge
         $whereCond = implode( ' AND ', $where );
         
         $query = "
-SELECT sum( amount ) as total_amount, count( id ) as total_count
+SELECT sum( amount ) as pledge_amount, count( id ) as pledge_count
 FROM   civicrm_pledge
 WHERE  $whereCond AND is_test=0
 ";
-        
+
         $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         if ( $dao->fetch( ) ) {
-            return array( 'amount' => $dao->total_amount,
-                          'count'  => $dao->total_count );
+            $pledge_amount = array( 'pledge_amount' => $dao->pledge_amount,
+                                    'pledge_count'  => $dao->pledge_count );
+        }
+        
+        $where = array( );
+        switch ( $status ) {
+        case 'Valid':
+            $select = 'sum( total_amount ) as received_pledge , count( cd.id ) as received_count';
+            $where[] = 'status_id = 1 AND cp.contribution_id = cd.id AND cd.is_test=0';
+            $queryDate = 'receive_date';
+            $from = ' civicrm_contribution cd, civicrm_pledge_payment cp';
+            break;
+            
+        case 'Cancelled':
+            $select = 'sum( total_amount ) as received_pledge , count( cd.id ) as received_count';
+            $where[] = 'status_id = 3 AND cp.contribution_id = cd.id AND cd.is_test=0';
+            $queryDate = 'receive_date';
+            $from = ' civicrm_contribution cd, civicrm_pledge_payment cp';
+            break;
+
+        case 'Pending':
+            $select = 'sum( scheduled_amount )as received_pledge , count( cp.id ) as received_count';
+            $where[] = 'status_id = 2';
+            $queryDate = 'scheduled_date';
+            $from = ' civicrm_pledge_payment cp';
+            break;
+
+        case 'Overdue':
+            $select = 'sum( scheduled_amount ) as received_pledge , count( cp.id ) as received_count';
+            $where[] = 'status_id = 6';
+            $queryDate = 'scheduled_date';
+            $from = ' civicrm_pledge_payment cp';
+            break;
+        }
+        
+        if ( $startDate ) {
+            $where[] = " $queryDate >= '" . CRM_Utils_Type::escape( $startDate, 'Timestamp' ) . "'";
+        }
+        if ( $endDate ) {
+            $where[] = " $queryDate <= '" . CRM_Utils_Type::escape( $endDate, 'Timestamp' ) . "'";
+        }
+        
+        $whereCond = implode( ' AND ', $where );
+        
+        $query = "
+SELECT $select
+FROM $from
+WHERE  $whereCond 
+";
+        $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        
+        if ( $dao->fetch( ) ) {
+            return array_merge( $pledge_amount, array( 'received_amount' => $dao->received_pledge,
+                                                       'received_count'  => $dao->received_count 
+                                                       ));
         }
         return null;
     }

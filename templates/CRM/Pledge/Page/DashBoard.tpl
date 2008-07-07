@@ -9,82 +9,55 @@
 <table class="report">
 <tr class="columnheader-dark">
     <th>&nbsp;</th>
-    <th scope="col" colspan="2" class="right" style="padding-right: 10px;">June 2008</th>
-    <th scope="col" colspan="2" class="right" style="padding-right: 10px;">July 2008<br /><span class="extra">{ts}(month-to-date){/ts}</span></th>
-    <th scope="col" colspan="2" class="right" style="padding-right: 10px;">2008<br /><span class="extra">{ts}(year-to-date){/ts}</span></th>
+    <th scope="col" colspan="2" class="right" style="padding-right: 10px;">{$previousMonthYear}</th>
+    <th scope="col" colspan="2" class="right" style="padding-right: 10px;">{$currentMonthYear}<br /><span class="extra">{ts}(month-to-date){/ts}</span></th>
+    <th scope="col" colspan="2" class="right" style="padding-right: 10px;">{$curYear}<br /><span class="extra">{ts}(year-to-date){/ts}</span></th>
     <th scope="col" colspan="2" class="right" style="padding-right: 10px;">{ts}Cumulative{/ts}<br /><span class="extra">{ts}(since inception){/ts}</span></th>
 </tr>
 <tr>
     <td><strong>{ts}Total Pledges{/ts}</strong></td>
     {* prior month *}
-        <td class="right"><a href="{$priorMonth.Valid.url}">8</a></td><td class="right" style="border-right: 5px double #92B6EC;"><a href="{$priorMonth.Valid.url}">$ 4,000.00</a></td>
+        <td class="right"><a href="{$previousToDate.Valid.url}">{$previousToDate.Valid.pledge_count}</a></td><td class="right" style="border-right: 5px double #92B6EC;">{if $previousToDate.Valid.pledge_count }<a href="{$previousMonth.Valid.url}">{$previousToDate.Valid.pledge_amount|crmMoney}</a>{else}(n/a){/if}</td>
     {* current month *}
-        <td class="right"><a href="{$currentMonth.Valid.url}">3</a></td><td class="right" style="border-right: 5px double #92B6EC;"><a href="{$currentMonth.Valid.url}">$ 2,100.00</a></td>
+        <td class="right"><a href="{$monthToDate.Valid.url}">{$monthToDate.Valid.pledge_count}</a></td><td class="right" style="border-right: 5px double #92B6EC;">{if $monthToDate.Valid.pledge_count }<a href="{$monthToDate.Valid.url}">{$monthToDate.Valid.pledge_amount|crmMoney}</a>{else}(n/a){/if}</td>
     {* current year *}
-        <td class="right"><a href="{$currentYear.Valid.url}">63</a></td><td class="right" style="border-right: 5px double #92B6EC;"><a href="{$currentYear.Valid.url}">$ 15,600.00</a></td>
+        <td class="right"><a href="{$yearToDate.Valid.url}">{$yearToDate.Valid.pledge_count}</a></td><td class="right" style="border-right: 5px double #92B6EC;">{if $yearToDate.Valid.pledge_count }<a href="{$yearToDate.Valid.url}">{$yearToDate.Valid.pledge_amount|crmMoney}</a>{else}(n/a){/if}</td>
     {* cumulative *}
-        <td class="right"><a href="{$cumulative.Valid.url}">344</a></td><td class="right"><a href="{$cumulative.Valid.url}">$ 120,100.00</a></td>
+        <td class="right"><a href="{$startToDate.Valid.url}">{$startToDate.Valid.pledge_count}</a></td><td class="right">{if $startToDate.Valid.pledge_count }<a href="{$startToDate.Valid.url}">{$startToDate.Valid.pledge_amount|crmMoney}</a>{else}(n/a){/if}</td>
 </tr>
 <tr>
     <td><strong>{ts}Payments Received{/ts}</strong></td>
-    {* prior month *}
-        <td class="right"><a href="{$priorMonth.Valid.url}">8</a></td><td class="right" style="border-right: 5px double #92B6EC;"><a href="{$priorMonth.Valid.url}">$ 4,000.00</a></td>
+     <td class="right"><a href="{$previousToDate.Valid.url}">{$previousToDate.Valid.received_count}</a></td><td class="right" style="border-right: 5px double #92B6EC;">{if $previousToDate.Valid.received_count }<a href="{$previousMonth.Valid.url}">{$previousToDate.Valid.received_amount|crmMoney}</a>{else}(n/a){/if}</td>
     {* current month *}
-        <td class="right"><a href="{$currentMonth.Valid.url}">3</a></td><td class="right" style="border-right: 5px double #92B6EC;"><a href="{$currentMonth.Valid.url}">$ 2,100.00</a></td>
+        <td class="right"><a href="{$monthToDate.Valid.url}">{$monthToDate.Valid.received_count}</a></td><td class="right" style="border-right: 5px double #92B6EC;">{if $monthpreviousToDate.Valid.received_count }<a href="{$monthToDatecurrentMonth.Valid.url}">{$monthToDate.Valid.received_amount|crmMoney}</a>{else}(n/a){/if}</td>
     {* current year *}
-        <td class="right"><a href="{$currentYear.Valid.url}">63</a></td><td class="right" style="border-right: 5px double #92B6EC;"><a href="{$currentYear.Valid.url}">$ 15,600.00</a></td>
+        <td class="right"><a href="{$yearToDate.Valid.url}">{$yearToDate.Valid.received_count}</a></td><td class="right" style="border-right: 5px double #92B6EC;">{if $yearToDate.Valid.received_count }<a href="{$yearToDate.Valid.url}">{$yearToDate.Valid.received_amount|crmMoney}</a>{else}(n/a){/if}</td>
     {* cumulative *}
-        <td class="right"><a href="{$cumulative.Valid.url}">344</a></td><td class="right"><a href="{$cumulative.Valid.url}">$ 120,100.00</a></td>
+        <td class="right"><a href="{$startToDate.Valid.url}">{$startToDate.Valid.received_count}</a></td><td class="right">{if $startToDate.Valid.received_count }<a href="{$startToDate.Valid.url}">{$startToDate.Valid.received_amount|crmMoney}</a>{else}(n/a){/if}</td>  
 </tr>
 <tr>
     <td><strong>{ts}Balance Due{/ts}</strong></td>
-    {* prior month *}
-        <td class="right"><a href="{$priorMonth.Valid.url}">8</a></td><td class="right" style="border-right: 5px double #92B6EC;"><a href="{$priorMonth.Valid.url}">$ 4,000.00</a></td>
+{* prior month *}
+        <td class="right"><a href="{$previousToDate.Pending.url}">{$previousToDate.Pending.received_count}</a></td><td class="right" style="border-right: 5px double #92B6EC;">{if $previousToDate.Pending.received_count }<a href="{$previousMonth.Pending.url}">{$previousToDate.Pending.received_amount|crmMoney}</a>{else}(n/a){/if}</td>
     {* current month *}
-        <td class="right"><a href="{$currentMonth.Valid.url}">3</a></td><td class="right" style="border-right: 5px double #92B6EC;"><a href="{$currentMonth.Valid.url}">$ 2,100.00</a></td>
+        <td class="right"><a href="{$monthToDate.Pending.url}">{$monthToDate.Pending.received_count}</a></td><td class="right" style="border-right: 5px double #92B6EC;">{if $monthToDate.Pending.received_count }<a href="{$monthToDate.Pending.url}">{$monthToDate.Pending.received_amount|crmMoney}</a>{else}(n/a){/if}</td>
     {* current year *}
-        <td class="right"><a href="{$currentYear.Valid.url}">63</a></td><td class="right" style="border-right: 5px double #92B6EC;"><a href="{$currentYear.Valid.url}">$ 15,600.00</a></td>
+        <td class="right"><a href="{$yearToDate.Pending.url}">{$yearToDate.Pending.received_count}</a></td><td class="right" style="border-right: 5px double #92B6EC;">{if $yearToDate.Pending.received_count }<a href="{$yearToDate.Pending.url}">{$yearToDate.Pending.received_amount|crmMoney}</a>{else}(n/a){/if}</td>
     {* cumulative *}
-        <td class="right"><a href="{$cumulative.Valid.url}">344</a></td><td class="right"><a href="{$cumulative.Valid.url}">$ 120,100.00</a></td>
+        <td class="right"><a href="{$startToDate.Pending.url}">{$startToDate.Pending.received_count}</a></td><td class="right">{if $startToDate.Pending.received_count }<a href="{$startToDate.Pending.url}">{$startToDate.Pending.received_amount|crmMoney}</a>{else}(n/a){/if}</td>
 </tr>
 <tr>
     <td><strong>{ts}Past Due{/ts}</strong></td>
-    {* prior month *}
-        <td class="right"><a href="{$priorMonth.Valid.url}">8</a></td><td class="right" style="border-right: 5px double #92B6EC;"><a href="{$priorMonth.Valid.url}">$ 4,000.00</a></td>
+ {* prior month *}
+        <td class="right"><a href="{$previousToDate.Overdue.url}">{$previousToDate.Overdue.received_count}</a></td><td class="right" style="border-right: 5px double #92B6EC;">{if $previousToDate.Overdue.received_count }<a href="{$previousMonth.Overdue.url}">{$previousToDate.Overdue.received_amount|crmMoney}</a>{else}(n/a){/if}</td>
     {* current month *}
-        <td class="right"><a href="{$currentMonth.Valid.url}">3</a></td><td class="right" style="border-right: 5px double #92B6EC;"><a href="{$currentMonth.Valid.url}">$ 2,100.00</a></td>
+        <td class="right"><a href="{$monthToDate.overdue.url}">{$monthToDate.Overdue.received_count}</a></td><td class="right" style="border-right: 5px double #92B6EC;">{if $monthToDate.Overdue.received_count }<a href="{$monthToDate.Overdue.url}">{$monthToDate.Overdue.received_amount|crmMoney}</a>{else}(n/a){/if}</td>
     {* current year *}
-        <td class="right"><a href="{$currentYear.Valid.url}">63</a></td><td class="right" style="border-right: 5px double #92B6EC;"><a href="{$currentYear.Valid.url}">$ 15,600.00</a></td>
+        <td class="right"><a href="{$yearToDate.Overdue.url}">{$yearToDate.Overdue.received_count}</a></td><td class="right" style="border-right: 5px double #92B6EC;">{if $yearToDate.Overdue.received_count }<a href="{$yearToDate.Overdue.url}">{$yearToDate.Overdue.received_amount|crmMoney}</a>{else}(n/a){/if}</td>
     {* cumulative *}
-        <td class="right"><a href="{$cumulative.Valid.url}">344</a></td><td class="right"><a href="{$cumulative.Valid.url}">$ 120,100.00</a></td>
+        <td class="right"><a href="{$startToDate.Overdue.url}">{$startToDate.Overdue.received_count}</a></td><td class="right">{if $startToDate.Overdue.received_count }<a href="{$startToDate.Overdue.url}">{$startToDate.Overdue.received_amount|crmMoney}</a>{else}(n/a){/if}</td>
 </tr>
 </table>
-{*
-<table class="report">
-<tr class="columnheader-dark">
-    <th scope="col">{ts}Period{/ts}</th>
-    <th scope="col">{ts}Total Amount{/ts}</th>
-    <th scope="col" title="Pledge Count"><strong>#</strong></th><th></th></tr>
-<tr>
-    <td><strong>{ts}Current Month-To-Date{/ts}</strong></td>
-    <td class="label">{if NOT $monthToDate.Valid.amount}{ts}(n/a){/ts}{else}{$monthToDate.Valid.amount|crmMoney}{/if}</td>
-    <td class="label">{$monthToDate.Valid.count}</td>
-    <td><a href="{$monthToDate.Valid.url}">{ts}view details{/ts}...</a></td>
-</tr>
-<tr>
-    <td><strong>{ts}Current Year-To-Date{/ts}</strong></td>
-    <td class="label">{if NOT $yearToDate.Valid.amount}{ts}(n/a){/ts}{else}{$yearToDate.Valid.amount|crmMoney}{/if}</td>
-    <td class="label">{$yearToDate.Valid.count}</td>
-    <td><a href="{$yearToDate.Valid.url}">{ts}view details{/ts}...</a></td>
-</tr>
-<tr>
-    <td><strong>{ts}Cumulative{/ts}</strong><br />{ts}(since inception){/ts}</td>
-    <td class="label">{if NOT $startToDate.Valid.amount}{ts}(n/a){/ts}{else}{$startToDate.Valid.amount|crmMoney}{/if}</td>
-    <td class="label">{$startToDate.Valid.count}</td>
-    <td><a href="{$startToDate.Valid.url}">{ts}view details{/ts}...</a></td>
-</tr>
-</table>
-*}
 
 <div class="spacer"></div>
 
