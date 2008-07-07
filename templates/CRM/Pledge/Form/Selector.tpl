@@ -21,7 +21,7 @@
   </tr>
   {counter start=0 skip=1 print=false}
   {foreach from=$rows item=row}
-  <tr id='rowid{$row.pledge_id}' class="{cycle values="odd-row,even-row"} {if $row.pledge_status_id eq 'Pending' or $row.pledge_status_id eq 'Overdue' } disabled{/if}">
+  <tr id='rowid{$row.pledge_id}' class="{cycle values="odd-row,even-row"} {if $row.pledge_status_id eq 'Overdue' } disabled{/if}">
      {if ! $single }
         {if $context eq 'Search' }       
             {assign var=cbName value=$row.checkbox}
@@ -44,7 +44,7 @@
     </td>
    </tr>
    <tr id="{$row.pledge_id}_hide">
-     <td colspan="9">
+     <td colspan="11">
          <a href="#" onclick="show('{$row.pledge_id}_show', 'table-row');hide('{$row.pledge_id}_hide');return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}open section{/ts}"/>{ts}Payments{/ts}</a>
        <br/>
        <div id="paymentDetails{$row.pledge_id}"></div>

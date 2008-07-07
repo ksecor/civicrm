@@ -14,7 +14,7 @@
   </tr>
 
   {foreach from=$rows item=row}
-   <tr class="{cycle values="odd-row,even-row"} {if $row.status eq 'Pending' or $row.status eq 'Overdue' } disabled{/if}">
+   <tr class="{cycle values="odd-row,even-row"} {if $row.status eq 'Overdue' } disabled{/if}">
     <td>{$row.scheduled_amount|crmMoney}</td>	
     <td>{$row.scheduled_date|truncate:10:''|crmDate}</td>
     <td>{$row.total_amount|crmMoney}</td>	
