@@ -279,7 +279,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         $element =& $this->add( 'select', 'frequency_unit', 
                                 ts( 'Each payment amount will be' ), 
                                 array(''=>ts( '- select -' )) + CRM_Core_SelectValues::unitList( ), 
-                                true, array( 'onblur' => "calculatedPaymentAmount( );"));
+                                true, array( 'onkeyup' => "calculatedPaymentAmount( );"));
                                 
         if ( $this->_id ) {
             $element->freeze( );
