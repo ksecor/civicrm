@@ -566,7 +566,6 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                                          $deductibleMode = true, $pending = false,
                                          $online = true ) 
     {
-        
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
         
@@ -675,7 +674,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         
         require_once 'CRM/Contribute/BAO/Contribution.php';
         $contribution =& CRM_Contribute_BAO_Contribution::add( $contribParams, $ids );
-
+        
         if ( $online ) {
             require_once 'CRM/Core/BAO/CustomValueTable.php';
             CRM_Core_BAO_CustomValueTable::postProcess( $form->_params,
@@ -684,8 +683,17 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                                                         $contribution->id,
                                                         'Contribution' );
             CRM_Core_Session::setStatus( $status );
+        } else {
+            //handle custom data.
+            $params['contribution_id'] = $contribution->id;
+            if ( CRM_Utils_Array::value( 'custom', $params ) &&
+                 is_array( $params['custom'] ) &&
+                 !is_a( $contribution, 'CRM_Core_Error') ) {
+                require_once 'CRM/Core/BAO/CustomValueTable.php';
+                CRM_Core_BAO_CustomValueTable::store( $params['custom'], 'civicrm_contribution', $contribution->id );
+            }
         }
-
+        
         if ( CRM_Utils_Array::value( 'cms_create_account', $params ) ) {
             $params['contactID'] = $contactID;
             require_once "CRM/Core/BAO/CMSUser.php";

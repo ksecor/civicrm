@@ -185,7 +185,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                 }
             }
             if ( empty( $validProcessors )  ) {
-                CRM_Core_Error::fatal( ts( 'Could not find valid payment processor for this page' ) );
+                CRM_Core_Error::fatal( ts( 'You will need to configure the %1 settings for your Payment Processor before you can submit credit card transactions.', array( 1 => $this->_mode ) ) );
             } else {
                 $this->_processors = $validProcessors;  
             }
@@ -227,9 +227,8 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         // current contribution id
         if ( $this->_id ) {
             $this->_online = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_FinancialTrxn',
-                                                          $this->_id,
-                                                          'contribution_id' );
-
+                                                          $this->_id, 'id', 'contribution_id' );
+            
             //to get Premium id
             $sql = "
 SELECT *
@@ -390,14 +389,8 @@ WHERE  contribution_id = {$this->_id}
         $this->_formType = CRM_Utils_Array::value( 'formType', $_GET );
         
         require_once 'CRM/Contribute/Form/AdditionalInfo.php';
-            
-        if ( $this->_id ) {
-            $ids = array( );
-            $params = array( 'id' => $this->_id );
-            require_once "CRM/Contribute/BAO/Contribution.php";
-            CRM_Contribute_BAO_Contribution::getValues( $params, $defaults, $ids );
-        }
         
+        $defaults = $this->_values;
         $additionalDetailFields = array( 'note', 'thankyou_date', 'invoice_id', 'non_deductible_amount', 'fee_amount', 'net_amount');
         foreach ( $additionalDetailFields as $key ) {
             if ( ! empty( $defaults[$key] ) ) {
@@ -408,8 +401,6 @@ WHERE  contribution_id = {$this->_id}
         
         $honorFields = array('honor_type_id', 'honor_prefix_id', 'honor_first_name', 
                              'honor_lastname','honor_email');
-        $defaults = array( );
-
         foreach ( $honorFields as $key ) {
             if ( ! empty( $defaults[$key] ) ) {
                 $defaults['hidden_Honoree'] = 1;
@@ -663,15 +654,9 @@ WHERE  contribution_id = {$this->_id}
                     unset( $submittedValues[$key] );
                 }
             }
-            //unset custom values.
-            foreach ( $submittedValues as $key => $value ) {
-                if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
-                    unset( $submittedValues[$key] );
-                }
-            }
             
             //Get the rquire fields value only.
-            $params = $this->_params = $submittedValues;   
+            $params = $this->_params = $submittedValues;
             
             require_once 'CRM/Core/BAO/PaymentProcessor.php';
             $this->_paymentProcessor = CRM_Core_BAO_PaymentProcessor::getPayment( $this->_params['payment_processor_id'],
@@ -680,6 +665,10 @@ WHERE  contribution_id = {$this->_id}
             
             $now = date( 'YmdHis' );
             $fields = array( );
+            
+            //set email for primary location.
+            $fields["email-Primary"] = 1;
+            $params["email-Primary"] = $this->userEmail;
             
             // now set the values for the billing location.
             foreach ( $this->_fields as $name => $dontCare ) {
@@ -808,7 +797,7 @@ WHERE  contribution_id = {$this->_id}
             // set source if not set 
             if ( empty( $this->_params['source'] ) ) {
                 $this->_params['source'] = ts( 'Online Contribution: CiviCRM Admin Interface' );
-            } 
+            }
             
             require_once 'CRM/Contribute/Form/Contribution/Confirm.php';
             $contribution 
@@ -904,46 +893,7 @@ WHERE  contribution_id = {$this->_id}
             //Add Additinal common information  to formatted params
             CRM_Contribute_Form_AdditionalInfo::postProcessCommon( $formValues, $params );
             
-            // format custom data
-            // get mime type of the uploaded file
-            if ( !empty($_FILES) ) {
-                foreach ( $_FILES as $key => $value) {
-                    $files = array( );
-                    if ( $formValues[$key] ) {
-                        $files['name'] = $formValues[$key];
-                    }
-                    if ( $value['type'] ) {
-                        $files['type'] = $value['type']; 
-                    }
-                    $formValues[$key] = $files;
-                }
-            }
-            
-            $customData = array( );
-            foreach ( $formValues as $key => $value ) {
-                if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
-                    CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,
-                                                                 $value, 'Contribution', null, $this->_id);
-                }
-            }
-            
-            if (! empty($customData) ) {
-                $params['custom'] = $customData;
-            }
-            
-            //special case to handle if all checkboxes are unchecked
-            $customFields = CRM_Core_BAO_CustomField::getFields( 'Contribution' );
-            
-            if ( !empty($customFields) ) {
-                foreach ( $customFields as $k => $val ) {
-                    if ( in_array ( $val[3], array ('CheckBox','Multi-Select') ) &&
-                         ! CRM_Utils_Array::value( $k, $params['custom'] ) ) {
-                        CRM_Core_BAO_CustomField::formatCustomField( $k, $params['custom'],
-                                                                     '', 'Contribution', null, $this->_id);
-                    }
-                }
-            }
-            
+            //create contribution.
             require_once 'CRM/Contribute/BAO/Contribution.php';
             $contribution =& CRM_Contribute_BAO_Contribution::create( $params, $ids );
             

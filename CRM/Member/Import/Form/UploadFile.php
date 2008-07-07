@@ -69,12 +69,14 @@ class CRM_Member_Import_Form_UploadFile extends CRM_Core_Form {
 
         $this->addElement( 'checkbox', 'skipColumnHeader', ts('First row contains column headers') );
 
-        $duplicateOptions = array();        
+        $duplicateOptions = array(); 
         $duplicateOptions[] = HTML_QuickForm::createElement('radio',
-            null, null, ts('Update'), CRM_Member_Import_Parser::DUPLICATE_UPDATE);
+                                                            null, null, ts('Insert new Membership'), CRM_Member_Import_Parser::DUPLICATE_SKIP);
+        $duplicateOptions[] = HTML_QuickForm::createElement('radio',
+                                                            null, null, ts('Update existing Membership'), CRM_Member_Import_Parser::DUPLICATE_UPDATE);
         
         $this->addGroup($duplicateOptions, 'onDuplicate', 
-                        ts('On duplicate entries'));
+                        ts('Import mode'));
         $this->setDefaults(array('onDuplicate' =>
                                     CRM_Member_Import_Parser::DUPLICATE_SKIP));
 

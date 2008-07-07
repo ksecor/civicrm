@@ -128,7 +128,7 @@ ORDER BY title";
         foreach ( $fields as $name => $dontCare ) {
             $gid = substr( $name, -1 );
             if ( in_array($gid,array_keys($groups) ) ) {
-                $errors[$name] = ts('You are already subscribed in '.$groups[$gid]['title'].', your subscription is '.$groups[$gid]['status'].'.');
+                $errors[$name] = ts('You are already subscribed in %1, your subscription is %2.', array(1 => $groups[$gid]['title'], 2 => $groups[$gid]['status']));
             }
         }
         

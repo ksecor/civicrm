@@ -254,7 +254,8 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         if ( $this->_context === 'smog' ) {
             // need to figure out how to freeze a bunch of checkboxes, hack for now
             if ( $this->_action != CRM_Core_Action::ADVANCED ) {
-                $this->_groupElement->freeze( );
+                //Fix ME
+                //$this->_groupElement->freeze( );
             }
             
             // also set the group title

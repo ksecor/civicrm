@@ -264,6 +264,11 @@ ORDER BY j.scheduled_date,
         
         CRM_Mailing_BAO_Mailing::tokenReplace($mailing);
 
+        // get and format attachments
+        require_once 'CRM/Core/BAO/File.php';
+        $attachments =& CRM_Core_BAO_File::getEntityFile( 'civicrm_mailing',
+                                                          $mailing->id );
+
         // make sure that there's no more than $config->mailerBatchLimit mails processed in a run
         while ($eq->fetch()) {
             // if ( ( $mailsProcessed % 100 ) == 0 ) {
@@ -272,7 +277,7 @@ ORDER BY j.scheduled_date,
 
             if ( $config->mailerBatchLimit > 0 &&
                  $mailsProcessed >= $config->mailerBatchLimit ) {
-                $this->deliverGroup( $fields, $mailing, $mailer, $job_date );
+                $this->deliverGroup( $fields, $mailing, $mailer, $job_date, $attachments );
                 return false;
             }
             $mailsProcessed++;
@@ -282,16 +287,16 @@ ORDER BY j.scheduled_date,
                                               'contact_id' => $eq->contact_id,
                                               'email'      => $eq->email );
             if ( count( $fields ) == self::MAX_CONTACTS_TO_PROCESS ) {
-                $this->deliverGroup( $fields, $mailing, $mailer, $job_date );
+                $this->deliverGroup( $fields, $mailing, $mailer, $job_date, $attachments );
                 $fields = array( );
             }
         }
 
-        $this->deliverGroup( $fields, $mailing, $mailer, $job_date );
+        $this->deliverGroup( $fields, $mailing, $mailer, $job_date, $attachments );
         return true;
     }
 
-    public function deliverGroup ( &$fields, &$mailing, &$mailer, &$job_date ) {
+    public function deliverGroup ( &$fields, &$mailing, &$mailer, &$job_date, &$attachments ) {
         // get the return properties
         $returnProperties = $mailing->getReturnProperties( );
         $params = array( );
@@ -307,7 +312,7 @@ ORDER BY j.scheduled_date,
             $recipient = null;
             $message =& $mailing->compose( $this->id, $field['id'], $field['hash'],
                                            $field['contact_id'], $field['email'],
-                                           $recipient, false, $details[0][$contactID] );
+                                           $recipient, false, $details[0][$contactID], $attachments );
             
             /* Send the mailing */
             $body    =& $message->get();

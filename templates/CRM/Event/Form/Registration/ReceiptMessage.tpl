@@ -145,8 +145,8 @@ Additional Participant {$priceset}
 {ts}{$customPre_grouptitle} {/ts}
 
 ===========================================================
-{foreach from=$customPre item=value key=name}
- {$name} : {$value}
+{foreach from=$customPre item=value key=customName}
+ {$customName} : {$value}
 {/foreach}
 {/if}
 
@@ -155,8 +155,8 @@ Additional Participant {$priceset}
 {ts}{$customPost_grouptitle}{/ts}
 
 ===========================================================
-{foreach from=$customPost item=value key=name}
- {$name} : {$value}
+{foreach from=$customPost item=value key=customName}
+ {$customName} : {$value}
 {/foreach}
 {/if}
 {if $customProfile}
@@ -165,7 +165,7 @@ Additional Participant {$priceset}
 {ts}Additional Participant Information{/ts}
 
 ===========================================================
-{foreach from=$customProfile item=value key=name}
+{foreach from=$customProfile item=value key=customName}
 {foreach from=$value item=val key=field}
 {if $field}
 {if $field eq 'customPre' }
@@ -187,9 +187,9 @@ Additional Participant {$priceset}
 {/foreach} 
 {/if}
 {if $customGroup}
-{foreach from=$customGroup item=value key=name} 
+{foreach from=$customGroup item=value key=customName} 
 ==========================================================
-{$name}
+{$customName}
 ==========================================================
 {foreach from=$value item=v key=n}
  {$n} : {$v}

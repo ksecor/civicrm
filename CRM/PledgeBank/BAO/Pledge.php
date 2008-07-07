@@ -129,6 +129,23 @@ class CRM_PledgeBank_BAO_Pledge extends CRM_PledgeBank_DAO_Pledge
      */
     static function del( $id )
     { 
+        $pledge     = & new CRM_PledgeBank_DAO_Pledge( );
+        $pledge->id = $id; 
+        
+        if ( $pledge->find( true ) ) {
+            $locBlockId = $pledge->loc_block_id;
+            
+            $result = $pledge->delete( );
+            
+            if ( ! is_null( $locBlockId ) ) {
+                require_once 'CRM/Core/BAO/Location.php';
+                CRM_Core_BAO_Location::deleteLocBlock( $locBlockId );
+            }
+            
+            return $result;
+        }
+        
+        return null;
 
     }
 

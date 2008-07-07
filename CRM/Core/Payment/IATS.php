@@ -82,11 +82,11 @@ class CRM_Core_Payment_IATS extends CRM_Core_Payment {
       # beginning of modified sample code from IATS php api 
       # include IATS supplied api library
       if ($isRecur) {
-        include 'Services/IATS/iats_reoccur.php'; 
+        include_once('Services/IATS/iats_reoccur.php'); 
         $iatslink1 = new iatslinkReoccur;
       }
       else {
-        include 'Services/IATS/iatslink.php';
+        include_once('Services/IATS/iatslink.php');
         $iatslink1 = new iatslink;
       }
       

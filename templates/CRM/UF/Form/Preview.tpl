@@ -13,7 +13,7 @@
     {if $help_pre && $action neq 4}<div class="messages help">{$help_pre}</div>{/if}
     {assign var=zeroField value="Initial Non Existent Fieldset"}
     {assign var=fieldset  value=$zeroField}
-    {foreach from=$fields item=field key=name}
+    {foreach from=$fields item=field key=fieldName}
     {if $field.groupTitle != $fieldset}
         {if $fieldset != $zeroField}
            </table> 

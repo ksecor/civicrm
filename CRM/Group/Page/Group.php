@@ -247,7 +247,7 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
         $this->search( );
         
         $config =& CRM_Core_Config::singleton( );
-        
+
         $params = array( );
         $whereClause = $this->whereClause( $params, false );
         $this->pagerAToZ( $whereClause, $params );
@@ -391,10 +391,27 @@ ORDER BY title asc
             $params[3] = array( $visibility, 'String' );
         }
 
+        $active_status   = $this->get( 'active_status' );
+        $inactive_status = $this->get( 'inactive_status' );
+        if ( $active_status && !$inactive_status ) {
+            $clauses[] = 'is_active = 1';
+            $params[4] = array( $active_status, 'Boolean' );
+        }
+       
+      
+        if ( $inactive_status && !$active_status ) {
+            $clauses[] = 'is_active = 0';
+            $params[5] = array( $inactive_status, 'Boolean' );
+        }
+        
+        if ( $inactive_status && $active_status ) {
+            $clauses[] = '(is_active = 0 OR is_active = 1 )';
+        }
+        
         if ( $sortBy &&
              $this->_sortByCharacter ) {
-            $clauses[] = 'title LIKE %4';
-            $params[4] = array( $this->_sortByCharacter . '%', 'String' );
+            $clauses[] = 'title LIKE %6';
+            $params[6] = array( $this->_sortByCharacter . '%', 'String' );
         }
 
         // dont do a the below assignement when doing a 
@@ -406,9 +423,9 @@ ORDER BY title asc
                 $this->assign( 'isSearch', 0 );
             }
         }
-        
+
         if ( empty( $clauses ) ) {
-            return 1;
+             $clauses[] = 'is_active = 1';
         }
 
         return implode( ' AND ', $clauses );
@@ -430,7 +447,7 @@ ORDER BY title asc
 SELECT id, title
   FROM civicrm_group
  WHERE $whereClause";
-
+      
         $object = CRM_Core_DAO::executeQuery( $query, $whereParams );
         $total  = 0;
         while ( $object->fetch( ) ) {

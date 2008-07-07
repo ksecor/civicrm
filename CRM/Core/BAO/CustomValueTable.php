@@ -168,7 +168,7 @@ class CRM_Core_BAO_CustomValueTable
                     $fieldValues = implode( ',', array_values( $set ) );
                     $query = "$sqlOP ( $fieldNames ) VALUES ( $fieldValues ) ON DUPLICATE KEY UPDATE $setClause";
                 } else {
-                    $query = "$sqlOP SET $set $where";
+                    $query = "$sqlOP SET $setClause $where";
                 }
                 $dao = CRM_Core_DAO::executeQuery( $query, $params );
                 $dao->free( );
@@ -344,8 +344,7 @@ AND    cg.is_active = 1
 AND    cf.is_active = 1
 AND    $cond
 ";
-        $dao = CRM_Core_DAO::executeQuery( $query,
-                                           CRM_Core_DAO::$_nullArray );
+        $dao = CRM_Core_DAO::executeQuery( $query );
 
         $select = array( );
         $where  = array( );
@@ -372,8 +371,7 @@ SELECT $select
 FROM   $from
 WHERE  $where
 ";
-            $dao = CRM_Core_DAO::executeQuery( $query,
-                                               CRM_Core_DAO::$_nullArray );
+            $dao = CRM_Core_DAO::executeQuery( $query );
             if ( $dao->fetch( ) ) {
                 foreach ( $fields as $fieldID ) {
                     $fieldName = "custom_{$fieldID}";
@@ -433,8 +431,7 @@ WHERE  cf.custom_group_id = cg.id
 AND    cf.id IN ( $fieldIDList )
 ";
 
-         $dao       = CRM_Core_DAO::executeQuery( $sql,
-                                                  CRM_Core_DAO::$_nullArray );
+         $dao       = CRM_Core_DAO::executeQuery( $sql );
          $cvParams  = array( );
          
          if ( $dao->fetch( ) ) {
@@ -508,7 +505,7 @@ AND    cf.id IN ( $fieldIDList )
                                           null,
                                           $fieldIDs );
          if ( empty( $values ) ) {
-             return CRM_Core_Error::createAPIError( ts( 'Unknown error' ) );
+             return CRM_Core_Error::createAPIError( ts( 'No values found for the specified entity ID and custom field(s).' ) );
          } else {
              $result = array( 'is_error' => 0,
                               'entityID' => $params['entityID'] );

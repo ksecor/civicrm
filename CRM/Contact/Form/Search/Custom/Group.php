@@ -183,8 +183,10 @@ class CRM_Contact_Form_Search_Custom_Group
         
         $where = $this->where( $includeContactIDs );
         
-        $sql = " SELECT $selectClause FROM   $from WHERE  $where GROUP BY contact_id ";
-
+        $sql = " SELECT $selectClause FROM   $from WHERE  $where ";
+        if ( ! $justIDs ) {
+            $sql .= " GROUP BY contact_id ";  
+        }
         // Define ORDER BY for query in $sort, with default value
         if ( ! $justIDs ) {
             if ( ! empty( $sort ) ) {

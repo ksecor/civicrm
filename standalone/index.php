@@ -1,36 +1,38 @@
 <?php
-
 require_once 'bootstrap_common.php';
 
-// Get ready to fire it up
-require_once 'CRM/Core/Invoke.php';
-require_once 'CRM/Core/Session.php';
-
-$session =& CRM_Core_Session::singleton();
-
 $urlVar = $config->userFrameworkURLVar;
-
 if ( !isset( $_GET[$urlVar] ) ) {
     $_GET[$urlVar] = '';
 }
 
+// Display error if any
 if ( !empty( $error ) ) {
     print "<div class=\"error\">$error</div>\n";
+    $gotError = true;
 }
-if ( !empty( $session->get['msg'] ) ) {
+if ( $session->get('msg') ) {
+    $msg = $session->get('msg');
     print "<div class=\"msg\">$msg</div>\n";
-    //header("Location:login.php");
+    $gotError = true;
+}
+if ( isset($gotError) || $session->get('goahead') == 'no' ) {
+    exit(0);
 }
 
-//print "userID: " . $session->get('userID') . "<br/>";
-//print "ufName: " . $session->get('ufName') . "<br/>";
-
+// Get ready to fire it up
+require_once 'CRM/Core/Invoke.php';
 if ( $session->get('userID') == null || $session->get('userID') == '' ) {
     if ($_GET[$urlVar] == "") {
         header("Location: login.php");
-        exit();
+        exit(1);
     } else {
-        print "<a href=\"{$config->userFrameworkBaseURL}\">Login here</a> if you have an account.\n";
+        if ( $session->get('new_install') !== true ) {
+            print "<a href=\"{$config->userFrameworkBaseURL}\">Login here</a> if you have an account.\n";
+        } elseif ($_GET[$urlVar] == "civicrm/standalone/register" && isset($_GET['reset'])) {
+            // this is when user first registers with civicrm
+            print "<head><style type=\"text/css\"> body {border: 1px #CCC solid;margin: 3em;padding: 1em 1em 1em 2em;} </head>";
+        }
         print CRM_Core_Invoke::invoke( explode('/', $_GET[$urlVar] ) );
     }
 } else {
@@ -40,3 +42,4 @@ if ( $session->get('userID') == null || $session->get('userID') == '' ) {
         print CRM_Core_Invoke::invoke( explode('/', $_GET[$urlVar] ) );
     }
 }
+?>

@@ -36,7 +36,8 @@ class BAO_Core_CustomOption extends CiviTestCase
         $params = array( );
         $params = array( 'option_group_id' => $field['option_group_id'],
                          'label'           => 'Divorced',
-                         'value'           => 'V');
+                         'value'           => 'V',
+                         'weight'          => 6 );
         $ids = array( );
         require_once 'CRM/Core/BAO/OptionValue.php';
         $option = CRM_Core_BAO_OptionValue::add( $params, $ids );
@@ -75,8 +76,9 @@ class BAO_Core_CustomOption extends CiviTestCase
         // Now add an option_value for this custom field
         $params = array( );
         $params = array( 'option_group_id' => $field['option_group_id'],
-                        'label'           => 'Divorced',
-                        'value'           => 'V');
+                        'label'            => 'Divorced',
+                        'value'            => 'V',
+                        'weight'           => 6 );
         $ids = array( );
         require_once 'CRM/Core/BAO/OptionValue.php';
         $option = CRM_Core_BAO_OptionValue::add( $params, $ids );
@@ -97,9 +99,6 @@ class BAO_Core_CustomOption extends CiviTestCase
                          'custom_' . $fieldID => 'V');
         $result = CRM_Core_BAO_CustomValueTable::setValues( $params );
  
-        // CRM_Core_Error::debug('p1',$params);
-        // CRM_Core_Error::debug('r1',$result);
-        
         // Check that value is stored
         $params = array( 'entityID'               => $contactID,
                          'custom_' . $field['id'] => 1);
@@ -117,7 +116,7 @@ class BAO_Core_CustomOption extends CiviTestCase
         $values = CRM_Core_BAO_CustomValueTable::getValues( $params );        
         $this->assertEqual( $values['custom_' . $fieldID], '', 'Verify that option_value.value has been cleared for contact ' . $contactID);
 
-        // CRM_Core_Error::debug('v2',$values); exit();
+        // CRM_Core_Error::debug('v2',$values);
         
         // Now cleanup our contact
         Contact::delete( $contactID );

@@ -55,13 +55,13 @@ INSERT INTO civicrm_relationship_type( name_a_b, name_b_a, description, contact_
 INSERT INTO civicrm_relationship_type( name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
     VALUES( '{ts escape="sql"}Sibling of{/ts}','{ts escape="sql"}Sibling of{/ts}', '{ts escape="sql"}Sibling relationship.{/ts}','Individual','Individual', 0 );
 INSERT INTO civicrm_relationship_type( name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
-    VALUES( '{ts escape="sql"}Employee of{/ts}', '{ts escape="sql"}Employer of{/ts}', '{ts escape="sql"}Employment relationship.{/ts}','Individual','Organization', 0 );
+    VALUES( '{ts escape="sql"}Employee of{/ts}', '{ts escape="sql"}Employer of{/ts}', '{ts escape="sql"}Employment relationship.{/ts}','Individual','Organization', 1 );
 INSERT INTO civicrm_relationship_type( name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
     VALUES( '{ts escape="sql"}Volunteer for{/ts}', '{ts escape="sql"}Volunteer is{/ts}', '{ts escape="sql"}Volunteer relationship.{/ts}','Individual','Organization', 0 );
 INSERT INTO civicrm_relationship_type( name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
-    VALUES( '{ts escape="sql"}Head of Household for{/ts}', '{ts escape="sql"}Head of Household is{/ts}', '{ts escape="sql"}Head of household.{/ts}','Individual','Household', 0 );
+    VALUES( '{ts escape="sql"}Head of Household for{/ts}', '{ts escape="sql"}Head of Household is{/ts}', '{ts escape="sql"}Head of household.{/ts}','Individual','Household', 1 );
 INSERT INTO civicrm_relationship_type( name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
-    VALUES( '{ts escape="sql"}Household Member of{/ts}', '{ts escape="sql"}Household Member is{/ts}', '{ts escape="sql"}Household membership.{/ts}','Individual','Household', 0 );
+    VALUES( '{ts escape="sql"}Household Member of{/ts}', '{ts escape="sql"}Household Member is{/ts}', '{ts escape="sql"}Household membership.{/ts}','Individual','Household', 1 );
 
 -- Sample Tags
 INSERT INTO civicrm_tag( name, description, parent_id )
@@ -189,6 +189,7 @@ VALUES
    (@option_group_id_act, '{ts escape="sql"}Membership Signup{/ts}',                  7, 'Membership Signup',   NULL, 1, NULL, 7, '{ts escape="sql"}Online or offline membership signup.{/ts}',                                 0, 1, 1, 3),
    (@option_group_id_act, '{ts escape="sql"}Membership Renewal{/ts}',                 8, 'Membership Renewal',  NULL, 1, NULL, 8, '{ts escape="sql"}Online or offline membership renewal.{/ts}',                                0, 1, 1, 3),
    (@option_group_id_act, '{ts escape="sql"}Tell a Friend{/ts}',                      9, 'Tell a Friend',       NULL, 1, NULL, 9, '{ts escape="sql"}Send information about a contribution campaign or event to a friend.{/ts}', 0, 1, 1, NULL),
+   (@option_group_id_act, '{ts escape="sql"}Pledge Acknowledgment{/ts}',              10, 'Pledge Acknowledgment',  NULL, 1, NULL, 10, '{ts escape="sql"}Send Pledge Acknowledgment.{/ts}',                                     0, 1, 1, NULL),
 
   
    (@option_group_id_gender, '{ts escape="sql"}Female{/ts}',      1, 'Female',      NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL),
@@ -272,7 +273,8 @@ VALUES
   (@option_group_id_cvOpt, '{ts escape="sql"}Events{/ts}'       ,   9, 'CiviEvent', NULL, 0, NULL,  9,  NULL, 0, 0, 1, NULL),
   (@option_group_id_cvOpt, '{ts escape="sql"}Cases{/ts}'        ,  10, 'CiviCase', NULL, 0, NULL,  10, NULL, 0, 0, 1, NULL),
   (@option_group_id_cvOpt, '{ts escape="sql"}Grants{/ts}'       ,  11, 'CiviGrant', NULL, 0, NULL,  11, NULL, 0, 0, 1, NULL),
-  (@option_group_id_cvOpt, '{ts escape="sql"}Pledges{/ts}'      ,  12, 'PledgeBank', NULL, 0, NULL,  12, NULL, 0, 0, 1, NULL),
+  (@option_group_id_cvOpt, '{ts escape="sql"}PledgeBank{/ts}'   ,  12, 'PledgeBank', NULL, 0, NULL,  12, NULL, 0, 0, 1, NULL),
+  (@option_group_id_cvOpt, '{ts escape="sql"}Pledges{/ts}'      ,  13, 'CiviPledge', NULL, 0, NULL,  13, NULL, 0, 0, 1, NULL),
 
   (@option_group_id_ceOpt, '{ts escape="sql"}Communication Preferences{/ts}',   1, 'CommBlock', NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL),
   (@option_group_id_ceOpt, '{ts escape="sql"}Demographics{/ts}'             ,   2, 'Demographics', NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL),
@@ -294,14 +296,16 @@ VALUES
   {/if}
   (@option_group_id_asOpt, 'Grants'                                        ,  12, NULL, NULL, 0, NULL, 14, NULL, 0, 0, 1, NULL),
   (@option_group_id_asOpt, '{ts escape="sql"}Demographics{/ts}'            ,  13, 'demographics', NULL, 0, NULL, 15, NULL, 0, 0, 1, NULL),
-  (@option_group_id_asOpt, '{ts escape="sql"}Pledges{/ts}'                 ,  14, 'PledgeBank', NULL, 0, NULL, 16, NULL, 0, 0, 1, NULL),
+  (@option_group_id_asOpt, '{ts escape="sql"}PledgeBank{/ts}'              ,  14, 'PledgeBank', NULL, 0, NULL, 16, NULL, 0, 0, 1, NULL),
+  (@option_group_id_asOpt, '{ts escape="sql"}Pledges{/ts}'                 ,  15, 'CiviPledge', NULL, 0, NULL, 17, NULL, 0, 0, 1, NULL),
 
   (@option_group_id_udOpt, '{ts escape="sql"}Groups{/ts}'                     , 1, 'Groups', NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL),
   (@option_group_id_udOpt, '{ts escape="sql"}Contributions{/ts}'              , 2, 'CiviContribute', NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL),
   (@option_group_id_udOpt, '{ts escape="sql"}Memberships{/ts}'                , 3, 'CiviMember', NULL, 0, NULL, 3, NULL, 0, 0, 1, NULL),
   (@option_group_id_udOpt, '{ts escape="sql"}Events{/ts}'                     , 4, 'CiviEvent', NULL, 0, NULL, 4, NULL, 0, 0, 1, NULL),
   (@option_group_id_udOpt, '{ts escape="sql"}My Contacts / Organizations{/ts}', 5, 'Permissioned Orgs', NULL, 0, NULL, 5, NULL, 0, 0, 1, NULL),
-  (@option_group_id_udOpt, '{ts escape="sql"}Pledges{/ts}'                    , 6, 'PledgeBank', NULL, 0, NULL, 6, NULL, 0, 0, 1, NULL),
+  (@option_group_id_udOpt, '{ts escape="sql"}PledgeBank{/ts}'                 , 6, 'PledgeBank', NULL, 0, NULL, 6, NULL, 0, 0, 1, NULL),
+  (@option_group_id_udOpt, '{ts escape="sql"}Pledges{/ts}'                    , 7, 'CiviPledge', NULL, 0, NULL, 7, NULL, 0, 0, 1, NULL),
 
   (@option_group_id_adOpt, '{ts escape="sql"}Street Address{/ts}'    ,  1, 'street_address', NULL, 0, NULL,  1, NULL, 0, 0, 1, NULL),
   (@option_group_id_adOpt, '{ts escape="sql"}Addt'l Address 1{/ts}'  ,  2, 'supplemental_address_1', NULL, 0, NULL,  2, NULL, 0, 0, 1, NULL),
@@ -359,15 +363,12 @@ VALUES
   (@option_group_id_sfe, 'png'      ,  3, NULL   ,  NULL, 0, 0,  3, NULL, 0, 0, 1, NULL),
   (@option_group_id_sfe, 'gif'      ,  4, NULL   ,  NULL, 0, 0,  4, NULL, 0, 0, 1, NULL),
   (@option_group_id_sfe, 'txt'      ,  5, NULL   ,  NULL, 0, 0,  5, NULL, 0, 0, 1, NULL),
-  (@option_group_id_sfe, 'html'     ,  6, NULL   ,  NULL, 0, 0,  6, NULL, 0, 0, 1, NULL),
-  (@option_group_id_sfe, 'htm'      ,  7, NULL   ,  NULL, 0, 0,  7, NULL, 0, 0, 1, NULL),
-  (@option_group_id_sfe, 'pdf'      ,  8, NULL   ,  NULL, 0, 0,  8, NULL, 0, 0, 1, NULL),
-  (@option_group_id_sfe, 'doc'      ,  9, NULL   ,  NULL, 0, 0,  9, NULL, 0, 0, 1, NULL),
-  (@option_group_id_sfe, 'xls'      , 10, NULL   ,  NULL, 0, 0, 10, NULL, 0, 0, 1, NULL),
-  (@option_group_id_sfe, 'rtf'      , 11, NULL   ,  NULL, 0, 0, 11, NULL, 0, 0, 1, NULL),
-  (@option_group_id_sfe, 'csv'      , 12, NULL   ,  NULL, 0, 0, 12, NULL, 0, 0, 1, NULL),
-  (@option_group_id_sfe, 'ppt'      , 13, NULL   ,  NULL, 0, 0, 13, NULL, 0, 0, 1, NULL),
-  (@option_group_id_sfe, 'doc'      , 14, NULL   ,  NULL, 0, 0, 14, NULL, 0, 0, 1, NULL),
+  (@option_group_id_sfe, 'pdf'      ,  6, NULL   ,  NULL, 0, 0,  6, NULL, 0, 0, 1, NULL),
+  (@option_group_id_sfe, 'doc'      ,  7, NULL   ,  NULL, 0, 0,  7, NULL, 0, 0, 1, NULL),
+  (@option_group_id_sfe, 'xls'      ,  8, NULL   ,  NULL, 0, 0,  8, NULL, 0, 0, 1, NULL),
+  (@option_group_id_sfe, 'rtf'      ,  9, NULL   ,  NULL, 0, 0,  9, NULL, 0, 0, 1, NULL),
+  (@option_group_id_sfe, 'csv'      , 10, NULL   ,  NULL, 0, 0, 10, NULL, 0, 0, 1, NULL),
+  (@option_group_id_sfe, 'ppt'      , 11, NULL   ,  NULL, 0, 0, 11, NULL, 0, 0, 1, NULL),
 
   (@option_group_id_we, 'TinyMCE'    , 1, NULL, NULL, 0, NULL, 1, NULL, 0, 1, 1, NULL),
   (@option_group_id_we, 'FCKEditor'  , 2, NULL, NULL, 0, NULL, 2, NULL, 0, 1, 1, NULL), 

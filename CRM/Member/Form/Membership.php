@@ -77,9 +77,33 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
        
         if ( $this->_mode ) {
             $this->assign( 'membershipMode', $this->_mode );
-            $this->_processors = CRM_Core_PseudoConstant::paymentProcessor( false, false,
-                                                                            "billing_mode IN ( 1, 3 )" );
+            
             $this->_paymentProcessor = array( 'billing_mode' => 1 );
+            $validProcessors = array( );
+            $processors = CRM_Core_PseudoConstant::paymentProcessor( false, false, "billing_mode IN ( 1, 3 )" );
+            
+            foreach ( $processors as $ppID => $label ) {
+                require_once 'CRM/Core/BAO/PaymentProcessor.php';
+                require_once 'CRM/Core/Payment.php';
+                $paymentProcessor =& CRM_Core_BAO_PaymentProcessor::getPayment( $ppID, $this->_mode );
+                if ( $paymentProcessor['payment_processor_type'] == 'PayPal' && !$paymentProcessor['user_name'] ) {
+                    continue;
+                } else if ( $paymentProcessor['payment_processor_type'] == 'Dummy' && $this->_mode == 'live' ) {
+                    continue;
+                } else {
+                    $paymentObject =& CRM_Core_Payment::singleton( $this->_mode, 'Contribute', $paymentProcessor );
+                    $error = $paymentObject->checkConfig( );
+                    if ( empty( $error ) ) {
+                        $validProcessors[$ppID] = $label;
+                    }
+                    $paymentObject = null;
+                }
+            }
+            if ( empty( $validProcessors )  ) {
+                CRM_Core_Error::fatal( ts( 'Could not find valid payment processor for this page' ) );
+            } else {
+                $this->_processors = $validProcessors;  
+            }
             // also check for billing information
             // get the billing location type
             $locationTypes =& CRM_Core_PseudoConstant::locationType( );
@@ -273,20 +297,25 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         $dao->find();
         while ($dao->fetch()) {
             if ($dao->is_active) {
-                if ( !CRM_Utils_Array::value($dao->member_of_contact_id,$selMemTypeOrg) ) {
-                    $selMemTypeOrg[$dao->member_of_contact_id] = 
-                        CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', 
-                                                     $dao->member_of_contact_id, 
-                                                     'display_name', 
-                                                     'id' );
-                    $selOrgMemType[$dao->member_of_contact_id][0] = ts('- select -');
-                }                
-                if ( !CRM_Utils_Array::value($dao->id,$selOrgMemType[$dao->member_of_contact_id]) ) {
-                    $selOrgMemType[$dao->member_of_contact_id][$dao->id] = $dao->name;
+                if ( $this->_mode && ! $dao->minimum_fee ) {
+                    continue;
+                } else {
+                    if ( !CRM_Utils_Array::value($dao->member_of_contact_id,$selMemTypeOrg) ) {
+                        $selMemTypeOrg[$dao->member_of_contact_id] = 
+                            CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', 
+                                                         $dao->member_of_contact_id, 
+                                                         'display_name', 
+                                                         'id' );
+                   
+                        $selOrgMemType[$dao->member_of_contact_id][0] = ts('- select -');
+                    }                
+                    if ( !CRM_Utils_Array::value($dao->id,$selOrgMemType[$dao->member_of_contact_id]) ) {
+                        $selOrgMemType[$dao->member_of_contact_id][$dao->id] = $dao->name;
+                    }
                 }
             }
         }
-        
+
         // show organization by default, if only one organization in
         // the list 
         if ( count($selMemTypeOrg) == 2 ) {
@@ -355,11 +384,6 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             $this->add( 'select', 'payment_processor_id',
                         ts( 'Payment Processor' ),
                         $this->_processors, true );
-            
-            $this->add( 'text', "email-{$this->_bltID}",
-                        ts( 'Email Address' ), array( 'size' => 30, 'maxlength' => 60 ), true );
-        }
-        if ( $this->_mode ) {
             require_once 'CRM/Core/Payment/Form.php';
             CRM_Core_Payment_Form::buildCreditCard( $this, true );
         }
@@ -389,6 +413,21 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         $errors = array( );
         if (!$params['membership_type_id'][1]) {
             $errors['membership_type_id'] = ts('Please select a membership type.');
+        }
+        if ( $params['membership_type_id'][1] && $params['payment_processor_id'] ) {
+            // make sure that credit card number and cvv are valid
+            require_once 'CRM/Utils/Rule.php';
+            if ( CRM_Utils_Array::value( 'credit_card_type', $params ) ) {
+                if ( CRM_Utils_Array::value( 'credit_card_number', $params ) &&
+                     ! CRM_Utils_Rule::creditCardNumber( $params['credit_card_number'], $params['credit_card_type'] ) ) {
+                    $errors['credit_card_number'] = ts( "Please enter a valid Credit Card Number" );
+                }
+                
+                if ( CRM_Utils_Array::value( 'cvv2', $params ) &&
+                     ! CRM_Utils_Rule::cvv( $params['cvv2'], $params['credit_card_type'] ) ) {
+                    $errors['cvv2'] =  ts( "Please enter a valid Credit Card Verification Number" );
+                }
+            }
         }
         
         $joinDate = CRM_Utils_Date::format( $params['join_date'] );
@@ -429,10 +468,15 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
              ! $params['status_id'] ) {
             $errors['status_id'] = ts('Please enter the status.');
         }
-        
-        if ( isset( $params['record_contribution'] ) && 
-             ! isset( $params['contribution_type_id'] ) ) {
-            $errors['contribution_type_id'] = ts('Please enter the contribution.');
+        //total amount condition arise when membership type having no
+        //minimum fee
+        if ( isset( $params['record_contribution'] ) ) { 
+            if ( ! $params['contribution_type_id'] ) {
+                $errors['contribution_type_id'] = ts('Please enter the contribution Type.');
+            } 
+            if ( !$params['total_amount'] ) {
+               $errors['total_amount'] = ts('Please enter the contribution.'); 
+            }
         }
         
         return empty($errors) ? true : $errors;
@@ -545,6 +589,10 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                 }
             }
         }
+        // Retrieve the name and email of the current user - this will be the FROM for the receipt email
+        require_once 'CRM/Contact/BAO/Contact/Location.php';
+        list( $userName, $userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $ids['userId'] );
+        
         if ( $formValues['record_contribution'] ) {
             $recordContribution = array(
                                         'total_amount',
@@ -558,9 +606,6 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                 $params[$f] = CRM_Utils_Array::value( $f, $formValues );
             }
            
-            // Retrieve the name and email of the current user - this will be the FROM for the receipt email
-            require_once 'CRM/Contact/BAO/Contact/Location.php';
-            list( $userName, $userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $ids['userId'] );
             $membershipType = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType',
                                                            $formValues['membership_type_id'][1] );
             $params['contribution_source'] = "{$membershipType} Membership: Offline membership signup (by {$userName})";
@@ -587,8 +632,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             
             // set email for primary location.
             $fields["email-Primary"] = 1;
-            $formValues["email-Primary"] = $formValues["email-{$this->_bltID}"];
-            
+            $formValues["email-5"]   = $formValues["email-Primary"] = $this->_contributorEmail;
             $params['register_date'] = $now;
             
             // now set the values for the billing location.
@@ -660,7 +704,8 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             $params['contribution_status_id'] = 1;
             $params['receive_date']           = $now;
             $params['invoice_id']             = $this->_params['invoiceID'];
-            $params['contribution_source']    = $params['source'] = ts( 'Online Membership: CiviCRM Admin Interface' );
+            $params['contribution_source']    = ts( 'Online Membership: Admin Interface' );
+            $params['source']                 = $formValues['source'] ? $formValues['source'] :$params['contribution_source'];
             $params['trxn_id']                = $result['trxn_id'];
             $params['payment_instrument_id']  = 1;
             $params['is_test']                = ( $this->_mode == 'live' ) ? 0 : 1 ; 
@@ -697,8 +742,6 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                 
                 require_once 'CRM/Contribute/BAO/FinancialTrxn.php';
                 $trxn =& CRM_Contribute_BAO_FinancialTrxn::create( $trxnParams );
-                require_once 'CRM/Contact/BAO/Contact/Location.php';
-                list( $userName, $userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $ids['userId'] );
             }
         } else {
             $params['action'] = $this->_action;
@@ -737,6 +780,47 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                 $members[] = array( 'member_test', '=', 1, 0, 0 ); 
             } 
             CRM_Core_BAO_UFGroup::getValues( $this->_contactID, $customFields, $customValues , false, $members );
+            if( $this->_mode ) {
+                if ( CRM_Utils_Array::value( 'billing_first_name', $this->_params ) ) {
+                    $name = $this->_params['billing_first_name'];
+                    
+                }
+                
+                if ( CRM_Utils_Array::value( 'billing_middle_name', $this->_params ) ) {
+                    $name .= " {$this->_params['billing_middle_name']}";
+                }
+                
+                if ( CRM_Utils_Array::value( 'billing_last_name', $this->_params ) ) {
+                    $name .= " {$this->_params['billing_last_name']}";
+                }
+                $this->assign( 'name', $name );
+                
+                // assign the address formatted up for display
+                $addressParts  = array( "street_address-{$this->_bltID}",
+                                        "city-{$this->_bltID}",
+                                        "postal_code-{$this->_bltID}",
+                                        "state_province_id-{$this->_bltID}",
+                                        "country_id-{$this->_bltID}");
+                $addressFields = array( );
+                foreach ($addressParts as $part) {
+                    list( $n, $id ) = explode( '-', $part );
+                    if ( isset ( $this->_params[$part] ) ) {
+                        $addressFields[$n] = $this->_params[$part];
+                    }
+                }
+                require_once 'CRM/Utils/Address.php';
+                $this->assign('address', CRM_Utils_Address::format( $addressFields ) );
+                $date = CRM_Utils_Date::format( $this->_params['credit_card_exp_date'] );
+                $date = CRM_Utils_Date::mysqlToIso( $date );
+                $this->assign( 'credit_card_exp_date', $date );
+                $this->assign( 'credit_card_number',
+                               CRM_Utils_System::mungeCreditCard( $this->_params['credit_card_number'] ) );
+                $this->assign( ' credit_card_type', $this->_params['credit_card_type'] );
+                $this->assign( 'contributeMode', 'direct');
+                $this->assign( 'isAmountzero' , 0);
+                $this->assign( 'is_pay_later',0);
+                $this->assign( 'isPrimary', 1 );
+            }
             $this->assign( 'module', 'Membership' );
             $this->assign( 'subject', ts('Membership Confirmation and Receipt') );
             $this->assign( 'receive_date', $params['receive_date'] );            

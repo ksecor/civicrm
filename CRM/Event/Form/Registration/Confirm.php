@@ -213,15 +213,11 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         $this->assign( 'lineItem', $this->_lineItem );
         //display additional participants profile.
         require_once 'CRM/Event/BAO/EventPage.php';
-        require_once 'CRM/Core/ShowHideBlocks.php';
-        $showHide =& new CRM_Core_ShowHideBlocks( );
         $participantParams = $this->_params;
         $formattedValues = array( );
         $count = 1;
         foreach ( $participantParams as $participantNum => $participantValue ) {
             if ( $participantNum && $participantValue != 'skip') {
-                $showHide->addShow( $count. '_show' );
-                $showHide->addHide( $count. '_hide' );
                 //get the customPre profile info
                 if ( CRM_Utils_Array::value( 'custom_pre_id', $this->_values ) ) {
                     $values = array( );
@@ -248,7 +244,6 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         
         if ( ! empty( $formattedValues ) && $count > 1 ) {
             $this->assign( 'addParticipantProfile' , $formattedValues );
-            $showHide->addToTemplate( );
         }
         
         if( $this->_params[0]['amount'] == 0 ) {

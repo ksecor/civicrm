@@ -25,6 +25,7 @@
 {/if}
 
 {/if}
+{if $amount}
 ===========================================================
 {if !$membershipBlock AND $amount}{ts}Contribution Information{/ts}{else}{ts}Membership Fee{/ts}{/if}
 
@@ -43,8 +44,8 @@
 {else}
 {ts}Amount{/ts}: {$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}
 {/if}
+{/if}
 {if $is_pay_later}
-
 
 ===========================================================
 {$pay_later_receipt}
@@ -96,7 +97,7 @@
 
 ===========================================================
 {$email}
-{else}
+{elseif $amount}
 ===========================================================
 {ts}Billing Name and Address{/ts}
 

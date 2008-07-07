@@ -4,20 +4,19 @@
     {include file="CRM/Contribute/Form/ContributionView.tpl"}
 {/if}
 {if $honorRows}
- <div class="form-item">
-        {strip}
-        <table cellpadding="0" cellspacing="0" border="0">
+    {strip}
+    <table class="selector">
         <tr class="columnheader">
-	    <th>{ts}Contributor{/ts}</th> 
-        <th>{ts}Amount{/ts}</th>
-	    <th>{ts}Type{/ts}</th>
-        <th>{ts}Source{/ts}</th>
-        <th>{ts}Received{/ts}</th>
-        <th>{ts}Status{/ts}</th>
+	    <th scope="col">{ts}Contributor{/ts}</th> 
+        <th scope="col">{ts}Amount{/ts}</th>
+	    <th scope="col">{ts}Type{/ts}</th>
+        <th scope="col">{ts}Source{/ts}</th>
+        <th scope="col">{ts}Received{/ts}</th>
+        <th scope="col">{ts}Status{/ts}</th>
         <th>&nbsp;</th>   
         </tr>
        	{foreach from=$honorRows item=row}
-	   <tr id='rowid{$row.honorId}' class="{cycle values="odd-row,even-row"}">
+	    <tr id='rowid{$row.honorId}' class="{cycle values="odd-row,even-row"}">
 	       <td><a href="{crmURL p="civicrm/contact/view" q="reset=1&cid=`$row.honorId`"}" id="view_contact">{$row.display_name}</a></td>
 	       <td>{$row.amount|crmMoney}</td>
            <td>{$row.type}</td>
@@ -25,10 +24,9 @@
            <td>{$row.receive_date|truncate:10:''|crmDate}</td>
            <td>{$row.contribution_status}</td>
 	       <td>{$row.action}</td>
-	  </tr>
+	    </tr>
         {/foreach}
-       	</table>
-	    {/strip}
- </div>
+    </table>
+    {/strip}
 {/if}
 

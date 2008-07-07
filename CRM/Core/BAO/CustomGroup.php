@@ -296,8 +296,7 @@ SELECT id
 FROM   $table
 WHERE  entity_id = $entityID
 ";
-                    $recordExists = CRM_Core_DAO::singleValueQuery( $query,
-                                                                    CRM_Core_DAO::$_nullArray );
+                    $recordExists = CRM_Core_DAO::singleValueQuery( $query );
                     if ( $recordExists ) {
                         $firstTable = $table;
                         break;
@@ -318,7 +317,7 @@ SELECT $select
  WHERE {$firstTable}{$dbLocale}.entity_id = $entityID
 ";
 
-                    $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+                    $dao = CRM_Core_DAO::executeQuery( $query );
                 
                     if ( $dao->fetch( ) ) {
                         foreach ( $groupTree as $groupID => $group ) {
@@ -445,8 +444,7 @@ SELECT $select
 SELECT entity_id 
 FROM   {$table} 
 WHERE  {$table}.entity_id = {$entityId}";
-            $recordExists =& CRM_Core_DAO::singleValueQuery( $sql,
-                                                             CRM_Core_DAO::$_nullArray ); 
+            $recordExists =& CRM_Core_DAO::singleValueQuery( $sql );
             if ( ! empty( $update ) ) {
                 $tables = implode( ', ', $groupTree['info']['from'] );
                 $hookOP = null;
@@ -480,7 +478,7 @@ $sqlOP $tables
    SET $update
 $where       
 ";
-                $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+                $dao = CRM_Core_DAO::executeQuery( $query );
             }
         }
     }
@@ -1181,13 +1179,13 @@ $where
                             $query = "
 SELECT id as value, name as label  
   FROM civicrm_country";
-                            $coDAO  = CRM_Core_DAO::executeQuery( $query,CRM_Core_DAO::$_nullArray  );  
+                            $coDAO  = CRM_Core_DAO::executeQuery( $query );
                         } else if ($field['html_type'] == 'Multi-Select State/Province') {
                             $customData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $field['customValue']['data']);
                             $query = "
 SELECT id as value, name as label  
   FROM civicrm_state_province";
-                            $coDAO  = CRM_Core_DAO::executeQuery( $query,CRM_Core_DAO::$_nullArray  ); 
+                            $coDAO  = CRM_Core_DAO::executeQuery( $query );
 
                         } else {
                         
@@ -1408,7 +1406,7 @@ ORDER BY weight ASC, label ASC";
                   WHERE cg.id = cf.custom_group_id
                     AND cf.id =" . CRM_Utils_Type::escape($customFieldId, 'Integer');
 
-        $extends = CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
+        $extends = CRM_Core_DAO::singleValueQuery( $query );
         
         if ( in_array( $extends, $removeCustomFieldTypes ) ) {
             return false;

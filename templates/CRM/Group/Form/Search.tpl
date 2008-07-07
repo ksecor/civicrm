@@ -22,6 +22,15 @@
         </td>
     </tr>
     <tr>
+	<td>
+	</td>
+	<td>{$form.active_status.html}
+	    {$form.active_status.label}&nbsp;
+	    {$form.inactive_status.html}
+	    {$form.inactive_status.label}	
+	 </td>
+    </tr>		
+    <tr>
         <td>{$form.buttons.html}</td><td colspan="2">
     </tr>
 </table>

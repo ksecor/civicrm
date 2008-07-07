@@ -50,12 +50,13 @@ class CRM_Mailing_Page_Preview extends CRM_Core_Page
         require_once 'CRM/Mailing/BAO/Mailing.php';
 
         $session =& CRM_Core_Session::singleton();
-
-        $options = array();
-        $session->getVars($options, 'CRM_Mailing_Controller_Send_');
         
-        $type = CRM_Utils_Request::retrieve('type', 'String', CRM_Core_DAO::$_nullObject, false, 'text');
-
+        $qfKey = CRM_Utils_Request::retrieve('qfKey', 'String', CRM_Core_DAO::$_nullObject, false, 'text');
+        $type  = CRM_Utils_Request::retrieve('type', 'String', CRM_Core_DAO::$_nullObject, false, 'text');
+        
+        $options = array();
+        $session->getVars($options, "CRM_Mailing_Controller_Send_$qfKey");
+        
         // FIXME: the below and CRM_Mailing_Form_Test::testMail()
         // should be refactored
         $fromEmail = null;
@@ -69,11 +70,18 @@ class CRM_Mailing_Page_Preview extends CRM_Core_Page
 
         CRM_Mailing_BAO_Mailing::tokenReplace($mailing);
         
-        $mime =& $mailing->compose(null, null, null, $session->get('userID'), $fromEmail, $fromEmail, true);
+        // get and format attachments
+        require_once 'CRM/Core/BAO/File.php';
+        $attachments =& CRM_Core_BAO_File::getEntityFile( 'civicrm_mailing',
+                                                          $mailing->id );
+
+        $mime =& $mailing->compose(null, null, null, $session->get('userID'), $fromEmail, $fromEmail,
+                                   true, null, $attachments );
         
         // there doesn't seem to be a way to get to Mail_Mime's text and HTML
         // parts, so we steal a peek at Mail_Mime's private properties, render 
         // them and exit
+        // note that preview does not display any attachments
         $mime->get();
         if ($type == 'html') {
             header('Content-Type: text/html; charset=utf-8');

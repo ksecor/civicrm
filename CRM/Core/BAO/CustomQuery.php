@@ -158,7 +158,7 @@ SELECT f.id, f.label, f.data_type,
    AND f.is_active = 1 
    AND f.id IN ( $idString )";
 
-        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        $dao =& CRM_Core_DAO::executeQuery( $query );
         $optionIds = array( );
         while ( $dao->fetch( ) ) {
             // get the group dao to figure which class this custom field extends
@@ -200,7 +200,7 @@ SELECT label, value
  WHERE option_group_id IN ( $optionIdString )
 ";
 
-                $option =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+                $option =& CRM_Core_DAO::executeQuery( $query );
                 while ( $option->fetch( ) ) {
                     $dataType = $this->_fields[$dao->id]['data_type'];
                     if ( $dataType == 'Int' || $dataType == 'Float' ) {

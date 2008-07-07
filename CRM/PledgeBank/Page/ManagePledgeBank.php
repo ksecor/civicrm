@@ -75,19 +75,6 @@ class CRM_PledgeBank_Page_ManagePledgeBank extends CRM_Core_Page
                                                                           'title' => ts('Configure Pledge') 
                                                                           ),
                                         
-//                                         CRM_Core_Action::PREVIEW => array(
-//                                                                           'name'  => ts('Test-drive'),
-//                                                                           'url'   => 'civicrm/event/info',
-//                                                                           'qs'    => 'reset=1&action=preview&id=%%id%%',
-//                                                                           'title' => ts('Preview') 
-//                                                                           ),
-//                                         CRM_Core_Action::FOLLOWUP    => array(
-//                                                                           'name'  => ts('Live Page'),
-//                                                                           'url'   => 'civicrm/event/info',
-//                                                                           'qs'    => 'reset=1&id=%%id%%',
-//                                                                           'title' => ts('FollowUp'),
-//                                                                           ),
-                                        
                                         CRM_Core_Action::DISABLE => array(
                                                                           'name'  => ts('Disable'),
                                                                           'url'   => CRM_Utils_System::currentPath( ),
@@ -164,17 +151,17 @@ class CRM_PledgeBank_Page_ManagePledgeBank extends CRM_Core_Page
             require_once 'CRM/PledgeBank/Page/ManagePledgeBankEdit.php';
             $page =& new CRM_PledgeBank_Page_ManagePledgeBankEdit( );
             return $page->run( );
-        } /*else if ($action & CRM_Core_Action::DISABLE ) {
-            require_once 'CRM/Event/BAO/Event.php';
-            CRM_Event_BAO_Event::setIsActive($id ,0);
+        } else if ($action & CRM_Core_Action::DISABLE ) {
+            require_once 'CRM/PledgeBank/BAO/Pledge.php';
+            CRM_PledgeBank_BAO_Pledge::setIsActive($id ,0);
         } else if ($action & CRM_Core_Action::ENABLE ) {
-            require_once 'CRM/Event/BAO/Event.php';
-            CRM_Event_BAO_Event::setIsActive($id ,1); 
+            require_once 'CRM/PledgeBank/BAO/Pledge.php';
+            CRM_PledgeBank_BAO_Pledge::setIsActive($id ,1); 
         } else if ($action & CRM_Core_Action::DELETE ) {
             $session =& CRM_Core_Session::singleton();
             $session->pushUserContext( CRM_Utils_System::url( CRM_Utils_System::currentPath( ), 'reset=1&action=browse' ) );
-            $controller =& new CRM_Core_Controller_Simple( 'CRM_Event_Form_ManageEvent_Delete',
-                                                           'Delete Event',
+            $controller =& new CRM_Core_Controller_Simple( 'CRM_PledgeBank_Form_ManagePledgeBank_Delete',
+                                                           'Delete Pledge',
                                                            $action );
             $id = CRM_Utils_Request::retrieve('id', 'Positive',
                                               $this, false, 0);
@@ -184,7 +171,7 @@ class CRM_PledgeBank_Page_ManagePledgeBank extends CRM_Core_Page
         } else if ($action & CRM_Core_Action::COPY ) {
             $this->copy( );
         }
-          */
+          
         // finally browse the custom groups
         $this->browse();
         

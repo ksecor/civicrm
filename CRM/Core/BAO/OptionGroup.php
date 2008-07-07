@@ -105,8 +105,7 @@ class CRM_Core_BAO_OptionGroup extends CRM_Core_DAO_OptionGroup
         
         if ($params['is_default']) {
             $query = "UPDATE civicrm_option_group SET is_default = 0";
-            CRM_Core_DAO::executeQuery( $query,
-                                        CRM_Core_DAO::$_nullArray );
+            CRM_Core_DAO::executeQuery( $query );
         }
         
         $optionGroup->id = CRM_Utils_Array::value( 'optionGroup', $ids );
@@ -206,10 +205,9 @@ AND first.option_group_id =%2
 AND first.weight = second.weight
 AND first.id =%3
 ";
-                $params = array( 
-                                1 => array( $copyOptionGroup->id, 'Int' ), 
-                                2 => array( $optionGroupId, 'Int' ), 
-                                3 => array( $defaultId, 'Int' ) );
+                $params = array( 1 => array( $copyOptionGroup->id, 'Int' ), 
+                                 2 => array( $optionGroupId, 'Int' ), 
+                                 3 => array( $defaultId, 'Int' ) );
                 
                 $dao = CRM_Core_DAO::executeQuery( $query, $params );
                 

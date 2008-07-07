@@ -56,7 +56,7 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
      */
     function setDefaultValues( ) 
     {
-        $mailingID = $this->get("mid");
+        $mailingID = $this->get("mailing_id");
         $continue = CRM_Utils_Request::retrieve('continue', 'String', $this, false, null );
         
         // check that the user has permission to access mailing id

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2007-04-18 07:35+0200\n"
-"PO-Revision-Date: 2008-04-21 12:18-0700\n"
-"Last-Translator: Ebeer <webmaster@ebeer.fr>\n"
+"PO-Revision-Date: 2008-06-25 06:58-0700\n"
+"Last-Translator: Aurialie <ajublin@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -336,52 +336,52 @@ msgid "Pondicherry"
 msgstr "Pondicherry"
 
 msgid "mazowieckie"
-msgstr ""
+msgstr "Voïvodie de Mazovie"
 
 msgid "pomorskie"
-msgstr ""
+msgstr "Voïvodie de Poméranie"
 
 msgid "dolnośląskie"
-msgstr ""
+msgstr "Voïvodie de Basse-Silésie"
 
 msgid "kujawsko-pomorskie"
-msgstr ""
+msgstr "Voïvodie de Cujavie-Poméranie"
 
 msgid "lubelskie"
-msgstr ""
+msgstr "Voïvodie de Lublin"
 
 msgid "lubuskie"
-msgstr ""
+msgstr "Voïvodie de Lubusz"
 
 msgid "łódzkie"
-msgstr ""
+msgstr "Voïvodie de Łódź"
 
 msgid "małopolskie"
-msgstr ""
+msgstr "Voïvodie de Petite-Pologne"
 
 msgid "opolskie"
-msgstr ""
+msgstr "Voïvodie d'Opole"
 
 msgid "podkarpackie"
-msgstr ""
+msgstr "Voïvodie des Basses-Carpates"
 
 msgid "podlaskie"
-msgstr ""
+msgstr "Voïvodie de Podlachie"
 
 msgid "śląskie"
-msgstr ""
+msgstr "Voïvodie de Silésie"
 
 msgid "świętokrzyskie"
-msgstr ""
+msgstr "Voïvodie de Sainte-Croix"
 
 msgid "warmińsko-mazurskie"
-msgstr ""
+msgstr "Voïvodie de Varmie-Mazurie"
 
 msgid "wielkopolskie"
-msgstr ""
+msgstr "Voïvodie de Grande-Pologne"
 
 msgid "zachodniopomorskie"
-msgstr ""
+msgstr "Voïvodie de Poméranie occidentale"
 
 msgid "Abu Zaby"
 msgstr "Abu Zaby"
@@ -867,7 +867,7 @@ msgid "Agdam"
 msgstr "Agdam"
 
 msgid "Agdas"
-msgstr ""
+msgstr "Agdas"
 
 msgid "Agstafa"
 msgstr "Agstafa"
@@ -1041,10 +1041,10 @@ msgid "Zardab"
 msgstr "Zardab"
 
 msgid "Federacija Bosna i Hercegovina"
-msgstr "Federacija Bosna i Hercegovina"
+msgstr "Bosnie-Herzégovine"
 
 msgid "Republika Srpska"
-msgstr "Republika Srpska"
+msgstr "République serbe de Bosnie"
 
 msgid "Bagerhat zila"
 msgstr "Bagerhat zila"
@@ -1224,10 +1224,10 @@ msgid "Sherpur zila"
 msgstr "Sherpur zila"
 
 msgid "Sirajganj zila"
-msgstr ""
+msgstr "Sirajganj zila"
 
 msgid "Sunamganj zila"
-msgstr ""
+msgstr "Sunamganj zila"
 
 msgid "Sylhet zila"
 msgstr "Sylhet zila"
@@ -1254,7 +1254,7 @@ msgid "Limburg"
 msgstr "Limburg"
 
 msgid "Central and Western"
-msgstr ""
+msgstr "Central and Western"
 
 msgid "Eastern"
 msgstr "Eastern"
@@ -1263,49 +1263,49 @@ msgid "Southern"
 msgstr "Southern"
 
 msgid "Wan Chai"
-msgstr ""
+msgstr "Wan Chai"
 
 msgid "Kowloon City"
-msgstr ""
+msgstr "Kowloon City"
 
 msgid "Kwun Tong"
-msgstr ""
+msgstr "Kwun Tong"
 
 msgid "Sham Shui Po"
-msgstr ""
+msgstr "Sham Shui Po"
 
 msgid "Wong Tai Sin"
-msgstr ""
+msgstr "Wong Tai Sin"
 
 msgid "Yau Tsim Mong"
-msgstr ""
+msgstr "Yau Tsim Mong"
 
 msgid "Islands"
-msgstr ""
+msgstr "Islands"
 
 msgid "Kwai Tsing"
-msgstr ""
+msgstr "Kwai Tsing"
 
 msgid "North"
 msgstr "North"
 
 msgid "Sai Kung"
-msgstr ""
+msgstr "Sai Kung"
 
 msgid "Sha Tin"
-msgstr ""
+msgstr "Sha Tin"
 
 msgid "Tai Po"
-msgstr ""
+msgstr "Tai Po"
 
 msgid "Tsuen Wan"
-msgstr ""
+msgstr "Tsuen Wan"
 
 msgid "Tuen Mun"
-msgstr ""
+msgstr "Tuen Mun"
 
 msgid "Yuen Long"
-msgstr ""
+msgstr "Yuen Long"
 
 msgid "Luxembourg"
 msgstr "Luxembourg"
@@ -1908,7 +1908,7 @@ msgid "Kweneng"
 msgstr "Kweneng"
 
 msgid "Ngamiland"
-msgstr ""
+msgstr "Ngamiland"
 
 msgid "North-East"
 msgstr "North-East"
@@ -1920,22 +1920,22 @@ msgid "South-East"
 msgstr "South-East"
 
 msgid "Brèsckaja voblasc'"
-msgstr "Brèsckaja voblasc'"
+msgstr "Voblast de Brest"
 
 msgid "Homel'skaja voblasc'"
-msgstr ""
+msgstr "Voblast de Homiel"
 
 msgid "Hrodzenskaja voblasc'"
-msgstr "Hrodzenskaja voblasc'"
+msgstr "Voblast de Hrodna"
 
 msgid "Mahilëuskaja voblasc'"
-msgstr "Mahilëuskaja voblasc'"
+msgstr "Voblast de Moguilev"
 
 msgid "Minskaja voblasc'"
-msgstr "Minskaja voblasc'"
+msgstr "Voblast de Minsk"
 
 msgid "Vicebskaja voblasc'"
-msgstr "Vicebskaja voblasc'"
+msgstr "Voblast de Vitebsk"
 
 msgid "Belize"
 msgstr "Belize"
@@ -1998,7 +1998,7 @@ msgid "Bamingui-Bangoran"
 msgstr "Bamingui-Bangoran"
 
 msgid "Basse-Kotto"
-msgstr ""
+msgstr "Basse-Kotto"
 
 msgid "Haute-Kotto"
 msgstr "Haute-Kotto"
@@ -2097,7 +2097,7 @@ msgid "Fribourg"
 msgstr "Fribourg"
 
 msgid "Geneva"
-msgstr "Geneva"
+msgstr "Genève"
 
 msgid "Glarus"
 msgstr "Glarus"
@@ -2607,46 +2607,46 @@ msgid "Pafos"
 msgstr "Pafos"
 
 msgid "Jihočeský kraj"
-msgstr "Jihocesky kraj"
+msgstr "Bohême-du-Sud"
 
 msgid "Jihomoravský kraj"
-msgstr "Jihomoravsky kraj"
+msgstr "Moravie-du-Sud"
 
 msgid "Karlovarský kraj"
-msgstr "Karlovarsky kraj"
+msgstr "Région de Karlovy Vary"
 
 msgid "Královéhradecký kraj"
-msgstr "Kralovehradecky kraj"
+msgstr "Région de Hradec Králové"
 
 msgid "Liberecký kraj"
-msgstr "Liberecky kraj"
+msgstr "Région de Liberec"
 
 msgid "Moravskoslezský kraj"
-msgstr "Moravskoslezsky kraj"
+msgstr "Région de Moravie-Silésie"
 
 msgid "Olomoucký kraj"
-msgstr "Olomoucky kraj"
+msgstr "Région d'Olomouc"
 
 msgid "Pardubický kraj"
-msgstr "Pardubicky kraj"
+msgstr "Région de Pardubice"
 
 msgid "Plzeňský kraj"
-msgstr "Plzensky kraj"
+msgstr "Région de Pilsen"
 
 msgid "Praha, hlavní město"
-msgstr ""
+msgstr "Prague"
 
 msgid "Středočeský kraj"
-msgstr "Stredocesky kraj"
+msgstr "Bohême-Centrale"
 
 msgid "Ústecký kraj"
-msgstr "Ustecky kraj"
+msgstr "Région d'Ústí nad Labem"
 
 msgid "Vysočina"
-msgstr "Kraj Vysocina"
+msgstr "Région de Vysočina"
 
 msgid "Zlínský kraj"
-msgstr "Zlinsky kraj"
+msgstr "Région de Zlín"
 
 msgid "Baden-Wuerttemberg"
 msgstr "Bade-Wuertemberg"
@@ -2658,7 +2658,7 @@ msgid "Bremen"
 msgstr "Brême"
 
 msgid "Hamburg"
-msgstr "Hamburg"
+msgstr "Hambourg"
 
 msgid "Hessen"
 msgstr "Hesse"
@@ -2682,7 +2682,7 @@ msgid "Berlin"
 msgstr "Berlin"
 
 msgid "Brandenburg"
-msgstr ""
+msgstr "Brandebourg"
 
 msgid "Mecklenburg-Vorpommern"
 msgstr "Mecklenbourg-Poméranie occidentale"
@@ -2727,7 +2727,7 @@ msgid "Roskilde"
 msgstr "Roskilde"
 
 msgid "Western Zealand"
-msgstr ""
+msgstr "Western Zealand"
 
 msgid "Storstrøm"
 msgstr "Storstrom"
@@ -2772,7 +2772,7 @@ msgid "Barahona"
 msgstr "Barahona"
 
 msgid "Dajabón"
-msgstr ""
+msgstr "Dajabón"
 
 msgid "Duarte"
 msgstr "Duarte"
@@ -2802,10 +2802,10 @@ msgid "La Vega"
 msgstr "La Vega"
 
 msgid "Maroia Trinidad Sánchez"
-msgstr ""
+msgstr "Maroia Trinidad Sánchez"
 
 msgid "Monseñor Nouel"
-msgstr ""
+msgstr "Monseñor Nouel"
 
 msgid "Monte Cristi"
 msgstr "Monte Cristi"
@@ -2829,19 +2829,19 @@ msgid "Samaná"
 msgstr "Samana"
 
 msgid "San Cristóbal"
-msgstr ""
+msgstr "San Cristóbal"
 
 msgid "San Pedro de Macorís"
-msgstr ""
+msgstr "San Pedro de Macorís"
 
 msgid "Sánchez Ramírez"
-msgstr ""
+msgstr "Sánchez Ramírez"
 
 msgid "Santiago"
 msgstr "Santiago"
 
 msgid "Santiago Rodríguez"
-msgstr ""
+msgstr "Santiago Rodríguez"
 
 msgid "Valverde"
 msgstr "Valverde"
@@ -3198,7 +3198,7 @@ msgid "Semenawi Keyih Bahri [Semien-Keih-Bahri]"
 msgstr "Semenawi Keyih Bahri [Semien-Keih-Bahri]"
 
 msgid "Álava"
-msgstr ""
+msgstr "Álava"
 
 msgid "Albacete"
 msgstr "Albacete"
@@ -3207,13 +3207,13 @@ msgid "Alicante"
 msgstr "Alicante"
 
 msgid "Almería"
-msgstr ""
+msgstr "Almería"
 
 msgid "Asturias"
 msgstr "Asturias"
 
 msgid "Ávila"
-msgstr ""
+msgstr "Ávila"
 
 msgid "Badajoz"
 msgstr "Badajoz"
@@ -3228,16 +3228,16 @@ msgid "Burgos"
 msgstr "Burgos"
 
 msgid "Cáceres"
-msgstr ""
+msgstr "Cáceres"
 
 msgid "Cádiz"
-msgstr ""
+msgstr "Cádiz"
 
 msgid "Cantabria"
 msgstr "Cantabria"
 
 msgid "Castellón"
-msgstr ""
+msgstr "Castellón"
 
 msgid "Ciudad Real"
 msgstr "Ciudad Real"
@@ -3255,7 +3255,7 @@ msgid "Guadalajara"
 msgstr "Guadalajara"
 
 msgid "Guipúzcoa"
-msgstr ""
+msgstr "Guipúzcoa"
 
 msgid "Huelva"
 msgstr "Huelva"
@@ -3264,10 +3264,10 @@ msgid "Huesca"
 msgstr "Huesca"
 
 msgid "Jaén"
-msgstr ""
+msgstr "Jaén"
 
 msgid "La Coruña"
-msgstr ""
+msgstr "La Coruña"
 
 msgid "La Rioja"
 msgstr "La Rioja"
@@ -3276,10 +3276,10 @@ msgid "Las Palmas"
 msgstr "Las Palmas"
 
 msgid "León"
-msgstr ""
+msgstr "León"
 
 msgid "Lleida [Lérida]"
-msgstr ""
+msgstr "Lérida"
 
 msgid "Lugo"
 msgstr "Lugo"
@@ -3288,16 +3288,16 @@ msgid "Madrid"
 msgstr "Madrid"
 
 msgid "Málaga"
-msgstr ""
+msgstr "Malaga"
 
 msgid "Murcia"
 msgstr "Murcie"
 
 msgid "Navarra"
-msgstr "Navarra"
+msgstr "Navarre"
 
 msgid "Ourense"
-msgstr "Ourense"
+msgstr "Orense"
 
 msgid "Palencia"
 msgstr "Palencia"
@@ -3348,7 +3348,7 @@ msgid "Melilla"
 msgstr "Melilla"
 
 msgid "Addis Ababa"
-msgstr ""
+msgstr "Addis Ababa"
 
 msgid "Dire Dawa"
 msgstr "Dire Dawa"
@@ -3360,25 +3360,25 @@ msgid "Amara"
 msgstr "Amara"
 
 msgid "Benshangul-Gumaz"
-msgstr ""
+msgstr "Benshangul-Gumaz"
 
 msgid "Gambela Peoples"
-msgstr ""
+msgstr "Gambela Peoples"
 
 msgid "Harari People"
-msgstr ""
+msgstr "Harari People"
 
 msgid "Oromia"
-msgstr ""
+msgstr "Oromia"
 
 msgid "Somali"
-msgstr "Somali"
+msgstr "Somalie"
 
 msgid "Southern Nations, Nationalities and Peoples"
 msgstr "Southern Nations, Nationalities and Peoples"
 
 msgid "Tigrai"
-msgstr ""
+msgstr "Tigrai"
 
 msgid "Northern"
 msgstr "Northern"
@@ -3417,13 +3417,13 @@ msgid "Alpes-Maritimes"
 msgstr "Alpes-Maritimes"
 
 msgid "Ardèche"
-msgstr ""
+msgstr "Ardèche"
 
 msgid "Ardennes"
 msgstr "Ardennes"
 
 msgid "Ariège"
-msgstr ""
+msgstr "Ariège"
 
 msgid "Aube"
 msgstr "Aube"
@@ -3438,7 +3438,7 @@ msgid "Bas-Rhin"
 msgstr "Bas-Rhin"
 
 msgid "Bouches-du-Rhône"
-msgstr ""
+msgstr "Bouches-du-Rhône"
 
 msgid "Calvados"
 msgstr "Calvados"
@@ -3456,22 +3456,22 @@ msgid "Cher"
 msgstr "Cher"
 
 msgid "Corrèze"
-msgstr ""
+msgstr "Corrèze"
 
 msgid "Corse-du-Sud"
 msgstr "Corse-du-Sud"
 
 msgid "Côte-d'Or"
-msgstr ""
+msgstr "Côte-d'Or"
 
 msgid "Côtes-d'Armor"
-msgstr ""
+msgstr "Côtes-d'Armor"
 
 msgid "Creuse"
 msgstr "Creuse"
 
 msgid "Deux-Sèvres"
-msgstr ""
+msgstr "Deux-Sèvres"
 
 msgid "Dordogne"
 msgstr "Dordogne"
@@ -3480,7 +3480,7 @@ msgid "Doubs"
 msgstr "Doubs"
 
 msgid "Drôme"
-msgstr ""
+msgstr "Drôme"
 
 msgid "Essonne"
 msgstr "Essonne"
@@ -3492,7 +3492,7 @@ msgid "Eure-et-Loir"
 msgstr "Eure-et-Loir"
 
 msgid "Finistère"
-msgstr ""
+msgstr "Finistère"
 
 msgid "Gard"
 msgstr "Gard"
@@ -3516,7 +3516,7 @@ msgid "Haute-Loire"
 msgstr "Haute-Loire"
 
 msgid "Haute-Saône"
-msgstr ""
+msgstr "Haute-Saône"
 
 msgid "Haute-Savoie"
 msgstr "Haute-Savoie"
@@ -3528,13 +3528,13 @@ msgid "Hautes-Alpes"
 msgstr "Hautes-Alpes"
 
 msgid "Hautes-Pyrénées"
-msgstr ""
+msgstr "Hautes-Pyrénées"
 
 msgid "Hauts-de-Seine"
 msgstr "Hauts-de-Seine"
 
 msgid "Hérault"
-msgstr ""
+msgstr "Hérault"
 
 msgid "Indre"
 msgstr "Indre"
@@ -3546,7 +3546,7 @@ msgid "Indre-et-Loire"
 msgstr "Indre-et-Loire"
 
 msgid "Isère"
-msgstr ""
+msgstr "Isère"
 
 msgid "Landes"
 msgstr "Landes"
@@ -3570,7 +3570,7 @@ msgid "Lot-et-Garonne"
 msgstr "Lot-et-Garonne"
 
 msgid "Lozère"
-msgstr ""
+msgstr "Lozère"
 
 msgid "Maine-et-Loire"
 msgstr "Maine-et-Loire"
@@ -3582,7 +3582,7 @@ msgid "Marne"
 msgstr "Marne"
 
 msgid "Mayenne"
-msgstr ""
+msgstr "Mayenne"
 
 msgid "Meurthe-et-Moselle"
 msgstr "Meurthe-et-Moselle"
@@ -3597,7 +3597,7 @@ msgid "Moselle"
 msgstr "Moselle"
 
 msgid "Nièvre"
-msgstr ""
+msgstr "Nièvre"
 
 msgid "Nord"
 msgstr "Nord"
@@ -3615,19 +3615,19 @@ msgid "Pas-de-Calais"
 msgstr "Pas-de-Calais"
 
 msgid "Puy-de-Dôme"
-msgstr ""
+msgstr "Puy-de-Dôme"
 
 msgid "Pyrénées-Atlantiques"
-msgstr ""
+msgstr "Pyrénées-Atlantiques"
 
 msgid "Pyrénées-Orientales"
-msgstr ""
+msgstr "Pyrénées-Orientales"
 
 msgid "Rhône"
-msgstr ""
+msgstr "Rhône"
 
 msgid "Saône-et-Loire"
-msgstr ""
+msgstr "Saône-et-Loire"
 
 msgid "Sarthe"
 msgstr "Sarthe"
@@ -3657,7 +3657,7 @@ msgid "Val d'Oise"
 msgstr "Val d'Oise"
 
 msgid "Territoire de Belfort"
-msgstr ""
+msgstr "Territoire de Belfort"
 
 msgid "Val-de-Marne"
 msgstr "Val-de-Marne"
@@ -3669,7 +3669,7 @@ msgid "Vaucluse"
 msgstr "Vaucluse"
 
 msgid "Vendée"
-msgstr ""
+msgstr "Vendée"
 
 msgid "Vienne"
 msgstr "Vienne"
@@ -3693,7 +3693,7 @@ msgid "Angus"
 msgstr "Angus"
 
 msgid "Co Antrim"
-msgstr ""
+msgstr "Co Antrim"
 
 msgid "Ards"
 msgstr "Ards"
@@ -3702,7 +3702,7 @@ msgid "Argyll and Bute"
 msgstr "Argyll and Bute"
 
 msgid "Co Armagh"
-msgstr ""
+msgstr "Co Armagh"
 
 msgid "Ballymena"
 msgstr "Ballymena"
@@ -3735,7 +3735,7 @@ msgid "Bexley"
 msgstr "Bexley"
 
 msgid "Birmingham"
-msgstr ""
+msgstr "Birmingham"
 
 msgid "Blackburn with Darwen"
 msgstr "Blackburn with Darwen"
@@ -3768,7 +3768,7 @@ msgid "Brighton and Hove"
 msgstr "Brighton and Hove"
 
 msgid "Bristol"
-msgstr ""
+msgstr "Bristol"
 
 msgid "Bromley"
 msgstr "Bromley"
@@ -3864,7 +3864,7 @@ msgid "Dorset"
 msgstr "Dorset"
 
 msgid "Co Down"
-msgstr ""
+msgstr "Co Down"
 
 msgid "Dudley"
 msgstr "Dudley"
@@ -3879,7 +3879,7 @@ msgid "Dungannon"
 msgstr "Dungannon"
 
 msgid "Co Durham"
-msgstr ""
+msgstr "Co Durham"
 
 msgid "Ealing"
 msgstr "Ealing"
@@ -3918,7 +3918,7 @@ msgid "Falkirk"
 msgstr "Falkirk"
 
 msgid "Co Fermanagh"
-msgstr ""
+msgstr "Co Fermanagh"
 
 msgid "Fife"
 msgstr "Fife"
@@ -3930,7 +3930,7 @@ msgid "Gateshead"
 msgstr "Gateshead"
 
 msgid "Glasgow"
-msgstr ""
+msgstr "Glasgow"
 
 msgid "Gloucestershire"
 msgstr "Gloucestershire"
@@ -3969,7 +3969,7 @@ msgid "Havering"
 msgstr "Havering"
 
 msgid "Herefordshire"
-msgstr ""
+msgstr "Herefordshire"
 
 msgid "Hertfordshire"
 msgstr "Hertfordshire"
@@ -4008,7 +4008,7 @@ msgid "Kent"
 msgstr "Kent"
 
 msgid "Kingston upon Hull"
-msgstr ""
+msgstr "Kingston upon Hull"
 
 msgid "Kingston upon Thames"
 msgstr "Kingston upon Thames"
@@ -4053,7 +4053,7 @@ msgid "Liverpool"
 msgstr "Liverpool"
 
 msgid "London, City of"
-msgstr "London, City of"
+msgstr "Londres, ville"
 
 msgid "Luton"
 msgstr "Luton"
@@ -4113,7 +4113,7 @@ msgid "Norfolk"
 msgstr "Norfolk"
 
 msgid "North Ayrshire"
-msgstr ""
+msgstr "North Ayrshire"
 
 msgid "North Down"
 msgstr "North Down"
@@ -4140,7 +4140,7 @@ msgid "Northamptonshire"
 msgstr "Northamptonshire"
 
 msgid "Northumberland"
-msgstr ""
+msgstr "Northumberland"
 
 msgid "Nottingham"
 msgstr "Nottingham"
@@ -4188,13 +4188,13 @@ msgid "Redbridge"
 msgstr "Redbridge"
 
 msgid "Cleveland"
-msgstr ""
+msgstr "Cleveland"
 
 msgid "Renfrewshire"
-msgstr ""
+msgstr "Renfrewshire"
 
 msgid "Rhondda Cynon Taff"
-msgstr ""
+msgstr "Rhondda Cynon Taff"
 
 msgid "Richmond upon Thames"
 msgstr "Richmond upon Thames"
@@ -4218,7 +4218,7 @@ msgid "Sandwell"
 msgstr "Sandwell"
 
 msgid "Scottish Borders"
-msgstr ""
+msgstr "Scottish Borders"
 
 msgid "Sefton"
 msgstr "Sefton"
@@ -4239,7 +4239,7 @@ msgid "Solihull"
 msgstr "Solihull"
 
 msgid "Somerset"
-msgstr ""
+msgstr "Somerset"
 
 msgid "South Ayrshire"
 msgstr "South Ayrshire"
@@ -4311,7 +4311,7 @@ msgid "Torbay"
 msgstr "Torbay"
 
 msgid "Torfaen"
-msgstr ""
+msgstr "Torfaen"
 
 msgid "Tower Hamlets"
 msgstr "Tower Hamlets"
@@ -4320,7 +4320,7 @@ msgid "Trafford"
 msgstr "Trafford"
 
 msgid "Vale of Glamorgan"
-msgstr ""
+msgstr "Vale of Glamorgan"
 
 msgid "Bro Morgannwg"
 msgstr "Bro Morgannwg"
@@ -4887,7 +4887,7 @@ msgid "Karlovacka zupanija"
 msgstr "Karlovacka zupanija"
 
 msgid "Koprivnickco-krizevacka zupanija"
-msgstr ""
+msgstr "Koprivnickco-krizevacka zupanija"
 
 msgid "Krapinako-zagorska zupanija"
 msgstr "Krapinako-zagorska zupanija"
@@ -4926,7 +4926,7 @@ msgid "VuRovarako-srijemska zupanija"
 msgstr "VuRovarako-srijemska zupanija"
 
 msgid "Zadaraka"
-msgstr ""
+msgstr "Zadaraka"
 
 msgid "Zagrebacka zupanija"
 msgstr "Zagrebacka zupanija"
@@ -5112,7 +5112,7 @@ msgid "Kalimantan Selatan"
 msgstr "Kalimantan Selatan"
 
 msgid "Kepulauan Riau"
-msgstr ""
+msgstr "Kepulauan Riau"
 
 msgid "Lampung"
 msgstr "Lampung"
@@ -5907,7 +5907,7 @@ msgid "Saint Mary"
 msgstr "Saint Mary"
 
 msgid "Saint Thomas"
-msgstr ""
+msgstr "Saint Thomas"
 
 msgid "Trelawny"
 msgstr "Trelawny"
@@ -5991,73 +5991,73 @@ msgid "Ysyk-Kol"
 msgstr "Ysyk-Kol"
 
 msgid "Krong Kaeb"
-msgstr ""
+msgstr "Krong Kaeb"
 
 msgid "Krong Pailin"
 msgstr "Krong Pailin"
 
 msgid "Xrong Preah Sihanouk"
-msgstr ""
+msgstr "Xrong Preah Sihanouk"
 
 msgid "Phnom Penh"
-msgstr ""
+msgstr "Phnom Penh"
 
 msgid "Baat Dambang"
-msgstr ""
+msgstr "Baat Dambang"
 
 msgid "Banteay Mean Chey"
-msgstr ""
+msgstr "Banteay Mean Chey"
 
 msgid "Rampong Chaam"
-msgstr ""
+msgstr "Rampong Chaam"
 
 msgid "Kampong Chhnang"
-msgstr ""
+msgstr "Kampong Chhnang"
 
 msgid "Kampong Spueu"
-msgstr ""
+msgstr "Kampong Spueu"
 
 msgid "Kampong Thum"
-msgstr ""
+msgstr "Kampong Thum"
 
 msgid "Kampot"
-msgstr ""
+msgstr "Kampot"
 
 msgid "Kandaal"
-msgstr ""
+msgstr "Kandaal"
 
 msgid "Kach Kong"
-msgstr ""
+msgstr "Kach Kong"
 
 msgid "Krachoh"
-msgstr ""
+msgstr "Krachoh"
 
 msgid "Mondol Kiri"
-msgstr ""
+msgstr "Mondol Kiri"
 
 msgid "Otdar Mean Chey"
-msgstr ""
+msgstr "Otdar Mean Chey"
 
 msgid "Pousaat"
-msgstr ""
+msgstr "Pousaat"
 
 msgid "Preah Vihear"
-msgstr ""
+msgstr "Preah Vihear"
 
 msgid "Prey Veaeng"
-msgstr ""
+msgstr "Prey Veaeng"
 
 msgid "Rotanak Kiri"
-msgstr ""
+msgstr "Rotanak Kiri"
 
 msgid "Siem Reab"
-msgstr ""
+msgstr "Siem Reab"
 
 msgid "Stueng Traeng"
-msgstr ""
+msgstr "Stueng Traeng"
 
 msgid "Svaay Rieng"
-msgstr ""
+msgstr "Svaay Rieng"
 
 msgid "Taakaev"
 msgstr "Taakaev"
@@ -6234,16 +6234,16 @@ msgid "Vientiane"
 msgstr "Vientiane"
 
 msgid "Attapu"
-msgstr ""
+msgstr "Attapu"
 
 msgid "Bokeo"
 msgstr "Bokeo"
 
 msgid "Bolikhamxai"
-msgstr ""
+msgstr "Bolikhamxai"
 
 msgid "Champasak"
-msgstr ""
+msgstr "Champasak"
 
 msgid "Houaphan"
 msgstr "Houaphan"
@@ -6255,28 +6255,28 @@ msgid "Louang Namtha"
 msgstr "Louang Namtha"
 
 msgid "Louangphabang"
-msgstr ""
+msgstr "Louangphabang"
 
 msgid "Oudomxai"
-msgstr ""
+msgstr "Oudomxai"
 
 msgid "Phongsali"
-msgstr ""
+msgstr "Phongsali"
 
 msgid "Salavan"
-msgstr ""
+msgstr "Salavan"
 
 msgid "Savannakhet"
 msgstr "Savannakhet"
 
 msgid "Xaignabouli"
-msgstr ""
+msgstr "Xaignabouli"
 
 msgid "Xiasomboun"
 msgstr "Xiasomboun"
 
 msgid "Xekong"
-msgstr ""
+msgstr "Xekong"
 
 msgid "Xiangkhoang"
 msgstr "Xiangkhoang"
@@ -6570,127 +6570,127 @@ msgid "Rezekne"
 msgstr "Rezekne"
 
 msgid "Riga"
-msgstr ""
+msgstr "Riga"
 
 msgid "Ventspils"
 msgstr "Ventspils"
 
 msgid "Ajdābiyā"
-msgstr ""
+msgstr "Ajdābiyā"
 
 msgid "Al Buţnān"
-msgstr ""
+msgstr "Al Buţnān"
 
 msgid "Al Hizām al Akhdar"
-msgstr ""
+msgstr "Al Hizām al Akhdar"
 
 msgid "Al Jabal al Akhdar"
 msgstr "Al Jabal al Akhdar"
 
 msgid "Al Jifārah"
-msgstr ""
+msgstr "Al Jifārah"
 
 msgid "Al Jufrah"
 msgstr "Al Jufrah"
 
 msgid "Al Kufrah"
-msgstr ""
+msgstr "Al Kufrah"
 
 msgid "Al Marj"
-msgstr ""
+msgstr "Al Marj"
 
 msgid "Al Marqab"
-msgstr ""
+msgstr "Al Marqab"
 
 msgid "Al Qaţrūn"
-msgstr ""
+msgstr "Al Qaţrūn"
 
 msgid "Al Qubbah"
-msgstr ""
+msgstr "Al Qubbah"
 
 msgid "Al Wāhah"
-msgstr ""
+msgstr "Al Wāhah"
 
 msgid "An Nuqaţ al Khams"
-msgstr ""
+msgstr "An Nuqaţ al Khams"
 
 msgid "Ash Shāţi'"
-msgstr ""
+msgstr "Ash Shāţi'"
 
 msgid "Az Zāwiyah"
-msgstr ""
+msgstr "Az Zāwiyah"
 
 msgid "Banghāzī"
-msgstr ""
+msgstr "Banghāzī"
 
 msgid "Banī Walīd"
-msgstr ""
+msgstr "Banī Walīd"
 
 msgid "Darnah"
-msgstr ""
+msgstr "Darnah"
 
 msgid "Ghadāmis"
-msgstr ""
+msgstr "Ghadāmis"
 
 msgid "Gharyān"
-msgstr ""
+msgstr "Gharyān"
 
 msgid "Ghāt"
-msgstr ""
+msgstr "Ghāt"
 
 msgid "Jaghbūb"
-msgstr ""
+msgstr "Jaghbūb"
 
 msgid "Mişrātah"
-msgstr ""
+msgstr "Mişrātah"
 
 msgid "Mizdah"
-msgstr ""
+msgstr "Mizdah"
 
 msgid "Murzuq"
-msgstr ""
+msgstr "Murzuq"
 
 msgid "Nālūt"
-msgstr ""
+msgstr "Nālūt"
 
 msgid "Sabhā"
-msgstr ""
+msgstr "Sabhā"
 
 msgid "Şabrātah Şurmān"
-msgstr ""
+msgstr "Şabrātah Şurmān"
 
 msgid "Surt"
-msgstr ""
+msgstr "Surt"
 
 msgid "Tājūrā' wa an Nawāhī al Arbāh"
-msgstr ""
+msgstr "Tājūrā' wa an Nawāhī al Arbāh"
 
 msgid "Ţarābulus"
-msgstr ""
+msgstr "Ţarābulus"
 
 msgid "Tarhūnah-Masallātah"
-msgstr ""
+msgstr "Tarhūnah-Masallātah"
 
 msgid "Wādī al hayāt"
-msgstr ""
+msgstr "Wādī al hayāt"
 
 msgid "Yafran-Jādū"
-msgstr ""
+msgstr "Yafran-Jādū"
 
 msgid "Agadir"
 msgstr "Agadir"
 
 msgid "Aït Baha"
-msgstr ""
+msgstr "Aït Baha"
 
 msgid "Aït Melloul"
-msgstr ""
+msgstr "Aït Melloul"
 
 msgid "Al Haouz"
 msgstr "Al Haouz"
 
 msgid "Al Hoceïma"
-msgstr ""
+msgstr "Al Hoceïma"
 
 msgid "Assa-Zag"
 msgstr "Assa-Zag"
@@ -6708,13 +6708,13 @@ msgid "Berkane"
 msgstr "Berkane"
 
 msgid "Boujdour"
-msgstr ""
+msgstr "Boujdour"
 
 msgid "Boulemane"
 msgstr "Boulemane"
 
 msgid "Casablanca  [Dar el Beïda]"
-msgstr ""
+msgstr "Casablanca  [Dar el Beïda]"
 
 msgid "Chefchaouene"
 msgstr "Chefchaouene"
@@ -6735,10 +6735,10 @@ msgid "Essaouira"
 msgstr "Essaouira"
 
 msgid "Es Smara"
-msgstr ""
+msgstr "Es Smara"
 
 msgid "Fès"
-msgstr ""
+msgstr "Fès"
 
 msgid "Figuig"
 msgstr "Figuig"
@@ -6756,7 +6756,7 @@ msgid "Kelaat Sraghna"
 msgstr "Kelaat Sraghna"
 
 msgid "Kénitra"
-msgstr ""
+msgstr "Kénitra"
 
 msgid "Khemisaet"
 msgstr "Khemisaet"
@@ -6768,7 +6768,7 @@ msgid "Khouribga"
 msgstr "Khouribga"
 
 msgid "Laâyoune (EH)"
-msgstr ""
+msgstr "Laâyoune (EH)"
 
 msgid "Larache"
 msgstr "Larache"
@@ -6777,7 +6777,7 @@ msgid "Marrakech"
 msgstr "Marrakech"
 
 msgid "Meknsès"
-msgstr ""
+msgstr "Meknsès"
 
 msgid "Nador"
 msgstr "Nador"
@@ -6792,7 +6792,7 @@ msgid "Oujda"
 msgstr "Oujda"
 
 msgid "Rabat-Salé"
-msgstr ""
+msgstr "Rabat-Salé"
 
 msgid "Safi"
 msgstr "Safi"
@@ -6825,7 +6825,7 @@ msgid "Taza"
 msgstr "Taza"
 
 msgid "Tétouan"
-msgstr ""
+msgstr "Tétouan"
 
 msgid "Tiznit"
 msgstr "Tiznit"
@@ -7170,7 +7170,7 @@ msgid "Agalega Islands"
 msgstr "Agalega Islands"
 
 msgid "Cargados Carajos Shoals"
-msgstr ""
+msgstr "Cargados Carajos Shoals"
 
 msgid "Rodrigues Island"
 msgstr "Rodrigues Island"
@@ -7362,7 +7362,7 @@ msgid "Michoacin"
 msgstr "Michoacin"
 
 msgid "Morelos"
-msgstr ""
+msgstr "Morelos"
 
 msgid "Nayarit"
 msgstr "Nayarit"
@@ -7416,7 +7416,7 @@ msgid "Wilayah Persekutuan Labuan"
 msgstr "Wilayah Persekutuan Labuan"
 
 msgid "Wilayah Persekutuan Putrajaya"
-msgstr ""
+msgstr "Wilayah Persekutuan Putrajaya"
 
 msgid "Johor"
 msgstr "Johor"
@@ -7722,10 +7722,10 @@ msgid "Groningen"
 msgstr "Groningen"
 
 msgid "Noord-Brabant"
-msgstr ""
+msgstr "Noord-Brabant"
 
 msgid "Noord-Holland"
-msgstr ""
+msgstr "Noord-Holland"
 
 msgid "Overijssel"
 msgstr "Overijssel"
@@ -7734,7 +7734,7 @@ msgid "Utrecht"
 msgstr "Utrecht"
 
 msgid "Zuid-Holland"
-msgstr ""
+msgstr "Zuid-Holland"
 
 msgid "Zeeland"
 msgstr "Zeeland"
@@ -7815,7 +7815,7 @@ msgid "Gisborne"
 msgstr "Gisborne"
 
 msgid "Hawkes Bay"
-msgstr ""
+msgstr "Hawkes Bay"
 
 msgid "Manawatu-Wanganui"
 msgstr "Manawatu-Wanganui"
@@ -7857,7 +7857,7 @@ msgid "Al Batinah"
 msgstr "Al Batinah"
 
 msgid "Al Janblyah"
-msgstr ""
+msgstr "Al Janblyah"
 
 msgid "Al Wusta"
 msgstr "Al Wusta"
@@ -7920,7 +7920,7 @@ msgid "Cajamarca"
 msgstr "Cajamarca"
 
 msgid "Cuzco"
-msgstr ""
+msgstr "Cuzco"
 
 msgid "Huancavelica"
 msgstr "Huancavelica"
@@ -8013,7 +8013,7 @@ msgid "North Solomons"
 msgstr "North Solomons"
 
 msgid "Santaun"
-msgstr ""
+msgstr "Santaun"
 
 msgid "Southern Highlands"
 msgstr "Southern Highlands"
@@ -8340,7 +8340,7 @@ msgid "Regiao Autonoma dos Acores"
 msgstr "Regiao Autonoma dos Acores"
 
 msgid "Regiao Autonoma da Madeira"
-msgstr ""
+msgstr "Regiao Autonoma da Madeira"
 
 msgid "Asuncion"
 msgstr "Asuncion"
@@ -8547,271 +8547,271 @@ msgid "Vrancea"
 msgstr "Vrancea"
 
 msgid "Adygeya, Respublika"
-msgstr "Adygeya, Respublika"
+msgstr "République d'Adyguée"
 
 msgid "Altay, Respublika"
-msgstr "Altay, Respublika"
+msgstr "République d'Altaï"
 
 msgid "Bashkortostan, Respublika"
-msgstr "Bashkortostan, Respublika"
+msgstr "République du Bachkirie"
 
 msgid "Buryatiya, Respublika"
-msgstr "Buryatiya, Respublika"
+msgstr "République de Bouriatie"
 
 msgid "Chechenskaya Respublika"
-msgstr "Chechenskaya Respublika"
+msgstr "République de Tchétchénie"
 
 msgid "Chuvashskaya Respublika"
-msgstr "Chuvashskaya Respublika"
+msgstr "République de Tchouvachie"
 
 msgid "Dagestan, Respublika"
-msgstr "Dagestan, Respublika"
+msgstr "République du Daguestan"
 
 msgid "Ingushskaya Respublika"
-msgstr "Ingushskaya Respublika"
+msgstr "République d'Ingouchie"
 
 msgid "Kabardino-Balkarskaya"
-msgstr "Kabardino-Balkarskaya"
+msgstr "République de Kabardino-Balkarie"
 
 msgid "Kalmykiya, Respublika"
-msgstr "Kalmykiya, Respublika"
+msgstr "République de Kalmoukie"
 
 msgid "Karachayevo-Cherkesskaya Respublika"
-msgstr "Karachayevo-Cherkesskaya Respublika"
+msgstr "République de Karatchaïévo-Tcherkessie"
 
 msgid "Kareliya, Respublika"
-msgstr "Kareliya, Respublika"
+msgstr "République de Carélie"
 
 msgid "Khakasiya, Respublika"
-msgstr "Khakasiya, Respublika"
+msgstr "République de Khakassie"
 
 msgid "Komi, Respublika"
-msgstr "Komi, Respublika"
+msgstr "République de Komi"
 
 msgid "Mariy El, Respublika"
-msgstr "Mariy El, Respublika"
+msgstr "République de Maris"
 
 msgid "Mordoviya, Respublika"
-msgstr "Mordoviya, Respublika"
+msgstr "République de Mordovie"
 
 msgid "Sakha, Respublika [Yakutiya]"
-msgstr "Sakha, Respublika [Yakutiya]"
+msgstr "République de Sakha"
 
 msgid "Severnaya Osetiya, Respublika"
-msgstr "Severnaya Osetiya, Respublika"
+msgstr "République d’Ossétie-du-Nord-Alanie"
 
 msgid "Tatarstan, Respublika"
-msgstr "Tatarstan, Respublika"
+msgstr "République du Tatarstan"
 
 msgid "Tyva, Respublika [Tuva]"
-msgstr "Tyva, Respublika [Tuva]"
+msgstr "République de Touva"
 
 msgid "Udmurtskaya Respublika"
-msgstr "Udmurtskaya Respublika"
+msgstr "République d’Oudmourtie"
 
 msgid "Altayskiy kray"
-msgstr "Altayskiy kray"
+msgstr "Krai de l'Altaï"
 
 msgid "Khabarovskiy kray"
-msgstr "Khabarovskiy kray"
+msgstr "Krai de Khabarovsk"
 
 msgid "Krasnodarskiy kray"
-msgstr "Krasnodarskiy kray"
+msgstr "Krai de Krasnodar"
 
 msgid "Krasnoyarskiy kray"
-msgstr "Krasnoyarskiy kray"
+msgstr "Krai de Krasnoïarsk"
 
 msgid "Primorskiy kray"
-msgstr "Primorskiy kray"
+msgstr "Krai de Primorsk"
 
 msgid "Stavropol'skiy kray"
-msgstr "Stavropol'skiy kray"
+msgstr "Krai de Stravopol"
 
 msgid "Amurskaya oblast'"
-msgstr "Amurskaya oblast'"
+msgstr "Oblast d'Amour"
 
 msgid "Arkhangel'skaya oblast'"
-msgstr "Arkhangel'skaya oblast'"
+msgstr "Oblast d'Arkhangelsk"
 
 msgid "Astrakhanskaya oblast'"
-msgstr "Astrakhanskaya oblast'"
+msgstr "Oblast d'Astrakhan"
 
 msgid "Belgorodskaya oblast'"
-msgstr "Belgorodskaya oblast'"
+msgstr "Oblast de Belgorod"
 
 msgid "Bryanskaya oblast'"
-msgstr "Bryanskaya oblast'"
+msgstr "Oblast de Briansk"
 
 msgid "Chelyabinskaya oblast'"
-msgstr "Chelyabinskaya oblast'"
+msgstr "Oblast de Tcheliabinsk"
 
 msgid "Chitinskaya oblast'"
-msgstr "Chitinskaya oblast'"
+msgstr "Oblast de Tchita"
 
 msgid "Irkutskaya oblast'"
-msgstr "Irkutskaya oblast'"
+msgstr "Oblast d'Irkoutsk"
 
 msgid "Ivanovskaya oblast'"
-msgstr "Ivanovskaya oblast'"
+msgstr "Oblast d'Ivanovo"
 
 msgid "Kaliningradskaya oblast'"
-msgstr "Kaliningradskaya oblast'"
+msgstr "Oblast de Kaliningrad"
 
 msgid "Kaluzhskaya oblast'"
-msgstr "Kaluzhskaya oblast'"
+msgstr "Oblast de Kalouga"
 
 msgid "Kamchatskaya oblast'"
-msgstr "Kamchatskaya oblast'"
+msgstr "Oblast du Kamtchatka"
 
 msgid "Kemerovskaya oblast'"
-msgstr "Kemerovskaya oblast'"
+msgstr "Oblast de Kemerovo"
 
 msgid "Kirovskaya oblast'"
-msgstr "Kirovskaya oblast'"
+msgstr "Oblast de Kirov"
 
 msgid "Kostromskaya oblast'"
-msgstr "Kostromskaya oblast'"
+msgstr "Oblast de Kostroma"
 
 msgid "Kurganskaya oblast'"
-msgstr "Kurganskaya oblast'"
+msgstr "Oblast de Kourgan"
 
 msgid "Kurskaya oblast'"
-msgstr "Kurskaya oblast'"
+msgstr "Oblast de Koursk"
 
 msgid "Leningradskaya oblast'"
-msgstr "Leningradskaya oblast'"
+msgstr "Oblast de Léningrad"
 
 msgid "Lipetskaya oblast'"
-msgstr "Lipetskaya oblast'"
+msgstr "Oblast de Lipetsk"
 
 msgid "Magadanskaya oblast'"
-msgstr "Magadanskaya oblast'"
+msgstr "Oblast de Magadan"
 
 msgid "Moskovskaya oblast'"
-msgstr "Moskovskaya oblast'"
+msgstr "Oblast de Moscou"
 
 msgid "Murmanskaya oblast'"
-msgstr "Murmanskaya oblast'"
+msgstr "Oblast de Mourmansk"
 
 msgid "Nizhegorodskaya oblast'"
-msgstr "Nizhegorodskaya oblast'"
+msgstr "Oblast de Nijni Novgorod"
 
 msgid "Novgorodskaya oblast'"
-msgstr "Novgorodskaya oblast'"
+msgstr "Oblast de Novgorod"
 
 msgid "Novosibirskaya oblast'"
-msgstr "Novosibirskaya oblast'"
+msgstr "Oblast de Novossibirsk"
 
 msgid "Omskaya oblast'"
-msgstr "Omskaya oblast'"
+msgstr "Oblast d'Omsk"
 
 msgid "Orenburgskaya oblast'"
-msgstr "Orenburgskaya oblast'"
+msgstr "Oblast d'Orenbourg"
 
 msgid "Orlovskaya oblast'"
-msgstr "Orlovskaya oblast'"
+msgstr "Oblast d'Orlov"
 
 msgid "Penzenskaya oblast'"
-msgstr "Penzenskaya oblast'"
+msgstr "Oblast de Penza"
 
 msgid "Permskaya oblast'"
-msgstr "Permskaya oblast'"
+msgstr "Oblast de Perm"
 
 msgid "Pskovskaya oblast'"
-msgstr "Pskovskaya oblast'"
+msgstr "Oblast de Pskov"
 
 msgid "Rostovskaya oblast'"
-msgstr "Rostovskaya oblast'"
+msgstr "Oblast de Rostov"
 
 msgid "Ryazanskaya oblast'"
-msgstr "Ryazanskaya oblast'"
+msgstr "Oblast de Riazan"
 
 msgid "Sakhalinskaya oblast'"
-msgstr "Sakhalinskaya oblast'"
+msgstr "Oblast de Sakhaline"
 
 msgid "Samarskaya oblast'"
-msgstr "Samarskaya oblast'"
+msgstr "Oblast de Samara"
 
 msgid "Saratovskaya oblast'"
-msgstr "Saratovskaya oblast'"
+msgstr "Oblast de Saratov"
 
 msgid "Smolenskaya oblast'"
-msgstr "Smolenskaya oblast'"
+msgstr "Oblast de Smolensk"
 
 msgid "Sverdlovskaya oblast'"
-msgstr "Sverdlovskaya oblast'"
+msgstr "Oblast de Sverdlovsk"
 
 msgid "Tambovskaya oblast'"
-msgstr "Tambovskaya oblast'"
+msgstr "Oblast de Tambov"
 
 msgid "Tomskaya oblast'"
-msgstr "Tomskaya oblast'"
+msgstr "Oblast de Tomsk"
 
 msgid "Tul'skaya oblast'"
-msgstr "Tul'skaya oblast'"
+msgstr "Oblast de Toula"
 
 msgid "Tverskaya oblast'"
-msgstr "Tverskaya oblast'"
+msgstr "Oblast de Tver"
 
 msgid "Tyumenskaya oblast'"
-msgstr "Tyumenskaya oblast'"
+msgstr "Oblast de Tioumen"
 
 msgid "Ul'yanovskaya oblast'"
-msgstr "Ul'yanovskaya oblast'"
+msgstr "Oblast d'Oulianovsk"
 
 msgid "Vladimirskaya oblast'"
-msgstr "Vladimirskaya oblast'"
+msgstr "Oblast de Vladimir"
 
 msgid "Volgogradskaya oblast'"
-msgstr "Volgogradskaya oblast'"
+msgstr "Oblast de Volgograd"
 
 msgid "Vologodskaya oblast'"
-msgstr "Vologodskaya oblast'"
+msgstr "Oblast de Vologda"
 
 msgid "Voronezhskaya oblast'"
-msgstr "Voronezhskaya oblast'"
+msgstr "Oblast de Voronej"
 
 msgid "Yaroslavskaya oblast'"
-msgstr "Yaroslavskaya oblast'"
+msgstr "Oblast de Iaroslav"
 
 msgid "Moskva"
-msgstr "Moskva"
+msgstr "Moscou"
 
 msgid "Sankt-Peterburg"
-msgstr "Sankt-Peterburg"
+msgstr "Saint-Pétersbourg"
 
 msgid "Yevreyskaya avtonomnaya oblast'"
-msgstr "Yevreyskaya avtonomnaya oblast'"
+msgstr "Oblast autonome juif"
 
 msgid "Aginskiy Buryatskiy avtonomnyy"
-msgstr "Aginskiy Buryatskiy avtonomnyy"
+msgstr "District autonome d'Aga-Bouriatie"
 
 msgid "Chukotskiy avtonomnyy okrug"
-msgstr "Chukotskiy avtonomnyy okrug"
+msgstr "District autonome de Tchoukotka"
 
 msgid "Evenkiyskiy avtonomnyy okrug"
-msgstr "Evenkiyskiy avtonomnyy okrug"
+msgstr "District autonome des Evenks"
 
 msgid "Khanty-Mansiyskiy avtonomnyy okrug"
-msgstr "Khanty-Mansiyskiy avtonomnyy okrug"
+msgstr "District autonome de Khantis-Mansis"
 
 msgid "Komi-Permyatskiy avtonomnyy okrug"
-msgstr "Komi-Permyatskiy avtonomnyy okrug"
+msgstr "District autonome des Komis-Permiaks"
 
 msgid "Koryakskiy avtonomnyy okrug"
-msgstr "Koryakskiy avtonomnyy okrug"
+msgstr "District autonome de Koriakie"
 
 msgid "Nenetskiy avtonomnyy okrug"
-msgstr "Nenetskiy avtonomnyy okrug"
+msgstr "District autonome de Nénétsie"
 
 msgid "Taymyrskiy (Dolgano-Nenetskiy)"
-msgstr "Taymyrskiy (Dolgano-Nenetskiy)"
+msgstr "District autonome de Taïmyrie"
 
 msgid "Ust'-Ordynskiy Buryatskiy"
-msgstr "Ust'-Ordynskiy Buryatskiy"
+msgstr "District autonome de Bouriatie-Oust-Orda"
 
 msgid "Yamalo-Nenetskiy avtonomnyy okrug"
-msgstr "Yamalo-Nenetskiy avtonomnyy okrug"
+msgstr "District autonome de Iamalo-Nénétsie"
 
 msgid "Butare"
 msgstr "Butare"
@@ -8859,7 +8859,7 @@ msgid "Al Jawf"
 msgstr "Al Jawf"
 
 msgid "Al Madinah"
-msgstr ""
+msgstr "Al Madinah"
 
 msgid "Al Qasim"
 msgstr "Al Qasim"
@@ -8982,67 +8982,67 @@ msgid "Warab"
 msgstr "Warab"
 
 msgid "Blekinge lan"
-msgstr "Blekinge lan"
+msgstr "Comté de Blekinge"
 
 msgid "Dalarnas lan"
-msgstr "Dalarnas lan"
+msgstr "Comté de Dalécarlie"
 
 msgid "Gotlands lan"
-msgstr "Gotlands lan"
+msgstr "Comté de Gotland"
 
 msgid "Gavleborge lan"
-msgstr "Gavleborge lan"
+msgstr "Comté de Gavleborge"
 
 msgid "Hallands lan"
-msgstr "Hallands lan"
+msgstr "Comté de Halland"
 
 msgid "Jamtlande lan"
-msgstr "Jamtlande lan"
+msgstr "Comté de Jamtland"
 
 msgid "Jonkopings lan"
-msgstr "Jonkopings lan"
+msgstr "Comté de Jonkoping"
 
 msgid "Kalmar lan"
-msgstr "Kalmar lan"
+msgstr "Comté de Kalmar"
 
 msgid "Kronoberge lan"
-msgstr "Kronoberge lan"
+msgstr "Comté de Kronoberg"
 
 msgid "Norrbottena lan"
-msgstr "Norrbottena lan"
+msgstr "Comté de Norrbotten"
 
 msgid "Skane lan"
-msgstr "Skane lan"
+msgstr "Comté de Scanie"
 
 msgid "Stockholms lan"
-msgstr "Stockholms lan"
+msgstr "Comté de Stockholm"
 
 msgid "Sodermanlands lan"
-msgstr "Sodermanlands lan"
+msgstr "Comté de Sodermanland"
 
 msgid "Uppsala lan"
-msgstr "Uppsala lan"
+msgstr "Comté d'Uppsala"
 
 msgid "Varmlanda lan"
-msgstr "Varmlanda lan"
+msgstr "Comté de Värmland"
 
 msgid "Vasterbottens lan"
-msgstr "Vasterbottens lan"
+msgstr "Comté de Västerbotten"
 
 msgid "Vasternorrlands lan"
-msgstr "Vasternorrlands lan"
+msgstr "Comté de Västernorrland"
 
 msgid "Vastmanlanda lan"
-msgstr "Vastmanlanda lan"
+msgstr "Comté de Västmanland"
 
 msgid "Vastra Gotalands lan"
-msgstr "Vastra Gotalands lan"
+msgstr "Comté de Västra Götaland"
 
 msgid "Orebro lan"
-msgstr "Orebro lan"
+msgstr "Comté d’Örebro"
 
 msgid "Ostergotlands lan"
-msgstr "Ostergotlands lan"
+msgstr "Comté d’Östergötland"
 
 msgid "Saint Helena"
 msgstr "Saint Helena"
@@ -9099,7 +9099,7 @@ msgid "Celje"
 msgstr "Celje"
 
 msgid "Cerklje na Gorenjskem"
-msgstr ""
+msgstr "Cerklje de Gorenjskem"
 
 msgid "Cerknica"
 msgstr "Cerknica"
@@ -9510,31 +9510,31 @@ msgid "Zuzemberk"
 msgstr "Zuzemberk"
 
 msgid "Banskobystrický kraj"
-msgstr ""
+msgstr "Région de Banská Bystrica"
 
 msgid "Bratislavský kraj"
-msgstr ""
+msgstr "Région de Bratislava"
 
 msgid "Košický kraj"
-msgstr ""
+msgstr "Région de Košice"
 
 msgid "Nitriansky kraj"
-msgstr ""
+msgstr "Région de Nitra"
 
 msgid "Prešovský kraj"
-msgstr ""
+msgstr "Région de Prešov"
 
 msgid "Trenčiansky kraj"
-msgstr ""
+msgstr "Région de Trenčín"
 
 msgid "Trnavský kraj"
-msgstr ""
+msgstr "Région de Trnava"
 
 msgid "Žilinský kraj"
-msgstr ""
+msgstr "Région de Žilina"
 
 msgid "Western Area (Freetown)"
-msgstr ""
+msgstr "Freetown (partie ouest)"
 
 msgid "Dakar"
 msgstr "Dakar"
@@ -9555,7 +9555,7 @@ msgid "Louga"
 msgstr "Louga"
 
 msgid "Matam"
-msgstr ""
+msgstr "Matam"
 
 msgid "Saint-Louis"
 msgstr "Saint-Louis"
@@ -10047,7 +10047,7 @@ msgid "Mary"
 msgstr "Mary"
 
 msgid "Béja"
-msgstr ""
+msgstr "Béja"
 
 msgid "Ben Arous"
 msgstr "Ben Arous"
@@ -10056,7 +10056,7 @@ msgid "Bizerte"
 msgstr "Bizerte"
 
 msgid "Gabès"
-msgstr ""
+msgstr "Gabès"
 
 msgid "Gafsa"
 msgstr "Gafsa"
@@ -10083,7 +10083,7 @@ msgid "Mahdia"
 msgstr "Mahdia"
 
 msgid "La Manouba"
-msgstr ""
+msgstr "La Manouba"
 
 msgid "Medenine"
 msgstr "Medenine"
@@ -10536,7 +10536,7 @@ msgid "Lindi"
 msgstr "Lindi"
 
 msgid "Manyara"
-msgstr ""
+msgstr "Manyara"
 
 msgid "Mara"
 msgstr "Mara"
@@ -10575,85 +10575,85 @@ msgid "Tanga"
 msgstr "Tanga"
 
 msgid "Cherkas'ka Oblast'"
-msgstr "Cherkas'ka Oblast'"
+msgstr "Oblast de Tcherkassy"
 
 msgid "Chernihivs'ka Oblast'"
-msgstr "Chernihivs'ka Oblast'"
+msgstr "Oblast de Tchernihiv"
 
 msgid "Chernivets'ka Oblast'"
-msgstr "Chernivets'ka Oblast'"
+msgstr "Oblast de Tchernivtsi"
 
 msgid "Dnipropetrovs'ka Oblast'"
-msgstr "Dnipropetrovs'ka Oblast'"
+msgstr "Oblast de Dnipropetrovsk"
 
 msgid "Donets'ka Oblast'"
-msgstr "Donets'ka Oblast'"
+msgstr "Oblast de Donetsk"
 
 msgid "Ivano-Frankivs'ka Oblast'"
-msgstr "Ivano-Frankivs'ka Oblast'"
+msgstr "Oblast d'Ivano-Frankivsk"
 
 msgid "Kharkivs'ka Oblast'"
-msgstr "Kharkivs'ka Oblast'"
+msgstr "Oblast de Kharkov"
 
 msgid "Khersons'ka Oblast'"
-msgstr "Khersons'ka Oblast'"
+msgstr "Oblast de Kherson"
 
 msgid "Khmel'nyts'ka Oblast'"
-msgstr "Khmel'nyts'ka Oblast'"
+msgstr "Oblast de Khmelnitski"
 
 msgid "Kirovohrads'ka Oblast'"
-msgstr "Kirovohrads'ka Oblast'"
+msgstr "Oblast de Kirovohrad"
 
 msgid "Kyivs'ka Oblast'"
-msgstr "Kyivs'ka Oblast'"
+msgstr "Oblast de Kiev"
 
 msgid "Luhans'ka Oblast'"
-msgstr "Luhans'ka Oblast'"
+msgstr "Oblast de Louhansk"
 
 msgid "L'vivs'ka Oblast'"
-msgstr "L'vivs'ka Oblast'"
+msgstr "Oblast de Lviv"
 
 msgid "Mykolaivs'ka Oblast'"
-msgstr "Mykolaivs'ka Oblast'"
+msgstr "Oblast de Mykolaïv"
 
 msgid "Odes 'ka Oblast'"
-msgstr "Odes 'ka Oblast'"
+msgstr "Oblast d'Odessa"
 
 msgid "Poltavs'ka Oblast'"
-msgstr "Poltavs'ka Oblast'"
+msgstr "Oblast de Poltava"
 
 msgid "Rivnens'ka Oblast'"
-msgstr "Rivnens'ka Oblast'"
+msgstr "Oblast de Rivne"
 
 msgid "Sums 'ka Oblast'"
-msgstr "Sums 'ka Oblast'"
+msgstr "Oblast de Soumy"
 
 msgid "Ternopil's'ka Oblast'"
-msgstr "Ternopil's'ka Oblast'"
+msgstr "Oblast de Ternopil"
 
 msgid "Vinnyts'ka Oblast'"
-msgstr "Vinnyts'ka Oblast'"
+msgstr "Oblast de Vinnitsa"
 
 msgid "Volyos'ka Oblast'"
-msgstr "Volyos'ka Oblast'"
+msgstr "Oblast de Volhynie"
 
 msgid "Zakarpats'ka Oblast'"
-msgstr "Zakarpats'ka Oblast'"
+msgstr "Oblast de Transcarpathie"
 
 msgid "Zaporiz'ka Oblast'"
-msgstr "Zaporiz'ka Oblast'"
+msgstr "Oblast de Zaporijie"
 
 msgid "Zhytomyrs'ka Oblast'"
-msgstr "Zhytomyrs'ka Oblast'"
+msgstr "Oblast de Jytomyr"
 
 msgid "Respublika Krym"
-msgstr "Respublika Krym"
+msgstr "République de Crimée"
 
 msgid "Kyiv"
-msgstr "Kyiv"
+msgstr "Kiev"
 
 msgid "Sevastopol"
-msgstr ""
+msgstr "Sevastopol"
 
 msgid "Adjumani"
 msgstr "Adjumani"
@@ -10695,7 +10695,7 @@ msgid "Kabarole"
 msgstr "Kabarole"
 
 msgid "Kaberamaido"
-msgstr ""
+msgstr "Kaberamaido"
 
 msgid "Kalangala"
 msgstr "Kalangala"
@@ -10707,10 +10707,10 @@ msgid "Kamuli"
 msgstr "Kamuli"
 
 msgid "Kamwenge"
-msgstr ""
+msgstr "Kamwenge"
 
 msgid "Kanungu"
-msgstr ""
+msgstr "Kanungu"
 
 msgid "Kapchorwa"
 msgstr "Kapchorwa"
@@ -10722,10 +10722,10 @@ msgid "Katakwi"
 msgstr "Katakwi"
 
 msgid "Kayunga"
-msgstr ""
+msgstr "Kayunga"
 
 msgid "Kibaale"
-msgstr ""
+msgstr "Kibaale"
 
 msgid "Kiboga"
 msgstr "Kiboga"

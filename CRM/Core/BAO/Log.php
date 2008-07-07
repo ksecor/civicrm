@@ -127,7 +127,7 @@ UPDATE civicrm_log
    SET data = concat( data, ':$logData' )
  WHERE id = {$log->id}
 ";
-            CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+            CRM_Core_DAO::executeQuery( $query );
         }
 
         self::$_processed[$contactID][$userID] = $log->id;

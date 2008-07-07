@@ -281,7 +281,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             
             $query =  "SELECT * FROM civicrm_uf_field $where ORDER BY weight, field_name"; 
             
-            $field =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+            $field =& CRM_Core_DAO::executeQuery( $query );
             require_once 'CRM/Contact/BAO/Contact.php';
             if ( !$showAll ) {
                 $importableFields =& CRM_Contact_BAO_Contact::importableFields( "All");
@@ -729,8 +729,7 @@ SELECT html_type, data_type
 FROM   civicrm_custom_field
 WHERE  id = $cfID
 ";
-                                $dao = CRM_Core_DAO::executeQuery( $query,
-                                                                   CRM_Core_DAO::$_nullArray );
+                                $dao = CRM_Core_DAO::executeQuery( $query );
                                 $dao->fetch( );
                                 $htmlType  = $dao->html_type;
                                 $dataType  = $dao->data_type;
@@ -1539,6 +1538,12 @@ WHERE  id = $cfID
                                             $defaults[$fldName] = $value['county_id'];
                                         } else if ( $fieldName == 'country' ) {
                                             $defaults[$fldName] = $value['country_id'];
+                                            if ( ! isset($value['country_id']) || ! $value['country_id'] ) {
+                                                $config =& CRM_Core_Config::singleton();
+                                                if ( $config->defaultContactCountry ) {
+                                                    $defaults[$fldName] = $config->defaultContactCountry;
+                                                }
+                                            }
                                         } else if ( $fieldName == 'phone' ) {
                                             if ($phoneTypeId) {
                                                 if ( $value['phone'][$phoneTypeId] ) {
@@ -1559,15 +1564,6 @@ WHERE  id = $cfID
                                         }
                                     }
                                 }
-                                if ( $fieldName == 'country' ) {
-                                    if ( ! isset($value['country_id']) || ! $value['country_id'] ) {
-                                        $config =& CRM_Core_Config::singleton();
-                                        if ( $config->defaultContactCountry ) {
-                                            $defaults[$fldName] = $config->defaultContactCountry;
-                                        }
-                                    }
-                                }
-
                             }
                         }
                     }
@@ -1941,9 +1937,9 @@ WHERE  id = $cfID
                 
                     // if we are getting in a new primary email, dont overwrite the new one
                     if ( $locTypeId == $primaryLocationType ) {
-                        if ( CRM_Utils_Array::value( 'email-' . $primaryLocationType, $fields ) ) {
+                        if ( CRM_Utils_Array::value( 'email-' . $primaryLocationType, $params ) ) {
                             $data['location'][$loc]['email'][$loc]['email'] = $fields['email-' . $primaryLocationType];
-                        } else {
+                        } else if ( isset( $primaryEmail ) ) {
                             $data['location'][$loc]['email'][$loc]['email'] = $primaryEmail;
                         }
                         $primaryLocation++;

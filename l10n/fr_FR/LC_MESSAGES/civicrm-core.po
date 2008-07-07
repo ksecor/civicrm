@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-04-28 21:53+0200\n"
-"PO-Revision-Date: 2008-06-08 13:21-0700\n"
-"Last-Translator: Simon Delalay <simon@delalay.net>\n"
+"PO-Revision-Date: 2008-06-25 08:28-0700\n"
+"Last-Translator: Aurialie <ajublin@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -151,7 +151,7 @@ msgstr "Activé"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php
 msgid "Selected ACL has been deleted."
-msgstr "La sélection des ACL a été supprimés."
+msgstr "La sélection des ACL a été supprimée."
 
 #: CRM/ACL/Form/ACL.php CRM/Activity/Form/Activity.php
 #: CRM/Activity/Import/Form/MapField.php CRM/Activity/Selector/Activity.php
@@ -566,7 +566,7 @@ msgstr "Date de l'activité"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Name is required to save Import Mapping"
-msgstr "Le nom est requis pour sauvegarder l'import de cartographie."
+msgstr "Le nom est requis pour sauvegarder l'import de cartographie"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Duplicate Import Mapping Name"
@@ -2320,7 +2320,7 @@ msgstr "Accéder aux fichier uploadés"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "profile listings and forms"
-msgstr ""
+msgstr "Formulaires et listes des profils"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "access all custom data"
@@ -2341,7 +2341,7 @@ msgstr "Tableau de bord des contacts"
 #: CRM/ACL/Form/ACLBasic.php
 #, fuzzy
 msgid "ACL Type"
-msgstr "Type de contact"
+msgstr "Type d'ACL"
 
 #: CRM/ACL/Form/ACL.php
 msgid "A group of contacts"
@@ -2420,7 +2420,7 @@ msgstr "Assigner les utilisateurs à des Rôles"
 #: CRM/Activity/BAO/Activity.php
 #, fuzzy
 msgid "- Activity Fields -"
-msgstr "- Champs Contact -"
+msgstr "- Champs d'activité -"
 
 #: CRM/Activity/BAO/Query.php
 #, fuzzy
@@ -2430,7 +2430,7 @@ msgstr "Type d'Activité %2 '%1'"
 #: CRM/Activity/BAO/Query.php
 #, fuzzy
 msgid "Communication Medium %2 %1"
-msgstr "Méthode de communication %2 %1"
+msgstr "Moyen de communication %2 %1"
 
 #: CRM/Activity/BAO/Query.php
 msgid "Violation Type %2 %1"
@@ -2467,9 +2467,8 @@ msgid "Activity Date Time"
 msgstr "Date de l'activité"
 
 #: CRM/Activity/DAO/Activity.php
-#, fuzzy
 msgid "Due Date Time"
-msgstr "Date de debut"
+msgstr "Echéance"
 
 #: CRM/Activity/DAO/Activity.php
 msgid "Phone Number"
@@ -2519,23 +2518,20 @@ msgid "Invalid Case"
 msgstr "Cas invalide"
 
 #: CRM/Activity/Form/Activity.php
-#, fuzzy
 msgid "Selected Activity is deleted sucessfully."
-msgstr "Le rendez-vous sélectionné a été supprimé avec succès."
+msgstr "L'activité sélectionnée a été supprimée avec succès."
 
 #: CRM/Activity/Form/Activity.php
 #, fuzzy
 msgid "Selected Activity has been sucessfully detached from a case."
-msgstr "Le type de location sélectionné a été supprimé."
+msgstr "L'activité sélectionnée a été séparée avec succès du dossier"
 
 #: CRM/Activity/Form/Activity.php
-#, fuzzy
 msgid "Activity '%1' has been saved."
 msgstr "L'activité '%1' a été enregistrée."
 
 #: CRM/Activity/Import/Form/MapField.php
 #: templates/CRM/Contact/Form/Search/Simple.tpl
-#, fuzzy
 msgid "Contact ID"
 msgstr "ID du contact"
 
@@ -2544,8 +2540,8 @@ msgid ""
 "Missing required contact matching fields. (Should be First AND Last Name or "
 "Primary Email or First Name, Last Name AND Primary Email.)"
 msgstr ""
-"Contact manquant pour les champs correspondants. (Devrait être First AND "
-"Last Name or Primary Email or First Name, Last Name AND Primary Email.)"
+"Contact manquant pour les champs correspondants. (Il devrait y avoir nom er "
+"prénom ou courriel principal ou nom, prénom et courriel principal.)"
 
 #: CRM/Activity/Import/Form/MapField.php
 msgid "Missing required contact matching field: Contact ID."
@@ -2556,8 +2552,9 @@ msgid "Missing required field: %1"
 msgstr "Champ manquant : %1"
 
 #: CRM/Activity/Import/Form/UploadFile.php
+#, fuzzy
 msgid "On duplicate entries"
-msgstr ""
+msgstr "Sur les entrées dupliquées"
 
 #: CRM/Activity/Import/Parser/Activity.php
 msgid "Please select either Activity Type ID OR Activity Type Label."
@@ -2645,6 +2642,9 @@ msgid ""
 "The Contact Matching rule has not been saved, because the rule is invalid. "
 "Rules should contain only valid field names, 'AND', 'OR' or parentheses."
 msgstr ""
+"La règle de regroupement des contacts n'a pas été sauvé, car la règle n'est "
+"pas valide. Les règles ne doivent contenir que des noms de domaine valide, "
+"\"ET\", \"OU\" ou des parenthèses."
 
 #: CRM/Admin/Form/DupeMatch.php
 #, fuzzy
@@ -2666,14 +2666,12 @@ msgid "Default?"
 msgstr "Par défaut?"
 
 #: CRM/Admin/Form/LocationType.php
-#, fuzzy
 msgid "Selected Location type has been deleted."
-msgstr "Le type de location sélectionné a été supprimé."
+msgstr "Le type d'adresse sélectionné a été supprimé."
 
 #: CRM/Admin/Form/LocationType.php
-#, fuzzy
 msgid "The location type '%1' has been saved."
-msgstr "Le type de location \"%1\" a été enregistré."
+msgstr "Le type d'adresse \"%1\" a été enregistré."
 
 #: CRM/Admin/Form/MessageTemplates.php
 #: templates/CRM/Admin/Page/MessageTemplates.tpl
@@ -2694,7 +2692,6 @@ msgid "HTML Message"
 msgstr "Message HTML"
 
 #: CRM/Admin/Form/MessageTemplates.php
-#, fuzzy
 msgid "The Message Template '%1' has been saved."
 msgstr "Le modèle de message \"%1\" a été enregistré."
 
@@ -2703,7 +2700,6 @@ msgid "Selected option group has been deleted."
 msgstr "Le groupe d'options sélectionnées a été effacé."
 
 #: CRM/Admin/Form/OptionGroup.php
-#, fuzzy
 msgid "The Option Group '%1' has been saved."
 msgstr "Le groupe d'option \"%1\" a été enregistré."
 
@@ -2712,6 +2708,8 @@ msgid ""
 "This Label already exists in the database for this option group. Please "
 "select a different Value."
 msgstr ""
+"Ce Label existe déjà dans la base de données pour ce groupe d'option. "
+"Sélectionnez s’il vous plaît une valeur différente."
 
 #: CRM/Admin/Form/Options.php
 msgid "Selected %1 type has been deleted."
@@ -2733,7 +2731,7 @@ msgstr "Option par défaut?"
 #: CRM/Admin/Form/OptionValue.php
 #, fuzzy
 msgid "Option Group?"
-msgstr "Choisisser groupe"
+msgstr "Groupe d'option"
 
 #: CRM/Admin/Form/OptionValue.php
 msgid "Selected option value has been deleted."
@@ -2747,7 +2745,7 @@ msgstr "La valeur de l'option \"%1\" a été enregistrée."
 #: CRM/Admin/Form/PaymentProcessor.php
 #, fuzzy
 msgid "Could not find payment processor meta information"
-msgstr "Ne peut pas trouver des meta informations sur le Processus de paiement"
+msgstr "Ne peut pas trouver des meta informations sur le processus de paiement"
 
 #: CRM/Admin/Form/PaymentProcessor.php
 msgid "Is this Payment Processor active?"
@@ -2758,8 +2756,9 @@ msgid "Is this Payment Processor the default?"
 msgstr "Est-ce que ce Processus de paiement doit être par défaut?"
 
 #: CRM/Admin/Form/PaymentProcessor.php
+#, fuzzy
 msgid "You must have at least the test or live section filled"
-msgstr ""
+msgstr "Vous devez avoir au moins remplir la section test ou direct"
 
 #: CRM/Admin/Form/PaymentProcessor.php
 msgid "You must have at least the user_name specified"
@@ -2768,7 +2767,7 @@ msgstr "Vous devez spécifier au minimum le user_name"
 #: CRM/Admin/Form/PaymentProcessor.php
 #, fuzzy
 msgid "Selected Payment Processor has been deleted."
-msgstr "La sélection des Rôles d'Entité a été supprimés."
+msgstr "Le processus de paiement sélectionné a été supprimé."
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 #, fuzzy
@@ -2825,7 +2824,7 @@ msgstr "Lien des sites internets "
 #: CRM/Admin/Form/PaymentProcessorType.php
 #, fuzzy
 msgid "Test API URL"
-msgstr "Lien des sites internets "
+msgstr "URL de l'API test"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "Test Recurring Payments URL"
@@ -2833,7 +2832,7 @@ msgstr ""
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "Test Button URL"
-msgstr ""
+msgstr "URL du bouton test"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "Is this Payment Processor Type active?"
@@ -2922,7 +2921,7 @@ msgstr "Paramètres - Préférence du site"
 #: CRM/Admin/Form/Preferences/Display.php
 #, fuzzy
 msgid "Viewing Contacts"
-msgstr "Chercher Contacts"
+msgstr "Visualiser les contacts"
 
 #: CRM/Admin/Form/Preferences/Display.php
 msgid "Editing Contacts"
@@ -3104,7 +3103,7 @@ msgstr ""
 
 #: CRM/Admin/Form/Setting/Miscellaneous.php
 msgid "Captcha Font"
-msgstr ""
+msgstr "Police du Captcha"
 
 #: CRM/Admin/Form/Setting/Path.php
 msgid "Settings - Upload Directories"
@@ -13518,6 +13517,7 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/UF/Form/Group.tpl
+#, fuzzy
 msgid ""
 "If you are using this profile as a contact signup or edit form, and want to "
 "redirect the user to a static URL after they've submitted the form - enter "
@@ -13525,14 +13525,24 @@ msgid ""
 "form will be redisplayed with a generic status message - 'Your contact "
 "information has been saved.'"
 msgstr ""
+"Si vous utilisez ce profil comme formulaire d'inscription ou bien éditez ce "
+"formulaire et voulez rediriger l'utilisateur vers une URL statique après "
+"qu'il a soumis le formulaire, entrez l'URL complète ici. Si ce champ est "
+"laissé vierge, le formulaire de Profil intégré sera affiché avec le message "
+"générique \"Vos informations de contact ont bien été sauvegardées.\""
 
 #: templates/CRM/UF/Form/Group.tpl
+#, fuzzy
 msgid ""
 "If you are using this profile as a contact signup or edit form, and want to "
 "redirect the user to a static URL if they click the Cancel button - enter "
 "the complete URL here. If this field is left blank, the built-in Profile "
 "form will be redisplayed."
 msgstr ""
+"Si vous utilisez ce profil comme formulaire d'inscription ou bien éditez ce "
+"formulaire et voulez rediriger l'utilisateur vers une URL statique lorsqu'il "
+"clique sur le bouton annulation, entrez l'URL complète ici. Si ce champ est "
+"laissé vierge, le formulaire de Profil intégré sera de nouveau affiché."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
@@ -13540,6 +13550,10 @@ msgid ""
 "to read an image with letters and numbers and enter the value in a field. "
 "This helps prevent abuse by automated scripts."
 msgstr ""
+"Quand un CAPTCHA est inclus dans un formulaire de profil à ajouter ou "
+"éditer, l'utilisateur devra lire une image composée de lettres et de nombres "
+"et entrer les valeurs dans un champ. Cela aidera à prévenir les abus par "
+"des scripts automatisés."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
@@ -13547,12 +13561,18 @@ msgid ""
 "dynamic page generation. Submitting a stand-alone form with CAPTCHA included "
 "will always result in a CAPTCHA validation error."
 msgstr ""
+"Ne permet pas cette caractéristique pour les formulaires de profil autonome. "
+"Le CAPTCHA demande une page de génération dynamique. Soumettre un "
+"formulaire autonome avec un CAPTCH inclus aura toujours pour résultat une "
+"erreur de validation du CAPTCHA"
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
 "CAPTCHA is also not available when a profile is used inside the User "
 "Registration and My Account screens."
 msgstr ""
+"La CAPTCHA est également indisponible quand un profil est utilisé à "
+"l'intérieur des écrans Enregistrement de l'utilisateur et Mon compte."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
@@ -13588,41 +13608,44 @@ msgstr ""
 
 #: templates/CRM/UF/Form/NotifySubject.tpl
 msgid "Submitted by"
-msgstr ""
+msgstr "Soumis par"
 
 #: templates/CRM/UF/Form/Preview.tpl
 msgid "Profile Field Preview"
-msgstr ""
+msgstr "Prévisualisation des champs du profil"
 
 #: templates/CRM/UF/Form/Preview.tpl
 msgid "Profile Preview"
-msgstr ""
+msgstr "Prévisualisation du profil"
 
 #: templates/CRM/UF/Form/Preview.tpl
 msgid "This CiviCRM profile field is view only."
-msgstr ""
+msgstr "Ce champ du profil CiviCRM est en lecture seulement"
 
 #: templates/CRM/UF/Page/Field.tpl
 msgid "CiviCRM Field Name"
-msgstr ""
+msgstr "Nom du champ CiviCRM"
 
 #: templates/CRM/UF/Page/Field.tpl
 msgid "Required"
-msgstr ""
+msgstr "Obligatoire"
 
 #: templates/CRM/UF/Page/Field.tpl
 msgid "View Only"
-msgstr ""
+msgstr "En lecture seule"
 
 #: templates/CRM/UF/Page/Field.tpl
 msgid "New CiviCRM Profile Field"
-msgstr ""
+msgstr "Nouveau champ du profil CiviCRM"
 
 #: templates/CRM/UF/Page/Field.tpl
+#, fuzzy
 msgid ""
 "There are no CiviCRM Profile Fields for '%1', you can <a href='%2'>add one "
 "now</a>."
 msgstr ""
+"Le profil CiviCRM n'a pas de champs pour \"%1\", vous pouvez <a href=\"%2\">en "
+"ajouter un</a>."
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid ""
@@ -13630,439 +13653,447 @@ msgid ""
 "Profile fields. You can copy this HTML code and paste it into any block or "
 "page on ANY website where you want to collect contact information."
 msgstr ""
+"Le code HTML ci-dessous affichera un formulaire comprenant les champs d'un "
+"profil actif CiviCRM. Vous pouvez copier ce code HTML et le coller dans un "
+"bloc ou une page de n'importe quel site web où vous souhaitez collecter des "
+"informations de contact."
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid "Back to Profile Listings"
-msgstr ""
+msgstr "Retour à la liste des profils"
 
+# j'ai pas traduit "input", consitutents->"membres"?
 #: templates/CRM/UF/Page/Group.tpl
+#, fuzzy
 msgid ""
 "CiviCRM Profile(s) allow you to aggregate groups of fields and include them "
 "in your site as input forms, contact display pages, and search and listings "
 "features. They provide a powerful set of tools for you to collect "
 "information from constituents and selectively share contact information."
 msgstr ""
+"Les profils de CiviCRM vous permettent d'agréger un ensemble de champs et de "
+"les inclure sur votre site sous forme de formulaires, pages de contacts, "
+"listes de caractéristiques et de recherches. Ils fournissent un ensemble "
+"important d'outils permettant de collecter les informations des membres et "
+"de partager de façon sélective les informations de contact."
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid "Profile Title"
-msgstr ""
+msgstr "Titre du profil"
 
+# "Get" in this case?
 #: templates/CRM/UF/Page/Group.tpl
+#, fuzzy
 msgid "Get HTML for All Active Profiles"
-msgstr ""
+msgstr "Utiliser du HTLM pour tous les profils actifs"
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid ""
 "No CiviCRM Profiles have been created yet. You can <a href='%1'>add one now</"
 "a>."
 msgstr ""
+"Aucun profil CiviCRM n'a été créé jusqu'à présent. Vous pouvez<a "
+"href='%1'>en ajouter un maintenant</a>."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Home"
-msgstr ""
+msgstr "Domicile"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Place of residence"
-msgstr ""
+msgstr "Lieu de résidence"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Work"
-msgstr ""
+msgstr "Travail"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Work location"
-msgstr ""
+msgstr "Lieu de travail"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Main"
-msgstr ""
+msgstr "Principal"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Main office location"
-msgstr ""
+msgstr "Adresse principale "
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Other location"
-msgstr "Lieu"
+msgstr "Autre adresse"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Billing Address location"
-msgstr "Formatage de l'adresse"
+msgstr "Adresse de facturation"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Child of"
-msgstr ""
+msgstr "Enfant de"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Parent of"
-msgstr ""
+msgstr "Parent de"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Parent/child relationship."
-msgstr ""
+msgstr "Relation parent/enfant"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Spouse of"
-msgstr ""
+msgstr "Epoux/épouse de"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Spousal relationship."
-msgstr ""
+msgstr "Relation maritale"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Sibling of"
-msgstr ""
+msgstr "Frère/sœur de"
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Sibling relationship."
-msgstr ""
+msgstr "Relation entre frère et sœur "
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Employee of"
-msgstr ""
+msgstr "Salarié de"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Employer of"
-msgstr ""
+msgstr "Employeur de"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Employment relationship."
-msgstr ""
+msgstr "Relation professionnelle "
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Volunteer for"
-msgstr ""
+msgstr "Bénévole pour"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Volunteer is"
-msgstr ""
+msgstr "Le bénévole est"
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Volunteer relationship."
-msgstr ""
+msgstr "Relation entre les bénévoles"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Head of Household for"
-msgstr ""
+msgstr "Responsable du foyer pour"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Head of Household is"
-msgstr ""
+msgstr "Le responsable du foyer est"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Head of household."
-msgstr ""
+msgstr "Responsable du foyer"
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Household Member of"
-msgstr ""
+msgstr "Membre du foyer pour"
 
+# I'm not sure of the translation of "household" in this case
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Household Member is"
-msgstr ""
+msgstr "Le membre du foyer est"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Household membership."
-msgstr ""
+msgstr "Adhésion du foyer"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Non-profit"
-msgstr ""
+msgstr "à but non lucratif"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Any not-for-profit organization."
-msgstr ""
+msgstr "Toute organisation à but non lucratif"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Company"
-msgstr ""
+msgstr "Société"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "For-profit organization."
-msgstr ""
+msgstr "Organisation à but lucratif"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Government Entity"
-msgstr ""
+msgstr "Service gouvernemental"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Any governmental entity."
-msgstr ""
+msgstr "Tout service gouvernemental"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Major Donor"
-msgstr ""
+msgstr "Donateur principal"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "High-value supporter of our organization."
-msgstr ""
+msgstr "Soutien de haute valeur de notre organisation"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Volunteer"
-msgstr ""
+msgstr "Bénévole"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Active volunteers."
-msgstr ""
+msgstr "Bénévoles actifs"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Mailing Header"
-msgstr ""
+msgstr "Entête du courriel"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Descriptive Title for this Header"
-msgstr ""
+msgstr "Titre descriptif pour cet entête"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Sample Header for HTML formatted content."
-msgstr ""
+msgstr "Exemple d'entête pour un contenu au format HTML"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Sample Header for TEXT formatted content."
-msgstr ""
+msgstr "Exemple d'entête pour un contenu au format TEXT"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Mailing Footer"
-msgstr ""
+msgstr "Pied de page du courriel"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Descriptive Title for this Footer."
-msgstr ""
+msgstr "Titre descriptif pour ce pied de page"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Sample Footer for HTML formatted content."
-msgstr ""
+msgstr "Exemple de pied de page pour un contenu au format HTML"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Sample Footer for TEXT formatted content."
-msgstr ""
+msgstr "Exemple de pied de page pour un contenu au format TEXT"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "Subscribe Message"
-msgstr "Message"
+msgstr "Signer le message"
 
+# subscription est-il pris dans le sens "adhésion", "abonnement" ou "don" dans cette phrase ?
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "Your Subscription has been Activated"
-msgstr "\"%1\" a été enregistré."
+msgstr "Votre adhésion a été activée."
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "Un-subscribe Confirmation"
-msgstr "Choisisser groupe"
+msgstr "Résilier la vérification"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "Re-subscribe Confirmation"
-msgstr "Chercher contacts"
+msgstr "Réinitialiser la vérification"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "Opt-out Confirmation"
-msgstr "Chercher contacts"
+msgstr "Abandonner la vérification"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Auto-responder"
-msgstr ""
+msgstr "Réponse automatique"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Please Send Inquiries to Our Contact Email Address"
-msgstr ""
+msgstr "Merci d'envoyer vos demandes à notre courriel de contact"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid ""
 "This is an automated reply from an un-attended mailbox. Please send any "
 "inquiries to the contact email address listed on our web-site."
 msgstr ""
+"Ceci est une réponse automatique d'une boîte mail qui n'est plus utilisée. "
+"Merci d'envoyer toute demande au courriel de contact mentionné sur notre "
+"site web"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Donation"
-msgstr "Page de donation"
+msgstr "Don"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Member Dues"
-msgstr ""
+msgstr "Cotisation membre"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Campaign Contribution"
-msgstr ""
+msgstr "Campagne de dons"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Event Fee"
-msgstr ""
+msgstr "Tarif de l'évènement"
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Instant Messenger (IM) screen-names"
-msgstr ""
+msgstr "Pseudonymes de messagerie instantanée"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "Individual contact prefixes"
-msgstr "Individu"
+msgstr "Préfixe de contact individuel"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "Individual contact suffixes"
-msgstr "Individu"
+msgstr "Suffixe de contact individuel"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Accepted Credit Cards"
-msgstr ""
+msgstr "Cartes de crédit acceptées"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Payment Instruments"
-msgstr ""
+msgstr "Moyens de paiement"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Event Type"
-msgstr "Rue"
+msgstr "Type d'évènement"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "Addressing Options"
-msgstr "Option de Cartographie"
+msgstr "Options d'adresse"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "Honor Type"
-msgstr "Type de contact"
+msgstr "Style honorifique"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Participant Listing"
-msgstr "Imprimer"
+msgstr "Liste des participants"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Safe File Extension"
-msgstr ""
+msgstr "Extension de fichier sûre"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Postal Mail"
-msgstr "Code Postal"
+msgstr "Adresse postal"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Email sent."
-msgstr "Courrier électronique envoyé"
+msgstr "Courriel envoyé"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Text Message (SMS)"
-msgstr "Texte du Message"
+msgstr "Texte du message (SMS)"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Text message (SMS) sent."
-msgstr "Texte du Message"
+msgstr "Message (SMS) envoyé"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Event Registration"
-msgstr "Enregistrement online de l'évènement :"
+msgstr "Inscription à l'évènement"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Online or offline event registration."
-msgstr "Enregistrement online de l'évènement :"
+msgstr "Inscription en ligne ou hors ligne à l'évènement"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Online or offline contribution."
-msgstr "Chercher contacts"
+msgstr "Don en ligne ou hors ligne"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "Membership Signup"
-msgstr "État de l'adhésion"
+msgstr "Adhésion"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Online or offline membership signup."
-msgstr ""
+msgstr "Adhésion en ligne ou hors ligne"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Membership Renewal"
-msgstr "Type de membre"
+msgstr "Renouvellement de l'adhésion"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Online or offline membership renewal."
-msgstr ""
+msgstr "Renouvellement en ligne ou hors ligne de l'adhésion "
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Send information about a contribution campaign or event to a friend."
 msgstr ""
+"Envoyer des informations au sujet de la campagne de don ou d'un évènement à "
+"un ami"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Female"
-msgstr "Titre"
+msgstr "Féminin"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Male"
-msgstr "Valeur"
+msgstr "Masculin"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Transgender"
-msgstr ""
+msgstr "Transgenre"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Mrs"
-msgstr ""
+msgstr "Mme"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Ms"
-msgstr ""
+msgstr "Melle"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Mr"
-msgstr ""
+msgstr "M."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Dr"
-msgstr ""
+msgstr "Dr"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Jr"
-msgstr ""
+msgstr "fils"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Sr"
-msgstr ""
+msgstr "père"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Administrator"
-msgstr "Admin"
+msgstr "Administrateur"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Authenticated"
-msgstr "Lieu"
+msgstr "Authentifié"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Credit Card"
-msgstr "Effacer contacts"
+msgstr "Carte de crédit"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Debit Card"
-msgstr "Site web"
+msgstr "Carte de débit"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Cash"
-msgstr ""
+msgstr "Espèces"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Check"
-msgstr ""
+msgstr "Chèque"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "EFT"
@@ -14073,102 +14104,95 @@ msgid "Completed"
 msgstr "Terminé(e)"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Cancelled"
-msgstr "Annuler"
+msgstr "Annulé"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Failed"
-msgstr "Titre"
+msgstr "Echoué"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "In Progress"
-msgstr ""
+msgstr "En cours"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Registered"
-msgstr "Supprime"
+msgstr "Enregistré"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Attended"
-msgstr "Ajoute"
+msgstr "Accompagné"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "No-show"
-msgstr ""
+msgstr "Absent"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Attendee"
-msgstr ""
+msgstr "Participant"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Host"
-msgstr ""
+msgstr "Hôte"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Speaker"
-msgstr "Chercher"
+msgstr "Locuteur"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Conference"
-msgstr "Configurer"
+msgstr "Conférence"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Exhibition"
-msgstr ""
+msgstr "Exposition"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Fundraiser"
-msgstr ""
+msgstr "Collecteur de fonds"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Performance"
-msgstr ""
+msgstr "Réalisation"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Workshop"
-msgstr ""
+msgstr "Atelier"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "Granted"
-msgstr "Autorisé"
+msgstr "Accordé"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Rejected"
-msgstr "Supprime"
+msgstr "Rejeté"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Emergency"
-msgstr ""
+msgstr "Urgence"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Family Support"
-msgstr ""
+msgstr "Soutien de famille"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "General Protection"
-msgstr "Desactiver"
+msgstr "Protection générale"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Impunity"
-msgstr ""
+msgstr "Impunité"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "In Honor of"
-msgstr "Honorifique"
+msgstr "En l'honneur de"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "In Memory of"
-msgstr ""
+msgstr "En mémoire de"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Scheduled"
@@ -14184,53 +14208,47 @@ msgstr "Injoignable"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Civil & Political"
-msgstr ""
+msgstr "Civil et politique"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Economic, Social & Cultural"
-msgstr ""
+msgstr "Economique, social et culturel"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Gender Issues"
-msgstr "Sexe"
+msgstr "Problématiques homme-femme "
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Ongoing"
-msgstr ""
+msgstr "En cours"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Resolved"
-msgstr "Supprimé"
+msgstr "Résolu"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Name Only"
-msgstr "Année seulement"
+msgstr "Nom seulement"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Name and Email"
-msgstr "Envoyer le(s) mail(s)"
+msgstr "Nom et courriel"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Current"
-msgstr "Choisisser groupe"
+msgstr "Actuel"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Grace"
-msgstr ""
+msgstr "Grâce"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Expired"
 msgstr "Expiré"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Dummy Payment Processor"
-msgstr "Processus de paiement"
+msgstr "Logiciel de paiement factice "
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Merchant Account Email"
@@ -14266,8 +14284,9 @@ msgid "PayJunction"
 msgstr ""
 
 #: xml/templates/civicrm_data.tpl
+#, fuzzy
 msgid "AOL Terms of Service complaint"
-msgstr ""
+msgstr "Réclamation des conditions d'utilisation d'AOL"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Recipient is on vacation"

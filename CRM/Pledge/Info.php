@@ -41,7 +41,7 @@ class CRM_Pledge_Info extends CRM_Core_Component_Info
 {
 
     // docs inherited from interface
-    protected $keyword = 'pledgebank';
+    protected $keyword = 'pledge';
 
     // docs inherited from interface
     public function getInfo()
@@ -51,14 +51,14 @@ class CRM_Pledge_Info extends CRM_Core_Component_Info
                       'translatedName' => ts('CiviPledge'),
                       'title'          => ts('CiviCRM Pledge Engine'),
                       'menu'           => array( $config->templateDir . 'Menu/Pledge.xml' ),
-                      'search'         => 0 );
+                      'search'         => 1 );
     }
 
 
     // docs inherited from interface
     public function getPermissions()
     {
-        return array( 'access Pledges',
+        return array( 'access CiviPledge',
                       'edit pledges'  ,
                       'make online pledges' );
     }
@@ -76,8 +76,8 @@ class CRM_Pledge_Info extends CRM_Core_Component_Info
     public function registerTab()
     {
         return array( 'title'   => ts( 'Pledges' ),
-                      'id'      => 'pledges',
-                      'url'	    => 'pledges',
+                      'id'      => 'pledge',
+                      'url'	    => 'pledge',
                       'weight'  => 25 );
     }
 

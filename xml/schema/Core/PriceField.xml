@@ -33,9 +33,9 @@
       <name>name</name>
       <type>varchar</type>
       <title>Name</title>
-      <length>64</length>
+      <length>255</length>
       <required>true</required>
-      <comment>Variable name/programmatic handle for this field</comment>
+      <comment>Variable name/programmatic handle for this field.</comment>
       <add>1.8</add>
   </field>
   <index>
@@ -47,9 +47,9 @@
       <name>label</name>
       <type>varchar</type>
       <title>Label</title>
-      <length>64</length>
+      <length>255</length>
       <required>true</required>
-      <comment>Text for form field label (also friendly name for administering this field)</comment>
+      <comment>Text for form field label (also friendly name for administering this field).</comment>
       <add>1.8</add>
   </field>
   <field>

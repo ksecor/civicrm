@@ -219,7 +219,7 @@ class CRM_Utils_Token
             $value = null;
             /* Construct the address token */
             if ( CRM_Utils_Array::value( $token, $loc ) ) {
-                $value = CRM_Utils_Address::format($loc[$token]);
+                $value = $loc[$token]['display'];
                 if ($html) $value = str_replace("\n", '<br />', $value);
                 $addressCache[$cache_key] = $value;
             }

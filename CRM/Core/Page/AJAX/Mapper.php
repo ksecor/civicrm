@@ -65,7 +65,7 @@ class CRM_Core_Page_AJAX_Mapper
 
     static function select( &$config ) {
         $index = CRM_Utils_Request::retrieve( 'index', 'Integer',
-                                              CRM_Core_DAO::$_nullArray, false, 1 );
+                                              CRM_Core_DAO::$_nullObject, false, 1 );
         
         switch ( $index ) {
         case 1:

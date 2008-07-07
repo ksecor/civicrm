@@ -55,7 +55,8 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form
         $session =& CRM_Core_Session::singleton();
         $this->add('text', 'test_email', ts('Send to This Address'));
         $defaults['test_email'] = $session->get('ufUniqID');
-
+        $qfKey = $this->get('qfKey');
+        
         $this->add('select',
                    'test_group',
                    ts('Send to This Group'),
@@ -77,7 +78,9 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form
                         'name'      => ts('Save & Continue Later') )
                 )
             );
-        $values = array( 'mailing_id' => $this->get('mailing_id' ) );
+
+        $mailingID = $this->get('mailing_id' );
+        $values = array( 'mailing_id' => $mailingID );
         $textFile = $this->get('textFile');
         $htmlFile = $this->get('htmlFile');
         $subject = $this->get('subject');
@@ -86,11 +89,14 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form
         $this->addFormRule(array('CRM_Mailing_Form_Test', 'testMail'), $values);
         $preview = array();
         if ($textFile) {
-            $preview['text_link'] = CRM_Utils_System::url('civicrm/mailing/preview', 'type=text');
+            $preview['text_link'] = CRM_Utils_System::url('civicrm/mailing/preview', "type=text&qfKey=$qfKey");
         }
         if ($htmlFile) {
-            $preview['html_link'] = CRM_Utils_System::url('civicrm/mailing/preview', 'type=html');
+            $preview['html_link'] = CRM_Utils_System::url('civicrm/mailing/preview', "type=html&qfKey=$qfKey");
         }
+
+        require_once 'CRM/Mailing/BAO/Mailing.php';
+        $preview['attachment'] = CRM_Mailing_BAO_Mailing::attachmentInfo( $mailingID );
         $this->assign('preview', $preview);
     }
     

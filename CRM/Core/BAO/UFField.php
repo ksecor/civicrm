@@ -183,6 +183,7 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
         $ufField->is_searchable   = CRM_Utils_Array::value( 'is_searchable'  , $params, false );
         
         // fix for CRM-316
+        $oldWeight = null;
         if ($params['field_id']) {
             $oldWeight = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFField', $params['field_id'], 'weight', 'id' );
         }
@@ -487,7 +488,7 @@ SELECT ufg.id as id
    AND ufj.module = 'User Registration'
    AND ufg.is_active = 1 ";
 
-        $ufGroup =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        $ufGroup =& CRM_Core_DAO::executeQuery( $query );
         
         $fields = array( );
         $validProfiles = array( 'Individual', 'Organization', 'Household', 'Contribution' );

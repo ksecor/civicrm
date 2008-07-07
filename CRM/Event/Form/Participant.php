@@ -145,9 +145,34 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
        
         if ( $this->_mode ) {
             $this->assign( 'participantMode', $this->_mode );
-            $this->_processors = CRM_Core_PseudoConstant::paymentProcessor( false, false,
-                                                                            "billing_mode IN ( 1, 3 )" );
+
             $this->_paymentProcessor = array( 'billing_mode' => 1 );
+
+            $validProcessors = array( );
+            $processors = CRM_Core_PseudoConstant::paymentProcessor( false, false, "billing_mode IN ( 1, 3 )" );
+            
+            foreach ( $processors as $ppID => $label ) {
+                require_once 'CRM/Core/BAO/PaymentProcessor.php';
+                require_once 'CRM/Core/Payment.php';
+                $paymentProcessor =& CRM_Core_BAO_PaymentProcessor::getPayment( $ppID, $this->_mode );
+                if ( $paymentProcessor['payment_processor_type'] == 'PayPal' && !$paymentProcessor['user_name'] ) {
+                    continue;
+                } else if ( $paymentProcessor['payment_processor_type'] == 'Dummy' && $this->_mode == 'live' ) {
+                    continue;
+                } else {
+                    $paymentObject =& CRM_Core_Payment::singleton( $this->_mode, 'Contribute', $paymentProcessor );
+                    $error = $paymentObject->checkConfig( );
+                    if ( empty( $error ) ) {
+                        $validProcessors[$ppID] = $label;
+                    }
+                    $paymentObject = null;
+                }
+            }
+            if ( empty( $validProcessors )  ) {
+                CRM_Core_Error::fatal( ts( 'Could not find valid payment processor for this page' ) );
+            } else {
+                $this->_processors = $validProcessors;  
+            }
             // also check for billing information
             // get the billing location type
             $locationTypes =& CRM_Core_PseudoConstant::locationType( );
@@ -420,7 +445,18 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         } else {
             $events = CRM_Event_BAO_Event::getEvents( );
         }
-        
+        if( $this->_mode ) {
+            //unset the event which are not monetary when credit card
+            //event registration is used
+            foreach( $events as $key => $val ) {
+                $isPaid = CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_Event", $key, 'is_monetary' );
+                if ( ! $isPaid ) {
+                    unset( $events[$key] );
+                }
+            }
+            $this->add( 'select', 'payment_processor_id', ts( 'Payment Processor' ), $this->_processors, true );
+        }
+         
         $this->add('select', 'event_id',  ts( 'Event' ),  
                    array( '' => ts( '- select -' ) ) + $events,
                    true,
@@ -456,18 +492,6 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $buttonType = 'upload';
         } else {
             $buttonType = 'next';
-        }
-
-        if ( $this->_mode ) {
-            // CRM_Core_Payment_Form::buildCreditCard( $this, true );
-            // CRM_Core_Payment_Form::buildCreditCard( $this, true );
-        
-            $this->add( 'select', 'payment_processor_id',
-                        ts( 'Payment Processor' ),
-                        $this->_processors, true );
-            
-            $this->add( 'text', "email-{$this->_bltID}",
-                        ts( 'Email Address' ), array( 'size' => 30, 'maxlength' => 60 ), true );
         }
 
         $this->addButtons(array( 
@@ -515,6 +539,22 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
              ) {
             return true;
            
+        }
+        
+        if ( $values['payment_processor_id'] ) {
+            // make sure that credit card number and cvv are valid
+            require_once 'CRM/Utils/Rule.php';
+            if ( CRM_Utils_Array::value( 'credit_card_type', $values ) ) {
+                if ( CRM_Utils_Array::value( 'credit_card_number', $values ) &&
+                     ! CRM_Utils_Rule::creditCardNumber( $values['credit_card_number'], $values['credit_card_type'] ) ) {
+                    $errorMsg['credit_card_number'] = ts( "Please enter a valid Credit Card Number" );
+                }
+                
+                if ( CRM_Utils_Array::value( 'cvv2', $values ) &&
+                     ! CRM_Utils_Rule::cvv( $values['cvv2'], $values['credit_card_type'] ) ) {
+                    $errorMsg['cvv2'] =  ts( "Please enter a valid Credit Card Verification Number" );
+                }
+            }
         }
 
         if ( $values['status_id'] == 1 || $values['status_id'] == 2 ) {
@@ -655,7 +695,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             
             // set email for primary location.
             $fields["email-Primary"] = 1;
-            $params["email-Primary"] = $params["email-{$this->_bltID}"];
+            $params["email-Primary"] = $params["email-{$this->_bltID}"] = $this->_contributorEmail;
             
             $params['register_date'] = $now;
             
@@ -686,8 +726,8 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                     $params[$name] = $params["billing_{$name}"];
                 }
             }
-            
             $contactID = CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $this->_contactID, null, null, $ctype );
+            
         }
         //custom data block common for offline as well as credit card
         //(online) mode

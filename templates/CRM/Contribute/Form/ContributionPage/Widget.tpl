@@ -26,8 +26,8 @@
     
     <div id="widgetFields">
         <table class="form-layout-compressed">
-        {foreach from=$fields item=field key=name}
-          <tr><td class="label">{$form.$name.label}</td><td>{$form.$name.html}</td></tr>   
+        {foreach from=$fields item=field key=fieldName}
+          <tr><td class="label">{$form.$fieldName.label}</td><td>{$form.$fieldName.html}</td></tr>   
         {/foreach}
         </table>
         
@@ -76,8 +76,8 @@
             {ts}Enter colors in hexadecimal format prefixed with <em>0x</em>. EXAMPLE: <em>0xFF0000</em> = Red. You can do a web search on 'hexadecimal colors' to find a chart of color codes.{/ts}
         </div>
         <table class="form-layout-compressed">
-        {foreach from=$colorFields item=field key=name}
-          <tr><td class="label">{$form.$name.label}</td><td>{$form.$name.html}</td></tr>   
+        {foreach from=$colorFields item=field key=fieldName}
+          <tr><td class="label">{$form.$fieldName.label}</td><td>{$form.$fieldName.html}</td></tr>   
         {/foreach}
         </table>
         </fieldset>
