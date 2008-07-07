@@ -79,6 +79,7 @@ class CRM_Grant_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                                  'grant_amount_requested',
                                  'grant_amount_granted',
                                  'grant_application_received_date',
+                                 'grant_report_received',
                                  'grant_money_transfer_date',
                                  );
 
@@ -376,28 +377,25 @@ class CRM_Grant_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
-                                                'name'      => ts('Amount Requested') . '<br />' . ts('(orig. currency)'),
-                                                'sort'      => 'grant_amount_requested',
-                                                'direction' => CRM_Utils_Sort::DONTCARE,
-                                                ),
-                                          array(
                                                 'name'      => ts('Amount Granted'),
                                                 'sort'      => 'grant_amount_granted',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
-                                         
                                           array(
                                                 'name'      => ts('Application Received'),
                                                 'sort'      => 'grant_application_received_date',                                                
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
-
+                                          array(
+                                                'name'      => ts('Report Received'),
+                                                'sort'      => 'grant_report_received',                                                
+                                                'direction' => CRM_Utils_Sort::DONTCARE,
+                                                ),
                                           array(
                                                 'name'      => ts('Money Transferred'),
                                                 'sort'      => 'money_transfer_date',                                                
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
-                                          
                                           array('desc' => ts('Actions') ),
                                           );
             
