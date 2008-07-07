@@ -506,3 +506,18 @@ ALTER TABLE civicrm_acl_cache
 
 -- CRM-3261
 UPDATE civicrm_relationship_type SET is_reserved = 1 WHERE id IN (4,6,7);
+
+-- CRM-3281
+UPDATE civicrm_state_province SET name = "Frederiksberg"   WHERE id = 2261;
+UPDATE civicrm_state_province SET name = "Copenhagen City" WHERE id = 2262;
+UPDATE civicrm_state_province SET name = "Vestsjælland"    WHERE id = 2266;
+UPDATE civicrm_state_province SET name = "Fyn"             WHERE id = 2269;
+UPDATE civicrm_state_province SET name = "South Jutland"   WHERE id = 2270;
+UPDATE civicrm_state_province SET name = "Ringkjøbing"     WHERE id = 2273;
+UPDATE civicrm_state_province SET name = "Århus"           WHERE id = 2274;
+UPDATE civicrm_state_province SET name = "North Jutland"   WHERE id = 2276;
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (5196, 1016, "13", "Al Manāmah (Al ‘Āşimah)"),
+                                                                               (5197, 1016, "14", "Al Janūbīyah"),
+                                                                               (5198, 1016, "15", "Al Muḩarraq"),
+                                                                               (5199, 1016, "16", "Al Wusţá"),
+                                                                               (5200, 1016, "17", "Ash Shamālīyah");
