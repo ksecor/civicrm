@@ -1,0 +1,66 @@
+sf-upload
+---------
+
+DESCRIPTION
+
+Batch release of SourceForge projects.
+
+INSTALLATION
+
+With a modern CPAN.pm (version > 1.8x) just type in the extracted
+sf-upload directory:
+
+    cpan .
+
+Else, do:
+
+    perl Makefile.PL
+    make all test install
+
+You need some perl module prerequisites, namely libwww, Crypt::SSLeay
+and HTML::Parser. You can get the modules from http://www.cpan.org or,
+better, fetch and install the modules automatically with
+
+    perl prereqinst
+
+If you're on Windows and you have ActivePerl installed, then you
+should try instead
+
+    perl prereqinst -ppm
+
+Note that all installing actions ("make install" and "perl
+prereqinst") should be executed as superuser.
+
+USAGE
+
+Create a configuration file named .sfuploadrc in your home directory.
+Put your SourceForge user name and password to the file:
+
+user = myusername
+password = mypassword
+
+If you do not put the password into the configuration file, then you
+can specify the -password option in the command line (not
+recommended), or you will be prompted interactively.
+
+To upload a file and start the release process, just type:
+
+    sf-upload -pr projectname -p packagename -r releasename -f file    
+
+To see the complete list of options, type
+
+    sf-upload -\?
+
+The most common (source) file type are guessed by extension, otherwise
+you have to set the -type option. Also, the processor type is by
+default "Any" but can be changed with the -processor option.
+
+For more information, refer to the man page (after installation) or by
+using
+
+    perldoc sf-upload
+
+AUTHOR
+
+    Slaven Rezic <slaven@rezic.de>
+

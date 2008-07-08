@@ -1,0 +1,1371 @@
+#!/usr/bin/perl -w
+# -*- perl -*-
+
+#
+# $Id: sf-upload,v 4.4 2008/05/21 20:38:51 eserte Exp $
+# Author: Slaven Rezic
+#
+# Copyright (C) 2002,2005,2006,2007,2008 Slaven Rezic. All rights reserved.
+# This program is free software; you can redistribute it and/or
+# modify it under the same terms as Perl itself.
+#
+# Mail: slaven@rezic.de
+# WWW:  http://www.rezic.de/eserte/
+#
+
+package SourceForge::Context;
+use strict;
+use vars qw($VERSION);
+
+$VERSION = sprintf("%d.%02d", q$Revision: 4.4 $ =~ /(\d+)\.(\d+)/);
+
+use LWP::UserAgent;
+use HTTP::Cookies;
+use HTTP::Request::Common;
+use HTML::Tree;
+use HTML::TreeBuilder;
+use HTML::Parser 3;
+use File::Basename qw(basename);
+use File::Temp qw(tempdir);
+
+use fields qw(uploadhost rsynchost debug debuglog user password myprojects ua dorc);
+
+{
+    package SourceForge::Release;
+    use fields qw(name date project groupid package packageid releaseid
+		  file fileid notes changes
+		  type typeid processor processorid
+		  do_email_release_notice
+		 );
+
+    sub new {
+	my $class = shift;
+	no strict 'refs';
+	my $self = bless [\%{"$class\::FIELDS"}], $class;
+	# Defaults:
+	$self->{'date'} = SourceForge::Util::today();
+	$self;
+    }
+}
+
+use vars qw(%type_id %processor_id);
+%type_id =
+    (
+     ".deb" => "1000",
+     ".rpm" => "2000",
+     ".zip" => "3000",
+     ".bz2" => "3001",
+     ".gz" => "3002",
+     "Source .zip" => "5000",
+     "Source .bz2" => "5001",
+     "Source .gz" => "5002",
+     "Source .rpm" => "5100",
+     "Other Source File" => "5900",
+     ".jpg" => "8000",
+     "text" => "8001",
+     "html" => "8002",
+     "pdf" => "8003",
+     "Other" => "9999",
+     ".sit" => "3003",
+     ".nbz" => "3004",
+     ".exe (DOS)" => "2500",
+     ".exe (16-bit Windows)" => "2501",
+     ".exe (32-bit Windows)" => "2502",
+     ".exe (OS/2)" => "2600",
+     ".dmg" => "3005",
+     ".jar" => "2601",
+     "Source Patch/Diff" => "5901",
+     ".prc (PalmOS)" => "2700",
+     ".iso" => "3006",
+     "Source .Z" => "5003",
+     ".bin (MacBinary)" => "2650",
+     ".ps (PostScript)" => "8004",
+     ".msi (Windows installer)" => "2503",
+     "Other Binary Package" => "4000",
+     ".ipk" => "1100",
+    );
+
+%processor_id =
+    (
+     "i386" => "1000",
+     "IA64" => "6000",
+     "Alpha" => "7000",
+     "Any" => "8000",
+     "PPC" => "2000",
+     "MIPS" => "3000",
+     "Sparc" => "4000",
+     "UltraSparc" => "5000",
+     "Other" => "9999",
+     "Platform-Independent" => "8500",
+     "ARM" => "3001",
+     "SH3" => "3002",
+     "AMD64" => "6001",
+     "PPC64" => "2001",
+     "Mac Universal (PPC/x86)" => "7100",
+    );
+
+use vars qw($tmpdir $config_file);
+$tmpdir = "$ENV{HOME}/tmp";
+if (!-d $tmpdir || !-w $tmpdir) {
+    $tmpdir = tempdir("sf-upload-XXXXXXXX", TMPDIR => 1);
+}
+$config_file = "$ENV{HOME}/.sfuploadrc";
+
+use vars qw(%url_templates);
+%url_templates =
+    ('login'        => 'https://sourceforge.net/account/login.php',
+     'qrs'          => 'https://sourceforge.net/project/admin/qrs.php?package_id=&group_id=%g',
+     'qrs2'         => 'https://sourceforge.net/project/admin/qrs.php',
+     'newrelease'   => 'https://sourceforge.net/project/admin/newrelease.php?package_id=%p&group_id=%g',
+     'editreleases' => 'https://sourceforge.net/project/admin/editreleases.php',
+     'editpackages' => 'https://sourceforge.net/project/admin/editpackages.php?group_id=%g',
+    );
+
+sub new {
+    my $class = shift;
+    no strict 'refs';
+    my $self = bless [\%{"$class\::FIELDS"}], $class;
+    $self->{dorc} = 1;
+    $self;
+}
+
+######################################################################
+# Uploading
+sub upload {
+    shift->rsync_upload(@_);
+}
+
+sub rsync_upload {
+    my($c, $rel) = @_;
+    my @fullpaths = $rel->{file};
+
+    print STDERR "Files to upload: @fullpaths.\n"
+	if $c->{debug};
+    my @cmd = (qw(rsync -avP -e ssh),
+	       @fullpaths,
+	       $c->{user} . '@' . "$c->{rsynchost}:uploads/");
+    print STDERR "Uploading files to $c->{rsynchost} using <@cmd>...\n"
+	if $c->{debug};
+    
+    system(@cmd) == 0
+	or do {
+	    print STDERR "Can't upload file @fullpaths using <@cmd> (error status=$?). Continue anyway?";
+	    if (!SourceForge::Util::yn()) {
+		die "Aborted by user";
+	    }
+	};
+}
+
+# FTP upload is not supported anymore
+sub ftp_upload {
+    my($c, $rel) = @_;
+
+    require Net::FTP;
+
+    my $ftp = Net::FTP->new($c->{uploadhost}, Debug => $c->{debug})
+	or die "Can't connect to $c->{uploadhost}: $@";
+    $ftp->login("anonymous", $ENV{REPLYTO} || $ENV{REPLY_TO} || 'nobody@sf.net')
+	or die "Can't login to ftp server";
+    $ftp->binary;
+    $ftp->cwd("/incoming")
+	or die "Can't chdir to incoming directory";
+    if (!$ftp->put($rel->{file})) {
+	print STDERR "Can't upload file $rel->{file}. Continue anyway?";
+	if (!SourceForge::Util::yn()) {
+	    die "Aborted by user";
+	}
+    }
+    $ftp->quit;
+}
+
+######################################################################
+
+sub get_ua {
+    my $c = shift;
+
+    if (!$c->{ua}) {
+	$c->{ua} = LWP::UserAgent->new
+	    (agent      => "sf-upload/$VERSION (libwww-perl/$LWP::VERSION)",
+	     cookie_jar => HTTP::Cookies->new($c->{debug} && -d $tmpdir && -w $tmpdir ? (file => "$tmpdir/sfcookies", autosave => 1) : ()),
+	     requests_redirectable => [qw(GET HEAD POST)],
+	     env_proxy => 1,
+	    );
+    }
+
+    $c->{ua};
+}
+
+sub login {
+    my($c, $rel) = @_;
+    my $ua = $c->get_ua;
+
+    my $res = $ua->request
+	(POST
+	 $c->urlf('login'),
+	 Content => [ 'return_to'      => '',
+		      'form_loginname' => $c->{user},
+		      'form_pw'        => $c->{password},
+		      'stay_in_ssl'    => 1,
+		      'login'          => 'Login With SSL',
+		    ]
+	);
+    if (!$res->is_success) {
+	die $res->as_string;
+    }
+    my $html = $res->content;
+    if ($html =~ m{(Invalid\s+Password\s+or\s+User\s+Name)}i) {
+	die "Please check your command line or $config_file: $1\n";
+    }
+
+    if (!defined $rel->{groupid}) {
+	$c->{debuglog}->print("*** HTML of `my' page:\n$html\n") if $c->{debuglog};
+	$c->parse_my($html);
+	if (!defined $c->{myprojects}{$rel->{project}}{groupid}) {
+	    die "Cannot find group id for project <$rel->{project}>.\n";
+	}
+	$rel->{groupid} = $c->{myprojects}{$rel->{project}}{groupid};
+	if ($c->{debug}) {
+	    print STDERR "The parsed group id for project <$rel->{project}> is <$rel->{groupid}>.\n";
+	}
+    }
+}
+
+sub read_config {
+    my $c = shift;
+    return if !$c->{dorc};
+    if (open(CONFIG, $config_file)) {
+
+	if ($^O ne 'MSWin32' && ((stat($config_file))[2] & 36) != 0) {
+	    die "Your config file $config_file is readable by others!\n";
+	}
+
+	while(<CONFIG>) {
+	    chomp;
+	    my($key, $val) = split /\s*=\s*/, $_, 2;
+	    if ($key =~ m{^(user|password)$} && defined $c->{$key}) {
+		# cmdline has precedence for user/password
+	    } else {
+		$c->{$key} = $val;
+	    }
+	}
+	close CONFIG;
+    }
+}
+
+sub parse_my {
+    my $c = shift;
+    my $html = shift;
+
+    warn "*** Parsing of `MY' page is unreliable. Consider using -groupid and -packageid instead ***\n";
+    sleep 2;
+
+    my %projects;
+
+    if (0) { # old html layout
+	my $projects = parse_my_old_html_layout($html);
+	%projects = %$projects;
+    } else {
+	my $projects = parse_my_new_html_layout($html);
+	%projects = %$projects;
+    }
+
+
+    if (!keys %projects) {
+	die "No projects found, maybe you have first to create a package with the web interface?\n";
+    }
+
+    if ($c->{debuglog}) {
+	$c->{debuglog}->print("*** Projects: " . Data::Dumper->new([\%projects],[])->Useqq(1)->Dump . "\n");
+    }
+
+    $c->{myprojects} = \%projects;
+}
+
+sub parse_my_new_html_layout {
+    my($html) = @_;
+
+    my %projects;
+
+    my $tree = HTML::TreeBuilder->new();
+    if (!defined $html) {
+	# for debugging purposes
+	$tree->parse_file("html/my.html");
+    } else {
+	$tree->parse($html);
+    }
+    for my $a ($tree->look_down('_tag', 'a')) {
+	my $href = $a->attr("href");
+	if ($href && $href =~ m{\b\Qrmproject.php?group_id=\E(\d+)}) {
+	    eval {
+		my $group_id = $1;
+		my $shortname;
+		my $longname;
+
+		my $tr = $a->look_up('_tag', 'li');
+		my $a_2nd = ($tr->look_down('_tag', 'a'))[1];
+		if ($a_2nd->attr("href") =~ m{^/projects/([^/]+)}) {
+		    $shortname = $1;
+		    $longname = $a_2nd->as_text;
+		} else {
+		    die;
+		}
+
+		$projects{$shortname} = { shortname => $shortname,
+					  longname  => $longname,
+					  groupid   => $group_id,
+					};
+	    };
+	    die "Can't parse `my' page, please contact author. $@" if $@;
+	}
+    }
+
+    \%projects;
+}
+
+sub parse_my_old_html_layout {
+    my($html) = @_;
+
+    my %projects;
+
+    my($group_id, $shortname, $longname);
+    my $last_a;
+
+    my $start = sub {
+	my $tagname = shift;
+	if ($tagname eq 'a') {
+	    my $attr = shift;
+	    if ($attr->{'href'} =~ /rmproject\.php\?group_id=(\d+)/) {
+		$group_id = $1;
+		$last_a = 'rmproject';
+	    } elsif ($attr->{'href'} =~ /\/projects\/(.*)\//) {
+		$shortname = $1;
+		$last_a = 'projects';
+	    }
+	}
+    };
+    my $text = sub {
+	if (defined $last_a && $last_a eq 'projects') {
+	    $longname = $_[0];
+	}
+    };
+    my $end = sub {
+	my $tagname = shift;
+	if ($tagname eq 'a' && defined $last_a && $last_a eq 'projects') {
+	    if (defined $shortname && defined $longname && defined $group_id) {
+		$projects{$shortname} = {longname => $longname,
+					 shortname => $shortname,
+					 groupid => $group_id};
+		undef $shortname;
+		undef $longname;
+		undef $group_id;
+	    }
+	}
+	undef $last_a;
+    };
+
+    my $p = HTML::Parser->new( api_version  => 3,
+			       start_h	    => [$start, "tagname,attr"],
+			       text_h	    => [$text, "text"],
+			       end_h	    => [$end, "tagname"],
+			     );
+    if (!defined $html) {
+	# for debugging purposes
+	$p->parse_file("html/my.html");
+    } else {
+	$p->parse($html);
+    }
+
+    \%projects;
+}
+
+######################################################################
+# Parsing editpackages page for package id
+sub get_editpackages_page {
+    my($c, $rel) = @_;
+
+    my $group_id = $rel->{groupid};
+
+    my $ua = $c->get_ua;
+    my $res = $ua->request
+	(GET
+	 $c->urlf('editpackages', groupid => $group_id)
+	);
+    if (!$res->is_success) {
+	die $res->as_string;
+    }
+
+    my $html = $res->content;
+    $c->{debuglog}->print("*** HTML of editpackages page:\n$html\n") if $c->{debuglog};
+    $c->parse_editpackages($rel, $html);
+}
+
+sub parse_editpackages {
+    my($c, $rel, $html) = @_;
+
+    my $current_package_id;
+    my $current_package_name;
+
+    my $start = sub {
+	my $tagname = shift;
+	if ($tagname eq 'form') {
+	    undef $current_package_name;
+	    undef $current_package_id;
+	} elsif ($tagname eq 'input') {
+	    my $attr = shift;
+	    if ($attr->{'name'}) {
+		if ($attr->{'name'} eq 'package_id') {
+		    $current_package_id = $attr->{value};
+		} elsif ($attr->{'name'} eq 'package_name') {
+		    $current_package_name = $attr->{value};
+		}
+	    }
+	}
+    };
+    my $end = sub {
+	my $tagname = shift;
+	if ($tagname eq 'form') {
+	    if (defined $current_package_id &&
+		defined $current_package_name &&
+		$current_package_name eq $rel->{package}) {
+		$rel->{packageid} = $current_package_id;
+		if ($c->{debug}) {
+		    print STDERR "Found package id <$rel->{packageid}> for package <$rel->{package}>.\n";
+		}
+	    }
+	}
+    };
+
+    my $p = HTML::Parser->new( api_version  => 3,
+			       start_h	    => [$start, "tagname,attr"],
+			       end_h	    => [$end, "tagname"],
+			     );
+    if (!defined $html) {
+	# for debugging purposes
+	$p->parse_file("html/editpackages.html");
+    } else {
+	$p->parse($html);
+    }
+
+    if (!defined $rel->{packageid}) {
+	die "Cannot parse package id.\n";
+    }
+}
+
+######################################################################
+# start release
+sub start_newrelease {
+    my($c, $rel) = @_;
+
+    my $post_content =
+	[ 'group_id'     => $rel->{'groupid'},
+	  "newrelease"   => "yes",
+	  "release_name" => $rel->{'name'},
+	  "package_id"   => $rel->{'packageid'},
+	  "submit"       => "Create This Release",
+	];
+    $c->{debuglog}->print("*** POST content in newrelease page:\n" . Data::Dumper->Dumpxs([$post_content],[]) . "\n") if $c->{debuglog};
+
+    my $ua = $c->get_ua;
+    my $res = $ua->request
+	(POST
+	 $c->urlf('newrelease'),
+	 Content_Type => 'form-data',
+	 Content => $post_content,
+	);
+    if (!$res->is_success) {
+	die $res->as_string;
+    }
+
+    my $html = $res->content;
+    $c->{debuglog}->print("*** HTML after newrelease page:\n$html\n") if $c->{debuglog};
+
+    $c->parse_editreleases_page($rel, $html);
+}
+
+sub parse_editreleases_page {
+    my($c, $rel, $html) = @_;
+
+    my $found_release_id;
+
+    my $start = sub {
+	my $tagname = shift;
+	if ($tagname eq 'input') {
+	    my $attr = shift;
+	    if ($attr->{'name'}) {
+		if ($attr->{'name'} eq 'release_id') {
+		    $found_release_id = $attr->{value};
+		}
+	    }
+	}
+    };
+
+    my $p = HTML::Parser->new( api_version  => 3,
+			       start_h	    => [$start, "tagname,attr"],
+			     );
+    if (!defined $html) {
+	# for debugging purposes
+	$p->parse_file("html/editreleases.html");
+    } else {
+	$p->parse($html);
+    }
+
+    if (!defined $found_release_id) {
+	die "Could not find release id in editreleases.html";
+    }
+
+    $rel->{releaseid} = $found_release_id;
+
+}
+
+sub editreleases_step {
+    my($c, $rel, $step) = @_;
+
+    my @post_content =
+	( 'group_id'     => $rel->{'groupid'},
+	  "package_id"   => $rel->{'packageid'},
+	  "release_id"   => $rel->{'releaseid'},
+	  "step$step"    => 1,
+	  "submit"       => "Submit/Refresh",
+	);
+
+    if ($step == 1) {
+	push @post_content,
+	    ( 'release_date'   => $rel->{'date'},
+	      'release_name'   => $rel->{'name'},
+	      'status_id'      => 1, # only active implemented, 3=hidden
+	      'new_package_id' => $rel->{'packageid'}, # again
+	      'release_notes'  => $rel->{'notes'},
+	      'release_changes'=> $rel->{'changes'},
+	      'preformatted'   => 1, # XXX
+	    );
+    } elsif ($step == 2) {
+	push @post_content,
+	    ( 'file_list[]'    => basename($rel->{'file'}),
+	    );
+    } elsif ($step == 3) {
+	push @post_content,
+	    ( 'file_id'        => $rel->{fileid},
+	      'processor_id'   => $rel->{'processorid'},
+	      'type_id'        => $rel->{'typeid'},
+	      'new_release_id' => $rel->{'releaseid'}, # again
+	      'release_time'   => $rel->{'date'}, # again, why now "time" instead of "date"?
+	    );
+	      
+    } elsif ($step == 4) {
+	if (!$rel->{'do_email_release_notice'}) {
+	    if ($c->{debug}) {
+		print STDERR "No email release notice necessary.\n";
+		return;
+	    }
+	}
+
+	push @post_content,
+	    ( 'sure'           => 1,
+	    )
+    }
+
+    $c->{debuglog}->print("*** POST content in newrelease page:\n" . Data::Dumper->Dumpxs([\@post_content],[]) . "\n") if $c->{debuglog};
+
+    my $ua = $c->get_ua;
+    my $res = $ua->request
+	(POST
+	 $c->urlf('editreleases'),
+	 Content_Type => 'form-data',
+	 Content => \@post_content,
+	);
+    if (!$res->is_success) {
+	die $res->as_string;
+    }
+
+    my $html = $res->content;
+    $c->{debuglog}->print("*** HTML of editrelease step $step:\n$html\n") if $c->{debuglog};
+
+    if ($step == 1) {
+	if ($html !~ /Data Saved/i) {
+	    print STDERR "Cannot find string 'Data Saved' on result page. Continue?";
+	    if (!SourceForge::Util::yn()) {
+		die "Aborted by user";
+	    }
+	}
+    } elsif ($step == 2) {
+	if ($html !~ /\QFile(s) Added/i) {
+	    print STDERR "Cannot find string 'File(s) Added' on result page. Continue?";
+	    if (!SourceForge::Util::yn()) {
+		die "Aborted by user";
+	    }
+	}
+
+	my %file_ids;
+
+	my $start = sub {
+	    my $tagname = shift;
+	    if ($tagname eq 'input') {
+		my $attr = shift;
+		if ($attr->{'name'}) {
+		    if ($attr->{'name'} eq 'file_id') {
+			$file_ids{$attr->{'value'}}++;
+		    }
+		}
+	    }
+	};
+
+	my $p = HTML::Parser->new( api_version  => 3,
+				   start_h	    => [$start, "tagname,attr"],
+				 );
+	$p->parse($html);
+	if (!keys %file_ids) {
+	    die "Cannot find file_id on result page.\n";
+	}
+	if (keys %file_ids > 1) {
+	    die "sf-upload cannot handle releases with more than one file yet. Please proceed manually.\n";
+	}
+	$rel->{'fileid'} = (keys %file_ids)[0];
+
+    } elsif ($step == 3) {
+	if ($html !~ /\QFile Updated/i) {
+	    print STDERR "Cannot find string 'File Updated' on result page. Continue?";
+	    if (!SourceForge::Util::yn()) {
+		die "Aborted by user";
+	    }
+	}
+
+	if ($html =~ m{Nobody is monitoring this package at this time}) {
+	    $rel->{'do_email_release_notice'} = 0;
+	} else {
+	    $rel->{'do_email_release_notice'} = 1;
+	}
+    }
+
+}
+
+######################################################################
+# Obsolete: quick release system does not seem to exist anymore
+#
+# Parsing qrs page for package id
+sub get_qrs_page {
+    my($c, $rel) = @_;
+
+    my $group_id = defined $rel->{groupid} ? $rel->{groupid} : $c->{myprojects}{$rel->{project}}{groupid};
+
+ AGAIN:
+    my $ua = $c->get_ua;
+    my $res = $ua->request
+	(GET
+	 $c->urlf('qrs', groupid => $group_id)
+	);
+    if (!$res->is_success) {
+	die $res->as_string;
+    }
+
+    if (!defined $rel->{packageid}) {
+	my $html = $res->content;
+	$c->{debuglog}->print("*** HTML of qrs page:\n$html\n") if $c->{debuglog};
+
+	eval {
+	    $c->parse_qrs($rel, $html);
+	};
+	if ($@) {
+	    print STDERR "$@\nTry again?";
+	    if (!SourceForge::Util::yn()) {
+		die "Aborted by user";
+	    }
+	    goto AGAIN;
+	}
+    }
+}
+
+sub parse_qrs {
+    my $c = shift;
+    my $rel = shift;
+    my $html = shift;
+
+    warn "*** Parsing of `QRS' page is unreliable. Consider using -groupid and -packageid instead ***\n";
+    sleep 2;
+
+    my $project = $rel->{project};
+
+    my %packages;
+
+    my $select_package_id;
+    my $select_file_name;
+    my($id, $name);
+
+    my $found_uploaded_filename;
+
+    my $start = sub {
+	my $tagname = shift;
+	if ($tagname eq 'select') {
+	    my $attr = shift;
+	    if ($attr->{'name'} eq 'package_id') {
+		$select_package_id++;
+	    } elsif ($attr->{'name'} eq 'file_name') {
+		$select_file_name++;
+	    }
+	} elsif ($tagname eq 'option') {
+	    if ($select_package_id) {
+		my $attr = shift;
+		if ($attr->{'value'} ne "") {
+		    $id = $attr->{'value'};
+		}
+	    } elsif ($select_file_name) {
+		my $attr = shift;
+		if ($attr->{'value'} eq basename($rel->{'file'})) {
+		    $found_uploaded_filename++;
+		}
+	    }
+	}
+    };
+    my $text = sub {
+	if ($select_package_id && defined $id) {
+	    $packages{$_[0]} = $id;
+	}
+    };
+    my $end = sub {
+	my $tagname = shift;
+	if ($tagname eq 'select') {
+	    if ($select_package_id) {
+		$select_package_id = 0;
+	    }
+	    if ($select_file_name) {
+		$select_file_name = 0;
+	    }
+	}
+	if ($select_file_name && $tagname ne 'option') {
+	    # workaround sf bug (?): missing </select>
+	    $select_file_name = 0;
+	}
+    };
+    my $p = HTML::Parser->new( api_version  => 3,
+			       start_h	    => [$start, "tagname,attr"],
+			       text_h	    => [$text, "text"],
+			       end_h	    => [$end, "tagname"],
+			     );
+    if (!defined $html) {
+	# for debugging purposes
+	$p->parse_file("html/qrs.html");
+    } else {
+	$p->parse($html);
+    }
+
+    if (!keys %packages) {
+	die "No packages found, maybe you have to create a package with the web interface?\n";
+    }
+
+    if (!$found_uploaded_filename) {
+	die "Uploaded file " . basename($rel->{'file'}) . " not found in list of filenames\n";
+    }
+
+    if ($c->{debuglog}) {
+	$c->{debuglog}->print("*** Packages: " . Data::Dumper->new([\%packages],[])->Useqq(1)->Dump . "\n");
+    }
+
+    $c->{myprojects}{$project}{packages} = \%packages;
+}
+
+sub qrs {
+    my($c, $rel) = @_;
+
+    if (!defined $rel->{'groupid'}) {
+	$rel->{'groupid'} = $c->{myprojects}{$rel->{project}}{groupid};
+	if (!defined $rel->{'groupid'}) {
+	    die "Can't get group id for project $rel->{project}";
+	}
+    }
+    if (!defined $rel->{'packageid'}) {
+	$rel->{'packageid'} = $c->{myprojects}{$rel->{project}}{packages}{$rel->{package}};
+	if (!defined $rel->{'packageid'}) {
+	    die "Can't get package id for package $rel->{package}";
+	}
+    }
+
+    $c->{debuglog}->print("*** Release object (2):\n" . Data::Dumper->Dumpxs([$rel],[]) . "\n") if $c->{debuglog};
+    my $post_content =
+	[ 'MAX_FILE_SIZE'      => '1000000',
+	  'package_id'         => $rel->{'packageid'},
+	  'release_name'       => $rel->{'name'},
+	  'release_date'       => $rel->{'date'},
+	  'status_id'          => 1, # only active implemented, 3=hidden
+	  'file_name'          => basename($rel->{'file'}),
+	  'type_id'            => $rel->{'typeid'},
+	  'processor_id'       => $rel->{'processorid'},
+	  'release_notes'      => $rel->{'notes'},
+	  'release_changes'    => $rel->{'changes'},
+	  'group_id'           => $rel->{'groupid'},
+	  'preformatted'       => 1, # XXX
+	  'submit'             => 'Release File',
+	];
+    $c->{debuglog}->print("*** POST content:\n" . Data::Dumper->Dumpxs([$post_content],[]) . "\n") if $c->{debuglog};
+
+    my $ua = $c->get_ua;
+    my $res = $ua->request
+	(POST
+	 $c->urlf('qrs2'),
+	 Content_Type => 'form-data',
+	 Content => $post_content,
+	);
+    if (!$res->is_success) {
+	die $res->as_string;
+    }
+
+    my $html = $res->content;
+    $c->{debuglog}->print("*** HTML of result page:\n$html\n") if $c->{debuglog};
+
+    my $exitcode;
+    if ($html !~ /Added Release/i ||
+	$html !~ /Adding File/i) {
+	warn "Probably problems encountered ... please check with the web interface\n";
+	$exitcode = 2;
+    } elsif ($html =~ /(FileName Already Exists For This Project: [^<]+)/i) {
+	warn $1;
+	$exitcode = 1;
+    } else {
+	warn "OK, release done!\n";
+	$exitcode = 0;
+    }
+    $exitcode;
+}
+
+#
+# End of obsolete stuff
+######################################################################
+
+sub dump {
+    my $c = shift;
+    my $c2 = $c->clone;
+    $c2->{password} = "XXX password XXX";
+    Data::Dumper->Dumpxs([$c2],[])
+}
+
+
+# REPO BEGIN
+# REPO NAME clone /home/e/eserte/src/repository 
+# REPO MD5 40a45aaabc694572efaee9f0cd5dc125
+sub clone {
+    my $orig = shift;
+    require Data::Dumper;
+    my $clone;
+    eval Data::Dumper->new([$orig], ['clone'])->Indent(0)->Purity(1)->Dump;
+}
+# REPO END
+
+sub urlf {
+    my($c, $urltype, %args) = @_;
+    my $url = $url_templates{$urltype};
+    if (defined $args{groupid}) {
+	$url =~ s/%g/$args{groupid}/g;
+    }
+    if (defined $args{packageid}) {
+	$url =~ s/%p/$args{packageid}/g;
+    }
+    $url;
+}
+
+package SourceForge::Util;
+
+sub today {
+    my @l = localtime;
+    sprintf "%04d-%02d-%02d", $l[5]+1900, $l[4]+1, $l[3];
+}
+
+sub yn {
+    my $default = shift;
+    if (defined $default && $default =~ /y/i) {
+	print STDERR " (Y/n) ";
+	$default = 1;
+    } else {
+	print STDERR " (y/N) ";
+	$default = 0;
+    }
+    my($yn) = scalar <STDIN>;
+    if ($yn =~ /y/i) {
+	return 1;
+    } elsif ($yn =~ /n/i) {
+	return 0;
+    }
+    $default;
+}
+
+
+return 1 if caller;
+
+######################################################################
+
+package main;
+
+#debugXXX(); # use this to test changes in the `my' page
+
+use Getopt::Long;
+
+my $do_upload = 1;
+my($notes_file, $changes_file);
+my $verbose = 1;
+
+my $c = SourceForge::Context->new;
+$c->{uploadhost} = "upload.sourceforge.net";
+$c->{rsynchost}  = 'frs.sourceforge.net';
+
+my $rel = SourceForge::Release->new;
+
+if (!GetOptions("pr|project=s"     => \$rel->{project}, # unreliable
+		"groupid=i"        => \$rel->{groupid},
+		"p|package=s"      => \$rel->{package}, # unreliable
+		"packageid=i"      => \$rel->{packageid},
+		"r|release=s"      => \$rel->{name},
+		"f|file=s"         => \$rel->{file},
+		"type=s"           => \$rel->{type},
+		"processor=s"      => \$rel->{processor},
+		"user=s"           => \$c->{user},
+		"password=s"       => \$c->{password},
+		"d|date=s"         => \$rel->{date},
+		"n|notes=s"        => \$rel->{notes},
+		"nf|notesfile=s"   => \$notes_file,
+		"c|changes=s"      => \$rel->{changes},
+		"cf|changesfile=s" => \$changes_file,
+		"rc!"              => \$c->{dorc},
+		"upload|ftp|rsync!"=> \$do_upload,
+		"v!"               => \$verbose,
+		"version" => sub {
+		    print "sf-upload $SourceForge::Context::VERSION\n";
+		    exit 0;
+		},
+	       )) {
+    usage("");
+}
+
+usage("Option -f is missing")    if !defined $rel->{file};
+if (!defined $rel->{name}) {
+    if ($rel->{file} =~ /((?:\d\.?)+)\.tar\.(?:gz|bz2)$/) {
+	$rel->{name} = $1;
+	warn "Guessing release name: $rel->{name}\n"
+	    if $verbose;
+    } else {
+	usage("Option -r is missing");
+    }
+}
+usage("Cannot use options -p and -packageid together")
+    if defined $rel->{package} && defined $rel->{packageid};
+usage("Option -p or -packageid is missing")
+    if !defined $rel->{package} && !defined $rel->{packageid};
+
+usage("Cannot use options -pr and -groupid together")
+    if defined $rel->{project} && defined $rel->{groupid};
+usage("Option -pr or -groupid is missing is missing")
+    if !defined $rel->{project} && !defined $rel->{groupid};
+
+if ($notes_file) {
+    local $/ = undef;
+    die "Can't open $notes_file: $!" if !open(F, $notes_file);
+    $rel->{notes} = <F>;
+    close F;
+}
+
+if ($changes_file) {
+    local $/ = undef;
+    die "Can't open $changes_file: $!" if !open(F, $changes_file);
+    $rel->{changes} = <F>;
+    close F;
+}
+
+if ($verbose) {
+    $c->{debug} = 1;
+}
+
+if ($c->{debug} &&
+    -w $SourceForge::Context::tmpdir && -d $SourceForge::Context::tmpdir) {
+    require IO::File;
+    require Data::Dumper;
+    my $fh = IO::File->new;
+    my $debuglogfile = "$SourceForge::Context::tmpdir/sf-upload-debug.log";
+    $fh->open("> $debuglogfile")
+	or die "Can't write debug file $debuglogfile: $!";
+    print STDERR "NOTE: writing debug log to $debuglogfile.\n";
+    $c->{debuglog} = $fh;
+    $fh->autoflush(1);
+}
+
+$c->read_config;
+
+if (!defined $rel->{type}) {
+    $rel->{type} = guess_file_type($rel->{file});
+    if (defined $rel->{type}) {
+	warn "Guessing file type: $rel->{type}\n"
+	    if $verbose;
+    } else {
+	die "Cannot guess file type for $rel->{file}, please use the -type option";
+    }
+}
+$rel->{typeid} = $SourceForge::Context::type_id{$rel->{type}};
+if (!defined $rel->{typeid}) {
+    require Text::Wrap;
+    die Text::Wrap::wrap("","\t","Invalid file type $rel->{type}. Recognized file types are: " . join(", ", keys %SourceForge::Context::type_id) . "\n");
+}
+
+if (!$rel->{processor}) {
+    $rel->{processor} = "Any";
+}
+$rel->{processorid} = $SourceForge::Context::processor_id{$rel->{processor}};
+if (!defined $rel->{processorid}) {
+    die "Invalid processor type $rel->{processor}";
+}
+
+if (!defined $c->{'user'}) {
+    die "No username defined";
+}
+
+while (!defined $c->{'password'} || $c->{'password'} eq '') {
+    print STDERR "$c->{'user'}\@users.sourceforge.net's password: ";
+    $c->{'password'} = get_password();
+}
+
+$c->{debuglog}->print("*** Configuration:\n" . $c->dump . "\n") if $c->{debuglog};
+$c->{debuglog}->print("*** Release object:\n" . Data::Dumper->Dumpxs([$rel],[]) . "\n") if $c->{debuglog};
+
+#$c->parse_my;$c->parse_qrs($rel);$c->qrs($rel);die;
+#$c->parse_editpackages($rel);die; # $c->qrs($rel);die;
+
+if ($do_upload) {
+    warn "Upload file $rel->{'file'}\n" if $verbose;
+    $c->upload($rel);
+}
+
+warn "Login to sourceforge\n" if $verbose;
+$c->login($rel);
+
+if ($verbose) {
+    if (defined $rel->{'project'}) {
+	warn "Parse editpackages page for $rel->{'project'}\n";
+    } elsif (defined $rel->{'groupid'}) {
+	warn "Parse editpackages page for group id $rel->{'groupid'}\n" 
+    }
+}
+if (!defined $rel->{packageid}) {
+    #$c->get_qrs_page($rel);
+    $c->get_editpackages_page($rel);
+}
+
+#warn "qrs\n" if $verbose;
+#my $exitcode = $c->qrs($rel);
+warn "Start new release\n" if $verbose;
+$c->start_newrelease($rel);
+for my $step (1..4) {
+    warn "Edit release step $step\n" if $verbose;
+    $c->editreleases_step($rel, $step);
+}
+#exit $exitcode;
+
+sub guess_file_type {
+    my $file = shift;
+    if ($file =~ /\.gz$/) {
+	"Source .gz";
+    } elsif ($file =~ /\.zip$/) {
+	"Source .zip";
+    } elsif ($file =~ /\.bz2$/) {
+	"Source .bz2";
+    } else {
+	undef;
+    }
+}
+
+sub usage {
+    if (eval { require Pod::Usage }) {
+	Pod::Usage::pod2usage(1);
+    } else {
+	my $msg = shift;
+	die <<EOF;
+$msg
+Usage: $0 -pr projectname|-groupid id
+          -p packagename|-packageid id
+          -r releasename
+          -f file [options]
+
+See
+    perldoc $0
+for a complete list of options
+EOF
+    }
+}
+
+# REPO BEGIN
+# REPO NAME get_password /home/e/eserte/src/repository 
+# REPO MD5 f9633d39c1c52014661cf4fa4f3f7931
+sub get_password {
+    my $password;
+    if (eval { require Term::ReadKey }) {
+	$| = 1;
+	Term::ReadKey::ReadMode('noecho');
+	chomp($password = <STDIN>);
+	Term::ReadKey::ReadMode('restore');
+    } else {
+	warn <<EOF;
+Term::ReadKey is not installed on this system, which means that the
+password will be echoed to the terminal.
+EOF
+        chomp($password = <STDIN>);
+    }
+    $password;
+}
+# REPO END
+
+sub debugXXX {
+    require IO::Handle;
+    require Data::Dumper;
+    my $c = {debuglog => \*STDERR};
+    SourceForge::Context::parse_my($c, scalar `cat ~/src/sf-upload/html/my.html`);
+    exit(0);
+}
+
+# REPO BEGIN
+# REPO NAME is_in_path /home/e/eserte/work/srezic-repository 
+# REPO MD5 e18e6687a056e4a3cbcea4496aaaa1db
+
+=head2 is_in_path($prog)
+
+=for category File
+
+Return the pathname of $prog, if the program is in the PATH, or undef
+otherwise.
+
+DEPENDENCY: file_name_is_absolute
+
+=cut
+
+sub is_in_path {
+    my($prog) = @_;
+    if (file_name_is_absolute($prog)) {
+	if ($^O eq 'MSWin32') {
+	    return $prog       if (-f $prog && -x $prog);
+	    return "$prog.bat" if (-f "$prog.bat" && -x "$prog.bat");
+	    return "$prog.com" if (-f "$prog.com" && -x "$prog.com");
+	    return "$prog.exe" if (-f "$prog.exe" && -x "$prog.exe");
+	    return "$prog.cmd" if (-f "$prog.cmd" && -x "$prog.cmd");
+	} else {
+	    return $prog if -f $prog and -x $prog;
+	}
+    }
+    require Config;
+    %Config::Config = %Config::Config if 0; # cease -w
+    my $sep = $Config::Config{'path_sep'} || ':';
+    foreach (split(/$sep/o, $ENV{PATH})) {
+	if ($^O eq 'MSWin32') {
+	    # maybe use $ENV{PATHEXT} like maybe_command in ExtUtils/MM_Win32.pm?
+	    return "$_\\$prog"     if (-f "$_\\$prog" && -x "$_\\$prog");
+	    return "$_\\$prog.bat" if (-f "$_\\$prog.bat" && -x "$_\\$prog.bat");
+	    return "$_\\$prog.com" if (-f "$_\\$prog.com" && -x "$_\\$prog.com");
+	    return "$_\\$prog.exe" if (-f "$_\\$prog.exe" && -x "$_\\$prog.exe");
+	    return "$_\\$prog.cmd" if (-f "$_\\$prog.cmd" && -x "$_\\$prog.cmd");
+	} else {
+	    return "$_/$prog" if (-x "$_/$prog" && !-d "$_/$prog");
+	}
+    }
+    undef;
+}
+# REPO END
+
+# REPO BEGIN
+# REPO NAME file_name_is_absolute /home/e/eserte/work/srezic-repository 
+# REPO MD5 89d0fdf16d11771f0f6e82c7d0ebf3a8
+
+=head2 file_name_is_absolute($file)
+
+=for category File
+
+Return true, if supplied file name is absolute. This is only necessary
+for older perls where File::Spec is not part of the system.
+
+=cut
+
+BEGIN {
+    if (eval { require File::Spec; defined &File::Spec::file_name_is_absolute }) {
+	*file_name_is_absolute = \&File::Spec::file_name_is_absolute;
+    } else {
+	*file_name_is_absolute = sub {
+	    my $file = shift;
+	    my $r;
+	    if ($^O eq 'MSWin32') {
+		$r = ($file =~ m;^([a-z]:(/|\\)|\\\\|//);i);
+	    } else {
+		$r = ($file =~ m|^/|);
+	    }
+	    $r;
+	};
+    }
+}
+# REPO END
+
+__END__
+
+=head1 NAME
+
+sf-upload - batch release of SourceForge projects.
+
+=head1 SYNOPSIS
+
+    sf-upload -pr projectname|-groupid id
+              -p packagename|-packageid id
+              -r releasename -f file
+	  [-type type] [-processor processor] [-user user] [-password password]
+          [-d releasedate]
+          [-n notes | -nf notesfile] [-c changes | -cf changesfile]
+          [-[no]upload] [-[no]rc] [-[no]v] [-version]
+
+=head1 DESCRIPTION
+
+sf-upload is a script which automates the process of
+uploading and releasing a file to SourceForge.
+
+=head2 ARGUMENTS
+
+=over
+
+=item -groupid id
+
+id of the project, also known as group id (mandatory)
+
+=item -pr|-project projectname
+
+short (unix) name of the project. B<NOTE>: Do not use this option
+anymore, handling of the project name is unreliable. Use B<-groupid>
+instead.
+
+=item -packageid id
+
+id of the package (mandatory)
+
+=item -p|-package packagename
+
+(existing) package name. B<NOTE>: Do not use this option anymore,
+handling of the package name is unreliable. Use B<-packageid> instead.
+
+=item -r|-release releasename
+
+name of new release (usually version number)
+
+=item -f|-file filename
+
+filename of uploaded package
+
+=item -type type
+
+type of uploaded filename (default: guess)
+
+=item -processor processor
+
+processor type (default: Any)
+
+=item -user user
+
+SourceForge user name
+
+=item -password password
+
+SourceForge password. Note that the password is only used for the HTML
+pages, but not for the rsync/ssh upload. Use ssh private/public key
+authentication for password-less operation there.
+
+=item -n|notes notes
+
+release notes
+
+=item -nf|notesfile notesfile
+
+get release notes from named file
+
+=item -c|changes changes
+
+release changes
+
+=item -cf|changesfile changesfile
+
+get release changes from named file
+
+=item -[no]upload
+=item -[no]ftp
+=item -[no]rsync
+
+upload/do not upload file (default: -upload)
+(rsync is always used, regardless which of the three options is used)
+
+=item -[no]rc
+
+read/do not read rc file (usually ~/.sfuploadrc) (default: -rc)
+
+=item -[no]v
+
+be/do not be verbose (default: -v)
+
+=item -version
+
+show version and exit
+
+=back
+
+=head1 FILES
+
+=over
+
+=item ~/.sfuploadrc
+
+You can put configuration options to this file. The format is
+
+    key = value
+
+Allowed keys are: C<user>, C<password>, and C<debug>.
+
+=back
+
+=head1 PREREQUISITES
+
+L<LWP::UserAgent>, L<HTML::Parser>, L<HTML::Tree>, L<Crypt::SSLeay>
+
+=head1 OSNAMES
+
+only tested on Unix
+
+=head1 SCRIPT CATEGORIES
+
+???
+
+=head1 EXAMPLE
+
+You can put the following rule to a perl-styled C<Makefile.PL>:
+
+  sub MY::postamble {
+    <<'EOF';
+  release: $(DISTVNAME).tar$(SUFFIX)
+          sf-upload -pr unix_name_of_project -p name_of_package -f $(DISTVNAME).tar$(SUFFIX)
+  EOF
+  }
+
+For a project using C<configure> and C<Makefile.in>, put the following
+rule to C<Makefile.in>:
+
+  release:
+          sf-upload -pr unix_name_of_project -p name_of_package -f $(DISTROOT)/$(DISTNAME).tar.gz
+
+Then, releasing a distribution would just be
+
+  make dist
+  make release
+
+=head1 BUGS
+
+There's no check whether a release name is already used. This means that
+multiple uploads to the same release name will cause creating multiple
+different releases.
+
+It is not possible to have multiple files in one release.
+
+=head1 AVAILABILITY
+
+C<sf-upload> is available from
+L<http://www.sourceforge.net/projects/sf-upload>.
+
+=head1 AUTHOR
+
+Slaven Rezic <slaven@rezic.de>
+
+=head1 SEE ALSO
+
+L<cpan-upload(1)>, L<release>, L<Module::Release>.
+
+=cut

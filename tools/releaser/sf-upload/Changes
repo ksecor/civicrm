@@ -1,0 +1,56 @@
+Revision history for sf-upload.
+
+4.04
+	- ftp is not supported anymore. Now upload is done using rsync. See also:
+	  http://sourceforge.net/tracker/index.php?func=detail&aid=1968613&group_id=47521&atid=449723
+	  https://sourceforge.net/tracker/index.php?func=detail&aid=1968606&group_id=137217&atid=738089
+
+3.06
+	- fixed a warning
+
+3.04
+	- -user/-password as cmdline arguments have precedence over
+	  config file 
+
+3.03
+	- check for invalid user/password at login time
+	- better exit code now
+
+3.02
+	- create temp directory if ~/tmp does not exist
+	- option -nov (not verbose) now should work
+
+3.01
+	- new options -groupid and -packageid
+          the old options -pr and -p should not be used anymore
+
+2.02
+	- another layout change fix
+
+2.01 (Mon Oct 10 22:01:47 CEST 2005)
+	- works with the new SourceForge layout
+
+1.18
+	- bugfix for -f option with absolute files
+
+1.17
+	- retry/continue instead of failures (ftp upload, parsing qrs)
+	- better diagnostics
+	- moved usage to pod (using Pod::Usage)
+	- pod: documented ~/.sfuploadrc
+
+1.12
+	- renamed autoinstall.pl to prereqinst
+
+1.11
+	- included autoinstall.pl
+	- README now mentions module dependencies
+
+1.10
+	- force binary FTP upload
+
+1.09
+	- POD, usage and new options
+
+1.05
+	- first working version

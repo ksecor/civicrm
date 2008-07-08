@@ -1,0 +1,32 @@
+#!/usr/bin/perl
+# -*- perl -*-
+#
+# DO NOT EDIT, created automatically by /home/e/eserte/src/mkprereqinst/mkprereqinst
+
+# on Mon Mar  4 09:55:35 2002
+#
+
+use Getopt::Long;
+my $require_errors;
+my $use = 'cpan';
+
+if (!GetOptions("ppm"  => sub { $use = 'ppm'  },
+		"cpan" => sub { $use = 'cpan' },
+	       )) {
+    die "usage: $0 [-ppm | -cpan]\n";
+}
+
+if ($use eq 'ppm') {
+    require PPM;
+    do { print STDERR 'Install LWP-UserAgent'.qq(\n); PPM::InstallPackage(package => 'LWP-UserAgent') or warn ' (not successful)'.qq(\n); } if !eval 'require LWP::UserAgent';
+    do { print STDERR 'Install HTML-Parser'.qq(\n); PPM::InstallPackage(package => 'HTML-Parser') or warn ' (not successful)'.qq(\n); } if !eval 'require HTML::Parser; HTML::Parser->VERSION(3)';
+    do { print STDERR 'Install Crypt-SSLeay'.qq(\n); PPM::InstallPackage(package => 'Crypt-SSLeay') or warn ' (not successful)'.qq(\n); } if !eval 'require Crypt::SSLeay';
+} else {
+    use CPAN;
+    install 'LWP::UserAgent' if !eval 'require LWP::UserAgent';
+    install 'HTML::Parser' if !eval 'require HTML::Parser; HTML::Parser->VERSION(3)';
+    install 'Crypt::SSLeay' if !eval 'require Crypt::SSLeay';
+}
+if (!eval 'require LWP::UserAgent;') { warn $@; $require_errors++ }
+if (!eval 'require HTML::Parser; HTML::Parser->VERSION(3);') { warn $@; $require_errors++ }
+if (!eval 'require Crypt::SSLeay;') { warn $@; $require_errors++ }warn "Autoinstallation of prerequisites completed\n" if !$require_errors;

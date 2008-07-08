@@ -1,0 +1,10 @@
+TODO
+----
+
+- There's no way to use an existing release with QRS. Either file this
+  as a bug report at Sourceforge, or use the normals FRS for existing
+  releases.
+
+- There seems to be a new http upload feature on the QRS page (though
+  not working now). Use this in preference to the FTP upload.
+
