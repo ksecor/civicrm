@@ -102,7 +102,7 @@ class CRM_Pledge_Page_Tab extends CRM_Contact_Page_View
         // we should call contact view, preprocess only for participant mode
         $this->preProcess( );
         
-        if ( $this->_permission == CRM_Core_Permission::EDIT && ! CRM_Core_Permission::check( 'edit pledge records' ) ) {
+        if ( $this->_permission == CRM_Core_Permission::EDIT && ! CRM_Core_Permission::check( 'edit pledges' ) ) {
             $this->_permission = CRM_Core_Permission::VIEW; // demote to view since user does not have edit pledge rights
             $this->assign( 'permission', 'view' );
         }
