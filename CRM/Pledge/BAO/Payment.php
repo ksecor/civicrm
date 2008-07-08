@@ -89,21 +89,24 @@ WHERE pledge_id = %1
     {
         require_once 'CRM/Pledge/DAO/Payment.php';
         $payment =& new CRM_Pledge_DAO_Payment( );
-        $payment->pledge_id = $params['pledge_id'];
-        $payment->find(); 
-        while ($payment->fetch() ) {
-            
-        }
+        $isEdit = CRM_Core_DAO::getFieldValue( 'CRM_Pledge_BAO_Payment', $params['pledge_id'], 'id', 'pledge_id'); 
+
+        require_once 'CRM/Core/Transaction.php';
+        $transaction = new CRM_Core_Transaction( );
 
         // need to calculate the scheduled amount for every installment
-
-        for ( $i = 1; $i <= $params['installments']; $i++ ) {
-            self::add( $params );
+        if ( !$isEdit ) {
+            for ( $i = 1; $i <= $params['installments']; $i++ ) {
+                $payment = self::add( $params );
+                if ( is_a( $payment, 'CRM_Core_Error') ) {
+                    $transaction->rollback( );
+                    return $payment;
+                }
+            }
         }
-
-        $result = $payment->save( );
-        
-        return $result;
+        $transaction->commit( );
+               
+        return $payment;
     }
 
     /**
