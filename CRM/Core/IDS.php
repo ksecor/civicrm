@@ -61,8 +61,7 @@ class CRM_Core_IDS {
     public function check( &$args ) {
 
         // lets bypass a few civicrm urls from this check
-        static $skip = array( 'civicrm/mailing/send',
-                              'civicrm/mailing/queue' );
+        static $skip = array( 'civicrm/ajax' );
         $path = implode( '/', $args );
         if ( in_array( $path, $skip ) ) {
             return;
