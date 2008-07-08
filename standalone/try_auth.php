@@ -29,6 +29,7 @@ function run() {
         if ( count($contactIds) > 0 ) {
             displayError("Authentication error; not a valid OpenID.");
         } else {
+            $session =& CRM_Core_Session::singleton( );
             $session->set( 'new_install', true );
             include('new_install.html');
             exit(1);
