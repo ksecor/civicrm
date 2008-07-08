@@ -3822,7 +3822,7 @@ INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES
 (5195, 1108, "MR", "Manchester"),
 (5196, 1016, "13", "Al Manāmah (Al ‘Āşimah)"),
 (5197, 1016, "14", "Al Janūbīyah"),
-(5198, 1016, "15", "Al Muḩarraq"),
+-- (5198, 1016, "15", "Al Muḩarraq"), -- conflicts with id 1872, Al Muharraq
 (5199, 1016, "16", "Al Wusţá"),
 (5200, 1016, "17", "Ash Shamālīyah"),
 (9000, 1196, "NW", "North West"), 
