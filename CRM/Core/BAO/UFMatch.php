@@ -424,7 +424,7 @@ WHERE     openid = %1";
 
     static function isEmptyTable( ) {
         $sql = "SELECT count(id) FROM civicrm_uf_match";
-        return CRM_CORE_DAO::singleValueQuery( $sql ) > 0 ? false : true;
+        return CRM_Core_DAO::singleValueQuery( $sql ) > 0 ? false : true;
     }
 
     /**

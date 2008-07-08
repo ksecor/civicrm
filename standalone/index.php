@@ -1,9 +1,12 @@
 <?php
+require_once 'bootstrap_common.php';
+
 function invoke() {
-    require_once 'bootstrap_common.php';
-    
+    $session  =& CRM_Core_Session::singleton( );
+    $config   =& CRM_Core_Config::singleton( );
+
     // display error if any
-    showError( $error, $session );
+    showError( $session );
     
     $urlVar = $config->userFrameworkURLVar;
     if ( !isset( $_GET[$urlVar] ) ) {
@@ -15,11 +18,11 @@ function invoke() {
     if ( $session->get('userID') == null || $session->get('userID') == '' ) {
         if ($_GET[$urlVar] == "") {
             require_once "CRM/Core/BAO/UFMatch.php";
-            if ( CRM_Core_BAO_UFMatch::isEmptyTable( ) ) {
+            if ( CRM_Core_BAO_UFMatch::isEmptyTable( ) == false ) {
+                include('login.html');
+            } else {
                 $session->set( 'new_install', true );
                 include('new_install.html');
-            } else {
-                include('login.html');
             }
             exit(1);
         } else {
@@ -40,21 +43,16 @@ function invoke() {
     }
 }
 
-function showError( &$error, &$session ) {
+function showError( &$session ) {
     // display errors if any
     if ( !empty( $error ) ) {
         print "<div class=\"error\">$error</div>\n";
-        $gotError = true;
     }
-
+    
     if ( $session->get('msg') ) {
         $msg = $session->get('msg');
         print "<div class=\"msg\">$msg</div>\n";
-        $gotError = true;
-    }
-
-    if ( isset($gotError) || $session->get('goahead') == 'no' ) {
-        exit(0);
+        $session->set('msg', null);
     }
 }
 

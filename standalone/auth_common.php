@@ -1,7 +1,6 @@
 <?php
 function displayError($message) {
-    $error = $message;
-    include 'index.php';
+    print "<div class=\"error\">$message</div>\n";
     exit(0);
 }
 
