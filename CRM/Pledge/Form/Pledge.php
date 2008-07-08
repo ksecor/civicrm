@@ -457,15 +457,9 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             $params["honor_contact_id"] = 'null';
         }
         
-        $pledge = null;
-        if ( $this->_action & CRM_Core_Action::ADD ) {
-            //create pledge.
-            require_once 'CRM/Pledge/BAO/Pledge.php';
-            $pledge =& CRM_Pledge_BAO_Pledge::create( $params ); 
-            $this->_id = $pledge->id;
-            //create pledge payment.
-           
-        }
+        require_once 'CRM/Pledge/BAO/Pledge.php';
+        $pledge =& CRM_Pledge_BAO_Pledge::create( $params ); 
+        $this->_id = $pledge->id;
         
         //handle Acknowledgment.
         if ( CRM_Utils_Array::value( 'is_acknowledge', $formValues ) ) {

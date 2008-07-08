@@ -85,6 +85,27 @@ WHERE pledge_id = %1
         return $paymentDetails;
     }
 
+    static function create( $params )
+    {
+        require_once 'CRM/Pledge/DAO/Payment.php';
+        $payment =& new CRM_Pledge_DAO_Payment( );
+        $payment->pledge_id = $params['pledge_id'];
+        $payment->find(); 
+        while ($payment->fetch() ) {
+            
+        }
+
+        // need to calculate the scheduled amount for every installment
+
+        for ( $i = 1; $i <= $params['installments']; $i++ ) {
+            self::add( $params );
+        }
+
+        $result = $payment->save( );
+        
+        return $result;
+    }
+
     /**
      * Add pledge payment
      *
