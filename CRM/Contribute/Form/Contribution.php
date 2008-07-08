@@ -270,6 +270,12 @@ WHERE  contribution_id = {$this->_id}
             require_once "CRM/Contribute/BAO/Contribution.php";
             CRM_Contribute_BAO_Contribution::getValues( $params, $this->_values, $ids );
             
+            //unset the honor type id:when delete the honor_contact_id
+            //and edit the contribution, honoree infomation pane open
+            //since honor_type_id is present
+            if ( ! $this->_values['honor_contact_id'] ) {
+                unset( $this->_values['honor_type_id'] );
+            }
             //to get note id 
             require_once 'CRM/Core/BAO/Note.php';
             $daoNote = & new CRM_Core_BAO_Note();
