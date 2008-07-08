@@ -152,6 +152,9 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
             $qsDelete .= "&caseid=%%caseid%%";
         }
         
+        if ( $activityTypeId == array_search('Email',CRM_Core_PseudoConstant::activityType( )) ) {
+            $showDelete = false;
+        }
         self::$_actionLinks = array(
                                     CRM_Core_Action::VIEW => 
                                     array(
