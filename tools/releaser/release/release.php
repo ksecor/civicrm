@@ -81,36 +81,36 @@ chdir($settings['application']['temp_path']);
 $client = new HTTP_Client();
 
 echo "Done\n";
-echo "Uploading files... ";
-// set up basic connection
-$conn_id = ftp_connect("upload.sourceforge.net");
-
-// login with username and password
-$login_result = ftp_login($conn_id, "anonymous", "release@dancoulter.com");
-
-// check connection
-if ((!$conn_id) || (!$login_result)) {
-    exec("rm -R -f *");
-	die("FTP connection has failed!\n\n");
-}
-
-ftp_chdir($conn_id, "incoming");
-
-// upload the file
-//*
-foreach ($files as $file) {
-	$upload = ftp_put($conn_id, $file, $file, FTP_BINARY);
-	if (!$upload) {
-        chdir(dirname(__FILE__));
-        exec("rm -R -f {$settings['application']['temp_path']}/*");
-        die("FTP upload has failed! ({$file})\n\n");
-	}
-}
-//*/
-// close the FTP stream
-ftp_close($conn_id);
-
-echo "Done\n";
+# echo "Uploading files... ";
+# // set up basic connection
+# $conn_id = ftp_connect("upload.sourceforge.net");
+# 
+# // login with username and password
+# $login_result = ftp_login($conn_id, "anonymous", "release@dancoulter.com");
+# 
+# // check connection
+# if ((!$conn_id) || (!$login_result)) {
+#     exec("rm -R -f *");
+# 	die("FTP connection has failed!\n\n");
+# }
+# 
+# ftp_chdir($conn_id, "incoming");
+# 
+# // upload the file
+# //*
+# foreach ($files as $file) {
+# 	$upload = ftp_put($conn_id, $file, $file, FTP_BINARY);
+# 	if (!$upload) {
+#         chdir(dirname(__FILE__));
+#         exec("rm -R -f {$settings['application']['temp_path']}/*");
+#         die("FTP upload has failed! ({$file})\n\n");
+# 	}
+# }
+# //*/
+# // close the FTP stream
+# ftp_close($conn_id);
+# 
+# echo "Done\n";
 
 echo "Authenticating to Sourceforge... ";
 
