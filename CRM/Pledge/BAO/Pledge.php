@@ -149,7 +149,7 @@ class CRM_Pledge_BAO_Pledge extends CRM_Pledge_DAO_Pledge
                 $params[$df] = CRM_Utils_Date::isoToMysql($params[$df]);
             }
         }
-
+       
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
         
@@ -171,7 +171,8 @@ class CRM_Pledge_BAO_Pledge extends CRM_Pledge_DAO_Pledge
                                                     CRM_Contribute_PseudoConstant::contributionStatus());
         $paymentParams['scheduled_amount'] = $params['eachPaymentAmount'];
         $paymentParams['installments'] = $params['installments'];
-        
+        $paymentParams['scheduled_date'] = $params['scheduled_date'];
+        $paymentParams['frequency_unit'] = $params['frequency_unit'];
         require_once 'CRM/Pledge/BAO/Payment.php';
         CRM_Pledge_BAO_Payment::create( $paymentParams );
         

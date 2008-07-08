@@ -878,6 +878,57 @@ class CRM_Utils_Date
         return $results;
     }
 
+    function DateAdd($interval, $number, $date) 
+    {  
+        $hours   = $date['H'];
+        $minutes = $date['i'];
+        $seconds = $date['s'];
+        $month   = $date['M'];
+        $day     = $date['d'];
+        $year    = $date['Y'];
+        
+        switch ($interval) {
+        case 'year':
+            $year+=$number;
+            break;
+        case 'q':
+            $year+=($number*3);
+            break;
+        case 'month':
+            if ( ($month+$number) > 12 ) {
+                $yFactor=($month+$number)/12;
+                $month=($month+$number)%12;
+                $year+=(int)$yFactor;
+            } else {
+                $month+=$number;
+            }
+            break;
+        case 'day':
+            //need to handle for all days
+            $day+=$number;
+            break;
+        case 'week':
+            $day+=($number*7);
+            break;
+        case 'h':
+            $hours+=$number;
+            break;
+        case 'i':
+            $minutes+=$number;
+            break;
+        case 's':
+            $seconds+=$number;
+            break;            
+        }
+        $date['H'] = $hours;
+        $date['i'] = $minutes;
+        $date['s'] = $seconds ;
+        $date['M'] = $month;
+        $date['d'] = $day;
+        $date['Y'] = $year;
+        return $date;
+    }
+    
 }
 
 

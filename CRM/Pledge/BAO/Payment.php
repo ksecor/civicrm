@@ -93,10 +93,14 @@ WHERE pledge_id = %1
 
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
-
-        // need to calculate the scheduled amount for every installment
+        
         if ( !$isEdit ) {
+            $scheduled_date =  $params['scheduled_date'];
             for ( $i = 1; $i <= $params['installments']; $i++ ) {
+                //calculate the scheduled amount for every installment
+                $params['scheduled_date'] = CRM_Utils_Date::DateAdd( $params['frequency_unit'], $i * $params['installments'], $scheduled_date );
+                $params['scheduled_date'] = CRM_Utils_Date::format(  $params['scheduled_date'] );
+                
                 $payment = self::add( $params );
                 if ( is_a( $payment, 'CRM_Core_Error') ) {
                     $transaction->rollback( );

@@ -415,7 +415,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         foreach ( $fields as $f ) {
             $params[$f] = CRM_Utils_Array::value( $f, $formValues );
         }
-        
+
         //format amount
         $params['amount'] = CRM_Utils_Rule::cleanMoney( CRM_Utils_Array::value( 'amount', $formValues ) );
         
@@ -424,8 +424,12 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             if ( ! CRM_Utils_System::isNull( $formValues[$d] ) ) {
                 $formValues[$d]['H'] = '00';
                 $formValues[$d]['i'] = '00';
-                $formValues[$d]['s'] = '00';
+                $formValues[$d]['s'] = '00';             
+                if ( $d == 'start_date' ) {
+                    $params['scheduled_date'] =  $formValues[$d];
+                }
                 $params[$d] = CRM_Utils_Date::format( $formValues[$d] );
+                
             } else {
                 $params[$d] = 'null';
             }
@@ -456,7 +460,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         } else {
             $params["honor_contact_id"] = 'null';
         }
-        
+      
         require_once 'CRM/Pledge/BAO/Pledge.php';
         $pledge =& CRM_Pledge_BAO_Pledge::create( $params ); 
         $this->_id = $pledge->id;
