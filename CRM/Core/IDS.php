@@ -81,16 +81,20 @@ class CRM_Core_IDS {
         $configFile = $config->uploadDir . 'Config.IDS.ini';
         if ( ! file_exists( $configFile ) ) {
             global $civicrm_root;
-            $config = "
+            $contents = "
 [General]
-    filter_type     = xml
-    filter_path     = {$civicrm_root}/packages/IDS/default_filter.xml
-    tmp_path        = $config->uploadDir
-    scan_keys       = false
-    exceptions[]    = __utmz
-    exceptions[]    = __utmc
+    filter_type         = xml
+    filter_path         = {$civicrm_root}/packages/IDS/default_filter.xml
+    tmp_path            = $config->uploadDir
+    HTML_Purifier_Path  = IDS/vendors/htmlpurifier/HTMLPurifier.auto.php
+    HTML_Purifier_Cache = $config->uploadDir
+    scan_keys           = false
+    exceptions[]        = __utmz
+    exceptions[]        = __utmc
+    html[]              = html_message
+    html[]              = description
 ";
-            file_put_contents( $configFile, $config );
+            file_put_contents( $configFile, $contents );
         }
 
         $init    = IDS_Init::init( $configFile );

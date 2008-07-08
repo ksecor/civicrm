@@ -27,7 +27,7 @@ civicrm_invoke( );
 
 function civicrm_init( ) {
     $config =& CRM_Core_Config::singleton();
-    CRM_Core_DAO::init($config->dsn, $config->daoDebug);
+    CRM_Core_DAO::init( $config->dsn );
 
     // this is the front end, so let others know
     $config->userFrameworkFrontend = 1;
@@ -89,7 +89,7 @@ function civicrm_check_permission( $args ) {
 
     // all profile and file urls, as well as user dashboard and tell-a-friend are valid
     $arg1 = CRM_Utils_Array::value( 1, $args );
-    $validPaths = array( 'profile', 'user', 'dashboard', 'friend' );
+    $validPaths = array( 'profile', 'user', 'dashboard', 'friend', 'file' );
     if ( in_array( $arg1 , $validPaths ) ) {
         return true;
     }

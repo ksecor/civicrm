@@ -726,7 +726,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
      * @static
      * @access public
      */
-    static function getDisplayValue( $value, $id, &$options, $contactID = null, $valueID = null ) 
+    static function getDisplayValue( $value, $id, &$options, $contactID = null )
     {
         $option     =& $options[$id];
         $attributes =& $option['attributes'];

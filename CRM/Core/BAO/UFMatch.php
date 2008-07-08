@@ -96,10 +96,19 @@ WHERE     openid = %1";
             CRM_Core_Error::statusBounce(ts('Please set the user framework variable'));
         }
         
+        // make sure we load the joomla object to get valid information
+        if ( $uf == 'Joomla' ) {
+            if ( ! isset( $user->id ) || ! isset( $user->email ) ) {
+                $user =& JFactory::getUser( );
+            }
+        }
+
+        // if the id of the object is zero (true for anon users in drupal)
         // have we already processed this user, if so early
         // return.
         $userID = $session->get( 'userID' );
         $ufID   = $session->get( 'ufID'   );
+
         if ( ! $update && $ufID == $user->$key ) {
             //print "Already processed this user<br/>";
             return;
@@ -110,18 +119,6 @@ WHERE     openid = %1";
             $session->reset( );
         }
 
-        // make sure we load the joomla object to get valid information
-        if ( $uf == 'Joomla' ) {
-            if ( class_exists( 'JFactory' ) ) {
-                if ( ! $user->id || ! isset( $user->email ) ) {
-                    $user =& JFactory::getUser( );
-                }
-            } else {
-                $user->load( );
-            }
-        }
-
-        // if the id of the object is zero (true for anon users in drupal)
         // return early
         if ( $user->$key == 0 ) {
             return;

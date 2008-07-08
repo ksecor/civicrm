@@ -341,7 +341,8 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
           
             $defaults['employer_option'] = CRM_Utils_Array::value( 'employer_option',
                                                                    $currentEmployer );
-            $this->assign( 'sharedEmployer', $currentEmployer['id']  );
+            $this->assign( 'sharedEmployer',
+                           CRM_Utils_Array::value( 'id', $currentEmployer ) );
         }
         
         //set defaults for country-state dojo widget
