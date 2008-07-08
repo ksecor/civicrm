@@ -49,7 +49,7 @@ class CRM_Pledge_Page_DashBoard extends CRM_Core_Page
      */ 
     function preProcess( ) 
     {
-        CRM_Utils_System::setTitle( ts('Pledge for CiviCRM') );
+        CRM_Utils_System::setTitle( ts('CiviPledge') );
         
         $startToDate   = array( );
         $yearToDate    = array( );
