@@ -99,7 +99,7 @@ WHERE pledge_id = %1
         $payment =& new CRM_Pledge_DAO_Payment( );
         $payment->copyValues( $params );
         $result = $payment->save( );
-
+        
         return $result;
     }
 
@@ -128,6 +128,61 @@ WHERE pledge_id = %1
         return null;
     }
     
-
+    /**
+     * update Pledge Payment Status
+     *
+     * @param array $params an assoc array of name/value pairs
+     *
+     * @return void
+     */
+    function updatePledgePaymentStatus( $params )
+    {
+        //update pledge and payment status only if
+        //final contribution status is "Completed".
+        
+        //get all status
+        require_once 'CRM/Contribute/PseudoConstant.php';
+        $allStatus = CRM_Contribute_PseudoConstant::contributionStatus( );
+        
+        if ( $params['contribStatusID'] == array_search( 'Completed', $allStatus ) ) {
+            
+            //update payment status.
+            $paymentParams = array( );
+            $paymentParams['id'] = $params['ppID'];
+            $paymentParams['status_id'] = $params['contribStatusID'];
+            $payment = self::add( $paymentParams );
+            
+            //get all payments.
+            $allPayments = self::getPledgePayments( $params['pledgeID'] );
+            
+            $isOverdue = false;
+            $allCompleted = true;
+            foreach( $allPayments as $payID => $values ) {
+                //check for all completed.
+                if ( $values['status'] != 'Completed' ) {
+                    $allCompleted = false;
+                } 
+                //check for any overdue.
+                if ( $values['status'] == 'Overdue' ) {
+                    $isOverdue = true;
+                }
+            }
+            
+            //update pledge status.
+            $pledgeParams = array( );
+            $pledgeParams['id'] = $params['pledgeID'];
+            if ( $allCompleted ) {
+                $pledgeParams['status_id'] = array_search( 'Completed', $allStatus );
+            } else if ( $isOverdue ) {
+                $pledgeParams['status_id'] = array_search( 'Overdue', $allStatus );
+            } else {
+                $pledgeParams['status_id'] = array_search( 'Pending', $allStatus );
+            }
+            require_once 'CRM/Pledge/BAO/Pledge.php';
+            CRM_Pledge_BAO_Pledge::add( $pledgeParams );
+        }
+        
+    }
+    
 }
 

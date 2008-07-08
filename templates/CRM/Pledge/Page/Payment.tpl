@@ -24,11 +24,11 @@
     <td>{$row.status}</td>	
     <td>
       {if $permission EQ 'edit' and ($row.status eq 'Pending' or $row.status eq 'Overdue') }
-        {capture assign=newContribURL}{crmURL p="civicrm/contact/view/contribution" q="reset=1&action=add&cid=`$contactId`&context=contribution&pledgeId=`$pledgeId`"}{/capture}
+        {capture assign=newContribURL}{crmURL p="civicrm/contact/view/contribution" q="reset=1&action=add&cid=`$contactId`&context=contribution&ppid=`$row.id`"}{/capture}
         {ts 1=$newContribURL}<a href='%1'>Record Payment (Check, Cash, EFT ...)</a>{/ts}
         {if $newCredit}
 	  <br/>  
-          {capture assign=newCreditURL}{crmURL p="civicrm/contact/view/contribution" q="reset=1&action=add&cid=`$contactId`&pledgeId=`$pledgeId`&context=contribution&mode=live"}{/capture}
+          {capture assign=newCreditURL}{crmURL p="civicrm/contact/view/contribution" q="reset=1&action=add&cid=`$contactId`&ppid=`$row.id`&context=contribution&mode=live"}{/capture}
           {ts 1=$newCreditURL}<a href='%1'>Submit Credit Card Payment</a>{/ts}
           <br/> 
           {capture assign=editURL}{crmURL p="civicrm/pledge/payment" q="reset=1&action=update&cid=`$contactId`&context=contribution&ppId=`$row.id`"}{/capture}
