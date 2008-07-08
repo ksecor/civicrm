@@ -301,7 +301,9 @@ class IDS_Report implements Countable, IteratorAggregate
                     $output .= 'Description: ' . $filter->getDescription() . 
                         ' | ';
                     $output .= 'Tags: ' . join(', ', $filter->getTags()) . 
-                        "<br/>\n";
+                        ' | ';
+                    $output .= 'ID: ' . $filter->getId() . 
+                        "<br/>\n";                    
                 }
             }
             
@@ -309,8 +311,10 @@ class IDS_Report implements Countable, IteratorAggregate
             
             if ($centrifuge = $this->getCentrifuge()) {
                 $output .= 'Centrifuge detection data'; 
-                $output .= '<br/>  Threshold: ' . $centrifuge['threshold'];
-                $output .= '<br/>  Ratio: ' . $centrifuge['ratio'];
+                $output .= '<br/>  Threshold: ' . ($centrifuge['threshold'] ? 
+                    $centrifuge['threshold'] : '---');
+                $output .= '<br/>  Ratio: ' . ($centrifuge['ratio'] ? 
+                    $centrifuge['ratio'] : '---');
                 $output .= '<br/>  Converted: ' . $centrifuge['converted'];
                 $output .= "<br/><br/>\n";
             }

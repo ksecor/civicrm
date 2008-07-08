@@ -41,7 +41,7 @@
  * @author    Lars Strojny <lars@strojny.net>
  * @copyright 2007 The PHPIDS Group
  * @license   http://www.gnu.org/licenses/lgpl.html LGPL
- * @version   Release: $Id:Monitor.php 517 2007-09-15 15:04:13Z mario $
+ * @version   Release: $Id:Monitor.php 949 2008-06-28 01:26:03Z christ1an $
  * @link      http://php-ids.org/
  */
 class IDS_Monitor
@@ -116,11 +116,29 @@ class IDS_Monitor
     private $html = array();
     
     /**
-     * Enter description here...
+     * Holds HTMLPurifier object
      *
-     * @var unknown_type
+     * @var object
      */
-    private $htmlpurifier = false;
+    private $htmlpurifier = NULL;
+
+	/**
+	 * Path to HTMLPurifier source
+	 *
+	 * This path might be changed in case one wishes to make use of a
+	 * different HTMLPurifier source file e.g. if already used in the 
+	 * application PHPIDS is protecting
+	 *
+	 * @var	string
+	 */
+	private	$pathToHTMLPurifier = '';
+	
+	/**
+	 * HTMLPurifier cache directory
+	 *
+	 * @var	string
+	 */
+	private $HTMLPurifierCache = '';
     
     
     /**
@@ -132,14 +150,11 @@ class IDS_Monitor
      * 
      * @return void
      */
-    public function __construct(array $request, IDS_Init $init, 
-        array $tags = null) 
+    public function __construct(array $request, IDS_Init $init, array $tags = null) 
     {
-    
-        $version = isset($init->config['General']['min_php_version']) ? 
-            $init->config['General']['min_php_version'] : '5.1.6';
+        $version = isset($init->config['General']['min_php_version']) ? $init->config['General']['min_php_version'] : '5.1.6';
             
-        if (!function_exists('phpversion') || phpversion() < $version) {
+        if (version_compare(PHP_VERSION, $version, '<')) {
             throw new Exception(
                 'PHP version has to be equal or higher than ' . $version . ' or 
                 PHP version couldn\'t be determined'
@@ -152,13 +167,11 @@ class IDS_Monitor
             $this->request = $request;
             $this->tags    = $tags;
 
-            if ($init) {
-                $this->scanKeys   = $init->config['General']['scan_keys'];
-                $this->exceptions = isset($init->config['General']['exceptions'])
-                    ? $init->config['General']['exceptions'] : false;
-                $this->html       = isset($init->config['General']['html']) 
-                    ? $init->config['General']['html'] : false;
-            }
+			$this->scanKeys   = $init->config['General']['scan_keys'];
+			$this->exceptions = isset($init->config['General']['exceptions']) ? $init->config['General']['exceptions'] : false;
+			$this->html       = isset($init->config['General']['html']) ? $init->config['General']['html'] : false;
+			$this->pathToHTMLPurifier	= $init->config['General']['HTML_Purifier_Path'];
+			$this->HTMLPurifierCache	= $init->config['General']['HTML_Purifier_Cache'];
         }
 
         if (!is_writeable($init->config['General']['tmp_path'])) {
@@ -204,11 +217,13 @@ class IDS_Monitor
 
                 if ($filter = $this->_detect($key, $value)) {
                     include_once 'IDS/Event.php';
-                    $this->report->addEvent(new IDS_Event(
-                        $key,
-                        $value,
-                        $filter
-                    ));
+                    $this->report->addEvent(
+						new IDS_Event(
+                        	$key,
+                        	$value,
+                        	$filter
+                    	)
+					);
                 }
             }
         } else {
@@ -229,104 +244,113 @@ class IDS_Monitor
     private function _detect($key, $value) 
     {
 
-        /*
-         * to increase performance, only start detection if value
-         * isn't alphanumeric 
-         */ 
-        if (preg_match('/[^\w\s\/@]+/ims', $value) && !empty($value)) {
+		// to increase performance, only start detection if value
+        // isn't alphanumeric 
+        if (!(preg_match('/[^\w\s\/@]+/ims', $value) && !empty($value) || preg_match('/Q\d{2}/', $value))) {
+			return false;
+		}
 
-            // check if this field is part of the exceptions
-            if (is_array($this->exceptions) 
-                && in_array($key, $this->exceptions, true)) {
-                return false;
-            }
-            
-            // check for magic quotes and remove them if necessary
-            $value =
-                (function_exists('get_magic_quotes_gpc') and @get_magic_quotes_gpc())
-                ? stripslashes($value)
-                : $value;			
+		// check if this field is part of the exceptions
+		if (is_array($this->exceptions) && in_array($key, $this->exceptions, true)) {
+			return false;
+		}
+		
+		// check for magic quotes and remove them if necessary
+		if (function_exists('get_magic_quotes_gpc') && @get_magic_quotes_gpc()) {
+			$value = stripslashes($value);
+		}
+		
+		// if html monitoring is enabled for this field - then do it!
+		if (is_array($this->html) && in_array($key, $this->html, true)) {
+			list($key, $value) = $this->_purifyValues($key, $value);
+		}
+	   
+		// use the converter
+		include_once 'IDS/Converter.php';
+		$value = IDS_Converter::runAll($value);
+		$value = IDS_Converter::runCentrifuge($value, $this);
+		
+		// scan keys if activated via config
+		$key = $this->scanKeys ? IDS_Converter::runAll($key) : $key;
+		$key = $this->scanKeys ? IDS_Converter::runCentrifuge($key, $this) : $key;
+		
+		$filters   = array();
+		$filterSet = $this->storage->getFilterSet();
+		foreach ($filterSet as $filter) {
+		
+			/*
+			 * in case we have a tag array specified the IDS will only
+			 * use those filters that are meant to detect any of the 
+			 * defined tags
+			 */
+			if (is_array($this->tags)) {
+				if (array_intersect($this->tags, $filter->getTags())) {
+					if ($this->_match($key, $value, $filter)) {
+						$filters[] = $filter;
+					}
+				}
+			} else {
+				if ($this->_match($key, $value, $filter)) {
+					$filters[] = $filter;
+				}
+			}
+		}
 
-            // if html monitoring is enabled for this field - then do it!
-            if (is_array($this->html) 
-                && in_array($key, $this->html, true)) {
-                    
-                include_once 'IDS/vendors/htmlpurifier/HTMLPurifier.auto.php';
-                    
-                if (!is_writeable(dirname(__FILE__) . 
-                        '/vendors/htmlpurifier/HTMLPurifier/' . 
-                        'DefinitionCache/Serializer')
-                ) {
-                    throw new Exception(
-                        dirname(__FILE__) . 
-                            '/vendors/htmlpurifier/HTMLPurifier/' . 
-                            'DefinitionCache/Serializer must be writeable'
-                    );
-                }
-                
-                if (class_exists('HTMLPurifier')) {
-                    $config = HTMLPurifier_Config::createDefault();
-                    $config->set('Attr', 'EnableID', true);
-                    $this->htmlpurifier = new HTMLPurifier($config);
-                } else {
-                    throw new Exception(
-                        'HTMLPurifier class could not be found - make' . 
-                        ' sure the purifier files are valid and' .
-                        ' the path is correct'
-                    );
-                }					
-                
-                $purified_value = $this->htmlpurifier->purify($value);
-                $purified_key   = $this->htmlpurifier->purify($key);
-                
-                if ($value != $purified_value) {
-                    $value = $this->_diff($value, $purified_value);
-                } else {
-                    $value = null;
-                }
-                if ($key != $purified_key) {
-                    $key = $this->_diff($key, $purified_key);
-                } else {
-                    $key = null;
-                }
-            }
-           
-            // use the converter
-            include_once 'IDS/Converter.php';
-            $value = IDS_Converter::runAll($value);
-            $value = IDS_Converter::runCentrifuge($value, $this);
-            
-            // scan keys if activated via config
-            $key = $this->scanKeys 
-                ? IDS_Converter::runAll($key) : $key;
-            $key = $this->scanKeys 
-                ? IDS_Converter::runCentrifuge($key, $this) : $key;
-            
-            $filters   = array();
-            $filterSet = $this->storage->getFilterSet();
-            foreach ($filterSet as $filter) {
-            
-                /*
-                 * in case we have a tag array specified the IDS will only
-                 * use those filters that are meant to detect any of the 
-                 * defined tags
-                 */
-                if (is_array($this->tags)) {
-                    if (array_intersect($this->tags, $filter->getTags())) {
-                        if ($this->_match($key, $value, $filter)) {
-                            $filters[] = $filter;
-                        }
-                    }
-                } else {
-                    if ($this->_match($key, $value, $filter)) {
-                        $filters[] = $filter;
-                    }
-                }
-            }
-
-            return empty($filters) ? false : $filters;
-        }
+		return empty($filters) ? false : $filters;
     }
+	
+	
+    /**
+     * Purifies given key and value variables using HTMLPurifier
+     *
+	 * This function is needed whenever there is variables for which HTML
+	 * might be allowed like e.g. WYSIWYG post bodies. It will dectect malicious
+	 * code fragments and leaves harmless parts untouched.
+	 *
+     * @param	mixed	$key
+     * @param	mixed	$value
+	 * @since	0.5
+     * 
+     * @return	array
+     */
+	private function _purifyValues($key, $value) {
+	
+		include_once $this->pathToHTMLPurifier;
+		if (!is_writeable($this->HTMLPurifierCache)) {
+			throw new Exception($this->HTMLPurifierCache . ' must be writeable');
+		}
+		
+		if (class_exists('HTMLPurifier')) {
+			$config = HTMLPurifier_Config::createDefault();
+			$config->set('Attr', 'EnableID', true);
+            $config->set('Cache', 'SerializerPath', $this->HTMLPurifierCache);
+			$this->htmlpurifier = new HTMLPurifier($config);
+		} else {
+			throw new Exception(
+				'HTMLPurifier class could not be found - make sure the purifier files are valid and' .
+				' the path is correct'
+			);
+		}					
+		
+		$purified_value = $this->htmlpurifier->purify($value);
+		$purified_key   = $this->htmlpurifier->purify($key);
+		
+		$redux_value = strip_tags($value);
+		$redux_key   = strip_tags($key);
+		
+		if ($value != $purified_value || $redux_value) {
+			$value = $this->_diff($value, $purified_value, $redux_value);
+		} else {
+			$value = NULL;
+		}
+		if ($key != $purified_key) {
+			$key = $this->_diff($key, $purified_key, $redux_key);
+		} else {
+			$key = NULL;
+		}
+		
+		return array($key, $value);
+	}
 
     /**
      * This method calculates the difference between the original 
@@ -334,18 +358,25 @@ class IDS_Monitor
      *
      * @param string $original the original markup
      * @param string $purified the purified markup
-     * 
+     * @param string $redux    the string without html
+	 * @since 0.5
+	 *
      * @return string the difference between the strings
      */
-    private function _diff($original, $purified)
+    private function _diff($original, $purified, $redux)
     {
+        /*
+         * deal with over-sensitive alt-attribute addition of the purifier 
+         * and other common html formatting problems
+         */
+        $purified = preg_replace('/\s+alt="[^"]*"/m', null, $purified);
+        $purified = preg_replace('/=?\s*"\s*"/m', null, $purified);
         
-        // check which string is longer - has to happen initially
-        $length = strlen($original) - strlen($purified);
-
-        // deal with over-sensitive alt-attribute addition of the purifier
-        $purified = preg_replace('/\salt="[^"]+"/m', null, $purified);
+        $original = preg_replace('/=?\s*"\s*"/m', null, $original);
+        $original = preg_replace('/\s+alt=?/m', null, $original);
         
+        // check which string is longer
+        $length = (strlen($original) - strlen($purified));
         /*
          * Calculate the difference between the original html input 
          * and the purified string.
@@ -364,11 +395,9 @@ class IDS_Monitor
                 $array_1   = array_reverse($array_1);
             }
         }
-        /*
-         * return the diff - ready to hit the converter and the rules
-         */
-        $diff = trim(join('', array_reverse((
-            array_slice($array_1, 0, $length)))));
+        
+		// return the diff - ready to hit the converter and the rules
+        $diff = trim(join('', array_reverse((array_slice($array_1, 0, $length)))));
         
         // clean up spaces between tag delimiters
         $diff = preg_replace('/>\s*</m', '><', $diff); 
@@ -377,11 +406,11 @@ class IDS_Monitor
         $diff = preg_replace('/[^<](iframe|script|embed|object' . 
             '|applet|base|img|style)/m', '<$1', $diff);
         
-        if ($original==$purified) {
+        if ($original == $purified && !$redux) {
             return null;
         }
         
-        return $diff;
+        return $diff . $redux;
     }
 
     /**
@@ -438,7 +467,8 @@ class IDS_Monitor
      * Sets html array
      *
      * @param mixed $html the fields not to monitor
-     * 
+	 * @since 0.5
+	 *
      * @return void
      */
     public function setHtml($html) 
@@ -449,10 +479,24 @@ class IDS_Monitor
 
         $this->html = $html;
     }
+    
+	/**
+     * Adds a value to the html array
+	 *
+	 * @since 0.5
+	 *
+     * @return void
+     */
+    public function addHtml($value) 
+	{
+        $this->html[] = $value;
+    }
 
     /**
      * Returns exception array
-     *
+	 *
+	 * @since 0.5
+	 *
      * @return array the fields that contain allowed html
      */
     public function getHtml() 
@@ -475,6 +519,7 @@ class IDS_Monitor
         
         return $this->report;
     }
+	
 }
 
 /*
