@@ -91,16 +91,16 @@
 	   <td> {$form.discount_name.$index.html}</td>
 	   <td> {$form.discount_start_date.$index.html | crmDate }
 		 <span class="description">
-                      {include file="CRM/common/calendar/desc.tpl" trigger=trigger_discount_start doTime=1}
+                      {include file="CRM/common/calendar/desc.tpl" trigger=trigger_discount_start}
                       {include file="CRM/common/calendar/body.tpl" dateVar=discount_start_date[$index]  startDate=currentYear 
-                	      startDate=startYear offset=10 doTime=1 trigger=trigger_discount_start ampm=1}
+                	      startDate=startYear offset=10 trigger=trigger_discount_start ampm=1}
           </span>
 	   </td>
 	   <td> {$form.discount_end_date.$index.html | crmDate}
 		 <span class="description">
-                      {include file="CRM/common/calendar/desc.tpl" trigger=trigger_discount_end doTime=1}
+                      {include file="CRM/common/calendar/desc.tpl" trigger=trigger_discount_end}
                       {include file="CRM/common/calendar/body.tpl" dateVar=discount_end_date[$index]  endDate=currentYear 
-                	      endDate=startYear offset=10 doTime=1 trigger=trigger_discount_end ampm=1}
+                	      endDate=startYear offset=10 trigger=trigger_discount_end ampm=1}
          </span>
 	   </td>
 	   </tr>
