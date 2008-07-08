@@ -33,11 +33,10 @@
         </tr>
         <tr><td class="label">{$form.amount.label}</td><td>{$form.amount.html|crmMoney}</td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Actual amount given by pledger.{/ts}</td></tr>
-	<tr><td class="label">{$form.installments.label}</td><td>{$form.installments.html}&nbsp;&nbsp;{$form.frequency_unit.html}</td></tr>
-        <tr><td class="label">&nbsp;</td><td class="description">{ts}Number of Installments.{/ts}</td></tr>
-	<tr><td class="label">{$form.frequency_day.label}</td><td>{$form.frequency_day.html}</td></tr>
-        <tr><td class="label">&nbsp;</td><td class="description">{ts}This applies to weekly, monthly and yearly payments.{/ts}</td></tr>
-	<tr><td class="label">{$form.eachPaymentAmount.label}</td><td>{if $action eq 1}{$form.eachPaymentAmount.html|crmMoney}{elseif $action eq 2}{$eachPaymentAmount|crmMoney}{/if}</td></tr>
+        <tr><td class="label">{$form.installments.label}</td><td>{$form.installments.html}&nbsp;&nbsp;{$form.frequency_unit.html} {ts}installments{/ts}</td></tr>
+        <tr><td class="label">{$form.frequency_day.label}</td><td>{$form.frequency_day.html} {ts}day of the period{/ts}<br />
+            <span class="description">{ts}This applies to weekly, monthly and yearly payments.{/ts}</td></tr>
+        <tr><td class="label">{$form.eachPaymentAmount.label}</td><td>{if $action eq 1}{$form.eachPaymentAmount.html|crmMoney}{elseif $action eq 2}{$eachPaymentAmount|crmMoney}{/if}</td></tr>
         <tr><td class="label">{$form.create_date.label}</td><td>{$form.create_date.html}
             {if $hideCalender neq true}
             {include file="CRM/common/calendar/desc.tpl" trigger=trigger_pledge_2}
