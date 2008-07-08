@@ -29,14 +29,13 @@
    {else}
       <table class="form-layout-compressed">
         <tr>
-            <td class="font-size12pt right"><strong>{ts}Pledge By{/ts}</strong></td><td class="font-size12pt"><strong>{$displayName}</strong></td>
+            <td class="font-size12pt right"><strong>{ts}Pledge by{/ts}</strong></td><td class="font-size12pt"><strong>{$displayName}</strong></td>
         </tr>
         <tr><td class="label">{$form.amount.label}</td><td>{$form.amount.html|crmMoney}</td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Actual amount given by pledger.{/ts}</td></tr>
-        <tr><td class="label">{$form.installments.label}</td><td>{$form.installments.html}&nbsp;&nbsp;{$form.frequency_unit.html} {ts}installments{/ts}</td></tr>
+        <tr><td class="label">{$form.installments.label}</td><td>{$form.installments.html}&nbsp;&nbsp;{$form.frequency_unit.html} {ts}installments of{/ts} {if $action eq 1}{$form.eachPaymentAmount.html|crmMoney}{elseif $action eq 2}{$eachPaymentAmount|crmMoney}{/if} {ts}each{/ts}</td></tr>
         <tr><td class="label">{$form.frequency_day.label}</td><td>{$form.frequency_day.html} {ts}day of the period{/ts}<br />
             <span class="description">{ts}This applies to weekly, monthly and yearly payments.{/ts}</td></tr>
-        <tr><td class="label">{$form.eachPaymentAmount.label}</td><td>{if $action eq 1}{$form.eachPaymentAmount.html|crmMoney}{elseif $action eq 2}{$eachPaymentAmount|crmMoney}{/if}</td></tr>
         <tr><td class="label">{$form.create_date.label}</td><td>{$form.create_date.html}
             {if $hideCalender neq true}
             {include file="CRM/common/calendar/desc.tpl" trigger=trigger_pledge_2}
@@ -50,17 +49,17 @@
             {/if}<br />
             <span class="description">{ts}Date of first pledge payment.{/ts}</span></td></tr>
         {if $email}
-            <tr><td class="label">{$form.is_acknowledge.label}</td><td>{$form.is_acknowledge.html}</td></tr>
-            <tr><td class="label">&nbsp;</td><td class="description">{ts}Automatically email an acknowledgment of this pledge to {$email}?{/ts}</td></tr>
+            <tr><td class="label">{$form.is_acknowledge.label}</td><td>{$form.is_acknowledge.html}<br />
+                <span class="description">{ts}Automatically email an acknowledgment of this pledge to {$email}?{/ts}</span></td></tr>
         {/if}
         <tr id="acknowledgeDate"><td class="label">{$form.acknowledge_date.label}</td><td>{$form.acknowledge_date.html}
             {include file="CRM/common/calendar/desc.tpl" trigger=trigger_pledge_2}
             {include file="CRM/common/calendar/body.tpl" dateVar=acknowledge_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_pledge_2}<br />
             <span class="description">{ts}Date when an acknowledgment of the pledge was sent.{/ts}</span></td></tr>
-	<tr><td class="label">{$form.contribution_type_id.label}</td><td>{$form.contribution_type_id.html}</td></tr>
-	<tr><td class="label">&nbsp;</td><td class="description">{ts}Sets the default contribution type for payments against this pledge.{/ts}</td></tr>
-        <tr><td class="label">{$form.status_id.label}</td><td>{$form.status_id.html}</td></tr>
-        <tr><td class="label">&nbsp;</td><td class="description">{ts}If payments are received on time, Pledges remain in Pending status until all scheduled payment are completed. Overdue pledges are ones with payment(s) past due.{/ts}</td></tr>
+        <tr><td class="label">{$form.contribution_type_id.label}</td><td>{$form.contribution_type_id.html}<br />
+            <span class="description">{ts}Sets the default contribution type for payments against this pledge.{/ts}</span></td></tr>
+        <tr><td class="label">{$form.status_id.label}</td><td>{$form.status_id.html}<br />
+            <span class="description">{ts}If payments are received on time, pledges remain in "In Progress" status until all scheduled payment are completed. Overdue pledges are ones with payment(s) past due.{/ts}</span></td></tr>
         {* Cancellation fields are hidden unless contribution status is set to Cancelled *}
         <tr id="cancelDate"><td class="label">{$form.cancel_date.label}</td><td>{$form.cancel_date.html}
              {include file="CRM/common/calendar/desc.tpl" trigger=trigger_pledge_4}

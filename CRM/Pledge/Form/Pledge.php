@@ -265,19 +265,19 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         $attributes = CRM_Core_DAO::getAttribute( 'CRM_Pledge_DAO_Pledge' );
         $element =& $this->add( 'text', 'amount', ts('Total Pledge Amount'),
                                 $attributes['amount'], true );
-        $this->addRule( 'amount', ts('Please enter a valid amount.'), 'money');
+        $this->addRule( 'amount', ts('Please enter a valid monetary amount.'), 'money');
         if ( $this->_id ) {
             $element->freeze( );
         }
         
-        $element =& $this->add( 'text', 'installments', ts('To be Paid in'), $attributes['installments'], true );
-        $this->addRule('installments', ts('Please enter a valid Installments.'), 'integer');
+        $element =& $this->add( 'text', 'installments', ts('To be paid in'), $attributes['installments'], true );
+        $this->addRule('installments', ts('Please enter a valid number of installments.'), 'integer');
         if ( $this->_id ) {
             $element->freeze( );
         }
         
         $element =& $this->add( 'select', 'frequency_unit', 
-                                ts( 'Each payment amount will be' ), 
+                                ts( 'Frequency' ), 
                                 array(''=>ts( '- select -' )) + CRM_Core_SelectValues::unitList( ), 
                                 true, array( 'onkeyup' => "calculatedPaymentAmount( );"));
                                 
@@ -285,13 +285,13 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             $element->freeze( );
         }
         
-        $element =& $this->add( 'text', 'frequency_day', ts('Payments are Due on the'), $attributes['frequency_day'], true );
-        $this->addRule('frequency_day', ts('Please enter a valid Payments are Due on the.'), 'integer');
+        $element =& $this->add( 'text', 'frequency_day', ts('Payments are due on the'), $attributes['frequency_day'], true );
+        $this->addRule('frequency_day', ts('Please enter a valid payment due day.'), 'integer');
         if ( $this->_id ) {
             $element->freeze( );
         }
         
-        $this->add( 'text', 'eachPaymentAmount', ts('Each payment amount will be'), 'size=10 READONLY' );
+        $this->add( 'text', 'eachPaymentAmount', ts('each'), 'size=10 READONLY' );
 
         //add various dates
         $element =& $this->add('date', 'create_date', ts('Pledge Made'), CRM_Core_SelectValues::date('activityDate'));    
@@ -304,7 +304,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         }
         
         $element =& $this->addElement('date', 'start_date', ts('Payments Start'), CRM_Core_SelectValues::date('activityDate')); 
-        $this->addRule('start_date', ts('Select a valid Payments Start date.'), 'qfDate');
+        $this->addRule('start_date', ts('Select a valid payments start date.'), 'qfDate');
         if ( $this->_id ) {
             $element->freeze( );
         }
@@ -467,7 +467,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         
         //handle Acknowledgment.
         if ( CRM_Utils_Array::value( 'is_acknowledge', $formValues ) ) {
-            self::sendAcknowledgment( $params, &$pledge );
+            self::sendAcknowledgment( $params, $pledge );
         }
         
         //set the status msg.
@@ -596,7 +596,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
                           'contact' => CRM_Core_SelectValues::contactTokens());
         require_once 'CRM/Utils/Token.php';
         foreach( $tokens['domain'] as $token ){ 
-            $domainValues[$token] = CRM_Utils_Token::getDomainTokenReplacement( $token, &$domain );
+            $domainValues[$token] = CRM_Utils_Token::getDomainTokenReplacement( $token, $domain );
         }
         $this->assign('domain', $domainValues );
         
