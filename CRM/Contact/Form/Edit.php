@@ -337,12 +337,10 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
 
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
             require_once 'CRM/Contact/BAO/Relationship.php';
-            $currentEmployer = CRM_Contact_BAO_Relationship::getCurrentEmployer( $this->_contactId, true );
+            $currentEmployer = CRM_Contact_BAO_Relationship::getCurrentEmployer( array( $this->_contactId ) );
           
-            $defaults['employer_option'] = CRM_Utils_Array::value( 'employer_option',
-                                                                   $currentEmployer );
-            $this->assign( 'sharedEmployer',
-                           CRM_Utils_Array::value( 'id', $currentEmployer ) );
+            $defaults['employer_option'] = 1;
+            $this->assign( 'sharedEmployer',  CRM_Utils_Array::value( 'org_id', $currentEmployer[$this->_contactId] ) );
         }
         
         //set defaults for country-state dojo widget
@@ -733,16 +731,15 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                  $params['employer_option'] == 0 && 
                  $params['create_employer'] ) {
                 require_once 'CRM/Contact/BAO/Contact/Utils.php';
-                CRM_Contact_BAO_Contact_Utils::makeCurrentEmployerRelationship($contact->id, 
+                CRM_Contact_BAO_Contact_Utils::createCurrentEmployerRelationship($contact->id, 
                                                                                $params['create_employer']);
                 
             } elseif ( isset( $params['employer_option'] ) && 
                        $params['employer_option'] == 1 &&
                        $params['shared_employer'] ) {
-                $orgId = array( 'id' => $params['shared_employer'] );
                 require_once 'CRM/Contact/BAO/Contact/Utils.php';
-                CRM_Contact_BAO_Contact_Utils::makeCurrentEmployerRelationship($contact->id, 
-                                                                               $orgId);
+                CRM_Contact_BAO_Contact_Utils::createCurrentEmployerRelationship( $contact->id, 
+                                                                                $params['shared_employer'] );
             }
         }
 

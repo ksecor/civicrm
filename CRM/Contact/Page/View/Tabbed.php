@@ -167,15 +167,10 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
         }
         
         //get the current employer name
-        if ( $relationships = CRM_Utils_Array::value( 'data', $defaults['relationship'] ) ) {
-            krsort( $relationships );
-            foreach ( $relationships as $relationshipID => $value ) {
-                if ( $value['relation'] == 'Employee of' && $value['is_active'] == 1 ) {
-                    $defaults['current_employer'] = $value['name'];
-                    break;
-                }
-            }
-        }
+        require_once 'CRM/Contact/BAO/Relationship.php';
+        $currentEmployer = CRM_Contact_BAO_Relationship::getCurrentEmployer( array( $this->_contactId ) );
+        $defaults['current_employer'] = $currentEmployer[ $this->_contactId ]['org_name'];
+
         $this->assign( $defaults );
         $this->setShowHide( $defaults );        
         

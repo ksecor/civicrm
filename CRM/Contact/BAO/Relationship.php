@@ -1015,39 +1015,29 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
     /**
      * Function to get Current Employer for Contact
      * 
-     * @param $contactId       Contact Id
+     * @param $contactIds       Contact Ids
      * @param $dojoreturn      boolean
      * @return $currentEmployer array of the current employer
      *
      * @static
      *
      */
-    static function getCurrentEmployer( $contactId , $dojoreturn = false )
+    static function getCurrentEmployer( $contactIds )
     {
+        $contacts = implode( ',', $contactIds );
+
+        $query = "SELECT contact_b.sort_name org_name, contact_b.id org_id, contact_a.id id 
+FROM civicrm_contact contact_a, civicrm_contact contact_b 
+WHERE contact_b.id = contact_a.employer_id AND contact_a.id IN ( {$contacts} )
+";
+
+        $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         $currentEmployer = array( );
-        $rel = CRM_Contact_BAO_Relationship::getRelationship( $contactId );
-        krsort( $rel );
-        
-        foreach ( $rel as $key => $value ) {
-            if ( $value['relation'] == 'Employee of' && $value['is_active'] == 1 ) {
-                $query = 
-                    "SELECT CONCAT_WS(' :: ', sort_name, LEFT(street_address,25),city) 'sort_name', civicrm_contact.id id
-                         FROM civicrm_contact
-                         LEFT JOIN civicrm_address ON ( civicrm_contact.id = civicrm_address.contact_id
-                                                        AND civicrm_address.is_primary=1
-                                                      )
-                         WHERE civicrm_contact.id = {$value['cid']}";
-                if ( $dojoreturn ) {
-                    $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
-                    $dao->fetch();
-                    $currentEmployer['employer_option'] = 1;
-                    $currentEmployer['id']              = $dao->id;
-                    $currentEmployer['sort_name']       = $dao->sort_name;
-                }
-                $currentEmployer['org_name'] = $value['name'];
-                break;
-            }
+        if ( $dao->fetch( ) ) {
+            $currentEmployer[$dao->id]['org_id'  ]  = $dao->org_id;
+            $currentEmployer[$dao->id]['org_name']  = $dao->org_name;
         }
+
         return $currentEmployer;
     }
 

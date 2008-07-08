@@ -1365,8 +1365,8 @@ WHERE  civicrm_contact.id = %1 ";
             array_key_exists( 'organization_name', $params ) ) {
             if ( $params['organization_name'] )  {
                 require_once 'CRM/Contact/BAO/Contact/Utils.php';
-                CRM_Contact_BAO_Contact_Utils::makeCurrentEmployerRelationship($contactID,
-                                                                               $params['organization_name']);
+                CRM_Contact_BAO_Contact_Utils::createCurrentEmployerRelationship( $contactID,
+                                                                                  $params['organization_name'] );
             }
         }
 

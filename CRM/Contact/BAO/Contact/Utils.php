@@ -193,63 +193,71 @@ UNION
     }
 
     /**
-     * Build the Current employer relationship with the individual
+     * Create Current employer relationship for a individual
      *
-     * @param int    $contactID             contact id of the individual
-     * @param string $organizationName      current employer name
+     * @param int    $contactID        contact id of the individual
+     * @param string $organization     it can be name or id of organization
      * 
      * @access public
      * @static
      */
-    static function makeCurrentEmployerRelationship( $contactID, $organizationName ) 
+    static function createCurrentEmployerRelationship( $contactID, $organization ) 
     {
-        require_once "CRM/Contact/DAO/Contact.php";
-        $org =& new CRM_Contact_DAO_Contact( );
-        if ( is_array($organizationName) ) {
-            $org->id = $organizationName['id'];
+        $exists = false;
+        // if organization id is passed.
+        if ( is_numeric( $organization ) ) {
+            $organizationId = $organization;
+            $exists = true;
         } else {
-            $org->organization_name = $organizationName;
-        }
-        $org->find();
-        while ( $org->fetch( ) ) {
-            $dupeIds[] = $org->id;
+            require_once "CRM/Contact/DAO/Contact.php";
+            $contact =& new CRM_Contact_DAO_Contact( );
+            $contact->organization_name = $organization;
+        
+            $contact->find( );
+            $dupeIds = array( );
+            while ( $contact->fetch( ) ) {
+                $dupeIds[$contact->id] = $contact->id;
+            }
+
+            // if duplicates are not found create new organization
+            if ( empty($dupeIds) ) {
+                //create new organization
+                $newOrg = array ( 'contact_type'      => 'Organization',
+                                  'organization_name' => $organization );
+                
+                $org = CRM_Contact_BAO_Contact::add( $newOrg );
+                $organizationId = $org->id;
+                $exists = true;
+            }
         }
 
-        //get the relationship id
-        require_once "CRM/Contact/DAO/RelationshipType.php";
-        $relType =& new CRM_Contact_DAO_RelationshipType();
-        $relType->name_a_b = "Employee of";
-        $relType->find(true);
-        $relTypeId = $relType->id;
-                
+        //get the relationship type id of "Employee of"
+        $relTypeId = CRM_Core_DAO::getFieldValue('CRM_Contact_DAO_RelationshipType', 'Employee of', 'id', 'name_a_b'  );
+        
+        //build params for creating relationship
         $relationshipParams['relationship_type_id'] = $relTypeId.'_a_b';
         $relationshipParams['is_active'           ] = 1;
+        
         $cid = array('contact' => $contactID );
         
-        if ( empty($dupeIds) ) {
-            //create new organization
-            $newOrg['contact_type'     ] = 'Organization';
-            $newOrg['organization_name'] = $organizationName ;
-            
-            require_once 'CRM/Core/BAO/Preferences.php';
-            $orgName = CRM_Contact_BAO_Contact::add( $newOrg );
-
+        if ( $exists ) {
             //create relationship
-            $relationshipParams['contact_check'][$orgName->id] = 1;
-           
-            $relationship = CRM_Contact_BAO_Relationship::create($relationshipParams, $cid);
+            $relationshipParams['contact_check'][$organizationId] = 1;
+            CRM_Contact_BAO_Relationship::create($relationshipParams, $cid);
 
-            return $orgName->id; 
+            //update contact with employer id
+            CRM_Core_DAO::setFieldValue('CRM_Contact_DAO_Contact', $contactID, 'employer_id', $organizationId );
 
         } else {
             //if more than one matching organizations found, we
             //add relationships to all those organizations
-            foreach($dupeIds as $key => $value) {
-                $relationshipParams['contact_check'][$value] = 1;
-                $relationship = CRM_Contact_BAO_Relationship::create($relationshipParams,
-                                                                     $cid);
+            foreach ( $dupeIds as $orgId ) {
+                $relationshipParams['contact_check'][$orgId] = 1;
+                CRM_Contact_BAO_Relationship::create($relationshipParams, $cid);
+
+                //update contact with employer id
+                CRM_Core_DAO::setFieldValue('CRM_Contact_DAO_Contact', $contactID, 'employer_id', $orgId );
             }
-            return $dupeIds;
         }
     }
 
