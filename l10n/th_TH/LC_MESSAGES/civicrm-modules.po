@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-04-28 21:53+0200\n"
+"POT-Creation-Date: 2008-07-07 18:44-0700\n"
 "PO-Revision-Date: 2006-11-19 07:18-0800\n"
 "Last-Translator: Akarawuth Tamrareang <akarawuth@joomlacorner.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -23,8 +23,7 @@ msgstr ""
 msgid "No thank you"
 msgstr ""
 
-#: CRM/Contribute/BAO/Query.php CRM/Contribute/DAO/Contribution.php
-#: CRM/Contribute/Form/Offline.php
+#: CRM/Contribute/BAO/Query.php CRM/Contribute/Form/Offline.php
 #, fuzzy
 msgid "Contribution Source"
 msgstr "ประเภทของการติดต่อ"
@@ -36,149 +35,14 @@ msgstr "ประเภทของการติดต่อ"
 msgid "Contribution Page"
 msgstr "ชื่อหน่วยงาน"
 
-#: CRM/Contribute/BAO/Query.php CRM/Contribute/DAO/Contribution.php
-#: CRM/Contribute/DAO/ContributionRecur.php
-#: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Task/Status.php
+#: CRM/Contribute/BAO/Query.php CRM/Contribute/Form/Contribution.php
+#: CRM/Contribute/Form/Task/Status.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 #: templates/CRM/Contribute/Form/Message.tpl
 #: templates/CRM/Contribute/Form/Task/Status.tpl
 #, fuzzy
 msgid "Transaction ID"
 msgstr "หน่วยงาน"
-
-#: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/EventPage.php
-msgid "Pay Later Text"
-msgstr ""
-
-#: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/EventPage.php
-msgid "Pay Later Receipt"
-msgstr ""
-
-#: CRM/Contribute/DAO/ContributionPage.php
-#: CRM/Contribute/Form/ContributionPage/Settings.php
-#, fuzzy
-msgid "Goal Amount"
-msgstr "ประเทศ"
-
-#: CRM/Contribute/DAO/ContributionPage.php
-#: CRM/Contribute/Form/ContributionPage/ThankYou.php
-#, fuzzy
-msgid "Receipt From Name"
-msgstr "ชื่อกลุ่ม"
-
-#: CRM/Contribute/DAO/ContributionPage.php
-#: CRM/Contribute/Form/ContributionPage/ThankYou.php
-#, fuzzy
-msgid "Receipt From Email"
-msgstr "อีเมล์"
-
-#: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/Event.php
-#, fuzzy
-msgid "Receipt Text"
-msgstr "เริ่มวันที่"
-
-#: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/EventPage.php
-#: CRM/Event/Form/ManageEvent/Registration.php
-#, fuzzy
-msgid "Footer Text"
-msgstr "บันทึก"
-
-#: CRM/Contribute/DAO/Contribution.php CRM/Contribute/Form/Contribution.php
-#: templates/CRM/Contribute/Form/ContributionView.tpl
-msgid "Non-deductible Amount"
-msgstr ""
-
-#: CRM/Contribute/DAO/Contribution.php CRM/Contribute/DAO/FinancialTrxn.php
-#: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Task/Status.php
-#: templates/CRM/Contribute/Form/ContributionView.tpl
-#: templates/CRM/Contribute/Form/Task/Status.tpl
-msgid "Fee Amount"
-msgstr ""
-
-#: CRM/Contribute/DAO/Contribution.php CRM/Contribute/DAO/FinancialTrxn.php
-#: CRM/Contribute/Form/Contribution.php
-#: templates/CRM/Contribute/Form/ContributionView.tpl
-msgid "Net Amount"
-msgstr ""
-
-#: CRM/Contribute/DAO/Contribution.php
-#: CRM/Contribute/DAO/ContributionRecur.php
-#: CRM/Contribute/Form/Contribution.php
-#: templates/CRM/Contribute/Form/ContributionView.tpl
-msgid "Invoice ID"
-msgstr ""
-
-#: CRM/Contribute/DAO/Contribution.php
-#: CRM/Contribute/DAO/ContributionRecur.php
-#, fuzzy
-msgid "Cancel Date"
-msgstr "ยกเลิก"
-
-#: CRM/Contribute/DAO/Contribution.php CRM/Contribute/Form/Contribution.php
-#: CRM/Contribute/Form/Task/Status.php
-#, fuzzy
-msgid "Receipt Date"
-msgstr "เริ่มวันที่"
-
-#: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
-#: CRM/Contribute/Form/ManagePremiums.php
-#, fuzzy
-msgid "Frequency Unit"
-msgstr "ชือถนน"
-
-#: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
-#, fuzzy
-msgid "Frequency Interval"
-msgstr "ชือถนน"
-
-#: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
-msgid "week"
-msgstr ""
-
-#: CRM/Contribute/DAO/ContributionType.php
-#: CRM/Contribute/Form/ContributionType.php
-#, fuzzy
-msgid "Accounting Code"
-msgstr "ประเทศ"
-
-#: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
-#: templates/CRM/Contribute/Page/ManagePremiums.tpl
-#: templates/CRM/Contribute/Page/Premium.tpl
-msgid "SKU"
-msgstr ""
-
-#: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
-#: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
-#, fuzzy
-msgid "Period Type"
-msgstr "ประเภทของการติดต่อ"
-
-#: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
-#: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
-msgid "Fixed Period Start Day"
-msgstr ""
-
-#: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
-#: CRM/Member/DAO/MembershipType.php
-#, fuzzy
-msgid "Duration Unit"
-msgstr "ระยะเวลา"
-
-#: CRM/Contribute/DAO/Product.php CRM/Member/DAO/MembershipType.php
-#: CRM/Member/Form/MembershipType.php
-#, fuzzy
-msgid "Duration Interval"
-msgstr "ระยะเวลา"
-
-#: CRM/Contribute/DAO/Widget.php
-#: CRM/Contribute/Form/ContributionPage/Widget.php
-msgid "Button Title"
-msgstr ""
-
-#: CRM/Contribute/DAO/Widget.php
-#: CRM/Contribute/Form/ContributionPage/Widget.php
-msgid "About"
-msgstr ""
 
 #: CRM/Contribute/Form/ContributionBase.php CRM/Event/Form/Registration.php
 #: CRM/Event/Page/EventInfo.php
@@ -236,15 +100,8 @@ msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
 #: CRM/Contribute/Form/ContributionPage/Settings.php
-#: CRM/Event/DAO/EventPage.php
 #, fuzzy
 msgid "Introductory Message"
-msgstr "ข้อความ"
-
-#: CRM/Contribute/Form/ContributionPage/Settings.php
-#: CRM/Event/DAO/EventPage.php
-#, fuzzy
-msgid "Footer Message"
 msgstr "ข้อความ"
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
@@ -278,6 +135,11 @@ msgstr ""
 msgid "Received"
 msgstr ""
 
+#: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Task/Status.php
+#, fuzzy
+msgid "Receipt Date"
+msgstr "เริ่มวันที่"
+
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 #: templates/CRM/Contribute/Form/Task/Print.tpl
@@ -288,6 +150,12 @@ msgstr ""
 #, fuzzy
 msgid "Send Receipt?"
 msgstr "เริ่มวันที่"
+
+#: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Task/Status.php
+#: templates/CRM/Contribute/Form/ContributionView.tpl
+#: templates/CRM/Contribute/Form/Task/Status.tpl
+msgid "Fee Amount"
+msgstr ""
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Task/Status.php
 msgid ""
@@ -311,10 +179,24 @@ msgstr "คำนำหน้า"
 msgid "Minimum Contribution Amount"
 msgstr "การติดต่อ ประเภท A"
 
+#: CRM/Contribute/Form/ManagePremiums.php CRM/Member/Form/MembershipType.php
+#, fuzzy
+msgid "Period Type"
+msgstr "ประเภทของการติดต่อ"
+
+#: CRM/Contribute/Form/ManagePremiums.php CRM/Member/Form/MembershipType.php
+msgid "Fixed Period Start Day"
+msgstr ""
+
 #: CRM/Contribute/Form/Task/Delete.php CRM/Contribute/Task.php
 #, fuzzy
 msgid "Delete Contributions"
 msgstr "ลบที่ติดต่อ"
+
+#: CRM/Contribute/Form/Task/Export.php CRM/Contribute/Task.php
+#, fuzzy
+msgid "Export Contributions"
+msgstr "แก้ไขประเภทสถานที่"
 
 #: CRM/Contribute/Invoke.php CRM/Contribute/Menu.php
 #, fuzzy
@@ -324,6 +206,11 @@ msgstr "ประเภทสถานที่"
 #: CRM/Contribute/Invoke.php CRM/Contribute/Menu.php
 msgid "Manage Premiums"
 msgstr ""
+
+#: CRM/Contribute/Invoke.php CRM/Contribute/Menu.php
+#, fuzzy
+msgid "Import Contributions"
+msgstr "แก้ไขประเภทสถานที่"
 
 #: CRM/Contribute/Invoke.php CRM/Member/Invoke.php
 msgid "DashBoard"
@@ -365,58 +252,6 @@ msgstr "ตำแหน่ง"
 msgid "Disable Premium"
 msgstr "ลบกลุ่ม"
 
-#: CRM/Event/BAO/Query.php CRM/Event/DAO/Participant.php
-#, fuzzy
-msgid "Participant Source"
-msgstr "ประเภทของการติดต่อ"
-
-#: CRM/Event/DAO/EventPage.php CRM/Event/Form/Task/Export.php
-#, fuzzy
-msgid "Event ID"
-msgstr "ลบที่ติดต่อ"
-
-#: CRM/Event/DAO/EventPage.php CRM/Event/Form/ManageEvent/Registration.php
-#, fuzzy
-msgid "Confirm From Name"
-msgstr "ชื่อกลุ่ม"
-
-#: CRM/Event/DAO/EventPage.php CRM/Event/Form/ManageEvent/Registration.php
-#, fuzzy
-msgid "Confirm From Email"
-msgstr "อีเมล์"
-
-#: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/EventInfo.php
-#, fuzzy
-msgid "Event Title"
-msgstr "ชื่อเรื่อง"
-
-#: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/EventInfo.php
-#: templates/CRM/Event/Page/DashBoard.tpl
-#, fuzzy
-msgid "Event Summary"
-msgstr "ประเภทกิจกรรม"
-
-#: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/Registration.php
-#, fuzzy
-msgid "Registration Start Date"
-msgstr "เริ่มวันที่"
-
-#: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/Registration.php
-#, fuzzy
-msgid "Registration End Date"
-msgstr "เริ่มวันที่"
-
-#: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/Fee.php
-#: templates/CRM/Event/Form/ManageEvent/Fee.tpl
-#, fuzzy
-msgid "Fee Label"
-msgstr "เริ่มวันที่"
-
-#: CRM/Event/DAO/ParticipantPayment.php CRM/Event/DAO/Participant.php
-#: CRM/Event/Form/Task/Export.php
-msgid "Participant ID"
-msgstr ""
-
 #: CRM/Event/Form/ManageEvent/Delete.php CRM/Event/Page/ManageEvent.php
 #, fuzzy
 msgid "Delete Event"
@@ -450,9 +285,24 @@ msgstr "หน่วยงานใหม่"
 msgid "Payment Status"
 msgstr ""
 
+#: CRM/Event/Form/Search.php CRM/Event/Selector/Search.php
+#, fuzzy
+msgid "Participant"
+msgstr "ประเภทของการติดต่อ"
+
 #: CRM/Event/Form/Task/Export.php CRM/Event/Task.php
 #, fuzzy
 msgid "Export Participants"
+msgstr "นำเข้าที่ติดต่อ"
+
+#: CRM/Event/Form/Task/Export.php CRM/Member/Form/Task/Export.php
+#, fuzzy
+msgid "Display Name"
+msgstr "ปิด"
+
+#: CRM/Event/Invoke.php CRM/Event/Menu.php
+#, fuzzy
+msgid "Import Participants"
 msgstr "นำเข้าที่ติดต่อ"
 
 #: CRM/Event/Menu.php CRM/Event/Page/ManageEvent.php
@@ -460,83 +310,24 @@ msgstr "นำเข้าที่ติดต่อ"
 msgid "Manage Events"
 msgstr "ข้อความ"
 
-#: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
-msgid "Running"
-msgstr ""
-
-#: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
-msgid "Complete"
-msgstr ""
-
-#: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
-msgid "Paused"
-msgstr ""
-
-#: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
-#, fuzzy
-msgid "Canceled"
-msgstr "ยกเลิก"
-
-#: CRM/Mailing/BAO/Mailing.php CRM/Mailing/DAO/Component.php
-msgid "Reply"
-msgstr ""
-
 #: CRM/Mailing/BAO/Mailing.php CRM/Mailing/Selector/Event.php
 msgid "Opt-Out"
 msgstr ""
-
-#: CRM/Mailing/DAO/BounceType.php CRM/Mailing/Event/BAO/Bounce.php
-msgid "Unknown"
-msgstr ""
-
-#: CRM/Mailing/DAO/Component.php CRM/Mailing/Form/Component.php
-#, fuzzy
-msgid "Component Type"
-msgstr "ประเภทของการติดต่อ"
-
-#: CRM/Mailing/DAO/Component.php CRM/Mailing/DAO/Mailing.php
-msgid "Body Html"
-msgstr ""
-
-#: CRM/Mailing/DAO/Component.php CRM/Mailing/DAO/Mailing.php
-#: templates/CRM/Mailing/Page/Component.tpl
-msgid "Body Text"
-msgstr ""
-
-#: CRM/Mailing/DAO/Component.php CRM/Mailing/Form/Subscribe.php
-#: CRM/Mailing/Invoke.php CRM/Mailing/Menu.php
-#, fuzzy
-msgid "Subscribe"
-msgstr "รายการ"
-
-#: CRM/Mailing/DAO/Component.php CRM/Mailing/Menu.php
-#: templates/CRM/Mailing/Page/Resubscribe.tpl
-#, fuzzy
-msgid "Resubscribe"
-msgstr "รายการ"
 
 #: CRM/Mailing/Event/BAO/Confirm.php CRM/Mailing/Event/BAO/Reply.php
 #: CRM/Mailing/Event/BAO/Resubscribe.php CRM/Mailing/Event/BAO/Unsubscribe.php
 msgid "'%1' <do-not-reply@%2>"
 msgstr ""
 
-#: CRM/Mailing/Event/DAO/Bounce.php CRM/Mailing/Selector/Event.php
-msgid "Bounce Reason"
-msgstr ""
-
-#: CRM/Mailing/Event/DAO/Bounce.php CRM/Mailing/Event/DAO/Confirm.php
-#: CRM/Mailing/Event/DAO/Delivered.php CRM/Mailing/Event/DAO/Forward.php
-#: CRM/Mailing/Event/DAO/Opened.php CRM/Mailing/Event/DAO/Reply.php
-#: CRM/Mailing/Event/DAO/Subscribe.php
-#: CRM/Mailing/Event/DAO/TrackableURLOpen.php
-#: CRM/Mailing/Event/DAO/Unsubscribe.php
-msgid "Time Stamp"
-msgstr ""
-
 #: CRM/Mailing/Form/Group.php CRM/Mailing/Form/Settings.php
 #: CRM/Mailing/Form/Test.php CRM/Mailing/Form/Upload.php
 msgid "Next >>"
 msgstr ""
+
+#: CRM/Mailing/Form/Subscribe.php CRM/Mailing/Invoke.php CRM/Mailing/Menu.php
+#, fuzzy
+msgid "Subscribe"
+msgstr "รายการ"
 
 #: CRM/Mailing/Invoke.php CRM/Mailing/Selector/Browse.php
 msgid "Report"
@@ -556,44 +347,6 @@ msgstr "ลบกิจกรรม"
 
 #: CRM/Mailing/Page/Common.php CRM/Mailing/Page/Confirm.php
 msgid "Missing input parameters"
-msgstr ""
-
-#: CRM/Member/DAO/Membership.php CRM/Member/Selector/Search.php
-#: templates/CRM/Member/Form/Task/Print.tpl
-#, fuzzy
-msgid "Member Since"
-msgstr "สมาชิกกลุ่ม"
-
-#: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
-#: templates/CRM/Member/Page/MembershipStatus.tpl
-#, fuzzy
-msgid "Start Event"
-msgstr "เริ่มวันที่"
-
-#: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
-msgid "Start Event Adjust Interval"
-msgstr ""
-
-#: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
-#: templates/CRM/Member/Page/MembershipStatus.tpl
-msgid "End Event"
-msgstr ""
-
-#: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
-msgid "End Event Adjust Interval"
-msgstr ""
-
-#: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
-#, fuzzy
-msgid "Current Membership?"
-msgstr "ชื่อครัวเรือน"
-
-#: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
-msgid "Fixed Period Rollover Day"
-msgstr ""
-
-#: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
-msgid "Renewal Reminder Day"
 msgstr ""
 
 #: CRM/Member/Form/Membership.php CRM/Member/Form/MembershipRenewal.php
@@ -719,247 +472,6 @@ msgstr "แก้ไขประเภทสถานที่"
 #, fuzzy
 msgid "Find Recurring Contributions?"
 msgstr "แก้ไขประเภทสถานที่"
-
-#: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
-msgid "Intro Text"
-msgstr "ตำแหน่ง"
-
-#: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
-msgid "Thank-you Text"
-msgstr "ตำแหน่ง"
-
-#: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
-msgid "Thank-you Footer"
-msgstr "ตำแหน่ง"
-
-#: CRM/Contribute/DAO/ContributionPage.php
-msgid "Cc Receipt"
-msgstr ""
-
-#: CRM/Contribute/DAO/ContributionPage.php
-msgid "Bcc Receipt"
-msgstr ""
-
-#: CRM/Contribute/DAO/ContributionPage.php
-msgid "Honor Block Title"
-msgstr ""
-
-#: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
-msgid "Honor Block Text"
-msgstr "ตำแหน่ง"
-
-#: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
-msgid "Contribution Page Start Date"
-msgstr "ชื่อหน่วยงาน"
-
-#: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
-msgid "Contribution Page End Date"
-msgstr "ชื่อหน่วยงาน"
-
-#: CRM/Contribute/DAO/Contribution.php
-msgid "Contribution ID (match to contribution)"
-msgstr ""
-
-#: CRM/Contribute/DAO/Contribution.php
-msgid "Solicitor ID"
-msgstr ""
-
-#: CRM/Contribute/DAO/Contribution.php
-#, fuzzy
-msgid "Receive Date"
-msgstr "เริ่มวันที่"
-
-#: CRM/Contribute/DAO/Contribution.php
-#, fuzzy
-msgid "Cancel Reason"
-msgstr "ยกเลิก"
-
-#: CRM/Contribute/DAO/Contribution.php
-#, fuzzy
-msgid "Thank-you Date"
-msgstr "ตำแหน่ง"
-
-#: CRM/Contribute/DAO/Contribution.php
-#, fuzzy
-msgid "Amount Label"
-msgstr "ประเทศ"
-
-#: CRM/Contribute/DAO/ContributionProduct.php
-#, fuzzy
-msgid "Product Option"
-msgstr "ลบกิจกรรม"
-
-#: CRM/Contribute/DAO/ContributionProduct.php
-msgid "Quantity"
-msgstr ""
-
-#: CRM/Contribute/DAO/ContributionProduct.php
-#, fuzzy
-msgid "Fulfilled Date"
-msgstr "สิ้นสุดวันที่"
-
-#: CRM/Contribute/DAO/ContributionProduct.php
-msgid "Comment"
-msgstr ""
-
-#: CRM/Contribute/DAO/ContributionRecur.php
-msgid "Installments"
-msgstr ""
-
-#: CRM/Contribute/DAO/ContributionRecur.php
-#, fuzzy
-msgid "Create Date"
-msgstr "วันที่"
-
-#: CRM/Contribute/DAO/ContributionRecur.php
-#, fuzzy
-msgid "Recurring Contribution Status"
-msgstr "แก้ไขประเภทสถานที่"
-
-#: CRM/Contribute/DAO/ContributionRecur.php
-#, fuzzy
-msgid "Cycle Day"
-msgstr "ยกเลิก"
-
-#: CRM/Contribute/DAO/ContributionRecur.php
-#, fuzzy
-msgid "Next Sched Contribution"
-msgstr "หน่วยงานใหม่"
-
-#: CRM/Contribute/DAO/ContributionRecur.php
-msgid "Failure Count"
-msgstr ""
-
-#: CRM/Contribute/DAO/ContributionRecur.php
-#, fuzzy
-msgid "Failure Retry Date"
-msgstr "เริ่มวันที่"
-
-#: CRM/Contribute/DAO/ContributionRecur.php
-msgid "Auto Renew"
-msgstr ""
-
-#: CRM/Contribute/DAO/FinancialTrxn.php
-#, fuzzy
-msgid "Trxn Date"
-msgstr "สิ้นสุดวันที่"
-
-#: CRM/Contribute/DAO/FinancialTrxn.php
-#, fuzzy
-msgid "Trxn Type"
-msgstr "ประเภทของการติดต่อ"
-
-#: CRM/Contribute/DAO/FinancialTrxn.php
-msgid "Trxn Result Code"
-msgstr ""
-
-#: CRM/Contribute/DAO/FinancialTrxn.php
-#, fuzzy
-msgid "Debit"
-msgstr "น้ำหนัก"
-
-#: CRM/Contribute/DAO/FinancialTrxn.php
-#, fuzzy
-msgid "Credit"
-msgstr "วันที่"
-
-#: CRM/Contribute/DAO/Premium.php
-#, fuzzy
-msgid "Premiums Active"
-msgstr "<< ย้อนหลัง"
-
-#: CRM/Contribute/DAO/Premium.php
-msgid "Title for Premiums section"
-msgstr ""
-
-#: CRM/Contribute/DAO/Premium.php
-#, fuzzy
-msgid "Premiums Intro Text"
-msgstr "ตำแหน่ง"
-
-#: CRM/Contribute/DAO/Premium.php
-#, fuzzy
-msgid "Premiums Contact Email"
-msgstr "ประเภทของการติดต่อ"
-
-#: CRM/Contribute/DAO/Premium.php
-#, fuzzy
-msgid "Premiums Contact Phone"
-msgstr "ประเภทของการติดต่อ"
-
-#: CRM/Contribute/DAO/Premium.php
-#, fuzzy
-msgid "Premiums Display Min Contribution"
-msgstr "การติดต่อ ประเภท A"
-
-#: CRM/Contribute/DAO/Product.php
-#, fuzzy
-msgid "Product Name"
-msgstr "ชื่อกลุ่ม"
-
-#: CRM/Contribute/DAO/Product.php
-msgid "Thumbnail"
-msgstr ""
-
-#: CRM/Contribute/DAO/Product.php
-#, fuzzy
-msgid "Minimum Contribution"
-msgstr "แก้ไขประเภทสถานที่"
-
-#: CRM/Contribute/DAO/Product.php
-#, fuzzy
-msgid "Cost"
-msgstr "ช่วย หลัง"
-
-#: CRM/Contribute/DAO/Widget.php
-msgid "Url Logo"
-msgstr ""
-
-#: CRM/Contribute/DAO/Widget.php
-msgid "Url Homepage"
-msgstr ""
-
-#: CRM/Contribute/DAO/Widget.php
-msgid "Color Title"
-msgstr ""
-
-#: CRM/Contribute/DAO/Widget.php
-msgid "Color Button"
-msgstr ""
-
-#: CRM/Contribute/DAO/Widget.php
-msgid "Color Bar"
-msgstr ""
-
-#: CRM/Contribute/DAO/Widget.php
-msgid "Color Main Text"
-msgstr ""
-
-#: CRM/Contribute/DAO/Widget.php
-msgid "Color Main"
-msgstr ""
-
-#: CRM/Contribute/DAO/Widget.php
-msgid "Color Main Bg"
-msgstr ""
-
-#: CRM/Contribute/DAO/Widget.php
-msgid "Color Bg"
-msgstr ""
-
-#: CRM/Contribute/DAO/Widget.php
-msgid "Color About Link"
-msgstr ""
-
-#: CRM/Contribute/DAO/Widget.php
-msgid "Color Homepage Link"
-msgstr ""
 
 #: CRM/Contribute/Form/ContributionBase.php
 msgid ""
@@ -1316,6 +828,16 @@ msgid "Title and Settings"
 msgstr "ข้อความ"
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
+#, fuzzy
+msgid "Footer Message"
+msgstr "ข้อความ"
+
+#: CRM/Contribute/Form/ContributionPage/Settings.php
+#, fuzzy
+msgid "Goal Amount"
+msgstr "ประเทศ"
+
+#: CRM/Contribute/Form/ContributionPage/Settings.php
 msgid "Is this Online Contribution Page Active?"
 msgstr ""
 
@@ -1357,6 +879,16 @@ msgid "Email Receipt to Contributor?"
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
+#, fuzzy
+msgid "Receipt From Name"
+msgstr "ชื่อกลุ่ม"
+
+#: CRM/Contribute/Form/ContributionPage/ThankYou.php
+#, fuzzy
+msgid "Receipt From Email"
+msgstr "อีเมล์"
+
+#: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "CC Receipt To"
 msgstr ""
 
@@ -1390,7 +922,15 @@ msgid "URL to Logo Image"
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Widget.php
+msgid "Button Title"
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionPage/Widget.php
 msgid "Contribute!"
+msgstr ""
+
+#: CRM/Contribute/Form/ContributionPage/Widget.php
+msgid "About"
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Widget.php
@@ -1467,6 +1007,21 @@ msgid "Cancellation Reason"
 msgstr ""
 
 #: CRM/Contribute/Form/Contribution.php
+#: templates/CRM/Contribute/Form/ContributionView.tpl
+msgid "Non-deductible Amount"
+msgstr ""
+
+#: CRM/Contribute/Form/Contribution.php
+#: templates/CRM/Contribute/Form/ContributionView.tpl
+msgid "Net Amount"
+msgstr ""
+
+#: CRM/Contribute/Form/Contribution.php
+#: templates/CRM/Contribute/Form/ContributionView.tpl
+msgid "Invoice ID"
+msgstr ""
+
+#: CRM/Contribute/Form/Contribution.php
 msgid "Honor First Name and Last Name OR an email should be set."
 msgstr ""
 
@@ -1492,6 +1047,11 @@ msgid ""
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionType.php
+#, fuzzy
+msgid "Accounting Code"
+msgstr "ประเทศ"
+
+#: CRM/Contribute/Form/ContributionType.php
 msgid "Tax-deductible?"
 msgstr ""
 
@@ -1507,6 +1067,12 @@ msgstr "ประเภทสถานที่ \"%1\" ได้ถูกบั�
 
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "A product with this name already exists. Please select another name."
+msgstr ""
+
+#: CRM/Contribute/Form/ManagePremiums.php
+#: templates/CRM/Contribute/Page/ManagePremiums.tpl
+#: templates/CRM/Contribute/Page/Premium.tpl
+msgid "SKU"
 msgstr ""
 
 #: CRM/Contribute/Form/ManagePremiums.php
@@ -1574,6 +1140,16 @@ msgstr "กรุณาใส่หัวข้อให้ถูกต้อง
 #, fuzzy
 msgid "Please enter a monetary value for the Minimum Contribution Amount."
 msgstr "กรุณาใส่ชื่อประเภทสถานที่ให้ี่ถูกต้อง"
+
+#: CRM/Contribute/Form/ManagePremiums.php
+#, fuzzy
+msgid "Duration Unit"
+msgstr "ระยะเวลา"
+
+#: CRM/Contribute/Form/ManagePremiums.php
+#, fuzzy
+msgid "Frequency Unit"
+msgstr "ชือถนน"
 
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "Frequency"
@@ -1885,6 +1461,11 @@ msgstr "ประเภทของการติดต่อ"
 
 #: CRM/Event/BAO/Query.php
 #, fuzzy
+msgid "Participant Source"
+msgstr "ประเภทของการติดต่อ"
+
+#: CRM/Event/BAO/Query.php
+#, fuzzy
 msgid "Event Name"
 msgstr "ชือถนน"
 
@@ -1898,112 +1479,6 @@ msgstr "สิ้นสุดวันที่"
 msgid "Find Test Participants?"
 msgstr "แก้ไขประเภทสถานที่"
 
-#: CRM/Event/DAO/EventPage.php
-#, fuzzy
-msgid "Confirmation Title"
-msgstr "ประเทศ"
-
-#: CRM/Event/DAO/EventPage.php
-#, fuzzy
-msgid "Confirm Text"
-msgstr "ต่อไป >>"
-
-#: CRM/Event/DAO/EventPage.php
-msgid "Is confirm email"
-msgstr ""
-
-#: CRM/Event/DAO/EventPage.php
-#, fuzzy
-msgid "Confirmation Email Text"
-msgstr "ประเทศ"
-
-#: CRM/Event/DAO/EventPage.php
-#, fuzzy
-msgid "Cc Confirm"
-msgstr "ต่อไป >>"
-
-#: CRM/Event/DAO/EventPage.php
-#, fuzzy
-msgid "Bcc Confirm"
-msgstr "ต่อไป >>"
-
-#: CRM/Event/DAO/EventPage.php
-#, fuzzy
-msgid "ThankYou Title"
-msgstr "ตำแหน่ง"
-
-#: CRM/Event/DAO/EventPage.php
-#, fuzzy
-msgid "ThankYou Text"
-msgstr "ตำแหน่ง"
-
-#: CRM/Event/DAO/Event.php
-#, fuzzy
-msgid "Event Description"
-msgstr "รายการ"
-
-#: CRM/Event/DAO/Event.php
-msgid "Event Type ID"
-msgstr ""
-
-#: CRM/Event/DAO/Event.php
-msgid "Participant Listing ID"
-msgstr ""
-
-#: CRM/Event/DAO/Event.php
-msgid "Is Event Public"
-msgstr ""
-
-#: CRM/Event/DAO/Event.php
-#, fuzzy
-msgid "Event Start Date"
-msgstr "เริ่มวันที่"
-
-#: CRM/Event/DAO/Event.php
-#, fuzzy
-msgid "Event End Date"
-msgstr "สิ้นสุดวันที่"
-
-#: CRM/Event/DAO/Event.php
-#, fuzzy
-msgid "Is Online Registration"
-msgstr "หน่วยงานใหม่"
-
-#: CRM/Event/DAO/Event.php
-msgid "Event Registration Link Text"
-msgstr ""
-
-#: CRM/Event/DAO/Event.php
-msgid "Max Participants"
-msgstr ""
-
-#: CRM/Event/DAO/Event.php
-#: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
-#: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
-#: templates/CRM/Event/Form/Registration/Confirm.tpl
-#: templates/CRM/Event/Form/Registration/ThankYou.tpl
-#, fuzzy
-msgid "Event Information"
-msgstr "ชื่อหน่วยงาน"
-
-#: CRM/Event/DAO/Event.php
-#, fuzzy
-msgid "show location"
-msgstr "สถานที่"
-
-#: CRM/Event/DAO/ParticipantPayment.php
-msgid "Payment ID"
-msgstr ""
-
-#: CRM/Event/DAO/Participant.php
-#, fuzzy
-msgid "Register date"
-msgstr "สิ้นสุดวันที่"
-
-#: CRM/Event/DAO/Participant.php
-msgid "Fee level"
-msgstr ""
-
 #: CRM/Event/Form/ManageEvent/Delete.php
 msgid ""
 "This event can not be deleted because there are participant records linked "
@@ -2016,6 +1491,17 @@ msgstr ""
 #, fuzzy
 msgid "The event '%1' has been deleted."
 msgstr "ประเภทสถานที่ \"%1\" ได้ถูกบันทึกแล้ว"
+
+#: CRM/Event/Form/ManageEvent/EventInfo.php
+#, fuzzy
+msgid "Event Title"
+msgstr "ชื่อเรื่อง"
+
+#: CRM/Event/Form/ManageEvent/EventInfo.php
+#: templates/CRM/Event/Page/DashBoard.tpl
+#, fuzzy
+msgid "Event Summary"
+msgstr "ประเภทกิจกรรม"
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 #, fuzzy
@@ -2082,6 +1568,12 @@ msgid "Pay Later Instructions"
 msgstr ""
 
 #: CRM/Event/Form/ManageEvent/Fee.php
+#: templates/CRM/Event/Form/ManageEvent/Fee.tpl
+#, fuzzy
+msgid "Fee Label"
+msgstr "เริ่มวันที่"
+
+#: CRM/Event/Form/ManageEvent/Fee.php
 #, fuzzy
 msgid "Please select contribution type."
 msgstr "ปิดประเภทสถานที่"
@@ -2127,8 +1619,23 @@ msgstr ""
 
 #: CRM/Event/Form/ManageEvent/Registration.php
 #, fuzzy
+msgid "Registration Start Date"
+msgstr "เริ่มวันที่"
+
+#: CRM/Event/Form/ManageEvent/Registration.php
+#, fuzzy
+msgid "Registration End Date"
+msgstr "เริ่มวันที่"
+
+#: CRM/Event/Form/ManageEvent/Registration.php
+#, fuzzy
 msgid "Introductory Text"
 msgstr "ข้อความ"
+
+#: CRM/Event/Form/ManageEvent/Registration.php
+#, fuzzy
+msgid "Footer Text"
+msgstr "บันทึก"
 
 #: CRM/Event/Form/ManageEvent/Registration.php
 #, fuzzy
@@ -2144,6 +1651,16 @@ msgstr "ประเทศ"
 #, fuzzy
 msgid "BCC Confirmation To"
 msgstr "ประเทศ"
+
+#: CRM/Event/Form/ManageEvent/Registration.php
+#, fuzzy
+msgid "Confirm From Name"
+msgstr "ชื่อกลุ่ม"
+
+#: CRM/Event/Form/ManageEvent/Registration.php
+#, fuzzy
+msgid "Confirm From Email"
+msgstr "อีเมล์"
 
 #: CRM/Event/Form/ManageEvent/Registration.php
 #, fuzzy
@@ -2250,6 +1767,13 @@ msgstr "เลือกวันที่ถูกต้อง."
 msgid "Select atleast one option from Event Fee(s)"
 msgstr ""
 
+#: CRM/Event/Form/Registration/Register.php
+msgid ""
+"Oops. It looks like you are already registered for this event. If you want "
+"to change your registration, or you feel that you've gotten this message in "
+"error, please contact the site administrator."
+msgstr ""
+
 #: CRM/Event/Form/Registration/ThankYou.php
 #, fuzzy
 msgid "Thank You Page"
@@ -2313,6 +1837,15 @@ msgstr "ที่ติดต่อทั้งหมดที่เรื่อ
 #, fuzzy
 msgid "Total Selected Participation(s): %1"
 msgstr "ที่ติดต่อทั้งหมดที่เรื่อง:%1"
+
+#: CRM/Event/Form/Task/Export.php
+msgid "Participant ID"
+msgstr ""
+
+#: CRM/Event/Form/Task/Export.php
+#, fuzzy
+msgid "Event ID"
+msgstr "ลบที่ติดต่อ"
 
 #: CRM/Event/Form/Task/Export.php
 #, fuzzy
@@ -2533,7 +2066,28 @@ msgid "The mailing has been canceled."
 msgstr "ประเภทสถานที่ \"%1\" ได้ถูกบันทึกแล้ว"
 
 #: CRM/Mailing/BAO/Job.php
+msgid "Running"
+msgstr ""
+
+#: CRM/Mailing/BAO/Job.php
+msgid "Complete"
+msgstr ""
+
+#: CRM/Mailing/BAO/Job.php
+msgid "Paused"
+msgstr ""
+
+#: CRM/Mailing/BAO/Job.php
+#, fuzzy
+msgid "Canceled"
+msgstr "ยกเลิก"
+
+#: CRM/Mailing/BAO/Job.php
 msgid "Not scheduled"
+msgstr ""
+
+#: CRM/Mailing/BAO/Mailing.php
+msgid "Reply"
 msgstr ""
 
 #: CRM/Mailing/BAO/Mailing.php
@@ -2545,139 +2099,14 @@ msgstr ""
 msgid "Selected mailing has been deleted."
 msgstr "ประเภทของความสัมพันธ์ได้ถูกบันทึกแล้ว"
 
-#: CRM/Mailing/DAO/BouncePattern.php
-msgid "Pattern"
+#: CRM/Mailing/Event/BAO/Bounce.php
+msgid "Unknown"
 msgstr ""
 
-#: CRM/Mailing/DAO/BounceType.php
+#: CRM/Mailing/Form/Component.php
 #, fuzzy
-msgid "Hold Threshold"
-msgstr "ครัวเรือน"
-
-#: CRM/Mailing/DAO/BounceType.php
-msgid "AOL"
-msgstr ""
-
-#: CRM/Mailing/DAO/BounceType.php
-msgid "Away"
-msgstr ""
-
-#: CRM/Mailing/DAO/BounceType.php
-msgid "DNS"
-msgstr ""
-
-#: CRM/Mailing/DAO/BounceType.php
-#, fuzzy
-msgid "Invalid"
-msgstr "ค่า"
-
-#: CRM/Mailing/DAO/BounceType.php
-msgid "Loop"
-msgstr ""
-
-#: CRM/Mailing/DAO/BounceType.php
-msgid "Quota"
-msgstr ""
-
-#: CRM/Mailing/DAO/BounceType.php
-msgid "Relay"
-msgstr ""
-
-#: CRM/Mailing/DAO/BounceType.php
-msgid "Spam"
-msgstr ""
-
-#: CRM/Mailing/DAO/BounceType.php
-msgid "Syntax"
-msgstr ""
-
-#: CRM/Mailing/DAO/Component.php
-#, fuzzy
-msgid "Component Name"
+msgid "Component Type"
 msgstr "ประเภทของการติดต่อ"
-
-#: CRM/Mailing/DAO/Component.php
-msgid "Welcome"
-msgstr ""
-
-#: CRM/Mailing/DAO/Component.php
-msgid "OptOut"
-msgstr ""
-
-#: CRM/Mailing/DAO/Group.php
-#, fuzzy
-msgid "Include"
-msgstr "ยกเลิก"
-
-#: CRM/Mailing/DAO/Group.php
-#, fuzzy
-msgid "Exclude"
-msgstr "ยกเลิก"
-
-#: CRM/Mailing/DAO/Mailing.php
-#, fuzzy
-msgid "From Name"
-msgstr "ชื่อกลุ่ม"
-
-#: CRM/Mailing/DAO/Mailing.php
-#, fuzzy
-msgid "From Email"
-msgstr "อีเมล์"
-
-#: CRM/Mailing/DAO/Mailing.php
-#, fuzzy
-msgid "Replyto Email"
-msgstr "อีเมล์"
-
-#: CRM/Mailing/DAO/Mailing.php
-#, fuzzy
-msgid "Url Tracking"
-msgstr "ระยะเวลา"
-
-#: CRM/Mailing/DAO/Mailing.php
-#, fuzzy
-msgid "Forward Replies"
-msgstr "อีเมล์"
-
-#: CRM/Mailing/DAO/Mailing.php
-msgid "Auto Responder"
-msgstr ""
-
-#: CRM/Mailing/DAO/Mailing.php
-#, fuzzy
-msgid "Open Tracking"
-msgstr "ระยะเวลา"
-
-#: CRM/Mailing/DAO/Spool.php
-#, fuzzy
-msgid "Recipient Email"
-msgstr "อีเมล์"
-
-#: CRM/Mailing/DAO/Spool.php
-msgid "Headers"
-msgstr ""
-
-#: CRM/Mailing/DAO/Spool.php
-msgid "Body"
-msgstr ""
-
-#: CRM/Mailing/DAO/Spool.php
-msgid "Added At"
-msgstr ""
-
-#: CRM/Mailing/DAO/Spool.php
-#, fuzzy
-msgid "Removed At"
-msgstr "เริ่มวันที่"
-
-#: CRM/Mailing/DAO/TrackableURL.php
-msgid "Url"
-msgstr ""
-
-#: CRM/Mailing/Event/DAO/Unsubscribe.php
-#, fuzzy
-msgid "Org Unsubscribe"
-msgstr "รายการ"
 
 #: CRM/Mailing/Form/Component.php
 msgid "Body - TEXT Format"
@@ -2837,6 +2266,10 @@ msgstr "ที่อยู่"
 msgid "Send to This Group"
 msgstr "แก้ไขกลุ่ม"
 
+#: CRM/Mailing/Form/Test.php
+msgid "Test"
+msgstr ""
+
 #: CRM/Mailing/Form/Upload.php
 #, fuzzy
 msgid "FROM"
@@ -2940,6 +2373,11 @@ msgid ""
 "automated Subscribe, Unsubscribe, Resubscribe and Opt-out messages."
 msgstr ""
 
+#: CRM/Mailing/Menu.php templates/CRM/Mailing/Page/Resubscribe.tpl
+#, fuzzy
+msgid "Resubscribe"
+msgstr "รายการ"
+
 #: CRM/Mailing/Menu.php templates/CRM/Mailing/Page/Optout.tpl
 #, fuzzy
 msgid "Optout"
@@ -3036,6 +2474,10 @@ msgstr ""
 #, fuzzy
 msgid "Bounce Type"
 msgstr "ประเภทของการติดต่อ"
+
+#: CRM/Mailing/Selector/Event.php
+msgid "Bounce Reason"
+msgstr ""
 
 #: CRM/Mailing/Selector/Event.php templates/CRM/Mailing/Page/Report.tpl
 msgid "URL"
@@ -3178,121 +2620,6 @@ msgstr "สิ้นสุดวันที่"
 #, fuzzy
 msgid "Find Test Memberships?"
 msgstr "แก้ไขประเภทสถานที่"
-
-#: CRM/Member/DAO/MembershipBlock.php
-msgid "Membership Type Default"
-msgstr ""
-
-#: CRM/Member/DAO/MembershipBlock.php
-#, fuzzy
-msgid "Display Min Fee"
-msgstr "ปิด"
-
-#: CRM/Member/DAO/MembershipBlock.php
-#, fuzzy
-msgid "New Title"
-msgstr "ชื่อเรื่อง"
-
-#: CRM/Member/DAO/MembershipBlock.php
-#, fuzzy
-msgid "New Text"
-msgstr "บันทึก"
-
-#: CRM/Member/DAO/MembershipBlock.php
-msgid "Renewal Title"
-msgstr ""
-
-#: CRM/Member/DAO/MembershipBlock.php
-#, fuzzy
-msgid "Renewal Text"
-msgstr "เริ่มวันที่"
-
-#: CRM/Member/DAO/MembershipBlock.php
-#, fuzzy
-msgid "Is Required"
-msgstr "ต้องการ?"
-
-#: CRM/Member/DAO/MembershipLog.php
-msgid "Membership Change Date"
-msgstr ""
-
-#: CRM/Member/DAO/MembershipLog.php
-#, fuzzy
-msgid "Renewal Reminder Date"
-msgstr "เริ่มวันที่"
-
-#: CRM/Member/DAO/Membership.php
-msgid "Membership ID (match to membership)"
-msgstr ""
-
-#: CRM/Member/DAO/Membership.php
-#: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
-#: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
-#, fuzzy
-msgid "Membership Start Date"
-msgstr "เริ่มวันที่"
-
-#: CRM/Member/DAO/Membership.php
-#, fuzzy
-msgid "Membership Expiration Date"
-msgstr "เริ่มวันที่"
-
-#: CRM/Member/DAO/Membership.php
-msgid "Status Override"
-msgstr ""
-
-#: CRM/Member/DAO/Membership.php
-#, fuzzy
-msgid "Reminder Date"
-msgstr "เริ่มวันที่"
-
-#: CRM/Member/DAO/MembershipStatus.php
-msgid "Start Event Adjust Unit"
-msgstr ""
-
-#: CRM/Member/DAO/MembershipStatus.php
-msgid "End Event Adjust Unit"
-msgstr ""
-
-#: CRM/Member/DAO/MembershipStatus.php
-msgid "Admin Assigned Only?"
-msgstr ""
-
-#: CRM/Member/DAO/MembershipStatus.php
-#, fuzzy
-msgid "Default Status?"
-msgstr "ค่าปริยาย"
-
-#: CRM/Member/DAO/MembershipStatus.php
-#, fuzzy
-msgid "start_date"
-msgstr "เริ่มวันที่"
-
-#: CRM/Member/DAO/MembershipStatus.php
-#, fuzzy
-msgid "end_date"
-msgstr "สิ้นสุดวันที่"
-
-#: CRM/Member/DAO/MembershipStatus.php
-msgid "join_date"
-msgstr ""
-
-#: CRM/Member/DAO/MembershipType.php
-#, fuzzy
-msgid "Visible"
-msgstr "ปิด"
-
-#: CRM/Member/DAO/MembershipType.php
-msgid "Receipt Text Signup"
-msgstr ""
-
-#: CRM/Member/DAO/MembershipType.php
-msgid "Receipt Text Renewal"
-msgstr ""
-
-#: CRM/Member/DAO/MembershipType.php
-msgid "lifetime"
-msgstr ""
 
 #: CRM/Member/Form/MembershipBlock.php
 msgid "Membership Section Enabled?"
@@ -3457,12 +2784,36 @@ msgid ""
 msgstr ""
 
 #: CRM/Member/Form/MembershipStatus.php
+#: templates/CRM/Member/Page/MembershipStatus.tpl
+#, fuzzy
+msgid "Start Event"
+msgstr "เริ่มวันที่"
+
+#: CRM/Member/Form/MembershipStatus.php
 msgid "Start Event Adjustment"
+msgstr ""
+
+#: CRM/Member/Form/MembershipStatus.php
+msgid "Start Event Adjust Interval"
+msgstr ""
+
+#: CRM/Member/Form/MembershipStatus.php
+#: templates/CRM/Member/Page/MembershipStatus.tpl
+msgid "End Event"
 msgstr ""
 
 #: CRM/Member/Form/MembershipStatus.php
 msgid "End Event Adjustment"
 msgstr ""
+
+#: CRM/Member/Form/MembershipStatus.php
+msgid "End Event Adjust Interval"
+msgstr ""
+
+#: CRM/Member/Form/MembershipStatus.php
+#, fuzzy
+msgid "Current Membership?"
+msgstr "ชื่อครัวเรือน"
 
 #: CRM/Member/Form/MembershipStatus.php
 msgid "Administrator Only?"
@@ -3490,13 +2841,26 @@ msgstr "กรุณาใส่ชื่อประเภทสถานที
 
 #: CRM/Member/Form/MembershipType.php
 #, fuzzy
+msgid "Duration Interval"
+msgstr "ระยะเวลา"
+
+#: CRM/Member/Form/MembershipType.php
+#, fuzzy
 msgid "Membership Organization"
 msgstr "หน่วยงานใหม่"
+
+#: CRM/Member/Form/MembershipType.php
+msgid "Fixed Period Rollover Day"
+msgstr ""
 
 #: CRM/Member/Form/MembershipType.php
 #, fuzzy
 msgid "Renewal Reminder Message"
 msgstr "ข้อความ"
+
+#: CRM/Member/Form/MembershipType.php
+msgid "Renewal Reminder Day"
+msgstr ""
 
 #: CRM/Member/Form/MembershipType.php
 #, fuzzy
@@ -3641,6 +3005,11 @@ msgstr "ประเภทกิจกรรม"
 #, fuzzy
 msgid "Delete Membership Type"
 msgstr "ลบกิจกรรม"
+
+#: CRM/Member/Selector/Search.php templates/CRM/Member/Form/Task/Print.tpl
+#, fuzzy
+msgid "Member Since"
+msgstr "สมาชิกกลุ่ม"
 
 #: CRM/Member/Selector/Search.php
 msgid "CiviCRM Member Search"
@@ -4384,6 +3753,12 @@ msgstr "ชื่อหน่วยงาน"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
+#, fuzzy
+msgid "Membership Start Date"
+msgstr "เริ่มวันที่"
+
+#: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
+#: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
 #: templates/CRM/Member/Form/MembershipRenewal.tpl
 #, fuzzy
 msgid "Membership End Date"
@@ -4794,6 +4169,14 @@ msgstr ""
 #: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
 msgid "Please print this confirmation for your records."
 msgstr ""
+
+#: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
+#: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
+#: templates/CRM/Event/Form/Registration/Confirm.tpl
+#: templates/CRM/Event/Form/Registration/ThankYou.tpl
+#, fuzzy
+msgid "Event Information"
+msgstr "ชื่อหน่วยงาน"
 
 #: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
 #, fuzzy
@@ -5692,6 +5075,18 @@ msgid "Item"
 msgstr ""
 
 #: templates/CRM/Event/Form/ParticipantView.tpl
+#: templates/CRM/Event/Form/Registration/LineItem.tpl
+#: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
+msgid "Qty"
+msgstr ""
+
+#: templates/CRM/Event/Form/ParticipantView.tpl
+#: templates/CRM/Event/Form/Registration/LineItem.tpl
+#, fuzzy
+msgid "Unit Price"
+msgstr "ชื่อกลาง"
+
+#: templates/CRM/Event/Form/ParticipantView.tpl
 msgid "Event Level"
 msgstr ""
 
@@ -6104,6 +5499,11 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Mailing/Form/Settings.tpl
+#, fuzzy
+msgid "Tracking"
+msgstr "ระยะเวลา"
+
+#: templates/CRM/Mailing/Form/Settings.tpl
 msgid ""
 "Track the number of times recipients click each link in this mailing. NOTE: "
 "When this feature is enabled, all links in the message body will be "
@@ -6281,6 +5681,10 @@ msgstr ""
 #: templates/CRM/Mailing/Page/Browse.tpl
 msgid ""
 "There are no Sent Mailings. You can <a href='%1'>create and send one</a>."
+msgstr ""
+
+#: templates/CRM/Mailing/Page/Component.tpl
+msgid "Body Text"
 msgstr ""
 
 #: templates/CRM/Mailing/Page/Component.tpl
@@ -7014,6 +6418,282 @@ msgstr ""
 msgid ""
 "There are no membership types entered. You can <a href='%1'>add one</a>."
 msgstr ""
+
+#, fuzzy
+#~ msgid "Receipt Text"
+#~ msgstr "เริ่มวันที่"
+
+#, fuzzy
+#~ msgid "Cancel Date"
+#~ msgstr "ยกเลิก"
+
+#, fuzzy
+#~ msgid "Frequency Interval"
+#~ msgstr "ชือถนน"
+
+#, fuzzy
+#~ msgid "Intro Text"
+#~ msgstr "ตำแหน่ง"
+
+#, fuzzy
+#~ msgid "Thank-you Text"
+#~ msgstr "ตำแหน่ง"
+
+#, fuzzy
+#~ msgid "Thank-you Footer"
+#~ msgstr "ตำแหน่ง"
+
+#, fuzzy
+#~ msgid "Honor Block Text"
+#~ msgstr "ตำแหน่ง"
+
+#, fuzzy
+#~ msgid "Contribution Page Start Date"
+#~ msgstr "ชื่อหน่วยงาน"
+
+#, fuzzy
+#~ msgid "Contribution Page End Date"
+#~ msgstr "ชื่อหน่วยงาน"
+
+#, fuzzy
+#~ msgid "Receive Date"
+#~ msgstr "เริ่มวันที่"
+
+#, fuzzy
+#~ msgid "Cancel Reason"
+#~ msgstr "ยกเลิก"
+
+#, fuzzy
+#~ msgid "Thank-you Date"
+#~ msgstr "ตำแหน่ง"
+
+#, fuzzy
+#~ msgid "Amount Label"
+#~ msgstr "ประเทศ"
+
+#, fuzzy
+#~ msgid "Product Option"
+#~ msgstr "ลบกิจกรรม"
+
+#, fuzzy
+#~ msgid "Fulfilled Date"
+#~ msgstr "สิ้นสุดวันที่"
+
+#, fuzzy
+#~ msgid "Create Date"
+#~ msgstr "วันที่"
+
+#, fuzzy
+#~ msgid "Recurring Contribution Status"
+#~ msgstr "แก้ไขประเภทสถานที่"
+
+#, fuzzy
+#~ msgid "Cycle Day"
+#~ msgstr "ยกเลิก"
+
+#, fuzzy
+#~ msgid "Next Sched Contribution"
+#~ msgstr "หน่วยงานใหม่"
+
+#, fuzzy
+#~ msgid "Failure Retry Date"
+#~ msgstr "เริ่มวันที่"
+
+#, fuzzy
+#~ msgid "Trxn Date"
+#~ msgstr "สิ้นสุดวันที่"
+
+#, fuzzy
+#~ msgid "Trxn Type"
+#~ msgstr "ประเภทของการติดต่อ"
+
+#, fuzzy
+#~ msgid "Debit"
+#~ msgstr "น้ำหนัก"
+
+#, fuzzy
+#~ msgid "Credit"
+#~ msgstr "วันที่"
+
+#, fuzzy
+#~ msgid "Premiums Active"
+#~ msgstr "<< ย้อนหลัง"
+
+#, fuzzy
+#~ msgid "Premiums Intro Text"
+#~ msgstr "ตำแหน่ง"
+
+#, fuzzy
+#~ msgid "Premiums Contact Email"
+#~ msgstr "ประเภทของการติดต่อ"
+
+#, fuzzy
+#~ msgid "Premiums Contact Phone"
+#~ msgstr "ประเภทของการติดต่อ"
+
+#, fuzzy
+#~ msgid "Premiums Display Min Contribution"
+#~ msgstr "การติดต่อ ประเภท A"
+
+#, fuzzy
+#~ msgid "Product Name"
+#~ msgstr "ชื่อกลุ่ม"
+
+#, fuzzy
+#~ msgid "Minimum Contribution"
+#~ msgstr "แก้ไขประเภทสถานที่"
+
+#, fuzzy
+#~ msgid "Cost"
+#~ msgstr "ช่วย หลัง"
+
+#, fuzzy
+#~ msgid "Confirmation Title"
+#~ msgstr "ประเทศ"
+
+#, fuzzy
+#~ msgid "Confirm Text"
+#~ msgstr "ต่อไป >>"
+
+#, fuzzy
+#~ msgid "Confirmation Email Text"
+#~ msgstr "ประเทศ"
+
+#, fuzzy
+#~ msgid "Cc Confirm"
+#~ msgstr "ต่อไป >>"
+
+#, fuzzy
+#~ msgid "Bcc Confirm"
+#~ msgstr "ต่อไป >>"
+
+#, fuzzy
+#~ msgid "ThankYou Title"
+#~ msgstr "ตำแหน่ง"
+
+#, fuzzy
+#~ msgid "ThankYou Text"
+#~ msgstr "ตำแหน่ง"
+
+#, fuzzy
+#~ msgid "Event Description"
+#~ msgstr "รายการ"
+
+#, fuzzy
+#~ msgid "Event Start Date"
+#~ msgstr "เริ่มวันที่"
+
+#, fuzzy
+#~ msgid "Event End Date"
+#~ msgstr "สิ้นสุดวันที่"
+
+#, fuzzy
+#~ msgid "Is Online Registration"
+#~ msgstr "หน่วยงานใหม่"
+
+#, fuzzy
+#~ msgid "show location"
+#~ msgstr "สถานที่"
+
+#, fuzzy
+#~ msgid "Register date"
+#~ msgstr "สิ้นสุดวันที่"
+
+#, fuzzy
+#~ msgid "Hold Threshold"
+#~ msgstr "ครัวเรือน"
+
+#, fuzzy
+#~ msgid "Invalid"
+#~ msgstr "ค่า"
+
+#, fuzzy
+#~ msgid "Component Name"
+#~ msgstr "ประเภทของการติดต่อ"
+
+#, fuzzy
+#~ msgid "Include"
+#~ msgstr "ยกเลิก"
+
+#, fuzzy
+#~ msgid "Exclude"
+#~ msgstr "ยกเลิก"
+
+#, fuzzy
+#~ msgid "From Name"
+#~ msgstr "ชื่อกลุ่ม"
+
+#, fuzzy
+#~ msgid "From Email"
+#~ msgstr "อีเมล์"
+
+#, fuzzy
+#~ msgid "Replyto Email"
+#~ msgstr "อีเมล์"
+
+#, fuzzy
+#~ msgid "Forward Replies"
+#~ msgstr "อีเมล์"
+
+#, fuzzy
+#~ msgid "Open Tracking"
+#~ msgstr "ระยะเวลา"
+
+#, fuzzy
+#~ msgid "Recipient Email"
+#~ msgstr "อีเมล์"
+
+#, fuzzy
+#~ msgid "Removed At"
+#~ msgstr "เริ่มวันที่"
+
+#, fuzzy
+#~ msgid "Org Unsubscribe"
+#~ msgstr "รายการ"
+
+#, fuzzy
+#~ msgid "New Title"
+#~ msgstr "ชื่อเรื่อง"
+
+#, fuzzy
+#~ msgid "New Text"
+#~ msgstr "บันทึก"
+
+#, fuzzy
+#~ msgid "Renewal Text"
+#~ msgstr "เริ่มวันที่"
+
+#, fuzzy
+#~ msgid "Is Required"
+#~ msgstr "ต้องการ?"
+
+#, fuzzy
+#~ msgid "Renewal Reminder Date"
+#~ msgstr "เริ่มวันที่"
+
+#, fuzzy
+#~ msgid "Membership Expiration Date"
+#~ msgstr "เริ่มวันที่"
+
+#, fuzzy
+#~ msgid "Reminder Date"
+#~ msgstr "เริ่มวันที่"
+
+#, fuzzy
+#~ msgid "Default Status?"
+#~ msgstr "ค่าปริยาย"
+
+#, fuzzy
+#~ msgid "start_date"
+#~ msgstr "เริ่มวันที่"
+
+#, fuzzy
+#~ msgid "end_date"
+#~ msgstr "สิ้นสุดวันที่"
+
+#, fuzzy
+#~ msgid "Visible"
+#~ msgstr "ปิด"
 
 #, fuzzy
 #~ msgid "Event %2 %1"

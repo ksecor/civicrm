@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-04-28 21:53+0200\n"
+"POT-Creation-Date: 2008-07-07 18:44-0700\n"
 "PO-Revision-Date: 2008-06-30 08:27-0700\n"
 "Last-Translator: Erik Stielstra <info@erikstielstra.nl>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -24,8 +24,7 @@ msgstr ""
 msgid "No thank you"
 msgstr "nee, bedankt"
 
-#: CRM/Contribute/BAO/Query.php CRM/Contribute/DAO/Contribution.php
-#: CRM/Contribute/Form/Offline.php
+#: CRM/Contribute/BAO/Query.php CRM/Contribute/Form/Offline.php
 msgid "Contribution Source"
 msgstr "herkomst bijdrage"
 
@@ -35,135 +34,13 @@ msgstr "herkomst bijdrage"
 msgid "Contribution Page"
 msgstr "bijdragepagina"
 
-#: CRM/Contribute/BAO/Query.php CRM/Contribute/DAO/Contribution.php
-#: CRM/Contribute/DAO/ContributionRecur.php
-#: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Task/Status.php
+#: CRM/Contribute/BAO/Query.php CRM/Contribute/Form/Contribution.php
+#: CRM/Contribute/Form/Task/Status.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 #: templates/CRM/Contribute/Form/Message.tpl
 #: templates/CRM/Contribute/Form/Task/Status.tpl
 msgid "Transaction ID"
 msgstr "transactie ID"
-
-#: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/EventPage.php
-msgid "Pay Later Text"
-msgstr "Tekst later betalen"
-
-#: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/EventPage.php
-msgid "Pay Later Receipt"
-msgstr "Ontvangstbewijs later betalen"
-
-#: CRM/Contribute/DAO/ContributionPage.php
-#: CRM/Contribute/Form/ContributionPage/Settings.php
-msgid "Goal Amount"
-msgstr "Doelbedrag"
-
-#: CRM/Contribute/DAO/ContributionPage.php
-#: CRM/Contribute/Form/ContributionPage/ThankYou.php
-msgid "Receipt From Name"
-msgstr "ontvangstbewijs van 'naam'"
-
-#: CRM/Contribute/DAO/ContributionPage.php
-#: CRM/Contribute/Form/ContributionPage/ThankYou.php
-msgid "Receipt From Email"
-msgstr "ontvangstbewijs van 'email'"
-
-#: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/Event.php
-msgid "Receipt Text"
-msgstr "Ontvangstbewijs Tekst"
-
-#: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/EventPage.php
-#: CRM/Event/Form/ManageEvent/Registration.php
-msgid "Footer Text"
-msgstr "voetregeltekst"
-
-#: CRM/Contribute/DAO/Contribution.php CRM/Contribute/Form/Contribution.php
-#: templates/CRM/Contribute/Form/ContributionView.tpl
-msgid "Non-deductible Amount"
-msgstr "niet-aftrekbaar bedrag"
-
-#: CRM/Contribute/DAO/Contribution.php CRM/Contribute/DAO/FinancialTrxn.php
-#: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Task/Status.php
-#: templates/CRM/Contribute/Form/ContributionView.tpl
-#: templates/CRM/Contribute/Form/Task/Status.tpl
-msgid "Fee Amount"
-msgstr "bedrag per eenheid"
-
-#: CRM/Contribute/DAO/Contribution.php CRM/Contribute/DAO/FinancialTrxn.php
-#: CRM/Contribute/Form/Contribution.php
-#: templates/CRM/Contribute/Form/ContributionView.tpl
-msgid "Net Amount"
-msgstr "netto aantal"
-
-#: CRM/Contribute/DAO/Contribution.php
-#: CRM/Contribute/DAO/ContributionRecur.php
-#: CRM/Contribute/Form/Contribution.php
-#: templates/CRM/Contribute/Form/ContributionView.tpl
-msgid "Invoice ID"
-msgstr "factuur ID"
-
-#: CRM/Contribute/DAO/Contribution.php
-#: CRM/Contribute/DAO/ContributionRecur.php
-msgid "Cancel Date"
-msgstr "opzegdatum"
-
-#: CRM/Contribute/DAO/Contribution.php CRM/Contribute/Form/Contribution.php
-#: CRM/Contribute/Form/Task/Status.php
-msgid "Receipt Date"
-msgstr "datum ontvangstbewijs"
-
-#: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
-#: CRM/Contribute/Form/ManagePremiums.php
-msgid "Frequency Unit"
-msgstr "Frequentie"
-
-#: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
-msgid "Frequency Interval"
-msgstr "interval frequentie"
-
-#: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
-msgid "week"
-msgstr "week"
-
-#: CRM/Contribute/DAO/ContributionType.php
-#: CRM/Contribute/Form/ContributionType.php
-msgid "Accounting Code"
-msgstr "boekhoudkundige code"
-
-#: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
-#: templates/CRM/Contribute/Page/ManagePremiums.tpl
-#: templates/CRM/Contribute/Page/Premium.tpl
-msgid "SKU"
-msgstr "SKU"
-
-#: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
-#: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
-msgid "Period Type"
-msgstr "type periode"
-
-#: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
-#: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
-msgid "Fixed Period Start Day"
-msgstr "vaste startdatum tijdvak"
-
-#: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
-#: CRM/Member/DAO/MembershipType.php
-msgid "Duration Unit"
-msgstr "Eenheid Periode"
-
-#: CRM/Contribute/DAO/Product.php CRM/Member/DAO/MembershipType.php
-#: CRM/Member/Form/MembershipType.php
-msgid "Duration Interval"
-msgstr "Periode Interval"
-
-#: CRM/Contribute/DAO/Widget.php
-#: CRM/Contribute/Form/ContributionPage/Widget.php
-msgid "Button Title"
-msgstr "Knop titel"
-
-#: CRM/Contribute/DAO/Widget.php
-#: CRM/Contribute/Form/ContributionPage/Widget.php
-msgid "About"
-msgstr "Over"
 
 #: CRM/Contribute/Form/ContributionBase.php CRM/Event/Form/Registration.php
 #: CRM/Event/Page/EventInfo.php
@@ -217,14 +94,8 @@ msgstr "Configureren van de Bijdragen Pagina"
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
 #: CRM/Contribute/Form/ContributionPage/Settings.php
-#: CRM/Event/DAO/EventPage.php
 msgid "Introductory Message"
 msgstr "introductietekst"
-
-#: CRM/Contribute/Form/ContributionPage/Settings.php
-#: CRM/Event/DAO/EventPage.php
-msgid "Footer Message"
-msgstr "naschrift"
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 #: CRM/Event/Form/ManageEvent/EventInfo.php
@@ -254,6 +125,10 @@ msgstr "u heeft geen toegangsrechten voor deze pagina"
 msgid "Received"
 msgstr "ontvangen"
 
+#: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Task/Status.php
+msgid "Receipt Date"
+msgstr "datum ontvangstbewijs"
+
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 #: templates/CRM/Contribute/Form/Task/Print.tpl
@@ -263,6 +138,12 @@ msgstr "bedankbericht verzonden"
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Offline.php
 msgid "Send Receipt?"
 msgstr "Ontvangstbewijs versturen?"
+
+#: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Task/Status.php
+#: templates/CRM/Contribute/Form/ContributionView.tpl
+#: templates/CRM/Contribute/Form/Task/Status.tpl
+msgid "Fee Amount"
+msgstr "bedrag per eenheid"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Task/Status.php
 msgid ""
@@ -283,9 +164,22 @@ msgstr "Relatiegeschenk"
 msgid "Minimum Contribution Amount"
 msgstr "minimum bedrag bijdrage"
 
+#: CRM/Contribute/Form/ManagePremiums.php CRM/Member/Form/MembershipType.php
+msgid "Period Type"
+msgstr "type periode"
+
+#: CRM/Contribute/Form/ManagePremiums.php CRM/Member/Form/MembershipType.php
+msgid "Fixed Period Start Day"
+msgstr "vaste startdatum tijdvak"
+
 #: CRM/Contribute/Form/Task/Delete.php CRM/Contribute/Task.php
 msgid "Delete Contributions"
 msgstr "Verwijder bijdragen"
+
+#: CRM/Contribute/Form/Task/Export.php CRM/Contribute/Task.php
+#, fuzzy
+msgid "Export Contributions"
+msgstr "Druk Bijdragen af"
 
 #: CRM/Contribute/Invoke.php CRM/Contribute/Menu.php
 msgid "Contribution Types"
@@ -294,6 +188,11 @@ msgstr "Bijdrage Types"
 #: CRM/Contribute/Invoke.php CRM/Contribute/Menu.php
 msgid "Manage Premiums"
 msgstr "Beheer Relatiegeschenken"
+
+#: CRM/Contribute/Invoke.php CRM/Contribute/Menu.php
+#, fuzzy
+msgid "Import Contributions"
+msgstr "Druk Bijdragen af"
 
 #: CRM/Contribute/Invoke.php CRM/Member/Invoke.php
 msgid "DashBoard"
@@ -331,50 +230,6 @@ msgstr "Bekijk Relatiegeschenk"
 msgid "Disable Premium"
 msgstr "Uitschakelen Relatiegeschenk"
 
-#: CRM/Event/BAO/Query.php CRM/Event/DAO/Participant.php
-msgid "Participant Source"
-msgstr "bron deelnemer"
-
-# Voor event werden zowel activiteit als evenement gebruikt, beter is het natuurlijk om 1 term te gebruiken. Het woordenboek geeft o.a. gebeurtenis en evenement, het laatste maar gekozen om dicht bij het engels te blijven.
-#: CRM/Event/DAO/EventPage.php CRM/Event/Form/Task/Export.php
-msgid "Event ID"
-msgstr "Evenement ID"
-
-#: CRM/Event/DAO/EventPage.php CRM/Event/Form/ManageEvent/Registration.php
-msgid "Confirm From Name"
-msgstr "bevestig 'van naam'"
-
-#: CRM/Event/DAO/EventPage.php CRM/Event/Form/ManageEvent/Registration.php
-msgid "Confirm From Email"
-msgstr "bevestig 'van email'"
-
-#: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/EventInfo.php
-msgid "Event Title"
-msgstr "Evenement titel"
-
-#: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/EventInfo.php
-#: templates/CRM/Event/Page/DashBoard.tpl
-msgid "Event Summary"
-msgstr "Evenement overzicht"
-
-#: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/Registration.php
-msgid "Registration Start Date"
-msgstr "Registratie Startdatum"
-
-#: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/Registration.php
-msgid "Registration End Date"
-msgstr "Registratie Einddatum"
-
-#: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/Fee.php
-#: templates/CRM/Event/Form/ManageEvent/Fee.tpl
-msgid "Fee Label"
-msgstr "kostenlabel"
-
-#: CRM/Event/DAO/ParticipantPayment.php CRM/Event/DAO/Participant.php
-#: CRM/Event/Form/Task/Export.php
-msgid "Participant ID"
-msgstr "deelnemer ID"
-
 #: CRM/Event/Form/ManageEvent/Delete.php CRM/Event/Page/ManageEvent.php
 msgid "Delete Event"
 msgstr "Verwijder evenement"
@@ -404,87 +259,46 @@ msgstr "Online Registratie"
 msgid "Payment Status"
 msgstr "Betalings status"
 
+#: CRM/Event/Form/Search.php CRM/Event/Selector/Search.php
+#, fuzzy
+msgid "Participant"
+msgstr "deelnemer ID"
+
 #: CRM/Event/Form/Task/Export.php CRM/Event/Task.php
 msgid "Export Participants"
+msgstr "Exporteren Deelnemers"
+
+#: CRM/Event/Form/Task/Export.php CRM/Member/Form/Task/Export.php
+#, fuzzy
+msgid "Display Name"
+msgstr "Toon minimum bijdrage"
+
+#: CRM/Event/Invoke.php CRM/Event/Menu.php
+#, fuzzy
+msgid "Import Participants"
 msgstr "Exporteren Deelnemers"
 
 #: CRM/Event/Menu.php CRM/Event/Page/ManageEvent.php
 msgid "Manage Events"
 msgstr "Beheer Evenementen"
 
-#: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
-msgid "Running"
-msgstr "lopende"
-
-#: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
-msgid "Complete"
-msgstr "volledig"
-
-#: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
-msgid "Paused"
-msgstr "gepauzeerd"
-
-#: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
-msgid "Canceled"
-msgstr "Geannuleerd"
-
-#: CRM/Mailing/BAO/Mailing.php CRM/Mailing/DAO/Component.php
-msgid "Reply"
-msgstr "antwoord"
-
 #: CRM/Mailing/BAO/Mailing.php CRM/Mailing/Selector/Event.php
 msgid "Opt-Out"
 msgstr "Opt-Out"
-
-#: CRM/Mailing/DAO/BounceType.php CRM/Mailing/Event/BAO/Bounce.php
-msgid "Unknown"
-msgstr "onbekend"
-
-#: CRM/Mailing/DAO/Component.php CRM/Mailing/Form/Component.php
-msgid "Component Type"
-msgstr "type onderdeel"
-
-#: CRM/Mailing/DAO/Component.php CRM/Mailing/DAO/Mailing.php
-msgid "Body Html"
-msgstr "body html"
-
-#: CRM/Mailing/DAO/Component.php CRM/Mailing/DAO/Mailing.php
-#: templates/CRM/Mailing/Page/Component.tpl
-msgid "Body Text"
-msgstr "body text"
-
-#: CRM/Mailing/DAO/Component.php CRM/Mailing/Form/Subscribe.php
-#: CRM/Mailing/Invoke.php CRM/Mailing/Menu.php
-msgid "Subscribe"
-msgstr "aanmelden"
-
-#: CRM/Mailing/DAO/Component.php CRM/Mailing/Menu.php
-#: templates/CRM/Mailing/Page/Resubscribe.tpl
-msgid "Resubscribe"
-msgstr "Opnieuw aanmelden"
 
 #: CRM/Mailing/Event/BAO/Confirm.php CRM/Mailing/Event/BAO/Reply.php
 #: CRM/Mailing/Event/BAO/Resubscribe.php CRM/Mailing/Event/BAO/Unsubscribe.php
 msgid "'%1' <do-not-reply@%2>"
 msgstr "'%1' <do-not-reply@%2>"
 
-#: CRM/Mailing/Event/DAO/Bounce.php CRM/Mailing/Selector/Event.php
-msgid "Bounce Reason"
-msgstr "reden terugsturen"
-
-#: CRM/Mailing/Event/DAO/Bounce.php CRM/Mailing/Event/DAO/Confirm.php
-#: CRM/Mailing/Event/DAO/Delivered.php CRM/Mailing/Event/DAO/Forward.php
-#: CRM/Mailing/Event/DAO/Opened.php CRM/Mailing/Event/DAO/Reply.php
-#: CRM/Mailing/Event/DAO/Subscribe.php
-#: CRM/Mailing/Event/DAO/TrackableURLOpen.php
-#: CRM/Mailing/Event/DAO/Unsubscribe.php
-msgid "Time Stamp"
-msgstr "tijdstempel"
-
 #: CRM/Mailing/Form/Group.php CRM/Mailing/Form/Settings.php
 #: CRM/Mailing/Form/Test.php CRM/Mailing/Form/Upload.php
 msgid "Next >>"
 msgstr "Volgende >>"
+
+#: CRM/Mailing/Form/Subscribe.php CRM/Mailing/Invoke.php CRM/Mailing/Menu.php
+msgid "Subscribe"
+msgstr "aanmelden"
 
 #: CRM/Mailing/Invoke.php CRM/Mailing/Selector/Browse.php
 msgid "Report"
@@ -503,41 +317,6 @@ msgstr "Verwijder mailing"
 #: CRM/Mailing/Page/Common.php CRM/Mailing/Page/Confirm.php
 msgid "Missing input parameters"
 msgstr "ontbrekende invoerwaarden "
-
-#: CRM/Member/DAO/Membership.php CRM/Member/Selector/Search.php
-#: templates/CRM/Member/Form/Task/Print.tpl
-msgid "Member Since"
-msgstr "lid sinds"
-
-#: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
-#: templates/CRM/Member/Page/MembershipStatus.tpl
-msgid "Start Event"
-msgstr "Start Evenement"
-
-#: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
-msgid "Start Event Adjust Interval"
-msgstr "Start Evenement aanpassen interval"
-
-#: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
-#: templates/CRM/Member/Page/MembershipStatus.tpl
-msgid "End Event"
-msgstr "Einde Evenement"
-
-#: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
-msgid "End Event Adjust Interval"
-msgstr "Eind Evenement aanpassen interval"
-
-#: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
-msgid "Current Membership?"
-msgstr "Huidig lidmaatschap?"
-
-#: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
-msgid "Fixed Period Rollover Day"
-msgstr "vaste periode betaaldag"
-
-#: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
-msgid "Renewal Reminder Day"
-msgstr "Verlenging herinneringsdatum"
 
 #: CRM/Member/Form/Membership.php CRM/Member/Form/MembershipRenewal.php
 msgid "Send Confirmation and Receipt?"
@@ -652,218 +431,6 @@ msgstr "Zoek alleen testbijdragen?"
 #: CRM/Contribute/BAO/Query.php
 msgid "Find Recurring Contributions?"
 msgstr "Zoek terugkerende bijdragen?"
-
-#: CRM/Contribute/DAO/ContributionPage.php
-msgid "Intro Text"
-msgstr "Introductietekst"
-
-#: CRM/Contribute/DAO/ContributionPage.php
-msgid "Thank-you Text"
-msgstr "Tekst Dank bericht"
-
-#: CRM/Contribute/DAO/ContributionPage.php
-msgid "Thank-you Footer"
-msgstr "Bedankbericht voet"
-
-#: CRM/Contribute/DAO/ContributionPage.php
-msgid "Cc Receipt"
-msgstr "Cc ontvangstbewijs"
-
-#: CRM/Contribute/DAO/ContributionPage.php
-msgid "Bcc Receipt"
-msgstr "Bcc Ontvangstbewijs"
-
-#: CRM/Contribute/DAO/ContributionPage.php
-msgid "Honor Block Title"
-msgstr "Titel Eerblok"
-
-#: CRM/Contribute/DAO/ContributionPage.php
-msgid "Honor Block Text"
-msgstr "Eer Blok Tekst"
-
-#: CRM/Contribute/DAO/ContributionPage.php
-msgid "Contribution Page Start Date"
-msgstr "Bijdrage pagina startdatum"
-
-#: CRM/Contribute/DAO/ContributionPage.php
-msgid "Contribution Page End Date"
-msgstr "Bijdrage pagina einddatum"
-
-#: CRM/Contribute/DAO/Contribution.php
-msgid "Contribution ID (match to contribution)"
-msgstr "Contribution ID (koppeling met bijdrage)"
-
-#: CRM/Contribute/DAO/Contribution.php
-msgid "Solicitor ID"
-msgstr "Solicitor ID"
-
-#: CRM/Contribute/DAO/Contribution.php
-msgid "Receive Date"
-msgstr "Ontvangstdatum"
-
-#: CRM/Contribute/DAO/Contribution.php
-msgid "Cancel Reason"
-msgstr "Reden voor opzeggen"
-
-#: CRM/Contribute/DAO/Contribution.php
-msgid "Thank-you Date"
-msgstr "Datum Dank bericht"
-
-#: CRM/Contribute/DAO/Contribution.php
-msgid "Amount Label"
-msgstr "Bedrag label"
-
-#: CRM/Contribute/DAO/ContributionProduct.php
-msgid "Product Option"
-msgstr "Product Optie"
-
-#: CRM/Contribute/DAO/ContributionProduct.php
-msgid "Quantity"
-msgstr "Aantal"
-
-#: CRM/Contribute/DAO/ContributionProduct.php
-msgid "Fulfilled Date"
-msgstr "Afrondingsdatum"
-
-#: CRM/Contribute/DAO/ContributionProduct.php
-msgid "Comment"
-msgstr "Opmerking"
-
-#: CRM/Contribute/DAO/ContributionRecur.php
-msgid "Installments"
-msgstr "Termijn"
-
-#: CRM/Contribute/DAO/ContributionRecur.php
-msgid "Create Date"
-msgstr "Aanmaakdatum"
-
-#: CRM/Contribute/DAO/ContributionRecur.php
-msgid "Recurring Contribution Status"
-msgstr "Periodieke bijdrage status"
-
-#: CRM/Contribute/DAO/ContributionRecur.php
-msgid "Cycle Day"
-msgstr "Datum cyclus"
-
-#: CRM/Contribute/DAO/ContributionRecur.php
-msgid "Next Sched Contribution"
-msgstr "Volgende geplande bijdrage"
-
-#: CRM/Contribute/DAO/ContributionRecur.php
-msgid "Failure Count"
-msgstr "Aantal fouten"
-
-#: CRM/Contribute/DAO/ContributionRecur.php
-msgid "Failure Retry Date"
-msgstr "Herhaal datum fouten"
-
-#: CRM/Contribute/DAO/ContributionRecur.php
-msgid "Auto Renew"
-msgstr "Automatische vernieuwing"
-
-#: CRM/Contribute/DAO/FinancialTrxn.php
-msgid "Trxn Date"
-msgstr "Trxn Datum"
-
-#: CRM/Contribute/DAO/FinancialTrxn.php
-msgid "Trxn Type"
-msgstr "Trxn Type"
-
-#: CRM/Contribute/DAO/FinancialTrxn.php
-msgid "Trxn Result Code"
-msgstr "Trxn resultaat code"
-
-#: CRM/Contribute/DAO/FinancialTrxn.php
-msgid "Debit"
-msgstr "Tegoed"
-
-#: CRM/Contribute/DAO/FinancialTrxn.php
-msgid "Credit"
-msgstr "Te betalen"
-
-#: CRM/Contribute/DAO/Premium.php
-msgid "Premiums Active"
-msgstr "Actieve Relatiegeschenken"
-
-#: CRM/Contribute/DAO/Premium.php
-msgid "Title for Premiums section"
-msgstr "Titel sectie relatiegeschenken"
-
-#: CRM/Contribute/DAO/Premium.php
-msgid "Premiums Intro Text"
-msgstr "Introductie relatiegeschenken"
-
-#: CRM/Contribute/DAO/Premium.php
-msgid "Premiums Contact Email"
-msgstr "Email contact relatiegeschenken"
-
-#: CRM/Contribute/DAO/Premium.php
-msgid "Premiums Contact Phone"
-msgstr "Telefoon contact relatiegeschenken"
-
-#: CRM/Contribute/DAO/Premium.php
-msgid "Premiums Display Min Contribution"
-msgstr "Minimale bijdrage voor tonen relatiegeschenken"
-
-#: CRM/Contribute/DAO/Product.php
-msgid "Product Name"
-msgstr "Product Naam"
-
-#: CRM/Contribute/DAO/Product.php
-msgid "Thumbnail"
-msgstr "Klein plaatje"
-
-#: CRM/Contribute/DAO/Product.php
-msgid "Minimum Contribution"
-msgstr "Minimale Bijdrage"
-
-#: CRM/Contribute/DAO/Product.php
-msgid "Cost"
-msgstr "Kosten"
-
-#: CRM/Contribute/DAO/Widget.php
-msgid "Url Logo"
-msgstr "Url Logo"
-
-#: CRM/Contribute/DAO/Widget.php
-msgid "Url Homepage"
-msgstr "Url Homepage"
-
-#: CRM/Contribute/DAO/Widget.php
-msgid "Color Title"
-msgstr ""
-
-#: CRM/Contribute/DAO/Widget.php
-msgid "Color Button"
-msgstr ""
-
-#: CRM/Contribute/DAO/Widget.php
-msgid "Color Bar"
-msgstr ""
-
-#: CRM/Contribute/DAO/Widget.php
-msgid "Color Main Text"
-msgstr ""
-
-#: CRM/Contribute/DAO/Widget.php
-msgid "Color Main"
-msgstr ""
-
-#: CRM/Contribute/DAO/Widget.php
-msgid "Color Main Bg"
-msgstr ""
-
-#: CRM/Contribute/DAO/Widget.php
-msgid "Color Bg"
-msgstr ""
-
-#: CRM/Contribute/DAO/Widget.php
-msgid "Color About Link"
-msgstr ""
-
-#: CRM/Contribute/DAO/Widget.php
-msgid "Color Homepage Link"
-msgstr ""
 
 #: CRM/Contribute/Form/ContributionBase.php
 msgid ""
@@ -1203,6 +770,14 @@ msgid "Title and Settings"
 msgstr "Titel en instellingen"
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
+msgid "Footer Message"
+msgstr "naschrift"
+
+#: CRM/Contribute/Form/ContributionPage/Settings.php
+msgid "Goal Amount"
+msgstr "Doelbedrag"
+
+#: CRM/Contribute/Form/ContributionPage/Settings.php
 msgid "Is this Online Contribution Page Active?"
 msgstr "Is deze Online Bijdrage Pagina actief ?"
 
@@ -1237,6 +812,14 @@ msgstr "Dank U pagina footer"
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "Email Receipt to Contributor?"
 msgstr "Email ontvangstbewijs naar de contributant?"
+
+#: CRM/Contribute/Form/ContributionPage/ThankYou.php
+msgid "Receipt From Name"
+msgstr "ontvangstbewijs van 'naam'"
+
+#: CRM/Contribute/Form/ContributionPage/ThankYou.php
+msgid "Receipt From Email"
+msgstr "ontvangstbewijs van 'email'"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "CC Receipt To"
@@ -1275,8 +858,16 @@ msgid "URL to Logo Image"
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Widget.php
+msgid "Button Title"
+msgstr "Knop titel"
+
+#: CRM/Contribute/Form/ContributionPage/Widget.php
 msgid "Contribute!"
 msgstr ""
+
+#: CRM/Contribute/Form/ContributionPage/Widget.php
+msgid "About"
+msgstr "Over"
 
 #: CRM/Contribute/Form/ContributionPage/Widget.php
 msgid "URL to Home Page"
@@ -1351,6 +942,21 @@ msgid "Cancellation Reason"
 msgstr "Reden voor opzegging"
 
 #: CRM/Contribute/Form/Contribution.php
+#: templates/CRM/Contribute/Form/ContributionView.tpl
+msgid "Non-deductible Amount"
+msgstr "niet-aftrekbaar bedrag"
+
+#: CRM/Contribute/Form/Contribution.php
+#: templates/CRM/Contribute/Form/ContributionView.tpl
+msgid "Net Amount"
+msgstr "netto aantal"
+
+#: CRM/Contribute/Form/Contribution.php
+#: templates/CRM/Contribute/Form/ContributionView.tpl
+msgid "Invoice ID"
+msgstr "factuur ID"
+
+#: CRM/Contribute/Form/Contribution.php
 msgid "Honor First Name and Last Name OR an email should be set."
 msgstr ""
 "Voornaam en achternaam OF een emailadres van erelid moet worden ingevuld."
@@ -1376,6 +982,10 @@ msgstr ""
 "Een bijdrage van dit type met deze naam bestaat al. Kies een andere naam."
 
 #: CRM/Contribute/Form/ContributionType.php
+msgid "Accounting Code"
+msgstr "boekhoudkundige code"
+
+#: CRM/Contribute/Form/ContributionType.php
 msgid "Tax-deductible?"
 msgstr "Aftrekbaar voor belastingen ?"
 
@@ -1390,6 +1000,12 @@ msgstr "Bijdrage type '%1' is opgeslagen."
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "A product with this name already exists. Please select another name."
 msgstr "Een product met deze naam bestaat al. Kies een andere naam."
+
+#: CRM/Contribute/Form/ManagePremiums.php
+#: templates/CRM/Contribute/Page/ManagePremiums.tpl
+#: templates/CRM/Contribute/Page/Premium.tpl
+msgid "SKU"
+msgstr "SKU"
 
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "Upload from my computer"
@@ -1448,6 +1064,14 @@ msgstr "Geed de actuele kosten van product op."
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "Please enter a monetary value for the Minimum Contribution Amount."
 msgstr "Geef een bedrag op voor de minimale bijdrage."
+
+#: CRM/Contribute/Form/ManagePremiums.php
+msgid "Duration Unit"
+msgstr "Eenheid Periode"
+
+#: CRM/Contribute/Form/ManagePremiums.php
+msgid "Frequency Unit"
+msgstr "Frequentie"
 
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "Frequency"
@@ -1744,6 +1368,10 @@ msgid "Participant Role %1"
 msgstr "Deelnemersrol %1"
 
 #: CRM/Event/BAO/Query.php
+msgid "Participant Source"
+msgstr "bron deelnemer"
+
+#: CRM/Event/BAO/Query.php
 msgid "Event Name"
 msgstr "Evenement naam"
 
@@ -1754,98 +1382,6 @@ msgstr "Evenement Datum - Van"
 #: CRM/Event/BAO/Query.php
 msgid "Find Test Participants?"
 msgstr "Zoek testdeelnemers?"
-
-#: CRM/Event/DAO/EventPage.php
-msgid "Confirmation Title"
-msgstr "Bevestigingstitel"
-
-#: CRM/Event/DAO/EventPage.php
-msgid "Confirm Text"
-msgstr "Bevestigingstekst"
-
-#: CRM/Event/DAO/EventPage.php
-msgid "Is confirm email"
-msgstr "Is e-mail ter bevestiging"
-
-#: CRM/Event/DAO/EventPage.php
-msgid "Confirmation Email Text"
-msgstr "Tekst Email Bevestiging"
-
-#: CRM/Event/DAO/EventPage.php
-msgid "Cc Confirm"
-msgstr "Cc Bevestiging"
-
-#: CRM/Event/DAO/EventPage.php
-msgid "Bcc Confirm"
-msgstr "Bcc Bevestiging"
-
-#: CRM/Event/DAO/EventPage.php
-msgid "ThankYou Title"
-msgstr "Titel voor Bedankbericht"
-
-#: CRM/Event/DAO/EventPage.php
-msgid "ThankYou Text"
-msgstr "Bedanktekst"
-
-#: CRM/Event/DAO/Event.php
-msgid "Event Description"
-msgstr "Evenement Beschrijving"
-
-#: CRM/Event/DAO/Event.php
-msgid "Event Type ID"
-msgstr "Evenement Type ID"
-
-#: CRM/Event/DAO/Event.php
-msgid "Participant Listing ID"
-msgstr "Deelnemerslijst ID"
-
-#: CRM/Event/DAO/Event.php
-msgid "Is Event Public"
-msgstr "Is het evenement openbaar?"
-
-#: CRM/Event/DAO/Event.php
-msgid "Event Start Date"
-msgstr "Evenement startdatum"
-
-#: CRM/Event/DAO/Event.php
-msgid "Event End Date"
-msgstr "Evenement einddatum"
-
-#: CRM/Event/DAO/Event.php
-msgid "Is Online Registration"
-msgstr "Is online registratie"
-
-#: CRM/Event/DAO/Event.php
-msgid "Event Registration Link Text"
-msgstr "Evenement registratie link tekst"
-
-#: CRM/Event/DAO/Event.php
-msgid "Max Participants"
-msgstr ""
-
-#: CRM/Event/DAO/Event.php
-#: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
-#: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
-#: templates/CRM/Event/Form/Registration/Confirm.tpl
-#: templates/CRM/Event/Form/Registration/ThankYou.tpl
-msgid "Event Information"
-msgstr "Evenement Informatie"
-
-#: CRM/Event/DAO/Event.php
-msgid "show location"
-msgstr "Toon Locatie"
-
-#: CRM/Event/DAO/ParticipantPayment.php
-msgid "Payment ID"
-msgstr "Betalings ID"
-
-#: CRM/Event/DAO/Participant.php
-msgid "Register date"
-msgstr "Registratie datum"
-
-#: CRM/Event/DAO/Participant.php
-msgid "Fee level"
-msgstr ""
 
 #: CRM/Event/Form/ManageEvent/Delete.php
 msgid ""
@@ -1862,6 +1398,15 @@ msgstr ""
 #: CRM/Event/Form/ManageEvent/Delete.php
 msgid "The event '%1' has been deleted."
 msgstr "Het evenement '%1' is verwijderd."
+
+#: CRM/Event/Form/ManageEvent/EventInfo.php
+msgid "Event Title"
+msgstr "Evenement titel"
+
+#: CRM/Event/Form/ManageEvent/EventInfo.php
+#: templates/CRM/Event/Page/DashBoard.tpl
+msgid "Event Summary"
+msgstr "Evenement overzicht"
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 msgid "Complete Description"
@@ -1921,6 +1466,11 @@ msgid "Pay Later Instructions"
 msgstr "Instructie later betalen"
 
 #: CRM/Event/Form/ManageEvent/Fee.php
+#: templates/CRM/Event/Form/ManageEvent/Fee.tpl
+msgid "Fee Label"
+msgstr "kostenlabel"
+
+#: CRM/Event/Form/ManageEvent/Fee.php
 msgid "Please select contribution type."
 msgstr "Selecteer bijdrage type"
 
@@ -1962,8 +1512,20 @@ msgid "Registration Link Text"
 msgstr "Registratie link tekst"
 
 #: CRM/Event/Form/ManageEvent/Registration.php
+msgid "Registration Start Date"
+msgstr "Registratie Startdatum"
+
+#: CRM/Event/Form/ManageEvent/Registration.php
+msgid "Registration End Date"
+msgstr "Registratie Einddatum"
+
+#: CRM/Event/Form/ManageEvent/Registration.php
 msgid "Introductory Text"
 msgstr "Introductie Tekst"
+
+#: CRM/Event/Form/ManageEvent/Registration.php
+msgid "Footer Text"
+msgstr "voetregeltekst"
 
 #: CRM/Event/Form/ManageEvent/Registration.php
 msgid "Send Confirmation Email?"
@@ -1976,6 +1538,14 @@ msgstr "CC bevestiging naar"
 #: CRM/Event/Form/ManageEvent/Registration.php
 msgid "BCC Confirmation To"
 msgstr "BCC bevestiging naar"
+
+#: CRM/Event/Form/ManageEvent/Registration.php
+msgid "Confirm From Name"
+msgstr "bevestig 'van naam'"
+
+#: CRM/Event/Form/ManageEvent/Registration.php
+msgid "Confirm From Email"
+msgstr "bevestig 'van email'"
 
 #: CRM/Event/Form/ManageEvent/Registration.php
 msgid "Please enter a Title for the registration Confirmation Page"
@@ -2075,6 +1645,13 @@ msgstr "Kies een datum na vandaag."
 msgid "Select atleast one option from Event Fee(s)"
 msgstr ""
 
+#: CRM/Event/Form/Registration/Register.php
+msgid ""
+"Oops. It looks like you are already registered for this event. If you want "
+"to change your registration, or you feel that you've gotten this message in "
+"error, please contact the site administrator."
+msgstr ""
+
 #: CRM/Event/Form/Registration/ThankYou.php
 msgid "Thank You Page"
 msgstr "Bedankpagina"
@@ -2132,6 +1709,15 @@ msgstr "Verwijderde Deelname(s): %1"
 #: CRM/Event/Form/Task/Delete.php
 msgid "Total Selected Participation(s): %1"
 msgstr "Aantal geselecteerde deelname(s) : %1"
+
+#: CRM/Event/Form/Task/Export.php
+msgid "Participant ID"
+msgstr "deelnemer ID"
+
+# Voor event werden zowel activiteit als evenement gebruikt, beter is het natuurlijk om 1 term te gebruiken. Het woordenboek geeft o.a. gebeurtenis en evenement, het laatste maar gekozen om dicht bij het engels te blijven.
+#: CRM/Event/Form/Task/Export.php
+msgid "Event ID"
+msgstr "Evenement ID"
 
 #: CRM/Event/Form/Task/Export.php
 msgid "CiviCRM Participants"
@@ -2327,8 +1913,28 @@ msgid "The mailing has been canceled."
 msgstr "Mail is geannuleerd."
 
 #: CRM/Mailing/BAO/Job.php
+msgid "Running"
+msgstr "lopende"
+
+#: CRM/Mailing/BAO/Job.php
+msgid "Complete"
+msgstr "volledig"
+
+#: CRM/Mailing/BAO/Job.php
+msgid "Paused"
+msgstr "gepauzeerd"
+
+#: CRM/Mailing/BAO/Job.php
+msgid "Canceled"
+msgstr "Geannuleerd"
+
+#: CRM/Mailing/BAO/Job.php
 msgid "Not scheduled"
 msgstr ""
+
+#: CRM/Mailing/BAO/Mailing.php
+msgid "Reply"
+msgstr "antwoord"
 
 #: CRM/Mailing/BAO/Mailing.php
 msgid "You do not have permission to access this mailing report"
@@ -2338,125 +1944,13 @@ msgstr "U heeft geen toegang tot dit mailingsoverzicht"
 msgid "Selected mailing has been deleted."
 msgstr "De geselecteerde mailing is verwijderd."
 
-#: CRM/Mailing/DAO/BouncePattern.php
-msgid "Pattern"
-msgstr "Patroon"
+#: CRM/Mailing/Event/BAO/Bounce.php
+msgid "Unknown"
+msgstr "onbekend"
 
-#: CRM/Mailing/DAO/BounceType.php
-msgid "Hold Threshold"
-msgstr "Drempelwaarde"
-
-#: CRM/Mailing/DAO/BounceType.php
-msgid "AOL"
-msgstr "AOL"
-
-#: CRM/Mailing/DAO/BounceType.php
-msgid "Away"
-msgstr "weg"
-
-#: CRM/Mailing/DAO/BounceType.php
-msgid "DNS"
-msgstr "DNS"
-
-#: CRM/Mailing/DAO/BounceType.php
-msgid "Invalid"
-msgstr "Ongeldig"
-
-#: CRM/Mailing/DAO/BounceType.php
-msgid "Loop"
-msgstr "Lus"
-
-#: CRM/Mailing/DAO/BounceType.php
-msgid "Quota"
-msgstr "Quota"
-
-#: CRM/Mailing/DAO/BounceType.php
-msgid "Relay"
-msgstr "Doorgeven"
-
-#: CRM/Mailing/DAO/BounceType.php
-msgid "Spam"
-msgstr "Spam"
-
-#: CRM/Mailing/DAO/BounceType.php
-msgid "Syntax"
-msgstr "Syntax"
-
-#: CRM/Mailing/DAO/Component.php
-msgid "Component Name"
-msgstr "Naam van de component"
-
-#: CRM/Mailing/DAO/Component.php
-msgid "Welcome"
-msgstr "Welkom"
-
-#: CRM/Mailing/DAO/Component.php
-msgid "OptOut"
-msgstr "OptOut"
-
-#: CRM/Mailing/DAO/Group.php
-msgid "Include"
-msgstr "inclusief"
-
-#: CRM/Mailing/DAO/Group.php
-msgid "Exclude"
-msgstr "exclusief"
-
-#: CRM/Mailing/DAO/Mailing.php
-msgid "From Name"
-msgstr "Van  naam"
-
-#: CRM/Mailing/DAO/Mailing.php
-msgid "From Email"
-msgstr "Van Email"
-
-#: CRM/Mailing/DAO/Mailing.php
-msgid "Replyto Email"
-msgstr "Antwoord email"
-
-#: CRM/Mailing/DAO/Mailing.php
-msgid "Url Tracking"
-msgstr "URL tracking"
-
-#: CRM/Mailing/DAO/Mailing.php
-msgid "Forward Replies"
-msgstr "Doorsturen antwoorden"
-
-#: CRM/Mailing/DAO/Mailing.php
-msgid "Auto Responder"
-msgstr "Automatische beantwoorder"
-
-#: CRM/Mailing/DAO/Mailing.php
-msgid "Open Tracking"
-msgstr "Open tracking"
-
-#: CRM/Mailing/DAO/Spool.php
-msgid "Recipient Email"
-msgstr "E-mail Ontvangstbewijs"
-
-#: CRM/Mailing/DAO/Spool.php
-msgid "Headers"
-msgstr "Kopregels"
-
-#: CRM/Mailing/DAO/Spool.php
-msgid "Body"
-msgstr "Body"
-
-#: CRM/Mailing/DAO/Spool.php
-msgid "Added At"
-msgstr "Toegevoegd op"
-
-#: CRM/Mailing/DAO/Spool.php
-msgid "Removed At"
-msgstr "Verwijderd op"
-
-#: CRM/Mailing/DAO/TrackableURL.php
-msgid "Url"
-msgstr "Url"
-
-#: CRM/Mailing/Event/DAO/Unsubscribe.php
-msgid "Org Unsubscribe"
-msgstr "Organisatie afmelden"
+#: CRM/Mailing/Form/Component.php
+msgid "Component Type"
+msgstr "type onderdeel"
 
 #: CRM/Mailing/Form/Component.php
 msgid "Body - TEXT Format"
@@ -2606,6 +2100,11 @@ msgstr "Stuur naar dit e-mailadres"
 msgid "Send to This Group"
 msgstr "Stuur naar deze groep"
 
+#: CRM/Mailing/Form/Test.php
+#, fuzzy
+msgid "Test"
+msgstr "(test)"
+
 #: CRM/Mailing/Form/Upload.php
 msgid "FROM"
 msgstr "Van"
@@ -2703,6 +2202,10 @@ msgid ""
 msgstr ""
 "Instellen kopregels, voetteksten en berichten voor aanmelden, afmelden etc."
 
+#: CRM/Mailing/Menu.php templates/CRM/Mailing/Page/Resubscribe.tpl
+msgid "Resubscribe"
+msgstr "Opnieuw aanmelden"
+
 #: CRM/Mailing/Menu.php templates/CRM/Mailing/Page/Optout.tpl
 msgid "Optout"
 msgstr "Optout"
@@ -2786,6 +2289,10 @@ msgstr "%1 %%StatusMessage%%"
 #: CRM/Mailing/Selector/Event.php
 msgid "Bounce Type"
 msgstr "Type weigering"
+
+#: CRM/Mailing/Selector/Event.php
+msgid "Bounce Reason"
+msgstr "reden terugsturen"
 
 #: CRM/Mailing/Selector/Event.php templates/CRM/Mailing/Page/Report.tpl
 msgid "URL"
@@ -2922,108 +2429,6 @@ msgstr "Einddatum - Van"
 #: CRM/Member/BAO/Query.php
 msgid "Find Test Memberships?"
 msgstr "Zoek test lidmaatschappen?"
-
-#: CRM/Member/DAO/MembershipBlock.php
-msgid "Membership Type Default"
-msgstr "Lidmaatschap standaardtype"
-
-#: CRM/Member/DAO/MembershipBlock.php
-msgid "Display Min Fee"
-msgstr "Toon minimum bijdrage"
-
-#: CRM/Member/DAO/MembershipBlock.php
-msgid "New Title"
-msgstr "Nieuwe Titel"
-
-#: CRM/Member/DAO/MembershipBlock.php
-msgid "New Text"
-msgstr "Nieuwe Tekst"
-
-#: CRM/Member/DAO/MembershipBlock.php
-msgid "Renewal Title"
-msgstr "Titel Verlenging"
-
-#: CRM/Member/DAO/MembershipBlock.php
-msgid "Renewal Text"
-msgstr "Verlenging Tekst"
-
-#: CRM/Member/DAO/MembershipBlock.php
-msgid "Is Required"
-msgstr "Is verplicht"
-
-#: CRM/Member/DAO/MembershipLog.php
-msgid "Membership Change Date"
-msgstr "Aanpassingsdatum lidmaatschap"
-
-#: CRM/Member/DAO/MembershipLog.php
-msgid "Renewal Reminder Date"
-msgstr "Verlenging Herinneringsdatum"
-
-#: CRM/Member/DAO/Membership.php
-msgid "Membership ID (match to membership)"
-msgstr ""
-
-#: CRM/Member/DAO/Membership.php
-#: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
-#: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
-msgid "Membership Start Date"
-msgstr "Lidmaatschap startdatum"
-
-#: CRM/Member/DAO/Membership.php
-msgid "Membership Expiration Date"
-msgstr "Lidmaatschap Verloopdatum"
-
-#: CRM/Member/DAO/Membership.php
-msgid "Status Override"
-msgstr "Status handmatig instellen?"
-
-#: CRM/Member/DAO/Membership.php
-msgid "Reminder Date"
-msgstr "Herinneringsdatum"
-
-#: CRM/Member/DAO/MembershipStatus.php
-msgid "Start Event Adjust Unit"
-msgstr ""
-
-#: CRM/Member/DAO/MembershipStatus.php
-msgid "End Event Adjust Unit"
-msgstr ""
-
-#: CRM/Member/DAO/MembershipStatus.php
-msgid "Admin Assigned Only?"
-msgstr ""
-
-#: CRM/Member/DAO/MembershipStatus.php
-msgid "Default Status?"
-msgstr "Standaard status?"
-
-#: CRM/Member/DAO/MembershipStatus.php
-msgid "start_date"
-msgstr "start_datum"
-
-#: CRM/Member/DAO/MembershipStatus.php
-msgid "end_date"
-msgstr "eind_datum"
-
-#: CRM/Member/DAO/MembershipStatus.php
-msgid "join_date"
-msgstr "lid sinds"
-
-#: CRM/Member/DAO/MembershipType.php
-msgid "Visible"
-msgstr "Zichtbaar"
-
-#: CRM/Member/DAO/MembershipType.php
-msgid "Receipt Text Signup"
-msgstr "Ontvangstbericht aanmelden"
-
-#: CRM/Member/DAO/MembershipType.php
-msgid "Receipt Text Renewal"
-msgstr "Ontvangstbericht verlengen"
-
-#: CRM/Member/DAO/MembershipType.php
-msgid "lifetime"
-msgstr "levensduur"
 
 #: CRM/Member/Form/MembershipBlock.php
 msgid "Membership Section Enabled?"
@@ -3182,12 +2587,34 @@ msgid ""
 msgstr "Een lidmaatschapstatus met deze naam bestaat al. Kies een andere naam."
 
 #: CRM/Member/Form/MembershipStatus.php
+#: templates/CRM/Member/Page/MembershipStatus.tpl
+msgid "Start Event"
+msgstr "Start Evenement"
+
+#: CRM/Member/Form/MembershipStatus.php
 msgid "Start Event Adjustment"
 msgstr ""
 
 #: CRM/Member/Form/MembershipStatus.php
+msgid "Start Event Adjust Interval"
+msgstr "Start Evenement aanpassen interval"
+
+#: CRM/Member/Form/MembershipStatus.php
+#: templates/CRM/Member/Page/MembershipStatus.tpl
+msgid "End Event"
+msgstr "Einde Evenement"
+
+#: CRM/Member/Form/MembershipStatus.php
 msgid "End Event Adjustment"
 msgstr ""
+
+#: CRM/Member/Form/MembershipStatus.php
+msgid "End Event Adjust Interval"
+msgstr "Eind Evenement aanpassen interval"
+
+#: CRM/Member/Form/MembershipStatus.php
+msgid "Current Membership?"
+msgstr "Huidig lidmaatschap?"
 
 #: CRM/Member/Form/MembershipStatus.php
 msgid "Administrator Only?"
@@ -3211,12 +2638,24 @@ msgid "Please enter a monetary value for the Minimum Fee."
 msgstr "Voer een bedrag in voor de minimale bijdrage."
 
 #: CRM/Member/Form/MembershipType.php
+msgid "Duration Interval"
+msgstr "Periode Interval"
+
+#: CRM/Member/Form/MembershipType.php
 msgid "Membership Organization"
 msgstr "Leden Organisatie"
 
 #: CRM/Member/Form/MembershipType.php
+msgid "Fixed Period Rollover Day"
+msgstr "vaste periode betaaldag"
+
+#: CRM/Member/Form/MembershipType.php
 msgid "Renewal Reminder Message"
 msgstr "Verlenging Herinneringsbericht"
+
+#: CRM/Member/Form/MembershipType.php
+msgid "Renewal Reminder Day"
+msgstr "Verlenging herinneringsdatum"
 
 #: CRM/Member/Form/MembershipType.php
 msgid "Change"
@@ -3344,6 +2783,10 @@ msgstr "Schakel type lidmaatschap in"
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid "Delete Membership Type"
 msgstr "Verwijder Type Lidmaatschap"
+
+#: CRM/Member/Selector/Search.php templates/CRM/Member/Form/Task/Print.tpl
+msgid "Member Since"
+msgstr "lid sinds"
 
 #: CRM/Member/Selector/Search.php
 msgid "CiviCRM Member Search"
@@ -4235,6 +3678,11 @@ msgstr "Lidmaatschap Informatie"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
+msgid "Membership Start Date"
+msgstr "Lidmaatschap startdatum"
+
+#: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
+#: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
 #: templates/CRM/Member/Form/MembershipRenewal.tpl
 msgid "Membership End Date"
 msgstr "Lidmaatschap Einddatum"
@@ -4682,6 +4130,13 @@ msgstr ""
 #: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
 msgid "Please print this confirmation for your records."
 msgstr "Druk deze bevestiging af voor uw administratie."
+
+#: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
+#: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
+#: templates/CRM/Event/Form/Registration/Confirm.tpl
+#: templates/CRM/Event/Form/Registration/ThankYou.tpl
+msgid "Event Information"
+msgstr "Evenement Informatie"
 
 #: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
 msgid "Registration Date"
@@ -5749,6 +5204,18 @@ msgid "Item"
 msgstr "Item"
 
 #: templates/CRM/Event/Form/ParticipantView.tpl
+#: templates/CRM/Event/Form/Registration/LineItem.tpl
+#: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
+msgid "Qty"
+msgstr ""
+
+#: templates/CRM/Event/Form/ParticipantView.tpl
+#: templates/CRM/Event/Form/Registration/LineItem.tpl
+#, fuzzy
+msgid "Unit Price"
+msgstr "Totaalprijs"
+
+#: templates/CRM/Event/Form/ParticipantView.tpl
 msgid "Event Level"
 msgstr "Evenement Niveau"
 
@@ -6224,6 +5691,11 @@ msgstr ""
 "strong> om uw selecties te controleren."
 
 #: templates/CRM/Mailing/Form/Settings.tpl
+#, fuzzy
+msgid "Tracking"
+msgstr "URL tracking"
+
+#: templates/CRM/Mailing/Form/Settings.tpl
 msgid ""
 "Track the number of times recipients click each link in this mailing. NOTE: "
 "When this feature is enabled, all links in the message body will be "
@@ -6423,6 +5895,10 @@ msgid ""
 msgstr ""
 "Er zijn nog geen Mailings. U kunt er een <a href='%1'>aanmaken en versturen</"
 "a>."
+
+#: templates/CRM/Mailing/Page/Component.tpl
+msgid "Body Text"
+msgstr "body text"
 
 #: templates/CRM/Mailing/Page/Component.tpl
 msgid "Body HTML"
@@ -7298,6 +6774,363 @@ msgid ""
 "There are no membership types entered. You can <a href='%1'>add one</a>."
 msgstr ""
 "Er is nog geen lidmaatschapstype. U kunt er een <a href='%1'>toevoegen</a>."
+
+#~ msgid "Pay Later Text"
+#~ msgstr "Tekst later betalen"
+
+#~ msgid "Pay Later Receipt"
+#~ msgstr "Ontvangstbewijs later betalen"
+
+#~ msgid "Receipt Text"
+#~ msgstr "Ontvangstbewijs Tekst"
+
+#~ msgid "Cancel Date"
+#~ msgstr "opzegdatum"
+
+#~ msgid "Frequency Interval"
+#~ msgstr "interval frequentie"
+
+#~ msgid "week"
+#~ msgstr "week"
+
+#~ msgid "Body Html"
+#~ msgstr "body html"
+
+#~ msgid "Time Stamp"
+#~ msgstr "tijdstempel"
+
+#~ msgid "Intro Text"
+#~ msgstr "Introductietekst"
+
+#~ msgid "Thank-you Text"
+#~ msgstr "Tekst Dank bericht"
+
+#~ msgid "Thank-you Footer"
+#~ msgstr "Bedankbericht voet"
+
+#~ msgid "Cc Receipt"
+#~ msgstr "Cc ontvangstbewijs"
+
+#~ msgid "Bcc Receipt"
+#~ msgstr "Bcc Ontvangstbewijs"
+
+#~ msgid "Honor Block Title"
+#~ msgstr "Titel Eerblok"
+
+#~ msgid "Honor Block Text"
+#~ msgstr "Eer Blok Tekst"
+
+#~ msgid "Contribution Page Start Date"
+#~ msgstr "Bijdrage pagina startdatum"
+
+#~ msgid "Contribution Page End Date"
+#~ msgstr "Bijdrage pagina einddatum"
+
+#~ msgid "Contribution ID (match to contribution)"
+#~ msgstr "Contribution ID (koppeling met bijdrage)"
+
+#~ msgid "Solicitor ID"
+#~ msgstr "Solicitor ID"
+
+#~ msgid "Receive Date"
+#~ msgstr "Ontvangstdatum"
+
+#~ msgid "Cancel Reason"
+#~ msgstr "Reden voor opzeggen"
+
+#~ msgid "Thank-you Date"
+#~ msgstr "Datum Dank bericht"
+
+#~ msgid "Amount Label"
+#~ msgstr "Bedrag label"
+
+#~ msgid "Product Option"
+#~ msgstr "Product Optie"
+
+#~ msgid "Quantity"
+#~ msgstr "Aantal"
+
+#~ msgid "Fulfilled Date"
+#~ msgstr "Afrondingsdatum"
+
+#~ msgid "Comment"
+#~ msgstr "Opmerking"
+
+#~ msgid "Installments"
+#~ msgstr "Termijn"
+
+#~ msgid "Create Date"
+#~ msgstr "Aanmaakdatum"
+
+#~ msgid "Recurring Contribution Status"
+#~ msgstr "Periodieke bijdrage status"
+
+#~ msgid "Cycle Day"
+#~ msgstr "Datum cyclus"
+
+#~ msgid "Next Sched Contribution"
+#~ msgstr "Volgende geplande bijdrage"
+
+#~ msgid "Failure Count"
+#~ msgstr "Aantal fouten"
+
+#~ msgid "Failure Retry Date"
+#~ msgstr "Herhaal datum fouten"
+
+#~ msgid "Auto Renew"
+#~ msgstr "Automatische vernieuwing"
+
+#~ msgid "Trxn Date"
+#~ msgstr "Trxn Datum"
+
+#~ msgid "Trxn Type"
+#~ msgstr "Trxn Type"
+
+#~ msgid "Trxn Result Code"
+#~ msgstr "Trxn resultaat code"
+
+#~ msgid "Debit"
+#~ msgstr "Tegoed"
+
+#~ msgid "Credit"
+#~ msgstr "Te betalen"
+
+#~ msgid "Premiums Active"
+#~ msgstr "Actieve Relatiegeschenken"
+
+#~ msgid "Title for Premiums section"
+#~ msgstr "Titel sectie relatiegeschenken"
+
+#~ msgid "Premiums Intro Text"
+#~ msgstr "Introductie relatiegeschenken"
+
+#~ msgid "Premiums Contact Email"
+#~ msgstr "Email contact relatiegeschenken"
+
+#~ msgid "Premiums Contact Phone"
+#~ msgstr "Telefoon contact relatiegeschenken"
+
+#~ msgid "Premiums Display Min Contribution"
+#~ msgstr "Minimale bijdrage voor tonen relatiegeschenken"
+
+#~ msgid "Product Name"
+#~ msgstr "Product Naam"
+
+#~ msgid "Thumbnail"
+#~ msgstr "Klein plaatje"
+
+#~ msgid "Minimum Contribution"
+#~ msgstr "Minimale Bijdrage"
+
+#~ msgid "Cost"
+#~ msgstr "Kosten"
+
+#~ msgid "Url Logo"
+#~ msgstr "Url Logo"
+
+#~ msgid "Url Homepage"
+#~ msgstr "Url Homepage"
+
+#~ msgid "Confirmation Title"
+#~ msgstr "Bevestigingstitel"
+
+#~ msgid "Confirm Text"
+#~ msgstr "Bevestigingstekst"
+
+#~ msgid "Is confirm email"
+#~ msgstr "Is e-mail ter bevestiging"
+
+#~ msgid "Confirmation Email Text"
+#~ msgstr "Tekst Email Bevestiging"
+
+#~ msgid "Cc Confirm"
+#~ msgstr "Cc Bevestiging"
+
+#~ msgid "Bcc Confirm"
+#~ msgstr "Bcc Bevestiging"
+
+#~ msgid "ThankYou Title"
+#~ msgstr "Titel voor Bedankbericht"
+
+#~ msgid "ThankYou Text"
+#~ msgstr "Bedanktekst"
+
+#~ msgid "Event Description"
+#~ msgstr "Evenement Beschrijving"
+
+#~ msgid "Event Type ID"
+#~ msgstr "Evenement Type ID"
+
+#~ msgid "Participant Listing ID"
+#~ msgstr "Deelnemerslijst ID"
+
+#~ msgid "Is Event Public"
+#~ msgstr "Is het evenement openbaar?"
+
+#~ msgid "Event Start Date"
+#~ msgstr "Evenement startdatum"
+
+#~ msgid "Event End Date"
+#~ msgstr "Evenement einddatum"
+
+#~ msgid "Is Online Registration"
+#~ msgstr "Is online registratie"
+
+#~ msgid "Event Registration Link Text"
+#~ msgstr "Evenement registratie link tekst"
+
+#~ msgid "show location"
+#~ msgstr "Toon Locatie"
+
+#~ msgid "Payment ID"
+#~ msgstr "Betalings ID"
+
+#~ msgid "Register date"
+#~ msgstr "Registratie datum"
+
+#~ msgid "Pattern"
+#~ msgstr "Patroon"
+
+#~ msgid "Hold Threshold"
+#~ msgstr "Drempelwaarde"
+
+#~ msgid "AOL"
+#~ msgstr "AOL"
+
+#~ msgid "Away"
+#~ msgstr "weg"
+
+#~ msgid "DNS"
+#~ msgstr "DNS"
+
+#~ msgid "Invalid"
+#~ msgstr "Ongeldig"
+
+#~ msgid "Loop"
+#~ msgstr "Lus"
+
+#~ msgid "Quota"
+#~ msgstr "Quota"
+
+#~ msgid "Relay"
+#~ msgstr "Doorgeven"
+
+#~ msgid "Spam"
+#~ msgstr "Spam"
+
+#~ msgid "Syntax"
+#~ msgstr "Syntax"
+
+#~ msgid "Component Name"
+#~ msgstr "Naam van de component"
+
+#~ msgid "Welcome"
+#~ msgstr "Welkom"
+
+#~ msgid "OptOut"
+#~ msgstr "OptOut"
+
+#~ msgid "Include"
+#~ msgstr "inclusief"
+
+#~ msgid "Exclude"
+#~ msgstr "exclusief"
+
+#~ msgid "From Name"
+#~ msgstr "Van  naam"
+
+#~ msgid "From Email"
+#~ msgstr "Van Email"
+
+#~ msgid "Replyto Email"
+#~ msgstr "Antwoord email"
+
+#~ msgid "Forward Replies"
+#~ msgstr "Doorsturen antwoorden"
+
+#~ msgid "Auto Responder"
+#~ msgstr "Automatische beantwoorder"
+
+#~ msgid "Open Tracking"
+#~ msgstr "Open tracking"
+
+#~ msgid "Recipient Email"
+#~ msgstr "E-mail Ontvangstbewijs"
+
+#~ msgid "Headers"
+#~ msgstr "Kopregels"
+
+#~ msgid "Body"
+#~ msgstr "Body"
+
+#~ msgid "Added At"
+#~ msgstr "Toegevoegd op"
+
+#~ msgid "Removed At"
+#~ msgstr "Verwijderd op"
+
+#~ msgid "Url"
+#~ msgstr "Url"
+
+#~ msgid "Org Unsubscribe"
+#~ msgstr "Organisatie afmelden"
+
+#~ msgid "Membership Type Default"
+#~ msgstr "Lidmaatschap standaardtype"
+
+#~ msgid "New Title"
+#~ msgstr "Nieuwe Titel"
+
+#~ msgid "New Text"
+#~ msgstr "Nieuwe Tekst"
+
+#~ msgid "Renewal Title"
+#~ msgstr "Titel Verlenging"
+
+#~ msgid "Renewal Text"
+#~ msgstr "Verlenging Tekst"
+
+#~ msgid "Is Required"
+#~ msgstr "Is verplicht"
+
+#~ msgid "Membership Change Date"
+#~ msgstr "Aanpassingsdatum lidmaatschap"
+
+#~ msgid "Renewal Reminder Date"
+#~ msgstr "Verlenging Herinneringsdatum"
+
+#~ msgid "Membership Expiration Date"
+#~ msgstr "Lidmaatschap Verloopdatum"
+
+#~ msgid "Status Override"
+#~ msgstr "Status handmatig instellen?"
+
+#~ msgid "Reminder Date"
+#~ msgstr "Herinneringsdatum"
+
+#~ msgid "Default Status?"
+#~ msgstr "Standaard status?"
+
+#~ msgid "start_date"
+#~ msgstr "start_datum"
+
+#~ msgid "end_date"
+#~ msgstr "eind_datum"
+
+#~ msgid "join_date"
+#~ msgstr "lid sinds"
+
+#~ msgid "Visible"
+#~ msgstr "Zichtbaar"
+
+#~ msgid "Receipt Text Signup"
+#~ msgstr "Ontvangstbericht aanmelden"
+
+#~ msgid "Receipt Text Renewal"
+#~ msgstr "Ontvangstbericht verlengen"
+
+#~ msgid "lifetime"
+#~ msgstr "levensduur"
 
 #~ msgid ""
 #~ "Page title can not be longer than 255 characters and must consist of "
