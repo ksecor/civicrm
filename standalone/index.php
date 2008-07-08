@@ -1,18 +1,10 @@
 <?php
 function invoke() {
-    session_start();
-    
-    // Pull in the settings file & Instantiate the config so that the DB connection will fire up
-    require_once '../civicrm.config.php';
-    require_once 'CRM/Core/Config.php';
-    $config  =& CRM_Core_Config::singleton( );
-    
-    require_once 'CRM/Core/Session.php';
-    $session =& CRM_Core_Session::singleton( );
+    require_once 'bootstrap_common.php';
     
     // display error if any
     showError( $error, $session );
-
+    
     $urlVar = $config->userFrameworkURLVar;
     if ( !isset( $_GET[$urlVar] ) ) {
         $_GET[$urlVar] = '';
@@ -49,13 +41,6 @@ function invoke() {
 }
 
 function showError( &$error, &$session ) {
-    // Check for errors in the session
-    if ($session->get('error')) {
-        print $session->get('error');
-        $session->set('error',null);
-        $gotError = true;
-    }
-    
     // display errors if any
     if ( !empty( $error ) ) {
         print "<div class=\"error\">$error</div>\n";

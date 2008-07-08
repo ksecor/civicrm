@@ -29,9 +29,8 @@ function run() {
         if ( count($contactIds) > 0 ) {
             displayError("Authentication error; not a valid OpenID.");
         } else {
-            //displayError("Authentication error; not a valid
-            //OpenID.");
-            header("Location: new_install.php"); 
+            $session->set( 'new_install', true );
+            include('new_install.html');
             exit(1);
         }
     }

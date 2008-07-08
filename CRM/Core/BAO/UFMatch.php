@@ -84,7 +84,7 @@ WHERE     openid = %1";
             $result = $dao->getDatabaseResult( );
             if ( $result ) {
                 $row = $result->fetchRow( );
-                if ( $row ) {
+                if ( isset($row['uf_id']) ) {
                     $user->$key = $row['uf_id'];
                 }
             }
