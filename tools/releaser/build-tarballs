@@ -44,8 +44,10 @@ cd $workdir/$version/export/distmaker
 
 # publish to sf.net
 cd $workdir/$version/tarballs
-rsync -aP *.tar.gz *.zip civicrm@frs.sf.net:uploads
-mv *.tar.gz *.zip $workdir
+$md5sum *.tar.gz *.zip > $version.MD5SUMS
+echo $gpg_pass | $gpg -ac --batch --passphrase-fd 0 $version.MD5SUMS
+$rsync -aP *.tar.gz *.zip *MD5SUMS* civicrm@frs.sf.net:uploads
+mv *.tar.gz *.zip *MD5SUMS* $workdir
 if [ "`echo -n $version | tr -d 0-9.`" = '' ]; then
   cd `dirname $0`/release-stable
 else

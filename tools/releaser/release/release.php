@@ -20,6 +20,8 @@ ini_set('include_path', dirname(__FILE__) . '/PEAR:' . ini_get('include_path'));
 require_once "HTTP/Client.php";
 
 $filetypes = array(
+    ".MD5SUMS" => true,
+    ".asc" => true,
     ".gz" => true,
     ".bz2" => true,
     ".zip" => true
