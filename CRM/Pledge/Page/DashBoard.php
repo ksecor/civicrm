@@ -71,8 +71,6 @@ class CRM_Pledge_Page_DashBoard extends CRM_Core_Page
         $prefixes = array( 'start', 'month', 'year' , 'previous' );
         $status   = array( 'Valid', 'Cancelled', 'Pending', 'Overdue' );
         
-        $yearNow = $yearDate + 10000;
-        $yearNow .= '000000';
         $yearDate  = $yearDate  . '000000';
         
         $previousDate = CRM_Utils_Date::customFormat(date( "Y-m-d", mktime(0, 0, 0, date("m")-1,01,date("Y"))) , '%Y%m%d').'000000';
@@ -90,10 +88,7 @@ class CRM_Pledge_Page_DashBoard extends CRM_Core_Page
         foreach ( $prefixes as $prefix ) {
             $aName = $prefix . 'ToDate';
             $dName = $prefix . 'Date';
-            
-            if ( $prefix == 'year') {
-                $now  = $yearNow;
-            }
+                      
             if ( $prefix == 'previous' ) {
                 $now  = $previousDateEnd;
             }
@@ -103,6 +98,7 @@ class CRM_Pledge_Page_DashBoard extends CRM_Core_Page
                                                               "reset=1&force=1&status=1&start={$$dName}&end=$now&test=0");
             }
             $this->assign( $aName, $$aName );
+            CRM_Core_Error::debug( $aName, $$aName );
         }
         $admin = CRM_Core_Permission::check( 'access Pledge' );
         $this->assign( 'pledgeAdmin', $admin );
