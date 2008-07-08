@@ -133,3 +133,16 @@ WHERE  entity_id = $contactID
         $where .= ' OR (' . implode( ' OR ', $clauses ) . ')';
     }
 }
+
+function civitest_civicrm_dashboard( $contactID ) {
+    return array( 'Custom Content' => "Here is some custom content: $contactID",
+                  'Custom Table' => "
+<table>
+<tr><th>Contact Name</th><th>Date</th></tr>
+<tr><td>Foo</td><td>Bar</td></tr>
+<tr><td>Goo</td><td>Tar</td></tr>
+</table>
+",
+                  );
+
+}

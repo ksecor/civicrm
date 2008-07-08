@@ -107,6 +107,13 @@ class CRM_Contact_Page_View_DashBoard extends CRM_Contact_Page_View
                                CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $uid ),
                                $contactImage,$uid );
         
+        // call hook to get html from other modules
+        require_once 'CRM/Utils/Hook.php';
+        $html = CRM_Utils_Hook::dashboard( $uid );
+        if ( is_array( $html ) ) {
+            $this->assign_by_ref( 'hookContent', $html );
+        }
+
     }
     
     /**

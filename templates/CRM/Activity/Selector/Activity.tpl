@@ -80,9 +80,6 @@
   {include file="CRM/common/pager.tpl" location="bottom"}
   </form>
 
-</fieldset>
-</div>
-
 {else}
 
   <div class="messages status">
@@ -96,3 +93,7 @@
   </div>
 
 {/if}
+
+</fieldset>
+</div>
+
