@@ -478,88 +478,7 @@ SELECT $select
     }
 
 
-    /**
-     * Update custom data.
-     *
-     *  - custom data is modified as follows
-     *    - if custom data is changed it's updated.
-     *    - if custom data is newly entered in field, it's inserted into db, finally
-     *    - if existing custom data is cleared, it is deleted from the table.
-     *
-     * @param  array  &$groupTree - array of all custom groups, fields and values.
-     * @param  string $entityType - type of entity being extended
-     * @param  int    $entityId   - id of the contact whose custom data is to be updated
-     * @return void
-     *
-     * @access public
-     * @static
-     *
-     */
-    public static function updateCustomData(&$groupTree, $entityType, $entityId)
-    {
-        $tableName = self::_getTableName($entityType);
-        $update = array( );
-        foreach ( $groupTree as $groupID => $group ) {
-            if ( $groupID === 'info' ) {
-                continue;
-            }
-            $table = $groupTree[$groupID]['table_name'];
-            foreach ( $group['fields'] as $fieldID => $field ) {
-                // ignore view fields in update
-                if ( $field['is_view'] ) {
-                    continue;
-                }
-
-                if ( isset( $field['customValue'] ) ) {
-                    $column    = $groupTree[$groupID]['fields'][$fieldID]['column_name'];
-                    $update[] = "{$table}.{$column} = '{$field['customValue']['data']}'";
-                }
-            }
-
-            $sql = "
-SELECT entity_id 
-FROM   {$table} 
-WHERE  {$table}.entity_id = {$entityId}";
-            $recordExists =& CRM_Core_DAO::singleValueQuery( $sql );
-            if ( ! empty( $update ) ) {
-                $tables = implode( ', ', $groupTree['info']['from'] );
-                $hookOP = null;
-                if ( $groupTree['info']['where' ] ) {
-                    if( $recordExists ) {
-                        $sqlOP = 'UPDATE';
-                        $where = ' WHERE ' . implode( ', ', $groupTree['info']['where' ] );
-                        $hookOP = 'edit';
-                    } else {
-                        $sqlOP = 'INSERT INTO';
-                        $where  = null;
-                        $update[] = "{$table}.entity_id = '{$entityId}'";
-                        $hookOP = 'create';
-                    }
-                } else {
-                    $sqlOP  = 'SELECT';
-                    $where  = null;
-                }
-                $update = implode( ', ', $update );
-
-                if ( $hookOP ) {
-                    require_once 'CRM/Utils/Hook.php';
-                    CRM_Utils_Hook::custom( $hookOP,
-                                            $groupID,
-                                            $entityId,
-                                            $group['fields'] );
-                }
-
-                $query = "
-$sqlOP $tables
-   SET $update
-$where       
-";
-                $dao = CRM_Core_DAO::executeQuery( $query );
-            }
-        }
-    }
-
-
+   
     /**
      * Get the group title.
      *
@@ -715,7 +634,7 @@ $where
     public static function &getActiveGroups( $entityType, $path, $cidToken = '%%cid%%' ) {
         // for Group's
         $customGroupDAO =& new CRM_Core_DAO_CustomGroup();
-
+       
         // get only 'Tab' groups
         $customGroupDAO->whereAdd("style = 'Tab'");
         $customGroupDAO->whereAdd("is_active = 1");
@@ -725,15 +644,15 @@ $where
 
         $groups = array( );
 
-        $permissionClause = CRM_Core_Permission::customGroupClause( );
+        $permissionClause = CRM_Core_Permission::customGroupClause( null, null, true );
         $customGroupDAO->whereAdd( $permissionClause );
         
         // order by weight
         $customGroupDAO->orderBy('weight');
         $customGroupDAO->find();
-
+        
         // process each group with menu tab
-        while ($customGroupDAO->fetch( ) ) {
+        while ($customGroupDAO->fetch( ) ) { 
             $group = array();
             $group['id']      = $customGroupDAO->id;
             $group['path']    = $path;
@@ -742,7 +661,7 @@ $where
             $group['extra' ]  = array( 'gid' => $customGroupDAO->id );
             $groups[] = $group;
         }
-     
+       
         return $groups;
     }
 

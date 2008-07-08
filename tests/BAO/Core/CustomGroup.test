@@ -49,13 +49,14 @@ class BAO_Core_CustomGroup extends CiviTestCase
         
         require_once 'CRM/Core/BAO/CustomGroup.php';
         $getTree = CRM_Core_BAO_CustomGroup::getTree('Individual', null, $customGroupId );
-        
+              
         $dbCustomGroupTitle = $this->assertDBNotNull( 'CRM_Core_DAO_CustomGroup', $customGroupId, 'title', 'id',
                                                       'Database check for custom group record.' );
-
+        
         Custom::deleteField( $customField );        
         Custom::deleteGroup( $customGroup );
         Contact::delete( $contactId );
+        $customGroup->free();
     }
     
     /**
@@ -330,5 +331,57 @@ class BAO_Core_CustomGroup extends CiviTestCase
         Custom::deleteField( $customField ); 
         Custom::deleteGroup( $customGroup );
     }
-    
+   
+    function testGetActiveGroups()
+    {
+        $contactId = Contact::createIndividual( );
+        $customGrouptitle = 'Test Custom Group';
+        $groupParams = array(
+                             'title'      => $customGrouptitle,
+                             'name'       => 'test_custom_group',
+                             'style'      => 'Tab',
+                             'extends'    => 'Individual',
+                             'weight'     => 10,
+                             'is_active'  => 1
+                             );
+
+       
+        $customGroup = Custom::createGroup( $groupParams );
+        require_once 'CRM/Core/BAO/CustomGroup.php';
+        $activeGroup = CRM_Core_BAO_CustomGroup::getActiveGroups('Individual', 'civicrm/contact/view/cd', $contactId );
+        foreach ( $activeGroup as $key => $value ) {
+            if ( $value['id'] == $customGroup->id ) {
+                $this->assertEqual( $value['path'] ,'civicrm/contact/view/cd' );
+                $this->assertEqual( $value['title'] , $customGrouptitle );
+                $query = 'reset=1&gid='.$customGroup->id.'&cid='.$contactId;
+                $this->assertEqual( $value['query'] , $query );
+            } 
+        } 
+        
+        Custom::deleteGroup( $customGroup );
+        Contact::delete( $contactId );
+
+    }
+
+    function testCreate( )
+    {
+
+        $params = array( 'title'            => 'Test_Group_1',
+                         'name'             => 'test_group_1',
+                         'extends'          => array('Individual'),
+                         'weight'           => 4,
+                         'collapse_display' => 1,
+                         'style'            => 'Inline',
+                         'help_pre'         => 'This is Pre Help For Test Group 1',
+                         'help_post'        => 'This is Post Help For Test Group 1',
+                         'is_active'        => 1
+                         );
+        require_once 'CRM/Core/BAO/CustomGroup.php';
+        $customGroup =  CRM_Core_BAO_CustomGroup::create( $params );
+
+        $dbCustomGroupTitle = $this->assertDBNotNull( 'CRM_Core_DAO_CustomGroup', $customGroup->id, 'title', 'id',
+                                                      'Database check for custom group record.' );
+        $this->assertEqual( $params['title'], $dbCustomGroupTitle );
+        Custom::deleteGroup( $customGroup );
+    } 
 }
