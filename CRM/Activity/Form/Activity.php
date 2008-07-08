@@ -596,7 +596,7 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
         $activity = CRM_Activity_BAO_Activity::create( $params );
 
         // add case activity
-        if ( $this->_viewOptions['Cases'] ) {
+        if ( $this->_viewOptions['CiviCase'] ) {
             require_once 'CRM/Case/BAO/Case.php';
             $caseParams['activity_id'] = $activity->id;
             $caseParams['subject'    ] = $params['case_subject'];
