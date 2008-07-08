@@ -87,6 +87,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup
         if ( isset( $params['id'] ) ) {
             $oldWeight = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup', $params['id'], 'weight', 'id' );
         }
+        require_once 'CRM/Utils/Weight.php';
         $group->weight =
             CRM_Utils_Weight::updateOtherWeights('CRM_Core_DAO_CustomGroup', $oldWeight, $params['weight']);
 
