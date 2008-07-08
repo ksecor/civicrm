@@ -33,13 +33,8 @@
  *
  */
 
-/**
- * Files required
- */
-
 require_once 'CRM/Pledge/Selector/Search.php';
 require_once 'CRM/Core/Selector/Controller.php';
-
 
 /**
  * This file is for Pledge search
@@ -317,6 +312,7 @@ class CRM_Pledge_Form_Search extends CRM_Core_Form
         $this->_done = true;
         
         $this->_formValues = $this->controller->exportValues($this->_name);
+
         $this->fixFormValues( );
         
         // we don't show test contributions in Contact Summary / User Dashboard
@@ -440,8 +436,27 @@ class CRM_Pledge_Form_Search extends CRM_Core_Form
 
     function fixFormValues( )
     {
-        $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
+        if ( ! $this->_force ) {
+            return;
+        }
 
+        $fromDate = CRM_Utils_Request::retrieve( 'start', 'Date',
+                                                 CRM_Core_DAO::$_nullObject );
+        if ( $fromDate ) {
+            $date = CRM_Utils_Date::unformat( $fromDate, '' );
+            $this->_formValues['pledge_start_date_low'] = $date;
+            $this->_defaults['pledge_start_date_low'] = $date;
+        }
+
+        $toDate= CRM_Utils_Request::retrieve( 'end', 'Date',
+                                              CRM_Core_DAO::$_nullObject );
+        if ( $toDate ) { 
+            $date = CRM_Utils_Date::unformat( $toDate, '' );
+            $this->_formValues['pledge_end_date_high'] = $date;
+            $this->_defaults['pledge_end_date_high'] = $date;
+        }
+
+        $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
         if ( $cid ) {
             $cid = CRM_Utils_Type::escape( $cid, 'Integer' );
             if ( $cid > 0 ) {
