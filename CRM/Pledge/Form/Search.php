@@ -440,6 +440,13 @@ class CRM_Pledge_Form_Search extends CRM_Core_Form
             return;
         }
 
+        $status = CRM_Utils_Request::retrieve( 'status', 'String',
+                                               CRM_Core_DAO::$_nullObject );
+        if ( $status ) {
+            $this->_formValues['pledge_status_id'] = array( $status => 1);
+            $this->_defaults['pledge_status_id']   = array( $status => 1);
+        }
+
         $fromDate = CRM_Utils_Request::retrieve( 'start', 'Date',
                                                  CRM_Core_DAO::$_nullObject );
         if ( $fromDate ) {
