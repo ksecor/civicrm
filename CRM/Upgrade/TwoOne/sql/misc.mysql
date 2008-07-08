@@ -521,3 +521,21 @@ INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (
                                                                                (5198, 1016, "15", "Al Muḩarraq"),
                                                                                (5199, 1016, "16", "Al Wusţá"),
                                                                                (5200, 1016, "17", "Ash Shamālīyah");
+
+-- Following wasn't done by 2.0 upgrade script, so adding here (also added to 2.0 script)
+
+ALTER TABLE `civicrm_loc_block`
+DROP FOREIGN KEY `FK_civicrm_loc_block_email_id`,
+DROP FOREIGN KEY `FK_civicrm_loc_block_email_2_id`,
+DROP FOREIGN KEY `FK_civicrm_loc_block_phone_id`,
+DROP FOREIGN KEY  `FK_civicrm_loc_block_phone_2_id`,
+DROP FOREIGN KEY `FK_civicrm_loc_block_im_id`,
+DROP FOREIGN KEY  `FK_civicrm_loc_block_im_2_id`;
+
+ALTER TABLE `civicrm_loc_block`
+ADD CONSTRAINT `FK_civicrm_loc_block_email_id` FOREIGN KEY (`email_id`) REFERENCES `civicrm_email` (`id`) ON DELETE SET NULL,
+ADD CONSTRAINT `FK_civicrm_loc_block_email_2_id` FOREIGN KEY (`email_2_id`) REFERENCES `civicrm_email` (`id`) ON DELETE SET NULL,
+ADD CONSTRAINT `FK_civicrm_loc_block_phone_id` FOREIGN KEY (`phone_id`) REFERENCES `civicrm_phone` (`id`) ON DELETE SET NULL,
+ADD CONSTRAINT `FK_civicrm_loc_block_phone_2_id` FOREIGN KEY (`phone_2_id`) REFERENCES `civicrm_phone` (`id`) ON DELETE SET NULL,
+ADD CONSTRAINT `FK_civicrm_loc_block_im_id` FOREIGN KEY (`im_id`) REFERENCES `civicrm_im` (`id`) ON DELETE SET NULL,
+ADD CONSTRAINT `FK_civicrm_loc_block_im_2_id` FOREIGN KEY (`im_2_id`) REFERENCES `civicrm_im` (`id`) ON DELETE SET NULL;
