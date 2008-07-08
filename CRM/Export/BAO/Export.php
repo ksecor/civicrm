@@ -58,7 +58,7 @@ class CRM_Export_BAO_Export
     static function exportComponents( $selectAll, $ids, $params, $order = null, 
                                       $fields = null, $moreReturnProperties = null, 
                                       $exportMode = CRM_Export_Form_Select::CONTACT_EXPORT,
-                                      $componentClause = null ) 
+                                      $componentClause = null )
     {
         $headerRows       = array();
         $primary          = false;
@@ -174,7 +174,7 @@ class CRM_Export_BAO_Export
         $query =& new CRM_Contact_BAO_Query( 0, $returnProperties, null, false, false, $queryMode ); 
 
         list( $select, $from, $where ) = $query->query( );
-
+        
         // make sure the groups stuff is included only if specifically specified
         // by the fields param (CRM-1969), else we limit the contacts outputted to only
         // ones that are part of a group
@@ -234,6 +234,12 @@ class CRM_Export_BAO_Export
 
             // get payment related in for event and members
             $paymentDetails = CRM_Contribute_BAO_Contribution::getContributionDetails( $exportMode, $ids );
+        }
+
+        //get the current employer name, CRM-2968.
+        if ( ( $currentEmployer || $primary ) && $exportMode == CRM_Export_Form_Select::CONTACT_EXPORT ) {
+            require_once 'CRM/Contact/BAO/Relationship.php';
+            $currentEmployer = CRM_Contact_BAO_Relationship::getCurrentEmployer( $ids );
         }
 
         $componentDetails = $headerRows = array( );
@@ -322,15 +328,7 @@ class CRM_Export_BAO_Export
 
             //get the current employer name, CRM-2968.
             if ( ( $currentEmployer || $primary ) && $exportMode == CRM_Export_Form_Select::CONTACT_EXPORT ) {
-                require_once 'CRM/Contact/BAO/Relationship.php';
-                $relationships = CRM_Contact_BAO_Relationship::getRelationship( $dao->contact_id );
-                krsort( $relationships );
-                foreach ( $relationships as $relationshipID => $value ) {
-                    if ( $value['relation'] == 'Employee of' && $value['is_active'] == 1 ) {
-                        $row['current_employer'] = $value['name'];
-                        break;
-                    }
-                }
+                $row['current_employer'] = $currentEmployer[$dao->contact_id]['org_name'];
             }
             
             // add payment related information
