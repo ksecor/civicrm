@@ -50,6 +50,82 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup
         parent::__construct( );
     }
 
+  
+   /**
+     * takes an associative array and creates a custom group object
+     *
+     * This function is invoked from within the web form layer and also from the api layer
+     *
+     * @param array $params (reference) an assoc array of name/value pairs
+     *
+     * @return object CRM_Core_DAO_CustomGroup object
+     * @access public
+     * @static
+     */
+    static function create( &$params )
+    {
+        $fieldLength =  CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'name');
+              
+        // create custom group dao, populate fields and then save.           
+        $group =& new CRM_Core_DAO_CustomGroup();
+        $group->title            = $params['title'];
+        $group->name             = CRM_Utils_String::titleToVar($params['title'], $fieldLength['maxlength'] );
+        $group->extends          = $params['extends'][0];
+
+        if ( ($params['extends'][0] == 'Relationship') && !empty($params['extends'][1])) {
+            $group->extends_entity_column_value = str_replace( array('_a_b', '_b_a'), array('', ''), $params['extends'][1]);
+        } elseif ( empty($params['extends'][1]) ) {
+            $group->extends_entity_column_value = null;
+        } else {
+            $group->extends_entity_column_value = $params['extends'][1];
+        }
+        
+        $group->style            = $params['style'];
+        $group->collapse_display = CRM_Utils_Array::value('collapse_display', $params, false);
+
+
+        if ( isset( $params['id'] ) ) {
+            $oldWeight = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup', $params['id'], 'weight', 'id' );
+        }
+        $group->weight =
+            CRM_Utils_Weight::updateOtherWeights('CRM_Core_DAO_CustomGroup', $oldWeight, $params['weight']);
+
+        $group->help_pre         = $params['help_pre'];
+        $group->help_post        = $params['help_post'];
+        $group->is_active        = CRM_Utils_Array::value('is_active'      , $params, false);
+
+        $tableName = null;
+        if ( isset( $params['id'] ) ) {
+            $group->id = $params['id'] ;
+        } else {
+            // lets create the table associated with the group and save it
+            $tableName = $group->table_name = "civicrm_value_" .
+                strtolower( CRM_Utils_String::munge( $group->title, '_', 32 ) );
+            $group->is_multiple = 0;
+        }
+        
+        // enclose the below in a transaction
+        require_once 'CRM/Core/Transaction.php';
+        $transaction = new CRM_Core_Transaction( );
+
+        $group->save();
+        if ( $tableName ) {
+            // now append group id to table name, this prevent any name conflicts
+            // like CRM-2742
+            $tableName .= "_{$group->id}";
+            $group->table_name = $tableName;
+            CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_CustomGroup',
+                                         $group->id,
+                                         'table_name',
+                                         $tableName );
+
+            // now create the table associated with this group
+            self::createTable( $group );
+        }
+        $transaction->commit( );
+        return $group;
+    }
+    
     /**
      * Takes a bunch of params that are needed to match certain criteria and
      * retrieves the relevant objects. Typically the valid params are only

@@ -277,72 +277,17 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
     {
         // get the submitted form values.
         $params = $this->controller->exportValues('Group');
-        $fieldLength =  CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomGroup', 'name');
-              
-        // create custom group dao, populate fields and then save.           
-        $group =& new CRM_Core_DAO_CustomGroup();
-        $group->title            = $params['title'];
-        $group->name             = CRM_Utils_String::titleToVar($params['title'], $fieldLength['maxlength'] );
-        $group->extends          = $params['extends'][0];
-
-        if ( ($params['extends'][0] == 'Relationship') && !empty($params['extends'][1])) {
-            $group->extends_entity_column_value = str_replace( array('_a_b', '_b_a'), array('', ''), $params['extends'][1]);
-        } elseif ( empty($params['extends'][1]) ) {
-            $group->extends_entity_column_value = null;
-        } else {
-            $group->extends_entity_column_value = $params['extends'][1];
-        }
-        
-        $group->style            = $params['style'];
-        $group->collapse_display = CRM_Utils_Array::value('collapse_display', $params, false);
-
-
-        if ($this->_id) {
-            $oldWeight = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup', $this->_id, 'weight', 'id' );
-        }
-        $group->weight =
-            CRM_Utils_Weight::updateOtherWeights('CRM_Core_DAO_CustomGroup', $oldWeight, $params['weight']);
-
-        $group->help_pre         = $params['help_pre'];
-        $group->help_post        = $params['help_post'];
-        $group->is_active        = CRM_Utils_Array::value('is_active'      , $params, false);
-
-        $tableName = null;
+   
         if ($this->_action & CRM_Core_Action::UPDATE) {
-            $group->id = $this->_id;
-        } else {
-            // lets create the table associated with the group and save it
-            $tableName = $group->table_name =
-                "civicrm_value_" .
-                strtolower( CRM_Utils_String::munge( $group->title, '_', 32 ) );
-            $group->is_multiple = 0;
-        }
+            $params['id'] = $this->_id;
+        } 
+       
+        $group = CRM_Core_BAO_CustomGroup::create( $params );
         
-        // enclose the below in a transaction
-        require_once 'CRM/Core/Transaction.php';
-        $transaction = new CRM_Core_Transaction( );
-
-        $group->save();
-        if ( $tableName ) {
-            // now append group id to table name, this prevent any name conflicts
-            // like CRM-2742
-            $tableName .= "_{$group->id}";
-            $group->table_name = $tableName;
-            CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_CustomGroup',
-                                         $group->id,
-                                         'table_name',
-                                         $tableName );
-
-            // now create the table associated with this group
-            CRM_Core_BAO_CustomGroup::createTable( $group );
-        }
-
         // reset the cache
         require_once 'CRM/Core/BAO/Cache.php';
         CRM_Core_BAO_Cache::deleteGroup( 'contact fields' );
-
-        $transaction->commit( );
-
+      
         if ($this->_action & CRM_Core_Action::UPDATE) {
             CRM_Core_Session::setStatus(ts('Your Group \'%1 \' has been saved.', array(1 => $group->title)));
         } else {
