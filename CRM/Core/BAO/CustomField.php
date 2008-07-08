@@ -99,7 +99,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
      * @static
      */
     static function create( &$params )
-        {CRM_Core_Error::debug('fdf',$params);
+    {
         if ( !isset($params['id']) && !isset($params['column_name']) ) {
             // if add mode & column_name not present, calculate it.
             require_once 'CRM/Utils/String.php';
