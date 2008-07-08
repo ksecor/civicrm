@@ -273,7 +273,7 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base
          
          // check is the user has view/edit signer permission
          $permission = CRM_Core_Permission::VIEW;
-         if ( CRM_Core_Permission::check( 'edit pledge records' ) ) {
+         if ( CRM_Core_Permission::check( 'edit pledges' ) ) {
              $permission = CRM_Core_Permission::EDIT;
          }
          
