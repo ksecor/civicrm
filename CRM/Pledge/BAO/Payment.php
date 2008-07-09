@@ -90,7 +90,6 @@ WHERE pledge_id = %1
         require_once 'CRM/Pledge/DAO/Payment.php';
         $payment =& new CRM_Pledge_DAO_Payment( );
         $isEdit = CRM_Core_DAO::getFieldValue( 'CRM_Pledge_BAO_Payment', $params['pledge_id'], 'id', 'pledge_id'); 
-
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
         
@@ -99,9 +98,8 @@ WHERE pledge_id = %1
             $params['scheduled_amount'] = ceil($params['scheduled_amount']);
             for ( $i = 1; $i <= $params['installments']; $i++ ) {
                 //calculate the scheduled amount for every installment
-                $params['scheduled_date'] = CRM_Utils_Date::DateAdd( $params['frequency_unit'], $i * $params['installments'], $scheduled_date );
-                $params['scheduled_date'] = CRM_Utils_Date::format(  $params['scheduled_date'] );
-                if ( $i == $params['installments']) {
+                $params['scheduled_date'] = CRM_Utils_Date::format( CRM_Utils_Date::DateAdd( $params['frequency_unit'], $i * $params['installments'], $scheduled_date ) );
+                if ( $i == $params['installments'] ) {
                     $params['scheduled_amount'] = $params['amount'] - ($i-1) * $params['scheduled_amount'];
                 }
              
@@ -110,6 +108,10 @@ WHERE pledge_id = %1
                     $transaction->rollback( );
                     return $payment;
                 }
+            }
+        } else {
+            if ( $params['pledge_status_id'] == array_search( 'Cancelled', CRM_Contribute_PseudoConstant::contributionStatus() ) ) { 
+                self::updatePledgePaymentStatus($params['pledge_id'],null,$params['pledge_status_id']);
             }
         }
         $transaction->commit( );
@@ -183,14 +185,14 @@ WHERE pledge_id = %1
         if ( $pledgeID ) {
             $allPayments = self::getPledgePayments( $pledgeID );   
         }
-        
+       
         //get all payment ids if not pass
         if ( empty($paymentIDs) && $pledgeID ) {
             foreach( $allPayments as $payID => $values ) {
                 $paymentIDs[] = $values['id'];
             }
         }
-        
+
         //update pledge and payment status only if
         //final contribution status is "Completed".
         if ( $contribStatus == array_search( 'Completed', $allStatus ) ) {
@@ -221,6 +223,10 @@ WHERE pledge_id = %1
                 $pledgeStatus = array_search( 'In Progress', $allStatus );
             }
             $updatePledge = true;
+        }  elseif ( $contribStatus == array_search( 'Cancelled', $allStatus ) ) {
+            $updatePayment = true;
+            $updatePledge  = false;
+            $paymentStaus  = $contribStatus;
         }
         
         //update payment status.

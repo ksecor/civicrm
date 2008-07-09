@@ -154,7 +154,6 @@ class CRM_Pledge_BAO_Pledge extends CRM_Pledge_DAO_Pledge
         $transaction = new CRM_Core_Transaction( );
         
         $pledge = self::add( $params );
-        
         if ( is_a( $pledge, 'CRM_Core_Error') ) {
             $pledge->rollback( );
             return $pledge;
@@ -165,9 +164,11 @@ class CRM_Pledge_BAO_Pledge extends CRM_Pledge_DAO_Pledge
         //building payment params
         $paymentParams = array( );
         $paymentParams['pledge_id'] = $params['id'];
+        $paymentParams['pledge_status_id'] = $params['status_id'];
         foreach (array('amount', 'installments', 'scheduled_date', 'frequency_unit') as $key) {
             $paymentParams[$key] = $params[$key];
         }
+        
         
         require_once 'CRM/Contribute/PseudoConstant.php';
         $paymentParams['status_id'] = array_search( 'Pending', 
