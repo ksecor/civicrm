@@ -164,9 +164,9 @@ class CRM_Contribute_Form_AdditionalInfo
     { 
         //PaymentReminders section
         $form->add( 'hidden', 'hidden_PaymentReminders', 1 );
-        $form->add( 'text', 'initial_reminder_day', ts('Send Initial Reminder') );
-        $form->add( 'text', 'max_reminders', ts('Send up to') );
-        $form->add( 'text', 'additional_reminder_day', ts('Send additional reminders') );
+        $form->add( 'text', 'initial_reminder_day', ts('Send Initial Reminder'), array('size'=>10) );
+        $form->add( 'text', 'max_reminders', ts('Send up to'), array('size'=>10) );
+        $form->add( 'text', 'additional_reminder_day', ts('Send additional reminders'), array('size'=>10) );
     }
     
     /** 

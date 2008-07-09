@@ -165,9 +165,10 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         if (  CRM_Utils_Array::value( 'is_test', $defaults ) ) {
             $this->assign( "is_test" , true );
         } 
-        
+        $frequencyUnit = array_search('monthly',array_keys(CRM_Core_OptionGroup::values("recur_frequency_units")));
+       
         //default values.
-        if ( !$this->_id ) {
+        if ( !$this->_id ) { 
             $now = date("Y-m-d");
             $defaults['create_date']             = $now;
             $defaults['start_date']              = $now;
@@ -176,7 +177,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             $defaults['initial_reminder_day']    = 5;
             $defaults['max_reminders']           = 1;
             $defaults['additional_reminder_day'] = 5;
-            $defaults['frequency_unit']          = array_search( 'month', CRM_Core_SelectValues::unitList());
+            $defaults['frequency_unit']          = $frequencyUnit;
             $defaults['status_id']               = array_search( 'Pending', CRM_Contribute_PseudoConstant::contributionStatus());
             $defaults['contribution_type_id']    = array_search( 'Donation', CRM_Contribute_PseudoConstant::contributionType());
         }
@@ -270,16 +271,17 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             $element->freeze( );
         }
         
-        $element =& $this->add( 'text', 'installments', ts('To be paid in'), $attributes['installments'], true );
+        $element =& $this->add( 'text', 'installments', ts('To be paid in'), $attributes['installments'], true, array('onkeyup' => "calculatedPaymentAmount( );") );
         $this->addRule('installments', ts('Please enter a valid number of installments.'), 'integer');
         if ( $this->_id ) {
             $element->freeze( );
         }
-        
+        $frequencyUnit = CRM_Core_OptionGroup::values("recur_frequency_units");
+     
         $element =& $this->add( 'select', 'frequency_unit', 
                                 ts( 'Frequency' ), 
-                                array(''=>ts( '- select -' )) + CRM_Core_SelectValues::unitList( ), 
-                                true, array( 'onkeyup' => "calculatedPaymentAmount( );"));
+                                array(''=>ts( '- select -' )) + array_keys($frequencyUnit), 
+                                true, array('onchange' => "calculatedPaymentAmount( );") );
                                 
         if ( $this->_id ) {
             $element->freeze( );
@@ -291,7 +293,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             $element->freeze( );
         }
         
-        $this->add( 'text', 'eachPaymentAmount', ts('each'), 'size=10 READONLY' );
+        $this->add( 'text', 'eachPaymentAmount', ts('each'), array('size'=>10, 'style'=> "background-color:#EBECE4", 'READONLY') );
 
         //add various dates
         $element =& $this->add('date', 'create_date', ts('Pledge Made'), CRM_Core_SelectValues::date('activityDate'));    
