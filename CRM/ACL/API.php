@@ -133,14 +133,16 @@ class CRM_ACL_API {
      * @return array the ids of the groups for which the user has permissions
      * @access public
      */
-    public static function groupPermission( $type, $groupID, $contactID = null, $tableName = 'civicrm_saved_search' ) {
+    public static function groupPermission( $type, $groupID, $contactID = null,
+                                            $tableName = 'civicrm_saved_search',
+                                            $allGroups = null ) {
         static $cache = array( );
 
         $key = "{$tableName}_{$type}_{$contactID}";
         if ( array_key_exists( $key, $cache ) ) {
             $groups =& $cache[$key];
         } else {
-            $groups =& self::group( $type, $contactID, $tableName );
+            $groups =& self::group( $type, $contactID, $tableName, $allGroups );
             $cache[$key] = $groups;
         }
 

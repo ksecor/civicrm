@@ -268,13 +268,17 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
         require_once 'CRM/ACL/API.php';
         require_once 'CRM/Core/Permission.php';
 
+        $allGroups = CRM_Core_PseudoConstant::allGroup( );
+
         if ( CRM_Core_Permission::check( 'edit all contacts' ) ||
-             CRM_ACL_API::groupPermission( CRM_ACL_API::EDIT, $id ) ) {
+             CRM_ACL_API::groupPermission( CRM_ACL_API::EDIT, $id, null,
+                                           'civicrm_saved_search', $allGroups ) ) {
             return CRM_Core_Permission::EDIT;
         }
 
         if ( CRM_Core_Permission::check( 'view all contacts' ) ||
-             CRM_ACL_API::groupPermission( CRM_ACL_API::VIEW, $id ) ) {
+             CRM_ACL_API::groupPermission( CRM_ACL_API::VIEW, $id, null,
+                                           'civicrm_saved_search', $allGroups ) ) {
             return CRM_Core_Permission::VIEW;
         }
 

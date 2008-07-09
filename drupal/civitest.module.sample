@@ -83,7 +83,7 @@ WHERE  entity_id = $entityID
  * @return string the group where clause for this user
  * @access public
  */
-function civitest_civicrm_aclClause( $type, &$tables, &$whereTables, &$contactID, &$where ) {
+function civitest_civicrm_aclWhereClause( $type, &$tables, &$whereTables, &$contactID, &$where ) {
     if ( ! $contactID ) {
         return;
     }
@@ -130,7 +130,7 @@ WHERE  entity_id = $contactID
     }
 
     if ( ! empty( $clauses ) ) {
-        $where .= ' OR (' . implode( ' OR ', $clauses ) . ')';
+        $where .= ' AND (' . implode( ' OR ', $clauses ) . ')';
     }
 }
 
