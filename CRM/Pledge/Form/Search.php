@@ -443,8 +443,8 @@ class CRM_Pledge_Form_Search extends CRM_Core_Form
         $status = CRM_Utils_Request::retrieve( 'status', 'String',
                                                CRM_Core_DAO::$_nullObject );
         if ( $status ) {
-            $this->_formValues['pledge_status_id'] = array( $status => 1);
-            $this->_defaults['pledge_status_id']   = array( $status => 1);
+            $this->_formValues['pledge_payment_status_id'] = array( $status => 1);
+            $this->_defaults['pledge_payment_status_id']   = array( $status => 1);
         }
 
         $fromDate = CRM_Utils_Request::retrieve( 'start', 'Date',
@@ -459,8 +459,8 @@ class CRM_Pledge_Form_Search extends CRM_Core_Form
                                               CRM_Core_DAO::$_nullObject );
         if ( $toDate ) { 
             $date = CRM_Utils_Date::unformat( $toDate, '' );
-            $this->_formValues['pledge_end_date_high'] = $date;
-            $this->_defaults['pledge_end_date_high'] = $date;
+            $this->_formValues['pledge_start_date_high'] = $date;
+            $this->_defaults['pledge_start_date_high'] = $date;
         }
 
         $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
