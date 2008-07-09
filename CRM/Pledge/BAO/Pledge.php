@@ -218,7 +218,7 @@ class CRM_Pledge_BAO_Pledge extends CRM_Pledge_DAO_Pledge
     {
         $where = array( );
         switch ( $status ) {
-        case 'Valid':
+        case 'Completed':
             $where[] = 'status_id = 1';
             break;
             
@@ -226,8 +226,8 @@ class CRM_Pledge_BAO_Pledge extends CRM_Pledge_DAO_Pledge
             $where[] = 'status_id = 3';
             break;
 
-        case 'Pending':
-            $where[] = 'status_id = 2';
+        case 'In Progress':
+            $where[] = 'status_id = 5';
             break;
 
         case 'Overdue':
@@ -249,16 +249,25 @@ SELECT sum( amount ) as pledge_amount, count( id ) as pledge_count
 FROM   civicrm_pledge
 WHERE  $whereCond AND is_test=0
 ";
-
+        $start = substr( $startDate, 0, 8 );
+        $end   = substr( $endDate, 0, 8 );
+        require_once "CRM/Core/OptionGroup.php";
+        $statusValues = CRM_Core_OptionGroup::values("contribution_status");
+        
+        $statusVal = array_keys( $statusValues, $status);
+        $statusId = $statusVal['0'];
+        
         $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         if ( $dao->fetch( ) ) {
             $pledge_amount = array( 'pledge_amount' => $dao->pledge_amount,
-                                    'pledge_count'  => $dao->pledge_count );
+                                    'pledge_count'  => $dao->pledge_count,
+                                    'purl'          => CRM_Utils_System::url( 'civicrm/pledge/search',
+                                                                              "reset=1&force=1&pstatus={$statusId}&pstart={$start}&pend=$end&test=0"));
         }
         
         $where = array( );
         switch ( $status ) {
-        case 'Valid':
+        case 'Completed':
             $select = 'sum( total_amount ) as received_pledge , count( cd.id ) as received_count';
             $where[] = 'status_id = 1 AND cp.contribution_id = cd.id AND cd.is_test=0';
             $queryDate = 'receive_date';
@@ -272,9 +281,9 @@ WHERE  $whereCond AND is_test=0
             $from = ' civicrm_contribution cd, civicrm_pledge_payment cp';
             break;
 
-        case 'Pending':
+        case 'In Progress':
             $select = 'sum( scheduled_amount )as received_pledge , count( cp.id ) as received_count';
-            $where[] = 'status_id = 2';
+            $where[] = 'status_id = 5';
             $queryDate = 'scheduled_date';
             $from = ' civicrm_pledge_payment cp';
             break;
@@ -305,8 +314,9 @@ WHERE  $whereCond
         
         if ( $dao->fetch( ) ) {
             return array_merge( $pledge_amount, array( 'received_amount' => $dao->received_pledge,
-                                                       'received_count'  => $dao->received_count 
-                                                       ));
+                                                       'received_count'  => $dao->received_count,
+                                                       'url'             => CRM_Utils_System::url( 'civicrm/pledge/search',
+                                                                                                   "reset=1&force=1&status={$statusId}&start={$start}&end=$end&test=0")));
         }
         return null;
     }

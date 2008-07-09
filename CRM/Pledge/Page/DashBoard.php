@@ -69,7 +69,7 @@ class CRM_Pledge_Page_DashBoard extends CRM_Core_Page
         $monthDate = date('Ym') . '01000000';
 
         $prefixes = array( 'start', 'month', 'year' , 'previous' );
-        $status   = array( 'Valid', 'Cancelled', 'Pending', 'Overdue' );
+        $status   = array( 'Completed', 'Cancelled', 'In Progress', 'Overdue' );
         
         $yearDate  = $yearDate  . '000000';
         
@@ -93,11 +93,9 @@ class CRM_Pledge_Page_DashBoard extends CRM_Core_Page
                 $now  = $previousDateEnd;
             }
             foreach ( $status as $s ) {
-                ${$aName}[$s]        =  CRM_Pledge_BAO_Pledge::getTotalAmountAndCount( $s, $$dName, $now );
+                ${$aName}[str_replace(" ","",$s)]  =  CRM_Pledge_BAO_Pledge::getTotalAmountAndCount( $s, $$dName, $now );
                 $start = substr( $$dName, 0, 8 );
                 $end   = substr( $now, 0, 8 );
-                ${$aName}[$s]['url'] = CRM_Utils_System::url( 'civicrm/pledge/search',
-                                                              "reset=1&force=1&status=1&start={$start}&end=$end&test=0");
             }
             $this->assign( $aName, $$aName );
         }
