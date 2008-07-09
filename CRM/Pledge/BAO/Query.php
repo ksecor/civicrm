@@ -147,11 +147,11 @@ class CRM_Pledge_BAO_Query
                                       'civicrm_pledge', 'pledge_end_date', 'end_date', 'Pledge End Date' );
             return;
             
-        case 'pledge_payment_scheduled_date_low':
-        case 'pledge_payment_scheduled_date_high':
+        case 'pledge_payment_date_low':
+        case 'pledge_payment_date_high':
             // process to / from date
             $query->dateQueryBuilder( $values,
-                                      'civicrm_pledge_payment', 'pledge_payment_scheduled_date', 'scheduled_date', 'Payment Received' );
+                                      'civicrm_contribution', 'pledge_payment_date', 'receive_date', 'Payment Received' );
             return;
             
         case 'pledge_amount':
@@ -308,8 +308,8 @@ class CRM_Pledge_BAO_Query
 
         case 'civicrm_pledge_payment':
             $from .= " $side JOIN civicrm_pledge_payment  ON civicrm_pledge_payment.pledge_id = civicrm_pledge.id ";
+            $from .= " $side JOIN civicrm_contribution pledge_payment ON civicrm_pledge_payment.contribution_id  = pledge_payment.id ";
             break;
-            
         }
 
         return $from;
@@ -367,11 +367,11 @@ class CRM_Pledge_BAO_Query
         $form->addRule('pledge_end_date_high', ts('Select a valid date.'), 'qfDate'); 
 
         // Pledge payment date selects for date 
-        $form->add('date', 'pledge_payment_scheduled_date_low', ts('Payment Recieved - From'), CRM_Core_SelectValues::date('relative')); 
-        $form->addRule('pledge_payment_scheduled_date_low', ts('Select a valid date.'), 'qfDate'); 
+        $form->add('date', 'pledge_payment_date_low', ts('Payment Recieved - From'), CRM_Core_SelectValues::date('relative')); 
+        $form->addRule('pledge_payment_date_low', ts('Select a valid date.'), 'qfDate'); 
         
-        $form->add('date', 'pledge_payment_scheduled_date_high', ts('To'), CRM_Core_SelectValues::date('relative')); 
-        $form->addRule('pledge_payment_scheduled_date_high', ts('Select a valid date.'), 'qfDate'); 
+        $form->add('date', 'pledge_payment_date_high', ts('To'), CRM_Core_SelectValues::date('relative')); 
+        $form->addRule('pledge_payment_date_high', ts('Select a valid date.'), 'qfDate'); 
 
         $form->addElement( 'checkbox', 'pledge_test' , ts( 'Find Test Pledge?' ) );
 

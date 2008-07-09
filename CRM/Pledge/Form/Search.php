@@ -440,27 +440,52 @@ class CRM_Pledge_Form_Search extends CRM_Core_Form
             return;
         }
 
+        // set pledge payment related fields
         $status = CRM_Utils_Request::retrieve( 'status', 'String',
                                                CRM_Core_DAO::$_nullObject );
         if ( $status ) {
             $this->_formValues['pledge_payment_status_id'] = array( $status => 1);
-            $this->_defaults['pledge_payment_status_id']   = array( $status => 1);
+            $this->_defaults['pledge_payment_status_id'  ] = array( $status => 1);
         }
 
         $fromDate = CRM_Utils_Request::retrieve( 'start', 'Date',
                                                  CRM_Core_DAO::$_nullObject );
         if ( $fromDate ) {
             $date = CRM_Utils_Date::unformat( $fromDate, '' );
-            $this->_formValues['pledge_start_date_low'] = $date;
-            $this->_defaults['pledge_start_date_low'] = $date;
+            $this->_formValues['pledge_payment_date_low'] = $date;
+            $this->_defaults['pledge_payment_date_low'  ] = $date;
         }
 
         $toDate= CRM_Utils_Request::retrieve( 'end', 'Date',
                                               CRM_Core_DAO::$_nullObject );
         if ( $toDate ) { 
             $date = CRM_Utils_Date::unformat( $toDate, '' );
-            $this->_formValues['pledge_start_date_high'] = $date;
-            $this->_defaults['pledge_start_date_high'] = $date;
+            $this->_formValues['pledge_payment_date_high'] = $date;
+            $this->_defaults['pledge_payment_date_high'  ] = $date;
+        }
+
+        // set pledge related fields
+        $pstatus = CRM_Utils_Request::retrieve( 'pstatus', 'String',
+                                               CRM_Core_DAO::$_nullObject );
+        if ( $pledgeStatus ) {
+            $this->_formValues['pledge_status_id'] = array( $pledgeStatus => 1);
+            $this->_defaults['pledge_status_id'  ] = array( $pledgeStatus => 1);
+        }
+
+        $pledgeFromDate = CRM_Utils_Request::retrieve( 'pstart', 'Date',
+                                                 CRM_Core_DAO::$_nullObject );
+        if ( $pledgeFromDate ) {
+            $date = CRM_Utils_Date::unformat( $pledgeFromDate, '' );
+            $this->_formValues['pledge_start_date_low'] = $date;
+            $this->_defaults['pledge_start_date_low'  ] = $date;
+        }
+
+        $pledgeToDate= CRM_Utils_Request::retrieve( 'pend', 'Date',
+                                              CRM_Core_DAO::$_nullObject );
+        if ( $pledgeToDate ) { 
+            $date = CRM_Utils_Date::unformat( $pledgeToDate, '' );
+            $this->_formValues['pledge_end_date_high'] = $date;
+            $this->_defaults['pledge_end_date_high'  ] = $date;
         }
 
         $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
