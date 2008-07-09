@@ -521,6 +521,7 @@ class CRM_Contact_BAO_Query
                     $this->_tables['civicrm_note'        ] = 1;
                 } else if ($name === 'current_employer') {
                     $this->_select[$name   ] = "IF ( contact_a.contact_type = 'Individual', organization_name, NULL ) AS current_employer";
+                    $this->_element[$name]   = 1;
                 }
             } 
             
@@ -2660,7 +2661,7 @@ WHERE  id IN ( $groupIDs )
         }
 
         $dao =& CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
-        //crm_core_error::Debug('$sql', $sql);
+        
         $values = array( );
         while ( $dao->fetch( ) ) {
             $values[$dao->contact_id] = $query->store( $dao );

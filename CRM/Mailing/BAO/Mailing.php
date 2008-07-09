@@ -1781,31 +1781,21 @@ SELECT DISTINCT( m.id ) as id
             }
         }
         
-        //get the current employer.
-        if ( CRM_Utils_Array::value( 'current_employer', $returnProperties ) ) {
-            require_once 'CRM/Contact/BAO/Relationship.php';
-            $currentEmployer = CRM_Contact_BAO_Relationship::getCurrentEmployer( $contactIds );
-            unset( $returnProperties['current_employer'] );
-        }
-        
         //get the total number of contacts to fetch from database.
         $numberofContacts = count( $contactIds );
         
         require_once 'CRM/Contact/BAO/Query.php';
-        
         $query   =& new CRM_Contact_BAO_Query( $params, $returnProperties );
         $details = $query->apiQuery( $params, $returnProperties, NULL, NULL, 0, $numberofContacts );
-        
+
         $contactDetails =& $details[0]; 
         
         foreach ( $contactIds as $key => $contactID ) {
             if ( CRM_Utils_Array::value('preferred_communication_method',$returnProperties) == 1 ) {
-                
                 require_once 'CRM/Core/PseudoConstant.php';
                 $pcm = CRM_Core_PseudoConstant::pcm();
                 
                 // communication Prefferance
-                
                 require_once 'CRM/Core/BAO/CustomOption.php';
                 $contactPcm = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$contactDetails[$contactID]['preferred_communication_method']);
                 
@@ -1819,11 +1809,6 @@ SELECT DISTINCT( m.id ) as id
                 unset($result);
             }
             
-            //get the current employer name.
-            if ( !empty( $currentEmployer ) ) {
-                $contactDetails[$contactID]['current_employer'] = CRM_Utils_Array::value( 'org_name', $currentEmployer[$contactID]);
-            }
-            
             foreach ( $custom as $cfID ) {
                 if ( isset ( $contactDetails[$contactID]["custom_{$cfID}"] ) ) {
                     $contactDetails[$contactID]["custom_{$cfID}"] = 
@@ -1831,6 +1816,7 @@ SELECT DISTINCT( m.id ) as id
                 }
             }
         }
+
         return $details;
     }
 
