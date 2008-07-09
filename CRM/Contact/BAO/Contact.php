@@ -185,6 +185,12 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
                                         'civicrm_contact',
                                         $contact->id );
         }
+
+        //update cached employee name
+        if ( $contact->contact_type == 'Organization' ) {
+            require_once 'CRM/Contact/BAO/Contact/Utils.php';
+            CRM_Contact_BAO_Contact_Utils::updateCurrentEmployer( $contact->id );
+        }
         return $contact;
     }
 

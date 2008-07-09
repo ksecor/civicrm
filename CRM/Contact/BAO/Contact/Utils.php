@@ -267,7 +267,7 @@ UNION
     /**
      * Function to set current employer id and organization name
      *
-     * @param $currentEmployerParams array $currentEmployerParams associated array of contact id and its employer id
+     * @param array $currentEmployerParams associated array of contact id and its employer id
      *
      */
     static function setCurrentEmployer( $currentEmployerParams )
@@ -277,6 +277,21 @@ UNION
 SET contact_a.employer_id=contact_b.id, contact_a.organization_name=contact_b.organization_name 
 WHERE contact_a.id ={$contactId} AND contact_b.id={$orgId}; ";
         }
+
+        $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );        
+    }
+
+    /**
+     * Function to update cached current employer name
+     *
+     * @param int $organizationId current employer id
+     *
+     */
+    static function updateCurrentEmployer( $organizationId )
+    {
+        $query = "UPDATE civicrm_contact contact_a,civicrm_contact contact_b
+SET contact_a.organization_name=contact_b.organization_name 
+WHERE contact_a.employer_id=contact_b.id AND contact_b.id={$organizationId}; ";
 
         $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );        
     }
