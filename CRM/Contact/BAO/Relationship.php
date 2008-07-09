@@ -1033,11 +1033,11 @@ WHERE contact_b.id = contact_a.employer_id AND contact_a.id IN ( {$contacts} )
 
         $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         $currentEmployer = array( );
-        if ( $dao->fetch( ) ) {
+        while ( $dao->fetch( ) ) {
             $currentEmployer[$dao->id]['org_id'  ]  = $dao->org_id;
             $currentEmployer[$dao->id]['org_name']  = $dao->org_name;
         }
-
+        
         return $currentEmployer;
     }
 
