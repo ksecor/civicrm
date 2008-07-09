@@ -70,8 +70,8 @@ class CRM_Contact_Page_View_DashBoard extends CRM_Contact_Page_View
         $this->assign( 'contactId', $uid);
         if ( ! $uid) {
             require_once 'CRM/Utils/System.php';
-            CRM_Utils_System::setUFMessage( ts( 'We could not find a contact id.' ) );
-            CRM_Core_Error::statusBounce( ts( 'We could not find a contact id.' ) );
+            CRM_Utils_System::setUFMessage( ts( 'We could not find a user id. You must be logged in to access the CiviCRM Home Page and menus.' ) );
+            CRM_Core_Error::statusBounce( ts( 'We could not find a user id. You must be logged in to access the CiviCRM Home Page and menus.' ) );
         }
 
         $this->_action = CRM_Utils_Request::retrieve('action', 'String',
