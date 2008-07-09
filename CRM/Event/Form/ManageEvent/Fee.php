@@ -336,10 +336,12 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         $errors = array( );
         if ( $values['is_discount'] ) {
             $occurDiscount = array_count_values( $values['discount_name'] );
+            $countemptyrows  = 0;
+            $countemptyvalue = 0;
             for ( $i = 1; $i <= self::NUM_DISCOUNT; $i++ ) {
+                $start_date = CRM_Utils_Date::format( $values['discount_start_date'][$i] );
+                $end_date   = CRM_Utils_Date::format( $values['discount_end_date'][$i]   );
                 if ( $values['discount_name'][$i] ) {
-                    $start_date = CRM_Utils_Date::format( $values['discount_start_date'][$i] );
-                    $end_date   = CRM_Utils_Date::format( $values['discount_end_date'][$i]   );
                     if ( $start_date && $end_date && (int ) $end_date < (int ) $start_date ) {
                         $errors["discount_end_date[$i]"] = ts( 'The discount end date cannot be prior to the start date.' );
                     }
@@ -350,7 +352,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
                     
                     if ( $i > 1 ) {
                         $end_date_1 = CRM_Utils_Date::format( $values['discount_end_date'][$i-1] );
-                        if ( $start_date && $end_date_1 && (int ) $end_date_1 > (int ) $start_date ) {
+                        if ( $start_date && $end_date_1 && (int ) $end_date_1 >= (int ) $start_date ) {
                             $errors["discount_start_date[$i]"] = ts( 'Select non-overlapping discount start date.' );
                         } elseif ( ! $start_date && ! $end_date_1 ) {
                             $j = $i-1;
@@ -365,6 +367,39 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
                                 $errors['discount_name['.$i.']'] = ts('%1 is already used for Discount Name.', array(1 => $key));
                             }
                         }
+
+                    //validation for discount labels and values                 
+                    for ( $index = ( self::NUM_OPTION ) ; $index > 0 ; $index-- ) { 
+                        $label = true;
+                        if ( empty( $values['discounted_label'][$index] ) && ! empty( $values['discounted_value'][$index][$i] ) ) {
+                            $label = false;
+                            if ( ! $label ) {
+                                $errors["discounted_label[{$index}]"] = ts( 'Label can not be empty' );      
+                            }
+                        }
+                        if ( ! empty( $values['discounted_label'][$index] ) ) {
+                            $duplicateIndex = CRM_Utils_Array::key( $values['discounted_label'][$index], $values['discounted_label'] );
+                            
+                            if( ( ! ( $duplicateIndex === false ) ) && ( ! ( $duplicateIndex == $index ) ) ) {
+                                $errors["discounted_label[{$index}]"] = ts( 'Duplicate label value' );      
+                            }
+                        }
+                        if ( empty( $values['discounted_label'][$index] ) && empty( $values['discounted_value'][$index][$i] ) ) {
+                            $countemptyrows++; 
+                        }
+                        if ( empty( $values['discounted_value'][$index][$i] ) ) {
+                            $countemptyvalue++; 
+                        }
+                        
+                        if ( $values['_qf_Fee_next'] == 'Save' && ( $countemptyrows == 11 || $countemptyvalue == 11 ) ) {
+                            $errors["discounted_label[1]"] = $errors["discounted_value[1][$i]"] = 
+                                ts('Atleast one value with label should be present');
+                        }
+                    }
+                } else if( ! $values['discount_name'][$i] ) {
+                    if ( ! $values['discount_name'][$i] && ( $start_date || $end_date ) ) {
+                        $errors['discount_name['.$i.']'] = ts('Please specify the discount name');
+                    }
                 }
             }
         }
@@ -450,7 +485,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
             $this->set( 'discountSection', 1 );
             return;
         }
-        
+
         $params['event_id'] = $ids['event_id'] = $this->_id;
         $params['is_pay_later'] = CRM_Utils_Array::value( 'is_pay_later', $params, 0 );
         
