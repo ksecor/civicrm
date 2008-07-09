@@ -173,7 +173,12 @@ function hrd_civicrm_aclWhereClause( $type, &$tables, &$whereTables, &$contactID
 function hrd_civicrm_aclGroup( $type, $contactID, $tableName, &$allGroups, &$currentGroups ) {
     hrd_initialize( );
 
-    $currentGroups = array_keys( $allGroups );
+    $currentGroups = $allGroups;
+
+    if ( ! CRM_Core_Permission::check( 'access secure contacts' ) ) {
+        unset( $currentGroups[5] );
+    }
+    $currentGroups = array_keys( $currentGroups );
 }
 
 
