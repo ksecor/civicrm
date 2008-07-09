@@ -36,10 +36,8 @@
 {if $notes}
     {* show browse table for any action *}
 <div id="notes">
-    <div class="form-item">
-    <br/>
     {strip}
-        <table>
+        <table class="selector">
         <tr class="columnheader">
 	        <th scope="col">{ts}Note{/ts}</th>
 	        <th scope="col">{ts}Subject{/ts}</th>
@@ -68,12 +66,11 @@
         </table>
     {/strip}
 
-       {if $permission EQ 'edit' AND ($action eq 16 or $action eq 4 or $action eq 8)}
+    {if $permission EQ 'edit' AND ($action eq 16 or $action eq 4 or $action eq 8)}
        <div class="action-link">
     	 <a accesskey="N" href="{crmURL p='civicrm/contact/view/note' q="cid=`$contactId`&action=add"}" class="button"><span>&raquo; {ts}New Note{/ts}</span></a>
        </div>
-       {/if}
-    </div>
+    {/if}
  </div>
 
 {elseif ! ($action eq 1)}
