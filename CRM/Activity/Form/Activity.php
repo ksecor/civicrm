@@ -283,7 +283,7 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
         $config =& CRM_Core_Config::singleton( );
 
         // add a dojo facility for searching contacts
-        $this->assign( 'dojoIncludes', " dojo.require('dojox.data.QueryReadStore'); dojo.require('dijit.form.ComboBox');dojo.require('dojo.parser');" );
+        $this->assign( 'dojoIncludes', " dojo.require('dojox.data.QueryReadStore'); dojo.require('dijit.form.ComboBox');dojo.require('dojo.parser'); dojo.require('dojox.widget.MultiComboBox');" );
 
         $attributes = array( 'dojoType'       => 'dijit.form.ComboBox',
                              'mode'           => 'remote',
@@ -352,8 +352,15 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
                                                                      $this->_targetContactId,
                                                                      'sort_name' );
         }
-
-        $targetContactField =& $this->add( 'text','target_contact', ts('With Contact'), $attributes, isset($standalone) ? $standalone : "" );
+        
+        $targetAttributes = array( 'dojoType'       => 'dojox.widget.MultiComboBox',
+                                   'mode'           => 'remote',
+                                   'store'          => 'contactStore',
+                                   'pageSize'       => 10,
+                                   'style'          => 'width:600px; border: 1px solid #cfcfcf;',
+                                   );
+        
+        $targetContactField =& $this->add( 'text','target_contact', ts('With Contact'), $targetAttributes, isset($standalone) ? $standalone : "" );
         if ( $targetContactField->getValue( ) ) {
             $this->assign( 'target_contact_value',  $targetContactField->getValue( ) );
         } else {
@@ -367,7 +374,7 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
                                                                        'sort_name' );
         }
         
-        $assigneeContactField = $this->add( 'text','assignee_contact', ts('Assigned To'), $attributes);
+        $assigneeContactField = $this->add( 'text','assignee_contact', ts('Assigned To'), $targetAttributes );
         if ( $assigneeContactField->getValue( ) ) {
             $this->assign( 'assignee_contact_value',  $assigneeContactField->getValue( ) );
         } else {
