@@ -33,8 +33,8 @@
  *
  */
 
-class CRM_Contact_BAO_Contact_Utils {
-
+class CRM_Contact_BAO_Contact_Utils 
+{
     /**
      * given a contact type, get the contact image
      *
@@ -240,25 +240,45 @@ UNION
         
         $cid = array('contact' => $contactID );
         
+        $currentEmployerParams = array( );
         if ( $exists ) {
             //create relationship
             $relationshipParams['contact_check'][$organizationId] = 1;
             CRM_Contact_BAO_Relationship::create($relationshipParams, $cid);
 
-            //update contact with employer id
-            CRM_Core_DAO::setFieldValue('CRM_Contact_DAO_Contact', $contactID, 'employer_id', $organizationId );
-
+            // build current employer params
+            $currentEmployerParams = array( $contactID => $organizationId );
         } else {
             //if more than one matching organizations found, we
             //add relationships to all those organizations
             foreach ( $dupeIds as $orgId ) {
                 $relationshipParams['contact_check'][$orgId] = 1;
                 CRM_Contact_BAO_Relationship::create($relationshipParams, $cid);
-
-                //update contact with employer id
-                CRM_Core_DAO::setFieldValue('CRM_Contact_DAO_Contact', $contactID, 'employer_id', $orgId );
+                
+                // build current employer params
+                $currentEmployerParams[$contactID] = $orgId;
             }
         }
+        
+        //create current employer
+        self::setCurrentEmployer( $currentEmployerParams );
+    }
+
+    /**
+     * Function to set current employer id and organization name
+     *
+     * @param $currentEmployerParams array $currentEmployerParams associated array of contact id and its employer id
+     *
+     */
+    static function setCurrentEmployer( $currentEmployerParams )
+    {
+        foreach( $currentEmployerParams as $contactId => $orgId ) {
+            $query .= "UPDATE civicrm_contact contact_a,civicrm_contact contact_b
+SET contact_a.employer_id=contact_b.id, contact_a.organization_name=contact_b.organization_name 
+WHERE contact_a.id ={$contactId} AND contact_b.id={$orgId}; ";
+        }
+
+        $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );        
     }
 
     /**

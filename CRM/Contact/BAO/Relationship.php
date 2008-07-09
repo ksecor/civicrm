@@ -1026,16 +1026,17 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
     {
         $contacts = implode( ',', $contactIds );
 
-        $query = "SELECT contact_b.sort_name org_name, contact_b.id org_id, contact_a.id id 
-FROM civicrm_contact contact_a, civicrm_contact contact_b 
-WHERE contact_b.id = contact_a.employer_id AND contact_a.id IN ( {$contacts} )
+        $query = "
+SELECT organization_name, id, employer_id 
+FROM civicrm_contact
+WHERE id IN ( {$contacts} )
 ";
 
         $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         $currentEmployer = array( );
         while ( $dao->fetch( ) ) {
-            $currentEmployer[$dao->id]['org_id'  ]  = $dao->org_id;
-            $currentEmployer[$dao->id]['org_name']  = $dao->org_name;
+            $currentEmployer[$dao->id]['org_id'  ]  = $dao->employer_id;
+            $currentEmployer[$dao->id]['org_name']  = $dao->organization_name;
         }
         
         return $currentEmployer;
