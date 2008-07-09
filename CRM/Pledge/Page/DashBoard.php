@@ -94,8 +94,10 @@ class CRM_Pledge_Page_DashBoard extends CRM_Core_Page
             }
             foreach ( $status as $s ) {
                 ${$aName}[$s]        =  CRM_Pledge_BAO_Pledge::getTotalAmountAndCount( $s, $$dName, $now );
+                $start = substr( $$dName, 0, 8 );
+                $end   = substr( $now, 0, 8 );
                 ${$aName}[$s]['url'] = CRM_Utils_System::url( 'civicrm/pledge/search',
-                                                              "reset=1&force=1&status=1&start={$$dName}&end=$now&test=0");
+                                                              "reset=1&force=1&status=1&start={$start}&end=$end&test=0");
             }
             $this->assign( $aName, $$aName );
         }
