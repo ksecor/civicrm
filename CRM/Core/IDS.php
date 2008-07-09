@@ -41,8 +41,8 @@ class CRM_Core_IDS {
      */
     private $threshold = array(
                                'log'      => 10,
-                               'warn'     => 15,
-                               'kick'     => 30
+                               'warn'     => 30,
+                               'kick'     => 45
                                );
 
 
