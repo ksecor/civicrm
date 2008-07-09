@@ -90,16 +90,17 @@ class TestOfCustomGroupCreateAPIV2 extends CiviUnitTestCase
         $this->customGroupDelete($customGroup['id']);
     }
     
-    function testCustomGroupCreateContribution()
+    function testCustomGroupCreateContributionDonation()
     {
         $params = array('title'            => 'Test_Group_6',
                         'name'             => 'test_group_6',
-                        'used_for'         => array('Contribution'),
+                        'used_for'         => array( 'Contribution', 1 ),
                         'weight'           => 6,
                         'collapse_display' => 1,
                         'style'            => 'Inline',
                         'help_pre'         => 'This is Pre Help For Test Group 6',
-                        'help_post'        => 'This is Post Help For Test Group 6'
+                        'help_post'        => 'This is Post Help For Test Group 6',
+                        'is_active'        => 1 
                         );
         
         $customGroup =& civicrm_custom_group_create($params); 
