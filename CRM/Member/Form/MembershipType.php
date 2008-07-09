@@ -147,8 +147,11 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
         } else {
             $this->assign('noMsgTemplates', true );            
         }
-        $reminderDay = $this->add('text', 'renewal_reminder_day', ts('Renewal Reminder Day'),
-                                  CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MembershipType', 'renewal_reminder_day' ) );
+        $reminderDay =& $this->add('text',
+o                                   'renewal_reminder_day',
+                                   ts('Renewal Reminder Day'),
+                                   CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MembershipType',
+                                                               'renewal_reminder_day' ) );
         
         $searchRows            = $this->get( 'searchRows'    );
         $searchCount           = $this->get( 'searchCount'   );
@@ -195,7 +198,7 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
             }
         }
        
-        if  ( ($this->_action & CRM_Core_Action::UPDATE) && $reminderDay && $reminderMsg )  {
+        if  ( ($this->_action & CRM_Core_Action::UPDATE) && $reminderDay ) {
             if ( CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', $this->_id, 'renewal_msg_id' ) 
                  &&  CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', $this->_id, 'renewal_reminder_day' ) ) {
                 $reminderMsg  = $this->add( 'select', 'renewal_msg_id', ts('Renewal Reminder Message'), array('' => ts('- select -')) + $msgTemplates );
