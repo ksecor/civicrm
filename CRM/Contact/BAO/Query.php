@@ -479,7 +479,6 @@ class CRM_Contact_BAO_Query
                             require_once 'CRM/Core/OptionValue.php';
                             CRM_Core_OptionValue::select($this);
                         } else {
-                            
                             $this->_tables[$tableName]         = 1;
                             
                             // also get the id of the tableName
@@ -500,7 +499,10 @@ class CRM_Contact_BAO_Query
                                 $this->_select [$name]                 = "civicrm_state_province.abbreviation as `$name`, civicrm_state_province.name as state_province_name";
                                 $this->_element['state_province_name'] = 1;
                             } else if ( $tName == 'contact' ) {
-                                if ( $fieldName != 'id' ) {
+                                // special case, when current employer is set for Individual contact
+                                if ( $fieldName == 'organization_name' ) {
+                                    $this->_select[$name   ] = "IF ( contact_a.contact_type = 'Individual', NULL, organization_name ) AS organization_name";
+                                } else if ( $fieldName != 'id' ) {
                                     $this->_select [$name]          = "contact_a.{$fieldName}  as `$name`";
                                 } 
                             } else {
