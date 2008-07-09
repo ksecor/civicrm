@@ -112,8 +112,13 @@ $smarty->assign('build_version',$build_version);
 
 $config =& CRM_Core_Config::singleton( 'crm', false );
 $locales = array( );
-if ( file_exists( $config->gettextResourceDir ) ) {
-  $locales = preg_grep('/^[a-z][a-z]_[A-Z][A-Z]$/', scandir($config->gettextResourceDir));
+if (substr($config->gettextResourceDir, 0, 1) === '/') {
+    $localeDir = $config->gettextResourceDir;
+} else {
+    $localeDir = '../' . $config->gettextResourceDir;
+}
+if (file_exists($localeDir)) {
+  $locales = preg_grep('/^[a-z][a-z]_[A-Z][A-Z]$/', scandir($localeDir));
 }
 if (!in_array('en_US', $locales)) array_unshift($locales, 'en_US');
 
