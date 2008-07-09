@@ -893,7 +893,9 @@ WHERE  contribution_id = {$this->_id}
             }
             
             //update pledge payment status.
-            if ( $this->_ppID && $contribution->id ) {
+            if ( $this->_ppID && $contribution->id && 
+                 ($contribution->contribution_status_id == array_search( 'Completed', 
+                                                                         CRM_Contribute_PseudoConstant::contributionStatus()))) {
                 require_once 'CRM/Pledge/BAO/Payment.php';
                 $paymentIDs = array( $this->_ppID );
                 CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $this->_pledgeID, $paymentIDs, 
@@ -1060,7 +1062,9 @@ WHERE  contribution_id = {$this->_id}
             }
             
             //update pledge payment status.
-            if ( $this->_ppID && $contribution->id ) {
+            if ( $this->_ppID && $contribution->id && 
+                 ($contribution->contribution_status_id == array_search( 'Completed', 
+                                                                         CRM_Contribute_PseudoConstant::contributionStatus()))) {
                 require_once 'CRM/Pledge/BAO/Payment.php';
                 $paymentIDs = array( $this->_ppID );
                 CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $this->_pledgeID, $paymentIDs, 

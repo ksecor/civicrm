@@ -167,11 +167,11 @@ WHERE pledge_id = %1
      *
      * @param int $pledgeID, id of pledge
      * @param array $paymentIDs, an array of payment ids
-     * @param int $contribStatus, final contribution status
+     * @param int $status, payment status
      *
      * @return void
      */
-    function updatePledgePaymentStatus( $pledgeID, $paymentIDs = null, $contribStatus = null )
+    function updatePledgePaymentStatus( $pledgeID, $paymentIDs = null, $status = null )
     {
         //get all status
         require_once 'CRM/Contribute/PseudoConstant.php';
@@ -195,9 +195,9 @@ WHERE pledge_id = %1
 
         //update pledge and payment status only if
         //final contribution status is "Completed".
-        if ( $contribStatus == array_search( 'Completed', $allStatus ) ) {
-            $paymentStaus = $contribStatus;
+        if ( $status == array_search( 'Completed', $allStatus ) ) {
             $updatePayment = true;
+            $paymentStatus = $status;
             
             $isOverdue = false;
             $allCompleted = true;
@@ -223,15 +223,14 @@ WHERE pledge_id = %1
                 $pledgeStatus = array_search( 'In Progress', $allStatus );
             }
             $updatePledge = true;
-        }  elseif ( $contribStatus == array_search( 'Cancelled', $allStatus ) ) {
+        }  else if ( $status == array_search( 'Cancelled', $allStatus ) ) {
             $updatePayment = true;
-            $updatePledge  = false;
-            $paymentStaus  = $contribStatus;
+            $paymentStatus = $status;
         }
         
         //update payment status.
         if ( $updatePayment ) {
-            $params = array( 1 => array( $paymentStaus, 'Integer' ),
+            $params = array( 1 => array( $paymentStatus, 'Integer' ),
                              2 => array( array_search( 'Completed', $allStatus ), 'Integer') );
             $payments = implode( ',', $paymentIDs );
             
