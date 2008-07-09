@@ -895,11 +895,9 @@ WHERE  contribution_id = {$this->_id}
             //update pledge payment status.
             if ( $this->_ppID && $contribution->id ) {
                 require_once 'CRM/Pledge/BAO/Payment.php';
-                $paymentParams = array( );
-                $paymentParams['ppID'] = $this->_ppID;
-                $paymentParams['pledgeID'] = $this->_pledgeID;
-                $paymentParams['contribStatusID'] = $contribution->contribution_status_id;
-                CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $paymentParams );
+                $paymentIDs = array( $this->_ppID );
+                CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $this->_pledgeID, $paymentIDs, 
+                                                                   $contribution->contribution_status_id );
             }
             
             if ( $contribution->id ) {
@@ -1064,11 +1062,9 @@ WHERE  contribution_id = {$this->_id}
             //update pledge payment status.
             if ( $this->_ppID && $contribution->id ) {
                 require_once 'CRM/Pledge/BAO/Payment.php';
-                $paymentParams = array( );
-                $paymentParams['ppID'] = $this->_ppID;
-                $paymentParams['pledgeID'] = $this->_pledgeID;
-                $paymentParams['contribStatusID'] = $contribution->contribution_status_id;
-                CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $paymentParams );
+                $paymentIDs = array( $this->_ppID );
+                CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $this->_pledgeID, $paymentIDs, 
+                                                                   $contribution->contribution_status_id );
             }
             
             $statusMsg = ts('The contribution record has been saved.');
