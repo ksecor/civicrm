@@ -73,6 +73,7 @@
        <name>frequency_interval</name>
        <type>int unsigned</type>
        <required>true</required>
+       <default>1</default>
        <comment>Number of time units for recurrence of pledge payments.</comment>
        <add>2.1</add>
   </field>
