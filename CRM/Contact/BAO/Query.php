@@ -1316,6 +1316,15 @@ class CRM_Contact_BAO_Query
             $wc = ( $op != 'LIKE' ) ? "LOWER({$field['where']})" : "{$field['where']}";
             $this->_where[$grouping][] = "$wc $op '$value'";
             $this->_qill[$grouping][]  = "$field[title] $op \"$value\"";
+        } else if ( $name === 'current_employer' ) {
+            $value = strtolower( addslashes( $value ) );
+            if ( $wildcard ) {
+                $value = "%$value%"; 
+                $op    = 'LIKE';
+            }
+            $wc = ( $op != 'LIKE' ) ? "LOWER(contact_a.organization_name)" : "contact_a.organization_name";
+            $this->_where[$grouping][] = "$wc $op '$value' AND contact_a.contact_type ='Individual'";
+            $this->_qill[$grouping][]  = "$field[title] $op \"$value\"";
         } else {
             // sometime the value is an array, need to investigate and fix
             if ( is_array( $value ) ) {
