@@ -264,7 +264,7 @@ WHERE  v.option_group_id = g.id
     static function getAssoc( $groupName, &$values ) 
     {
         $query = "
-SELECT v.id, v.value, v.label, v.name, v.description
+SELECT v.id, v.value, v.label, v.name, v.description, v.weight
   FROM civicrm_option_group g,
        civicrm_option_value v
  WHERE g.id = v.option_group_id
@@ -284,7 +284,8 @@ ORDER BY v.weight
             $values['label'      ][$index] = $dao->label; 
             $values['name'       ][$index] = $dao->name; 
             $values['description'][$index] = $dao->description; 
-            $values['amount_id'  ][$index] = $dao->id; 
+            $values['amount_id'  ][$index] = $dao->id;
+            $values['weight'     ][$index] = $dao->weight;
             $index++; 
         } 
     }
