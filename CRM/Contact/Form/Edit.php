@@ -336,8 +336,10 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
             require_once 'CRM/Contact/BAO/Relationship.php';
             $currentEmployer = CRM_Contact_BAO_Relationship::getCurrentEmployer( array( $this->_contactId ) );
-          
-            $defaults['employer_option'] = 1;
+            
+            if ( CRM_Utils_Array::value( 'org_id', $currentEmployer[$this->_contactId] ) ) {
+                $defaults['employer_option'] = 1;
+            }
             $this->assign( 'sharedEmployer',  CRM_Utils_Array::value( 'org_id', $currentEmployer[$this->_contactId] ) );
         }
         
