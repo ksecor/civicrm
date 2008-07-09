@@ -225,13 +225,15 @@ WHERE pledge_id = %1
         
         //update payment status.
         if ( $updatePayment ) {
-            $params = array( 1 => array( $paymentStaus, 'Integer' ) );
+            $params = array( 1 => array( $paymentStaus, 'Integer' ),
+                             2 => array( array_search( 'Completed', $allStatus ), 'Integer') );
             $payments = implode( ',', $paymentIDs );
             
             $query = "
 UPDATE civicrm_pledge_payment
 SET    civicrm_pledge_payment.status_id = %1
 WHERE  civicrm_pledge_payment.id IN ( {$payments} )
+AND    civicrm_pledge_payment.status_id != %2
 ";
             $dao = CRM_Core_DAO::executeQuery( $query, $params );
         }
