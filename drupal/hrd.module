@@ -33,6 +33,9 @@
  *
  */
 
+define( 'HRD_MAX_ITEMS'      , 10 );
+define( 'HRD_SECURE_GROUP_ID',  5 );
+
 function hrd_initialize( ) {
     static $_initialized = false;
 
@@ -79,7 +82,7 @@ FROM   civicrm_grant
     }
 
     $sql =  implode ( 'UNION', $sql );
-    $sql .= " ORDER BY date desc LIMIT 10";
+    $sql .= " ORDER BY date desc LIMIT " . HRD_MAX_ITEMS;
 
     $dao = CRM_Core_DAO::executeQuery( $sql );
     $values = array( );
@@ -166,18 +169,24 @@ function hrd_civicrm_aclWhereClause( $type, &$tables, &$whereTables, &$contactID
     // else modify the query so we can ensure that contactIDs belong to the secure group are not shown
     $groupTable = 'civicrm_group_contact_hrd';
     $tables[$groupTable] = $whereTables[$groupTable] =
-        "LEFT JOIN civicrm_group_contact $groupTable ON ( contact_a.id = $groupTable.contact_id AND $groupTable.group_id = 5 )";
+        "LEFT JOIN civicrm_group_contact $groupTable ON ( contact_a.id = $groupTable.contact_id AND $groupTable.group_id = " . HRD_SECURE_GROUP_ID . " )";
     $where .= " ( $groupTable.status is null OR $groupTable.status != 'Added' ) ";
 }
 
 function hrd_civicrm_aclGroup( $type, $contactID, $tableName, &$allGroups, &$currentGroups ) {
+    // only process saved search
+    if ( $tableName != 'civicrm_saved_search' ) {
+        return;
+    }
+
     hrd_initialize( );
 
     $currentGroups = $allGroups;
 
     if ( ! CRM_Core_Permission::check( 'access secure contacts' ) ) {
-        unset( $currentGroups[5] );
+        unset( $currentGroups[HRD_SECURE_GROUP_ID] );
     }
+
     $currentGroups = array_keys( $currentGroups );
 }
 
