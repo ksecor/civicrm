@@ -38,13 +38,13 @@
 <tr>
     <td><strong>{ts}Balance Due{/ts}</strong></td>
 {* prior month *}
-        <td class="right"><a href="{$previousToDate.InProgress.url}">{$previousToDate.InProgress.received_count}</a></td><td class="right" style="border-right: 5px double #92B6EC;">{if $previousToDate.InProgress.received_count }<a href="{$previousToDate.InProgress.url}">{$previousToDate.InProgress.received_amount|crmMoney}</a>{else}(n/a){/if}</td>
+        <td class="right"><a href="{$previousToDate.Pending.url}">{$previousToDate.Pending.received_count}</a></td><td class="right" style="border-right: 5px double #92B6EC;">{if $previousToDate.Pending.received_count }<a href="{$previousToDate.Pending.url}">{$previousToDate.Pending.received_amount|crmMoney}</a>{else}(n/a){/if}</td>
     {* current month *}
-        <td class="right"><a href="{$monthToDate.InProgress.url}">{$monthToDate.InProgress.received_count}</a></td><td class="right" style="border-right: 5px double #92B6EC;">{if $monthToDate.InProgress.received_count }<a href="{$monthToDate.InProgress.url}">{$monthToDate.InProgress.received_amount|crmMoney}</a>{else}(n/a){/if}</td>
+        <td class="right"><a href="{$monthToDate.Pending.url}">{$monthToDate.Pending.received_count}</a></td><td class="right" style="border-right: 5px double #92B6EC;">{if $monthToDate.Pending.received_count }<a href="{$monthToDate.Pending.url}">{$monthToDate.Pending.received_amount|crmMoney}</a>{else}(n/a){/if}</td>
     {* current year *}
-        <td class="right"><a href="{$yearToDate.InProgress.url}">{$yearToDate.InProgress.received_count}</a></td><td class="right" style="border-right: 5px double #92B6EC;">{if $yearToDate.InProgress.received_count }<a href="{$yearToDate.InProgress.url}">{$yearToDate.InProgress.received_amount|crmMoney}</a>{else}(n/a){/if}</td>
+        <td class="right"><a href="{$yearToDate.Pending.url}">{$yearToDate.Pending.received_count}</a></td><td class="right" style="border-right: 5px double #92B6EC;">{if $yearToDate.Pending.received_count }<a href="{$yearToDate.Pending.url}">{$yearToDate.Pending.received_amount|crmMoney}</a>{else}(n/a){/if}</td>
     {* cumulative *}
-        <td class="right"><a href="{$startToDate.InProgress.url}">{$startToDate.InProgress.received_count}</a></td><td class="right">{if $startToDate.InProgress.received_count }<a href="{$startToDate.InProgress.url}">{$startToDate.InProgress.received_amount|crmMoney}</a>{else}(n/a){/if}</td>
+        <td class="right"><a href="{$startToDate.Pending.url}">{$startToDate.Pending.received_count}</a></td><td class="right">{if $startToDate.Pending.received_count }<a href="{$startToDate.Pending.url}">{$startToDate.Pending.received_amount|crmMoney}</a>{else}(n/a){/if}</td>
 </tr>
 <tr>
     <td><strong>{ts}Past Due{/ts}</strong></td>

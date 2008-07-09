@@ -69,7 +69,7 @@ class CRM_Pledge_Page_DashBoard extends CRM_Core_Page
         $monthDate = date('Ym') . '01000000';
 
         $prefixes = array( 'start', 'month', 'year' , 'previous' );
-        $status   = array( 'Completed', 'Cancelled', 'In Progress', 'Overdue' );
+        $status   = array( 'Completed', 'Cancelled', 'Pending', 'In Progress', 'Overdue' );
         
         $yearDate  = $yearDate  . '000000';
         
@@ -94,8 +94,6 @@ class CRM_Pledge_Page_DashBoard extends CRM_Core_Page
             }
             foreach ( $status as $s ) {
                 ${$aName}[str_replace(" ","",$s)]  =  CRM_Pledge_BAO_Pledge::getTotalAmountAndCount( $s, $$dName, $now );
-                $start = substr( $$dName, 0, 8 );
-                $end   = substr( $now, 0, 8 );
             }
             $this->assign( $aName, $$aName );
         }
