@@ -719,21 +719,27 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
                 // the fields are only meant for Individual contact type
                 if ( $contactType == 'Individual') {
                     require_once 'CRM/Core/OptionValue.php';
-                    $fields = array_merge( $fields, CRM_Core_OptionValue::getFields( ) );                
+                    $fields = array_merge( $fields, CRM_Core_OptionValue::getFields( ) );
                 }
-            
+                
+                // add current employer for individuals
+                $fields = array_merge( $fields, array( 'current_employer' =>
+                                                       array ( 'name'  => 'organization_name',
+                                                               'title' => ts('Current Employer') )
+                                                       ));
+                
                 $locationType = array( );
                 if ($status) {
                     $locationType['location_type'] = array ('name' => 'location_type',
                                                             'where' => 'civicrm_location_type.name',
-                                                            'title' => 'Location Type');
+                                                            'title' => ts('Location Type'));
                 }
             
                 $IMProvider = array( );
                 if ( $status ) {
                     $IMProvider['im_provider'] = array ('name' => 'im_provider',
                                                         'where' => 'im_provider.name',
-                                                        'title' => 'IM Provider');
+                                                        'title' => ts('IM Provider'));
                 }
             
                 $locationFields = array_merge(  $locationType,
@@ -802,10 +808,10 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
                                             'Household'    => array( 'first_name','middle_name','last_name','greeting_type',
                                                                      'job_title','gender_id','birth_date','organization_name',
                                                                      'legal_name', 'legal_identifier', 'sic_code','home_URL',
-                                                                     'is_deceased','deceased_date' ),
+                                                                     'is_deceased','deceased_date', 'current_employer' ),
                                             'Organization' => array( 'first_name','middle_name','last_name','greeting_type',
                                                                      'job_title','gender_id','birth_date','household_name',
-                                                                     'is_deceased','deceased_date' ) 
+                                                                     'is_deceased','deceased_date', 'current_employer' ) 
                                             );
                     foreach ( $commonValues[$contactType] as $value ) {
                         unset( $fields[$value] );
@@ -823,8 +829,8 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
             $fields = array_merge( array( '' => array( 'title' => ts('- Contact Fields -') ) ),
                                    self::$_exportableFields[$contactType] );
         }
-        return $fields;
 
+        return $fields;
     }
 
     /**

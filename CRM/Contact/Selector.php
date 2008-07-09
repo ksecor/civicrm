@@ -453,12 +453,10 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         $session =& CRM_Core_Session::singleton();
         $context = $session->get('context', 'CRM_Contact_Controller_Search');
 
-        if ($this->_ufGroupID ) {
-            
-            // CRM_Core_Error::debug( 'p', self::$_properties );
+        if ( $this->_ufGroupID ) {
             require_once 'CRM/Core/PseudoConstant.php';
             $locationTypes = CRM_Core_PseudoConstant::locationType( );
-            
+
             $names = array( );
             static $skipFields = array( 'group', 'tag' ); 
             foreach ( $this->_fields as $key => $field ) {
@@ -511,7 +509,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         $links =& self::links( );
 
         while ($result->fetch()) {
-            $row = array();
+            $row = array( );
 
             // the columns we are interested in
             foreach ($names as $property) {
@@ -601,13 +599,6 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
 
                 // allow components to add more actions
                 CRM_Core_Component::searchAction( $row, $result->contact_id );
-                
-                //fixes for CRM-2222
-                if ( CRM_Utils_Array::value( 'title', $this->_fields['organization_name'] ) == 'Current Employer' ) {
-                    require_once 'CRM/Contact/BAO/Relationship.php';
-                    $currentEmployer = CRM_Contact_BAO_Relationship::getCurrentEmployer( $result->contact_id );
-                    $row['organization_name'] = $currentEmployer['org_name'];
-                }
                 
                 $contact_type    = '<img src="' . $config->resourceBase . 'i/contact_';
                 switch ($result->contact_type) {

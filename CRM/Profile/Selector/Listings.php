@@ -471,13 +471,6 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
                 continue;
             }
            
-            //fixes for CRM-2222
-            if ( CRM_Utils_Array::value( 'title', $this->_fields['organization_name'] ) == 'Current Employer' ) {
-                require_once 'CRM/Contact/BAO/Relationship.php';
-                $currentEmployer = CRM_Contact_BAO_Relationship::getCurrentEmployer( $result->contact_id );
-                $result->organization_name = $currentEmployer['org_name'];
-            }
-            
             foreach ( $names as $name ) {
                 if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($name)) {
                     $row[] = CRM_Core_BAO_CustomField::getDisplayValue( $result->$name,

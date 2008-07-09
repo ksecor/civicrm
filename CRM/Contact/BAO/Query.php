@@ -432,7 +432,7 @@ class CRM_Contact_BAO_Query
         // CRM_Core_Error::debug( 'f', $this->_fields );
         // CRM_Core_Error::debug( 'p', $this->_params );
         // CRM_Core_Error::debug( 'p', $this->_paramLookup );
-        
+
         foreach ($this->_fields as $name => $field) {
 
             //skip component fields
@@ -519,6 +519,8 @@ class CRM_Contact_BAO_Query
                 } else if ($name === 'notes') {
                     $this->_select[$name   ] = "GROUP_CONCAT(DISTINCT(civicrm_note.note)) AS notes";
                     $this->_tables['civicrm_note'        ] = 1;
+                } else if ($name === 'current_employer') {
+                    $this->_select[$name   ] = "IF ( contact_a.contact_type = 'Individual', organization_name, NULL ) AS current_employer";
                 }
             } 
             
@@ -562,7 +564,6 @@ class CRM_Contact_BAO_Query
                             $this->_cfIDs[$cfID][] = $p;
                         }
                     }
-
                 }
             }
         }
@@ -2579,6 +2580,7 @@ WHERE  id IN ( $groupIDs )
                                                                'job_title'              => 1,
                                                                'legal_name'             => 1,
                                                                'sic_code'               => 1,
+                                                               'current_employer'       => 1,
                                                                // FIXME: should we use defaultHierReturnProperties() for the below?
                                                                'do_not_email'           => 1,
                                                                'do_not_mail'            => 1,

@@ -71,14 +71,11 @@ class CRM_Export_BAO_Export
         if ( $fields ) {
             //construct return properties 
             $locationTypes =& CRM_Core_PseudoConstant::locationType();
-            
+
             foreach ( $fields as $key => $value) {
                 $fieldName   = CRM_Utils_Array::value( 1, $value );
                 
                 if ( ! $fieldName ) {
-                    continue;
-                } else if ( $fieldName == 'current_employer' ) {
-                    $returnEmployer = true;
                     continue;
                 }
                 
@@ -121,9 +118,10 @@ class CRM_Export_BAO_Export
             }
             
             if ( $primary ) {
-                $returnProperties['location_type'] = 1;
-                $returnProperties['im_provider'  ] = 1;
-                $returnProperties['phone_type'   ] = 1;
+                $returnProperties['location_type'   ] = 1;
+                $returnProperties['im_provider'     ] = 1;
+                $returnProperties['phone_type'      ] = 1;
+                $returnProperties['current_employer'] = 1;
             }
             
             $paymentFields = false;
@@ -159,7 +157,7 @@ class CRM_Export_BAO_Export
         if ( $moreReturnProperties ) {
             $returnProperties = array_merge( $returnProperties, $moreReturnProperties );
         }
-        //crm_core_error::debug('$returnProperties', $returnProperties );
+        //crm_core_error::debug('$returnProperties', $returnProperties ); exit();
         $query =& new CRM_Contact_BAO_Query( 0, $returnProperties, null, false, false, $queryMode ); 
 
         list( $select, $from, $where ) = $query->query( );
@@ -218,17 +216,11 @@ class CRM_Export_BAO_Export
         if ( $paymentFields ) {
             $addPaymentHeader = true;
             //special return properties for event and members
-            $paymentHeaders = array( 'Total Amount', 'Contribution Status', 'Received Date',
-                                     'Payment Instrument', 'Transaction ID');
+            $paymentHeaders = array( ts('Total Amount'), ts('Contribution Status'), ts('Received Date'),
+                                     ts('Payment Instrument'), ts('Transaction ID'));
             
             // get payment related in for event and members
             $paymentDetails = CRM_Contribute_BAO_Contribution::getContributionDetails( $exportMode, $ids );
-        }
-        
-        //get the current employer name, CRM-2968.
-        if ( ( $returnEmployer || $primary ) && $exportMode == CRM_Export_Form_Select::CONTACT_EXPORT ) {
-            require_once 'CRM/Contact/BAO/Relationship.php';
-            $currentEmployer = CRM_Contact_BAO_Relationship::getCurrentEmployer( $ids );
         }
         
         $componentDetails = $headerRows = array( );
@@ -315,22 +307,18 @@ class CRM_Export_BAO_Export
                 $addPaymentHeader = false;
             }
 
-            //get the current employer name, CRM-2968.
-            if ( ( $returnEmployer || $primary ) && $exportMode == CRM_Export_Form_Select::CONTACT_EXPORT ) {
-                $row['current_employer'] = $currentEmployer[$dao->contact_id]['org_name'];
-            }
-            
             // add payment related information
             if ( $paymentFields && isset( $paymentDetails[ $row[$paymentTableId] ] ) ) {
                 $row = array_merge( $row, $paymentDetails[ $row[$paymentTableId] ] );
             }
+
+            //remove organization name for individuals
+            if ( $row['contact_type'] == 'Individual' || isset( $row['current_employer'] ) ) {
+                $row['organization_name'] = '';
+            }
             
             // add component info
             $componentDetails[] = $row;         
-        }
-        
-        if ( ($returnEmployer || $primary ) && $exportMode == CRM_Export_Form_Select::CONTACT_EXPORT ) {
-            $headerRows[] = 'Current Employer';
         }
         
         require_once 'CRM/Core/Report/Excel.php';
