@@ -393,7 +393,11 @@ class CRM_Pledge_BAO_Query
         
         $form->addGroup( $status, 'pledge_status_id', ts( 'Pledge Status' ) );
 
-        $form->addGroup( $status, 'pledge_payment_status_id', ts( 'Pledge Payment Status' ) );
+        foreach ( $statusValues as $key => $val ) {
+            $paymentStatus[] =  $form->createElement('advcheckbox',$key, null, $val );
+        }
+
+        $form->addGroup( $paymentStatus, 'pledge_payment_status_id', ts( 'Pledge Payment Status' ) );
 
         require_once 'CRM/Contribute/PseudoConstant.php';
         $form->add('select', 'pledge_contribution_type_id', 

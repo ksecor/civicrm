@@ -465,7 +465,7 @@ class CRM_Pledge_Form_Search extends CRM_Core_Form
         }
 
         // set pledge related fields
-        $pstatus = CRM_Utils_Request::retrieve( 'pstatus', 'String',
+        $pledgeStatus = CRM_Utils_Request::retrieve( 'pstatus', 'String',
                                                CRM_Core_DAO::$_nullObject );
         if ( $pledgeStatus ) {
             $this->_formValues['pledge_status_id'] = array( $pledgeStatus => 1);
