@@ -143,9 +143,6 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         if ( $contact->contact_type == 'Individual') {
             $allNull = false;
 
-            //unset organization name 
-            $contact->organization_name = 'null';
-
             //format individual fields
             require_once "CRM/Contact/BAO/Individual.php";
             CRM_Contact_BAO_Individual::format( $params, $contact );
@@ -1368,11 +1365,11 @@ WHERE  civicrm_contact.id = %1 ";
         }
 
         if ( $data['contact_type'] == 'Individual' && 
-            array_key_exists( 'organization_name', $params ) ) {
-            if ( $params['organization_name'] )  {
+             array_key_exists( 'current_employer', $params ) ) {
+            if ( $params['current_employer'] )  {
                 require_once 'CRM/Contact/BAO/Contact/Utils.php';
                 CRM_Contact_BAO_Contact_Utils::createCurrentEmployerRelationship( $contactID,
-                                                                                  $params['organization_name'] );
+                                                                                  $params['current_employer'] );
             }
         }
 
