@@ -144,17 +144,6 @@ foreach ($locales as $locale) {
     $fd = fopen( $sqlCodePath . $filename, "w" );
     fputs( $fd, $data );
     fclose( $fd );
-
-    $data = '';
-    $data .= $smarty->fetch('civicrm_add_domain.tpl');
-
-    // write the add_domain mysql script
-    $filename = 'civicrm_add_domain';
-    if ($locale != 'en_US') $filename .= ".$locale";
-    $filename .= '.mysql';
-    $fd = fopen( $sqlCodePath . $filename, "w" );
-    fputs( $fd, $data );
-    fclose( $fd );
 }
 
 $sample = file_get_contents( $smarty->template_dir . '/civicrm_sample.tpl' );
