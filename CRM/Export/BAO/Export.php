@@ -65,9 +65,6 @@ class CRM_Export_BAO_Export
         $returnProperties = array( );
         $origFields       = $fields;
         
-        //if user map current employer field to be exported.
-        $returnEmployer  = false;
-        
         if ( $fields ) {
             //construct return properties 
             $locationTypes =& CRM_Core_PseudoConstant::locationType();
@@ -312,8 +309,8 @@ class CRM_Export_BAO_Export
                 $row = array_merge( $row, $paymentDetails[ $row[$paymentTableId] ] );
             }
 
-            //remove organization name for individuals
-            if ( $row['contact_type'] == 'Individual' || isset( $row['current_employer'] ) ) {
+            //remove organization name for individuals if it is set for current employer
+            if ( $row['contact_type'] == 'Individual' ) {
                 $row['organization_name'] = '';
             }
             
