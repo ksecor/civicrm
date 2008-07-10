@@ -877,8 +877,20 @@ class CRM_Utils_Date
 
         return $results;
     }
-
-    function DateAdd($interval, $number, $date) 
+    
+    /**
+     * Function to calculate next payment date according to provided  unit & interval
+     * 
+     * @param string $unit frequency unit like year,month, week etc..
+     *
+     * @param int $interval frequency interval .
+     *
+     * @param array $date start date of pledge .
+     *
+     * @return array $result contains new date with added interval
+     * @access public
+     */
+    function dateAdd($unit, $interval, $date) 
     {  
         $hours   = $date['H'];
         $minutes = $date['i'];
@@ -887,45 +899,66 @@ class CRM_Utils_Date
         $day     = $date['d'];
         $year    = $date['Y'];
         
-        switch ($interval) {
+        $date = mktime ($hours, $minutes, $seconds, $month, $day, $year);
+       
+        switch ( $unit ) {
+
         case 'year':
-            $year+=$number;
-            break;
-        case 'q':
-            $year+=($number*3);
+            $offset        = mktime (0, 0, 0, 1, 1, 2000);
+            $period        = mktime (0, 0, 0, 1, 1, 2001);
+            $yearInterval  = $period - $offset;
             break;
         case 'month':
-            if ( ($month+$number) > 12 ) {
-                $yFactor=($month+$number)/12;
-                $month=($month+$number)%12;
-                $year+=(int)$yFactor;
-            } else {
-                $month+=$number;
-            }
-            break;
-        case 'day':
-            //need to handle for all days
-            $day+=$number;
+            $offset        = mktime (0, 0, 0, 1, 1, 2000);
+            $period        = mktime (0, 0, 0, 2, 1, 2000);
+            $monthInterval = $period - $offset;
             break;
         case 'week':
-            $day+=($number*7);
+            $offset        = mktime (0, 0, 0, 1, 1, 2000);
+            $period        = mktime (0, 0, 0, 1, 8, 2000);
+            $weekInterval  = $period - $offset;
             break;
-        case 'h':
-            $hours+=$number;
+        case 'day':
+            $offset        = mktime (0, 0, 0, 1, 1, 2000);
+            $period        = mktime (0, 0, 0, 1, 2, 2000);
+            $dayInterval   = $period - $offset;
             break;
-        case 'i':
-            $minutes+=$number;
-            break;
-        case 's':
-            $seconds+=$number;
-            break;            
         }
-        $date['H'] = $hours;
-        $date['i'] = $minutes;
-        $date['s'] = $seconds ;
-        $date['M'] = $month;
-        $date['d'] = $day;
-        $date['Y'] = $year;
+        
+        switch ( $unit ) {
+       
+        case 'year':
+            $yearInterval = $yearInterval * $interval;
+            $date = $date + $yearInterval;
+            break;
+            
+        case 'month':
+            $monthInterval = $monthInterval  * $interval;
+            $date = $date + $monthInterval;
+            break;
+            
+        case 'week':
+            $weekInterval = $weekInterval * $interval;
+            CRM_Core_Error::debug( '$weekInterval', $weekInterval );
+            $date = $date + $weekInterval;
+            break;
+            
+        case 'day':
+            $dayInterval =  $dayInterval *  $interval;
+            $date = $date + $dayInterval;
+            break;
+        }
+
+        $scheduleDate = explode ( "-", date("n-j-Y-H-i-s", $date ) );
+             
+        $date = array( );
+        $date['M'] = $scheduleDate[0];
+        $date['d'] = $scheduleDate[1];
+        $date['Y'] = $scheduleDate[2];
+        $date['H'] = $scheduleDate[3];
+        $date['i'] = $scheduleDate[4];
+        $date['s'] = $scheduleDate[5];
+                       
         return $date;
     }
     
