@@ -29,8 +29,14 @@
             <td><label>{ts}Contact Type(s){/ts}</label><br />
                 {$form.contact_type.html}
             </td>
-            <td><label>{ts}Group(s){/ts}</label>{$form.group:count}<br />
-                <div class="listing-box">
+            {* Choose regular or 'tall' listing-box class for Group select box based on # of groups. *}
+            {if $form.group|@count GT 8}
+                {assign var="boxClass" value="listing-box-tall"}
+            {else}
+                {assign var="boxClass" value="listing-box"}
+            {/if}
+            <td><label>{ts}Group(s){/ts}</label>
+                <div class="{$boxClass}">
                     {foreach from=$form.group item="group_val"}
                     <div class="{cycle values="odd-row,even-row"}">
                     {$group_val.html}
@@ -38,8 +44,14 @@
                     {/foreach}
                 </div>
             </td>
-            <td colspan="2"><label>{ts}Tag(s){/ts}</label><br />
-                <div class="listing-box">
+            {* Choose regular or 'tall' listing-box class for Tag select box based on # of groups. *}
+            {if $form.tag|@count GT 8}
+                {assign var="boxClass" value="listing-box-tall"}
+            {else}
+                {assign var="boxClass" value="listing-box"}
+            {/if}
+            <td colspan="2"><label>{ts}Tag(s){/ts}</label>
+                <div class="{$boxClass}">
                     {foreach from=$form.tag item="tag_val"} 
                     <div class="{cycle values="odd-row,even-row"}">
                     {$tag_val.html}
@@ -49,8 +61,8 @@
             </td>
 	    </tr>
         <tr>
-            <td><br />{$form.privacy.label}</td>
-            <td colspan="3"><br />{$form.privacy.html}
+            <td>{$form.privacy.label}</td>
+            <td colspan="3">{$form.privacy.html}
             </td>
         </tr>
         <tr>
