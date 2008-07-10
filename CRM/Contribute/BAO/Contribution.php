@@ -614,6 +614,7 @@ GROUP BY p.id
                               'email-Primary' => $params["honor_email"] );
         if ( !$honorId ) {
             require_once "CRM/Core/BAO/UFGroup.php";
+            $honorParams['email'] = $params["honor_email"];
             $ids = CRM_Core_BAO_UFGroup::findContact( $honorParams, null, 'Individual' );
             $contactsIds = explode( ',', $ids );
             
