@@ -424,10 +424,12 @@ function toggleTaskAction( status ) {
     var formElements = ['task', 'Go', 'Print'];
     for(var i=0; i<formElements.length; i++ ) {
 	var element = document.getElementById( formElements[i] );
-	if ( status ) {
-	    element.disabled = false;
-	} else {
-	    element.disabled = true;
+	if ( element ) {
+	    if ( status ) {
+		element.disabled = false;
+	    } else {
+		element.disabled = true;
+	    }
 	}
     }
 }
