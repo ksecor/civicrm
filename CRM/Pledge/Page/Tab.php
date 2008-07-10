@@ -117,11 +117,17 @@ class CRM_Pledge_Page_Tab extends CRM_Contact_Page_View
         }
         
         $this->setContext( );
-        
+       
         if ( $this->_action & CRM_Core_Action::VIEW ) { 
             $this->view( ); 
         } else if ( $this->_action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::DELETE ) ) {
             $this->edit( ); 
+        } else if ( $this->_action & CRM_Core_Action::DETACH ) { 
+            require_once 'CRM/Pledge/BAO/Payment.php';
+            require_once 'CRM/Contribute/PseudoConstant.php';
+            CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $this->_id, null, array_search( 'Cancelled', CRM_Contribute_PseudoConstant::contributionStatus() ) );
+            $session =& CRM_Core_Session::singleton();
+            CRM_Utils_System::redirect( $session->popUserContext() );
         } else {
             $this->browse( ); 
         }

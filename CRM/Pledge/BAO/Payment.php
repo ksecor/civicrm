@@ -224,8 +224,8 @@ WHERE pledge_id = %1
             }
             $updatePledge = true;
         }  else if ( $status == array_search( 'Cancelled', $allStatus ) ) {
-            $updatePayment = true;
-            $paymentStatus = $status;
+            $updatePayment = $updatePledge = true;
+            $paymentStatus = $pledgeStatus = $status;
         }
         
         //update payment status.
