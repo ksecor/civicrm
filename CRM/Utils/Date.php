@@ -881,16 +881,16 @@ class CRM_Utils_Date
     /**
      * Function to calculate next payment date according to provided  unit & interval
      * 
-     * @param string $unit frequency unit like year,month, week etc..
+     * @param string $unit     frequency unit like year,month, week etc..
      *
-     * @param int $interval frequency interval .
+     * @param int    $interval frequency interval.
      *
-     * @param array $date start date of pledge .
+     * @param array  $date     start date of pledge.
      *
      * @return array $result contains new date with added interval
      * @access public
      */
-    function dateAdd($unit, $interval, $date) 
+    function intervalAdd($unit, $interval, $date) 
     {  
         $hours   = $date['H'];
         $minutes = $date['i'];
