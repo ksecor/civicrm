@@ -20,7 +20,7 @@
                     <div class="description font-italic">
                         {ts 1=$config->userFramework}Does the contact have a %1 Account?{/ts}
                     </div>
-{/if}
+                    {/if}
                 </div>
             </td>
             <td class="label">{$form.buttons.html}</td>       
@@ -29,7 +29,7 @@
             <td><label>{ts}Contact Type(s){/ts}</label><br />
                 {$form.contact_type.html}
             </td>
-            <td><label>{ts}Group(s){/ts}</label><br />
+            <td><label>{ts}Group(s){/ts}</label>{$form.group:count}<br />
                 <div class="listing-box">
                     {foreach from=$form.group item="group_val"}
                     <div class="{cycle values="odd-row,even-row"}">
