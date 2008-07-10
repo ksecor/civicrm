@@ -207,8 +207,9 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
         
         // intro-text and thank-you text
         $form->addWysiwyg('intro', ts('Introduction'), CRM_Core_DAO::getAttribute('CRM_Friend_DAO_Friend', 'intro'), true);
-
-        $form->addWysiwyg('suggested_message', ts('Suggested Message'), CRM_Core_DAO::getAttribute('CRM_Friend_DAO_Friend', 'suggested_message'), false);
+        
+        $form->add('textarea', 'suggested_message', ts('Suggested Message'), 
+                   CRM_Core_DAO::getAttribute('CRM_Friend_DAO_Friend', 'suggested_message'), false);
 
         $form->add('text','general_link',ts('Info Page Link'));
         
