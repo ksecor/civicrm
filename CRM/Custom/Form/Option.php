@@ -351,6 +351,7 @@ SELECT data_type
         $params = $this->controller->exportValues('Option');
 
         // set values for custom field properties and save
+        require_once 'CRM/Core/DAO/OptionValue.php';
         $customOption                =& new CRM_Core_DAO_OptionValue();
         $customOption->label         = $params['label'];
         $customOption->weight        = $params['weight'];
