@@ -188,9 +188,9 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
         require_once 'CRM/Core/Component.php';
         $components = CRM_Core_Component::getEnabledComponents();
 
-        foreach( $components as $name => $component ) {
-            if( in_array( $name, array_keys($this->_viewOptions) ) &&
-                CRM_Core_Permission::access( $component->name ) ) {
+        foreach ( $components as $name => $component ) {
+            if ( $this->_viewOptions[$name] &&
+                 CRM_Core_Permission::access( $component->name ) ) {
                 $elem = $component->registerTab();
 
                 // FIXME: not very elegant, probably needs better approach
@@ -244,7 +244,7 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
             $weight += 10;
         }
 
-//        CRM_Core_Error::debug( 's', $allTabs );
+        //CRM_Core_Error::debug( 's', $allTabs );
         
         // now add all the custom tabs
         $activeGroups =&
