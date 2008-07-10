@@ -103,6 +103,14 @@ class CRM_Event_BAO_Query
                 $query->_element['event_end_date'] = 1;
             }
         
+            //event type
+            if ( CRM_Utils_Array::value( 'event_type_id', $query->_returnProperties ) ) {
+                $query->_select['event_type']  = "event_type.name as event_type_id";
+                $query->_element['event_type']        = 1;
+                $query->_tables['event_type']         = 1;
+                $query->_whereTables['event_type']    = 1;
+            }
+
             //add status
             if ( CRM_Utils_Array::value( 'participant_status_id', $query->_returnProperties ) ) {
                 $query->_select['participant_status']  = "participant_status.name as participant_status_id";
@@ -384,6 +392,11 @@ class CRM_Event_BAO_Query
             $from = " INNER JOIN civicrm_event ON civicrm_participant.event_id = civicrm_event.id ";
             break;
             
+        case 'event_type':
+            $from = " $side JOIN civicrm_option_group option_group_event_type ON (option_group_event_type.name = 'event_type')";
+            $from .= " $side JOIN civicrm_option_value event_type ON (civicrm_event.event_type_id = event_type.value AND option_group_event_type.id = event_type.option_group_id ) ";
+            break;
+
         case 'participant_note':
             $from .= " $side JOIN civicrm_note ON ( civicrm_note.entity_table = 'civicrm_participant' AND
                                                         civicrm_participant.id = civicrm_note.entity_id )";
@@ -427,6 +440,7 @@ class CRM_Event_BAO_Query
                                 'event_title'               => 1,
                                 'event_start_date'          => 1,
                                 'event_end_date'            => 1,
+                                'event_type_id'             => 1,
                                 'participant_id'            => 1,
                                 'participant_status_id'     => 1,
                                 'participant_role_id'       => 1,
