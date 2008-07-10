@@ -568,8 +568,8 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
 }
 
 // double line right border for last cell in a horizontal grouping
-#crm-container .report td.splitter {
-    border-right: 3px double #92B6EC;
+#crm-container table.report td.splitter {
+    border-right: 5px double #92B6EC;
 }
 
 #crm-container .report td.separator {

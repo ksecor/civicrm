@@ -83,34 +83,25 @@ dojo.addOnLoad( function( ) {
                 {if $context EQ 'smog'}
                     {$form.group_contact_status.label}<br />
                 {else}
-{*$form.group.label*}{ts}in{/ts} &nbsp;
+                    {ts}in{/ts} &nbsp;
                 {/if}
                 {if $context EQ 'smog'}
                     {$form.group_contact_status.html}
                 {else}
-{ if $config->groupTree }
-<a href="#" onclick="dijit.byId('id-groupPicker').show(); displayGroupTree( );">{ts}Select Group(s){/ts}</a>
-<div class="tundra" style="background-color: #f4eeee;" dojoType="dijit.Dialog" id="id-groupPicker" title="Select Group(s)" execute="setCheckBoxValues();">
-</div><br/><br/>
-<span id="id-group-names"></span>
-{else}
-                    {$form.group.html}
-{/if}
+                    { if $config->groupTree }
+                        <a href="#" onclick="dijit.byId('id-groupPicker').show(); displayGroupTree( );">{ts}Select Group(s){/ts}</a>
+                        <div class="tundra" style="background-color: #f4eeee;" dojoType="dijit.Dialog" id="id-groupPicker" title="Select Group(s)" execute="setCheckBoxValues();">
+                        </div><br />
+                        <span id="id-group-names"></span>
+                    {else}
+                        {$form.group.html}
+                    {/if}
                 {/if}
             <td class="label">{$form.tag.label} {$form.tag.html}</td>
             <td style="vertical-align: bottom;">
                 {$form.buttons.html}
             </td>
         </tr>
-
-        {*FIXME : uncomment following fields and place in form layout when subgroup functionality is implemented
-        {if $context EQ 'smog'}
-           <td>  
-             {$form.subgroups.html}
-             {$form.subgroups_dummy.html}
-          </td>
-        {/if}
-        *}
     </table>
     {/strip}
     </div>

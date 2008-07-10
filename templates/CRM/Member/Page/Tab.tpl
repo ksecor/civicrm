@@ -18,13 +18,13 @@
             {/if}
         </div>
 
-        <div class="action-link solid-border-bottom">
+        <div class="action-link">
             <a accesskey="N" href="{$newURL}" class="button"><span>&raquo; {ts}New Membership{/ts}</span></a>
-	    {if $newCredit}
-            <a accesskey="N" href="{$newCreditURL}" class="button"><span>&raquo; {ts}Submit Credit / Debit Card Membership{/ts}</span></a><br/><br/>
-	    {else}
-	    <br/><br/>	
-            {/if}
+            {if $newCredit}
+                <a accesskey="N" href="{$newCreditURL}" class="button"><span>&raquo; {ts}Submit Credit / Debit Card Membership{/ts}</span></a><br /><br />
+            {else}
+                <br/ ><br/ >	
+        {/if}
         </div>
     {/if}
     {if NOT ($activeMembers or $inActiveMembers) and $action ne 2 and $action ne 1 and $action ne 8 and $action ne 4 and $action ne 32768}

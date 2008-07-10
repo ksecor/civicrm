@@ -39,6 +39,9 @@
 <tr><td colspan="4" class="right" style="padding: 8px 10px 0px 4px; vertical-align: middle;"><a href="{$chartURL}"><img src="{$config->resourceBase}/i/BarGraph.png" alt="{ts}View contribution summary as bar or circle chart"{/ts} /></a> <a href="{$chartURL}">Bar or Pie Chart...</a></td></tr>
 </tr>
 </table>
+
+<div class="spacer"></div>
+
 {if $pager->_totalItems}
     <h3>{ts}Recent Contributions{/ts}</h3>
     <div class="form-item">
