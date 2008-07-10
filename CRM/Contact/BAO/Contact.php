@@ -261,6 +261,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
                                         'entity_id'     => $contact->id,
                                         'entity_table'  => 'civicrm_contact',
                                         'note'          => $note['note'],
+                                        'subject'       => $note['subject'],
                                         'contact_id'    => $contactId
                                         );
                     CRM_Core_BAO_Note::add($noteParams, CRM_Core_DAO::$_nullArray);
@@ -279,6 +280,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
                                     'entity_id'     => $contact->id,
                                     'entity_table'  => 'civicrm_contact',
                                     'note'          => $params['note'],
+                                    'subject'       => $params['subject'],
                                     'contact_id'    => $contactId
                                     );
                 CRM_Core_BAO_Note::add($noteParams, CRM_Core_DAO::$_nullArray);
