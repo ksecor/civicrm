@@ -178,7 +178,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             $defaults['max_reminders']           = 1;
             $defaults['additional_reminder_day'] = 5;
             $defaults['frequency_unit']          = $frequencyUnit;
-            $defaults['status_id']               = array_search( 'In Progress', CRM_Contribute_PseudoConstant::contributionStatus());
+            $defaults['status_id']               = array_search( 'Pending', CRM_Contribute_PseudoConstant::contributionStatus());
             $defaults['contribution_type_id']    = array_search( 'Donation', CRM_Contribute_PseudoConstant::contributionType());
         }
         
