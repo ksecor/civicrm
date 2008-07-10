@@ -939,7 +939,6 @@ class CRM_Utils_Date
             
         case 'week':
             $weekInterval = $weekInterval * $interval;
-            CRM_Core_Error::debug( '$weekInterval', $weekInterval );
             $date = $date + $weekInterval;
             break;
             
