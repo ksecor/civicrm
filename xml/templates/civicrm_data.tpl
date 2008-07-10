@@ -384,10 +384,10 @@ VALUES
   (@option_group_id_mt, '{ts escape="sql"}Export Membership{/ts}',   9, 'Export Membership',   NULL, 0, 0,    9, NULL, 0, 1, 1, NULL),
   (@option_group_id_mt, '{ts escape="sql"}Export Participant{/ts}', 10, 'Export Participant',  NULL, 0, 0,   10, NULL, 0, 1, 1, NULL),
 
-  (@option_group_id_fu, 'day'    , 'daily'  ,    'day',  NULL, 0, NULL, 1, NULL, 0, 1, 1, NULL),
-  (@option_group_id_fu, 'week'   , 'weekly' ,   'week',  NULL, 0, NULL, 2, NULL, 0, 1, 1, NULL),
-  (@option_group_id_fu, 'month'  , 'monthly',  'month',  NULL, 0, NULL, 3, NULL, 0, 1, 1, NULL),
-  (@option_group_id_fu, 'year'   , 'yearly' ,   'year',  NULL, 0, NULL, 4, NULL, 0, 1, 1, NULL);
+  (@option_group_id_fu, 'daily'    , 'day'  ,    'day',  NULL, 0, NULL, 1, NULL, 0, 1, 1, NULL),
+  (@option_group_id_fu, 'weekly'   , 'week' ,   'week',  NULL, 0, NULL, 2, NULL, 0, 1, 1, NULL),
+  (@option_group_id_fu, 'monthly'  , 'month',  'month',  NULL, 0, NULL, 3, NULL, 0, 1, 1, NULL),
+  (@option_group_id_fu, 'yearly'   , 'year' ,   'year',  NULL, 0, NULL, 4, NULL, 0, 1, 1, NULL);
 
 
 -- sample membership status entries

@@ -165,7 +165,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         if (  CRM_Utils_Array::value( 'is_test', $defaults ) ) {
             $this->assign( "is_test" , true );
         } 
-        $frequencyUnit = array_search('monthly',array_keys(CRM_Core_OptionGroup::values("recur_frequency_units")));
+        $frequencyUnit = array_search('monthly',CRM_Core_OptionGroup::values("recur_frequency_units"));
        
         //default values.
         if ( !$this->_id ) { 
@@ -280,8 +280,8 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
      
         $element =& $this->add( 'select', 'frequency_unit', 
                                 ts( 'Frequency' ), 
-                                array(''=>ts( '- select -' )) + array_keys($frequencyUnit), 
-                                true, array('onchange' => "calculatedPaymentAmount( );") );
+                                array(''=>ts( '- select -' )) + $frequencyUnit, 
+                                true, array('onkeyup' => "calculatedPaymentAmount( );") );
                                 
         if ( $this->_id ) {
             $element->freeze( );
