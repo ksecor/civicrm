@@ -297,6 +297,22 @@ WHERE contact_a.employer_id=contact_b.id AND contact_b.id={$organizationId}; ";
     }
 
     /**
+     * Function to clear cached current employer name
+     *
+     * @param int $contactId contact id ( mostly individual contact id)
+     *
+     */
+    static function clearCurrentEmployer( $contactId )
+    {
+        $query = "UPDATE civicrm_contact 
+SET organization_name=NULL, employer_id = NULL
+WHERE id={$contactId}; ";
+
+        $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );        
+    }
+
+
+    /**
      * Function to build form for related contacts / on behalf of organization.
      * 
      * @param $form              object  invoking Object

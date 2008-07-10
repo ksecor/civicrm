@@ -727,19 +727,25 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         }
 
         if ( $this->_contactType == 'Individual' ) {
-            if ( isset( $params['employer_option'] ) && 
-                 $params['employer_option'] == 0 && 
-                 $params['create_employer'] ) {
-                require_once 'CRM/Contact/BAO/Contact/Utils.php';
-                CRM_Contact_BAO_Contact_Utils::createCurrentEmployerRelationship($contact->id, 
-                                                                               $params['create_employer']);
-                
-            } elseif ( isset( $params['employer_option'] ) && 
-                       $params['employer_option'] == 1 &&
-                       $params['shared_employer'] ) {
+            if ( isset( $params['employer_option'] ) ) {
+                // create current employer
+                if ( $params['employer_option'] ) {
+                    //selected existing organization
+                    $orgParam = $params['shared_employer'];
+                } else {
+                    // create new org
+                    $orgParam = $params['create_employer'];
+                }
+
                 require_once 'CRM/Contact/BAO/Contact/Utils.php';
                 CRM_Contact_BAO_Contact_Utils::createCurrentEmployerRelationship( $contact->id, 
-                                                                                $params['shared_employer'] );
+                                                                                  $orgParam );
+            } else {
+                //unset if employer id exits
+                if ( CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $contact->id, 'employer_id' ) ) {
+                    require_once 'CRM/Contact/BAO/Contact/Utils.php';
+                    CRM_Contact_BAO_Contact_Utils::clearCurrentEmployer( $contact->id );
+                }
             }
         }
 
