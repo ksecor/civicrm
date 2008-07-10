@@ -501,7 +501,7 @@ class CRM_Contact_BAO_Query
                             } else if ( $tName == 'contact' ) {
                                 // special case, when current employer is set for Individual contact
                                 if ( $fieldName == 'organization_name' ) {
-                                    $this->_select[$name   ] = "IF ( contact_a.contact_type = 'Individual', NULL, organization_name ) AS organization_name";
+                                    $this->_select[$name   ] = "IF ( contact_a.contact_type = 'Individual', NULL, contact_a.organization_name ) AS organization_name";
                                 } else if ( $fieldName != 'id' ) {
                                     $this->_select [$name]          = "contact_a.{$fieldName}  as `$name`";
                                 } 
@@ -522,7 +522,7 @@ class CRM_Contact_BAO_Query
                     $this->_select[$name   ] = "GROUP_CONCAT(DISTINCT(civicrm_note.note)) AS notes";
                     $this->_tables['civicrm_note'        ] = 1;
                 } else if ($name === 'current_employer') {
-                    $this->_select[$name   ] = "IF ( contact_a.contact_type = 'Individual', organization_name, NULL ) AS current_employer";
+                    $this->_select[$name   ] = "IF ( contact_a.contact_type = 'Individual', contact_a.organization_name, NULL ) AS current_employer";
                     $this->_element[$name]   = 1;
                 }
             } 
