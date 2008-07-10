@@ -31,22 +31,6 @@
     </td> 
  </tr>   
  <tr>
-    <td>
-     {$form.pledge_payment_date_low.label} 
-     <br />
-     {$form.pledge_payment_date_low.html} &nbsp;
-     {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_pledge_5}
-     {include file="CRM/common/calendar/body.tpl" dateVar=pledge_payment_date_low startDate=startYear endDate=endYear offset=5 trigger=trigger_search_pledge_5}
-    </td>
-    <td>
-     {$form.pledge_payment_date_high.label}
-    <br />
-     {$form.pledge_payment_date_high.html}&nbsp
-     {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_pledge_6}
-     {include file="CRM/common/calendar/body.tpl" dateVar=pledge_payment_date_high startDate=startYear endDate=endYear offset=5 trigger=trigger_search_pledge_6}
-    </td> 
- </tr>
- <tr>
     <td> 
      <label>{ts}Pledge Amounts{/ts} 
      <br />
@@ -75,6 +59,22 @@
     <td>
      {$form.pledge_test.html}&nbsp;{$form.pledge_test.label}
     </td>
+ </tr>
+ <tr>
+    <td>
+     {$form.pledge_payment_date_low.label} 
+     <br />
+     {$form.pledge_payment_date_low.html} &nbsp;
+     {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_pledge_5}
+     {include file="CRM/common/calendar/body.tpl" dateVar=pledge_payment_date_low startDate=startYear endDate=endYear offset=5 trigger=trigger_search_pledge_5}
+    </td>
+    <td>
+     {$form.pledge_payment_date_high.label}
+    <br />
+     {$form.pledge_payment_date_high.html}&nbsp
+     {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_pledge_6}
+     {include file="CRM/common/calendar/body.tpl" dateVar=pledge_payment_date_high startDate=startYear endDate=endYear offset=5 trigger=trigger_search_pledge_6}
+    </td> 
  </tr>
  <tr>
     <td colspan="2">
