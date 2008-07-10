@@ -32,7 +32,7 @@ dojo.declare(
 		 onClick: function(item, treeNode){
 		     this.recursiveCheckItem(item, !this.model.store.getValue(item, 'checked'));
 		     //check or uncheck ancestors if neccessary
-		     /*
+
 		     if (this.model.store.getValue(item, 'checked')){
 			 var node = treeNode.getParent();
 			 var break_flag = false;
@@ -58,7 +58,7 @@ dojo.declare(
 			     node = node.getParent();
 			 }
 		     }
-		     */
+
 		     this._refreshTreeDisplay(treeNode);
 		     var value = '';
 		     for ( var i = 0; i < this.checkedFiles.length; i++ ) {
