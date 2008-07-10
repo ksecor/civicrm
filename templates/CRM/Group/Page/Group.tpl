@@ -9,7 +9,9 @@
     </div><br />
 {/if} {* action ne add or edit *}
 {/if}
+{if $action ne 2}	
 {include file="CRM/Group/Form/Search.tpl"}
+{/if}
 {if $rows}
 <div id="group">
 {if $action eq 16 or $action eq 32 or $action eq 64} {* browse *}  
@@ -62,7 +64,7 @@
             <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
             {capture assign=browseURL}{crmURL p='civicrm/group' q="reset=1"}{/capture}
             <dd>
-                {ts}No available Groups match your search criteria. Suggestions:{/ts}
+                {ts}No matching Groups found for your search criteria. Suggestions:{/ts}
                 <div class="spacer"></div>
                 <ul>
                 <li>{ts}Check your spelling.{/ts}</li>
@@ -78,7 +80,7 @@
         <dl>
             <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
             {capture assign=crmURL}{crmURL p='civicrm/group/add' q="reset=1"}{/capture}
-            <dd>{ts}No Groups have been created for this site.{/ts}
+            <dd>{ts}No matching Groups found for your search criteria.{/ts}
                 {if $groupPermission eq 1}
                     {ts 1=$crmURL}You can <a href='%1'>add one</a> now.{/ts}
                 {/if}
