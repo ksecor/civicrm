@@ -80,11 +80,11 @@ class CRM_Core_BAO_CustomValueTable
                         if ( ! is_numeric( $value ) ) {
                             $states = array( );
                             $states['state_province'] = $value;
-                            require_once 'CRM/Contact/BAO/Contact.php';
-                            CRM_Contact_BAO_Contact::lookupValue( $states, 'state_province', 
+
+                            CRM_Utils_Array::lookupValue( $states, 'state_province', 
                                                                   CRM_Core_PseudoConstant::stateProvince(), true );
                             if ( !$states['state_province_id'] ) {
-                                CRM_Contact_BAO_Contact::lookupValue( $states, 'state_province',
+                                CRM_Utils_Array::lookupValue( $states, 'state_province',
                                                                       CRM_Core_PseudoConstant::stateProvinceAbbreviation(), true );
                             }
                             $value = $states['state_province_id'];
@@ -103,10 +103,10 @@ class CRM_Core_BAO_CustomValueTable
                             $countries = array( );
                             $countries['country'] = $value;
                             
-                            CRM_Contact_BAO_Contact::lookupValue( $countries, 'country', 
+                            CRM_Utils_Array::lookupValue( $countries, 'country', 
                                                                   CRM_Core_PseudoConstant::country(), true );
                             if ( ! $countries['country_id'] ) {
-                                CRM_Contact_BAO_Contact::lookupValue( $countries, 'country',
+                                CRM_Utils_Array::lookupValue( $countries, 'country',
                                                                       CRM_Core_PseudoConstant::countryIsoCode(), true );
                             }
                             $value = $countries['country_id'];
