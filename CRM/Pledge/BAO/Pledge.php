@@ -195,12 +195,25 @@ class CRM_Pledge_BAO_Pledge extends CRM_Pledge_DAO_Pledge
     static function deletePledge( $id )
     { 
         CRM_Utils_Hook::pre( 'delete', 'Pledge', $id, CRM_Core_DAO::$_nullArray );
-        
+
+        //check for no Completed Payment records with the pledge
+        require_once 'CRM/Pledge/DAO/Payment.php';
+        $payment = new CRM_Pledge_DAO_Payment( );
+        $payment->pledge_id = $id;
+        $payment->find( );
+
+        require_once 'CRM/Contribute/PseudoConstant.php';
+        while ( $payment->fetch( ) ) {
+            if ($payment->status_id == array_search( 'Completed', CRM_Contribute_PseudoConstant::contributionStatus())) {
+                CRM_Core_Session::setStatus( ts( 'This pledge can not be deleted because there are payment records (with status completed) linked to it.' ) );
+                
+                return;
+            }
+        }
+                
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
-        
         $results = null;
-        
         $dao     = new CRM_Pledge_DAO_Pledge( );
         $dao->id = $id;
         $results = $dao->delete( );
