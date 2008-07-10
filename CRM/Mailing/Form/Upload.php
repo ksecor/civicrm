@@ -354,7 +354,14 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             return true;
         }
         $errors = array();
+        $template =& CRM_Core_Smarty::singleton( );
+       
 
+        if (isset($params['html_message'])){
+             $htmlMessage = str_replace( array("\n","\r"), ' ', $params['html_message']);
+             $htmlMessage = str_replace( "'", "\'", $htmlMessage);
+             $template->assign('htmlContent',$htmlMessage );
+        }
         require_once 'CRM/Core/BAO/Domain.php';
 
         $domain =& CRM_Core_BAO_Domain::getDomain();

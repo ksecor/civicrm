@@ -1865,9 +1865,8 @@ SELECT DISTINCT( m.id ) as id
         
         $form->add('checkbox','saveTemplate',ts('Save As New Template'), null,false,
                           array( 'onclick' => "showSaveDetails(this);" ));
-        if ( ! $form->get('saveTemplate') ) {
-            $form->add('text','saveTemplateName',ts('Template Title'));
-        } 
+        $form->add('text','saveTemplateName',ts('Template Title'));
+      
        
         //insert message Text by selecting "Select Template option"
         $form->add( 'textarea', 
@@ -1879,7 +1878,7 @@ SELECT DISTINCT( m.id ) as id
                            ts('HTML Message'),
                            array('cols' => '80', 'rows' => '8',
                                  'onkeyup' =>"return verify(this)" ) );
-           
+        
     }
 
     static function attachmentInfo( $mailingID, $separator = '<br />' ) {

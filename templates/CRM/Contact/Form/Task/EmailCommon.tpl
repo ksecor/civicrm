@@ -23,21 +23,44 @@
 
 {literal}
 <script type="text/javascript" >
-var editor = {/literal}"{$editor}"{literal}
+var editor = {/literal}"{$editor}"{literal};
+	function loadEditor()
+	{
+		var msg =  {/literal}"{$htmlContent}"{literal};
+		if (msg) {
+			if ( editor == "fckeditor" ) {
+				oEditor = FCKeditorAPI.GetInstance('html_message');
+				oEditor.SetHTML( msg );
+			} else if ( editor == "tinymce" ) {
+			     	tinyMCE.get('html_message').setContent( msg );
+			}
+		}
+	}
+		
+	
 
 	function showSaveUpdateChkBox()
 	{
+		if ( document.getElementById('template') == null ) {
+			if (document.getElementsByName("saveTemplate")[0].checked){
+	    			document.getElementById("saveDetails").style.display = "block";
+ 				document.getElementById("editMessageDetails").style.display = "block";
+			} else {
+				 document.getElementById("saveDetails").style.display = "none";
+ 				 document.getElementById("editMessageDetails").style.display = "none";
+			}
+			return;
+		}
+	
 		if ( document.getElementsByName("saveTemplate")[0].checked && document.getElementsByName("updateTemplate")[0].checked == false  ) {
 			document.getElementById("updateDetails").style.display = "none";
 		}else if ( document.getElementsByName("saveTemplate")[0].checked && document.getElementsByName("updateTemplate")[0].checked ){
-		
- 			document.getElementById("editMessageDetails").style.display = "block";	
+			document.getElementById("editMessageDetails").style.display = "block";	
 			document.getElementById("saveDetails").style.display = "block";	
 		}else if ( document.getElementsByName("saveTemplate")[0].checked == false && document.getElementsByName("updateTemplate")[0].checked ){
 			document.getElementById("saveDetails").style.display = "none";
  			document.getElementById("editMessageDetails").style.display = "block";
 		} else {
-
 			document.getElementById("saveDetails").style.display = "none";
  			document.getElementById("editMessageDetails").style.display = "none";
 		}
@@ -99,7 +122,7 @@ var editor = {/literal}"{$editor}"{literal}
 
       	function verify( select )
       	{
-		if ( document.getElementsByName("saveTemplate")[0].checked  == false) {
+		if ( document.getElementsByName("saveTemplate")[0].checked  == false ) {
 	 		document.getElementById("saveDetails").style.display = "none";
 		}
        		document.getElementById("editMessageDetails").style.display = "block";
@@ -122,14 +145,15 @@ var editor = {/literal}"{$editor}"{literal}
      	{
 		if (chkbox.checked) {
 	        	document.getElementById("saveDetails").style.display = "block";
-	        	//document.getElementById("saveTemplateName").disabled = false;
+	        	document.getElementById("saveTemplateName").disabled = false;
 	    	} else {
 	        	document.getElementById("saveDetails").style.display = "none";
 		        document.getElementById("saveTemplateName").disabled = true;
 	        }
 	}
+
 	
-        showSaveUpdateChkBox();
+       	showSaveUpdateChkBox();
             
 	function tokenReplText ( )
     	{
@@ -141,13 +165,13 @@ var editor = {/literal}"{$editor}"{literal}
     	function tokenReplHtml ( )
     	{
         	var token2 = document.getElementById("token2").options[document.getElementById("token2").selectedIndex].text;
-	 	var editor = {/literal}"{$editor}"{literal}
+	 	var editor = {/literal}"{$editor}"{literal};
 	 	if ( editor == "tinymce" ) {
 			var content= tinyMCE.get('html_message').getContent() +token2;
         		tinyMCE.get('html_message').setContent(content);
 	 	} else if ( editor == "fckeditor" ) {
 			oEditor = FCKeditorAPI.GetInstance('html_message');
-			var msg=oEditor.GetHTML() +token2;	
+			var msg=oEditor.GetHTML() + token2;	
 			oEditor.SetHTML( msg );	
 	 	} else {
 			 document.getElementById("html_message").value =  document.getElementById("html_message").value + token2;
@@ -161,6 +185,7 @@ var editor = {/literal}"{$editor}"{literal}
 	{
 	 	oEditor = FCKeditorAPI.GetInstance('html_message');
 		oEditor.SetHTML( {/literal}"{$message_html}"{literal});
+		loadEditor();	
 		editorInstance.Events.AttachEvent( 'OnFocus',verify ) ;
     	}
 {/literal}
@@ -168,6 +193,7 @@ var editor = {/literal}"{$editor}"{literal}
 {if $editor eq "tinymce"}
 {literal}
 	function customEvent() {
+		loadEditor();
 		tinyMCE.get('html_message').onKeyPress.add(function(ed, e) {
  		verify();
 		});
