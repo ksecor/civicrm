@@ -10,7 +10,7 @@ INSERT INTO civicrm_component (name, namespace) VALUES ('CiviMember', 'CRM_Membe
 INSERT INTO civicrm_component (name, namespace) VALUES ('CiviMail', 'CRM_Mailing' );
 INSERT INTO civicrm_component (name, namespace) VALUES ('CiviGrant', 'CRM_Grant' );
 INSERT INTO civicrm_component (name, namespace) VALUES ('CiviPledge', 'CRM_Pledge' );
-INSERT INTO civicrm_component (name, namespace) VALUES ('PledgeBank', 'CRM_PledgeBank' );
+-- INSERT INTO civicrm_component (name, namespace) VALUES ('PledgeBank', 'CRM_PledgeBank' );
 
 INSERT INTO civicrm_address ( contact_id, location_type_id, is_primary, is_billing, street_address, street_number, street_number_suffix, street_number_predirectional, street_name, street_type, street_number_postdirectional, street_unit, supplemental_address_1, supplemental_address_2, supplemental_address_3, city, county_id, state_province_id, postal_code_suffix, postal_code, usps_adc, country_id, geo_code_1, geo_code_2, timezone)
       VALUES
@@ -273,7 +273,7 @@ VALUES
   (@option_group_id_cvOpt, '{ts escape="sql"}Events{/ts}'       ,   9, 'CiviEvent', NULL, 0, NULL,  9,  NULL, 0, 0, 1, NULL),
   (@option_group_id_cvOpt, '{ts escape="sql"}Cases{/ts}'        ,  10, 'CiviCase', NULL, 0, NULL,  10, NULL, 0, 0, 1, NULL),
   (@option_group_id_cvOpt, '{ts escape="sql"}Grants{/ts}'       ,  11, 'CiviGrant', NULL, 0, NULL,  11, NULL, 0, 0, 1, NULL),
-  (@option_group_id_cvOpt, '{ts escape="sql"}PledgeBank{/ts}'   ,  12, 'PledgeBank', NULL, 0, NULL,  12, NULL, 0, 0, 1, NULL),
+--  (@option_group_id_cvOpt, '{ts escape="sql"}PledgeBank{/ts}'   ,  12, 'PledgeBank', NULL, 0, NULL,  12, NULL, 0, 0, 1, NULL),
   (@option_group_id_cvOpt, '{ts escape="sql"}Pledges{/ts}'      ,  13, 'CiviPledge', NULL, 0, NULL,  13, NULL, 0, 0, 1, NULL),
 
   (@option_group_id_ceOpt, '{ts escape="sql"}Communication Preferences{/ts}',   1, 'CommBlock', NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL),
@@ -296,7 +296,7 @@ VALUES
   {/if}
   (@option_group_id_asOpt, 'Grants'                                        ,  12, NULL, NULL, 0, NULL, 14, NULL, 0, 0, 1, NULL),
   (@option_group_id_asOpt, '{ts escape="sql"}Demographics{/ts}'            ,  13, 'demographics', NULL, 0, NULL, 15, NULL, 0, 0, 1, NULL),
-  (@option_group_id_asOpt, '{ts escape="sql"}PledgeBank{/ts}'              ,  14, 'PledgeBank', NULL, 0, NULL, 16, NULL, 0, 0, 1, NULL),
+--  (@option_group_id_asOpt, '{ts escape="sql"}PledgeBank{/ts}'              ,  14, 'PledgeBank', NULL, 0, NULL, 16, NULL, 0, 0, 1, NULL),
   (@option_group_id_asOpt, '{ts escape="sql"}Pledges{/ts}'                 ,  15, 'CiviPledge', NULL, 0, NULL, 17, NULL, 0, 0, 1, NULL),
 
   (@option_group_id_udOpt, '{ts escape="sql"}Groups{/ts}'                     , 1, 'Groups', NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL),
@@ -304,7 +304,7 @@ VALUES
   (@option_group_id_udOpt, '{ts escape="sql"}Memberships{/ts}'                , 3, 'CiviMember', NULL, 0, NULL, 3, NULL, 0, 0, 1, NULL),
   (@option_group_id_udOpt, '{ts escape="sql"}Events{/ts}'                     , 4, 'CiviEvent', NULL, 0, NULL, 4, NULL, 0, 0, 1, NULL),
   (@option_group_id_udOpt, '{ts escape="sql"}My Contacts / Organizations{/ts}', 5, 'Permissioned Orgs', NULL, 0, NULL, 5, NULL, 0, 0, 1, NULL),
-  (@option_group_id_udOpt, '{ts escape="sql"}PledgeBank{/ts}'                 , 6, 'PledgeBank', NULL, 0, NULL, 6, NULL, 0, 0, 1, NULL),
+--  (@option_group_id_udOpt, '{ts escape="sql"}PledgeBank{/ts}'                 , 6, 'PledgeBank', NULL, 0, NULL, 6, NULL, 0, 0, 1, NULL),
   (@option_group_id_udOpt, '{ts escape="sql"}Pledges{/ts}'                    , 7, 'CiviPledge', NULL, 0, NULL, 7, NULL, 0, 0, 1, NULL),
 
   (@option_group_id_adOpt, '{ts escape="sql"}Street Address{/ts}'    ,  1, 'street_address', NULL, 0, NULL,  1, NULL, 0, 0, 1, NULL),

@@ -24,5 +24,4 @@
 <xi:include href="Friend/files.xml"            parse="xml" />
 <xi:include href="Standalone/OpenID/files.xml" parse="xml" />
 <xi:include href="Pledge/files.xml"        parse="xml" />  
-<xi:include href="PledgeBank/files.xml"        parse="xml" />  
 </database>

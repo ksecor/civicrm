@@ -129,7 +129,7 @@ UNLOCK TABLES;
 
 /*!40000 ALTER TABLE `civicrm_component` DISABLE KEYS */;
 LOCK TABLES `civicrm_component` WRITE;
-INSERT INTO `civicrm_component` (`id`, `name`, `namespace`) VALUES (1,'CiviEvent','CRM_Event'),(2,'CiviContribute','CRM_Contribute'),(3,'CiviMember','CRM_Member'),(4,'CiviMail','CRM_Mailing'),(5,'CiviGrant','CRM_Grant'),(6,'CiviPledge','CRM_Pledge'),(7,'PledgeBank','CRM_PledgeBank');
+INSERT INTO `civicrm_component` (`id`, `name`, `namespace`) VALUES (1,'CiviEvent','CRM_Event'),(2,'CiviContribute','CRM_Contribute'),(3,'CiviMember','CRM_Member'),(4,'CiviMail','CRM_Mailing'),(5,'CiviGrant','CRM_Grant'),(6,'CiviPledge','CRM_Pledge');
 UNLOCK TABLES;
 /*!40000 ALTER TABLE `civicrm_component` ENABLE KEYS */;
 
@@ -883,28 +883,6 @@ LOCK TABLES `civicrm_payment_processor_type` WRITE;
 INSERT INTO `civicrm_payment_processor_type` (`id`, `name`, `title`, `description`, `is_active`, `is_default`, `user_name_label`, `password_label`, `signature_label`, `subject_label`, `class_name`, `url_site_default`, `url_api_default`, `url_recur_default`, `url_button_default`, `url_site_test_default`, `url_api_test_default`, `url_recur_test_default`, `url_button_test_default`, `billing_mode`, `is_recur`) VALUES (1,'Dummy','Dummy Payment Processor',NULL,1,1,'User Name',NULL,NULL,NULL,'Payment_Dummy',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL),(2,'PayPal_Standard','PayPal - Website Payments Standard',NULL,1,0,'Merchant Account Email',NULL,NULL,NULL,'Payment_PayPalImpl','https://www.paypal.com/',NULL,'https://www.paypal.com/',NULL,'https://www.sandbox.paypal.com/',NULL,'https://www.sandbox.paypal.com/',NULL,4,1),(3,'PayPal','PayPal - Website Payments Pro',NULL,1,0,'User Name','Password','Signature',NULL,'Payment_PayPalImpl','https://www.paypal.com/','https://api-3t.paypal.com/',NULL,'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif','https://www.sandbox.paypal.com/','https://api-3t.sandbox.paypal.com/',NULL,'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif',3,NULL),(4,'PayPal_Express','PayPal - Express',NULL,1,0,'User Name','Password','Signature',NULL,'Payment_PayPalImpl','https://www.paypal.com/','https://api-3t.paypal.com/',NULL,'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif','https://www.sandbox.paypal.com/','https://api-3t.sandbox.paypal.com/',NULL,'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif',2,NULL),(5,'Google_Checkout','Google Checkout',NULL,1,0,'Merchant ID','Key',NULL,NULL,'Payment_Google','https://checkout.google.com/',NULL,NULL,'https://checkout.google.com/buttons/checkout.gif?merchant_id=YOURMERCHANTIDHERE&w=160&h=43&style=white&variant=text&loc=en_US','https://sandbox.google.com/checkout/',NULL,NULL,'https://sandbox.google.com/checkout/buttons/checkout.gif?merchant_id=YOURMERCHANTIDHERE&w=160&h=43&style=white&variant=text&loc=en_US',4,NULL),(6,'Moneris','Moneris',NULL,1,0,'User Name','Password','Store ID',NULL,'Payment_Moneris','https://www3.moneris.com/',NULL,NULL,NULL,'https://esqa.moneris.com/',NULL,NULL,NULL,1,1),(7,'AuthNet_AIM','Authorize.Net - AIM',NULL,1,0,'API Login','Payment Key','MD5 Hash',NULL,'Payment_AuthorizeNet','https://secure.authorize.net/gateway/transact.dll',NULL,'https://api.authorize.net/xml/v1/request.api',NULL,'https://test.authorize.net/gateway/transact.dll',NULL,'https://apitest.authorize.net/xml/v1/request.api',NULL,1,1),(8,'PayJunction','PayJunction',NULL,1,0,'User Name','Password',NULL,NULL,'Payment_PayJunction','https://payjunction.com/quick_link',NULL,NULL,NULL,'https://payjunction.com/quick_link',NULL,NULL,NULL,1,1);
 UNLOCK TABLES;
 /*!40000 ALTER TABLE `civicrm_payment_processor_type` ENABLE KEYS */;
-
---
--- Dumping data for table `civicrm_pb_pledge`
---
-
-
-/*!40000 ALTER TABLE `civicrm_pb_pledge` DISABLE KEYS */;
-LOCK TABLES `civicrm_pb_pledge` WRITE;
-INSERT INTO `civicrm_pb_pledge` (`id`, `creator_name`, `creator_pledge_desc`, `signers_limit`, `signer_description_text`, `signer_pledge_desc`, `deadline`, `url_reference`, `description`, `creator_id`, `creator_description`, `created_date`, `loc_block_id`, `is_active`) VALUES (1,'I','donate $200 towards defending WikiLeaks in their first amendment fight',10,'other good people','give $20 to $200 dollars and encourage others to do the same!','2009-06-30',NULL,NULL,76,NULL,'2008-06-23 17:57:28',NULL,1),(2,'My organisation','give at least 20 pounds to the Ebbsfleet United playing budget for 2008-09',1000,'other people','do the same','2009-06-23',NULL,NULL,90,NULL,'2008-06-23 18:08:32',NULL,1),(3,'I','donate my old laptop to a charity',10,'other people','do the same','2009-06-30',NULL,NULL,40,NULL,'2008-06-23 18:12:38',NULL,1);
-UNLOCK TABLES;
-/*!40000 ALTER TABLE `civicrm_pb_pledge` ENABLE KEYS */;
-
---
--- Dumping data for table `civicrm_pb_signer`
---
-
-
-/*!40000 ALTER TABLE `civicrm_pb_signer` DISABLE KEYS */;
-LOCK TABLES `civicrm_pb_signer` WRITE;
-INSERT INTO `civicrm_pb_signer` (`id`, `contact_id`, `pledge_id`, `is_anonymous`, `email_id`, `is_done`, `signing_date`, `is_test`) VALUES (1,19,1,1,42,1,'2008-06-23 18:18:58',0),(2,9,2,0,8,1,'2008-06-23 00:00:00',0),(3,73,3,0,4,0,'2008-06-23 18:20:16',0);
-UNLOCK TABLES;
-/*!40000 ALTER TABLE `civicrm_pb_signer` ENABLE KEYS */;
 
 --
 -- Dumping data for table `civicrm_phone`
