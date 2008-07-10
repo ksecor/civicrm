@@ -264,25 +264,26 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         $this->applyFilter('__ALL__', 'trim');
         //pledge fields.
         $attributes = CRM_Core_DAO::getAttribute( 'CRM_Pledge_DAO_Pledge' );
+        $js =  array_merge ($attributes['amount'], array('onkeyup' => "calculatedPaymentAmount( );") );
         $element =& $this->add( 'text', 'amount', ts('Total Pledge Amount'),
-                                $attributes['amount'], true );
+                                $js, true );
         $this->addRule( 'amount', ts('Please enter a valid monetary amount.'), 'money');
         if ( $this->_id ) {
             $element->freeze( );
         }
-        
-        $element =& $this->add( 'text', 'installments', ts('To be paid in'), $attributes['installments'], true, array('onkeyup' => "calculatedPaymentAmount( );") );
+        $js = array_merge ($attributes['installments'], array('onkeyup' => "calculatedPaymentAmount( );") );
+        $element =& $this->add( 'text', 'installments', ts('To be paid in'), $js, true ); 
         $this->addRule('installments', ts('Please enter a valid number of installments.'), 'integer');
         if ( $this->_id ) {
             $element->freeze( );
         }
         $frequencyUnit = CRM_Core_OptionGroup::values("recur_frequency_units");
-     
+        
         $element =& $this->add( 'select', 'frequency_unit', 
                                 ts( 'Frequency' ), 
                                 array(''=>ts( '- select -' )) + $frequencyUnit, 
-                                true, array('onkeyup' => "calculatedPaymentAmount( );") );
-                                
+                                true );
+        
         if ( $this->_id ) {
             $element->freeze( );
         }

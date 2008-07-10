@@ -91,7 +91,9 @@
      function calculatedPaymentAmount( ) {
        var amount = document.getElementById("amount").value;
        var installments = document.getElementById("installments").value;
-       document.getElementById("eachPaymentAmount").value = (amount/installments);
+       if ( installments != '' ) { 
+          document.getElementById("eachPaymentAmount").value = (amount/installments);
+       }   
      }
     </script>
     {/literal}
