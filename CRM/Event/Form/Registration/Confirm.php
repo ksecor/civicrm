@@ -330,7 +330,6 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         
         foreach ( $params as $key => $value ) {
             $this->fixLocationFields( $value, $fields );
-            $value['fee_amount'] =  $value['amount'];
             //unset the billing parameters if it is pay later mode
             //to avoid creation of billing location
             if ( $value['is_pay_later'] || !CRM_Utils_Array::value( 'is_primary', $value ) ) {
@@ -386,10 +385,9 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 $pending = false;
                 $result  = null;
                 if ( CRM_Utils_Array::value( 'is_pay_later', $value ) ||
-                     $value['fee_amount'] == 0                            || 
                      $this->_contributeMode   == 'checkout'           ||
                      $this->_contributeMode   == 'notify' ) {
-                    if ( $value['fee_amount'] != 0 ) {
+                    if ( $value['amount'] != 0 ) {
                         $pending = true;
                         $value['participant_status_id'] = 5; // pending
                     }
@@ -430,7 +428,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 $value['contributionTypeID'] = $contribution->contribution_type_id;
                 $value['item_name'         ] = $value['description'];
             }
-            
+            $value['fee_amount'] =  $value['amount'];
             $this->set( 'value', $value );
             $registerDate = isset( $value['participant_register_date'] ) ?
                 CRM_Utils_Date::format( $value['participant_register_date'] ) : date( 'YmdHis' );
