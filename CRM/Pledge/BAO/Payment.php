@@ -171,7 +171,7 @@ WHERE pledge_id = %1
      *
      * @return void
      */
-    function updatePledgePaymentStatus( $pledgeID, $paymentIDs = null, $status = null )
+    function updatePledgePaymentStatus( $pledgeID, $paymentIDs = null, $status = null, $cronJob = false )
     {
         //get all status
         require_once 'CRM/Contribute/PseudoConstant.php';
@@ -226,8 +226,19 @@ WHERE pledge_id = %1
         }  else if ( $status == array_search( 'Cancelled', $allStatus ) ) {
             $updatePayment = $updatePledge = true;
             $paymentStatus = $pledgeStatus = $status;
+        } else if ( $cronJob ) {
+            $paymentIDs = array( );
+            foreach ( $allPayments as $key => $value ) {
+                if ( $value['status'] != 'Completed' && 
+                     CRM_Utils_Date::overdue( $value['scheduled_date'] ) ) {
+                    $paymentIDs[]  = $value['id'];
+                } else if ( $value['status'] == 'Completed' && ! empty( $paymentIDs ) ) {
+                    $updatePayment = $updatePledge = true;
+                    $paymentStatus = $pledgeStatus = array_search( 'Overdue', $allStatus );
+                }
+            }
         }
-        
+            
         //update payment status.
         if ( $updatePayment ) {
             $params = array( 1 => array( $paymentStatus, 'Integer' ),
