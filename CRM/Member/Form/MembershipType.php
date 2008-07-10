@@ -148,7 +148,7 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
             $this->assign('noMsgTemplates', true );            
         }
         $reminderDay =& $this->add('text',
-o                                   'renewal_reminder_day',
+                                   'renewal_reminder_day',
                                    ts('Renewal Reminder Day'),
                                    CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MembershipType',
                                                                'renewal_reminder_day' ) );
