@@ -102,7 +102,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         require_once 'CRM/Core/BAO/Discount.php';
         $discountedEvent = CRM_Core_BAO_Discount::getOptionGroup($this->_id, "civicrm_event");
      
-        if ( isset($discountedEvent) ) {
+        if ( isset( $discountedEvent ) ) { 
             $defaults['is_discount'] = $i = 1;
             $totalLables = $maxSize = $defaultDiscounts = array();
             foreach ( $discountedEvent as $optionGroupId ) {
@@ -146,7 +146,21 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
             
             $this->set( 'discountSection', 1 );
             $this->buildQuickForm( );
+        } else if ( ! empty( $defaults['label'] ) ) {
+            //if Regular Fees are present in DB and event fee page is in update mode
+            $defaults["discounted_label"] = $defaults['label'];
+        } else {
+            //if event is newly created, use submitted values for
+            //discount labels
+            $k = 1;
+            foreach( $this->_submitValues['label'] as $value ) {
+                if ( $value ) {
+                    $defaults["discounted_label"][$k] = $value ;
+                    $k++;
+                }
+            }
         }
+        
         $defaults = array_merge( $defaults, $parentDefaults );
         $defaults['id'] = $eventPageId;
         
