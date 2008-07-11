@@ -229,9 +229,6 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
         $fv = $this->controller->exportValues( $this->_name );
 
         CRM_Core_BAO_CustomGroup::postProcess( $this->_groupTree, $fv );
-
-        // do the updates/inserts
-        CRM_Core_BAO_CustomGroup::updateCustomData($this->_groupTree, $this->_entityType, $this->_tableId);
     }
 }
 
