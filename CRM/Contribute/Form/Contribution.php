@@ -233,19 +233,12 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         require_once 'CRM/Core/Payment/Form.php';
         CRM_Core_Payment_Form::setCreditCardFields( $this );
         
-        // also set the post url
-        $postURL = CRM_Utils_System::url( 'civicrm/contact/view',
-                                          "reset=1&force=1&cid={$this->_contactID}&selectedChild=contribute" );
-        $session =& CRM_Core_Session::singleton( ); 
-        $session->pushUserContext( $postURL );
-        
-        
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             return;
         }
         
         $this->_values = array( );
-
+        
         // current contribution id
         if ( $this->_id ) {
             $this->_online = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_FinancialTrxn',
@@ -319,9 +312,14 @@ WHERE  contribution_id = {$this->_id}
             CRM_Custom_Form_Customdata::setDefaultValues( $this );
         }
         
-        // also set the post url
-        $postURL = CRM_Utils_System::url( 'civicrm/contact/view',
-                                          "reset=1&force=1&cid={$this->_contactID}&selectedChild=contribute" );
+        //also set the post url
+        if ( $this->_ppID ) {
+            $postURL = CRM_Utils_System::url( 'civicrm/contact/view',
+                                              "reset=1&force=1&cid={$this->_contactID}&selectedChild=pledge" );
+        } else {
+            $postURL = CRM_Utils_System::url( 'civicrm/contact/view',
+                                              "reset=1&force=1&cid={$this->_contactID}&selectedChild=contribute" ); 
+        }
         $session =& CRM_Core_Session::singleton( ); 
         $session->pushUserContext( $postURL );
     }
