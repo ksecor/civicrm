@@ -86,13 +86,16 @@ WHERE pledge_id = %1
     }
 
     static function create( $params )
-    {
+    { 
         require_once 'CRM/Pledge/DAO/Payment.php';
         $payment =& new CRM_Pledge_DAO_Payment( );
         $isEdit = CRM_Core_DAO::getFieldValue( 'CRM_Pledge_BAO_Payment', $params['pledge_id'], 'id', 'pledge_id'); 
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
-        
+        if ( $params['frequency_unit'] != 'day' ) {
+            $params['scheduled_date']['d'] = $params['frequency_day'];
+        } 
+
         if ( !$isEdit ) {
             $scheduled_date =  $params['scheduled_date'];
             $params['scheduled_amount'] = ceil($params['scheduled_amount']);
