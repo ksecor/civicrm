@@ -904,16 +904,17 @@ class CRM_Utils_Date
         switch ( $unit ) {
 
         case 'year':
-            $date   =   mktime ($hours, $minutes, $seconds, $month, $day, $year+1);
+            $date   =   mktime ($hours, $minutes, $seconds, $month, $day, $year+$interval);
             break;
         case 'month':
-            $date   =   mktime ($hours, $minutes, $seconds, $month+1, $day, $year);
+            $date   =   mktime ($hours, $minutes, $seconds, $month+$interval, $day, $year);
             break;
         case 'week':
-            $date   =   mktime ($hours, $minutes, $seconds, $month, $day+7, $year);
+            $interval = $interval * 7;
+            $date   =   mktime ($hours, $minutes, $seconds, $month, $day+$interval, $year);
             break;
         case 'day':
-            $date   =   mktime ($hours, $minutes, $seconds, $month, $day+1, $year);
+            $date   =   mktime ($hours, $minutes, $seconds, $month, $day+$interval, $year);
             break;
         }
         
