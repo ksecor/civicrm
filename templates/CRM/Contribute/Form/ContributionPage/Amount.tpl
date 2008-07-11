@@ -40,8 +40,8 @@
             <table class="form-layout-compressed">
                 <tr><th scope="row" class="label">{$form.pledge_frequency_unit.label}</th>
                 <td>{$form.pledge_frequency_unit.html}</td></tr>
-                <tr><th scope="row" class="label">{$form.allow_frequency_intervals.label}</th>
-                <td>{$form.allow_frequency_intervals.html}</td></tr>
+                <tr><th scope="row" class="label">{$form.is_pledge_interval.label}</th>
+                <td>{$form.is_pledge_interval.html}</td></tr>
 		<tr><th scope="row" class="label">{$form.initial_reminder_day.label}</th>
                 <td>{$form.initial_reminder_day.html}<br />
 		    <span class="description">{ts}Days prior to each scheduled payment due date.{/ts}</span></td></tr>

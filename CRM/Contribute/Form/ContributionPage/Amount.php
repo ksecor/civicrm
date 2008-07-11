@@ -117,7 +117,7 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
                                 CRM_Core_OptionGroup::values("recur_frequency_units"),
                                 null, null, null, null,
                                 array( '&nbsp;&nbsp;', '&nbsp;&nbsp;', '&nbsp;&nbsp;', '<br/>' ));
-            $this->addElement( 'checkbox', 'allow_frequency_intervals', ts('Allow Frequency Intervals'));
+            $this->addElement( 'checkbox', 'is_pledge_interval', ts('Allow Frequency Intervals'));
             $this->addElement( 'text', 'initial_reminder_day', ts('Send Initial Reminder'), array('size'=>3) );
             $this->addElement( 'text', 'max_reminders', ts('Send up to'), array('size'=>3) );
             $this->addElement( 'text', 'additional_reminder_day', ts('Send additional reminders'), array('size'=>3) );

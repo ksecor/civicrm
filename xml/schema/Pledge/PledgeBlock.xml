@@ -50,6 +50,7 @@
       <type>boolean</type>
       <default>0</default>
       <comment>Is frequency interval exposed on the contribution form.</comment>
+      <add>2.1</add>
   </field>
   <field>
       <name>max_reminders</name>
