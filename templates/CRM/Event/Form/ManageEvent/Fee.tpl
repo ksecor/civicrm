@@ -56,7 +56,7 @@
             <dt>&nbsp;</dt><dd class="description">{ts 1=$adminPriceSets}Select a pre-configured Price Set to offer multiple individually priced options for event registrants. Otherwise, select &quot;-none-&quot, and enter one or more fee levels in the table below. Create or edit Price Sets <a href='%1'>here</a>.{/ts}</dd>
             </dl>
         </div>
-        
+        <div id="map-field" >
         <fieldset id="map-field"><legend>{ts}Regular Fees{/ts}</legend>
         <p>{ts}Use the table below to enter descriptive labels and amounts for up to ten event fee levels. These will be presented as a list of radio button options. Both the label and dollar amount will be displayed. You can also configure one or more sets of discounted fees by checking "Discounts by Signup Date" below.{/ts}</p>
         <table id="map-field-table">
@@ -68,7 +68,7 @@
         </table>
         </fieldset>
     
-    <div id="is_discount">
+    <div id="isDiscount">
          <dl>
          <dt class="extra-long-fourty">&nbsp;</dt><dd>{$form.is_discount.html}&nbsp;{$form.is_discount.label}<br /><span class="description">{ts}Check this box if you want to offer discounted fees based on registration date (e.g. 'early-registration discounts').{/ts}</span></dd>
          </dl>
@@ -143,6 +143,7 @@
         {/if}
         </fieldset>
     </div>
+    </div>	
     </div>
     <dl>   
       <dt></dt><dd>{$form.buttons.html}</dd>
