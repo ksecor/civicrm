@@ -413,7 +413,7 @@ class CRM_Pledge_BAO_Query
         //add fields for honor search
         $form->addElement( 'text', 'pledge_in_honor_of', ts( "In Honor Of" ) );
         
-        $form->assign( 'validPledge', true );
+        $form->assign( 'validCiviPledge', true );
     }
     
     static function searchAction( &$row, $id ) 
