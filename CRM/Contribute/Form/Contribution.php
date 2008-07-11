@@ -338,10 +338,6 @@ WHERE  contribution_id = {$this->_id}
             $defaults['honor_type_id'] = CRM_Utils_Array::value( 'honor_type_id', $this->_pledgeValues );
             $defaults['honor_contact_id'] = CRM_Utils_Array::value( 'honor_contact_id', $this->_pledgeValues );
             $defaults['contribution_type_id'] = CRM_Utils_Array::value( 'contribution_type_id', $this->_pledgeValues );
-            //get the Paid By only if offline contribution.
-            if ( !$this->_mode ) {
-                $defaults['payment_instrument_id'] = CRM_Utils_Array::value( 'payment_instrument_id', $this->_pledgeValues );
-            }
         }
         
         $fields   = array( );
