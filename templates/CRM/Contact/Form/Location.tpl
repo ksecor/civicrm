@@ -165,10 +165,15 @@
 	         // The LOAD function will be called on a successful response.
 		load: function(response, ioArgs) {
 		    var selectedAddr = response;
+	
 		    if ( selectedAddr != "" ) {
 			var ind = selectedAddr.indexOf(':::');
-			selectedAddr = selectedAddr.substr(ind+3);
-			var formattedAddr = selectedAddr.replace(/:::/g, ", ");
+			if ( ind < 0){
+				var formattedAddr = '';	
+			} else {
+				selectedAddr = selectedAddr.substr(ind+3);
+				var formattedAddr = selectedAddr.replace(/:::/g, ", ");
+			}
 			document.getElementById(help).style.display='none';
 			document.getElementById(address).innerHTML = formattedAddr;	
 		    } else {
