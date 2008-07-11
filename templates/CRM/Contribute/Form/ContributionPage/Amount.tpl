@@ -110,6 +110,15 @@
         </table>
       </div>
 
+      <div id="pledgeInterval">
+        <table class="form-layout-compressed">
+	       <tr><th scope="row" class="label">{$form.pledge_frequency_interval.label}</th>
+                       <td>{$form.pledge_frequency_interval.html}&nbsp;&nbsp;{$form.pledge_frequency.html}&nbsp;&nbsp;{$form.frequency_unit.html}&nbsp;&nbsp;{ts}for{/ts}&nbsp;&nbsp;{$form.installments.html}&nbsp;&nbsp;{ts}installments.{/ts}
+	               </td>
+               </tr>
+        </table>
+      </div>
+	
       <div id="crm-submit-buttons">
         <dl><dt></dt><dd> {$form.buttons.html}<br></dd></dl>
       </div>
@@ -134,6 +143,11 @@
 	var is_pledge_active = document.getElementsByName('is_pledge_active');
   	if ( ! is_pledge_active[0].checked) {
            hide('pledgeFields', 'table-row');
+	}
+	
+	var is_pledge_interval = document.getElementsByName('is_pledge_interval');
+  	if ( ! is_pledge_interval[0].checked) {
+           hide('pledgeInterval', 'table-row');
 	}
 	
 	function minMax(chkbox) {
@@ -170,10 +184,20 @@
 	      hide('pledgeFields', 'table-row' );
     	      return;
 	   }
-       }
+        }
+	
+       	function pledgeInterval(chkbox) {
+           if (chkbox.checked) {
+	      show('pledgeInterval', 'block' );
+	      return;
+           } else {
+	      hide('pledgeInterval', 'block' );
+    	      return;
+	   }
+        }
 </script>
 {/literal}
-
+{if $form.is_recur}
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="is_recur"
     trigger_value       ="true"
@@ -182,3 +206,4 @@
     field_type          ="radio"
     invert              = "false"
 }
+{/if}

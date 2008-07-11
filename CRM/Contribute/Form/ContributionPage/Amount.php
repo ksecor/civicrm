@@ -79,12 +79,10 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         $this->addElement('checkbox', 'amount_block_is_active', ts('Contribution Amounts section enabled'), null, array( 'onclick' => "amountBlock(this);" ) );
 
         $this->addElement('checkbox', 'is_monetary', ts('Execute real-time monetary transactions') );
-
-
-        //check if selected payment processor supports recurring payment
         
         require_once "CRM/Contribute/BAO/ContributionPage.php";
-
+        
+        //check if selected payment processor supports recurring payment
         if ( CRM_Contribute_BAO_ContributionPage::checkRecurPaymentProcessor( $this->_id ) ) {
             $this->addElement( 'checkbox', 'is_recur', ts('Enable recurring payments'), null, 
                                array('onclick' => "return showHideByValue('is_recur',true,'recurFields','table-row','radio',false);") );
@@ -105,22 +103,39 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         $this->addElement('textarea', 'pay_later_receipt', ts( 'Pay later instructions' ),  
                           CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_ContributionPage', 'pay_later_receipt' ),
                           false );
-
-        //if CiviPledge enabled.
+        
+        //CiviPledge fields.
         $config =& CRM_Core_Config::singleton( );
         if ( in_array('CiviPledge', $config->enableComponents) ) {
             $this->assign('CiviPledge', true );
+            require_once 'CRM/Core/OptionGroup.php';
             $this->addElement( 'checkbox', 'is_pledge_active', ts('Enable Pledges for this contribution page') , 
                                null, array( 'onclick' => "pledgeBlock(this);" ) );
-            require_once 'CRM/Core/OptionGroup.php';
             $this->addCheckBox( 'pledge_frequency_unit', ts( 'Supported pledge frequencies' ), 
                                 CRM_Core_OptionGroup::values("recur_frequency_units"),
                                 null, null, null, null,
                                 array( '&nbsp;&nbsp;', '&nbsp;&nbsp;', '&nbsp;&nbsp;', '<br/>' ));
-            $this->addElement( 'checkbox', 'is_pledge_interval', ts('Allow Frequency Intervals'));
+            $this->addElement( 'checkbox', 'is_pledge_interval', ts('Allow Frequency Intervals'),
+                               null, array( 'onclick' => "pledgeInterval(this);" ) );
             $this->addElement( 'text', 'initial_reminder_day', ts('Send Initial Reminder'), array('size'=>3) );
             $this->addElement( 'text', 'max_reminders', ts('Send up to'), array('size'=>3) );
             $this->addElement( 'text', 'additional_reminder_day', ts('Send additional reminders'), array('size'=>3) );
+            
+            $pledgeFee = array( );
+            $pledgeFee[] = HTML_QuickForm::createElement( 'radio', null, ts('Pledge Frequency Interval'), 
+                                                          'I want to make a one-time contribution', 0 );
+            $pledgeFee[] = HTML_QuickForm::createElement( 'radio', null, ts('Pledge Frequency Interval'), 
+                                                          'I pledge to contribute this amount every', 1 );
+            $this->addGroup( $pledgeFee, 'pledge_frequency_interval', ts('Pledge Frequency Interval'), array( '<br />' ) );
+            $this->addElement( 'text', 'installments', ts('Installments'), array('size'=>3) ); 
+            $this->addElement( 'text', 'pledge_frequency', ts('Pledge Frequency'), array('size'=>3) );
+            
+            //Frequency unit drop-down label suffixes switch from *ly to *(s)
+            $frequencyUnits = CRM_Core_OptionGroup::values('recur_frequency_units', null, null, null, null, 'name');
+            foreach ( $frequencyUnits as $key => $value ) {
+                $frequencyUnits[$key] = $value. '(s)';
+            }
+            $this->addElement( 'select', 'frequency_unit', ts( 'Frequency Unit' ), $frequencyUnits );
         }
         
         $this->addFormRule( array( 'CRM_Contribute_Form_ContributionPage_Amount', 'formRule' ) );
