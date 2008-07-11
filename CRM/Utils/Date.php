@@ -904,44 +904,22 @@ class CRM_Utils_Date
         switch ( $unit ) {
 
         case 'year':
-            $yearInterval  = strtotime("1 year",0);
+            $date   =   mktime ($hours, $minutes, $seconds, $month, $day, $year+1);
             break;
         case 'month':
-            $monthInterval = strtotime("1 month",0);
+            $date   =   mktime ($hours, $minutes, $seconds, $month+1, $day, $year);
             break;
         case 'week':
-            $weekInterval  = strtotime("1 week",0);
+            $date   =   mktime ($hours, $minutes, $seconds, $month, $day+7, $year);
             break;
         case 'day':
-            $dayInterval   = strtotime("1 day",0);
+            $date   =   mktime ($hours, $minutes, $seconds, $month, $day+1, $year);
             break;
         }
         
-        switch ( $unit ) {
        
-        case 'year':
-            $yearInterval = $yearInterval * $interval;
-            $date = $date + $yearInterval;
-            break;
-            
-        case 'month':
-            $monthInterval = $monthInterval  * $interval;
-            $date = $date + $monthInterval;
-            break;
-            
-        case 'week':
-            $weekInterval = $weekInterval * $interval;
-            $date = $date + $weekInterval;
-            break;
-            
-        case 'day':
-            $dayInterval =  $dayInterval *  $interval;
-            $date = $date + $dayInterval;
-            break;
-        }
-
         $scheduleDate = explode ( "-", date("n-j-Y-H-i-s", $date ) );
-                    
+                              
         $date = array( );
         $date['M'] = $scheduleDate[0];
         $date['d'] = $scheduleDate[1];

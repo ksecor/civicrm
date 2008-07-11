@@ -98,7 +98,11 @@ WHERE pledge_id = %1
             $params['scheduled_amount'] = ceil($params['scheduled_amount']);
             for ( $i = 1; $i <= $params['installments']; $i++ ) {
                 //calculate the scheduled amount for every installment
-                $params['scheduled_date'] = CRM_Utils_Date::format( CRM_Utils_Date::intervalAdd( $params['frequency_unit'], $i, $scheduled_date ) );
+                $params['scheduled_date'] = CRM_Utils_Date::intervalAdd( $params['frequency_unit'], $i, $scheduled_date );
+                $scheduled_date =  $params['scheduled_date'];
+
+                $params['scheduled_date'] = CRM_Utils_Date::format( $params['scheduled_date'] );  
+              
                 if ( $i == $params['installments'] ) {
                     $params['scheduled_amount'] = $params['amount'] - ($i-1) * $params['scheduled_amount'];
                 }
