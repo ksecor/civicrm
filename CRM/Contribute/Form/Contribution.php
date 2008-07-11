@@ -900,6 +900,8 @@ WHERE  contribution_id = {$this->_id}
                 $paymentIDs = array( $this->_ppID );
                 CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $this->_pledgeID, $paymentIDs, 
                                                                    $contribution->contribution_status_id );
+                //store contribution id in payment record.
+                CRM_Core_DAO::setFieldValue('CRM_Pledge_DAO_Payment', $this->_ppID, 'contribution_id', $contribution->id );
             }
             
             if ( $contribution->id ) {
@@ -1069,6 +1071,8 @@ WHERE  contribution_id = {$this->_id}
                 $paymentIDs = array( $this->_ppID );
                 CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $this->_pledgeID, $paymentIDs, 
                                                                    $contribution->contribution_status_id );
+                //store contribution id in payment record.
+                CRM_Core_DAO::setFieldValue('CRM_Pledge_DAO_Payment', $this->_ppID, 'contribution_id', $contribution->id );
             }
             
             $statusMsg = ts('The contribution record has been saved.');
