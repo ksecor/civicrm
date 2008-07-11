@@ -7,7 +7,7 @@
 {else if $membershipMode == 'live'}
     {assign var=registerMode value="LIVE"}
 {/if}
-{if !$emailExists}
+{if !$emailExists and $action neq 8}
 <div class="messages status">
   <dl>
     <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
