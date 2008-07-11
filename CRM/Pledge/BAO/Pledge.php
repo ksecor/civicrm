@@ -238,7 +238,8 @@ class CRM_Pledge_BAO_Pledge extends CRM_Pledge_DAO_Pledge
         
         switch ( $status ) {
         case 'Completed':
-            $where[] = 'status_id = '. $statusId;
+            $statusId = null;
+            $where[] = 'status_id != '. array_search( 'Cancelled', $allStatus );
             break;
             
         case 'Cancelled':
@@ -276,10 +277,11 @@ WHERE  $whereCond AND is_test=0
             $pledge_amount = array( 'pledge_amount' => $dao->pledge_amount,
                                     'pledge_count'  => $dao->pledge_count,
                                     'purl'          => CRM_Utils_System::url( 'civicrm/pledge/search',
-                                                                              "reset=1&force=1&pstatus={$statusId}&pstart={$start}&pend=$end&test=0"));
+                                                                              "reset=1&force=1&pstatus={$statusId}&pstart={$start}&pend=&test=0"));
         }
         
         $where = array( );
+        $statusId = array_search( $status, $allStatus);
         switch ( $status ) {
         case 'Completed':
             $select = 'sum( total_amount ) as received_pledge , count( cd.id ) as received_count';
