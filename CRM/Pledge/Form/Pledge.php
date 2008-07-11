@@ -289,7 +289,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         }
         
         $element =& $this->add( 'text', 'frequency_day', ts('Payments are due on the'), $attributes['frequency_day'], true );
-        $this->addRule('frequency_day', ts('Please enter a valid payment due day.'), 'integer');
+        $this->addRule('frequency_day', ts('Please enter a valid payment due day.'), 'positiveInteger');
         if ( $this->_id ) {
             $element->freeze( );
         }
@@ -369,7 +369,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
      * @static  
      */  
     static function formRule( &$fields, &$files, $self ) 
-    {  
+    {
         $errors = array( );
         if ( isset( $fields["honor_type_id"] ) ) {
             if ( !((  CRM_Utils_Array::value( 'honor_first_name', $fields ) && 
@@ -377,6 +377,12 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
                    CRM_Utils_Array::value( 'honor_email' , $fields ) )) {
                 $errors['honor_first_name'] = ts('Honor First Name and Last Name OR an email should be set.');
             }
+        }
+        if ( $fields["amount"] < 0 ) {
+            $errors['amount'] = ts('Total Pledge Amount should be greater than zero.');
+        }
+        if ( $fields["installments"] < 0 ) {
+            $errors['installments'] = ts('Installments should be greater than zero.');
         }
         return $errors;
     }
