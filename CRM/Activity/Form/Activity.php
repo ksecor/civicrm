@@ -352,15 +352,16 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
                                                                      $this->_targetContactId,
                                                                      'sort_name' );
         }
+
+        // temporarily commenting multicombo        
+//         $targetAttributes = array( 'dojoType'       => 'dojox.widget.MultiComboBox',
+//                                    'mode'           => 'remote',
+//                                    'store'          => 'contactStore',
+//                                    'pageSize'       => 10,
+//                                    'style'          => 'width:600px; border: 1px solid #cfcfcf;',
+//                                    );
         
-        $targetAttributes = array( 'dojoType'       => 'dojox.widget.MultiComboBox',
-                                   'mode'           => 'remote',
-                                   'store'          => 'contactStore',
-                                   'pageSize'       => 10,
-                                   'style'          => 'width:600px; border: 1px solid #cfcfcf;',
-                                   );
-        
-        $targetContactField =& $this->add( 'text','target_contact', ts('With Contact'), $targetAttributes, isset($standalone) ? $standalone : "" );
+        $targetContactField =& $this->add( 'text','target_contact', ts('With Contact'), $attributes, isset($standalone) ? $standalone : "" );
         if ( $targetContactField->getValue( ) ) {
             $this->assign( 'target_contact_value',  $targetContactField->getValue( ) );
         } else {
@@ -374,7 +375,7 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
                                                                        'sort_name' );
         }
         
-        $assigneeContactField = $this->add( 'text','assignee_contact', ts('Assigned To'), $targetAttributes );
+        $assigneeContactField = $this->add( 'text','assignee_contact', ts('Assigned To'), $attributes );
         if ( $assigneeContactField->getValue( ) ) {
             $this->assign( 'assignee_contact_value',  $assigneeContactField->getValue( ) );
         } else {
