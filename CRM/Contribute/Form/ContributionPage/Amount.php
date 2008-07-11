@@ -95,7 +95,7 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
                                 array( '&nbsp;&nbsp;', '&nbsp;&nbsp;', '&nbsp;&nbsp;', '<br/>' ) );
             $this->addElement('checkbox', 'is_recur_interval', ts('Support recurring intervals') );
         }
-
+        
         // add pay later options
         $this->addElement('checkbox', 'is_pay_later', ts( 'Enable pay later option?' ),
                           null, array( 'onclick' => "payLater(this);" ) );
@@ -106,6 +106,23 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
                           CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_ContributionPage', 'pay_later_receipt' ),
                           false );
 
+        //if CiviPledge enabled.
+        $config =& CRM_Core_Config::singleton( );
+        if ( in_array('CiviPledge', $config->enableComponents) ) {
+            $this->assign('CiviPledge', true );
+            $this->addElement( 'checkbox', 'is_pledge_active', ts('Enable Pledges for this contribution page') , 
+                               null, array( 'onclick' => "pledgeBlock(this);" ) );
+            require_once 'CRM/Core/OptionGroup.php';
+            $this->addCheckBox( 'pledge_frequency_unit', ts( 'Supported pledge frequencies' ), 
+                                CRM_Core_OptionGroup::values("recur_frequency_units"),
+                                null, null, null, null,
+                                array( '&nbsp;&nbsp;', '&nbsp;&nbsp;', '&nbsp;&nbsp;', '<br/>' ));
+            $this->addElement( 'checkbox', 'allow_frequency_intervals', ts('Allow Frequency Intervals'));
+            $this->addElement( 'text', 'initial_reminder_day', ts('Send Initial Reminder'), array('size'=>3) );
+            $this->addElement( 'text', 'max_reminders', ts('Send up to'), array('size'=>3) );
+            $this->addElement( 'text', 'additional_reminder_day', ts('Send additional reminders'), array('size'=>3) );
+        }
+        
         $this->addFormRule( array( 'CRM_Contribute_Form_ContributionPage_Amount', 'formRule' ) );
         
         parent::buildQuickForm( );
@@ -199,7 +216,7 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
     {
         // get the submitted form values.
         $params = $this->controller->exportValues( $this->_name );
-
+        
         $params['id']                    = $this->_id;
         $params['is_allow_other_amount'] = CRM_Utils_Array::value('is_allow_other_amount', $params, false);
         

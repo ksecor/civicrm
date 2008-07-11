@@ -31,6 +31,29 @@
                     <span class="description">{ts}Instructions added to Confirmation and Thank-you pages, as well as the confirmation email, when the user selects the 'pay later' option (e.g. 'Mail your check to ... within 3 business days.').{/ts}</span></td></tr>
             </table>
             </td></tr>
+	{if $CiviPledge}
+        <tr><th scope="row" class="label">{$form.is_pledge_active.label}</th>
+            <td>{$form.is_pledge_active.html}<br />
+            <span class="description">{ts}Check this box if you are using this contribution page for pledge.{/ts}</span></td>
+        </tr>
+        <tr id="pledgeFields"><td></td><td>
+            <table class="form-layout-compressed">
+                <tr><th scope="row" class="label">{$form.pledge_frequency_unit.label}</th>
+                <td>{$form.pledge_frequency_unit.html}</td></tr>
+                <tr><th scope="row" class="label">{$form.allow_frequency_intervals.label}</th>
+                <td>{$form.allow_frequency_intervals.html}</td></tr>
+		<tr><th scope="row" class="label">{$form.initial_reminder_day.label}</th>
+                <td>{$form.initial_reminder_day.html}<br />
+		    <span class="description">{ts}Days prior to each scheduled payment due date.{/ts}</span></td></tr>
+		<tr><th scope="row" class="label">{$form.max_reminders.label}</th>
+                <td>{$form.max_reminders.html}<br />
+		    <span class="description">{ts}Reminders for each scheduled payment.{/ts}</span></td></tr>
+		<tr><th scope="row" class="label">{$form.additional_reminder_day.label}</th>
+                <td>{$form.additional_reminder_day.html}<br />	
+		    <span class="description">{ts}Days after the last one sent, up to the maximum number of reminders.{/ts}</span></td></tr>
+            </table>
+        </td></tr>
+	{/if}
     </table>
 
     <div id="amountFields">
@@ -56,8 +79,8 @@
                 </td>
             </tr>
             {/if}    
-
-
+	
+	
             <tr><th scope="row" class="label" width="20%">{$form.is_allow_other_amount.label}</th>
             <td>{$form.is_allow_other_amount.html}<br />
             <span class="description">{ts}Check this box if you want to give users the option to enter their own contribution amount. Your page will then include a text field labeled <strong>Other Amount</strong>.{/ts}</span></td></tr>
@@ -71,7 +94,7 @@
                 <span class="description">{ts 1=5|crmMoney}If you have chosen to <strong>Allow Other Amounts</strong>, you can use the fields above to control minimum and/or maximum acceptable values (e.g. don't allow contribution amounts less than %1).{/ts}</span></td></tr>
                </table>
             </td></tr>
-    
+            
             <tr><td colspan="2">
                 <fieldset><legend>{ts}Fixed Contribution Options{/ts}</legend>
                     {ts}Use the table below to enter up to ten fixed contribution amounts. These will be presented as a list of radio button options. Both the label and dollar amount will be displayed.{/ts}<br />
@@ -102,36 +125,52 @@
 	var amount_block = document.getElementsByName('amount_block_is_active');
   	if ( ! amount_block[0].checked) {
 	   hide('amountFields');
-    }
+        }
 	var pay_later = document.getElementsByName('is_pay_later');
   	if ( ! pay_later[0].checked) {
 	    hide('payLaterFields', 'table-row');
-    }
-
+        }
+	
+	var is_pledge_active = document.getElementsByName('is_pledge_active');
+  	if ( ! is_pledge_active[0].checked) {
+           hide('pledgeFields', 'table-row');
+	}
+	
 	function minMax(chkbox) {
-      if (chkbox.checked) {
+           if (chkbox.checked) {
 	     show('minMaxFields', 'table-row');
- 	  } else {
+ 	   } else {
 		 hide('minMaxFields');
 		 document.getElementById("min_amount").value = '';
 		 document.getElementById("max_amount").value = '';
 	  }
-	}	
+	}
+	
 	function amountBlock(chkbox) {
-        if (chkbox.checked) {
+           if (chkbox.checked) {
 	       show('amountFields', 'block');
-	    } else {
+	   } else {
 	       hide('amountFields', 'block');
-	    }
-    }
-	function payLater(chkbox) {
-        if (chkbox.checked) {
-	       show('payLaterFields',  'table-row');
-	    } else {
-	       hide('payLaterFields',  'table-row');
-	    }
-    }
+	   }
+        }
 
+	function payLater(chkbox) {
+           if (chkbox.checked) {
+	       show('payLaterFields',  'table-row');
+	   } else {
+	       hide('payLaterFields',  'table-row');
+	   }
+        }
+		
+        function pledgeBlock(chkbox) {
+           if (chkbox.checked) {
+	      show('pledgeFields', 'table-row' );
+	      return;
+           } else {
+	      hide('pledgeFields', 'table-row' );
+    	      return;
+	   }
+       }
 </script>
 {/literal}
 
