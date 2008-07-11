@@ -96,19 +96,8 @@
                        {$form.assignee_contact.html}
                    </div>
                    {edit}<span class="description">{ts}You can optionally assign this activity to someone. Assigned activities will appear in their Contact Dashboard.{/ts}</span>{/edit}
-		   <br/>
-		   <div id="{$row.pledge_id}_show">
-	    	       <a href="#" onclick="show('paymentDetails{$row.pledge_id}', 'table-row'); buildPaymentDetails('{$row.pledge_id}','{$row.contact_id}'); hide('{$row.pledge_id}_show');show('{$row.pledge_id}_hide','table-row');return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/>{ts}Payments{/ts}</a>
-	           </div>
                 </td>
              </tr>
-   <tr id="{$row.pledge_id}_hide">
-     <td colspan="11">
-         <a href="#" onclick="show('{$row.pledge_id}_show', 'table-row');hide('{$row.pledge_id}_hide');return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}open section{/ts}"/>{ts}Payments{/ts}</a>
-       <br/>
-       <div id="paymentDetails{$row.pledge_id}"></div>
-     </td>
-  </tr>
 
              {if $context neq 'standalone' AND $hasCases}
                 <tr>
@@ -194,41 +183,3 @@
    {include file="CRM/common/customData.tpl"}
 {/if}
 {/if} {* end of snippet if*}
-
-
-{* Build pledge payment details*}
-{literal}
-<script type="text/javascript">
-
-function buildPaymentDetails( pledgeId, contactId )
-{
-    var dataUrl = {/literal}"{crmURL p='civicrm/pledge/payment' h=0 q='action=browse&snippet=4&pledgeId='}"{literal} + pledgeId + '&cid=' + contactId;
-	
-    var result = dojo.xhrGet({
-        url: dataUrl,
-        handleAs: "text",
-        timeout: 5000, //Time in milliseconds
-        handle: function(response, ioArgs){
-                if(response instanceof Error){
-                        if(response.dojoType == "cancel"){
-                                //The request was canceled by some other JavaScript code.
-                                console.debug("Request canceled.");
-                        }else if(response.dojoType == "timeout"){
-                                //The request took over 5 seconds to complete.
-                                console.debug("Request timed out.");
-                        }else{
-                                //Some other error happened.
-                                console.error(response);
-                        }
-                } else {
-		   // on success
-                   dojo.byId('paymentDetails' + pledgeId).innerHTML = response;
-	       }
-        }
-     });
-
-
-}
-</script>
-
-{/literal}	
