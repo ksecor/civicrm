@@ -41,6 +41,12 @@ class CRM_Group_Form_Search extends CRM_Core_Form {
         parent::preProcess( );
     }
 
+   function setDefaultValues( ) {
+        $defaults = array( );
+        $defaults['active_status'] = 1;
+        return $defaults;
+    }
+
     public function buildQuickForm( ) {
         $this->add( 'text', 'title', ts( 'Find' ),
                     CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Group', 'title' ) );
@@ -53,8 +59,7 @@ class CRM_Group_Form_Search extends CRM_Core_Form {
         
         $this->add( 'select', 'visibility', ts('Visibility'        ),
                     array( '' => ts('- any visibility -' ) ) + CRM_Core_SelectValues::ufVisibility( ) );
-        $check=$this->addElement( 'checkbox', 'active_status' , ts( 'Enabled' ) );
-        $check->setChecked(true);
+        $this->addElement( 'checkbox', 'active_status' , ts( 'Enabled' ) );
         $this->addElement( 'checkbox', 'inactive_status' , ts( 'Disabled' ) );
         $this->addButtons(array( 
                                 array ('type'      => 'refresh', 

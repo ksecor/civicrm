@@ -9,7 +9,7 @@
     </div><br />
 {/if} {* action ne add or edit *}
 {/if}
-{if $action ne 2}	
+{if $action ne 2 AND $action ne 8}	
 {include file="CRM/Group/Form/Search.tpl"}
 {/if}
 {if $rows}
@@ -58,7 +58,7 @@
 {/if} {* action ne add or edit *}
 </div>
 {* No groups to list. Check isSearch flag to see if we're in a search or not. Display 'add group' prompt if user has 'edit groups' permission. *}
-{elseif $isSearch eq 1}
+{elseif $isSearch eq 1 OR $groupExists}
     <div class="status messages">
         <dl>
             <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
@@ -80,7 +80,7 @@
         <dl>
             <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
             {capture assign=crmURL}{crmURL p='civicrm/group/add' q="reset=1"}{/capture}
-            <dd>{ts}No matching Groups found for your search criteria.{/ts}
+             <dd>{ts}No Groups have been created for this site.{/ts}
                 {if $groupPermission eq 1}
                     {ts 1=$crmURL}You can <a href='%1'>add one</a> now.{/ts}
                 {/if}

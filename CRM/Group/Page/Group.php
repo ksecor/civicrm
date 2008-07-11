@@ -244,6 +244,12 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
             $this->set( 'sortByCharacter', '' );
         }
         
+        $query = "
+SELECT COUNT(*)
+  FROM civicrm_group";
+        $groupExists = CRM_Core_DAO::singleValueQuery( $query );
+        $this->assign( 'groupExists',$groupExists );
+
         $this->search( );
         
         $config =& CRM_Core_Config::singleton( );
@@ -266,7 +272,7 @@ ORDER BY title asc
    LIMIT $offset, $rowCount";
         
         $object = CRM_Core_DAO::executeQuery( $query, $params, true, 'CRM_Contact_DAO_Group' );
-        
+       
         $groupPermission =
             CRM_Core_Permission::check( 'edit groups' ) ? CRM_Core_Permission::EDIT : CRM_Core_Permission::VIEW;
         $this->assign( 'groupPermission', $groupPermission );
