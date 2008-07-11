@@ -141,14 +141,10 @@
         }
 	
 	var is_pledge_active = document.getElementsByName('is_pledge_active');
+        var is_pledge_interval = document.getElementsByName('is_pledge_interval');
   	if ( ! is_pledge_active[0].checked) {
-           hide('pledgeFields', 'table-row');
-	}
-	
-	var is_pledge_interval = document.getElementsByName('is_pledge_interval');
-  	if ( ! is_pledge_interval[0].checked) {
-           hide('pledgeInterval', 'table-row');
-	}
+            hide('pledgeFields', 'table-row');
+	} 
 	
 	function minMax(chkbox) {
            if (chkbox.checked) {
@@ -167,7 +163,7 @@
 	       hide('amountFields', 'block');
 	   }
         }
-
+	
 	function payLater(chkbox) {
            if (chkbox.checked) {
 	       show('payLaterFields',  'table-row');
@@ -182,10 +178,16 @@
 	      return;
            } else {
 	      hide('pledgeFields', 'table-row' );
+              hide('pledgeInterval', 'block');
+              is_pledge_interval[0].checked = false;
     	      return;
 	   }
         }
-	
+                         
+  	if ( ! is_pledge_interval[0].checked ) {
+           hide('pledgeInterval', 'block');
+	}
+        
        	function pledgeInterval(chkbox) {
            if (chkbox.checked) {
 	      show('pledgeInterval', 'block' );
