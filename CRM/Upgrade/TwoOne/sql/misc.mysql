@@ -1,4 +1,3 @@
-
 -- /************************************************************************
 -- *
 -- * MySQL Script for civicrm database/tables - upgradation from 2.0 -> 2.1
@@ -8,6 +7,7 @@
 -- Please add script for all the schema / fixed-data related modifications to 
 -- this sql script as you resolve 2.1 issues. Include the issue number which 
 -- is the source of the change, as part of the comment.
+
 
 
 -- lower case all email addresses
@@ -24,7 +24,7 @@ ALTER TABLE `civicrm_relationship`
     ADD `is_permission_b_a` boolean DEFAULT 0 AFTER `is_permission_a_b`;
 
 
---Insert new option value for option_group = 'user_dashboard_options'
+-- Insert new option value for option_group - user_dashboard_options
 
 SELECT @option_ud    := id from civicrm_option_group where name = 'user_dashboard_options';
 INSERT INTO `civicrm_option_value` (`option_group_id`, `label`, `value`, `weight`, `is_active`, `is_default`) VALUES
@@ -33,7 +33,7 @@ INSERT INTO `civicrm_option_value` (`option_group_id`, `label`, `value`, `weight
 
 -- Add 'My Contacts / Organizations' option in user dashboard options
 
-UPDATE civicrm_preferences    SET user_dashboard_options   = CONCAT(user_dashboard_options, '5');
+UPDATE civicrm_preferences SET user_dashboard_options = CONCAT(user_dashboard_options, '5');
 
 
 -- make the dates in civicrm_contribution_recur optional
@@ -47,28 +47,36 @@ ALTER TABLE `civicrm_contribution_recur`
 
 -- extend civicrm_dedupe_rule_group to the current schema
 
-ALTER TABLE civicrm_dedupe_rule_group ADD level      enum('Strict', 'Fuzzy');
-ALTER TABLE civicrm_dedupe_rule_group ADD is_default tinyint;
+ALTER TABLE civicrm_dedupe_rule_group 
+  ADD level enum('Strict', 'Fuzzy'),
+  ADD is_default tinyint;
 
 
 -- make the current dedupe rule groups into default and fuzzy ones
 
 UPDATE civicrm_dedupe_rule_group SET level = 'Fuzzy', is_default = true;
 
+
 -- insert the new strict dedupe_rule_group dupe rules
 
-INSERT INTO civicrm_dedupe_rule_group (contact_type, threshold, level, is_default) VALUES (1, 'Individual', 10, 'Strict', true);
+INSERT INTO civicrm_dedupe_rule_group (contact_type, threshold, level, is_default) 
+VALUES ('Individual', 10, 'Strict', true);
+
 SELECT @drgid := MAX(id) FROM civicrm_dedupe_rule_group;
 INSERT INTO civicrm_dedupe_rule (dedupe_rule_group_id, rule_table, rule_field, rule_weight)
 VALUES (@drgid, 'civicrm_email', 'email', 10);
 
-INSERT INTO civicrm_dedupe_rule_group (contact_type, threshold, level, is_default) VALUES (1, 'Organization', 10, 'Strict', true);
+INSERT INTO civicrm_dedupe_rule_group (contact_type, threshold, level, is_default) 
+VALUES ('Organization', 10, 'Strict', true);
+
 SELECT @drgid := MAX(id) FROM civicrm_dedupe_rule_group;
 INSERT INTO civicrm_dedupe_rule (dedupe_rule_group_id, rule_table, rule_field, rule_weight)
 VALUES (@drgid, 'civicrm_contact', 'organization_name', 10),
        (@drgid, 'civicrm_email'  , 'email',             10);
 
-INSERT INTO civicrm_dedupe_rule_group (contact_type, threshold, level, is_default) VALUES (1, 'Household', 10, 'Strict', true);
+INSERT INTO civicrm_dedupe_rule_group (contact_type, threshold, level, is_default) 
+VALUES ('Household', 10, 'Strict', true);
+
 SELECT @drgid := MAX(id) FROM civicrm_dedupe_rule_group;
 INSERT INTO civicrm_dedupe_rule (dedupe_rule_group_id, rule_table, rule_field, rule_weight)
 VALUES (@drgid, 'civicrm_contact', 'household_name', 10),
@@ -78,10 +86,10 @@ VALUES (@drgid, 'civicrm_contact', 'household_name', 10),
 -- Edited indexing of custom group table
 
 ALTER TABLE `civicrm_custom_group` DROP INDEX `UI_title_domain_id` ,
-ADD UNIQUE `UI_title_extends_domain_id` ( `title` , `extends` , `domain_id` ); 
+ADD UNIQUE `UI_title_extends` ( `title` , `extends` ); 
 
 ALTER TABLE `civicrm_custom_group` DROP INDEX `UI_name_domain_id` ,
-ADD UNIQUE `UI_name_extends_domain_id` ( `name` , `extends` , `domain_id` );
+ADD UNIQUE `UI_name_extends` ( `name` , `extends` );
 
 
 -- CRM-3052, dropping location_id from group_contact
@@ -91,10 +99,10 @@ ALTER TABLE `civicrm_group_contact`
     DROP location_id;
 
 
--- CRM-3109
+-- change the default value of is_email_confirm to 0 from 1 in civicrm_event_page table, CRM-3109
 
--- FIXME
--- need to change the default value of is_email_confirm to 0 from 1 in civicrm_event_page table
+ALTER TABLE `civicrm_event_page`
+    MODIFY `is_email_confirm` tinyint(4) default '0' COMMENT 'If true, confirmation is automatically emailed to contact on successful registration.';
 
 
 -- CRM-2488
@@ -106,12 +114,9 @@ ALTER TABLE `civicrm_contribution_page`
 
 -- add option group & values (CRM-2488)
 
-INSERT INTO 
-   `civicrm_option_group` (`domain_id`, `name`, `description`, `is_reserved`, `is_active`) 
-VALUES 
-   (@domain_id, 'recur_frequency_units', '{ts escape="sql"}Recurring Frequency Units{/ts}', 0, 1);
+INSERT INTO `civicrm_option_group` (`name`, `description`, `is_reserved`, `is_active`) VALUES ('recur_frequency_units', '{ts escape="sql"}Recurring Frequency Units{/ts}', 0, 1);
 
-SELECT @option_group_id_fu             := max(id) from civicrm_option_group where name = 'recur_frequency_units';
+SELECT @option_group_id_fu := max(id) from civicrm_option_group where name = 'recur_frequency_units';
 
 INSERT INTO 
    `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`) 
@@ -122,25 +127,26 @@ VALUES
   (@option_group_id_fu, 'year'   , 'year' ,   'year',  NULL, 0, NULL, 4, NULL, 0, 1, 1, NULL);
 
 
+
 UPDATE civicrm_country SET name = 'Moldova' WHERE id = 1143;
 
 
+-- *FIXME*
 -- we need to update option value table for cvOpt, ceOpt, asOpt, udOpt and adOpt. Not sure the best way to do this
 -- since translations are involved. The easiest option might be to delete the rows and then readd them
 -- CRM-2734
 
+
 -- CRM-2781
 
-ALTER TABLE `civicrm_mapping` CHANGE `mapping_type` `mapping_type_id` INT NULL DEFAULT NULL COMMENT 'Type of Mapping.' 
+ALTER TABLE `civicrm_mapping` CHANGE `mapping_type` `mapping_type_id` INT NULL DEFAULT NULL COMMENT 'Type of Mapping.';
 
--- add option group & values (CRM-2781)
 
-INSERT INTO 
-   `civicrm_option_group` (`domain_id`, `name`, `description`, `is_reserved`, `is_active`) 
-VALUES 
-   (@domain_id, 'mapping_type', '{ts escape="sql"}Mapping Type{/ts}', 0, 1);
+-- add option group and values CRM-2781
 
-SELECT @option_group_id_mt             := max(id) from civicrm_option_group where name = 'mapping_type';
+INSERT INTO `civicrm_option_group` (`name`, `description`, `is_reserved`, `is_active`) VALUES ('mapping_type', '{ts escape="sql"}Mapping Type{/ts}', 0, 1);
+
+SELECT @option_group_id_mt := max(id) from civicrm_option_group where name = 'mapping_type';
 
 INSERT INTO 
    `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`) 
@@ -156,306 +162,12 @@ VALUES
   (@option_group_id_mt, '{ts escape="sql"}Export Membership{/ts}',   9, 'Export Membership',   NULL, 0, 0,    9, NULL, 0, 1, 1, NULL),
   (@option_group_id_mt, '{ts escape="sql"}Export Participant{/ts}',  10, 'Export Participant', NULL, 0, 0,   10, NULL, 0, 1, 1, NULL);
 
+
 -- CRM-2964
 
 ALTER TABLE `civicrm_contribution_page` 
     ADD `for_organization` text NULL DEFAULT NULL AFTER thankyou_footer,
     ADD `is_for_organization` tinyint(4) NULL DEFAULT '0' AFTER thankyou_footer;
-
-
--- /************************************************************************
--- *
--- * MySQL Script for civicrm database/tables - Remove Domain Id Column from all tables 2.0 -> 2.1
--- *
--- *************************************************************************/
-
--- /*******************************************************
--- *
--- * Alter civicrm_acl table
--- *
--- *******************************************************/
-
-ALTER TABLE `civicrm_acl` DROP FOREIGN KEY `FK_civicrm_acl_domain_id`, 
-DROP domain_id;
-
--- /*******************************************************
--- *
--- * Alter civicrm_acl_entity_role table
--- *
--- *******************************************************/
-
-ALTER TABLE `civicrm_acl_entity_role` DROP FOREIGN KEY `FK_civicrm_acl_entity_role_domain_id`, 
-DROP domain_id;
-
--- /*******************************************************
--- *
--- * Alter civicrm_contact table
--- *
--- *******************************************************/
-
-ALTER TABLE `civicrm_contact` DROP FOREIGN KEY `FK_civicrm_contact_domain_id`, 
-DROP domain_id;
-
--- /*******************************************************
--- *
--- * Alter civicrm_contribution_page table
--- *
--- *******************************************************/
-
-ALTER TABLE `civicrm_contribution_page` DROP FOREIGN KEY `FK_civicrm_contribution_page_domain_id`, 
-DROP domain_id;
-
--- /*******************************************************
--- *
--- * Alter civicrm_contribution table
--- *
--- *******************************************************/
-
-ALTER TABLE `civicrm_contribution` DROP FOREIGN KEY `FK_civicrm_contribution_domain_id` , 
-DROP domain_id;  
-
--- /*******************************************************
--- *
--- * Alter civicrm_contribution_recur table
--- *
--- *******************************************************/
-
-ALTER TABLE `civicrm_contribution_recur` DROP FOREIGN KEY `FK_civicrm_contribution_recur_domain_id`, 
-DROP domain_id;
-
--- /*******************************************************
--- *
--- * Alter civicrm_contribution_type table
--- *
--- *******************************************************/
-
-ALTER TABLE `civicrm_contribution_type` DROP FOREIGN KEY `FK_civicrm_contribution_type_domain_id`, 
-DROP domain_id;
-
--- /*******************************************************
--- *
--- * Alter civicrm_dedupe_rule_group table
--- *
--- *******************************************************/
-
-ALTER TABLE `civicrm_dedupe_rule_group` DROP FOREIGN KEY `FK_civicrm_dedupe_rule_group_domain_id`, 
-DROP domain_id;
-
--- /*******************************************************
--- *
--- * Alter civicrm_dupe_match table
--- *
--- *******************************************************/
-
-ALTER TABLE `civicrm_dupe_match` DROP FOREIGN KEY `FK_civicrm_dupe_match_domain_id`, 
-DROP domain_id;
--- /*******************************************************
--- *
--- * Alter civicrm_event table
--- *
--- *******************************************************/
-
-ALTER TABLE `civicrm_event` DROP FOREIGN KEY `FK_civicrm_event_domain_id`, 
-DROP domain_id;
-
--- /*******************************************************
--- *
--- * Alter civicrm_financial_trxn table
--- *
--- *******************************************************/
-
-ALTER TABLE `civicrm_financial_trxn` DROP FOREIGN KEY `FK_civicrm_financial_trxn_domain_id`, 
-DROP domain_id;
-
--- /*******************************************************
--- *
--- * Alter civicrm_group table
--- *
--- *******************************************************/
-
-ALTER TABLE `civicrm_group` DROP FOREIGN KEY `FK_civicrm_group_domain_id`, 
-DROP domain_id;
-
--- /*******************************************************
--- *
--- * Alter civicrm_location_type table
--- *
--- *******************************************************/
-
-ALTER TABLE `civicrm_location_type` DROP FOREIGN KEY `FK_civicrm_location_type_domain_id`, 
-DROP domain_id;
-
--- /*******************************************************
--- *
--- * Alter civicrm_mailing table
--- *
--- *******************************************************/
-
-ALTER TABLE `civicrm_mailing` DROP FOREIGN KEY `FK_civicrm_mailing_domain_id`, 
-DROP domain_id;
-
--- /*******************************************************
--- *
--- * Alter civicrm_mailing_component table
--- *
--- *******************************************************/
-
-ALTER TABLE `civicrm_mailing_component` DROP FOREIGN KEY `FK_civicrm_mailing_component_domain_id`, 
-DROP domain_id;
-
--- /*******************************************************
--- *
--- * Alter civicrm_mailing_spool table
--- *
--- *******************************************************/
-
-ALTER TABLE `civicrm_mailing_spool` DROP FOREIGN KEY `FK_civicrm_mailing_spool_domain_id`, 
-DROP domain_id;
-
--- /*******************************************************
--- *
--- * Alter civicrm_mapping table
--- *
--- *******************************************************/
-
-ALTER TABLE `civicrm_mapping` DROP FOREIGN KEY `FK_civicrm_mapping_domain_id`, 
-DROP domain_id;
-
--- /*******************************************************
--- *
--- * Alter civicrm_membership_status table
--- *
--- *******************************************************/
-
-ALTER TABLE `civicrm_membership_status` DROP FOREIGN KEY `FK_civicrm_membership_status_domain_id`, 
-DROP domain_id;
-
--- /*******************************************************
--- *
--- * Alter civicrm_membership_type table
--- *
--- *******************************************************/
-
-ALTER TABLE `civicrm_membership_type` DROP FOREIGN KEY `FK_civicrm_membership_type_domain_id`, 
-DROP domain_id;
-
--- /*******************************************************
--- *
--- * Alter civicrm_msg_template table
--- *
--- *******************************************************/
-
-ALTER TABLE `civicrm_msg_template` DROP FOREIGN KEY `FK_civicrm_msg_template_domain_id`, 
-DROP domain_id;
-
--- /*******************************************************
--- *
--- * Alter civicrm_option_group table
--- *
--- *******************************************************/
-
-ALTER TABLE `civicrm_option_group` DROP FOREIGN KEY `FK_civicrm_option_group_domain_id`, 
-DROP domain_id;
-
--- /*******************************************************
--- *
--- * Alter civicrm_payment_processor table
--- *
--- *******************************************************/
-
-ALTER TABLE `civicrm_payment_processor` DROP FOREIGN KEY `FK_civicrm_payment_processor_domain_id`, 
-DROP domain_id;
-
--- /*******************************************************
--- *
--- * Alter civicrm_payment_processor_type table
--- *
--- *******************************************************/
-
-ALTER TABLE `civicrm_payment_processor_type` DROP FOREIGN KEY `FK_civicrm_payment_processor_type_domain_id`, 
-DROP domain_id;
-
--- /*******************************************************
--- *
--- * Alter civicrm_preferences table
--- *
--- *******************************************************/
-
-ALTER TABLE `civicrm_preferences` DROP FOREIGN KEY `FK_civicrm_preferences_domain_id`, 
-DROP domain_id;
-
--- /*******************************************************
--- *
--- * Alter civicrm_preferences_date table
--- *
--- *******************************************************/
-
-ALTER TABLE `civicrm_preferences_date` DROP FOREIGN KEY `FK_civicrm_preferences_date_domain_id`, 
-DROP domain_id;
-
--- /*******************************************************
--- *
--- * Alter civicrm_price_set table
--- *
--- *******************************************************/
-
-ALTER TABLE `civicrm_price_set` DROP FOREIGN KEY `FK_civicrm_price_set_domain_id`, 
-DROP domain_id;
-
--- /*******************************************************
--- *
--- * Alter civicrm_product table
--- *
--- *******************************************************/
-
-ALTER TABLE `civicrm_product` DROP FOREIGN KEY `FK_civicrm_product_domain_id`, 
-DROP domain_id;
-
--- /*******************************************************
--- *
--- * Alter civicrm_project table
--- *
--- *******************************************************/
-
-ALTER TABLE `civicrm_project` DROP FOREIGN KEY `FK_civicrm_project_domain_id`, 
-DROP domain_id;
-
--- /*******************************************************
--- *
--- * Alter civicrm_relationship_type table
--- *
--- *******************************************************/
-
-ALTER TABLE `civicrm_relationship_type` DROP FOREIGN KEY `FK_civicrm_relationship_type_domain_id`, 
-DROP domain_id;
-
--- /*******************************************************
--- *
--- * Alter civicrm_tag table
--- *
--- *******************************************************/
-
-ALTER TABLE `civicrm_tag` DROP FOREIGN KEY `FK_civicrm_tag_domain_id`, 
-DROP domain_id;
-
--- /*******************************************************
--- *
--- * Alter civicrm_task table
--- *
--- *******************************************************/
-
-ALTER TABLE `civicrm_task` DROP FOREIGN KEY `FK_civicrm_task_domain_id`, 
-DROP domain_id;
-
--- /*******************************************************
--- *
--- * Alter civicrm_uf_group table
--- *
--- *******************************************************/
-
-ALTER TABLE `civicrm_uf_group` DROP FOREIGN KEY `FK_civicrm_uf_group_domain_id`, 
-DROP domain_id;
-
 
 
 -- fix too much escaping in civicrm_option_value
@@ -464,37 +176,43 @@ UPDATE civicrm_option_value SET label = 'Addt\'l Address 1' WHERE label = 'Addt\
 UPDATE civicrm_option_value SET label = 'Addt\'l Address 2' WHERE label = 'Addt\\\'l Address 2';
 
 
-
--- add the civicrm_uf_match.language column
+-- add the language column to civicrm_uf_match
 
 ALTER TABLE civicrm_uf_match ADD language VARCHAR(5) COMMENT 'UI language preferred by the given user/contact';
 
+
 -- fix for CRM-3209
+
 UPDATE civicrm_option_value v,
        civicrm_option_group g
 SET    v.description = v.name, v.name = v.value
 WHERE  v.option_group_id = g.id
-AND    g.name LIKE 'civicrm_price_field.amount.%'
+AND    g.name LIKE 'civicrm_price_field.amount.%';
+
 
 -- CRM-3217
-ALTER TABLE `civicrm_custom_field` MODIFY `label` VARCHAR(255) NULL DEFAULT NULL COMMENT 'Text for form field label (also friendly name for administering this custom property).';
-ALTER TABLE `civicrm_option_value` MODIFY `label` VARCHAR(255) NULL DEFAULT '' COMMENT 'Option string as displayed to users - e.g. the label in an HTML OPTION tag.';
-ALTER TABLE `civicrm_price_set` MODIFY `title` VARCHAR(255) NULL DEFAULT NULL COMMENT 'Displayed title for Price Set.';
-ALTER TABLE `civicrm_price_set` MODIFY `name` VARCHAR(255) NULL DEFAULT NULL COMMENT 'Variable name/programmatic handle for this set of price fields.';
-ALTER TABLE `civicrm_price_field` MODIFY `label` VARCHAR(255) NULL DEFAULT NULL COMMENT 'Text for form field label (also friendly name for administering this field).';
-ALTER TABLE `civicrm_price_field` MODIFY `name` VARCHAR(255) NULL DEFAULT NULL COMMENT 'Variable name/programmatic handle for this field.';
 
---Insert new option value for option_group = 'contribution_status'
+ALTER TABLE `civicrm_custom_field` MODIFY `label` VARCHAR(255) NULL DEFAULT NULL COMMENT 'Text for form field label (also friendly name for administering this custom property).';
+
+ALTER TABLE `civicrm_option_value` MODIFY `label` VARCHAR(255) NULL DEFAULT '' COMMENT 'Option string as displayed to users - e.g. the label in an HTML OPTION tag.';
+
+ALTER TABLE `civicrm_price_set` 
+   MODIFY `title` VARCHAR(255) NULL DEFAULT NULL COMMENT 'Displayed title for Price Set.',
+   MODIFY `name` VARCHAR(255) NULL DEFAULT NULL COMMENT 'Variable name/programmatic handle for this set of price fields.';
+
+ALTER TABLE `civicrm_price_field` 
+   MODIFY `label` VARCHAR(255) NULL DEFAULT NULL COMMENT 'Text for form field label (also friendly name for administering this field).',
+   MODIFY `name` VARCHAR(255) NULL DEFAULT NULL COMMENT 'Variable name/programmatic handle for this field.';
+
+
+-- Insert new option value for option_group = 'contribution_status'
 
 SELECT @option_cs    := id from civicrm_option_group where name = 'contribution_status';
 INSERT INTO `civicrm_option_value` (`option_group_id`, `label`, `value`, `weight`, `is_active`, `is_default`) VALUES
 ( @option_cs, 'Overdue', 6, 6, 1, NULL);
 
--- /*******************************************************
--- *
--- * Modify civicrm_acl_cache
--- *
--- *******************************************************/
+
+-- Modify civicrm_acl_cache
 
 ALTER TABLE civicrm_acl_cache 
     DROP FOREIGN KEY FK_civicrm_acl_cache_contact_id,
@@ -504,10 +222,14 @@ ALTER TABLE civicrm_acl_cache
     ADD CONSTRAINT FK_civicrm_acl_cache_contact_id FOREIGN KEY (contact_id) REFERENCES civicrm_contact(id) ON DELETE CASCADE,      
     ADD CONSTRAINT FK_civicrm_acl_cache_acl_id FOREIGN KEY (acl_id) REFERENCES civicrm_acl(id) ON DELETE CASCADE;  
 
+
 -- CRM-3261
+
 UPDATE civicrm_relationship_type SET is_reserved = 1 WHERE id IN (4,6,7);
 
+
 -- CRM-3281
+
 UPDATE civicrm_state_province SET name = "Frederiksberg"   WHERE id = 2261;
 UPDATE civicrm_state_province SET name = "Copenhagen City" WHERE id = 2262;
 UPDATE civicrm_state_province SET name = "Vestsjælland"    WHERE id = 2266;
@@ -516,11 +238,15 @@ UPDATE civicrm_state_province SET name = "South Jutland"   WHERE id = 2270;
 UPDATE civicrm_state_province SET name = "Ringkjøbing"     WHERE id = 2273;
 UPDATE civicrm_state_province SET name = "Århus"           WHERE id = 2274;
 UPDATE civicrm_state_province SET name = "North Jutland"   WHERE id = 2276;
-INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (5196, 1016, "13", "Al Manāmah (Al ‘Āşimah)"),
-                                                                               (5197, 1016, "14", "Al Janūbīyah"),
---                                                                             (5198, 1016, "15", "Al Muḩarraq"), -- conflicts with id 1872, Al Muharraq
-                                                                               (5199, 1016, "16", "Al Wusţá"),
-                                                                               (5200, 1016, "17", "Ash Shamālīyah");
+
+INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES 
+(5196, 1016, "13", "Al Manāmah (Al ‘Āşimah)"),
+(5197, 1016, "14", "Al Janūbīyah"),
+(5198, 1016, "15", "Al Muḩarraq"), 
+-- conflicts with id 1872, Al Muharraq
+(5199, 1016, "16", "Al Wusţá"),
+(5200, 1016, "17", "Ash Shamālīyah");
+
 
 -- Following wasn't done by 2.0 upgrade script, so adding here (also added to 2.0 script)
 
@@ -533,9 +259,9 @@ DROP FOREIGN KEY `FK_civicrm_loc_block_im_id`,
 DROP FOREIGN KEY  `FK_civicrm_loc_block_im_2_id`;
 
 ALTER TABLE `civicrm_loc_block`
-ADD CONSTRAINT `FK_civicrm_loc_block_email_id` FOREIGN KEY (`email_id`) REFERENCES `civicrm_email` (`id`) ON DELETE SET NULL,
+ADD CONSTRAINT `FK_civicrm_loc_block_email_id`   FOREIGN KEY (`email_id`)   REFERENCES `civicrm_email` (`id`) ON DELETE SET NULL,
 ADD CONSTRAINT `FK_civicrm_loc_block_email_2_id` FOREIGN KEY (`email_2_id`) REFERENCES `civicrm_email` (`id`) ON DELETE SET NULL,
-ADD CONSTRAINT `FK_civicrm_loc_block_phone_id` FOREIGN KEY (`phone_id`) REFERENCES `civicrm_phone` (`id`) ON DELETE SET NULL,
+ADD CONSTRAINT `FK_civicrm_loc_block_phone_id`   FOREIGN KEY (`phone_id`)   REFERENCES `civicrm_phone` (`id`) ON DELETE SET NULL,
 ADD CONSTRAINT `FK_civicrm_loc_block_phone_2_id` FOREIGN KEY (`phone_2_id`) REFERENCES `civicrm_phone` (`id`) ON DELETE SET NULL,
-ADD CONSTRAINT `FK_civicrm_loc_block_im_id` FOREIGN KEY (`im_id`) REFERENCES `civicrm_im` (`id`) ON DELETE SET NULL,
-ADD CONSTRAINT `FK_civicrm_loc_block_im_2_id` FOREIGN KEY (`im_2_id`) REFERENCES `civicrm_im` (`id`) ON DELETE SET NULL;
+ADD CONSTRAINT `FK_civicrm_loc_block_im_id`      FOREIGN KEY (`im_id`)      REFERENCES `civicrm_im` (`id`)    ON DELETE SET NULL,
+ADD CONSTRAINT `FK_civicrm_loc_block_im_2_id`    FOREIGN KEY (`im_2_id`)    REFERENCES `civicrm_im` (`id`)    ON DELETE SET NULL;
