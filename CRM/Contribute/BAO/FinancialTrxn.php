@@ -65,7 +65,7 @@ class CRM_Contribute_BAO_FinancialTrxn extends CRM_Contribute_DAO_FinancialTrxn
         // if a transaction already exists for a contribution id, lets get the id
         $id = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_FinancialTrxn',
                                            $trxn->contribution_id,
-                                           'id'
+                                           'id',
                                            'contribution_id' );
         if ( $id ) {
             $trxn->id = $id;
