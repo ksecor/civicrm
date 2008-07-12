@@ -198,8 +198,6 @@ WHERE     openid = %1";
                     $mail = 'email';
                 }
                 
-                require_once 'CRM/Core/BAO/LocationType.php';
-                $locationType   =& CRM_Core_BAO_LocationType::getDefault( );  
                 $params = array( 'email-Primary'  => $user->$mail );
                 
                 if ( $ctype == 'Organization' ) {
@@ -215,18 +213,8 @@ WHERE     openid = %1";
                 // extract first / middle / last name
                 // for joomla
                 if ( $uf == 'Joomla' && $user->name ) {
-                    $name = trim( $user->name );
-                    $names = explode( ' ', $user->name );
-                    if ( count( $names ) == 1 ) {
-                        $params['first_name'] = $names[0];
-                    } else if ( count( $names ) == 2 ) {
-                        $params['first_name'] = $names[0];
-                        $params['last_name' ] = $names[1];
-                    } else {
-                        $params['first_name' ] = $names[0];
-                        $params['middle_name'] = $names[1];
-                        $params['last_name'  ] = $names[2];
-                    }
+                    require_once 'CRM/Utils/String.php';
+                    CRM_Utils_String::extractName( $user->name, $params );
                 }
                 
                 if ( $uf == 'Standalone' ) {
@@ -238,18 +226,8 @@ WHERE     openid = %1";
 		                $params['first_name'] = $user->first_name;
 		                $params['last_name'] = $user->last_name;
 	                } elseif ( ! empty( $user->name ) ) {
-	                    $name = trim( $user->name );
-	                    $names = explode( ' ', $user->name );
-	                    if ( count( $names ) == 1 ) {
-	                        $params['first_name'] = $names[0];
-	                    } else if ( count ( $names ) == 2 ) {
-	                        $params['first_name'] = $names[0];
-	                        $params['last_name' ] = $names[1];
-	                    } else {
-	                        $params['first_name' ] = $names[0];
-	                        $params['middle_name'] = $names[1];
-	                        $params['last_name'  ] = $names[2];
-	                    }
+                        require_once 'CRM/Utils/String.php';
+                        CRM_Utils_String::extractName( $user->name, $params );
 	                }
 		        }
 

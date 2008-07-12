@@ -13,7 +13,7 @@ $dirParts = explode( DIRECTORY_SEPARATOR, $dir );
 
 if ( $dirParts[count( $dirParts ) - 1] === 'src' )
 {
-    require 'Base/src/base.php'; // svn, bundle
+    require 'ezc/Base/src/base.php'; // svn, bundle
 }
 else if ( $dirParts[count( $dirParts ) - 2] === 'ezc' )
 {
