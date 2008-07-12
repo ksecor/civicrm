@@ -37,6 +37,7 @@ require_once "CRM/Core/Form.php";
 require_once "CRM/Core/BAO/CustomGroup.php";
 require_once "CRM/Activity/BAO/Activity.php";
 require_once "CRM/Custom/Form/CustomData.php";
+require_once "CRM/Contact/Form/AddContact.php";
 
 /**
  * This class generates form components for Activity
@@ -97,7 +98,14 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
             $this->assign('cdType', true);
             return CRM_Custom_Form_CustomData::preProcess( $this );
         }
-        
+
+        $this->_addContact     = CRM_Utils_Array::value( 'contact', $_GET );
+
+        $this->assign('addContact', false);
+        if ( $this->_addContact ) {
+            $this->assign('addContact', true);
+        }
+
         $session =& CRM_Core_Session::singleton( );
         $this->_currentUserId = $session->get( 'userID' );
 
@@ -199,7 +207,6 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
                 $this->assign( 'target_contact_value', $defaults['target_contact'] );
                 $this->assign( 'source_contact_value', $defaults['source_contact'] );
             }
-
         } else {
             // if it's a new activity, we need to set default values for associated contact fields
             // since those are dojo fields, unfortunately we cannot use defaults directly
@@ -237,6 +244,15 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
     {
         if ( $this->_cdType ) {
             return CRM_Custom_Form_CustomData::buildQuickForm( $this );
+        }
+
+        if ( $this->_addContact ) {
+            $contactCount  = CRM_Utils_Array::value( 'count', $_GET );
+            $this->assign('prevCount', $contactCount );
+            $contactCount = $contactCount + 1;
+            $this->assign('contactCount', $contactCount );
+            $this->assign('contactFieldName', 'contact_assignee' );
+            return CRM_Contact_Form_AddContact::buildQuickForm( $this, $contactCount, 'contact_assignee' );
         }
 
         //build other activity links
@@ -283,7 +299,7 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
         $config =& CRM_Core_Config::singleton( );
 
         // add a dojo facility for searching contacts
-        $this->assign( 'dojoIncludes', " dojo.require('dojox.data.QueryReadStore'); dojo.require('dijit.form.ComboBox');dojo.require('dojo.parser'); dojo.require('dojox.widget.MultiComboBox');" );
+        $this->assign( 'dojoIncludes', " dojo.require('dojox.data.QueryReadStore'); dojo.require('dijit.form.ComboBox');dojo.require('dojo.parser');" );
 
         $attributes = array( 'dojoType'       => 'dijit.form.ComboBox',
                              'mode'           => 'remote',
@@ -352,14 +368,6 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
                                                                      $this->_targetContactId,
                                                                      'sort_name' );
         }
-
-        // temporarily commenting multicombo        
-//         $targetAttributes = array( 'dojoType'       => 'dojox.widget.MultiComboBox',
-//                                    'mode'           => 'remote',
-//                                    'store'          => 'contactStore',
-//                                    'pageSize'       => 10,
-//                                    'style'          => 'width:600px; border: 1px solid #cfcfcf;',
-//                                    );
         
         $targetContactField =& $this->add( 'text','target_contact', ts('With Contact'), $attributes, isset($standalone) ? $standalone : "" );
         if ( $targetContactField->getValue( ) ) {

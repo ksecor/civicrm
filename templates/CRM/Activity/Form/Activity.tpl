@@ -1,6 +1,8 @@
 {* this template is used for adding/editing other (custom) activities. *}
 {if $cdType }
    {include file="CRM/Custom/Form/CustomData.tpl"}
+{elseif $addContact }
+   {include file="CRM/Contact/Form/AddContact.tpl"}
 {else}
 
 {* added onload javascript for source contact*}
@@ -96,8 +98,20 @@
                        {$form.assignee_contact.html}
                    </div>
                    {edit}<span class="description">{ts}You can optionally assign this activity to someone. Assigned activities will appear in their Contact Dashboard.{/ts}</span>{/edit}
+		   <br/>
                 </td>
              </tr>
+	     
+   <tr>
+     <td></td>
+     <td>
+        <span id="assignee_contact_1">
+          <span id="assignee_contact_0_show">  
+	    <a href="#" onclick="buildContact(1, 'assignee_contact');return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/>{ts}Add Contact{/ts}</a>
+          </span>
+       </span>
+     </td>
+   </tr>
 
              {if $context neq 'standalone' AND $hasCases}
                 <tr>
@@ -182,4 +196,45 @@
    {*include custom data js file*}
    {include file="CRM/common/customData.tpl"}
 {/if}
-{/if} {* end of snippet if*}
+
+{* Build pledge payment details*}
+{literal}
+<script type="text/javascript">
+
+function buildContact( count, pref )
+{
+    prevCount = count - 1;
+    hide( pref + '_' + prevCount + '_show'); 
+
+    var dataUrl = {/literal}"{crmURL h=0 q='snippet=4&contact=1&count='}"{literal} + count;
+	
+    var result = dojo.xhrGet({
+        url: dataUrl,
+        handleAs: "text",
+        timeout: 5000, //Time in milliseconds
+        handle: function(response, ioArgs){
+                if(response instanceof Error){
+                        if(response.dojoType == "cancel"){
+                                //The request was canceled by some other JavaScript code.
+                                console.debug("Request canceled.");
+                        }else if(response.dojoType == "timeout"){
+                                //The request took over 5 seconds to complete.
+                                console.debug("Request timed out.");
+                        }else{
+                                //Some other error happened.
+                                console.error(response);
+                        }
+                } else {
+		    // on success
+		    dojo.byId( pref + '_' + count).innerHTML = response;
+		    dojo.parser.parse( pref + '_' + count );
+	       }
+        }
+     });
+
+}
+</script>
+
+{/literal}
+
+{/if} {* end of snippet if*}	
