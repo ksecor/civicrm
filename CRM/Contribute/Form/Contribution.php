@@ -891,8 +891,7 @@ WHERE  contribution_id = {$this->_id}
                  ($contribution->contribution_status_id == array_search( 'Completed', 
                                                                          CRM_Contribute_PseudoConstant::contributionStatus()))) {
                 require_once 'CRM/Pledge/BAO/Payment.php';
-                $paymentIDs = array( $this->_ppID );
-                CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $this->_pledgeID, $paymentIDs, 
+                CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $this->_pledgeID, $this->_ppID, 
                                                                    $contribution->contribution_status_id );
                 //store contribution id in payment record.
                 CRM_Core_DAO::setFieldValue('CRM_Pledge_DAO_Payment', $this->_ppID, 'contribution_id', $contribution->id );
@@ -1062,8 +1061,7 @@ WHERE  contribution_id = {$this->_id}
                  ($contribution->contribution_status_id == array_search( 'Completed', 
                                                                          CRM_Contribute_PseudoConstant::contributionStatus()))) {
                 require_once 'CRM/Pledge/BAO/Payment.php';
-                $paymentIDs = array( $this->_ppID );
-                CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $this->_pledgeID, $paymentIDs, 
+                CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $this->_pledgeID, $this->_ppID, 
                                                                    $contribution->contribution_status_id );
                 //store contribution id in payment record.
                 CRM_Core_DAO::setFieldValue('CRM_Pledge_DAO_Payment', $this->_ppID, 'contribution_id', $contribution->id );

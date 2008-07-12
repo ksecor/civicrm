@@ -78,30 +78,32 @@ class CRM_UpdatePledgeRecord {
         $statusId = implode(',', $status);
         
         $query = "
-SELECT cp.contact_id              as contact_id,
-       cc.sort_name               as first_name,
-       cp.id                      as pledge_id,
-       cp.amount                  as amount,
-       pp.scheduled_date          as scheduled_date,
-       pp.id                      as payment_id,
-       cp.max_reminders           as max_reminders,
-       cp.initial_reminder_day    as initial_reminder_day,
-       cp.additional_reminder_day as additional_reminder_day,
-       SUM(pp.scheduled_amount)   as amount_due
-FROM   civicrm_pledge_payment pp, civicrm_contact cc, civicrm_pledge cp
-WHERE  pp.status_id IN ( {$statusId} ) AND cp.status_id IN ( {$pstatusId} )
-AND   pp.reminder_count < cp.max_reminders
-AND ( pp.reminder_date IS NULL 
-AND ( DATE_ADD( pp.scheduled_date , INTERVAL '+'+cp.initial_reminder_day DAY )  >= CURRENT_TIMESTAMP) 
-OR  ( DATE_ADD( pp.reminder_date , INTERVAL '+'+cp.additional_reminder_day DAY ) >= DAY(CURRENT_TIMESTAMP) ) )
-GROUP By pp.pledge_id
+SELECT    cp.contact_id              as contact_id,
+          cc.sort_name               as first_name,
+          cp.id                      as pledge_id,
+          cp.amount                  as amount,
+          pp.scheduled_date          as scheduled_date,
+          pp.id                      as payment_id,
+          cp.max_reminders           as max_reminders,
+          cp.initial_reminder_day    as initial_reminder_day,
+          cp.additional_reminder_day as additional_reminder_day,
+          SUM(pp.scheduled_amount)   as amount_due
+FROM      civicrm_contact cc
+LEFT JOIN civicrm_pledge cp ON ( cc.id = cp.contact_id )
+LEFT JOIN civicrm_pledge_payment pp ON ( cp.id = pp.pledge_id )
+WHERE     pp.status_id IN ( {$statusId} ) AND cp.status_id IN ( {$pstatusId} )
+AND       pp.reminder_count < cp.max_reminders
+AND       ( pp.reminder_date IS NULL 
+AND       ( DATE_ADD( pp.scheduled_date , INTERVAL '+'+cp.initial_reminder_day DAY )  >= CURRENT_TIMESTAMP) 
+OR        ( DATE_ADD( pp.reminder_date , INTERVAL '+'+cp.additional_reminder_day DAY ) >= DAY(CURRENT_TIMESTAMP) ) )
+GROUP By  pp.pledge_id
 ";
         $params = array( );
         $dao =& CRM_Core_DAO::executeQuery( $query, $params );
-
+        
         while ( $dao->fetch( ) ) {
-            // CRM_Core_Error::debug( 'fetch', $dao );
             $contactId[] = $dao->contact_id;
+            $pledgeIds[] = $dao->pledge_id;
             //send reminder for membership renewal
             require_once 'CRM/Contact/BAO/Contact.php';
             require_once 'CRM/Contact/BAO/Contact/Location.php';
@@ -125,7 +127,7 @@ GROUP By pp.pledge_id
             $template->assign("next_payment",$dao->scheduled_date);
             $template->assign("amount_due",$dao->amount_due);
             $template->assign("scheduled_payment_date",$dao->scheduled_date);            
-
+            
             //fetching from template
             $message = $template->fetch( 'CRM/Pledge/Form/ReminderMessage.tpl' );
             $subject = $template->fetch( 'CRM/Pledge/Form/ReminderSubject.tpl' );
@@ -133,7 +135,7 @@ GROUP By pp.pledge_id
             continue;
             if ( $toEmail ) {
                 // Set the FROM email address for reminder emails here.
-                    // This must be a valid account for your SMTP service.
+                // This must be a valid account for your SMTP service.
                 $receiptFrom = "EMAIL@FIXME.ORG";
                 
                 require_once 'CRM/Utils/Mail.php';
@@ -145,16 +147,14 @@ GROUP By pp.pledge_id
             }
         }
         
-        $contactId = array_unique($contactId);
         //Set status in pledge & pledge_payment to Overdue if date crossed the scheduled date and next payment is done.
-        if ( !empty ( $contactId ) ) {
+        if ( !empty ( $pledgeIds ) ) {
             require_once 'CRM/Pledge/BAO/Payment.php';
-            foreach ($contactId as $key => $value) {
-                CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $value, null, null, $cronJob = true );
-
+            foreach ( $pledgeIds as $key => $id ) {
+                CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $id );
             }
         }
-    }         
+    }
 }
 
 $obj =& new CRM_UpdatePledgeRecord( );

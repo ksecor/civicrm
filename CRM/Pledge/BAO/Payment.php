@@ -115,7 +115,7 @@ WHERE pledge_id = %1
             }
         } else {
             if ( $params['pledge_status_id'] == array_search( 'Cancelled', CRM_Contribute_PseudoConstant::contributionStatus() ) ) { 
-                self::updatePledgePaymentStatus($params['pledge_id'],null,$params['pledge_status_id']);
+                self::updatePledgePaymentStatus( $params['pledge_id'], null, $params['pledge_status_id'] );
             }
         }
         $transaction->commit( );
@@ -170,79 +170,82 @@ WHERE pledge_id = %1
      * update Pledge Payment Status
      *
      * @param int $pledgeID, id of pledge
-     * @param array $paymentIDs, an array of payment ids
+     * @param int $paymentID, id of payment
      * @param int $status, payment status
      *
      * @return void
      */
-    function updatePledgePaymentStatus( $pledgeID, $paymentIDs = null, $status = null, $cronJob = false )
+    function updatePledgePaymentStatus( $pledgeID, $paymentID = null, $status = null )
     {
         //get all status
         require_once 'CRM/Contribute/PseudoConstant.php';
         $allStatus = CRM_Contribute_PseudoConstant::contributionStatus( );
         
-        $updatePayment = false;
         $updatePledge  = false;
+        $updatePayment = false;
         
         //get all payments.
-        $allPayments = array( );
-        if ( $pledgeID ) {
-            $allPayments = self::getPledgePayments( $pledgeID );   
-        }
-       
-        //get all payment ids if not pass
-        if ( empty($paymentIDs) && $pledgeID ) {
+        $allPayments = self::getPledgePayments( $pledgeID );
+        
+        //build payment ids.
+        $paymentIDs = array( );
+        if ( $paymentID ) {
+            $paymentIDs[] = $paymentID;
+        } else {
             foreach( $allPayments as $payID => $values ) {
                 $paymentIDs[] = $values['id'];
             }
         }
-
-        //update pledge and payment status only if
-        //final contribution status is "Completed".
-        if ( $status == array_search( 'Completed', $allStatus ) ) {
-            $updatePayment = true;
-            $paymentStatus = $status;
-            
-            $isOverdue = false;
-            $allCompleted = true;
-            foreach( $allPayments as $payID => $values ) {
-                //ignore current payment status
-                if ( $payID != $paymentIDs[0] ) {
-                    //check for all completed.
-                    if ( $values['status'] != 'Completed' ) {
+        
+        //update pledge and payment status if status is Completed/Cancelled.
+        if ( $status ) {
+            if ( $status == array_search( 'Completed', $allStatus ) ) {
+                
+                $isOverdue     = false;
+                $allCompleted  = true;
+                $updatePayment = true;
+                $paymentStatus = $status;
+                
+                foreach( $allPayments as $payID => $values ) {
+                    //ignore current and Completed Payments.
+                    if ( ($payID != $paymentIDs[0]) && ($values['status'] != 'Completed') ) {
                         $allCompleted = false;
-                    } 
-                    //check for any overdue.
-                    if ( $values['status'] == 'Overdue' ) {
-                        $isOverdue = true;
+                        if ( $values['status'] == 'Overdue' ) {
+                            $isOverdue = true;
+                        }
                     }
                 }
+                
+                //decide the pledge status.
+                if ( $allCompleted ) {
+                    $pledgeStatus = array_search( 'Completed', $allStatus );
+                } else if ( $isOverdue ) {
+                    $pledgeStatus = array_search( 'Overdue', $allStatus );
+                } else {
+                    $pledgeStatus = array_search( 'In Progress', $allStatus );
+                }
+                $updatePledge = true;
+                
+            } else if ( $status == array_search( 'Cancelled', $allStatus ) ) {
+                $updatePayment = $updatePledge = true;
+                $paymentStatus = $pledgeStatus = $status;
             }
-            
-            if ( $allCompleted ) {
-                $pledgeStatus = array_search( 'Completed', $allStatus );
-            } else if ( $isOverdue ) {
-                $pledgeStatus = array_search( 'Overdue', $allStatus );
-            } else {
-                $pledgeStatus = array_search( 'In Progress', $allStatus );
-            }
-            $updatePledge = true;
-        }  else if ( $status == array_search( 'Cancelled', $allStatus ) ) {
-            $updatePayment = $updatePledge = true;
-            $paymentStatus = $pledgeStatus = $status;
-        } else if ( $cronJob ) {
-            $paymentIDs = array( );
+        } else {
+            //Keep Pledge and Pledge Payment statuses updated
+            $overdueIDs = array( );
             foreach ( $allPayments as $key => $value ) {
-                if ( $value['status'] != 'Completed' && 
-                     CRM_Utils_Date::overdue( $value['scheduled_date'] ) ) {
-                    $paymentIDs[]  = $value['id'];
-                } else if ( $value['status'] == 'Completed' && ! empty( $paymentIDs ) ) {
-                    $updatePayment = $updatePledge = true;
-                    $paymentStatus = $pledgeStatus = array_search( 'Overdue', $allStatus );
+                if ( $value['status'] != 'Completed' && CRM_Utils_Date::overdue( $value['scheduled_date'] ) ) {
+                    $overdueIDs[] = $value['id'];
                 }
             }
-        }
             
+            if ( !empty( $overdueIDs ) ) {
+                $paymentIDs    = $overdueIDs;
+                $updatePayment = $updatePledge = true;
+                $paymentStatus = $pledgeStatus = array_search( 'Overdue', $allStatus );
+            }
+        }
+        
         //update payment status.
         if ( $updatePayment ) {
             $params = array( 1 => array( $paymentStatus, 'Integer' ),
@@ -260,9 +263,8 @@ AND    civicrm_pledge_payment.status_id != %2
         
         //update pledge status.
         if ( $updatePledge ) {
-            CRM_Core_DAO::setFieldValue('CRM_Pledge_DAO_Pledge', $pledgeID, 'status_id', $pledgeStatus );
+            CRM_Core_DAO::setFieldValue( 'CRM_Pledge_DAO_Pledge', $pledgeID, 'status_id', $pledgeStatus );
         }
-        
     }
     
 }
