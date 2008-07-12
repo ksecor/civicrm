@@ -445,6 +445,11 @@ class CRM_Core_Block {
      * @access public
      */
     static function getContent( $id ) {
+        // return if upgrade mode
+        if ( arg(0) == 'civicrm' && arg(1) == 'upgrade' ) {
+            return;
+        }
+
         if ( ! self::getProperty( $id, 'active' ) ) {
             return null;
         }
