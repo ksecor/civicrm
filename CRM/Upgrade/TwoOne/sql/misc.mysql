@@ -85,11 +85,11 @@ VALUES (@drgid, 'civicrm_contact', 'household_name', 10),
 
 -- Edited indexing of custom group table
 
-ALTER TABLE `civicrm_custom_group` DROP INDEX `UI_title_domain_id` ,
-ADD UNIQUE `UI_title_extends` ( `title` , `extends` ); 
-
-ALTER TABLE `civicrm_custom_group` DROP INDEX `UI_name_domain_id` ,
-ADD UNIQUE `UI_name_extends` ( `name` , `extends` );
+ALTER TABLE `civicrm_custom_group` 
+  DROP INDEX `UI_title_domain_id` ,
+  ADD UNIQUE `UI_title_extends` ( `title` , `extends` ),
+  DROP INDEX `UI_name_domain_id` ,
+  ADD UNIQUE `UI_name_extends` ( `name` , `extends` );
 
 
 -- CRM-3052, dropping location_id from group_contact
@@ -139,7 +139,7 @@ UPDATE civicrm_country SET name = 'Moldova' WHERE id = 1143;
 
 -- CRM-2781
 
-ALTER TABLE `civicrm_mapping` CHANGE `mapping_type` `mapping_type_id` INT NULL DEFAULT NULL COMMENT 'Type of Mapping.';
+ALTER TABLE `civicrm_mapping` CHANGE `mapping_type` `mapping_type_id` INT(10) unsigned NULL DEFAULT NULL COMMENT 'Type of Mapping.';
 
 
 -- add option group and values CRM-2781
@@ -265,3 +265,194 @@ ADD CONSTRAINT `FK_civicrm_loc_block_phone_id`   FOREIGN KEY (`phone_id`)   REFE
 ADD CONSTRAINT `FK_civicrm_loc_block_phone_2_id` FOREIGN KEY (`phone_2_id`) REFERENCES `civicrm_phone` (`id`) ON DELETE SET NULL,
 ADD CONSTRAINT `FK_civicrm_loc_block_im_id`      FOREIGN KEY (`im_id`)      REFERENCES `civicrm_im` (`id`)    ON DELETE SET NULL,
 ADD CONSTRAINT `FK_civicrm_loc_block_im_2_id`    FOREIGN KEY (`im_2_id`)    REFERENCES `civicrm_im` (`id`)    ON DELETE SET NULL;
+
+
+-- new tables added to 2.0
+
+CREATE TABLE `civicrm_cache` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `group_name` varchar(255) collate utf8_unicode_ci NOT NULL COMMENT 'group name for cache element, useful in cleaning cache elements',
+  `path` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'Unique path name for cache element',
+  `data` text collate utf8_unicode_ci COMMENT 'data associated with this path',
+  `component_id` int(10) unsigned default NULL COMMENT 'Component that this menu item belongs to',
+  `created_date` datetime default NULL COMMENT 'When was the cache item created',
+  `expired_date` datetime default NULL COMMENT 'When should cache item expire',
+  PRIMARY KEY  (`id`),
+  UNIQUE `UI_group_path` (`group_name`,`path`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+ALTER TABLE `civicrm_cache`
+  ADD CONSTRAINT `FK_civicrm_cache_component_id` FOREIGN KEY (`component_id`) REFERENCES `civicrm_component` (`id`);
+
+
+CREATE TABLE `civicrm_group_contact_cache` (
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'primary key',
+  `group_id` int(10) unsigned NOT NULL COMMENT 'FK to civicrm_group',
+  `contact_id` int(10) unsigned NOT NULL COMMENT 'FK to civicrm_contact',
+  PRIMARY KEY  (`id`),
+  UNIQUE `UI_contact_group` (`contact_id`,`group_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+ALTER TABLE `civicrm_group_contact_cache`
+  ADD CONSTRAINT `FK_civicrm_group_contact_cache_group_id` FOREIGN KEY (`group_id`) REFERENCES `civicrm_group` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `FK_civicrm_group_contact_cache_contact_id` FOREIGN KEY (`contact_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE CASCADE;
+
+
+CREATE TABLE `civicrm_menu` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `path` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'Path Name',
+  `path_arguments` text collate utf8_unicode_ci COMMENT 'Arguments to pass to the url',
+  `title` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'Menu Title',
+  `access_callback` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'Function to call to check access permissions',
+  `access_arguments` text collate utf8_unicode_ci COMMENT 'Arguments to pass to access callback',
+  `page_callback` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'function to call for this url',
+  `page_arguments` text collate utf8_unicode_ci COMMENT 'Arguments to pass to page callback',
+  `breadcrumb` text collate utf8_unicode_ci COMMENT 'Breadcrumb for the path.',
+  `return_url` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'Url where a page should redirected to, if next url not known.',
+  `return_url_args` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'Arguments to pass to return_url',
+  `component_id` int(10) unsigned default NULL COMMENT 'Component that this menu item belongs to',
+  `is_active` tinyint(4) default NULL COMMENT 'Is this menu item active?',
+  `is_public` tinyint(4) default NULL COMMENT 'Is this menu accessible to the public?',
+  `is_exposed` tinyint(4) default NULL COMMENT 'Is this menu exposed to the navigation system?',
+  `weight` int(11) NOT NULL default '1' COMMENT 'Ordering of the menu items in various blocks.',
+  `type` int(11) NOT NULL default '1' COMMENT 'Drupal menu type.',
+  `page_type` int(11) NOT NULL default '1' COMMENT 'CiviCRM menu type.',
+  PRIMARY KEY  (`id`),
+  UNIQUE `UI_path` (`path`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+ALTER TABLE `civicrm_menu`
+  ADD CONSTRAINT `FK_civicrm_menu_component_id` FOREIGN KEY (`component_id`) REFERENCES `civicrm_component` (`id`);
+
+
+-- fixes noticed via db diff
+
+ALTER TABLE `civicrm_contact`
+    ADD `employer_id` int(10) unsigned NULL DEFAULT NULL AFTER user_unique_id,
+    ADD INDEX `index_contact_type` (`contact_type`),
+    ADD INDEX `index_contact_sub_type` (`contact_sub_type`),
+    ADD INDEX `index_sort_name` (`sort_name`),
+    ADD INDEX `index_hash` (`hash`),
+    DROP INDEX index_contact_type_domain,
+    DROP INDEX index_contact_sub_type_domain,
+    DROP INDEX index_sort_name_domain,
+    DROP INDEX index_hash_domain;
+
+
+UPDATE civicrm_contact cc1
+LEFT JOIN civicrm_contact cc2 ON cc1.mail_to_household_id=cc2.id
+SET cc1.mail_to_household_id=NULL
+WHERE cc2.id IS NULL;
+
+ALTER TABLE `civicrm_contact`
+  ADD CONSTRAINT `FK_civicrm_contact_mail_to_household_id` FOREIGN KEY (`mail_to_household_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `FK_civicrm_contact_employer_id` FOREIGN KEY (`employer_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE SET NULL;
+
+
+ALTER TABLE `civicrm_contribution_recur`
+    ADD UNIQUE `UI_contrib_trxn_id` (`trxn_id`),
+    ADD UNIQUE `UI_contrib_invoice_id` (`invoice_id`);
+
+
+ALTER TABLE `civicrm_contribution_type`
+    ADD UNIQUE `UI_name` (name);
+
+ALTER TABLE `civicrm_custom_field`
+    ADD `is_view` tinyint(4) NULL DEFAULT NULL AFTER is_active,
+    MODIFY `html_type` enum('Text','TextArea','Select','Multi-Select','Radio','CheckBox','Select Date','Select State/Province','Select Country','Multi-Select Country','Multi-Select State/Province','File','Link','RichTextEditor') NOT NULL DEFAULT 'Text';
+
+ALTER TABLE `civicrm_dedupe_rule_group`
+    ADD name varchar(64) NULL DEFAULT NULL AFTER is_default;
+
+DROP TABLE `civicrm_dupe_match`;
+
+ALTER TABLE `civicrm_event`
+    DROP `receipt_text`;
+
+ALTER TABLE `civicrm_event_page`
+    ADD `is_multiple_registrations` tinyint(4) NULL DEFAULT '0' AFTER pay_later_receipt;
+
+ALTER TABLE `civicrm_financial_trxn`
+    ADD UNIQUE `UI_ft_trxn_id` (`trxn_id`);
+
+ALTER TABLE `civicrm_grant`
+    MODIFY `amount_requested` decimal(20,2) NULL DEFAULT NULL,
+    MODIFY `amount_granted` decimal(20,2) NULL DEFAULT NULL;
+
+ALTER TABLE `civicrm_group`
+    ADD `cache_date` datetime NULL DEFAULT NULL AFTER group_type,
+    ADD parents text NULL DEFAULT NULL AFTER cache_date,
+    ADD children text NULL DEFAULT NULL AFTER parents,
+    MODIFY description text NULL DEFAULT NULL,
+    ADD UNIQUE `UI_title` (title),
+    ADD UNIQUE `UI_name` (name);
+
+ALTER TABLE `civicrm_location_type`
+    ADD UNIQUE `UI_name` (name);
+
+ALTER TABLE `civicrm_mailing`
+    MODIFY `body_text` longtext NULL DEFAULT NULL,
+    MODIFY `body_html` longtext NULL DEFAULT NULL;
+
+ALTER TABLE `civicrm_membership_type`
+    ALTER `fixed_period_start_day`  DROP DEFAULT,
+    ALTER `fixed_period_rollover_day`  DROP DEFAULT;
+
+ALTER TABLE `civicrm_note`
+    MODIFY `contact_id` int(10) unsigned NULL DEFAULT NULL;
+
+ALTER TABLE `civicrm_option_group`
+    ADD UNIQUE `UI_name` (name);
+
+ALTER TABLE `civicrm_option_value`
+    MODIFY label varchar(255) NOT NULL DEFAULT '';
+
+ALTER TABLE `civicrm_participant`
+    ADD `fee_level` varchar(255) NULL DEFAULT NULL AFTER source,
+    ADD `is_pay_later` tinyint(4) NULL DEFAULT '0' AFTER is_test,
+    ADD `fee_amount` decimal(20,2) NULL DEFAULT NULL AFTER is_pay_later,
+    ADD `registered_by_id` int(10) unsigned NULL DEFAULT NULL AFTER fee_amount,
+    DROP `event_level`;
+
+ALTER TABLE `civicrm_participant`
+  ADD CONSTRAINT `FK_civicrm_participant_registered_by_id` FOREIGN KEY (`registered_by_id`) REFERENCES `civicrm_participant` (`id`) ON DELETE SET NULL;
+
+ALTER TABLE `civicrm_preferences`
+    ADD `editor_id` int(10) unsigned NULL DEFAULT NULL AFTER address_standardization_url;
+
+ALTER TABLE `civicrm_price_field`
+    MODIFY name varchar(255) NOT NULL DEFAULT '',
+    MODIFY label varchar(255) NOT NULL DEFAULT '';
+
+ALTER TABLE `civicrm_price_set`
+    MODIFY name varchar(255) NOT NULL DEFAULT '',
+    MODIFY title varchar(255) NOT NULL DEFAULT '';
+
+ALTER TABLE `civicrm_relationship`
+    MODIFY `is_permission_a_b` tinyint(4) NULL DEFAULT '0',
+    MODIFY `is_permission_b_a` tinyint(4) NULL DEFAULT '0';
+
+ALTER TABLE `civicrm_relationship_type`
+    ADD UNIQUE `UI_name_a_b` (`name_a_b`),
+    ADD UNIQUE `UI_name_b_a` (`name_b_a`);
+
+ALTER TABLE `civicrm_tag`
+    ADD UNIQUE `UI_name` (name);
+
+ALTER TABLE `civicrm_uf_group`
+    ADD `group_type` varchar(255) NULL DEFAULT NULL AFTER is_active,
+    DROP `form_type`;
+
+ALTER TABLE `civicrm_uf_match`
+    ADD UNIQUE `UI_uf_name` (`uf_name`);
+
+ALTER TABLE `civicrm_contribution`
+    ADD `is_pay_later` tinyint(4) NULL DEFAULT '0' AFTER is_test,
+    ADD UNIQUE `UI_contrib_trxn_id` (`trxn_id`),
+    ADD UNIQUE `UI_contrib_invoice_id` (`invoice_id`);
+
+ALTER TABLE `civicrm_membership`
+    ADD `is_pay_later` tinyint(4) NULL DEFAULT '0' AFTER is_test;
+
+ALTER TABLE `civicrm_membership_status`
+    ADD `is_reserved` tinyint(4) NULL DEFAULT '0' AFTER is_active;

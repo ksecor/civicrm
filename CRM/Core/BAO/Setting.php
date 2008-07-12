@@ -186,7 +186,7 @@ class CRM_Core_BAO_Setting
                     $dao->language = $lcMessages;
                     $dao->save();
                     $defaults['lcMessages'] = $lcMessages;
-                } elseif (!$dao->language) {
+                } elseif (!$dao->language && arg(0) != 'civicrm' && arg(1) != 'upgrade') {
                     $dao->language = $defaults['lcMessages'];
                     $dao->save();
                 } else {

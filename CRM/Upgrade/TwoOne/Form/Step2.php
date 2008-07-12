@@ -41,9 +41,9 @@ class CRM_Upgrade_TwoOne_Form_Step2 extends CRM_Upgrade_Form {
         $errorMessage = ts('Pre-condition failed for upgrade step %1.', array(1 => '2'));
         
         if ( ! CRM_Core_DAO::checkTableExists( 'civicrm_cache' ) ||
-             ! CRM_Core_DAO::checkTableExists( 'civicrm_discount' ) ||
              ! CRM_Core_DAO::checkTableExists( 'civicrm_group_contact_cache' ) ||
              ! CRM_Core_DAO::checkTableExists( 'civicrm_menu' ) 
+//              ! CRM_Core_DAO::checkTableExists( 'civicrm_discount' ) ||
 //              ! CRM_Core_DAO::checkTableExists( 'civicrm_pledge' ) ||
 //              ! CRM_Core_DAO::checkTableExists( 'civicrm_pledge_block' ) ||
 //              ! CRM_Core_DAO::checkTableExists( 'civicrm_pledge_payment' ) ||
