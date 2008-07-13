@@ -444,7 +444,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             }
         }
         if ( $formValues['is_acknowledge'] ) {
-            $params['acknowledge_dat'] = date("Y-m-d");
+            $params['acknowledge_date'] = date("Y-m-d");
         }
         if ( $params["status_id"] == 3 ) {
             if ( CRM_Utils_System::isNull( CRM_Utils_Array::value( 'cancel_date', $params ) ) ) {
