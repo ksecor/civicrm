@@ -45,7 +45,7 @@ class CRM_Utils_Mail_Incoming {
         $t .= 'Subject:   '. $mail->subject . "\n";
         $t .= "MessageId: ". $mail->messageId . "\n";
         $t .= "\n";
-        $t .= formatMailPart( $mail->body );
+        $t .= self::formatMailPart( $mail->body );
         return $t;
     }
 
@@ -100,7 +100,7 @@ class CRM_Utils_Mail_Incoming {
     function formatMailMultipartMixed( $part ) {
         $t = '';
         foreach ( $part->getParts() as $key => $alternativePart ) {
-            $t .= formatMailPart( $alternativePart );
+            $t .= self::formatMailPart( $alternativePart );
         }
         return $t;
     }
@@ -108,10 +108,10 @@ class CRM_Utils_Mail_Incoming {
     function formatMailMultipartRelated( $part ) {
         $t = '';
         $t .= "-RELATED MAIN PART-\n";
-        $t .= formatMailPart( $part->getMainPart() );
+        $t .= self::formatMailPart( $part->getMainPart() );
         foreach ( $part->getRelatedParts() as $key => $alternativePart ) {
             $t .= "-RELATED PART $key-\n";
-            $t .= formatMailPart( $alternativePart );
+            $t .= self::formatMailPart( $alternativePart );
         }
         $t .= "-RELATED END-\n";
         return $t;
@@ -121,7 +121,7 @@ class CRM_Utils_Mail_Incoming {
         $t = '';
         foreach ( $part->getParts() as $key => $alternativePart ) {
             $t .= "-DIGEST-$key-\n";
-            $t .= formatMailPart( $alternativePart );
+            $t .= self::formatMailPart( $alternativePart );
         }
         $t .= "-DIGEST END---\n";
         return $t;
@@ -131,7 +131,7 @@ class CRM_Utils_Mail_Incoming {
         $t = '';
         $t .= "-DIGEST-ITEM-$key-\n";
         $t .= "Item:\n\n";
-        $t .= formatMailpart( $part->mail );
+        $t .= self::formatMailpart( $part->mail );
         $t .= "-DIGEST ITEM END-\n";
         return $t;
     }
@@ -140,7 +140,7 @@ class CRM_Utils_Mail_Incoming {
         $t = '';
         foreach ( $part->getParts() as $key => $alternativePart ) {
             $t .= "-ALTERNATIVE ITEM $key-\n";
-            $t .= formatMailPart( $alternativePart );
+            $t .= self::formatMailPart( $alternativePart );
         }
         $t .= "-ALTERNATIVE END-\n";
         return $t;
@@ -198,7 +198,8 @@ class CRM_Utils_Mail_Incoming {
         $set = new ezcMailFileSet( array( $message ) );
         $parser = new ezcMailParser();
         $mail = $parser->parseMail( $set );
-        
+        CRM_Core_Error::Debug( $mail );
+
         $params['from'] = array( );
         self::parseAddress( $mail[0]->from, $field, $params['from'] );
 
@@ -217,6 +218,8 @@ class CRM_Utils_Mail_Incoming {
                                    strtotime( $mail[0]->getHeader( "Date" ) ) );
         $params['body']    = self::formatMailPart( $mail[0]->body );
 
+        CRM_Core_Error::debug( $params );
+        exit( );
         return $params;
     }
 

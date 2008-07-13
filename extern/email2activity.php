@@ -45,7 +45,7 @@ function run( ) {
     // this does not return on failure
     CRM_Utils_System::authenticateScript( true );
 
-    $email = "/Users/lobo/public_html/drupal6/files/civicrm/upload/lobo.txt";
+    $email = "/Users/lobo/public_html/drupal6/files/civicrm/upload/lobo3.txt";
     process( $email );
     return;
 

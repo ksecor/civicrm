@@ -190,5 +190,8 @@ function hrd_civicrm_aclGroup( $type, $contactID, $tableName, &$allGroups, &$cur
     $currentGroups = array_keys( $currentGroups );
 }
 
+function hrd_perm( ) {
+    return array( 'access secure contacts' );
+}
 
 
