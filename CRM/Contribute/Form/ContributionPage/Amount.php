@@ -217,7 +217,29 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
                 $errors['recur_frequency_unit'] = ts( 'Atleast one option needs to be checked.' );
             }
         }        
-
+        
+        //validation for pledge fields.
+        if ( CRM_Utils_array::value( 'is_pledge_active', $fields ) ) {
+            //check if we have 'Allow Frequency Intervals' and 'Pledge Frequency Interval'.
+            if ( CRM_Utils_array::value( 'is_pledge_interval', $fields ) &&
+                 CRM_Utils_array::value( 'pledge_frequency_interval', $fields ) ) {
+                if ( is_numeric( $fields['installments'] ) ) {
+                    //installments should be > 1
+                    if ( $fields['installments'] < 1 ) {
+                        $errors['installments'] = ts( 'Installments field must be > 1' ); 
+                    } else if ( $fields['installments'] ==  1 ) {
+                        $errors['installments'] = ts('Pledges consist of multiple scheduled payments. Select one-time contribution if you want to make your gift in a single payment.');
+                    }
+                } else if ( !empty( $fields['installments'] ) ) {
+                    //installments should be numeric.
+                    $errors['installments'] = ts("Please enter a valid Installments.");
+                } else {
+                    //installments is  required.
+                    $errors['installments'] = ts( 'Installments is required field.' ); 
+                }
+            }
+        }
+        
         return $errors;
     }
  
