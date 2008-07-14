@@ -208,14 +208,20 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         if ( $this->_values['is_for_organization'] ) {
             $this->buildOnBehalfOrganization( );
         }
-
+        
         require_once 'CRM/Contribute/BAO/Premium.php';
         CRM_Contribute_BAO_Premium::buildPremiumBlock( $this , $this->_id ,true );
-
+        
         if ( $this->_values['honor_block_is_active'] ) {
             $this->buildHonorBlock( );
         }
-
+        
+        //build pledge block.
+        $config =& CRM_Core_Config::singleton( );
+        if ( in_array('CiviPledge', $config->enableComponents ) ) {
+            $this->buildPledgeBlock( );
+        }
+        
         $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
         $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
        
@@ -461,8 +467,49 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                     $attributes['installments'] );
         $this->addRule( 'installments', ts( 'Number of installments must be a whole number.' ), 'integer' );
     }
-
-
+    
+    /**
+     * Function to build Pledge Block in Contribution Pages 
+     * 
+     * @param int $pageId 
+     * @static
+     */
+    function buildPledgeBlock( ) 
+    {
+        require_once 'CRM/Pledge/DAO/PledgeBlock.php';
+        $dao =& new CRM_Pledge_DAO_PledgeBlock( );
+        $dao->entity_table = 'civicrm_contribution_page';
+        $dao->entity_id = $this->_id; 
+        $dao->is_pledge_interval = true;
+        if ( $dao->find(true) ) {
+            $pledgeBlockID = $dao->id;
+            $pledgeBlock   = array();
+            CRM_Core_DAO::storeValues($dao, $pledgeBlock );
+        }
+        
+        if ( $pledgeBlockID ) {
+            $this->_values['pledge_block_id'] = $pledgeBlockID;
+            $this->assign( 'pledgeBlock', true );
+            $pledgeOptions = array( '0' => ts('I want to make a one-time contribution'), 
+                                    '1' => ts('I pledge to contribute this amount every') );
+            $this->addRadio( 'is_pledge_frequency_interval', ts('Pledge Frequency Interval'), $pledgeOptions,
+                             null, array( '<br/>' ) );
+            $this->addElement( 'text', 'pledge_installments', ts('Installments'), array('size'=>3) ); 
+            $this->addElement( 'text', 'pledge_frequency_interval', null, array('size'=>3) );
+            
+            //Frequency unit drop-down label suffixes switch from *ly to *(s)
+            $freqUnitVals  = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $pledgeBlock['pledge_frequency_unit'] );
+            $freqUnits = array( );
+            foreach ( $freqUnitVals as $key => $val ) {
+                $freqUnits[$val] = ts( '%1', array(1 => $val) );
+                if ( $pledgeBlock['is_pledge_interval'] ) {
+                    $freqUnits[$val] .= ts('(s)');
+                }
+            }
+            $this->addElement( 'select', 'pledge_frequency_unit', null, $freqUnits );
+        }
+    }
+    
     /** 
      * global form rule 
      * 
@@ -621,6 +668,26 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             }
         }
 
+        //validate the pledge fields.
+        if ( CRM_Utils_Array::value( 'pledge_block_id', $self->_values ) ) {
+            if ( CRM_Utils_array::value( 'is_pledge_frequency_interval', $fields ) ) {
+                if ( is_numeric( $fields['pledge_installments'] ) ) {
+                    //installments should be > 1
+                    if ( $fields['pledge_installments'] < 1 ) {
+                        $errors['pledge_installments'] = ts( 'Pledge Installments field must be > 1' ); 
+                    } else if ( $fields['pledge_installments'] ==  1 ) {
+                        $errors['pledge_installments'] = ts('Pledges consist of multiple scheduled payments. Select one-time contribution if you want to make your gift in a single payment.');
+                    }
+                } else if ( !empty( $fields['pledge_installments'] ) ) {
+                    //installments should be numeric.
+                    $errors['pledge_installments'] = ts("Please enter a valid Pledge Installments.");
+                } else {
+                    //installments is  required.
+                    $errors['pledge_installments'] = ts( 'Pledge Installments is required field.' ); 
+                }
+            }
+        }
+        
         return empty( $errors ) ? true : $errors;
     }
 

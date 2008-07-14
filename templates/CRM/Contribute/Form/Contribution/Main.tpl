@@ -46,6 +46,10 @@ function clearAmountOther() {
     {if $is_allow_other_amount}
         <tr><td class="label">{$form.amount_other.label}</td><td>{$form.amount_other.html|crmMoney}</td></tr>
     {/if}
+    {if $pledgeBlock}
+	<td class="label nowrap">{$form.is_pledge_frequency_interval.label}</td>
+        <td>{$form.is_pledge_frequency_interval.html}&nbsp;&nbsp;{$form.pledge_frequency_interval.html}&nbsp;&nbsp;{$form.pledge_frequency_unit.html}&nbsp;&nbsp;{ts}for{/ts}&nbsp;&nbsp;{$form.pledge_installments.html}&nbsp;&nbsp;{ts}installments.{/ts}</td>
+    {/if}
     {if $form.is_pay_later}
         <tr><td class="label">&nbsp;</td><td>{$form.is_pay_later.html}&nbsp;{$form.is_pay_later.label}</td></tr>
     {/if}

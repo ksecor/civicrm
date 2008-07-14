@@ -38,10 +38,10 @@
         </tr>
         <tr id="pledgeFields"><td></td><td>
             <table class="form-layout-compressed">
-                <tr><th scope="row" class="label">{$form.pledge_frequency_unit.label}</th>
-                <td>{$form.pledge_frequency_unit.html}</td></tr>
                 <tr><th scope="row" class="label">{$form.is_pledge_interval.label}</th>
                 <td>{$form.is_pledge_interval.html}</td></tr>
+                <tr id = "pledgeFrequencyUnit" ><th scope="row" class="label">{$form.pledge_frequency_unit.label}</th>
+                <td>{$form.pledge_frequency_unit.html}</td></tr>
 		<tr><th scope="row" class="label">{$form.initial_reminder_day.label}</th>
                 <td>{$form.initial_reminder_day.html}<br />
 		    <span class="description">{ts}Days prior to each scheduled payment due date.{/ts}</span></td></tr>
@@ -109,15 +109,6 @@
             </td></tr>
         </table>
       </div>
-
-      <div id="pledgeInterval">
-        <table class="form-layout-compressed">
-	       <tr><th scope="row" class="label">{$form.pledge_frequency_interval.label}</th>
-                       <td>{$form.pledge_frequency_interval.html}&nbsp;&nbsp;{$form.pledge_frequency.html}&nbsp;&nbsp;{$form.frequency_unit.html}&nbsp;&nbsp;{ts}for{/ts}&nbsp;&nbsp;{$form.installments.html}&nbsp;&nbsp;{ts}installments.{/ts}
-	               </td>
-               </tr>
-        </table>
-      </div>
 	
       <div id="crm-submit-buttons">
         <dl><dt></dt><dd> {$form.buttons.html}<br></dd></dl>
@@ -178,22 +169,22 @@
 	      return;
            } else {
 	      hide('pledgeFields', 'table-row' );
-              hide('pledgeInterval', 'block');
+              hide('pledgeFrequencyUnit', 'table-row');
               is_pledge_interval[0].checked = false;
     	      return;
 	   }
         }
                          
   	if ( ! is_pledge_interval[0].checked ) {
-           hide('pledgeInterval', 'block');
+           hide('pledgeFrequencyUnit', 'table-row');
 	}
         
-       	function pledgeInterval(chkbox) {
+       	function showPledgeFrequencyUnit(chkbox) {
            if (chkbox.checked) {
-	      show('pledgeInterval', 'block' );
+	      show('pledgeFrequencyUnit', 'table-row' );
 	      return;
            } else {
-	      hide('pledgeInterval', 'block' );
+	      hide('pledgeFrequencyUnit', 'table-row' );
     	      return;
 	   }
         }
