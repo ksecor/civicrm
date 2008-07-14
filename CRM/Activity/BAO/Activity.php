@@ -255,7 +255,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             $assignmentParams = array( 'activity_id'         => $activityId );
 
             if ( is_array( $params['assignee_contact_id'] ) ) {
-                foreach ( $params['assignee_contact_id'] as acID ) {
+                foreach ( $params['assignee_contact_id'] as $acID ) {
                     $assignmentParams['assignee_contact_id'] = $acID;
                     $resultAssignment = CRM_Activity_BAO_ActivityAssignment::create( $assignmentParams );
                     if( is_a( $resultAssignment, 'CRM_Core_Error' ) ) {
@@ -305,7 +305,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                    }
                 }
             } else {
-                $targetParams['target_contact_id'] = params['target_contact_id'];
+                $targetParams['target_contact_id'] = $params['target_contact_id'];
 
                 if ( CRM_Utils_Array::value( 'id', $params ) ) {
                     $target =& new CRM_Activity_BAO_ActivityTarget( );
