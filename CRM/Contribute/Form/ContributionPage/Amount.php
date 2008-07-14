@@ -304,25 +304,28 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         $dao = CRM_Contribute_BAO_ContributionPage::create( $params );
         
         if ( $params['is_pledge_active'] ) {
-            $pledge = array();
+            $pledgeParams = array();
             require_once "CRM/Core/Session.php";
             foreach ( array('frequency_unit', 'installments', 'max_reminders', 'initial_reminder_day', 'additional_reminder_day' ) as $key ) {
-                $pledge[$key] = $params[$key];    
+                $pledgeParams[$key] = $params[$key];    
             }
             
             $session =& CRM_Core_Session::singleton();
-            $pledge['contact_id'] = $session->get( 'userID' );
-            $pledge['contribution_page_id'] = $this->_id;
-            $pledge['contribution_type_id'] = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', 
+            $pledgeParams['contact_id'] = $session->get( 'userID' );
+            $pledgeParams['contribution_page_id'] = $this->_id;
+            $pledgeParams['contribution_type_id'] = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', 
                                                                            $this->_id, 
                                                                            'contribution_type_id' );
             
-            $pledge['frequency_interval']   = $params['pledge_frequency_interval'];
-            $pledge['frequency_day']        = 1;
-            $pledge['create_date']          = $pledge['start_date']=  date("Ymd");
-              
+            $pledgeParams['frequency_interval']   = $params['pledge_frequency_interval'];
+            $pledgeParams['frequency_day']        = 1;
+            $pledgeParams['create_date']          = $pledgeParams['start_date'] = date("Ymd");
+            $pledgeParams['scheduled_date']['M']  = date("m"); 
+            $pledgeParams['scheduled_date']['d']  = date("d");
+            $pledgeParams['scheduled_date']['Y']  = date("Y");
+
             require_once 'CRM/Pledge/BAO/Pledge.php';
-            CRM_Pledge_BAO_Pledge::add($pledge);
+            CRM_Pledge_BAO_Pledge::create($pledgeParams);
         }
        
     }
