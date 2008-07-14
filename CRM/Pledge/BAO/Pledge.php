@@ -238,8 +238,8 @@ class CRM_Pledge_BAO_Pledge extends CRM_Pledge_DAO_Pledge
         
         switch ( $status ) {
         case 'Completed':
-            $statusId = null;
-            $where[] = 'status_id != '. array_search( 'Cancelled', $allStatus );
+            $statusId = array_search( 'Cancelled', $allStatus );
+            $where[]  = 'status_id != '. $statusId;
             break;
             
         case 'Cancelled':
