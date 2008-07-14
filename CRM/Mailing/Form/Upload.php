@@ -174,25 +174,10 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                         1024 * 1024 );
         $this->addRule( 'htmlFile', ts('File must be in UTF-8 encoding'), 'utf8File' );
 
-        // add 3 attachments
-        for ( $i = 1; $i <= 3; $i++ ) {
-            $this->addElement( 'file', "attachFile_$i", ts('Attach File to Message'), 'size=30 maxlength=60' );
-            $this->setMaxFileSize( 2 * 1024 * 1024 );
-            $this->addRule( "attachFile_$i",
-                            ts( 'File size should be less than %1 MByte(s)',
-                                array( 1 => 2 ) ),
-                            'maxfilesize',
-                            2 * 1024 * 1024 );
-        }
-
-        $attachmentInfo = CRM_Mailing_BAO_Mailing::attachmentInfo(  $this->_mailingID );
-        if ( $attachmentInfo ) {
-            $this->add( 'checkbox', 'is_delete_attachment', ts( 'Delete Current Attachment(s)' ) );
-            $this->assign( 'currentAttachmentURL',
-                           $attachmentInfo );
-        } else {
-            $this->assign( 'currentAttachmentURL', null );
-        }
+        require_once 'CRM/Core/BAO/File.php';
+        CRM_Core_BAO_File::buildAttachment( $this,
+                                            'civicrm_mailing',
+                                            $this->_mailingID );
 
         require_once 'CRM/Mailing/PseudoConstant.php';
         $this->add( 'select', 'header_id', ts( 'Mailing Header' ), 
@@ -302,30 +287,10 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             }
         }
 
-        // setup all attachments
-        for ( $i = 1; $i <= 3; $i++ ) {
-            $attachName = "attachFile_$i";
-            if ( isset( $formValues[$attachName] ) &&
-                 ! empty( $formValues[$attachName] ) ) {
-                // ensure file is not empty
-                $contents = file_get_contents( $formValues[$attachName] );
-                if ( $contents ) {
-                    $fileParams = array( 'uri'        => $_FILES[$attachName]['name'],
-                                         'type'       => $_FILES[$attachName]['type'],
-                                         'upload_date'=> date( 'Ymdhis' ),
-                                         'location'   => $formValues[$attachName] );
-                    $params[$attachName] = $fileParams;
-                }
-            }
-        }
-
-        // delete current attachments if applicable
-        if ( CRM_Utils_Array::value( 'is_delete_attachment', $formValues ) ) {
-            CRM_Core_BAO_File::deleteEntityFile( 'civicrm_mailing',
-                                                 $this->_mailingID );
-        }
-            
-             
+        CRM_Core_BAO_File::formatAttachment( $formValues,
+                                             $params,
+                                             'civicrm_mailing',
+                                             $this->_mailingID );
         $ids['mailing_id'] = $this->_mailingID;
 
         /* Build the mailing object */

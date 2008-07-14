@@ -248,6 +248,29 @@ class CRM_Utils_File {
         return isset( $extensions[$ext] ) ? true : false;
     }
 
+    /**
+     * remove the 32 bit md5 we add to the fileName
+     * also remove the unknown tag if we added it
+     */
+    static function cleanFileName( $name ) {
+        // replace the last 33 character before the '.' with null
+        $name = preg_replace( '/(_[\w]{32})\./', '.', $name );
+        return $name;
+    }
+
+    static function makeFileName( $name ) {
+        $uniqID = md5( uniqid( rand( ), true ) );
+        $info   = pathinfo( $name );
+        $basename = substr($info['basename'],
+                           0,
+                           -( strlen( $info['extension'] ) + ( $info['extension'] == '' ? 0 : 1 ) ) );
+        if ( ! self::isExtensionSafe( $info['extension'] ) ) {
+            // munge extension so it cannot have an embbeded dot in it
+            return CRM_Utils_String::munge( "{$basename}_{$info['extension']}_{$uniqID}" ) . ".unknown";
+        } else {
+            return CRM_Utils_String::munge( "{$basename}_{$uniqID}" ) . ".{$info['extension']}";
+        }
+    }
 
 }
 

@@ -135,7 +135,9 @@ class CRM_Mailing_Page_Report extends CRM_Core_Page_Basic {
             $this->assign( 'htmlViewURL' , $popup  );
         }
 
-        $report['mailing']['attachment'] = CRM_Mailing_BAO_Mailing::attachmentInfo( $this->_mailing_id );
+        require_once 'CRM/Core/BAO/File.php';
+        $report['mailing']['attachment'] = CRM_Core_BAO_File::attachmentInfo( 'civicrm_mailing',
+                                                                              $this->_mailing_id );
 
         $this->assign( 'report', $report );
         CRM_Utils_System::setTitle( ts( 'CiviMail Report: %1',

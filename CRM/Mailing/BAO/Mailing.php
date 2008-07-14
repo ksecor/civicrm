@@ -1174,19 +1174,9 @@ AND civicrm_contact.is_opt_out =0";
 
         // check and attach and files as needed
         require_once 'CRM/Core/BAO/File.php';
-        for ( $i = 1; $i <= 3; $i++ ) {
-            if ( isset( $params["attachFile_$i"] ) &&
-                 is_array( $params["attachFile_$i"] ) ) {
-                CRM_Core_BAO_File::filePostProcess($params["attachFile_$i"]['location'],
-                                                   null, 
-                                                   'civicrm_mailing',
-                                                   $mailing->id,
-                                                   null,
-                                                   true,
-                                                   $params["attachFile_$i"],
-                                                   "attachFile_$i" );
-            }
-        }
+        CRM_Core_BAO_File::processAttachment( $params,
+                                              'civicrm_mailing',
+                                              $mailing->id );
 
         $transaction->commit( );
         return $mailing;
@@ -1879,20 +1869,6 @@ SELECT DISTINCT( m.id ) as id
                            array('cols' => '80', 'rows' => '8',
                                  'onkeyup' =>"return verify(this)" ) );
         
-    }
-
-    static function attachmentInfo( $mailingID, $separator = '<br />' ) {
-        require_once 'CRM/Core/BAO/File.php';
-        $currentAttachments = CRM_Core_BAO_File::getEntityFile( 'civicrm_mailing',
-                                                                $mailingID );
-        if ( ! empty( $currentAttachments ) ) {
-            $currentAttachmentURL = array( );
-            foreach ( $currentAttachments as $fileID => $attach ) {
-                $currentAttachmentURL[] = $attach['href'];
-            }
-            return implode( $separator, $currentAttachmentURL );
-        }
-        return null;
     }
 
 }

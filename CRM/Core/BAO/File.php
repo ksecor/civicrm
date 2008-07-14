@@ -226,20 +226,21 @@ class CRM_Core_BAO_File extends CRM_Core_DAO_File {
      * combination
      */
     public function &getEntityFile( $entityTable, $entityID ) {
+        require_once 'CRM/Utils/File.php';
         $config =& CRM_Core_Config::singleton( );
 
         list( $sql, $params ) = self::sql( $entityTable, $entityID, null );
         $dao    = CRM_Core_DAO::executeQuery( $sql, $params );
         $results = array( );
         while ( $dao->fetch( ) ) {
-            $result['fileID'  ]  = $dao->cfID;
-            $result['entityID']  = $dao->cefID;
+            $result['fileID'   ] = $dao->cfID;
+            $result['entityID' ] = $dao->cefID;
             $result['mime_type'] = $dao->mime_type;
-            $result['fileName']  = $dao->uri;
-            $result['cleanName'] = self::cleanName( $dao->uri );
-            $result['fullPath']  = $config->customFileUploadDir . DIRECTORY_SEPARATOR . $dao->uri;
-            $result['url'     ]  = CRM_Utils_System::url( 'civicrm/file', "reset=1&id={$dao->cfID}&eid={$entityID}" );
-            $result['href'    ]  = "<a href=\"{$result['url']}\">{$dao->uri}</a>";
+            $result['fileName' ] = $dao->uri;
+            $result['cleanName'] = CRM_Utils_File::cleanFileName( $dao->uri );
+            $result['fullPath' ] = $config->customFileUploadDir . DIRECTORY_SEPARATOR . $dao->uri;
+            $result['url'      ] = CRM_Utils_System::url( 'civicrm/file', "reset=1&id={$dao->cfID}&eid={$entityID}" );
+            $result['href'     ] = "<a href=\"{$result['url']}\">{$result['cleanName']}</a>";
             $results[$dao->cfID] = $result;
         }
         return $results;
@@ -267,15 +268,102 @@ AND       CEF.entity_id    = %2";
 
     }
     
-    /**
-     * remove the 32 bit md5 we add to the fileName
-     * also remove the unknown tag if we added it
-     */
-    function cleanName( $name ) {
-        // replace the last 33 character before the '.' with null
-        $name = preg_replace( '/(_[\w]{32})\./', '.', $name );
-        return $name;
+    static function buildAttachment( &$form, $entityTable, $entityID = null, $numAttachments = 3 ) {
+
+        // add 3 attachments
+        for ( $i = 1; $i <= $numAttachments; $i++ ) {
+            $form->addElement( 'file', "attachFile_$i", ts('Attach File to Message'), 'size=30 maxlength=60' );
+            $form->setMaxFileSize( 2 * 1024 * 1024 );
+            $form->addRule( "attachFile_$i",
+                            ts( 'File size should be less than %1 MByte(s)',
+                                array( 1 => 2 ) ),
+                            'maxfilesize',
+                            2 * 1024 * 1024 );
+        }
+
+        $attachmentInfo = self::attachmentInfo(  $entityTable, $entityID );
+        if ( $attachmentInfo ) {
+            $form->add( 'checkbox', 'is_delete_attachment', ts( 'Delete Current Attachment(s)' ) );
+            $form->assign( 'currentAttachmentURL',
+                           $attachmentInfo );
+        } else {
+            $form->assign( 'currentAttachmentURL', null );
+        }
     }
+
+    static function attachmentInfo( $entityTable, $entityID, $separator = '<br />' ) {
+        if ( ! $entityID ) {
+            return null;
+        }
+
+        $currentAttachments = self::getEntityFile( $entityTable,
+                                                   $entityID );
+        if ( ! empty( $currentAttachments ) ) {
+            $currentAttachmentURL = array( );
+            foreach ( $currentAttachments as $fileID => $attach ) {
+                $currentAttachmentURL[] = $attach['href'];
+            }
+            return implode( $separator, $currentAttachmentURL );
+        }
+        return null;
+    }
+
+    static function formatAttachment( &$formValues,
+                                      &$params,
+                                      $entityTable,
+                                      $entityID = null,
+                                      $numAttachments = 3 ) {
+
+        // delete current attachments if applicable
+        if ( $entityID &&
+             CRM_Utils_Array::value( 'is_delete_attachment', $formValues ) ) {
+            CRM_Core_BAO_File::deleteEntityFile( $entityTable,
+                                                 $entityID );
+        }
+
+        // setup all attachments
+        for ( $i = 1; $i <= $numAttachments; $i++ ) {
+            $attachName = "attachFile_$i";
+            if ( isset( $formValues[$attachName] ) &&
+                 ! empty( $formValues[$attachName] ) ) {
+                // ensure file is not empty
+                $contents = file_get_contents( $formValues[$attachName] );
+                if ( $contents ) {
+                    $fileParams = array( 'uri'        => $_FILES[$attachName]['name'],
+                                         'type'       => $_FILES[$attachName]['type'],
+                                         'upload_date'=> date( 'Ymdhis' ),
+                                         'location'   => $formValues[$attachName] );
+                    $params[$attachName] = $fileParams;
+                }
+            }
+        }
+    }
+
+    static function processAttachment( &$params,
+                                       $entityTable,
+                                       $entityID,
+                                       $numAttachments = 3 ) {
+        for ( $i = 1; $i <= $numAttachments; $i++ ) {
+            if ( isset( $params["attachFile_$i"] ) &&
+                 is_array( $params["attachFile_$i"] ) ) {
+                self::filePostProcess($params["attachFile_$i"]['location'],
+                                      null, 
+                                      $entityTable,
+                                      $entityID,
+                                      null,
+                                      true,
+                                      $params["attachFile_$i"],
+                                      "attachFile_$i" );
+            }
+        }
+    }
+
+    static function uploadNames( ) {
+        return array( 'attachFile_1',
+                      'attachFile_2',
+                      'attachFile_3' );
+    }
+
 
 }
 

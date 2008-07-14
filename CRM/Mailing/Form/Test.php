@@ -95,8 +95,9 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form
             $preview['html_link'] = CRM_Utils_System::url('civicrm/mailing/preview', "type=html&qfKey=$qfKey");
         }
 
-        require_once 'CRM/Mailing/BAO/Mailing.php';
-        $preview['attachment'] = CRM_Mailing_BAO_Mailing::attachmentInfo( $mailingID );
+        require_once 'CRM/Core/BAO/File.php';
+        $preview['attachment'] = CRM_Core_BAO_File::attachmentInfo( 'civicrm_mailing',
+                                                                    $mailingID );
         $this->assign('preview', $preview);
     }
     

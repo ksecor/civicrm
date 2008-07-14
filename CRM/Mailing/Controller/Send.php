@@ -69,13 +69,14 @@ class CRM_Mailing_Controller_Send extends CRM_Core_Controller {
         $this->addPages( $this->_stateMachine, $action );
 
         // add all the actions
+        require_once 'CRM/Core/BAO/File.php';
+        $uploadNames =
+            array_merge( array( 'textFile', 'htmlFile' ),
+                         CRM_Core_BAO_File::uploadNames( ) );
+
         $config =& CRM_Core_Config::singleton( );
         $this->addActions( $config->uploadDir,
-                           array( 'textFile',
-                                  'htmlFile',
-                                  'attachFile_1',
-                                  'attachFile_2',
-                                  'attachFile_3' ) );
+                           $uploadNames );
     }
 
 }
