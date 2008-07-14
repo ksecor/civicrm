@@ -107,11 +107,12 @@ GROUP By  pp.pledge_id
             $pledgeIds[] = $dao->pledge_id;
             
             require_once 'CRM/Contact/BAO/Contact.php';
-            require_once 'CRM/Contact/BAO/Contact/Location.php';
             
             list( $pledgerName, 
-                  $toEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $dao->contact_id );
-            
+                  $toEmail,
+                  $doNotEmail,
+                  $onHold ) = CRM_Contact_BAO_Contact::getContactDetails( $dao->contact_id );
+
             $contact['first_name'] = $dao->first_name;
             
             require_once 'CRM/Core/BAO/Domain.php';
@@ -142,7 +143,7 @@ GROUP By  pp.pledge_id
             $message = $template->fetch( 'CRM/Pledge/Form/ReminderMessage.tpl' );
             $subject = $template->fetch( 'CRM/Pledge/Form/ReminderSubject.tpl' );
             
-            if ( $toEmail ) {
+            if ( $toEmail && ! ( $doNotEmail || $onHold ) ) {
                 // Send Mail to the contact with found emailIds.
                 $receiptFrom = '"' . $domainValues['name'] . '" <' . $domainValues['email'] . '>';
 

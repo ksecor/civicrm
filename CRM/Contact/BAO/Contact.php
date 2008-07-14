@@ -983,14 +983,14 @@ WHERE  civicrm_contact.id = %1 ";
         // if individual
        if( $contactType == 'Individual') {
            $sql = "
-   SELECT civicrm_contact.first_name, civicrm_contact.last_name,  civicrm_email.email, civicrm_contact.do_not_email
+   SELECT civicrm_contact.first_name, civicrm_contact.last_name,  civicrm_email.email, civicrm_contact.do_not_email, civicrm_email.on_hold
      FROM civicrm_contact, civicrm_email 
    WHERE  civicrm_contact.id = civicrm_email.contact_id AND civicrm_email.is_primary = 1
           AND civicrm_contact.id = %1";
            $params = array( 1 => array( $id, 'Integer' ) );
        } else { // for household / organization
            $sql = "
-   SELECT civicrm_contact.display_name, civicrm_email.email, civicrm_contact.do_not_email
+   SELECT civicrm_contact.display_name, civicrm_email.email, civicrm_contact.do_not_email, civicrm_email.on_hold
      FROM civicrm_contact, civicrm_email 
    WHERE civicrm_contact.id = civicrm_email.contact_id AND civicrm_email.is_primary = 1
       AND civicrm_contact.id = %1";
@@ -1001,20 +1001,23 @@ WHERE  civicrm_contact.id = %1 ";
        $result = $dao->getDatabaseResult();
        if ( $result ) {
            $row  = $result->fetchRow();
+           
            if ( $row ) {
                if ($contactType == 'Individual') {
                    $name       = $row[0] . ' ' . $row[1];
                    $email      = $row[2];
                    $doNotEmail = $row[3] ? true : false;
+                   $onHold     = $row[4] ? true : false;
                } else {
                    $name       = $row[0];
                    $email      = $row[1];
                    $doNotEmail = $row[2] ? true : false;
+                   $onHold     = $row[3] ? true : false;
                }
-               return array( $name, $email, $doNotEmail );
+               return array( $name, $email, $doNotEmail, $onHold);
            }
        }
-       return array( null, null, null );
+       return array( null, null, null, null );
     }
 
     /**
