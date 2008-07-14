@@ -114,7 +114,7 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
             $this->addElement( 'checkbox', 'is_pledge_interval', ts('Allow Frequency Intervals'),
                                null, array( 'onclick' => "showPledgeFrequencyUnit(this);" ) );
             $this->addCheckBox( 'pledge_frequency_unit', ts( 'Supported pledge frequencies' ), 
-                                CRM_Core_OptionGroup::values("recur_frequency_units"),
+                                CRM_Core_OptionGroup::values( "recur_frequency_units", false, false, false, null, 'name' ),
                                 null, null, null, null,
                                 array( '&nbsp;&nbsp;', '&nbsp;&nbsp;', '&nbsp;&nbsp;', '<br/>' ));
             $this->addElement( 'text', 'initial_reminder_day', ts('Send Initial Reminder'), array('size'=>3) );
@@ -271,32 +271,23 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         
         require_once 'CRM/Contribute/BAO/ContributionPage.php';
         $dao = CRM_Contribute_BAO_ContributionPage::create( $params );
+        $contributionPageID = $dao->id;
         
-        if ( $params['is_pledge_active'] ) {
-            $pledgeParams = array();
-            require_once "CRM/Core/Session.php";
-            foreach ( array('frequency_unit', 'installments', 'max_reminders', 'initial_reminder_day', 'additional_reminder_day' ) as $key ) {
-                $pledgeParams[$key] = $params[$key];    
+        //create pledge block.
+        if ( $params['is_pledge_active']  && $contributionPageID ) {
+            $pledgeBllockParams = array( );
+            $pledgeBlock = array( 'pledge_frequency_unit', 'is_pledge_interval', 'max_reminders', 
+                                  'initial_reminder_day', 'additional_reminder_day' );
+            foreach ( $pledgeBlock  as $key ) {
+                $pledgeBlockParams[$key] = CRM_Utils_Array::value( $key, $params );    
             }
+            $pledgeBlockParams['entity_id'] = $contributionPageID;
+            $pledgeBlockParams['entity_table'] = ts( 'civicrm_contribution_page' );
             
-            $session =& CRM_Core_Session::singleton();
-            $pledgeParams['contact_id'] = $session->get( 'userID' );
-            $pledgeParams['contribution_page_id'] = $this->_id;
-            $pledgeParams['contribution_type_id'] = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', 
-                                                                           $this->_id, 
-                                                                           'contribution_type_id' );
-            
-            $pledgeParams['frequency_interval']   = $params['pledge_frequency_interval'];
-            $pledgeParams['frequency_day']        = 1;
-            $pledgeParams['create_date']          = $pledgeParams['start_date'] = date("Ymd");
-            $pledgeParams['scheduled_date']['M']  = date("m"); 
-            $pledgeParams['scheduled_date']['d']  = date("d");
-            $pledgeParams['scheduled_date']['Y']  = date("Y");
-
-            require_once 'CRM/Pledge/BAO/Pledge.php';
-            CRM_Pledge_BAO_Pledge::create($pledgeParams);
+            require_once 'CRM/Pledge/BAO/PledgeBlock.php';
+            CRM_Pledge_BAO_PledgeBlock::create( $pledgeBlockParams );
         }
-       
+        
     }
     
     /** 
