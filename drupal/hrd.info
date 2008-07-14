@@ -1,7 +1,0 @@
-name = HRD
-description = HRD integration module that implements CiviCRM hooks
-version = 2.1
-package = CiviCRM
-core = 6.x
-php = 5.2
-dependencies[] = civicrm
