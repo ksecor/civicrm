@@ -45,8 +45,8 @@ function run( ) {
     // this does not return on failure
     CRM_Utils_System::authenticateScript( true );
 
-    $email = "/Users/lobo/public_html/drupal6/files/civicrm/upload/lobo3.txt";
-    process( $email );
+    $file = "/Users/lobo/public_html/drupal6/files/civicrm/upload/mail/bd8aade53709135070f525ca0e929e74.txt";
+    process( $file );
     return;
 
     // check if there is an email
@@ -58,11 +58,11 @@ function run( ) {
 
 }
 
-function process( &$email ) {
+function process( &$file ) {
     // might want to check that email is ok here
 
     require_once 'CRM/Utils/Mail/Incoming.php';
-    $result = CRM_Utils_Mail_Incoming::parse( $email );
+    $result = CRM_Utils_Mail_Incoming::parse( $file );
     if ( $result['is_error'] ) {
         CRM_Core_Error::fatal( $result['error_message'] );
     }
@@ -73,7 +73,10 @@ function process( &$email ) {
     $params['activity_type_id']   = 1; // Frontline Action
     $params['status_id']          = 1;
     $params['source_contact_id']  = $params['assignee_contact_id'] = $result['from']['id'];
-    $params['target_contact_id']  = $result['to'][0]['id'];
+    $params['target_contact_id']  = array( );
+    foreach ( $result['to'] as $key => $toValue ) {
+        $params['target_contact_id'][]  = $toValue['id'];
+    }
     $params['subject']            = $result['subject'];
     $params['activity_date_time'] = $result['date'];
     $params['details']            = $result['body'];

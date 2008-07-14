@@ -179,7 +179,14 @@ class CRM_Utils_Mail_Incoming {
         return $name . "<{$address->email}>";    
     }
 
-    function &parse( &$message ) {
+    function &parse( &$file ) {
+
+        // check that the file exists and has some content
+        if ( ! file_exists( $file ) ||
+             ! trim( file_get_contents( $file ) ) ) {
+            return CRM_Core_Error::createAPIError( ts( '%1 does not exists or is empty',
+                                                       array( 1 => $file ) ) );
+        }
 
         require_once 'CRM/Core/Config.php';
         require_once 'api/v2/Activity.php';
@@ -190,15 +197,19 @@ class CRM_Utils_Mail_Incoming {
         require_once 'ezc/Base/src/ezc_bootstrap.php';
         require_once 'ezc/autoload/mail_autoload.php';
 
+        // explode email to digestable format
+        $set = new ezcMailFileSet( array( $file ) );
+        $parser = new ezcMailParser();
+        $mail = $parser->parseMail( $set );
+
+        if ( ! $mail ) {
+            return CRM_Core_Error::createAPIError( ts( '%1 could not be parsed',
+                                                       array( 1 => $file ) ) );
+        }
+
         // get ready for collecting data about this email
         // and put it in a standardized format
         $params = array( 'is_error' => 0 );
-
-        // explode email to digestable format
-        $set = new ezcMailFileSet( array( $message ) );
-        $parser = new ezcMailParser();
-        $mail = $parser->parseMail( $set );
-        CRM_Core_Error::Debug( $mail );
 
         $params['from'] = array( );
         self::parseAddress( $mail[0]->from, $field, $params['from'] );

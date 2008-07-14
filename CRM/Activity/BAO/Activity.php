@@ -240,57 +240,87 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
 
         $result = $activity->save( );        
         
+        if ( is_a( $result, 'CRM_Core_Error' ) ) {
+            $transaction->rollback( );
+            return $result;
+        }
+
         $activityId = $result->id;
 
         // attempt to save activity assignment
+        $resultAssignment = null;
         if ( CRM_Utils_Array::value( 'assignee_contact_id', $params ) ) {
             require_once 'CRM/Activity/BAO/ActivityAssignment.php';
             
-            $assignmentParams = array( 'activity_id'         => $activityId,
-                                       'assignee_contact_id' => $params['assignee_contact_id'] );
-            
-            if ( CRM_Utils_Array::value( 'id', $params ) ) {
-                $assignment =& new CRM_Activity_BAO_ActivityAssignment( );
-                $assignment->activity_id = $activityId;
-                $assignment->find( true );
+            $assignmentParams = array( 'activity_id'         => $activityId );
 
-                if ( $assignment->assignee_contact_id != $params['assignee_contact_id'] ) {
-                    $assignmentParams['id'] = $assignment->id;
-                    $resultAssignment       = CRM_Activity_BAO_ActivityAssignment::create( $assignmentParams );
+            if ( is_array( $params['assignee_contact_id'] ) ) {
+                foreach ( $params['assignee_contact_id'] as acID ) {
+                    $assignmentParams['assignee_contact_id'] = $acID;
+                    $resultAssignment = CRM_Activity_BAO_ActivityAssignment::create( $assignmentParams );
+                    if( is_a( $resultAssignment, 'CRM_Core_Error' ) ) {
+                        $transaction->rollback( );
+                        return $resultAssignment;
+                    }
                 }
             } else {
-                if ( ! is_a( $result, 'CRM_Core_Error' ) ) {
+                $assignmentParams['assignee_contact_id'] = $params['assignee_contact_id'];
+            
+                if ( CRM_Utils_Array::value( 'id', $params ) ) {
+                    $assignment =& new CRM_Activity_BAO_ActivityAssignment( );
+                    $assignment->activity_id = $activityId;
+                    $assignment->find( true );
+
+                    if ( $assignment->assignee_contact_id != $params['assignee_contact_id'] ) {
+                        $assignmentParams['id'] = $assignment->id;
+                        $resultAssignment       = CRM_Activity_BAO_ActivityAssignment::create( $assignmentParams );
+                    }
+                } else {
                     $resultAssignment = CRM_Activity_BAO_ActivityAssignment::create( $assignmentParams );
                 }
             }
         } else {       
-            $resultAssignment = array( );
             self::deleteActivityAssignment( $activityId );
         }
 
+        if( is_a( $resultAssignment, 'CRM_Core_Error' ) ) {
+            $transaction->rollback( );
+            return $resultAssignment;
+        }
+
         // attempt to save activity targets
+        $resultTarget = null;
         if ( CRM_Utils_Array::value( 'target_contact_id', $params ) ) {
             require_once 'CRM/Activity/BAO/ActivityTarget.php';
 
-            $targetParams = array( 'activity_id'       => $activityId,
-                                   'target_contact_id' => $params['target_contact_id'] );
-            
-            if ( CRM_Utils_Array::value( 'id', $params ) ) {
-                $target =& new CRM_Activity_BAO_ActivityTarget( );
-                $target->activity_id = $activityId;
-                $target->find( true );
-                
-                if ( $target->target_contact_id != $params['target_contact_id'] ) {
-                    $targetParams['id'] = $target->id;
-                    $resultTarget       = CRM_Activity_BAO_ActivityTarget::create( $targetParams );
+            $targetParams = array( 'activity_id'       => $activityId );
+            $resultTarget = array( );
+            if ( is_array( $params['target_contact_id'] ) ) { 
+                foreach ( $params['target_contact_id'] as $tid ) {
+                    $targetParams['target_contact_id'] = $tid;
+                    $resultTarget = CRM_Activity_BAO_ActivityTarget::create( $targetParams );
+                   if ( is_a( $resultTarget, 'CRM_Core_Error' ) ) {
+                       $transaction->rollback( );
+                       return $resultTarget;
+                   }
                 }
             } else {
-                if ( ! is_a( $result, 'CRM_Core_Error' ) ) {
+                $targetParams['target_contact_id'] = params['target_contact_id'];
+
+                if ( CRM_Utils_Array::value( 'id', $params ) ) {
+                    $target =& new CRM_Activity_BAO_ActivityTarget( );
+                    $target->activity_id = $activityId;
+                    $target->find( true );
+                
+                    if ( $target->target_contact_id != $params['target_contact_id'] ) {
+                        $targetParams['id'] = $target->id;
+                        $resultTarget       = CRM_Activity_BAO_ActivityTarget::create( $targetParams );
+                    }
+                } else {
                     $resultTarget = CRM_Activity_BAO_ActivityTarget::create( $targetParams );
                 }
             }
         } else {
-            $resultTarget = array( );
             self::deleteActivityTarget( $activityId );
         }
 
@@ -308,27 +338,24 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         } 
 
         if ( isset( $params['target_contact_id'] ) ) {
-            $msgs[] = "target = {$params['target_contact_id']}";
+            if ( is_array( $params['target_contact_id'] ) ) {
+                $msgs[] = "target = " . implode( ',', $params['target_contact_id'] );
+            } else {
+                $msgs[] = "target = {$params['target_contact_id']}";
+            }
         }
 
         if ( isset( $params['assignee_contact_id'] ) ) {
-            $msgs[] = "assignee ={$params['assignee_contact_id']}";
+            if ( is_array( $params['assignee_contact_id'] ) ) {
+                $msgs[] = "assignee = " . implode( ',', $params['assignee_contact_id'] );
+            } else {
+                $msgs[] = "assignee ={$params['assignee_contact_id']}";
+            }
         }
         $logMsg .= implode( ', ', $msgs );
 
         self::logActivityAction( $result, $logMsg );
 
-        // roll back if error occured
-        if ( is_a( $result, 'CRM_Core_Error' ) ) {
-            $transaction->rollback( );
-            return $result;
-        } elseif( is_a( $resultAssignment, 'CRM_Core_Error' ) ) {
-            $transaction->rollback( );
-            return $resultAssignment;
-        } elseif( is_a( $resultTarget, 'CRM_Core_Error' ) ) {
-            $transaction->rollback( );
-            return $resultTarget;
-        }
         if ( CRM_Utils_Array::value( 'custom', $params ) &&
              is_array( $params['custom'] ) ) {
             require_once 'CRM/Core/BAO/CustomValueTable.php';
