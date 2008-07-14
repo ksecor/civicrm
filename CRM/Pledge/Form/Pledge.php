@@ -273,7 +273,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         }
         $js = array_merge ($attributes['installments'], array('onkeyup' => "calculatedPaymentAmount( );") );
         $element =& $this->add( 'text', 'installments', ts('To be paid in'), $js, true ); 
-        $this->addRule('installments', ts('Please enter a valid number of installments.'), 'integer');
+        $this->addRule('installments', ts('Please enter a valid number of installments.'), 'positiveInteger');
         if ( $this->_id ) {
             $element->freeze( );
         }
@@ -306,7 +306,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             $element->freeze( );
         }
         
-        $element =& $this->addElement('date', 'start_date', ts('Payments Start'), CRM_Core_SelectValues::date('activityDate')); 
+        $element =& $this->addElement('date', 'start_date', ts('Payments Start'), CRM_Core_SelectValues::date('activityDate') ); 
         $this->addRule('start_date', ts('Select a valid payments start date.'), 'qfDate');
         if ( $this->_id ) {
             $element->freeze( );
@@ -384,6 +384,15 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         if ( $fields["installments"] < 0 ) {
             $errors['installments'] = ts('Installments should be greater than zero.');
         }
+        
+        $createDate = CRM_Utils_Date::format( $fields['create_date'] );
+        $startDate  = CRM_Utils_Date::format( $fields['start_date'] );
+        if ( $startDate == 0 ) {
+            $errors['start_date'] = ts('Start date is a required field.');
+        }
+        else if ( $createDate >  $startDate ) {
+            $errors['start_date'] = ts('Start date must be the same or later than made.');
+        }
         return $errors;
     }
     
@@ -405,7 +414,14 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         $formValues = $this->controller->exportValues( $this->_name );
         $config  =& CRM_Core_Config::singleton( );
         $session =& CRM_Core_Session::singleton( );
-        
+        foreach ( $formValues['create_date'] as $val => $field ) {
+            if ( !$formValues['create_date'][$val] ) {
+                $now = date("Y-m-d");
+                $formValues['create_date'] = $now;
+                break;
+            }
+        }
+      
         $fields = array( 'status_id',
                          'frequency_unit',
                          'frequency_day',
