@@ -83,8 +83,7 @@ VALUES
 ({$dao->id}, 'xls', '10', NULL, NULL, 0, 0, 10, NULL, 0, 0, 1, NULL),
 ({$dao->id}, 'rtf', '11', NULL, NULL, 0, 0, 11, NULL, 0, 0, 1, NULL),
 ({$dao->id}, 'csv', '12', NULL, NULL, 0, 0, 12, NULL, 0, 0, 1, NULL),
-({$dao->id}, 'ppt', '13', NULL, NULL, 0, 0, 13, NULL, 0, 0, 1, NULL),
-({$dao->id}, 'doc', '14', NULL, NULL, 0, 0, 14, NULL, 0, 0, 1, NULL)
+({$dao->id}, 'ppt', '13', NULL, NULL, 0, 0, 13, NULL, 0, 0, 1, NULL)
 ";
                 $dao   = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
             }

@@ -6,6 +6,11 @@
 -- *
 -- *************************************************************************/
 
+-- Insert new option value for option_group - activity_type
+
+SELECT @option_act    := id from civicrm_option_group where name = 'activity_type';
+INSERT INTO `civicrm_option_value` (`option_group_id`, `label`, `value`,`name` , `grouping`, `filter`,`is_default`,`weight`, `description`,`is_optgroup`, `is_reserved`, `is_active`, `component_id`) VALUES
+ (@option_act, 'Pledge Acknowledgment', 10, 'Pledge Acknowledgment',  NULL, 1, NULL, 10, 'Send Pledge Acknowledgment.', 0, 1, 1, NULL);
 
 -- Insert new option value for option_group - user_dashboard_options
 
@@ -23,10 +28,10 @@ SELECT @option_group_id_fu := max(id) from civicrm_option_group where name = 're
 INSERT INTO 
    `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`) 
 VALUES
-  (@option_group_id_fu, 'day'    , 'day'  ,    'day',  NULL, 0, NULL, 1, NULL, 0, 1, 1, NULL),
-  (@option_group_id_fu, 'week'   , 'week' ,   'week',  NULL, 0, NULL, 2, NULL, 0, 1, 1, NULL),
-  (@option_group_id_fu, 'month'  , 'month',  'month',  NULL, 0, NULL, 3, NULL, 0, 1, 1, NULL),
-  (@option_group_id_fu, 'year'   , 'year' ,   'year',  NULL, 0, NULL, 4, NULL, 0, 1, 1, NULL);
+  (@option_group_id_fu, 'daily'    , 'day'  ,    'day',  NULL, 0, NULL, 1, NULL, 0, 1, 1, NULL),
+  (@option_group_id_fu, 'weekly'   , 'week' ,   'week',  NULL, 0, NULL, 2, NULL, 0, 1, 1, NULL),
+  (@option_group_id_fu, 'monthly'  , 'month',  'month',  NULL, 0, NULL, 3, NULL, 0, 1, 1, NULL),
+  (@option_group_id_fu, 'yearly'   , 'year' ,   'year',  NULL, 0, NULL, 4, NULL, 0, 1, 1, NULL);
 
 
 -- add option group and values CRM-2781
@@ -207,3 +212,16 @@ VALUES
   (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_EventAggregate', 7, 'CRM_Contact_Form_Search_Custom_EventAggregate', NULL, 0, NULL, 7, 'Event Aggregate', 0, 0, 1, NULL),
   (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_ActivitySearch', 8, 'CRM_Contact_Form_Search_Custom_ActivitySearch', NULL, 0, NULL, 8, 'Activity Search', 0, 0, 1, NULL),
   (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_PriceSet', 9, 'CRM_Contact_Form_Search_Custom_PriceSet', NULL, 0, NULL, 9, 'Price Set Details for Event Participants', 0, 0, 1, NULL);
+
+-- option groups and values for 'wysiwyg_editor' , 'from_email_address'.
+INSERT INTO 
+   `civicrm_option_group` (`name`, `description`, `is_reserved`, `is_active`)
+VALUES 
+   ('from_email_address', 'From Email Address', 0, 1),
+   ('wysiwyg_editor'    , 'WYSIWYG Editor'    , 0, 1);
+SELECT @option_we := max(id) from civicrm_option_group where name = 'wysiwyg_editor';
+
+INSERT INTO `civicrm_option_value` (`option_group_id`, `label`, `value`,`name` , `grouping`, `filter`,`is_default`,`weight`, `description`,`is_optgroup`, `is_reserved`, `is_active`, `component_id`) 
+VALUES
+  (@option_we, 'TinyMCE'    , 1, NULL, NULL, 0, NULL, 1, NULL, 0, 1, 1, NULL),
+  (@option_we, 'FCKEditor'  , 2, NULL, NULL, 0, NULL, 2, NULL, 0, 1, 1, NULL);
