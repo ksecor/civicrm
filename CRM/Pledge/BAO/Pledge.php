@@ -277,7 +277,7 @@ WHERE  $whereCond AND is_test=0
             $pledge_amount = array( 'pledge_amount' => $dao->pledge_amount,
                                     'pledge_count'  => $dao->pledge_count,
                                     'purl'          => CRM_Utils_System::url( 'civicrm/pledge/search',
-                                                                              "reset=1&force=1&pstatus={$statusId}&pstart={$start}&pend=&test=0"));
+                                                                              "reset=1&force=1&pstatus={$statusId}&pstart={$start}&pend={$end}&test=0"));
         }
         
         $where = array( );
@@ -332,7 +332,7 @@ WHERE  $whereCond
                 return array_merge( $pledge_amount, array( 'received_amount' => $dao->received_pledge,
                                                            'received_count'  => $dao->received_count,
                                                            'url'             => CRM_Utils_System::url( 'civicrm/pledge/search',
-                                                                                                       "reset=1&force=1&status={$statusId}&start={$start}&end=$end&test=0")));
+                                                                                                       "reset=1&force=1&status={$statusId}&start={$start}&end={$end}&test=0")));
             } 
         }else {
             return $pledge_amount;
