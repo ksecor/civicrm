@@ -393,6 +393,16 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         else if ( $createDate >  $startDate ) {
             $errors['start_date'] = ts('Start date must be the same or later than made.');
         }
+        if ( $fields["frequency_unit"] != 'week' ) {
+            if ( $fields["frequency_day"] > 31 || $fields["frequency_day"] == 0 ) {
+                $errors['frequency_day'] =  ts('Please enter a valid frequency day ie. 1 through 31.');
+            }
+
+        }else if ( $fields["frequency_unit"] == 'week' ) {
+            if ( $fields["frequency_day"] > 7 || $fields["frequency_day"] == 0 ) {
+                $errors['frequency_day'] =  ts('Please enter a valid frequency day ie. 1 through 7.');
+            }
+        }
         return $errors;
     }
     

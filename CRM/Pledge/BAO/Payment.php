@@ -92,8 +92,30 @@ WHERE pledge_id = %1
         $isEdit = CRM_Core_DAO::getFieldValue( 'CRM_Pledge_BAO_Payment', $params['pledge_id'], 'id', 'pledge_id'); 
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
+
+        //calculation of schedule date according to frequency day of period
+        //frequency day is not applicable for daily installments
         if ( $params['frequency_unit'] != 'day' ) {
-            $params['scheduled_date']['d'] = $params['frequency_day'];
+            if ( $params['frequency_unit'] != 'week' ) {
+
+                //for month use day of next month & for year use day of month Jan of next year as next payment date 
+                $params['scheduled_date']['d'] = $params['frequency_day'];
+                if ( $params['frequency_unit'] == 'year' ) {
+                    $params['scheduled_date']['M'] = 1;
+                }   
+            }else if ( $params['frequency_unit'] == 'week' ) {
+
+                //for week calculate day of week ie. Sunday,Monday etc. as next payment date
+                $dayOfWeek = date('w',mktime(0, 0, 0, $params['scheduled_date']['M'], $params['scheduled_date']['d'], $params['scheduled_date']['Y'] ));
+                $frequencyDay =  $dayOfWeek - $params['frequency_day'];
+                if ( $frequencyDay < 0 ) {
+                    $frequencyDay += 1;
+                }
+                $scheduleDate =  explode ( "-", date( 'n-j-Y', mktime ( 0, 0, 0, $params['scheduled_date']['M'], $params['scheduled_date']['d'] - $frequencyDay, $params['scheduled_date']['Y'] )) );
+                $params['scheduled_date']['M'] = $scheduleDate[0];
+                $params['scheduled_date']['d'] = $scheduleDate[1];
+                $params['scheduled_date']['Y'] = $scheduleDate[2];
+            }
         } 
 
         if ( !$isEdit ) {
