@@ -203,9 +203,6 @@ WHERE pledge_id = %1
         require_once 'CRM/Contribute/PseudoConstant.php';
         $allStatus = CRM_Contribute_PseudoConstant::contributionStatus( );
         
-        $updatePledge  = false;
-        $updatePayment = false;
-        
         //get all payments.
         $allPayments = self::getPledgePayments( $pledgeID );
         
@@ -222,10 +219,8 @@ WHERE pledge_id = %1
         //update pledge and payment status if status is Completed/Cancelled.
         if ( $status ) {
             if ( $status == array_search( 'Completed', $allStatus ) ) {
-                
                 $isOverdue     = false;
                 $allCompleted  = true;
-                $updatePayment = true;
                 $paymentStatus = $status;
                 
                 foreach( $allPayments as $payID => $values ) {
@@ -246,10 +241,7 @@ WHERE pledge_id = %1
                 } else {
                     $pledgeStatus = array_search( 'In Progress', $allStatus );
                 }
-                $updatePledge = true;
-                
             } else if ( $status == array_search( 'Cancelled', $allStatus ) ) {
-                $updatePayment = $updatePledge = true;
                 $paymentStatus = $pledgeStatus = $status;
             }
         } else {
@@ -263,31 +255,26 @@ WHERE pledge_id = %1
             
             if ( !empty( $overdueIDs ) ) {
                 $paymentIDs    = $overdueIDs;
-                $updatePayment = $updatePledge = true;
                 $paymentStatus = $pledgeStatus = array_search( 'Overdue', $allStatus );
             }
         }
         
-        //update payment status.
-        if ( $updatePayment ) {
-            $params = array( 1 => array( $paymentStatus, 'Integer' ),
-                             2 => array( array_search( 'Completed', $allStatus ), 'Integer') );
-            $payments = implode( ',', $paymentIDs );
-            
-            $query = "
-UPDATE civicrm_pledge_payment
-SET    civicrm_pledge_payment.status_id = %1
-WHERE  civicrm_pledge_payment.id IN ( {$payments} )
-AND    civicrm_pledge_payment.status_id != %2
-";
-            $dao = CRM_Core_DAO::executeQuery( $query, $params );
-        }
+        //update pledge and pledeg payment status.
+        $params = array( 1 => array( $paymentStatus, 'Integer' ),
+                         2 => array( $pledgeStatus, 'Integer' ),
+                         3 => array( array_search( 'Completed', $allStatus ),
+                                     'Integer') );
+        $payments = implode( ',', $paymentIDs );
         
-        //update pledge status.
-        if ( $updatePledge ) {
-            CRM_Core_DAO::setFieldValue( 'CRM_Pledge_DAO_Pledge', $pledgeID, 'status_id', $pledgeStatus );
-        }
+        $query = "
+UPDATE civicrm_pledge_payment, civicrm_pledge
+SET    civicrm_pledge_payment.status_id = %1, civicrm_pledge.status_id = %2
+WHERE  civicrm_pledge_payment.id IN ( {$payments} )
+  AND  civicrm_pledge_payment.pledge_id = civicrm_pledge.id 
+  AND  civicrm_pledge_payment.status_id != %3
+";
+        $dao = CRM_Core_DAO::executeQuery( $query, $params );
+        
     }
-    
 }
 
