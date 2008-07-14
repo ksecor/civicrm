@@ -144,8 +144,8 @@ GROUP By  pp.pledge_id
             
             if ( $toEmail ) {
                 // Send Mail to the contact with found emailIds.
-                $receiptFrom = "EMAIL@FIXME.ORG";
-                
+                $receiptFrom = '"' . $domainValues['name'] . '" <' . $domainValues['email'] . '>';
+
                 require_once 'CRM/Utils/Mail.php';
                 CRM_Utils_Mail::send( $receiptFrom,
                                       $pledgerName,
