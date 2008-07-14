@@ -115,8 +115,41 @@ UPDATE civicrm_country SET name = 'Moldova' WHERE id = 1143;
 
 -- CRM-2781
 
-ALTER TABLE `civicrm_mapping` CHANGE `mapping_type` `mapping_type_id` INT(10) unsigned NULL DEFAULT NULL COMMENT 'Type of Mapping.';
+ALTER TABLE `civicrm_mapping` ADD `mapping_type_id` int(10) unsigned NULL DEFAULT NULL AFTER mapping_type;
 
+SELECT @mapvalue := value FROM civicrm_option_value, civicrm_option_group 
+	WHERE civicrm_option_group.name = 'mapping_type' && civicrm_option_value.name = 'Export Contact';
+UPDATE civicrm_mapping SET mapping_type_id = @mapvalue WHERE civicrm_mapping.mapping_type = 'Export';
+
+SELECT @mapvalue := value FROM civicrm_option_value, civicrm_option_group 
+	WHERE civicrm_option_group.name = 'mapping_type' && civicrm_option_value.name = 'Export Contribution';
+UPDATE civicrm_mapping SET mapping_type_id = @mapvalue WHERE civicrm_mapping.mapping_type = 'Export Contributions';
+
+SELECT @mapvalue := value FROM civicrm_option_value, civicrm_option_group 
+	WHERE civicrm_option_group.name = 'mapping_type' && civicrm_option_value.name = 'Import Activity';
+UPDATE civicrm_mapping SET mapping_type_id = @mapvalue WHERE civicrm_mapping.mapping_type = 'Import Activity';
+
+SELECT @mapvalue := value FROM civicrm_option_value, civicrm_option_group 
+	WHERE civicrm_option_group.name = 'mapping_type' && civicrm_option_value.name = 'Import Contact';
+UPDATE civicrm_mapping SET mapping_type_id = @mapvalue WHERE civicrm_mapping.mapping_type = 'Import';
+
+SELECT @mapvalue := value FROM civicrm_option_value, civicrm_option_group 
+	WHERE civicrm_option_group.name = 'mapping_type' && civicrm_option_value.name = 'Import Contribution';
+UPDATE civicrm_mapping SET mapping_type_id = @mapvalue WHERE civicrm_mapping.mapping_type = 'Import Contributions';
+
+SELECT @mapvalue := value FROM civicrm_option_value, civicrm_option_group 
+	WHERE civicrm_option_group.name = 'mapping_type' && civicrm_option_value.name = 'Import Membership';
+UPDATE civicrm_mapping SET mapping_type_id = @mapvalue WHERE civicrm_mapping.mapping_type = 'Import Memberships';
+
+SELECT @mapvalue := value FROM civicrm_option_value, civicrm_option_group 
+	WHERE civicrm_option_group.name = 'mapping_type' && civicrm_option_value.name = 'Import Participant';
+UPDATE civicrm_mapping SET mapping_type_id = @mapvalue WHERE civicrm_mapping.mapping_type = 'Import Participants';
+
+SELECT @mapvalue := value FROM civicrm_option_value, civicrm_option_group 
+	WHERE civicrm_option_group.name = 'mapping_type' && civicrm_option_value.name = 'Search Builder';
+UPDATE civicrm_mapping SET mapping_type_id = @mapvalue WHERE civicrm_mapping.mapping_type = 'Search Builder';
+
+ALTER TABLE `civicrm_mapping` DROP `mapping_type`;
 
 -- CRM-2964
 
@@ -333,11 +366,10 @@ ALTER TABLE `civicrm_note`
     MODIFY `contact_id` int(10) unsigned NULL DEFAULT NULL;
 
 ALTER TABLE `civicrm_participant`
-    ADD `fee_level` varchar(255) NULL DEFAULT NULL AFTER source,
+    CHANGE `event_level` `fee_level` varchar(255) NULL DEFAULT NULL,
     ADD `is_pay_later` tinyint(4) NULL DEFAULT '0' AFTER is_test,
     ADD `fee_amount` decimal(20,2) NULL DEFAULT NULL AFTER is_pay_later,
-    ADD `registered_by_id` int(10) unsigned NULL DEFAULT NULL AFTER fee_amount,
-    DROP `event_level`;
+    ADD `registered_by_id` int(10) unsigned NULL DEFAULT NULL AFTER fee_amount;
 
 ALTER TABLE `civicrm_participant`
   ADD CONSTRAINT `FK_civicrm_participant_registered_by_id` FOREIGN KEY (`registered_by_id`) REFERENCES `civicrm_participant` (`id`) ON DELETE SET NULL;
