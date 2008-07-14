@@ -205,8 +205,10 @@ class CRM_Core_Config_Defaults
             // populate defaults for components
             foreach( $defaults['enableComponents'] as $key => $name ) {
                 $comp = $config->componentRegistry->get( $name );
-                $co = $comp->getConfigObject();
-                $co->setDefaults( $defaults );
+                if ( $comp ) {
+                    $co = $comp->getConfigObject();
+                    $co->setDefaults( $defaults );
+                }
             }
         }
     }

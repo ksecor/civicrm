@@ -9,7 +9,6 @@
 -- is the source of the change, as part of the comment.
 
 
-
 -- lower case all email addresses
 
 UPDATE civicrm_email    SET email   = LOWER( email   );
@@ -22,13 +21,6 @@ ALTER TABLE `civicrm_relationship`
     ADD `is_permission_a_b` boolean DEFAULT 0 AFTER `description`;
 ALTER TABLE `civicrm_relationship`
     ADD `is_permission_b_a` boolean DEFAULT 0 AFTER `is_permission_a_b`;
-
-
--- Insert new option value for option_group - user_dashboard_options
-
-SELECT @option_ud    := id from civicrm_option_group where name = 'user_dashboard_options';
-INSERT INTO `civicrm_option_value` (`option_group_id`, `label`, `value`, `weight`, `is_active`, `is_default`) VALUES
-( @option_ud, 'My Contacts / Organizations', 5, 5, 1, NULL);
 
 
 -- Add 'My Contacts / Organizations' option in user dashboard options
@@ -112,22 +104,6 @@ ALTER TABLE `civicrm_contribution_page`
     ADD `recur_frequency_unit` varchar(128) NULL DEFAULT NULL AFTER is_recur;
 
 
--- add option group & values (CRM-2488)
-
-INSERT INTO `civicrm_option_group` (`name`, `description`, `is_reserved`, `is_active`) VALUES ('recur_frequency_units', '{ts escape="sql"}Recurring Frequency Units{/ts}', 0, 1);
-
-SELECT @option_group_id_fu := max(id) from civicrm_option_group where name = 'recur_frequency_units';
-
-INSERT INTO 
-   `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`) 
-VALUES
-  (@option_group_id_fu, 'day'    , 'day'  ,    'day',  NULL, 0, NULL, 1, NULL, 0, 1, 1, NULL),
-  (@option_group_id_fu, 'week'   , 'week' ,   'week',  NULL, 0, NULL, 2, NULL, 0, 1, 1, NULL),
-  (@option_group_id_fu, 'month'  , 'month',  'month',  NULL, 0, NULL, 3, NULL, 0, 1, 1, NULL),
-  (@option_group_id_fu, 'year'   , 'year' ,   'year',  NULL, 0, NULL, 4, NULL, 0, 1, 1, NULL);
-
-
-
 UPDATE civicrm_country SET name = 'Moldova' WHERE id = 1143;
 
 
@@ -142,27 +118,6 @@ UPDATE civicrm_country SET name = 'Moldova' WHERE id = 1143;
 ALTER TABLE `civicrm_mapping` CHANGE `mapping_type` `mapping_type_id` INT(10) unsigned NULL DEFAULT NULL COMMENT 'Type of Mapping.';
 
 
--- add option group and values CRM-2781
-
-INSERT INTO `civicrm_option_group` (`name`, `description`, `is_reserved`, `is_active`) VALUES ('mapping_type', '{ts escape="sql"}Mapping Type{/ts}', 0, 1);
-
-SELECT @option_group_id_mt := max(id) from civicrm_option_group where name = 'mapping_type';
-
-INSERT INTO 
-   `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`) 
-VALUES
-  (@option_group_id_mt, '{ts escape="sql"}Search Builder{/ts}',      1, 'Search Builder',      NULL, 0, 0,    1, NULL, 0, 1, 1, NULL),
-  (@option_group_id_mt, '{ts escape="sql"}Import Contact{/ts}',      2, 'Import Contact',     NULL, 0, 0,    2, NULL, 0, 1, 1, NULL),
-  (@option_group_id_mt, '{ts escape="sql"}Import Activity{/ts}',     3, 'Import Activity',     NULL, 0, 0,    3, NULL, 0, 1, 1, NULL),
-  (@option_group_id_mt, '{ts escape="sql"}Import Contribution{/ts}', 4, 'Import Contribution', NULL, 0, 0,    4, NULL, 0, 1, 1, NULL),
-  (@option_group_id_mt, '{ts escape="sql"}Import Membership{/ts}',   5, 'Import Membership',   NULL, 0, 0,    5, NULL, 0, 1, 1, NULL),
-  (@option_group_id_mt, '{ts escape="sql"}Import Participant{/ts}',  6, 'Import Participant',  NULL, 0, 0,    6, NULL, 0, 1, 1, NULL),
-  (@option_group_id_mt, '{ts escape="sql"}Export Contact{/ts}',      7, 'Export Contact',     NULL, 0, 0,    7, NULL, 0, 1, 1, NULL),
-  (@option_group_id_mt, '{ts escape="sql"}Export Contribution{/ts}', 8, 'Export Contribution', NULL, 0, 0,    8, NULL, 0, 1, 1, NULL),
-  (@option_group_id_mt, '{ts escape="sql"}Export Membership{/ts}',   9, 'Export Membership',   NULL, 0, 0,    9, NULL, 0, 1, 1, NULL),
-  (@option_group_id_mt, '{ts escape="sql"}Export Participant{/ts}',  10, 'Export Participant', NULL, 0, 0,   10, NULL, 0, 1, 1, NULL);
-
-
 -- CRM-2964
 
 ALTER TABLE `civicrm_contribution_page` 
@@ -170,31 +125,14 @@ ALTER TABLE `civicrm_contribution_page`
     ADD `is_for_organization` tinyint(4) NULL DEFAULT '0' AFTER thankyou_footer;
 
 
--- fix too much escaping in civicrm_option_value
-
-UPDATE civicrm_option_value SET label = 'Addt\'l Address 1' WHERE label = 'Addt\\\'l Address 1';
-UPDATE civicrm_option_value SET label = 'Addt\'l Address 2' WHERE label = 'Addt\\\'l Address 2';
-
-
 -- add the language column to civicrm_uf_match
 
 ALTER TABLE civicrm_uf_match ADD language VARCHAR(5) COMMENT 'UI language preferred by the given user/contact';
 
 
--- fix for CRM-3209
-
-UPDATE civicrm_option_value v,
-       civicrm_option_group g
-SET    v.description = v.name, v.name = v.value
-WHERE  v.option_group_id = g.id
-AND    g.name LIKE 'civicrm_price_field.amount.%';
-
-
 -- CRM-3217
 
 ALTER TABLE `civicrm_custom_field` MODIFY `label` VARCHAR(255) NULL DEFAULT NULL COMMENT 'Text for form field label (also friendly name for administering this custom property).';
-
-ALTER TABLE `civicrm_option_value` MODIFY `label` VARCHAR(255) NULL DEFAULT '' COMMENT 'Option string as displayed to users - e.g. the label in an HTML OPTION tag.';
 
 ALTER TABLE `civicrm_price_set` 
    MODIFY `title` VARCHAR(255) NULL DEFAULT NULL COMMENT 'Displayed title for Price Set.',
@@ -203,13 +141,6 @@ ALTER TABLE `civicrm_price_set`
 ALTER TABLE `civicrm_price_field` 
    MODIFY `label` VARCHAR(255) NULL DEFAULT NULL COMMENT 'Text for form field label (also friendly name for administering this field).',
    MODIFY `name` VARCHAR(255) NULL DEFAULT NULL COMMENT 'Variable name/programmatic handle for this field.';
-
-
--- Insert new option value for option_group = 'contribution_status'
-
-SELECT @option_cs    := id from civicrm_option_group where name = 'contribution_status';
-INSERT INTO `civicrm_option_value` (`option_group_id`, `label`, `value`, `weight`, `is_active`, `is_default`) VALUES
-( @option_cs, 'Overdue', 6, 6, 1, NULL);
 
 
 -- Modify civicrm_acl_cache
@@ -400,12 +331,6 @@ ALTER TABLE `civicrm_membership_type`
 
 ALTER TABLE `civicrm_note`
     MODIFY `contact_id` int(10) unsigned NULL DEFAULT NULL;
-
-ALTER TABLE `civicrm_option_group`
-    ADD UNIQUE `UI_name` (name);
-
-ALTER TABLE `civicrm_option_value`
-    MODIFY label varchar(255) NOT NULL DEFAULT '';
 
 ALTER TABLE `civicrm_participant`
     ADD `fee_level` varchar(255) NULL DEFAULT NULL AFTER source,

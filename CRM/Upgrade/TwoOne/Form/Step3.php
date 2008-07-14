@@ -33,18 +33,42 @@
  *
  */
 
-require_once 'CRM/Upgrade/Controller.php';
+require_once 'CRM/Upgrade/Form.php';
 
-class CRM_Upgrade_TwoOne_Controller extends CRM_Upgrade_Controller {
+class CRM_Upgrade_TwoOne_Form_Step3 extends CRM_Upgrade_Form {
 
-    function &getPages( ) {
-        $pages = array( 'CRM_Upgrade_TwoOne_Form_Step1' => null,
-                        'CRM_Upgrade_TwoOne_Form_Step2' => null,
-                        'CRM_Upgrade_TwoOne_Form_Step3' => null,
-                        'CRM_Upgrade_TwoOne_Form_Step4' => null,
-                        );
-        return $pages;
+    function verifyPreDBState( &$errorMessage ) {
+        $errorMessage = ts('Pre-condition failed for upgrade step %1.', array(1 => '3'));
+
+        return $this->checkVersion( '2.02' );
+    }
+
+    function upgrade( ) {
+        $currentDir = dirname( __FILE__ );
+        
+        $sqlFile    = implode( DIRECTORY_SEPARATOR,
+                               array( $currentDir, '../sql', 'misc.mysql' ) );
+        $this->source( $sqlFile );
+        
+        $this->setVersion( '2.03' );
+    }
+    
+    function verifyPostDBState( &$errorMessage ) {
+        $errorMessage = ts('Post-condition failed for upgrade step %1.', array(1 => '1'));
+
+        return $this->checkVersion( '2.03' );
+    }
+
+    function getTitle( ) {
+        return ts( 'CiviCRM 2.1 Upgrade: Step Three (Miscellaneous)' );
+    }
+
+    function getTemplateMessage( ) {
+        return '<p>' . ts( 'Step Three will upgrade rest of your database.') . '</p>';
+    }
+            
+    function getButtonTitle( ) {
+        return ts( 'Upgrade & Continue' );
     }
 }
-
 
