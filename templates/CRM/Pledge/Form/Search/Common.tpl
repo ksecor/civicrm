@@ -1,5 +1,21 @@
  <tr>
     <td>
+     {$form.pledge_create_date_low.label} 
+     <br />
+     {$form.pledge_create_date_low.html} &nbsp;
+     {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_pledge_7}
+     {include file="CRM/common/calendar/body.tpl" dateVar=pledge_create_date_low startDate=startYear endDate=endYear offset=5 trigger=trigger_search_pledge_7}
+    </td>
+    <td>
+     {$form.pledge_create_date_high.label}
+    <br />
+     {$form.pledge_create_date_high.html}&nbsp
+     {include file="CRM/common/calendar/desc.tpl" trigger=trigger_search_pledge_8}
+     {include file="CRM/common/calendar/body.tpl" dateVar=pledge_create_date_high startDate=startYear endDate=endYear offset=5 trigger=trigger_search_pledge_8}
+    </td> 
+ </tr>
+ <tr>
+    <td>
      {$form.pledge_start_date_low.label} 
      <br />
      {$form.pledge_start_date_low.html} &nbsp;

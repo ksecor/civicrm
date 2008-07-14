@@ -133,6 +133,12 @@ class CRM_Pledge_BAO_Query
              
         switch( $name ) {
         
+        case 'pledge_create_date_low':
+        case 'pledge_create_date_high':
+            // process to / from date
+            $query->dateQueryBuilder( $values,
+                                      'civicrm_pledge', 'pledge_create_date', 'create_date', 'Pledge Made' );
+
         case 'pledge_start_date_low':
         case 'pledge_start_date_high':
             // process to / from date
@@ -366,6 +372,12 @@ class CRM_Pledge_BAO_Query
         $form->add('date', 'pledge_end_date_high', ts('To'), CRM_Core_SelectValues::date('relative')); 
         $form->addRule('pledge_end_date_high', ts('Select a valid date.'), 'qfDate'); 
 
+        $form->add('date', 'pledge_create_date_low', ts('Pledge Made - From'), CRM_Core_SelectValues::date('relative')); 
+        $form->addRule('pledge_create_date_low', ts('Select a valid date.'), 'qfDate'); 
+        
+        $form->add('date', 'pledge_create_date_high', ts('To'), CRM_Core_SelectValues::date('relative')); 
+        $form->addRule('pledge_create_date_high', ts('Select a valid date.'), 'qfDate'); 
+
         // Pledge payment date selects for date 
         $form->add('date', 'pledge_payment_date_low', ts('Payment Received - From'), CRM_Core_SelectValues::date('relative')); 
         $form->addRule('pledge_payment_date_low', ts('Select a valid date.'), 'qfDate'); 
@@ -381,8 +393,9 @@ class CRM_Pledge_BAO_Query
         $form->add('text', 'pledge_amount_high', ts('To'), array( 'size' => 8, 'maxlength' => 8 ) ); 
         $form->addRule( 'pledge_amount_high', ts( 'Please enter a valid money value (e.g. 99.99).' ), 'money' );
 
-        require_once "CRM/Core/OptionGroup.php";
-        $statusValues = CRM_Core_OptionGroup::values("contribution_status");
+        require_once 'CRM/Contribute/PseudoConstant.php';
+        $statusValues = CRM_Contribute_PseudoConstant::contributionStatus( );
+ 
         // Remove status values that are only used for recurring contributions for now (Failed and In Progress).
         unset( $statusValues['2']);
         unset( $statusValues['4']);
