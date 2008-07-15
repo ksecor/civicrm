@@ -138,7 +138,7 @@ GROUP By  payment.id
             $toEmail    = $contactDetails[$contactId]['email'       ]; 
             $doNotEmail = $contactDetails[$contactId]['do_not_email']; 
             $onHold     = $contactDetails[$contactId]['on_hold'     ]; 
-            crm_core_error::debug( CRM_Utils_Date::overdue( $value['scheduled_date'], false ));
+
             // 2. send acknowledgement mail
             if ( $toEmail && ! ( $doNotEmail || $onHold ) && CRM_Utils_Date::overdue( $value['scheduled_date'], false ) ) {
                 //assign value to template
