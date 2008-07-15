@@ -397,7 +397,6 @@ class CRM_Pledge_BAO_Query
         $statusValues = CRM_Contribute_PseudoConstant::contributionStatus( );
  
         // Remove status values that are only used for recurring contributions for now (Failed and In Progress).
-        unset( $statusValues['2']);
         unset( $statusValues['4']);
  
         foreach ( $statusValues as $key => $val ) {

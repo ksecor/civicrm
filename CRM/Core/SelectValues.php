@@ -608,9 +608,10 @@ class CRM_Core_SelectValues
     static function &contactTokens( ) 
     {
         static $tokens = null;
-        if (! $tokens ) {
-            $values= array_merge( array_keys(CRM_Contact_BAO_Contact::importableFields( ) ),
-                                  array( 'display_name', 'checksum', 'contact_id', 'current_employer' ) );
+        if ( ! $tokens ) {
+            require_once 'CRM/Contact/BAO/Contact.php';
+            $values= array_merge( array_keys(CRM_Contact_BAO_Contact::exportableFields( ) ),
+                                  array( 'display_name', 'checksum', 'contact_id' ) );
             unset($values[0]); 
             foreach($values as $key => $val) {
                 $tokens[$key] = "{contact.$val}";

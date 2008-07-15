@@ -1752,7 +1752,7 @@ SELECT DISTINCT( m.id ) as id
      * @return array
      * @access public
      */
-    function getDetails($contactIds, $returnProperties) 
+    function getDetails($contactIds, $returnProperties = null ) 
     {
         $params = array( );
         foreach ( $contactIds  as $key => $contactID ) {
@@ -1762,6 +1762,16 @@ SELECT DISTINCT( m.id ) as id
         
         // fix for CRM-2613
         $params[] = array( 'is_deceased', '=', 0, 0, 1 );
+        
+        // if return properties are not passed then get all return properties
+        if ( empty( $returnProperties ) ) {
+            require_once 'CRM/Contact/BAO/Contact.php';
+            $fields = array_merge( array_keys(CRM_Contact_BAO_Contact::exportableFields( ) ),
+                                   array( 'display_name', 'checksum', 'contact_id'));
+            foreach( $fields as $key => $val) {
+                $returnProperties[$val] = 1;
+            }
+        }
 
         $custom = array( );
         foreach ( $returnProperties as $name => $dontCare ) {
@@ -1789,14 +1799,14 @@ SELECT DISTINCT( m.id ) as id
                 require_once 'CRM/Core/BAO/CustomOption.php';
                 $contactPcm = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$contactDetails[$contactID]['preferred_communication_method']);
                 
+                $result = array( );
                 foreach ( $contactPcm as $key => $val) {
                     if ($val) {
                         $result[$val] = $pcm[$val];
                     } 
                 }
                 
-                $contactDetails[$contactID]['preferred_communication_method'] = implode(', ',$result);
-                unset($result);
+                $contactDetails[$contactID]['preferred_communication_method'] = implode( ', ', $result );
             }
             
             foreach ( $custom as $cfID ) {

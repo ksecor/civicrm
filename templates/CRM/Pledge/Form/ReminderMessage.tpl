@@ -1,4 +1,4 @@
-{ts 1=$contact.first_name}Dear %1{/ts},
+{ts 1=$contact.sort_name}Dear %1{/ts},
 
 {ts 1=$next_payment|crmDate}This is a reminder that the next payment on your pledge is due on %1.{/ts}
 
