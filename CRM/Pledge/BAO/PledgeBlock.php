@@ -179,4 +179,32 @@ class CRM_Pledge_BAO_PledgeBlock extends CRM_Pledge_DAO_PledgeBlock
         return $result;
     }
     
+    /**
+     * Function to delete the pledgeBlock
+     *
+     * @param int $id  pledgeBlock id
+     *
+     * @access public
+     * @static
+     */
+    static function deletePledgeBlock( $id ) 
+    {
+        CRM_Utils_Hook::pre( 'delete', 'PledgeBlock', $id, CRM_Core_DAO::$_nullArray );
+        
+        require_once 'CRM/Core/Transaction.php';
+        $transaction = new CRM_Core_Transaction( );
+        
+        $results = null;
+        
+        $dao     = new CRM_Pledge_DAO_PledgeBlock( );
+        $dao->id = $id;
+        $results = $dao->delete( );
+        
+        $transaction->commit( );
+        
+        CRM_Utils_Hook::post( 'delete', 'PledgeBlock', $dao->id, $dao );
+        
+        return $results;
+    }
+    
 }

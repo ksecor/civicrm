@@ -50,6 +50,14 @@ class CRM_Contribute_Form_ContributionPage extends CRM_Core_Form {
      */
     protected $_id;
 
+    /**
+     * the pledgeBlock id saved to the session for an update
+     *
+     * @var int
+     * @access protected
+     */
+    protected $_pledgeBlockID;
+    
     /** 
      * are we in single form mode or wizard mode?
      * 
@@ -164,7 +172,7 @@ class CRM_Contribute_Form_ContributionPage extends CRM_Core_Form {
                                         'entity_table' => ts('civicrm_contribution_page') );
             $pledgeBlockDefaults = array( );
             CRM_Pledge_BAO_pledgeBlock::retrieve( $pledgeBlockParams, $pledgeBlockDefaults );
-            if ( !empty( $pledgeBlockDefaults ) ) {
+            if ( $this->_pledgeBlockID = CRM_Utils_Array::value('id', $pledgeBlockDefaults ) ) {
                 $defaults['is_pledge_active'] = true;
             }
             $pledgeBlock = array( 'is_pledge_interval', 'max_reminders', 

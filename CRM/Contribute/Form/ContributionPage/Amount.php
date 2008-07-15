@@ -274,20 +274,26 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         $contributionPageID = $dao->id;
         
         //create pledge block.
-        if ( $params['is_pledge_active']  && $contributionPageID ) {
-            $pledgeBllockParams = array( );
+        if ( CRM_Utils_Array::value('is_pledge_active', $params )  && $contributionPageID ) {
+            $pledgeBlockParams = array( 'entity_id'    => $contributionPageID,
+                                        'entity_table' => ts( 'civicrm_contribution_page' ) );
+            if ( $this->_pledgeBlockID ) {
+                $pledgeBlockParams['id'] = $this->_pledgeBlockID;
+            }
             $pledgeBlock = array( 'pledge_frequency_unit', 'is_pledge_interval', 'max_reminders', 
                                   'initial_reminder_day', 'additional_reminder_day' );
+            
             foreach ( $pledgeBlock  as $key ) {
                 $pledgeBlockParams[$key] = CRM_Utils_Array::value( $key, $params );    
             }
-            $pledgeBlockParams['entity_id'] = $contributionPageID;
-            $pledgeBlockParams['entity_table'] = ts( 'civicrm_contribution_page' );
             
             require_once 'CRM/Pledge/BAO/PledgeBlock.php';
             CRM_Pledge_BAO_PledgeBlock::create( $pledgeBlockParams );
+        } else if ( !CRM_Utils_Array::value('is_pledge_active', $params ) && $this->_pledgeBlockID ) {
+            //delete the pledge block.
+            require_once 'CRM/Pledge/BAO/PledgeBlock.php';
+            CRM_Pledge_BAO_PledgeBlock::deletePledgeBlock( $this->_pledgeBlockID );
         }
-        
     }
     
     /** 
