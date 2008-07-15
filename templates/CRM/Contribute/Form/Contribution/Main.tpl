@@ -187,7 +187,9 @@ function clearAmountOther() {
 var is_monetary = {/literal}{$is_monetary}{literal}
 
 if (! is_monetary) {
-  document.getElementsByName("is_pay_later")[0].disabled = true;
+   if ( document.getElementsByName("is_pay_later")[0] ) {
+       document.getElementsByName("is_pay_later")[0].disabled = true;
+   }
 }
 
 </script>
