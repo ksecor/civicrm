@@ -43,7 +43,9 @@
 
     <fieldset>
     <legend>
-       {if $action eq 1}
+       {if $single eq false}
+          {ts}New Activity{/ts}
+       {elseif $action eq 1}
           {ts}New{/ts} 
        {elseif $action eq 2}
           {ts}Edit{/ts} 
@@ -70,7 +72,7 @@
         
          <table class="form-layout">
            {if $action eq 1 or $action eq 2  or $action eq 4 }
-             {if $context eq ('standalone' or 'case') }
+             {if $context eq ('standalone' or 'case' or 'search') }
                 <tr>
                    <td class="label">{$form.activity_type_id.label}</td><td class="view-value">{$form.activity_type_id.html}</td>
                 </tr>
@@ -83,6 +85,12 @@
                    </div>
                 </td>
              </tr>
+             {if $single eq false}
+             <tr>
+                <td class="label">{ts}With Contact(s){/ts}</td>
+                <td class="view-value">{$with|escape}</td>
+             </tr>
+             {else}
              <tr>
                 <td class="label">{$form.target_contact.label}</td>
                 <td class="view-value">
@@ -91,6 +99,7 @@
                    </div>
                 </td>
              </tr>
+             {/if}
              <tr>
                 <td class="label">{$form.assignee_contact.label}</td>
                 <td class="view-value">
@@ -207,7 +216,7 @@ function buildContact( count, pref )
     hide( pref + '_' + prevCount + '_show'); 
 
     var dataUrl = {/literal}"{crmURL h=0 q='snippet=4&contact=1&count='}"{literal} + count;
-	
+
     var result = dojo.xhrGet({
         url: dataUrl,
         handleAs: "text",
@@ -233,6 +242,17 @@ function buildContact( count, pref )
      });
 
 }
+
+function reload(refresh) {
+        var activityType = document.getElementById("activity_type_id");
+        var url = {/literal}"{$refreshURL}"{literal}
+      
+        var post = url + "&subType=" + activityType.value;
+        if( refresh ) {
+            window.location= post; 
+        }
+}
+
 </script>
 
 {/literal}
