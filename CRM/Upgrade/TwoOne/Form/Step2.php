@@ -93,6 +93,32 @@ VALUES
     }
     
     function verifyPostDBState( &$errorMessage ) {
+         // check if Option Group & Option Values tables exists
+        if ( ! CRM_Core_DAO::checkTableExists( 'civicrm_option_group' ) ||
+             ! CRM_Core_DAO::checkTableExists( 'civicrm_option_value') ){
+            $errorMessage .= '  option group or option value table is missing.';
+            return false;
+        }
+        // check fields which MUST be present civicrm_option_group & civicrm_option_value
+         if ( ! CRM_Core_DAO::checkFieldExists( 'civicrm_option_group', 'id' ) ||
+              ! CRM_Core_DAO::checkFieldExists( 'civicrm_option_group', 'name' ) ||
+              ! CRM_Core_DAO::checkFieldExists( 'civicrm_option_group', 'label' ) ||
+              ! CRM_Core_DAO::checkFieldExists( 'civicrm_option_group', 'description' ) ||
+              ! CRM_Core_DAO::checkFieldExists( 'civicrm_option_group', 'is_reserved' ) ||
+              ! CRM_Core_DAO::checkFieldExists( 'civicrm_option_group', 'is_active' ) ){
+             $errorMessage .= ' Few important fields were found missing in civicrm_option_group table.';
+             return false;
+         }
+         if ( ! CRM_Core_DAO::checkFieldExists( 'civicrm_option_value', 'id' ) ||
+              ! CRM_Core_DAO::checkFieldExists( 'civicrm_option_value', 'option_group_id' ) ||
+              ! CRM_Core_DAO::checkFieldExists( 'civicrm_option_value', 'name' ) ||
+              ! CRM_Core_DAO::checkFieldExists( 'civicrm_option_value', 'label' ) ||
+              ! CRM_Core_DAO::checkFieldExists( 'civicrm_option_value', 'description' ) ||
+              ! CRM_Core_DAO::checkFieldExists( 'civicrm_option_value', 'component_id' ) ||
+              ! CRM_Core_DAO::checkFieldExists( 'civicrm_option_value', 'is_active' ) ){
+             $errorMessage .= ' Few important fields were found missing in civicrm_option_value table.';
+             return false;
+         }
         $errorMessage = ts('Post-condition failed for upgrade step %1.', array(1 => '1'));
 
         return $this->checkVersion( '2.02' );
