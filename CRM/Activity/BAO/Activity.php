@@ -247,6 +247,12 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
 
         $activityId = $result->id;
 
+        // check and attach and files as needed
+        require_once 'CRM/Core/BAO/File.php';
+        CRM_Core_BAO_File::processAttachment( $params,
+                                              'civicrm_activity',
+                                              $activityId );
+        
         // attempt to save activity assignment
         $resultAssignment = null;
         if ( CRM_Utils_Array::value( 'assignee_contact_id', $params ) ) {

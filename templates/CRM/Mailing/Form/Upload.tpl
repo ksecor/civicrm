@@ -35,24 +35,7 @@
         </dl>
   </fieldset>
 
-  <fieldset><legend>{ts}Mail Attachment(s){/ts}</legend>
-  <dl>
-        <dt class="label extra-long-fourty">{$form.attachFile_1.label}</dt>
-        <dd>{$form.attachFile_1.html}<br />
-            <span class="description">{ts}Browse to the <strong>file</strong> you want attached to this message. You can have a maximum of 3 attachments per mailing{/ts}</span>
-        </dd>
-        <dt class="label extra-long-fourty">&nbsp;</dt>
-        <dd>{$form.attachFile_2.html}</dd>
-        <dt class="label extra-long-fourty">&nbsp;</dt>
-        <dd>{$form.attachFile_3.html}</dd>
-{if $currentAttachmentURL}
-        <dt class="label extra-long-fourty">&nbsp;</dt>
-        <dd>{$form.is_delete_attachment.html}&nbsp;{$form.is_delete_attachment.label}<br/>
-          <span class="description">{ts}Current Attachments{/ts}: {$currentAttachmentURL}</span>
-        </dd>
-{/if}
-  </dl>
-  </fieldset>
+  {include file="CRM/Form/attachment.tpl"}
 
   <fieldset><legend>{ts}Header / Footer{/ts}</legend>
     <dl>

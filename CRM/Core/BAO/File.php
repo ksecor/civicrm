@@ -272,7 +272,7 @@ AND       CEF.entity_id    = %2";
 
         // add 3 attachments
         for ( $i = 1; $i <= $numAttachments; $i++ ) {
-            $form->addElement( 'file', "attachFile_$i", ts('Attach File to Message'), 'size=30 maxlength=60' );
+            $form->addElement( 'file', "attachFile_$i", ts('Attach File'), 'size=30 maxlength=60' );
             $form->setMaxFileSize( 2 * 1024 * 1024 );
             $form->addRule( "attachFile_$i",
                             ts( 'File size should be less than %1 MByte(s)',

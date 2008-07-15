@@ -170,6 +170,20 @@
                 <td class="label">{$form.details.label}</td><td class="view-value">{$form.details.html|crmReplace:class:huge}</td>
              </tr> 
              <tr>
+	           {if $action eq 4} 
+                      {if $currentAttachmentURL}
+                         <td class="label">{ts}Current Attachments{/ts}</td>
+                         <td class="view-value">{$currentAttachmentURL}</td>
+                      {else}  
+                          <td colspan=2>&nbsp;</td>
+                      {/if}
+                   {else}
+                <td colspan="2">
+                      {include file="CRM/Form/attachment.tpl"}
+                </td>
+                   {/if} 
+             </tr>
+             <tr>
                 <td colspan="2">
 	           {if $action eq 4} 
                        {include file="CRM/Contact/Page/View/InlineCustomData.tpl"}

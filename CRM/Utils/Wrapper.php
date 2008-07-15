@@ -69,22 +69,24 @@ class CRM_Utils_Wrapper
      */
     function run( $formName, $formLabel, $arguments = null ) {
         if ( is_array($arguments) ) {
-            $mode        = CRM_Utils_Array::value( 'mode',        $arguments );
-            $imageUpload = (bool) CRM_Utils_Array::value( 'imageUpload', $arguments, false );
-            $addSequence = (bool) CRM_Utils_Array::value( 'addSequence', $arguments, false );
-            $ignoreKey   = (bool) CRM_Utils_Array::value( 'ignoreKey',   $arguments, false );
+            $mode         = CRM_Utils_Array::value( 'mode',        $arguments );
+            $imageUpload  = (bool) CRM_Utils_Array::value( 'imageUpload' , $arguments, false );
+            $addSequence  = (bool) CRM_Utils_Array::value( 'addSequence' , $arguments, false );
+            $attachUpload = (bool) CRM_Utils_Array::value( 'attachUpload',   $arguments, false );
+            $ignoreKey    = (bool) CRM_Utils_Array::value( 'ignoreKey'   ,   $arguments, false );
         } else {
             $arguments   = array( );
             $mode        = null;
-            $addSequence = $ignoreKey = $imageUpload = false;
+            $addSequence = $ignoreKey = $imageUpload = $attachUpload = false;
         }
 
-        $this->_controller =& new CRM_Core_Controller_Simple( $formName, 
-                                                              $formLabel,
-                                                              $mode,
-                                                              $imageUpload,
-                                                              $addSequence,
-                                                              $ignoreKey );
+        $this->_controller =& new CRM_Core_Controller_Simple( $formName    ,
+                                                              $formLabel   ,
+                                                              $mode        ,
+                                                              $imageUpload ,
+                                                              $addSequence ,
+                                                              $ignoreKey   ,
+                                                              $attachUpload );
 
         if ( array_key_exists('urlToSession', $arguments) ) {
             if ( is_array($arguments['urlToSession']) ) {

@@ -137,7 +137,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         //check the mode when this form is called either single or as
         //search task action
         
-        if ( $this->_activityTypeId ) { 
+        if ( $this->_activityTypeId || $this->_context == 'standalone' ) { 
             $this->_single = true;
         } else {
             $this->_action = CRM_Core_Action::ADD;
@@ -192,6 +192,13 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             CRM_Custom_Form_CustomData::buildQuickForm( $this );
             CRM_Custom_Form_CustomData::setDefaultValues( $this );
         }
+
+        // add attachments part
+        require_once 'CRM/Core/BAO/File.php';
+        CRM_Core_BAO_File::buildAttachment( $this,
+                                            'civicrm_activity',
+                                            $this->_activityId );
+
     }
     
     /**
@@ -474,18 +481,8 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                                      )
                                );
         } else {
-            // DRAFTING: This probably is a hack for custom field uploads 
-            // DRAFTING: Try to eradicate it at later stage
-            $session =& CRM_Core_Session::singleton( );
-            $uploadNames = $session->get( 'uploadNames' );
-            if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
-                $buttonType = 'upload';
-            } else {
-                $buttonType = 'next';
-            }
-            
             $this->addButtons( array(
-                                     array ( 'type'      => $buttonType,
+                                     array ( 'type'      => 'upload',
                                              'name'      => ts('Save'),
                                              'isDefault' => true   ),
                                      array ( 'type'      => 'cancel',
@@ -593,14 +590,17 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         // get mime type of the uploaded file
         if ( !empty($_FILES) ) {
             foreach ( $_FILES as $key => $value) {
-                $files = array( );
-                if ( $params[$key] ) {
-                    $files['name'] = $params[$key];
+                // ignore non custom field files
+                if ( substr( $key, 0, 7 ) == 'custom_' ) {
+                    $files = array( );
+                    if ( $params[$key] ) {
+                        $files['name'] = $params[$key];
+                    }
+                    if ( $value['type'] ) {
+                        $files['type'] = $value['type']; 
+                    }
+                    $params[$key] = $files;
                 }
-                if ( $value['type'] ) {
-                    $files['type'] = $value['type']; 
-                }
-                $params[$key] = $files;
             }
         }
         
@@ -651,6 +651,13 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         if ( isset($this->_activityId) ) {
             $params['id'] = $this->_activityId;
         }
+
+        // add attachments as needed
+        CRM_Core_BAO_File::formatAttachment( $params,
+                                             $params,
+                                             'civicrm_activity',
+                                             $this->_activityId );
+
         require_once "CRM/Activity/BAO/Activity.php";
         if ( $this->_single ) {
             if ( ! $params['target_contact'] ) {
@@ -667,6 +674,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                 CRM_Activity_BAO_Activity::createActivityTarget( $targetParams );
             }
         }
+
         // add case activity
         if ( $this->_viewOptions['CiviCase'] ) {
             require_once 'CRM/Case/BAO/Case.php';
@@ -675,6 +683,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             CRM_Case_BAO_Case::processCaseActivity( $caseParams );        
         }
 
+        
         // set status message
         CRM_Core_Session::setStatus( ts('Activity \'%1\' has been saved.', array( 1 => $params['subject'] ) ) );
     }

@@ -57,9 +57,10 @@ class CRM_Core_Controller_Simple extends CRM_Core_Controller {
     function __construct( $path,
                           $title,
                           $mode ,
-                          $imageUpload = false,
-                          $addSequence = false,
-                          $ignoreKey = false ) {
+                          $imageUpload  = false,
+                          $addSequence  = false,
+                          $ignoreKey    = false,
+                          $attachUpload = false ) {
         // by definition a single page is modal :). We use the form name as the scope for this controller
         parent::__construct( $title, true, $mode, $path, $addSequence, $ignoreKey );
 
@@ -82,8 +83,10 @@ class CRM_Core_Controller_Simple extends CRM_Core_Controller {
             $this->set( 'uploadNames', null );
         } else {
             // always allow a single upload file with same name
-            if ( $imageUpload ) {
-                $this->addActions( $config->imageUploadDir, array( 'uploadFile' ));
+            if ( $attachUpload ) {
+                require_once 'CRM/Core/BAO/File.php';
+                $this->addActions( $config->uploadDir,
+                                   CRM_Core_BAO_File::uploadNames( ) );
             } else {
                 $this->addActions( $config->uploadDir, array( 'uploadFile' ) );
             }
