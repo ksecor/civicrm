@@ -634,7 +634,38 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                 return $errors;
             }
         }
-
+        
+        //validate the pledge fields.
+        if ( CRM_Utils_Array::value( 'pledge_block_id', $self->_values ) ) {
+            if ( CRM_Utils_array::value( 'is_pledge_frequency_interval', $fields ) ) {
+                if ( is_numeric( $fields['pledge_installments'] ) ) {
+                    //installments should be > 1
+                    if ( $fields['pledge_installments'] < 1 ) {
+                        $errors['pledge_installments'] = ts( 'Pledge Installments field must be > 1' ); 
+                    } else if ( $fields['pledge_installments'] ==  1 ) {
+                        $errors['pledge_installments'] = ts('Pledges consist of multiple scheduled payments. Select one-time contribution if you want to make your gift in a single payment.');
+                    }
+                } else if ( !empty( $fields['pledge_installments'] ) ) {
+                    //installments should be numeric.
+                    $errors['pledge_installments'] = ts("Please enter a valid Pledge Installments.");
+                } else {
+                    //installments is  required.
+                    $errors['pledge_installments'] = ts( 'Pledge Installments is required field.' ); 
+                }
+                
+                //validation for Pledge Frequency Interval.
+                if ( !is_numeric( $fields['pledge_frequency_interval'] ) ) {
+                    if ( !empty( $fields['pledge_frequency_interval'] ) ) {
+                        //Frequency Interval should be numeric.
+                        $errors['pledge_frequency_interval'] = ts("Please enter a valid Pledge Frequency Interval.");   
+                    } else {
+                        //Frequency Interval is  required.
+                        $errors['pledge_frequency_interval'] = ts( 'Pledge Frequency Interval is required field.' ); 
+                    }
+                }
+            }
+        }
+        
         // also return if paylater mode
         if ( CRM_Utils_Array::value( 'is_pay_later', $fields ) ) {
             return empty( $errors ) ? true : $errors;
@@ -665,26 +696,6 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             if ( CRM_Utils_Array::value( 'cvv2', $fields ) &&
                  ! CRM_Utils_Rule::cvv( $fields['cvv2'], $fields['credit_card_type'] ) ) {
                 $errors['cvv2'] =  ts( "Please enter a valid Credit Card Verification Number" );
-            }
-        }
-
-        //validate the pledge fields.
-        if ( CRM_Utils_Array::value( 'pledge_block_id', $self->_values ) ) {
-            if ( CRM_Utils_array::value( 'is_pledge_frequency_interval', $fields ) ) {
-                if ( is_numeric( $fields['pledge_installments'] ) ) {
-                    //installments should be > 1
-                    if ( $fields['pledge_installments'] < 1 ) {
-                        $errors['pledge_installments'] = ts( 'Pledge Installments field must be > 1' ); 
-                    } else if ( $fields['pledge_installments'] ==  1 ) {
-                        $errors['pledge_installments'] = ts('Pledges consist of multiple scheduled payments. Select one-time contribution if you want to make your gift in a single payment.');
-                    }
-                } else if ( !empty( $fields['pledge_installments'] ) ) {
-                    //installments should be numeric.
-                    $errors['pledge_installments'] = ts("Please enter a valid Pledge Installments.");
-                } else {
-                    //installments is  required.
-                    $errors['pledge_installments'] = ts( 'Pledge Installments is required field.' ); 
-                }
             }
         }
         
