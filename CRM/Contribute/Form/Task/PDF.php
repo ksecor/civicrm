@@ -86,6 +86,12 @@ AND    {$this->_componentClause}";
         // we have all the contribution ids, so now we get the contact ids
         parent::setContactIDs( );
         $this->assign( 'single', $this->_single );
+        
+        $breadCrumb = array ( array('title' => ts('Search Results'),
+                                    'url'   => CRM_Utils_System::url( 'civicrm/contribute/search'
+                                                                      )) );
+        CRM_Utils_System::appendBreadCrumb( $breadCrumb );
+        CRM_Utils_System::setTitle( ts('Print Contribution Receipts') );
     }
     
     /**
@@ -98,7 +104,7 @@ AND    {$this->_componentClause}";
     {
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
-                                         'name'      => ts('Generate PDF Receipt'),
+                                         'name'      => ts('Download Receipt(s)'),
                                          'isDefault' => true   ),
                                  array ( 'type'      => 'back',
                                          'name'      => ts('Cancel') ),
@@ -141,6 +147,7 @@ AND    {$this->_componentClause}";
             }
 
             $contribution =& $objects['contribution'];
+            // CRM_Core_Error::debug('o',$objects);
 
 
             // set some fake input values so we can reuse IPN code
@@ -151,12 +158,15 @@ AND    {$this->_componentClause}";
             $input['trxn_id']    = $contribution->trxn_id;
             $input['trxn_date']  = $contribution->trxn_date;
 
-            $mail = $baseIPN->sendMail( $input, $ids, $objects, CRM_Core_DAO::$_nullArray, false, true );
+            $values = array( );
+            $mail = $baseIPN->sendMail( $input, $ids, $objects, $values, false, true );
             $mail = str_replace( "\n\n", "<p>", $mail );
             $mail = str_replace( "\n", "<br/>", $mail );
 
             $message[] = $mail;
         }
+        
+        // CRM_Core_Error::debug('msg',$message); exit();
 
         require_once 'CRM/Utils/PDF/Utils.php';
         CRM_Utils_PDF_Utils::domlib( $message, "civicrmContributionReceipt.pdf" );

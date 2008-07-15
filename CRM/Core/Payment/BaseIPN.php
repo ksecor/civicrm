@@ -414,7 +414,13 @@ class CRM_Core_Payment_BaseIPN {
             $values = array( );
             if ( $input['component'] == 'contribute' ) {
                 require_once 'CRM/Contribute/BAO/ContributionPage.php';
-                CRM_Contribute_BAO_ContributionPage::setValues( $contribution->contribution_page_id, $values );
+                if ( $contribution->contribution_page_id ) {
+                    CRM_Contribute_BAO_ContributionPage::setValues( $contribution->contribution_page_id, $values );
+                } else {
+                    // Handle re-print receipt for offline contributions (call from PDF.php - no contribution_page_id)
+                    $values['is_email_receipt'] = 1;
+                    $values['title']            = 'Contribution';
+                }
             } else {
                 // event
                 $eventParams     = array( 'id' => $objects['event']->id );

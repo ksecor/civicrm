@@ -79,9 +79,9 @@ class CRM_Contribute_Task {
                                   3 => ts( 'Export Contributions'   ),
                                   1 => ts( 'Delete Contributions'   ),
                                   5 => ts( 'Send Email to Contacts' ),
+                                  7 => ts( 'Print Contribution Receipts' ),
                                   6 => ts( 'Update Pending Contribution Status' ),
                                   4 => ts( 'Batch Update Contributions Via Profile' ),
-                                  7 => ts( 'Batch Print Thank You Receipt PDF' ),
                                   );
         }
         return self::$_tasks;
