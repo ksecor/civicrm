@@ -157,6 +157,27 @@ class CRM_Contribute_Form_ContributionPage extends CRM_Core_Form {
         if (isset($this->_id)) {
             $params = array('id' => $this->_id);
             CRM_Core_DAO::commonRetrieve( 'CRM_Contribute_DAO_ContributionPage', $params, $defaults);
+            
+            //set defaults for pledgeBlock values.
+            require_once 'CRM/Pledge/BAO/PledgeBlock.php';
+            $pledgeBlockParams = array( 'entity_id'    => $this->_id,
+                                        'entity_table' => ts('civicrm_contribution_page') );
+            $pledgeBlockDefaults = array( );
+            CRM_Pledge_BAO_pledgeBlock::retrieve( $pledgeBlockParams, $pledgeBlockDefaults );
+            if ( !empty( $pledgeBlockDefaults ) ) {
+                $defaults['is_pledge_active'] = true;
+            }
+            $pledgeBlock = array( 'is_pledge_interval', 'max_reminders', 
+                                  'initial_reminder_day', 'additional_reminder_day' );
+            foreach ( $pledgeBlock  as $key ) {
+                $defaults[$key] = CRM_Utils_Array::value( $key, $pledgeBlockDefaults ); 
+            }
+            require_once 'CRM/Core/BAO/CustomOption.php';
+            if ( CRM_Utils_Array::value( 'pledge_frequency_unit', $pledgeBlockDefaults ) ) {
+                $defaults['pledge_frequency_unit'] = 
+                    array_fill_keys( explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, 
+                                              $pledgeBlockDefaults['pledge_frequency_unit'] ), '1' );
+            }
         } else {
             $defaults['is_active'] = 1;
         }
@@ -187,7 +208,7 @@ class CRM_Contribute_Form_ContributionPage extends CRM_Core_Form {
         if ( !isset( $defaults['is_recur_interval'] ) ) {
             $defaults['is_recur_interval'] = 1;
         }
-
+        
         return $defaults;
     }
 
