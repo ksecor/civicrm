@@ -172,6 +172,11 @@ class CRM_Core_BAO_Setting
                     unset( $defaults[$skip] );
                 }
             }
+            
+            // since language field won't be present before upgrade.
+            if ( $_GET['q'] == 'civicrm/upgrade' ) {
+                return;
+            }
 
             // set lcMessages dynamically based on GET and civicrm_uf_match values
             // if cookie unset, initialise it to admin-specified value
@@ -186,7 +191,7 @@ class CRM_Core_BAO_Setting
                     $dao->language = $lcMessages;
                     $dao->save();
                     $defaults['lcMessages'] = $lcMessages;
-                } elseif (!$dao->language && arg(0) != 'civicrm' && arg(1) != 'upgrade') {
+                } elseif (!$dao->language) {
                     $dao->language = $defaults['lcMessages'];
                     $dao->save();
                 } else {
