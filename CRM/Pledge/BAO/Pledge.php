@@ -168,6 +168,7 @@ class CRM_Pledge_BAO_Pledge extends CRM_Pledge_DAO_Pledge
         $paymentParams = array( );
         $paymentParams['pledge_id'       ] = $pledge->id;
         $paymentParams['pledge_status_id'] = $params['status_id'];
+        $paymentParams['contribution_id' ] = $params['contribution_id'];
         foreach (array('amount', 'installments', 'scheduled_date', 'frequency_unit', 'frequency_day') as $key) {
             $paymentParams[$key] = $params[$key];
         }

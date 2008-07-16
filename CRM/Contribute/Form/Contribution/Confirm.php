@@ -671,6 +671,13 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $contribParams['id'] = $contribID;
             }
         }
+
+        if ( isset ( $params['pledge_frequency_interval'] ) ) {
+            $pledgeParams                  = array( );
+            $pledgeParams['amount']        = $contribParams['total_amount'];
+            $contribParams['total_amount'] = $contribParams['net_amount'] = (integer) $pledgeParams['amount'] / $params['pledge_installments'];
+        }
+        
         
         require_once 'CRM/Contribute/BAO/Contribution.php';
         $contribution =& CRM_Contribute_BAO_Contribution::add( $contribParams, $ids );
@@ -678,6 +685,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         if ( isset ( $params['pledge_frequency_interval'] ) ) {
             require_once 'CRM/Contribute/PseudoConstant.php';
             $pledgeParams['contact_id'] = $contribution->contact_id;
+            $pledgeParams['contribution_id'     ] = $contribution->id;
             $pledgeParams['contribution_page_id'] = $contribution->contribution_page_id;
             $pledgeParams['contribution_type_id'] = $contribution->contribution_type_id;
             $pledgeParams['is_test'             ] = $contribution->is_test;
@@ -685,12 +693,12 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $pledgeParams['installments'        ] = $params['pledge_installments'];
             $pledgeParams['frequency_unit'      ] = $params['pledge_frequency_unit'];
             $pledgeParams['frequency_day'       ] = 1;
-            $pledgeParams['amount'              ] = $contribution->total_amount;
             $pledgeParams['create_date'         ] = $pledgeParams['start_date'] = date("Ymd");
-            $pledgeParams['scheduled_date' ]['M']  = date("m"); 
-            $pledgeParams['scheduled_date' ]['d']  = date("d");
-            $pledgeParams['scheduled_date' ]['Y']  = date("Y");
-            $pledgeParams['status_id'           ]  = array_search( 'Pending',  CRM_Contribute_PseudoConstant::contributionStatus( ) );
+            $pledgeParams['scheduled_date' ]['M'] = date("m"); 
+            $pledgeParams['scheduled_date' ]['d'] = date("d");
+            $pledgeParams['scheduled_date' ]['Y'] = date("Y");
+            $pledgeParams['status_id'           ] = array_search( 'Pending',  CRM_Contribute_PseudoConstant::contributionStatus( ) );
+
             require_once 'CRM/Pledge/BAO/Pledge.php';
             CRM_Pledge_BAO_Pledge::create($pledgeParams);
         }

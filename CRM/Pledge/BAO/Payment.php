@@ -130,6 +130,11 @@ WHERE pledge_id = %1
                 $transaction->rollback( );
                 return $payment;
             }
+            
+            // we should add contribution id to only first payment record
+            if ( isset( $params['contribution_id'] ) ){
+                unset( $params['contribution_id'] );
+            }
         }
 
         $transaction->commit( );
