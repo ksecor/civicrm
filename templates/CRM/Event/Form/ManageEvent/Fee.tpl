@@ -86,7 +86,7 @@
 	{section name=rowLoop start=1 loop=6}
 	   {assign var=index value=$smarty.section.rowLoop.index}
 	   <tr id="discount_{$index}" {if $index GT 1 AND empty( $form.discount_name[$index].value) } style="display:none"{/if} class="form-item {cycle values="odd-row,even-row"}">
-           <td>{if $index GT 1} <a onclick="hiderowDiscount('discount_{$index}'); return false;" name="discount_{$index}" href="#discount_{$index}" class="form-link"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}hide field or section{/ts}"/></a>{/if}
+           <td>{if $index GT 1} <a onclick="hiderowDiscount('discount_{$index}');discountValues('{$index}'); return false;" name="discount_{$index}" href="#discount_{$index}" class="form-link"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}hide field or section{/ts}"/></a>{/if}
            </td>
 	   <td> {$form.discount_name.$index.html}</td>
 	   <td> {$form.discount_start_date.$index.html | crmDate }
@@ -109,7 +109,7 @@
         <div id="discountLink" class="add-remove-link">
            <a onclick="showrowDiscount();return false;" name="discountLink" href="#discountLink" class="form-link"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}show field or section{/ts}"/>{ts}another discount set{/ts}</a>
         </div>
-        {$form._qf_Fee_refresh.html}
+        {$form._qf_Fee_submit.html}
 	
         {if $discountSection}
             <fieldset id="map-field"><legend>{ts}Discounted Fees{/ts}</legend>
@@ -176,8 +176,19 @@
     if ( document.getElementsByName('is_monetary')[0].checked ) {
         show( 'event-fees', 'block' );
        }
+function discountValues( discount_id )
+{
+	document.getElementById("discount_name_"+ discount_id).value = "";
+	document.getElementById("discount_start_date["+ discount_id +"][M]").value = "";
+	document.getElementById("discount_start_date["+ discount_id +"][d]").value = "";
+	document.getElementById("discount_start_date["+ discount_id +"][Y]").value = "";
 
- {/literal} 
+	document.getElementById("discount_end_date["+ discount_id +"][M]").value = "";
+	document.getElementById("discount_end_date["+ discount_id +"][d]").value = "";
+	document.getElementById("discount_end_date["+ discount_id +"][Y]").value = "";
+
+}
+{/literal}
 </script>
 
 

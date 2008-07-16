@@ -40,9 +40,11 @@ class CRM_Event_BAO_Query
     {
         $fields = array( );
         require_once 'CRM/Event/DAO/Event.php';
+        require_once 'CRM/Core/DAO/Discount.php';
         $fields = array_merge( $fields, CRM_Event_DAO_Event::import( ) );
         $fields = array_merge( $fields, self::getParticipantFields( ) );
-        
+        $fields = array_merge( $fields, CRM_Core_DAO_Discount::export( ) );
+               
         return $fields;
     }
 
@@ -160,6 +162,16 @@ class CRM_Event_BAO_Query
             if ( CRM_Utils_Array::value( 'participant_is_test', $query->_returnProperties ) ) {
                 $query->_select['participant_is_test']  = "civicrm_participant.is_test as participant_is_test";
                 $query->_element['participant_is_test'] = 1;
+            }
+ 
+            // get discount name
+            if ( CRM_Utils_Array::value( 'participant_discount_name', $query->_returnProperties ) ) {
+                $query->_select['participant_discount_name']      = "discount_name.label as participant_discount_name";
+                $query->_element['participant_discount_name']     = 1;
+                $query->_tables['civicrm_discount']               = 1;
+                $query->_tables['participant_discount_name']      = 1;
+                $query->_whereTables['civicrm_discount']          = 1;
+                $query->_whereTables['participant_discount_name'] = 1;
             }
         }
     }
@@ -414,6 +426,12 @@ class CRM_Event_BAO_Query
                                AND option_group_participant_role.id = participant_role.option_group_id ) ";
             break;
 
+        case 'participant_discount_name':
+            $from = " $side JOIN civicrm_discount discount ON ( civicrm_participant.discount_id = discount.id )";
+            $from .= " $side JOIN civicrm_option_group discount_name ON ( discount_name.id = discount.option_group_id ) ";
+            break;
+
+
         }
         return $from;
     }
@@ -449,7 +467,8 @@ class CRM_Event_BAO_Query
                                 'participant_fee_level'     => 1,
                                 'participant_is_test'       => 1,
                                 'participant_is_pay_later'  => 1,
-                                'participant_fee_amount'    => 1
+                                'participant_fee_amount'    => 1,
+                                'participant_discount_name' => 1
                                 );
        
             // also get all the custom participant properties

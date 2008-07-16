@@ -339,7 +339,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
                        CRM_Core_SelectValues::date('activityDate') );
         }
         $_showHide->addToTemplate();   
-        $this->addElement( 'submit', $this->getButtonName('refresh'), ts('Add Discount Set to Fee Table'), 
+        $this->addElement( 'submit', $this->getButtonName('submit'), ts('Add Discount Set to Fee Table'), 
                            array( 'class' => 'form-submit' ) );             
         
         $this->buildAmountLabel( );
@@ -427,7 +427,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
                         }
                         
                     }
-                    if ( $values['_qf_Fee_next'] == 'Save' && ( $countemptyrows == 11 || $countemptyvalue == 11 ) ) {
+                    if ( CRM_Utils_Array::value( '_qf_Fee_next', $values ) && ( $countemptyrows == 11 || $countemptyvalue == 11 ) ) {
                         $errors["discounted_label[1]"] = $errors["discounted_value[1][$i]"] = 
                             ts('Atleast one value with label should be present');
                     }
@@ -516,9 +516,11 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         
         $this->set( 'discountSection', 0 );
         
-        if ( CRM_Utils_Array::value( '_qf_Fee_refresh', $_POST ) ) {
+        if ( CRM_Utils_Array::value( '_qf_Fee_submit', $_POST ) ) {
             $this->buildAmountLabel( );
             $this->set( 'discountSection', 1 );
+            CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/event/manage#isDiscount',
+                                                               null, true, null, false ) );
             return;
         }
 

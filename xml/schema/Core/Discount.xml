@@ -38,8 +38,11 @@
   </index>
   <field>
       <name>option_group_id</name>
+      <uniqueName>participant_discount_name</uniqueName> 
+      <title>Discount Name</title>
       <type>int unsigned</type>
       <required>true</required>
+      <export>true</export>
       <comment>FK to civicrm_option_group</comment>
       <add>2.1</add>
   </field>
