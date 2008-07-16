@@ -38,8 +38,8 @@
             <span class="description">{ts}This applies to weekly, monthly and yearly payments.{/ts}</td></tr>
         <tr><td class="label">{$form.create_date.label}</td><td>{$form.create_date.html}
             {if $hideCalender neq true}
-            {include file="CRM/common/calendar/desc.tpl" trigger=trigger_pledge_2}
-            {include file="CRM/common/calendar/body.tpl" dateVar=create_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_pledge_2}
+            {include file="CRM/common/calendar/desc.tpl" trigger=trigger_pledge_1}
+            {include file="CRM/common/calendar/body.tpl" dateVar=create_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_pledge_1}
             {/if}<br />
             <span class="description">{ts}Date when pledge was made by the contributor.{/ts}</span></td></tr>
         <tr><td class="label">{$form.start_date.label}</td><td>{$form.start_date.html}
@@ -53,8 +53,8 @@
                 <span class="description">{ts}Automatically email an acknowledgment of this pledge to {$email}?{/ts}</span></td></tr>
         {/if}
         <tr id="acknowledgeDate"><td class="label">{$form.acknowledge_date.label}</td><td>{$form.acknowledge_date.html}
-            {include file="CRM/common/calendar/desc.tpl" trigger=trigger_pledge_2}
-            {include file="CRM/common/calendar/body.tpl" dateVar=acknowledge_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_pledge_2}<br />
+            {include file="CRM/common/calendar/desc.tpl" trigger=trigger_pledge_3}
+            {include file="CRM/common/calendar/body.tpl" dateVar=acknowledge_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_pledge_3}<br />
             <span class="description">{ts}Date when an acknowledgment of the pledge was sent.{/ts}</span></td></tr>
         <tr><td class="label">{$form.contribution_type_id.label}</td><td>{$form.contribution_type_id.html}<br />
             <span class="description">{ts}Sets the default contribution type for payments against this pledge.{/ts}</span></td></tr>

@@ -306,7 +306,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             $element->freeze( );
         }
         
-        $element =& $this->addElement('date', 'start_date', ts('Payments Start'), CRM_Core_SelectValues::date('activityDate') ); 
+        $element =& $this->add('date', 'start_date', ts('Payments Start'), CRM_Core_SelectValues::date('activityDate'), true ); 
         $this->addRule('start_date', ts('Select a valid payments start date.'), 'qfDate');
         if ( $this->_id ) {
             $element->freeze( );
@@ -387,10 +387,8 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         
         $createDate = CRM_Utils_Date::format( $fields['create_date'] );
         $startDate  = CRM_Utils_Date::format( $fields['start_date'] );
-        if ( $startDate == 0 ) {
-            $errors['start_date'] = ts('Start date is a required field.');
-        }
-        else if ( $createDate >  $startDate ) {
+     
+        if ( $createDate >  $startDate ) {
             $errors['start_date'] = ts('Start date must be the same or later than made.');
         }
         if ( $fields["frequency_unit"] != 'week' ) {
