@@ -141,7 +141,16 @@ UPDATE civicrm_membership_type
 ";
         $params = array( 1 => array( $relationshipTypeId, 'Integer' ) );
         CRM_Core_DAO::executeQuery( $query, $params );
-                         
+
+        //fixed for CRM-3323
+        require_once "CRM/Core/DAO/MappingField.php";
+        $mappingField =& new CRM_Core_DAO_MappingField( );            
+        $mappingField->relationship_type_id = $relationshipTypeId;
+        $mappingField->find();
+        while ( $mappingField->fetch() ) {
+            $mappingField->delete();
+        }
+
         $relationshipType = & new CRM_Contact_DAO_RelationshipType();
         $relationshipType->id = $relationshipTypeId;
         return $relationshipType->delete();
