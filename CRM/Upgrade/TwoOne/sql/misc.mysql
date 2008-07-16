@@ -261,6 +261,21 @@ ALTER TABLE `civicrm_group_contact_cache`
   ADD CONSTRAINT `FK_civicrm_group_contact_cache_group_id` FOREIGN KEY (`group_id`) REFERENCES `civicrm_group` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `FK_civicrm_group_contact_cache_contact_id` FOREIGN KEY (`contact_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE CASCADE;
 
+-- create discount table
+CREATE TABLE `civicrm_discount` (
+    `id` int(10) unsigned NOT NULL COMMENT 'primary key' auto_increment,
+    `entity_table` varchar(64) collate utf8_unicode_ci default NULL COMMENT 'physical tablename for entity being joined to discount, e.g. civicrm_event',
+    `entity_id` int(10) unsigned NOT NULL COMMENT 'FK to entity table specified in entity_table column.',
+    `option_group_id` int(10) unsigned NOT NULL  COMMENT 'FK to civicrm_option_group',
+    `start_date` date default NULL COMMENT 'Date when discount starts.',
+    `end_date` date default NULL COMMENT 'Date when discount ends.',
+    PRIMARY KEY (id),
+    INDEX index_entity (entity_table, entity_id),
+    INDEX index_entity_option_id (entity_table, entity_id, option_group_id)
+   ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;
+
+ALTER TABLE `civicrm_discount`
+  ADD CONSTRAINT `FK_civicrm_discount_option_group_id` FOREIGN KEY (`option_group_id`) REFERENCES `civicrm_option_group` (`id`) ON DELETE CASCADE;
 
 CREATE TABLE `civicrm_menu` (
   `id` int(10) unsigned NOT NULL auto_increment,
@@ -287,6 +302,7 @@ CREATE TABLE `civicrm_menu` (
 
 ALTER TABLE `civicrm_menu`
   ADD CONSTRAINT `FK_civicrm_menu_component_id` FOREIGN KEY (`component_id`) REFERENCES `civicrm_component` (`id`);
+
 
 
 -- fixes noticed via db diff

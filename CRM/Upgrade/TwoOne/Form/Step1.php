@@ -39,16 +39,17 @@ class CRM_Upgrade_TwoOne_Form_Step1 extends CRM_Upgrade_Form {
 
     function verifyPreDBState( &$errorMessage ) {
         $errorMessage = ts('Database check failed - the current database is not v2.0.');
+        $is20db = true;
 
         // abort if already 2.1
         if ( $this->checkVersion( '2.1' ) ) {
-            $errorMessage = ts('Database check failed - it looks like you have already upgraded to the latest version (v2.1) of the database.');
+            $errorMessage = ts('Database check failed - looks like you have already upgraded to the latest version (v2.1) of the database.');
             return false;
         }
-
+        
         // check if 2.0 version
         if ( ! $this->checkVersion( '2.0' ) ) {
-            return false;
+            $is20db = false;
         }
 
         // check if 2.0 tables exists
@@ -75,78 +76,101 @@ class CRM_Upgrade_TwoOne_Form_Step1 extends CRM_Upgrade_Form {
              ) {
             // db is not 2.0
             $errorMessage .= ' Few 2.0 tables were found missing.';
-            return false;
+            $is20db = false;
         }
         
         // check fields which MUST be present if a proper 2.0 db
-        if ( ! CRM_Core_DAO::checkFieldExists( 'civicrm_activity', 'source_record_id' ) ||
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_activity', 'activity_date_time' ) ||
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_activity', 'status_id' ) ||
-             
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_contact', 'first_name' ) ||
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_contact', 'last_name' ) ||
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_contact', 'gender_id' ) ||
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_contact', 'mail_to_household_id' ) ||
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_contact', 'user_unique_id' ) ||
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_contact', 'household_name' ) ||
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_contact', 'organization_name' ) ||
+        if ( $is20db ) {
+            if ( ! CRM_Core_DAO::checkFieldExists( 'civicrm_activity', 'source_record_id' ) ||
+                 ! CRM_Core_DAO::checkFieldExists( 'civicrm_activity', 'activity_date_time' ) ||
+                 ! CRM_Core_DAO::checkFieldExists( 'civicrm_activity', 'status_id' ) ||
+                 
+                 ! CRM_Core_DAO::checkFieldExists( 'civicrm_contact', 'first_name' ) ||
+                 ! CRM_Core_DAO::checkFieldExists( 'civicrm_contact', 'last_name' ) ||
+                 ! CRM_Core_DAO::checkFieldExists( 'civicrm_contact', 'gender_id' ) ||
+                 ! CRM_Core_DAO::checkFieldExists( 'civicrm_contact', 'mail_to_household_id' ) ||
+                 ! CRM_Core_DAO::checkFieldExists( 'civicrm_contact', 'user_unique_id' ) ||
+                 ! CRM_Core_DAO::checkFieldExists( 'civicrm_contact', 'household_name' ) ||
+                 ! CRM_Core_DAO::checkFieldExists( 'civicrm_contact', 'organization_name' ) ||
+                 
+                 ! CRM_Core_DAO::checkFieldExists( 'civicrm_contribution', 'honor_type_id' ) ||
+                 
+                 ! CRM_Core_DAO::checkFieldExists( 'civicrm_contribution_page', 'is_pay_later' ) ||
+                 ! CRM_Core_DAO::checkFieldExists( 'civicrm_contribution_page', 'pay_later_text' ) ||
+                 
+                 ! CRM_Core_DAO::checkFieldExists( 'civicrm_country', 'region_id' ) ||
+                 
+                 ! CRM_Core_DAO::checkFieldExists( 'civicrm_custom_field', 'column_name' ) ||
+                 ! CRM_Core_DAO::checkFieldExists( 'civicrm_custom_field', 'option_group_id' ) ||
+                 
+                 ! CRM_Core_DAO::checkFieldExists( 'civicrm_custom_group', 'table_name' ) ||
+                 ! CRM_Core_DAO::checkFieldExists( 'civicrm_custom_group', 'is_multiple' ) ||
+                 
+                 ! CRM_Core_DAO::checkFieldExists( 'civicrm_domain', 'version' ) ||
+                 ! CRM_Core_DAO::checkFieldExists( 'civicrm_domain', 'loc_block_id' ) ||
 
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_contribution', 'honor_type_id' ) ||
+                 ! CRM_Core_DAO::checkFieldExists( 'civicrm_email', 'contact_id' ) ||
+                 ! CRM_Core_DAO::checkFieldExists( 'civicrm_email', 'location_type_id' ) ||
+                 ! CRM_Core_DAO::checkFieldExists( 'civicrm_email', 'is_billing' ) ||
+                 
+                 ! CRM_Core_DAO::checkFieldExists( 'civicrm_entity_tag', 'contact_id' ) ||
+                 
+                 ! CRM_Core_DAO::checkFieldExists( 'civicrm_event', 'participant_listing_id' ) ||
+                 ! CRM_Core_DAO::checkFieldExists( 'civicrm_event', 'loc_block_id' ) ||
+                 ! CRM_Core_DAO::checkFieldExists( 'civicrm_event', 'receipt_text' ) ||
 
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_contribution_page', 'is_pay_later' ) ||
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_contribution_page', 'pay_later_text' ) ||
-
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_country', 'region_id' ) ||
-
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_custom_field', 'column_name' ) ||
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_custom_field', 'option_group_id' ) ||
-
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_custom_group', 'table_name' ) ||
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_custom_group', 'is_multiple' ) ||
-
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_domain', 'version' ) ||
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_domain', 'loc_block_id' ) ||
-
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_email', 'contact_id' ) ||
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_email', 'location_type_id' ) ||
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_email', 'is_billing' ) ||
-
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_entity_tag', 'contact_id' ) ||
-
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_event', 'participant_listing_id' ) ||
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_event', 'loc_block_id' ) ||
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_event', 'receipt_text' ) ||
-
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_event_page', 'is_pay_later' ) ||
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_event_page', 'pay_later_text' ) ||
-
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_financial_trxn', 'contribution_id' ) ||
-
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_im', 'contact_id' ) ||
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_im', 'location_type_id' ) ||
-
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_membership_payment', 'contribution_id' ) ||
-
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_membership_type', 'receipt_text_signup' ) ||
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_membership_type', 'receipt_text_renewal' ) ||
-
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_option_value', 'component_id' ) ||
-
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_participant_payment', 'contribution_id' ) ||
-
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_payment_processor', 'url_api' ) ||
-
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_payment_processor_type', 'url_api_default' ) ||
-
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_phone', 'contact_id' ) ||
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_phone', 'location_type_id' ) ||
-
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_uf_match', 'uf_name' )
-             ) {
-            // db looks to have stuck somewhere between 2.0 & 2.1
-            $errorMessage .= ' Few important fields were found missing in some of the tables.';
-            return false;
+                 ! CRM_Core_DAO::checkFieldExists( 'civicrm_event_page', 'is_pay_later' ) ||
+                 ! CRM_Core_DAO::checkFieldExists( 'civicrm_event_page', 'pay_later_text' ) ||
+                 
+                 ! CRM_Core_DAO::checkFieldExists( 'civicrm_financial_trxn', 'contribution_id' ) ||
+                 
+                 ! CRM_Core_DAO::checkFieldExists( 'civicrm_im', 'contact_id' ) ||
+                 ! CRM_Core_DAO::checkFieldExists( 'civicrm_im', 'location_type_id' ) ||
+                 
+                 ! CRM_Core_DAO::checkFieldExists( 'civicrm_membership_payment', 'contribution_id' ) ||
+                 
+                 ! CRM_Core_DAO::checkFieldExists( 'civicrm_membership_type', 'receipt_text_signup' ) ||
+                 ! CRM_Core_DAO::checkFieldExists( 'civicrm_membership_type', 'receipt_text_renewal' ) ||
+                 
+                 ! CRM_Core_DAO::checkFieldExists( 'civicrm_option_value', 'component_id' ) ||
+                 
+                 ! CRM_Core_DAO::checkFieldExists( 'civicrm_participant_payment', 'contribution_id' ) ||
+                 
+                 ! CRM_Core_DAO::checkFieldExists( 'civicrm_payment_processor', 'url_api' ) ||
+                 
+                 ! CRM_Core_DAO::checkFieldExists( 'civicrm_payment_processor_type', 'url_api_default' ) ||
+                 
+                 ! CRM_Core_DAO::checkFieldExists( 'civicrm_phone', 'contact_id' ) ||
+                 ! CRM_Core_DAO::checkFieldExists( 'civicrm_phone', 'location_type_id' ) ||
+                 
+                 ! CRM_Core_DAO::checkFieldExists( 'civicrm_uf_match', 'uf_name' )
+                 ) {
+                // db looks to have stuck somewhere between 2.0 & 2.1
+                $errorMessage .= ' Few important fields were found missing in some of the tables.';
+                $is20db = false;
+            }
         }
+
+        if ( !$is20db ) {
+            // check if the db is 2.1
+            if  ( CRM_Core_DAO::checkTableExists( 'civicrm_cache' ) &&
+                  CRM_Core_DAO::checkFieldExists( 'civicrm_cache', 'group_name' ) &&
+                  CRM_Core_DAO::checkFieldExists( 'civicrm_cache', 'created_date' ) &&
+                  CRM_Core_DAO::checkFieldExists( 'civicrm_cache', 'expired_date' ) &&
+                  CRM_Core_DAO::checkTableExists( 'civicrm_group_contact_cache' ) &&
+                  CRM_Core_DAO::checkFieldExists( 'civicrm_group_contact_cache', 'contact_id' )&&
+                  CRM_Core_DAO::checkTableExists( 'civicrm_menu' ) &&
+                  CRM_Core_DAO::checkFieldExists( 'civicrm_menu', 'path_arguments' ) &&
+                  CRM_Core_DAO::checkFieldExists( 'civicrm_menu', 'is_exposed' ) &&
+                  CRM_Core_DAO::checkFieldExists( 'civicrm_menu', 'page_type' ) &&
+                  CRM_Core_DAO::checkTableExists( 'civicrm_discount' ) &&
+                  CRM_Core_DAO::checkFieldExists( 'civicrm_discount', 'option_group_id' ) &&
+                  CRM_Core_DAO::checkFieldExists( 'civicrm_discount', 'end_date' ) 
+                  ) {
+                $errorMessage =  ts('Database check failed - it looks like you have already upgraded to the latest version (v2.1) of the database.');
+            } 
+            return false;
+        }          
 
         // check tables which should not exist for v2.x
         if ( CRM_Core_DAO::checkTableExists( 'civicrm_custom_option' ) ||
