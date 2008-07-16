@@ -107,15 +107,15 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         //CiviPledge fields.
         $config =& CRM_Core_Config::singleton( );
         if ( in_array('CiviPledge', $config->enableComponents) ) {
-            $this->assign('CiviPledge', true );
+            $this->assign('civiPledge', true );
             require_once 'CRM/Core/OptionGroup.php';
             $this->addElement( 'checkbox', 'is_pledge_active', ts('Enable Pledges for this contribution page') , 
-                               null, array( 'onclick' => "pledgeBlock(this);" ) );
-            $this->addElement( 'checkbox', 'is_pledge_interval', ts('Allow Frequency Intervals') );
+                               null, array('onclick' => "return showHideByValue('is_pledge_active',true,'pledgeFields','table-row','radio',false);") );
             $this->addCheckBox( 'pledge_frequency_unit', ts( 'Supported pledge frequencies' ), 
                                 CRM_Core_OptionGroup::values( "recur_frequency_units", false, false, false, null, 'name' ),
                                 null, null, null, null,
                                 array( '&nbsp;&nbsp;', '&nbsp;&nbsp;', '&nbsp;&nbsp;', '<br/>' ));
+            $this->addElement( 'checkbox', 'is_pledge_interval', ts('Allow Frequency Intervals') );
             $this->addElement( 'text', 'initial_reminder_day', ts('Send Initial Reminder'), array('size'=>3) );
             $this->addElement( 'text', 'max_reminders', ts('Send up to'), array('size'=>3) );
             $this->addElement( 'text', 'additional_reminder_day', ts('Send additional reminders'), array('size'=>3) );
@@ -276,7 +276,8 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         $contributionPageID = $dao->id;
         
         //create pledge block.
-        if ( CRM_Utils_Array::value('is_pledge_active', $params )  && $contributionPageID ) {
+        if ( CRM_Utils_Array::value('is_pledge_active', $params )  && $contributionPageID &&
+             CRM_Utils_Array::value('amount_block_is_active', $params ) ) {
             $pledgeBlockParams = array( 'entity_id'    => $contributionPageID,
                                         'entity_table' => ts( 'civicrm_contribution_page' ) );
             if ( $this->_pledgeBlockID ) {
@@ -291,7 +292,9 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
             
             require_once 'CRM/Pledge/BAO/PledgeBlock.php';
             CRM_Pledge_BAO_PledgeBlock::create( $pledgeBlockParams );
-        } else if ( !CRM_Utils_Array::value('is_pledge_active', $params ) && $this->_pledgeBlockID ) {
+        } else if ( $this->_pledgeBlockID && 
+                    ( !CRM_Utils_Array::value('is_pledge_active', $params ) || 
+                      !CRM_Utils_Array::value('amount_block_is_active', $params ) ) ) { 
             //delete the pledge block.
             require_once 'CRM/Pledge/BAO/PledgeBlock.php';
             CRM_Pledge_BAO_PledgeBlock::deletePledgeBlock( $this->_pledgeBlockID );

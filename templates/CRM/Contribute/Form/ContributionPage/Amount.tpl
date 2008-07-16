@@ -31,33 +31,42 @@
                     <span class="description">{ts}Instructions added to Confirmation and Thank-you pages, as well as the confirmation email, when the user selects the 'pay later' option (e.g. 'Mail your check to ... within 3 business days.').{/ts}</span></td></tr>
             </table>
             </td></tr>
-	{if $CiviPledge}
-        <tr><th scope="row" class="label">{$form.is_pledge_active.label}</th>
-            <td>{$form.is_pledge_active.html}<br />
-            <span class="description">{ts}Check this box if you are using this contribution page for pledge.{/ts}</span></td>
-        </tr>
-        <tr id="pledgeFields"><td></td><td>
-            <table class="form-layout-compressed">
-                <tr><th scope="row" class="label">{$form.is_pledge_interval.label}</th>
-                <td>{$form.is_pledge_interval.html}</td></tr>
-                <tr><th scope="row" class="label">{$form.pledge_frequency_unit.label}<span class="marker"> *</span></th>
-                <td>{$form.pledge_frequency_unit.html}</td></tr>
-		<tr><th scope="row" class="label">{$form.initial_reminder_day.label}</th>
-                <td>{$form.initial_reminder_day.html}<br />
-		    <span class="description">{ts}Days prior to each scheduled payment due date.{/ts}</span></td></tr>
-		<tr><th scope="row" class="label">{$form.max_reminders.label}</th>
-                <td>{$form.max_reminders.html}<br />
-		    <span class="description">{ts}Reminders for each scheduled payment.{/ts}</span></td></tr>
-		<tr><th scope="row" class="label">{$form.additional_reminder_day.label}</th>
-                <td>{$form.additional_reminder_day.html}<br />	
-		    <span class="description">{ts}Days after the last one sent, up to the maximum number of reminders.{/ts}</span></td></tr>
-            </table>
-        </td></tr>
-	{/if}
+	
     </table>
 
     <div id="amountFields">
         <table class="form-layout-compressed">
+            {* handle CiviPledge fields *} 
+            {if $civiPledge}
+            <tr><th scope="row" class="label" width="20%"">{$form.is_pledge_active.label}</th>
+                <td>{$form.is_pledge_active.html}<br />
+                    <span class="description">{ts}Check this box if you are using this contribution page for pledge.{/ts}</span>
+                </td>
+            </tr>
+            <tr id="pledgeFields"><td></td><td>
+                <table class="form-layout-compressed">
+                  <tr><th scope="row" class="label">{$form.pledge_frequency_unit.label}<span class="marker"> *</span></th>
+                      <td>{$form.pledge_frequency_unit.html}</td>
+	          </tr>
+                  <tr><th scope="row" class="label">{$form.is_pledge_interval.label}</th>
+                      <td>{$form.is_pledge_interval.html}</td>
+                  </tr>
+		  <tr><th scope="row" class="label">{$form.initial_reminder_day.label}</th>
+                      <td>{$form.initial_reminder_day.html}<br />
+		          <span class="description">{ts}Days prior to each scheduled payment due date.{/ts}</span></td>
+                  </tr>
+		  <tr><th scope="row" class="label">{$form.max_reminders.label}</th>
+                      <td>{$form.max_reminders.html}<br />
+		          <span class="description">{ts}Reminders for each scheduled payment.{/ts}</span></td>
+                  </tr>
+		  <tr><th scope="row" class="label">{$form.additional_reminder_day.label}</th>
+                      <td>{$form.additional_reminder_day.html}<br />	
+		          <span class="description">{ts}Days after the last one sent, up to the maximum number of reminders.{/ts}</span></td>
+                  </tr>
+                </table>
+            </td></tr>
+	    {/if}
+
             {if $form.is_recur}
             <tr><th scope="row" class="label" width="20%">{$form.is_recur.label}</th>
                <td>{$form.is_recur.html}<br />
@@ -79,7 +88,6 @@
                 </td>
             </tr>
             {/if}    
-	
 	
             <tr><th scope="row" class="label" width="20%">{$form.is_allow_other_amount.label}</th>
             <td>{$form.is_allow_other_amount.html}<br />
@@ -131,12 +139,6 @@
 	    hide('payLaterFields', 'table-row');
         }
 	
-	var is_pledge_active = document.getElementsByName('is_pledge_active');
-        
-  	if ( ! is_pledge_active[0].checked) {
-            hide('pledgeFields', 'table-row');
-	} 
-	
 	function minMax(chkbox) {
            if (chkbox.checked) {
 	     show('minMaxFields', 'table-row');
@@ -150,9 +152,9 @@
 	function amountBlock(chkbox) {
            if (chkbox.checked) {
 	       show('amountFields', 'block');
-	   } else {
+           } else {
 	       hide('amountFields', 'block');
-	   }
+           }
         }
 	
 	function payLater(chkbox) {
@@ -160,14 +162,6 @@
 	       show('payLaterFields',  'table-row');
 	   } else {
 	       hide('payLaterFields',  'table-row');
-	   }
-        }
-		
-        function pledgeBlock(chkbox) {
-           if (chkbox.checked) {
-	      show('pledgeFields', 'table-row' );
-           } else {
-	      hide('pledgeFields', 'table-row' );
 	   }
         }
 </script>
@@ -182,3 +176,14 @@
     invert              = "false"
 }
 {/if}
+{if $civiPledge}
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    = "is_pledge_active"
+    trigger_value       = "true"
+    target_element_id   = "pledgeFields" 
+    target_element_type = "table-row"
+    field_type          = "radio"
+    invert              = "false"
+}
+{/if}
+
