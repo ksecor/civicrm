@@ -454,6 +454,7 @@ class CRM_Core_Payment_BaseIPN {
         }
 
         $template =& CRM_Core_Smarty::singleton( );
+        // CRM_Core_Error::debug('tpl',$template);
         //assign honor infomation to receiptmessage
         if ( $honarID = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_Contribution', $contribution->id, 'honor_contact_id' ) ) {
             $honorDefault = array( );
@@ -480,7 +481,6 @@ class CRM_Core_Payment_BaseIPN {
         require_once 'CRM/Contribute/DAO/ContributionProduct.php';
         $dao = & new CRM_Contribute_DAO_ContributionProduct();
         $dao->contribution_id =  $contribution->id;
-
         if ( $dao->find(true) ) {
             $premiumId = $dao->product_id;
             $template->assign('option',       $dao->product_option );
@@ -600,6 +600,7 @@ class CRM_Core_Payment_BaseIPN {
             if ( $contribution->is_test ) {
                 $isTest = true;
             }
+            // CRM_Core_Error::debug('val',$values);
 
             return CRM_Contribute_BAO_ContributionPage::sendMail( $ids['contact'], $values, $isTest, $returnMessageText );
         }

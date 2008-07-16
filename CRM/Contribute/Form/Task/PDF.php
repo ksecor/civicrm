@@ -158,6 +158,8 @@ AND    {$this->_componentClause}";
             $input['trxn_id']    = $contribution->trxn_id;
             $input['trxn_date']  = $contribution->trxn_date;
 
+            // CRM_Core_Error::debug('input',$input);
+
             $values = array( );
             $mail = $baseIPN->sendMail( $input, $ids, $objects, $values, false, true );
             $mail = str_replace( "\n\n", "<p>", $mail );
@@ -166,7 +168,7 @@ AND    {$this->_componentClause}";
             $message[] = $mail;
         }
         
-        // CRM_Core_Error::debug('msg',$message); exit();
+        CRM_Core_Error::debug('msg',$message); exit();
 
         require_once 'CRM/Utils/PDF/Utils.php';
         CRM_Utils_PDF_Utils::domlib( $message, "civicrmContributionReceipt.pdf" );
