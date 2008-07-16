@@ -94,7 +94,8 @@ class CRM_Core_BAO_File extends CRM_Core_DAO_File {
                                     $entityTable, $entityID,
                                     $entitySubtype, $overwrite = true,
                                     $fileParams = null,
-                                    $uploadName = 'uploadFile' ) {
+                                    $uploadName = 'uploadFile',
+                                    $mimeType   = null ) {
 
         require_once 'CRM/Core/DAO/File.php';
         $config = & CRM_Core_Config::singleton();
@@ -126,12 +127,15 @@ class CRM_Core_BAO_File extends CRM_Core_DAO_File {
 
         $dao =& CRM_Core_DAO::executeQuery( $sql, $params );
         $dao->fetch();
-       
-        $mimeType = $_FILES[$uploadName]['type'];
+
+        if ( ! $mimeType ) {
+            $mimeType = $_FILES[$uploadName]['type'];
+        }
         
         require_once "CRM/Core/DAO/File.php";
         $fileDAO =& new CRM_Core_DAO_File();
-        if ( $dao->cfID ) {
+        if ( isset( $dao->cfID ) &&
+             $dao->cfID ) {
             $fileDAO->id = $dao->cfID;
             unlink( $directoryName . DIRECTORY_SEPARATOR . $dao->uri );
         }
@@ -149,7 +153,8 @@ class CRM_Core_BAO_File extends CRM_Core_DAO_File {
         // need to add/update civicrm_entity_file
         require_once "CRM/Core/DAO/EntityFile.php";
         $entityFileDAO =& new CRM_Core_DAO_EntityFile();
-        if ($dao->cefID ) {
+        if ( isset( $dao->cefID ) &&
+             $dao->cefID ) {
             $entityFileDAO->id =  $dao->cefID;
         }
         $entityFileDAO->entity_table = $entityTable;
@@ -353,7 +358,8 @@ AND       CEF.entity_id    = %2";
                                       null,
                                       true,
                                       $params["attachFile_$i"],
-                                      "attachFile_$i" );
+                                      "attachFile_$i",
+                                      $params["attachFile_$i"]['type'] );
             }
         }
     }
