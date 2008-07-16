@@ -48,7 +48,7 @@ function clearAmountOther() {
     {/if}
     {if $pledgeBlock}
 	<td class="label nowrap">{$form.is_pledge_frequency_interval.label}</td>
-        <td>{$form.is_pledge_frequency_interval.html}&nbsp;&nbsp;{$form.pledge_frequency_interval.html}&nbsp;&nbsp;{$form.pledge_frequency_unit.html}&nbsp;&nbsp;{ts}for{/ts}&nbsp;&nbsp;{$form.pledge_installments.html}&nbsp;&nbsp;{ts}installments.{/ts}</td>
+        <td>{$form.is_pledge_frequency_interval.html}&nbsp;&nbsp;{if $is_pledge_interval}{$form.pledge_frequency_interval.html}&nbsp;&nbsp;{/if}{$form.pledge_frequency_unit.html}&nbsp;&nbsp;{ts}for{/ts}&nbsp;&nbsp;{$form.pledge_installments.html}&nbsp;&nbsp;{ts}installments.{/ts}</td>
     {/if}
     {if $form.is_pay_later}
         <tr><td class="label">&nbsp;</td><td>{$form.is_pay_later.html}&nbsp;{$form.is_pay_later.label}</td></tr>

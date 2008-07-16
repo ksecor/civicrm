@@ -40,7 +40,7 @@
             <table class="form-layout-compressed">
                 <tr><th scope="row" class="label">{$form.is_pledge_interval.label}</th>
                 <td>{$form.is_pledge_interval.html}</td></tr>
-                <tr id = "pledgeFrequencyUnit" ><th scope="row" class="label">{$form.pledge_frequency_unit.label}</th>
+                <tr><th scope="row" class="label">{$form.pledge_frequency_unit.label}<span class="marker"> *</span></th>
                 <td>{$form.pledge_frequency_unit.html}</td></tr>
 		<tr><th scope="row" class="label">{$form.initial_reminder_day.label}</th>
                 <td>{$form.initial_reminder_day.html}<br />
@@ -132,7 +132,7 @@
         }
 	
 	var is_pledge_active = document.getElementsByName('is_pledge_active');
-        var is_pledge_interval = document.getElementsByName('is_pledge_interval');
+        
   	if ( ! is_pledge_active[0].checked) {
             hide('pledgeFields', 'table-row');
 	} 
@@ -166,26 +166,8 @@
         function pledgeBlock(chkbox) {
            if (chkbox.checked) {
 	      show('pledgeFields', 'table-row' );
-	      return;
            } else {
 	      hide('pledgeFields', 'table-row' );
-              hide('pledgeFrequencyUnit', 'table-row');
-              is_pledge_interval[0].checked = false;
-    	      return;
-	   }
-        }
-                         
-  	if ( ! is_pledge_interval[0].checked ) {
-           hide('pledgeFrequencyUnit', 'table-row');
-	}
-        
-       	function showPledgeFrequencyUnit(chkbox) {
-           if (chkbox.checked) {
-	      show('pledgeFrequencyUnit', 'table-row' );
-	      return;
-           } else {
-	      hide('pledgeFrequencyUnit', 'table-row' );
-    	      return;
 	   }
         }
 </script>

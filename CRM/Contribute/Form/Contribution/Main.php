@@ -480,7 +480,6 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $dao =& new CRM_Pledge_DAO_PledgeBlock( );
         $dao->entity_table = 'civicrm_contribution_page';
         $dao->entity_id = $this->_id; 
-        $dao->is_pledge_interval = true;
         if ( $dao->find(true) ) {
             $pledgeBlockID = $dao->id;
             $pledgeBlock   = array();
@@ -490,6 +489,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         if ( $pledgeBlockID ) {
             $this->_values['pledge_block_id'] = $pledgeBlockID;
             $this->assign( 'pledgeBlock', true );
+            $this->assign( 'is_pledge_interval', CRM_Utils_Array::value( 'is_pledge_interval', $pledgeBlock ));
             $pledgeOptions = array( '0' => ts('I want to make a one-time contribution'), 
                                     '1' => ts('I pledge to contribute this amount every') );
             $this->addRadio( 'is_pledge_frequency_interval', ts('Pledge Frequency Interval'), $pledgeOptions,

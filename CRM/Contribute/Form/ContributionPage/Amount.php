@@ -111,8 +111,7 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
             require_once 'CRM/Core/OptionGroup.php';
             $this->addElement( 'checkbox', 'is_pledge_active', ts('Enable Pledges for this contribution page') , 
                                null, array( 'onclick' => "pledgeBlock(this);" ) );
-            $this->addElement( 'checkbox', 'is_pledge_interval', ts('Allow Frequency Intervals'),
-                               null, array( 'onclick' => "showPledgeFrequencyUnit(this);" ) );
+            $this->addElement( 'checkbox', 'is_pledge_interval', ts('Allow Frequency Intervals') );
             $this->addCheckBox( 'pledge_frequency_unit', ts( 'Supported pledge frequencies' ), 
                                 CRM_Core_OptionGroup::values( "recur_frequency_units", false, false, false, null, 'name' ),
                                 null, null, null, null,
@@ -203,9 +202,12 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         }        
         
         //validation for pledge fields.
-        if ( CRM_Utils_array::value( 'is_pledge_active', $fields )  && CRM_Utils_array::value( 'is_pledge_interval', $fields ) ) {
+        if ( CRM_Utils_array::value( 'is_pledge_active', $fields ) ) {
             if ( empty( $fields['pledge_frequency_unit'] ) ) {
                 $errors['pledge_frequency_unit'] = ts( 'Atleast one option needs to be checked.' );
+            }
+            if ( CRM_Utils_array::value( 'is_recur', $fields ) ) {
+                $errors['is_recur'] = ts( 'You can not enable both Recurring Contributions AND Pledges on the same online contribution page.' ); 
             }
         }
         
@@ -280,12 +282,12 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
             if ( $this->_pledgeBlockID ) {
                 $pledgeBlockParams['id'] = $this->_pledgeBlockID;
             }
-            $pledgeBlock = array( 'pledge_frequency_unit', 'is_pledge_interval', 'max_reminders', 
+            $pledgeBlock = array( 'pledge_frequency_unit', 'max_reminders', 
                                   'initial_reminder_day', 'additional_reminder_day' );
-            
             foreach ( $pledgeBlock  as $key ) {
                 $pledgeBlockParams[$key] = CRM_Utils_Array::value( $key, $params );    
             }
+            $pledgeBlockParams['is_pledge_interval'] = CRM_Utils_Array::value('is_pledge_interval', $params, false );
             
             require_once 'CRM/Pledge/BAO/PledgeBlock.php';
             CRM_Pledge_BAO_PledgeBlock::create( $pledgeBlockParams );
