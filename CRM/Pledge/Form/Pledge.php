@@ -434,7 +434,6 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
                          'frequency_unit',
                          'frequency_day',
                          'installments',
-                         'eachPaymentAmount',
                          'contribution_type_id',
                          'initial_reminder_day',
                          'max_reminders',
@@ -595,8 +594,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
     function assignToTemplate( $params ) 
     {
         //assign pledge fields.
-        $pledgeFields = array( 'create_date', 'amount', 'eachPaymentAmount', 'frequency_interval', 
-                               'frequency_unit', 'installments', 'frequency_day', );
+        $pledgeFields = array( 'create_date', 'amount', 'frequency_interval', 'frequency_unit', 'installments', 'frequency_day' );
         foreach ( $pledgeFields as $field ) {
             if ( CRM_Utils_Array::value( $field, $params ) ) {
                 $this->assign( $field, $params[$field] );
