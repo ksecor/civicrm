@@ -326,9 +326,16 @@ function getTable( $tableXML, &$database, &$tables ) {
                     'comment'    => value( 'comment', $tableXML ),
                     'log'        => value( 'log', $tableXML, 'false' ) );
     
+    $config  =& CRM_Core_Config::singleton( );
     $fields  = array( );
     foreach ( $tableXML->field as $fieldXML ) {
         if ( value( 'drop', $fieldXML, 0 ) > 0 and value( 'drop', $fieldXML, 0 ) <= $build_version) {
+            continue;
+        }
+        
+        // check if hrd field and hrd is enabled to include
+        if ( value( 'hrd', $fieldXML, 0 ) == 1 &&
+             ! $config->civiHRD ) {
             continue;
         }
         if ( value( 'add', $fieldXML, 0 ) <= $build_version) {
@@ -351,12 +358,19 @@ function getTable( $tableXML, &$database, &$tables ) {
         getPrimaryKey( $tableXML->primaryKey, $fields, $table );
     }
 
+    $config  =& CRM_Core_Config::singleton( );
     if ( value( 'index', $tableXML ) ) {
         $index   = array( );
         foreach ( $tableXML->index as $indexXML ) {
             if ( value( 'drop', $indexXML, 0 ) > 0 and value( 'drop', $indexXML, 0 ) <= $build_version) { 
                 continue; 
             } 
+
+            // check if hrd field and hrd is enabled to include
+            if ( value( 'hrd', $fieldXML, 0 ) == 1 &&
+                 ! $config->civiHRD ) {
+                continue;
+            }
 
             getIndex( $indexXML, $fields, $index );
         }

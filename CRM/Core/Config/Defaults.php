@@ -72,6 +72,9 @@ class CRM_Core_Config_Defaults
         // show tree widget
         $this->groupTree = defined( 'CIVICRM_GROUPTREE' ) ? true : false;
 
+        // in hrd mode?
+        $this->civiHRD   = defined( 'CIVICRM_HRD' ) ? true : false;
+
         // 
         $size = trim( ini_get( 'upload_max_filesize' ) );
         if ( $size ) {
