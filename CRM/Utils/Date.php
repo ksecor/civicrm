@@ -702,7 +702,7 @@ class CRM_Utils_Date
         if ( $includeToday ) {
             return ( $mysqlDate >= $now ) ? false : true;
         } else {
-            return ( $mysqlDate > $now ) ? true : false;
+            return ( $mysqlDate > $now ) ? false : true;
         }
     }
     

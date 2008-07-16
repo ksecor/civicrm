@@ -146,7 +146,7 @@ GROUP By  payment.id
             $onHold     = $contactDetails[$contactId]['on_hold'     ]; 
            
             // 2. send acknowledgement mail
-            if ( $toEmail && ! ( $doNotEmail || $onHold ) && CRM_Utils_Date::overdue( $details['scheduled_date'], null, false ) ) {
+            if ( $toEmail && ! ( $doNotEmail || $onHold ) && ! CRM_Utils_Date::overdue( $details['scheduled_date'], null, false ) ) {
                 
                 //assign value to template
                 $template->assign( 'amount_paid'            , $details['amount_paid'] );

@@ -250,7 +250,7 @@ WHERE pledge_id = %1
             //Keep Pledge and Pledge Payment statuses updated
             $overdueIDs = array( );
             foreach ( $allPayments as $key => $value ) {
-                if ( $value['status'] != 'Completed' && ! CRM_Utils_Date::overdue( $value['scheduled_date'], null, false ) ) {
+                if ( $value['status'] != 'Completed' && CRM_Utils_Date::overdue( $value['scheduled_date'], null, false ) ) {
                     $overdueIDs[] = $value['id'];
                 }
             }
