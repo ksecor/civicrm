@@ -62,7 +62,6 @@ class CRM_UpdatePledgeRecord
         unset ( $allStatus[1] );
         unset ( $allStatus[3] );
         unset ( $allStatus[4] );
-        
         $statusIds = implode(',', array_keys( $allStatus ) );
         
         $query = "
@@ -75,14 +74,19 @@ SELECT    pledge.contact_id              as contact_id,
           pledge.max_reminders           as max_reminders,
           pledge.initial_reminder_day    as initial_reminder_day,
           pledge.additional_reminder_day as additional_reminder_day,
-          SUM(payment.scheduled_amount)   as amount_due
+          SUM(payment.scheduled_amount)  as amount_due,
+          ( SELECT sum(civicrm_pledge_payment.scheduled_amount) 
+            FROM civicrm_pledge_payment 
+            WHERE civicrm_pledge_payment.status_id = 1
+                  AND  civicrm_pledge_payment.pledge_id = pledge.id
+          ) as amount_paid
 FROM      civicrm_pledge pledge, civicrm_pledge_payment payment 
 WHERE     pledge.id = payment.pledge_id
-  AND  payment.status_id IN ( {$statusIds} )
+  AND     payment.status_id IN ( {$statusIds} )
   AND     payment.reminder_count < pledge.max_reminders
   AND     ( 
-              (  payment.reminder_date IS NULL AND 
-                 DATE_SUB( payment.scheduled_date , INTERVAL '-'+pledge.initial_reminder_day DAY )  <= CURRENT_TIMESTAMP ) 
+              ( payment.reminder_date IS NULL AND 
+                DATE_SUB( payment.scheduled_date , INTERVAL '-'+pledge.initial_reminder_day DAY )  <= CURRENT_TIMESTAMP ) 
            OR  
               ( DATE_ADD( payment.reminder_date , INTERVAL '+'+pledge.additional_reminder_day DAY ) <= CURRENT_TIMESTAMP ) 
            )
@@ -95,10 +99,12 @@ GROUP By  payment.id
             $pledgeDetails[$dao->payment_id] = array( 'scheduled_date' => $dao->scheduled_date,
                                                       'amount_due'     => $dao->amount_due,
                                                       'amount'         => $dao->amount,
+                                                      'amount_paid'    => $dao->amount_paid,
                                                       'create_date'    => $dao->create_date,
                                                       'contact_id'     => $dao->contact_id,
                                                       'pledge_id'      => $dao->pledge_id
-                                                      ); 
+                                                      );
+
             $contactIds[$dao->contact_id] = $dao->contact_id;
         }
         
@@ -130,7 +136,7 @@ GROUP By  payment.id
         // process the updating script...
         foreach ( $pledgeDetails as $paymentId => $details ) {
             echo ".";
-
+                              
             // 1. update the pledge /pledge payment status
             CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $details['pledge_id'] );
                       
@@ -138,12 +144,12 @@ GROUP By  payment.id
             $toEmail    = $contactDetails[$contactId]['email'       ]; 
             $doNotEmail = $contactDetails[$contactId]['do_not_email']; 
             $onHold     = $contactDetails[$contactId]['on_hold'     ]; 
-
+           
             // 2. send acknowledgement mail
-            if ( $toEmail && ! ( $doNotEmail || $onHold ) && CRM_Utils_Date::overdue( $value['scheduled_date'], false ) ) {
+            if ( $toEmail && ! ( $doNotEmail || $onHold ) && CRM_Utils_Date::overdue( $details['scheduled_date'], null, false ) ) {
+                
                 //assign value to template
-                $amountPaid = $dao->amount - $dao->amount_due;
-                $template->assign( 'amount_paid'            , $amountPaid );   
+                $template->assign( 'amount_paid'            , $details['amount_paid'] );
                 $template->assign( 'contact'                , $contactDetails[$contactId] );
                 $template->assign( 'next_payment'           , $details['scheduled_date'] );
                 $template->assign( 'amount_due'             , $details['amount_due'] );
