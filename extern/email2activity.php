@@ -45,7 +45,7 @@ function run( ) {
     // this does not return on failure
     CRM_Utils_System::authenticateScript( true );
 
-    $file = "/Users/lobo/public_html/drupal6/files/civicrm/upload/mail/bd8aade53709135070f525ca0e929e74.txt";
+    $file = "/Users/lobo/public_html/drupal6/files/civicrm/upload/lobo3.txt";
     process( $file );
     return;
 
@@ -80,6 +80,12 @@ function process( &$file ) {
     $params['subject']            = $result['subject'];
     $params['activity_date_time'] = $result['date'];
     $params['details']            = $result['body'];
+
+    for ( $i = 1; $i <= 5; $i++ ) {
+        if ( isset( $result["attachFile_$i"] ) ) {
+            $params["attachFile_$i"] = $result["attachFile_$i"];
+        }
+    }
 
     // create activity
     require_once 'api/v2/Activity.php';

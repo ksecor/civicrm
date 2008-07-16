@@ -35,7 +35,7 @@
 
 class CRM_Utils_Mail_Incoming {
 
-    function formatMail( $mail ) {
+    function formatMail( $mail, &$attachments ) {
         $t = '';
         $t .= "From:      ". formatAddress( $mail->from ). "\n";
         $t .= "To:        ". formatAddresses( $mail->to ). "\n";
@@ -45,122 +45,120 @@ class CRM_Utils_Mail_Incoming {
         $t .= 'Subject:   '. $mail->subject . "\n";
         $t .= "MessageId: ". $mail->messageId . "\n";
         $t .= "\n";
-        $t .= self::formatMailPart( $mail->body );
+        $t .= self::formatMailPart( $mail->body, $attachments );
         return $t;
     }
 
-    function formatMailPart( $part ) {
+    function formatMailPart( $part, &$attachments ) {
 
         if ( $part instanceof ezcMail ) {
-            return self::formatMail( $part );
+            return self::formatMail( $part, $attachments );
         }
 
         if ( $part instanceof ezcMailText ) {
-            return self::formatMailText( $part );
+            return self::formatMailText( $part, $attachments );
         }
 
         if ( $part instanceof ezcMailFile ) {
-            return self::formatMailFile( $part );
+            return self::formatMailFile( $part, $attachments );
         }
 
         if ( $part instanceof ezcMailRfc822Digest ) {
-            return self::formatMailRfc822Digest( $part );
+            return self::formatMailRfc822Digest( $part, $attachments );
         }
 
         if ( $part instanceof ezcMailMultiPart ) {
-            return self::formatMailMultipart( $part );
+            return self::formatMailMultipart( $part, $attachments );
         }
 
         CRM_Core_Error::fatal( ts( "No clue about the %1",
                                    array( 1 => get_class( $part ) ) ) );
     }
 
-    function formatMailMultipart( $part ) {
+    function formatMailMultipart( $part, &$attachments ) {
 
         if ( $part instanceof ezcMailMultiPartAlternative ) {
-            return self::formatMailMultipartAlternative( $part );
+            return self::formatMailMultipartAlternative( $part, $attachments );
         }
 
         if ( $part instanceof ezcMailMultiPartDigest ) {
-            return self::formatMailMultipartDigest( $part );
+            return self::formatMailMultipartDigest( $part, $attachments );
         }
 
         if ( $part instanceof ezcMailMultiPartRelated ) {
-            return self::formatMailMultipartRelated( $part );
+            return self::formatMailMultipartRelated( $part, $attachments );
         }
 
         if ( $part instanceof ezcMailMultiPartMixed ) {
-            return self::formatMailMultipartMixed( $part );
+            return self::formatMailMultipartMixed( $part, $attachments );
         }
 
         CRM_Core_Error::fatal( ts( "No clue about the %1",
                                    array( 1 => get_class( $part ) ) ) );
     }
 
-    function formatMailMultipartMixed( $part ) {
+    function formatMailMultipartMixed( $part, &$attachments ) {
         $t = '';
         foreach ( $part->getParts() as $key => $alternativePart ) {
-            $t .= self::formatMailPart( $alternativePart );
+            $t .= self::formatMailPart( $alternativePart, $attachments );
         }
         return $t;
     }
 
-    function formatMailMultipartRelated( $part ) {
+    function formatMailMultipartRelated( $part, &$attachments ) {
         $t = '';
         $t .= "-RELATED MAIN PART-\n";
-        $t .= self::formatMailPart( $part->getMainPart() );
+        $t .= self::formatMailPart( $part->getMainPart(), $attachments );
         foreach ( $part->getRelatedParts() as $key => $alternativePart ) {
             $t .= "-RELATED PART $key-\n";
-            $t .= self::formatMailPart( $alternativePart );
+            $t .= self::formatMailPart( $alternativePart, $attachments );
         }
         $t .= "-RELATED END-\n";
         return $t;
     }
 
-    function formatMailMultipartDigest( $part ) {
+    function formatMailMultipartDigest( $part, &$attachments ) {
         $t = '';
         foreach ( $part->getParts() as $key => $alternativePart ) {
             $t .= "-DIGEST-$key-\n";
-            $t .= self::formatMailPart( $alternativePart );
+            $t .= self::formatMailPart( $alternativePart, $attachments );
         }
         $t .= "-DIGEST END---\n";
         return $t;
     }
 
-    function formatMailRfc822Digest( $part ) {
+    function formatMailRfc822Digest( $part, &$attachments ) {
         $t = '';
         $t .= "-DIGEST-ITEM-$key-\n";
         $t .= "Item:\n\n";
-        $t .= self::formatMailpart( $part->mail );
+        $t .= self::formatMailpart( $part->mail, $attachments );
         $t .= "-DIGEST ITEM END-\n";
         return $t;
     }
 
-    function formatMailMultipartAlternative( $part ) {
+    function formatMailMultipartAlternative( $part, &$attachments ) {
         $t = '';
         foreach ( $part->getParts() as $key => $alternativePart ) {
             $t .= "-ALTERNATIVE ITEM $key-\n";
-            $t .= self::formatMailPart( $alternativePart );
+            $t .= self::formatMailPart( $alternativePart, $attachments );
         }
         $t .= "-ALTERNATIVE END-\n";
         return $t;
     }
 
-    function formatMailText( $part ) {
+    function formatMailText( $part, &$attachments ) {
         $t = '';
         $t .= "\n{$part->text}\n";
         return $t;
     }
 
-    function formatMailFile( $part ) {
-        $t = '';
-        $t .= "Disposition Type: {$part->dispositionType}\n";
-        $t .= "Content Type:     {$part->contentType}\n";
-        $t .= "Mime Type:        {$part->mimeType}\n";
-        $t .= "Content ID:       {$part->contentId}\n";
-        $t .= "Filename:         {$part->fileName}\n";
-        $t .= "\n";
-        return $t;
+    function formatMailFile( $part, &$attachments ) {
+        $attachments[] = array( 'dispositionType' => $part->dispositionType,
+                                'contentType'     => $part->contentType,
+                                'mimeType'        => $part->mimeType,
+                                'contentID'       => $part->contentId,
+                                'fullName'        => $part->fileName );
+        return null;
     }
 
     function formatAddresses( $addresses ) {
@@ -227,10 +225,32 @@ class CRM_Utils_Mail_Incoming {
         $params['subject'] = $mail[0]->subject;
         $params['date']    = date( "YmdHi00",
                                    strtotime( $mail[0]->getHeader( "Date" ) ) );
-        $params['body']    = self::formatMailPart( $mail[0]->body );
+        $attachments       = array( );
+        $params['body']    = self::formatMailPart( $mail[0]->body, $attachments );
 
-        CRM_Core_Error::debug( $params );
-        exit( );
+        // format and move attachments to the civicrm area
+        if ( ! empty( $attachments ) ) {
+            require_once 'CRM/Utils/File.php';
+            $date   =  date( 'Ymdhis' );
+            $config =& CRM_Core_Config::singleton( );
+            for ( $i = 0; $i < count( $attachments ); $i++ ) {
+                $attachNum = $i + 1;
+                $fileName = basename( $attachments[$i]['fullName'] );
+                $newName = CRM_Utils_File::makeFileName( $fileName );
+                $location = $config->uploadDir . $newName;
+
+                // move file to the civicrm upload directory
+                rename( $attachments[$i]['fullName'], $location );
+
+                $mimeType = "{$attachments[$i]['contentType']}/{$attachments[$i]['mimeType']}";
+
+                $params["attachFile_$attachNum"] = array( 'uri'         => $fileName,
+                                                          'type'        => $mimeType,
+                                                          'upload_date' => $date,
+                                                          'location'    => $location );
+            }
+        }
+
         return $params;
     }
 
