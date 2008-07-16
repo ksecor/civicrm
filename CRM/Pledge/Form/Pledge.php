@@ -123,10 +123,9 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             //get the contribution id
             $this->_contributionID = CRM_Core_DAO::getFieldValue( 'CRM_Pledge_DAO_Payment',
                                                                   $this->_id, 'contribution_id', 'pledge_id' );
-            $ids    = array( );
             $params = array( 'id' => $this->_id );
             require_once "CRM/Pledge/BAO/Pledge.php";
-            CRM_Pledge_BAO_Pledge::getValues( $params, $this->_values, $ids );
+            CRM_Pledge_BAO_Pledge::getValues( $params, $this->_values );
         }
         
 //         // when custom data is included in this page

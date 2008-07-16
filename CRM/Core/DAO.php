@@ -733,16 +733,24 @@ FROM   civicrm_domain
      * @param string $daoName  name of the dao object
      * @param array  $params   (reference ) an assoc array of name/value pairs
      * @param array  $defaults (reference ) an assoc array to hold the flattened values
+     * @param array  $returnProperities     an assoc array of fields that need to be returned, eg array( 'first_name', 'last_name')
      *
      * @return object an object of type referenced by daoName
      * @access public
      * @static
      */
-    static function commonRetrieve($daoName, &$params, &$defaults)
+    static function commonRetrieve($daoName, &$params, &$defaults, $returnProperities = null )
     {
         require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
         eval( '$object =& new ' . $daoName . '( );' );
         $object->copyValues($params);
+        
+        // return only specific fields if returnproperties are sent
+        if ( !empty( $returnProperities ) ) {
+            $object->selectAdd( );
+            $object->selectAdd( implode( ',' , $returnProperities ) );
+        }
+
         if ( $object->find( true ) ) {
             self::storeValues( $object, $defaults);
             return $object;

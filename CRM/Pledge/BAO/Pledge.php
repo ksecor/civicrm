@@ -110,24 +110,16 @@ class CRM_Pledge_BAO_Pledge extends CRM_Pledge_DAO_Pledge
      *
      * @param array $params input parameters to find object
      * @param array $values output values of the object
-     * @param array $ids    the array that holds all the db ids
+     * @param array $returnProperties  if you want to return specific fields
      *
-     * @return CRM_Pledge_BAO_Pledge|null the found object or null
+     * @return array associated array of field values
      * @access public
      * @static
      */
-    static function &getValues( &$params, &$values, &$ids ) 
+    static function &getValues( &$params, &$values, $returnProperties = null ) 
     {
-        $pledge =& new CRM_Pledge_BAO_Pledge( );
-        $pledge->copyValues( $params );
-        
-        if ( $pledge->find(true) ) {
-            $ids['pledge'] = $pledge->id;
-            CRM_Core_DAO::storeValues( $pledge, $values );
-            return $pledge;
-        }
-        
-        return null;
+        CRM_Core_DAO::commonRetrieve('CRM_Pledge_BAO_Pledge', $params, $values, $returnProperties );
+        return $values;
     }
     
     /**
