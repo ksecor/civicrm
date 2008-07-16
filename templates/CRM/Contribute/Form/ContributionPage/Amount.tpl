@@ -9,11 +9,23 @@
  
 <div class="form-item">
     <fieldset><legend>{ts}Contribution Amounts{/ts}</legend>
+    {if !$paymentProcessor}
+        {capture assign=ppUrl}{crmURL p='civicrm/admin/paymentProcessor' q="reset=1"}{/capture}
+        <div class="status message">
+                {ts 1=$ppUrl 2=$docURLTitle 3="http://wiki.civicrm.org/confluence//x/ihk"}No Payment Processor has been configured / enabled for your site. Unless you are only using CiviContribute to solicit non-monetary / in-kind contributions, you will need to <a href='%1'>configure a Payment Processor</a>. Then return to this screen and assign the processor to this Contribution Page. (<a href='%3' target='_blank' title='%2'>read more...</a>){/ts}
+        </div>
+    {/if}
     <table class="form-layout-compressed">  
         <tr><th scope="row" class="label" width="20%">{$form.is_monetary.label}</th>
             <td>{$form.is_monetary.html}<br />
             <span class="description">{ts}Uncheck this box if you are using this contribution page for free membership signup ONLY, or to solicit in-kind / non-monetary donations such as furniture, equipment.. etc.{/ts}</span></td>
         </tr>
+        {if $paymentProcessor}
+	<tr><th scope="row" class="label" width="20%">{$form.payment_processor_id.label}</th>
+            <td>{$form.payment_processor_id.html}<br />
+            <span class="description">{ts 1="http://wiki.civicrm.org/confluence//x/ihk" 2=$docURLTitle}Select the payment processor to be used for contributions submitted from this contribution page (unless you are soliciting non-monetary / in-kind contributions only). (<a href='%1' target='_blank' title='%2'>read more...</a>){/ts}</span></td>
+        </tr>
+        {/if}
         <tr><th scope="row" class="label">{$form.amount_block_is_active.label}</th>
             <td>{$form.amount_block_is_active.html}<br />
             <span class="description">{ts}Uncheck this box if you are using this contribution page for membership signup and renewal only - and you do NOT want users to select or enter any additional contribution amounts.{/ts}</span></td>

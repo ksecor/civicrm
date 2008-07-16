@@ -80,6 +80,13 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
 
         $this->addElement('checkbox', 'is_monetary', ts('Execute real-time monetary transactions') );
         
+        $paymentProcessor =& CRM_Core_PseudoConstant::paymentProcessor( );
+        if ( count($paymentProcessor) ) {
+            $this->assign('paymentProcessor',$paymentProcessor);
+        }
+        $this->add( 'select', 'payment_processor_id', ts( 'Payment Processor' ),
+                    array(''=>ts( '- select -' )) + $paymentProcessor );
+        
         require_once "CRM/Contribute/BAO/ContributionPage.php";
         
         //check if selected payment processor supports recurring payment
