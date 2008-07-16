@@ -101,6 +101,14 @@ class CRM_Pledge_BAO_Query
             $query->_select['pledge_next_pay_amount']  = " (SELECT civicrm_pledge_payment.scheduled_amount FROM civicrm_pledge_payment WHERE civicrm_pledge_payment.pledge_id = civicrm_pledge.id AND civicrm_pledge_payment.status_id = 2 ORDER BY civicrm_pledge_payment.scheduled_date ASC LIMIT 0, 1) as pledge_next_pay_amount";
             $query->_element['pledge_next_pay_amount'] = 1;
         }
+        
+        if ( CRM_Utils_Array::value( 'pledge_contribution_page_id', $query->_returnProperties ) ) {
+            $query->_select['contribution_page_id']  = "civicrm_pledge.contribution_page_id as pledge_contribution_page_id";
+            $query->_element['pledge_contribution_page_id'] = 1;
+            $query->_tables['civicrm_pledge'] = 1;
+            $query->_whereTables['civicrm_pledge'] = 1;
+        }
+        
     }
     
     static function where( &$query ) 
@@ -350,7 +358,8 @@ class CRM_Pledge_BAO_Query
                                 'pledge_next_pay_amount'        => 1,
                                 'pledge_status_id'              => 1,
                                 'pledge_payment_status_id'      => 1,
-                                'pledge_is_test'                => 1
+                                'pledge_is_test'                => 1,
+                                'pledge_contribution_page_id'   => 1
                                 );
         }
         return $properties;

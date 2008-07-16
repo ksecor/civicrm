@@ -66,11 +66,10 @@ class CRM_Pledge_Info extends CRM_Core_Component_Info
     // docs inherited from interface
     public function getUserDashboardElement()
     {
-        return null;
-        //array( 'name'    => ts( 'Pledges' ),
-        //              'title'   => ts( 'Your Pledge(s)' ),
-        //              'perm'    => array( 'make online pledges' ),
-        //              'weight'  => 15 );
+        return array( 'name'    => ts( 'Pledges' ),
+                      'title'   => ts( 'Your Pledge(s)' ),
+                      'perm'    => array( 'make online pledges' ),
+                      'weight'  => 15 );
     }
 
     // docs inherited from interface  

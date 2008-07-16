@@ -490,6 +490,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             $this->_values['pledge_block_id'] = $pledgeBlockID;
             $this->assign( 'pledgeBlock', true );
             $this->assign( 'is_pledge_interval', CRM_Utils_Array::value( 'is_pledge_interval', $pledgeBlock ));
+            $this->_values['is_pledge_interval'] = CRM_Utils_Array::value( 'is_pledge_interval', $pledgeBlock );
             $pledgeOptions = array( '0' => ts('I want to make a one-time contribution'), 
                                     '1' => ts('I pledge to contribute this amount every') );
             $this->addRadio( 'is_pledge_frequency_interval', ts('Pledge Frequency Interval'), $pledgeOptions,
@@ -654,7 +655,8 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                 }
                 
                 //validation for Pledge Frequency Interval.
-                if ( !is_numeric( $fields['pledge_frequency_interval'] ) ) {
+                if ( !is_numeric( $fields['pledge_frequency_interval'] )  && 
+                     CRM_Utils_array::value( 'is_pledge_interval', $self->_values ) ) {
                     if ( !empty( $fields['pledge_frequency_interval'] ) ) {
                         //Frequency Interval should be numeric.
                         $errors['pledge_frequency_interval'] = ts("Please enter a valid Pledge Frequency Interval.");   
