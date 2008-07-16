@@ -985,7 +985,7 @@ SELECT $select
                         CRM_Core_BAO_File::filePostProcess($v, 
                                                            $groupTree[$groupId]['fields'][$fieldId]['customValue']['fid'], 
                                                            $groupTree[$groupId]['table_name'],
-                                                           $entityId[1],
+                                                           trim( $entityId[1] ),
                                                            false,
                                                            true,
                                                            $fileParams,

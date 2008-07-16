@@ -1136,6 +1136,7 @@ SELECT id
             require_once 'CRM/Core/DAO/File.php';
             $config = & CRM_Core_Config::singleton();
 
+            CRM_Core_Error::backtrace( $value );
             $fName    = $value['name']; 
             $mimeType = $value['type']; 
 
