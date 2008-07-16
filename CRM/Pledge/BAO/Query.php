@@ -103,7 +103,7 @@ class CRM_Pledge_BAO_Query
         }
         
         if ( CRM_Utils_Array::value( 'pledge_contribution_page_id', $query->_returnProperties ) ) {
-            $query->_select['contribution_page_id']  = "civicrm_pledge.contribution_page_id as pledge_contribution_page_id";
+            $query->_select['pledge_contribution_page_id']  = "civicrm_pledge.contribution_page_id as pledge_contribution_page_id";
             $query->_element['pledge_contribution_page_id'] = 1;
             $query->_tables['civicrm_pledge'] = 1;
             $query->_whereTables['civicrm_pledge'] = 1;
