@@ -87,9 +87,6 @@ WHERE pledge_id = %1
 
     static function create( $params )
     { 
-        require_once 'CRM/Pledge/DAO/Payment.php';
-        $payment =& new CRM_Pledge_DAO_Payment( );
-        $isEdit = CRM_Core_DAO::getFieldValue( 'CRM_Pledge_BAO_Payment', $params['pledge_id'], 'id', 'pledge_id'); 
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
 
@@ -103,7 +100,7 @@ WHERE pledge_id = %1
                 if ( $params['frequency_unit'] == 'year' ) {
                     $params['scheduled_date']['M'] = 1;
                 }   
-            }else if ( $params['frequency_unit'] == 'week' ) {
+            } else if ( $params['frequency_unit'] == 'week' ) {
 
                 //for week calculate day of week ie. Sunday,Monday etc. as next payment date
                 $dayOfWeek = date('w',mktime(0, 0, 0, $params['scheduled_date']['M'], $params['scheduled_date']['d'], $params['scheduled_date']['Y'] ));
@@ -118,28 +115,23 @@ WHERE pledge_id = %1
             }
         } 
 
-        if ( !$isEdit ) {
-            $scheduled_date =  $params['scheduled_date'];
-            $params['scheduled_amount'] = ceil($params['scheduled_amount']);
-            for ( $i = 1; $i <= $params['installments']; $i++ ) {
-                //calculate the scheduled amount for every installment
-                $params['scheduled_date'] =  CRM_Utils_Date::format(CRM_Utils_Date::intervalAdd( $params['frequency_unit'], $i, $scheduled_date ));
-                
-                if ( $i == $params['installments'] ) {
-                    $params['scheduled_amount'] = $params['amount'] - ($i-1) * $params['scheduled_amount'];
-                }
-                
-                $payment = self::add( $params );
-                if ( is_a( $payment, 'CRM_Core_Error') ) {
-                    $transaction->rollback( );
-                    return $payment;
-                }
+        $prevScheduledDate =  $params['scheduled_date'];
+        $params['scheduled_amount'] = ceil($params['scheduled_amount']);
+        for ( $i = 1; $i <= $params['installments']; $i++ ) {
+            //calculate the scheduled amount for every installment
+            $params['scheduled_date'] =  CRM_Utils_Date::format(CRM_Utils_Date::intervalAdd( $params['frequency_unit'], $i, $prevScheduledDate ));
+            
+            if ( $i == $params['installments'] ) {
+                $params['scheduled_amount'] = $params['amount'] - ($i-1) * $params['scheduled_amount'];
             }
-        } else {
-            if ( $params['pledge_status_id'] == array_search( 'Cancelled', CRM_Contribute_PseudoConstant::contributionStatus() ) ) { 
-                self::updatePledgePaymentStatus( $params['pledge_id'], null, $params['pledge_status_id'] );
+            
+            $payment = self::add( $params );
+            if ( is_a( $payment, 'CRM_Core_Error') ) {
+                $transaction->rollback( );
+                return $payment;
             }
         }
+
         $transaction->commit( );
                
         return $payment;

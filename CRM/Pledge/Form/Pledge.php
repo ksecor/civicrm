@@ -466,18 +466,16 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
                 $params[$d] = 'null';
             }
         }
+
         if ( $formValues['is_acknowledge'] ) {
             $params['acknowledge_date'] = date("Y-m-d");
         }
-        if ( $params["status_id"] == 3 ) {
-            if ( CRM_Utils_System::isNull( CRM_Utils_Array::value( 'cancel_date', $params ) ) ) {
-                $params['cancel_date'] = date("Y-m-d");
-            }
-        } else { 
-            $params['cancel_date']   = 'null';
-        }
         
-        $params['id'] = $this->_id;
+        // assign id only in update mode
+        if ( $this->_action & CRM_Core_Action::UPDATE ) { 
+            $params['id'] = $this->_id;
+        }
+
         $params['contact_id'] = $this->_contactID;
         
         //handle Honoree contact.
@@ -496,7 +494,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         require_once 'CRM/Pledge/BAO/Pledge.php';
         $pledge =& CRM_Pledge_BAO_Pledge::create( $params ); 
         $this->_id = $pledge->id;
-        
+
         //handle Acknowledgment.
         if ( CRM_Utils_Array::value( 'is_acknowledge', $formValues ) ) {
             self::sendAcknowledgment( $params, $pledge );

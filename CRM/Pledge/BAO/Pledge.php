@@ -159,11 +159,14 @@ class CRM_Pledge_BAO_Pledge extends CRM_Pledge_DAO_Pledge
             return $pledge;
         }
         
-        $params['id'] = $pledge->id;
-        
+        // skip payment stuff inedit mode
+        if ( isset( $params['id'] ) ) {
+            return;
+        }
+
         //building payment params
         $paymentParams = array( );
-        $paymentParams['pledge_id'] = $params['id'];
+        $paymentParams['pledge_id'       ] = $pledge->id;
         $paymentParams['pledge_status_id'] = $params['status_id'];
         foreach (array('amount', 'installments', 'scheduled_date', 'frequency_unit', 'frequency_day') as $key) {
             $paymentParams[$key] = $params[$key];
