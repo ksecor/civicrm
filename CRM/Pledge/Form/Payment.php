@@ -124,17 +124,29 @@ class CRM_Pledge_Form_Payment extends CRM_Core_Form
     {
         //get the submitted form values.  
         $formValues = $this->controller->exportValues( $this->_name );
-        
+        $params = array( );
         $formValues['scheduled_date']['H'] = '00';
         $formValues['scheduled_date']['i'] = '00';
         $formValues['scheduled_date']['s'] = '00';
         $params['scheduled_date'] = CRM_Utils_Date::format( $formValues['scheduled_date'] );
-        
+        if ( CRM_Utils_Date::overdue( $params['scheduled_date'], null, false ) ){
+            $params['status_id'] =  array_search( 'Overdue', CRM_Contribute_PseudoConstant::contributionStatus( )); 
+        } else {
+            $params['status_id'] =  array_search( 'Pending', CRM_Contribute_PseudoConstant::contributionStatus( )); 
+        } 
+
         $params['id'] = $this->_id;
-        
+               
         require_once 'CRM/Pledge/BAO/Payment.php';
         CRM_Pledge_BAO_Payment::add( $params );
-        
+        if ( CRM_Utils_Date::overdue( $params['scheduled_date'], null, false ) ){
+            require_once 'CRM/Core/DAO.php';
+            $pledgeId = CRM_Core_DAO::getFieldValue( 'CRM_Pledge_DAO_Payment', $params['id'], 'pledge_id' );
+            if ( $pledgeId ) {
+                CRM_Core_DAO::setFieldValue( 'CRM_Pledge_DAO_Pledge', $pledgeId,
+                                             'status_id', array_search( 'Overdue', CRM_Contribute_PseudoConstant::contributionStatus( )) );
+            }
+        }
         $statusMsg = ts('Pledge Payment Schedule has been updated.<br />');
         CRM_Core_Session::setStatus( $statusMsg );
     }

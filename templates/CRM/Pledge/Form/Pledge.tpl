@@ -49,8 +49,10 @@
             {/if}<br />
             <span class="description">{ts}Date of first pledge payment.{/ts}</span></td></tr>
         {if $email}
+        {if $form.is_acknowledge }
             <tr><td class="label">{$form.is_acknowledge.label}</td><td>{$form.is_acknowledge.html}<br />
                 <span class="description">{ts}Automatically email an acknowledgment of this pledge to {$email}?{/ts}</span></td></tr>
+        {/if}
         {/if}
         <tr id="acknowledgeDate"><td class="label">{$form.acknowledge_date.label}</td><td>{$form.acknowledge_date.html}
             {include file="CRM/common/calendar/desc.tpl" trigger=trigger_pledge_3}
@@ -58,15 +60,11 @@
             <span class="description">{ts}Date when an acknowledgment of the pledge was sent.{/ts}</span></td></tr>
         <tr><td class="label">{$form.contribution_type_id.label}</td><td>{$form.contribution_type_id.html}<br />
             <span class="description">{ts}Sets the default contribution type for payments against this pledge.{/ts}</span></td></tr>
-        <tr><td class="label">{$form.status_id.label}</td><td>{$form.status_id.html}<br />
+            <tr><td class="label">{ts}Pledge Status{/ts}</td><td class="form-layout">{$status}<br />
             <span class="description">{ts}If payments are received on time, pledges remain in "In Progress" status until all scheduled payment are completed. Overdue pledges are ones with payment(s) past due.{/ts}</span></td></tr>
-        {* Cancellation fields are hidden unless contribution status is set to Cancelled *}
-        <tr id="cancelDate"><td class="label">{$form.cancel_date.label}</td><td>{$form.cancel_date.html}
-             {include file="CRM/common/calendar/desc.tpl" trigger=trigger_pledge_4}
-             {include file="CRM/common/calendar/body.tpl" dateVar=cancel_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_pledge_4}
-        </td></tr>
-        {/if}
-      </table>
+
+       {/if}      
+       </table>
       <div id="customData"></div>
     {*include custom data js file*}
     {* include file="CRM/common/customData.tpl" *}
@@ -83,15 +81,11 @@
           }
         }
      }
-     function status() {
-       document.getElementById("cancel_date[M]").value = "";
-       document.getElementById("cancel_date[d]").value = "";
-       document.getElementById("cancel_date[Y]").value = "";
-     }
+   
      function calculatedPaymentAmount( ) {
        var amount = document.getElementById("amount").value;
        var installments = document.getElementById("installments").value;
-       if ( installments != '' ) { 
+       if ( installments != '' && installments != NaN) { 
           document.getElementById("eachPaymentAmount").value = (amount/installments);
        }   
      }
@@ -128,13 +122,5 @@
     invert              = 1
 }
 {/if}
-{include file="CRM/common/showHideByFieldValue.tpl" 
-    trigger_field_id    ="status_id"
-    trigger_value       = '3'
-    target_element_id   ="cancelDate" 
-    target_element_type ="table-row"
-    field_type          ="select"
-    invert              = 0
-}
 {/if}
 {* closing of main dojo pane if*}

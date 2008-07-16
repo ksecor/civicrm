@@ -185,10 +185,10 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base
      * @access public
      *
      */
-    static function &links()
+    static function &links( $showCancel )
     {
-        if (!(self::$_links)) {
-            $cancelExtra = ts('Are you sure you want to cancel this pledge?');
+        if (!(self::$_links) || $showCancel ) {
+            $cancelExtra = ts('Cancelling this pledge will also cancel related payment records( not completed). This action can not be undone.Do you want to continue?');
             self::$_links = array(
                                   CRM_Core_Action::VIEW   => array(
                                                                    'name'     => ts('View'),
@@ -215,7 +215,11 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base
                                                                    'qs'       => 'reset=1&action=delete&id=%%id%%&cid=%%cid%%&context=%%cxt%%',
                                                                    'title'    => ts('Delete Pledge'),
                                                                    ),
-                                  );
+                                  ); 
+        }
+        
+        if ( !$showCancel ) {
+            unset( self::$_links[CRM_Core_Action::DETACH] );
         }
         return self::$_links;
     } //end of function
@@ -299,13 +303,18 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base
              if ( CRM_Utils_Array::value( 'pledge_is_test', $row ) ) {
                  $row['pledge_status_id'] .= ' (test)';
              }
-
+             
+             $showCancel = true;
+             if ( CRM_Utils_Array::key( 'Cancelled', $row ) || CRM_Utils_Array::key('Completed', $row ) ) {
+                 $showCancel = false;
+             } 
              $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->pledge_id;
              
-             $row['action']   = CRM_Core_Action::formLink( self::links(), $mask,
+             $row['action']   = CRM_Core_Action::formLink( self::links( $showCancel ), $mask,
                                                            array( 'id'  => $result->pledge_id,
                                                                   'cid' => $result->contact_id,
                                                                   'cxt' => $this->_context ) );
+            
              $config =& CRM_Core_Config::singleton( );
              $contact_type    = '<img src="' . $config->resourceBase . 'i/contact_';
              switch ($result->contact_type) {

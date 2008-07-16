@@ -90,41 +90,48 @@ WHERE pledge_id = %1
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
 
+        $scheduled_date =  $params['scheduled_date'];
+        $params['scheduled_date'] =  CRM_Utils_Date::format( $params['scheduled_date'] );
+        $params['scheduled_amount'] = ceil($params['scheduled_amount']);
+        $payment = self::add( $params );
+        if ( is_a( $payment, 'CRM_Core_Error') ) {
+            $transaction->rollback( );
+            return $payment;
+        }
+        
         //calculation of schedule date according to frequency day of period
         //frequency day is not applicable for daily installments
         if ( $params['frequency_unit'] != 'day' ) {
             if ( $params['frequency_unit'] != 'week' ) {
 
                 //for month use day of next month & for year use day of month Jan of next year as next payment date 
-                $params['scheduled_date']['d'] = $params['frequency_day'];
+                $scheduled_date['d'] = $params['frequency_day'];
                 if ( $params['frequency_unit'] == 'year' ) {
-                    $params['scheduled_date']['M'] = 1;
+                    $scheduled_date['M'] = 1;
                 }   
             } else if ( $params['frequency_unit'] == 'week' ) {
 
                 //for week calculate day of week ie. Sunday,Monday etc. as next payment date
-                $dayOfWeek = date('w',mktime(0, 0, 0, $params['scheduled_date']['M'], $params['scheduled_date']['d'], $params['scheduled_date']['Y'] ));
+                $dayOfWeek = date('w',mktime(0, 0, 0, $scheduled_date['M'], $scheduled_date['d'], $scheduled_date['Y'] ));
                 $frequencyDay =  $dayOfWeek - $params['frequency_day'];
                 if ( $frequencyDay < 0 ) {
                     $frequencyDay += 1;
                 }
-                $scheduleDate =  explode ( "-", date( 'n-j-Y', mktime ( 0, 0, 0, $params['scheduled_date']['M'], $params['scheduled_date']['d'] - $frequencyDay, $params['scheduled_date']['Y'] )) );
-                $params['scheduled_date']['M'] = $scheduleDate[0];
-                $params['scheduled_date']['d'] = $scheduleDate[1];
-                $params['scheduled_date']['Y'] = $scheduleDate[2];
+                $scheduleDate =  explode ( "-", date( 'n-j-Y', mktime ( 0, 0, 0, $scheduled_date['M'], $scheduled_date['d'] - $frequencyDay, $scheduled_date['Y'] )) );
+                $scheduled_date['M'] = $scheduleDate[0];
+                $scheduled_date['d'] = $scheduleDate[1];
+                $scheduled_date['Y'] = $scheduleDate[2];
             }
         } 
 
-        $prevScheduledDate =  $params['scheduled_date'];
-        $params['scheduled_amount'] = ceil($params['scheduled_amount']);
-        for ( $i = 1; $i <= $params['installments']; $i++ ) {
+        for ( $i = 1; $i < $params['installments']; $i++ ) {
             //calculate the scheduled amount for every installment
-            $params['scheduled_date'] =  CRM_Utils_Date::format(CRM_Utils_Date::intervalAdd( $params['frequency_unit'], $i, $prevScheduledDate ));
+            $params['scheduled_date'] =  CRM_Utils_Date::format(CRM_Utils_Date::intervalAdd( $params['frequency_unit'], $i, $scheduled_date ));
             
-            if ( $i == $params['installments'] ) {
-                $params['scheduled_amount'] = $params['amount'] - ($i-1) * $params['scheduled_amount'];
+            if ( $i == $params['installments'] - 1 ) {
+                $params['scheduled_amount'] = $params['amount'] - $i * $params['scheduled_amount'];
             }
-            
+                
             $payment = self::add( $params );
             if ( is_a( $payment, 'CRM_Core_Error') ) {
                 $transaction->rollback( );
@@ -136,7 +143,7 @@ WHERE pledge_id = %1
                 unset( $params['contribution_id'] );
             }
         }
-
+        
         $transaction->commit( );
                
         return $payment;
@@ -202,7 +209,9 @@ WHERE pledge_id = %1
         
         //get all payments.
         $allPayments = self::getPledgePayments( $pledgeID );
-        
+
+        $cancelDate = null;
+        $endDate = null;
         //build payment ids.
         $paymentIDs = array( );
         if ( $paymentID ) {
@@ -265,15 +274,23 @@ WHERE pledge_id = %1
                              2 => array( $pledgeStatus, 'Integer' ),
                              3 => array( array_search( 'Completed', $allStatus ),
                                          'Integer') );
+            
+            if ( $pledgeStatus == array_search( 'Cancelled', $allStatus ) ) {
+                $cancelDate = ", civicrm_pledge.cancel_date = CURRENT_TIMESTAMP ";
+            }
+            if ( $allCompleted ) {
+                $endDate = ", civicrm_pledge.end_date = CURRENT_TIMESTAMP ";
+            } 
             $payments = implode( ',', $paymentIDs );
             
             $query = "
 UPDATE civicrm_pledge_payment, civicrm_pledge
-SET    civicrm_pledge_payment.status_id = %1, civicrm_pledge.status_id = %2
+ SET    civicrm_pledge_payment.status_id = %1, civicrm_pledge.status_id = %2
+        {$cancelDate} {$endDate}
 WHERE  civicrm_pledge_payment.id IN ( {$payments} )
   AND  civicrm_pledge_payment.pledge_id = civicrm_pledge.id 
   AND  civicrm_pledge_payment.status_id != %3
-";
+"; 
             $dao = CRM_Core_DAO::executeQuery( $query, $params );
         }
     }

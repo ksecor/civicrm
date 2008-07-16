@@ -178,10 +178,16 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             $defaults['max_reminders']           = 1;
             $defaults['additional_reminder_day'] = 5;
             $defaults['frequency_unit']          = $frequencyUnit;
-            $defaults['status_id']               = array_search( 'Pending', CRM_Contribute_PseudoConstant::contributionStatus());
             $defaults['contribution_type_id']    = array_search( 'Donation', CRM_Contribute_PseudoConstant::contributionType());
+            $status = 'Pending';
         }
         
+        if ( $this->_id ) {
+            $statusId = CRM_Utils_Array::value( 'status_id', $this->_values );
+            $status =  CRM_Utils_Array::value( $statusId, CRM_Contribute_PseudoConstant::contributionStatus());
+        }
+        $this->assign( 'status', $status );
+             
         //honoree contact.
         if ( isset ( $defaults["honor_contact_id"] ) ) {
             require_once 'CRM/Contact/BAO/Contact.php';
@@ -232,7 +238,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         
         $showAdditionalInfo = false;
         $this->_formType = CRM_Utils_Array::value( 'formType', $_GET );
-        
+               
         $paneNames =  array ( 'Honoree Information' => 'Honoree', 
                               'Payment Reminders'   => 'PaymentReminders'
                               );
@@ -297,7 +303,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         $this->add( 'text', 'eachPaymentAmount', ts('each'), array('size'=>10, 'style'=> "background-color:#EBECE4", 'READONLY') );
 
         //add various dates
-        $element =& $this->add('date', 'create_date', ts('Pledge Made'), CRM_Core_SelectValues::date('activityDate'));    
+        $element =& $this->add('date', 'create_date', ts('Pledge Made'), CRM_Core_SelectValues::date('activityDate'), true );    
         $this->addRule('create_date', ts('Select a valid date for the day the pledge was made.'), 'qfDate');
         if ( $this->_id ) {
             $eachPaymentAmount = $this->_values['amount'] / $this->_values['installments'];
@@ -311,9 +317,12 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         if ( $this->_id ) {
             $element->freeze( );
         }
-        
-        $this->addElement('checkbox','is_acknowledge', ts('Send Acknowledgment?'),null, array('onclick' =>"return showHideByValue('is_acknowledge','','acknowledgeDate','table-row','radio',true);") );
-        
+    
+        if ( CRM_Utils_Array::value('status_id', $this->_values) != 
+             array_search( 'Cancelled', CRM_Contribute_PseudoConstant::contributionStatus( )) ) { 
+          
+            $this->addElement('checkbox','is_acknowledge', ts('Send Acknowledgment?'),null, array('onclick' =>"return showHideByValue('is_acknowledge','','acknowledgeDate','table-row','radio',true);") );
+        }
         $this->addElement('date', 'acknowledge_date', ts('Acknowledgment Date'), CRM_Core_SelectValues::date('activityDate')); 
         $this->addRule('acknowledge_date', ts('Select a valid date.'), 'qfDate');
         
@@ -321,15 +330,6 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
                                ts( 'Contribution Type' ), 
                                array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::contributionType( ),
                                true );
-        
-        $this->add('select', 'status_id',
-                   ts('Pledge Status'), 
-                   CRM_Contribute_PseudoConstant::contributionStatus( ),
-                   false, array(
-                                'onClick'  => "if (this.value != 3) status(); else return false",
-                                'onChange' => "return showHideByValue('status_id','3','cancelDate','table-row','select',false);")); 
-        $this->addElement('date', 'cancel_date', ts('Cancelled Date'), CRM_Core_SelectValues::date('activityDate')); 
-        $this->addRule('cancel_date', ts('Select a valid date.'), 'qfDate');
         
         $session = & CRM_Core_Session::singleton( );
         $uploadNames = $session->get( 'uploadNames' );
@@ -384,13 +384,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         if ( $fields["installments"] < 0 ) {
             $errors['installments'] = ts('Installments should be greater than zero.');
         }
-        
-        $createDate = CRM_Utils_Date::format( $fields['create_date'] );
-        $startDate  = CRM_Utils_Date::format( $fields['start_date'] );
      
-        if ( $createDate >  $startDate ) {
-            $errors['start_date'] = ts('Start date must be the same or later than made.');
-        }
         if ( $fields["frequency_unit"] != 'week' ) {
             if ( $fields["frequency_day"] > 31 || $fields["frequency_day"] == 0 ) {
                 $errors['frequency_day'] =  ts('Please enter a valid frequency day ie. 1 through 31.');
@@ -420,17 +414,11 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         
         //get the submitted form values.  
         $formValues = $this->controller->exportValues( $this->_name );
+       
         $config  =& CRM_Core_Config::singleton( );
         $session =& CRM_Core_Session::singleton( );
-        foreach ( $formValues['create_date'] as $val => $field ) {
-            if ( !$formValues['create_date'][$val] ) {
-                $now = date("Y-m-d");
-                $formValues['create_date'] = $now;
-                break;
-            }
-        }
-      
-        $fields = array( 'status_id',
+             
+        $fields = array(
                          'frequency_unit',
                          'frequency_day',
                          'installments',
@@ -447,7 +435,10 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         foreach ( $fields as $f ) {
             $params[$f] = CRM_Utils_Array::value( $f, $formValues );
         }
-
+        //adding status 'Pending' for add mode.
+        if ( $this->_action & CRM_Core_Action::ADD ) {
+            $params['status_id'] = array_search( 'Pending', CRM_Contribute_PseudoConstant::contributionStatus( ));
+        }
         //format amount
         $params['amount'] = CRM_Utils_Rule::cleanMoney( CRM_Utils_Array::value( 'amount', $formValues ) );
         
