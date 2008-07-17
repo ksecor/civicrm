@@ -47,7 +47,7 @@ function clearAmountOther() {
         <tr><td class="label">{$form.amount_other.label}</td><td>{$form.amount_other.html|crmMoney}</td></tr>
     {/if}
     {if $pledgeBlock}
-        {if $pledgeId} 
+        {if $is_pledge_payment} 
         <tr><td class="label label">{$form.pledge_amount.label}</td><td>{$form.pledge_amount.html}</td></tr>
         {else}
 	<tr><td class="label nowrap">{$form.is_pledge_frequency_interval.label}</td>

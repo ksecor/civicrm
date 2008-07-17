@@ -540,7 +540,6 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             $this->assign( 'pledgeBlock', true );
             //build pledge payment fields.
             if ( $this->_pledgeId ) {
-                $this->assign('pledgeId', $this->_pledgeId );
                 //get all payments.
                 require_once 'CRM/Pledge/BAO/Payment.php';
                 $allPayments = CRM_Pledge_BAO_Payment::getPledgePayments( $this->_pledgeId  );
@@ -582,8 +581,12 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                                                         2 => CRM_Utils_Array::value( 'scheduled_date', $nextPayment ) ) );
                     $payments[$key] = CRM_Utils_Array::value( 'id', $nextPayment ); 
                 }
-                $this->addCheckBox( 'pledge_amount', ts( 'Make Pledge Payment(s):' ), $payments);
                 
+                if ( !empty( $payments ) ) {
+                    $this->assign('is_pledge_payment', true );
+                    $this->_values['is_pledge_payment'] = 1;
+                    $this->addCheckBox( 'pledge_amount', ts( 'Make Pledge Payment(s):' ), $payments );
+                }
             } else {
                 //build form for pledge creation.
                 $this->assign( 'is_pledge_interval', CRM_Utils_Array::value( 'is_pledge_interval', $pledgeBlock ));
@@ -736,7 +739,12 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         
         //validate the pledge fields.
         if ( CRM_Utils_Array::value( 'pledge_block_id', $self->_values ) ) {
-            if ( CRM_Utils_array::value( 'is_pledge_frequency_interval', $fields ) ) {
+            //validation for pledge payment.
+            if ( $self->_pledgeId && CRM_Utils_Array::value( 'is_pledge_payment', $self->_values ) ) {
+                if ( empty( $fields['pledge_amount'] ) ) {
+                    $errors['pledge_amount'] = ts( 'Atleast one option needs to be checked.' );
+                }
+            } else if ( CRM_Utils_array::value( 'is_pledge_frequency_interval', $fields ) ) {
                 if ( is_numeric( $fields['pledge_installments'] ) ) {
                     //installments should be > 1
                     if ( $fields['pledge_installments'] < 1 ) {
@@ -763,12 +771,6 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                         $errors['pledge_frequency_interval'] = ts( 'Pledge Frequency Interval is required field.' ); 
                     }
                 }
-            }
-            //validation for pledge payment.
-            if ( $self->_pledgeId ) {
-                if ( empty( $fields['pledge_amount'] ) ) {
-                    $errors['pledge_amount'] = ts( 'Atleast one option needs to be checked.' );
-                } 
             }
         }
         

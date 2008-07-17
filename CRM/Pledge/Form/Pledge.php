@@ -74,7 +74,13 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
      * @var int
      * @public 
      */ 
-    public $_honorID = null ;
+    public $_honorID = null;
+    
+    /**
+     * The Pledge frequency Units
+     * @public
+     */
+    public $_freqUnits;
     
     /** 
      * Function to set variables up before form is built 
@@ -127,6 +133,10 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             require_once "CRM/Pledge/BAO/Pledge.php";
             CRM_Pledge_BAO_Pledge::getValues( $params, $this->_values );
         }
+
+        //get the pledge frequency units.
+        require_once 'CRM/Core/OptionGroup.php';
+        $this->_freqUnits = CRM_Core_OptionGroup::values("recur_frequency_units");
         
 //         // when custom data is included in this page
 //         if ( CRM_Utils_Array::value( "hidden_custom", $_POST ) ) {
@@ -164,10 +174,12 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         if (  CRM_Utils_Array::value( 'is_test', $defaults ) ) {
             $this->assign( "is_test" , true );
         } 
-        $frequencyUnit = array_search('monthly',CRM_Core_OptionGroup::values("recur_frequency_units"));
-       
-        //default values.
-        if ( !$this->_id ) { 
+        
+        if ( $this->_id ) {
+            $statusId = CRM_Utils_Array::value( 'status_id', $this->_values );
+            $status =  CRM_Utils_Array::value( $statusId, CRM_Contribute_PseudoConstant::contributionStatus());
+        } else {
+            //default values.
             $now = date("Y-m-d");
             $defaults['create_date']             = $now;
             $defaults['start_date']              = $now;
@@ -176,17 +188,12 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             $defaults['initial_reminder_day']    = 5;
             $defaults['max_reminders']           = 1;
             $defaults['additional_reminder_day'] = 5;
-            $defaults['frequency_unit']          = $frequencyUnit;
+            $defaults['frequency_unit']          = array_search('monthly', $this->_freqUnits );
             $defaults['contribution_type_id']    = array_search( 'Donation', CRM_Contribute_PseudoConstant::contributionType());
             $status = 'Pending';
         }
-        
-        if ( $this->_id ) {
-            $statusId = CRM_Utils_Array::value( 'status_id', $this->_values );
-            $status =  CRM_Utils_Array::value( $statusId, CRM_Contribute_PseudoConstant::contributionStatus());
-        }
         $this->assign( 'status', $status );
-             
+        
         //honoree contact.
         if ( isset ( $defaults["honor_contact_id"] ) ) {
             require_once 'CRM/Contact/BAO/Contact.php';
@@ -282,11 +289,10 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         if ( $this->_id ) {
             $element->freeze( );
         }
-        $frequencyUnit = CRM_Core_OptionGroup::values("recur_frequency_units");
         
         $element =& $this->add( 'select', 'frequency_unit', 
                                 ts( 'Frequency' ), 
-                                array(''=>ts( '- select -' )) + $frequencyUnit, 
+                                array(''=>ts( '- select -' )) + $this->_freqUnits, 
                                 true );
         
         if ( $this->_id ) {
