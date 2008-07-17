@@ -1,5 +1,4 @@
 {* this template is used for adding/editing/deleting case *} 
-{debug}
 <div class="form-item">
 <fieldset>
     <legend>{ts}View Case Record Details{/ts}</legend>

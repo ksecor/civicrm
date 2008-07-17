@@ -319,7 +319,7 @@ class CRM_Contact_Form_Search_Criteria {
     }
 
     static function CiviCase( &$form ) {
-        $form->add( 'hidden', 'hidden_caseSearch', 1 );
+        $form->add( 'hidden', 'hidden_CiviCase', 1 );
         require_once 'CRM/Case/BAO/Query.php';
         CRM_Case_BAO_Query::buildSearchForm( $form );
     }
