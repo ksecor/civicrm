@@ -183,7 +183,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         }
 
         // hack to simplify credit card entry for testing
-//         $this->_defaults['credit_card_type']     = 'Visa';
+//  $this->_defaults['credit_card_type']     = 'Visa';
 //         $this->_defaults['amount']               = 168;
 //         $this->_defaults['credit_card_number']   = '4807731747657838';
 //         $this->_defaults['cvv2']                 = '000';
@@ -810,8 +810,8 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         return empty( $errors ) ? true : $errors;
     }
 
-    public function computeAmount( &$params, &$form ) {
-
+    public function computeAmount( &$params, &$form ) 
+    {
         $amount = null;
 
         // first clean up the other amount field if present
@@ -821,6 +821,11 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         
         if ( CRM_Utils_Array::value('amount',$params) == 'amount_other_radio' || ! empty( $params['amount_other'] ) ) {
             $amount = $params['amount_other'];
+        } else if  ( !empty( $params['pledge_amount'] ) ) {
+            $amount = 0;
+            foreach ( $params['pledge_amount'] as $paymentId => $dontCare ) {
+                $amount+=CRM_Core_DAO::getFieldValue( 'CRM_Pledge_DAO_Payment', $paymentId, 'scheduled_amount' );
+            } 
         } else {
             if ( CRM_Utils_Array::value('amount_id',$form->_values) ) {
                 $amountID = array_search( CRM_Utils_Array::value('amount',$params),
@@ -868,7 +873,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         }
 
         $this->set( 'amount', $params['amount'] ); 
-
+        
         // generate and set an invoiceID for this transaction
         $invoiceID = $this->get( 'invoiceID' );
         if ( ! $invoiceID ) {
