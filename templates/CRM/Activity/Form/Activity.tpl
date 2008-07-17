@@ -1,13 +1,15 @@
 {* this template is used for adding/editing other (custom) activities. *}
 {if $cdType }
    {include file="CRM/Custom/Form/CustomData.tpl"}
+{elseif $addContact }
+   {include file="CRM/Contact/Form/AddContact.tpl"}
 {else}
 
 {* added onload javascript for source contact*}
 {if $source_contact_value and $admin and $action neq 4}
    <script type="text/javascript">
        dojo.addOnLoad( function( ) {ldelim}
-       dijit.byId( 'source_contact' ).setValue( "{$source_contact_value}", "{$source_contact_value}" )
+       dijit.byId( 'source_contact_id' ).setValue( "{$source_contact_value}", "{$source_contact_value}" )
        {rdelim} );
    </script>
 {/if}
@@ -25,7 +27,7 @@
 {if $assignee_contact_value and $action neq 4 }
    <script type="text/javascript">
        dojo.addOnLoad( function( ) {ldelim}
-       dijit.byId( 'assignee_contact' ).setValue( "{$assignee_contact_value}", "{$assignee_contact_value}" )
+       /*dijit.byId( 'assignee_contact' ).setValue( "{$assignee_contact_value}", "{$assignee_contact_value}" )*/
        {rdelim} );
    </script>
 {/if}
@@ -41,7 +43,9 @@
 
     <fieldset>
     <legend>
-       {if $action eq 1}
+       {if $single eq false}
+          {ts}New Activity{/ts}
+       {elseif $action eq 1}
           {ts}New{/ts} 
        {elseif $action eq 2}
           {ts}Edit{/ts} 
@@ -68,19 +72,25 @@
         
          <table class="form-layout">
            {if $action eq 1 or $action eq 2  or $action eq 4 }
-             {if $context eq ('standalone' or 'case') }
+             {if $context eq ('standalone' or 'case' or 'search') }
                 <tr>
                    <td class="label">{$form.activity_type_id.label}</td><td class="view-value">{$form.activity_type_id.html}</td>
                 </tr>
              {/if}
              <tr>
-                <td class="label">{$form.source_contact.label}</td>
+                <td class="label">{$form.source_contact_id.label}</td>
                 <td class="view-value">
                    <div dojoType="dojox.data.QueryReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra" doClientPaging="false">
-                       {if $admin }{$form.source_contact.html} {else} {$source_contact_value} {/if}
+                       {if $admin }{$form.source_contact_id.html} {else} {$source_contact_value} {/if}
                    </div>
                 </td>
              </tr>
+             {if $single eq false}
+             <tr>
+                <td class="label">{ts}With Contact(s){/ts}</td>
+                <td class="view-value">{$with|escape}</td>
+             </tr>
+             {else}
              <tr>
                 <td class="label">{$form.target_contact.label}</td>
                 <td class="view-value">
@@ -89,13 +99,17 @@
                    </div>
                 </td>
              </tr>
+             {/if}
              <tr>
-                <td class="label">{$form.assignee_contact.label}</td>
-                <td class="view-value">
-                   <div dojoType="dojox.data.QueryReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra" doClientPaging="false">
-                       {$form.assignee_contact.html}
-                   </div>
-                   {edit}<span class="description">{ts}You can optionally assign this activity to someone. Assigned activities will appear in their Contact Dashboard.{/ts}</span>{/edit}
+                <td class="label">{$form.assignee_contact.1.label}<div dojoType="dojox.data.QueryReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra" doClientPaging="false"></div></td>
+                <td class="tundra">                  
+                   {$form.assignee_contact.1.html}
+                   <span id="contact_assignee_1">
+                      <span id="contact_assignee_0_show">  
+	                 <a href="#" onclick="buildContact(1, 'contact_assignee');return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/>{ts}Add Contact{/ts}</a>
+                      </span>
+                   </span>
+                   <br />{edit}<span class="description">{ts}You can optionally assign this activity to someone. Assigned activities will appear in their Contact Dashboard.{/ts}</span>{/edit}
                 </td>
              </tr>
 
@@ -109,6 +123,18 @@
                      {edit}<span class="description">{ts}If you are managing case(s) for this contact, you can optionally associate this activity with an existing case.{/ts}</span>{/edit}
                   </td>
                 </tr>
+             {/if}
+
+             {if $config->civiHRD}
+             <tr>
+                <td class="label">{$form.activity_tag1_id.label}</td><td class="view-value">{$form.activity_tag1_id.html}</td>
+             </tr>
+             <tr>
+                <td class="label">{$form.activity_tag2_id.label}</td><td class="view-value">{$form.activity_tag2_id.html}</td>
+             </tr>
+             <tr>   
+                <td class="label">{$form.activity_tag3_id.label}</td><td class="view-value">{$form.activity_tag3_id.html}</td>
+             </tr>
              {/if}
 
              <tr>
@@ -147,6 +173,20 @@
                 <td class="label">{$form.details.label}</td><td class="view-value">{$form.details.html|crmReplace:class:huge}</td>
              </tr> 
              <tr>
+	           {if $action eq 4} 
+                      {if $currentAttachmentURL}
+                         <td class="label">{ts}Current Attachments{/ts}</td>
+                         <td class="view-value">{$currentAttachmentURL}</td>
+                      {else}  
+                          <td colspan=2>&nbsp;</td>
+                      {/if}
+                   {else}
+                <td colspan="2">
+                      {include file="CRM/Form/attachment.tpl"}
+                </td>
+                   {/if} 
+             </tr>
+             <tr>
                 <td colspan="2">
 	           {if $action eq 4} 
                        {include file="CRM/Contact/Page/View/InlineCustomData.tpl"}
@@ -182,4 +222,46 @@
    {*include custom data js file*}
    {include file="CRM/common/customData.tpl"}
 {/if}
-{/if} {* end of snippet if*}
+
+{* Build add contact *}
+{literal}
+<script type="text/javascript">
+
+function buildContact( count, pref )
+{
+    prevCount = count - 1;
+    hide( pref + '_' + prevCount + '_show'); 
+
+    var dataUrl = {/literal}"{crmURL h=0 q='snippet=4&contact=1&count='}"{literal} + count;
+
+    var result = dojo.xhrGet({
+        url: dataUrl,
+        handleAs: "text",
+        timeout: 5000, //Time in milliseconds
+        handle: function(response, ioArgs){
+                if(response instanceof Error){
+                        if(response.dojoType == "cancel"){
+                                //The request was canceled by some other JavaScript code.
+                                console.debug("Request canceled.");
+                        }else if(response.dojoType == "timeout"){
+                                //The request took over 5 seconds to complete.
+                                console.debug("Request timed out.");
+                        }else{
+                                //Some other error happened.
+                                console.error(response);
+                        }
+                } else {
+		    // on success
+		    dojo.byId( pref + '_' + count).innerHTML = response;
+		    dojo.parser.parse( pref + '_' + count );
+	       }
+        }
+     });
+
+}
+
+</script>
+
+{/literal}
+
+{/if} {* end of snippet if*}	

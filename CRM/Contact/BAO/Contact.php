@@ -143,9 +143,6 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
         if ( $contact->contact_type == 'Individual') {
             $allNull = false;
 
-            //unset organization name 
-            $contact->organization_name = 'null';
-
             //format individual fields
             require_once "CRM/Contact/BAO/Individual.php";
             CRM_Contact_BAO_Individual::format( $params, $contact );
@@ -187,6 +184,12 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
             CRM_Core_BAO_Log::register( $contact->id,
                                         'civicrm_contact',
                                         $contact->id );
+        }
+
+        //update cached employee name
+        if ( $contact->contact_type == 'Organization' ) {
+            require_once 'CRM/Contact/BAO/Contact/Utils.php';
+            CRM_Contact_BAO_Contact_Utils::updateCurrentEmployer( $contact->id );
         }
         return $contact;
     }
@@ -258,6 +261,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
                                         'entity_id'     => $contact->id,
                                         'entity_table'  => 'civicrm_contact',
                                         'note'          => $note['note'],
+                                        'subject'       => $note['subject'],
                                         'contact_id'    => $contactId
                                         );
                     CRM_Core_BAO_Note::add($noteParams, CRM_Core_DAO::$_nullArray);
@@ -276,6 +280,7 @@ class CRM_Contact_BAO_Contact extends CRM_Contact_DAO_Contact
                                     'entity_id'     => $contact->id,
                                     'entity_table'  => 'civicrm_contact',
                                     'note'          => $params['note'],
+                                    'subject'       => $params['subject'],
                                     'contact_id'    => $contactId
                                     );
                 CRM_Core_BAO_Note::add($noteParams, CRM_Core_DAO::$_nullArray);
@@ -719,21 +724,27 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
                 // the fields are only meant for Individual contact type
                 if ( $contactType == 'Individual') {
                     require_once 'CRM/Core/OptionValue.php';
-                    $fields = array_merge( $fields, CRM_Core_OptionValue::getFields( ) );                
+                    $fields = array_merge( $fields, CRM_Core_OptionValue::getFields( ) );
                 }
-            
+                
+                // add current employer for individuals
+                $fields = array_merge( $fields, array( 'current_employer' =>
+                                                       array ( 'name'  => 'organization_name',
+                                                               'title' => ts('Current Employer') )
+                                                       ));
+                
                 $locationType = array( );
                 if ($status) {
                     $locationType['location_type'] = array ('name' => 'location_type',
                                                             'where' => 'civicrm_location_type.name',
-                                                            'title' => 'Location Type');
+                                                            'title' => ts('Location Type'));
                 }
             
                 $IMProvider = array( );
                 if ( $status ) {
                     $IMProvider['im_provider'] = array ('name' => 'im_provider',
                                                         'where' => 'im_provider.name',
-                                                        'title' => 'IM Provider');
+                                                        'title' => ts('IM Provider'));
                 }
             
                 $locationFields = array_merge(  $locationType,
@@ -802,10 +813,10 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
                                             'Household'    => array( 'first_name','middle_name','last_name','greeting_type',
                                                                      'job_title','gender_id','birth_date','organization_name',
                                                                      'legal_name', 'legal_identifier', 'sic_code','home_URL',
-                                                                     'is_deceased','deceased_date' ),
+                                                                     'is_deceased','deceased_date', 'current_employer' ),
                                             'Organization' => array( 'first_name','middle_name','last_name','greeting_type',
                                                                      'job_title','gender_id','birth_date','household_name',
-                                                                     'is_deceased','deceased_date' ) 
+                                                                     'is_deceased','deceased_date', 'current_employer' ) 
                                             );
                     foreach ( $commonValues[$contactType] as $value ) {
                         unset( $fields[$value] );
@@ -823,8 +834,8 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
             $fields = array_merge( array( '' => array( 'title' => ts('- Contact Fields -') ) ),
                                    self::$_exportableFields[$contactType] );
         }
-        return $fields;
 
+        return $fields;
     }
 
     /**
@@ -972,14 +983,14 @@ WHERE  civicrm_contact.id = %1 ";
         // if individual
        if( $contactType == 'Individual') {
            $sql = "
-   SELECT civicrm_contact.first_name, civicrm_contact.last_name,  civicrm_email.email, civicrm_contact.do_not_email
+   SELECT civicrm_contact.first_name, civicrm_contact.last_name,  civicrm_email.email, civicrm_contact.do_not_email, civicrm_email.on_hold
      FROM civicrm_contact, civicrm_email 
    WHERE  civicrm_contact.id = civicrm_email.contact_id AND civicrm_email.is_primary = 1
           AND civicrm_contact.id = %1";
            $params = array( 1 => array( $id, 'Integer' ) );
        } else { // for household / organization
            $sql = "
-   SELECT civicrm_contact.display_name, civicrm_email.email, civicrm_contact.do_not_email
+   SELECT civicrm_contact.display_name, civicrm_email.email, civicrm_contact.do_not_email, civicrm_email.on_hold
      FROM civicrm_contact, civicrm_email 
    WHERE civicrm_contact.id = civicrm_email.contact_id AND civicrm_email.is_primary = 1
       AND civicrm_contact.id = %1";
@@ -990,20 +1001,23 @@ WHERE  civicrm_contact.id = %1 ";
        $result = $dao->getDatabaseResult();
        if ( $result ) {
            $row  = $result->fetchRow();
+           
            if ( $row ) {
                if ($contactType == 'Individual') {
                    $name       = $row[0] . ' ' . $row[1];
                    $email      = $row[2];
                    $doNotEmail = $row[3] ? true : false;
+                   $onHold     = $row[4] ? true : false;
                } else {
                    $name       = $row[0];
                    $email      = $row[1];
                    $doNotEmail = $row[2] ? true : false;
+                   $onHold     = $row[3] ? true : false;
                }
-               return array( $name, $email, $doNotEmail );
+               return array( $name, $email, $doNotEmail, $onHold);
            }
        }
-       return array( null, null, null );
+       return array( null, null, null, null );
     }
 
     /**
@@ -1362,11 +1376,11 @@ WHERE  civicrm_contact.id = %1 ";
         }
 
         if ( $data['contact_type'] == 'Individual' && 
-            array_key_exists( 'organization_name', $params ) ) {
-            if ( $params['organization_name'] )  {
+             array_key_exists( 'current_employer', $params ) ) {
+            if ( $params['current_employer'] )  {
                 require_once 'CRM/Contact/BAO/Contact/Utils.php';
-                CRM_Contact_BAO_Contact_Utils::makeCurrentEmployerRelationship($contactID,
-                                                                               $params['organization_name']);
+                CRM_Contact_BAO_Contact_Utils::createCurrentEmployerRelationship( $contactID,
+                                                                                  $params['current_employer'] );
             }
         }
 
@@ -1451,22 +1465,23 @@ WHERE  civicrm_contact.id = %1 ";
      */
     static function &matchContactOnEmail( $mail, $ctype = null ) 
     {
-        $mail = strtolower( $mail );
+        $mail = strtolower( trim( $mail ) );
         $query = "
-SELECT    civicrm_contact.id as contact_id,
-          civicrm_contact.hash as hash,
-          civicrm_contact.contact_type as contact_type,
-          civicrm_contact.contact_sub_type as contact_sub_type
-FROM      civicrm_contact
-LEFT JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
-    WHERE civicrm_email.is_primary = 1
-      AND civicrm_email.email = %1";
+SELECT     civicrm_contact.id as contact_id,
+           civicrm_contact.hash as hash,
+           civicrm_contact.contact_type as contact_type,
+           civicrm_contact.contact_sub_type as contact_sub_type
+FROM       civicrm_contact
+INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
+WHERE      civicrm_email.email = %1";
         $p = array( 1 => array( $mail, 'String' ) );
 
        if ( $ctype ) {
            $query .= " AND civicrm_contact.contact_type = %3";
            $p[3]   = array( $ctype, 'String' );
        }
+
+       $query .= " ORDER BY civicrm_email.is_primary DESC";
        
        $dao =& CRM_Core_DAO::executeQuery( $query, $p );
 

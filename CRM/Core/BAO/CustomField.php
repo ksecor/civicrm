@@ -99,7 +99,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
      * @static
      */
     static function create( &$params )
-        {CRM_Core_Error::debug('fdf',$params);
+    {
         if ( !isset($params['id']) && !isset($params['column_name']) ) {
             // if add mode & column_name not present, calculate it.
             require_once 'CRM/Utils/String.php';
@@ -726,7 +726,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
      * @static
      * @access public
      */
-    static function getDisplayValue( $value, $id, &$options, $contactID = null, $valueID = null ) 
+    static function getDisplayValue( $value, $id, &$options, $contactID = null )
     {
         $option     =& $options[$id];
         $attributes =& $option['attributes'];
@@ -1136,6 +1136,7 @@ SELECT id
             require_once 'CRM/Core/DAO/File.php';
             $config = & CRM_Core_Config::singleton();
 
+            CRM_Core_Error::backtrace( $value );
             $fName    = $value['name']; 
             $mimeType = $value['type']; 
 

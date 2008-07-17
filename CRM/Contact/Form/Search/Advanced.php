@@ -46,8 +46,8 @@ require_once 'CRM/Contact/Form/Search.php';
 /**
  * advanced search, extends basic search
  */
-class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
-
+class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search 
+{
     /**
      * Build the form
      *
@@ -61,7 +61,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         $this->_formType = CRM_Utils_Array::value( 'formType', $_GET );
         
         if ( ! $this->_formType || $this->_formType == 'basic' ) {
-            CRM_Contact_Form_Search_Criteria::basic          ( $this );
+            CRM_Contact_Form_Search_Criteria::basic( $this );
         }
 
         $allPanes = array( );
@@ -128,7 +128,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
                  CRM_Utils_Array::value( "hidden_{$type}", $_POST ) ||
                  CRM_Utils_Array::value( "hidden_{$type}", $this->_formValues ) ) {
                 $allPanes[$name]['open'] = 'true';
-                if( array_key_exists( $type, $components) ) {
+                if ( array_key_exists( $type, $components) ) {
                     $c = $components[ $type ];
                     $this->add( 'hidden', "hidden_$type" , 1 );
                     $c->buildAdvancedSearchPaneForm( $this );

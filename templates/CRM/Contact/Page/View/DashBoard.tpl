@@ -1,8 +1,14 @@
 <table class="no-border">
 <tr>
-    <td>
+   <td>
        {include file="CRM/Activity/Selector/Activity.tpl}
-   </td>
+       {if $hookContent}
+          {foreach from=$hookContent key=title item=content}
+          <fieldset><legend>{$title}</legend>
+             {$content}
+          </fieldset>
+          {/foreach}
+       {/if}
    <td>
       {if $languages}<fieldset><legend>{ts}Choose Language{/ts}</legend>{$languages}</fieldset>{/if}
       <fieldset><legend>{ts}Quick Search{/ts}</legend>

@@ -167,15 +167,10 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
         }
         
         //get the current employer name
-        if ( $relationships = CRM_Utils_Array::value( 'data', $defaults['relationship'] ) ) {
-            krsort( $relationships );
-            foreach ( $relationships as $relationshipID => $value ) {
-                if ( $value['relation'] == 'Employee of' && $value['is_active'] == 1 ) {
-                    $defaults['current_employer'] = $value['name'];
-                    break;
-                }
-            }
-        }
+        require_once 'CRM/Contact/BAO/Relationship.php';
+        $currentEmployer = CRM_Contact_BAO_Relationship::getCurrentEmployer( array( $this->_contactId ) );
+        $defaults['current_employer'] = $currentEmployer[ $this->_contactId ]['org_name'];
+
         $this->assign( $defaults );
         $this->setShowHide( $defaults );        
         
@@ -193,9 +188,9 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
         require_once 'CRM/Core/Component.php';
         $components = CRM_Core_Component::getEnabledComponents();
 
-        foreach( $components as $name => $component ) {
-            if( in_array( $name, array_keys($this->_viewOptions) ) &&
-                CRM_Core_Permission::access( $component->name ) ) {
+        foreach ( $components as $name => $component ) {
+            if ( $this->_viewOptions[$name] &&
+                 CRM_Core_Permission::access( $component->name ) ) {
                 $elem = $component->registerTab();
 
                 // FIXME: not very elegant, probably needs better approach
@@ -249,7 +244,7 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
             $weight += 10;
         }
 
-//        CRM_Core_Error::debug( 's', $allTabs );
+        //CRM_Core_Error::debug( 's', $allTabs );
         
         // now add all the custom tabs
         $activeGroups =&

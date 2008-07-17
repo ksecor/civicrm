@@ -172,6 +172,11 @@ class CRM_Core_BAO_Setting
                     unset( $defaults[$skip] );
                 }
             }
+            
+            // since language field won't be present before upgrade.
+            if ( CRM_Utils_Array::value( 'q', $_GET ) == 'civicrm/upgrade' ) {
+                return;
+            }
 
             // set lcMessages dynamically based on GET and civicrm_uf_match values
             // if cookie unset, initialise it to admin-specified value

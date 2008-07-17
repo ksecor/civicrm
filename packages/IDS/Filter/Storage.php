@@ -231,6 +231,8 @@ class IDS_Filter_Storage
 
             foreach ($filters as $filter) {
 
+                $id          = $nocache ? (string) $filter->id : 
+                    $filter['id'];
                 $rule        = $nocache ? (string) $filter->rule : 
                     $filter['rule'];
                 $impact      = $nocache ? (string) $filter->impact : 
@@ -240,14 +242,16 @@ class IDS_Filter_Storage
                 $description = $nocache ? (string) $filter->description : 
                     $filter['description'];
 
-                $this->addFilter(new IDS_Filter($rule,
+                $this->addFilter(new IDS_Filter($id,
+                                                $rule,
                                                 $description,
                                                 (array) $tags[0],
                                                 (int) $impact));
 
                 $data[] = array(
+                    'id'          => $id, 
                     'rule'        => $rule,
-                    'impact'    => $impact,
+                    'impact'      => $impact,
                     'tags'        => $tags,
                     'description' => $description
                 );
@@ -322,6 +326,8 @@ class IDS_Filter_Storage
 
             foreach ($filters as $filter) {
 
+                $id          = $nocache ? (string) $filter->id : 
+                    $filter['id'];            	
                 $rule        = $nocache ? (string) $filter->rule : 
                     $filter['rule'];
                 $impact      = $nocache ? (string) $filter->impact : 
@@ -331,15 +337,17 @@ class IDS_Filter_Storage
                 $description = $nocache ? (string) $filter->description : 
                     $filter['description'];
 
-                $this->addFilter(new IDS_Filter($rule,
+                $this->addFilter(new IDS_Filter($id,
+                                                $rule,
                                                 $description,
                                                 (array) $tags[0],
                                                 (int) $impact));
 
                 $data[] = array(
-                    'rule'      => $rule,
-                    'impact'    => $impact,
-                    'tags'      => $tags,
+                    'id'          => $id,
+                    'rule'        => $rule,
+                    'impact'      => $impact,
+                    'tags'        => $tags,
                     'description' => $description
                 );
             }

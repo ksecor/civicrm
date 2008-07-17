@@ -9,11 +9,23 @@
  
 <div class="form-item">
     <fieldset><legend>{ts}Contribution Amounts{/ts}</legend>
+    {if !$paymentProcessor}
+        {capture assign=ppUrl}{crmURL p='civicrm/admin/paymentProcessor' q="reset=1"}{/capture}
+        <div class="status message">
+                {ts 1=$ppUrl 2=$docURLTitle 3="http://wiki.civicrm.org/confluence//x/ihk"}No Payment Processor has been configured / enabled for your site. Unless you are only using CiviContribute to solicit non-monetary / in-kind contributions, you will need to <a href='%1'>configure a Payment Processor</a>. Then return to this screen and assign the processor to this Contribution Page. (<a href='%3' target='_blank' title='%2'>read more...</a>){/ts}
+        </div>
+    {/if}
     <table class="form-layout-compressed">  
         <tr><th scope="row" class="label" width="20%">{$form.is_monetary.label}</th>
             <td>{$form.is_monetary.html}<br />
             <span class="description">{ts}Uncheck this box if you are using this contribution page for free membership signup ONLY, or to solicit in-kind / non-monetary donations such as furniture, equipment.. etc.{/ts}</span></td>
         </tr>
+        {if $paymentProcessor}
+	<tr><th scope="row" class="label" width="20%">{$form.payment_processor_id.label}</th>
+            <td>{$form.payment_processor_id.html}<br />
+            <span class="description">{ts 1="http://wiki.civicrm.org/confluence//x/ihk" 2=$docURLTitle}Select the payment processor to be used for contributions submitted from this contribution page (unless you are soliciting non-monetary / in-kind contributions only). (<a href='%1' target='_blank' title='%2'>read more...</a>){/ts}</span></td>
+        </tr>
+        {/if}
         <tr><th scope="row" class="label">{$form.amount_block_is_active.label}</th>
             <td>{$form.amount_block_is_active.html}<br />
             <span class="description">{ts}Uncheck this box if you are using this contribution page for membership signup and renewal only - and you do NOT want users to select or enter any additional contribution amounts.{/ts}</span></td>
@@ -31,10 +43,42 @@
                     <span class="description">{ts}Instructions added to Confirmation and Thank-you pages, as well as the confirmation email, when the user selects the 'pay later' option (e.g. 'Mail your check to ... within 3 business days.').{/ts}</span></td></tr>
             </table>
             </td></tr>
+	
     </table>
 
     <div id="amountFields">
         <table class="form-layout-compressed">
+            {* handle CiviPledge fields *} 
+            {if $civiPledge}
+            <tr><th scope="row" class="label" width="20%"">{$form.is_pledge_active.label}</th>
+                <td>{$form.is_pledge_active.html}<br />
+                    <span class="description">{ts}Check this box if you are using this contribution page for pledge.{/ts}</span>
+                </td>
+            </tr>
+            <tr id="pledgeFields"><td></td><td>
+                <table class="form-layout-compressed">
+                  <tr><th scope="row" class="label">{$form.pledge_frequency_unit.label}<span class="marker"> *</span></th>
+                      <td>{$form.pledge_frequency_unit.html}</td>
+	          </tr>
+                  <tr><th scope="row" class="label">{$form.is_pledge_interval.label}</th>
+                      <td>{$form.is_pledge_interval.html}</td>
+                  </tr>
+		  <tr><th scope="row" class="label">{$form.initial_reminder_day.label}</th>
+                      <td>{$form.initial_reminder_day.html}<br />
+		          <span class="description">{ts}Days prior to each scheduled payment due date.{/ts}</span></td>
+                  </tr>
+		  <tr><th scope="row" class="label">{$form.max_reminders.label}</th>
+                      <td>{$form.max_reminders.html}<br />
+		          <span class="description">{ts}Reminders for each scheduled payment.{/ts}</span></td>
+                  </tr>
+		  <tr><th scope="row" class="label">{$form.additional_reminder_day.label}</th>
+                      <td>{$form.additional_reminder_day.html}<br />	
+		          <span class="description">{ts}Days after the last one sent, up to the maximum number of reminders.{/ts}</span></td>
+                  </tr>
+                </table>
+            </td></tr>
+	    {/if}
+
             {if $form.is_recur}
             <tr><th scope="row" class="label" width="20%">{$form.is_recur.label}</th>
                <td>{$form.is_recur.html}<br />
@@ -56,8 +100,7 @@
                 </td>
             </tr>
             {/if}    
-
-
+	
             <tr><th scope="row" class="label" width="20%">{$form.is_allow_other_amount.label}</th>
             <td>{$form.is_allow_other_amount.html}<br />
             <span class="description">{ts}Check this box if you want to give users the option to enter their own contribution amount. Your page will then include a text field labeled <strong>Other Amount</strong>.{/ts}</span></td></tr>
@@ -71,7 +114,7 @@
                 <span class="description">{ts 1=5|crmMoney}If you have chosen to <strong>Allow Other Amounts</strong>, you can use the fields above to control minimum and/or maximum acceptable values (e.g. don't allow contribution amounts less than %1).{/ts}</span></td></tr>
                </table>
             </td></tr>
-    
+            
             <tr><td colspan="2">
                 <fieldset><legend>{ts}Fixed Contribution Options{/ts}</legend>
                     {ts}Use the table below to enter up to ten fixed contribution amounts. These will be presented as a list of radio button options. Both the label and dollar amount will be displayed.{/ts}<br />
@@ -86,7 +129,7 @@
             </td></tr>
         </table>
       </div>
-
+	
       <div id="crm-submit-buttons">
         <dl><dt></dt><dd> {$form.buttons.html}<br></dd></dl>
       </div>
@@ -102,39 +145,40 @@
 	var amount_block = document.getElementsByName('amount_block_is_active');
   	if ( ! amount_block[0].checked) {
 	   hide('amountFields');
-    }
+        }
 	var pay_later = document.getElementsByName('is_pay_later');
   	if ( ! pay_later[0].checked) {
 	    hide('payLaterFields', 'table-row');
-    }
-
+        }
+	
 	function minMax(chkbox) {
-      if (chkbox.checked) {
+           if (chkbox.checked) {
 	     show('minMaxFields', 'table-row');
- 	  } else {
+ 	   } else {
 		 hide('minMaxFields');
 		 document.getElementById("min_amount").value = '';
 		 document.getElementById("max_amount").value = '';
 	  }
-	}	
+	}
+	
 	function amountBlock(chkbox) {
-        if (chkbox.checked) {
+           if (chkbox.checked) {
 	       show('amountFields', 'block');
-	    } else {
+           } else {
 	       hide('amountFields', 'block');
-	    }
-    }
+           }
+        }
+	
 	function payLater(chkbox) {
-        if (chkbox.checked) {
+           if (chkbox.checked) {
 	       show('payLaterFields',  'table-row');
-	    } else {
+	   } else {
 	       hide('payLaterFields',  'table-row');
-	    }
-    }
-
+	   }
+        }
 </script>
 {/literal}
-
+{if $form.is_recur}
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="is_recur"
     trigger_value       ="true"
@@ -143,3 +187,15 @@
     field_type          ="radio"
     invert              = "false"
 }
+{/if}
+{if $civiPledge}
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    = "is_pledge_active"
+    trigger_value       = "true"
+    target_element_id   = "pledgeFields" 
+    target_element_type = "table-row"
+    field_type          = "radio"
+    invert              = "false"
+}
+{/if}
+

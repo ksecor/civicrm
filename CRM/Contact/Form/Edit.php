@@ -263,8 +263,6 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                     $defaults['location'][$i+1] = array( );
                     if ( $i == 0 ) {
                         $defaults['location'][$i+1]['location_type_id'] = $locationType->id;
-                    } else {
-                        $defaults['location'][$i+1]['location_type_id'] = $locationTypeKeys[$i-1];
                     }
                     $defaults['location'][$i+1]['address'] = array( );
                     if ( $config->defaultContactCountry ) {
@@ -337,11 +335,12 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
 
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
             require_once 'CRM/Contact/BAO/Relationship.php';
-            $currentEmployer = CRM_Contact_BAO_Relationship::getCurrentEmployer( $this->_contactId, true );
-          
-            $defaults['employer_option'] = CRM_Utils_Array::value( 'employer_option',
-                                                                   $currentEmployer );
-            $this->assign( 'sharedEmployer', $currentEmployer['id']  );
+            $currentEmployer = CRM_Contact_BAO_Relationship::getCurrentEmployer( array( $this->_contactId ) );
+            
+            if ( CRM_Utils_Array::value( 'org_id', $currentEmployer[$this->_contactId] ) ) {
+                $defaults['employer_option'] = 1;
+            }
+            $this->assign( 'sharedEmployer',  CRM_Utils_Array::value( 'org_id', $currentEmployer[$this->_contactId] ) );
         }
         
         //set defaults for country-state dojo widget
@@ -728,20 +727,25 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         }
 
         if ( $this->_contactType == 'Individual' ) {
-            if ( isset( $params['employer_option'] ) && 
-                 $params['employer_option'] == 0 && 
-                 $params['create_employer'] ) {
+            if ( isset( $params['employer_option'] ) ) {
+                // create current employer
+                if ( $params['employer_option'] ) {
+                    //selected existing organization
+                    $orgParam = $params['shared_employer'];
+                } else {
+                    // create new org
+                    $orgParam = $params['create_employer'];
+                }
+
                 require_once 'CRM/Contact/BAO/Contact/Utils.php';
-                CRM_Contact_BAO_Contact_Utils::makeCurrentEmployerRelationship($contact->id, 
-                                                                               $params['create_employer']);
-                
-            } elseif ( isset( $params['employer_option'] ) && 
-                       $params['employer_option'] == 1 &&
-                       $params['shared_employer'] ) {
-                $orgId = array( 'id' => $params['shared_employer'] );
-                require_once 'CRM/Contact/BAO/Contact/Utils.php';
-                CRM_Contact_BAO_Contact_Utils::makeCurrentEmployerRelationship($contact->id, 
-                                                                               $orgId);
+                CRM_Contact_BAO_Contact_Utils::createCurrentEmployerRelationship( $contact->id, 
+                                                                                  $orgParam );
+            } else {
+                //unset if employer id exits
+                if ( CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $contact->id, 'employer_id' ) ) {
+                    require_once 'CRM/Contact/BAO/Contact/Utils.php';
+                    CRM_Contact_BAO_Contact_Utils::clearCurrentEmployer( $contact->id );
+                }
             }
         }
 

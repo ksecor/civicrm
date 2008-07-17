@@ -72,6 +72,9 @@ class CRM_Core_Config_Defaults
         // show tree widget
         $this->groupTree = defined( 'CIVICRM_GROUPTREE' ) ? true : false;
 
+        // in hrd mode?
+        $this->civiHRD   = defined( 'CIVICRM_HRD' ) ? true : false;
+
         // 
         $size = trim( ini_get( 'upload_max_filesize' ) );
         if ( $size ) {
@@ -205,8 +208,10 @@ class CRM_Core_Config_Defaults
             // populate defaults for components
             foreach( $defaults['enableComponents'] as $key => $name ) {
                 $comp = $config->componentRegistry->get( $name );
-                $co = $comp->getConfigObject();
-                $co->setDefaults( $defaults );
+                if ( $comp ) {
+                    $co = $comp->getConfigObject();
+                    $co->setDefaults( $defaults );
+                }
             }
         }
     }

@@ -152,7 +152,7 @@ class CRM_Friend_Form extends CRM_Core_Form
                               true );
         $email->freeze( );
 
-        $this->add('textarea', 'suggested_message', ts('Your Message'), CRM_Core_DAO::getAttribute('CRM_Friend_DAO_Friend', 'suggested_message'), true);         
+        $this->add('textarea', 'suggested_message', ts('Your Message'), CRM_Core_DAO::getAttribute('CRM_Friend_DAO_Friend', 'suggested_message'), true);
         
         $friend = array();
         for ( $i = 1; $i <= self::NUM_OPTION; $i++ ) {           

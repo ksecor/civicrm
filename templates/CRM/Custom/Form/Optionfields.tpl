@@ -32,7 +32,7 @@
 	<tr id="optionField_{$index}" class="form-item {cycle values="odd-row,even-row"}">
         <td> 
         {if $index GT 1}
-            <a onclick="hiderow('optionField_{$index}'); return false;" name="optionField_{$index}" href="#optionField_{$index}" class="form-link"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}hide field or section{/ts}"/></a>
+            <a onclick="hiderow('optionField_{$index}','optionField'); return false;" name="optionField_{$index}" href="#optionField_{$index}" class="form-link"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}hide field or section{/ts}"/></a>
         {/if}
         </td>
 	    <td> 
@@ -51,7 +51,7 @@
     {/section}
     </table>
 	<div id="optionFieldLink" class="add-remove-link">
-        <a onclick="showrow(); return false;" name="optionFieldLink" href="#optionFieldLink" class="form-link"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}show field or section{/ts}"/>{ts}another choice{/ts}</a>
+        <a onclick="showrow('optionField',11); return false;" name="optionFieldLink" href="#optionFieldLink" class="form-link"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}show field or section{/ts}"/>{ts}another choice{/ts}</a>
     </div>
 	<div id="additionalOption" class="description">
 		{ts}If you need additional options - you can add them after you Save your current entries.{/ts}

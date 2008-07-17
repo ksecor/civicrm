@@ -199,10 +199,16 @@ class CRM_Core_Config_Variables extends CRM_Core_Config_Defaults
                                     );
 
     /**
-     * String format for monetary values
+     * String format for monetary amounts
      * @var string
      */
     public $moneyformat = '%c %a';
+
+    /**
+     * String format for monetary values
+     * @var string
+     */
+    public $moneyvalueformat = '%!i';
 
     /**
      * Format for monetary amounts

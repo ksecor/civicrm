@@ -33,13 +33,8 @@
  *
  */
 
-/**
- * Files required
- */
-
 require_once 'CRM/Pledge/Selector/Search.php';
 require_once 'CRM/Core/Selector/Controller.php';
-
 
 /**
  * This file is for Pledge search
@@ -317,6 +312,7 @@ class CRM_Pledge_Form_Search extends CRM_Core_Form
         $this->_done = true;
         
         $this->_formValues = $this->controller->exportValues($this->_name);
+
         $this->fixFormValues( );
         
         // we don't show test contributions in Contact Summary / User Dashboard
@@ -440,8 +436,73 @@ class CRM_Pledge_Form_Search extends CRM_Core_Form
 
     function fixFormValues( )
     {
-        $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
+        if ( ! $this->_force ) {
+            return;
+        }
 
+        // set pledge payment related fields
+        $status = CRM_Utils_Request::retrieve( 'status', 'String',
+                                               CRM_Core_DAO::$_nullObject );
+        if ( $status ) {
+            $this->_formValues['pledge_payment_status_id'] = array( $status => 1);
+            $this->_defaults['pledge_payment_status_id'  ] = array( $status => 1);
+        }
+
+        $fromDate = CRM_Utils_Request::retrieve( 'start', 'Date',
+                                                 CRM_Core_DAO::$_nullObject );
+        if ( $fromDate ) {
+            $date = CRM_Utils_Date::unformat( $fromDate, '' );
+            $this->_formValues['pledge_payment_date_low'] = $date;
+            $this->_defaults['pledge_payment_date_low'  ] = $date;
+        }
+
+        $toDate= CRM_Utils_Request::retrieve( 'end', 'Date',
+                                              CRM_Core_DAO::$_nullObject );
+        if ( $toDate ) { 
+            $date = CRM_Utils_Date::unformat( $toDate, '' );
+            $this->_formValues['pledge_payment_date_high'] = $date;
+            $this->_defaults['pledge_payment_date_high'  ] = $date;
+        }
+
+        // set pledge related fields
+        $pledgeStatus = CRM_Utils_Request::retrieve( 'pstatus', 'String',
+                                               CRM_Core_DAO::$_nullObject );
+        if ( $pledgeStatus ) {
+            require_once 'CRM/Contribute/PseudoConstant.php';
+            $statusValues = CRM_Contribute_PseudoConstant::contributionStatus( );
+
+            // Remove status values that are only used for recurring contributions for now (Failed).
+            unset( $statusValues['4']);
+
+            // we need set all statuses except Cancelled
+            unset( $statusValues[$pledgeStatus]);
+            
+            $statuses = array( );
+            foreach( $statusValues as $statusId => $value ) {
+                $statuses[$statusId] = 1;
+            }
+ 
+            $this->_formValues['pledge_status_id'] = $statuses;
+            $this->_defaults['pledge_status_id'  ] = $statuses;
+        }
+
+        $pledgeFromDate = CRM_Utils_Request::retrieve( 'pstart', 'Date',
+                                                 CRM_Core_DAO::$_nullObject );
+        if ( $pledgeFromDate ) {
+            $date = CRM_Utils_Date::unformat( $pledgeFromDate, '' );
+            $this->_formValues['pledge_create_date_low'] = $date;
+            $this->_defaults['pledge_create_date_low'  ] = $date;
+        }
+
+        $pledgeToDate= CRM_Utils_Request::retrieve( 'pend', 'Date',
+                                              CRM_Core_DAO::$_nullObject );
+        if ( $pledgeToDate ) { 
+            $date = CRM_Utils_Date::unformat( $pledgeToDate, '' );
+            $this->_formValues['pledge_create_date_high'] = $date;
+            $this->_defaults['pledge_create_date_high'  ] = $date;
+        }
+
+        $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
         if ( $cid ) {
             $cid = CRM_Utils_Type::escape( $cid, 'Integer' );
             if ( $cid > 0 ) {

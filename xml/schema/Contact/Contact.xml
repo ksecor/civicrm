@@ -448,4 +448,17 @@
        <comment>the OpenID (or OpenID-style http://username.domain/) unique identifier for this contact mainly used for logging in to CiviCRM</comment>
        <add>2.0</add>
   </field>
+  <field>
+      <name>employer_id</name>
+      <type>int unsigned</type>
+      <comment>OPTIONAL FK to civicrm_contact record.</comment>
+      <add>2.1</add>
+  </field>
+  <foreignKey>
+       <name>employer_id</name>
+       <table>civicrm_contact</table>
+       <key>id</key>
+       <add>2.1</add>
+       <onDelete>SET NULL</onDelete>
+  </foreignKey>
 </table>

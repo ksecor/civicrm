@@ -204,7 +204,7 @@ class CRM_Utils_Hook {
         return   
             eval( 'return ' .
                   $config->userHookClass .
-                  '::invoke( 5, $type, $contactID, $tableName, $allGroups, $currentGroups, $where, \'civicrm_aclGroup\' );' );  
+                  '::invoke( 5, $type, $contactID, $tableName, $allGroups, $currentGroups, \'civicrm_aclGroup\' );' );  
     }
 
     static function xmlMenu( &$files ) {
@@ -216,4 +216,15 @@ class CRM_Utils_Hook {
                   $config->userHookClass .
                   '::invoke( 1, $files, $null, $null, $null, $null, \'civicrm_xmlMenu\' );' );
     }
+
+    static function dashboard( $contactID ) {
+        $config =& CRM_Core_Config::singleton( );
+        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
+        $null =& CRM_Core_DAO::$_nullObject;
+        return   
+            eval( 'return ' .
+                  $config->userHookClass .
+                  '::invoke( 1, $contactID, $null, $null, $null, $null, \'civicrm_dashboard\' );' );
+    }
+
 }

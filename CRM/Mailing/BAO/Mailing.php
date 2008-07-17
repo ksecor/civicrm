@@ -1174,19 +1174,9 @@ AND civicrm_contact.is_opt_out =0";
 
         // check and attach and files as needed
         require_once 'CRM/Core/BAO/File.php';
-        for ( $i = 1; $i <= 3; $i++ ) {
-            if ( isset( $params["attachFile_$i"] ) &&
-                 is_array( $params["attachFile_$i"] ) ) {
-                CRM_Core_BAO_File::filePostProcess($params["attachFile_$i"]['location'],
-                                                   null, 
-                                                   'civicrm_mailing',
-                                                   $mailing->id,
-                                                   null,
-                                                   true,
-                                                   $params["attachFile_$i"],
-                                                   "attachFile_$i" );
-            }
-        }
+        CRM_Core_BAO_File::processAttachment( $params,
+                                              'civicrm_mailing',
+                                              $mailing->id );
 
         $transaction->commit( );
         return $mailing;
@@ -1762,7 +1752,7 @@ SELECT DISTINCT( m.id ) as id
      * @return array
      * @access public
      */
-    function getDetails($contactIds, $returnProperties) 
+    function getDetails($contactIds, $returnProperties = null ) 
     {
         $params = array( );
         foreach ( $contactIds  as $key => $contactID ) {
@@ -1772,6 +1762,16 @@ SELECT DISTINCT( m.id ) as id
         
         // fix for CRM-2613
         $params[] = array( 'is_deceased', '=', 0, 0, 1 );
+        
+        // if return properties are not passed then get all return properties
+        if ( empty( $returnProperties ) ) {
+            require_once 'CRM/Contact/BAO/Contact.php';
+            $fields = array_merge( array_keys(CRM_Contact_BAO_Contact::exportableFields( ) ),
+                                   array( 'display_name', 'checksum', 'contact_id'));
+            foreach( $fields as $key => $val) {
+                $returnProperties[$val] = 1;
+            }
+        }
 
         $custom = array( );
         foreach ( $returnProperties as $name => $dontCare ) {
@@ -1781,55 +1781,32 @@ SELECT DISTINCT( m.id ) as id
             }
         }
         
-        //used to get the current employer field.
-        $currentEmployer = false;
-        if ( CRM_Utils_Array::value( 'current_employer', $returnProperties ) ) {
-            $currentEmployer = true;
-            unset( $returnProperties['current_employer'] );
-        }
-        
         //get the total number of contacts to fetch from database.
         $numberofContacts = count( $contactIds );
         
         require_once 'CRM/Contact/BAO/Query.php';
-        
         $query   =& new CRM_Contact_BAO_Query( $params, $returnProperties );
         $details = $query->apiQuery( $params, $returnProperties, NULL, NULL, 0, $numberofContacts );
-        
+
         $contactDetails =& $details[0]; 
         
         foreach ( $contactIds as $key => $contactID ) {
             if ( CRM_Utils_Array::value('preferred_communication_method',$returnProperties) == 1 ) {
-                
                 require_once 'CRM/Core/PseudoConstant.php';
                 $pcm = CRM_Core_PseudoConstant::pcm();
                 
                 // communication Prefferance
-                
                 require_once 'CRM/Core/BAO/CustomOption.php';
                 $contactPcm = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$contactDetails[$contactID]['preferred_communication_method']);
                 
+                $result = array( );
                 foreach ( $contactPcm as $key => $val) {
                     if ($val) {
                         $result[$val] = $pcm[$val];
                     } 
                 }
                 
-                $contactDetails[$contactID]['preferred_communication_method'] = implode(', ',$result);
-                unset($result);
-            }
-            
-            //get the current employer name.
-            if ( $currentEmployer ) {
-                require_once 'CRM/Contact/BAO/Relationship.php';
-                $relationships = CRM_Contact_BAO_Relationship::getRelationship( $contactID );
-                krsort( $relationships );
-                foreach ( $relationships as $relationshipID => $value ) {
-                    if ( $value['relation'] == 'Employee of' && $value['is_active'] == 1 ) {
-                        $contactDetails[$contactID]['current_employer'] = $value['name'];
-                        break;
-                    }
-                }
+                $contactDetails[$contactID]['preferred_communication_method'] = implode( ', ', $result );
             }
             
             foreach ( $custom as $cfID ) {
@@ -1839,6 +1816,7 @@ SELECT DISTINCT( m.id ) as id
                 }
             }
         }
+
         return $details;
     }
 
@@ -1887,9 +1865,8 @@ SELECT DISTINCT( m.id ) as id
         
         $form->add('checkbox','saveTemplate',ts('Save As New Template'), null,false,
                           array( 'onclick' => "showSaveDetails(this);" ));
-        if ( ! $form->get('saveTemplate') ) {
-            $form->add('text','saveTemplateName',ts('Template Title'));
-        } 
+        $form->add('text','saveTemplateName',ts('Template Title'));
+      
        
         //insert message Text by selecting "Select Template option"
         $form->add( 'textarea', 
@@ -1901,21 +1878,7 @@ SELECT DISTINCT( m.id ) as id
                            ts('HTML Message'),
                            array('cols' => '80', 'rows' => '8',
                                  'onkeyup' =>"return verify(this)" ) );
-           
-    }
-
-    static function attachmentInfo( $mailingID, $separator = '<br />' ) {
-        require_once 'CRM/Core/BAO/File.php';
-        $currentAttachments = CRM_Core_BAO_File::getEntityFile( 'civicrm_mailing',
-                                                                $mailingID );
-        if ( ! empty( $currentAttachments ) ) {
-            $currentAttachmentURL = array( );
-            foreach ( $currentAttachments as $fileID => $attach ) {
-                $currentAttachmentURL[] = $attach['href'];
-            }
-            return implode( $separator, $currentAttachmentURL );
-        }
-        return null;
+        
     }
 
 }

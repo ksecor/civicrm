@@ -144,7 +144,7 @@ function civicrm_event_search( &$params )
             $returnProperties[ substr( $n, 7 ) ] = 1;
         }
     }
-    
+    require_once 'CRM/Core/BAO/CustomGroup.php';
     require_once 'CRM/Event/BAO/Event.php';
     $eventDAO = new CRM_Event_BAO_Event( );
     $eventDAO->copyValues( $params );
@@ -155,18 +155,14 @@ function civicrm_event_search( &$params )
     while ( $eventDAO->fetch( ) ) {
         $event[$eventDAO->id] = array( );
         CRM_Core_DAO::storeValues( $eventDAO, $event[$eventDAO->id] );
-    }
-    
-    foreach( $event as $eid => $values) {
-        require_once 'CRM/Core/BAO/CustomGroup.php';
-        $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Event', $eid, 0, null );
-        
-        $defaults = array( );
-        CRM_Core_BAO_CustomGroup::setDefaults( $groupTree, $defaults, false, false ); 
-        
-        $event[$eid] = array_merge( $values, $defaults);
-    }
-    
+        $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Event', $eventDAO->id, false, 1 );
+        CRM_Core_BAO_CustomGroup::setDefaults( $groupTree, $defaults, false, false );
+        if ( is_array( $defaults ) ) {
+            foreach ( $defaults as $key => $val ) {
+                $event[$eventDAO->id][$key] = $val;
+            }
+        }
+    } // end of the loop
     $eventDAO->free( );
     return $event;
 }

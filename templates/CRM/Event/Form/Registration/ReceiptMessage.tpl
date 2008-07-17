@@ -56,12 +56,14 @@
 
 {capture assign=icalFeed}{crmURL p='civicrm/event/ical' q="reset=1&id=`$event.id`" h=0}{/capture}
 {ts}Download iCalendar File:{/ts} {$icalFeed} 
+{if $email}
 
 ===========================================================
 {ts}Registered Email{/ts}
 
 ===========================================================
 {$email}
+{/if}
 {if $event.is_monetary} {* This section for Paid events only.*}
 
 ===========================================================

@@ -279,7 +279,8 @@
      <div id = "id_notes">
          <fieldset><legend>{$notes.hide}{ts}Contact Notes{/ts}</legend>
             <div class="form-item">
-                {$form.note.html}
+ 		{$form.subject.label} {$form.subject.html}<br /><br />
+		{$form.note.html}
             </div>
          </fieldset>
      </div>

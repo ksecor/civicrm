@@ -1,4 +1,5 @@
 {* this template is used for confirmation of delete for a group  *}
+<fieldset><legend>{ts}Delete Group {/ts}</legend>
     <div class="messages status">
       <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
@@ -15,3 +16,4 @@
 <div class="form-item">
     {$form.buttons.html}
 </div>
+</fieldset>

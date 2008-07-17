@@ -114,8 +114,8 @@ class CRM_Core_Permission {
         return eval( 'return ' . $config->userPermissionClass . '::group( $groupType );' );
     }
 
-    public static function customGroup( $type = CRM_Core_Permission::VIEW ) {
-        $customGroups = CRM_Core_PseudoConstant::customGroup( );
+    public static function customGroup( $type = CRM_Core_Permission::VIEW , $reset = false ) {
+        $customGroups = CRM_Core_PseudoConstant::customGroup( $reset );
 
         // check if user has all powerful permission
         // or administer civicrm permission (CRM-1905)
@@ -128,8 +128,8 @@ class CRM_Core_Permission {
         return CRM_ACL_API::group( $type, null, 'civicrm_custom_group', $customGroups );
     }
 
-    static function customGroupClause( $type = CRM_Core_Permission::VIEW, $prefix = null ) {
-        $groups = self::customGroup( $type );
+    static function customGroupClause( $type = CRM_Core_Permission::VIEW, $prefix = null, $reset = false ) {
+        $groups = self::customGroup( $type, $reset = false );
         if ( empty( $groups ) ) {
             return ' ( 0 ) ';
         } else {

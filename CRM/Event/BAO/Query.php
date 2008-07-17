@@ -40,9 +40,11 @@ class CRM_Event_BAO_Query
     {
         $fields = array( );
         require_once 'CRM/Event/DAO/Event.php';
+        require_once 'CRM/Core/DAO/Discount.php';
         $fields = array_merge( $fields, CRM_Event_DAO_Event::import( ) );
         $fields = array_merge( $fields, self::getParticipantFields( ) );
-        
+        $fields = array_merge( $fields, CRM_Core_DAO_Discount::export( ) );
+               
         return $fields;
     }
 
@@ -103,6 +105,14 @@ class CRM_Event_BAO_Query
                 $query->_element['event_end_date'] = 1;
             }
         
+            //event type
+            if ( CRM_Utils_Array::value( 'event_type_id', $query->_returnProperties ) ) {
+                $query->_select['event_type']  = "event_type.name as event_type_id";
+                $query->_element['event_type']        = 1;
+                $query->_tables['event_type']         = 1;
+                $query->_whereTables['event_type']    = 1;
+            }
+
             //add status
             if ( CRM_Utils_Array::value( 'participant_status_id', $query->_returnProperties ) ) {
                 $query->_select['participant_status']  = "participant_status.name as participant_status_id";
@@ -152,6 +162,16 @@ class CRM_Event_BAO_Query
             if ( CRM_Utils_Array::value( 'participant_is_test', $query->_returnProperties ) ) {
                 $query->_select['participant_is_test']  = "civicrm_participant.is_test as participant_is_test";
                 $query->_element['participant_is_test'] = 1;
+            }
+ 
+            // get discount name
+            if ( CRM_Utils_Array::value( 'participant_discount_name', $query->_returnProperties ) ) {
+                $query->_select['participant_discount_name']      = "discount_name.label as participant_discount_name";
+                $query->_element['participant_discount_name']     = 1;
+                $query->_tables['civicrm_discount']               = 1;
+                $query->_tables['participant_discount_name']      = 1;
+                $query->_whereTables['civicrm_discount']          = 1;
+                $query->_whereTables['participant_discount_name'] = 1;
             }
         }
     }
@@ -384,6 +404,11 @@ class CRM_Event_BAO_Query
             $from = " INNER JOIN civicrm_event ON civicrm_participant.event_id = civicrm_event.id ";
             break;
             
+        case 'event_type':
+            $from = " $side JOIN civicrm_option_group option_group_event_type ON (option_group_event_type.name = 'event_type')";
+            $from .= " $side JOIN civicrm_option_value event_type ON (civicrm_event.event_type_id = event_type.value AND option_group_event_type.id = event_type.option_group_id ) ";
+            break;
+
         case 'participant_note':
             $from .= " $side JOIN civicrm_note ON ( civicrm_note.entity_table = 'civicrm_participant' AND
                                                         civicrm_participant.id = civicrm_note.entity_id )";
@@ -400,6 +425,12 @@ class CRM_Event_BAO_Query
             $from .= " $side JOIN civicrm_option_value participant_role ON (civicrm_participant.role_id = participant_role.value 
                                AND option_group_participant_role.id = participant_role.option_group_id ) ";
             break;
+
+        case 'participant_discount_name':
+            $from = " $side JOIN civicrm_discount discount ON ( civicrm_participant.discount_id = discount.id )";
+            $from .= " $side JOIN civicrm_option_group discount_name ON ( discount_name.id = discount.option_group_id ) ";
+            break;
+
 
         }
         return $from;
@@ -427,6 +458,7 @@ class CRM_Event_BAO_Query
                                 'event_title'               => 1,
                                 'event_start_date'          => 1,
                                 'event_end_date'            => 1,
+                                'event_type_id'             => 1,
                                 'participant_id'            => 1,
                                 'participant_status_id'     => 1,
                                 'participant_role_id'       => 1,
@@ -435,7 +467,8 @@ class CRM_Event_BAO_Query
                                 'participant_fee_level'     => 1,
                                 'participant_is_test'       => 1,
                                 'participant_is_pay_later'  => 1,
-                                'participant_fee_amount'    => 1
+                                'participant_fee_amount'    => 1,
+                                'participant_discount_name' => 1
                                 );
        
             // also get all the custom participant properties

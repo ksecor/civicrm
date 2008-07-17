@@ -432,7 +432,7 @@ class CRM_Contact_BAO_Query
         // CRM_Core_Error::debug( 'f', $this->_fields );
         // CRM_Core_Error::debug( 'p', $this->_params );
         // CRM_Core_Error::debug( 'p', $this->_paramLookup );
-        
+
         foreach ($this->_fields as $name => $field) {
 
             //skip component fields
@@ -479,7 +479,6 @@ class CRM_Contact_BAO_Query
                             require_once 'CRM/Core/OptionValue.php';
                             CRM_Core_OptionValue::select($this);
                         } else {
-                            
                             $this->_tables[$tableName]         = 1;
                             
                             // also get the id of the tableName
@@ -500,7 +499,10 @@ class CRM_Contact_BAO_Query
                                 $this->_select [$name]                 = "civicrm_state_province.abbreviation as `$name`, civicrm_state_province.name as state_province_name";
                                 $this->_element['state_province_name'] = 1;
                             } else if ( $tName == 'contact' ) {
-                                if ( $fieldName != 'id' ) {
+                                // special case, when current employer is set for Individual contact
+                                if ( $fieldName == 'organization_name' ) {
+                                    $this->_select[$name   ] = "IF ( contact_a.contact_type = 'Individual', NULL, contact_a.organization_name ) AS organization_name";
+                                } else if ( $fieldName != 'id' ) {
                                     $this->_select [$name]          = "contact_a.{$fieldName}  as `$name`";
                                 } 
                             } else {
@@ -519,6 +521,9 @@ class CRM_Contact_BAO_Query
                 } else if ($name === 'notes') {
                     $this->_select[$name   ] = "GROUP_CONCAT(DISTINCT(civicrm_note.note)) AS notes";
                     $this->_tables['civicrm_note'        ] = 1;
+                } else if ($name === 'current_employer') {
+                    $this->_select[$name   ] = "IF ( contact_a.contact_type = 'Individual', contact_a.organization_name, NULL ) AS current_employer";
+                    $this->_element[$name]   = 1;
                 }
             } 
             
@@ -562,7 +567,6 @@ class CRM_Contact_BAO_Query
                             $this->_cfIDs[$cfID][] = $p;
                         }
                     }
-
                 }
             }
         }
@@ -1311,6 +1315,15 @@ class CRM_Contact_BAO_Query
             }
             $wc = ( $op != 'LIKE' ) ? "LOWER({$field['where']})" : "{$field['where']}";
             $this->_where[$grouping][] = "$wc $op '$value'";
+            $this->_qill[$grouping][]  = "$field[title] $op \"$value\"";
+        } else if ( $name === 'current_employer' ) {
+            $value = strtolower( addslashes( $value ) );
+            if ( $wildcard ) {
+                $value = "%$value%"; 
+                $op    = 'LIKE';
+            }
+            $wc = ( $op != 'LIKE' ) ? "LOWER(contact_a.organization_name)" : "contact_a.organization_name";
+            $this->_where[$grouping][] = "$wc $op '$value' AND contact_a.contact_type ='Individual'";
             $this->_qill[$grouping][]  = "$field[title] $op \"$value\"";
         } else {
             // sometime the value is an array, need to investigate and fix
@@ -2579,6 +2592,7 @@ WHERE  id IN ( $groupIDs )
                                                                'job_title'              => 1,
                                                                'legal_name'             => 1,
                                                                'sic_code'               => 1,
+                                                               'current_employer'       => 1,
                                                                // FIXME: should we use defaultHierReturnProperties() for the below?
                                                                'do_not_email'           => 1,
                                                                'do_not_mail'            => 1,
@@ -2658,7 +2672,7 @@ WHERE  id IN ( $groupIDs )
         }
 
         $dao =& CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
-        //crm_core_error::Debug('$sql', $sql);
+        
         $values = array( );
         while ( $dao->fetch( ) ) {
             $values[$dao->contact_id] = $query->store( $dao );

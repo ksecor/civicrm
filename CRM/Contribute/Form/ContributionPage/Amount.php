@@ -79,12 +79,17 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         $this->addElement('checkbox', 'amount_block_is_active', ts('Contribution Amounts section enabled'), null, array( 'onclick' => "amountBlock(this);" ) );
 
         $this->addElement('checkbox', 'is_monetary', ts('Execute real-time monetary transactions') );
-
-
-        //check if selected payment processor supports recurring payment
+        
+        $paymentProcessor =& CRM_Core_PseudoConstant::paymentProcessor( );
+        if ( count($paymentProcessor) ) {
+            $this->assign('paymentProcessor',$paymentProcessor);
+        }
+        $this->add( 'select', 'payment_processor_id', ts( 'Payment Processor' ),
+                    array(''=>ts( '- select -' )) + $paymentProcessor );
         
         require_once "CRM/Contribute/BAO/ContributionPage.php";
-
+        
+        //check if selected payment processor supports recurring payment
         if ( CRM_Contribute_BAO_ContributionPage::checkRecurPaymentProcessor( $this->_id ) ) {
             $this->addElement( 'checkbox', 'is_recur', ts('Enable recurring payments'), null, 
                                array('onclick' => "return showHideByValue('is_recur',true,'recurFields','table-row','radio',false);") );
@@ -95,7 +100,7 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
                                 array( '&nbsp;&nbsp;', '&nbsp;&nbsp;', '&nbsp;&nbsp;', '<br/>' ) );
             $this->addElement('checkbox', 'is_recur_interval', ts('Support recurring intervals') );
         }
-
+        
         // add pay later options
         $this->addElement('checkbox', 'is_pay_later', ts( 'Enable pay later option?' ),
                           null, array( 'onclick' => "payLater(this);" ) );
@@ -105,7 +110,24 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         $this->addElement('textarea', 'pay_later_receipt', ts( 'Pay later instructions' ),  
                           CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_ContributionPage', 'pay_later_receipt' ),
                           false );
-
+        
+        //CiviPledge fields.
+        $config =& CRM_Core_Config::singleton( );
+        if ( in_array('CiviPledge', $config->enableComponents) ) {
+            $this->assign('civiPledge', true );
+            require_once 'CRM/Core/OptionGroup.php';
+            $this->addElement( 'checkbox', 'is_pledge_active', ts('Enable Pledges for this contribution page') , 
+                               null, array('onclick' => "return showHideByValue('is_pledge_active',true,'pledgeFields','table-row','radio',false);") );
+            $this->addCheckBox( 'pledge_frequency_unit', ts( 'Supported pledge frequencies' ), 
+                                CRM_Core_OptionGroup::values( "recur_frequency_units", false, false, false, null, 'name' ),
+                                null, null, null, null,
+                                array( '&nbsp;&nbsp;', '&nbsp;&nbsp;', '&nbsp;&nbsp;', '<br/>' ));
+            $this->addElement( 'checkbox', 'is_pledge_interval', ts('Allow Frequency Intervals') );
+            $this->addElement( 'text', 'initial_reminder_day', ts('Send Initial Reminder'), array('size'=>3) );
+            $this->addElement( 'text', 'max_reminders', ts('Send up to'), array('size'=>3) );
+            $this->addElement( 'text', 'additional_reminder_day', ts('Send additional reminders'), array('size'=>3) );
+        }
+        
         $this->addFormRule( array( 'CRM_Contribute_Form_ContributionPage_Amount', 'formRule' ) );
         
         parent::buildQuickForm( );
@@ -185,7 +207,17 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
                 $errors['recur_frequency_unit'] = ts( 'Atleast one option needs to be checked.' );
             }
         }        
-
+        
+        //validation for pledge fields.
+        if ( CRM_Utils_array::value( 'is_pledge_active', $fields ) ) {
+            if ( empty( $fields['pledge_frequency_unit'] ) ) {
+                $errors['pledge_frequency_unit'] = ts( 'Atleast one option needs to be checked.' );
+            }
+            if ( CRM_Utils_array::value( 'is_recur', $fields ) ) {
+                $errors['is_recur'] = ts( 'You can not enable both Recurring Contributions AND Pledges on the same online contribution page.' ); 
+            }
+        }
+        
         return $errors;
     }
  
@@ -199,7 +231,7 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
     {
         // get the submitted form values.
         $params = $this->controller->exportValues( $this->_name );
-
+        
         $params['id']                    = $this->_id;
         $params['is_allow_other_amount'] = CRM_Utils_Array::value('is_allow_other_amount', $params, false);
         
@@ -248,6 +280,32 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         
         require_once 'CRM/Contribute/BAO/ContributionPage.php';
         $dao = CRM_Contribute_BAO_ContributionPage::create( $params );
+        $contributionPageID = $dao->id;
+        
+        //create pledge block.
+        if ( CRM_Utils_Array::value('is_pledge_active', $params )  && $contributionPageID &&
+             CRM_Utils_Array::value('amount_block_is_active', $params ) ) {
+            $pledgeBlockParams = array( 'entity_id'    => $contributionPageID,
+                                        'entity_table' => ts( 'civicrm_contribution_page' ) );
+            if ( $this->_pledgeBlockID ) {
+                $pledgeBlockParams['id'] = $this->_pledgeBlockID;
+            }
+            $pledgeBlock = array( 'pledge_frequency_unit', 'max_reminders', 
+                                  'initial_reminder_day', 'additional_reminder_day' );
+            foreach ( $pledgeBlock  as $key ) {
+                $pledgeBlockParams[$key] = CRM_Utils_Array::value( $key, $params );    
+            }
+            $pledgeBlockParams['is_pledge_interval'] = CRM_Utils_Array::value('is_pledge_interval', $params, false );
+            
+            require_once 'CRM/Pledge/BAO/PledgeBlock.php';
+            CRM_Pledge_BAO_PledgeBlock::create( $pledgeBlockParams );
+        } else if ( $this->_pledgeBlockID && 
+                    ( !CRM_Utils_Array::value('is_pledge_active', $params ) || 
+                      !CRM_Utils_Array::value('amount_block_is_active', $params ) ) ) { 
+            //delete the pledge block.
+            require_once 'CRM/Pledge/BAO/PledgeBlock.php';
+            CRM_Pledge_BAO_PledgeBlock::deletePledgeBlock( $this->_pledgeBlockID );
+        }
     }
     
     /** 

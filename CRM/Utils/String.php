@@ -305,6 +305,24 @@ class CRM_Utils_String {
         $converter = new html2text($html);
         return $converter->get_text();
     }
-    
+
+    static function extractName( $string, &$params ) {
+        $name = trim( $string );
+        if ( empty( $name ) ) {
+            return;
+        }
+
+        $names = explode( ' ', $name );
+        if ( count( $names ) == 1 ) {
+            $params['first_name'] = $names[0];
+        } else if ( count( $names ) == 2 ) {
+            $params['first_name'] = $names[0];
+            $params['last_name' ] = $names[1];
+        } else {
+            $params['first_name' ] = $names[0];
+            $params['middle_name'] = $names[1];
+            $params['last_name'  ] = $names[2];
+        }
+    }
 }
 

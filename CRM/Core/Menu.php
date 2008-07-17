@@ -545,6 +545,10 @@ class CRM_Core_Menu
 
     static function get( $path )
     {
+        if ( $path == 'civicrm/upgrade' ) {
+            return self::getUpgradeItem( $path );
+        }
+
         // return null if menu rebuild
         $config =& CRM_Core_Config::singleton( );
         if ( strpos( CRM_Utils_Array::value( $config->userFrameworkURLVar, $_REQUEST ),
@@ -639,6 +643,17 @@ UNION (
         return $arr;
     }
 
+    /* Since we won't have the menu table during upgrade, 
+     * for that particular case we 'll return the hard coded menu item 
+     */
+    static function getUpgradeItem( $path )
+    {
+        return $item = array (
+                              'path'            => 'civicrm/upgrade',
+                              'access_callback' => 1,
+                              'page_callback'   => 'CRM_Upgrade_TwoOne_Controller'
+                              );
+    }
 }
 
 

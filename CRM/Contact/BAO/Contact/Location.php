@@ -45,8 +45,14 @@ class CRM_Contact_BAO_Contact_Location
      * @static
      * @access public
      */
-    static function getEmailDetails( $id, $locationTypeID = null ) 
+    static function getEmailDetails( $id, $isPrimary = true, $locationTypeID = null ) 
     {
+        $primaryClause = null;
+        if ( $isPrimary ) {
+            $primaryClause = " AND civicrm_email.is_primary = 1";
+        }
+
+
         $locationClause = null;
         if ( $locationTypeID ) {
             $locationClause = " AND civicrm_email.location_type_id = $locationTypeID";
@@ -58,7 +64,7 @@ SELECT    civicrm_contact.display_name,
           civicrm_email.location_type_id,
           civicrm_email.id
 FROM      civicrm_contact
-LEFT JOIN civicrm_email ON ( civicrm_contact.id = civicrm_email.contact_id AND civicrm_email.is_primary = 1 $locationClause )
+LEFT JOIN civicrm_email ON ( civicrm_contact.id = civicrm_email.contact_id {$primaryClause} {$locationClause} )
 WHERE     civicrm_contact.id = %1";
 
         $params = array( 1 => array( $id, 'Integer' ) );

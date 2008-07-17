@@ -83,36 +83,31 @@ class CRM_Activity_BAO_Query
     static function whereClauseSingle( &$values, &$query ) 
     {
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
-        // CRM_Core_Error::debug( '$name', $name );
         
         switch( $name ) {
             
         case 'activity_activitytag1_id':
             $value = strtolower(addslashes(trim($value)));
-            $query->_where[$grouping][] = "(civicrm_meeting.activity_tag1_id $op {$value} OR civicrm_activity.activity_tag1_id $op {$value} OR civicrm_phonecall.activity_tag1_id $op {$value})";
+            $query->_where[$grouping][] = "civicrm_activity.activity_tag1_id $op {$value}";
 
             require_once 'CRM/Core/OptionGroup.php' ;
             $activityType = CRM_Core_OptionGroup::values('case_activity_type');
             $value = $activityType[$value];
 
             $query->_qill[$grouping ][]          = ts( 'Case Activity %2 %1', array( 1 => $value, 2 => $op) );
-            $query->_tables['civicrm_meeting']   = $query->_whereTables['civicrm_meeting'] = 1;
             $query->_tables['civicrm_activity']  = $query->_whereTables['civicrm_activity'] = 1;
-            $query->_tables['civicrm_phonecall'] = $query->_whereTables['civicrm_phonecall'] = 1;
             return;
 
         case 'activity_activitytag2_id':
             $value = strtolower(addslashes(trim($value)));
-            $query->_where[$grouping][] = "(civicrm_meeting.activity_tag2_id $op {$value} OR civicrm_activity.activity_tag2_id $op {$value} OR civicrm_phonecall.activity_tag2_id $op {$value})";
+            $query->_where[$grouping][] = "civicrm_activity.activity_tag2_id $op {$value}";
 
             require_once 'CRM/Core/OptionGroup.php' ;
             $communicationMedium = CRM_Core_OptionGroup::values('communication_medium');
             $value = $communicationMedium[$value];
 
             $query->_qill[$grouping ][] = ts( 'Communication Medium %2 %1', array( 1 => $value, 2 => $op) );
-            $query->_tables['civicrm_meeting']   = $query->_whereTables['civicrm_meeting'] = 1;
             $query->_tables['civicrm_activity']  = $query->_whereTables['civicrm_activity'] = 1;
-            $query->_tables['civicrm_phonecall'] = $query->_whereTables['civicrm_phonecall'] = 1;
             return;
 
         case 'activity_activitytag3_id':
@@ -123,22 +118,11 @@ class CRM_Activity_BAO_Query
             
             require_once 'CRM/Case/BAO/Case.php';
             $value = CRM_Case_BAO_Case::VALUE_SEPERATOR.$value.CRM_Case_BAO_Case::VALUE_SEPERATOR;
-            $query->_where[$grouping][] = "(civicrm_meeting.activity_tag3_id $op '%{$value}%' OR civicrm_activity.activity_tag3_id $op '%{$value}%' OR civicrm_phonecall.activity_tag3_id $op '%{$value}%')";
+            $query->_where[$grouping][] = "civicrm_activity.activity_tag3_id $op '%{$value}%'";
 
             $query->_qill[$grouping ][] = ts( 'Violation Type %2 %1', array( 1 => $actualValue, 2 => $op) );
-            $query->_tables['civicrm_meeting']   = $query->_whereTables['civicrm_meeting'] = 1;
             $query->_tables['civicrm_activity']  = $query->_whereTables['civicrm_activity'] = 1;
-            $query->_tables['civicrm_phonecall'] = $query->_whereTables['civicrm_phonecall'] = 1;
             return;
-
-       //  case 'activity_subject':
-//             $value = strtolower(addslashes(trim($value)));
-//             $query->_where[$grouping][] = "(civicrm_meeting.subject $op '{$value}' OR civicrm_activity.subject $op '{$value}' OR civicrm_phonecall.subject $op '{$value}')";
-//             $query->_qill[$grouping ][] = ts( 'Case Activity Subject %2 %1', array( 1 => $value, 2 => $op) );
-//             $query->_tables['civicrm_meeting']   = $query->_whereTables['civicrm_meeting'] = 1;
-//             $query->_tables['civicrm_activity']  = $query->_whereTables['civicrm_activity'] = 1;
-//             $query->_tables['civicrm_phonecall'] = $query->_whereTables['civicrm_phonecall'] = 1;
-//             return;
 
         case 'activity_start_date_low':
         case 'activity_start_date_high':

@@ -5,9 +5,7 @@ function getOpenIDURL() {
     // Render a default page if we got a submission without an openid
     // value.
     if (empty($_REQUEST['openid_identifier'])) {
-        $error = "Expected an OpenID URL.";
-        include 'index.php';
-        exit(0);
+        displayError("Expected an OpenID URL.");
     }
     
     return $_REQUEST['openid_identifier'];
@@ -29,9 +27,9 @@ function run() {
         if ( count($contactIds) > 0 ) {
             displayError("Authentication error; not a valid OpenID.");
         } else {
-            //displayError("Authentication error; not a valid
-            //OpenID.");
-            header("Location: new_install.php"); 
+            $session =& CRM_Core_Session::singleton( );
+            $session->set( 'new_install', true );
+            include('new_install.html');
             exit(1);
         }
     }

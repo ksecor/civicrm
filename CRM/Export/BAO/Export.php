@@ -58,31 +58,21 @@ class CRM_Export_BAO_Export
     static function exportComponents( $selectAll, $ids, $params, $order = null, 
                                       $fields = null, $moreReturnProperties = null, 
                                       $exportMode = CRM_Export_Form_Select::CONTACT_EXPORT,
-                                      $componentClause = null ) 
+                                      $componentClause = null )
     {
         $headerRows       = array();
         $primary          = false;
         $returnProperties = array( );
         $origFields       = $fields;
         
-        //used to check if user map current employer field to be exported.
-        $currentEmployer  = false;
-        //used to check if user wants only current employer field to be exported.
-        //in that case contact_id should be unset from csv row.
-        $unsetContactID   = false;
-        
         if ( $fields ) {
             //construct return properties 
             $locationTypes =& CRM_Core_PseudoConstant::locationType();
-            
+
             foreach ( $fields as $key => $value) {
                 $fieldName   = CRM_Utils_Array::value( 1, $value );
                 
                 if ( ! $fieldName ) {
-                    continue;
-                } else if ( $fieldName == 'current_employer' ) {
-                    //export current employer field.
-                    $currentEmployer = true;
                     continue;
                 }
                 
@@ -114,13 +104,6 @@ class CRM_Export_BAO_Export
             } else if ( $exportMode == CRM_Export_Form_Select::MEMBER_EXPORT ) {
                 $returnProperties['membership_id'] = 1;
             }
-
-            //check if user map current employer field,
-            //and did not map Internal Contact ID.
-            $returnContactID = CRM_Utils_Array::value( 'id' , $returnProperties );
-            if ( $currentEmployer && empty( $returnContactID ) ) {
-                $unsetContactID = true;
-            }
         } else {
             $primary = true;
             $fields = CRM_Contact_BAO_Contact::exportableFields( 'All', true, true );
@@ -130,16 +113,17 @@ class CRM_Export_BAO_Export
                     $returnProperties[$key] = 1;
                 }
             }
-
+            
             if ( $primary ) {
-                $returnProperties['location_type'] = 1;
-                $returnProperties['im_provider'  ] = 1;
-                $returnProperties['phone_type'   ] = 1;
+                $returnProperties['location_type'   ] = 1;
+                $returnProperties['im_provider'     ] = 1;
+                $returnProperties['phone_type'      ] = 1;
+                $returnProperties['current_employer'] = 1;
             }
             
             $paymentFields = false;
             $queryMode = CRM_Contact_BAO_Query::MODE_CONTACTS;
-
+            
             switch ( $exportMode )  {
             case CRM_Export_Form_Select::CONTRIBUTE_EXPORT :
                 $queryMode = CRM_Contact_BAO_Query::MODE_CONTRIBUTE;
@@ -155,7 +139,7 @@ class CRM_Export_BAO_Export
                 $paymentTableId = "membership_id";
                 break;
             }
-
+            
             if ( $queryMode != CRM_Contact_BAO_Query::MODE_CONTACTS ) {
                 $componentReturnProperties =& CRM_Contact_BAO_Query::defaultReturnProperties( $queryMode );
                 $returnProperties          = array_merge( $returnProperties, $componentReturnProperties );
@@ -166,15 +150,15 @@ class CRM_Export_BAO_Export
                 }
             }
         }
-
+        
         if ( $moreReturnProperties ) {
             $returnProperties = array_merge( $returnProperties, $moreReturnProperties );
         }
-        //crm_core_error::debug('$returnProperties', $returnProperties );
+        //crm_core_error::debug('$returnProperties', $returnProperties ); exit();
         $query =& new CRM_Contact_BAO_Query( 0, $returnProperties, null, false, false, $queryMode ); 
 
         list( $select, $from, $where ) = $query->query( );
-
+        
         // make sure the groups stuff is included only if specifically specified
         // by the fields param (CRM-1969), else we limit the contacts outputted to only
         // ones that are part of a group
@@ -197,7 +181,7 @@ class CRM_Export_BAO_Export
         }
         
         $queryString = "$select $from $where";
-
+        
         if ( CRM_Utils_Array::value( 'tags'  , $returnProperties ) || 
              CRM_Utils_Array::value( 'groups', $returnProperties ) ||
              CRM_Utils_Array::value( 'notes' , $returnProperties ) ) { 
@@ -211,11 +195,11 @@ class CRM_Export_BAO_Export
                 $queryString .= " ORDER BY $order";
             }
         }
-
+        
         //hack for student data
         require_once 'CRM/Core/OptionGroup.php';
         $multipleSelectFields = array( 'preferred_communication_method' => 1 );
-
+        
         if ( CRM_Core_Permission::access( 'Quest' ) ) { 
             require_once 'CRM/Quest/BAO/Student.php';
             $studentFields = array( );
@@ -229,13 +213,13 @@ class CRM_Export_BAO_Export
         if ( $paymentFields ) {
             $addPaymentHeader = true;
             //special return properties for event and members
-            $paymentHeaders = array( 'Total Amount', 'Contribution Status', 'Received Date',
-                                     'Payment Instrument', 'Transaction ID');
-
+            $paymentHeaders = array( ts('Total Amount'), ts('Contribution Status'), ts('Received Date'),
+                                     ts('Payment Instrument'), ts('Transaction ID'));
+            
             // get payment related in for event and members
             $paymentDetails = CRM_Contribute_BAO_Contribution::getContributionDetails( $exportMode, $ids );
         }
-
+        
         $componentDetails = $headerRows = array( );
         $setHeader = true;
         while ( $dao->fetch( ) ) {
@@ -320,38 +304,20 @@ class CRM_Export_BAO_Export
                 $addPaymentHeader = false;
             }
 
-            //get the current employer name, CRM-2968.
-            if ( ( $currentEmployer || $primary ) && $exportMode == CRM_Export_Form_Select::CONTACT_EXPORT ) {
-                require_once 'CRM/Contact/BAO/Relationship.php';
-                $relationships = CRM_Contact_BAO_Relationship::getRelationship( $dao->contact_id );
-                krsort( $relationships );
-                foreach ( $relationships as $relationshipID => $value ) {
-                    if ( $value['relation'] == 'Employee of' && $value['is_active'] == 1 ) {
-                        $row['current_employer'] = $value['name'];
-                        break;
-                    }
-                }
-            }
-            
             // add payment related information
             if ( $paymentFields && isset( $paymentDetails[ $row[$paymentTableId] ] ) ) {
                 $row = array_merge( $row, $paymentDetails[ $row[$paymentTableId] ] );
+            }
+
+            //remove organization name for individuals if it is set for current employer
+            if ( $row['contact_type'] == 'Individual' ) {
+                $row['organization_name'] = '';
             }
             
             // add component info
             $componentDetails[] = $row;         
         }
-
-        if ( ($currentEmployer || $primary ) && $exportMode == CRM_Export_Form_Select::CONTACT_EXPORT ) {
-            $headerRows[] = 'Current Employer';
-        }
-
-        //unset contact id from header when Internal Contact ID is not map;
-        if ( $unsetContactID ) {
-            $unsetKey = CRM_Utils_Array::key('Internal Contact ID', $headerRows );
-            unset( $headerRows[$unsetKey] );
-        }
-
+        
         require_once 'CRM/Core/Report/Excel.php';
         CRM_Core_Report_Excel::writeCSVFile( self::getExportFileName( 'csv', $exportMode ), $headerRows, $componentDetails );
         exit();

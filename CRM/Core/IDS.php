@@ -41,8 +41,8 @@ class CRM_Core_IDS {
      */
     private $threshold = array(
                                'log'      => 10,
-                               'warn'     => 15,
-                               'kick'     => 30
+                               'warn'     => 30,
+                               'kick'     => 45
                                );
 
 
@@ -61,8 +61,7 @@ class CRM_Core_IDS {
     public function check( &$args ) {
 
         // lets bypass a few civicrm urls from this check
-        static $skip = array( 'civicrm/mailing/send',
-                              'civicrm/mailing/queue' );
+        static $skip = array( 'civicrm/ajax' );
         $path = implode( '/', $args );
         if ( in_array( $path, $skip ) ) {
             return;
@@ -81,16 +80,20 @@ class CRM_Core_IDS {
         $configFile = $config->uploadDir . 'Config.IDS.ini';
         if ( ! file_exists( $configFile ) ) {
             global $civicrm_root;
-            $config = "
+            $contents = "
 [General]
-    filter_type     = xml
-    filter_path     = {$civicrm_root}/packages/IDS/default_filter.xml
-    tmp_path        = $config->uploadDir
-    scan_keys       = false
-    exceptions[]    = __utmz
-    exceptions[]    = __utmc
+    filter_type         = xml
+    filter_path         = {$civicrm_root}/packages/IDS/default_filter.xml
+    tmp_path            = $config->uploadDir
+    HTML_Purifier_Path  = IDS/vendors/htmlpurifier/HTMLPurifier.auto.php
+    HTML_Purifier_Cache = $config->uploadDir
+    scan_keys           = false
+    exceptions[]        = __utmz
+    exceptions[]        = __utmc
+    html[]              = html_message
+    html[]              = description
 ";
-            file_put_contents( $configFile, $config );
+            file_put_contents( $configFile, $contents );
         }
 
         $init    = IDS_Init::init( $configFile );

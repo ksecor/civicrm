@@ -129,5 +129,51 @@
        <name>UI_status_id</name>
        <fieldName>status_id</fieldName>
        <add>1.8</add>
+       <hrd>1</hrd>
+  </index>
+  <field>
+       <name>casetag1_id</name>
+       <type>varchar</type>
+       <length>128</length>
+       <required>true</required>
+       <comment>Id of first case category.</comment>
+       <add>2.1</add>
+       <hrd>1</hrd>
+  </field>
+  <index>
+       <name>index_casetag1_id</name>
+       <fieldName>casetag1_id</fieldName>
+       <add>2.1</add>
+       <hrd>1</hrd>
+  </index>
+  <field>
+       <name>casetag2_id</name>
+       <type>varchar</type>
+       <length>128</length>
+       <required>true</required>
+       <comment>Id of second case category.</comment>
+       <add>2.1</add>
+       <hrd>1</hrd>
+  </field>
+  <index>
+       <name>index_casetag2_id</name>
+       <fieldName>casetag2_id</fieldName>
+       <add>2.1</add>
+       <hrd>1</hrd>
+  </index>
+  <field>
+       <name>casetag3_id</name>
+       <type>varchar</type>
+       <length>128</length>
+       <required>true</required>
+       <comment>Id of third case category.</comment>
+       <add>2.1</add>
+       <hrd>1</hrd>
+  </field>
+  <index>
+       <name>index_casetag3_id</name>
+       <fieldName>casetag3_id</fieldName>
+       <add>2.1</add>
+       <hrd>1</hrd>
   </index>
 </table>

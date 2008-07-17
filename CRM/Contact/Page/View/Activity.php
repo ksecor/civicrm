@@ -73,7 +73,7 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View
         $viewOptions = CRM_Core_BAO_Preferences::valueOptions( 'contact_view_options', true, null, true );
 
         $enableCase = false;
-        if ( CRM_Utils_Array::value('Cases',$viewOptions ) ) { 
+        if ( CRM_Utils_Array::value('CiviCase',$viewOptions ) ) { 
             $enableCase = true;
         }
         

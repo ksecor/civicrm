@@ -86,9 +86,15 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
                   $defaults['custom_post_id'] ) = 
                 CRM_Core_BAO_UFJoin::getUFGroupIds( $ufJoinParams ); 
         } else {
-	  $defaults['is_email_confirm'] = 0;
-	}
+            $defaults['is_email_confirm'] = 0;
+        }
 
+        // Provide defaults for Confirm and Thank you titles if we're in New Event Wizard
+        if ( ! $this->_single ) {
+            $defaults['confirm_title'] = 'Confirm Your Registration Information';
+            $defaults['thankyou_title'] = 'Thank You for Registering';
+        }
+        
         return $defaults;
     }   
     

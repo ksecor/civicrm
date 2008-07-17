@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-04-28 21:53+0200\n"
+"POT-Creation-Date: 2008-07-07 18:43-0700\n"
 "PO-Revision-Date: 2006-01-02 22:59+0100\n"
 "Last-Translator: Petteri Niskanen <petteri.niskanen@minomar.fi>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n == 1 ? 0 : 1);\n"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/BAO/EntityRole.php
-#: CRM/Contact/Form/Task/Map.php CRM/Core/DAO/CustomGroup.php
+#: CRM/Contact/Form/Task/Map.php
 msgid "Contact"
 msgstr "Yhteystiedot"
 
@@ -26,7 +26,7 @@ msgstr ""
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/BAO/EntityRole.php CRM/ACL/Form/ACL.php
 #: CRM/ACL/Page/ACL.php CRM/Contact/Form/Search/Custom/PostalMailing.php
-#: CRM/Core/DAO/CustomGroup.php templates/CRM/Contact/Form/Task/AddToGroup.tpl
+#: templates/CRM/Contact/Form/Task/AddToGroup.tpl
 #: templates/CRM/Contact/Form/Task/RemoveFromGroup.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
@@ -34,12 +34,11 @@ msgstr ""
 msgid "Group"
 msgstr "Ryhmä"
 
-#: CRM/ACL/BAO/ACL.php CRM/Core/Block.php CRM/Core/DAO/Mapping.php
-#: CRM/Core/Menu.php
+#: CRM/ACL/BAO/ACL.php CRM/Core/Block.php CRM/Core/Menu.php
 msgid "Import"
 msgstr "Tuo"
 
-#: CRM/ACL/BAO/ACL.php CRM/ACL/DAO/ACL.php CRM/Activity/Selector/Activity.php
+#: CRM/ACL/BAO/ACL.php CRM/Activity/Selector/Activity.php
 #: CRM/Admin/Page/RelationshipType.php CRM/Contact/Page/View/Contribution.php
 #: CRM/Contact/Page/View/Membership.php CRM/Contact/Page/View/Note.php
 #: CRM/Contact/Page/View/Relationship.php CRM/Contact/Selector/Custom.php
@@ -51,74 +50,24 @@ msgstr "Tuo"
 msgid "View"
 msgstr "Näytä"
 
-#: CRM/ACL/BAO/ACL.php CRM/ACL/DAO/ACL.php CRM/ACL/Page/ACLBasic.php
-#: CRM/ACL/Page/ACL.php CRM/ACL/Page/EntityRole.php
-#: CRM/Activity/Selector/Activity.php CRM/Admin/Page/LocationType.php
-#: CRM/Admin/Page/Mapping.php CRM/Admin/Page/MessageTemplates.php
-#: CRM/Admin/Page/Options.php CRM/Admin/Page/OptionValue.php
-#: CRM/Admin/Page/PaymentProcessor.php CRM/Admin/Page/PaymentProcessorType.php
-#: CRM/Admin/Page/PreferencesDate.php CRM/Admin/Page/RelationshipType.php
-#: CRM/Admin/Page/Tag.php CRM/Contact/Page/View/Case.php
-#: CRM/Contact/Page/View/Contribution.php CRM/Contact/Page/View/Membership.php
-#: CRM/Contact/Page/View/Note.php CRM/Contact/Page/View/Relationship.php
-#: CRM/Contact/Selector/Custom.php CRM/Contact/Selector.php
-#: CRM/Grant/Form/Grant.php CRM/Grant/Selector/Search.php
-#: CRM/Group/Page/Group.php CRM/Profile/Selector/Listings.php
-#: CRM/UF/Page/Field.php templates/CRM/Activity/Form/Activity.tpl
+#: CRM/ACL/BAO/ACL.php CRM/ACL/Page/ACLBasic.php CRM/ACL/Page/ACL.php
+#: CRM/ACL/Page/EntityRole.php CRM/Activity/Selector/Activity.php
+#: CRM/Admin/Page/LocationType.php CRM/Admin/Page/Mapping.php
+#: CRM/Admin/Page/MessageTemplates.php CRM/Admin/Page/Options.php
+#: CRM/Admin/Page/OptionValue.php CRM/Admin/Page/PaymentProcessor.php
+#: CRM/Admin/Page/PaymentProcessorType.php CRM/Admin/Page/PreferencesDate.php
+#: CRM/Admin/Page/RelationshipType.php CRM/Admin/Page/Tag.php
+#: CRM/Contact/Page/View/Case.php CRM/Contact/Page/View/Contribution.php
+#: CRM/Contact/Page/View/Membership.php CRM/Contact/Page/View/Note.php
+#: CRM/Contact/Page/View/Relationship.php CRM/Contact/Selector/Custom.php
+#: CRM/Contact/Selector.php CRM/Grant/Form/Grant.php
+#: CRM/Grant/Selector/Search.php CRM/Group/Page/Group.php
+#: CRM/Profile/Selector/Listings.php CRM/UF/Page/Field.php
+#: templates/CRM/Activity/Form/Activity.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Edit"
 msgstr "Muokkaa"
-
-#: CRM/ACL/DAO/ACL.php CRM/ACL/DAO/EntityRole.php CRM/Core/DAO/DupeMatch.php
-#: CRM/Core/DAO/EntityFile.php CRM/Core/DAO/LineItem.php CRM/Core/DAO/Log.php
-#: CRM/Core/DAO/Note.php CRM/Core/DAO/PriceSetEntity.php
-#: CRM/Core/DAO/UFJoin.php CRM/Friend/DAO/Friend.php
-msgid "Entity Table"
-msgstr "Luo taulukko???"
-
-#: CRM/ACL/DAO/ACL.php CRM/ACL/Form/ACL.php templates/CRM/ACL/Page/ACL.tpl
-#, fuzzy
-msgid "Operation"
-msgstr "Toimenpide"
-
-#: CRM/ACL/DAO/ACL.php CRM/UF/Page/Group.php
-msgid "Create"
-msgstr "Muodosta"
-
-#: CRM/ACL/DAO/ACL.php CRM/ACL/Page/ACLBasic.php CRM/ACL/Page/ACL.php
-#: CRM/ACL/Page/EntityRole.php CRM/Activity/Form/Activity.php
-#: CRM/Activity/Selector/Activity.php CRM/Admin/Form.php
-#: CRM/Admin/Form/Tag.php CRM/Admin/Page/LocationType.php
-#: CRM/Admin/Page/Mapping.php CRM/Admin/Page/MessageTemplates.php
-#: CRM/Admin/Page/OptionGroup.php CRM/Admin/Page/Options.php
-#: CRM/Admin/Page/OptionValue.php CRM/Admin/Page/PaymentProcessor.php
-#: CRM/Admin/Page/PaymentProcessorType.php CRM/Admin/Page/RelationshipType.php
-#: CRM/Admin/Page/Tag.php CRM/Case/Form/Case.php
-#: CRM/Contact/Form/Relationship.php CRM/Contact/Page/SavedSearch.php
-#: CRM/Contact/Page/View/Case.php CRM/Contact/Page/View/Contribution.php
-#: CRM/Contact/Page/View/Membership.php CRM/Contact/Page/View/Note.php
-#: CRM/Contact/Page/View/Relationship.php CRM/Custom/Form/DeleteFile.php
-#: CRM/Custom/Form/Option.php CRM/Custom/Page/Field.php
-#: CRM/Custom/Page/Group.php CRM/Custom/Page/Option.php
-#: CRM/Grant/Selector/Search.php CRM/Group/Page/Group.php
-#: CRM/Note/Form/Note.php CRM/Price/Form/Option.php CRM/Price/Page/Field.php
-#: CRM/Price/Page/Option.php CRM/Price/Page/Set.php CRM/UF/Page/Field.php
-#: CRM/UF/Page/Group.php templates/CRM/Activity/Form/Activity.tpl
-#: templates/CRM/Contact/Form/Location.tpl
-#: templates/CRM/Contact/Page/View/Basic.tpl
-#: templates/CRM/Contact/Page/View/Tabbed.tpl
-msgid "Delete"
-msgstr "Poista"
-
-#: CRM/ACL/DAO/ACL.php CRM/Core/DAO/CustomGroup.php
-#: CRM/Grant/Selector/Search.php
-msgid "Grant"
-msgstr "Avustus"
-
-#: CRM/ACL/DAO/Cache.php CRM/Core/DAO/Log.php CRM/Core/DAO/Note.php
-msgid "Modified Date"
-msgstr "Muokkauspäivä"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php
 #: templates/CRM/ACL/Page/ACLBasic.tpl templates/CRM/ACL/Page/ACL.tpl
@@ -164,16 +113,9 @@ msgstr "Valittu sukupuoli on tuhottu."
 #: CRM/Admin/Form/OptionValue.php CRM/Admin/Form/PaymentProcessor.php
 #: CRM/Admin/Form/PaymentProcessorType.php CRM/Admin/Form/PreferencesDate.php
 #: CRM/Admin/Form/RelationshipType.php CRM/Admin/Form/Tag.php
-#: CRM/Contact/DAO/Group.php CRM/Contact/DAO/Relationship.php
-#: CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Domain.php
-#: CRM/Contact/Form/Relationship.php CRM/Contact/Form/Task/SaveSearch.php
-#: CRM/Core/BAO/Mapping.php CRM/Core/DAO/Domain.php CRM/Core/DAO/File.php
-#: CRM/Core/DAO/LocationType.php CRM/Core/DAO/Mapping.php
-#: CRM/Core/DAO/OptionGroup.php CRM/Core/DAO/OptionValue.php
-#: CRM/Core/DAO/PaymentProcessor.php CRM/Core/DAO/PaymentProcessorType.php
-#: CRM/Core/DAO/PreferencesDate.php CRM/Core/DAO/Tag.php
+#: CRM/Contact/Form/Domain.php CRM/Contact/Form/Relationship.php
+#: CRM/Contact/Form/Task/SaveSearch.php CRM/Core/BAO/Mapping.php
 #: CRM/Import/Form/MapField.php CRM/Import/Form/Preview.php
-#: CRM/Project/DAO/Project.php CRM/Project/DAO/Task.php
 #: templates/CRM/ACL/Page/ACL.tpl templates/CRM/Admin/Page/LocationType.tpl
 #: templates/CRM/Admin/Page/Mapping.tpl
 #: templates/CRM/Admin/Page/OptionGroup.tpl
@@ -241,7 +183,7 @@ msgid "Profile"
 msgstr "Profiili"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
-#: CRM/Activity/Selector/Activity.php CRM/Core/DAO/CustomGroup.php
+#: CRM/Activity/Selector/Activity.php
 #: templates/CRM/Contact/Page/View/UserDashBoard/Participant.tpl
 #: templates/CRM/Price/Page/Field.tpl templates/CRM/Price/Page/Option.tpl
 #: templates/CRM/Price/Page/Set.tpl
@@ -271,6 +213,30 @@ msgstr "Oletko varma, että haluat ottaa pois käytöstä tämän ryhmän."
 #, fuzzy
 msgid "Edit ACL"
 msgstr "Muokkaa"
+
+#: CRM/ACL/Page/ACLBasic.php CRM/ACL/Page/ACL.php CRM/ACL/Page/EntityRole.php
+#: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
+#: CRM/Admin/Form.php CRM/Admin/Form/Tag.php CRM/Admin/Page/LocationType.php
+#: CRM/Admin/Page/Mapping.php CRM/Admin/Page/MessageTemplates.php
+#: CRM/Admin/Page/OptionGroup.php CRM/Admin/Page/Options.php
+#: CRM/Admin/Page/OptionValue.php CRM/Admin/Page/PaymentProcessor.php
+#: CRM/Admin/Page/PaymentProcessorType.php CRM/Admin/Page/RelationshipType.php
+#: CRM/Admin/Page/Tag.php CRM/Case/Form/Case.php
+#: CRM/Contact/Form/Relationship.php CRM/Contact/Page/SavedSearch.php
+#: CRM/Contact/Page/View/Case.php CRM/Contact/Page/View/Contribution.php
+#: CRM/Contact/Page/View/Membership.php CRM/Contact/Page/View/Note.php
+#: CRM/Contact/Page/View/Relationship.php CRM/Custom/Form/DeleteFile.php
+#: CRM/Custom/Form/Option.php CRM/Custom/Page/Field.php
+#: CRM/Custom/Page/Group.php CRM/Custom/Page/Option.php
+#: CRM/Grant/Selector/Search.php CRM/Group/Page/Group.php
+#: CRM/Note/Form/Note.php CRM/Price/Form/Option.php CRM/Price/Page/Field.php
+#: CRM/Price/Page/Option.php CRM/Price/Page/Set.php CRM/UF/Page/Field.php
+#: CRM/UF/Page/Group.php templates/CRM/Activity/Form/Activity.tpl
+#: templates/CRM/Contact/Form/Location.tpl
+#: templates/CRM/Contact/Page/View/Basic.tpl
+#: templates/CRM/Contact/Page/View/Tabbed.tpl
+msgid "Delete"
+msgstr "Poista"
 
 #: CRM/ACL/Page/ACLBasic.php CRM/ACL/Page/ACL.php
 #: templates/CRM/ACL/Form/ACLBasic.tpl templates/CRM/ACL/Form/ACL.tpl
@@ -327,12 +293,11 @@ msgstr "- älä tuo"
 msgid "Activity Type"
 msgstr "Aktiviteetin tyyppi"
 
-#: CRM/Activity/BAO/Query.php CRM/Activity/DAO/Activity.php
-#: CRM/Activity/Form/Activity.php CRM/Activity/Import/Form/MapField.php
-#: CRM/Activity/Selector/Activity.php CRM/Admin/Form/PaymentProcessorType.php
-#: CRM/Case/BAO/Query.php CRM/Case/DAO/Case.php CRM/Case/Form/Case.php
-#: CRM/Contact/Form/Task/EmailCommon.php CRM/Contact/Form/Task/Record.php
-#: CRM/Core/DAO/Note.php CRM/Core/DAO/PaymentProcessor.php
+#: CRM/Activity/BAO/Query.php CRM/Activity/Form/Activity.php
+#: CRM/Activity/Import/Form/MapField.php CRM/Activity/Selector/Activity.php
+#: CRM/Admin/Form/PaymentProcessorType.php CRM/Case/BAO/Query.php
+#: CRM/Case/Form/Case.php CRM/Contact/Form/Task/EmailCommon.php
+#: CRM/Contact/Form/Task/Record.php
 #: templates/CRM/Activity/Form/ActivityView.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Case.tpl
@@ -364,25 +329,6 @@ msgstr "Anna kelvollinen päiväys"
 #: templates/CRM/Contact/Page/View/SMS.tpl
 msgid "To"
 msgstr "Kenelle"
-
-#: CRM/Activity/DAO/Activity.php CRM/Activity/Form/Activity.php
-#: CRM/Contact/Form/Task/Record.php
-#: templates/CRM/Contact/Page/View/Membership.tpl
-msgid "Duration"
-msgstr "Kesto"
-
-#: CRM/Activity/DAO/Activity.php CRM/Activity/Form/Activity.php
-#: CRM/Contact/Form/Task/Record.php CRM/Core/DAO/CustomGroup.php
-msgid "Location"
-msgstr "Sijainti"
-
-#: CRM/Activity/DAO/Activity.php CRM/Activity/Form/Activity.php
-#: CRM/Case/DAO/Case.php CRM/Contact/Form/Task/EmailCommon.php
-#: CRM/Contact/Form/Task/Record.php
-#: templates/CRM/Activity/Form/ActivityView.tpl
-#: templates/CRM/Contact/Page/View/Basic.tpl
-msgid "Details"
-msgstr "Yksityiskohdat"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 #: templates/CRM/Activity/Form/Activity.tpl
@@ -421,11 +367,25 @@ msgstr "Peruuta"
 msgid "Date and Time"
 msgstr "Päiväys ja aika"
 
+#: CRM/Activity/Form/Activity.php CRM/Contact/Form/Task/Record.php
+#: templates/CRM/Contact/Page/View/Membership.tpl
+msgid "Duration"
+msgstr "Kesto"
+
+#: CRM/Activity/Form/Activity.php CRM/Contact/Form/Task/Record.php
+msgid "Location"
+msgstr "Sijainti"
+
+#: CRM/Activity/Form/Activity.php CRM/Contact/Form/Task/EmailCommon.php
+#: CRM/Contact/Form/Task/Record.php
+#: templates/CRM/Activity/Form/ActivityView.tpl
+#: templates/CRM/Contact/Page/View/Basic.tpl
+msgid "Details"
+msgstr "Yksityiskohdat"
+
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
-#: CRM/Contact/DAO/GroupContact.php CRM/Contact/DAO/SubscriptionHistory.php
 #: CRM/Contact/Form/Search/Custom/ActivitySearch.php
 #: CRM/Contact/Form/Task/Record.php CRM/Grant/Selector/Search.php
-#: CRM/Project/DAO/Project.php CRM/Project/DAO/TaskStatus.php
 #: templates/CRM/Contact/Form/Selector.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
@@ -496,8 +456,7 @@ msgstr "Tallenna kentän määrittely"
 #: CRM/Admin/Form/Mapping.php CRM/Admin/Form/OptionGroup.php
 #: CRM/Admin/Form/OptionValue.php CRM/Admin/Form/PaymentProcessor.php
 #: CRM/Admin/Form/PaymentProcessorType.php CRM/Admin/Form/PreferencesDate.php
-#: CRM/Admin/Form/Tag.php CRM/Contact/DAO/Group.php
-#: CRM/Contact/Form/Search/Basic.php
+#: CRM/Admin/Form/Tag.php CRM/Contact/Form/Search/Basic.php
 #: CRM/Contact/Form/Search/Custom/ActivitySearch.php
 #: CRM/Contact/Form/Search/Custom/Basic.php
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
@@ -506,11 +465,7 @@ msgstr "Tallenna kentän määrittely"
 #: CRM/Contact/Form/Search/Custom/PostalMailing.php
 #: CRM/Contact/Form/Search/Custom/Sample.php
 #: CRM/Contact/Form/Task/SaveSearch.php CRM/Contact/Selector.php
-#: CRM/Core/BAO/Mapping.php CRM/Core/DAO/CustomGroup.php
-#: CRM/Core/DAO/Domain.php CRM/Core/DAO/MappingField.php
-#: CRM/Core/DAO/Mapping.php CRM/Core/DAO/PreferencesDate.php
-#: CRM/Core/DAO/PriceField.php CRM/Core/DAO/PriceSet.php CRM/Core/DAO/Tag.php
-#: CRM/Core/DAO/Timezone.php CRM/Grant/Form/Search.php
+#: CRM/Core/BAO/Mapping.php CRM/Grant/Form/Search.php
 #: CRM/Grant/Selector/Search.php CRM/Import/Form/MapField.php
 #: CRM/Profile/Selector/Listings.php templates/CRM/Admin/Page/LocationType.tpl
 #: templates/CRM/Admin/Page/Mapping.tpl
@@ -666,10 +621,14 @@ msgstr "Syy"
 msgid "View Activity"
 msgstr "Näytä aktiviteetti"
 
+#: CRM/Activity/Selector/Activity.php CRM/Contact/Form/Search/Advanced.php
+#: CRM/Contact/Page/View/DashBoard.php CRM/Contact/Page/View/Tabbed.php
+msgid "Cases"
+msgstr ""
+
 #: CRM/Activity/Selector/Activity.php CRM/Contact/BAO/Query.php
-#: CRM/Contact/DAO/SubscriptionHistory.php CRM/Contact/Form/Email.php
-#: CRM/Contact/Form/Search/Custom/Basic.php CRM/Contact/Selector.php
-#: CRM/Core/DAO/Email.php CRM/Standalone/Form/Register.php
+#: CRM/Contact/Form/Email.php CRM/Contact/Form/Search/Custom/Basic.php
+#: CRM/Contact/Selector.php CRM/Standalone/Form/Register.php
 #: templates/CRM/Contact/Form/Relationship.tpl
 #: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
 #: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
@@ -690,8 +649,7 @@ msgid "Type"
 msgstr "Tyyppi"
 
 #: CRM/Activity/Selector/Activity.php CRM/Admin/Page/Setting.php
-#: CRM/Contact/DAO/SubscriptionHistory.php CRM/Core/BAO/CustomField.php
-#: CRM/Core/DAO/CustomField.php CRM/Core/SelectValues.php
+#: CRM/Core/BAO/CustomField.php CRM/Core/SelectValues.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Note.tpl
 msgid "Date"
@@ -703,10 +661,7 @@ msgid "Actions"
 msgstr "Toimenpiteet"
 
 #: CRM/Admin/Form/DedupeRules.php CRM/Admin/Form/Options.php
-#: CRM/Admin/Form/OptionValue.php CRM/Core/DAO/CustomField.php
-#: CRM/Core/DAO/CustomGroup.php CRM/Core/DAO/OptionValue.php
-#: CRM/Core/DAO/PriceField.php CRM/Core/DAO/UFField.php
-#: CRM/Core/DAO/UFJoin.php CRM/Custom/Form/Option.php
+#: CRM/Admin/Form/OptionValue.php CRM/Custom/Form/Option.php
 #: CRM/Price/Form/Option.php templates/CRM/Admin/Form/DedupeRules.tpl
 #: templates/CRM/Admin/Page/OptionValue.tpl
 #: templates/CRM/Custom/Form/Optionfields.tpl
@@ -725,16 +680,8 @@ msgstr "Painoarvo"
 msgid "Name already exists in Database."
 msgstr "Antamasi nimi löytyy entuudestaan tietokannasta."
 
-#: CRM/Admin/Form/Mapping.php CRM/Core/DAO/Mapping.php
-#: templates/CRM/Admin/Page/Mapping.tpl
-msgid "Mapping Type"
-msgstr "Mapping Type"
-
-#: CRM/Admin/Form/Options.php CRM/Core/DAO/CustomField.php
-#: CRM/Core/DAO/LineItem.php CRM/Core/DAO/OptionGroup.php
-#: CRM/Core/DAO/PriceField.php CRM/Core/DAO/UFField.php
-#: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
-#: templates/CRM/Admin/Page/Options.tpl
+#: CRM/Admin/Form/Options.php CRM/Custom/Form/Field.php
+#: CRM/Price/Form/Field.php templates/CRM/Admin/Page/Options.tpl
 #: templates/CRM/Custom/Form/Optionfields.tpl
 #: templates/CRM/Price/Form/OptionFields.tpl
 msgid "Label"
@@ -748,103 +695,44 @@ msgid "is a numeric field"
 msgstr ""
 
 #: CRM/Admin/Form/OptionValue.php CRM/Admin/Form/PaymentProcessorType.php
-#: CRM/Contact/DAO/Group.php CRM/Core/DAO/CustomGroup.php
-#: CRM/Core/DAO/PriceSet.php CRM/Core/DAO/UFGroup.php
-#: CRM/Friend/BAO/Friend.php CRM/Friend/DAO/Friend.php
-#: CRM/Project/DAO/Project.php CRM/Project/DAO/Task.php
-#: templates/CRM/Admin/Page/OptionValue.tpl
+#: CRM/Friend/BAO/Friend.php templates/CRM/Admin/Page/OptionValue.tpl
 #: templates/CRM/Admin/Page/PaymentProcessorType.tpl
 msgid "Title"
 msgstr "Otsikko"
 
-#: CRM/Admin/Form/OptionValue.php CRM/Core/DAO/MappingField.php
-#: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
-#: CRM/Standalone/OpenID/DAO/Settings.php templates/CRM/Admin/Page/Options.tpl
+#: CRM/Admin/Form/OptionValue.php CRM/Custom/Form/Field.php
+#: CRM/Price/Form/Field.php CRM/Standalone/OpenID/DAO/Settings.php
+#: templates/CRM/Admin/Page/Options.tpl
 #: templates/CRM/Admin/Page/OptionValue.tpl
 #: templates/CRM/Custom/Form/Optionfields.tpl
 #: templates/CRM/Price/Form/OptionFields.tpl
 msgid "Value"
 msgstr "Arvo"
 
-#: CRM/Admin/Form/OptionValue.php CRM/Core/DAO/OptionValue.php
-#, fuzzy
-msgid "Option Grouping Name"
-msgstr "Ryhmän nimi"
-
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Admin/Page/PaymentProcessor.php
 #, fuzzy
 msgid "Settings - Payment Processor"
 msgstr "Maksun välittäjä"
-
-#: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
-#, fuzzy
-msgid "Site URL"
-msgstr "Kotisivujen URL"
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Admin/Form/PaymentProcessorType.php
 #, fuzzy
 msgid "Enter a valid URL"
 msgstr "Anna kelvollinen nimi."
 
-#: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
-msgid "Recurring Payments URL"
-msgstr ""
-
-#: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
-msgid "Button URL"
-msgstr ""
-
-#: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
-msgid "API URL"
-msgstr ""
-
-#: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
-#: CRM/Core/Menu.php
+#: CRM/Admin/Form/PaymentProcessor.php CRM/Core/Menu.php
 #, fuzzy
 msgid "Payment Processor Type"
 msgstr "Maksun välittäjä"
 
-#: CRM/Admin/Form/PaymentProcessorType.php CRM/Core/DAO/PaymentProcessor.php
-#: CRM/Core/DAO/PaymentProcessorType.php
-#, fuzzy
-msgid "Billing Mode"
-msgstr "Jono (String)"
-
-#: CRM/Admin/Form/PaymentProcessorType.php CRM/Core/DAO/PaymentProcessor.php
-#: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
-msgid "User Name"
-msgstr "Sukunimi"
-
 #: CRM/Admin/Form/PaymentProcessorType.php CRM/Core/BAO/CMSUser.php
-#: CRM/Core/DAO/PaymentProcessor.php xml/templates/civicrm_add_domain.tpl
-msgid "Password"
-msgstr ""
-
-#: CRM/Admin/Form/PaymentProcessorType.php CRM/Core/DAO/PaymentProcessor.php
 #: xml/templates/civicrm_add_domain.tpl
-msgid "Signature"
+msgid "Password"
 msgstr ""
 
 #: CRM/Admin/Form/Preferences/Address.php CRM/Contact/Form/Search/Advanced.php
 #, fuzzy
 msgid "Address Fields"
 msgstr "Osoite"
-
-#: CRM/Admin/Form/Preferences/Address.php CRM/Core/DAO/Preferences.php
-#, fuzzy
-msgid "Individual Name Format"
-msgstr "Yksilöllinen"
-
-#: CRM/Admin/Form/PreferencesDate.php CRM/Core/DAO/PreferencesDate.php
-#: templates/CRM/Admin/Page/PreferencesDate.tpl
-msgid "Minute Increment"
-msgstr ""
-
-#: CRM/Admin/Form/PreferencesDate.php CRM/Core/DAO/PreferencesDate.php
-#: templates/CRM/Admin/Page/PreferencesDate.tpl
-msgid "Format"
-msgstr ""
 
 #: CRM/Admin/Form/PreferencesDate.php CRM/Custom/Form/Field.php
 msgid "Value should be a positive number"
@@ -868,16 +756,6 @@ msgstr "Yhteyden luokat"
 #, fuzzy
 msgid "Global Settings"
 msgstr "Asetukset"
-
-#: CRM/Admin/Form/RelationshipType.php CRM/Contact/DAO/RelationshipType.php
-#: templates/CRM/Admin/Page/RelationshipType.tpl
-msgid "Contact Type A"
-msgstr "Yhteystyyppi A"
-
-#: CRM/Admin/Form/RelationshipType.php CRM/Contact/DAO/RelationshipType.php
-#: templates/CRM/Admin/Page/RelationshipType.tpl
-msgid "Contact Type B"
-msgstr "Yhteystyyppi B"
 
 #: CRM/Admin/Form/Setting/Component.php CRM/Admin/Page/Setting.php
 #: CRM/Core/Invoke.php
@@ -984,9 +862,8 @@ msgstr ""
 msgid "Case Status"
 msgstr ""
 
-#: CRM/Case/DAO/Case.php CRM/Case/Form/Case.php
-#: CRM/Contact/DAO/Relationship.php CRM/Contact/Form/Relationship.php
-#: CRM/Contact/Form/Search/Custom/ContribSYBNT.php CRM/Project/DAO/Project.php
+#: CRM/Case/Form/Case.php CRM/Contact/Form/Relationship.php
+#: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 #: templates/CRM/Case/Form/CaseActivity.tpl
 #: templates/CRM/Contact/Page/View/Case.tpl
 #: templates/CRM/Contact/Page/View/Membership.tpl
@@ -994,9 +871,8 @@ msgstr ""
 msgid "Start Date"
 msgstr "Alkamispäivä"
 
-#: CRM/Case/DAO/Case.php CRM/Case/Form/Case.php
-#: CRM/Contact/DAO/Relationship.php CRM/Contact/Form/Relationship.php
-#: CRM/Contact/Form/Search/Custom/ContribSYBNT.php CRM/Project/DAO/Project.php
+#: CRM/Case/Form/Case.php CRM/Contact/Form/Relationship.php
+#: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 #: templates/CRM/Contact/Page/View/Membership.tpl
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 #: templates/CRM/Contact/Page/View/UserDashBoard/Membership.tpl
@@ -1011,27 +887,21 @@ msgstr "Päättymispäivä"
 msgid "Notes"
 msgstr "Muistiinpanot"
 
-#: CRM/Contact/BAO/Contact.php CRM/Contact/DAO/Contact.php
-#: CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Relationship.php
-#: CRM/Contact/Selector.php CRM/Core/DAO/CustomGroup.php
-#: CRM/Dedupe/DAO/RuleGroup.php CRM/Grant/Selector/Search.php
+#: CRM/Contact/BAO/Contact.php CRM/Contact/Form/Relationship.php
+#: CRM/Contact/Selector.php CRM/Grant/Selector/Search.php
 #: CRM/Import/Form/UploadFile.php
 msgid "Individual"
 msgstr "Yksilöllinen"
 
-#: CRM/Contact/BAO/Contact.php CRM/Contact/DAO/Contact.php
-#: CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Relationship.php
+#: CRM/Contact/BAO/Contact.php CRM/Contact/Form/Relationship.php
 #: CRM/Contact/Form/Task/AddToHousehold.php CRM/Contact/Selector.php
-#: CRM/Core/DAO/CustomGroup.php CRM/Dedupe/DAO/RuleGroup.php
 #: CRM/Grant/Selector/Search.php CRM/Import/Form/UploadFile.php
 #: templates/CRM/Contact/Form/Edit.tpl
 msgid "Household"
 msgstr "Kotitalous"
 
-#: CRM/Contact/BAO/Contact.php CRM/Contact/DAO/Contact.php
-#: CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Relationship.php
+#: CRM/Contact/BAO/Contact.php CRM/Contact/Form/Relationship.php
 #: CRM/Contact/Form/Task/AddToOrganization.php CRM/Contact/Selector.php
-#: CRM/Core/DAO/CustomGroup.php CRM/Dedupe/DAO/RuleGroup.php
 #: CRM/Grant/Selector/Search.php CRM/Import/Form/UploadFile.php
 #: templates/CRM/Contact/Form/Edit.tpl
 msgid "Organization"
@@ -1057,7 +927,7 @@ msgstr "CiviCRM yhteystietojen haku"
 #: CRM/Contact/Form/Search/Custom/Group.php
 #: CRM/Contact/Form/Search/Custom/PostalMailing.php
 #: CRM/Contact/Form/Search/Custom/Sample.php CRM/Contact/Selector.php
-#: CRM/Core/DAO/StateProvince.php templates/CRM/Contact/Form/Relationship.tpl
+#: templates/CRM/Contact/Form/Relationship.tpl
 #: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
 #: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
 #: templates/CRM/Contact/Form/Task/Print.tpl
@@ -1069,21 +939,18 @@ msgstr "Maakunta"
 #: CRM/Contact/Form/Search/Criteria.php
 #: CRM/Contact/Form/Search/Custom/Basic.php CRM/Contact/Form/Search/Simple.php
 #: CRM/Contact/Form/Test.php CRM/Contact/Selector.php
-#: CRM/Core/BAO/CustomField.php CRM/Core/DAO/Country.php
-#: CRM/Core/DAO/CustomField.php CRM/Core/Form.php CRM/Core/Payment/Form.php
+#: CRM/Core/BAO/CustomField.php CRM/Core/Form.php CRM/Core/Payment/Form.php
 #: templates/CRM/Contact/Form/Task/Print.tpl
 msgid "Country"
 msgstr "Maa"
 
 #: CRM/Contact/BAO/Query.php CRM/Contact/Form/Address.php
-#: CRM/Contact/Form/Search/Criteria.php CRM/Core/DAO/County.php
-#: CRM/Core/Form.php
+#: CRM/Contact/Form/Search/Criteria.php CRM/Core/Form.php
 #, fuzzy
 msgid "County"
 msgstr "Maa"
 
 #: CRM/Contact/BAO/Query.php CRM/Contact/Form/Search/Criteria.php
-#: CRM/Core/DAO/Worldregion.php
 msgid "World Region"
 msgstr ""
 
@@ -1093,11 +960,9 @@ msgstr ""
 msgid "Gender"
 msgstr "Sukupuoli"
 
-#: CRM/Contact/BAO/Query.php CRM/Contact/DAO/Contact.php
-#: CRM/Contact/Form/Search/Custom/Group.php
+#: CRM/Contact/BAO/Query.php CRM/Contact/Form/Search/Custom/Group.php
 #: CRM/Contact/Form/Search/Custom/PostalMailing.php
 #: CRM/Contact/Form/Search/Custom/Sample.php CRM/Contact/Selector.php
-#: CRM/Core/DAO/MappingField.php CRM/Dedupe/DAO/RuleGroup.php
 #: CRM/Grant/Selector/Search.php CRM/Import/Form/UploadFile.php
 #: templates/CRM/Admin/Page/DedupeFind.tpl
 #: templates/CRM/Admin/Page/DedupeRules.tpl
@@ -1109,20 +974,10 @@ msgid "Group Status"
 msgstr "Ryhmän tila"
 
 #: CRM/Contact/BAO/Query.php CRM/Core/BAO/CustomField.php
-#: CRM/Core/DAO/Note.php templates/CRM/Contact/Page/View/Basic.tpl
+#: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Note.tpl
 msgid "Note"
 msgstr "Muistio"
-
-#: CRM/Contact/BAO/Query.php CRM/Core/DAO/LocationType.php
-#, fuzzy
-msgid "Location Type"
-msgstr "Osoitetyypit"
-
-#: CRM/Contact/BAO/Query.php CRM/Contact/DAO/Contact.php
-#: xml/templates/civicrm_add_domain.tpl
-msgid "Preferred Communication Method"
-msgstr "Suositeltava yhteydenpitotapa"
 
 #: CRM/Contact/BAO/Query.php CRM/Contact/Form/Search/Advanced.php
 #: CRM/Contact/Form/Search/Criteria.php
@@ -1135,140 +990,14 @@ msgstr "Maski"
 msgid "Task Status"
 msgstr "Tila"
 
-#: CRM/Contact/DAO/Contact.php CRM/Contact/Form/Household.php
-#: CRM/Contact/Form/Individual.php CRM/Contact/Form/Organization.php
-msgid "Nick Name"
-msgstr "Lempinimi"
-
-#: CRM/Contact/DAO/Contact.php CRM/Contact/Form/Organization.php
-msgid "Legal Name"
-msgstr "Virallinen"
-
-#: CRM/Contact/DAO/Contact.php CRM/Contact/Form/Individual.php
-#: templates/CRM/Friend/Form.tpl
-msgid "First Name"
-msgstr "Etunimi"
-
-#: CRM/Contact/DAO/Contact.php CRM/Contact/Form/Individual.php
-msgid "Middle Name"
-msgstr "Toinen etunimi"
-
-#: CRM/Contact/DAO/Contact.php CRM/Contact/Form/Individual.php
-#: templates/CRM/Friend/Form.tpl
-msgid "Last Name"
-msgstr "Sukunimi"
-
-#: CRM/Contact/DAO/Contact.php CRM/Contact/Form/Household.php
-#: CRM/Contact/Form/Individual.php CRM/Contact/Form/Search/Custom/Sample.php
-msgid "Household Name"
-msgstr "Kotitalouden nimi"
-
-#: CRM/Contact/DAO/Contact.php CRM/Contact/Form/Organization.php
-msgid "Organization Name"
-msgstr "Yhteisön nimi"
-
-#: CRM/Contact/DAO/Contact.php CRM/Core/DAO/CustomField.php
-#: CRM/Core/DAO/PriceField.php CRM/Core/SelectValues.php
-#: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
-msgid "Text"
-msgstr "Teksti"
-
-#: CRM/Contact/DAO/Contact.php CRM/Core/SelectValues.php
-msgid "HTML"
-msgstr "HTML"
-
-#: CRM/Contact/DAO/Contact.php CRM/Core/SelectValues.php
-msgid "Both"
-msgstr "Molemmat"
-
-#: CRM/Contact/DAO/Contact.php CRM/Core/Form.php
-#: xml/templates/civicrm_add_domain.tpl
-msgid "Other"
-msgstr "Muu"
-
-#: CRM/Contact/DAO/GroupContact.php CRM/Contact/DAO/SubscriptionHistory.php
-#: CRM/Core/SelectValues.php
-msgid "Added"
-msgstr "Liitetty"
-
-#: CRM/Contact/DAO/GroupContact.php CRM/Contact/DAO/SubscriptionHistory.php
-#: CRM/Core/SelectValues.php
-msgid "Removed"
-msgstr "Siirretty"
-
-#: CRM/Contact/DAO/GroupContact.php CRM/Contact/DAO/SubscriptionHistory.php
-#: CRM/Core/SelectValues.php templates/CRM/Contact/Page/View/GroupContact.tpl
-#: xml/templates/civicrm_add_domain.tpl
-msgid "Pending"
-msgstr "Odottava"
-
-#: CRM/Contact/DAO/Group.php CRM/Contact/Form/Household.php
-#: CRM/Contact/Form/Individual.php CRM/Contact/Form/Organization.php
-#: templates/CRM/Contact/Page/View/Basic.tpl
-#: templates/CRM/Contact/Page/View/Membership.tpl
-#: templates/CRM/Contact/Page/View/Print.tpl
-#: templates/CRM/Contact/Page/View/Tabbed.tpl
-msgid "Source"
-msgstr "Lähde"
-
-#: CRM/Contact/DAO/Group.php CRM/Core/DAO/UFField.php CRM/Group/Form/Edit.php
-#: CRM/Group/Form/Search.php CRM/UF/Form/Field.php
-#: templates/CRM/Contact/Page/View/Membership.tpl
-#: templates/CRM/Group/Page/Group.tpl templates/CRM/UF/Page/Field.tpl
-msgid "Visibility"
-msgstr "Näkyvyys"
-
-#: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
-msgid "Where Clause"
-msgstr ""
-
-#: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
-#, fuzzy
-msgid "Select Tables"
-msgstr "Valitse päivä"
-
-#: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
-msgid "Where Tables"
-msgstr ""
-
-#: CRM/Contact/DAO/Group.php CRM/Group/Form/Edit.php
-#: templates/CRM/Group/Page/Group.tpl xml/templates/civicrm_add_domain.tpl
-#, fuzzy
-msgid "Group Type"
-msgstr "Ryhmän nimi"
-
-#: CRM/Contact/DAO/Group.php CRM/Core/DAO/UFField.php
-#: CRM/Core/SelectValues.php
-msgid "User and User Admin Only"
-msgstr "Ainoastaan käyttäjät tai ylläpitäjä"
-
-#: CRM/Contact/DAO/Group.php CRM/Core/DAO/UFField.php
-#: CRM/Core/SelectValues.php
-msgid "Public User Pages"
-msgstr "Julkiset käyttäjäsivut"
-
-#: CRM/Contact/DAO/Group.php CRM/Core/DAO/UFField.php
-#: CRM/Core/SelectValues.php
-msgid "Public User Pages and Listings"
-msgstr "Julkiset käyttäjäsivut ja hakemistot"
-
-#: CRM/Contact/DAO/SubscriptionHistory.php CRM/Contact/Form/Edit.php
-#: templates/CRM/Contact/Page/View/Print.tpl
-msgid "Method"
-msgstr "Metodi"
-
-#: CRM/Contact/DAO/SubscriptionHistory.php CRM/Core/SelectValues.php
-msgid "Admin"
-msgstr "Admin"
-
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/Search/Criteria.php
-#: CRM/Core/DAO/Address.php CRM/Core/Payment/Form.php
+#: CRM/Core/Payment/Form.php
 msgid "Street Address"
 msgstr "Katuosoite"
 
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Contact/Form/Search/Custom/Basic.php CRM/Contact/Selector.php
-#: CRM/Core/DAO/Address.php CRM/Core/Form.php CRM/Core/Payment/Form.php
+#: CRM/Core/Form.php CRM/Core/Payment/Form.php
 #: templates/CRM/Contact/Form/Relationship.tpl
 #: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
 #: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
@@ -1282,10 +1011,6 @@ msgstr "Postitoimipaikka"
 #: CRM/Core/Form.php
 msgid "Zip / Postal Code"
 msgstr "Postinumero / postitoimipaikka"
-
-#: CRM/Contact/Form/Address.php CRM/Core/DAO/Address.php
-msgid "Postal Code Suffix"
-msgstr "Postinumeron tarkenne"
 
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Contact/Form/Test.php CRM/Core/Form.php CRM/Core/Payment/Form.php
@@ -1311,11 +1036,6 @@ msgstr "Lisää yhteystiedot"
 msgid "Administer CiviCRM"
 msgstr "Hallinnoi CiviCRM"
 
-#: CRM/Contact/Form/Domain.php CRM/Core/DAO/Domain.php
-#, fuzzy
-msgid "Email Domain"
-msgstr "Email Domain"
-
 #: CRM/Contact/Form/Edit.php CRM/Core/Invoke.php
 #, fuzzy
 msgid "New %1"
@@ -1330,15 +1050,29 @@ msgstr "Yksityisyys"
 msgid "Email is not valid."
 msgstr "Sähköpostiosoitteesi ei ole kelvollinen."
 
-#: CRM/Contact/Form/Email.php CRM/Core/DAO/Email.php
-msgid "On Hold"
-msgstr "Pidossa"
-
 #: CRM/Contact/Form/GroupTag.php CRM/Contact/Form/Task/EmailCommon.php
 #: CRM/Core/BAO/CustomField.php CRM/Core/BAO/PriceField.php
 #: CRM/Core/BAO/UFGroup.php CRM/Core/Form.php CRM/UF/Form/Preview.php
 msgid "%1 is a required field."
 msgstr "%1 on pakollinen kenttä."
+
+#: CRM/Contact/Form/Household.php CRM/Contact/Form/Individual.php
+#: CRM/Contact/Form/Search/Custom/Sample.php
+msgid "Household Name"
+msgstr "Kotitalouden nimi"
+
+#: CRM/Contact/Form/Household.php CRM/Contact/Form/Individual.php
+#: CRM/Contact/Form/Organization.php
+msgid "Nick Name"
+msgstr "Lempinimi"
+
+#: CRM/Contact/Form/Household.php CRM/Contact/Form/Individual.php
+#: CRM/Contact/Form/Organization.php templates/CRM/Contact/Page/View/Basic.tpl
+#: templates/CRM/Contact/Page/View/Membership.tpl
+#: templates/CRM/Contact/Page/View/Print.tpl
+#: templates/CRM/Contact/Page/View/Tabbed.tpl
+msgid "Source"
+msgstr "Lähde"
 
 #: CRM/Contact/Form/Household.php CRM/Contact/Form/Individual.php
 #: CRM/Contact/Form/Organization.php
@@ -1432,7 +1166,7 @@ msgid "Enter a valid Website."
 msgstr "Anna kokonaisluku"
 
 #: CRM/Contact/Form/Phone.php CRM/Contact/Form/Search/Custom/Basic.php
-#: CRM/Contact/Selector.php CRM/Core/DAO/Phone.php CRM/Core/SelectValues.php
+#: CRM/Contact/Selector.php CRM/Core/SelectValues.php
 #: templates/CRM/Contact/Form/Relationship.tpl
 #: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
 #: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
@@ -1502,10 +1236,6 @@ msgstr "Jäsenet"
 msgid "Grants"
 msgstr ""
 
-#: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Tabbed.php
-msgid "Cases"
-msgstr ""
-
 #: CRM/Contact/Form/Search/Basic.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Contact/Form/Search/Custom/ActivitySearch.php
 #: CRM/Contact/Form/Search/Custom/Basic.php
@@ -1549,7 +1279,7 @@ msgstr ""
 
 #: CRM/Contact/Form/Search/Custom/Basic.php
 #: CRM/Contact/Form/Search/Custom/PostalMailing.php CRM/Contact/Selector.php
-#: CRM/Core/DAO/CustomGroup.php templates/CRM/Contact/Form/Address.tpl
+#: templates/CRM/Contact/Form/Address.tpl
 #: templates/CRM/Contact/Form/Task/Print.tpl
 #: templates/CRM/Contact/Page/View/Sunlight.tpl
 msgid "Address"
@@ -1763,19 +1493,17 @@ msgstr "Samoilla tiedoilla on luotu jo yksi tunnus."
 msgid "Integer"
 msgstr "Ryhmittely???"
 
-#: CRM/Core/BAO/CustomField.php CRM/Core/DAO/CustomField.php
-#: CRM/Core/SelectValues.php
+#: CRM/Core/BAO/CustomField.php CRM/Core/SelectValues.php
 msgid "Money"
 msgstr "Raha"
 
-#: CRM/Core/BAO/CustomField.php CRM/Core/DAO/CustomField.php
-#: CRM/Core/SelectValues.php
+#: CRM/Core/BAO/CustomField.php CRM/Core/SelectValues.php
 #, fuzzy
 msgid "File"
 msgstr "Täytä"
 
-#: CRM/Core/BAO/CustomField.php CRM/Core/DAO/CustomField.php
-#: CRM/Core/SelectValues.php CRM/Custom/Form/Field.php
+#: CRM/Core/BAO/CustomField.php CRM/Core/SelectValues.php
+#: CRM/Custom/Form/Field.php
 #, fuzzy
 msgid "Link"
 msgstr " :"
@@ -1840,166 +1568,6 @@ msgstr "Loopi"
 msgid "CiviGrant"
 msgstr ""
 
-#: CRM/Core/DAO/Address.php CRM/Core/Payment/Form.php
-msgid "Postal Code"
-msgstr "Postinumero"
-
-#: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
-msgid "Html Type"
-msgstr "Html tyyppi"
-
-#: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
-msgid "Default Value"
-msgstr "Oletusarvo"
-
-#: CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomGroup.php
-#: CRM/Core/DAO/PriceField.php CRM/Core/DAO/PriceSet.php
-#: CRM/Core/DAO/UFGroup.php
-msgid "Help Pre"
-msgstr "???"
-
-#: CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomGroup.php
-#: CRM/Core/DAO/PriceField.php CRM/Core/DAO/PriceSet.php
-#: CRM/Core/DAO/UFField.php CRM/Core/DAO/UFGroup.php
-msgid "Help Post"
-msgstr "Auta postittamaan???"
-
-#: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
-msgid "Mask"
-msgstr "Maski"
-
-#: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
-#: CRM/Core/DAO/PriceSet.php
-msgid "Javascript"
-msgstr "Javascript"
-
-#: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
-#: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
-msgid "Options Per Line"
-msgstr "Vaihtoehtoja riviä kohden"
-
-#: CRM/Core/DAO/CustomField.php CRM/Core/SelectValues.php
-msgid "Memo"
-msgstr "Muistio"
-
-#: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
-msgid "TextArea"
-msgstr "Tekstikenttä"
-
-#: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
-#: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
-msgid "Select"
-msgstr "Valitse"
-
-#: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
-msgid "Multi-Select"
-msgstr "Valitse useampia"
-
-#: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
-#: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
-msgid "Radio"
-msgstr "Radio-painike"
-
-#: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
-#: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
-msgid "CheckBox"
-msgstr "Valintaruutu"
-
-#: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
-msgid "Select Date"
-msgstr "Valitse päivä"
-
-#: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
-msgid "Select State/Province"
-msgstr "Valitse maakunta"
-
-#: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
-msgid "Select Country"
-msgstr "Valitse maa"
-
-#: CRM/Core/DAO/CustomGroup.php CRM/Core/DAO/UFGroup.php
-msgid "Collapse Display"
-msgstr "Collapse Display"
-
-#: CRM/Core/DAO/CustomGroup.php CRM/Core/Menu.php
-msgid "Activity"
-msgstr "Aktiviteetti"
-
-#: CRM/Core/DAO/CustomGroup.php CRM/Core/SelectValues.php
-msgid "Tab"
-msgstr "liuska"
-
-#: CRM/Core/DAO/CustomGroup.php CRM/Core/SelectValues.php
-msgid "Inline"
-msgstr ""
-
-#: CRM/Core/DAO/MappingField.php CRM/Core/DAO/Phone.php
-#: CRM/Core/DAO/UFField.php
-msgid "Phone Type"
-msgstr "Puhelun tyyppi"
-
-#: CRM/Core/DAO/Mapping.php CRM/Core/Invoke.php
-msgid "Import Activity"
-msgstr ""
-
-#: CRM/Core/DAO/Mapping.php CRM/Core/Invoke.php CRM/Core/Menu.php
-#, fuzzy
-msgid "Search Builder"
-msgstr "Hakuprofiili"
-
-#: CRM/Core/DAO/OptionValue.php CRM/Custom/Form/Option.php
-#: CRM/Price/Form/Option.php templates/CRM/Custom/Page/Option.tpl
-#: templates/CRM/Price/Page/Option.tpl
-msgid "Option Label"
-msgstr "Valinnaninen tunnus"
-
-#: CRM/Core/DAO/OptionValue.php CRM/Custom/Form/Option.php
-#: CRM/Price/Form/Option.php templates/CRM/Custom/Page/Option.tpl
-#: templates/CRM/Price/Page/Option.tpl
-msgid "Option Value"
-msgstr "Valinnainen arvo"
-
-#: CRM/Core/DAO/PaymentProcessor.php CRM/Core/Menu.php
-msgid "Payment Processor"
-msgstr "Maksun välittäjä"
-
-#: CRM/Core/DAO/PaymentProcessor.php CRM/Core/DAO/PaymentProcessorType.php
-msgid "Suffix for PHP clas name implementation"
-msgstr ""
-
-#: CRM/Core/DAO/Phone.php CRM/Core/SelectValues.php
-msgid "Mobile"
-msgstr "Matkapuhelin"
-
-#: CRM/Core/DAO/Phone.php CRM/Core/SelectValues.php
-#: xml/templates/civicrm_add_domain.tpl
-msgid "Fax"
-msgstr "Fax"
-
-#: CRM/Core/DAO/Phone.php CRM/Core/SelectValues.php
-msgid "Pager"
-msgstr "Haku"
-
-#: CRM/Core/DAO/PriceField.php CRM/Price/Form/Field.php
-#: templates/CRM/Price/Page/Field.tpl
-#, fuzzy
-msgid "Active On"
-msgstr "Aktiivinen?"
-
-#: CRM/Core/DAO/PriceField.php CRM/Price/Form/Field.php
-#: templates/CRM/Price/Page/Field.tpl
-#, fuzzy
-msgid "Expire On"
-msgstr "Vie"
-
-#: CRM/Core/DAO/UFField.php CRM/UF/Form/Field.php
-msgid "Field Name"
-msgstr "Kentän nimi"
-
-#: CRM/Core/DAO/UFGroup.php CRM/Core/Menu.php templates/CRM/UF/Form/Group.tpl
-msgid "CiviCRM Profile"
-msgstr "CiviCRM profiili"
-
 #: CRM/Core/Invoke.php CRM/Friend/Form/Contribute.php
 #: CRM/Friend/Form/Event.php templates/CRM/Friend/Form/Friend.tpl
 msgid "Tell A Friend"
@@ -2018,6 +1586,11 @@ msgstr "poista sijaintipaikan tyyppi."
 #: CRM/Core/Invoke.php CRM/Core/SelectValues.php
 msgid "Search Results"
 msgstr "Hakutulokset"
+
+#: CRM/Core/Invoke.php CRM/Core/Menu.php
+#, fuzzy
+msgid "Search Builder"
+msgstr "Hakuprofiili"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
 #, fuzzy
@@ -2103,6 +1676,11 @@ msgid ""
 "Password is not set in the Administer CiviCRM &raquo; Payment Processor."
 msgstr ""
 
+#: CRM/Core/SelectValues.php CRM/Custom/Form/Field.php
+#: CRM/Price/Form/Field.php
+msgid "Text"
+msgstr "Teksti"
+
 #: CRM/Custom/Form/DeleteField.php CRM/Custom/Page/Field.php
 msgid "Delete Custom Field"
 msgstr "Poista räätälöity kenttä"
@@ -2111,6 +1689,18 @@ msgstr "Poista räätälöity kenttä"
 #, fuzzy
 msgid "The Group '%1' has been deleted."
 msgstr "Ryhmä %1 on poistettu."
+
+#: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
+msgid "Select"
+msgstr "Valitse"
+
+#: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
+msgid "Radio"
+msgstr "Radio-painike"
+
+#: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
+msgid "CheckBox"
+msgstr "Valintaruutu"
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php CRM/UF/Form/Field.php
 #: templates/CRM/Custom/Page/Field.tpl templates/CRM/Price/Page/Field.tpl
@@ -2126,8 +1716,7 @@ msgid "Order"
 msgstr ""
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php
-#: CRM/Price/Form/Field.php CRM/Price/Form/Option.php
-#: CRM/Project/DAO/Project.php CRM/Project/DAO/Task.php CRM/UF/Form/Field.php
+#: CRM/Price/Form/Field.php CRM/Price/Form/Option.php CRM/UF/Form/Field.php
 #: templates/CRM/Custom/Form/Optionfields.tpl
 #: templates/CRM/Price/Form/OptionFields.tpl
 msgid "Active?"
@@ -2136,6 +1725,10 @@ msgstr "Aktiivinen?"
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php CRM/UF/Form/Field.php
 msgid "Required?"
 msgstr "Vetäytynyt?"
+
+#: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
+msgid "Options Per Line"
+msgstr "Vaihtoehtoja riviä kohden"
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
 msgid "must be a numeric value"
@@ -2187,6 +1780,16 @@ msgstr "Ohjeet lomakkeen alussa"
 msgid "Post-form Help"
 msgstr "Viesti-lomakkeen ohje"
 
+#: CRM/Custom/Form/Option.php CRM/Price/Form/Option.php
+#: templates/CRM/Custom/Page/Option.tpl templates/CRM/Price/Page/Option.tpl
+msgid "Option Label"
+msgstr "Valinnaninen tunnus"
+
+#: CRM/Custom/Form/Option.php CRM/Price/Form/Option.php
+#: templates/CRM/Custom/Page/Option.tpl templates/CRM/Price/Page/Option.tpl
+msgid "Option Value"
+msgstr "Valinnainen arvo"
+
 #: CRM/Custom/Form/Preview.php CRM/Price/Form/Option.php
 #: CRM/Price/Form/Preview.php CRM/UF/Form/Preview.php
 msgid "Done with Preview"
@@ -2201,10 +1804,6 @@ msgstr "Näytä räätälöidyt tiedot"
 msgid "Settings"
 msgstr "Asetukset"
 
-#: CRM/Friend/BAO/Friend.php CRM/Friend/DAO/Friend.php
-msgid "Suggested Message"
-msgstr ""
-
 #: CRM/Friend/Form/Contribute.php CRM/Friend/Form/Event.php
 msgid "Thanks for Spreading the Word"
 msgstr ""
@@ -2218,22 +1817,6 @@ msgstr ""
 msgid "Grant Status"
 msgstr ""
 
-#: CRM/Grant/DAO/Grant.php CRM/Grant/Form/Grant.php
-#: CRM/Grant/Selector/Search.php templates/CRM/Grant/Form/Task/Print.tpl
-msgid "Amount Requested"
-msgstr ""
-
-#: CRM/Grant/DAO/Grant.php CRM/Grant/Form/Grant.php
-#: CRM/Grant/Selector/Search.php
-#, fuzzy
-msgid "Amount Granted"
-msgstr "Määrä"
-
-#: CRM/Grant/DAO/Grant.php CRM/Grant/Form/Grant.php
-#, fuzzy
-msgid "Rationale"
-msgstr "Valinnainen arvo"
-
 #: CRM/Grant/Form/Grant.php CRM/Grant/Selector/Search.php
 #, fuzzy
 msgid "Application Received"
@@ -2244,6 +1827,16 @@ msgstr "Vastaanottopäivä"
 msgid "Money Transferred"
 msgstr "Puhelin (ensisijainen)"
 
+#: CRM/Grant/Form/Grant.php CRM/Grant/Selector/Search.php
+#: templates/CRM/Grant/Form/Task/Print.tpl
+msgid "Amount Requested"
+msgstr ""
+
+#: CRM/Grant/Form/Grant.php CRM/Grant/Selector/Search.php
+#, fuzzy
+msgid "Amount Granted"
+msgstr "Määrä"
+
 #: CRM/Grant/Form/Task/Delete.php CRM/Grant/Task.php
 msgid "Delete Grants"
 msgstr ""
@@ -2251,6 +1844,12 @@ msgstr ""
 #: CRM/Group/Form/Edit.php CRM/Group/Page/Group.php
 msgid "Delete Group"
 msgstr "Poista ryhmä"
+
+#: CRM/Group/Form/Edit.php CRM/Group/Form/Search.php CRM/UF/Form/Field.php
+#: templates/CRM/Contact/Page/View/Membership.tpl
+#: templates/CRM/Group/Page/Group.tpl templates/CRM/UF/Page/Field.tpl
+msgid "Visibility"
+msgstr "Näkyvyys"
 
 #: CRM/Group/Form/Edit.php CRM/Upgrade/Form.php
 msgid "Continue"
@@ -2266,11 +1865,6 @@ msgstr "Poista profiili-kenttä"
 #, fuzzy
 msgid "Price"
 msgstr "Profiili"
-
-#: CRM/Project/DAO/Project.php CRM/Project/DAO/Task.php
-#, fuzzy
-msgid "Owner Entity Table"
-msgstr "Luo taulukko???"
 
 #: CRM/Standalone/OpenID/DAO/Associations.php
 #: CRM/Standalone/OpenID/DAO/Nonce.php
@@ -2291,12 +1885,6 @@ msgstr ""
 #: CRM/Upgrade/TwoZero/Form/Step1.php CRM/Upgrade/TwoZero/Form/Step3.php
 #: CRM/Upgrade/TwoZero/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step6.php
 msgid "Please rebuild your 1.9 database to ensure schema integrity."
-msgstr ""
-
-#: CRM/Upgrade/TwoZero/Form/Step1.php CRM/Upgrade/TwoZero/Form/Step5.php
-msgid ""
-"Value missing in %1 for the column '%2'. Please add a unique value for the "
-"'name' column for each database record."
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step1.php CRM/Upgrade/TwoZero/Form/Step2.php
@@ -2325,31 +1913,6 @@ msgstr "Yhteyden ryhmät"
 #, fuzzy
 msgid "Administer"
 msgstr "Hallinnoi CiviCRM"
-
-#: CRM/ACL/DAO/ACL.php
-#, fuzzy
-msgid "ACL Name"
-msgstr "Sukunimi"
-
-#: CRM/ACL/DAO/ACL.php
-msgid "Deny"
-msgstr "Kielto"
-
-#: CRM/ACL/DAO/ACL.php
-msgid "Object Table"
-msgstr "Object Table"
-
-#: CRM/ACL/DAO/ACL.php
-msgid "Acl Table"
-msgstr "Acl Table"
-
-#: CRM/ACL/DAO/ACL.php
-msgid "All"
-msgstr "Kaikki"
-
-#: CRM/ACL/DAO/ACL.php
-msgid "Revoke"
-msgstr "Evääminen"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "add contacts"
@@ -2403,6 +1966,11 @@ msgstr ""
 #: CRM/ACL/Form/ACLBasic.php
 msgid "ACL Type"
 msgstr ""
+
+#: CRM/ACL/Form/ACL.php templates/CRM/ACL/Page/ACL.tpl
+#, fuzzy
+msgid "Operation"
+msgstr "Toimenpide"
 
 #: CRM/ACL/Form/ACL.php
 #, fuzzy
@@ -2517,40 +2085,6 @@ msgstr ""
 
 #: CRM/Activity/BAO/Query.php
 msgid "Content"
-msgstr ""
-
-#: CRM/Activity/DAO/Activity.php
-#, fuzzy
-msgid "Activity ID"
-msgstr "Aktiviteetti"
-
-#: CRM/Activity/DAO/Activity.php
-msgid "Activity Type ID"
-msgstr ""
-
-#: CRM/Activity/DAO/Activity.php
-msgid "Activity Date Time"
-msgstr ""
-
-#: CRM/Activity/DAO/Activity.php
-msgid "Due Date Time"
-msgstr ""
-
-#: CRM/Activity/DAO/Activity.php
-msgid "Phone Number"
-msgstr "Puhelinnumero"
-
-#: CRM/Activity/DAO/Activity.php
-msgid "Activity Status Label"
-msgstr ""
-
-#: CRM/Activity/DAO/Activity.php
-#, fuzzy
-msgid "Test"
-msgstr "Teksti"
-
-#: CRM/Activity/DAO/ActivityTarget.php
-msgid "Contact ID (match to contact)"
 msgstr ""
 
 #: CRM/Activity/Form/ActivityLinks.php
@@ -2733,6 +2267,10 @@ msgstr "Valittu sijaintipaikka on poistettu."
 msgid "The location type '%1' has been saved."
 msgstr "Sijaintipaikka \"%1\" on tallennettu."
 
+#: CRM/Admin/Form/Mapping.php templates/CRM/Admin/Page/Mapping.tpl
+msgid "Mapping Type"
+msgstr "Mapping Type"
+
 #: CRM/Admin/Form/MessageTemplates.php
 #: templates/CRM/Admin/Page/MessageTemplates.tpl
 #, fuzzy
@@ -2793,6 +2331,11 @@ msgstr "Kuvaus \"%1\" on tallennettu."
 
 #: CRM/Admin/Form/OptionValue.php
 #, fuzzy
+msgid "Option Grouping Name"
+msgstr "Ryhmän nimi"
+
+#: CRM/Admin/Form/OptionValue.php
+#, fuzzy
 msgid "Default Option?"
 msgstr "Poista sukupuolen määrittely"
 
@@ -2817,6 +2360,23 @@ msgstr ""
 
 #: CRM/Admin/Form/PaymentProcessor.php
 #, fuzzy
+msgid "Site URL"
+msgstr "Kotisivujen URL"
+
+#: CRM/Admin/Form/PaymentProcessor.php
+msgid "Recurring Payments URL"
+msgstr ""
+
+#: CRM/Admin/Form/PaymentProcessor.php
+msgid "Button URL"
+msgstr ""
+
+#: CRM/Admin/Form/PaymentProcessor.php
+msgid "API URL"
+msgstr ""
+
+#: CRM/Admin/Form/PaymentProcessor.php
+#, fuzzy
 msgid "Is this Payment Processor active?"
 msgstr "Maksun välittäjä"
 
@@ -2836,6 +2396,11 @@ msgstr ""
 #: CRM/Admin/Form/PaymentProcessor.php
 msgid "Selected Payment Processor has been deleted."
 msgstr ""
+
+#: CRM/Admin/Form/PaymentProcessorType.php
+#, fuzzy
+msgid "Billing Mode"
+msgstr "Jono (String)"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 #, fuzzy
@@ -2909,6 +2474,17 @@ msgstr ""
 msgid "Does this Payment Processor Type support recurring donations?"
 msgstr ""
 
+#: CRM/Admin/Form/PaymentProcessorType.php
+#: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
+msgid "User Name"
+msgstr "Sukunimi"
+
+#: CRM/Admin/Form/PaymentProcessorType.php
+#: xml/templates/civicrm_add_domain.tpl
+msgid "Signature"
+msgstr ""
+
 #: CRM/Admin/Form/Preferences/Address.php
 #, fuzzy
 msgid "Settings - Addresses"
@@ -2922,6 +2498,11 @@ msgstr "Ensisijainen osoite"
 #: CRM/Admin/Form/Preferences/Address.php
 msgid "Location count must be a positive integer (e.g. 1 or 2 or ...)."
 msgstr ""
+
+#: CRM/Admin/Form/Preferences/Address.php
+#, fuzzy
+msgid "Individual Name Format"
+msgstr "Yksilöllinen"
 
 #: CRM/Admin/Form/Preferences/Address.php
 #, fuzzy
@@ -2965,6 +2546,16 @@ msgid "End Offset"
 msgstr ""
 
 #: CRM/Admin/Form/PreferencesDate.php
+#: templates/CRM/Admin/Page/PreferencesDate.tpl
+msgid "Minute Increment"
+msgstr ""
+
+#: CRM/Admin/Form/PreferencesDate.php
+#: templates/CRM/Admin/Page/PreferencesDate.tpl
+msgid "Format"
+msgstr ""
+
+#: CRM/Admin/Form/PreferencesDate.php
 msgid "Preferences Date Options can only be updated"
 msgstr ""
 
@@ -2995,6 +2586,16 @@ msgstr "Yhdistä tunnus-A B:hen."
 #: CRM/Admin/Form/RelationshipType.php
 msgid "Relationship Label-B to A"
 msgstr "Yhteystunnus A:sta B:hen."
+
+#: CRM/Admin/Form/RelationshipType.php
+#: templates/CRM/Admin/Page/RelationshipType.tpl
+msgid "Contact Type A"
+msgstr "Yhteystyyppi A"
+
+#: CRM/Admin/Form/RelationshipType.php
+#: templates/CRM/Admin/Page/RelationshipType.tpl
+msgid "Contact Type B"
+msgstr "Yhteystyyppi B"
 
 #: CRM/Admin/Form/RelationshipType.php
 msgid "Selected Relationship type has been deleted."
@@ -3701,8 +3302,17 @@ msgstr "Postinumero - \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 #, fuzzy
+msgid "Location Type"
+msgstr "Osoitetyypit"
+
+#: CRM/Contact/BAO/Query.php
+#, fuzzy
 msgid "Changed by"
 msgstr "Luoja"
+
+#: CRM/Contact/BAO/Query.php xml/templates/civicrm_add_domain.tpl
+msgid "Preferred Communication Method"
+msgstr "Suositeltava yhteydenpitotapa"
 
 #: CRM/Contact/BAO/Relationship.php
 msgid "Selected Relationship has been Deleted Successfuly."
@@ -3713,151 +3323,6 @@ msgstr "Valittu yhteys on poistettu."
 msgid "Invalid relationship type"
 msgstr "Ota yhteystyyppi käyttöön."
 
-#: CRM/Contact/DAO/Contact.php
-msgid "Internal Contact ID"
-msgstr "Sisäinen yhteys ID"
-
-#: CRM/Contact/DAO/Contact.php
-#, fuzzy
-msgid "Contact Sub Type"
-msgstr "Yhteystietojen tyyppi"
-
-#: CRM/Contact/DAO/Contact.php
-msgid "Do Not Email"
-msgstr "Älä lähetä sähköpostia"
-
-#: CRM/Contact/DAO/Contact.php
-#, fuzzy
-msgid "Do Not Phone"
-msgstr "Älä soita"
-
-#: CRM/Contact/DAO/Contact.php
-msgid "Do Not Mail"
-msgstr "Älä lähetä postia"
-
-#: CRM/Contact/DAO/Contact.php
-msgid "Do Not Trade"
-msgstr "Älä myy"
-
-#: CRM/Contact/DAO/Contact.php
-msgid "No Bulk Mail (Opted-out)"
-msgstr ""
-
-#: CRM/Contact/DAO/Contact.php
-msgid "Legal Identifier"
-msgstr "Virallinen nimi"
-
-#: CRM/Contact/DAO/Contact.php
-msgid "External Identifier"
-msgstr "Lisänimi"
-
-#: CRM/Contact/DAO/Contact.php templates/CRM/Contact/Form/Search/Simple.tpl
-msgid "Sort Name"
-msgstr "Järjestä nimet"
-
-#: CRM/Contact/DAO/Contact.php
-#, fuzzy
-msgid "Display Name"
-msgstr "Näytä tyyli"
-
-#: CRM/Contact/DAO/Contact.php
-msgid "Home URL"
-msgstr "Kotisivujen URL"
-
-#: CRM/Contact/DAO/Contact.php
-#, fuzzy
-msgid "Image Url"
-msgstr "Kuvan URL"
-
-#: CRM/Contact/DAO/Contact.php
-#, fuzzy
-msgid "Preferred Mail Format"
-msgstr "Suositeltava postimuoto"
-
-#: CRM/Contact/DAO/Contact.php
-msgid "Hash"
-msgstr "???"
-
-#: CRM/Contact/DAO/Contact.php
-#, fuzzy
-msgid "Source of Contact Data"
-msgstr "Näytä yhteyden yksityiskohdat"
-
-#: CRM/Contact/DAO/Contact.php
-msgid "Greeting Type"
-msgstr "Onnittelujen tyyppi"
-
-#: CRM/Contact/DAO/Contact.php
-msgid "Custom Greeting"
-msgstr "Räätälöity onnittelu"
-
-#: CRM/Contact/DAO/Contact.php templates/CRM/Contact/Page/View/Basic.tpl
-#: templates/CRM/Contact/Page/View/Print.tpl
-#: templates/CRM/Contact/Page/View/Tabbed.tpl
-msgid "Job Title"
-msgstr "Ammatti"
-
-#: CRM/Contact/DAO/Contact.php
-msgid "Birth Date"
-msgstr "Syntymäpäivä"
-
-#: CRM/Contact/DAO/Contact.php
-msgid "Is Deceased"
-msgstr "Edesmennyt"
-
-#: CRM/Contact/DAO/Contact.php
-#, fuzzy
-msgid "Deceased Date"
-msgstr "Vastaanottopäivä"
-
-#: CRM/Contact/DAO/Contact.php
-msgid "Sic Code"
-msgstr "Sic Code"
-
-#: CRM/Contact/DAO/Contact.php
-msgid "Unique ID (OpenID)"
-msgstr ""
-
-#: CRM/Contact/DAO/Contact.php
-msgid "Formal"
-msgstr "Muodollinen"
-
-#: CRM/Contact/DAO/Contact.php
-msgid "Informal"
-msgstr "Epämuodollinen"
-
-#: CRM/Contact/DAO/Contact.php
-msgid "Honorific"
-msgstr "Kunnianimi"
-
-#: CRM/Contact/DAO/Contact.php
-msgid "Custom"
-msgstr "Räätälöity"
-
-#: CRM/Contact/DAO/RelationshipType.php
-msgid "Name A B"
-msgstr "Nimi A B"
-
-#: CRM/Contact/DAO/RelationshipType.php
-msgid "Name B A"
-msgstr "Nimi B A"
-
-#: CRM/Contact/DAO/SavedSearch.php
-msgid "Submitted Form Values"
-msgstr "Submitted Form Values"
-
-#: CRM/Contact/DAO/SubscriptionHistory.php
-msgid "Tracking"
-msgstr "Jäljitys"
-
-#: CRM/Contact/DAO/SubscriptionHistory.php
-msgid "Web"
-msgstr "Web"
-
-#: CRM/Contact/DAO/SubscriptionHistory.php
-msgid "API"
-msgstr "API"
-
 #: CRM/Contact/Form/Address.php
 msgid "Addt'l Address 1"
 msgstr "Vaihtoehtoinen osoite 1"
@@ -3865,6 +3330,10 @@ msgstr "Vaihtoehtoinen osoite 1"
 #: CRM/Contact/Form/Address.php
 msgid "Addt'l Address 2"
 msgstr "Vaihtoehtoinen osoite 2"
+
+#: CRM/Contact/Form/Address.php
+msgid "Postal Code Suffix"
+msgstr "Postinumeron tarkenne"
 
 #: CRM/Contact/Form/Address.php
 msgid "Latitude"
@@ -3905,6 +3374,11 @@ msgid ""
 "Domain Email Address must use a valid email address format (e.g. "
 "'info@example.org')."
 msgstr "Anna kelvollinen nimi."
+
+#: CRM/Contact/Form/Domain.php
+#, fuzzy
+msgid "Email Domain"
+msgstr "Email Domain"
 
 #: CRM/Contact/Form/Domain.php
 msgid ""
@@ -3960,6 +3434,10 @@ msgstr "Tallenna ja uusi"
 msgid "Your %1 contact record has been saved."
 msgstr "Sinun %1 yhteystietoa on tallennettu."
 
+#: CRM/Contact/Form/Edit.php templates/CRM/Contact/Page/View/Print.tpl
+msgid "Method"
+msgstr "Metodi"
+
 #: CRM/Contact/Form/Edit.php
 #, fuzzy
 msgid "Email Format"
@@ -3996,6 +3474,10 @@ msgstr "Vaihtoehtoinen sähköposti"
 #: CRM/Contact/Form/Email.php
 msgid "hide this email"
 msgstr "Piilota tämä sähköposti"
+
+#: CRM/Contact/Form/Email.php
+msgid "On Hold"
+msgstr "Pidossa"
 
 #: CRM/Contact/Form/Email.php
 msgid "Use for Bulk Mailings"
@@ -4046,6 +3528,18 @@ msgstr "Etuliite"
 #: CRM/Contact/Form/Individual.php
 msgid "- prefix -"
 msgstr "- etuliite -"
+
+#: CRM/Contact/Form/Individual.php templates/CRM/Friend/Form.tpl
+msgid "First Name"
+msgstr "Etunimi"
+
+#: CRM/Contact/Form/Individual.php
+msgid "Middle Name"
+msgstr "Toinen etunimi"
+
+#: CRM/Contact/Form/Individual.php templates/CRM/Friend/Form.tpl
+msgid "Last Name"
+msgstr "Sukunimi"
 
 #: CRM/Contact/Form/Individual.php
 msgid "Suffix"
@@ -4200,6 +3694,14 @@ msgstr ""
 #: CRM/Contact/Form/OpenID.php
 msgid "Allowed to Login"
 msgstr ""
+
+#: CRM/Contact/Form/Organization.php
+msgid "Organization Name"
+msgstr "Yhteisön nimi"
+
+#: CRM/Contact/Form/Organization.php
+msgid "Legal Name"
+msgstr "Virallinen"
 
 #: CRM/Contact/Form/Organization.php
 msgid "SIC Code"
@@ -5396,604 +4898,10 @@ msgid ""
 ">> Global Settings</a> to set the SMTP Server."
 msgstr ""
 
-#: CRM/Core/DAO/Address.php
-msgid "Street Number"
-msgstr "Katunumero"
-
-#: CRM/Core/DAO/Address.php
-msgid "Street Number Suffix"
-msgstr "Katunumeron tarkene"
-
-#: CRM/Core/DAO/Address.php
-msgid "Street Number Predirectional"
-msgstr "Street Number Predirectional"
-
-#: CRM/Core/DAO/Address.php
-msgid "Street Name"
-msgstr "Kadun nimi"
-
-#: CRM/Core/DAO/Address.php
-msgid "Street Type"
-msgstr "Kadun tyyppi"
-
-#: CRM/Core/DAO/Address.php
-msgid "Street Number Postdirectional"
-msgstr "Kadun nimi postinumeroittain"
-
-#: CRM/Core/DAO/Address.php
-#, fuzzy
-msgid "Street Unit"
-msgstr "Street Unit"
-
-#: CRM/Core/DAO/Address.php
-msgid "Supplemental Address 1"
-msgstr "Lisäosoite1"
-
-#: CRM/Core/DAO/Address.php
-msgid "Supplemental Address 2"
-msgstr "Lisäosoite2"
-
-#: CRM/Core/DAO/Address.php
-msgid "Supplemental Address 3"
-msgstr "Lisäosoite3"
-
-#: CRM/Core/DAO/Address.php
-msgid "Usps Adc"
-msgstr "Usps Adc"
-
-#: CRM/Core/DAO/Address.php
-msgid "Geo Code 1"
-msgstr "Geo Code 1"
-
-#: CRM/Core/DAO/Address.php
-msgid "Geo Code 2"
-msgstr "Geo Code 2"
-
-#: CRM/Core/DAO/Address.php
-msgid "Timezone"
-msgstr "Aikavyöhyke"
-
-#: CRM/Core/DAO/Component.php
-msgid "Component name"
-msgstr ""
-
-#: CRM/Core/DAO/Component.php
-msgid "Namespace reserved for component."
-msgstr ""
-
-#: CRM/Core/DAO/Country.php
-msgid "Iso Code"
-msgstr "Iso Code"
-
-#: CRM/Core/DAO/Country.php
-msgid "Country Code"
-msgstr "Country Code"
-
-#: CRM/Core/DAO/Country.php
-msgid "Idd Prefix"
-msgstr "Idd Prefix"
-
-#: CRM/Core/DAO/Country.php
-msgid "Ndd Prefix"
-msgstr "Ndd Prefix"
-
-#: CRM/Core/DAO/County.php
-#, fuzzy
-msgid "County Abbreviation"
-msgstr "Maan lyhenne"
-
-#: CRM/Core/DAO/Currency.php
-msgid "Currency"
-msgstr "Valuutta"
-
-#: CRM/Core/DAO/Currency.php
-msgid "Symbol"
-msgstr ""
-
-#: CRM/Core/DAO/Currency.php
-#, fuzzy
-msgid "Numeric Code"
-msgstr "Sic Code"
-
-#: CRM/Core/DAO/Currency.php
-#, fuzzy
-msgid "Full Name"
-msgstr "Kentän nimi"
-
-#: CRM/Core/DAO/CustomField.php templates/CRM/Custom/Page/Field.tpl
-msgid "Data Type"
-msgstr "Tiedostotyyppi"
-
-#: CRM/Core/DAO/CustomField.php
-msgid "Attributes"
-msgstr "Atribuutit"
-
-#: CRM/Core/DAO/CustomField.php
-#, fuzzy
-msgid "Start Date Years"
-msgstr "Alkamispäivä"
-
-#: CRM/Core/DAO/CustomField.php
-#, fuzzy
-msgid "End Date Years"
-msgstr "Päättymispäivä"
-
-#: CRM/Core/DAO/CustomField.php
-#, fuzzy
-msgid "Date Parts"
-msgstr "Date Data"
-
-#: CRM/Core/DAO/CustomField.php
-msgid "Note Columns"
-msgstr ""
-
-#: CRM/Core/DAO/CustomField.php
-#, fuzzy
-msgid "Note Rows"
-msgstr "Muistiinpanot"
-
-#: CRM/Core/DAO/CustomField.php
-msgid "Column Name"
-msgstr ""
-
-#: CRM/Core/DAO/CustomField.php
-msgid "String"
-msgstr "Jono (String)"
-
-#: CRM/Core/DAO/CustomField.php
-msgid "Int"
-msgstr "Int"
-
-#: CRM/Core/DAO/CustomField.php
-msgid "Float"
-msgstr "Kelluva (Float)"
-
-#: CRM/Core/DAO/CustomField.php
-msgid "Boolean"
-msgstr "Boolean"
-
-#: CRM/Core/DAO/CustomField.php
-msgid "StateProvince"
-msgstr "Maakunta"
-
-#: CRM/Core/DAO/CustomGroup.php
-msgid "Extends"
-msgstr "Laajennukset"
-
-#: CRM/Core/DAO/CustomGroup.php
-msgid "Extends Entity Column Name"
-msgstr ""
-
-#: CRM/Core/DAO/CustomGroup.php
-msgid "Extends Entity Column Value"
-msgstr ""
-
-#: CRM/Core/DAO/CustomGroup.php templates/CRM/Custom/Page/Group.tpl
-msgid "Style"
-msgstr "Tyyppi"
-
-#: CRM/Core/DAO/CustomGroup.php
-msgid "Table Name"
-msgstr ""
-
-#: CRM/Core/DAO/CustomGroup.php xml/templates/civicrm_add_domain.tpl
-msgid "Contribution"
-msgstr "Avustus"
-
-#: CRM/Core/DAO/CustomGroup.php templates/CRM/Contact/Page/View/Basic.tpl
-#: templates/CRM/Contact/Page/View/Relationship.tpl
-msgid "Relationship"
-msgstr ""
-
-#: CRM/Core/DAO/CustomGroup.php templates/CRM/Contact/Page/View/Membership.tpl
-#: templates/CRM/Contact/Page/View/UserDashBoard/Membership.tpl
-#, fuzzy
-msgid "Membership"
-msgstr "Jäsenet"
-
-#: CRM/Core/DAO/CustomGroup.php
-#, fuzzy
-msgid "Participant"
-msgstr "Tulosta"
-
-#: CRM/Core/DAO/Domain.php
-#, fuzzy
-msgid "Email Name"
-msgstr "Virallinen"
-
-#: CRM/Core/DAO/Domain.php templates/CRM/Friend/Form.tpl
-#, fuzzy
-msgid "Email Address"
-msgstr "Viallinen sähköpostiosoite"
-
-#: CRM/Core/DAO/Domain.php
-#, fuzzy
-msgid "Email Return Path"
-msgstr "Sähköposti lähetetty"
-
-#: CRM/Core/DAO/Domain.php
-#, fuzzy
-msgid "Config Backend"
-msgstr "Anna asetukset"
-
-#: CRM/Core/DAO/Domain.php
-msgid "Version"
-msgstr ""
-
-#: CRM/Core/DAO/DupeMatch.php
-msgid "Rule"
-msgstr "Sääntö"
-
-#: CRM/Core/DAO/Email.php
-msgid "Use for Bulk Mail"
-msgstr ""
-
-#: CRM/Core/DAO/Email.php
-msgid "Hold Date"
-msgstr "Pidon päivä"
-
-#: CRM/Core/DAO/Email.php
-msgid "Reset Date"
-msgstr "Tyhjennä päivä"
-
-#: CRM/Core/DAO/File.php
-#, fuzzy
-msgid "Mime Type"
-msgstr "Lomakkeen tyyppi"
-
-#: CRM/Core/DAO/File.php
-#, fuzzy
-msgid "Uri"
-msgstr "URL"
-
-#: CRM/Core/DAO/File.php
-#, fuzzy
-msgid "Document"
-msgstr "Valmissa"
-
-#: CRM/Core/DAO/File.php
-#, fuzzy
-msgid "Upload Date"
-msgstr "Lataa tiedostot"
-
-#: CRM/Core/DAO/IM.php
-msgid "IM Screen Name"
-msgstr "Pikaviestin (IM) näytön nimi"
-
-#: CRM/Core/DAO/LineItem.php
-msgid "Qty"
-msgstr ""
-
-#: CRM/Core/DAO/LineItem.php
-msgid "Unit Price"
-msgstr ""
-
-#: CRM/Core/DAO/LineItem.php
-msgid "Line Total"
-msgstr ""
-
-#: CRM/Core/DAO/LocationType.php
-msgid "vCard Location Type"
-msgstr "vCard osoitteen tyyppi"
-
-#: CRM/Core/DAO/LocBlock.php
-#, fuzzy
-msgid "Location Name"
-msgstr "Osoitteen tyyppi"
-
-#: CRM/Core/DAO/Log.php
-#, fuzzy
-msgid "Data"
-msgstr "Päivä"
-
-#: CRM/Core/DAO/MappingField.php
-msgid "Column Number"
-msgstr "Sarakkeen numero"
-
-#: CRM/Core/DAO/MappingField.php
-#, fuzzy
-msgid "Relationship Direction"
-msgstr "Suhde B ja A välillä"
-
-#: CRM/Core/DAO/MappingField.php
-#, fuzzy
-msgid "Grouping"
-msgstr "Ryhmä"
-
-#: CRM/Core/DAO/MappingField.php
-#, fuzzy
-msgid "Operator"
-msgstr "Toimenpide"
-
-#: CRM/Core/DAO/MappingField.php
-msgid "="
-msgstr ""
-
-#: CRM/Core/DAO/MappingField.php
-msgid "!="
-msgstr ""
-
-#: CRM/Core/DAO/MappingField.php
-msgid ">"
-msgstr ""
-
-#: CRM/Core/DAO/MappingField.php
-msgid "<"
-msgstr ""
-
-#: CRM/Core/DAO/MappingField.php
-msgid ">="
-msgstr ""
-
-#: CRM/Core/DAO/MappingField.php
-msgid "<="
-msgstr ""
-
-#: CRM/Core/DAO/MappingField.php
-msgid "IN"
-msgstr ""
-
-#: CRM/Core/DAO/MappingField.php
-msgid "NOT IN"
-msgstr ""
-
-#: CRM/Core/DAO/MappingField.php
-msgid "LIKE"
-msgstr ""
-
-#: CRM/Core/DAO/MappingField.php
-msgid "NOT LIKE"
-msgstr ""
-
-#: CRM/Core/DAO/Mapping.php
-msgid "Export"
-msgstr "Vie"
-
-#: CRM/Core/DAO/Mapping.php
-msgid "Export Contributions"
-msgstr "Tuo avustuksia"
-
-#: CRM/Core/DAO/Mapping.php
-msgid "Import Contributions"
-msgstr "Tuo lahjoitukset"
-
-#: CRM/Core/DAO/Mapping.php
-#, fuzzy
-msgid "Import Memberships"
-msgstr "Jäsenet"
-
-#: CRM/Core/DAO/Mapping.php
-#, fuzzy
-msgid "Import Participants"
-msgstr "Tuo yhteystietoja"
-
-#: CRM/Core/DAO/MessageTemplates.php
-#, fuzzy
-msgid "Msg Title"
-msgstr "Otsikko"
-
-#: CRM/Core/DAO/MessageTemplates.php
-#, fuzzy
-msgid "Msg Subject"
-msgstr "Aihe"
-
-#: CRM/Core/DAO/MessageTemplates.php
-#, fuzzy
-msgid "Msg Text"
-msgstr "Teksti"
-
-#: CRM/Core/DAO/MessageTemplates.php
-msgid "Msg Html"
-msgstr ""
-
-#: CRM/Core/DAO/MessageTemplates.php
-#, fuzzy
-msgid "Is Active"
-msgstr "Aktiivinen?"
-
-#: CRM/Core/DAO/OpenID.php
-msgid "Openid"
-msgstr ""
-
-#: CRM/Core/DAO/OpenID.php
-msgid "Allowed To Login"
-msgstr ""
-
-#: CRM/Core/DAO/OptionGroup.php
-#, fuzzy
-msgid "Option Group Name"
-msgstr "Ryhmän nimi"
-
-#: CRM/Core/DAO/OptionValue.php
-#, fuzzy
-msgid "Option Name"
-msgstr "Valinnaninen tunnus"
-
-#: CRM/Core/DAO/OptionValue.php
-#, fuzzy
-msgid "Filter"
-msgstr "Alareuna"
-
-#: CRM/Core/DAO/PaymentProcessorType.php
-msgid "Payment Processor variable name to be used in code"
-msgstr ""
-
-#: CRM/Core/DAO/PaymentProcessorType.php
-#, fuzzy
-msgid "Payment Processor Title"
-msgstr "Maksun välittäjä"
-
-#: CRM/Core/DAO/PaymentProcessorType.php
-msgid "Label for User Name if used"
-msgstr ""
-
-#: CRM/Core/DAO/PaymentProcessorType.php
-msgid "Label for password"
-msgstr ""
-
-#: CRM/Core/DAO/PaymentProcessorType.php
-msgid "Label for Signature"
-msgstr ""
-
-#: CRM/Core/DAO/PaymentProcessorType.php
-msgid "Label for Subject"
-msgstr ""
-
-#: CRM/Core/DAO/PaymentProcessorType.php
-msgid "Default Live Site URL"
-msgstr ""
-
-#: CRM/Core/DAO/PaymentProcessorType.php
-msgid "Default API Site URL"
-msgstr ""
-
-#: CRM/Core/DAO/PaymentProcessorType.php
-msgid "Default Live Recurring Payments URL"
-msgstr ""
-
-#: CRM/Core/DAO/PaymentProcessorType.php
-msgid "Default Live Button URL"
-msgstr ""
-
-#: CRM/Core/DAO/PaymentProcessorType.php
-msgid "Default Test Site URL"
-msgstr ""
-
-#: CRM/Core/DAO/PaymentProcessorType.php
-msgid "Default Test API URL"
-msgstr ""
-
-#: CRM/Core/DAO/PaymentProcessorType.php
-msgid "Default Test Recurring Payment URL"
-msgstr ""
-
-#: CRM/Core/DAO/PaymentProcessorType.php
-msgid "Default Test Button URL"
-msgstr ""
-
 #: CRM/Core/DAO.php
 #, fuzzy
 msgid "Could not retrieve object name: %1, id: %2"
 msgstr "Could not get a contact_id and/or contact_type"
-
-#: CRM/Core/DAO/PreferencesDate.php
-msgid "Start"
-msgstr ""
-
-#: CRM/Core/DAO/PreferencesDate.php
-msgid "End"
-msgstr ""
-
-#: CRM/Core/DAO/Preferences.php
-#, fuzzy
-msgid "Location Count"
-msgstr "Sijainti"
-
-#: CRM/Core/DAO/Preferences.php xml/templates/civicrm_add_domain.tpl
-#, fuzzy
-msgid "Contact View Options"
-msgstr "Näytä ryhmät"
-
-#: CRM/Core/DAO/Preferences.php xml/templates/civicrm_add_domain.tpl
-#, fuzzy
-msgid "Contact Edit Options"
-msgstr "Muokkaa valintamahdollisuuksia"
-
-#: CRM/Core/DAO/Preferences.php xml/templates/civicrm_add_domain.tpl
-#, fuzzy
-msgid "Advanced Search Options"
-msgstr "Täsmällisempi haku"
-
-#: CRM/Core/DAO/Preferences.php xml/templates/civicrm_add_domain.tpl
-msgid "User Dashboard Options"
-msgstr ""
-
-#: CRM/Core/DAO/Preferences.php
-#, fuzzy
-msgid "Address Options"
-msgstr "Asetukset"
-
-#: CRM/Core/DAO/Preferences.php
-#, fuzzy
-msgid "Address Format"
-msgstr "Osoite"
-
-#: CRM/Core/DAO/Preferences.php
-#, fuzzy
-msgid "Mailing Format"
-msgstr "Suositeltava postimuoto"
-
-#: CRM/Core/DAO/Preferences.php
-#, fuzzy
-msgid "Address Standardization Provider"
-msgstr "Lisää yhteisöön"
-
-#: CRM/Core/DAO/Preferences.php
-#, fuzzy
-msgid "Address Standardization Userid"
-msgstr "Lisää yhteisöön"
-
-#: CRM/Core/DAO/Preferences.php
-#, fuzzy
-msgid "Address Standardization Url"
-msgstr "Lisää yhteisöön"
-
-#: CRM/Core/DAO/StateProvince.php
-msgid "State Abbreviation"
-msgstr "Lyhennyksen tila"
-
-#: CRM/Core/DAO/Timezone.php
-#, fuzzy
-msgid "Abbreviation"
-msgstr "Lyhennyksen tila"
-
-#: CRM/Core/DAO/Timezone.php
-msgid "Gmt"
-msgstr ""
-
-#: CRM/Core/DAO/Timezone.php
-msgid "Offset"
-msgstr ""
-
-#: CRM/Core/DAO/UFField.php
-msgid "In Selector"
-msgstr "Valitsijassa"
-
-#: CRM/Core/DAO/UFField.php templates/CRM/Custom/Page/Field.tpl
-#: templates/CRM/Price/Page/Field.tpl
-msgid "Field Type"
-msgstr ""
-
-#: CRM/Core/DAO/UFGroup.php
-msgid "Form Type"
-msgstr "Lomakkeen tyyppi"
-
-#: CRM/Core/DAO/UFGroup.php
-#, fuzzy
-msgid "Post Url"
-msgstr "Postilla"
-
-#: CRM/Core/DAO/UFGroup.php
-msgid "Add Captcha"
-msgstr ""
-
-#: CRM/Core/DAO/UFGroup.php
-#, fuzzy
-msgid "Cancel Url"
-msgstr "Peruuta"
-
-#: CRM/Core/DAO/UFGroup.php
-#, fuzzy
-msgid "Notify"
-msgstr "Muistio"
-
-#: CRM/Core/DAO/UFJoin.php
-msgid "Module"
-msgstr "Moduuli"
-
-#: CRM/Core/DAO/UFMatch.php
-msgid "Uf Name"
-msgstr ""
 
 #: CRM/Core/Error.php
 #, fuzzy
@@ -6047,6 +4955,10 @@ msgstr ""
 #: CRM/Core/Form.php
 msgid "Don't Know"
 msgstr ""
+
+#: CRM/Core/Form.php xml/templates/civicrm_add_domain.tpl
+msgid "Other"
+msgstr "Muu"
 
 #: CRM/Core/Form.php
 #, fuzzy
@@ -6207,6 +5119,10 @@ msgid "CiviMail Settings"
 msgstr "CiviMail viestit"
 
 #: CRM/Core/Invoke.php
+msgid "Import Activity"
+msgstr ""
+
+#: CRM/Core/Invoke.php
 msgid "Import Contacts"
 msgstr "Tuo yhteystietoja"
 
@@ -6298,6 +5214,10 @@ msgid ""
 "Configure custom fields to collect and store custom data which is not "
 "included in the standard CiviCRM forms."
 msgstr ""
+
+#: CRM/Core/Menu.php templates/CRM/UF/Form/Group.tpl
+msgid "CiviCRM Profile"
+msgstr "CiviCRM profiili"
 
 #: CRM/Core/Menu.php
 msgid ""
@@ -6462,6 +5382,10 @@ msgid ""
 msgstr ""
 
 #: CRM/Core/Menu.php
+msgid "Payment Processor"
+msgstr "Maksun välittäjä"
+
+#: CRM/Core/Menu.php
 msgid "Payment Processor setup for CiviCRM transactions"
 msgstr ""
 
@@ -6491,6 +5415,10 @@ msgstr "Yhteenveto yhteyksistä"
 #: CRM/Core/Menu.php
 msgid "Create New Group"
 msgstr "Muodosta uusi ryhmä"
+
+#: CRM/Core/Menu.php
+msgid "Activity"
+msgstr "Aktiviteetti"
 
 #: CRM/Core/Menu.php
 msgid "Add Contact Information"
@@ -6546,6 +5474,10 @@ msgstr "Toinen etunimi"
 #, fuzzy
 msgid "Billing Last Name"
 msgstr "Sukunimi"
+
+#: CRM/Core/Payment/Form.php
+msgid "Postal Code"
+msgstr "Postinumero"
 
 #: CRM/Core/Payment/Form.php
 #, fuzzy
@@ -6660,6 +5592,26 @@ msgid "Customized"
 msgstr "Räätälöity"
 
 #: CRM/Core/SelectValues.php
+msgid "Mobile"
+msgstr "Matkapuhelin"
+
+#: CRM/Core/SelectValues.php xml/templates/civicrm_add_domain.tpl
+msgid "Fax"
+msgstr "Fax"
+
+#: CRM/Core/SelectValues.php
+msgid "Pager"
+msgstr "Haku"
+
+#: CRM/Core/SelectValues.php
+msgid "Both"
+msgstr "Molemmat"
+
+#: CRM/Core/SelectValues.php
+msgid "HTML"
+msgstr "HTML"
+
+#: CRM/Core/SelectValues.php
 #, fuzzy
 msgid "Do not phone"
 msgstr "Älä soita"
@@ -6726,6 +5678,10 @@ msgid "Public"
 msgstr ""
 
 #: CRM/Core/SelectValues.php
+msgid "Admin"
+msgstr "Admin"
+
+#: CRM/Core/SelectValues.php
 #, fuzzy
 msgid "start date"
 msgstr "Alkamispäivä"
@@ -6742,6 +5698,10 @@ msgstr ""
 #: CRM/Core/SelectValues.php
 msgid "Decimal Number"
 msgstr "Desimaalinumero"
+
+#: CRM/Core/SelectValues.php
+msgid "Memo"
+msgstr "Muistio"
 
 #: CRM/Core/SelectValues.php
 msgid "Yes/No"
@@ -6784,6 +5744,14 @@ msgid "Participants"
 msgstr ""
 
 #: CRM/Core/SelectValues.php
+msgid "Tab"
+msgstr "liuska"
+
+#: CRM/Core/SelectValues.php
+msgid "Inline"
+msgstr ""
+
+#: CRM/Core/SelectValues.php
 msgid "User Registration"
 msgstr "Käyttäjän rekisteröityminen"
 
@@ -6792,12 +5760,37 @@ msgid "View/Edit User Account"
 msgstr "Näytä/Muokkaa käyttäjän tietoja"
 
 #: CRM/Core/SelectValues.php
+msgid "Added"
+msgstr "Liitetty"
+
+#: CRM/Core/SelectValues.php
+msgid "Removed"
+msgstr "Siirretty"
+
+#: CRM/Core/SelectValues.php templates/CRM/Contact/Page/View/GroupContact.tpl
+#: xml/templates/civicrm_add_domain.tpl
+msgid "Pending"
+msgstr "Odottava"
+
+#: CRM/Core/SelectValues.php
 msgid "Dynamic"
 msgstr "Dynaaminen"
 
 #: CRM/Core/SelectValues.php
 msgid "Static"
 msgstr "Staattinen"
+
+#: CRM/Core/SelectValues.php
+msgid "User and User Admin Only"
+msgstr "Ainoastaan käyttäjät tai ylläpitäjä"
+
+#: CRM/Core/SelectValues.php
+msgid "Public User Pages"
+msgstr "Julkiset käyttäjäsivut"
+
+#: CRM/Core/SelectValues.php
+msgid "Public User Pages and Listings"
+msgstr "Julkiset käyttäjäsivut ja hakemistot"
 
 #: CRM/Core/SelectValues.php
 msgid "Header"
@@ -6911,6 +5904,26 @@ msgstr ""
 "sisältämät räätälöidyt kentät."
 
 #: CRM/Custom/Form/Field.php
+msgid "Multi-Select"
+msgstr "Valitse useampia"
+
+#: CRM/Custom/Form/Field.php
+msgid "TextArea"
+msgstr "Tekstikenttä"
+
+#: CRM/Custom/Form/Field.php
+msgid "Select Date"
+msgstr "Valitse päivä"
+
+#: CRM/Custom/Form/Field.php
+msgid "Select State/Province"
+msgstr "Valitse maakunta"
+
+#: CRM/Custom/Form/Field.php
+msgid "Select Country"
+msgstr "Valitse maa"
+
+#: CRM/Custom/Form/Field.php
 #, fuzzy
 msgid "Select File"
 msgstr "Valitse päivä"
@@ -6986,6 +5999,14 @@ msgstr ""
 #: CRM/Custom/Form/Field.php
 msgid "Height (rows)"
 msgstr ""
+
+#: CRM/Custom/Form/Field.php
+msgid "Default Value"
+msgstr "Oletusarvo"
+
+#: CRM/Custom/Form/Field.php
+msgid "Mask"
+msgstr "Maski"
 
 #: CRM/Custom/Form/Field.php
 msgid "Is this Field Searchable?"
@@ -7266,35 +6287,16 @@ msgstr "%1 - Valintamahdollisuutta"
 msgid "Custom Option"
 msgstr "Räätälöity valinta"
 
-#: CRM/Dedupe/DAO/RuleGroup.php
-msgid "Threshold"
-msgstr ""
-
-#: CRM/Dedupe/DAO/Rule.php
-#, fuzzy
-msgid "Rule Table"
-msgstr "Acl Table"
-
-#: CRM/Dedupe/DAO/Rule.php
-#, fuzzy
-msgid "Rule Field"
-msgstr "Räätälöity kenttä"
-
-#: CRM/Dedupe/DAO/Rule.php
-msgid "Rule Length"
-msgstr ""
-
-#: CRM/Dedupe/DAO/Rule.php
-#, fuzzy
-msgid "Rule Weight"
-msgstr "Painoarvo"
-
 #: CRM/Friend/BAO/Friend.php
 msgid "Tell A Friend enabled?"
 msgstr ""
 
 #: CRM/Friend/BAO/Friend.php
 msgid "Introduction"
+msgstr ""
+
+#: CRM/Friend/BAO/Friend.php
+msgid "Suggested Message"
 msgstr ""
 
 #: CRM/Friend/BAO/Friend.php
@@ -7307,22 +6309,6 @@ msgstr ""
 
 #: CRM/Friend/BAO/Friend.php
 msgid "Thank-you Message"
-msgstr ""
-
-#: CRM/Friend/DAO/Friend.php
-msgid "Intro"
-msgstr ""
-
-#: CRM/Friend/DAO/Friend.php
-msgid "General Link"
-msgstr ""
-
-#: CRM/Friend/DAO/Friend.php
-msgid "Thankyou Title"
-msgstr ""
-
-#: CRM/Friend/DAO/Friend.php
-msgid "Thankyou Text"
 msgstr ""
 
 #: CRM/Friend/Form/Contribute.php
@@ -7455,34 +6441,6 @@ msgstr ""
 msgid "Please enter a valid money value (e.g. 99.99)."
 msgstr ""
 
-#: CRM/Grant/DAO/Grant.php
-#, fuzzy
-msgid "Application Received Date"
-msgstr "Vastaanottopäivä"
-
-#: CRM/Grant/DAO/Grant.php
-#, fuzzy
-msgid "Decision Date"
-msgstr "Vastaanottopäivä"
-
-#: CRM/Grant/DAO/Grant.php
-msgid "Money Transfer Date"
-msgstr ""
-
-#: CRM/Grant/DAO/Grant.php
-#, fuzzy
-msgid "Grant Due Date"
-msgstr "Lähetetty"
-
-#: CRM/Grant/DAO/Grant.php
-msgid "Grant Report Received"
-msgstr ""
-
-#: CRM/Grant/DAO/Grant.php
-#, fuzzy
-msgid "Amount Total"
-msgstr "Määrä"
-
 #: CRM/Grant/Form/Grant.php
 msgid "Grant Decision"
 msgstr ""
@@ -7495,6 +6453,11 @@ msgstr "Lähetetty"
 #: CRM/Grant/Form/Grant.php
 msgid "Grant Report Received?"
 msgstr ""
+
+#: CRM/Grant/Form/Grant.php
+#, fuzzy
+msgid "Rationale"
+msgstr "Valinnainen arvo"
 
 #: CRM/Grant/Form/Grant.php
 msgid "Amount Requested<br />(original currency)"
@@ -7553,6 +6516,10 @@ msgid "Delete Grant"
 msgstr ""
 
 #: CRM/Grant/Selector/Search.php
+msgid "Grant"
+msgstr "Avustus"
+
+#: CRM/Grant/Selector/Search.php
 msgid "(orig. currency)"
 msgstr ""
 
@@ -7576,6 +6543,12 @@ msgstr "Nimi:"
 #: CRM/Group/Form/Edit.php templates/CRM/Contact/Form/Relationship.tpl
 msgid "Description:"
 msgstr "Kuvaus:"
+
+#: CRM/Group/Form/Edit.php templates/CRM/Group/Page/Group.tpl
+#: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
+msgid "Group Type"
+msgstr "Ryhmän nimi"
 
 #: CRM/Group/Form/Edit.php
 #, fuzzy
@@ -7764,6 +6737,16 @@ msgstr ""
 #, fuzzy
 msgid "Display Amount?"
 msgstr "Näytä tyyli"
+
+#: CRM/Price/Form/Field.php templates/CRM/Price/Page/Field.tpl
+#, fuzzy
+msgid "Active On"
+msgstr "Aktiivinen?"
+
+#: CRM/Price/Form/Field.php templates/CRM/Price/Page/Field.tpl
+#, fuzzy
+msgid "Expire On"
+msgstr "Vie"
 
 #: CRM/Price/Form/Field.php
 msgid "Price is a required field"
@@ -8063,81 +7046,6 @@ msgstr "Näytä matkapuhelinoperaattoirit"
 msgid "CiviCRM Profile Listings"
 msgstr "CiviCRM profiilien listaukset"
 
-#: CRM/Project/DAO/Project.php
-#, fuzzy
-msgid "Logo"
-msgstr "Loopi"
-
-#: CRM/Project/DAO/Project.php
-#, fuzzy
-msgid "Project Owner ID"
-msgstr "Projected"
-
-#: CRM/Project/DAO/Task.php
-#, fuzzy
-msgid "Task Type"
-msgstr "Tiedostotyyppi"
-
-#: CRM/Project/DAO/Task.php
-msgid "Task Owner ID"
-msgstr ""
-
-#: CRM/Project/DAO/Task.php
-#, fuzzy
-msgid "Parent Entity Table"
-msgstr "Kohde taulukko"
-
-#: CRM/Project/DAO/Task.php
-msgid "Task Parent"
-msgstr ""
-
-#: CRM/Project/DAO/Task.php
-#, fuzzy
-msgid "Due Date"
-msgstr "Lähetetty"
-
-#: CRM/Project/DAO/Task.php
-#, fuzzy
-msgid "Priority"
-msgstr "Tulosta"
-
-#: CRM/Project/DAO/Task.php
-msgid "Task Class"
-msgstr ""
-
-#: CRM/Project/DAO/TaskStatus.php
-#, fuzzy
-msgid "Responsible Entity Table"
-msgstr "Luo taulukko???"
-
-#: CRM/Project/DAO/TaskStatus.php
-msgid "Responsible"
-msgstr ""
-
-#: CRM/Project/DAO/TaskStatus.php
-msgid "Target Entity Table"
-msgstr "Kohde taulukko"
-
-#: CRM/Project/DAO/TaskStatus.php
-#, fuzzy
-msgid "Target"
-msgstr "Luokka"
-
-#: CRM/Project/DAO/TaskStatus.php
-#, fuzzy
-msgid "Status Details"
-msgstr "Yksityiskohdat"
-
-#: CRM/Project/DAO/TaskStatus.php
-#, fuzzy
-msgid "Created"
-msgstr "Muodosta"
-
-#: CRM/Project/DAO/TaskStatus.php
-#, fuzzy
-msgid "Last Modified"
-msgstr "Muokkauspäivä"
-
 #: CRM/SMS/BAO/History.php
 #, fuzzy
 msgid "To: %1; Message: %2"
@@ -8211,6 +7119,10 @@ msgstr "Päivityksesi on tallennettu."
 #: CRM/UF/Form/Field.php
 msgid "Delete Profile Field"
 msgstr "Poista profiili-kenttä"
+
+#: CRM/UF/Form/Field.php
+msgid "Field Name"
+msgstr "Kentän nimi"
 
 #: CRM/UF/Form/Field.php templates/CRM/UF/Page/Field.tpl
 msgid "In Selector?"
@@ -8421,6 +7333,10 @@ msgid "Make a Copy of CiviCRM Profile Group"
 msgstr "Uusi CiviCRM profiiliryhmä"
 
 #: CRM/UF/Page/Group.php
+msgid "Create"
+msgstr "Muodosta"
+
+#: CRM/UF/Page/Group.php
 msgid "CiviCRM Profile Group Preview"
 msgstr "CiviCRM profiiliryhmän katselu"
 
@@ -8447,6 +7363,10 @@ msgid ""
 "Your database is configured to use the MyISAM database engine. CiviCRM  "
 "requires InnoDB. You will need to convert any MyISAM tables in your database "
 "to InnoDB before proceeding."
+msgstr ""
+
+#: CRM/Upgrade/TwoZero/Form/Step1.php
+msgid "Duplicate entries found in %1 for the column '%2'."
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step1.php
@@ -8513,6 +7433,12 @@ msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step4.php
 msgid "CiviCRM 2.0 Upgrade: Step Four (Activity Upgrade)"
+msgstr ""
+
+#: CRM/Upgrade/TwoZero/Form/Step5.php
+msgid ""
+"Value missing in %1 for the column '%2'. Please add a unique value for the "
+"'name' column for each database record."
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step5.php
@@ -11499,6 +10425,10 @@ msgid_plural "all %count records"
 msgstr[0] "löydetty tieto"
 msgstr[1] "kaikki %count tiedot"
 
+#: templates/CRM/Contact/Form/Search/Simple.tpl
+msgid "Sort Name"
+msgstr "Järjestä nimet"
+
 #: templates/CRM/Contact/Form/Search/table.tpl
 msgid "Include contacts where"
 msgstr ""
@@ -11729,6 +10659,12 @@ msgid "Enter a name and description for your Saved Search"
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
+#: templates/CRM/Contact/Page/View/Print.tpl
+#: templates/CRM/Contact/Page/View/Tabbed.tpl
+msgid "Job Title"
+msgstr "Ammatti"
+
+#: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 #, fuzzy
 msgid "View User Record"
@@ -11933,6 +10869,11 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Relationships (3 of %1)"
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/Basic.tpl
+#: templates/CRM/Contact/Page/View/Relationship.tpl
+msgid "Relationship"
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
@@ -12256,6 +11197,12 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Membership.tpl
 msgid "Active Memberships"
 msgstr ""
+
+#: templates/CRM/Contact/Page/View/Membership.tpl
+#: templates/CRM/Contact/Page/View/UserDashBoard/Membership.tpl
+#, fuzzy
+msgid "Membership"
+msgstr "Jäsenet"
 
 #: templates/CRM/Contact/Page/View/Membership.tpl
 msgid "Inactive Memberships"
@@ -12782,6 +11729,14 @@ msgstr ""
 msgid "unselect"
 msgstr "-valitse-"
 
+#: templates/CRM/Custom/Page/Field.tpl
+msgid "Data Type"
+msgstr "Tiedostotyyppi"
+
+#: templates/CRM/Custom/Page/Field.tpl templates/CRM/Price/Page/Field.tpl
+msgid "Field Type"
+msgstr ""
+
 #: templates/CRM/Custom/Page/Field.tpl templates/CRM/Price/Page/Field.tpl
 msgid "Req?"
 msgstr ""
@@ -12831,6 +11786,10 @@ msgstr ""
 #: templates/CRM/Custom/Page/Group.tpl
 msgid "Group Title"
 msgstr ""
+
+#: templates/CRM/Custom/Page/Group.tpl
+msgid "Style"
+msgstr "Tyyppi"
 
 #: templates/CRM/Custom/Page/Group.tpl
 msgid "All Contact Types"
@@ -12952,6 +11911,11 @@ msgstr ""
 #: templates/CRM/Friend/Form.tpl
 msgid "Send to these Friend(s)"
 msgstr ""
+
+#: templates/CRM/Friend/Form.tpl
+#, fuzzy
+msgid "Email Address"
+msgstr "Viallinen sähköpostiosoite"
 
 #: templates/CRM/Grant/Form/Grant.tpl
 msgid "Select the status of this grant."
@@ -14297,6 +13261,25 @@ msgstr "Komponeetin tyyppi"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
+msgid "Contact View Options"
+msgstr "Näytä ryhmät"
+
+#: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
+msgid "Contact Edit Options"
+msgstr "Muokkaa valintamahdollisuuksia"
+
+#: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
+msgid "Advanced Search Options"
+msgstr "Täsmällisempi haku"
+
+#: xml/templates/civicrm_add_domain.tpl
+msgid "User Dashboard Options"
+msgstr ""
+
+#: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Addressing Options"
 msgstr "Asetukset"
 
@@ -14335,6 +13318,10 @@ msgstr ""
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Online or offline event registration."
 msgstr ""
+
+#: xml/templates/civicrm_add_domain.tpl
+msgid "Contribution"
+msgstr "Avustus"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Online or offline contribution."
@@ -14666,6 +13653,522 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr ""
+
+#~ msgid "Entity Table"
+#~ msgstr "Luo taulukko???"
+
+#~ msgid "Modified Date"
+#~ msgstr "Muokkauspäivä"
+
+#, fuzzy
+#~ msgid "Select Tables"
+#~ msgstr "Valitse päivä"
+
+#~ msgid "Html Type"
+#~ msgstr "Html tyyppi"
+
+#~ msgid "Help Pre"
+#~ msgstr "???"
+
+#~ msgid "Help Post"
+#~ msgstr "Auta postittamaan???"
+
+#~ msgid "Javascript"
+#~ msgstr "Javascript"
+
+#~ msgid "Collapse Display"
+#~ msgstr "Collapse Display"
+
+#~ msgid "Phone Type"
+#~ msgstr "Puhelun tyyppi"
+
+#, fuzzy
+#~ msgid "Owner Entity Table"
+#~ msgstr "Luo taulukko???"
+
+#, fuzzy
+#~ msgid "ACL Name"
+#~ msgstr "Sukunimi"
+
+#~ msgid "Deny"
+#~ msgstr "Kielto"
+
+#~ msgid "Object Table"
+#~ msgstr "Object Table"
+
+#~ msgid "Acl Table"
+#~ msgstr "Acl Table"
+
+#~ msgid "All"
+#~ msgstr "Kaikki"
+
+#~ msgid "Revoke"
+#~ msgstr "Evääminen"
+
+#, fuzzy
+#~ msgid "Activity ID"
+#~ msgstr "Aktiviteetti"
+
+#~ msgid "Phone Number"
+#~ msgstr "Puhelinnumero"
+
+#, fuzzy
+#~ msgid "Test"
+#~ msgstr "Teksti"
+
+#~ msgid "Internal Contact ID"
+#~ msgstr "Sisäinen yhteys ID"
+
+#, fuzzy
+#~ msgid "Contact Sub Type"
+#~ msgstr "Yhteystietojen tyyppi"
+
+#~ msgid "Do Not Email"
+#~ msgstr "Älä lähetä sähköpostia"
+
+#, fuzzy
+#~ msgid "Do Not Phone"
+#~ msgstr "Älä soita"
+
+#~ msgid "Do Not Mail"
+#~ msgstr "Älä lähetä postia"
+
+#~ msgid "Do Not Trade"
+#~ msgstr "Älä myy"
+
+#~ msgid "Legal Identifier"
+#~ msgstr "Virallinen nimi"
+
+#~ msgid "External Identifier"
+#~ msgstr "Lisänimi"
+
+#, fuzzy
+#~ msgid "Display Name"
+#~ msgstr "Näytä tyyli"
+
+#~ msgid "Home URL"
+#~ msgstr "Kotisivujen URL"
+
+#, fuzzy
+#~ msgid "Image Url"
+#~ msgstr "Kuvan URL"
+
+#, fuzzy
+#~ msgid "Preferred Mail Format"
+#~ msgstr "Suositeltava postimuoto"
+
+#~ msgid "Hash"
+#~ msgstr "???"
+
+#, fuzzy
+#~ msgid "Source of Contact Data"
+#~ msgstr "Näytä yhteyden yksityiskohdat"
+
+#~ msgid "Greeting Type"
+#~ msgstr "Onnittelujen tyyppi"
+
+#~ msgid "Custom Greeting"
+#~ msgstr "Räätälöity onnittelu"
+
+#~ msgid "Birth Date"
+#~ msgstr "Syntymäpäivä"
+
+#~ msgid "Is Deceased"
+#~ msgstr "Edesmennyt"
+
+#, fuzzy
+#~ msgid "Deceased Date"
+#~ msgstr "Vastaanottopäivä"
+
+#~ msgid "Sic Code"
+#~ msgstr "Sic Code"
+
+#~ msgid "Formal"
+#~ msgstr "Muodollinen"
+
+#~ msgid "Informal"
+#~ msgstr "Epämuodollinen"
+
+#~ msgid "Honorific"
+#~ msgstr "Kunnianimi"
+
+#~ msgid "Custom"
+#~ msgstr "Räätälöity"
+
+#~ msgid "Name A B"
+#~ msgstr "Nimi A B"
+
+#~ msgid "Name B A"
+#~ msgstr "Nimi B A"
+
+#~ msgid "Submitted Form Values"
+#~ msgstr "Submitted Form Values"
+
+#~ msgid "Tracking"
+#~ msgstr "Jäljitys"
+
+#~ msgid "Web"
+#~ msgstr "Web"
+
+#~ msgid "API"
+#~ msgstr "API"
+
+#~ msgid "Street Number"
+#~ msgstr "Katunumero"
+
+#~ msgid "Street Number Suffix"
+#~ msgstr "Katunumeron tarkene"
+
+#~ msgid "Street Number Predirectional"
+#~ msgstr "Street Number Predirectional"
+
+#~ msgid "Street Name"
+#~ msgstr "Kadun nimi"
+
+#~ msgid "Street Type"
+#~ msgstr "Kadun tyyppi"
+
+#~ msgid "Street Number Postdirectional"
+#~ msgstr "Kadun nimi postinumeroittain"
+
+#, fuzzy
+#~ msgid "Street Unit"
+#~ msgstr "Street Unit"
+
+#~ msgid "Supplemental Address 1"
+#~ msgstr "Lisäosoite1"
+
+#~ msgid "Supplemental Address 2"
+#~ msgstr "Lisäosoite2"
+
+#~ msgid "Supplemental Address 3"
+#~ msgstr "Lisäosoite3"
+
+#~ msgid "Usps Adc"
+#~ msgstr "Usps Adc"
+
+#~ msgid "Geo Code 1"
+#~ msgstr "Geo Code 1"
+
+#~ msgid "Geo Code 2"
+#~ msgstr "Geo Code 2"
+
+#~ msgid "Timezone"
+#~ msgstr "Aikavyöhyke"
+
+#~ msgid "Iso Code"
+#~ msgstr "Iso Code"
+
+#~ msgid "Country Code"
+#~ msgstr "Country Code"
+
+#~ msgid "Idd Prefix"
+#~ msgstr "Idd Prefix"
+
+#~ msgid "Ndd Prefix"
+#~ msgstr "Ndd Prefix"
+
+#, fuzzy
+#~ msgid "County Abbreviation"
+#~ msgstr "Maan lyhenne"
+
+#~ msgid "Currency"
+#~ msgstr "Valuutta"
+
+#, fuzzy
+#~ msgid "Numeric Code"
+#~ msgstr "Sic Code"
+
+#, fuzzy
+#~ msgid "Full Name"
+#~ msgstr "Kentän nimi"
+
+#~ msgid "Attributes"
+#~ msgstr "Atribuutit"
+
+#, fuzzy
+#~ msgid "Start Date Years"
+#~ msgstr "Alkamispäivä"
+
+#, fuzzy
+#~ msgid "End Date Years"
+#~ msgstr "Päättymispäivä"
+
+#, fuzzy
+#~ msgid "Date Parts"
+#~ msgstr "Date Data"
+
+#, fuzzy
+#~ msgid "Note Rows"
+#~ msgstr "Muistiinpanot"
+
+#~ msgid "String"
+#~ msgstr "Jono (String)"
+
+#~ msgid "Int"
+#~ msgstr "Int"
+
+#~ msgid "Float"
+#~ msgstr "Kelluva (Float)"
+
+#~ msgid "Boolean"
+#~ msgstr "Boolean"
+
+#~ msgid "StateProvince"
+#~ msgstr "Maakunta"
+
+#~ msgid "Extends"
+#~ msgstr "Laajennukset"
+
+#, fuzzy
+#~ msgid "Participant"
+#~ msgstr "Tulosta"
+
+#, fuzzy
+#~ msgid "Email Name"
+#~ msgstr "Virallinen"
+
+#, fuzzy
+#~ msgid "Email Return Path"
+#~ msgstr "Sähköposti lähetetty"
+
+#, fuzzy
+#~ msgid "Config Backend"
+#~ msgstr "Anna asetukset"
+
+#~ msgid "Rule"
+#~ msgstr "Sääntö"
+
+#~ msgid "Hold Date"
+#~ msgstr "Pidon päivä"
+
+#~ msgid "Reset Date"
+#~ msgstr "Tyhjennä päivä"
+
+#, fuzzy
+#~ msgid "Mime Type"
+#~ msgstr "Lomakkeen tyyppi"
+
+#, fuzzy
+#~ msgid "Uri"
+#~ msgstr "URL"
+
+#, fuzzy
+#~ msgid "Document"
+#~ msgstr "Valmissa"
+
+#, fuzzy
+#~ msgid "Upload Date"
+#~ msgstr "Lataa tiedostot"
+
+#~ msgid "IM Screen Name"
+#~ msgstr "Pikaviestin (IM) näytön nimi"
+
+#~ msgid "vCard Location Type"
+#~ msgstr "vCard osoitteen tyyppi"
+
+#, fuzzy
+#~ msgid "Location Name"
+#~ msgstr "Osoitteen tyyppi"
+
+#, fuzzy
+#~ msgid "Data"
+#~ msgstr "Päivä"
+
+#~ msgid "Column Number"
+#~ msgstr "Sarakkeen numero"
+
+#, fuzzy
+#~ msgid "Relationship Direction"
+#~ msgstr "Suhde B ja A välillä"
+
+#, fuzzy
+#~ msgid "Grouping"
+#~ msgstr "Ryhmä"
+
+#, fuzzy
+#~ msgid "Operator"
+#~ msgstr "Toimenpide"
+
+#~ msgid "Export"
+#~ msgstr "Vie"
+
+#~ msgid "Export Contributions"
+#~ msgstr "Tuo avustuksia"
+
+#~ msgid "Import Contributions"
+#~ msgstr "Tuo lahjoitukset"
+
+#, fuzzy
+#~ msgid "Import Memberships"
+#~ msgstr "Jäsenet"
+
+#, fuzzy
+#~ msgid "Import Participants"
+#~ msgstr "Tuo yhteystietoja"
+
+#, fuzzy
+#~ msgid "Msg Title"
+#~ msgstr "Otsikko"
+
+#, fuzzy
+#~ msgid "Msg Subject"
+#~ msgstr "Aihe"
+
+#, fuzzy
+#~ msgid "Msg Text"
+#~ msgstr "Teksti"
+
+#, fuzzy
+#~ msgid "Is Active"
+#~ msgstr "Aktiivinen?"
+
+#, fuzzy
+#~ msgid "Option Group Name"
+#~ msgstr "Ryhmän nimi"
+
+#, fuzzy
+#~ msgid "Option Name"
+#~ msgstr "Valinnaninen tunnus"
+
+#, fuzzy
+#~ msgid "Filter"
+#~ msgstr "Alareuna"
+
+#, fuzzy
+#~ msgid "Payment Processor Title"
+#~ msgstr "Maksun välittäjä"
+
+#, fuzzy
+#~ msgid "Location Count"
+#~ msgstr "Sijainti"
+
+#, fuzzy
+#~ msgid "Address Options"
+#~ msgstr "Asetukset"
+
+#, fuzzy
+#~ msgid "Address Format"
+#~ msgstr "Osoite"
+
+#, fuzzy
+#~ msgid "Mailing Format"
+#~ msgstr "Suositeltava postimuoto"
+
+#, fuzzy
+#~ msgid "Address Standardization Provider"
+#~ msgstr "Lisää yhteisöön"
+
+#, fuzzy
+#~ msgid "Address Standardization Userid"
+#~ msgstr "Lisää yhteisöön"
+
+#, fuzzy
+#~ msgid "Address Standardization Url"
+#~ msgstr "Lisää yhteisöön"
+
+#~ msgid "State Abbreviation"
+#~ msgstr "Lyhennyksen tila"
+
+#, fuzzy
+#~ msgid "Abbreviation"
+#~ msgstr "Lyhennyksen tila"
+
+#~ msgid "In Selector"
+#~ msgstr "Valitsijassa"
+
+#~ msgid "Form Type"
+#~ msgstr "Lomakkeen tyyppi"
+
+#, fuzzy
+#~ msgid "Post Url"
+#~ msgstr "Postilla"
+
+#, fuzzy
+#~ msgid "Cancel Url"
+#~ msgstr "Peruuta"
+
+#, fuzzy
+#~ msgid "Notify"
+#~ msgstr "Muistio"
+
+#~ msgid "Module"
+#~ msgstr "Moduuli"
+
+#, fuzzy
+#~ msgid "Rule Table"
+#~ msgstr "Acl Table"
+
+#, fuzzy
+#~ msgid "Rule Field"
+#~ msgstr "Räätälöity kenttä"
+
+#, fuzzy
+#~ msgid "Rule Weight"
+#~ msgstr "Painoarvo"
+
+#, fuzzy
+#~ msgid "Application Received Date"
+#~ msgstr "Vastaanottopäivä"
+
+#, fuzzy
+#~ msgid "Decision Date"
+#~ msgstr "Vastaanottopäivä"
+
+#, fuzzy
+#~ msgid "Grant Due Date"
+#~ msgstr "Lähetetty"
+
+#, fuzzy
+#~ msgid "Amount Total"
+#~ msgstr "Määrä"
+
+#, fuzzy
+#~ msgid "Logo"
+#~ msgstr "Loopi"
+
+#, fuzzy
+#~ msgid "Project Owner ID"
+#~ msgstr "Projected"
+
+#, fuzzy
+#~ msgid "Task Type"
+#~ msgstr "Tiedostotyyppi"
+
+#, fuzzy
+#~ msgid "Parent Entity Table"
+#~ msgstr "Kohde taulukko"
+
+#, fuzzy
+#~ msgid "Due Date"
+#~ msgstr "Lähetetty"
+
+#, fuzzy
+#~ msgid "Priority"
+#~ msgstr "Tulosta"
+
+#, fuzzy
+#~ msgid "Responsible Entity Table"
+#~ msgstr "Luo taulukko???"
+
+#~ msgid "Target Entity Table"
+#~ msgstr "Kohde taulukko"
+
+#, fuzzy
+#~ msgid "Target"
+#~ msgstr "Luokka"
+
+#, fuzzy
+#~ msgid "Status Details"
+#~ msgstr "Yksityiskohdat"
+
+#, fuzzy
+#~ msgid "Created"
+#~ msgstr "Muodosta"
+
+#, fuzzy
+#~ msgid "Last Modified"
+#~ msgstr "Muokkauspäivä"
 
 #~ msgid "-select-"
 #~ msgstr "-valitse-"

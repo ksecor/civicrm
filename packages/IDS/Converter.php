@@ -273,8 +273,8 @@ class IDS_Converter
         $converted = null;
         if (preg_match('/&#x?[\w]+/ms', $value)) {
             $converted = preg_replace('/(&#x?[\w]{2}\d?);?/ms', '$1;', $value);
-            $converted = html_entity_decode($converted);
-            $value    .= "\n" . str_replace(';', null, $converted);
+            $converted = html_entity_decode($converted, ENT_QUOTES);
+            $value    .= "\n" . str_replace(';;', ';', $converted);
         }
 
         return $value;
@@ -302,14 +302,16 @@ class IDS_Converter
         
         //take care for malicious unicode characters
         $value = urldecode(preg_replace('/(?:%E(?:2|3)%8(?:0|1)%(?:A|8|9)' . 
-            '\w|%EF%BB%BF)|(?:&#(?:65|8)\d{3};?)/i', null, 
+            '\w|%EF%BB%BF|%EF%BF%BD)|(?:&#(?:65|8)\d{3};?)/i', null, 
                 $urlencoded));
                 
         $value = preg_replace('/(?:&[#x]*(200|820|[jlmnrwz]+)\w?;?)/i', null, 
                 $value);
 
-        $value = preg_replace('/(?:&#(?:65|8)\d{3};?)|' . 
-                '(?:&#x(?:fe|20)\w{2};?)/i', null, 
+        $value = preg_replace('/(?:&#(?:65|8)\d{3};?)|' .
+                '(?:&#(?:56|7)3\d{2};?)|' .  
+                '(?:&#x(?:fe|20)\w{2};?)|' . 
+                '(?:&#x(?:d[c-f])\w{2};?)/i', null, 
                 $value);                
 
         return $value;
@@ -478,7 +480,7 @@ class IDS_Converter
             '/(?:";\w+=)|(?:!""&&")|(?:~)/s',
             '/(?:"?"\+""?\+?"?)|(?:;\w+=")|(?:"[|&]{2,})/s',
             '/(?:"\s*\W+")/s',
-            '/(?:";\w\s*+=\s*\w?\s*")/s',
+            '/(?:";\w\s*\+=\s*\w?\s*")/s',
             '/(?:"[|&;]+\s*[^|&\n]*[|&]+\s*"?)/s',
             '/(?:";\s*\w+\W+\w*\s*[|&]*")/s',
             '/(?:"\s*"\s*\.)/s',
@@ -502,6 +504,26 @@ class IDS_Converter
         
         return $value;
     }    
+    
+    /**
+     * This method collects and decodes proprietary encoding types
+     *
+     * @param string      $value   the value to convert
+     * @param IDS_Monitor $monitor the monitor object
+     * 
+     * @static
+     * @return string
+     */
+    public static function convertFromProprietaryEncodings($value) {
+    	
+    	// eBay custom QEncoding
+    	$value = preg_replace('/Q([a-f0-9]{2})/me', 'urldecode("%$1")', $value);
+    	
+    	//Xajax error reportings
+    	$value = preg_replace('/<!\[CDATA\[:\?+\]\]>/', null, $value);
+    	
+    	return $value;
+    }
     
     /**
      * This method is the centrifuge prototype

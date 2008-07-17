@@ -111,7 +111,7 @@ class CRM_Contact_Task {
                                                   'class'  => 'CRM_Contact_Form_Task_AddToOrganization',
                                                   'result' => true ),
                                   11    => array( 'title'  => ts( 'Record Activity for Contacts'  ),
-                                                  'class'  => 'CRM_Contact_Form_Task_Record',
+                                                  'class'  => 'CRM_Activity_Form_Activity',
                                                   'result' => true ),
                                   13    => array( 'title'  => ts( 'New Smart Group'               ),
                                                   'class'  => 'CRM_Contact_Form_Task_SaveSearch',

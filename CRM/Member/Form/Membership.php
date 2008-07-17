@@ -432,9 +432,11 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         
         $joinDate = CRM_Utils_Date::format( $params['join_date'] );
         if ( $joinDate ) {
-            // if start date is set ensure that start date is later than or same as join date
+            require_once 'CRM/Member/BAO/MembershipType.php';
+            $membershipDetails = CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $params['membership_type_id'][1] );
+
             $startDate = CRM_Utils_Date::format( $params['start_date'] );
-            if ( $startDate ) {
+            if ( $startDate && $membershipDetails['period_type'] == 'rolling' ) {
                 if ( $startDate < $joinDate ) {
                     $errors['start_date'] = ts( 'Start date must be the same or later than join date.' );
                 }
@@ -446,8 +448,6 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             // and end date is set, then give error
             $endDate = CRM_Utils_Date::format( $params['end_date'] );
             if ( $endDate ) {
-                require_once 'CRM/Member/BAO/MembershipType.php';
-                $membershipDetails = CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $params['membership_type_id'][1] );
                 if ( $membershipDetails['duration_unit'] == 'lifetime' ) {
                     $errors['end_date'] = ts("The selected Membership Type has a 'life time' duration. You can not specify an End Date for 'life time' memberships. Please clear the End Date OR select a different Membership Type." );
                 } else {

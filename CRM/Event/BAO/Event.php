@@ -466,7 +466,7 @@ LIMIT 0 , 10
         
     static function &getMapInfo(&$id ) 
     {
-        
+
         $sql = "
 SELECT 
    civicrm_event.id AS event_id, 
@@ -517,6 +517,7 @@ WHERE
             $location['location_type'] = $dao->location_type;
             $eventImage = '<img src="' . $config->resourceBase . 'i/contact_org.gif" alt="Organization " height="20" width="15" />';
             $location['image'] = $eventImage;
+            $location['displayAddress'] = str_replace( '<br />', ', ', $address );
             $locations[] = $location;
         }
         return $locations;

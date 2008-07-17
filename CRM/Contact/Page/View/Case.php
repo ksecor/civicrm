@@ -129,10 +129,23 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
      */
     function edit( ) 
     {
+        $config =& CRM_Core_Config::singleton( );
         $this->_id = CRM_Utils_Request::retrieve('id', 'Integer', $this);
         $controller =& new CRM_Core_Controller_Simple( 'CRM_Case_Form_Case', 
                                                        'Create Case', 
                                                        $this->_action );
+        $session =& CRM_Core_Session::singleton();
+        $edit = CRM_Utils_Request::retrieve( 'edit', 'String',$this );
+        $context =  CRM_Utils_Request::retrieve( 'context', 'String',$this );
+        if ($config->civiHRD){ 
+            if ( $edit && $this->_action != 8  ) {
+                $url =  CRM_Utils_System::url('civicrm/contact/view/case', 'action=view&reset=1&cid=' . $this->_contactId . '&id=' . $this->_id . '&selectedChild=case' );  
+            }else {
+            $url = CRM_Utils_System::url('civicrm/contact/view', 'action=browse&selectedChild=case&cid=' . $this->_contactId );
+            }
+        
+            $session->pushUserContext( $url );
+        }
         $controller->setEmbedded( true );
         $controller->set( 'id' , $this->_id ); 
         $controller->set( 'cid', $this->_contactId ); 
@@ -172,34 +185,48 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
      */
     static function &links()
     {
+        $config =& CRM_Core_Config::singleton( );
+       
         if (!(self::$_links)) {
             $deleteExtra = ts('Are you sure you want to delete this case?');
-
-            self::$_links = array(
-                                  CRM_Core_Action::UPDATE  => array(
-                                                                    'name'  => ts('Edit'),
-                                                                    'url'   => 'civicrm/contact/view/case',
-                                                                    'qs'    => 'action=update&reset=1&cid=%%cid%%&id=%%id%%&selectedChild=case',
-                                                                    'title' => ts('Edit Case')
-                                                                    ),
-//                                   CRM_Core_Action::FOLLOWUP  => array(
-//                                                                     'name'  => ts('Add Activity'),
-//                                                                     'url'   => 'civicrm/activity',
-//                                                                     'qs'    => 'action=add&reset=1&context=case&caseid=%%id%%&cid=%%cid%%',
-//                                                                     'title' => ts('Add Activity')
-//                                                                     ),
-                                  CRM_Core_Action::DELETE  => array(
-                                                                    'name'  => ts('Delete'),
-                                                                    'url'   => 'civicrm/contact/view/case',
-                                                                    'qs'    => 'action=delete&reset=1&cid=%%cid%%&id=%%id%%&selectedChild=case',
-                                                                    'title' => ts('Add Activity')
-                                                                    ),
-                                  
-                                  );
+            if ($config->civiHRD){ 
+                self::$_links = array(
+                                      CRM_Core_Action::UPDATE  => array(
+                                                                        'name'  => ts('Edit'),
+                                                                        'url'   => 'civicrm/contact/view/case',
+                                                                        'qs'    => 'action=update&reset=1&cid=%%cid%%&id=%%id%%&selectedChild=case',
+                                                                        'title' => ts('Edit Case')
+                                                                        ),
+                                      
+                                      CRM_Core_Action::FOLLOWUP  => array(
+                                                                          'name'  => ts('Add Activity'),
+                                                                          'url'   => 'civicrm/activity',
+                                                                          'qs'    => 'action=add&reset=1&context=case&caseid=%%id%%&cid=%%cid%%',
+                                                                          'title' => ts('Add Activity')
+                                                                    )
+                                      );
+            } else {
+                self::$_links = array(
+                                      CRM_Core_Action::UPDATE  => array(
+                                                                        'name'  => ts('Edit'),
+                                                                        'url'   => 'civicrm/contact/view/case',
+                                                                        'qs'    => 'action=update&reset=1&cid=%%cid%%&id=%%id%%&selectedChild=case',
+                                                                        'title' => ts('Edit Case')
+                                                                        ),
+                                                      
+                                      CRM_Core_Action::DELETE  => array(
+                                                                        'name'  => ts('Delete'),
+                                                                        'url'   => 'civicrm/contact/view/case',
+                                                                        'qs'    => 'action=delete&reset=1&cid=%%cid%%&id=%%id%%&selectedChild=case',
+                                                                        'title' => ts('Delete Activity')
+                                                                        ),
+                                      
+                                      );
+            }
         }
         return self::$_links;
     }
-
+    
     function setContext( ) 
     {
         $context = CRM_Utils_Request::retrieve( 'context', 'String', $this );

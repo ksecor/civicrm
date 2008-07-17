@@ -851,9 +851,9 @@ class CRM_Core_PseudoConstant
      * @return array - array reference of all groups.
      * @static
      */
-    public static function &customGroup( )
+    public static function &customGroup( $reset = false )
     {
-        if ( ! self::$customGroup ) {
+        if ( ! self::$customGroup || $reset ) {
             self::populate( self::$customGroup, 'CRM_Core_DAO_CustomGroup', false, 'title', 'is_active', null, 'title' );
         }
         return self::$customGroup;

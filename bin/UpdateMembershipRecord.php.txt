@@ -59,10 +59,6 @@ class CRM_UpdateMembershipRecord {
         // this does not return on failure
         require_once 'CRM/Utils/System.php';
         CRM_Utils_System::authenticateScript( true );
-
-        $config->userFramework          = 'Soap';
-        $config->userFrameworkClass     = 'CRM_Utils_System_Soap';
-        $config->userHookClass          = 'CRM_Utils_Hook_Soap';
     }
     
     public function updateMembershipStatus( )

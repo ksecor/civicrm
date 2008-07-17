@@ -806,6 +806,11 @@ function _civicrm_contribute_formatted_param( &$params, &$values, $create=false 
                 } else if( $params['external_identifier'] ) {
                     $contactType->external_identifier = $params['external_identifier'];
                 }
+                if ( $contactType->find(true) ) {
+                    if ( $params['contact_type'] != $contactType->contact_type ) {
+                        return civicrm_create_error("Contact Type is wrong: $contactType->contact_type");
+                    }
+                }
             } else if ( $params['contribution_id'] || $params['trxn_id'] ||$params['invoice_id'] ) {
                 //when update mode check contribution id or trxn id or
                 //invoice id
@@ -819,11 +824,11 @@ function _civicrm_contribute_formatted_param( &$params, &$values, $create=false 
                 }
                 if ( $contactId->find(true) ) {
                     $contactType->id = $contactId->contact_id;
-                }
-            }
-            if ( $contactType->find(true) ) {
-                if ( $params['contact_type'] != $contactType->contact_type ) {
-                    return civicrm_create_error("Contact Type is wrong: $contactType->contact_type");
+                    if ( $contactType->find(true) ) {
+                        if ( $params['contact_type'] != $contactType->contact_type ) {
+                            return civicrm_create_error("Contact Type is wrong: $contactType->contact_type");
+                        }
+                    }
                 }
             }
             break;

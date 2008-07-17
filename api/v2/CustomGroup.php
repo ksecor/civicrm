@@ -65,7 +65,7 @@ require_once 'api/v2/utils.php';
  *
  * @access public 
  */
-function civicrm_custom_group_create($params)
+function civicrm_custom_group_create( $params )
 {
     _civicrm_initialize( );
     
@@ -73,36 +73,31 @@ function civicrm_custom_group_create($params)
         return civicrm_create_error( "params is not an array");
     }   
     
-    if(! trim($params['class_name']) ) {
-        return civicrm_create_error( "class_name is not set" );
+    if(! trim($params['used_for']) ) {
+        return civicrm_create_error( "used_for is not set" );
     }
     
-    $params['extends'] = $params['class_name'];
+    $params['extends'] = $params['used_for'];
     $error = _civicrm_check_required_fields($params, 'CRM_Core_DAO_CustomGroup');
     
     require_once 'CRM/Utils/String.php';
     if (! trim($params['title'] ) ) {
         return civicrm_create_error( "Title is not set" );
-    } else {
-        $params['table_name'] = 
-            "civicrm_value_" . 
-            strtolower( CRM_Utils_String::munge( $params['title'] ) ) ;
-    }
+    } 
+
     if (is_a($error, 'CRM_Core_Error')) {
         return civicrm_create_error( $error->_errors[0]['message'] );
     }
     
     require_once 'CRM/Core/BAO/CustomGroup.php';
     $customGroup = CRM_Core_BAO_CustomGroup::create($params);                             
-    
-    $customTable = CRM_Core_BAO_CustomGroup::createTable( $customGroup );
-    
+       
     _civicrm_object_to_array( $customGroup, $values );
     
-    if ( is_a( $customGroup, 'CRM_Core_Error' ) && is_a( $customTable, 'CRM_Core_Error' ) ) { 
+    if ( is_a( $customGroup, 'CRM_Core_Error' ) ) { 
         return civicrm_create_error( $customGroup->_errors[0]['message'] );
     } else {
-        $values['is_error']   = 0;
+        $values['is_error'] = 0;
     }
     return $values;
 }   

@@ -148,7 +148,7 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
             $bltID = array_search( 'Billing',  $locationTypes );
 
             list( $displayName, 
-                  $email ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $contactID, $bltID );
+                  $email ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $contactID, $bltID, false );
             self::buildCustomDisplay( $values['custom_pre_id'] , 'customPre' , $contactID, $template, $participantId, $isTest );
             self::buildCustomDisplay( $values['custom_post_id'], 'customPost', $contactID, $template, $participantId, $isTest );
 

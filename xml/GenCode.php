@@ -112,8 +112,13 @@ $smarty->assign('build_version',$build_version);
 
 $config =& CRM_Core_Config::singleton( 'crm', false );
 $locales = array( );
-if ( file_exists( $config->gettextResourceDir ) ) {
-  $locales = preg_grep('/^[a-z][a-z]_[A-Z][A-Z]$/', scandir($config->gettextResourceDir));
+if (substr($config->gettextResourceDir, 0, 1) === '/') {
+    $localeDir = $config->gettextResourceDir;
+} else {
+    $localeDir = '../' . $config->gettextResourceDir;
+}
+if (file_exists($localeDir)) {
+  $locales = preg_grep('/^[a-z][a-z]_[A-Z][A-Z]$/', scandir($localeDir));
 }
 if (!in_array('en_US', $locales)) array_unshift($locales, 'en_US');
 
@@ -139,17 +144,6 @@ foreach ($locales as $locale) {
     // write the standalone base-data sql script
     $data .= $smarty->fetch('civicrm_uf.tpl');
     $filename = 'civicrm_standalone';
-    if ($locale != 'en_US') $filename .= ".$locale";
-    $filename .= '.mysql';
-    $fd = fopen( $sqlCodePath . $filename, "w" );
-    fputs( $fd, $data );
-    fclose( $fd );
-
-    $data = '';
-    $data .= $smarty->fetch('civicrm_add_domain.tpl');
-
-    // write the add_domain mysql script
-    $filename = 'civicrm_add_domain';
     if ($locale != 'en_US') $filename .= ".$locale";
     $filename .= '.mysql';
     $fd = fopen( $sqlCodePath . $filename, "w" );
@@ -332,9 +326,16 @@ function getTable( $tableXML, &$database, &$tables ) {
                     'comment'    => value( 'comment', $tableXML ),
                     'log'        => value( 'log', $tableXML, 'false' ) );
     
+    $config  =& CRM_Core_Config::singleton( );
     $fields  = array( );
     foreach ( $tableXML->field as $fieldXML ) {
         if ( value( 'drop', $fieldXML, 0 ) > 0 and value( 'drop', $fieldXML, 0 ) <= $build_version) {
+            continue;
+        }
+        
+        // check if hrd field and hrd is enabled to include
+        if ( value( 'hrd', $fieldXML, 0 ) == 1 &&
+             ! $config->civiHRD ) {
             continue;
         }
         if ( value( 'add', $fieldXML, 0 ) <= $build_version) {
@@ -357,12 +358,19 @@ function getTable( $tableXML, &$database, &$tables ) {
         getPrimaryKey( $tableXML->primaryKey, $fields, $table );
     }
 
+    $config  =& CRM_Core_Config::singleton( );
     if ( value( 'index', $tableXML ) ) {
         $index   = array( );
         foreach ( $tableXML->index as $indexXML ) {
             if ( value( 'drop', $indexXML, 0 ) > 0 and value( 'drop', $indexXML, 0 ) <= $build_version) { 
                 continue; 
             } 
+
+            // check if hrd field and hrd is enabled to include
+            if ( value( 'hrd', $fieldXML, 0 ) == 1 &&
+                 ! $config->civiHRD ) {
+                continue;
+            }
 
             getIndex( $indexXML, $fields, $index );
         }

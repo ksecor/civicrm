@@ -306,8 +306,11 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
             $values[$key] = $field;
         }
         //import contribution record according to select contact type
-        if ( $values['contribution_contact_id'] || $values['external_identifier'] || 
-             $values['contribution_id'] || $values['trxn_id'] || $values['invoice_id']) {
+        if ( $onDuplicate == CRM_Contribute_Import_Parser::DUPLICATE_SKIP && 
+             ( $values['contribution_contact_id'] || $values['external_identifier'] ) ) {
+            $values['contact_type'] = $this->_contactType;
+        } else if( $onDuplicate == CRM_Contribute_Import_Parser::DUPLICATE_UPDATE && 
+                   ( $values['contribution_id'] || $values['trxn_id'] || $values['invoice_id'] ) ) {
             $values['contact_type'] = $this->_contactType;
         }
         $formatError = _civicrm_contribute_formatted_param($values, $formatted, true);
@@ -445,11 +448,15 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                     $formatted['contact_id'] = $cid;
                     $newContribution = civicrm_contribution_format_create( $formatted );
                     if ( civicrm_error( $newContribution ) ) { 
-                        array_unshift($values, $newContribution['error_message']['message']);
-                        if ( $newContribution['error_message']['params'][0] ) {
-                            return CRM_Contribute_Import_Parser::DUPLICATE;
+                        if ( is_array( $newContribution['error_message'] ) ) {
+                            array_unshift($values, $newContribution['error_message']['message']);
+                            if ( $newContribution['error_message']['params'][0] ) {
+                                return CRM_Contribute_Import_Parser::DUPLICATE;
+                            }
+                        } else {
+                            array_unshift($values, $newContribution['error_message']);
+                            return CRM_Contribute_Import_Parser::ERROR;
                         }
-                        return CRM_Contribute_Import_Parser::ERROR;
                     }
                     
                     $this->_newContributions[] = $newContribution['id'];
@@ -497,11 +504,15 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
             }
             $newContribution = civicrm_contribution_format_create( $formatted );
             if ( civicrm_error( $newContribution ) ) { 
-                array_unshift($values, $newContribution['error_message']['message']);
-                if ( $newContribution['error_message']['params'][0] ) {
-                    return CRM_Contribute_Import_Parser::DUPLICATE;
+                if ( is_array( $newContribution['error_message'] ) ) {
+                    array_unshift($values, $newContribution['error_message']['message']);
+                    if ( $newContribution['error_message']['params'][0] ) {
+                        return CRM_Contribute_Import_Parser::DUPLICATE;
+                    }
+                } else {
+                    array_unshift($values, $newContribution['error_message']);
+                    return CRM_Contribute_Import_Parser::ERROR;
                 }
-                return CRM_Contribute_Import_Parser::ERROR;
             }
             
             $this->_newContributions[] = $newContribution['id'];

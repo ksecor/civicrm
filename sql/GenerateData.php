@@ -1405,7 +1405,7 @@ VALUES
         ( title, summary, description, event_type_id, participant_listing_id, is_public, start_date, end_date, is_online_registration, registration_link_text, max_participants, event_full_text, is_monetary, contribution_type_id, is_map, is_active, fee_label, is_show_location, loc_block_id)
         VALUES
         ( 'Fall Fundraiser Dinner', 'Kick up your heels at our Fall Fundraiser Dinner/Dance at Glen Echo Park! Come by yourself or bring a partner, friend or the entire family!', 'This event benefits our teen programs. Admission includes a full 3 course meal and wine or soft drinks. Grab your dancing shoes, bring the kids and come join the party!', 3, 1, 1, '2008-09-21 17:00:00', '2008-09-21 23:00:00', 1, 'Register Now', 100, 'Sorry! The Fall Fundraiser Dinner is full. Please call Jane at 204 222-1000 ext 33 if you want to be added to the waiting list.', 1, 4, 1, 1, 'Dinner Contribution', 1 ,$eventLok1),
-        ( 'Summer Solstice Festival Day Concert', 'Festival Day is coming! Join us and help support your parks.', 'We will gather at noon, learn a song all together,  and then join in a joyous procession to the pavilion. We will be one of many groups performing at this wonderful concert which benefits our city parks.', 5, 1, 1, '2007-11-17 12:00:00', '2008-11-17 17:00:00', 1, 'Register Now', 50, 'We have all the singers we can handle. Come to the pavilion anyway and join in from the audience.', 1, 2, NULL, 1, 'Festival Fee', 1, $eventLok2),
+        ( 'Summer Solstice Festival Day Concert', 'Festival Day is coming! Join us and help support your parks.', 'We will gather at noon, learn a song all together,  and then join in a joyous procession to the pavilion. We will be one of many groups performing at this wonderful concert which benefits our city parks.', 5, 1, 1, '2008-11-17 12:00:00', '2008-11-17 17:00:00', 1, 'Register Now', 50, 'We have all the singers we can handle. Come to the pavilion anyway and join in from the audience.', 1, 2, NULL, 1, 'Festival Fee', 1, $eventLok2),
         ( 'Rain-forest Cup Youth Soccer Tournament', 'Sign up your team to participate in this fun tournament which benefits several Rain-forest protection groups in the Amazon basin.', 'This is a FYSA Sanctioned Tournament, which is open to all USSF/FIFA affiliated organizations for boys and girls in age groups: U9-U10 (6v6), U11-U12 (8v8), and U13-U17 (Full Sided).', 3, 1, 1, '2008-07-27 07:00:00', '2008-07-29 17:00:00', 1, 'Register Now', 500, 'Sorry! All available team slots for this tournament have been filled. Contact Jill Futbol for information about the waiting list and next years event.', 1, 4, NULL, 1, 'Tournament Fees',1, $eventLok3)
          ";
         CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray );      
@@ -1590,10 +1590,10 @@ VALUES
     (82, 1, 1, '2007-03-27 00:00:00', 0.00, 50.00, 'P20193L2', 'USD', NULL, NULL, NULL, NULL, 'Online: Save the Penguins'),
     (92, 1, 1, '2007-03-08 00:00:00', 0.00, 10.00, 'P40232Y3', 'USD', NULL, NULL, NULL, NULL, 'Online: Save the Penguins'),
     (34, 1, 1, '2007-04-22 00:00:00', 0.00, 250.00, 'P20193L6', 'USD', NULL, NULL, NULL, NULL, 'Online: Save the Penguins'),
-    (71, 1, 1, '2008-07-17 11:53:50', 0.00, 100.00, 'PL71', 'USD', NULL, NULL, NULL, NULL, NULL ),
-    (43, 1, 1, '2008-07-02 12:55:41', 0.00, 172.00, 'PL43II', 'USD', NULL, NULL, NULL, NULL, NULL ),
-    (32, 1, 1, '2008-06-21 11:53:50', 0.00, 200.00, 'PL32I', 'USD', NULL, NULL, NULL, NULL, NULL ),
-    (32, 1, 1, '2008-06-28 12:55:41', 0.00, 200.00, 'PL32II', 'USD', NULL, NULL, NULL, NULL, NULL );
+    (71, 1, 1, '2008-07-03 11:53:50', 0.00, 500.00, 'PL71', 'USD', NULL, NULL, NULL, NULL, NULL ),
+    (43, 1, 1, '2008-07-02 12:55:41', 0.00, 200.00, 'PL43II', 'USD', NULL, NULL, NULL, NULL, NULL ),
+    (32, 1, 1, '2008-06-02 11:53:50', 0.00, 200.00, 'PL32I', 'USD', NULL, NULL, NULL, NULL, NULL ),
+    (32, 1, 1, '2008-07-01 12:55:41', 0.00, 200.00, 'PL32II', 'USD', NULL, NULL, NULL, NULL, NULL );
 ";
         CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         
@@ -1645,11 +1645,11 @@ VALUES
     function addPledge( )
     {
         $pledge = "INSERT INTO civicrm_pledge
-        (contact_id, contribution_type_id, contribution_page_id, amount, frequency_unit, frequency_interval, frequency_day, installments, start_date, create_date, acknowledge_date, modified_date, cancel_date, end_date, payment_instrument_id, honor_contact_id, honor_type_id, status_id, is_test) 
+        (contact_id, contribution_type_id, contribution_page_id, amount, frequency_unit, frequency_interval, frequency_day, installments, start_date, create_date, acknowledge_date, modified_date, cancel_date, end_date, honor_contact_id, honor_type_id, status_id, is_test) 
         VALUES 
-       (71, 1, 1, 100.00, 'month', 1, 1, 1, '2008-06-26 21:19:02', '2008-06-26 00:00:00', NULL, NULL, NULL,'2008-07-25 00:00:00' , 1, NULL, NULL, 1, 0),
-       (43, 1, 2, 472.00, 'year', 2, 1, 2, '2006-06-03 10:11:09', '2006-06-03 10:11:14', '2006-07-11 10:11:18', NULL, NULL, '2008-06-02 10:11:40', 1, NULL, NULL, 1, 0),
-       (32, 1, 2, 578.00, 'week', 3, 1, 3, '2008-06-14 10:12:35', '2008-06-14 10:12:44', '2008-07-06 10:12:52', NULL, NULL, '2008-07-06 10:13:11', 1, NULL, NULL, 1, 0);
+       (71, 1, 1, 500.00, 'month', 1, 1, 1, '2008-07-01 21:19:02', '2008-06-26 00:00:00', NULL, NULL, NULL,'2008-07-01 00:00:00', NULL, NULL, 1, 0),
+       (43, 1, 2, 800.00, 'month', 3, 1, 4, '2008-07-01 10:11:09', '2008-06-23 10:11:14', '2008-06-23 10:11:18', NULL, NULL, '2009-04-01 10:11:40', NULL, NULL, 5, 0),
+       (32, 1, 2, 600.00, 'month', 1, 1, 3, '2008-06-01 10:12:35', '2008-05-14 10:12:44', '2008-05-14 10:12:52', NULL, NULL, '2008-08-01 10:13:11', NULL, NULL, 5, 0);
 ";
         CRM_Core_DAO::executeQuery( $pledge, CRM_Core_DAO::$_nullArray );      
     }
@@ -1659,12 +1659,14 @@ VALUES
         $pledgePayment = "INSERT INTO civicrm_pledge_payment 
         ( pledge_id, contribution_id, scheduled_amount, scheduled_date, reminder_date, reminder_count, status_id) 
        VALUES 
-         (1, 10, 100.00, '2008-07-17 13:03:45', '2008-07-25 13:03:49', 0, 1),
-         (2, null, 300.00, '2007-06-02 10:59:35', '2007-06-01 10:59:41', 0, 6),
-         (2, 11, 172.00, '2008-07-02 10:59:35', '2008-06-01 10:59:41', 0, 1),
-         (3, 12, 200.00, '2008-06-21 11:00:12', '2008-06-21 11:00:20', 0, 1),
-         (3, 13, 200.00, '2008-06-28 10:59:35', '2008-06-28 10:59:41', 0, 1),
-         (3, null, 178.00, '2008-07-06 11:00:12', '2008-07-06 11:00:20', 0, 2);
+         (1, 10, 500.00, '2008-07-01 13:03:45', null, 0, 1),
+         (2, 11, 200.00, '2008-07-01 10:59:35', null, 0, 1),
+         (2, null, 200.00, '2008-10-01 10:59:35',null, 0, 2),
+         (2, null, 200.00, '2009-01-01 10:59:35',null, 0, 2),
+         (2, null, 200.00, '2009-04-01 10:59:35',null, 0, 2),
+         (3, 12, 200.00, '2008-06-01 11:00:12', null, 0, 1),
+         (3, 13, 200.00, '2008-07-01 10:59:35', '2008-06-28 10:59:41', 1, 1),
+         (3, null, 200.00, '2008-08-01 11:00:12', null, 0, 2);
         ";
         CRM_Core_DAO::executeQuery( $pledgePayment, CRM_Core_DAO::$_nullArray );
     }
@@ -1702,8 +1704,8 @@ $obj1->addEventAndLocation();
 $obj1->addEventPage();
 $obj1->addParticipant();
 $obj1->addContribution();
-$obj1->addPbPledge();
-$obj1->addPbPledgeSigner();
+//$obj1->addPbPledge();
+//$obj1->addPbPledgeSigner();
 $obj1->addPledge();
 $obj1->addPledgePayment();
 echo("Ending data generation on " . date("F dS h:i:s A") . "\n");

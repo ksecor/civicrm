@@ -84,7 +84,7 @@ WHERE     openid = %1";
             $result = $dao->getDatabaseResult( );
             if ( $result ) {
                 $row = $result->fetchRow( );
-                if ( $row ) {
+                if ( isset($row['uf_id']) ) {
                     $user->$key = $row['uf_id'];
                 }
             }
@@ -96,10 +96,19 @@ WHERE     openid = %1";
             CRM_Core_Error::statusBounce(ts('Please set the user framework variable'));
         }
         
+        // make sure we load the joomla object to get valid information
+        if ( $uf == 'Joomla' ) {
+            if ( ! isset( $user->id ) || ! isset( $user->email ) ) {
+                $user =& JFactory::getUser( );
+            }
+        }
+
+        // if the id of the object is zero (true for anon users in drupal)
         // have we already processed this user, if so early
         // return.
         $userID = $session->get( 'userID' );
         $ufID   = $session->get( 'ufID'   );
+
         if ( ! $update && $ufID == $user->$key ) {
             //print "Already processed this user<br/>";
             return;
@@ -110,18 +119,6 @@ WHERE     openid = %1";
             $session->reset( );
         }
 
-        // make sure we load the joomla object to get valid information
-        if ( $uf == 'Joomla' ) {
-            if ( class_exists( 'JFactory' ) ) {
-                if ( ! $user->id || ! isset( $user->email ) ) {
-                    $user =& JFactory::getUser( );
-                }
-            } else {
-                $user->load( );
-            }
-        }
-
-        // if the id of the object is zero (true for anon users in drupal)
         // return early
         if ( $user->$key == 0 ) {
             return;
@@ -201,8 +198,6 @@ WHERE     openid = %1";
                     $mail = 'email';
                 }
                 
-                require_once 'CRM/Core/BAO/LocationType.php';
-                $locationType   =& CRM_Core_BAO_LocationType::getDefault( );  
                 $params = array( 'email-Primary'  => $user->$mail );
                 
                 if ( $ctype == 'Organization' ) {
@@ -218,18 +213,8 @@ WHERE     openid = %1";
                 // extract first / middle / last name
                 // for joomla
                 if ( $uf == 'Joomla' && $user->name ) {
-                    $name = trim( $user->name );
-                    $names = explode( ' ', $user->name );
-                    if ( count( $names ) == 1 ) {
-                        $params['first_name'] = $names[0];
-                    } else if ( count( $names ) == 2 ) {
-                        $params['first_name'] = $names[0];
-                        $params['last_name' ] = $names[1];
-                    } else {
-                        $params['first_name' ] = $names[0];
-                        $params['middle_name'] = $names[1];
-                        $params['last_name'  ] = $names[2];
-                    }
+                    require_once 'CRM/Utils/String.php';
+                    CRM_Utils_String::extractName( $user->name, $params );
                 }
                 
                 if ( $uf == 'Standalone' ) {
@@ -241,18 +226,8 @@ WHERE     openid = %1";
 		                $params['first_name'] = $user->first_name;
 		                $params['last_name'] = $user->last_name;
 	                } elseif ( ! empty( $user->name ) ) {
-	                    $name = trim( $user->name );
-	                    $names = explode( ' ', $user->name );
-	                    if ( count( $names ) == 1 ) {
-	                        $params['first_name'] = $names[0];
-	                    } else if ( count ( $names ) == 2 ) {
-	                        $params['first_name'] = $names[0];
-	                        $params['last_name' ] = $names[1];
-	                    } else {
-	                        $params['first_name' ] = $names[0];
-	                        $params['middle_name'] = $names[1];
-	                        $params['last_name'  ] = $names[2];
-	                    }
+                        require_once 'CRM/Utils/String.php';
+                        CRM_Utils_String::extractName( $user->name, $params );
 	                }
 		        }
 
@@ -427,7 +402,7 @@ WHERE     openid = %1";
 
     static function isEmptyTable( ) {
         $sql = "SELECT count(id) FROM civicrm_uf_match";
-        return CRM_CORE_DAO::singleValueQuery( $sql ) > 0 ? false : true;
+        return CRM_Core_DAO::singleValueQuery( $sql ) > 0 ? false : true;
     }
 
     /**

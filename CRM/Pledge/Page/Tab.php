@@ -102,7 +102,7 @@ class CRM_Pledge_Page_Tab extends CRM_Contact_Page_View
         // we should call contact view, preprocess only for participant mode
         $this->preProcess( );
         
-        if ( $this->_permission == CRM_Core_Permission::EDIT && ! CRM_Core_Permission::check( 'edit pledge records' ) ) {
+        if ( $this->_permission == CRM_Core_Permission::EDIT && ! CRM_Core_Permission::check( 'edit pledges' ) ) {
             $this->_permission = CRM_Core_Permission::VIEW; // demote to view since user does not have edit pledge rights
             $this->assign( 'permission', 'view' );
         }
@@ -117,11 +117,20 @@ class CRM_Pledge_Page_Tab extends CRM_Contact_Page_View
         }
         
         $this->setContext( );
-        
+       
         if ( $this->_action & CRM_Core_Action::VIEW ) { 
             $this->view( ); 
         } else if ( $this->_action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::DELETE ) ) {
             $this->edit( ); 
+        } else if ( $this->_action & CRM_Core_Action::DETACH ) { 
+            require_once 'CRM/Pledge/BAO/Payment.php';
+            require_once 'CRM/Contribute/PseudoConstant.php';
+            CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $this->_id, null, array_search( 'Cancelled', CRM_Contribute_PseudoConstant::contributionStatus() ) );
+
+            $session =& CRM_Core_Session::singleton();
+            $session->setStatus( ts('Pledge has been Cancelled and all scheduled (not completed) payments have been cancelled.<br />') );
+            CRM_Utils_System::redirect( $session->popUserContext() );
+           
         } else {
             $this->browse( ); 
         }

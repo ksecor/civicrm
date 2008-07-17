@@ -568,8 +568,8 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
 }
 
 // double line right border for last cell in a horizontal grouping
-#crm-container .report td.splitter {
-    border-right: 3px double #92B6EC;
+#crm-container table.report td.splitter {
+    border-right: 5px double #92B6EC;
 }
 
 #crm-container .report td.separator {
@@ -839,12 +839,23 @@ div.crm-pager a {
 }
 
 /*
-** overflowing for elements (e.g. Advanced Search page)
+** Boxes of checkbox elements (e.g. Advanced Search page)
 */
 #crm-container .listing-box {
-  margin: 0.25em 2.0em -0.5em 0em;
+  margin: 0.25em 2.0em 0.5em 0em;
   width: auto;
-  height: 6.75em;
+  height: 7.25em;
+  overflow: auto;
+  border: 1px solid #92B6EC;
+}
+
+/*
+** To allow for taller boxes of groups/tags.
+*/
+#crm-container .listing-box-tall {
+  margin: 0.25em 2.0em 0.5em 0em;
+  width: auto;
+  height: 15em;
   overflow: auto;
   border: 1px solid #92B6EC;
 }

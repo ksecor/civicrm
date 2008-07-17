@@ -64,7 +64,33 @@ class CRM_Admin_Form_Setting_Component extends  CRM_Admin_Form_Setting
         $include->setButtonAttributes('add', array('value' => ts('Enable >>')));
         $include->setButtonAttributes('remove', array('value' => ts('<< Disable')));     
         
+        $this->addFormRule( array( 'CRM_Admin_Form_Setting_Component', 'formRule' ), $this );
+
         parent::buildQuickForm();
+    }
+
+    /**  
+     * global form rule  
+     *  
+     * @param array $fields  the input form values  
+     * @param array $files   the uploaded files if any  
+     * @param array $options additional user data  
+     *  
+     * @return true if no errors, else array of errors  
+     * @access public  
+     * @static  
+     */  
+    static function formRule( &$fields ) 
+    {  
+        $errors = array( ); 
+        
+        if ( is_array( $fields['enableComponents'] ) ) {
+            if ( in_array( 'CiviPledge', $fields['enableComponents'] ) && !in_array( 'CiviContribute', $fields['enableComponents'] ) ) {
+                $errors['enableComponents'] = ts('You need to enable CiviContribute before enabling CiviPledge.');
+            }
+        }
+
+        return $errors;
     }
 
 

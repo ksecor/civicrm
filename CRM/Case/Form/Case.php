@@ -84,7 +84,11 @@ class CRM_Case_Form_Case extends CRM_Core_Form
             CRM_Case_BAO_Case::retrieve($params, $defaults, $ids);
         }        
         $defaults['case_type_id'] = explode( CRM_Case_BAO_Case::VALUE_SEPERATOR, CRM_Utils_Array::value( 'case_type_id' , $defaults ) );
-        
+        $config =& CRM_Core_Config::singleton( );
+        if ($config->civiHRD){
+            $defaults['casetag2_id'] = explode( CRM_Case_BAO_Case::VALUE_SEPERATOR, CRM_Utils_Array::value( 'casetag2_id' , $defaults ) );
+            $defaults['casetag3_id'] = explode( CRM_Case_BAO_Case::VALUE_SEPERATOR, CRM_Utils_Array::value( 'casetag3_id' , $defaults ) );
+        }
         if ( $this->_action & CRM_Core_Action::ADD ) {
             $defaults['start_date'] = array( );
             CRM_Utils_Date::getAllDefaultValues( $defaults['start_date'] );
@@ -125,9 +129,17 @@ class CRM_Case_Form_Case extends CRM_Core_Form
         $caseType = CRM_Core_OptionGroup::values('case_type');
         $this->add('select', 'case_type_id',  ts( 'Case Type' ),  
                    $caseType , true, array("size"=>"5",  "multiple"));
+        $config =& CRM_Core_Config::singleton( );
+        if ($config->civiHRD){
+            $caseSubType = CRM_Core_OptionGroup::values('f1_case_sub_type');
+            $this->add('select', 'casetag2_id',  ts( 'Case Sub Type' ),  
+                       $caseSubType , false, array("size"=>"5","multiple"));
+            
+            $caseViolation = CRM_Core_OptionGroup::values('f1_case_violation');
+            $this->add('select', 'casetag3_id',  ts( 'Violation' ),  
+                       $caseViolation , false, array("size"=>"5",  "multiple"));
+        }
         
-
-                        
         $this->add( 'date', 'start_date', ts('Start Date'),
                     CRM_Core_SelectValues::date('activityDate' ),
                     true);   
@@ -207,7 +219,7 @@ class CRM_Case_Form_Case extends CRM_Core_Form
 
         // get the submitted form values.  
         $params = $this->controller->exportValues( $this->_name );
-        
+      
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
             $params['id'] = $this->_id ;
         }
@@ -216,6 +228,12 @@ class CRM_Case_Form_Case extends CRM_Core_Form
         $params['start_date'  ] = CRM_Utils_Date::format( $params['start_date'] );
         $params['end_date'    ] = CRM_Utils_Date::format( $params['end_date'] );
         $params['case_type_id'] = CRM_Case_BAO_Case::VALUE_SEPERATOR.implode(CRM_Case_BAO_Case::VALUE_SEPERATOR, $params['case_type_id'] ).CRM_Case_BAO_Case::VALUE_SEPERATOR;
+       
+        $config =& CRM_Core_Config::singleton( );
+        if ($config->civiHRD){
+            $params['casetag2_id'] = CRM_Case_BAO_Case::VALUE_SEPERATOR.implode(CRM_Case_BAO_Case::VALUE_SEPERATOR, $params['casetag2_id'] ).CRM_Case_BAO_Case::VALUE_SEPERATOR;
+            $params['casetag3_id'] = CRM_Case_BAO_Case::VALUE_SEPERATOR.implode(CRM_Case_BAO_Case::VALUE_SEPERATOR, $params['casetag3_id'] ).CRM_Case_BAO_Case::VALUE_SEPERATOR;
+        }
         
         require_once 'CRM/Case/BAO/Case.php';
         $case = CRM_Case_BAO_Case::create( $params );

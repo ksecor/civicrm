@@ -180,7 +180,22 @@ class CRM_Contact_Form_Search_Criteria {
         $form->add('select', 'activity_type_id', ts('Activity Type'),
                    $form->_activityType,
                    false);
-        
+
+        $config =& CRM_Core_Config::singleton( );
+        if ( $config->civiHRD ) {
+            $caseActivityType = CRM_Core_OptionGroup::values('case_activity_type');
+            $form->add('select', 'activity_activitytag1_id',  ts( 'Case Activity Type' ),  
+                       array( '' => ts( '-select case activity-' ) ) + $caseActivityType );
+            
+            $comunicationMedium = CRM_Core_OptionGroup::values('communication_medium'); 
+            $form->add('select', 'activity_activitytag2_id',  ts( 'Activity Medium' ),  
+                       array( '' => ts( '-select-' ) ) + $comunicationMedium );
+            
+            $caseViolation = CRM_Core_OptionGroup::values('f1_case_violation');
+            $form->addElement('select', 'activity_activitytag3_id',  ts( 'Violation Type'  ),  
+                              array( '' => ts( '-select-' ) ) + $caseViolation);
+        }
+
         // Date selects for activity date
         $form->add('date', 'activity_date_low', ts('Activity Dates - From'), CRM_Core_SelectValues::date('relative'));
         $form->addRule('activity_date_low', ts('Select a valid date.'), 'qfDate');
@@ -319,7 +334,7 @@ class CRM_Contact_Form_Search_Criteria {
     }
 
     static function CiviCase( &$form ) {
-        $form->add( 'hidden', 'hidden_caseSearch', 1 );
+        $form->add( 'hidden', 'hidden_CiviCase', 1 );
         require_once 'CRM/Case/BAO/Query.php';
         CRM_Case_BAO_Query::buildSearchForm( $form );
     }

@@ -42,7 +42,8 @@ function run() {
             
             // Redirect to new user registration form
             $urlVar = $config->userFrameworkURLVar;
-            header("Location: index.php?$urlVar=civicrm/standalone/register&reset=1");
+            $config->reset();
+            header("Location: index.php?$urlVar=civicrm/standalone/register&reset=1&configReset=1");
             exit;
         } else {
             require_once 'CRM/Standalone/User.php';

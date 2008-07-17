@@ -98,13 +98,16 @@ class CRM_Activity_BAO_ActivityAssignment extends CRM_Activity_DAO_ActivityAssig
      * @access public
      * 
      */
-    public function retrieveAssigneeIdByActivityId( $activity_id ) 
+    public function retrieveAssigneeIdsByActivityId( $activity_id ) 
     {
         $this->activity_id = $activity_id;
-        if ( $this->find( true ) ) {
-            return $this->assignee_contact_id;
+        $this->find();
+        $assigneeArray = array();
+        while ( $this->fetch( ) ) {
+            $assigneeArray[] = $this->assignee_contact_id;
         }
-        return null;
+
+        return $assigneeArray;
     }
 }
 

@@ -72,7 +72,7 @@ class CRM_Pledge_Page_Payment extends CRM_Core_Page
             
             // check is the user has view/edit signer permission
             $permission = 'view';
-            if ( CRM_Core_Permission::check( 'edit pledge records' ) ) {
+            if ( CRM_Core_Permission::check( 'edit pledges' ) ) {
                 $permission = 'edit';
             }
             $this->assign( 'permission', $permission );

@@ -31,6 +31,8 @@
 </tr>
 </table>
 
+<div class="spacer"></div>
+
 {if $rows}
 {* if $pager->_totalItems *}
     <h3>{ts}Recent Memberships{/ts}</h3>

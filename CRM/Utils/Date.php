@@ -690,7 +690,7 @@ class CRM_Utils_Date
         return true;
     }
 
-    static function overdue( $date, $now = null ) 
+    static function overdue( $date, $now = null, $includeToday = true ) 
     {
         $mysqlDate = self::isoToMysql( $date );
         if ( ! $now ) {
@@ -699,7 +699,11 @@ class CRM_Utils_Date
             $now = self::isoToMysql( $now );
         }
 
-        return ( $mysqlDate >= $now ) ? false : true;
+        if ( $includeToday ) {
+            return ( $mysqlDate >= $now ) ? false : true;
+        } else {
+            return ( $mysqlDate > $now ) ? false : true;
+        }
     }
     
     /**
@@ -877,7 +881,61 @@ class CRM_Utils_Date
 
         return $results;
     }
+    
+    /**
+     * Function to calculate next payment date according to provided  unit & interval
+     * 
+     * @param string $unit     frequency unit like year,month, week etc..
+     *
+     * @param int    $interval frequency interval.
+     *
+     * @param array  $date     start date of pledge.
+     *
+     * @return array $result contains new date with added interval
+     * @access public
+     */
+    function intervalAdd($unit, $interval, $date) 
+    {  
+        $hours   = $date['H'];
+        $minutes = $date['i'];
+        $seconds = $date['s'];
+        $month   = $date['M'];
+        $day     = $date['d'];
+        $year    = $date['Y'];
+        
+        $date = mktime ($hours, $minutes, $seconds, $month, $day, $year);
+       
+        switch ( $unit ) {
 
+        case 'year':
+            $date   =   mktime ($hours, $minutes, $seconds, $month, $day, $year+$interval);
+            break;
+        case 'month':
+            $date   =   mktime ($hours, $minutes, $seconds, $month+$interval, $day, $year);
+            break;
+        case 'week':
+            $interval = $interval * 7;
+            $date   =   mktime ($hours, $minutes, $seconds, $month, $day+$interval, $year);
+            break;
+        case 'day':
+            $date   =   mktime ($hours, $minutes, $seconds, $month, $day+$interval, $year);
+            break;
+        }
+        
+       
+        $scheduleDate = explode ( "-", date("n-j-Y-H-i-s", $date ) );
+                              
+        $date = array( );
+        $date['M'] = $scheduleDate[0];
+        $date['d'] = $scheduleDate[1];
+        $date['Y'] = $scheduleDate[2];
+        $date['H'] = $scheduleDate[3];
+        $date['i'] = $scheduleDate[4];
+        $date['s'] = $scheduleDate[5];
+                       
+        return $date;
+    }
+    
 }
 
 
