@@ -125,6 +125,40 @@ class CRM_Case_BAO_Query
             $query->_tables['civicrm_case'] = $query->_whereTables['civicrm_case'] = 1;
             return;
 
+        case 'case_casetag2_id':
+            require_once 'CRM/Core/OptionGroup.php' ;
+            $caseSubtype = CRM_Core_OptionGroup::values('f1_case_sub_type');
+            $names = array( );
+            foreach ( $value as $id => $val ) {
+                $names[] = $caseSubtype[$val];
+            }
+            require_once 'CRM/Case/BAO/Case.php';
+            $value = CRM_Case_BAO_Case::VALUE_SEPERATOR.implode(CRM_Case_BAO_Case::VALUE_SEPERATOR, $value) .CRM_Case_BAO_Case::VALUE_SEPERATOR;
+            $query->_where[$grouping][] = "civicrm_case.casetag2_id LIKE  '%{$value}%'";
+
+            $value = $caseSubtype[$value];
+            $query->_qill[$grouping ][] = ts( 'Case SubType %1', array( 1 => $op)) . ' ' . implode( ' ' . ts('or') . ' ', $names );
+            $query->_tables['civicrm_case'] = $query->_whereTables['civicrm_case'] = 1;
+            return;
+           
+        case 'case_casetag3_id':
+ 
+            require_once 'CRM/Core/OptionGroup.php' ;
+            $caseViolation = CRM_Core_OptionGroup::values('f1_case_violation');
+            $names = array( );
+            foreach ( $value as $id => $val ) {
+                $names[] = $caseViolation[$val];
+            }
+            
+            require_once 'CRM/Case/BAO/Case.php';
+            $value = CRM_Case_BAO_Case::VALUE_SEPERATOR.implode(CRM_Case_BAO_Case::VALUE_SEPERATOR, $value) .CRM_Case_BAO_Case::VALUE_SEPERATOR;
+            $query->_where[$grouping][] = "civicrm_case.casetag3_id LIKE '%{$value}%'";
+            
+            $value = $caseViolation[$value];
+            $query->_qill[$grouping ][] = ts( 'Case Voilation %1', array( 1=> $op)) . ' ' . implode( ' ' . ts('or') . ' ', $names );
+            $query->_tables['civicrm_case'] = $query->_whereTables['civicrm_case'] = 1;
+            return;
+
         case 'case_start_date_low':
         case 'case_start_date_high':
             
@@ -196,11 +230,11 @@ class CRM_Case_BAO_Query
         $form->addElement( 'text', 'case_subject', ts( 'Subject' ) );
         if ($config->civiHRD){
             $caseSubType = CRM_Core_OptionGroup::values('f1_case_sub_type');
-            $form->add('select', 'casetag2_id',  ts( 'Case Sub Type' ),  
+            $form->add('select', 'case_casetag2_id',  ts( 'Case Sub Type' ),  
                        $caseSubType , false, array("size"=>"5","multiple"));
             
             $caseViolation = CRM_Core_OptionGroup::values('f1_case_violation');
-            $form->add('select', 'casetag3_id',  ts( 'Violation' ),  
+            $form->add('select', 'case_casetag3_id',  ts( 'Violation' ),  
                        $caseViolation , false, array("size"=>"5",  "multiple"));
         }
     

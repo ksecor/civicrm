@@ -25,18 +25,18 @@
                 </td>
 		{if $config->civiHRD}
 			<td class="label">
-        	                {$form.casetag2_id.label} 
+        	                {$form.case_casetag2_id.label} 
 			</td>
 			<td >  
-				{$form.casetag2_id.html}
+				{$form.case_casetag2_id.html}
                 	</td>
 		</tr>
 		<tr>
 			<td class="label">
-				{$form.casetag3_id.label}
+				{$form.case_casetag3_id.label}
 			</td>
 			<td >  
-				{$form.casetag3_id.html}
+				{$form.case_casetag3_id.html}
                 	</td>
                {/if}             
             </tr>            
