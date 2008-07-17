@@ -128,7 +128,9 @@ AND    {$this->_componentClause}";
         require_once 'CRM/Core/Payment/BaseIPN.php';
         $baseIPN = new CRM_Core_Payment_BaseIPN( );
 
-        $message = array( );
+        $message  =  array( );
+        $template =& CRM_Core_Smarty::singleton( );
+
         foreach ( $details as $contribID => $detail ) {
             $input = $ids = $objects = array( );
             
@@ -159,6 +161,9 @@ AND    {$this->_componentClause}";
             $input['trxn_date']  = $contribution->trxn_date;
 
             // CRM_Core_Error::debug('input',$input);
+            
+            // reset template values before next
+            $template->clearTemplateVars( );
 
             $values = array( );
             $mail = $baseIPN->sendMail( $input, $ids, $objects, $values, false, true );
