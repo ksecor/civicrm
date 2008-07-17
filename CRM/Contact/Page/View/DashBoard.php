@@ -125,43 +125,46 @@ class CRM_Contact_Page_View_DashBoard extends CRM_Contact_Page_View
      */
     function browse($id, $admin)
     { 
-        require_once "CRM/Activity/BAO/Activity.php";
-        $this->_totalCountOpenActivity = CRM_Activity_BAO_Activity::getNumOpenActivity( $id );
-        $this->_contactIds             = $id;
+        $config =& CRM_Core_Config::singleton( );
+        if ( ! $config->civiHRD ) { 
+            require_once "CRM/Activity/BAO/Activity.php";
+            $this->_totalCountOpenActivity = CRM_Activity_BAO_Activity::getNumOpenActivity( $id );
+            $this->_contactIds             = $id;
 
-        require_once 'CRM/Core/Selector/Controller.php';
+            require_once 'CRM/Core/Selector/Controller.php';
 
-        $output = CRM_Core_Selector_Controller::SESSION;
+            $output = CRM_Core_Selector_Controller::SESSION;
 
-        require_once 'CRM/Activity/Selector/Activity.php';
-        $selector   =& new CRM_Activity_Selector_Activity( $id, $this->_permission , $admin, 'home' );
-        $sortID = CRM_Utils_Sort::sortIDValue( $this->get( CRM_Utils_Sort::SORT_ID  ),
+            require_once 'CRM/Activity/Selector/Activity.php';
+            $selector   =& new CRM_Activity_Selector_Activity( $id, $this->_permission , $admin, 'home' );
+            $sortID = CRM_Utils_Sort::sortIDValue( $this->get( CRM_Utils_Sort::SORT_ID  ),
                                                $this->get( CRM_Utils_Sort::SORT_DIRECTION ) );
 
-        $controller =& new CRM_Core_Selector_Controller($selector, $this->get(CRM_Utils_Pager::PAGE_ID),
+            $controller =& new CRM_Core_Selector_Controller($selector, $this->get(CRM_Utils_Pager::PAGE_ID),
                                                         $sortID, CRM_Core_Action::VIEW, $this, $output);
-        $controller->setEmbedded(true);
-        $controller->run();
-        $this->_rows = $controller->getRows($controller);
-        $controller->moveFromSessionToTemplate( );
+            $controller->setEmbedded(true);
+            $controller->run();
+            $this->_rows = $controller->getRows($controller);
+            $controller->moveFromSessionToTemplate( );
 
-        $this->_displayName = CRM_Core_DAO::getFieldValue('CRM_Contact_DAO_Contact', $id, 'display_name');
+            $this->_displayName = CRM_Core_DAO::getFieldValue('CRM_Contact_DAO_Contact', $id, 'display_name');
 
-        $this->assign( 'rows',         $this->_rows);
-        $this->assign( 'contactId',    $this->_contactIds);
-        $this->assign( 'display_name', $this->_displayName);
-        $this->assign( 'context',      'home');
+            $this->assign( 'rows',         $this->_rows);
+            $this->assign( 'contactId',    $this->_contactIds);
+            $this->assign( 'display_name', $this->_displayName);
+            $this->assign( 'context',      'home');
 
-        // check if case is enabled
-        require_once 'CRM/Core/BAO/Preferences.php';
-        $viewOptions = CRM_Core_BAO_Preferences::valueOptions( 'contact_view_options', true, null, true );
+            // check if case is enabled
+            require_once 'CRM/Core/BAO/Preferences.php';
+            $viewOptions = CRM_Core_BAO_Preferences::valueOptions( 'contact_view_options', true, null, true );
 
-        $enableCase = false;
-        if ( $viewOptions[ts('CiviCase')] ) { 
-            $enableCase = true;
-        }
+            $enableCase = false;
+            if ( $viewOptions[ts('CiviCase')] ) { 
+                $enableCase = true;
+            }
         
-        $this->assign( 'enableCase', $enableCase);
+            $this->assign( 'enableCase', $enableCase);
+        }
 
         require_once 'CRM/Core/Block.php';
         $this->assign( 'menuBlock'    , CRM_Core_Block::getContent( 1 ) );
