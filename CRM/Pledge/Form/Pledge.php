@@ -501,12 +501,12 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         //set the status msg.
         if ( $this->_action & CRM_Core_Action::UPDATE ) { 
             if ( $params['status_id'] == array_search( 'Cancelled', CRM_Contribute_PseudoConstant::contributionStatus()) ) {
-                $statusMsg = ts('Pledge has been Cancelled and all scheduled (not completed) payments have been cancelled.<br />');
+                $statusMsg = ts('Pledge has been cancelled and all scheduled (not completed) payments have been cancelled.<br />');
             } else {
                 $statusMsg = ts('Pledge has been updated.<br />');
             }
         } else {
-            $statusMsg = ts('Pledge has been recorded and payment schedule has been created.<br />');
+            $statusMsg = ts('Pledge has been recorded and the payment schedule has been created.<br />');
         }
         
         //build the urls.
@@ -517,7 +517,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         
         if ( CRM_Utils_Array::value( 'is_acknowledge', $formValues ) ) {
             $statusMsg .= ' ' . ts( "An acknowledgment email has been sent to %1.<br />", array( 1 => $this->userEmail ) );
-            $statusMsg .= ' ' . ts( "If a payment is due now, you can record <a href='%1'>a Cash or Check payment for this pledge</a> OR <a href='%2'>submit a credit card payment</a>.", array( 1 =>$contribURL, 2 => $creditURL ) );
+            $statusMsg .= ' ' . ts( "If a payment is due now, you can record <a href='%1'>a check, EFT, or cash payment for this pledge</a> OR <a href='%2'>submit a credit card payment</a>.", array( 1 =>$contribURL, 2 => $creditURL ) );
         }
         CRM_Core_Session::setStatus( $statusMsg );
         
