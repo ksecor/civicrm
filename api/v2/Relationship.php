@@ -190,3 +190,55 @@ function civicrm_relationship_type_delete( &$params ) {
     $relationTypeBAO = new CRM_Contact_BAO_RelationshipType( );
     return $relationTypeBAO->del( $params['id'] ) ? civicrm_create_success( ts( 'Deleted relationship type successfully' )  ):civicrm_create_error( ts( 'Could not delete relationship type' ) );
 }
+
+ /**
+ * Function to get the relationship
+ *
+ * @param array   $contact_a                  Contact object from civicrm_contact_get
+ * @param array   $contact_b                  Contact object from civicrm_contact_get
+ * @param array   $relationship_type_name     An array of Relationship Type Name.
+ * @param array   $returnProperties           Which properties should be included in the related Contact object(s). If NULL, the default set of contact properties will be included.
+ * @param array   $sort                       Associative array of one or more "property_name"=>"sort direction" pairs which will control order of Contact objects returned
+ * @param int     $offset                     Starting row index.
+ *
+ * @return        Array of all relationship.
+ *
+ * @access  public
+ *
+ */
+
+function civicrm_get_relationships( $contact_a, $contact_b = null, $relationship_type_name = null, $returnProperties = null,
+                                    $sort = null, $offset = 0, $row_count = 25 ) {
+
+    if( ! isset( $contact_a['contact_id'] ) ) {
+        return _crm_error('$contact_a is not valid contact datatype');
+    }
+    require_once 'CRM/Contact/BAO/Relationship.php';
+    $contactID     = $contact_a['contact_id'];
+    $relationships = CRM_Contact_BAO_Relationship::getRelationship($contactID);
+    
+    if ( isset( $relationship_type_name ) && is_array( $relationship_type_name ) ) {
+        $result = array();
+        foreach ( $relationship_type_name as $relationshipType ) {
+            foreach( $relationships as $key => $relationship ) {
+                if ( $relationship['relation'] ==  $relationshipType ) {
+                    $result[$key] = $relationship;
+                }
+            }
+        }
+        $relationships = $result;
+    }
+
+    if( isset( $contact_b['contact_id']) ) {
+        $cid = $contact_b['contact_id'];
+        $result =array( );
+        
+        foreach($relationships as $key => $relationship) {
+            if ($relationship['cid'] == $cid ) {
+                $result[$key] = $relationship;
+            }
+        }
+        $relationships = $result;
+    }
+    return $relationships;
+}
