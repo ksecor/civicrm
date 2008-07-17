@@ -54,6 +54,16 @@ class CRM_Pledge_Page_UserDashboard extends CRM_Contact_Page_View_UserDashBoard
         $controller->set( 'force'  , 1 );
         $controller->process( );
         $controller->run( );
+        
+        //add honor block.
+        require_once 'CRM/Pledge/BAO/Pledge.php';
+        $honorParams = array( );
+        $honorParams = CRM_Pledge_BAO_Pledge::getHonorContacts( $this->_contactId );
+        if ( !empty($honorParams) ) {
+            // assign vars to templates
+            $this->assign( 'pledgeHonorRows', $honorParams );
+            $this->assign( 'pledgeHonor', true );
+        }
     }
     
     /**

@@ -1,4 +1,5 @@
-{if $pledge_rows and $context eq 'user'}
+{if $context eq 'user'}
+{if $pledge_rows}
 {strip}
 <table class="selector">
   <tr class="columnheader">
@@ -35,6 +36,43 @@
   {/foreach}
 </table>
 {/strip}
+{/if}
+{*pledge row if*}
+
+{*Display honor block*}
+{if $pledgeHonor && $pledgeHonorRows}	
+{strip}
+<div id="help">
+    <p>{ts}Pledges made in your honor.{/ts}</p>
+</div>
+  <table class="selector">
+    <tr class="columnheader">
+        <th>{ts}Pledger{/ts}</th> 
+        <th>{ts}Amount{/ts}</th>
+	<th>{ts}Contribution Type{/ts}</th>
+        <th>{ts}Create date{/ts}</th>
+        <th>{ts}Acknowledgment Sent{/ts}</th>
+	 <th>{ts}Acknowledgment Date{/ts}</th>
+        <th>{ts}Status{/ts}</th>
+        <th></th>   
+    </tr>
+	{foreach from=$pledgeHonorRows item=row}
+	   <tr id='rowid{$row.honorId}' class="{cycle values="odd-row,even-row"}">
+	   <td><a href="{crmURL p="civicrm/contact/view" q="reset=1&cid=`$row.honorId`"}" id="view_contact">{$row.display_name}</a></td>
+	   <td>{$row.amount|crmMoney}</td>
+           <td>{$row.type}</td>
+           <td>{$row.create_date|truncate:10:''|crmDate}</td>
+           <td align="center">{if $row.acknowledge_date}{ts}Yes{/ts}{else}{ts}No{/ts}{/if}</td>
+           <td>{$row.acknowledge_date|truncate:10:''|crmDate}</td>
+           <td>{$row.status}</td>
+	  </tr>
+        {/foreach}
+</table>
+{/strip}
+{/if} 
+
+{* main if close*}
+{/if}
 
 {* Build pledge payment details*}
 {literal}
@@ -71,5 +109,3 @@ function buildPaymentDetails( pledgeId, contactId )
 }
 </script>
 {/literal}
-{* main if close*}
-{/if}

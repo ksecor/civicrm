@@ -343,5 +343,44 @@ WHERE  $whereCond
         }
         return null;
     }
+    
+    /**
+     * Function to get list of pledges In Honor of contact Ids
+     *
+     * @param int $honorId In Honor of Contact ID
+     *
+     * @return return the list of pledge fields
+     * 
+     * @access public
+     * @static
+     */
+    static function getHonorContacts( $honorId )
+    {
+        $params = array( );
+        require_once 'CRM/Pledge/DAO/Pledge.php';
+        $honorDAO =& new CRM_Pledge_DAO_Pledge( );
+        $honorDAO->honor_contact_id = $honorId;
+        $honorDAO->find( );
+        
+        //get all status.
+        require_once 'CRM/Contribute/PseudoConstant.php';
+        $status = CRM_Contribute_Pseudoconstant::contributionStatus( $honorDAO->status_id );
+        
+        while( $honorDAO->fetch( ) ) {
+            $params[$honorDAO->id] = array (
+                                            'honorId'          => $honorDAO->contact_id,
+                                            'amount'           => $honorDAO->amount,
+                                            'status'           => CRM_Utils_Array::value($honorDAO->status_id, $status),
+                                            'create_date'      => $honorDAO->create_date,
+                                            'acknowledge_date' => $honorDAO->acknowledge_date,
+                                            'type'             => CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionType', 
+                                                                                               $honorDAO->contribution_type_id, 'name' ),
+                                            'display_name'     => CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', 
+                                                                                               $honorDAO->contact_id, 'display_name' ),
+                                            );
+        }
+        return $params;
+    }
+    
 }
 
