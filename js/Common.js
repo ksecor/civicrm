@@ -592,38 +592,21 @@ function on_load_init_check(form)
  * 
  * @param rowid get the id of tablerow
  * @param index current row index
+ * @param type type of form to hide the row
  * @access public
  * @return null
  *
  */
-function hiderow(rowid)
+function hiderow(rowid, type)
 {
-	hide(rowid);
-        if(document.getElementById('optionFieldLink').style.display == 'none') {
+    hide(rowid);
+    if(document.getElementById(type+'Link').style.display == 'none') {
+	document.getElementById(type+'Link').style.display = '';
+	if (type == 'optionField') {
 	    document.getElementById('additionalOption').style.display = 'none';
-            document.getElementById('optionFieldLink').style.display = '';
-        }
-	rowcounter++;
-}
-
-
-/** 
- * This (temporary) function is used to hide the table row 
- * for Discounts 
- * 
- * Need to make generic with hiderow()
- * @param null
- * @access public
- * @return null
- *
- */
-function hiderowDiscount(rowid)
-{
-	hide(rowid);
-        if(document.getElementById('discountLink').style.display == 'none') {
-            document.getElementById('discountLink').style.display = '';
-        }
-	rowcounter++;
+	}
+    }
+    rowcounter++;
 }
 
 /** 
@@ -688,7 +671,7 @@ function showrow(type,maxValue)
 	    
 	    if(document.getElementById(rowid).style.display == 'none') {
                 document.getElementById(rowid).style.display = '';
-		if (i < maxValue && type == 'discount') {
+		if (i <= maxValue && type == 'discount') {
 		    
 		    if(rowcounter == 0) {
 		   	document.getElementById(type+'Link').style.display = 'none';

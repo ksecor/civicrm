@@ -86,7 +86,7 @@
 	{section name=rowLoop start=1 loop=6}
 	   {assign var=index value=$smarty.section.rowLoop.index}
 	   <tr id="discount_{$index}" {if $index GT 1 AND empty( $form.discount_name[$index].value) } style="display:none"{/if} class="form-item {cycle values="odd-row,even-row"}">
-           <td>{if $index GT 1} <a onclick="hiderowDiscount('discount_{$index}');discountValues('{$index}'); return false;" name="discount_{$index}" href="#discount_{$index}" class="form-link"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}hide field or section{/ts}"/></a>{/if}
+           <td>{if $index GT 1} <a onclick="hiderow('discount_{$index}','discount');discountValues('{$index}'); return false;" name="discount_{$index}" href="#discount_{$index}" class="form-link"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}hide field or section{/ts}"/></a>{/if}
            </td>
 	   <td> {$form.discount_name.$index.html}</td>
 	   <td> {$form.discount_start_date.$index.html | crmDate }

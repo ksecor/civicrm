@@ -32,7 +32,7 @@
 	<tr id="optionField_{$index}" class="form-item {cycle values="odd-row,even-row"}">
         <td> 
         {if $index GT 1}
-            <a onclick="hiderow('optionField_{$index}'); return false;" name="optionField_{$index}" href="#optionField_{$index}" class="form-link"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}hide field or section{/ts}"/></a>
+            <a onclick="hiderow('optionField_{$index}','optionField'); return false;" name="optionField_{$index}" href="#optionField_{$index}" class="form-link"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}hide field or section{/ts}"/></a>
         {/if}
         </td>
 	    <td> 
