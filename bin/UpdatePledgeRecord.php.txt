@@ -47,10 +47,6 @@ class CRM_UpdatePledgeRecord
         require_once 'CRM/Utils/System.php';
         require_once 'CRM/Utils/Hook.php';
         CRM_Utils_System::authenticateScript( true );
-
-        $config->userFramework          = 'Soap';
-        $config->userFrameworkClass     = 'CRM_Utils_System_Soap';
-        $config->userHookClass          = 'CRM_Utils_Hook_Soap';
     }
     
     public function updatePledgeStatus( )
