@@ -44,8 +44,7 @@
     <onDelete>CASCADE</onDelete>
   </foreignKey> 
   <index>
-    <name>UI_contribution_pledge</name>
-    <unique>true</unique>
+    <name>index_contribution_pledge</name>
     <fieldName>contribution_id</fieldName>
     <fieldName>pledge_id</fieldName>
     <add>2.1</add>

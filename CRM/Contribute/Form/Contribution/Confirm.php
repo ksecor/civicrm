@@ -51,7 +51,6 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
     {
         $config =& CRM_Core_Config::singleton( );
         parent::preProcess( );
-
         if ( $this->_contributeMode == 'express' ) {
             // rfp == redirect from paypal
             $rfp = CRM_Utils_Request::retrieve( 'rfp', 'Boolean',
@@ -659,7 +658,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         if ( $form->_mode == 'test' ) {
             $contribParams["is_test"] = 1;
         }
-
+        
         $ids = array( );
         if ( isset( $contribParams['invoice_id'] ) ) {
             $contribID = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_Contribution',
@@ -678,10 +677,10 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $contribParams['total_amount'] = $contribParams['net_amount'] = (integer) $pledgeParams['amount'] / $params['pledge_installments'];
         }
         
-        
+
         require_once 'CRM/Contribute/BAO/Contribution.php';
         $contribution =& CRM_Contribute_BAO_Contribution::add( $contribParams, $ids );
-
+               
         if ( isset ( $params['pledge_frequency_interval'] ) ) {
             require_once 'CRM/Contribute/PseudoConstant.php';
             $pledgeParams['contact_id'] = $contribution->contact_id;
@@ -703,6 +702,19 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             CRM_Pledge_BAO_Pledge::create($pledgeParams);
         }
         
+        require_once 'CRM/Pledge/BAO/Payment.php';
+        if ( !empty( $form->_params['pledge_amount'] ) ) {
+            foreach ( $form->_params['pledge_amount'] as $paymentId => $dontCare ) {
+                $pledgePaymentParams = array('id'              => $paymentId,
+                                             'contribution_id' => $contribution->id,
+                                             'status_id'       => $contribution->contribution_status_id
+                                             );
+                
+                CRM_Pledge_BAO_Payment::add( $pledgePaymentParams );
+            }  
+        }
+
+
         if ( $online ) {
             require_once 'CRM/Core/BAO/CustomValueTable.php';
             CRM_Core_BAO_CustomValueTable::postProcess( $form->_params,
