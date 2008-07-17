@@ -118,7 +118,7 @@ WHERE pledge_id = %1
         $prevScheduledDate = array ( );
         $prevScheduledDate[1] = CRM_Utils_Date::format( $params['scheduled_date'] );
         for ( $i = 1; $i < $params['installments']; $i++ ) {
-            $prevScheduledDate[$i+1] = CRM_Utils_Date::format(CRM_Utils_Date::intervalAdd( $params['frequency_unit'], $i, $scheduled_date ));
+            $prevScheduledDate[$i+1] = CRM_Utils_Date::format(CRM_Utils_Date::intervalAdd( $params['frequency_unit'], $i * ($params['frequency_interval']) , $scheduled_date ));
         }
         
         $params['scheduled_amount'] = ceil($params['scheduled_amount']);
@@ -127,6 +127,10 @@ WHERE pledge_id = %1
             if ( $i == $params['installments'] ) {
                 $params['scheduled_amount'] = $params['amount'] - ($i-1) * $params['scheduled_amount'];
             }
+            if ( isset( $params['contribution_id'] ) ){
+                $params['status_id'] = 1;
+            }
+ 
             $params['scheduled_date'] = $prevScheduledDate[$i];    
             $payment = self::add( $params );
             if ( is_a( $payment, 'CRM_Core_Error') ) {
@@ -136,6 +140,7 @@ WHERE pledge_id = %1
             
             // we should add contribution id to only first payment record
             if ( isset( $params['contribution_id'] ) ){
+                $params['status_id'] = 2;
                 unset( $params['contribution_id'] );
             }
         }

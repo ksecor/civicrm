@@ -480,7 +480,9 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         } else {
             $params["honor_contact_id"] = 'null';
         }
-      
+        
+        $params['frequency_interval'] = 1;
+
         require_once 'CRM/Pledge/BAO/Pledge.php';
         $pledge =& CRM_Pledge_BAO_Pledge::create( $params ); 
         $this->_id = $pledge->id;
