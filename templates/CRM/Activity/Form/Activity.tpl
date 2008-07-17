@@ -101,12 +101,12 @@
              </tr>
              {/if}
              <tr>
-                <td class="label">{$form.contact_assignee.1.label}<div dojoType="dojox.data.QueryReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra" doClientPaging="false"></div></td>
+                <td class="label">{$form.assignee_contact.1.label}<div dojoType="dojox.data.QueryReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra" doClientPaging="false"></div></td>
                 <td class="tundra">                  
-                   {$form.contact_assignee.1.html}
-                   <span id="assignee_contact_1">
-                      <span id="assignee_contact_0_show">  
-	                 <a href="#" onclick="buildContact(1, 'assignee_contact');return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/>{ts}Add Contact{/ts}</a>
+                   {$form.assignee_contact.1.html}
+                   <span id="contact_assignee_1">
+                      <span id="contact_assignee_0_show">  
+	                 <a href="#" onclick="buildContact(1, 'contact_assignee');return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/>{ts}Add Contact{/ts}</a>
                       </span>
                    </span>
                    <br />{edit}<span class="description">{ts}You can optionally assign this activity to someone. Assigned activities will appear in their Contact Dashboard.{/ts}</span>{/edit}

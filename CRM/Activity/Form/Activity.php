@@ -194,9 +194,9 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         }
         
         // build assignee contact combo
-        if ( CRM_Utils_Array::value( 'contact_assignee', $_POST ) ) {
-            foreach ( $_POST['contact_assignee'] as $key => $value ) {
-                CRM_Contact_Form_AddContact::buildQuickForm( $this, "contact_assignee[{$key}]" );
+        if ( CRM_Utils_Array::value( 'assignee_contact', $_POST ) ) {
+            foreach ( $_POST['assignee_contact'] as $key => $value ) {
+                CRM_Contact_Form_AddContact::buildQuickForm( $this, "assignee_contact[{$key}]" );
             }
         }
         
@@ -301,8 +301,8 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
 
             $contactCount = $contactCount + 1;
             $this->assign('contactCount', $contactCount );
-            $this->assign('contactFieldName', 'contact_assignee' );
-            return CRM_Contact_Form_AddContact::buildQuickForm( $this, "contact_assignee[{$contactCount}]" );
+            $this->assign('contactFieldName', 'assignee_contact' );
+            return CRM_Contact_Form_AddContact::buildQuickForm( $this, "assignee_contact[{$contactCount}]" );
         }
 
         //build other activity links
@@ -440,19 +440,19 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         }
 
         if ( $this->_assigneeContactId ) {
-            $defaultAssigneeContactName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
-                                                                       $this->_assigneeContactId,
-                                                                       'sort_name' );
+//             $defaultAssigneeContactName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+//                                                                        $this->_assigneeContactId,
+//                                                                        'sort_name' );
         }
         
-        $assigneeContactField = $this->add( 'text','contact_assignee[1]', ts('Assigned To'), $attributes );
-        if ( $assigneeContactField->getValue( ) ) {
-            $this->assign( 'assignee_contact_value',  $assigneeContactField->getValue( ) );
-        } else {
-            // at this stage, we're not assigning any default contact to assigned user - it
-            // was earlier set to null in setDefaultValues
-            $this->assign('assignee_contact_value', $defaultAssigneeContactName );
-        }
+        $assigneeContactField = $this->add( 'text','assignee_contact[1]', ts('Assigned To'), $attributes );
+//         if ( $assigneeContactField->getValue( ) ) {
+//             $this->assign( 'assignee_contact_value',  $assigneeContactField->getValue( ) );
+//         } else {
+//             // at this stage, we're not assigning any default contact to assigned user - it
+//             // was earlier set to null in setDefaultValues
+//             $this->assign('assignee_contact_value', $defaultAssigneeContactName );
+//         }
         
         // Should we include Case Subject field (cases are enabled, we in a Contact's context - not standalone, and contact has one or more cases)
         if ( $this->_viewOptions['CiviCase'] && $this->_context != 'standalone' ) {
