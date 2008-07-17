@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-07-07 18:44-0700\n"
-"PO-Revision-Date: 2008-07-06 23:15-0700\n"
+"PO-Revision-Date: 2008-07-08 07:34-0700\n"
 "Last-Translator: sunil pawar <sunil.pawar@webaccess.co.in>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -2658,7 +2658,7 @@ msgstr ""
 
 #: CRM/Member/Menu.php
 msgid "Membership Status Rules"
-msgstr ""
+msgstr "सदस्यता स्थिति के नियम"
 
 #: CRM/Member/Menu.php
 msgid ""
@@ -2669,7 +2669,7 @@ msgstr ""
 
 #: CRM/Member/Menu.php templates/CRM/Member/Form/Search.tpl
 msgid "Find Members"
-msgstr ""
+msgstr "सदस्यों काे खोजें"
 
 #: CRM/Member/Page/MembershipStatus.php
 msgid "Are you sure you want to disable this membership status rule?"
@@ -2678,20 +2678,20 @@ msgstr ""
 #: CRM/Member/Page/MembershipStatus.php
 #: templates/CRM/Member/Form/MembershipStatus.tpl
 msgid "Edit Membership Status"
-msgstr ""
+msgstr "सदस्यता स्थिति संपादन"
 
 #: CRM/Member/Page/MembershipStatus.php
 msgid "Disable Membership Status"
-msgstr ""
+msgstr "सदस्यता स्थिति निष्क्रिय"
 
 #: CRM/Member/Page/MembershipStatus.php
 msgid "Enable Membership Status"
-msgstr ""
+msgstr "सक्षम सदस्यता स्थिति"
 
 #: CRM/Member/Page/MembershipStatus.php
 #: templates/CRM/Member/Form/MembershipStatus.tpl
 msgid "Delete Membership Status"
-msgstr ""
+msgstr "सदस्यता स्थिति नष्ट करे"
 
 #: CRM/Member/Page/MembershipType.php
 msgid "Are you sure you want to disable this membership type?"
@@ -2699,20 +2699,20 @@ msgstr ""
 
 #: CRM/Member/Page/MembershipType.php
 msgid "Disable Membership Type"
-msgstr ""
+msgstr "सदस्यता प्रकार निष्क्रिय"
 
 #: CRM/Member/Page/MembershipType.php
 msgid "Enable Membership Type"
-msgstr ""
+msgstr "सक्षम सदस्यता प्रकार"
 
 #: CRM/Member/Page/MembershipType.php
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid "Delete Membership Type"
-msgstr ""
+msgstr "सदस्यता प्रकार नष्ट करे"
 
 #: CRM/Member/Selector/Search.php templates/CRM/Member/Form/Task/Print.tpl
 msgid "Member Since"
-msgstr ""
+msgstr "सदस्य से"
 
 #: CRM/Member/Selector/Search.php
 msgid "CiviCRM Member Search"
@@ -2721,15 +2721,15 @@ msgstr ""
 #: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
 #: templates/CRM/Contribute/Page/AcceptCreditCard.tpl
 msgid "New Credit Card"
-msgstr ""
+msgstr "नई क्रेडिट कार्ड"
 
 #: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
 msgid "Edit Credit Card"
-msgstr ""
+msgstr "क्रेडिट कार्ड संपादन"
 
 #: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
 msgid "Delete Credit Card"
-msgstr ""
+msgstr "क्रेडिट कार्ड नष्ट करे"
 
 #: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
 msgid ""
@@ -2784,7 +2784,7 @@ msgstr ""
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 #: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
 msgid "Membership Fee"
-msgstr ""
+msgstr "सदस्यता शुल्क"
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
@@ -2792,7 +2792,7 @@ msgstr ""
 #: templates/CRM/Event/Form/ParticipantView.tpl
 #: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
 msgid "Total"
-msgstr ""
+msgstr "कुल"
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 msgid "I want to contribute this amount every %1 %2(s) for %3 installments."
@@ -2819,7 +2819,7 @@ msgstr ""
 #: templates/CRM/Event/Form/Registration/Register.tpl
 #: templates/CRM/Event/Form/Registration/ThankYou.tpl
 msgid "Billing Name and Address"
-msgstr ""
+msgstr "बिल के लिये नाम और पता"
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
@@ -2831,7 +2831,7 @@ msgstr ""
 #: templates/CRM/Event/Form/Registration/Register.tpl
 #: templates/CRM/Event/Form/Registration/ThankYou.tpl
 msgid "Credit or Debit Card Information"
-msgstr ""
+msgstr "क्रेडिट या डेबिट कार्ड जानकारी"
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
@@ -2851,16 +2851,16 @@ msgstr ""
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 #: templates/CRM/Event/Form/Registration/Confirm.tpl
 msgid "Checkout with Google"
-msgstr ""
+msgstr "गुगल के साथ भुगतान करे"
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 #: templates/CRM/Event/Form/Registration/Confirm.tpl
 msgid "Click the Google Checkout button to continue."
-msgstr ""
+msgstr "जारी रखने के लिए गुगल चेकआऊट बटन पर क्लिक करें।"
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
 msgid "every"
-msgstr ""
+msgstr "प्रत्येक"
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
 msgid "for"
@@ -2918,20 +2918,20 @@ msgstr ""
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
 #: templates/CRM/Event/Form/Registration/Register.tpl
 msgid "Checkout with PayPal"
-msgstr ""
+msgstr "पेपैल के साथ चेकआऊट करे"
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
 #: templates/CRM/Event/Form/Registration/Register.tpl
 msgid "Click the PayPal button to continue."
-msgstr ""
+msgstr "जारी रखने के लिए पेपैल बटन पर क्लिक करें।"
 
 #: templates/CRM/Contribute/Form/Contribution/MembershipBlock.tpl
 msgid "Select a Membership Renewal Level"
-msgstr ""
+msgstr "सदस्यता नवीकरण स्तर चुनें"
 
 #: templates/CRM/Contribute/Form/Contribution/MembershipBlock.tpl
 msgid "Select a Membership Level"
-msgstr ""
+msgstr "सदस्यता स्तर चुनें"
 
 #: templates/CRM/Contribute/Form/Contribution/MembershipBlock.tpl
 msgid "(contribute at least %1 to be eligible for this membership)"
@@ -2939,11 +2939,11 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/MembershipBlock.tpl
 msgid "Your <strong>%2</strong> membership expired on %1."
-msgstr ""
+msgstr "आपकी <strong>%2 </strong> सदस्यता %1 पर समाप्त हो गई है।"
 
 #: templates/CRM/Contribute/Form/Contribution/MembershipBlock.tpl
 msgid "Your <strong>%2</strong> membership expires on %1."
-msgstr ""
+msgstr "आपकी <strong>%2</strong> सदस्यता %1 पर खत्म हो रही है।"
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl
 msgid ""
@@ -3059,7 +3059,7 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
 msgid "Fixed Contribution Options"
-msgstr ""
+msgstr "निश्चित विकल्प योगदान"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
 msgid ""
@@ -3070,7 +3070,7 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
 msgid "Contribution Label"
-msgstr ""
+msgstr "योगदान लेबल"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.tpl
 msgid ""
@@ -3349,7 +3349,7 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Widget.tpl
 msgid "Configure Widget"
-msgstr ""
+msgstr "कॉन्फ़िगर विजेट"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Widget.tpl
 msgid ""
@@ -3442,28 +3442,28 @@ msgstr ""
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
 msgid "Membership Information"
-msgstr ""
+msgstr "सदस्यता जानकारी"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
 msgid "Membership Start Date"
-msgstr ""
+msgstr "सदस्यता आरंभ तिथि"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
 #: templates/CRM/Member/Form/MembershipRenewal.tpl
 msgid "Membership End Date"
-msgstr ""
+msgstr "सदस्यता समाप्ति तिथि"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 #: templates/CRM/Contribute/Form/Message.tpl
 msgid "Contribution Information"
-msgstr ""
+msgstr "योगदान जानकारी"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 msgid "%1 Membership"
-msgstr ""
+msgstr "%1 सदस्यता"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
@@ -3605,7 +3605,7 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Additional Details"
-msgstr ""
+msgstr "अतिरिक्त विवरण"
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Non-deductible portion of this contribution."
@@ -3617,7 +3617,7 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Net value of the contribution (Total Amount minus Fee)."
-msgstr ""
+msgstr "योगदान का नेट मूल्य ( कुल राशि ऋण शुल्क )।"
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Unique internal reference ID for this contribution."
@@ -3672,20 +3672,20 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 msgid "pending"
-msgstr ""
+msgstr "लम्बित"
 
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 msgid "Option"
-msgstr ""
+msgstr "विकल्प"
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 #: templates/CRM/Contribute/Page/ManagePremiums.tpl
 msgid "New Premium"
-msgstr ""
+msgstr "नई प्रीमियम"
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid "Preview a Premium"
-msgstr ""
+msgstr "प्रीमियम पूर्वावलोकन"
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid "Delete Premium Product"
@@ -3793,20 +3793,20 @@ msgstr ""
 #: templates/CRM/Contribute/Form/Message.tpl
 #: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
 msgid "Thanks for your support."
-msgstr ""
+msgstr "समर्थन के लिए धन्यवाद।"
 
 #: templates/CRM/Contribute/Form/Message.tpl
 #: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
 msgid "Received Date"
-msgstr ""
+msgstr "प्राप्त तिथि"
 
 #: templates/CRM/Contribute/Form/Message.tpl
 msgid "Additional Information"
-msgstr ""
+msgstr "अतिरिक्त जानकारी"
 
 #: templates/CRM/Contribute/Form/Message.tpl
 msgid "Sent"
-msgstr ""
+msgstr "भेजा"
 
 #: templates/CRM/Contribute/Form/Offline.tpl
 msgid ""
@@ -3827,15 +3827,15 @@ msgstr ""
 #: templates/CRM/Contribute/Form/PaymentInstrument.tpl
 #: templates/CRM/Contribute/Page/PaymentInstrument.tpl
 msgid "New Payment Instrument"
-msgstr ""
+msgstr "नई भुगतान साधन"
 
 #: templates/CRM/Contribute/Form/PaymentInstrument.tpl
 msgid "Edit Payment Instrument"
-msgstr ""
+msgstr "भुगतान साधन संपादन"
 
 #: templates/CRM/Contribute/Form/PaymentInstrument.tpl
 msgid "Delete Payment Instrument"
-msgstr ""
+msgstr "भुगतान साधन नष्ट"
 
 #: templates/CRM/Contribute/Form/PaymentInstrument.tpl
 msgid ""
@@ -3853,15 +3853,15 @@ msgstr ""
 #: templates/CRM/Event/Form/Registration/Confirm.tpl
 #: templates/CRM/Event/Form/Registration/ThankYou.tpl
 msgid "Event Information"
-msgstr ""
+msgstr "कार्यक्रम जानकारी"
 
 #: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
 msgid "Registration Date"
-msgstr ""
+msgstr "पंजीकरण तिथि"
 
 #: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
 msgid "Registration Fee"
-msgstr ""
+msgstr "पंजीकरण शुल्क"
 
 #: templates/CRM/Contribute/Form/SearchContribution.tpl
 msgid "Find Contribution Pages"
@@ -4347,7 +4347,7 @@ msgstr ""
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "Recent Contributions"
-msgstr ""
+msgstr "हाल योगदान"
 
 #: templates/CRM/Contribute/Page/ManagePremiums.tpl
 msgid ""
@@ -4984,7 +4984,7 @@ msgstr ""
 
 #: templates/CRM/Event/Page/DashBoard.tpl
 msgid "Recent Registrations"
-msgstr ""
+msgstr "हाल पंजीकरण"
 
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
 msgid ""
@@ -6004,7 +6004,7 @@ msgstr ""
 
 #: templates/CRM/Member/Page/DashBoard.tpl
 msgid "Recent Memberships"
-msgstr ""
+msgstr "हाल सदस्यताएँ"
 
 #: templates/CRM/Member/Page/MembershipStatus.tpl
 msgid ""

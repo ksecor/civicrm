@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-07-07 18:43-0700\n"
-"PO-Revision-Date: 2008-07-07 12:02-0700\n"
-"Last-Translator: AE <aeinstein@virtas.net>\n"
+"PO-Revision-Date: 2008-07-11 11:57-0700\n"
+"Last-Translator: Felix Ufer <info@felixufer.de>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -786,8 +786,9 @@ msgid "Manage"
 msgstr "Organisieren"
 
 #: CRM/Admin/Page/Admin.php CRM/Core/Menu.php
+#, fuzzy
 msgid "Option Lists"
-msgstr "Liste der Optionen"
+msgstr "Optionslisten"
 
 #: CRM/Admin/Page/DedupeRules.php CRM/Admin/Page/DupeMatch.php
 msgid "Edit Rule"
@@ -2591,11 +2592,11 @@ msgstr "Einstellungen - Komponenten aktivieren"
 
 #: CRM/Admin/Form/Setting/Component.php
 msgid "Enable >>"
-msgstr "Aktivieren &gt;&gt;"
+msgstr "Aktivieren >>"
 
 #: CRM/Admin/Form/Setting/Component.php
 msgid "<< Disable"
-msgstr "&lt;&lt; Deaktivieren"
+msgstr "<< Deaktivieren"
 
 #: CRM/Admin/Form/Setting/Date.php
 msgid "Settings - Date"
@@ -5190,9 +5191,8 @@ msgid ""
 msgstr ""
 
 #: CRM/Core/Menu.php
-#, fuzzy
 msgid "Gender Options"
-msgstr "Optionen ansehen"
+msgstr "Geschlechterspezifische Einstellungen"
 
 #: CRM/Core/Menu.php
 msgid ""
@@ -9432,16 +9432,17 @@ msgstr ""
 "Provider hinzufügen wie gebraucht werden."
 
 #: templates/CRM/Admin/Page/Options.tpl
+#, fuzzy
 msgid ""
 "When recording Instant Messenger (IM) 'screen names' for contacts, it is "
 "useful to include the IM Service Provider (e.g. AOL, Yahoo, etc.). CiviCRM "
 "is installed with the most commonly encountered service providers. "
 "Administrators may define as many additional providers as needed."
 msgstr ""
-"Wenn man einen Instant Messenger (IM) 'screen name' in einem Kontakt "
-"aufnimmt ist es sinnvoll den Service den die Person benutzt mit auf zu "
-"nehmen (z.B. AOL, Yahoo, Jabber, etc.). CiviCRM hat die meist benutzten "
-"Provider schon eingebaut. Administratoren können aber noch weitere Provider "
+"Wenn man einen Instant Messenger (IM) Benutzernamen einem Kontakt hinzufügt "
+"ist es sinnvoll den entsprechenden IM Service Provider einzubinden (z.B. "
+"AOL, Yahoo, Jabber, usw.). CiviCRM hat die am häufigsten benutzen Provider "
+"schon eingebaut. Administratoren können aber noch weitere Provider "
 "hinzufügen."
 
 #: templates/CRM/Admin/Page/Options.tpl
@@ -9518,6 +9519,7 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Page/Options.tpl
+#, fuzzy
 msgid ""
 "Use Event Types to categorize your events. Event feeds can be filtered by "
 "Event Type and participant searches can use Event Type as a criteria."
@@ -9527,6 +9529,7 @@ msgstr ""
 "Teilnehmersuche kann der Typ als Suchkriterium dienen."
 
 #: templates/CRM/Admin/Page/Options.tpl
+#, fuzzy
 msgid ""
 "Define participant roles for events here (e.g. Attendee, Host, Speaker...). "
 "You can then assign roles and search for participants by role."
@@ -9536,6 +9539,7 @@ msgstr ""
 "Teilnehmer nach Rollen gesucht werden."
 
 #: templates/CRM/Admin/Page/Options.tpl
+#, fuzzy
 msgid ""
 "Define statuses for event participants here (e.g. Registered, Attended, "
 "Cancelled...). You can then assign statuses and search for participants by "
@@ -10082,6 +10086,7 @@ msgid "Tags and Groups"
 msgstr "Tags und Gruppen"
 
 #: templates/CRM/Contact/Form/IM.tpl
+#, fuzzy
 msgid "Select im service provider, and enter screen-name / user id."
 msgstr ""
 "Wählen Sie einen Instant Messenger Provider aus, und geben Sie den Screen-"
@@ -11535,7 +11540,6 @@ msgid "Change Recurring Contribution"
 msgstr "Kontakte finden"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
-#, fuzzy
 msgid "You are not currently subscribed to any Groups."
 msgstr "Sie sind zur Zeit in keiner Gruppe eingetragen."
 
@@ -11614,19 +11618,16 @@ msgid "You are not registered for any current or upcoming Events."
 msgstr "Sie nehmen an keiner laufenden oder kommenden Veranstaltung teil."
 
 #: templates/CRM/Contact/Page/View/UserDashBoard.tpl
-#, fuzzy
 msgid "Your Group(s)"
-msgstr "Gruppe(n)"
+msgstr "Ihre Gruppen"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard.tpl
-#, fuzzy
 msgid "Your Contribution(s)"
-msgstr "Exportiere Zuwendungen"
+msgstr "Ihre Zuwendungen"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard.tpl
-#, fuzzy
 msgid "Your Membership(s)"
-msgstr "Gruppenmitgliedschaften"
+msgstr "Ihre Mitgliedschaften"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard.tpl
 msgid "Your Event(s)"
@@ -11720,6 +11721,7 @@ msgstr ""
 "Benutzern angezeigt."
 
 #: templates/CRM/Custom/Form/Field.tpl
+#, fuzzy
 msgid ""
 "Is this field included in the Advanced and component search forms? NOTE: "
 "This feature is available to custom fields used for <strong>Contacts</"
@@ -12205,7 +12207,7 @@ msgstr "Eingangsdatum"
 #: templates/CRM/Grant/Import/Form/Preview.tpl
 #: templates/CRM/Grant/Import/Form/Summary.tpl
 msgid "Total rows (participant records) in uploaded file."
-msgstr "Anzahl der Zeilen (Kontaktdatensätze) in der hochgeladenen Datei."
+msgstr "Anzahl der Zeilen (Teilnehmerdatensätze) in der hochgeladenen Datei."
 
 #: templates/CRM/Grant/Import/Form/Summary.tpl
 #, fuzzy
@@ -12216,7 +12218,7 @@ msgid_plural ""
 "CiviCRM has detected mismatched participant IDs. These records have not been "
 "Updated."
 msgstr[0] ""
-"CiviCRM hat %1 ungültige Datensätze gefunden. Diese Daten werden nicht "
+"CiviCRM hat %1 ungültigen Datensatz gefunden. Diese Daten werden nicht "
 "importiert."
 msgstr[1] ""
 "CiviCRM hat %1 ungültige Datensätze gefunden. Diese Daten werden nicht "
@@ -13325,6 +13327,10 @@ msgid ""
 "Profile fields. You can copy this HTML code and paste it into any block or "
 "page on ANY website where you want to collect contact information."
 msgstr ""
+"Der untenstehende HTML-Code zeigt ein Formular, das aus den aktivierten "
+"CiviCRM-Profilfeldern besteht. Du annst diesen HTML-Code kopieren und an "
+"beliebiger Stelle einer Seite, auf der Du Kontaktinformationn sammeln "
+"möchtest, einfügen. "
 
 #: templates/CRM/UF/Page/Group.tpl
 #, fuzzy
@@ -13555,24 +13561,21 @@ msgid "Sample Footer for TEXT formatted content."
 msgstr "Beispiel-Fußzeile für Inhalte im TEXT-Format"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Subscribe Message"
-msgstr "Nachricht bei Abbestellung"
+msgstr "Nachricht bei Registrierung"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Your Subscription has been Activated"
-msgstr "Ihre Multiple Choice Option wurde gelöscht."
+msgstr "Deine Registrierung wurde aktivert."
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "Un-subscribe Confirmation"
-msgstr "Kontakte zu Organisation hinzufügen"
+msgstr "Bestätigung für das Löschen der Registrierung"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Re-subscribe Confirmation"
-msgstr "Systemeinstellungen"
+msgstr "Bestätigung der erneuten Registrierung"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
@@ -13775,9 +13778,8 @@ msgid "Administrator"
 msgstr "Administrator"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Authenticated"
-msgstr "Authentifiziert"
+msgstr "authentifiziert"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Credit Card"
@@ -13786,7 +13788,7 @@ msgstr "Kredit-Karte"
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "Debit Card"
-msgstr "Bank-Karte"
+msgstr "Debit-/Kundenkarte"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Cash"
@@ -13794,7 +13796,7 @@ msgstr "Bargeld"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Check"
-msgstr "Scheck (\"Check\")"
+msgstr "Scheck"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "EFT"
@@ -13978,7 +13980,7 @@ msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "API Login"
-msgstr ""
+msgstr "API Login"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy

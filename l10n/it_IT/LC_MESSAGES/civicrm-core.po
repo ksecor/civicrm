@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-07-07 18:43-0700\n"
-"PO-Revision-Date: 2008-07-04 23:43-0700\n"
+"PO-Revision-Date: 2008-07-10 23:19-0700\n"
 "Last-Translator: Eugenia Franzoni <eugenia@catnic.it>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -565,7 +565,7 @@ msgstr "Importa File Dati"
 
 #: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "A valid file must be uploaded."
-msgstr "Deve essere trasmesso un file valido."
+msgstr "Deve essere inviato al sistema un file valido."
 
 #: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "File size should be less than %1 MBytes (%2 bytes)"
@@ -594,7 +594,7 @@ msgstr "Compila"
 
 #: CRM/Activity/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Upload Data"
-msgstr "Trasferisci Dati"
+msgstr "Invia dati al sistema"
 
 #: CRM/Activity/Import/Parser/Activity.php CRM/Import/Parser/Contact.php
 msgid "Missing required fields"
@@ -1485,7 +1485,7 @@ msgstr "%1 deve essere un numero intero."
 msgid "Could not move custom file to custom upload directory"
 msgstr ""
 "Non è possibile spostare il file personalizzato nella propria cartella di "
-"upload"
+"invio dati"
 
 #: CRM/Core/BAO/Note.php CRM/Note/Form/Note.php
 msgid "We could not find your logged in user ID"
@@ -2661,7 +2661,7 @@ msgstr "Font Captcha"
 
 #: CRM/Admin/Form/Setting/Path.php
 msgid "Settings - Upload Directories"
-msgstr "Impostazioni - Cartelle di Upload"
+msgstr "Impostazioni - Cartelle di invio dati"
 
 #: CRM/Admin/Form/Setting/Path.php
 msgid "Temporary Files"
@@ -2733,7 +2733,7 @@ msgstr "URL delle Risorse CiviCRM"
 
 #: CRM/Admin/Form/Setting/Url.php
 msgid "Image Upload URL"
-msgstr "URL di Upload Immagini"
+msgstr "URL di Invio Immagini"
 
 #: CRM/Admin/Form/Setting/Url.php
 msgid "Force Secure URLs (SSL)"
@@ -3133,11 +3133,11 @@ msgstr "Tipo di relazione non valido"
 
 #: CRM/Contact/Form/Address.php
 msgid "Addt'l Address 1"
-msgstr "Indirizzo 1"
+msgstr "Dettagli indirizzo"
 
 #: CRM/Contact/Form/Address.php
 msgid "Addt'l Address 2"
-msgstr "Indirizzo 2"
+msgstr "Ulteriori dettagli"
 
 #: CRM/Contact/Form/Address.php
 msgid "Postal Code Suffix"
@@ -3259,7 +3259,7 @@ msgstr "Non si possono avere due recapiti della stessa tipologia"
 
 #: CRM/Contact/Form/Edit.php
 msgid "One location should be marked as primary."
-msgstr "Si deve impostare un recapito principale."
+msgstr "Un indirizzo deve essere impostato come principale."
 
 #: CRM/Contact/Form/Email.php
 msgid "Email (preferred)"
@@ -5305,7 +5305,7 @@ msgid ""
 "verify that the 'Temporary Files' setting points to a valid path which is "
 "writable by your web server."
 msgstr ""
-"Impossibile spostare il file uploadato %1 nella directory di upload %2. "
+"Impossibile spostare il file caricato %1 nella directory di invio dati %2. "
 "Prego verificare che l'impostazione di \"File temporanei\" punti ad un "
 "percorso valido e scrivibile dal server Web."
 
@@ -7033,9 +7033,8 @@ msgstr ""
 "prima di procedere. "
 
 #: CRM/Upgrade/TwoZero/Form/Step1.php
-#, fuzzy
 msgid "Duplicate entries found in %1 for the column '%2'."
-msgstr "Valore mancante per %1 nella colonna '%2'."
+msgstr "Voci duplicate trovate in %1 per la colonna '%2'."
 
 #: CRM/Upgrade/TwoZero/Form/Step1.php
 msgid "CiviCRM 2.0 Upgrade: Step One (Database Cleanup)"
@@ -8076,12 +8075,12 @@ msgstr ""
 "Per creare un file di questo tipo potete usare un foglio di calcolo (come "
 "Excel) ed utilizzare Salva con nome, cambiando il formato del file. Salvate "
 "il file sull'hard disk (o in un punto accessibile della rete) e procedete "
-"con il Passo 1 (Upload dei dati)."
+"con il Passo 1 (Invio dei dati al sistema)."
 
 #: templates/CRM/Activity/Import/Form/UploadFile.tpl
 #: templates/CRM/Import/Form/UploadFile.tpl
 msgid "Upload Data File"
-msgstr "Aggiorna file dati"
+msgstr "Invia file dei dati al sistema"
 
 #: templates/CRM/Activity/Import/Form/UploadFile.tpl
 #: templates/CRM/Grant/Import/Form/UploadFile.tpl
@@ -8843,15 +8842,15 @@ msgid ""
 "civicrm.settings.php. If you need to modify the defaults, make sure that "
 "your web server has write access to the directories."
 msgstr ""
-"Per queste directory di upload verranno forniti dei valori predefiniti la "
-"prima volta che si accede a CiviCRM, basandosi sul valore di "
+"Per queste directory di invio dati verranno forniti dei valori predefiniti "
+"la prima volta che si accede a CiviCRM, basandosi sul valore di "
 "CIVICRM_TEMPLATE_COMPILEDIR indicato in civicrm.settings.php. Se dovete "
 "modificare i default, assicuratevi che il server Web abbia i permessi di "
 "scrittura sulle directory."
 
 #: templates/CRM/Admin/Form/Setting/Path.tpl
 msgid "Upload Directories"
-msgstr "Invia directory"
+msgstr "Invia directory al sistema"
 
 #: templates/CRM/Admin/Form/Setting/Path.tpl
 msgid ""
@@ -9637,8 +9636,8 @@ msgid ""
 "Configure directories in your file system for temporary uploads, images, "
 "custom files and custom templates."
 msgstr ""
-"Configura le directory nel filesystem per gli upload temporanei, le immagini "
-"e i file e i modelli personalizzati."
+"Configura le directory nel filesystem per l'invio di dati temporanei al "
+"sistema, per le immagini e i file e i modelli personalizzati."
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid "Resource URLs"
@@ -12182,9 +12181,9 @@ msgid ""
 "The Event Import Wizard allows you to easily upload event participation data "
 "such as event registrations from other applications into CiviCRM."
 msgstr ""
-"L'autocomposizione di Importa Eventi permette di caricare facilmente i dati "
-"sulle partecipazioni, come le registrazioni dei eventi, da altre "
-"applicazioni in CiviCRM."
+"L'autocomposizione di Importa Eventi permette di inviare facilmente al "
+"sistema i dati sulle partecipazioni, come le registrazioni dei eventi, da "
+"altre applicazioni in CiviCRM."
 
 #: templates/CRM/Grant/Import/Form/UploadFile.tpl
 msgid ""
@@ -12450,7 +12449,7 @@ msgstr ""
 
 #: templates/CRM/Import/Form/Preview.tpl templates/CRM/Import/Form/Summary.tpl
 msgid "Total rows (contact records) in uploaded file."
-msgstr "Righe totali (record dei contatti) nel file uploadato."
+msgstr "Righe totali (record dei contatti) nel file caricato."
 
 #: templates/CRM/Import/Form/Preview.tpl templates/CRM/Import/Form/Summary.tpl
 msgid ""

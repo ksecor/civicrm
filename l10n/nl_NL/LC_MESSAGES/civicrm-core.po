@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-07-07 18:43-0700\n"
-"PO-Revision-Date: 2008-07-01 06:40-0700\n"
+"PO-Revision-Date: 2008-07-16 11:27-0700\n"
 "Last-Translator: Erik Stielstra <info@erikstielstra.nl>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -527,7 +527,7 @@ msgstr "Om import mapping te bewaren is de naam vereist"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Duplicate Import Mapping Name"
-msgstr "Deze import mapping naam komt al voor"
+msgstr "Deze import mapping-naam bestaat al"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Match Fields"

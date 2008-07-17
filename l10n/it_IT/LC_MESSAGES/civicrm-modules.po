@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-07-07 18:44-0700\n"
-"PO-Revision-Date: 2008-07-04 01:58-0700\n"
+"PO-Revision-Date: 2008-07-09 00:31-0700\n"
 "Last-Translator: Eugenia Franzoni <eugenia@catnic.it>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -178,9 +178,8 @@ msgid "Delete Contributions"
 msgstr "Elimina Contributi"
 
 #: CRM/Contribute/Form/Task/Export.php CRM/Contribute/Task.php
-#, fuzzy
 msgid "Export Contributions"
-msgstr "Stampa Contributi"
+msgstr "Esporta Contributi"
 
 #: CRM/Contribute/Invoke.php CRM/Contribute/Menu.php
 msgid "Contribution Types"
@@ -191,9 +190,8 @@ msgid "Manage Premiums"
 msgstr "Gestisci Incentivi"
 
 #: CRM/Contribute/Invoke.php CRM/Contribute/Menu.php
-#, fuzzy
 msgid "Import Contributions"
-msgstr "Stampa Contributi"
+msgstr "Importa Contributi"
 
 #: CRM/Contribute/Invoke.php CRM/Member/Invoke.php
 msgid "DashBoard"
@@ -208,7 +206,7 @@ msgstr "Gestione Pagine Contributi"
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 #: templates/CRM/Event/Form/Registration/PreviewHeader.tpl
 msgid "Test-drive"
-msgstr "Test - drive"
+msgstr "Test di funzionamento"
 
 #: CRM/Contribute/Page/ContributionPage.php CRM/Event/Page/ManageEvent.php
 msgid "Live Page"
@@ -261,23 +259,20 @@ msgid "Payment Status"
 msgstr "Stato del pagamento"
 
 #: CRM/Event/Form/Search.php CRM/Event/Selector/Search.php
-#, fuzzy
 msgid "Participant"
-msgstr "ID Partecipante"
+msgstr "Partecipante"
 
 #: CRM/Event/Form/Task/Export.php CRM/Event/Task.php
 msgid "Export Participants"
 msgstr "Esportazione Partecipanti"
 
 #: CRM/Event/Form/Task/Export.php CRM/Member/Form/Task/Export.php
-#, fuzzy
 msgid "Display Name"
-msgstr "Visualizza costo minimo"
+msgstr "Visualizza Nome"
 
 #: CRM/Event/Invoke.php CRM/Event/Menu.php
-#, fuzzy
 msgid "Import Participants"
-msgstr "Esportazione Partecipanti"
+msgstr "Importazione Partecipanti"
 
 #: CRM/Event/Menu.php CRM/Event/Page/ManageEvent.php
 msgid "Manage Events"
@@ -1031,7 +1026,7 @@ msgstr "SKU"
 
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "Upload from my computer"
-msgstr "Fai l'upload dal mio computer"
+msgstr "Carica i dati dal mio computer"
 
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "Display image and thumbnail from these locations on the web:"
@@ -1694,6 +1689,9 @@ msgid ""
 "to change your registration, or you feel that you've gotten this message in "
 "error, please contact the site administrator."
 msgstr ""
+"Sembra che ti sia già registrato a questo evento. Se vuoi modificare la tua "
+"registrazione o pensi che questo messaggio sia un errore, per favore "
+"contatta l'amministratore del sito."
 
 #: CRM/Event/Form/Registration/ThankYou.php
 msgid "Thank You Page"
@@ -2188,7 +2186,7 @@ msgstr "Salva come nuovo template"
 
 #: CRM/Mailing/Form/Upload.php
 msgid "Upload TEXT Message"
-msgstr "Upload messaggio di testo"
+msgstr "Carica messaggio di testo"
 
 #: CRM/Mailing/Form/Upload.php
 msgid "File size should be less than 1 MByte"
@@ -2200,7 +2198,7 @@ msgstr "Il file deve essere in codifica UTF-8"
 
 #: CRM/Mailing/Form/Upload.php
 msgid "Upload HTML Message"
-msgstr "Upload messaggio HTML"
+msgstr "Carica messaggio HTML"
 
 #: CRM/Mailing/Form/Upload.php
 msgid "Please provide either a Text or HTML formatted message - or both."
@@ -3793,7 +3791,7 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/PreviewHeader.tpl
 msgid "Test-drive Your Contribution Page"
-msgstr "Test della pagina di contributi"
+msgstr "Esecuzione di prova della pagina di contributi"
 
 #: templates/CRM/Contribute/Form/Contribution/PreviewHeader.tpl
 msgid ""
@@ -3808,7 +3806,7 @@ msgid ""
 "processor's documentation for information on values to use for test credit "
 "card number, security code, postal code, etc."
 msgstr ""
-"La pagina è in esecuzione in <strong>modalità di test</strong>. Le "
+"La pagina è in esecuzione in <strong>modalità di prova</strong>. Le "
 "transazioni verranno inviate al server di test del gestore dei pagamenti. "
 "<strong>Non verranno effettuate transazioni finanziarie, ma verrà creato un "
 "record dei contatti e nel database sarà salvato un record di test per il "
@@ -4161,7 +4159,7 @@ msgid ""
 "Available' icon - by selecting the 'default image'."
 msgstr ""
 "Si può caricare un'immagine dal computer O inserire un URL già sul Web. Se "
-"si sceglie di caricare un'imamgine, viene creata una thumbnail in "
+"si sceglie di caricare un'immagine, viene creata una thumbnail in "
 "automatico. Se non si ha disponibile un'immagine, si può anche indicare di "
 "visualizzare un'icona di \"nessuna immagine disponibile\" selezionando "
 "l''immagine predefinita'."
@@ -5455,13 +5453,12 @@ msgstr "Elemento"
 #: templates/CRM/Event/Form/Registration/LineItem.tpl
 #: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
 msgid "Qty"
-msgstr ""
+msgstr "Q.tà"
 
 #: templates/CRM/Event/Form/ParticipantView.tpl
 #: templates/CRM/Event/Form/Registration/LineItem.tpl
-#, fuzzy
 msgid "Unit Price"
-msgstr "Prezzo totale"
+msgstr "Prezzo unitario"
 
 #: templates/CRM/Event/Form/ParticipantView.tpl
 msgid "Event Level"
@@ -5507,7 +5504,7 @@ msgstr "Totale Evento"
 
 #: templates/CRM/Event/Form/Registration/PreviewHeader.tpl
 msgid "Test-drive Your Event Registration Page"
-msgstr "Esegui un test della pagian di registrazione evento"
+msgstr "Esegui un test di funzionamento della pagina di registrazione evento"
 
 #: templates/CRM/Event/Form/Registration/PreviewHeader.tpl
 msgid ""
@@ -5972,9 +5969,8 @@ msgstr ""
 "per rivedere le selezioni."
 
 #: templates/CRM/Mailing/Form/Settings.tpl
-#, fuzzy
 msgid "Tracking"
-msgstr "Tracciamento URL"
+msgstr "Tracciamento"
 
 #: templates/CRM/Mailing/Form/Settings.tpl
 msgid ""
@@ -6969,8 +6965,8 @@ msgid ""
 "The Membership Import Wizard allows you to easily upload memberships from "
 "other applications into CiviCRM."
 msgstr ""
-"L'Aiuto Importa Iscrizioni ti permette di caricare facilmente iscrizioni da "
-"altre applicazioni a CiviCRM."
+"L'Autocomposizione Importa Iscrizioni ti permette di inviare facilmente al "
+"sistema iscrizioni da altre applicazioni a CiviCRM."
 
 #: templates/CRM/Member/Import/Form/UploadFile.tpl
 msgid ""

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-07-07 18:43-0700\n"
-"PO-Revision-Date: 2008-07-07 05:15-0700\n"
+"PO-Revision-Date: 2008-07-08 05:26-0700\n"
 "Last-Translator: sunil pawar <sunil.pawar@webaccess.co.in>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -157,7 +157,7 @@ msgstr "सभी समूह"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
 msgid "All Custom Groups"
-msgstr ""
+msgstr "सभी कस्टम समूह"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
 msgid "All Profiles"
@@ -1650,7 +1650,7 @@ msgstr "क्षेत्र लेबल"
 #: templates/CRM/Custom/Page/Group.tpl templates/CRM/Price/Page/Field.tpl
 #: templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Group.tpl
 msgid "Order"
-msgstr "आदेश"
+msgstr "क्रम"
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php
 #: CRM/Price/Form/Field.php CRM/Price/Form/Option.php CRM/UF/Form/Field.php
@@ -4907,7 +4907,7 @@ msgstr ""
 
 #: CRM/Core/Menu.php
 msgid "Individual Prefixes (Ms, Mr...)"
-msgstr ""
+msgstr "व्यक्तिगत उपसर्ग ( सुश्री श्री .. )"
 
 #: CRM/Core/Menu.php
 msgid "Options for individual contact prefixes (e.g. Ms., Mr., Dr. etc.)."
@@ -4915,7 +4915,7 @@ msgstr ""
 
 #: CRM/Core/Menu.php
 msgid "Individual Suffixes (Jr, Sr...)"
-msgstr ""
+msgstr "व्यक्तिगत प्रत्यय ( जूनियर , वरिष्ठ .. )"
 
 #: CRM/Core/Menu.php
 msgid "Options for individual contact suffixes (e.g. Jr., Sr. etc.)."
@@ -4923,7 +4923,7 @@ msgstr ""
 
 #: CRM/Core/Menu.php
 msgid "Instant Messenger Services"
-msgstr ""
+msgstr "इन्स्टैंट मैसेन्जर सेवा"
 
 #: CRM/Core/Menu.php
 msgid ""
@@ -4933,7 +4933,7 @@ msgstr ""
 
 #: CRM/Core/Menu.php
 msgid "Location Types (Home, Work...)"
-msgstr ""
+msgstr "स्थान प्रकार ( घर, काम ... )"
 
 #: CRM/Core/Menu.php
 msgid ""
@@ -4943,7 +4943,7 @@ msgstr ""
 
 #: CRM/Core/Menu.php xml/templates/civicrm_add_domain.tpl
 msgid "Mobile Phone Providers"
-msgstr ""
+msgstr "मोबाइल फोन प्रदाता"
 
 #: CRM/Core/Menu.php
 msgid ""
@@ -4953,7 +4953,7 @@ msgstr ""
 
 #: CRM/Core/Menu.php
 msgid "Preferred Communication Methods"
-msgstr ""
+msgstr "पसंदीदा संचार तरीके"
 
 #: CRM/Core/Menu.php
 msgid ""
@@ -4963,7 +4963,7 @@ msgstr ""
 
 #: CRM/Core/Menu.php
 msgid "Relationship Types"
-msgstr ""
+msgstr "संबंध प्रकार"
 
 #: CRM/Core/Menu.php
 msgid ""

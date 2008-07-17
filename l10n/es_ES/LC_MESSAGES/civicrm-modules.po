@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-07-07 18:44-0700\n"
-"PO-Revision-Date: 2008-03-03 17:30-0800\n"
-"Last-Translator: Diego Calp <diegocalp@gmail.com>\n"
+"PO-Revision-Date: 2008-07-15 08:29-0700\n"
+"Last-Translator: JAIRO RIASCOS <jriascos@aplyca.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -4821,6 +4821,8 @@ msgid ""
 "CiviContribute allows you to create customized page(s) for collecting online "
 "contributions."
 msgstr ""
+"CiviContribute permite crea una o más páginas personalizadas para recolectar "
+"contribuciones en línea."
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid ""
@@ -4830,6 +4832,13 @@ msgid ""
 "page and click on the <strong>New Contribution</strong> link. You can also "
 "<a href='%2'>import batches of offline contributions</a> from other sources."
 msgstr ""
+"También es posible ingresar y hacer seguimiento a contribuciones fuera de "
+"línea. Para entrar contribuciones manuales para un contacto individual, use "
+"<a href='%1'>Buscar Contactos</a> para localizar el contacto. Posteriormente "
+"haga click en <strong>Ver <strong> para ir a la página de resúmen y haga "
+"click en <strong>Nueva Contribución</strong>. También podrá <a "
+"href='%2'>importar masivamente contribuciones fuera de línea</a> de otras "
+"fuentes."
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "Contributions Summary"
@@ -5065,7 +5074,7 @@ msgstr ""
 #: templates/CRM/Event/Form/ManageEvent/Location.tpl
 #, fuzzy
 msgid "Event Location and Contact Information"
-msgstr "Añadir Información de Contacto"
+msgstr "Localización del Evento e Información de Contacto"
 
 #: templates/CRM/Event/Form/ManageEvent/Location.tpl
 msgid ""
