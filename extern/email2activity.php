@@ -74,8 +74,13 @@ function process( &$file ) {
     $params['status_id']          = 1;
     $params['source_contact_id']  = $params['assignee_contact_id'] = $result['from']['id'];
     $params['target_contact_id']  = array( );
-    foreach ( $result['to'] as $key => $toValue ) {
-        $params['target_contact_id'][]  = $toValue['id'];
+    $keys = array( 'to', 'cc', 'bcc' );
+    foreach ( $keys as $key ) {
+        if ( is_array( $result[$key] ) ) {
+            foreach ( $result[$key] as $key => $keyValue ) {
+                $params['target_contact_id'][]  = $keyValue['id'];
+            }
+        }
     }
     $params['subject']            = $result['subject'];
     $params['activity_date_time'] = $result['date'];
