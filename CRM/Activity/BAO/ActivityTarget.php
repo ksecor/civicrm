@@ -103,10 +103,7 @@ class CRM_Activity_BAO_ActivityTarget extends CRM_Activity_DAO_ActivityTarget
         $this->find();
         $targetArray = array();
         while ( $this->fetch() ) {
-            $targetArray[$this->target_contact_id] = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
-                                                                                  $this->target_contact_id,
-                                                                                  'sort_name',
-                                                                                  'id' );
+            $targetArray[] = $this->target_contact_id;
         }
         return $targetArray;
     }

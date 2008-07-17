@@ -104,10 +104,7 @@ class CRM_Activity_BAO_ActivityAssignment extends CRM_Activity_DAO_ActivityAssig
         $this->find();
         $assigneeArray = array();
         while ( $this->fetch( ) ) {
-            $assigneeArray[$this->assignee_contact_id] = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
-                                                                                      $this->assignee_contact_id,
-                                                                                      'sort_name',
-                                                                                      'id' );
+            $assigneeArray[] = $this->assignee_contact_id;
         }
 
         return $assigneeArray;

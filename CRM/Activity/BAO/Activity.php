@@ -34,6 +34,8 @@
  */
 
 require_once 'CRM/Activity/DAO/Activity.php';
+require_once 'CRM/Activity/BAO/ActivityTarget.php';
+require_once 'CRM/Activity/BAO/ActivityAssignment.php';
 
 /**
  * This class is for activity functions
@@ -92,25 +94,12 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             // TODO: at some stage we'll have to deal
             // TODO: with multiple values for assignees and targets, but
             // TODO: for now, let's just fetch first row
-            require_once 'CRM/Activity/BAO/ActivityAssignment.php';
             $assignment =& new CRM_Activity_BAO_ActivityAssignment( );
-            $assigneeContactId = $assignment->retrieveAssigneeIdByActivityId( $activity->id );
-            if ( $assigneeContactId ) { 
-                $defaults['assignee_contact_id'] = $assigneeContactId;
-                $defaults['assignee_contact'] = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
-                                                                             $assigneeContactId,
-                                                                             'sort_name' );
-            }
-            
+            $defaults['assignee_contact'] = $assignment->retrieveAssigneeIdsByActivityId( $activity->id );
+
             require_once 'CRM/Activity/BAO/ActivityTarget.php';
             $target =& new CRM_Activity_BAO_ActivityTarget( );
-            $targetContactId = $target->retrieveTargetIdByActivityId( $activity->id );
-            if ( $targetContactId ) { 
-                $defaults['target_contact_id'] = $targetContactId; 
-                $defaults['target_contact'] = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
-                                                                           $targetContactId,
-                                                                           'sort_name' );
-            }
+            $defaults['target_contact'] = $target->retrieveTargetIdsByActivityId( $activity->id );
 
             if ( $activity->source_contact_id ) {
                 $defaults['source_contact'] = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
@@ -197,6 +186,23 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         $target->activity_id = $params['activity_id'];
         $target->target_contact_id = $params['target_contact_id'];
         $target->save( );
+    }
+    
+    /**
+     * Create activity assignment record
+     *
+     * @param array    activity_id, assignee_contact_id
+     *
+     * @return null
+     * @access public
+     */
+    public function createActivityAssignment( $params ) 
+    {
+        require_once 'CRM/Activity/BAO/ActivityAssignment.php';
+        $assignee              =& new CRM_Activity_BAO_ActivityAssignment( );
+        $assignee->activity_id = $params['activity_id'];
+        $assignee->assignee_contact_id = $params['assignee_contact_id'];
+        $assignee->save( );
     }
 
     /**
@@ -297,7 +303,6 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         // attempt to save activity targets
         $resultTarget = null;
         if ( CRM_Utils_Array::value( 'target_contact_id', $params ) ) {
-            require_once 'CRM/Activity/BAO/ActivityTarget.php';
 
             $targetParams = array( 'activity_id'       => $activityId );
             $resultTarget = array( );
@@ -438,10 +443,6 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         
         $query = "select DISTINCT(civicrm_activity.id), civicrm_activity.*,
                          sourceContact.sort_name as source_contact_name,
-                         civicrm_activity_target.target_contact_id,
-                         targetContact.sort_name as target_contact_name,
-                         civicrm_activity_assignment.assignee_contact_id,
-                         assigneeContact.sort_name as assignee_contact_name,
                          civicrm_option_value.value as activity_type_id,
                          civicrm_option_value.label as activity_type,
                          civicrm_case_activity.case_id as case_id,
@@ -453,10 +454,6 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                             civicrm_activity.id = civicrm_activity_assignment.activity_id 
                   left join civicrm_contact sourceContact on 
                             source_contact_id = sourceContact.id 
-                  left join civicrm_contact targetContact on 
-                            target_contact_id = targetContact.id 
-                  left join civicrm_contact assigneeContact on 
-                            assignee_contact_id = assigneeContact.id
                   left join civicrm_option_value on
                             ( civicrm_activity.activity_type_id = civicrm_option_value.value )
                   left join civicrm_option_group on  
@@ -501,10 +498,6 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                                  'subject',                                 
                                  'source_contact_name',
                                  'source_contact_id',
-                                 'target_contact_name',
-                                 'target_contact_id',
-                                 'assignee_contact_name',
-                                 'assignee_contact_id',
                                  'source_record_id',
                                  'case_id',
                                  'case_subject' );
@@ -517,6 +510,16 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             }
             $rowCnt++;
         }
+
+        foreach ($values as $activity => &$fields) {
+            $target =& new CRM_Activity_BAO_ActivityTarget( );
+            $fields['target_contact_ids'] = $target->retrieveTargetIdsByActivityId($fields['id']);
+
+            $assignment =& new CRM_Activity_BAO_ActivityAssignment( );
+            $fields['assignee_contact_ids'] = $assignment->retrieveAssigneeIdsByActivityId($fields['id']);
+
+        } 
+        
         return $values;
     }
 
