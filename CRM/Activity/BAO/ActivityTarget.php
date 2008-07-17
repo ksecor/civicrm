@@ -97,13 +97,18 @@ class CRM_Activity_BAO_ActivityTarget extends CRM_Activity_DAO_ActivityTarget
      * @access public
      * 
      */
-    public function retrieveTargetIdByActivityId( $activity_id ) 
+    public function retrieveTargetIdsByActivityId( $activity_id ) 
     {
         $this->activity_id = $activity_id;
-        if ( $this->find( true ) ) {
-            return $this->target_contact_id;
+        $this->find();
+        $targetArray = array();
+        while ( $this->fetch() ) {
+            $targetArray[$this->target_contact_id] = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                                                  $this->target_contact_id,
+                                                                                  'sort_name',
+                                                                                  'id' );
         }
-        return null;
+        return $targetArray;
     }
 
 }
