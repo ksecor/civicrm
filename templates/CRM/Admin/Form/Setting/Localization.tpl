@@ -10,6 +10,8 @@
             <dt>{$form.lcMonetary.label}</dt><dd>{$form.lcMonetary.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts}Locale for monetary display (affects formatting specifiers below).{/ts}</dd>
             <dt>{$form.moneyformat.label}</dt><dd>{$form.moneyformat.html}</dd>
+            <dt>&nbsp;</dt><dd class="description">{ts}Format for displaying monetary amounts.{/ts}</dd>
+            <dt>{$form.moneyvalueformat.label}</dt><dd>{$form.moneyvalueformat.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts}Format for displaying monetary values.{/ts}</dd>
             <dt>{$form.customTranslateFunction.label}</dt><dd>{$form.customTranslateFunction.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts}Function name to use for translation inplace of the default CiviCRM translate function. {/ts}</dd>

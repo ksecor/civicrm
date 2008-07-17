@@ -65,7 +65,7 @@ class CRM_Utils_Money {
             return '';
         }
 
-        $config = CRM_Core_Config::singleton( );
+        $config =& CRM_Core_Config::singleton();
 
         if ( !self::$_currencySymbols ) {
             require_once "CRM/Core/PseudoConstant.php";
@@ -86,7 +86,7 @@ class CRM_Utils_Money {
 
         // money_format() exists only in certain PHP install (CRM-650)
         if (is_numeric($amount) and function_exists('money_format')) {
-            $amount = money_format('%!i', $amount);
+            $amount = money_format($config->moneyvalueformat, $amount);
         }
 
         $replacements = array(
