@@ -262,6 +262,12 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         if ( $this->_action & ( CRM_Core_Action::DELETE | CRM_Core_Action::RENEW ) ) {
             $this->assign( 'delName', $defaults['subject'] );
         }
+        
+        $config =& CRM_Core_Config::singleton( );
+        if ( $config->civiHRD ) {
+            $defaults['activity_tag3_id'] = explode( CRM_Core_DAO::VALUE_SEPARATOR, 
+                                                     $defaults['activity_tag3_id'] );
+        }
 
         return $defaults;
     }
@@ -467,7 +473,21 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             }
         }
 
-        
+        if ( $config->civiHRD ) {
+            require_once 'CRM/Core/OptionGroup.php';
+            $caseActivityType = CRM_Core_OptionGroup::values('case_activity_type');
+            $this->add('select', 'activity_tag1_id',  ts( 'Case Activity Type' ),  
+                       array( '' => ts( '-select-' ) ) + $caseActivityType );
+            
+            $comunicationMedium = CRM_Core_OptionGroup::values('communication_medium'); 
+            $this->add('select', 'activity_tag2_id',  ts( 'Communication' ),  
+                       array( '' => ts( '-select-' ) ) + $comunicationMedium );
+            
+            $caseViolation = CRM_Core_OptionGroup::values('f1_case_violation');
+            $this->add('select', 'activity_tag3_id',  ts( 'Violation Type' ),
+                       $caseViolation , false, array("size"=>"5",  "multiple"));
+        }
+
         // if we're viewing, we're assigning different buttons than for adding/editing
         if ( $this->_action & CRM_Core_Action::VIEW ) { 
             if ( isset( $this->_groupTree ) ) {
@@ -647,7 +667,13 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         if ( $params['assignee_contact'] ) {
             $params['assignee_contact_id'] = self::_getIdByDisplayName( $params['assignee_contact'] );
         }
-        
+
+        $config =& CRM_Core_Config::singleton( );
+        if ( $config->civiHRD ) {
+            $params['activity_tag3_id'] = implode( CRM_Core_DAO::VALUE_SEPARATOR, 
+                                                   $params['activity_tag3_id']  );
+        }
+
         if ( isset($this->_activityId) ) {
             $params['id'] = $this->_activityId;
         }
