@@ -384,7 +384,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                                                                      'sort_name' );
         }
 
-        $sourceContactField =& $this->add( 'text','source_contact', ts('Added By'), $attributes, $admin );
+        $sourceContactField =& $this->add( 'text','source_contact_id', ts('Added By'), $attributes, $admin );
         if ( $sourceContactField->getValue( ) ) {
             $this->assign( 'source_contact_value',  $sourceContactField->getValue( ) );
         } else {
@@ -668,11 +668,9 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         $params['activity_date_time'] = CRM_Utils_Date::format( $params['activity_date_time'] );
 
         // get ids for associated contacts
-        if ( ! $params['source_contact'] ) {
+        if ( ! $params['source_contact_id'] ) {
             $params['source_contact_id'] = $this->_currentUserId;
-        } else {
-            $params['source_contact_id'] = self::_getIdByDisplayName($params['source_contact']);
-        }
+        } 
 
         $config =& CRM_Core_Config::singleton( );
         if ( $config->civiHRD ) {
@@ -689,7 +687,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                                              $params,
                                              'civicrm_activity',
                                              $this->_activityId );
-
+        
         $activity = CRM_Activity_BAO_Activity::create( $params );
         $targetParams['activity_id'] = $activity->id;  
         $assigneeParams['activity_id'] = $activity->id;

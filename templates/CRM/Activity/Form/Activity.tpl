@@ -9,7 +9,7 @@
 {if $source_contact_value and $admin and $action neq 4}
    <script type="text/javascript">
        dojo.addOnLoad( function( ) {ldelim}
-       dijit.byId( 'source_contact' ).setValue( "{$source_contact_value}", "{$source_contact_value}" )
+       dijit.byId( 'source_contact_id' ).setValue( "{$source_contact_value}", "{$source_contact_value}" )
        {rdelim} );
    </script>
 {/if}
@@ -78,10 +78,10 @@
                 </tr>
              {/if}
              <tr>
-                <td class="label">{$form.source_contact.label}</td>
+                <td class="label">{$form.source_contact_id.label}</td>
                 <td class="view-value">
                    <div dojoType="dojox.data.QueryReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra" doClientPaging="false">
-                       {if $admin }{$form.source_contact.html} {else} {$source_contact_value} {/if}
+                       {if $admin }{$form.source_contact_id.html} {else} {$source_contact_value} {/if}
                    </div>
                 </td>
              </tr>
