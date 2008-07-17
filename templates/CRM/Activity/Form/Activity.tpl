@@ -27,7 +27,7 @@
 {if $assignee_contact_value and $action neq 4 }
    <script type="text/javascript">
        dojo.addOnLoad( function( ) {ldelim}
-       dijit.byId( 'assignee_contact' ).setValue( "{$assignee_contact_value}", "{$assignee_contact_value}" )
+       /*dijit.byId( 'assignee_contact' ).setValue( "{$assignee_contact_value}", "{$assignee_contact_value}" )*/
        {rdelim} );
    </script>
 {/if}
@@ -223,7 +223,7 @@
    {include file="CRM/common/customData.tpl"}
 {/if}
 
-{* Build pledge payment details*}
+{* Build add contact *}
 {literal}
 <script type="text/javascript">
 
@@ -258,16 +258,6 @@ function buildContact( count, pref )
         }
      });
 
-}
-
-function reload(refresh) {
-        var activityType = document.getElementById("activity_type_id");
-        var url = {/literal}"{$refreshURL}"{literal}
-      
-        var post = url + "&subType=" + activityType.value;
-        if( refresh ) {
-            window.location= post; 
-        }
 }
 
 </script>
