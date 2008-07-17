@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-04-28 21:53+0200\n"
+"POT-Creation-Date: 2008-07-07 18:44-0700\n"
 "PO-Revision-Date: 2008-02-27 05:15-0800\n"
 "Last-Translator: Lukasz Zawadzki <lucas.zaw@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -25,8 +25,7 @@ msgstr "Kopiuj z _"
 msgid "No thank you"
 msgstr "Nie, dziękuję"
 
-#: CRM/Contribute/BAO/Query.php CRM/Contribute/DAO/Contribution.php
-#: CRM/Contribute/Form/Offline.php
+#: CRM/Contribute/BAO/Query.php CRM/Contribute/Form/Offline.php
 msgid "Contribution Source"
 msgstr "Źródło dotacji"
 
@@ -36,137 +35,13 @@ msgstr "Źródło dotacji"
 msgid "Contribution Page"
 msgstr "Strona dotacji"
 
-#: CRM/Contribute/BAO/Query.php CRM/Contribute/DAO/Contribution.php
-#: CRM/Contribute/DAO/ContributionRecur.php
-#: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Task/Status.php
+#: CRM/Contribute/BAO/Query.php CRM/Contribute/Form/Contribution.php
+#: CRM/Contribute/Form/Task/Status.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 #: templates/CRM/Contribute/Form/Message.tpl
 #: templates/CRM/Contribute/Form/Task/Status.tpl
 msgid "Transaction ID"
 msgstr "Id transakcji"
-
-#: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/EventPage.php
-#, fuzzy
-msgid "Pay Later Text"
-msgstr "Płatne później"
-
-#: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/EventPage.php
-#, fuzzy
-msgid "Pay Later Receipt"
-msgstr "Pokwitowanie później"
-
-#: CRM/Contribute/DAO/ContributionPage.php
-#: CRM/Contribute/Form/ContributionPage/Settings.php
-msgid "Goal Amount"
-msgstr "Kwota docelowa"
-
-#: CRM/Contribute/DAO/ContributionPage.php
-#: CRM/Contribute/Form/ContributionPage/ThankYou.php
-msgid "Receipt From Name"
-msgstr "Nazwa nadawcy pokwitowania"
-
-#: CRM/Contribute/DAO/ContributionPage.php
-#: CRM/Contribute/Form/ContributionPage/ThankYou.php
-msgid "Receipt From Email"
-msgstr "Email nadawcy pokwitowania"
-
-#: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/Event.php
-msgid "Receipt Text"
-msgstr "Tekst pokwitowania"
-
-#: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/EventPage.php
-#: CRM/Event/Form/ManageEvent/Registration.php
-msgid "Footer Text"
-msgstr "Tekst stopki"
-
-#: CRM/Contribute/DAO/Contribution.php CRM/Contribute/Form/Contribution.php
-#: templates/CRM/Contribute/Form/ContributionView.tpl
-msgid "Non-deductible Amount"
-msgstr "Kwota nieodliczalna od podatku"
-
-#: CRM/Contribute/DAO/Contribution.php CRM/Contribute/DAO/FinancialTrxn.php
-#: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Task/Status.php
-#: templates/CRM/Contribute/Form/ContributionView.tpl
-#: templates/CRM/Contribute/Form/Task/Status.tpl
-msgid "Fee Amount"
-msgstr "Kwota opłat"
-
-#: CRM/Contribute/DAO/Contribution.php CRM/Contribute/DAO/FinancialTrxn.php
-#: CRM/Contribute/Form/Contribution.php
-#: templates/CRM/Contribute/Form/ContributionView.tpl
-msgid "Net Amount"
-msgstr "Kwota netto"
-
-#: CRM/Contribute/DAO/Contribution.php
-#: CRM/Contribute/DAO/ContributionRecur.php
-#: CRM/Contribute/Form/Contribution.php
-#: templates/CRM/Contribute/Form/ContributionView.tpl
-msgid "Invoice ID"
-msgstr "Identyfikator rachunku"
-
-#: CRM/Contribute/DAO/Contribution.php
-#: CRM/Contribute/DAO/ContributionRecur.php
-msgid "Cancel Date"
-msgstr "Data anulowania"
-
-#: CRM/Contribute/DAO/Contribution.php CRM/Contribute/Form/Contribution.php
-#: CRM/Contribute/Form/Task/Status.php
-msgid "Receipt Date"
-msgstr "Data pokwitowania"
-
-#: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
-#: CRM/Contribute/Form/ManagePremiums.php
-msgid "Frequency Unit"
-msgstr "Jednostka częstotliwości"
-
-#: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
-msgid "Frequency Interval"
-msgstr "Odstęp częstości"
-
-#: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
-msgid "week"
-msgstr "tydzień"
-
-#: CRM/Contribute/DAO/ContributionType.php
-#: CRM/Contribute/Form/ContributionType.php
-msgid "Accounting Code"
-msgstr "Kod księgowania"
-
-#: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
-#: templates/CRM/Contribute/Page/ManagePremiums.tpl
-#: templates/CRM/Contribute/Page/Premium.tpl
-msgid "SKU"
-msgstr "stan"
-
-#: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
-#: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
-msgid "Period Type"
-msgstr "Rodzaj okresu"
-
-#: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
-#: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
-msgid "Fixed Period Start Day"
-msgstr "Dzień rozpoczęcia stałego okresu"
-
-#: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
-#: CRM/Member/DAO/MembershipType.php
-msgid "Duration Unit"
-msgstr "Jednostka czasu trwania"
-
-#: CRM/Contribute/DAO/Product.php CRM/Member/DAO/MembershipType.php
-#: CRM/Member/Form/MembershipType.php
-msgid "Duration Interval"
-msgstr "Czas trwania"
-
-#: CRM/Contribute/DAO/Widget.php
-#: CRM/Contribute/Form/ContributionPage/Widget.php
-msgid "Button Title"
-msgstr "Przycis tytułowy"
-
-#: CRM/Contribute/DAO/Widget.php
-#: CRM/Contribute/Form/ContributionPage/Widget.php
-msgid "About"
-msgstr "Opis"
 
 #: CRM/Contribute/Form/ContributionBase.php CRM/Event/Form/Registration.php
 #: CRM/Event/Page/EventInfo.php
@@ -222,14 +97,8 @@ msgstr "Konfiguracja strony dotacji"
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
 #: CRM/Contribute/Form/ContributionPage/Settings.php
-#: CRM/Event/DAO/EventPage.php
 msgid "Introductory Message"
 msgstr "Wiadomość wprowadzająca"
-
-#: CRM/Contribute/Form/ContributionPage/Settings.php
-#: CRM/Event/DAO/EventPage.php
-msgid "Footer Message"
-msgstr "Wiadomość w stopce"
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 #: CRM/Event/Form/ManageEvent/EventInfo.php
@@ -259,6 +128,10 @@ msgstr "Nie masz wystarczających uprawnień, by wyświetlić tą stronę."
 msgid "Received"
 msgstr "Otrzymany"
 
+#: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Task/Status.php
+msgid "Receipt Date"
+msgstr "Data pokwitowania"
+
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 #: templates/CRM/Contribute/Form/Task/Print.tpl
@@ -268,6 +141,12 @@ msgstr "Podziękowanie wysłane"
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Offline.php
 msgid "Send Receipt?"
 msgstr "Wysłać pokwitowanie?"
+
+#: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Task/Status.php
+#: templates/CRM/Contribute/Form/ContributionView.tpl
+#: templates/CRM/Contribute/Form/Task/Status.tpl
+msgid "Fee Amount"
+msgstr "Kwota opłat"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Task/Status.php
 msgid ""
@@ -289,9 +168,22 @@ msgstr "Dodatek"
 msgid "Minimum Contribution Amount"
 msgstr "Minimalna kwota dotacji"
 
+#: CRM/Contribute/Form/ManagePremiums.php CRM/Member/Form/MembershipType.php
+msgid "Period Type"
+msgstr "Rodzaj okresu"
+
+#: CRM/Contribute/Form/ManagePremiums.php CRM/Member/Form/MembershipType.php
+msgid "Fixed Period Start Day"
+msgstr "Dzień rozpoczęcia stałego okresu"
+
 #: CRM/Contribute/Form/Task/Delete.php CRM/Contribute/Task.php
 msgid "Delete Contributions"
 msgstr "Usuń dotacje"
+
+#: CRM/Contribute/Form/Task/Export.php CRM/Contribute/Task.php
+#, fuzzy
+msgid "Export Contributions"
+msgstr "Wydrukuj dotacje"
 
 #: CRM/Contribute/Invoke.php CRM/Contribute/Menu.php
 msgid "Contribution Types"
@@ -300,6 +192,11 @@ msgstr "Rodzaje dotacji"
 #: CRM/Contribute/Invoke.php CRM/Contribute/Menu.php
 msgid "Manage Premiums"
 msgstr "Zarządzanie dodatkami"
+
+#: CRM/Contribute/Invoke.php CRM/Contribute/Menu.php
+#, fuzzy
+msgid "Import Contributions"
+msgstr "Wydrukuj dotacje"
 
 #: CRM/Contribute/Invoke.php CRM/Member/Invoke.php
 msgid "DashBoard"
@@ -339,49 +236,6 @@ msgstr "Podejrzyj dodatek"
 msgid "Disable Premium"
 msgstr "Wyłącz dodatek"
 
-#: CRM/Event/BAO/Query.php CRM/Event/DAO/Participant.php
-msgid "Participant Source"
-msgstr "Źródło uczestników"
-
-#: CRM/Event/DAO/EventPage.php CRM/Event/Form/Task/Export.php
-msgid "Event ID"
-msgstr "Zdarzenie"
-
-#: CRM/Event/DAO/EventPage.php CRM/Event/Form/ManageEvent/Registration.php
-msgid "Confirm From Name"
-msgstr "Nazwa nadawcy"
-
-#: CRM/Event/DAO/EventPage.php CRM/Event/Form/ManageEvent/Registration.php
-msgid "Confirm From Email"
-msgstr "Adres nadawcy"
-
-#: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/EventInfo.php
-msgid "Event Title"
-msgstr "Tytuł zdarzenia"
-
-#: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/EventInfo.php
-#: templates/CRM/Event/Page/DashBoard.tpl
-msgid "Event Summary"
-msgstr "Podsumowanie zdarzenia"
-
-#: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/Registration.php
-msgid "Registration Start Date"
-msgstr "Data rejestracji"
-
-#: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/Registration.php
-msgid "Registration End Date"
-msgstr "Data wygaśnięcia rejestracji"
-
-#: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/Fee.php
-#: templates/CRM/Event/Form/ManageEvent/Fee.tpl
-msgid "Fee Label"
-msgstr "Tytuł wpłaty"
-
-#: CRM/Event/DAO/ParticipantPayment.php CRM/Event/DAO/Participant.php
-#: CRM/Event/Form/Task/Export.php
-msgid "Participant ID"
-msgstr "ID uczestnika"
-
 #: CRM/Event/Form/ManageEvent/Delete.php CRM/Event/Page/ManageEvent.php
 msgid "Delete Event"
 msgstr "Usuń zdarzenie"
@@ -411,64 +265,32 @@ msgstr "Rejestracja użytkowników (Online)"
 msgid "Payment Status"
 msgstr "Status płatności"
 
+#: CRM/Event/Form/Search.php CRM/Event/Selector/Search.php
+#, fuzzy
+msgid "Participant"
+msgstr "ID uczestnika"
+
 #: CRM/Event/Form/Task/Export.php CRM/Event/Task.php
 msgid "Export Participants"
+msgstr "Eksportuj kontakty"
+
+#: CRM/Event/Form/Task/Export.php CRM/Member/Form/Task/Export.php
+#, fuzzy
+msgid "Display Name"
+msgstr "Nazwa wyświetlana"
+
+#: CRM/Event/Invoke.php CRM/Event/Menu.php
+#, fuzzy
+msgid "Import Participants"
 msgstr "Eksportuj kontakty"
 
 #: CRM/Event/Menu.php CRM/Event/Page/ManageEvent.php
 msgid "Manage Events"
 msgstr "Zarządzanie zdarzeniami"
 
-#: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
-msgid "Running"
-msgstr "W działaniu"
-
-#: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
-msgid "Complete"
-msgstr "Zakończony"
-
-#: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
-msgid "Paused"
-msgstr "Zapauzowany"
-
-#: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
-msgid "Canceled"
-msgstr "Anulowany"
-
-#: CRM/Mailing/BAO/Mailing.php CRM/Mailing/DAO/Component.php
-msgid "Reply"
-msgstr "Odpowiedz"
-
 #: CRM/Mailing/BAO/Mailing.php CRM/Mailing/Selector/Event.php
 msgid "Opt-Out"
 msgstr "Rezygnacja"
-
-#: CRM/Mailing/DAO/BounceType.php CRM/Mailing/Event/BAO/Bounce.php
-msgid "Unknown"
-msgstr "Nieznany"
-
-#: CRM/Mailing/DAO/Component.php CRM/Mailing/Form/Component.php
-msgid "Component Type"
-msgstr "Rodzaj składnika"
-
-#: CRM/Mailing/DAO/Component.php CRM/Mailing/DAO/Mailing.php
-msgid "Body Html"
-msgstr "Treść HTML"
-
-#: CRM/Mailing/DAO/Component.php CRM/Mailing/DAO/Mailing.php
-#: templates/CRM/Mailing/Page/Component.tpl
-msgid "Body Text"
-msgstr "Tekst treści"
-
-#: CRM/Mailing/DAO/Component.php CRM/Mailing/Form/Subscribe.php
-#: CRM/Mailing/Invoke.php CRM/Mailing/Menu.php
-msgid "Subscribe"
-msgstr "Zapisz"
-
-#: CRM/Mailing/DAO/Component.php CRM/Mailing/Menu.php
-#: templates/CRM/Mailing/Page/Resubscribe.tpl
-msgid "Resubscribe"
-msgstr "Odnów"
 
 #: CRM/Mailing/Event/BAO/Confirm.php CRM/Mailing/Event/BAO/Reply.php
 #: CRM/Mailing/Event/BAO/Resubscribe.php CRM/Mailing/Event/BAO/Unsubscribe.php
@@ -476,23 +298,14 @@ msgstr "Odnów"
 msgid "'%1' <do-not-reply@%2>"
 msgstr "\"Administrator %1\" <do-not-reply@%2>"
 
-#: CRM/Mailing/Event/DAO/Bounce.php CRM/Mailing/Selector/Event.php
-msgid "Bounce Reason"
-msgstr "Powód odbicia"
-
-#: CRM/Mailing/Event/DAO/Bounce.php CRM/Mailing/Event/DAO/Confirm.php
-#: CRM/Mailing/Event/DAO/Delivered.php CRM/Mailing/Event/DAO/Forward.php
-#: CRM/Mailing/Event/DAO/Opened.php CRM/Mailing/Event/DAO/Reply.php
-#: CRM/Mailing/Event/DAO/Subscribe.php
-#: CRM/Mailing/Event/DAO/TrackableURLOpen.php
-#: CRM/Mailing/Event/DAO/Unsubscribe.php
-msgid "Time Stamp"
-msgstr "Data i czas"
-
 #: CRM/Mailing/Form/Group.php CRM/Mailing/Form/Settings.php
 #: CRM/Mailing/Form/Test.php CRM/Mailing/Form/Upload.php
 msgid "Next >>"
 msgstr "Następny >>"
+
+#: CRM/Mailing/Form/Subscribe.php CRM/Mailing/Invoke.php CRM/Mailing/Menu.php
+msgid "Subscribe"
+msgstr "Zapisz"
 
 #: CRM/Mailing/Invoke.php CRM/Mailing/Selector/Browse.php
 msgid "Report"
@@ -511,41 +324,6 @@ msgstr "Usuń wysyłkę"
 #: CRM/Mailing/Page/Common.php CRM/Mailing/Page/Confirm.php
 msgid "Missing input parameters"
 msgstr "Brak parametrów wejściowych"
-
-#: CRM/Member/DAO/Membership.php CRM/Member/Selector/Search.php
-#: templates/CRM/Member/Form/Task/Print.tpl
-msgid "Member Since"
-msgstr "Członkowstwo od "
-
-#: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
-#: templates/CRM/Member/Page/MembershipStatus.tpl
-msgid "Start Event"
-msgstr "Zdarzenie początkowe"
-
-#: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
-msgid "Start Event Adjust Interval"
-msgstr "Interwał przesunięcia od daty początkowej"
-
-#: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
-#: templates/CRM/Member/Page/MembershipStatus.tpl
-msgid "End Event"
-msgstr "Zdarzenie końcowe"
-
-#: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
-msgid "End Event Adjust Interval"
-msgstr "Interwał przesunięcia od daty końcowej"
-
-#: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
-msgid "Current Membership?"
-msgstr "Aktualne członkowstwo?"
-
-#: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
-msgid "Fixed Period Rollover Day"
-msgstr "Dzień rozpoczęcia stałego okresu"
-
-#: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
-msgid "Renewal Reminder Day"
-msgstr "Dzień przypomnienia odnowienia członkowstwa"
 
 #: CRM/Member/Form/Membership.php CRM/Member/Form/MembershipRenewal.php
 msgid "Send Confirmation and Receipt?"
@@ -662,223 +440,6 @@ msgstr "Szukanie dotacji"
 #, fuzzy
 msgid "Find Recurring Contributions?"
 msgstr "Ostatnie dotacje"
-
-#: CRM/Contribute/DAO/ContributionPage.php
-msgid "Intro Text"
-msgstr "Tekst wprowadzający"
-
-#: CRM/Contribute/DAO/ContributionPage.php
-msgid "Thank-you Text"
-msgstr "Tekst podziękowania"
-
-#: CRM/Contribute/DAO/ContributionPage.php
-msgid "Thank-you Footer"
-msgstr "Stopka podziękowania"
-
-#: CRM/Contribute/DAO/ContributionPage.php
-msgid "Cc Receipt"
-msgstr "Adres DW pokwitowania"
-
-#: CRM/Contribute/DAO/ContributionPage.php
-msgid "Bcc Receipt"
-msgstr "Ukryty adres DW pokwitowania"
-
-#: CRM/Contribute/DAO/ContributionPage.php
-msgid "Honor Block Title"
-msgstr "Tytuł bloku \"W imieniu\""
-
-#: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
-msgid "Honor Block Text"
-msgstr "Tekst wprowadzający"
-
-#: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
-msgid "Contribution Page Start Date"
-msgstr "Data dotacji – %1"
-
-#: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
-msgid "Contribution Page End Date"
-msgstr "Data dotacji – %1"
-
-#: CRM/Contribute/DAO/Contribution.php
-msgid "Contribution ID (match to contribution)"
-msgstr ""
-
-#: CRM/Contribute/DAO/Contribution.php
-msgid "Solicitor ID"
-msgstr "Identyfikator doradcy"
-
-#: CRM/Contribute/DAO/Contribution.php
-msgid "Receive Date"
-msgstr "Data otrzymania"
-
-#: CRM/Contribute/DAO/Contribution.php
-msgid "Cancel Reason"
-msgstr "Powód anulowania"
-
-#: CRM/Contribute/DAO/Contribution.php
-msgid "Thank-you Date"
-msgstr "Data podziękowania"
-
-#: CRM/Contribute/DAO/Contribution.php
-#, fuzzy
-msgid "Amount Label"
-msgstr "Kwota"
-
-#: CRM/Contribute/DAO/ContributionProduct.php
-msgid "Product Option"
-msgstr "Opcja produktu"
-
-#: CRM/Contribute/DAO/ContributionProduct.php
-msgid "Quantity"
-msgstr "Ilość"
-
-#: CRM/Contribute/DAO/ContributionProduct.php
-msgid "Fulfilled Date"
-msgstr "Data wypełnienia"
-
-#: CRM/Contribute/DAO/ContributionProduct.php
-msgid "Comment"
-msgstr "Komentarz"
-
-#: CRM/Contribute/DAO/ContributionRecur.php
-msgid "Installments"
-msgstr "Zaliczki"
-
-#: CRM/Contribute/DAO/ContributionRecur.php
-msgid "Create Date"
-msgstr "Stwórz datę"
-
-#: CRM/Contribute/DAO/ContributionRecur.php
-#, fuzzy
-msgid "Recurring Contribution Status"
-msgstr "Stan dotacji"
-
-#: CRM/Contribute/DAO/ContributionRecur.php
-msgid "Cycle Day"
-msgstr "Dzień cyklu"
-
-#: CRM/Contribute/DAO/ContributionRecur.php
-msgid "Next Sched Contribution"
-msgstr "Następna zaplanowana dotacja"
-
-#: CRM/Contribute/DAO/ContributionRecur.php
-msgid "Failure Count"
-msgstr "Liczba błędów"
-
-#: CRM/Contribute/DAO/ContributionRecur.php
-msgid "Failure Retry Date"
-msgstr "Data powtórki po błędzie"
-
-#: CRM/Contribute/DAO/ContributionRecur.php
-msgid "Auto Renew"
-msgstr "Automatyczne odnowienie"
-
-#: CRM/Contribute/DAO/FinancialTrxn.php
-msgid "Trxn Date"
-msgstr "Data transakcji"
-
-#: CRM/Contribute/DAO/FinancialTrxn.php
-msgid "Trxn Type"
-msgstr "Rodzaj transakcji"
-
-#: CRM/Contribute/DAO/FinancialTrxn.php
-msgid "Trxn Result Code"
-msgstr "Kod rezultatu transakcji"
-
-#: CRM/Contribute/DAO/FinancialTrxn.php
-msgid "Debit"
-msgstr "Obciążenie"
-
-#: CRM/Contribute/DAO/FinancialTrxn.php
-msgid "Credit"
-msgstr "Uznanie"
-
-#: CRM/Contribute/DAO/Premium.php
-msgid "Premiums Active"
-msgstr "Aktywne dodatki"
-
-#: CRM/Contribute/DAO/Premium.php
-msgid "Title for Premiums section"
-msgstr "Tytuł części z dodatkami"
-
-#: CRM/Contribute/DAO/Premium.php
-msgid "Premiums Intro Text"
-msgstr "Tekst wprowadzający dodatków"
-
-#: CRM/Contribute/DAO/Premium.php
-msgid "Premiums Contact Email"
-msgstr "Dodatki – email kontaktowy"
-
-#: CRM/Contribute/DAO/Premium.php
-msgid "Premiums Contact Phone"
-msgstr "Dodatki – telefon kontaktowy"
-
-#: CRM/Contribute/DAO/Premium.php
-msgid "Premiums Display Min Contribution"
-msgstr "Dodatki – wyświetlanie min. dotacji"
-
-#: CRM/Contribute/DAO/Product.php
-msgid "Product Name"
-msgstr "Nazwa produktu"
-
-#: CRM/Contribute/DAO/Product.php
-msgid "Thumbnail"
-msgstr "Miniaturka"
-
-#: CRM/Contribute/DAO/Product.php
-msgid "Minimum Contribution"
-msgstr "Dotacja minimalna"
-
-#: CRM/Contribute/DAO/Product.php
-msgid "Cost"
-msgstr "Koszt"
-
-#: CRM/Contribute/DAO/Widget.php
-msgid "Url Logo"
-msgstr ""
-
-#: CRM/Contribute/DAO/Widget.php
-msgid "Url Homepage"
-msgstr ""
-
-#: CRM/Contribute/DAO/Widget.php
-msgid "Color Title"
-msgstr ""
-
-#: CRM/Contribute/DAO/Widget.php
-msgid "Color Button"
-msgstr ""
-
-#: CRM/Contribute/DAO/Widget.php
-msgid "Color Bar"
-msgstr ""
-
-#: CRM/Contribute/DAO/Widget.php
-msgid "Color Main Text"
-msgstr ""
-
-#: CRM/Contribute/DAO/Widget.php
-msgid "Color Main"
-msgstr ""
-
-#: CRM/Contribute/DAO/Widget.php
-msgid "Color Main Bg"
-msgstr ""
-
-#: CRM/Contribute/DAO/Widget.php
-msgid "Color Bg"
-msgstr ""
-
-#: CRM/Contribute/DAO/Widget.php
-msgid "Color About Link"
-msgstr ""
-
-#: CRM/Contribute/DAO/Widget.php
-msgid "Color Homepage Link"
-msgstr ""
 
 #: CRM/Contribute/Form/ContributionBase.php
 msgid ""
@@ -1240,6 +801,14 @@ msgid "Title and Settings"
 msgstr "Tytuł i ustawienia"
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
+msgid "Footer Message"
+msgstr "Wiadomość w stopce"
+
+#: CRM/Contribute/Form/ContributionPage/Settings.php
+msgid "Goal Amount"
+msgstr "Kwota docelowa"
+
+#: CRM/Contribute/Form/ContributionPage/Settings.php
 msgid "Is this Online Contribution Page Active?"
 msgstr "Czy ta strona dotacji on-line jest aktywna?"
 
@@ -1281,6 +850,14 @@ msgid "Email Receipt to Contributor?"
 msgstr "Wysłać pokwitowanie do ofiarodawcy?"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
+msgid "Receipt From Name"
+msgstr "Nazwa nadawcy pokwitowania"
+
+#: CRM/Contribute/Form/ContributionPage/ThankYou.php
+msgid "Receipt From Email"
+msgstr "Email nadawcy pokwitowania"
+
+#: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "CC Receipt To"
 msgstr "Wyślij kopię pokwitowania do"
 
@@ -1319,8 +896,16 @@ msgid "URL to Logo Image"
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Widget.php
+msgid "Button Title"
+msgstr "Przycis tytułowy"
+
+#: CRM/Contribute/Form/ContributionPage/Widget.php
 msgid "Contribute!"
 msgstr ""
+
+#: CRM/Contribute/Form/ContributionPage/Widget.php
+msgid "About"
+msgstr "Opis"
 
 #: CRM/Contribute/Form/ContributionPage/Widget.php
 msgid "URL to Home Page"
@@ -1396,6 +981,21 @@ msgid "Cancellation Reason"
 msgstr "Powód anulowania"
 
 #: CRM/Contribute/Form/Contribution.php
+#: templates/CRM/Contribute/Form/ContributionView.tpl
+msgid "Non-deductible Amount"
+msgstr "Kwota nieodliczalna od podatku"
+
+#: CRM/Contribute/Form/Contribution.php
+#: templates/CRM/Contribute/Form/ContributionView.tpl
+msgid "Net Amount"
+msgstr "Kwota netto"
+
+#: CRM/Contribute/Form/Contribution.php
+#: templates/CRM/Contribute/Form/ContributionView.tpl
+msgid "Invoice ID"
+msgstr "Identyfikator rachunku"
+
+#: CRM/Contribute/Form/Contribution.php
 #, fuzzy
 msgid "Honor First Name and Last Name OR an email should be set."
 msgstr "W lokalizacji głównej muszą być ustawione imię i nazwisko LUB email."
@@ -1422,6 +1022,10 @@ msgid ""
 msgstr "Rodzaj dotacji o tej nazwie już istnieje. Wybierz inną nazwę."
 
 #: CRM/Contribute/Form/ContributionType.php
+msgid "Accounting Code"
+msgstr "Kod księgowania"
+
+#: CRM/Contribute/Form/ContributionType.php
 msgid "Tax-deductible?"
 msgstr "Odliczalna od podatku?"
 
@@ -1437,6 +1041,12 @@ msgstr "Rodzaj dotacji „%1” został zapisany."
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "A product with this name already exists. Please select another name."
 msgstr "Rodzaj dotacji o tej nazwie już istnieje. Wybierz inną nazwę."
+
+#: CRM/Contribute/Form/ManagePremiums.php
+#: templates/CRM/Contribute/Page/ManagePremiums.tpl
+#: templates/CRM/Contribute/Page/Premium.tpl
+msgid "SKU"
+msgstr "stan"
 
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "Upload from my computer"
@@ -1495,6 +1105,14 @@ msgstr "Wprowadź faktyczny kosz produktu."
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "Please enter a monetary value for the Minimum Contribution Amount."
 msgstr "Wprowadź wartość pieniężną do pola Minimalna kwota dotacji."
+
+#: CRM/Contribute/Form/ManagePremiums.php
+msgid "Duration Unit"
+msgstr "Jednostka czasu trwania"
+
+#: CRM/Contribute/Form/ManagePremiums.php
+msgid "Frequency Unit"
+msgstr "Jednostka częstotliwości"
 
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "Frequency"
@@ -1818,6 +1436,10 @@ msgid "Participant Role %1"
 msgstr "Szukaj kontaktów"
 
 #: CRM/Event/BAO/Query.php
+msgid "Participant Source"
+msgstr "Źródło uczestników"
+
+#: CRM/Event/BAO/Query.php
 #, fuzzy
 msgid "Event Name"
 msgstr "Nazwa ulicy"
@@ -1832,115 +1454,6 @@ msgstr "Data zakończenia"
 msgid "Find Test Participants?"
 msgstr "Szukanie dotacji"
 
-#: CRM/Event/DAO/EventPage.php
-#, fuzzy
-msgid "Confirmation Title"
-msgstr "Potwierdź akcję"
-
-#: CRM/Event/DAO/EventPage.php
-#, fuzzy
-msgid "Confirm Text"
-msgstr "Konfiguracja"
-
-#: CRM/Event/DAO/EventPage.php
-#, fuzzy
-msgid "Is confirm email"
-msgstr "Nazwa lub email"
-
-#: CRM/Event/DAO/EventPage.php
-#, fuzzy
-msgid "Confirmation Email Text"
-msgstr "Potwierdź akcję"
-
-#: CRM/Event/DAO/EventPage.php
-#, fuzzy
-msgid "Cc Confirm"
-msgstr "Konfiguracja"
-
-#: CRM/Event/DAO/EventPage.php
-#, fuzzy
-msgid "Bcc Confirm"
-msgstr "Konfiguracja"
-
-#: CRM/Event/DAO/EventPage.php
-#, fuzzy
-msgid "ThankYou Title"
-msgstr "Tytuł podziękowania"
-
-#: CRM/Event/DAO/EventPage.php
-#, fuzzy
-msgid "ThankYou Text"
-msgstr "Tekst podziękowania"
-
-#: CRM/Event/DAO/Event.php
-#, fuzzy
-msgid "Event Description"
-msgstr "Opis wprowadzenia"
-
-#: CRM/Event/DAO/Event.php
-msgid "Event Type ID"
-msgstr ""
-
-#: CRM/Event/DAO/Event.php
-msgid "Participant Listing ID"
-msgstr ""
-
-#: CRM/Event/DAO/Event.php
-msgid "Is Event Public"
-msgstr ""
-
-#: CRM/Event/DAO/Event.php
-#, fuzzy
-msgid "Event Start Date"
-msgstr "Data rozpoczęcia"
-
-#: CRM/Event/DAO/Event.php
-#, fuzzy
-msgid "Event End Date"
-msgstr "Data zakończenia"
-
-#: CRM/Event/DAO/Event.php
-#, fuzzy
-msgid "Is Online Registration"
-msgstr "Rejestracja użytkowników"
-
-#: CRM/Event/DAO/Event.php
-#, fuzzy
-msgid "Event Registration Link Text"
-msgstr "Rejestracja użytkowników"
-
-#: CRM/Event/DAO/Event.php
-msgid "Max Participants"
-msgstr ""
-
-#: CRM/Event/DAO/Event.php
-#: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
-#: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
-#: templates/CRM/Event/Form/Registration/Confirm.tpl
-#: templates/CRM/Event/Form/Registration/ThankYou.tpl
-#, fuzzy
-msgid "Event Information"
-msgstr "Informacje o domenie"
-
-#: CRM/Event/DAO/Event.php
-#, fuzzy
-msgid "show location"
-msgstr "Lokalizacja główna"
-
-#: CRM/Event/DAO/ParticipantPayment.php
-#, fuzzy
-msgid "Payment ID"
-msgstr "Rodzaj płatności"
-
-#: CRM/Event/DAO/Participant.php
-#, fuzzy
-msgid "Register date"
-msgstr "Data zakończenia"
-
-#: CRM/Event/DAO/Participant.php
-msgid "Fee level"
-msgstr ""
-
 #: CRM/Event/Form/ManageEvent/Delete.php
 msgid ""
 "This event can not be deleted because there are participant records linked "
@@ -1953,6 +1466,15 @@ msgstr ""
 #, fuzzy
 msgid "The event '%1' has been deleted."
 msgstr "Grupa „%1” została usunięta."
+
+#: CRM/Event/Form/ManageEvent/EventInfo.php
+msgid "Event Title"
+msgstr "Tytuł zdarzenia"
+
+#: CRM/Event/Form/ManageEvent/EventInfo.php
+#: templates/CRM/Event/Page/DashBoard.tpl
+msgid "Event Summary"
+msgstr "Podsumowanie zdarzenia"
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 #, fuzzy
@@ -2019,6 +1541,11 @@ msgid "Pay Later Instructions"
 msgstr ""
 
 #: CRM/Event/Form/ManageEvent/Fee.php
+#: templates/CRM/Event/Form/ManageEvent/Fee.tpl
+msgid "Fee Label"
+msgstr "Tytuł wpłaty"
+
+#: CRM/Event/Form/ManageEvent/Fee.php
 #, fuzzy
 msgid "Please select contribution type."
 msgstr "Usuń rodzaj dotacji"
@@ -2066,9 +1593,21 @@ msgid "Registration Link Text"
 msgstr "Numer weryfikacyjny karty kredytowej"
 
 #: CRM/Event/Form/ManageEvent/Registration.php
+msgid "Registration Start Date"
+msgstr "Data rejestracji"
+
+#: CRM/Event/Form/ManageEvent/Registration.php
+msgid "Registration End Date"
+msgstr "Data wygaśnięcia rejestracji"
+
+#: CRM/Event/Form/ManageEvent/Registration.php
 #, fuzzy
 msgid "Introductory Text"
 msgstr "Wiadomość wprowadzająca"
+
+#: CRM/Event/Form/ManageEvent/Registration.php
+msgid "Footer Text"
+msgstr "Tekst stopki"
 
 #: CRM/Event/Form/ManageEvent/Registration.php
 #, fuzzy
@@ -2084,6 +1623,14 @@ msgstr "Potwierdź akcję"
 #, fuzzy
 msgid "BCC Confirmation To"
 msgstr "Potwierdź akcję"
+
+#: CRM/Event/Form/ManageEvent/Registration.php
+msgid "Confirm From Name"
+msgstr "Nazwa nadawcy"
+
+#: CRM/Event/Form/ManageEvent/Registration.php
+msgid "Confirm From Email"
+msgstr "Adres nadawcy"
 
 #: CRM/Event/Form/ManageEvent/Registration.php
 #, fuzzy
@@ -2189,6 +1736,13 @@ msgstr "Wybierz poprawną datę, późniejszą niż dzień dzisiejszy."
 msgid "Select atleast one option from Event Fee(s)"
 msgstr ""
 
+#: CRM/Event/Form/Registration/Register.php
+msgid ""
+"Oops. It looks like you are already registered for this event. If you want "
+"to change your registration, or you feel that you've gotten this message in "
+"error, please contact the site administrator."
+msgstr ""
+
 #: CRM/Event/Form/Registration/ThankYou.php
 #, fuzzy
 msgid "Thank You Page"
@@ -2253,6 +1807,14 @@ msgstr "Usuniętych dotacji: %1"
 #, fuzzy
 msgid "Total Selected Participation(s): %1"
 msgstr "Suma wybranych dotacji: %1"
+
+#: CRM/Event/Form/Task/Export.php
+msgid "Participant ID"
+msgstr "ID uczestnika"
+
+#: CRM/Event/Form/Task/Export.php
+msgid "Event ID"
+msgstr "Zdarzenie"
 
 #: CRM/Event/Form/Task/Export.php
 #, fuzzy
@@ -2478,8 +2040,28 @@ msgid "The mailing has been canceled."
 msgstr "Kolejka wysyłki została przetworzona."
 
 #: CRM/Mailing/BAO/Job.php
+msgid "Running"
+msgstr "W działaniu"
+
+#: CRM/Mailing/BAO/Job.php
+msgid "Complete"
+msgstr "Zakończony"
+
+#: CRM/Mailing/BAO/Job.php
+msgid "Paused"
+msgstr "Zapauzowany"
+
+#: CRM/Mailing/BAO/Job.php
+msgid "Canceled"
+msgstr "Anulowany"
+
+#: CRM/Mailing/BAO/Job.php
 msgid "Not scheduled"
 msgstr ""
+
+#: CRM/Mailing/BAO/Mailing.php
+msgid "Reply"
+msgstr "Odpowiedz"
 
 #: CRM/Mailing/BAO/Mailing.php
 #, fuzzy
@@ -2491,128 +2073,13 @@ msgstr "Nie masz wystarczających uprawnień, by edytować ten kontakt."
 msgid "Selected mailing has been deleted."
 msgstr "Wybrane spotkanie zostało usunięte."
 
-#: CRM/Mailing/DAO/BouncePattern.php
-msgid "Pattern"
-msgstr "Wzór"
+#: CRM/Mailing/Event/BAO/Bounce.php
+msgid "Unknown"
+msgstr "Nieznany"
 
-#: CRM/Mailing/DAO/BounceType.php
-msgid "Hold Threshold"
-msgstr "Poziom zatrzymania"
-
-#: CRM/Mailing/DAO/BounceType.php
-msgid "AOL"
-msgstr "AOL"
-
-#: CRM/Mailing/DAO/BounceType.php
-msgid "Away"
-msgstr "Zajęty"
-
-#: CRM/Mailing/DAO/BounceType.php
-msgid "DNS"
-msgstr "DNS"
-
-#: CRM/Mailing/DAO/BounceType.php
-msgid "Invalid"
-msgstr "Niepoprawny"
-
-#: CRM/Mailing/DAO/BounceType.php
-msgid "Loop"
-msgstr "Pętla"
-
-#: CRM/Mailing/DAO/BounceType.php
-msgid "Quota"
-msgstr "Quota"
-
-#: CRM/Mailing/DAO/BounceType.php
-msgid "Relay"
-msgstr "Przekazywanie"
-
-#: CRM/Mailing/DAO/BounceType.php
-msgid "Spam"
-msgstr "Spam"
-
-#: CRM/Mailing/DAO/BounceType.php
-msgid "Syntax"
-msgstr "Składnia"
-
-#: CRM/Mailing/DAO/Component.php
-msgid "Component Name"
-msgstr "Nazwa składnika"
-
-#: CRM/Mailing/DAO/Component.php
-msgid "Welcome"
-msgstr ""
-
-#: CRM/Mailing/DAO/Component.php
-msgid "OptOut"
-msgstr "Zrezygnuj"
-
-#: CRM/Mailing/DAO/Group.php
-msgid "Include"
-msgstr "Dołącz"
-
-#: CRM/Mailing/DAO/Group.php
-msgid "Exclude"
-msgstr "Wyklucz"
-
-#: CRM/Mailing/DAO/Mailing.php
-msgid "From Name"
-msgstr "Nazwa nadawcy"
-
-#: CRM/Mailing/DAO/Mailing.php
-msgid "From Email"
-msgstr "Adres nadawcy"
-
-#: CRM/Mailing/DAO/Mailing.php
-msgid "Replyto Email"
-msgstr "Adres Reply-To"
-
-#: CRM/Mailing/DAO/Mailing.php
-msgid "Url Tracking"
-msgstr "Śledzenie URL"
-
-#: CRM/Mailing/DAO/Mailing.php
-msgid "Forward Replies"
-msgstr "Forwardowanie odpowiedzi"
-
-#: CRM/Mailing/DAO/Mailing.php
-msgid "Auto Responder"
-msgstr "Odpowiedź automatyczna"
-
-#: CRM/Mailing/DAO/Mailing.php
-msgid "Open Tracking"
-msgstr "Śledzenie otwarte"
-
-#: CRM/Mailing/DAO/Spool.php
-#, fuzzy
-msgid "Recipient Email"
-msgstr "Email nadawcy pokwitowania"
-
-#: CRM/Mailing/DAO/Spool.php
-msgid "Headers"
-msgstr ""
-
-#: CRM/Mailing/DAO/Spool.php
-#, fuzzy
-msgid "Body"
-msgstr "Treść HTML"
-
-#: CRM/Mailing/DAO/Spool.php
-msgid "Added At"
-msgstr ""
-
-#: CRM/Mailing/DAO/Spool.php
-#, fuzzy
-msgid "Removed At"
-msgstr "Data otrzymania"
-
-#: CRM/Mailing/DAO/TrackableURL.php
-msgid "Url"
-msgstr "URL"
-
-#: CRM/Mailing/Event/DAO/Unsubscribe.php
-msgid "Org Unsubscribe"
-msgstr "Wypisanie organizacji"
+#: CRM/Mailing/Form/Component.php
+msgid "Component Type"
+msgstr "Rodzaj składnika"
 
 #: CRM/Mailing/Form/Component.php
 #, fuzzy
@@ -2780,6 +2247,10 @@ msgstr "Pokaż ten adres na mapie"
 msgid "Send to This Group"
 msgstr "Dodaj do grupy"
 
+#: CRM/Mailing/Form/Test.php
+msgid "Test"
+msgstr "Test"
+
 #: CRM/Mailing/Form/Upload.php
 #, fuzzy
 msgid "FROM"
@@ -2884,6 +2355,10 @@ msgid ""
 "automated Subscribe, Unsubscribe, Resubscribe and Opt-out messages."
 msgstr ""
 
+#: CRM/Mailing/Menu.php templates/CRM/Mailing/Page/Resubscribe.tpl
+msgid "Resubscribe"
+msgstr "Odnów"
+
 #: CRM/Mailing/Menu.php templates/CRM/Mailing/Page/Optout.tpl
 #, fuzzy
 msgid "Optout"
@@ -2973,6 +2448,10 @@ msgstr "%1 %%StatusMessage%%"
 #: CRM/Mailing/Selector/Event.php
 msgid "Bounce Type"
 msgstr "Rodzaj odbicia"
+
+#: CRM/Mailing/Selector/Event.php
+msgid "Bounce Reason"
+msgstr "Powód odbicia"
 
 #: CRM/Mailing/Selector/Event.php templates/CRM/Mailing/Page/Report.tpl
 msgid "URL"
@@ -3114,122 +2593,6 @@ msgstr "Data zakończenia"
 #, fuzzy
 msgid "Find Test Memberships?"
 msgstr "Szukanie dotacji"
-
-#: CRM/Member/DAO/MembershipBlock.php
-msgid "Membership Type Default"
-msgstr ""
-
-#: CRM/Member/DAO/MembershipBlock.php
-#, fuzzy
-msgid "Display Min Fee"
-msgstr "Nazwa wyświetlana"
-
-#: CRM/Member/DAO/MembershipBlock.php
-#, fuzzy
-msgid "New Title"
-msgstr "Tytuł"
-
-#: CRM/Member/DAO/MembershipBlock.php
-#, fuzzy
-msgid "New Text"
-msgstr "Nowa kategoria"
-
-#: CRM/Member/DAO/MembershipBlock.php
-msgid "Renewal Title"
-msgstr ""
-
-#: CRM/Member/DAO/MembershipBlock.php
-#, fuzzy
-msgid "Renewal Text"
-msgstr "Tekst pokwitowania"
-
-#: CRM/Member/DAO/MembershipBlock.php
-#, fuzzy
-msgid "Is Required"
-msgstr "Wymagany"
-
-#: CRM/Member/DAO/MembershipLog.php
-msgid "Membership Change Date"
-msgstr ""
-
-#: CRM/Member/DAO/MembershipLog.php
-#, fuzzy
-msgid "Renewal Reminder Date"
-msgstr "Data otrzymania"
-
-#: CRM/Member/DAO/Membership.php
-msgid "Membership ID (match to membership)"
-msgstr ""
-
-#: CRM/Member/DAO/Membership.php
-#: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
-#: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
-#, fuzzy
-msgid "Membership Start Date"
-msgstr "Data rozpoczęcia"
-
-#: CRM/Member/DAO/Membership.php
-#, fuzzy
-msgid "Membership Expiration Date"
-msgstr "Data wygaśnięcia"
-
-#: CRM/Member/DAO/Membership.php
-#, fuzzy
-msgid "Status Override"
-msgstr "Status?"
-
-#: CRM/Member/DAO/Membership.php
-#, fuzzy
-msgid "Reminder Date"
-msgstr "Data otrzymania"
-
-#: CRM/Member/DAO/MembershipStatus.php
-msgid "Start Event Adjust Unit"
-msgstr ""
-
-#: CRM/Member/DAO/MembershipStatus.php
-msgid "End Event Adjust Unit"
-msgstr ""
-
-#: CRM/Member/DAO/MembershipStatus.php
-msgid "Admin Assigned Only?"
-msgstr ""
-
-#: CRM/Member/DAO/MembershipStatus.php
-#, fuzzy
-msgid "Default Status?"
-msgstr "Wartość domyślna"
-
-#: CRM/Member/DAO/MembershipStatus.php
-#, fuzzy
-msgid "start_date"
-msgstr "Data rozpoczęcia"
-
-#: CRM/Member/DAO/MembershipStatus.php
-#, fuzzy
-msgid "end_date"
-msgstr "Data zakończenia"
-
-#: CRM/Member/DAO/MembershipStatus.php
-msgid "join_date"
-msgstr ""
-
-#: CRM/Member/DAO/MembershipType.php
-#, fuzzy
-msgid "Visible"
-msgstr "Wyłącz"
-
-#: CRM/Member/DAO/MembershipType.php
-msgid "Receipt Text Signup"
-msgstr ""
-
-#: CRM/Member/DAO/MembershipType.php
-msgid "Receipt Text Renewal"
-msgstr ""
-
-#: CRM/Member/DAO/MembershipType.php
-msgid "lifetime"
-msgstr ""
 
 #: CRM/Member/Form/MembershipBlock.php
 #, fuzzy
@@ -3399,13 +2762,35 @@ msgid ""
 msgstr "Rodzaj dotacji o tej nazwie już istnieje. Wybierz inną nazwę."
 
 #: CRM/Member/Form/MembershipStatus.php
+#: templates/CRM/Member/Page/MembershipStatus.tpl
+msgid "Start Event"
+msgstr "Zdarzenie początkowe"
+
+#: CRM/Member/Form/MembershipStatus.php
 msgid "Start Event Adjustment"
 msgstr ""
+
+#: CRM/Member/Form/MembershipStatus.php
+msgid "Start Event Adjust Interval"
+msgstr "Interwał przesunięcia od daty początkowej"
+
+#: CRM/Member/Form/MembershipStatus.php
+#: templates/CRM/Member/Page/MembershipStatus.tpl
+msgid "End Event"
+msgstr "Zdarzenie końcowe"
 
 #: CRM/Member/Form/MembershipStatus.php
 #, fuzzy
 msgid "End Event Adjustment"
 msgstr "Edytuj sposób płatności"
+
+#: CRM/Member/Form/MembershipStatus.php
+msgid "End Event Adjust Interval"
+msgstr "Interwał przesunięcia od daty końcowej"
+
+#: CRM/Member/Form/MembershipStatus.php
+msgid "Current Membership?"
+msgstr "Aktualne członkowstwo?"
 
 #: CRM/Member/Form/MembershipStatus.php
 #, fuzzy
@@ -3434,14 +2819,26 @@ msgid "Please enter a monetary value for the Minimum Fee."
 msgstr "Wprowadź wartość pieniężną do pola Minimalna kwota dotacji."
 
 #: CRM/Member/Form/MembershipType.php
+msgid "Duration Interval"
+msgstr "Czas trwania"
+
+#: CRM/Member/Form/MembershipType.php
 #, fuzzy
 msgid "Membership Organization"
 msgstr "Dodaj członków do organizacji"
 
 #: CRM/Member/Form/MembershipType.php
+msgid "Fixed Period Rollover Day"
+msgstr "Dzień rozpoczęcia stałego okresu"
+
+#: CRM/Member/Form/MembershipType.php
 #, fuzzy
 msgid "Renewal Reminder Message"
 msgstr "Wysłany email"
+
+#: CRM/Member/Form/MembershipType.php
+msgid "Renewal Reminder Day"
+msgstr "Dzień przypomnienia odnowienia członkowstwa"
 
 #: CRM/Member/Form/MembershipType.php
 #, fuzzy
@@ -3583,6 +2980,10 @@ msgstr "Włącz rodzaj powiązania"
 #, fuzzy
 msgid "Delete Membership Type"
 msgstr "Usuń powiązanie"
+
+#: CRM/Member/Selector/Search.php templates/CRM/Member/Form/Task/Print.tpl
+msgid "Member Since"
+msgstr "Członkowstwo od "
 
 #: CRM/Member/Selector/Search.php
 #, fuzzy
@@ -4473,6 +3874,12 @@ msgstr "Informacje o dodatku"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
+#, fuzzy
+msgid "Membership Start Date"
+msgstr "Data rozpoczęcia"
+
+#: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
+#: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
 #: templates/CRM/Member/Form/MembershipRenewal.tpl
 #, fuzzy
 msgid "Membership End Date"
@@ -4948,6 +4355,14 @@ msgstr ""
 #, fuzzy
 msgid "Please print this confirmation for your records."
 msgstr "Wydrukuj i zachowaj to pokwitowanie."
+
+#: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
+#: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
+#: templates/CRM/Event/Form/Registration/Confirm.tpl
+#: templates/CRM/Event/Form/Registration/ThankYou.tpl
+#, fuzzy
+msgid "Event Information"
+msgstr "Informacje o domenie"
 
 #: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
 #, fuzzy
@@ -6020,6 +5435,18 @@ msgid "Item"
 msgstr ""
 
 #: templates/CRM/Event/Form/ParticipantView.tpl
+#: templates/CRM/Event/Form/Registration/LineItem.tpl
+#: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
+msgid "Qty"
+msgstr ""
+
+#: templates/CRM/Event/Form/ParticipantView.tpl
+#: templates/CRM/Event/Form/Registration/LineItem.tpl
+#, fuzzy
+msgid "Unit Price"
+msgstr "Cena"
+
+#: templates/CRM/Event/Form/ParticipantView.tpl
 #, fuzzy
 msgid "Event Level"
 msgstr "Wydarzenie"
@@ -6515,6 +5942,11 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Mailing/Form/Settings.tpl
+#, fuzzy
+msgid "Tracking"
+msgstr "Śledzenie URL"
+
+#: templates/CRM/Mailing/Form/Settings.tpl
 msgid ""
 "Track the number of times recipients click each link in this mailing. NOTE: "
 "When this feature is enabled, all links in the message body will be "
@@ -6694,6 +6126,10 @@ msgstr ""
 msgid ""
 "There are no Sent Mailings. You can <a href='%1'>create and send one</a>."
 msgstr "Nie ma wysłanych maili. <a href=\"%1\">Możesz zrobić wysyłkę</a>."
+
+#: templates/CRM/Mailing/Page/Component.tpl
+msgid "Body Text"
+msgstr "Tekst treści"
 
 #: templates/CRM/Mailing/Page/Component.tpl
 msgid "Body HTML"
@@ -7532,6 +6968,353 @@ msgstr ""
 "\">Możesz je dodać</a>."
 
 #, fuzzy
+#~ msgid "Pay Later Text"
+#~ msgstr "Płatne później"
+
+#, fuzzy
+#~ msgid "Pay Later Receipt"
+#~ msgstr "Pokwitowanie później"
+
+#~ msgid "Receipt Text"
+#~ msgstr "Tekst pokwitowania"
+
+#~ msgid "Cancel Date"
+#~ msgstr "Data anulowania"
+
+#~ msgid "Frequency Interval"
+#~ msgstr "Odstęp częstości"
+
+#~ msgid "week"
+#~ msgstr "tydzień"
+
+#~ msgid "Body Html"
+#~ msgstr "Treść HTML"
+
+#~ msgid "Time Stamp"
+#~ msgstr "Data i czas"
+
+#~ msgid "Intro Text"
+#~ msgstr "Tekst wprowadzający"
+
+#~ msgid "Thank-you Text"
+#~ msgstr "Tekst podziękowania"
+
+#~ msgid "Thank-you Footer"
+#~ msgstr "Stopka podziękowania"
+
+#~ msgid "Cc Receipt"
+#~ msgstr "Adres DW pokwitowania"
+
+#~ msgid "Bcc Receipt"
+#~ msgstr "Ukryty adres DW pokwitowania"
+
+#~ msgid "Honor Block Title"
+#~ msgstr "Tytuł bloku \"W imieniu\""
+
+#, fuzzy
+#~ msgid "Honor Block Text"
+#~ msgstr "Tekst wprowadzający"
+
+#, fuzzy
+#~ msgid "Contribution Page Start Date"
+#~ msgstr "Data dotacji – %1"
+
+#, fuzzy
+#~ msgid "Contribution Page End Date"
+#~ msgstr "Data dotacji – %1"
+
+#~ msgid "Solicitor ID"
+#~ msgstr "Identyfikator doradcy"
+
+#~ msgid "Receive Date"
+#~ msgstr "Data otrzymania"
+
+#~ msgid "Cancel Reason"
+#~ msgstr "Powód anulowania"
+
+#~ msgid "Thank-you Date"
+#~ msgstr "Data podziękowania"
+
+#, fuzzy
+#~ msgid "Amount Label"
+#~ msgstr "Kwota"
+
+#~ msgid "Product Option"
+#~ msgstr "Opcja produktu"
+
+#~ msgid "Quantity"
+#~ msgstr "Ilość"
+
+#~ msgid "Fulfilled Date"
+#~ msgstr "Data wypełnienia"
+
+#~ msgid "Comment"
+#~ msgstr "Komentarz"
+
+#~ msgid "Installments"
+#~ msgstr "Zaliczki"
+
+#~ msgid "Create Date"
+#~ msgstr "Stwórz datę"
+
+#, fuzzy
+#~ msgid "Recurring Contribution Status"
+#~ msgstr "Stan dotacji"
+
+#~ msgid "Cycle Day"
+#~ msgstr "Dzień cyklu"
+
+#~ msgid "Next Sched Contribution"
+#~ msgstr "Następna zaplanowana dotacja"
+
+#~ msgid "Failure Count"
+#~ msgstr "Liczba błędów"
+
+#~ msgid "Failure Retry Date"
+#~ msgstr "Data powtórki po błędzie"
+
+#~ msgid "Auto Renew"
+#~ msgstr "Automatyczne odnowienie"
+
+#~ msgid "Trxn Date"
+#~ msgstr "Data transakcji"
+
+#~ msgid "Trxn Type"
+#~ msgstr "Rodzaj transakcji"
+
+#~ msgid "Trxn Result Code"
+#~ msgstr "Kod rezultatu transakcji"
+
+#~ msgid "Debit"
+#~ msgstr "Obciążenie"
+
+#~ msgid "Credit"
+#~ msgstr "Uznanie"
+
+#~ msgid "Premiums Active"
+#~ msgstr "Aktywne dodatki"
+
+#~ msgid "Title for Premiums section"
+#~ msgstr "Tytuł części z dodatkami"
+
+#~ msgid "Premiums Intro Text"
+#~ msgstr "Tekst wprowadzający dodatków"
+
+#~ msgid "Premiums Contact Email"
+#~ msgstr "Dodatki – email kontaktowy"
+
+#~ msgid "Premiums Contact Phone"
+#~ msgstr "Dodatki – telefon kontaktowy"
+
+#~ msgid "Premiums Display Min Contribution"
+#~ msgstr "Dodatki – wyświetlanie min. dotacji"
+
+#~ msgid "Product Name"
+#~ msgstr "Nazwa produktu"
+
+#~ msgid "Thumbnail"
+#~ msgstr "Miniaturka"
+
+#~ msgid "Minimum Contribution"
+#~ msgstr "Dotacja minimalna"
+
+#~ msgid "Cost"
+#~ msgstr "Koszt"
+
+#, fuzzy
+#~ msgid "Confirmation Title"
+#~ msgstr "Potwierdź akcję"
+
+#, fuzzy
+#~ msgid "Confirm Text"
+#~ msgstr "Konfiguracja"
+
+#, fuzzy
+#~ msgid "Is confirm email"
+#~ msgstr "Nazwa lub email"
+
+#, fuzzy
+#~ msgid "Confirmation Email Text"
+#~ msgstr "Potwierdź akcję"
+
+#, fuzzy
+#~ msgid "Cc Confirm"
+#~ msgstr "Konfiguracja"
+
+#, fuzzy
+#~ msgid "Bcc Confirm"
+#~ msgstr "Konfiguracja"
+
+#, fuzzy
+#~ msgid "ThankYou Title"
+#~ msgstr "Tytuł podziękowania"
+
+#, fuzzy
+#~ msgid "ThankYou Text"
+#~ msgstr "Tekst podziękowania"
+
+#, fuzzy
+#~ msgid "Event Description"
+#~ msgstr "Opis wprowadzenia"
+
+#, fuzzy
+#~ msgid "Event Start Date"
+#~ msgstr "Data rozpoczęcia"
+
+#, fuzzy
+#~ msgid "Event End Date"
+#~ msgstr "Data zakończenia"
+
+#, fuzzy
+#~ msgid "Is Online Registration"
+#~ msgstr "Rejestracja użytkowników"
+
+#, fuzzy
+#~ msgid "Event Registration Link Text"
+#~ msgstr "Rejestracja użytkowników"
+
+#, fuzzy
+#~ msgid "show location"
+#~ msgstr "Lokalizacja główna"
+
+#, fuzzy
+#~ msgid "Payment ID"
+#~ msgstr "Rodzaj płatności"
+
+#, fuzzy
+#~ msgid "Register date"
+#~ msgstr "Data zakończenia"
+
+#~ msgid "Pattern"
+#~ msgstr "Wzór"
+
+#~ msgid "Hold Threshold"
+#~ msgstr "Poziom zatrzymania"
+
+#~ msgid "AOL"
+#~ msgstr "AOL"
+
+#~ msgid "Away"
+#~ msgstr "Zajęty"
+
+#~ msgid "DNS"
+#~ msgstr "DNS"
+
+#~ msgid "Invalid"
+#~ msgstr "Niepoprawny"
+
+#~ msgid "Loop"
+#~ msgstr "Pętla"
+
+#~ msgid "Quota"
+#~ msgstr "Quota"
+
+#~ msgid "Relay"
+#~ msgstr "Przekazywanie"
+
+#~ msgid "Spam"
+#~ msgstr "Spam"
+
+#~ msgid "Syntax"
+#~ msgstr "Składnia"
+
+#~ msgid "Component Name"
+#~ msgstr "Nazwa składnika"
+
+#~ msgid "OptOut"
+#~ msgstr "Zrezygnuj"
+
+#~ msgid "Include"
+#~ msgstr "Dołącz"
+
+#~ msgid "Exclude"
+#~ msgstr "Wyklucz"
+
+#~ msgid "From Name"
+#~ msgstr "Nazwa nadawcy"
+
+#~ msgid "From Email"
+#~ msgstr "Adres nadawcy"
+
+#~ msgid "Replyto Email"
+#~ msgstr "Adres Reply-To"
+
+#~ msgid "Forward Replies"
+#~ msgstr "Forwardowanie odpowiedzi"
+
+#~ msgid "Auto Responder"
+#~ msgstr "Odpowiedź automatyczna"
+
+#~ msgid "Open Tracking"
+#~ msgstr "Śledzenie otwarte"
+
+#, fuzzy
+#~ msgid "Recipient Email"
+#~ msgstr "Email nadawcy pokwitowania"
+
+#, fuzzy
+#~ msgid "Body"
+#~ msgstr "Treść HTML"
+
+#, fuzzy
+#~ msgid "Removed At"
+#~ msgstr "Data otrzymania"
+
+#~ msgid "Url"
+#~ msgstr "URL"
+
+#~ msgid "Org Unsubscribe"
+#~ msgstr "Wypisanie organizacji"
+
+#, fuzzy
+#~ msgid "New Title"
+#~ msgstr "Tytuł"
+
+#, fuzzy
+#~ msgid "New Text"
+#~ msgstr "Nowa kategoria"
+
+#, fuzzy
+#~ msgid "Renewal Text"
+#~ msgstr "Tekst pokwitowania"
+
+#, fuzzy
+#~ msgid "Is Required"
+#~ msgstr "Wymagany"
+
+#, fuzzy
+#~ msgid "Renewal Reminder Date"
+#~ msgstr "Data otrzymania"
+
+#, fuzzy
+#~ msgid "Membership Expiration Date"
+#~ msgstr "Data wygaśnięcia"
+
+#, fuzzy
+#~ msgid "Status Override"
+#~ msgstr "Status?"
+
+#, fuzzy
+#~ msgid "Reminder Date"
+#~ msgstr "Data otrzymania"
+
+#, fuzzy
+#~ msgid "Default Status?"
+#~ msgstr "Wartość domyślna"
+
+#, fuzzy
+#~ msgid "start_date"
+#~ msgstr "Data rozpoczęcia"
+
+#, fuzzy
+#~ msgid "end_date"
+#~ msgstr "Data zakończenia"
+
+#, fuzzy
+#~ msgid "Visible"
+#~ msgstr "Wyłącz"
+
+#, fuzzy
 #~ msgid "Event %2 %1"
 #~ msgstr "Kraj – „%1”"
 
@@ -7967,9 +7750,6 @@ msgstr ""
 
 #~ msgid "HTML Body"
 #~ msgstr "Treść w wersji HTML"
-
-#~ msgid "Test"
-#~ msgstr "Test"
 
 #~ msgid "Is Active"
 #~ msgstr "Czy aktywny"
