@@ -56,49 +56,46 @@ class CRM_Pledge_Page_DashBoard extends CRM_Core_Page
         $monthToDate   = array( );
         $previousToDate = array( );
         
-        $status = array( 'Valid', 'Cancelled' );
+        $prefixes = array( 'start', 'month', 'year' , 'previous' );
+        $status   = array( 'Completed', 'Cancelled', 'Pending', 'In Progress', 'Overdue' );
         
+        // cumulative (since inception) - prefix = 'start'
         $startDate = null;
+        $startDateEnd   = null;
+        
+        // current year - prefix = 'year'
         $config =& CRM_Core_Config::singleton( );
         $yearDate = $config->fiscalYearStart;
         $year  = array('Y' => date('Y'));
         $this->assign('curYear', $year['Y']);
         $yearDate = array_merge($year,$yearDate);
         $yearDate = CRM_Utils_Date::format( $yearDate );
+        $yearDate    = $yearDate  . '000000';
+        $yearDateEnd = $year['Y'] . '1231235959';
         
-        $monthDate = date('Ym') . '01000000';
-
-        $prefixes = array( 'start', 'month', 'year' , 'previous' );
-        $status   = array( 'Completed', 'Cancelled', 'Pending', 'In Progress', 'Overdue' );
+        // current month - prefix = 'month'
+        $currentMonth =    date( "F Y", mktime(0, 0, 0, date("m"),01,date("Y")));
+        $this->assign( 'currentMonthYear', $currentMonth );
+        $monthDate    = date('Ym') . '01000000';
+        $monthDateEnd = CRM_Utils_Date::customFormat(date( "Y-m-t", mktime(0, 0, 0, date("m"),01,date("Y"))) , '%Y%m%d').'235959';
         
-        $yearDate  = $yearDate  . '000000';
-        
+        // previous month - prefix = 'previous'
         $previousDate = CRM_Utils_Date::customFormat(date( "Y-m-d", mktime(0, 0, 0, date("m")-1,01,date("Y"))) , '%Y%m%d').'000000';
+        $previousDateEnd = CRM_Utils_Date::customFormat(date( "Y-m-t", mktime(0, 0, 0, date("m")-1,01,date("Y"))) , '%Y%m%d').'235959';
         $previousMonth = date( "F Y", mktime(0, 0, 0, date("m")-1,01,date("Y")));
         $this->assign( 'previousMonthYear', $previousMonth );
 
-        $currentMonth = date( "F Y", mktime(0, 0, 0, date("m"),01,date("Y")));
-        $this->assign( 'currentMonthYear', $currentMonth );
-
-        $previousDateEnd = CRM_Utils_Date::customFormat(date( "Y-m-t", mktime(0, 0, 0, date("m")-1,01,date("Y"))) , '%Y%m%d').'000000';
-        // we are specific since we want all information till this second
-        $now       = date( 'YmdHis' );
         
         require_once 'CRM/Pledge/BAO/Pledge.php';
         foreach ( $prefixes as $prefix ) {
             $aName = $prefix . 'ToDate';
-            $dName = $prefix . 'Date';
-            
-            if ( $prefix == 'previous' ) {
-                $now  = $previousDateEnd;
-            }
+            $startName = $prefix . 'Date';
+            $endName = $prefix . 'DateEnd';
             foreach ( $status as $s ) {
-                ${$aName}[str_replace(" ","",$s)]  =  CRM_Pledge_BAO_Pledge::getTotalAmountAndCount( $s, $$dName, $now );
+                ${$aName}[str_replace(" ","",$s)]  =  CRM_Pledge_BAO_Pledge::getTotalAmountAndCount( $s, $$startName, $$endName );
             }
             $this->assign( $aName, $$aName );
         }
-        $admin = CRM_Core_Permission::check( 'access Pledge' );
-        $this->assign( 'pledgeAdmin', $admin );
     }
     
     /** 

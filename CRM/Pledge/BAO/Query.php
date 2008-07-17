@@ -369,13 +369,13 @@ class CRM_Pledge_BAO_Query
     {
         
         // Pledge date selects for date 
-        $form->add('date', 'pledge_start_date_low', ts('Pledge Start Date - From'), CRM_Core_SelectValues::date('relative')); 
+        $form->add('date', 'pledge_start_date_low', ts('Payments Start Date - From'), CRM_Core_SelectValues::date('relative')); 
         $form->addRule('pledge_start_date_low', ts('Select a valid date.'), 'qfDate'); 
         
         $form->add('date', 'pledge_start_date_high', ts('To'), CRM_Core_SelectValues::date('relative')); 
         $form->addRule('pledge_start_date_high', ts('Select a valid date.'), 'qfDate'); 
 
-        $form->add('date', 'pledge_end_date_low', ts('Pledge End Date - From'), CRM_Core_SelectValues::date('relative')); 
+        $form->add('date', 'pledge_end_date_low', ts('Payments Ended Date - From'), CRM_Core_SelectValues::date('relative')); 
         $form->addRule('pledge_end_date_low', ts('Select a valid date.'), 'qfDate'); 
         
         $form->add('date', 'pledge_end_date_high', ts('To'), CRM_Core_SelectValues::date('relative')); 

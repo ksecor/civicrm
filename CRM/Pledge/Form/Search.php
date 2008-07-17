@@ -472,7 +472,7 @@ class CRM_Pledge_Form_Search extends CRM_Core_Form
             $statusValues = CRM_Contribute_PseudoConstant::contributionStatus( );
 
             // Remove status values that are only used for recurring contributions for now (Failed and In Progress).
-            unset( $statusValues['2']);
+            // unset( $statusValues['2']);
             unset( $statusValues['4']);
 
             // we need set all statuses except Cancelled

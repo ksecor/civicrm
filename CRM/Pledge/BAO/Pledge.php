@@ -249,6 +249,10 @@ class CRM_Pledge_BAO_Pledge extends CRM_Pledge_DAO_Pledge
         case 'Pending':
             $where[] = 'status_id = '. $statusId;
             break;
+
+        case 'Overdue':
+            $where[] = 'status_id = '. $statusId;
+            break;
         }
         
         if ( $startDate ) {
@@ -323,6 +327,7 @@ FROM $from
 WHERE  $whereCond 
 ";
         if ( $select ) {
+            // CRM_Core_Error::debug($status . ' start:' . $startDate . '- end:' . $endDate, $query);
             $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
             if ( $dao->fetch( ) ) {
                 return array_merge( $pledge_amount, array( 'received_amount' => $dao->received_pledge,
