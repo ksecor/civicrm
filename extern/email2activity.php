@@ -67,7 +67,6 @@ function process( &$file ) {
         CRM_Core_Error::fatal( $result['error_message'] );
     }
 
-
     // get ready for collecting data about activity to be created
     $params = array();
     $params['activity_type_id']   = 1; // Frontline Action

@@ -205,16 +205,19 @@ class CRM_Utils_Mail_Incoming {
                                                        array( 1 => $file ) ) );
         }
 
+        // since we only have one fileset
+        $mail = $mail[0];
+ 
         // get ready for collecting data about this email
         // and put it in a standardized format
         $params = array( 'is_error' => 0 );
 
         $params['from'] = array( );
-        self::parseAddress( $mail[0]->from, $field, $params['from'] );
+        self::parseAddress( $mail->from, $field, $params['from'] );
 
         $emailFields = array( 'to', 'cc', 'bcc' );
         foreach ( $emailFields as $field ) {
-            $value = $mail[0]->$field;
+            $value = $mail->$field;
             self::parseAddresses( $value, $field, $params );
             if ( $params['is_error'] ) {
                 return;
@@ -222,11 +225,11 @@ class CRM_Utils_Mail_Incoming {
         }
 
         // define other parameters
-        $params['subject'] = $mail[0]->subject;
+        $params['subject'] = $mail->subject;
         $params['date']    = date( "YmdHi00",
-                                   strtotime( $mail[0]->getHeader( "Date" ) ) );
+                                   strtotime( $mail->getHeader( "Date" ) ) );
         $attachments       = array( );
-        $params['body']    = self::formatMailPart( $mail[0]->body, $attachments );
+        $params['body']    = self::formatMailPart( $mail->body, $attachments );
 
         // format and move attachments to the civicrm area
         if ( ! empty( $attachments ) ) {
@@ -285,7 +288,6 @@ class CRM_Utils_Mail_Incoming {
         require_once 'CRM/Contact/BAO/Contact.php';
         $dao = CRM_Contact_BAO_Contact::matchContactOnEmail( $email, 'Individual' );
         if ( $dao ) {
-            echo "Found: $email, {$dao->contact_id}<p>";
             return $dao->contact_id;
         }
 
@@ -300,7 +302,6 @@ class CRM_Utils_Mail_Incoming {
         require_once 'CRM/Utils/String.php';
         CRM_Utils_String::extractName( $name, $params );
 
-        CRM_Core_Error::debug( "Creating: ", $params );
         return CRM_Contact_BAO_Contact::createProfileContact( $params,
                                                               CRM_Core_DAO::$_nullArray );
     }
