@@ -999,6 +999,43 @@ SELECT contact_id
         return $contactIDs;
     }
 
+    /**
+     * Takes a bunch of params that are needed to match certain criteria and
+     * retrieves the relevant objects. Typically the valid params are only
+     * contact_id. We'll tweak this function to be more full featured over a period
+     * of time. This is the inverse function of create. It also stores all the retrieved
+     * values in the default array
+     *
+     * @param string $daoName  name of the dao object
+     * @param array  $params   (reference ) an assoc array of name/value pairs
+     * @param array  $defaults (reference ) an assoc array to hold the flattened values
+     * @param array  $returnProperities     an assoc array of fields that need to be returned, eg array( 'first_name', 'last_name')
+     *
+     * @return object an object of type referenced by daoName
+     * @access public
+     * @static
+     */
+    static function commonRetrieveAll($daoName, $fieldIdName ='id', $fieldId, &$details, $returnProperities = null )
+    {
+        require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
+        eval( '$object =& new ' . $daoName . '( );' );
+        $object->$fieldIdName = $fieldId;
+        
+        // return only specific fields if returnproperties are sent
+        if ( !empty( $returnProperities ) ) {
+            $object->selectAdd( );
+            $object->selectAdd( 'id' );
+            $object->selectAdd( implode( ',' , $returnProperities ) );
+        }
+
+        $object->find( );
+        while ( $object->fetch( ) ) {
+            self::storeValues( $object, $defaults );
+            $details[$object->id] = $defaults;
+        }
+
+        return $details;
+    }
     
 }
 

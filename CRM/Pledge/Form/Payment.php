@@ -139,15 +139,38 @@ class CRM_Pledge_Form_Payment extends CRM_Core_Form
         } 
 
         $params['id'] = $this->_id;
-               
+        require_once 'CRM/Core/DAO.php';
+        $pledgeId = CRM_Core_DAO::getFieldValue( 'CRM_Pledge_DAO_Payment', $params['id'], 'pledge_id' );       
         require_once 'CRM/Pledge/BAO/Payment.php';
         CRM_Pledge_BAO_Payment::add( $params );
         if ( CRM_Utils_Date::overdue( $params['scheduled_date'], null, false ) ){
-            require_once 'CRM/Core/DAO.php';
-            $pledgeId = CRM_Core_DAO::getFieldValue( 'CRM_Pledge_DAO_Payment', $params['id'], 'pledge_id' );
             if ( $pledgeId ) {
                 CRM_Core_DAO::setFieldValue( 'CRM_Pledge_DAO_Pledge', $pledgeId,
                                              'status_id', array_search( 'Overdue', CRM_Contribute_PseudoConstant::contributionStatus( )) );
+            }
+        }
+        else {
+            if ( $pledgeId ) {
+                require_once 'CRM/Pledge/BAO/Payment.php';
+                $returnProperties = array( 'status_id' );
+                CRM_Core_DAO::commonRetrieveAll( 'CRM_Pledge_DAO_Payment', 'pledge_id', $pledgeId, $statuses, $returnProperties );
+                
+
+                $paymentStatusTypes = CRM_Contribute_PseudoConstant::contributionStatus( );
+                $allStatus = array( );
+                foreach ( $statuses as $key => $value ) {
+                    $allStatus[] = $paymentStatusTypes[$value['status_id']];
+                }
+                
+                if ( array_search( 'Overdue', $allStatus ) ){
+                    $statusId = array_search( 'Overdue', CRM_Contribute_PseudoConstant::contributionStatus( ));
+                }else if ( array_search( 'Completed', $allStatus ) ) {
+                    $statusId = array_search( 'In Progress', CRM_Contribute_PseudoConstant::contributionStatus( ));
+                } else {
+                    $statusId = array_search( 'Pending', CRM_Contribute_PseudoConstant::contributionStatus( ));
+                }
+                CRM_Core_DAO::setFieldValue( 'CRM_Pledge_DAO_Pledge', $pledgeId,
+                                             'status_id', $statusId );
             }
         }
         $statusMsg = ts('Pledge Payment Schedule has been updated.<br />');
