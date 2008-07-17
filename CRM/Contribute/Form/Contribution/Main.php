@@ -66,6 +66,9 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         //get the pledgeId
         $this->_pledgeId = CRM_Utils_Request::retrieve( 'pledgeId', 'Positive', $this );
         
+        //get the userChecksum.
+        $userChecksum = CRM_Utils_Request::retrieve( 'cs', 'String', $this );
+        
         //validate user for pledge payment.
         if ( $this->_pledgeId ) {
             //get pledge status and contact id
@@ -83,10 +86,22 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             $allStatus = CRM_Contribute_PseudoConstant::contributionStatus( );
             $validStatus = array( array_search( 'Overdue', $allStatus ), array_search( 'In Progress', $allStatus ) );
             
-            if ( $userID && 
-                 $userID != $pledgeValues['contact_id']  ) {
-                CRM_Core_Error::fatal( ts( "Oops. You do not own this pledge" ) ); 
-            } else if ( !in_array( $pledgeValues['status_id'], $validStatus ) ) {
+            if ( $userID &&
+                 $userID != $pledgeValues['contact_id']  ) { 
+                //check for authenticated  user. 
+                CRM_Core_Error::fatal( ts( "Oops. You do not own this pledge." ) ); 
+                
+            } else if ( $userChecksum && $pledgeValues['contact_id'] ) {
+                //check for anonymous user. 
+                require_once 'CRM/Contact/BAO/Contact/Utils.php';
+                $validUser = CRM_Contact_BAO_Contact_Utils::validChecksum( $pledgeValues['contact_id'], $userChecksum );
+                if ( !$validUser ) {
+                    CRM_Core_Error::fatal( ts( "Oops. You do not own this pledge." ) );    
+                }
+            }
+            
+            //check for valid pledge status.
+            if ( !in_array( $pledgeValues['status_id'], $validStatus ) ) {
                 CRM_Core_Error::fatal( ts( "Oops. You cannot Make the Payment for this pledge as Pledge Status is %1.", array( CRM_Utils_Array::value( $pledgeValues['status_id'], $allStatus ) ) ) ); 
             }
         }

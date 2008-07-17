@@ -16,10 +16,8 @@
 {ts 2=$domain.phone}Please contact us at %2 to make your payment.{/ts}
 {/if}
 {if $contribution_id}
-{capture assign=contributionUrl}
-  {crmURL p='civicrm/contribute/transact' q="reset=1&id=`$contribution_id`&cs=`$checksumValue`&pledgeId=`$pledge_id`"}
-{/capture}
-Please follow the link to pay the outstanding amount <a href="{$contributionUrl}">{ts}Pay Online{/ts}</a>
+{capture assign=contributionUrl}{crmURL p='civicrm/contribute/transact' q="reset=1&id=`$contribution_id`&pledgeId=`$pledge_id`&cs=`$checksumValue`"}{/capture}
+Please follow the link to pay the outstanding amount <a href="{$contributionUrl}">{ts}Pay Online{/ts}</a> 
 {/if}
 ===========================================================
 {ts}Pledge Information{/ts}
