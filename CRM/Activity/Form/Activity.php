@@ -192,7 +192,14 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             CRM_Custom_Form_CustomData::buildQuickForm( $this );
             CRM_Custom_Form_CustomData::setDefaultValues( $this );
         }
-
+        
+        // build assignee contact combo
+        if ( CRM_Utils_Array::value( 'contact_assignee', $_POST ) ) {
+            foreach ( $_POST['contact_assignee'] as $key => $value ) {
+                CRM_Contact_Form_AddContact::buildQuickForm( $this, "contact_assignee[{$key}]" );
+            }
+        }
+        
         // add attachments part
         require_once 'CRM/Core/BAO/File.php';
         CRM_Core_BAO_File::buildAttachment( $this,
@@ -291,10 +298,11 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         if ( $this->_addContact ) {
             $contactCount  = CRM_Utils_Array::value( 'count', $_GET );
             $this->assign('prevCount', $contactCount );
+
             $contactCount = $contactCount + 1;
             $this->assign('contactCount', $contactCount );
             $this->assign('contactFieldName', 'contact_assignee' );
-            return CRM_Contact_Form_AddContact::buildQuickForm( $this, $contactCount, 'contact_assignee' );
+            return CRM_Contact_Form_AddContact::buildQuickForm( $this, "contact_assignee[{$contactCount}]" );
         }
 
         //build other activity links
@@ -353,9 +361,9 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         $config =& CRM_Core_Config::singleton( );
 
         // add a dojo facility for searching contacts
-        $this->assign( 'dojoIncludes', " dojo.require('dojox.data.QueryReadStore'); dojo.require('dijit.form.ComboBox');dojo.require('dojo.parser');" );
+        $this->assign( 'dojoIncludes', " dojo.require('dojox.data.QueryReadStore'); dojo.require('dojo.parser');" );
 
-        $attributes = array( 'dojoType'       => 'dijit.form.ComboBox',
+        $attributes = array( 'dojoType'       => 'civicrm.FilteringSelect',
                              'mode'           => 'remote',
                              'store'          => 'contactStore',
                              'pageSize'       => 10  );
@@ -437,7 +445,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                                                                        'sort_name' );
         }
         
-        $assigneeContactField = $this->add( 'text','assignee_contact', ts('Assigned To'), $attributes );
+        $assigneeContactField = $this->add( 'text','contact_assignee[1]', ts('Assigned To'), $attributes );
         if ( $assigneeContactField->getValue( ) ) {
             $this->assign( 'assignee_contact_value',  $assigneeContactField->getValue( ) );
         } else {
@@ -536,31 +544,33 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         if ( ! $self->_single && ! $fields['activity_type_id']) {
             $errors['activity_type_id'] = ts('Activity Type is a required field');
         }
+        
+        //FIX me temp. comment
         // make sure if associated contacts exist
         require_once 'CRM/Contact/BAO/Contact.php';
-        if ( $fields['source_contact'] ) {
-            $source_contact_id   = self::_getIdByDisplayName( $fields['source_contact'] );
+//         if ( $fields['source_contact'] ) {
+//             $source_contact_id   = self::_getIdByDisplayName( $fields['source_contact'] );
             
-            if ( !$source_contact_id ) {
-                $errors['source_contact'] = ts('Source Contact non-existant!');
-            }
-        }
+//             if ( !$source_contact_id ) {
+//                 $errors['source_contact'] = ts('Source Contact non-existant!');
+//             }
+//         }
 
-        if ( CRM_Utils_Array::value('target_contact',$fields) ) {
-            $target_contact_id   = self::_getIdByDisplayName( $fields['target_contact'] );
+//         if ( CRM_Utils_Array::value('target_contact',$fields) ) {
+//             $target_contact_id   = self::_getIdByDisplayName( $fields['target_contact'] );
 
-            if ( !$target_contact_id ) {
-                $errors['target_contact'] = ts('Target Contact non-existant!');
-            }
-        }
+//             if ( !$target_contact_id ) {
+//                 $errors['target_contact'] = ts('Target Contact non-existant!');
+//             }
+//         }
 
-        if ( $fields['assignee_contact'] ) {
-            $assignee_contact_id = self::_getIdByDisplayName( $fields['assignee_contact'] );
+//         if ( $fields['assignee_contact'] ) {
+//             $assignee_contact_id = self::_getIdByDisplayName( $fields['assignee_contact'] );
             
-            if ( !$assignee_contact_id ) {
-                $errors['assignee_contact'] = ts('Assignee Contact non-existant!');
-            }
-        }
+//             if ( !$assignee_contact_id ) {
+//                 $errors['assignee_contact'] = ts('Assignee Contact non-existant!');
+//             }
+//         }
         
         if ( $fields['activity_type_id'] == 3 && $fields['status'] == 'Scheduled' ) {
             $errors['status'] = ts('You cannot record scheduled email activity.');
@@ -605,7 +615,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
-
+        //crm_core_error::Debug( $params ); exit();
         // format custom data
         // get mime type of the uploaded file
         if ( !empty($_FILES) ) {

@@ -39,7 +39,7 @@
  */
 class CRM_Contact_Form_AddContact
 {
-    function buildQuickForm( $form, $contactCount = 1, $fieldName = 'contact' ) 
+    function buildQuickForm( $form, $fieldName = 'contact' ) 
     {
         $form->assign( 'dojoIncludes', "dojo.require('dojox.data.QueryReadStore'); dojo.require('dojo.parser');");
         
@@ -48,7 +48,7 @@ class CRM_Contact_Form_AddContact
                              'style'        => 'border: 1px solid #cfcfcf;',
                              'class'        => 'tundra',
                              'pageSize'     => 10,
-                             'id'           => "{$fieldName}{$contactCount}"
+                             'id'           => "{$fieldName}"
                              );
         
         $dataURL =  CRM_Utils_System::url( 'civicrm/ajax/search',
@@ -56,6 +56,6 @@ class CRM_Contact_Form_AddContact
                                            true, null, false );
         
         $form->assign('dataURL',$dataURL );
-        $form->addElement('text', "{$fieldName}_{$contactCount}", ts('Select Contact'), $attributes );
+        $form->addElement('text', "{$fieldName}", ts('Select Contact'), $attributes );
     }
 }
