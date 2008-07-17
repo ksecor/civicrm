@@ -194,6 +194,15 @@ class CRM_Case_BAO_Query
                    array( '' => ts( '- select -' ) ) + $caseStatus );
         
         $form->addElement( 'text', 'case_subject', ts( 'Subject' ) );
+        if ($config->civiHRD){
+            $caseSubType = CRM_Core_OptionGroup::values('f1_case_sub_type');
+            $form->add('select', 'casetag2_id',  ts( 'Case Sub Type' ),  
+                       $caseSubType , false, array("size"=>"5","multiple"));
+            
+            $caseViolation = CRM_Core_OptionGroup::values('f1_case_violation');
+            $form->add('select', 'casetag3_id',  ts( 'Violation' ),  
+                       $caseViolation , false, array("size"=>"5",  "multiple"));
+        }
     
         $form->addElement('date', 'case_start_date_low', ts('Start Date - From'), CRM_Core_SelectValues::date('relative')); 
         $form->addRule('case_start_date_low', ts('Select a valid date.'), 'qfDate'); 
