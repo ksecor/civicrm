@@ -107,7 +107,7 @@
         {/section}
         </table>
         <div id="discountLink" class="add-remove-link">
-           <a onclick="showrowDiscount();return false;" name="discountLink" href="#discountLink" class="form-link"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}show field or section{/ts}"/>{ts}another discount set{/ts}</a>
+           <a onclick="showrow('discount',5);return false;" name="discountLink" href="#discountLink" class="form-link"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}show field or section{/ts}"/>{ts}another discount set{/ts}</a>
         </div>
         {$form._qf_Fee_submit.html}
 	

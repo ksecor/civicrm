@@ -627,105 +627,96 @@ function hiderowDiscount(rowid)
 }
 
 /** 
- * This (temporary) function is used to show the table row 
- * for Discounts 
+ * This function is used to show the table row 
+ * also checks whether we have reached the 11th or 6th row, according to who called it
  * 
- * Need to make generic with showrow()
- * @param null
+ * @param type eg.discount/optionField
+ * @param maxValue number of rows
  * @access public
  * @return null
  *
  */
-function showrowDiscount()
+
+function showrow(type,maxValue)
 {
     var rowid ;
-    
-    if(rowcounter == 0) {
-	for (var i=2; i<=6; i++) {
-            rowid = 'discount_'+i;
-
-            if (i == 6) {
-                    document.getElementById('discountLink').style.display = 'none';
-            }
-
-	    if(document.getElementById(rowid).style.display == 'none') {
-                document.getElementById(rowid).style.display = '';
-                break;
-            }   
-        }
-
-    } else {
-        rowcounter--;
-	
-	for (var i=2; i<=6; i++) {
-            rowid = 'discount_'+i;
+    if( rowcounter == 0 ) {
+	for ( var i = 2; i <= maxValue; i++ ) {
+            rowid = type+"_"+i;
 	    
-	    if (i == 6) {
-		    document.getElementById('discountLink').style.display = 'none';
-            }	
-       
-	    if(document.getElementById(rowid).style.display == 'none') {
-                document.getElementById(rowid).style.display = '';
-		if (i < 6) {
-		   if(rowcounter == 0) {
-		   	document.getElementById('discountLink').style.display = 'none';
-		   }
-                   break;
+	    if ( i == maxValue ) {
+		document.getElementById(type+'Link').style.display = 'none';
+		if (type == 'optionField') {
+		    document.getElementById('additionalOption').style.display = '';
 		}
             }
-        }
-    }
-}
-/** 
- * This function is used to show the table row 
- * also checks whether we have reached the 11th row
- * 
- * @param null
- * @access public
- * @return null
- *
- */
-function showrow()
-{
-    var rowid ;
-    
-    if(rowcounter == 0) {
-	for (var i=2; i<=11; i++) {
-            rowid = 'optionField_'+i;
-
-            if (i == 11) {
-		    document.getElementById('additionalOption').style.display = '';
-                    document.getElementById('optionFieldLink').style.display = 'none';
-            }
 
 	    if(document.getElementById(rowid).style.display == 'none') {
                 document.getElementById(rowid).style.display = '';
-                if (i < 11)
-			document.getElementById('additionalOption').style.display = 'none';
-	        break;
-            }   
-        }
-
+		if(type == 'discount' ) {
+		    //set start date of next discount set, 
+		    //according to end date of previouse discount set
+		    var j = i -1;
+		    var month = document.getElementById("discount_end_date["+j+"][M]").value;
+		    var day   = document.getElementById("discount_end_date["+j+"][d]").value;
+		    var year  = document.getElementById("discount_end_date["+j+"][Y]").value;
+		    
+		    var discount_date=new Date( year, month, day );
+		    discount_date.setDate( discount_date.getDate() + 1 );
+		    if ( month && day && year ) {			       
+			document.getElementById("discount_start_date["+i+"][M]").value = discount_date.getMonth( );
+			document.getElementById("discount_start_date["+i+"][d]").value = discount_date.getDate( );
+			document.getElementById("discount_start_date["+i+"][Y]").value = discount_date.getFullYear( );
+		    }
+		} else if (i < maxValue && type == 'optionField' ) {
+		    document.getElementById('additionalOption').style.display = 'none';
+		}
+		break;
+	    }
+	}
     } else {
         rowcounter--;
 	
-	for (var i=2; i<=11; i++) {
-            rowid = 'optionField_'+i;
-	    
-	    if (i == 11) {
+	for (var i = 2; i <= maxValue; i++ ) {
+            rowid = type+'_'+i;
+	    if (i == maxValue) {
+		document.getElementById(type+'Link').style.display = 'none';
+		if ( type == 'optionField') {
 		    document.getElementById('additionalOption').style.display = '';
-                    document.getElementById('optionFieldLink').style.display = 'none';
+		}
             }	
-       
+	    
 	    if(document.getElementById(rowid).style.display == 'none') {
                 document.getElementById(rowid).style.display = '';
-		if (i < 11) {
-                   document.getElementById('additionalOption').style.display = 'none';
-		   if(rowcounter == 0) {
+		if (i < maxValue && type == 'discount') {
+		    
+		    if(rowcounter == 0) {
+		   	document.getElementById(type+'Link').style.display = 'none';
+		    }
+		    //set start date of next discount set, 
+		    //according to end date of previouse discount set
+		    var j = i -1;
+		    var month = document.getElementById("discount_end_date["+j+"][M]").value;
+		    var day   = document.getElementById("discount_end_date["+j+"][d]").value;
+		    var year  = document.getElementById("discount_end_date["+j+"][Y]").value;
+		    
+		    var discount_date = new Date( year, month, day );
+		    discount_date.setDate( discount_date.getDate() + 1 );
+		    
+		    if ( month && day && year ) {			       
+			document.getElementById("discount_start_date["+i+"][M]").value = discount_date.getMonth( );
+			document.getElementById("discount_start_date["+i+"][d]").value = discount_date.getDate( );
+			document.getElementById("discount_start_date["+i+"][Y]").value = discount_date.getFullYear( );
+		    }
+		    
+		    break;
+		} else if (i < maxValue && type == 'optionField') {
+		    document.getElementById('additionalOption').style.display = 'none';
+		    if(rowcounter == 0) {
 		   	document.getElementById('optionFieldLink').style.display = 'none';
 			document.getElementById('additionalOption').style.display = '';
-		   }
-                   break;
+		    }
+		    break;
 		}
             }
         }
