@@ -664,10 +664,6 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             $params['source_contact_id'] = self::_getIdByDisplayName($params['source_contact']);
         }
 
-        if ( $params['assignee_contact'] ) {
-            $params['assignee_contact_id'] = self::_getIdByDisplayName( $params['assignee_contact'] );
-        }
-
         $config =& CRM_Core_Config::singleton( );
         if ( $config->civiHRD ) {
             $params['activity_tag3_id'] = implode( CRM_Core_DAO::VALUE_SEPARATOR, 
@@ -684,23 +680,33 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                                              'civicrm_activity',
                                              $this->_activityId );
 
+        $activity = CRM_Activity_BAO_Activity::create( $params );
+        $targetParams['activity_id'] = $activity->id;  
+        $assigneeParams['activity_id'] = $activity->id;
         require_once "CRM/Activity/BAO/Activity.php";
         if ( $this->_single ) {
-            if ( ! $params['target_contact'] ) {
-                $params['target_contact_id'] = $this->_currentlyViewedContactId;
+            if ( empty($params['target_contact']) ) {
+                $targetParams['target_contact_id'] = $this->_currentlyViewedContactId;
             } else {
-                $params['target_contact_id'] = self::_getIdByDisplayName($params['target_contact']);
+                foreach ( $params['target_contact'] as $key => $id ) {
+                    $targetParams['target_contact_id'] = $id;
+                    CRM_Activity_BAO_Activity::createActivityTarget( $targetParams );
+                }
             }
-            $activity = CRM_Activity_BAO_Activity::create( $params );
         } else {
-            $activity = CRM_Activity_BAO_Activity::create( $params );
             foreach ( $this->_contactIds as $contactId ) {
                 $targetParams['target_contact_id'] = $contactId; 
-                $targetParams['activity_id'] = $activity->id;   
                 CRM_Activity_BAO_Activity::createActivityTarget( $targetParams );
             }
         }
 
+        if (! empty($params['assignee_contact']) ) {
+            foreach ( $params['assignee_contact'] as $key => $id ) {
+                $assigneeParams['assignee_contact_id'] = $id;
+                CRM_Activity_BAO_Activity::createActivityAssignment( $assigneeParams );
+            }
+        }
+       
         // add case activity
         if ( $this->_viewOptions['CiviCase'] ) {
             require_once 'CRM/Case/BAO/Case.php';
