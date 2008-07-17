@@ -471,8 +471,7 @@ class CRM_Pledge_Form_Search extends CRM_Core_Form
             require_once 'CRM/Contribute/PseudoConstant.php';
             $statusValues = CRM_Contribute_PseudoConstant::contributionStatus( );
 
-            // Remove status values that are only used for recurring contributions for now (Failed and In Progress).
-            // unset( $statusValues['2']);
+            // Remove status values that are only used for recurring contributions for now (Failed).
             unset( $statusValues['4']);
 
             // we need set all statuses except Cancelled
