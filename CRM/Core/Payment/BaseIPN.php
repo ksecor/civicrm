@@ -360,6 +360,11 @@ class CRM_Core_Payment_BaseIPN {
         $contribution->save( );
 
         // next create the transaction record
+        if ( isset( $objects['paymentProcessor'] ) ) {
+            $paymentProcessor = $objects['paymentProcessor']['payment_processor_type'];
+        } else {
+            $paymentProcessor = '';
+        }
         $trxnParams = array(
                             'contribution_id'   => $contribution->id,
                             'trxn_date'         => isset( $input['trxn_date'] ) ? $input['trxn_date'] : self::$_now,
@@ -368,7 +373,7 @@ class CRM_Core_Payment_BaseIPN {
                             'fee_amount'        => $contribution->fee_amount,
                             'net_amount'        => $contribution->net_amount,
                             'currency'          => $contribution->currency,
-                            'payment_processor' => $objects['paymentProcessor']['payment_processor_type'],
+                            'payment_processor' => $paymentProcessor,
                             'trxn_id'           => $contribution->trxn_id,
                             );
         
@@ -414,7 +419,7 @@ class CRM_Core_Payment_BaseIPN {
             $values = array( );
             if ( $input['component'] == 'contribute' ) {
                 require_once 'CRM/Contribute/BAO/ContributionPage.php';
-                if ( $contribution->contribution_page_id ) {
+                if ( isset( $contribution->contribution_page_id ) ) {
                     CRM_Contribute_BAO_ContributionPage::setValues( $contribution->contribution_page_id, $values );
                 } else {
                     // Handle re-print receipt for offline contributions (call from PDF.php - no contribution_page_id)
@@ -456,7 +461,9 @@ class CRM_Core_Payment_BaseIPN {
         $template =& CRM_Core_Smarty::singleton( );
         // CRM_Core_Error::debug('tpl',$template);
         //assign honor infomation to receiptmessage
-        if ( $honarID = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_Contribution', $contribution->id, 'honor_contact_id' ) ) {
+        if ( $honarID = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_Contribution',
+                                                     $contribution->id,
+                                                     'honor_contact_id' ) ) {
             $honorDefault = array( );
             $honorIds     = array( );
             $honorIds['contribution'] =  $contribution->id;
@@ -580,6 +587,30 @@ class CRM_Core_Payment_BaseIPN {
         } else {
             if ( $membership ) {
                 $values['membership_id'] = $membership->id;
+
+                // need to set the membership values here
+                $template->assign( 'membership_assign', 1 );
+                require_once 'CRM/Member/PseudoConstant.php';
+                $template->assign( 'membership_name',
+                                   CRM_Member_PseudoConstant::membershipType( $membership->membership_type_id ) );
+                $template->assign( 'mem_start_date', $membership->start_date );
+                $template->assign( 'mem_end_date', $membership->end_date );
+                
+                if ( isset( $contribution->contribution_page_id ) ) {
+                    // get the membership block
+                    require_once 'CRM/Member/BAO/Membership.php';
+                    $membershipBlock = CRM_Member_BAO_Membership::getMembershipBlock( $contribution->contribution_page_id );
+                    
+                    // get details of membership block if any
+                    $template->assign_by_ref( 'membershipBlock', $membershipBlock );
+                    $template->assign( 'is_separate_payment', $membershipBlock->is_separate_payment );
+
+                    if ( $membershipBlock->is_separate_payment ) {
+                        
+                        $template->assign( 'membership_amount', '' );
+                        $template->assign( 'membership_trx_id', '' );
+                    }
+                }
             }
             $values['contribution_id']     = $contribution->id;
             if ( $ids['related_contact'] ) {

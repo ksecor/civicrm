@@ -162,18 +162,19 @@ AND    {$this->_componentClause}";
 
             // CRM_Core_Error::debug('input',$input);
             
-            // reset template values before next
-            $template->clearTemplateVars( );
-
             $values = array( );
             $mail = $baseIPN->sendMail( $input, $ids, $objects, $values, false, true );
             $mail = str_replace( "\n\n", "<p>", $mail );
             $mail = str_replace( "\n", "<br/>", $mail );
 
             $message[] = $mail;
+
+            // reset template values before processing next transactions
+            $template->clearTemplateVars( );
         }
         
-        CRM_Core_Error::debug('msg',$message); exit();
+        CRM_Core_Error::debug('msg',$message);
+        exit();
 
         require_once 'CRM/Utils/PDF/Utils.php';
         CRM_Utils_PDF_Utils::domlib( $message, "civicrmContributionReceipt.pdf" );

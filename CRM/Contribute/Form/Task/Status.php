@@ -224,6 +224,8 @@ AND    co.id IN ( $contribIDs )";
         $contribIDs = implode( ',', $this->_contributionIds );
         $details = self::getDetails( $contribIDs );
 
+        $template =& CRM_Core_Smarty::singleton( );
+
         // for each contribution id, we just call the baseIPN stuff 
         foreach ( $this->_rows as $row ) {
             $input = $ids = $objects = array( );
@@ -238,7 +240,7 @@ AND    co.id IN ( $contribIDs )";
             $ids['participant']       = $details[$row['contribution_id']]['participant'];
             $ids['event']             = $details[$row['contribution_id']]['event'];
 
-            if ( ! $baseIPN->validateData( $input, $ids, $objects ) ) {
+            if ( ! $baseIPN->validateData( $input, $ids, $objects, false ) ) {
                 CRM_Core_Error::fatal( );
             }
 
@@ -273,6 +275,9 @@ AND    co.id IN ( $contribIDs )";
             $input['trxn_date'] = CRM_Utils_Date::format( $params["trxn_date_{$row['contribution_id']}"] );
 
             $baseIPN->completeTransaction( $input, $ids, $objects, $transaction, false );
+
+            // reset template values before processing next transactions
+            $template->clearTemplateVars( );
         }
 
         CRM_Core_Session::setStatus( ts('Contribution status has been updated for selected record(s).') );
