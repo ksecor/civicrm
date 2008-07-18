@@ -213,9 +213,13 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             
             require_once 'CRM/Contribute/PseudoConstant.php';
             $paymentStatusTypes = CRM_Contribute_PseudoConstant::contributionStatus( );
+            $duePayment = false;
             foreach ( $statuses as $payId => $value ) {
                 if ( $paymentStatusTypes[$value['status_id']] == 'Overdue' ) {
                     $this->_defaults['pledge_amount'][$payId] = 1;
+                } else if ( !$duePayment && $paymentStatusTypes[$value['status_id']] == 'Pending' ) {
+                    $this->_defaults['pledge_amount'][$payId] = 1;
+                    $duePayment = true;
                 }
             }
         }
@@ -276,8 +280,11 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             $this->buildOnBehalfOrganization( );
         }
         
-        require_once 'CRM/Contribute/BAO/Premium.php';
-        CRM_Contribute_BAO_Premium::buildPremiumBlock( $this , $this->_id ,true );
+        //we allow premium for pledge during pledge creation only.
+        if ( !$this->_pledgeId ) {
+            require_once 'CRM/Contribute/BAO/Premium.php';
+            CRM_Contribute_BAO_Premium::buildPremiumBlock( $this , $this->_id ,true );
+        }
         
         if ( $this->_values['honor_block_is_active'] ) {
             $this->buildHonorBlock( );
