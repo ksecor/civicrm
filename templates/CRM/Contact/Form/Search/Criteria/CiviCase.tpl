@@ -23,22 +23,7 @@
                 <td>
                         {$form.case_type_id.html}
                 </td>
-		{if $config->civiHRD}
-			<td class="label">
-        	                {$form.case_casetag2_id.label} 
-			</td>
-			<td >  
-				{$form.case_casetag2_id.html}
-                	</td>
-		</tr>
-		<tr>
-			<td class="label">
-				{$form.case_casetag3_id.label}
-			</td>
-			<td >  
-				{$form.case_casetag3_id.html}
-                	</td>
-               {/if}             
+	
             </tr>            
             <tr>
                 <td class="label"> 
@@ -58,8 +43,6 @@
                         {include file="CRM/common/calendar/body.tpl" dateVar=case_start_date_high startDate=startYear endDate=endYear offset=5 trigger=trigger_search_case_2}
                 </td>          
             </tr>
-            
-           
  </table>
 </fieldset>
 </div>
