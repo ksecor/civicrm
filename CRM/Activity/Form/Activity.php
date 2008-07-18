@@ -339,7 +339,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         unset( $this->_activityType[8] );
         $this->add('select', 'activity_type_id', ts('Activity Type'),
                    $this->_activityType,
-                   false, array('onchange' => "reload(true)"));
+                   false, array('onchange' => "buildCustomData( this.value );") );
         
         $this->add('text', 'description', ts('Description'),
                    CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'description' ), false);
