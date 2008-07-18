@@ -56,10 +56,10 @@
             <p>{ts}Your initial contribution will be processed once you complete the confirmation step. You will be able to modify or cancel future contributions at any time by logging in to your account.{/ts}</p>
         {/if}
 	{if $is_pledge}
-            {if $pledge_installments}
-                <p><strong>{ts 1=$pledge_frequency_interval 2=$pledge_frequency_unit 3=$pledge_installments}I pledge to contribute this amount every %1 %2(s) for %3 installments.{/ts}</strong></p>
+            {if $is_pledge_frequency_interval}
+	        <p><strong>{ts 1=$pledge_frequency_interval 2=$pledge_frequency_unit 3=$pledge_installments}I pledge to contribute this amount every %1 %2(s) for %3 installments.{/ts}</strong></p>
             {else}
-                <p><strong>{ts 1=$pledge_frequency_interval 2=$pledge_frequency_unit}I pledge to contribute this amount every %1 %2(s).{/ts}</strong></p>
+                <p><strong>{ts}I pledge to make a one-time contribution.{/ts}</strong></p>	
             {/if}
             <p>{ts}Your initial pledge will be processed once you complete the confirmation step. You will be able to modify or cancel future pledges at any time by logging in to your account.{/ts}</p>
         {/if}

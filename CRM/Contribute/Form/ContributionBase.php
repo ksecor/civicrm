@@ -404,7 +404,8 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         if ( isset($this->_params['pledge_installments']) ) {
             $this->assign( 'pledge_enabled', 1 );
             $this->_params['is_pledge'] = 1;
-            $vars = array_merge( $vars, array( 'is_pledge', 
+            $vars = array_merge( $vars, array( 'is_pledge',
+                                               'is_pledge_frequency_interval',
                                                'pledge_frequency_interval', 
                                                'pledge_frequency_unit',
                                                'pledge_installments' ) );
