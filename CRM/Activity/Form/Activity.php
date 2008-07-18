@@ -133,6 +133,14 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         }
         
         $this->_activityTypeId = CRM_Utils_Request::retrieve( 'atype', 'Positive', $this );
+        $this->assign( 'atype',$this->_activityTypeId );
+        if ( !$this->_caseId && $this->_activityId ) {
+            $this->_caseId = CRM_Core_DAO::getFieldValue( 'CRM_Case_DAO_CaseActivity',
+                                                          $this->_activityId,
+                                                          'case_id',
+                                                          'activity_id' );
+            $this->assign( 'caseId', $this->_caseId );
+        }
                 
         //check the mode when this form is called either single or as
         //search task action
