@@ -66,44 +66,9 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         //get the pledgeId
         $this->_pledgeId = CRM_Utils_Request::retrieve( 'pledgeId', 'Positive', $this );
         
-        //get the userChecksum.
-        $userChecksum = CRM_Utils_Request::retrieve( 'cs', 'String', $this );
-        
-        //validate user for pledge payment.
+        //authenticate pledge user for pledge payment.
         if ( $this->_pledgeId ) {
-            //get pledge status and contact id
-            $pledgeValues = array( );
-            $pledgeParams = array( 'id' => $this->_pledgeId );
-            $returnProperties = array('contact_id', 'status_id');
-            CRM_Core_DAO::commonRetrieve('CRM_Pledge_DAO_Pledge', $pledgeParams, $pledgeValues, $returnProperties );
-            
-            //get user id.
-            $session =& CRM_Core_Session::singleton( );
-            $userID = $session->get('userID');
-            
-            //get all status
-            require_once 'CRM/Contribute/PseudoConstant.php';
-            $allStatus = CRM_Contribute_PseudoConstant::contributionStatus( );
-            $validStatus = array( array_search( 'Overdue', $allStatus ), array_search( 'In Progress', $allStatus ) );
-            
-            if ( $userID &&
-                 $userID != $pledgeValues['contact_id']  ) { 
-                //check for authenticated  user. 
-                CRM_Core_Error::fatal( ts( "Oops. You do not own this pledge." ) ); 
-                
-            } else if ( $userChecksum && $pledgeValues['contact_id'] ) {
-                //check for anonymous user. 
-                require_once 'CRM/Contact/BAO/Contact/Utils.php';
-                $validUser = CRM_Contact_BAO_Contact_Utils::validChecksum( $pledgeValues['contact_id'], $userChecksum );
-                if ( !$validUser ) {
-                    CRM_Core_Error::fatal( ts( "Oops. You do not own this pledge." ) );    
-                }
-            }
-            
-            //check for valid pledge status.
-            if ( !in_array( $pledgeValues['status_id'], $validStatus ) ) {
-                CRM_Core_Error::fatal( ts( "Oops. You cannot Make the Payment for this pledge as Pledge Status is %1.", array( CRM_Utils_Array::value( $pledgeValues['status_id'], $allStatus ) ) ) ); 
-            }
+            self::authenticatePledgeUser( );
         }
         
         // to process Custom data that are appended to URL
@@ -197,8 +162,8 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             $this->_defaults['is_pay_later'] = 1;
         }
 
-        // hack to simplify credit card entry for testing
-//  $this->_defaults['credit_card_type']     = 'Visa';
+//         //hack to simplify credit card entry for testing
+//         $this->_defaults['credit_card_type']     = 'Visa';
 //         $this->_defaults['amount']               = 168;
 //         $this->_defaults['credit_card_number']   = '4807731747657838';
 //         $this->_defaults['cvv2']                 = '000';
@@ -560,7 +525,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             CRM_Core_DAO::storeValues($dao, $pledgeBlock );
         }
         
-        if ( $pledgeBlockID ) {
+        if ( $pledgeBlockID ) { 
             $this->_values['pledge_block_id'] = $pledgeBlockID;
             $this->assign( 'pledgeBlock', true );
             //build pledge payment fields.
@@ -606,23 +571,27 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                                                         2 => CRM_Utils_Array::value( 'scheduled_date', $nextPayment ) ) );
                     $payments[$key] = CRM_Utils_Array::value( 'id', $nextPayment ); 
                 }
-                
-                if ( !empty( $payments ) ) {
+                //give error if empty or build form for payment.
+                if ( empty( $payments ) ) {
+                    CRM_Core_Error::fatal( ts( "Oops. It looks like there is no valid payment status for online payment." ) ); 
+                } else {
                     $this->assign('is_pledge_payment', true );
                     $this->_values['is_pledge_payment'] = 1;
                     $this->addCheckBox( 'pledge_amount', ts( 'Make Pledge Payment(s):' ), $payments );
-                }
+                } 
             } else {
                 //build form for pledge creation.
-                $this->assign( 'is_pledge_interval', CRM_Utils_Array::value( 'is_pledge_interval', $pledgeBlock ));
-                $this->_values['is_pledge_interval'] = CRM_Utils_Array::value( 'is_pledge_interval', $pledgeBlock );
                 $pledgeOptions = array( '0' => ts('I want to make a one-time contribution'), 
                                         '1' => ts('I pledge to contribute this amount every') );
                 $this->addRadio( 'is_pledge_frequency_interval', ts('Pledge Frequency Interval'), $pledgeOptions,
                                  null, array( '<br/>' ) );
-                $this->addElement( 'text', 'pledge_installments', ts('Installments'), array('size'=>3) ); 
-                $this->addElement( 'text', 'pledge_frequency_interval', null, array('size'=>3) );
-                
+                $this->addElement( 'text', 'pledge_installments', ts('Installments'), array('size'=>3) );
+                if ( CRM_Utils_Array::value( 'is_pledge_interval', $pledgeBlock ) ) {
+                    $this->assign( 'is_pledge_interval', CRM_Utils_Array::value( 'is_pledge_interval', $pledgeBlock ));
+                    $this->addElement( 'text', 'pledge_frequency_interval', null, array('size'=>3) );
+                } else {
+                    $this->add( 'hidden', 'pledge_frequency_interval', 1 ); 
+                }
                 //Frequency unit drop-down label suffixes switch from *ly to *(s)
                 $freqUnitVals  = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $pledgeBlock['pledge_frequency_unit'] );
                 $freqUnits = array( );
@@ -784,8 +753,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                 }
                 
                 //validation for Pledge Frequency Interval.
-                if ( !is_numeric( $fields['pledge_frequency_interval'] )  && 
-                     CRM_Utils_array::value( 'is_pledge_interval', $self->_values ) ) {
+                if ( !is_numeric( $fields['pledge_frequency_interval'] ) ) {
                     if ( !empty( $fields['pledge_frequency_interval'] ) ) {
                         //Frequency Interval should be numeric.
                         $errors['pledge_frequency_interval'] = ts("Please enter a valid Pledge Frequency Interval.");   
@@ -793,6 +761,8 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                         //Frequency Interval is  required.
                         $errors['pledge_frequency_interval'] = ts( 'Pledge Frequency Interval is required field.' ); 
                     }
+                } else if ( $fields['pledge_frequency_interval'] < 1) {
+                    $errors['pledge_frequency_interval'] = ts( 'Pledge frequency interval field must be > 0' );
                 }
             }
         }
@@ -942,6 +912,50 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         }      
     }
     
+    /**
+     * Function to authenticate pledge user during online payment.
+     *
+     * @access public
+     * @return None
+     */
+    public function authenticatePledgeUser( ) 
+    {
+        //get the userChecksum.
+        $userChecksum = CRM_Utils_Request::retrieve( 'cs', 'String', $this );
+        
+        //get pledge status and contact id
+        $pledgeValues = array( );
+        $pledgeParams = array( 'id' => $this->_pledgeId );
+        $returnProperties = array('contact_id', 'status_id');
+        CRM_Core_DAO::commonRetrieve('CRM_Pledge_DAO_Pledge', $pledgeParams, $pledgeValues, $returnProperties );
+        
+        //get user id.
+        $session =& CRM_Core_Session::singleton( );
+        $userID = $session->get('userID');
+        
+        //get all status
+        require_once 'CRM/Contribute/PseudoConstant.php';
+        $allStatus = CRM_Contribute_PseudoConstant::contributionStatus( );
+        $validStatus = array( array_search( 'Overdue', $allStatus ), array_search( 'In Progress', $allStatus ) );
+        
+        if ( $userID &&
+             $userID != $pledgeValues['contact_id']  ) { 
+            //check for authenticated  user. 
+            CRM_Core_Error::fatal( ts( "Oops. You do not own this pledge." ) ); 
+        } else if ( $userChecksum && $pledgeValues['contact_id'] ) {
+            //check for anonymous user.
+            require_once 'CRM/Contact/BAO/Contact/Utils.php';
+            $validUser = CRM_Contact_BAO_Contact_Utils::validChecksum( $pledgeValues['contact_id'], $userChecksum );
+            if ( !$validUser ) {
+                CRM_Core_Error::fatal( ts( "Oops. You do not own this pledge." ) );    
+            }
+        }
+        
+        //check for valid pledge status.
+        if ( !in_array( $pledgeValues['status_id'], $validStatus ) ) {
+            CRM_Core_Error::fatal( ts( "Oops. You cannot Make the Payment for this pledge as Pledge Status is %1.", array( CRM_Utils_Array::value( $pledgeValues['status_id'], $allStatus ) ) ) ); 
+        }
+    }
 }
 
 
