@@ -132,23 +132,27 @@ class CRM_Pledge_Form_Payment extends CRM_Core_Form
         $formValues['scheduled_date']['i'] = '00';
         $formValues['scheduled_date']['s'] = '00';
         $params['scheduled_date'] = CRM_Utils_Date::format( $formValues['scheduled_date'] );
-        if ( CRM_Utils_Date::overdue( $params['scheduled_date'], null, false ) ){
+        $now = date( 'Ymd' );
+        $isOverdue = false;
+        require_once 'CRM/Contribute/PseudoConstant.php';
+        if ( CRM_Utils_Date::overdue( CRM_Utils_Date::customFormat( $params['scheduled_date'], '%Y%m%d'), $now ) ) {
             $params['status_id'] =  array_search( 'Overdue', CRM_Contribute_PseudoConstant::contributionStatus( )); 
+            $isOverdue = true;
         } else {
             $params['status_id'] =  array_search( 'Pending', CRM_Contribute_PseudoConstant::contributionStatus( )); 
         } 
-
+        
         $params['id'] = $this->_id;
         require_once 'CRM/Core/DAO.php';
         $pledgeId = CRM_Core_DAO::getFieldValue( 'CRM_Pledge_DAO_Payment', $params['id'], 'pledge_id' );       
         require_once 'CRM/Pledge/BAO/Payment.php';
         CRM_Pledge_BAO_Payment::add( $params );
-       
+        
         //update pledge status accordingly
-        if ( CRM_Utils_Date::overdue( $params['scheduled_date'], null, false ) ){
+        if ( $isOverdue ){
             $statusId = array_search( 'Overdue', CRM_Contribute_PseudoConstant::contributionStatus( )); 
         }
-        else {
+        else { 
             if ( $pledgeId ) {
                 require_once 'CRM/Pledge/BAO/Payment.php';
                 $returnProperties = array( 'status_id' );
@@ -164,12 +168,13 @@ class CRM_Pledge_Form_Payment extends CRM_Core_Form
                     $statusId = array_search( 'Overdue', CRM_Contribute_PseudoConstant::contributionStatus( ));
                 }else if ( array_search( 'Completed', $allStatus ) ) {
                     $statusId = array_search( 'In Progress', CRM_Contribute_PseudoConstant::contributionStatus( ));
-               
+                    
                 } else {
                     $statusId = array_search( 'Pending', CRM_Contribute_PseudoConstant::contributionStatus( ));
                 }
             }
         }
+        
         if ( $statusId ) {
             CRM_Core_DAO::setFieldValue( 'CRM_Pledge_DAO_Pledge', $pledgeId,
                                          'status_id', $statusId );

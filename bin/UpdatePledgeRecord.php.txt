@@ -131,6 +131,7 @@ GROUP By  payment.id
 
         require_once 'CRM/Pledge/BAO/Payment.php';
         // process the updating script...
+        $now = date('Ymd');
         foreach ( $pledgeDetails as $paymentId => $details ) {
             echo ".";
                               
@@ -141,9 +142,10 @@ GROUP By  payment.id
             $toEmail    = $contactDetails[$contactId]['email'       ]; 
             $doNotEmail = $contactDetails[$contactId]['do_not_email']; 
             $onHold     = $contactDetails[$contactId]['on_hold'     ]; 
-           
+            
             // 2. send acknowledgement mail
-            if ( $toEmail && ! ( $doNotEmail || $onHold ) && ! CRM_Utils_Date::overdue( $details['scheduled_date'], null, false ) ) {
+            if ( $toEmail && ! ( $doNotEmail || $onHold ) && 
+                 !CRM_Utils_Date::overdue( CRM_Utils_Date::customFormat( $details['scheduled_date'], '%Y%m%d'), $now ) ) {
                 
                 //assign value to template
                 $template->assign( 'amount_paid'            , $details['amount_paid'     ] ? $details['amount_paid'] : 0 );

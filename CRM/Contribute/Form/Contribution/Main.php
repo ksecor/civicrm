@@ -206,13 +206,16 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         
         //build set default for pledge overdue payment.
         if ( $this->_pledgeId ) {
-            //get all payments.
-            require_once 'CRM/Pledge/BAO/Payment.php';
-            $allPayments = CRM_Pledge_BAO_Payment::getPledgePayments( $this->_pledgeId  );
-            foreach( $allPayments as $payID => $value ) {
-                if ( $value['status'] == 'Overdue' ) {
-                    $this->_defaults['pledge_amount'][$payID] = 1;
-                    
+            //get all payment statuses.
+            $statuses = array( );
+            $returnProperties = array( 'status_id' );
+            CRM_Core_DAO::commonRetrieveAll( 'CRM_Pledge_DAO_Payment', 'pledge_id', $this->_pledgeId, $statuses, $returnProperties );
+            
+            require_once 'CRM/Contribute/PseudoConstant.php';
+            $paymentStatusTypes = CRM_Contribute_PseudoConstant::contributionStatus( );
+            foreach ( $statuses as $payId => $value ) {
+                if ( $paymentStatusTypes[$value['status_id']] == 'Overdue' ) {
+                    $this->_defaults['pledge_amount'][$payId] = 1;
                 }
             }
         }
@@ -617,10 +620,8 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                 $freqUnitVals  = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $pledgeBlock['pledge_frequency_unit'] );
                 $freqUnits = array( );
                 foreach ( $freqUnitVals as $key => $val ) {
-                    $freqUnits[$val] = ts( '%1', array(1 => $val) );
-                    if ( $pledgeBlock['is_pledge_interval'] ) {
-                        $freqUnits[$val] .= ts('(s)');
-                    }
+                    $freqUnits[$val]  = ts( '%1', array(1 => $val) );
+                    $freqUnits[$val] .= ts('(s)');
                 }
                 $this->addElement( 'select', 'pledge_frequency_unit', null, $freqUnits ); 
             }

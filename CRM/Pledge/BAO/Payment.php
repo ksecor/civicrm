@@ -208,9 +208,11 @@ WHERE pledge_id = %1
         require_once 'CRM/Contribute/PseudoConstant.php';
         $allStatus = CRM_Contribute_PseudoConstant::contributionStatus( );
         
-        //get all payments.
-        $allPayments = self::getPledgePayments( $pledgeID );
-
+        //get all payments required details.
+        $allPayments = array( );
+        $returnProperties = array( 'status_id', 'scheduled_date' );
+        CRM_Core_DAO::commonRetrieveAll( 'CRM_Pledge_DAO_Payment', 'pledge_id', $pledgeID, $allPayments, $returnProperties );
+        
         $cancelDate = null;
         $endDate = null;
         //build payment ids.
@@ -234,9 +236,9 @@ WHERE pledge_id = %1
                 
                 foreach( $allPayments as $payID => $values ) {
                     //ignore current and Completed Payments.
-                    if ( ($payID != $paymentIDs[0]) && ($values['status'] != 'Completed') ) {
+                    if ( ($payID != $paymentIDs[0]) && ( $allStatus[$values['status_id']] != 'Completed') ) {
                         $allCompleted = false;
-                        if ( $values['status'] == 'Overdue' ) {
+                        if ( $allStatus[$values['status_id']] == 'Overdue' ) {
                             $isOverdue = true;
                         }
                     }
@@ -255,9 +257,11 @@ WHERE pledge_id = %1
             }
         } else {
             //Keep Pledge and Pledge Payment statuses updated
+            $now = date('Ymd');
             $overdueIDs = array( );
             foreach ( $allPayments as $key => $value ) {
-                if ( $value['status'] != 'Completed' && CRM_Utils_Date::overdue( $value['scheduled_date'], null, false ) ) {
+                if ( $allStatus[$value['status_id']] != 'Completed' && 
+                     CRM_Utils_Date::overdue( CRM_Utils_Date::customFormat( $value['scheduled_date'], '%Y%m%d'), $now ) ) {
                     $overdueIDs[] = $value['id'];
                 }
             }
