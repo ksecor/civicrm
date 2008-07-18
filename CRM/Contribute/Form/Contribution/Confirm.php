@@ -703,9 +703,6 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $pledgeParams['scheduled_date' ]['Y'] = date("Y");
             if ( $params['pledge_installments'] == 1 ) {                     
                 $pledgeParams['status_id'] = $contribution->contribution_status_id;
-                if ( $pledgeParams['status_id'] == array_search( 'Completed', CRM_Contribute_PseudoConstant::contributionStatus( ) ) ) {
-                    $pledgeParams['end_date'] = date('Ymd');
-                }
             } else {
                 $pledgeParams['status_id'] = array_search( 'Pending',  CRM_Contribute_PseudoConstant::contributionStatus( ) );
             }
@@ -723,8 +720,14 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 
                 CRM_Pledge_BAO_Payment::add( $pledgePaymentParams );
             }  
-        
+            
+            // update pledge table
             $statusId = CRM_Pledge_BAO_Payment::calculatePledgeStatus( $form->_values['pledge_id'] );
+            $pledgeParams = array( 'id'        => $form->_values['pledge_id'],
+                                   'status_id' => $statusId );
+
+            require_once 'CRM/Pledge/BAO/Pledge.php';
+            CRM_Pledge_BAO_Pledge::add( $pledgeParams );
         }
         
 

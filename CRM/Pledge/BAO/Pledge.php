@@ -92,6 +92,11 @@ class CRM_Pledge_BAO_Pledge extends CRM_Pledge_DAO_Pledge
         
         $pledge =& new CRM_Pledge_DAO_Pledge( );
         
+        // if pledge is complete update end date as current date
+        if ( $pledge->status_id = 1 ) {
+            $pledge->end_date = date('Ymd');
+        }
+
         $pledge->copyValues( $params );
         $result = $pledge->save( );
         
