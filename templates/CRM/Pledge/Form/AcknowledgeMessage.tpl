@@ -6,7 +6,7 @@
 {ts}Pledge Information{/ts}
 
 ===========================================================
-{ts}Pledge Received{/ts} : {$create_date|crmDate}
+{ts}Pledge Received{/ts} : {$create_date|truncate:10:''|crmDate}
 {ts}Total Pledge Amount{/ts} : {$amount|crmMoney}
 
 ===========================================================
@@ -15,11 +15,12 @@
 ===========================================================
 {ts 1=$eachPaymentAmount|crmMoney 2=$frequency_interval 3=$frequency_unit 4=$installments}%1 every %2 %3 for %4 installments.{/ts}
 {if $frequency_day}
+
 {ts 1=$frequency_day 2=$frequency_unit}Payments are due on day %1 of the %2.{/ts}
 {/if}
 
 {foreach from=$payments item=payment}
-Payment {$payment.count} : {$payment.amount|crmMoney} due {$payment.due_date|crmDate}
+Payment {$payment.count} : {$payment.amount|crmMoney} due {$payment.due_date|truncate:10:''|crmDate}
 {/foreach}
  
 {ts 1=$domain.phone 2=$domain.email}Please contact us at %1 or send email to %2 if you have questions

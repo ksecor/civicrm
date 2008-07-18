@@ -233,10 +233,12 @@ WHERE pledge_id = %1
      * @param int $paymentID, id of payment
      * @param int $status, payment status
      *
-     * @return void
+     * @return int $newStatus, updated status id (or 0)
      */
     function updatePledgePaymentStatus( $pledgeID, $paymentID = null, $status = null )
     {
+        $newStatus = 0;
+
         //get all status
         require_once 'CRM/Contribute/PseudoConstant.php';
         $allStatus = CRM_Contribute_PseudoConstant::contributionStatus( );
@@ -330,7 +332,10 @@ WHERE  civicrm_pledge_payment.id IN ( {$payments} )
   AND  civicrm_pledge_payment.status_id != %3
 "; 
             $dao = CRM_Core_DAO::executeQuery( $query, $params );
+            $newStatus = $pledgeStatus;
         }
+        
+        return $newStatus;
     }
 
     /**
