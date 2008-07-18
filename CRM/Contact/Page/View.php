@@ -107,6 +107,12 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
         }
         $this->assign( 'contactId', $this->_contactId );
         
+        $path = CRM_Utils_System::url( 'civicrm/contact/view', 'reset=1&cid=' . $this->_contactId );
+        CRM_Utils_System::appendBreadCrumb( array( array( 'title' => ts('View Contact'),
+                                                          'url'   => $path ) ) );
+        CRM_Utils_System::appendBreadCrumb( array( array( 'title' => ts('Search Results'),
+                                                          'url'   => self::getSearchURL( ) ) ) );
+
         // also store in session for future use
         $session =& CRM_Core_Session::singleton( );
         $session->set( 'view.id', $this->_contactId );
@@ -200,6 +206,20 @@ class CRM_Contact_Page_View extends CRM_Core_Page {
 
         $this->set( 'displayName' , $displayName );
         $this->set( 'contactImage', $contactImage );
+    }
+
+    function getSearchURL( ) {
+        $session =& CRM_Core_Session::singleton();
+
+        $isAdvanced = $session->get('isAdvanced');
+        if ( $isAdvanced == '1' ) {
+            return CRM_Utils_System::url( 'civicrm/contact/search/advanced', 'force=1' );
+        } else if ( $isAdvanced == '2' ) {
+            return CRM_Utils_System::url( 'civicrm/contact/search/builder', 'force=1' );
+        } else if ( $isAdvanced == '3' ) {
+            return CRM_Utils_System::url( 'civicrm/contact/search/custom', 'force=1' );
+        }
+        return CRM_Utils_System::url( 'civicrm/contact/search/basic', 'force=1' );
     }
 
 }
