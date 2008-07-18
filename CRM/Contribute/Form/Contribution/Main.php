@@ -515,22 +515,29 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             $this->assign( 'pledgeBlock', true );
             //build pledge payment fields.
             if ( $this->_values['pledge_id'] ) {
-                //get all payments.
-                require_once 'CRM/Pledge/BAO/Payment.php';
-                $allPayments = CRM_Pledge_BAO_Payment::getPledgePayments( $this->_values['pledge_id']  );
+                //get all payments required details.
+                $allPayments = array( );
+                $returnProperties = array( 'status_id', 'scheduled_date', 'scheduled_amount' );
+                CRM_Core_DAO::commonRetrieveAll( 'CRM_Pledge_DAO_Payment', 'pledge_id', 
+                                                 $this->_values['pledge_id'], $allPayments, $returnProperties );
+                //get all status
+                require_once 'CRM/Contribute/PseudoConstant.php';
+                $allStatus = CRM_Contribute_PseudoConstant::contributionStatus( );
+                
                 $nextPayment = array( );
                 $isNextPayment = false;
                 $overduePayments = array( );
+                $now = date('Ymd');
                 foreach( $allPayments as $payID => $value ) {
-                    if ( $value['status'] == 'Overdue' ) {
+                    if ( $allStatus[$value['status_id']] == 'Overdue' ||
+                         CRM_Utils_Date::overdue( CRM_Utils_Date::customFormat( $value['scheduled_date'], '%Y%m%d'), $now ) ) {
                         $overduePayments[$payID] = array( 'id'               => $payID ,
                                                           'scheduled_amount' => CRM_Utils_Rule::cleanMoney( $value['scheduled_amount']),
                                                           'scheduled_date'   => CRM_Utils_Date::customFormat( $value['scheduled_date'], 
                                                                                                               '%B %d') 
                                                           );
                     } else if (  !$isNextPayment && 
-                                 $value['status'] == 'Pending' && 
-                                 !CRM_Utils_Date::overdue( $value['scheduled_date'], null, false ) ) {
+                                 $allStatus[$value['status_id']] == 'Pending' ) { 
                         //get the next payment.
                         $nextPayment =  array( 'id'               => $payID ,
                                                'scheduled_amount' => CRM_Utils_Rule::cleanMoney( $value['scheduled_amount']),
@@ -541,7 +548,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                     }
                 }
                 
-                //build check box array for payments
+                //build check box array for payments.
                 $payments = array( );
                 if ( !empty( $overduePayments ) ) {
                     foreach( $overduePayments as $id => $payment ) {
