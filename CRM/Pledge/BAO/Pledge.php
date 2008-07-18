@@ -132,7 +132,7 @@ class CRM_Pledge_BAO_Pledge extends CRM_Pledge_DAO_Pledge
      * @static
      */
     static function &create( &$params ) 
-    { 
+    {   
         require_once 'CRM/Utils/Date.php';
         //FIXME: a cludgy hack to fix the dates to MySQL format
         $dateFields = array( 'start_date', 'create_date', 'acknowledge_date', 'modified_date', 'cancel_date', 'end_date' );
@@ -144,10 +144,12 @@ class CRM_Pledge_BAO_Pledge extends CRM_Pledge_DAO_Pledge
        
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
-        if ( isset ( $params['contribution_id'] ) ) {
+       
+        if ( isset ( $params['contribution_id'] ) && $params['installments'] > 1 ) {
             $params['status_id'] = array_search( 'In Progress', 
                                                  CRM_Contribute_PseudoConstant::contributionStatus());
         }
+        
         $pledge = self::add( $params );
         if ( is_a( $pledge, 'CRM_Core_Error') ) {
             $pledge->rollback( );
@@ -173,7 +175,7 @@ class CRM_Pledge_BAO_Pledge extends CRM_Pledge_DAO_Pledge
                                                     CRM_Contribute_PseudoConstant::contributionStatus());
         
         $paymentParams['scheduled_amount'] = $params['amount'] / $params['installments'];
-     
+
         require_once 'CRM/Pledge/BAO/Payment.php';
         CRM_Pledge_BAO_Payment::create( $paymentParams );
         
