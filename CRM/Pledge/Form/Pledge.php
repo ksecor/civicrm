@@ -451,6 +451,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         foreach ( $fields as $f ) {
             $params[$f] = CRM_Utils_Array::value( $f, $formValues );
         }
+        
         //adding status 'Pending' for add mode.
         if ( $this->_action & CRM_Core_Action::ADD ) {
             $params['status_id'] = array_search( 'Pending', CRM_Contribute_PseudoConstant::contributionStatus( ));
@@ -542,9 +543,16 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
                 $urlParams .= "&mode=live";
                 $creditURL  = CRM_Utils_System::url( 'civicrm/contact/view/contribution', $urlParams );
                 
-                
                 $statusMsg .= ' ' . ts( "An acknowledgment email has been sent to %1.<br />", array( 1 => $this->userEmail ) );
-                $statusMsg .= ' ' . ts( "If a payment is due now, you can record <a href='%1'>a check, EFT, or cash payment for this pledge</a> OR <a href='%2'>submit a credit card payment</a>.", array( 1 =>$contribURL, 2 => $creditURL ) );
+                
+                //check if we can process credit card payment.
+                $processors = CRM_Core_PseudoConstant::paymentProcessor( false, false,
+                                                                         "billing_mode IN ( 1, 3 )" );
+                if ( count( $processors ) > 0 ) {
+                    $statusMsg .= ' ' . ts( "If a payment is due now, you can record <a href='%1'>a check, EFT, or cash payment for this pledge</a> OR <a href='%2'>submit a credit card payment</a>.", array( 1 =>$contribURL, 2 => $creditURL ) );
+                } else {
+                    $statusMsg .= ' ' . ts( "If a payment is due now, you can record <a href='%1'>a check, EFT, or cash payment for this pledge</a>.", array( 1 =>$contribURL ) );
+                }
             }
         }
         CRM_Core_Session::setStatus( $statusMsg );
@@ -624,6 +632,8 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
                 $this->assign( $field, $params[$field] );
             }
         }
+        $eachPaymentAmount = ( $params['amount'] / $params['installments'] );
+        $this->assign( 'eachPaymentAmount', $eachPaymentAmount );
         
         //assign honor fields.
         $honor_block_is_active = false;
