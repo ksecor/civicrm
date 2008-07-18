@@ -2,44 +2,6 @@
 {if $action eq 2}
   {include file="CRM/Contact/Form/Edit.tpl"}
 {else}
-{literal}
-<script type="text/javascript">
-dojo.require("dojo.parser");
-dojo.require("dijit.InlineEditBox");
-dojo.require("dijit.form.TextBox");
-dojo.require("dojox.widget.Toaster");
-
-function myHandler(field, value) {
-    var dataUrl = {/literal}"{crmURL p=civicrm/ajax/summary h=0 q='cid='}{$contactId}"{literal} + '&field=' + field + '&value=' + value;
-    
-    var result = dojo.xhrGet({
-        url: dataUrl,
-        handleAs: "text",
-	form:'summary',
-        timeout: 5000, //Time in milliseconds
-        handle: function(response, ioArgs){
-                if(response instanceof Error){
-		    if(response.dojoType == "cancel"){
-			//The request was canceled by some other JavaScript code.
-			console.debug("Request canceled.");
-		    }else if(response.dojoType == "timeout"){
-			//The request took over 5 seconds to complete.
-			console.debug("Request timed out.");
-		    }else{
-			//Some other error happened.
-			console.error(response);
-		        dojo.publish("testMessageTopic", [ response ] );
-		    }
-                } else {
-		    // on success
-		}
-	    }
-	});
-}
-
-</script>
-{/literal}
-<div class="tundra" dojoType="dojox.widget.Toaster" id="toast" positionDirection="tl-down" messageTopic="testMessageTopic"></div>
 <div id="mainTabContainer" dojoType="dijit.layout.TabContainer" class ="tundra" style="width: 100%; height: 600px; overflow-y: auto;" >
 <div id="summary" dojoType="dojox.layout.ContentPane" title="{ts}Summary{/ts}" class ="tundra" style="overflow: auto; width: 100%; height: 100%;">
 {* View Contact Summary *}
@@ -59,12 +21,12 @@ function myHandler(field, value) {
 
     <table class="form-layout-compressed">
     <tr>
-        <td><label>{ts}Source{/ts}:</label></td><td id="contact_source" dojoType="dijit.InlineEditBox" onChange="myHandler(this.id,arguments[0])" title="{ts}click to edit{/ts}">{$source}</td>
+        {if $source}<td><label>{ts}Source{/ts}:</label></td><td>{$source}</td>{/if}
         {if $contactTag}<td><label>{ts}Tags{/ts}:</label></td><td>{$contactTag}</td>{/if}
         {if !$contactTag}<td colspan="2"></td>{/if}
     </tr>
     <tr>
-        <td><label>{ts}Job Title{/ts}:</label></td><td id="job_title" dojoType="dijit.InlineEditBox" onChange="myHandler(this.id,arguments[0])" title="{ts}click to edit{/ts}">{$job_title}</td>
+        {if $job_title}<td><label>{ts}Job Title{/ts}:</label></td><td>{$job_title}</td>{/if}
         {if $current_employer}<td><label>{ts}Current Employer{/ts}:</label></td><td>{$current_employer}</td>{/if}
         {if $home_URL}<td><label>{ts}Website{/ts}</label></td><td><a href="{$home_URL}" target="_blank">{$home_URL}</a></td>{/if}
         {if !$current_employer}<td colspan="2"></td>{/if}
