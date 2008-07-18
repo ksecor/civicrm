@@ -181,6 +181,9 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      */
     public function createActivityTarget( $params ) 
     {
+        if ( !$params['target_contact_id'] ) {
+            return;
+        }
         require_once 'CRM/Activity/BAO/ActivityTarget.php';
         $target              =& new CRM_Activity_BAO_ActivityTarget( );
         $target->activity_id = $params['activity_id'];
@@ -198,6 +201,9 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      */
     public function createActivityAssignment( $params ) 
     {
+        if ( !$params['assignee_contact_id'] ) {
+            return;
+        }
         require_once 'CRM/Activity/BAO/ActivityAssignment.php';
         $assignee              =& new CRM_Activity_BAO_ActivityAssignment( );
         $assignee->activity_id = $params['activity_id'];
