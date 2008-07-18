@@ -91,7 +91,7 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View
         
         $this->_caseId = CRM_Utils_Request::retrieve( 'caseid', 'Integer', $this );
         
-        $activityTypeId = CRM_Utils_Request::retrieve('atype', 'Positive', $this, true );
+        $activityTypeId = CRM_Utils_Request::retrieve('atype', 'Positive', $this );
         
         if ( $activityTypeId != 3 ) {
             $controller =& new CRM_Core_Controller_Simple( 'CRM_Activity_Form_Activity', ts('Contact Activities'), $this->_action );
@@ -163,13 +163,24 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View
      */
     function run( )
     {
-        $this->preProcess( );
+        // we should call contact view, preprocess only for activity in contact summary
+        $contactId = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
+        $context   = CRM_Utils_Request::retrieve( 'context', 'String', $this );
+
+        if ( $contactId && $context != 'search' ) {
+            $this->preProcess( );
+        } else {
+            // this case is for batch update, record activity action 
+            $this->_action = CRM_Core_Action::ADD;
+            $this->assign( 'action', $this->_action );
+        }
+
         
         // route behaviour of contact/view/activity based on action defined
         if ( $this->_action & 
            ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::VIEW ) ) {
             $this->edit( );
-            $activityTypeId = CRM_Utils_Request::retrieve('atype', 'Positive', $this, true );
+            $activityTypeId = CRM_Utils_Request::retrieve('atype', 'Positive', $this );
             if ( $activityTypeId == 3 ) {
                 return;
             }
