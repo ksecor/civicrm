@@ -473,7 +473,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         }
 
         $params['contact_id'] = $this->_contactID;
-        
+                 
         //handle Honoree contact.
         if ( CRM_Utils_Array::value( 'honor_type_id', $params ) ) {
             require_once 'CRM/Contribute/BAO/Contribution.php';
@@ -509,15 +509,32 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             $statusMsg = ts('Pledge has been recorded and the payment schedule has been created.<br />');
         }
         
-        //build the urls.
-        $urlParams  = "reset=1&action=add&cid={$this->_contactID}&ppid={$this->_id}&context=pledge";
-        $contribURL = CRM_Utils_System::url( 'civicrm/contact/view/contribution', $urlParams );
-        $urlParams .= "&mode=live";
-        $creditURL  = CRM_Utils_System::url( 'civicrm/contact/view/contribution', $urlParams );
-        
+              
         if ( CRM_Utils_Array::value( 'is_acknowledge', $formValues ) ) {
-            $statusMsg .= ' ' . ts( "An acknowledgment email has been sent to %1.<br />", array( 1 => $this->userEmail ) );
-            $statusMsg .= ' ' . ts( "If a payment is due now, you can record <a href='%1'>a check, EFT, or cash payment for this pledge</a> OR <a href='%2'>submit a credit card payment</a>.", array( 1 =>$contribURL, 2 => $creditURL ) );
+
+            //finding first paymentId having status Pending or Overdue
+            require_once 'CRM/Pledge/BAO/Payment.php';
+            $returnProperties = array( 'status_id' );
+            CRM_Core_DAO::commonRetrieveAll( 'CRM_Pledge_DAO_Payment', 'pledge_id', $params['id'], $statuses, $returnProperties );
+                       
+            $paymentStatusTypes = CRM_Contribute_PseudoConstant::contributionStatus( );
+            foreach ( $statuses as $key => $value ) {
+                if ( $paymentStatusTypes[$value['status_id']] == 'Pending' || $paymentStatusTypes[$value['status_id']] == 'Overdue' ) {
+                    $paymentId =$value['id'];
+                    break;
+                } 
+            }
+            if ( $paymentId ) {
+                //build the urls.
+                $urlParams  = "reset=1&action=add&cid={$this->_contactID}&ppid={$paymentId}&context=pledge";
+                $contribURL = CRM_Utils_System::url( 'civicrm/contact/view/contribution', $urlParams );
+                $urlParams .= "&mode=live";
+                $creditURL  = CRM_Utils_System::url( 'civicrm/contact/view/contribution', $urlParams );
+                
+                
+                $statusMsg .= ' ' . ts( "An acknowledgment email has been sent to %1.<br />", array( 1 => $this->userEmail ) );
+                $statusMsg .= ' ' . ts( "If a payment is due now, you can record <a href='%1'>a check, EFT, or cash payment for this pledge</a> OR <a href='%2'>submit a credit card payment</a>.", array( 1 =>$contribURL, 2 => $creditURL ) );
+            }
         }
         CRM_Core_Session::setStatus( $statusMsg );
         
