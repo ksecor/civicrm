@@ -115,12 +115,25 @@ WHERE pledge_id = %1
         }
         
         //calculate the scheduled date for every installment
+        $now = date('Ymd');
         $prevScheduledDate = array ( );
+        $statues = array( );
         $prevScheduledDate[1] = CRM_Utils_Date::format( $params['scheduled_date'] );
-        for ( $i = 1; $i < $params['installments']; $i++ ) {
-            $prevScheduledDate[$i+1] = CRM_Utils_Date::format(CRM_Utils_Date::intervalAdd( $params['frequency_unit'], $i * ($params['frequency_interval']) , $scheduled_date ));
+        if ( CRM_Utils_Date::overdue( CRM_Utils_Date::customFormat(  $prevScheduledDate[1], '%Y%m%d'), $now ) ) {
+            $statues[1] = array_search( 'Overdue', CRM_Contribute_PseudoConstant::contributionStatus( )); 
+        } else {
+            $statues[1] = array_search( 'Pending', CRM_Contribute_PseudoConstant::contributionStatus( )); 
         }
         
+        for ( $i = 1; $i < $params['installments']; $i++ ) {
+            $prevScheduledDate[$i+1] = CRM_Utils_Date::format(CRM_Utils_Date::intervalAdd( $params['frequency_unit'], $i * ($params['frequency_interval']) , $scheduled_date ));
+            if ( CRM_Utils_Date::overdue( CRM_Utils_Date::customFormat(  $prevScheduledDate[$i+1], '%Y%m%d'), $now ) ) {
+                $statues[$i+1] = array_search( 'Overdue', CRM_Contribute_PseudoConstant::contributionStatus( )); 
+            } else {
+                $statues[$i+1] = array_search( 'Pending', CRM_Contribute_PseudoConstant::contributionStatus( ));
+            }
+        }
+       
         $params['scheduled_amount'] = ceil($params['scheduled_amount']);
         for ( $i = 1; $i <= $params['installments']; $i++ ) {
             //calculate the scheduled amount for every installment.
@@ -131,7 +144,8 @@ WHERE pledge_id = %1
                 $params['status_id'] = 1;
             }
  
-            $params['scheduled_date'] = $prevScheduledDate[$i];    
+            $params['scheduled_date'] = $prevScheduledDate[$i];
+            $params['status_id']      = $statues[$i];
             $payment = self::add( $params );
             if ( is_a( $payment, 'CRM_Core_Error') ) {
                 $transaction->rollback( );
@@ -144,9 +158,11 @@ WHERE pledge_id = %1
                 unset( $params['contribution_id'] );
             }
         }
-        
+      
         $transaction->commit( );
-        
+        $pledgeStatus = self::calculatePledgeStatus( $params['pledge_id'] );
+        CRM_Core_DAO::setFieldValue( 'CRM_Pledge_DAO_Pledge', $params['pledge_id'],
+                                     'status_id', $pledgeStatus );
         return $payment;
     }
 
