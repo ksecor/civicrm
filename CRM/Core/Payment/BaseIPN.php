@@ -594,23 +594,12 @@ class CRM_Core_Payment_BaseIPN {
                 $template->assign( 'membership_name',
                                    CRM_Member_PseudoConstant::membershipType( $membership->membership_type_id ) );
                 $template->assign( 'mem_start_date', $membership->start_date );
-                $template->assign( 'mem_end_date', $membership->end_date );
-                
-                if ( isset( $contribution->contribution_page_id ) ) {
-                    // get the membership block
-                    require_once 'CRM/Member/BAO/Membership.php';
-                    $membershipBlock = CRM_Member_BAO_Membership::getMembershipBlock( $contribution->contribution_page_id );
-                    
-                    // get details of membership block if any
-                    $template->assign_by_ref( 'membershipBlock', $membershipBlock );
-                    $template->assign( 'is_separate_payment', $membershipBlock->is_separate_payment );
+                $template->assign( 'mem_end_date'  , $membership->end_date );
 
-                    if ( $membershipBlock->is_separate_payment ) {
-                        
-                        $template->assign( 'membership_amount', '' );
-                        $template->assign( 'membership_trx_id', '' );
-                    }
-                }
+                // if separate payment there are two contributions recorded and the 
+                // admin will need to send a receipt for each of them separately.
+                // we dont link the two in the db (but can potentially infer it if needed)
+                $template->assign( 'is_separate_payment', 0);
             }
             $values['contribution_id']     = $contribution->id;
             if ( $ids['related_contact'] ) {
