@@ -125,18 +125,6 @@
                 </tr>
              {/if}
 
-             {if $config->civiHRD}
-             <tr>
-                <td class="label">{$form.activity_tag1_id.label}</td><td class="view-value">{$form.activity_tag1_id.html}</td>
-             </tr>
-             <tr>
-                <td class="label">{$form.activity_tag2_id.label}</td><td class="view-value">{$form.activity_tag2_id.html}</td>
-             </tr>
-             <tr>   
-                <td class="label">{$form.activity_tag3_id.label}</td><td class="view-value">{$form.activity_tag3_id.html}</td>
-             </tr>
-             {/if}
-
              <tr>
                 <td class="label">{$form.subject.label}</td><td class="view-value">{$form.subject.html}</td>
              </tr> 
