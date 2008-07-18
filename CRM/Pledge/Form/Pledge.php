@@ -336,6 +336,16 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
                                array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::contributionType( ),
                                true );
         
+        CRM_Core_DAO::commonRetrieveAll( 'CRM_Pledge_DAO_PledgeBlock', 'entity_table', 'civicrm_contribution_page', $pageIds, array( 'entity_id' ) );
+        $pages = CRM_Contribute_PseudoConstant::contributionPage( );
+        foreach ( $pageIds as $key => $value ) {
+            $pledgePages[$value['entity_id']] = $pages[$value['entity_id']];
+        }
+        
+        $element = $this->add('select', 'contribution_page_id', ts( 'Self-service Payments Page' ), array( '' => ts( '- select -' ) )+$pledgePages, true );
+        if ( $this->_action & CRM_Core_Action::UPDATE ) { 
+            $element->freeze();
+        }
         $session = & CRM_Core_Session::singleton( );
         $uploadNames = $session->get( 'uploadNames' );
         if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
@@ -419,7 +429,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         
         //get the submitted form values.  
         $formValues = $this->controller->exportValues( $this->_name );
-       
+
         $config  =& CRM_Core_Config::singleton( );
         $session =& CRM_Core_Session::singleton( );
              
@@ -435,7 +445,8 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
                          'honor_prefix_id',
                          'honor_first_name',
                          'honor_last_name',
-                         'honor_email'
+                         'honor_email',
+                         'contribution_page_id'
                          );
         foreach ( $fields as $f ) {
             $params[$f] = CRM_Utils_Array::value( $f, $formValues );
