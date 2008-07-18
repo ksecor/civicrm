@@ -51,6 +51,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
     {
         $config =& CRM_Core_Config::singleton( );
         parent::preProcess( );
+
         if ( $this->_contributeMode == 'express' ) {
             // rfp == redirect from paypal
             $rfp = CRM_Utils_Request::retrieve( 'rfp', 'Boolean',
@@ -670,7 +671,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $contribParams['id'] = $contribID;
             }
         }
-     
+
         if ( ( $params['is_pledge'] == 1 ) ) { 
             $pledgeParams                  = array( );
             $pledgeParams['amount']        = $contribParams['total_amount'];
@@ -709,11 +710,11 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $pledgeParams['status_id'] = array_search( 'Pending',  CRM_Contribute_PseudoConstant::contributionStatus( ) );
             }
             require_once 'CRM/Pledge/BAO/Pledge.php';
-            CRM_Pledge_BAO_Pledge::create($pledgeParams);
+            $pledge = CRM_Pledge_BAO_Pledge::create($pledgeParams);
         }
         
-        require_once 'CRM/Pledge/BAO/Payment.php';
-        if ( !empty( $form->_params['pledge_amount'] ) ) {
+        if ( $form->_values['pledge_id']  ) {
+            require_once 'CRM/Pledge/BAO/Payment.php';
             foreach ( $form->_params['pledge_amount'] as $paymentId => $dontCare ) {
                 $pledgePaymentParams = array('id'              => $paymentId,
                                              'contribution_id' => $contribution->id,
@@ -722,8 +723,10 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 
                 CRM_Pledge_BAO_Payment::add( $pledgePaymentParams );
             }  
+        
+            $statusId = CRM_Pledge_BAO_Payment::calculatePledgeStatus( $form->_values['pledge_id'] );
         }
-
+        
 
         if ( $online ) {
             require_once 'CRM/Core/BAO/CustomValueTable.php';

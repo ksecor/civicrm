@@ -148,27 +148,10 @@ class CRM_Pledge_Form_Payment extends CRM_Core_Form
         //update pledge status accordingly
         if ( $isOverdue ){
             $statusId = array_search( 'Overdue', CRM_Contribute_PseudoConstant::contributionStatus( )); 
-        }
-        else { 
+        } else { 
+            require_once 'CRM/Pledge/BAO/Payment.php';
             if ( $pledgeId ) {
-                require_once 'CRM/Pledge/BAO/Payment.php';
-                $returnProperties = array( 'status_id' );
-                CRM_Core_DAO::commonRetrieveAll( 'CRM_Pledge_DAO_Payment', 'pledge_id', $pledgeId, $statuses, $returnProperties );
-                
-                $paymentStatusTypes = CRM_Contribute_PseudoConstant::contributionStatus( );
-                $allStatus = array( );
-                foreach ( $statuses as $key => $value ) {
-                    $allStatus[$value['id']] = $paymentStatusTypes[$value['status_id']];
-                }
-               
-                if ( array_search( 'Overdue', $allStatus ) ){
-                    $statusId = array_search( 'Overdue', CRM_Contribute_PseudoConstant::contributionStatus( ));
-                }else if ( array_search( 'Completed', $allStatus ) ) {
-                    $statusId = array_search( 'In Progress', CRM_Contribute_PseudoConstant::contributionStatus( ));
-                    
-                } else {
-                    $statusId = array_search( 'Pending', CRM_Contribute_PseudoConstant::contributionStatus( ));
-                }
+                $statusId = CRM_Pledge_BAO_Payment::calculatePledgeStatus($pledgeId);
             }
         }
         

@@ -169,6 +169,39 @@ WHERE pledge_id = %1
     }
 
     /**
+     * Calculate the pledge status
+     *
+     * @param pledge  id 
+     *
+     * @return pledge calculated status id 
+     * @static
+     */
+    static function calculatePledgeStatus( $id )
+    {
+        $returnProperties = array( 'status_id' );
+        CRM_Core_DAO::commonRetrieveAll( 'CRM_Pledge_DAO_Payment', 'pledge_id', $id, $statuses, $returnProperties );
+
+        require_once 'CRM/Contribute/PseudoConstant.php';
+        $paymentStatusTypes = CRM_Contribute_PseudoConstant::contributionStatus( );
+        $allStatus = array( );
+        foreach ( $statuses as $key => $value ) {
+            $allStatus[$value['id']] = $paymentStatusTypes[$value['status_id']];
+        }
+        
+        if ( array_search( 'Overdue', $allStatus ) ){
+            $statusId = array_search( 'Overdue', CRM_Contribute_PseudoConstant::contributionStatus( ));
+        } else if ( array_search( 'Completed', $allStatus ) && count (array_count_values( $allStatus) ) == 1 ) {
+            $statusId = array_search( 'Completed', CRM_Contribute_PseudoConstant::contributionStatus( ));
+        } else if ( array_search( 'Completed', $allStatus ) ) {
+            $statusId = array_search( 'In Progress', CRM_Contribute_PseudoConstant::contributionStatus( ));
+        } else {
+            $statusId = array_search( 'Pending', CRM_Contribute_PseudoConstant::contributionStatus( ));
+        }
+     
+        return $statusId;
+    }
+    
+    /**
      * Takes a bunch of params that are needed to match certain criteria and
      * retrieves the relevant objects. Typically the valid params are only
      * pledge id. We'll tweak this function to be more full featured over a period
