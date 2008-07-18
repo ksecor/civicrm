@@ -379,8 +379,20 @@ class CRM_Core_Payment_BaseIPN {
         
         require_once 'CRM/Contribute/BAO/FinancialTrxn.php';
         $trxn =& CRM_Contribute_BAO_FinancialTrxn::create( $trxnParams );
+      
+        //update corresponding pledge payment record
+        require_once 'CRM/Core/DAO.php';
+        $returnProperties = array( 'id', 'pledge_id' );
+        if ( CRM_Core_DAO::commonRetrieveAll( 'CRM_Pledge_DAO_Payment', 'contribution_id', $contribution->id, $paymentDetails, $returnProperties ) ) {
+            foreach ( $paymentDetails as $key => $value ) {
+                $paymentID = $value['id'];
+                $pledgeID  = $value['pledge_id'];
+                require_once 'CRM/Pledge/BAO/Payment.php';
+                CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $pledgeID, $paymentID, 1 )
+            }
+        }
 
-        // create an activity record
+         // create an activity record
         require_once "CRM/Activity/BAO/Activity.php";
         if ( $input['component'] == 'contribute' ) {
             CRM_Activity_BAO_Activity::addActivity( $contribution );
