@@ -45,21 +45,28 @@ class CRM_Pledge_Page_Payment extends CRM_Core_Page
      */
     function run( ) 
     {
-        $this->_action = CRM_Utils_Request::retrieve('action', 'String', $this, false, 'browse');
+        $this->_action  = CRM_Utils_Request::retrieve('action', 'String', $this, false, 'browse');
+        $this->_context = CRM_Utils_Request::retrieve('context', 'String', $this ) ;
+
         $this->assign( 'action', $this->_action );
+        $this->assign( 'context', $this->_context );
+        
+        $this->_contactId = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
+
+        require_once 'CRM/Pledge/Page/Tab.php';
+        CRM_Pledge_Page_Tab::setContext( );
 
         if ( $this->_action & CRM_Core_Action::UPDATE ) { 
             $this->edit( ); 
         } else {
             $pledgeId = CRM_Utils_Request::retrieve( 'pledgeId', 'Positive', $this );
-            $contactId = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
             
             require_once 'CRM/Pledge/BAO/Payment.php';
             $paymentDetails = CRM_Pledge_BAO_Payment::getPledgePayments( $pledgeId );
             
             $this->assign( 'rows'     , $paymentDetails );
             $this->assign( 'pledgeId' , $pledgeId );
-            $this->assign( 'contactId', $contactId );
+            $this->assign( 'contactId', $this->_contactId );
             
             // check if we can process credit card contribs
             $processors = CRM_Core_PseudoConstant::paymentProcessor( false, false,

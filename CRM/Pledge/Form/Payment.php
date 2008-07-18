@@ -57,9 +57,6 @@ class CRM_Pledge_Form_Payment extends CRM_Core_Form
      */ 
     public function preProcess()  
     {  
-        $session =& CRM_Core_Session::singleton( );
-        $session->pushUserContext( CRM_Utils_System::url('civicrm/pledge', 'reset=1') );
-        
         // check for edit permission
         if ( ! CRM_Core_Permission::check( 'edit pledges' ) ) {
             CRM_Core_Error::fatal( ts( 'You do not have permission to access this page' ) );
