@@ -331,10 +331,10 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         $this->addElement('date', 'acknowledge_date', ts('Acknowledgment Date'), CRM_Core_SelectValues::date('activityDate')); 
         $this->addRule('acknowledge_date', ts('Select a valid date.'), 'qfDate');
         
-        $element =& $this->add('select', 'contribution_type_id', 
-                               ts( 'Contribution Type' ), 
-                               array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::contributionType( ),
-                               true );
+        $this->add('select', 'contribution_type_id', 
+                   ts( 'Contribution Type' ), 
+                   array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::contributionType( ),
+                   true );
         
         CRM_Core_DAO::commonRetrieveAll( 'CRM_Pledge_DAO_PledgeBlock', 'entity_table', 'civicrm_contribution_page', $pageIds, array( 'entity_id' ) );
         $pages = CRM_Contribute_PseudoConstant::contributionPage( );
