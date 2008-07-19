@@ -351,22 +351,22 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         
         $msgs = array( );
         if ( isset( $params['source_contact_id'] ) ) {
-            $msgs[] = "source = {$params['source_contact_id']}";
+            $msgs[] = "source={$params['source_contact_id']}";
         } 
 
         if ( isset( $params['target_contact_id'] ) ) {
             if ( is_array( $params['target_contact_id'] ) ) {
-                $msgs[] = "target = " . implode( ',', $params['target_contact_id'] );
+                $msgs[] = "target=" . implode( ',', $params['target_contact_id'] );
             } else {
-                $msgs[] = "target = {$params['target_contact_id']}";
+                $msgs[] = "target={$params['target_contact_id']}";
             }
         }
 
         if ( isset( $params['assignee_contact_id'] ) ) {
             if ( is_array( $params['assignee_contact_id'] ) ) {
-                $msgs[] = "assignee = " . implode( ',', $params['assignee_contact_id'] );
+                $msgs[] = "assignee=" . implode( ',', $params['assignee_contact_id'] );
             } else {
-                $msgs[] = "assignee ={$params['assignee_contact_id']}";
+                $msgs[] = "assignee={$params['assignee_contact_id']}";
             }
         }
         $logMsg .= implode( ', ', $msgs );
