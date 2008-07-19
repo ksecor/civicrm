@@ -244,6 +244,10 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                 $params['status_id'] = 1;
             }
         }
+        if ( empty( $params['id'] ) ) {
+            unset( $params['id'] );
+        }
+
         $activity->copyValues( $params );
 
         // start transaction        
@@ -257,7 +261,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             return $result;
         }
 
-        $activityId = $result->id;
+        $activityId = $activity->id;
 
         // check and attach and files as needed
         require_once 'CRM/Core/BAO/File.php';

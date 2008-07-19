@@ -94,10 +94,14 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View
         $activityTypeId = CRM_Utils_Request::retrieve('atype', 'Positive', $this );
         
         if ( $activityTypeId != 3 ) {
-            $controller =& new CRM_Core_Controller_Simple( 'CRM_Activity_Form_Activity', ts('Contact Activities'), $this->_action );
+            $controller =& new CRM_Core_Controller_Simple( 'CRM_Activity_Form_Activity',
+                                                           ts('Contact Activities'),
+                                                           $this->_action,
+                                                           false, false, false, true );
         } else {
             $wrapper =& new CRM_Utils_Wrapper( );
-            return $wrapper->run( 'CRM_Contact_Form_Task_Email', ts('Email a Contact'),  null );
+            $arguments = array( 'attachUpload' => 1 );
+            return $wrapper->run( 'CRM_Contact_Form_Task_Email', ts('Email a Contact'),  $arguments );
         }
 
         $controller->setEmbedded( true );

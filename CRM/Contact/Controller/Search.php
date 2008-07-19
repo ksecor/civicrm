@@ -64,14 +64,20 @@ class CRM_Contact_Controller_Search extends CRM_Core_Controller {
         $this->addPages( $this->_stateMachine, $action );
 
         $config  =& CRM_Core_Config::singleton( );
+        $uploadDir = $config->uploadDir;
+
+        require_once 'CRM/Core/BAO/File.php';
 
         $session =& CRM_Core_Session::singleton( );
         $uploadNames = $session->get( 'uploadNames' );
-
-        $uploadDir = null;
-        if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
-            $uploadDir = $config->uploadDir;
+        if ( ! empty( $uploadNames ) ) {
+            $uploadNames = array_merge( $uploadNames,
+                                        CRM_Core_BAO_File::uploadNames( ) );
+            
+        } else {
+            $uploadNames = CRM_Core_BAO_File::uploadNames( );
         }
+
         // add all the actions
         $this->addActions( $uploadDir, $uploadNames );
     }
