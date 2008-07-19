@@ -9,8 +9,7 @@
     <th>{ts}Paid Date{/ts}</th>
     <th>{ts}Last Reminder{/ts}</th>
     <th>{ts}Reminders Sent{/ts}</th>
-    <th>{ts}Status{/ts}</th>
-    <th></th>
+    <th colspan="2">{ts}Status{/ts}</th>
   </tr>
 
   {foreach from=$rows item=row}
@@ -21,21 +20,22 @@
     <td>{$row.receive_date|truncate:10:''|crmDate}</td>
     <td>{$row.reminder_date|truncate:10:''|crmDate}</td>
     <td>{$row.reminder_count}</td>
-    <td>{$row.status}</td>	
-    <td>
-      {if $permission EQ 'edit' and ($row.status eq 'Pending' or $row.status eq 'Overdue') }
+    <td{if ! ($permission EQ 'edit' and ($row.status eq 'Pending' or $row.status eq 'Overdue')) } colspan="2"{/if}/>
+        {$row.status}</td>	
+    {if $permission EQ 'edit' and ($row.status eq 'Pending' or $row.status eq 'Overdue') }
+        <td>
         {capture assign=newContribURL}{crmURL p="civicrm/contact/view/contribution" q="reset=1&action=add&cid=`$contactId`&context=`$context`&ppid=`$row.id`"}{/capture}
         {ts 1=$newContribURL}<a href='%1'>Record Payment (Check, Cash, EFT ...)</a>{/ts}
         {if $newCredit}
-	  <br/>  
+	      <br/>  
           {capture assign=newCreditURL}{crmURL p="civicrm/contact/view/contribution" q="reset=1&action=add&cid=`$contactId`&ppid=`$row.id`&context=`$context`&mode=live"}{/capture}
           {ts 1=$newCreditURL}<a href='%1'>Submit Credit Card Payment</a>{/ts}
         {/if}
-         <br/> 
-         {capture assign=editURL}{crmURL p="civicrm/pledge/payment" q="reset=1&action=update&cid=`$contactId`&context=`$context`&ppId=`$row.id`"}{/capture}
-         {ts 1=$editURL}<a href='%1'>Edit Schedule</a>{/ts}
+        <br/> 
+        {capture assign=editURL}{crmURL p="civicrm/pledge/payment" q="reset=1&action=update&cid=`$contactId`&context=`$context`&ppId=`$row.id`"}{/capture}
+        {ts 1=$editURL}<a href='%1'>Edit Schedule</a>{/ts}
+        </td>
     {/if}
-    </td>
    </tr>
   {/foreach}
 </table>
