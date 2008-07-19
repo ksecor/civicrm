@@ -644,10 +644,10 @@ function showrow(type,maxValue)
 		    var day   = document.getElementById("discount_end_date["+j+"][d]").value;
 		    var year  = document.getElementById("discount_end_date["+j+"][Y]").value;
 		    
-		    var discount_date=new Date( year, month, day );
+		    var discount_date=new Date( year, month-1, day );
 		    discount_date.setDate( discount_date.getDate() + 1 );
-		    if ( month && day && year ) {			       
-			document.getElementById("discount_start_date["+i+"][M]").value = discount_date.getMonth( );
+		    if ( month && day && year ) {       
+			document.getElementById("discount_start_date["+i+"][M]").value = discount_date.getMonth( )+1;
 			document.getElementById("discount_start_date["+i+"][d]").value = discount_date.getDate( );
 			document.getElementById("discount_start_date["+i+"][Y]").value = discount_date.getFullYear( );
 		    }
@@ -683,11 +683,11 @@ function showrow(type,maxValue)
 		    var day   = document.getElementById("discount_end_date["+j+"][d]").value;
 		    var year  = document.getElementById("discount_end_date["+j+"][Y]").value;
 		    
-		    var discount_date = new Date( year, month, day );
+		    var discount_date = new Date( year, month-1, day );
 		    discount_date.setDate( discount_date.getDate() + 1 );
 		    
 		    if ( month && day && year ) {			       
-			document.getElementById("discount_start_date["+i+"][M]").value = discount_date.getMonth( );
+			document.getElementById("discount_start_date["+i+"][M]").value = discount_date.getMonth( )+1;
 			document.getElementById("discount_start_date["+i+"][d]").value = discount_date.getDate( );
 			document.getElementById("discount_start_date["+i+"][Y]").value = discount_date.getFullYear( );
 		    }

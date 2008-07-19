@@ -118,8 +118,8 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
                 CRM_Core_OptionGroup::getAssoc( "civicrm_event_page.amount.{$eventPageId}.discount.{$name}", $defaultDiscounts[] );
                 $i++;
             }
-            //avoid moving up value of lable when some label don't
-            //have the value ,fixed for CRM-3088
+            //avoid moving up value of lable when some labels don't
+            //have a value ,fixed for CRM-3088
             foreach( $defaultDiscounts as $key => $val ) {
                 $totalLables[$key]['label']     = $val['label'];
                 $totalLables[$key]['value']     = $val['value'];
@@ -275,7 +275,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         $this->addGroup( $default, 'default' );
         
         $this->addElement('checkbox', 'is_discount', ts( 'Discounts by Signup Date?' ), null,
-                          array( 'onclick' => "return showHideByValue('is_discount','','discount','block','radio',false);" ));
+                          array( 'onclick' => "warnDiscountDel(); return showHideByValue('is_discount','','discount','block','radio',false);" ));
         
         $discountSection = $this->get( 'discountSection' );
         $this->assign('discountSection', $discountSection);
@@ -429,7 +429,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
                     }
                     if ( CRM_Utils_Array::value( '_qf_Fee_next', $values ) && ( $countemptyrows == 11 || $countemptyvalue == 11 ) ) {
                         $errors["discounted_label[1]"] = $errors["discounted_value[1][$i]"] = 
-                            ts('Atleast one value with label should be present');
+                            ts('At least one fee should be entered for your Discount Set. If you do not see the table to enter discount fees, click the "Add Discount Set to Fee Table" button.');
                     }
                     
                 } else if( ! $values['discount_name'][$i] ) {
