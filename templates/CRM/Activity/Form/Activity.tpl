@@ -23,15 +23,6 @@
    </script>
 {/if}
 
-{* added onload javascript for assignee contact*}
-{if $assignee_contact_value and $action neq 4 }
-   <script type="text/javascript">
-       dojo.addOnLoad( function( ) {ldelim}
-       /*dijit.byId( 'assignee_contact' ).setValue( "{$assignee_contact_value}", "{$assignee_contact_value}" )*/
-       {rdelim} );
-   </script>
-{/if}
-
 {* added onload javascript for case subject*}
 {if $subject_value and $context neq 'standalone' and $action neq 4}
    <script type="text/javascript">
@@ -233,7 +224,7 @@ function buildContact( count, pref )
 	hide( pref + '_' + prevCount + '_show'); 
     }
 
-    var dataUrl = {/literal}"{crmURL h=0 q='snippet=4&contact=1&count='}"{literal} + count;
+    var dataUrl = {/literal}"{crmURL p=$contactUrlPath h=0 q='snippet=4&contact=1&count='}"{literal} + count;
 
     var result = dojo.xhrGet({
         url: dataUrl,

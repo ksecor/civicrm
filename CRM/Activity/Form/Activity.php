@@ -153,21 +153,18 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             parent::preProcess( );
             $this->_single    = false;
             $this->assign( 'urlPath', 'civicrm/contact/view/activity' );
+            $this->assign( 'contactUrlPath', 'civicrm/activity' );
         }
         
         $this->assign( 'single', $this->_single );
         $this->assign( 'action', $this->_action);
-        
-        if ( !$this->_activityTypeId ) {
-            $this->_activityTypeId = CRM_Utils_Request::retrieve( 'subType', 'Positive', $this );
-        }
         
         if ( $this->_action & CRM_Core_Action::VIEW ) {
             // get the tree of custom fields
             $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree("Activity", $this->_activityId, 0, $this->_activityTypeId );
         }
 
-        if ( ! in_array( $this->_context, array('standalone', 'case', 'search' ) )  || $this->_activityTypeId ) {
+        if ( ( isset( $this->_context) && ! in_array( $this->_context, array('standalone', 'case', 'search' ) ) )  || $this->_activityTypeId ) {
             //set activity type name and description to template
             require_once 'CRM/Core/BAO/OptionValue.php';
             list( $activityTypeName, $activityTypeDescription ) = CRM_Core_BAO_OptionValue::getActivityTypeDetails( $this->_activityTypeId );
