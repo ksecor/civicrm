@@ -313,3 +313,49 @@ function _civicrm_activity_check_params ( &$params, $addMode = false )
     }
     return null;
 }
+
+/**
+ * Convert an email file to an activity
+ */
+function civicrm_activity_process_email( $file, $activiyTypeID ) {
+    // might want to check that email is ok here
+    if ( ! file_exists( $file ) ||
+         ! is_readable( $file ) ) {
+        return CRM_Core_Error::creatAPIError( ts( 'File %1 does not exist or is not readable',
+                                                  array( 1 => $file ) ) );
+    }
+
+    require_once 'CRM/Utils/Mail/Incoming.php';
+    $result = CRM_Utils_Mail_Incoming::parse( $file );
+    if ( $result['is_error'] ) {
+        return $result;
+    }
+
+    // get ready for collecting data about activity to be created
+    $params = array();
+    $params['activity_type_id']   = $activiyTypeID;
+    $params['status_id']          = 1;
+    $params['source_contact_id']  = $params['assignee_contact_id'] = $result['from']['id'];
+    $params['target_contact_id']  = array( );
+    $keys = array( 'to', 'cc', 'bcc' );
+    foreach ( $keys as $key ) {
+        if ( is_array( $result[$key] ) ) {
+            foreach ( $result[$key] as $key => $keyValue ) {
+                $params['target_contact_id'][]  = $keyValue['id'];
+            }
+        }
+    }
+    $params['subject']            = $result['subject'];
+    $params['activity_date_time'] = $result['date'];
+    $params['details']            = $result['body'];
+
+    for ( $i = 1; $i <= 5; $i++ ) {
+        if ( isset( $result["attachFile_$i"] ) ) {
+            $params["attachFile_$i"] = $result["attachFile_$i"];
+        }
+    }
+
+    // create activity
+    require_once 'api/v2/Activity.php';
+    return civicrm_activity_create( $params );
+}

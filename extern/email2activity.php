@@ -45,59 +45,18 @@ function run( ) {
     // this does not return on failure
     CRM_Utils_System::authenticateScript( true );
 
-    $file = "/Users/lobo/public_html/drupal6/files/civicrm/upload/lobo3.txt";
-    process( $file );
-    return;
-
     // check if there is an email
     if ( isset( $_REQUEST['email'] ) ) {
-        process( $_REQUEST['email'] );
+        $file = $_REQUEST['email'];
     } else {
-        CRM_Core_Error::fatal( ts('Could not find email in input request') );
+        $file = "/Users/lobo/public_html/drupal6/files/civicrm/upload/lobo3.txt";
     }
 
-}
-
-function process( &$file ) {
-    // might want to check that email is ok here
-
-    require_once 'CRM/Utils/Mail/Incoming.php';
-    $result = CRM_Utils_Mail_Incoming::parse( $file );
-    if ( $result['is_error'] ) {
-        CRM_Core_Error::fatal( $result['error_message'] );
-    }
-
-    // get ready for collecting data about activity to be created
-    $params = array();
-    $params['activity_type_id']   = 1; // Frontline Action
-    $params['status_id']          = 1;
-    $params['source_contact_id']  = $params['assignee_contact_id'] = $result['from']['id'];
-    $params['target_contact_id']  = array( );
-    $keys = array( 'to', 'cc', 'bcc' );
-    foreach ( $keys as $key ) {
-        if ( is_array( $result[$key] ) ) {
-            foreach ( $result[$key] as $key => $keyValue ) {
-                $params['target_contact_id'][]  = $keyValue['id'];
-            }
-        }
-    }
-    $params['subject']            = $result['subject'];
-    $params['activity_date_time'] = $result['date'];
-    $params['details']            = $result['body'];
-
-    for ( $i = 1; $i <= 5; $i++ ) {
-        if ( isset( $result["attachFile_$i"] ) ) {
-            $params["attachFile_$i"] = $result["attachFile_$i"];
-        }
-    }
-
-    // create activity
     require_once 'api/v2/Activity.php';
-    $result = civicrm_activity_create( $params );
+    $result = civicrm_activity_process_email( $file, 1 );
     if ( $result['is_error'] ) {
         CRM_Core_Error::fatal( $result['error_message'] );
     }
-    
 }
 
 run( );
