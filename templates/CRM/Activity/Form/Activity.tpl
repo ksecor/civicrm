@@ -101,14 +101,9 @@
              </tr>
              {/if}
              <tr>
-                <td class="label">{$form.assignee_contact.1.label}<div dojoType="dojox.data.QueryReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra" doClientPaging="false"></div></td>
+		 <td class="label">{ts}Assigned To {/ts}<div dojoType="dojox.data.QueryReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra" doClientPaging="false"></div></td>
                 <td class="tundra">                  
-                   {$form.assignee_contact.1.html}
-                   <span id="contact_assignee_1">
-                      <span id="contact_assignee_0_show">  
-	                 <a href="#" onclick="buildContact(1, 'contact_assignee');return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/>{ts}Add Contact{/ts}</a>
-                      </span>
-                   </span>
+                   <span id="assignee_contact_1"></span>
                    <br />{edit}<span class="description">{ts}You can optionally assign this activity to someone. Assigned activities will appear in their Contact Dashboard.{/ts}</span>{/edit}
                 </td>
              </tr>
@@ -214,17 +209,36 @@
 {* Build add contact *}
 {literal}
 <script type="text/javascript">
+{/literal}
+{if $action eq 1 }
+{literal}
+   buildContact( 1, 'assignee_contact' );
+{/literal}   
+{/if}
+{literal}
+
+var assigneeContactCount = {/literal}"{$assigneeContactCount}"{literal}
+
+if ( assigneeContactCount ) {
+    for ( var i = 1; i <= assigneeContactCount; i++ ) {
+	buildContact( i, 'assignee_contact' );
+    }
+}
+
 
 function buildContact( count, pref )
 {
-    prevCount = count - 1;
-    hide( pref + '_' + prevCount + '_show'); 
+    if ( count > 1 ) {
+	prevCount = count - 1;
+	hide( pref + '_' + prevCount + '_show'); 
+    }
 
     var dataUrl = {/literal}"{crmURL h=0 q='snippet=4&contact=1&count='}"{literal} + count;
 
     var result = dojo.xhrGet({
         url: dataUrl,
         handleAs: "text",
+	sync: true,
         timeout: 5000, //Time in milliseconds
         handle: function(response, ioArgs){
                 if(response instanceof Error){

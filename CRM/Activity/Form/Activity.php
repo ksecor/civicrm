@@ -133,6 +133,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         }
         
         $this->_activityTypeId = CRM_Utils_Request::retrieve( 'atype', 'Positive', $this );
+
         $this->assign( 'atype',$this->_activityTypeId );
         if ( !$this->_caseId && $this->_activityId ) {
             $this->_caseId = CRM_Core_DAO::getFieldValue( 'CRM_Case_DAO_CaseActivity',
@@ -166,7 +167,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree("Activity", $this->_activityId, 0, $this->_activityTypeId );
         }
 
-        if ( ! in_array( $this->_context, array('standalone', 'case', 'search') )  || $this->_activityTypeId ) {
+        if ( ! in_array( $this->_context, array('standalone', 'case', 'search' ) )  || $this->_activityTypeId ) {
             //set activity type name and description to template
             require_once 'CRM/Core/BAO/OptionValue.php';
             list( $activityTypeName, $activityTypeDescription ) = CRM_Core_BAO_OptionValue::getActivityTypeDetails( $this->_activityTypeId );
@@ -206,6 +207,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             foreach ( $_POST['assignee_contact'] as $key => $value ) {
                 CRM_Contact_Form_AddContact::buildQuickForm( $this, "assignee_contact[{$key}]" );
             }
+            $this->assign( 'assigneeContactCount', count( $_POST['assignee_contact'] ) );
         }
         
         // add attachments part
@@ -304,11 +306,10 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         }
 
         if ( $this->_addContact ) {
-            $contactCount  = CRM_Utils_Array::value( 'count', $_GET );
-            $this->assign('prevCount', $contactCount );
-
-            $contactCount = $contactCount + 1;
+            $contactCount = CRM_Utils_Array::value( 'count', $_GET );
+            $nextContactCount = $contactCount + 1;
             $this->assign('contactCount', $contactCount );
+            $this->assign('nextContactCount', $nextContactCount );
             $this->assign('contactFieldName', 'assignee_contact' );
             return CRM_Contact_Form_AddContact::buildQuickForm( $this, "assignee_contact[{$contactCount}]" );
         }
@@ -336,10 +337,6 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                                     ));
             return;
         }
-        $currentPath = CRM_Utils_System::currentPath( );
-        $refreshURL = CRM_Utils_System::url( $currentPath, '_qf_Activity_display=true',
-                                             true, null, false  );
-        $this->assign('refreshURL', $refreshURL);
         
         $this->_activityType =
             array( ''   => ' - select activity - ' ) + 
@@ -453,7 +450,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
 //                                                                        'sort_name' );
         }
         
-        $assigneeContactField = $this->add( 'text','assignee_contact[1]', ts('Assigned To'), $attributes );
+        //$assigneeContactField = $this->add( 'text','assignee_contact[1]', ts('Assigned To'), $attributes );
 //         if ( $assigneeContactField->getValue( ) ) {
 //             $this->assign( 'assignee_contact_value',  $assigneeContactField->getValue( ) );
 //         } else {
