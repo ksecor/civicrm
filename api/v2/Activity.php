@@ -321,8 +321,8 @@ function civicrm_activity_process_email( $file, $activiyTypeID ) {
     // might want to check that email is ok here
     if ( ! file_exists( $file ) ||
          ! is_readable( $file ) ) {
-        return CRM_Core_Error::creatAPIError( ts( 'File %1 does not exist or is not readable',
-                                                  array( 1 => $file ) ) );
+        return CRM_Core_Error::createAPIError( ts( 'File %1 does not exist or is not readable',
+                                                   array( 1 => $file ) ) );
     }
 
     require_once 'CRM/Utils/Mail/Incoming.php';

@@ -36,7 +36,7 @@
 define( 'EMAIL_ACTIVITY_TYPE_ID', 1 );
 define( 'MAIL_DIR_DEFAULT'      , '/Users/lobo/public_html/drupal6/files/civicrm/upload/incoming/');
 
-class HRD_Email_Processor {
+class bin_Email2Activity {
 
     protected $_mailDir;
 
@@ -56,15 +56,18 @@ class HRD_Email_Processor {
 
         // ensure that $this->_mailDir is a directory and is writable
         if ( ! is_dir( $this->_mailDir ) ||
-             ! is_writeable( $this->_mailDir ) ) {
-            echo "Could not write to {$this->_mailDir}\n";
+             ! is_readable( $this->_mailDir ) ) {
+            echo "Could not read from {$this->_mailDir}\n";
             exit( );
         }
         
-        $this->_processedDir = $this->_mailDir . DIRECTORY_SEPARATOR . 'processed';
+        $config =& CRM_Core_Config::singleton( );
+        $dir = $config->uploadDir . DIRECTORY_SEPARATOR . 'mail';
+
+        $this->_processedDir = $dir . DIRECTORY_SEPARATOR . 'processed';
         CRM_Utils_File::createDir( $this->_processedDir );
 
-        $this->_errorDir     = $this->_mailDir . DIRECTORY_SEPARATOR . 'error';
+        $this->_errorDir     = $dir . DIRECTORY_SEPARATOR . 'error';
         CRM_Utils_File::createDir( $this->_errorDir );
 
         // create a date string YYYYMMDD
@@ -134,7 +137,7 @@ function run( ) {
         $mailDir = $_GET['mailDir'];
     }
 
-    $email = new HRD_Email_Processor( $mailDir );
+    $email = new bin_Email2Activity( $mailDir );
 
     $email->run( );
 }
