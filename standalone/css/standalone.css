@@ -1,0 +1,36 @@
+#crm-container td#sidebar-left {
+  background-color: #F6F6F6;
+  border-right: 1px solid #aaa;
+}
+
+#crm-container td#main-content {
+  padding-left: 10px;
+}
+
+#crm-container table#content {
+  border: 1px solid #aaa;
+}
+
+#crm-container ul.indented {
+  padding-left:4em;
+}
+
+h2 {
+  font-size:160%;
+  line-height:130%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family:Helvetica,Arial,sans-serif;
+  font-weight:normal;
+}
+
+img, a img {
+  border:medium none;
+}
+
+#crm-container div#recently-viewed {
+  background-color: #F6F6F6;
+  border:1px solid #aaa;
+}
+

@@ -446,7 +446,8 @@ class CRM_Core_Block {
      */
     static function getContent( $id ) {
         // return if upgrade mode
-        if ( arg(0) == 'civicrm' && arg(1) == 'upgrade' ) {
+        $config =& CRM_Core_Config::singleton( );
+        if ( CRM_Utils_Array::value( $config->userFrameworkURLVar, $_GET ) == 'civicrm/upgrade' ) {
             return;
         }
 
