@@ -2,7 +2,7 @@
 <tr>
    <td>
        {include file="CRM/Activity/Selector/Activity.tpl}
-       {if $hookContent}
+       {if isset($hookContent) and $hookContent}
           {foreach from=$hookContent key=title item=content}
           <fieldset><legend>{$title}</legend>
              {$content}

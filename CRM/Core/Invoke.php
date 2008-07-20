@@ -61,8 +61,8 @@ class CRM_Core_Invoke
             return;
         }
 
-        if ( $args[1] == 'menu' && 
-             $args[2] == 'rebuild' ) {
+        if ( isset($args[1]) and $args[1] == 'menu' and 
+             isset($args[2]) and $args[2] == 'rebuild' ) {
             CRM_Core_Menu::store( );
             CRM_Core_Session::setStatus( ts( 'Menu has been rebuilt' ) );
             return CRM_Utils_System::redirect( );
