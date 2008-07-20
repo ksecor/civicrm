@@ -181,6 +181,9 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      */
     public function createActivityTarget( $params ) 
     {
+        if ( !$params['target_contact_id'] ) {
+            return;
+        }
         require_once 'CRM/Activity/BAO/ActivityTarget.php';
         $target              =& new CRM_Activity_BAO_ActivityTarget( );
         $target->activity_id = $params['activity_id'];
@@ -198,6 +201,9 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      */
     public function createActivityAssignment( $params ) 
     {
+        if ( !$params['assignee_contact_id'] ) {
+            return;
+        }
         require_once 'CRM/Activity/BAO/ActivityAssignment.php';
         $assignee              =& new CRM_Activity_BAO_ActivityAssignment( );
         $assignee->activity_id = $params['activity_id'];
@@ -238,6 +244,10 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                 $params['status_id'] = 1;
             }
         }
+        if ( empty( $params['id'] ) ) {
+            unset( $params['id'] );
+        }
+
         $activity->copyValues( $params );
 
         // start transaction        
@@ -251,7 +261,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             return $result;
         }
 
-        $activityId = $result->id;
+        $activityId = $activity->id;
 
         // check and attach and files as needed
         require_once 'CRM/Core/BAO/File.php';
@@ -345,22 +355,22 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         
         $msgs = array( );
         if ( isset( $params['source_contact_id'] ) ) {
-            $msgs[] = "source = {$params['source_contact_id']}";
+            $msgs[] = "source={$params['source_contact_id']}";
         } 
 
         if ( isset( $params['target_contact_id'] ) ) {
             if ( is_array( $params['target_contact_id'] ) ) {
-                $msgs[] = "target = " . implode( ',', $params['target_contact_id'] );
+                $msgs[] = "target=" . implode( ',', $params['target_contact_id'] );
             } else {
-                $msgs[] = "target = {$params['target_contact_id']}";
+                $msgs[] = "target={$params['target_contact_id']}";
             }
         }
 
         if ( isset( $params['assignee_contact_id'] ) ) {
             if ( is_array( $params['assignee_contact_id'] ) ) {
-                $msgs[] = "assignee = " . implode( ',', $params['assignee_contact_id'] );
+                $msgs[] = "assignee=" . implode( ',', $params['assignee_contact_id'] );
             } else {
-                $msgs[] = "assignee ={$params['assignee_contact_id']}";
+                $msgs[] = "assignee={$params['assignee_contact_id']}";
             }
         }
         $logMsg .= implode( ', ', $msgs );

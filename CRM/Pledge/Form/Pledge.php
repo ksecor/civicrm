@@ -331,11 +331,21 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         $this->addElement('date', 'acknowledge_date', ts('Acknowledgment Date'), CRM_Core_SelectValues::date('activityDate')); 
         $this->addRule('acknowledge_date', ts('Select a valid date.'), 'qfDate');
         
-        $element =& $this->add('select', 'contribution_type_id', 
-                               ts( 'Contribution Type' ), 
-                               array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::contributionType( ),
-                               true );
+        $this->add('select', 'contribution_type_id', 
+                   ts( 'Contribution Type' ), 
+                   array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::contributionType( ),
+                   true );
         
+        CRM_Core_DAO::commonRetrieveAll( 'CRM_Pledge_DAO_PledgeBlock', 'entity_table', 'civicrm_contribution_page', $pageIds, array( 'entity_id' ) );
+        $pages = CRM_Contribute_PseudoConstant::contributionPage( );
+        foreach ( $pageIds as $key => $value ) {
+            $pledgePages[$value['entity_id']] = $pages[$value['entity_id']];
+        }
+        
+        $ele = $this->add('select', 'contribution_page_id', ts( 'Self-service Payments Page' ), array( '' => ts( '- select -' ) )+$pledgePages );
+        if ( isset ( $this->_id ) && ( CRM_Core_DAO::getFieldValue( 'CRM_Pledge_DAO_Pledge', $this->_id, 'contribution_page_id' ) ) ) { 
+            $ele->freeze();
+        }
         $session = & CRM_Core_Session::singleton( );
         $uploadNames = $session->get( 'uploadNames' );
         if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
@@ -419,7 +429,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         
         //get the submitted form values.  
         $formValues = $this->controller->exportValues( $this->_name );
-       
+
         $config  =& CRM_Core_Config::singleton( );
         $session =& CRM_Core_Session::singleton( );
              
@@ -435,11 +445,13 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
                          'honor_prefix_id',
                          'honor_first_name',
                          'honor_last_name',
-                         'honor_email'
+                         'honor_email',
+                         'contribution_page_id'
                          );
         foreach ( $fields as $f ) {
             $params[$f] = CRM_Utils_Array::value( $f, $formValues );
         }
+        
         //adding status 'Pending' for add mode.
         if ( $this->_action & CRM_Core_Action::ADD ) {
             $params['status_id'] = array_search( 'Pending', CRM_Contribute_PseudoConstant::contributionStatus( ));
@@ -473,7 +485,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         }
 
         $params['contact_id'] = $this->_contactID;
-        
+                 
         //handle Honoree contact.
         if ( CRM_Utils_Array::value( 'honor_type_id', $params ) ) {
             require_once 'CRM/Contribute/BAO/Contribution.php';
@@ -509,15 +521,39 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             $statusMsg = ts('Pledge has been recorded and the payment schedule has been created.<br />');
         }
         
-        //build the urls.
-        $urlParams  = "reset=1&action=add&cid={$this->_contactID}&ppid={$this->_id}&context=pledge";
-        $contribURL = CRM_Utils_System::url( 'civicrm/contact/view/contribution', $urlParams );
-        $urlParams .= "&mode=live";
-        $creditURL  = CRM_Utils_System::url( 'civicrm/contact/view/contribution', $urlParams );
-        
+              
         if ( CRM_Utils_Array::value( 'is_acknowledge', $formValues ) ) {
-            $statusMsg .= ' ' . ts( "An acknowledgment email has been sent to %1.<br />", array( 1 => $this->userEmail ) );
-            $statusMsg .= ' ' . ts( "If a payment is due now, you can record <a href='%1'>a check, EFT, or cash payment for this pledge</a> OR <a href='%2'>submit a credit card payment</a>.", array( 1 =>$contribURL, 2 => $creditURL ) );
+
+            //finding first paymentId having status Pending or Overdue
+            require_once 'CRM/Pledge/BAO/Payment.php';
+            $returnProperties = array( 'status_id' );
+            CRM_Core_DAO::commonRetrieveAll( 'CRM_Pledge_DAO_Payment', 'pledge_id', $params['id'], $statuses, $returnProperties );
+                       
+            $paymentStatusTypes = CRM_Contribute_PseudoConstant::contributionStatus( );
+            foreach ( $statuses as $key => $value ) {
+                if ( $paymentStatusTypes[$value['status_id']] == 'Pending' || $paymentStatusTypes[$value['status_id']] == 'Overdue' ) {
+                    $paymentId =$value['id'];
+                    break;
+                } 
+            }
+            if ( $paymentId ) {
+                //build the urls.
+                $urlParams  = "reset=1&action=add&cid={$this->_contactID}&ppid={$paymentId}&context=pledge";
+                $contribURL = CRM_Utils_System::url( 'civicrm/contact/view/contribution', $urlParams );
+                $urlParams .= "&mode=live";
+                $creditURL  = CRM_Utils_System::url( 'civicrm/contact/view/contribution', $urlParams );
+                
+                $statusMsg .= ' ' . ts( "An acknowledgment email has been sent to %1.<br />", array( 1 => $this->userEmail ) );
+                
+                //check if we can process credit card payment.
+                $processors = CRM_Core_PseudoConstant::paymentProcessor( false, false,
+                                                                         "billing_mode IN ( 1, 3 )" );
+                if ( count( $processors ) > 0 ) {
+                    $statusMsg .= ' ' . ts( "If a payment is due now, you can record <a href='%1'>a check, EFT, or cash payment for this pledge</a> OR <a href='%2'>submit a credit card payment</a>.", array( 1 =>$contribURL, 2 => $creditURL ) );
+                } else {
+                    $statusMsg .= ' ' . ts( "If a payment is due now, you can record <a href='%1'>a check, EFT, or cash payment for this pledge</a>.", array( 1 =>$contribURL ) );
+                }
+            }
         }
         CRM_Core_Session::setStatus( $statusMsg );
         
@@ -596,6 +632,8 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
                 $this->assign( $field, $params[$field] );
             }
         }
+        $eachPaymentAmount = ( $params['amount'] / $params['installments'] );
+        $this->assign( 'eachPaymentAmount', $eachPaymentAmount );
         
         //assign honor fields.
         $honor_block_is_active = false;

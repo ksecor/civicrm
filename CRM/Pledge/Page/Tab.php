@@ -141,6 +141,7 @@ class CRM_Pledge_Page_Tab extends CRM_Contact_Page_View
     function setContext( ) 
     {
         $context = CRM_Utils_Request::retrieve( 'context', 'String', $this, false, 'search' );
+
         switch ( $context ) {
             
         case 'dashboard':           

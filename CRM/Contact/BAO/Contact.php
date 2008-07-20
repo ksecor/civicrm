@@ -536,6 +536,13 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
 
+        // delete the log entries since we dont have triggers enabled as yet
+        require_once 'CRM/Core/DAO/Log.php';
+        $logDAO =& new CRM_Core_DAO_Log(); 
+        $logDAO->entity_table = 'civicrm_contact';
+        $logDAO->entity_id    = $id;
+        $logDAO->delete();
+        
         $contact->delete( );
 
         //delete the contact id from recently view

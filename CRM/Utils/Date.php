@@ -690,7 +690,7 @@ class CRM_Utils_Date
         return true;
     }
 
-    static function overdue( $date, $now = null, $includeToday = true ) 
+    static function overdue( $date, $now = null ) 
     {
         $mysqlDate = self::isoToMysql( $date );
         if ( ! $now ) {
@@ -698,12 +698,8 @@ class CRM_Utils_Date
         } else {
             $now = self::isoToMysql( $now );
         }
-
-        if ( $includeToday ) {
-            return ( $mysqlDate >= $now ) ? false : true;
-        } else {
-            return ( $mysqlDate > $now ) ? false : true;
-        }
+        
+        return ( $mysqlDate >= $now ) ? false : true;
     }
     
     /**

@@ -110,6 +110,9 @@ class CRM_Contribute_BAO_Contribution_Utils {
             $form->_params['contributionTypeID'] = $contributionType->id;
             $form->_params['item_name'         ] = $form->_params['description'];
             $form->_params['receive_date'      ] = $now;
+            if ( ( $paymentParams['is_pledge'] == 1 ) && ($form->_params['amount'] !=  $paymentParams['total_amount']) ) {
+                $form->_params['amount'] = $paymentParams['total_amount'];
+            }
             if ( $form->_values['is_recur'] &&
                  $contribution->contribution_recur_id ) {
                 $form->_params['contributionRecurID'] = $contribution->contribution_recur_id;
@@ -117,7 +120,7 @@ class CRM_Contribute_BAO_Contribution_Utils {
             
             $form->set( 'params', $form->_params );
             $form->postProcessPremium( $premiumParams, $contribution );
-            
+          
             if ( $form->_values['is_monetary'] && $form->_amount > 0.0 ) {
                 // add qfKey so we can send to paypal
                 $form->_params['qfKey'] = $form->controller->_key;

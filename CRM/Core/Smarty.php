@@ -146,6 +146,15 @@ class CRM_Core_Smarty extends Smarty {
         }
     }
 
+    function clearTemplateVars( ) {
+        foreach ( array_keys( $this->_tpl_vars ) as $key ) {
+            if ( $key == 'config' || $key == 'session' ) {
+                continue;
+            }
+            unset( $this->_tpl_vars[$key] );
+        }
+    }
+
 }
 
 

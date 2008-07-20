@@ -216,6 +216,26 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
             if ( CRM_Utils_array::value( 'is_recur', $fields ) ) {
                 $errors['is_recur'] = ts( 'You can not enable both Recurring Contributions AND Pledges on the same online contribution page.' ); 
             }
+            
+            //when pledge is enable 
+            //Allow other amounts or Contribution amount block 
+            //should be enabled and contain values.
+            if ( !CRM_Utils_Array::value( 'is_allow_other_amount', $fields ) ) {
+                //get the values and labels of amount block
+                $labels  = CRM_Utils_Array::value( 'label'  , $fields );
+                $values  = CRM_Utils_Array::value( 'value'  , $fields );
+                $isSetRow = false;
+                for ( $i = 1; $i < self::NUM_OPTION; $i++ ) {
+                    if ( ( isset( $values[$i] ) && ( strlen( trim( $values[$i] ) ) > 0 ) ) &&
+                         ( CRM_Utils_Array::value( $i, $labels ) ) ) { 
+                        $isSetRow = true;
+                    }
+                }
+                if ( !$isSetRow ) {
+                    $errors['is_pledge_active'] = 
+                        ts ( 'To enable pledges you should enable Allow Other Amounts or Contribution Amount Block.' );
+                }
+            }
         }
         
         return $errors;

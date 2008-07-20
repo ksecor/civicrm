@@ -58,9 +58,12 @@
             {include file="CRM/common/calendar/desc.tpl" trigger=trigger_pledge_3}
             {include file="CRM/common/calendar/body.tpl" dateVar=acknowledge_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_pledge_3}<br />
             <span class="description">{ts}Date when an acknowledgment of the pledge was sent.{/ts}</span></td></tr>
-        <tr><td class="label">{$form.contribution_type_id.label}</td><td>{$form.contribution_type_id.html}<br />
+            <tr><td class="label">{$form.contribution_type_id.label}</td><td>{$form.contribution_type_id.html}<br />
             <span class="description">{ts}Sets the default contribution type for payments against this pledge.{/ts}</span></td></tr>
-            <tr><td class="label">{ts}Pledge Status{/ts}</td><td class="view-value">{$status}<br />
+	    <tr><td class="label">{$form.contribution_page_id.label}</td><td>{$form.contribution_page_id.html}<br />
+            <span class="description">{ts}Sets the contribution page against this pledge.{/ts}</span></td></tr>
+        
+	    <tr><td class="label">{ts}Pledge Status{/ts}</td><td class="view-value">{$status}<br />
             <span class="description">{ts}Pledges are "Pending" until the first payment is received. Once a payment is received, status is "In Progress" until all scheduled payments are completed. Overdue pledges are ones with payment(s) past due.{/ts}</span></td></tr>
 
        {/if}      

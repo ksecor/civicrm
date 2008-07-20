@@ -7,23 +7,11 @@
       	    <dt>{$form.subject.label}</dt><dd>{$form.subject.html}</dd>
             <dt>{$form.status_id.label}</dt><dd>{$form.status_id.html}</dd>   
             <dt>{$form.case_type_id.label}</dt><dd>{$form.case_type_id.html}</dd>
-	    {if $config->civiHRD}
-         	    <dt>{$form.casetag2_id.label}</dt><dd>{$form.casetag2_id.html}</dd>
-	 	    <dt>{$form.casetag3_id.label}</dt><dd>{$form.casetag3_id.html}</dd>
-	    {/if}
             <dt>{$form.start_date.label}</dt><dd>{$form.start_date.html}</dd>
             <dt>{$form.end_date.label}</dt><dd>{$form.end_date.html}</dd> 
             <dt>{$form.details.label}</dt><dd>{$form.details.html}</dd>         	 
             <dt></dt><dd>{$form.buttons.html}
-		{if $config->civiHRD}
-			<form><input type="button" 
-            		onclick="window.location.href='{crmURL p="civicrm/contact/view/case" q="reset=1&action=update&cid=`$contactId`&id=`$id`&selectedChild=case&edit=case"}'" 
-            		value="{ts}Edit{/ts}">&nbsp;
-            		<input type="button" 
-            		onclick="window.location.href='{crmURL p="civicrm/contact/view/case" q="reset=1&action=delete&cid=`$contactId`&id=`$id`&selectedChild=case&edit=case"}'"
-            		value="{ts}Remove{/ts}"</form>
-		{/if}
-            </dd>	
+	            </dd>	
       </dl>
       <div class="spacer"> </div>
       <dl><dd>{include file="CRM/Activity/Selector/Activity.tpl" caseview=1}</dd></dl>

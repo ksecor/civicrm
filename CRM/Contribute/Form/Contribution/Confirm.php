@@ -51,6 +51,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
     {
         $config =& CRM_Core_Config::singleton( );
         parent::preProcess( );
+
         if ( $this->_contributeMode == 'express' ) {
             // rfp == redirect from paypal
             $rfp = CRM_Utils_Request::retrieve( 'rfp', 'Boolean',
@@ -457,6 +458,17 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $paymentParams      = $this->_params;
             $contributionTypeId = $this->_values['contribution_type_id'];
             
+            if ( (  $paymentParams['is_pledge'] == 1 ) ) { 
+                
+                $paymentParams['pledgeAmount']  =  $paymentParams['amount'];
+                if (  $paymentParams['is_pledge_frequency_interval'] ) {
+                    $paymentParams['amount'] = $paymentParams['total_amount'] = $paymentParams['net_amount'] = (integer) $params['amount'] / $params['pledge_installments'];
+                } else {
+                    $paymentParams['net_amount']   = $paymentParams['total_amount'];
+                    $paymentParams['pledge_installments'] = 1;
+                    
+                }
+            }
             require_once "CRM/Contribute/BAO/Contribution/Utils.php";
             CRM_Contribute_BAO_Contribution_Utils::processConfirm( $this, $paymentParams, 
                                                                    $premiumParams, $contactID, 
@@ -671,17 +683,14 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             }
         }
 
-        if ( isset ( $params['pledge_frequency_interval'] ) ) {
-            $pledgeParams                  = array( );
-            $pledgeParams['amount']        = $contribParams['total_amount'];
-            $contribParams['total_amount'] = $contribParams['net_amount'] = (integer) $pledgeParams['amount'] / $params['pledge_installments'];
-        }
-        
-
+       
         require_once 'CRM/Contribute/BAO/Contribution.php';
         $contribution =& CRM_Contribute_BAO_Contribution::add( $contribParams, $ids );
-               
-        if ( isset ( $params['pledge_frequency_interval'] ) ) {
+             
+        if ( $params['is_pledge'] == 1 ) {
+            $pledgeParams = array( );
+            $pledgeParams['amount']        =  $params['pledgeAmount'];
+
             require_once 'CRM/Contribute/PseudoConstant.php';
             $pledgeParams['contact_id'] = $contribution->contact_id;
             $pledgeParams['contribution_id'     ] = $contribution->id;
@@ -696,14 +705,17 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $pledgeParams['scheduled_date' ]['M'] = date("m"); 
             $pledgeParams['scheduled_date' ]['d'] = date("d");
             $pledgeParams['scheduled_date' ]['Y'] = date("Y");
-            $pledgeParams['status_id'           ] = array_search( 'Pending',  CRM_Contribute_PseudoConstant::contributionStatus( ) );
-
+            if ( $params['pledge_installments'] == 1 ) {                     
+                $pledgeParams['status_id'] = $contribution->contribution_status_id;
+            } else {
+                $pledgeParams['status_id'] = array_search( 'Pending',  CRM_Contribute_PseudoConstant::contributionStatus( ) );
+            }
             require_once 'CRM/Pledge/BAO/Pledge.php';
-            CRM_Pledge_BAO_Pledge::create($pledgeParams);
+            $pledge = CRM_Pledge_BAO_Pledge::create($pledgeParams);
         }
         
-        require_once 'CRM/Pledge/BAO/Payment.php';
-        if ( !empty( $form->_params['pledge_amount'] ) ) {
+        if ( $form->_values['pledge_id']  ) {
+            require_once 'CRM/Pledge/BAO/Payment.php';
             foreach ( $form->_params['pledge_amount'] as $paymentId => $dontCare ) {
                 $pledgePaymentParams = array('id'              => $paymentId,
                                              'contribution_id' => $contribution->id,
@@ -712,8 +724,16 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 
                 CRM_Pledge_BAO_Payment::add( $pledgePaymentParams );
             }  
-        }
+            
+            // update pledge table
+            $statusId = CRM_Pledge_BAO_Payment::calculatePledgeStatus( $form->_values['pledge_id'] );
+            $pledgeParams = array( 'id'        => $form->_values['pledge_id'],
+                                   'status_id' => $statusId );
 
+            require_once 'CRM/Pledge/BAO/Pledge.php';
+            CRM_Pledge_BAO_Pledge::add( $pledgeParams );
+        }
+        
 
         if ( $online ) {
             require_once 'CRM/Core/BAO/CustomValueTable.php';

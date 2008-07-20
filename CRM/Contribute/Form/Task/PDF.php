@@ -128,7 +128,9 @@ AND    {$this->_componentClause}";
         require_once 'CRM/Core/Payment/BaseIPN.php';
         $baseIPN = new CRM_Core_Payment_BaseIPN( );
 
-        $message = array( );
+        $message  =  array( );
+        $template =& CRM_Core_Smarty::singleton( );
+
         foreach ( $details as $contribID => $detail ) {
             $input = $ids = $objects = array( );
             
@@ -159,16 +161,20 @@ AND    {$this->_componentClause}";
             $input['trxn_date']  = $contribution->trxn_date;
 
             // CRM_Core_Error::debug('input',$input);
-
+            
             $values = array( );
             $mail = $baseIPN->sendMail( $input, $ids, $objects, $values, false, true );
             $mail = str_replace( "\n\n", "<p>", $mail );
             $mail = str_replace( "\n", "<br/>", $mail );
 
             $message[] = $mail;
+
+            // reset template values before processing next transactions
+            $template->clearTemplateVars( );
         }
         
-        CRM_Core_Error::debug('msg',$message); exit();
+        CRM_Core_Error::debug('msg',$message);
+        exit();
 
         require_once 'CRM/Utils/PDF/Utils.php';
         CRM_Utils_PDF_Utils::domlib( $message, "civicrmContributionReceipt.pdf" );
