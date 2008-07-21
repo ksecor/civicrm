@@ -15,12 +15,16 @@ UPDATE civicrm_email    SET email   = LOWER( email   );
 UPDATE civicrm_uf_match SET uf_name = LOWER( uf_name );
 
 
--- Add new boolean columns in civicrm_relationship
+-- Add new tinyint column to civicrm_tag
+ALTER TABLE `civicrm_tag`
+    ADD `is_selectable` tinyint DEFAULT 1 AFTER `parent_id`;
+
+-- Add new tinyint columns in civicrm_relationship
 
 ALTER TABLE `civicrm_relationship`
-    ADD `is_permission_a_b` boolean DEFAULT 0 AFTER `description`;
+    ADD `is_permission_a_b` tinyint DEFAULT 0 AFTER `description`;
 ALTER TABLE `civicrm_relationship`
-    ADD `is_permission_b_a` boolean DEFAULT 0 AFTER `is_permission_a_b`;
+    ADD `is_permission_b_a` tinyint DEFAULT 0 AFTER `is_permission_a_b`;
 
 
 -- Add 'My Contacts / Organizations' option in user dashboard options
