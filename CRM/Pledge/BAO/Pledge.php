@@ -295,30 +295,30 @@ WHERE  $whereCond AND is_test=0
         switch ( $status ) {
         case 'Completed':
             $select = 'sum( total_amount ) as received_pledge , count( cd.id ) as received_count';
-            $where[] = 'status_id = ' .$statusId. ' AND cp.contribution_id = cd.id AND cd.is_test=0';
+            $where[] = 'cp.status_id = ' .$statusId. ' AND cp.contribution_id = cd.id AND cd.is_test=0';
             $queryDate = 'receive_date';
             $from = ' civicrm_contribution cd, civicrm_pledge_payment cp';
             break;
             
         case 'Cancelled':
             $select = 'sum( total_amount ) as received_pledge , count( cd.id ) as received_count';
-            $where[] = 'status_id = ' .$statusId. ' AND cp.contribution_id = cd.id AND cd.is_test=0';
+            $where[] = 'cp.status_id = ' .$statusId. ' AND cp.contribution_id = cd.id AND cd.is_test=0';
             $queryDate = 'receive_date';
             $from = ' civicrm_contribution cd, civicrm_pledge_payment cp';
             break;
 
         case 'Pending':
             $select = 'sum( scheduled_amount )as received_pledge , count( cp.id ) as received_count';
-            $where[] = 'status_id = ' . $statusId;
+            $where[] = 'cp.status_id = ' . $statusId. ' AND pledge.is_test=0';
             $queryDate = 'scheduled_date';
-            $from = ' civicrm_pledge_payment cp';
+            $from = ' civicrm_pledge_payment cp, civicrm_pledge pledge';
             break;
 
         case 'Overdue':
             $select = 'sum( scheduled_amount ) as received_pledge , count( cp.id ) as received_count';
-            $where[] = 'status_id = ' . $statusId;
+            $where[] = 'cp.status_id = ' . $statusId. ' AND pledge.is_test=0';
             $queryDate = 'scheduled_date';
-            $from = ' civicrm_pledge_payment cp';
+            $from = ' civicrm_pledge_payment cp, civicrm_pledge pledge';
             break;
         }
         
