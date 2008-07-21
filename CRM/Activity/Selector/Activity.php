@@ -42,7 +42,6 @@ require_once 'CRM/Utils/Sort.php';
 
 require_once 'CRM/Activity/BAO/Activity.php';
 
-
 /**
  * This class is used to retrieve and display activities for a contact
  *
@@ -288,7 +287,21 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
         
         foreach ($rows as $k => $row) {
             $row =& $rows[$k];
-
+            
+            $assigneeArray = array();
+            foreach( $row['assignee_contact_ids'] as $key => $id ) {
+                $assigneeDisplayName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                                    $id, 'sort_name', 'id' );
+                $row['assignee_contact_name'] .= $row['assignee_contact_name'] ?",\"$assigneeDisplayName\"":"\"$assigneeDisplayName\"";
+            }
+            
+            $targetArray = array();
+            foreach( $row['target_contact_ids'] as $key => $id ) {
+                $targetDisplayName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                                  $id, 'sort_name', 'id' );
+                $row['target_contact_name'] .= $row['target_contact_name'] ?",\"$targetDisplayName\"":"\"$targetDisplayName\"";
+            }
+            
             // DRAFTING: provide a facility for db-stored strings
             // localize the built-in activity names for display
             // (these are not enums, so we can't use any automagic here)
@@ -324,7 +337,7 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
             }
             unset($row);
         }
-        
+
         return $rows;
     }
     

@@ -47,22 +47,18 @@
         </td>
 
         <td>
-        {if !$row.target_contact_id}
+        {if empty( $row.target_contact_ids )}
           <em>n/a</em>
-        {elseif $contactId NEQ $row.target_contact_id}
-          <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.target_contact_id`"}">{$row.target_contact_name}</a>
         {else}
-          {$row.target_contact_name}
+          {$row.target_contact_name|mb_truncate:40:"...":true}
         {/if}			
         </td>
 
         <td>
-        {if !$row.assignee_contact_id}
+        {if empty( $row.assignee_contact_ids )}
             <em>n/a</em>
-        {elseif $contactId NEQ $row.assignee_contact_id}
-            <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.assignee_contact_id`"}">{$row.assignee_contact_name}</a>
         {else}
-            {$row.assignee_contact_name}
+            {$row.assignee_contact_name|mb_truncate:40:"...":true}
         {/if}			
         </td>
 
