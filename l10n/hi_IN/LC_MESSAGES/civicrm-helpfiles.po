@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-04-28 21:53+0200\n"
-"PO-Revision-Date: 2008-04-22 00:47-0700\n"
+"PO-Revision-Date: 2008-07-17 22:44-0700\n"
 "Last-Translator: sunil pawar <sunil.pawar@webaccess.co.in>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -1133,7 +1133,7 @@ msgstr ""
 #: templates/CRM/Event/Import/Form/UploadFile.hlp
 #: templates/CRM/Grant/Import/Form/UploadFile.hlp
 msgid "Participant Role (ie. Attendee, Volunteer, Host, etc.)"
-msgstr ""
+msgstr "सहभाग की भूमिका ( प्रतिभागी, स्वयंसेवी, मेज़बान, आदि )"
 
 #: templates/CRM/Event/Import/Form/UploadFile.hlp
 #: templates/CRM/Grant/Import/Form/UploadFile.hlp

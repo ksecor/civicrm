@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-07-07 18:44-0700\n"
-"PO-Revision-Date: 2008-07-16 11:40-0700\n"
+"PO-Revision-Date: 2008-07-21 06:45-0700\n"
 "Last-Translator: Erik Stielstra <info@erikstielstra.nl>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -1195,6 +1195,9 @@ msgid ""
 "Primary Email or First Name, Last Name AND Primary Email) (OR Invoice ID or "
 "Transaction ID or Contribution ID if update mode.)"
 msgstr ""
+"Verplicht referentieveld ontbreekt. (Dit moet zijn de voor- EN achternaam of "
+"primair e-mailadres of voor-, achternaam EN primair e-mailadres.) (OF "
+"factuur-ID of transactie-ID of bijdrage-ID wanneer bijgewerkt)"
 
 #: CRM/Contribute/Import/Form/MapField.php
 msgid "Duplicate Import Contribution Mapping Name"
@@ -1933,15 +1936,15 @@ msgstr "Mail is geannuleerd."
 
 #: CRM/Mailing/BAO/Job.php
 msgid "Running"
-msgstr "lopende"
+msgstr "Bezig"
 
 #: CRM/Mailing/BAO/Job.php
 msgid "Complete"
-msgstr "volledig"
+msgstr "Gereed"
 
 #: CRM/Mailing/BAO/Job.php
 msgid "Paused"
-msgstr "gepauzeerd"
+msgstr "Onderbroken"
 
 #: CRM/Mailing/BAO/Job.php
 msgid "Canceled"
@@ -1949,11 +1952,11 @@ msgstr "Geannuleerd"
 
 #: CRM/Mailing/BAO/Job.php
 msgid "Not scheduled"
-msgstr ""
+msgstr "Niet ingepland"
 
 #: CRM/Mailing/BAO/Mailing.php
 msgid "Reply"
-msgstr "antwoord"
+msgstr "Antwoord"
 
 #: CRM/Mailing/BAO/Mailing.php
 msgid "You do not have permission to access this mailing report"
@@ -1965,32 +1968,32 @@ msgstr "De geselecteerde mailing is verwijderd."
 
 #: CRM/Mailing/Event/BAO/Bounce.php
 msgid "Unknown"
-msgstr "onbekend"
+msgstr "Onbekend"
 
 #: CRM/Mailing/Form/Component.php
 msgid "Component Type"
-msgstr "type onderdeel"
+msgstr "Onderdeeltype"
 
 #: CRM/Mailing/Form/Component.php
 msgid "Body - TEXT Format"
-msgstr "Body - TEKST formaat"
+msgstr "Body - tekstformaat"
 
 #: CRM/Mailing/Form/Component.php
 msgid "Body - HTML Format"
-msgstr "Body - HTML formaat"
+msgstr "Body - HTML-formaat"
 
 #: CRM/Mailing/Form/Component.php
 msgid ""
 "This token can only be used in send mailing context (body, header, footer).."
-msgstr ""
+msgstr "Deze token kan alleen in e-mail worden toegepast (body, kop, voet)."
 
 #: CRM/Mailing/Form/Component.php
 msgid "This message is having a invalid token - %1: %2"
-msgstr ""
+msgstr "Dit bericht bevat een ongeldige token - %1: %2"
 
 #: CRM/Mailing/Form/Component.php
 msgid "The following errors were detected in %1 message:"
-msgstr "De volgende fouten zijn waargenomen in %1 :"
+msgstr "De volgende fouten zijn gevonden in %1 :"
 
 #: CRM/Mailing/Form/Component.php
 msgid "More information on tokens..."
@@ -2010,11 +2013,11 @@ msgstr "Selecteer minstens een groep voor deze mailing."
 
 #: CRM/Mailing/Form/Group.php
 msgid "INCLUDE Recipients of These Mailing(s)"
-msgstr "Toevoegen ontvangers van deze mailing(s)"
+msgstr "Ontvangers aan deze mailing(s) toevoegen"
 
 #: CRM/Mailing/Form/Group.php
 msgid "EXCLUDE Recipients of These Mailing(s)"
-msgstr "Overslaan ontvangers van de mailing(s)"
+msgstr "Ontvangers van deze mailing(s) uitsluiten"
 
 #: CRM/Mailing/Form/Group.php
 msgid "Select Recipients"
@@ -2028,16 +2031,16 @@ msgstr ""
 #: CRM/Mailing/Form/Group.php
 msgid "Cannot have same mail in Include mailing(s) and Exclude mailing(s)."
 msgstr ""
-"adressen kunnen niet tegelijk EN toegevoegd EN niet opgenomen zijn in de "
-"mailinglijst"
+"Een adres kan niet tegelijk EN toegevoegd EN niet uitgelsoten zijn van de "
+"mailing."
 
 #: CRM/Mailing/Form/Schedule.php
 msgid "Schedule Mailing"
-msgstr "Plan mailing in"
+msgstr "Mailing plannen"
 
 #: CRM/Mailing/Form/Schedule.php
 msgid "Send Immediately"
-msgstr "Verstuur onmiddellijk"
+msgstr "Verstuur direct"
 
 #: CRM/Mailing/Form/Schedule.php
 msgid "Scheduled date is not valid."
@@ -2081,7 +2084,7 @@ msgstr "Volg en Antwoord"
 
 #: CRM/Mailing/Form/Subscribe.php
 msgid "Subscribe to Mailing List - %1"
-msgstr ""
+msgstr "Inschrijven voor mailinglijst - %1"
 
 #: CRM/Mailing/Form/Subscribe.php
 msgid "Mailing List Subscription"
@@ -2093,23 +2096,27 @@ msgstr "Voer een geldig e-mailadres in (bijv. 'naam@gmail.com')."
 
 #: CRM/Mailing/Form/Subscribe.php
 msgid "There are no public mailing list groups to display."
-msgstr ""
+msgstr "Er zijn geen openbare mailinglijsten."
 
 #: CRM/Mailing/Form/Subscribe.php
 msgid ""
 "Your subscription request has been submitted. Check your inbox shortly for "
 "the confirmation email(s)."
 msgstr ""
+"Uw verzoek voor inschrijving is ingediend. U ontvangt binnenkort een "
+"e-mailbericht voor bevestiging."
 
 #: CRM/Mailing/Form/Subscribe.php
 msgid ""
 "We had a problem processing your subscription request. Please contact the "
 "site administrator"
 msgstr ""
+"Er is een probleem opgetreden bij het verwerken van uw inschrijving. Neem "
+"contact op met de webbeheerder."
 
 #: CRM/Mailing/Form/Test.php
 msgid "Send a Test Mailing?"
-msgstr "Verzend Test Mailing?"
+msgstr "Verzend testmailing?"
 
 #: CRM/Mailing/Form/Test.php
 msgid "Send to This Address"
@@ -2150,35 +2157,35 @@ msgstr "Bewaar als een nieuw template"
 
 #: CRM/Mailing/Form/Upload.php
 msgid "Upload TEXT Message"
-msgstr "Upload TEKST bericht"
+msgstr "Upload tekstbericht"
 
 #: CRM/Mailing/Form/Upload.php
 msgid "File size should be less than 1 MByte"
-msgstr "De filegrootte max maximaal 1 Mb zijn"
+msgstr "De bestandsgrootte mag maximaal 1 MB zijn"
 
 #: CRM/Mailing/Form/Upload.php
 msgid "File must be in UTF-8 encoding"
-msgstr "Het formaat van de file UTF-8 zijn"
+msgstr "Bestandsformaat moet UTF-8 zijn"
 
 #: CRM/Mailing/Form/Upload.php
 msgid "Upload HTML Message"
-msgstr "Upload HTML bericht"
+msgstr "Upload HTML-bericht"
 
 #: CRM/Mailing/Form/Upload.php
 msgid "Please provide either a Text or HTML formatted message - or both."
-msgstr "Geef het TEKST-bericht en/of het HTML-bericht."
+msgstr "Geef het tekstbericht en/of het HTML-bericht."
 
 #: CRM/Mailing/Form/Upload.php
 msgid "Please provide a Template Name."
-msgstr ""
+msgstr "Geef een template-naam"
 
 #: CRM/Mailing/Form/Upload.php
 msgid "This message is missing a required token - {%1}: %2"
-msgstr "Het bericht heeft niet het verplichte veld - {%1}: %2"
+msgstr "Verplichte tokens ontbreken - {%1}: %2"
 
 #: CRM/Mailing/Form/Upload.php
 msgid "Invalid token code"
-msgstr "ongeldige signaal-byte code"
+msgstr "Ongeldige token"
 
 #: CRM/Mailing/Form/Upload.php
 msgid "The following errors were detected in %1:"
@@ -2186,7 +2193,7 @@ msgstr "De volgende fouten zijn gevonden in %1 :"
 
 #: CRM/Mailing/Form/Upload.php
 msgid "More information on required tokens..."
-msgstr "Meer informatie over verplichte velden..."
+msgstr "Meer informatie over verplichte tokens..."
 
 #: CRM/Mailing/Form/Upload.php
 msgid "Mailing Content"
@@ -2207,8 +2214,8 @@ msgstr "Mail Instellingen"
 #: CRM/Mailing/Menu.php
 msgid "Configure spool period, throttling and other mailer settings."
 msgstr ""
-"Instellen van o.a. de tijd tussen twee verzendingen van mail in en het "
-"aantal mails per zending."
+"Instellen van o.a. de tijd tussen twee verzendingen van mail en het aantal "
+"mails per zending."
 
 #: CRM/Mailing/Menu.php
 msgid "Headers, Footers, and Automated Messages"
@@ -2219,7 +2226,7 @@ msgid ""
 "Configure the header and footer used for mailings. Customize the content of "
 "automated Subscribe, Unsubscribe, Resubscribe and Opt-out messages."
 msgstr ""
-"Instellen kopregels, voetteksten en berichten voor aanmelden, afmelden etc."
+"Instellen kopregels, voetteksten en berichten voor aanmelden, afmelden enz."
 
 #: CRM/Mailing/Menu.php templates/CRM/Mailing/Page/Resubscribe.tpl
 msgid "Resubscribe"
@@ -2227,11 +2234,11 @@ msgstr "Opnieuw aanmelden"
 
 #: CRM/Mailing/Menu.php templates/CRM/Mailing/Page/Optout.tpl
 msgid "Optout"
-msgstr "Optout"
+msgstr "Uitschrijven"
 
 #: CRM/Mailing/Page/Browse.php
 msgid "Browse Mailings (Scheduled and Sent)"
-msgstr "Bekijk Mailings (Geplande en Verstuurde)"
+msgstr "Bekijk Mailings (Gepland en Verstuurd)"
 
 #: CRM/Mailing/Page/Browse.php
 msgid "Search Mailings"
@@ -2239,7 +2246,7 @@ msgstr "Zoek Mailings"
 
 #: CRM/Mailing/Page/Common.php
 msgid "There was an error in your request"
-msgstr ""
+msgstr "Uw verzoek bevat een fout"
 
 #: CRM/Mailing/Page/Component.php
 msgid "Are you sure you want to disable this component?"
@@ -2287,7 +2294,7 @@ msgstr "Wilt U deze mailing verwijderen?"
 
 #: CRM/Mailing/Selector/Browse.php
 msgid "View Mailing Report"
-msgstr "Toon mailing verslag"
+msgstr "Toon mailing-verslag"
 
 #: CRM/Mailing/Selector/Browse.php
 msgid "Re-Use"
@@ -2295,7 +2302,7 @@ msgstr "Hergebruik"
 
 #: CRM/Mailing/Selector/Browse.php
 msgid "Re-Send Mailing"
-msgstr "Verstuur Mailing opnieuw_"
+msgstr "Verstuur mailing opnieuw"
 
 #: CRM/Mailing/Selector/Browse.php
 msgid "CiviMail Mailings"
@@ -2311,11 +2318,11 @@ msgstr "Type weigering"
 
 #: CRM/Mailing/Selector/Event.php
 msgid "Bounce Reason"
-msgstr "reden terugsturen"
+msgstr "Reden weigering"
 
 #: CRM/Mailing/Selector/Event.php templates/CRM/Mailing/Page/Report.tpl
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: CRM/Mailing/Selector/Event.php
 msgid "Forwarded Email"
@@ -2382,7 +2389,7 @@ msgstr ""
 
 #: CRM/Member/BAO/Membership.php
 msgid "Please select one of the memberships"
-msgstr "Selecteer a.u.b. een of meer lidmaatschap(pen)"
+msgstr "Selecteer een of meer lidmaatschap(pen)"
 
 #: CRM/Member/BAO/Membership.php
 msgid "- Membership Fields -"
@@ -2413,9 +2420,9 @@ msgid ""
 "will then be able to delete the membership type on this page. To delete the "
 "membership type, all memberships of this type should be deleted."
 msgstr ""
-"%2. Er zijn contacten met dit lidmaatschaptype. Met <a href=\"%1"
-"\">CiviMember >> Find Members</a> kunt U deze opzoeken. Om het type te "
-"kunnen verwijderen dient U alle lidmaatschappen van dit type te verwijderen."
+"%2. Er zijn contacten met dit lidmaatschaptype. Met <a href=\"%1\">CiviMember "
+">> Find Members</a> kunt u deze opzoeken. Om het type te kunnen verwijderen "
+"dient u alle lidmaatschappen van dit type te verwijderen."
 
 #: CRM/Member/BAO/MembershipType.php
 msgid ""
@@ -2435,11 +2442,11 @@ msgstr "Bron %2 %1"
 
 #: CRM/Member/BAO/Query.php
 msgid "Membership Status %1"
-msgstr "Lidmaatschap Status %1"
+msgstr "Lidmaatschapstatus %1"
 
 #: CRM/Member/BAO/Query.php
 msgid "Membership Type %1"
-msgstr "Lidmaatschap Type %1"
+msgstr "Lidmaatschaptype %1"
 
 #: CRM/Member/BAO/Query.php
 msgid "End Date - From"
@@ -2447,7 +2454,7 @@ msgstr "Einddatum - Van"
 
 #: CRM/Member/BAO/Query.php
 msgid "Find Test Memberships?"
-msgstr "Zoek test lidmaatschappen?"
+msgstr "Zoek test-lidmaatschappen?"
 
 #: CRM/Member/Form/MembershipBlock.php
 msgid "Membership Section Enabled?"
@@ -2483,31 +2490,33 @@ msgstr "Aparte Betaling Lidmaatschap"
 
 #: CRM/Member/Form/MembershipBlock.php
 msgid "Membership Types Default"
-msgstr ""
+msgstr "Standaard lidmaatschapstype"
 
 #: CRM/Member/Form/MembershipBlock.php
 msgid ""
 "Please select at least one Membership Type to include in the Membership "
 "section of this page."
 msgstr ""
-"Selecteer minimaal een type lidmaatschap om in te voeren op deze pagina."
+"Selecteer minimaal een lidmaatschapstype om in te voeren op deze pagina."
 
 #: CRM/Member/Form/MembershipBlock.php
 msgid "Add status rules, before configuring membership"
-msgstr ""
+msgstr "Statusregels toevoegen alvorens het lidmaatschap te configureren"
 
 #: CRM/Member/Form/MembershipBlock.php
 msgid "Can't set default option for an unchecked membership type."
 msgstr ""
+"Standaard optie kan niet ingesteld worden als het lidmaatschaptype niet "
+"aangevinkt is."
 
 #: CRM/Member/Form/MembershipBlock.php
 msgid "Please enable the contribution amount section to use this option."
-msgstr "Zet de bedrag bijdrage sectie aan om deze optie te kunnen gebruiken."
+msgstr "Bedrag Bijdrage Sectie inschakelen om deze optie te kunnen gebruiken."
 
 #: CRM/Member/Form/Membership.php
 #: templates/CRM/Member/Form/MembershipRenewal.tpl
 msgid "Membership Organization and Type"
-msgstr "Lidmaatschap organisatie en type"
+msgstr "Lidmaatschap-organisatie en type"
 
 #: CRM/Member/Form/Membership.php
 msgid "Join Date"
@@ -2519,7 +2528,7 @@ msgstr "Status bevriezen?"
 
 #: CRM/Member/Form/Membership.php
 msgid "Record Membership Payment?"
-msgstr "Vorige lidmaatschappen"
+msgstr "Lidmaatschapsbetalingen bewaren?"
 
 #: CRM/Member/Form/Membership.php
 msgid "Please select a membership type."
@@ -2531,7 +2540,7 @@ msgstr "De startdatum kan niet voor de aanmelddatum liggen."
 
 #: CRM/Member/Form/Membership.php
 msgid "Start date must be set if end date is set."
-msgstr ""
+msgstr "Startdatum is verplicht als een einddatum is gebruikt."
 
 #: CRM/Member/Form/Membership.php
 msgid "End date must be the same or later than start date."
@@ -2551,7 +2560,7 @@ msgstr "Voer de bijdrage in."
 
 #: CRM/Member/Form/Membership.php
 msgid "Membership Confirmation and Receipt"
-msgstr "Lidmaatschap bevestiging en ontvangsbewijs"
+msgstr "Lidmaatschapsbevestiging en ontvangsbewijs"
 
 #: CRM/Member/Form/Membership.php
 msgid "Membership for %1 has been updated."
@@ -2581,11 +2590,11 @@ msgstr "Datum verlenging opgegeven"
 
 #: CRM/Member/Form/MembershipRenewal.php
 msgid "Record Renewal Payment?"
-msgstr ""
+msgstr "Verlengingsbetaling bewaren?"
 
 #: CRM/Member/Form/MembershipRenewal.php
 msgid "Renewal Message"
-msgstr "Bericht verlenging"
+msgstr "Verlengingsbericht"
 
 #: CRM/Member/Form/MembershipRenewal.php
 msgid "Membership Renewal Confirmation and Receipt"
@@ -2612,7 +2621,7 @@ msgstr "Start Evenement"
 
 #: CRM/Member/Form/MembershipStatus.php
 msgid "Start Event Adjustment"
-msgstr ""
+msgstr "Start van evenement aanpassen"
 
 #: CRM/Member/Form/MembershipStatus.php
 msgid "Start Event Adjust Interval"
@@ -2625,11 +2634,11 @@ msgstr "Einde Evenement"
 
 #: CRM/Member/Form/MembershipStatus.php
 msgid "End Event Adjustment"
-msgstr ""
+msgstr "Einde van evenement aanpassen"
 
 #: CRM/Member/Form/MembershipStatus.php
 msgid "End Event Adjust Interval"
-msgstr "Eind Evenement aanpassen interval"
+msgstr "Einde Evenement aanpassen interval"
 
 #: CRM/Member/Form/MembershipStatus.php
 msgid "Current Membership?"
@@ -2670,35 +2679,35 @@ msgstr "vaste periode betaaldag"
 
 #: CRM/Member/Form/MembershipType.php
 msgid "Renewal Reminder Message"
-msgstr "Verlenging Herinneringsbericht"
+msgstr "Herinneringsbericht verlenging"
 
 #: CRM/Member/Form/MembershipType.php
 msgid "Renewal Reminder Day"
-msgstr "Verlenging herinneringsdatum"
+msgstr "Herinneringsdatum verlenging"
 
 #: CRM/Member/Form/MembershipType.php
 msgid "Change"
-msgstr "Wijzig"
+msgstr "Wijzigen"
 
 #: CRM/Member/Form/MembershipType.php
 msgid "Please enter a valid fixed period start day"
-msgstr "Voer een geldige vaste periode startdatum in"
+msgstr "Voer een geldige startdatum in voor de vaste periode "
 
 #: CRM/Member/Form/MembershipType.php
 msgid "Please enter a valid fixed period rollover day"
-msgstr "Voer een geldige vaste periode overgangsdag in"
+msgstr "Voer een geldige overgangsdag in voor de vaste periode"
 
 #: CRM/Member/Form/MembershipType.php
 msgid "Please enter renewal reminder days."
-msgstr ""
+msgstr "Voer een aantal dagen in voor verlengingsbericht"
 
 #: CRM/Member/Form/MembershipType.php
 msgid "Please select renewal message."
-msgstr ""
+msgstr "Selecteer een verlengingsbericht."
 
 #: CRM/Member/Form/MembershipType.php
 msgid "Selected membership type has been deleted."
-msgstr "Geselecteerde type lidmaatschap is verwijderd."
+msgstr "Geselecteerde lidmaatschaptype is verwijderd."
 
 #: CRM/Member/Form/MembershipType.php
 msgid "The membership type '%1' has been saved."
@@ -2710,11 +2719,11 @@ msgstr "Verwijderde leden: %1"
 
 #: CRM/Member/Form/Task/Delete.php
 msgid "Total Selected Membership(s): %1"
-msgstr "Aantal geselecteerde lidmaatschap(pen) : %1"
+msgstr "Aantal geselecteerde lidmaatschappen : %1"
 
 #: CRM/Member/Form/Task/Export.php
 msgid "Membership ID"
-msgstr "Lidmaatschap ID"
+msgstr "Lidmaatschap-ID"
 
 #: CRM/Member/Form/Task/Export.php
 msgid "CiviCRM Members"
@@ -2730,6 +2739,9 @@ msgid ""
 "Primary Email or First Name, Last Name AND Primary Email.) (OR Membership ID "
 "if update mode.)"
 msgstr ""
+"Verplicht referentieveld ontbreekt. (Dit moet zijn de voor- EN achternaam of "
+"primair e-mailadres of voor-, achternaam EN primair e-mailadres.) (OF "
+"lidmaatschap-ID wanneer bijgewerkt)"
 
 #: CRM/Member/Import/Form/MapField.php
 msgid "Duplicate Import Membership Mapping Name"
@@ -5230,9 +5242,8 @@ msgstr ""
 
 #: templates/CRM/Event/Form/ParticipantView.tpl
 #: templates/CRM/Event/Form/Registration/LineItem.tpl
-#, fuzzy
 msgid "Unit Price"
-msgstr "Totaalprijs"
+msgstr "Prijs per eenheid"
 
 #: templates/CRM/Event/Form/ParticipantView.tpl
 msgid "Event Level"

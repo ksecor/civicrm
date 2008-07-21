@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-07-07 18:44-0700\n"
-"PO-Revision-Date: 2008-07-08 07:34-0700\n"
+"PO-Revision-Date: 2008-07-17 23:34-0700\n"
 "Last-Translator: sunil pawar <sunil.pawar@webaccess.co.in>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -260,9 +260,8 @@ msgid "Payment Status"
 msgstr "भुगतान स्थिति"
 
 #: CRM/Event/Form/Search.php CRM/Event/Selector/Search.php
-#, fuzzy
 msgid "Participant"
-msgstr "भागीदारी ID"
+msgstr "प्रतिभागि"
 
 #: CRM/Event/Form/Task/Export.php CRM/Event/Task.php
 msgid "Export Participants"
@@ -270,16 +269,15 @@ msgstr "प्रतिभागियों काे निर्यात क
 
 #: CRM/Event/Form/Task/Export.php CRM/Member/Form/Task/Export.php
 msgid "Display Name"
-msgstr ""
+msgstr "प्रदर्शन नाम"
 
 #: CRM/Event/Invoke.php CRM/Event/Menu.php
-#, fuzzy
 msgid "Import Participants"
-msgstr "प्रतिभागियों काे निर्यात करे"
+msgstr ""
 
 #: CRM/Event/Menu.php CRM/Event/Page/ManageEvent.php
 msgid "Manage Events"
-msgstr "घटना प्रबंधित"
+msgstr "कार्यक्रम प्रबंधित"
 
 #: CRM/Mailing/BAO/Mailing.php CRM/Mailing/Selector/Event.php
 msgid "Opt-Out"
@@ -293,7 +291,7 @@ msgstr ""
 #: CRM/Mailing/Form/Group.php CRM/Mailing/Form/Settings.php
 #: CRM/Mailing/Form/Test.php CRM/Mailing/Form/Upload.php
 msgid "Next >>"
-msgstr ""
+msgstr "अगला >>"
 
 #: CRM/Mailing/Form/Subscribe.php CRM/Mailing/Invoke.php CRM/Mailing/Menu.php
 msgid "Subscribe"
@@ -1314,31 +1312,31 @@ msgstr ""
 
 #: CRM/Event/BAO/Query.php
 msgid "Find Test Participants"
-msgstr ""
+msgstr "टेस्ट प्रतिभागियों काे खोजें"
 
 #: CRM/Event/BAO/Query.php
 msgid "Participant Status %1"
-msgstr ""
+msgstr "प्रतिभागि की स्थिति %1"
 
 #: CRM/Event/BAO/Query.php
 msgid "Participant Role %1"
-msgstr ""
+msgstr "प्रतिभागि की भूमिका %1"
 
 #: CRM/Event/BAO/Query.php
 msgid "Participant Source"
-msgstr "भागीदारी स्रोत"
+msgstr "प्रतिभागि स्रोत"
 
 #: CRM/Event/BAO/Query.php
 msgid "Event Name"
-msgstr ""
+msgstr "कार्यक्रम का नाम"
 
 #: CRM/Event/BAO/Query.php
 msgid "Event Date - From"
-msgstr ""
+msgstr "कार्यक्रम तिथि - से"
 
 #: CRM/Event/BAO/Query.php
 msgid "Find Test Participants?"
-msgstr ""
+msgstr "टेस्ट प्रतिभागियों काे खोजें?"
 
 #: CRM/Event/Form/ManageEvent/Delete.php
 msgid ""
@@ -1354,20 +1352,20 @@ msgstr ""
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 msgid "Event Title"
-msgstr "घटना शीर्षक"
+msgstr "कार्यक्रम शीर्षक"
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 #: templates/CRM/Event/Page/DashBoard.tpl
 msgid "Event Summary"
-msgstr "घटना सारांश"
+msgstr "कार्यक्रम सारांश"
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 msgid "Complete Description"
-msgstr ""
+msgstr "पूर्ण वर्णन"
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 msgid "Public Event?"
-msgstr ""
+msgstr "लोगाे के लिये कार्यक्रम?"
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 msgid "Include Map Link?"
@@ -1375,7 +1373,7 @@ msgstr ""
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 msgid "Max Number of Participants"
-msgstr ""
+msgstr "अधिकतम प्रतिभागियों की संख्या"
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 msgid "is a positive field"
@@ -4347,7 +4345,7 @@ msgstr ""
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "Recent Contributions"
-msgstr "हाल योगदान"
+msgstr "हाल का योगदान"
 
 #: templates/CRM/Contribute/Page/ManagePremiums.tpl
 msgid ""
@@ -4984,7 +4982,7 @@ msgstr ""
 
 #: templates/CRM/Event/Page/DashBoard.tpl
 msgid "Recent Registrations"
-msgstr "हाल पंजीकरण"
+msgstr "हाल का पंजीकरण"
 
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
 msgid ""
@@ -6004,7 +6002,7 @@ msgstr ""
 
 #: templates/CRM/Member/Page/DashBoard.tpl
 msgid "Recent Memberships"
-msgstr "हाल सदस्यताएँ"
+msgstr "हाल की सदस्यताएँ"
 
 #: templates/CRM/Member/Page/MembershipStatus.tpl
 msgid ""
