@@ -725,15 +725,10 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 CRM_Pledge_BAO_Payment::add( $pledgePaymentParams );
             }  
             
-            // update pledge table
-            $statusId = CRM_Pledge_BAO_Payment::calculatePledgeStatus( $form->_values['pledge_id'] );
-            $pledgeParams = array( 'id'        => $form->_values['pledge_id'],
-                                   'status_id' => $statusId );
-
-            require_once 'CRM/Pledge/BAO/Pledge.php';
-            CRM_Pledge_BAO_Pledge::add( $pledgeParams );
+            //update pledge status
+            require_once 'CRM/Pledge/BAO/Payment.php';
+            CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $form->_values['pledge_id'] );
         }
-        
 
         if ( $online ) {
             require_once 'CRM/Core/BAO/CustomValueTable.php';

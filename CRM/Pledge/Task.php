@@ -72,7 +72,7 @@ class CRM_Pledge_Task
     {
         if ( !self::$_tasks ) {
             self::$_tasks = array(
-                                  1     => ts( 'Delete Signers' )
+                                  1     => ts( 'Delete Pledges' )
                                   );
         }
 

@@ -34,6 +34,7 @@
  */
 
 require_once 'CRM/Core/Form.php';
+require_once 'CRM/Contribute/PseudoConstant.php';
 
 /**
  * This class generates form components for processing a pledge payment
@@ -74,7 +75,6 @@ class CRM_Pledge_Form_Payment extends CRM_Core_Form
      */
     function setDefaultValues( ) 
     {
-        
         $defaults = array( );
         if ( $this->_id ) {
             $params['id'] = $this->_id;
@@ -82,7 +82,6 @@ class CRM_Pledge_Form_Payment extends CRM_Core_Form
             CRM_Pledge_BAO_Payment::retrieve( $params, $defaults );
             $defaults['scheduled_date'] = CRM_Utils_Date::unformat($defaults['scheduled_date']);
             
-            require_once 'CRM/Contribute/PseudoConstant.php';
             $statuses = CRM_Contribute_PseudoConstant::contributionStatus( );
             $this->assign('status', $statuses[$defaults['status_id']] );
         }
@@ -130,35 +129,21 @@ class CRM_Pledge_Form_Payment extends CRM_Core_Form
         $formValues['scheduled_date']['s'] = '00';
         $params['scheduled_date'] = CRM_Utils_Date::format( $formValues['scheduled_date'] );
         $now = date( 'Ymd' );
-        $isOverdue = false;
-        require_once 'CRM/Contribute/PseudoConstant.php';
+        
         if ( CRM_Utils_Date::overdue( CRM_Utils_Date::customFormat( $params['scheduled_date'], '%Y%m%d'), $now ) ) {
             $params['status_id'] =  array_search( 'Overdue', CRM_Contribute_PseudoConstant::contributionStatus( )); 
-            $isOverdue = true;
         } else {
             $params['status_id'] =  array_search( 'Pending', CRM_Contribute_PseudoConstant::contributionStatus( )); 
         } 
         
         $params['id'] = $this->_id;
-        require_once 'CRM/Core/DAO.php';
         $pledgeId = CRM_Core_DAO::getFieldValue( 'CRM_Pledge_DAO_Payment', $params['id'], 'pledge_id' );       
         require_once 'CRM/Pledge/BAO/Payment.php';
         CRM_Pledge_BAO_Payment::add( $params );
+
+        //update pledge status
+        CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $pledgeId );
         
-        //update pledge status accordingly
-        if ( $isOverdue ){
-            $statusId = array_search( 'Overdue', CRM_Contribute_PseudoConstant::contributionStatus( )); 
-        } else { 
-            require_once 'CRM/Pledge/BAO/Payment.php';
-            if ( $pledgeId ) {
-                $statusId = CRM_Pledge_BAO_Payment::calculatePledgeStatus($pledgeId);
-            }
-        }
-        
-        if ( $statusId ) {
-            CRM_Core_DAO::setFieldValue( 'CRM_Pledge_DAO_Pledge', $pledgeId,
-                                         'status_id', $statusId );
-        }
         $statusMsg = ts('Pledge Payment Schedule has been updated.<br />');
         CRM_Core_Session::setStatus( $statusMsg );
     }
