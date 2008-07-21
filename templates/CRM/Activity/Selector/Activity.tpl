@@ -49,16 +49,20 @@
         <td>
         {if empty( $row.target_contact_ids )}
           <em>n/a</em>
+        {elseif count($row.target_contact_ids) eq 1}
+          {$row.target_contact_name}
         {else}
-          {$row.target_contact_name|mb_truncate:40:"...":true}
+          {$row.target_contact_name}...
         {/if}			
         </td>
 
         <td>
         {if empty( $row.assignee_contact_ids )}
             <em>n/a</em>
+        {elseif count($row.assignee_contact_ids) eq 1}
+            {$row.assignee_contact_name}
         {else}
-            {$row.assignee_contact_name|mb_truncate:40:"...":true}
+            {$row.assignee_contact_name}...
         {/if}			
         </td>
 

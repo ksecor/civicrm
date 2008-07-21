@@ -288,19 +288,12 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
         foreach ($rows as $k => $row) {
             $row =& $rows[$k];
             
-            $assigneeArray = array();
-            foreach( $row['assignee_contact_ids'] as $key => $id ) {
-                $assigneeDisplayName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
-                                                                    $id, 'sort_name', 'id' );
-                $row['assignee_contact_name'] .= $row['assignee_contact_name'] ?",\"$assigneeDisplayName\"":"\"$assigneeDisplayName\"";
-            }
-            
-            $targetArray = array();
-            foreach( $row['target_contact_ids'] as $key => $id ) {
-                $targetDisplayName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
-                                                                  $id, 'sort_name', 'id' );
-                $row['target_contact_name'] .= $row['target_contact_name'] ?",\"$targetDisplayName\"":"\"$targetDisplayName\"";
-            }
+            $row['assignee_contact_name'] = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                                         $row['assignee_contact_ids'][0],
+                                                                         'sort_name', 'id' );
+            $row['target_contact_name']   = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                                         $row['target_contact_ids'][0],
+                                                                         'sort_name', 'id' );
             
             // DRAFTING: provide a facility for db-stored strings
             // localize the built-in activity names for display
