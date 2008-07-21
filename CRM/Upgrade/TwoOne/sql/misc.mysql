@@ -359,7 +359,7 @@ CREATE TABLE `civicrm_pledge_payment` (
   `reminder_count` int(10) unsigned default '0' COMMENT 'The number of payment reminders sent.',
   `status_id` int(10) unsigned default NULL,
   PRIMARY KEY  (`id`),
-  INDEX `index_contribution_pledge` (`contribution_id`,`pledge_id`),
+  UNIQUE `UI_contribution_pledge` (`contribution_id`, `pledge_id`),
   INDEX `index_status` (`status_id`),
   CONSTRAINT `FK_civicrm_pledge_payment_pledge_id` FOREIGN KEY (`pledge_id`) REFERENCES `civicrm_pledge` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_civicrm_pledge_payment_contribution_id` FOREIGN KEY (`contribution_id`) REFERENCES `civicrm_contribution` (`id`) ON DELETE CASCADE
@@ -496,7 +496,3 @@ ALTER TABLE `civicrm_membership_status`
 
 ALTER TABLE `civicrm_payment_processor_type`
     ADD UNIQUE `UI_name` (name);
-
-ALTER TABLE `civicrm_pledge_payment`
-    ADD UNIQUE `UI_contribution_pledge` (`contribution_id`, `pledge_id`),
-    DROP INDEX index_contribution_pledge;
