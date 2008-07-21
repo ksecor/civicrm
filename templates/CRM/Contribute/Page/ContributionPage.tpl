@@ -7,18 +7,19 @@
 {include file="CRM/Contribute/Form/SearchContribution.tpl"}  
 
 {if $rows}
-    <div class="form-item" id="configure_contribution_page">
+    <div id="configure_contribution_page">
         {strip}
 
         {if NOT ($action eq 1 or $action eq 2) }
             <div class="action-link">
                 <a href="{$newPageURL}" class="button"><span>&raquo; {ts}New Contribution Page{/ts}</span></a><br/>
             </div>
+            <div class="spacer"></div>
         {/if}
         
         {include file="CRM/common/pager.tpl" location="top"}
         {include file="CRM/common/pagerAToZ.tpl} 
-        <table cellpadding="0" cellspacing="0" border="0">
+        <table class="selector">
           <tr class="columnheader">
             <th>{ts}Title{/ts}</th>
             <th>{ts}ID{/ts}</th>
