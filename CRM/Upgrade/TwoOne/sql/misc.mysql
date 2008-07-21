@@ -496,3 +496,15 @@ ALTER TABLE `civicrm_membership_status`
 
 ALTER TABLE `civicrm_payment_processor_type`
     ADD UNIQUE `UI_name` (name);
+
+UPDATE civicrm_dedupe_rule SET rule_table='civicrm_contact' WHERE rule_table IN ('civicrm_individual', 'civicrm_household', 'civicrm_organization');
+
+ALTER TABLE `civicrm_case`
+    DROP FOREIGN KEY `FK_civicrm_case_contact_id`;
+ALTER TABLE `civicrm_case`
+    ADD CONSTRAINT `FK_civicrm_case_contact_id` FOREIGN KEY (`contact_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `civicrm_case_activity`
+    DROP FOREIGN KEY `FK_civicrm_case_activity_case_id`;
+ALTER TABLE `civicrm_case_activity`
+    ADD CONSTRAINT `FK_civicrm_case_activity_case_id` FOREIGN KEY (`case_id`) REFERENCES `civicrm_case` (`id`) ON DELETE CASCADE;

@@ -221,7 +221,8 @@ DROP INDEX unique_domain_id_entity_id;";
             CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
             
             $query  = "
-ALTER TABLE {$dao->table_name} 
+ALTER TABLE {$dao->table_name}
+ADD UNIQUE unique_entity_id (entity_id), 
 DROP domain_id;";
             CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         }
