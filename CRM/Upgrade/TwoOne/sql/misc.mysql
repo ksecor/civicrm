@@ -493,3 +493,10 @@ ALTER TABLE `civicrm_membership`
 
 ALTER TABLE `civicrm_membership_status`
     ADD `is_reserved` tinyint(4) NULL DEFAULT '0' AFTER is_active;
+
+ALTER TABLE `civicrm_payment_processor_type`
+    ADD UNIQUE `UI_name` (name);
+
+ALTER TABLE `civicrm_pledge_payment`
+    ADD UNIQUE `UI_contribution_pledge` (`contribution_id`, `pledge_id`),
+    DROP INDEX index_contribution_pledge;
