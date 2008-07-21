@@ -459,7 +459,6 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $contributionTypeId = $this->_values['contribution_type_id'];
             
             if ( (  $paymentParams['is_pledge'] == 1 ) ) { 
-                
                 $paymentParams['pledgeAmount']  =  $paymentParams['amount'];
                 if (  $paymentParams['is_pledge_frequency_interval'] ) {
                     $paymentParams['amount'] = $paymentParams['total_amount'] = $paymentParams['net_amount'] = (integer) $params['amount'] / $params['pledge_installments'];
@@ -697,19 +696,16 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $pledgeParams['contribution_page_id'] = $contribution->contribution_page_id;
             $pledgeParams['contribution_type_id'] = $contribution->contribution_type_id;
             $pledgeParams['is_test'             ] = $contribution->is_test;
-            $pledgeParams['frequency_interval'  ] = $params['pledge_frequency_interval'];
-            $pledgeParams['installments'        ] = $params['pledge_installments'];
+            $pledgeParams['frequency_interval'  ] = $params['pledge_frequency_interval'] ? $params['pledge_frequency_interval'] : 1 ;
+            $pledgeParams['installments'        ] = $params['pledge_installments'] ? $params['pledge_installments'] : 1;
             $pledgeParams['frequency_unit'      ] = $params['pledge_frequency_unit'];
             $pledgeParams['frequency_day'       ] = 1;
             $pledgeParams['create_date'         ] = $pledgeParams['start_date'] = date("Ymd");
             $pledgeParams['scheduled_date' ]['M'] = date("m"); 
             $pledgeParams['scheduled_date' ]['d'] = date("d");
             $pledgeParams['scheduled_date' ]['Y'] = date("Y");
-            if ( $params['pledge_installments'] == 1 ) {                     
-                $pledgeParams['status_id'] = $contribution->contribution_status_id;
-            } else {
-                $pledgeParams['status_id'] = array_search( 'Pending',  CRM_Contribute_PseudoConstant::contributionStatus( ) );
-            }
+            $pledgeParams['status_id']            = $contribution->contribution_status_id;
+            
             require_once 'CRM/Pledge/BAO/Pledge.php';
             $pledge = CRM_Pledge_BAO_Pledge::create($pledgeParams);
         }

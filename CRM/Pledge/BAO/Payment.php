@@ -140,21 +140,19 @@ WHERE pledge_id = %1
             if ( $i == $params['installments'] ) {
                 $params['scheduled_amount'] = $params['amount'] - ($i-1) * $params['scheduled_amount'];
             }
-            if ( isset( $params['contribution_id'] ) ){
-                $params['status_id'] = 1;
+            if (  ! isset( $params['contribution_id'] ) && $params['installments'] > 1 ) {
+                $params['status_id'] = $statues[$i];
             }
  
             $params['scheduled_date'] = $prevScheduledDate[$i];
-            $params['status_id']      = $statues[$i];
             $payment = self::add( $params );
             if ( is_a( $payment, 'CRM_Core_Error') ) {
                 $transaction->rollback( );
                 return $payment;
             }
             
-            // we should add contribution id to only first payment record
+             // we should add contribution id to only first payment record
             if ( isset( $params['contribution_id'] ) ){
-                $params['status_id'] = 2;
                 unset( $params['contribution_id'] );
             }
         }

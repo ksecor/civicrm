@@ -191,6 +191,7 @@ class CRM_Contribute_BAO_Contribution_Utils {
             
             if ( ( $paymentParams['is_pledge'] == 1 ) ) {
                 $form->_params['pledgeAmount'] = $paymentParams['pledgeAmount'];
+                $form->_params['total_amount'] = $form->_params['net_amount'] = $paymentParams['total_amount'];
             } 
             
             $contribution =
