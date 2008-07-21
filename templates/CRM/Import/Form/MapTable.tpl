@@ -2,7 +2,7 @@
 
  <div id="map-field">
     {strip}
-    <table>
+    <table class="selector">
     {if $loadedMapping}
         <tr class="columnheader-dark"><th colspan="4">{ts 1=$savedName}Saved Field Mapping: %1{/ts}</td></tr>
     {/if}
@@ -25,7 +25,7 @@
         {*Loop on columns parsed from the import data rows*}
         {section name=cols loop=$columnCount}
             {assign var="i" value=$smarty.section.cols.index}
-            <tr>
+            <tr style="border-bottom: 1px solid #92B6EC;">
                          
                 {section name=rows loop=$rowDisplayCount}
                     {assign var="j" value=$smarty.section.rows.index}

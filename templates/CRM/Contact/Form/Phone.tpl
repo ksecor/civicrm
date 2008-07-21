@@ -39,11 +39,7 @@
             {assign var=j value=$innerIndex+1}
             <span id="id_location_{$index}_phone_{$j}_show" class="add-remove-link">
                 {$form.location.$index.phone.$j.show.html}
-            </span>        
-            {* changing the code as there should not be any <div> within <span>*} 
-            {*<div id="location[{$index}][phone][{$j}][show]" class="add-remove-link">
-                {$form.location.$index.phone.$j.show.html}
-            </div>*}
+            </span>
             {/if}
         </span>
 		
