@@ -312,7 +312,7 @@ WHERE  civicrm_pledge.id = %2
      * @param int   $paymentStatusId payment status id
      * @static
      */
-     static function updatePledgePayments(  $pledgeId, $paymentStatusId, $paymentIds = null )
+     static function updatePledgePayments( $pledgeId, $paymentStatusId, $paymentIds = null )
      {
         $paymentClause = null;
         if ( !empty( $paymentIds ) ) {
@@ -324,13 +324,15 @@ WHERE  civicrm_pledge.id = %2
 UPDATE civicrm_pledge_payment
 SET    civicrm_pledge_payment.status_id = {$paymentStatusId}
 WHERE  civicrm_pledge_payment.status_id != %1
+   AND civicrm_pledge_payment.pledge_id  = %2    
        {$paymentClause}
 ";
         //get all status
         require_once 'CRM/Contribute/PseudoConstant.php';
         $allStatus = CRM_Contribute_PseudoConstant::contributionStatus( );
         $params = array( 1 => array( array_search( 'Completed', $allStatus ),
-                                     'Integer') );
+                                     'Integer'),
+                         2 => array( $pledgeId, 'Integer' ) );
 
         $dao = CRM_Core_DAO::executeQuery( $query, $params );
     }
