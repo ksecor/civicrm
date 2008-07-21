@@ -189,6 +189,10 @@ class CRM_Contribute_BAO_Contribution_Utils {
                 $form->_params['source'] = $paymentParams['contribution_source'];
             }
             
+            if ( ( $paymentParams['is_pledge'] == 1 ) ) {
+                $form->_params['pledgeAmount'] = $paymentParams['pledgeAmount'];
+            } 
+            
             $contribution =
                 CRM_Contribute_Form_Contribution_Confirm::processContribution( $form,
                                                                                $form->_params, $result,
