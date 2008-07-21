@@ -586,19 +586,22 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         //get all status
         require_once 'CRM/Contribute/PseudoConstant.php';
         $allStatus = CRM_Contribute_PseudoConstant::contributionStatus( );
-        $validStatus = array( array_search( 'Overdue', $allStatus ), array_search( 'In Progress', $allStatus ) );
+        $validStatus = array( array_search( 'Pending', $allStatus ), 
+                              array_search( 'In Progress', $allStatus ),
+                              array_search( 'Overdue', $allStatus ), );
         
+        $validUser = false;
         if ( $userID &&
-             $userID != $pledgeValues['contact_id']  ) { 
+             $userID == $pledgeValues['contact_id'] ) {
             //check for authenticated  user. 
-            CRM_Core_Error::fatal( ts( "Oops. You do not own this pledge." ) ); 
+            $validUser = true;
         } else if ( $userChecksum && $pledgeValues['contact_id'] ) {
             //check for anonymous user.
             require_once 'CRM/Contact/BAO/Contact/Utils.php';
             $validUser = CRM_Contact_BAO_Contact_Utils::validChecksum( $pledgeValues['contact_id'], $userChecksum );
-            if ( !$validUser ) {
-                CRM_Core_Error::fatal( ts( "Oops. You do not own this pledge." ) );    
-            }
+        }
+        if ( !$validUser ) {
+            CRM_Core_Error::fatal( ts( "Oops. You do not own this pledge." ) );    
         }
         
         //check for valid pledge status.
