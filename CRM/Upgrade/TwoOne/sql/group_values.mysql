@@ -6,11 +6,30 @@
 -- *
 -- *************************************************************************/
 
--- Insert new option value for option_group - activity_type
 
-SELECT @option_act    := id from civicrm_option_group where name = 'activity_type';
+-- Insert new option value 'Pledge Acknowledgment', 'Pledge Reminder' for option_group - activity_type (CRM-3244, CRM-3270)
+
+-- First increment all value and weight by two
+
+SELECT @option_act := id from civicrm_option_group where name = 'activity_type';
+
+UPDATE civicrm_option_value
+SET    civicrm_option_value.value = civicrm_option_value.value + 2,
+       civicrm_option_value.weight = civicrm_option_value.weight + 2 
+WHERE  civicrm_option_value.option_group_id = @option_act
+AND    civicrm_option_value.value > 9;
+
+-- Update civicrm_activity table increment civicrm_activity.activity_type_id by two
+
+UPDATE civicrm_activity
+SET    civicrm_activity.activity_type_id = activity_type_id + 2
+WHERE  civicrm_activity.activity_type_id > 9;
+
+-- Insert new option values for option_group - activity_type
+
 INSERT INTO `civicrm_option_value` (`option_group_id`, `label`, `value`,`name` , `grouping`, `filter`,`is_default`,`weight`, `description`,`is_optgroup`, `is_reserved`, `is_active`, `component_id`) VALUES
- (@option_act, 'Pledge Acknowledgment', 10, 'Pledge Acknowledgment',  NULL, 1, NULL, 10, 'Send Pledge Acknowledgment.', 0, 1, 1, NULL);
+ (@option_act, 'Pledge Acknowledgment', 10, 'Pledge Acknowledgment', NULL, 1, NULL, 10, 'Send Pledge Acknowledgment.', 0, 1, 1, NULL),
+ (@option_act, 'Pledge Reminder',       11, 'Pledge Reminder',       NULL, 1, NULL, 11, 'Send Pledge Reminder.',       0, 1, 1, NULL);
 
 -- Insert new option value for option_group - user_dashboard_options
 

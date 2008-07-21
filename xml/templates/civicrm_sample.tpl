@@ -87,4 +87,4 @@ SELECT @option_group_id_act            := max(id) from civicrm_option_group wher
 INSERT INTO 
    `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) 
 VALUES
-   (@option_group_id_act, 'Interview', 10, 'Interview',  NULL, 0, NULL, 10, 'Conduct a phone or in person interview.', 0, 0, 1);
+   (@option_group_id_act, 'Interview', 12, 'Interview',  NULL, 0, NULL, 12, 'Conduct a phone or in person interview.', 0, 0, 1);

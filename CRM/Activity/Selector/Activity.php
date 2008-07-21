@@ -119,7 +119,7 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
         //show  edit link only for meeting/phone and other activities
         $showUpdate = false;
         $showDelete = false;
-        if ( array_key_exists( $activityTypeId,  $activityTypes ) || $activityTypeId > 9 ) {
+        if ( array_key_exists( $activityTypeId,  $activityTypes ) || $activityTypeId > 11 ) {
             $showUpdate = true;
             $showDelete = true;
             $url      = 'civicrm/contact/view/activity';
@@ -136,6 +136,10 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
                             ) ) {  // membership
             $url      = 'civicrm/contact/view/membership';
             $qsView   = "action=view&reset=1&id={$sourceRecordId}&cid=%%cid%%&context=%%cxt%%";
+        } elseif ( $activityTypeId == $activityTypeIds['Pledge Acknowledgment'] || 
+                   $activityTypeId == $activityTypeIds['Pledge Reminder'] ) { //pledge acknowledgment
+            $url      = 'civicrm/contact/view/activity';
+            $qsView   = "atype={$activityTypeId}&action=view&reset=1&id=%%id%%&cid=%%cid%%&context=%%cxt%%";
         } else {
             $showDelete = true;
             $url      = 'civicrm/activity/view';
@@ -287,13 +291,17 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
         
         foreach ($rows as $k => $row) {
             $row =& $rows[$k];
+            if ( CRM_Utils_Array::value('assignee_contact_ids', $row ) ) {
+                $row['assignee_contact_name'] = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                                             $row['assignee_contact_ids'][0],
+                                                                             'sort_name', 'id' );
+            }
             
-            $row['assignee_contact_name'] = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
-                                                                         $row['assignee_contact_ids'][0],
-                                                                         'sort_name', 'id' );
-            $row['target_contact_name']   = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
-                                                                         $row['target_contact_ids'][0],
-                                                                         'sort_name', 'id' );
+            if ( CRM_Utils_Array::value('target_contact_ids', $row ) ) {
+                $row['target_contact_name']   = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                                             $row['target_contact_ids'][0],
+                                                                             'sort_name', 'id' );
+            }
             
             // DRAFTING: provide a facility for db-stored strings
             // localize the built-in activity names for display
