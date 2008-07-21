@@ -45,7 +45,7 @@
      <title>Manage Events</title>
      <page_callback>CRM_Event_Page_ManageEvent</page_callback>
      <desc>Create and edit event configuration including times, locations, online registration forms, and fees. Links for iCal and RSS syndication.</desc>
-     <access_arguments>administer CiviCRM,access CiviEvent</access_arguments>
+     <access_arguments>access CiviEvent</access_arguments>
      <adminGroup>CiviEvent</adminGroup>
      <icon>admin/small/event_manage.png</icon>
      <weight>370</weight>

@@ -276,15 +276,19 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         $this->applyFilter('__ALL__', 'trim');
         //pledge fields.
         $attributes = CRM_Core_DAO::getAttribute( 'CRM_Pledge_DAO_Pledge' );
-        $js =  array_merge ($attributes['amount'], array('onkeyup' => "calculatedPaymentAmount( );") );
+        
+        $js =  array( 'onblur'  => "calculatedPaymentAmount( );",
+                      'onkeyup' => "calculatedPaymentAmount( );");
+        
         $element =& $this->add( 'text', 'amount', ts('Total Pledge Amount'),
-                                $js, true );
+                                array_merge( $attributes['amount'], $js ), true );
         $this->addRule( 'amount', ts('Please enter a valid monetary amount.'), 'money');
         if ( $this->_id ) {
             $element->freeze( );
         }
-        $js = array_merge ($attributes['installments'], array('onkeyup' => "calculatedPaymentAmount( );") );
-        $element =& $this->add( 'text', 'installments', ts('To be paid in'), $js, true ); 
+
+        $element =& $this->add( 'text', 'installments', ts('To be paid in'), 
+                                array_merge( $attributes['installments'], $js ), true ); 
         $this->addRule('installments', ts('Please enter a valid number of installments.'), 'positiveInteger');
         if ( $this->_id ) {
             $element->freeze( );
@@ -423,7 +427,9 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
     {
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             require_once 'CRM/Pledge/BAO/Pledge.php';
-            CRM_Pledge_BAO_Pledge::deletePledge( $this->_id );
+            if ( !CRM_Pledge_BAO_Pledge::deletePledge( $this->_id ) ) {
+                CRM_Core_Session::setStatus( ts( 'This pledge can not be deleted because there are payment records (with status completed) linked to it.' ) );
+            }
             return;
         }
         

@@ -237,6 +237,30 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             return;
         }
         
+        //get the payment values associated with given pledge payment id. 
+        $this->_pledgeValues = array( );
+        if ( $this->_ppID ) {
+            $payParams = array( 'id' => $this->_ppID );
+            require_once "CRM/Pledge/BAO/Payment.php";
+            CRM_Pledge_BAO_Payment::retrieve( $payParams, $this->_pledgeValues['pledgePayment'] );
+            $this->_pledgeID = CRM_Utils_Array::value( 'pledge_id', $this->_pledgeValues['pledgePayment'] );
+            $paymentStatusID = CRM_Utils_Array::value( 'status_id', $this->_pledgeValues['pledgePayment'] );
+            $this->_id = CRM_Utils_Array::value( 'contribution_id', $this->_pledgeValues['pledgePayment'] );
+            
+            //get all status
+            $allStatus = CRM_Contribute_PseudoConstant::contributionStatus( );
+            if ( !( $paymentStatusID == array_search( 'Pending', $allStatus ) ||
+                    $paymentStatusID == array_search( 'Overdue', $allStatus ) ) ) {
+                CRM_Core_Error::fatal( ts( "Pledge payment status should be 'Pending' or  'Overdue'.") );
+            }
+            
+            //get the pledge values associated with given pledge payment.
+            require_once 'CRM/Pledge/BAO/Pledge.php';
+            $ids = array( );
+            $pledgeParams = array( 'id' => $this->_pledgeID );
+            CRM_Pledge_BAO_Pledge::getValues( $pledgeParams, $this->_pledgeValues, $ids );
+        }
+        
         $this->_values = array( );
         
         // current contribution id
@@ -278,31 +302,8 @@ WHERE  contribution_id = {$this->_id}
                 $this->_noteID = $daoNote->id;
                 $this->_values['note'] = $daoNote->note;
             }
-
+            
             $this->_contributionType = $this->_values['contribution_type_id'];
-        }
-        
-        //get the payment values associated with given pledge payment id. 
-        $this->_pledgeValues = array( );
-        if ( $this->_ppID ) {
-            $payParams = array( 'id' => $this->_ppID );
-            require_once "CRM/Pledge/BAO/Payment.php";
-            CRM_Pledge_BAO_Payment::retrieve( $payParams, $this->_pledgeValues['pledgePayment'] );
-            $this->_pledgeID = CRM_Utils_Array::value( 'pledge_id', $this->_pledgeValues['pledgePayment'] );
-            $paymentStatusID = CRM_Utils_Array::value( 'status_id', $this->_pledgeValues['pledgePayment'] );
-            
-            //get all status
-            $allStatus = CRM_Contribute_PseudoConstant::contributionStatus( );
-            if ( !( $paymentStatusID == array_search( 'Pending', $allStatus ) ||
-                    $paymentStatusID == array_search( 'Overdue', $allStatus ) ) ) {
-                CRM_Core_Error::fatal( ts( "Pledge payment status should be 'Pending' or  'Overdue'.") );
-            }
-            
-            //get the pledge values associated with given pledge payment.
-            require_once 'CRM/Pledge/BAO/Pledge.php';
-            $ids = array( );
-            $pledgeParams = array( 'id' => $this->_pledgeID );
-            CRM_Pledge_BAO_Pledge::getValues( $pledgeParams, $this->_pledgeValues, $ids );
         }
         
         // when custom data is included in this page
@@ -887,14 +888,13 @@ WHERE  contribution_id = {$this->_id}
             }
             
             //update pledge payment status.
-            if ( $this->_ppID && $contribution->id && 
-                 ($contribution->contribution_status_id == array_search( 'Completed', 
-                                                                         CRM_Contribute_PseudoConstant::contributionStatus()))) {
-                require_once 'CRM/Pledge/BAO/Payment.php';
-                CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $this->_pledgeID, $this->_ppID, 
-                                                                   $contribution->contribution_status_id );
+            if ( $this->_ppID && $contribution->id ) { 
                 //store contribution id in payment record.
                 CRM_Core_DAO::setFieldValue('CRM_Pledge_DAO_Payment', $this->_ppID, 'contribution_id', $contribution->id );
+
+                require_once 'CRM/Pledge/BAO/Payment.php';
+                CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $this->_pledgeID, array( $this->_ppID ), 
+                                                                   $contribution->contribution_status_id );
             }
             
             if ( $contribution->id ) {
@@ -1057,14 +1057,13 @@ WHERE  contribution_id = {$this->_id}
             }
             
             //update pledge payment status.
-            if ( $this->_ppID && $contribution->id && 
-                 ($contribution->contribution_status_id == array_search( 'Completed', 
-                                                                         CRM_Contribute_PseudoConstant::contributionStatus()))) {
-                require_once 'CRM/Pledge/BAO/Payment.php';
-                CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $this->_pledgeID, $this->_ppID, 
-                                                                   $contribution->contribution_status_id );
+            if ( $this->_ppID && $contribution->id ) { 
                 //store contribution id in payment record.
                 CRM_Core_DAO::setFieldValue('CRM_Pledge_DAO_Payment', $this->_ppID, 'contribution_id', $contribution->id );
+
+                require_once 'CRM/Pledge/BAO/Payment.php';
+                CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $this->_pledgeID, array( $this->_ppID ), 
+                                                                   $contribution->contribution_status_id );
             }
             
             $statusMsg = ts('The contribution record has been saved.');
@@ -1074,10 +1073,10 @@ WHERE  contribution_id = {$this->_id}
             CRM_Core_Session::setStatus( $statusMsg );
             //Offline Contribution ends.
         }
-        
     }
     
-    function &getDetails( $contributionID ) {
+    function &getDetails( $contributionID ) 
+    {
         $query = "
 SELECT    c.id                 as contribution_id,
           mp.membership_id     as membership_id,

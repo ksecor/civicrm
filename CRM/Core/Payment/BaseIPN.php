@@ -383,13 +383,17 @@ class CRM_Core_Payment_BaseIPN {
         //update corresponding pledge payment record
         require_once 'CRM/Core/DAO.php';
         $returnProperties = array( 'id', 'pledge_id' );
-        if ( CRM_Core_DAO::commonRetrieveAll( 'CRM_Pledge_DAO_Payment', 'contribution_id', $contribution->id, $paymentDetails, $returnProperties ) ) {
+        if ( CRM_Core_DAO::commonRetrieveAll( 'CRM_Pledge_DAO_Payment', 'contribution_id', $contribution->id, 
+                                              $paymentDetails, $returnProperties ) ) {
+            $paymentIDs = array( );
             foreach ( $paymentDetails as $key => $value ) {
-                $paymentID = $value['id'];
-                $pledgeID  = $value['pledge_id'];
-                require_once 'CRM/Pledge/BAO/Payment.php';
-                CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $pledgeID, $paymentID, 1 )
+                $paymentIDs[] = $value['id'];
+                $pledgeId     = $value['pledge_id'];
             }
+            
+            // update pledge and corresponding payment statuses
+            require_once 'CRM/Pledge/BAO/Payment.php';
+            CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $pledgeId, $paymentIDs, $contribution->contribution_status_id );
         }
 
          // create an activity record

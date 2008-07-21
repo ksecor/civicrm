@@ -83,7 +83,7 @@ class CRM_Pledge_Form_Task_Delete extends CRM_Pledge_Form_Task
         $deletedPledges = 0;
         require_once 'CRM/Pledge/BAO/Pledge.php';
         foreach ( $this->_pledgeIds as $pledgeId ) {
-            if ( CRM_Pledge_BAO_Pledge::del( $pledgeId ) ) {
+            if ( CRM_Pledge_BAO_Pledge::deletePledge( $pledgeId ) ) {
                 $deletedPledges++;
             }
         }

@@ -120,6 +120,8 @@ class CRM_Case_Form_Case extends CRM_Core_Form
 
         $attributes = CRM_Core_DAO::getAttribute( 'CRM_Case_DAO_Case' );
         $this->add( 'text', 'subject', ts('Subject'), array_merge( $attributes['subject'], array('maxlength' => '128') ), true);
+        $this->addRule( 'subject', ts('A case with this subject already exists.'),     
+                        'objectExists', array('CRM_Case_DAO_Case', $this->_id, 'subject') );
 
         require_once 'CRM/Core/OptionGroup.php';        
         $caseStatus  = CRM_Core_OptionGroup::values('case_status');

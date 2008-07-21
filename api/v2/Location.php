@@ -379,7 +379,8 @@ function &_civicrm_location_delete( &$contact ) {
     if ( ! $locationTypeDAO->find( ) ) {
         return civicrm_create_error( ts('invalid location type') );
     }
-    
+
+    require_once 'CRM/Core/BAO/Location.php';
     CRM_Core_BAO_Location::deleteLocationBlocks( $contact['contact_id'], $contact['location_type'] );
     
     return null;

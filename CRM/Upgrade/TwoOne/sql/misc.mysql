@@ -15,12 +15,16 @@ UPDATE civicrm_email    SET email   = LOWER( email   );
 UPDATE civicrm_uf_match SET uf_name = LOWER( uf_name );
 
 
--- Add new boolean columns in civicrm_relationship
+-- Add new tinyint column to civicrm_tag
+ALTER TABLE `civicrm_tag`
+    ADD `is_selectable` tinyint DEFAULT 1 AFTER `parent_id`;
+
+-- Add new tinyint columns in civicrm_relationship
 
 ALTER TABLE `civicrm_relationship`
-    ADD `is_permission_a_b` boolean DEFAULT 0 AFTER `description`;
+    ADD `is_permission_a_b` tinyint DEFAULT 0 AFTER `description`;
 ALTER TABLE `civicrm_relationship`
-    ADD `is_permission_b_a` boolean DEFAULT 0 AFTER `is_permission_a_b`;
+    ADD `is_permission_b_a` tinyint DEFAULT 0 AFTER `is_permission_a_b`;
 
 
 -- Add 'My Contacts / Organizations' option in user dashboard options
@@ -359,7 +363,7 @@ CREATE TABLE `civicrm_pledge_payment` (
   `reminder_count` int(10) unsigned default '0' COMMENT 'The number of payment reminders sent.',
   `status_id` int(10) unsigned default NULL,
   PRIMARY KEY  (`id`),
-  INDEX `index_contribution_pledge` (`contribution_id`,`pledge_id`),
+  UNIQUE `UI_contribution_pledge` (`contribution_id`, `pledge_id`),
   INDEX `index_status` (`status_id`),
   CONSTRAINT `FK_civicrm_pledge_payment_pledge_id` FOREIGN KEY (`pledge_id`) REFERENCES `civicrm_pledge` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_civicrm_pledge_payment_contribution_id` FOREIGN KEY (`contribution_id`) REFERENCES `civicrm_contribution` (`id`) ON DELETE CASCADE
@@ -493,3 +497,18 @@ ALTER TABLE `civicrm_membership`
 
 ALTER TABLE `civicrm_membership_status`
     ADD `is_reserved` tinyint(4) NULL DEFAULT '0' AFTER is_active;
+
+ALTER TABLE `civicrm_payment_processor_type`
+    ADD UNIQUE `UI_name` (name);
+
+UPDATE civicrm_dedupe_rule SET rule_table='civicrm_contact' WHERE rule_table IN ('civicrm_individual', 'civicrm_household', 'civicrm_organization');
+
+ALTER TABLE `civicrm_case`
+    DROP FOREIGN KEY `FK_civicrm_case_contact_id`;
+ALTER TABLE `civicrm_case`
+    ADD CONSTRAINT `FK_civicrm_case_contact_id` FOREIGN KEY (`contact_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `civicrm_case_activity`
+    DROP FOREIGN KEY `FK_civicrm_case_activity_case_id`;
+ALTER TABLE `civicrm_case_activity`
+    ADD CONSTRAINT `FK_civicrm_case_activity_case_id` FOREIGN KEY (`case_id`) REFERENCES `civicrm_case` (`id`) ON DELETE CASCADE;

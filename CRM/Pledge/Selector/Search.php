@@ -75,9 +75,9 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base
                                 'pledge_amount', 
                                 'pledge_create_date',
                                 'pledge_total_paid',
-                                'pledge_balance_amount',
                                 'pledge_next_pay_date', 
                                 'pledge_next_pay_amount',    
+                                'pledge_outstanding_amount',    
                                 'pledge_status_id' ,
                                 'pledge_is_test',
                                 'pledge_contribution_page_id'
@@ -206,7 +206,7 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base
                                                                    'name'     => ts('Cancel'),
                                                                    'url'      => 'civicrm/contact/view/pledge',
                                                                    'qs'       => 'reset=1&action=detach&id=%%id%%&cid=%%cid%%&context=%%cxt%%',
-                                                                   'extra' => 'onclick = "return confirm(\'' . $cancelExtra . '\');"',
+                                                                   'extra'    => 'onclick = "return confirm(\'' . $cancelExtra . '\');"',
                                                                    'title'    => ts('Cancel Pledge'),
                                                                    ),
                                   CRM_Core_Action::DELETE => array(
