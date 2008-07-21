@@ -460,7 +460,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             
             if ( (  $paymentParams['is_pledge'] == 1 ) ) { 
                 $paymentParams['pledgeAmount']  =  $paymentParams['amount'];
-                if (  $paymentParams['is_pledge_frequency_interval'] ) {
+                if (  $paymentParams['is_pledge_frequency_interval'] ) { 
                     $paymentParams['amount'] = $paymentParams['total_amount'] = $paymentParams['net_amount'] = (integer) $params['amount'] / $params['pledge_installments'];
                 } else {
                     $paymentParams['net_amount']   = $paymentParams['total_amount'];
@@ -681,8 +681,11 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $contribParams['id'] = $contribID;
             }
         }
+        if ( $params['is_pledge'] == 1 ) {
+            $contribParams['net_amount'] = $contribParams['total_amount'] = $params['total_amount'];
+            
+        }
 
-       
         require_once 'CRM/Contribute/BAO/Contribution.php';
         $contribution =& CRM_Contribute_BAO_Contribution::add( $contribParams, $ids );
              
