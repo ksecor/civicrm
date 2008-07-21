@@ -94,13 +94,11 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             // TODO: at some stage we'll have to deal
             // TODO: with multiple values for assignees and targets, but
             // TODO: for now, let's just fetch first row
-            $assignment =& new CRM_Activity_BAO_ActivityAssignment( );
-            $defaults['assignee_contact'] = $assignment->retrieveAssigneeIdsByActivityId( $activity->id );
-
+            $defaults['assignee_contact'] = CRM_Activity_BAO_ActivityAssignment::retrieveAssigneeIdsByActivityId( $activity->id );
+            
             require_once 'CRM/Activity/BAO/ActivityTarget.php';
-            $target =& new CRM_Activity_BAO_ActivityTarget( );
-            $defaults['target_contact'] = $target->retrieveTargetIdsByActivityId( $activity->id );
-
+            $defaults['target_contact'] = CRM_Activity_BAO_ActivityTarget::retrieveTargetIdsByActivityId( $activity->id );
+            
             if ( $activity->source_contact_id ) {
                 $defaults['source_contact'] = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
                                                                            $activity->source_contact_id,
@@ -522,12 +520,10 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         }
 
         foreach ($values as $activity => &$fields) {
-            $target =& new CRM_Activity_BAO_ActivityTarget( );
-            $fields['target_contact_ids'] = $target->retrieveTargetIdsByActivityId($fields['id']);
-
-            $assignment =& new CRM_Activity_BAO_ActivityAssignment( );
-            $fields['assignee_contact_ids'] = $assignment->retrieveAssigneeIdsByActivityId($fields['id']);
-
+            $fields['target_contact_ids'] = CRM_Activity_BAO_ActivityTarget::retrieveTargetIdsByActivityId($fields['id']);
+            
+            $fields['assignee_contact_ids'] = CRM_Activity_BAO_ActivityAssignment::retrieveAssigneeIdsByActivityId($fields['id']);
+            
         } 
         
         return $values;
