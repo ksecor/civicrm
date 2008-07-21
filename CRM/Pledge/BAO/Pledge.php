@@ -213,9 +213,7 @@ class CRM_Pledge_BAO_Pledge extends CRM_Pledge_DAO_Pledge
         require_once 'CRM/Contribute/PseudoConstant.php';
         while ( $payment->fetch( ) ) {
             if ($payment->status_id == array_search( 'Completed', CRM_Contribute_PseudoConstant::contributionStatus())) {
-                CRM_Core_Session::setStatus( ts( 'This pledge can not be deleted because there are payment records (with status completed) linked to it.' ) );
-                
-                return;
+                return false;
             }
         }
                 

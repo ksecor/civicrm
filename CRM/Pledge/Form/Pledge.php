@@ -427,7 +427,9 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
     {
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             require_once 'CRM/Pledge/BAO/Pledge.php';
-            CRM_Pledge_BAO_Pledge::deletePledge( $this->_id );
+            if ( !CRM_Pledge_BAO_Pledge::deletePledge( $this->_id ) ) {
+                CRM_Core_Session::setStatus( ts( 'This pledge can not be deleted because there are payment records (with status completed) linked to it.' ) );
+            }
             return;
         }
         
