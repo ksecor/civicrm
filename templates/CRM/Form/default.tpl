@@ -1,4 +1,4 @@
-{if ! $suppressForm}
+{if isset($suppressForm) and ! $suppressForm}
 <form {$form.attributes} >
 {/if}
 
@@ -6,6 +6,6 @@
 
 {include file=$tplFile}
 
-{if ! $suppressForm}
+{if isset($suppressForm) and ! $suppressForm}
 </form>
 {/if}
