@@ -98,7 +98,7 @@ class CRM_Pledge_BAO_Query
         }
         
         if ( CRM_Utils_Array::value( 'pledge_next_pay_amount', $query->_returnProperties ) ) {
-            $query->_select['pledge_next_pay_amount']  = " (SELECT civicrm_pledge_payment.scheduled_amount FROM civicrm_pledge_payment WHERE civicrm_pledge_payment.pledge_id = civicrm_pledge.id AND civicrm_pledge_payment.status_id = 2 ORDER BY civicrm_pledge_payment.scheduled_date ASC LIMIT 0, 1) as pledge_next_pay_amount";
+            $query->_select['pledge_next_pay_amount']  = " (SELECT sum(civicrm_pledge_payment.scheduled_amount) FROM civicrm_pledge_payment WHERE civicrm_pledge_payment.pledge_id = civicrm_pledge.id AND civicrm_pledge_payment.status_id IN ( 2, 6 ) ORDER BY civicrm_pledge_payment.scheduled_date ASC LIMIT 0, 1) as pledge_next_pay_amount";
             $query->_element['pledge_next_pay_amount'] = 1;
         }
         
