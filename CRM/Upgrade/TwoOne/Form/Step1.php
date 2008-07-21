@@ -204,10 +204,27 @@ class CRM_Upgrade_TwoOne_Form_Step1 extends CRM_Upgrade_Form {
     function upgrade( ) {
         $currentDir = dirname( __FILE__ );
 
-        // remove domain_ids from the entire db
+        // 1. remove domain_ids from the entire db
         $sqlFile    = implode( DIRECTORY_SEPARATOR,
                                array( $currentDir, '../sql', 'domain_ids.mysql' ) );
         $this->source( $sqlFile );
+        
+
+        // 2. remove domain ids from custom tables
+        $query = "SELECT table_name FROM civicrm_custom_group";
+        $dao   = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        while ( $dao->fetch( ) ) {
+            $query  = "
+ALTER TABLE {$dao->table_name} 
+DROP FOREIGN KEY FK_{$dao->table_name}_domain_id,
+DROP INDEX unique_domain_id_entity_id;";
+            CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+            
+            $query  = "
+ALTER TABLE {$dao->table_name} 
+DROP domain_id;";
+            CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        }
         
         $this->setVersion( '2.01' );
     }
