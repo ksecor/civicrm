@@ -588,7 +588,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
 
         // get the submitted form values.  
         $params = $this->controller->exportValues( $this->_name );
-                     
+
         $config =& CRM_Core_Config::singleton();        
         //check if discount is selected
         if ( $params['discount_id'] ) {
@@ -851,9 +851,9 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 
             } else {
                 foreach ( $this->_contactIds as $contactID ) {
-                    $params['id'] = $contactID;
+                    $params['contact_id'] = $contactID;
                     $participants[]       = CRM_Event_BAO_Participant::create( $params );   
-                }           
+                }        
             }
             
             if ( isset( $params['event_id'] ) ) {
