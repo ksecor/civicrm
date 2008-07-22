@@ -20,20 +20,26 @@
     <td>{$row.receive_date|truncate:10:''|crmDate}</td>
     <td>{$row.reminder_date|truncate:10:''|crmDate}</td>
     <td>{$row.reminder_count}</td>
-    <td{if ! ($permission EQ 'edit' and ($row.status eq 'Pending' or $row.status eq 'Overdue')) } colspan="2"{/if}/>
-        {$row.status}</td>	
-    {if $permission EQ 'edit' and ($row.status eq 'Pending' or $row.status eq 'Overdue') }
+    <td{if ! ($permission EQ 'edit' and ($row.status eq 'Pending' or $row.status eq 'Overdue' or $row.status eq 'Completed')) } colspan="2"{/if}/>
+        {$row.status}
+    </td>	
+    {if $permission EQ 'edit' and ($row.status eq 'Pending' or $row.status eq 'Overdue' or $row.status eq 'Completed') }
         <td>
-        {capture assign=newContribURL}{crmURL p="civicrm/contact/view/contribution" q="reset=1&action=add&cid=`$contactId`&context=`$context`&ppid=`$row.id`"}{/capture}
-        {ts 1=$newContribURL}<a href='%1'>Record Payment (Check, Cash, EFT ...)</a>{/ts}
-        {if $newCredit}
-	      <br/>  
-          {capture assign=newCreditURL}{crmURL p="civicrm/contact/view/contribution" q="reset=1&action=add&cid=`$contactId`&ppid=`$row.id`&context=`$context`&mode=live"}{/capture}
-          {ts 1=$newCreditURL}<a href='%1'>Submit Credit Card Payment</a>{/ts}
+        {if $row.status eq 'Completed'} {* Link to view contribution record for completed payment.*}
+            {capture assign=viewContribURL}{crmURL p="civicrm/contact/view/contribution" q="reset=1&id=`$row.contribution_id`&cid=`$contactId`&action=view&context=`$context`"}{/capture}      
+            {ts 1=$viewContribURL}<a href='%1'>View Payment</a>{/ts}
+        {else} {* Links to record / submit a payment. *}
+            {capture assign=newContribURL}{crmURL p="civicrm/contact/view/contribution" q="reset=1&action=add&cid=`$contactId`&context=`$context`&ppid=`$row.id`"}{/capture}
+            {ts 1=$newContribURL}<a href='%1'>Record Payment (Check, Cash, EFT ...)</a>{/ts}
+            {if $newCredit}
+              <br/>  
+              {capture assign=newCreditURL}{crmURL p="civicrm/contact/view/contribution" q="reset=1&action=add&cid=`$contactId`&ppid=`$row.id`&context=`$context`&mode=live"}{/capture}
+              {ts 1=$newCreditURL}<a href='%1'>Submit Credit Card Payment</a>{/ts}
+            {/if}
+            <br/> 
+            {capture assign=editURL}{crmURL p="civicrm/pledge/payment" q="reset=1&action=update&cid=`$contactId`&context=`$context`&ppId=`$row.id`"}{/capture}
+            {ts 1=$editURL}<a href='%1'>Edit Schedule</a>{/ts}
         {/if}
-        <br/> 
-        {capture assign=editURL}{crmURL p="civicrm/pledge/payment" q="reset=1&action=update&cid=`$contactId`&context=`$context`&ppId=`$row.id`"}{/capture}
-        {ts 1=$editURL}<a href='%1'>Edit Schedule</a>{/ts}
         </td>
     {/if}
    </tr>

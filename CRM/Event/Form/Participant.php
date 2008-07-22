@@ -806,7 +806,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                            CRM_Utils_Date::mysqlToIso( $this->_params['receive_date']) );
             // set source if not set 
             
-            $this->_params['description'] = ts( 'Online Event: CiviCRM Admin Interface' );
+            $this->_params['description'] = ts( 'Submit Credit Card for Event Registration by: %1', array( 1 => $userName ) );
             require_once 'CRM/Event/Form/Registration/Confirm.php';
             require_once 'CRM/Event/Form/Registration.php';
             //add contribution record
@@ -829,11 +829,11 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                                                         'Participant' );
             //add participant payment
             require_once 'CRM/Event/BAO/ParticipantPayment.php';
-            $paymentPartcipant = array( 'participant_id'  => $participants[0]->id ,
+            $paymentParticipant = array( 'participant_id'  => $participants[0]->id ,
                                         'contribution_id' => $contribution->id, ); 
             $ids = array();       
             
-            CRM_Event_BAO_ParticipantPayment::create( $paymentPartcipant, $ids);
+            CRM_Event_BAO_ParticipantPayment::create( $paymentParticipant, $ids);
             $eventTitle = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event',
                                                    $params['event_id'],
                                                    'title' );

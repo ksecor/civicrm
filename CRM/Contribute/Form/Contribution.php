@@ -859,7 +859,10 @@ WHERE  contribution_id = {$this->_id}
             
             // set source if not set 
             if ( empty( $this->_params['source'] ) ) {
-                $this->_params['source'] = ts( 'Online Contribution: CiviCRM Admin Interface' );
+                $userID = $session->get( 'userID' );
+                $userSortName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $userID,
+                                                                            'sort_name' );
+                $this->_params['source'] = ts( 'Submit Credit Card Payment by: %1', array( 1 => $userSortName ) );
             }
             
             require_once 'CRM/Contribute/Form/Contribution/Confirm.php';

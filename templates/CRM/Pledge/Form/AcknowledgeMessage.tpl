@@ -14,9 +14,11 @@
 
 ===========================================================
 {ts 1=$eachPaymentAmount|crmMoney 2=$frequency_interval 3=$frequency_unit 4=$installments}%1 every %2 %3 for %4 installments.{/ts}
+
 {if $frequency_day}
 
 {ts 1=$frequency_day 2=$frequency_unit}Payments are due on day %1 of the %2.{/ts}
+
 {/if}
 
 {assign var="count" value="1"}
