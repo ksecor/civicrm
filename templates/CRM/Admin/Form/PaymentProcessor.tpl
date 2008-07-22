@@ -18,7 +18,7 @@
     <dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>
     <dt>&nbsp;</dt><dd>{$form.is_active.html} {$form.is_active.label}</dd>
     <dt>&nbsp;</dt><dd>{$form.is_default.html} {$form.is_default.label}</dd>
-
+  </dl>
 <fieldset>
 <legend>{ts}Processor Details for Live Payments{/ts}</legend>
     <dt>{$form.user_name.label}</dt><dd>{$form.user_name.html} {help id=$ppType|cat:'-live-user-name'}</dd>
@@ -67,7 +67,6 @@
 {/if}
 </fieldset>
 
-</dl>
 {/if}
   <dl> 
     <dt></dt><dd>{$form.buttons.html}</dd>

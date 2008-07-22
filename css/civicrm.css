@@ -908,7 +908,7 @@ div.crm-pager a {
 }
 
 #crm-container div#searchForm {
-	height: 100%;
+	height: auto;
 	width: 100%;
     /*  Why this was here? Commenting out so we get horizontal scroll when needed. dgg
     	overflow: hidden;
