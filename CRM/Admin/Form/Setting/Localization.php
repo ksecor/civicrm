@@ -56,15 +56,26 @@ class CRM_Admin_Form_Setting_Localization extends  CRM_Admin_Form_Setting
 
         $locales =& CRM_Core_I18n::languages();
 
-        $includeLanguage =& $this->addElement('advmultiselect', 'languageLimit',
-                                              ts('Available Languages'), $locales,
-                                              array('size'  => 5,
-                                                    'style' => 'width: 200px',
-                                                    'class' => 'advmultiselect'));
-        $includeLanguage->setButtonAttributes('add',    array('value' => ts('Add >>')));
-        $includeLanguage->setButtonAttributes('remove', array('value' => ts('<< Remove')));
+        $domain =& new CRM_Core_DAO_Domain();
+        $domain->find(true);
+        if ($domain->locales) {
+            $lcMessages = array();
+            foreach ($locales as $loc => $lang) {
+                if (substr_count($domain->locales, $loc)) $lcMessages[$loc] = $lang;
+            }
+            $this->addElement('select', 'lcMessages', ts('Default Language'), $lcMessages);
+            $includeLanguage =& $this->addElement('advmultiselect', 'languageLimit',
+                                                  ts('Available Languages'), $locales,
+                                                  array('size'  => 5,
+                                                        'style' => 'width: 200px',
+                                                        'class' => 'advmultiselect'));
+            $includeLanguage->setButtonAttributes('add',    array('value' => ts('Add >>')));
+            $includeLanguage->setButtonAttributes('remove', array('value' => ts('<< Remove')));
+        } else {
+            $this->addElement('select', 'lcMessages', ts('Default Language'), $locales);
+            $this->addElement('checkbox', 'makeMultilingual', ts('Support Multiple Languages'));
+        }
 
-        $this->addElement('select', 'lcMessages', ts('Default Language'), $locales);
         $this->addElement('select', 'lcMonetary', ts('Monetary Locale'),  $locales);
         $this->addElement('text', 'moneyformat',      ts('Monetary Amount Display'));
         $this->addElement('text', 'moneyvalueformat', ts('Monetary Value Display'));
@@ -121,6 +132,32 @@ class CRM_Admin_Form_Setting_Localization extends  CRM_Admin_Form_Setting
             $errors['customTranslateFunction'] = ts( 'Please define the custom translation function first' );
         }
         return empty( $errors ) ? true : $errors;
+    }
+
+    public function postProcess() 
+    {
+        $values = $this->exportValues();
+
+        // make the site multi-lang if requested
+        if ($values['makeMultilingual']) {
+            require_once 'CRM/Core/I18n/Schema.php';
+            CRM_Core_I18n_Schema::makeMultilingual($values['lcMessages']);
+        }
+
+        // add a new db locale for every available language that's not yet supported by the db
+        if ($values['languageLimit']) {
+            require_once 'CRM/Core/DAO/Domain.php';
+            $domain =& new CRM_Core_DAO_Domain();
+            $domain->find(true);
+            require_once 'CRM/Core/I18n/Schema.php';
+            foreach ($values['languageLimit'] as $locale) {
+                if (substr_count($domain->locales, $locale)) continue;
+                CRM_Core_I18n_Schema::addLocale($locale, $values['lcMessages']);
+            }
+        }
+
+        // save all the settings
+        parent::postProcess();
     }
 
 }

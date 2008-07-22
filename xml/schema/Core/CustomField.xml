@@ -35,6 +35,7 @@
      <name>label</name>
      <type>varchar</type>
      <length>255</length>
+     <localizable>true</localizable>
      <comment>Text for form field label (also friendly name for administering this custom property).</comment>
      <add>1.1</add>
   </field>

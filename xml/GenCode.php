@@ -1,7 +1,7 @@
 <?php
 
 ini_set( 'include_path', '.' . PATH_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'packages' . PATH_SEPARATOR . '..' );
-ini_set( 'memory_limit', '32M'              );
+ini_set( 'memory_limit', '128M' );
 
 $versionFile = "version.xml";
 $versionXML = & parseInput( $versionFile );
@@ -197,6 +197,35 @@ foreach ( array_keys( $tables ) as $name ) {
     $beautifier->save( );
 }
 
+echo "Generating CRM_Core_I18n_SchemaStructure...\n";
+$columns = array();
+$indices = array();
+foreach ($tables as $table) {
+    if ($table['localizable']) {
+        $columns[$table['name']] = array();
+    } else {
+        continue;
+    }
+    foreach ($table['fields'] as $field) {
+        if ($field['localizable']) $columns[$table['name']][$field['name']] = $field['sqlType'];
+    }
+    foreach ($table['index'] as $index) {
+        if ($index['localizable']) $indices[$table['name']][$index['name']] = $index;
+    }
+}
+$columns = serialize($columns);
+$indices = serialize($indices);
+$beautifier->setInputString(
+    file_get_contents("$phpCodePath/header.txt") . "
+    class CRM_Core_I18n_SchemaStructure {
+        static function columns() { return unserialize('$columns'); }
+        static function indices() { return unserialize('$indices'); }
+        static function tables()  { return array_keys(self::columns()); }
+    }");
+$beautifier->setOutputFile("$phpCodePath/CRM/Core/I18n/SchemaStructure.php");
+$beautifier->process();
+$beautifier->save();
+
 // add the Subversion revision to templates
 // use svnversion if the version was not specified explicitely on the commandline
 if (isset($argv[2]) and $argv[2] != '') {
@@ -315,6 +344,14 @@ function getTable( $tableXML, &$database, &$tables ) {
     $pre   = str_replace( '/', '_', $base );
     $classNames[$name]  = $pre . $klass;
 
+    $localizable = false;
+    foreach ($tableXML->field as $fieldXML) {
+        if ($fieldXML->localizable) {
+            $localizable = true;
+            break;
+        }
+    }
+
     $table = array( 'name'       => $name,
                     'base'       => $base,
                     'fileName'   => $klass . '.php',
@@ -324,6 +361,7 @@ function getTable( $tableXML, &$database, &$tables ) {
                     'attributes_simple' => trim($database['tableAttributes_simple']),
                     'attributes_modern' => trim($database['tableAttributes_modern']),
                     'comment'    => value( 'comment', $tableXML ),
+                    'localizable'=> $localizable,
                     'log'        => value( 'log', $tableXML, 'false' ) );
     
     $config  =& CRM_Core_Config::singleton( );
@@ -399,7 +437,7 @@ function getTable( $tableXML, &$database, &$tables ) {
 
 function getField( &$fieldXML, &$fields ) {
     $name  = trim( (string ) $fieldXML->name );
-    $field = array( 'name' => $name );
+    $field = array( 'name' => $name, 'localizable' => $fieldXML->localizable );
     $type = (string ) $fieldXML->type;
     switch ( $type ) {
     case 'varchar':
@@ -558,6 +596,14 @@ function getIndex(&$indexXML, &$fields, &$indices)
 	  $fieldName = "$fieldName($length)";
 	}
         $index['field'][] = $fieldName;
+    }
+
+    $index['localizable'] = false;
+    foreach ($index['field'] as $fieldName) {
+        if (isset($fields[$fieldName]) and $fields[$fieldName]['localizable']) {
+            $index['localizable'] = true;
+            break;
+        }
     }
 
     // check for unique index

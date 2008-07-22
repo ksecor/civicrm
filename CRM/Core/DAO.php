@@ -787,7 +787,7 @@ FROM   civicrm_domain
      * @static
      * @access public
      */
-    static function &executeQuery( $query, $params = array( ), $abort = true, $daoName = null, $freeDAO = false ) 
+    static function &executeQuery( $query, $params = array( ), $abort = true, $daoName = null, $freeDAO = false, $i18nRewrite = true )
     {
         if ( ! $daoName ) {
             $dao =& new CRM_Core_DAO( );
@@ -797,6 +797,14 @@ FROM   civicrm_domain
         }
         $queryStr = self::composeQuery( $query, $params, $abort, $dao );
         //CRM_Core_Error::debug( 'q', $queryStr );
+
+        // rewrite queries that should use $dbLocale-based views for multi-language installs
+        global $dbLocale;
+        if ($i18nRewrite and $dbLocale) {
+            require_once 'CRM/Core/I18n/Schema.php';
+            $queryStr = CRM_Core_I18n_Schema::rewriteQuery($queryStr);
+        }
+
         $dao->query( $queryStr );
 
         if ( $freeDAO ) {

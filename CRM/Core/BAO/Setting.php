@@ -179,27 +179,47 @@ class CRM_Core_BAO_Setting
                 return;
             }
 
-            // set lcMessages dynamically based on GET and civicrm_uf_match values
-            // if cookie unset, initialise it to admin-specified value
-            // FIXME: this should be moved to user preferences once they're introduced
-            require_once 'CRM/Utils/Request.php';
-            require_once 'CRM/Core/DAO/UFMatch.php';
-            $session =& CRM_Core_Session::singleton();
-            $dao =& new CRM_Core_DAO_UFMatch();
-            $dao->contact_id = $session->get('userID');
-            if ( $dao->find(true) ) {
-                if ($lcMessages = CRM_Utils_Request::retrieve('lcMessages', 'String', $this)) {
-                    $dao->language = $lcMessages;
-                    $dao->save();
-                    $defaults['lcMessages'] = $lcMessages;
-                } elseif (!$dao->language) {
-                    $dao->language = $defaults['lcMessages'];
-                    $dao->save();
+            // are we in a multi-language setup?
+            require_once 'CRM/Core/DAO/Domain.php';
+            $domain =& new CRM_Core_DAO_Domain();
+            $domain->find(true);
+            $multiLang = $domain->locales ? true : false;
+
+            // set the current language
+            $lcMessages = null;
+
+            // on multi-lang sites based on request and civicrm_uf_match
+            if ($multiLang) {
+                require_once 'CRM/Core/DAO/UFMatch.php';
+                $session =& CRM_Core_Session::singleton();
+                $ufm =& new CRM_Core_DAO_UFMatch();
+                $ufm->contact_id = $session->get('userID');
+
+                require_once 'CRM/Utils/Request.php';
+                $lcMessages = CRM_Utils_Request::retrieve('lcMessages', 'String', $this);
+                if (isset($defaults['languageLimit']) and in_array($lcMessages, $defaults['languageLimit'])) {
+                    if ($ufm->find(true)) {
+                        $ufm->language = $lcMessages;
+                        $ufm->save();
+                    }
                 } else {
-                    $defaults['lcMessages'] = $dao->language;
+                    if ($ufm->find(true) and isset($defaults['languageLimit']) and in_array($ufm->language, $defaults['languageLimit'])) {
+                        $lcMessages = $ufm->language;
+                    }
                 }
             }
-            $dao->free();
+
+            // if a single-lang site or the above didn't yield a result, use default
+            if ($lcMessages === null) {
+                $lcMessages = $defaults['lcMessages'];
+            }
+
+            // set suffix for table names - use views if more than one language
+            global $dbLocale;
+            $dbLocale = $multiLang ? "_{$lcMessages}" : '';
+
+            // actually set the language
+            $defaults['lcMessages'] = $lcMessages;
         }
     }
 }

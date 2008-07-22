@@ -28,6 +28,7 @@
      <name>title</name>
      <type>varchar</type>
      <length>64</length>
+     <localizable>true</localizable>
      <comment>Friendly Name.</comment>
        <add>1.1</add>
   </field>
