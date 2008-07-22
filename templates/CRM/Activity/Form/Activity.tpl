@@ -72,7 +72,7 @@
                 <td class="label">{$form.source_contact_id.label}</td>
                 <td class="view-value">
                    <div dojoType="dojox.data.QueryReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra" doClientPaging="false">
-                       {if $admin }{$form.source_contact_id.html} {else} {$source_contact_value} {/if}
+                       {if $admin and $action neq 4}{$form.source_contact_id.html} {else} {$source_contact_value} {/if}
                    </div>
                 </td>
              </tr>
@@ -92,11 +92,15 @@
              </tr>
              {/if}
              <tr>
+            {if $action neq 4}
 		 <td class="label">{ts}Assigned To {/ts}<div dojoType="dojox.data.QueryReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra" doClientPaging="false"></div></td>
                 <td class="tundra">                  
                    <span id="assignee_contact_1"></span>
                    <br />{edit}<span class="description">{ts}You can optionally assign this activity to someone. Assigned activities will appear in their Contact Dashboard.{/ts}</span>{/edit}
                 </td>
+            {else}
+                <td class="label">{ts}Assigned To {/ts}</td><td class="view-value">{$assignee_contact_value}</td>
+            {/if}
              </tr>
 
              {if $context neq 'standalone' AND $hasCases}

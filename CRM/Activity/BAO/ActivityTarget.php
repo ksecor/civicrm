@@ -109,6 +109,33 @@ class CRM_Activity_BAO_ActivityTarget extends CRM_Activity_DAO_ActivityTarget
         return $targetArray;
     }
 
+    /**
+     * function to retrieve names of target contact by activity_id
+     *
+     * @param int    $id  ID of the activity
+     * 
+     * @return array
+     * 
+     * @access public
+     * 
+     */
+    static function getTargetNames( $activity_id ) 
+    {
+        $queryParam = array();
+        $query = "SELECT contact_a.sort_name 
+                  FROM civicrm_contact contact_a 
+                  LEFT JOIN civicrm_activity_target 
+                         ON civicrm_activity_target.target_contact_id = contact_a.id
+                  WHERE civicrm_activity_target.activity_id = {$activity_id}";
+        $dao = CRM_Core_DAO::executeQuery($query,$queryParam);
+        $targetNames = array();
+        while ( $dao->fetch() ) {
+            $targetNames[] =  $dao->sort_name;
+        }
+
+        return $targetNames;
+    }
+
 }
 
 

@@ -95,10 +95,17 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             // TODO: with multiple values for assignees and targets, but
             // TODO: for now, let's just fetch first row
             $defaults['assignee_contact'] = CRM_Activity_BAO_ActivityAssignment::retrieveAssigneeIdsByActivityId( $activity->id );
-            
+            $assignee_contact_names = CRM_Activity_BAO_ActivityAssignment::getAssigneeNames( $activity->id );
+            foreach( $assignee_contact_names as $key => $name ) {
+                $defaults['assignee_contact_value'] .= $defaults['assignee_contact_value']?",\"$name\"":"\"$name\"";
+            }
             require_once 'CRM/Activity/BAO/ActivityTarget.php';
             $defaults['target_contact'] = CRM_Activity_BAO_ActivityTarget::retrieveTargetIdsByActivityId( $activity->id );
+            $target_contact_names = CRM_Activity_BAO_ActivityTarget::getTargetNames( $activity->id );
             
+            foreach ( $target_contact_names as $key => $name ) {
+                $defaults['target_contact_value'] .= $defaults['target_contact_value']?",\"$name\"":"\"$name\"";
+            }
             if ( $activity->source_contact_id ) {
                 $defaults['source_contact'] = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
                                                                            $activity->source_contact_id,
