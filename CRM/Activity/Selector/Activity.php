@@ -286,18 +286,26 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
         $activityStatus = CRM_Core_PseudoConstant::activityStatus( );
         
         foreach ($rows as $k => $row) {
+            $cids[] = $row['assignee_contact_ids'][0];
+            $cids[] = $row['target_contact_ids'][0];
+        }
+        $cidsIn = implode(',',$cids);
+        $qparams = array();
+        $query = "SELECT civicrm_contact.sort_name as sort_name, civicrm_contact.id as id  
+                  FROM civicrm_contact 
+                  where civicrm_contact.id IN ({$cidsIn}) ";
+        $dao = CRM_Core_DAO::executeQuery($query,$qparams );
+        $contactIdName = array();
+        while ( $dao->fetch() ) {
+            $contactIdName[$dao->id] = $dao->sort_name;
+        }
+   
+        foreach ($rows as $k => $row) {
             $row =& $rows[$k];
-            if ( CRM_Utils_Array::value('assignee_contact_ids', $row ) ) {
-                $row['assignee_contact_name'] = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
-                                                                             $row['assignee_contact_ids'][0],
-                                                                             'sort_name', 'id' );
-            }
             
-            if ( CRM_Utils_Array::value('target_contact_ids', $row ) ) {
-                $row['target_contact_name']   = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
-                                                                             $row['target_contact_ids'][0],
-                                                                             'sort_name', 'id' );
-            }
+            $row['assignee_contact_name'] = $contactIdName[$row['assignee_contact_ids'][0]];
+            
+            $row['target_contact_name']   = $contactIdName[$row['target_contact_ids'][0]];
             
             // DRAFTING: provide a facility for db-stored strings
             // localize the built-in activity names for display
