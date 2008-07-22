@@ -149,7 +149,7 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
 
         $elements = array( );
         if ( $name || isset( $id ) ) {
-            $name      = str_replace( '*', '%', $name );
+            $name  = str_replace( '*', '', $name );
 
             //contact's based of relationhip type
             $relType = null;
@@ -204,27 +204,27 @@ FROM civicrm_contact
 LEFT JOIN civicrm_address ON ( civicrm_contact.id = civicrm_address.contact_id
                                 AND civicrm_address.is_primary=1
                              )
-WHERE civicrm_contact.contact_type='Organization' AND organization_name LIKE '%$contactName'
+WHERE civicrm_contact.contact_type='Organization' AND organization_name LIKE '%$contactName%'
 {$addStreet} {$addCity} {$whereIdClause}
 ORDER BY organization_name ";
 
             } else if ( $shared ) {
                 
                 $query = "
-SELECT CONCAT_WS(':::' , sort_name, supplemental_address_1, sp.abbreviation, postal_code, cc.name )'sort_name' , civicrm_contact.id 'id' , civicrm_contact.display_name 'disp' FROM civicrm_contact LEFT JOIN civicrm_address ON (civicrm_contact.id =civicrm_address.contact_id AND civicrm_address.is_primary =1 )LEFT JOIN civicrm_state_province sp ON (civicrm_address.state_province_id =sp.id )LEFT JOIN civicrm_country cc ON (civicrm_address.country_id =cc.id )WHERE civicrm_contact.contact_type ='{$contactType}' AND {$cName} LIKE '%$name' {$whereIdClause} ORDER BY {$cName} ";
+SELECT CONCAT_WS(':::' , sort_name, supplemental_address_1, sp.abbreviation, postal_code, cc.name )'sort_name' , civicrm_contact.id 'id' , civicrm_contact.display_name 'disp' FROM civicrm_contact LEFT JOIN civicrm_address ON (civicrm_contact.id =civicrm_address.contact_id AND civicrm_address.is_primary =1 )LEFT JOIN civicrm_state_province sp ON (civicrm_address.state_province_id =sp.id )LEFT JOIN civicrm_country cc ON (civicrm_address.country_id =cc.id )WHERE civicrm_contact.contact_type ='{$contactType}' AND {$cName} LIKE '%$name%' {$whereIdClause} ORDER BY {$cName} ";
 
             } else if ( $hh ) {
                 
                 $query = "
 SELECT CONCAT_WS(' :: ' , sort_name, LEFT(street_address, 25), city ) 'sort_name' , civicrm_contact.id 'id' FROM civicrm_contact LEFT JOIN civicrm_address ON (civicrm_contact.id =civicrm_address.contact_id AND civicrm_address.is_primary =1 )
-WHERE civicrm_contact.contact_type ='Household' AND household_name LIKE '%$contactName' {$addStreet} {$addCity} {$whereIdClause} ORDER BY household_name ";
+WHERE civicrm_contact.contact_type ='Household' AND household_name LIKE '%$contactName%' {$addStreet} {$addCity} {$whereIdClause} ORDER BY household_name ";
                 
             } else if ( $relType ) {
                 
                 $query = "
 SELECT c.sort_name, c.id
 FROM civicrm_contact c, civicrm_relationship_type r
-WHERE c.sort_name LIKE '%$name'
+WHERE c.sort_name LIKE '%$name%'
 AND r.id = $relType
 AND c.contact_type = r.contact_type_{$rel} {$whereIdClause} 
 ORDER BY sort_name" ;
@@ -234,7 +234,7 @@ ORDER BY sort_name" ;
                 $query = "
 SELECT sort_name, id
 FROM civicrm_contact
-WHERE sort_name LIKE '%$name'
+WHERE sort_name LIKE '%$name%'
 {$whereIdClause}
 ORDER BY sort_name ";            
         }
