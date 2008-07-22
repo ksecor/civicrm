@@ -273,7 +273,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                              'id'             => 'contact'
                              );
         
-        $this->addElement('text', 'name'      , ts('Find Target Contact'),$attributes );
+        $this->addElement('text', 'name'      , ts('Find Target Contact'), $attributes );
         $this->addElement('date', 'start_date', ts('Start Date'), CRM_Core_SelectValues::date( 'relative' ) );
         $this->addElement('date', 'end_date'  , ts('End Date')  , CRM_Core_SelectValues::date( 'relative' ) );
         $this->addElement('advcheckbox', 'is_active', ts('Enabled?'), null, 'setChecked()');
@@ -350,7 +350,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
     {
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
-       
+
         $this->set( 'searchDone', 0 );
         if ( CRM_Utils_Array::value( '_qf_Relationship_refresh', $_POST ) ) {
             $this->search( $params );

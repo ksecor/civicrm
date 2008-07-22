@@ -62,7 +62,7 @@
        <div class="messages status">
            <dl>
            <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
-           {capture assign=crmURL}{crmURL p='civicrm/contact/view/rel' q="action=add"}{/capture}
+           {capture assign=crmURL}{crmURL p='civicrm/contact/view/rel' q="cid=`$contactId`&action=add&reset=1"}{/capture}
            <dd>
                 {if $permission EQ 'edit'}
                     {ts 1=$crmURL}There are no Relationships entered for this contact. You can <a accesskey="N" href='%1'>add one</a>.{/ts}

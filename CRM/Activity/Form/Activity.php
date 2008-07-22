@@ -364,7 +364,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         $config =& CRM_Core_Config::singleton( );
 
         // add a dojo facility for searching contacts
-        $this->assign( 'dojoIncludes', " dojo.require('dojox.data.QueryReadStore'); dojo.require('dojo.parser'); dojo.require('dijit.form.FilteringSelect');" );
+        $this->assign( 'dojoIncludes', " dojo.require('dojox.data.QueryReadStore'); dojo.require('dojo.parser');" );
 
         $attributes = array( 'dojoType'       => 'civicrm.FilteringSelect',
                              'mode'           => 'remote',

@@ -273,6 +273,7 @@ ORDER BY sort_name ";
         }
 
         if ( empty( $elements ) ) {
+            $name = str_replace( '%', '', $name );
             $elements[] = array( 'name' => $name,
                                  'id'   => $name );
         }
