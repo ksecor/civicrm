@@ -172,6 +172,9 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                     $duePayment = true;
                 }
             }
+        } else if ( CRM_Utils_Array::value('pledge_block_id', $this->_values ) ) {
+            //set default to one time contribution.
+            $this->_defaults['is_pledge_frequency_interval'] = 0;  
         }
         
         return $this->_defaults;
@@ -728,8 +731,8 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                 if ( empty( $fields['pledge_amount'] ) ) {
                     $errors['pledge_amount'] = ts( 'Atleast one option needs to be checked.' );
                 }
-            } else if ( CRM_Utils_Array::value( 'is_pledge_frequency_interval', $fields ) ) {
-                if ( CRM_Utils_Rule::positiveInteger( CRM_Utils_Array::value( 'pledge_installments', $fields ) ) == false) {
+            } else if ( CRM_Utils_Array::value( 'is_pledge_frequency_interval', $fields ) ) { 
+                if ( CRM_Utils_Rule::positiveInteger( CRM_Utils_Array::value( 'pledge_installments', $fields ) ) == false ) {
                     $errors['pledge_installments'] = ts('Please enter a valid pledge installment.');
                 } else {
                     if ( CRM_Utils_Array::value( 'pledge_installments', $fields ) == null) {
@@ -742,16 +745,14 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                 }
                 
                 //validation for Pledge Frequency Interval.
-                if ( !is_numeric( $fields['pledge_frequency_interval'] ) ) {
-                    if ( !empty( $fields['pledge_frequency_interval'] ) ) {
-                        //Frequency Interval should be numeric.
-                        $errors['pledge_frequency_interval'] = ts("Please enter a valid Pledge Frequency Interval.");   
-                    } else {
-                        //Frequency Interval is  required.
-                        $errors['pledge_frequency_interval'] = ts( 'Pledge Frequency Interval is required field.' ); 
+                if ( CRM_Utils_Rule::positiveInteger( CRM_Utils_Array::value( 'pledge_frequency_interval', $fields ) ) == false ) {
+                    $errors['pledge_frequency_interval'] = ts('Please enter a valid Pledge Frequency Interval.');
+                } else {
+                    if ( CRM_Utils_Array::value( 'pledge_frequency_interval', $fields ) == null) {
+                        $errors['pledge_frequency_interval'] = ts( 'Pledge Frequency Interval. is required field.' ); 
+                    } else if ( CRM_Utils_array::value( 'pledge_frequency_interval', $fields ) == 0 )  {
+                        $errors['pledge_frequency_interval'] = ts( 'Pledge frequency interval field must be > 0' );
                     }
-                } else if ( $fields['pledge_frequency_interval'] < 1) {
-                    $errors['pledge_frequency_interval'] = ts( 'Pledge frequency interval field must be > 0' );
                 }
             }
         }
@@ -840,6 +841,12 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 
         // get the submitted form values. 
         $params = $this->controller->exportValues( $this->_name ); 
+        
+        //pledge with one-time contribution.
+        if ( CRM_Utils_Array::value( 'pledge_block_id', $this->_values ) && 
+             CRM_Utils_Array::value( 'is_pledge_frequency_interval', $params ) == 0 ) {
+            $params['pledge_frequency_interval'] = $params['pledge_installments'] = 1;
+        }
         
         $params['currencyID']     = $config->defaultCurrency;
 
