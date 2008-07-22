@@ -170,24 +170,21 @@ class CRM_Pledge_BAO_Pledge extends CRM_Pledge_DAO_Pledge
         }
         
         // skip payment stuff inedit mode
-        if ( isset( $params['id'] ) ) {
-            return;
+        if ( ! isset( $params['id'] ) ) {
+            //building payment params
+            $paymentParams['pledge_id'] = $pledge->id;
+            $paymentKeys = array( 'amount', 'installments', 'scheduled_date', 'frequency_unit', 'frequency_day', 'frequency_interval', 'contribution_id');
+            foreach ( $paymentKeys as $key ) {
+                $paymentParams[$key] = $params[$key];
+            }
+            
+            $paymentParams['scheduled_amount'] = $params['amount'] / $params['installments'];
+            
+            require_once 'CRM/Pledge/BAO/Payment.php';
+            CRM_Pledge_BAO_Payment::create( $paymentParams );
         }
-
-        //building payment params
-        
-        $paymentParams['pledge_id'       ] = $pledge->id;
-        foreach (array('amount', 'installments', 'scheduled_date', 'frequency_unit', 'frequency_day', 'frequency_interval', 'contribution_id') as $key) {
-            $paymentParams[$key] = $params[$key];
-        }
-        
-        $paymentParams['scheduled_amount'] = $params['amount'] / $params['installments'];
-
-        require_once 'CRM/Pledge/BAO/Payment.php';
-        CRM_Pledge_BAO_Payment::create( $paymentParams );
         
         $transaction->commit( );
-        
         return $pledge;
    }
     
