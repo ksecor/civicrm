@@ -98,7 +98,7 @@ else
 fi
 
 # load additional script if DBADD defined
-if [ -n $DBADD]; then
+if [ -n $DBADD ]; then
     echo; echo Loading $DBADD
     mysql -u $DBUSER $PASSWDSECTION $DBNAME < $DBADD
 fi
