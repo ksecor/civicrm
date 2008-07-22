@@ -32,6 +32,7 @@
 <tr>
     <td class="nowrap"><a href="{crmURL q="reset=1&action=update&id=`$id`&subPage=Amount"}" id="idContributionAmounts">&raquo; {ts}Contribution Amounts{/ts}</a></td>
     <td>
+        {ts}Select the payment processor to be used for this contribution page.{/ts}
         {ts}Configure contribution amount options and labels, minimum and maximum amounts.{/ts}
         {ts}Enable recurring contributions.{/ts}
         {ts}Give contributors the option to 'pay later' (e.g. mail in a check, call in a credit card, etc.).{/ts}

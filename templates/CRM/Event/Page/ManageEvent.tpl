@@ -19,11 +19,11 @@
 {include file="CRM/Event/Form/SearchEvent.tpl"}
 
 {if $rows}
-    <div class="form-item" id=event_status_id>
+    <div id=event_status_id>
         {strip}
         {include file="CRM/common/pager.tpl" location="top"}
         {include file="CRM/common/pagerAToZ.tpl}    
-        <table cellpadding="0" cellspacing="0" border="0">
+        <table class="selector">
          <tr class="columnheader">
             <th>{ts}Event{/ts}</th>
             <th>{ts}City{/ts}</th>
