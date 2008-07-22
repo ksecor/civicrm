@@ -461,11 +461,16 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing
             // if so then call this function again to get the token dataFunc
             // and assign the type 'embedded'  so that the data retrieving function
             // will know what how to handle this token.
-            if ( preg_match('/(\{\w+\.\w+\})/', $token, $matches) ) {
+            if ( preg_match_all('/(\{\w+\.\w+\})/', $token, $matches) ) {
                 $funcStruct['type'] = 'embedded_url';
-                $preg_token = '/'.preg_quote($matches[1],'/').'/';
-                $funcStruct['embed_parts'] = preg_split($preg_token,$token,2);
-                $funcStruct['token'] = $this->getDataFunc($matches[1]);
+                $funcStruct['embed_parts'] = $funcStruct['token'] = array( );
+                foreach ( $matches[1] as $match ) {
+                    $preg_token = '/'.preg_quote($match,'/').'/';
+                    $list = preg_split($preg_token,$token,2);
+                    $funcStruct['embed_parts'][] = $list[0];
+                    $token = $list[1];
+                    $funcStruct['token'][] = $this->getDataFunc($match);
+                }
             } else {
                 $funcStruct['type'] = 'url';
             }
@@ -1046,10 +1051,19 @@ AND civicrm_contact.is_opt_out =0";
         $data = $token;
 
         if ($type == 'embedded_url') {
-            $embed_data = $this->getTokenData($token, $html = false, $contact, $verp, $urls, $event_queue_id);
-            $url = join($token_a['embed_parts'],$embed_data);
+            $embed_data = array( );
+            foreach ( $token as $t ) {
+                $embed_data[] = $this->getTokenData($t, $html = false, $contact, $verp, $urls, $event_queue_id);
+            }
+            $numSlices = count( $embed_data );
+            $url = '';
+            for ( $i = 0; $i < $numSlices; $i++ ) {
+                $url .= "{$token_a['embed_parts'][$i]}{$embed_data[$i]}";
+            }
+            if ( isset( $token_a['embed_parts'][$numSlices] ) ) {
+                $url .= $token_a['embed_parts'][$numSlices];
+            }
             $data = CRM_Mailing_BAO_TrackableURL::getTrackerURL($url, $this->id, $event_queue_id);
-            
         } else if ( $type == 'url' ) {
             $data = CRM_Mailing_BAO_TrackableURL::getTrackerURL($token, $this->id, $event_queue_id);
         } else if ( $type == 'contact' ) {

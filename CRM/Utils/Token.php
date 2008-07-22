@@ -471,7 +471,7 @@ class CRM_Utils_Token
         } else if ( $token == 'checksum' ) {
             require_once 'CRM/Contact/BAO/Contact/Utils.php';
             $cs = CRM_Contact_BAO_Contact_Utils::generateChecksum( $contact['contact_id'] );
-            $value = "id={$contact['contact_id']}&cs={$cs}";
+            $value = "cs={$cs}";
         } else {
             $value = CRM_Utils_Array::retrieveValueRecursive($contact, $token);
         }
