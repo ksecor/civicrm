@@ -461,7 +461,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             if ( (  $paymentParams['is_pledge'] == 1 ) ) { 
                 $paymentParams['pledgeAmount']  =  $paymentParams['amount'];
                 if (  $paymentParams['is_pledge_frequency_interval'] ) { 
-                    $paymentParams['amount'] = $paymentParams['total_amount'] = $paymentParams['net_amount'] = (integer) $params['amount'] / $params['pledge_installments'];
+                    $paymentParams['amount'] = $paymentParams['total_amount'] = $paymentParams['net_amount'] = ceil ( $params['amount'] / $params['pledge_installments'] );
                 } else {
                     $paymentParams['net_amount']   = $paymentParams['total_amount'];
                     $paymentParams['pledge_installments'] = 1;
@@ -713,9 +713,10 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $pledgeParams['status_id']            = $contribution->contribution_status_id;
                 
                 require_once 'CRM/Pledge/BAO/Pledge.php';
-                $pledge = CRM_Pledge_BAO_Pledge::create($pledgeParams);
+                $pledge = CRM_Pledge_BAO_Pledge::create($pledgeParams); 
+                $form->_params['pledge_id'] = $pledge->id;
             }
-            
+
             if ( $form->_values['pledge_id']  ) {
                 //update the schedule when payment(s) are made 
                 require_once 'CRM/Pledge/BAO/Payment.php';
@@ -729,7 +730,6 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 }  
                 
                 //update pledge status according to the new payment statuses
-                require_once 'CRM/Pledge/BAO/Payment.php';
                 CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $form->_values['pledge_id'] );
             }
         }
