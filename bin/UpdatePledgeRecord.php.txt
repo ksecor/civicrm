@@ -147,12 +147,12 @@ class CRM_UpdatePledgeRecord
 
         foreach ( $pledgePayments as $pledgeId => $paymentIds ) {
             // 1. update the pledge /pledge payment status. returns new status when an update happens
-            echo "<br/>Checking status for Pledge Id: {$pledgeId}\n";
+            echo "<br />Checking status for Pledge Id: {$pledgeId}";
             $newStatus   = CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $pledgeId, $paymentIds,
                                                                               array_search( 'Overdue', $allStatus ) );
             
             if ( $newStatus ) {
-                echo "<br/>- status updated to: {$allStatus[$newStatus]}\n\n";
+                echo "<br />- status updated to: {$allStatus[$newStatus]}";
             }           
         }
 
@@ -216,7 +216,7 @@ class CRM_UpdatePledgeRecord
                         // 3. update pledge payment details                                                                     
                         if ( $mailSent ) {
                             CRM_Pledge_BAO_Payment::updateReminderDetails( $paymentId );
-                            echo "<br/>Payment reminder sent to: {$pledgerName} - {$toEmail} for Status {$details['pledge_status']}\n\n";
+                            echo "<br />Payment reminder sent to: {$pledgerName} - {$toEmail}";
                         }
                     }
                 }
@@ -225,7 +225,7 @@ class CRM_UpdatePledgeRecord
 }
 
 $obj =& new CRM_UpdatePledgeRecord( );
-echo "\n Updating \n\n";
+echo "Updating<br />";
 $obj->updatePledgeStatus( );
-echo "\n\n Pledge records updated. (Done) \n";
+echo "<br />Pledge records updated. (Done)";
 ?>

@@ -1,6 +1,6 @@
 {ts 1=$contact.display_name}Dear %1{/ts},
 
-{ts 1=$next_payment|crmDate}This is a reminder that the next payment on your pledge is due on %1.{/ts}
+{ts 1=$next_payment|truncate:10:''|crmDate}This is a reminder that the next payment on your pledge is due on %1.{/ts}
 
 ===========================================================
 {ts}Payment Due{/ts}
