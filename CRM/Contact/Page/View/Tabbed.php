@@ -193,6 +193,8 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
                  CRM_Core_Permission::access( $component->name ) ) {
                 $elem = $component->registerTab();
 
+                CRM_Core_Error::debug( 's', $elem );
+
                 // FIXME: not very elegant, probably needs better approach
                 // allow explicit id, if not defined, use keyword instead
                 if( array_key_exists( 'id', $elem ) ) {

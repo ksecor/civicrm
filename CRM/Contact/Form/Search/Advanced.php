@@ -58,9 +58,9 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search
     {
         require_once 'CRM/Contact/Form/Search/Criteria.php';
 
-        $this->_formType = CRM_Utils_Array::value( 'formType', $_GET );
+        $this->_searchPane = CRM_Utils_Array::value( 'searchPane', $_GET );
         
-        if ( ! $this->_formType || $this->_formType == 'basic' ) {
+        if ( ! $this->_searchPane || $this->_searchPane == 'basic' ) {
             CRM_Contact_Form_Search_Criteria::basic( $this );
         }
 
@@ -74,12 +74,12 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search
                             ts('Change Log')            => 'changeLog'      
                             );
 
-        //check if there are any custom data searable fields
+        //check if there are any custom data searchable fields
         $groupDetails = array( );
         $extends      = array( 'Contact', 'Individual', 'Household', 'Organization' );
         $groupDetails = CRM_Core_BAO_CustomGroup::getGroupDetail( null, true,
                                                                   $extends );
-        // if no searable fields unset panel
+        // if no searchable fields unset panel
         if ( empty( $groupDetails) ) {
             unset( $paneNames[ts('Custom Fields')] );
         }
@@ -115,34 +115,35 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search
 
         foreach ( $paneNames as $name => $type ) {
             if ( ! $this->_searchOptions[$type] ) {
-                continue;                
+                continue;
             }
-    
+
             $allPanes[$name] = array( 'url' => CRM_Utils_System::url( 'civicrm/contact/search/advanced',
-                                                                      "snippet=1&formType=$type" ),
+                                                                      "snippet=1&searchPane=$type" ),
                                       'open' => 'false',
                                       'id'   => $type );
             
             // see if we need to include this paneName in the current form
-            if ( $this->_formType == $type ||
+            if ( $this->_searchPane == $type ||
                  CRM_Utils_Array::value( "hidden_{$type}", $_POST ) ||
                  CRM_Utils_Array::value( "hidden_{$type}", $this->_formValues ) ) {
                 $allPanes[$name]['open'] = 'true';
+                $c = $components[ $type ];
                 if ( array_key_exists( $type, $components) ) {
-                    $c = $components[ $type ];
                     $this->add( 'hidden', "hidden_$type" , 1 );
                     $c->buildAdvancedSearchPaneForm( $this );
                 } else {
                     eval( 'CRM_Contact_Form_Search_Criteria::' . $type . '( $this );' );
                 }
+                $this->_paneTemplatePath = $c->getAdvancedSearchPaneTemplatePath();                
             }
         }
 
         $this->assign( 'allPanes', $allPanes );
-       
+
         $this->assign( 'dojoIncludes', "dojo.require('civicrm.TitlePane');dojo.require('dojo.parser');" );
 
-        if ( ! $this->_formType ) {
+        if ( ! $this->_searchPane ) {
             parent::buildQuickForm();
         } else {
             $this->assign( 'suppressForm', true );
@@ -150,11 +151,15 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search
     }
 
     function getTemplateFileName() {
-        if ( ! $this->_formType ) {
+        if ( ! $this->_searchPane ) {
             return parent::getTemplateFileName( );
         } else {
-            $name = ucfirst( $this->_formType );
-            return "CRM/Contact/Form/Search/Criteria/{$name}.tpl";
+            if ( $this->_paneTemplatePath ) {
+                return $this->_paneTemplatePath;
+            } else {
+                $name = ucfirst( $this->_searchPane );
+                return "CRM/Contact/Form/Search/Criteria/{$name}.tpl";
+            }
         }
     }
 

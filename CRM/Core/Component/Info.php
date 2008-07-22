@@ -74,6 +74,13 @@ abstract class CRM_Core_Component_Info
      * of the component tab offered to contact record view.
      */
     const COMPONENT_TAB_CLASS = 'Page_Tab';
+
+    /*
+     * Name of the class (minus component namespace path) 
+     * of the component tab offered to contact record view.
+     */
+    const COMPONENT_ADVSEARCHPANE_CLASS = 'Form_Search_AdvancedSearchPane';
+
     
     /*
      * Stores component information.
@@ -277,6 +284,19 @@ abstract class CRM_Core_Component_Info
     public function getTabObject( )
     {
         return $this->_instantiate( self::COMPONENT_TAB_CLASS );
+    }
+
+    /**
+     * Provides component's advanced search pane's template path.
+     * 
+     * @return string component's advanced search pane's template path
+     * @access public
+     *
+     */
+    public function getAdvancedSearchPaneTemplatePath( )
+    {
+        $fullpath = $this->namespace . '_' . self::COMPONENT_ADVSEARCHPANE_CLASS;
+        return str_replace('_', DIRECTORY_SEPARATOR, $fullpath . '.tpl');
     }
 
     /**
