@@ -176,8 +176,6 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         } 
         
         if ( $this->_id ) {
-            $statusId = CRM_Utils_Array::value( 'status_id', $this->_values );
-            $status =  CRM_Utils_Array::value( $statusId, CRM_Contribute_PseudoConstant::contributionStatus());
             $start_date =  CRM_Utils_Array::value( 'start_date', $this->_values );
             $create_date =  CRM_Utils_Array::value( 'start_date', $this->_values );
             if ( $this->_values['acknowledge_date'] ) {
@@ -185,7 +183,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             }
             $this->assign( 'start_date', $start_date );
             $this->assign( 'create_date', $create_date );
-
+            
         } else {
             //default values.
             $now = date("Y-m-d");
@@ -198,10 +196,12 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             $defaults['additional_reminder_day'] = 5;
             $defaults['frequency_unit']          = array_search('monthly', $this->_freqUnits );
             $defaults['contribution_type_id']    = array_search( 'Donation', CRM_Contribute_PseudoConstant::contributionType());
-            $status = 'Pending';
         }
-        $this->assign( 'status', $status );
         
+        //assign status.
+        $this->assign( 'status', CRM_Utils_Array::value( CRM_Utils_Array::value( 'status_id', $this->_values ),
+                                                         CRM_Contribute_PseudoConstant::contributionStatus( ),
+                                                         'Pending' ) );
         //honoree contact.
         if ( isset ( $defaults["honor_contact_id"] ) ) {
             require_once 'CRM/Contact/BAO/Contact.php';
@@ -470,8 +470,11 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             $params[$f] = CRM_Utils_Array::value( $f, $formValues );
         }
         
-        //adding status 'Pending' for add mode.
-        if ( $this->_action & CRM_Core_Action::ADD ) {
+        //defaults status is "Pending".
+        //if update get status.
+        if ( $this->_id ) {
+            $params['status_id'] = $this->_values['status_id'];
+        } else {
             $params['status_id'] = array_search( 'Pending', $paymentStatusTypes );
         }
         //format amount
@@ -558,14 +561,14 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             //send Acknowledgment mail.
             self::sendAcknowledgment( $params, $pledge );
             
+            $statusMsg .= ' ' . ts( "An acknowledgment email has been sent to %1.<br />", array( 1 => $this->userEmail ) );
+            
             //build the payment urls.
             if ( $paymentId ) {
                 $urlParams  = "reset=1&action=add&cid={$this->_contactID}&ppid={$paymentId}&context=pledge";
                 $contribURL = CRM_Utils_System::url( 'civicrm/contact/view/contribution', $urlParams );
                 $urlParams .= "&mode=live";
                 $creditURL  = CRM_Utils_System::url( 'civicrm/contact/view/contribution', $urlParams );
-                
-                $statusMsg .= ' ' . ts( "An acknowledgment email has been sent to %1.<br />", array( 1 => $this->userEmail ) );
                 
                 //check if we can process credit card payment.
                 $processors = CRM_Core_PseudoConstant::paymentProcessor( false, false,

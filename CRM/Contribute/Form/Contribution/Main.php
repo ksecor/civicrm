@@ -529,8 +529,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                 $overduePayments = array( );
                 $now = date('Ymd');
                 foreach( $allPayments as $payID => $value ) {
-                    if ( $allStatus[$value['status_id']] == 'Overdue' ||
-                         CRM_Utils_Date::overdue( CRM_Utils_Date::customFormat( $value['scheduled_date'], '%Y%m%d'), $now ) ) {
+                    if ( $allStatus[$value['status_id']] == 'Overdue' ) {
                         $overduePayments[$payID] = array( 'id'               => $payID ,
                                                           'scheduled_amount' => CRM_Utils_Rule::cleanMoney( $value['scheduled_amount']),
                                                           'scheduled_date'   => CRM_Utils_Date::customFormat( $value['scheduled_date'], 
