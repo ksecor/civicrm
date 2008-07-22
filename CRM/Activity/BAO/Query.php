@@ -124,6 +124,15 @@ class CRM_Activity_BAO_Query
             $query->_tables['civicrm_activity']  = $query->_whereTables['civicrm_activity'] = 1;
             return;
 
+        case 'activity_details':
+            $value = strtolower(addslashes(trim($value)));
+            $op = 'LIKE';
+            $query->_where[$grouping][] = "civicrm_activity.details $op '%{$value}%'";
+
+            $query->_qill[$grouping ][] = ts( 'Activity Content %2 %1', array( 1 => $value, 2 => $op) );
+            $query->_tables['civicrm_activity']  = $query->_whereTables['civicrm_activity'] = 1;
+            return;
+
         case 'activity_start_date_low':
         case 'activity_start_date_high':
             

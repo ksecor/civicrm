@@ -194,6 +194,8 @@ class CRM_Contact_Form_Search_Criteria {
             $caseViolation = CRM_Core_OptionGroup::values('f1_case_violation');
             $form->addElement('select', 'activity_activitytag3_id',  ts( 'Violation Type'  ),  
                               array( '' => ts( '-select-' ) ) + $caseViolation);
+            
+            $form->addElement( 'text', 'activity_details', ts( 'Content' ) );
         }
 
         // Date selects for activity date
