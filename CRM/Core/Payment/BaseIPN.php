@@ -66,7 +66,6 @@ class CRM_Core_Payment_BaseIPN {
 
         $objects['contact']          =& $contact;
         $objects['contribution']     =& $contribution;
-
         if ( ! $this->loadObjects( $input, $ids, $objects, $required ) ) {
             return false;
         }
@@ -98,12 +97,13 @@ class CRM_Core_Payment_BaseIPN {
 
     function loadObjects( &$input, &$ids, &$objects, $required ) {
         $contribution =& $objects['contribution'];
-
+     
         $objects['membership']        = null;
         $objects['contributionRecur'] = null;
         $objects['contributionType']  = null;
         $objects['event']             = null;
         $objects['participant']       = null;
+        $objects['pledge_payment']    = null;
 
         require_once 'CRM/Contribute/DAO/ContributionType.php';
         $contributionType =& new CRM_Contribute_DAO_ContributionType( );
@@ -119,20 +119,25 @@ class CRM_Core_Payment_BaseIPN {
             // get the contribution page id from the contribution
             // and then initialize the payment processor from it
             if ( ! $contribution->contribution_page_id ) {
+                if ( !CRM_Utils_Array::value( 'pledge_payment', $ids ) ) {
                 // return if we are just doing an optional validation
                 if ( ! $required ) {
                     return true;
                 }
+                
                 CRM_Core_Error::debug_log_message( "Could not find contribution page for contribution record: $contributionID" );
                 echo "Failure: Could not find contribution page for contribution record: $contributionID<p>";
                 return false;
+                }
             }
-                
-            // get the payment processor id from contribution page
-            $paymentProcessorID = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage',
-                                                               $contribution->contribution_page_id,
-                                                               'payment_processor_id' );
-                
+            //for offline pldedge we dont have contribution page.
+            if ( !CRM_Utils_Array::value( 'pledge_payment', $ids ) ) {
+                // get the payment processor id from contribution page
+                $paymentProcessorID = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage',
+                                                                   $contribution->contribution_page_id,
+                                                                   'payment_processor_id' );
+            }
+                        
             // now retrieve the other optional objects
             if ( isset( $ids['membership'] ) ) {
                 require_once 'CRM/Member/DAO/Membership.php';
@@ -150,7 +155,23 @@ class CRM_Core_Payment_BaseIPN {
 
                 $objects['membership'] =& $membership;
             }
-            
+                  
+            if ( isset( $ids['pledge_payment'] ) ) {
+                require_once 'CRM/Pledge/DAO/Payment.php';
+                
+                $objects['pledge_payment'] = array( );
+                foreach ( $ids['pledge_payment'] as $key => $paymentID ) { 
+                    $payment = new CRM_Pledge_DAO_Payment( );
+                    $payment->id = $paymentID;
+                    if ( ! $payment->find( true ) ) {
+                        CRM_Core_Error::debug_log_message( "Could not find pledge payment record: $pledge_paymentID" );
+                        echo "Failure: Could not find pledge payment record: $pledge_paymentID<p>";
+                        return false;
+                    } 
+                    $objects['pledge_payment'][] = $payment;
+                } 
+            }
+           
             if ( isset( $ids['contributionRecur'] ) ) {
                 require_once 'CRM/Contribute/DAO/ContributionRecur.php';
                 $recur =& new CRM_Contribute_DAO_ContributionRecur( );

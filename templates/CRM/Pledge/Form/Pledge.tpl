@@ -36,22 +36,34 @@
         <tr><td class="label">{$form.installments.label}</td><td>{$form.installments.html}&nbsp;&nbsp;{$form.frequency_unit.html} {ts}installments of{/ts} {if $action eq 1}{$form.eachPaymentAmount.html|crmMoney}{elseif $action eq 2}{$eachPaymentAmount|crmMoney}{/if} {ts}each{/ts}</td></tr>
         <tr><td class="label">{$form.frequency_day.label}</td><td>{$form.frequency_day.html} {ts}day of the period{/ts}<br />
             <span class="description">{ts}This applies to weekly, monthly and yearly payments.{/ts}</td></tr>
+        {if $form.create_date}	
         <tr><td class="label">{$form.create_date.label}</td><td>{$form.create_date.html}
             {if $hideCalender neq true}
             {include file="CRM/common/calendar/desc.tpl" trigger=trigger_pledge_1}
             {include file="CRM/common/calendar/body.tpl" dateVar=create_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_pledge_1}
             {/if}<br />
+        {/if}
+        {if $create_date}
+            <tr><td class="label">Pledge Made</td><td class="view-value">{$create_date|truncate:10:''|crmDate}
+        {/if}<br />
             <span class="description">{ts}Date when pledge was made by the contributor.{/ts}</span></td></tr>
-        <tr><td class="label">{$form.start_date.label}</td><td>{$form.start_date.html}
+       
+        {if $form.start_date}	
+            <tr><td class="label">{$form.start_date.label}</td><td>{$form.start_date.html}
             {if $hideCalender neq true}
             {include file="CRM/common/calendar/desc.tpl" trigger=trigger_pledge_2}
             {include file="CRM/common/calendar/body.tpl" dateVar=start_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_pledge_2}
             {/if}<br />
+        {/if}
+        {if $start_date}
+            <tr><td class="label">Payments Start</td><td class="view-value">{$start_date|truncate:10:''|crmDate}
+        {/if}<br />
             <span class="description">{ts}Date of first pledge payment.{/ts}</span></td></tr>
+       
         {if $email}
         {if $form.is_acknowledge }
             <tr><td class="label">{$form.is_acknowledge.label}</td><td>{$form.is_acknowledge.html}<br />
-                <span class="description">{ts}Automatically email an acknowledgment of this pledge to {$email}?{/ts}</span></td></tr>
+            <span class="description">{ts}Automatically email an acknowledgment of this pledge to {$email}?{/ts}</span></td></tr>
         {/if}
         {/if}
         <tr id="acknowledgeDate"><td class="label">{$form.acknowledge_date.label}</td><td>{$form.acknowledge_date.html}

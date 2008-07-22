@@ -178,6 +178,14 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         if ( $this->_id ) {
             $statusId = CRM_Utils_Array::value( 'status_id', $this->_values );
             $status =  CRM_Utils_Array::value( $statusId, CRM_Contribute_PseudoConstant::contributionStatus());
+            $start_date =  CRM_Utils_Array::value( 'start_date', $this->_values );
+            $create_date =  CRM_Utils_Array::value( 'start_date', $this->_values );
+            if ( $this->_values['acknowledge_date'] ) {
+                $defaults['acknowledge_date'] = CRM_Utils_Array::value( 'acknowledge_date', $this->_values );
+            }
+            $this->assign( 'start_date', $start_date );
+            $this->assign( 'create_date', $create_date );
+
         } else {
             //default values.
             $now = date("Y-m-d");
@@ -312,21 +320,20 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         $this->add( 'text', 'eachPaymentAmount', ts('each'), array('size'=>10, 'style'=> "background-color:#EBECE4", 'READONLY') );
 
         //add various dates
-        $element =& $this->add('date', 'create_date', ts('Pledge Made'), CRM_Core_SelectValues::date('activityDate'), true );    
-        $this->addRule('create_date', ts('Select a valid date for the day the pledge was made.'), 'qfDate');
+        if ( !$this->_id ) {
+            $element =& $this->add('date', 'create_date', ts('Pledge Made'), CRM_Core_SelectValues::date('activityDate'), true );    
+            $this->addRule('create_date', ts('Select a valid date for the day the pledge was made.'), 'qfDate');
+
+            $element =& $this->add('date', 'start_date', ts('Payments Start'), CRM_Core_SelectValues::date('activityDate'), true ); 
+            $this->addRule('start_date', ts('Select a valid payments start date.'), 'qfDate');
+        }
+        
         if ( $this->_id ) {
             $eachPaymentAmount = $this->_values['amount'] / $this->_values['installments'];
             $this->assign("eachPaymentAmount" , $eachPaymentAmount );
             $this->assign("hideCalender" , true );
-            $element->freeze( );
         }
         
-        $element =& $this->add('date', 'start_date', ts('Payments Start'), CRM_Core_SelectValues::date('activityDate'), true ); 
-        $this->addRule('start_date', ts('Select a valid payments start date.'), 'qfDate');
-        if ( $this->_id ) {
-            $element->freeze( );
-        }
-    
         if ( CRM_Utils_Array::value('status_id', $this->_values) != 
              array_search( 'Cancelled', CRM_Contribute_PseudoConstant::contributionStatus( )) ) { 
           

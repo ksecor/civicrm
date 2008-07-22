@@ -34,7 +34,7 @@
  */
 
 require_once 'CRM/Core/Form.php';
-
+require_once 'CRM/Contribute/PseudoConstant.php';
 /**
  * This class generates form components for Pledge
  * 
@@ -50,16 +50,16 @@ class CRM_Pledge_Form_PledgeView extends CRM_Core_Form
     public function preProcess( ) 
     {
         require_once 'CRM/Pledge/BAO/Pledge.php';
-        require_once 'CRM/Contribute/BAO/Contribution.php';
-
+            
         $values = array( ); 
         $ids    = array( ); 
         $params = array( 'id' => $this->get( 'id' ) ); 
         CRM_Pledge_BAO_Pledge::getValues( $params, 
                                           $values,  
                                           $ids );
-        $values['contribution_status_id'] = $values['status_id'];
-        CRM_Contribute_BAO_Contribution::resolveDefaults( $values );                 
+               
+        $values['frequencyUnits'] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $values['frequency_unit'], 'label', 'value' );
+        $values['eachPaymentAmount'] = $values['amount'] / $values['installments'];
         
         if (isset( $values["honor_contact_id"] ) && $values["honor_contact_id"] ) {
             $sql = "SELECT display_name FROM civicrm_contact WHERE id = " . $values["honor_contact_id"];
@@ -73,12 +73,16 @@ class CRM_Pledge_Form_PledgeView extends CRM_Core_Form
             $values['honor_type'] = $honor[$values['honor_type_id']]; 
         }
         
-        $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Contribution', $this->get( 'id' ),0,$values['contribution_type_id'] );
-        CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $groupTree );
+        if ( $values['contribution_page_id'] ) { 
+            $values['contribution_page'] = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $values['contribution_page_id'], 'title' );
+        }
         
-        // Get Note
-        $noteValue = CRM_Core_BAO_Note::getNote( $values['id'], 'civicrm_contribution' );
-        $values['note'] =  array_values($noteValue);
+        $values['contribution_type'] = CRM_Utils_Array::value( $values['contribution_type_id'], CRM_Contribute_PseudoConstant::contributionType() );
+        
+        if ( $values['status_id'] ) { 
+            $values['pledge_status'] = CRM_Utils_Array::value( $values['status_id'], CRM_Contribute_PseudoConstant::contributionStatus() );
+        }
+             
         $this->assign( $values );
     }
 
