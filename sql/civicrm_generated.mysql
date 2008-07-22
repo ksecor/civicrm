@@ -827,7 +827,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `civicrm_pledge_block` WRITE;
 /*!40000 ALTER TABLE `civicrm_pledge_block` DISABLE KEYS */;
-INSERT INTO `civicrm_pledge_block` (`id`, `entity_table`, `entity_id`, `pledge_frequency_unit`, `is_pledge_interval`, `max_reminders`, `initial_reminder_day`, `additional_reminder_day`) VALUES (1,'civicrm_contribution_page',3,'weekmonthyear',1,1,5,5);
+INSERT INTO `civicrm_pledge_block` (`id`, `entity_table`, `entity_id`, `pledge_frequency_unit`, `is_pledge_interval`, `max_reminders`, `initial_reminder_day`, `additional_reminder_day`) VALUES (1,'civicrm_contribution_page',3,'weekmonthyear',0,1,5,5);
 /*!40000 ALTER TABLE `civicrm_pledge_block` ENABLE KEYS */;
 UNLOCK TABLES;
 
