@@ -674,29 +674,48 @@ ORDER BY name";
     function caseSubject( &$config ) 
     {
         require_once 'CRM/Utils/Type.php';
-        if ( isset( $_GET['name'] ) && $_GET['name'] ) {
-            $name     = strtolower( CRM_Utils_Type::escape( $_GET['name'], 'String'  ) );
-            $name     = str_replace( '*', '%', $name );
-        }
+        $whereclause = '';  
+        $name     =  CRM_Utils_Type::escape( $_GET['name'], 'String'  ) ;
+   
+         if ( isset( $_GET['id'] ) ){
+              if ( is_numeric( $_GET['id'] ) ) {
+                  $caseId = CRM_Utils_Type::escape( $_GET['id'], 'Integer' );
+                  $whereclause = "id =  $caseId";
+              } else{
+                   $name = CRM_Utils_Type::escape( $_GET['id'], 'String'  ) ;
+              }
+         }
+
+         if ($name){
+            $name      = str_replace( '*', '%', $name );
+            $whereclause = "subject like '$name'";
+         }
         $contactID = CRM_Utils_Type::escape( $_GET['c'], 'Integer' );
 
         $query = "
 SELECT subject,id
 FROM civicrm_case
-WHERE contact_id = $contactID and subject like '$name'
+WHERE contact_id = $contactID and {$whereclause}
 ORDER BY subject";
 
         $dao = CRM_Core_DAO::executeQuery( $query );
         $elements = array( );
 
         while ( $dao->fetch( ) ) {
+
             $elements[] = array('name'  => $dao->subject,
                                 'value' => $dao->id
                                );
         }
 
+        if ( empty( $elements ) ) {
+            $elements[] = array( 'name' => $name,
+                                 'value'=>  0);
+        }
+
+
         require_once "CRM/Utils/JSON.php";
-        echo CRM_Utils_JSON::encode( $elements, 'value');
+        echo CRM_Utils_JSON::encode( $elements, 'value' );
     }
 
     /**

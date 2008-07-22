@@ -466,7 +466,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             CRM_Case_BAO_Case::getValues( $params, $values, $ids );
             if ( $values ) {
                 $this->assign('hasCases', 1); 
-                $caseAttributes = array( 'dojoType'       => 'dijit.form.FilteringSelect',
+                $caseAttributes = array( 'dojoType'       => 'civicrm.FilteringSelect',
                                          'mode'           => 'remote',
                                          'store'          => 'caseStore');
                 
@@ -544,7 +544,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         if  ( CRM_Utils_Array::value( '_qf_Activity_next_',$fields) == 'Delete' ) {
             return true;
         }
-
+ 
         $errors = array( );
         if ( ! $self->_single && ! $fields['activity_type_id']) {
             $errors['activity_type_id'] = ts('Activity Type is a required field');
@@ -553,6 +553,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         //FIX me temp. comment
         // make sure if associated contacts exist
         require_once 'CRM/Contact/BAO/Contact.php';
+       
 //         if ( $fields['source_contact'] ) {
 //             $source_contact_id   = self::_getIdByDisplayName( $fields['source_contact'] );
             
@@ -581,6 +582,9 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             $errors['status'] = ts('You cannot record scheduled email activity.');
         } else if ( $fields['activity_type_id'] == 4 && $fields['status'] == 'Scheduled' ) {
             $errors['status'] = ts('You cannot record scheduled SMS activity.');
+        }
+        if(isset($fields['case_subject'] ) && $fields['case_subject'] == 0){
+            $errors['case_subject'] = ts('Invalid Case');
         }
 
         return $errors;

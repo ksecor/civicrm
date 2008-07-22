@@ -221,20 +221,10 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
         require_once 'CRM/Case/DAO/CaseActivity.php';
         $caseActivityDAO =& new CRM_Case_DAO_CaseActivity();
         $caseActivityDAO->activity_id = $params['activity_id'];
+        $caseActivityDAO->case_id = $params['subject'];
+
         $caseActivityDAO->find( true );
-
-        if ( $params['subject'] ) { 
-            //get case id
-            require_once 'CRM/Case/DAO/Case.php';
-            $caseDAO          =& new CRM_Case_DAO_Case();
-            $caseDAO->subject = $params['subject'];
-            $caseDAO->find(true);
-
-            $caseActivityDAO->case_id = $caseDAO->id;
-            $caseActivityDAO->save();
-        } else {
-            $caseActivityDAO->delete( );
-        }
+        $caseActivityDAO->save();
     } 
 
     /**
