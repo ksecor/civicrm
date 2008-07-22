@@ -577,6 +577,8 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                 $this->addRadio( 'is_pledge_frequency_interval', ts('Pledge Frequency Interval'), $pledgeOptions,
                                  null, array( '<br/>' ) );
                 $this->addElement( 'text', 'pledge_installments', ts('Installments'), array('size'=>3) );
+                $this->addRule('pledge_installments', ts('Please enter a valid pledge installment.'), 'positiveInteger');
+                
                 if ( CRM_Utils_Array::value( 'is_pledge_interval', $pledgeBlock ) ) {
                     $this->assign( 'is_pledge_interval', CRM_Utils_Array::value( 'is_pledge_interval', $pledgeBlock ));
                     $this->addElement( 'text', 'pledge_frequency_interval', null, array('size'=>3) );
@@ -609,7 +611,6 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
     static function formRule( &$fields, &$files, &$self ) 
     { 
         $errors = array( ); 
-
         $amount = self::computeAmount( $fields, $self );
 
         if ( isset( $fields['selectProduct'] ) &&
@@ -729,19 +730,12 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                     $errors['pledge_amount'] = ts( 'Atleast one option needs to be checked.' );
                 }
             } else if ( CRM_Utils_array::value( 'is_pledge_frequency_interval', $fields ) ) {
-                if ( is_numeric( $fields['pledge_installments'] ) ) {
-                    //installments should be > 1
-                    if ( $fields['pledge_installments'] < 1 ) {
-                        $errors['pledge_installments'] = ts( 'Pledge Installments field must be > 1' ); 
-                    } else if ( $fields['pledge_installments'] ==  1 ) {
-                        $errors['pledge_installments'] = ts('Pledges consist of multiple scheduled payments. Select one-time contribution if you want to make your gift in a single payment.');
-                    }
-                } else if ( !empty( $fields['pledge_installments'] ) ) {
-                    //installments should be numeric.
-                    $errors['pledge_installments'] = ts("Please enter a valid Pledge Installments.");
-                } else {
-                    //installments is  required.
+                if ( CRM_Utils_array::value( 'pledge_installments', $fields ) == null) {
                     $errors['pledge_installments'] = ts( 'Pledge Installments is required field.' ); 
+                } else if (  CRM_Utils_array::value( 'pledge_installments', $fields ) == 1 ) {
+                    $errors['pledge_installments'] = ts('Pledges consist of multiple scheduled payments. Select one-time contribution if you want to make your gift in a single payment.');
+                } else if (  CRM_Utils_array::value( 'pledge_installments', $fields ) == 0 ) {
+                    $errors['pledge_installments'] = ts('Pledge Installments field must be > 1.');
                 }
                 
                 //validation for Pledge Frequency Interval.
