@@ -673,23 +673,29 @@ ORDER BY name";
     function caseSubject( &$config ) 
     {
         require_once 'CRM/Utils/Type.php';
+        if ( isset( $_GET['name'] ) && $_GET['name'] ) {
+            $name     = strtolower( CRM_Utils_Type::escape( $_GET['name'], 'String'  ) );
+            $name     = str_replace( '*', '%', $name );
+        }
         $contactID = CRM_Utils_Type::escape( $_GET['c'], 'Integer' );
 
         $query = "
-SELECT subject
+SELECT subject,id
 FROM civicrm_case
-WHERE contact_id = $contactID 
+WHERE contact_id = $contactID and subject like '$name'
 ORDER BY subject";
 
         $dao = CRM_Core_DAO::executeQuery( $query );
         $elements = array( );
-       
+
         while ( $dao->fetch( ) ) {
-            $elements[] = array('name' => $dao->subject);
+            $elements[] = array('name'  => $dao->subject,
+                                'value' => $dao->id
+                               );
         }
 
         require_once "CRM/Utils/JSON.php";
-        echo CRM_Utils_JSON::encode( $elements, 'name');
+        echo CRM_Utils_JSON::encode( $elements, 'value');
     }
 
     /**

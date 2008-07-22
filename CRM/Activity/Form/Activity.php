@@ -263,7 +263,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         if ( isset( $this->_caseId ) ) {
             $defaults['case_subject'] = CRM_Core_DAO::getFieldValue('CRM_Case_BAO_Case', $this->_caseId,'subject' );
         }
-        
+       
         if ( CRM_Utils_Array::value( 'case_subject' , $defaults ) ){
             $this->assign( 'subject_value', $defaults['case_subject'] );
         }
@@ -363,7 +363,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         $config =& CRM_Core_Config::singleton( );
 
         // add a dojo facility for searching contacts
-        $this->assign( 'dojoIncludes', " dojo.require('dojox.data.QueryReadStore'); dojo.require('dojo.parser');" );
+        $this->assign( 'dojoIncludes', " dojo.require('dojox.data.QueryReadStore'); dojo.require('dojo.parser'); dojo.require('dijit.form.FilteringSelect');" );
 
         $attributes = array( 'dojoType'       => 'civicrm.FilteringSelect',
                              'mode'           => 'remote',
@@ -465,7 +465,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             CRM_Case_BAO_Case::getValues( $params, $values, $ids );
             if ( $values ) {
                 $this->assign('hasCases', 1); 
-                $caseAttributes = array( 'dojoType'       => 'dijit.form.ComboBox',
+                $caseAttributes = array( 'dojoType'       => 'dijit.form.FilteringSelect',
                                          'mode'           => 'remote',
                                          'store'          => 'caseStore');
                 
@@ -475,8 +475,10 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                 $this->assign('caseUrl',$caseUrl );
                 
                 $subject = $this->add( 'text','case_subject',ts('Case'), $caseAttributes );
+               
                 if ( $subject->getValue( ) ) {
-                    $this->assign( 'subject_value',  $subject->getValue( ) );
+                    $caseSbj=CRM_Core_DAO::getFieldValue('CRM_Case_DAO_Case',$subject->getValue( ), 'subject' );
+                    $this->assign( 'subject_value',  $caseSbj );
                 }
             } else {
                 $this->assign('hasCases', 0);
@@ -580,16 +582,6 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             $errors['status'] = ts('You cannot record scheduled SMS activity.');
         }
 
-        if ( $fields['case_subject'] ) {
-            require_once 'CRM/Case/DAO/Case.php';
-            $caseDAO =& new CRM_Case_DAO_Case();
-            $caseDAO->subject = $fields['case_subject'];
-            $caseDAO->find(true);
-            
-            if ( !$caseDAO->id ) {
-                $errors['case_subject'] = ts('Invalid Case');
-            }
-        }
         return $errors;
     }
     
