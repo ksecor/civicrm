@@ -152,11 +152,13 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         } else {
             //if event is newly created, use submitted values for
             //discount labels
-            $k = 1;
-            foreach( $this->_submitValues['label'] as $value ) {
-                if ( $value ) {
-                    $defaults["discounted_label"][$k] = $value ;
+            if ( is_array( $this->_submitValues['label'] ) ) {
+                $k = 1;
+                foreach( $this->_submitValues['label'] as $value ) {
+                    if ( $value ) {
+                        $defaults["discounted_label"][$k] = $value ;
                     $k++;
+                    }
                 }
             }
         }
