@@ -24,14 +24,6 @@
      <weight>1010</weight>
   </item>
   <item>
-     <path>civicrm/grant/add</path>
-     <path_arguments>action=add</path_arguments>
-     <title>New Grant</title>
-     <access_arguments>access CiviGrant</access_arguments>
-     <page_type>1</page_type>
-     <weight>1030</weight>
-  </item>
-  <item>
      <path>civicrm/grant/import</path>
      <title>Import Grants</title>
      <page_callback>CRM_Grant_Import_Controller</page_callback>
