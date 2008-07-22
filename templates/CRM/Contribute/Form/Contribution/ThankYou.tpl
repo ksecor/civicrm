@@ -82,6 +82,14 @@
             {/if}
             </p>
         {/if}
+	{if $is_pledge}
+            {if $is_pledge_frequency_interval}
+                <p><strong>{ts 1=$pledge_frequency_interval 2=$pledge_frequency_unit 3=$pledge_installments}I pledge to contribute this amount every %1 %2(s) for %3 installments.{/ts}</strong></p>
+            {else}
+                <p><strong>{ts}This is a one-time contribution.{/ts}</strong></p>	
+            {/if}
+            <p>{ts 1=$receiptFromEmail}Your initial pledge payment will be processed when you click &quot;Make Contribution&quot; below. You will be able to modify or cancel future pledge payments at any time by logging in to your account or contacting us at %1.{/ts}</p>
+        {/if}
     </div>
     {/if}
     
