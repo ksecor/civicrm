@@ -47,22 +47,18 @@
         </td>
 
         <td>
-        {if empty( $row.target_contact_ids )}
+        {if !$row.target_contact_name}
           <em>n/a</em>
-        {elseif count($row.target_contact_ids) eq 1}
-          {$row.target_contact_name}
         {else}
-          {$row.target_contact_name}...
+          {$row.target_contact_name}
         {/if}			
         </td>
 
         <td>
-        {if empty( $row.assignee_contact_ids )}
+        {if !$row.assignee_contact_name}
             <em>n/a</em>
-        {elseif count($row.assignee_contact_ids) eq 1}
-            {$row.assignee_contact_name}
         {else}
-            {$row.assignee_contact_name}...
+            {$row.assignee_contact_name}
         {/if}			
         </td>
 

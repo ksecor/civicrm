@@ -458,6 +458,10 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         
         $query = "select DISTINCT(civicrm_activity.id), civicrm_activity.*,
                          sourceContact.sort_name as source_contact_name,
+                         MAX(civicrm_activity_target.target_contact_id),
+			             targetContact.sort_name as target_contact_name,
+                         MAX(civicrm_activity_assignment.assignee_contact_id),
+			             assigneeContact.sort_name as assignee_contact_name,
                          civicrm_option_value.value as activity_type_id,
                          civicrm_option_value.label as activity_type,
                          civicrm_case_activity.case_id as case_id,
@@ -469,6 +473,10 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                             civicrm_activity.id = civicrm_activity_assignment.activity_id 
                   left join civicrm_contact sourceContact on 
                             source_contact_id = sourceContact.id 
+		          left join civicrm_contact targetContact on 
+                            target_contact_id = targetContact.id 
+                  left join civicrm_contact assigneeContact on 
+                            assignee_contact_id = assigneeContact.id
                   left join civicrm_option_value on
                             ( civicrm_activity.activity_type_id = civicrm_option_value.value )
                   left join civicrm_option_group on  
@@ -479,7 +487,8 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                             civicrm_case_activity.case_id = civicrm_case.id
                   where {$clause}
                         and civicrm_option_group.name = 'activity_type' 
-                        and is_test = 0  and {$contributionFilter} and {$case} and {$statusClause}";
+                        and is_test = 0  and {$contributionFilter} and {$case} and {$statusClause} 
+                        GROUP BY id";
 
         $order = '';
 
@@ -513,6 +522,10 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                                  'subject',                                 
                                  'source_contact_name',
                                  'source_contact_id',
+                                 'target_contact_name',
+                                 'target_contact_id',
+                                 'assignee_contact_name',
+                                 'asignee_contact_id',
                                  'source_record_id',
                                  'case_id',
                                  'case_subject' );
@@ -526,13 +539,6 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             $rowCnt++;
         }
 
-        foreach ($values as $activity => &$fields) {
-            $fields['target_contact_ids'] = CRM_Activity_BAO_ActivityTarget::retrieveTargetIdsByActivityId($fields['id']);
-            
-            $fields['assignee_contact_ids'] = CRM_Activity_BAO_ActivityAssignment::retrieveAssigneeIdsByActivityId($fields['id']);
-            
-        } 
-        
         return $values;
     }
 
