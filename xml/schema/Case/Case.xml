@@ -23,12 +23,14 @@
       <required>true</required>
       <comment>Contact ID of contact record given case belongs to.</comment>
        <add>1.8</add>
+       <drop>2.1</drop>
   </field>
   <foreignKey>
        <name>contact_id</name>
        <table>civicrm_contact</table>
        <key>id</key>
        <add>1.8</add>
+       <drop>2.1</drop>       
        <onDelete>CASCADE</onDelete>
   </foreignKey>  
   <field>
