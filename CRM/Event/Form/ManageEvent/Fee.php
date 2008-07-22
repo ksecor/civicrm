@@ -521,8 +521,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         if ( CRM_Utils_Array::value( '_qf_Fee_submit', $_POST ) ) {
             $this->buildAmountLabel( );
             $this->set( 'discountSection', 1 );
-            CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/event/manage#isDiscount',
-                                                               null, true, null, false ) );
+            CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/event/manage','#isDiscount') );
             return;
         }
 
