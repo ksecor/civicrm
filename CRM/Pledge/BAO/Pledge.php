@@ -152,17 +152,19 @@ class CRM_Pledge_BAO_Pledge extends CRM_Pledge_DAO_Pledge
        
         $paymentParams = array( );
         $paymentParams['status_id'] = $params['status_id'];
-         require_once 'CRM/Contribute/PseudoConstant.php';
-        if ( isset ( $params['contribution_id'] ) ) {
-            if ( $params['installments'] > 1 ) {
-                $params['status_id'] = array_search( 'In Progress', 
-                                                     CRM_Contribute_PseudoConstant::contributionStatus());
-            } 
-        } else {
-            $params['status_id'] = array_search( 'Pending', 
-                                                 CRM_Contribute_PseudoConstant::contributionStatus());
+        require_once 'CRM/Contribute/PseudoConstant.php';
+        
+        //update the pledge status only if it does NOT come from form
+        if ( ! isset ( $params['pledge_status_id'] ) ) {
+            if ( isset ( $params['contribution_id'] ) ) {
+                if ( $params['installments'] > 1 ) {
+                    $params['status_id'] = array_search( 'In Progress', CRM_Contribute_PseudoConstant::contributionStatus());
+                } 
+            } else {
+                $params['status_id'] = array_search( 'Pending', CRM_Contribute_PseudoConstant::contributionStatus());
+            }
         }
-
+        
         $pledge = self::add( $params );
         if ( is_a( $pledge, 'CRM_Core_Error') ) {
             $pledge->rollback( );

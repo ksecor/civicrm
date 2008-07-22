@@ -473,9 +473,9 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         //defaults status is "Pending".
         //if update get status.
         if ( $this->_id ) {
-            $params['status_id'] = $this->_values['status_id'];
+            $params['pledge_status_id'] = $params['status_id'] = $this->_values['status_id'];
         } else {
-            $params['status_id'] = array_search( 'Pending', $paymentStatusTypes );
+            $params['pledge_status_id'] = $params['status_id'] = array_search( 'Pending', $paymentStatusTypes );
         }
         //format amount
         $params['amount'] = CRM_Utils_Rule::cleanMoney( CRM_Utils_Array::value( 'amount', $formValues ) );
