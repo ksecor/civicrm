@@ -427,7 +427,7 @@ WHERE  contribution_id = {$this->_id}
             $this->assign( 'is_pay_later', true ); 
         }
         $this->assign( 'contribution_status_id', CRM_Utils_Array::value('contribution_status_id',$defaults ) );
-        
+        $this->assign( "receive_date" ,$defaults['receive_date'] );
         return $defaults;
     }
     
@@ -598,7 +598,6 @@ WHERE  contribution_id = {$this->_id}
         $this->addRule('receive_date', ts('Select a valid date.'), 'qfDate');
         if ( $this->_online ) {
             $this->assign("hideCalender" , true );
-            $element->freeze( );
         }
         $this->addElement('date', 'receipt_date', ts('Receipt Date'), CRM_Core_SelectValues::date('activityDate')); 
         $this->addRule('receipt_date', ts('Select a valid date.'), 'qfDate');

@@ -65,7 +65,8 @@
             <span class="description">{ts}Date that a receipt was sent to the contributor.{/ts}</span></td></tr>	
         {/if}
 	{if !$contributionMode}
-        <tr><td class="label">{$form.receive_date.label}</td><td>{$form.receive_date.html}
+        <tr><td class="label">{$form.receive_date.label}</td>
+            <td>{if $hideCalender neq true}{$form.receive_date.html}{else}{$receive_date|truncate:10:''|crmDate}{/if}
             {if $hideCalender neq true}
                  {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_1}
                  {include file="CRM/common/calendar/body.tpl" dateVar=receive_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_contribution_1}
