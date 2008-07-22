@@ -117,8 +117,11 @@ class CRM_Case_BAO_Query
                 $names[] = $caseType[$val];
             }
             require_once 'CRM/Case/BAO/Case.php';
-            $value = CRM_Case_BAO_Case::VALUE_SEPERATOR.implode(CRM_Case_BAO_Case::VALUE_SEPERATOR, $value) .CRM_Case_BAO_Case::VALUE_SEPERATOR;
-            $query->_where[$grouping][] = "civicrm_case.case_type_id LIKE '%{$value}%'";
+            $value = CRM_Case_BAO_Case::VALUE_SEPERATOR . 
+                implode( CRM_Case_BAO_Case::VALUE_SEPERATOR . "%' OR civicrm_case.case_type_id LIKE '%" .
+                         CRM_Case_BAO_Case::VALUE_SEPERATOR, $value) . 
+                CRM_Case_BAO_Case::VALUE_SEPERATOR;
+            $query->_where[$grouping][] = "(civicrm_case.case_type_id LIKE '%{$value}%')";
 
             $value = $caseType[$value];
             $query->_qill[$grouping ][] = ts( 'Case Type %1', array( 1 => $op))  . ' ' . implode( ' ' . ts('or') . ' ', $names );
@@ -133,9 +136,11 @@ class CRM_Case_BAO_Query
                 $names[] = $caseSubtype[$val];
             }
             require_once 'CRM/Case/BAO/Case.php';
-            $value = CRM_Case_BAO_Case::VALUE_SEPERATOR.implode(CRM_Case_BAO_Case::VALUE_SEPERATOR, $value) .CRM_Case_BAO_Case::VALUE_SEPERATOR;
-            $query->_where[$grouping][] = "civicrm_case.casetag2_id LIKE  '%{$value}%'";
-
+            $value = CRM_Case_BAO_Case::VALUE_SEPERATOR . 
+                implode( CRM_Case_BAO_Case::VALUE_SEPERATOR . "%' OR civicrm_case.casetag2_id LIKE '%" . 
+                         CRM_Case_BAO_Case::VALUE_SEPERATOR, $value) . 
+                CRM_Case_BAO_Case::VALUE_SEPERATOR;
+            $query->_where[$grouping][] = "(civicrm_case.casetag2_id LIKE '%{$value}%')";
             $value = $caseSubtype[$value];
             $query->_qill[$grouping ][] = ts( 'Case SubType %1', array( 1 => $op)) . ' ' . implode( ' ' . ts('or') . ' ', $names );
             $query->_tables['civicrm_case'] = $query->_whereTables['civicrm_case'] = 1;
@@ -151,8 +156,11 @@ class CRM_Case_BAO_Query
             }
             
             require_once 'CRM/Case/BAO/Case.php';
-            $value = CRM_Case_BAO_Case::VALUE_SEPERATOR.implode(CRM_Case_BAO_Case::VALUE_SEPERATOR, $value) .CRM_Case_BAO_Case::VALUE_SEPERATOR;
-            $query->_where[$grouping][] = "civicrm_case.casetag3_id LIKE '%{$value}%'";
+            $value = CRM_Case_BAO_Case::VALUE_SEPERATOR . 
+                implode( CRM_Case_BAO_Case::VALUE_SEPERATOR . "%' OR civicrm_case.casetag3_id LIKE '%" . 
+                         CRM_Case_BAO_Case::VALUE_SEPERATOR, $value) . 
+                CRM_Case_BAO_Case::VALUE_SEPERATOR;
+            $query->_where[$grouping][] = "(civicrm_case.casetag3_id LIKE '%{$value}%')";
             
             $value = $caseViolation[$value];
             $query->_qill[$grouping ][] = ts( 'Case Voilation %1', array( 1=> $op)) . ' ' . implode( ' ' . ts('or') . ' ', $names );
