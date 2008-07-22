@@ -19,8 +19,10 @@
 {ts 1=$frequency_day 2=$frequency_unit}Payments are due on day %1 of the %2.{/ts}
 {/if}
 
+{assign var="count" value="1"}
 {foreach from=$payments item=payment}
-Payment {$payment.count} : {$payment.amount|crmMoney} due {$payment.due_date|truncate:10:''|crmDate}
+Payment {$count} : {$payment.amount|crmMoney} due {$payment.due_date|truncate:10:''|crmDate}
+{assign var="count" value=`$count+1`}
 {/foreach}
  
 {ts 1=$domain.phone 2=$domain.email}Please contact us at %1 or send email to %2 if you have questions
