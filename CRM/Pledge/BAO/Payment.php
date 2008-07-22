@@ -58,7 +58,7 @@ class CRM_Pledge_BAO_Payment extends CRM_Pledge_DAO_Payment
     {
         $query = "
 SELECT civicrm_pledge_payment.id id, scheduled_amount, scheduled_date, reminder_date, reminder_count,
-        total_amount, receive_date, civicrm_option_value.name as status
+        total_amount, receive_date, civicrm_option_value.name as status, civicrm_contribution.id as contribution_id
 FROM civicrm_pledge_payment
 LEFT JOIN civicrm_contribution ON civicrm_pledge_payment.contribution_id = civicrm_contribution.id
 LEFT JOIN civicrm_option_group ON ( civicrm_option_group.name = 'contribution_status' )
@@ -80,6 +80,7 @@ WHERE pledge_id = %1
             $paymentDetails[$payment->id]['receive_date'    ] = $payment->receive_date;
             $paymentDetails[$payment->id]['status'          ] = $payment->status;
             $paymentDetails[$payment->id]['id'              ] = $payment->id;
+            $paymentDetails[$payment->id]['contribution_id' ] = $payment->contribution_id;
         }
         
         return $paymentDetails;
