@@ -514,30 +514,29 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         
         require_once 'CRM/Pledge/BAO/Pledge.php';
         $pledge =& CRM_Pledge_BAO_Pledge::create( $params );
-        $this->_id = $pledge->id;
+        $statusMsg = null;
         
-        //set the status msg.
-        if ( $this->_action & CRM_Core_Action::UPDATE ) { 
-            if ( $params['status_id'] == array_search( 'Cancelled', $paymentStatusTypes ) ) {
-                $statusMsg = ts('Pledge has been cancelled and all scheduled (not completed) payments have been cancelled.<br />');
-            } else {
-                $statusMsg = ts('Pledge has been updated.<br />');
+        if ( $pledge->id ) {
+            //set the status msg.
+            if ( $this->_action & CRM_Core_Action::ADD ) {
+                $statusMsg = ts('Pledge has been recorded and the payment schedule has been created.<br />');
+            } else if ( $this->_action & CRM_Core_Action::UPDATE ) {
+                $statusMsg = ts('Pledge has been updated.<br />');  
             }
-        } else {
-            $statusMsg = ts('Pledge has been recorded and the payment schedule has been created.<br />');
         }
         
-        if ( CRM_Utils_Array::value( 'is_acknowledge', $formValues ) ) {
+        //handle Acknowledgment.
+        if ( CRM_Utils_Array::value( 'is_acknowledge', $formValues ) && $pledge->id ) {
             $allPayments = $payments = array( );
             $returnProperties = array( 'status_id', 'scheduled_amount', 'scheduled_date' );
             //get all paymnets details.
-            CRM_Core_DAO::commonRetrieveAll( 'CRM_Pledge_DAO_Payment', 'pledge_id', $this->_id, $allPayments, $returnProperties );
+            CRM_Core_DAO::commonRetrieveAll( 'CRM_Pledge_DAO_Payment', 'pledge_id', $pledge->id, $allPayments, $returnProperties );
             $paymentId = null;
             if ( !empty( $allPayments )) {
                 foreach( $allPayments as $payID => $values ) {
                     $payments[$payID] = array( 'amount'   => CRM_Utils_Array::value( 'scheduled_amount', $values ),
-                                               'due_date' => CRM_Utils_Array::value( 'scheduled_date', $values )
-                                               );
+                                               'due_date' => CRM_Utils_Array::value( 'scheduled_date', $values ) );
+                    
                     //get the first valid payment id.
                     if ( !$paymentId && ($paymentStatusTypes[$values['status_id']] == 'Pending' || 
                                          $paymentStatusTypes[$values['status_id']] == 'Overdue' ) ) {
@@ -549,11 +548,11 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             //assign all payments details.
             $this->assign( 'payments', $payments );
             
-            //handle Acknowledgment.
+            //send Acknowledgment mail.
             self::sendAcknowledgment( $params, $pledge );
             
+            //build the payment urls.
             if ( $paymentId ) {
-                //build the urls.
                 $urlParams  = "reset=1&action=add&cid={$this->_contactID}&ppid={$paymentId}&context=pledge";
                 $contribURL = CRM_Utils_System::url( 'civicrm/contact/view/contribution', $urlParams );
                 $urlParams .= "&mode=live";
@@ -572,7 +571,6 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             }
         }
         CRM_Core_Session::setStatus( $statusMsg );
-        
     }
     
     /** 
