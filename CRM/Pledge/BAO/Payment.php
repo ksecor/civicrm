@@ -89,7 +89,7 @@ WHERE pledge_id = %1
     { 
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
-        
+        require_once 'CRM/Contribute/PseudoConstant.php';
         $scheduled_date =  $params['scheduled_date'];
         //calculation of schedule date according to frequency day of period
         //frequency day is not applicable for daily installments

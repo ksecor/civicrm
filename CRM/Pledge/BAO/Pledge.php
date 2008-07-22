@@ -152,7 +152,7 @@ class CRM_Pledge_BAO_Pledge extends CRM_Pledge_DAO_Pledge
        
         $paymentParams = array( );
         $paymentParams['status_id'] = $params['status_id'];
-        
+         require_once 'CRM/Contribute/PseudoConstant.php';
         if ( isset ( $params['contribution_id'] ) ) {
             if ( $params['installments'] > 1 ) {
                 $params['status_id'] = array_search( 'In Progress', 

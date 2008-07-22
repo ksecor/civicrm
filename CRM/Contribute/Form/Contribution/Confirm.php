@@ -681,52 +681,57 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $contribParams['id'] = $contribID;
             }
         }
-        if ( $params['is_pledge'] == 1 ) {
-            $contribParams['net_amount'] = $contribParams['total_amount'] = $params['total_amount'];
-            
-        }
-
-        require_once 'CRM/Contribute/BAO/Contribution.php';
-        $contribution =& CRM_Contribute_BAO_Contribution::add( $contribParams, $ids );
-             
-        if ( $params['is_pledge'] == 1 ) {
-            $pledgeParams = array( );
-            $pledgeParams['amount']        =  $params['pledgeAmount'];
-
-            require_once 'CRM/Contribute/PseudoConstant.php';
-            $pledgeParams['contact_id'] = $contribution->contact_id;
-            $pledgeParams['contribution_id'     ] = $contribution->id;
-            $pledgeParams['contribution_page_id'] = $contribution->contribution_page_id;
-            $pledgeParams['contribution_type_id'] = $contribution->contribution_type_id;
-            $pledgeParams['is_test'             ] = $contribution->is_test;
-            $pledgeParams['frequency_interval'  ] = $params['pledge_frequency_interval'] ? $params['pledge_frequency_interval'] : 1 ;
-            $pledgeParams['installments'        ] = $params['pledge_installments'] ? $params['pledge_installments'] : 1;
-            $pledgeParams['frequency_unit'      ] = $params['pledge_frequency_unit'];
-            $pledgeParams['frequency_day'       ] = 1;
-            $pledgeParams['create_date'         ] = $pledgeParams['start_date'] = date("Ymd");
-            $pledgeParams['scheduled_date' ]['M'] = date("m"); 
-            $pledgeParams['scheduled_date' ]['d'] = date("d");
-            $pledgeParams['scheduled_date' ]['Y'] = date("Y");
-            $pledgeParams['status_id']            = $contribution->contribution_status_id;
-            
-            require_once 'CRM/Pledge/BAO/Pledge.php';
-            $pledge = CRM_Pledge_BAO_Pledge::create($pledgeParams);
+        if ( in_array('CiviPledge', $config->enableComponents ) && $params['is_pledge'] == 1 ) {
+            if ( isset ($params['total_amount']) ) {
+                $contribParams['net_amount'] = $contribParams['total_amount'] = $params['total_amount'];
+            } else {
+                $contribParams['net_amount'] = $contribParams['total_amount'] = $params['amount'];
+            }
         }
         
-        if ( $form->_values['pledge_id']  ) {
-            require_once 'CRM/Pledge/BAO/Payment.php';
-            foreach ( $form->_params['pledge_amount'] as $paymentId => $dontCare ) {
-                $pledgePaymentParams = array('id'              => $paymentId,
-                                             'contribution_id' => $contribution->id,
-                                             'status_id'       => $contribution->contribution_status_id
-                                             );
+        require_once 'CRM/Contribute/BAO/Contribution.php';
+        $contribution =& CRM_Contribute_BAO_Contribution::add( $contribParams, $ids );
+        
+        if ( in_array('CiviPledge', $config->enableComponents ) ) {
+            if ( $params['is_pledge'] == 1 ) {
+                //building pledge params
+                $pledgeParams                         = array( );
+                $pledgeParams['amount'              ] = $params['pledgeAmount'];
+                $pledgeParams['contact_id'          ] = $contribution->contact_id;
+                $pledgeParams['contribution_id'     ] = $contribution->id;
+                $pledgeParams['contribution_page_id'] = $contribution->contribution_page_id;
+                $pledgeParams['contribution_type_id'] = $contribution->contribution_type_id;
+                $pledgeParams['is_test'             ] = $contribution->is_test;
+                $pledgeParams['frequency_interval'  ] = $params['pledge_frequency_interval'] ? $params['pledge_frequency_interval'] : 1 ;
+                $pledgeParams['installments'        ] = $params['pledge_installments'] ? $params['pledge_installments'] : 1;
+                $pledgeParams['frequency_unit'      ] = $params['pledge_frequency_unit'];
+                $pledgeParams['frequency_day'       ] = 1;
+                $pledgeParams['create_date'         ] = $pledgeParams['start_date'] = date("Ymd");
+                $pledgeParams['scheduled_date' ]['M'] = date("m"); 
+                $pledgeParams['scheduled_date' ]['d'] = date("d");
+                $pledgeParams['scheduled_date' ]['Y'] = date("Y");
+                $pledgeParams['status_id']            = $contribution->contribution_status_id;
                 
-                CRM_Pledge_BAO_Payment::add( $pledgePaymentParams );
-            }  
+                require_once 'CRM/Pledge/BAO/Pledge.php';
+                $pledge = CRM_Pledge_BAO_Pledge::create($pledgeParams);
+            }
             
-            //update pledge status
-            require_once 'CRM/Pledge/BAO/Payment.php';
-            CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $form->_values['pledge_id'] );
+            if ( $form->_values['pledge_id']  ) {
+                //update the schedule when payment(s) are made 
+                require_once 'CRM/Pledge/BAO/Payment.php';
+                foreach ( $form->_params['pledge_amount'] as $paymentId => $dontCare ) {
+                    $pledgePaymentParams = array('id'              => $paymentId,
+                                                 'contribution_id' => $contribution->id,
+                                                 'status_id'       => $contribution->contribution_status_id
+                                                 );
+                    
+                    CRM_Pledge_BAO_Payment::add( $pledgePaymentParams );
+                }  
+                
+                //update pledge status according to the new payment statuses
+                require_once 'CRM/Pledge/BAO/Payment.php';
+                CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $form->_values['pledge_id'] );
+            }
         }
 
         if ( $online ) {
