@@ -544,7 +544,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         if  ( CRM_Utils_Array::value( '_qf_Activity_next_',$fields) == 'Delete' ) {
             return true;
         }
- 
+
         $errors = array( );
         if ( ! $self->_single && ! $fields['activity_type_id']) {
             $errors['activity_type_id'] = ts('Activity Type is a required field');
@@ -554,36 +554,26 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         // make sure if associated contacts exist
         require_once 'CRM/Contact/BAO/Contact.php';
        
-//         if ( $fields['source_contact'] ) {
-//             $source_contact_id   = self::_getIdByDisplayName( $fields['source_contact'] );
-            
-//             if ( !$source_contact_id ) {
-//                 $errors['source_contact'] = ts('Source Contact non-existant!');
-//             }
-//         }
-
-//         if ( CRM_Utils_Array::value('target_contact',$fields) ) {
-//             $target_contact_id   = self::_getIdByDisplayName( $fields['target_contact'] );
-
-//             if ( !$target_contact_id ) {
-//                 $errors['target_contact'] = ts('Target Contact non-existant!');
-//             }
-//         }
-
-//         if ( $fields['assignee_contact'] ) {
-//             $assignee_contact_id = self::_getIdByDisplayName( $fields['assignee_contact'] );
-            
-//             if ( !$assignee_contact_id ) {
-//                 $errors['assignee_contact'] = ts('Assignee Contact non-existant!');
-//             }
-//         }
-        
-        if ( $fields['activity_type_id'] == 3 && $fields['status'] == 'Scheduled' ) {
-            $errors['status'] = ts('You cannot record scheduled email activity.');
-        } else if ( $fields['activity_type_id'] == 4 && $fields['status'] == 'Scheduled' ) {
-            $errors['status'] = ts('You cannot record scheduled SMS activity.');
+        if ( $fields['source_contact_id'] && ! is_numeric($fields['source_contact_id'])) {
+            $errors['source_contact_id'] = ts('Source Contact non-existant!');
         }
-        if(isset($fields['case_subject'] ) && $fields['case_subject'] == 0){
+
+        if ( $fields['target_contact'] && ! is_numeric($fields['target_contact'])) {
+            $errors['target_contact'] = ts('Target Contact non-existant!');
+        }
+
+        foreach ( $fields['assignee_contact'] as $key => $id ) {
+            if ( $id && ! is_numeric($id)) {
+                $errors["assignee_contact[$key]"] = ts('Assignee Contact '.$key.' non-existant!');
+            }
+        }
+        
+        if ( $fields['activity_type_id'] == 3 && $fields['status_id'] == 1 ) {
+            $errors['status_id'] = ts('You cannot record scheduled email activity.');
+        } else if ( $fields['activity_type_id'] == 4 && $fields['status_id'] == 1 ) {
+            $errors['status_id'] = ts('You cannot record scheduled SMS activity.');
+        }
+        if( $fields['case_subject'] == 0 ){
             $errors['case_subject'] = ts('Invalid Case');
         }
 
@@ -694,6 +684,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         if ( $this->_single ) {
             if ( empty($params['target_contact']) ) {
                 $targetParams['target_contact_id'] = $this->_currentlyViewedContactId;
+                CRM_Activity_BAO_Activity::createActivityTarget( $targetParams );
             } else {
                 foreach ( $params['target_contact'] as $key => $id ) {
                     $targetParams['target_contact_id'] = $id;
