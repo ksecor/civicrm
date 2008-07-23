@@ -274,6 +274,7 @@ class CRM_Core_SelectValues
                 'Membership'   => ts('Memberships'),
                 'Event'        => ts('Events'),
                 'Participant'  => ts('Participants'),
+                'Pledge'       => ts('Pledges'),
                 'Grant'        => ts('Grants'),
             );
         }

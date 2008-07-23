@@ -108,7 +108,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup
         // enclose the below in a transaction
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
-
+        
         $group->save();
         if ( $tableName ) {
             // now append group id to table name, this prevent any name conflicts
@@ -1441,6 +1441,9 @@ ORDER BY weight ASC, label ASC";
             
         case 'Grant':
             return 'civicrm_grant';
+            
+        case 'Pledge':
+            return 'civicrm_pledge';    
             
         default:
             CRM_Core_Error::fatal( );

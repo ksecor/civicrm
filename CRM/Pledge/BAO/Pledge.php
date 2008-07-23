@@ -171,6 +171,13 @@ class CRM_Pledge_BAO_Pledge extends CRM_Pledge_DAO_Pledge
             return $pledge;
         }
         
+        //handle custom data.
+        if ( CRM_Utils_Array::value( 'custom', $params ) &&
+             is_array( $params['custom'] ) ) {
+            require_once 'CRM/Core/BAO/CustomValueTable.php';
+            CRM_Core_BAO_CustomValueTable::store( $params['custom'], 'civicrm_pledge', $pledge->id );
+        }
+        
         // skip payment stuff inedit mode
         if ( ! isset( $params['id'] ) ) {
             //building payment params

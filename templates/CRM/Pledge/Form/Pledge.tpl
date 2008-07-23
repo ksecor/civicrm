@@ -1,8 +1,7 @@
 {* this template is used for adding/editing/deleting pledge *} 
-{* if $cdType *}
-  {* include file="CRM/Custom/Form/CustomData.tpl" *}
-{* else *}
-{if $showAdditionalInfo and $formType }
+{if $cdType}
+  {include file="CRM/Custom/Form/CustomData.tpl"}
+{elseif $showAdditionalInfo and $formType }
   {include file="CRM/Contribute/Form/AdditionalInfo/$formType.tpl"}
 {else}
 {if !$email and $action neq 8}
@@ -82,7 +81,7 @@
        </table>
       <div id="customData"></div>
     {*include custom data js file*}
-    {* include file="CRM/common/customData.tpl" *}
+    {include file="CRM/common/customData.tpl"}
 
     {literal}
     <script type="text/javascript">
@@ -138,4 +137,4 @@
 }
 {/if}
 {/if}
-{* closing of main dojo pane if*}
+{* closing of main custom data if}

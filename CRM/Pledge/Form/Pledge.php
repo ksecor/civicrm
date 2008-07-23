@@ -95,12 +95,13 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             CRM_Core_Error::fatal( ts( 'You do not have permission to access this page' ) );
         }
         
-//         $this->_cdType     = CRM_Utils_Array::value( 'type', $_GET );
-//         $this->assign('cdType', false);
-//         if ( $this->_cdType ) {
-//             $this->assign('cdType', true);
-//             return CRM_Custom_Form_CustomData::preProcess( $this );
-//         }
+        //handle custom data.
+        $this->_cdType = CRM_Utils_Array::value( 'type', $_GET );
+        $this->assign('cdType', false);
+        if ( $this->_cdType ) {
+            $this->assign('cdType', true);
+            return CRM_Custom_Form_CustomData::preProcess( $this );
+        }
         
         $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this, true );
         $this->_action    = CRM_Utils_Request::retrieve( 'action', 'String',
@@ -138,12 +139,12 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         require_once 'CRM/Core/OptionGroup.php';
         $this->_freqUnits = CRM_Core_OptionGroup::values("recur_frequency_units");
         
-//         // when custom data is included in this page
-//         if ( CRM_Utils_Array::value( "hidden_custom", $_POST ) ) {
-//             CRM_Custom_Form_Customdata::preProcess( $this );
-//             CRM_Custom_Form_Customdata::buildQuickForm( $this );
-//             CRM_Custom_Form_Customdata::setDefaultValues( $this );
-//         }
+        //when custom data is included in this page
+        if ( CRM_Utils_Array::value( "hidden_custom", $_POST ) ) {
+            CRM_Custom_Form_Customdata::preProcess( $this );
+            CRM_Custom_Form_Customdata::buildQuickForm( $this );
+            CRM_Custom_Form_Customdata::setDefaultValues( $this );
+        }
         
         // also set the post url
         $postURL = CRM_Utils_System::url( 'civicrm/contact/view',
@@ -161,9 +162,10 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
      */
     function setDefaultValues( ) 
     {
-//         if ( $this->_cdType ) {
-//             return CRM_Custom_Form_CustomData::setDefaultValues( $this );
-//         }
+        //set default custom data.
+        if ( $this->_cdType ) {
+            return CRM_Custom_Form_CustomData::setDefaultValues( $this );
+        }
         
         $defaults = $this->_values;
         $fields   = array( );
@@ -230,9 +232,11 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
      */ 
     public function buildQuickForm( )  
     {   
-//         if ( $this->_cdType ) {
-//             return CRM_Custom_Form_CustomData::buildQuickForm( $this );
-//         }
+        //build custom data form.
+        if ( $this->_cdType ) {
+            return CRM_Custom_Form_CustomData::buildQuickForm( $this );
+        }
+        
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             $this->addButtons(array( 
                                     array ( 'type'      => 'next', 
@@ -246,9 +250,9 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             return;
         }
         
-//         //need to assign custom data type and subtype to the template
-//         $this->assign('customDataType', 'Pledge');
-//         $this->assign('entityId',  $this->_id );
+        //need to assign custom data type to the template
+        $this->assign('customDataType', 'Pledge');
+        $this->assign('entityId',  $this->_id );
         
         $showAdditionalInfo = false;
         $this->_formType = CRM_Utils_Array::value( 'formType', $_GET );
@@ -525,6 +529,46 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         }
         
         $params['frequency_interval'] = 1;
+
+        //format custom data
+        //get mime type of the uploaded file
+        if ( !empty($_FILES) ) {
+            foreach ( $_FILES as $key => $value) {
+                $files = array( );
+                if ( $formValues[$key] ) {
+                    $files['name'] = $formValues[$key];
+                }
+                if ( $value['type'] ) {
+                    $files['type'] = $value['type']; 
+                }
+                $params[$key] = $files;
+            }
+        }
+        
+        $customData = array( );
+        foreach ( $formValues as $key => $value ) {
+            if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID( $key ) ) {
+                CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,
+                                                             $value, 'Pledge', null, $this->_id );
+            }
+        }
+        
+        if ( !empty($customData) ) {
+            $params['custom'] = $customData;
+        }
+        
+        //special case to handle if all checkboxes are unchecked
+        $customFields = CRM_Core_BAO_CustomField::getFields( 'Pledge' );
+        
+        if ( !empty($customFields) ) {
+            foreach ( $customFields as $k => $val ) {
+                if ( in_array ( $val[3], array ('CheckBox','Multi-Select') ) &&
+                     ! CRM_Utils_Array::value( $k, $params['custom'] ) ) {
+                    CRM_Core_BAO_CustomField::formatCustomField( $k, $params['custom'],
+                                                                 '', 'Pledge', null, $this->_id );
+                }
+            }
+        }
         
         require_once 'CRM/Pledge/BAO/Pledge.php';
         $pledge =& CRM_Pledge_BAO_Pledge::create( $params );
