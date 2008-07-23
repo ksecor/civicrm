@@ -241,12 +241,12 @@ class CRM_Event_Form_Search extends CRM_Core_Form
             require_once 'CRM/Event/BAO/Event.php';
             
             if ( !$this->_single ) {
-                $this->addElement( 'checkbox', 'toggleSelect', null, null, array( 'onchange' => "return toggleCheckboxVals('mark_x_',this.form);" ) ); 
+                $this->addElement( 'checkbox', 'toggleSelect', null, null, array( 'onclick' => "toggleTaskAction( true ); return toggleCheckboxVals('mark_x_',this.form);" ) ); 
 
                 foreach ($rows as $row) { 
                     $this->addElement( 'checkbox', $row['checkbox'], 
                                        null, null, 
-                                       array( 'onclick' => "return checkSelectedBox('" . $row['checkbox'] . "', '" . $this->getName() . "');" )
+                                       array( 'onclick' => "toggleTaskAction( true ); return checkSelectedBox('" . $row['checkbox'] . "', '" . $this->getName() . "');" )
                                        ); 
                     
                     if ( CRM_Event_BAO_Event::usesPriceSet( $row['event_id'] ) ) {
@@ -279,7 +279,8 @@ class CRM_Event_Form_Search extends CRM_Core_Form
 
             $this->add('select', 'task'   , ts('Actions:') . ' '    , $tasks    ); 
             $this->add('submit', $this->_actionButtonName, ts('Go'), 
-                       array( 'class' => 'form-submit', 
+                       array( 'class'   => 'form-submit', 
+                              'id'      => 'Go',
                               'onclick' => "return checkPerformAction('mark_x', '".$this->getName()."', 0);" ) ); 
             
             $this->add('submit', $this->_printButtonName, ts('Print'), 
@@ -288,7 +289,7 @@ class CRM_Event_Form_Search extends CRM_Core_Form
             
             // need to perform tasks on all or selected items ? using radio_ts(task selection) for it 
             $this->addElement('radio', 'radio_ts', null, '', 'ts_sel', array( 'checked' => 'checked') ); 
-            $this->addElement('radio', 'radio_ts', null, '', 'ts_all', array( 'onchange' => $this->getName().".toggleSelect.checked = false; toggleCheckboxVals('mark_x_',".$this->getName()."); return false;" ) );
+            $this->addElement('radio', 'radio_ts', null, '', 'ts_all', array( 'onclick' => $this->getName().".toggleSelect.checked = false; toggleCheckboxVals('mark_x_',".$this->getName()."); toggleTaskAction( true );" ) );
         }
         
         // add buttons 
