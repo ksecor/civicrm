@@ -183,7 +183,7 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
         $weight = 10;
         
         
-        $this->_viewOptions = CRM_Core_BAO_Preferences::valueOptions( 'contact_view_options', true, null, true );
+        $this->_viewOptions = CRM_Core_BAO_Preferences::valueOptions( 'contact_view_options', true );
 
         require_once 'CRM/Core/Component.php';
         $components = CRM_Core_Component::getEnabledComponents();
