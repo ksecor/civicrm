@@ -573,7 +573,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         } else if ( $fields['activity_type_id'] == 4 && $fields['status_id'] == 1 ) {
             $errors['status_id'] = ts('You cannot record scheduled SMS activity.');
         }
-        if( $fields['case_subject'] == 0 ){
+        if( $fields['case_subject'] && $fields['case_subject'] == 0 ){
             $errors['case_subject'] = ts('Invalid Case');
         }
 
