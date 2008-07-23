@@ -376,6 +376,15 @@ CREATE TABLE `civicrm_pledge_payment` (
   CONSTRAINT `FK_civicrm_pledge_payment_contribution_id` FOREIGN KEY (`contribution_id`) REFERENCES `civicrm_contribution` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+CREATE TABLE `civicrm_case_contact` (
+    id int(10) unsigned NOT NULL auto_increment,
+    `case_id` int(10) unsigned NOT NULL,
+    `contact_id` int(10) unsigned NOT NULL,
+    PRIMARY KEY (id),
+    CONSTRAINT `FK_civicrm_case_contact_case_id` FOREIGN KEY (`case_id`) REFERENCES `civicrm_case` (`id`) ON DELETE CASCADE,
+    CONSTRAINT `FK_civicrm_case_contact_contact_id` FOREIGN KEY (`contact_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE CASCADE,
+    UNIQUE `UI_case_contact_id` (`case_id`, `contact_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- fixes noticed via db diff
 
@@ -513,8 +522,8 @@ UPDATE civicrm_dedupe_rule SET rule_table='civicrm_contact' WHERE rule_table IN 
 ALTER TABLE `civicrm_case`
     DROP FOREIGN KEY `FK_civicrm_case_contact_id`;
 ALTER TABLE `civicrm_case`
-    ADD CONSTRAINT `FK_civicrm_case_contact_id` FOREIGN KEY (`contact_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE CASCADE;
-
+    DROP `contact_id`; 
+	
 ALTER TABLE `civicrm_case_activity`
     DROP FOREIGN KEY `FK_civicrm_case_activity_case_id`;
 ALTER TABLE `civicrm_case_activity`
