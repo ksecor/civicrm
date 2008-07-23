@@ -21,7 +21,7 @@
             <span class="description">{ts}Uncheck this box if you are using this contribution page for free membership signup ONLY, or to solicit in-kind / non-monetary donations such as furniture, equipment.. etc.{/ts}</span></td>
         </tr>
         {if $paymentProcessor}
-	<tr><th scope="row" class="label" width="20%">{$form.payment_processor_id.label}</th>
+        <tr><th scope="row" class="label" width="20%">{$form.payment_processor_id.label}</th>
             <td>{$form.payment_processor_id.html}<br />
             <span class="description">{ts 1="http://wiki.civicrm.org/confluence//x/ihk" 2=$docURLTitle}Select the payment processor to be used for contributions submitted from this contribution page (unless you are soliciting non-monetary / in-kind contributions only). (<a href='%1' target='_blank' title='%2'>read more...</a>){/ts}</span></td>
         </tr>
@@ -33,7 +33,8 @@
             <tr><th scope="row" class="label">{$form.is_pay_later.label}</th>
             <td>{$form.is_pay_later.html}<br />
             <span class="description">{ts}Check this box if you want to give users the option to submit payment offline (e.g. mail in a check, call in a credit card, etc.).{/ts}</span></td></tr>
-        <tr id="payLaterFields"><td>&nbsp;</td><td>
+        <tr id="payLaterFields"><td>&nbsp;</td>
+            <td>
             <table class="form-layout">
                 <tr><th scope="row" class="label">{$form.pay_later_text.label} <span class="marker" title="This field is required.">*</span></th>
                 <td>{$form.pay_later_text.html|crmReplace:class:big}<br />
@@ -42,8 +43,8 @@
                 <td>{$form.pay_later_receipt.html|crmReplace:class:big}<br />
                     <span class="description">{ts}Instructions added to Confirmation and Thank-you pages, as well as the confirmation email, when the user selects the 'pay later' option (e.g. 'Mail your check to ... within 3 business days.').{/ts}</span></td></tr>
             </table>
-            </td></tr>
-	
+            </td>
+        </tr>
     </table>
 
     <div id="amountFields">
@@ -52,32 +53,35 @@
             {if $civiPledge}
             <tr><th scope="row" class="label" width="20%"">{$form.is_pledge_active.label}</th>
                 <td>{$form.is_pledge_active.html}<br />
-                    <span class="description">{ts}Check this box if you are using this contribution page for pledge.{/ts}</span>
+                    <span class="description">{ts}Check this box if you want to give users the option to make a Pledge (a commitment to contribute a fixed amount on a recurring basis).{/ts}</span>
                 </td>
             </tr>
             <tr id="pledgeFields"><td></td><td>
                 <table class="form-layout-compressed">
-                  <tr><th scope="row" class="label">{$form.pledge_frequency_unit.label}<span class="marker"> *</span></th>
-                      <td>{$form.pledge_frequency_unit.html}</td>
-	          </tr>
-                  <tr><th scope="row" class="label">{$form.is_pledge_interval.label}</th>
-                      <td>{$form.is_pledge_interval.html}</td>
-                  </tr>
-		  <tr><th scope="row" class="label">{$form.initial_reminder_day.label}</th>
-                      <td>{$form.initial_reminder_day.html}<br />
-		          <span class="description">{ts}Days prior to each scheduled payment due date.{/ts}</span></td>
-                  </tr>
-		  <tr><th scope="row" class="label">{$form.max_reminders.label}</th>
-                      <td>{$form.max_reminders.html}<br />
-		          <span class="description">{ts}Reminders for each scheduled payment.{/ts}</span></td>
-                  </tr>
-		  <tr><th scope="row" class="label">{$form.additional_reminder_day.label}</th>
-                      <td>{$form.additional_reminder_day.html}<br />	
-		          <span class="description">{ts}Days after the last one sent, up to the maximum number of reminders.{/ts}</span></td>
-                  </tr>
+                    <tr><th scope="row" class="label">{$form.pledge_frequency_unit.label}<span class="marker"> *</span></th>
+                        <td>{$form.pledge_frequency_unit.html}<br />
+                            <span class="description">{ts}Which frequencies can the user pick from (e.g. every 'week', every 'month', every 'year')?{/ts}</span></td>
+                    </tr>
+                    <tr><th scope="row" class="label">{$form.is_pledge_interval.label}</th>
+                        <td>{$form.is_pledge_interval.html}<br />
+                            <span class="description">{ts}Can they also set an interval (e.g. every '3' months)?{/ts}</span></td>
+                    </tr>
+                    <tr><th scope="row" class="label">{$form.initial_reminder_day.label}</th>
+                        <td>{$form.initial_reminder_day.html}
+                            <span class="label">{ts}days prior to each scheduled payment due date.{/ts}</span></td>
+                    </tr>
+                    <tr><th scope="row" class="label">{$form.max_reminders.label}</th>
+                        <td>{$form.max_reminders.html}
+                            <span class="label">{ts}reminders for each scheduled payment.{/ts}</span></td>
+                    </tr>
+                    <tr><th scope="row" class="label">{$form.additional_reminder_day.label}</th>
+                        <td>{$form.additional_reminder_day.html}	
+                            <span class="label">{ts}days after the last one sent, up to the maximum number of reminders.{/ts}</span></td>
+                    </tr>
                 </table>
-            </td></tr>
-	    {/if}
+                </td>
+            </tr>
+            {/if}
 
             {if $form.is_recur}
             <tr><th scope="row" class="label" width="20%">{$form.is_recur.label}</th>

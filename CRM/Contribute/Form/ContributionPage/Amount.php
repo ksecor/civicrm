@@ -91,7 +91,7 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         
         //check if selected payment processor supports recurring payment
         if ( CRM_Contribute_BAO_ContributionPage::checkRecurPaymentProcessor( $this->_id ) ) {
-            $this->addElement( 'checkbox', 'is_recur', ts('Enable recurring payments'), null, 
+            $this->addElement( 'checkbox', 'is_recur', ts('Recurring payments'), null, 
                                array('onclick' => "return showHideByValue('is_recur',true,'recurFields','table-row','radio',false);") );
             require_once 'CRM/Core/OptionGroup.php';
             $this->addCheckBox( 'recur_frequency_unit', ts('Supported recurring units'), 
@@ -102,7 +102,7 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         }
         
         // add pay later options
-        $this->addElement('checkbox', 'is_pay_later', ts( 'Enable pay later option?' ),
+        $this->addElement('checkbox', 'is_pay_later', ts( 'Pay later option' ),
                           null, array( 'onclick' => "payLater(this);" ) );
         $this->addElement('textarea', 'pay_later_text', ts( 'Pay later label' ),  
                           CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_ContributionPage', 'pay_later_text' ),
@@ -116,14 +116,14 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         if ( in_array('CiviPledge', $config->enableComponents) ) {
             $this->assign('civiPledge', true );
             require_once 'CRM/Core/OptionGroup.php';
-            $this->addElement( 'checkbox', 'is_pledge_active', ts('Enable Pledges for this contribution page') , 
+            $this->addElement( 'checkbox', 'is_pledge_active', ts('Pledges') , 
                                null, array('onclick' => "return showHideByValue('is_pledge_active',true,'pledgeFields','table-row','radio',false);") );
             $this->addCheckBox( 'pledge_frequency_unit', ts( 'Supported pledge frequencies' ), 
                                 CRM_Core_OptionGroup::values( "recur_frequency_units", false, false, false, null, 'name' ),
                                 null, null, null, null,
                                 array( '&nbsp;&nbsp;', '&nbsp;&nbsp;', '&nbsp;&nbsp;', '<br/>' ));
-            $this->addElement( 'checkbox', 'is_pledge_interval', ts('Allow Frequency Intervals') );
-            $this->addElement( 'text', 'initial_reminder_day', ts('Send Initial Reminder'), array('size'=>3) );
+            $this->addElement( 'checkbox', 'is_pledge_interval', ts('Allow frequency intervals') );
+            $this->addElement( 'text', 'initial_reminder_day', ts('Send payment reminder'), array('size'=>3) );
             $this->addElement( 'text', 'max_reminders', ts('Send up to'), array('size'=>3) );
             $this->addElement( 'text', 'additional_reminder_day', ts('Send additional reminders'), array('size'=>3) );
         }
@@ -204,14 +204,14 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         
         if ( isset( $fields['is_recur'] ) ) {
             if ( empty( $fields['recur_frequency_unit'] ) ) {
-                $errors['recur_frequency_unit'] = ts( 'Atleast one option needs to be checked.' );
+                $errors['recur_frequency_unit'] = ts( 'At least one recurring frequency option needs to be checked.' );
             }
         }        
         
         //validation for pledge fields.
         if ( CRM_Utils_array::value( 'is_pledge_active', $fields ) ) {
             if ( empty( $fields['pledge_frequency_unit'] ) ) {
-                $errors['pledge_frequency_unit'] = ts( 'Atleast one option needs to be checked.' );
+                $errors['pledge_frequency_unit'] = ts( 'At least one pledge frequency option needs to be checked.' );
             }
             if ( CRM_Utils_array::value( 'is_recur', $fields ) ) {
                 $errors['is_recur'] = ts( 'You can not enable both Recurring Contributions AND Pledges on the same online contribution page.' ); 
