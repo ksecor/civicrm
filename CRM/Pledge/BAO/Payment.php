@@ -134,8 +134,13 @@ WHERE pledge_id = %1
                 $statues[$i+1] = array_search( 'Pending', CRM_Contribute_PseudoConstant::contributionStatus( ));
             }
         }
-       
-        $params['scheduled_amount'] = ceil($params['scheduled_amount']);
+        
+        if ( $params['installment_amount'] ) {
+            $params['scheduled_amount'] = $params['installment_amount'];
+        } else {
+            $params['scheduled_amount'] = ceil( $params['amount'] / $params['installments'] );
+        }
+
         for ( $i = 1; $i <= $params['installments']; $i++ ) {
             //calculate the scheduled amount for every installment.
             if ( $i == $params['installments'] ) {

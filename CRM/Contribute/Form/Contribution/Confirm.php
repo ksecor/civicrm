@@ -679,7 +679,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             if ( $params['is_pledge'] == 1 ) {
                 //building pledge params
                 $pledgeParams                         = array( );
-                $pledgeParams['amount'              ] = $contribParams['total_amount'] * $params['pledge_installments'];
+                $pledgeParams['installment_amount'  ] = $contribParams['total_amount'];
                 $pledgeParams['contact_id'          ] = $contribution->contact_id;
                 $pledgeParams['contribution_id'     ] = $contribution->id;
                 $pledgeParams['contribution_page_id'] = $contribution->contribution_page_id;
