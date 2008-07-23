@@ -458,16 +458,6 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $paymentParams      = $this->_params;
             $contributionTypeId = $this->_values['contribution_type_id'];
             
-            if ( (  $paymentParams['is_pledge'] == 1 ) ) { 
-                $paymentParams['pledgeAmount']  =  $paymentParams['amount'];
-                if (  $paymentParams['is_pledge_frequency_interval'] ) { 
-                    $paymentParams['amount'] = $paymentParams['total_amount'] = $paymentParams['net_amount'] = ceil ( $params['amount'] / $params['pledge_installments'] );
-                } else {
-                    $paymentParams['net_amount']   = $paymentParams['total_amount'];
-                    $paymentParams['pledge_installments'] = 1;
-                    
-                }
-            }
             require_once "CRM/Contribute/BAO/Contribution/Utils.php";
             CRM_Contribute_BAO_Contribution_Utils::processConfirm( $this, $paymentParams, 
                                                                    $premiumParams, $contactID, 
@@ -696,7 +686,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             if ( $params['is_pledge'] == 1 ) {
                 //building pledge params
                 $pledgeParams                         = array( );
-                $pledgeParams['amount'              ] = $params['pledgeAmount'];
+                $pledgeParams['amount'              ] = $contribParams['total_amount'] * $params['pledge_installments'];
                 $pledgeParams['contact_id'          ] = $contribution->contact_id;
                 $pledgeParams['contribution_id'     ] = $contribution->id;
                 $pledgeParams['contribution_page_id'] = $contribution->contribution_page_id;
