@@ -23,7 +23,7 @@
 
 {assign var="count" value="1"}
 {foreach from=$payments item=payment}
-Payment {$count} : {$payment.amount|crmMoney} due {$payment.due_date|truncate:10:''|crmDate}
+Payment {$count} : {$payment.amount|crmMoney} {if $payment.status eq 1}paid {$payment.receive_date|truncate:10:''|crmDate}{else}due {$payment.due_date|truncate:10:''|crmDate}{/if}
 {assign var="count" value=`$count+1`}
 {/foreach}
  

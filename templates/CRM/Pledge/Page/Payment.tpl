@@ -23,6 +23,7 @@
     <td{if ! ($permission EQ 'edit' and ($row.status eq 'Pending' or $row.status eq 'Overdue' or $row.status eq 'Completed')) } colspan="2"{/if}/>
         {$row.status}
     </td>	
+{if $context neq user}
     {if $permission EQ 'edit' and ($row.status eq 'Pending' or $row.status eq 'Overdue' or $row.status eq 'Completed') }
         <td>
         {if $row.status eq 'Completed'} {* Link to view contribution record for completed payment.*}
@@ -42,6 +43,7 @@
         {/if}
         </td>
     {/if}
+{/if}
    </tr>
   {/foreach}
 </table>

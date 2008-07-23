@@ -1805,7 +1805,8 @@ SELECT DISTINCT( m.id ) as id
         $contactDetails =& $details[0]; 
         
         foreach ( $contactIds as $key => $contactID ) {
-            if ( CRM_Utils_Array::value('preferred_communication_method',$returnProperties) == 1 ) {
+            if ( CRM_Utils_Array::value('preferred_communication_method',$returnProperties) == 1 
+                 && array_key_exists($contactID, $contactDetails) ) {
                 require_once 'CRM/Core/PseudoConstant.php';
                 $pcm = CRM_Core_PseudoConstant::pcm();
                 
