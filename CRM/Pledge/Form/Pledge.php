@@ -531,45 +531,50 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         $params['frequency_interval'] = 1;
 
         //format custom data
-        //get mime type of the uploaded file
-        if ( !empty($_FILES) ) {
-            foreach ( $_FILES as $key => $value) {
-                $files = array( );
-                if ( $formValues[$key] ) {
-                    $files['name'] = $formValues[$key];
+        if ( CRM_Utils_Array::value( 'hidden_custom', $formValues ) ) {
+            $params['hidden_custom'] = 1;
+            //get mime type of the uploaded file
+            if ( !empty($_FILES) ) {
+                foreach ( $_FILES as $key => $value) {
+                    $files = array( );
+                    if ( $formValues[$key] ) {
+                        $files['name'] = $formValues[$key];
+                    }
+                    if ( $value['type'] ) {
+                        $files['type'] = $value['type']; 
+                    }
+                    $params[$key] = $files;
                 }
-                if ( $value['type'] ) {
-                    $files['type'] = $value['type']; 
+            }
+            
+            $customData = array( );
+            foreach ( $formValues as $key => $value ) {
+                if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID( $key ) ) {
+                    $params[$key] = $value;
+                    CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,
+                                                                 $value, 'Pledge', null, $this->_id );
                 }
-                $params[$key] = $files;
+            }
+            
+            if ( !empty($customData) ) {
+                $params['custom'] = $customData;
+            }
+            
+            //special case to handle if all checkboxes are unchecked
+            $customFields = CRM_Core_BAO_CustomField::getFields( 'Pledge' );
+            
+            if ( !empty($customFields) ) {
+                foreach ( $customFields as $k => $val ) {
+                    if ( in_array ( $val[3], array ('CheckBox','Multi-Select') ) &&
+                         ! CRM_Utils_Array::value( $k, $params['custom'] ) ) {
+                        CRM_Core_BAO_CustomField::formatCustomField( $k, $params['custom'],
+                                                                     '', 'Pledge', null, $this->_id );
+                    }
+                }
             }
         }
         
-        $customData = array( );
-        foreach ( $formValues as $key => $value ) {
-            if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID( $key ) ) {
-                CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,
-                                                             $value, 'Pledge', null, $this->_id );
-            }
-        }
-        
-        if ( !empty($customData) ) {
-            $params['custom'] = $customData;
-        }
-        
-        //special case to handle if all checkboxes are unchecked
-        $customFields = CRM_Core_BAO_CustomField::getFields( 'Pledge' );
-        
-        if ( !empty($customFields) ) {
-            foreach ( $customFields as $k => $val ) {
-                if ( in_array ( $val[3], array ('CheckBox','Multi-Select') ) &&
-                     ! CRM_Utils_Array::value( $k, $params['custom'] ) ) {
-                    CRM_Core_BAO_CustomField::formatCustomField( $k, $params['custom'],
-                                                                 '', 'Pledge', null, $this->_id );
-                }
-            }
-        }
-        
+        //create pledge record.
         require_once 'CRM/Pledge/BAO/Pledge.php';
         $pledge =& CRM_Pledge_BAO_Pledge::create( $params );
         $statusMsg = null;
@@ -680,7 +685,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
                                                                                              'name' ),
                                      'activity_date_time' => CRM_Utils_Date::isoToMysql( $pledge->acknowledge_date ),
                                      'is_test'            => $pledge->is_test,
-                                     'status_id'          => 2
+                                     'status_id'          => 1
                                      );
             require_once 'api/v2/Activity.php';
             if ( is_a( civicrm_activity_create( $activityParams ), 'CRM_Core_Error' ) ) {
@@ -749,6 +754,38 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         $details =  CRM_Mailing_BAO_Mailing::getDetails( $ids, $returnProperties );
         $this->assign('contact', $details[0][$this->_contactID] );
         
+        //handle custom data.
+        $showCustom = 0;
+        if ( CRM_Utils_Array::value( 'hidden_custom', $params ) ) {
+            $fieldIDs = array( );
+            $customFieldValues = array( );
+            foreach ( $params as $key => $value ) {
+                if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID( $key ) ) {
+                    $fieldIDs[] = $customFieldId;
+                    $customFieldValues[$customFieldId] = $value;
+                }
+            }
+            
+            //get custom group and fields label.
+            if ( !empty( $fieldIDs ) ) {
+                require_once 'CRM/Core/BAO/CustomField.php';
+                $customFields = CRM_Core_BAO_CustomField::getCustomFieldsLabel( $fieldIDs );
+                $customData = array( );
+                if ( !empty( $customFields ) ) {
+                    foreach( $customFields as $gID => $values ) {
+                        $customData[$gID]['group_id'] = $gID;
+                        $customData[$gID]['group_title'] = $values['group_title'];
+                        foreach ( $values['customFields'] as $fId => $val ) {
+                            $customData[$gID]['customFields'][$val['field_label']] = $customFieldValues[$fId];
+                        }
+                    }
+                }
+                $showCustom = 1;
+            }
+            //assign custom data.
+            $this->assign_by_ref( 'customData', $customData );
+        }
+        $this->assign( 'showCustom', $showCustom );
     }
     
 }

@@ -1340,6 +1340,36 @@ WHERE  option_group_id = {$optionGroupId}";
             CRM_Core_BAO_OptionGroup::del( $optionGroupId );
         }
     }
+    
+    /**
+     * Function to get custom group and fields label
+     *
+     * @param array $ids custom field ids. 
+     * @return array $customFields custom group and fields label array 
+     */
+    static function getCustomFieldsLabel( $ids )
+    {
+        $fieldIds = implode( ',', $ids );
+        
+        $query = "
+SELECT civicrm_custom_field.id as field_id, civicrm_custom_field.label as field_label, 
+       civicrm_custom_group.id as group_id, civicrm_custom_group.title as group_title
+FROM   civicrm_custom_group, civicrm_custom_field
+WHERE  civicrm_custom_field.custom_group_id = civicrm_custom_group.id
+AND    civicrm_custom_field.id IN ( {$fieldIds} )
+";
+        $dao = CRM_Core_DAO::executeQuery( $query );
+        
+        $customFields = array( );
+        while ( $dao->fetch( ) ) {
+            $customFields[$dao->group_id]['group_id'] = $dao->group_id;
+            $customFields[$dao->group_id]['group_title'] = $dao->group_title;
+            $customFields[$dao->group_id]['customFields'][$dao->field_id]['field_id'] = $dao->field_id;
+            $customFields[$dao->group_id]['customFields'][$dao->field_id]['field_label'] = $dao->field_label;
+        }
+        
+        return $customFields;
+    }
 }
 
 

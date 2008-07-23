@@ -30,7 +30,6 @@ Payment {$count} : {$payment.amount|crmMoney} due {$payment.due_date|truncate:10
 {ts 1=$domain.phone 2=$domain.email}Please contact us at %1 or send email to %2 if you have questions
 or need to modify your payment schedule.{/ts}
 
-
 {if $honor_block_is_active}
 ===========================================================
 {$honor_type}
@@ -41,12 +40,17 @@ or need to modify your payment schedule.{/ts}
 {/if}
 {/if}
 
-{if $customData}
+{if $showCustom}
 ===========================================================
-{ts}{$customDataTitle} {/ts}
+{ts}Additional Information{/ts}
 
 ===========================================================
-{foreach from=$customData item=customValue key=customName}
+{foreach from=$customData item=customValues key=gID}
+
+ {ts}{$customValues.group_title} {/ts}
+
+{foreach from=$customValues.customFields item=customValue key=customName}
  {$customName} : {$customValue}
+{/foreach}
 {/foreach}
 {/if}
