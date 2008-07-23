@@ -1045,6 +1045,7 @@ SELECT contact_id
 
         $object->find( );
         while ( $object->fetch( ) ) {
+            $defaults = array( );
             self::storeValues( $object, $defaults );
             $details[$object->id] = $defaults;
         }
