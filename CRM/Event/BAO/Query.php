@@ -107,7 +107,7 @@ class CRM_Event_BAO_Query
         
             //event type
             if ( CRM_Utils_Array::value( 'event_type_id', $query->_returnProperties ) ) {
-                $query->_select['event_type']  = "event_type.name as event_type_id";
+                $query->_select['event_type']  = "event_type.label as event_type_id";
                 $query->_element['event_type']        = 1;
                 $query->_tables['event_type']         = 1;
                 $query->_whereTables['event_type']    = 1;
