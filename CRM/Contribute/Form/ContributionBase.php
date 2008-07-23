@@ -410,7 +410,8 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                                                'installments' ) );
         }
 
-        if ( isset($this->_params['pledge_installments']) ) {
+        if ( in_array('CiviPledge', $config->enableComponents ) && 
+             CRM_Utils_Array::value( 'is_pledge_frequency_interval', $this->_params ) == 1 ) {
             $this->assign( 'pledge_enabled', 1 );
             $this->_params['is_pledge'] = 1;
             $vars = array_merge( $vars, array( 'is_pledge',

@@ -671,14 +671,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $contribParams['id'] = $contribID;
             }
         }
-        if ( in_array('CiviPledge', $config->enableComponents ) && $params['is_pledge'] == 1 ) {
-            if ( isset ($params['total_amount']) ) {
-                $contribParams['net_amount'] = $contribParams['total_amount'] = $params['total_amount'];
-            } else {
-                $contribParams['net_amount'] = $contribParams['total_amount'] = $params['amount'];
-            }
-        }
-        
+       
         require_once 'CRM/Contribute/BAO/Contribution.php';
         $contribution =& CRM_Contribute_BAO_Contribution::add( $contribParams, $ids );
         

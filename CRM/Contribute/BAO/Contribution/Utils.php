@@ -110,9 +110,7 @@ class CRM_Contribute_BAO_Contribution_Utils {
             $form->_params['contributionTypeID'] = $contributionType->id;
             $form->_params['item_name'         ] = $form->_params['description'];
             $form->_params['receive_date'      ] = $now;
-            if ( ( $paymentParams['is_pledge'] == 1 ) && ($form->_params['amount'] !=  $paymentParams['total_amount']) ) {
-                $form->_params['amount'] = $paymentParams['total_amount'];
-            }
+            
             if ( $form->_values['is_recur'] &&
                  $contribution->contribution_recur_id ) {
                 $form->_params['contributionRecurID'] = $contribution->contribution_recur_id;
@@ -188,11 +186,6 @@ class CRM_Contribute_BAO_Contribution_Utils {
             if( isset( $paymentParams['contribution_source'] ) ) {
                 $form->_params['source'] = $paymentParams['contribution_source'];
             }
-            
-            if ( ( $paymentParams['is_pledge'] == 1 ) ) {
-                $form->_params['pledgeAmount'] = $paymentParams['pledgeAmount'];
-                $form->_params['total_amount'] = $form->_params['net_amount'] = $paymentParams['total_amount'];
-            } 
             
             $contribution =
                 CRM_Contribute_Form_Contribution_Confirm::processContribution( $form,
