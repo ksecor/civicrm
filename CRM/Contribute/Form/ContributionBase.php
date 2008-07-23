@@ -236,7 +236,6 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                     CRM_Core_Error::fatal( ts( 'A payment processor must be selected for this contribution page (contact the site administrator for assistance).' ) );
                 }
                 
-                
                 $ppID = CRM_Utils_Array::value( 'payment_processor_id', $this->_values );
                 
                 if ( !$ppID ) {
@@ -295,13 +294,21 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                 CRM_Core_Error::fatal( ts('This page includes a Profile with Membership fields - but the Membership Block is NOT enabled. Please notify the site administrator.') );
             }
 
-            //set pledge id in values
-            $pledgeId = CRM_Utils_Request::retrieve( 'pledgeId', 'Positive', $this );
-            
-            //authenticate pledge user for pledge payment.
-            if ( $pledgeId ) {
-                $this->_values['pledge_id'] = $pledgeId;
-                self::authenticatePledgeUser( );
+            require_once 'CRM/Pledge/BAO/PledgeBlock.php';
+            $pledgeBlock = CRM_Pledge_BAO_PledgeBlock::getPledgeBlock( $this->_id );
+
+            if ( $pledgeBlock ) {
+                $this->_values['pledge_block_id'] = $pledgeBlock['id'];
+                $this->assign( 'pledgeBlock', true );
+
+                //set pledge id in values
+                $pledgeId = CRM_Utils_Request::retrieve( 'pledgeId', 'Positive', $this );
+                
+                //authenticate pledge user for pledge payment.
+                if ( $pledgeId ) {
+                    $this->_values['pledge_id'] = $pledgeId;
+                    self::authenticatePledgeUser( );
+                }
             }
 
             $this->set( 'values', $this->_values );

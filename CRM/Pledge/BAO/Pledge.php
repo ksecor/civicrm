@@ -396,6 +396,6 @@ WHERE  $whereCond
         }
         return $params;
     }
-    
+
 }
 
