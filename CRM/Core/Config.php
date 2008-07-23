@@ -163,9 +163,9 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
      * @static
      *
      */
-    static public function &singleton($key = 'crm', $loadFromDB = true ) 
+    static public function &singleton($key = 'crm', $loadFromDB = true, $force = false ) 
     {
-        if (self::$_singleton === null ) {
+        if ( self::$_singleton === null || $force ) {
 
             // first, attempt to get configuration object from cache
             require_once 'CRM/Utils/Cache.php';
