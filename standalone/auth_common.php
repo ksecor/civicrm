@@ -88,7 +88,7 @@ function getReturnTo() {
 function getTrustRoot() {
     $urlPort = getUrlPort();
     
-    return sprintf("%s://%s:%s%s/",
+    return sprintf("%s://%s%s%s/",
                    getScheme(), $_SERVER['SERVER_NAME'],
                    $urlPort,
                    dirname($_SERVER['PHP_SELF']));
