@@ -152,8 +152,11 @@ class CRM_Pledge_BAO_Pledge extends CRM_Pledge_DAO_Pledge
        
         $paymentParams = array( );
         $paymentParams['status_id'] = $params['status_id'];
-        require_once 'CRM/Contribute/PseudoConstant.php';
-        
+        if ( $params['installment_amount'] ) {
+            $params['amount'] = $params['installment_amount'] * $params['installments'];
+        }
+
+        require_once 'CRM/Contribute/PseudoConstant.php';       
         //update the pledge status only if it does NOT come from form
         if ( ! isset ( $params['pledge_status_id'] ) ) {
             if ( isset ( $params['contribution_id'] ) ) {
@@ -187,7 +190,7 @@ class CRM_Pledge_BAO_Pledge extends CRM_Pledge_DAO_Pledge
             foreach ( $paymentKeys as $key ) {
                 $paymentParams[$key] = $params[$key];               
             }
-            
+
             require_once 'CRM/Pledge/BAO/Payment.php';
             CRM_Pledge_BAO_Payment::create( $paymentParams );
         }

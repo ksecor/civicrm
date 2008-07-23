@@ -88,10 +88,12 @@ WHERE pledge_id = %1
 
     static function create( $params )
     { 
+        require_once 'CRM/Contribute/PseudoConstant.php';
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
-        require_once 'CRM/Contribute/PseudoConstant.php';
+
         $scheduled_date =  $params['scheduled_date'];
+
         //calculation of schedule date according to frequency day of period
         //frequency day is not applicable for daily installments
         if ( $params['frequency_unit'] != 'day' ) {
@@ -108,7 +110,8 @@ WHERE pledge_id = %1
                 $dayOfWeek = date('w',mktime(0, 0, 0, $scheduled_date['M'], $scheduled_date['d'], $scheduled_date['Y'] ));
                 $frequencyDay =   $params['frequency_day'] - $dayOfWeek;
                 
-                $scheduleDate =  explode ( "-", date( 'n-j-Y', mktime ( 0, 0, 0, $scheduled_date['M'], $scheduled_date['d'] + $frequencyDay, $scheduled_date['Y'] )) );
+                $scheduleDate =  explode ( "-", date( 'n-j-Y', mktime ( 0, 0, 0, $scheduled_date['M'], 
+                                                                        $scheduled_date['d'] + $frequencyDay, $scheduled_date['Y'] )) );
                 $scheduled_date['M'] = $scheduleDate[0];
                 $scheduled_date['d'] = $scheduleDate[1];
                 $scheduled_date['Y'] = $scheduleDate[2];
@@ -127,7 +130,8 @@ WHERE pledge_id = %1
         }
         
         for ( $i = 1; $i < $params['installments']; $i++ ) {
-            $prevScheduledDate[$i+1] = CRM_Utils_Date::format(CRM_Utils_Date::intervalAdd( $params['frequency_unit'], $i * ($params['frequency_interval']) , $scheduled_date ));
+            $prevScheduledDate[$i+1] = CRM_Utils_Date::format(CRM_Utils_Date::intervalAdd( $params['frequency_unit'], 
+                                                                                           $i * ($params['frequency_interval']) , $scheduled_date ));
             if ( CRM_Utils_Date::overdue( CRM_Utils_Date::customFormat(  $prevScheduledDate[$i+1], '%Y%m%d'), $now ) ) {
                 $statues[$i+1] = array_search( 'Overdue', CRM_Contribute_PseudoConstant::contributionStatus( )); 
             } else {
