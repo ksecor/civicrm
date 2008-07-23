@@ -113,6 +113,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search
             $paneNames[ts('Cases')] = 'CiviCase';
         }
 
+        $this->_paneTemplatePath = array( );
         foreach ( $paneNames as $name => $type ) {
             if ( ! $this->_searchOptions[$type] ) {
                 continue;
@@ -132,12 +133,15 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search
                 if ( array_key_exists( $type, $components) ) {
                     $this->add( 'hidden', "hidden_$type" , 1 );
                     $c->buildAdvancedSearchPaneForm( $this );
+                    $this->_paneTemplatePath[$type] = $c->getAdvancedSearchPaneTemplatePath();                
                 } else {
                     eval( 'CRM_Contact_Form_Search_Criteria::' . $type . '( $this );' );
+                    $name = ucfirst( $type );
+                    $this->_paneTemplatePath[$type] = "CRM/Contact/Form/Search/Criteria/{$name}.tpl";
                 }
-                $this->_paneTemplatePath = $c->getAdvancedSearchPaneTemplatePath();                
             }
         }
+
 
         $this->assign( 'allPanes', $allPanes );
 
@@ -154,8 +158,8 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search
         if ( ! $this->_searchPane ) {
             return parent::getTemplateFileName( );
         } else {
-            if ( $this->_paneTemplatePath ) {
-                return $this->_paneTemplatePath;
+            if ( isset( $this->_paneTemplatePath[$this->_searchPane] ) ) {
+                return $this->_paneTemplatePath[$this->_searchPane];
             } else {
                 $name = ucfirst( $this->_searchPane );
                 return "CRM/Contact/Form/Search/Criteria/{$name}.tpl";
