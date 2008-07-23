@@ -386,6 +386,12 @@ CREATE TABLE `civicrm_case_contact` (
     UNIQUE `UI_case_contact_id` (`case_id`, `contact_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+INSERT INTO civicrm_case_contact (case_id, contact_id)
+SELECT ca.id, ca.contact_id
+FROM   civicrm_case ca
+ON DUPLICATE KEY UPDATE case_id=ca.id;
+
+
 -- fixes noticed via db diff
 
 ALTER TABLE `civicrm_contact`
