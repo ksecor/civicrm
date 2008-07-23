@@ -49,12 +49,19 @@ class CRM_Admin_Form_Setting_Path extends CRM_Admin_Form_Setting
      */
     public function buildQuickForm( ) {
         CRM_Utils_System::setTitle(ts('Settings - Upload Directories'));
-          
-        $this->add('text', 'uploadDir'          , ts( 'Temporary Files'  ) );  
-        $this->add('text', 'imageUploadDir'     , ts( 'Images'           ) );  
-        $this->add('text', 'customFileUploadDir', ts( 'Custom Files'     ) );  
-        $this->add('text', 'customTemplateDir'  , ts( 'Custom Templates' ) );  
-        $this->add('text', 'customPHPPathDir'   , ts( 'Custom PHP Path Directory' ) );  
+
+        $directories = array( 'uploadDir'           => ts( 'Temporary Files'  ),
+                              'imageUploadDir'      => ts( 'Images'           ),
+                              'customFileUploadDir' => ts( 'Custom Files'     ),
+                              'customTemplateDir'   => ts( 'Custom Templates' ),
+                              'customPHPPathDir'    => ts( 'Custom PHP Path Directory' )  );
+        foreach ( $directories as $name => $title ) {
+            $this->add('text', $name, $title );
+            $this->addRule( $name,
+                            ts( "'%1' directory does not exist",
+                                array( 1 => $title ) ),
+                            'fileExists' );
+        }
         
         parent::buildQuickForm();
     }

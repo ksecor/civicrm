@@ -552,6 +552,11 @@ class CRM_Utils_Rule
             return true;
         }
     }
+
+    static function fileExists( $path ) {
+        return file_exists( $path );
+    }
+
 }
 
 

@@ -172,7 +172,7 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
                                'date', 'qfDate', 'currentDate',
                                'asciiFile', 'htmlFile', 'utf8File',
                                'objectExists', 'optionExists', 'postalCode', 'money','positiveInteger',
-                               'xssString' );
+                               'xssString', 'fileExists' );
 
         foreach ( $rules as $rule ) {
             $this->registerRule( $rule, 'callback', $rule, 'CRM_Utils_Rule' );
