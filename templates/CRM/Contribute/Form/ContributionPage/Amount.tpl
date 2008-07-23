@@ -98,7 +98,7 @@
                     </tr> 
                     <tr><th scope="row" class="label">{$form.is_recur_interval.label}</th>
                         <td>{$form.is_recur_interval.html}<br />
-                        <span class="description">{ts}Check if users are allowed to enter recurring intervals.{/ts}</span></td>
+                        <span class="description">{ts}Can users also set an interval (e.g. every '3' months)?{/ts}</span></td>
                     </tr>
                   </table>
                 </td>

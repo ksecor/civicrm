@@ -91,7 +91,7 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         
         //check if selected payment processor supports recurring payment
         if ( CRM_Contribute_BAO_ContributionPage::checkRecurPaymentProcessor( $this->_id ) ) {
-            $this->addElement( 'checkbox', 'is_recur', ts('Recurring payments'), null, 
+            $this->addElement( 'checkbox', 'is_recur', ts('Recurring contributions'), null, 
                                array('onclick' => "return showHideByValue('is_recur',true,'recurFields','table-row','radio',false);") );
             require_once 'CRM/Core/OptionGroup.php';
             $this->addCheckBox( 'recur_frequency_unit', ts('Supported recurring units'), 
