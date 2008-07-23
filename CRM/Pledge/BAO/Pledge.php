@@ -310,14 +310,14 @@ WHERE  $whereCond AND is_test=0
             $select = 'sum( scheduled_amount )as received_pledge , count( cp.id ) as received_count';
             $where[] = 'cp.status_id = ' . $statusId. ' AND pledge.is_test=0';
             $queryDate = 'scheduled_date';
-            $from = ' civicrm_pledge_payment cp, civicrm_pledge pledge';
+            $from = ' civicrm_pledge_payment cp INNER JOIN civicrm_pledge pledge on cp.pledge_id = pledge.id';
             break;
 
         case 'Overdue':
             $select = 'sum( scheduled_amount ) as received_pledge , count( cp.id ) as received_count';
             $where[] = 'cp.status_id = ' . $statusId. ' AND pledge.is_test=0';
             $queryDate = 'scheduled_date';
-            $from = ' civicrm_pledge_payment cp, civicrm_pledge pledge';
+            $from = ' civicrm_pledge_payment cp INNER JOIN civicrm_pledge pledge on cp.pledge_id = pledge.id';
             break;
         }
         
