@@ -8,6 +8,8 @@
   <dt>{$form.html_message.label}</dt><dd class="editor">{$form.html_message.html}</dd>
 </dl>
 <div class="spacer"></div>
+{include file="CRM/Form/attachment.tpl"}
+<div class="spacer"></div>
 <div id="editMessageDetails">
 <dl id="updateDetails" >
     <dt>&nbsp;</dt><dd>{$form.updateTemplate.html}&nbsp;{$form.updateTemplate.label}</dd>

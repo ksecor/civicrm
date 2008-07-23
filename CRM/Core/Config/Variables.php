@@ -278,6 +278,7 @@ class CRM_Core_Config_Variables extends CRM_Core_Config_Defaults
      * @var int
      */
     public $maxImportFileSize = 1048576;
+    public $maxAttachments    = 3;
 
     /**
      * Map Provider 

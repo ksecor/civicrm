@@ -594,12 +594,14 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      * @param string $subject      the subject of the message
      * @param string $message      the message contents
      * @param string $emailAddress use this 'to' email address instead of the default Primary address
-     * @param int    userID        use this userID if set
+     * @param int    $userID        use this userID if set
+     * @param string $from
+     * @param array  $attachments   the array of attachments if any
      * @return array             (total, added, notAdded) count of emails sent
      * @access public
      * @static
      */
-    static function sendEmail( &$contactIds, &$subject, &$text, &$html, $emailAddress, $userID = null, $from = null ) 
+    static function sendEmail( &$contactIds, &$subject, &$text, &$html, $emailAddress, $userID = null, $from = null, $attachments = null ) 
     {        
         if ( $userID == null ) {
             $session =& CRM_Core_Session::singleton( );
@@ -684,9 +686,19 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                                 'details'              => $text,
                                 'status_id'            => 2
                                 );
-        
+
+        // add the attachments to activity params here
+        if ( $attachments ) {
+            // first process them
+            $activityParams = array_merge( $activityParams,
+                                           $attachments );
+        }
+
         $activity = self::create($activityParams);
 
+        // get the set of attachments from where they are stored
+        $attachments =& CRM_Core_BAO_File::getEntityFile( 'civicrm_activity',
+                                                          $activity->id );
         $sent = $notSent = array();
         $returnProperties = array();
         if( isset( $messageToken['contact'] ) ) { 
@@ -727,7 +739,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             $tokenText = CRM_Utils_Token::replaceContactTokens( $text, $contact, false, $messageToken);
             $tokenSubject = CRM_Utils_Token::replaceContactTokens( $subject, $contact, false, $subjectToken);
             $tokenHtml = CRM_Utils_Token::replaceContactTokens( $html, $contact, false, $messageToken);
-            if ( self::sendMessage( $from, $userID, $contactId, $tokenSubject, $tokenText, $tokenHtml, $emailAddress, $activity->id ) ) {
+            if ( self::sendMessage( $from, $userID, $contactId, $tokenSubject, $tokenText, $tokenHtml, $emailAddress, $activity->id, $attachments ) ) {
                 $sent[] =  $contactId;
             } else {
                 $notSent[] = $contactId;
@@ -751,7 +763,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      * @access public
      * @static
      */
-    static function sendMessage( $from, $fromID, $toID, &$subject, &$text_message, &$html_message, $emailAddress, $activityID ) 
+    static function sendMessage( $from, $fromID, $toID, &$subject, &$text_message, &$html_message, $emailAddress, $activityID, $attachments = null ) 
     {
         list( $toDisplayName, $toEmail, $toDoNotEmail ) = CRM_Contact_BAO_Contact::getContactDetails( $toID );
         if ( $emailAddress ) {
@@ -774,7 +786,8 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                                      null,
                                      null,
                                      null,
-                                     $html_message) ) {
+                                     $html_message,
+                                     $attachments ) ) {
             return false;
         }
 

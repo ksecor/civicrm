@@ -174,16 +174,21 @@ class CRM_Contact_Form_Task_EmailCommon
 
         require_once "CRM/Mailing/BAO/Mailing.php";
         CRM_Mailing_BAO_Mailing::commonCompose( $form );
-        
+
+        // add attachments
+        require_once 'CRM/Core/BAO/File.php';
+        CRM_Core_BAO_File::buildAttachment( $form, null );
+        CRM_Core_BAO_File::addUploadAction( $form );
+
         if ( $form->_single ) {
             // also fix the user context stack
             $url = CRM_Utils_System::url('civicrm/contact/view',
                                          "&show=1&action=browse&cid={$form->_contactIds[0]}&selectedChild=activity" );
              
             $session->replaceUserContext( $url );
-            $form->addDefaultButtons( ts('Send Email'), 'next', 'cancel' );
+            $form->addDefaultButtons( ts('Send Email'), 'upload', 'cancel' );
         } else {
-            $form->addDefaultButtons( ts('Send Email') );
+            $form->addDefaultButtons( ts('Send Email'), 'upload' );
         }
         
         $form->addFormRule( array( 'CRM_Contact_Form_Task_EmailCommon', 'formRule' ), $form );
@@ -224,17 +229,19 @@ class CRM_Contact_Form_Task_EmailCommon
      */
     static function postProcess( &$form ) 
     {
+        $formValues = $form->controller->exportValues( $form->getName( ) );
+
         $emailAddress = null;
         if ( $form->_single ) {
-            $emailAddress = $form->controller->exportValue( 'Email', 'to' );
+            $emailAddress = $formValues['to'];
         }
-        $fromEmail = $form->controller->exportValue( 'Email', 'fromEmailAddress' );
+        $fromEmail = $formValues['fromEmailAddress'];
         $from = CRM_Utils_Array::value( $fromEmail, $form->_fromEmails );
         
         $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive', $form, false );
         
         if ( $form->_noEmails ) {
-            $emailAddress = $form->controller->exportValue( 'Email', 'emailAddress' );
+            $emailAddress = $formValues['emailAddress'];
 
             // for adding the email-id to the primary address
             if ( $cid ) {
@@ -259,28 +266,25 @@ class CRM_Contact_Form_Task_EmailCommon
             }
         }
          
-        $subject = $form->controller->exportValue( 'Email', 'subject' );
-        $text_message = $form->controller->exportValue( 'Email', 'text_message' );
-        $html_message = $form->controller->exportValue( 'Email', 'html_message' );
-        
-        //added code for CRM-1393
-        $messageParams = $form->exportValues( );
+        $subject = $formValues['subject'];
+        $text_message = $formValues['text_message'];
+        $html_message = $formValues['html_message'];
         
         // process message template
         require_once 'CRM/Core/BAO/MessageTemplates.php';
-        if ( $messageParams['saveTemplate'] || $messageParams['updateTemplate']) {
-            $messageTemplate = array( 'msg_text'    => $messageParams['text_message'],
-                                      'msg_html'    => $messageParams['html_message'],
-                                      'msg_subject' => $messageParams['subject'],
+        if ( $formValues['saveTemplate'] || $formValues['updateTemplate']) {
+            $messageTemplate = array( 'msg_text'    => $formValues['text_message'],
+                                      'msg_html'    => $formValues['html_message'],
+                                      'msg_subject' => $formValues['subject'],
                                       'is_active'   => true );
             
-            if ( $messageParams['saveTemplate'] ) {
-                $messageTemplate['msg_title'] = $messageParams['saveTemplateName'];
+            if ( $formValues['saveTemplate'] ) {
+                $messageTemplate['msg_title'] = $formValues['saveTemplateName'];
                 CRM_Core_BAO_MessageTemplates::add( $messageTemplate );
             }
             
-            if ( $messageParams['template'] && $messageParams['updateTemplate']  ) {
-                $messageTemplate['id'] = $messageParams['template'];
+            if ( $formValues['template'] && $formValues['updateTemplate']  ) {
+                $messageTemplate['id'] = $formValues['template'];
                 unset($messageTemplate['msg_title']);
                 CRM_Core_BAO_MessageTemplates::add( $messageTemplate );
             } 
@@ -307,14 +311,29 @@ class CRM_Contact_Form_Task_EmailCommon
         
         // replace domain tokens
         $config   = CRM_Core_Config::singleton( );
+
         require_once 'CRM/Core/BAO/Domain.php';
         $domain = CRM_Core_BAO_Domain::getDomain( );
+
         require_once 'CRM/Utils/Token.php';
         $text = CRM_Utils_Token::replaceDomainTokens( $text_message, $domain, false  );
         $html = CRM_Utils_Token::replaceDomainTokens( $html_message, $domain, false  );
+
+        $attachments = array( );
+        CRM_Core_BAO_File::formatAttachment( $formValues,
+                                             $attachments,
+                                             null, null );
+
         // send the mail
         require_once 'CRM/Activity/BAO/Activity.php';
-        list( $total, $sent, $notSent ) = CRM_Activity_BAO_Activity::sendEmail( $form->_contactIds, $subject, $text, $html, $emailAddress, null, $from );
+        list( $total, $sent, $notSent ) = CRM_Activity_BAO_Activity::sendEmail( $form->_contactIds,
+                                                                                $subject,
+                                                                                $text,
+                                                                                $html,
+                                                                                $emailAddress,
+                                                                                null,
+                                                                                $from,
+                                                                                $attachments );
         
         if ( $sent ) {
             $status[] = ts('Email sent to Contact(s): %1', array(1 => count($sent)));
