@@ -173,12 +173,8 @@ AND    {$this->_componentClause}";
             $template->clearTemplateVars( );
         }
         
-        CRM_Core_Error::debug('msg',$message);
-        exit();
-
         require_once 'CRM/Utils/PDF/Utils.php';
         CRM_Utils_PDF_Utils::domlib( $message, "civicrmContributionReceipt.pdf" );
-        
         exit( );
     }
 
