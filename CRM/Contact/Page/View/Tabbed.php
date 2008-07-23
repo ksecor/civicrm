@@ -189,7 +189,7 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
         $components = CRM_Core_Component::getEnabledComponents();
 
         foreach ( $components as $name => $component ) {
-            if ( $this->_viewOptions[$name] &&
+            if ( CRM_Utils_Array::value( $name, $this->_viewOptions ) &&
                  CRM_Core_Permission::access( $component->name ) ) {
                 $elem = $component->registerTab();
 
