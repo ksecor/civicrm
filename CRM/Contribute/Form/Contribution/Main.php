@@ -504,6 +504,10 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
     function buildPledgeBlock( ) 
     {
         require_once 'CRM/Pledge/DAO/PledgeBlock.php';
+        
+        $pledgeBlock   = array( );
+        $pledgeBlockID = null;
+        
         $dao =& new CRM_Pledge_DAO_PledgeBlock( );
         $dao->entity_table = 'civicrm_contribution_page';
         $dao->entity_id = $this->_id; 
@@ -570,7 +574,6 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                     CRM_Core_Error::fatal( ts( "Oops. It looks like there is no valid payment status for online payment." ) ); 
                 } else {
                     $this->assign('is_pledge_payment', true );
-                    $this->_values['is_pledge_payment'] = 1;
                     $this->addCheckBox( 'pledge_amount', ts( 'Make Pledge Payment(s):' ), $payments );
                 } 
             } else {
@@ -592,7 +595,9 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                 $freqUnits = array( );
                 foreach ( $freqUnitVals as $key => $val ) {
                     $freqUnits[$val]  = ts( '%1', array(1 => $val) );
-                    $freqUnits[$val] .= ts('(s)');
+                    if ( CRM_Utils_Array::value( 'is_pledge_interval', $pledgeBlock )  ) {
+                        $freqUnits[$val] .= ts('(s)');
+                    }
                 }
                 $this->addElement( 'select', 'pledge_frequency_unit', null, $freqUnits ); 
             }
@@ -726,10 +731,9 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         //validate the pledge fields.
         if ( CRM_Utils_Array::value( 'pledge_block_id', $self->_values ) ) {
             //validation for pledge payment.
-            if (  CRM_Utils_Array::value( 'pledge_id', $self->_values ) 
-                  && CRM_Utils_Array::value( 'is_pledge_payment', $self->_values ) ) {
+            if (  CRM_Utils_Array::value( 'pledge_id', $self->_values ) ) {
                 if ( empty( $fields['pledge_amount'] ) ) {
-                    $errors['pledge_amount'] = ts( 'Atleast one option needs to be checked.' );
+                    $errors['pledge_amount'] = ts( 'At least one payment option needs to be checked.' );
                 }
             } else if ( CRM_Utils_Array::value( 'is_pledge_frequency_interval', $fields ) ) { 
                 if ( CRM_Utils_Rule::positiveInteger( CRM_Utils_Array::value( 'pledge_installments', $fields ) ) == false ) {
