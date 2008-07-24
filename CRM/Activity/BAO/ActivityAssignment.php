@@ -104,8 +104,10 @@ class CRM_Activity_BAO_ActivityAssignment extends CRM_Activity_DAO_ActivityAssig
         $assignment->activity_id = $activity_id;
         $assignment->find();
         $assigneeArray = array();
+        $count = 1;
         while ( $assignment->fetch( ) ) {
-            $assigneeArray[] = $assignment->assignee_contact_id;
+            $assigneeArray[$count] = $assignment->assignee_contact_id;
+            $count++;
         }
 
         return $assigneeArray;

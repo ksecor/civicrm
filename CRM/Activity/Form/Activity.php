@@ -243,6 +243,12 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                 list( $defaults['duration_hours'], $defaults['duration_minutes'] ) = CRM_Utils_Date::unstandardizeTime( $defaults['duration'] );
             }
 
+            //set the assigneed contact ids to template
+            $assigneeContacts = CRM_Activity_BAO_ActivityAssignment::retrieveAssigneeIdsByActivityId( $this->_activityId );
+            if ( !empty( $defaults['assignee_contact'] ) ) {
+                $this->assign( 'assigneeContactCount', count( $defaults['assignee_contact'] ) );
+            }
+            
             if ( $this->_context != 'standalone' )  {
                 $this->assign( 'target_contact_value', $defaults['target_contact_value'] );
                 $this->assign( 'assignee_contact_value', $defaults['assignee_contact_value'] );

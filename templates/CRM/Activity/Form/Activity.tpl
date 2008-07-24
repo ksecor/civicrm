@@ -195,7 +195,6 @@
          </table>   
       </fieldset> 
 
-
 {if $action eq 1 or $action eq 2}
    {*include custom data js file*}
    {include file="CRM/common/customData.tpl"}
@@ -220,7 +219,6 @@ if ( assigneeContactCount ) {
     }
 }
 
-
 function buildContact( count, pref )
 {
     if ( count > 1 ) {
@@ -235,28 +233,26 @@ function buildContact( count, pref )
         handleAs: "text",
 	sync: true,
         timeout: 5000, //Time in milliseconds
-        handle: function(response, ioArgs){
-                if(response instanceof Error){
-                        if(response.dojoType == "cancel"){
-                                //The request was canceled by some other JavaScript code.
-                                console.debug("Request canceled.");
-                        }else if(response.dojoType == "timeout"){
-                                //The request took over 5 seconds to complete.
-                                console.debug("Request timed out.");
-                        }else{
-                                //Some other error happened.
-                                console.error(response);
-                        }
+        handle: function(response, ioArgs) {
+                if (response instanceof Error) {
+		    if (response.dojoType == "cancel") {
+			//The request was canceled by some other JavaScript code.
+			console.debug("Request canceled.");
+		    } else if (response.dojoType == "timeout") {
+			//The request took over 5 seconds to complete.
+			console.debug("Request timed out.");
+		    } else {
+			//Some other error happened.
+			console.error(response);
+		    }
                 } else {
 		    // on success
 		    dojo.byId( pref + '_' + count).innerHTML = response;
 		    dojo.parser.parse( pref + '_' + count );
-	       }
-        }
-     });
-
+		}
+	    }
+	});
 }
-
 </script>
 
 {/literal}
