@@ -414,7 +414,6 @@ WHERE  $whereCond
         //get all paymnets details.
         CRM_Core_DAO::commonRetrieveAll( 'CRM_Pledge_DAO_Payment', 'pledge_id', $pledge->id, $allPayments, $returnProperties );
         
-        $paymentId = null;
         if ( !empty( $allPayments )) {
             foreach( $allPayments as $payID => $values ) {
                 $contributionValue = $contributionStatus = array( );
@@ -434,9 +433,9 @@ WHERE  $whereCond
                                                         ));
                 
                 //get the first valid payment id.
-                if ( !$paymentId && ($paymentStatusTypes[$values['status_id']] == 'Pending' || 
-                                     $paymentStatusTypes[$values['status_id']] == 'Overdue' ) ) {
-                    $paymentId = $values['id'];
+                if ( !$form->paymentId && ($paymentStatusTypes[$values['status_id']] == 'Pending' || 
+                                           $paymentStatusTypes[$values['status_id']] == 'Overdue' ) ) {
+                    $form->paymentId = $values['id'];
                 }
             }
         }       

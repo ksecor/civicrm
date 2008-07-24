@@ -43,6 +43,7 @@ class CRM_UpdatePledgeRecord
         require_once 'CRM/Utils/Hook.php';
         
         CRM_Utils_System::authenticateScript( true );
+        $config->cleanURL = 1;
     }
     
     public function updatePledgeStatus( )

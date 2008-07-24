@@ -581,15 +581,16 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             //calculate scheduled amount.
             $params['scheduled_amount'] = ceil( $params['amount'] / $params['installments'] );
             
+            $this->paymentId = null;
             //send Acknowledgment mail.
             require_once 'CRM/Pledge/BAO/Pledge.php';
             CRM_Pledge_BAO_Pledge::sendAcknowledgment( $this, $pledge, $params );
-            
+
             $statusMsg .= ' ' . ts( "An acknowledgment email has been sent to %1.<br />", array( 1 => $this->userEmail ) );
             
             //build the payment urls.
-            if ( $paymentId ) {
-                $urlParams  = "reset=1&action=add&cid={$this->_contactID}&ppid={$paymentId}&context=pledge";
+            if ( $this->paymentId ) {
+                $urlParams  = "reset=1&action=add&cid={$this->_contactID}&ppid={$this->paymentId}&context=pledge";
                 $contribURL = CRM_Utils_System::url( 'civicrm/contact/view/contribution', $urlParams );
                 $urlParams .= "&mode=live";
                 $creditURL  = CRM_Utils_System::url( 'civicrm/contact/view/contribution', $urlParams );
