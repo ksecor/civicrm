@@ -178,7 +178,7 @@ class CRM_Contact_Form_Task_EmailCommon
         // add attachments
         require_once 'CRM/Core/BAO/File.php';
         CRM_Core_BAO_File::buildAttachment( $form, null );
-        CRM_Core_BAO_File::addUploadAction( $form );
+        $form->addUploadElement( CRM_Core_BAO_File::uploadNames( ) );
 
         if ( $form->_single ) {
             // also fix the user context stack

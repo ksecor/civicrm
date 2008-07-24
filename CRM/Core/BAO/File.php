@@ -385,19 +385,5 @@ AND       CEF.entity_id    = %2";
         }
         return $names;
     }
-
-    static function addUploadAction( &$form, $additonalNames = null ) {
-        $config =& CRM_Core_Config::singleton( );
-
-        $uploadNames = self::uploadNames( );
-        if ( ! empty( $additonalNames ) ) {
-            $uploadNames = array_merge( $uploadNames,
-                                        $additonalNames );
-        }
-
-        $form->controller->addUploadAction( $config->uploadDir,
-                                            $uploadNames );
-    }
-
 }
 
