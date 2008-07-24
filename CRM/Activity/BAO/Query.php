@@ -113,14 +113,20 @@ class CRM_Activity_BAO_Query
         case 'activity_activitytag3_id':
             require_once 'CRM/Core/OptionGroup.php' ;
             $violation = CRM_Core_OptionGroup::values('f1_case_violation');
-            $actualValue = $violation[$value];
+            $actualValue = array();
+            foreach ( $value as $id => $val ) {
+                 $actualValue[] = $violation[$val];
+            }
             $op = 'LIKE';
             
             require_once 'CRM/Case/BAO/Case.php';
-            $value = CRM_Case_BAO_Case::VALUE_SEPERATOR.$value.CRM_Case_BAO_Case::VALUE_SEPERATOR;
-            $query->_where[$grouping][] = "civicrm_activity.activity_tag3_id $op '%{$value}%'";
+            $value = CRM_Case_BAO_Case::VALUE_SEPERATOR . 
+                implode( CRM_Case_BAO_Case::VALUE_SEPERATOR . "%' OR civicrm_activity.activity_tag3_id LIKE '%" .
+                         CRM_Case_BAO_Case::VALUE_SEPERATOR, $value) . 
+                CRM_Case_BAO_Case::VALUE_SEPERATOR;
+            $query->_where[$grouping][] = "(civicrm_activity.activity_tag3_id $op '%{$value}%')";
 
-            $query->_qill[$grouping ][] = ts( 'Violation Type %2 %1', array( 1 => $actualValue, 2 => $op) );
+            $query->_qill[$grouping ][] = ts( 'Violation Type %1', array( 1 => $op) ).  ' ' .implode( ' ' . ts('or') . ' ', $actualValue );
             $query->_tables['civicrm_activity']  = $query->_whereTables['civicrm_activity'] = 1;
             return;
 
