@@ -251,6 +251,11 @@ abstract class CRM_Member_Import_Parser {
                   $mode = self::MODE_PREVIEW,
                   $contactType = self::CONTACT_INDIVIDUAL,
                   $onDuplicate = self::DUPLICATE_SKIP ) {
+        if ( ! is_array( $fileName ) ) {
+            CRM_Core_Error::fatal( );
+        }
+        $fileName = $fileName['name'];
+
         switch ($contactType) {
         case self::CONTACT_INDIVIDUAL :
             $this->_contactType = 'Individual';

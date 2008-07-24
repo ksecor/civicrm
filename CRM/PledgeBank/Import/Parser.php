@@ -245,6 +245,11 @@ abstract class CRM_PledgeBank_Import_Parser
                   $contactType = self::CONTACT_INDIVIDUAL,
                   $onDuplicate = self::DUPLICATE_SKIP )
     {
+        if ( ! is_array( $fileName ) ) {
+            CRM_Core_Error::fatal( );
+        }
+        $fileName = $fileName['name'];
+
         switch ($contactType) {
         case self::CONTACT_INDIVIDUAL :
             $this->_contactType = 'Individual';
