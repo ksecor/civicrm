@@ -152,7 +152,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 //         $this->_defaults['credit_card_number']   = '4807731747657838';
 //         $this->_defaults['cvv2']                 = '000';
 //         $this->_defaults['credit_card_exp_date'] = array( 'Y' => '2009', 'M' => '01' );
-        
+
         //build set default for pledge overdue payment.
         if ( $this->_values['pledge_id'] ) {
             //get all payment statuses.
@@ -174,7 +174,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             }
         } else if ( CRM_Utils_Array::value('pledge_block_id', $this->_values ) ) {
             //set default to one time contribution.
-            $this->_defaults['is_pledge_frequency_interval'] = 0;  
+            $this->_defaults['is_pledge'] = 0;  
         }
         
         return $this->_defaults;
@@ -630,7 +630,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                 if ( empty( $fields['pledge_amount'] ) ) {
                     $errors['pledge_amount'] = ts( 'At least one payment option needs to be checked.' );
                 }
-            } else if ( CRM_Utils_Array::value( 'is_pledge_frequency_interval', $fields ) ) { 
+            } else if ( CRM_Utils_Array::value( 'is_pledge', $fields ) ) { 
                 if ( CRM_Utils_Rule::positiveInteger( CRM_Utils_Array::value( 'pledge_installments', $fields ) ) == false ) {
                     $errors['pledge_installments'] = ts('Please enter a valid pledge installment.');
                 } else {
@@ -740,12 +740,6 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 
         // get the submitted form values. 
         $params = $this->controller->exportValues( $this->_name ); 
-        
-        //pledge with one-time contribution.
-        if ( CRM_Utils_Array::value( 'pledge_block_id', $this->_values ) && 
-             CRM_Utils_Array::value( 'is_pledge_frequency_interval', $params ) == 0 ) {
-            $params['pledge_frequency_interval'] = $params['pledge_installments'] = 1;
-        }
         
         $params['currencyID']     = $config->defaultCurrency;
 

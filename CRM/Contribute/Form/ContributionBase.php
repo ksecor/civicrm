@@ -293,7 +293,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                  ! $this->_membershipBlock['is_active'] ) {
                 CRM_Core_Error::fatal( ts('This page includes a Profile with Membership fields - but the Membership Block is NOT enabled. Please notify the site administrator.') );
             }
-
+            
             require_once 'CRM/Pledge/BAO/PledgeBlock.php';
             $pledgeBlock = CRM_Pledge_BAO_PledgeBlock::getPledgeBlock( $this->_id );
 
@@ -302,8 +302,6 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                 $this->_values['max_reminders'          ] = $pledgeBlock['max_reminders'];
                 $this->_values['initial_reminder_day'   ] = $pledgeBlock['initial_reminder_day'];
                 $this->_values['additional_reminder_day'] = $pledgeBlock['additional_reminder_day'];
-
-                $this->assign( 'pledgeBlock', true );
 
                 //set pledge id in values
                 $pledgeId = CRM_Utils_Request::retrieve( 'pledgeId', 'Positive', $this );
@@ -317,6 +315,11 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
 
             $this->set( 'values', $this->_values );
             $this->set( 'fields', $this->_fields );
+        }
+
+        //set pledge block if block id is set
+        if ( $this->_values['pledge_block_id'] ) {
+            $this->assign( 'pledgeBlock', true );
         }
 
         // we do this outside of the above conditional to avoid 
@@ -422,12 +425,10 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         }
 
         if ( in_array('CiviPledge', $config->enableComponents ) && 
-             CRM_Utils_Array::value( 'is_pledge_frequency_interval', $this->_params ) == 1 ) {
+             CRM_Utils_Array::value( 'is_pledge', $this->_params ) == 1 ) {
             $this->assign( 'pledge_enabled', 1 );
-            $this->_params['is_pledge'] = 1;
 
             $vars = array_merge( $vars, array( 'is_pledge',
-                                               'is_pledge_frequency_interval',
                                                'pledge_frequency_interval', 
                                                'pledge_frequency_unit',
                                                'pledge_installments') );
@@ -443,15 +444,14 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
             }
         }
 
-
         // assign the address formatted up for display
         $addressParts  = array( "street_address-{$this->_bltID}",
                                 "city-{$this->_bltID}",
                                 "postal_code-{$this->_bltID}",
                                 "state_province-{$this->_bltID}",
                                 "country-{$this->_bltID}");
-        $addressFields = array();
 
+        $addressFields = array( );
         foreach ($addressParts as $part) {
             list( $n, $id ) = explode( '-', $part );
             $addressFields[$n] = CRM_Utils_Array::value( $part, $this->_params );

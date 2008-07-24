@@ -81,7 +81,7 @@
             {/if}
             </p>
         {/if}
-        {if $is_pledge AND $is_pledge_frequency_interval}
+        {if $is_pledge}
             {if $pledge_frequency_interval GT 1}
                 <p><strong>{ts 1=$pledge_frequency_interval 2=$pledge_frequency_unit 3=$pledge_installments}I pledge to contribute this amount every %1 %2s for %3 installments.{/ts}</strong></p>
             {else}
