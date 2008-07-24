@@ -105,7 +105,12 @@
     {if $paymentProcessor.billing_mode & 2}
       <table class="form-layout-compressed">
         <tr><td class="description">{ts}If you have a PayPal account, you can click the PayPal button to continue. Otherwise, fill in the credit card and billing information on this form and click <strong>Continue</strong> at the bottom of the page.{/ts}</td></tr>
-        <tr><td>{$form._qf_Register_next_express.html} <span style="font-size:11px; font-family: Arial, Verdana;">Save time.  Checkout securely.  Pay without sharing your financial information. </span></td></tr>
+{if $buttonType eq 'upload'}
+   {assign var=expressButtonName value='_qf_Register_upload_express'}
+{else}
+   {assign var=expressButtonName value='_qf_Register_next_express'}
+{/if}
+        <tr><td>{$form.$expressButtonName.html} <span style="font-size:11px; font-family: Arial, Verdana;">Save time.  Checkout securely.  Pay without sharing your financial information. </span></td></tr>
       </table>
     {/if}
     {if $paymentProcessor.billing_mode & 1}
@@ -153,7 +158,7 @@
     <fieldset><legend>{ts}Checkout with PayPal{/ts}</legend>
     <table class="form-layout-compressed">
     <tr><td class="description">{ts}Click the PayPal button to continue.{/ts}</td></tr>
-    <tr><td>{$form._qf_Register_next_express.html} <span style="font-size:11px; font-family: Arial, Verdana;">Checkout securely.  Pay without sharing your financial information. </span></td></tr>
+    <tr><td>{$form.$expressButtonName.html} <span style="font-size:11px; font-family: Arial, Verdana;">Checkout securely.  Pay without sharing your financial information. </span></td></tr>
     </table>
     </fieldset>
 {/if}

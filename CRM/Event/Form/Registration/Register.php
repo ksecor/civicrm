@@ -166,6 +166,10 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             $this->add( 'text', 'additional_participants', ts('How many additional people?'), array( 'size' => 10, 'maxlength' => 10) );
             $this->addRule( 'additional_participants', ts( 'Please enter a valid No Of People (numbers only).' ), 'positiveInteger' );
         }
+
+        $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
+        $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
+        
         if ( $this->_values['event']['is_monetary'] ) {
             self::buildAmount( $this );
 
@@ -193,9 +197,6 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             CRM_Core_Payment_Form::buildCreditCard( $this );
         }
         
-        $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
-        $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
-        
         $session =& CRM_Core_Session::singleton( );
         $userID = $session->get( 'userID' );
 
@@ -216,8 +217,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             }
         }
         
-        $uploadNames = $this->get( 'uploadNames' );
-        $buttonName = empty( $uploadNames ) ? 'next' : 'upload';
+        $buttonName = $this->buttonType( );
         
         // if payment is via a button only, dont display continue
         if ( $this->_paymentProcessor['billing_mode'] != CRM_Core_Payment::BILLING_MODE_BUTTON ||
@@ -302,39 +302,6 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             }
         }
     }
-    
-    /** 
-     * Function to add all the credit card fields
-     * 
-     * @return None 
-     * @access public 
-     */
-    function buildCreditCard( ) 
-    {
-        $config =& CRM_Core_Config::singleton( );
-        if ( $this->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_FORM ) {
-            foreach ( $this->_fields as $name => $field ) {
-                $this->add( $field['htmlType'],
-                            $field['name'],
-                            $field['title'],
-                            $field['attributes'],
-                            $field['is_required'] );
-            }
-            
-            $this->addRule( 'cvv2', ts( 'Please enter a valid value for your card security code. This is usually the last 3-4 digits on the card\'s signature panel.' ), 'integer' );
-            
-            $this->addRule( 'credit_card_exp_date', ts('Select a valid date greater than today.'), 'currentDate');
-        }            
-        
-        if ( $this->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_BUTTON ) {
-            $this->_expressButtonName = $this->getButtonName( 'next', 'express' );
-            $this->add('image',
-                       $this->_expressButtonName,
-                       $this->_paymentProcessor['url_button'],
-                       array( 'class' => 'form-submit' ) );
-        }
-    }
-    
     
     /** 
      * global form rule 

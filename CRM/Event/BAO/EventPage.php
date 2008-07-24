@@ -193,7 +193,6 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
             require_once 'CRM/Core/BAO/UFGroup.php';
             if ( CRM_Core_BAO_UFGroup::filterUFGroups($gid, $cid) ){
                 $values = array( );
-                $groupTitle = null;
                 $fields = CRM_Core_BAO_UFGroup::getFields( $gid, false, CRM_Core_Action::VIEW );
 
                 //this condition is added, since same contact can have multiple event registrations..
@@ -207,6 +206,22 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
                     $params[] = array( 'participant_test', '=', 1, 0, 0 );
                 }
                 
+                $groupTitle = null;
+                foreach( $fields as $k => $v  ) {
+                    if ( ! $groupTitle ) {
+                        $groupTitle = $v["groupTitle"];
+                    }
+                    // suppress all file fields from display
+                    if ( CRM_Utils_Array::value( 'data_type', $v, '' ) == 'File' ) {
+                        unset( $fields[$k] );
+                    }
+                }
+
+                if ( $groupTitle ) {
+                    $template->assign( $name."_grouptitle", $groupTitle );
+                }
+
+
                 CRM_Core_BAO_UFGroup::getValues( $cid, $fields, $values , false, $params );
                 
                 if ( isset($values[$fields['participant_status_id']['title']]) ) {
@@ -240,13 +255,6 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
                 
                 unset( $values[$fields['participant_id']['title']] );
 
-                foreach( $fields as $v  ) {
-                    if ( ! $groupTitle ) {
-                        $groupTitle = $v["groupTitle"];
-                    } else {
-                        break;
-                    }
-                }
                 //return if we only require array of participant's info.
                 if ( $isCustomProfile ) {
                     if ( count($values) ) {
@@ -255,10 +263,6 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
                         return null;
                     }
                 } 
-
-                if ( $groupTitle ) {
-                    $template->assign( $name."_grouptitle", $groupTitle );
-                }
 
                 if ( count( $values ) ) {
                     $template->assign( $name, $values );
