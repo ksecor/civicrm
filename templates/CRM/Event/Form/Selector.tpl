@@ -32,7 +32,7 @@
     	<td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td>
     {/if}
 
-    <td><a href="{crmURL p='civicrm/event/info' q="reset=1&action=preview&id=`$row.event_id`"}">{$row.event_title}</a></td>
+    <td><a href="{crmURL p='civicrm/event/search' q="reset=1&force=1&event=`$row.event_id`"}">{$row.event_title}</a></td>
     {assign var="participant_id" value=$row.participant_id}
     {if $lineItems.$participant_id}
     <td>
