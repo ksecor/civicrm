@@ -754,7 +754,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             $v = array( );
             $p = array( );
             foreach ( $checkedData as $key => $val ) {
-                if ( $key == 'CiviCRM_OP_OR' ) {
+                if ( $key === 'CiviCRM_OP_OR' ) {
                     continue;
                 }
                 if ( $html_type == 'CheckBox' ) {
