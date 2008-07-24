@@ -919,7 +919,7 @@ SELECT $select
         }
     }
 
-    static function postProcess( &$groupTree, &$params ) 
+    static function postProcess( &$groupTree, &$params, $skipFile = false ) 
     {
         // Get the Custom form values and groupTree        
         // first reset all checkbox and radio data
@@ -976,6 +976,10 @@ SELECT $select
                     break;
          
                 case 'File':
+                    if ( $skipFile ) {
+                        continue;
+                    }
+
                     //store the file in d/b
                     $entityId   = explode( '=', $groupTree['info']['where'][0] );
                     $fileParams = array( 'upload_date'=> date('Ymdhis') );
