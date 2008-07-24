@@ -581,10 +581,15 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             //calculate scheduled amount.
             $params['scheduled_amount'] = ceil( $params['amount'] / $params['installments'] );
             
+            //get some required pledge values in params.
+            $params['id'] = $pledge->id;
+            $params['acknowledge_date'] = $pledge->acknowledge_date;
+            $params['is_test'] = $pledge->is_test;
+            
             $this->paymentId = null;
             //send Acknowledgment mail.
             require_once 'CRM/Pledge/BAO/Pledge.php';
-            CRM_Pledge_BAO_Pledge::sendAcknowledgment( $this, $pledge, $params );
+            CRM_Pledge_BAO_Pledge::sendAcknowledgment( $this, $params );
 
             $statusMsg .= ' ' . ts( "An acknowledgment email has been sent to %1.<br />", array( 1 => $this->userEmail ) );
             

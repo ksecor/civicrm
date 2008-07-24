@@ -402,21 +402,19 @@ WHERE  $whereCond
      * 
      * @param object $form form object.
      * @param array  $params (reference ) an assoc array of name/value pairs.
-     * @param object $pledge object of created pledge.
      * @access public. 
      * @return None.
      */ 
-    function sendAcknowledgment( &$form, $pledge, $params )
+    function sendAcknowledgment( &$form, $params )
     {
         //handle Acknowledgment.
         $allPayments = $payments = array( );
 
         //get All Payments status types.
         $paymentStatusTypes = CRM_Contribute_PseudoConstant::contributionStatus( );
-        
         $returnProperties = array( 'status_id', 'scheduled_amount', 'scheduled_date', 'contribution_id' );
         //get all paymnets details.
-        CRM_Core_DAO::commonRetrieveAll( 'CRM_Pledge_DAO_Payment', 'pledge_id', $pledge->id, $allPayments, $returnProperties );
+        CRM_Core_DAO::commonRetrieveAll( 'CRM_Pledge_DAO_Payment', 'pledge_id', $params['id'], $allPayments, $returnProperties );
         
         if ( !empty( $allPayments )) {
             foreach( $allPayments as $payID => $values ) {
@@ -504,7 +502,7 @@ WHERE  $whereCond
         if ( CRM_Utils_Array::value( 'hidden_custom', $params ) ) {
             require_once 'CRM/Core/BAO/CustomGroup.php';
             $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Pledge', $params['contact_id'] );
-            $pledgeParams = array( array( 'pledge_id', '=', $pledge->id, 0, 0 ) );   
+            $pledgeParams = array( array( 'pledge_id', '=', $params['id'], 0, 0 ) );   
             $customGroup = array(); 
             // retrieve custom data
             require_once "CRM/Core/BAO/UFGroup.php";
@@ -551,19 +549,19 @@ WHERE  $whereCond
         require_once "CRM/Activity/DAO/Activity.php";
         $activityType = 'Pledge Acknowledgment';
         $activity =& new CRM_Activity_DAO_Activity( );
-        $activity->source_record_id = $pledge->id;
+        $activity->source_record_id = $params['id'];
         $activity->activity_type_id = CRM_Core_OptionGroup::getValue( 'activity_type',
                                                                       $activityType,
                                                                       'name' );
         if ( ! $activity->find( ) ) {
             $activityParams = array( 'subject'            => $subject,
                                      'source_contact_id'  => $params['contact_id'],
-                                     'source_record_id'   => $pledge->id,
+                                     'source_record_id'   => $params['id'],
                                      'activity_type_id'   => CRM_Core_OptionGroup::getValue( 'activity_type',
                                                                                              $activityType,
                                                                                              'name' ),
-                                     'activity_date_time' => CRM_Utils_Date::isoToMysql( $pledge->acknowledge_date ),
-                                     'is_test'            => $pledge->is_test,
+                                     'activity_date_time' => CRM_Utils_Date::isoToMysql( $params['acknowledge_date'] ),
+                                     'is_test'            => $params['is_test'],
                                      'status_id'          => 1
                                      );
             require_once 'api/v2/Activity.php';
