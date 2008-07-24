@@ -194,11 +194,6 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $this->add( 'text', "email-{$this->_bltID}",
                     ts( 'Email Address' ), array( 'size' => 30, 'maxlength' => 60 ), true );
 
-        if ( $this->_values['is_monetary'] ) {
-            require_once 'CRM/Core/Payment/Form.php';
-            CRM_Core_Payment_Form::buildCreditCard( $this );
-        }
-
         $this->_separateMembershipPayment = false;
         if ( in_array("CiviMember", $config->enableComponents) ) {
             $isTest = 0;
@@ -252,7 +247,13 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         
         $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
         $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
-       
+
+        // doing this later since the express button type depends if there is an upload or not
+        if ( $this->_values['is_monetary'] ) {
+            require_once 'CRM/Core/Payment/Form.php';
+            CRM_Core_Payment_Form::buildCreditCard( $this );
+        }
+
         //to create an cms user 
         $session =& CRM_Core_Session::singleton( );
         $userID = $session->get( 'userID' );
@@ -278,9 +279,8 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         if ( $this->_paymentProcessor['billing_mode'] != CRM_Core_Payment::BILLING_MODE_BUTTON ||
              ! $this->_values['is_monetary']) {
             // check if button type should be next or upload
-            $buttonType = $this->get( 'uploadNames' ) ? 'upload' : 'next';
             $this->addButtons(array( 
-                                    array ( 'type'      => $buttonType,
+                                    array ( 'type'      => $this->buttonType( ),
                                             'name'      => ts('Continue >>'), 
                                             'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
                                             'isDefault' => true   ), 
