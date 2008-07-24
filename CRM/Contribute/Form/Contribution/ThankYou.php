@@ -56,8 +56,8 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
         $this->assign( 'thankyou_title', $this->_values['thankyou_title'] );
         $this->assign( 'thankyou_text' , $this->_values['thankyou_text']  );
         $this->assign( 'thankyou_footer' , CRM_Utils_Array::value('thankyou_footer',$this->_values));
-        $this->assign( 'max_reminders', $this->_params['max_reminders']);
-        $this->assign( 'initial_reminder_day', $this->_params['initial_reminder_day']); 
+        $this->assign( 'max_reminders', $this->_values['max_reminders']);
+        $this->assign( 'initial_reminder_day', $this->_values['initial_reminder_day']); 
         CRM_Utils_System::setTitle($this->_values['thankyou_title']);
     }
     

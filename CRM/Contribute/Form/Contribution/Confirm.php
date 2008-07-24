@@ -671,7 +671,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $contribParams['id'] = $contribID;
             }
         }
-        
+    
         require_once 'CRM/Contribute/BAO/Contribution.php';
         $contribution =& CRM_Contribute_BAO_Contribution::add( $contribParams, $ids );
         
@@ -694,9 +694,9 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $pledgeParams['scheduled_date'    ]['d'] = date("d");
                 $pledgeParams['scheduled_date'    ]['Y'] = date("Y");
                 $pledgeParams['status_id'              ] = $contribution->contribution_status_id;
-                $pledgeParams['max_reminders'          ] = $form->_params['max_reminders'];
-                $pledgeParams['initial_reminder_day'   ] = $form->_params['initial_reminder_day'];
-                $pledgeParams['additional_reminder_day'] = $form->_params['additional_reminder_day'];
+                $pledgeParams['max_reminders'          ] = $form->_values['max_reminders'];
+                $pledgeParams['initial_reminder_day'   ] = $form->_values['initial_reminder_day'];
+                $pledgeParams['additional_reminder_day'] = $form->_values['additional_reminder_day'];
                 
                 require_once 'CRM/Pledge/BAO/Pledge.php';
                 $pledge = CRM_Pledge_BAO_Pledge::create($pledgeParams); 
