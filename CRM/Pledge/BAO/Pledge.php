@@ -418,7 +418,7 @@ WHERE  $whereCond
             foreach( $allPayments as $payID => $values ) {
                 $contributionValue = $contributionStatus = array( );
                 if ( isset( $values['contribution_id'] ) ) {
-                    $contributionParams = array('contribution_id' => $values['contribution_id']);
+                    $contributionParams = array('id' => $values['contribution_id']);
                     $returnProperties = array( 'contribution_status_id', 'receive_date' );
                     CRM_Core_DAO::commonRetrieve( 'CRM_Contribute_DAO_Contribution', 
                                                   $contributionParams, $contributionStatus, $returnProperties );
