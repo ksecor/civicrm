@@ -254,6 +254,14 @@ class CRM_Contact_BAO_Query
      * @static
      */
     static $_activityRole;
+
+    /**
+     * use distinct component clause for component searches
+     *
+     * @var string
+     */
+    public $_distinctComponentClause;
+
     /**
      * The tables which have a dependency on location and/or address
      *
@@ -815,9 +823,13 @@ class CRM_Contact_BAO_Query
      */ 
     function query( $count = false, $sortByChar = false, $groupContacts = false ) {
         if ( $count ) {
-            $select = ( $this->_useDistinct ) ?	
-               'SELECT count(DISTINCT contact_a.id)' :
-               'SELECT count(*)'; 
+            if ( isset( $this->_distinctComponentClause ) ) {
+                $select = "SELECT count( {$this->_distinctComponentClause} )";
+            } else {
+                $select = ( $this->_useDistinct ) ?	
+                    'SELECT count(DISTINCT contact_a.id)' :
+                    'SELECT count(*)';
+            }
             $from = $this->_simpleFromClause;
         } else if ( $sortByChar ) {  
             $select = 'SELECT DISTINCT UPPER(LEFT(contact_a.sort_name, 1)) as sort_name';
@@ -2692,7 +2704,7 @@ WHERE  id IN ( $groupIDs )
      * @param boolean  $sortByChar if true returns the distinct array of first characters for search results
      * @param boolean  $groupContacts if true, use a single mysql group_concat statement to get the contact ids
      * @param boolean  $returnQuery   should we return the query as a string
-     * @param string   $additionalWhereClause if the caller wants to further restrict the search (used in contributions)
+     * @param string   $additionalWhereClause if the caller wants to further restrict the search (used for components)
      *
      * @return CRM_Contact_DAO_Contact 
      * @access public

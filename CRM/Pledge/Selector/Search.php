@@ -171,6 +171,8 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base
 
         $this->_query =& new CRM_Contact_BAO_Query( $this->_queryParams, null, null, false, false,
                                                     CRM_Contact_BAO_Query::MODE_PLEDGE);
+
+        $this->_query->_distinctComponentClause = " DISTINCT civicrm_pledge.id ";
     }//end of constructor
 
     
