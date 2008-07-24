@@ -671,29 +671,32 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $contribParams['id'] = $contribID;
             }
         }
-       
+        
         require_once 'CRM/Contribute/BAO/Contribution.php';
         $contribution =& CRM_Contribute_BAO_Contribution::add( $contribParams, $ids );
         
         if ( in_array('CiviPledge', $config->enableComponents ) ) {
             if ( $params['is_pledge'] == 1 ) {
                 //building pledge params
-                $pledgeParams                         = array( );
-                $pledgeParams['installment_amount'  ] = $contribution->total_amount;
-                $pledgeParams['contact_id'          ] = $contribution->contact_id;
-                $pledgeParams['contribution_id'     ] = $contribution->id;
-                $pledgeParams['contribution_page_id'] = $contribution->contribution_page_id;
-                $pledgeParams['contribution_type_id'] = $contribution->contribution_type_id;
-                $pledgeParams['is_test'             ] = $contribution->is_test;
-                $pledgeParams['frequency_interval'  ] = $params['pledge_frequency_interval'] ? $params['pledge_frequency_interval'] : 1 ;
-                $pledgeParams['installments'        ] = $params['pledge_installments'] ? $params['pledge_installments'] : 1;
-                $pledgeParams['frequency_unit'      ] = $params['pledge_frequency_unit'];
-                $pledgeParams['frequency_day'       ] = 1;
-                $pledgeParams['create_date'         ] = $pledgeParams['start_date'] = date("Ymd");
-                $pledgeParams['scheduled_date' ]['M'] = date("m"); 
-                $pledgeParams['scheduled_date' ]['d'] = date("d");
-                $pledgeParams['scheduled_date' ]['Y'] = date("Y");
-                $pledgeParams['status_id']            = $contribution->contribution_status_id;
+                $pledgeParams                            = array( );
+                $pledgeParams['installment_amount'     ] = $contribution->total_amount;
+                $pledgeParams['contact_id'             ] = $contribution->contact_id;
+                $pledgeParams['contribution_id'        ] = $contribution->id;
+                $pledgeParams['contribution_page_id'   ] = $contribution->contribution_page_id;
+                $pledgeParams['contribution_type_id'   ] = $contribution->contribution_type_id;
+                $pledgeParams['is_test'                ] = $contribution->is_test;
+                $pledgeParams['frequency_interval'     ] = $params['pledge_frequency_interval'] ? $params['pledge_frequency_interval'] : 1 ;
+                $pledgeParams['installments'           ] = $params['pledge_installments'] ? $params['pledge_installments'] : 1;
+                $pledgeParams['frequency_unit'         ] = $params['pledge_frequency_unit'];
+                $pledgeParams['frequency_day'          ] = 1;
+                $pledgeParams['create_date'            ] = $pledgeParams['start_date'] = date("Ymd");
+                $pledgeParams['scheduled_date'    ]['M'] = date("m"); 
+                $pledgeParams['scheduled_date'    ]['d'] = date("d");
+                $pledgeParams['scheduled_date'    ]['Y'] = date("Y");
+                $pledgeParams['status_id'              ] = $contribution->contribution_status_id;
+                $pledgeParams['max_reminders'          ] = $form->_params['max_reminders'];
+                $pledgeParams['initial_reminder_day'   ] = $form->_params['initial_reminder_day'];
+                $pledgeParams['additional_reminder_day'] = $form->_params['additional_reminder_day'];
                 
                 require_once 'CRM/Pledge/BAO/Pledge.php';
                 $pledge = CRM_Pledge_BAO_Pledge::create($pledgeParams); 

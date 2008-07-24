@@ -421,6 +421,18 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
              CRM_Utils_Array::value( 'is_pledge_frequency_interval', $this->_params ) == 1 ) {
             $this->assign( 'pledge_enabled', 1 );
             $this->_params['is_pledge'] = 1;
+            $reminder = array();
+            CRM_Core_DAO::commonRetrieveAll( 'CRM_Pledge_DAO_PledgeBlock', 
+                                             'contribution_page_id', 
+                                             $this->_values['id'], 
+                                             $reminder, 
+                                             array( 'max_reminders', 'initial_reminder_day', 'additional_reminder_day' ) );
+            
+            foreach ($reminder as $v) {
+                $this->_params = $this->_params + $v;
+                unset($this->_params['id']);
+            }
+
             $vars = array_merge( $vars, array( 'is_pledge',
                                                'is_pledge_frequency_interval',
                                                'pledge_frequency_interval', 
