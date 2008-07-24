@@ -221,8 +221,8 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                 $contents = null;
                 if ( isset( $formValues[$key] ) &&
                      ! empty( $formValues[$key] ) ) {
-                    $contents = file_get_contents( $formValues[$key] );
-                    $this->set($key, $formValues[$key] );
+                    $contents = file_get_contents( $formValues[$key]['name'] );
+                    $this->set($key, $formValues[$key]['name'] );
                 }
                 if ( $contents ) {
                     $params['body_'. substr($key,0,4 )] = $contents;

@@ -87,6 +87,8 @@ class CRM_Core_Controller_Simple extends CRM_Core_Controller {
                 require_once 'CRM/Core/BAO/File.php';
                 $this->addActions( $config->uploadDir,
                                    CRM_Core_BAO_File::uploadNames( ) );
+            } else if ( $imageUpload ) {
+                $this->addActions( $config->imageUploadDir, array( 'uploadFile' ));
             } else {
                 $this->addActions( $config->uploadDir, array( 'uploadFile' ) );
             }

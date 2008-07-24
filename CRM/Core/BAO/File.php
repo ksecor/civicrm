@@ -346,7 +346,7 @@ AND       CEF.entity_id    = %2";
                     $fileParams = array( 'uri'        => $formValues[$attachName]['name'],
                                          'type'       => $formValues[$attachName]['type'],
                                          'upload_date'=> date( 'Ymdhis' ),
-                                         'location'   => $formValues[$attachName] );
+                                         'location'   => $formValues[$attachName]['name'] );
                     $params[$attachName] = $fileParams;
                 }
             }
