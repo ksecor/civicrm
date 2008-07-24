@@ -45,27 +45,20 @@ function civicrm_html_head()
 
     $head  = "<style type=\"text/css\">@import url({$config->resourceBase}css/civicrm.css);</style>\n";
 
-    // include the below files ONLY if needed, since they are heavy weight
-
-    $includeCommon = $includeDojo = $includeCalender = false;
-    if ( arg(0) == 'civicrm' &&
-       	 arg(1) != 'profile' ) {
-        $includeCommon = $includeDojo = $includeCalender = true;
-    }
-
-    if ( $includeCommon ) {
-        $head .= "<style type=\"text/css\">@import url({$config->resourceBase}css/skins/aqua/theme.css);</style>\n";
-    }
+    // include the below files ONLY if needed, since they are heavy weight ( i.e only for civicrm pages)
     
-    if ( $includeDojo ) {
-        $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}packages/dojo/dojo/dojo.js\" djConfig=\"isDebug: false, parseOnLoad: true, usePlainJson: true\" ></script>";
-        $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}packages/dojo/dojo/commonWidgets.js\"></script>";
-        $head .= "<style type=\"text/css\">@import url({$config->resourceBase}packages/dojo/dijit/themes/tundra/tundra.css);</style>";
+    $includeCommon = false;
+    if ( arg(0) == 'civicrm' ) {
+        $includeCommon = true;
     } else {
         $config->includeDojo = 0;
     }
 
-    if ( $includeCalender ) {
+    if ( $includeCommon ) {
+        $head .= "<style type=\"text/css\">@import url({$config->resourceBase}css/skins/aqua/theme.css);</style>\n";
+        $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}packages/dojo/dojo/dojo.js\" djConfig=\"isDebug: false, parseOnLoad: true, usePlainJson: true\" ></script>";
+        $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}packages/dojo/dojo/commonWidgets.js\"></script>";
+        $head .= "<style type=\"text/css\">@import url({$config->resourceBase}packages/dojo/dijit/themes/tundra/tundra.css);</style>";
         $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}js/calendar.js\"></script>";
         $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}js/lang/calendar-lang.php?{$config->lcMessages}\"></script>";
         $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}js/calendar-setup.js\"></script>";
