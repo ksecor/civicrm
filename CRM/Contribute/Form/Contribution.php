@@ -625,22 +625,14 @@ WHERE  contribution_id = {$this->_id}
         if ( $this->_online ) {
             $element->freeze( );
         }
-        
-        $session = & CRM_Core_Session::singleton( );
-        $uploadNames = $session->get( 'uploadNames' );
-        if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
-            $buttonType = 'upload';
-        } else {
-            $buttonType = 'next';
-        }      
-        
+
         $js = null;
         if ( !$this->_mode && $this->userEmail ) {
             $js = array( 'onclick' => "return verify( );" );    
         }
         
         $this->addButtons(array( 
-                                array ( 'type'      => $buttonType, 
+                                array ( 'type'      => $this->buttonType( ),
                                         'name'      => ts('Save'), 
                                         'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
                                         'js'        => $js,

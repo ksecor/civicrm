@@ -472,6 +472,7 @@ SELECT $select
                 }
             }
         }
+
         //hack for field type File
         $session = & CRM_Core_Session::singleton( );
         $session->set('uploadNames', $uploadNames);

@@ -898,7 +898,8 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
     }
 
     function buttonType( ) {
-        $buttonType = $this->get( 'uploadNames' ) ? 'upload' : 'next';
+        $uploadNames = $this->get( 'uploadNames' );
+        $buttonType = ( is_array( $uploadNames ) && ! empty( $uploadNames ) ) ? 'upload' : 'next';
         $this->assign( 'buttonType', $buttonType );
         return $buttonType;
     }
