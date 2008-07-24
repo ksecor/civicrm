@@ -279,7 +279,13 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
                                             array( 'id' => $id ), 
                                             null, 
                                             $fieldsToPrefix );
+        
         //copying all the blocks pertaining to the contribution page
+        $copyPledgeBlock =& CRM_Core_DAO::copyGeneric( 'CRM_Pledge_DAO_PledgeBlock', 
+                                                       array( 'entity_id'    => $id,
+                                                              'entity_table' => 'civicrm_contribution_page'),
+                                                       array( 'entity_id'    => $copy->id ) );
+                
         $copyMembershipBlock =& CRM_Core_DAO::copyGeneric( 'CRM_Member_DAO_MembershipBlock', 
                                                            array( 'entity_id'    => $id,
                                                                   'entity_table' => 'civicrm_contribution_page'),
