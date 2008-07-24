@@ -410,6 +410,10 @@ WHERE  $whereCond
     {
         //handle Acknowledgment.
         $allPayments = $payments = array( );
+
+        //get All Payments status types.
+        $paymentStatusTypes = CRM_Contribute_PseudoConstant::contributionStatus( );
+        
         $returnProperties = array( 'status_id', 'scheduled_amount', 'scheduled_date', 'contribution_id' );
         //get all paymnets details.
         CRM_Core_DAO::commonRetrieveAll( 'CRM_Pledge_DAO_Payment', 'pledge_id', $pledge->id, $allPayments, $returnProperties );
