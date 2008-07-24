@@ -501,7 +501,7 @@ WHERE  $whereCond
         //handle custom data.
         if ( CRM_Utils_Array::value( 'hidden_custom', $params ) ) {
             require_once 'CRM/Core/BAO/CustomGroup.php';
-            $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Pledge', $params['contact_id'] );
+            $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Pledge', $params['id'] );
             $pledgeParams = array( array( 'pledge_id', '=', $params['id'], 0, 0 ) );   
             $customGroup = array(); 
             // retrieve custom data
