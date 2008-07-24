@@ -497,46 +497,30 @@ WHERE  $whereCond
         $form->assign('contact', $details[0][$params['contact_id']] );
         
         //handle custom data.
-        $showCustom = 0;
         if ( CRM_Utils_Array::value( 'hidden_custom', $params ) ) {
-            $fieldIDs = array( );
-            $customFieldValues = array( );
-            foreach ( $params as $key => $value ) {
-                if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID( $key ) ) {
-                    $fieldIDs[] = $customFieldId;
-                    
-                    if ( is_array( $value ) ) {
-                        if ( count( array_count_values( $value ) ) == 1 ) {
-                            $customFieldValues[$customFieldId] = implode( ',', array_keys($value) );
-                        } else {
-                            $customFieldValues[$customFieldId] = implode( ',', $value );
-                        }
-                    } else {
-                        $customFieldValues[$customFieldId] = $value;
-                    }
+            require_once 'CRM/Core/BAO/CustomGroup.php';
+            $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Pledge', $params['contact_id'] );
+            $pledgeParams = array( array( 'pledge_id', '=', $pledge->id, 0, 0 ) );   
+            $customGroup = array(); 
+            // retrieve custom data
+            require_once "CRM/Core/BAO/UFGroup.php";
+            foreach ( $groupTree as $groupID => $group ) {
+                $customFields = $customValues = array( );
+                if ( $groupID == 'info' ) {
+                    continue;
+                } 
+                foreach ( $group['fields'] as $k => $field ) {
+                    $field['title'] = $field['label'];
+                    $customFields["custom_{$k}"] = $field;
                 }
+                
+                //to build array of customgroup & customfields in it
+                CRM_Core_BAO_UFGroup::getValues( $params['contact_id'], $customFields, $customValues , false, $pledgeParams );
+                $customGroup[$group['title']] = $customValues;
             }
             
-            //get custom group and fields label.
-            if ( !empty( $fieldIDs ) ) {
-                require_once 'CRM/Core/BAO/CustomField.php';
-                $customFields = CRM_Core_BAO_CustomField::getCustomFieldsLabel( $fieldIDs );
-                $customData = array( );
-                if ( !empty( $customFields ) ) {
-                    foreach( $customFields as $gID => $values ) {
-                        $customData[$gID]['group_id'] = $gID;
-                        $customData[$gID]['group_title'] = $values['group_title'];
-                        foreach ( $values['customFields'] as $fId => $val ) {
-                            $customData[$gID]['customFields'][$val['field_label']] = $customFieldValues[$fId];
-                        }
-                    }
-                }
-                $showCustom = 1;
-            }
-            //assign custom data.
-            $form->assign( 'customData', $customData );
+            $form->assign( 'customGroup', $customGroup );
         }
-        $form->assign( 'showCustom', $showCustom );
         
         //handle acknowledgment email stuff.
         require_once 'CRM/Contact/BAO/Contact.php';

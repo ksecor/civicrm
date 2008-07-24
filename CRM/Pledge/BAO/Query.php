@@ -287,6 +287,11 @@ class CRM_Pledge_BAO_Query
             $query->_tables['pledge_contact_b'] = $query->_whereTables['pledge_contact_b'] = 1;
             $query->_tables['civicrm_pledge'] = $query->_whereTables['civicrm_pledge'] = 1;
             return;
+            
+        case 'pledge_id':
+            $query->_where[$grouping][] = "civicrm_pledge.id $op $value";
+            $query->_tables['civicrm_pledge'] = $query->_whereTables['civicrm_pledge'] = 1;
+            return;
         }
     }
 

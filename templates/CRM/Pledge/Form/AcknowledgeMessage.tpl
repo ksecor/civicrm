@@ -44,17 +44,13 @@ or need to modify your payment schedule.{/ts}
 {/if}
 {/if}
 
-{if $showCustom}
+{if $customGroup}
+{foreach from=$customGroup item=value key=customName} 
 ===========================================================
-{ts}Additional Information{/ts}
-
+{$customName}
 ===========================================================
-{foreach from=$customData item=customValues key=gID}
-
- {ts}{$customValues.group_title} {/ts}
-
-{foreach from=$customValues.customFields item=customValue key=customName}
- {$customName} : {$customValue}
+{foreach from=$value item=v key=n}
+ {$n} : {$v}
 {/foreach}
 {/foreach}
 {/if}
