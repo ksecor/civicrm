@@ -874,7 +874,28 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
     static function &getTemplate( ) {
         return self::$_template;
     }
-    
+
+    function addUploadElement( $elementName ) {
+        $uploadNames = $this->get('uploadNames');
+        if ( ! $uploadNames ) {
+            $uploadNames = array( );
+        }
+        if ( is_array( $elementName ) ) {
+            foreach ( $elementName as $name ) {
+                if ( ! in_array( $name, $uploadNames ) ) {
+                    $uploadNames[] = $name;
+                }
+            }
+        } else {
+            if ( ! in_array( $elementName, $uploadNames ) ) {
+                $uploadNames[] = $elementName;
+            }
+        }
+        $this->set( 'uploadNames', $uploadNames );
+
+        $config =& CRM_Core_Config::singleton( );
+        $this->controller->addUploadAction( $config->customFileUploadDir, $uploadNames );
+    }
 }
 
 

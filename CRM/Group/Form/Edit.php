@@ -299,21 +299,6 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
                 $params['id'] = $this->_id;
             }
 
-            // format custom data
-            // get mime type of the uploaded file
-            if ( !empty($_FILES) ) {
-                foreach ( $_FILES as $key => $value) {
-                    $files = array( );
-                if ( $params[$key] ) {
-                    $files['name'] = $params[$key];
-                }
-                if ( $value['type'] ) {
-                    $files['type'] = $value['type']; 
-                }
-                $params[$key] = $files;
-                }
-            }
-            
             $customData = array( );
             foreach ( $params as $key => $value ) {
                 if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {

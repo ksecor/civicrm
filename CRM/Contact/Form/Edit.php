@@ -602,6 +602,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
+
         $params['contact_type'] = $this->_contactType;
         
         if ( $this->_contactId ) {
@@ -624,21 +625,6 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             CRM_Utils_Hook::pre( 'create', $params['contact_type'], null, $params );
         }
         
-        // format custom data
-        // get mime type of the uploaded file
-        if ( !empty($_FILES) ) {
-            foreach ( $_FILES as $key => $value) {
-                $files = array( );
-                if ( $params[$key] ) {
-                    $files['name'] = $params[$key];
-                }
-                if ( $value['type'] ) {
-                    $files['type'] = $value['type']; 
-                }
-                $params[$key] = $files;
-            }
-        }
-
         $customData = array( );
         foreach ( $params as $key => $value ) {
             if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {

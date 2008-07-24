@@ -285,18 +285,6 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
         $this->addUploadAction( $uploadDirectory, $uploadNames );
     }
 
-    function addUploadAction( $uploadDir, $uploadNames ) {
-        if ( ! empty( $uploadDir   ) &&
-             ! empty( $uploadNames ) ) {
-            require_once 'CRM/Core/QuickForm/Action/Upload.php';
-            $action =& new CRM_Core_QuickForm_Action_Upload ( $this->_stateMachine,
-                                                              $uploadDir,
-                                                              $uploadNames );
-            
-            $this->addAction('upload' , $action );
-        }
-    }
-
     /**
      * getter method for stateMachine
      *
@@ -548,11 +536,12 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
         }
     }
 
-    public function fixUploadAction( $uploadDirectory, $uploadNames ) {
-        if ( ! empty( $uploadNames ) ) {
+    public function addUploadAction( $uploadDir, $uploadNames ) {
+        if ( ! empty( $uploadDir   ) &&
+             ! empty( $uploadNames ) ) {
             require_once 'CRM/Core/QuickForm/Action/Upload.php';
             $action =& new CRM_Core_QuickForm_Action_Upload ( $this->_stateMachine,
-                                                              $uploadDirectory,
+                                                              $uploadDir,
                                                               $uploadNames );
 
             $this->addAction('upload' , $action );

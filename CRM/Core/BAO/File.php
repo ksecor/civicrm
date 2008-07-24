@@ -95,7 +95,7 @@ class CRM_Core_BAO_File extends CRM_Core_DAO_File {
                                     $entitySubtype, $overwrite = true,
                                     $fileParams = null,
                                     $uploadName = 'uploadFile',
-                                    $mimeType   = null ) {
+                                    $mimeType    ) {
 
         require_once 'CRM/Core/DAO/File.php';
         $config = & CRM_Core_Config::singleton();
@@ -129,7 +129,7 @@ class CRM_Core_BAO_File extends CRM_Core_DAO_File {
         $dao->fetch();
 
         if ( ! $mimeType ) {
-            $mimeType = $_FILES[$uploadName]['type'];
+            CRM_Core_Error::fatal( );
         }
         
         require_once "CRM/Core/DAO/File.php";
@@ -341,10 +341,10 @@ AND       CEF.entity_id    = %2";
             if ( isset( $formValues[$attachName] ) &&
                  ! empty( $formValues[$attachName] ) ) {
                 // ensure file is not empty
-                $contents = file_get_contents( $formValues[$attachName] );
+                $contents = file_get_contents( $formValues[$attachName]['name'] );
                 if ( $contents ) {
-                    $fileParams = array( 'uri'        => $_FILES[$attachName]['name'],
-                                         'type'       => $_FILES[$attachName]['type'],
+                    $fileParams = array( 'uri'        => $formValues[$attachName]['name'],
+                                         'type'       => $formValues[$attachName]['type'],
                                          'upload_date'=> date( 'Ymdhis' ),
                                          'location'   => $formValues[$attachName] );
                     $params[$attachName] = $fileParams;

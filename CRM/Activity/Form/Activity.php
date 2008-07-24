@@ -604,24 +604,6 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
-        //crm_core_error::Debug( $params ); exit();
-        // format custom data
-        // get mime type of the uploaded file
-        if ( !empty($_FILES) ) {
-            foreach ( $_FILES as $key => $value) {
-                // ignore non custom field files
-                if ( substr( $key, 0, 7 ) == 'custom_' ) {
-                    $files = array( );
-                    if ( $params[$key] ) {
-                        $files['name'] = $params[$key];
-                    }
-                    if ( $value['type'] ) {
-                        $files['type'] = $value['type']; 
-                    }
-                    $params[$key] = $files;
-                }
-            }
-        }
         
         $customData = array( );
         foreach ( $params as $key => $value ) {

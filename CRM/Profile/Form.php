@@ -518,19 +518,6 @@ class CRM_Profile_Form extends CRM_Core_Form
     {
         $params = $this->controller->exportValues( $this->_name );
 
-        if ( !empty($_FILES) ) {
-            foreach ( $_FILES as $key => $value) {
-                $files = array( );
-                if ( $params[$key] ){
-                    $files['name'] = $params[$key];
-                }
-                if ( $value['type'] ) {
-                    $files['type'] = $value['type']; 
-                }
-                $params[$key] = $files;
-            }
-        }
-        
         if ( $this->_mode == self::MODE_REGISTER ) {
             require_once 'CRM/Core/BAO/Address.php';
             CRM_Core_BAO_Address::setOverwrite( false );

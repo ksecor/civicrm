@@ -232,21 +232,6 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
             $ids['note']['id']   = $this->_noteId;
         }
         
-        // format custom data
-        // get mime type of the uploaded file
-        if ( !empty($_FILES) ) {
-            foreach ( $_FILES as $key => $value) {
-                $files = array( );
-                if ( $formValues[$key] ) {
-                    $files['name'] = $formValues[$key];
-                }
-                if ( $value['type'] ) {
-                    $files['type'] = $value['type']; 
-                }
-                $formValues[$key] = $files;
-            }
-        }
-
         $customData = array( );
         foreach ( $formValues as $key => $value ) {
             if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {

@@ -277,8 +277,10 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         // if payment is via a button only, dont display continue
         if ( $this->_paymentProcessor['billing_mode'] != CRM_Core_Payment::BILLING_MODE_BUTTON ||
              ! $this->_values['is_monetary']) {
+            // check if button type should be next or upload
+            $buttonType = $this->get( 'uploadNames' ) ? 'upload' : 'next';
             $this->addButtons(array( 
-                                    array ( 'type'      => 'next', 
+                                    array ( 'type'      => $buttonType,
                                             'name'      => ts('Continue >>'), 
                                             'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
                                             'isDefault' => true   ), 

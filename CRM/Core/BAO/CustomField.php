@@ -577,17 +577,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             $element =& $qf->add( strtolower($field->html_type), $elementName, $label,
                                   $field->attributes,
                                   ( ( $useRequired && $field->is_required ) && ! $search ) );
-
-            $uploadNames = $qf->get('uploadNames');
-            if ( ! $uploadNames ) {
-                $uploadNames = array( );
-            }
-            if ( ! in_array( $elementName, $uploadNames ) ) {
-                $uploadNames[] = $elementName;
-            }
-            $qf->set( 'uploadNames', $uploadNames );
-            $config =& CRM_Core_Config::singleton( );
-            $qf->controller->fixUploadAction( $config->customFileUploadDir, $uploadNames );
+            $qf->addUploadElement( $elementName );
             break;
 
         case 'Select State/Province':
@@ -1132,6 +1122,7 @@ SELECT id
             if ( empty($value) ) {
                 return;
             }
+
 
             require_once 'CRM/Core/DAO/File.php';
             $config = & CRM_Core_Config::singleton();

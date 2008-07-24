@@ -651,21 +651,6 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             }
         }
         
-        // format custom data
-        // get mime type of the uploaded file
-        if ( !empty($_FILES) ) {
-            foreach ( $_FILES as $key => $value) {
-                $files = array( );
-                if ( $params[$key] ) {
-                    $files['name'] = $params[$key];
-                }
-                if ( $value['type'] ) {
-                    $files['type'] = $value['type']; 
-                }
-                $params[$key] = $files;
-            }
-        }
-             
         require_once 'CRM/Contact/BAO/Contact.php';
         // Retrieve the name and email of the current user - this will be the FROM for the receipt email
         $session =& CRM_Core_Session::singleton( );

@@ -950,7 +950,9 @@ SELECT $select
                     if ( ! empty( $v ) ) {
                         $customValue = array_keys( $v );
                         $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = 
-                            CRM_Core_DAO::VALUE_SEPARATOR.implode(CRM_Core_DAO::VALUE_SEPARATOR, $customValue).CRM_Core_DAO::VALUE_SEPARATOR;
+                            CRM_Core_DAO::VALUE_SEPARATOR .
+                            implode(CRM_Core_DAO::VALUE_SEPARATOR, $customValue) .
+                            CRM_Core_DAO::VALUE_SEPARATOR;
                     } else {
                         $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = null;
                     }
@@ -960,7 +962,9 @@ SELECT $select
                 case 'Multi-Select':  
                     if ( ! empty( $v ) ) {
                         $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = 
-                            CRM_Core_DAO::VALUE_SEPARATOR.implode(CRM_Core_DAO::VALUE_SEPARATOR, $v).CRM_Core_DAO::VALUE_SEPARATOR;
+                            CRM_Core_DAO::VALUE_SEPARATOR .
+                            implode(CRM_Core_DAO::VALUE_SEPARATOR, $v) .
+                            CRM_Core_DAO::VALUE_SEPARATOR;
                     } else {
                         $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = null;
                     }
@@ -974,23 +978,24 @@ SELECT $select
                 case 'File':
                     //store the file in d/b
                     $entityId   = explode( '=', $groupTree['info']['where'][0] );
-                    $fileParams = array( 'uri'        =>  $filename,
-                                         'mime_type'  => $_FILES['custom_' . $fieldId]['type'],
-                                         'upload_date'=> date('Ymdhis') );
+                    $fileParams = array( 'upload_date'=> date('Ymdhis') );
                     
                     if ( $groupTree[$groupId]['fields'][$fieldId]['customValue']['fid'] ) {
                         $fileParams['id'] = $groupTree[$groupId]['fields'][$fieldId]['customValue']['fid'];
                     }     
                     if ( ! empty( $v ) ) {
                         require_once 'CRM/Core/BAO/File.php';
-                        CRM_Core_BAO_File::filePostProcess($v, 
+                        $fileParams['uri'] = $v['name'];
+                        $fileParams['mime_type'] = $v['type'];
+                        CRM_Core_BAO_File::filePostProcess($v['name'], 
                                                            $groupTree[$groupId]['fields'][$fieldId]['customValue']['fid'], 
                                                            $groupTree[$groupId]['table_name'],
                                                            trim( $entityId[1] ),
                                                            false,
                                                            true,
                                                            $fileParams,
-                                                           'custom_' . $fieldId
+                                                           'custom_' . $fieldId,
+                                                           $v['type']
                                                            );
                     }
                     $defaults   = array( );

@@ -533,19 +533,6 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         //format custom data
         if ( CRM_Utils_Array::value( 'hidden_custom', $formValues ) ) {
             $params['hidden_custom'] = 1;
-            //get mime type of the uploaded file
-            if ( !empty($_FILES) ) {
-                foreach ( $_FILES as $key => $value) {
-                    $files = array( );
-                    if ( $formValues[$key] ) {
-                        $files['name'] = $formValues[$key];
-                    }
-                    if ( $value['type'] ) {
-                        $files['type'] = $value['type']; 
-                    }
-                    $params[$key] = $files;
-                }
-            }
             
             $customData = array( );
             foreach ( $formValues as $key => $value ) {
