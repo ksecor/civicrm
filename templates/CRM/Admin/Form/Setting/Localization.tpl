@@ -8,7 +8,7 @@
               <dt>&nbsp;</dt><dd class="description">{ts}Languages available to users of this installation.{/ts}</dd>
             {else}
               <dt>{$form.makeMultilingual.label}</dt><dd>{$form.makeMultilingual.html}</dd>
-              <dt>&nbsp;</dt><dd class="description">{ts}Switch this installation from single- to multi-language.{/ts}</dd>
+              <dt>&nbsp;</dt><dd class="description">{ts}Check this box and click 'Save' to switch this installation from single- to multi-language. Then return to this form and assign Available Languages.{/ts}</dd>
             {/if}
             <dt>{$form.defaultCurrency.label}</dt><dd>{$form.defaultCurrency.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts}Default currency assigned to contributions and other monetary transactions.{/ts}</dd>
