@@ -608,12 +608,13 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
                     }
                 }
             }
-
-            //assign all payments details.
-            $this->assign( 'payments', $payments );
+            
+            //calculate scheduled amount.
+            $params['scheduled_amount'] = ceil( $params['amount'] / $params['installments'] );
             
             //send Acknowledgment mail.
-            self::sendAcknowledgment( $params, $pledge );
+            require_once 'CRM/Pledge/BAO/Pledge.php';
+            CRM_Pledge_BAO_Pledge::sendAcknowledgment( $this, $pledge, $params, $payments );
             
             $statusMsg .= ' ' . ts( "An acknowledgment email has been sent to %1.<br />", array( 1 => $this->userEmail ) );
             
@@ -637,157 +638,6 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         CRM_Core_Session::setStatus( $statusMsg );
     }
     
-    /** 
-     * Function to send Acknowledgment and create activity.
-     * 
-     * @param array  $params (reference ) an assoc array of name/value pairs.
-     * @param object $pledge object of created pledge.
-     * @access public. 
-     * @return None.
-     */ 
-    function sendAcknowledgment( $params, &$pledge )
-    {
-        //assign values to templates
-        $this->assignToTemplate( $params );
-        
-        require_once 'CRM/Contact/BAO/Contact.php';
-        list( $pledgerDisplayName, 
-              $pledgerEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $params['contact_id'] );
-        $template =& CRM_Core_Smarty::singleton( );
-        $message = $template->fetch( 'CRM/Pledge/Form/AcknowledgeMessage.tpl' );
-        $session =& CRM_Core_Session::singleton( );
-        $userID = $session->get( 'userID' );
-        list( $userName, $userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $userID );
-        $receiptFrom = '"' . $userName . '" <' . $userEmail . '>';
-        $subject = $template->fetch( 'CRM/Pledge/Form/AcknowledgeSubject.tpl' );
-        
-        require_once 'CRM/Utils/Mail.php';
-        CRM_Utils_Mail::send( $receiptFrom,
-                              $pledgerDisplayName,
-                              $pledgerEmail,
-                              $subject,
-                              $message);
-        
-        //check if activity record exist for this pledge
-        //Acknowledgment, if exist do not add activity.
-        require_once "CRM/Activity/DAO/Activity.php";
-        $activityType = 'Pledge Acknowledgment';
-        $activity =& new CRM_Activity_DAO_Activity( );
-        $activity->source_record_id = $this->_id;
-        $activity->activity_type_id = CRM_Core_OptionGroup::getValue( 'activity_type',
-                                                                      $activityType,
-                                                                      'name' );
-        if ( ! $activity->find( ) ) {
-            $activityParams = array( 'subject'            => $subject,
-                                     'source_contact_id'  => $params['contact_id'],
-                                     'source_record_id'   => $pledge->id,
-                                     'activity_type_id'   => CRM_Core_OptionGroup::getValue( 'activity_type',
-                                                                                             $activityType,
-                                                                                             'name' ),
-                                     'activity_date_time' => CRM_Utils_Date::isoToMysql( $pledge->acknowledge_date ),
-                                     'is_test'            => $pledge->is_test,
-                                     'status_id'          => 1
-                                     );
-            require_once 'api/v2/Activity.php';
-            if ( is_a( civicrm_activity_create( $activityParams ), 'CRM_Core_Error' ) ) {
-                CRM_Core_Error::fatal("Failed creating Activity for acknowledgment");
-            }
-        }
-    }
-    
-    /** 
-     * assign the minimal set of variables to the template
-     *                                                           
-     * @return void
-     * @access public 
-     */ 
-    function assignToTemplate( $params ) 
-    {
-        //assign pledge fields.
-        $pledgeFields = array( 'create_date', 'amount', 'frequency_interval', 'frequency_unit', 'installments', 'frequency_day' );
-        foreach ( $pledgeFields as $field ) {
-            if ( CRM_Utils_Array::value( $field, $params ) ) {
-                $this->assign( $field, $params[$field] );
-            }
-        }
-        $eachPaymentAmount = ( $params['amount'] / $params['installments'] );
-        $this->assign( 'eachPaymentAmount', $eachPaymentAmount );
-        
-        //assign honor fields.
-        $honor_block_is_active = false;
-        //make sure we have values for it
-        if (  CRM_Utils_Array::value( 'honor_type_id', $params ) &&
-              ( ( ! empty( $params["honor_first_name"] ) && ! empty( $params["honor_last_name"] ) ) ||
-                ( ! empty( $params["honor_email"] ) ) ) ) {
-            $honor_block_is_active = true;
-            $this->assign("honor_block_title", $this->_values['honor_block_title']);
-            require_once "CRM/Core/PseudoConstant.php";
-            $prefix = CRM_Core_PseudoConstant::individualPrefix();
-            $honor  = CRM_Core_PseudoConstant::honor( );             
-            $this->assign("honor_type",$honor[$params["honor_type_id"]]);
-            $this->assign("honor_prefix",$prefix[$params["honor_prefix_id"]]);
-            $this->assign("honor_first_name",$params["honor_first_name"]);
-            $this->assign("honor_last_name",$params["honor_last_name"]);
-            $this->assign("honor_email",$params["honor_email"]);
-        }
-        $this->assign('honor_block_is_active', $honor_block_is_active );
-        
-        //handle domain token values
-        require_once 'CRM/Core/BAO/Domain.php';
-        $domain =& CRM_Core_BAO_Domain::getDomain( );
-        $tokens = array ( 'domain'  => array( 'name', 'phone', 'address', 'email'),
-                          'contact' => CRM_Core_SelectValues::contactTokens());
-        require_once 'CRM/Utils/Token.php';
-        foreach( $tokens['domain'] as $token ){ 
-            $domainValues[$token] = CRM_Utils_Token::getDomainTokenReplacement( $token, $domain );
-        }
-        $this->assign('domain', $domainValues );
-        
-        //handle contact token values.
-        require_once 'CRM/Contact/BAO/Contact.php';
-        require_once 'CRM/Mailing/BAO/Mailing.php';
-        $ids = array( $this->_contactID );
-        $fields = array_merge( array_keys(CRM_Contact_BAO_Contact::importableFields( ) ),
-                               array( 'display_name', 'checksum', 'contact_id'));
-        foreach( $fields as $key => $val) {
-            $returnProperties[$val] = true;
-        }
-        $details =  CRM_Mailing_BAO_Mailing::getDetails( $ids, $returnProperties );
-        $this->assign('contact', $details[0][$this->_contactID] );
-        
-        //handle custom data.
-        $showCustom = 0;
-        if ( CRM_Utils_Array::value( 'hidden_custom', $params ) ) {
-            $fieldIDs = array( );
-            $customFieldValues = array( );
-            foreach ( $params as $key => $value ) {
-                if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID( $key ) ) {
-                    $fieldIDs[] = $customFieldId;
-                    $customFieldValues[$customFieldId] = $value;
-                }
-            }
-            
-            //get custom group and fields label.
-            if ( !empty( $fieldIDs ) ) {
-                require_once 'CRM/Core/BAO/CustomField.php';
-                $customFields = CRM_Core_BAO_CustomField::getCustomFieldsLabel( $fieldIDs );
-                $customData = array( );
-                if ( !empty( $customFields ) ) {
-                    foreach( $customFields as $gID => $values ) {
-                        $customData[$gID]['group_id'] = $gID;
-                        $customData[$gID]['group_title'] = $values['group_title'];
-                        foreach ( $values['customFields'] as $fId => $val ) {
-                            $customData[$gID]['customFields'][$val['field_label']] = $customFieldValues[$fId];
-                        }
-                    }
-                }
-                $showCustom = 1;
-            }
-            //assign custom data.
-            $this->assign_by_ref( 'customData', $customData );
-        }
-        $this->assign( 'showCustom', $showCustom );
-    }
-    
+  
 }
 
