@@ -697,7 +697,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $pledgeParams['initial_reminder_day'   ] = $form->_values['initial_reminder_day'];
             $pledgeParams['additional_reminder_day'] = $form->_values['additional_reminder_day'];
          
-            $pledgeParams['scheduled_amount'] = ceil( $pledgeParams['amount'] / $pledgeParams['installments'] );
+            $pledgeParams['scheduled_amount'] = floor( $pledgeParams['amount'] / $pledgeParams['installments'] );
             
             require_once 'CRM/Pledge/BAO/Pledge.php';
             if ( $params['is_pledge'] == 1 ) {
