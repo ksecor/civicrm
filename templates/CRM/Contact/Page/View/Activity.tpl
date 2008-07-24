@@ -1,5 +1,5 @@
 {* Include links to enter Activities if session has 'edit' permission *}
-{if ($permission EQ 'edit') and !$addContact }
+{if ($permission EQ 'edit') and !$addAssigneeContact }
     {include file="CRM/Activity/Form/ActivityLinks.tpl"}
 {/if}
 

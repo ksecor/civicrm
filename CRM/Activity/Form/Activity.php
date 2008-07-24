@@ -100,11 +100,11 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             return CRM_Custom_Form_CustomData::preProcess( $this );
         }
 
-        $this->_addContact     = CRM_Utils_Array::value( 'contact', $_GET );
+        $this->_addAssigneeContact = CRM_Utils_Array::value( 'assignee_contact', $_GET );
 
-        $this->assign('addContact', false);
-        if ( $this->_addContact ) {
-            $this->assign('addContact', true);
+        $this->assign('addAssigneeContact', false);
+        if ( $this->_addAssigneeContact ) {
+            $this->assign('addAssigneeContact', true);
         }
 
         $session =& CRM_Core_Session::singleton( );
@@ -309,7 +309,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             return CRM_Custom_Form_CustomData::buildQuickForm( $this );
         }
 
-        if ( $this->_addContact ) {
+        if ( $this->_addAssigneeContact ) {
             $contactCount = CRM_Utils_Array::value( 'count', $_GET );
             $nextContactCount = $contactCount + 1;
             $this->assign('contactCount', $contactCount );

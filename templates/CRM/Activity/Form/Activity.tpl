@@ -1,7 +1,7 @@
 {* this template is used for adding/editing other (custom) activities. *}
 {if $cdType }
    {include file="CRM/Custom/Form/CustomData.tpl"}
-{elseif $addContact }
+{elseif $addAssigneeContact }
    {include file="CRM/Contact/Form/AddContact.tpl"}
 {else}
 
@@ -10,15 +10,6 @@
    <script type="text/javascript">
        dojo.addOnLoad( function( ) {ldelim}
        dijit.byId( 'source_contact_id' ).setValue( "{$source_contact_value}", "{$source_contact_value}" )
-       {rdelim} );
-   </script>
-{/if}
-
-{* added onload javascript for target contact*}
-{if $target_contact_value and $context eq 'standalone' and $action neq 4 }
-   <script type="text/javascript">
-       dojo.addOnLoad( function( ) {ldelim}
-       dijit.byId( 'target_contact' ).setValue( "{$target_contact_value}", "{$target_contact_value}" )
        {rdelim} );
    </script>
 {/if}
@@ -226,7 +217,7 @@ function buildContact( count, pref )
 	hide( pref + '_' + prevCount + '_show'); 
     }
 
-    var dataUrl = {/literal}"{crmURL p=$contactUrlPath h=0 q='snippet=4&contact=1&count='}"{literal} + count;
+    var dataUrl = {/literal}"{crmURL p=$contactUrlPath h=0 q='snippet=4&count='}"{literal} + count + '&' + pref + '=1';
 
     var result = dojo.xhrGet({
         url: dataUrl,
