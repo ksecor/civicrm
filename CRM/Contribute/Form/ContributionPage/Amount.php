@@ -216,10 +216,12 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
             if ( CRM_Utils_array::value( 'is_recur', $fields ) ) {
                 $errors['is_recur'] = ts( 'You can not enable both Recurring Contributions AND Pledges on the same online contribution page.' ); 
             }
+        }
             
-            //when pledge is enable 
-            //Allow other amounts or Contribution amount block 
-            //should be enabled and contain values.
+        // If Contribution amount section is enabled, then 
+        // Allow other amounts must be enabeld OR the Fixed Contribution
+        // Contribution options must contain at least one set of values.
+        if ( CRM_Utils_Array::value( 'amount_block_is_active', $fields ) ) {
             if ( !CRM_Utils_Array::value( 'is_allow_other_amount', $fields ) ) {
                 //get the values and labels of amount block
                 $labels  = CRM_Utils_Array::value( 'label'  , $fields );
@@ -232,10 +234,11 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
                     }
                 }
                 if ( !$isSetRow ) {
-                    $errors['is_pledge_active'] = 
-                        ts ( 'To enable pledges you should enable Allow Other Amounts or Contribution Amount Block.' );
+                    $errors['amount_block_is_active'] = 
+                        ts ( 'If you want to enable the \'Contribution Amounts section\', you need to either \'Allow Other Amounts\' and/or enter at least one row in the \'Fixed Contribution Amounts\' table.' );
                 }
             }
+        
         }
         
         return $errors;
@@ -297,7 +300,7 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         CRM_Core_OptionGroup::createAssoc( "civicrm_contribution_page.amount.{$this->_id}",
                                            $options,
                                            $params['default_amount_id'] );
-        
+//        CRM_Core_Error::debug('p',$params); exit();
         require_once 'CRM/Contribute/BAO/ContributionPage.php';
         $dao = CRM_Contribute_BAO_ContributionPage::create( $params );
         $contributionPageID = $dao->id;
