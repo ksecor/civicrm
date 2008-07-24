@@ -1,7 +1,7 @@
 {* this template is used for adding/editing other (custom) activities. *}
 {if $cdType }
    {include file="CRM/Custom/Form/CustomData.tpl"}
-{elseif $addAssigneeContact }
+{elseif $addAssigneeContact or $addTargetContact }
    {include file="CRM/Contact/Form/AddContact.tpl"}
 {else}
 
@@ -74,11 +74,13 @@
              </tr>
              {else}
              <tr>
-                <td class="label">{$form.target_contact.label}</td>
-                <td class="view-value">
-                   <div dojoType="dojox.data.QueryReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra" doClientPaging="false">
-                       {if $context eq 'standalone' } {$form.target_contact.html} {else} {$target_contact_value} {/if}
-                   </div>
+		 <td class="label">{ts}With Contact{/ts}<div dojoType="dojox.data.QueryReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra" doClientPaging="false"></div></td>
+                <td class="tundra">
+		   {if $context eq 'standalone' }                  
+                       <span id="target_contact_1"></span>
+		   {else}
+			{$target_contact_value}
+                   {/if}
                 </td>
              </tr>
              {/if}
@@ -200,6 +202,11 @@
    buildContact( 1, 'assignee_contact' );
 {/literal}   
 {/if}
+{if $action eq 1 and $context eq 'standalone' }
+{literal}
+   buildContact( 1, 'target_contact' );
+{/literal}   
+{/if}
 {literal}
 
 var assigneeContactCount = {/literal}"{$assigneeContactCount}"{literal}
@@ -207,6 +214,14 @@ var assigneeContactCount = {/literal}"{$assigneeContactCount}"{literal}
 if ( assigneeContactCount ) {
     for ( var i = 1; i <= assigneeContactCount; i++ ) {
 	buildContact( i, 'assignee_contact' );
+    }
+}
+
+var targetContactCount = {/literal}"{$targetContactCount}"{literal}
+
+if ( targetContactCount ) {
+    for ( var i = 1; i <= targetContactCount; i++ ) {
+	buildContact( i, 'target_contact' );
     }
 }
 

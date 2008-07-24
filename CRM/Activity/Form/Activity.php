@@ -107,6 +107,14 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             $this->assign('addAssigneeContact', true);
         }
 
+        $this->_addTargetContact = CRM_Utils_Array::value( 'target_contact', $_GET );
+
+        $this->assign('addTargetContact', false);
+        if ( $this->_addTargetContact ) {
+            $this->assign('addTargetContact', true);
+        }
+
+
         $session =& CRM_Core_Session::singleton( );
         $this->_currentUserId = $session->get( 'userID' );
 
@@ -206,6 +214,14 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             }
             $this->assign( 'assigneeContactCount', count( $_POST['assignee_contact'] ) );
         }
+
+        // build target contact combo
+        if ( CRM_Utils_Array::value( 'target_contact', $_POST ) ) {
+            foreach ( $_POST['target_contact'] as $key => $value ) {
+                CRM_Contact_Form_AddContact::buildQuickForm( $this, "target_contact[{$key}]" );
+            }
+            $this->assign( 'targetContactCount', count( $_POST['target_contact'] ) );
+        }
         
         // add attachments part
         require_once 'CRM/Core/BAO/File.php';
@@ -243,15 +259,14 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                 list( $defaults['duration_hours'], $defaults['duration_minutes'] ) = CRM_Utils_Date::unstandardizeTime( $defaults['duration'] );
             }
 
-            //set the assigneed contact ids to template
-            $assigneeContacts = CRM_Activity_BAO_ActivityAssignment::retrieveAssigneeIdsByActivityId( $this->_activityId );
+            //set the assigneed contact count to template
             if ( !empty( $defaults['assignee_contact'] ) ) {
                 $this->assign( 'assigneeContactCount', count( $defaults['assignee_contact'] ) );
             }
             
             if ( $this->_context != 'standalone' )  {
                 $this->assign( 'target_contact_value', $defaults['target_contact_value'] );
-                $this->assign( 'assignee_contact_value', $defaults['assignee_contact_value'] );
+                //$this->assign( 'assignee_contact_value', $defaults['assignee_contact_value'] );
                 $this->assign( 'source_contact_value', $defaults['source_contact'] );
             }
         } else {
@@ -264,7 +279,6 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             $defaults['activity_date_time'] = array( );
             CRM_Utils_Date::getAllDefaultValues( $defaults['activity_date_time'] );
             $defaults['activity_date_time']['i'] = (int ) ( $defaults['activity_date_time']['i'] / 15 ) * 15;
-
         }
 
         if ( isset( $this->_caseId ) ) {
@@ -316,6 +330,15 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             $this->assign('nextContactCount', $nextContactCount );
             $this->assign('contactFieldName', 'assignee_contact' );
             return CRM_Contact_Form_AddContact::buildQuickForm( $this, "assignee_contact[{$contactCount}]" );
+        }
+
+        if ( $this->_addTargetContact ) {
+            $contactCount = CRM_Utils_Array::value( 'count', $_GET );
+            $nextContactCount = $contactCount + 1;
+            $this->assign('contactCount', $contactCount );
+            $this->assign('nextContactCount', $nextContactCount );
+            $this->assign('contactFieldName', 'target_contact' );
+            return CRM_Contact_Form_AddContact::buildQuickForm( $this, "target_contact[{$contactCount}]" );
         }
 
         //build other activity links
@@ -433,35 +456,13 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                 $this->assign('customDataSubType', $customDataSubType[0] );
             }
         }
-
-        if ( $this->_targetContactId ) {
+        
+        if ( $this->_targetContactId && $this->_context != 'standalone' ) {
             $defaultTargetContactName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
                                                                      $this->_targetContactId,
                                                                      'sort_name' );
-        }
-        
-        $targetContactField =& $this->add( 'text','target_contact', ts('With Contact'), $attributes, isset($standalone) ? $standalone : "" );
-        if ( $targetContactField->getValue( ) ) {
-            $this->assign( 'target_contact_value',  $targetContactField->getValue( ) );
-        } else {
-            // we're setting currently VIEWED user as target for this activity
             $this->assign( 'target_contact_value', $defaultTargetContactName );
         }
-
-        if ( $this->_assigneeContactId ) {
-//             $defaultAssigneeContactName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
-//                                                                        $this->_assigneeContactId,
-//                                                                        'sort_name' );
-        }
-        
-        //$assigneeContactField = $this->add( 'text','assignee_contact[1]', ts('Assigned To'), $attributes );
-//         if ( $assigneeContactField->getValue( ) ) {
-//             $this->assign( 'assignee_contact_value',  $assigneeContactField->getValue( ) );
-//         } else {
-//             // at this stage, we're not assigning any default contact to assigned user - it
-//             // was earlier set to null in setDefaultValues
-//             $this->assign('assignee_contact_value', $defaultAssigneeContactName );
-//         }
         
         // Should we include Case Subject field (cases are enabled, we in a Contact's context - not standalone, and contact has one or more cases)
         if ( $this->_viewOptions['CiviCase'] && $this->_context != 'standalone' ) {
