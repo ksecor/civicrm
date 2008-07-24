@@ -406,8 +406,42 @@ WHERE  $whereCond
      * @access public. 
      * @return None.
      */ 
-    function sendAcknowledgment( &$form, &$pledge, $params, $payments = null )
+    function sendAcknowledgment( &$form, $pledge, $params )
     {
+        //handle Acknowledgment.
+        $allPayments = $payments = array( );
+        $returnProperties = array( 'status_id', 'scheduled_amount', 'scheduled_date', 'contribution_id' );
+        //get all paymnets details.
+        CRM_Core_DAO::commonRetrieveAll( 'CRM_Pledge_DAO_Payment', 'pledge_id', $pledge->id, $allPayments, $returnProperties );
+        
+        $paymentId = null;
+        if ( !empty( $allPayments )) {
+            foreach( $allPayments as $payID => $values ) {
+                $contributionValue = $contributionStatus = array( );
+                if ( isset( $values['contribution_id'] ) ) {
+                    $contributionParams = array('contribution_id' => $values['contribution_id']);
+                    $returnProperties = array( 'contribution_status_id', 'receive_date' );
+                    CRM_Core_DAO::commonRetrieve( 'CRM_Contribute_DAO_Contribution', 
+                                                  $contributionParams, $contributionStatus, $returnProperties );
+                    $contributionValue = array( 
+                                               'status' => CRM_Utils_Array::value('contribution_status_id', $contributionStatus ),
+                                               'receive_date' => CRM_Utils_Array::value('receive_date', $contributionStatus )
+                                               );
+                }
+                $payments[$payID] = array_merge( $contributionValue, 
+                                                 array( 'amount'        => CRM_Utils_Array::value( 'scheduled_amount', $values ),
+                                                        'due_date'      => CRM_Utils_Array::value( 'scheduled_date'  , $values )
+                                                        ));
+                
+                //get the first valid payment id.
+                if ( !$paymentId && ($paymentStatusTypes[$values['status_id']] == 'Pending' || 
+                                     $paymentStatusTypes[$values['status_id']] == 'Overdue' ) ) {
+                    $paymentId = $values['id'];
+                }
+            }
+        }       
+        //end
+
         //assign pledge fields value to template.
         $pledgeFields = array( 'create_date', 'amount', 'frequency_interval', 'frequency_unit', 
                                'installments', 'frequency_day','scheduled_amount' );
@@ -505,8 +539,9 @@ WHERE  $whereCond
         }
         $form->assign( 'showCustom', $showCustom );
         
-        //handle acknowledgment emial stuff.
+        //handle acknowledgment email stuff.
         require_once 'CRM/Contact/BAO/Contact.php';
+        require_once 'CRM/Contact/BAO/Contact/Location.php';
         list( $pledgerDisplayName, 
               $pledgerEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $params['contact_id'] );
         $template =& CRM_Core_Smarty::singleton( );

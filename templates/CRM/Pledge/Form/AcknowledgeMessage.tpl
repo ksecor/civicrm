@@ -24,11 +24,13 @@
 {if $payments}
 {assign var="count" value="1"}
 {foreach from=$payments item=payment}
+
 Payment {$count} : {$payment.amount|crmMoney} {if $payment.status eq 1}paid {$payment.receive_date|truncate:10:''|crmDate}{else}due {$payment.due_date|truncate:10:''|crmDate}{/if}
 {assign var="count" value=`$count+1`}
 {/foreach}
 {/if}
  
+
 {ts 1=$domain.phone 2=$domain.email}Please contact us at %1 or send email to %2 if you have questions
 or need to modify your payment schedule.{/ts}
 

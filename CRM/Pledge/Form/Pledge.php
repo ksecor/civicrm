@@ -577,44 +577,13 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         
         //handle Acknowledgment.
         if ( CRM_Utils_Array::value( 'is_acknowledge', $formValues ) && $pledge->id ) {
-            $allPayments = $payments = array( );
-            $returnProperties = array( 'status_id', 'scheduled_amount', 'scheduled_date', 'contribution_id' );
-            //get all paymnets details.
-            CRM_Core_DAO::commonRetrieveAll( 'CRM_Pledge_DAO_Payment', 'pledge_id', $pledge->id, $allPayments, $returnProperties );
-            
-            $paymentId = null;
-            if ( !empty( $allPayments )) {
-                foreach( $allPayments as $payID => $values ) {
-                    $contributionValue = $contributionStatus = array( );
-                    if ( isset( $values['contribution_id'] ) ) {
-                        $contibutionParams = array('contribution_id' => $values['contribution_id']);
-                        $returnProperties = array( 'contribution_status_id', 'receive_date' );
-                        CRM_Core_DAO::commonRetrieve( 'CRM_Contribute_DAO_Contribution', 
-                                                      $contibutionParams, $contributionStatus, $returnProperties );
-                        $contributionValue = array( 
-                                                   'status' => CRM_Utils_Array::value('contribution_status_id', $contributionStatus ),
-                                                   'receive_date' => CRM_Utils_Array::value('receive_date', $contributionStatus )
-                                                   );
-                    }
-                    $payments[$payID] = array_merge( $contributionValue, 
-                                                     array( 'amount'        => CRM_Utils_Array::value( 'scheduled_amount', $values ),
-                                                            'due_date'      => CRM_Utils_Array::value( 'scheduled_date'  , $values )
-                                                            ));
-                    
-                    //get the first valid payment id.
-                    if ( !$paymentId && ($paymentStatusTypes[$values['status_id']] == 'Pending' || 
-                                         $paymentStatusTypes[$values['status_id']] == 'Overdue' ) ) {
-                        $paymentId = $values['id'];
-                    }
-                }
-            }
             
             //calculate scheduled amount.
             $params['scheduled_amount'] = ceil( $params['amount'] / $params['installments'] );
             
             //send Acknowledgment mail.
             require_once 'CRM/Pledge/BAO/Pledge.php';
-            CRM_Pledge_BAO_Pledge::sendAcknowledgment( $this, $pledge, $params, $payments );
+            CRM_Pledge_BAO_Pledge::sendAcknowledgment( $this, $pledge, $params );
             
             $statusMsg .= ' ' . ts( "An acknowledgment email has been sent to %1.<br />", array( 1 => $this->userEmail ) );
             

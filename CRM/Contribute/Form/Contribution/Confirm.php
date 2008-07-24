@@ -701,6 +701,10 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 require_once 'CRM/Pledge/BAO/Pledge.php';
                 $pledge = CRM_Pledge_BAO_Pledge::create($pledgeParams); 
                 $form->_params['pledge_id'] = $pledge->id;
+                
+                //calculate scheduled amount and send acknowledgement.
+                $pledgeParams['scheduled_amount'] = ceil( $pledgeParams['amount'] / $pledgeParams['installments'] );
+                CRM_Pledge_BAO_Pledge::sendAcknowledgment($form, $pledge, $pledgeParams );
             }
 
             if ( $form->_values['pledge_id']  ) {
