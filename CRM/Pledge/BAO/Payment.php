@@ -142,7 +142,7 @@ WHERE pledge_id = %1
         if ( $params['installment_amount'] ) {
             $params['scheduled_amount'] = $params['installment_amount'];
         } else {
-            $params['scheduled_amount'] = ceil( $params['amount'] / $params['installments'] );
+            $params['scheduled_amount'] = floor( $params['amount'] / $params['installments'] );
         }
 
         for ( $i = 1; $i <= $params['installments']; $i++ ) {
