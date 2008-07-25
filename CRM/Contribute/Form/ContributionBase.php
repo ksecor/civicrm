@@ -620,12 +620,12 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
             $validUser = CRM_Contact_BAO_Contact_Utils::validChecksum( $pledgeValues['contact_id'], $userChecksum );
         }
         if ( !$validUser ) {
-            CRM_Core_Error::fatal( ts( "Oops. You do not own this pledge." ) );    
+            CRM_Core_Error::fatal( ts( "Oops. It looks like you have an incorrect or incomplete link (URL). Please make sure you've copied the entire link, and try again. Contact the site administrator if this error persists." ) );    
         }
         
         //check for valid pledge status.
         if ( !in_array( $pledgeValues['status_id'], $validStatus ) ) {
-            CRM_Core_Error::fatal( ts( "Oops. You cannot Make the Payment for this pledge as Pledge Status is %1.", array( CRM_Utils_Array::value( $pledgeValues['status_id'], $allStatus ) ) ) ); 
+            CRM_Core_Error::fatal( ts( "Oops. You cannot make a payment for this pledge - pledge status is %1.", array( CRM_Utils_Array::value( $pledgeValues['status_id'], $allStatus ) ) ) ); 
         }
     }
     
