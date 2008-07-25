@@ -713,7 +713,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         } else if  ( !empty( $params['pledge_amount'] ) ) {
             $amount = 0;
             foreach ( $params['pledge_amount'] as $paymentId => $dontCare ) {
-                $amount+=CRM_Core_DAO::getFieldValue( 'CRM_Pledge_DAO_Payment', $paymentId, 'scheduled_amount' );
+                $amount += CRM_Core_DAO::getFieldValue( 'CRM_Pledge_DAO_Payment', $paymentId, 'scheduled_amount' );
             } 
         } else {
             if ( CRM_Utils_Array::value('amount_id',$form->_values) ) {
@@ -752,11 +752,11 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 
         $params['amount'] = self::computeAmount( $params, $this );
 
-        if ( ! $params['amount'] && $params['selectMembership'] ) {
+        if ( ! $params['amount'] && $params['selectMembership'] && !$this->_separateMembershipPayment ) {
             $memFee = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', $params['selectMembership'], 'minimum_fee' );
             $params['amount'] = $memFee ? $memFee : 0;
         }
-        
+
         if ( ! isset( $params['amount_other'] ) ) {
             $this->set( 'amount_level', $params['amount_level'] ); 
         }
