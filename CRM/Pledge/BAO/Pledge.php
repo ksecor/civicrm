@@ -576,7 +576,7 @@ WHERE  $whereCond
                                                                                              'name' ),
                                      'activity_date_time' => CRM_Utils_Date::isoToMysql( $params['acknowledge_date'] ),
                                      'is_test'            => $params['is_test'],
-                                     'status_id'          => 1
+                                     'status_id'          => 2
                                      );
             require_once 'api/v2/Activity.php';
             if ( is_a( civicrm_activity_create( $activityParams ), 'CRM_Core_Error' ) ) {
