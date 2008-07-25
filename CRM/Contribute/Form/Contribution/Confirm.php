@@ -760,17 +760,16 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 
                 //get total pledge amount.
                 $pledgeParams['total_pledge_amount'] = $pledge->amount;
-            }
-            
-            //send acknowledgment email.
-            if ( CRM_Utils_Array::value( 'id', $pledgeParams ) ) {
-                
-                //build common params.
-                $pledgeParams['receipt_from_name' ] = $form->_values['receipt_from_name'];
-                $pledgeParams['receipt_from_email'] = $form->_values['receipt_from_email'];
-                
-                require_once 'CRM/Pledge/BAO/Pledge.php';
-                CRM_Pledge_BAO_Pledge::sendAcknowledgment( $form, $pledgeParams );
+
+                //send acknowledgment email. only when pledge is created
+                if ( CRM_Utils_Array::value( 'id', $pledgeParams ) ) {
+                    //build common params.
+                    $pledgeParams['receipt_from_name' ] = $form->_values['receipt_from_name'];
+                    $pledgeParams['receipt_from_email'] = $form->_values['receipt_from_email'];
+                    
+                    require_once 'CRM/Pledge/BAO/Pledge.php';
+                    CRM_Pledge_BAO_Pledge::sendAcknowledgment( $form, $pledgeParams );
+                }
             }
         }
         
