@@ -55,7 +55,7 @@ class CRM_Member_Page_Tab extends CRM_Contact_Page_View {
      */
     function browse( ) 
     { 
-        $links =& self::links( );
+        $links =& self::links( 'all', $this->_isPaymentProcessor );
         $idList = array('membership_type' => 'MembershipType',
                         'status'          => 'MembershipStatus',
                       );
@@ -190,8 +190,10 @@ class CRM_Member_Page_Tab extends CRM_Contact_Page_View {
                                                                  "billing_mode IN ( 1, 3 )" );
         if ( count( $processors ) > 0 ) {
             $this->assign( 'newCredit', true );
+            $this->_isPaymentProcessor = true;
         } else {
             $this->assign( 'newCredit', false );
+            $this->_isPaymentProcessor = false;
         }
                
         $this->setContext( );
@@ -256,7 +258,7 @@ class CRM_Member_Page_Tab extends CRM_Contact_Page_View {
      * @return array (reference) of action links
      * @static
      */
-    static function &links( $status = 'all' )
+    static function &links( $status = 'all', $isPaymentProcessor = null )
     {
         if ( ! CRM_Utils_Array::value( 'view', self::$_links ) ) {
             self::$_links['view'] = array(
@@ -284,10 +286,10 @@ class CRM_Member_Page_Tab extends CRM_Contact_Page_View {
                                                                   'title' => ts('Renew Membership')
                                                                   ),
                                 CRM_Core_Action::FOLLOWUP => array(
-                                                                   'name'  => ts('Renew With Crdit Card'),
+                                                                   'name'  => ts('Renew With Credit Card'),
                                                                    'url'   => 'civicrm/contact/view/membership',
                                                                    'qs'    => 'action=renew&reset=1&cid=%%cid%%&id=%%id%%&context=membership&selectedChild=member&mode=live',
-                                                                   'title' => ts('Renew Membership Using CreditCard')
+                                                                   'title' => ts('Renew Membership Using Credit Card')
                                                                   ),
                                 CRM_Core_Action::DELETE => array(
                                                                  'name'  => ts('Delete'),
@@ -296,9 +298,14 @@ class CRM_Member_Page_Tab extends CRM_Contact_Page_View {
                                                                  'title' => ts('Delete Membership')
                                                                  ),
                                 );
+            if( ! $isPaymentProcessor ) {
+                //unset the renew with credit card when payment
+                //processor is not available
+                unset( $extraLinks[CRM_Core_Action::FOLLOWUP] );
+            }
             self::$_links['all'] = self::$_links['view'] + $extraLinks;
         }
-        
+       
         return self::$_links[$status];
     }
     
