@@ -163,7 +163,7 @@
           </dl>
           {if $action neq 4}
           <dl>
-          <dt>&nbsp;</dt><dd class="description">{ts}Is this field included in the Advanced and component search forms? NOTE: This feature is available to custom fields used for <strong>Contacts</strong>,<strong>Contributions</strong>, <strong>Memberships</strong>, and <strong>Event Participants</strong> at this time.{/ts}</dd>
+          <dt>&nbsp;</dt><dd class="description">{ts}Can you search on this field in the Advanced and component search forms? NOTE: This feature is available to custom fields used for <strong>Contacts</strong>, <strong>Contributions</strong>, <strong>Memberships</strong>, <strong>Pledges</strong>, and <strong>Event Participants</strong> at this time.{/ts}</dd>
           </dl>
           {/if}        
 	</div>        

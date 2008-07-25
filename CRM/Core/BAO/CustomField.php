@@ -735,9 +735,11 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                 $display = $option[$value];
             }
             break;
-                    
+
         case "Select":
-            $display = $option[$value];
+            if ( CRM_Utils_Array::value( $value, $options ) )  {
+                $display = $option[$value];
+            }
             break;
         
         case "CheckBox":
