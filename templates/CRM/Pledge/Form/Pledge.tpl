@@ -30,10 +30,9 @@
         <tr>
             <td class="font-size12pt right"><strong>{ts}Pledge by{/ts}</strong></td><td class="font-size12pt"><strong>{$displayName}</strong></td>
         </tr>
-        <tr><td class="label">{$form.amount.label}</td><td>{$form.amount.html|crmMoney}</td></tr>
-        <tr><td class="label">&nbsp;</td><td class="description">{ts}Actual amount given by pledger.{/ts}</td></tr>
+        <tr><td class="font-size12pt right">{$form.amount.label}</td><td class="font-size12pt">{$form.amount.html|crmMoney}</td></tr>
         <tr><td class="label">{$form.installments.label}</td><td>{$form.installments.html}&nbsp;&nbsp;{$form.frequency_unit.html} {ts}installments of{/ts} {if $action eq 1}{$form.eachPaymentAmount.html|crmMoney}{elseif $action eq 2}{$eachPaymentAmount|crmMoney}{/if} {ts}each{/ts}</td></tr>
-        <tr><td class="label">{$form.frequency_day.label}</td><td>{$form.frequency_day.html} {ts}day of the period{/ts}<br />
+        <tr><td class="label nowrap">{$form.frequency_day.label}</td><td>{$form.frequency_day.html} {ts}day of the period{/ts}<br />
             <span class="description">{ts}This applies to weekly, monthly and yearly payments.{/ts}</td></tr>
         {if $form.create_date}	
         <tr><td class="label">{$form.create_date.label}</td><td>{$form.create_date.html}
@@ -72,7 +71,7 @@
             <tr><td class="label">{$form.contribution_type_id.label}</td><td>{$form.contribution_type_id.html}<br />
             <span class="description">{ts}Sets the default contribution type for payments against this pledge.{/ts}</span></td></tr>
 	    <tr><td class="label">{$form.contribution_page_id.label}</td><td>{$form.contribution_page_id.html}<br />
-            <span class="description">{ts}Sets the contribution page against this pledge.{/ts}</span></td></tr>
+            <span class="description">{ts}Select an Online Contribution page that the user can access to make self-service pledge payments. (Only Online Contribution pages configured to include the Pledge option are listed.){/ts}</span></td></tr>
         
 	    <tr><td class="label">{ts}Pledge Status{/ts}</td><td class="view-value">{$status}<br />
             <span class="description">{ts}Pledges are "Pending" until the first payment is received. Once a payment is received, status is "In Progress" until all scheduled payments are completed. Overdue pledges are ones with payment(s) past due.{/ts}</span></td></tr>

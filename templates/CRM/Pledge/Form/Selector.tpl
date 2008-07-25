@@ -61,7 +61,7 @@
      <td style="border-right: none;">
      </td>
      <td colspan="9">
-	<div id="paymentDetails{$row.pledge_id}"></div>
+        <div id="paymentDetails{$row.pledge_id}"></div>
      </td>
    </tr>
  <script type="text/javascript">
