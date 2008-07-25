@@ -589,9 +589,10 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
      */
     public function authenticatePledgeUser( ) 
     {
-        //get the userChecksum.
+        //get the userChecksum and contact id
         $userChecksum = CRM_Utils_Request::retrieve( 'cs', 'String', $this );
-        
+        $contactID    = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
+
         //get pledge status and contact id
         $pledgeValues = array( );
         $pledgeParams = array( 'id' => $this->_values['pledge_id'] );
@@ -618,7 +619,13 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
             //check for anonymous user.
             require_once 'CRM/Contact/BAO/Contact/Utils.php';
             $validUser = CRM_Contact_BAO_Contact_Utils::validChecksum( $pledgeValues['contact_id'], $userChecksum );
+
+            //make sure cid is same as pledge contact id
+            if ( $validUser && ( $pledgeValues['contact_id'] != $contactID ) ) {
+                $validUser = false;
+            }
         }
+            
         if ( !$validUser ) {
             CRM_Core_Error::fatal( ts( "Oops. It looks like you have an incorrect or incomplete link (URL). Please make sure you've copied the entire link, and try again. Contact the site administrator if this error persists." ) );    
         }
