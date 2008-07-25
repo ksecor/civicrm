@@ -103,7 +103,7 @@ class CRM_UpdatePledgeRecord
                                                       'contact_id'              => $dao->contact_id,
                                                       'pledge_id'               => $dao->pledge_id,
                                                       'checksumValue'           => $checksumValue,
-                                                      'contribution_id'         => $dao->contribution_page_id,
+                                                      'contribution_page_id'    => $dao->contribution_page_id,
                                                       'reminder_count'          => $dao->reminder_count,
                                                       'max_reminders'           => $dao->max_reminders,
                                                       'reminder_date'           => $dao->reminder_date,
@@ -137,7 +137,7 @@ class CRM_UpdatePledgeRecord
         // retrieve contact tokens
         require_once 'CRM/Mailing/BAO/Mailing.php';
         list( $contactDetails ) = CRM_Mailing_BAO_Mailing::getDetails( $contactIds );
-        
+                      
         // assign domain values to template
         $template =& CRM_Core_Smarty::singleton( );
         $template->assign( 'domain', $domainValues );
@@ -198,16 +198,16 @@ class CRM_UpdatePledgeRecord
                 if ( $toEmail && ! ( $doNotEmail || $onHold ) ) {
                     
                     //assign value to template
-                    $template->assign( 'amount_paid'            , $details['amount_paid'     ] ? $details['amount_paid'] : 0 );
-                    $template->assign( 'contact'                , $contactDetails[$contactId ] );
-                    $template->assign( 'next_payment'           , $details['scheduled_date'  ] );
-                    $template->assign( 'amount_due'             , $details['amount_due'      ] );
-                    $template->assign( 'checksumValue'          , $details['checksumValue'   ] );
-                    $template->assign( 'contribution_id'        , $details['contribution_id' ] );
-                    $template->assign( 'pledge_id'              , $details['pledge_id'       ] );
-                    $template->assign( 'scheduled_payment_date' , $details['scheduled_date'  ] );            
-                    $template->assign( 'amount'                 , $details['amount'          ] );            
-                    $template->assign( 'create_date'            , $details['create_date'     ] );   
+                    $template->assign( 'amount_paid'            , $details['amount_paid'          ] ? $details['amount_paid'] : 0 );
+                    $template->assign( 'contact'                , $contactDetails[$contactId      ] );
+                    $template->assign( 'next_payment'           , $details['scheduled_date'       ] );
+                    $template->assign( 'amount_due'             , $details['amount_due'           ] );
+                    $template->assign( 'checksumValue'          , $details['checksumValue'        ] );
+                    $template->assign( 'contribution_page_id'   , $details['contribution_page_id' ] );
+                    $template->assign( 'pledge_id'              , $details['pledge_id'            ] );
+                    $template->assign( 'scheduled_payment_date' , $details['scheduled_date'       ] );            
+                    $template->assign( 'amount'                 , $details['amount'               ] );            
+                    $template->assign( 'create_date'            , $details['create_date'          ] );   
                     
                     $message      = $template->fetch( 'CRM/Pledge/Form/ReminderMessage.tpl' );
                     $subject      = $template->fetch( 'CRM/Pledge/Form/ReminderSubject.tpl' );

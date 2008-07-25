@@ -9,8 +9,8 @@
 {ts}Amount Due{/ts} : {$amount_due|crmMoney}
 {ts}Due Date{/ts} : {$scheduled_payment_date|truncate:10:''|crmDate}
 
-{if $contribution_id}
-{capture assign=contributionUrl}{crmURL p='civicrm/contribute/transact' q="reset=1&id=`$contribution_id`&pledgeId=`$pledge_id`&cs=`$checksumValue`" h=0}{/capture}
+{if $contribution_page_id}
+{capture assign=contributionUrl}{crmURL p='civicrm/contribute/transact' q="reset=1&id=`$contribution_page_id`&cid=`$contact.contact_id`&pledgeId=`$pledge_id`&cs=`$checksumValue`" h=0}{/capture}
 Click this link to go to a web page where you can make your payment online:
 {$contributionUrl} 
 {else}
