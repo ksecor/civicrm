@@ -2,6 +2,8 @@
     {include file="CRM/common/pager.tpl" location="top"}
 {/if}
 
+{capture assign=iconURL}<img src="{$config->resourceBase}i/TreePlus.gif" alt="{ts}open section{/ts}"/>{/capture}
+{ts 1=$iconURL}Click %1 icon to expand the list of payments for given pledge.{/ts}
 {strip}
 <table class="selector">
   <tr class="columnheader">
@@ -21,13 +23,18 @@
   </tr>
   {counter start=0 skip=1 print=false}
   {foreach from=$rows item=row}
-  <tr id='rowid{$row.pledge_id}' class="{cycle values="odd-row,even-row"} {if $row.pledge_status_id eq 'Overdue' } disabled{/if}">
+  {cycle values="odd-row,even-row" assign=rowClass}
+  <tr id='rowid{$row.pledge_id}' class='{$rowClass} {if $row.pledge_status_id eq 'Overdue' } disabled{/if}'>
      {if ! $single }
         {if $context eq 'Search' }       
             {assign var=cbName value=$row.checkbox}
             <td>{$form.$cbName.html}</td> 
         {/if}	
-	<td>{$row.contact_type}</td>
+	<td>{$row.contact_type}<br/>
+	<span id="{$row.pledge_id}_show">
+	    <a href="#" onclick="show('paymentDetails{$row.pledge_id}', 'table-row'); buildPaymentDetails('{$row.pledge_id}','{$row.contact_id}'); hide('{$row.pledge_id}_show');show('{$row.pledge_id}_hide','table-row');return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a>
+	</span>
+	</td>
     	<td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td>
     {/if}
     <td>{$row.pledge_amount|crmMoney}</td>
@@ -37,16 +44,15 @@
     <td>{$row.pledge_next_pay_date|truncate:10:''|crmDate}</td>
     <td>{$row.pledge_next_pay_amount+$row.pledge_outstanding_amount|crmMoney}</td>
     <td>{$row.pledge_status_id}</td>	
-    <td>{$row.action}<br/>
-	<div id="{$row.pledge_id}_show">
-	    <a href="#" onclick="show('paymentDetails{$row.pledge_id}', 'table-row'); buildPaymentDetails('{$row.pledge_id}','{$row.contact_id}'); hide('{$row.pledge_id}_show');show('{$row.pledge_id}_hide','table-row');return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/>{ts}Payments{/ts}</a>
-	</div>
+    <td>{$row.action}
+	
     </td>
    </tr>
-   <tr id="{$row.pledge_id}_hide">
-     <td colspan="11">
-         <a href="#" onclick="show('{$row.pledge_id}_show', 'table-row');hide('{$row.pledge_id}_hide');return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}open section{/ts}"/>{ts}Payments{/ts}</a>
-       <br/>
+   <tr id="{$row.pledge_id}_hide" class='{$rowClass}' >
+     <td>
+         <a href="#" onclick="show('{$row.pledge_id}_show', 'table-row');hide('{$row.pledge_id}_hide');return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a>
+     </td>
+     <td colspan="9">
        <div id="paymentDetails{$row.pledge_id}"></div>
      </td>
   </tr>
