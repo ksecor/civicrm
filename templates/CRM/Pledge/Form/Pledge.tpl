@@ -76,15 +76,14 @@
         
 	    <tr><td class="label">{ts}Pledge Status{/ts}</td><td class="view-value">{$status}<br />
             <span class="description">{ts}Pledges are "Pending" until the first payment is received. Once a payment is received, status is "In Progress" until all scheduled payments are completed. Overdue pledges are ones with payment(s) past due.{/ts}</span></td></tr>
-
-       {/if}      
        </table>
+   
       <div id="customData"></div>
-    {*include custom data js file*}
-    {include file="CRM/common/customData.tpl"}
+       {*include custom data js file*}
+       {include file="CRM/common/customData.tpl"}
 
-    {literal}
-    <script type="text/javascript">
+     {literal}
+     <script type="text/javascript">
 
      function verify( ) {
        var element = document.getElementsByName("is_acknowledge");
@@ -119,7 +118,7 @@
       {/foreach}
    </div>
 </div>
-
+{/if} {* not delete mode if*}      
     <dl>    
        <dt></dt><dd class="html-adjust">{$form.buttons.html}</dd>   
     </dl> 
@@ -136,5 +135,6 @@
     invert              = 1
 }
 {/if}
+
 {/if}
 {* closing of main custom data if}

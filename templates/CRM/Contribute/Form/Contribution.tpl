@@ -152,6 +152,7 @@
 </fieldset>
 </div> 
 
+{if $action neq 8}  
 {if $email}
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="is_email_receipt"
@@ -172,6 +173,6 @@
     invert              = 0
 }
 {/if} 
-
+{/if} {* not delete mode if*}      
 {/if}
 {* closing of main custom data if*}
