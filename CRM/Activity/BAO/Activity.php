@@ -435,9 +435,8 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         $clause = 1 ;
 
         if ( !$admin ) {
-            //Fix me should be fixed once case issue is done
-//             $clause = " ( source_contact_id = %1 or target_contact_id = %1 or assignee_contact_id = %1 or civicrm_case.contact_id = %1 ) ";
-//             $params = array( 1 => array( $data['contact_id'], 'Integer' ) );
+            $clause = " ( source_contact_id = %1 or target_contact_id = %1 or assignee_contact_id = %1 or civicrm_case_contact.contact_id = %1 ) ";
+            $params = array( 1 => array( $data['contact_id'], 'Integer' ) );
         }
         
         $statusClause = 1 ;
@@ -486,6 +485,8 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                             civicrm_case_activity.activity_id = civicrm_activity.id
                   left join civicrm_case on
                             civicrm_case_activity.case_id = civicrm_case.id
+                  left join civicrm_case_contact on
+                            civicrm_case_contact.case_id = civicrm_case.id
                   where {$clause}
                         and civicrm_option_group.name = 'activity_type' 
                         and is_test = 0  and {$contributionFilter} and {$case} and {$statusClause} 
