@@ -411,6 +411,7 @@ WHERE  $whereCond
         $allPayments = $payments = array( );
 
         //get All Payments status types.
+        require_once 'CRM/Contribute/PseudoConstant.php';
         $paymentStatusTypes = CRM_Contribute_PseudoConstant::contributionStatus( );
         $returnProperties = array( 'status_id', 'scheduled_amount', 'scheduled_date', 'contribution_id' );
         //get all paymnets details.
