@@ -57,7 +57,7 @@
     <td>{$row.pledge_status_id}</td>	
     <td>{$row.action}</td>
    </tr>
-   <tr id="{$row.pledge_id}_hide" >
+   <tr id="{$row.pledge_id}_hide" {if $rowClass eq 'even-row'}class="explicitAlternate"{/if}>
      <td>
      </td>
      <td colspan="9">

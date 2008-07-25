@@ -584,7 +584,7 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
 #crm-container .odd-row, tbody.scrollContent {
   background-color: #FAFAFA;
 }
-#crm-container .even-row, tbody.scrollContent tr.alternateRow  {
+#crm-container .even-row, tbody.scrollContent tr.alternateRow, .explicitAlternate  {
   background-color: #E8F2FF;
 }
 #crm-container tr.even-row td, #crm-container tr.odd-row td{
