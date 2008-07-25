@@ -318,6 +318,14 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
     {
         //To check if the user is already registered for the event(CRM-2426)
         self::checkRegistration($fields, $self);
+
+        $email = $fields["email-{$self->_bltID}"];
+        require_once 'CRM/Core/BAO/UFMatch.php';
+        if ( CRM_Core_BAO_UFMatch::isDuplicateUser( $email ) ) {
+            $errors["email-{$self->_bltID}"] = ts( 'The email %1 already exists in the database.'
+                                                   array( 1 => $email ) );
+        }
+
         //check for atleast one pricefields should be selected
         if ( $fields['priceSetId'] ) {
             $priceField = new CRM_Core_DAO_PriceField( );
