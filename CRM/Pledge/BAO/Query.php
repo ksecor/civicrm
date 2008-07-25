@@ -435,6 +435,25 @@ class CRM_Pledge_BAO_Query
         
         //add fields for honor search
         $form->addElement( 'text', 'pledge_in_honor_of', ts( "In Honor Of" ) );
+
+        // add all the custom  searchable fields
+        require_once 'CRM/Core/BAO/CustomGroup.php';
+        $pledge = array( 'Pledge' );
+        $groupDetails = CRM_Core_BAO_CustomGroup::getGroupDetail( null, true, $pledge );
+        if ( $groupDetails ) {
+            require_once 'CRM/Core/BAO/CustomField.php';
+            $form->assign('pledgeGroupTree', $groupDetails);
+            foreach ($groupDetails as $group) {
+                foreach ($group['fields'] as $field) {
+                    $fieldId = $field['id'];                
+                    $elementName = 'custom_' . $fieldId;
+                    CRM_Core_BAO_CustomField::addQuickFormElement( $form,
+                                                                   $elementName,
+                                                                   $fieldId,
+                                                                   false, false, true );
+                }
+            }
+        }
         
         $form->assign( 'validCiviPledge', true );
     }
