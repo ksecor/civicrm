@@ -1648,8 +1648,8 @@ VALUES
         (contact_id, contribution_type_id, contribution_page_id, amount, frequency_unit, frequency_interval, frequency_day, installments, start_date, create_date, acknowledge_date, modified_date, cancel_date, end_date, honor_contact_id, honor_type_id, status_id, is_test) 
         VALUES 
        (71, 1, 1, 500.00, 'month', 1, 1, 1, '2008-07-01 21:19:02', '2008-06-26 00:00:00', NULL, NULL, NULL,'2008-07-01 00:00:00', NULL, NULL, 1, 0),
-       (43, 1, 2, 800.00, 'month', 3, 1, 4, '2008-07-01 10:11:09', '2008-06-23 10:11:14', '2008-06-23 10:11:18', NULL, NULL, '2009-04-01 10:11:40', NULL, NULL, 5, 0),
-       (32, 1, 2, 600.00, 'month', 1, 1, 3, '2008-06-01 10:12:35', '2008-05-14 10:12:44', '2008-05-14 10:12:52', NULL, NULL, '2008-08-01 10:13:11', NULL, NULL, 5, 0);
+       (43, 1, 1, 800.00, 'month', 3, 1, 4, '2008-07-01 10:11:09', '2008-06-23 10:11:14', '2008-06-23 10:11:18', NULL, NULL, '2009-04-01 10:11:40', NULL, NULL, 5, 0),
+       (32, 1, 1, 600.00, 'month', 1, 1, 3, '2008-06-01 10:12:35', '2008-05-14 10:12:44', '2008-05-14 10:12:52', NULL, NULL, '2008-08-01 10:13:11', NULL, NULL, 5, 0);
 ";
         CRM_Core_DAO::executeQuery( $pledge, CRM_Core_DAO::$_nullArray );      
     }

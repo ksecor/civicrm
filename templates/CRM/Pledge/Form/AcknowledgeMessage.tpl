@@ -18,7 +18,6 @@
 {if $frequency_day}
 
 {ts 1=$frequency_day 2=$frequency_unit}Payments are due on day %1 of the %2.{/ts}
-
 {/if}
 
 {if $payments}

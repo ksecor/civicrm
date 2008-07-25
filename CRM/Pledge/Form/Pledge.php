@@ -220,7 +220,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         }
         
         $this->assign( 'email', $this->userEmail );
-        
+
         return $defaults;
     }
     
@@ -357,12 +357,8 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         foreach ( $pageIds as $key => $value ) {
             $pledgePages[$value['entity_id']] = $pages[$value['entity_id']];
         }
-        
         $ele = $this->add('select', 'contribution_page_id', ts( 'Self-service Payments Page' ), 
                           array( '' => ts( '- select -' ) ) + $pledgePages );
-        if ( isset ( $this->_id ) && ( CRM_Core_DAO::getFieldValue( 'CRM_Pledge_DAO_Pledge', $this->_id, 'contribution_page_id' ) ) ) { 
-            $ele->freeze();
-        }
         $session = & CRM_Core_Session::singleton( );
         $uploadNames = $session->get( 'uploadNames' );
         if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
