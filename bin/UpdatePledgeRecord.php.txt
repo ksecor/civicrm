@@ -161,11 +161,12 @@ class CRM_UpdatePledgeRecord
 
 
         foreach ( $pledgeDetails as $paymentId => $details ) {
-                      
             if ( array_key_exists($details['contact_id'], $contactDetails) ) {
                 $contactId   = $details['contact_id'];
                 $pledgerName = $contactDetails[$contactId]['display_name']; 
-            }	
+            } else {
+                continue;
+            }
             
             $scheduledDate = new DateTime($details['scheduled_date']);
             $reminderDate  = new DateTime($details['reminder_date']);
