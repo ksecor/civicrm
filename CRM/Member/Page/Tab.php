@@ -286,7 +286,7 @@ class CRM_Member_Page_Tab extends CRM_Contact_Page_View {
                                                                   'title' => ts('Renew Membership')
                                                                   ),
                                 CRM_Core_Action::FOLLOWUP => array(
-                                                                   'name'  => ts('Renew With Credit Card'),
+                                                                   'name'  => ts('Renew-Credit Card'),
                                                                    'url'   => 'civicrm/contact/view/membership',
                                                                    'qs'    => 'action=renew&reset=1&cid=%%cid%%&id=%%id%%&context=membership&selectedChild=member&mode=live',
                                                                    'title' => ts('Renew Membership Using Credit Card')

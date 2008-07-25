@@ -186,7 +186,7 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
      * @access public
      *
      */
-    static function &links( $status = 'all' )
+    static function &links( $status = 'all', $isPaymentProcessor = null  )
     {
         
         if ( !self::$_links['view'] ) {
@@ -220,7 +220,19 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
                                                                 'qs'    => 'reset=1&action=renew&id=%%id%%&cid=%%cid%%&context=%%cxt%%',
                                                                 'title' => ts('Renew Membership')
                                                                 ),
+                                CRM_Core_Action::FOLLOWUP => array(
+                                                                   'name'  => ts('Renew-Credit Card'),
+                                                                   'url'   => 'civicrm/contact/view/membership',
+                                                                   'qs'    => 'action=renew&reset=1&cid=%%cid%%&id=%%id%%&context=membership&selectedChild=member&mode=live',
+                                                                   'title' => ts('Renew Membership Using Credit Card')
+                                                                   ),
                                 );
+            if( ! $isPaymentProcessor ) {
+                //unset the renew with credit card when payment
+                //processor is not available
+                unset( $extraLinks[CRM_Core_Action::FOLLOWUP] );
+            }
+            
             self::$_links['all'] = self::$_links['view'] + $extraLinks;
         }
         
@@ -278,6 +290,16 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
      */
      function &getRows($action, $offset, $rowCount, $sort, $output = null) 
      {
+         // check if we can process credit card registration
+         require_once 'CRM/Core/PseudoConstant.php';
+         $processors = CRM_Core_PseudoConstant::paymentProcessor( false, false,
+                                                                 "billing_mode IN ( 1, 3 )" );
+         if ( count( $processors ) > 0 ) {
+             $this->_isPaymentProcessor = true;
+         } else {
+             $this->_isPaymentProcessor = false;
+         }
+
          $result = $this->_query->searchQuery( $offset, $rowCount, $sort,
                                                false, false, 
                                                false, false, 
@@ -319,7 +341,7 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
              $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->membership_id;
             
              if ( ! $result->owner_membership_id ) {
-                 $row['action']   = CRM_Core_Action::formLink( self::links( 'all' ), $mask,
+                 $row['action']   = CRM_Core_Action::formLink( self::links( 'all', $this->_isPaymentProcessor ), $mask,
                                                                array( 'id'  => $result->membership_id,
                                                                       'cid' => $result->contact_id,
                                                                       'cxt' => $this->_context ) );
