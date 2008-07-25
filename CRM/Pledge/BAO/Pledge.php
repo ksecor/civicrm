@@ -409,7 +409,7 @@ WHERE  $whereCond
     {
         //handle Acknowledgment.
         $allPayments = $payments = array( );
-
+                
         //get All Payments status types.
         require_once 'CRM/Contribute/PseudoConstant.php';
         $paymentStatusTypes = CRM_Contribute_PseudoConstant::contributionStatus( );
@@ -445,7 +445,7 @@ WHERE  $whereCond
         //end
 
         //assign pledge fields value to template.
-        $pledgeFields = array( 'create_date', 'amount', 'frequency_interval', 'frequency_unit', 
+        $pledgeFields = array( 'create_date', 'total_pledge_amount', 'frequency_interval', 'frequency_unit', 
                                'installments', 'frequency_day','scheduled_amount' );
         foreach ( $pledgeFields as $field ) {
             if ( CRM_Utils_Array::value( $field, $params ) ) {
@@ -536,8 +536,7 @@ WHERE  $whereCond
         
         //check for online pledge.
         $session =& CRM_Core_Session::singleton( );
-        if ( CRM_Utils_Array::value('receipt_from_name', $params ) || 
-             CRM_Utils_Array::value('receipt_from_email', $params ) ) {
+        if ( CRM_Utils_Array::value('receipt_from_email', $params ) ) {
             $receiptFrom = '"' . CRM_Utils_Array::value('receipt_from_name', $params ) . '" <' . 
                 CRM_Utils_Array::value('receipt_from_email', $params ) . '>';
         } else if ( $userID = $session->get( 'userID' ) )  {

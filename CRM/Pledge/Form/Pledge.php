@@ -579,8 +579,8 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         if ( CRM_Utils_Array::value( 'is_acknowledge', $formValues ) && $pledge->id ) {
             
             //calculate scheduled amount.
-            $params['scheduled_amount'] = round( $params['amount'] / $params['installments'] );
-            
+            $params['scheduled_amount'   ] = round( $params['amount'] / $params['installments'] );
+            $params['total_pledge_amount'] = $params['amount'];
             //get some required pledge values in params.
             $params['id'] = $pledge->id;
             $params['acknowledge_date'] = $pledge->acknowledge_date;

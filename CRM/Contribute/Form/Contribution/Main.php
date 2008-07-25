@@ -518,7 +518,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $email = $fields["email-{$self->_bltID}"];
         require_once 'CRM/Core/BAO/UFMatch.php';
         if ( CRM_Core_BAO_UFMatch::isDuplicateUser( $email ) ) {
-            $errors["email-{$self->_bltID}"] = ts( 'The email %1 already exists in the database.'
+            $errors["email-{$self->_bltID}"] = ts( 'The email %1 already exists in the database.',
                                                    array( 1 => $email ) );
         }
 

@@ -7,7 +7,7 @@
 
 ===========================================================
 {ts}Pledge Received{/ts} : {$create_date|truncate:10:''|crmDate}
-{ts}Total Pledge Amount{/ts} : {$amount|crmMoney}
+{ts}Total Pledge Amount{/ts} : {$total_pledge_amount|crmMoney}
 
 ===========================================================
 {ts}Payment Schedule{/ts}
