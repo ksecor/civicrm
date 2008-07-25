@@ -435,8 +435,9 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         $clause = 1 ;
 
         if ( !$admin ) {
-            $clause = " ( source_contact_id = %1 or target_contact_id = %1 or assignee_contact_id = %1 or civicrm_case.contact_id = %1 ) ";
-            $params = array( 1 => array( $data['contact_id'], 'Integer' ) );
+            //Fix me should be fixed once case issue is done
+//             $clause = " ( source_contact_id = %1 or target_contact_id = %1 or assignee_contact_id = %1 or civicrm_case.contact_id = %1 ) ";
+//             $params = array( 1 => array( $data['contact_id'], 'Integer' ) );
         }
         
         $statusClause = 1 ;
