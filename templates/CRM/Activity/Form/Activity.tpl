@@ -18,7 +18,7 @@
 {if $subject_value and $context neq 'standalone' and $action neq 4}
    <script type="text/javascript">
        dojo.addOnLoad( function( ) {ldelim}
-       dijit.byId( 'case_subject' ).setValue( "{$subject_value}", "{$subject_value}" )
+       dijit.byId( 'case_subject' ).setDisplayedValue( "{$subject_value}", "{$subject_value}" )
        {rdelim} );
    </script>
 {/if}
