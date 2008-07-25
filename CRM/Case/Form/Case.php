@@ -33,13 +33,15 @@
  *
  */
 
+require_once "CRM/Contact/Form/AddContact.php";
 require_once 'CRM/Core/Form.php';
+require_once "CRM/Contact/Form/Task.php";
 
 /**
  * This class generates form components for processing a case
  * 
  */
-class CRM_Case_Form_Case extends CRM_Core_Form
+class CRM_Case_Form_Case extends CRM_Contact_Form_Task
 {
     /**
      * the id of the case that we are proceessing
@@ -73,6 +75,24 @@ class CRM_Case_Form_Case extends CRM_Core_Form
         $this->assign('context', $this->_context);
         $this->_caseid = CRM_Utils_Request::retrieve('caseid','Integer',$this);
         $this->assign('enableCase', true );
+        $this->_action = CRM_Utils_Request::retrieve('action', 'String', $this );
+        $this->assign( 'action', $this->_action);
+        $this->_addCaseContact = CRM_Utils_Array::value( 'case_contact', $_GET );
+        
+        $this->assign('addCaseContact', false);
+        if ( $this->_addCaseContact ) {
+            $this->assign('addCaseContact', true);
+        }
+        parent::preProcess( );
+        $this->assign( 'urlPath', 'civicrm/contact/view/case' );
+        $this->assign( 'contactUrlPath', 'civicrm/contact/view/case' );
+        // build case contact combo
+        if ( CRM_Utils_Array::value( 'case_contact', $_POST ) ) {
+            foreach ( $_POST['case_contact'] as $key => $value ) {
+                CRM_Contact_Form_AddContact::buildQuickForm( $this, "case_contact[{$key}]" );
+            }
+            $this->assign( 'caseContactCount', count( $_POST['case_contact'] ) );
+        }
     }
 
     function setDefaultValues( ) 
@@ -93,7 +113,12 @@ class CRM_Case_Form_Case extends CRM_Core_Form
             $defaults['start_date'] = array( );
             CRM_Utils_Date::getAllDefaultValues( $defaults['start_date'] );
         }
-
+        
+        //set the assigneed contact count to template
+        if ( !empty( $defaults['case_contact'] ) ) {
+            $this->assign( 'caseContactCount', count( $defaults['case_contact'] ) );
+        }
+        
         return $defaults;
     }
     
@@ -141,7 +166,29 @@ class CRM_Case_Form_Case extends CRM_Core_Form
             $this->add('select', 'casetag3_id',  ts( 'Violation' ),  
                        $caseViolation , false, array("size"=>"5",  "multiple"));
         }
+
+        // add a dojo facility for searching contacts
+        $this->assign( 'dojoIncludes', " dojo.require('dojox.data.QueryReadStore'); dojo.require('dojo.parser');" );
         
+        $attributes = array( 'dojoType'       => 'civicrm.FilteringSelect',
+                             'mode'           => 'remote',
+                             'store'          => 'contactStore',
+                             'pageSize'       => 10  );
+        
+        $dataUrl = CRM_Utils_System::url( "civicrm/ajax/search",
+                                          "reset=1",
+                                          true, null, false );
+        $this->assign('dataUrl',$dataUrl );
+
+        if ( $this->_addCaseContact ) {
+            $contactCount = CRM_Utils_Array::value( 'count', $_GET );
+            $nextContactCount = $contactCount + 1;
+            $this->assign('contactCount', $contactCount );
+            $this->assign('nextContactCount', $nextContactCount );
+            $this->assign('contactFieldName', 'case_contact' );
+            return CRM_Contact_Form_AddContact::buildQuickForm( $this, "case_contact[{$contactCount}]" );
+        }
+
         $this->add( 'date', 'start_date', ts('Start Date'),
                     CRM_Core_SelectValues::date('activityDate' ),
                     true);   

@@ -1,4 +1,8 @@
 {* this template is used for adding/editing/deleting case *} 
+{if $addCaseContact }
+   {include file="CRM/Contact/Form/AddContact.tpl"}
+{else}
+
 <fieldset>
 {if $action eq 1}
     <legend>{ts}New Case{/ts}</legend>
@@ -21,6 +25,21 @@
             <tr><td class="label">&nbsp;</td><td class="description">{ts}Enter the case subject{/ts}</td></tr>
             <tr><td class="label">{$form.status_id.label}</td><td>{$form.status_id.html}</td></tr>   
             <tr><td class="label">&nbsp;</td><td class="description">{ts}Select the status for this case{/ts}</td></tr>
+
+             <tr>
+            {if $action neq 4}
+		 <td class="label">{ts}Add To {/ts}<div dojoType="dojox.data.QueryReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra" doClientPaging="false"></div></td>
+                <td class="tundra">                  
+                   <span id="case_contact_1"></span>
+                   <br />{edit}<span class="description">{ts}You can optionally add this case to someone. Added case will appear in their Contact Dashboard.{/ts}</span>{/edit}
+                </td>
+            {else}
+                <td class="label">{ts}Add To {/ts}</td><td class="view-value">{$case_contact_value}</td>
+            {/if}
+             </tr>
+
+
+
             <tr><td class="label">{$form.case_type_id.label}</td><td>{$form.case_type_id.html}</td></tr>  
   	    <tr><td class="label">&nbsp;</td><td class="description">{ts}Select the appropriate type of the case {/ts}</td></tr>                    <tr><td class="label">{$form.start_date.label}</td><td>{$form.start_date.html}
 	        {include file="CRM/common/calendar/desc.tpl" trigger=trigger_case_1}
@@ -40,4 +59,61 @@
        </table>
     </div>
 </fieldset>
-      
+
+{* Build add contact *}
+{literal}
+<script type="text/javascript">
+{/literal}
+{if $action neq 4 }
+{literal}
+   buildContact( 1, 'case_contact' );
+{/literal}   
+{/if}
+{literal}
+
+var caseContactCount = {/literal}"{$caseContactCount}"{literal}
+
+if ( caseContactCount ) {
+    for ( var i = 1; i <= caseContactCount; i++ ) {
+	buildContact( i, 'case_contact' );
+    }
+}
+
+function buildContact( count, pref )
+{
+    if ( count > 1 ) {
+	prevCount = count - 1;
+	hide( pref + '_' + prevCount + '_show'); 
+    }
+
+    var dataUrl = {/literal}"{crmURL p=$contactUrlPath h=0 q='snippet=4&count='}"{literal} + count + '&' + pref + '=1';
+
+    var result = dojo.xhrGet({
+        url: dataUrl,
+        handleAs: "text",
+	sync: true,
+        timeout: 5000, //Time in milliseconds
+        handle: function(response, ioArgs) {
+                if (response instanceof Error) {
+		    if (response.dojoType == "cancel") {
+			//The request was canceled by some other JavaScript code.
+			console.debug("Request canceled.");
+		    } else if (response.dojoType == "timeout") {
+			//The request took over 5 seconds to complete.
+			console.debug("Request timed out.");
+		    } else {
+			//Some other error happened.
+			console.error(response);
+		    }
+                } else {
+		    // on success
+		    dojo.byId( pref + '_' + count).innerHTML = response;
+		    dojo.parser.parse( pref + '_' + count );
+		}
+	    }
+	});
+}
+</script>
+
+{/literal}
+{/if}      
