@@ -57,8 +57,8 @@
     <td>{$row.pledge_status_id}</td>	
     <td>{$row.action}</td>
    </tr>
-   <tr id="{$row.pledge_id}_hide" {if $rowClass eq 'even-row'}class="explicitAlternate"{/if}>
-     <td>
+   <tr id="{$row.pledge_id}_hide" class="{if $rowClass eq 'even-row'}even-row{else}odd-row{/if}">
+     <td style="border-right: none;">
      </td>
      <td colspan="9">
 	<div id="paymentDetails{$row.pledge_id}"></div>
