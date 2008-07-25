@@ -489,8 +489,10 @@ SELECT count(*)
         
         if ( $config->userFramework == 'Drupal' ) { 
             $user = user_load( array( 'uid' => $ufmatch->uf_id ) );
-            user_save( $user, array( 'mail' => $ufName ) );
-            $user = user_load( array( 'uid' => $ufmatch->uf_id ) );
+            if ($user->mail != $ufName) {
+                user_save( $user, array( 'mail' => $ufName ) );
+                $user = user_load( array( 'uid' => $ufmatch->uf_id ) );
+            }
         } else if ( $config->userFramework == 'Joomla' ) {
             $db_uf = self::dbHandle( $config );
             $ufID   = CRM_Utils_Type::escape( $ufID, 'Integer' );
