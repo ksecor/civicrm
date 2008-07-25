@@ -881,9 +881,15 @@ AND civicrm_membership.is_test = %2";
                 // we dont need to create the user twice, so lets disable cms_create_account
                 // irrespective of the value, CRM-2888
                 $tempParams['cms_create_account'] = 0;
-
+                
                 $pending  = $form->_params['is_pay_later'] ? true : false;
-
+                
+                //set this variable as we are not creating pledge for 
+                //separate membership payment contribution.
+                //so for differentiating membership contributon from
+                //main contribution.
+                $form->_params['separate_membership_payment'] = 1;
+                
                 $contribution[2] =
                     CRM_Contribute_Form_Contribution_Confirm::processContribution( $form,
                                                                                    $tempParams,

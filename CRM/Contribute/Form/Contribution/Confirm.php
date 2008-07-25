@@ -674,12 +674,12 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
     
         require_once 'CRM/Contribute/BAO/Contribution.php';
         $contribution =& CRM_Contribute_BAO_Contribution::add( $contribParams, $ids );
-
-        if ( in_array('CiviPledge', $config->enableComponents ) && 
-             CRM_Utils_Array::value('pledge_block_id', $form->_values ) &&
+        
+        //handle pledge stuff.
+        if ( !CRM_Utils_Array::value( 'separate_membership_payment', $form->_params ) &&
+             CRM_Utils_Array::value('pledge_block_id', $form->_values ) && 
              ( CRM_Utils_Array::value('is_pledge', $form->_params ) ||
-               CRM_Utils_Array::value('pledge_id', $form->_values ) )
-             ) {
+               CRM_Utils_Array::value('pledge_id', $form->_values ) ) ) {
             
             $pledgeParams = array( );
             $pledgeParams['is_test'    ]      = $contribution->is_test;
