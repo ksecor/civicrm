@@ -3,7 +3,7 @@
 {/if}
 
 {capture assign=iconURL}<img src="{$config->resourceBase}i/TreePlus.gif" alt="{ts}open section{/ts}"/>{/capture}
-{ts 1=$iconURL}Click %1 icon to expand the list of payments for given pledge.{/ts}
+{ts 1=$iconURL}Click %1 to view pledge payments.{/ts}
 {strip}
 <table class="selector">
   <tr class="columnheader">
@@ -32,8 +32,19 @@
         {/if}	
 	<td>{$row.contact_type}<br/>
 	<span id="{$row.pledge_id}_show">
-	    <a href="#" onclick="show('paymentDetails{$row.pledge_id}', 'table-row'); buildPaymentDetails('{$row.pledge_id}','{$row.contact_id}'); hide('{$row.pledge_id}_show');show('{$row.pledge_id}_hide','table-row');return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a>
+	    <a href="#" onclick="show('paymentDetails{$row.pledge_id}', 'table-row'); 
+                                 buildPaymentDetails('{$row.pledge_id}','{$row.contact_id}'); 
+ 				 hide('{$row.pledge_id}_show');
+			  	 show('minus{$row.pledge_id}_hide');
+                                 show('{$row.pledge_id}_hide','table-row');
+                                 return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a>
 	</span>
+	<span id="minus{$row.pledge_id}_hide">
+	    <a href="#" onclick="hide('paymentDetails{$row.pledge_id}'); 
+ 				 show('{$row.pledge_id}_show', 'table-row');
+                                 hide('{$row.pledge_id}_hide');
+                                 hide('minus{$row.pledge_id}_hide');
+                                 return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a>
 	</td>
     	<td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td>
     {/if}
@@ -44,20 +55,18 @@
     <td>{$row.pledge_next_pay_date|truncate:10:''|crmDate}</td>
     <td>{$row.pledge_next_pay_amount+$row.pledge_outstanding_amount|crmMoney}</td>
     <td>{$row.pledge_status_id}</td>	
-    <td>{$row.action}
-	
-    </td>
+    <td>{$row.action}</td>
    </tr>
-   <tr id="{$row.pledge_id}_hide" class='{$rowClass}' >
+   <tr id="{$row.pledge_id}_hide" >
      <td>
-         <a href="#" onclick="show('{$row.pledge_id}_show', 'table-row');hide('{$row.pledge_id}_hide');return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a>
      </td>
      <td colspan="9">
-       <div id="paymentDetails{$row.pledge_id}"></div>
+	<div id="paymentDetails{$row.pledge_id}"></div>
      </td>
-  </tr>
+   </tr>
  <script type="text/javascript">
      hide('{$row.pledge_id}_hide');
+     hide('minus{$row.pledge_id}_hide');
  </script>
   {/foreach}
 </table>
