@@ -65,6 +65,12 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         // check if the user is registered and we have a contact ID
         $session =& CRM_Core_Session::singleton( );
         $contactID = $session->get( 'userID' );
+        
+        if ( !$contactID ) {
+            //retrieve contact id from url if its send
+            $contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
+        }
+
         if ( $contactID ) {
             $options = array( );
             $fields = array( );
