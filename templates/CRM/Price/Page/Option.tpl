@@ -43,9 +43,8 @@
     
     <div id="field_page">
      <p></p>
-        <div class="form-item">
         {strip}
-        <table cellpadding="0" cellspacing="0" border="0">
+        <table class="selector">
          <tr class="columnheader">
             <th>{ts}Option Label{/ts}</th>
             <th>{ts}Option Amount{/ts}</th>
@@ -67,11 +66,10 @@
         {/strip}
         
         <div class="action-link">
-            <a href="{crmURL q="reset=1&action=add&fid=$fid"}">&raquo; {ts 1=$fieldTitle}New Option for '%1'{/ts}</a>
+            <a href="{crmURL q="reset=1&action=add&fid=$fid"}" class="button"><span>&raquo; {ts 1=$fieldTitle}New Option for '%1'{/ts}</span></a>
         </div>
 
-        </div>
-     </div>
+    </div>
 
 {else}
     {if $action eq 16}

@@ -49,9 +49,8 @@
     {if $rows}
     <div id="price_set">
     <p></p>
-        <div class="form-item">
         {strip}
-        <table  cellpadding="0" cellspacing="0" border="0">
+        <table class="selector">
         <tr class="columnheader">
             <th>{ts}Set Title{/ts}</th>
             <th>{ts}Status?{/ts}</th>
@@ -74,7 +73,6 @@
         {/if}
 
         {/strip}
-        </div>
     </div>
     {else}
        {if $action ne 1} {* When we are adding an item, we should not display this message *}
