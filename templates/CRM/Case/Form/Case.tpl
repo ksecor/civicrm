@@ -27,14 +27,14 @@
             <tr><td class="label">&nbsp;</td><td class="description">{ts}Select the status for this case{/ts}</td></tr>
 
              <tr>
-            {if $action neq 4}
+            {if $action neq 4 and $search eq false}
 		 <td class="label">{ts}Add To {/ts}<div dojoType="dojox.data.QueryReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra" doClientPaging="false"></div></td>
                 <td class="tundra">                  
                    <span id="case_contact_1"></span>
                    <br />{edit}<span class="description">{ts}You can optionally add this case to someone. Added case will appear in their Contact Dashboard.{/ts}</span>{/edit}
                 </td>
             {else}
-                <td class="label">{ts}Add To {/ts}</td><td class="view-value">{$case_contact_value}</td>
+                <td class="label">{ts}Add To {/ts}</td><td class="view-value">{$caseContacts}</td>
             {/if}
              </tr>
 

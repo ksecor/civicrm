@@ -86,6 +86,7 @@ class CRM_Case_Form_Case extends CRM_Contact_Form_Task
         parent::preProcess( );
         $this->assign( 'urlPath', 'civicrm/contact/view/case' );
         $this->assign( 'contactUrlPath', 'civicrm/contact/view/case' );
+
         // build case contact combo
         if ( CRM_Utils_Array::value( 'case_contact', $_POST ) ) {
             foreach ( $_POST['case_contact'] as $key => $value ) {
@@ -130,6 +131,20 @@ class CRM_Case_Form_Case extends CRM_Contact_Form_Task
      */ 
     public function buildQuickForm( )
     {
+        if ( ! empty($this->_contactIds) && is_array($this->_contactIds)) {
+            $contactIds = implode(',',$this->_contactIds);
+            $query = "SELECT id, sort_name 
+                      FROM civicrm_contact
+                      WHERE id IN ({$contactIds})";
+            $queryParam = array();
+            $dao = CRM_Core_DAO::executeQuery( $query, $queryParam );
+            while ( $dao->fetch() ) {
+                $caseContacts .= $caseContacts?",\"$dao->sort_name\"":"\"$dao->sort_name\"";
+            }
+            $this->assign('caseContacts', $caseContacts);
+            $this->assign('search', true);
+        } 
+
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             $this->addButtons(array( 
                                     array ( 'type'      => 'next', 
