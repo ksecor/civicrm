@@ -710,7 +710,7 @@ ORDER BY subject";
 
         if ( empty( $elements ) ) {
             $elements[] = array( 'name' => $name,
-                                 'value'=>  0);
+                                 'value'=>  -1);
         }
 
 

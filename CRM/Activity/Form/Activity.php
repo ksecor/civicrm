@@ -551,7 +551,6 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         if  ( CRM_Utils_Array::value( '_qf_Activity_next_',$fields) == 'Delete' ) {
             return true;
         }
-
         $errors = array( );
         if ( ! $self->_single && ! $fields['activity_type_id']) {
             $errors['activity_type_id'] = ts('Activity Type is a required field');
@@ -580,7 +579,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         } else if ( $fields['activity_type_id'] == 4 && $fields['status_id'] == 1 ) {
             $errors['status_id'] = ts('You cannot record scheduled SMS activity.');
         }
-        if( $fields['case_subject'] && $fields['case_subject'] == 0 ){
+        if(  CRM_Utils_Array::value( 'case_subject',$fields) && $fields['case_subject'] == -1 ){
             $errors['case_subject'] = ts('Invalid Case');
         }
 
@@ -695,7 +694,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         }
        
         // add case activity
-        if ( $this->_viewOptions['CiviCase'] ) {
+        if ( $this->_viewOptions['CiviCase'] && $params['case_subject']  ) {
             require_once 'CRM/Case/BAO/Case.php';
             $caseParams['activity_id'] = $activity->id;
             $caseParams['subject'    ] = $params['case_subject'];
