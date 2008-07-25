@@ -45,6 +45,7 @@
                         <menu task="civicrm/group&amp;reset=1">Manage Groups</menu>
                         <menu task="civicrm/import&amp;reset=1">Import Contacts</menu>
                         <menu task="civicrm/contribute&amp;reset=1">CiviContribute</menu>
+                        <menu task="civicrm/pledge&amp;reset=1">CiviPledge</menu>
                         <menu task="civicrm/member&amp;reset=1">CiviMember</menu>
                         <menu task="civicrm/event&amp;reset=1">CiviEvent</menu>
                         <menu task="civicrm/admin&amp;reset=1">Administer CiviCRM</menu>
