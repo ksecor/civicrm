@@ -193,22 +193,25 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $this->applyFilter('__ALL__', 'trim');
         $this->add( 'text', "email-{$this->_bltID}",
                     ts( 'Email Address' ), array( 'size' => 30, 'maxlength' => 60 ), true );
-
-        $this->_separateMembershipPayment = false;
-        if ( in_array("CiviMember", $config->enableComponents) ) {
-            $isTest = 0;
-            if ( $this->_action & CRM_Core_Action::PREVIEW ) {
-                $isTest = 1;
-            }
+        
+        //don't build membership block when pledge_id is passed
+        if ( !$this->_values['pledge_id'] ) {
+            $this->_separateMembershipPayment = false;
+            if ( in_array("CiviMember", $config->enableComponents) ) {
+                $isTest = 0;
+                if ( $this->_action & CRM_Core_Action::PREVIEW ) {
+                    $isTest = 1;
+                }
             
-            require_once 'CRM/Member/BAO/Membership.php';
-            $this->_separateMembershipPayment = 
-                CRM_Member_BAO_Membership::buildMembershipBlock( $this , 
-                                                                 $this->_id , 
-                                                                 true, null, false, 
-                                                                 $isTest, $this->_membershipContactID );
+                require_once 'CRM/Member/BAO/Membership.php';
+                $this->_separateMembershipPayment = 
+                    CRM_Member_BAO_Membership::buildMembershipBlock( $this , 
+                                                                     $this->_id , 
+                                                                     true, null, false, 
+                                                                     $isTest, $this->_membershipContactID );
+            }
+            $this->set( 'separateMembershipPayment', $this->_separateMembershipPayment );
         }
-        $this->set( 'separateMembershipPayment', $this->_separateMembershipPayment );
 
         if ( $this->_values['amount_block_is_active'] && !$this->_values['pledge_id'] ) {
             $this->buildAmount( $this->_separateMembershipPayment );
