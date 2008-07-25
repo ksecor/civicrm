@@ -121,6 +121,11 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
             $transaction->rollback( );
             return $case;
         }
+        $session = & CRM_Core_Session::singleton();
+        $id = $session->get('userID');
+        if ( !$id ) {
+            $id = $params['contact_id'];
+        } 
 
         // Log the information on successful add/edit of Case
         require_once 'CRM/Core/BAO/Log.php';
@@ -147,9 +152,13 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
      */
     function addCaseToContact( $params ) {
         require_once 'CRM/Case/DAO/CaseContact.php';
-        $caseContact = new CRM_Case_DAO_CaseContact();
-        $caseContact->copyValues( $params );
-        return $caseContact->save();
+        $caseContact =& new CRM_Case_DAO_CaseContact();
+        $caseContact->case_id = $params['case_id'];
+        $caseContact->contact_id = $params['contact_id'];
+        $caseContact->find(true);
+        $caseContact->save();
+
+        return $caseContact;
     }
     
     /**

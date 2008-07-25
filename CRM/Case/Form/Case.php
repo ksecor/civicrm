@@ -308,13 +308,25 @@ class CRM_Case_Form_Case extends CRM_Contact_Form_Task
         
         require_once 'CRM/Case/BAO/Case.php';
         $case = CRM_Case_BAO_Case::create( $params );
-        foreach ( $params['case_contact'] as $key => $id ) {
-            if ($id) {
-                $contactParams = array(
-                                       'case_id'    => $case->id,
-                                       'contact_id' => $id
-                                       );
-                CRM_Case_BAO_Case::addCaseToContact( $contactParams );
+        if ( ! empty($this->_contactIds) && is_array($this->_contactIds)) {
+            foreach ( $this->_contactIds as $key => $id ) {
+                if ($id) {
+                    $contactParams = array(
+                                           'case_id'    => $case->id,
+                                           'contact_id' => $id
+                                           );
+                    CRM_Case_BAO_Case::addCaseToContact( $contactParams );
+                }
+            }
+        } else {
+            foreach ( $params['case_contact'] as $key => $id ) {
+                if ($id) {
+                    $contactParams = array(
+                                           'case_id'    => $case->id,
+                                           'contact_id' => $id
+                                           );
+                    CRM_Case_BAO_Case::addCaseToContact( $contactParams );
+                }
             }
         }
         
