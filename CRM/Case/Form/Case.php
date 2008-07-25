@@ -111,7 +111,7 @@ class CRM_Case_Form_Case extends CRM_Contact_Form_Task
             }
 
         }    
-                   
+        $this->assign('contactNames',$defaults['contact_names']);
         $defaults['case_type_id'] = explode( CRM_Case_BAO_Case::VALUE_SEPERATOR, CRM_Utils_Array::value( 'case_type_id' , $defaults ) );
         $config =& CRM_Core_Config::singleton( );
         if ($config->civiHRD){

@@ -3,7 +3,7 @@
 <fieldset>
     <legend>{ts}View Case Record Details{/ts}</legend>
       <dl class="html-adjust">
-            <dt class="font-size12pt">{ts}Name{/ts}</dt><dd class="font-size12pt"><strong>{$displayName}</strong>&nbsp;</dd>
+            <dt class="font-size12pt">{ts}Name{/ts}</dt><dd class="font-size12pt"><strong>{$contactNames}</strong>&nbsp;</dd>
       	    <dt>{$form.subject.label}</dt><dd>{$form.subject.html}</dd>
             <dt>{$form.status_id.label}</dt><dd>{$form.status_id.html}</dd>   
             <dt>{$form.case_type_id.label}</dt><dd>{$form.case_type_id.html}</dd>
