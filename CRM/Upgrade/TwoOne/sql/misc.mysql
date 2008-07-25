@@ -534,3 +534,15 @@ ALTER TABLE `civicrm_case_activity`
     DROP FOREIGN KEY `FK_civicrm_case_activity_case_id`;
 ALTER TABLE `civicrm_case_activity`
     ADD CONSTRAINT `FK_civicrm_case_activity_case_id` FOREIGN KEY (`case_id`) REFERENCES `civicrm_case` (`id`) ON DELETE CASCADE;
+
+
+-- current employer data upgrade
+
+SELECT @relTypeId := id FROM civicrm_relationship_type WHERE name_a_b='Employee of'; 
+
+UPDATE civicrm_relationship cr
+INNER JOIN civicrm_contact cci ON (cr.contact_id_a=cci.id)  
+INNER JOIN civicrm_contact cco ON (cr.contact_id_b=cco.id)  
+SET   cci.employer_id = cr.contact_id_b, 
+      cci.organization_name = cco.organization_name
+WHERE cr.relationship_type_id=@relTypeId AND cr.is_active=1 AND IF(cr.end_date IS NULL, 1, (DATEDIFF(CURDATE( ), cr.end_date) <= 0));
