@@ -33,7 +33,7 @@ function displayGroupTree( ) {
 	    store: myStore,
 	    query: {type:'rootGroup'},
 	    rootId: 'allGroups',
-	    rootLabel: 'All Groups',
+	    rootLabel: null,
 	    childrenAttrs: ["children"]
 	});
     var tree = new civicrm.CheckableTree({
