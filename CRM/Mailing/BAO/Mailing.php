@@ -1801,18 +1801,19 @@ SELECT DISTINCT( m.id ) as id
         require_once 'CRM/Contact/BAO/Query.php';
         $query   =& new CRM_Contact_BAO_Query( $params, $returnProperties );
         $details = $query->apiQuery( $params, $returnProperties, NULL, NULL, 0, $numberofContacts );
-
+        
         $contactDetails =& $details[0];
-
+        
         foreach ( $contactIds as $key => $contactID ) {
-            if ( CRM_Utils_Array::value('preferred_communication_method',$returnProperties) == 1 ) {
-                require_once 'CRM/Core/PseudoConstant.php';
-                $pcm = CRM_Core_PseudoConstant::pcm();
+            if ( array_key_exists( $contactID, $contactDetails ) ) {
                 
-                // communication Prefferance
-                require_once 'CRM/Core/BAO/CustomOption.php';
-                if ( array_key_exists($contactID, $contactDetails) 
-                     && array_key_exists('preferred_communication_method', $contactDetails[$contactID] ) ) {
+                if ( CRM_Utils_Array::value( 'preferred_communication_method', $returnProperties ) == 1 
+                     && array_key_exists( 'preferred_communication_method', $contactDetails[$contactID] ) ) {
+                    require_once 'CRM/Core/PseudoConstant.php';
+                    $pcm = CRM_Core_PseudoConstant::pcm();
+                    
+                    // communication Prefferance
+                    require_once 'CRM/Core/BAO/CustomOption.php';
                     $contactPcm = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,
                                           $contactDetails[$contactID]['preferred_communication_method']);
                     $result = array( );
@@ -1823,15 +1824,16 @@ SELECT DISTINCT( m.id ) as id
                     }
                     $contactDetails[$contactID]['preferred_communication_method'] = implode( ', ', $result );
                 }
-            }
-            foreach ( $custom as $cfID ) {
-                if ( isset ( $contactDetails[$contactID]["custom_{$cfID}"] ) ) {
-                    $contactDetails[$contactID]["custom_{$cfID}"] = 
-                        CRM_Core_BAO_CustomField::getDisplayValue( $contactDetails[$contactID]["custom_{$cfID}"],$cfID, $details[1] );
+                
+                foreach ( $custom as $cfID ) {
+                    if ( isset ( $contactDetails[$contactID]["custom_{$cfID}"] ) ) {
+                        $contactDetails[$contactID]["custom_{$cfID}"] = 
+                            CRM_Core_BAO_CustomField::getDisplayValue( $contactDetails[$contactID]["custom_{$cfID}"],
+                                                                       $cfID, $details[1] );
+                    }
                 }
             }
         }
-
         return $details;
     }
 
