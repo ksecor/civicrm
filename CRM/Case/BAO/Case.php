@@ -294,6 +294,56 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
         $case->activity_id = $activityId; 
         $case->delete( );
     }
+    /* * Retrieve contact_id by case_id
+     *
+     * @param int    $caseId  ID of the case
+     * 
+     * @return array
+     * 
+     * @access public
+     * 
+     */
+    
+     function retrieveContactIdsByCaseId( $caseId ) 
+     {
+         require_once 'CRM/Case/DAO/CaseContact.php';
+         $caseContact =   & new CRM_Case_DAO_CaseContact( );
+         $caseContact->case_id = $caseId;
+         $caseContact->find();
+         $contactArray = array();
+         $count = 1;
+         while ( $caseContact->fetch( ) ) {
+             $contactArray[$count] = $caseContact->contact_id;
+             $count++;
+         }
+         
+         return $contactArray;
+     }
+      /**
+     * Retrieve contact names by caseId
+     *
+     * @param int    $caseId  ID of the case
+     * 
+     * @return array
+     * 
+     * @access public
+     * 
+     */
+    static function getcontactNames( $caseId ) 
+    {
+        $queryParam = array();
+        $query = "SELECT contact_a.sort_name 
+                  FROM civicrm_contact contact_a 
+                  LEFT JOIN civicrm_case_contact 
+                         ON civicrm_case_contact.contact_id = contact_a.id
+                  WHERE civicrm_case_contact.case_id = {$caseId}";
+        $dao = CRM_Core_DAO::executeQuery($query,$queryParam);
+        $contactNames = array();
+        while ( $dao->fetch() ) {
+            $contactNames[] =  $dao->sort_name;
+        }
+        return $contactNames;
+    }
 }
 
 

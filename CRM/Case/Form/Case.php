@@ -99,11 +99,19 @@ class CRM_Case_Form_Case extends CRM_Contact_Form_Task
     function setDefaultValues( ) 
     {
         $defaults = array( );
+        $contactNames = array();
         require_once 'CRM/Case/BAO/Case.php' ;
         if ( isset( $this->_id ) ) {
             $params = array( 'id' => $this->_id );
             CRM_Case_BAO_Case::retrieve($params, $defaults, $ids);
-        }        
+            $defaults['case_contact'] = CRM_Case_BAO_Case::retrieveContactIdsByCaseId( $this->_id );
+            $contactNames =  CRM_Case_BAO_Case::getcontactNames( $this->_id );
+            foreach( $contactNames as $key => $name ){
+                $defaults['contact_names'] .=  $defaults['contact_names']?",\"$name\"":"\"$name\"";
+            }
+
+        }    
+                   
         $defaults['case_type_id'] = explode( CRM_Case_BAO_Case::VALUE_SEPERATOR, CRM_Utils_Array::value( 'case_type_id' , $defaults ) );
         $config =& CRM_Core_Config::singleton( );
         if ($config->civiHRD){
@@ -119,7 +127,6 @@ class CRM_Case_Form_Case extends CRM_Contact_Form_Task
         if ( !empty( $defaults['case_contact'] ) ) {
             $this->assign( 'caseContactCount', count( $defaults['case_contact'] ) );
         }
-        
         return $defaults;
     }
     
