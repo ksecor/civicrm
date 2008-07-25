@@ -688,14 +688,15 @@ ORDER BY name";
 
          if ($name){
             $name      = str_replace( '*', '%', $name );
-            $whereclause = "subject like '$name'";
+            $whereclause = "and civicrm_case.subject like '$name'";
          }
         $contactID = CRM_Utils_Type::escape( $_GET['c'], 'Integer' );
 
         $query = "
-SELECT subject,id
+SELECT civicrm_case.subject as subject, civicrm_case.id as id
 FROM civicrm_case
-WHERE contact_id = $contactID and {$whereclause}
+LEFT JOIN civicrm_case_contact ON civicrm_case_contact.case_id = civicrm_case.id
+WHERE civicrm_case_contact.contact_id = $contactID  {$whereclause}
 ORDER BY subject";
 
         $dao = CRM_Core_DAO::executeQuery( $query );
