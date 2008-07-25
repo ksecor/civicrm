@@ -410,10 +410,10 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
                 $errors['honor_first_name'] = ts('Honor First Name and Last Name OR an email should be set.');
             }
         }
-        if ( $fields["amount"] < 0 ) {
+        if ( $fields["amount"] <= 0 ) {
             $errors['amount'] = ts('Total Pledge Amount should be greater than zero.');
         }
-        if ( $fields["installments"] < 0 ) {
+        if ( $fields["installments"] <= 0 ) {
             $errors['installments'] = ts('Installments should be greater than zero.');
         }
      
