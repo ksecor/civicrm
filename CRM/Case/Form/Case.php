@@ -265,10 +265,10 @@ class CRM_Case_Form_Case extends CRM_Contact_Form_Task
             CRM_Core_Session::setStatus( ts("Selected Case has been deleted."));
             return;
         }
-
+        
         // get the submitted form values.  
         $params = $this->controller->exportValues( $this->_name );
-      
+        
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
             $params['id'] = $this->_id ;
         }
@@ -277,7 +277,7 @@ class CRM_Case_Form_Case extends CRM_Contact_Form_Task
         $params['start_date'  ] = CRM_Utils_Date::format( $params['start_date'] );
         $params['end_date'    ] = CRM_Utils_Date::format( $params['end_date'] );
         $params['case_type_id'] = CRM_Case_BAO_Case::VALUE_SEPERATOR.implode(CRM_Case_BAO_Case::VALUE_SEPERATOR, $params['case_type_id'] ).CRM_Case_BAO_Case::VALUE_SEPERATOR;
-       
+        
         $config =& CRM_Core_Config::singleton( );
         if ($config->civiHRD){
             $params['casetag2_id'] = CRM_Case_BAO_Case::VALUE_SEPERATOR.implode(CRM_Case_BAO_Case::VALUE_SEPERATOR, $params['casetag2_id'] ).CRM_Case_BAO_Case::VALUE_SEPERATOR;
@@ -286,7 +286,16 @@ class CRM_Case_Form_Case extends CRM_Contact_Form_Task
         
         require_once 'CRM/Case/BAO/Case.php';
         $case = CRM_Case_BAO_Case::create( $params );
-
+        foreach ( $params['case_contact'] as $key => $id ) {
+            if ($id) {
+                $contactParams = array(
+                                       'case_id'    => $case->id,
+                                       'contact_id' => $id
+                                       );
+                CRM_Case_BAO_Case::addCaseToContact( $contactParams );
+            }
+        }
+        
         // set status message
         CRM_Core_Session::setStatus( ts('Case \'%1\' has been saved.', array( 1 => $params['subject'] ) ) );
     }
