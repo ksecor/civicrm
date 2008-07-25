@@ -448,7 +448,7 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL )
  * Determine if the user is on a CiviCRM generated page, i.e. the form has some civicrm unique token
  */
 function civicrm_on_user_page() {
-    return (bool) $_POST['qfKey'];
+    return isset( $_POST['_qf_default'] );
 }
 
 
@@ -488,18 +488,18 @@ function civicrm_register_data($edit, &$user, $category, $reset, $doNotProcess =
 
     $ctype = civicrm_get_ctype( 'Individual' );
     if ( $user->uid ) {
+        // Happens on $type == 'insert'
+        // $reset == false always
+        // $doNotProcess == false always
         CRM_Core_BAO_UFMatch::synchronize( $user, true, 'Drupal', $ctype );
-    }
-
-    $userID = CRM_Core_BAO_UFMatch::getContactId( $user->uid );
-
-    if ( $userID ) {
+        $userID = CRM_Core_BAO_UFMatch::getContactId( $user->uid );
         $html = CRM_Core_BAO_UFGroup::getEditHTML( $userID, '',
                                                    2,
                                                    true,
                                                    $reset, null,
                                                    $doNotProcess, $ctype );
     } else {
+        // Happens on $type == 'register'
         $html = CRM_Core_BAO_UFGroup::getEditHTML( $userID, '',
                                                    1,
                                                    true,
@@ -674,7 +674,7 @@ function civicrm_cache_disable( ) {
  */
 function civicrm_key_disable( ) {
     $config =& CRM_Core_Config::singleton( );
-    $config->formKeyDisable = true;
+    $config->keyDisable = true;
 }
 
 function civicrm_enable( ) {
