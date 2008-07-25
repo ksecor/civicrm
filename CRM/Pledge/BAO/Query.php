@@ -416,6 +416,9 @@ class CRM_Pledge_BAO_Query
         
         $form->addGroup( $status, 'pledge_status_id', ts( 'Pledge Status' ) );
 
+        //unset in progress for payment
+        unset( $statusValues['5']);
+
         foreach ( $statusValues as $key => $val ) {
             $paymentStatus[] =  $form->createElement('advcheckbox',$key, null, $val );
         }
