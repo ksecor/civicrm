@@ -6,7 +6,7 @@
 <dl>
         <dt>{$form.outbond_option.label}</dt><dd>{$form.outbond_option.html}</dd>
 </dl>
-<div id="SMTP">
+<div id="bySMTP">
 <fieldset><legend>{ts}SMTP Configuration{/ts}</legend>
         <dl>
             <dt>{$form.smtpServer.label}</dt><dd>{$form.smtpServer.html}</dd>
@@ -22,7 +22,7 @@
 <div class="spacer"></div>
 </fieldset>
 </div>
-<div id="Sendmail">
+<div id="bySendmail">
 <fieldset><legend>{ts}Sendmail Configuration{/ts}</legend>
         <dl>
             <dt>{$form.sendmail_path.label}</dt><dd>{$form.sendmail_path.html}</dd>
@@ -36,21 +36,21 @@
             <dt></dt><dd>{$form.buttons.html}&nbsp;&nbsp;&nbsp;&nbsp;{$form.sendTestEmail.html}</dd>
         </dl>
 </div>
-
-{include file="CRM/common/showHideByFieldValue.tpl" 
-    trigger_field_id    ="outbond_option"
-    trigger_value       = 1
-    target_element_id   ="SMTP" 
-    target_element_type ="block"
-    field_type          ="radio"
-    invert              = 0
+{literal}
+<script type="text/javascript">
+window.onload = function() {
+showHideMailOptions();
 }
-
-{include file="CRM/common/showHideByFieldValue.tpl" 
-    trigger_field_id    ="outbond_option"
-    trigger_value       = 1
-    target_element_id   ="Sendmail" 
-    target_element_type ="block"
-    field_type          ="radio"
-    invert              = 1
+function showHideMailOptions()
+{
+    if (document.getElementsByName("outbond_option")[0].checked) {
+	show("bySMTP");
+	hide("bySendmail");
+    } else {
+	hide("bySMTP");
+	show("bySendmail");
+    }
+    
 }
+</script>
+{/literal}
