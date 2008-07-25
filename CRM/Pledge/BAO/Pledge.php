@@ -481,6 +481,7 @@ WHERE  $whereCond
         $tokens = array ( 'domain'  => array( 'name', 'phone', 'address', 'email'),
                           'contact' => CRM_Core_SelectValues::contactTokens());
         require_once 'CRM/Utils/Token.php';
+        $domainValues = array( );
         foreach( $tokens['domain'] as $token ){ 
             $domainValues[$token] = CRM_Utils_Token::getDomainTokenReplacement( $token, $domain );
         }
@@ -531,10 +532,23 @@ WHERE  $whereCond
               $pledgerEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $params['contact_id'] );
         $template =& CRM_Core_Smarty::singleton( );
         $message = $template->fetch( 'CRM/Pledge/Form/AcknowledgeMessage.tpl' );
+        
+        //check for online pledge.
         $session =& CRM_Core_Session::singleton( );
-        $userID = $session->get( 'userID' );
-        list( $userName, $userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $userID );
-        $receiptFrom = '"' . $userName . '" <' . $userEmail . '>';
+        if ( CRM_Utils_Array::value('receipt_from_name', $params ) || 
+             CRM_Utils_Array::value('receipt_from_email', $params ) ) {
+            $receiptFrom = '"' . CRM_Utils_Array::value('receipt_from_name', $params ) . '" <' . 
+                CRM_Utils_Array::value('receipt_from_email', $params ) . '>';
+        } else if ( $userID = $session->get( 'userID' ) )  {
+            //check for loged in user.
+            list( $userName, $userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $userID );
+            $receiptFrom = '"' . $userName . '" <' . $userEmail . '>';  
+        } else {
+            //set the domain values.
+            $receiptFrom = '"' . CRM_Utils_Array::value('name', $domainValues ) . '" <' . 
+                CRM_Utils_Array::value('email', $domainValues ) . '>';
+        }
+        
         $subject = $template->fetch( 'CRM/Pledge/Form/AcknowledgeSubject.tpl' );
         
         require_once 'CRM/Utils/Mail.php';

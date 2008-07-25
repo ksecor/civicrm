@@ -696,8 +696,10 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $pledgeParams['max_reminders'          ] = $form->_values['max_reminders'];
             $pledgeParams['initial_reminder_day'   ] = $form->_values['initial_reminder_day'];
             $pledgeParams['additional_reminder_day'] = $form->_values['additional_reminder_day'];
-         
-            $pledgeParams['scheduled_amount'] = round( $pledgeParams['amount'] / $pledgeParams['installments'] );
+            $pledgeParams['receipt_from_name'      ] = $form->_values['receipt_from_name'];
+            $pledgeParams['receipt_from_email'     ] = $form->_values['receipt_from_email'];
+            
+            $pledgeParams['scheduled_amount']        = round( $pledgeParams['amount'] / $pledgeParams['installments'] );
             
             require_once 'CRM/Pledge/BAO/Pledge.php';
             if ( $params['is_pledge'] == 1 ) {
