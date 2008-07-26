@@ -66,7 +66,12 @@ class CRM_Utils_System_Drupal {
 
         if ( is_array( $breadCrumbs ) ) {
             foreach ( $breadCrumbs as $crumbs ) {
-                $breadCrumb[] = "<a href=\"{$crumbs['url']}\">{$crumbs['title']}</a>";
+                if ( stripos($crumbs['url'], '%%cid%%') ) {
+                    $cid  = CRM_Utils_Request::retrieve( 'cid', 'Positive', CRM_Core_DAO::$_nullObject,
+                                                         false, null, $_GET );
+                    $crumbs['url'] = str_ireplace( '%%cid%%', $cid, $crumbs['url'] );
+                }
+                $breadCrumb[]  = "<a href=\"{$crumbs['url']}\">{$crumbs['title']}</a>";
             }
         }
         drupal_set_breadcrumb( $breadCrumb );

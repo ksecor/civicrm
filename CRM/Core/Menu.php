@@ -475,11 +475,11 @@ class CRM_Core_Menu
             // add to crumb, if current-path exists in params.
             if ( array_key_exists( $currentPath, $menu ) &&
                  isset( $menu[$currentPath]['title'] ) ) {
+                $urlVar = CRM_Utils_Array::value('path_arguments', $menu[$currentPath]) ? 
+                    '&' . $menu[$currentPath]['path_arguments'] : '';
                 $crumbs[] = array('title' => $menu[$currentPath]['title'], 
                                   'url'   => CRM_Utils_System::url( $currentPath, 
-                                                                    'reset=1' .
-                                                                    CRM_Utils_Array::value( 'path_arguments',
-                                                                                            $menu[$currentPath] ) ) );
+                                                                    'reset=1' . $urlVar ));
             }
         }
         $menu[$path]['breadcrumb'] = $crumbs;
