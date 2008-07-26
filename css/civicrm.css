@@ -481,8 +481,8 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
 ** Styles for record browser and report tables, and pager bar
 */
 #crm-container table {
-  margin: .5em 0em .5em;
-  width: 100%;
+  margin: .5em .1em .5em;
+  width: 99%;
   border-collapse: collapse;
   border: 1px solid #4E82CF;
 }
