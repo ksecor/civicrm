@@ -266,15 +266,13 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             
             if ( $this->_context != 'standalone' )  {
                 $this->assign( 'target_contact_value', $defaults['target_contact_value'] );
-                //$this->assign( 'assignee_contact_value', $defaults['assignee_contact_value'] );
-                $this->assign( 'source_contact_value', $defaults['source_contact'] );
+                $this->assign( 'source_contact', $defaults['source_contact_id'] );
             }
         } else {
             // if it's a new activity, we need to set default values for associated contact fields
             // since those are dojo fields, unfortunately we cannot use defaults directly
             $this->_sourceContactId = $this->_currentUserId;
             $this->_targetContactId = $this->_currentlyViewedContactId;
-            $this->_assigneeContactId = null;
 
             $defaults['activity_date_time'] = array( );
             CRM_Utils_Date::getAllDefaultValues( $defaults['activity_date_time'] );
@@ -408,20 +406,12 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         $admin = CRM_Core_Permission::check( 'administer CiviCRM' );
         $this->assign('admin', $admin);
         
-        require_once "CRM/Contact/BAO/Contact.php";
-
-        if ( $this->_sourceContactId ) {
-            $defaultSourceContactName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
-                                                                     $this->_sourceContactId,
-                                                                     'sort_name' );
-        }
-
         $sourceContactField =& $this->add( 'text','source_contact_id', ts('Added By'), $attributes, $admin );
         if ( $sourceContactField->getValue( ) ) {
-            $this->assign( 'source_contact_value',  $sourceContactField->getValue( ) );
-        } else {
+            $this->assign( 'source_contact',  $sourceContactField->getValue( ) );
+        } else if ( $this->_sourceContactId ) {
             // we're setting currently LOGGED IN user as source for this activity
-            $this->assign( 'source_contact_value', $defaultSourceContactName );
+            $this->assign( 'source_contact', $this->_sourceContactId );
         }
 
         //need to assign custom data type and subtype to the template

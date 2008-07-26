@@ -6,10 +6,10 @@
 {else}
 
 {* added onload javascript for source contact*}
-{if $source_contact_value and $admin and $action neq 4}
+{if $source_contact and $admin and $action neq 4}
    <script type="text/javascript">
        dojo.addOnLoad( function( ) {ldelim}
-       dijit.byId( 'source_contact_id' ).setValue( "{$source_contact_value}", "{$source_contact_value}" )
+       dijit.byId( 'source_contact_id' ).setValue( "{$source_contact}")
        {rdelim} );
    </script>
 {/if}
