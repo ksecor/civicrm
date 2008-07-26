@@ -149,7 +149,7 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
 
         $elements = array( );
         if ( $name || isset( $id ) ) {
-            $name  = str_replace( '*', '', $name );
+            $name  = str_replace( '*', '%', $name );
 
             //contact's based of relationhip type
             $relType = null;
