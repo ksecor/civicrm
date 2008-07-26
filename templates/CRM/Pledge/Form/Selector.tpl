@@ -57,7 +57,7 @@
     <td>{$row.pledge_status_id}</td>	
     <td>{$row.action}</td>
    </tr>
-   <tr id="{$row.pledge_id}_hide" class="{if $rowClass eq 'even-row'}even-row{else}odd-row{/if}">
+   <tr id="{$row.pledge_id}_hide" class='{$rowClass}'>
      <td style="border-right: none;">
      </td>
      <td colspan="9">

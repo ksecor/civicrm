@@ -581,10 +581,10 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
   border: 2px solid #92B6EC;
 }
 
-#crm-container .odd-row, tbody.scrollContent, .explicitOdd {
+#crm-container .odd-row, tbody.scrollContent {
   background-color: #FAFAFA;
 }
-#crm-container .even-row, tbody.scrollContent tr.alternateRow, .explicitAlternate  {
+#crm-container .even-row, tbody.scrollContent tr.alternateRow {
   background-color: #E8F2FF;
 }
 #crm-container tr.even-row td, #crm-container tr.odd-row td{
