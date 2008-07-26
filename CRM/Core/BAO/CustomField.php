@@ -1043,7 +1043,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
         }
 
         // return if field is a 'code' field
-        if ( $customFields[$customFieldId]['is_view'] ) {
+        if ( CRM_Utils_Array::value( 'is_view', $customFields[$customFieldId] ) ) {
             return;
         }
 
@@ -1168,7 +1168,6 @@ SELECT $columnName
                                                  'type'            => $customFields[$customFieldId][2],
                                                  'custom_field_id' => $customFieldId, 
                                                  'custom_group_id' => $groupID,
-                                                 'class_name'      => $groupClassName,
                                                  'table_name'      => $tableName,
                                                  'column_name'     => $columnName,
                                                  'file_id'         => $fileId

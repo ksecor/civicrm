@@ -52,7 +52,8 @@ class CRM_Utils_Date
      */
     static function format( $date, $separator = '', $invalidDate = 0 )
     {
-        if ( is_numeric($date) && ( strlen($date) == 8 ) ) {
+        if ( is_numeric($date) && 
+             ( ( strlen($date) == 8 ) || ( strlen($date) == 14 ) ) ) {
             return $date;
         }
 
