@@ -143,13 +143,6 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         $this->_activityTypeId = CRM_Utils_Request::retrieve( 'atype', 'Positive', $this );
 
         $this->assign( 'atype',$this->_activityTypeId );
-        if ( !$this->_caseId && $this->_activityId ) {
-            $this->_caseId = CRM_Core_DAO::getFieldValue( 'CRM_Case_DAO_CaseActivity',
-                                                          $this->_activityId,
-                                                          'case_id',
-                                                          'activity_id' );
-            $this->assign( 'caseId', $this->_caseId );
-        }
                 
         //check the mode when this form is called either single or as
         //search task action
@@ -187,7 +180,15 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         $this->_viewOptions = CRM_Core_BAO_Preferences::valueOptions( 'contact_view_options', true, null, true );
         
         $this->_caseId = CRM_Utils_Request::retrieve( 'caseid', 'Positive', $this );
-        
+
+        if ( !$this->_caseId && $this->_activityId ) {
+            $this->_caseId = CRM_Core_DAO::getFieldValue( 'CRM_Case_DAO_CaseActivity',
+                                                          $this->_activityId,
+                                                          'case_id',
+                                                          'activity_id' );
+            $this->assign( 'caseId', $this->_caseId );
+        }
+
         if ( in_array( $this->_context, array( 'standalone', 'home') ) ) {
             $url = CRM_Utils_System::url('civicrm/dashboard', 'reset=1' );
         } else if ( $this->_context == 'case') {
@@ -277,14 +278,6 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             $defaults['activity_date_time'] = array( );
             CRM_Utils_Date::getAllDefaultValues( $defaults['activity_date_time'] );
             $defaults['activity_date_time']['i'] = (int ) ( $defaults['activity_date_time']['i'] / 15 ) * 15;
-        }
-
-        if ( isset( $this->_caseId ) ) {
-            $defaults['case_subject'] = CRM_Core_DAO::getFieldValue('CRM_Case_BAO_Case', $this->_caseId,'subject' );
-        }
-       
-        if ( CRM_Utils_Array::value( 'case_subject' , $defaults ) ){
-            $this->assign( 'subject_value', $defaults['case_subject'] );
         }
 
         if (  $this->_activityTypeId ) {
@@ -472,7 +465,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                                                   true, null, false );
                 $this->assign('caseUrl',$caseUrl );
                 
-                $subject = $this->add( 'text','case_subject',ts('Case'), $caseAttributes );
+                $subject = $this->add( 'text','case_id',ts('Case'), $caseAttributes );
                
                 if ( $subject->getValue( ) ) {
                     $caseSbj=CRM_Core_DAO::getFieldValue('CRM_Case_DAO_Case',$subject->getValue( ), 'subject' );
@@ -571,8 +564,9 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         } else if ( $fields['activity_type_id'] == 4 && $fields['status_id'] == 1 ) {
             $errors['status_id'] = ts('You cannot record scheduled SMS activity.');
         }
-        if(  CRM_Utils_Array::value( 'case_subject',$fields) && $fields['case_subject'] == -1 ){
-            $errors['case_subject'] = ts('Invalid Case');
+
+        if ( CRM_Utils_Array::value( 'case_id', $fields) && !is_numeric($fields['case_id'] ) ) {
+            $errors['case_id'] = ts('Plesase select valid Case.');
         }
 
         return $errors;
@@ -686,10 +680,10 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         }
        
         // add case activity
-        if ( $this->_viewOptions['CiviCase'] && $params['case_subject']  ) {
+        if ( $this->_viewOptions['CiviCase'] && $params['case_id']  ) {
             require_once 'CRM/Case/BAO/Case.php';
             $caseParams['activity_id'] = $activity->id;
-            $caseParams['subject'    ] = $params['case_subject'];
+            $caseParams['case_id'    ] = $params['case_id'];
             CRM_Case_BAO_Case::processCaseActivity( $caseParams );        
         }
 

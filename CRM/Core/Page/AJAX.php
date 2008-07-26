@@ -674,49 +674,47 @@ ORDER BY name";
     function caseSubject( &$config ) 
     {
         require_once 'CRM/Utils/Type.php';
-        $whereclause = '';  
-        $name     =  CRM_Utils_Type::escape( $_GET['name'], 'String'  ) ;
-   
-         if ( isset( $_GET['id'] ) ){
-              if ( is_numeric( $_GET['id'] ) ) {
-                  $caseId = CRM_Utils_Type::escape( $_GET['id'], 'Integer' );
-                  $whereclause = "id =  $caseId";
-              } else{
-                   $name = CRM_Utils_Type::escape( $_GET['id'], 'String'  ) ;
-              }
-         }
-
-         if ($name){
-            $name      = str_replace( '*', '%', $name );
-            $whereclause = "and civicrm_case.subject like '$name'";
-         }
-        $contactID = CRM_Utils_Type::escape( $_GET['c'], 'Integer' );
-
-        $query = "
+        $whereclause = $caseIdClause = null; 
+        if ( isset( $_GET['name'] ) ) {
+            $name        = CRM_Utils_Type::escape( $_GET['name'], 'String'  ) ;
+            $name        = str_replace( '*', '%', $name );
+            $whereclause = "AND civicrm_case.subject LIKE '%$name'";
+        }
+        
+        if ( isset( $_GET['id'] ) ) {
+            $caseId = CRM_Utils_Type::escape( $_GET['id'], 'Integer' );
+            $caseIdClause = " AND civicrm_case.id = {$caseId}";
+        }
+        
+        $elements = array( );
+        if ( $name || $caseIdClause ) {
+            $contactID = CRM_Utils_Type::escape( $_GET['c'], 'Integer' );
+            
+            $query = "
 SELECT civicrm_case.subject as subject, civicrm_case.id as id
 FROM civicrm_case
 LEFT JOIN civicrm_case_contact ON civicrm_case_contact.case_id = civicrm_case.id
-WHERE civicrm_case_contact.contact_id = $contactID  {$whereclause}
+WHERE civicrm_case_contact.contact_id = $contactID  {$whereclause} {$caseIdClause}
 ORDER BY subject";
-
-        $dao = CRM_Core_DAO::executeQuery( $query );
-        $elements = array( );
-
-        while ( $dao->fetch( ) ) {
-
-            $elements[] = array('name'  => $dao->subject,
-                                'value' => $dao->id
-                               );
+            
+            $dao = CRM_Core_DAO::executeQuery( $query );
+            
+            while ( $dao->fetch( ) ) {
+                $elements[] = array( 'name' => $dao->subject,
+                                     'id'   => $dao->id
+                                     );
+            }
         }
 
         if ( empty( $elements ) ) {
+            $name = str_replace( '%', '', $name );
             $elements[] = array( 'name' => $name,
-                                 'value'=>  -1);
+                                 'id'=> $name);
         }
 
 
         require_once "CRM/Utils/JSON.php";
-        echo CRM_Utils_JSON::encode( $elements, 'value' );
+        echo CRM_Utils_JSON::encode( $elements );
     }
 
     /**

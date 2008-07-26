@@ -15,10 +15,10 @@
 {/if}
 
 {* added onload javascript for case subject*}
-{if $subject_value and $context neq 'standalone' and $action neq 4}
+{if $caseId and $context neq 'standalone' and $action neq 4}
    <script type="text/javascript">
        dojo.addOnLoad( function( ) {ldelim}
-       dijit.byId( 'case_subject' ).setDisplayedValue( "{$subject_value}", "{$subject_value}" )
+       dijit.byId( 'case_id' ).setValue( "{$caseId}" )
        {rdelim} );
    </script>
 {/if}
@@ -98,10 +98,10 @@
 
              {if $context neq 'standalone' AND $hasCases}
                 <tr>
-                  <td class="label">{$form.case_subject.label}</td>
+                  <td class="label">{$form.case_id.label}</td>
                   <td class="view-value">
                      <div dojoType="dojox.data.QueryReadStore" jsId="caseStore" url="{$caseUrl}" class="tundra">
-                         {$form.case_subject.html}
+                         {$form.case_id.html}
                      </div>
                      {edit}<span class="description">{ts}If you are managing case(s) for this contact, you can optionally associate this activity with an existing case.{/ts}</span>{/edit}
                   </td>

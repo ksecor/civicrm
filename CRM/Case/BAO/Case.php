@@ -240,7 +240,7 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
         require_once 'CRM/Case/DAO/CaseActivity.php';
         $caseActivityDAO =& new CRM_Case_DAO_CaseActivity();
         $caseActivityDAO->activity_id = $params['activity_id'];
-        $caseActivityDAO->case_id = $params['subject'];
+        $caseActivityDAO->case_id = $params['case_id'];
 
         $caseActivityDAO->find( true );
         $caseActivityDAO->save();
