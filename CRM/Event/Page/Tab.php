@@ -108,6 +108,9 @@ class CRM_Event_Page_Tab extends CRM_Contact_Page_View
         $contactId = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
         $context   = CRM_Utils_Request::retrieve( 'context', 'String', $this );
 
+        $this->preProcess( );
+        /*****
+         * KURUND: FIX ME PLEASE
         if ( $contactId && $context != 'search' ) {
             $this->preProcess( );
         } else {
@@ -115,7 +118,8 @@ class CRM_Event_Page_Tab extends CRM_Contact_Page_View
             $this->_action = CRM_Core_Action::ADD;
             $this->assign( 'action', $this->_action );
         }
-        
+        ****/
+
         if ( $this->_permission == CRM_Core_Permission::EDIT && ! CRM_Core_Permission::check( 'edit event participants' ) ) {
             $this->_permission = CRM_Core_Permission::VIEW; // demote to view since user does not have edit event participants rights
             $this->assign( 'permission', 'view' );
@@ -131,7 +135,7 @@ class CRM_Event_Page_Tab extends CRM_Contact_Page_View
         }
         
         $this->setContext( );
-        
+
         if ( $this->_action & CRM_Core_Action::VIEW ) { 
             $this->view( ); 
         } else if ( $this->_action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::DELETE ) ) {
