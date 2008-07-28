@@ -186,9 +186,10 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                                                           $this->_activityId,
                                                           'case_id',
                                                           'activity_id' );
+        }
+        if ( $this->_caseId ) {
             $this->assign( 'caseId', $this->_caseId );
         }
-
         if ( in_array( $this->_context, array( 'standalone', 'home') ) ) {
             $url = CRM_Utils_System::url('civicrm/dashboard', 'reset=1' );
         } else if ( $this->_context == 'case') {
