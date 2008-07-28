@@ -339,6 +339,8 @@ function show(block_id,elementType)
 {
     if ( elementType == null ) {
         var elementType = 'block';
+    } else if ( elementType == "table-row" && navigator.appName == 'Microsoft Internet Explorer' ) {
+ 	var elementType = "block";
     }
     var myElement = document.getElementById(block_id);
     if (myElement != null) {
