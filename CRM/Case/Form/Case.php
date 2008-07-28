@@ -69,6 +69,13 @@ class CRM_Case_Form_Case extends CRM_Contact_Form_Task
     public function preProcess()  
     {  
         $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
+        if ( $this->_contactID ) {
+            $currentlyViewedContact = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                            $this->_contactID,
+                                                            'sort_name',
+                                                            'id' );
+            $this->assign('currentlyViewedContact',$currentlyViewedContact);
+        }
         $this->_id        = CRM_Utils_Request::retrieve( 'id', 'Integer', $this );
         $this->_activityID = CRM_Utils_Request::retrieve('activity_id','Integer',$this);
         $this->_context = CRM_Utils_Request::retrieve('context','String',$this); 
@@ -105,6 +112,8 @@ class CRM_Case_Form_Case extends CRM_Contact_Form_Task
             $params = array( 'id' => $this->_id );
             CRM_Case_BAO_Case::retrieve($params, $defaults, $ids);
             $defaults['case_contact'] = CRM_Case_BAO_Case::retrieveContactIdsByCaseId( $this->_id );
+            $key = array_search( $this->_contactID, $defaults['case_contact'] );
+            unset($defaults['case_contact'][$key]);
             $contactNames =  CRM_Case_BAO_Case::getcontactNames( $this->_id );
             foreach( $contactNames as $key => $name ){
                 $defaults['contact_names'] .=  $defaults['contact_names']?",\"$name\"":"\"$name\"";
@@ -320,6 +329,11 @@ class CRM_Case_Form_Case extends CRM_Contact_Form_Task
                 }
             }
         } else {
+            $contactParams = array(
+                                   'case_id'    => $case->id,
+                                   'contact_id' => $this->_contactID
+                                   );
+            CRM_Case_BAO_Case::addCaseToContact( $contactParams );
             foreach ( $params['case_contact'] as $key => $id ) {
                 if ($id) {
                     $contactParams = array(
