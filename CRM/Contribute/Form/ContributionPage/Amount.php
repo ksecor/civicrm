@@ -95,7 +95,7 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
                                array('onclick' => "return showHideByValue('is_recur',true,'recurFields','table-row','radio',false);") );
             require_once 'CRM/Core/OptionGroup.php';
             $this->addCheckBox( 'recur_frequency_unit', ts('Supported recurring units'), 
-                                CRM_Core_OptionGroup::values( 'recur_frequency_units' ),
+                                CRM_Core_OptionGroup::values( 'recur_frequency_units', false, false, false, null, 'name' ),
                                 null, null, null, null,
                                 array( '&nbsp;&nbsp;', '&nbsp;&nbsp;', '&nbsp;&nbsp;', '<br/>' ) );
             $this->addElement('checkbox', 'is_recur_interval', ts('Support recurring intervals') );
