@@ -953,7 +953,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 //as we are using same template for online & offline registration.
                 //So we have to build amount as array.
                 $amount = array();
-                $amount[$params['amount_level']] =  $params['amount'];
+                $amount[$params['amount_level']] =  $params['fee_amount'];
                 $this->assign( 'amount', $amount );
                 $this->assign( 'isPrimary', 1 );
             }

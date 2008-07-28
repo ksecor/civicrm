@@ -473,10 +473,10 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
             
             if ( isset( $values['is_pay_later'] ) ) {
                 if ( empty( $values['pay_later_text'] ) ) {
-                    $errors['pay_later_text'] = ts( 'Please enter the text displayed to the user' );
+                    $errors['pay_later_text'] = ts( 'Please enter the Pay Later prompt to be displayed on the Registration form.' );
                 }
                 if ( empty( $values['pay_later_receipt'] ) ) {
-                    $errors['pay_later_receipt'] = ts( 'Please enter the message to be sent to the user' );
+                    $errors['pay_later_receipt'] = ts( 'Please enter the Pay Later instructions to be displayed to your users.' );
                 }
             }
             
