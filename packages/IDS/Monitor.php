@@ -170,8 +170,8 @@ class IDS_Monitor
 			$this->scanKeys   = $init->config['General']['scan_keys'];
 			$this->exceptions = isset($init->config['General']['exceptions']) ? $init->config['General']['exceptions'] : false;
 			$this->html       = isset($init->config['General']['html']) ? $init->config['General']['html'] : false;
-			$this->pathToHTMLPurifier	= $init->config['General']['HTML_Purifier_Path'];
-			$this->HTMLPurifierCache	= $init->config['General']['HTML_Purifier_Cache'];
+			$this->pathToHTMLPurifier	= CRM_Utils_Array::value( 'HTML_Purifier_Path', $init->config['General'] );
+			$this->HTMLPurifierCache	= CRM_Utils_Array::value( 'HTML_Purifier_Cache', $init->config['General'] );
         }
 
         if (!is_writeable($init->config['General']['tmp_path'])) {
