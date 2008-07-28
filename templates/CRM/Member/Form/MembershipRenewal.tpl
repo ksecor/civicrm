@@ -131,8 +131,13 @@
 function checkPayment()
 {
     showHideByValue('record_contribution','','recordContribution','table-row','radio',false);
-    {/literal}{if $email}{literal}	
-    document.getElementsByName('send_receipt')[0].checked = true;
+    {/literal}{if $email}{literal}
+    var record_contribution = document.getElementsByName('record_contribution');
+    if ( record_contribution[0].checked ) {
+        document.getElementsByName('send_receipt')[0].checked = true;
+    } else {
+        document.getElementsByName('send_receipt')[0].checked = false;
+    }
     showHideByValue('send_receipt','','notice','table-row','radio',false);  
     {/literal}{/if}{literal}
 }        
