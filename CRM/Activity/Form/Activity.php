@@ -268,7 +268,8 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             
             if ( $this->_context != 'standalone' )  {
                 $this->assign( 'target_contact_value', $defaults['target_contact_value'] );
-                $this->assign( 'source_contact', $defaults['source_contact_id'] );
+                $this->assign( 'assignee_contact_value', $defaults['assignee_contact_value'] );
+                $this->assign( 'source_contact_value', $defaults['source_contact'] );
             }
         } else {
             // if it's a new activity, we need to set default values for associated contact fields
