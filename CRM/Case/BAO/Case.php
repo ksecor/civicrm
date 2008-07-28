@@ -368,6 +368,32 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
         }
         return $contactNames;
     }
+
+    /* * Retrieve case_id by contact_id
+     *
+     * @param int    $contactId  ID of the contact
+     * 
+     * @return array
+     * 
+     * @access public
+     * 
+     */
+    function retrieveCaseIdsByContactId( $contactID ) 
+    {
+         require_once 'CRM/Case/DAO/CaseContact.php';
+         $caseContact =   & new CRM_Case_DAO_CaseContact( );
+         $caseContact->contact_id = $contactID;
+         $caseContact->find();
+         $caseArray = array();
+         $count = 1;
+         while ( $caseContact->fetch( ) ) {
+             $caseArray[$count] = $caseContact->case_id;
+             $count++;
+         }
+         
+         return $caseArray;
+     }
+
 }
 
 

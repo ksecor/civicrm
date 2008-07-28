@@ -452,10 +452,8 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         if ( $this->_viewOptions['CiviCase'] && $this->_context != 'standalone' ) {
             $this->assign('caseEnabled', 1);
             require_once 'CRM/Case/BAO/Case.php';
-            $params = array( 'contact_id' => $this->_currentlyViewedContactId );
-            $values = $ids = array( );
-            CRM_Case_BAO_Case::getValues( $params, $values, $ids );
-            if ( $values ) {
+            $cases = CRM_Case_BAO_Case::retrieveCaseIdsByContactId( $this->_currentlyViewedContactId );
+            if ( !empty($cases) ) {
                 $this->assign('hasCases', 1); 
                 $caseAttributes = array( 'dojoType'       => 'civicrm.FilteringSelect',
                                          'mode'           => 'remote',
@@ -467,7 +465,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                 $this->assign('caseUrl',$caseUrl );
                 
                 $subject = $this->add( 'text','case_id',ts('Case'), $caseAttributes );
-               
+                
                 if ( $subject->getValue( ) ) {
                     $caseSbj=CRM_Core_DAO::getFieldValue('CRM_Case_DAO_Case',$subject->getValue( ), 'subject' );
                     $this->assign( 'subject_value',  $caseSbj );
@@ -476,7 +474,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                 $this->assign('hasCases', 0);
             }
         }
-
+        
         if ( $config->civiHRD ) {
             require_once 'CRM/Core/OptionGroup.php';
             $caseActivityType = CRM_Core_OptionGroup::values('case_activity_type');
