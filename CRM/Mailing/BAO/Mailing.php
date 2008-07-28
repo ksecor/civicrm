@@ -1033,9 +1033,14 @@ AND civicrm_contact.is_opt_out =0";
         foreach ( array('text', 'html') as $type ) {
             require_once 'CRM/Utils/Token.php';
             $tokens = $mailing->getTokens();
-            $mailing->templates[$type] =  CRM_Utils_Token::replaceSubscribeInviteTokens($mailing->templates[$type]);
-            $mailing->templates[$type] = CRM_Utils_Token::replaceDomainTokens($mailing->templates[$type], $domain, null, $tokens[$type]);
-            $mailing->templates[$type] = CRM_Utils_Token::replaceMailingTokens($mailing->templates[$type], $mailing, null, $tokens[$type]);
+            if ( isset( $mailing->templates[$type] ) ) {
+                $mailing->templates[$type] =  
+                    CRM_Utils_Token::replaceSubscribeInviteTokens($mailing->templates[$type]);
+                $mailing->templates[$type] = 
+                    CRM_Utils_Token::replaceDomainTokens($mailing->templates[$type], $domain, null, $tokens[$type]);
+                $mailing->templates[$type] = 
+                    CRM_Utils_Token::replaceMailingTokens($mailing->templates[$type], $mailing, null, $tokens[$type]);
+            }
         }
     }
     /**
