@@ -341,7 +341,7 @@ ORDER BY title asc
                 if ( ! CRM_Utils_System::isNull( $from ) ) {
                     $from = CRM_Utils_date::format( $from );
                     $from .= '000000';
-                    $clauses[] = 'start_date >= %3';
+                    $clauses[] = '( start_date >= %3 OR start_date IS NULL )';
                     $params[3] = array( $from, 'String' );
                 }
                 
@@ -349,7 +349,7 @@ ORDER BY title asc
                 if ( ! CRM_Utils_System::isNull( $to ) ) {
                     $to = CRM_Utils_date::format( $to );
                     $to .= '235959';
-                    $clauses[] = 'start_date <= %4';
+                    $clauses[] = '( end_date <= %4 OR end_date IS NULL )';
                     $params[4] = array( $to, 'String' );
                 }
                 
@@ -362,6 +362,7 @@ ORDER BY title asc
             $curDate = date( 'YmdHis' );
             $clauses[] =  "(end_date >= {$curDate} OR end_date IS NULL)";
         }
+
         if ( $sortBy &&
              $this->_sortByCharacter ) {
             $clauses[] = 'title LIKE %6';
