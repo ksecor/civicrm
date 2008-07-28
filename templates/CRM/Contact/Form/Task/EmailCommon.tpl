@@ -7,8 +7,10 @@
   <dl class="html-adjust">
   <dt>{$form.html_message.label}</dt><dd class="editor">{$form.html_message.html}</dd>
 </dl>
+{if ! $noAttach}
 <div class="spacer"></div>
 {include file="CRM/Form/attachment.tpl"}
+{/if}
 <div class="spacer"></div>
 <div id="editMessageDetails">
 <dl id="updateDetails" >

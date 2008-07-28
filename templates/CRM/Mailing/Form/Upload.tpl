@@ -18,7 +18,7 @@
 
   <fieldset id="compose_id"><legend>{ts}Compose On-screen{/ts}</legend>
 	<div>
-	{include file="CRM/Contact/Form/Task/EmailCommon.tpl" upload=1}
+	{include file="CRM/Contact/Form/Task/EmailCommon.tpl" upload=1 noAttach=1}
 	</div>
   </fieldset>
 
