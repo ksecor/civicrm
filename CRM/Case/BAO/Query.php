@@ -183,7 +183,8 @@ class CRM_Case_BAO_Query
         switch ( $name ) {
             
         case 'civicrm_case':
-            $from = " LEFT JOIN civicrm_case ON civicrm_case.contact_id = contact_a.id ";
+            $from = " LEFT JOIN civicrm_case_contact ON civicrm_case_contact.contact_id = contact_a.id
+                      LEFT JOIN civicrm_case ON civicrm_case.id = civicrm_case_contact.case_id";
             break;
         }
         return $from;
