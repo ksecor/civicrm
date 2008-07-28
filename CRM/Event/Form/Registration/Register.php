@@ -859,48 +859,52 @@ WHERE  id IN ($optionIDs)
         if( !$isAdditional ) {
             $contactID = $session->get( 'userID' );
         }
+
         if ( ! $contactID &&
              ! empty( $fields ) &&
              isset( $fields["email-{$self->_bltID}"] ) ) {
             $emailString = trim( $fields["email-{$self->_bltID}"] );
             if ( ! empty( $emailString ) ) {
-                require_once 'CRM/Core/BAO/Email.php';
-                $email =&new CRM_Core_BAO_Email();
-                $email->email = $emailString;
-                $email->find(true);
-                $contactID = $email->contact_id;
+                $contactID = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Email',
+                                                          $emailString,
+                                                          'email',
+                                                          'id' );
             }
         }
 
         if ( $contactID ) {
             require_once 'CRM/Event/BAO/Participant.php';
-            $participant =&new CRM_Event_BAO_Participant();
+            $participant =& new CRM_Event_BAO_Participant();
             $participant->contact_id = $contactID;
-            $participant->event_id = $self->_values['event']['id'];
-            $participant->role_id = $self->_values['event']['default_role_id'];
+            $participant->event_id   = $self->_values['event']['id'];
+            $participant->role_id    = $self->_values['event']['default_role_id'];
             if ($self->_mode == 'test') {
                 $participant->is_test = 1;
             } else {
                 $participant->is_test = 0;
             }
-            $participant->find();
+            $participant->find( );
             require_once 'CRM/Event/PseudoConstant.php';
             $statusTypes = CRM_Event_PseudoConstant::participantStatus( null, false );
-            while($participant->fetch()) {
+            while ( $participant->fetch( ) ) {
                 if ( array_key_exists ( $participant->status_id, $statusTypes ) ) {
                     if ( !$isAdditional ) {
                         $status = ts("Oops. It looks like you are already registered for this event. If you want to change your registration, or you feel that you've gotten this message in error, please contact the site administrator.");
                         $session->setStatus( $status );
                         $url = CRM_Utils_System::url( 'civicrm/event/info',
                                                       "reset=1&id={$self->_values['event']['id']}" );
+                        if ( $self->_action & CRM_Core_Action::PREVIEW ) {
+                            $url .= '&action=preview';
+                        }
                         CRM_Utils_System::redirect( $url );
                     }
+
+                    if ( $isAdditional ) {
+                        $status = ts("Oops. It looks like this participant is already registered for this event.If you want to change your registration, or you feel that you've gotten this message in error, please contact the site administrator."); 
+                        $session->setStatus( $status );
+                        return $participant->id;
+                    }
                 }
-                   if ( $isAdditional ) {
-                       $status = ts("Oops. It looks like this participant is already registered for this event.If you want to change your registration, or you feel that you've gotten this message in error, please contact the site administrator."); 
-                       $session->setStatus( $status );
-                       return $participant->id;
-                   }
             }
         }
     }
