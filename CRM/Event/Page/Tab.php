@@ -107,9 +107,11 @@ class CRM_Event_Page_Tab extends CRM_Contact_Page_View
         // we should call contact view, preprocess only for participant mode
         $contactId = CRM_Utils_Request::retrieve( 'cid', 'Positive', CRM_Core_DAO::$_nullObject,
                                                   false, null, $_GET );
-        $context   = CRM_Utils_Request::retrieve( 'context', 'String', $this );
-
-        if ( !$contactId && $context == 'search' ) {
+        
+        $context   = CRM_Utils_Request::retrieve( 'context', 'String', CRM_Core_DAO::$_nullObject,
+                                                  false, null, $_GET  );
+        
+        if ( !$contactId && ( !$context || $context == 'search' ) ) {
             // this case is for batch update, event registration action 
             $this->_action = CRM_Core_Action::ADD;
             $this->assign( 'action', $this->_action );
