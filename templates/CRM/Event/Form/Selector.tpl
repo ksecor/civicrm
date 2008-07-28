@@ -41,6 +41,7 @@
         {if ! $smarty.foreach.lineItemsIter.last}<br>{/if}
         {/foreach}
     </td>
+    <td>{$row.participant_fee_amount|crmMoney}</td>
     {else}
     <td>{if !$row.paid && !$row.participant_fee_level} {ts}(no fee){/ts}{else} {$row.participant_fee_level}{/if}</td>
     <td>{$row.participant_fee_amount|crmMoney}</td>

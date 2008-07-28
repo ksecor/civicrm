@@ -124,10 +124,12 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
      * Role Id
      */
     protected $_roleId = null;
+
     /**
      * participant mode
      */
     public  $_mode = null;
+
     /** 
      * Function to set variables up before form is built 
      *                                                           
@@ -590,7 +592,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         }
 
         if ( $this->_isPaidEvent ) {
-            //fix for CRM-3088
+            // fix for CRM-3088
             if ( ! empty( $this->_values['discount'][$discountId] ) ) {
                 $params['amount_level'] = $this->_values['discount'][$discountId]['label']
                     [array_search( $params['amount'], $this->_values['discount'][$discountId]['amount_id'])];
@@ -600,7 +602,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 
                 $this->assign( 'amount_level', $params['amount_level'] );
                 
-            }else if ( ! isset( $params['priceSetId'] ) ) {
+            } else if ( ! isset( $params['priceSetId'] ) ) {
                 $params['amount_level'] = $this->_values['custom']['label'][array_search( $params['amount'], 
                                                                                           $this->_values['custom']['amount_id'])];
                 
@@ -715,6 +717,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                                                              $value, 'Participant', null, $this->_id);
             }
         }
+
         if (! empty($customData) ) {
             $params['custom'] = $customData;
         }
@@ -791,7 +794,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $params['event_id'], 'contribution_type_id' );
             $this->_params['mode'] = $this->_mode;
             //add contribution reocord
-            $contribution = CRM_Event_Form_Registration_Confirm::processContribution( $this->_params, $result, $contactID, false );
+            $contribution = CRM_Event_Form_Registration_Confirm::processContribution( $this, $this->_params, $result, $contactID, false );
           
             // add participant record
             $participants    = array();
