@@ -279,8 +279,16 @@
      <div id = "id_notes">
          <fieldset><legend>{$notes.hide}{ts}Contact Notes{/ts}</legend>
             <div class="form-item">
- 		{$form.subject.label} {$form.subject.html}<br /><br />
-		{$form.note.html}
+<table class="form-layout">
+<tr>
+<td>{$form.subject.label}</td>
+<td>{$form.subject.html}</td>
+</tr>
+<tr>
+<td>{$form.note.label}</td>
+<td>{$form.note.html}</td>
+</tr>
+</table>
             </div>
          </fieldset>
      </div>
