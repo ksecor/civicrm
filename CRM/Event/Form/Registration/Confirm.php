@@ -191,7 +191,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         $this->assignToTemplate( );
         //to set amount & levels
         $this->_params = $this->get( 'params' );
-        if( $this->_params[0]['amount'] ) {
+        if( $this->_params[0]['amount'] || $this->_params[0]['amount'] == 0 ) {
             $this->_amount       = array();
                      
             foreach( $this->_params as $k => $v ) {
@@ -249,8 +249,9 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         if( $this->_params[0]['amount'] == 0 ) {
             $this->assign( 'isAmountzero', 1 );
         }
+
         if ( $this->_paymentProcessor['payment_processor_type'] == 'Google_Checkout' && 
-             ! CRM_Utils_Array::value( 'is_pay_later', $this->_params[0] ) ) {
+             ! CRM_Utils_Array::value( 'is_pay_later', $this->_params[0] ) && ! ( $this->_params[0]['amount'] == 0 )  ) {
             $this->_checkoutButtonName = $this->getButtonName( 'next', 'checkout' );
             $this->add('image',
                        $this->_checkoutButtonName,
@@ -318,7 +319,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         $participantCount = array( );
         //unset the skip participant from params.
         //build the $participantCount array.
-        //maitain record for all participants.
+        //maintain record for all participants.
         foreach ( $params as $participantNum => $record ) {
             if ( $record == 'skip' ) {
                 unset( $params[$participantNum] );
