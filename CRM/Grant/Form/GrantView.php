@@ -66,9 +66,9 @@ class CRM_Grant_Form_GrantView extends CRM_Core_Form
                            'rationale','grant_report_received', 'application_received_date', 
                            'decision_date', 'money_transfer_date', 'grant_due_date' );
         foreach ( $allGrant as $grants ) {
-            $this->assign( $grants, $values[$grants] );
-            }
-        if ( $this->_id) {
+            $this->assign( $grants, CRM_Utils_Array::value( $grants, $values ) );
+        }
+        if ( isset( $this->_id ) ) {
             require_once 'CRM/Core/BAO/Note.php';
             $noteDAO               = & new CRM_Core_BAO_Note();
             $noteDAO->entity_table = 'civicrm_grant';
@@ -78,7 +78,7 @@ class CRM_Grant_Form_GrantView extends CRM_Core_Form
             }
         }
 
-        if ( $this->_noteId ) {
+        if ( isset( $this->_noteId ) ) {
             $this->assign( 'note', CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Note', $this->_noteId, 'note' ) );
         }
         
