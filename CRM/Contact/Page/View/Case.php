@@ -96,18 +96,20 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
         $caseType   = CRM_Core_OptionGroup::values('case_type');
 
         require_once 'CRM/Case/BAO/Case.php';
-        $case = new CRM_Case_DAO_Case( );
-        $case->contact_id = $this->_contactId;
-        $case->find();
+        $queryParams = array();
+        $query = "SELECT * FROM civicrm_case
+                  LEFT JOIN civicrm_case_contact ON civicrm_case_contact.case_id = civicrm_case.id
+                  WHERE civicrm_case_contact.contact_id = {$this->_contactId}";
+        $case = CRM_Core_DAO::executeQuery( $query, $queryParams );
         $values = array( );
         while ( $case->fetch() ) {
-            CRM_Core_DAO::storeValues( $case, $values[$case->id] );
+
             $values[$case->id]['action'] = CRM_Core_Action::formLink( $links,
                                                                       $action,
                                                                       array( 'id'  => $case->id,
                                                                              'cid' => $this->_contactId ) );
             $names = array( );
-            $caseTypeIds =  explode( CRM_Case_BAO_Case::VALUE_SEPERATOR, $values[$case->id]['case_type_id'] );
+            $caseTypeIds =  explode( CRM_Case_BAO_Case::VALUE_SEPERATOR, $case->case_type_id );
             foreach ( $caseTypeIds as $id => $val ) {
                 if ( $val ) {
                     $names[] = $caseType[$val];
@@ -115,7 +117,10 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
             }
             
             $values[$case->id]['case_type_id'] = implode ( ':::' , $names);
-            $values[$case->id]['status_id']    = $caseStatus[$values[$case->id]['status_id']];
+            $values[$case->id]['status_id']    = $caseStatus[$case->status_id];
+            $values[$case->id]['start_date']   = $case->start_date;
+            $values[$case->id]['subject']      = $case->subject;
+            $values[$case->id]['id']           = $case->id;
         } 
         
         $this->assign( 'cases', $values );
