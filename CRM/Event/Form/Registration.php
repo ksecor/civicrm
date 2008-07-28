@@ -212,7 +212,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                 $ppID = CRM_Utils_Array::value( 'payment_processor_id',
                                                 $this->_values['event'] );
                 if ( ! $ppID ) {
-                    CRM_Core_Error::fatal( ts( 'A payment processor must be selected for this event registration page (contact the site administrator for assistance).' ) );
+                    CRM_Core_Error::fatal( ts( 'A payment processor must be selected for this event registration page, or the event must be configured to give users the option to pay later (contact the site administrator for assistance).' ) );
                 }
                 
                 require_once 'CRM/Core/BAO/PaymentProcessor.php';
