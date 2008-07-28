@@ -308,6 +308,7 @@ class CRM_Case_Form_Case extends CRM_Contact_Form_Task
         
         require_once 'CRM/Case/BAO/Case.php';
         $case = CRM_Case_BAO_Case::create( $params );
+        CRM_Case_BAO_Case::deleteCaseContact($case->id);
         if ( ! empty($this->_contactIds) && is_array($this->_contactIds)) {
             foreach ( $this->_contactIds as $key => $id ) {
                 if ($id) {

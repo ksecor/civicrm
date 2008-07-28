@@ -97,7 +97,9 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
 
         require_once 'CRM/Case/BAO/Case.php';
         $queryParams = array();
-        $query = "SELECT * FROM civicrm_case
+        $query = "SELECT civicrm_case.id, civicrm_case.case_type_id, civicrm_case.status_id,
+                         civicrm_case.start_date, civicrm_case.subject 
+                  FROM civicrm_case
                   LEFT JOIN civicrm_case_contact ON civicrm_case_contact.case_id = civicrm_case.id
                   WHERE civicrm_case_contact.contact_id = {$this->_contactId}";
         $case = CRM_Core_DAO::executeQuery( $query, $queryParams );

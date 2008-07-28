@@ -116,7 +116,7 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
         $transaction = new CRM_Core_Transaction( ); 
         
         $case = self::add( $params );
-        
+
         if ( is_a( $case, 'CRM_Core_Error') ) {
             $transaction->rollback( );
             return $case;
@@ -160,7 +160,22 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
 
         return $caseContact;
     }
-    
+
+    /**
+     * Delet case contact record
+     *
+     * @param int    case_id
+     *
+     * @return Void
+     * @access public
+     */
+    function deleteCaseContact( $caseID ) {
+        require_once 'CRM/Case/DAO/CaseContact.php';
+        $caseContact =& new CRM_Case_DAO_CaseContact();
+        $caseContact->case_id = $caseID;
+        $caseContact->delete();
+    }
+
     /**
      * Get the values for pseudoconstants for name->value and reverse.
      *
