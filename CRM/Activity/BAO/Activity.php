@@ -536,7 +536,9 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         $rowCnt = 0;
         while($dao->fetch()) {
             foreach( $selectorFields as $dc => $field ) {
-                $values[$rowCnt][$field] = $dao->$field;
+                if ( isset($dao->$field ) ) {
+                    $values[$rowCnt][$field] = $dao->$field;
+                }
             }
             $rowCnt++;
         }

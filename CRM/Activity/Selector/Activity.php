@@ -310,7 +310,8 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
                   
             $row['status'] = $row['status_id']?$activityStatus[$row['status_id']]:null;
 
-            $actionLinks = $this->actionLinks( $row['activity_type_id'], $row['source_record_id'] );
+            $actionLinks = $this->actionLinks( CRM_Utils_Array::value( 'activity_type_id', $row ),
+                                               CRM_Utils_Array::value( 'source_record_id', $row ) );
             $actionMask  = array_sum(array_keys($actionLinks)) & CRM_Core_Action::mask( $this->_permission );
             
             if ( $output != CRM_Core_Selector_Controller::EXPORT && $output != CRM_Core_Selector_Controller::SCREEN ) {
@@ -319,9 +320,10 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
                                                             array('id'     => $row['id'],
                                                                   'cid'    => $this->_contactId,
                                                                   'cxt'    => $this->_context,
-                                                                  'caseid' => $row['case_id']) );
+                                                                  'caseid' => CRM_Utils_Array::value( 'case_id', $row ) 
+                                                                  ));
             }
-
+            
             if($config->civiHRD){
                 require_once 'CRM/Core/OptionGroup.php';
                 $caseActivityType = CRM_Core_OptionGroup::values('case_activity_type');
