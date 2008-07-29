@@ -310,16 +310,18 @@ class CRM_Utils_Date
             return 0;
         }
         $v = self::unformat( $string );
-
+        
         if ( empty( $v ) ) {
             return 0;
         }
-
-        if ( $v['A'] == 'PM' ) {
+        
+        if ( CRM_Utils_Array::value( 'A', $v ) == 'PM' ) {
             $v['h'] += 12;
         }
-
-        return mktime( $v['h'], $v['i'], 59, $v['M'], $v['d'], $v['Y'] );
+        
+        return mktime( CRM_Utils_Array::value( 'h', $v ),
+                       CRM_Utils_Array::value( 'i', $v ), 
+                       59, $v['M'], $v['d'], $v['Y'] );
     }
 
     /**

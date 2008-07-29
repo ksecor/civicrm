@@ -495,7 +495,7 @@ function crm_update_contact_membership($params)
     // create activity record only if there is change in the statusID (CRM-2521).
     if ( $oldStatusID != $membershipBAO->status_id ) {
         $activityParams = array( 'source_contact_id'  => $membershipBAO->contact_id,
-                                 'source_record_id'   => $participant->id,
+                                 'source_record_id'   => $membershipBAO->id,
                                  'activity_type_id'   => $membershipBAO->status_id,
                                  'subject'            => $activitySummary,
                                  'activity_date_time' => $params['join_date'],
