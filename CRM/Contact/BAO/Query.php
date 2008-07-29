@@ -1667,11 +1667,6 @@ class CRM_Contact_BAO_Query
                 $from .= " $side JOIN civicrm_note ON ( civicrm_note.entity_table = 'civicrm_contact' AND
                                                         contact_a.id = civicrm_note.entity_id ) "; 
                 continue; 
-
-            case 'civicrm_custom_value':
-                $from .= " $side JOIN civicrm_custom_value ON ( civicrm_custom_value.entity_table = 'civicrm_contact' AND
-                                                          contact_a.id = civicrm_custom_value.entity_id )";
-                continue;
                 
             case 'civicrm_subscription_history':
                 $from .= " $side JOIN civicrm_subscription_history
