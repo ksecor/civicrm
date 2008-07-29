@@ -41,8 +41,21 @@ require_once 'CRM/Core/Payment.php';
  * This class generates form components for processing Event  
  * 
  */
+
 class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
 {
+    /**
+     * The fields involved in this page
+     *
+     */
+    public $_fields;
+
+    /**
+     * The defaults involved in this page
+     *
+     */
+    public $_defaults;
+
     /** 
      * Function to set variables up before form is built 
      *                                                           

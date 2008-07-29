@@ -334,8 +334,9 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
     {
         //process only primary participant params
         $this->_params = $this->get( 'params' );
-        $params = $this->_params[0];
-
+        if( isset( $this->_params[0] ) ){
+            $params = $this->_params[0];
+        }
         $name = '';
         if ( CRM_Utils_Array::value( 'billing_first_name', $params ) ) {
             $name = $params['billing_first_name'];

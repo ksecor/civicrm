@@ -56,7 +56,7 @@ class CRM_Core_Controller_Simple extends CRM_Core_Controller {
      */
     function __construct( $path,
                           $title,
-                          $mode ,
+                          $mode         = null,
                           $imageUpload  = false,
                           $addSequence  = false,
                           $ignoreKey    = false,
