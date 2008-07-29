@@ -159,7 +159,7 @@ class CRM_Member_Page_MembershipType extends CRM_Core_Page_Basic
             $action = array_sum(array_keys($this->links()));
 
             // update enable/disable links depending on if it is is_reserved or is_active
-            if ( ! $dao->is_reserved ) {
+            if ( ! isset( $dao->is_reserved ) ) {
                 if ($dao->is_active) {
                     $action -= CRM_Core_Action::ENABLE;
                 } else {
