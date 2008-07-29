@@ -166,7 +166,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
             if ( $defaults['data_type'] == 'StateProvince' ) {
                 require_once 'CRM/Core/DAO/StateProvince.php';
                 $daoState =& new CRM_Core_DAO_StateProvince();
-                $stateId = $defaults['default_value'];
+                $stateId = CRM_Utils_Array::value( 'default_value', $defaults );
                 $daoState->id = $stateId;
                 if ( $daoState->find( true ) ) {
                     $defaults['default_value'] = $daoState->name;
@@ -174,7 +174,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
             } else if ( $defaults['data_type'] == 'Country' ) {
                 require_once 'CRM/Core/DAO/Country.php';
                 $daoCountry =& new CRM_Core_DAO_Country();
-                $countryId = $defaults['default_value'];
+                $countryId = CRM_Utils_Array::value( 'default_value', $defaults );
                 $daoCountry->id = $countryId;
                 if ( $daoCountry->find( true ) ) {
                     $defaults['default_value'] = $daoCountry->name;
