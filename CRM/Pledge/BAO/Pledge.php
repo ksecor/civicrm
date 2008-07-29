@@ -245,6 +245,7 @@ class CRM_Pledge_BAO_Pledge extends CRM_Pledge_DAO_Pledge
     function getTotalAmountAndCount( $status = null, $startDate = null, $endDate = null ) 
     {
         $where = array( );
+        $select = $from = $queryDate = null;
         //get all status
         require_once 'CRM/Contribute/PseudoConstant.php';
         $allStatus = CRM_Contribute_PseudoConstant::contributionStatus( );
