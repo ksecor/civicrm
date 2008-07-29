@@ -872,7 +872,6 @@ WHERE  id IN ($optionIDs)
         if( !$isAdditional ) {
             $contactID = $session->get( 'userID' );
         }
-
         if ( ! $contactID &&
              ! empty( $fields ) &&
              isset( $fields["email-{$self->_bltID}"] ) ) {
@@ -880,8 +879,8 @@ WHERE  id IN ($optionIDs)
             if ( ! empty( $emailString ) ) {
                 $contactID = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Email',
                                                           $emailString,
-                                                          'email',
-                                                          'id' );
+                                                          'contact_Id',
+                                                          'email' );
             }
         }
 
