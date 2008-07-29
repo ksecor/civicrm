@@ -143,6 +143,7 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
         $mailingFormatProperties = array();
         if ( $mailingFormat ) {
             $mailingFormatProperties = self::getReturnProperties( $mailingFormat );
+            $returnProperties = array_merge( $returnProperties , $mailingFormatProperties );
         }
         
         if ( stristr( $mailingFormat ,'custom_' ) ) {
@@ -195,8 +196,7 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
         //get the total number of contacts to fetch from database.
         $numberofContacts = count( $this->_contactIds );
 
-        require_once 'CRM/Contact/BAO/Query.php';
-
+        require_once 'CRM/Contact/BAO/Query.php';      
         $query   =& new CRM_Contact_BAO_Query( $params, $returnProperties );
         $details = $query->apiQuery( $params, $returnProperties, NULL, NULL, 0, $numberofContacts );
         
@@ -325,6 +325,7 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
         foreach ($rows as $id => $row) {
             $row['id'] = $id;
             $formatted = CRM_Utils_Address::format( $row, 'mailing_format', null, true, $individualFormat );
+
             // CRM-2211: UFPDF doesn't have bidi support; use the PECL fribidi package to fix it.
             // On Ubuntu (possibly Debian?) be aware of http://pecl.php.net/bugs/bug.php?id=12366
             // Due to FriBidi peculiarities, this can't be called on
@@ -401,7 +402,7 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
                 }
             }
         }
-        
+
         return $returnProperties;  
     }
     
