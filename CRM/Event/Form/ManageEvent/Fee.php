@@ -106,8 +106,8 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         //check if discounted
         require_once 'CRM/Core/BAO/Discount.php';
         $discountedEvent = CRM_Core_BAO_Discount::getOptionGroup($this->_id, "civicrm_event");
-     
-        if ( isset( $discountedEvent ) ) { 
+
+        if ( !empty( $discountedEvent ) ) { 
             $defaults['is_discount'] = $i = 1;
             $totalLables = $maxSize = $defaultDiscounts = array();
             foreach ( $discountedEvent as $optionGroupId ) {
@@ -146,17 +146,19 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
                 }   
                 $maxSize[$key] = sizeof( $val['label'] );
             } 
-            $maxKey = null;
-            if( ! empty( $maxSize ) ) {
-                $maxKey = CRM_Utils_Array::key( max($maxSize),$maxSize );
+
+            $maxKey = CRM_Utils_Array::key( max($maxSize),$maxSize );
+            
+            if ( $maxKey ) { 
                 $defaults["discounted_label"] = $totalLables[$maxKey]['label'];
             }
+
             $this->set( 'discountSection', 1 );
             $this->buildQuickForm( );
         } else if ( ! empty( $defaults['label'] ) ) {
             //if Regular Fees are present in DB and event fee page is in update mode
             $defaults["discounted_label"] = $defaults['label'];
-        } else {
+        } else if ( CRM_Utils_Array::value( 'label', $this->_submitValues ) ) {
             //if event is newly created, use submitted values for
             //discount labels
             if ( is_array( $this->_submitValues['label'] ) ) {
@@ -182,7 +184,8 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
             }
         }
 
-        if ( CRM_Utils_Array::value( 'value', $totalLables[$maxKey] ) ) {
+        if ( isset( $maxKey) &&
+             CRM_Utils_Array::value( 'value', $totalLables[$maxKey] ) ) {
             foreach ( $totalLables[$maxKey]['value'] as $i => $v ) {
                 if ( $totalLables[$maxKey]['amount_id'][$i] == $defaults['default_discount_id'] ) {
                     $defaults['discounted_default'] = $i;
