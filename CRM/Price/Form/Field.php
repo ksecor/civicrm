@@ -148,13 +148,9 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
         
         // html_type
         $javascript = 'onchange="option_html_type(this.form)";';
-        
-        $htmlTypes = array(
-                           'Text'     => ts('Text / Numeric Quantity'),
-                           'Select'   => ts('Select'),
-                           'Radio'    => ts('Radio'),
-                           'CheckBox' => ts('CheckBox')
-                           );
+
+        require_once 'CRM/Core/BAO/PriceField.php';
+        $htmlTypes = CRM_Core_BAO_PriceField::htmlTypes( );
         
         $sel = $this->add('select', 'html_type', ts('Input Field Type'), 
                           $htmlTypes, true, $javascript );
