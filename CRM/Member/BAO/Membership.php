@@ -823,13 +823,17 @@ AND civicrm_membership.is_test = %2";
         //adding contribution record  to contribution table.
         //this condition is arises when separate membership payment is
         //enable and contribution amount is not selected. fix for CRM-3010
+        require_once 'CRM/Contribute/BAO/Contribution/Utils.php';
         if ( $form->_amount > 0.0 ) {
-            require_once 'CRM/Contribute/BAO/Contribution/Utils.php';
             $result = CRM_Contribute_BAO_Contribution_Utils::processConfirm( $form, $membershipParams, 
                                                                              $premiumParams, $contactID,
                                                                              $contributionTypeId, 
                                                                              'membership' );
-        }        
+        } else {
+            // create the CMS contact here since we normally do this under processConfirm
+            CRM_Contribute_BAO_Contribution_Utils::createCMSUser( $membershipParams, $contactID );
+        }
+
         $errors = array();
         if ( is_a( $result[1], 'CRM_Core_Error' ) ) {
             $errors[1]       = CRM_Core_Error::getMessages( $result[1] );

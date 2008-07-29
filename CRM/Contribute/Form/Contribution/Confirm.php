@@ -766,13 +766,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             }
         }
         
-        if ( CRM_Utils_Array::value( 'cms_create_account', $params ) ) {
-            $params['contactID'] = $contactID;
-            require_once "CRM/Core/BAO/CMSUser.php";
-            if ( ! CRM_Core_BAO_CMSUser::create( $params, 'email-' . $form->_bltID ) ) {
-                CRM_Core_Error::statusBounce( ts('Your profile is not saved and Account is not created.') );
-            }
-        }
+        require_once "CRM/Contribute/BAO/Contribution/Utils.php";
+        CRM_Contribute_BAO_Contribution_Utils::createCMSUser( $params, $contactID );
 
         // return if pending
         if ( $pending ) {

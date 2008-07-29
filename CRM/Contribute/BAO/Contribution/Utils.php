@@ -272,4 +272,23 @@ class CRM_Contribute_BAO_Contribution_Utils {
         }  
         return $params;
     }
+
+    static function createCMSUser( &$params, $contactID ) {
+        // lets ensure we only create one CMS user
+        static $created = false;
+
+        if ( $created ) {
+            return;
+        }
+        $created = true;
+
+        if ( CRM_Utils_Array::value( 'cms_create_account', $params ) ) {
+            $params['contactID'] = $contactID;
+            require_once "CRM/Core/BAO/CMSUser.php";
+            if ( ! CRM_Core_BAO_CMSUser::create( $params, 'email-' . $form->_bltID ) ) {
+                CRM_Core_Error::statusBounce( ts('Your profile is not saved and Account is not created.') );
+            }
+        }
+    }
+
 }
