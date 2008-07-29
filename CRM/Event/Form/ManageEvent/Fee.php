@@ -58,6 +58,11 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
      * Page action
      */
     public $_action;
+
+    /**
+     * in Date
+     */
+    private $_inDate;
     /** 
      * Function to set variables up before form is built 
      *                                                           
@@ -141,9 +146,11 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
                 }   
                 $maxSize[$key] = sizeof( $val['label'] );
             } 
-            $maxKey = CRM_Utils_Array::key( max($maxSize),$maxSize );
-            $defaults["discounted_label"] = $totalLables[$maxKey]['label'];
-            
+            $maxKey = null;
+            if( ! empty( $maxSize ) ) {
+                $maxKey = CRM_Utils_Array::key( max($maxSize),$maxSize );
+                $defaults["discounted_label"] = $totalLables[$maxKey]['label'];
+            }
             $this->set( 'discountSection', 1 );
             $this->buildQuickForm( );
         } else if ( ! empty( $defaults['label'] ) ) {
