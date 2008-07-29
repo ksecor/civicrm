@@ -8,7 +8,10 @@
 <table class="selector">
   <tr class="columnheader">
 {if ! $single and $context eq 'Search' }
-  <th scope="col" title="Select Rows">{$form.toggleSelect.html}</th> 
+  <th scope="col" title="Select Rows">{$form.toggleSelect.html}</th>
+{/if}
+{if $single}
+  <th></th>
 {/if}
   {foreach from=$columnHeaders item=header}
     <th scope="col">
@@ -25,12 +28,15 @@
   {foreach from=$rows item=row}
   {cycle values="odd-row,even-row" assign=rowClass}
   <tr id='rowid{$row.pledge_id}' class='{$rowClass} {if $row.pledge_status_id eq 'Overdue' } disabled{/if}'>
-     {if ! $single }
+
         {if $context eq 'Search' }       
             {assign var=cbName value=$row.checkbox}
             <td>{$form.$cbName.html}</td> 
-        {/if}	
-	<td>{$row.contact_type}<br/>
+        {/if}
+	<td>
+     {if ! $single }	
+	{$row.contact_type}<br/>
+     {/if}
 	<span id="{$row.pledge_id}_show">
 	    <a href="#" onclick="show('paymentDetails{$row.pledge_id}', 'table-row'); 
                                  buildPaymentDetails('{$row.pledge_id}','{$row.contact_id}'); 
@@ -46,8 +52,9 @@
                                  hide('minus{$row.pledge_id}_hide');
                                  return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a>
 	</td>
+     {if ! $single }	
     	<td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td>
-    {/if}
+     {/if}
     <td>{$row.pledge_amount|crmMoney}</td>
     <td>{$row.pledge_total_paid|crmMoney}</td>
     <td>{$row.pledge_amount-$row.pledge_total_paid|crmMoney}</td>
@@ -60,7 +67,11 @@
    <tr id="{$row.pledge_id}_hide" class='{$rowClass}'>
      <td style="border-right: none;">
      </td>
+{if $context EQ 'Search'}
+     <td colspan="10">
+{else}
      <td colspan="9">
+{/if}
         <div id="paymentDetails{$row.pledge_id}"></div>
      </td>
    </tr>
