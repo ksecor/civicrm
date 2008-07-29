@@ -222,7 +222,7 @@ class CRM_Event_Form_EventFees
                 }
             }
 
-            if ( $defaults[$form->_participantId]['event_id'] && ($form->_action == CRM_Core_Action::UPDATE ) ) {
+            if ( ($form->_action == CRM_Core_Action::UPDATE ) && $defaults[$form->_participantId]['event_id'] ) {
                 if ( ! $optionGroupId ) {
                     $optionGroupId = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_OptionGroup", 
                                                                   'civicrm_event_page.amount.' . 

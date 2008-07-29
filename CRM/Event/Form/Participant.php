@@ -130,6 +130,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
      */
     public  $_mode = null;
 
+    public  $_online;
     /** 
      * Function to set variables up before form is built 
      *                                                           
