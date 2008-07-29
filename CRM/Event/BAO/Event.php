@@ -738,7 +738,7 @@ WHERE civicrm_event.is_active = 1
  
             foreach ( $table as $tableName => $tableColumns ) {
                 $insert = 'INSERT INTO ' . $tableName. ' (' .implode(', ',$tableColumns). ') '; 
-                $tableColumns[1] = $copyEvent->id;
+                $tableColumns[0] = $copyEvent->id;
                 $select = 'SELECT ' . implode(', ',$tableColumns); 
                 $from = ' FROM '  . $tableName;
                 $where = " WHERE {$tableName}.entity_id = {$id}"  ;
