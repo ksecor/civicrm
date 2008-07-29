@@ -50,19 +50,24 @@
     </table>
     {else} {* NOT Price Set *}
     <table style="border: none;">
-    <tr><td class="label">{$form.discount_id.label}</td><td>{$form.discount_id.html}</td></tr>
-    <tr><td class="label">{$form.amount.label}<span class="marker"> *</span></td><td>{$form.amount.html}
-       {if $action EQ 1}
+     <td class ='html-adjust' colspan=2>
+     	<div class="form-item">
+     	<dl class="html-adjust">
+	<dt class="label">{$form.discount_id.label}</dt><dd>{$form.discount_id.html}</dd>
+	<dt class="label">{$form.amount.label}<span class="marker"> *</span></dt><dd>{$form.amount.html}
+        {if $action EQ 1}
         <br /><span class="description">{ts}Event Fee Level (if applicable).{/ts}</span>
-       {/if}
-        </td>
-    </tr>
-  	{if ! $participantMode}
-    <tr>
-       <td class="label">{$form.record_contribution.label}</td><td class="html-adjust">{$form.record_contribution.html}<br />
+        {/if}
+        </dd>
+       {if ! $participantMode}
+    	<br />
+        <dt class="label">{$form.record_contribution.label}</dt><dd class="html-adjust">{$form.record_contribution.html}<br />
           <span class="description">{ts}Check this box to enter payment information. You will also be able to generate a customized receipt.{/ts}</span>
-       </td>
-    </tr>
+        </dd>
+     	</dl>
+     	</div>
+     </td>
+    <br />
      <tr id="payment_information">
        <td class ='html-adjust' colspan=2>
            <fieldset><legend>{ts}Payment Information{/ts}</legend>
@@ -101,7 +106,8 @@
 	{/if}
 {/if}
 {* credit card block when it is live or test mode*}
-{if $participantMode and $paid}
+{if $participantMode and $paid}	
+ <div class="spacer"></div>
  <fieldset><legend>{ts}Credit or Debit Card Information{/ts}</legend>
         <table class="form-layout-compressed">
         <tr><td class="label">{$form.credit_card_type.label}</td><td>{$form.credit_card_type.html}</td></tr>
