@@ -415,6 +415,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         $this->assign('entityId',  $this->_activityId );
 
         if ( in_array( $this->_context, array('standalone', 'case') ) )  {
+            $urlParams = null;
             if ( $this->_currentlyViewedContactId ) {
                 $urlParams = "cid={$this->_currentlyViewedContactId}&";
             }
