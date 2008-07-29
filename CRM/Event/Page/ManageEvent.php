@@ -369,10 +369,10 @@ ORDER BY title asc
             $params[6] = array( $this->_sortByCharacter . '%', 'String' );
         }
 
-        // dont do a the below assignement when doing a 
+        // dont do a the below assignment when doing a 
         // AtoZ pager clause
         if ( $sortBy ) {
-            if ( count( $clauses ) > 1 ) {
+            if ( count( $clauses ) > 1 || $eventsByDates  ) {
                 $this->assign( 'isSearch', 1 );
             } else {
                 $this->assign( 'isSearch', 0 );
