@@ -386,6 +386,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 $pending = false;
                 $result  = null;
                 if ( CRM_Utils_Array::value( 'is_pay_later', $value ) ||
+                     $this->_params['amount'] == 0                    ||
                      $this->_contributeMode   == 'checkout'           ||
                      $this->_contributeMode   == 'notify' ) {
                     if ( $value['amount'] != 0 ) {
@@ -451,9 +452,12 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         // for Transfer checkout.
         require_once "CRM/Event/BAO/EventPage.php";
         if ( ( $this->_contributeMode == 'checkout' ||
-               $this->_contributeMode == 'notify'   ) && ! CRM_Utils_Array::value( 'is_pay_later', $params[0] ) ) {
+               $this->_contributeMode == 'notify'   ) && 
+             ! CRM_Utils_Array::value( 'is_pay_later', $params[0] ) &&
+             $this->_params['amount'] > 0 ) {
 
             $primaryParticipant = $this->get ( 'primaryParticipant' );
+
             if ( !CRM_Utils_Array::value( 'participantID', $primaryParticipant ) ) {
                 $primaryParticipant['participantID'] = $registerByID;
             } 
@@ -467,7 +471,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             }
             
             // do a transfer only if a monetary payment greater than 0
-            if ( $this->_values['event']['is_monetary'] && $primaryParticipant && $primaryParticipant['amount'] > 0 ) {
+            if ( $this->_values['event']['is_monetary'] && $primaryParticipant ) {
                 $payment->doTransferCheckout( $primaryParticipant );
             }
 
