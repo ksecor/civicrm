@@ -163,7 +163,7 @@ class IDS_Converter
         }
 
         // check for octal charcode pattern
-        if (preg_match_all('/(?:(?:[\\\]+\d+\s*){8,})/ims', $value, $matches)) {
+        if (preg_match_all('/(?:(?:[\\\]+\d+[ \t]*){8,})/ims', $value, $matches)) {
 
             $converted = '';
             $charcode  = explode('\\', preg_replace('/\s/', '', implode(',', 
@@ -213,6 +213,26 @@ class IDS_Converter
 
         return $value;
     }    
+
+    /**
+     * Converts from hex/dec entities
+     *
+     * @param string $value the value to convert
+     * 
+     * @static
+     * @return string
+     */
+    public static function convertEntities($value) 
+    {
+        $converted = null;
+        if (preg_match('/&#x?[\w]+/ms', $value)) {
+            $converted = preg_replace('/(&#x?[\w]{2}\d?);?/ms', '$1;', $value);
+            $converted = html_entity_decode($converted, ENT_QUOTES, 'UTF-8');
+            $value    .= "\n" . str_replace(';;', ';', $converted);
+        }
+
+        return $value;
+    }    
     
     /**
      * Normalize quotes
@@ -225,7 +245,7 @@ class IDS_Converter
     public static function convertQuotes($value) 
     {
         // normalize different quotes to "
-        $pattern = array('\'', '`', '´', '’', '‘', '&quot', '&apos');
+        $pattern = array('\'', '`', '´', '’', '‘');
         $value   = str_replace($pattern, '"', $value);
 
         return $value;
@@ -257,26 +277,6 @@ class IDS_Converter
         $value   = preg_replace('/"\s+\d/', '"', $value); 
         $value   = str_replace('~', '0', $value);
         
-        return $value;
-    }
-
-    /**
-     * Converts from hex/dec entities
-     *
-     * @param string $value the value to convert
-     * 
-     * @static
-     * @return string
-     */
-    public static function convertEntities($value) 
-    {
-        $converted = null;
-        if (preg_match('/&#x?[\w]+/ms', $value)) {
-            $converted = preg_replace('/(&#x?[\w]{2}\d?);?/ms', '$1;', $value);
-            $converted = html_entity_decode($converted, ENT_QUOTES);
-            $value    .= "\n" . str_replace(';;', ';', $converted);
-        }
-
         return $value;
     }
 
@@ -538,7 +538,13 @@ class IDS_Converter
     {
         $threshold = 3.5;
         
-        if (strlen($value) > 25) {
+        try {
+        	$unserialized = @unserialize($value);
+        } catch (Exception $exception) {
+        	$unserialized = false;
+        }
+        
+        if (strlen($value) > 25 && !$unserialized) {
             // Check for the attack char ratio
             $tmp_value = $value;
             $tmp_value = preg_replace('/([.!?+-])\1{1,}/', '$1', $tmp_value);
@@ -593,7 +599,7 @@ class IDS_Converter
             asort($array);
 
             $converted = implode($array);
-
+            
             if (preg_match('/(?:\({2,}\+{2,}:{2,})|(?:\({2,}\+{2,}:+)|' . 
                 '(?:\({3,}\++:{2,})/', $converted)) {
             

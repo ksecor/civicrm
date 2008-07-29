@@ -408,11 +408,11 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL )
     case 'update':
         // this always comes in via user hook, so udpate email only if it has changed
         if ( isset( $edit['mail'] ) &&
-             $edit['mail'] != $user->mail ) {
+             trim( $edit['mail'] ) != trim( $user->mail ) ) {
             require_once 'CRM/Core/BAO/UFMatch.php';
             $contactID = CRM_Core_BAO_UFMatch::getContactId( $user->uid );
             CRM_Core_BAO_UFMatch::updateContactEmail( $contactID,
-                                                      $edit['mail'] );
+                                                      trim( $edit['mail'] ) );
         }
         break;
 
