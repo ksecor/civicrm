@@ -135,10 +135,14 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         $this->applyFilter('__ALL__', 'trim');
         
         $attributes = CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_CustomGroup' );
-
-        // title
+        
+        //title
         $this->add('text', 'title', ts('Group Name'), $attributes['title'], true);
-            
+        $this->addRule( 'title',
+                        ts( 'Name already exists in Database.' ),
+                        'objectExists',
+                        array( 'CRM_Core_DAO_CustomGroup', $this->_id, 'title' ) );   
+        
         require_once "CRM/Contribute/PseudoConstant.php";
         require_once "CRM/Member/BAO/MembershipType.php";
         $sel1 = CRM_Core_SelectValues::customGroupExtends();
