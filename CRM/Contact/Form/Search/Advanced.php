@@ -129,8 +129,9 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search
                  CRM_Utils_Array::value( "hidden_{$type}", $_POST ) ||
                  CRM_Utils_Array::value( "hidden_{$type}", $this->_formValues ) ) {
                 $allPanes[$name]['open'] = 'true';
-                $c = $components[ $type ];
-                if ( array_key_exists( $type, $components) ) {
+
+                if ( CRM_Utils_Array::value( $type, $components ) ) {
+                    $c = $components[ $type ];
                     $this->add( 'hidden', "hidden_$type" , 1 );
                     $c->buildAdvancedSearchPaneForm( $this );
                     $this->_paneTemplatePath[$type] = $c->getAdvancedSearchPaneTemplatePath();                
