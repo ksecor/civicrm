@@ -56,33 +56,40 @@ class CRM_Mailing_Event_BAO_Confirm extends CRM_Mailing_Event_DAO_Confirm {
      * @access public
      * @static
      */
-    public static function confirm($contact_id, $subscribe_id, $hash) {
+    public static function confirm($contact_id, $subscribe_id, $hash) 
+    {
+        require_once 'CRM/Mailing/Event/BAO/Subscribe.php';
         $se =& CRM_Mailing_Event_BAO_Subscribe::verify($contact_id,
-                                            $subscribe_id, $hash);
+                                                       $subscribe_id, $hash);
         
         if (! $se) {
             return false;
         }
-
+        
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
-
+        
         $ce =& new CRM_Mailing_Event_BAO_Confirm();
         $ce->event_subscribe_id = $se->id;
         $ce->time_stamp = date('YmdHis');
         $ce->save();
         
-        CRM_Contact_BAO_GroupContact::updateGroupMembershipStatus(
-                $contact_id, $se->group_id,'Email',$ce->id);
+        require_once 'CRM/Contact/BAO/GroupContact.php';
+        CRM_Contact_BAO_GroupContact::updateGroupMembershipStatus( $contact_id, $se->group_id,
+                                                                   'Email',$ce->id);
         
         $transaction->commit( );
-
+        
         $config =& CRM_Core_Config::singleton();
+        
+        require_once 'CRM/Core/BAO/Domain.php';
         $domain =& CRM_Core_BAO_Domain::getDomain( );
         
+        require_once 'CRM/Contact/BAO/Contact/Location.php';
         list($display_name, $email) =
-                CRM_Contact_BAO_Contact_Location::getEmailDetails($se->contact_id);
-                
+            CRM_Contact_BAO_Contact_Location::getEmailDetails($se->contact_id);
+        
+        require_once 'CRM/Contact/DAO/Group.php';
         $group =& new CRM_Contact_DAO_Group();
         $group->id = $se->group_id;
         $group->find(true);
@@ -92,50 +99,50 @@ class CRM_Mailing_Event_BAO_Confirm extends CRM_Mailing_Event_DAO_Confirm {
         $component->is_default = 1;
         $component->is_active = 1;
         $component->component_type = 'Welcome';
-
+        
         $component->find(true);
         
         $headers = array(
-            'Subject'   => $component->subject,
-            'From'      => ts('\'%1\' <do-not-reply@%2>',
-                            array(  1 => $domain->email_name,
-                                    2 => $domain->email_domain)),
-            'To'        => $email,
-            'Reply-To'  => "do-not-reply@{$domain->email_domain}",
-            'Return-Path'  => "do-not-reply@{$domain->email_domain}",
-        );
-
+                         'Subject'     => $component->subject,
+                         'From'        => ts('\'%1\' <do-not-reply@%2>',
+                                             array( 1 => $domain->email_name,
+                                                    2 => $domain->email_domain)),
+                         'To'          => $email,
+                         'Reply-To'    => "do-not-reply@{$domain->email_domain}",
+                         'Return-Path' => "do-not-reply@{$domain->email_domain}",
+                         );
+        
         $html = $component->body_html;
-
+        
         if ($component->body_text) {
             $text = $component->body_text;
         } else {
             $text = CRM_Utils_String::htmlToText($component->body_html);
         }
-
+        
         require_once 'CRM/Mailing/BAO/Mailing.php';
         $bao =& new CRM_Mailing_BAO_Mailing();
         $bao->body_text = $text;
         $bao->body_html = $html;
         $tokens = $bao->getTokens();
-
+        
         require_once 'CRM/Utils/Token.php';
         $html = CRM_Utils_Token::replaceDomainTokens($html, $domain, true, $tokens['html'] );
         $html = CRM_Utils_Token::replaceWelcomeTokens($html, $group->title, true);
-
+        
         $text = CRM_Utils_Token::replaceDomainTokens($text, $domain, false, $tokens['text'] );
         $text = CRM_Utils_Token::replaceWelcomeTokens($text, $group->title, false);
-
+        
         $message =& new Mail_Mime("\n");
         $message->setHTMLBody($html);
         $message->setTxtBody($text);
         $b = $message->get();
         $h = $message->headers($headers);
         $mailer =& $config->getMailer();
-
+        
         require_once 'CRM/Mailing/BAO/Mailing.php';
         PEAR::setErrorHandling(PEAR_ERROR_CALLBACK,
-                                array('CRM_Core_Error', 'nullHandler' ) );
+                               array('CRM_Core_Error', 'nullHandler' ) );
         $mailer->send($email, $h, $b);
         CRM_Core_Error::setCallback();
         
