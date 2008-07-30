@@ -206,10 +206,10 @@ class CRM_Contact_Form_Search_Criteria {
         $form->addRule('activity_date_high', ts('Select a valid date.'), 'qfDate');
         
         $activityRoles  = array( ts('With'), ts('Created by'), ts('Assigned to') );
-        $form->addRadio( 'activity_role', ts( 'Activity Role' ), $activityRoles, null, '<br />');
+        $form->addRadio( 'activity_role', ts( 'Contact Role and Name' ), $activityRoles, null, '<br />');
         $form->setDefaults(array('activity_role' => 0));
         
-        $form->addElement('text', 'activity_target_name', ts('Target Contact'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
+        $form->addElement('text', 'activity_target_name', ts('Contact Name'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
        
         $activityStatus = CRM_Core_PseudoConstant::activityStatus( );
         foreach ($activityStatus as $activityStatusID => $activityStatusName) {

@@ -65,7 +65,7 @@
   <item>
      <path>civicrm/friend</path>
      <title>Tell a Friend</title>
-     <access_arguments>make online contributions;register for events</access_arguments>
+     <access_arguments>make online contributions,register for events</access_arguments>
      <page_callback>CRM_Friend_Form</page_callback>
      <is_public>true</is_public>
   </item>
