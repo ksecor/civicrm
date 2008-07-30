@@ -767,7 +767,9 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         }
         
         require_once "CRM/Contribute/BAO/Contribution/Utils.php";
-        CRM_Contribute_BAO_Contribution_Utils::createCMSUser( $params, $contactID );
+        CRM_Contribute_BAO_Contribution_Utils::createCMSUser( $params,
+                                                              $contactID,
+                                                              'email-' . $form->_bltID );
 
         // return if pending
         if ( $pending ) {
