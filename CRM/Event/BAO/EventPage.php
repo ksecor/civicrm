@@ -99,11 +99,15 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
     {
         $eventPage            =& new CRM_Event_DAO_EventPage( );
         $eventPage->event_id  =  CRM_Utils_Array::value( 'event_id', $params );
-        
-        $is_pay_later = $eventPage->find(true) ? $eventPage->is_pay_later : false;
-
         $eventPage->copyValues( $params );
-        $eventPage->is_pay_later = CRM_Utils_Array::value( 'is_pay_later', $params, $is_pay_later );
+
+        // we get the eventPage id from the event_id association, hence this find
+        if ( $eventPage->event_id ) {
+            $eventPage->id = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_EventPage',
+                                                          $eventPage->event_id,
+                                                          'id',
+                                                          'event_id' );
+        }
 
         $eventPage->save( );
         return $eventPage;
