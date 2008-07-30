@@ -251,6 +251,7 @@ class CRM_Utils_System_Drupal {
     }
 
     static function logout( ) {
+        module_load_include( 'inc', 'user', 'user.pages' );
         return user_logout( );
     }
 

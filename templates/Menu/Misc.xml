@@ -75,5 +75,6 @@
      <page_callback>CRM_Utils_System::logout</page_callback>
      <access_arguments>access CiviCRM</access_arguments>
      <weight>9999</weight>
+     <page_type>1</page_type>
   </item>
 </menu>
