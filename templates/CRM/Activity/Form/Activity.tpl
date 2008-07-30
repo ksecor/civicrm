@@ -228,7 +228,13 @@ function buildContact( count, pref )
 {
     if ( count > 1 ) {
 	prevCount = count - 1;
-	hide( pref + '_' + prevCount + '_show'); 
+    {/literal}
+    {if $action neq 4}
+    {literal}
+	hide( pref + '_' + prevCount + '_show');
+    {/literal} 
+    {/if}
+    {literal}
     }
 
     var dataUrl = {/literal}"{crmURL p=$contactUrlPath h=0 q='snippet=4&count='}"{literal} + count + '&' + pref + '=1';
