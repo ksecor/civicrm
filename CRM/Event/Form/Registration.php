@@ -524,7 +524,10 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                 CRM_Core_Error::statusBounce( ts('Your profile is not saved and Account is not created.') );
             }
         }
-
+        //get the amount of primary participant
+        if( CRM_Utils_Array::value('is_primary', $this->_params ) ) {
+            $this->_params['fee_amount'] = $this->get( 'primaryParticipantAmount' );
+        }
         // add participant record
         $participant  = $this->addParticipant( $this->_params, $contactID );
       

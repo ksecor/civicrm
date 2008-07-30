@@ -196,6 +196,9 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                      
             foreach( $this->_params as $k => $v ) {
                 if ( is_array( $v ) ) {
+                    if ( CRM_Utils_Array::value( 'is_primary', $v ) ) {
+                        $this->set( 'primaryParticipantAmount',$v['amount'] );
+                    }
                     $this->_amount[ $v['amount_level'].'  -  '. $v['email-5'] ] = $v['amount'];
                     $this->_totalAmount = $this->_totalAmount + $v['amount'];
                 }
@@ -386,7 +389,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 $pending = false;
                 $result  = null;
                 if ( CRM_Utils_Array::value( 'is_pay_later', $value ) ||
-                     $this->_params['amount'] == 0                    ||
+                     $value['amount']         == 0                    ||
                      $this->_contributeMode   == 'checkout'           ||
                      $this->_contributeMode   == 'notify' ) {
                     if ( $value['amount'] != 0 ) {
@@ -412,7 +415,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 
                 $value['receive_date'] = $now;
                 
-                if ( ! $pending ) {
+                if ( ! $pending && CRM_Utils_Array::value( 'is_primary', $value ) ) {
                     // transactionID & receive date required while building email template
                     $this->assign( 'trxn_id', $result['trxn_id'] );
                     $this->assign( 'receive_date', CRM_Utils_Date::mysqlToIso( $value['receive_date']) );
