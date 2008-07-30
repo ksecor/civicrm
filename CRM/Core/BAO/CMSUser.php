@@ -484,14 +484,15 @@ SELECT count(*)
         return $user->get('id');
     }
 
-    static function updateUFName( $ufID, $ufName ) {
+    static function updateUFName( $ufID, $ufName ) 
+    {
         $config =& CRM_Core_Config::singleton( );
         
         if ( $config->userFramework == 'Drupal' ) { 
-            $user = user_load( array( 'uid' => $ufmatch->uf_id ) );
+            $user = user_load( array( 'uid' => $ufID ) );
             if ($user->mail != $ufName) {
                 user_save( $user, array( 'mail' => $ufName ) );
-                $user = user_load( array( 'uid' => $ufmatch->uf_id ) );
+                $user = user_load( array( 'uid' => $ufID ) );
             }
         } else if ( $config->userFramework == 'Joomla' ) {
             $db_uf = self::dbHandle( $config );
