@@ -1,5 +1,5 @@
 {capture assign=erURL}{crmURL p='civicrm/acl/entityrole' q='reset=1'}{/capture}
-{capture assign=rolesURL}{crmURL p='civicrm/admin/options' q='group=acl_role&reset=1'}{/capture}
+{capture assign=rolesURL}{crmURL p='civicrm/admin/options/acl_role' q='group=acl_role&reset=1'}{/capture}
 {capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
 <div id="help">
     <p>{ts 1="http://wiki.civicrm.org/confluence//x/SyU" 2=$docURLTitle}ACLs allow you control access to CiviCRM data. An ACL consists of an <strong>Operation</strong> (e.g. 'View' or 'Edit'), a <strong>set of data</strong> that the operation can be performed on (e.g. a group of contacts, a profile or a set of custom fields), and a <strong>Role</strong> that has permission to do this operation. Refer to the <a href='%1' target='_blank' title='%2'>Access Control Documentation</a> for more info.{/ts}</p>
