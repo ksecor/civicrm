@@ -653,22 +653,22 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             require_once 'CRM/Dedupe/BAO/Rule.php';
             $fieldsArray = CRM_Dedupe_BAO_Rule::dedupeRuleFields($ruleParams);
             
-            $tmpConatctField = array();
+            $tmpContactField = array();
             if( is_array($fieldsArray) ) {
                 foreach ( $fieldsArray as $value) {
-                    $tmpConatctField[trim($value)] = CRM_Utils_Array::value(trim($value),$contactFields);
+                    $tmpContactField[trim($value)] = CRM_Utils_Array::value(trim($value),$contactFields);
                     if (!$status) {
-                        $title = $tmpConatctField[trim($value)]['title']." (match to contact)" ;
+                        $title = $tmpContactField[trim($value)]['title']." (match to contact)" ;
                     } else {
-                        $title = $tmpConatctField[trim($value)]['title'];
+                        $title = $tmpContactField[trim($value)]['title'];
                     }
-                    $tmpConatctField[trim($value)]['title'] = $title;
+                    $tmpContactField[trim($value)]['title'] = $title;
                 }
             }
-            $tmpConatctField['external_identifier'] = $contactFields['external_identifier'];
-            $tmpConatctField['external_identifier']['title'] = $contactFields['external_identifier']['title'] . " (match to contact)";
+            $tmpContactField['external_identifier'] = $contactFields['external_identifier'];
+            $tmpContactField['external_identifier']['title'] = $contactFields['external_identifier']['title'] . " (match to contact)";
             
-            $fields = array_merge($fields, $tmpConatctField);
+            $fields = array_merge($fields, $tmpContactField);
             $fields = array_merge($fields, $tmpFields);
             $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport('Membership'));
             self::$_importableFields = $fields;

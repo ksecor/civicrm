@@ -350,21 +350,21 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
                 
                 if( is_array($fieldsArray) ) {
                     foreach ( $fieldsArray as $value) {
-                        $tmpConatctField[trim($value)] = CRM_Utils_Array::value(trim($value),$contactFields);
+                        $tmpContactField[trim($value)] = CRM_Utils_Array::value(trim($value),$contactFields);
                         if (!$status) {
-                            $title = $tmpConatctField[trim($value)]['title']." (match to contact)" ;
+                            $title = $tmpContactField[trim($value)]['title']." (match to contact)" ;
                         } else {
-                            $title = $tmpConatctField[trim($value)]['title'];
+                            $title = $tmpContactField[trim($value)]['title'];
                         }
                         
-                        $tmpConatctField[trim($value)]['title'] = $title;
+                        $tmpContactField[trim($value)]['title'] = $title;
                     }
                 }
             }
-            $tmpConatctField['external_identifier'] = CRM_Utils_Array::value('external_identifier',$contactFields);
-            $tmpConatctField['external_identifier']['title'] = $contactFields['external_identifier']['title'] . " (match to contact)";
+            $tmpContactField['external_identifier'] = CRM_Utils_Array::value('external_identifier',$contactFields);
+            $tmpContactField['external_identifier']['title'] = $contactFields['external_identifier']['title'] . " (match to contact)";
             
-            $fields = array_merge($fields, $tmpConatctField);
+            $fields = array_merge($fields, $tmpContactField);
             $fields = array_merge($fields, $tmpFields);
             $fields = array_merge($fields, $note);
             //$fields = array_merge($fields, $optionFields);
