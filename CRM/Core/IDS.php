@@ -92,6 +92,17 @@ class CRM_Core_IDS {
     exceptions[]        = __utmc
     html[]              = html_message
     html[]              = description
+    html[]              = intro
+    html[]              = thankyou_text
+    html[]              = intro_text
+    html[]              = footer_text
+    html[]              = thankyou_text
+    html[]              = thankyou_footer
+    html[]              = new_text
+    html[]              = renewal_text
+    html[]              = help_pre
+    html[]              = help_post
+    html[]              = msg_html
 ";
             file_put_contents( $configFile, $contents );
         }
