@@ -78,7 +78,11 @@ class CRM_Core_Invoke
         // also initialize the i18n framework
         $i18n   =& CRM_Core_I18n::singleton( );
 
-        if ( $config->userFramework == 'Joomla' ) {
+        // get the menu items
+        $path = implode( '/', $args );
+        $item =& CRM_Core_Menu::get( $path );
+
+        if ( $config->userFramework == 'Joomla' && $item ) {
             $config->userFrameworkURLVar = 'task';
 
             require_once 'CRM/Core/Joomla.php';
@@ -101,10 +105,6 @@ class CRM_Core_Invoke
         $template =& CRM_Core_Smarty::singleton( );
         $template->assign( 'activeComponent', 'CiviCRM' );
         $template->assign( 'formTpl'        , 'default' );
-
-        // get the menu items
-        $path = implode( '/', $args );
-        $item =& CRM_Core_Menu::get( $path );
 
         if ( $item ) {
             if ( ! array_key_exists( 'page_callback', $item ) ) {
