@@ -33,7 +33,7 @@ DM_ZIP=$zip
 
 # create a minimal civicrm.settings.php file
 mkdir -p $workdir/$version/export/default
-echo "<?php define( 'CIVICRM_GETTEXT_RESOURCEDIR', '$workdir/$version/export/l10n/' ); ?>" > $workdir/$version/export/default/civicrm.settings.php
+echo "<?php define('CIVICRM_GETTEXT_RESOURCEDIR', '$workdir/$version/export/l10n/'); define('CIVICRM_UF', 'Drupal'); ?>" > $workdir/$version/export/default/civicrm.settings.php
 
 # create a minimal settings_location.php file
 echo "<?php define('CIVICRM_CONFDIR', '$workdir/$version/export') ?>" > $workdir/$version/export/settings_location.php
