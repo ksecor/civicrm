@@ -158,12 +158,15 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             //retrieve event information
             $params = array( 'id' => $this->_id );
             $ids = array();
+
+            // create redirect URL to send folks back to event info page is registration not available
+            $infoUrl = CRM_Utils_System::url( 'civicrm/event/info',"reset=1&id={$this->_id}",
+                                             true, null, false, true );
             
             require_once 'CRM/Event/BAO/Participant.php';
             $eventFull = CRM_Event_BAO_Participant::eventFull( $this->_id );
             if ( $eventFull ) {
-                CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/event/info',"reset=1&id={$this->_id}",
-                                                                   true, null, false ));            
+                CRM_Utils_System::redirect( $infoUrl );            
             }
 
             require_once 'CRM/Event/BAO/Event.php';
@@ -175,26 +178,30 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                 $this->_values['event']['participant_role'] = $participant_role["{$this->_values['event']['default_role_id']}"];
             }
             
-            // check if form is active
+            // is the event active (enabled)?
             if ( ! $this->_values['event']['is_active'] ) {
                 // form is inactive, die a fatal death
-                CRM_Core_Error::statusBounce( ts( 'The page you requested is currently unavailable.' ) );
+                CRM_Core_Error::statusBounce( ts( 'The event you requested is currently unavailable (contact the site administrator for assistance).' ) );
             }
-      
+            
+            // is online registration is enabled?
+            if ( ! $this->_values['event']['is_online_registration'] ) {
+                CRM_Core_Error::statusBounce( ts( 'Online registration is not currently available for this event (contact the site administrator for assistance).' ), $infoUrl );
+            }
             $now = time( );
 
             $startDate = CRM_Utils_Date::unixTime( CRM_Utils_Array::value( 'registration_start_date',
                                                                            $this->_values['event'] ) );
             if ( $startDate &&
                  $startDate >= $now ) {
-                CRM_Core_Error::statusBounce( ts( 'Registration for this event begins on %1', array( 1 => CRM_Utils_Date::customFormat( CRM_Utils_Array::value( 'registration_start_date', $this->_values['event'] ) ) ) ) );
+                CRM_Core_Error::statusBounce( ts( 'Registration for this event begins on %1', array( 1 => CRM_Utils_Date::customFormat( CRM_Utils_Array::value( 'registration_start_date', $this->_values['event'] ) ) ) ), $infoUrl );
             }
 
             $endDate = CRM_Utils_Date::unixTime( CRM_Utils_Array::value( 'registration_end_date',
                                                                          $this->_values['event'] ) );
             if ( $endDate &&
                  $endDate < $now ) {
-                CRM_Core_Error::statusBounce( ts( 'Registration for this event ended on %1', array( 1 => CRM_Utils_Date::customFormat( CRM_Utils_Array::value( 'registration_end_date', $this->_values['event'] ) ) ) ) );
+                CRM_Core_Error::statusBounce( ts( 'Registration for this event ended on %1', array( 1 => CRM_Utils_Date::customFormat( CRM_Utils_Array::value( 'registration_end_date', $this->_values['event'] ) ) ) ), $infoUrl );
             }
 
 
@@ -212,7 +219,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                 $ppID = CRM_Utils_Array::value( 'payment_processor_id',
                                                 $this->_values['event'] );
                 if ( ! $ppID ) {
-                    CRM_Core_Error::fatal( ts( 'A payment processor must be selected for this event registration page, or the event must be configured to give users the option to pay later (contact the site administrator for assistance).' ) );
+                    CRM_Core_Error::statusBounce( ts( 'A payment processor must be selected for this event registration page, or the event must be configured to give users the option to pay later (contact the site administrator for assistance).' ), $infoUrl );
                 }
                 
                 require_once 'CRM/Core/BAO/PaymentProcessor.php';
