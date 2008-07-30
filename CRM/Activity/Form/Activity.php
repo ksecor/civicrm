@@ -264,10 +264,14 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             //set the assigneed contact count to template
             if ( !empty( $defaults['assignee_contact'] ) ) {
                 $this->assign( 'assigneeContactCount', count( $defaults['assignee_contact'] ) );
+            } else {
+                $this->assign( 'assigneeContactCount', 1 );
             }
             //set the target contact count to template
             if ( !empty( $defaults['target_contact'] ) ) {
                 $this->assign( 'targetContactCount', count( $defaults['target_contact'] ) );
+            } else {
+                $this->assign( 'targetContactCount', 1 );
             }
 
             if ( $this->_context != 'standalone' )  {
