@@ -72,16 +72,15 @@
                 <td class="label">{ts}With Contact(s){/ts}</td>
                 <td class="view-value">{$with|escape}</td>
              </tr>
-             {else}
+             {elseif $action neq 4}
              <tr>
 		 <td class="label">{ts}With Contact{/ts}<div dojoType="dojox.data.QueryReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra" doClientPaging="false"></div></td>
                 <td class="tundra">
-		   {if $context eq 'standalone' }                  
-                       <span id="target_contact_1"></span>
-		   {else}
-			{$target_contact_value}
-                   {/if}
-                </td>
+		          <span id="target_contact_1"></span></td></tr>
+		     {else}
+             <tr>
+	    		<td class="label">{ts}With Contact{/ts}</td>
+                <td class="view-value">{$target_contact_value}</td>
              </tr>
              {/if}
              <tr>
@@ -202,7 +201,7 @@
    buildContact( 1, 'assignee_contact' );
 {/literal}   
 {/if}
-{if $action eq 1 and $context eq 'standalone' }
+{if $action eq 1 }
 {literal}
    buildContact( 1, 'target_contact' );
 {/literal}   
