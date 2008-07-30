@@ -208,7 +208,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             CRM_Custom_Form_CustomData::buildQuickForm( $this );
             CRM_Custom_Form_CustomData::setDefaultValues( $this );
         }
-        
+
         // build assignee contact combo
         if ( CRM_Utils_Array::value( 'assignee_contact', $_POST ) ) {
             foreach ( $_POST['assignee_contact'] as $key => $value ) {
@@ -265,7 +265,11 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             if ( !empty( $defaults['assignee_contact'] ) ) {
                 $this->assign( 'assigneeContactCount', count( $defaults['assignee_contact'] ) );
             }
-            
+            //set the target contact count to template
+            if ( !empty( $defaults['target_contact'] ) ) {
+                $this->assign( 'targetContactCount', count( $defaults['target_contact'] ) );
+            }
+
             if ( $this->_context != 'standalone' )  {
                 $this->assign( 'target_contact_value', $defaults['target_contact_value'] );
                 $this->assign( 'assignee_contact_value', $defaults['assignee_contact_value'] );

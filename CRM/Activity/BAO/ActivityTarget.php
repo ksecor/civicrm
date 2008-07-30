@@ -103,8 +103,10 @@ class CRM_Activity_BAO_ActivityTarget extends CRM_Activity_DAO_ActivityTarget
         $target->activity_id = $activity_id;
         $target->find();
         $targetArray = array();
+        $count = 1;
         while ( $target->fetch() ) {
-            $targetArray[] = $target->target_contact_id;
+            $targetArray[$count] = $target->target_contact_id;
+            $count++;
         }
         return $targetArray;
     }
