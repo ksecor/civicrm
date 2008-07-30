@@ -196,7 +196,7 @@ class CRM_Event_Form_EventFees
                     $discountId = $form->_discountId;
                 }
 
-                if ( $discountId ) {
+                if ( $form->_eventId && $discountId ) {
                     $defaultDiscountId = CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_EventPage", 
                                                                       $form->_eventId, 
                                                                       'default_discount_id' );
@@ -212,7 +212,7 @@ class CRM_Event_Form_EventFees
                     $optionGroupId = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_Discount", 
                                                                   $discountId,
                                                                   'option_group_id' );
-                } else {
+                } else {                    
                     if ( $form->_eventId ) {
                         $defaults[$form->_participantId]['amount'] = CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_EventPage", 
                                                                                                   $form->_eventId, 

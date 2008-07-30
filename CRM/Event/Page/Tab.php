@@ -104,18 +104,10 @@ class CRM_Event_Page_Tab extends CRM_Contact_Page_View
      */
     function run( ) 
     {
-        // we should call contact view, preprocess only for participant mode
-        $contactId = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
-        $context   = CRM_Utils_Request::retrieve( 'context', 'String', $this );
+        //Fix Me
+        // we need to call parent preprocess only when we are viewing / editing / adding participant record
+        $this->preProcess( );
         
-        if ( !$contactId && ( !$context || $context == 'search' ) ) {
-            // this case is for batch update, event registration action 
-            $this->_action = CRM_Core_Action::ADD;
-            $this->assign( 'action', $this->_action );
-        } else {
-            $this->preProcess( );
-        }
-
         if ( $this->_permission == CRM_Core_Permission::EDIT && ! CRM_Core_Permission::check( 'edit event participants' ) ) {
             $this->_permission = CRM_Core_Permission::VIEW; // demote to view since user does not have edit event participants rights
             $this->assign( 'permission', 'view' );
