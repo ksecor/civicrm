@@ -55,7 +55,7 @@ else
 fi
 ./release.php $version >> $workdir/$version/build.log
 cd $workdir
-mv *.tar.gz *.zip $build_dest
+mv *.tar.gz *.zip *MD5SUMS* $build_dest
 
 # cleanup
 cd $workdir/$version
