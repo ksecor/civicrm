@@ -211,7 +211,7 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
         $form->add('textarea', 'suggested_message', ts('Suggested Message'), 
                    CRM_Core_DAO::getAttribute('CRM_Friend_DAO_Friend', 'suggested_message'), false);
 
-        $form->add('text','general_link',ts('Info Page Link'));
+        $form->add('text','general_link',ts('Info Page Link'), CRM_Core_DAO::getAttribute('CRM_Friend_DAO_Friend', 'general_link'));
         
         $form->add('text', 'thankyou_title', ts('Thank-you Title'), CRM_Core_DAO::getAttribute('CRM_Friend_DAO_Friend', 'thankyou_title'), true );
 
@@ -249,9 +249,13 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
         
         require_once 'CRM/Contact/BAO/Contact.php';
         list( $fromName, $email ) = CRM_Contact_BAO_Contact::getContactDetails( $contactID );
+        // if no $fromName (only email collected from originating contact) - list returns single space
+        if ( trim($fromName) == '') {
+            $fromName = $email;
+        }
 
         // set details in the template here
-        $template->assign( $values['module']  , $values['module'] );        
+        $template->assign( $values['module']  , $values['module'] );
         $template->assign( 'senderContactName', $fromName ); 
         $template->assign( 'title',             $values['title'] );
         $template->assign( 'generalLink',       $values['general_link'] );

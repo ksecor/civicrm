@@ -159,7 +159,7 @@ class CRM_Friend_Form extends CRM_Core_Form
             $this->add('text', "friend[$i][first_name]", ts("Friend's First Name"));           
             $this->add('text', "friend[$i][last_name]", ts("Friend's Last Name")); 
             $this->add('text', "friend[$i][email]", ts("Friend's Email"));
-            $this->addRule( "friend[$i][email]", ts('Email is not valid.'), 'email' );
+            $this->addRule( "friend[$i][email]", ts('The format of this email address is not valid.'), 'email' );
         }
        
         $this->addButtons(array( 
@@ -196,21 +196,21 @@ class CRM_Friend_Form extends CRM_Core_Form
                 $valid = true;
                 
                 if ( ! trim( $val['first_name'] ) ) {
-                    $errors["friend[{$key}][first_name]"] = ts( 'Please enter the first name.' );
+                    $errors["friend[{$key}][first_name]"] = ts( 'Please enter your friend\'s first name.' );
                 }
 
                 if ( ! trim( $val['last_name'] ) ) {
-                    $errors["friend[{$key}][last_name]"] = ts( 'Please enter the last name.' );
+                    $errors["friend[{$key}][last_name]"] = ts( 'Please enter your friend\'s last name.' );
                 }
 
                 if ( ! trim( $val['email'] ) ) {
-                    $errors["friend[{$key}][email]"] = ts( 'Please enter the email address.' );
+                    $errors["friend[{$key}][email]"] = ts( 'Please enter your friend\'s email address.' );
                 }
             } 
         }
         
         if ( ! $valid ) {
-            $errors['friend[1][first_name]'] = ts( "You need to enter at least one friend's information." );
+            $errors['friend[1][first_name]'] = ts( "Please enter at least one friend's information, or click Cancel if you don't want to send emails at this time." );
         }
         
         return empty($errors) ? true : $errors;
