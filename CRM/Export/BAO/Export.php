@@ -64,7 +64,9 @@ class CRM_Export_BAO_Export
         $primary          = false;
         $returnProperties = array( );
         $origFields       = $fields;
-        
+        $queryMode        = null; 
+        $paymentFields    = false;
+
         if ( $fields ) {
             //construct return properties 
             $locationTypes =& CRM_Core_PseudoConstant::locationType();
@@ -315,7 +317,7 @@ class CRM_Export_BAO_Export
             }
 
             //remove organization name for individuals if it is set for current employer
-            if ( $row['contact_type'] == 'Individual' ) {
+            if ( CRM_Utils_Array::value('contact_type', $row ) && $row['contact_type'] == 'Individual' ) {
                 $row['organization_name'] = '';
             }
             
