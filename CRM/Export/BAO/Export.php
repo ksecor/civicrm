@@ -210,6 +210,7 @@ class CRM_Export_BAO_Export
         $dao =& CRM_Core_DAO::executeQuery( $queryString, CRM_Core_DAO::$_nullArray );
         $header = false;
         
+        $addPaymentHeader = false;
         if ( $paymentFields ) {
             $addPaymentHeader = true;
             //special return properties for event and members
@@ -251,7 +252,11 @@ class CRM_Export_BAO_Export
                 }
 
                 //build row values (data)
-                $fieldValue = $dao->$field;
+                if ( property_exists( $dao, $field ) ) {
+                    $fieldValue = $dao->$field;
+                } else {
+                    $fieldValue = '';
+                }
                 
                 if ( $field == 'id' ) {
                     $row[$field] = $dao->contact_id;
