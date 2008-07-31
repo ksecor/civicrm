@@ -711,6 +711,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $contactID = CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $this->_contactID, null, null, $ctype );
             
         }
+
         //custom data block common for offline as well as credit card
         //(online) mode
         $customData = array( );
@@ -796,6 +797,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $this->_params['contribution_type_id'] = 
                 CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $params['event_id'], 'contribution_type_id' );
             $this->_params['mode'] = $this->_mode;
+
             //add contribution reocord
             $contribution = CRM_Event_Form_Registration_Confirm::processContribution( $this, $this->_params, $result, $contactID, false );
           
@@ -885,7 +887,6 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 $contributions = array( );
                 if ( $this->_single ) {
                     $contributions[] =& CRM_Contribute_BAO_Contribution::create( $contributionParams, $ids );
-                    
                 } else {
                     $ids = array( );
                     foreach ( $this->_contactIds as $contactID ) {
@@ -902,6 +903,21 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                         $ppDAO->participant_id  = $participants[$num]->id;
                         $ppDAO->contribution_id = $contributions[$num]->id;
                         $ppDAO->save();
+
+                        // also store lineitem stuff here
+                        if ( $this->_lineItem ) {
+                            require_once 'CRM/Core/BAO/LineItem.php';
+                            foreach ( $this->_lineItem as $key => $value ) {
+                                if ( $value != 'skip' ) {
+                                    foreach( $value as $line ) {
+                                        $unused = array();
+                                        $line['entity_table'] = 'civicrm_contribution';
+                                        $line['entity_id'] = $contributions[$num]->id;
+                                        CRM_Core_BAO_LineItem::create( $line, $unused );
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }

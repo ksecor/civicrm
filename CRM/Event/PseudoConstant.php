@@ -94,26 +94,29 @@ class CRM_Event_PseudoConstant extends CRM_Core_PseudoConstant
      * @return array - array reference of all participant statuses if any
      * @static
      */
-    public static function &participantStatus( $id = null, $all = true )
+    public static function &participantStatus( $id = null, $cond = null ) {
     {
-        if ( ! self::$participantStatus || ! CRM_Utils_Array::value( $all, self::$participantStatus ) ) {
-            self::$participantStatus[$all] = array( );
+        if ( self::$participantStatus === null ) {
+            self::$participantStatus = array( );
+        }
+
+        $index = $cond ? 'No Condition' : $cond;
+        if ( ! CRM_Utils_Array::value( $index, self::$participantStatus ) ) {
+            self::$participantStatus[$index] = array( );
             require_once "CRM/Core/OptionGroup.php";
             $condition = null;
 
-            if ( $all === false ) {
-                $condition = 'AND filter = 1';
-            } elseif ( $all === -1 ) {
-                $condition = 'AND filter = 0';
+            if ( $cond ) {
+                $condition = "AND $cond";
             }
-            self::$participantStatus[$all] = CRM_Core_OptionGroup::values("participant_status", false, false, false, $condition);
+            self::$participantStatus[$index] = CRM_Core_OptionGroup::values("participant_status", false, false, false, $condition);
         }
         
         if ( $id ) {
-            return self::$participantStatus[$all][$id];
+            return self::$participantStatus[$index][$id];
         }
         
-        return self::$participantStatus[$all];
+        return self::$participantStatus[$index];
     }
     
     /**

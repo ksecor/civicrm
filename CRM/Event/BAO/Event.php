@@ -403,8 +403,8 @@ LIMIT      0, 10
         }
         require_once 'CRM/Event/PseudoConstant.php';
 
-        $statusTypes         = CRM_Event_PseudoConstant::participantStatus( null, false );
-        $statusTypesPending  = CRM_Event_PseudoConstant::participantStatus( null, -1 );
+        $statusTypes         = CRM_Event_PseudoConstant::participantStatus( null, "filter = 1" );
+        $statusTypesPending  = CRM_Event_PseudoConstant::participantStatus( null, "filter = 0" );
         
         $eventSummary['statusDisplay'] = implode( '/', array_values( $statusTypes ) );
         $eventSummary['statusDisplayPending'] = implode( '/', array_values( $statusTypesPending ) );
@@ -424,14 +424,14 @@ LIMIT      0, 10
     {
         if ( !$status ) {
             require_once 'CRM/Event/PseudoConstant.php';
-            $statusTypes  = CRM_Event_PseudoConstant::participantStatus( null, false ); 
+            $statusTypes  = CRM_Event_PseudoConstant::participantStatus( null, "filter = 1" ); 
             $status = implode( ',', array_keys( $statusTypes ) );
             if ( !$status ) {
                 $status = 0;
             }
         } else {
             require_once 'CRM/Event/PseudoConstant.php';
-            $statusTypes  = CRM_Event_PseudoConstant::participantStatus( null, -1 ); 
+            $statusTypes  = CRM_Event_PseudoConstant::participantStatus( null, "filter = 0" ); 
             $status = implode( ',', array_keys( $statusTypes ) );
             if ( !$status ) {
                 $status = 0;

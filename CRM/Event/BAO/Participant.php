@@ -270,7 +270,7 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
     static function eventFull( $eventId )
     {
         require_once 'CRM/Event/PseudoConstant.php';
-        $statusTypes  = CRM_Event_PseudoConstant::participantStatus( null, false );
+        $statusTypes  = CRM_Event_PseudoConstant::participantStatus( null, "filter = 1" );
         $status = implode( ',', array_keys( $statusTypes ) );
         if ( !$status ) {
             $status = 0;

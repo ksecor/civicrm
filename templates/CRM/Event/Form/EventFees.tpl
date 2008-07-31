@@ -50,6 +50,7 @@
     </table>
     {else} {* NOT Price Set *}
     <table style="border: none;">
+     <tr>
      <td class ='html-adjust' colspan=2>
      	<div class="form-item">
      	<dl class="html-adjust">
@@ -59,14 +60,22 @@
         <br /><span class="description">{ts}Event Fee Level (if applicable).{/ts}</span>
         {/if}
         </dd>
-       {if ! $participantMode}
-    	<br />
-        <dt class="label">{$form.record_contribution.label}</dt><dd class="html-adjust">{$form.record_contribution.html}<br />
-          <span class="description">{ts}Check this box to enter payment information. You will also be able to generate a customized receipt.{/ts}</span>
-        </dd>
      	</dl>
      	</div>
      </td>
+     </tr>
+    </table>
+    </fieldset>
+    {/if}
+
+     {if ! $participantMode}
+       <table style="border: none;">
+        <tr>
+        <td class ='html-adjust' colspan=2>
+        <dt class="label">{$form.record_contribution.label}</dt><dd class="html-adjust">{$form.record_contribution.html}<br />
+          <span class="description">{ts}Check this box to enter payment information. You will also be able to generate a customized receipt.{/ts}</span>
+        </dd>
+        </tr>
     <br />
      <tr id="payment_information">
        <td class ='html-adjust' colspan=2>
@@ -88,12 +97,7 @@
            </fieldset>
        </td>
     </tr>
-	{/if} 
     </table>
-    {/if}
-
-    </fieldset>
-     {if ! $participantMode}
     {* Record contribution field only present if this is a paid event. *}
     {include file="CRM/common/showHideByFieldValue.tpl" 
         trigger_field_id    ="record_contribution"
@@ -103,8 +107,9 @@
         field_type          ="radio"
         invert              = 0
     }
-	{/if}
 {/if}
+{/if}
+
 {* credit card block when it is live or test mode*}
 {if $participantMode and $paid}	
  <div class="spacer"></div>

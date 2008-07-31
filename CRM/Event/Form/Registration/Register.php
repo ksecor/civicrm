@@ -897,7 +897,7 @@ WHERE  id IN ($optionIDs)
             }
             $participant->find( );
             require_once 'CRM/Event/PseudoConstant.php';
-            $statusTypes = CRM_Event_PseudoConstant::participantStatus( null, false );
+            $statusTypes = CRM_Event_PseudoConstant::participantStatus( null, "filter = 1" );
             while ( $participant->fetch( ) ) {
                 if ( array_key_exists ( $participant->status_id, $statusTypes ) ) {
                     if ( !$isAdditional ) {
