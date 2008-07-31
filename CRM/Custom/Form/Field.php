@@ -766,9 +766,9 @@ AND    option_group_id = %2";
         if ($this->_action == CRM_Core_Action::UPDATE) {
             $params['data_type'] = $this->_defaultDataType;
         }
-
-        $params['html_type']     = self::$_dataToHTML[$params['data_type'][0]][$params['data_type'][1]];
-        $params['data_type']     = self::$_dataTypeKeys[$params['data_type'][0]];
+        
+        $params['html_type']     = self::$_dataToHTML[$params['option_type']][$params['data_type']];
+        $params['data_type']     = self::$_dataTypeKeys[$params['option_type']];
         
         // fix for CRM-316
         if ($this->_action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
@@ -782,7 +782,7 @@ AND    option_group_id = %2";
 
         //store the primary key for State/Province or Country as default value.
         if ( strlen(trim($params['default_value']))) {
-            switch (self::$_dataTypeKeys[$params['data_type'][0]]) {
+            switch (self::$_dataTypeKeys[$params['option_type']]) {
             case 'StateProvince':
                 $fieldStateProvince = strtolower($params['default_value']);
                 $query = "
@@ -810,8 +810,9 @@ SELECT id
                 break;
             }
         }
-       // for 'is_search_range' field. 
-        if ( in_array( $params['data_type'][0], array( 1, 2, 3, 5 ) ) ) {
+        
+        // for 'is_search_range' field. 
+        if ( in_array( $params['option_type'], array( 1, 2, 3, 5 ) ) ) {
             if ( ! $params['is_searchable'] ) {
                 $params['is_search_range'] = 0;
             }
