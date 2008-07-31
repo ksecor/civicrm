@@ -62,18 +62,29 @@ INSERT INTO civicrm_premiums_product VALUES (1, 1, 1, 1);
 INSERT INTO civicrm_acl (name, deny, entity_table, entity_id, operation, object_table, object_id, acl_table, acl_id, is_active) 
 VALUES 
 ('Edit All Contacts', 0, 'civicrm_acl_role', 1, 'Edit', 'civicrm_saved_search', 0, NULL, NULL, 1),
-('Core ACL', 0, 'civicrm_acl_role', 2, 'All', 'access CiviMail subscribe/unsubscribe pages', NULL, NULL, NULL, 1),
-('Core ACL', 0, 'civicrm_acl_role', 2, 'All', 'access all custom data', NULL, NULL, NULL, 1),
-('Core ACL', 0, 'civicrm_acl_role', 2, 'All', 'make online contributions', NULL, NULL, NULL, 1),
-('Core ACL', 0, 'civicrm_acl_role', 2, 'All', 'profile listings and forms', NULL, NULL, NULL, 1),
-('Core ACL', 0, 'civicrm_acl_role', 2, 'All', 'register for events', NULL, NULL, NULL, 1),
-('Core ACL', 0, 'civicrm_acl_role', 2, 'All', 'view event info', NULL, NULL, NULL, 1),
-('Core ACL', 0, 'civicrm_acl_role', 2, 'All', 'view event participants', NULL, NULL, NULL, 1),
 ('Core ACL', 0, 'civicrm_acl_role', 0, 'All', 'access CiviMail subscribe/unsubscribe pages', NULL, NULL, NULL, 1),
 ('Core ACL', 0, 'civicrm_acl_role', 0, 'All', 'access all custom data', NULL, NULL, NULL, 1),
 ('Core ACL', 0, 'civicrm_acl_role', 0, 'All', 'make online contributions', NULL, NULL, NULL, 1),
 ('Core ACL', 0, 'civicrm_acl_role', 0, 'All', 'profile listings and forms', NULL, NULL, NULL, 1),
-('Core ACL', 0, 'civicrm_acl_role', 0, 'All', 'register for events', NULL, NULL, NULL, 1);
+('Core ACL', 0, 'civicrm_acl_role', 0, 'All', 'register for events', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 2, 'All', 'access CiviCRM', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 2, 'All', 'access CiviContribute', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 2, 'All', 'access CiviEvent', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 2, 'All', 'access CiviMail', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 2, 'All', 'access CiviMail subscribe/unsubscribe pages', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 2, 'All', 'access CiviMember', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 2, 'All', 'access CiviPledge', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 2, 'All', 'access Contact Dashboard', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 2, 'All', 'access all custom data', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 2, 'All', 'administer CiviCRM', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 2, 'All', 'make online contributions', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 2, 'All', 'make online pledges', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 2, 'All', 'profile listings and forms', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 2, 'All', 'register for events', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 2, 'All', 'view all activities', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 2, 'All', 'view all contacts', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 2, 'All', 'view event info', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 2, 'All', 'view event participants', NULL, NULL, NULL, 1);
 
 -- Create default Groups for User Permissioning
 INSERT INTO civicrm_group

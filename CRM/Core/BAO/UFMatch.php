@@ -457,8 +457,8 @@ WHERE     openid = %1";
         $result = $dao->getDatabaseResult( );
         if ( $result ) {
             $row = $result->fetchRow( );
-            if ( isset($row[0]) ) {
-                $ufId = $row[0];
+            if ( isset($row['next_uf_id']) ) {
+                $ufId = $row['next_uf_id'];
             }
         }
         if ( ! isset($ufId) ) {

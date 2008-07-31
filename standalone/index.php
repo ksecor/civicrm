@@ -54,6 +54,12 @@ function showError( &$session ) {
         print "<div class=\"msg\">$msg</div>\n";
         $session->set('msg', null);
     }
+
+    if ( $session->get('goahead') == 'no' ) {
+        $session->reset();
+        print "<a href=\"index.php\">Home Page</a>\n";
+        exit();
+    }
 }
 
 invoke();

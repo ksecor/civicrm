@@ -1,6 +1,7 @@
 <?php
 function displayError($message) {
     print "<div class=\"error\">$message</div>\n";
+    print "<a href=\"index.php\">Home Page</a>\n";
     exit(0);
 }
 

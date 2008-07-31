@@ -78,6 +78,17 @@ class CRM_Core_Invoke
         // also initialize the i18n framework
         $i18n   =& CRM_Core_I18n::singleton( );
 
+        if ( $config->userFramework == 'Standalone' ) {
+            require_once 'CRM/Core/Session.php';
+            $session =& CRM_Core_Session::singleton( ); 
+            if ( $session->get('new_install') !== true ) {
+                require_once 'CRM/Core/Standalone.php';
+                CRM_Core_Standalone::sidebarLeft( );
+            } else if ( $args[1] == 'standalone' && $args[2] == 'register' ) {
+                CRM_Core_Menu::store( );
+            }
+        }
+
         // get the menu items
         $path = implode( '/', $args );
         $item =& CRM_Core_Menu::get( $path );
@@ -90,15 +101,6 @@ class CRM_Core_Invoke
             // QF and checkboxes
             unset( $_POST['option'] );
             CRM_Core_Joomla::sidebarLeft( );
-        } else if ( $config->userFramework == 'Standalone' ) {
-            require_once 'CRM/Core/Session.php';
-            $session =& CRM_Core_Session::singleton( ); 
-            if ( $session->get('new_install') !== true ) {
-                require_once 'CRM/Core/Standalone.php';
-                CRM_Core_Standalone::sidebarLeft( );
-            } else if ( $args[1] == 'standalone' && $args[2] == 'register' ) {
-                CRM_Core_Menu::store( );
-            }
         }
 
         // set active Component
