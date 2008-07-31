@@ -259,6 +259,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
             $contribFields =& CRM_Contribute_BAO_Contribution::getContributionFields();
             if ( ! empty( $contribFields ) ) {
                 unset( $contribFields['is_test']);
+                unset( $contribFields['is_pay_later']);
                 $fields['Contribution'] =& $contribFields;
             }
         }
@@ -292,6 +293,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
             unset( $membershipFields['member_is_test'] );
             unset( $membershipFields['is_override'] );
             unset( $membershipFields['status_id'] );
+            unset( $membershipFields['member_is_pay_later'] );
             $fields['Membership'] =& $membershipFields;
         }
 

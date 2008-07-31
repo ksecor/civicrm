@@ -246,7 +246,7 @@ class CRM_Member_BAO_Query
         switch ( $name ) {
         
         case 'civicrm_membership':
-            $from = " INNER JOIN civicrm_membership ON civicrm_membership.contact_id = contact_a.id ";
+            $from = " $side JOIN civicrm_membership ON civicrm_membership.contact_id = contact_a.id ";
             break;
     
         case 'civicrm_membership_type':
@@ -266,7 +266,7 @@ class CRM_Member_BAO_Query
             break;
             
         case 'civicrm_membership_payment':
-            $from = " INNER JOIN civicrm_membership_payment ON civicrm_membership_payment.membership_id = civicrm_membership.id ";
+            $from = " $side JOIN civicrm_membership_payment ON civicrm_membership_payment.membership_id = civicrm_membership.id ";
             break;
         }
         return $from;
