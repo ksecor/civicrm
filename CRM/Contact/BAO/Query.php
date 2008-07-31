@@ -2484,7 +2484,7 @@ WHERE  id IN ( $groupIDs )
     function relationship( &$values ) {
         
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
-       
+             
         // also get values array for relation_target_name
         // for relatinship search we always do wildcard
         $targetName = $this->getWhereValues( 'relation_target_name', $grouping );
@@ -2535,7 +2535,7 @@ WHERE  id IN ( $groupIDs )
             $this->_qill[$grouping][]  = ts( 'Relationship - Active');
             
         } else if ( $relStatus[2] == 1 ) {
-            $this->_where[$grouping][] = "civicrm_relationship.is_active = 0 OR end_date < {$today}";
+            $this->_where[$grouping][] = "(civicrm_relationship.is_active = 0 OR end_date < {$today})";
             $this->_qill[$grouping][]  = ts( 'Relationship - Inactive');
         }
         $this->_where[$grouping][] = 'civicrm_relationship.relationship_type_id = '.$rel[0];
