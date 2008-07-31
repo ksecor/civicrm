@@ -314,8 +314,6 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
          if ( CRM_Core_Permission::check( 'edit memberships' ) ) {
              $permission = CRM_Core_Permission::EDIT;
          }
-         require_once 'CRM/Member/PseudoConstant.php';
-         $statusTypes  = CRM_Member_PseudoConstant::membershipStatus( );
          
          $mask = CRM_Core_Action::mask( $permission );
          while ($result->fetch()) {
@@ -324,8 +322,6 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
              foreach (self::$_properties as $property) {
                  $row[$property] = $result->$property;
              }
-             //fix status display
-             $row['status']   = $statusTypes[$row['status_id']];
 
              if ( $result->member_is_pay_later && $row["status_id"] == 5 ) {
                  $row["status"] .= " (Pay Later)";
