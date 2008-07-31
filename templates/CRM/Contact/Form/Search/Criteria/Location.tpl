@@ -16,7 +16,7 @@
         {if $form.postal_code.html}
           <tr>
             <td class="label">{$form.postal_code.label}</td>
-            <td>{$form.postal_code.html}&nbsp;&nbsp;<label>{ts}OR{/ts}</label></td> 
+            <td>{$form.postal_code.html}&nbsp;&nbsp;<label>{ts}AND{/ts}</label></td> 
             <td class="label">{$form.postal_code_low.label}</td>
             <td>{$form.postal_code_low.html|crmReplace:class:six}</td>
           </tr>

@@ -140,8 +140,8 @@ class CRM_Contact_Form_Search_Criteria {
             } else {
                 $form->addElement('text', $name, $title, $attributes );
             }
-            
-            if ( $addressOptions['Zip / Postal Code'] ) { 
+
+            if ( $addressOptions['postal_code'] ) { 
                 $form->addElement('text', 'postal_code_low', ts('Range-From'),
                           $attributes['postal_code'] );
                 $form->addElement('text', 'postal_code_high', ts('To'),
