@@ -314,8 +314,12 @@ SELECT label, value
                                 }
                                 $sqlValue[] = "( $sql like '%" . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . $k . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . "%' ) ";
                             }
-                            $this->_where[$grouping][] = implode( $sqlOP, $sqlValue );
-                            $this->_qill[$grouping][]  = "{$field['label']} $op $qillValue ($sqlOP)";
+                            //if user check only 'CiviCRM_OP_OR' check box
+                            //of custom checkbox field, then ignore this field.
+                            if ( !empty( $sqlValue ) ) {
+                                $this->_where[$grouping][] = implode( $sqlOP, $sqlValue );
+                                $this->_qill[$grouping][]  = "{$field['label']} $op $qillValue ($sqlOP)";
+                            }
                         } else { // for multi select
                             foreach ( $value as $k => $v ) { 
                                 if ( $v == 'CiviCRM_OP_OR' ) {
@@ -324,8 +328,12 @@ SELECT label, value
                                 }
                                 $sqlValue[] = "( $sql like '%" . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . $v . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . "%' ) ";
                             }
-                            $this->_where[$grouping][] = implode( $sqlOP, $sqlValue ); 
-                            $this->_qill[$grouping][]  = "$field[label] $op $qillValue ($sqlOP)";
+                            //if user select only 'CiviCRM_OP_OR' value
+                            //of custom multi select field, then ignore this field.
+                            if ( !empty( $sqlValue ) ) {
+                                $this->_where[$grouping][] = implode( $sqlOP, $sqlValue ); 
+                                $this->_qill[$grouping][]  = "$field[label] $op $qillValue ($sqlOP)";
+                            }
                         }                    
                     } else {
                         if ( $field['is_search_range'] && is_array( $value ) ) {
