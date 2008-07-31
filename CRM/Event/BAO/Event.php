@@ -716,21 +716,21 @@ WHERE civicrm_event.is_active = 1
                                                                              CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_EventPage', 
                                                                                                           $eventPageId, 'default_fee_id' ) );
         
-        
         //copy discounted fee levels
         require_once 'CRM/Core/BAO/Discount.php';
         $discount = CRM_Core_BAO_Discount::getOptionGroup( $id, 'civicrm_event' );
+        
         if ( !empty ( $discount ) ) {
             foreach ( $discount as $discountOptionGroup ) {
                 $name = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup',
                                                      $discountOptionGroup );
                 $length         = substr_compare($name, "civicrm_event_page.amount.". $id, 0);
                 $discountSuffix = substr($name, $length * (-1));
-                CRM_Core_BAO_OptionGroup::copyValue('event', 
-                                                    $eventPageId, 
-                                                    $copyEventPage->id, 
-                                                    false,
-                                                    $discountSuffix );
+                $copyEventPage->default_discount_id = CRM_Core_BAO_OptionGroup::copyValue('event', 
+                                                                                          $eventPageId, 
+                                                                                          $copyEventPage->id, 
+                                                                                          CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_EventPage', $eventPageId, 'default_discount_id' ),
+                                                                                          $discountSuffix );
             }
         }
         
