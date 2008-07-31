@@ -86,6 +86,8 @@ class CRM_Friend_Form extends CRM_Core_Form
         } elseif ( $page == 'pledge' ) {
             $this->_entityTable = 'civicrm_pb_pledge';
             $this->_title = CRM_Core_DAO::getFieldValue( 'CRM_PledgeBank_DAO_Pledge', $this->_entityId, 'creator_pledge_desc' );            
+        } else {
+            CRM_Core_Error::fatal( ts( 'page argument missing or invalid' ) );
         }
        
         $session =& CRM_Core_Session::singleton( );
@@ -93,6 +95,7 @@ class CRM_Friend_Form extends CRM_Core_Form
         if ( ! $this->_contactID ) {
             $this->_contactID = $session->get( 'transaction.userID' );
         }
+
         if ( ! $this->_contactID ) {
             CRM_Core_Error::fatal( ts( 'Could not get the contact ID' ) );
         }
