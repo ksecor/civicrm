@@ -263,6 +263,10 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                     $defaults['location'][$i+1] = array( );
                     if ( $i == 0 ) {
                         $defaults['location'][$i+1]['location_type_id'] = $locationType->id;
+                    } else {
+                        //set default location type (if more than 1 location type ) since the default
+                        //country is set to location type,other wise, it show validation error.
+                        $defaults['location'][$i+1]['location_type_id'] = $locationTypeKeys[$i-1];
                     }
                     $defaults['location'][$i+1]['address'] = array( );
                     if ( $config->defaultContactCountry ) {
