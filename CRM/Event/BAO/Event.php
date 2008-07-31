@@ -348,7 +348,12 @@ LIMIT      0, 10
                     $eventSummary['events'][$dao->id][$property] = 
                         CRM_Utils_Date::customFormat($dao->$name,'%b %e, %Y', array( 'd' ) );
                 } else if ( $name == 'participants' || $name == 'pending' ) {
-                    $eventSummary['events'][$dao->id][$property] = $eventParticipant[$name][$dao->id] ? $eventParticipant[$name][$dao->id] : 0;
+                    if ( CRM_Utils_Array::value( $dao->id, $eventParticipant[$name] ) ) {
+                        $eventSummary['events'][$dao->id][$property] = $eventParticipant[$name][$dao->id] ? $eventParticipant[$name][$dao->id] : 0;
+                    } else {
+                        $eventSummary['events'][$dao->id][$property] = 0;
+                    }
+                    
                     if ( $name == 'participants' && 
                          CRM_Utils_Array::value( $dao->id, $eventParticipant['participants'] ) ) { 
                         // pass the status true to get status with filter = 1
