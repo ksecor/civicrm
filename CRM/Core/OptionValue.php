@@ -344,12 +344,12 @@ FROM
                 
         $order = " ORDER BY " . $orderBy;
         
-        if ( $groupParams['id'] ) {
+        if ( CRM_Utils_Array::value( 'id', $groupParams ) ) {
             $where .= " AND option_group.id = %1";
             $params[1] = array( $groupParams['id'], 'Integer' );
         }
         
-        if ( $groupParams['name'] ) {
+        if ( CRM_Utils_Array::value( 'name', $groupParams ) ) {
             $where .= " AND option_group.name = %2";
             $params[2] = array( $groupParams['name'], 'String' );
         }

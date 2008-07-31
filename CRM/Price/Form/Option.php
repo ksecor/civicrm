@@ -132,7 +132,7 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
             $this->applyFilter('__ALL__', 'trim');
             
             // hidden Option Id for validation use
-            $this->add('hidden', 'optionId', $this->_id);
+            $this->add('hidden', 'optionId', $this->_oid);
             
             //hidden field ID for validation use
             $this->add('hidden', 'fieldId', $this->_fid); 
