@@ -510,17 +510,18 @@ WHERE  id = $cfID
         //else build array of Additional participant's information. 
         if ( count($additionalIDs) ) { 
             if ( $values['custom_pre_id'] || $values['custom_post_id'] ) {
+                $template =& CRM_Core_Smarty::singleton( );
                 $isCustomProfile = true;
                 $i = 1;
                 foreach ( $additionalIDs as $pId => $cId ) {
                     $profilePre =  self::buildCustomDisplay( $values['custom_pre_id'], 'customPre',
-                                                                                $cId, $template, $pId, $isTest, $isCustomProfile );
+                                                             $cId, $template, $pId, $isTest, $isCustomProfile );
                     if ( $profilePre ) {
                         $customProfile[$i]['customPre'] =  $profilePre;
                     }
 
                     $profilePost =  self::buildCustomDisplay( $values['custom_post_id'], 'customPost',
-                                                                                 $cId, $template, $pId, $isTest, $isCustomProfile );
+                                                              $cId, $template, $pId, $isTest, $isCustomProfile );
                     if ( $profilePost ) {
                         $customProfile[$i]['customPost'] =  $profilePost;
                     }
