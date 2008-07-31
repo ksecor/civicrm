@@ -533,10 +533,9 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
              ( ! $values['event_id'] ) 
              ) {
             return true;
-           
         }
         
-        if ( $values['payment_processor_id'] ) {
+        if ( CRM_Utils_Array::value( 'payment_processor_id', $values ) ) {
             // make sure that credit card number and cvv are valid
             require_once 'CRM/Utils/Rule.php';
             if ( CRM_Utils_Array::value( 'credit_card_type', $values ) ) {
@@ -551,17 +550,20 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 }
             }
         }
-
+        
+        $message = null;
         if ( $values['status_id'] == 1 || $values['status_id'] == 2 ) {
             if ( $id ) {
                 $previousStatus = CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_Participant", $id, 'status_id' );
             }
+            
             if ( !( $previousStatus == 1 || $previousStatus == 2 ) ) {
                 require_once "CRM/Event/BAO/Participant.php";
                 $message = CRM_Event_BAO_Participant::eventFull( $values['event_id'] );
             }
         }
-        if( $message ) {
+        
+        if ( $message ) {
             $errorMsg["_qf_default"] = $message;  
         }
 
