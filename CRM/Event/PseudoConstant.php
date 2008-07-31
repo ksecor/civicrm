@@ -95,7 +95,6 @@ class CRM_Event_PseudoConstant extends CRM_Core_PseudoConstant
      * @static
      */
     public static function &participantStatus( $id = null, $cond = null ) {
-    {
         if ( self::$participantStatus === null ) {
             self::$participantStatus = array( );
         }
