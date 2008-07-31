@@ -117,7 +117,7 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
     {
         $fv = $this->controller->exportValues($this->_name); 
         $config =& CRM_Core_Config::singleton();
-
+        $locName = null;
         //get the address format sequence from the config file
         require_once 'CRM/Core/BAO/Preferences.php';
        
@@ -179,7 +179,7 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
         }
         
         // fix for CRM-2651
-        if ( $fv['do_not_mail'] ) {
+        if ( CRM_Utils_Array::value( 'do_not_mail', $fv ) ) {
             $params[] = array( 'do_not_mail', '=', 0, 0, 1 );
         }
         // fix for CRM-2613
