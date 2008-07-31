@@ -149,9 +149,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
 
             $maxKey = CRM_Utils_Array::key( max($maxSize),$maxSize );
             
-            if ( $maxKey ) { 
-                $defaults["discounted_label"] = $totalLables[$maxKey]['label'];
-            }
+            $defaults["discounted_label"] = $totalLables[$maxKey]['label'];
 
             $this->set( 'discountSection', 1 );
             $this->buildQuickForm( );
@@ -381,14 +379,20 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
     static function formRule( &$values ) 
     {
         $errors = array( );
-        if ( $values['is_discount'] ) {
+        if ( CRM_Utils_Array::value( 'is_discount', $values ) ) {
             $occurDiscount = array_count_values( $values['discount_name'] );
             $countemptyrows  = 0;
             $countemptyvalue = 0;
             for ( $i = 1; $i <= self::NUM_DISCOUNT; $i++ ) {
-                $start_date = CRM_Utils_Date::format( $values['discount_start_date'][$i] );
-                $end_date   = CRM_Utils_Date::format( $values['discount_end_date'][$i]   );
-                if ( $values['discount_name'][$i] ) {
+                if ( CRM_Utils_Array::value( $i,  $values['discount_name'] ) ) {
+                    if ( CRM_Utils_Array::value( $i, $values['discount_start_date'] ) ) {
+                        $start_date = CRM_Utils_Date::format( $values['discount_start_date'][$i] );
+                    }
+                    
+                    if ( CRM_Utils_Array::value( $i, $values['discount_end_date'] ) ) {
+                        $end_date   = CRM_Utils_Date::format( $values['discount_end_date'][$i] );
+                    }
+
                     if ( $start_date && $end_date && (int ) $end_date < (int ) $start_date ) {
                         $errors["discount_end_date[$i]"] = ts( 'The discount end date cannot be prior to the start date.' );
                     }
@@ -437,16 +441,10 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
                         if ( empty( $values['discounted_value'][$index][$i] ) ) {
                             $countemptyvalue++; 
                         }
-                        
                     }
                     if ( CRM_Utils_Array::value( '_qf_Fee_next', $values ) && ( $countemptyrows == 11 || $countemptyvalue == 11 ) ) {
                         $errors["discounted_label[1]"] = $errors["discounted_value[1][$i]"] = 
                             ts('At least one fee should be entered for your Discount Set. If you do not see the table to enter discount fees, click the "Add Discount Set to Fee Table" button.');
-                    }
-                    
-                } else if( ! $values['discount_name'][$i] ) {
-                    if ( ! $values['discount_name'][$i] && ( $start_date || $end_date ) ) {
-                        $errors['discount_name['.$i.']'] = ts('Please specify the discount name');
                     }
                 }
             }
