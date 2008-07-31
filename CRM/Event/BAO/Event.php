@@ -702,6 +702,11 @@ WHERE civicrm_event.is_active = 1
                                                       array( 'entity_id'    => $copyEvent->id ) );
 
         $eventPageId = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_EventPage', $id, 'id', 'event_id' );       
+        
+        $copyTellFriend =& CRM_Core_DAO::copyGeneric( 'CRM_Friend_DAO_Friend', 
+                                                      array( 'entity_id'    => $id,
+                                                             'entity_table' => 'civicrm_event_page'),
+                                                      array( 'entity_id'    => $copyEventPage->id ) );
 
         require_once "CRM/Core/BAO/OptionGroup.php";
         //copy option Group and values
