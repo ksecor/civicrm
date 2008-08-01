@@ -392,29 +392,28 @@ ORDER by v.weight";
     function eventFee( &$config ) 
     {
         require_once 'CRM/Utils/Type.php';
-
+        
         $getRecords = false;
-        if ( isset( $_GET['name'] ) && $_GET['name'] && ! isset( $_GET['count'] ) ) {
+        if ( isset( $_GET['name'] ) && $_GET['name'] ) {
             $name     = CRM_Utils_Type::escape( $_GET['name'], 'String' );
             $name     = str_replace( '*', '%', $name );
-            $whereClause = "cv.label LIKE '$name%' GROUP BY cv.label";
-            $getRecords = true;
-        } else {
-            $whereClause = "cg.name LIKE 'civicrm_event_page.amount%' AND cg.id = cv.option_group_id GROUP BY cv.label";
+            $whereClause = "cv.label LIKE '$name%' ";
             $getRecords = true;
         }
         
-       if ( isset( $_GET['id'] ) && is_numeric($_GET['id']) && !$_GET['count'] ) {
-               $levelId     = CRM_Utils_Type::escape( $_GET['id'], 'Integer'  );
-               $whereClause = "cv.id = {$levelId} ";
-               $getRecords = true;
-           }
-
+        if ( isset( $_GET['id'] ) && is_numeric($_GET['id']) ) {
+            $levelId     = CRM_Utils_Type::escape( $_GET['id'], 'Integer'  );
+            $whereClause = "cv.id = {$levelId} ";
+            $getRecords = true;
+        }
+        
         if ( $getRecords ) {
-$query = "
+            $query = "
 SELECT distinct(cv.label), cv.id
 FROM civicrm_option_value cv, civicrm_option_group cg
-WHERE {$whereClause}
+WHERE cg.name LIKE 'civicrm_event_page.amount%'
+   AND cg.id = cv.option_group_id AND {$whereClause}
+   GROUP BY cv.label
 ";
             $dao = CRM_Core_DAO::executeQuery( $query );
             $elements = array( );
@@ -432,8 +431,9 @@ WHERE {$whereClause}
             $elements[] = array( 'name' => trim( $name, '*'),
                                  'value'=> trim( $name, '*') );
         }
-            require_once "CRM/Utils/JSON.php";
-            echo CRM_Utils_JSON::encode( $elements, 'value');
+        
+        require_once "CRM/Utils/JSON.php";
+        echo CRM_Utils_JSON::encode( $elements, 'value');
     } 
 
     /**
@@ -442,7 +442,7 @@ WHERE {$whereClause}
     function pledgeName( &$config ) 
     {
         require_once 'CRM/Utils/Type.php';
-   
+        
         $getRecords = false;
         if ( isset( $_GET['name'] ) && $_GET['name'] ) {
             $name     = CRM_Utils_Type::escape( $_GET['name'], 'String' );
@@ -450,7 +450,7 @@ WHERE {$whereClause}
             $whereClause = "p.creator_pledge_desc LIKE '%$name%' ";
             $getRecords = true;
         }
-
+        
         if ( isset( $_GET['id'] ) && is_numeric($_GET['id']) ) {
             $pledgeId    = CRM_Utils_Type::escape( $_GET['id'], 'Integer'  );
             $whereClause = "p.id = {$pledgeId} ";
@@ -458,7 +458,7 @@ WHERE {$whereClause}
         }
         
         if ( $getRecords ) {
-$query = "
+            $query = "
 SELECT p.creator_pledge_desc, p.id
 FROM civicrm_pb_pledge p
 WHERE {$whereClause}
@@ -470,7 +470,7 @@ WHERE {$whereClause}
                                      'value'=> $dao->id );
             }
         }
-
+        
         if ( empty( $elements) ) { 
             $name = $_GET['name'];
             if ( !$name && isset( $_GET['id'] ) ) {
@@ -479,7 +479,7 @@ WHERE {$whereClause}
             $elements[] = array( 'name' => trim( $name, '*'),
                                  'value'=> trim( $name, '*') );
         }
-
+        
         require_once "CRM/Utils/JSON.php";
         echo CRM_Utils_JSON::encode( $elements, 'value');
     } 
@@ -493,7 +493,7 @@ WHERE {$whereClause}
         if ( ! isset( $_GET['id'] ) ) {
             return;
         }
-
+        
         $file = "{$config->uploadDir}status_{$_GET['id']}.txt";
         if ( file_exists( $file ) ) {
             $str = file_get_contents( $file );
