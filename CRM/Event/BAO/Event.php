@@ -684,8 +684,6 @@ WHERE civicrm_event.is_active = 1
         $isShowLocation  = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $id, 'is_show_location' );
         if ( ! $isShowLocation ) {
             $fieldsToPrefix['is_show_location'] = 0;
-        } else {
-            CRM_Core_Error::debug('yes');
         }
 
         $copyEvent      =& CRM_Core_DAO::copyGeneric( 'CRM_Event_DAO_Event', 
