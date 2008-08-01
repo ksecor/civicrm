@@ -180,7 +180,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
                     $defaults['default_value'] = $daoCountry->name;
                 }
             }
-            
+
             if ( CRM_Utils_Array::value( 'data_type', $defaults ) ) {
                 $defaults['data_type'] = array( '0' => array_search( $defaults['data_type'],
                                                                      self::$_dataTypeKeys ), 
@@ -764,11 +764,12 @@ AND    option_group_id = %2";
         $params = $this->controller->exportValues( $this->_name );
 
         if ($this->_action == CRM_Core_Action::UPDATE) {
-            $params['data_type'] = $this->_defaultDataType;
+            $params['data_type'] = self::$_dataTypeKeys[$this->_defaultDataType[0]];
+            $params['html_type'] = $this->_defaultDataType[1];
+        } else {
+            $params['html_type']     = $params['data_type'][1];
+            $params['data_type']     = self::$_dataTypeKeys[$params['data_type'][0]];
         }
-        
-        $params['html_type']     = self::$_dataToHTML[$params['option_type']][$params['data_type']];
-        $params['data_type']     = self::$_dataTypeKeys[$params['option_type']];
         
         // fix for CRM-316
         if ($this->_action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
