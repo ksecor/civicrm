@@ -88,7 +88,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         if ( $params['end_date'] ) {
             $params['end_date']   = CRM_Utils_Date::isoToMysql($params['end_date']);
         }
-        if ($params['reminder_date']) { 
+        if ( CRM_Utils_Array::value( 'reminder_date', $params ) ) { 
             $params['reminder_date']  = CRM_Utils_Date::isoToMysql($params['reminder_date']);
         } else {
             $params['reminder_date'] = 'null';        
@@ -232,7 +232,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
                                                                 'membership_id' );
         }
         //record contribution for this membership
-        if( $params['contribution_status_id'] ) {
+        if ( CRM_Utils_Array::value( 'contribution_status_id', $params ) ) {
             $contributionParams = array( );
             $contributionParams['contact_id'] = $params['contact_id'];
             $config =& CRM_Core_Config::singleton();

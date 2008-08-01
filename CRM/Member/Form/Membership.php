@@ -198,7 +198,9 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             CRM_Contribute_BAO_Contribution::getValues( $contributionParams, $defaults, $contributionIds );
             
             // Contribution::getValues() over-writes the membership record's source field value - so we need to restore it.
-            $defaults['source'] = $defaults['membership_source'];
+            if ( CRM_Utils_Array::value( 'membership_source', $defaults ) ) {
+                $defaults['source'] = $defaults['membership_source'];
+            }
         }
         
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
@@ -414,7 +416,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         if (!$params['membership_type_id'][1]) {
             $errors['membership_type_id'] = ts('Please select a membership type.');
         }
-        if ( $params['membership_type_id'][1] && $params['payment_processor_id'] ) {
+        if ( $params['membership_type_id'][1] && CRM_Utils_Array::value( 'payment_processor_id', $params ) ) {
             // make sure that credit card number and cvv are valid
             require_once 'CRM/Utils/Rule.php';
             if ( CRM_Utils_Array::value( 'credit_card_type', $params ) ) {
@@ -578,7 +580,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         require_once 'CRM/Contact/BAO/Contact/Location.php';
         list( $userName, $userEmail ) = CRM_Contact_BAO_Contact_Location::getEmailDetails( $ids['userId'] );
         
-        if ( $formValues['record_contribution'] ) {
+        if ( CRM_Utils_Array::value( 'record_contribution', $formValues ) ) {
             $recordContribution = array(
                                         'total_amount',
                                         'contribution_type_id', 
