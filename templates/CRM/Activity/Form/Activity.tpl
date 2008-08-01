@@ -236,8 +236,8 @@ function buildContact( count, pref )
     {/if}
     {literal}
     }
-
-    var dataUrl = {/literal}"{crmURL p=$contactUrlPath h=0 q='snippet=4&count='}"{literal} + count + '&' + pref + '=1';
+    var context = {/literal}"{$context}"{literal}
+    var dataUrl = {/literal}"{crmURL p=$contactUrlPath h=0 q='snippet=4&count='}"{literal} + count + '&' + pref + '=1&context=' + context;
 
     var result = dojo.xhrGet({
         url: dataUrl,

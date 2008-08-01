@@ -124,16 +124,18 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
 
         $this->_action = CRM_Utils_Request::retrieve('action', 'String', $this );
 
-        // if we're not adding new one, there must be an id to
-        // an activity we're trying to work on.
-        if ($this->_action != CRM_Core_Action::ADD) {
-            $this->_activityId = $this->get('id');
+        if ( $this->_context != 'search') {
+            // if we're not adding new one, there must be an id to
+            // an activity we're trying to work on.
+            if ($this->_action != CRM_Core_Action::ADD) {
+                $this->_activityId = $this->get('id');
+            }
+            
+            if ( ! $this->_activityId ) {
+                $this->_activityId = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
+            }
         }
         
-        if ( ! $this->_activityId ) {
-            $this->_activityId = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
-        }
-
         $this->_currentlyViewedContactId = $this->get('contactId');
         
         if ( ! $this->_currentlyViewedContactId ) {
@@ -190,7 +192,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         if ( $this->_caseId ) {
             $this->assign( 'caseId', $this->_caseId );
         }
-        if ( in_array( $this->_context, array( 'standalone', 'home') ) ) {
+        if ( in_array( $this->_context, array( 'standalone', 'home', 'search') ) ) {
             $url = CRM_Utils_System::url('civicrm/dashboard', 'reset=1' );
         } else if ( $this->_context == 'case') {
             $url = CRM_Utils_System::url('civicrm/contact/view/case',
@@ -248,7 +250,6 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         
         $defaults = array( );
         $params   = array( );
-        
         // if we're editing...
         if ( isset( $this->_activityId ) ) {
             $params = array( 'id' => $this->_activityId );
