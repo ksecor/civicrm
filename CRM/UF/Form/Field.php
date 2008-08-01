@@ -260,6 +260,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
             if ( ! empty( $contribFields ) ) {
                 unset( $contribFields['is_test']);
                 unset( $contribFields['is_pay_later']);
+                unset( $contribFields['contribution_id']);
                 $fields['Contribution'] =& $contribFields;
             }
         }
@@ -273,19 +274,20 @@ class CRM_UF_Form_Field extends CRM_Core_Form
                 unset($participantFields['participant_contact_id']);
                 unset($participantFields['participant_is_test']);
                 unset($participantFields['event_level']);
+                unset($participantFields['participant_id']);
                 $fields['Participant'] =& $participantFields;
             }
         }
-
+        
         if ( CRM_Core_Permission::access( 'Kabissa' ) ) {
             require_once 'CRM/Kabissa/BAO/Details.php';
             $fields['Kabissa']  =& CRM_Kabissa_BAO_Details::exportableFields();
         }
-
+        
         if ( CRM_Core_Permission::access( 'CiviMember' ) ) {
             require_once 'CRM/Member/BAO/Membership.php';
             $membershipFields =& CRM_Member_BAO_Membership::getMembershipFields(); 
-            unset( $membershipFields['id'] );
+            unset( $membershipFields['membership_id'] );
             unset( $membershipFields['join_date'] );
             unset( $membershipFields['membership_start_date'] );
             unset( $membershipFields['membership_type_id'] );
