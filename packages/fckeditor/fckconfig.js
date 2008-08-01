@@ -105,7 +105,7 @@ FCKConfig.ToolbarSets["Default"] = [
 	['OrderedList','UnorderedList','-','Outdent','Indent','Blockquote'],
 	['JustifyLeft','JustifyCenter','JustifyRight','JustifyFull'],
 	['Link','Unlink','Anchor'],
-	['Table','Rule','Smiley','SpecialChar','PageBreak'],
+	['Image','Flash','Table','Rule','Smiley','SpecialChar','PageBreak'],
 	'/',
 	['Style','FontFormat','FontName','FontSize'],
 	['TextColor','BGColor'],

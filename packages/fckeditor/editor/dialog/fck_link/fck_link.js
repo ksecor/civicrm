@@ -38,9 +38,6 @@ dialog.AddTab( 'Info', FCKLang.DlgLnkInfoTab ) ;
 if ( !FCKConfig.LinkDlgHideTarget )
 	dialog.AddTab( 'Target', FCKLang.DlgLnkTargetTab, true ) ;
 
-if ( FCKConfig.LinkUpload )
-	dialog.AddTab( 'Upload', FCKLang.DlgLnkUpload, true ) ;
-
 if ( !FCKConfig.LinkDlgHideAdvanced )
 	dialog.AddTab( 'Advanced', FCKLang.DlgAdvancedTag ) ;
 
@@ -49,7 +46,6 @@ function OnDialogTabChange( tabCode )
 {
 	ShowE('divInfo'		, ( tabCode == 'Info' ) ) ;
 	ShowE('divTarget'	, ( tabCode == 'Target' ) ) ;
-	ShowE('divUpload'	, ( tabCode == 'Upload' ) ) ;
 	ShowE('divAttribs'	, ( tabCode == 'Advanced' ) ) ;
 
 	dialog.SetAutoSize( true ) ;
@@ -149,10 +145,6 @@ window.onload = function()
 
 	// Show the initial dialog content.
 	GetE('divInfo').style.display = '' ;
-
-	// Set the actual uploader URL.
-	if ( FCKConfig.LinkUpload )
-		GetE('frmUpload').action = FCKConfig.LinkUploadURL ;
 
 	// Set the default target (from configuration).
 	SetDefaultTarget() ;
@@ -357,9 +349,6 @@ function SetLinkType( linkType )
 
 	if ( !FCKConfig.LinkDlgHideTarget )
 		dialog.SetTabVisibility( 'Target'	, (linkType == 'url') ) ;
-
-	if ( FCKConfig.LinkUpload )
-		dialog.SetTabVisibility( 'Upload'	, (linkType == 'url') ) ;
 
 	if ( !FCKConfig.LinkDlgHideAdvanced )
 		dialog.SetTabVisibility( 'Advanced'	, (linkType != 'anchor' || bHasAnchors) ) ;
@@ -686,7 +675,7 @@ function OnUploadCompleted( errorNumber, fileUrl, fileName, customMsg )
 	}
 
 	SetUrl( fileUrl ) ;
-	GetE('frmUpload').reset() ;
+
 }
 
 var oUploadAllowedExtRegex	= new RegExp( FCKConfig.LinkUploadAllowedExtensions, 'i' ) ;
