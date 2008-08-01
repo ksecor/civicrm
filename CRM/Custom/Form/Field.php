@@ -762,13 +762,24 @@ AND    option_group_id = %2";
     {
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
-
+        
         if ($this->_action == CRM_Core_Action::UPDATE) {
             $params['data_type'] = self::$_dataTypeKeys[$this->_defaultDataType[0]];
             $params['html_type'] = $this->_defaultDataType[1];
+            $dataTypeKey         = $this->_defaultDataType[0];
         } else {
-            $params['html_type']     = $params['data_type'][1];
-            $params['data_type']     = self::$_dataTypeKeys[$params['data_type'][0]];
+            $dataTypeKey         = $params['data_type'][0];
+            $params['html_type'] = $params['data_type'][1];
+            $params['data_type'] = self::$_dataTypeKeys[$params['data_type'][0]];
+        }
+        
+        //fix for 'is_search_range' field. 
+        if ( in_array( $dataTypeKey, array( 1, 2, 3, 5 ) ) ) {
+            if ( !$params['is_searchable'] ) {
+                $params['is_search_range'] = 0;
+            }
+        } else {
+            $params['is_search_range'] = 0;
         }
         
         // fix for CRM-316
@@ -812,15 +823,6 @@ SELECT id
             }
         }
         
-        // for 'is_search_range' field. 
-        if ( in_array( $params['option_type'], array( 1, 2, 3, 5 ) ) ) {
-            if ( ! $params['is_searchable'] ) {
-                $params['is_search_range'] = 0;
-            }
-        } else {
-            $params['is_search_range'] = 0;
-        }
-
         if ( !isset ( $params['date_parts']['A'] ) && isset ( $params['date_parts']['h'] ) ) {
             unset( $params['date_parts']['h'] );
             unset( $params['date_parts']['i'] );
