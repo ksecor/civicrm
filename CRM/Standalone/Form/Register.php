@@ -149,8 +149,8 @@ class CRM_Standalone_Form_Register extends CRM_Core_Form {
                 CRM_Contact_BAO_GroupContact::addContactsToGroup( $contactIds, $group->id,
                                                                   'registration', 'Added' );
             }
-        } else if ( $ufCount > 1 && !defined('ALLOWED_TO_LOGIN') ) {
-            $session->set( 'msg' , 'You are not allowed to login. Login failed.' );	
+        } else if ( $ufCount > 1 && !defined('CIVICRM_ALLOW_ALL') ) {
+            $session->set( 'msg' , 'You are not allowed to login. Login failed. Contact your Administrator.' );	
             $session->set( 'goahead', "no" );
         }
         
