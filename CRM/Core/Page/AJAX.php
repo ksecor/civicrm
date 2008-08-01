@@ -136,7 +136,7 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
     {
         require_once 'CRM/Utils/Type.php';
         $name      = CRM_Utils_Array::value( 'name', $_GET, '' );
-        $name      = strtolower( CRM_Utils_Type::escape( $name, 'String'  ) ); 
+        $name      = CRM_Utils_Type::escape( $name, 'String' ); 
         $whereIdClause = '';
         if ( CRM_Utils_Array::value( 'id', $_GET ) ) {
             if ( is_numeric( $_GET['id'] ) ) {
@@ -291,9 +291,9 @@ ORDER BY sort_name ";
         
         $getRecords = false;
         if ( isset( $_GET['name'] ) && $_GET['name'] ) {
-            $name     = strtolower( CRM_Utils_Type::escape( $_GET['name'], 'String'  ) );
+            $name     = CRM_Utils_Type::escape( $_GET['name'], 'String' );
             $name     = str_replace( '*', '%', $name );
-            $whereClause = " LOWER(title) LIKE '$name%' ";
+            $whereClause = " title LIKE '$name%' ";
             $getRecords = true;
         }
         
@@ -340,9 +340,9 @@ ORDER BY title
 
         $getRecords = false;
         if ( isset( $_GET['name'] ) && $_GET['name'] ) {
-            $name = strtolower( CRM_Utils_Type::escape( $_GET['name'], 'String'  ) );
+            $name = CRM_Utils_Type::escape( $_GET['name'], 'String' );
             $name = str_replace( '*', '%', $name );
-            $whereClause = " LOWER(v.label)  LIKE '$name%'  ";
+            $whereClause = " v.label LIKE '$name%'  ";
             $getRecords = true;
         }
         
@@ -395,7 +395,7 @@ ORDER by v.weight";
 
         $getRecords = false;
         if ( isset( $_GET['name'] ) && $_GET['name'] && ! isset( $_GET['count'] ) ) {
-            $name     = strtolower( CRM_Utils_Type::escape( $_GET['name'], 'String' ) );
+            $name     = CRM_Utils_Type::escape( $_GET['name'], 'String' );
             $name     = str_replace( '*', '%', $name );
             $whereClause = "cv.label LIKE '$name%' GROUP BY cv.label";
             $getRecords = true;
@@ -445,7 +445,7 @@ WHERE {$whereClause}
    
         $getRecords = false;
         if ( isset( $_GET['name'] ) && $_GET['name'] ) {
-            $name     = strtolower( CRM_Utils_Type::escape( $_GET['name'], 'String' ) );
+            $name     = CRM_Utils_Type::escape( $_GET['name'], 'String' );
             $name     = str_replace( '*', '%', $name );
             $whereClause = "p.creator_pledge_desc LIKE '%$name%' ";
             $getRecords = true;
@@ -538,7 +538,7 @@ WHERE {$whereClause}
             $stateClause = " 1 ";
             if ( !$stateId ) {
                 $stateName = str_replace( '*', '%', $stateName );        
-                $stateClause = " civicrm_state_province.name LIKE LOWER('$stateName%') ";
+                $stateClause = " civicrm_state_province.name LIKE '$stateName%' ";
             } else {
                 $stateClause = " civicrm_state_province.id = {$stateId} ";
             }
@@ -632,7 +632,7 @@ ORDER BY name";
         if ( $validValue ) {
             if ( !$countryId ) {
                 $name = str_replace( '*', '%', $name );
-                $countryClause = " civicrm_country.name LIKE LOWER('$name%') ";
+                $countryClause = " civicrm_country.name LIKE '$name%' ";
             } else {
                 $countryClause = " civicrm_country.id = {$countryId} ";
             }
@@ -755,7 +755,7 @@ ORDER BY subject";
     function contact( &$config ) 
     {
         require_once 'CRM/Utils/Type.php';
-        $name      = strtolower( CRM_Utils_Type::escape( $_GET['name'], 'String'  ) ); 
+        $name      = CRM_Utils_Type::escape( $_GET['name'], 'String' ); 
 
         $query = "
 SELECT id
