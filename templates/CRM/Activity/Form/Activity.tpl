@@ -229,7 +229,7 @@ function buildContact( count, pref )
     if ( count > 1 ) {
 	prevCount = count - 1;
     {/literal}
-    {if $action neq 4}
+    {if $action eq 1  OR $action eq 2}
     {literal}
 	hide( pref + '_' + prevCount + '_show');
     {/literal} 
