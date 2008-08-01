@@ -104,7 +104,6 @@ class CRM_Event_Page_Tab extends CRM_Contact_Page_View
      */
     function run( ) 
     {
-        //Fix Me
         // we need to call parent preprocess only when we are viewing / editing / adding participant record
         if ( $this->_contactId ) {
             $this->preProcess( );
@@ -113,7 +112,7 @@ class CRM_Event_Page_Tab extends CRM_Contact_Page_View
             $context   = CRM_Utils_Request::retrieve( 'context', 'String', $this );
             $action  = CRM_Utils_Request::retrieve( 'action', 'String', $this );
             
-            if ( ( $contactId && $context != 'search') || $action ) {
+            if ( ( $contactId && $context != 'search' ) || ( $action && $action != CRM_Core_Action::BROWSE ) ) {
                 $this->preProcess( );
             } else {
                 // this case is for batch update, record activity action 
