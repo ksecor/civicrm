@@ -160,7 +160,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 //         $this->_defaults['credit_card_exp_date'] = array( 'Y' => '2009', 'M' => '01' );
 
         //build set default for pledge overdue payment.
-        if ( $this->_values['pledge_id'] ) {
+        if ( CRM_Utils_Array::value( 'pledge_id', $this->_values ) ) {
             //get all payment statuses.
             $statuses = array( );
             $returnProperties = array( 'status_id' );
@@ -178,7 +178,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                     $duePayment = true;
                 }
             }
-        } else if ( CRM_Utils_Array::value('pledge_block_id', $this->_values ) ) {
+        } else if ( CRM_Utils_Array::value( 'pledge_block_id', $this->_values ) ) {
             //set default to one time contribution.
             $this->_defaults['is_pledge'] = 0;  
         }
@@ -201,7 +201,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                     ts( 'Email Address' ), array( 'size' => 30, 'maxlength' => 60 ), true );
         
         //don't build membership block when pledge_id is passed
-        if ( !$this->_values['pledge_id'] ) {
+        if ( ! CRM_Utils_Array::value( 'pledge_id', $this->_values ) ) {
             $this->_separateMembershipPayment = false;
             if ( in_array("CiviMember", $config->enableComponents) ) {
                 $isTest = 0;
@@ -219,9 +219,10 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             $this->set( 'separateMembershipPayment', $this->_separateMembershipPayment );
         }
 
-        if ( $this->_values['amount_block_is_active'] && !$this->_values['pledge_id'] ) {
+        if ( CRM_Utils_Array::value( 'amount_block_is_active', $this->_values ) 
+             && ! CRM_Utils_Array::value( 'pledge_id', $this->_values ) ) {
             $this->buildAmount( $this->_separateMembershipPayment );
-
+            
             if ( $this->_values['is_monetary'] &&
                  $this->_values['is_recur']    &&
                  $this->_paymentProcessor['is_recur'] ) {
@@ -238,7 +239,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         }
         
         //we allow premium for pledge during pledge creation only.
-        if ( !$this->_values['pledge_id'] ) {
+        if ( ! CRM_Utils_Array::value( 'pledge_id', $this->_values ) ) {
             require_once 'CRM/Contribute/BAO/Premium.php';
             CRM_Contribute_BAO_Premium::buildPremiumBlock( $this , $this->_id ,true );
         }
@@ -249,7 +250,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         
         //build pledge block.
         $config =& CRM_Core_Config::singleton( );
-        if ( in_array('CiviPledge', $config->enableComponents ) && $this->_values['pledge_block_id'] ) {
+        if ( in_array('CiviPledge', $config->enableComponents ) && CRM_Utils_Array::value( 'pledge_block_id', $this->_values ) ) {
             require_once 'CRM/Pledge/BAO/PledgeBlock.php';
             CRM_Pledge_BAO_PledgeBlock::buildPledgeBlock( $this );
         }
