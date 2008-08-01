@@ -5,6 +5,9 @@
      <tr>  
      <td class="label">{$form.amount.label}</td>
      <td><table class="form-layout-compressed">
+         {if $priceSet.help_pre AND $action eq 1}
+            <tr><td colspan=2 class="description">{$priceSet.help_pre}</td></tr>
+         {/if}
       {foreach from=$priceSet.fields item=element key=field_id}
          {if ($element.html_type eq 'CheckBox' || $element.html_type == 'Radio') && $element.options_per_line}
             {assign var="element_name" value=price_$field_id}
@@ -44,6 +47,9 @@
             </tr>
           {/if}
        {/foreach}
+         {if $priceSet.help_post AND $action eq 1}
+            <tr><td colspan=2 class="description">{$priceSet.help_post}</td></tr>
+         {/if}
       </table>
     </td>
     </tr>

@@ -252,6 +252,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             if ( $priceSetId ) {
                 $this->_priceSetId = $priceSetId;
                 $priceSet = CRM_Core_BAO_PriceSet::getSetDetail($priceSetId);
+
                 $this->_priceSet = CRM_Utils_Array::value($priceSetId,$priceSet);
                 $this->_values['custom'] = CRM_Utils_Array::value($priceSetId,$priceSet);
                 $this->set('priceSetId', $this->_priceSetId);
