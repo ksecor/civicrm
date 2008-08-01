@@ -775,7 +775,7 @@ AND    option_group_id = %2";
         
         //fix for 'is_search_range' field. 
         if ( in_array( $dataTypeKey, array( 1, 2, 3, 5 ) ) ) {
-            if ( !$params['is_searchable'] ) {
+            if ( ! CRM_Utils_Array::value( 'is_searchable', $params ) ) {
                 $params['is_search_range'] = 0;
             }
         } else {
@@ -783,6 +783,7 @@ AND    option_group_id = %2";
         }
         
         // fix for CRM-316
+        $oldWeight = null;
         if ($this->_action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
             $fieldValues = array( 'custom_group_id' => $this->_gid );
             if ( $this->_id ) {

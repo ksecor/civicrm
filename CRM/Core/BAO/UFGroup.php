@@ -1260,7 +1260,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             $form->add('select', $name, $title, 
                        array('' => ts('- select -')) + CRM_Core_PseudoConstant::country(), $required);
         } else if ( substr($fieldName,0,6) === 'county' ) {
-            if ( $addressOptions['County'] ) {
+            if ( $addressOptions['county'] ) {
                 $form->add('select', $name, $title, 
                            array('' => ts('- select -')) + CRM_Core_PseudoConstant::county(), $required);
             }
