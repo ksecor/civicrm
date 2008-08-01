@@ -197,10 +197,16 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
         $errors       = array( );
         $customOption = array( );
         $groupParams  = array( 'name' => "civicrm_price_field.amount.{$form->_fid}" );
-        
+        $htmlType = CRM_Core_DAO::getFieldValue( 'CRM_Core_BAO_PriceField', $fields['fieldId'] , 'html_type' );
+        if ( $htmlType == 'Text' && $fields['name'] <= 0 ) {
+            $errors['name'] = ts( 'Amount must be greater than zero When Price Field is of Text type' );  
+        } else if ($fields['name'] < 0 ) {
+            $errors['name'] = ts( 'Amount must be greater than zero' ); 
+        }
+
         require_once 'CRM/Core/OptionValue.php';
         CRM_Core_OptionValue::getValues( $groupParams, $customOption );
-        
+                
         foreach( $customOption as $key => $value ) {
             if( !( $value['id'] == $form->_oid ) && ( $value['value'] == $fields['weight'] ) ) {
                 $errors['value'] = ts( 'Duplicate option value' );  

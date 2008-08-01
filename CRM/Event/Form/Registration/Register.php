@@ -331,7 +331,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
     {
         //To check if the user is already registered for the event(CRM-2426)
         self::checkRegistration($fields, $self);
-
+     
         $email = $fields["email-{$self->_bltID}"];
         require_once 'CRM/Core/BAO/UFMatch.php';
         if ( CRM_Core_BAO_UFMatch::isDuplicateUser( $email ) ) {
@@ -382,19 +382,24 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             if ( $fields['priceSetId'] ) { 
                 $zeroAmount = array( );
                 foreach( $fields as $key => $val  )  {
-                    if ( substr( $key, 0, 6 ) == 'price_' ){
-                        if ( is_array( $val) ) {
-                            foreach( $val as $keys => $vals  )  {
-                                $zeroAmount[] = $keys;
+                    if ( substr( $key, 0, 6 ) == 'price_' ) {
+                        $htmlType = CRM_Core_DAO::getFieldValue( 'CRM_Core_BAO_PriceField', substr( $key, 6 ) , 'html_type' );
+                        if( $htmlType != 'Text' ) {
+                            if ( is_array( $val) ) {
+                                foreach( $val as $keys => $vals  )  {
+                                    $zeroAmount[] = $keys;
+                                }
+                            } else {
+                                $zeroAmount[] = $val;
                             }
-                        } else {
-                            $zeroAmount[] = $val;
+                        } else if ( $htmlType == 'Text' && $val && $val <= 0 ) {
+                            $errors[$key] =  ts( "The Number of Items must be greater than zero (0)" );
                         }
-                    }
-                } 
+                    } 
+                }
                 foreach( $zeroAmount as $keyes => $values  )  {
                     if( $values && !$userID && 
-                        CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $values, 'value', 'id' ) == 0 ) {
+                        CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $values, 'name', 'id' ) == 0 ) {
                         $errors['amount'] =  ts( "The Zero amount facility is only for the valid members" );
                     }
                 }
@@ -420,12 +425,15 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 $check = array( );
                 foreach( $fields as $key => $val  )  {
                     if ( substr( $key, 0, 6 ) == 'price_' && $val != 0) {
-                        if ( is_array( $val) ) {
-                            foreach( $val as $keys => $vals  )  {
-                                $check[] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $keys, 'value');
+                        $htmlType = CRM_Core_DAO::getFieldValue( 'CRM_Core_BAO_PriceField', substr( $key, 6 ) , 'html_type' );
+                        if ( $htmlType != 'Text' ) {
+                            if ( is_array( $val) ) {
+                                foreach( $val as $keys => $vals  )  {
+                                    $check[] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $keys, 'name');
+                                }
+                            } else {
+                                $check[] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $val, 'name');
                             }
-                        } else {
-                            $check[] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $val, 'value');
                         }
                     }
                 }
