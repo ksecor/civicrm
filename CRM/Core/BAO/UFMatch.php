@@ -75,19 +75,16 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
             $mail = 'email';
             $uniqId = $user->identity_url;
             $query = "
-SELECT    uf_id 
+SELECT    uf_id
 FROM      civicrm_uf_match 
 LEFT JOIN civicrm_openid ON ( civicrm_uf_match.contact_id = civicrm_openid.contact_id ) 
 WHERE     openid = %1";
             $p = array( 1 => array( $uniqId, 'String' ) );
             $dao = CRM_Core_DAO::executeQuery( $query, $p );
-            $result = $dao->getDatabaseResult( );
-            if ( $result ) {
-                $row = $result->fetchRow( );
-                if ( isset($row['uf_id']) ) {
-                    $user->$key = $row['uf_id'];
-                }
+            if ( $dao->fetch() ) {
+                $user->$key = $dao->uf_id;
             }
+
             if ( ! $user->$key ) {
                 // Let's get the next uf_id since we don't actually have one
                 $user->$key = self::getNextUfIdValue( );
@@ -452,15 +449,11 @@ WHERE     openid = %1";
      */
     static function getNextUfIdValue( ) {
         $query = "SELECT MAX(uf_id)+1 AS next_uf_id FROM civicrm_uf_match";
-        $dao =& new CRM_Core_DAO( );
-        $dao->query( $query );
-        $result = $dao->getDatabaseResult( );
-        if ( $result ) {
-            $row = $result->fetchRow( );
-            if ( isset($row['next_uf_id']) ) {
-                $ufId = $row['next_uf_id'];
-            }
+        $dao   = CRM_Core_DAO::executeQuery( $query );
+        if ( $dao->fetch() ) {
+            $ufId = $dao->next_uf_id;
         }
+
         if ( ! isset($ufId) ) {
             $ufId = 1;
         }

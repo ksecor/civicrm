@@ -26,7 +26,8 @@ function invoke() {
             }
             exit(1);
         } else {
-            if ( $session->get('new_install') !== true ) {
+            if ( $session->get('new_install') !== true &&
+                 $_GET[$urlVar] !== "civicrm/standalone/register" ) {
                 print "<a href=\"{$config->userFrameworkBaseURL}\">Login here</a> if you have an account.\n";
             } elseif ($_GET[$urlVar] == "civicrm/standalone/register" && isset($_GET['reset'])) {
                 // this is when user first registers with civicrm
