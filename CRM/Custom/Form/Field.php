@@ -473,7 +473,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
             $errors['label'] = ts('Name already exists in Database.');
         }
         
-        if (!isset($fields['data_type'][0]) || !$fields['data_type'][1]) {
+        if ( ! isset($fields['data_type'][0]) || !isset($fields['data_type'][1]) ) {
             $errors['_qf_default'] = ts('Please enter valid - Data and Input Field Type.');
         }
 
@@ -570,7 +570,9 @@ SELECT count(*)
         $_flagOption = $_rowError = 0;
         $_showHide =& new CRM_Core_ShowHideBlocks('','');
         $dataType = self::$_dataTypeKeys[$fields['data_type'][0]];
-        $dataField = $fields['data_type'][1];
+        if ( isset( $fields['data_type'][1] ) ) {
+            $dataField = $fields['data_type'][1];
+        }
         $optionFields = array('Select', 'Multi-Select', 'CheckBox', 'Radio');
         
         if ( $fields['option_type'] == 1 ) {
@@ -682,7 +684,8 @@ SELECT count(*)
                 
                 $_flagOption = $_emptyRow = 0;
             }
-        } elseif ( in_array( $dataField, $optionFields ) &&
+        } elseif ( isset( $dataField ) && 
+                   in_array( $dataField, $optionFields ) &&
                    $dataType != 'Boolean' ) {
             if ( ! $fields['option_group_id'] ) {
                 $errors['option_group_id'] = ts( 'You must select a Multiple Choice Option set if you chose Reuse an existing set.' );
@@ -707,26 +710,28 @@ AND    option_group_id = %2";
             $_showHide->addToTemplate();
             CRM_Core_Page::assign('optionRowError', $_rowError);
         } else {
-            switch (self::$_dataToHTML[$fields['data_type'][0]][$fields['data_type'][1]]) {
-            case 'Radio':
-                $_fieldError = 1;
-                CRM_Core_Page::assign('fieldError', $_fieldError);
-                break; 
-                
-            case 'Checkbox':
-                $_fieldError = 1;
-                CRM_Core_Page::assign('fieldError', $_fieldError);
-                break; 
-
-            case 'Select':
-                $_fieldError = 1;
-                CRM_Core_Page::assign('fieldError', $_fieldError);
-                break;
-            default:
-                $_fieldError = 0;
-                CRM_Core_Page::assign('fieldError', $_fieldError);
+            if ( isset( $fields['data_type'][1] ) ) {
+                switch (self::$_dataToHTML[$fields['data_type'][0]][$fields['data_type'][1]]) {
+                case 'Radio':
+                    $_fieldError = 1;
+                    CRM_Core_Page::assign('fieldError', $_fieldError);
+                    break; 
+                    
+                case 'Checkbox':
+                    $_fieldError = 1;
+                    CRM_Core_Page::assign('fieldError', $_fieldError);
+                    break; 
+                    
+                case 'Select':
+                    $_fieldError = 1;
+                    CRM_Core_Page::assign('fieldError', $_fieldError);
+                    break;
+                default:
+                    $_fieldError = 0;
+                    CRM_Core_Page::assign('fieldError', $_fieldError);
+                }
             }
-                
+
             for ($idx=1; $idx<= self::NUM_OPTION; $idx++) {
                 $showBlocks = 'optionField_'.$idx;
                 if (!empty($fields['option_label'][$idx])) {

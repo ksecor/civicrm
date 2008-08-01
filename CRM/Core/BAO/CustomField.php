@@ -130,7 +130,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                     CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
             }
         } else {
-            if ( isset($params['option_value'][$params['default_option']]) ) {
+            if ( CRM_Utils_Array::value( 'default_option', $params ) 
+                 && isset($params['option_value'][$params['default_option']] ) ) {
                 $params['default_value'] = $params['option_value'][$params['default_option']];
             }
         }
