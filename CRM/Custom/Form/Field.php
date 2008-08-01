@@ -188,20 +188,22 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
                 $this->_defaultDataType = $defaults['data_type'];
             }
             
-            $date_parts = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,
-                                   $defaults['date_parts'] );
-            $temp_date_parts = array();
-            if (is_array( $date_parts )) {
-                foreach($date_parts as $v  ) {
-                    if ( $v == 'H') {
-                        $temp_date_parts['h'] = 1;
-                    } else {
-                        $temp_date_parts[$v] = 1;
+            if ( CRM_Utils_Array::value( 'date_parts', $defaults  ) ) {
+                $date_parts = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,
+                                       $defaults['date_parts'] );
+                
+                $temp_date_parts = array( );
+                if (is_array( $date_parts )) {
+                    foreach($date_parts as $v  ) {
+                        if ( $v == 'H') {
+                            $temp_date_parts['h'] = 1;
+                        } else {
+                            $temp_date_parts[$v] = 1;
+                        }
                     }
+                    $defaults['date_parts'] = $temp_date_parts;
                 }
-                $defaults['date_parts'] = $temp_date_parts;
             }
-
             $defaults['option_type'] = 2;
         } else {
             $defaults['option_type'] = 1;
