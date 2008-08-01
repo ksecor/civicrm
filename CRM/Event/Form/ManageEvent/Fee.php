@@ -181,7 +181,8 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
                 }
             }
         }
-
+        
+        $maxKey = count( $totalLables ) - 1;
         if ( isset( $maxKey) &&
              CRM_Utils_Array::value( 'value', $totalLables[$maxKey] ) ) {
             foreach ( $totalLables[$maxKey]['value'] as $i => $v ) {
@@ -195,7 +196,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         if ( !isset($defaults['default']) ) {
             $defaults['default'] = 1;
         }
-        
+
         if ( !isset($defaults['discounted_default']) ) {
             $defaults['discounted_default'] = 1;
         }
