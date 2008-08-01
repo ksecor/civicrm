@@ -660,7 +660,6 @@ WHERE civicrm_event.is_active = 1
      */
     static function copy( $id )
     {
-        $fieldsToPrefix = array( 'title' => ts( 'Copy of ' ) );
         $loc_blk        = $defaults = array();
         $loc_blk['id']  = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $id, 'loc_block_id' );
         
@@ -680,6 +679,15 @@ WHERE civicrm_event.is_active = 1
                                                       $copyLocationParams ) ;
         
         $fieldsToPrefix = array( 'title' => ts( 'Copy of ' ) );
+
+        // 
+        $isShowLocation  = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $id, 'is_show_location' );
+        if ( ! $isShowLocation ) {
+            $fieldsToPrefix['is_show_location'] = 0;
+        } else {
+            CRM_Core_Error::debug('yes');
+        }
+
         $copyEvent      =& CRM_Core_DAO::copyGeneric( 'CRM_Event_DAO_Event', 
                                                       array( 'id' => $id ), 
                                                       array( 'loc_block_id' => $copyLocation->id ), 

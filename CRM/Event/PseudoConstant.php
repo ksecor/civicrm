@@ -99,7 +99,7 @@ class CRM_Event_PseudoConstant extends CRM_Core_PseudoConstant
             self::$participantStatus = array( );
         }
 
-        $index = $cond ? 'No Condition' : $cond;
+        $index = $cond ? $cond : 'No Condition';
         if ( ! CRM_Utils_Array::value( $index, self::$participantStatus ) ) {
             self::$participantStatus[$index] = array( );
             require_once "CRM/Core/OptionGroup.php";
