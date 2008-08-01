@@ -165,7 +165,7 @@ class CRM_Dedupe_Finder
 
         // handle {birth,deceased}_date
         foreach(array('birth_date', 'deceased_date') as $date) {
-            if ($fields[$date]) {
+            if ( CRM_Utils_Array::value( $date, $fields ) ) {
                 $flat[$date] = $fields[$date];
                 if (is_array($flat[$date])) $flat[$date] = CRM_Utils_Date::format($flat[$date]);
             }
@@ -188,7 +188,7 @@ class CRM_Dedupe_Finder
         foreach($tree as $key => $cg) {
             if (!is_int($key)) continue;
             foreach($cg['fields'] as $cf) {
-                $flat[$cf['column_name']] = $cf['customValue']['data'];
+                $flat[$cf['column_name']] = CRM_Utils_Array::value( 'data' , $cf['customValue'] );
             }
         }
 

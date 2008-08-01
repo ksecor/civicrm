@@ -164,9 +164,9 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
         $transaction->commit( );
 
         //process sending of mails
-        $mailParams['title']        = $params['title'];       
-        $mailParams['general_link'] = $frndParams['general_link'];
-        $mailParams['message']      = $params['suggested_message'];
+        $mailParams['title']        = CRM_Utils_Array::value( 'title', $params );       
+        $mailParams['general_link'] = CRM_Utils_Array::value( 'general_link', $frndParams  );
+        $mailParams['message']      = CRM_Utils_Array::value( 'suggested_message', $params );
         
         if ( $params['entity_table'] == 'civicrm_contribution_page' ) {
             $mailParams['email_from'] = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage',
