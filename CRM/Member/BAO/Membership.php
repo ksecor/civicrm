@@ -1359,6 +1359,10 @@ WHERE  civicrm_membership.contact_id = civicrm_contact.id
                     // more than one status having is_current_member = 0.
                     $params['status_id'] = CRM_Core_DAO::getFieldValue('CRM_Member_DAO_MembershipStatus', '0', 'id', 'is_current_member' );
                 }
+
+                // we should not created contribution record for related contacts, CRM-3371
+                unset( $params['contribution_status_id'] );
+
                 $relatedMembership = CRM_Member_BAO_Membership::create( $params, CRM_Core_DAO::$_nullArray );
             }
         }
