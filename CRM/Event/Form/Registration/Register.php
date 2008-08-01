@@ -426,14 +426,14 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 foreach( $fields as $key => $val  )  {
                     if ( substr( $key, 0, 6 ) == 'price_' && $val != 0) {
                         $htmlType = CRM_Core_DAO::getFieldValue( 'CRM_Core_BAO_PriceField', substr( $key, 6 ) , 'html_type' );
-                        if ( $htmlType != 'Text' ) {
-                            if ( is_array( $val) ) {
-                                foreach( $val as $keys => $vals  )  {
-                                    $check[] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $keys, 'name');
-                                }
-                            } else {
-                                $check[] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $val, 'name');
+                        if ( is_array( $val) ) {
+                            foreach( $val as $keys => $vals  )  {
+                                $check[] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $keys, 'name');
                             }
+                        } else if( $htmlType == 'Text') {
+                            $check[] = $val;  
+                        } else {
+                            $check[] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $val, 'name');
                         }
                     }
                 }
@@ -724,7 +724,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         $radioLevel    = $checkboxLevel = $selectLevel = $textLevel = array( );
         
         foreach ( $fields as $id => $field ) {
-            if ( empty( $params["price_{$id}"] ) ) {
+            if ( empty( $params["price_{$id}"]) && $params["price_{$id}"] == null ) {
                 // skip if nothing was submitted for this field
                 continue;
             }
