@@ -124,7 +124,8 @@ class CRM_Utils_Mail {
                           $cc = null,
                           $bcc = null,
                           $replyTo = null,
-                          $html_message = null ) {
+                          $html_message = null,
+                          $attachments = null ) {
         $returnPath = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Domain',
                                                    1,
                                                    'email_return_path' );
@@ -156,6 +157,15 @@ class CRM_Utils_Mail {
         $msg = & new Mail_Mime("\n");
         $msg->setTxtBody( $text_message );
         $msg->setHTMLBody( $html_message );
+
+        if ( ! empty( $attachments ) ) {
+            foreach ( $attachments as $fileID => $attach ) {
+                $msg->addAttachment( $attach['fullPath'],
+                                     $attach['mime_type'],
+                                     $attach['cleanName'] );
+            }
+        }
+        
         $mailMimeParams = array(
                                 'text_encoding' => '8bit',
                                 'html_encoding' => '8bit',

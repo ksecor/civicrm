@@ -104,16 +104,21 @@ class CRM_Event_Page_Tab extends CRM_Contact_Page_View
      */
     function run( ) 
     {
-        // we should call contact view, preprocess only for participant mode
-        $contactId = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
-        $context   = CRM_Utils_Request::retrieve( 'context', 'String', $this );
-
-        if ( $contactId && $context != 'search' ) {
+        // we need to call parent preprocess only when we are viewing / editing / adding participant record
+        if ( $this->_contactId ) {
             $this->preProcess( );
         } else {
-            // this case is for batch update, event registration action 
-            $this->_action = CRM_Core_Action::ADD;
-            $this->assign( 'action', $this->_action );
+            $contactId = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
+            $context   = CRM_Utils_Request::retrieve( 'context', 'String', $this );
+            $action  = CRM_Utils_Request::retrieve( 'action', 'String', $this );
+            
+            if ( ( $contactId && $context != 'search' ) || ( $action && $action != CRM_Core_Action::BROWSE ) ) {
+                $this->preProcess( );
+            } else {
+                // this case is for batch update, record activity action 
+                $this->_action = CRM_Core_Action::ADD;
+                $this->assign( 'action', $this->_action );
+            }
         }
         
         if ( $this->_permission == CRM_Core_Permission::EDIT && ! CRM_Core_Permission::check( 'edit event participants' ) ) {
@@ -131,7 +136,7 @@ class CRM_Event_Page_Tab extends CRM_Contact_Page_View
         }
         
         $this->setContext( );
-        
+
         if ( $this->_action & CRM_Core_Action::VIEW ) { 
             $this->view( ); 
         } else if ( $this->_action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::DELETE ) ) {

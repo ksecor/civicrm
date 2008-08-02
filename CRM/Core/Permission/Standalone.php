@@ -90,7 +90,6 @@ class CRM_Core_Permission_Standalone {
             if ( $session->get( 'new_install' ) == 1 && $session->get( 'goahead' ) == 'yes' ) {
                 return true;
             }
-            $isAdmin = $session->get( 'ufID' ) == 1 ? true : false;
         }
         require_once 'CRM/ACL/API.php';
         return ( $isAdmin) ? true : CRM_ACL_API::check( $str, null );

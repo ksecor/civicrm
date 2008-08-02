@@ -88,7 +88,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         if ( $params['end_date'] ) {
             $params['end_date']   = CRM_Utils_Date::isoToMysql($params['end_date']);
         }
-        if ($params['reminder_date']) { 
+        if ( CRM_Utils_Array::value( 'reminder_date', $params ) ) { 
             $params['reminder_date']  = CRM_Utils_Date::isoToMysql($params['reminder_date']);
         } else {
             $params['reminder_date'] = 'null';        
@@ -232,7 +232,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
                                                                 'membership_id' );
         }
         //record contribution for this membership
-        if( $params['contribution_status_id'] ) {
+        if ( CRM_Utils_Array::value( 'contribution_status_id', $params ) ) {
             $contributionParams = array( );
             $contributionParams['contact_id'] = $params['contact_id'];
             $config =& CRM_Core_Config::singleton();
@@ -653,22 +653,22 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             require_once 'CRM/Dedupe/BAO/Rule.php';
             $fieldsArray = CRM_Dedupe_BAO_Rule::dedupeRuleFields($ruleParams);
             
-            $tmpConatctField = array();
+            $tmpContactField = array();
             if( is_array($fieldsArray) ) {
                 foreach ( $fieldsArray as $value) {
-                    $tmpConatctField[trim($value)] = CRM_Utils_Array::value(trim($value),$contactFields);
+                    $tmpContactField[trim($value)] = CRM_Utils_Array::value(trim($value),$contactFields);
                     if (!$status) {
-                        $title = $tmpConatctField[trim($value)]['title']." (match to contact)" ;
+                        $title = $tmpContactField[trim($value)]['title']." (match to contact)" ;
                     } else {
-                        $title = $tmpConatctField[trim($value)]['title'];
+                        $title = $tmpContactField[trim($value)]['title'];
                     }
-                    $tmpConatctField[trim($value)]['title'] = $title;
+                    $tmpContactField[trim($value)]['title'] = $title;
                 }
             }
-            $tmpConatctField['external_identifier'] = $contactFields['external_identifier'];
-            $tmpConatctField['external_identifier']['title'] = $contactFields['external_identifier']['title'] . " (match to contact)";
+            $tmpContactField['external_identifier'] = $contactFields['external_identifier'];
+            $tmpContactField['external_identifier']['title'] = $contactFields['external_identifier']['title'] . " (match to contact)";
             
-            $fields = array_merge($fields, $tmpConatctField);
+            $fields = array_merge($fields, $tmpContactField);
             $fields = array_merge($fields, $tmpFields);
             $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport('Membership'));
             self::$_importableFields = $fields;
@@ -823,13 +823,19 @@ AND civicrm_membership.is_test = %2";
         //adding contribution record  to contribution table.
         //this condition is arises when separate membership payment is
         //enable and contribution amount is not selected. fix for CRM-3010
+        require_once 'CRM/Contribute/BAO/Contribution/Utils.php';
         if ( $form->_amount > 0.0 ) {
-            require_once 'CRM/Contribute/BAO/Contribution/Utils.php';
             $result = CRM_Contribute_BAO_Contribution_Utils::processConfirm( $form, $membershipParams, 
                                                                              $premiumParams, $contactID,
                                                                              $contributionTypeId, 
                                                                              'membership' );
-        }        
+        } else {
+            // create the CMS contact here since we normally do this under processConfirm
+            CRM_Contribute_BAO_Contribution_Utils::createCMSUser( $membershipParams,
+                                                                  $contactID,
+                                                                  'email-' . $form->_bltID );
+        }
+
         $errors = array();
         if ( is_a( $result[1], 'CRM_Core_Error' ) ) {
             $errors[1]       = CRM_Core_Error::getMessages( $result[1] );
@@ -881,9 +887,15 @@ AND civicrm_membership.is_test = %2";
                 // we dont need to create the user twice, so lets disable cms_create_account
                 // irrespective of the value, CRM-2888
                 $tempParams['cms_create_account'] = 0;
-
+                
                 $pending  = $form->_params['is_pay_later'] ? true : false;
-
+                
+                //set this variable as we are not creating pledge for 
+                //separate membership payment contribution.
+                //so for differentiating membership contributon from
+                //main contribution.
+                $form->_params['separate_membership_payment'] = 1;
+                
                 $contribution[2] =
                     CRM_Contribute_Form_Contribution_Confirm::processContribution( $form,
                                                                                    $tempParams,
@@ -1347,6 +1359,10 @@ WHERE  civicrm_membership.contact_id = civicrm_contact.id
                     // more than one status having is_current_member = 0.
                     $params['status_id'] = CRM_Core_DAO::getFieldValue('CRM_Member_DAO_MembershipStatus', '0', 'id', 'is_current_member' );
                 }
+
+                // we should not created contribution record for related contacts, CRM-3371
+                unset( $params['contribution_status_id'] );
+
                 $relatedMembership = CRM_Member_BAO_Membership::create( $params, CRM_Core_DAO::$_nullArray );
             }
         }

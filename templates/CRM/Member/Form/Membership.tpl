@@ -165,6 +165,7 @@
 
 </fieldset>
 </div>
+{if $action neq 8}  
 {if ! $membershipMode}
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="record_contribution"
@@ -235,4 +236,5 @@ function setPaymentBlock( memType )
 }
 </script>
 {/literal}
-{/if}
+{/if} {* closing of delete check if *} 
+{/if}{* closing of custom data if *}

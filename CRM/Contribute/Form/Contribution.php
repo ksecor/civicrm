@@ -427,7 +427,7 @@ WHERE  contribution_id = {$this->_id}
             $this->assign( 'is_pay_later', true ); 
         }
         $this->assign( 'contribution_status_id', CRM_Utils_Array::value('contribution_status_id',$defaults ) );
-        
+        $this->assign( "receive_date" ,$defaults['receive_date'] );
         return $defaults;
     }
     
@@ -598,7 +598,6 @@ WHERE  contribution_id = {$this->_id}
         $this->addRule('receive_date', ts('Select a valid date.'), 'qfDate');
         if ( $this->_online ) {
             $this->assign("hideCalender" , true );
-            $element->freeze( );
         }
         $this->addElement('date', 'receipt_date', ts('Receipt Date'), CRM_Core_SelectValues::date('activityDate')); 
         $this->addRule('receipt_date', ts('Select a valid date.'), 'qfDate');
@@ -626,22 +625,14 @@ WHERE  contribution_id = {$this->_id}
         if ( $this->_online ) {
             $element->freeze( );
         }
-        
-        $session = & CRM_Core_Session::singleton( );
-        $uploadNames = $session->get( 'uploadNames' );
-        if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
-            $buttonType = 'upload';
-        } else {
-            $buttonType = 'next';
-        }      
-        
+
         $js = null;
         if ( !$this->_mode && $this->userEmail ) {
             $js = array( 'onclick' => "return verify( );" );    
         }
         
         $this->addButtons(array( 
-                                array ( 'type'      => $buttonType, 
+                                array ( 'type'      => $this->buttonType( ),
                                         'name'      => ts('Save'), 
                                         'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
                                         'js'        => $js,
@@ -860,7 +851,10 @@ WHERE  contribution_id = {$this->_id}
             
             // set source if not set 
             if ( empty( $this->_params['source'] ) ) {
-                $this->_params['source'] = ts( 'Online Contribution: CiviCRM Admin Interface' );
+                $userID = $session->get( 'userID' );
+                $userSortName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $userID,
+                                                                            'sort_name' );
+                $this->_params['source'] = ts( 'Submit Credit Card Payment by: %1', array( 1 => $userSortName ) );
             }
             
             require_once 'CRM/Contribute/Form/Contribution/Confirm.php';
@@ -978,7 +972,7 @@ WHERE  contribution_id = {$this->_id}
                 
                 $input = $ids = $objects = array( );
                 $IdDetails = $this->getDetails( $contribution->id );
-                
+                                                                      
                 $input['component']       = $IdDetails['component'];
                 $ids['contact'     ]      = $contribution->contact_id;
                 $ids['contribution']      = $contribution->id;
@@ -987,13 +981,25 @@ WHERE  contribution_id = {$this->_id}
                 $ids['membership']        = $IdDetails['membership'];
                 $ids['participant']       = $IdDetails['participant'];
                 $ids['event']             = $IdDetails['event'];
-                
+                $ids['pledge_payment']    = $IdDetails['pledge_payment'];
+             
                 if ( ! $baseIPN->validateData( $input, $ids, $objects, false ) ) {
                     CRM_Core_Error::fatal( );
                 }
-                
-                $membership   =& $objects['membership']  ;
-                $participant  =& $objects['participant'] ;
+              
+                $membership     =& $objects['membership']  ;
+                $participant    =& $objects['participant'] ;
+                $pledgePayment  = array ( );
+                $pledgePayment  =& $objects['pledge_payment'] ;
+                                         
+                if ( $pledgePayment ) {
+                    require_once 'CRM/Pledge/BAO/Payment.php';
+                    $pledgePaymentIDs = array ( );
+                    foreach ( $pledgePayment as $key => $object ) {
+                        $pledgePaymentIDs[] = $object->id;
+                    }
+                    $pledgeID = $pledgePayment[0]->pledge_id;
+                }
                 
                 if ( $contribution->contribution_status_id == 3 ) {
                     if ( $membership ) {
@@ -1004,6 +1010,10 @@ WHERE  contribution_id = {$this->_id}
                         $participant->status_id = 4;
                         $participant->save( );
                     }
+                    if ( $pledgePayment ) {
+                        CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $pledgeID, $pledgePaymentIDs, 3 );   
+                    }
+                    
                 } elseif ( $contribution->contribution_status_id == 4 ) {
                     if ( $membership ) {
                         $membership->status_id = 4;
@@ -1012,6 +1022,9 @@ WHERE  contribution_id = {$this->_id}
                     if ( $participant ) {
                         $participant->status_id = 4;
                         $participant->save( );
+                    }
+                    if ( $pledgePayment ) {
+                        CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $pledgeID, $pledgePaymentIDs, 4 );   
                     }
                 } elseif ( $contribution->contribution_status_id == 1 ) {
                     if ( $membership ) {
@@ -1035,6 +1048,9 @@ WHERE  contribution_id = {$this->_id}
                         $participant->status_id = 1;
                         $participant->save( );
                     }
+                    if ( $pledgePayment ) {
+                        CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $pledgeID, $pledgePaymentIDs, 1 );   
+                    }
                 }
             }
             
@@ -1057,14 +1073,15 @@ WHERE  contribution_id = {$this->_id}
             }
             
             //update pledge payment status.
-            if ( $this->_ppID && $contribution->id ) { 
+            if ( ($this->_ppID && $contribution->id) && $this->_action & CRM_Core_Action::ADD ) { 
+             
                 //store contribution id in payment record.
                 CRM_Core_DAO::setFieldValue('CRM_Pledge_DAO_Payment', $this->_ppID, 'contribution_id', $contribution->id );
 
                 require_once 'CRM/Pledge/BAO/Payment.php';
                 CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $this->_pledgeID, array( $this->_ppID ), 
                                                                    $contribution->contribution_status_id );
-            }
+            } 
             
             $statusMsg = ts('The contribution record has been saved.');
             if ( $formValues['is_email_receipt'] ) {
@@ -1082,26 +1099,35 @@ SELECT    c.id                 as contribution_id,
           mp.membership_id     as membership_id,
           m.membership_type_id as membership_type_id,
           pp.participant_id    as participant_id,
-          p.event_id           as event_id
+          p.event_id           as event_id,
+          pgp.id               as pledge_payment_id
 FROM      civicrm_contribution c
-LEFT JOIN civicrm_membership_payment  mp ON mp.contribution_id = c.id
-LEFT JOIN civicrm_participant_payment pp ON pp.contribution_id = c.id
-LEFT JOIN civicrm_participant         p  ON pp.participant_id  = p.id
-LEFT JOIN civicrm_membership          m  ON m.id  = mp.membership_id
+LEFT JOIN civicrm_membership_payment  mp   ON mp.contribution_id = c.id
+LEFT JOIN civicrm_participant_payment pp   ON pp.contribution_id = c.id
+LEFT JOIN civicrm_participant         p    ON pp.participant_id  = p.id
+LEFT JOIN civicrm_membership          m    ON m.id  = mp.membership_id
+LEFT JOIN civicrm_pledge_payment      pgp  ON pgp.contribution_id  = c.id
 WHERE     c.id = $contributionID";
 
         $rows = array( );
         $dao = CRM_Core_DAO::executeQuery( $query,
                                            CRM_Core_DAO::$_nullArray );
+        $pledgePayment = array( );
         while ( $dao->fetch( ) ) {
             $rows = array(
                           'component'       => $dao->participant_id ? 'event' : 'contribute',
                           'membership'      => $dao->membership_id,
                           'membership_type' => $dao->membership_type_id,
                           'participant'     => $dao->participant_id,
-                          'event'           => $dao->event_id,
+                          'event'           => $dao->event_id
                           );
+            if ( $dao->pledge_payment_id ) {
+                $pledgePayment[] = $dao->pledge_payment_id;
+            }
         }
+        if ( $pledgePayment ) {
+            $rows['pledge_payment'] = $pledgePayment; 
+        }  
         return $rows;
     }
     

@@ -99,11 +99,15 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
     {
         $eventPage            =& new CRM_Event_DAO_EventPage( );
         $eventPage->event_id  =  CRM_Utils_Array::value( 'event_id', $params );
-        
-        $is_pay_later = $eventPage->find(true) ? $eventPage->is_pay_later : false;
-
         $eventPage->copyValues( $params );
-        $eventPage->is_pay_later = CRM_Utils_Array::value( 'is_pay_later', $params, $is_pay_later );
+
+        // we get the eventPage id from the event_id association, hence this find
+        if ( $eventPage->event_id ) {
+            $eventPage->id = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_EventPage',
+                                                          $eventPage->event_id,
+                                                          'id',
+                                                          'event_id' );
+        }
 
         $eventPage->save( );
         return $eventPage;
@@ -193,7 +197,6 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
             require_once 'CRM/Core/BAO/UFGroup.php';
             if ( CRM_Core_BAO_UFGroup::filterUFGroups($gid, $cid) ){
                 $values = array( );
-                $groupTitle = null;
                 $fields = CRM_Core_BAO_UFGroup::getFields( $gid, false, CRM_Core_Action::VIEW );
 
                 //this condition is added, since same contact can have multiple event registrations..
@@ -207,15 +210,33 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
                     $params[] = array( 'participant_test', '=', 1, 0, 0 );
                 }
                 
+                $groupTitle = null;
+                foreach( $fields as $k => $v  ) {
+                    if ( ! $groupTitle ) {
+                        $groupTitle = $v["groupTitle"];
+                    }
+                    // suppress all file fields from display
+                    if ( CRM_Utils_Array::value( 'data_type', $v, '' ) == 'File' ) {
+                        unset( $fields[$k] );
+                    }
+                }
+
+                if ( $groupTitle ) {
+                    $template->assign( $name."_grouptitle", $groupTitle );
+                }
+
+
                 CRM_Core_BAO_UFGroup::getValues( $cid, $fields, $values , false, $params );
-                
-                if ( isset($values[$fields['participant_status_id']['title']]) ) {
+
+                if ( isset($values[$fields['participant_status_id']['title']]) &&
+                     is_numeric( $values[$fields['participant_status_id']['title']] ) ) {
                     $status = array( );
                     $status = CRM_Event_PseudoConstant::participantStatus( );
                     $values[$fields['participant_status_id']['title']] = $status[$values[$fields['participant_status_id']['title']]];
                 }
                 
-                if ( isset($values[$fields['participant_role_id']['title']]) ) {
+                if ( isset( $values[$fields['participant_role_id']['title']] ) &&
+                     is_numeric( $values[$fields['participant_role_id']['title']] ) ) {
                     $roles = array( );
                     $roles = CRM_Event_PseudoConstant::participantRole( );
                     $values[$fields['participant_role_id']['title']] = $roles[$values[$fields['participant_role_id']['title']]];
@@ -240,13 +261,6 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
                 
                 unset( $values[$fields['participant_id']['title']] );
 
-                foreach( $fields as $v  ) {
-                    if ( ! $groupTitle ) {
-                        $groupTitle = $v["groupTitle"];
-                    } else {
-                        break;
-                    }
-                }
                 //return if we only require array of participant's info.
                 if ( $isCustomProfile ) {
                     if ( count($values) ) {
@@ -255,10 +269,6 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
                         return null;
                     }
                 } 
-
-                if ( $groupTitle ) {
-                    $template->assign( $name."_grouptitle", $groupTitle );
-                }
 
                 if ( count( $values ) ) {
                     $template->assign( $name, $values );
@@ -500,17 +510,18 @@ WHERE  id = $cfID
         //else build array of Additional participant's information. 
         if ( count($additionalIDs) ) { 
             if ( $values['custom_pre_id'] || $values['custom_post_id'] ) {
+                $template =& CRM_Core_Smarty::singleton( );
                 $isCustomProfile = true;
                 $i = 1;
                 foreach ( $additionalIDs as $pId => $cId ) {
                     $profilePre =  self::buildCustomDisplay( $values['custom_pre_id'], 'customPre',
-                                                                                $cId, $template, $pId, $isTest, $isCustomProfile );
+                                                             $cId, $template, $pId, $isTest, $isCustomProfile );
                     if ( $profilePre ) {
                         $customProfile[$i]['customPre'] =  $profilePre;
                     }
 
                     $profilePost =  self::buildCustomDisplay( $values['custom_post_id'], 'customPost',
-                                                                                 $cId, $template, $pId, $isTest, $isCustomProfile );
+                                                              $cId, $template, $pId, $isTest, $isCustomProfile );
                     if ( $profilePost ) {
                         $customProfile[$i]['customPost'] =  $profilePost;
                     }

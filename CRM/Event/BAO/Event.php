@@ -348,7 +348,12 @@ LIMIT      0, 10
                     $eventSummary['events'][$dao->id][$property] = 
                         CRM_Utils_Date::customFormat($dao->$name,'%b %e, %Y', array( 'd' ) );
                 } else if ( $name == 'participants' || $name == 'pending' ) {
-                    $eventSummary['events'][$dao->id][$property] = $eventParticipant[$name][$dao->id] ? $eventParticipant[$name][$dao->id] : 0;
+                    if ( CRM_Utils_Array::value( $dao->id, $eventParticipant[$name] ) ) {
+                        $eventSummary['events'][$dao->id][$property] = $eventParticipant[$name][$dao->id] ? $eventParticipant[$name][$dao->id] : 0;
+                    } else {
+                        $eventSummary['events'][$dao->id][$property] = 0;
+                    }
+                    
                     if ( $name == 'participants' && 
                          CRM_Utils_Array::value( $dao->id, $eventParticipant['participants'] ) ) { 
                         // pass the status true to get status with filter = 1
@@ -398,8 +403,8 @@ LIMIT      0, 10
         }
         require_once 'CRM/Event/PseudoConstant.php';
 
-        $statusTypes         = CRM_Event_PseudoConstant::participantStatus( null, false );
-        $statusTypesPending  = CRM_Event_PseudoConstant::participantStatus( null, -1 );
+        $statusTypes         = CRM_Event_PseudoConstant::participantStatus( null, "filter = 1" );
+        $statusTypesPending  = CRM_Event_PseudoConstant::participantStatus( null, "filter = 0" );
         
         $eventSummary['statusDisplay'] = implode( '/', array_values( $statusTypes ) );
         $eventSummary['statusDisplayPending'] = implode( '/', array_values( $statusTypesPending ) );
@@ -419,14 +424,14 @@ LIMIT      0, 10
     {
         if ( !$status ) {
             require_once 'CRM/Event/PseudoConstant.php';
-            $statusTypes  = CRM_Event_PseudoConstant::participantStatus( null, false ); 
+            $statusTypes  = CRM_Event_PseudoConstant::participantStatus( null, "filter = 1" ); 
             $status = implode( ',', array_keys( $statusTypes ) );
             if ( !$status ) {
                 $status = 0;
             }
         } else {
             require_once 'CRM/Event/PseudoConstant.php';
-            $statusTypes  = CRM_Event_PseudoConstant::participantStatus( null, -1 ); 
+            $statusTypes  = CRM_Event_PseudoConstant::participantStatus( null, "filter = 0" ); 
             $status = implode( ',', array_keys( $statusTypes ) );
             if ( !$status ) {
                 $status = 0;
@@ -655,7 +660,6 @@ WHERE civicrm_event.is_active = 1
      */
     static function copy( $id )
     {
-        $fieldsToPrefix = array( 'title' => ts( 'Copy of ' ) );
         $loc_blk        = $defaults = array();
         $loc_blk['id']  = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $id, 'loc_block_id' );
         
@@ -675,6 +679,13 @@ WHERE civicrm_event.is_active = 1
                                                       $copyLocationParams ) ;
         
         $fieldsToPrefix = array( 'title' => ts( 'Copy of ' ) );
+
+        // 
+        $isShowLocation  = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $id, 'is_show_location' );
+        if ( ! $isShowLocation ) {
+            $fieldsToPrefix['is_show_location'] = 0;
+        }
+
         $copyEvent      =& CRM_Core_DAO::copyGeneric( 'CRM_Event_DAO_Event', 
                                                       array( 'id' => $id ), 
                                                       array( 'loc_block_id' => $copyLocation->id ), 
@@ -697,6 +708,11 @@ WHERE civicrm_event.is_active = 1
                                                       array( 'entity_id'    => $copyEvent->id ) );
 
         $eventPageId = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_EventPage', $id, 'id', 'event_id' );       
+        
+        $copyTellFriend =& CRM_Core_DAO::copyGeneric( 'CRM_Friend_DAO_Friend', 
+                                                      array( 'entity_id'    => $id,
+                                                             'entity_table' => 'civicrm_event_page'),
+                                                      array( 'entity_id'    => $copyEventPage->id ) );
 
         require_once "CRM/Core/BAO/OptionGroup.php";
         //copy option Group and values
@@ -706,21 +722,21 @@ WHERE civicrm_event.is_active = 1
                                                                              CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_EventPage', 
                                                                                                           $eventPageId, 'default_fee_id' ) );
         
-        
         //copy discounted fee levels
         require_once 'CRM/Core/BAO/Discount.php';
         $discount = CRM_Core_BAO_Discount::getOptionGroup( $id, 'civicrm_event' );
+        
         if ( !empty ( $discount ) ) {
             foreach ( $discount as $discountOptionGroup ) {
                 $name = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup',
                                                      $discountOptionGroup );
                 $length         = substr_compare($name, "civicrm_event_page.amount.". $id, 0);
                 $discountSuffix = substr($name, $length * (-1));
-                CRM_Core_BAO_OptionGroup::copyValue('event', 
-                                                    $eventPageId, 
-                                                    $copyEventPage->id, 
-                                                    false,
-                                                    $discountSuffix );
+                $copyEventPage->default_discount_id = CRM_Core_BAO_OptionGroup::copyValue('event', 
+                                                                                          $eventPageId, 
+                                                                                          $copyEventPage->id, 
+                                                                                          CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_EventPage', $eventPageId, 'default_discount_id' ),
+                                                                                          $discountSuffix );
             }
         }
         
@@ -738,7 +754,7 @@ WHERE civicrm_event.is_active = 1
  
             foreach ( $table as $tableName => $tableColumns ) {
                 $insert = 'INSERT INTO ' . $tableName. ' (' .implode(', ',$tableColumns). ') '; 
-                $tableColumns[1] = $copyEvent->id;
+                $tableColumns[0] = $copyEvent->id;
                 $select = 'SELECT ' . implode(', ',$tableColumns); 
                 $from = ' FROM '  . $tableName;
                 $where = " WHERE {$tableName}.entity_id = {$id}"  ;

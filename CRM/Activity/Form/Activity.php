@@ -100,12 +100,20 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             return CRM_Custom_Form_CustomData::preProcess( $this );
         }
 
-        $this->_addContact     = CRM_Utils_Array::value( 'contact', $_GET );
+        $this->_addAssigneeContact = CRM_Utils_Array::value( 'assignee_contact', $_GET );
 
-        $this->assign('addContact', false);
-        if ( $this->_addContact ) {
-            $this->assign('addContact', true);
+        $this->assign('addAssigneeContact', false);
+        if ( $this->_addAssigneeContact ) {
+            $this->assign('addAssigneeContact', true);
         }
+
+        $this->_addTargetContact = CRM_Utils_Array::value( 'target_contact', $_GET );
+
+        $this->assign('addTargetContact', false);
+        if ( $this->_addTargetContact ) {
+            $this->assign('addTargetContact', true);
+        }
+
 
         $session =& CRM_Core_Session::singleton( );
         $this->_currentUserId = $session->get( 'userID' );
@@ -116,16 +124,18 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
 
         $this->_action = CRM_Utils_Request::retrieve('action', 'String', $this );
 
-        // if we're not adding new one, there must be an id to
-        // an activity we're trying to work on.
-        if ($this->_action != CRM_Core_Action::ADD) {
-            $this->_activityId = $this->get('id');
+        if ( $this->_context != 'search') {
+            // if we're not adding new one, there must be an id to
+            // an activity we're trying to work on.
+            if ($this->_action != CRM_Core_Action::ADD) {
+                $this->_activityId = $this->get('id');
+            }
+            
+            if ( ! $this->_activityId ) {
+                $this->_activityId = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
+            }
         }
         
-        if ( ! $this->_activityId ) {
-            $this->_activityId = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
-        }
-
         $this->_currentlyViewedContactId = $this->get('contactId');
         
         if ( ! $this->_currentlyViewedContactId ) {
@@ -135,13 +145,6 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         $this->_activityTypeId = CRM_Utils_Request::retrieve( 'atype', 'Positive', $this );
 
         $this->assign( 'atype',$this->_activityTypeId );
-        if ( !$this->_caseId && $this->_activityId ) {
-            $this->_caseId = CRM_Core_DAO::getFieldValue( 'CRM_Case_DAO_CaseActivity',
-                                                          $this->_activityId,
-                                                          'case_id',
-                                                          'activity_id' );
-            $this->assign( 'caseId', $this->_caseId );
-        }
                 
         //check the mode when this form is called either single or as
         //search task action
@@ -179,8 +182,17 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         $this->_viewOptions = CRM_Core_BAO_Preferences::valueOptions( 'contact_view_options', true, null, true );
         
         $this->_caseId = CRM_Utils_Request::retrieve( 'caseid', 'Positive', $this );
-        
-        if ( in_array( $this->_context, array( 'standalone', 'home') ) ) {
+
+        if ( !$this->_caseId && $this->_activityId ) {
+            $this->_caseId = CRM_Core_DAO::getFieldValue( 'CRM_Case_DAO_CaseActivity',
+                                                          $this->_activityId,
+                                                          'case_id',
+                                                          'activity_id' );
+        }
+        if ( $this->_caseId ) {
+            $this->assign( 'caseId', $this->_caseId );
+        }
+        if ( in_array( $this->_context, array( 'standalone', 'home', 'search') ) ) {
             $url = CRM_Utils_System::url('civicrm/dashboard', 'reset=1' );
         } else if ( $this->_context == 'case') {
             $url = CRM_Utils_System::url('civicrm/contact/view/case',
@@ -198,13 +210,21 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             CRM_Custom_Form_CustomData::buildQuickForm( $this );
             CRM_Custom_Form_CustomData::setDefaultValues( $this );
         }
-        
+
         // build assignee contact combo
         if ( CRM_Utils_Array::value( 'assignee_contact', $_POST ) ) {
             foreach ( $_POST['assignee_contact'] as $key => $value ) {
                 CRM_Contact_Form_AddContact::buildQuickForm( $this, "assignee_contact[{$key}]" );
             }
             $this->assign( 'assigneeContactCount', count( $_POST['assignee_contact'] ) );
+        }
+
+        // build target contact combo
+        if ( CRM_Utils_Array::value( 'target_contact', $_POST ) ) {
+            foreach ( $_POST['target_contact'] as $key => $value ) {
+                CRM_Contact_Form_AddContact::buildQuickForm( $this, "target_contact[{$key}]" );
+            }
+            $this->assign( 'targetContactCount', count( $_POST['target_contact'] ) );
         }
         
         // add attachments part
@@ -230,7 +250,6 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         
         $defaults = array( );
         $params   = array( );
-        
         // if we're editing...
         if ( isset( $this->_activityId ) ) {
             $params = array( 'id' => $this->_activityId );
@@ -243,8 +262,22 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                 list( $defaults['duration_hours'], $defaults['duration_minutes'] ) = CRM_Utils_Date::unstandardizeTime( $defaults['duration'] );
             }
 
+            //set the assigneed contact count to template
+            if ( !empty( $defaults['assignee_contact'] ) ) {
+                $this->assign( 'assigneeContactCount', count( $defaults['assignee_contact'] ) );
+            } else {
+                $this->assign( 'assigneeContactCount', 1 );
+            }
+            //set the target contact count to template
+            if ( !empty( $defaults['target_contact'] ) ) {
+                $this->assign( 'targetContactCount', count( $defaults['target_contact'] ) );
+            } else {
+                $this->assign( 'targetContactCount', 1 );
+            }
+
             if ( $this->_context != 'standalone' )  {
-                $this->assign( 'target_contact_value', $defaults['target_contact'] );
+                $this->assign( 'target_contact_value', $defaults['target_contact_value'] );
+                $this->assign( 'assignee_contact_value', $defaults['assignee_contact_value'] );
                 $this->assign( 'source_contact_value', $defaults['source_contact'] );
             }
         } else {
@@ -252,20 +285,11 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             // since those are dojo fields, unfortunately we cannot use defaults directly
             $this->_sourceContactId = $this->_currentUserId;
             $this->_targetContactId = $this->_currentlyViewedContactId;
-            $this->_assigneeContactId = null;
 
+            $defaults['target_contact[1]'] = $this->_targetContactId;
             $defaults['activity_date_time'] = array( );
             CRM_Utils_Date::getAllDefaultValues( $defaults['activity_date_time'] );
             $defaults['activity_date_time']['i'] = (int ) ( $defaults['activity_date_time']['i'] / 15 ) * 15;
-
-        }
-
-        if ( isset( $this->_caseId ) ) {
-            $defaults['case_subject'] = CRM_Core_DAO::getFieldValue('CRM_Case_BAO_Case', $this->_caseId,'subject' );
-        }
-        
-        if ( CRM_Utils_Array::value( 'case_subject' , $defaults ) ){
-            $this->assign( 'subject_value', $defaults['case_subject'] );
         }
 
         if (  $this->_activityTypeId ) {
@@ -302,13 +326,22 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             return CRM_Custom_Form_CustomData::buildQuickForm( $this );
         }
 
-        if ( $this->_addContact ) {
+        if ( $this->_addAssigneeContact ) {
             $contactCount = CRM_Utils_Array::value( 'count', $_GET );
             $nextContactCount = $contactCount + 1;
             $this->assign('contactCount', $contactCount );
             $this->assign('nextContactCount', $nextContactCount );
             $this->assign('contactFieldName', 'assignee_contact' );
             return CRM_Contact_Form_AddContact::buildQuickForm( $this, "assignee_contact[{$contactCount}]" );
+        }
+
+        if ( $this->_addTargetContact ) {
+            $contactCount = CRM_Utils_Array::value( 'count', $_GET );
+            $nextContactCount = $contactCount + 1;
+            $this->assign('contactCount', $contactCount );
+            $this->assign('nextContactCount', $nextContactCount );
+            $this->assign('contactFieldName', 'target_contact' );
+            return CRM_Contact_Form_AddContact::buildQuickForm( $this, "target_contact[{$contactCount}]" );
         }
 
         //build other activity links
@@ -378,20 +411,12 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         $admin = CRM_Core_Permission::check( 'administer CiviCRM' );
         $this->assign('admin', $admin);
         
-        require_once "CRM/Contact/BAO/Contact.php";
-
-        if ( $this->_sourceContactId ) {
-            $defaultSourceContactName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
-                                                                     $this->_sourceContactId,
-                                                                     'sort_name' );
-        }
-
         $sourceContactField =& $this->add( 'text','source_contact_id', ts('Added By'), $attributes, $admin );
         if ( $sourceContactField->getValue( ) ) {
-            $this->assign( 'source_contact_value',  $sourceContactField->getValue( ) );
-        } else {
+            $this->assign( 'source_contact',  $sourceContactField->getValue( ) );
+        } else if ( $this->_sourceContactId ) {
             // we're setting currently LOGGED IN user as source for this activity
-            $this->assign( 'source_contact_value', $defaultSourceContactName );
+            $this->assign( 'source_contact', $this->_sourceContactId );
         }
 
         //need to assign custom data type and subtype to the template
@@ -400,6 +425,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         $this->assign('entityId',  $this->_activityId );
 
         if ( in_array( $this->_context, array('standalone', 'case') ) )  {
+            $urlParams = null;
             if ( $this->_currentlyViewedContactId ) {
                 $urlParams = "cid={$this->_currentlyViewedContactId}&";
             }
@@ -426,46 +452,22 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                 $this->assign('customDataSubType', $customDataSubType[0] );
             }
         }
-
-        if ( $this->_targetContactId ) {
+        
+        if ( $this->_targetContactId && $this->_context != 'standalone' ) {
             $defaultTargetContactName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
                                                                      $this->_targetContactId,
                                                                      'sort_name' );
-        }
-        
-        $targetContactField =& $this->add( 'text','target_contact', ts('With Contact'), $attributes, isset($standalone) ? $standalone : "" );
-        if ( $targetContactField->getValue( ) ) {
-            $this->assign( 'target_contact_value',  $targetContactField->getValue( ) );
-        } else {
-            // we're setting currently VIEWED user as target for this activity
             $this->assign( 'target_contact_value', $defaultTargetContactName );
         }
-
-        if ( $this->_assigneeContactId ) {
-//             $defaultAssigneeContactName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
-//                                                                        $this->_assigneeContactId,
-//                                                                        'sort_name' );
-        }
-        
-        //$assigneeContactField = $this->add( 'text','assignee_contact[1]', ts('Assigned To'), $attributes );
-//         if ( $assigneeContactField->getValue( ) ) {
-//             $this->assign( 'assignee_contact_value',  $assigneeContactField->getValue( ) );
-//         } else {
-//             // at this stage, we're not assigning any default contact to assigned user - it
-//             // was earlier set to null in setDefaultValues
-//             $this->assign('assignee_contact_value', $defaultAssigneeContactName );
-//         }
         
         // Should we include Case Subject field (cases are enabled, we in a Contact's context - not standalone, and contact has one or more cases)
         if ( $this->_viewOptions['CiviCase'] && $this->_context != 'standalone' ) {
             $this->assign('caseEnabled', 1);
             require_once 'CRM/Case/BAO/Case.php';
-            $params = array( 'contact_id' => $this->_currentlyViewedContactId );
-            $values = $ids = array( );
-            CRM_Case_BAO_Case::getValues( $params, $values, $ids );
-            if ( $values ) {
+            $cases = CRM_Case_BAO_Case::retrieveCaseIdsByContactId( $this->_currentlyViewedContactId );
+            if ( !empty($cases) ) {
                 $this->assign('hasCases', 1); 
-                $caseAttributes = array( 'dojoType'       => 'dijit.form.ComboBox',
+                $caseAttributes = array( 'dojoType'       => 'civicrm.FilteringSelect',
                                          'mode'           => 'remote',
                                          'store'          => 'caseStore');
                 
@@ -474,15 +476,17 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
                                                   true, null, false );
                 $this->assign('caseUrl',$caseUrl );
                 
-                $subject = $this->add( 'text','case_subject',ts('Case'), $caseAttributes );
+                $subject = $this->add( 'text','case_id',ts('Case'), $caseAttributes );
+                
                 if ( $subject->getValue( ) ) {
-                    $this->assign( 'subject_value',  $subject->getValue( ) );
+                    $caseSbj=CRM_Core_DAO::getFieldValue('CRM_Case_DAO_Case',$subject->getValue( ), 'subject' );
+                    $this->assign( 'subject_value',  $caseSbj );
                 }
             } else {
                 $this->assign('hasCases', 0);
             }
         }
-
+        
         if ( $config->civiHRD ) {
             require_once 'CRM/Core/OptionGroup.php';
             $caseActivityType = CRM_Core_OptionGroup::values('case_activity_type');
@@ -541,7 +545,6 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         if  ( CRM_Utils_Array::value( '_qf_Activity_next_',$fields) == 'Delete' ) {
             return true;
         }
-
         $errors = array( );
         if ( ! $self->_single && ! $fields['activity_type_id']) {
             $errors['activity_type_id'] = ts('Activity Type is a required field');
@@ -550,46 +553,33 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         //FIX me temp. comment
         // make sure if associated contacts exist
         require_once 'CRM/Contact/BAO/Contact.php';
-//         if ( $fields['source_contact'] ) {
-//             $source_contact_id   = self::_getIdByDisplayName( $fields['source_contact'] );
-            
-//             if ( !$source_contact_id ) {
-//                 $errors['source_contact'] = ts('Source Contact non-existant!');
-//             }
-//         }
-
-//         if ( CRM_Utils_Array::value('target_contact',$fields) ) {
-//             $target_contact_id   = self::_getIdByDisplayName( $fields['target_contact'] );
-
-//             if ( !$target_contact_id ) {
-//                 $errors['target_contact'] = ts('Target Contact non-existant!');
-//             }
-//         }
-
-//         if ( $fields['assignee_contact'] ) {
-//             $assignee_contact_id = self::_getIdByDisplayName( $fields['assignee_contact'] );
-            
-//             if ( !$assignee_contact_id ) {
-//                 $errors['assignee_contact'] = ts('Assignee Contact non-existant!');
-//             }
-//         }
-        
-        if ( $fields['activity_type_id'] == 3 && $fields['status'] == 'Scheduled' ) {
-            $errors['status'] = ts('You cannot record scheduled email activity.');
-        } else if ( $fields['activity_type_id'] == 4 && $fields['status'] == 'Scheduled' ) {
-            $errors['status'] = ts('You cannot record scheduled SMS activity.');
+       
+        if ( $fields['source_contact_id'] && ! is_numeric($fields['source_contact_id'])) {
+            $errors['source_contact_id'] = ts('Source Contact non-existant!');
         }
 
-        if ( $fields['case_subject'] ) {
-            require_once 'CRM/Case/DAO/Case.php';
-            $caseDAO =& new CRM_Case_DAO_Case();
-            $caseDAO->subject = $fields['case_subject'];
-            $caseDAO->find(true);
-            
-            if ( !$caseDAO->id ) {
-                $errors['case_subject'] = ts('Invalid Case');
+        foreach ( $fields['assignee_contact'] as $key => $id ) {
+            if ( $id && ! is_numeric($id)) {
+                $errors["assignee_contact[$key]"] = ts('Assignee Contact '.$key.' non-existant!');
             }
         }
+
+        foreach ( $fields['target_contact'] as $key => $id ) {
+            if ( $id && ! is_numeric($id)) {
+                $errors["target_contact[$key]"] = ts('Target Contact '.$key.' non-existant!');
+            }
+        }
+        
+        if ( $fields['activity_type_id'] == 3 && $fields['status_id'] == 1 ) {
+            $errors['status_id'] = ts('You cannot record scheduled email activity.');
+        } else if ( $fields['activity_type_id'] == 4 && $fields['status_id'] == 1 ) {
+            $errors['status_id'] = ts('You cannot record scheduled SMS activity.');
+        }
+
+        if ( CRM_Utils_Array::value( 'case_id', $fields) && !is_numeric($fields['case_id'] ) ) {
+            $errors['case_id'] = ts('Plesase select valid Case.');
+        }
+
         return $errors;
     }
     
@@ -617,24 +607,6 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
-        //crm_core_error::Debug( $params ); exit();
-        // format custom data
-        // get mime type of the uploaded file
-        if ( !empty($_FILES) ) {
-            foreach ( $_FILES as $key => $value) {
-                // ignore non custom field files
-                if ( substr( $key, 0, 7 ) == 'custom_' ) {
-                    $files = array( );
-                    if ( $params[$key] ) {
-                        $files['name'] = $params[$key];
-                    }
-                    if ( $value['type'] ) {
-                        $files['type'] = $value['type']; 
-                    }
-                    $params[$key] = $files;
-                }
-            }
-        }
         
         $customData = array( );
         foreach ( $params as $key => $value ) {
@@ -697,6 +669,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         if ( $this->_single ) {
             if ( empty($params['target_contact']) ) {
                 $targetParams['target_contact_id'] = $this->_currentlyViewedContactId;
+                CRM_Activity_BAO_Activity::createActivityTarget( $targetParams );
             } else {
                 foreach ( $params['target_contact'] as $key => $id ) {
                     $targetParams['target_contact_id'] = $id;
@@ -718,10 +691,10 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         }
        
         // add case activity
-        if ( $this->_viewOptions['CiviCase'] ) {
+        if ( $this->_viewOptions['CiviCase'] && $params['case_id']  ) {
             require_once 'CRM/Case/BAO/Case.php';
             $caseParams['activity_id'] = $activity->id;
-            $caseParams['subject'    ] = $params['case_subject'];
+            $caseParams['case_id'    ] = $params['case_id'];
             CRM_Case_BAO_Case::processCaseActivity( $caseParams );        
         }
 

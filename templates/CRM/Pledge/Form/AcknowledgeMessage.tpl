@@ -7,25 +7,31 @@
 
 ===========================================================
 {ts}Pledge Received{/ts} : {$create_date|truncate:10:''|crmDate}
-{ts}Total Pledge Amount{/ts} : {$amount|crmMoney}
+{ts}Total Pledge Amount{/ts} : {$total_pledge_amount|crmMoney}
 
 ===========================================================
 {ts}Payment Schedule{/ts}
 
 ===========================================================
-{ts 1=$eachPaymentAmount|crmMoney 2=$frequency_interval 3=$frequency_unit 4=$installments}%1 every %2 %3 for %4 installments.{/ts}
+{ts 1=$scheduled_amount|crmMoney 2=$frequency_interval 3=$frequency_unit 4=$installments}%1 every %2 %3 for %4 installments.{/ts}
+
 {if $frequency_day}
 
 {ts 1=$frequency_day 2=$frequency_unit}Payments are due on day %1 of the %2.{/ts}
 {/if}
 
+{if $payments}
+{assign var="count" value="1"}
 {foreach from=$payments item=payment}
-Payment {$payment.count} : {$payment.amount|crmMoney} due {$payment.due_date|truncate:10:''|crmDate}
+
+Payment {$count} : {$payment.amount|crmMoney} {if $payment.status eq 1}paid {$payment.receive_date|truncate:10:''|crmDate}{else}due {$payment.due_date|truncate:10:''|crmDate}{/if}
+{assign var="count" value=`$count+1`}
 {/foreach}
+{/if}
  
+
 {ts 1=$domain.phone 2=$domain.email}Please contact us at %1 or send email to %2 if you have questions
 or need to modify your payment schedule.{/ts}
-
 
 {if $honor_block_is_active}
 ===========================================================
@@ -37,12 +43,13 @@ or need to modify your payment schedule.{/ts}
 {/if}
 {/if}
 
-{if $customData}
+{if $customGroup}
+{foreach from=$customGroup item=value key=customName} 
 ===========================================================
-{ts}{$customDataTitle} {/ts}
-
+{$customName}
 ===========================================================
-{foreach from=$customData item=customValue key=customName}
- {$customName} : {$customValue}
+{foreach from=$value item=v key=n}
+ {$n} : {$v}
+{/foreach}
 {/foreach}
 {/if}

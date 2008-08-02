@@ -1,8 +1,7 @@
 {* this template is used for adding/editing/deleting pledge *} 
-{* if $cdType *}
-  {* include file="CRM/Custom/Form/CustomData.tpl" *}
-{* else *}
-{if $showAdditionalInfo and $formType }
+{if $cdType}
+  {include file="CRM/Custom/Form/CustomData.tpl"}
+{elseif $showAdditionalInfo and $formType }
   {include file="CRM/Contribute/Form/AdditionalInfo/$formType.tpl"}
 {else}
 {if !$email and $action neq 8}
@@ -31,27 +30,38 @@
         <tr>
             <td class="font-size12pt right"><strong>{ts}Pledge by{/ts}</strong></td><td class="font-size12pt"><strong>{$displayName}</strong></td>
         </tr>
-        <tr><td class="label">{$form.amount.label}</td><td>{$form.amount.html|crmMoney}</td></tr>
-        <tr><td class="label">&nbsp;</td><td class="description">{ts}Actual amount given by pledger.{/ts}</td></tr>
+        <tr><td class="font-size12pt right">{$form.amount.label}</td><td class="font-size12pt">{$form.amount.html|crmMoney}</td></tr>
         <tr><td class="label">{$form.installments.label}</td><td>{$form.installments.html}&nbsp;&nbsp;{$form.frequency_unit.html} {ts}installments of{/ts} {if $action eq 1}{$form.eachPaymentAmount.html|crmMoney}{elseif $action eq 2}{$eachPaymentAmount|crmMoney}{/if} {ts}each{/ts}</td></tr>
-        <tr><td class="label">{$form.frequency_day.label}</td><td>{$form.frequency_day.html} {ts}day of the period{/ts}<br />
+        <tr><td class="label nowrap">{$form.frequency_day.label}</td><td>{$form.frequency_day.html} {ts}day of the period{/ts}<br />
             <span class="description">{ts}This applies to weekly, monthly and yearly payments.{/ts}</td></tr>
+        {if $form.create_date}	
         <tr><td class="label">{$form.create_date.label}</td><td>{$form.create_date.html}
             {if $hideCalender neq true}
             {include file="CRM/common/calendar/desc.tpl" trigger=trigger_pledge_1}
             {include file="CRM/common/calendar/body.tpl" dateVar=create_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_pledge_1}
             {/if}<br />
+        {/if}
+        {if $create_date}
+            <tr><td class="label">Pledge Made</td><td class="view-value">{$create_date|truncate:10:''|crmDate}
+        {/if}<br />
             <span class="description">{ts}Date when pledge was made by the contributor.{/ts}</span></td></tr>
-        <tr><td class="label">{$form.start_date.label}</td><td>{$form.start_date.html}
+       
+        {if $form.start_date}	
+            <tr><td class="label">{$form.start_date.label}</td><td>{$form.start_date.html}
             {if $hideCalender neq true}
             {include file="CRM/common/calendar/desc.tpl" trigger=trigger_pledge_2}
             {include file="CRM/common/calendar/body.tpl" dateVar=start_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_pledge_2}
             {/if}<br />
+        {/if}
+        {if $start_date}
+            <tr><td class="label">Payments Start</td><td class="view-value">{$start_date|truncate:10:''|crmDate}
+        {/if}<br />
             <span class="description">{ts}Date of first pledge payment.{/ts}</span></td></tr>
+       
         {if $email}
         {if $form.is_acknowledge }
             <tr><td class="label">{$form.is_acknowledge.label}</td><td>{$form.is_acknowledge.html}<br />
-                <span class="description">{ts}Automatically email an acknowledgment of this pledge to {$email}?{/ts}</span></td></tr>
+            <span class="description">{ts}Automatically email an acknowledgment of this pledge to {$email}?{/ts}</span></td></tr>
         {/if}
         {/if}
         <tr id="acknowledgeDate"><td class="label">{$form.acknowledge_date.label}</td><td>{$form.acknowledge_date.html}
@@ -61,19 +71,18 @@
             <tr><td class="label">{$form.contribution_type_id.label}</td><td>{$form.contribution_type_id.html}<br />
             <span class="description">{ts}Sets the default contribution type for payments against this pledge.{/ts}</span></td></tr>
 	    <tr><td class="label">{$form.contribution_page_id.label}</td><td>{$form.contribution_page_id.html}<br />
-            <span class="description">{ts}Sets the contribution page against this pledge.{/ts}</span></td></tr>
+            <span class="description">{ts}Select an Online Contribution page that the user can access to make self-service pledge payments. (Only Online Contribution pages configured to include the Pledge option are listed.){/ts}</span></td></tr>
         
 	    <tr><td class="label">{ts}Pledge Status{/ts}</td><td class="view-value">{$status}<br />
             <span class="description">{ts}Pledges are "Pending" until the first payment is received. Once a payment is received, status is "In Progress" until all scheduled payments are completed. Overdue pledges are ones with payment(s) past due.{/ts}</span></td></tr>
-
-       {/if}      
        </table>
+   
       <div id="customData"></div>
-    {*include custom data js file*}
-    {* include file="CRM/common/customData.tpl" *}
+       {*include custom data js file*}
+       {include file="CRM/common/customData.tpl"}
 
-    {literal}
-    <script type="text/javascript">
+     {literal}
+     <script type="text/javascript">
 
      function verify( ) {
        var element = document.getElementsByName("is_acknowledge");
@@ -108,7 +117,7 @@
       {/foreach}
    </div>
 </div>
-
+{/if} {* not delete mode if*}      
     <dl>    
        <dt></dt><dd class="html-adjust">{$form.buttons.html}</dd>   
     </dl> 
@@ -125,5 +134,6 @@
     invert              = 1
 }
 {/if}
+
 {/if}
-{* closing of main dojo pane if*}
+{* closing of main custom data if}

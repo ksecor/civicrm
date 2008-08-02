@@ -1,9 +1,7 @@
     {foreach from=$lineItem item=value key=priceset}
     {if $value neq 'skip'}
-    {if $priceset eq 0}
-    <strong>{ts}Primary Participant{/ts}</strong>
-    {else}
-    <strong>{ts}Additional Participant {$priceset}{/ts}</strong>
+    {if $priceset GT 0}
+    <br /><strong>{ts}Additional Participant {$priceset}{/ts}</strong>
     {/if}				 
     <table>
             <tr class="columnheader">
@@ -23,4 +21,4 @@
     </table>
     {/if}
     {/foreach}
-        <strong>{ts}Event Total{/ts}: {$totalAmount|crmMoney}</strong>
+    <br /><strong>{ts}Event Total{/ts}: {$totalAmount|crmMoney}</strong>

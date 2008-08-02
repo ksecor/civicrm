@@ -414,5 +414,17 @@ WHERE
         return null;
     }
 
+    static function &htmlTypes( ) {
+        static $htmlTypes = null;
+        if ( ! $htmlTypes ) {
+            $htmlTypes = array(
+                               'Text'     => ts('Text / Numeric Quantity'),
+                               'Select'   => ts('Select'),
+                               'Radio'    => ts('Radio'),
+                               'CheckBox' => ts('CheckBox'),
+                               );
+        }
+        return $htmlTypes;
+    }
 }
 

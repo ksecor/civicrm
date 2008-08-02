@@ -274,6 +274,11 @@ class CRM_Contribute_Page_Tab extends CRM_Contact_Page_View
                                           "reset=1&action={$action}&id={$session->get( 'participantId' )}&cid={$this->_contactId}&context=participant&selectedChild=event" );
             break;
             
+        case 'pledge':
+            $url = CRM_Utils_System::url( 'civicrm/contact/view',
+                                         "reset=1&force=1&cid={$this->_contactId}&selectedChild=pledge" );
+            break;
+            
         default:
             $cid = null;
             if ( $this->_contactId ) {

@@ -120,7 +120,8 @@ class CRM_Utils_Address
                       'state_province'         => CRM_Utils_Array::value( 'state_province', $fields ),
                       'postal_code'            => $fullPostalCode,
                       'country'                => CRM_Utils_Array::value( 'country', $fields ),
-                      'world_region'           => CRM_Utils_Array::value( 'world_region', $fields )
+                      'world_region'           => CRM_Utils_Array::value( 'world_region', $fields ),
+                      'current_employer'       => CRM_Utils_Array::value( 'current_employer', $fields )
                       );
         } else {
             $replacements =

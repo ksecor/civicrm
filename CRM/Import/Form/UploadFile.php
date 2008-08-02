@@ -160,7 +160,8 @@ class CRM_Import_Form_UploadFile extends CRM_Core_Form {
 
         $parser =& new CRM_Import_Parser_Contact( $mapper );
         $parser->setMaxLinesToProcess( 100 );
-        $parser->run( $fileName, $seperator,
+        $parser->run( $fileName,
+                      $seperator,
                       $mapper,
                       $skipColumnHeader,
                       CRM_Import_Parser::MODE_MAPFIELD, $contactType);

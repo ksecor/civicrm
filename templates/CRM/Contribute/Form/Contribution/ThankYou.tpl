@@ -1,7 +1,6 @@
 {if $action & 1024}
     {include file="CRM/Contribute/Form/Contribution/PreviewHeader.tpl"}
 {/if}
-
 <div class="form-item">
     {if $thankyou_text}
     <div id="thankyou_text">
@@ -13,9 +12,9 @@
     
     {* Show link to Tell a Friend (CRM-2153) *}
     {if $friendText}
-        <div class="action-link" id="tell-a-friend">
-            <a href="{$friendURL}" title="{$friendText}">&raquo; {$friendText}</a>
-       </div>
+        <div id="tell-a-friend">
+            <a href="{$friendURL}" title="{$friendText}" class="button"><span>&raquo; {$friendText}</span></a>
+       </div><br /><br />
     {/if}  
 
     <div id="help">
@@ -80,6 +79,19 @@
             {if $is_email_receipt}
                 {ts}You will receive an email receipt for each recurring contribution. The receipts will also include a link you can use if you decide to modify or cancel your future contributions.{/ts}
             {/if}
+            </p>
+        {/if}
+        {if $is_pledge}
+            {if $pledge_frequency_interval GT 1}
+                <p><strong>{ts 1=$pledge_frequency_interval 2=$pledge_frequency_unit 3=$pledge_installments}I pledge to contribute this amount every %1 %2s for %3 installments.{/ts}</strong></p>
+            {else}
+                <p><strong>{ts 1=$pledge_frequency_interval 2=$pledge_frequency_unit 3=$pledge_installments}I pledge to contribute this amount every %2 for %3 installments.{/ts}</strong></p>
+            {/if}
+            <p>
+                {ts 1=$receiptFromEmail}Your initial pledge payment has been processed. You will be able to modify or cancel future pledge payments at any time by logging in to your account or contacting us at %1.{/ts}
+                {if $max_reminders}
+                    {ts 1=$initial_reminder_day}We will send you a payment reminder %1 days prior to each scheduled payment date. The reminder will include a link to a page where you can make your payment online.{/ts}
+                {/if}
             </p>
         {/if}
     </div>

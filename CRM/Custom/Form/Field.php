@@ -166,7 +166,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
             if ( $defaults['data_type'] == 'StateProvince' ) {
                 require_once 'CRM/Core/DAO/StateProvince.php';
                 $daoState =& new CRM_Core_DAO_StateProvince();
-                $stateId = $defaults['default_value'];
+                $stateId = CRM_Utils_Array::value( 'default_value', $defaults );
                 $daoState->id = $stateId;
                 if ( $daoState->find( true ) ) {
                     $defaults['default_value'] = $daoState->name;
@@ -174,13 +174,13 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
             } else if ( $defaults['data_type'] == 'Country' ) {
                 require_once 'CRM/Core/DAO/Country.php';
                 $daoCountry =& new CRM_Core_DAO_Country();
-                $countryId = $defaults['default_value'];
+                $countryId = CRM_Utils_Array::value( 'default_value', $defaults );
                 $daoCountry->id = $countryId;
                 if ( $daoCountry->find( true ) ) {
                     $defaults['default_value'] = $daoCountry->name;
                 }
             }
-            
+
             if ( CRM_Utils_Array::value( 'data_type', $defaults ) ) {
                 $defaults['data_type'] = array( '0' => array_search( $defaults['data_type'],
                                                                      self::$_dataTypeKeys ), 
@@ -188,20 +188,22 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
                 $this->_defaultDataType = $defaults['data_type'];
             }
             
-            $date_parts = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,
-                                   $defaults['date_parts'] );
-            $temp_date_parts = array();
-            if (is_array( $date_parts )) {
-                foreach($date_parts as $v  ) {
-                    if ( $v == 'H') {
-                        $temp_date_parts['h'] = 1;
-                    } else {
-                        $temp_date_parts[$v] = 1;
+            if ( CRM_Utils_Array::value( 'date_parts', $defaults  ) ) {
+                $date_parts = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,
+                                       $defaults['date_parts'] );
+                
+                $temp_date_parts = array( );
+                if (is_array( $date_parts )) {
+                    foreach($date_parts as $v  ) {
+                        if ( $v == 'H') {
+                            $temp_date_parts['h'] = 1;
+                        } else {
+                            $temp_date_parts[$v] = 1;
+                        }
                     }
+                    $defaults['date_parts'] = $temp_date_parts;
                 }
-                $defaults['date_parts'] = $temp_date_parts;
             }
-
             $defaults['option_type'] = 2;
         } else {
             $defaults['option_type'] = 1;
@@ -473,7 +475,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
             $errors['label'] = ts('Name already exists in Database.');
         }
         
-        if (!isset($fields['data_type'][0]) || !$fields['data_type'][1]) {
+        if ( ! isset($fields['data_type'][0]) || !isset($fields['data_type'][1]) ) {
             $errors['_qf_default'] = ts('Please enter valid - Data and Input Field Type.');
         }
 
@@ -506,9 +508,8 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
                 break;
                 
             case 'Boolean':
-                if ( ! CRM_Utils_Rule::integer( $default ) &&
-                     ( $default != '1' || $default != '0' ) ) {
-                    $errors['default_value'] = ts( 'Please enter 1 or 0 as default value.' );
+                if ( $default != '1' && $default != '0' ) {
+                    $errors['default_value'] = ts( 'Please enter 1 (for Yes) or 0 (for No) if you want to set a default value.' );
                 }
                 break;
                 
@@ -571,7 +572,9 @@ SELECT count(*)
         $_flagOption = $_rowError = 0;
         $_showHide =& new CRM_Core_ShowHideBlocks('','');
         $dataType = self::$_dataTypeKeys[$fields['data_type'][0]];
-        $dataField = $fields['data_type'][1];
+        if ( isset( $fields['data_type'][1] ) ) {
+            $dataField = $fields['data_type'][1];
+        }
         $optionFields = array('Select', 'Multi-Select', 'CheckBox', 'Radio');
         
         if ( $fields['option_type'] == 1 ) {
@@ -683,7 +686,8 @@ SELECT count(*)
                 
                 $_flagOption = $_emptyRow = 0;
             }
-        } elseif ( in_array( $dataField, $optionFields ) &&
+        } elseif ( isset( $dataField ) && 
+                   in_array( $dataField, $optionFields ) &&
                    $dataType != 'Boolean' ) {
             if ( ! $fields['option_group_id'] ) {
                 $errors['option_group_id'] = ts( 'You must select a Multiple Choice Option set if you chose Reuse an existing set.' );
@@ -708,26 +712,28 @@ AND    option_group_id = %2";
             $_showHide->addToTemplate();
             CRM_Core_Page::assign('optionRowError', $_rowError);
         } else {
-            switch (self::$_dataToHTML[$fields['data_type'][0]][$fields['data_type'][1]]) {
-            case 'Radio':
-                $_fieldError = 1;
-                CRM_Core_Page::assign('fieldError', $_fieldError);
-                break; 
-                
-            case 'Checkbox':
-                $_fieldError = 1;
-                CRM_Core_Page::assign('fieldError', $_fieldError);
-                break; 
-
-            case 'Select':
-                $_fieldError = 1;
-                CRM_Core_Page::assign('fieldError', $_fieldError);
-                break;
-            default:
-                $_fieldError = 0;
-                CRM_Core_Page::assign('fieldError', $_fieldError);
+            if ( isset( $fields['data_type'][1] ) ) {
+                switch (self::$_dataToHTML[$fields['data_type'][0]][$fields['data_type'][1]]) {
+                case 'Radio':
+                    $_fieldError = 1;
+                    CRM_Core_Page::assign('fieldError', $_fieldError);
+                    break; 
+                    
+                case 'Checkbox':
+                    $_fieldError = 1;
+                    CRM_Core_Page::assign('fieldError', $_fieldError);
+                    break; 
+                    
+                case 'Select':
+                    $_fieldError = 1;
+                    CRM_Core_Page::assign('fieldError', $_fieldError);
+                    break;
+                default:
+                    $_fieldError = 0;
+                    CRM_Core_Page::assign('fieldError', $_fieldError);
+                }
             }
-                
+
             for ($idx=1; $idx<= self::NUM_OPTION; $idx++) {
                 $showBlocks = 'optionField_'.$idx;
                 if (!empty($fields['option_label'][$idx])) {
@@ -763,15 +769,28 @@ AND    option_group_id = %2";
     {
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
-
+        
         if ($this->_action == CRM_Core_Action::UPDATE) {
-            $params['data_type'] = $this->_defaultDataType;
+            $params['data_type'] = self::$_dataTypeKeys[$this->_defaultDataType[0]];
+            $params['html_type'] = $this->_defaultDataType[1];
+            $dataTypeKey         = $this->_defaultDataType[0];
+        } else {
+            $dataTypeKey         = $params['data_type'][0];
+            $params['html_type'] = $params['data_type'][1];
+            $params['data_type'] = self::$_dataTypeKeys[$params['data_type'][0]];
         }
-
-        $params['html_type']     = self::$_dataToHTML[$params['data_type'][0]][$params['data_type'][1]];
-        $params['data_type']     = self::$_dataTypeKeys[$params['data_type'][0]];
+        
+        //fix for 'is_search_range' field. 
+        if ( in_array( $dataTypeKey, array( 1, 2, 3, 5 ) ) ) {
+            if ( ! CRM_Utils_Array::value( 'is_searchable', $params ) ) {
+                $params['is_search_range'] = 0;
+            }
+        } else {
+            $params['is_search_range'] = 0;
+        }
         
         // fix for CRM-316
+        $oldWeight = null;
         if ($this->_action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
             $fieldValues = array( 'custom_group_id' => $this->_gid );
             if ( $this->_id ) {
@@ -783,7 +802,7 @@ AND    option_group_id = %2";
 
         //store the primary key for State/Province or Country as default value.
         if ( strlen(trim($params['default_value']))) {
-            switch (self::$_dataTypeKeys[$params['data_type'][0]]) {
+            switch (self::$_dataTypeKeys[$params['option_type']]) {
             case 'StateProvince':
                 $fieldStateProvince = strtolower($params['default_value']);
                 $query = "
@@ -811,15 +830,7 @@ SELECT id
                 break;
             }
         }
-       // for 'is_search_range' field. 
-        if ( in_array( $params['data_type'][0], array( 1, 2, 3, 5 ) ) ) {
-            if ( ! $params['is_searchable'] ) {
-                $params['is_search_range'] = 0;
-            }
-        } else {
-            $params['is_search_range'] = 0;
-        }
-
+        
         if ( !isset ( $params['date_parts']['A'] ) && isset ( $params['date_parts']['h'] ) ) {
             unset( $params['date_parts']['h'] );
             unset( $params['date_parts']['i'] );

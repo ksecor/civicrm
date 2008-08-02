@@ -95,10 +95,17 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             // TODO: with multiple values for assignees and targets, but
             // TODO: for now, let's just fetch first row
             $defaults['assignee_contact'] = CRM_Activity_BAO_ActivityAssignment::retrieveAssigneeIdsByActivityId( $activity->id );
-            
+            $assignee_contact_names = CRM_Activity_BAO_ActivityAssignment::getAssigneeNames( $activity->id );
+            foreach( $assignee_contact_names as $key => $name ) {
+                $defaults['assignee_contact_value'] .= $defaults['assignee_contact_value']?",\"$name\"":"\"$name\"";
+            }
             require_once 'CRM/Activity/BAO/ActivityTarget.php';
             $defaults['target_contact'] = CRM_Activity_BAO_ActivityTarget::retrieveTargetIdsByActivityId( $activity->id );
+            $target_contact_names = CRM_Activity_BAO_ActivityTarget::getTargetNames( $activity->id );
             
+            foreach ( $target_contact_names as $key => $name ) {
+                $defaults['target_contact_value'] .= $defaults['target_contact_value']?",\"$name\"":"\"$name\"";
+            }
             if ( $activity->source_contact_id ) {
                 $defaults['source_contact'] = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
                                                                            $activity->source_contact_id,
@@ -428,7 +435,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         $clause = 1 ;
 
         if ( !$admin ) {
-            $clause = " ( source_contact_id = %1 or target_contact_id = %1 or assignee_contact_id = %1 or civicrm_case.contact_id = %1 ) ";
+            $clause = " ( source_contact_id = %1 or target_contact_id = %1 or assignee_contact_id = %1 or civicrm_case_contact.contact_id = %1 ) ";
             $params = array( 1 => array( $data['contact_id'], 'Integer' ) );
         }
         
@@ -451,6 +458,10 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         
         $query = "select DISTINCT(civicrm_activity.id), civicrm_activity.*,
                          sourceContact.sort_name as source_contact_name,
+                         MAX(civicrm_activity_target.target_contact_id),
+			             targetContact.sort_name as target_contact_name,
+                         MAX(civicrm_activity_assignment.assignee_contact_id),
+			             assigneeContact.sort_name as assignee_contact_name,
                          civicrm_option_value.value as activity_type_id,
                          civicrm_option_value.label as activity_type,
                          civicrm_case_activity.case_id as case_id,
@@ -462,6 +473,10 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                             civicrm_activity.id = civicrm_activity_assignment.activity_id 
                   left join civicrm_contact sourceContact on 
                             source_contact_id = sourceContact.id 
+		          left join civicrm_contact targetContact on 
+                            target_contact_id = targetContact.id 
+                  left join civicrm_contact assigneeContact on 
+                            assignee_contact_id = assigneeContact.id
                   left join civicrm_option_value on
                             ( civicrm_activity.activity_type_id = civicrm_option_value.value )
                   left join civicrm_option_group on  
@@ -470,9 +485,12 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                             civicrm_case_activity.activity_id = civicrm_activity.id
                   left join civicrm_case on
                             civicrm_case_activity.case_id = civicrm_case.id
+                  left join civicrm_case_contact on
+                            civicrm_case_contact.case_id = civicrm_case.id
                   where {$clause}
                         and civicrm_option_group.name = 'activity_type' 
-                        and is_test = 0  and {$contributionFilter} and {$case} and {$statusClause}";
+                        and is_test = 0  and {$contributionFilter} and {$case} and {$statusClause} 
+                        GROUP BY id";
 
         $order = '';
 
@@ -506,6 +524,10 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                                  'subject',                                 
                                  'source_contact_name',
                                  'source_contact_id',
+                                 'target_contact_name',
+                                 'target_contact_id',
+                                 'assignee_contact_name',
+                                 'asignee_contact_id',
                                  'source_record_id',
                                  'case_id',
                                  'case_subject' );
@@ -514,18 +536,13 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         $rowCnt = 0;
         while($dao->fetch()) {
             foreach( $selectorFields as $dc => $field ) {
-                $values[$rowCnt][$field] = $dao->$field;
+                if ( isset($dao->$field ) ) {
+                    $values[$rowCnt][$field] = $dao->$field;
+                }
             }
             $rowCnt++;
         }
 
-        foreach ($values as $activity => &$fields) {
-            $fields['target_contact_ids'] = CRM_Activity_BAO_ActivityTarget::retrieveTargetIdsByActivityId($fields['id']);
-            
-            $fields['assignee_contact_ids'] = CRM_Activity_BAO_ActivityAssignment::retrieveAssigneeIdsByActivityId($fields['id']);
-            
-        } 
-        
         return $values;
     }
 
@@ -581,12 +598,14 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      * @param string $subject      the subject of the message
      * @param string $message      the message contents
      * @param string $emailAddress use this 'to' email address instead of the default Primary address
-     * @param int    userID        use this userID if set
+     * @param int    $userID        use this userID if set
+     * @param string $from
+     * @param array  $attachments   the array of attachments if any
      * @return array             (total, added, notAdded) count of emails sent
      * @access public
      * @static
      */
-    static function sendEmail( &$contactIds, &$subject, &$text, &$html, $emailAddress, $userID = null, $from = null ) 
+    static function sendEmail( &$contactIds, &$subject, &$text, &$html, $emailAddress, $userID = null, $from = null, $attachments = null ) 
     {        
         if ( $userID == null ) {
             $session =& CRM_Core_Session::singleton( );
@@ -671,9 +690,19 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                                 'details'              => $text,
                                 'status_id'            => 2
                                 );
-        
+
+        // add the attachments to activity params here
+        if ( $attachments ) {
+            // first process them
+            $activityParams = array_merge( $activityParams,
+                                           $attachments );
+        }
+
         $activity = self::create($activityParams);
 
+        // get the set of attachments from where they are stored
+        $attachments =& CRM_Core_BAO_File::getEntityFile( 'civicrm_activity',
+                                                          $activity->id );
         $sent = $notSent = array();
         $returnProperties = array();
         if( isset( $messageToken['contact'] ) ) { 
@@ -714,7 +743,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             $tokenText = CRM_Utils_Token::replaceContactTokens( $text, $contact, false, $messageToken);
             $tokenSubject = CRM_Utils_Token::replaceContactTokens( $subject, $contact, false, $subjectToken);
             $tokenHtml = CRM_Utils_Token::replaceContactTokens( $html, $contact, false, $messageToken);
-            if ( self::sendMessage( $from, $userID, $contactId, $tokenSubject, $tokenText, $tokenHtml, $emailAddress, $activity->id ) ) {
+            if ( self::sendMessage( $from, $userID, $contactId, $tokenSubject, $tokenText, $tokenHtml, $emailAddress, $activity->id, $attachments ) ) {
                 $sent[] =  $contactId;
             } else {
                 $notSent[] = $contactId;
@@ -738,7 +767,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      * @access public
      * @static
      */
-    static function sendMessage( $from, $fromID, $toID, &$subject, &$text_message, &$html_message, $emailAddress, $activityID ) 
+    static function sendMessage( $from, $fromID, $toID, &$subject, &$text_message, &$html_message, $emailAddress, $activityID, $attachments = null ) 
     {
         list( $toDisplayName, $toEmail, $toDoNotEmail ) = CRM_Contact_BAO_Contact::getContactDetails( $toID );
         if ( $emailAddress ) {
@@ -761,7 +790,8 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                                      null,
                                      null,
                                      null,
-                                     $html_message) ) {
+                                     $html_message,
+                                     $attachments ) ) {
             return false;
         }
 

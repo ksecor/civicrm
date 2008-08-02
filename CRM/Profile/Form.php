@@ -159,7 +159,7 @@ class CRM_Profile_Form extends CRM_Core_Form
                                                                false, null,
                                                                $this->_skipPermission );
             //if civimail is enable and email field is absent show status
-            if ( CRM_Core_Permission::access( 'CiviMail' ) && $this->_fields['group'] ) {
+            if ( CRM_Core_Permission::access( 'CiviMail' ) && CRM_Utils_Array::value( 'group', $this->_fields ) ) {
                 $emailField = false;
                 foreach ( $this->_fields as $name => $values ) {
                     if ( substr( $name, 0, 6 ) == 'email-' ) {
@@ -518,19 +518,6 @@ class CRM_Profile_Form extends CRM_Core_Form
     {
         $params = $this->controller->exportValues( $this->_name );
 
-        if ( !empty($_FILES) ) {
-            foreach ( $_FILES as $key => $value) {
-                $files = array( );
-                if ( $params[$key] ){
-                    $files['name'] = $params[$key];
-                }
-                if ( $value['type'] ) {
-                    $files['type'] = $value['type']; 
-                }
-                $params[$key] = $files;
-            }
-        }
-        
         if ( $this->_mode == self::MODE_REGISTER ) {
             require_once 'CRM/Core/BAO/Address.php';
             CRM_Core_BAO_Address::setOverwrite( false );

@@ -132,7 +132,9 @@ class CRM_Core_BAO_Preferences extends CRM_Core_DAO_Preferences {
                                  substr( $optionValue, 1, -1 ) );
             if ( ! empty( $dbValues ) ) {
                 foreach ( $dbValues as $key => $val ) {
-                    $returnValues[$groupValues[$val]] = 1;
+                    if ( CRM_Utils_Array::value( $val, $groupValues) ) {
+                        $returnValues[$groupValues[$val]] = 1;
+                    }
                 }
             }
         }

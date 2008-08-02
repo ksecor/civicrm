@@ -2,11 +2,16 @@
     {include file="CRM/common/pager.tpl" location="top"}
 {/if}
 
+{capture assign=iconURL}<img src="{$config->resourceBase}i/TreePlus.gif" alt="{ts}open section{/ts}"/>{/capture}
+{ts 1=$iconURL}Click %1 to view pledge payments.{/ts}
 {strip}
 <table class="selector">
   <tr class="columnheader">
 {if ! $single and $context eq 'Search' }
-  <th scope="col" title="Select Rows">{$form.toggleSelect.html}</th> 
+  <th scope="col" title="Select Rows">{$form.toggleSelect.html}</th>
+{/if}
+{if $single}
+  <th></th>
 {/if}
   {foreach from=$columnHeaders item=header}
     <th scope="col">
@@ -21,15 +26,35 @@
   </tr>
   {counter start=0 skip=1 print=false}
   {foreach from=$rows item=row}
-  <tr id='rowid{$row.pledge_id}' class="{cycle values="odd-row,even-row"} {if $row.pledge_status_id eq 'Overdue' } disabled{/if}">
-     {if ! $single }
+  {cycle values="odd-row,even-row" assign=rowClass}
+  <tr id='rowid{$row.pledge_id}' class='{$rowClass} {if $row.pledge_status_id eq 'Overdue' } disabled{/if}'>
+
         {if $context eq 'Search' }       
             {assign var=cbName value=$row.checkbox}
             <td>{$form.$cbName.html}</td> 
-        {/if}	
-	<td>{$row.contact_type}</td>
+        {/if}
+	<td>
+     {if ! $single }	
+	{$row.contact_type}<br/>
+     {/if}
+	<span id="{$row.pledge_id}_show">
+	    <a href="#" onclick="show('paymentDetails{$row.pledge_id}', 'table-row'); 
+                                 buildPaymentDetails('{$row.pledge_id}','{$row.contact_id}'); 
+ 				 hide('{$row.pledge_id}_show');
+			  	 show('minus{$row.pledge_id}_hide');
+                                 show('{$row.pledge_id}_hide','table-row');
+                                 return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a>
+	</span>
+	<span id="minus{$row.pledge_id}_hide">
+	    <a href="#" onclick="hide('paymentDetails{$row.pledge_id}'); 
+ 				 show('{$row.pledge_id}_show', 'table-row');
+                                 hide('{$row.pledge_id}_hide');
+                                 hide('minus{$row.pledge_id}_hide');
+                                 return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a>
+	</td>
+     {if ! $single }	
     	<td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td>
-    {/if}
+     {/if}
     <td>{$row.pledge_amount|crmMoney}</td>
     <td>{$row.pledge_total_paid|crmMoney}</td>
     <td>{$row.pledge_amount-$row.pledge_total_paid|crmMoney}</td>
@@ -37,21 +62,22 @@
     <td>{$row.pledge_next_pay_date|truncate:10:''|crmDate}</td>
     <td>{$row.pledge_next_pay_amount+$row.pledge_outstanding_amount|crmMoney}</td>
     <td>{$row.pledge_status_id}</td>	
-    <td>{$row.action}<br/>
-	<div id="{$row.pledge_id}_show">
-	    <a href="#" onclick="show('paymentDetails{$row.pledge_id}', 'table-row'); buildPaymentDetails('{$row.pledge_id}','{$row.contact_id}'); hide('{$row.pledge_id}_show');show('{$row.pledge_id}_hide','table-row');return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/>{ts}Payments{/ts}</a>
-	</div>
-    </td>
+    <td>{$row.action}</td>
    </tr>
-   <tr id="{$row.pledge_id}_hide">
-     <td colspan="11">
-         <a href="#" onclick="show('{$row.pledge_id}_show', 'table-row');hide('{$row.pledge_id}_hide');return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}open section{/ts}"/>{ts}Payments{/ts}</a>
-       <br/>
-       <div id="paymentDetails{$row.pledge_id}"></div>
+   <tr id="{$row.pledge_id}_hide" class='{$rowClass}'>
+     <td style="border-right: none;">
      </td>
-  </tr>
+{if $context EQ 'Search'}
+     <td colspan="10">
+{else}
+     <td colspan="9">
+{/if}
+        <div id="paymentDetails{$row.pledge_id}"></div>
+     </td>
+   </tr>
  <script type="text/javascript">
      hide('{$row.pledge_id}_hide');
+     hide('minus{$row.pledge_id}_hide');
  </script>
   {/foreach}
 </table>

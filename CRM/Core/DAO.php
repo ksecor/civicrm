@@ -656,7 +656,11 @@ FROM   civicrm_domain
         eval( '$object   =& new ' . $daoName . '( );' );
         $object->$searchColumn =  $searchValue;
         $object->selectAdd( );
-        $object->selectAdd( 'id, ' . $returnColumn );
+        if ( $returnColumn == 'id' ) {
+            $object->selectAdd( 'id' );
+        } else {
+            $object->selectAdd( "id, $returnColumn" );
+        }
         $result = null;
         if ( $object->find( true ) ) {
             $result = $object->$returnColumn;
@@ -1045,6 +1049,7 @@ SELECT contact_id
 
         $object->find( );
         while ( $object->fetch( ) ) {
+            $defaults = array( );
             self::storeValues( $object, $defaults );
             $details[$object->id] = $defaults;
         }

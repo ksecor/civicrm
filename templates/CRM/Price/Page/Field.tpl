@@ -47,9 +47,8 @@
     
     <div id="field_page">
      <p></p>
-        <div class="form-item">
         {strip}
-         <table cellpadding="0" cellspacing="0" border="0">
+         <table class="selector">
          <tr class="columnheader">
             <th>{ts}Field Label{/ts}</th>
             <th>{ts}Field Type{/ts}</th>
@@ -82,9 +81,7 @@
         {/strip}
         
         <div class="action-link">
-            <a href="{crmURL q="reset=1&action=add&sid=$sid"}" id="newPriceField">&raquo; {ts}New Price Field{/ts}</a>
-        </div>
-
+            <a href="{crmURL q="reset=1&action=add&sid=$sid"}" id="newPriceField" class="button"><span>&raquo; {ts}New Price Field{/ts}</span></a>
         </div>
      </div>
 

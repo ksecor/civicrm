@@ -171,6 +171,8 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base
 
         $this->_query =& new CRM_Contact_BAO_Query( $this->_queryParams, null, null, false, false,
                                                     CRM_Contact_BAO_Query::MODE_PLEDGE);
+
+        $this->_query->_distinctComponentClause = " DISTINCT civicrm_pledge.id ";
     }//end of constructor
 
     
@@ -185,46 +187,49 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base
      * @access public
      *
      */
-    static function &links( $showCancel )
+    static function &links( $hideOption )
     {
-        if (!(self::$_links) || $showCancel ) {
-            $cancelExtra = ts('Cancelling this pledge will also cancel related payment records( not completed). This action can not be undone.Do you want to continue?');
-            self::$_links = array(
-                                  CRM_Core_Action::VIEW   => array(
-                                                                   'name'     => ts('View'),
-                                                                   'url'      => 'civicrm/contact/view/pledge',
-                                                                   'qs'       => 'reset=1&id=%%id%%&cid=%%cid%%&action=view&context=%%cxt%%&selectedChild=pledge',
-                                                                   'title'    => ts('View Pledge'),
-                                                                   ),
-                                  CRM_Core_Action::UPDATE => array(
-                                                                   'name'     => ts('Edit'),
-                                                                   'url'      => 'civicrm/contact/view/pledge',
-                                                                   'qs'       => 'reset=1&action=update&id=%%id%%&cid=%%cid%%&context=%%cxt%%',
-                                                                   'title'    => ts('Edit Pledge'),
-                                                                  ),
-                                  CRM_Core_Action::DETACH => array(
-                                                                   'name'     => ts('Cancel'),
-                                                                   'url'      => 'civicrm/contact/view/pledge',
-                                                                   'qs'       => 'reset=1&action=detach&id=%%id%%&cid=%%cid%%&context=%%cxt%%',
-                                                                   'extra'    => 'onclick = "return confirm(\'' . $cancelExtra . '\');"',
-                                                                   'title'    => ts('Cancel Pledge'),
-                                                                   ),
-                                  CRM_Core_Action::DELETE => array(
-                                                                   'name'     => ts('Delete'),
-                                                                   'url'      => 'civicrm/contact/view/pledge',
-                                                                   'qs'       => 'reset=1&action=delete&id=%%id%%&cid=%%cid%%&context=%%cxt%%',
-                                                                   'title'    => ts('Delete Pledge'),
-                                                                   ),
-                                  ); 
-        }
+        $cancelExtra = ts('Cancelling this pledge will also cancel related payment records( not completed). This action can not be undone.Do you want to continue?');
+        self::$_links = array(
+                              CRM_Core_Action::VIEW   => array(
+                                                               'name'     => ts('View'),
+                                                               'url'      => 'civicrm/contact/view/pledge',
+                                                               'qs'       => 'reset=1&id=%%id%%&cid=%%cid%%&action=view&context=%%cxt%%&selectedChild=pledge',
+                                                               'title'    => ts('View Pledge'),
+                                                               ),
+                              CRM_Core_Action::UPDATE => array(
+                                                               'name'     => ts('Edit'),
+                                                               'url'      => 'civicrm/contact/view/pledge',
+                                                               'qs'       => 'reset=1&action=update&id=%%id%%&cid=%%cid%%&context=%%cxt%%',
+                                                               'title'    => ts('Edit Pledge'),
+                                                               ),
+                              CRM_Core_Action::DETACH => array(
+                                                               'name'     => ts('Cancel'),
+                                                               'url'      => 'civicrm/contact/view/pledge',
+                                                               'qs'       => 'reset=1&action=detach&id=%%id%%&cid=%%cid%%&context=%%cxt%%',
+                                                               'extra'    => 'onclick = "return confirm(\'' . $cancelExtra . '\');"',
+                                                               'title'    => ts('Cancel Pledge'),
+                                                               ),
+                              CRM_Core_Action::DELETE => array(
+                                                               'name'     => ts('Delete'),
+                                                               'url'      => 'civicrm/contact/view/pledge',
+                                                               'qs'       => 'reset=1&action=delete&id=%%id%%&cid=%%cid%%&context=%%cxt%%',
+                                                               'title'    => ts('Delete Pledge'),
+                                                               ),
+                              ); 
         
-        if ( !$showCancel ) {
+        
+        if ( in_array('Cancel', $hideOption ) ) {
             unset( self::$_links[CRM_Core_Action::DETACH] );
         }
+        if ( in_array('Delete', $hideOption ) ) {
+            unset( self::$_links[CRM_Core_Action::DELETE] );
+        }
+        
         return self::$_links;
     } //end of function
 
-
+    
     /**
      * getter for array of the parameters required for creating pager.
      *
@@ -303,18 +308,25 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base
              if ( CRM_Utils_Array::value( 'pledge_is_test', $row ) ) {
                  $row['pledge_status_id'] .= ' (test)';
              }
+            
+             $hideOption = array();
              
-             $showCancel = true;
-             if ( CRM_Utils_Array::key( 'Cancelled', $row ) || CRM_Utils_Array::key('Completed', $row ) ) {
-                 $showCancel = false;
+             if ( CRM_Utils_Array::key( 'Cancelled', $row ) ) {
+                 $hideOption[] = 'Delete';
+                 $hideOption[] = 'Cancel';
              } 
+
+             if ( CRM_Utils_Array::key('Completed', $row ) ) {
+                 $hideOption[] = 'Cancel';
+             } 
+                          
              $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->pledge_id;
              
-             $row['action']   = CRM_Core_Action::formLink( self::links( $showCancel ), $mask,
+             $row['action']   = CRM_Core_Action::formLink( self::links( $hideOption ), $mask,
                                                            array( 'id'  => $result->pledge_id,
                                                                   'cid' => $result->contact_id,
                                                                   'cxt' => $this->_context ) );
-            
+             
              $config =& CRM_Core_Config::singleton( );
              $contact_type    = '<img src="' . $config->resourceBase . 'i/contact_';
              switch ($result->contact_type) {

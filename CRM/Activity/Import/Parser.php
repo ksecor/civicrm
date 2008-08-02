@@ -237,6 +237,10 @@ abstract class CRM_Activity_Import_Parser
                   $mode = self::MODE_PREVIEW,
                   $onDuplicate = self::DUPLICATE_SKIP ) 
     {
+        if ( ! is_array( $fileName ) ) {
+            CRM_Core_Error::fatal( );
+        }
+        $fileName = $fileName['name'];
 
         $this->init();
 

@@ -33,9 +33,6 @@ var FCKTools	= oEditor.FCKTools ;
 // Set the dialog tabs.
 dialog.AddTab( 'Info', oEditor.FCKLang.DlgInfoTab ) ;
 
-if ( FCKConfig.FlashUpload )
-	dialog.AddTab( 'Upload', FCKLang.DlgLnkUpload ) ;
-
 if ( !FCKConfig.FlashDlgHideAdvanced )
 	dialog.AddTab( 'Advanced', oEditor.FCKLang.DlgAdvancedTag ) ;
 
@@ -43,7 +40,6 @@ if ( !FCKConfig.FlashDlgHideAdvanced )
 function OnDialogTabChange( tabCode )
 {
 	ShowE('divInfo'		, ( tabCode == 'Info' ) ) ;
-	ShowE('divUpload'	, ( tabCode == 'Upload' ) ) ;
 	ShowE('divAdvanced'	, ( tabCode == 'Advanced' ) ) ;
 }
 
@@ -66,14 +62,6 @@ window.onload = function()
 
 	// Load the selected element information (if any).
 	LoadSelection() ;
-
-	// Show/Hide the "Browse Server" button.
-	GetE('tdBrowse').style.display = FCKConfig.FlashBrowser	? '' : 'none' ;
-
-	// Set the actual uploader URL.
-	if ( FCKConfig.FlashUpload )
-		GetE('frmUpload').action = FCKConfig.FlashUploadURL ;
-
 	dialog.SetAutoSize( true ) ;
 
 	// Activate the "OK" button.

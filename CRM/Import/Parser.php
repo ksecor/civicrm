@@ -265,6 +265,11 @@ abstract class CRM_Import_Parser {
                   $statusID = null,
                   $totalRowCount = null,
                   $doGeocodeAddress = false ) {
+        if ( ! is_array( $fileName ) ) {
+            CRM_Core_Error::fatal( );
+        }
+        $fileName = $fileName['name'];
+
         switch ($contactType) {
         case CRM_Import_Parser::CONTACT_INDIVIDUAL :
             $this->_contactType = 'Individual';

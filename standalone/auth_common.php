@@ -1,6 +1,7 @@
 <?php
 function displayError($message) {
     print "<div class=\"error\">$message</div>\n";
+    print "<a href=\"index.php\">Home Page</a>\n";
     exit(0);
 }
 
@@ -79,7 +80,7 @@ function getScheme() {
 function getReturnTo() {
     $urlPort = getUrlPort();
     
-    return sprintf("%s://%s:%s%s/finish_auth.php",
+    return sprintf("%s://%s%s%s/finish_auth.php",
                    getScheme(), $_SERVER['SERVER_NAME'],
                    $urlPort,
                    dirname($_SERVER['PHP_SELF']));
@@ -88,7 +89,7 @@ function getReturnTo() {
 function getTrustRoot() {
     $urlPort = getUrlPort();
     
-    return sprintf("%s://%s:%s%s/",
+    return sprintf("%s://%s%s%s/",
                    getScheme(), $_SERVER['SERVER_NAME'],
                    $urlPort,
                    dirname($_SERVER['PHP_SELF']));

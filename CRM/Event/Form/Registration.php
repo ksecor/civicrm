@@ -145,10 +145,14 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         $config  =& CRM_Core_Config::singleton( );
         
         if ( ! $this->_values ) {
-            // this is the first time we are hitting this, so check for permissions her
+            // create redirect URL to send folks back to event info page is registration not available
+            $infoUrl = CRM_Utils_System::url( 'civicrm/event/info',"reset=1&id={$this->_id}",
+                                             true, null, false, true );
+            
+            // this is the first time we are hitting this, so check for permissions here
             if ( ! CRM_Core_Permission::event( CRM_Core_Permission::EDIT,
                                                $this->_id ) ) {
-                CRM_Core_Error::fatal( ts( 'You do not have permission to register for this event' ) );
+                CRM_Core_Error::statusBounce( ts( 'You do not have permission to register for this event' ), $infoUrl );
             }
 
             // get all the values from the dao object
@@ -158,12 +162,11 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             //retrieve event information
             $params = array( 'id' => $this->_id );
             $ids = array();
-            
+
             require_once 'CRM/Event/BAO/Participant.php';
             $eventFull = CRM_Event_BAO_Participant::eventFull( $this->_id );
             if ( $eventFull ) {
-                CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/event/info',"reset=1&id={$this->_id}",
-                                                                   true, null, false ));            
+                CRM_Utils_System::redirect( $infoUrl );            
             }
 
             require_once 'CRM/Event/BAO/Event.php';
@@ -175,26 +178,30 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                 $this->_values['event']['participant_role'] = $participant_role["{$this->_values['event']['default_role_id']}"];
             }
             
-            // check if form is active
+            // is the event active (enabled)?
             if ( ! $this->_values['event']['is_active'] ) {
                 // form is inactive, die a fatal death
-                CRM_Core_Error::statusBounce( ts( 'The page you requested is currently unavailable.' ) );
+                CRM_Core_Error::statusBounce( ts( 'The event you requested is currently unavailable (contact the site administrator for assistance).' ) );
             }
-      
+            
+            // is online registration is enabled?
+            if ( ! $this->_values['event']['is_online_registration'] ) {
+                CRM_Core_Error::statusBounce( ts( 'Online registration is not currently available for this event (contact the site administrator for assistance).' ), $infoUrl );
+            }
             $now = time( );
 
             $startDate = CRM_Utils_Date::unixTime( CRM_Utils_Array::value( 'registration_start_date',
                                                                            $this->_values['event'] ) );
             if ( $startDate &&
                  $startDate >= $now ) {
-                CRM_Core_Error::statusBounce( ts( 'Registration for this event begins on %1', array( 1 => CRM_Utils_Date::customFormat( CRM_Utils_Array::value( 'registration_start_date', $this->_values['event'] ) ) ) ) );
+                CRM_Core_Error::statusBounce( ts( 'Registration for this event begins on %1', array( 1 => CRM_Utils_Date::customFormat( CRM_Utils_Array::value( 'registration_start_date', $this->_values['event'] ) ) ) ), $infoUrl );
             }
 
             $endDate = CRM_Utils_Date::unixTime( CRM_Utils_Array::value( 'registration_end_date',
                                                                          $this->_values['event'] ) );
             if ( $endDate &&
                  $endDate < $now ) {
-                CRM_Core_Error::statusBounce( ts( 'Registration for this event ended on %1', array( 1 => CRM_Utils_Date::customFormat( CRM_Utils_Array::value( 'registration_end_date', $this->_values['event'] ) ) ) ) );
+                CRM_Core_Error::statusBounce( ts( 'Registration for this event ended on %1', array( 1 => CRM_Utils_Date::customFormat( CRM_Utils_Array::value( 'registration_end_date', $this->_values['event'] ) ) ) ), $infoUrl );
             }
 
 
@@ -212,7 +219,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                 $ppID = CRM_Utils_Array::value( 'payment_processor_id',
                                                 $this->_values['event'] );
                 if ( ! $ppID ) {
-                    CRM_Core_Error::fatal( ts( 'A payment processor must be selected for this event registration page (contact the site administrator for assistance).' ) );
+                    CRM_Core_Error::statusBounce( ts( 'A payment processor must be selected for this event registration page, or the event must be configured to give users the option to pay later (contact the site administrator for assistance).' ), $infoUrl );
                 }
                 
                 require_once 'CRM/Core/BAO/PaymentProcessor.php';
@@ -245,6 +252,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             if ( $priceSetId ) {
                 $this->_priceSetId = $priceSetId;
                 $priceSet = CRM_Core_BAO_PriceSet::getSetDetail($priceSetId);
+
                 $this->_priceSet = CRM_Utils_Array::value($priceSetId,$priceSet);
                 $this->_values['custom'] = CRM_Utils_Array::value($priceSetId,$priceSet);
                 $this->set('priceSetId', $this->_priceSetId);
@@ -334,8 +342,9 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
     {
         //process only primary participant params
         $this->_params = $this->get( 'params' );
-        $params = $this->_params[0];
-
+        if( isset( $this->_params[0] ) ){
+            $params = $this->_params[0];
+        }
         $name = '';
         if ( CRM_Utils_Array::value( 'billing_first_name', $params ) ) {
             $name = $params['billing_first_name'];
@@ -415,7 +424,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
      * @return None  
      * @access public  
      */ 
-    function buildCustom( $id, $name, $skipCaptcha = false ) 
+    function buildCustom( $id, $name, $viewOnly = false ) 
     {
         if ( $id ) {
             $button = substr( $this->controller->getButtonName(), -4 );
@@ -444,6 +453,12 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             $addCaptcha = false;
             $this->assign( $name, $fields );
             foreach($fields as $key => $field) {
+                if ( $viewOnly &&
+                     isset( $field['data_type'] ) &&
+                     $field['data_type'] == 'File' ) {
+                    // ignore file upload fields
+                    continue;
+                }
                 //make the field optional if primary participant 
                 //have been skip the additional participant.
                 if ( $button == 'skip' ) {
@@ -457,7 +472,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             }
 
             if ( $addCaptcha &&
-                 ! $skipCaptcha ) {
+                 ! $viewOnly ) {
                 require_once 'CRM/Utils/ReCAPTCHA.php';
                 $captcha =& CRM_Utils_ReCAPTCHA::singleton( );
                 $captcha->add( $this );
@@ -517,7 +532,10 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                 CRM_Core_Error::statusBounce( ts('Your profile is not saved and Account is not created.') );
             }
         }
-
+        //get the amount of primary participant
+        if( CRM_Utils_Array::value('is_primary', $this->_params ) ) {
+            $this->_params['fee_amount'] = $this->get( 'primaryParticipantAmount' );
+        }
         // add participant record
         $participant  = $this->addParticipant( $this->_params, $contactID );
       

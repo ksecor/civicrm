@@ -191,11 +191,14 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         $this->assignToTemplate( );
         //to set amount & levels
         $this->_params = $this->get( 'params' );
-        if( $this->_params[0]['amount'] ) {
+        if( $this->_params[0]['amount'] || $this->_params[0]['amount'] == 0 ) {
             $this->_amount       = array();
                      
             foreach( $this->_params as $k => $v ) {
                 if ( is_array( $v ) ) {
+                    if ( CRM_Utils_Array::value( 'is_primary', $v ) ) {
+                        $this->set( 'primaryParticipantAmount',$v['amount'] );
+                    }
                     $this->_amount[ $v['amount_level'].'  -  '. $v['email-5'] ] = $v['amount'];
                     $this->_totalAmount = $this->_totalAmount + $v['amount'];
                 }
@@ -249,8 +252,9 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         if( $this->_params[0]['amount'] == 0 ) {
             $this->assign( 'isAmountzero', 1 );
         }
+
         if ( $this->_paymentProcessor['payment_processor_type'] == 'Google_Checkout' && 
-             ! CRM_Utils_Array::value( 'is_pay_later', $this->_params[0] ) ) {
+             ! CRM_Utils_Array::value( 'is_pay_later', $this->_params[0] ) && ! ( $this->_params[0]['amount'] == 0 )  ) {
             $this->_checkoutButtonName = $this->getButtonName( 'next', 'checkout' );
             $this->add('image',
                        $this->_checkoutButtonName,
@@ -318,7 +322,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         $participantCount = array( );
         //unset the skip participant from params.
         //build the $participantCount array.
-        //maitain record for all participants.
+        //maintain record for all participants.
         foreach ( $params as $participantNum => $record ) {
             if ( $record == 'skip' ) {
                 unset( $params[$participantNum] );
@@ -385,6 +389,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 $pending = false;
                 $result  = null;
                 if ( CRM_Utils_Array::value( 'is_pay_later', $value ) ||
+                     $value['amount']         == 0                    ||
                      $this->_contributeMode   == 'checkout'           ||
                      $this->_contributeMode   == 'notify' ) {
                     if ( $value['amount'] != 0 ) {
@@ -410,7 +415,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 
                 $value['receive_date'] = $now;
                 
-                if ( ! $pending ) {
+                if ( ! $pending && CRM_Utils_Array::value( 'is_primary', $value ) ) {
                     // transactionID & receive date required while building email template
                     $this->assign( 'trxn_id', $result['trxn_id'] );
                     $this->assign( 'receive_date', CRM_Utils_Date::mysqlToIso( $value['receive_date']) );
@@ -420,7 +425,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 $contribution = null;
                 // if paid event add a contribution record
                 if( $value['amount'] != 0 && CRM_Utils_Array::value( 'is_primary', $value ) ) {
-                    $contribution =& $this->processContribution( $value, $result, $contactID, $pending );
+                    $contribution =& self::processContribution( $this, $value, $result, $contactID, $pending );
                 }
                 $value['contactID']          = $contactID;
                 $value['eventID']            = $this->_id;
@@ -450,9 +455,12 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         // for Transfer checkout.
         require_once "CRM/Event/BAO/EventPage.php";
         if ( ( $this->_contributeMode == 'checkout' ||
-               $this->_contributeMode == 'notify'   ) && ! CRM_Utils_Array::value( 'is_pay_later', $params[0] ) ) {
+               $this->_contributeMode == 'notify'   ) && 
+             ! CRM_Utils_Array::value( 'is_pay_later', $params[0] ) &&
+             $this->_params['amount'] > 0 ) {
 
             $primaryParticipant = $this->get ( 'primaryParticipant' );
+
             if ( !CRM_Utils_Array::value( 'participantID', $primaryParticipant ) ) {
                 $primaryParticipant['participantID'] = $registerByID;
             } 
@@ -466,7 +474,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             }
             
             // do a transfer only if a monetary payment greater than 0
-            if ( $this->_values['event']['is_monetary'] && $primaryParticipant && $primaryParticipant['amount'] > 0 ) {
+            if ( $this->_values['event']['is_monetary'] && $primaryParticipant ) {
                 $payment->doTransferCheckout( $primaryParticipant );
             }
 
@@ -525,7 +533,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
      * @return void
      * @access public
      */
-    public function processContribution( $params, $result, $contactID, $pending = false ) 
+    static function processContribution( &$form, $params, $result, $contactID, $pending = false ) 
     {
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
@@ -534,14 +542,14 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         $now         = date( 'YmdHis' );
         $receiptDate = null;
         
-        if ( $this->_values['event_page']['is_email_confirm'] ) {
+        if ( $form->_values['event_page']['is_email_confirm'] ) {
             $receiptDate = $now ;
         }
         
         $contribParams = array(
                                'contact_id'            => $contactID,
-                               'contribution_type_id'  => $this->_values['event']['contribution_type_id'] ?
-                               $this->_values['event']['contribution_type_id'] : $params['contribution_type_id'],
+                               'contribution_type_id'  => $form->_values['event']['contribution_type_id'] ?
+                               $form->_values['event']['contribution_type_id'] : $params['contribution_type_id'],
                                'receive_date'          => $now,
                                'total_amount'          => $params['amount'],
                                'amount_level'          => $params['amount_level'],
@@ -566,7 +574,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
 
         $contribParams["contribution_status_id"] = $pending ? 2 : 1;
 
-        if( $this->_action & CRM_Core_Action::PREVIEW || $params['mode'] == 'test' ) {
+        if( $form->_action & CRM_Core_Action::PREVIEW || $params['mode'] == 'test' ) {
             $contribParams["is_test"] = 1;
         }
         require_once 'CRM/Contribute/BAO/Contribution.php';
@@ -584,9 +592,9 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         $contribution =& CRM_Contribute_BAO_Contribution::add( $contribParams, $ids );
         
         // store line items
-        if ( $this->_lineItem ) {
+        if ( $form->_lineItem ) {
             require_once 'CRM/Core/BAO/LineItem.php';
-            foreach ( $this->_lineItem as $key => $value ) {
+            foreach ( $form->_lineItem as $key => $value ) {
                 if ( $value != 'skip' ) {
                     foreach( $value as $line ) {
                         $unused = array();
@@ -613,7 +621,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                             'fee_amount'        => CRM_Utils_Array::value( 'fee_amount', $result ),
                             'net_amount'        => CRM_Utils_Array::value( 'net_amount', $result, $params['amount'] ),
                             'currency'          => $params['currencyID'],
-                            'payment_processor' => $this->_paymentProcessor['payment_processor_type'],
+                            'payment_processor' => $form->_paymentProcessor['payment_processor_type'],
                             'trxn_id'           => $result['trxn_id'],
                             );
         

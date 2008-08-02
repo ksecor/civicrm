@@ -1,33 +1,24 @@
 {* this template is used for adding/editing other (custom) activities. *}
 {if $cdType }
    {include file="CRM/Custom/Form/CustomData.tpl"}
-{elseif $addContact }
+{elseif $addAssigneeContact or $addTargetContact }
    {include file="CRM/Contact/Form/AddContact.tpl"}
 {else}
 
 {* added onload javascript for source contact*}
-{if $source_contact_value and $admin and $action neq 4}
+{if $source_contact and $admin and $action neq 4}
    <script type="text/javascript">
        dojo.addOnLoad( function( ) {ldelim}
-       dijit.byId( 'source_contact_id' ).setValue( "{$source_contact_value}", "{$source_contact_value}" )
-       {rdelim} );
-   </script>
-{/if}
-
-{* added onload javascript for target contact*}
-{if $target_contact_value and $context eq 'standalone' and $action neq 4 }
-   <script type="text/javascript">
-       dojo.addOnLoad( function( ) {ldelim}
-       dijit.byId( 'target_contact' ).setValue( "{$target_contact_value}", "{$target_contact_value}" )
+       dijit.byId( 'source_contact_id' ).setValue( "{$source_contact}")
        {rdelim} );
    </script>
 {/if}
 
 {* added onload javascript for case subject*}
-{if $subject_value and $context neq 'standalone' and $action neq 4}
+{if $caseId and $context neq 'standalone' and $action neq 4}
    <script type="text/javascript">
        dojo.addOnLoad( function( ) {ldelim}
-       dijit.byId( 'case_subject' ).setValue( "{$subject_value}", "{$subject_value}" )
+       dijit.byId( 'case_id' ).setValue( "{$caseId}" )
        {rdelim} );
    </script>
 {/if}
@@ -72,7 +63,7 @@
                 <td class="label">{$form.source_contact_id.label}</td>
                 <td class="view-value">
                    <div dojoType="dojox.data.QueryReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra" doClientPaging="false">
-                       {if $admin }{$form.source_contact_id.html} {else} {$source_contact_value} {/if}
+                       {if $admin and $action neq 4}{$form.source_contact_id.html} {else} {$source_contact_value} {/if}
                    </div>
                 </td>
              </tr>
@@ -81,30 +72,35 @@
                 <td class="label">{ts}With Contact(s){/ts}</td>
                 <td class="view-value">{$with|escape}</td>
              </tr>
-             {else}
+             {elseif $action neq 4}
              <tr>
-                <td class="label">{$form.target_contact.label}</td>
-                <td class="view-value">
-                   <div dojoType="dojox.data.QueryReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra" doClientPaging="false">
-                       {if $context eq 'standalone' } {$form.target_contact.html} {else} {$target_contact_value} {/if}
-                   </div>
-                </td>
+		 <td class="label">{ts}With Contact{/ts}<div dojoType="dojox.data.QueryReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra" doClientPaging="false"></div></td>
+                <td class="tundra">
+		          <span id="target_contact_1"></span></td></tr>
+		     {else}
+             <tr>
+	    		<td class="label">{ts}With Contact{/ts}</td>
+                <td class="view-value">{$target_contact_value}</td>
              </tr>
              {/if}
              <tr>
+            {if $action neq 4}
 		 <td class="label">{ts}Assigned To {/ts}<div dojoType="dojox.data.QueryReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra" doClientPaging="false"></div></td>
                 <td class="tundra">                  
                    <span id="assignee_contact_1"></span>
                    <br />{edit}<span class="description">{ts}You can optionally assign this activity to someone. Assigned activities will appear in their Contact Dashboard.{/ts}</span>{/edit}
                 </td>
+            {else}
+                <td class="label">{ts}Assigned To {/ts}</td><td class="view-value">{$assignee_contact_value}</td>
+            {/if}
              </tr>
 
              {if $context neq 'standalone' AND $hasCases}
                 <tr>
-                  <td class="label">{$form.case_subject.label}</td>
+                  <td class="label">{$form.case_id.label}</td>
                   <td class="view-value">
                      <div dojoType="dojox.data.QueryReadStore" jsId="caseStore" url="{$caseUrl}" class="tundra">
-                         {$form.case_subject.html}
+                         {$form.case_id.html}
                      </div>
                      {edit}<span class="description">{ts}If you are managing case(s) for this contact, you can optionally associate this activity with an existing case.{/ts}</span>{/edit}
                   </td>
@@ -191,7 +187,6 @@
          </table>   
       </fieldset> 
 
-
 {if $action eq 1 or $action eq 2}
    {*include custom data js file*}
    {include file="CRM/common/customData.tpl"}
@@ -206,6 +201,11 @@
    buildContact( 1, 'assignee_contact' );
 {/literal}   
 {/if}
+{if $action eq 1 }
+{literal}
+   buildContact( 1, 'target_contact' );
+{/literal}   
+{/if}
 {literal}
 
 var assigneeContactCount = {/literal}"{$assigneeContactCount}"{literal}
@@ -216,43 +216,54 @@ if ( assigneeContactCount ) {
     }
 }
 
+var targetContactCount = {/literal}"{$targetContactCount}"{literal}
+
+if ( targetContactCount ) {
+    for ( var i = 1; i <= targetContactCount; i++ ) {
+	buildContact( i, 'target_contact' );
+    }
+}
 
 function buildContact( count, pref )
 {
     if ( count > 1 ) {
 	prevCount = count - 1;
-	hide( pref + '_' + prevCount + '_show'); 
+    {/literal}
+    {if $action eq 1  OR $action eq 2}
+    {literal}
+	hide( pref + '_' + prevCount + '_show');
+    {/literal} 
+    {/if}
+    {literal}
     }
-
-    var dataUrl = {/literal}"{crmURL p=$contactUrlPath h=0 q='snippet=4&contact=1&count='}"{literal} + count;
+    var context = {/literal}"{$context}"{literal}
+    var dataUrl = {/literal}"{crmURL p=$contactUrlPath h=0 q='snippet=4&count='}"{literal} + count + '&' + pref + '=1&context=' + context;
 
     var result = dojo.xhrGet({
         url: dataUrl,
         handleAs: "text",
 	sync: true,
         timeout: 5000, //Time in milliseconds
-        handle: function(response, ioArgs){
-                if(response instanceof Error){
-                        if(response.dojoType == "cancel"){
-                                //The request was canceled by some other JavaScript code.
-                                console.debug("Request canceled.");
-                        }else if(response.dojoType == "timeout"){
-                                //The request took over 5 seconds to complete.
-                                console.debug("Request timed out.");
-                        }else{
-                                //Some other error happened.
-                                console.error(response);
-                        }
+        handle: function(response, ioArgs) {
+                if (response instanceof Error) {
+		    if (response.dojoType == "cancel") {
+			//The request was canceled by some other JavaScript code.
+			console.debug("Request canceled.");
+		    } else if (response.dojoType == "timeout") {
+			//The request took over 5 seconds to complete.
+			console.debug("Request timed out.");
+		    } else {
+			//Some other error happened.
+			console.error(response);
+		    }
                 } else {
 		    // on success
 		    dojo.byId( pref + '_' + count).innerHTML = response;
 		    dojo.parser.parse( pref + '_' + count );
-	       }
-        }
-     });
-
+		}
+	    }
+	});
 }
-
 </script>
 
 {/literal}

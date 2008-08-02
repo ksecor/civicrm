@@ -130,7 +130,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                     CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
             }
         } else {
-            if ( isset($params['option_value'][$params['default_option']]) ) {
+            if ( CRM_Utils_Array::value( 'default_option', $params ) 
+                 && isset($params['option_value'][$params['default_option']] ) ) {
                 $params['default_value'] = $params['option_value'][$params['default_option']];
             }
         }
@@ -577,17 +578,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             $element =& $qf->add( strtolower($field->html_type), $elementName, $label,
                                   $field->attributes,
                                   ( ( $useRequired && $field->is_required ) && ! $search ) );
-
-            $uploadNames = $qf->get('uploadNames');
-            if ( ! $uploadNames ) {
-                $uploadNames = array( );
-            }
-            if ( ! in_array( $elementName, $uploadNames ) ) {
-                $uploadNames[] = $elementName;
-            }
-            $qf->set( 'uploadNames', $uploadNames );
-            $config =& CRM_Core_Config::singleton( );
-            $qf->controller->fixUploadAction( $config->customFileUploadDir, $uploadNames );
+            $qf->addUploadElement( $elementName );
             break;
 
         case 'Select State/Province':
@@ -745,9 +736,11 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                 $display = $option[$value];
             }
             break;
-                    
+
         case "Select":
-            $display = $option[$value];
+            if ( CRM_Utils_Array::value( $value, $options ) )  {
+                $display = $option[$value];
+            }
             break;
         
         case "CheckBox":
@@ -764,7 +757,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             $v = array( );
             $p = array( );
             foreach ( $checkedData as $key => $val ) {
-                if ( $key == 'CiviCRM_OP_OR' ) {
+                if ( $key === 'CiviCRM_OP_OR' ) {
                     continue;
                 }
                 if ( $html_type == 'CheckBox' ) {
@@ -1051,7 +1044,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
         }
 
         // return if field is a 'code' field
-        if ( $customFields[$customFieldId]['is_view'] ) {
+        if ( CRM_Utils_Array::value( 'is_view', $customFields[$customFieldId] ) ) {
             return;
         }
 
@@ -1133,6 +1126,7 @@ SELECT id
                 return;
             }
 
+
             require_once 'CRM/Core/DAO/File.php';
             $config = & CRM_Core_Config::singleton();
 
@@ -1175,7 +1169,6 @@ SELECT $columnName
                                                  'type'            => $customFields[$customFieldId][2],
                                                  'custom_field_id' => $customFieldId, 
                                                  'custom_group_id' => $groupID,
-                                                 'class_name'      => $groupClassName,
                                                  'table_name'      => $tableName,
                                                  'column_name'     => $columnName,
                                                  'file_id'         => $fileId
@@ -1340,6 +1333,7 @@ WHERE  option_group_id = {$optionGroupId}";
             CRM_Core_BAO_OptionGroup::del( $optionGroupId );
         }
     }
+    
 }
 
 

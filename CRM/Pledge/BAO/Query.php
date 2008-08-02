@@ -88,7 +88,7 @@ class CRM_Pledge_BAO_Query
         }
 
         if ( CRM_Utils_Array::value( 'pledge_next_pay_date', $query->_returnProperties ) ) {
-            $query->_select['pledge_next_pay_date']  = " (SELECT civicrm_pledge_payment.scheduled_date FROM civicrm_pledge_payment WHERE civicrm_pledge_payment.pledge_id = civicrm_pledge.id AND civicrm_pledge_payment.status_id = 2 ORDER BY civicrm_pledge_payment.scheduled_date ASC LIMIT 0, 1) as pledge_next_pay_date";
+            $query->_select['pledge_next_pay_date']  = " (SELECT civicrm_pledge_payment.scheduled_date FROM civicrm_pledge_payment WHERE civicrm_pledge_payment.pledge_id = civicrm_pledge.id AND civicrm_pledge_payment.status_id IN ( 2, 6 ) ORDER BY civicrm_pledge_payment.scheduled_date ASC LIMIT 0, 1) as pledge_next_pay_date";
             $query->_element['pledge_next_pay_date'] = 1;
         }
         
@@ -287,6 +287,11 @@ class CRM_Pledge_BAO_Query
             $query->_tables['pledge_contact_b'] = $query->_whereTables['pledge_contact_b'] = 1;
             $query->_tables['civicrm_pledge'] = $query->_whereTables['civicrm_pledge'] = 1;
             return;
+            
+        case 'pledge_id':
+            $query->_where[$grouping][] = "civicrm_pledge.id $op $value";
+            $query->_tables['civicrm_pledge'] = $query->_whereTables['civicrm_pledge'] = 1;
+            return;
         }
     }
 
@@ -411,6 +416,9 @@ class CRM_Pledge_BAO_Query
         
         $form->addGroup( $status, 'pledge_status_id', ts( 'Pledge Status' ) );
 
+        //unset in progress for payment
+        unset( $statusValues['5']);
+
         foreach ( $statusValues as $key => $val ) {
             $paymentStatus[] =  $form->createElement('advcheckbox',$key, null, $val );
         }
@@ -430,6 +438,25 @@ class CRM_Pledge_BAO_Query
         
         //add fields for honor search
         $form->addElement( 'text', 'pledge_in_honor_of', ts( "In Honor Of" ) );
+
+        // add all the custom  searchable fields
+        require_once 'CRM/Core/BAO/CustomGroup.php';
+        $pledge = array( 'Pledge' );
+        $groupDetails = CRM_Core_BAO_CustomGroup::getGroupDetail( null, true, $pledge );
+        if ( $groupDetails ) {
+            require_once 'CRM/Core/BAO/CustomField.php';
+            $form->assign('pledgeGroupTree', $groupDetails);
+            foreach ($groupDetails as $group) {
+                foreach ($group['fields'] as $field) {
+                    $fieldId = $field['id'];                
+                    $elementName = 'custom_' . $fieldId;
+                    CRM_Core_BAO_CustomField::addQuickFormElement( $form,
+                                                                   $elementName,
+                                                                   $fieldId,
+                                                                   false, false, true );
+                }
+            }
+        }
         
         $form->assign( 'validCiviPledge', true );
     }

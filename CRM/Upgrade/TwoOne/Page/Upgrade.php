@@ -28,27 +28,51 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2008
  * $Id$
  *
  */
 
-Class CRM_Contact_Form_Note
-{
-    /**
-     * This function is to build form elements
-     * params object $form object of the form
-     *
-     * @static
-     * @access public
-     */
-    
-    static function buildNoteBlock(&$form) {
-        $form->add('text', 'subject', ts('Subject'), array('size' => 60, 'maxlength' => 254)); 
-        $form->add('textarea', 'note', ts('Notes') , array('cols' => '60', 'rows' => '3'));    
+require_once 'CRM/Core/Page.php';
+class CRM_Upgrade_TwoOne_Page_Upgrade extends CRM_Core_Page {
+
+    function run( ) {
+        // hack in 'q' / 'task' variable to avoid errors
+        $_GET['q'] = $_GET['task'] = 'civicrm/upgrade';
+
+        for ( $i = 1; $i <= 4; $i++ ) {
+            $this->runForm( $i );
+        }
+        
+        echo "upgrade successful\n";
+        exit( );
+    }
+
+    function runForm( $stepID ) {
+        require_once "CRM/Upgrade/TwoOne/Form/Step{$stepID}.php";
+        $formName = "CRM_Upgrade_TwoOne_Form_Step{$stepID}";
+        eval( "\$form = new $formName( );" );
+        
+        $error = null;
+        if ( ! $form->verifyPreDBState( $error ) ) {
+            if ( ! isset( $error ) ) {
+                $error = 'pre-condition failed for current upgrade step $stepID';
+            }
+            CRM_Core_Error::fatal( $error );
+        }
+
+        if ( $stepID == 4 ) {
+            return;
+        }
+
+        $form->upgrade( );
+
+        if ( ! $form->verifyPostDBState( $error ) ) {
+            if ( ! isset( $error ) ) {
+                $error = 'post-condition failed for current upgrade step $stepID';
+            }
+            CRM_Core_Error::fatal( $error );
+        }
     }
 
 }
-
-
-

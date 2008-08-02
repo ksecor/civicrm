@@ -33,13 +33,15 @@
  *
  */
 
+require_once "CRM/Contact/Form/AddContact.php";
 require_once 'CRM/Core/Form.php';
+require_once "CRM/Contact/Form/Task.php";
 
 /**
  * This class generates form components for processing a case
  * 
  */
-class CRM_Case_Form_Case extends CRM_Core_Form
+class CRM_Case_Form_Case extends CRM_Contact_Form_Task
 {
     /**
      * the id of the case that we are proceessing
@@ -67,22 +69,58 @@ class CRM_Case_Form_Case extends CRM_Core_Form
     public function preProcess()  
     {  
         $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
+        if ( $this->_contactID ) {
+            $currentlyViewedContact = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                            $this->_contactID,
+                                                            'sort_name',
+                                                            'id' );
+            $this->assign('currentlyViewedContact',$currentlyViewedContact);
+        }
         $this->_id        = CRM_Utils_Request::retrieve( 'id', 'Integer', $this );
         $this->_activityID = CRM_Utils_Request::retrieve('activity_id','Integer',$this);
         $this->_context = CRM_Utils_Request::retrieve('context','String',$this); 
         $this->assign('context', $this->_context);
         $this->_caseid = CRM_Utils_Request::retrieve('caseid','Integer',$this);
         $this->assign('enableCase', true );
+        $this->_action = CRM_Utils_Request::retrieve('action', 'String', $this );
+        $this->assign( 'action', $this->_action);
+        $this->_addCaseContact = CRM_Utils_Array::value( 'case_contact', $_GET );
+        
+        $this->assign('addCaseContact', false);
+        if ( $this->_addCaseContact ) {
+            $this->assign('addCaseContact', true);
+        }
+        parent::preProcess( );
+        $this->assign( 'urlPath', 'civicrm/contact/view/case' );
+        $this->assign( 'contactUrlPath', 'civicrm/contact/view/case' );
+
+        // build case contact combo
+        if ( CRM_Utils_Array::value( 'case_contact', $_POST ) ) {
+            foreach ( $_POST['case_contact'] as $key => $value ) {
+                CRM_Contact_Form_AddContact::buildQuickForm( $this, "case_contact[{$key}]" );
+            }
+            $this->assign( 'caseContactCount', count( $_POST['case_contact'] ) );
+        }
     }
 
     function setDefaultValues( ) 
     {
         $defaults = array( );
+        $contactNames = array();
         require_once 'CRM/Case/BAO/Case.php' ;
         if ( isset( $this->_id ) ) {
             $params = array( 'id' => $this->_id );
             CRM_Case_BAO_Case::retrieve($params, $defaults, $ids);
-        }        
+            $defaults['case_contact'] = CRM_Case_BAO_Case::retrieveContactIdsByCaseId( $this->_id );
+            $key = array_search( $this->_contactID, $defaults['case_contact'] );
+            unset($defaults['case_contact'][$key]);
+            $contactNames =  CRM_Case_BAO_Case::getcontactNames( $this->_id );
+            foreach( $contactNames as $key => $name ){
+                $defaults['contact_names'] .=  $defaults['contact_names']?",\"$name\"":"\"$name\"";
+            }
+
+        }    
+        $this->assign('contactNames',$defaults['contact_names']);
         $defaults['case_type_id'] = explode( CRM_Case_BAO_Case::VALUE_SEPERATOR, CRM_Utils_Array::value( 'case_type_id' , $defaults ) );
         $config =& CRM_Core_Config::singleton( );
         if ($config->civiHRD){
@@ -93,7 +131,11 @@ class CRM_Case_Form_Case extends CRM_Core_Form
             $defaults['start_date'] = array( );
             CRM_Utils_Date::getAllDefaultValues( $defaults['start_date'] );
         }
-
+        
+        //set the assigneed contact count to template
+        if ( !empty( $defaults['case_contact'] ) ) {
+            $this->assign( 'caseContactCount', count( $defaults['case_contact'] ) );
+        }
         return $defaults;
     }
     
@@ -105,6 +147,20 @@ class CRM_Case_Form_Case extends CRM_Core_Form
      */ 
     public function buildQuickForm( )
     {
+        if ( ! empty($this->_contactIds) && is_array($this->_contactIds)) {
+            $contactIds = implode(',',$this->_contactIds);
+            $query = "SELECT id, sort_name 
+                      FROM civicrm_contact
+                      WHERE id IN ({$contactIds})";
+            $queryParam = array();
+            $dao = CRM_Core_DAO::executeQuery( $query, $queryParam );
+            while ( $dao->fetch() ) {
+                $caseContacts .= $caseContacts?",\"$dao->sort_name\"":"\"$dao->sort_name\"";
+            }
+            $this->assign('caseContacts', $caseContacts);
+            $this->assign('search', true);
+        } 
+
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             $this->addButtons(array( 
                                     array ( 'type'      => 'next', 
@@ -141,7 +197,29 @@ class CRM_Case_Form_Case extends CRM_Core_Form
             $this->add('select', 'casetag3_id',  ts( 'Violation' ),  
                        $caseViolation , false, array("size"=>"5",  "multiple"));
         }
+
+        // add a dojo facility for searching contacts
+        $this->assign( 'dojoIncludes', " dojo.require('dojox.data.QueryReadStore'); dojo.require('dojo.parser');" );
         
+        $attributes = array( 'dojoType'       => 'civicrm.FilteringSelect',
+                             'mode'           => 'remote',
+                             'store'          => 'contactStore',
+                             'pageSize'       => 10  );
+        
+        $dataUrl = CRM_Utils_System::url( "civicrm/ajax/search",
+                                          "reset=1",
+                                          true, null, false );
+        $this->assign('dataUrl',$dataUrl );
+
+        if ( $this->_addCaseContact ) {
+            $contactCount = CRM_Utils_Array::value( 'count', $_GET );
+            $nextContactCount = $contactCount + 1;
+            $this->assign('contactCount', $contactCount );
+            $this->assign('nextContactCount', $nextContactCount );
+            $this->assign('contactFieldName', 'case_contact' );
+            return CRM_Contact_Form_AddContact::buildQuickForm( $this, "case_contact[{$contactCount}]" );
+        }
+
         $this->add( 'date', 'start_date', ts('Start Date'),
                     CRM_Core_SelectValues::date('activityDate' ),
                     true);   
@@ -218,10 +296,10 @@ class CRM_Case_Form_Case extends CRM_Core_Form
             CRM_Core_Session::setStatus( ts("Selected Case has been deleted."));
             return;
         }
-
+        
         // get the submitted form values.  
         $params = $this->controller->exportValues( $this->_name );
-      
+        
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
             $params['id'] = $this->_id ;
         }
@@ -230,7 +308,7 @@ class CRM_Case_Form_Case extends CRM_Core_Form
         $params['start_date'  ] = CRM_Utils_Date::format( $params['start_date'] );
         $params['end_date'    ] = CRM_Utils_Date::format( $params['end_date'] );
         $params['case_type_id'] = CRM_Case_BAO_Case::VALUE_SEPERATOR.implode(CRM_Case_BAO_Case::VALUE_SEPERATOR, $params['case_type_id'] ).CRM_Case_BAO_Case::VALUE_SEPERATOR;
-       
+        
         $config =& CRM_Core_Config::singleton( );
         if ($config->civiHRD){
             $params['casetag2_id'] = CRM_Case_BAO_Case::VALUE_SEPERATOR.implode(CRM_Case_BAO_Case::VALUE_SEPERATOR, $params['casetag2_id'] ).CRM_Case_BAO_Case::VALUE_SEPERATOR;
@@ -239,7 +317,34 @@ class CRM_Case_Form_Case extends CRM_Core_Form
         
         require_once 'CRM/Case/BAO/Case.php';
         $case = CRM_Case_BAO_Case::create( $params );
-
+        CRM_Case_BAO_Case::deleteCaseContact($case->id);
+        if ( ! empty($this->_contactIds) && is_array($this->_contactIds)) {
+            foreach ( $this->_contactIds as $key => $id ) {
+                if ($id) {
+                    $contactParams = array(
+                                           'case_id'    => $case->id,
+                                           'contact_id' => $id
+                                           );
+                    CRM_Case_BAO_Case::addCaseToContact( $contactParams );
+                }
+            }
+        } else {
+            $contactParams = array(
+                                   'case_id'    => $case->id,
+                                   'contact_id' => $this->_contactID
+                                   );
+            CRM_Case_BAO_Case::addCaseToContact( $contactParams );
+            foreach ( $params['case_contact'] as $key => $id ) {
+                if ($id) {
+                    $contactParams = array(
+                                           'case_id'    => $case->id,
+                                           'contact_id' => $id
+                                           );
+                    CRM_Case_BAO_Case::addCaseToContact( $contactParams );
+                }
+            }
+        }
+        
         // set status message
         CRM_Core_Session::setStatus( ts('Case \'%1\' has been saved.', array( 1 => $params['subject'] ) ) );
     }

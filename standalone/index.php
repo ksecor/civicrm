@@ -26,7 +26,8 @@ function invoke() {
             }
             exit(1);
         } else {
-            if ( $session->get('new_install') !== true ) {
+            if ( $session->get('new_install') !== true &&
+                 $_GET[$urlVar] !== "civicrm/standalone/register" ) {
                 print "<a href=\"{$config->userFrameworkBaseURL}\">Login here</a> if you have an account.\n";
             } elseif ($_GET[$urlVar] == "civicrm/standalone/register" && isset($_GET['reset'])) {
                 // this is when user first registers with civicrm
@@ -53,6 +54,12 @@ function showError( &$session ) {
         $msg = $session->get('msg');
         print "<div class=\"msg\">$msg</div>\n";
         $session->set('msg', null);
+    }
+
+    if ( $session->get('goahead') == 'no' ) {
+        $session->reset();
+        print "<a href=\"index.php\">Home Page</a>\n";
+        exit();
     }
 }
 

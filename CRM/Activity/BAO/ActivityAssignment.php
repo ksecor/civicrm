@@ -104,11 +104,39 @@ class CRM_Activity_BAO_ActivityAssignment extends CRM_Activity_DAO_ActivityAssig
         $assignment->activity_id = $activity_id;
         $assignment->find();
         $assigneeArray = array();
+        $count = 1;
         while ( $assignment->fetch( ) ) {
-            $assigneeArray[] = $assignment->assignee_contact_id;
+            $assigneeArray[$count] = $assignment->assignee_contact_id;
+            $count++;
         }
 
         return $assigneeArray;
+    }
+
+    /**
+     * Retrieve assignee names by activity_id
+     *
+     * @param int    $id  ID of the activity
+     * 
+     * @return array
+     * 
+     * @access public
+     * 
+     */
+    static function getAssigneeNames( $activity_id ) 
+    {
+        $queryParam = array();
+        $query = "SELECT contact_a.sort_name 
+                  FROM civicrm_contact contact_a 
+                  LEFT JOIN civicrm_activity_assignment 
+                         ON civicrm_activity_assignment.assignee_contact_id = contact_a.id
+                  WHERE civicrm_activity_assignment.activity_id = {$activity_id}";
+        $dao = CRM_Core_DAO::executeQuery($query,$queryParam);
+        $assigneeNames = array();
+        while ( $dao->fetch() ) {
+            $assigneeNames[] =  $dao->sort_name;
+        }
+        return $assigneeNames;
     }
 }
 

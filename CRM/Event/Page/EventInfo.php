@@ -156,25 +156,29 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
                                                      "id={$this->_id}&reset=1&action=preview",
                                                      true, null, true,
                                                      true );
-                    $mapURL = CRM_Utils_System::url( 'civicrm/contact/map/event',
-                                                     "eid={$this->_id}&reset=1&action=preview",
-                                                     true, null, true,
-                                                     true );
                 } else {
                     $url = CRM_Utils_System::url( 'civicrm/event/register',
                                                   "id={$this->_id}&reset=1",
                                                   true, null, true,
                                                   true );
-                    $mapURL = CRM_Utils_System::url( 'civicrm/contact/map/event',
-                                                     "eid={$this->_id}&reset=1",
-                                                     true, null, true,
-                                                     true );
                 }
                 if ( ! $eventFullMessage ) {
                     $this->assign( 'registerURL', $url    );
                 }
-                $this->assign( 'mapURL'     , $mapURL );
             }
+
+            if ( $action ==  CRM_Core_Action::PREVIEW ) {
+                $mapURL = CRM_Utils_System::url( 'civicrm/contact/map/event',
+                                                 "eid={$this->_id}&reset=1&action=preview",
+                                                 true, null, true,
+                                                 true );
+            } else {
+                $mapURL = CRM_Utils_System::url( 'civicrm/contact/map/event',
+                                                 "eid={$this->_id}&reset=1",
+                                                 true, null, true,
+                                                 true );
+            }
+            $this->assign( 'mapURL'     , $mapURL );
         }
 
         // we do not want to display recently viewed items, so turn off

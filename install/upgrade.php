@@ -28,27 +28,23 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright CiviCRM LLC (c) 2004-2008
  * $Id$
  *
  */
 
-Class CRM_Contact_Form_Note
-{
-    /**
-     * This function is to build form elements
-     * params object $form object of the form
-     *
-     * @static
-     * @access public
-     */
-    
-    static function buildNoteBlock(&$form) {
-        $form->add('text', 'subject', ts('Subject'), array('size' => 60, 'maxlength' => 254)); 
-        $form->add('textarea', 'note', ts('Notes') , array('cols' => '60', 'rows' => '3'));    
-    }
+function run( ) {
+    session_start( );
 
+    require_once '../civicrm.config.php';
+    require_once 'CRM/Core/Config.php';
+    $config =& CRM_Core_Config::singleton( );
+
+    require_once 'CRM/Upgrade/TwoOne/Page/Upgrade.php';
+    $page = new CRM_Upgrade_TwoOne_Page_Upgrade( );
+    return $page->run( );
 }
 
+run( );
 
 

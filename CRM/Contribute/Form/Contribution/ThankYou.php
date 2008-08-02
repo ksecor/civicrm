@@ -51,13 +51,13 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
         parent::preProcess( );
 
         $this->_params = $this->get( 'params' );
-        
         $is_deductible = $this->get('is_deductible');
         $this->assign('is_deductible',$is_deductible);
         $this->assign( 'thankyou_title', $this->_values['thankyou_title'] );
         $this->assign( 'thankyou_text' , $this->_values['thankyou_text']  );
         $this->assign( 'thankyou_footer' , CRM_Utils_Array::value('thankyou_footer',$this->_values));
-
+        $this->assign( 'max_reminders', $this->_values['max_reminders']);
+        $this->assign( 'initial_reminder_day', $this->_values['initial_reminder_day']); 
         CRM_Utils_System::setTitle($this->_values['thankyou_title']);
     }
     
@@ -88,7 +88,8 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
         $productID    = $this->get ('productID');
         $option       = $this->get ('option');
         $membershipTypeID = $this->get ('membershipTypeID');
-
+        $this->assign('receiptFromEmail',$this->_values['receipt_from_email']);
+        
         if ( $productID ) {
             require_once 'CRM/Contribute/BAO/Premium.php';  
             CRM_Contribute_BAO_Premium::buildPremiumBlock( $this , $this->_id ,false ,$productID, $option);

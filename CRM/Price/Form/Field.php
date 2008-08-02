@@ -148,13 +148,9 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
         
         // html_type
         $javascript = 'onchange="option_html_type(this.form)";';
-        
-        $htmlTypes = array(
-                           'Text'     => ts('Text / Numeric Quantity'),
-                           'Select'   => ts('Select'),
-                           'Radio'    => ts('Radio'),
-                           'CheckBox' => ts('CheckBox')
-                           );
+
+        require_once 'CRM/Core/BAO/PriceField.php';
+        $htmlTypes = CRM_Core_BAO_PriceField::htmlTypes( );
         
         $sel = $this->add('select', 'html_type', ts('Input Field Type'), 
                           $htmlTypes, true, $javascript );
@@ -283,16 +279,20 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
          *  Appropriate values are required for the selected datatype
          *  Incomplete row checking is also required.
          */
+        if ( ( $form->_action & CRM_Core_Action::ADD || $form->_action & CRM_Core_Action::UPDATE ) &&
+             $fields['html_type'] == 'Text' ) {
+            if( $fields['price'] ==  NULL ) {
+                $errors['price'] =   ts( 'Price is a required field' );
+            } else if ( $fields['price'] <=  0 ) {
+                $errors['price'] =   ts( 'Price must greater than zero (0).' );
+            }
+        }
              
         if ( $form->_action & CRM_Core_Action::ADD ) {
             
-            if( $fields['html_type'] == 'Text' ) {
-                if( $fields['price'] ==  NULL ) {
-                    $errors['price'] =   ts( 'Price is a required field' );
-                }
-            } else {
+            if( $fields['html_type'] != 'Text' ) {
                 $countemptyrows = 0;
-
+                
                 for ( $index = ( self::NUM_OPTION ) ; $index > 0 ; $index-- ) { 
                     
                     $noLabel = $noAmount = $noWeight = 1;
@@ -346,8 +346,8 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
                         ts( 'Label and value can not be empty' );    
                 }
             }
-            
-    $_showHide = & new CRM_Core_ShowHideBlocks('','');
+          
+            $_showHide = & new CRM_Core_ShowHideBlocks('','');
             
             // do not process if no option rows were submitted
             if ( empty( $fields['option_name'] ) && empty( $fields['option_label'] ) ) {

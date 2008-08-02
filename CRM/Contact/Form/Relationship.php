@@ -265,15 +265,15 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         }
 
         // add a dojo facility for searching contacts
-        $this->assign( 'dojoIncludes', " dojo.require('dojox.data.QueryReadStore'); dojo.require('dojo.parser');" );
-        $attributes = array( 'dojoType'       => 'civicrm.FilteringSelect',
+        $this->assign( 'dojoIncludes', " dojo.require('dojox.data.QueryReadStore'); dojo.require('dojo.parser'); dojo.require('dijit.form.ComboBox');" );
+        $attributes = array( 'dojoType'       => 'dijit.form.ComboBox',
                              'mode'           => 'remote',
                              'store'          => 'contactStore',
                              'pageSize'       => 10, 
                              'id'             => 'contact'
                              );
         
-        $this->addElement('text', 'name'      , ts('Find Target Contact'),$attributes );
+        $this->addElement('text', 'name'      , ts('Find Target Contact'), $attributes );
         $this->addElement('date', 'start_date', ts('Start Date'), CRM_Core_SelectValues::date( 'relative' ) );
         $this->addElement('date', 'end_date'  , ts('End Date')  , CRM_Core_SelectValues::date( 'relative' ) );
         $this->addElement('advcheckbox', 'is_active', ts('Enabled?'), null, 'setChecked()');
@@ -350,7 +350,6 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
     {
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
-       
         $this->set( 'searchDone', 0 );
         if ( CRM_Utils_Array::value( '_qf_Relationship_refresh', $_POST ) ) {
             $this->search( $params );
@@ -374,21 +373,6 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
             $ids['contactTarget'] = ( $relation->contact_id_a == $this->_contactId ) ?
                 $relation->contact_id_b : $relation->contact_id_a;
         }    
-        
-        //format custom data
-        // get mime type of the uploaded file
-        if ( !empty($_FILES) ) {
-            foreach ( $_FILES as $key => $value) {
-                $files = array( );
-                if ( $params[$key] ) {
-                    $files['name'] = $params[$key];
-                }
-                if ( $value['type'] ) {
-                    $files['type'] = $value['type']; 
-                }
-                $params[$key] = $files;
-            }
-        }
         
         $customData = array( );
         foreach ( $params as $key => $value ) {

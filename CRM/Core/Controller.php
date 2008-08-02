@@ -281,17 +281,8 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
             $action =& new $classPath( $this->_stateMachine );
             $this->addAction( $name, $action );
         }
-    
-        if ( ! empty( $uploadDirectory ) &&
-             ! empty( $uploadNames ) ) {
-            require_once 'CRM/Core/QuickForm/Action/Upload.php';
-            $action =& new CRM_Core_QuickForm_Action_Upload ( $this->_stateMachine,
-                                                              $uploadDirectory,
-                                                              $uploadNames );
-
-            $this->addAction('upload' , $action );
-        }
-    
+        
+        $this->addUploadAction( $uploadDirectory, $uploadNames );
     }
 
     /**
@@ -533,11 +524,10 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
 
     function getTemplateFile( ) {
         if ( $this->_print ) {
-            if ( $this->_print == CRM_Core_Smarty::PRINT_SNIPPET ||
-                 $this->_print == CRM_Core_Smarty::PRINT_PDF ) {
-                return 'CRM/common/snippet.tpl';
-            } else {
+            if ( $this->_print == CRM_Core_Smarty::PRINT_PAGE ) {
                 return 'CRM/common/print.tpl';
+            } else {
+                return 'CRM/common/snippet.tpl';
             }
         } else {
             $config =& CRM_Core_Config::singleton();
@@ -545,11 +535,12 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
         }
     }
 
-    public function fixUploadAction( $uploadDirectory, $uploadNames ) {
-        if ( ! empty( $uploadNames ) ) {
+    public function addUploadAction( $uploadDir, $uploadNames ) {
+        if ( ! empty( $uploadDir   ) &&
+             ! empty( $uploadNames ) ) {
             require_once 'CRM/Core/QuickForm/Action/Upload.php';
             $action =& new CRM_Core_QuickForm_Action_Upload ( $this->_stateMachine,
-                                                              $uploadDirectory,
+                                                              $uploadDir,
                                                               $uploadNames );
 
             $this->addAction('upload' , $action );

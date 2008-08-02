@@ -58,7 +58,7 @@ class CRM_Pledge_BAO_Payment extends CRM_Pledge_DAO_Payment
     {
         $query = "
 SELECT civicrm_pledge_payment.id id, scheduled_amount, scheduled_date, reminder_date, reminder_count,
-        total_amount, receive_date, civicrm_option_value.name as status
+        total_amount, receive_date, civicrm_option_value.name as status, civicrm_contribution.id as contribution_id
 FROM civicrm_pledge_payment
 LEFT JOIN civicrm_contribution ON civicrm_pledge_payment.contribution_id = civicrm_contribution.id
 LEFT JOIN civicrm_option_group ON ( civicrm_option_group.name = 'contribution_status' )
@@ -80,6 +80,7 @@ WHERE pledge_id = %1
             $paymentDetails[$payment->id]['receive_date'    ] = $payment->receive_date;
             $paymentDetails[$payment->id]['status'          ] = $payment->status;
             $paymentDetails[$payment->id]['id'              ] = $payment->id;
+            $paymentDetails[$payment->id]['contribution_id' ] = $payment->contribution_id;
         }
         
         return $paymentDetails;
@@ -87,10 +88,12 @@ WHERE pledge_id = %1
 
     static function create( $params )
     { 
+        require_once 'CRM/Contribute/PseudoConstant.php';
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
-        
+
         $scheduled_date =  $params['scheduled_date'];
+
         //calculation of schedule date according to frequency day of period
         //frequency day is not applicable for daily installments
         if ( $params['frequency_unit'] != 'day' ) {
@@ -107,7 +110,8 @@ WHERE pledge_id = %1
                 $dayOfWeek = date('w',mktime(0, 0, 0, $scheduled_date['M'], $scheduled_date['d'], $scheduled_date['Y'] ));
                 $frequencyDay =   $params['frequency_day'] - $dayOfWeek;
                 
-                $scheduleDate =  explode ( "-", date( 'n-j-Y', mktime ( 0, 0, 0, $scheduled_date['M'], $scheduled_date['d'] + $frequencyDay, $scheduled_date['Y'] )) );
+                $scheduleDate =  explode ( "-", date( 'n-j-Y', mktime ( 0, 0, 0, $scheduled_date['M'], 
+                                                                        $scheduled_date['d'] + $frequencyDay, $scheduled_date['Y'] )) );
                 $scheduled_date['M'] = $scheduleDate[0];
                 $scheduled_date['d'] = $scheduleDate[1];
                 $scheduled_date['Y'] = $scheduleDate[2];
@@ -126,15 +130,21 @@ WHERE pledge_id = %1
         }
         
         for ( $i = 1; $i < $params['installments']; $i++ ) {
-            $prevScheduledDate[$i+1] = CRM_Utils_Date::format(CRM_Utils_Date::intervalAdd( $params['frequency_unit'], $i * ($params['frequency_interval']) , $scheduled_date ));
+            $prevScheduledDate[$i+1] = CRM_Utils_Date::format(CRM_Utils_Date::intervalAdd( $params['frequency_unit'], 
+                                                                                           $i * ($params['frequency_interval']) , $scheduled_date ));
             if ( CRM_Utils_Date::overdue( CRM_Utils_Date::customFormat(  $prevScheduledDate[$i+1], '%Y%m%d'), $now ) ) {
                 $statues[$i+1] = array_search( 'Overdue', CRM_Contribute_PseudoConstant::contributionStatus( )); 
             } else {
                 $statues[$i+1] = array_search( 'Pending', CRM_Contribute_PseudoConstant::contributionStatus( ));
             }
         }
-       
-        $params['scheduled_amount'] = ceil($params['scheduled_amount']);
+        
+        if ( $params['installment_amount'] ) {
+            $params['scheduled_amount'] = $params['installment_amount'];
+        } else {
+            $params['scheduled_amount'] = round( $params['amount'] / $params['installments'] );
+        }
+
         for ( $i = 1; $i <= $params['installments']; $i++ ) {
             //calculate the scheduled amount for every installment.
             if ( $i == $params['installments'] ) {

@@ -88,18 +88,18 @@ function &civicrm_contact_add( &$params ) {
         }
     }
     
-    if ( !( is_numeric( $params['suffix_id'] ) ) 
-         && isset( $params['suffix_id'] ) ) {
+    if ( isset( $params['suffix_id'] ) &&
+         ! ( is_numeric( $params['suffix_id'] ) ) ) {
         $params['suffix_id'] = array_search( $params['suffix_id'] , CRM_Core_PseudoConstant::individualSuffix() );
     }
     
-    if ( !( is_numeric( $params['prefix_id'] ) ) 
-         && isset( $params['prefix_id'] ) ) {
+    if ( isset( $params['prefix_id'] ) &&
+         ! ( is_numeric( $params['prefix_id'] ) ) ) {
         $params['prefix_id'] = array_search( $params['prefix_id'] , CRM_Core_PseudoConstant::individualPrefix() );
     } 
     
-    if ( !  ( is_numeric( $params['gender_id'] ) ) 
-         && isset( $params['gender_id'] ) ) {
+         if ( isset( $params['gender_id'] )
+              && ! ( is_numeric( $params['gender_id'] ) ) ) {
         $params['gender_id'] = array_search( $params['gender_id'] , CRM_Core_PseudoConstant::gender() );
     }
     
@@ -108,7 +108,7 @@ function &civicrm_contact_add( &$params ) {
     _civicrm_custom_format_params( $params, $values, $params['contact_type'], $entityId );
     
     $params = array_merge( $params, $values );
-        
+
     $contact =& _civicrm_contact_add( $params, $contactID );
         
     if ( is_a( $contact, 'CRM_Core_Error' ) ) {

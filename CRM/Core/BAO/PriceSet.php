@@ -464,24 +464,35 @@ class CRM_Core_BAO_PriceSet extends CRM_Core_DAO_PriceSet {
 
         $orderBy = ' ORDER BY weight';
 
-        $queryString = $select . $from . $where . $orderBy;
+        $sql = $select . $from . $where . $orderBy;
 
-        $crmDAO =& CRM_Core_DAO::executeQuery( $queryString, $params );
+        $dao =& CRM_Core_DAO::executeQuery( $sql, $params );
 
         require_once 'CRM/Core/BAO/PriceField.php';
-        while ( $crmDAO->fetch() ) {
-            $fieldID = $crmDAO->id;
+        while ( $dao->fetch() ) {
+            $fieldID = $dao->id;
 
             $setTree[$setID]['fields'][$fieldID] = array();
             $setTree[$setID]['fields'][$fieldID]['id'] = $fieldID;
 
             foreach ( $priceFields as $field ) {
-                if ( $field == 'id' || is_null( $crmDAO->$field) ) {
+                if ( $field == 'id' || is_null( $dao->$field) ) {
                     continue;
                 }
-                $setTree[$setID]['fields'][$fieldID][$field] = $crmDAO->$field;
+                $setTree[$setID]['fields'][$fieldID][$field] = $dao->$field;
                 $setTree[$setID]['fields'][$fieldID]['options'] = CRM_Core_BAO_PriceField::getOptions( $fieldID, false );
             }
+        }
+
+        // also get the pre and post help from this price set
+        $sql = "
+SELECT help_pre, help_post
+FROM   civicrm_price_set
+WHERE  id = %1";
+        $dao =& CRM_Core_DAO::executeQuery( $sql, $params );
+        if ( $dao->fetch( ) ) {
+            $setTree[$setID]['help_pre'] = $dao->help_pre;
+            $setTree[$setID]['help_post'] = $dao->help_post;
         }
 
         return $setTree;

@@ -19,6 +19,11 @@
         <tr>
             <td class="label">{ts}Details{/ts}</td><td class="view-value report">{$values.details}</td>
         </tr>  
+{if $values.attachment}
+        <tr>
+            <td class="label">{ts}Attachment(s){/ts}</td><td class="view-value report">{$values.attachment}</td>
+        </tr>  
+{/if}
        <tr> 
            <td>&nbsp;</td><td class="buttons">{$form.buttons.html}</td> 
        </tr> 

@@ -124,10 +124,13 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
      * Role Id
      */
     protected $_roleId = null;
+
     /**
      * participant mode
      */
     public  $_mode = null;
+
+    public  $_online;
     /** 
      * Function to set variables up before form is built 
      *                                                           
@@ -486,16 +489,8 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         $noteAttributes = CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_Note' );
         $this->add('textarea', 'note', ts('Notes'), $noteAttributes['note']);
 
-        $session = & CRM_Core_Session::singleton( );
-        $uploadNames = $session->get( 'uploadNames' );
-        if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
-            $buttonType = 'upload';
-        } else {
-            $buttonType = 'next';
-        }
-
         $this->addButtons(array( 
-                                array ( 'type'      => $buttonType, 
+                                array ( 'type'      => $this->buttonType( ),
                                         'name'      => ts('Save'), 
                                         'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
                                         'isDefault' => true   ), 
@@ -538,10 +533,9 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
              ( ! $values['event_id'] ) 
              ) {
             return true;
-           
         }
         
-        if ( $values['payment_processor_id'] ) {
+        if ( CRM_Utils_Array::value( 'payment_processor_id', $values ) ) {
             // make sure that credit card number and cvv are valid
             require_once 'CRM/Utils/Rule.php';
             if ( CRM_Utils_Array::value( 'credit_card_type', $values ) ) {
@@ -556,17 +550,20 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 }
             }
         }
-
+        
+        $message = null;
         if ( $values['status_id'] == 1 || $values['status_id'] == 2 ) {
             if ( $id ) {
                 $previousStatus = CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_Participant", $id, 'status_id' );
             }
+            
             if ( !( $previousStatus == 1 || $previousStatus == 2 ) ) {
                 require_once "CRM/Event/BAO/Participant.php";
                 $message = CRM_Event_BAO_Participant::eventFull( $values['event_id'] );
             }
         }
-        if( $message ) {
+        
+        if ( $message ) {
             $errorMsg["_qf_default"] = $message;  
         }
 
@@ -588,7 +585,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
 
         // get the submitted form values.  
         $params = $this->controller->exportValues( $this->_name );
-                     
+
         $config =& CRM_Core_Config::singleton();        
         //check if discount is selected
         if ( $params['discount_id'] ) {
@@ -598,7 +595,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         }
 
         if ( $this->_isPaidEvent ) {
-            //fix for CRM-3088
+            // fix for CRM-3088
             if ( ! empty( $this->_values['discount'][$discountId] ) ) {
                 $params['amount_level'] = $this->_values['discount'][$discountId]['label']
                     [array_search( $params['amount'], $this->_values['discount'][$discountId]['amount_id'])];
@@ -608,7 +605,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 
                 $this->assign( 'amount_level', $params['amount_level'] );
                 
-            }else if ( ! isset( $params['priceSetId'] ) ) {
+            } else if ( ! isset( $params['priceSetId'] ) ) {
                 $params['amount_level'] = $this->_values['custom']['label'][array_search( $params['amount'], 
                                                                                           $this->_values['custom']['amount_id'])];
                 
@@ -651,21 +648,6 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             }
         }
         
-        // format custom data
-        // get mime type of the uploaded file
-        if ( !empty($_FILES) ) {
-            foreach ( $_FILES as $key => $value) {
-                $files = array( );
-                if ( $params[$key] ) {
-                    $files['name'] = $params[$key];
-                }
-                if ( $value['type'] ) {
-                    $files['type'] = $value['type']; 
-                }
-                $params[$key] = $files;
-            }
-        }
-             
         require_once 'CRM/Contact/BAO/Contact.php';
         // Retrieve the name and email of the current user - this will be the FROM for the receipt email
         $session =& CRM_Core_Session::singleton( );
@@ -729,6 +711,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $contactID = CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $this->_contactID, null, null, $ctype );
             
         }
+
         //custom data block common for offline as well as credit card
         //(online) mode
         $customData = array( );
@@ -738,6 +721,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                                                              $value, 'Participant', null, $this->_id);
             }
         }
+
         if (! empty($customData) ) {
             $params['custom'] = $customData;
         }
@@ -806,15 +790,16 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                            CRM_Utils_Date::mysqlToIso( $this->_params['receive_date']) );
             // set source if not set 
             
-            $this->_params['description'] = ts( 'Online Event: CiviCRM Admin Interface' );
+            $this->_params['description'] = ts( 'Submit Credit Card for Event Registration by: %1', array( 1 => $userName ) );
             require_once 'CRM/Event/Form/Registration/Confirm.php';
             require_once 'CRM/Event/Form/Registration.php';
             //add contribution record
             $this->_params['contribution_type_id'] = 
                 CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $params['event_id'], 'contribution_type_id' );
             $this->_params['mode'] = $this->_mode;
+
             //add contribution reocord
-            $contribution = CRM_Event_Form_Registration_Confirm::processContribution( $this->_params, $result, $contactID, false );
+            $contribution = CRM_Event_Form_Registration_Confirm::processContribution( $this, $this->_params, $result, $contactID, false );
           
             // add participant record
             $participants    = array();
@@ -829,11 +814,11 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                                                         'Participant' );
             //add participant payment
             require_once 'CRM/Event/BAO/ParticipantPayment.php';
-            $paymentPartcipant = array( 'participant_id'  => $participants[0]->id ,
+            $paymentParticipant = array( 'participant_id'  => $participants[0]->id ,
                                         'contribution_id' => $contribution->id, ); 
             $ids = array();       
             
-            CRM_Event_BAO_ParticipantPayment::create( $paymentPartcipant, $ids);
+            CRM_Event_BAO_ParticipantPayment::create( $paymentParticipant, $ids);
             $eventTitle = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event',
                                                    $params['event_id'],
                                                    'title' );
@@ -851,9 +836,9 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 
             } else {
                 foreach ( $this->_contactIds as $contactID ) {
-                    $params['id'] = $contactID;
+                    $params['contact_id'] = $contactID;
                     $participants[]       = CRM_Event_BAO_Participant::create( $params );   
-                }           
+                }        
             }
             
             if ( isset( $params['event_id'] ) ) {
@@ -902,7 +887,6 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 $contributions = array( );
                 if ( $this->_single ) {
                     $contributions[] =& CRM_Contribute_BAO_Contribution::create( $contributionParams, $ids );
-                    
                 } else {
                     $ids = array( );
                     foreach ( $this->_contactIds as $contactID ) {
@@ -919,6 +903,21 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                         $ppDAO->participant_id  = $participants[$num]->id;
                         $ppDAO->contribution_id = $contributions[$num]->id;
                         $ppDAO->save();
+
+                        // also store lineitem stuff here
+                        if ( $this->_lineItem ) {
+                            require_once 'CRM/Core/BAO/LineItem.php';
+                            foreach ( $this->_lineItem as $key => $value ) {
+                                if ( $value != 'skip' ) {
+                                    foreach( $value as $line ) {
+                                        $unused = array();
+                                        $line['entity_table'] = 'civicrm_contribution';
+                                        $line['entity_id'] = $contributions[$num]->id;
+                                        CRM_Core_BAO_LineItem::create( $line, $unused );
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -973,7 +972,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 //as we are using same template for online & offline registration.
                 //So we have to build amount as array.
                 $amount = array();
-                $amount[$params['amount_level']] =  $params['amount'];
+                $amount[$params['amount_level']] =  $params['fee_amount'];
                 $this->assign( 'amount', $amount );
                 $this->assign( 'isPrimary', 1 );
             }

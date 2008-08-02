@@ -364,7 +364,7 @@ function getTable( $tableXML, &$database, &$tables ) {
                     'localizable'=> $localizable,
                     'log'        => value( 'log', $tableXML, 'false' ) );
     
-    $config  =& CRM_Core_Config::singleton( );
+    $config  =& CRM_Core_Config::singleton('crm', false);
     $fields  = array( );
     foreach ( $tableXML->field as $fieldXML ) {
         if ( value( 'drop', $fieldXML, 0 ) > 0 and value( 'drop', $fieldXML, 0 ) <= $build_version) {
@@ -396,7 +396,7 @@ function getTable( $tableXML, &$database, &$tables ) {
         getPrimaryKey( $tableXML->primaryKey, $fields, $table );
     }
 
-    $config  =& CRM_Core_Config::singleton( );
+    $config  =& CRM_Core_Config::singleton('crm', false);
     if ( value( 'index', $tableXML ) ) {
         $index   = array( );
         foreach ( $tableXML->index as $indexXML ) {

@@ -74,6 +74,17 @@ class CRM_Admin_Form_Setting_Url extends CRM_Admin_Form_Setting
         return true;
     }
 
+    public function postProcess( ) {
+        parent::postProcess( );
+
+        // ensure config is set with new values
+        $config =& CRM_Core_Config::singleton( null, true, true );
+
+        // rebuild menu items
+        require_once 'CRM/Core/Menu.php';
+        CRM_Core_Menu::store( );
+    }
+
 }
 
 

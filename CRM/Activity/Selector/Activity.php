@@ -119,13 +119,7 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
         //show  edit link only for meeting/phone and other activities
         $showUpdate = false;
         $showDelete = false;
-        if ( array_key_exists( $activityTypeId,  $activityTypes ) || $activityTypeId > 11 ) {
-            $showUpdate = true;
-            $showDelete = true;
-            $url      = 'civicrm/contact/view/activity';
-            $qsView   = "atype={$activityTypeId}&action=view&reset=1&id=%%id%%&cid=%%cid%%&context=%%cxt%%";
-            $qsUpdate = "atype={$activityTypeId}&action=update&reset=1&id=%%id%%&cid=%%cid%%&context=%%cxt%%";
-        } elseif ( $activityTypeId == $activityTypeIds['Event Registration'] )  { // event registration
+        if ( $activityTypeId == $activityTypeIds['Event Registration'] )  { // event registration
             $url      = 'civicrm/contact/view/participant';
             $qsView   = "action=view&reset=1&id={$sourceRecordId}&cid=%%cid%%&context=%%cxt%%";
         } elseif ( $activityTypeId == $activityTypeIds['Contribution'] ) { //contribution
@@ -140,11 +134,16 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
                    $activityTypeId == $activityTypeIds['Pledge Reminder'] ) { //pledge acknowledgment
             $url      = 'civicrm/contact/view/activity';
             $qsView   = "atype={$activityTypeId}&action=view&reset=1&id=%%id%%&cid=%%cid%%&context=%%cxt%%";
-        } else {
-            $showDelete = true;
+        } elseif ( $activityTypeId == $activityTypeIds['Email'] ) {
             $url      = 'civicrm/activity/view';
             $delUrl   = 'civicrm/activity';
             $qsView   = "atype={$activityTypeId}&action=view&reset=1&id=%%id%%&cid=%%cid%%&context=%%cxt%%";
+        } else {
+            $showUpdate = true;
+            $showDelete = true;
+            $url      = 'civicrm/contact/view/activity';
+            $qsView   = "atype={$activityTypeId}&action=view&reset=1&id=%%id%%&cid=%%cid%%&context=%%cxt%%";
+            $qsUpdate = "atype={$activityTypeId}&action=update&reset=1&id=%%id%%&cid=%%cid%%&context=%%cxt%%";
         }
 
         $qsDelete  = "atype={$activityTypeId}&action=delete&reset=1&id=%%id%%&cid=%%cid%%&context=%%cxt%%";
@@ -155,9 +154,6 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
             $qsDelete .= "&caseid=%%caseid%%";
         }
         
-        if ( $activityTypeId == array_search('Email',CRM_Core_PseudoConstant::activityType( )) ) {
-            $showDelete = false;
-        }
         self::$_actionLinks = array(
                                     CRM_Core_Action::VIEW => 
                                     array(
@@ -279,7 +275,7 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
     function &getRows($action, $offset, $rowCount, $sort, $output = null, $case = null) 
     {
         $params['contact_id'] = $this->_contactId;
-
+        $config = CRM_Core_Config::singleton();
         $rows =& CRM_Activity_BAO_Activity::getActivities($params, $offset, $rowCount, $sort,
                                                               'Activity', $this->_admin, $case, $this->_context );
         
@@ -291,17 +287,6 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
         
         foreach ($rows as $k => $row) {
             $row =& $rows[$k];
-            if ( CRM_Utils_Array::value('assignee_contact_ids', $row ) ) {
-                $row['assignee_contact_name'] = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
-                                                                             $row['assignee_contact_ids'][0],
-                                                                             'sort_name', 'id' );
-            }
-            
-            if ( CRM_Utils_Array::value('target_contact_ids', $row ) ) {
-                $row['target_contact_name']   = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
-                                                                             $row['target_contact_ids'][0],
-                                                                             'sort_name', 'id' );
-            }
             
             // DRAFTING: provide a facility for db-stored strings
             // localize the built-in activity names for display
@@ -325,7 +310,8 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
                   
             $row['status'] = $row['status_id']?$activityStatus[$row['status_id']]:null;
 
-            $actionLinks = $this->actionLinks( $row['activity_type_id'], $row['source_record_id'] );
+            $actionLinks = $this->actionLinks( CRM_Utils_Array::value( 'activity_type_id', $row ),
+                                               CRM_Utils_Array::value( 'source_record_id', $row ) );
             $actionMask  = array_sum(array_keys($actionLinks)) & CRM_Core_Action::mask( $this->_permission );
             
             if ( $output != CRM_Core_Selector_Controller::EXPORT && $output != CRM_Core_Selector_Controller::SCREEN ) {
@@ -334,11 +320,18 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
                                                             array('id'     => $row['id'],
                                                                   'cid'    => $this->_contactId,
                                                                   'cxt'    => $this->_context,
-                                                                  'caseid' => $row['case_id']) );
+                                                                  'caseid' => CRM_Utils_Array::value( 'case_id', $row ) 
+                                                                  ));
+            }
+            
+            if($config->civiHRD){
+                require_once 'CRM/Core/OptionGroup.php';
+                $caseActivityType = CRM_Core_OptionGroup::values('case_activity_type');
+                $row['activitytag1'] =  $caseActivityType[CRM_Core_DAO::getFieldValue('CRM_Activity_DAO_Activity',$row['id'],'activity_tag1_id' )];
             }
             unset($row);
         }
-
+        
         return $rows;
     }
     

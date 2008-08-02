@@ -135,10 +135,14 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         $this->applyFilter('__ALL__', 'trim');
         
         $attributes = CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_CustomGroup' );
-
-        // title
+        
+        //title
         $this->add('text', 'title', ts('Group Name'), $attributes['title'], true);
-            
+        $this->addRule( 'title',
+                        ts( 'Name already exists in Database.' ),
+                        'objectExists',
+                        array( 'CRM_Core_DAO_CustomGroup', $this->_id, 'title' ) );   
+        
         require_once "CRM/Contribute/PseudoConstant.php";
         require_once "CRM/Member/BAO/MembershipType.php";
         $sel1 = CRM_Core_SelectValues::customGroupExtends();
@@ -289,10 +293,10 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         CRM_Core_BAO_Cache::deleteGroup( 'contact fields' );
       
         if ($this->_action & CRM_Core_Action::UPDATE) {
-            CRM_Core_Session::setStatus(ts('Your Group \'%1 \' has been saved.', array(1 => $group->title)));
+            CRM_Core_Session::setStatus(ts('Your custom data group \'%1 \' has been saved.', array(1 => $group->title)));
         } else {
             $url = CRM_Utils_System::url( 'civicrm/admin/custom/group/field', 'reset=1&action=add&gid=' . $group->id);
-            CRM_Core_Session::setStatus(ts('Your Group \'%1\' has been added. You can add custom fields to this group now.',
+            CRM_Core_Session::setStatus(ts('Your custom data group \'%1\' has been added. You can add custom fields to this group now.',
                                            array(1 => $group->title)));
             $session =& CRM_Core_Session::singleton( );
             $session->replaceUserContext($url);

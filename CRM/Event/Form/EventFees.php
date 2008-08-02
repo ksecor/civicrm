@@ -196,7 +196,7 @@ class CRM_Event_Form_EventFees
                     $discountId = $form->_discountId;
                 }
 
-                if ( $discountId ) {
+                if ( $form->_eventId && $discountId ) {
                     $defaultDiscountId = CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_EventPage", 
                                                                       $form->_eventId, 
                                                                       'default_discount_id' );
@@ -212,7 +212,7 @@ class CRM_Event_Form_EventFees
                     $optionGroupId = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_Discount", 
                                                                   $discountId,
                                                                   'option_group_id' );
-                } else {
+                } else {                    
                     if ( $form->_eventId ) {
                         $defaults[$form->_participantId]['amount'] = CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_EventPage", 
                                                                                                   $form->_eventId, 
@@ -222,7 +222,7 @@ class CRM_Event_Form_EventFees
                 }
             }
 
-            if ( $defaults[$form->_participantId]['event_id'] && ($form->_action == CRM_Core_Action::UPDATE ) ) {
+            if ( ($form->_action == CRM_Core_Action::UPDATE ) && CRM_Utils_Array::value( 'event_id', $defaults[$form->_participantId] ) ) {
                 if ( ! $optionGroupId ) {
                     $optionGroupId = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_OptionGroup", 
                                                                   'civicrm_event_page.amount.' . 

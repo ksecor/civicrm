@@ -108,7 +108,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup
         // enclose the below in a transaction
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
-
+        
         $group->save();
         if ( $tableName ) {
             // now append group id to table name, this prevent any name conflicts
@@ -472,6 +472,7 @@ SELECT $select
                 }
             }
         }
+
         //hack for field type File
         $session = & CRM_Core_Session::singleton( );
         $session->set('uploadNames', $uploadNames);
@@ -919,7 +920,7 @@ SELECT $select
         }
     }
 
-    static function postProcess( &$groupTree, &$params ) 
+    static function postProcess( &$groupTree, &$params, $skipFile = false ) 
     {
         // Get the Custom form values and groupTree        
         // first reset all checkbox and radio data
@@ -950,7 +951,9 @@ SELECT $select
                     if ( ! empty( $v ) ) {
                         $customValue = array_keys( $v );
                         $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = 
-                            CRM_Core_DAO::VALUE_SEPARATOR.implode(CRM_Core_DAO::VALUE_SEPARATOR, $customValue).CRM_Core_DAO::VALUE_SEPARATOR;
+                            CRM_Core_DAO::VALUE_SEPARATOR .
+                            implode(CRM_Core_DAO::VALUE_SEPARATOR, $customValue) .
+                            CRM_Core_DAO::VALUE_SEPARATOR;
                     } else {
                         $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = null;
                     }
@@ -960,7 +963,9 @@ SELECT $select
                 case 'Multi-Select':  
                     if ( ! empty( $v ) ) {
                         $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = 
-                            CRM_Core_DAO::VALUE_SEPARATOR.implode(CRM_Core_DAO::VALUE_SEPARATOR, $v).CRM_Core_DAO::VALUE_SEPARATOR;
+                            CRM_Core_DAO::VALUE_SEPARATOR .
+                            implode(CRM_Core_DAO::VALUE_SEPARATOR, $v) .
+                            CRM_Core_DAO::VALUE_SEPARATOR;
                     } else {
                         $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = null;
                     }
@@ -972,25 +977,30 @@ SELECT $select
                     break;
          
                 case 'File':
+                    if ( $skipFile ) {
+                        continue;
+                    }
+
                     //store the file in d/b
                     $entityId   = explode( '=', $groupTree['info']['where'][0] );
-                    $fileParams = array( 'uri'        =>  $filename,
-                                         'mime_type'  => $_FILES['custom_' . $fieldId]['type'],
-                                         'upload_date'=> date('Ymdhis') );
+                    $fileParams = array( 'upload_date'=> date('Ymdhis') );
                     
                     if ( $groupTree[$groupId]['fields'][$fieldId]['customValue']['fid'] ) {
                         $fileParams['id'] = $groupTree[$groupId]['fields'][$fieldId]['customValue']['fid'];
                     }     
                     if ( ! empty( $v ) ) {
                         require_once 'CRM/Core/BAO/File.php';
-                        CRM_Core_BAO_File::filePostProcess($v, 
+                        $fileParams['uri'] = $v['name'];
+                        $fileParams['mime_type'] = $v['type'];
+                        CRM_Core_BAO_File::filePostProcess($v['name'], 
                                                            $groupTree[$groupId]['fields'][$fieldId]['customValue']['fid'], 
                                                            $groupTree[$groupId]['table_name'],
                                                            trim( $entityId[1] ),
                                                            false,
                                                            true,
                                                            $fileParams,
-                                                           'custom_' . $fieldId
+                                                           'custom_' . $fieldId,
+                                                           $v['type']
                                                            );
                     }
                     $defaults   = array( );
@@ -1441,6 +1451,9 @@ ORDER BY weight ASC, label ASC";
             
         case 'Grant':
             return 'civicrm_grant';
+            
+        case 'Pledge':
+            return 'civicrm_pledge';    
             
         default:
             CRM_Core_Error::fatal( );

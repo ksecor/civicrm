@@ -64,7 +64,9 @@ class CRM_Export_BAO_Export
         $primary          = false;
         $returnProperties = array( );
         $origFields       = $fields;
-        
+        $queryMode        = null; 
+        $paymentFields    = false;
+
         if ( $fields ) {
             //construct return properties 
             $locationTypes =& CRM_Core_PseudoConstant::locationType();
@@ -210,6 +212,7 @@ class CRM_Export_BAO_Export
         $dao =& CRM_Core_DAO::executeQuery( $queryString, CRM_Core_DAO::$_nullArray );
         $header = false;
         
+        $addPaymentHeader = false;
         if ( $paymentFields ) {
             $addPaymentHeader = true;
             //special return properties for event and members
@@ -251,7 +254,11 @@ class CRM_Export_BAO_Export
                 }
 
                 //build row values (data)
-                $fieldValue = $dao->$field;
+                if ( property_exists( $dao, $field ) ) {
+                    $fieldValue = $dao->$field;
+                } else {
+                    $fieldValue = '';
+                }
                 
                 if ( $field == 'id' ) {
                     $row[$field] = $dao->contact_id;
@@ -310,7 +317,7 @@ class CRM_Export_BAO_Export
             }
 
             //remove organization name for individuals if it is set for current employer
-            if ( $row['contact_type'] == 'Individual' ) {
+            if ( CRM_Utils_Array::value('contact_type', $row ) && $row['contact_type'] == 'Individual' ) {
                 $row['organization_name'] = '';
             }
             

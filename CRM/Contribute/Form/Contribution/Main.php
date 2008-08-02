@@ -65,6 +65,12 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         // check if the user is registered and we have a contact ID
         $session =& CRM_Core_Session::singleton( );
         $contactID = $session->get( 'userID' );
+        
+        if ( !$contactID ) {
+            //retrieve contact id from url if its send
+            $contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
+        }
+
         if ( $contactID ) {
             $options = array( );
             $fields = array( );
@@ -152,9 +158,9 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 //         $this->_defaults['credit_card_number']   = '4807731747657838';
 //         $this->_defaults['cvv2']                 = '000';
 //         $this->_defaults['credit_card_exp_date'] = array( 'Y' => '2009', 'M' => '01' );
-        
+
         //build set default for pledge overdue payment.
-        if ( $this->_values['pledge_id'] ) {
+        if ( CRM_Utils_Array::value( 'pledge_id', $this->_values ) ) {
             //get all payment statuses.
             $statuses = array( );
             $returnProperties = array( 'status_id' );
@@ -172,6 +178,9 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                     $duePayment = true;
                 }
             }
+        } else if ( CRM_Utils_Array::value( 'pledge_block_id', $this->_values ) ) {
+            //set default to one time contribution.
+            $this->_defaults['is_pledge'] = 0;  
         }
         
         return $this->_defaults;
@@ -190,31 +199,30 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $this->applyFilter('__ALL__', 'trim');
         $this->add( 'text', "email-{$this->_bltID}",
                     ts( 'Email Address' ), array( 'size' => 30, 'maxlength' => 60 ), true );
-
-        if ( $this->_values['is_monetary'] ) {
-            require_once 'CRM/Core/Payment/Form.php';
-            CRM_Core_Payment_Form::buildCreditCard( $this );
-        }
-
-        $this->_separateMembershipPayment = false;
-        if ( in_array("CiviMember", $config->enableComponents) ) {
-            $isTest = 0;
-            if ( $this->_action & CRM_Core_Action::PREVIEW ) {
-                $isTest = 1;
-            }
+        
+        //don't build membership block when pledge_id is passed
+        if ( ! CRM_Utils_Array::value( 'pledge_id', $this->_values ) ) {
+            $this->_separateMembershipPayment = false;
+            if ( in_array("CiviMember", $config->enableComponents) ) {
+                $isTest = 0;
+                if ( $this->_action & CRM_Core_Action::PREVIEW ) {
+                    $isTest = 1;
+                }
             
-            require_once 'CRM/Member/BAO/Membership.php';
-            $this->_separateMembershipPayment = 
-                CRM_Member_BAO_Membership::buildMembershipBlock( $this , 
-                                                                 $this->_id , 
-                                                                 true, null, false, 
-                                                                 $isTest, $this->_membershipContactID );
+                require_once 'CRM/Member/BAO/Membership.php';
+                $this->_separateMembershipPayment = 
+                    CRM_Member_BAO_Membership::buildMembershipBlock( $this , 
+                                                                     $this->_id , 
+                                                                     true, null, false, 
+                                                                     $isTest, $this->_membershipContactID );
+            }
+            $this->set( 'separateMembershipPayment', $this->_separateMembershipPayment );
         }
-        $this->set( 'separateMembershipPayment', $this->_separateMembershipPayment );
 
-        if ( $this->_values['amount_block_is_active'] && !$this->_values['pledge_id'] ) {
+        if ( CRM_Utils_Array::value( 'amount_block_is_active', $this->_values ) 
+             && ! CRM_Utils_Array::value( 'pledge_id', $this->_values ) ) {
             $this->buildAmount( $this->_separateMembershipPayment );
-
+            
             if ( $this->_values['is_monetary'] &&
                  $this->_values['is_recur']    &&
                  $this->_paymentProcessor['is_recur'] ) {
@@ -231,7 +239,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         }
         
         //we allow premium for pledge during pledge creation only.
-        if ( !$this->_values['pledge_id'] ) {
+        if ( ! CRM_Utils_Array::value( 'pledge_id', $this->_values ) ) {
             require_once 'CRM/Contribute/BAO/Premium.php';
             CRM_Contribute_BAO_Premium::buildPremiumBlock( $this , $this->_id ,true );
         }
@@ -242,13 +250,20 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         
         //build pledge block.
         $config =& CRM_Core_Config::singleton( );
-        if ( in_array('CiviPledge', $config->enableComponents ) ) {
-            $this->buildPledgeBlock( );
+        if ( in_array('CiviPledge', $config->enableComponents ) && CRM_Utils_Array::value( 'pledge_block_id', $this->_values ) ) {
+            require_once 'CRM/Pledge/BAO/PledgeBlock.php';
+            CRM_Pledge_BAO_PledgeBlock::buildPledgeBlock( $this );
         }
         
         $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
         $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
-       
+
+        // doing this later since the express button type depends if there is an upload or not
+        if ( $this->_values['is_monetary'] ) {
+            require_once 'CRM/Core/Payment/Form.php';
+            CRM_Core_Payment_Form::buildCreditCard( $this );
+        }
+
         //to create an cms user 
         $session =& CRM_Core_Session::singleton( );
         $userID = $session->get( 'userID' );
@@ -273,8 +288,9 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         // if payment is via a button only, dont display continue
         if ( $this->_paymentProcessor['billing_mode'] != CRM_Core_Payment::BILLING_MODE_BUTTON ||
              ! $this->_values['is_monetary']) {
+            // check if button type should be next or upload
             $this->addButtons(array( 
-                                    array ( 'type'      => 'next', 
+                                    array ( 'type'      => $this->buttonType( ),
                                             'name'      => ts('Continue >>'), 
                                             'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
                                             'isDefault' => true   ), 
@@ -491,111 +507,8 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                     $attributes['installments'] );
         $this->addRule( 'installments', ts( 'Number of installments must be a whole number.' ), 'integer' );
     }
-    
-    /**
-     * Function to build Pledge Block in Contribution Pages 
-     * 
-     * @param int $pageId 
-     * @static
-     */
-    function buildPledgeBlock( ) 
-    {
-        require_once 'CRM/Pledge/DAO/PledgeBlock.php';
-        $dao =& new CRM_Pledge_DAO_PledgeBlock( );
-        $dao->entity_table = 'civicrm_contribution_page';
-        $dao->entity_id = $this->_id; 
-        if ( $dao->find(true) ) {
-            $pledgeBlockID = $dao->id;
-            $pledgeBlock   = array();
-            CRM_Core_DAO::storeValues($dao, $pledgeBlock );
-        }
-        
-        if ( $pledgeBlockID ) { 
-            $this->_values['pledge_block_id'] = $pledgeBlockID;
-            $this->assign( 'pledgeBlock', true );
-            //build pledge payment fields.
-            if ( $this->_values['pledge_id'] ) {
-                //get all payments required details.
-                $allPayments = array( );
-                $returnProperties = array( 'status_id', 'scheduled_date', 'scheduled_amount' );
-                CRM_Core_DAO::commonRetrieveAll( 'CRM_Pledge_DAO_Payment', 'pledge_id', 
-                                                 $this->_values['pledge_id'], $allPayments, $returnProperties );
-                //get all status
-                require_once 'CRM/Contribute/PseudoConstant.php';
-                $allStatus = CRM_Contribute_PseudoConstant::contributionStatus( );
-                
-                $nextPayment = array( );
-                $isNextPayment = false;
-                $overduePayments = array( );
-                $now = date('Ymd');
-                foreach( $allPayments as $payID => $value ) {
-                    if ( $allStatus[$value['status_id']] == 'Overdue' ||
-                         CRM_Utils_Date::overdue( CRM_Utils_Date::customFormat( $value['scheduled_date'], '%Y%m%d'), $now ) ) {
-                        $overduePayments[$payID] = array( 'id'               => $payID ,
-                                                          'scheduled_amount' => CRM_Utils_Rule::cleanMoney( $value['scheduled_amount']),
-                                                          'scheduled_date'   => CRM_Utils_Date::customFormat( $value['scheduled_date'], 
-                                                                                                              '%B %d') 
-                                                          );
-                    } else if (  !$isNextPayment && 
-                                 $allStatus[$value['status_id']] == 'Pending' ) { 
-                        //get the next payment.
-                        $nextPayment =  array( 'id'               => $payID ,
-                                               'scheduled_amount' => CRM_Utils_Rule::cleanMoney( $value['scheduled_amount']),
-                                               'scheduled_date'   => CRM_Utils_Date::customFormat( $value['scheduled_date'], 
-                                                                                                   '%B %d') 
-                                               );
-                        $isNextPayment = true;
-                    }
-                }
-                
-                //build check box array for payments.
-                $payments = array( );
-                if ( !empty( $overduePayments ) ) {
-                    foreach( $overduePayments as $id => $payment ) {
-                        $key = ts("$%1 - due on %2 (overdue)", array( 1 => CRM_Utils_Array::value( 'scheduled_amount', $payment ),
-                                                                      2 => CRM_Utils_Array::value( 'scheduled_date', $payment ) ) );
-                        $payments[$key] = CRM_Utils_Array::value( 'id', $payment ); 
-                    }
-                }
-                
-                if ( !empty( $nextPayment ) ) {
-                    $key = ts("$%1 - due on %2", array( 1 => CRM_Utils_Array::value( 'scheduled_amount', $nextPayment ),
-                                                        2 => CRM_Utils_Array::value( 'scheduled_date', $nextPayment ) ) );
-                    $payments[$key] = CRM_Utils_Array::value( 'id', $nextPayment ); 
-                }
-                //give error if empty or build form for payment.
-                if ( empty( $payments ) ) {
-                    CRM_Core_Error::fatal( ts( "Oops. It looks like there is no valid payment status for online payment." ) ); 
-                } else {
-                    $this->assign('is_pledge_payment', true );
-                    $this->_values['is_pledge_payment'] = 1;
-                    $this->addCheckBox( 'pledge_amount', ts( 'Make Pledge Payment(s):' ), $payments );
-                } 
-            } else {
-                //build form for pledge creation.
-                $pledgeOptions = array( '0' => ts('I want to make a one-time contribution'), 
-                                        '1' => ts('I pledge to contribute this amount every') );
-                $this->addRadio( 'is_pledge_frequency_interval', ts('Pledge Frequency Interval'), $pledgeOptions,
-                                 null, array( '<br/>' ) );
-                $this->addElement( 'text', 'pledge_installments', ts('Installments'), array('size'=>3) );
-                if ( CRM_Utils_Array::value( 'is_pledge_interval', $pledgeBlock ) ) {
-                    $this->assign( 'is_pledge_interval', CRM_Utils_Array::value( 'is_pledge_interval', $pledgeBlock ));
-                    $this->addElement( 'text', 'pledge_frequency_interval', null, array('size'=>3) );
-                } else {
-                    $this->add( 'hidden', 'pledge_frequency_interval', 1 ); 
-                }
-                //Frequency unit drop-down label suffixes switch from *ly to *(s)
-                $freqUnitVals  = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $pledgeBlock['pledge_frequency_unit'] );
-                $freqUnits = array( );
-                foreach ( $freqUnitVals as $key => $val ) {
-                    $freqUnits[$val]  = ts( '%1', array(1 => $val) );
-                    $freqUnits[$val] .= ts('(s)');
-                }
-                $this->addElement( 'select', 'pledge_frequency_unit', null, $freqUnits ); 
-            }
-        }
-    }
-    
+  
+   
     /** 
      * global form rule 
      * 
@@ -610,8 +523,14 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
     static function formRule( &$fields, &$files, &$self ) 
     { 
         $errors = array( ); 
-
         $amount = self::computeAmount( $fields, $self );
+
+        $email = $fields["email-{$self->_bltID}"];
+        require_once 'CRM/Core/BAO/UFMatch.php';
+        if ( CRM_Core_BAO_UFMatch::isDuplicateUser( $email ) ) {
+            $errors["email-{$self->_bltID}"] = ts( 'The email %1 already exists in the database.',
+                                                   array( 1 => $email ) );
+        }
 
         if ( isset( $fields['selectProduct'] ) &&
              $fields['selectProduct'] != 'no_thanks' &&
@@ -724,38 +643,32 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         //validate the pledge fields.
         if ( CRM_Utils_Array::value( 'pledge_block_id', $self->_values ) ) {
             //validation for pledge payment.
-            if (  CRM_Utils_Array::value( 'pledge_id', $self->_values ) 
-                  && CRM_Utils_Array::value( 'is_pledge_payment', $self->_values ) ) {
+            if (  CRM_Utils_Array::value( 'pledge_id', $self->_values ) ) {
                 if ( empty( $fields['pledge_amount'] ) ) {
-                    $errors['pledge_amount'] = ts( 'Atleast one option needs to be checked.' );
+                    $errors['pledge_amount'] = ts( 'At least one payment option needs to be checked.' );
                 }
-            } else if ( CRM_Utils_array::value( 'is_pledge_frequency_interval', $fields ) ) {
-                if ( is_numeric( $fields['pledge_installments'] ) ) {
-                    //installments should be > 1
-                    if ( $fields['pledge_installments'] < 1 ) {
-                        $errors['pledge_installments'] = ts( 'Pledge Installments field must be > 1' ); 
-                    } else if ( $fields['pledge_installments'] ==  1 ) {
-                        $errors['pledge_installments'] = ts('Pledges consist of multiple scheduled payments. Select one-time contribution if you want to make your gift in a single payment.');
-                    }
-                } else if ( !empty( $fields['pledge_installments'] ) ) {
-                    //installments should be numeric.
-                    $errors['pledge_installments'] = ts("Please enter a valid Pledge Installments.");
+            } else if ( CRM_Utils_Array::value( 'is_pledge', $fields ) ) { 
+                if ( CRM_Utils_Rule::positiveInteger( CRM_Utils_Array::value( 'pledge_installments', $fields ) ) == false ) {
+                    $errors['pledge_installments'] = ts('Please enter a valid pledge installment.');
                 } else {
-                    //installments is  required.
-                    $errors['pledge_installments'] = ts( 'Pledge Installments is required field.' ); 
+                    if ( CRM_Utils_Array::value( 'pledge_installments', $fields ) == null) {
+                        $errors['pledge_installments'] = ts( 'Pledge Installments is required field.' ); 
+                    } else if (  CRM_Utils_array::value( 'pledge_installments', $fields ) == 1 ) {
+                        $errors['pledge_installments'] = ts('Pledges consist of multiple scheduled payments. Select one-time contribution if you want to make your gift in a single payment.');
+                    } else if (  CRM_Utils_array::value( 'pledge_installments', $fields ) == 0 ) {
+                        $errors['pledge_installments'] = ts('Pledge Installments field must be > 1.');
+                    }
                 }
                 
                 //validation for Pledge Frequency Interval.
-                if ( !is_numeric( $fields['pledge_frequency_interval'] ) ) {
-                    if ( !empty( $fields['pledge_frequency_interval'] ) ) {
-                        //Frequency Interval should be numeric.
-                        $errors['pledge_frequency_interval'] = ts("Please enter a valid Pledge Frequency Interval.");   
-                    } else {
-                        //Frequency Interval is  required.
-                        $errors['pledge_frequency_interval'] = ts( 'Pledge Frequency Interval is required field.' ); 
+                if ( CRM_Utils_Rule::positiveInteger( CRM_Utils_Array::value( 'pledge_frequency_interval', $fields ) ) == false ) {
+                    $errors['pledge_frequency_interval'] = ts('Please enter a valid Pledge Frequency Interval.');
+                } else {
+                    if ( CRM_Utils_Array::value( 'pledge_frequency_interval', $fields ) == null) {
+                        $errors['pledge_frequency_interval'] = ts( 'Pledge Frequency Interval. is required field.' ); 
+                    } else if ( CRM_Utils_array::value( 'pledge_frequency_interval', $fields ) == 0 )  {
+                        $errors['pledge_frequency_interval'] = ts( 'Pledge frequency interval field must be > 0' );
                     }
-                } else if ( $fields['pledge_frequency_interval'] < 1) {
-                    $errors['pledge_frequency_interval'] = ts( 'Pledge frequency interval field must be > 0' );
                 }
             }
         }
@@ -810,7 +723,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         } else if  ( !empty( $params['pledge_amount'] ) ) {
             $amount = 0;
             foreach ( $params['pledge_amount'] as $paymentId => $dontCare ) {
-                $amount+=CRM_Core_DAO::getFieldValue( 'CRM_Pledge_DAO_Payment', $paymentId, 'scheduled_amount' );
+                $amount += CRM_Core_DAO::getFieldValue( 'CRM_Pledge_DAO_Payment', $paymentId, 'scheduled_amount' );
             } 
         } else {
             if ( CRM_Utils_Array::value('amount_id',$form->_values) ) {
@@ -849,11 +762,11 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 
         $params['amount'] = self::computeAmount( $params, $this );
 
-        if ( ! $params['amount'] && $params['selectMembership'] ) {
+        if ( ! $params['amount'] && $params['selectMembership'] && !$this->_separateMembershipPayment ) {
             $memFee = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', $params['selectMembership'], 'minimum_fee' );
             $params['amount'] = $memFee ? $memFee : 0;
         }
-        
+
         if ( ! isset( $params['amount_other'] ) ) {
             $this->set( 'amount_level', $params['amount_level'] ); 
         }

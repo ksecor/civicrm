@@ -34,7 +34,7 @@
     <td>
         {ts}Select the payment processor to be used for this contribution page.{/ts}
         {ts}Configure contribution amount options and labels, minimum and maximum amounts.{/ts}
-        {ts}Enable recurring contributions.{/ts}
+        {ts}Enable pledges OR recurring contributions (recurring contributions are not supported for all payment processors).{/ts}
         {ts}Give contributors the option to 'pay later' (e.g. mail in a check, call in a credit card, etc.).{/ts}
     </td>
 </tr>

@@ -176,11 +176,11 @@ function &civicrm_contribution_search( &$params ) {
     }
     
     require_once 'CRM/Contribute/BAO/Query.php';
+    require_once 'CRM/Contact/BAO/Query.php';
     if ( empty( $returnProperties ) ) {
         $returnProperties = CRM_Contribute_BAO_Query::defaultReturnProperties( CRM_Contact_BAO_Query::MODE_CONTRIBUTE );
     }
     
-    require_once 'CRM/Contact/BAO/Query.php';
     $newParams =& CRM_Contact_BAO_Query::convertFormValues( $inputParams );
 
     $query =& new CRM_Contact_BAO_Query( $newParams, $returnProperties, null );

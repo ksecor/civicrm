@@ -170,6 +170,11 @@ class CRM_Price_Page_Field extends CRM_Core_Page {
                 $priceField[$priceFieldBAO->id]['expire_on'] = '';
             }
 
+            // need to translate html types from the db
+            require_once 'CRM/Core/BAO/PriceField.php';
+            $htmlTypes = CRM_Core_BAO_PriceField::htmlTypes( );
+            $priceField[$priceFieldBAO->id]['html_type'] = $htmlTypes[$priceField[$priceFieldBAO->id]['html_type']];
+
             $priceField[$priceFieldBAO->id]['action'] = CRM_Core_Action::formLink(self::actionLinks(), $action, 
                                                                                     array('fid'  => $priceFieldBAO->id,
                                                                                           'sid'  => $this->_sid ));

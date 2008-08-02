@@ -376,6 +376,21 @@ CREATE TABLE `civicrm_pledge_payment` (
   CONSTRAINT `FK_civicrm_pledge_payment_contribution_id` FOREIGN KEY (`contribution_id`) REFERENCES `civicrm_contribution` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+CREATE TABLE `civicrm_case_contact` (
+    id int(10) unsigned NOT NULL auto_increment,
+    `case_id` int(10) unsigned NOT NULL,
+    `contact_id` int(10) unsigned NOT NULL,
+    PRIMARY KEY (id),
+    CONSTRAINT `FK_civicrm_case_contact_case_id` FOREIGN KEY (`case_id`) REFERENCES `civicrm_case` (`id`) ON DELETE CASCADE,
+    CONSTRAINT `FK_civicrm_case_contact_contact_id` FOREIGN KEY (`contact_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE CASCADE,
+    UNIQUE `UI_case_contact_id` (`case_id`, `contact_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+INSERT INTO civicrm_case_contact (case_id, contact_id)
+SELECT ca.id, ca.contact_id
+FROM   civicrm_case ca
+ON DUPLICATE KEY UPDATE case_id=ca.id;
+
 
 -- fixes noticed via db diff
 
@@ -513,9 +528,21 @@ UPDATE civicrm_dedupe_rule SET rule_table='civicrm_contact' WHERE rule_table IN 
 ALTER TABLE `civicrm_case`
     DROP FOREIGN KEY `FK_civicrm_case_contact_id`;
 ALTER TABLE `civicrm_case`
-    ADD CONSTRAINT `FK_civicrm_case_contact_id` FOREIGN KEY (`contact_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE CASCADE;
-
+    DROP `contact_id`; 
+	
 ALTER TABLE `civicrm_case_activity`
     DROP FOREIGN KEY `FK_civicrm_case_activity_case_id`;
 ALTER TABLE `civicrm_case_activity`
     ADD CONSTRAINT `FK_civicrm_case_activity_case_id` FOREIGN KEY (`case_id`) REFERENCES `civicrm_case` (`id`) ON DELETE CASCADE;
+
+
+-- current employer data upgrade
+
+SELECT @relTypeId := id FROM civicrm_relationship_type WHERE name_a_b='Employee of'; 
+
+UPDATE civicrm_relationship cr
+INNER JOIN civicrm_contact cci ON (cr.contact_id_a=cci.id)  
+INNER JOIN civicrm_contact cco ON (cr.contact_id_b=cco.id)  
+SET   cci.employer_id = cr.contact_id_b, 
+      cci.organization_name = cco.organization_name
+WHERE cr.relationship_type_id=@relTypeId AND cr.is_active=1 AND IF(cr.end_date IS NULL, 1, (DATEDIFF(CURDATE( ), cr.end_date) <= 0));

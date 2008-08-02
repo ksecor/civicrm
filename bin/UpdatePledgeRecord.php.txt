@@ -38,11 +38,12 @@ class CRM_UpdatePledgeRecord
     function __construct( ) 
     {
         $config =& CRM_Core_Config::singleton();
-        
         // this does not return on failure
         require_once 'CRM/Utils/System.php';
         require_once 'CRM/Utils/Hook.php';
+        
         CRM_Utils_System::authenticateScript( true );
+        $config->cleanURL = 1;
     }
     
     public function updatePledgeStatus( )
@@ -55,6 +56,7 @@ class CRM_UpdatePledgeRecord
         unset ( $allStatus[3] );
         unset ( $allStatus[4] );
         $statusIds = implode(',', array_keys( $allStatus ) );
+        $updateCnt = 0;
         
         $query = "
         SELECT    pledge.contact_id    as contact_id,
@@ -71,6 +73,7 @@ class CRM_UpdatePledgeRecord
         pledge.additional_reminder_day as additional_reminder_day,
         pledge.status_id               as pledge_status,
         payment.status_id              as payment_status,
+        pledge.is_test                 as is_test,
         SUM(payment.scheduled_amount)  as amount_due,
         ( SELECT sum(civicrm_pledge_payment.scheduled_amount) 
         FROM civicrm_pledge_payment 
@@ -84,7 +87,7 @@ class CRM_UpdatePledgeRecord
         ";
         
         $dao =& CRM_Core_DAO::executeQuery( $query );
-
+        
         require_once 'CRM/Contact/BAO/Contact/Utils.php';
         require_once 'CRM/Utils/Date.php';
         $now = date('Ymd');
@@ -100,14 +103,15 @@ class CRM_UpdatePledgeRecord
                                                       'contact_id'              => $dao->contact_id,
                                                       'pledge_id'               => $dao->pledge_id,
                                                       'checksumValue'           => $checksumValue,
-                                                      'contribution_id'         => $dao->contribution_page_id,
+                                                      'contribution_page_id'    => $dao->contribution_page_id,
                                                       'reminder_count'          => $dao->reminder_count,
                                                       'max_reminders'           => $dao->max_reminders,
                                                       'reminder_date'           => $dao->reminder_date,
                                                       'initial_reminder_day'    => $dao->initial_reminder_day,
                                                       'additional_reminder_day' => $dao->additional_reminder_day,
                                                       'pledge_status'           => $dao->pledge_status,
-                                                      'payment_status'          => $dao->payment_status
+                                                      'payment_status'          => $dao->payment_status,
+                                                      'is_test'                 => $dao->is_test
                                                       );
             
             $contactIds[$dao->contact_id] = $dao->contact_id;
@@ -133,7 +137,7 @@ class CRM_UpdatePledgeRecord
         // retrieve contact tokens
         require_once 'CRM/Mailing/BAO/Mailing.php';
         list( $contactDetails ) = CRM_Mailing_BAO_Mailing::getDetails( $contactIds );
-        
+                      
         // assign domain values to template
         $template =& CRM_Core_Smarty::singleton( );
         $template->assign( 'domain', $domainValues );
@@ -144,26 +148,29 @@ class CRM_UpdatePledgeRecord
         require_once 'CRM/Pledge/BAO/Payment.php';
 
         // process the updating script...
-
         foreach ( $pledgePayments as $pledgeId => $paymentIds ) {
             // 1. update the pledge /pledge payment status. returns new status when an update happens
-            echo "<br/>Checking status for Pledge Id: {$pledgeId}\n";
+            echo "<br />Checking status for Pledge Id: {$pledgeId}";
             $newStatus   = CRM_Pledge_BAO_Payment::updatePledgePaymentStatus( $pledgeId, $paymentIds,
                                                                               array_search( 'Overdue', $allStatus ) );
-            
             if ( $newStatus ) {
-                echo "<br/>- status updated to: {$allStatus[$newStatus]}\n\n";
+                echo "<br />- status updated to: {$allStatus[$newStatus]}";
+                $updateCnt += 1;
             }           
         }
 
 
         foreach ( $pledgeDetails as $paymentId => $details ) {
-            $contactId   = $details['contact_id'];
-            $pledgerName = $contactDetails[$contactId]['display_name']; 
-           
+            if ( array_key_exists($details['contact_id'], $contactDetails) ) {
+                $contactId   = $details['contact_id'];
+                $pledgerName = $contactDetails[$contactId]['display_name']; 
+            } else {
+                continue;
+            }
+            
             $scheduledDate = new DateTime($details['scheduled_date']);
             $reminderDate  = new DateTime($details['reminder_date']);
-
+            
             $scheduledDate->modify("-". $details['initial_reminder_day'] ."day");
             $reminderDate->modify("+". $details['additional_reminder_day']."day");
             
@@ -172,60 +179,79 @@ class CRM_UpdatePledgeRecord
             
             if ( $details['reminder_count'] < $details['max_reminders'] 
                  && ( empty ( $details['reminder_date'] ) && $scheduledDate <= $now )
-                 || $reminderDate <= $now )
-                {            
-                    $toEmail = $doNotEmail = $onHold = null;
+                 || $reminderDate <= $now ) {            
+                
+                $toEmail = $doNotEmail = $onHold = null;
+                
+                if ( ! empty ( $contactDetails[$contactId]['email'] ) ) {
+                    $toEmail = $contactDetails[$contactId]['email']; 
+                }
+                
+                if ( ! empty ( $contactDetails[$contactId]['do_not_email'] ) ) {
+                    $doNotEmail = $contactDetails[$contactId]['do_not_email']; 
+                }
+
+                if ( ! empty ( $contactDetails[$contactId]['on_hold'] ) ) {
+                    $onHold = $contactDetails[$contactId]['on_hold']; 
+                }
+                
+                // 2. send acknowledgement mail
+                if ( $toEmail && ! ( $doNotEmail || $onHold ) ) {
                     
-                    if ( ! empty ( $contactDetails[$contactId]['email'] ) ) {
-                        $toEmail = $contactDetails[$contactId]['email']; 
-                    }
-                    if ( ! empty ( $contactDetails[$contactId]['do_not_email'] ) ) {
-                        $doNotEmail = $contactDetails[$contactId]['do_not_email']; 
-                    }
-                    if ( ! empty ( $contactDetails[$contactId]['on_hold'] ) ) {
-                        $onHold = $contactDetails[$contactId]['on_hold']; 
-                    }
+                    //assign value to template
+                    $template->assign( 'amount_paid'            , $details['amount_paid'          ] ? $details['amount_paid'] : 0 );
+                    $template->assign( 'contact'                , $contactDetails[$contactId      ] );
+                    $template->assign( 'next_payment'           , $details['scheduled_date'       ] );
+                    $template->assign( 'amount_due'             , $details['amount_due'           ] );
+                    $template->assign( 'checksumValue'          , $details['checksumValue'        ] );
+                    $template->assign( 'contribution_page_id'   , $details['contribution_page_id' ] );
+                    $template->assign( 'pledge_id'              , $details['pledge_id'            ] );
+                    $template->assign( 'scheduled_payment_date' , $details['scheduled_date'       ] );            
+                    $template->assign( 'amount'                 , $details['amount'               ] );            
+                    $template->assign( 'create_date'            , $details['create_date'          ] );   
                     
-                    // 2. send acknowledgement mail
-                    if ( $toEmail && ! ( $doNotEmail || $onHold ) ) {
-                        
-                        //assign value to template
-                        $template->assign( 'amount_paid'            , $details['amount_paid'     ] ? $details['amount_paid'] : 0 );
-                        $template->assign( 'contact'                , $contactDetails[$contactId ] );
-                        $template->assign( 'next_payment'           , $details['scheduled_date'  ] );
-                        $template->assign( 'amount_due'             , $details['amount_due'      ] );
-                        $template->assign( 'checksumValue'          , $details['checksumValue'   ] );
-                        $template->assign( 'contribution_id'        , $details['contribution_id' ] );
-                        $template->assign( 'pledge_id'              , $details['pledge_id'       ] );
-                        $template->assign( 'scheduled_payment_date' , $details['scheduled_date'  ] );            
-                        $template->assign( 'amount'                 , $details['amount'          ] );            
-                        $template->assign( 'create_date'            , $details['create_date'     ] );   
-                        
-                        $message      = $template->fetch( 'CRM/Pledge/Form/ReminderMessage.tpl' );
-                        $subject      = $template->fetch( 'CRM/Pledge/Form/ReminderSubject.tpl' );
-                        
-                        //send mail to pledger
-                        require_once 'CRM/Utils/Mail.php';
-                        $mailSent = CRM_Utils_Mail::send( $receiptFrom,
-                                                          $pledgerName,
-                                                          $toEmail,
-                                                          $subject,
-                                                          $message
-                                                          );
-                        
-                        // 3. update pledge payment details                                                                     
-                        if ( $mailSent ) {
-                            CRM_Pledge_BAO_Payment::updateReminderDetails( $paymentId );
-                            echo "<br/>Payment reminder sent to: {$pledgerName} - {$toEmail} for Status {$details['pledge_status']}\n\n";
+                    $message      = $template->fetch( 'CRM/Pledge/Form/ReminderMessage.tpl' );
+                    $subject      = $template->fetch( 'CRM/Pledge/Form/ReminderSubject.tpl' );
+                    
+                    //send mail to pledger
+                    require_once 'CRM/Utils/Mail.php';
+                    $mailSent = CRM_Utils_Mail::send( $receiptFrom,
+                                                      $pledgerName,
+                                                      $toEmail,
+                                                      $subject,
+                                                      $message
+                                                      );
+                    
+                    // 3. update pledge payment details                                                                     
+                    if ( $mailSent ) {
+                        CRM_Pledge_BAO_Payment::updateReminderDetails( $paymentId );
+                        $activityType = 'Pledge Reminder';
+                        $activityParams = array( 'subject'            => $subject,
+                                                 'source_contact_id'  => $contactId,
+                                                 'source_record_id'   => $paymentId,
+                                                 'activity_type_id'   => CRM_Core_OptionGroup::getValue( 'activity_type',
+                                                                                                         $activityType,
+                                                                                                         'name' ),
+                                                 'activity_date_time' => CRM_Utils_Date::isoToMysql( $now ),
+                                                 'due_date_time'      => CRM_Utils_Date::isoToMysql( $details['scheduled_date'] ),
+                                                 'is_test'            => $details['is_test'],
+                                                 'status_id'          => 2
+                                                 );
+                        require_once 'api/v2/Activity.php';
+                        if ( is_a( civicrm_activity_create( $activityParams ), 'CRM_Core_Error' ) ) {
+                            CRM_Core_Error::fatal("Failed creating Activity for acknowledgment");
                         }
+                        echo "<br />Payment reminder sent to: {$pledgerName} - {$toEmail}";
                     }
                 }
+            }
         }
+        echo "<br />{$updateCnt} records updated.";
     }
 }
 
 $obj =& new CRM_UpdatePledgeRecord( );
-echo "\n Updating \n\n";
+echo "Updating<br />";
 $obj->updatePledgeStatus( );
-echo "\n\n Pledge records updated. (Done) \n";
+echo "<br />Pledge records updated. (Done)";
 ?>

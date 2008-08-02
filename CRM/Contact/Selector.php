@@ -326,7 +326,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                          ! in_array( $name, $skipFields ) ) {
                         if ( strpos( $name, '-' ) !== false ) {
                             list( $fieldName, $lType, $type ) = explode( '-', $name );
-
+                            
                             if ( $lType == 'Primary' ) {
                                 $locationTypeName = 1;
                             } else {
@@ -342,6 +342,10 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                             } else {
                                 $name = "`$locationTypeName-$fieldName`";
                             }
+                        }
+                        //to handle sort key for Internal contactId.CRM-2289
+                        if ( $name == 'id' ) {
+                            $name = 'contact_id';
                         }
 
                         self::$_columnHeaders[] = array( 'name'      => $field['title'],

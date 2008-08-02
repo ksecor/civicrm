@@ -63,7 +63,14 @@ class CRM_Contribute_Controller_Contribution extends CRM_Core_Controller {
         $this->addPages( $this->_stateMachine, $action );
 
         // add all the actions
-        $this->addActions( );
+        $uploadNames = $this->get( 'uploadNames' );
+        if ( ! empty( $uploadNames ) ) {
+            $config =& CRM_Core_Config::singleton( );
+            $this->addActions( $config->customFileUploadDir, $uploadNames );
+        } else {
+            $this->addActions( );
+        }
+
     }
 
 }

@@ -48,10 +48,10 @@ function clearAmountOther() {
     {/if}
     {if $pledgeBlock}
         {if $is_pledge_payment} 
-            <tr><td class="label">{$form.pledge_amount.label}</td><td>{$form.pledge_amount.html}</td></tr>
+            <tr><td class="label">{$form.pledge_amount.label}<span class="marker"> *</span></td><td>{$form.pledge_amount.html}</td></tr>
         {else}
             <tr><td>&nbsp;</td>
-            <td>{$form.is_pledge_frequency_interval.html}&nbsp;&nbsp;{if $is_pledge_interval}{$form.pledge_frequency_interval.html}&nbsp;&nbsp;{/if}{$form.pledge_frequency_unit.html}&nbsp;&nbsp;{ts}for{/ts}&nbsp;&nbsp;{$form.pledge_installments.html}&nbsp;&nbsp;{ts}installments.{/ts}</td></tr>
+            <td>{$form.is_pledge.html}&nbsp;&nbsp;{if $is_pledge_interval}{$form.pledge_frequency_interval.html}&nbsp;&nbsp;{/if}{$form.pledge_frequency_unit.html}&nbsp;&nbsp;{ts}for{/ts}&nbsp;&nbsp;{$form.pledge_installments.html}&nbsp;&nbsp;{ts}installments.{/ts}</td></tr>
         {/if}
     {/if}
     {if $form.is_pay_later}
@@ -106,7 +106,12 @@ function clearAmountOther() {
     {if $paymentProcessor.billing_mode & 2}
         <table class="form-layout-compressed">
         <tr><td class="description">{ts}If you have a PayPal account, you can click the PayPal button to continue. Otherwise, fill in the credit card and billing information on this form and click <strong>Continue</strong> at the bottom of the page.{/ts}</td></tr>
-        <tr><td>{$form._qf_Main_next_express.html} <span style="font-size:11px; font-family: Arial, Verdana;">Save time.  Checkout securely.  Pay without sharing your financial information. </span></td></tr>
+{if $buttonType eq 'upload'}
+   {assign var=expressButtonName value='_qf_Main_upload_express'}
+{else}
+   {assign var=expressButtonName value='_qf_Main_next_express'}
+{/if}
+        <tr><td>{$form.$expressButtonName.html} <span style="font-size:11px; font-family: Arial, Verdana;">Save time.  Checkout securely.  Pay without sharing your financial information. </span></td></tr>
         </table>
     {/if}
     {if $paymentProcessor.billing_mode & 1}
@@ -155,7 +160,7 @@ function clearAmountOther() {
     <fieldset><legend>{ts}Checkout with PayPal{/ts}</legend>
     <table class="form-layout-compressed">
     <tr><td class="description">{ts}Click the PayPal button to continue.{/ts}</td></tr>
-    <tr><td>{$form._qf_Main_next_express.html} <span style="font-size:11px; font-family: Arial, Verdana;">Checkout securely.  Pay without sharing your financial information. </span></td></tr>
+    <tr><td>{$form.$expressButtonName.html} <span style="font-size:11px; font-family: Arial, Verdana;">Checkout securely.  Pay without sharing your financial information. </span></td></tr>
     </table>
     </fieldset>
 {/if}

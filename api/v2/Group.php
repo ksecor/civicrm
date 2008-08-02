@@ -52,22 +52,25 @@ require_once 'api/v2/utils.php';
  * 
  * @access public
  */
-function &civicrm_group_add( &$params )
+function civicrm_group_add( &$params )
 {
     _civicrm_initialize( );
     if ( is_null( $params ) || !is_array( $params ) ||  empty ( $params ) ) {
         return civicrm_create_error( 'Required parameter missing' );
     }
    
-    if ( ( ! CRM_Utils_Array::value('id', $params ) ) &&
-         ( ! CRM_Utils_Array::value('title', $params ) ) ) {
-        return civicrm_create_error( 'Required parameter missing' );
+    if ( ! CRM_Utils_Array::value('title', $params ) ) {
+        return civicrm_create_error( 'Required parameter title missing' );
     }
         
     if ( $groupType = CRM_Utils_Array::value( 'group_type', $params ) ) {
         $groupType = explode( ',', $groupType );
         require_once 'CRM/Core/BAO/CustomOption.php';
-        $groupType = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $groupType ) . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
+        $groupType =
+            CRM_Core_BAO_CustomOption::VALUE_SEPERATOR .
+            implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $groupType ) .
+            CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
+        $params['group_type'] = $groupType;
     }
     
     $group = CRM_Contact_BAO_Group::create( $params );
@@ -89,7 +92,7 @@ function &civicrm_group_add( &$params )
  * @return array  (referance) Array of matching groups
  * @access public
  */
-function &civicrm_group_get( &$params )
+function civicrm_group_get( &$params )
 {
     _civicrm_initialize( );
     if ( !is_null( $params ) && !is_array( $params ) ) {
@@ -124,7 +127,7 @@ function &civicrm_group_get( &$params )
  * 
  * @access public
  */
-function &civicrm_group_delete( &$params )
+function civicrm_group_delete( &$params )
 {
     _civicrm_initialize( );
     if ( is_null( $params ) || !is_array( $params ) || !CRM_Utils_Array::value( 'id', $params ) ) {

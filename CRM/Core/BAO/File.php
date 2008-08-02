@@ -95,7 +95,7 @@ class CRM_Core_BAO_File extends CRM_Core_DAO_File {
                                     $entitySubtype, $overwrite = true,
                                     $fileParams = null,
                                     $uploadName = 'uploadFile',
-                                    $mimeType   = null ) {
+                                    $mimeType    ) {
 
         require_once 'CRM/Core/DAO/File.php';
         $config = & CRM_Core_Config::singleton();
@@ -129,7 +129,7 @@ class CRM_Core_BAO_File extends CRM_Core_DAO_File {
         $dao->fetch();
 
         if ( ! $mimeType ) {
-            $mimeType = $_FILES[$uploadName]['type'];
+            CRM_Core_Error::fatal( );
         }
         
         require_once "CRM/Core/DAO/File.php";
@@ -201,6 +201,11 @@ class CRM_Core_BAO_File extends CRM_Core_DAO_File {
      * combination
      */
     public function deleteEntityFile( $entityTable, $entityID ) {
+        if ( empty( $entityTable ) ||
+             empty( $entityID ) ) {
+            return;
+        }
+
         $config =& CRM_Core_Config::singleton( );
 
         list( $sql, $params ) = self::sql( $entityTable, $entityID, null );
@@ -273,7 +278,9 @@ AND       CEF.entity_id    = %2";
 
     }
     
-    static function buildAttachment( &$form, $entityTable, $entityID = null, $numAttachments = 3 ) {
+    static function buildAttachment( &$form, $entityTable, $entityID = null ) {
+        $config =& CRM_Core_Config::singleton( );
+        $numAttachments = $config->maxAttachments;
 
         // add 3 attachments
         for ( $i = 1; $i <= $numAttachments; $i++ ) {
@@ -316,8 +323,7 @@ AND       CEF.entity_id    = %2";
     static function formatAttachment( &$formValues,
                                       &$params,
                                       $entityTable,
-                                      $entityID = null,
-                                      $numAttachments = 3 ) {
+                                      $entityID = null ) {
 
         // delete current attachments if applicable
         if ( $entityID &&
@@ -326,18 +332,21 @@ AND       CEF.entity_id    = %2";
                                                  $entityID );
         }
 
+        $config =& CRM_Core_Config::singleton( );
+        $numAttachments = $config->maxAttachments;
+
         // setup all attachments
         for ( $i = 1; $i <= $numAttachments; $i++ ) {
             $attachName = "attachFile_$i";
             if ( isset( $formValues[$attachName] ) &&
                  ! empty( $formValues[$attachName] ) ) {
                 // ensure file is not empty
-                $contents = file_get_contents( $formValues[$attachName] );
+                $contents = file_get_contents( $formValues[$attachName]['name'] );
                 if ( $contents ) {
-                    $fileParams = array( 'uri'        => $_FILES[$attachName]['name'],
-                                         'type'       => $_FILES[$attachName]['type'],
+                    $fileParams = array( 'uri'        => $formValues[$attachName]['name'],
+                                         'type'       => $formValues[$attachName]['type'],
                                          'upload_date'=> date( 'Ymdhis' ),
-                                         'location'   => $formValues[$attachName] );
+                                         'location'   => $formValues[$attachName]['name'] );
                     $params[$attachName] = $fileParams;
                 }
             }
@@ -346,8 +355,10 @@ AND       CEF.entity_id    = %2";
 
     static function processAttachment( &$params,
                                        $entityTable,
-                                       $entityID,
-                                       $numAttachments = 3 ) {
+                                       $entityID ) {
+        $config =& CRM_Core_Config::singleton( );
+        $numAttachments = $config->maxAttachments;
+
         for ( $i = 1; $i <= $numAttachments; $i++ ) {
             if ( isset( $params["attachFile_$i"] ) &&
                  is_array( $params["attachFile_$i"] ) ) {
@@ -365,11 +376,14 @@ AND       CEF.entity_id    = %2";
     }
 
     static function uploadNames( ) {
-        return array( 'attachFile_1',
-                      'attachFile_2',
-                      'attachFile_3' );
+        $config =& CRM_Core_Config::singleton( );
+        $numAttachments = $config->maxAttachments;
+
+        $names = array( );
+        for ( $i = 1; $i <= $numAttachments; $i++ ) {
+            $names[] = "attachFile_{$i}";
+        }
+        return $names;
     }
-
-
 }
 

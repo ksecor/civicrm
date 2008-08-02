@@ -172,7 +172,7 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
                                'date', 'qfDate', 'currentDate',
                                'asciiFile', 'htmlFile', 'utf8File',
                                'objectExists', 'optionExists', 'postalCode', 'money','positiveInteger',
-                               'xssString' );
+                               'xssString', 'fileExists' );
 
         foreach ( $rules as $rule ) {
             $this->registerRule( $rule, 'callback', $rule, 'CRM_Utils_Rule' );
@@ -874,7 +874,35 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
     static function &getTemplate( ) {
         return self::$_template;
     }
-    
+
+    function addUploadElement( $elementName ) {
+        $uploadNames = $this->get('uploadNames');
+        if ( ! $uploadNames ) {
+            $uploadNames = array( );
+        }
+        if ( is_array( $elementName ) ) {
+            foreach ( $elementName as $name ) {
+                if ( ! in_array( $name, $uploadNames ) ) {
+                    $uploadNames[] = $name;
+                }
+            }
+        } else {
+            if ( ! in_array( $elementName, $uploadNames ) ) {
+                $uploadNames[] = $elementName;
+            }
+        }
+        $this->set( 'uploadNames', $uploadNames );
+
+        $config =& CRM_Core_Config::singleton( );
+        $this->controller->addUploadAction( $config->customFileUploadDir, $uploadNames );
+    }
+
+    function buttonType( ) {
+        $uploadNames = $this->get( 'uploadNames' );
+        $buttonType = ( is_array( $uploadNames ) && ! empty( $uploadNames ) ) ? 'upload' : 'next';
+        $this->assign( 'buttonType', $buttonType );
+        return $buttonType;
+    }
 }
 
 

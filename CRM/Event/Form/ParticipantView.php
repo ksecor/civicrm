@@ -54,14 +54,14 @@ class CRM_Event_Form_ParticipantView extends CRM_Core_Form
         $values = array( ); 
         $ids    = array( ); 
         $params = array( 'id' => $this->get( 'id' ) ); 
-        
+
         CRM_Event_BAO_Participant::getValues( $params, 
                                               $values, 
                                               $ids );
         
         CRM_Event_BAO_Participant::resolveDefaults( $values[$this->get( 'id' )] );
         
-        if ( $values[$this->get( 'id' )]['fee_level'] ) {
+        if ( CRM_Utils_Array::value( 'fee_level', $values[$this->get( 'id' )] ) ) {
             CRM_Event_BAO_Participant::fixEventLevel( $values[$this->get( 'id' )]['fee_level'] );
         }
         

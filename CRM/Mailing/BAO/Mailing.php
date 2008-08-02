@@ -461,11 +461,16 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing
             // if so then call this function again to get the token dataFunc
             // and assign the type 'embedded'  so that the data retrieving function
             // will know what how to handle this token.
-            if ( preg_match('/(\{\w+\.\w+\})/', $token, $matches) ) {
+            if ( preg_match_all('/(\{\w+\.\w+\})/', $token, $matches) ) {
                 $funcStruct['type'] = 'embedded_url';
-                $preg_token = '/'.preg_quote($matches[1],'/').'/';
-                $funcStruct['embed_parts'] = preg_split($preg_token,$token,2);
-                $funcStruct['token'] = $this->getDataFunc($matches[1]);
+                $funcStruct['embed_parts'] = $funcStruct['token'] = array( );
+                foreach ( $matches[1] as $match ) {
+                    $preg_token = '/'.preg_quote($match,'/').'/';
+                    $list = preg_split($preg_token,$token,2);
+                    $funcStruct['embed_parts'][] = $list[0];
+                    $token = $list[1];
+                    $funcStruct['token'][] = $this->getDataFunc($match);
+                }
             } else {
                 $funcStruct['type'] = 'url';
             }
@@ -1028,9 +1033,14 @@ AND civicrm_contact.is_opt_out =0";
         foreach ( array('text', 'html') as $type ) {
             require_once 'CRM/Utils/Token.php';
             $tokens = $mailing->getTokens();
-            $mailing->templates[$type] =  CRM_Utils_Token::replaceSubscribeInviteTokens($mailing->templates[$type]);
-            $mailing->templates[$type] = CRM_Utils_Token::replaceDomainTokens($mailing->templates[$type], $domain, null, $tokens[$type]);
-            $mailing->templates[$type] = CRM_Utils_Token::replaceMailingTokens($mailing->templates[$type], $mailing, null, $tokens[$type]);
+            if ( isset( $mailing->templates[$type] ) ) {
+                $mailing->templates[$type] =  
+                    CRM_Utils_Token::replaceSubscribeInviteTokens($mailing->templates[$type]);
+                $mailing->templates[$type] = 
+                    CRM_Utils_Token::replaceDomainTokens($mailing->templates[$type], $domain, null, $tokens[$type]);
+                $mailing->templates[$type] = 
+                    CRM_Utils_Token::replaceMailingTokens($mailing->templates[$type], $mailing, null, $tokens[$type]);
+            }
         }
     }
     /**
@@ -1046,10 +1056,19 @@ AND civicrm_contact.is_opt_out =0";
         $data = $token;
 
         if ($type == 'embedded_url') {
-            $embed_data = $this->getTokenData($token, $html = false, $contact, $verp, $urls, $event_queue_id);
-            $url = join($token_a['embed_parts'],$embed_data);
+            $embed_data = array( );
+            foreach ( $token as $t ) {
+                $embed_data[] = $this->getTokenData($t, $html = false, $contact, $verp, $urls, $event_queue_id);
+            }
+            $numSlices = count( $embed_data );
+            $url = '';
+            for ( $i = 0; $i < $numSlices; $i++ ) {
+                $url .= "{$token_a['embed_parts'][$i]}{$embed_data[$i]}";
+            }
+            if ( isset( $token_a['embed_parts'][$numSlices] ) ) {
+                $url .= $token_a['embed_parts'][$numSlices];
+            }
             $data = CRM_Mailing_BAO_TrackableURL::getTrackerURL($url, $this->id, $event_queue_id);
-            
         } else if ( $type == 'url' ) {
             $data = CRM_Mailing_BAO_TrackableURL::getTrackerURL($token, $this->id, $event_queue_id);
         } else if ( $type == 'contact' ) {
@@ -1787,36 +1806,39 @@ SELECT DISTINCT( m.id ) as id
         require_once 'CRM/Contact/BAO/Query.php';
         $query   =& new CRM_Contact_BAO_Query( $params, $returnProperties );
         $details = $query->apiQuery( $params, $returnProperties, NULL, NULL, 0, $numberofContacts );
-
-        $contactDetails =& $details[0]; 
+        
+        $contactDetails =& $details[0];
         
         foreach ( $contactIds as $key => $contactID ) {
-            if ( CRM_Utils_Array::value('preferred_communication_method',$returnProperties) == 1 ) {
-                require_once 'CRM/Core/PseudoConstant.php';
-                $pcm = CRM_Core_PseudoConstant::pcm();
+            if ( array_key_exists( $contactID, $contactDetails ) ) {
                 
-                // communication Prefferance
-                require_once 'CRM/Core/BAO/CustomOption.php';
-                $contactPcm = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$contactDetails[$contactID]['preferred_communication_method']);
-                
-                $result = array( );
-                foreach ( $contactPcm as $key => $val) {
-                    if ($val) {
-                        $result[$val] = $pcm[$val];
-                    } 
+                if ( CRM_Utils_Array::value( 'preferred_communication_method', $returnProperties ) == 1 
+                     && array_key_exists( 'preferred_communication_method', $contactDetails[$contactID] ) ) {
+                    require_once 'CRM/Core/PseudoConstant.php';
+                    $pcm = CRM_Core_PseudoConstant::pcm();
+                    
+                    // communication Prefferance
+                    require_once 'CRM/Core/BAO/CustomOption.php';
+                    $contactPcm = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,
+                                          $contactDetails[$contactID]['preferred_communication_method']);
+                    $result = array( );
+                    foreach ( $contactPcm as $key => $val) {
+                        if ($val) {
+                            $result[$val] = $pcm[$val];
+                        } 
+                    }
+                    $contactDetails[$contactID]['preferred_communication_method'] = implode( ', ', $result );
                 }
                 
-                $contactDetails[$contactID]['preferred_communication_method'] = implode( ', ', $result );
-            }
-            
-            foreach ( $custom as $cfID ) {
-                if ( isset ( $contactDetails[$contactID]["custom_{$cfID}"] ) ) {
-                    $contactDetails[$contactID]["custom_{$cfID}"] = 
-                        CRM_Core_BAO_CustomField::getDisplayValue( $contactDetails[$contactID]["custom_{$cfID}"],$cfID, $details[1] );
+                foreach ( $custom as $cfID ) {
+                    if ( isset ( $contactDetails[$contactID]["custom_{$cfID}"] ) ) {
+                        $contactDetails[$contactID]["custom_{$cfID}"] = 
+                            CRM_Core_BAO_CustomField::getDisplayValue( $contactDetails[$contactID]["custom_{$cfID}"],
+                                                                       $cfID, $details[1] );
+                    }
                 }
             }
         }
-
         return $details;
     }
 

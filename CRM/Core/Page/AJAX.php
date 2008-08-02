@@ -136,7 +136,7 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
     {
         require_once 'CRM/Utils/Type.php';
         $name      = CRM_Utils_Array::value( 'name', $_GET, '' );
-        $name      = strtolower( CRM_Utils_Type::escape( $name, 'String'  ) ); 
+        $name      = CRM_Utils_Type::escape( $name, 'String' ); 
         $whereIdClause = '';
         if ( CRM_Utils_Array::value( 'id', $_GET ) ) {
             if ( is_numeric( $_GET['id'] ) ) {
@@ -149,7 +149,7 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
 
         $elements = array( );
         if ( $name || isset( $id ) ) {
-            $name      = str_replace( '*', '%', $name );
+            $name  = str_replace( '*', '%', $name );
 
             //contact's based of relationhip type
             $relType = null;
@@ -204,27 +204,27 @@ FROM civicrm_contact
 LEFT JOIN civicrm_address ON ( civicrm_contact.id = civicrm_address.contact_id
                                 AND civicrm_address.is_primary=1
                              )
-WHERE civicrm_contact.contact_type='Organization' AND organization_name LIKE '%$contactName'
+WHERE civicrm_contact.contact_type='Organization' AND organization_name LIKE '%$contactName%'
 {$addStreet} {$addCity} {$whereIdClause}
 ORDER BY organization_name ";
 
             } else if ( $shared ) {
                 
                 $query = "
-SELECT CONCAT_WS(':::' , sort_name, supplemental_address_1, sp.abbreviation, postal_code, cc.name )'sort_name' , civicrm_contact.id 'id' , civicrm_contact.display_name 'disp' FROM civicrm_contact LEFT JOIN civicrm_address ON (civicrm_contact.id =civicrm_address.contact_id AND civicrm_address.is_primary =1 )LEFT JOIN civicrm_state_province sp ON (civicrm_address.state_province_id =sp.id )LEFT JOIN civicrm_country cc ON (civicrm_address.country_id =cc.id )WHERE civicrm_contact.contact_type ='{$contactType}' AND {$cName} LIKE '%$name' {$whereIdClause} ORDER BY {$cName} ";
+SELECT CONCAT_WS(':::' , sort_name, supplemental_address_1, sp.abbreviation, postal_code, cc.name )'sort_name' , civicrm_contact.id 'id' , civicrm_contact.display_name 'disp' FROM civicrm_contact LEFT JOIN civicrm_address ON (civicrm_contact.id =civicrm_address.contact_id AND civicrm_address.is_primary =1 )LEFT JOIN civicrm_state_province sp ON (civicrm_address.state_province_id =sp.id )LEFT JOIN civicrm_country cc ON (civicrm_address.country_id =cc.id )WHERE civicrm_contact.contact_type ='{$contactType}' AND {$cName} LIKE '%$name%' {$whereIdClause} ORDER BY {$cName} ";
 
             } else if ( $hh ) {
                 
                 $query = "
 SELECT CONCAT_WS(' :: ' , sort_name, LEFT(street_address, 25), city ) 'sort_name' , civicrm_contact.id 'id' FROM civicrm_contact LEFT JOIN civicrm_address ON (civicrm_contact.id =civicrm_address.contact_id AND civicrm_address.is_primary =1 )
-WHERE civicrm_contact.contact_type ='Household' AND household_name LIKE '%$contactName' {$addStreet} {$addCity} {$whereIdClause} ORDER BY household_name ";
+WHERE civicrm_contact.contact_type ='Household' AND household_name LIKE '%$contactName%' {$addStreet} {$addCity} {$whereIdClause} ORDER BY household_name ";
                 
             } else if ( $relType ) {
                 
                 $query = "
 SELECT c.sort_name, c.id
 FROM civicrm_contact c, civicrm_relationship_type r
-WHERE c.sort_name LIKE '%$name'
+WHERE c.sort_name LIKE '%$name%'
 AND r.id = $relType
 AND c.contact_type = r.contact_type_{$rel} {$whereIdClause} 
 ORDER BY sort_name" ;
@@ -273,6 +273,7 @@ ORDER BY sort_name ";
         }
 
         if ( empty( $elements ) ) {
+            $name = str_replace( '%', '', $name );
             $elements[] = array( 'name' => $name,
                                  'id'   => $name );
         }
@@ -290,9 +291,9 @@ ORDER BY sort_name ";
         
         $getRecords = false;
         if ( isset( $_GET['name'] ) && $_GET['name'] ) {
-            $name     = strtolower( CRM_Utils_Type::escape( $_GET['name'], 'String'  ) );
+            $name     = CRM_Utils_Type::escape( $_GET['name'], 'String' );
             $name     = str_replace( '*', '%', $name );
-            $whereClause = " LOWER(title) LIKE '$name%' ";
+            $whereClause = " title LIKE '$name%' ";
             $getRecords = true;
         }
         
@@ -339,9 +340,9 @@ ORDER BY title
 
         $getRecords = false;
         if ( isset( $_GET['name'] ) && $_GET['name'] ) {
-            $name = strtolower( CRM_Utils_Type::escape( $_GET['name'], 'String'  ) );
+            $name = CRM_Utils_Type::escape( $_GET['name'], 'String' );
             $name = str_replace( '*', '%', $name );
-            $whereClause = " LOWER(v.label)  LIKE '$name%'  ";
+            $whereClause = " v.label LIKE '$name%'  ";
             $getRecords = true;
         }
         
@@ -391,29 +392,28 @@ ORDER by v.weight";
     function eventFee( &$config ) 
     {
         require_once 'CRM/Utils/Type.php';
-
+        
         $getRecords = false;
-        if ( isset( $_GET['name'] ) && $_GET['name'] && ! isset( $_GET['count'] ) ) {
-            $name     = strtolower( CRM_Utils_Type::escape( $_GET['name'], 'String' ) );
+        if ( isset( $_GET['name'] ) && $_GET['name'] ) {
+            $name     = CRM_Utils_Type::escape( $_GET['name'], 'String' );
             $name     = str_replace( '*', '%', $name );
-            $whereClause = "cv.label LIKE '$name%' GROUP BY cv.label";
-            $getRecords = true;
-        } else {
-            $whereClause = "cg.name LIKE 'civicrm_event_page.amount%' AND cg.id = cv.option_group_id GROUP BY cv.label";
+            $whereClause = "cv.label LIKE '$name%' ";
             $getRecords = true;
         }
         
-       if ( isset( $_GET['id'] ) && is_numeric($_GET['id']) && !$_GET['count'] ) {
-               $levelId     = CRM_Utils_Type::escape( $_GET['id'], 'Integer'  );
-               $whereClause = "cv.id = {$levelId} ";
-               $getRecords = true;
-           }
-
+        if ( isset( $_GET['id'] ) && is_numeric($_GET['id']) ) {
+            $levelId     = CRM_Utils_Type::escape( $_GET['id'], 'Integer'  );
+            $whereClause = "cv.id = {$levelId} ";
+            $getRecords = true;
+        }
+        
         if ( $getRecords ) {
-$query = "
+            $query = "
 SELECT distinct(cv.label), cv.id
 FROM civicrm_option_value cv, civicrm_option_group cg
-WHERE {$whereClause}
+WHERE cg.name LIKE 'civicrm_event_page.amount%'
+   AND cg.id = cv.option_group_id AND {$whereClause}
+   GROUP BY cv.label
 ";
             $dao = CRM_Core_DAO::executeQuery( $query );
             $elements = array( );
@@ -431,8 +431,9 @@ WHERE {$whereClause}
             $elements[] = array( 'name' => trim( $name, '*'),
                                  'value'=> trim( $name, '*') );
         }
-            require_once "CRM/Utils/JSON.php";
-            echo CRM_Utils_JSON::encode( $elements, 'value');
+        
+        require_once "CRM/Utils/JSON.php";
+        echo CRM_Utils_JSON::encode( $elements, 'value');
     } 
 
     /**
@@ -441,15 +442,15 @@ WHERE {$whereClause}
     function pledgeName( &$config ) 
     {
         require_once 'CRM/Utils/Type.php';
-   
+        
         $getRecords = false;
         if ( isset( $_GET['name'] ) && $_GET['name'] ) {
-            $name     = strtolower( CRM_Utils_Type::escape( $_GET['name'], 'String' ) );
+            $name     = CRM_Utils_Type::escape( $_GET['name'], 'String' );
             $name     = str_replace( '*', '%', $name );
             $whereClause = "p.creator_pledge_desc LIKE '%$name%' ";
             $getRecords = true;
         }
-
+        
         if ( isset( $_GET['id'] ) && is_numeric($_GET['id']) ) {
             $pledgeId    = CRM_Utils_Type::escape( $_GET['id'], 'Integer'  );
             $whereClause = "p.id = {$pledgeId} ";
@@ -457,7 +458,7 @@ WHERE {$whereClause}
         }
         
         if ( $getRecords ) {
-$query = "
+            $query = "
 SELECT p.creator_pledge_desc, p.id
 FROM civicrm_pb_pledge p
 WHERE {$whereClause}
@@ -469,7 +470,7 @@ WHERE {$whereClause}
                                      'value'=> $dao->id );
             }
         }
-
+        
         if ( empty( $elements) ) { 
             $name = $_GET['name'];
             if ( !$name && isset( $_GET['id'] ) ) {
@@ -478,7 +479,7 @@ WHERE {$whereClause}
             $elements[] = array( 'name' => trim( $name, '*'),
                                  'value'=> trim( $name, '*') );
         }
-
+        
         require_once "CRM/Utils/JSON.php";
         echo CRM_Utils_JSON::encode( $elements, 'value');
     } 
@@ -492,7 +493,7 @@ WHERE {$whereClause}
         if ( ! isset( $_GET['id'] ) ) {
             return;
         }
-
+        
         $file = "{$config->uploadDir}status_{$_GET['id']}.txt";
         if ( file_exists( $file ) ) {
             $str = file_get_contents( $file );
@@ -537,7 +538,7 @@ WHERE {$whereClause}
             $stateClause = " 1 ";
             if ( !$stateId ) {
                 $stateName = str_replace( '*', '%', $stateName );        
-                $stateClause = " civicrm_state_province.name LIKE LOWER('$stateName%') ";
+                $stateClause = " civicrm_state_province.name LIKE '$stateName%' ";
             } else {
                 $stateClause = " civicrm_state_province.id = {$stateId} ";
             }
@@ -631,7 +632,7 @@ ORDER BY name";
         if ( $validValue ) {
             if ( !$countryId ) {
                 $name = str_replace( '*', '%', $name );
-                $countryClause = " civicrm_country.name LIKE LOWER('$name%') ";
+                $countryClause = " civicrm_country.name LIKE '$name%' ";
             } else {
                 $countryClause = " civicrm_country.id = {$countryId} ";
             }
@@ -673,23 +674,47 @@ ORDER BY name";
     function caseSubject( &$config ) 
     {
         require_once 'CRM/Utils/Type.php';
-        $contactID = CRM_Utils_Type::escape( $_GET['c'], 'Integer' );
-
-        $query = "
-SELECT subject
-FROM civicrm_case
-WHERE contact_id = $contactID 
-ORDER BY subject";
-
-        $dao = CRM_Core_DAO::executeQuery( $query );
+        $whereclause = $caseIdClause = null; 
+        if ( isset( $_GET['name'] ) ) {
+            $name        = CRM_Utils_Type::escape( $_GET['name'], 'String'  ) ;
+            $name        = str_replace( '*', '%', $name );
+            $whereclause = "AND civicrm_case.subject LIKE '%$name'";
+        }
+        
+        if ( isset( $_GET['id'] ) ) {
+            $caseId = CRM_Utils_Type::escape( $_GET['id'], 'Integer' );
+            $caseIdClause = " AND civicrm_case.id = {$caseId}";
+        }
+        
         $elements = array( );
-       
-        while ( $dao->fetch( ) ) {
-            $elements[] = array('name' => $dao->subject);
+        if ( $name || $caseIdClause ) {
+            $contactID = CRM_Utils_Type::escape( $_GET['c'], 'Integer' );
+            
+            $query = "
+SELECT civicrm_case.subject as subject, civicrm_case.id as id
+FROM civicrm_case
+LEFT JOIN civicrm_case_contact ON civicrm_case_contact.case_id = civicrm_case.id
+WHERE civicrm_case_contact.contact_id = $contactID  {$whereclause} {$caseIdClause}
+ORDER BY subject";
+            
+            $dao = CRM_Core_DAO::executeQuery( $query );
+            
+            while ( $dao->fetch( ) ) {
+                $elements[] = array( 'name' => $dao->subject,
+                                     'id'   => $dao->id
+                                     );
+            }
         }
 
+        if ( empty( $elements ) ) {
+            $name = str_replace( '%', '', $name );
+            $elements[] = array( 'name' => $name,
+                                 'id'=> $name);
+        }
+
+
         require_once "CRM/Utils/JSON.php";
-        echo CRM_Utils_JSON::encode( $elements, 'name');
+        echo CRM_Utils_JSON::encode( $elements );
     }
 
     /**
@@ -730,7 +755,7 @@ ORDER BY subject";
     function contact( &$config ) 
     {
         require_once 'CRM/Utils/Type.php';
-        $name      = strtolower( CRM_Utils_Type::escape( $_GET['name'], 'String'  ) ); 
+        $name      = CRM_Utils_Type::escape( $_GET['name'], 'String' ); 
 
         $query = "
 SELECT id

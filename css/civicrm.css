@@ -481,8 +481,8 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
 ** Styles for record browser and report tables, and pager bar
 */
 #crm-container table {
-  margin: .5em 0em .5em;
-  width: 100%;
+  margin: .5em .1em .5em;
+  width: 99%;
   border-collapse: collapse;
   border: 1px solid #4E82CF;
 }
@@ -584,7 +584,7 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
 #crm-container .odd-row, tbody.scrollContent {
   background-color: #FAFAFA;
 }
-#crm-container .even-row, tbody.scrollContent tr.alternateRow  {
+#crm-container .even-row, tbody.scrollContent tr.alternateRow {
   background-color: #E8F2FF;
 }
 #crm-container tr.even-row td, #crm-container tr.odd-row td{
@@ -908,7 +908,7 @@ div.crm-pager a {
 }
 
 #crm-container div#searchForm {
-	height: 100%;
+	height: auto;
 	width: 100%;
     /*  Why this was here? Commenting out so we get horizontal scroll when needed. dgg
     	overflow: hidden;

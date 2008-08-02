@@ -381,13 +381,15 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                         $fields[$name]['is_search_range' ] = $customFields[$name]['is_search_range'];
                         // fix for CRM-1994
                         $fields[$name]['options_per_line'] = $customFields[$name]['options_per_line']; 
+                        $fields[$name]['data_type']        = $customFields[$name]['data_type']; 
+                        $fields[$name]['html_type']        = $customFields[$name]['html_type']; 
                     } else {
                         unset( $fields[$name] );
                     }
                 }
             }
         } else {
-            CRM_Core_Error::fatal( ts( 'The requested Profile (gid=%1) is disabled, OR it is not configured to be used for \'Profile\' listings in its Settings, or there is no Profile with that ID, or you do not have permission to access this profile. Contact the site administrator if you need assistance.',
+            CRM_Core_Error::fatal( ts( 'The requested Profile (gid=%1) is disabled OR it is not configured to be used for \'Profile\' listings in its Settings OR there is no Profile with that ID OR you do not have permission to access this profile. Please contact the site administrator if you need assistance.',
                                                    array( 1 => $id )) );        
         }
 
@@ -724,15 +726,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                         } else {
                             require_once 'CRM/Core/BAO/CustomField.php';
                             if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($name)) {
-                                $query  = "
-SELECT html_type, data_type
-FROM   civicrm_custom_field
-WHERE  id = $cfID
-";
-                                $dao = CRM_Core_DAO::executeQuery( $query );
-                                $dao->fetch( );
-                                $htmlType  = $dao->html_type;
-                                $dataType  = $dao->data_type;
+                                $htmlType  = $field['html_type'];
+                                $dataType  = $field['data_type'];
 
                                 if ( $htmlType == 'File') {
                                     $fileURL = CRM_Core_BAO_CustomField::getFileURL( $cid,
@@ -1265,7 +1260,7 @@ WHERE  id = $cfID
             $form->add('select', $name, $title, 
                        array('' => ts('- select -')) + CRM_Core_PseudoConstant::country(), $required);
         } else if ( substr($fieldName,0,6) === 'county' ) {
-            if ( $addressOptions['County'] ) {
+            if ( $addressOptions['county'] ) {
                 $form->add('select', $name, $title, 
                            array('' => ts('- select -')) + CRM_Core_PseudoConstant::county(), $required);
             }

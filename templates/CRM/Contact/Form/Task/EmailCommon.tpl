@@ -7,6 +7,10 @@
   <dl class="html-adjust">
   <dt>{$form.html_message.label}</dt><dd class="editor">{$form.html_message.html}</dd>
 </dl>
+{if ! $noAttach}
+<div class="spacer"></div>
+{include file="CRM/Form/attachment.tpl"}
+{/if}
 <div class="spacer"></div>
 <div id="editMessageDetails">
 <dl id="updateDetails" >
@@ -82,7 +86,7 @@ var editor = {/literal}"{$editor}"{literal};
 		  	return;
         	}
  
-		var dataUrl = {/literal}"{crmURL p='civicrm/ajax/template' q='tid='}"{literal} + val;
+		var dataUrl = {/literal}"{crmURL p='civicrm/ajax/template' h=0 q='tid='}"{literal} + val;
         
         	var result = dojo.xhrGet({
         	url: dataUrl,

@@ -217,7 +217,7 @@ AND    ep.event_id     = e.id
          $form->assign( 'elements', array( 'event_id' ) );
     }
 
-    function &setColumns( ) {
+    function setColumns( ) {
         $this->_columns = array( ts('Contact Id')      => 'contact_id'    ,
                                  ts('Participant Id' ) => 'participant_id',
                                  ts('Name')            => 'display_name'  );

@@ -1,15 +1,19 @@
 {if $paid} {* We retrieve this tpl when event is selected - keep it empty if event is not paid *} 
-    <fieldset>
-    {if $priceSet}
+<fieldset>
+    <div class="form-item">
     <table class="form-layout">
+    {if $priceSet}
      <tr>  
      <td class="label">{$form.amount.label}</td>
      <td><table class="form-layout-compressed">
+         {if $priceSet.help_pre AND $action eq 1}
+            <tr><td colspan=2 class="description">{$priceSet.help_pre}</td></tr>
+         {/if}
       {foreach from=$priceSet.fields item=element key=field_id}
          {if ($element.html_type eq 'CheckBox' || $element.html_type == 'Radio') && $element.options_per_line}
             {assign var="element_name" value=price_$field_id}
             {assign var="count" value="1"}
-            <tr><td class="label"> {$form.$element_name.label}</td>
+            <tr><td class="label">{$form.$element_name.label}</td>
                 <td class="view-value">
                 <table class="form-layout-compressed">
                 {foreach name=outer key=key item=item from=$form.$element_name}
@@ -44,51 +48,56 @@
             </tr>
           {/if}
        {/foreach}
+         {if $priceSet.help_post AND $action eq 1}
+            <tr><td colspan=2 class="description">{$priceSet.help_post}</td></tr>
+         {/if}
       </table>
     </td>
     </tr>
-    </table>
+
     {else} {* NOT Price Set *}
-    <table style="border: none;">
-    <tr><td class="label">{$form.discount_id.label}</td><td>{$form.discount_id.html}</td></tr>
-    <tr><td class="label">{$form.amount.label}<span class="marker"> *</span></td><td>{$form.amount.html}
-       {if $action EQ 1}
-        <br /><span class="description">{ts}Event Fee Level (if applicable).{/ts}</span>
-       {/if}
-        </td>
-    </tr>
-  	{if ! $participantMode}
-    <tr>
-       <td class="label">{$form.record_contribution.label}</td><td class="html-adjust">{$form.record_contribution.html}<br />
-          <span class="description">{ts}Check this box to enter payment information. You will also be able to generate a customized receipt.{/ts}</span>
-       </td>
-    </tr>
-     <tr id="payment_information">
-       <td class ='html-adjust' colspan=2>
-           <fieldset><legend>{ts}Payment Information{/ts}</legend>
-             <div class="form-item">
-                 <dl id="recordContribution" class="html-adjust">	        
-                    <dt class="label">{$form.contribution_type_id.label}</dt>
-                    <dd>{$form.contribution_type_id.html}<br /><span class="description">{ts}Select the appropriate contribution type for this payment.{/ts}</span></dd>
-                    <dt class="label" >{$form.receive_date.label}</dt><dd>{$form.receive_date.html}
-        {include file="CRM/common/calendar/desc.tpl" trigger=trigger_membership}
-        {include file="CRM/common/calendar/body.tpl" dateVar=receive_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_membership}</dd> 
-                    <dt class="label">{$form.payment_instrument_id.label}</dt><dd>{$form.payment_instrument_id.html}</dd>
-		    {if $action neq 2}	
-		    <dt class="label">{$form.trxn_id.label}</dt><dd>{$form.trxn_id.html}</dd>	
-		    {/if}	
-                    <dt class="label">{$form.contribution_status_id.label}</dt><dd>{$form.contribution_status_id.html}</dd>      
-                 </dl>
-             </div>
-           </fieldset>
-       </td>
-    </tr>
-	{/if} 
-    </table>
+     <tr>
+     <td class ='html-adjust' colspan=2>
+     	<dl class="html-adjust">
+        {if $form.discount_id.label}
+            <dt class="label">{$form.discount_id.label}</dt><dd>{$form.discount_id.html}</dd>
+        {/if}
+        <dt class="label">{$form.amount.label}<span class="marker"> *</span></dt><dd>{$form.amount.html}
+        {if $action EQ 1}
+            <br /><span class="description">{ts}Event Fee Level (if applicable).{/ts}</span>
+        {/if}
+        </dd>
+     	</dl>
+     </td>
+     </tr>
     {/if}
 
-    </fieldset>
      {if ! $participantMode}
+        <tr>
+        <td class="label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$form.record_contribution.label}</td>
+        <td>{$form.record_contribution.html}<br />
+            <span class="description">{ts}Check this box to enter payment information. You will also be able to generate a customized receipt.{/ts}</span>
+        </td>
+        </tr>
+        <tr id="payment_information">
+           <td class ='html-adjust' colspan=2>
+           <fieldset><legend>{ts}Payment Information{/ts}</legend>
+             <dl id="recordContribution" class="html-adjust">	        
+                <dt class="label">{$form.contribution_type_id.label}</dt>
+                <dd>{$form.contribution_type_id.html}<br /><span class="description">{ts}Select the appropriate contribution type for this payment.{/ts}</span></dd>
+                <dt class="label" >{$form.receive_date.label}</dt><dd>{$form.receive_date.html}
+                {include file="CRM/common/calendar/desc.tpl" trigger=trigger_membership}
+                {include file="CRM/common/calendar/body.tpl" dateVar=receive_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_membership}</dd> 
+                <dt class="label">{$form.payment_instrument_id.label}</dt><dd>{$form.payment_instrument_id.html}</dd>
+                {if $action neq 2}	
+                    <dt class="label">{$form.trxn_id.label}</dt><dd>{$form.trxn_id.html}</dd>	
+                {/if}	
+                <dt class="label">{$form.contribution_status_id.label}</dt><dd>{$form.contribution_status_id.html}</dd>      
+             </dl>
+           </fieldset>
+           </td>
+        </tr>
+
     {* Record contribution field only present if this is a paid event. *}
     {include file="CRM/common/showHideByFieldValue.tpl" 
         trigger_field_id    ="record_contribution"
@@ -98,10 +107,15 @@
         field_type          ="radio"
         invert              = 0
     }
-	{/if}
+    {/if}
+    </table>
+    </div>
+</fieldset>
 {/if}
+
 {* credit card block when it is live or test mode*}
-{if $participantMode and $paid}
+{if $participantMode and $paid}	
+ <div class="spacer"></div>
  <fieldset><legend>{ts}Credit or Debit Card Information{/ts}</legend>
         <table class="form-layout-compressed">
         <tr><td class="label">{$form.credit_card_type.label}</td><td>{$form.credit_card_type.html}</td></tr>

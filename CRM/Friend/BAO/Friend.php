@@ -164,9 +164,9 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
         $transaction->commit( );
 
         //process sending of mails
-        $mailParams['title']        = $params['title'];       
-        $mailParams['general_link'] = $frndParams['general_link'];
-        $mailParams['message']      = $params['suggested_message'];
+        $mailParams['title']        = CRM_Utils_Array::value( 'title', $params );       
+        $mailParams['general_link'] = CRM_Utils_Array::value( 'general_link', $frndParams  );
+        $mailParams['message']      = CRM_Utils_Array::value( 'suggested_message', $params );
         
         if ( $params['entity_table'] == 'civicrm_contribution_page' ) {
             $mailParams['email_from'] = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage',
@@ -211,7 +211,7 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
         $form->add('textarea', 'suggested_message', ts('Suggested Message'), 
                    CRM_Core_DAO::getAttribute('CRM_Friend_DAO_Friend', 'suggested_message'), false);
 
-        $form->add('text','general_link',ts('Info Page Link'));
+        $form->add('text','general_link',ts('Info Page Link'), CRM_Core_DAO::getAttribute('CRM_Friend_DAO_Friend', 'general_link'));
         
         $form->add('text', 'thankyou_title', ts('Thank-you Title'), CRM_Core_DAO::getAttribute('CRM_Friend_DAO_Friend', 'thankyou_title'), true );
 
@@ -249,9 +249,13 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
         
         require_once 'CRM/Contact/BAO/Contact.php';
         list( $fromName, $email ) = CRM_Contact_BAO_Contact::getContactDetails( $contactID );
+        // if no $fromName (only email collected from originating contact) - list returns single space
+        if ( trim($fromName) == '') {
+            $fromName = $email;
+        }
 
         // set details in the template here
-        $template->assign( $values['module']  , $values['module'] );        
+        $template->assign( $values['module']  , $values['module'] );
         $template->assign( 'senderContactName', $fromName ); 
         $template->assign( 'title',             $values['title'] );
         $template->assign( 'generalLink',       $values['general_link'] );

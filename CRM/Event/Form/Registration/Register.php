@@ -41,8 +41,21 @@ require_once 'CRM/Core/Payment.php';
  * This class generates form components for processing Event  
  * 
  */
+
 class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
 {
+    /**
+     * The fields involved in this page
+     *
+     */
+    public $_fields;
+
+    /**
+     * The defaults involved in this page
+     *
+     */
+    public $_defaults;
+
     /** 
      * Function to set variables up before form is built 
      *                                                           
@@ -166,6 +179,10 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             $this->add( 'text', 'additional_participants', ts('How many additional people?'), array( 'size' => 10, 'maxlength' => 10) );
             $this->addRule( 'additional_participants', ts( 'Please enter a valid No Of People (numbers only).' ), 'positiveInteger' );
         }
+
+        $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
+        $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
+        
         if ( $this->_values['event']['is_monetary'] ) {
             self::buildAmount( $this );
 
@@ -193,9 +210,6 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             CRM_Core_Payment_Form::buildCreditCard( $this );
         }
         
-        $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
-        $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
-        
         $session =& CRM_Core_Session::singleton( );
         $userID = $session->get( 'userID' );
 
@@ -216,8 +230,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             }
         }
         
-        $uploadNames = $this->get( 'uploadNames' );
-        $buttonName = empty( $uploadNames ) ? 'next' : 'upload';
+        $buttonName = $this->buttonType( );
         
         // if payment is via a button only, dont display continue
         if ( $this->_paymentProcessor['billing_mode'] != CRM_Core_Payment::BILLING_MODE_BUTTON ||
@@ -304,39 +317,6 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
     }
     
     /** 
-     * Function to add all the credit card fields
-     * 
-     * @return None 
-     * @access public 
-     */
-    function buildCreditCard( ) 
-    {
-        $config =& CRM_Core_Config::singleton( );
-        if ( $this->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_FORM ) {
-            foreach ( $this->_fields as $name => $field ) {
-                $this->add( $field['htmlType'],
-                            $field['name'],
-                            $field['title'],
-                            $field['attributes'],
-                            $field['is_required'] );
-            }
-            
-            $this->addRule( 'cvv2', ts( 'Please enter a valid value for your card security code. This is usually the last 3-4 digits on the card\'s signature panel.' ), 'integer' );
-            
-            $this->addRule( 'credit_card_exp_date', ts('Select a valid date greater than today.'), 'currentDate');
-        }            
-        
-        if ( $this->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_BUTTON ) {
-            $this->_expressButtonName = $this->getButtonName( 'next', 'express' );
-            $this->add('image',
-                       $this->_expressButtonName,
-                       $this->_paymentProcessor['url_button'],
-                       array( 'class' => 'form-submit' ) );
-        }
-    }
-    
-    
-    /** 
      * global form rule 
      * 
      * @param array $fields  the input form values 
@@ -351,6 +331,14 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
     {
         //To check if the user is already registered for the event(CRM-2426)
         self::checkRegistration($fields, $self);
+     
+        $email = $fields["email-{$self->_bltID}"];
+        require_once 'CRM/Core/BAO/UFMatch.php';
+        if ( CRM_Core_BAO_UFMatch::isDuplicateUser( $email ) ) {
+            $errors["email-{$self->_bltID}"] = ts( 'The email %1 already exists in the database.',
+                                                   array( 1 => $email ) );
+        }
+
         //check for atleast one pricefields should be selected
         if ( $fields['priceSetId'] ) {
             $priceField = new CRM_Core_DAO_PriceField( );
@@ -394,19 +382,24 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             if ( $fields['priceSetId'] ) { 
                 $zeroAmount = array( );
                 foreach( $fields as $key => $val  )  {
-                    if ( substr( $key, 0, 6 ) == 'price_' ){
-                        if ( is_array( $val) ) {
-                            foreach( $val as $keys => $vals  )  {
-                                $zeroAmount[] = $keys;
+                    if ( substr( $key, 0, 6 ) == 'price_' ) {
+                        $htmlType = CRM_Core_DAO::getFieldValue( 'CRM_Core_BAO_PriceField', substr( $key, 6 ) , 'html_type' );
+                        if( $htmlType != 'Text' ) {
+                            if ( is_array( $val) ) {
+                                foreach( $val as $keys => $vals  )  {
+                                    $zeroAmount[] = $keys;
+                                }
+                            } else {
+                                $zeroAmount[] = $val;
                             }
-                        } else {
-                            $zeroAmount[] = $val;
+                        } else if ( $htmlType == 'Text' && $val && $val <= 0 ) {
+                            $errors[$key] =  ts( "The Number of Items must be greater than zero (0)" );
                         }
-                    }
-                } 
+                    } 
+                }
                 foreach( $zeroAmount as $keyes => $values  )  {
                     if( $values && !$userID && 
-                        CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $values, 'value', 'id' ) == 0 ) {
+                        CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $values, 'name', 'id' ) == 0 ) {
                         $errors['amount'] =  ts( "The Zero amount facility is only for the valid members" );
                     }
                 }
@@ -432,12 +425,15 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 $check = array( );
                 foreach( $fields as $key => $val  )  {
                     if ( substr( $key, 0, 6 ) == 'price_' && $val != 0) {
+                        $htmlType = CRM_Core_DAO::getFieldValue( 'CRM_Core_BAO_PriceField', substr( $key, 6 ) , 'html_type' );
                         if ( is_array( $val) ) {
                             foreach( $val as $keys => $vals  )  {
-                                $check[] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $keys, 'value');
+                                $check[] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $keys, 'name');
                             }
+                        } else if( $htmlType == 'Text') {
+                            $check[] = $val;  
                         } else {
-                            $check[] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $val, 'value');
+                            $check[] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $val, 'name');
                         }
                     }
                 }
@@ -728,7 +724,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         $radioLevel    = $checkboxLevel = $selectLevel = $textLevel = array( );
         
         foreach ( $fields as $id => $field ) {
-            if ( empty( $params["price_{$id}"] ) ) {
+            if ( empty( $params["price_{$id}"]) && $params["price_{$id}"] == null ) {
                 // skip if nothing was submitted for this field
                 continue;
             }
@@ -889,43 +885,46 @@ WHERE  id IN ($optionIDs)
              isset( $fields["email-{$self->_bltID}"] ) ) {
             $emailString = trim( $fields["email-{$self->_bltID}"] );
             if ( ! empty( $emailString ) ) {
-                require_once 'CRM/Core/BAO/Email.php';
-                $email =&new CRM_Core_BAO_Email();
-                $email->email = $emailString;
-                $email->find(true);
-                $contactID = $email->contact_id;
+                $contactID = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Email',
+                                                          $emailString,
+                                                          'contact_Id',
+                                                          'email' );
             }
         }
 
         if ( $contactID ) {
             require_once 'CRM/Event/BAO/Participant.php';
-            $participant =&new CRM_Event_BAO_Participant();
+            $participant =& new CRM_Event_BAO_Participant();
             $participant->contact_id = $contactID;
-            $participant->event_id = $self->_values['event']['id'];
-            $participant->role_id = $self->_values['event']['default_role_id'];
+            $participant->event_id   = $self->_values['event']['id'];
+            $participant->role_id    = $self->_values['event']['default_role_id'];
             if ($self->_mode == 'test') {
                 $participant->is_test = 1;
             } else {
                 $participant->is_test = 0;
             }
-            $participant->find();
+            $participant->find( );
             require_once 'CRM/Event/PseudoConstant.php';
-            $statusTypes = CRM_Event_PseudoConstant::participantStatus( null, false );
-            while($participant->fetch()) {
+            $statusTypes = CRM_Event_PseudoConstant::participantStatus( null, "filter = 1" );
+            while ( $participant->fetch( ) ) {
                 if ( array_key_exists ( $participant->status_id, $statusTypes ) ) {
                     if ( !$isAdditional ) {
                         $status = ts("Oops. It looks like you are already registered for this event. If you want to change your registration, or you feel that you've gotten this message in error, please contact the site administrator.");
                         $session->setStatus( $status );
                         $url = CRM_Utils_System::url( 'civicrm/event/info',
                                                       "reset=1&id={$self->_values['event']['id']}" );
+                        if ( $self->_action & CRM_Core_Action::PREVIEW ) {
+                            $url .= '&action=preview';
+                        }
                         CRM_Utils_System::redirect( $url );
                     }
+
+                    if ( $isAdditional ) {
+                        $status = ts("Oops. It looks like this participant is already registered for this event.If you want to change your registration, or you feel that you've gotten this message in error, please contact the site administrator."); 
+                        $session->setStatus( $status );
+                        return $participant->id;
+                    }
                 }
-                   if ( $isAdditional ) {
-                       $status = ts("Oops. It looks like this participant is already registered for this event.If you want to change your registration, or you feel that you've gotten this message in error, please contact the site administrator."); 
-                       $session->setStatus( $status );
-                       return $participant->id;
-                   }
             }
         }
     }

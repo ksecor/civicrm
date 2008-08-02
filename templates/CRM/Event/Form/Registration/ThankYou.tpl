@@ -12,9 +12,9 @@
     
     {* Show link to Tell a Friend (CRM-2153) *}
     {if $friendText}
-        <div class="action-link" id="tell-a-friend">
-            <a href="{$friendURL}" title="{$friendText}">&raquo; {$friendText}</a>
-       </div>
+        <div id="tell-a-friend">
+            <a href="{$friendURL}" title="{$friendText}" class="button"><span>&raquo; {$friendText}</span></a>
+       </div><br /><br />
     {/if}  
 
     <div id="help">

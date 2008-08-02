@@ -133,7 +133,7 @@ class CRM_Contact_Form_Search_Criteria {
             if ( ! $attributes ) {
                 $attributes = $attributes[$name];
             }
-
+            
             if ( $select ) {
                 $selectElements = array( '' => ts('- select -') ) + CRM_Core_PseudoConstant::$select( );
                 $form->addElement('select', $name, $title, $selectElements );
@@ -141,11 +141,11 @@ class CRM_Contact_Form_Search_Criteria {
                 $form->addElement('text', $name, $title, $attributes );
             }
             
-            if ( $addressOptions['Zip / Postal Code'] ) { 
+            if ( $addressOptions['postal_code'] ) { 
                 $form->addElement('text', 'postal_code_low', ts('Range-From'),
-                          $attributes['postal_code'] );
+                                  CRM_Utils_Array::value( 'postal_code', $attributes ) );
                 $form->addElement('text', 'postal_code_high', ts('To'),
-                          $attributes['postal_code'] );
+                                  CRM_Utils_Array::value( 'postal_code', $attributes ) );
             }
             
             // select for state province
@@ -155,7 +155,7 @@ class CRM_Contact_Form_Search_Criteria {
 
         $worldRegions =  array('' => ts('- any region -')) + CRM_Core_PseudoConstant::worldRegion( );
         $form->addElement('select', 'world_region', ts('World Region'), $worldRegions);
-
+        
         // checkboxes for location type
         $location_type = array();
         $locationType = CRM_Core_PseudoConstant::locationType( );
@@ -193,7 +193,9 @@ class CRM_Contact_Form_Search_Criteria {
             
             $caseViolation = CRM_Core_OptionGroup::values('f1_case_violation');
             $form->addElement('select', 'activity_activitytag3_id',  ts( 'Violation Type'  ),  
-                              array( '' => ts( '-select-' ) ) + $caseViolation);
+                              $caseViolation , array("size"=>"5",  "multiple"));
+            
+            $form->addElement( 'text', 'activity_details', ts( 'Content' ) );
         }
 
         // Date selects for activity date
@@ -204,10 +206,10 @@ class CRM_Contact_Form_Search_Criteria {
         $form->addRule('activity_date_high', ts('Select a valid date.'), 'qfDate');
         
         $activityRoles  = array( ts('With'), ts('Created by'), ts('Assigned to') );
-        $form->addRadio( 'activity_role', ts( 'Activity Role' ), $activityRoles, null, '<br />');
+        $form->addRadio( 'activity_role', ts( 'Contact Role and Name' ), $activityRoles, null, '<br />');
         $form->setDefaults(array('activity_role' => 0));
         
-        $form->addElement('text', 'activity_target_name', ts('Target Contact'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
+        $form->addElement('text', 'activity_target_name', ts('Contact Name'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
        
         $activityStatus = CRM_Core_PseudoConstant::activityStatus( );
         foreach ($activityStatus as $activityStatusID => $activityStatusName) {

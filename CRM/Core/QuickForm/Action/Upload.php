@@ -95,11 +95,12 @@ class CRM_Core_QuickForm_Action_Upload extends CRM_Core_QuickForm_Action {
                 if ( ! $status ) {
                     CRM_Core_Error::statusBounce( ts( 'We could not move the uploaded file %1 to the upload directory %2. Please verify that the \'Temporary Files\' setting points to a valid path which is writable by your web server.', array( 1 => $value['name'], 2 => $this->_uploadDir ) ) );
                 }
-                if (!empty($data['values'][$pageName][$uploadName])) {
+                if (!empty($data['values'][$pageName][$uploadName]['name'])) {
                     @unlink($this->_uploadDir . $data['values'][$pageName][$uploadName]);
                 }
                 
-                $data['values'][$pageName][$uploadName] = $this->_uploadDir . $newName;
+                $data['values'][$pageName][$uploadName] = array( 'name' => $this->_uploadDir . $newName,
+                                                                 'type' => $value['type'] );
             }
         }
     }

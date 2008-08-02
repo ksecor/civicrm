@@ -237,19 +237,22 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
                 $values = array( );
                 $groupTitle = null;
                 $fields = CRM_Core_BAO_UFGroup::getFields( $gid, false, CRM_Core_Action::VIEW );
-                
-                CRM_Core_BAO_UFGroup::getValues( $cid, $fields, $values , false, $params );
-                foreach( $fields as $v  ) {
+
+                foreach ( $fields as $k => $v  ) {
                     if ( ! $groupTitle ) { 
                         $groupTitle = $v["groupTitle"];
-                    } else {
-                        break;
+                    }
+                    // suppress all file fields from display
+                    if ( CRM_Utils_Array::value( 'data_type', $v, '' ) == 'File' ) {
+                        unset( $fields[$k] );
                     }
                 }
 
                 if ( $groupTitle ) {
                     $template->assign( $name."_grouptitle", $groupTitle );
                 }
+
+                CRM_Core_BAO_UFGroup::getValues( $cid, $fields, $values , false, $params );
 
                 if ( count( $values ) ) {
                     $template->assign( $name, $values );
@@ -276,7 +279,13 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
                                             array( 'id' => $id ), 
                                             null, 
                                             $fieldsToPrefix );
+        
         //copying all the blocks pertaining to the contribution page
+        $copyPledgeBlock =& CRM_Core_DAO::copyGeneric( 'CRM_Pledge_DAO_PledgeBlock', 
+                                                       array( 'entity_id'    => $id,
+                                                              'entity_table' => 'civicrm_contribution_page'),
+                                                       array( 'entity_id'    => $copy->id ) );
+                
         $copyMembershipBlock =& CRM_Core_DAO::copyGeneric( 'CRM_Member_DAO_MembershipBlock', 
                                                            array( 'entity_id'    => $id,
                                                                   'entity_table' => 'civicrm_contribution_page'),

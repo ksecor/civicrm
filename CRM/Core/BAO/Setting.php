@@ -143,7 +143,7 @@ class CRM_Core_BAO_Setting
         require_once "CRM/Core/DAO/Domain.php";
         $domain =& new CRM_Core_DAO_Domain();
         $domain->selectAdd( );
-        $domain->selectAdd( 'config_backend' );
+        $domain->selectAdd( 'config_backend, locales' );
         
         $domain->find(true);
         if ($domain->config_backend) {
@@ -180,9 +180,6 @@ class CRM_Core_BAO_Setting
             }
 
             // are we in a multi-language setup?
-            require_once 'CRM/Core/DAO/Domain.php';
-            $domain =& new CRM_Core_DAO_Domain();
-            $domain->find(true);
             $multiLang = $domain->locales ? true : false;
 
             // set the current language

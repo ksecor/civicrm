@@ -4,7 +4,7 @@
 <div class="form-item">
     <div id="help">
         {ts}Please verify the information below. Click <strong>Go Back</strong> if you need to make changes.{/ts}
-    {if $contributeMode EQ 'notify' and $paymentProcessor.payment_processor_type EQ 'Google_Checkout' and !$is_pay_later } 
+    {if $contributeMode EQ 'notify' and $paymentProcessor.payment_processor_type EQ 'Google_Checkout' and !$is_pay_later and ! $isAmountzero } 
         {ts}Click the <strong>Google Checkout</strong> button to checkout to Google, where you will select your payment method and complete the registration.{/ts}
     {else}
 	{ts}Otherwise, click the <strong>Continue</strong> button below to complete your registration.{/ts}
@@ -141,7 +141,7 @@
     </div>
     {/if}    
    
-    {if $paymentProcessor.payment_processor_type EQ 'Google_Checkout' and $paidEvent and !$is_pay_later}
+    {if $paymentProcessor.payment_processor_type EQ 'Google_Checkout' and $paidEvent and !$is_pay_later and ! $isAmountzero}
         <fieldset><legend>{ts}Checkout with Google{/ts}</legend>
          <table class="form-layout-compressed">
           <tr><td class="description">{ts}Click the Google Checkout button to continue.{/ts}</td></tr>

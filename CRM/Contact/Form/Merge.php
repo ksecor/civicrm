@@ -96,7 +96,7 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         $this->_cid         = $cid;
         $this->_oid         = $oid;
         $this->_contactType = $main['contact_type'];
-        $this->addElement('checkbox', 'toggleSelect', null, null, array('onchange' => "return toggleCheckboxVals('move_',this.form);"));
+        $this->addElement('checkbox', 'toggleSelect', null, null, array('onclick' => "return toggleCheckboxVals('move_',this.form);"));
 
         require_once "CRM/Contact/DAO/Contact.php";
         $fields =& CRM_Contact_DAO_Contact::fields();
@@ -153,7 +153,7 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                     $locLabel[$moniker] = array();
                 } else {
                     $locValue[$moniker] = $locTypeId;
-                    foreach (array('email','phone','im','openid') as $fieldType) {
+                    foreach (array('email','phone','openid') as $fieldType) {
                         if (!isset($location[$fieldType])) $location[$fieldType] = array();
                         $locLabel[$moniker][$fieldType] = '';
                         foreach ($location[$fieldType] as $key =>$field) {
@@ -162,6 +162,14 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                         $locLabel[$moniker][$fieldType] = preg_replace('/\n+/', "\n", $locLabel[$moniker][$fieldType]);
                         $locLabel[$moniker][$fieldType] = nl2br(trim($locLabel[$moniker][$fieldType]));
                     }
+                    if (!isset($location['im'])) $location['im'] = array();
+                    $locLabel[$moniker]['im'] = '';
+                    foreach ($location['im'] as $key =>$field) {
+                        $locLabel[$moniker]['im'] .= $field['name'] . "\n";
+                    }
+                    $locLabel[$moniker]['im'] = preg_replace('/\n+/', "\n", $locLabel[$moniker]['im']);
+                    $locLabel[$moniker]['im'] = nl2br(trim($locLabel[$moniker]['im']));
+                    
                     $locLabel[$moniker]['address'] = $location['address']['display'];
                 }
             }

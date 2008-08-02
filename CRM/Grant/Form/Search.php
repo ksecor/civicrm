@@ -242,9 +242,9 @@ class CRM_Grant_Form_Search extends CRM_Core_Form
             if ( !$this->_single ) {
                 $this->addElement( 'checkbox', 'toggleSelect', null, null, array( 'onchange' => "return toggleCheckboxVals('mark_x_',this.form);" ) ); 
                 foreach ($rows as $row) { 
-                    $this->addElement( 'checkbox', $row['checkbox'], 
+                    $this->addElement( 'checkbox', CRM_Utils_Array::value( 'checkbox', $row ), 
                                        null, null, 
-                                       array( 'onclick' => "return checkSelectedBox('" . $row['checkbox'] . "', '" . $this->getName() . "');" )
+                                       array( 'onclick' => "return checkSelectedBox('" . CRM_Utils_Array::value( 'checkbox', $row ) . "', '" . $this->getName() . "');" )
                                        ); 
                     $grant_id = $row['grant_id'];
                 }

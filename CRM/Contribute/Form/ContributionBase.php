@@ -236,7 +236,6 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                     CRM_Core_Error::fatal( ts( 'A payment processor must be selected for this contribution page (contact the site administrator for assistance).' ) );
                 }
                 
-                
                 $ppID = CRM_Utils_Array::value( 'payment_processor_id', $this->_values );
                 
                 if ( !$ppID ) {
@@ -294,20 +293,35 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                  ! $this->_membershipBlock['is_active'] ) {
                 CRM_Core_Error::fatal( ts('This page includes a Profile with Membership fields - but the Membership Block is NOT enabled. Please notify the site administrator.') );
             }
-
-            //set pledge id in values
-            $pledgeId = CRM_Utils_Request::retrieve( 'pledgeId', 'Positive', $this );
             
-            //authenticate pledge user for pledge payment.
-            if ( $pledgeId ) {
-                $this->_values['pledge_id'] = $pledgeId;
-                self::authenticatePledgeUser( );
+            require_once 'CRM/Pledge/BAO/PledgeBlock.php';
+            $pledgeBlock = CRM_Pledge_BAO_PledgeBlock::getPledgeBlock( $this->_id );
+
+            if ( $pledgeBlock ) {
+                $this->_values['pledge_block_id'        ] = $pledgeBlock['id'];
+                $this->_values['max_reminders'          ] = $pledgeBlock['max_reminders'];
+                $this->_values['initial_reminder_day'   ] = $pledgeBlock['initial_reminder_day'];
+                $this->_values['additional_reminder_day'] = $pledgeBlock['additional_reminder_day'];
+
+                //set pledge id in values
+                $pledgeId = CRM_Utils_Request::retrieve( 'pledgeId', 'Positive', $this );
+                
+                //authenticate pledge user for pledge payment.
+                if ( $pledgeId ) {
+                    $this->_values['pledge_id'] = $pledgeId;
+                    self::authenticatePledgeUser( );
+                }
             }
 
             $this->set( 'values', $this->_values );
             $this->set( 'fields', $this->_fields );
         }
 
+        //set pledge block if block id is set
+        if ( CRM_Utils_Array::value( 'pledge_block_id', $this->_values ) ) {
+            $this->assign( 'pledgeBlock', true );
+        }
+        
         // we do this outside of the above conditional to avoid 
         // saving the country/state list in the session (which could be huge)
         if ( ( $this->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_FORM ) &&
@@ -410,14 +424,14 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                                                'installments' ) );
         }
 
-        if ( isset($this->_params['pledge_installments']) ) {
+        if ( in_array('CiviPledge', $config->enableComponents ) && 
+             CRM_Utils_Array::value( 'is_pledge', $this->_params ) == 1 ) {
             $this->assign( 'pledge_enabled', 1 );
-            $this->_params['is_pledge'] = 1;
+
             $vars = array_merge( $vars, array( 'is_pledge',
-                                               'is_pledge_frequency_interval',
                                                'pledge_frequency_interval', 
                                                'pledge_frequency_unit',
-                                               'pledge_installments' ) );
+                                               'pledge_installments') );
         }
         
         if( isset($this->_params['amount_other']) || isset($this->_params['selectMembership']) ) {
@@ -430,15 +444,14 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
             }
         }
 
-
         // assign the address formatted up for display
         $addressParts  = array( "street_address-{$this->_bltID}",
                                 "city-{$this->_bltID}",
                                 "postal_code-{$this->_bltID}",
                                 "state_province-{$this->_bltID}",
                                 "country-{$this->_bltID}");
-        $addressFields = array();
 
+        $addressFields = array( );
         foreach ($addressParts as $part) {
             list( $n, $id ) = explode( '-', $part );
             $addressFields[$n] = CRM_Utils_Array::value( $part, $this->_params );
@@ -484,7 +497,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
      * @return None  
      * @access public  
      */ 
-    function buildCustom( $id, $name, $skipCaptcha = false ) 
+    function buildCustom( $id, $name, $viewOnly = false ) 
     {
         if ( $id ) {
             require_once 'CRM/Core/BAO/UFGroup.php';
@@ -532,6 +545,12 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                 
                 $addCaptcha = false;
                 foreach($fields as $key => $field) {
+                    if ( $viewOnly &&
+                         isset( $field['data_type'] ) &&
+                         $field['data_type'] == 'File' ) {
+                        // ignore file upload fields
+                        continue;
+                    }
                     CRM_Core_BAO_UFGroup::buildProfile($this, $field, CRM_Profile_Form::MODE_CREATE);
                     $this->_fields[$key] = $field;
                     if ( $field['add_captcha'] ) {
@@ -540,7 +559,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                 }
 
                 if ( $addCaptcha &&
-                     ! $skipCaptcha ) {
+                     ! $viewOnly ) {
                     require_once 'CRM/Utils/ReCAPTCHA.php';
                     $captcha =& CRM_Utils_ReCAPTCHA::singleton( );
                     $captcha->add( $this );
@@ -570,9 +589,10 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
      */
     public function authenticatePledgeUser( ) 
     {
-        //get the userChecksum.
+        //get the userChecksum and contact id
         $userChecksum = CRM_Utils_Request::retrieve( 'cs', 'String', $this );
-        
+        $contactID    = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
+
         //get pledge status and contact id
         $pledgeValues = array( );
         $pledgeParams = array( 'id' => $this->_values['pledge_id'] );
@@ -599,14 +619,20 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
             //check for anonymous user.
             require_once 'CRM/Contact/BAO/Contact/Utils.php';
             $validUser = CRM_Contact_BAO_Contact_Utils::validChecksum( $pledgeValues['contact_id'], $userChecksum );
+
+            //make sure cid is same as pledge contact id
+            if ( $validUser && ( $pledgeValues['contact_id'] != $contactID ) ) {
+                $validUser = false;
+            }
         }
+            
         if ( !$validUser ) {
-            CRM_Core_Error::fatal( ts( "Oops. You do not own this pledge." ) );    
+            CRM_Core_Error::fatal( ts( "Oops. It looks like you have an incorrect or incomplete link (URL). Please make sure you've copied the entire link, and try again. Contact the site administrator if this error persists." ) );    
         }
         
         //check for valid pledge status.
         if ( !in_array( $pledgeValues['status_id'], $validStatus ) ) {
-            CRM_Core_Error::fatal( ts( "Oops. You cannot Make the Payment for this pledge as Pledge Status is %1.", array( CRM_Utils_Array::value( $pledgeValues['status_id'], $allStatus ) ) ) ); 
+            CRM_Core_Error::fatal( ts( "Oops. You cannot make a payment for this pledge - pledge status is %1.", array( CRM_Utils_Array::value( $pledgeValues['status_id'], $allStatus ) ) ) ); 
         }
     }
     

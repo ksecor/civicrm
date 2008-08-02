@@ -21,7 +21,13 @@ INSERT INTO civicrm_contribution_page
 VALUES
   ('Help Support CiviCRM!','Do you love CiviCRM? Do you use CiviCRM? Then please support CiviCRM and Contribute NOW by trying out our new online contribution features!',1,1,1,137,'10.00','10000.00','100000.00','Thanks for Your Support!','<p>Thank you for your support. Your contribution will help us build even better tools.</p><p>Please tell your friends and colleagues about CiviCRM!</p>','<p><a href=http://civicrm.org>Back to CiviCRM Home Page</a></p>','CiviCRM Fundraising Dept.','donationFake@civicrm.org','receipt@example.com','bcc@example.com','Your donation is tax deductible under IRS 501(c)(3) regulation. Our tax identification number is: 93-123-4567',1, NULL, 1,NULL, NULL, NULL),
   ('Member Signup and Renewal', 'Members are the life-blood of our organization. If you''re not already a member - please consider signing up today. You can select the membership level the fits your budget and needs below.', 2, 1, NULL, NULL, NULL, NULL, NULL, 'Thanks for Your Support!', 'Thanks for supporting our organization with your membership. You can learn more about membership benefits from our members only page.', NULL, 'Membership Department', 'memberships@civicrm.org', NULL, NULL, 'Thanks for supporting our organization with your membership. You can learn more about membership benefits from our members only page.\r\n\r\nKeep this receipt for your records.', 1, NULL, 0, NULL, NULL,NULL),
-('Pledge for CiviCRM!','Do you love CiviCRM? Do you use CiviCRM? Then please support CiviCRM and Pledge NOW by trying out our online contribution features!',1,1,1,NULL,'10.00','10000.00','100000.00','Thanks for Your Support!','<p>Thank you for your support. Your contribution will help us build even better tools like Pledge.</p><p>Please tell your friends and colleagues about CiviPledge!</p>','<p><a href=http://civicrm.org>Back to CiviCRM Home Page</a></p>','CiviCRM Fundraising Dept.','donationFake@civicrm.org','receipt@example.com','bcc@example.com','Your donation is tax deductible under IRS 501(c)(3) regulation. Our tax identification number is: 93-123-4567',1, NULL, 1,NULL, NULL, NULL);
+  ('Pledge for CiviCRM!','Do you love CiviCRM? Do you use CiviCRM? Then please support CiviCRM and Pledge NOW by trying out our online contribution features!',1,1,1,NULL,'10.00','10000.00','100000.00','Thanks for Your Support!','<p>Thank you for your support. Your contribution will help us build even better tools like Pledge.</p><p>Please tell your friends and colleagues about CiviPledge!</p>','<p><a href=http://civicrm.org>Back to CiviCRM Home Page</a></p>','CiviCRM Fundraising Dept.','donationFake@civicrm.org','receipt@example.com','bcc@example.com','Your donation is tax deductible under IRS 501(c)(3) regulation. Our tax identification number is: 93-123-4567',1, NULL, 1,NULL, NULL, NULL);
+
+INSERT INTO `civicrm_tell_friend`
+    (`entity_table`, `entity_id`, `title`, `intro`, `suggested_message`, `general_link`, `thankyou_title`, `thankyou_text`, `is_active`)
+VALUES
+    ('civicrm_contribution_page', 1, 'Tell A Friend', '<p>Help us spread the word and leverage the power of your contribution by telling your friends. Use the space below to personalize your email message - let your friends know why you support us. Then fill in the name(s) and email address(es) and click ''Send Your Message''.</p>', 'Thought you might be interested in learning about and helping this organization. I think they do important work.', NULL, 'Thanks for Spreading the Word', '<p><strong>Thanks for telling your friends about us and supporting our efforts. Together we can make a difference.</strong></p>', 1),
+    ('civicrm_event_page', 1, 'Tell A Friend', '<p>Help us spread the word about this event. Use the space below to personalize your email message - let your friends know why you''re attending. Then fill in the name(s) and email address(es) and click ''Send Your Message''.</p>', 'Thought you might be interested in checking out this event. I''m planning on attending.', NULL, 'Thanks for Spreading the Word', '<p>Thanks for spreading the word about this event to your friends.</p>', 1);
  
 INSERT INTO civicrm_contact
     (contact_type, contact_sub_type, legal_identifier, external_identifier, sort_name, display_name, nick_name, home_URL, image_URL, source, preferred_communication_method, preferred_mail_format, do_not_phone, do_not_email, do_not_mail, do_not_trade, hash, is_opt_out,organization_name)
@@ -41,8 +47,9 @@ VALUES
     ('civicrm_contribution_page', 2, '1,2', 1, 1, NULL, 'Membership Levels and Fees', 'Please select the appropriate membership level below. You will have a chance to review your selection and the corresponding dues on the next page prior to your credit card being charged.', 'Renew or Upgrade Your Membership', 'Information on your current membership level and expiration date is shown below. You may renew or upgrade at any time - but don''t let your membership lapse!', 1, 1);
 
 INSERT INTO civicrm_pledge_block ( entity_table, entity_id, pledge_frequency_unit, is_pledge_interval, max_reminders, initial_reminder_day, additional_reminder_day)
- VALUES 
-    ('civicrm_contribution_page', 3, 'weekmonthyear', 0, 1, 5, 5);
+VALUES 
+    ('civicrm_contribution_page', 3, 'weekmonthyear', 1, 1, 5, 5),
+    ('civicrm_contribution_page', 1, 'weekmonthyear', 0, 2, 5, 5);
         
 INSERT INTO civicrm_premiums 
     VALUES (1, 'civicrm_contribution_page', 1, 1, 'Thank-you Gifts', 'We appreciate your support and invite you to choose from the exciting collection of thank-you gifts below. Minimum contribution amounts for each selection are included in the descriptions. (NOTE: These gifts are shown as examples only. No gifts will be sent to donors.)', 'premiums@example.org', NULL, 1);
@@ -55,18 +62,56 @@ INSERT INTO civicrm_premiums_product VALUES (1, 1, 1, 1);
 INSERT INTO civicrm_acl (name, deny, entity_table, entity_id, operation, object_table, object_id, acl_table, acl_id, is_active) 
 VALUES 
 ('Edit All Contacts', 0, 'civicrm_acl_role', 1, 'Edit', 'civicrm_saved_search', 0, NULL, NULL, 1),
-('Core ACL', 0, 'civicrm_acl_role', 2, 'All', 'access CiviMail subscribe/unsubscribe pages', NULL, NULL, NULL, 1),
-('Core ACL', 0, 'civicrm_acl_role', 2, 'All', 'access all custom data', NULL, NULL, NULL, 1),
-('Core ACL', 0, 'civicrm_acl_role', 2, 'All', 'make online contributions', NULL, NULL, NULL, 1),
-('Core ACL', 0, 'civicrm_acl_role', 2, 'All', 'profile listings and forms', NULL, NULL, NULL, 1),
-('Core ACL', 0, 'civicrm_acl_role', 2, 'All', 'register for events', NULL, NULL, NULL, 1),
-('Core ACL', 0, 'civicrm_acl_role', 2, 'All', 'view event info', NULL, NULL, NULL, 1),
-('Core ACL', 0, 'civicrm_acl_role', 2, 'All', 'view event participants', NULL, NULL, NULL, 1),
 ('Core ACL', 0, 'civicrm_acl_role', 0, 'All', 'access CiviMail subscribe/unsubscribe pages', NULL, NULL, NULL, 1),
 ('Core ACL', 0, 'civicrm_acl_role', 0, 'All', 'access all custom data', NULL, NULL, NULL, 1),
 ('Core ACL', 0, 'civicrm_acl_role', 0, 'All', 'make online contributions', NULL, NULL, NULL, 1),
 ('Core ACL', 0, 'civicrm_acl_role', 0, 'All', 'profile listings and forms', NULL, NULL, NULL, 1),
-('Core ACL', 0, 'civicrm_acl_role', 0, 'All', 'register for events', NULL, NULL, NULL, 1);
+('Core ACL', 0, 'civicrm_acl_role', 0, 'All', 'register for events', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 1, 'All', 'access CiviCRM', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 1, 'All', 'access CiviContribute', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 1, 'All', 'access CiviEvent', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 1, 'All', 'access CiviMail', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 1, 'All', 'access CiviMail subscribe/unsubscribe pages', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 1, 'All', 'access CiviMember', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 1, 'All', 'access CiviPledge', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 1, 'All', 'access Contact Dashboard', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 1, 'All', 'access all custom data', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 1, 'All', 'access uploaded files', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 1, 'All', 'add contacts', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 1, 'All', 'administer CiviCRM', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 1, 'All', 'edit all contacts', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 1, 'All', 'edit contributions', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 1, 'All', 'edit event participants', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 1, 'All', 'edit groups', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 1, 'All', 'edit memberships', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 1, 'All', 'edit pledges', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 1, 'All', 'import contacts', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 1, 'All', 'make online contributions', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 1, 'All', 'make online pledges', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 1, 'All', 'profile listings and forms', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 1, 'All', 'register for events', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 1, 'All', 'view all activities', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 1, 'All', 'view all contacts', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 1, 'All', 'view event info', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 1, 'All', 'view event participants', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 2, 'All', 'access CiviCRM', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 2, 'All', 'access CiviContribute', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 2, 'All', 'access CiviEvent', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 2, 'All', 'access CiviMail', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 2, 'All', 'access CiviMail subscribe/unsubscribe pages', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 2, 'All', 'access CiviMember', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 2, 'All', 'access CiviPledge', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 2, 'All', 'access Contact Dashboard', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 2, 'All', 'access all custom data', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 2, 'All', 'administer CiviCRM', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 2, 'All', 'make online contributions', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 2, 'All', 'make online pledges', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 2, 'All', 'profile listings and forms', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 2, 'All', 'register for events', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 2, 'All', 'view all activities', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 2, 'All', 'view all contacts', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 2, 'All', 'view event info', NULL, NULL, NULL, 1),
+('Core ACL', 0, 'civicrm_acl_role', 2, 'All', 'view event participants', NULL, NULL, NULL, 1);
 
 -- Create default Groups for User Permissioning
 INSERT INTO civicrm_group

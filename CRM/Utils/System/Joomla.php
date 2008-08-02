@@ -80,6 +80,11 @@ class CRM_Utils_System_Joomla {
 
         if ( is_array( $breadCrumbs ) ) {
             foreach ( $breadCrumbs as $crumbs ) {
+                if ( stripos($crumbs['url'], '%%cid%%') ) {
+                    $cid  = CRM_Utils_Request::retrieve( 'cid', 'Positive', CRM_Core_DAO::$_nullObject,
+                                                         false, null, $_GET );
+                    $crumbs['url'] = str_ireplace( '%%cid%%', $cid, $crumbs['url'] );
+                }
                 $bc[] = $crumbs;
             }
         }
