@@ -799,10 +799,13 @@ FROM   civicrm_domain
         //CRM_Core_Error::debug( 'q', $queryStr );
 
         // rewrite queries that should use $dbLocale-based views for multi-language installs
-        if ($i18nRewrite) {
-            require_once 'CRM/Core/I18n/SchemaStructure.php';
-            $tables = CRM_Core_I18n_SchemaStructure::tables();
-            global $dbLocale;
+        global $dbLocale;
+        if ($i18nRewrite and $dbLocale) {
+            static $tables = null;
+            if ($tables === null) {
+                require_once 'CRM/Core/I18n/SchemaStructure.php';
+                $tables =& CRM_Core_I18n_SchemaStructure::tables();
+            }
             foreach ($tables as $table) {
                 $queryStr = preg_replace("/({$table})([^_])/", "\\1{$dbLocale}\\2", $queryStr);
             }
