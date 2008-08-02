@@ -4,6 +4,7 @@
   <base>CRM/Core</base>
   <class>CustomField</class>
   <name>civicrm_custom_field</name>
+  <localizable>true</localizable>
   <comment>Stores info about an extended (custom) property (data and form field info).</comment>
   <add>1.1</add>
   <field>
@@ -35,6 +36,7 @@
      <name>label</name>
      <type>varchar</type>
      <length>255</length>
+     <localizable>true</localizable>
      <comment>Text for form field label (also friendly name for administering this custom property).</comment>
      <add>1.1</add>
   </field>
