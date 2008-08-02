@@ -324,6 +324,7 @@ function getTable( $tableXML, &$database, &$tables ) {
                     'attributes_simple' => trim($database['tableAttributes_simple']),
                     'attributes_modern' => trim($database['tableAttributes_modern']),
                     'comment'    => value( 'comment', $tableXML ),
+                    'localizable'=> $tableXML->localizable,
                     'log'        => value( 'log', $tableXML, 'false' ) );
     
     $config  =& CRM_Core_Config::singleton( );
