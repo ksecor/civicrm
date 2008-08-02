@@ -197,7 +197,7 @@ class CRM_Core_BAO_Setting
 
                 require_once 'CRM/Utils/Request.php';
                 $lcMessages = CRM_Utils_Request::retrieve('lcMessages', 'String', $this);
-                if (in_array($lcMessages, $defaults['languageLimit'])) {
+                if (isset($defaults['languageLimit']) and in_array($lcMessages, $defaults['languageLimit'])) {
                     if ($ufm->find(true)) {
                         $ufm->language = $lcMessages;
                         $ufm->save();
