@@ -233,6 +233,13 @@ ADD CONSTRAINT `FK_civicrm_loc_block_im_id`      FOREIGN KEY (`im_id`)      REFE
 ADD CONSTRAINT `FK_civicrm_loc_block_im_2_id`    FOREIGN KEY (`im_2_id`)    REFERENCES `civicrm_im` (`id`)    ON DELETE SET NULL;
 
 
+
+-- add the new civicrm_domain.locales column
+
+ALTER TABLE civicrm_domain ADD locales text COMMENT 'list of locales supported by the current db state (NULL for single-lang install)';
+
+
+
 -- new tables added to 2.0
 
 CREATE TABLE `civicrm_cache` (
