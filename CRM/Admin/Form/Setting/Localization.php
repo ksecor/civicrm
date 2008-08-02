@@ -56,13 +56,17 @@ class CRM_Admin_Form_Setting_Localization extends  CRM_Admin_Form_Setting
 
         $locales =& CRM_Core_I18n::languages();
 
-        $includeLanguage =& $this->addElement('advmultiselect', 'languageLimit',
-                                              ts('Available Languages'), $locales,
-                                              array('size'  => 5,
-                                                    'style' => 'width: 200px',
-                                                    'class' => 'advmultiselect'));
-        $includeLanguage->setButtonAttributes('add',    array('value' => ts('Add >>')));
-        $includeLanguage->setButtonAttributes('remove', array('value' => ts('<< Remove')));
+        $domain =& new CRM_Core_DAO_Domain();
+        $domain->find(true);
+        if ($domain->locales) {
+            $includeLanguage =& $this->addElement('advmultiselect', 'languageLimit',
+                                                  ts('Available Languages'), $locales,
+                                                  array('size'  => 5,
+                                                        'style' => 'width: 200px',
+                                                        'class' => 'advmultiselect'));
+            $includeLanguage->setButtonAttributes('add',    array('value' => ts('Add >>')));
+            $includeLanguage->setButtonAttributes('remove', array('value' => ts('<< Remove')));
+        }
 
         $this->addElement('select', 'lcMessages', ts('Default Language'), $locales);
         $this->addElement('select', 'lcMonetary', ts('Monetary Locale'),  $locales);
