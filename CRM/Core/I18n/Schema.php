@@ -83,7 +83,7 @@ class CRM_Core_I18n_Schema
     function addLocale($locale, $source)
     {
         // get the current supported locales 
-        $domain =& CRM_Core_DAO_Domain();
+        $domain =& new CRM_Core_DAO_Domain();
         $domain->find(true);
         $locales = explode(CRM_Core_DAO::VALUE_SEPARATOR, $domain->locales);
 
@@ -101,9 +101,9 @@ class CRM_Core_I18n_Schema
         // take care of the ON INSERT triggers
         foreach ($columns as $table => $hash) {
             $queries[] = "DROP TRIGGER IF EXISTS {$table}_i18n";
+            $queries[] = 'DELIMITER |';
 
             $trigger = array();
-            $trigger[] = 'DELIMITER ;;';
             $trigger[] = "CREATE TRIGGER {$table}_i18n BEFORE INSERT ON {$table} FOR EACH ROW BEGIN";
 
             foreach ($hash as $column => $_) {
@@ -113,7 +113,7 @@ class CRM_Core_I18n_Schema
                 }
                 foreach ($locales as $old) {
                     $trigger[] = "ELSEIF NEW.{$column}_{$old} IS NOT NULL THEN";
-                    foreach (array_merge($locales, $locale) as $loc) {
+                    foreach (array_merge($locales, array($locale)) as $loc) {
                         if ($loc == $old) continue;
                         $trigger[] = "SET NEW.{$column}_{$loc} = NEW.{$column}_{$old};";
                     }
@@ -121,10 +121,11 @@ class CRM_Core_I18n_Schema
                 $trigger[] = 'END IF;';
             }
 
-            $trigger[] = 'END;;';
-            $trigger[] = 'DELIMITER ;';
+            $trigger[] = 'END;';
+            $trigger[] = '|';
 
             $queries[] = implode("\n", $trigger);
+            $queries[] = 'DELIMITER ;';
         }
 
         // execute the queries without i18n rewriting
