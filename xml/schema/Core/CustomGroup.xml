@@ -4,7 +4,6 @@
   <base>CRM/Core</base>
   <class>CustomGroup</class>
   <name>civicrm_custom_group</name>
-  <localizable>true</localizable>
   <comment>All extended (custom) properties are associated with a group. These are logical sets of related data.</comment>
   <add>1.1</add>
     <field>

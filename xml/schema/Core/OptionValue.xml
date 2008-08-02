@@ -4,7 +4,6 @@
   <base>CRM/Core</base>
   <class>OptionValue</class>
   <name>civicrm_option_value</name>
-  <localizable>true</localizable>
   <add>1.5</add>
   <field>
       <name>id</name>
