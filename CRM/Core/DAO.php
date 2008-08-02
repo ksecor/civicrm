@@ -798,11 +798,13 @@ FROM   civicrm_domain
         $queryStr = self::composeQuery( $query, $params, $abort, $dao );
         //CRM_Core_Error::debug( 'q', $queryStr );
 
+        // rewrite queries that should use $dbLocale-based views for multi-language installs
         global $dbLocale;
-        $tables = array('civicrm_custom_field', 'civicrm_custom_group', 'civicrm_option_value', 'civicrm_value_interests_1');
+        $tables = array('civicrm_custom_field', 'civicrm_custom_group', 'civicrm_option_value');
         foreach ($tables as $table) {
-            $queryStr = preg_replace("/{$table}([^_])/", "{$table}{$dbLocale}\\1", $queryStr);
+            $queryStr = preg_replace("/({$table})([^_])/", "\\1{$dbLocale}\\2", $queryStr);
         }
+        $queryStr = preg_replace("/(civicrm_value_[a-z0-9_]+_\d+)([^_])/", "\\1{$dbLocale}\\2", $queryStr);
 
         $dao->query( $queryStr );
 
