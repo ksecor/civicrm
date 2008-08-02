@@ -197,7 +197,7 @@ foreach ( array_keys( $tables ) as $name ) {
     $beautifier->save( );
 }
 
-echo "Generating map of localizable columns as CRM_Core_I18nLocMap::map()...\n";
+echo "Generating map of localizable columns as CRM_Core_I18nSchema::columns()...\n";
 $locMap = array();
 foreach ($tables as $table) {
     if ($table['localizable']) $locMap[$table['name']] = array();
@@ -206,10 +206,10 @@ foreach ($tables as $table) {
     }
 }
 $locMap = serialize($locMap);
-copy("$phpCodePath/header.txt", "$phpCodePath/CRM/Core/I18nLocMap.php");
-file_put_contents("$phpCodePath/CRM/Core/I18nLocMap.php", "
-    class CRM_Core_I18nLocMap {
-        static function map() { return unserialize('$locMap'); }
+copy("$phpCodePath/header.txt", "$phpCodePath/CRM/Core/I18nSchema.php");
+file_put_contents("$phpCodePath/CRM/Core/I18nSchema.php", "
+    class CRM_Core_I18nSchema {
+        static function columns() { return unserialize('$locMap'); }
     }
 ", FILE_APPEND);
 
