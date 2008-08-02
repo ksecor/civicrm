@@ -315,6 +315,14 @@ function getTable( $tableXML, &$database, &$tables ) {
     $pre   = str_replace( '/', '_', $base );
     $classNames[$name]  = $pre . $klass;
 
+    $localizable = false;
+    foreach ($tableXML->field as $fieldXML) {
+        if ($fieldXML->localizable) {
+            $localizable = true;
+            break;
+        }
+    }
+
     $table = array( 'name'       => $name,
                     'base'       => $base,
                     'fileName'   => $klass . '.php',
@@ -324,7 +332,7 @@ function getTable( $tableXML, &$database, &$tables ) {
                     'attributes_simple' => trim($database['tableAttributes_simple']),
                     'attributes_modern' => trim($database['tableAttributes_modern']),
                     'comment'    => value( 'comment', $tableXML ),
-                    'localizable'=> $tableXML->localizable,
+                    'localizable'=> $localizable,
                     'log'        => value( 'log', $tableXML, 'false' ) );
     
     $config  =& CRM_Core_Config::singleton( );
