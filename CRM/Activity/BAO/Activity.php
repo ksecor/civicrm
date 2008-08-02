@@ -466,7 +466,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                   left join civicrm_option_value on
                             ( civicrm_activity.activity_type_id = civicrm_option_value.value )
                   left join civicrm_option_group on  
-                            civicrm_option_group.id = civicrm_option_value$dbLocale.option_group_id
+                            civicrm_option_group.id = civicrm_option_value{$dbLocale}.option_group_id
                   left join civicrm_case_activity on
                             civicrm_case_activity.activity_id = civicrm_activity.id
                   left join civicrm_case on
