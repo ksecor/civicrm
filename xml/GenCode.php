@@ -197,7 +197,7 @@ foreach ( array_keys( $tables ) as $name ) {
     $beautifier->save( );
 }
 
-echo "Generating map of localizable columns as CRM_Core_I18nSchema::columns()...\n";
+echo "Generating CRM_Core_I18nSchema...\n";
 $locMap = array();
 foreach ($tables as $table) {
     if ($table['localizable']) $locMap[$table['name']] = array();
