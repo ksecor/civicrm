@@ -80,7 +80,7 @@ class CRM_Core_I18n_Schema
                         // if a given column is localizable, extend its name with the locale
                         if (isset($columns[$table][$col])) $index['field'][$i] = "{$col}_{$locale}";
                     }
-                    $cols = implode(',', $index['field']);
+                    $cols = implode(', ', $index['field']);
                     $queries[] = "CREATE {$unique} INDEX {$index['name']}_{$locale} ON {$table} ({$cols})";
                 }
             }
@@ -114,14 +114,28 @@ class CRM_Core_I18n_Schema
         // break early if the locale is already supported
         if (in_array($locale, $locales)) return;
 
-        // build the column-adding SQL queries
+        // build the required SQL queries
         $columns = CRM_Core_I18n_SchemaStructure::columns();
+        $indices = CRM_Core_I18n_SchemaStructure::indices();
         $queries = array();
         foreach ($columns as $table => $hash) {
+            // add new columns and views
             foreach ($hash as $column => $type) {
                 $queries[] = "ALTER TABLE {$table} ADD {$column}_{$locale} {$type}";
                 $queries[] = "UPDATE {$table} SET {$column}_{$locale} = {$column}_{$source}";
                 $queries[] = "CREATE VIEW {$table}_{$locale} AS SELECT *, {$column}_{$locale} {$column} FROM {$table}";
+            }
+            // add new indices
+            if (isset($indices[$table])) {
+                foreach ($indices[$table] as $index) {
+                    $unique = $index['unique'] ? 'UNIQUE' : '';
+                    foreach ($index['field'] as $i => $col) {
+                        // if a given column is localizable, extend its name with the locale
+                        if (isset($columns[$table][$col])) $index['field'][$i] = "{$col}_{$locale}";
+                    }
+                    $cols = implode(', ', $index['field']);
+                    $queries[] = "CREATE {$unique} INDEX {$index['name']}_{$locale} ON {$table} ({$cols})";
+                }
             }
         }
 
