@@ -43,14 +43,11 @@ class CRM_Core_I18n_Schema
      * Switch database from single-lang to multi (by adding 
      * the first language and dropping the original columns).
      *
+     * @param $locale string  the first locale to create (migrate to)
      * @return void
      */
-    function makeMultilingual()
+    function makeMultilingual($locale)
     {
-        require_once 'CRM/Core/Config.php';
-        $config =& CRM_Core_Config::singleton();
-        $locale = $config->lcMessages;
-
         // build the column-adding SQL queries
         $columns =& CRM_Core_I18n_SchemaStructure::columns();
         $queries = array();
@@ -80,14 +77,12 @@ class CRM_Core_I18n_Schema
      * its values to the current default locale.
      *
      * @param $locale string  the new locale to add
+     * @param $source string  the locale to copy from
      * @return void
      */
-    function addLocale($locale)
+    function addLocale($locale, $source)
     {
-        // get the current default locale and the supported locales 
-        require_once 'CRM/Core/Config.php';
-        $config =& CRM_Core_Config::singleton();
-        $source = $config->lcMessages;
+        // get the current supported locales 
         $domain =& CRM_Core_DAO_Domain();
         $domain->find(true);
         $locales = explode(CRM_Core_DAO::VALUE_SEPARATOR, $domain->locales);
