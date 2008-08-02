@@ -59,6 +59,11 @@ class CRM_Admin_Form_Setting_Localization extends  CRM_Admin_Form_Setting
         $domain =& new CRM_Core_DAO_Domain();
         $domain->find(true);
         if ($domain->locales) {
+            $lcMessages = array();
+            foreach ($locales as $loc => $lang) {
+                if (substr_count($domain->locales, $loc)) $lcMessages[$loc] = $lang;
+            }
+            $this->addElement('select', 'lcMessages', ts('Default Language'), $lcMessages);
             $includeLanguage =& $this->addElement('advmultiselect', 'languageLimit',
                                                   ts('Available Languages'), $locales,
                                                   array('size'  => 5,
@@ -67,10 +72,10 @@ class CRM_Admin_Form_Setting_Localization extends  CRM_Admin_Form_Setting
             $includeLanguage->setButtonAttributes('add',    array('value' => ts('Add >>')));
             $includeLanguage->setButtonAttributes('remove', array('value' => ts('<< Remove')));
         } else {
+            $this->addElement('select', 'lcMessages', ts('Default Language'), $locales);
             $this->addElement('checkbox', 'makeMultilingual', ts('Support Multiple Languages'));
         }
 
-        $this->addElement('select', 'lcMessages', ts('Default Language'), $locales);
         $this->addElement('select', 'lcMonetary', ts('Monetary Locale'),  $locales);
         $this->addElement('text', 'moneyformat',      ts('Monetary Amount Display'));
         $this->addElement('text', 'moneyvalueformat', ts('Monetary Value Display'));
