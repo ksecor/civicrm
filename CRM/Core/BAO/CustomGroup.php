@@ -1127,6 +1127,7 @@ SELECT $select
                                    $viewName = 'viewForm',
                                    $showName = 'showBlocks1',
                                    $hideName = 'hideBlocks1' ) {
+        global $dbLocale;
         //showhide blocks for Custom Fields inline
         $sBlocks = array();
         $hBlocks = array();
@@ -1188,7 +1189,7 @@ SELECT id as value, name as label
                         
                             $query = "
 SELECT label, value
-FROM civicrm_option_value
+FROM civicrm_option_value{$dbLocale}
 WHERE option_group_id = %1
 ORDER BY weight ASC, label ASC";
                             $params = array( 1 => array( $field['option_group_id'], 'Integer' ) );

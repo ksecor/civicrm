@@ -68,9 +68,10 @@ class CRM_Core_OptionGroup
                              $localize = false, $condition = null,
                              $valueColumnName = 'label' ) 
     {
+        global $dbLocale;
         $query = "
 SELECT  v.{$valueColumnName} as {$valueColumnName} ,v.value as value, v.grouping as grouping
-FROM   civicrm_option_value v,
+FROM   civicrm_option_value{$dbLocale} v,
        civicrm_option_group g
 WHERE  v.option_group_id = g.id
   AND  g.name            = %1
