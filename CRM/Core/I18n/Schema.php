@@ -42,11 +42,14 @@ class CRM_Core_I18n_Schema
     /**
      * Switch database from single-lang to multi (by adding the first language and dropping the original columns).
      *
-     * @param $locale string  the locale of the first language to create
      * @return void
      */
-    function makeMultilingual($locale)
+    function makeMultilingual()
     {
+        require_once 'CRM/Core/Config.php';
+        $config =& CRM_Core_Config::singleton();
+        $locale = $config->lcMessages;
+
         // build the column-adding SQL queries and execute them without rewriting
         $columns =& CRM_Core_I18n_SchemaStructure::columns();
         $queries = array();
@@ -55,6 +58,7 @@ class CRM_Core_I18n_Schema
                 $queries[] = "ALTER TABLE {$table} ADD {$column}_{$locale} {$type}";
                 $queries[] = "UPDATE {$table} SET {$column}_{$locale} = {$column}";
                 $queries[] = "ALTER TABLE {$table} DROP {$column}";
+                $queries[] = "CREATE VIEW {$table}_{$locale} AS SELECT *, {$column} = {$column}_{$locale} FROM {$table}";
             }
         }
         foreach ($queries as $query) {
