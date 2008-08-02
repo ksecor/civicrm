@@ -141,13 +141,10 @@ class CRM_Core_I18n_Schema
 
         // take care of the ON INSERT triggers
         foreach ($columns as $table => $hash) {
-            break; // FIXME: CRM_Core_DAO::executeQuery() chokes on DELIMITER |
             $queries[] = "DROP TRIGGER IF EXISTS {$table}_i18n";
-            $queries[] = 'DELIMITER |';
 
             $trigger = array();
             $trigger[] = "CREATE TRIGGER {$table}_i18n BEFORE INSERT ON {$table} FOR EACH ROW BEGIN";
-
             foreach ($hash as $column => $_) {
                 $trigger[] = "IF NEW.{$column}_{$locale} IS NOT NULL THEN";
                 foreach ($locales as $old) {
@@ -162,12 +159,9 @@ class CRM_Core_I18n_Schema
                 }
                 $trigger[] = 'END IF;';
             }
+            $trigger[] = 'END';
 
-            $trigger[] = 'END;';
-            $trigger[] = '|';
-
-            $queries[] = implode("\n", $trigger);
-            $queries[] = 'DELIMITER ;';
+            $queries[] = implode(' ', $trigger);
         }
 
         // execute the queries without i18n rewriting
