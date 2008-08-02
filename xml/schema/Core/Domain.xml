@@ -98,7 +98,7 @@
   <field>
     <name>locales</name>
     <type>text</type>
-    <comment>^A-separated list of locales supported by the current state of db (NULL for single-lang install)</comment>
+    <comment>list of locales supported by the current db state (NULL for single-lang install)</comment>
     <add>2.1</add>
   </field>
 </table>
