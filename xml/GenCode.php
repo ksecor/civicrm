@@ -197,6 +197,21 @@ foreach ( array_keys( $tables ) as $name ) {
     $beautifier->save( );
 }
 
+echo "Generating map of localizable columns...\n";
+$locMap = array();
+foreach ($tables as $table) {
+    if ($table['localizable']) $locMap[$table['name']] = array();
+    foreach ($table['fields'] as $field) {
+        if ($field['localizable']) $locMap[$table['name']][] = $field['name'];
+    }
+}
+$locMap = serialize($locMap);
+file_put_contents("$phpCodePath/CRM/Core/I18nLocMap.php", "<?php
+class CRM_Core_I18nLocMap {
+    static function map() { return unserialize('$locMap'); }
+}
+");
+
 // add the Subversion revision to templates
 // use svnversion if the version was not specified explicitely on the commandline
 if (isset($argv[2]) and $argv[2] != '') {
@@ -408,7 +423,7 @@ function getTable( $tableXML, &$database, &$tables ) {
 
 function getField( &$fieldXML, &$fields ) {
     $name  = trim( (string ) $fieldXML->name );
-    $field = array( 'name' => $name );
+    $field = array( 'name' => $name, 'localizable' => $fieldXML->localizable );
     $type = (string ) $fieldXML->type;
     switch ( $type ) {
     case 'varchar':
