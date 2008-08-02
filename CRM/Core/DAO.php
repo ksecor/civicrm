@@ -787,7 +787,7 @@ FROM   civicrm_domain
      * @static
      * @access public
      */
-    static function &executeQuery( $query, $params = array( ), $abort = true, $daoName = null, $freeDAO = false ) 
+    static function &executeQuery( $query, $params = array( ), $abort = true, $daoName = null, $freeDAO = false, $i18nRewrite = true )
     {
         if ( ! $daoName ) {
             $dao =& new CRM_Core_DAO( );
@@ -799,14 +799,16 @@ FROM   civicrm_domain
         //CRM_Core_Error::debug( 'q', $queryStr );
 
         // rewrite queries that should use $dbLocale-based views for multi-language installs
-        require_once 'CRM/Core/I18n/SchemaStructure.php';
-        global $dbLocale;
-        $tables = CRM_Core_I18n_SchemaStructure::tables();
-        foreach ($tables as $table) {
-            $queryStr = preg_replace("/({$table})([^_])/", "\\1{$dbLocale}\\2", $queryStr);
+        if ($i18nRewrite) {
+            require_once 'CRM/Core/I18n/SchemaStructure.php';
+            $tables = CRM_Core_I18n_SchemaStructure::tables();
+            global $dbLocale;
+            foreach ($tables as $table) {
+                $queryStr = preg_replace("/({$table})([^_])/", "\\1{$dbLocale}\\2", $queryStr);
+            }
+            // uncomment the below to rewrite the civicrm_value_* queries
+            // $queryStr = preg_replace("/(civicrm_value_[a-z0-9_]+_\d+)([^_])/", "\\1{$dbLocale}\\2", $queryStr);
         }
-        // uncomment the below to rewrite the civicrm_value_* queries
-        // $queryStr = preg_replace("/(civicrm_value_[a-z0-9_]+_\d+)([^_])/", "\\1{$dbLocale}\\2", $queryStr);
 
         $dao->query( $queryStr );
 
