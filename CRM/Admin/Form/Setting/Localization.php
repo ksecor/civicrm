@@ -137,10 +137,26 @@ class CRM_Admin_Form_Setting_Localization extends  CRM_Admin_Form_Setting
     public function postProcess() 
     {
         $values = $this->exportValues();
+
+        // make the site multi-lang if requested
         if ($values['makeMultilingual']) {
             require_once 'CRM/Core/I18n/Schema.php';
-            CRM_Core_I18n_Schema::makeMultilingual();
+            CRM_Core_I18n_Schema::makeMultilingual($values['lcMessages']);
         }
+
+        // add a new db locale for every available language that's not yet supported by the db
+        if ($values['languageLimit']) {
+            require_once 'CRM/Core/DAO/Domain.php';
+            $domain =& new CRM_Core_DAO_Domain();
+            $domain->find(true);
+            require_once 'CRM/Core/I18n/Schema.php';
+            foreach ($values['languageLimit'] as $locale) {
+                if (substr_count($domain->locales, $locale)) continue;
+                CRM_Core_I18n_Schema::addLocale($locale, $values['lcMessages']);
+            }
+        }
+
+        // save all the settings
         parent::postProcess();
     }
 
