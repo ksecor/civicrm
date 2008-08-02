@@ -133,19 +133,19 @@ class CRM_Contact_Form_Search_Criteria {
             if ( ! $attributes ) {
                 $attributes = $attributes[$name];
             }
-
+            
             if ( $select ) {
                 $selectElements = array( '' => ts('- select -') ) + CRM_Core_PseudoConstant::$select( );
                 $form->addElement('select', $name, $title, $selectElements );
             } else {
                 $form->addElement('text', $name, $title, $attributes );
             }
-
+            
             if ( $addressOptions['postal_code'] ) { 
                 $form->addElement('text', 'postal_code_low', ts('Range-From'),
-                          $attributes['postal_code'] );
+                                  CRM_Utils_Array::value( 'postal_code', $attributes ) );
                 $form->addElement('text', 'postal_code_high', ts('To'),
-                          $attributes['postal_code'] );
+                                  CRM_Utils_Array::value( 'postal_code', $attributes ) );
             }
             
             // select for state province
@@ -155,7 +155,7 @@ class CRM_Contact_Form_Search_Criteria {
 
         $worldRegions =  array('' => ts('- any region -')) + CRM_Core_PseudoConstant::worldRegion( );
         $form->addElement('select', 'world_region', ts('World Region'), $worldRegions);
-
+        
         // checkboxes for location type
         $location_type = array();
         $locationType = CRM_Core_PseudoConstant::locationType( );
