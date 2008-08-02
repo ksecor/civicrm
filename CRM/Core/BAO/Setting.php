@@ -203,7 +203,7 @@ class CRM_Core_BAO_Setting
                         $ufm->save();
                     }
                 } else {
-                    if ($ufm->find(true) and in_array($ufm->language, $defaults['languageLimit'])) {
+                    if ($ufm->find(true) and isset($defaults['languageLimit']) and in_array($ufm->language, $defaults['languageLimit'])) {
                         $lcMessages = $ufm->language;
                     }
                 }
