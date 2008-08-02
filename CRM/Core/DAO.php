@@ -799,12 +799,14 @@ FROM   civicrm_domain
         //CRM_Core_Error::debug( 'q', $queryStr );
 
         // rewrite queries that should use $dbLocale-based views for multi-language installs
+        require_once 'CRM/Core/I18n/SchemaStructure.php';
         global $dbLocale;
-        $tables = array('civicrm_custom_field', 'civicrm_custom_group', 'civicrm_option_value');
+        $tables = CRM_Core_I18n_SchemaStructure::tables();
         foreach ($tables as $table) {
             $queryStr = preg_replace("/({$table})([^_])/", "\\1{$dbLocale}\\2", $queryStr);
         }
-        $queryStr = preg_replace("/(civicrm_value_[a-z0-9_]+_\d+)([^_])/", "\\1{$dbLocale}\\2", $queryStr);
+        // uncomment the below to rewrite the civicrm_value_* queries
+        // $queryStr = preg_replace("/(civicrm_value_[a-z0-9_]+_\d+)([^_])/", "\\1{$dbLocale}\\2", $queryStr);
 
         $dao->query( $queryStr );
 
