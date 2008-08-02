@@ -40,7 +40,8 @@ require_once 'CRM/Core/I18n/SchemaStructure.php';
 class CRM_Core_I18n_Schema
 {
     /**
-     * Switch database from single-lang to multi (by adding the first language and dropping the original columns).
+     * Switch database from single-lang to multi (by adding 
+     * the first language and dropping the original columns).
      *
      * @return void
      */
@@ -50,7 +51,7 @@ class CRM_Core_I18n_Schema
         $config =& CRM_Core_Config::singleton();
         $locale = $config->lcMessages;
 
-        // build the column-adding SQL queries and execute them without rewriting
+        // build the column-adding SQL queries
         $columns =& CRM_Core_I18n_SchemaStructure::columns();
         $queries = array();
         foreach ($columns as $table => $hash) {
@@ -61,6 +62,8 @@ class CRM_Core_I18n_Schema
                 $queries[] = "CREATE VIEW {$table}_{$locale} AS SELECT *, {$column} = {$column}_{$locale} FROM {$table}";
             }
         }
+
+        // execute the queries without i18n rewriting
         foreach ($queries as $query) {
             CRM_Core_DAO::executeQuery($query, array(), true, null, true, false);
         }
@@ -69,6 +72,44 @@ class CRM_Core_I18n_Schema
         $domain =& CRM_Core_DAO_Domain();
         $domain->find(true);
         $domain->locales = $locale;
+        $domain->save();
+    }
+
+    /**
+     * Add a new locale to a multi-lang db, setting 
+     * its values to the current default locale.
+     *
+     * @param $locale string  the new locale to add
+     * @return void
+     */
+    function addLocale($locale)
+    {
+        require_once 'CRM/Core/Config.php';
+        $config =& CRM_Core_Config::singleton();
+        $source = $config->lcMessages;
+
+        // build the column-adding SQL queries
+        $columns =& CRM_Core_I18n_SchemaStructure::columns();
+        $queries = array();
+        foreach ($columns as $table => $hash) {
+            foreach ($hash as $column => $type) {
+                $queries[] = "ALTER TABLE {$table} ADD {$column}_{$locale} {$type}";
+                $queries[] = "UPDATE {$table} SET {$column}_{$locale} = {$column}_{$source}";
+                $queries[] = "CREATE VIEW {$table}_{$locale} AS SELECT *, {$column} = {$column}_{$locale} FROM {$table}";
+            }
+        }
+
+        // execute the queries without i18n rewriting
+        foreach ($queries as $query) {
+            CRM_Core_DAO::executeQuery($query, array(), true, null, true, false);
+        }
+
+        // update civicrm_domain.locales
+        $domain =& CRM_Core_DAO_Domain();
+        $domain->find(true);
+        $locales = explode(CRM_Core_DAO::VALUE_SEPARATOR, $domain->locales);
+        $locales[] = $locale;
+        $domain->locales = implode(CRM_Core_DAO::VALUE_SEPARATOR, $locales);
         $domain->save();
     }
 }
