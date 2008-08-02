@@ -135,7 +135,7 @@ class CRM_Core_Config_Defaults
                 // potentially sane default for standalone;
                 // could probably be smarter about this, but this
                 // should work in many cases
-                $defaults['userFrameworkResourceURL'] = $baseURL . 'civicrm/';
+                $defaults['userFrameworkResourceURL'] = str_replace( 'standalone/', '', $baseURL );
             } else {
                 // Drupal setting
                 // check and see if we are installed in sites/all (for D5 and above)
