@@ -827,6 +827,13 @@ FROM   civicrm_domain
     {
         $dao =& new CRM_Core_DAO( ); 
         $queryStr = self::composeQuery( $query, $params, $abort, $dao );
+
+        global $dbLocale;
+        if ($dbLocale) {
+            require_once 'CRM/Core/I18n/Schema.php';
+            $queryStr = CRM_Core_I18n_Schema::rewriteQuery($queryStr);
+        }
+
         $dao->query( $queryStr ); 
         
         $result = $dao->getDatabaseResult();
