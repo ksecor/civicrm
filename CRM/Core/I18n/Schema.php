@@ -50,11 +50,12 @@ class CRM_Core_I18n_Schema
         // build the column-adding SQL queries and execute them without rewriting
         $columns =& CRM_Core_I18n_SchemaStructure::columns();
         $queries = array();
-        foreach ($columns as $table => $column) {
-            // FIXME: make the type of the column the proper one
-            $queries[] = "ALTER TABLE {$table} ADD {$column}_{$locale} text";
-            $queries[] = "UPDATE {$table} SET {$column}_{$locale} = {$column}";
-            $queries[] = "ALTER TABLE {$table} DROP {$column}";
+        foreach ($columns as $table => $hash) {
+            foreach ($hash as $column => $type) {
+                $queries[] = "ALTER TABLE {$table} ADD {$column}_{$locale} {$type}";
+                $queries[] = "UPDATE {$table} SET {$column}_{$locale} = {$column}";
+                $queries[] = "ALTER TABLE {$table} DROP {$column}";
+            }
         }
         foreach ($queries as $query) {
             CRM_Core_DAO::executeQuery($query, array(), true, null, true, false);
