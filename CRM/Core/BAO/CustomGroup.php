@@ -272,7 +272,7 @@ WHERE civicrm_custom_group.is_active = 1
         $strWhere .= 
             " AND " .
             CRM_Core_Permission::customGroupClause( CRM_Core_Permission::VIEW,
-                                                    "civicrm_custom_group." );
+                                                    'civicrm_custom_group.' );
         
         $orderBy = "
 ORDER BY civicrm_custom_group.weight,
@@ -380,10 +380,10 @@ WHERE  entity_id = $entityID
                 }
 
                 if ( $firstTable ) {
-                    $fromSQL    = "{$firstTable}";
+                    $fromSQL    = $firstTable;
                     foreach ( $from as $table ) {
                         if ( $table != $firstTable ) {
-                            $fromSQL .= "\nLEFT JOIN {$table} USING (entity_id)";
+                            $fromSQL .= "\nLEFT JOIN $table USING (entity_id)";
                         }
                     }
 

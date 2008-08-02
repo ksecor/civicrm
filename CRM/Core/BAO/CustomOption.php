@@ -111,7 +111,7 @@ class CRM_Core_BAO_CustomOption {
         return $options;
     }
 
-    static function getOptionLabel($fieldId, $value, $fieldType = null, $dataType = null)
+    static function getOptionLabel($fieldId, $value, $fieldType = null, $dataType = null, $entityTable = 'civicrm_custom_field')
     {
         switch ($fieldType) {
 

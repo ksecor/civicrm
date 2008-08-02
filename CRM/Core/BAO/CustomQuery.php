@@ -127,7 +127,6 @@ class CRM_Core_BAO_CustomQuery {
      * @access public
      */
     function __construct( $ids ) {
-
         $this->_ids    =& $ids;
 
         $this->_select       = array( ); 
