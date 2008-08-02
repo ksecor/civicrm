@@ -1,7 +1,7 @@
 <?php
 
 ini_set( 'include_path', '.' . PATH_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'packages' . PATH_SEPARATOR . '..' );
-ini_set( 'memory_limit', '32M'              );
+ini_set( 'memory_limit', '128M' );
 
 $versionFile = "version.xml";
 $versionXML = & parseInput( $versionFile );
@@ -205,11 +205,13 @@ foreach ($tables as $table) {
         if ($field['localizable']) $locMap[$table['name']][] = $field['name'];
     }
 }
-$locMap = serialize($locMap);
+$locCols = serialize($locMap);
+$locTables = serialize(array_keys($locMap));
 $beautifier->setInputString(
     file_get_contents("$phpCodePath/header.txt") . "
     class CRM_Core_I18nSchema {
-        static function columns() { return unserialize('$locMap'); }
+        static function columns() { return unserialize('$locCols'); }
+        static function tables()  { return unserialize('$locTables'); }
     }");
 $beautifier->setOutputFile("$phpCodePath/CRM/Core/I18nSchema.php");
 $beautifier->process();
