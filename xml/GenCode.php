@@ -197,7 +197,7 @@ foreach ( array_keys( $tables ) as $name ) {
     $beautifier->save( );
 }
 
-echo "Generating CRM_Core_I18nSchema...\n";
+echo "Generating CRM_Core_I18n_SchemaStructure...\n";
 $locMap = array();
 foreach ($tables as $table) {
     if ($table['localizable']) $locMap[$table['name']] = array();
@@ -209,11 +209,11 @@ $locCols = serialize($locMap);
 $locTables = serialize(array_keys($locMap));
 $beautifier->setInputString(
     file_get_contents("$phpCodePath/header.txt") . "
-    class CRM_Core_I18nSchema {
+    class CRM_Core_I18n_SchemaStructure {
         static function columns() { return unserialize('$locCols'); }
         static function tables()  { return unserialize('$locTables'); }
     }");
-$beautifier->setOutputFile("$phpCodePath/CRM/Core/I18nSchema.php");
+$beautifier->setOutputFile("$phpCodePath/CRM/Core/I18n/SchemaStructure.php");
 $beautifier->process();
 $beautifier->save();
 
