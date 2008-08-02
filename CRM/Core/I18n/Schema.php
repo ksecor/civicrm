@@ -56,13 +56,33 @@ class CRM_Core_I18n_Schema
 
         // build the column-adding SQL queries
         $columns = CRM_Core_I18n_SchemaStructure::columns();
+        $indices = CRM_Core_I18n_SchemaStructure::indices();
         $queries = array();
         foreach ($columns as $table => $hash) {
+            // drop old indices
+            if (isset($indices[$table])) {
+                foreach ($indices[$table] as $index) {
+                    $queries[] = "DROP INDEX {$index['name']} ON {$table}";
+                }
+            }
+            // deal with columns
             foreach ($hash as $column => $type) {
                 $queries[] = "ALTER TABLE {$table} ADD {$column}_{$locale} {$type}";
                 $queries[] = "UPDATE {$table} SET {$column}_{$locale} = {$column}";
                 $queries[] = "ALTER TABLE {$table} DROP {$column}";
                 $queries[] = "CREATE VIEW {$table}_{$locale} AS SELECT *, {$column}_{$locale} {$column} FROM {$table}";
+            }
+            // add new indices
+            if (isset($indices[$table])) {
+                foreach ($indices[$table] as $index) {
+                    $unique = $index['unique'] ? 'UNIQUE' : '';
+                    foreach ($index['field'] as $i => $col) {
+                        // if a given column is localizable, extend its name with the locale
+                        if (isset($columns[$table][$col])) $index['field'][$i] = "{$col}_{$locale}";
+                    }
+                    $cols = implode(',', $index['field']);
+                    $queries[] = "CREATE {$unique} INDEX {$index['name']}_{$locale} ON {$table} ({$cols})";
+                }
             }
         }
 
