@@ -202,7 +202,7 @@ $locMap = array();
 foreach ($tables as $table) {
     if ($table['localizable']) $locMap[$table['name']] = array();
     foreach ($table['fields'] as $field) {
-        if ($field['localizable']) $locMap[$table['name']][] = $field['name'];
+        if ($field['localizable']) $locMap[$table['name']][$field['name']] = $field['sqlType'];
     }
 }
 $locCols = serialize($locMap);
