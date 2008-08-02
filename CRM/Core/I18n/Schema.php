@@ -59,7 +59,7 @@ class CRM_Core_I18n_Schema
                 $queries[] = "ALTER TABLE {$table} ADD {$column}_{$locale} {$type}";
                 $queries[] = "UPDATE {$table} SET {$column}_{$locale} = {$column}";
                 $queries[] = "ALTER TABLE {$table} DROP {$column}";
-                $queries[] = "CREATE VIEW {$table}_{$locale} AS SELECT *, {$column} = {$column}_{$locale} FROM {$table}";
+                $queries[] = "CREATE VIEW {$table}_{$locale} AS SELECT *, {$column}_{$locale} {$column} FROM {$table}";
             }
         }
 
@@ -69,7 +69,7 @@ class CRM_Core_I18n_Schema
         }
 
         // update civicrm_domain.locales
-        $domain =& CRM_Core_DAO_Domain();
+        $domain =& new CRM_Core_DAO_Domain();
         $domain->find(true);
         $domain->locales = $locale;
         $domain->save();
@@ -99,7 +99,7 @@ class CRM_Core_I18n_Schema
             foreach ($hash as $column => $type) {
                 $queries[] = "ALTER TABLE {$table} ADD {$column}_{$locale} {$type}";
                 $queries[] = "UPDATE {$table} SET {$column}_{$locale} = {$column}_{$source}";
-                $queries[] = "CREATE VIEW {$table}_{$locale} AS SELECT *, {$column} = {$column}_{$locale} FROM {$table}";
+                $queries[] = "CREATE VIEW {$table}_{$locale} AS SELECT *, {$column}_{$locale} {$column} FROM {$table}";
             }
         }
 

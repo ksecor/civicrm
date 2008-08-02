@@ -191,6 +191,7 @@ class CRM_Core_BAO_Setting
             // on multi-lang sites based on request and civicrm_uf_match
             if ($multiLang) {
                 require_once 'CRM/Core/DAO/UFMatch.php';
+                $session =& CRM_Core_Session::singleton();
                 $ufm =& new CRM_Core_DAO_UFMatch();
                 $ufm->contact_id = $session->get('userID');
 
