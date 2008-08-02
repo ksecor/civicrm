@@ -48,6 +48,12 @@ class CRM_Core_I18n_Schema
      */
     function makeMultilingual($locale)
     {
+        $domain =& new CRM_Core_DAO_Domain();
+        $domain->find(true);
+
+        // break early if the db is already multi-lang
+        if ($domain->locale) return;
+
         // build the column-adding SQL queries
         $columns = CRM_Core_I18n_SchemaStructure::columns();
         $queries = array();
@@ -66,8 +72,6 @@ class CRM_Core_I18n_Schema
         }
 
         // update civicrm_domain.locales
-        $domain =& new CRM_Core_DAO_Domain();
-        $domain->find(true);
         $domain->locales = $locale;
         $domain->save();
     }
@@ -86,6 +90,9 @@ class CRM_Core_I18n_Schema
         $domain =& new CRM_Core_DAO_Domain();
         $domain->find(true);
         $locales = explode(CRM_Core_DAO::VALUE_SEPARATOR, $domain->locales);
+
+        // break early if the locale is already supported
+        if (in_array($locale, $locales)) return;
 
         // build the column-adding SQL queries
         $columns = CRM_Core_I18n_SchemaStructure::columns();
