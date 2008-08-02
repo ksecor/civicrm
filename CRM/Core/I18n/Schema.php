@@ -146,4 +146,24 @@ class CRM_Core_I18n_Schema
         $domain->locales = implode(CRM_Core_DAO::VALUE_SEPARATOR, $locales);
         $domain->save();
     }
+
+    /**
+     * Rewrite SQL query to use views to access tables with localized columns.
+     *
+     * @param $query string  the query for rewrite
+     * @return string        the rewritten query
+     */
+    static function rewriteQuery($query)
+    {
+        static $tables = null;
+        if ($tables === null) {
+            $tables = CRM_Core_I18n_SchemaStructure::tables();
+        }
+        foreach ($tables as $table) {
+            $query = preg_replace("/({$table})([^_])/", "\\1{$dbLocale}\\2", $query);
+        }
+        // uncomment the below to rewrite the civicrm_value_* queries
+        // $query = preg_replace("/(civicrm_value_[a-z0-9_]+_\d+)([^_])/", "\\1{$dbLocale}\\2", $query);
+        return $query;
+    }
 }

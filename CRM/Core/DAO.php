@@ -801,16 +801,8 @@ FROM   civicrm_domain
         // rewrite queries that should use $dbLocale-based views for multi-language installs
         global $dbLocale;
         if ($i18nRewrite and $dbLocale) {
-            static $tables = null;
-            if ($tables === null) {
-                require_once 'CRM/Core/I18n/SchemaStructure.php';
-                $tables = CRM_Core_I18n_SchemaStructure::tables();
-            }
-            foreach ($tables as $table) {
-                $queryStr = preg_replace("/({$table})([^_])/", "\\1{$dbLocale}\\2", $queryStr);
-            }
-            // uncomment the below to rewrite the civicrm_value_* queries
-            // $queryStr = preg_replace("/(civicrm_value_[a-z0-9_]+_\d+)([^_])/", "\\1{$dbLocale}\\2", $queryStr);
+            require_once 'CRM/Core/I18n/Schema.php';
+            $queryStr = CRM_Core_I18n_Schema::rewriteQuery($queryStr);
         }
 
         $dao->query( $queryStr );
