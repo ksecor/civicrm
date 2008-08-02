@@ -205,19 +205,18 @@ foreach ($tables as $table) {
         if ($field['localizable']) $locMap[$table['name']][$field['name']] = $field['sqlType'];
     }
 }
-$locCols = serialize($locMap);
-$locTables = serialize(array_keys($locMap));
+$locMap = serialize($locMap);
 $beautifier->setInputString(
     file_get_contents("$phpCodePath/header.txt") . "
     class CRM_Core_I18n_SchemaStructure {
         static function &columns() {
             static \$columns = null;
-            if (\$columns === null) \$columns = unserialize('$locCols');
+            if (\$columns === null) \$columns = unserialize('$locMap');
             return \$columns;
         }
         static function &tables()  {
             static \$tables = null;
-            if (\$tables === null) \$tables = unserialize('$locTables');
+            if (\$tables === null) \$tables = array_keys(self::columns());
             return \$tables;
         }
     }");
