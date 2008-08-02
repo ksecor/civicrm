@@ -804,7 +804,7 @@ FROM   civicrm_domain
             static $tables = null;
             if ($tables === null) {
                 require_once 'CRM/Core/I18n/SchemaStructure.php';
-                $tables =& CRM_Core_I18n_SchemaStructure::tables();
+                $tables = CRM_Core_I18n_SchemaStructure::tables();
             }
             foreach ($tables as $table) {
                 $queryStr = preg_replace("/({$table})([^_])/", "\\1{$dbLocale}\\2", $queryStr);

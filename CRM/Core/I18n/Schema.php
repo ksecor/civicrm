@@ -49,7 +49,7 @@ class CRM_Core_I18n_Schema
     function makeMultilingual($locale)
     {
         // build the column-adding SQL queries
-        $columns =& CRM_Core_I18n_SchemaStructure::columns();
+        $columns = CRM_Core_I18n_SchemaStructure::columns();
         $queries = array();
         foreach ($columns as $table => $hash) {
             foreach ($hash as $column => $type) {
@@ -88,7 +88,7 @@ class CRM_Core_I18n_Schema
         $locales = explode(CRM_Core_DAO::VALUE_SEPARATOR, $domain->locales);
 
         // build the column-adding SQL queries
-        $columns =& CRM_Core_I18n_SchemaStructure::columns();
+        $columns = CRM_Core_I18n_SchemaStructure::columns();
         $queries = array();
         foreach ($columns as $table => $hash) {
             foreach ($hash as $column => $type) {
@@ -100,6 +100,7 @@ class CRM_Core_I18n_Schema
 
         // take care of the ON INSERT triggers
         foreach ($columns as $table => $hash) {
+            break; // FIXME: CRM_Core_DAO::executeQuery() chokes on DELIMITER |
             $queries[] = "DROP TRIGGER IF EXISTS {$table}_i18n";
             $queries[] = 'DELIMITER |';
 

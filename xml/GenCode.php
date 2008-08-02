@@ -198,27 +198,29 @@ foreach ( array_keys( $tables ) as $name ) {
 }
 
 echo "Generating CRM_Core_I18n_SchemaStructure...\n";
-$locMap = array();
+$columns = array();
+$indices = array();
 foreach ($tables as $table) {
-    if ($table['localizable']) $locMap[$table['name']] = array();
+    if ($table['localizable']) {
+        $columns[$table['name']] = array();
+    } else {
+        continue;
+    }
     foreach ($table['fields'] as $field) {
-        if ($field['localizable']) $locMap[$table['name']][$field['name']] = $field['sqlType'];
+        if ($field['localizable']) $columns[$table['name']][$field['name']] = $field['sqlType'];
+    }
+    foreach ($table['index'] as $index) {
+        if ($index['localizable']) $indices[$table['name']] = $index;
     }
 }
-$locMap = serialize($locMap);
+$columns = serialize($columns);
+$indices = serialize($indices);
 $beautifier->setInputString(
     file_get_contents("$phpCodePath/header.txt") . "
     class CRM_Core_I18n_SchemaStructure {
-        static function &columns() {
-            static \$columns = null;
-            if (\$columns === null) \$columns = unserialize('$locMap');
-            return \$columns;
-        }
-        static function &tables()  {
-            static \$tables = null;
-            if (\$tables === null) \$tables = array_keys(self::columns());
-            return \$tables;
-        }
+        static function columns() { return unserialize('$columns'); }
+        static function indices() { return unserialize('$indices'); }
+        static function tables()  { return array_keys(self::columns()); }
     }");
 $beautifier->setOutputFile("$phpCodePath/CRM/Core/I18n/SchemaStructure.php");
 $beautifier->process();
@@ -594,6 +596,14 @@ function getIndex(&$indexXML, &$fields, &$indices)
 	  $fieldName = "$fieldName($length)";
 	}
         $index['field'][] = $fieldName;
+    }
+
+    $index['localizable'] = false;
+    foreach ($index['field'] as $fieldName) {
+        if (isset($fields[$fieldName]) and $fields[$fieldName]['localizable']) {
+            $index['localizable'] = true;
+            break;
+        }
     }
 
     // check for unique index
