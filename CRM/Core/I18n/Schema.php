@@ -159,6 +159,7 @@ class CRM_Core_I18n_Schema
         if ($tables === null) {
             $tables = CRM_Core_I18n_SchemaStructure::tables();
         }
+        global $dbLocale;
         foreach ($tables as $table) {
             $query = preg_replace("/({$table})([^_])/", "\\1{$dbLocale}\\2", $query);
         }
