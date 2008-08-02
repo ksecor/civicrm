@@ -66,6 +66,8 @@ class CRM_Admin_Form_Setting_Localization extends  CRM_Admin_Form_Setting
                                                         'class' => 'advmultiselect'));
             $includeLanguage->setButtonAttributes('add',    array('value' => ts('Add >>')));
             $includeLanguage->setButtonAttributes('remove', array('value' => ts('<< Remove')));
+        } else {
+            $this->addElement('checkbox', 'makeMultilingual', ts('Support Multiple Languages'));
         }
 
         $this->addElement('select', 'lcMessages', ts('Default Language'), $locales);
@@ -125,6 +127,16 @@ class CRM_Admin_Form_Setting_Localization extends  CRM_Admin_Form_Setting
             $errors['customTranslateFunction'] = ts( 'Please define the custom translation function first' );
         }
         return empty( $errors ) ? true : $errors;
+    }
+
+    public function postProcess() 
+    {
+        $values = $this->exportValues();
+        if ($values['makeMultilingual']) {
+            require_once 'CRM/Core/I18n/Schema.php';
+            CRM_Core_I18n_Schema::makeMultilingual();
+        }
+        parent::postProcess();
     }
 
 }

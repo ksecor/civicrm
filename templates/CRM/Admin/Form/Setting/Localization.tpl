@@ -5,7 +5,10 @@
             <dt>&nbsp;</dt><dd class="description">{ts}Default language used for this installation.{/ts}</dd>
             {if $form.languageLimit}
               <dt>{$form.languageLimit.label}</dt><dd>{$form.languageLimit.html}</dd>
-              <dt>&nbsp;</dt><dd class="description">{ts 1="http://civicrm.org/download"}Languages available to users of this installation.{/ts}</dd>
+              <dt>&nbsp;</dt><dd class="description">{ts}Languages available to users of this installation.{/ts}</dd>
+            {else}
+              <dt>{$form.makeMultilingual.label}</dt><dd>{$form.makeMultilingual.html}</dd>
+              <dt>&nbsp;</dt><dd class="description">{ts}Switch this installation from single- to multi-language.{/ts}</dd>
             {/if}
             <dt>{$form.defaultCurrency.label}</dt><dd>{$form.defaultCurrency.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts}Default currency assigned to contributions and other monetary transactions.{/ts}</dd>
