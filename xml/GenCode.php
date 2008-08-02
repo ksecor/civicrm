@@ -210,7 +210,7 @@ foreach ($tables as $table) {
         if ($field['localizable']) $columns[$table['name']][$field['name']] = $field['sqlType'];
     }
     foreach ($table['index'] as $index) {
-        if ($index['localizable']) $indices[$table['name']] = $index;
+        if ($index['localizable']) $indices[$table['name']][$index['name']] = $index;
     }
 }
 $columns = serialize($columns);
