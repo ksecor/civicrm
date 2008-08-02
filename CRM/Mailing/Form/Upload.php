@@ -382,10 +382,10 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                 }
             }
         } else {
-            if ( !($params['text_message']) && !($params['html_message']) ) {
+            if ( ! CRM_Utils_Array::value( 'text_message', $params ) && ! CRM_Utils_Array::value( 'html_message', $params ) ) {
                 $errors['text_message'] = ts('Please provide either a Text or HTML formatted message - or both.');
             }
-            if ( $params['saveTemplate'] &&  ! $params['saveTemplateName'] ) {
+            if ( CRM_Utils_Array::value( 'saveTemplate', $params ) &&  ! CRM_Utils_Array::value( 'saveTemplateName', $params ) ) {
                 $errors['saveTemplateName'] =  ts('Please provide a Template Name.');
             }
         }
