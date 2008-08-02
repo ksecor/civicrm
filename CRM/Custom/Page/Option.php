@@ -132,7 +132,6 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
      */
     function browse()
     {
-        global $dbLocale;
         //get the default value from custom fields
         $customFieldBAO =& new CRM_Core_BAO_CustomField();
         $customFieldBAO->id = $this->_fid;
@@ -152,7 +151,7 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
         
         $query = "
 SELECT id, label
-FROM   civicrm_custom_field{$dbLocale}
+FROM   civicrm_custom_field
 WHERE  option_group_id = %1";
         $params = array( 1 => array( $optionGroupID, 'Integer' ),
                          2 => array( $this->_fid, 'Integer' ) );

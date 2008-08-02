@@ -797,6 +797,13 @@ FROM   civicrm_domain
         }
         $queryStr = self::composeQuery( $query, $params, $abort, $dao );
         //CRM_Core_Error::debug( 'q', $queryStr );
+
+        global $dbLocale;
+        $tables = array('civicrm_custom_field', 'civicrm_custom_group', 'civicrm_option_value', 'civicrm_value_interests_1');
+        foreach ($tables as $table) {
+            $queryStr = preg_replace("/{$table}([^_])/", "{$table}{$dbLocale}\\1", $queryStr);
+        }
+
         $dao->query( $queryStr );
 
         if ( $freeDAO ) {

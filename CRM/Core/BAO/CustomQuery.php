@@ -127,7 +127,6 @@ class CRM_Core_BAO_CustomQuery {
      * @access public
      */
     function __construct( $ids ) {
-        global $dbLocale;
 
         $this->_ids    =& $ids;
 
@@ -153,7 +152,7 @@ SELECT f.id, f.label, f.data_type,
        f.html_type, f.is_search_range,
        f.option_group_id, f.custom_group_id,
        f.column_name, g.table_name 
-  FROM civicrm_custom_field{$dbLocale} f,
+  FROM civicrm_custom_field f,
        civicrm_custom_group g
  WHERE f.custom_group_id = g.id
    AND g.is_active = 1

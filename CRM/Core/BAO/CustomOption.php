@@ -113,7 +113,6 @@ class CRM_Core_BAO_CustomOption {
 
     static function getOptionLabel($fieldId, $value, $fieldType = null, $dataType = null)
     {
-        global $dbLocale;
         switch ($fieldType) {
 
         case null:
@@ -125,7 +124,7 @@ class CRM_Core_BAO_CustomOption {
 SELECT v.label
 FROM   civicrm_option_value v,
        civicrm_option_group g,
-       civicrm_custom_field{$dbLocale} f
+       civicrm_custom_field f
 WHERE  f.id    = %1
 AND    v.value = %2
 AND    g.id    = f.option_group_id
