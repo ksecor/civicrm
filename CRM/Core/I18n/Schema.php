@@ -84,9 +84,13 @@ class CRM_Core_I18n_Schema
      */
     function addLocale($locale)
     {
+        // get the current default locale and the supported locales 
         require_once 'CRM/Core/Config.php';
         $config =& CRM_Core_Config::singleton();
         $source = $config->lcMessages;
+        $domain =& CRM_Core_DAO_Domain();
+        $domain->find(true);
+        $locales = explode(CRM_Core_DAO::VALUE_SEPARATOR, $domain->locales);
 
         // build the column-adding SQL queries
         $columns =& CRM_Core_I18n_SchemaStructure::columns();
@@ -99,15 +103,41 @@ class CRM_Core_I18n_Schema
             }
         }
 
+        // take care of the ON INSERT triggers
+        foreach ($columns as $table => $hash) {
+            $queries[] = "DROP TRIGGER IF EXISTS {$table}_i18n";
+
+            $trigger = array();
+            $trigger[] = 'DELIMITER ;;';
+            $trigger[] = "CREATE TRIGGER {$table}_i18n BEFORE INSERT ON {$table} FOR EACH ROW BEGIN";
+
+            foreach ($hash as $column => $_) {
+                $trigger[] = "IF NEW.{$column}_{$locale} IS NOT NULL THEN";
+                foreach ($locales as $old) {
+                    $trigger[] = "SET NEW.{$column}_{$old} = NEW.{$column}_{$locale};";
+                }
+                foreach ($locales as $old) {
+                    $trigger[] = "ELSEIF NEW.{$column}_{$old} IS NOT NULL THEN";
+                    foreach (array_merge($locales, $locale) as $loc) {
+                        if ($loc == $old) continue;
+                        $trigger[] = "SET NEW.{$column}_{$loc} = NEW.{$column}_{$old};";
+                    }
+                }
+                $trigger[] = 'END IF;';
+            }
+
+            $trigger[] = 'END;;';
+            $trigger[] = 'DELIMITER ;';
+
+            $queries[] = implode("\n", $trigger);
+        }
+
         // execute the queries without i18n rewriting
         foreach ($queries as $query) {
             CRM_Core_DAO::executeQuery($query, array(), true, null, true, false);
         }
 
         // update civicrm_domain.locales
-        $domain =& CRM_Core_DAO_Domain();
-        $domain->find(true);
-        $locales = explode(CRM_Core_DAO::VALUE_SEPARATOR, $domain->locales);
         $locales[] = $locale;
         $domain->locales = implode(CRM_Core_DAO::VALUE_SEPARATOR, $locales);
         $domain->save();
