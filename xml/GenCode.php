@@ -206,12 +206,14 @@ foreach ($tables as $table) {
     }
 }
 $locMap = serialize($locMap);
-copy("$phpCodePath/header.txt", "$phpCodePath/CRM/Core/I18nSchema.php");
-file_put_contents("$phpCodePath/CRM/Core/I18nSchema.php", "
+$beautifier->setInputString(
+    file_get_contents("$phpCodePath/header.txt") . "
     class CRM_Core_I18nSchema {
         static function columns() { return unserialize('$locMap'); }
-    }
-", FILE_APPEND);
+    }");
+$beautifier->setOutputFile("$phpCodePath/CRM/Core/I18nSchema.php");
+$beautifier->process();
+$beautifier->save();
 
 // add the Subversion revision to templates
 // use svnversion if the version was not specified explicitely on the commandline
