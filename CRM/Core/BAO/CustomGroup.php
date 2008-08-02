@@ -223,15 +223,15 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup
         foreach ($tableData as $tableName => $tableColumn) {
             foreach ($tableColumn as $columnName) {
                 $alias = $tableName . "_" . $columnName;
-                $select[] = "{$tableName}.{$columnName} as {$tableName}_{$columnName}";
+                $select[] = "{$tableName}{$dbLocale}.{$columnName} as {$tableName}_{$columnName}";
             }
         }
         $strSelect = "SELECT " . implode( ', ', $select );
 
         // from, where, order by
         $strFrom = "
-FROM     civicrm_custom_group
-LEFT JOIN civicrm_custom_field ON (civicrm_custom_field.custom_group_id = civicrm_custom_group.id)
+FROM     civicrm_custom_group{$dbLocale}
+LEFT JOIN civicrm_custom_field{$dbLocale} ON (civicrm_custom_field{$dbLocale}.custom_group_id = civicrm_custom_group{$dbLocale}.id)
 ";
 
         // if entity is either individual, organization or household pls get custom groups for 'contact' too.
@@ -243,29 +243,29 @@ LEFT JOIN civicrm_custom_field ON (civicrm_custom_field.custom_group_id = civicr
 
         if ( $subType ) {
             $strWhere = "
-WHERE civicrm_custom_group.is_active = 1 
-  AND civicrm_custom_field.is_active = 1 
-  AND civicrm_custom_group.extends IN ($in)
-  AND ( civicrm_custom_group.extends_entity_column_value = '$subType'
-   OR   civicrm_custom_group.extends_entity_column_value IS NULL )
+WHERE civicrm_custom_group{$dbLocale}.is_active = 1 
+  AND civicrm_custom_field{$dbLocale}.is_active = 1 
+  AND civicrm_custom_group{$dbLocale}.extends IN ($in)
+  AND ( civicrm_custom_group{$dbLocale}.extends_entity_column_value = '$subType'
+   OR   civicrm_custom_group{$dbLocale}.extends_entity_column_value IS NULL )
 ";
         } else {
             $strWhere = "
-WHERE civicrm_custom_group.is_active = 1 
-  AND civicrm_custom_field.is_active = 1 
-  AND civicrm_custom_group.extends IN ($in)
-  AND civicrm_custom_group.extends_entity_column_value IS NULL
+WHERE civicrm_custom_group{$dbLocale}.is_active = 1 
+  AND civicrm_custom_field{$dbLocale}.is_active = 1 
+  AND civicrm_custom_group{$dbLocale}.extends IN ($in)
+  AND civicrm_custom_group{$dbLocale}.extends_entity_column_value IS NULL
 ";
         }
  
         $params = array( );
         if ( $groupID > 0 ) {
             // since we want a specific group id we add it to the where clause
-            $strWhere .= " AND civicrm_custom_group.style = 'Tab' AND civicrm_custom_group.id = %1";
+            $strWhere .= " AND civicrm_custom_group{$dbLocale}.style = 'Tab' AND civicrm_custom_group{$dbLocale}.id = %1";
             $params[1] = array( $groupID, 'Integer' );
         } else if ( ! $groupID ){
             // since groupID is false we need to show all Inline groups
-            $strWhere .= " AND civicrm_custom_group.style = 'Inline'";
+            $strWhere .= " AND civicrm_custom_group{$dbLocale}.style = 'Inline'";
         }
 
         require_once 'CRM/Core/Permission.php';
@@ -273,13 +273,13 @@ WHERE civicrm_custom_group.is_active = 1
         $strWhere .= 
             " AND " .
             CRM_Core_Permission::customGroupClause( CRM_Core_Permission::VIEW,
-                                                    'civicrm_custom_group.' );
+                                                    "civicrm_custom_group{$dbLocale}." );
         
         $orderBy = "
-ORDER BY civicrm_custom_group.weight,
-         civicrm_custom_group.title,
-         civicrm_custom_field.weight,
-         civicrm_custom_field.label
+ORDER BY civicrm_custom_group{$dbLocale}.weight,
+         civicrm_custom_group{$dbLocale}.title,
+         civicrm_custom_field{$dbLocale}.weight,
+         civicrm_custom_field{$dbLocale}.label
 ";
 
         // final query string
