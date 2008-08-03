@@ -575,6 +575,10 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             break;
             
         case 'File':
+            // we should not build upload file in search mode
+            if ( $search ) {
+                return;
+            }
             $element =& $qf->add( strtolower($field->html_type), $elementName, $label,
                                   $field->attributes,
                                   ( ( $useRequired && $field->is_required ) && ! $search ) );
