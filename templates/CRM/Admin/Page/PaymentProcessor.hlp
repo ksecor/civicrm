@@ -342,3 +342,24 @@
 <br />{ts}Set up a 'Dummy' Processor if you want to test Online Contribution pages or Event Registration pages prior to selecting and configuring a real payment processor. You can enter any values for User Name and Site URL.{/ts}</p>
 {/htxt}
 
+{htxt id='eWAY-test-user-name'}
+<strong>{ts}eWAY CustomerID (TEST account):{/ts}</strong>
+<p>{ts}This is the TEST <strong>eWAYCustomerID</strong> used solely for testing.
+<br />Use <strong>87654321</strong> unless otherwise advised by eWAY.
+<br />The test Credit Card number is <strong>4444333322221111</strong> - this is the only credit card number that will work on the test gateway.
+<br />The test Total Amount should end in <strong>00</strong> or <strong>08</strong> to get a successful response (e.g. $10.00 or $10.08) - all other amounts will return a failed response.{/ts}</p>
+{/htxt}
+{htxt id='eWAY-test-url-site'}
+{ts}The <strong>URL</strong> for eWAY's TEST Gateway. 
+<br />Use <strong>'https://www.eway.com.au/gateway_cvn/xmltest/testpage.asp'</strong> unless otherwise advised by eWAY.{/ts}
+{/htxt}
+
+{htxt id='eWAY-live-user-name'}
+<strong>{ts}eWAY CustomerID (LIVE account):{/ts}</strong>
+<p>{ts}This is the LIVE <strong>eWAYCustomerID</strong> associated with your eWAY account.{/ts}</p>
+{/htxt}
+{htxt id='eWAY-live-url-site'}
+{ts}The <strong>URL</strong> for eWAY's LIVE Gateway. 
+<br />Use <strong>'https://www.eway.com.au/gateway_cvn/xmlpayment.asp'</strong> unless otherwise advised by eWAY.{/ts}
+{/htxt}
+
