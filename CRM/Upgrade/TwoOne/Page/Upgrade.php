@@ -37,9 +37,6 @@ require_once 'CRM/Core/Page.php';
 class CRM_Upgrade_TwoOne_Page_Upgrade extends CRM_Core_Page {
 
     function run( ) {
-        // hack in 'q' / 'task' variable to avoid errors
-        $_GET['q'] = $_GET['task'] = 'civicrm/upgrade';
-
         for ( $i = 1; $i <= 4; $i++ ) {
             $this->runForm( $i );
         }

@@ -36,6 +36,9 @@
 function run( ) {
     session_start( );
 
+    // hack in 'q' / 'task' variable to avoid errors
+    $_GET['q'] = $_GET['task'] = 'civicrm/upgrade';
+
     require_once '../civicrm.config.php';
     require_once 'CRM/Core/Config.php';
     $config =& CRM_Core_Config::singleton( );
