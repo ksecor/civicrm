@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-07-07 18:44-0700\n"
-"PO-Revision-Date: 2008-07-21 06:45-0700\n"
+"PO-Revision-Date: 2008-07-25 22:00-0700\n"
 "Last-Translator: Erik Stielstra <info@erikstielstra.nl>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -179,7 +179,6 @@ msgid "Delete Contributions"
 msgstr "Bijdragen verwijderen"
 
 #: CRM/Contribute/Form/Task/Export.php CRM/Contribute/Task.php
-#, fuzzy
 msgid "Export Contributions"
 msgstr "Bijdragen afdrukken"
 
@@ -192,7 +191,6 @@ msgid "Manage Premiums"
 msgstr "Beheer Relatiegeschenken"
 
 #: CRM/Contribute/Invoke.php CRM/Contribute/Menu.php
-#, fuzzy
 msgid "Import Contributions"
 msgstr "Bijdragen importeren"
 
@@ -2778,7 +2776,7 @@ msgstr "Zoek Leden"
 
 #: CRM/Member/Page/MembershipStatus.php
 msgid "Are you sure you want to disable this membership status rule?"
-msgstr "Wilt U deze lidmaatschap statusregel uitschakelen?"
+msgstr "Wilt u deze lidmaatschapstatusregel uitschakelen?"
 
 #: CRM/Member/Page/MembershipStatus.php
 #: templates/CRM/Member/Form/MembershipStatus.tpl
@@ -2800,20 +2798,20 @@ msgstr "Verwijder lidmaatschapstatus"
 
 #: CRM/Member/Page/MembershipType.php
 msgid "Are you sure you want to disable this membership type?"
-msgstr "Wilt U dit type lidmaatschap uitschakelen?"
+msgstr "Wilt u dit type lidmaatschap uitschakelen?"
 
 #: CRM/Member/Page/MembershipType.php
 msgid "Disable Membership Type"
-msgstr "Schakel type lidmaatschap uit"
+msgstr "Schakel lidmaatschaptype uit"
 
 #: CRM/Member/Page/MembershipType.php
 msgid "Enable Membership Type"
-msgstr "Schakel type lidmaatschap in"
+msgstr "Schakel lidmaatschaptype in"
 
 #: CRM/Member/Page/MembershipType.php
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid "Delete Membership Type"
-msgstr "Verwijder Type Lidmaatschap"
+msgstr "Verwijder Lidmaatschaptype"
 
 #: CRM/Member/Selector/Search.php templates/CRM/Member/Form/Task/Print.tpl
 msgid "Member Since"
@@ -2865,7 +2863,7 @@ msgid ""
 "Please verify the information below carefully. Click <strong>Go Back</"
 "strong> if you need to make changes."
 msgstr ""
-"Controleer a.u.b. onderstaande informatie. Klik op <strong><<terug</strong> "
+"Controleer a.u.b. onderstaande informatie. Klik op <strong><< Terug</strong> "
 "als u wilt wijzigen."
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
@@ -2873,18 +2871,22 @@ msgid ""
 "Click the <strong>Google Checkout</strong> button to checkout to Google, "
 "where you will select your payment method and complete the contribution."
 msgstr ""
+"Gebruik de knop <strong>Google Checkout</strong> om via Google te betalen. "
+"Daar kunt u de betaalmethode kiezen en uw bijdrage afronden."
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 msgid ""
 "Click the <strong>Continue</strong> button to go to PayPal, where you will "
 "select your payment method and complete the contribution."
 msgstr ""
+"Gebruik de knop <strong>Doorgaan</strong> om via PayPal te betalen. Daar "
+"kunt u de betaalmethode kiezen en uw bijdrage afronden."
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 msgid ""
 "To complete this transaction, click the <strong>Continue</strong> button "
 "below."
-msgstr "Klik, om de transactie af te ronden, op <strong>Ga verder >></strong>."
+msgstr "Klik, om de transactie af te ronden, op <strong>Doorgaan >></strong>."
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 msgid ""
@@ -2915,7 +2917,7 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 msgid "I want to contribute this amount every %1 %2(s)."
-msgstr ""
+msgstr "Dit bedrag wil ik iedere %1 %2(en) bijdragen."
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 msgid ""
@@ -2923,6 +2925,9 @@ msgid ""
 "confirmation step. You will be able to modify or cancel future contributions "
 "at any time by logging in to your account."
 msgstr ""
+"Uw eerste bijdrage wordt verwerkt na uw bevestiging. U kunt toekomstige "
+"bijdragen op ieder moment wijzigen of stoppen door met uw account in te "
+"loggen."
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
@@ -2934,7 +2939,7 @@ msgstr ""
 #: templates/CRM/Event/Form/Registration/Register.tpl
 #: templates/CRM/Event/Form/Registration/ThankYou.tpl
 msgid "Billing Name and Address"
-msgstr "Factuur naam en adres"
+msgstr "Naam en adres op de factuur"
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
@@ -2946,7 +2951,7 @@ msgstr "Factuur naam en adres"
 #: templates/CRM/Event/Form/Registration/Register.tpl
 #: templates/CRM/Event/Form/Registration/ThankYou.tpl
 msgid "Credit or Debit Card Information"
-msgstr "Creditcard of debetcard informatie"
+msgstr "Creditcard-informatie"
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
@@ -2968,7 +2973,7 @@ msgstr ""
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 #: templates/CRM/Event/Form/Registration/Confirm.tpl
 msgid "Checkout with Google"
-msgstr ""
+msgstr "Betalen via Google"
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 #: templates/CRM/Event/Form/Registration/Confirm.tpl
@@ -3009,7 +3014,7 @@ msgid ""
 msgstr ""
 "Als u een PayPal rekening heeft, kunt u op de PayPal knop klikken om verder "
 "te gaan. Anders vult u uw creditcard en naam/adres gegevens in op deze "
-"pagina en klik op <strong>Ga verder</strong> onderaan."
+"pagina en klik op <strong>Doorgaan</strong> onderaan."
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
 #: templates/CRM/Contribute/Form/Offline.tpl
@@ -3044,12 +3049,12 @@ msgstr ""
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
 #: templates/CRM/Event/Form/Registration/Register.tpl
 msgid "Checkout with PayPal"
-msgstr ""
+msgstr "Betalen via PayPal"
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
 #: templates/CRM/Event/Form/Registration/Register.tpl
 msgid "Click the PayPal button to continue."
-msgstr "Klik op de PayPal knop om verder te gaan."
+msgstr "Klik op de PayPal-knop om verder te gaan."
 
 #: templates/CRM/Contribute/Form/Contribution/MembershipBlock.tpl
 msgid "Select a Membership Renewal Level"
@@ -3057,7 +3062,7 @@ msgstr "Selecteer een lidmaatschapsverlenging niveau."
 
 #: templates/CRM/Contribute/Form/Contribution/MembershipBlock.tpl
 msgid "Select a Membership Level"
-msgstr ""
+msgstr "Selecteer een lidmaatschapsniveau"
 
 #: templates/CRM/Contribute/Form/Contribution/MembershipBlock.tpl
 msgid "(contribute at least %1 to be eligible for this membership)"
@@ -3075,7 +3080,8 @@ msgstr "Uw <strong>%2</strong> lidmaatschap eindigd op %1."
 msgid ""
 "This is a preview of this product as it will appear on your Contributions "
 "page(s)."
-msgstr "Voorbeeld van dit product zoals dit op een bijdrage pagina komt."
+msgstr ""
+"Voorbeeld van dit product zoals dit op een bijdragepagina wordt getoond."
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl
 msgid ""
@@ -3083,7 +3089,7 @@ msgid ""
 "Page."
 msgstr ""
 "Gebruik dit scherm om een relatiegeschenk te selecteren dat op deze online "
-"bijdrage pagina aangeboden wordt."
+"bijdrage-pagina aangeboden wordt."
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl
 msgid "Add Products to This Page"
@@ -3091,22 +3097,22 @@ msgstr "Voeg contacten toe aan deze pagina"
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl
 msgid "Remove Products from this Page"
-msgstr "Verwijder Producten van deze pagina"
+msgstr "Verwijder producten van deze pagina"
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl
 msgid ""
 "Are you sure you want to remove this premium product from this Contribution "
 "page?"
-msgstr "Wilt U het relatiegeschenk verwijderen van deze Bijdrage Pagina?"
+msgstr "Wilt u het relatiegeschenk verwijderen van deze bijdragepagina?"
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl
 msgid ""
 "Pick a premium to include on this Contribution Page. Use <a href='%1'>Manage "
 "Premiums</a> to create or enable additional premium choices for your site."
 msgstr ""
-"Kies een relatiegeschenk om dit aan te bieden op deze Bijdrage Pagina. Met "
-"<a href=\"%1\">Beheer relatiegeschenken</a> kunt urealatiegeschenken "
-"aanmaken en inschakelen."
+"Kies een relatiegeschenk om dit aan te bieden op deze bijdragepagina. Met <a "
+"href=\"%1\">Beheer relatiegeschenken</a> kunt u realatiegeschenken aanmaken "
+"en inschakelen."
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl
 msgid ""
@@ -3114,7 +3120,7 @@ msgid ""
 "Page."
 msgstr ""
 "Zwaarte bepaalt de volgorde dat de relatiegeschenken worden getoond op de "
-"Bijdrage Pagina."
+"bijdragepagina."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
 msgid ""
@@ -3127,18 +3133,18 @@ msgid ""
 "able to offer a recurring contribution option (<a href='%1' target='_blank' "
 "title='%2'>more info...</a>)."
 msgstr ""
-"Hier stelt U de opties van de Bijdrage Bedrag in. U kunt contributanten zelf "
-"hun bijdrage laten bepalen - en/of een lijst van bedragen tonen. Voor vaste "
-"bijdragen kunt U voor elk niveau (Friend, Sustainer, etc.) bijdragen tonen. "
-"Als het bedrag ingevuld mag worden kunt U ook een minimum en maximum "
-"instellen. Afhankelijk van de gekozen betaalmethode kunt U ook een optie "
-"periodieke bijdrage optie tonen  (<a href=\"%1\" target=\"_blank\" title=\"%2"
-"\">lees meer...</a>)."
+"Hier stelt u de opties van het bijdragebedrag in. U kunt contributanten zelf "
+"hun bijdrage laten bepalen en/of een lijst van bedragen tonen. Vaste "
+"bijdragen kunt u voor elk niveau (Friend, Sustainer, etc.) bijdragen "
+"vaststellen. Als het bedrag ingevuld mag worden kunt u een minimum en "
+"maximum instellen. Afhankelijk van de gekozen betaalmethode kunt u ook een "
+"optie periodieke bijdrage optie tonen  (<a href=\"%1\" target=\"_blank\" "
+"title=\"%2\">lees meer...</a>)."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid "Contribution Amounts"
-msgstr "Bijdrage Bedragen"
+msgstr "Bedragen"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
 msgid ""
@@ -3146,7 +3152,7 @@ msgid ""
 "signup ONLY, or to solicit in-kind / non-monetary donations such as "
 "furniture, equipment.. etc."
 msgstr ""
-"Vink dit veld niet aan als U de pagina alleen gebruikt voor gratis "
+"Vink dit veld niet aan als u de pagina alleen gebruikt voor gratis "
 "lidmaatschap of niet geldelijke donaties (meubels, inrichting, ...)"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
@@ -3155,8 +3161,8 @@ msgid ""
 "signup and renewal only - and you do NOT want users to select or enter any "
 "additional contribution amounts."
 msgstr ""
-"Vink dit veld niet aan als de pagina bedoeld is voor aanmelden / verlenging "
-"lidmaatschap - en U wilt niet dan een gebruiker een bedrag kan  kiezen of "
+"Vink dit veld niet aan als de pagina bedoeld is voor aanmelden of verlenging "
+"van lidmaatschap en u wilt niet dan een gebruiker een bedrag kan kiezen of "
 "invullen."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
@@ -3231,7 +3237,7 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
 msgid "Contribution Label"
-msgstr "Donatie label"
+msgstr "Donatielabel"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.tpl
 msgid ""
@@ -3241,7 +3247,7 @@ msgid ""
 "contribution form by selecting CiviCRM Profiles (collections of fields) to "
 "include at the beginning of the page, and/or at the bottom."
 msgstr ""
-"Mogelijk wilt U informatie, meer dan nodig voor de bijdrage,  van "
+"Mogelijk wilt u informatie, meer dan nodig voor de bijdrage,  van "
 "contributanten verzamelen. Voeg deze specifieke elementen (bijv. "
 "beschikbaarheid, bekwaamheden) toe aan de pagina, door CiviCRM Profielen "
 "(een verzameling velden) toe te voegen aan het begin van de pagina, of "
@@ -3255,9 +3261,9 @@ msgid ""
 "profiles (you can come back at any time to select or update the Profile(s) "
 "used for this page)."
 msgstr ""
-"U kunt bestaande CiviCRM profielen gebruiken op uw pagina of er een aanmaken "
-"die specifiek op Bijdrage pagina's te gebruiken is. U kunt <a href=\"%1"
-"\">Profielen</a> bekijken,  wijzigen en aanmaken. "
+"U kunt bestaande CiviCRM-profielen gebruiken op uw pagina of een profiel "
+"aanmaken dat specifiek op bijdragepagina's te gebruiken is. U kunt <a "
+"href=\"%1\">Profielen</a> bekijken,  wijzigen en aanmaken. "
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.tpl
 msgid ""
@@ -3265,16 +3271,16 @@ msgid ""
 "and selecting a CiviCRM Profile to be included at the top of the page "
 "(immediately after the introductory message)."
 msgstr ""
-"Voeg direct na de intrductietekst extra velden aan deze online bijdrage "
-"pagina toe met een CiviCRM Profiel."
+"Voeg direct na de introductietekst extra velden aan deze online bijdrage "
+"pagina toe met een CiviCRM-profiel."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.tpl
 msgid ""
 "Include additional fields in this online contribution page by configuring "
 "and selecting a CiviCRM Profile to be included at the bottom of the page."
 msgstr ""
-"Voeg extra velden onderaan deze online bijdrage pagina toe met een CiviCRM "
-"Profiel."
+"Voeg extra velden onderaan deze online bijdrage-pagina toe met een CiviCRM-"
+"profiel."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Delete.tpl
 msgid ""
@@ -3285,6 +3291,10 @@ msgid ""
 "page, you first need to search for and delete all of the contribution "
 "transactions associated with this page in CiviContribute."
 msgstr ""
+"U kunt deze bijdragepagina niet verwijderen omdat deze al gebruikt is bij "
+"een betaling. Het beste kunt u de pagina uitschakelen. Om deze pagina te "
+"verwijderen moet u in CiviContribute de betalingen zoeken die met deze "
+"pagina zijn uitgevoerd en al deze transacties verwijderen."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
 msgid ""
@@ -3294,9 +3304,9 @@ msgid ""
 "from a number of exciting thank-you gifts...). You can optionally provide a "
 "contact email address and/or phone number for inquiries."
 msgstr ""
-"Wijzig <strong>Relatiegeschenken Instellingen</strong> om het onderdeel "
-"relatiegeschenken in te schakelen voor deze online Bijdrage Pagina. Hier "
-"worden ook de titel, de   introductietekst en contactgegevens (tel. en/of "
+"Wijzig <strong>Instellingen relatiegeschenken</strong> om het onderdeel "
+"relatiegeschenken in te schakelen voor deze online bijdragepagina. Hier "
+"worden ook de titel, de introductietekst en contactgegevens (telefoon en/of "
 "email) bepaald."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
@@ -3304,18 +3314,18 @@ msgid ""
 "Then select and review the premiums that you want to offer on this "
 "contribution page."
 msgstr ""
-"Selecteer dan de relatiegeschenken die u wilt aanbieden op deze bijdrage "
-"pagina."
+"Selecteer dan de relatiegeschenken die u wilt aanbieden op deze "
+"bijdragepagina."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
 msgid "Premiums Settings"
-msgstr "Instellingen Relatiegeschenken"
+msgstr "Instellingen relatiegeschenken"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
 msgid "Is the Premiums section enabled for this Online Contributions page?"
 msgstr ""
-"Is het onderdeel relatiegeschenken ingeschakeld voor deze online Bijdrage "
-"Pagina?"
+"Is het onderdeel relatiegeschenken ingeschakeld voor deze online "
+"Bijdragepagina?"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
 msgid "Title to appear at the top of the Premiums section."
@@ -3329,7 +3339,7 @@ msgid ""
 "them using complete URLs."
 msgstr ""
 "Voer hier de introductietekst in. Deze wordt onder de titel onderdeel "
-"relatiegeschenken  getoond. Er mogen HTML tags aan gebruikt worden. Eveneens "
+"relatiegeschenken getoond. Er mogen HTML tags aan gebruikt worden. Eveneens "
 "is het mogelijk om afbeeldingen in te voegen (mits deze op de server staan), "
 "ze moeten dan via een volledige URL link ingevoegd zijn."
 
@@ -3391,7 +3401,7 @@ msgid ""
 "inactive) for this online contribution page."
 msgstr ""
 "Dit formulier gebruikt u om de paginatitel, bijdrage type (donatie, campagne "
-"donatie, etc.) introductietekst, en status van deze Bijdrage pagina(actief/ "
+"donatie, etc.) introductietekst, en status van deze bijdragepagina (actief/ "
 "niet actief) te wijzigen."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
@@ -3419,8 +3429,8 @@ msgid ""
 "types using the <strong>Contribution Type</strong> option from the CiviCRM "
 "Administrator Control Panel."
 msgstr ""
-"Kies het Type Bijdrage van deze pagina (donatie, campagne donatie, etc.) De "
-"types zijn aan maken en te wijzigen via de <strong>Bijdrage Types</strong> "
+"Kies het bijdragetype van deze pagina (donatie, campagne donatie, etc.) De "
+"types zijn aan maken en te wijzigen via de <strong>Bijdragetypes</strong> "
 "optie in het CiviCRM Systeembeheerders scherm."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
@@ -3482,7 +3492,7 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 msgid "Title for the Honoree section (e.g. &quot;Honoree Information&quot;)."
-msgstr "Titel voor onderdeel Erelid  (bijv. &quot;Erelid Informatie&quot;)."
+msgstr "Titel voor onderdeel Erelid (bijv. &quot;Erelid Informatie&quot;)."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 msgid ""
@@ -3523,14 +3533,15 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid "Thank-you Message and Receipting"
-msgstr "Bedank bericht en Ontvangstbewijs"
+msgstr "Bedankbericht en ontvangstbewijs"
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid ""
 "This title will be displayed at the top of the thank-you / transaction "
 "confirmation page."
 msgstr ""
-"Deze titel wordt getoond bovenaan de Bedank en Transactie bevestiging pagina."
+"Deze titel wordt getoond bovenaan de bedank- en transactie "
+"bevestigingspagina."
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid ""
@@ -3561,24 +3572,24 @@ msgstr ""
 msgid ""
 "Enter the FROM name to be used when receipts are emailed to contributors."
 msgstr ""
-"Voer de VAN naam in (de verzendnaam), die gebruikt wordt om "
-"ontvangstbewijzen naar donateurs te versturen."
+"Voer de naam van de afzender in die gebruikt wordt om ontvangstbewijzen naar "
+"donateurs te versturen."
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid ""
 "Enter the FROM email address to be used when receipts are emailed to "
 "contributors."
 msgstr ""
-"Voer de VAN naam in (de verzend emailnaam), die gebruikt wordt om "
-"ontvangstbewijzen naar donateurs te versturen"
+"Voer e-mailadres van de afzender in die gebruikt wordt om ontvangstbewijzen "
+"naar donateurs te versturen"
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid ""
 "Enter a message you want included at the beginning of emailed receipts. "
 "NOTE: Receipt emails are TEXT ONLY - do not include HTML tags here."
 msgstr ""
-"Voer een tekst in, die boven de tekst van ge-emailde ontvangstbewijzen te "
-"staan. Noot : Gebruik aan tekst, geen HTML opmaak."
+"Voer een tekst in, die aan het begin van de ontvangstbewijzen komt te staan. "
+"Gebruik geen HTML-opmaak."
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid ""
@@ -3604,7 +3615,7 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Widget.tpl
 msgid "Configure Widget"
-msgstr ""
+msgstr "Widget configureren"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Widget.tpl
 msgid ""
@@ -5256,8 +5267,8 @@ msgid ""
 "below to complete your registration."
 msgstr ""
 "Controleer a.u.b. de onderstaande informatie. Klik op <strong>terug</strong> "
-"als u gegevens wilt wijzigen. Om te registreren, klik op de <strong>Ga "
-"verder</strong>."
+"als u gegevens wilt wijzigen. Om te registreren, klik op de knop "
+"<strong>Doorgaan</strong>."
 
 #: templates/CRM/Event/Form/Registration/Confirm.tpl
 #: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
@@ -5270,8 +5281,8 @@ msgid ""
 "Your registration will not be completed until you click the "
 "<strong>Continue</strong> button. Please click the button one time only."
 msgstr ""
-"Uw registratie is pas definitief als u klikt op de knop <strong>Ga verder</"
-"strong>. Klik  a.u.b. slechts een keer op de knop."
+"Uw registratie is pas definitief als u klikt op de knop "
+"<strong>Doorgaan</strong>. Klik  a.u.b. slechts een keer op de knop."
 
 #: templates/CRM/Event/Form/Registration/EventInfoBlock.tpl
 #: templates/CRM/Event/Page/EventInfo.tpl
