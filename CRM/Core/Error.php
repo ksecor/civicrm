@@ -387,8 +387,12 @@ class CRM_Core_Error extends PEAR_ErrorStack {
         $backTrace = debug_backtrace( );
         
         $msgs = array( );
+        require_once 'CRM/Utils/Array.php';
         foreach ( $backTrace as $trace ) {
-            $msgs[] = implode( ', ', array( CRM_Utils_Array::value('file',$trace), CRM_Utils_Array::value('function',$trace), CRM_Utils_Array::value('line',$trace) ) );
+            $msgs[] = implode( ', ',
+                               array( CRM_Utils_Array::value('file'    , $trace ),
+                                      CRM_Utils_Array::value('function', $trace ),
+                                      CRM_Utils_Array::value('line'    , $trace ) ) );
         }
 
         $message = implode( "\n", $msgs );

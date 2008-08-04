@@ -99,12 +99,13 @@ UNIQUE INDEX unique_participatn_id ( participant_id )
 
     function fillTable( ) {
         $sql = "
-INSERT INTO {$this->_tableName}
+REPLACE INTO {$this->_tableName}
 ( contact_id, participant_id )
 SELECT c.id, p.id
 FROM   civicrm_contact c,
        civicrm_participant p
 WHERE  p.contact_id = c.id
+  AND  p.is_test    = 0
   AND  p.event_id = {$this->_eventID}
 ";
         CRM_Core_DAO::executeQuery( $sql,

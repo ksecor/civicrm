@@ -149,6 +149,16 @@ class CRM_Core_BAO_Domain extends CRM_Core_DAO_Domain {
         return $numberDomains > 1 ? true : false;
     }
 
+    static function getNameAndEmail( ) {
+        $domain = new CRM_Core_DAO_Domain( );
+        $domain->selectAdd( );
+        $domain->selectAdd( 'email_name, email_address' );
+        if ( $domain->find( true ) ) {
+            return array( $domain->email_name, $domain->email_address );
+        }
+        CRM_Core_Error::fatal( );
+    }
+
 }
 
 

@@ -62,13 +62,9 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
        
         $defaults = array( );
 
-        $domain = new CRM_Core_DAO_Domain( );
-        $domain->selectAdd( );
-        $domain->selectAdd( 'id, email_name, email_address' );
-        $domain->find( true );
-        
-        $defaults['from_name' ] = $domain->email_name;
-        $defaults['from_email'] = $domain->email_address;
+        require_once 'CRM/Core/BAO/Domain.php';
+        list( $defaults['from_name' ],
+              $defaults['from_email'] ) = CRM_Core_BAO_Domain::getNameAndEmail( );
         $defaults['subject'] = $this->get('name');   
         
         $htmlMessage = null;
