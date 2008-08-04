@@ -123,7 +123,8 @@ ORDER BY civicrm_phone.is_primary DESC, civicrm_phone.location_type_id DESC, pho
         }
         return $numbers;
     }
- /**
+    
+    /**
      * Get all the phone numbers for a specified location_block id, with the primary phone being first
      *
      * @param array $entityElements the array containing entity_id and
