@@ -68,6 +68,11 @@ class CRM_Utils_Date
             return $invalidDate;
         }
 
+        if ( array_key_exists( 'm', $date ) ) {
+            $date['M'] = $date['m'] ;
+        } else if ( array_key_exists('F',$date) ) {
+            $date['M'] = $date['F'] ;
+        }
             
         if ( CRM_Utils_Array::value( 'M', $date ) ) {
             $date['M'] = (int ) $date['M'];
