@@ -182,8 +182,15 @@ WHERE     openid = %1";
         $ufmatch =& new CRM_Core_DAO_UFMatch( );
         $ufmatch->uf_id = $userKey;
         if ( ! $ufmatch->find( true ) ) {
+            require_once 'CRM/Core/Transaction.php';
+            $transaction = new CRM_Core_Transaction( );
+
             require_once 'CRM/Contact/BAO/Contact.php';
             $dao =& CRM_Contact_BAO_Contact::matchContactOnEmail( $uniqId, $ctype );
+            
+            if ( ! $dao && ( $uf == 'Standalone' ) ) {
+                $dao =& CRM_Contact_BAO_Contact::matchContactOnOpenId( $uniqId, $ctype );
+            }
             if ( $dao ) {
                 //print "Found contact with uniqId $uniqId<br/>";
                 $ufmatch->contact_id     = $dao->contact_id;
@@ -235,6 +242,8 @@ WHERE     openid = %1";
             $ufmatch->save( );
             $ufmatch->free();
             $newContact   = true;
+            
+            $transaction->commit();
         }
 
         if ( $status ) {
