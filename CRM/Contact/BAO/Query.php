@@ -1370,9 +1370,14 @@ class CRM_Contact_BAO_Query
                     $tName = str_replace( ' ', '_', $tName );
                     $where = "`$tName`.$fldName";
                     if ( $op != 'IN' ) {
-                        $this->_where[$grouping][] = "LOWER( $where ) $op '$value'";
+                        $this->_where[$grouping][] = self::clauseBuilder( "LOWER($where)",
+                                                                          $op,
+                                                                          "'$value'" );
+
                     } else {
-                        $this->_where[$grouping][] = "LOWER( $where ) $op $value";
+                        $this->_where[$grouping][] = self::clauseBuilder( "LOWER($where)",
+                                                                          $op,
+                                                                          $value );
                     }
                     $this->_whereTables[$tName] = $this->_tables[$tName];
                     if ( $locType[2] && ( strtolower( $locType[2] ) != ts( 'phone' ) ) ) {
@@ -1383,11 +1388,17 @@ class CRM_Contact_BAO_Query
                 } else {
                     list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 );  
                     if ( $tableName == 'civicrm_contact' ) {
-                        $this->_where[$grouping][] = "LOWER( contact_a.{$fieldName} ) $op '$value'";
+                        $this->_where[$grouping][] = self::clauseBuilder( "LOWER(contact_a.{$fieldName})",
+                                                                          $op,
+                                                                          "'$value'" );
                     } else if ( $op != 'IN' ) {
-                        $this->_where[$grouping][] = "LOWER( {$field['where']} ) $op '$value'";
+                        $this->_where[$grouping][] = self::clauseBuilder( "LOWER({$field['where']})",
+                                                                          $op,
+                                                                          "'$value'" );
                     } else {
-                        $this->_where[$grouping][] = "LOWER( {$field['where']} ) $op $value";
+                        $this->_where[$grouping][] = self::clauseBuilder( "LOWER({$field['where']})",
+                                                                          $op,
+                                                                          $value );
                     }
                     $this->_qill[$grouping][]  = "$field[title] $op $value";
                 }
@@ -3090,6 +3101,14 @@ SELECT COUNT( civicrm_contribution.total_amount ) as cancel_count,
         } else {
             $this->_qill[$grouping][]  = "$fieldTitle - $phrase \"$options[$value]\"";
         }
+    }
+
+    function clauseBuilder( $field, $op, $value ) {
+        $op = trim( $op );
+        $clause = "$field $op";
+        return ( $op == 'IS NULL' ||
+                 $op == 'IS NOT NULL' ) ?
+            $clause : "$clause $value";
     }
 
 }
