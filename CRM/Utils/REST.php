@@ -276,7 +276,6 @@ class CRM_Utils_REST
         $error['is_error']      = 1;
 
         $config = CRM_Core_Config::singleton( );
-        CRM_Core_Error::debug( $error );
         echo self::output( $config, $error );
         exit( );
     }

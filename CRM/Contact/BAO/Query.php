@@ -2098,24 +2098,30 @@ WHERE  id IN ( $groupIDs )
 
         $config =& CRM_Core_Config::singleton( );
 
-        $value = strtolower(addslashes($n));
-        if ( $wildcard ) {
-            if ( strpos( $value, '%' ) !== false ) {
-                $value = "'$value'";
-                // only add wild card if not there
-            } else {
-                $value = "'$value%'";
-            }
-            $op    = 'LIKE';
-        } else {
+        if ( substr( $n, 0 , 1 ) == '"' &&
+             substr( $n, -1, 1 ) == '"' ) {
+            $n     = substr( $n, 1, -1 );
+            $value = strtolower(addslashes($n));
             $value = "'$value'";
+            $op    = '=';
+        } else {
+            $value = strtolower(addslashes($n));
+            if ( $wildcard ) {
+                if ( strpos( $value, '%' ) !== false ) {
+                    $value = "'$value'";
+                    // only add wild card if not there
+                } else {
+                    $value = "'$value%'";
+                }
+                $op    = 'LIKE';
+            } else {
+                $value = "'$value'";
+            }
         }
 
-        $sub = " ( civicrm_email.email $op $value )";
         $this->_tables['civicrm_email'] = $this->_whereTables['civicrm_email'] = 1; 
-
-        $this->_where[$grouping][] = $sub;
-        $this->_qill[$grouping][]  = ts( 'Email' ) . " $op - \'$n\'";
+        $this->_where[$grouping][] = " ( civicrm_email.email $op $value )";
+        $this->_qill[$grouping][]  = ts( 'Email' ) . " $op '$n'";
     }
 
     /**
@@ -2257,7 +2263,6 @@ WHERE  id IN ( $groupIDs )
     function changeLog ( &$values ) {
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
         
-        // also get values array for relation_target_name
         $targetName = $this->getWhereValues( 'changed_by', $grouping );
         if ( ! $targetName ) {
             return;
@@ -2448,7 +2453,6 @@ WHERE  id IN ( $groupIDs )
     function task( &$values ) {
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
 
-        // also get values array for relation_target_name
         $targetName = $this->getWhereValues( 'task_id', $grouping );
         if ( ! $targetName ) {
             return;
@@ -2490,18 +2494,24 @@ WHERE  id IN ( $groupIDs )
         $targetName = $this->getWhereValues( 'relation_target_name', $grouping );
         $relStatus  = $this->getWhereValues( 'relation_status', $grouping );
         
-        if ( ! $targetName ) {
-            $name = null;
-        } else {
+        $nameClause = null;
+        if ( $targetName ) {
             $name = trim( $targetName[2] );
-            $name = strtolower( addslashes( $name ) );
+            if ( substr( $name, 0 , 1 ) == '"' &&
+                 substr( $name, -1, 1 ) == '"' ) {
+                $name = substr( $n, 1, -1 );
+                $name = strtolower( addslashes( $name ) );
+                $nameClause = "= '$name'";
+            } else {
+                $name = strtolower( addslashes( $name ) );
+                $nameClause = "LIKE '%{$name}%'";
+            }
         }
-
 
         $rel = explode( '_' , $value );
 
         self::$_relType = $rel[1];
-        if ( $name ) { 
+        if ( $nameClause ) { 
             require_once 'CRM/Contact/BAO/RelationshipType.php';
 
             $params = array( 'id' => $rel[0] );
@@ -2516,7 +2526,7 @@ WHERE  id IN ( $groupIDs )
            if ( $rTypeValues['name_a_b'] == $rTypeValues['name_b_a'] ) {
                self::$_relType = 'reciprocal';
            }
-           $this->_where[$grouping][] = "( contact_b.sort_name LIKE '%{$name}%' AND contact_b.id != contact_a.id )";
+           $this->_where[$grouping][] = "( contact_b.sort_name $nameClause AND contact_b.id != contact_a.id )";
         }
 
         require_once 'CRM/Contact/BAO/Relationship.php';
