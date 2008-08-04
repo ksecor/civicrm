@@ -194,11 +194,11 @@ class CRM_Core_Block {
         } else if ( $id == self::SEARCH ) {
             $urlArray = array(
                 'postURL'           => CRM_Utils_System::url( 'civicrm/contact/search/basic',
-                                                              'reset=1' ) ,
+                                                              'reset=1', true, null, false ) ,
                 'advancedSearchURL' => CRM_Utils_System::url( 'civicrm/contact/search/advanced',
                                                               'reset=1' ),
                 'dataURL'           => CRM_Utils_System::url( 'civicrm/ajax/search',
-                                                              'reset=1' ),
+                                                              'reset=1', true, null, false ),
                 'viewContactURL'    => CRM_Utils_System::url( 'civicrm/contact/view',
                                                               'reset=1' ) ,
             );
