@@ -547,20 +547,21 @@ class CRM_Profile_Form extends CRM_Core_Form
                     $result['email'] = $values ;
                 }
             }
-            //array of group id, subscribed by contact
-            $contactGroup = array( );
-            if( $this->_id ) {
-                $contactGroups = new CRM_Contact_DAO_GroupContact();
-                $contactGroups->contact_id = $this->_id;
-                $contactGroups->status     = 'Added';
-                $contactGroups->find();
-                $contactGroup = array();
-                while( $contactGroups->fetch() ) { 
-                    $contactGroup[] = $contactGroups->group_id;
-                }
-            }
+            
             if ( CRM_Utils_Array::value( 'email' , $result ) ) {
                 require_once 'CRM/Contact/DAO/Group.php';
+                //array of group id, subscribed by contact
+                $contactGroup = array( );
+                if( $this->_id ) {
+                    $contactGroups = new CRM_Contact_DAO_GroupContact();
+                    $contactGroups->contact_id = $this->_id;
+                    $contactGroups->status     = 'Added';
+                    $contactGroups->find();
+                    $contactGroup = array();
+                    while( $contactGroups->fetch() ) { 
+                        $contactGroup[] = $contactGroups->group_id;
+                    }
+                }
                 foreach ( $params['group'] as $key => $val ) {
                     $groupTypes = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group',
                                                                $key, 'group_type', 'id' );
