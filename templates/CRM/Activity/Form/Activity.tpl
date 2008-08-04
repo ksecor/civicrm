@@ -53,7 +53,7 @@
         {/edit}
         
          <table class="form-layout">
-           {if $action eq 1 or $action eq 2  or $action eq 4 or $action eq 512 or $action eq 8192}
+           {if $action eq 1 or $action eq 2  or $action eq 4 or $context eq 'search' }
              {if $context eq ('standalone' or 'case' or 'search') }
                 <tr>
                    <td class="label">{$form.activity_type_id.label}</td><td class="view-value">{$form.activity_type_id.html}</td>
@@ -187,7 +187,7 @@
          </table>   
       </fieldset> 
 
-{if $action eq 1 or $action eq 2 or $action eq 512 or $action eq 8192}
+{if $action eq 1 or $action eq 2 or $context eq 'search'}
    {*include custom data js file*}
    {include file="CRM/common/customData.tpl"}
 {/if}
@@ -196,7 +196,7 @@
 {literal}
 <script type="text/javascript">
 {/literal}
-{if $action eq 1 or $action eq 512 or $action eq 8192}
+{if $action eq 1 or $context eq 'search'}
 {literal}
    buildContact( 1, 'assignee_contact' );
 {/literal}   
