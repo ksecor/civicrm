@@ -182,9 +182,12 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
             }
 
             if ( CRM_Utils_Array::value( 'data_type', $defaults ) ) {
-                $defaults['data_type'] = array( '0' => array_search( $defaults['data_type'],
-                                                                     self::$_dataTypeKeys ), 
-                                                '1' => $defaults['html_type'] );
+                $defaultDataType = array_search( $defaults['data_type'],
+                                                 self::$_dataTypeKeys );
+                $defaultHTMLType = array_search( $defaults['html_type'],
+                                                 self::$_dataToHTML[$defaultDataType] );
+                $defaults['data_type'] = array( '0' => $defaultDataType,
+                                                '1' => $defaultHTMLType );
                 $this->_defaultDataType = $defaults['data_type'];
             }
             
@@ -226,7 +229,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
 
             $defaults['is_view'] = 0;
         }
-        
+
         return $defaults;
     }
 
@@ -261,7 +264,6 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
                                   'onclick="clearSearchBoxes();custom_option_html_type(this.form)"; onBlur="custom_option_html_type(this.form)";', 
                                   '&nbsp;&nbsp;&nbsp;' );
         $sel->setOptions(array($dt, $it));
-        
         if ($this->_action == CRM_Core_Action::UPDATE) {
             $this->freeze('data_type');
         }
@@ -474,7 +476,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
         if ( $dupeLabel ) {
             $errors['label'] = ts('Name already exists in Database.');
         }
-        
+
         if ( ! isset($fields['data_type'][0]) || !isset($fields['data_type'][1]) ) {
             $errors['_qf_default'] = ts('Please enter valid - Data and Input Field Type.');
         }
@@ -769,15 +771,16 @@ AND    option_group_id = %2";
     {
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
-        
+
         if ($this->_action == CRM_Core_Action::UPDATE) {
-            $params['data_type'] = self::$_dataTypeKeys[$this->_defaultDataType[0]];
-            $params['html_type'] = $this->_defaultDataType[1];
             $dataTypeKey         = $this->_defaultDataType[0];
+            $params['data_type'] = self::$_dataTypeKeys[$this->_defaultDataType[0]];
+            $params['html_type'] = self::$_dataToHTML[$this->_defaultDataType[0]][$this->_defaultDataType[1]];
         } else {
             $dataTypeKey         = $params['data_type'][0];
-            $params['html_type'] = $params['data_type'][1];
+            $params['html_type'] = self::$_dataToHTML[$params['data_type'][0]][$params['data_type'][1]];
             $params['data_type'] = self::$_dataTypeKeys[$params['data_type'][0]];
+            
         }
         
         //fix for 'is_search_range' field. 
