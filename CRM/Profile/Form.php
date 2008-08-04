@@ -435,6 +435,7 @@ class CRM_Profile_Form extends CRM_Core_Form
         // hack we use a -1 in options to indicate that its registration 
         if ( $form->_id ) {
             $cid = $form->_id;
+            $form->_isUpdateDupe = true;
         }
 
         if ( $form->_mode == CRM_Profile_Form::MODE_REGISTER ) {
@@ -517,7 +518,7 @@ class CRM_Profile_Form extends CRM_Core_Form
     public function postProcess( ) 
     {
         $params = $this->controller->exportValues( $this->_name );
-
+       
         if ( $this->_mode == self::MODE_REGISTER ) {
             require_once 'CRM/Core/BAO/Address.php';
             CRM_Core_BAO_Address::setOverwrite( false );
@@ -536,18 +537,33 @@ class CRM_Profile_Form extends CRM_Core_Form
                     $result['email'] = $values ;
                 }
             }
+            //array of group id, subscribed by contact
+            $contactGroup = array( );
+            if( $this->_id ) {
+                $contactGroups = new CRM_Contact_DAO_GroupContact();
+                $contactGroups->contact_id = $this->_id;
+                $contactGroups->status     = 'Added';
+                $contactGroups->find();
+                $contactGroup = array();
+                while( $contactGroups->fetch() ) { 
+                    $contactGroup[] = $contactGroups->group_id;
+                }
+            }
             if ( CRM_Utils_Array::value( 'email' , $result ) ) {
                 require_once 'CRM/Contact/DAO/Group.php';
                 foreach ( $params['group'] as $key => $val ) {
                     $groupTypes = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group',
                                                                $key, 'group_type', 'id' );
-                    
                     $groupType = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, 
                                           substr( $groupTypes, 1, -1 ) );
                     //filter group of mailing type and unset it from params
                     if ( CRM_Utils_Array::key( '2', $groupType ) ) {
-                        $mailingType[] = $key ; 
-                        unset( $params['group'][$key] );
+                        //if group is already subscribed , ignore it 
+                        $groupExist = CRM_Utils_Array::key( $key, $contactGroup );
+                        if ( ! isset( $groupExist ) ) {
+                            $mailingType[] = $key ;
+                            unset( $params['group'][$key] );
+                        }
                     }
                 }
             }
