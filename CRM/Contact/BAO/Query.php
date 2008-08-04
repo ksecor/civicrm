@@ -2510,7 +2510,7 @@ WHERE  id IN ( $groupIDs )
             $name = trim( $targetName[2] );
             if ( substr( $name, 0 , 1 ) == '"' &&
                  substr( $name, -1, 1 ) == '"' ) {
-                $name = substr( $n, 1, -1 );
+                $name = substr( $name, 1, -1 );
                 $name = strtolower( addslashes( $name ) );
                 $nameClause = "= '$name'";
             } else {
