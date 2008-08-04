@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-07-07 18:43-0700\n"
-"PO-Revision-Date: 2008-07-08 05:26-0700\n"
+"PO-Revision-Date: 2008-07-17 22:41-0700\n"
 "Last-Translator: sunil pawar <sunil.pawar@webaccess.co.in>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -4189,7 +4189,7 @@ msgstr ""
 
 #: CRM/Core/BAO/CMSUser.php
 msgid "Synchronize Users to Contacts completed."
-msgstr ""
+msgstr "उपयोगकर्ता काे संपर्क से सिंक्रनाइज़ कर दिया।"
 
 #: CRM/Core/BAO/CMSUser.php
 msgid "Checked one user record."
@@ -4255,7 +4255,7 @@ msgstr ""
 
 #: CRM/Core/BAO/CustomField.php
 msgid "Yes or No"
-msgstr ""
+msgstr "हाँ या नहीं"
 
 #: CRM/Core/BAO/CustomField.php
 msgid "%1 From must be an integer (whole number)."
@@ -4406,7 +4406,7 @@ msgstr ""
 
 #: CRM/Core/BAO/UFGroup.php xml/templates/civicrm_add_domain.tpl
 msgid "Participant Role"
-msgstr ""
+msgstr "सहभाग की भूमिका"
 
 #: CRM/Core/BAO/UFGroup.php
 msgid "Please enter a valid %1"
@@ -4785,7 +4785,7 @@ msgstr ""
 
 #: CRM/Core/Menu.php templates/CRM/Admin/Form/CMSUser.tpl
 msgid "Synchronize Users to Contacts:"
-msgstr ""
+msgstr "उपयोगकर्ता काे संपर्क से सिंक्रनाइज़ करे:"
 
 #: CRM/Core/Menu.php templates/CRM/Admin/Form/CMSUser.tpl
 msgid ""
@@ -4842,7 +4842,7 @@ msgstr ""
 
 #: CRM/Core/Menu.php
 msgid "Synchronize Users to Contacts"
-msgstr ""
+msgstr "उपयोगकर्ता काे संपर्क से सिंक्रनाइज़ करे।"
 
 #: CRM/Core/Menu.php
 msgid "Automatically create a CiviCRM contact record for each CMS user record."
@@ -4886,7 +4886,7 @@ msgstr ""
 
 #: CRM/Core/Menu.php
 msgid "Activity Types"
-msgstr ""
+msgstr "घटनाएँ प्रकार"
 
 #: CRM/Core/Menu.php
 msgid ""
@@ -5280,7 +5280,7 @@ msgstr "ज्ञापन"
 
 #: CRM/Core/SelectValues.php
 msgid "Yes/No"
-msgstr ""
+msgstr "हाँ / नहीं"
 
 #: CRM/Core/SelectValues.php
 msgid "Single-line input field (text or numeric)"

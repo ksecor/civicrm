@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-07-07 18:43-0700\n"
-"PO-Revision-Date: 2008-07-16 11:27-0700\n"
+"PO-Revision-Date: 2008-07-25 21:11-0700\n"
 "Last-Translator: Erik Stielstra <info@erikstielstra.nl>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -514,7 +514,7 @@ msgstr "<< Vorige"
 #: CRM/Contact/Form/Task/PickProfile.php CRM/Import/Form/MapField.php
 #: CRM/Import/Form/UploadFile.php
 msgid "Continue >>"
-msgstr "Ga verder >>"
+msgstr "Doorgaan >>"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Activity/Selector/Activity.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
@@ -4000,7 +4000,7 @@ msgstr "Druk contactenlijst af"
 
 #: CRM/Contact/Form/Task/Record.php
 msgid "Your user record does not have a valid user ID"
-msgstr "Uw gebruikersrecord heeft geen geldige gebruikers ID"
+msgstr "Uw gebruikersgegevens hebben geen geldige gebruikers ID"
 
 #: CRM/Contact/Form/Task/Record.php
 msgid "You cannot record scheduled email activity."
@@ -4048,7 +4048,7 @@ msgstr "Contact activiteiten"
 
 #: CRM/Contact/Page/View/Activity.php
 msgid "Activity Record"
-msgstr "Activiteit Record"
+msgstr "Activiteitsgegevens"
 
 #: CRM/Contact/Page/View/Case.php
 msgid "Are you sure you want to delete this case?"
@@ -5225,7 +5225,7 @@ msgstr "Deze functie is niet geïmplementeerd"
 
 #: CRM/Core/Payment/Google.php
 msgid "Invalid response code received from Google Checkout: %1"
-msgstr "Foute reactie code ontvangen van Google Checkout: %1"
+msgstr "Foute reactiecode ontvangen van Google Checkout: %1"
 
 #: CRM/Core/Payment/IATS.php
 msgid ""
@@ -10464,7 +10464,7 @@ msgid ""
 "it again later."
 msgstr ""
 "Klik op <strong> Selecteer velden voor export</strong> en daarna op "
-"<strong>Ga door</strong> om een andere selectie te maken voor export. "
+"<strong>Doorgaan</strong> om een andere selectie te maken voor export. "
 "Hiermee is het mogelijk om meerdere specifieke lokaties als specifieke "
 "gegevens te exporteren naar een bestand. Eveneens is het mogelijk om deze "
 "selectie (mapping) op te slaan voor later gebruik."
