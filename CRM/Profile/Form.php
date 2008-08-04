@@ -265,7 +265,17 @@ class CRM_Profile_Form extends CRM_Core_Form
             
             $profileType = CRM_Core_BAO_UFField::getProfileType($this->_gid);  
 
-            if(in_array( $profileType, array( "Membership", "Participant", "Contribution" ) ) ){
+            if ( $this->_id ) {
+                $contactType = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                                            $this->_id, 'contact_type' );
+                
+                if ( ( $profileType != 'Contact' ) && ( $contactType != $profileType ) ) {
+                    CRM_Core_Session::setStatus(ts('This profile is not configured for "%1" contact type.', array( 1 => $contactType ) ) );
+                    return 0;
+                }
+            }
+            
+            if ( in_array( $profileType, array( "Membership", "Participant", "Contribution" ) ) ) {
                 CRM_Core_Session::setStatus(ts('Profile is not configured for the selected action.'));
                 return 0;
             }

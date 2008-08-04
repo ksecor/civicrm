@@ -373,6 +373,7 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
                 return true;
             }
         } else {
+            $profileTypes = array_values( $profileTypes );
             if ( !in_array( $profileTypes[0], $contactTypes ) ) {
                 return true;
             }
