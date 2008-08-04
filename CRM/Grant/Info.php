@@ -88,7 +88,8 @@ class CRM_Grant_Info extends CRM_Core_Component_Info
     // docs inherited from interface  
     public function registerAdvancedSearchPane()
     {
-        return null;
+        return array( 'title'   => ts( 'Grants' ),
+                      'weight'  => 50 );
     }    
         
     // docs inherited from interface    
