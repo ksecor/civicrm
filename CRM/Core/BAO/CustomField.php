@@ -625,8 +625,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             break;
         
         case 'RichTextEditor':
-            $element =& $qf->addWysiwyg( $elementName, $label, CRM_Core_DAO::$_nullArray );
-
+            $element =& $qf->addWysiwyg( $elementName, $label, CRM_Core_DAO::$_nullArray, $search );
         }
         
         switch ( $field->data_type ) {

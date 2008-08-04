@@ -738,7 +738,7 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         
     }
         
-    function addWysiwyg( $name, $label, $attributes ) 
+    function addWysiwyg( $name, $label, $attributes, $forceTextarea = false ) 
     {
         // TODO: 
       
@@ -747,7 +747,7 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         require_once 'CRM/Core/BAO/Preferences.php';
         $editor = strtolower( CRM_Utils_Array::value( CRM_Core_BAO_Preferences::value( 'editor_id' ),
                                                       CRM_Core_PseudoConstant::wysiwygEditor( )) );
-        if ( !$editor ){
+        if ( !$editor || $forceTextarea ) {
             $editor = 'textarea';
         }
       
