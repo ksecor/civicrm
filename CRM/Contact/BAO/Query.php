@@ -1236,7 +1236,7 @@ class CRM_Contact_BAO_Query
                 $value  =  $states[(int ) $value];
             }
             $wc = ( $op != 'LIKE' ) ? "LOWER({$field['where']})" : "{$field['where']}";
-            $this->_where[$grouping][] = "$wc $op '" . strtolower( addslashes( $value ) ) . "'";
+            $this->_where[$grouping][] = self::buildClause( $wc, $op, $value, true );
             if (!$lType) {
                 $this->_qill[$grouping][] = ts('State') . " $op '$value'";
             } else {
@@ -1248,7 +1248,7 @@ class CRM_Contact_BAO_Query
                 $value     =  $countries[(int ) $value]; 
             }
             $wc = ( $op != 'LIKE' ) ? "LOWER({$field['where']})" : "{$field['where']}";
-            $this->_where[$grouping][] = "$wc $op '" . strtolower( addslashes( $value ) ) . "'";
+            $this->_where[$grouping][] = self::buildClause( $wc, $op, $value, true );
             if (!$lType) {
                 $this->_qill[$grouping][] = ts('Country') . " $op '$value'";
             } else {
@@ -1260,7 +1260,7 @@ class CRM_Contact_BAO_Query
                 $value     =  $counties[(int ) $value]; 
             }
             $wc = ( $op != 'LIKE' ) ? "LOWER({$field['where']})" : "{$field['where']}";
-            $this->_where[$grouping][] = "$wc $op '" . strtolower( addslashes( $value ) ) . "'";
+            $this->_where[$grouping][] = self::buildClause( $wc, $op, $value, true );
             if (!$lType) {
                 $this->_qill[$grouping][] = ts('County') . " $op '$value'";
             } else {
@@ -1272,14 +1272,14 @@ class CRM_Contact_BAO_Query
                 $value     =  $worldRegions[(int ) $value]; 
             }
             $wc = ( $op != 'LIKE' ) ? "LOWER({$field['where']})" : "{$field['where']}";
-            $this->_where[$grouping][] = "$wc $op '" . strtolower( addslashes( $value ) ) . "'";
+            $this->_where[$grouping][] = self::buildClause( $wc, $op, $value, true );
             $this->_qill[$grouping][] = ts('World Region') . " $op '$value'";
         } else if ( $name === 'individual_prefix' ) {
             $individualPrefixs =& CRM_Core_PseudoConstant::individualPrefix( ); 
             if ( is_numeric( $value ) ) { 
                 $value     =  $individualPrefixs[(int ) $value];  
             }
-            $this->_where[$grouping][] = "LOWER({$field['where']}) $op '" . strtolower( addslashes( $value ) ) . "'";
+            $this->_where[$grouping][] = self::buildClause( $wc, $op, $value, true );
             $this->_qill[$grouping][] = ts('Individual Prefix') . " $op '$value'";
         } else if ( $name === 'individual_suffix' ) {
             $individualSuffixs =& CRM_Core_PseudoConstant::individualsuffix( ); 
@@ -1287,7 +1287,7 @@ class CRM_Contact_BAO_Query
                 $value     =  $individualSuffixs[(int ) $value];  
             }
             $wc = ( $op != 'LIKE' ) ? "LOWER({$field['where']})" : "{$field['where']}";
-            $this->_where[$grouping][] = "$wc $op '" . strtolower( addslashes( $value ) ) . "'";
+            $this->_where[$grouping][] = self::buildClause( $wc, $op, $value, true );
             $this->_qill[$grouping][] = ts('Individual Suffix') . " $op '$value'";
         } else if ( $name === 'gender' ) {
             $genders =& CRM_Core_PseudoConstant::gender( );  
@@ -1295,28 +1295,28 @@ class CRM_Contact_BAO_Query
                 $value     =  $genders[(int ) $value];  
             }
             $wc = ( $op != 'LIKE' ) ? "LOWER({$field['where']})" : "{$field['where']}";
-            $this->_where[$grouping][] = "$wc $op '" . strtolower( addslashes( $value ) ) . "'";
+            $this->_where[$grouping][] = self::buildClause( $wc, $op, $value, true );
             $this->_qill[$grouping][] = ts('Gender') . " $op '$value'";
         } else if ( $name === 'birth_date' ) {
             $date = CRM_Utils_Date::format( $value );
             if ( $date ) {
-                $this->_where[$grouping][] = "contact_a.{$name} $op $date";
+                $this->_where[$grouping][] = self::buildClause( "contact_a.{$name}", $op, $date );
                 $date = CRM_Utils_Date::customFormat( $date );
                 $this->_qill[$grouping][]  = "$field[title] $op \"$date\"";
             }
         } else if ( $name === 'deceased_date' ) {
             $date = CRM_Utils_Date::format( $value );
             if ( $date ) {
-                $this->_where[$grouping][] = "contact_a.{$name} $op $date";
+                $this->_where[$grouping][] = self::buildClause( "contact_a.{$name}", $op, $date );
                 $date = CRM_Utils_Date::customFormat( $date );
                 $this->_qill[$grouping][]  = "$field[title] $op \"$date\"";
             }
         } else if ( $name === 'is_deceased' ) {
-            $this->_where[$grouping][] = "contact_a.{$name} $op $value";
+            $this->_where[$grouping][] = self::buildClause( "contact_a.{$name}", $op, $value );
             $this->_qill[$grouping][]  = "$field[title] $op \"$value\"";
         } else if ( $name === 'contact_id' ) {
             if ( is_int( $value ) ) {
-                $this->_where[$grouping][] = $field['where'] . " $op $value";
+                $this->_where[$grouping][] = self::buildClause( $field['where'], $op, $value );
                 $this->_qill[$grouping][]  = "$field[title] $op $value";
             }
         } else if ( $name === 'name' ) {
@@ -1326,7 +1326,7 @@ class CRM_Contact_BAO_Query
                 $op    = 'LIKE';
             }
             $wc = ( $op != 'LIKE' ) ? "LOWER({$field['where']})" : "{$field['where']}";
-            $this->_where[$grouping][] = "$wc $op '$value'";
+            $this->_where[$grouping][] = self::buildClause( $wc, $op, "'$value'" );
             $this->_qill[$grouping][]  = "$field[title] $op \"$value\"";
         } else if ( $name === 'current_employer' ) {
             $value = strtolower( addslashes( $value ) );
@@ -1335,12 +1335,13 @@ class CRM_Contact_BAO_Query
                 $op    = 'LIKE';
             }
             $wc = ( $op != 'LIKE' ) ? "LOWER(contact_a.organization_name)" : "contact_a.organization_name";
-            $this->_where[$grouping][] = "$wc $op '$value' AND contact_a.contact_type ='Individual'";
+            $this->_where[$grouping][] = self::buildClause( $wc, $op,
+                                                            "'$value' AND contact_a.contact_type ='Individual'" );
             $this->_qill[$grouping][]  = "$field[title] $op \"$value\"";
         } else {
             // sometime the value is an array, need to investigate and fix
             if ( is_array( $value ) ) {
-                CRM_Core_Error::fatal( ts( 'This is an unexpected place to be in, contact support' ) );
+                CRM_Core_Error::fatal( );
             }
 
             if ( ! empty( $field['where'] ) ) {
@@ -1370,12 +1371,12 @@ class CRM_Contact_BAO_Query
                     $tName = str_replace( ' ', '_', $tName );
                     $where = "`$tName`.$fldName";
                     if ( $op != 'IN' ) {
-                        $this->_where[$grouping][] = self::clauseBuilder( "LOWER($where)",
+                        $this->_where[$grouping][] = self::buildClause( "LOWER($where)",
                                                                           $op,
                                                                           "'$value'" );
 
                     } else {
-                        $this->_where[$grouping][] = self::clauseBuilder( "LOWER($where)",
+                        $this->_where[$grouping][] = self::buildClause( "LOWER($where)",
                                                                           $op,
                                                                           $value );
                     }
@@ -1388,17 +1389,17 @@ class CRM_Contact_BAO_Query
                 } else {
                     list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 );  
                     if ( $tableName == 'civicrm_contact' ) {
-                        $this->_where[$grouping][] = self::clauseBuilder( "LOWER(contact_a.{$fieldName})",
-                                                                          $op,
-                                                                          "'$value'" );
+                        $this->_where[$grouping][] = self::buildClause( "LOWER(contact_a.{$fieldName})",
+                                                                        $op,
+                                                                        "'$value'" );
                     } else if ( $op != 'IN' ) {
-                        $this->_where[$grouping][] = self::clauseBuilder( "LOWER({$field['where']})",
-                                                                          $op,
-                                                                          "'$value'" );
+                        $this->_where[$grouping][] = self::buildClause( "LOWER({$field['where']})",
+                                                                        $op,
+                                                                        "'$value'" );
                     } else {
-                        $this->_where[$grouping][] = self::clauseBuilder( "LOWER({$field['where']})",
-                                                                          $op,
-                                                                          $value );
+                        $this->_where[$grouping][] = self::buildClause( "LOWER({$field['where']})",
+                                                                        $op,
+                                                                        $value );
                     }
                     $this->_qill[$grouping][]  = "$field[title] $op $value";
                 }
@@ -3103,12 +3104,18 @@ SELECT COUNT( civicrm_contribution.total_amount ) as cancel_count,
         }
     }
 
-    function clauseBuilder( $field, $op, $value ) {
+    function buildClause( $field, $op, $value, $isString = false ) {
         $op = trim( $op );
         $clause = "$field $op";
-        return ( $op == 'IS NULL' ||
-                 $op == 'IS NOT NULL' ) ?
-            $clause : "$clause $value";
+        if ( $op == 'IS NULL' ||
+             $op == 'IS NOT NULL' ) {
+            return $clause;
+        } else {
+            if ( $isString ) {
+                $value = "'" . strtolower( addslashes( $value ) ) . "'";
+            }
+            return "$clause $value";
+        }
     }
 
 }
