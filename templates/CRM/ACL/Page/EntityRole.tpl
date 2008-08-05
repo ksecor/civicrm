@@ -1,5 +1,5 @@
 {capture assign=aclURL}{crmURL p='civicrm/acl' q='reset=1'}{/capture}
-{capture assign=rolesURL}{crmURL p='civicrm/admin/options' q='group=acl_role&reset=1'}{/capture}
+{capture assign=rolesURL}{crmURL p='civicrm/admin/options/acl_role' q='group=acl_role&reset=1'}{/capture}
 {capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
 
 <div id="help">
