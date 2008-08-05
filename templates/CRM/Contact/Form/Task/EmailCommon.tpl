@@ -4,9 +4,8 @@
   <dt>{$form.token1.label}</dt><dd>{$form.token1.html}</dd>
   <dt>{$form.text_message.label}</dt><dd>{$form.text_message.html}</dd></dl>
   <dt>{$form.token2.label}</dt><dd>{$form.token2.html}</dd>
-  <dl class="html-adjust">
   <dt>{$form.html_message.label}</dt><dd class="editor">{$form.html_message.html}</dd>
-</dl>
+
 {if ! $noAttach}
 <div class="spacer"></div>
 {include file="CRM/Form/attachment.tpl"}
