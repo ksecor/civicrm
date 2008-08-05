@@ -722,7 +722,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
 
             // check if we can retrieve from database cache
             require_once 'CRM/Core/BAO/Cache.php'; 
-            $fields =& CRM_Core_BAO_Cache::getItem( 'contact fields', "exportableFields $contactType" );
+            $fields =& CRM_Core_BAO_Cache::getItem( 'contact fields', "exportableFields $contactType $export" );
 
             if ( ! $fields ) {
                 $fields = array( );
@@ -830,7 +830,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
                     }
                 }
 
-                CRM_Core_BAO_Cache::setItem( $fields, 'contact fields', "exportableFields $contactType" );
+                CRM_Core_BAO_Cache::setItem( $fields, 'contact fields', "exportableFields $contactType $export" );
             }
             self::$_exportableFields[$contactType] = $fields;
         }
