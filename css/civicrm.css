@@ -832,6 +832,7 @@ div.crm-pager a {
 
 #crm-container div#printer-friendly {
  float: right;
+ position:relative;
  margin: -24px 0px 0px 0px;
 }
 
