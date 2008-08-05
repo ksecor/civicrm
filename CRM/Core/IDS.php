@@ -187,8 +187,6 @@ class CRM_Core_IDS {
      *
      */
     private function warn($result) {
-        require_once 'CRM/Core/Session.php';
-        CRM_Core_Session::setStatus( ts( 'Seems like you are probing the system for weakness, are you?' ) );
         return $result;
     }
 
