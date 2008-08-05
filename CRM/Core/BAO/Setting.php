@@ -143,7 +143,7 @@ class CRM_Core_BAO_Setting
         require_once "CRM/Core/DAO/Domain.php";
         $domain =& new CRM_Core_DAO_Domain();
         $domain->selectAdd( );
-        if ( $_GET['q'] == 'civicrm/upgrade' ) {
+        if ( CRM_Utils_Array::value( 'q', $_GET ) == 'civicrm/upgrade' ) {
             $domain->selectAdd( 'config_backend' );
         } else {
             $domain->selectAdd( 'config_backend, locales' );
@@ -178,7 +178,7 @@ class CRM_Core_BAO_Setting
             }
             
             // since language field won't be present before upgrade.
-            if ( $_GET['q'] == 'civicrm/upgrade' ) {
+            if ( CRM_Utils_Array::value( 'q', $_GET ) == 'civicrm/upgrade' ) {
                 return;
             }
 
