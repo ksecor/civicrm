@@ -514,7 +514,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 if ( $ctype ) {
                     require_once 'CRM/Core/BAO/UFField.php';
                     $profileType = CRM_Core_BAO_UFField::getProfileType( $profileID );
-                    if ( $profileType != $ctype ) {
+                    if ( ( $profileType != 'Contact' ) && ( $profileType != $ctype ) ) {
                         return null;
                     }
                 }
