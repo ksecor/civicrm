@@ -41,6 +41,9 @@ class CRM_Touchstone_Info extends CRM_Core_Component_Info
 {
 
     // docs inherited from interface
+    protected $keyword = 'touchstone';
+
+    // docs inherited from interface
     public function getInfo()
     {
         return  array( 'name'	        => 'CiviTouchstone',
@@ -48,7 +51,7 @@ class CRM_Touchstone_Info extends CRM_Core_Component_Info
                        'title'          => ts('CiviCRM Touchstone Component'),
                        'url'            => 'touchstone',
                        'perm'           => array( 'access CiviTouchstone' ), 
-                       'search'  => 1 );        
+                       'search'  => 1 );
     }
 
     // docs inherited from interface    

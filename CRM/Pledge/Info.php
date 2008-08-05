@@ -46,11 +46,9 @@ class CRM_Pledge_Info extends CRM_Core_Component_Info
     // docs inherited from interface
     public function getInfo()
     {
-        $config =& CRM_Core_Config::singleton( );
         return array( 'name'	       => 'CiviPledge',
                       'translatedName' => ts('CiviPledge'),
                       'title'          => ts('CiviCRM Pledge Engine'),
-                      'menu'           => array( $config->templateDir . 'Menu/Pledge.xml' ),
                       'search'         => 1 );
     }
 

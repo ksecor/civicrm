@@ -44,13 +44,6 @@ abstract class CRM_Core_Component_Info
      */
     const COMPONENT_INVOKE_CLASS = 'Invoke';
                              
-                                   
-    /*
-     * Name of the class (minus component namespace path) 
-     * of the component menu definition class'es name.     
-     */
-    const COMPONENT_MENU_CLASS = 'Menu';
-
     /*
      * Name of the class (minus component namespace path) 
      * of the component configuration class'es name.
@@ -81,6 +74,11 @@ abstract class CRM_Core_Component_Info
      */
     const COMPONENT_ADVSEARCHPANE_CLASS = 'Form_Search_AdvancedSearchPane';
 
+    /*
+     * Name of the directory (assumed in templates path) 
+     * of the component menu definition XML file name.
+     */
+    const COMPONENT_MENU_XML = 'Menu';
     
     /*
      * Stores component information.
@@ -110,7 +108,9 @@ abstract class CRM_Core_Component_Info
         $this->namespace = $namespace;
         $this->componentID = $componentID;
         $this->info = $this->getInfo();
+
         $this->info['url'] = $this->getKeyword();
+        $this->info['menu'] = array( $this->_getMenuXMLFilename() );
     }                                                          
 
     /**
@@ -338,6 +338,20 @@ abstract class CRM_Core_Component_Info
         return $this->keyword;
     }
 
+
+    /**
+     * Helper for figuring out menu XML file location.
+     * 
+     * @return mixed component's element as class instance
+     * @access private
+     *
+     */
+    private function _getMenuXMLFilename()
+    {
+        $config =& CRM_Core_Config::singleton( );
+        return $config->templateDir . DIRECTORY_SEPARATOR . self::COMPONENT_MENU_XML . 
+                                      DIRECTORY_SEPARATOR . ucwords( $this->keyword ) . '.xml';
+    }
 
 
     /**

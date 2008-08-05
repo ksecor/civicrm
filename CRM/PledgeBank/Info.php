@@ -46,11 +46,9 @@ class CRM_PledgeBank_Info extends CRM_Core_Component_Info
     // docs inherited from interface
     public function getInfo()
     {
-        $config =& CRM_Core_Config::singleton( );
         return array( 'name'	       => 'PledgeBank',
                       'translatedName' => ts('PledgeBank for CiviCRM'),
                       'title'          => ts('PledgeBank for CiviCRM module'),
-                      'menu'           => array( $config->templateDir . 'Menu/PledgeBank.xml' ),
                       'search'         => 1 );
     }
 
