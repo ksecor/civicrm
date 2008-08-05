@@ -134,7 +134,7 @@ class CRM_Core_Menu
                     } else {
                         $value = array( array( $value ), 'and' );
                     }
-                } else if ( $key == 'is_public' ) {
+                } else if ( $key == 'is_public' || $key == 'is_ssl' ) {
                     $value = ( $value == 'true' || $value == 1 ) ? 1 : 0;
                 }
                 $menu[$path][$key] = $value;
@@ -166,10 +166,11 @@ class CRM_Core_Menu
         $fieldsToPropagate = array( 'access_callback',
                                     'access_arguments',
                                     'page_callback',
-                                    'page_arguments' );
+                                    'page_arguments',
+                                    'is_ssl' );
         $fieldsPresent = array( );
         foreach ( $fieldsToPropagate as $field ) {
-            $fieldsPresent[$field] = CRM_Utils_Array::value( $field, $menu[$path] ) ?
+            $fieldsPresent[$field] = CRM_Utils_Array::value( $field, $menu[$path] ) !== null ?
                 true : false;
         }
 
@@ -182,7 +183,7 @@ class CRM_Core_Menu
 
             foreach ( $fieldsToPropagate as $field ) {
                 if ( ! $fieldsPresent[$field] ) {
-                    if ( CRM_Utils_Array::value( $field, $menu[$parentPath] ) ) {
+                    if ( CRM_Utils_Array::value( $field, $menu[$parentPath] ) !== null ) {
                         $fieldsPresent[$field] = true;
                         $menu[$path][$field] = $menu[$parentPath][$field];
                     }

@@ -8,6 +8,7 @@
      <access_arguments>access CiviCRM</access_arguments>
      <page_callback>CRM_Contact_Page_View_DashBoard</page_callback>
      <page_arguments>null</page_arguments>
+     <is_ssl>false</is_ssl>
      <weight>0</weight>
   </item>
   <item>

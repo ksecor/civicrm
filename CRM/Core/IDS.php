@@ -103,6 +103,7 @@ class CRM_Core_IDS {
     html[]              = help_pre
     html[]              = help_post
     html[]              = msg_html
+    html[]              = widget_code
 ";
             file_put_contents( $configFile, $contents );
         }
