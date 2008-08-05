@@ -62,7 +62,7 @@ function civicrm_write_file( $name, &$buffer ) {
 }
 
 function civicrm_main( ) {
-    global $sqlPath, $comPath, $crmPath, $frontPath;
+    global $sqlPath, $comPath, $crmPath, $frontPath, $civicrmUpgrade;
 
     civicrm_setup( );
 
@@ -97,6 +97,10 @@ require_once '$configFile';
     // now also build the menu
     require_once 'CRM/Core/Config.php';
     $config =& CRM_Core_Config::singleton();
+
+    if ( $civicrmUpgrade ) {
+        return;
+    }
 
     // now also build the menu
     require_once 'CRM/Core/Menu.php';
