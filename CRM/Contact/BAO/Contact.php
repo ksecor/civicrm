@@ -1072,6 +1072,11 @@ WHERE  civicrm_contact.id = %1 ";
             if ( $ufGroupId ) {
                 require_once "CRM/Core/BAO/UFField.php";
                 $data['contact_type'] = CRM_Core_BAO_UFField::getProfileType( $ufGroupId );
+                
+                //special case to handle profile with only contact fields
+                if ( $data['contact_type'] == 'Contact' ) {
+                    $data['contact_type'] = 'Individual';
+                }
             } else if ( $ctype ) {
                 $data['contact_type'] = $ctype;
             } else {
