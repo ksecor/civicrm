@@ -189,7 +189,7 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base
      */
     static function &links( $hideOption )
     {
-        $cancelExtra = ts('Cancelling this pledge will also cancel related payment records( not completed). This action can not be undone.Do you want to continue?');
+        $cancelExtra = ts('Cancelling this pledge will also cancel any scheduled (and not completed) pledge payments. This action can not be undone. Do you want to continue?');
         self::$_links = array(
                               CRM_Core_Action::VIEW   => array(
                                                                'name'     => ts('View'),
