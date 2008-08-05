@@ -70,8 +70,16 @@ class CRM_Core_I18n_Schema
                 $queries[] = "ALTER TABLE {$table} ADD {$column}_{$locale} {$type}";
                 $queries[] = "UPDATE {$table} SET {$column}_{$locale} = {$column}";
                 $queries[] = "ALTER TABLE {$table} DROP {$column}";
-                $queries[] = "CREATE VIEW {$table}_{$locale} AS SELECT *, {$column}_{$locale} {$column} FROM {$table}";
             }
+
+            // add views
+            $view = "CREATE OR REPLACE VIEW {$table}_{$locale} AS SELECT *";
+            foreach ($hash as $column => $_) {
+                $view .= ", {$column}_{$locale} {$column}";
+            }
+            $view .= " FROM {$table}";
+            $queries[] = $view;
+
             // add new indices
             if (isset($indices[$table])) {
                 foreach ($indices[$table] as $index) {
@@ -119,12 +127,20 @@ class CRM_Core_I18n_Schema
         $indices = CRM_Core_I18n_SchemaStructure::indices();
         $queries = array();
         foreach ($columns as $table => $hash) {
-            // add new columns and views
+            // add new columns
             foreach ($hash as $column => $type) {
                 $queries[] = "ALTER TABLE {$table} ADD {$column}_{$locale} {$type}";
                 $queries[] = "UPDATE {$table} SET {$column}_{$locale} = {$column}_{$source}";
-                $queries[] = "CREATE VIEW {$table}_{$locale} AS SELECT *, {$column}_{$locale} {$column} FROM {$table}";
             }
+
+            // add views
+            $view = "CREATE OR REPLACE VIEW {$table}_{$locale} AS SELECT *";
+            foreach ($hash as $column => $_) {
+                $view .= ", {$column}_{$locale} {$column}";
+            }
+            $view .= " FROM {$table}";
+            $queries[] = $view;
+
             // add new indices
             if (isset($indices[$table])) {
                 foreach ($indices[$table] as $index) {
