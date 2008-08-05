@@ -325,7 +325,8 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
 
     public function buildQuickForm( ) 
     {
-        if ( ! $this->_single ) {
+
+        if ( ! $this->_single && !empty($this->_contactIds) ) {
             $withArray          = array();
             require_once 'CRM/Contact/BAO/Contact.php';
             foreach ( $this->_contactIds as $contactId ) {
@@ -577,9 +578,11 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             }
         }
 
-        foreach ( $fields['target_contact'] as $key => $id ) {
-            if ( $id && ! is_numeric($id)) {
-                $errors["target_contact[$key]"] = ts('Target Contact '.$key.' non-existant!');
+        if ( !empty($fields['target_contact']) ) {
+            foreach ( $fields['target_contact'] as $key => $id ) {
+                if ( $id && ! is_numeric($id)) {
+                    $errors["target_contact[$key]"] = ts('Target Contact '.$key.' non-existant!');
+                }
             }
         }
         
