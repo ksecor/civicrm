@@ -139,7 +139,7 @@ class CRM_Contact_Form_Task_AddToGroup extends CRM_Contact_Form_Task {
 
         $this->addDefaultButtons( ts('Add to Group') );
     }
-
+    
     /**
      * Set the default form values
      *
@@ -241,7 +241,11 @@ class CRM_Contact_Form_Task_AddToGroup extends CRM_Contact_Form_Task {
         }
         $status = implode( '<br/>', $status );
         CRM_Core_Session::setStatus( $status );
-        
+        $this->set('gid', $groupID);
+        $session =& CRM_Core_Session::singleton( );
+        $url = CRM_Utils_System::url('civicrm/group/search', 'reset=1&force=1&context=smog&gid='.$groupID );
+        $session->pushUserContext( $url );
+
     }//end of function
 
 
