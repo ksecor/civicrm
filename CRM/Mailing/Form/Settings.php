@@ -47,7 +47,7 @@ class CRM_Mailing_Form_Settings extends CRM_Core_Form
      */
     function setDefaultValues( ) 
     {
-        $mailingID = $this->get("mailing_id");
+        $mailingID = $this->get("mId");
         $count     = $this->get('count');
         $this->assign('count',$count);
         $defaults = array( );
