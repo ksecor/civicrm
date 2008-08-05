@@ -109,6 +109,7 @@ class CRM_Export_BAO_Export
         } else {
             $primary = true;
             $fields = CRM_Contact_BAO_Contact::exportableFields( 'All', true, true );
+
             foreach ($fields as $key => $var) { 
                 if ( $key &&
                      ( substr($key,0, 6) !=  'custom' ) ) { //for CRM=952
@@ -164,8 +165,7 @@ class CRM_Export_BAO_Export
         // make sure the groups stuff is included only if specifically specified
         // by the fields param (CRM-1969), else we limit the contacts outputted to only
         // ones that are part of a group
-        if ( $origFields &&
-             CRM_Utils_Array::value( 'groups', $returnProperties ) ) {
+        if ( CRM_Utils_Array::value( 'groups', $returnProperties ) ) {
             $groupClause = " ( civicrm_group_contact.status = 'Added' OR civicrm_group_contact.status is NULL ) ";
             if ( empty( $where ) ) {
                 $where = "WHERE $groupClause";
