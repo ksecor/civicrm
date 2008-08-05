@@ -179,7 +179,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
      * @access public
      * @static
      */
-    static function &create( &$params, &$ids, $callFromAPI = false, $activityType = 'Membership Signup' ) 
+    static function &create( &$params, &$ids, $skipRedirect = false, $activityType = 'Membership Signup' ) 
     {  
         if ( ! isset( $params['is_override'] ) ) {
             require_once 'CRM/Utils/Date.php';
@@ -191,7 +191,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             $calcStatus = CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( $startDate, $endDate, $joinDate );
               
             if ( empty( $calcStatus ) ) {
-                if ( ! $callFromAPI ) {
+                if ( ! $skipRedirect ) {
                     // Redirect the form in case of error
                     CRM_Core_Session::setStatus( ts('The membership can not be saved.') .
                                                  '<br/>' .

@@ -380,7 +380,7 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser
                                  'membership' => $values['membership_id'],
                                  'userId'     => $session->get('userID')
                                  );
-                    $newMembership =& CRM_Member_BAO_Membership::create( $formatted , $ids );
+                    $newMembership =& CRM_Member_BAO_Membership::create( $formatted , $ids, true );
                     $this->_newMemberships[] = $newMembership->id;
                     return CRM_Member_Import_Parser::VALID;
                 } else {
