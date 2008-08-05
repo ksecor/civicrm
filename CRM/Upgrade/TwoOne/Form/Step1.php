@@ -214,12 +214,24 @@ class CRM_Upgrade_TwoOne_Form_Step1 extends CRM_Upgrade_Form {
         $query = "SELECT table_name FROM civicrm_custom_group";
         $dao   = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         while ( $dao->fetch( ) ) {
-            $query  = "
-ALTER TABLE {$dao->table_name} 
-DROP FOREIGN KEY FK_{$dao->table_name}_domain_id,
-DROP INDEX unique_domain_id_entity_id;";
-            CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
-            
+            $query  = "ALTER TABLE {$dao->table_name}";
+            $constraint = false;
+            if ( $constraint = CRM_Core_DAO::checkConstraintExists($dao->table_name, 
+                                                                   "FK_{$dao->table_name}_domain_id") ) { 
+                $query  .= " DROP FOREIGN KEY FK_{$dao->table_name}_domain_id";
+            } 
+            if ( CRM_Core_DAO::checkConstraintExists($dao->table_name, 
+                                                     "unique_domain_id_entity_id") ) {
+                if ( $constraint ) {
+                    $query  .= ", ";
+                }
+                $query  .= " DROP INDEX unique_domain_id_entity_id";
+                $constraint = true;
+            }
+            if ( $constraint ) {
+                CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+            }
+
             $query  = "
 ALTER TABLE {$dao->table_name}
 ADD UNIQUE unique_entity_id (entity_id), 

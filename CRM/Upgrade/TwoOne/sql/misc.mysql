@@ -306,8 +306,7 @@ CREATE TABLE `civicrm_menu` (
   is_ssl tinyint    COMMENT 'Should this menu be exposed via SSL if enabled?',
   weight int NOT NULL  DEFAULT 1 COMMENT 'Ordering of the menu items in various blocks.',
   type int NOT NULL  DEFAULT 1 COMMENT 'Drupal menu type.',
-  page_type int NOT NULL  DEFAULT 1 COMMENT 'CiviCRM menu type.' 
-
+  page_type int NOT NULL  DEFAULT 1 COMMENT 'CiviCRM menu type.',
   PRIMARY KEY  (`id`),
   UNIQUE `UI_path` (`path`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -315,6 +314,9 @@ CREATE TABLE `civicrm_menu` (
 ALTER TABLE `civicrm_menu`
   ADD CONSTRAINT `FK_civicrm_menu_component_id` FOREIGN KEY (`component_id`) REFERENCES `civicrm_component` (`id`);
 
+-- pledge component insert
+
+INSERT INTO civicrm_component (name, namespace) VALUES ('CiviPledge', 'CRM_Pledge' );
 
 -- pledge tables
 
