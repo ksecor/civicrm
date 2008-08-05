@@ -95,8 +95,9 @@ class CRM_Core_I18n_Schema
         }
 
         // execute the queries without i18n rewriting
+        $dao =& new CRM_Core_DAO();
         foreach ($queries as $query) {
-            CRM_Core_DAO::executeQuery($query, array(), true, null, true, false);
+            $dao->query($query, false);
         }
 
         // update civicrm_domain.locales
@@ -181,8 +182,9 @@ class CRM_Core_I18n_Schema
         }
 
         // execute the queries without i18n rewriting
+        $dao =& new CRM_Core_DAO();
         foreach ($queries as $query) {
-            CRM_Core_DAO::executeQuery($query, array(), true, null, true, false);
+            $dao->query($query, false);
         }
 
         // update civicrm_domain.locales

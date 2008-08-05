@@ -124,6 +124,25 @@ class CRM_Core_DAO extends DB_DataObject
         $this->selectAdd( );
         $this->joinAdd  ( );
     }
+
+    /**
+     * Execute a query by the current DAO, localizing it along the way (if needed).
+     *
+     * @param string $query        the SQL query for execution
+     * @param bool   $i18nRewrite  whether to rewrite the query
+     * @return object              the current DAO object after the query execution
+     */
+    function query($query, $i18nRewrite = true)
+    {
+        // rewrite queries that should use $dbLocale-based views for multi-language installs
+        global $dbLocale;
+        if ($i18nRewrite and $dbLocale) {
+            require_once 'CRM/Core/I18n/Schema.php';
+            $query = CRM_Core_I18n_Schema::rewriteQuery($query);
+        }
+
+        return parent::query($query);
+    }
 	
     /**
      * Static function to set the factory instance for this class.
@@ -791,7 +810,7 @@ FROM   civicrm_domain
      * @static
      * @access public
      */
-    static function &executeQuery( $query, $params = array( ), $abort = true, $daoName = null, $freeDAO = false, $i18nRewrite = true )
+    static function &executeQuery( $query, $params = array( ), $abort = true, $daoName = null, $freeDAO = false )
     {
         if ( ! $daoName ) {
             $dao =& new CRM_Core_DAO( );
@@ -801,13 +820,6 @@ FROM   civicrm_domain
         }
         $queryStr = self::composeQuery( $query, $params, $abort, $dao );
         //CRM_Core_Error::debug( 'q', $queryStr );
-
-        // rewrite queries that should use $dbLocale-based views for multi-language installs
-        global $dbLocale;
-        if ($i18nRewrite and $dbLocale) {
-            require_once 'CRM/Core/I18n/Schema.php';
-            $queryStr = CRM_Core_I18n_Schema::rewriteQuery($queryStr);
-        }
 
         $dao->query( $queryStr );
 
@@ -831,12 +843,6 @@ FROM   civicrm_domain
     {
         $dao =& new CRM_Core_DAO( ); 
         $queryStr = self::composeQuery( $query, $params, $abort, $dao );
-
-        global $dbLocale;
-        if ($dbLocale) {
-            require_once 'CRM/Core/I18n/Schema.php';
-            $queryStr = CRM_Core_I18n_Schema::rewriteQuery($queryStr);
-        }
 
         $dao->query( $queryStr ); 
         

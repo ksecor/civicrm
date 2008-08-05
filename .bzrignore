@@ -55,6 +55,7 @@ CRM/Core/DAO/UFGroup.php
 CRM/Core/DAO/UFJoin.php
 CRM/Core/DAO/UFMatch.php
 CRM/Core/DAO/Worldregion.php
+CRM/Core/I18n/SchemaStructure.php
 CRM/Dedupe/DAO
 CRM/Event/DAO
 CRM/Friend/DAO
