@@ -635,17 +635,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             $index   = $field['title'];
             $params[$index] = $values[$index] = '';
             $customFieldName = null;
-            if ( $name === 'organization_name' ) {
-                require_once "CRM/Contact/BAO/Relationship.php";
-                $rel = CRM_Contact_BAO_Relationship::getRelationship($cid);
-                krsort($rel);
-                foreach ($rel as $k => $v) {
-                    if ($v['relation'] == 'Employee of') {
-                        $values[$index] = $params[$index] = $v['name'];
-                        break;
-                    }
-                }
-            }
             
             if ( isset($details->$name) || $name == 'group' || $name == 'tag') {//hack for CRM-665
                 // to handle gender / suffix / prefix
