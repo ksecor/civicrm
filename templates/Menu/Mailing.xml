@@ -117,4 +117,12 @@
      <access_arguments>access CiviMail</access_arguments>
      <weight>680</weight>
   </item>
+  <item>
+     <path>civicrm/mailing/queue</path>
+     <title>Sending Mail</title>
+     <page_callback>CRM_Mailing_Page_Browse</page_callback>
+     <access_arguments>access CiviMail</access_arguments>
+     <weight>690</weight>
+  </item>
+
 </menu>
