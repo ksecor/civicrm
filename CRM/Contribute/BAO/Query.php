@@ -368,6 +368,9 @@ class CRM_Contribute_BAO_Query
                 if ( $date ) {
                     $query->_where[$grouping][] = "$whereTable[where] $op $date";
                     $value = CRM_Utils_Date::customFormat( $value );
+                } else if ( $op == 'IS NULL' ||
+                            $op == 'IS NOT NULL' ) {
+                    $query->_where[$grouping][] = "$whereTable[where] $op";
                 }
             } else {
                 if ($op == "IN" ||$op == "NOT IN" ) {

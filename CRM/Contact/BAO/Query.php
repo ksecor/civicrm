@@ -3071,10 +3071,12 @@ SELECT COUNT( civicrm_contribution.total_amount ) as cancel_count,
                 $date .= '235959';
             }
             if ( $date ) {
-                $this->_where[$grouping][] = $tableName . '.' . $dbFieldName . " $op '$date'";
-                $this->_tables[$tableName] = $this->_whereTables[$tableName] = 1;
-                $this->_qill[$grouping][]  = "$fieldTitle - $phrase \"$format\"";
+                $this->_where[$grouping][] = "{$tableName}.{$dbFieldName} $op '$date'";
+            } else {
+                $this->_where[$grouping][] = "{$tableName}.{$dbFieldName} $op";
             }
+            $this->_tables[$tableName] = $this->_whereTables[$tableName] = 1;
+            $this->_qill[$grouping][]  = "$fieldTitle - $phrase \"$format\"";
         }
     }
 
