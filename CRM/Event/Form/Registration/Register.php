@@ -379,6 +379,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             //is an already member
             $session =& CRM_Core_Session::singleton( );
             $userID  = $session->get( 'userID' );
+            $zeroAmountError = ts( "The Zero amount facility is only for the valid members" );
             if ( $fields['priceSetId'] ) { 
                 $zeroAmount = array( );
                 foreach( $fields as $key => $val  )  {
@@ -394,20 +395,22 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                             }
                         } else if ( $htmlType == 'Text' && $val && $val <= 0 ) {
                             $errors[$key] =  ts( "The Number of Items must be greater than zero (0)" );
-                        }
+                        } else if ( $htmlType == 'Text' && !$userID && $val == 0 && is_numeric( $val ) ) {
+                            $errors[$key] = $zeroAmountError;
+                        } 
                     } 
                 }
                 foreach( $zeroAmount as $keyes => $values  )  {
                     if( $values && !$userID && 
                         CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $values, 'name', 'id' ) == 0 ) {
-                        $errors['amount'] =  ts( "The Zero amount facility is only for the valid members" );
+                        $errors['amount'] = $zeroAmountError;
                     }
                 }
             } else {
                 $zeroAmount = $fields['amount'];
                 if ( $zeroAmount && !$userID && 
                      CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue',$zeroAmount, 'value', 'id' ) == 0 ) {
-                    $errors['amount'] =  ts( "The Zero amount facility is only for the valid members" );
+                    $errors['amount'] = $zeroAmountError;
                 }
             }
             // also return if paylater mode or zero fees for valid members
