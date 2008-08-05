@@ -65,7 +65,7 @@ class CRM_Admin_Form_Setting_Url extends CRM_Admin_Form_Setting
             $config = CRM_Core_Config::singleton( );
             $url = str_replace( 'http://', 'https://',
                                 $config->userFrameworkBaseURL );
-            if ( ! CRM_Utils_System::checkURL( $url ) ) {
+            if ( ! CRM_Utils_System::checkURL( $url, true ) ) {
                 $errors = array( 'enableSSL' =>
                                  ts( 'You need to set up a secure server before you can enable SSL' ) );
                 return $errors;
