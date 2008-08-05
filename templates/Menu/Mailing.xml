@@ -124,5 +124,12 @@
      <access_arguments>access CiviMail</access_arguments>
      <weight>690</weight>
   </item>
+  <item>
+     <path>civicrm/mailing/report/event</path>
+     <title>Mailing Event</title>
+     <page_callback>CRM_Mailing_Page_Event</page_callback>
+     <access_arguments>access CiviMail</access_arguments>
+     <weight>695</weight>
+  </item>
 
 </menu>
