@@ -328,7 +328,7 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
      * 
      */
     
-     function retrieveContactIdsByCaseId( $caseId ) 
+     function retrieveContactIdsByCaseId( $caseId , $contactID = null ) 
      {
          require_once 'CRM/Case/DAO/CaseContact.php';
          $caseContact =   & new CRM_Case_DAO_CaseContact( );
@@ -337,8 +337,10 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
          $contactArray = array();
          $count = 1;
          while ( $caseContact->fetch( ) ) {
-             $contactArray[$count] = $caseContact->contact_id;
-             $count++;
+             if ( $contactID != $caseContact->contact_id ) {
+                 $contactArray[$count] = $caseContact->contact_id;
+                 $count++;
+             }
          }
          
          return $contactArray;
