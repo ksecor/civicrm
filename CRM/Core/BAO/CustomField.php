@@ -625,8 +625,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             break;
         
         case 'RichTextEditor':
-            $element =& $qf->addWysiwyg( $elementName, $label, CRM_Core_DAO::$_nullArray );
-
+            $element =& $qf->addWysiwyg( $elementName, $label, CRM_Core_DAO::$_nullArray, $search );
         }
         
         switch ( $field->data_type ) {
@@ -1006,6 +1005,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                 if ( $fileType == "image/jpeg"  ||
                      $fileType == "image/pjpeg" ||
                      $fileType == "image/gif"   ||
+                     $fileType == "image/x-png" ||
                      $fileType == "image/png" ) { 
                     $url = CRM_Utils_System::url( 'civicrm/file', "reset=1&id=$fileID&eid=$contactID" );
                     $result['file_url'] = "<a href='javascript:popUp(\"$url\");'><img src=\"$url\" width=100 height=100/></a>";

@@ -119,7 +119,12 @@ class CRM_Core_Invoke
                 CRM_Utils_System::permissionDenied( );
                 return;
             }
-                
+
+            // check if ssl is set
+            if ( CRM_Utils_Array::value( 'is_ssl', $item ) ) {
+                CRM_Utils_System::redirectToSSL( );
+            }
+
             if ( isset( $item['title'] ) ) {
                 CRM_Utils_System::setTitle( $item['title'] );
             }

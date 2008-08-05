@@ -191,7 +191,8 @@ class CRM_Utils_REST
         if ( $args[0] != 'civicrm' ) {
             return self::error( ts( 'Unknown function invocation' ) );
         }
-        if ( count( $args ) != 3 ) {
+
+        if ( ( count( $args ) != 3 ) && ( $args[1] != 'login' ) ) {
             return self::error( ts( 'Unknown function invocation' ) );
         }
 

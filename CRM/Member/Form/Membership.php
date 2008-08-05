@@ -152,13 +152,9 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         
         //setting default join date and receive date
         if ($this->_action == CRM_Core_Action::ADD) {
-            $default_dates = array( 'join_date', 'receive_date');
-            foreach ( $default_dates as $set_date ) {
-                $today_date = getDate();
-                $defaults[$set_date]['M'] = $today_date['mon'];
-                $defaults[$set_date]['d'] = $today_date['mday'];
-                $defaults[$set_date]['Y'] = $today_date['year'];
-            }
+            $now = date("Y-m-d");
+            $defaults['join_date'] = $now;
+            $defaults['receive_date'] =$now;
         }
         
         if ( is_numeric( $this->_memType ) ) {

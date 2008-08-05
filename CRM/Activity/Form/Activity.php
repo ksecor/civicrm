@@ -149,10 +149,23 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         //check the mode when this form is called either single or as
         //search task action
         
-        if ( $this->_activityTypeId || $this->_context == 'standalone' ) { 
+        if ( $this->_activityTypeId || $this->_context == 'standalone' || $this->_currentlyViewedContactId) { 
             $this->_single = true;
         } else {
-            $this->_action = CRM_Core_Action::ADD;
+            //set the appropriate action
+            $advanced = null;
+            $builder  = null;
+            
+            $session =& CRM_Core_Session::singleton();
+            $advanced = $session->get('isAdvanced');
+            $builder  = $session->get('isSearchBuilder');
+            
+            if ( $advanced == 1 ) {
+                $this->_action = CRM_Core_Action::ADVANCED;
+            } else if ( $advanced == 2 && $builder = 1) {
+                $this->_action = CRM_Core_Action::PROFILE;
+            }
+            
             parent::preProcess( );
             $this->_single    = false;
             $this->assign( 'urlPath', 'civicrm/contact/view/activity' );
@@ -312,7 +325,8 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
 
     public function buildQuickForm( ) 
     {
-        if ( ! $this->_single ) {
+
+        if ( ! $this->_single && !empty($this->_contactIds) ) {
             $withArray          = array();
             require_once 'CRM/Contact/BAO/Contact.php';
             foreach ( $this->_contactIds as $contactId ) {
@@ -564,9 +578,11 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             }
         }
 
-        foreach ( $fields['target_contact'] as $key => $id ) {
-            if ( $id && ! is_numeric($id)) {
-                $errors["target_contact[$key]"] = ts('Target Contact '.$key.' non-existant!');
+        if ( !empty($fields['target_contact']) ) {
+            foreach ( $fields['target_contact'] as $key => $id ) {
+                if ( $id && ! is_numeric($id)) {
+                    $errors["target_contact[$key]"] = ts('Target Contact '.$key.' non-existant!');
+                }
             }
         }
         
@@ -597,7 +613,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             CRM_Core_Session::setStatus( ts("Selected Activity is deleted sucessfully.") );
             return;
         }
-
+        
         if ( $this->_action & CRM_Core_Action::DETACH ) { 
             require_once 'CRM/Case/BAO/Case.php';
             CRM_Case_BAO_Case::deleteCaseActivity( $this->_activityId );

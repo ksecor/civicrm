@@ -42,7 +42,7 @@ class CRM_Core_IDS {
     private $threshold = array(
                                'log'      => 10,
                                'warn'     => 30,
-                               'kick'     => 45
+                               'kick'     => 75
                                );
 
 
@@ -103,6 +103,7 @@ class CRM_Core_IDS {
     html[]              = help_pre
     html[]              = help_post
     html[]              = msg_html
+    html[]              = widget_code
 ";
             file_put_contents( $configFile, $contents );
         }
@@ -187,8 +188,6 @@ class CRM_Core_IDS {
      *
      */
     private function warn($result) {
-        require_once 'CRM/Core/Session.php';
-        CRM_Core_Session::setStatus( ts( 'Seems like you are probing the system for weakness, are you?' ) );
         return $result;
     }
 

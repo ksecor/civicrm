@@ -1499,6 +1499,43 @@ WHERE      civicrm_email.email = %1";
     }
 
     /**
+     * Function to find the contact details associated with an OpenID
+     *
+     * @param string $openId openId of the contact
+     * @param string $ctype  contact type
+     *
+     * @return object $dao contact details
+     * @static
+     */
+    static function &matchContactOnOpenId( $openId, $ctype = null ) 
+    {
+        $openId = strtolower( trim( $openId ) );
+        $query  = "
+SELECT     civicrm_contact.id as contact_id,
+           civicrm_contact.hash as hash,
+           civicrm_contact.contact_type as contact_type,
+           civicrm_contact.contact_sub_type as contact_sub_type
+FROM       civicrm_contact
+INNER JOIN civicrm_openid    ON ( civicrm_contact.id = civicrm_openid.contact_id )
+WHERE      civicrm_openid.openid = %1";
+        $p = array( 1 => array( $openId, 'String' ) );
+
+       if ( $ctype ) {
+           $query .= " AND civicrm_contact.contact_type = %3";
+           $p[3]   = array( $ctype, 'String' );
+       }
+
+       $query .= " ORDER BY civicrm_openid.is_primary DESC";
+       
+       $dao =& CRM_Core_DAO::executeQuery( $query, $p );
+
+       if ( $dao->fetch() ) {
+          return $dao;
+       }
+       return CRM_Core_DAO::$_nullObject;
+    }
+
+    /**
      * Funtion to get primary email of the contact
      *
      * @param int $contactID contact id

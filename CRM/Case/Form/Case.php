@@ -76,9 +76,11 @@ class CRM_Case_Form_Case extends CRM_Contact_Form_Task
                                                             'id' );
             $this->assign('currentlyViewedContact',$currentlyViewedContact);
         }
-        $this->_id        = CRM_Utils_Request::retrieve( 'id', 'Integer', $this );
         $this->_activityID = CRM_Utils_Request::retrieve('activity_id','Integer',$this);
-        $this->_context = CRM_Utils_Request::retrieve('context','String',$this); 
+        $this->_context = CRM_Utils_Request::retrieve('context','String',$this);
+        if ( $this->_context != 'search' ) {
+            $this->_id        = CRM_Utils_Request::retrieve( 'id', 'Integer', $this );
+        }
         $this->assign('context', $this->_context);
         $this->_caseid = CRM_Utils_Request::retrieve('caseid','Integer',$this);
         $this->assign('enableCase', true );
@@ -90,10 +92,30 @@ class CRM_Case_Form_Case extends CRM_Contact_Form_Task
         if ( $this->_addCaseContact ) {
             $this->assign('addCaseContact', true);
         }
-        parent::preProcess( );
+        if ( $this->_context != 'search' ) { 
+            $this->assign('search', false);
+        } else {
+            //set the appropriate action
+            $advanced = null;
+            $builder  = null;
+            
+            $session =& CRM_Core_Session::singleton();
+            $advanced = $session->get('isAdvanced');
+            $builder  = $session->get('isSearchBuilder');
+            
+            if ( $advanced == 1 ) {
+                $this->_action = CRM_Core_Action::ADVANCED;
+            } else if ( $advanced == 2 && $builder = 1) {
+                $this->_action = CRM_Core_Action::PROFILE;
+            }
+            
+            parent::preProcess( );
+            $this->assign('search', true);
+        }
+        
         $this->assign( 'urlPath', 'civicrm/contact/view/case' );
         $this->assign( 'contactUrlPath', 'civicrm/contact/view/case' );
-
+        
         // build case contact combo
         if ( CRM_Utils_Array::value( 'case_contact', $_POST ) ) {
             foreach ( $_POST['case_contact'] as $key => $value ) {
@@ -108,12 +130,11 @@ class CRM_Case_Form_Case extends CRM_Contact_Form_Task
         $defaults = array( );
         $contactNames = array();
         require_once 'CRM/Case/BAO/Case.php' ;
-        if ( isset( $this->_id ) ) {
+        if ( isset( $this->_id ) ) { 
             $params = array( 'id' => $this->_id );
             CRM_Case_BAO_Case::retrieve($params, $defaults, $ids);
-            $defaults['case_contact'] = CRM_Case_BAO_Case::retrieveContactIdsByCaseId( $this->_id );
-            $key = array_search( $this->_contactID, $defaults['case_contact'] );
-            unset($defaults['case_contact'][$key]);
+            
+            $defaults['case_contact'] = CRM_Case_BAO_Case::retrieveContactIdsByCaseId( $this->_id, $this->_contactID );
             $contactNames =  CRM_Case_BAO_Case::getcontactNames( $this->_id );
             foreach( $contactNames as $key => $name ){
                 $defaults['contact_names'] .=  $defaults['contact_names']?",\"$name\"":"\"$name\"";
@@ -158,7 +179,6 @@ class CRM_Case_Form_Case extends CRM_Contact_Form_Task
                 $caseContacts .= $caseContacts?",\"$dao->sort_name\"":"\"$dao->sort_name\"";
             }
             $this->assign('caseContacts', $caseContacts);
-            $this->assign('search', true);
         } 
 
         if ( $this->_action & CRM_Core_Action::DELETE ) {

@@ -196,6 +196,7 @@ class CRM_Core_BAO_Block
         $locationCount = 1;
         $blockCount    = 1;
         $locationTypes = array( );
+
         foreach ( $allBlocks as $blocks ) {
             //logic to check when we should increment counter
             $locationTypeId = $blocks['locationTypeId'];
@@ -210,7 +211,8 @@ class CRM_Core_BAO_Block
                     $locationTypes[ $locationCount ]  = $locationTypeId;
                 }
 
-            $contactBlockIds[ $locationCount ][ $blockCount ] = $blocks['id'];
+            $contactBlockIds[ $locationCount ][ $blockCount ] = array( 'id'               => $blocks['id'],
+                                                                       'location_type_id' => $blocks['locationTypeId'] );
             $blockCount++;
         }
         return $contactBlockIds;
@@ -259,14 +261,17 @@ class CRM_Core_BAO_Block
             $contactFields = array( );
             $contactFields['contact_id'      ] = $contactId;
             $contactFields['location_type_id'] = $value['location_type_id'];
-            
+
             foreach ( $value as $k => $val ) {
                 if ( !is_array( $val ) ) {
                     continue;
                 }
                 
                 if ( !empty( $blockIds[ $locationCount ] ) ) {
-                    $val['id'] = array_shift( $blockIds[ $locationCount ] );
+                    $ids = array_shift( $blockIds[ $locationCount ] );
+                    if ( $value['location_type_id'] == $ids['location_type_id'] ) {
+                        $val['id'] = $ids['id'];
+                    }
                 }
 
                 $dataExits = self::dataExists( self::$requiredBlockFields[$blockName], $val );
@@ -292,6 +297,7 @@ class CRM_Core_BAO_Block
                 } else {
                     $contactFields['is_billing'] = false;
                 }
+
                 $blockFields = array_merge( $val, $contactFields );
                 eval ( '$blocks[] = CRM_Core_BAO_' . $name . '::add( $blockFields );' );
             }

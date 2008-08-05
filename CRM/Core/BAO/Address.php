@@ -86,8 +86,8 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
                 continue;
             }
 
-            if ( ! empty( $addresses ) ) {
-                $value['id'] = $addresses[$key];
+            if ( ! empty( $addresses ) && array_key_exists( $value['location_type_id'], $addresses ) ) {
+                $value['id'] = $addresses[ $value['location_type_id'] ];
             }
             
             $addressExists = self::dataExists( $value );
@@ -112,7 +112,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
                 $value['is_billing'] = false;
             }
             $value['contact_id'] = $contactId;
-            
+
             $blocks[] = self::add( $value, $fixAddress );
         }       
 
@@ -426,7 +426,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
         }
 
         $query = "
-SELECT civicrm_address.id as address_id
+SELECT civicrm_address.id as address_id, civicrm_address.location_type_id as location_type_id
 FROM civicrm_contact, civicrm_address 
 WHERE civicrm_address.contact_id = civicrm_contact.id AND civicrm_contact.id = %1
 ORDER BY civicrm_address.is_primary DESC, civicrm_address.location_type_id DESC, address_id ASC";
@@ -434,10 +434,8 @@ ORDER BY civicrm_address.is_primary DESC, civicrm_address.location_type_id DESC,
 
         $addresses = array( );
         $dao =& CRM_Core_DAO::executeQuery( $query, $params );
-        $locationCount = 1;
         while ( $dao->fetch( ) ) {
-            $addresses[$locationCount] = $dao->address_id;
-            $locationCount++;
+            $addresses[$dao->location_type_id] = $dao->address_id;
         }
         return $addresses;
     }
