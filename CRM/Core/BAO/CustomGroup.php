@@ -441,6 +441,7 @@ SELECT $select
                                             if ( $fileDAO->mime_type =="image/jpeg"  ||
                                                  $fileDAO->mime_type =="image/pjpeg" ||
                                                  $fileDAO->mime_type =="image/gif"   ||
+                                                 $fileDAO->mime_type =="image/x-png" ||
                                                  $fileDAO->mime_type =="image/png" ) {
                                                 $customValue['displayURL'] = $customValue['fileURL'];
                                             }
