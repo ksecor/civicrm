@@ -773,11 +773,15 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 $detailName = "{$locationTypeName}-{$fieldName}";
                 $detailName = str_replace( ' ', '_', $detailName );
 
-                if ( in_array( $fieldName, array( 'phone', 'im', 'email' ) ) ) {
+                if ( in_array( $fieldName, array( 'phone', 'im', 'email', 'openid' ) ) ) {
                     if ( $type ) {
                         $detailName .= "-{$type}";
                     } else {
-                        $detailName .= '-1';
+                        if ($id == 'Primary') {
+                            $detailName .= '-1';
+                        } else {
+                            $detailName .= "-{$id}";
+                        }
                     }
                 }
 
@@ -1436,18 +1440,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     CRM_Contact_Form_GroupTag::setDefaults( $contactId, $defaults, CRM_Contact_Form_GroupTag::TAG, $fldName ); 
                 }
 
-                if( $name == 'organization_name' ) {
-                    require_once "CRM/Contact/BAO/Relationship.php";
-                    $rel = CRM_Contact_BAO_Relationship::getRelationship($contactId);
-                    krsort($rel);
-                    foreach ($rel as $key => $value) {
-                        if ($value['relation'] == 'Employee of') {
-                            $defaults[$name] =  $value['name'];
-                            break;
-                        }
-                    }
-                }
-
                 if (CRM_Utils_Array::value($name, $details ) || isset( $details[$name] ) ) {
                     //to handle custom data (checkbox) to be written
                     // to handle gender / suffix / prefix
@@ -1534,15 +1526,15 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                                     $defaults[$fldName] = $value['phone'][$phoneTypeId];
                                                 }
                                             } else {
-                                                $defaults[$fldName] = $value['phone'][1];
+                                                $defaults[$fldName] = $value['phone'][$locTypeId];
                                             }
                                         } else if ( $fieldName == 'email' ) {
                                             //adding the first email (currently we don't support multiple emails of same location type)
-                                            $defaults[$fldName] = $value['email'][1];
+                                            $defaults[$fldName] = $value['email'][$locTypeId];
                                         } else if ( $fieldName == 'im' ) {
                                             //adding the first im (currently we don't support multiple ims of same location type)
-                                            $defaults[$fldName] = $value['im'][1];
-                                            $defaults[$fldName . "-provider_id"] = $value['im']['1_provider_id'];
+                                            $defaults[$fldName] = $value['im'][$locTypeId];
+                                            $defaults[$fldName . "-provider_id"] = $value['im']["{$locTypeId}_provider_id"];
                                         } else {
                                             $defaults[$fldName] = $value[$fieldName];
                                         }
