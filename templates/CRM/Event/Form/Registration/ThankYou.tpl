@@ -67,6 +67,15 @@
           <strong>{ts}Transaction #{/ts}: {$trxn_id}</strong><br />
         {/if}
     </div>
+    {elseif $participantInfo}
+       <div class="header-dark">
+          {ts}Additional Participant Email(s){/ts}
+        </div>
+        <div class="display-block">
+          {foreach from=$participantInfo  item=mail key=no}  
+              <strong>{$mail}</strong><br />	
+          {/foreach}
+        </div>
     {/if}
 
     <div class="header-dark">

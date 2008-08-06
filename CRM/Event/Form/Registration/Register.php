@@ -652,6 +652,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
      */
     public function processRegistration( $params, $contactID = null ) 
     {
+        $this->_participantInfo   = array();
         foreach ( $params as $key => $value ) {
             if ( $value != 'skip') {
                 $fields = null;
@@ -663,6 +664,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                     if ( $registerByID ) {
                         $value['registered_by_id'] = $registerByID;
                     }
+                    $this->_participantInfo[] = $value['email-5']; 
                 }
                 
                 require_once 'CRM/Event/Form/Registration/Confirm.php';
@@ -673,7 +675,11 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 $this->confirmPostProcess( $contactID, null, null );
             }
         }
-        
+        //set information about additional participants if exists
+        if ( count($this->_participantInfo) ){
+            $this->set( 'participantInfo', $this->_participantInfo );
+        }
+       
         //send mail Confirmation/Receipt
         require_once "CRM/Event/BAO/EventPage.php";
         if ( $this->_contributeMode != 'checkout' ||
