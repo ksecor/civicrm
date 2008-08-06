@@ -273,17 +273,21 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
         if ( $this->_lineItem ) {
             $this->set( 'lineItem', $this->_lineItem );
         }
+        
+        $participantNo = count( $this->_params );
+        if ( $button != 'skip' ) {
+            require_once "CRM/Core/Session.php";
+            $statusMsg = ts('Registration information for participant %1 has been saved.', array( 1 => $participantNo )); 
+            CRM_Core_Session::setStatus( "{$statusMsg}" );
+        }
+        
         //to check whether call processRegistration() 
         if ( !$this->_values['event']['is_monetary'] && CRM_Utils_Array::value( 'additional_participants', $this->_params[0] ) ) {
             $participant =  $this->_params[0]['additional_participants'] + 1;
             if ( count($this->_params) == $participant ) {
                 require_once 'CRM/Event/Form/Registration/Register.php';
                 CRM_Event_Form_Registration_Register::processRegistration(  $this->_params,  null );
-            } else {
-                require_once "CRM/Core/Session.php";
-                $statusMsg = ts('Registration information for participant %1 has been saved.', array( 1 => $participant )); 
-                CRM_Core_Session::setStatus( "{$statusMsg}" );
-            }
+            } 
         }
     }
     
