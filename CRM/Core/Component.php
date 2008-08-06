@@ -63,9 +63,7 @@ class CRM_Core_Component
                 $args = explode( '/', $_GET[$config->userFrameworkURLVar] );
             }
 
-            if ( CRM_Utils_Array::value( 1, $args ) != 'upgrade' ) {
-                $c =& self::getComponents();
-            }
+            $c =& self::getComponents();
 
             foreach( $c as $name => $comp ) {
                 if ( in_array( $name, $config->enableComponents ) ) {

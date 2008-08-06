@@ -43,10 +43,10 @@ class CRM_Upgrade_TwoOne_Form_Step4 extends CRM_Upgrade_Form {
         if ( ! CRM_Core_DAO::checkTableExists( 'civicrm_cache' ) ||
              ! CRM_Core_DAO::checkTableExists( 'civicrm_group_contact_cache' ) ||
              ! CRM_Core_DAO::checkTableExists( 'civicrm_menu' ) ||
-             ! CRM_Core_DAO::checkTableExists( 'civicrm_discount' )
-//              ! CRM_Core_DAO::checkTableExists( 'civicrm_pledge' ) ||
-//              ! CRM_Core_DAO::checkTableExists( 'civicrm_pledge_block' ) ||
-//              ! CRM_Core_DAO::checkTableExists( 'civicrm_pledge_payment' ) ||
+             ! CRM_Core_DAO::checkTableExists( 'civicrm_discount' ) ||
+             ! CRM_Core_DAO::checkTableExists( 'civicrm_pledge' ) ||
+             ! CRM_Core_DAO::checkTableExists( 'civicrm_pledge_block' ) ||
+             ! CRM_Core_DAO::checkTableExists( 'civicrm_pledge_payment' )
              ) {
             return false;
         }
@@ -79,7 +79,23 @@ class CRM_Upgrade_TwoOne_Form_Step4 extends CRM_Upgrade_Form {
         } else {
             return false;
         } 
-         
+
+        // update config defaults
+        require_once "CRM/Core/DAO/Domain.php";
+        $domain =& new CRM_Core_DAO_Domain();
+        $domain->selectAdd( );
+        $domain->selectAdd( 'config_backend' );
+        $domain->find(true);
+        if ($domain->config_backend) {
+            $defaults   = unserialize($domain->config_backend);
+            // reset components
+            $defaults['enableComponents']   = 
+                array( 'CiviContribute','CiviPledge','CiviMember','CiviEvent', 'CiviMail' );
+            $defaults['enableComponentIDs'] = array( 1, 6, 2, 3, 4 );
+            // serialise settings 
+            CRM_Core_BAO_Setting::add($defaults);            
+        }
+        
         return $this->checkVersion( '2.1' );
     }
     
