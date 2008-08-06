@@ -93,12 +93,14 @@
   <field>
      <name>help_pre</name>
      <type>text</type>
+     <localizable>true</localizable>
      <comment>Description and/or help text to display before this field.</comment>
        <add>1.1</add>
   </field>
   <field>
      <name>help_post</name>
      <type>text</type>
+     <localizable>true</localizable>
      <comment>Description and/or help text to display after this field.</comment>
        <add>1.1</add>
   </field>

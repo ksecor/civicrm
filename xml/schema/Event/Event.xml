@@ -24,6 +24,7 @@
       <title>Event Title</title>
       <headerPattern>/^title$/i</headerPattern>
       <length>255</length>  
+      <localizable>true</localizable>
       <comment>Event Title (e.g. Fall Fundraiser Dinner)</comment>
       <add>1.7</add>     
   </field>   
@@ -34,6 +35,7 @@
       <htmlType>textarea</htmlType>
       <rows>4</rows>
       <cols>60</cols>
+      <localizable>true</localizable>
       <comment>Brief summary of event. Text and html allowed. Displayed on Event Registration form and can be used on other CMS pages which need an event summary.</comment>
       <add>1.7</add>     
   </field>   
@@ -45,6 +47,7 @@
       <htmlType>textarea</htmlType>
       <rows>8</rows>
       <cols>60</cols>
+      <localizable>true</localizable>
       <comment>Full description of event. Text and html allowed. Displayed on built-in Event Information screens.</comment>
       <add>1.7</add>     
   </field>   
@@ -117,6 +120,7 @@
       <type>varchar</type>     
       <title>Event Registration Link Text</title>
       <length>255</length>  
+      <localizable>true</localizable>
       <comment>Text for link to Event Registration form which is displayed on Event Information screen when is_online_registration is true.</comment>
       <add>1.7</add>     
   </field>   
@@ -147,6 +151,7 @@
       <htmlType>textarea</htmlType>
       <rows>4</rows>
       <cols>60</cols>
+      <localizable>true</localizable>
       <comment>Message to display on Event Information page and INSTEAD OF Event Registration form if maximum participants are signed up. Can include email address/info about getting on a waiting list, etc. Text and html allowed.</comment> 
       <add>1.7</add> 
   </field>
@@ -197,6 +202,7 @@
       <title>Fee Label</title>
       <headerPattern>/^fee|(f(ee\s)?label)$/i</headerPattern>
       <length>255</length>  
+      <localizable>true</localizable>
       <add>1.8</add>     
   </field> 
   <field> 
