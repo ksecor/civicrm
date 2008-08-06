@@ -606,7 +606,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         }
         
         // get the contact details (hier)
-        $returnProperties =& CRM_Contact_BAO_Contact::makeHierReturnProperties( $fields, $cid );
+        $returnProperties =& CRM_Contact_BAO_Contact::makeHierReturnProperties( $fields );
 
         $params  = array( array( 'contact_id', '=', $cid, 0, 0 ) );
         
@@ -622,7 +622,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         if ( ! $details->fetch( ) ) {
             return;
         }
-        
+
         $config =& CRM_Core_Config::singleton( );
         
         require_once 'CRM/Core/PseudoConstant.php'; 
@@ -774,14 +774,10 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 $detailName = str_replace( ' ', '_', $detailName );
 
                 if ( in_array( $fieldName, array( 'phone', 'im', 'email', 'openid' ) ) ) {
-                    
-                    //get the primary location type id
-                    $primaryLocTypeId = CRM_Contact_BAO_Contact::getPrimaryLocationType( $cid );
-                    
                     if ( $type ) {
                         $detailName .= "-{$type}";
                     } else {
-                        if ( $id == 'Primary' || $id == $primaryLocTypeId ) {
+                        if ($id == 'Primary') {
                             $detailName .= '-1';
                         } else {
                             $detailName .= "-{$id}";
@@ -1426,7 +1422,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             require_once 'CRM/Contact/BAO/Contact.php';
             list($contactDetails, $options) = CRM_Contact_BAO_Contact::getHierContactDetails( $contactId, $fields );
             $details = $contactDetails[$contactId];
-            
+
             //start of code to set the default values
             foreach ($fields as $name => $field ) {
                 //set the field name depending upon the profile mode(single/batch)
@@ -1501,31 +1497,16 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                         $defaults[$fldName] = $details[$name];
                     }
                 } else {
-                    
                     list($fieldName, $locTypeId, $phoneTypeId) = CRM_Utils_System::explode( '-', $name, 3 );
-                    
-                    if ( is_array($details) ) {
-                        
-                        //get the primary location type id
-                        $primaryLocTypeId = CRM_Contact_BAO_Contact::getPrimaryLocationType( $contactId );
-                        
+                    if ( is_array($details) ) {   
                         foreach ($details as $key => $value) {
-                            
-                            $isPrimaryLocation = false;
-                            if ( $locTypeId == 'Primary' ) {
-                                $locTypeId = $primaryLocTypeId;
-                                $isPrimaryLocation = true;
-                            } 
-                            
+                            if ($locTypeId == 'Primary') {
+                                $locTypeId = CRM_Contact_BAO_Contact::getPrimaryLocationType( $contactId ); 
+                            }
+
                             if (is_numeric($locTypeId)) {//fixed for CRM-665
                                 if ($locTypeId == CRM_Utils_Array::value('location_type_id',$value) ) {
                                     if (CRM_Utils_Array::value($fieldName, $value )) {
-                                        
-                                        //check current loc is primary.
-                                        if ( $locTypeId == $primaryLocTypeId ) {
-                                            $isPrimaryLocation = true;
-                                        }
-                                        
                                         //to handle stateprovince and country
                                         if ( $fieldName == 'state_province' ) {
                                             $defaults[$fldName] = $value['state_province_id'];
@@ -1545,28 +1526,15 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                                     $defaults[$fldName] = $value['phone'][$phoneTypeId];
                                                 }
                                             } else {
-                                                if ( $isPrimaryLocation ) {
-                                                    $defaults[$fldName] = $value['phone'][1];  
-                                                } else {
-                                                    $defaults[$fldName] = $value['phone'][$locTypeId];
-                                                }
+                                                $defaults[$fldName] = $value['phone'][$locTypeId];
                                             }
                                         } else if ( $fieldName == 'email' ) {
                                             //adding the first email (currently we don't support multiple emails of same location type)
-                                            if ( $isPrimaryLocation ) {
-                                                $defaults[$fldName] = $value['email'][1];
-                                            } else {
-                                                $defaults[$fldName] = $value['email'][$locTypeId];  
-                                            }
+                                            $defaults[$fldName] = $value['email'][$locTypeId];
                                         } else if ( $fieldName == 'im' ) {
                                             //adding the first im (currently we don't support multiple ims of same location type)
-                                            if ( $isPrimaryLocation ) {
-                                                $defaults[$fldName] = $value['im'][1];
-                                                $defaults[$fldName . "-provider_id"] = $value['im']["1_provider_id"];
-                                            } else {
-                                                $defaults[$fldName] = $value['im'][$locTypeId];
-                                                $defaults[$fldName . "-provider_id"] = $value['im']["{$locTypeId}_provider_id"];
-                                            }
+                                            $defaults[$fldName] = $value['im'][$locTypeId];
+                                            $defaults[$fldName . "-provider_id"] = $value['im']["{$locTypeId}_provider_id"];
                                         } else {
                                             $defaults[$fldName] = $value[$fieldName];
                                         }

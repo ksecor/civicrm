@@ -883,29 +883,22 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
     {
         require_once 'CRM/Core/PseudoConstant.php';
         $locationTypes = CRM_Core_PseudoConstant::locationType( );
-        
-        //get the primary location type id
-        if ( $contactId ) {
-            $primaryLocTypeId = self::getPrimaryLocationType( $contactId );
-        } else {
-            $primaryLocTypeId = null;
-        }
-        
+
         $returnProperties = array( );
         $locationIds = array( );
         foreach ( $fields as $name => $dontCare ) {
             if ( strpos( $name, '-' ) !== false ) {
                 list( $fieldName, $id, $type ) = CRM_Utils_System::explode( '-', $name, 3 );
-                
+
                 if ($id == 'Primary') {
                     $locationTypeName = 1;
                 } else {
                     $locationTypeName = CRM_Utils_Array::value( $id, $locationTypes );
                     if ( ! $locationTypeName ) {
-                        continue;
+                       continue;
                     }
                 }
-                
+
                 if ( ! CRM_Utils_Array::value( 'location', $returnProperties ) ) {
                     $returnProperties['location'] = array( );
                 }
@@ -917,7 +910,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
                     if ( $type ) {
                         $returnProperties['location'][$locationTypeName][$fieldName . '-' . $type] = 1;
                     } else {
-                        if ( $id == 'Primary' || $id == $primaryLocTypeId ) {
+                        if ($id == 'Primary') {
                             $returnProperties['location'][$locationTypeName][$fieldName . '-1'] = 1;
                         } else {
                             $returnProperties['location'][$locationTypeName][$fieldName . "-{$id}"] = 1;
