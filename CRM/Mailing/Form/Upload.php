@@ -65,7 +65,6 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         require_once 'CRM/Core/BAO/Domain.php';
         list( $defaults['from_name' ],
               $defaults['from_email'] ) = CRM_Core_BAO_Domain::getNameAndEmail( );
-        $defaults['subject'] = $this->get('name');   
         
         $htmlMessage = null;
         if ( $mailingID  ) {
@@ -122,7 +121,8 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                 }
             }
         }
-
+        
+        $defaults['subject'] = $this->get('name');
         $htmlMessage = str_replace( array("\n","\r"), ' ', $htmlMessage);
         $htmlMessage = str_replace( "'", "\'", $htmlMessage);
         $this->assign('message_html', $htmlMessage );        
