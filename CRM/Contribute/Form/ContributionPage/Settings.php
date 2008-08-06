@@ -70,7 +70,11 @@ class CRM_Contribute_Form_ContributionPage_Settings extends CRM_Contribute_Form_
         $this->_first = true;
 
         // name
-        $this->add('text', 'title', ts('Title'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'title'), true);
+        $this->add('text',
+                   'title',
+                   ts('Title'),
+                   CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'title'),
+                   true);
 
         $this->add('select', 'contribution_type_id',
                    ts( 'Contribution Type' ),

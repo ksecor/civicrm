@@ -545,7 +545,6 @@ class CRM_Utils_Rule
     }
 
     static function xssString( $value ) {
-        return true;
         if ( is_string( $value ) ) {
             return preg_match( '!<(vb)?script[^>]*>.*</(vb)?script.*>!ims',
                                $value ) ? false : true;

@@ -97,17 +97,12 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
     {  
         $config =& CRM_Core_Config::singleton( );
         $button = substr( $this->controller->getButtonName(), -4 );
-        if ( $button == 'skip' ) {
+        $required = ( $button == 'skip' ) ? false : true;
         $this->add( 'text',
                     "email-{$this->_bltID}",
                     ts( 'Email Address' ),
-                    array( 'size' => 30, 'maxlength' => 60 ) );
-        } else {
-            $this->add( 'text',
-                        "email-{$this->_bltID}",
-                        ts( 'Email Address' ),
-                        array( 'size' => 30, 'maxlength' => 60 ), true );
-        }
+                    array( 'size' => 30, 'maxlength' => 60 ),
+                    $required );
         
         if ( $this->_values['event']['is_monetary'] ) {
             require_once 'CRM/Event/Form/Registration/Register.php';
