@@ -268,7 +268,7 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
         }
 
         if ( $this->userFramework == 'Joomla' ) {
-            $this->userFrameworkVersion        = '1.0';
+            $this->userFrameworkVersion        = '1.5';
             $this->userFrameworkUsersTableName = 'jos_users';
         }
 
