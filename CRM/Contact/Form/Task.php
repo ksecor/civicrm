@@ -83,19 +83,27 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
       
         // get the submitted values of the search form
         // we'll need to get fv from either search or adv search in the future
+        $fragment = 'search';
         if ( $this->_action == CRM_Core_Action::ADVANCED ) {
             $values = $this->controller->exportValues( 'Advanced' );
+            $fragment .= '/advanced';
         } else if ( $this->_action == CRM_Core_Action::PROFILE ) {
             $values = $this->controller->exportValues( 'Builder' );
+            $fragment .= '/builder';
         } else if ( $this->_action == CRM_Core_Action::COPY ) {
             $values = $this->controller->exportValues( 'Custom' );
+            $fragment .= '/custom';
         } else {
             $values = $this->controller->exportValues( 'Basic' );
         }
-
+        
+        //set the user context for redirection of task actions
+        $url = CRM_Utils_System::url( 'civicrm/contact/' . $fragment, 'force=1' );
+        $session =& CRM_Core_Session::singleton( );
+        $session->replaceUserContext( $url );
+        
         require_once 'CRM/Contact/Task.php';
-
-        $this->_task = $values['task'];
+        $this->_task         = $values['task'];
         $crmContactTaskTasks = CRM_Contact_Task::taskTitles();
         $this->assign( 'taskName', $crmContactTaskTasks[$this->_task] );
 
