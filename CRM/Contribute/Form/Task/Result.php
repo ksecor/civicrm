@@ -51,8 +51,6 @@ class CRM_Contribute_Form_Task_Result extends CRM_Contribute_Form_Task
      */
     function preProcess( ) 
     {
-        $session =& CRM_Core_Session::singleton( );
-        $session->replaceUserContext( CRM_Utils_System::url( 'civicrm/contribute/search', 'force=1' ) );
     }
 
     /**

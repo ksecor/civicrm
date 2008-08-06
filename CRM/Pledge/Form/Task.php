@@ -112,6 +112,10 @@ class CRM_Pledge_Form_Task extends CRM_Core_Form
         }
 
         $this->_pledgeIds = $this->_componentIds = $ids;
+
+        //set the context for redirection for any task actions
+        $session =& CRM_Core_Session::singleton( );
+        $session->replaceUserContext( CRM_Utils_System::url( 'civicrm/pledge/search', 'force=1' ) );
     }
 
     /**
