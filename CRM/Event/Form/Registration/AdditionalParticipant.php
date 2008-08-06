@@ -119,16 +119,17 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
 
         //add buttons
         $this->addButtons(array(
+                                array ( 'type'      => 'back',
+                                        'name'      => ts('<< Go Back'),
+                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp',
+                                       ),
                                 array ( 'type'      => 'next',
-                                        'name'      => 'Continue >>',
-                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+                                        'name'      => ts('Continue >>'),
+                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
                                         'isDefault' => true
                                         ),
-                                array ( 'type'      => 'back',
-                                        'name'      => ts('<< Go Back')
-                                        ),
                                 array ( 'type'       => 'next',
-                                        'name'       => ts('Skip Participant >>'),
+                                        'name'       => ts('Skip Participant >>|'),
                                         'subName'    => 'skip' ),
                                 )
                           );
