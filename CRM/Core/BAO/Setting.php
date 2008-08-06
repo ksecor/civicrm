@@ -144,8 +144,7 @@ class CRM_Core_BAO_Setting
         $domain =& new CRM_Core_DAO_Domain();
         $domain->selectAdd( );
 
-        global $civicrmUpgrade;
-        if ( CRM_Utils_Array::value( 'q', $_GET ) == 'civicrm/upgrade' || $civicrmUpgrade ) {
+        if ( CRM_Utils_Array::value( 'q', $_GET ) == 'civicrm/upgrade' ) {
             $domain->selectAdd( 'config_backend' );
         } else {
             $domain->selectAdd( 'config_backend, locales' );
