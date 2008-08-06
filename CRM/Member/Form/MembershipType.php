@@ -246,7 +246,7 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
                 $errors['duration_unit'] = "Please enter a duration unit.";
             }            
             
-            if ( empty( $params['duration_interval'] ) ) {
+            if ( empty( $params['duration_interval'] ) and $params['duration_unit'] != 'lifetime' ) {
                 $errors['duration_interval'] = "Please enter a duration interval.";
             }
             
@@ -341,6 +341,10 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
                 $ids['membershipType'] = $this->_id;
             }
             
+            if ($params['duration_unit'] == 'lifetime' and empty($params['duration_interval'])) {
+                $params['duration_interval'] = 1;
+            }
+
             $periods = array('fixed_period_start_day', 'fixed_period_rollover_day');
             foreach ( $periods as $per ) {
                 if ($params[$per]['M'] && $params[$per]['d']) {
