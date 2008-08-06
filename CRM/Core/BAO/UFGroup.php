@@ -1208,7 +1208,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 return true;
             }
             
-            if ($contactType == $profileType) {
+            if ( ( $contactType == $profileType ) || $profileType == 'Contact' ) {
                 return true;
             }
         }
