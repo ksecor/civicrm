@@ -86,7 +86,7 @@
             {if $form.is_recur}
             <tr><th scope="row" class="label" width="20%">{$form.is_recur.label}</th>
                <td>{$form.is_recur.html}<br />
-                  <span class="description">{ts}Check this box if you want to give users the option to make recurring contributions. (This feature requires that you use 'PayPal Website Standard', 'Authorize.net' OR 'PayJunction' as your payment processor.){/ts}</span>
+                  <span class="description">{ts}Check this box if you want to give users the option to make recurring contributions. (This feature requires that you use 'PayPal Website Standard' OR 'PayJunction' as your payment processor.){/ts}</span>
                </td>
             </tr>
             <tr id="recurFields"><td>&nbsp;</td>
