@@ -151,6 +151,8 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
         
         if ( $this->_activityTypeId || $this->_context == 'standalone' || $this->_currentlyViewedContactId) { 
             $this->_single = true;
+            $this->assign( 'urlPath', 'civicrm/contact/view/activity' );
+            $this->assign( 'urlPathVar', 'snippet=4' );
         } else {
             //set the appropriate action
             $advanced = null;
@@ -159,16 +161,23 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             $session =& CRM_Core_Session::singleton();
             $advanced = $session->get('isAdvanced');
             $builder  = $session->get('isSearchBuilder');
-            
+
+            $searchType = "basic";
             if ( $advanced == 1 ) {
                 $this->_action = CRM_Core_Action::ADVANCED;
+                $searchType = "advanced";
             } else if ( $advanced == 2 && $builder = 1) {
                 $this->_action = CRM_Core_Action::PROFILE;
+                $searchType = "builder";
+            } else if ( $advanced == 3 ) {
+                $searchType = "custom";
             }
             
             parent::preProcess( );
             $this->_single    = false;
-            $this->assign( 'urlPath', 'civicrm/contact/view/activity' );
+
+            $this->assign( 'urlPath'   , "civicrm/contact/search/$searchType" );
+            $this->assign( 'urlPathVar', "snippet=4&_qf_Activity_display=true&qfKey={$this->controller->_key}" ); 
             $this->assign( 'contactUrlPath', 'civicrm/activity' );
         }
         

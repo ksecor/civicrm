@@ -168,17 +168,7 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View
     function run( )
     {
         // we should call contact view, preprocess only for activity in contact summary
-        $contactId = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
-        $context   = CRM_Utils_Request::retrieve( 'context', 'String', $this );
-
-        if ( $contactId && $context != 'search' ) {
-            $this->preProcess( );
-        } else {
-            // this case is for batch update, record activity action 
-            $this->_action = CRM_Core_Action::ADD;
-            $this->assign( 'action', $this->_action );
-        }
-
+        $this->preProcess( );
         
         // route behaviour of contact/view/activity based on action defined
         if ( $this->_action & 
