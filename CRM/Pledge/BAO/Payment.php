@@ -218,6 +218,38 @@ WHERE pledge_id = %1
     }
     
     /**
+     * Function to delete all pledge payments
+     *
+     * @param int $id  pledge id
+     *
+     * @access public
+     * @static
+     *
+     */
+    static function deletePayments( $id )
+    { 
+        require_once 'CRM/Core/Transaction.php';
+        $transaction = new CRM_Core_Transaction( );
+        
+        $payment = new CRM_Pledge_DAO_Payment( );
+        $payment->pledge_id = $id;
+        $payment->find( );
+        
+        while ( $payment->fetch( ) ) {
+            //also delete associated contribution.
+            if ( $payment->contribution_id ) {
+                require_once 'CRM/Contribute/BAO/Contribution.php';
+                CRM_Contribute_BAO_Contribution::deleteContribution( $payment->contribution_id );
+            }
+            $payment->delete( );
+        }
+        
+        $transaction->commit( );
+        
+        return true;
+    }
+
+    /**
      * update Pledge Payment Status
      *
      * @param int   $pledgeID, id of pledge
@@ -229,11 +261,6 @@ WHERE pledge_id = %1
      */
     function updatePledgePaymentStatus( $pledgeID, $paymentIDs = null, $paymentStatusID = null, $pledgeStatusID = null )
     {
-//         crm_core_error::debug( ' $pledgeID', $pledgeID );
-//         crm_core_error::debug( ' $paymentIDs', $paymentIDs );
-//         crm_core_error::debug( '$paymentStatusID', $paymentStatusID );
-//         crm_core_error::debug( '$pledgeStatusID', $pledgeStatusID );       
-//         exit();
         //get all status
         require_once 'CRM/Contribute/PseudoConstant.php';
         $allStatus = CRM_Contribute_PseudoConstant::contributionStatus( );

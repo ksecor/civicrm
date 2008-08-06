@@ -222,9 +222,6 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base
         if ( in_array('Cancel', $hideOption ) ) {
             unset( self::$_links[CRM_Core_Action::DETACH] );
         }
-        if ( in_array('Delete', $hideOption ) ) {
-            unset( self::$_links[CRM_Core_Action::DELETE] );
-        }
         
         return self::$_links;
     } //end of function
@@ -308,18 +305,13 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base
              if ( CRM_Utils_Array::value( 'pledge_is_test', $row ) ) {
                  $row['pledge_status_id'] .= ' (test)';
              }
-            
-             $hideOption = array();
              
-             if ( CRM_Utils_Array::key( 'Cancelled', $row ) ) {
-                 $hideOption[] = 'Delete';
+             $hideOption = array();
+             if ( CRM_Utils_Array::key( 'Cancelled', $row ) ||
+                  CRM_Utils_Array::key('Completed', $row ) ) {
                  $hideOption[] = 'Cancel';
-             } 
-
-             if ( CRM_Utils_Array::key('Completed', $row ) ) {
-                 $hideOption[] = 'Cancel';
-             } 
-                          
+             }
+             
              $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->pledge_id;
              
              $row['action']   = CRM_Core_Action::formLink( self::links( $hideOption ), $mask,
