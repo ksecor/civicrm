@@ -777,11 +777,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     if ( $type ) {
                         $detailName .= "-{$type}";
                     } else {
-                        if ($id == 'Primary') {
-                            $detailName .= '-1';
-                        } else {
-                            $detailName .= "-{$id}";
-                        }
+                        $detailName .= '-1';
                     }
                 }
 
@@ -1526,15 +1522,15 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                                     $defaults[$fldName] = $value['phone'][$phoneTypeId];
                                                 }
                                             } else {
-                                                $defaults[$fldName] = $value['phone'][$locTypeId];
+                                                $defaults[$fldName] = $value['phone'][1];
                                             }
                                         } else if ( $fieldName == 'email' ) {
                                             //adding the first email (currently we don't support multiple emails of same location type)
-                                            $defaults[$fldName] = $value['email'][$locTypeId];
+                                            $defaults[$fldName] = $value['email'][1];
                                         } else if ( $fieldName == 'im' ) {
                                             //adding the first im (currently we don't support multiple ims of same location type)
-                                            $defaults[$fldName] = $value['im'][$locTypeId];
-                                            $defaults[$fldName . "-provider_id"] = $value['im']["{$locTypeId}_provider_id"];
+                                            $defaults[$fldName] = $value['im'][1];
+                                            $defaults[$fldName . "-provider_id"] = $value['im']["1_provider_id"];
                                         } else {
                                             $defaults[$fldName] = $value[$fieldName];
                                         }
