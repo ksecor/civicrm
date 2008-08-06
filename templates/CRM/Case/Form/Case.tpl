@@ -31,7 +31,7 @@
               <td class="label">{ts}Add To {/ts}</td><td class="view-value">{$currentlyViewedContact}</td></tr>            
              <tr>  
 		 <td class="label">{ts}Add More {/ts}<div dojoType="dojox.data.QueryReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra" doClientPaging="false"></div></td>
-                <td class="tundra">                  
+                <td>                  
                    <span id="case_contact_1"></span>
                    <br />{edit}<span class="description">{ts}You can optionally add this case to someone. Added case will appear in their Contact Dashboard.{/ts}</span>{/edit}
                 </td>
@@ -39,12 +39,10 @@
                 <td class="label">{ts}Add To {/ts}</td><td class="view-value">{$caseContacts}</td>
             {/if}
              </tr>
-
-
-
             <tr><td class="label">{$form.case_type_id.label}</td><td>{$form.case_type_id.html}</td></tr>  
-  	    <tr><td class="label">&nbsp;</td><td class="description">{ts}Select the appropriate type of the case {/ts}</td></tr>                    <tr><td class="label">{$form.start_date.label}</td><td>{$form.start_date.html}
-	        {include file="CRM/common/calendar/desc.tpl" trigger=trigger_case_1}
+    	    <tr><td class="label">&nbsp;</td><td class="description">{ts}Select the appropriate type of the case {/ts}</td></tr>                    
+            <tr><td class="label">{$form.start_date.label}</td><td>{$form.start_date.html}
+	            {include file="CRM/common/calendar/desc.tpl" trigger=trigger_case_1}
     	        {include file="CRM/common/calendar/body.tpl" dateVar=start_date offset=10 trigger=trigger_case_1}       
                 </td>
             </tr>
@@ -94,7 +92,7 @@ function buildContact( count, pref )
     {literal}
     }
 
-    var dataUrl = {/literal}"{crmURL p=$contactUrlPath h=0 q='snippet=4&count='}"{literal} + count + '&' + pref + '=1';
+    var dataUrl = {/literal}"{crmURL h=0 q='snippet=4&count='}"{literal} + count + '&' + pref + '=1';
 
     var result = dojo.xhrGet({
         url: dataUrl,

@@ -1,12 +1,4 @@
 {* added onload javascript for contact*}
-{if $newContactId }
-   <script type="text/javascript">
-       dojo.addOnLoad( function( ) {ldelim}
-       dijit.byId( 'select_contact' ).setValue( "{$newContactId}" );
-       {rdelim} );
-   </script>
-{/if}
-
 <span class="form-item">
    <span class="tundra">	
         {$form.$contactFieldName.$contactCount.html}
