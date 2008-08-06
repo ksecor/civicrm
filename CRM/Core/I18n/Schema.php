@@ -54,6 +54,8 @@ class CRM_Core_I18n_Schema
         // break early if the db is already multi-lang
         if ($domain->locale) return;
 
+        $dao =& new CRM_Core_DAO();
+
         // build the column-adding SQL queries
         $columns = CRM_Core_I18n_SchemaStructure::columns();
         $indices = CRM_Core_I18n_SchemaStructure::indices();
@@ -73,12 +75,17 @@ class CRM_Core_I18n_Schema
             }
 
             // add views
-            $view = "CREATE OR REPLACE VIEW {$table}_{$locale} AS SELECT *";
-            foreach ($hash as $column => $_) {
-                $view .= ", {$column}_{$locale} {$column}";
+            $cols = array();
+            $dao->query("DESCRIBE {$table}", false);
+            while ($dao->fetch()) {
+                if (!in_array($dao->Field, array_keys($columns[$table]))) {
+                    $cols[] = $dao->Field;
+                }
             }
-            $view .= " FROM {$table}";
-            $queries[] = $view;
+            foreach ($hash as $column => $_) {
+                $cols[] = "{$column}_{$locale} {$column}";
+            }
+            $queries[] = "CREATE OR REPLACE VIEW {$table}_{$locale} AS SELECT ". implode(', ', $cols) . " FROM {$table}";
 
             // add new indices
             if (isset($indices[$table])) {
@@ -95,7 +102,6 @@ class CRM_Core_I18n_Schema
         }
 
         // execute the queries without i18n rewriting
-        $dao =& new CRM_Core_DAO();
         foreach ($queries as $query) {
             $dao->query($query, false);
         }
@@ -123,6 +129,8 @@ class CRM_Core_I18n_Schema
         // break early if the locale is already supported
         if (in_array($locale, $locales)) return;
 
+        $dao =& new CRM_Core_DAO();
+
         // build the required SQL queries
         $columns = CRM_Core_I18n_SchemaStructure::columns();
         $indices = CRM_Core_I18n_SchemaStructure::indices();
@@ -135,12 +143,17 @@ class CRM_Core_I18n_Schema
             }
 
             // add views
-            $view = "CREATE OR REPLACE VIEW {$table}_{$locale} AS SELECT *";
-            foreach ($hash as $column => $_) {
-                $view .= ", {$column}_{$locale} {$column}";
+            $cols = array();
+            $dao->query("DESCRIBE {$table}", false);
+            while ($dao->fetch()) {
+                if (!preg_match('/_[a-z][a-z]_[A-Z][A-Z]$/', $dao->Field)) {
+                    $cols[] = $dao->Field;
+                }
             }
-            $view .= " FROM {$table}";
-            $queries[] = $view;
+            foreach ($hash as $column => $_) {
+                $cols[] = "{$column}_{$locale} {$column}";
+            }
+            $queries[] = "CREATE OR REPLACE VIEW {$table}_{$locale} AS SELECT ". implode(', ', $cols) . " FROM {$table}";
 
             // add new indices
             if (isset($indices[$table])) {
@@ -182,7 +195,6 @@ class CRM_Core_I18n_Schema
         }
 
         // execute the queries without i18n rewriting
-        $dao =& new CRM_Core_DAO();
         foreach ($queries as $query) {
             $dao->query($query, false);
         }
