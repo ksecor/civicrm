@@ -190,7 +190,7 @@ function discountValues( discount_id )
 }
 function warnDiscountDel( ) {
     if ( ! document.getElementsByName('is_discount')[0].checked ) {
-        alert('If you uncheck "Discounts by Signup Date" and Save this form, any existing discount sets will be deleted. This action can not be undone. If this is NOT what you want to do, you can check "Discounts by Signup Date" again.');
+        alert('If you uncheck "Discounts by Signup Date" and Save this form, any existing discount sets will be deleted. This action cannot be undone. If this is NOT what you want to do, you can check "Discounts by Signup Date" again.');
     }
 }
 {/literal}

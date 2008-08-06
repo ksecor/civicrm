@@ -193,7 +193,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             if ( empty( $calcStatus ) ) {
                 if ( ! $skipRedirect ) {
                     // Redirect the form in case of error
-                    CRM_Core_Session::setStatus( ts('The membership can not be saved.') .
+                    CRM_Core_Session::setStatus( ts('The membership cannot be saved.') .
                                                  '<br/>' .
                                                  ts('No valid membership status for given dates.') );
                     return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/view',
@@ -201,7 +201,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
                 }
                 // Return the error message to the api
                 $error = array( );
-                $error['is_error'] = ts( 'The membership can not be saved. No valid membership status for given dates' );
+                $error['is_error'] = ts( 'The membership cannot be saved. No valid membership status for given dates' );
                 return $error;
             }
             $params['status_id'] = $calcStatus['id'];
@@ -779,7 +779,7 @@ AND civicrm_membership.is_test = %2";
         
         if(!$count){
             $session =& CRM_Core_Session::singleton( );
-            CRM_Core_Session::setStatus(ts('There are no status present, You can not add membership.'));
+            CRM_Core_Session::setStatus(ts('There are no status present, You cannot add membership.'));
             return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/view', "reset=1&force=1&cid={$contactId}&selectedChild=member"));
         }
     }

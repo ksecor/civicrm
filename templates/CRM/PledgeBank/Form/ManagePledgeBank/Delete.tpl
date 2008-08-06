@@ -3,7 +3,7 @@
     <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
         <dd>
-           {ts}Warning: Deleting this pledge will also delete associated Pledge Bank settings and configurations. This operation can not be undone. Do you want to continue?{/ts}
+           {ts}Warning: Deleting this pledge will also delete associated Pledge Bank settings and configurations. This operation cannot be undone. Do you want to continue?{/ts}
         </dd>
     </dl>
 </div>

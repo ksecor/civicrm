@@ -96,7 +96,7 @@ class CRM_PledgeBank_Form_ManagePledgeBank_Delete extends CRM_PledgeBank_Form_Ma
         
         if ( $signer->find( ) ) {
             $searchURL = CRM_Utils_System::url('civicrm/pb/search', 'reset=1');
-            CRM_Core_Session::setStatus( ts( 'This pledge can not be deleted because there are signer records linked to it. If you want to delete this pledge, you must first find the signers linked to this pledge and delete them. You can use use <a href=\'%1\'> PledgeBank >> Find Signers page </a>.', 
+            CRM_Core_Session::setStatus( ts( 'This pledge cannot be deleted because there are signer records linked to it. If you want to delete this pledge, you must first find the signers linked to this pledge and delete them. You can use use <a href=\'%1\'> PledgeBank >> Find Signers page </a>.', 
                                              array( 1 => $searchURL ) ) );
             return;
         } 

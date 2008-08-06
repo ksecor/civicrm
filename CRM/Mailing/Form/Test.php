@@ -118,7 +118,7 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form
                 CRM_Core_Session::setStatus( ts("Your did not provided any email address or selected any group. No test mail is sent.") );
                 $error = true;
             } elseif (substr_count($testParams['test_email'], '@') > 1) {
-                CRM_Core_Session::setStatus( ts("Your can not provided more than one email address") );
+                CRM_Core_Session::setStatus( ts('You cannot provide more than one email address.') );
                 $error = true;
             } elseif (!CRM_Utils_Rule::email($testParams['test_email'])) {
                 CRM_Core_Session::setStatus( ts("Please enter a valid email address") );

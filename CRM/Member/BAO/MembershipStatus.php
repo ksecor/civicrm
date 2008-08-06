@@ -165,7 +165,7 @@ class CRM_Member_BAO_MembershipStatus extends CRM_Member_DAO_MembershipStatus
 
         if ($check) {
             $session =& CRM_Core_Session::singleton();
-            CRM_Core_Session::setStatus( ts('This membership status can not be deleted') );
+            CRM_Core_Session::setStatus( ts('This membership status cannot be deleted') );
             return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/admin/member/membershipStatus', "reset=1" ));
         }
         

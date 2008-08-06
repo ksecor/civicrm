@@ -570,7 +570,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 
         if ( $fields['is_recur'] && $fields['is_pay_later'] ) {
             $errors['is_pay_later'] = ' ';
-            $errors['_qf_default'] = ts('You can not set up a recurring contribution if you are not paying online by credit card.'); 
+            $errors['_qf_default'] = ts('You cannot set up a recurring contribution if you are not paying online by credit card.'); 
         }
 
         if ( $fields['is_for_organization'] ) {
@@ -623,7 +623,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                 if ( CRM_Utils_Array::value('max_amount',$self->_values) > 0 ) {
                     $max = $self->_values['max_amount'];
                     if ( $fields['amount_other'] > $max ) {
-                        $errors['amount_other'] = ts( 'Contribution amount can not be greater than %1', 
+                        $errors['amount_other'] = ts( 'Contribution amount cannot be greater than %1.',
                                                       array ( 1 => $max ) );
                     }
                 }

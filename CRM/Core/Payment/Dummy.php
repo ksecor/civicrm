@@ -61,7 +61,7 @@ class CRM_Core_Payment_Dummy extends CRM_Core_Payment {
             $params['trxn_id'] = sprintf('test%08d', $trxn_id);
         }
         else {
-            CRM_Core_Error::fatal( ts('Dummy payment processor can not be used for live transactions') );
+            CRM_Core_Error::fatal( ts('Dummy payment processor cannot be used for live transactions.') );
         }
         //$params['gross_amount'] = $response_fields[9];
         return $params;

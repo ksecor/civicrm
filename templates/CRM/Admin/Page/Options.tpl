@@ -16,7 +16,7 @@
      <p>{ts 1=$crmURL}Subject, location, date/time and description fields are provided for all activity types. You can add custom fields for tracking additional information about activities <a href='%1'>here</a>.{/ts}</p>
      <p>{ts 1="http://wiki.civicrm.org/confluence/x/uwM" 2=$docURLTitle}Scheduled and Completed Activities are searchable by type and/or activity date using 'Advanced Search'. Other applications may record activities for CiviCRM contacts using our APIs. For more information, refer to the online <a href='%1' target='_blank' title='%2'>API Documentation</a>.{/ts}</p>
   {elseif $gName eq "payment_instrument"}
-     <p>{ts}You may choose to record the Payment Instrument used for each Contribution. The common payment methods are installed by default and can not be modified (e.g. Check, Cash, Credit Card...). If your site requires additional payment methods, you can add them here.{/ts}</p>
+     <p>{ts}You may choose to record the Payment Instrument used for each Contribution. The common payment methods are installed by default and cannot be modified (e.g. Check, Cash, Credit Card...). If your site requires additional payment methods, you can add them here.{/ts}</p>
   {elseif $gName eq "accept_creditcard"}
         <p>{ts}This page lists the credit card options that will be offered to contributors using your Online Contribution pages. You will need to verify which cards are accepted by your chosen Payment Processor and update these entries accordingly.{/ts}</p>
         <p>{ts}IMPORTANT: This page does NOT control credit card/payment method choices for sites and/or contributors using the PayPal Express service (e.g. where billing information is collected on the Payment Processor's website).{/ts}</p>

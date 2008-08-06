@@ -19,7 +19,7 @@
     {if $action eq 8 and $context}
         <div class="status">{ts}Are you sure you want to detach this case from Activity?{/ts}</div>
     {elseif $action eq 8 and !$context}
-        <div class="status">{ts}Are you sure you want to delete this case? This action can not be undone.{/ts}</div> 
+        <div class="status">{ts}Are you sure you want to delete this case? This action cannot be undone.{/ts}</div> 
     {else}
     	    <tr><td class="label">{$form.subject.label}</td><td>{$form.subject.html}</td></tr>
             <tr><td class="label">&nbsp;</td><td class="description">{ts}Enter the case subject{/ts}</td></tr>
