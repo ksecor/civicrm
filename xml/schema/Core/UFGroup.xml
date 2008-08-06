@@ -43,6 +43,7 @@
        <name>title</name>
        <type>varchar</type>
        <length>64</length>
+       <localizable>true</localizable>
        <comment>Form title.</comment>
        <add>1.1</add>
   </field>
@@ -56,6 +57,7 @@
   <field>
      <name>help_pre</name>
      <type>text</type>
+     <localizable>true</localizable>
      <comment>Description and/or help text to display before fields in form.</comment>
      <htmlType>textarea</htmlType>
      <rows>4</rows>
@@ -65,6 +67,7 @@
   <field>
      <name>help_post</name>
      <type>text</type>
+     <localizable>true</localizable>
      <comment>Description and/or help text to display after fields in form.</comment>
      <htmlType>textarea</htmlType>
      <rows>4</rows>

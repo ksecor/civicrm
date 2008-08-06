@@ -37,6 +37,7 @@
       <rows>6</rows>
       <cols>50</cols>
       <title>Introductory Message</title>
+      <localizable>true</localizable>
       <comment>Introductory message for Event Registration page. Text and html allowed. Displayed at the top of Event Registration form.</comment>
       <add>1.7</add>     
   </field>   
@@ -47,6 +48,7 @@
       <htmlType>textarea</htmlType>
       <rows>6</rows>
       <cols>50</cols>
+      <localizable>true</localizable>
       <comment>Footer message for Event Registration page. Text and html allowed. Displayed at the bottom of Event Registration form.</comment>
       <add>1.7</add>     
   </field>   
@@ -56,6 +58,7 @@
       <title>Confirmation Title</title>
       <length>255</length> 
       <default>NULL</default>
+      <localizable>true</localizable>
       <comment>Title for Confirmation page.</comment>
       <add>1.7</add>     
   </field>   
@@ -66,6 +69,7 @@
       <rows>6</rows>
       <cols>50</cols>
       <title>Confirm Text</title>
+      <localizable>true</localizable>
       <comment>Introductory message for Event Registration page. Text and html allowed. Displayed at the top of Event Registration form.</comment>
       <add>1.7</add>     
   </field>  
@@ -76,6 +80,7 @@
       <htmlType>textarea</htmlType>
       <rows>6</rows>
       <cols>50</cols>
+      <localizable>true</localizable>
       <comment>Footer message for Event Registration page. Text and html allowed. Displayed at the bottom of Event Registration form.</comment>
       <add>1.7</add>     
   </field> 
@@ -94,6 +99,7 @@
       <htmlType>textarea</htmlType>
       <rows>4</rows>
       <cols>50</cols>
+      <localizable>true</localizable>
       <comment>text to include above standard event info on confirmation email. emails are text-only, so do not allow html for now</comment>
       <add>1.7</add>     
   </field> 
@@ -102,6 +108,7 @@
       <type>varchar</type>     
       <title>Confirm From Name</title>
       <length>255</length>  
+      <localizable>true</localizable>
       <comment>FROM email name used for confirmation emails.</comment>
       <add>1.7</add>     
   </field>
@@ -145,6 +152,7 @@
       <title>ThankYou Title</title>
       <length>255</length> 
       <default>NULL</default>
+      <localizable>true</localizable>
       <comment>Title for ThankYou page.</comment>
       <add>1.7</add>     
   </field>   
@@ -155,6 +163,7 @@
       <rows>6</rows>
       <cols>50</cols>
       <title>ThankYou Text</title>
+      <localizable>true</localizable>
       <comment>ThankYou Text.</comment>
       <add>1.7</add>     
   </field>  
@@ -165,6 +174,7 @@
       <htmlType>textarea</htmlType>
       <rows>6</rows>
       <cols>50</cols>
+      <localizable>true</localizable>
       <comment>Footer message.</comment>
       <add>1.7</add>     
   </field> 
@@ -178,12 +188,14 @@
   <field>   
       <name>pay_later_text</name>   
       <type>text</type>                   
+      <localizable>true</localizable>
       <comment>The text displayed to the user in the main form</comment>   
       <add>2.0</add>   
   </field>
   <field>   
       <name>pay_later_receipt</name>   
       <type>text</type>                   
+      <localizable>true</localizable>
       <comment>The receipt sent to the user instead of the normal receipt text</comment>   
       <add>2.0</add>   
   </field>

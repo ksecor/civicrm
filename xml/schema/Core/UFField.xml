@@ -70,6 +70,7 @@
   <field>
      <name>help_post</name>
      <type>text</type>
+     <localizable>true</localizable>
      <comment>Description and/or help text to display after this field.</comment>
      <add>1.1</add>
   </field>
@@ -143,6 +144,7 @@
        <name>label</name>
        <type>varchar</type>
        <length>255</length>
+       <localizable>true</localizable>
        <comment>To save label for fields.</comment>
       <add>1.4</add>
   </field>
