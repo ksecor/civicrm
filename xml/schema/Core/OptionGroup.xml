@@ -29,6 +29,7 @@
        <name>label</name>
        <type>varchar</type>
        <length>255</length>
+       <localizable>true</localizable>
        <comment>Option label.</comment>
        <add>1.5</add>
   </field>
@@ -36,6 +37,7 @@
        <name>description</name>
        <type>varchar</type>
        <length>255</length>
+       <localizable>true</localizable>
        <comment>Option group description.</comment>
        <add>1.5</add>
   </field>
