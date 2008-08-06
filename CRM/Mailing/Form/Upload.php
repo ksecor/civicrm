@@ -53,7 +53,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
      */
     function setDefaultValues( ) 
     {
-        $mailingID =  $this->get("mId");
+        $mailingID =  CRM_Utils_Request::retrieve('mid', 'Integer', $this, false, null );
         $count = $this->get('count');
         $this->assign('count',$count);
         
