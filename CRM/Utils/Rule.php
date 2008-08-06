@@ -209,7 +209,8 @@ class CRM_Utils_Rule
      * specified has to be beyond today. (i.e today or later)
      * 
      * @param array $date 
-     * 
+     * @param bool  $monthRequired check whether month is mandatory
+     *
      * @return bool true if valid date 
      * @static 
      * @access public 
@@ -223,7 +224,7 @@ class CRM_Utils_Rule
         if ( ! $d && ! $m && ! $y ) {
             return true; 
         } 
- 
+
         $day = $mon = 1; 
         $year = 0; 
         if ( $d ) $day  = $d;
