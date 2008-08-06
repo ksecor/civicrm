@@ -74,7 +74,6 @@ class CRM_Pledge_Info extends CRM_Core_Component_Info
     public function registerTab()
     {
         return array( 'title'   => ts( 'Pledges' ),
-                      'id'      => 'pledge',
                       'url'	    => 'pledge',
                       'weight'  => 25 );
     }
