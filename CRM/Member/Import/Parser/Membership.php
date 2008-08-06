@@ -381,8 +381,13 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser
                                  'userId'     => $session->get('userID')
                                  );
                     $newMembership =& CRM_Member_BAO_Membership::create( $formatted , $ids, true );
-                    $this->_newMemberships[] = $newMembership->id;
-                    return CRM_Member_Import_Parser::VALID;
+                    if ( civicrm_error( $newMembership ) ) {
+                        array_unshift($values, $newMembership['is_error']." for Membership ID ". $values['membership_id'].". Row was skipped.");
+                        return CRM_Member_Import_Parser::ERROR;
+                    } else {
+                        $this->_newMemberships[] = $newMembership->id;
+                        return CRM_Member_Import_Parser::VALID;
+                    }
                 } else {
                     array_unshift($values,"Matching Membership record not found for Membership ID ". $values['membership_id'].". Row was skipped.");
                     return CRM_Member_Import_Parser::ERROR;
