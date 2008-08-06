@@ -200,7 +200,7 @@ class CRM_Member_Import_Form_MapField extends CRM_Core_Form {
         //CRM-2219 removing other required fields since for updation only
         //membership id is required.
         if ( $this->_onDuplicate == CRM_Member_Import_Parser::DUPLICATE_UPDATE ) {
-            $remove = array('membership_contact_id','email','first_name','last_name');
+            $remove = array('membership_contact_id','email','first_name','last_name','external_identifier');
             foreach( $remove as $value ) {
                 unset( $this->_mapperFields[$value] );
             }
