@@ -188,7 +188,7 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
                 }
                 
                 if ( empty( $check ) ) {
-                    $errors['_qf_default'] = ts( "Select at least one option from Event Fee(s)" );
+                    $errors['_qf_default'] = ts( "Select at least one option from Event Fee(s)." );
                 }
             }
         }
