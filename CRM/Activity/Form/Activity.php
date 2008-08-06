@@ -178,7 +178,6 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
 
             $this->assign( 'urlPath'   , "civicrm/contact/search/$searchType" );
             $this->assign( 'urlPathVar', "snippet=4&_qf_Activity_display=true&qfKey={$this->controller->_key}" ); 
-            $this->assign( 'contactUrlPath', 'civicrm/activity' );
         }
         
         $this->assign( 'single', $this->_single );
