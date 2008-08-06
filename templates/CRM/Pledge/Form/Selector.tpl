@@ -28,39 +28,38 @@
   {foreach from=$rows item=row}
   {cycle values="odd-row,even-row" assign=rowClass}
   <tr id='rowid{$row.pledge_id}' class='{$rowClass} {if $row.pledge_status_id eq 'Overdue' } disabled{/if}'>
-
-        {if $context eq 'Search' }       
-            {assign var=cbName value=$row.checkbox}
-            <td>{$form.$cbName.html}</td> 
-        {/if}
+    {if $context eq 'Search' }       
+        {assign var=cbName value=$row.checkbox}
+        <td>{$form.$cbName.html}</td> 
+    {/if}
 	<td>
-     {if ! $single }	
-	{$row.contact_type}<br/>
-     {/if}
+    {if ! $single }	
+        &nbsp;{$row.contact_type}<br/>
+    {/if}
 	<span id="{$row.pledge_id}_show">
 	    <a href="#" onclick="show('paymentDetails{$row.pledge_id}', 'table-row'); 
-                                 buildPaymentDetails('{$row.pledge_id}','{$row.contact_id}'); 
- 				 hide('{$row.pledge_id}_show');
-			  	 show('minus{$row.pledge_id}_hide');
-                                 show('{$row.pledge_id}_hide','table-row');
-                                 return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a>
+                             buildPaymentDetails('{$row.pledge_id}','{$row.contact_id}'); 
+                             hide('{$row.pledge_id}_show');
+                             show('minus{$row.pledge_id}_hide');
+                             show('{$row.pledge_id}_hide','table-row');
+                             return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a>
 	</span>
 	<span id="minus{$row.pledge_id}_hide">
 	    <a href="#" onclick="hide('paymentDetails{$row.pledge_id}'); 
- 				 show('{$row.pledge_id}_show', 'table-row');
-                                 hide('{$row.pledge_id}_hide');
-                                 hide('minus{$row.pledge_id}_hide');
-                                 return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a>
+                             show('{$row.pledge_id}_show', 'table-row');
+                             hide('{$row.pledge_id}_hide');
+                             hide('minus{$row.pledge_id}_hide');
+                             return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a>
 	</td>
-     {if ! $single }	
+    {if ! $single }	
     	<td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td>
-     {/if}
-    <td>{$row.pledge_amount|crmMoney}</td>
-    <td>{$row.pledge_total_paid|crmMoney}</td>
-    <td>{$row.pledge_amount-$row.pledge_total_paid|crmMoney}</td>
+    {/if}
+    <td class="right">{$row.pledge_amount|crmMoney}</td>
+    <td class="right">{$row.pledge_total_paid|crmMoney}</td>
+    <td class="right">{$row.pledge_amount-$row.pledge_total_paid|crmMoney}</td>
     <td>{$row.pledge_create_date|truncate:10:''|crmDate}</td>
     <td>{$row.pledge_next_pay_date|truncate:10:''|crmDate}</td>
-    <td>{$row.pledge_next_pay_amount+$row.pledge_outstanding_amount|crmMoney}</td>
+    <td class="right">{$row.pledge_next_pay_amount+$row.pledge_outstanding_amount|crmMoney}</td>
     <td>{$row.pledge_status_id}</td>	
     <td>{$row.action}</td>
    </tr>
