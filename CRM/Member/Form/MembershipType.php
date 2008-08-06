@@ -227,36 +227,36 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
         $errors = array( );
         if ( !isset($params['_qf_MembershipType_refresh']) || !$params['_qf_MembershipType_refresh'] ) {
             if ( !$params['name'] ) {
-                $errors['name'] = "Please enter a membership type name.";
+                $errors['name'] = ts('Please enter a membership type name.');
             }
             
             if ( !CRM_Utils_Array::value('contact_check',$params) && $params['action']!= CRM_Core_Action::UPDATE ) {
-                $errors['member_org'] = "Please select the membership organization";
+                $errors['member_org'] = ts('Please select the membership organization');
             }
             
             if ( empty( $params['contribution_type_id'] ) ) {
-                $errors['contribution_type_id'] = "Please enter a contribution type.";
+                $errors['contribution_type_id'] = ts('Please enter a contribution type.');
             }
             
             if ( ($params['minimum_fee'] > 0 ) && !$params['contribution_type_id'] ) {
-                $errors['contribution_type_id'] = "Please enter the contribution type.";
+                $errors['contribution_type_id'] = ts('Please enter the contribution type.');
             }
             
             if ( empty( $params['duration_unit'] ) ) {
-                $errors['duration_unit'] = "Please enter a duration unit.";
+                $errors['duration_unit'] = ts('Please enter a duration unit.');
             }            
             
             if ( empty( $params['duration_interval'] ) and $params['duration_unit'] != 'lifetime' ) {
-                $errors['duration_interval'] = "Please enter a duration interval.";
+                $errors['duration_interval'] = ts('Please enter a duration interval.');
             }
             
             if ( empty( $params['period_type'] ) ) {
-                $errors['period_type'] = "Please select a period type.";
+                $errors['period_type'] = ts('Please select a period type.');
             }
             
             if ( $params['period_type']   == 'fixed'  && 
                  $params['duration_unit'] == 'day' ) {
-                $errors['period_type'] = "Period type should be Rolling when duration unit is Day";
+                $errors['period_type'] = ts('Period type should be Rolling when duration unit is Day');
             }
             
             if( ( $params['period_type']   == 'fixed' ) && 
@@ -282,7 +282,7 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
         if ( $params['fixed_period_start_day'] && ! empty( $params['fixed_period_start_day']) ) {
             $params['fixed_period_start_day']['Y'] = date('Y');
             if ( ! CRM_Utils_Rule::qfDate( $params['fixed_period_start_day'] ) ){
-                $errors['fixed_period_start_day'] = "Please enter valid 'Fixed Period Start Day' ";
+                $errors['fixed_period_start_day'] = ts('Please enter valid Fixed Period Start Day');
             }
             
         }
@@ -290,7 +290,7 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
         if ( $params['fixed_period_rollover_day'] && ! empty( $params['fixed_period_rollover_day']) ) {
             $params['fixed_period_rollover_day']['Y'] = date('Y');
             if ( ! CRM_Utils_Rule::qfDate( $params['fixed_period_rollover_day'] ) ){
-                $errors['fixed_period_rollover_day'] = "Please enter valid 'Fixed Period Rollover Day' ";
+                $errors['fixed_period_rollover_day'] = ts('Please enter valid Fixed Period Rollover Day');
             }
         }
 
@@ -299,9 +299,9 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
         if ( !( ( ($renewalReminderDay && $renewalMsgId ) ) || ( ! $renewalReminderDay &&  ! $renewalMsgId ) ) ) {
 
             if ( ! $renewalReminderDay ) {
-                $errors['renewal_reminder_day'] = ts("Please enter renewal reminder days."); 
+                $errors['renewal_reminder_day'] = ts('Please enter renewal reminder days.');
             } elseif ( ! $renewalMsgId ) {
-                $errors['renewal_msg_id']       = ts("Please select renewal message.");   
+                $errors['renewal_msg_id']       = ts('Please select renewal message.');
             }
         }
         return empty($errors) ? true : $errors;
