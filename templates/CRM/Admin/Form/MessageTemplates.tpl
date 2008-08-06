@@ -25,7 +25,7 @@
         <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Subject for email message.{/ts} {ts 1=$tokenDocLink 2=$docURLTitle}Tokens may be included (<a href='%1' target='_blank' title='%2'>token documentation</a>).{/ts}</dd>
         <dt>{$form.msg_text.label}</dt><dd class="html-adjust">{$form.msg_text.html}</dd>
         <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Text formatted message.{/ts} {ts 1=$tokenDocLink 2=$docURLTitle}Tokens may be included (<a href='%1' target='_blank' title='%2'>token documentation</a>).{/ts}
-        <dt>{$form.msg_html.label}</dt><dd class="html-adjust">{$form.msg_html.html}</dd>
+        <dt>{$form.msg_html.label}</dt><dd class="editor">{$form.msg_html.html}</dd>
         <dt>&nbsp;</dt><dd class="description html-adjust">{ts}You may optionally create an HTML formatted version of this message. It will be sent to contacts whose Email Format preference is 'HTML' or 'Both'.{/ts} {ts 1=$tokenDocLink 2=$docURLTitle}Tokens may be included (<a href='%1' target='_blank' title='%2'>token documentation</a>).{/ts}</dd>
         <dt>{$form.is_active.label}</dt><dd class="html-adjust">{$form.is_active.html}</dd>
         <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Is this template enabled.{/ts}</dd>

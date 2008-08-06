@@ -23,9 +23,9 @@
     <dt>{$form.for_organization.label}</dt><dd>{$form.for_organization.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Text displayed next to the checkbox for the 'contribute/signup on behalf of an organization' option on the contribution form.{/ts}</dd>
     </span>
-    <dt>{$form.intro_text.label}</dt><dd>{$form.intro_text.html}</dd>
+    <dt>{$form.intro_text.label}</dt><dd class="editor">{$form.intro_text.html}</dd>
     <dt class="extra-long-twenty">&nbsp;</dt><dd class="description">{ts}Enter content for the introductory message. This will be displayed below the page title. You may include HTML formatting tags. You can also include images, as long as they are already uploaded to a server - reference them using complete URLs.{/ts}</dd>
-    <dt>{$form.footer_text.label}</dt><dd>{$form.footer_text.html}</dd>
+    <dt>{$form.footer_text.label}</dt><dd class="editor">{$form.footer_text.html}</dd>
     <dt class="extra-long-twenty">&nbsp;</dt><dd class="description">{ts}If you want content displayed at the bottom of the contribution page, enter it here. You may include HTML formatting tags. You can also include images, as long as they are already uploaded to a server - reference them using complete URLs.{/ts}</dd>
     <dt>{$form.goal_amount.label}</dt><dd>{$form.goal_amount.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Enter an optional goal amount for this contribution page (e.g. for this 'campaign'). If you enable a contribution widget for this page, the widget will track progress against this goal. Otherwise, the goal will display as 'no limit'.{/ts}</dd>
