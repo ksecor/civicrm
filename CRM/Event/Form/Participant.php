@@ -217,6 +217,8 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         
         if ( $this->_id || $this->_contactID ) {
             $this->_single = true;
+            $this->assign( 'urlPath'   , 'civicrm/contact/view/participant' );
+            $this->assign( 'urlPathVar', 'snippet=4' );
         } else {
             //set the appropriate action
             $advanced = null;
@@ -226,10 +228,15 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $advanced = $session->get('isAdvanced');
             $builder  = $session->get('isSearchBuilder');
             
+            $searchType = "basic";
             if ( $advanced == 1 ) {
                 $this->_action = CRM_Core_Action::ADVANCED;
+                $searchType = "advanced";
             } else if ( $advanced == 2 && $builder = 1) {
                 $this->_action = CRM_Core_Action::PROFILE;
+                $searchType = "builder";
+            } else if ( $advanced == 3 ) {
+                $searchType = "custom";
             }
             
             parent::preProcess( );
@@ -237,7 +244,8 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $this->_contactID = null;
 
             //set ajax path, this used for custom data building
-            $this->assign( 'urlPath', 'civicrm/contact/view/participant' );
+            $this->assign( 'urlPath'   , "civicrm/contact/search/$searchType" );
+            $this->assign( 'urlPathVar', "snippet=4&_qf_Participant_display=true&qfKey={$this->controller->_key}" ); 
         }
         
         $this->assign( 'single', $this->_single );
