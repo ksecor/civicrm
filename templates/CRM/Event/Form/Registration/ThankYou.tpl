@@ -125,7 +125,7 @@
     {if $customProfile}
       {foreach from=$customProfile item=value key=customName}
         <div class="header-dark">
-            {ts 1=$customName}Additional Participant Information - Participant %1{/ts}	
+            {ts 1=$customName+1}Participant Information - Participant %1{/ts}	
         </div>
         {foreach from=$value item=val key=field}
             {if $field}

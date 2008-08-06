@@ -78,7 +78,7 @@
     {if $addParticipantProfile}
         {foreach from=$addParticipantProfile item=participant key=participantNo}
             <div class="header-dark">
-                {ts 1=$participantNo}Additional Participant Information - Participant %1{/ts}	
+                {ts 1=$participantNo+1}Participant Information - Participant %1{/ts}	
             </div>
             {if $participant.customPre}
                 <fieldset><legend>{$participant.customPreGroupTitle}</legend>

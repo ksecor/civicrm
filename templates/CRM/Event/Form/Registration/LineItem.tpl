@@ -1,7 +1,8 @@
     {foreach from=$lineItem item=value key=priceset}
     {if $value neq 'skip'}
-    {if $priceset GT 0}
-    <br /><strong>{ts}Additional Participant {$priceset}{/ts}</strong>
+    {if $lineItem|@count GT 1} {* Header for multi participant registration cases. *}
+        {if $priceset GT 0}<br />{/if}
+        <strong>{ts}Participant {$priceset+1}{/ts}</strong>
     {/if}				 
     <table>
             <tr class="columnheader">
