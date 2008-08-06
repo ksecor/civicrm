@@ -127,6 +127,7 @@
        <type>varchar</type>
        <length>128</length>
        <export>true</export>
+       <localizable>true</localizable>
        <comment>Name used for sorting different contact types</comment>
       <add>1.1</add>
   </field>
@@ -141,6 +142,7 @@
        <type>varchar</type>
        <length>128</length>
        <export>true</export>
+       <localizable>true</localizable>
        <comment>Formatted name representing preferred format for display/print/other output.</comment>
        <add>1.1</add>
   </field>
@@ -242,6 +244,7 @@
        <headerPattern>/^first|(f(irst\s)?name)$/i</headerPattern>
        <dataPattern>/^\w+$/</dataPattern>
        <fulltext/>
+       <localizable>true</localizable>
        <comment>First Name.</comment>
       <add>1.1</add>
   </field>
@@ -258,6 +261,7 @@
        <headerPattern>/^middle|(m(iddle\s)?name)$/i</headerPattern>
        <dataPattern>/^\w+$/</dataPattern>
        <fulltext/>
+       <localizable>true</localizable>
        <comment>Middle Name.</comment>
       <add>1.1</add>
   </field>
@@ -268,6 +272,7 @@
        <import>true</import>
        <headerPattern>/^(l(ast\s)?name)$/i</headerPattern>
        <dataPattern>/^\w+(\s\w+)?+$/</dataPattern>
+       <localizable>true</localizable>
        <comment>Last Name.</comment>
        <fulltext/>
       <add>1.1</add>
@@ -389,6 +394,7 @@
        <import>true</import>
        <headerPattern>/^household|(h(ousehold\s)?name)$/i</headerPattern>
        <dataPattern>/^\w+$/</dataPattern>
+       <localizable>true</localizable>
        <comment>Household Name.</comment>
        <fulltext/>
        <add>1.1</add>
@@ -418,6 +424,7 @@
        <import>true</import>
        <headerPattern>/^organization|(o(rganization\s)?name)$/i</headerPattern>
        <dataPattern>/^\w+$/</dataPattern>
+       <localizable>true</localizable>
        <comment>Organization Name.</comment>
        <fulltext/>
        <add>1.1</add>
