@@ -205,7 +205,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $fileType      = array( 'textFile', 'htmlFile' );
 
         $formValues    = $this->controller->exportValues( $this->_name );
-        $qf_Upload_submit = $formValues['_qf_Upload_submit'];
+        $qf_Upload_submit = $this->controller->exportValue( $this->_name, '_qf_Upload_submit' );
         
         foreach ( $uploadParams as $key ) {
             $params[$key] = $formValues[$key];
