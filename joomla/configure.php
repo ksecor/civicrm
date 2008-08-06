@@ -94,13 +94,13 @@ require_once '$configFile';
 
     include_once $comPath . DIRECTORY_SEPARATOR . 'civicrm.settings.php';
 
-    // now also build the menu
-    require_once 'CRM/Core/Config.php';
-    $config =& CRM_Core_Config::singleton();
-
     if ( $civicrmUpgrade ) {
         return;
     }
+
+    // now also build the menu
+    require_once 'CRM/Core/Config.php';
+    $config =& CRM_Core_Config::singleton();
 
     // now also build the menu
     require_once 'CRM/Core/Menu.php';
