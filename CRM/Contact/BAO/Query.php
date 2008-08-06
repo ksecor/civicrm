@@ -1389,15 +1389,16 @@ class CRM_Contact_BAO_Query
                 } else {
                     list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 );  
                     if ( $tableName == 'civicrm_contact' ) {
-                        $this->_where[$grouping][] = self::buildClause( "LOWER(contact_a.{$fieldName})",
-                                                                        $op,
-                                                                        "'$value'" );
-                    } else if ( $op != 'IN' ) {
-                        $this->_where[$grouping][] = self::buildClause( "LOWER({$field['where']})",
+                        $fieldName = "LOWER(contact_a.{$fieldName})";
+                    } else {
+                        $fieldName = "LOWER({$field['where']})";
+                    }
+                    if ( $op != 'IN' ) {
+                        $this->_where[$grouping][] = self::buildClause( $fieldName,
                                                                         $op,
                                                                         "'$value'" );
                     } else {
-                        $this->_where[$grouping][] = self::buildClause( "LOWER({$field['where']})",
+                        $this->_where[$grouping][] = self::buildClause( $fieldName,
                                                                         $op,
                                                                         $value );
                     }
