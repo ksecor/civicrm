@@ -72,8 +72,15 @@ class CRM_Admin_Form_Setting_Localization extends  CRM_Admin_Form_Setting
             $includeLanguage->setButtonAttributes('add',    array('value' => ts('Add >>')));
             $includeLanguage->setButtonAttributes('remove', array('value' => ts('<< Remove')));
         } else {
+
+
+            $warning = ts("WARNING: As of 2.1 version of CiviCRM, this is still an experimental functionality. Enabling multiple languages irreversibly changes the schema of your database, so make sure you know what you are doing when enabling this function.");
+
+            $this->assign('warning', $warning);
+
             $this->addElement('select', 'lcMessages', ts('Default Language'), $locales);
-            $this->addElement('checkbox', 'makeMultilingual', ts('Support Multiple Languages'));
+            $this->addElement('checkbox', 'makeMultilingual', ts('Enable Multiple Languages'),
+                              null, array( 'onChange' => "if (this.checked == 1) alert('$warning')" ) );
         }
 
         $this->addElement('select', 'lcMonetary', ts('Monetary Locale'),  $locales);

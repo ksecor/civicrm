@@ -1,4 +1,5 @@
 <div class="form-item">
+
     <fieldset><legend>{ts}Language and Currency{/ts}</legend>    
         <dl>
             <dt>{$form.lcMessages.label}</dt><dd>{$form.lcMessages.html}</dd>
@@ -6,9 +7,6 @@
             {if $form.languageLimit}
               <dt>{$form.languageLimit.label}</dt><dd>{$form.languageLimit.html}</dd>
               <dt>&nbsp;</dt><dd class="description">{ts}Languages available to users of this installation.{/ts}</dd>
-            {else}
-              <dt>{$form.makeMultilingual.label}</dt><dd>{$form.makeMultilingual.html}</dd>
-              <dt>&nbsp;</dt><dd class="description">{ts}Check this box and click 'Save' to switch this installation from single- to multi-language. Then return to this form and assign Available Languages.{/ts}</dd>
             {/if}
             <dt>{$form.defaultCurrency.label}</dt><dd>{$form.defaultCurrency.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts}Default currency assigned to contributions and other monetary transactions.{/ts}</dd>
@@ -35,6 +33,16 @@
             <dt>{$form.provinceLimit.label}</dt><dd>{$form.provinceLimit.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts}Which countries' states and/or provinces are available in the State / Province selection field <strong>for Custom Fields and Profile forms</strong>. (Standard contact address editing forms automatically display corresponding state / province options for the selected country.){/ts}</dd>
         </dl>
+    </fieldset>
+    <fieldset><legend>{ts}Multiple Languages Support{/ts}</legend>    
+            {if $form.languageLimit}
+              <dt>&nbsp;</dt><dd class="description">{ts 1="http://documentation.civicrm.org"}This is a multilingual installation. It contains certain schema differences compared to regular installations of CiviCRM. Please refer to <a href="%1">documentation</a> for details.{/ts}</dd>
+            {else}
+              <dt>{$form.makeMultilingual.label}</dt><dd>{$form.makeMultilingual.html}</dd>
+              <dt>&nbsp;</dt><dd class="description">{ts}Check this box and click 'Save' to switch this installation from single- to multi-language. Then return to this form and assign Available Languages. In order to use this functionality, you are going to privileges to use triggers in your database.{/ts}</dd>
+              <dt>&nbsp;</dt><dd class="description"><span style="color:red">{$warning}</span>
+              </dd>
+            {/if}
     </fieldset>
         <dl>
             <dt></dt><dd>{$form.buttons.html}</dd>
