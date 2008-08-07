@@ -7,6 +7,8 @@
             {if $form.languageLimit}
               <dt>{$form.languageLimit.label}</dt><dd>{$form.languageLimit.html}</dd>
               <dt>&nbsp;</dt><dd class="description">{ts}Languages available to users of this installation.{/ts}</dd>
+              <dt>{$form.addLanguage.label}</dt><dd>{$form.addLanguage.html}</dd>
+              <dt>&nbsp;</dt><dd class="description">{ts}Add a new language to this installation.{/ts}</dd>
             {/if}
             <dt>{$form.defaultCurrency.label}</dt><dd>{$form.defaultCurrency.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts}Default currency assigned to contributions and other monetary transactions.{/ts}</dd>
@@ -36,7 +38,7 @@
     </fieldset>
     <fieldset><legend>{ts}Multiple Languages Support{/ts}</legend>    
             {if $form.languageLimit}
-              <dt>&nbsp;</dt><dd class="description">{ts 1="http://documentation.civicrm.org"}This is a multilingual installation. It contains certain schema differences compared to regular installations of CiviCRM. Please refer to <a href="%1">documentation</a> for details.{/ts}</dd>
+              <dt>&nbsp;</dt><dd class="description">{ts 1="http://documentation.civicrm.org"}This is a multilingual installation. It contains certain schema differences compared to regular installations of CiviCRM. Please <a href="%1">refer to the documentation</a> for details.{/ts}</dd>
             {else}
               <dt>{$form.makeMultilingual.label}</dt><dd>{$form.makeMultilingual.html}</dd>
               <dt>&nbsp;</dt><dd class="description">{ts}Check this box and click 'Save' to switch this installation from single- to multi-language. Then return to this form and assign Available Languages. In order to use this functionality, you are going to privileges to use triggers in your database.{/ts}</dd>

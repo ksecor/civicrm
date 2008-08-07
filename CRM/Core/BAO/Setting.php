@@ -191,6 +191,7 @@ class CRM_Core_BAO_Setting
 
             // on multi-lang sites based on request and civicrm_uf_match
             if ($multiLang) {
+
                 require_once 'CRM/Core/DAO/UFMatch.php';
                 $session =& CRM_Core_Session::singleton();
                 $ufm =& new CRM_Core_DAO_UFMatch();
@@ -198,13 +199,13 @@ class CRM_Core_BAO_Setting
 
                 require_once 'CRM/Utils/Request.php';
                 $lcMessages = CRM_Utils_Request::retrieve('lcMessages', 'String', $this);
-                if (isset($defaults['languageLimit']) and in_array($lcMessages, $defaults['languageLimit'])) {
+                if (isset($defaults['languageLimit']) and in_array($lcMessages, array_keys($defaults['languageLimit']))) {
                     if ($ufm->find(true)) {
                         $ufm->language = $lcMessages;
                         $ufm->save();
                     }
                 } else {
-                    if ($ufm->find(true) and isset($defaults['languageLimit']) and in_array($ufm->language, $defaults['languageLimit'])) {
+                    if ($ufm->find(true) and isset($defaults['languageLimit']) and in_array($ufm->language, array_keys($defaults['languageLimit']))) {
                         $lcMessages = $ufm->language;
                     }
                 }
