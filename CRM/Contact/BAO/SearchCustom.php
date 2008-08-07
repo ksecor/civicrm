@@ -75,7 +75,7 @@ class CRM_Contact_BAO_SearchCustom {
         
         $error = include_once( $customSearchFile );
         if ( $error == false ) {
-            CRM_Core_Error::fatal( ts('Custom search file: %1 does not exist. Please verify your custom search settings in CiviCRM administrative panel.', array( 1 => $customSearchFile ) ) );
+            CRM_Core_Error::fatal( 'Custom search file: ' . $customSearchFile . ' does not exist. Please verify your custom search settings in CiviCRM administrative panel.' );
         }
 
         return array( $customSearchID, $customSearchClass, $formValues );
@@ -86,7 +86,7 @@ class CRM_Contact_BAO_SearchCustom {
             self::details( $csID, $ssID );
 
         if ( ! $customSearchID ) {
-            CRM_Core_Error::fatal( ts('Could not resolve custom search ID') );
+            CRM_Core_Error::fatal( 'Could not resolve custom search ID' );
         }
 
         // instantiate the new class

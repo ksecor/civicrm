@@ -51,7 +51,7 @@ class CRM_Contact_Form_Search_Custom extends CRM_Contact_Form_Search {
               $formValues ) = CRM_Contact_BAO_SearchCustom::details( $csID, $ssID, $gID );
         
         if (! $this->_customSearchID ) {
-            CRM_Core_Error::fatal( ts('Could not get details for custom search.') );
+            CRM_Core_Error::fatal( 'Could not get details for custom search.' );
         }
 
         if ( ! empty( $formValues ) ) {
