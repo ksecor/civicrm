@@ -38,8 +38,24 @@ require_once 'CRM/Upgrade/Form.php';
 class CRM_Upgrade_TwoOne_Form_Step1 extends CRM_Upgrade_Form {
 
     function verifyPreDBState( &$errorMessage ) {
+        // check if log file is writable
+        $config =& CRM_Core_Config::singleton( );
+        if ( !is_writable($config->uploadDir . 'CiviCRM.log') ) {
+            $errorMessage = ts('Log file CiviCRM.log is not writable. Make sure files directory is writable.', 
+                               array( 1 => $config->uploadDir ));
+            return false;
+        }
+
         $errorMessage = ts('Database check failed - the current database is not v2.0.');
         $is20db = true;
+
+        // abort if partial upgraded db found. 
+        if ( $this->checkVersion( '2.01' ) ||
+             $this->checkVersion( '2.02' ) ||
+             $this->checkVersion( '2.03' ) ) {
+            $errorMessage = ts('Corrupt / Partial Upgraded database found. Looks like upgrade wizard failed to complete all the required steps to convert your database to v2.1. Please fix any errors and start the upgrade process again with a clean v2.0 database.');
+            return false;
+        }
 
         // abort if already 2.1
         if ( $this->checkVersion( '2.1' ) ) {

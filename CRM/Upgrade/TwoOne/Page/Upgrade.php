@@ -41,7 +41,7 @@ class CRM_Upgrade_TwoOne_Page_Upgrade extends CRM_Core_Page {
             $this->runForm( $i );
         }
         
-        echo "upgrade successful\n";
+        echo "Upgrade Successful. \n";
         exit( );
     }
 
