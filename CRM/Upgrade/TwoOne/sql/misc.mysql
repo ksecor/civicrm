@@ -552,3 +552,21 @@ INNER JOIN civicrm_contact cco ON (cr.contact_id_b=cco.id)
 SET   cci.employer_id = cr.contact_id_b, 
       cci.organization_name = cco.organization_name
 WHERE cr.relationship_type_id=@relTypeId AND cr.is_active=1 AND IF(cr.end_date IS NULL, 1, (DATEDIFF(CURDATE( ), cr.end_date) <= 0));
+
+-- table civicrm_mailing_event_forward, adding on delete set null
+
+ALTER TABLE `civicrm_mailing_event_forward`	
+    MODIFY dest_queue_id   int(10) unsigned DEFAULT NULL COMMENT 'FK to EventQueue for destination',
+    DROP FOREIGN KEY `FK_civicrm_mailing_event_forward_dest_queue_id`;
+ALTER TABLE `civicrm_mailing_event_forward`
+    ADD CONSTRAINT `FK_civicrm_mailing_event_forward_dest_queue_id` FOREIGN KEY (`dest_queue_id`) REFERENCES `civicrm_mailing_event_queue` (`id`) ON DELETE SET NULL;
+
+-- table civicrm_payment_processor_type, insert ebay record
+
+INSERT INTO `civicrm_payment_processor_type` 
+ (name, title, description, is_active, is_default, user_name_label, password_label, signature_label, subject_label, class_name, url_site_default, url_api_default, url_recur_default, url_button_default, url_site_test_default, url_api_test_default, url_recur_test_default, url_button_test_default, billing_mode, is_recur )
+VALUES 
+('eWAY', 'eWAY (Single Currency)',NULL,1,0,'Customer ID',NULL,NULL,NULL,'Payment_eWAY','https://www.eway.com.au/gateway_cvn/xmlpayment.asp',NULL,NULL,NULL,'https://www.eway.com.au/gateway_cvn/xmltest/testpage.asp',NULL,NULL,NULL,1,0);
+
+UPDATE `civicrm_payment_processor_type`
+SET is_recur = NULL WHERE title = 'Authorize.Net - AIM';
