@@ -173,19 +173,23 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
             }
 
             // contacts of type household
-            $hh = null;
+            $hh = $addStreet = $addCity = null;
             if ( isset($_GET['hh']) ) {
                 $hh = CRM_Utils_Type::escape( $_GET['hh'], 'Integer');
             }
             
             //organization info
-            $organization = null;
+            $organization = $street = $city = null;
             if ( isset($_GET['org']) ) {
                 $organization = CRM_Utils_Type::escape( $_GET['org'], 'Integer');
             }
             
             if ( isset($_GET['org']) || isset($_GET['hh']) ) {
-                list( $contactName, $street, $city) = explode( ' :: ', $name );
+                if ( is_array( $name ) ) {
+                    list( $contactName, $street, $city) = explode( ' :: ', $name );
+                }else {
+                    $contactName = $name;
+                }
                 
                 if ( $street ) {
                     $addStreet = "AND civicrm_address.street_address LIKE '$street%'";
@@ -194,7 +198,7 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
                     $addCity = "AND civicrm_address.city LIKE '$city%'";
                 }
             }
-
+            
             if ( $organization ) {
                 
                 $query = "
