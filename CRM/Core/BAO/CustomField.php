@@ -173,11 +173,20 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
         }
 
         // check for orphan option groups
-        if ( CRM_Utils_Array::value( 'id', $params )  && CRM_Utils_Array::value( 'option_group_id',$params ) ) {
-            CRM_Core_BAO_CustomField::fixOptionGroups( $params['id'], $params['option_group_id'] ) ;
+        if ( CRM_Utils_Array::value( 'option_group_id', $params ) ) {
+            if ( CRM_Utils_Array::value( 'id', $params ) ) {
+                self::fixOptionGroups( $params['id'], $params['option_group_id'] ) ;
+            }
+
+            // if we dont have a default value
+            // retrive it from one of the other custom fields which use this option group
+            if ( ! CRM_Utils_Array::value( 'default_value', $params ) ) {
+                $params['default_value'] = self::getOptionGroupDefault( $params['option_group_id'],
+                                                                        $params['html_type'] );
+            }
         }
+
         // since we need to save option group id :)
-        
         if ( !isset($params['attributes']) && strtolower( $params['html_type'] ) == 'textarea' ) {
             $params['attributes'] = 'rows=4, cols=60';
         }
@@ -1302,7 +1311,9 @@ AND    f.is_active = 1";
     {
         // check if option group belongs to any custom Field else delete
         // get the current option group
-        $currentOptionGroupId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField',$customFieldId, 'option_group_id' );
+        $currentOptionGroupId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField',
+                                                             $customFieldId,
+                                                             'option_group_id' );
         // get the updated option group
         // if both are same return
         if ( $currentOptionGroupId == $optionGroupId ) {
@@ -1337,7 +1348,47 @@ WHERE  option_group_id = {$optionGroupId}";
             CRM_Core_BAO_OptionGroup::del( $optionGroupId );
         }
     }
-    
+
+    static function getOptionGroupDefault( $optionGroupId, $htmlType ) {
+        $query = "
+SELECT   default_value, html_type
+FROM     civicrm_custom_field
+WHERE    option_group_id = {$optionGroupId}
+AND      default_value IS NOT NULL
+ORDER BY html_type";
+
+        $dao = CRM_Core_DAO::executeQuery( $query );
+        $defaultValue    = null;
+        $defaultHTMLType = null;
+        while ( $dao->fetch( ) ) {
+            if ( $dao->html_type == $htmlType ) {
+                return $dao->default_value;
+            }
+            if ( $defaultValue == null ) {
+                $defaultValue    = $dao->default_value;
+                $defaultHTMLType = $dao->html_type;
+            }
+        }
+
+        // some conversions are needed if either the old or new has a html type which has potential
+        // multiple default values.
+        if ( ( $htmlType == 'CheckBox' || $htmlType == 'Multi-Select' ) &&
+             ( $defaultHTMLType != 'CheckBox' && $defaultHTMLType != 'Multi-Select' ) ) {
+            $defaultValue =
+                CRM_Core_BAO_CustomOption::VALUE_SEPERATOR .
+                $defaultValue .
+                CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
+        } else if ( ( $defaultHTMLType == 'CheckBox' || $defaultHTMLType == 'Multi-Select' ) &&
+                    ( $htmlType != 'CheckBox' && $htmlType != 'Multi-Select' ) ) {
+            $defaultValue = substr( $defaultValue, 1, -1 );
+            $values = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,
+                               substr($defaultValue, 1, -1 ) );
+            $defaultValue = $values[0];
+        }
+
+        return $defaultValue;
+    }
+
 }
 
 
