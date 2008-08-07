@@ -24,6 +24,7 @@
        <length>255</length>
        <required>true</required>
        <export>true</export>
+       <localizable>true</localizable>
        <comment>Required product/premium name</comment>
        <add>1.4</add>
   </field>
@@ -31,6 +32,7 @@
       <name>description</name>
       <title>Description</title>
       <type>text</type>
+      <localizable>true</localizable>
       <comment>Optional description of the product/premium.</comment>
       <add>1.4</add>
   </field>
@@ -47,6 +49,7 @@
       <name>options</name>  
       <title>Options</title>
       <type>text</type>
+      <localizable>true</localizable>
       <comment>Store comma-delimited list of color, size, etc. options for the product.</comment>  
       <add>1.4</add>  
   </field>    

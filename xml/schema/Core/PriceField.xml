@@ -49,6 +49,7 @@
       <title>Label</title>
       <length>255</length>
       <required>true</required>
+      <localizable>true</localizable>
       <comment>Text for form field label (also friendly name for administering this field).</comment>
       <add>1.8</add>
   </field>
@@ -69,6 +70,7 @@
   <field>
       <name>help_pre</name>
       <type>text</type>
+      <localizable>true</localizable>
       <comment>Description and/or help text to display before this field.</comment>
       <htmlType>textarea</htmlType>
       <rows>4</rows>
@@ -78,6 +80,7 @@
   <field>
       <name>help_post</name>
       <type>text</type>
+      <localizable>true</localizable>
       <comment>Description and/or help text to display after this field.</comment>
       <htmlType>textarea</htmlType>
       <rows>4</rows>
