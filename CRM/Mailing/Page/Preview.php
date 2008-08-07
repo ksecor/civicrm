@@ -62,7 +62,7 @@ class CRM_Mailing_Page_Preview extends CRM_Core_Page
         $fromEmail = null;
         $mailing =& new CRM_Mailing_BAO_Mailing();
         if ( !empty( $options ) ) { 
-            $mailing->id = $options['mId'];
+            $mailing->id = $options['mailing_id'];
             $fromEmail   = $options['from_email'];
         }
 

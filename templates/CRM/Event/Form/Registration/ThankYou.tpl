@@ -67,6 +67,15 @@
           <strong>{ts}Transaction #{/ts}: {$trxn_id}</strong><br />
         {/if}
     </div>
+    {elseif $participantInfo}
+       <div class="header-dark">
+          {ts}Additional Participant Email(s){/ts}
+        </div>
+        <div class="display-block">
+          {foreach from=$participantInfo  item=mail key=no}  
+              <strong>{$mail}</strong><br />	
+          {/foreach}
+        </div>
     {/if}
 
     <div class="header-dark">
@@ -125,7 +134,7 @@
     {if $customProfile}
       {foreach from=$customProfile item=value key=customName}
         <div class="header-dark">
-            {ts 1=$customName}Additional Participant Information - Participant %1{/ts}	
+            {ts 1=$customName+1}Participant Information - Participant %1{/ts}	
         </div>
         {foreach from=$value item=val key=field}
             {if $field}

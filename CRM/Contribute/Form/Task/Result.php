@@ -49,7 +49,8 @@ class CRM_Contribute_Form_Task_Result extends CRM_Contribute_Form_Task
      * @return void
      * @access public
      */
-    function preProcess( ) {
+    function preProcess( ) 
+    {
     }
 
     /**

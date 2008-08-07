@@ -3,7 +3,7 @@
     <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
         <dd>
-           Warning: Deleting this location will also delete associated address, email, phone, etc related information. This operation can not be undone. Do you want to continue?
+           {ts}Warning: Deleting this location will also delete associated address, email, phone, etc related information. This operation cannot be undone. Do you want to continue?{/ts}
         </dd>
     </dl>
 </div>

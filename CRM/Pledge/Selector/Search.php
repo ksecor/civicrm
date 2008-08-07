@@ -189,7 +189,7 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base
      */
     static function &links( $hideOption )
     {
-        $cancelExtra = ts('Cancelling this pledge will also cancel related payment records( not completed). This action can not be undone.Do you want to continue?');
+        $cancelExtra = ts('Cancelling this pledge will also cancel any scheduled (and not completed) pledge payments. This action cannot be undone. Do you want to continue?');
         self::$_links = array(
                               CRM_Core_Action::VIEW   => array(
                                                                'name'     => ts('View'),
@@ -221,9 +221,6 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base
         
         if ( in_array('Cancel', $hideOption ) ) {
             unset( self::$_links[CRM_Core_Action::DETACH] );
-        }
-        if ( in_array('Delete', $hideOption ) ) {
-            unset( self::$_links[CRM_Core_Action::DELETE] );
         }
         
         return self::$_links;
@@ -308,18 +305,13 @@ class CRM_Pledge_Selector_Search extends CRM_Core_Selector_Base
              if ( CRM_Utils_Array::value( 'pledge_is_test', $row ) ) {
                  $row['pledge_status_id'] .= ' (test)';
              }
-            
-             $hideOption = array();
              
-             if ( CRM_Utils_Array::key( 'Cancelled', $row ) ) {
-                 $hideOption[] = 'Delete';
+             $hideOption = array();
+             if ( CRM_Utils_Array::key( 'Cancelled', $row ) ||
+                  CRM_Utils_Array::key('Completed', $row ) ) {
                  $hideOption[] = 'Cancel';
-             } 
-
-             if ( CRM_Utils_Array::key('Completed', $row ) ) {
-                 $hideOption[] = 'Cancel';
-             } 
-                          
+             }
+             
              $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $result->pledge_id;
              
              $row['action']   = CRM_Core_Action::formLink( self::links( $hideOption ), $mask,

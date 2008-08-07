@@ -49,7 +49,7 @@ class CRM_Utils_Rule
         }
     
         // Make sure it include valid characters, alpha numeric and underscores
-        if ( ! preg_match('/^[a-z][\w\s\'\&\,\$\#\-\.\"\?]+$/i', $str ) ) {
+        if ( ! preg_match('/^\w[\w\s\'\&\,\$\#\-\.\"\?\!]+$/i', $str ) ) {
             return false;
         }
 
@@ -209,7 +209,8 @@ class CRM_Utils_Rule
      * specified has to be beyond today. (i.e today or later)
      * 
      * @param array $date 
-     * 
+     * @param bool  $monthRequired check whether month is mandatory
+     *
      * @return bool true if valid date 
      * @static 
      * @access public 
@@ -223,7 +224,7 @@ class CRM_Utils_Rule
         if ( ! $d && ! $m && ! $y ) {
             return true; 
         } 
- 
+
         $day = $mon = 1; 
         $year = 0; 
         if ( $d ) $day  = $d;
@@ -544,7 +545,6 @@ class CRM_Utils_Rule
     }
 
     static function xssString( $value ) {
-        return true;
         if ( is_string( $value ) ) {
             return preg_match( '!<(vb)?script[^>]*>.*</(vb)?script.*>!ims',
                                $value ) ? false : true;

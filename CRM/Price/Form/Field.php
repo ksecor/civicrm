@@ -328,11 +328,11 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
                     }
                     
                     if ( $noLabel && ! $noAmount ) {
-                        $errors["option_label[{$index}]"] = ts( 'Label can not be empty' );      
+                        $errors["option_label[{$index}]"] = ts( 'Label cannot be empty.' );      
                     }
                     
                     if ( ! $noLabel && $noAmount ) {
-                        $errors["option_name[{$index}]"] = ts( 'Amount can not be empty' );
+                        $errors["option_name[{$index}]"] = ts( 'Amount cannot be empty.' );
                     }
 
                     if ( $noLabel && $noAmount ) {
@@ -343,7 +343,7 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
                 if ( $countemptyrows == 11 ) {
                     $errors["option_label[1]"] = 
                         $errors["option_name[1]"] = 
-                        ts( 'Label and value can not be empty' );    
+                        ts( 'Label and value cannot be empty.' );    
                 }
             }
           

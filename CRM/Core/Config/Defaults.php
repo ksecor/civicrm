@@ -204,14 +204,11 @@ class CRM_Core_Config_Defaults
             $args = explode( '/', $_GET[$config->userFrameworkURLVar] );
         }
         
-        if ( CRM_Utils_Array::value( 1, $args ) != 'upgrade' ) {
-            // populate defaults for components
-            foreach( $defaults['enableComponents'] as $key => $name ) {
-                $comp = $config->componentRegistry->get( $name );
-                if ( $comp ) {
-                    $co = $comp->getConfigObject();
-                    $co->setDefaults( $defaults );
-                }
+        foreach( $defaults['enableComponents'] as $key => $name ) {
+            $comp = $config->componentRegistry->get( $name );
+            if ( $comp ) {
+                $co = $comp->getConfigObject();
+                $co->setDefaults( $defaults );
             }
         }
     }

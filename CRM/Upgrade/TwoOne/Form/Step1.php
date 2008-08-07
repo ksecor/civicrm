@@ -38,8 +38,24 @@ require_once 'CRM/Upgrade/Form.php';
 class CRM_Upgrade_TwoOne_Form_Step1 extends CRM_Upgrade_Form {
 
     function verifyPreDBState( &$errorMessage ) {
+        // check if log file is writable
+        $config =& CRM_Core_Config::singleton( );
+        if ( !is_writable($config->uploadDir . 'CiviCRM.log') ) {
+            $errorMessage = ts('Log file CiviCRM.log is not writable. Make sure files directory is writable.', 
+                               array( 1 => $config->uploadDir ));
+            return false;
+        }
+
         $errorMessage = ts('Database check failed - the current database is not v2.0.');
         $is20db = true;
+
+        // abort if partial upgraded db found. 
+        if ( $this->checkVersion( '2.01' ) ||
+             $this->checkVersion( '2.02' ) ||
+             $this->checkVersion( '2.03' ) ) {
+            $errorMessage = ts('Corrupt / Partial Upgraded database found. Looks like upgrade wizard failed to complete all the required steps to convert your database to v2.1. Please fix any errors and start the upgrade process again with a clean v2.0 database.');
+            return false;
+        }
 
         // abort if already 2.1
         if ( $this->checkVersion( '2.1' ) ) {
@@ -214,12 +230,24 @@ class CRM_Upgrade_TwoOne_Form_Step1 extends CRM_Upgrade_Form {
         $query = "SELECT table_name FROM civicrm_custom_group";
         $dao   = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         while ( $dao->fetch( ) ) {
-            $query  = "
-ALTER TABLE {$dao->table_name} 
-DROP FOREIGN KEY FK_{$dao->table_name}_domain_id,
-DROP INDEX unique_domain_id_entity_id;";
-            CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
-            
+            $query  = "ALTER TABLE {$dao->table_name}";
+            $constraint = false;
+            if ( $constraint = CRM_Core_DAO::checkConstraintExists($dao->table_name, 
+                                                                   "FK_{$dao->table_name}_domain_id") ) { 
+                $query  .= " DROP FOREIGN KEY FK_{$dao->table_name}_domain_id";
+            } 
+            if ( CRM_Core_DAO::checkConstraintExists($dao->table_name, 
+                                                     "unique_domain_id_entity_id") ) {
+                if ( $constraint ) {
+                    $query  .= ", ";
+                }
+                $query  .= " DROP INDEX unique_domain_id_entity_id";
+                $constraint = true;
+            }
+            if ( $constraint ) {
+                CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+            }
+
             $query  = "
 ALTER TABLE {$dao->table_name}
 ADD UNIQUE unique_entity_id (entity_id), 

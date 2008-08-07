@@ -112,6 +112,10 @@ class CRM_Grant_Form_Task extends CRM_Core_Form
         }
         
         $this->_grantIds = $this->_componentIds = $ids;
+
+        //set the context for redirection for any task actions
+        $session =& CRM_Core_Session::singleton( );
+        $session->replaceUserContext( CRM_Utils_System::url( 'civicrm/grant/search', 'force=1' ) );
     }
 
     /**

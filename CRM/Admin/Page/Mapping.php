@@ -69,7 +69,7 @@ class CRM_Admin_Page_Mapping extends CRM_Core_Page_Basic
     {
         if (!(self::$_links)) {
             // helper variable for nicer formatting
-            $deleteExtra = ts('Are you sure you want to delete this mapping? This operation can not be undone');
+            $deleteExtra = ts('Are you sure you want to delete this mapping? This operation cannot be undone.');
             self::$_links = array(
                                   CRM_Core_Action::UPDATE  => array(
                                                                     'name'  => ts('Edit'),

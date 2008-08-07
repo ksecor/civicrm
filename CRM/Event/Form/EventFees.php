@@ -153,7 +153,7 @@ class CRM_Event_Form_EventFees
                 $priceField->find( true );
                 
                 // FIXME: we are not storing qty for text type (for
-                // offline mode). Hence can not set defaults for Text
+                // offline mode). Hence cannot set defaults for Text
                 // type price field
                 if ( $priceField->html_type == 'Text' ) {
                     $defaults[$form->_participantId]["price_{$priceField->id}"] = $values['optionLabel'];

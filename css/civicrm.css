@@ -832,6 +832,7 @@ div.crm-pager a {
 
 #crm-container div#printer-friendly {
  float: right;
+ position:relative;
  margin: -24px 0px 0px 0px;
 }
 
@@ -979,7 +980,7 @@ commented since it is overwiting simple td
    margin-left: 0em;
    float: left;
    vertical-align:top;
-   width: 40em;
+   width: 58em;
 }
 
 /*#crm-container table.dojoEditor {

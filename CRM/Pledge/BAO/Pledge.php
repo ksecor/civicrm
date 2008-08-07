@@ -155,19 +155,22 @@ class CRM_Pledge_BAO_Pledge extends CRM_Pledge_DAO_Pledge
         if ( $params['installment_amount'] ) {
             $params['amount'] = $params['installment_amount'] * $params['installments'];
         }
-
-        require_once 'CRM/Contribute/PseudoConstant.php';       
+        
+        //get All Payments status types.
+        require_once 'CRM/Contribute/PseudoConstant.php';
+        $paymentStatusTypes = CRM_Contribute_PseudoConstant::contributionStatus( );
+        
         //update the pledge status only if it does NOT come from form
         if ( ! isset ( $params['pledge_status_id'] ) ) {
             if ( isset ( $params['contribution_id'] ) ) {
                 if ( $params['installments'] > 1 ) {
-                    $params['status_id'] = array_search( 'In Progress', CRM_Contribute_PseudoConstant::contributionStatus());
+                    $params['status_id'] = array_search( 'In Progress', $paymentStatusTypes );
                 } 
             } else {
-                $params['status_id'] = array_search( 'Pending', CRM_Contribute_PseudoConstant::contributionStatus());
+                $params['status_id'] = array_search( 'Pending', $paymentStatusTypes );
             }
         }
-
+        
         $pledge = self::add( $params );
         if ( is_a( $pledge, 'CRM_Core_Error') ) {
             $pledge->rollback( );
@@ -182,7 +185,16 @@ class CRM_Pledge_BAO_Pledge extends CRM_Pledge_DAO_Pledge
         }
         
         // skip payment stuff inedit mode
-        if ( ! isset( $params['id'] ) ) {
+        if ( !isset( $params['id'] ) ||
+             CRM_Utils_Array::value('is_pledge_pending', $params ) ) {
+            
+            require_once 'CRM/Pledge/BAO/Payment.php';
+            
+            //if pledge is pending delete all payments and recreate.
+            if ( CRM_Utils_Array::value('is_pledge_pending', $params ) ) {
+                CRM_Pledge_BAO_Payment::deletePayments( $pledge->id );
+            }
+            
             //building payment params
             $paymentParams['pledge_id'] = $pledge->id;
             $paymentKeys = array( 'amount', 'installments', 'scheduled_date', 'frequency_unit',
@@ -190,8 +202,6 @@ class CRM_Pledge_BAO_Pledge extends CRM_Pledge_DAO_Pledge
             foreach ( $paymentKeys as $key ) {
                 $paymentParams[$key] = $params[$key];               
             }
-
-            require_once 'CRM/Pledge/BAO/Payment.php';
             CRM_Pledge_BAO_Payment::create( $paymentParams );
         }
         
@@ -217,14 +227,16 @@ class CRM_Pledge_BAO_Pledge extends CRM_Pledge_DAO_Pledge
         $payment = new CRM_Pledge_DAO_Payment( );
         $payment->pledge_id = $id;
         $payment->find( );
-
-        require_once 'CRM/Contribute/PseudoConstant.php';
+        
         while ( $payment->fetch( ) ) {
-            if ($payment->status_id == array_search( 'Completed', CRM_Contribute_PseudoConstant::contributionStatus())) {
-                return false;
+            //also delete associated contribution.
+            if ( $payment->contribution_id ) {
+                require_once 'CRM/Contribute/BAO/Contribution.php';
+                CRM_Contribute_BAO_Contribution::deleteContribution( $payment->contribution_id );
             }
+            $payment->delete( );
         }
-                
+        
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
         $results = null;

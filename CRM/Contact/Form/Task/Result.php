@@ -66,21 +66,26 @@ class CRM_Contact_Form_Task_Result extends CRM_Contact_Form_Task {
         }
 
         $ssID = $this->get( 'ssID' );
-        if ( isset( $ssID ) ) {
-            if ( $this->_action == CRM_Core_Action::BASIC ) {
-                $fragment = 'search';
-            } else if ( $this->_action == CRM_Core_Action::PROFILE ) {
-                $fragment = 'search/builder';
-            } else if ( $this->_action == CRM_Core_Action::ADVANCED ) {
-                $fragment = 'search/advanced';
-            } else {
-                $fragment = 'search/custom';
-            }
-
-            $url = CRM_Utils_System::url( 'civicrm/contact/' . $fragment, 'reset=1&force=1&ssID=' . $ssID );
-            $session->replaceUserContext( $url );
-            return;
+        
+        if ( $this->_action == CRM_Core_Action::BASIC ) {
+            $fragment = 'search';
+        } else if ( $this->_action == CRM_Core_Action::PROFILE ) {
+            $fragment = 'search/builder';
+        } else if ( $this->_action == CRM_Core_Action::ADVANCED ) {
+            $fragment = 'search/advanced';
+        } else {
+            $fragment = 'search/custom';
         }
+        
+        $path = 'force=1';
+        if ( isset( $ssID ) ) {
+            $path .= "&reset=1&ssID={$ssID}";
+        }
+            
+        $url = CRM_Utils_System::url( 'civicrm/contact/' . $fragment, $path );
+        $session->replaceUserContext( $url );
+        return;
+
     }
 
     /**

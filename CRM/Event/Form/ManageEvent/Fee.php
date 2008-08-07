@@ -428,7 +428,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
                         if ( empty( $values['discounted_label'][$index] ) && ! empty( $values['discounted_value'][$index][$i] ) ) {
                             $label = false;
                             if ( ! $label ) {
-                                $errors["discounted_label[{$index}]"] = ts( 'Label can not be empty' );      
+                                $errors["discounted_label[{$index}]"] = ts( 'Label cannot be empty.' );      
                             }
                         }
                         if ( ! empty( $values['discounted_label'][$index] ) ) {

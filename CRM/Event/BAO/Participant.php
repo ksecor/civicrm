@@ -223,19 +223,24 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
                 $note = CRM_Utils_Array::value('participant_note', $params);
             }
         
-            $noteDetails   = CRM_Core_BAO_Note::getNote( $participant->id, 'civicrm_participant' );
-            $noteIds['id'] = array_pop( array_flip( $noteDetails ) );
+            $noteDetails  = CRM_Core_BAO_Note::getNote( $participant->id, 'civicrm_participant' );
+            $noteIDs      = array( );
+            if ( ! empty( $noteDetails ) ) {
+                $noteIds['id'] = array_pop( array_flip( $noteDetails ) );
+            }
 
-            require_once 'CRM/Core/BAO/Note.php';
-            $noteParams = array(
-                                'entity_table'  => 'civicrm_participant',
-                                'note'          => $note,
-                                'entity_id'     => $participant->id,
-                                'contact_id'    => $id,
-                                'modified_date' => date('Ymd')
-                                );
-            
-            CRM_Core_BAO_Note::add( $noteParams, $noteIds );
+            if ( $note ) {
+                require_once 'CRM/Core/BAO/Note.php';
+                $noteParams = array(
+                                    'entity_table'  => 'civicrm_participant',
+                                    'note'          => $note,
+                                    'entity_id'     => $participant->id,
+                                    'contact_id'    => $id,
+                                    'modified_date' => date('Ymd')
+                                    );
+                
+                CRM_Core_BAO_Note::add( $noteParams, $noteIds );
+            }
         }
 
         // Log the information on successful add/edit of Participant data.

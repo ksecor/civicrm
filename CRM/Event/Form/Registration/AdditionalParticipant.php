@@ -53,14 +53,15 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
         parent::preProcess( );
         $this->_lineItem = $this->get( 'lineItem' );
         $participantNo = substr( $this->_name, 12 );
+        $participantCnt = $participantNo + 1;
         $this->_params = array( );
         $this->_params = $this->get( 'params' );
+        $participantTot = $this->_params[0]['additional_participants'] + 1; 
         $skipCount = count( array_keys( $this->_params, "skip" ) );
         if( $skipCount ) {
             $this->assign('skipCount', $skipCount );
         }
-        CRM_Utils_System::setTitle( 'Register Additional Participant No '.$participantNo.' of  '.
-                                    $this->_params[0]['additional_participants'] );
+        CRM_Utils_System::setTitle( ts('Register Participant %1 of %2', array( 1 => $participantCnt, 2 => $participantTot ) ) );
     }
    
     /**
@@ -96,17 +97,12 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
     {  
         $config =& CRM_Core_Config::singleton( );
         $button = substr( $this->controller->getButtonName(), -4 );
-        if ( $button == 'skip' ) {
+        $required = ( $button == 'skip' ) ? false : true;
         $this->add( 'text',
                     "email-{$this->_bltID}",
                     ts( 'Email Address' ),
-                    array( 'size' => 30, 'maxlength' => 60 ) );
-        } else {
-            $this->add( 'text',
-                        "email-{$this->_bltID}",
-                        ts( 'Email Address' ),
-                        array( 'size' => 30, 'maxlength' => 60 ), true );
-        }
+                    array( 'size' => 30, 'maxlength' => 60 ),
+                    $required );
         
         if ( $this->_values['event']['is_monetary'] ) {
             require_once 'CRM/Event/Form/Registration/Register.php';
@@ -118,16 +114,17 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
 
         //add buttons
         $this->addButtons(array(
+                                array ( 'type'      => 'back',
+                                        'name'      => ts('<< Go Back'),
+                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp',
+                                       ),
                                 array ( 'type'      => 'next',
-                                        'name'      => 'Continue >>',
-                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+                                        'name'      => ts('Continue >>'),
+                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
                                         'isDefault' => true
                                         ),
-                                array ( 'type'      => 'back',
-                                        'name'      => ts('<< Go Back')
-                                        ),
                                 array ( 'type'       => 'next',
-                                        'name'       => ts('Skip Participant >>'),
+                                        'name'       => ts('Skip Participant >>|'),
                                         'subName'    => 'skip' ),
                                 )
                           );
@@ -157,7 +154,7 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
             $isRegistered =  CRM_Event_Form_Registration_Register::checkRegistration( $fields, $self, true );
             
             if ( $isRegistered ) {
-                $errors["email-{$self->_bltID}"] = ts( 'Already Registered for this Event.');
+                $errors["email-{$self->_bltID}"] = ts( 'A person with this email address is already registered for this event.');
             } 
             
             //get the complete params.
@@ -167,7 +164,7 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
             if ( is_array( $params ) ) {
                 foreach ( $params as $key => $value ) {
                     if ( ( $value["email-{$self->_bltID}"] == $fields["email-{$self->_bltID}"] ) && $key != $addParticipantNum  ) {
-                        $errors["email-{$self->_bltID}"] = ts( 'The Email Address should be unique for Additional Participant' );
+                        $errors["email-{$self->_bltID}"] = ts( 'The email address must be unique for each participant.' );
                         break;
                     }
                 }
@@ -187,7 +184,7 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
                 }
                 
                 if ( empty( $check ) ) {
-                    $errors['_qf_default'] = ts( "Select atleast one option from Event Fee(s)" );
+                    $errors['_qf_default'] = ts( "Select at least one option from Event Fee(s)." );
                 }
             }
         }
@@ -272,13 +269,21 @@ class CRM_Event_Form_Registration_AdditionalParticipant extends CRM_Event_Form_R
         if ( $this->_lineItem ) {
             $this->set( 'lineItem', $this->_lineItem );
         }
+        
+        $participantNo = count( $this->_params );
+        if ( $button != 'skip' ) {
+            require_once "CRM/Core/Session.php";
+            $statusMsg = ts('Registration information for participant %1 has been saved.', array( 1 => $participantNo )); 
+            CRM_Core_Session::setStatus( "{$statusMsg}" );
+        }
+        
         //to check whether call processRegistration() 
         if ( !$this->_values['event']['is_monetary'] && CRM_Utils_Array::value( 'additional_participants', $this->_params[0] ) ) {
             $participant =  $this->_params[0]['additional_participants'] + 1;
             if ( count($this->_params) == $participant ) {
                 require_once 'CRM/Event/Form/Registration/Register.php';
                 CRM_Event_Form_Registration_Register::processRegistration(  $this->_params,  null );
-            }
+            } 
         }
     }
     

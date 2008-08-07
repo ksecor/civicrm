@@ -47,7 +47,7 @@
   </div>
   <dl>
     <dt>{$form.entity_id.label}</dt><dd>{$form.entity_id.html}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}Select a Role to assign (grant) this permission to. Select the special role 'Everyone' if you want to grant this permission to ALL users. 'Everyone' includes anonymous (i.e. not logged in) users. Select the special role 'Authenticated' if you want to grant it to any logged in user.{/ts}</dd>
+    <dt class="extra-long-fourty">&nbsp;</dt><dd class="description">{ts}Select a Role to assign (grant) this permission to. Select the special role 'Everyone' if you want to grant this permission to ALL users. 'Everyone' includes anonymous (i.e. not logged in) users. Select the special role 'Authenticated' if you want to grant it to any logged in user.{/ts}</dd>
     <dt>{$form.name.label}</dt><dd>{$form.name.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Enter a descriptive name for this permission (e.g. 'Edit Advisory Board Contacts').{/ts}</dd>
     <dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>

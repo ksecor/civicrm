@@ -1055,8 +1055,8 @@ SELECT $select
                     $datePart = explode( CRM_Core_DAO::VALUE_SEPARATOR , $field['date_parts']);
                     $datePart = array_flip( $datePart);
                     
-                    if (( !array_key_exists( 'M', $datePart))&&
-                        ( !array_key_exists( 'd', $datePart))&&
+                    if (( !array_key_exists( 'M', $datePart))||
+                        ( !array_key_exists( 'd', $datePart))||
                         ( !array_key_exists( 'Y', $datePart))) {
                         $groupTree[$key1]['fields'][$key2]['skip_calendar'] = true;
                     }

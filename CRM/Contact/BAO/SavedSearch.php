@@ -166,12 +166,13 @@ WHERE  $where";
 
     static function fromWhereEmail( $id ) {
         $params =& self::getSearchParams( $id );
+
         if ( $params ) {
             if ( CRM_Utils_Array::value( 'customSearchID', $params ) ) {
                 require_once 'CRM/Contact/BAO/SearchCustom.php';
                 return CRM_Contact_BAO_SearchCustom::fromWhereEmail( null, $id );
             } else {
-                $tables = $whereTables = array( $contact => 1, $email => 1 );
+                $tables = $whereTables = array( 'civicrm_contact' => 1, 'civicrm_email' => 1 );
                 $where  = CRM_Contact_BAO_SavedSearch::whereClause( $id, $tables, $whereTables );
                 $from   = CRM_Contact_BAO_Query::fromClause( $whereTables );
                 return array( $from, $where );

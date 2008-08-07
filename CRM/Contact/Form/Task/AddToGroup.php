@@ -139,7 +139,7 @@ class CRM_Contact_Form_Task_AddToGroup extends CRM_Contact_Form_Task {
 
         $this->addDefaultButtons( ts('Add to Group') );
     }
-
+    
     /**
      * Set the default form values
      *
@@ -241,7 +241,7 @@ class CRM_Contact_Form_Task_AddToGroup extends CRM_Contact_Form_Task {
         }
         $status = implode( '<br/>', $status );
         CRM_Core_Session::setStatus( $status );
-        
+
     }//end of function
 
 

@@ -705,7 +705,8 @@ function _civicrm_participant_formatted_param( &$params, &$values, $create=false
                          'participant_source'        => 'source',
                          'participant_status_id'     => 'status_id',
                          'participant_role_id'       => 'role_id',
-                         'participant_fee_level'     => 'fee_level'
+                         'participant_fee_level'     => 'fee_level',
+                         'participant_id'            => 'id'
                          );
         
         foreach ($changes as $orgVal => $changeVal) {

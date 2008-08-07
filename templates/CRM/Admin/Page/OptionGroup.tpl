@@ -3,7 +3,7 @@
    {include file="CRM/Admin/Form/OptionGroup.tpl"}
 {else}
 <div id="help">
-    {ts}CiviCRM stores configurable choices for various drop-down fields as 'option groups'. Choices used by core fields are reserved and can not be modified. If a group is editable, you can click <strong>Multiple Choice Options</strong> to view and modify the available choices.{/ts}
+    {ts}CiviCRM stores configurable choices for various drop-down fields as 'option groups'. Choices used by core fields are reserved and cannot be modified. If a group is editable, you can click <strong>Multiple Choice Options</strong> to view and modify the available choices.{/ts}
 </div>
 {/if}
 

@@ -115,7 +115,7 @@ class CRM_Event_BAO_Query
 
             //add status
             if ( CRM_Utils_Array::value( 'participant_status_id', $query->_returnProperties ) ) {
-                $query->_select['participant_status']  = "participant_status.name as participant_status_id";
+                $query->_select['participant_status']  = "participant_status.label as participant_status_id";
                 $query->_element['participant_status'] = 1;
                 $query->_tables['civicrm_participant'] = 1;
                 $query->_tables['participant_status'] = 1;
@@ -125,7 +125,7 @@ class CRM_Event_BAO_Query
             
             //add role
             if ( CRM_Utils_Array::value( 'participant_role_id', $query->_returnProperties ) ) {
-                $query->_select['participant_role']  = "participant_role.name as participant_role_id";
+                $query->_select['participant_role']  = "participant_role.label as participant_role_id";
                 $query->_element['participant_role'] = 1;
                 $query->_tables['civicrm_participant'] = 1;
                 $query->_tables['participant_role'] = 1;

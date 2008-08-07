@@ -151,6 +151,7 @@ class CRM_Core_OptionValue
             $groupParams['is_active']   = 1;
             $optionGroup = CRM_Core_BAO_OptionGroup::retrieve($groupParams, $defaults);
         }
+
         // if the corresponding group doesn't exist, create one, provided $groupParams has 'name' in it.
         if (! $optionGroup->id) {
             if ( $groupParams['name'] ) {
@@ -178,8 +179,11 @@ class CRM_Core_OptionValue
                                                                         $fieldValues, 
                                                                         'CONVERT(value, DECIMAL)');
         }
-        if ( !$params['label'] ) {
+        if ( ! $params['label'] && $params['name'] ) {
             $params['label'] = $params['name'];
+        }
+        if ( ! $params['name'] && $params['label'] ) {
+            $params['name'] = $params['label'];
         }
         if ( $action & CRM_Core_Action::UPDATE ) {
             $ids['optionValue'] = $optionValueID;

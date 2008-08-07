@@ -447,7 +447,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             $endDate = CRM_Utils_Date::format( $params['end_date'] );
             if ( $endDate ) {
                 if ( $membershipDetails['duration_unit'] == 'lifetime' ) {
-                    $errors['end_date'] = ts("The selected Membership Type has a 'life time' duration. You can not specify an End Date for 'life time' memberships. Please clear the End Date OR select a different Membership Type." );
+                    $errors['end_date'] = ts('The selected Membership Type has a lifetime duration. You cannot specify an End Date for lifetime memberships. Please clear the End Date OR select a different Membership Type.');
                 } else {
                     if ( ! $startDate ) {
                         $errors['start_date'] = ts( 'Start date must be set if end date is set.' );

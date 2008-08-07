@@ -143,6 +143,7 @@ class CRM_Core_BAO_Setting
         require_once "CRM/Core/DAO/Domain.php";
         $domain =& new CRM_Core_DAO_Domain();
         $domain->selectAdd( );
+
         if ( CRM_Utils_Array::value( 'q', $_GET ) == 'civicrm/upgrade' ) {
             $domain->selectAdd( 'config_backend' );
         } else {

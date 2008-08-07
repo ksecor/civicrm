@@ -81,7 +81,7 @@ mkdir com_civicrm
 mkdir com_civicrm/admin
 mkdir com_civicrm/admin/civicrm
 
-cp -r -p civicrm/* com_civicrm/admin/civicrm
+cp -r -p $DM_SOURCEDIR/* com_civicrm/admin/civicrm/
 
 $DM_PHP $DM_SOURCEDIR/distmaker/utils/joomlaxml.php
 

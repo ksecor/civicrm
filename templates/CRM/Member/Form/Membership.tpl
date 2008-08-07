@@ -29,7 +29,7 @@
         <dl>
           <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
           <dd>    
-          {ts}WARNING: Deleting this membership will also delete related membership log and payment records. This action can not be undone. Consider modifying the membership status instead if you want to maintain a record of this membership.{/ts}
+          {ts}WARNING: Deleting this membership will also delete related membership log and payment records. This action cannot be undone. Consider modifying the membership status instead if you want to maintain a record of this membership.{/ts}
           {ts}Do you want to continue?{/ts}
           </dd>
        </dl>

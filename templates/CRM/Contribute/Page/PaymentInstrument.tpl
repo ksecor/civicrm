@@ -2,7 +2,7 @@
    {include file="CRM/Contribute/Form/PaymentInstrument.tpl"}
 {else}
     <div id="help">
-        <p>{ts}You may choose to record the Payment Instrument used for each Contribution. The common payment methods are installed by default and can not be modified (e.g. Check, Cash, Credit Card...). If your site requires additional payment methods, you can add them here.{/ts}</p>
+        <p>{ts}You may choose to record the Payment Instrument used for each Contribution. The common payment methods are installed by default and cannot be modified (e.g. Check, Cash, Credit Card...). If your site requires additional payment methods, you can add them here.{/ts}</p>
     </div>
 {/if}
 

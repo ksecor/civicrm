@@ -153,8 +153,9 @@ class CRM_Mailing_Event_BAO_Forward extends CRM_Mailing_Event_DAO_Forward {
         $mailer =& $config->getMailer();
 
         $recipient = null;
+        $attachments = null;
         $message =& $mailing_obj->compose($job_id, $queue->id, $queue->hash,
-            $queue->contact_id, $forward_email, $recipient);
+            $queue->contact_id, $forward_email, $recipient, false, null, $attachments);
 
         $body = $message->get();
         $headers = $message->headers();

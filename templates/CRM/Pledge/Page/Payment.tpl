@@ -14,12 +14,12 @@
 
   {foreach from=$rows item=row}
    <tr class="{cycle values="odd-row,even-row"} {if $row.status eq 'Overdue' } disabled{/if}">
-    <td>{$row.scheduled_amount|crmMoney}</td>	
+    <td class="right">{$row.scheduled_amount|crmMoney}</td>	
     <td>{$row.scheduled_date|truncate:10:''|crmDate}</td>
-    <td>{$row.total_amount|crmMoney}</td>	
+    <td class="right">{$row.total_amount|crmMoney}</td>	
     <td>{$row.receive_date|truncate:10:''|crmDate}</td>
     <td>{$row.reminder_date|truncate:10:''|crmDate}</td>
-    <td>{$row.reminder_count}</td>
+    <td class="right">{if $row.reminder_count}{$row.reminder_count}{/if}</td>
     <td{if ! ($permission EQ 'edit' and ($row.status eq 'Pending' or $row.status eq 'Overdue' or $row.status eq 'Completed')) } colspan="2"{/if}/>
         {$row.status}
     </td>	

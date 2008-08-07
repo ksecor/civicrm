@@ -514,7 +514,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 if ( $ctype ) {
                     require_once 'CRM/Core/BAO/UFField.php';
                     $profileType = CRM_Core_BAO_UFField::getProfileType( $profileID );
-                    if ( $profileType != $ctype ) {
+                    if ( ( $profileType != 'Contact' ) && ( $profileType != $ctype ) ) {
                         return null;
                     }
                 }
@@ -635,17 +635,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             $index   = $field['title'];
             $params[$index] = $values[$index] = '';
             $customFieldName = null;
-            if ( $name === 'organization_name' ) {
-                require_once "CRM/Contact/BAO/Relationship.php";
-                $rel = CRM_Contact_BAO_Relationship::getRelationship($cid);
-                krsort($rel);
-                foreach ($rel as $k => $v) {
-                    if ($v['relation'] == 'Employee of') {
-                        $values[$index] = $params[$index] = $v['name'];
-                        break;
-                    }
-                }
-            }
             
             if ( isset($details->$name) || $name == 'group' || $name == 'tag') {//hack for CRM-665
                 // to handle gender / suffix / prefix
@@ -784,7 +773,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 $detailName = "{$locationTypeName}-{$fieldName}";
                 $detailName = str_replace( ' ', '_', $detailName );
 
-                if ( in_array( $fieldName, array( 'phone', 'im', 'email' ) ) ) {
+                if ( in_array( $fieldName, array( 'phone', 'im', 'email', 'openid' ) ) ) {
                     if ( $type ) {
                         $detailName .= "-{$type}";
                     } else {
@@ -1211,7 +1200,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 return true;
             }
             
-            if ($contactType == $profileType) {
+            if ( ( $contactType == $profileType ) || $profileType == 'Contact' ) {
                 return true;
             }
         }
@@ -1447,18 +1436,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     CRM_Contact_Form_GroupTag::setDefaults( $contactId, $defaults, CRM_Contact_Form_GroupTag::TAG, $fldName ); 
                 }
 
-                if( $name == 'organization_name' ) {
-                    require_once "CRM/Contact/BAO/Relationship.php";
-                    $rel = CRM_Contact_BAO_Relationship::getRelationship($contactId);
-                    krsort($rel);
-                    foreach ($rel as $key => $value) {
-                        if ($value['relation'] == 'Employee of') {
-                            $defaults[$name] =  $value['name'];
-                            break;
-                        }
-                    }
-                }
-
                 if (CRM_Utils_Array::value($name, $details ) || isset( $details[$name] ) ) {
                     //to handle custom data (checkbox) to be written
                     // to handle gender / suffix / prefix
@@ -1553,7 +1530,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                         } else if ( $fieldName == 'im' ) {
                                             //adding the first im (currently we don't support multiple ims of same location type)
                                             $defaults[$fldName] = $value['im'][1];
-                                            $defaults[$fldName . "-provider_id"] = $value['im']['1_provider_id'];
+                                            $defaults[$fldName . "-provider_id"] = $value['im']["1_provider_id"];
                                         } else {
                                             $defaults[$fldName] = $value[$fieldName];
                                         }

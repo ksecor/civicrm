@@ -54,11 +54,14 @@ class CRM_Event_Form_Task_Result extends CRM_Event_Form_Task {
         $this->set( 'searchRows', '');
 
         $ssID = $this->get( 'ssID' );
+
+        $path = 'force=1';
         if ( isset( $ssID ) ) {
-            $url = CRM_Utils_System::url( 'civicrm/event/search', 'reset=1&force=1&ssID=' . $ssID );
-            $session->replaceUserContext( $url );
-            return;
+            $path .= "&reset=1&ssID={$ssID}";
         }
+        
+        $url = CRM_Utils_System::url( 'civicrm/event/search', $path );
+        $session->replaceUserContext( $url );
     }
 
     /**

@@ -214,7 +214,7 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
                 $errors['pledge_frequency_unit'] = ts( 'At least one pledge frequency option needs to be checked.' );
             }
             if ( CRM_Utils_array::value( 'is_recur', $fields ) ) {
-                $errors['is_recur'] = ts( 'You can not enable both Recurring Contributions AND Pledges on the same online contribution page.' ); 
+                $errors['is_recur'] = ts( 'You cannot enable both Recurring Contributions AND Pledges on the same online contribution page.' ); 
             }
         }
             

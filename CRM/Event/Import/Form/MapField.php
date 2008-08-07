@@ -185,11 +185,12 @@ class CRM_Event_Import_Form_MapField extends CRM_Core_Form
             $this->assign( 'rowDisplayCount', 2 );
         }
         if ( $this->_onDuplicate == CRM_Event_Import_Parser::DUPLICATE_UPDATE ) {
-            $remove = array('participant_contact_id','email','first_name','last_name');
+            $remove = array( 'participant_contact_id', 'email', 'first_name', 'last_name', 'external_identifier' );
             foreach( $remove as $value ) {
                 unset( $this->_mapperFields[$value] );
             }
-        } else if ( $this->_onDuplicate == CRM_Event_Import_Parser::DUPLICATE_SKIP ) {
+        } else if ( $this->_onDuplicate == CRM_Event_Import_Parser::DUPLICATE_SKIP ||
+                    $this->_onDuplicate == CRM_Event_Import_Parser::DUPLICATE_NOCHECK ) {
             unset( $this->_mapperFields['participant_id'] );
         }
     }

@@ -10,7 +10,11 @@ function buildCustomData( subType )
 	var type     = "{/literal}{$customDataType}{literal}";
 
 	var dataUrl = {/literal}"{crmURL p=$urlPath h=0 q='snippet=4&type='}"{literal} + type;
-	
+{/literal}
+{if $urlPathVar}
+	dataUrl = dataUrl + '&' + '{$urlPathVar}'
+{/if}
+{literal}
 	if ( !subType ) {
 	   var subType  = "{/literal}{$customDataSubType}{literal}";
 	}

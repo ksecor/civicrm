@@ -86,6 +86,7 @@ class CRM_Case_Form_Case extends CRM_Contact_Form_Task
         $this->assign('enableCase', true );
         $this->_action = CRM_Utils_Request::retrieve('action', 'String', $this );
         $this->assign( 'action', $this->_action);
+
         $this->_addCaseContact = CRM_Utils_Array::value( 'case_contact', $_GET );
         
         $this->assign('addCaseContact', false);
@@ -113,7 +114,6 @@ class CRM_Case_Form_Case extends CRM_Contact_Form_Task
             $this->assign('search', true);
         }
         
-        $this->assign( 'urlPath', 'civicrm/contact/view/case' );
         $this->assign( 'contactUrlPath', 'civicrm/contact/view/case' );
         
         // build case contact combo

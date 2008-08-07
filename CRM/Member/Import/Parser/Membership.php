@@ -380,9 +380,14 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser
                                  'membership' => $values['membership_id'],
                                  'userId'     => $session->get('userID')
                                  );
-                    $newMembership =& CRM_Member_BAO_Membership::create( $formatted , $ids );
-                    $this->_newMemberships[] = $newMembership->id;
-                    return CRM_Member_Import_Parser::VALID;
+                    $newMembership =& CRM_Member_BAO_Membership::create( $formatted , $ids, true );
+                    if ( civicrm_error( $newMembership ) ) {
+                        array_unshift($values, $newMembership['is_error']." for Membership ID ". $values['membership_id'].". Row was skipped.");
+                        return CRM_Member_Import_Parser::ERROR;
+                    } else {
+                        $this->_newMemberships[] = $newMembership->id;
+                        return CRM_Member_Import_Parser::VALID;
+                    }
                 } else {
                     array_unshift($values,"Matching Membership record not found for Membership ID ". $values['membership_id'].". Row was skipped.");
                     return CRM_Member_Import_Parser::ERROR;
@@ -390,6 +395,11 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser
             }
         }
       
+        //Format dates
+        $startDate  = CRM_Utils_Date::customFormat($formatted['start_date'],'%Y-%m-%d');
+        $endDate    = CRM_Utils_Date::customFormat($formatted['end_date'],'%Y-%m-%d');
+        $joinDate   = CRM_Utils_Date::customFormat($formatted['join_date'],'%Y-%m-%d');          
+        
         if ( $this->_contactIdIndex < 0 ) {
             static $cIndieFields = null;
             if ($cIndieFields == null) {
@@ -433,11 +443,7 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser
             $contactFormatted['contact_type'] = $this->_contactType;
             $error = _civicrm_duplicate_formatted_contact($contactFormatted);
             $matchedIDs = explode(',',$error['error_message']['params'][0]);
-
-            //Format dates
-            $startDate  = CRM_Utils_Date::customFormat($formatted['start_date'],'%Y-%m-%d');
-            $endDate    = CRM_Utils_Date::customFormat($formatted['end_date'],'%Y-%m-%d');
-            $joinDate   = CRM_Utils_Date::customFormat($formatted['join_date'],'%Y-%m-%d');                    
+                    
             if ( self::isDuplicate($error) ) { 
                 if (count( $matchedIDs) >1) {                   
                     array_unshift($values,"Multiple matching contact records detected for this row. The membership was not imported");

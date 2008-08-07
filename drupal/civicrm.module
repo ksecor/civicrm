@@ -592,7 +592,7 @@ function civicrm_view_data( &$user )
         foreach ( $ufGroups as $id => $title ) {
             
             $fieldType = CRM_Core_BAO_UFField::getProfileType( $id );
-            if ( $fieldType != $ctype ) {
+            if ( ( $fieldType != 'Contact' ) && ( $fieldType != $ctype ) ) {
                 continue;
             }
             $page =& new CRM_Profile_Page_Dynamic( $userID, $id, null, true );

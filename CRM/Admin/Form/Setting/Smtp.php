@@ -85,7 +85,7 @@ class CRM_Admin_Form_Setting_Smtp extends CRM_Admin_Form_Setting
             list( $fromDisplayName, $fromEmail, $fromDoNotEmail ) = CRM_Contact_BAO_Contact::getContactDetails( $userID );
             
             if ( ! $fromEmail ) {
-                CRM_Core_Error::statusBounce( ts('Oops. Can not send a test email because your user record does not have a valid email address.' ));
+                CRM_Core_Error::statusBounce( ts('Cannot send a test email because your user record does not have a valid email address.' ));
             }
             
             if ( ! trim($fromDisplayName) ) {

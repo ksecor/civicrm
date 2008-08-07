@@ -553,6 +553,34 @@ LIKE %1
     }
 
     /**
+     * Checks if a constraint exists for a specified table. 
+     *
+     * @param string $tableName
+     * @param string $constraint
+     * 
+     * @return boolean true if constraint exists, false otherwise
+     * @static
+     */
+    function checkConstraintExists( $tableName, $constraint ) 
+    {
+        static $show = array();
+        
+        if ( ! array_key_exists( $tableName, $show ) ) {
+            $query = "SHOW CREATE TABLE $tableName";
+            $dao   = CRM_Core_DAO::executeQuery( $query );
+            
+            if ( ! $dao->fetch( ) ) {
+                CRM_Core_Error::fatal( );
+            }
+            
+            $dao->free( );
+            $show[$tableName] = $dao->Create_Table;
+        }
+
+        return preg_match("/$constraint/i", $show[$tableName]) ? true : false;
+    }
+
+    /**
      * Checks if the FK constraint name is in the format 'FK_tableName_columnName' 
      * for a specified column of a table. 
      *

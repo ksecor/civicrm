@@ -73,10 +73,8 @@
 
 {if $value neq 'skip'}
 {if $isPrimary}
-{if $priceset eq 0 }
-Primary Participant
-{else}
-Additional Participant {$priceset}
+{if $lineItem|@count GT 1} {* Header for multi participant registration cases. *}
+Participant {$priceset+1}
 {/if}
 {/if}
 ---------------------------------------------------------
@@ -163,11 +161,11 @@ Additional Participant {$priceset}
 {/if}
 {if $customProfile}
 
+{foreach from=$customProfile item=value key=customName}
 ===========================================================
-{ts}Additional Participant Information{/ts}
+{ts 1=$customName+1}Participant Information - Participant %1{/ts}
 
 ===========================================================
-{foreach from=$customProfile item=value key=customName}
 {foreach from=$value item=val key=field}
 {if $field}
 {if $field eq 'customPre' }

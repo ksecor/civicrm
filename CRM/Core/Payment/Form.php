@@ -158,8 +158,8 @@ class CRM_Core_Payment_Form {
                             'integer' );
 
             $form->addRule( 'credit_card_exp_date',
-                            ts('Credit card expiration date can not be a past date.'),
-                            'currentDate');
+                            ts('Credit card expiration date cannot be a past date.'),
+                            'currentDate', true );
         }            
             
         if ( $form->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_BUTTON ) {

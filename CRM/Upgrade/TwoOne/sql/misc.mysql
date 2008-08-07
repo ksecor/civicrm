@@ -29,7 +29,9 @@ ALTER TABLE `civicrm_relationship`
 
 -- Add 'My Contacts / Organizations' option in user dashboard options
 
-UPDATE civicrm_preferences SET user_dashboard_options = CONCAT(user_dashboard_options, '5');
+UPDATE civicrm_preferences SET user_dashboard_options  = CONCAT(user_dashboard_options, '56'), 
+                               contact_view_options    = CONCAT(contact_view_options, '1113'),
+			       advanced_search_options = CONCAT(advanced_search_options, '121315');
 
 
 -- make the dates in civicrm_contribution_recur optional
@@ -306,8 +308,7 @@ CREATE TABLE `civicrm_menu` (
   is_ssl tinyint    COMMENT 'Should this menu be exposed via SSL if enabled?',
   weight int NOT NULL  DEFAULT 1 COMMENT 'Ordering of the menu items in various blocks.',
   type int NOT NULL  DEFAULT 1 COMMENT 'Drupal menu type.',
-  page_type int NOT NULL  DEFAULT 1 COMMENT 'CiviCRM menu type.' 
-
+  page_type int NOT NULL  DEFAULT 1 COMMENT 'CiviCRM menu type.',
   PRIMARY KEY  (`id`),
   UNIQUE `UI_path` (`path`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -315,6 +316,9 @@ CREATE TABLE `civicrm_menu` (
 ALTER TABLE `civicrm_menu`
   ADD CONSTRAINT `FK_civicrm_menu_component_id` FOREIGN KEY (`component_id`) REFERENCES `civicrm_component` (`id`);
 
+-- pledge component insert
+
+INSERT INTO civicrm_component (name, namespace) VALUES ('CiviPledge', 'CRM_Pledge' );
 
 -- pledge tables
 
@@ -548,3 +552,21 @@ INNER JOIN civicrm_contact cco ON (cr.contact_id_b=cco.id)
 SET   cci.employer_id = cr.contact_id_b, 
       cci.organization_name = cco.organization_name
 WHERE cr.relationship_type_id=@relTypeId AND cr.is_active=1 AND IF(cr.end_date IS NULL, 1, (DATEDIFF(CURDATE( ), cr.end_date) <= 0));
+
+-- table civicrm_mailing_event_forward, adding on delete set null
+
+ALTER TABLE `civicrm_mailing_event_forward`	
+    MODIFY dest_queue_id   int(10) unsigned DEFAULT NULL COMMENT 'FK to EventQueue for destination',
+    DROP FOREIGN KEY `FK_civicrm_mailing_event_forward_dest_queue_id`;
+ALTER TABLE `civicrm_mailing_event_forward`
+    ADD CONSTRAINT `FK_civicrm_mailing_event_forward_dest_queue_id` FOREIGN KEY (`dest_queue_id`) REFERENCES `civicrm_mailing_event_queue` (`id`) ON DELETE SET NULL;
+
+-- table civicrm_payment_processor_type, insert ebay record
+
+INSERT INTO `civicrm_payment_processor_type` 
+ (name, title, description, is_active, is_default, user_name_label, password_label, signature_label, subject_label, class_name, url_site_default, url_api_default, url_recur_default, url_button_default, url_site_test_default, url_api_test_default, url_recur_test_default, url_button_test_default, billing_mode, is_recur )
+VALUES 
+('eWAY', 'eWAY (Single Currency)',NULL,1,0,'Customer ID',NULL,NULL,NULL,'Payment_eWAY','https://www.eway.com.au/gateway_cvn/xmlpayment.asp',NULL,NULL,NULL,'https://www.eway.com.au/gateway_cvn/xmltest/testpage.asp',NULL,NULL,NULL,1,0);
+
+UPDATE `civicrm_payment_processor_type`
+SET is_recur = NULL WHERE title = 'Authorize.Net - AIM';

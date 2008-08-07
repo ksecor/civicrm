@@ -117,4 +117,26 @@
      <access_arguments>access CiviMail</access_arguments>
      <weight>680</weight>
   </item>
+  <item>
+     <path>civicrm/mailing/forward</path>
+     <title>Unsubscribe</title>
+     <page_callback>CRM_Profile_Form_ForwardMailing</page_callback>
+     <access_arguments>access CiviMail subscribe/unsubscribe pages</access_arguments>
+     <is_public>true</is_public>
+     <weight>685</weight>
+  </item>
+  <item>
+     <path>civicrm/mailing/queue</path>
+     <title>Sending Mail</title>
+     <page_callback>CRM_Mailing_Page_Browse</page_callback>
+     <access_arguments>access CiviMail</access_arguments>
+     <weight>690</weight>
+  </item>
+  <item>
+     <path>civicrm/mailing/report/event</path>
+     <title>Mailing Event</title>
+     <page_callback>CRM_Mailing_Page_Event</page_callback>
+     <access_arguments>access CiviMail</access_arguments>
+     <weight>695</weight>
+  </item>
 </menu>

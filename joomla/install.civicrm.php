@@ -17,8 +17,8 @@ function com_install() {
       </td>
     </tr>
     <tr>
-      <td><p>If this is a <strong>new installation</strong> of CiviCRM, please review the <a href="http://wiki.civicrm.org/confluence/display/CRMDOC/Install+2.0+for+Joomla">online installation documentation</a>. </p>
-        <p>If you are <strong>upgrading</strong> an existing installation of CiviCRM, please review the <a href="http://wiki.civicrm.org/confluence/display/CRMDOC/Upgrade+Joomla+Sites+to+2.0">upgrade documentation</a>. </p>
+      <td><p>If this is a <strong>new installation</strong> of CiviCRM, please review the <a href="http://wiki.civicrm.org/confluence/display/CRMDOC/Install+2.1+for+Joomla">online installation documentation</a>. </p>
+        <p>If you are <strong>upgrading</strong> an existing installation of CiviCRM, please review the <a href="http://wiki.civicrm.org/confluence/display/CRMDOC/Upgrade+Joomla+Sites+to+2.1">upgrade documentation</a>. </p>
         <p>CiviCRM includes the ability to expose Profile forms and listings, as well as
           Online Contribution Pages, to users and visitors of the 'front-end' of your Joomla!
           site. If you wish to use this option, you will need to follow the <a href="http://wiki.civicrm.org/confluence//x/6Bk">instructions for

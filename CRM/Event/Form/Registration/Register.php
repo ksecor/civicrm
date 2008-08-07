@@ -652,31 +652,34 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
      */
     public function processRegistration( $params, $contactID = null ) 
     {
-             
-        //unset the skip participant from params.
-        if ( $skipParticipant = array_search( 'skip', $params ) ) {
-            unset( $params[$skipParticipant] );
-        }
+        $this->_participantInfo   = array();
         foreach ( $params as $key => $value ) {
-            $fields = null;
-          
-            // setting register by Id and unset contactId.
-            if ( !CRM_Utils_Array::value( 'is_primary', $value ) ) {
-                $contactID = null;
-                $registerByID = $this->get( 'registerByID' );
-                if ( $registerByID ) {
-                    $value['registered_by_id'] = $registerByID;
+            if ( $value != 'skip') {
+                $fields = null;
+                
+                // setting register by Id and unset contactId.
+                if ( !CRM_Utils_Array::value( 'is_primary', $value ) ) {
+                    $contactID = null;
+                    $registerByID = $this->get( 'registerByID' );
+                    if ( $registerByID ) {
+                        $value['registered_by_id'] = $registerByID;
+                    }
+                    $this->_participantInfo[] = $value['email-5']; 
                 }
+                
+                require_once 'CRM/Event/Form/Registration/Confirm.php';
+                CRM_Event_Form_Registration_Confirm::fixLocationFields( $value, $fields );
+                
+                $contactID =& CRM_Event_Form_Registration_Confirm::updateContactFields( $contactID, $value, $fields );
+                $this->set( 'value', $value );
+                $this->confirmPostProcess( $contactID, null, null );
             }
-                 
-            require_once 'CRM/Event/Form/Registration/Confirm.php';
-            CRM_Event_Form_Registration_Confirm::fixLocationFields( $value, $fields );
-            
-            $contactID =& CRM_Event_Form_Registration_Confirm::updateContactFields( $contactID, $value, $fields );
-            $this->set( 'value', $value );
-            $this->confirmPostProcess( $contactID, null, null );
         }
-        
+        //set information about additional participants if exists
+        if ( count($this->_participantInfo) ){
+            $this->set( 'participantInfo', $this->_participantInfo );
+        }
+       
         //send mail Confirmation/Receipt
         require_once "CRM/Event/BAO/EventPage.php";
         if ( $this->_contributeMode != 'checkout' ||

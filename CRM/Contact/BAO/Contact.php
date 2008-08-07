@@ -722,7 +722,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
 
             // check if we can retrieve from database cache
             require_once 'CRM/Core/BAO/Cache.php'; 
-            $fields =& CRM_Core_BAO_Cache::getItem( 'contact fields', "exportableFields $contactType" );
+            $fields =& CRM_Core_BAO_Cache::getItem( 'contact fields', "exportableFields $contactType $export" );
 
             if ( ! $fields ) {
                 $fields = array( );
@@ -830,7 +830,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
                     }
                 }
 
-                CRM_Core_BAO_Cache::setItem( $fields, 'contact fields', "exportableFields $contactType" );
+                CRM_Core_BAO_Cache::setItem( $fields, 'contact fields', "exportableFields $contactType $export" );
             }
             self::$_exportableFields[$contactType] = $fields;
         }
@@ -1072,6 +1072,11 @@ WHERE  civicrm_contact.id = %1 ";
             if ( $ufGroupId ) {
                 require_once "CRM/Core/BAO/UFField.php";
                 $data['contact_type'] = CRM_Core_BAO_UFField::getProfileType( $ufGroupId );
+                
+                //special case to handle profile with only contact fields
+                if ( $data['contact_type'] == 'Contact' ) {
+                    $data['contact_type'] = 'Individual';
+                }
             } else if ( $ctype ) {
                 $data['contact_type'] = $ctype;
             } else {

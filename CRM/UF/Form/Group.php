@@ -88,9 +88,9 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
                 }
             } else{
                 if ( $status ) {
-                    $message='This profile is currently used for '. $ufGroup[$id]['module'].'. If you delete the profile - it will be removed from these forms and/or modules. This action can not be undone. Do you want to continue?';
+                    $message='This profile is currently used for '. $ufGroup[$id]['module'].'. If you delete the profile - it will be removed from these forms and/or modules. This action cannot be undone. Do you want to continue?';
                 } else {            
-                    $message='Are you sure you want to delete this Profile? This action can not be undone.';
+                    $message='Are you sure you want to delete this Profile? This action cannot be undone.';
                 }  
             }
             $this->assign('message',$message);
