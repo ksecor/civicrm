@@ -132,7 +132,7 @@ class CRM_Core_I18n
             $enabled = array();
             if (isset($config->languageLimit) and $config->languageLimit) {
                 foreach ($all as $code => $name) {
-                    if (in_array($code, $config->languageLimit)) $enabled[$code] = $name;
+                    if (in_array($code, array_keys($config->languageLimit))) $enabled[$code] = $name;
                 }
             }
         }

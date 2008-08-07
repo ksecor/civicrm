@@ -64,23 +64,15 @@ class CRM_Admin_Form_Setting_Localization extends  CRM_Admin_Form_Setting
                 if (substr_count($domain->locales, $loc)) $lcMessages[$loc] = $lang;
             }
             $this->addElement('select', 'lcMessages', ts('Default Language'), $lcMessages);
-            $includeLanguage =& $this->addElement('advmultiselect', 'languageLimit',
-                                                  ts('Available Languages'), $locales,
-                                                  array('size'  => 5,
-                                                        'style' => 'width: 200px',
-                                                        'class' => 'advmultiselect'));
-            $includeLanguage->setButtonAttributes('add',    array('value' => ts('Add >>')));
-            $includeLanguage->setButtonAttributes('remove', array('value' => ts('<< Remove')));
+            $this->addCheckBox('languageLimit', ts('Available Languages'), array_flip($lcMessages), null, null, null, null, ' &nbsp; ');
+            $this->addElement('select', 'addLanguage', ts('Add Language'), array_merge(array('' => ts('- select -')), array_diff($locales, $lcMessages)));
         } else {
-
-
-            $warning = ts("WARNING: As of 2.1 version of CiviCRM, this is still an experimental functionality. Enabling multiple languages irreversibly changes the schema of your database, so make sure you know what you are doing when enabling this function.");
-
+            $warning = ts('WARNING: As of 2.1 version of CiviCRM, this is still an experimental functionality. Enabling multiple languages irreversibly changes the schema of your database, so make sure you know what you are doing when enabling this function; making a database backup is most recommended.');
             $this->assign('warning', $warning);
 
             $this->addElement('select', 'lcMessages', ts('Default Language'), $locales);
             $this->addElement('checkbox', 'makeMultilingual', ts('Enable Multiple Languages'),
-                              null, array( 'onChange' => "if (this.checked == 1) alert('$warning')" ) );
+                              null, array('onChange' => "if (this.checked) alert('$warning')"));
         }
 
         $this->addElement('select', 'lcMonetary', ts('Monetary Locale'),  $locales);
@@ -151,15 +143,14 @@ class CRM_Admin_Form_Setting_Localization extends  CRM_Admin_Form_Setting
             CRM_Core_I18n_Schema::makeMultilingual($values['lcMessages']);
         }
 
-        // add a new db locale for every available language that's not yet supported by the db
-        if ($values['languageLimit']) {
+        // add a new db locale if the requested language is not yet supported by the db
+        if ($values['addLanguage']) {
             require_once 'CRM/Core/DAO/Domain.php';
             $domain =& new CRM_Core_DAO_Domain();
             $domain->find(true);
-            require_once 'CRM/Core/I18n/Schema.php';
-            foreach ($values['languageLimit'] as $locale) {
-                if (substr_count($domain->locales, $locale)) continue;
-                CRM_Core_I18n_Schema::addLocale($locale, $values['lcMessages']);
+            if (!substr_count($domain->locales, $values['addLanguage'])) {
+                require_once 'CRM/Core/I18n/Schema.php';
+                CRM_Core_I18n_Schema::addLocale($values['addLanguage'], $values['lcMessages']);
             }
         }
 
