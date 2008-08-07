@@ -21,6 +21,7 @@
       <name>name</name>
       <type>varchar</type>
       <length>128</length>
+      <localizable>true</localizable>
       <comment>Name of Membership Type</comment>
       <add>1.5</add>
   </field>
@@ -31,6 +32,7 @@
       <rows>6</rows>
       <cols>50</cols>
       <length>255</length>
+      <localizable>true</localizable>
       <comment>Description of Membership Type</comment>
       <add>1.5</add>
   </field>

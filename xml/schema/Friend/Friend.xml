@@ -35,17 +35,20 @@
       <name>title</name>  
       <type>varchar</type>
       <length>255</length>
+      <localizable>true</localizable>
       <add>2.0</add>  
   </field>
   <field>     
       <name>intro</name>  
       <type>text</type>  
+      <localizable>true</localizable>
       <comment>Introductory message to contributor or participant displayed on the Tell a Friend form.</comment>  
       <add>2.0</add>  
   </field>
   <field>    
       <name>suggested_message</name>    
       <type>text</type>    
+      <localizable>true</localizable>
       <comment>Suggested message to friends, provided as default on the Tell A Friend form.</comment>
       <add>2.0</add>    
   </field> 
@@ -61,12 +64,14 @@
       <name>thankyou_title</name>     
       <type>varchar</type>     
       <length>255</length>  
+      <localizable>true</localizable>
       <comment>Text for Tell a Friend thank you page header and HTML title.</comment>
       <add>2.0</add>     
   </field>   
   <field>        
       <name>thankyou_text</name>     
       <type>text</type>     
+      <localizable>true</localizable>
       <comment>Thank you message displayed on success page.</comment>
       <add>2.0</add>     
   </field>    

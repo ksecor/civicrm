@@ -35,6 +35,7 @@
       <type>varchar</type>
       <length>255</length>
       <required>true</required>
+      <localizable>true</localizable>
       <comment>Displayed title for the Price Set.</comment>
       <add>1.8</add>
   </field>
@@ -54,6 +55,7 @@
   <field>
       <name>help_pre</name>
       <type>text</type>
+      <localizable>true</localizable>
       <comment>Description and/or help text to display before fields in form.</comment>
       <htmlType>textarea</htmlType>
       <rows>4</rows>
@@ -63,6 +65,7 @@
   <field>
       <name>help_post</name>
       <type>text</type>
+      <localizable>true</localizable>
       <comment>Description and/or help text to display after fields in form.</comment>
       <htmlType>textarea</htmlType>
       <rows>4</rows>
