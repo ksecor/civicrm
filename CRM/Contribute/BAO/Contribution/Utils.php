@@ -229,7 +229,7 @@ class CRM_Contribute_BAO_Contribution_Utils {
         
         $query = 
         "SELECT sum(contrib.total_amount) AS ctAmt,
-            DATE_FORMAT(contrib.receive_date,'%b') AS contribMonth
+                MONTH( contrib.receive_date) AS contribMonth
         FROM civicrm_contribution AS contrib,
              civicrm_contact AS contact
         WHERE contrib.contact_id = contact.id
