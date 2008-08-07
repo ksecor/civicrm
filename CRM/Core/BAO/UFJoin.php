@@ -125,13 +125,24 @@ class CRM_Core_BAO_UFJoin extends CRM_Core_DAO_UFJoin {
         $dao->orderBy( 'weight' );
 
         $first = $second  = null;
+        $firstWeight = null;
         $dao->find( );
         if ( $dao->fetch( ) ) {
             $first = $dao->uf_group_id;
+            $firstWeight = $dao->weight;
         }
         if ( $dao->fetch( ) ) {
             $second = $dao->uf_group_id; 
         } 
+
+        // if there is only one profile check to see the weight, if > 1 then let it be second
+        // this is an approx rule, but should work in most cases.
+        if ( $second == null &&
+             $firstWeight > 1 ) {
+            $second = $first;
+            $first  = null;
+        }
+
         return array( $first, $second );
     } 
 
