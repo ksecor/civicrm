@@ -638,6 +638,14 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             
             $this->set( 'params', $this->_params );
         }
+        
+        // If registering > 1 participant, give status message
+        if ( CRM_Utils_Array::value( 'additional_participants', $params, false ) ) {
+            require_once "CRM/Core/Session.php";
+            $statusMsg = ts('Registration information for participant 1 has been saved.', array( 1 => $participantNo )); 
+            CRM_Core_Session::setStatus( "{$statusMsg}" );
+        }
+        
     }//end of function
     
     /*
