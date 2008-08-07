@@ -53,7 +53,7 @@
         {/edit}
         
          <table class="form-layout">
-           {if $action eq 1 or $action eq 2  or $action eq 4 or $context eq 'search' }
+         {if $action eq 1 or $action eq 2  or $action eq 4 or $context eq 'search' }
              {if $context eq ('standalone' or 'case' or 'search') }
                 <tr>
                    <td class="label">{$form.activity_type_id.label}</td><td class="view-value">{$form.activity_type_id.html}</td>
@@ -74,7 +74,7 @@
              </tr>
              {elseif $action neq 4}
              <tr>
-		 <td class="label">{ts}With Contact{/ts}<div dojoType="dojox.data.QueryReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra" doClientPaging="false"></div></td>
+                <td class="label">{ts}With Contact{/ts}<div dojoType="dojox.data.QueryReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra" doClientPaging="false"></div></td>
                 <td class="tundra">
 		          <span id="target_contact_1"></span></td></tr>
 		     {else}
@@ -84,15 +84,15 @@
              </tr>
              {/if}
              <tr>
-            {if $action neq 4}
-		 <td class="label">{ts}Assigned To {/ts}<div dojoType="dojox.data.QueryReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra" doClientPaging="false"></div></td>
+             {if $action neq 4}
+                <td class="label">{ts}Assigned To {/ts}<div dojoType="dojox.data.QueryReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra" doClientPaging="false"></div></td>
                 <td class="tundra">                  
                    <span id="assignee_contact_1"></span>
                    <br />{edit}<span class="description">{ts}You can optionally assign this activity to someone. Assigned activities will appear in their Contact Dashboard.{/ts}</span>{/edit}
                 </td>
-            {else}
+             {else}
                 <td class="label">{ts}Assigned To {/ts}</td><td class="view-value">{$assignee_contact_value}</td>
-            {/if}
+             {/if}
              </tr>
 
              {if $context neq 'standalone' AND $hasCases}
@@ -143,44 +143,41 @@
                 <td class="label">{$form.details.label}</td><td class="view-value">{$form.details.html|crmReplace:class:huge}</td>
              </tr> 
              <tr>
-	           {if $action eq 4} 
-                      {if $currentAttachmentURL}
-                         <td class="label">{ts}Current Attachments{/ts}</td>
-                         <td class="view-value">{$currentAttachmentURL}</td>
-                      {else}  
-                          <td colspan=2>&nbsp;</td>
-                      {/if}
-                   {else}
+             {if $action eq 4} 
+                {if $currentAttachmentURL}
+                    <td class="label">{ts}Current Attachments{/ts}</td>
+                    <td class="view-value">{$currentAttachmentURL}</td>
+                {else}  
+                    <td colspan=2>&nbsp;</td>
+                {/if}
+             {else}
                 <td colspan="2">
-                      {include file="CRM/Form/attachment.tpl"}
+                    {include file="CRM/Form/attachment.tpl"}
                 </td>
-                   {/if} 
-             </tr>
-             <tr>
+            {/if} 
+            </tr>
+            <tr>
                 <td colspan="2">
-	           {if $action eq 4} 
-                       {include file="CRM/Contact/Page/View/InlineCustomData.tpl"}
-                   {else}
-                      <div id="customData"></div>
-                   {/if} 
+	            {if $action eq 4} 
+                    {include file="CRM/Contact/Page/View/InlineCustomData.tpl"}
+                {else}
+                    <div id="customData"></div>
+                {/if} 
                 </td>
-             </tr> 
-             <tr>
-                <td colspan="2">&nbsp;</td>
-             </tr> 
-           {elseif $action eq 8}
+            </tr> 
+        {elseif $action eq 8}
              <tr>
                 <td colspan="2">
                     <div class="status">{ts 1=$delName}Are you sure you want to delete '%1'?{/ts}</div>
                 </td>
              </tr>  
-           {elseif $action eq 32768}
+        {elseif $action eq 32768}
              <tr>
                 <td colspan="2">
                     <div class="status">{ts 1=$delName}Are you sure you want to detach '%1' from this case?{/ts}</div>
                 </td>
              </tr>  
-           {/if}
+        {/if}
              <tr>
                 <td>&nbsp;</td><td>{$form.buttons.html}</td>
              </tr> 
