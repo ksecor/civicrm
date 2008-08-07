@@ -210,8 +210,8 @@ function civicrm_relationship_type_delete( &$params ) {
 function civicrm_get_relationships( $contact_a, $contact_b = null, $relationship_type_name = null, $returnProperties = null,
                                     $sort = null, $offset = 0, $row_count = 25 ) {
 
-    if( ! isset( $contact_a['contact_id'] ) ) {
-        return _crm_error('$contact_a is not valid contact datatype');
+    if ( !isset( $contact_a['contact_id'] ) ) {
+        return civicrm_create_error( ts( 'Could not find contact_id in input parameters.' ) );
     }
     require_once 'CRM/Contact/BAO/Relationship.php';
     $contactID     = $contact_a['contact_id'];
