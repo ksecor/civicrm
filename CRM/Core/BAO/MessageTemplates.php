@@ -236,6 +236,7 @@ class CRM_Core_BAO_MessageTemplates extends CRM_Core_DAO_MessageTemplates
                             $matches,
                             PREG_PATTERN_ORDER);
             
+            $subjectToken = null;
             if ( $matches[1] ) {
                 foreach ( $matches[1] as $token ) {
                     list($type,$name) = split( '\.', $token, 2 );
