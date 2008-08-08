@@ -96,32 +96,30 @@ function &civicrm_activity_create( &$params )
 }
 
 /**
- * 
- * Retrieves an array of valid values for "enum" 
+ * Retrieve a set of activities, specific to given input params.
  *
- * @contactID 
+ * @param  array  $params (reference ) input parameters.
  *
- * @return  Array of $activity Values  
- *
- * @access public
+ * @return array (reference)  array of activities / error message.
+ * @access public.
  */
 function &civicrm_activities_get_contact( $params )
 {
     _civicrm_initialize( );
-        
+    
     $contactId = $params['contact_id']; 
     if ( empty( $contactId ) ) {
         return civicrm_create_error( ts ( "Required parameter not found" ) );
     }
-
+    
     if ( !is_numeric( $contactId ) ) {
         return civicrm_create_error( ts ( "Invalid contact Id" ) );
     }
-
-    $activity =  & _civicrm_activities_get( $contactId );
-   
-     if ($activity ) {
-        return civicrm_create_success( $activity );
+    
+    $activities =  & _civicrm_activities_get( $contactId );
+    
+    if ( $activities ) {
+        return civicrm_create_success( $activities );
     } else {
         return civicrm_create_error( ts( 'Invalid Data' ) );
     }
@@ -212,18 +210,32 @@ function _civicrm_activity_update( $params )
 }
 
 /**
- * Delete a specified Activity.
- * @param CRM_Activity $activity Activity object to be deleted
+ * Retrieve a set of Activities specific to given contact Id.
+ * @param int $contactID.
  *
- * @return void|CRM_Core_Error  An error if 'activityName or ID' is invalid,
- *                         permissions are insufficient, etc.
- *
- * @access public
+ * @return array (reference)  array of activities.
+ * @access public.
  */
 function &_civicrm_activities_get( $contactID ) 
 {
     $activities = array();
     $activities = CRM_Activity_BAO_Activity::getContactActivity( $contactID );
+    
+    //handle custom data.
+    require_once 'CRM/Core/BAO/CustomGroup.php';
+    foreach ( $activities as $activityId => $values ) {
+        $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Activity', $activityId, false,
+                                                         $values['activity_type_id'] );
+        $defaults = array( );
+        CRM_Core_BAO_CustomGroup::setDefaults( $groupTree, $defaults );
+        
+        if ( !empty( $defaults ) ) {
+            foreach ( $defaults as $key => $val ) {
+                $activities[$activityId][$key] = $val;
+            }
+        }
+    }
+    
     return $activities;
 }
 
