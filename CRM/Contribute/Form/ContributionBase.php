@@ -460,7 +460,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
         require_once 'CRM/Utils/Address.php';
         $this->assign('address', CRM_Utils_Address::format($addressFields));
 
-        if ( $this->_params['is_for_organization'] ) {
+        if ( CRM_Utils_Array::value( 'is_for_organization', $this->_params ) ) {
             $this->assign('onBehalfName', $this->_params['organization_name']);
             $this->assign('onBehalfEmail', $this->_params['location'][1]['email'][1]['email']);
             $this->assign('onBehalfAddress', CRM_Utils_Address::format($this->_params['location'][1]['address']));

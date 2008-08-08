@@ -174,7 +174,7 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
         
         CRM_Friend_BAO_Friend::retrieve( $values, $data ) ;
 
-        if ( $data['is_active'] ) {               
+        if ( CRM_Utils_Array::value( 'is_active', $data ) ) {               
             $friendText = $data['title'];
             $this->assign( 'friendText', $friendText );
             if ( $this->_action & CRM_Core_Action::PREVIEW ) {

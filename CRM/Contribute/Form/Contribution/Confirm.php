@@ -116,7 +116,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             }
             
             // if onbehalf-of-organization
-            if ( $this->_params['is_for_organization'] ) {
+            if ( CRM_Utils_Array::value( 'is_for_organization', $this->_params ) ) {
                 if ( $this->_params['org_option'] && $this->_params['organization_id'] ) {
                     $this->_params['organization_name'] = 
                         CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $this->_params['organization_id'], 'sort_name');
@@ -391,7 +391,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         // organization params in a separate variable, to make sure
         // normal behavior is continued. And use that variable to
         // process on-behalf-of functionality.
-        if ( $this->_values['is_for_organization'] ) {
+        if ( CRM_Utils_Array::value( 'is_for_organization', $this->_values ) ) {
             $behalfOrganization = array();
             foreach ( array('organization_name', 'organization_id', 'location', 'org_option') as $fld ) {
                 $behalfOrganization[$fld] = $params[$fld];
@@ -416,7 +416,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
 
         // If onbehalf-of-organization contribution / signup, add organization
         // and it's location.
-        if ( $params['is_for_organization'] && isset( $behalfOrganization['organization_name'] ) ) {
+        if ( isset( $params['is_for_organization'] ) && isset( $behalfOrganization['organization_name'] ) ) {
             self::processOnBehalfOrganization( $behalfOrganization, $contactID, $this->_values, $this->_params );
         }
 
