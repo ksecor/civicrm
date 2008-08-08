@@ -160,8 +160,8 @@
        <title>Thank-you Text</title>
        <type>text</type> 
        <htmlType>textarea</htmlType>
-       <rows>6</rows>
-       <cols>50</cols>
+       <rows>8</rows>
+       <cols>60</cols>
        <localizable>true</localizable>
        <comment>text and html allowed. displayed above result on success page</comment> 
        <add>1.3</add> 
@@ -171,8 +171,8 @@
        <title>Thank-you Footer</title>
        <type>text</type> 
        <htmlType>textarea</htmlType>
-       <rows>6</rows>
-       <cols>50</cols>
+       <rows>8</rows>
+       <cols>60</cols>
        <localizable>true</localizable>
        <comment>Text and html allowed. displayed at the bottom of the success page. Common usage is to include link(s) to other pages such as tell-a-friend, etc.</comment> 
        <add>1.3</add> 
