@@ -155,14 +155,15 @@ function civicrm_event_search( &$params )
     while ( $eventDAO->fetch( ) ) {
         $event[$eventDAO->id] = array( );
         CRM_Core_DAO::storeValues( $eventDAO, $event[$eventDAO->id] );
-        $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Event', $eventDAO->id, false, 1 );
-        CRM_Core_BAO_CustomGroup::setDefaults( $groupTree, $defaults, false, false );
-        if ( is_array( $defaults ) ) {
+        $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Event', $eventDAO->id, false, $eventDAO->event_type_id );
+        $defaults = array( );
+        CRM_Core_BAO_CustomGroup::setDefaults( $groupTree, $defaults );
+        if ( !empty( $defaults ) ) {
             foreach ( $defaults as $key => $val ) {
                 $event[$eventDAO->id][$key] = $val;
             }
         }
-    } // end of the loop
+    } //end of the loop
     $eventDAO->free( );
     return $event;
 }

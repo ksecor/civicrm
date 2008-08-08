@@ -460,13 +460,14 @@ function civicrm_contact_memberships_get(&$contactID)
         if ( $relationshipType->find(true) ) {
             $membershipValues[$membershipId]['relationship_name'] = $relationshipType->name_a_b;
         }
-        
+       
         require_once 'CRM/Core/BAO/CustomGroup.php';
-        $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Membership',$membershipId , false,
-                                                         $membershipValues[$membershipId]['membership_type_id']);
-        CRM_Core_BAO_CustomGroup::setDefaults( $groupTree, $defaults, false, false );  
+        $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Membership', $membershipId, false,
+                                                         $values['membership_type_id']);
+        $defaults = array( );
+        CRM_Core_BAO_CustomGroup::setDefaults( $groupTree, $defaults );  
         
-        if ( is_array($defaults) ) {
+        if ( !empty( $defaults ) ) {
             foreach ( $defaults as $key => $val ) {
                 $membershipValues[$membershipId][$key] = $val;
             }
