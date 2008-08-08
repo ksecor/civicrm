@@ -667,7 +667,9 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             }
             $tmpContactField['external_identifier'] = $contactFields['external_identifier'];
             $tmpContactField['external_identifier']['title'] = $contactFields['external_identifier']['title'] . " (match to contact)";
-            
+                       
+            $tmpFields['membership_contact_id']['title'] = $tmpFields['membership_contact_id']['title'] . " (match to contact)";
+           
             $fields = array_merge($fields, $tmpContactField);
             $fields = array_merge($fields, $tmpFields);
             $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport('Membership'));
