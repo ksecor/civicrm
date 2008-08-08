@@ -83,7 +83,7 @@ div#crm-container {
 ** CRM form layout classes (from www.realworldstyle.com)
 */
 div.spacer, .spacer {
-  clear: both;
+  clear: none;
   height: 5px;
   }
 
@@ -108,7 +108,7 @@ div.spacer, .spacer {
   border-top-style: none;
   margin: 0px;
   padding: 3px 0px 3px 0px;
-  clear: both;
+  clear: none;
   overflow: auto; 
 }
 
@@ -331,7 +331,7 @@ div.spacer, .spacer {
 
 #crm-container div.status dt {
   float: left;
-  clear: left;
+  clear: none;
   width: 30px;
 }
 
@@ -595,7 +595,7 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
 #crm-container .selected {
   margin: 0px;
   padding: 3px 0px 3px 0px;
-  clear: both;
+  clear: none;
   background-color: #ffff99;
 }
 
@@ -647,7 +647,7 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
   float: right;
   width: auto;
   padding: 0px 5px 10px 0px;
-  clear: both;
+  clear: none;
 }
 
 #crm-container .align-right {
@@ -726,7 +726,7 @@ div.crm-pager a {
   margin: 10px 5px 5px 5px;
   padding: 5px;
   border-top: 2px solid #85ACE8;
-  clear: both;
+  clear: none;
 }
 
 /* Styles for Wizard Progress Bars */
@@ -763,7 +763,7 @@ div.crm-pager a {
 
 /* Recently Viewed bar */
 #crm-container div#recently-viewed {
-  float: left;
+  float: none;
   width: 95%;
   margin: 5px 0px 10px;
   font-weight: bold;
