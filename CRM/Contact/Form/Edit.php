@@ -401,7 +401,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                 }
             }
         }
-        
+
         CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, $viewMode, $inactiveNeeded );
         return $defaults;
     }
@@ -717,7 +717,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         }
 
         if ( $this->_contactType == 'Individual' ) {
-            if ( isset( $params['employer_option'] ) ) {
+            if ( CRM_Utils_Array::value( 'employer_option', $params ) ) {
                 // create current employer
                 if ( $params['employer_option'] ) {
                     //selected existing organization

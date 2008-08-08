@@ -58,7 +58,7 @@
     </table>
 <div id="employer_option" class="form-item">
    {$form.employer_option.label}{$form.employer_option.html}
-   &nbsp; <a href="#" title="unselect" onclick="unselectRadio('employer_option', 'Edit'); return showHideEmployerOptions();" >unselect</a>	
+   &nbsp; <a href="#prefix_id" title="unselect" onclick="unselectRadio('employer_option', 'Edit'); return showHideEmployerOptions();" >unselect</a>	
 </div>
 <div id="create_employer" class="form-item">
     <span class="labels">
