@@ -277,7 +277,7 @@ class CRM_Activity_Form_Activity extends CRM_Contact_Form_Task
             
             require_once "CRM/Activity/BAO/Activity.php";
             CRM_Activity_BAO_Activity::retrieve( $params, $defaults );
-
+            $this->assign('caseSubject', $defaults['case_subject']);
             if ( CRM_Utils_Array::value('duration',$defaults) ) {
                 require_once "CRM/Utils/Date.php";
                 list( $defaults['duration_hours'], $defaults['duration_minutes'] ) = CRM_Utils_Date::unstandardizeTime( $defaults['duration'] );

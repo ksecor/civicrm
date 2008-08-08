@@ -99,10 +99,14 @@
                 <tr>
                   <td class="label">{$form.case_id.label}</td>
                   <td class="view-value">
+                    {if $action neq 4}
                      <div dojoType="dojox.data.QueryReadStore" jsId="caseStore" url="{$caseUrl}" class="tundra">
                          {$form.case_id.html}
                      </div>
                      {edit}<span class="description">{ts}If you are managing case(s) for this contact, you can optionally associate this activity with an existing case.{/ts}</span>{/edit}
+                    {else}
+                    {$caseSubject}
+                    {/if}
                   </td>
                 </tr>
              {/if}
