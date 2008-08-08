@@ -370,7 +370,8 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
             }
             $tmpConatctField['external_identifier'] = $contactFields['external_identifier'];
             $tmpConatctField['external_identifier']['title'] = $contactFields['external_identifier']['title'] . " (match to contact)";
-            
+            $tmpFields['contribution_contact_id']['title']   = $tmpFields['contribution_contact_id']['title'] . " (match to contact)";
+
             $fields = array_merge($fields, $tmpConatctField);
             $fields = array_merge($fields, $tmpFields);
             $fields = array_merge($fields, $note);

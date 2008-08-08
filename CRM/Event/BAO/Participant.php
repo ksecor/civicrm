@@ -85,8 +85,9 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
         }
         
         // converting dates to mysql format
-        $params['register_date']  = CRM_Utils_Date::isoToMysql($params['register_date']);
-        
+        if ( CRM_Utils_Array::value( 'register_date', $params ) ) {
+            $params['register_date']  = CRM_Utils_Date::isoToMysql($params['register_date']);
+        }
         $participantBAO =& new CRM_Event_BAO_Participant();
         $participantBAO->copyValues($params);
         $participantBAO->id = CRM_Utils_Array::value( 'id', $params );
@@ -368,7 +369,8 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
             }
             $tmpContactField['external_identifier'] = CRM_Utils_Array::value('external_identifier',$contactFields);
             $tmpContactField['external_identifier']['title'] = $contactFields['external_identifier']['title'] . " (match to contact)";
-            
+            $tmpFields['participant_contact_id']['title']    = $tmpFields['participant_contact_id']['title'] . " (match to contact)";
+
             $fields = array_merge($fields, $tmpContactField);
             $fields = array_merge($fields, $tmpFields);
             $fields = array_merge($fields, $note);
