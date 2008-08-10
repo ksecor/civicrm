@@ -83,7 +83,7 @@ div#crm-container {
 ** CRM form layout classes (from www.realworldstyle.com)
 */
 div.spacer, .spacer {
-  clear: none;
+  clear: left;
   height: 5px;
   }
 
