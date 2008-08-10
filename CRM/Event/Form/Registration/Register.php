@@ -809,13 +809,14 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         }
         
         $amount_level = array( );
-        
-        foreach( $lineItem as $values ) {
-            if ( $values['html_type'] == 'Text' ) {
-                $amount_level[] = $values['label'] . ' - ' . $values['qty'];
-                continue;
+        if ( is_array( $lineItem ) ) {
+            foreach( $lineItem as $values ) {
+                if ( $values['html_type'] == 'Text' ) {
+                    $amount_level[] = $values['label'] . ' - ' . $values['qty'];
+                    continue;
+                }
+                $amount_level[] = $values['label'];
             }
-            $amount_level[] = $values['label'];
         }
         
         require_once 'CRM/Core/BAO/CustomOption.php';
