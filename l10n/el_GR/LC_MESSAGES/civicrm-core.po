@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-07-07 18:43-0700\n"
-"PO-Revision-Date: 2007-10-29 22:05+0200\n"
-"Last-Translator: Tassos Koutlas <tassos.koutlas@gmail.com>\n"
+"PO-Revision-Date: 2008-08-07 18:00-0700\n"
+"Last-Translator: Aristotelis Sobotis <sobotis@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -150,7 +150,7 @@ msgstr "- επιλέξτε -"
 #: CRM/Contact/Page/View/UserDashBoard/Participant.php
 #: CRM/Core/SelectValues.php CRM/Dedupe/Merger.php
 msgid "Events"
-msgstr "Εκδήλωση"
+msgstr "Εκδηλώσεις"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
 msgid "All Groups"
@@ -166,7 +166,7 @@ msgstr "Όλα τα προφίλ"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
 msgid "All Events"
-msgstr ""
+msgstr "Όλες οι εκδηλώσεις"
 
 #: CRM/ACL/Form/ACL.php CRM/Contact/Page/View/CustomData.php CRM/Core/Menu.php
 msgid "Custom Data"
@@ -187,7 +187,7 @@ msgstr "Εκδήλωση"
 #: CRM/ACL/Form/EntityRole.php CRM/Activity/Form/Activity.php
 #: CRM/Activity/Selector/Activity.php templates/CRM/ACL/Page/EntityRole.tpl
 msgid "Assigned To"
-msgstr ""
+msgstr "Ανάθεση σε"
 
 #: CRM/ACL/Form/EntityRole.php CRM/Contact/Form/GroupContact.php
 #: CRM/Contact/Form/Search/Custom/PostalMailing.php
@@ -298,7 +298,7 @@ msgstr "Θέμα"
 
 #: CRM/Activity/BAO/Query.php CRM/Case/BAO/Query.php
 msgid "Start Date - From"
-msgstr ""
+msgstr "Ημερομηνία έναρξης - Από"
 
 #: CRM/Activity/BAO/Query.php CRM/Activity/Form/Activity.php
 #: CRM/Case/BAO/Query.php CRM/Case/Form/Case.php
@@ -309,7 +309,7 @@ msgstr ""
 #: CRM/Contact/Form/Task/Record.php CRM/Core/BAO/UFGroup.php
 #: CRM/Grant/BAO/Query.php CRM/Grant/Form/Grant.php
 msgid "Select a valid date."
-msgstr ""
+msgstr "Επιλέξτε μια αληθινή ημερομηνία."
 
 #: CRM/Activity/BAO/Query.php CRM/Case/BAO/Query.php
 #: CRM/Contact/Form/Search/Criteria.php CRM/Contact/Form/Task/EmailCommon.php
@@ -318,7 +318,7 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Email.tpl
 #: templates/CRM/Contact/Page/View/SMS.tpl
 msgid "To"
-msgstr ""
+msgstr "Έως"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 #: templates/CRM/Activity/Form/Activity.tpl
@@ -528,7 +528,7 @@ msgstr ""
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Match Fields"
-msgstr ""
+msgstr "Ταιριάξετε τα Πεδία"
 
 #: CRM/Activity/Import/Form/Preview.php CRM/Import/Form/Preview.php
 msgid "Import Now >>"
@@ -857,7 +857,7 @@ msgstr "Ημερομηνία Έναρξης"
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 #: templates/CRM/Contact/Page/View/UserDashBoard/Membership.tpl
 msgid "End Date"
-msgstr "Ημερομηνία Τέλους"
+msgstr "Ημερομηνία Λήξης"
 
 #: CRM/Case/Form/Case.php CRM/Contact/Form/Note.php
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Tabbed.php
@@ -1018,12 +1018,12 @@ msgstr "Νέο %1"
 #: CRM/Contact/Form/Edit.php CRM/Contact/Form/Search/Criteria.php
 #, fuzzy
 msgid "Privacy"
-msgstr "Ιδιωτικότητα"
+msgstr "Ιδιωτικό Απόρρητο"
 
 #: CRM/Contact/Form/Email.php CRM/Contact/Form/Task/EmailCommon.php
 #: CRM/Friend/Form.php CRM/Profile/Form/ForwardMailing.php
 msgid "Email is not valid."
-msgstr "Το email δεν είναι έγκυρο"
+msgstr "Το email δεν είναι έγκυρο."
 
 #: CRM/Contact/Form/GroupTag.php CRM/Contact/Form/Task/EmailCommon.php
 #: CRM/Core/BAO/CustomField.php CRM/Core/BAO/PriceField.php
@@ -1047,7 +1047,7 @@ msgstr "Παρατσούκλι"
 #: templates/CRM/Contact/Page/View/Print.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Source"
-msgstr ""
+msgstr "Πηγή"
 
 #: CRM/Contact/Form/Household.php CRM/Contact/Form/Individual.php
 #: CRM/Contact/Form/Organization.php
@@ -1126,7 +1126,7 @@ msgstr "Ναι"
 
 #: CRM/Contact/Form/OpenID.php CRM/Standalone/Form/Register.php
 msgid "OpenID"
-msgstr ""
+msgstr "OpenID"
 
 #: CRM/Contact/Form/Organization.php CRM/Core/BAO/CustomField.php
 #: CRM/Core/BAO/UFGroup.php
@@ -1177,7 +1177,7 @@ msgstr "Δραστηριότητες"
 #: CRM/Core/Menu.php CRM/Core/SelectValues.php CRM/Dedupe/Merger.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Relationships"
-msgstr "Συσχετίσεις"
+msgstr "Συσχετισμοί"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Tabbed.php
 msgid "Change Log"
@@ -1189,13 +1189,13 @@ msgstr "Αλλαγή Ημερολογίου"
 #: CRM/Core/SelectValues.php CRM/Dedupe/Merger.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Contributions"
-msgstr ""
+msgstr "Εισφορές"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Basic.php
 #: CRM/Contact/Page/View/Tabbed.php CRM/Core/SelectValues.php
 #: CRM/Dedupe/Merger.php templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Memberships"
-msgstr ""
+msgstr "Συνδρομές Μελών"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Grant.php
 #: CRM/Contact/Page/View/Tabbed.php CRM/Core/SelectValues.php
@@ -1206,11 +1206,11 @@ msgstr ""
 #: CRM/Contact/Form/Search/Custom/ActivitySearch.php
 #: CRM/Contact/Form/Search/Custom/Basic.php
 msgid "Find..."
-msgstr "Βρες..."
+msgstr "Εύρεση..."
 
 #: CRM/Contact/Form/Search/Basic.php CRM/Contact/Form/Search/Custom/Basic.php
 msgid "- any group -"
-msgstr ""
+msgstr " - οποιαδήποτε ομάδα -"
 
 #: CRM/Contact/Form/Search/Basic.php CRM/Contact/Form/Search/Custom/Basic.php
 msgid "in"
@@ -1392,7 +1392,7 @@ msgstr ""
 
 #: CRM/Contact/Page/View/DashBoard.php CRM/Core/Menu.php
 msgid "CiviCRM Home"
-msgstr "Αρχική CiviCRM"
+msgstr "Αρχική Σελίδα CiviCRM"
 
 #: CRM/Contact/Page/View/GroupContact.php
 #: CRM/Contact/Page/View/UserDashBoard/GroupContact.php
@@ -1401,7 +1401,7 @@ msgstr "Ομάδες της Επαφής"
 
 #: CRM/Contact/Page/View/Membership.php CRM/Group/Page/Group.php
 msgid "Members"
-msgstr ""
+msgstr "Μέλη"
 
 #: CRM/Contact/Page/View/SMS.php CRM/SMS/BAO/History.php
 msgid "SMS Sent"
@@ -1572,7 +1572,7 @@ msgstr "Εύρεση Διπλότυπων Επαφών"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Duplicate Contact Rules"
-msgstr "Διπλότυποι Κανόνες Επαφών"
+msgstr "Κανόνες Διπλότυπων Επαφών"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Contact Matching"
