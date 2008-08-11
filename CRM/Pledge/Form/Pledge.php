@@ -378,6 +378,7 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
         CRM_Core_DAO::commonRetrieveAll( 'CRM_Pledge_DAO_PledgeBlock', 'entity_table', 
                                          'civicrm_contribution_page', $pageIds, array( 'entity_id' ) );
         $pages = CRM_Contribute_PseudoConstant::contributionPage( );
+        $pledgePages = array();
         foreach ( $pageIds as $key => $value ) {
             $pledgePages[$value['entity_id']] = $pages[$value['entity_id']];
         }
