@@ -18,7 +18,7 @@ class HTML_QuickForm_TinyMCE extends HTML_QuickForm_textarea
      * @var string
      * @access public
      */
-    var $Width = '100%';
+    var $Width = '75%';
     
     /**
      * The height of the editor in pixels or percent
@@ -141,6 +141,8 @@ class HTML_QuickForm_TinyMCE extends HTML_QuickForm_textarea
             //FIXME: We might want to pass some parameters to TinyMCE
             $html .= sprintf( '<script type="text/javascript">tinyMCE.init({ mode : "textareas",' .
                                                                        'theme : "simple",' .
+                                                                       'height: "200",' .
+                                                                       'width : "700",'.
                                                              'editor_selector : "form-TinyMCE"}); </script>'  );
             // include textarea as well (TinyMCE transforms it)
             $html .=  parent::toHTML();

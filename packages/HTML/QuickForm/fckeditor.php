@@ -20,7 +20,7 @@ class HTML_QuickForm_FCKeditor extends HTML_QuickForm_textarea
      * @var string
      * @access public
      */
-    var $Width = '100%';
+    var $Width = '75%';
     
     /**
      * The height of the editor in pixels or percent
@@ -28,7 +28,7 @@ class HTML_QuickForm_FCKeditor extends HTML_QuickForm_textarea
      * @var string
      * @access public
      */
-    var $Height = '200';
+    var $Height = '250';
     
     /**
      * The Toolbar set to use
