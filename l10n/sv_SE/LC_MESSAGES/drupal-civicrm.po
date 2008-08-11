@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2007-05-07 11:19+0200\n"
-"PO-Revision-Date: 2008-05-10 09:55-0700\n"
-"Last-Translator: Magnus Gunnarsson <seals@passagen.se>\n"
+"PO-Revision-Date: 2008-08-10 12:00-0700\n"
+"Last-Translator: Jonas Hagberg <deg@jonashagberg.se>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -202,7 +202,7 @@ msgstr ""
 
 #: drupal/civicrm.module
 msgid "View Contact Record"
-msgstr ""
+msgstr "Visa kontakt information"
 
 #: drupal/civicrm.module
 msgid "View Contact Dashboard"

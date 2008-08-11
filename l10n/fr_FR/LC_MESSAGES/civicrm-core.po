@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-07-07 18:43-0700\n"
-"PO-Revision-Date: 2008-07-24 08:46-0700\n"
+"PO-Revision-Date: 2008-08-04 09:10-0700\n"
 "Last-Translator: Aurialie <ajublin@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -5439,6 +5439,9 @@ msgid ""
 "Please enter a valid value for your card security code. This is usually the "
 "last 3-4 digits on the card's signature panel."
 msgstr ""
+"Merci d'entrer une valeur valide pour le code sécurité de votre carte. C'est "
+"habituellement les 3-4 derniers chiffres présents dans l'encadré signature "
+"de la carte."
 
 #: CRM/Core/Payment/Form.php
 msgid "Credit card expiration date can not be a past date."
@@ -5485,11 +5488,11 @@ msgstr ""
 #: CRM/Core/Payment/PayJunction.php
 #, fuzzy
 msgid "Site URL is not set for this payment processor"
-msgstr "Voulez vous desactiver ce groupe de donnees?"
+msgstr "L'URL du site n'est pas adapté à ce type de paiement"
 
 #: CRM/Core/Payment/PayPalImpl.php
 msgid "Could not find user name for payment processor"
-msgstr ""
+msgstr "Impossibilité de trouver le nom d'utilisateur pour ce type de paiement"
 
 #: CRM/Core/Payment/PayPalImpl.php
 #, fuzzy
@@ -5500,20 +5503,20 @@ msgstr ""
 "Globaux &raquo; Processus de Paiement."
 
 #: CRM/Core/Payment/PayPalImpl.php
-#, fuzzy
 msgid "Component is invalid"
-msgstr "Type de contact"
+msgstr "Composant invalide"
 
 #: CRM/Core/Payment/PayPalImpl.php
-#, fuzzy
 msgid "Recurring contribution, but no database id"
-msgstr "Chercher contacts"
+msgstr "Don récurrent, mais pas id base de données"
 
 #: CRM/Core/Payment/PayPalImpl.php
 msgid ""
 "Please set the API URL. Please refer to the <a href=\"%1\">documentation</a> "
 "for more details"
 msgstr ""
+"Merci d'indiquer l'URL de l'API. Merci de vous référer à <a "
+"href=\"%1\">documentation</a> pour plus de détails"
 
 #: CRM/Core/QuickForm/Action/Upload.php
 msgid ""
@@ -5521,22 +5524,25 @@ msgid ""
 "verify that the 'Temporary Files' setting points to a valid path which is "
 "writable by your web server."
 msgstr ""
+"Nous ne pouvons déplacer le fichier téléchargé %1 dans le répertoire de "
+"téléchargement %2. Merci de vérifier que les paramètres des \"Fichiers "
+"temporaires\" pointent vers un chemin valide pour votre serveur web."
 
 #: CRM/Core/SelectValues.php
 msgid "default - Dear [prefix] [first] [last]"
-msgstr ""
+msgstr "par défaut - Cher(e) [civilité] [prénom] [nom]"
 
 #: CRM/Core/SelectValues.php
 msgid "Dear [first]"
-msgstr ""
+msgstr "Cher(e) [prénom]"
 
 #: CRM/Core/SelectValues.php
 msgid "Dear [prefix] [last]"
-msgstr ""
+msgstr "Cher(e) [civilité] [nom]"
 
 #: CRM/Core/SelectValues.php
 msgid "Customized"
-msgstr ""
+msgstr "Personnalisé"
 
 #: CRM/Core/SelectValues.php
 msgid "Mobile"
@@ -5559,90 +5565,87 @@ msgid "HTML"
 msgstr "HTML"
 
 #: CRM/Core/SelectValues.php
-#, fuzzy
 msgid "Do not phone"
-msgstr "Type de contact"
+msgstr "Ne pas appeler"
 
 #: CRM/Core/SelectValues.php
 msgid "Do not email"
-msgstr ""
+msgstr "Ne pas envoyer d'e-mail"
 
 #: CRM/Core/SelectValues.php
 msgid "Do not mail"
-msgstr ""
+msgstr "Ne pas envoyer de courrier"
 
 #: CRM/Core/SelectValues.php
 msgid "Do not trade"
-msgstr ""
+msgstr "Ne pas envoyer d'offre commercial"
 
 #: CRM/Core/SelectValues.php
 msgid "- all contacts -"
-msgstr ""
+msgstr "- tous les contacts -"
 
 #: CRM/Core/SelectValues.php
 msgid "Individuals"
-msgstr ""
+msgstr "Individuels"
 
 #: CRM/Core/SelectValues.php
 msgid "Households"
-msgstr ""
+msgstr "Ménages"
 
 #: CRM/Core/SelectValues.php
 msgid "Organizations"
-msgstr ""
+msgstr "Organisations"
 
 #: CRM/Core/SelectValues.php
 msgid "day"
-msgstr ""
+msgstr "jour"
 
 #: CRM/Core/SelectValues.php
-#, fuzzy
 msgid "month"
-msgstr "Pays"
+msgstr "mois"
+
+#: CRM/Core/SelectValues.php
+msgid "year"
+msgstr "année"
 
 #: CRM/Core/SelectValues.php
 #, fuzzy
-msgid "year"
-msgstr "Chercher"
-
-#: CRM/Core/SelectValues.php
 msgid "life time"
-msgstr ""
+msgstr "à vie"
 
 #: CRM/Core/SelectValues.php
+#, fuzzy
 msgid "rolling"
-msgstr ""
+msgstr "roulant(e)"
 
 #: CRM/Core/SelectValues.php
 msgid "fixed"
-msgstr ""
+msgstr "fixe"
 
 #: CRM/Core/SelectValues.php templates/CRM/Price/Page/Field.tpl
 #: templates/CRM/Price/Page/Option.tpl templates/CRM/Price/Page/Set.tpl
 msgid "Public"
-msgstr ""
+msgstr "public"
 
 #: CRM/Core/SelectValues.php
 msgid "Admin"
 msgstr "Administrateur"
 
 #: CRM/Core/SelectValues.php
-#, fuzzy
 msgid "start date"
 msgstr "Date de debut"
 
 #: CRM/Core/SelectValues.php
-#, fuzzy
 msgid "end date"
 msgstr "Date de fin"
 
 #: CRM/Core/SelectValues.php
 msgid "join date"
-msgstr ""
+msgstr "Date d'adhésion"
 
 #: CRM/Core/SelectValues.php
 msgid "Decimal Number"
-msgstr ""
+msgstr "Nombre décimal"
 
 #: CRM/Core/SelectValues.php
 msgid "Memo"
@@ -5650,15 +5653,17 @@ msgstr "Memo"
 
 #: CRM/Core/SelectValues.php
 msgid "Yes/No"
-msgstr ""
+msgstr "Oui/Non"
 
 #: CRM/Core/SelectValues.php
+#, fuzzy
 msgid "Single-line input field (text or numeric)"
-msgstr ""
+msgstr "Champ de donnée à une ligne (texte ou numérique)"
 
 #: CRM/Core/SelectValues.php
+#, fuzzy
 msgid "Multi-line text box (textarea)"
-msgstr ""
+msgstr "Boîte de texte multiligne (zone de texte)"
 
 #: CRM/Core/SelectValues.php
 msgid "Drop-down (select list)"
