@@ -72,9 +72,9 @@
   {/foreach}
 
 	if (count>1)
-	   map.drawZoomAndCenter(myPoint,13);
+	   map.drawZoomAndCenter(myPoint,15);
 	else
- 	   map.drawZoomAndCenter(myPoint,10);
+ 	   map.drawZoomAndCenter(myPoint,5);
   {literal}
 </script> 
 {/literal}
