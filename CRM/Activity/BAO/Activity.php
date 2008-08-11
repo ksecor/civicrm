@@ -456,11 +456,13 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             $case = " civicrm_case_activity.case_id = $caseId ";
         }
         
-        $query = "select DISTINCT(civicrm_activity.id), civicrm_activity.*,
+        $query = "select DISTINCT(civicrm_activity.id), civicrm_activity.activity_date_time,
+                         civicrm_activity.status_id, civicrm_activity.subject,
+                         civicrm_activity.source_contact_id,civicrm_activity.source_record_id,
                          sourceContact.sort_name as source_contact_name,
-                         MAX(civicrm_activity_target.target_contact_id),
+                         civicrm_activity_target.target_contact_id,
 			             targetContact.sort_name as target_contact_name,
-                         MAX(civicrm_activity_assignment.assignee_contact_id),
+                         civicrm_activity_assignment.assignee_contact_id,
 			             assigneeContact.sort_name as assignee_contact_name,
                          civicrm_option_value.value as activity_type_id,
                          civicrm_option_value.label as activity_type,
@@ -527,7 +529,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                                  'target_contact_name',
                                  'target_contact_id',
                                  'assignee_contact_name',
-                                 'asignee_contact_id',
+                                 'assignee_contact_id',
                                  'source_record_id',
                                  'case_id',
                                  'case_subject' );
