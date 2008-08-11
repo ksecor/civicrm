@@ -153,7 +153,7 @@ if ( function_exists( 'variable_get' ) && variable_get('clean_url', '0') != '0' 
 // force PHP to auto-detect Mac line endings
 ini_set('auto_detect_line_endings', '1');
 
-// make sure the memory_limit is at least 32 MiB
+// make sure the memory_limit is at least 48 MB
 $memLimitString = trim(ini_get('memory_limit'));
 $memLimitUnit   = strtolower(substr($memLimitString, -1));
 $memLimit       = (int) $memLimitString;
@@ -162,8 +162,8 @@ switch ($memLimitUnit) {
     case 'm': $memLimit *= 1024;
     case 'k': $memLimit *= 1024;
 }
-if ($memLimit >= 0 and $memLimit < 33554432) {
-    ini_set('memory_limit', '32M');
+if ( $memLimit >= 0 and $memLimit < 50331648 ) {
+    ini_set('memory_limit', '48M');
 }
 
 
