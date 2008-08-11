@@ -1125,9 +1125,10 @@ AND civicrm_membership.is_test = %2";
         }
         
         // create / renew membership
+        $ids['userId'] = $contactID;
         $membership =& self::create( $memParams, $ids, false, 'Membership Renewal' );
         $membership->find(true);
-            
+        
         $form->assign('mem_start_date',  
                       CRM_Utils_Date::customFormat($dates['start_date'], $format) );
         $form->assign('mem_end_date', 
