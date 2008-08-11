@@ -208,8 +208,8 @@ class CRM_Pledge_Form_Pledge extends CRM_Core_Form
             $now = date("Y-m-d");
             $defaults['create_date']             = $now;
             $defaults['start_date']              = $now;
-            $defaults['installments']            = 1;
-            $defaults['frequency_day']           = 3;
+            $defaults['installments']            = 12;
+            $defaults['frequency_day']           = 1;
             $defaults['initial_reminder_day']    = 5;
             $defaults['max_reminders']           = 1;
             $defaults['additional_reminder_day'] = 5;
