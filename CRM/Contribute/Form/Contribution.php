@@ -507,7 +507,7 @@ WHERE  contribution_id = {$this->_id}
         }
         
         foreach ( $paneNames as $name => $type ) {
-            $urlParams = "snippet=1&formType={$type}";
+            $urlParams = "snippet=4&formType={$type}";
             if ( $this->_mode ) {
                 $urlParams .= "&mode={$this->_mode}";
             }
