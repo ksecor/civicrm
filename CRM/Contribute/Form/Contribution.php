@@ -486,9 +486,17 @@ WHERE  contribution_id = {$this->_id}
         }
         
         $paneNames =  array ( 'Additional Details'  => 'AdditionalDetail',
-                              'Honoree Information' => 'Honoree', 
-                              'Premium Information' => 'Premium'
+                              'Honoree Information' => 'Honoree' 
                               );
+        
+        //Add Premium pane only if Premium is exists.
+        require_once 'CRM/Contribute/DAO/Product.php';
+        $dao = & new CRM_Contribute_DAO_Product();
+        $dao->is_active = 1;
+        
+        if ( $dao->find( true ) ) {
+            $paneNames['Premium Information'] = 'Premium';
+        }
         $ccPane = null;
         
         if ( $this->_mode ) { 
