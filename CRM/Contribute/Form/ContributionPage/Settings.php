@@ -81,12 +81,11 @@ class CRM_Contribute_Form_ContributionPage_Settings extends CRM_Contribute_Form_
                    CRM_Contribute_PseudoConstant::contributionType( ),
                    true );
         
-        // intro_text and footer_text
         $this->addWysiwyg( 'intro_text', ts('Introductory Message'),CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'intro_text'));
         $this->addWysiwyg( 'footer_text', ts('Footer Message'),CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'footer_text'));
 
         // is on behalf of an organization ?
-        $this->addElement('checkbox', 'is_for_organization', ts('Allow individuals to contribute and / or signup for membership on behalf of an organization?'), null, array('onclick' =>"return showHideByValue('is_for_organization',true,'for_org_text','block','radio',false);") );
+        $this->addElement('checkbox', 'is_for_organization', ts('Allow individuals to contribute and / or signup for membership on behalf of an organization?'), null, array('onclick' =>"return showHideByValue('is_for_organization',true,'for_org_text','table-row','radio',false);") );
         $this->add('textarea', 'for_organization', ts('On behalf of label'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'for_organization') );
 
         // collect goal amount

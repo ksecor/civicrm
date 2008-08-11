@@ -118,7 +118,7 @@ WHERE  civicrm_membership.contact_id = civicrm_contact.id
             
             //send reminder for membership renewal
             if ( $dao->reminder_date &&
-               ( $reminder_date <= $today_date ) ) {
+                 ( $reminder_date <= $today_date ) ) {
                 $memType =& new CRM_Member_BAO_MembershipType( );
                 
                 $memType->id = $dao->membership_type_id;
@@ -126,7 +126,7 @@ WHERE  civicrm_membership.contact_id = civicrm_contact.id
                      $memType->renewal_msg_id ) {
                     require_once 'CRM/Contact/BAO/Contact.php';
                     $toEmail  = CRM_Contact_BAO_Contact::getPrimaryEmail( $dao->contact_id );
-                  
+                    
                     if ( $toEmail ) {
                         // Set the FROM email address for reminder emails here.
                         // This must be a valid account for your SMTP service.
@@ -139,21 +139,21 @@ WHERE  civicrm_membership.contact_id = civicrm_contact.id
                         //Set membership reminder date to NULL since we've sent the reminder.
                         crm_update_contact_membership( array('id'             => $dao->membership_id,
                                                              'reminder_date'  => 'null' ) );
-
-                                 
+                        
+                        
                         //insert the log record.
                         $memb = new CRM_Member_BAO_Membership( );
-                        $memb->id = $membership->id;
+                        $memb->id = $dao->membership_id;
                         if ( $memb->find( true ) ) {
                             //insert the log record.
                             $logParams = array( 
-                                         'membership_id'         => $memb->id,
-                                         'status_id'             => $memb->status_id,
-                                         'start_date'            => ( CRM_Utils_Date::customFormat($memb->start_date,'%Y%m%d') ),
-                                         'end_date'              => ( CRM_Utils_Date::customFormat($memb->end_date,'%Y%m%d') ),
-                                         'modified_id'           => $dao->contact_id,
-                                         'modified_date'         => date("Ymd"),
-                                         'renewal_reminder_date' => date("Ymd") );
+                                               'membership_id'         => $memb->id,
+                                               'status_id'             => $memb->status_id,
+                                               'start_date'            => ( CRM_Utils_Date::customFormat($memb->start_date,'%Y%m%d') ),
+                                               'end_date'              => ( CRM_Utils_Date::customFormat($memb->end_date,'%Y%m%d') ),
+                                               'modified_id'           => $dao->contact_id,
+                                               'modified_date'         => date("Ymd"),
+                                               'renewal_reminder_date' => date("Ymd") );
                             
                             $dontCare = null;
                             CRM_Member_BAO_MembershipLog::add( $logParams, $dontCare );

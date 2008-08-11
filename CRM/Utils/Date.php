@@ -430,8 +430,8 @@ class CRM_Utils_Date
             }
             
             $date = array(
-                          '%b' => $abbrMonths[$month],
-                          '%B' => $fullMonths[$month],
+                          '%b' => CRM_Utils_Array::value( $month, $abbrMonths ),
+                          '%B' => CRM_Utils_Array::value( $month, $fullMonths ),
                           '%d' => $day > 9 ? $day : '0' . $day,
                           '%e' => $day > 9 ? $day : ' ' . $day,
                           '%E' => $day,

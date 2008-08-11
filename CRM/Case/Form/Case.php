@@ -148,7 +148,7 @@ class CRM_Case_Form_Case extends CRM_Contact_Form_Task
             $defaults['casetag2_id'] = explode( CRM_Case_BAO_Case::VALUE_SEPERATOR, CRM_Utils_Array::value( 'casetag2_id' , $defaults ) );
             $defaults['casetag3_id'] = explode( CRM_Case_BAO_Case::VALUE_SEPERATOR, CRM_Utils_Array::value( 'casetag3_id' , $defaults ) );
         }
-        if ( $this->_action & CRM_Core_Action::ADD ) {
+        if ( $this->_action & CRM_Core_Action::ADD || $this->_context == 'search') {
             $defaults['start_date'] = array( );
             CRM_Utils_Date::getAllDefaultValues( $defaults['start_date'] );
         }

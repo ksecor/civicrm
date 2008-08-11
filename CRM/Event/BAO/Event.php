@@ -86,7 +86,7 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
     }
     
     /**
-     * function to add the eventship types
+     * function to add the event
      *
      * @param array $params reference array contains the values submitted by the form
      * @param array $ids    reference array contains the id

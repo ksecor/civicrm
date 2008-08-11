@@ -130,6 +130,7 @@ class CRM_Core_BAO_UFJoin extends CRM_Core_DAO_UFJoin {
         if ( $dao->fetch( ) ) {
             $first       = $dao->uf_group_id;
             $firstWeight = $dao->weight;
+            $firstWeight = $dao->weight;
         }
         if ( $dao->fetch( ) ) {
             $second = $dao->uf_group_id; 

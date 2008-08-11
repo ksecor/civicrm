@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-07-07 18:44-0700\n"
-"PO-Revision-Date: 2008-07-19 02:42-0700\n"
+"PO-Revision-Date: 2008-08-08 12:03-0700\n"
 "Last-Translator: Francisco López <francisco@bofax.net>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -183,7 +183,7 @@ msgstr "Borrar Contribuciones"
 #: CRM/Contribute/Form/Task/Export.php CRM/Contribute/Task.php
 #, fuzzy
 msgid "Export Contributions"
-msgstr "Imprimir listado de contribuyentes"
+msgstr "Exportar contribuciones"
 
 #: CRM/Contribute/Invoke.php CRM/Contribute/Menu.php
 msgid "Contribution Types"
@@ -191,12 +191,12 @@ msgstr "Tipos de Contribución"
 
 #: CRM/Contribute/Invoke.php CRM/Contribute/Menu.php
 msgid "Manage Premiums"
-msgstr "Manejar los premios"
+msgstr "Gestionar premios"
 
 #: CRM/Contribute/Invoke.php CRM/Contribute/Menu.php
 #, fuzzy
 msgid "Import Contributions"
-msgstr "Imprimir listado de contribuyentes"
+msgstr "Importar contribuciones"
 
 #: CRM/Contribute/Invoke.php CRM/Member/Invoke.php
 msgid "DashBoard"
@@ -256,7 +256,7 @@ msgstr "Configurar Evento"
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
 msgid "Online Registration"
-msgstr "Registración en línea"
+msgstr "Registro online"
 
 #: CRM/Event/Form/Participant.php CRM/Member/Form/Membership.php
 #: CRM/Member/Form/MembershipRenewal.php
@@ -266,12 +266,12 @@ msgstr "Estado del Pago"
 #: CRM/Event/Form/Search.php CRM/Event/Selector/Search.php
 #, fuzzy
 msgid "Participant"
-msgstr "ID del Participante"
+msgstr "Participante"
 
 #: CRM/Event/Form/Task/Export.php CRM/Event/Task.php
 #, fuzzy
 msgid "Export Participants"
-msgstr "Exportar Contactos"
+msgstr "Exportar Participantes"
 
 #: CRM/Event/Form/Task/Export.php CRM/Member/Form/Task/Export.php
 #, fuzzy
@@ -281,10 +281,9 @@ msgstr "Mostrar Nombre"
 #: CRM/Event/Invoke.php CRM/Event/Menu.php
 #, fuzzy
 msgid "Import Participants"
-msgstr "Exportar Contactos"
+msgstr "Importar participantes"
 
 #: CRM/Event/Menu.php CRM/Event/Page/ManageEvent.php
-#, fuzzy
 msgid "Manage Events"
 msgstr "Administrar Eventos"
 
@@ -305,7 +304,7 @@ msgstr "Siguiente >>"
 
 #: CRM/Mailing/Form/Subscribe.php CRM/Mailing/Invoke.php CRM/Mailing/Menu.php
 msgid "Subscribe"
-msgstr "Subscribir"
+msgstr "Suscribir"
 
 #: CRM/Mailing/Invoke.php CRM/Mailing/Selector/Browse.php
 msgid "Report"
@@ -323,15 +322,15 @@ msgstr "Borrar Mailing"
 
 #: CRM/Mailing/Page/Common.php CRM/Mailing/Page/Confirm.php
 msgid "Missing input parameters"
-msgstr ""
+msgstr "Se han perdido los parámetros de entrada"
 
 #: CRM/Member/Form/Membership.php CRM/Member/Form/MembershipRenewal.php
 msgid "Send Confirmation and Receipt?"
-msgstr ""
+msgstr "¿Enviar confirmación y recepción?"
 
 #: CRM/Member/Form/Membership.php CRM/Member/Form/MembershipRenewal.php
 msgid "The new membership End Date is %1."
-msgstr ""
+msgstr "Fecha fin nuevo miembro es %1."
 
 #: CRM/Member/Form/Search.php CRM/Member/Page/DashBoard.php
 #: CRM/Member/Selector/Search.php templates/CRM/Member/Form/MembershipView.tpl
@@ -353,7 +352,7 @@ msgstr "Importar Miembros"
 
 #: CRM/Contribute/BAO/Contribution.php
 msgid "- Contribution Fields -"
-msgstr ""
+msgstr "- Campos de la contribución -"
 
 #: CRM/Contribute/BAO/ContributionType.php
 msgid ""
@@ -382,7 +381,7 @@ msgstr "Opción seleccionada"
 #: CRM/Contribute/BAO/Query.php
 #, fuzzy
 msgid "Contribution Total Amount %1 %2"
-msgstr "Cantidad de Contribución - %1"
+msgstr "Cantidad de Contribución - %1 %2"
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Contribution Thank-you date is null"
@@ -1286,6 +1285,10 @@ msgid ""
 "campaigns - and customize text, amounts, types of information collected from "
 "contributors, etc."
 msgstr ""
+"El CiviContribute le permite crear y mantener cualquier cantidad de Páginas "
+"de Contribución en Línea. Puede crear diferentes páginas para diferentes "
+"programas o campañas - y personalizar textos, cantidades, tipos de "
+"información recolectada de los contribuidores, etc."
 
 #: CRM/Contribute/Menu.php
 msgid ""
@@ -1293,12 +1296,17 @@ msgid ""
 "offered to contributors as incentives / thank-you gifts. Define the premiums "
 "you want to offer here."
 msgstr ""
+"El CiviContribute le permite configurar cualquier cantidad de Primas que se "
+"pueden ofrecer a los contribuidores como incentivos o regalos de "
+"agradecimiento. Defina las primas que quiere ofrecer acá."
 
 #: CRM/Contribute/Menu.php
 msgid ""
 "Contribution types are used to categorize contributions for reporting and "
 "accounting purposes. These are also referred to as Funds."
 msgstr ""
+"Los tipos de contribución se usan para categorizar las contribuciones para "
+"reportes y contabilidad. A estos tipos también se les conoce como Fondos."
 
 #: CRM/Contribute/Menu.php
 msgid ""
@@ -1306,15 +1314,18 @@ msgid ""
 "Common payment methods are installed by default (e.g. Check, Cash, Credit "
 "Card...). If your site requires additional payment methods, add them here."
 msgstr ""
+"Puede escoger registrar el instrumento de pago usado para cada contribución. "
+"Los métodos de pago comunes se instalan por defecto (es decir, Cheque, "
+"Efectivo, Tarjeta de Crédito...) Si su sitio requiere métodos de pago "
+"adicionales, adiciónelos acá."
 
 #: CRM/Contribute/Menu.php
-#, fuzzy
 msgid ""
 "Credit card options that will be offered to contributors using your Online "
 "Contribution pages."
 msgstr ""
-"Usa este formulario para seleccionar un premio a ofertar en esta página de "
-"donaciones."
+"Las opciones de tarjeta de crédito se ofrecerán a los contribuidores usando "
+"sus páginas de Contribución en Línea."
 
 #: CRM/Contribute/Menu.php templates/CRM/Contribute/Form/Search.tpl
 msgid "Find Contributions"
@@ -1891,9 +1902,8 @@ msgid "Manage Event"
 msgstr "Manejar"
 
 #: CRM/Event/Invoke.php
-#, fuzzy
 msgid "CiviEvent DashBoard"
-msgstr "Cuadro de Mandos"
+msgstr "Panel del CiviEvent"
 
 #: CRM/Event/Menu.php
 #, fuzzy
@@ -1909,11 +1919,13 @@ msgid ""
 "Create and edit event configuration including times, locations, online "
 "registration forms, and fees. Links for iCal and RSS syndication."
 msgstr ""
+"Crear y editar la configuración de los eventos incluyendo tiempos, "
+"ubicaciones, formularios de inscripción en línea y pagos. Los enlaces para "
+"iCal y sindicación RSS."
 
 #: CRM/Event/Menu.php
-#, fuzzy
 msgid "Event Types"
-msgstr "Tipo del Componente"
+msgstr "Tipos de Eventos"
 
 #: CRM/Event/Menu.php
 msgid ""
@@ -1921,6 +1933,10 @@ msgid ""
 "pre-conference workshops, additional meals, etc.). Configure Price Sets for "
 "events which need more than a single set of fee levels."
 msgstr ""
+"Los grupos de precios le permiten ofrecer varias opciones con cargos "
+"asociados (por ejemplo, talleres pre conferencia, comidas adicionales, "
+"etc.). Configure los Grupos de Precios para los eventos que necesiten más de "
+"un solo grupo de niveles de precios."
 
 #: CRM/Event/Menu.php templates/CRM/Event/Form/Search.tpl
 #, fuzzy
@@ -2147,9 +2163,8 @@ msgid "EXCLUDE Recipients of These Mailing(s)"
 msgstr ""
 
 #: CRM/Mailing/Form/Group.php
-#, fuzzy
 msgid "Select Recipients"
-msgstr "Seleccionar recipientes de correo"
+msgstr "Seleccionar Destinatarios"
 
 #: CRM/Mailing/Form/Group.php
 #, fuzzy
@@ -2165,9 +2180,8 @@ msgstr ""
 "y listas de correo de exclusión."
 
 #: CRM/Mailing/Form/Schedule.php
-#, fuzzy
 msgid "Schedule Mailing"
-msgstr "Cancelar Mailing"
+msgstr "Agendar Correspondencias"
 
 #: CRM/Mailing/Form/Schedule.php
 msgid "Send Immediately"
@@ -2183,9 +2197,8 @@ msgid "Start date cannot be earlier than the current time."
 msgstr "La fecha de inicio no puede ser inferior a la actual."
 
 #: CRM/Mailing/Form/Schedule.php
-#, fuzzy
 msgid "Schedule or Send"
-msgstr "Programar / Enviar Mailing"
+msgstr "Agendar o Enviar"
 
 #: CRM/Mailing/Form/Search.php
 #, fuzzy
@@ -2198,28 +2211,24 @@ msgid "Select a valid Sent THROUGH date."
 msgstr "Por Favor, introduce una cantidad válida."
 
 #: CRM/Mailing/Form/Settings.php
-#, fuzzy
 msgid "Forward Replies?"
-msgstr "Reenviar Réplicas"
+msgstr "¿Reenviar Respuestas?"
 
 #: CRM/Mailing/Form/Settings.php
-#, fuzzy
 msgid "Track Click-throughs?"
-msgstr "Tecla-a-través"
+msgstr "¿Seguimiento a los clics?"
 
 #: CRM/Mailing/Form/Settings.php
 msgid "Track Opens?"
 msgstr "¿Seguimientos Abiertos?"
 
 #: CRM/Mailing/Form/Settings.php
-#, fuzzy
 msgid "Auto-respond to Replies?"
-msgstr "¿Autoresponder a las réplicas?"
+msgstr "¿Auto Responder a las Respuestas?"
 
 #: CRM/Mailing/Form/Settings.php
-#, fuzzy
 msgid "Track and Respond"
-msgstr "Agradecimiento y Recibo"
+msgstr "Hacer Seguimiento y Responder"
 
 #: CRM/Mailing/Form/Subscribe.php
 msgid "Subscribe to Mailing List - %1"
@@ -2253,46 +2262,40 @@ msgid ""
 msgstr ""
 
 #: CRM/Mailing/Form/Test.php
-#, fuzzy
 msgid "Send a Test Mailing?"
-msgstr "¿Enviar una prueba de mailing?"
+msgstr "¿Enviar una Correspondencia de Prueba?"
 
 #: CRM/Mailing/Form/Test.php
-#, fuzzy
 msgid "Send to This Address"
-msgstr "Mapa de esta Dirección"
+msgstr "Enviar a Esta Dirección"
 
 #: CRM/Mailing/Form/Test.php
-#, fuzzy
 msgid "Send to This Group"
-msgstr "Añadir al Grupo"
+msgstr "Enviar a Este Grupo"
 
 #: CRM/Mailing/Form/Test.php
 msgid "Test"
-msgstr "Test"
+msgstr "Prueba"
 
 #: CRM/Mailing/Form/Upload.php
-#, fuzzy
 msgid "FROM"
-msgstr "De Nombre"
+msgstr "DE"
 
 #: CRM/Mailing/Form/Upload.php
-#, fuzzy
 msgid "Mailing Subject"
-msgstr "Asunto del mailing"
+msgstr "Asunto de la Correspondencia"
 
 #: CRM/Mailing/Form/Upload.php templates/CRM/Mailing/Form/Upload.tpl
-#, fuzzy
 msgid "Upload Content"
-msgstr "Comentario"
+msgstr "Publicar Contenido"
 
 #: CRM/Mailing/Form/Upload.php templates/CRM/Mailing/Form/Upload.tpl
 msgid "Compose On-screen"
-msgstr ""
+msgstr "Componer en la pantalla"
 
 #: CRM/Mailing/Form/Upload.php
 msgid "I want to"
-msgstr ""
+msgstr "Quiero"
 
 #: CRM/Mailing/Form/Upload.php
 #, fuzzy
@@ -2328,7 +2331,7 @@ msgstr ""
 
 #: CRM/Mailing/Form/Upload.php
 msgid "This message is missing a required token - {%1}: %2"
-msgstr ""
+msgstr "Este mensaje carece de una de las señales requeridas - {%1}: %2"
 
 #: CRM/Mailing/Form/Upload.php
 msgid "Invalid token code"
@@ -2344,9 +2347,8 @@ msgid "More information on required tokens..."
 msgstr "Token requerido perdido"
 
 #: CRM/Mailing/Form/Upload.php
-#, fuzzy
 msgid "Mailing Content"
-msgstr "Nuevo componente de Mailing"
+msgstr "Contenido de la Correspondencia"
 
 #: CRM/Mailing/Invoke.php
 msgid "Mailings"
@@ -2357,23 +2359,28 @@ msgid "The mailing queue has been processed."
 msgstr "La cola de correo ha sido procesada."
 
 #: CRM/Mailing/Menu.php
-#, fuzzy
 msgid "Mailer Settings"
-msgstr "Ajustes del Mailing"
+msgstr "Configuraciones de Correspondencia"
 
 #: CRM/Mailing/Menu.php
 msgid "Configure spool period, throttling and other mailer settings."
 msgstr ""
+"Configure el periodo de carretaje, filtrado y otras configuraciones de la "
+"correspondencia."
 
 #: CRM/Mailing/Menu.php
 msgid "Headers, Footers, and Automated Messages"
-msgstr ""
+msgstr "Encabezados, Pies de Página y Mensajes Automáticos"
 
 #: CRM/Mailing/Menu.php
 msgid ""
 "Configure the header and footer used for mailings. Customize the content of "
 "automated Subscribe, Unsubscribe, Resubscribe and Opt-out messages."
 msgstr ""
+"Configure el encabezado y el pie de página usado para las correspondencias. "
+"Personalice el contenido de los mensajes de respuesta automática para "
+"Suscripción, Terminar Suscripción, Suscribir Nuevamente o Decidir no Recibir "
+"Más Mensajes."
 
 #: CRM/Mailing/Menu.php templates/CRM/Mailing/Page/Resubscribe.tpl
 #, fuzzy
@@ -2387,7 +2394,7 @@ msgstr "Salida Opcional"
 
 #: CRM/Mailing/Page/Browse.php
 msgid "Browse Mailings (Scheduled and Sent)"
-msgstr ""
+msgstr "Buscar Correspondencia (Agendada y Enviada)"
 
 #: CRM/Mailing/Page/Browse.php
 #, fuzzy
@@ -2608,12 +2615,12 @@ msgstr "Añadir Miembros a %1"
 #: CRM/Member/BAO/Query.php
 #, fuzzy
 msgid "End Date - From"
-msgstr "Fecha Final"
+msgstr "Fecha de Terminación - Comienzo"
 
 #: CRM/Member/BAO/Query.php
 #, fuzzy
 msgid "Find Test Memberships?"
-msgstr "Encontrar Contactos"
+msgstr "¿Encontrar Membrecías de Prueba?"
 
 #: CRM/Member/Form/MembershipBlock.php
 #, fuzzy
@@ -2654,7 +2661,7 @@ msgstr "Miembros Pasados"
 
 #: CRM/Member/Form/MembershipBlock.php
 msgid "Membership Types Default"
-msgstr ""
+msgstr "Tipos Predeterminados de Membrecía"
 
 #: CRM/Member/Form/MembershipBlock.php
 msgid ""
@@ -2946,10 +2953,13 @@ msgid ""
 "specify a 'name' (Gold Member, Honor Society Member...), a description, "
 "duration, and a minimum fee."
 msgstr ""
+"Defina los tipos de membrecía que quiere ofrecer. Para cada tipo, puede "
+"especificar el 'nombre' (Membrecía Dorada, Membrecía de la Sociedad de "
+"Honor...), una descripción, duración y un cargo mínimo."
 
 #: CRM/Member/Menu.php
 msgid "Membership Status Rules"
-msgstr ""
+msgstr "Reglas de los Estados de las Membrecías"
 
 #: CRM/Member/Menu.php
 msgid ""
@@ -2957,6 +2967,9 @@ msgid ""
 "membership's start and end dates. You can adjust the default status options "
 "and rules as needed to meet your needs."
 msgstr ""
+"Las 'reglas' de estado definen el estado actual de una membrecía basándose "
+"en las fechas de inicio y terminación de dicha membrecía. Puede ajustar los "
+"estados predeterminados y las reglas para que cumplan con sus necesidades."
 
 #: CRM/Member/Menu.php templates/CRM/Member/Form/Search.tpl
 #, fuzzy
@@ -4828,7 +4841,7 @@ msgid ""
 "contributions."
 msgstr ""
 "CiviContribute permite crea una o más páginas personalizadas para recolectar "
-"contribuciones en línea."
+" en línea las contribuciones."
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid ""
@@ -4838,13 +4851,13 @@ msgid ""
 "page and click on the <strong>New Contribution</strong> link. You can also "
 "<a href='%2'>import batches of offline contributions</a> from other sources."
 msgstr ""
-"También es posible ingresar y hacer seguimiento a contribuciones fuera de "
-"línea. Para entrar contribuciones manuales para un contacto individual, use "
-"<a href='%1'>Buscar Contactos</a> para localizar el contacto. Posteriormente "
-"haga click en <strong>Ver <strong> para ir a la página de resúmen y haga "
-"click en <strong>Nueva Contribución</strong>. También podrá <a "
-"href='%2'>importar masivamente contribuciones fuera de línea</a> de otras "
-"fuentes."
+"También puede ingresar y hacer seguimiento a las contribuciones fuera de "
+"línea. Para agregar contribuciones manualmente para los contactos "
+"individuales, use <a href='%1'>Encontrar Contactos</a> para ubicar el "
+"contacto en cuestión. Luego presione <strong>Ver</strong> para ir a su "
+"página de resumen y seguir el enlace de <strong>Nueva Contribución</strong>. "
+"También puede <a href='%2'>importar lotes de contribuciones fuera de "
+"línea</a> de otras fuentes."
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "Contributions Summary"
@@ -4858,6 +4871,12 @@ msgid ""
 "1'>Find Contributions</a>. You can search by Contributor Name, Amount Range, "
 "and a variety of other criteria."
 msgstr ""
+"Esta tabla proporciona un resumen del <strong>Total de "
+"Contribuciones</strong>, e incluye atajos para ver los detalles de la "
+"contribución para estas fechas de búsqueda comúnmente usadas. Para correr "
+"sus propias búsquedas personalizadas - presione <a href='%1'>Encontrar "
+"Contribuciones</a>. También puede buscar por Nombre del Contribuyente, Rango "
+"de Cantidad y una variedad de otros criterios."
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "Current Month-To-Date"
@@ -5583,6 +5602,10 @@ msgid ""
 "1'><strong>new events</strong></a> and <a href='%2'><strong>manage existing "
 "events</strong></a>."
 msgstr ""
+"El CiviEvent le permite crear páginas personalizadas para la creación y "
+"registro de eventos en línea. Los administradores pueden crear <a "
+"href='%1'><strong>nuevos eventos</strong></a> y <a "
+"href='%2'><strong>administrar los eventos existentes</strong></a>."
 
 #: templates/CRM/Event/Page/DashBoard.tpl
 msgid ""
@@ -5592,6 +5615,13 @@ msgid ""
 "click on the <strong>New Event</strong> link. You can also <a href='%"
 "2'><strong>import batches of participants</strong></a> from other sources."
 msgstr ""
+"También puede ingresar y hacer seguimientos a Eventos cuando está "
+"desconectado. Para ingresar eventos manualmente para contactos individuales, "
+"use <a href='%1'>Encontrar Contactos</a> para localizar el contacto. A "
+"continuación presione el botón <strong>Ver</strong> para ir a las páginas de "
+"resumen de los contactos y presione sobre el enlace Nuevo Evento. También "
+"puede <a href='%2'><strong>importar lotes de participantes</strong></a> "
+"desde otras fuentes."
 
 #: templates/CRM/Event/Page/DashBoard.tpl
 msgid ""
@@ -5602,6 +5632,13 @@ msgid ""
 "your own customized searches - click <a href='%1'>Find Participants</a>. You "
 "can search by Participant Name, Event, Date Range and Status."
 msgstr ""
+"Esta tabla proporciona un resumen de hasta diez <strong>Eventos</strong> "
+"recientes y agendados. Presione sobre el <strong>nombre del Evento</strong> "
+"para ver el evento tal y cual será mostrado a los visitantes del sitio. "
+"Presione la <strong>cuenta de Participantes</strong> para ver una lista de "
+"los participantes. Para usar sus propias búsquedas personalizadas - presione "
+"el botón <a href='%1'>Encontrar Participantes</a>. Puede buscar por Nombre "
+"de Participante, Evento, Rango de Fechas y Estado."
 
 #: templates/CRM/Event/Page/DashBoard.tpl
 #, fuzzy
@@ -5610,7 +5647,7 @@ msgstr "Email %1"
 
 #: templates/CRM/Event/Page/DashBoard.tpl
 msgid "Browse more events"
-msgstr ""
+msgstr "Explorar más eventos"
 
 #: templates/CRM/Event/Page/DashBoard.tpl
 #, fuzzy
@@ -5754,9 +5791,8 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Mailing/Form/Group.tpl
-#, fuzzy
 msgid "Mailing Recipients"
-msgstr "Destinatarios"
+msgstr "Destinatarios de Correspondencia"
 
 #: templates/CRM/Mailing/Form/Schedule.tpl
 msgid ""
@@ -5764,21 +5800,24 @@ msgid ""
 "time, OR you can request that it be sent as soon as possible by checking "
 "&quot;Send Immediately&quot;."
 msgstr ""
+"Puede agendar esta correspondencia para que se envíe en una fecha y hora "
+"específica, O puede solicitar que se envíe tan pronto como sea posible "
+"verificando la casilla \"Enviar Inmediatamente\"."
 
 #: templates/CRM/Mailing/Form/Schedule.tpl
 msgid ""
 "Set a date and time when you want CiviMail to start sending this mailing."
 msgstr ""
+"Configure una fecha y hora en la que quiere que el CiviMail empiece a enviar "
+"esta correspondencia."
 
 #: templates/CRM/Mailing/Form/Search.tpl
-#, fuzzy
 msgid "Find Mailings"
-msgstr "Mailings"
+msgstr "Encontrar Correspondencias"
 
 #: templates/CRM/Mailing/Form/Search.tpl
-#, fuzzy
 msgid "Complete OR partial mailing name."
-msgstr "Completo O nombre parcial del contacto O email"
+msgstr "Nombre completo O parcial de la correspondencia."
 
 #: templates/CRM/Mailing/Form/Settings.tpl
 msgid ""
@@ -5787,6 +5826,11 @@ msgid ""
 "the right. If this count doesn't match your expectations, click "
 "<strong>Previous</strong> to review your selection(s)."
 msgstr ""
+"Estas configuraciones controlan el rastreo y respuestas para las acciones de "
+"destinatario. El número de destinatarios seleccionados para recibir esta "
+"correspondencia se muestran en la zona de la derecha. Si esta cuenta no "
+"corresponde con sus expectativas, presione <strong>Anterior</strong> para "
+"revisar sus selecciones."
 
 #: templates/CRM/Mailing/Form/Settings.tpl
 #, fuzzy
@@ -5800,47 +5844,64 @@ msgid ""
 "automaticallly re-written to route through your CiviCRM server prior to "
 "redirecting to the target page."
 msgstr ""
+"Haga seguimiento al número de veces que los destinatarios han seguido cada "
+"enlace en esta correspondencia. NOTA: cuando esta característica está "
+"habilitada, todos los enlaces en el cuerpo del mensaje se reescribirán "
+"automáticamente para enrutar a través de su servidor de CiviCRM antes de "
+"redireccionar a la página objetivo."
 
 #: templates/CRM/Mailing/Form/Settings.tpl
 msgid ""
 "Track the number of times recipients open this mailing in their email "
 "software."
 msgstr ""
+"Haga seguimiento al número de veces que los receptores abren esta "
+"correspondencia en sus programas de correo electrónico."
 
 #: templates/CRM/Mailing/Form/Settings.tpl
-#, fuzzy
 msgid "Responding"
-msgstr "Pendiente"
+msgstr "Responder"
 
 #: templates/CRM/Mailing/Form/Settings.tpl
 msgid ""
 "If a recipient replies to this mailing, forward the reply to the FROM Email "
 "address specified for the mailing."
 msgstr ""
+"Si un destinatario responde a esta correspondencia, reenvié la respuesta a "
+"la dirección de correo especificada en el campo DE de la correspondencia en "
+"cuestión."
 
 #: templates/CRM/Mailing/Form/Settings.tpl
 msgid ""
 "If a recipient replies to this mailing, send an automated reply using the "
 "selected message."
 msgstr ""
+"Si un destinatario responde a esta correspondencia, envíe una respuesta "
+"automatizada usando el mensaje seleccionado."
 
 #: templates/CRM/Mailing/Form/Settings.tpl
 msgid ""
 "Select the automated message to be sent when a recipient unsubscribes from "
 "this mailing."
 msgstr ""
+"Seleccione el mensaje automático a ser enviado cuando un destinatario "
+"termine su suscripción a esta correspondencia."
 
 #: templates/CRM/Mailing/Form/Settings.tpl
 msgid ""
 "Select the automated message to be sent when a recipient resubscribes to "
 "this mailing."
 msgstr ""
+"Seleccione el mensaje automático a ser enviado cuando un destinatario se "
+"suscriba nuevamente a esta correspondencia."
 
 #: templates/CRM/Mailing/Form/Settings.tpl
 msgid ""
 "Select the automated message to be sent when a recipient opts out of all "
 "mailings from your site."
 msgstr ""
+"Seleccione el mensaje automático a ser enviado cuando un destinatario decida "
+"no recibir correos de su sitio."
 
 #: templates/CRM/Mailing/Form/Subscribe.tpl
 msgid ""
@@ -5869,6 +5930,9 @@ msgid ""
 "selected group of people in your organization. You can also view your "
 "content by clicking (+) Preview Mailing."
 msgstr ""
+"Es una buena idea probar su correspondencia enviándosela a usted mismo y/o "
+"seleccionando a un grupo de personas en su organización. También puede ver "
+"su contenido siguiendo el enlace (+) Vista Previa de la Correspondencia."
 
 #: templates/CRM/Mailing/Form/Test.tpl
 msgid "(filled with your contact's token values)"
@@ -5908,12 +5972,16 @@ msgid ""
 "Click your mouse in the upper left corner of the box below to begin editing "
 "your HTML message."
 msgstr ""
+"Presione con su mouse en la esquina superior izquierda del campo siguiente "
+"para empezar a editar el mensaje en HTML."
 
 #: templates/CRM/Mailing/Form/Upload.tpl
 msgid ""
 "Browse to the <strong>TEXT</strong> message file you have prepared for this "
 "mailing."
 msgstr ""
+"Localize el archivo del mensaje de <strong>TEXTO</strong> que preparó para "
+"esta correspondencia."
 
 #: templates/CRM/Mailing/Form/Upload.tpl
 msgid "Help on messages. Opens a new window."
@@ -5921,23 +5989,26 @@ msgstr ""
 
 #: templates/CRM/Mailing/Form/Upload.tpl
 msgid "More information and sample messages..."
-msgstr ""
+msgstr "Más información y mensajes de muestra..."
 
 #: templates/CRM/Mailing/Form/Upload.tpl
 msgid ""
 "Browse to the <strong>HTML</strong> message file you have prepared for this "
 "mailing."
 msgstr ""
+"Localize el archivo del mensaje de <strong>HTML</strong> que preparó para "
+"esta correspondencia."
 
 #: templates/CRM/Mailing/Form/Upload.tpl
-#, fuzzy
 msgid "Header / Footer"
-msgstr "Cabecera / Pie del mailing"
+msgstr "Encabezado / Pie de Página"
 
 #: templates/CRM/Mailing/Form/Upload.tpl
 msgid ""
 "You may choose to include a pre-configured Header block above your message."
 msgstr ""
+"Puede escoger incluir un bloque como Encabezado preconfigurado arriba de su "
+"mensaje."
 
 #: templates/CRM/Mailing/Form/Upload.tpl
 msgid ""
@@ -5945,6 +6016,9 @@ msgid ""
 "This is a good place to include the required unsubscribe, opt-out and postal "
 "address tokens."
 msgstr ""
+"Puede escoger incluir un bloque de Encabezado debajo de su mensaje. Este es "
+"un buen lugar para incluir las señales requeridas de terminar suscripción, "
+"decidir no recibir y dirección postal."
 
 #: templates/CRM/Mailing/Page/Browse.tpl
 #, fuzzy
@@ -5957,9 +6031,8 @@ msgid "Are you sure you want to cancel the mailing '%1'?"
 msgstr "¿Estás seguro que quieres borrar esta etiqueta?"
 
 #: templates/CRM/Mailing/Page/Browse.tpl
-#, fuzzy
 msgid "New Mailing"
-msgstr "Mailings"
+msgstr "Nueva Correspondencia"
 
 #: templates/CRM/Mailing/Page/Browse.tpl
 msgid "No Sent Mailings match your search criteria. Suggestions:"
@@ -6021,6 +6094,12 @@ msgid ""
 "task ('cron job') is running - and how frequently. (<a href='%1' title='%2' "
 "target='_blank'>more info...</a>)"
 msgstr ""
+"<strong>La entrega de esta correspondencia aún no ha comenzado.</strong> Si "
+"la fecha y hora de la entrega agendada está en el pasado, consulte con el "
+"administrador del sistema o con su contacto de soporte técnico de su sitio "
+"para verificar que la tarea de correos automáticos ('tarea cronológica') "
+"esté funcionando - y que tan frecuentemente lo está haciendo. (<a href='%1' "
+"title='%2' target='_blank'>más información...</a>)"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Recipients"
@@ -6145,9 +6224,8 @@ msgid "Membership section introductory text - displayed to renewing members."
 msgstr ""
 
 #: templates/CRM/Member/Form/MembershipBlock.tpl
-#, fuzzy
 msgid "Include these membership types"
-msgstr "Borrar Relación"
+msgstr "Incluir estos tipos de membrecía"
 
 #: templates/CRM/Member/Form/MembershipBlock.tpl
 msgid ""
@@ -6689,6 +6767,12 @@ msgid ""
 "modify Membership Types <a href='%2'>here</a>, and configure Online "
 "Contribution Pages which include membership sign-up <a href='%1'>here</a>."
 msgstr ""
+"El CiviMember le permite crear tipos de membrecía personalizados al igual "
+"que páginas para las membrecías personalizadas, al igual que páginas para "
+"inscripciones y renovación de membrecía en línea. Los administradores pueden "
+"crear o modificar <a href='%2'>acá</a> los Tipos de Membrecía, y configurar "
+"<a href='%1'>acá</a> las Páginas En Línea de Contribución que incluyen la "
+"inscripción."
 
 #: templates/CRM/Member/Page/DashBoard.tpl
 msgid ""
@@ -6700,11 +6784,19 @@ msgid ""
 "other sources. Refer to the <a href='%2' target='_blank' title='%"
 "4'>CiviMember Guide</a> for more information."
 msgstr ""
+"Estando fuera de línea también puede ingresar y rastrear las inscripciones "
+"para membrecía. Para registrar las membrecías manualmente de los contactos "
+"individuales, use <a href='%1'>Encontrar Contactos</a> para localizar el "
+"contacto. A continuación presione <strong>Ver</strong> para ir a las páginas "
+"de resumen de los contactos y presione sobre el enlace de <strong>Nueva "
+"Membrecía</strong>. También puede <a href='%3'>importar lotes de "
+"registros</a> de membrecía de otras fuentes. Refiérase a la <a href='%2' "
+"target='_blank' title='%4'>Guía del CiviMember</a> para encontrar más "
+"información."
 
 #: templates/CRM/Member/Page/DashBoard.tpl
-#, fuzzy
 msgid "Membership Summary"
-msgstr "Sumario de Entrega"
+msgstr "Resumen de Membrecía"
 
 #: templates/CRM/Member/Page/DashBoard.tpl
 msgid ""
@@ -6714,6 +6806,12 @@ msgid ""
 "<a href='%1'>Find Members</a>. You can search by Member Name, Membership "
 "Type, Status, and Signup Date Ranges."
 msgstr ""
+"Esta tabla proporciona un resumen de las <strong>Inscripciones para "
+"Membrecía y la Actividad de Renovación</strong>, e incluye atajos para ver "
+"los detalles de estos criterios de búsqueda comúnmente usados. Para correr "
+"sus propias búsquedas personalizadas - presione sobre <a href='%1'>Encontrar "
+"Miembros</a>. También puede buscar por Nombre del Miembro, Tipo de "
+"Membrecía, Estado y Rangos de Fechas de Inscripción."
 
 #: templates/CRM/Member/Page/DashBoard.tpl
 #, fuzzy
@@ -6730,9 +6828,8 @@ msgid "Totals (all types)"
 msgstr ""
 
 #: templates/CRM/Member/Page/DashBoard.tpl
-#, fuzzy
 msgid "Recent Memberships"
-msgstr "Miembros Pasados"
+msgstr "Membrecías Recientes"
 
 #: templates/CRM/Member/Page/MembershipStatus.tpl
 msgid ""

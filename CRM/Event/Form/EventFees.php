@@ -310,9 +310,16 @@ class CRM_Event_Form_EventFees
                            ts( 'Paid By' ), 
                            array(''=>ts( '- select -' )) + CRM_Contribute_PseudoConstant::paymentInstrument( )
                            );
-                $form->add('text', 'trxn_id', ts('Transaction ID'));
-                $form->addRule( 'trxn_id', ts('Transaction ID already exists in Database.'),
-                                'objectExists', array( 'CRM_Contribute_DAO_Contribution', $form->_id, 'trxn_id' ) );
+                
+                // don't show transaction id in batch update mode
+                $path = CRM_Utils_System::currentPath( );
+                $form->assign('showTransactionId', false );
+                if ( $path != 'civicrm/contact/search/basic' ) {
+                    $form->add('text', 'trxn_id', ts('Transaction ID'));
+                    $form->addRule( 'trxn_id', ts('Transaction ID already exists in Database.'),
+                                    'objectExists', array( 'CRM_Contribute_DAO_Contribution', $form->_id, 'trxn_id' ) );
+                    $form->assign('showTransactionId', true );
+                }
             
                 $form->add('select', 'contribution_status_id',
                            ts('Payment Status'), 

@@ -49,10 +49,4 @@
         </td>
     </tr>
    {/if}
-   {if $event.participant_role neq 'Attendee'}
-    <tr>
-	<td><label>{ts}Participant Role{/ts}</label></td>
-	<td>{$event.participant_role}</td>
-    </tr>
-   {/if}
 </table>

@@ -64,8 +64,9 @@ class CRM_Admin_Page_CMSUser extends CRM_Core_Page
         
         // set the userContext stack
         $session =& CRM_Core_Session::singleton();
-        $session->pushUserContext( CRM_Utils_System::url( 'civicrm/admin') );
+        $session->pushUserContext( CRM_Utils_System::url( 'civicrm/admin', 'reset=1') );
         
+        $controller->setEmbedded( true );
         $controller->process( );
         $controller->run( );
         

@@ -85,7 +85,7 @@
  </table>
  {if $form.additional_participants.html}
     <div id="noOfparticipants_show">
-        <a href="#" class="button" onclick="hide('noOfparticipants_show'); show('noOfparticipants'); document.forms[1].additional_participants.focus(); return false;"><span>&raquo; {ts}Register additional people for this event{/ts}</span></a>
+        <a href="#" class="button" onclick="hide('noOfparticipants_show'); show('noOfparticipants'); document.getElementById('additional_participants').focus(); return false;"><span>&raquo; {ts}Register additional people for this event{/ts}</span></a>
     </div><div class="spacer"></div>
  {/if}
     <div id="noOfparticipants" style="display:none">

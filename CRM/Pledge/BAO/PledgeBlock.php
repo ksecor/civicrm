@@ -237,7 +237,7 @@ class CRM_Pledge_BAO_PledgeBlock extends CRM_Pledge_DAO_PledgeBlock
     function buildPledgeBlock( $form ) 
     {
         //build pledge payment fields.
-        if ( $form->_values['pledge_id'] ) {
+        if ( CRM_Utils_Array::value( 'pledge_id', $form->_values ) ) {
             //get all payments required details.
             $allPayments = array( );
             $returnProperties = array( 'status_id', 'scheduled_date', 'scheduled_amount' );

@@ -37,10 +37,10 @@
 	<dt>{$form.onDuplicate.label}</dt><dd>{$form.onDuplicate.html}</dd>
         {include file="CRM/Core/Date.tpl"}  
 {if $savedMapping}
-      <dt>{if $loadedMapping}{ts}Select a Different Field Mapping{/ts}{else}{ts}Load Saved Field Mapping{/ts}{/if}</dt>
-       <dd> <span>{$form.savedMapping.html}</span> </dd>
-      <dt>&nbsp;</dt>
-       <dd class="description">{ts}Select Saved Mapping or Leave blank to create a new One.{/ts}</dd>
+    <dt>{if $loadedMapping}{ts}Select a Different Field Mapping{/ts}{else}{ts}Load Saved Field Mapping{/ts}{/if}</dt>
+    <dd><span>{$form.savedMapping.html}</span> </dd>
+    <dt>&nbsp;</dt>
+    <dd class="description">{ts}If you want to use a previously saved import field mapping - select it here.{/ts}</dd>
 {/if}
     </dl>
     <div class="spacer"></div>

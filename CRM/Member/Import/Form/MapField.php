@@ -116,12 +116,12 @@ class CRM_Member_Import_Form_MapField extends CRM_Core_Form {
         foreach ($patterns as $key => $re) {
             /* Skip the first (empty) key/pattern */
             if (empty($re)) continue;
-            
             /* if we've already used this field, move on */
-//             if ($this->_fieldUsed[$key])
-//                 continue;
+            //             if ($this->_fieldUsed[$key])
+            //                 continue;
             /* Scan through the headerPatterns defined in the schema for a
              * match */
+           
             if (preg_match($re, $header)) {
                 $this->_fieldUsed[$key] = true;
                 return $key;
@@ -204,11 +204,13 @@ class CRM_Member_Import_Form_MapField extends CRM_Core_Form {
             foreach( $remove as $value ) {
                 unset( $this->_mapperFields[$value] );
             }
-        }
+        } else if( $this->_onDuplicate == CRM_Member_Import_Parser::DUPLICATE_SKIP ) {
+            unset( $this->_mapperFields['membership_id'] );
+        }    
         self::$_contactType = $this->get('contactType');
         
     }
-
+    
     /**
      * Function to actually build the form
      *
@@ -341,22 +343,21 @@ class CRM_Member_Import_Form_MapField extends CRM_Core_Form {
                                                                                     $headerPatterns),
                                                            //                     $defaultLocationType->id
                                                            0
-                                                           );
-                    
+                                                    );
                 } else {
                     // Otherwise guess the default from the form of the data
                     $defaults["mapper[$i]"] = array(
                                                            $this->defaultFromData($dataPatterns, $i),
                                                            //                     $defaultLocationType->id
                                                            0
-                                                           );
+                                                    );
                 }
             }
             $sel->setOptions(array($sel1, $sel2, (isset($sel3)) ? $sel3 : "", (isset($sel4)) ? $sel4 : ""));
         }
         $js .= "</script>\n";
         $this->assign('initHideBoxes', $js);
-
+        
         //set warning if mismatch in more than 
         if (isset($mappingName) ) {
             if ( ($this->_columnCount != count($mappingName)) ) {

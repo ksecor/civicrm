@@ -48,7 +48,7 @@
     <dt></dt><dd>{$form.is_active.html} {$form.is_active.label}</dd>
     </dl>
     <dl class= "spacer">
-    <br/>
+    <br />
     <div class="tundra">
       {foreach from=$allPanes key=paneName item=paneValue}
         {if $paneValue.open eq 'true'}

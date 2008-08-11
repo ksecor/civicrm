@@ -568,12 +568,12 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             }
         }
 
-        if ( $fields['is_recur'] && $fields['is_pay_later'] ) {
+        if ( isset( $fields['is_recur'] ) && $fields['is_pay_later'] ) {
             $errors['is_pay_later'] = ' ';
             $errors['_qf_default'] = ts('You cannot set up a recurring contribution if you are not paying online by credit card.'); 
         }
 
-        if ( $fields['is_for_organization'] ) {
+        if ( CRM_Utils_Array::value( 'is_for_organization', $fields ) ) {
             if ( $fields['org_option'] && ! $fields['organization_id'] ) {
                 $errors['organization_id'] = ts('Please select an organization or enter a new one.'); 
             }

@@ -740,8 +740,6 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         
     function addWysiwyg( $name, $label, $attributes, $forceTextarea = false ) 
     {
-        // TODO: 
-      
         // 1. Get configuration option for editor (tinymce, fckeditor, dojoeditor, pure textarea)
         // 2. Based on the option, initialise proper editor
         require_once 'CRM/Core/BAO/Preferences.php';

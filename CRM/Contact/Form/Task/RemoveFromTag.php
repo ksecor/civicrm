@@ -70,7 +70,19 @@ class CRM_Contact_Form_Task_RemoveFromTag extends CRM_Contact_Form_Task {
     
         $this->addDefaultButtons( ts('Remove Tag Contacts') );
     }
-
+    
+    function addRules( )
+    {
+        $this->addFormRule( array( 'CRM_Contact_Form_Task_RemoveFromTag', 'formRule' ) );
+    }
+    
+    static function formRule(&$form,&$rule) {
+        $errors =array();
+        if(empty($form['tag'])) {
+            $errors['_qf_default'] = "Please Check atleast one checkbox";
+        }
+        return $errors;
+    }
     /**
      * process the form after the input has been submitted and validated
      *

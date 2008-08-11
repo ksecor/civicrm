@@ -51,6 +51,16 @@
         {$email}
     </div>
 
+    {if $event.participant_role neq 'Attendee'}
+        <div class="header-dark">
+            {ts}Participant Role{/ts}
+        </div>
+        <div class="display-block">
+            {$event.participant_role}
+        </div>
+    {/if}
+
+
     {if $customPre}
          {foreach from=$customPre item=field key=cname}
               {if $field.groupTitle}

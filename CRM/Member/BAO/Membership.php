@@ -94,7 +94,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             $params['reminder_date'] = 'null';        
         }
         
-        if ( ! $params['is_override'] ) {
+        if ( !CRM_Utils_Array::value( 'is_override', $params ) ) {
             $params['is_override'] = 'null';
         }
         
@@ -225,7 +225,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         }
         
         $params['membership_id'] = $membership->id;
-        if( $ids['membership'] ) {
+        if( isset( $ids['membership'] ) ) {
             $ids['contribution'] = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipPayment', 
                                                                 $ids['membership'], 
                                                                 'contribution_id', 
@@ -667,7 +667,9 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             }
             $tmpContactField['external_identifier'] = $contactFields['external_identifier'];
             $tmpContactField['external_identifier']['title'] = $contactFields['external_identifier']['title'] . " (match to contact)";
-            
+                       
+            $tmpFields['membership_contact_id']['title'] = $tmpFields['membership_contact_id']['title'] . " (match to contact)";
+           
             $fields = array_merge($fields, $tmpContactField);
             $fields = array_merge($fields, $tmpFields);
             $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport('Membership'));
@@ -1316,10 +1318,11 @@ WHERE  civicrm_membership.contact_id = civicrm_contact.id
             $relatedContacts = CRM_Member_BAO_Membership::checkMembershipRelationship( 
                                                                                       $membership->id,
                                                                                       $membership->contact_id,
-                                                                                      $params['action']
+                                                                                      CRM_Utils_Array::value( 'action', $params )
                                                                                       );
         }
         
+        $relatedMembership = null;
         if ( ! empty($relatedContacts) ) {
             // delete all the related membership records before creating
             CRM_Member_BAO_Membership::deleteRelatedMemberships( $membership->id );

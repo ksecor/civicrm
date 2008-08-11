@@ -75,7 +75,7 @@ class CRM_Contact_BAO_SearchCustom {
         
         $error = include_once( $customSearchFile );
         if ( $error == false ) {
-            return $error;
+            CRM_Core_Error::fatal( 'Custom search file: ' . $customSearchFile . ' does not exist. Please verify your custom search settings in CiviCRM administrative panel.' );
         }
 
         return array( $customSearchID, $customSearchClass, $formValues );
