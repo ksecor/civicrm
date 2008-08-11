@@ -55,6 +55,8 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
     
     public $_paymentProcessor;
     
+    public $_processors;
+    
     /**
      * the id of the contribution that we are proceessing
      *
