@@ -75,9 +75,9 @@ function civicrm_invoke( ) {
         return;
     }
 
-    global $my;
+    $user = JFactory::getUser( );
     require_once 'CRM/Core/BAO/UFMatch.php';
-    CRM_Core_BAO_UFMatch::synchronize( $my, false, 'Joomla', 'Individual' );
+    CRM_Core_BAO_UFMatch::synchronize( $user, false, 'Joomla', 'Individual' );
 
     CRM_Core_Invoke::invoke( $args );
 }
