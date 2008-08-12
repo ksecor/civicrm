@@ -175,6 +175,14 @@ function civicrm_custom_field_create( $params )
         return civicrm_create_error("Missing Required field :label");
     }
     
+    if ( !( CRM_Utils_Array::value('option_type', $params ) ) ) {
+        if( CRM_Utils_Array::value('id', $params ) ){
+            $params['option_type'] = 2;
+        } else {
+            $params['option_type'] = 1;
+        }
+    }
+         
     $error = _civicrm_check_required_fields($params, 'CRM_Core_DAO_CustomField');
     if (is_a($error, 'CRM_Core_Error')) {
         return civicrm_create_error( $error->_errors[0]['message'] );
