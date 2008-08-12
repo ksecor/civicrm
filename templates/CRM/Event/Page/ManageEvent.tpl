@@ -41,9 +41,9 @@
             <td>{$row.state_province}</td>	
             <td>{if $row.is_public eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>    
     	    <td>{$row.start_date|crmDate}</td>
-   	        <td>{$row.end_date|crmDate}</td>
-	        <td>{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
-	        <td>{$row.action}</td>
+            <td>{$row.end_date|crmDate}</td>
+	    <td>{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
+	    <td>{$row.action}</td>
           </tr>
         {/foreach}    
         </table>
