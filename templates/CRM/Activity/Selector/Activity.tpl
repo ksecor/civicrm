@@ -40,7 +40,7 @@
         {if !$row.source_contact_id}
           <em>n/a</em>
         {elseif $contactId NEQ $row.source_contact_id}
-          <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.source_contact_id`"}">{$row.source_contact_name}</a>
+          <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.source_contact_id`"}" title="{ts}View contact{/ts}">{$row.source_contact_name}</a>
         {else}
           {$row.source_contact_name}	
         {/if}			
@@ -50,7 +50,7 @@
         {if !$row.target_contact_name}
           <em>n/a</em>
         {elseif $contactId NEQ $row.target_contact_id}
-          <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.target_contact_id`"}">{$row.target_contact_name}</a>
+          <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.target_contact_id`"}" title="{ts}View contact{/ts}">{$row.target_contact_name}</a>
         {else}
           {$row.target_contact_name}
         {/if}
@@ -60,7 +60,7 @@
         {if !$row.assignee_contact_name}
             <em>n/a</em>
         {elseif $contactId NEQ $row.assignee_contact_id}
-          <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.assignee_contact_id`"}">{$row.assignee_contact_name}</a>
+          <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.assignee_contact_id`"}" title="{ts}View contact{/ts}">{$row.assignee_contact_name}</a>
         {else}
             {$row.assignee_contact_name}
         {/if}	

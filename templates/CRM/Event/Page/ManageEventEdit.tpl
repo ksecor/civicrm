@@ -13,7 +13,7 @@
 </tr>
 <tr>
     <td class="nowrap"><a href="{crmURL q="reset=1&action=update&id=`$id`&subPage=Fee"}" id="idFee">&raquo; {ts}Event Fees{/ts}</a></td>
-     <td>{ts}Determine if the event is free or paid. For paid events, set the fee level(s) and contribution type assigned to fees. Give online registrants the option to 'pay later' (e.g. mail in a check, call in a credit card, etc.). Set Pay Later Label and Thank You Page Instructions.{/ts}</td>
+     <td>{ts}Determine if the event is free or paid. For paid events, set the payment processor, fee level(s) and discounts. Give online registrants the option to 'pay later' (e.g. mail in a check, call in a credit card, etc.).{/ts}</td>
 </tr>
 <tr>
     <td class="nowrap"><a href="{crmURL q="reset=1&action=update&id=`$id`&subPage=Registration"}" id="idRegistration">&raquo; {ts}Online Registration{/ts}</a></td>
