@@ -38,7 +38,8 @@ require_once 'CRM/Profile/Form.php';
 /**
  * This class provides the functionality for batch profile update
  */
-class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
+class CRM_Contact_Form_Task_Batch extends CRM_Contact_Form_Task 
+{
 
     /**
      * the title of the group

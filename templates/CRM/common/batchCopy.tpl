@@ -1,4 +1,3 @@
-{debug}
 {literal}
 <script type="text/javascript">
     function copyValues(fieldName) 
@@ -36,7 +35,7 @@
 	    }   
 	  }
        } else {
-         if ( f = document.getElementById('BatchUpdateProfile') ) {
+         if ( f = document.getElementById('Batch') ) {
            if ( ts = f.getElementsByTagName('table') ) {
              if ( t = ts[0] ) {
                tRows = t.getElementsByTagName('tr') ;
