@@ -164,19 +164,6 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
             $params['postal_code_suffix'] = $match[2];
         }
 
-        // add state_id if state is set
-        if ( ( ! isset( $params['state_province_id'] ) || ! is_numeric( $params['state_province_id'] ) )
-             && isset( $params['state_province'] ) ) {
-            $state_province       = & new CRM_Core_DAO_StateProvince();
-            $state_province->name = $params['state_province'];
-            if ( ! $state_province->find(true) ) {
-                $state_province->name = null;
-                $state_province->abbreviation = $params['state_province'];
-                $state_province->find(true);
-            }
-            $params['state_province_id'] = $state_province->id;
-        }
-
         // add country id if not set
         if ( ( ! isset( $params['country_id'] ) || ! is_numeric( $params['country_id'] ) ) &&
              isset( $params['country'] ) ) {
@@ -189,6 +176,26 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
             }
             $params['country_id'] = $country->id;
         }
+
+        // add state_id if state is set
+        if ( ( ! isset( $params['state_province_id'] ) || ! is_numeric( $params['state_province_id'] ) )
+             && isset( $params['state_province'] ) ) {
+            $state_province       = & new CRM_Core_DAO_StateProvince();
+            $state_province->name = $params['state_province'];
+
+            // add country id if present
+            if ( isset( $params['country_id'] ) ) {
+                $state_province->country_id = $params['country_id'];
+            }
+
+            if ( ! $state_province->find(true) ) {
+                $state_province->name = null;
+                $state_province->abbreviation = $params['state_province'];
+                $state_province->find(true);
+            }
+            $params['state_province_id'] = $state_province->id;
+        }
+
             
         // currently copy values populates empty fields with the string "null"
         // and hence need to check for the string null
@@ -197,24 +204,27 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
              ( !isset($params['country_id']) || empty($params['country_id'])) ) {
             // since state id present and country id not present, hence lets populate it
             // jira issue http://issues.civicrm.org/jira/browse/CRM-56
-            $stateProvinceDAO =& new CRM_Core_DAO_StateProvince();
-            $stateProvinceDAO->id = $params['state_province_id'];
-            $stateProvinceDAO->find(true);
-            $params['country_id'] = $stateProvinceDAO->country_id;
+            $params['country_id'] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_StateProvince',
+                                                                 $params['state_province_id'],
+                                                                 'country_id' );
         }
 
         //special check to ignore non numeric values if they are not
         //detected by formRule(sometimes happens due to internet latency), also allow user to unselect state/country
         if ( isset( $params['state_province_id'] ) && ! trim( $params['state_province_id'] ) ) {
             $params['state_province_id'] = 'null'; 
-        } else if ( !is_numeric( $params['state_province_id'] ) ) {
+        } else if ( ! is_numeric( $params['state_province_id'] ) ||
+                    ( (int ) $params['state_province_id'] < 1000 ) ) {
+            // CRM-3393 ( the hacky 1000 check)
             $params['state_province_id'] = null; 
         }
 
         if ( isset( $params['country_id'] ) && ! trim( $params['country_id'] ) ) {
             $params['country_id'] = 'null'; 
-        } else if ( !is_numeric( $params['country_id'] ) ) {
-            $params['country_id'] = null; 
+        } else if ( ! is_numeric( $params['country_id'] ) ||
+                    ( (int ) $params['country_id'] < 1000 ) ) {
+            // CRM-3393 ( the hacky 1000 check)
+            $params['country_id'] = null;
         }
 
         // add state and country names from the ids

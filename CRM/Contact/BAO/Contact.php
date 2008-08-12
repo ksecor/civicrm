@@ -1196,14 +1196,18 @@ WHERE  civicrm_contact.id = %1 ";
                     $data['location'][$loc]['openid'][1]['is_primary'] = 1;
                 } else {
                     if ($fieldName === 'state_province') {
-                        if ( is_numeric( $value ) ) {
-                          $data['location'][$loc]['address']['state_province_id'] = $value;
+                        // CRM-3393
+                        if ( is_numeric( $value ) &&
+                             ( (int ) $value ) >= 1000 ) {
+                            $data['location'][$loc]['address']['state_province_id'] = $value;
                         } else {
-                          $data['location'][$loc]['address']['state_province'] = $value;
+                            $data['location'][$loc]['address']['state_province'] = $value;
                         }
                     } else if ($fieldName === 'country') {
-                        if ( is_numeric( $value ) ) {
-                          $data['location'][$loc]['address']['country_id'] = $value;
+                        // CRM-3393
+                        if ( is_numeric( $value ) &&
+                             ( (int ) $value ) >= 1000 ) {
+                            $data['location'][$loc]['address']['country_id'] = $value;
                         } else {
                           $data['location'][$loc]['address']['country'] = $value;
                         }
