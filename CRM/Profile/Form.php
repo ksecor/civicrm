@@ -462,7 +462,17 @@ class CRM_Profile_Form extends CRM_Core_Form
             $session =& CRM_Core_Session::singleton();
             require_once 'CRM/Dedupe/Finder.php';
             $dedupeParams = CRM_Dedupe_Finder::formatParams($fields, 'Individual');
-            $ids = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Individual', 'Strict', array($session->get('userID')));
+            if ( $form->_mode == CRM_Profile_Form::MODE_CREATE ) {
+                // fix for CRM-2888
+                $exceptions = array( );
+            } else {
+                // for edit mode we need to allow our own record to be a dupe match!
+                $exceptions = array( $session->get( 'userID' ) );
+            }
+            ids = CRM_Dedupe_Finder::dupesByParams( $dedupeParams,
+                                                    'Individual', 
+                                                    'Strict', 
+                                                    $exceptions );
             if ( $ids ) {
                 if ( $form->_isUpdateDupe ) {
                     if ( ! $form->_id ) {
