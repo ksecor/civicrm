@@ -592,12 +592,12 @@ class CRM_Utils_Date
             }
             break;
         case 8 :
-            if ( ! preg_match('/^[A-Za-z]*[ \t]?\d\d\,[ \t]?\d\d\d\d$/', $value ) ) {
+            if ( ! preg_match('/^[A-Za-z]*.[ \t]?\d\d\,[ \t]?\d\d\d\d$/', $value ) ) {
                 return false;
             }
             break;
         case 16 :
-            if ( ! preg_match('/^\d\d-[A-Za-z]{3}-\d\d$/', $value )) {
+            if ( ! preg_match('/^\d\d-[A-Za-z]{3}.*-\d\d$/', $value )) {
                 return false; 
             }
             break;
@@ -628,7 +628,7 @@ class CRM_Utils_Date
             if (!$monthInt) {
                 $abbrMonths = self::getAbbrMonthNames();
                 foreach ($abbrMonths as $key => $val) {
-                    if (strtolower($dateArray[0]) == strtolower($val)) {
+                    if (strtolower(trim($dateArray[0], "." )) == strtolower($val)) {
                         $monthInt = $key; 
                         break;
                     }
@@ -652,7 +652,7 @@ class CRM_Utils_Date
             if (!$monthInt) {
                 $abbrMonths = self::getAbbrMonthNames();
                 foreach ($abbrMonths as $key => $val) {
-                    if (strtolower($dateArray[1]) == strtolower($val)) {
+                    if (strtolower(trim($dateArray[1], "." )) == strtolower($val)) {
                         $monthInt = $key; 
                         break;
                     }
@@ -683,7 +683,11 @@ class CRM_Utils_Date
         if ($params[$dateParam]) {
             $params[$dateParam] = "$year$month$day";
         }
-        return true;
+        //if month is invalid return as error
+        if ( $month !== '00' ) {
+            return true;
+        }
+        return false;
     }
 
     static function isDate( &$date ) 
