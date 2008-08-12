@@ -717,7 +717,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         }
 
         if ( $this->_contactType == 'Individual' ) {
-            if ( CRM_Utils_Array::value( 'employer_option', $params ) ) {
+            if ( isset( $params['employer_option'] ) ) {
                 // create current employer
                 if ( $params['employer_option'] ) {
                     //selected existing organization
